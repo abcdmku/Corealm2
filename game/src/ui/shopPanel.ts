@@ -1,3 +1,5 @@
+import { PanelFrame } from "./panelFrame.js";
+import { QuantitySelector } from "./quantitySelector.js";
 /**
  * The shop window: stock on the left, your inventory on the right, prices on every row, marks in
  * the header. Buying and selling both use the shared quantity modes, so a stack of eighty ore is
@@ -9,10 +11,7 @@
 import type { EntityId, ItemId, ShopView } from "../contracts.js";
 import { notify } from "./contextMenu.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import {
-  PanelFrame, QuantitySelector, emptyState, formatExact, formatQuantity, itemDef,
-  itemName, itemSellPrice, report,
-} from "./panels.js";
+import { emptyState, formatExact, formatQuantity, itemDef, itemName, report } from "./panels.js";
 import { createItemIcon } from "./itemIcons.js";
 
 interface ShopRow {
@@ -105,6 +104,7 @@ export class ShopPanel implements ManagedPanel {
       : this.ctx.api.shop("list");
 
     if (!listed.ok) {
+      this.view = null;
       const message = listed.error.message;
       if (this.stockStatus.textContent !== message) {
         this.stockStatus.replaceChildren(emptyState(message));
@@ -201,7 +201,7 @@ export class ShopPanel implements ManagedPanel {
     }
 
     const entries = [...totals.entries()].sort((a, b) => itemName(a[0]).localeCompare(itemName(b[0])));
-    const signature = entries.map(([itemId, quantity]) => `${itemId}:${quantity}`).join("|");
+    const signature = entries.map(([itemId, quantity]) => `${itemId}:${quantity}:${this.sellPriceFor(itemId)}`).join("|");
     if (!force && signature === this.sellSignature) return;
     this.sellSignature = signature;
 
@@ -226,11 +226,9 @@ export class ShopPanel implements ManagedPanel {
     this.prune(this.sellRows, seen);
   }
 
-  /** The shop's own price if it lists the item, otherwise the contract's 60%-of-value rule. */
+  /** The economy quotes every carried item, including goods the shop does not stock. */
   private sellPriceFor(itemId: ItemId): number {
-    const line = this.view?.stock.find((row) => row.itemId === itemId);
-    if (line) return line.sellPrice;
-    return itemSellPrice(itemDef(itemId));
+    return this.view?.sellPrices[itemId] ?? 0;
   }
 
   // -------------------------------------------------------------- plumbing

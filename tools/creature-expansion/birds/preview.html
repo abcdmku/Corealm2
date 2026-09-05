@@ -1,0 +1,18 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Bird sculpture diagnostic</title>
+<script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js"}}</script>
+<style>html,body{margin:0;background:#c1c9c5}canvas{display:block}</style></head><body>
+<script type="module">
+import * as THREE from 'three';
+import { SPECIES, buildSpecies } from '../birds.mjs';
+const renderer = new THREE.WebGLRenderer({antialias:true}); renderer.setSize(1500,800);renderer.setPixelRatio(1);renderer.shadowMap.enabled=true;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();scene.background=new THREE.Color(0xc1c9c5);
+scene.add(new THREE.HemisphereLight(0xf7f0dd,0x4b5b63,2.0));const sun=new THREE.DirectionalLight(0xffead2,3);sun.position.set(3,5,4);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);scene.add(sun);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(20,20),new THREE.MeshStandardMaterial({color:0xaeb6af,roughness:1}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
+const subjects=[];
+for(let i=0;i<SPECIES.length;i++){const b=await buildSpecies(SPECIES[i]);b.object.position.x=(i-1)*1.65;b.object.rotation.y=-.65;scene.add(b.object);subjects.push(b);}
+const camera=new THREE.PerspectiveCamera(34,1500/800,.01,100);camera.position.set(3.6,2.5,7);camera.lookAt(0,.77,0);
+renderer.render(scene,camera);
+window.birdPreview={scene,subjects,renderer,camera,render(){renderer.render(scene,camera)},async pose(id,clip,time=0){const b=subjects.find(b=>b.object.userData.species===id);const m=new THREE.AnimationMixer(b.object);const a=m.clipAction(b.clips.find(c=>c.name===clip));a.setLoop(THREE.LoopOnce,1);a.clampWhenFinished=true;a.play();m.setTime(time);renderer.render(scene,camera);},ready:true};
+</script></body></html>

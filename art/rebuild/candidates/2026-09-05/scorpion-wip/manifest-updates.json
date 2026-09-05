@@ -1,0 +1,13 @@
+[
+  {
+    "id": "animal_scorpion",
+    "sourceSha256": "69997972b3cd201feb1e20dc123fa0de64981b384be50de94b192446b42bc704",
+    "sha256": "4043c93090b896abaa82cd1d8701836d25feee2272d36ff1689cf848d5259d19",
+    "bytes": 1364976,
+    "set": {
+      "impliedRunMps": 0.31,
+      "runClipSeconds": 0.6333333253860474
+    },
+    "promotable": false
+  }
+]

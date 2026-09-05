@@ -1,0 +1,146 @@
+{
+  "checkpointStatus": "Physical audit passed. Production visual/motion acceptance remains pending.",
+  "assets": [
+    {
+      "id": "animal_frog",
+      "file": "models/animal/animal_frog.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "frog",
+      "tags": [
+        "frog",
+        "toad",
+        "amphibian",
+        "water",
+        "marsh",
+        "pond",
+        "animal",
+        "passive"
+      ],
+      "bytes": 1380328,
+      "size": {
+        "x": 0.318,
+        "y": 0.123,
+        "z": 0.291
+      },
+      "base": {
+        "x": -0.159,
+        "y": -0.001,
+        "z": -0.157
+      },
+      "animations": [
+        "Idle",
+        "Death",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "materials": [
+        "animal_frog_mat"
+      ],
+      "impliedWalkMps": 0.08,
+      "impliedRunMps": 0.3,
+      "runClipSeconds": 0.7666667103767395,
+      "sha256": "0d0c9c63ca299fce2c5e15fd781ef1285175945be9af9da8e19940674a9b2daa",
+      "groundY": 0.002758
+    },
+    {
+      "id": "animal_frog_green",
+      "file": "models/animal/animal_frog_green.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "frog",
+      "tags": [
+        "frog",
+        "toad",
+        "amphibian",
+        "water",
+        "marsh",
+        "pool",
+        "animal",
+        "variant"
+      ],
+      "bytes": 1378056,
+      "size": {
+        "x": 0.318,
+        "y": 0.123,
+        "z": 0.291
+      },
+      "base": {
+        "x": -0.159,
+        "y": -0.001,
+        "z": -0.157
+      },
+      "animations": [
+        "Idle",
+        "Death",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "materials": [
+        "animal_frog_green_mat"
+      ],
+      "impliedWalkMps": 0.08,
+      "impliedRunMps": 0.3,
+      "runClipSeconds": 0.7666667103767395,
+      "sha256": "31ce3e3360e08edcdd7beeedcdc1844b287cec6ea5f00dc8b6cd1f221cae098b",
+      "groundY": 0.002758
+    },
+    {
+      "id": "animal_crab",
+      "file": "models/animal/animal_crab.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "crab",
+      "tags": [
+        "crab",
+        "shell",
+        "claw",
+        "sump",
+        "cave",
+        "water",
+        "animal",
+        "territorial"
+      ],
+      "bytes": 1050992,
+      "size": {
+        "x": 0.323,
+        "y": 0.082,
+        "z": 0.251
+      },
+      "base": {
+        "x": -0.162,
+        "y": -0.002,
+        "z": -0.109
+      },
+      "animations": [
+        "Walk",
+        "Run",
+        "Death",
+        "Idle",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.066666603088379,
+      "materials": [
+        "animal_crab_mat"
+      ],
+      "runClipSeconds": 0.46666669845581055,
+      "sha256": "67e7cede7699c2c3b7d08ac9490bcb2817be4b32051e4e1d50d31d4326d74b4d",
+      "groundY": -0.002,
+      "impliedWalkMps": 0.10869565217391305,
+      "impliedRunMps": 0.28260869565217395
+    }
+  ]
+}

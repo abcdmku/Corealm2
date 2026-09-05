@@ -39,7 +39,7 @@
  * The ports at the bottom of `MovementPorts` are all optional and movement runs without any of
  * them, exactly as it did before. That is deliberate: `app/boot.ts` is wired in a separate pass.
  */
-import type { EntityId, RegionId, SemanticEntity, Vec3 } from "../contracts.js";
+import type { EntityId, RegionId, Result, SemanticEntity, Vec3 } from "../contracts.js";
 import type { GameState } from "../state/store.js";
 import type { Navigation, RouteLeg } from "./navigation.js";
 import type { EventBus } from "../core/events.js";
@@ -47,7 +47,7 @@ import { INTERACT_RANGE, MOVEMENT, PLAYER_RADIUS, PLAYER_SLOPES, PLAYER_SPEED } 
 import { distanceXZ, pathLength, turnToward } from "../core/math.js";
 
 /** How close counts as arrived, in metres. */
-const ARRIVE_EPSILON = 0.35;
+export const ARRIVE_EPSILON = 0.35;
 /** Metres ahead on the path the player looks while turning. */
 const LOOK_AHEAD = 1.8;
 /**
@@ -139,13 +139,31 @@ const MOVER_HEIGHT = 2;
  * of the 1-voxel 0.30 m erosion. Without this, carving props out of the navmesh would start
  * refusing `moveTo({ entityId })` on the seven gate lines that depend on it.
  */
-const ENTITY_ARRIVAL_ALLOWANCE = INTERACT_RANGE + 1;
+export const ENTITY_ARRIVAL_ALLOWANCE = INTERACT_RANGE + 1;
 
 const MOVER_RADII: Readonly<Record<string, number>> = {
   npc: 0.45,
   enemy: 0.45,
   boss: 0.9,
 };
+const MOVER_MAX_RADIUS = Math.max(...Object.values(MOVER_RADII));
+const MOVER_DETOUR_RING_POINTS = 12;
+
+interface PathMover { id: EntityId; position: Vec3; radius: number }
+interface MoverEdge { points: Vec3[]; length: number }
+interface MoverDetour {
+  points: Vec3[];
+  next: number;
+  rejoinIndex: number;
+  blockerId: EntityId;
+  blockerPosition: Vec3;
+}
+interface MoverEdgeTrace { from: Vec3; to: Vec3; reason: string; details?: unknown }
+interface MoverPlanTrace {
+  from: Vec3; path: readonly Vec3[]; pathIndex: number; movers: PathMover[]; blockerId: EntityId;
+  outcome: string; cachedSkips: number; points?: Vec3[];
+  attempts: { rejoinIndex: number; goal: Vec3; nodes: unknown[]; edges: MoverEdgeTrace[] }[];
+}
 
 /** What the rig needs to pick a locomotion clip. Written every tick; see `MovementPorts`. */
 export type Gait = "idle" | "walk" | "run";
@@ -163,6 +181,16 @@ export interface DirectInput {
  */
 export interface MovementSolidsPort {
   resolve(desired: Vec3, from: Vec3, radius: number): Vec3;
+}
+
+export interface MovementDynamicObstaclesPort extends MovementSolidsPort {
+  waypoint(from: Vec3, toward: Vec3, radius: number, accept?: (candidate: Vec3) => boolean): Vec3 | null;
+}
+
+/** Routes use the same timed activity and outcome as a direct Agility interaction. */
+export interface MovementShortcutPort {
+  begin(obstacleId: EntityId, entry: Vec3, exit: Vec3): Result<{ started: string }>;
+  cancel(atMs: number, reason: "replaced" | "cancelled"): boolean;
 }
 
 /**
@@ -188,6 +216,13 @@ export interface MovementEntityPort {
 export interface MovementPorts {
   /** Static collision. Without it, only the navmesh constrains a step. */
   solids?: MovementSolidsPort;
+  /** Local streamed trunks, with short detours around obstacles absent from the baked navmesh. */
+  dynamicObstacles?: MovementDynamicObstaclesPort;
+  shortcuts?: MovementShortcutPort;
+  /** Resolve after the destination has committed behind a fade and the simulation can resume. */
+  portals?: {
+    transition(destination: Vec3, regionId: RegionId, commit: () => void): Promise<void>;
+  };
   /**
    * The analytic terrain height, the same port `buildWorld` is given. With it, the navmesh stays
    * authoritative for XZ and Y comes from the ground everything else is placed on.
@@ -246,6 +281,12 @@ export interface PathOptions {
   arrivalAllowance?: number;
 }
 
+export interface MovementPathPlan {
+  points: Vec3[];
+  pathLength: number;
+  etaMs: number;
+}
+
 export interface RouteProgress {
   active: boolean;
   legIndex: number;
@@ -259,6 +300,8 @@ interface Traversal {
   endsAtMs: number;
   exit: Vec3;
   obstacleId: EntityId | null;
+  transitionPending: boolean;
+  committed: boolean;
   /**
    * Set only for a portal crossing: which region the player is standing in when it ends.
    *
@@ -271,12 +314,19 @@ interface Traversal {
 export class Movement {
   private direct: DirectInput = { forward: 0, strafe: 0, cameraYaw: 0 };
 
-  private route: { legs: RouteLeg[]; index: number; entityId: EntityId | null } | null = null;
+  private route: {
+    legs: RouteLeg[]; index: number; entityId: EntityId | null; stopDistance: number; arrivalAllowance: number;
+  } | null = null;
   private traversal: Traversal | null = null;
+  private shortcut: { obstacleId: EntityId; usesBefore: number } | null = null;
 
   private stuckSincePosition: Vec3 | null = null;
   private stuckWindowMs = 0;
   private recoveries = 0;
+  private pathDetour: Vec3 | null = null;
+  private moverDetour: MoverDetour | null = null;
+  private moverAttempt: { from: Vec3; pathIndex: number; blockerId: EntityId; blockerPosition: Vec3 } | null = null;
+  private detourDiagnostics: { plans: MoverPlanTrace[]; steps: unknown[] } | null = null;
 
   /** Horizontal velocity in m/s. The whole of finding 9: there used to be no such thing. */
   private velocityX = 0;
@@ -324,9 +374,20 @@ export class Movement {
     return this.gait;
   }
 
+  /** Opt-in local steering evidence. Normal movement retains no candidate traces. */
+  setDetourDiagnostics(enabled: boolean): void {
+    this.detourDiagnostics = enabled ? { plans: [], steps: [] } : null;
+  }
+
+  getDetourDiagnostics(): Record<string, unknown> {
+    return { enabled: this.detourDiagnostics !== null, plans: this.detourDiagnostics?.plans ?? [],
+      steps: this.detourDiagnostics?.steps ?? [], activeMover: this.moverDetour,
+      activeForest: this.pathDetour, lastAttempt: this.moverAttempt };
+  }
+
   // -------------------------------------------------------------- paths
 
-  /** Starts click-to-move. Returns the path length, or null when unreachable. */
+  /** Replaces the current journey. Returns the path length, or null when unreachable. */
   startPath(
     state: GameState,
     to: Vec3,
@@ -334,7 +395,47 @@ export class Movement {
     atMs: number,
     options: PathOptions = {},
   ): { pathLength: number; etaMs: number } | null {
-    const found = this.nav.findPathDetailed(state.player.position, to);
+    this.replaceIntent(state, atMs);
+    return this.setPath(state, to, entityId, atMs, options);
+  }
+
+  /** Assigns a path within the current journey, including route legs and stuck recovery. */
+  private setPath(
+    state: GameState,
+    to: Vec3,
+    entityId: EntityId | null,
+    atMs: number,
+    options: PathOptions,
+  ): { pathLength: number; etaMs: number } | null {
+    const planned = this.planPath(state.player.position, to, entityId, options);
+    if (!planned) {
+      if (!options.quietFailure) {
+        this.events.emit("navigation.failed", { reason: "unreachable", to }, entityId ?? undefined, atMs);
+      }
+      return null;
+    }
+    const path = planned.points;
+    const movement = state.player.movement;
+    movement.mode = "path";
+    movement.path = path;
+    movement.pathIndex = 0;
+    movement.destination = path[path.length - 1]!;
+    movement.destinationEntityId = entityId;
+    this.resetStuck(state);
+    if (!options.quiet) {
+      this.events.emit(
+        "navigation.started",
+        { pathLength: Math.round(planned.pathLength * 100) / 100, etaMs: planned.etaMs, points: path.length },
+        entityId ?? undefined,
+        atMs,
+      );
+    }
+    return { pathLength: planned.pathLength, etaMs: planned.etaMs };
+  }
+
+  /** Prepares the exact walk used by startPath without changing movement or emitting events. */
+  planPath(from: Vec3, to: Vec3, entityId: EntityId | null, options: PathOptions = {}): MovementPathPlan | null {
+    const found = this.nav.findPathDetailed(from, to);
     // A partial path is Detour saying "the destination is on an island I cannot reach". Walking it
     // used to mean walking a fabricated straight line through whatever made the island — out
     // through a cottage wall and then through the Forge Shed, measured. Refuse it instead.
@@ -347,35 +448,13 @@ export class Movement {
       options.arrivalAllowance ?? (entityId !== null ? ENTITY_ARRIVAL_ALLOWANCE : 0),
     );
     if (!found || found.path.length === 0 || (found.partial && found.arrivalGap > allowance)) {
-      if (!options.quietFailure) {
-        this.events.emit("navigation.failed", { reason: "unreachable", to }, entityId ?? undefined, atMs);
-      }
       return null;
     }
 
     const trimmed = options.stopDistance ? trimTail(found.path, options.stopDistance, to) : found.path;
     const path = this.smooth(trimmed);
 
-    const movement = state.player.movement;
-    movement.mode = "path";
-    movement.path = path;
-    movement.pathIndex = 0;
-    movement.destination = path[path.length - 1]!;
-    movement.destinationEntityId = entityId;
-
-    this.resetStuck(state);
-
-    const length = pathLength(path);
-    const etaMs = this.nav.etaMs(path);
-    if (!options.quiet) {
-      this.events.emit(
-        "navigation.started",
-        { pathLength: Math.round(length * 100) / 100, etaMs, points: path.length },
-        entityId ?? undefined,
-        atMs,
-      );
-    }
-    return { pathLength: length, etaMs };
+    return { points: path, pathLength: pathLength(path), etaMs: this.nav.etaMs(path) };
   }
 
   /**
@@ -387,10 +466,19 @@ export class Movement {
    * A portal additionally re-tags the player's region, which is what makes leaving the Gravelmaw
    * on foot a walk rather than a teleport.
    */
-  startRoute(state: GameState, legs: readonly RouteLeg[], atMs: number, entityId: EntityId | null = null): boolean {
+  startRoute(
+    state: GameState,
+    legs: readonly RouteLeg[],
+    atMs: number,
+    entityId: EntityId | null = null,
+    options: Pick<PathOptions, "stopDistance" | "arrivalAllowance"> = {},
+  ): boolean {
+    this.replaceIntent(state, atMs);
     if (legs.length === 0) return false;
-    this.route = { legs: [...legs], index: -1, entityId };
-    this.traversal = null;
+    this.route = {
+      legs: [...legs], index: -1, entityId, stopDistance: options.stopDistance ?? 0,
+      arrivalAllowance: options.arrivalAllowance ?? ENTITY_ARRIVAL_ALLOWANCE,
+    };
     const total = legs.reduce((sum, leg) => sum + leg.cost, 0);
     this.events.emit(
       "navigation.started",
@@ -411,34 +499,53 @@ export class Movement {
       legIndex: Math.max(0, this.route.index),
       legCount: this.route.legs.length,
       kind: leg?.kind ?? null,
-      traversing: this.traversal !== null,
+      traversing: this.traversal !== null || this.shortcut !== null,
       remainingLegs: Math.max(0, this.route.legs.length - this.route.index - 1),
     };
   }
 
   isTraversing(): boolean {
-    return this.traversal !== null;
+    return this.traversal !== null || this.shortcut !== null;
+  }
+
+  /** Cancels old movement before a replacement action, without failing the new intent. */
+  replaceIntent(state: GameState, atMs: number): boolean {
+    return this.clearNavigation(state, atMs, "replaced");
   }
 
   stop(state: GameState, atMs: number, reason = "cancelled"): boolean {
     const movement = state.player.movement;
-    const hadRoute = this.route !== null;
-    const wasTraversing = this.traversal !== null;
+    const wasNavigating = movement.mode === "path" || this.route !== null || this.traversal !== null || this.shortcut !== null;
+    const wasMoving = this.clearNavigation(state, atMs, reason);
+    if (wasNavigating) this.events.emit("navigation.failed", { reason }, undefined, atMs);
+    return wasMoving;
+  }
 
-    if (wasTraversing) this.events.emit("activity.stopped", { kind: "traversing", reason }, undefined, atMs);
+  /** Replacement must not emit a failure that could cancel the next interaction on event flush. */
+  private clearNavigation(state: GameState, atMs: number, reason: string): boolean {
+    const movement = state.player.movement;
+    const wasMoving = movement.mode !== "idle" || this.route !== null || this.traversal !== null || this.shortcut !== null;
+    // Direct and routed Agility both live in ActivitySystem. Replacing movement cancels only
+    // that traversal; gathering, production and other activity interruptions retain their owner.
+    this.ports.shortcuts?.cancel(atMs, reason === "replaced" ? "replaced" : "cancelled");
+    if (this.traversal && !this.traversal.committed) {
+      this.events.emit("activity.stopped", { kind: "traversing", reason },
+        this.traversal.obstacleId ?? undefined, atMs);
+    }
     this.route = null;
     this.traversal = null;
-
-    if (movement.mode === "idle" && !hadRoute) return false;
-    const wasNavigating = movement.mode === "path";
+    this.shortcut = null;
     movement.mode = "idle";
     movement.path = null;
     movement.pathIndex = 0;
     movement.destination = null;
     movement.destinationEntityId = null;
+    // Cancellation can precede a paused simulation (for example portal loading). Publish the
+    // stop now so both semantic speed and the rig's gait agree before another tick is possible.
+    this.halt();
+    this.publishSpeed(movement);
     this.resetStuck(state);
-    if (wasNavigating || hadRoute) this.events.emit("navigation.failed", { reason }, undefined, atMs);
-    return true;
+    return wasMoving;
   }
 
   // --------------------------------------------------------------- tick
@@ -451,8 +558,16 @@ export class Movement {
     // Direct input always wins. Pressing a key mid-path cancels the path, as a player expects.
     if (this.hasDirectInput()) {
       if (movement.mode === "path" || this.route) this.stop(state, atMs, "interrupted-by-input");
+      this.ports.shortcuts?.cancel(atMs, "cancelled");
       this.applyDirect(state, deltaSeconds, deltaMs);
       movement.mode = "direct";
+      this.publishSpeed(movement);
+      return;
+    }
+
+    if (this.shortcut) {
+      this.updateShortcut(state, atMs);
+      this.halt();
       this.publishSpeed(movement);
       return;
     }
@@ -626,7 +741,16 @@ export class Movement {
     let point = snapped;
     const solids = this.ports.solids;
     if (solids) point = solids.resolve(point, from, PLAYER_RADIUS);
-    point = this.pushOutOfMovers(state, point);
+    const separated = this.pushOutOfMovers(state, point);
+    const constrained = this.ports.dynamicObstacles?.resolve(separated, from, PLAYER_RADIUS) ?? separated;
+    if (constrained !== point) {
+      // Dorn beside the bank counter can push an otherwise clear step back into furniture.
+      // Check NPC and tree corrections alike; reject rather than pushing back inside the NPC.
+      const walkable = this.nav.closestPoint(constrained);
+      if (!walkable || distanceXZ(walkable, constrained) > 0.08) return null;
+      if (solids && distanceXZ(solids.resolve(constrained, from, PLAYER_RADIUS), constrained) > 0.005) return null;
+      point = [constrained[0], walkable[1], constrained[2]];
+    }
     const previousRegionId = state.player.regionId;
     point = this.ground(state, point);
     if (slopeStepAllowed(from, point)) return point;
@@ -695,6 +819,199 @@ export class Movement {
     return [x, point[1], z];
   }
 
+  private pathMovers(from: Vec3, toward: Vec3, playerId: EntityId): PathMover[] {
+    const entities = this.ports.entities;
+    if (!entities) return [];
+    const length = distanceXZ(from, toward);
+    const centre: Vec3 = [(from[0] + toward[0]) / 2, from[1], (from[2] + toward[2]) / 2];
+    const movers: PathMover[] = [];
+    entities.index().forEachInRadius(centre, length / 2 + MOVER_MAX_RADIUS + PLAYER_RADIUS + 0.7, (id) => {
+      const entity = entities.get(id);
+      if (!entity || id === playerId || entity.state === "dead" || entity.state === "depleted") return;
+      const radius = MOVER_RADII[entity.archetype];
+      if (radius === undefined || Math.abs(from[1] - entity.position[1]) > MOVER_HEIGHT) return;
+      movers.push({ id, position: entity.position, radius: radius + PLAYER_RADIUS });
+    });
+    return movers;
+  }
+
+  /** A small, cached route around bodies absent from the baked navmesh. */
+  private planMoverDetour(state: GameState, from: Vec3, path: readonly Vec3[], pathIndex: number): MoverDetour | null {
+    const toward = path[pathIndex]!;
+    const movers = this.pathMovers(from, toward, state.player.id);
+    const blocker = movers.filter((mover) => moverBlocksSegment(from, toward, mover))
+      .sort((a, b) => distanceXZ(from, a.position) - distanceXZ(from, b.position))[0];
+    if (!blocker) return null;
+    const previous = this.moverAttempt;
+    // An impossible gap gets one bounded search, not another graph on every movement tick.
+    if (previous && previous.pathIndex === pathIndex && previous.blockerId === blocker.id
+      && distanceXZ(previous.from, from) < 0.35 && distanceXZ(previous.blockerPosition, blocker.position) < 0.15) {
+      const last = this.detourDiagnostics?.plans.at(-1);
+      if (last) last.cachedSkips++;
+      return null;
+    }
+    this.moverAttempt = { from: [...from], pathIndex, blockerId: blocker.id, blockerPosition: [...blocker.position] };
+    const trace: MoverPlanTrace | null = this.detourDiagnostics ? {
+      from: [...from], path: path.map((point) => [...point]), pathIndex,
+      movers: movers.map((mover) => ({ ...mover, position: [...mover.position] })), blockerId: blocker.id,
+      outcome: "no-route", cachedSkips: 0, attempts: [],
+    } : null;
+    if (trace && this.detourDiagnostics) {
+      this.detourDiagnostics.plans.push(trace);
+      if (this.detourDiagnostics.plans.length > 6) this.detourDiagnostics.plans.shift();
+    }
+
+    // A true corner may itself be occupied. Rejoin a later point only through a fully checked
+    // detour, so skipping an intermediate sample never becomes cutting through its wall.
+    for (let rejoinIndex = pathIndex; rejoinIndex <= Math.min(pathIndex + 3, path.length - 1); rejoinIndex++) {
+      const goal = path[rejoinIndex]!;
+      const attempt = trace ? { rejoinIndex, goal, nodes: [] as unknown[], edges: [] as MoverEdgeTrace[] } : null;
+      if (attempt) trace!.attempts.push(attempt);
+      if (movers.some((mover) => distanceXZ(goal, mover.position) < mover.radius + 0.01)) {
+        attempt?.nodes.push({ reason: "goal-inside-body", goal });
+        continue;
+      }
+      const nodes: (Vec3 | null)[] = [from, goal];
+      for (const padding of [0.24, 0.65]) {
+        for (let index = 0; index < MOVER_DETOUR_RING_POINTS; index++) {
+          const angle = index * Math.PI * 2 / MOVER_DETOUR_RING_POINTS;
+          const x = blocker.position[0] + Math.cos(angle) * (blocker.radius + padding);
+          const z = blocker.position[2] + Math.sin(angle) * (blocker.radius + padding);
+          const desired = this.desiredNavPoint(state, from, x - from[0], z - from[2]);
+          const snapped = this.nav.closestPoint(desired);
+          const accepted = snapped && distanceXZ(desired, snapped) <= 0.08
+            && Math.abs(desired[1] - snapped[1]) <= GROUND_SNAP_MAX ? snapped : null;
+          attempt?.nodes.push({ index: nodes.length, desired, snapped, accepted: accepted !== null });
+          nodes.push(accepted);
+        }
+      }
+      const costs = new Array<number>(nodes.length).fill(Infinity);
+      const parents = new Array<number>(nodes.length).fill(-1);
+      const parentEdges = new Array<MoverEdge | null>(nodes.length).fill(null);
+      const visited = new Set<number>();
+      const edges = new Map<number, MoverEdge | null>();
+      costs[0] = 0;
+      for (let iteration = 0; iteration < nodes.length; iteration++) {
+        let current = -1, cheapest = Infinity;
+        for (let index = 0; index < nodes.length; index++) {
+          if (visited.has(index) || !nodes[index]) continue;
+          const estimate = costs[index]! + distanceXZ(nodes[index]!, goal);
+          if (estimate < cheapest) { current = index; cheapest = estimate; }
+        }
+        if (current < 0) break;
+        if (current === 1) {
+          const chain: MoverEdge[] = [];
+          for (let cursor = 1; cursor !== 0; cursor = parents[cursor]!) chain.push(parentEdges[cursor]!);
+          // Walk the exact checked polylines. Their chords can cut through a porch post.
+          const points = chain.reverse().flatMap((edge) => edge.points.slice(1));
+          if (trace) { trace.outcome = "route"; trace.points = points; }
+          return { points, next: 0, rejoinIndex, blockerId: blocker.id, blockerPosition: [...blocker.position] };
+        }
+        visited.add(current);
+        for (let next = 1; next < nodes.length; next++) {
+          if (next === current || visited.has(next) || !nodes[next]) continue;
+          if (current >= 2 && next >= 2) {
+            const a = current - 2, b = next - 2;
+            const ringA = Math.floor(a / MOVER_DETOUR_RING_POINTS), ringB = Math.floor(b / MOVER_DETOUR_RING_POINTS);
+            const angleGap = Math.abs(a % MOVER_DETOUR_RING_POINTS - b % MOVER_DETOUR_RING_POINTS);
+            if (ringA === ringB ? angleGap !== 1 && angleGap !== MOVER_DETOUR_RING_POINTS - 1 : angleGap !== 0) continue;
+          }
+          if (costs[current]! + distanceXZ(nodes[current]!, nodes[next]!) >= costs[next]!) continue;
+          const key = current * nodes.length + next;
+          let route = edges.get(key);
+          if (route === undefined) {
+            const edge: MoverEdgeTrace | undefined = attempt ? {
+              from: nodes[current]!, to: nodes[next]!, reason: "pending",
+            } : undefined;
+            if (edge) attempt!.edges.push(edge);
+            route = this.moverDetourEdge(state, nodes[current]!, nodes[next]!, edge);
+            edges.set(key, route);
+          }
+          if (route && costs[current]! + route.length < costs[next]!) {
+            costs[next] = costs[current]! + route.length;
+            parents[next] = current;
+            parentEdges[next] = route;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  private moverDetourEdge(state: GameState, from: Vec3, toward: Vec3, trace?: MoverEdgeTrace): MoverEdge | null {
+    const route = this.nav.findPathDetailed(from, toward);
+    const first = route?.path[0], last = route?.path.at(-1);
+    if (!route || route.partial || !first || !last
+      || distanceXZ(first, from) > 0.08 || distanceXZ(last, toward) > 0.08) {
+      if (trace) { trace.reason = "nav-route"; trace.details = { route }; }
+      return null;
+    }
+    const points: Vec3[] = [from];
+    for (const point of [...route.path, toward]) {
+      if (distanceXZ(points.at(-1)!, point) > 1e-6) points.push(point);
+    }
+    let routeLength = 0;
+    for (let index = 1; index < points.length; index++) routeLength += distanceXZ(points[index - 1]!, points[index]!);
+    // A short clear chord can avoid a rasterised nav corner that grazes an authored solid.
+    // Longer navigation bends must be retained instead of treating connectivity as a chord.
+    if (routeLength <= distanceXZ(from, toward) + 0.12) {
+      const direct = this.checkMoverDetourPath(state, [from, toward], trace);
+      if (direct) return direct;
+    }
+    return this.checkMoverDetourPath(state, points, trace);
+  }
+
+  private checkMoverDetourPath(state: GameState, points: Vec3[], trace?: MoverEdgeTrace): MoverEdge | null {
+    let length = 0;
+    let previous = points[0]!;
+    for (let edge = 1; edge < points.length; edge++) {
+      const start = points[edge - 1]!, end = points[edge]!;
+      const blocker = this.pathMovers(start, end, state.player.id).find((mover) => moverBlocksSegment(start, end, mover));
+      if (blocker) {
+        if (trace) { trace.reason = "body-segment"; trace.details = { blocker, start, end }; }
+        return null;
+      }
+      const edgeLength = distanceXZ(start, end);
+      length += edgeLength;
+      // Recast's corners are not sufficient physical proof: check the player capsule along
+      // each segment against the authored solids, live actors, forest and terrain slope.
+      const segments = Math.max(1, Math.ceil(edgeLength / 0.2));
+      for (let index = 1; index <= segments; index++) {
+        const t = index / segments;
+        const desired = this.desiredNavPoint(state, previous,
+          start[0] + (end[0] - start[0]) * t - previous[0], start[2] + (end[2] - start[2]) * t - previous[2]);
+        const snapped = this.nav.closestPoint(desired);
+        if (!snapped || distanceXZ(snapped, desired) > 0.08 || Math.abs(snapped[1] - desired[1]) > GROUND_SNAP_MAX) {
+          if (trace) { trace.reason = "nav-sample"; trace.details = { desired, snapped }; }
+          return null;
+        }
+        const point: Vec3 = [snapped[0], desired[1], snapped[2]];
+        if (!slopeStepAllowed(previous, point)) {
+          if (trace) { trace.reason = "step-slope"; trace.details = { previous, point }; }
+          return null;
+        }
+        const staticPoint = this.ports.solids?.resolve(point, previous, PLAYER_RADIUS) ?? point;
+        if (distanceXZ(staticPoint, point) > 0.005) {
+          if (trace) { trace.reason = "static-sample"; trace.details = { previous, point, resolved: staticPoint }; }
+          return null;
+        }
+        const bodyPoint = this.pushOutOfMovers(state, point);
+        if (distanceXZ(bodyPoint, point) > 0.005) {
+          if (trace) { trace.reason = "body-sample"; trace.details = { previous, point, resolved: bodyPoint }; }
+          return null;
+        }
+        const forestPoint = this.ports.dynamicObstacles?.resolve(point, previous, PLAYER_RADIUS) ?? point;
+        if (distanceXZ(forestPoint, point) > 0.005) {
+          if (trace) { trace.reason = "forest-sample"; trace.details = { previous, point, resolved: forestPoint }; }
+          return null;
+        }
+        previous = point;
+      }
+    }
+    if (trace) { trace.reason = "clear"; trace.details = { points, routeLength: length }; }
+    return { points, length };
+  }
+
   /**
    * Replaces the navmesh's Y with the terrain height, when the two agree closely enough to be
    * talking about the same surface. Keeps the navmesh authoritative for XZ.
@@ -744,42 +1061,88 @@ export class Movement {
     let index = movement.pathIndex;
     let remaining = step;
 
-    while (remaining > 0 && index < path.length) {
+    let detoured = this.pathDetour !== null || this.moverDetour !== null;
+    for (let substep = 0; substep < 4 && remaining > 0 && index < path.length; substep += 1) {
+      if (this.moverDetour) {
+        const actor = this.ports.entities?.get(this.moverDetour.blockerId);
+        if (!actor || actor.state === "dead" || actor.state === "depleted"
+          || distanceXZ(actor.position, this.moverDetour.blockerPosition) > 0.15) {
+          this.moverDetour = null;
+          this.moverAttempt = null;
+        } else {
+          while (this.moverDetour.next < this.moverDetour.points.length
+            && distanceXZ(position, this.moverDetour.points[this.moverDetour.next]!) < 0.04) this.moverDetour.next++;
+          if (this.moverDetour.next === this.moverDetour.points.length) {
+            index = this.moverDetour.rejoinIndex + 1;
+            this.moverDetour = null;
+            this.pathDetour = null;
+            continue;
+          }
+          const next = this.moverDetour.points[this.moverDetour.next]!;
+          if (this.pathMovers(position, next, state.player.id).some((mover) => moverBlocksSegment(position, next, mover))) {
+            this.moverDetour = null;
+            this.moverAttempt = null;
+          }
+        }
+      }
       const corner = path[index]!;
+      const previous = path[index - 1];
+      const after = path[index + 1];
+      if (!this.moverDetour && this.ports.dynamicObstacles && previous && after) {
+        const ax = corner[0] - previous[0];
+        const az = corner[2] - previous[2];
+        const bx = after[0] - corner[0];
+        const bz = after[2] - corner[2];
+        // Terrain sampling inserts collinear points every 3 m. One can sit inside a trunk;
+        // bypassing this sample keeps the same straight nav segment and lets the detour target
+        // its far side. Real nav corners and the destination still require physical arrival.
+        if (ax * bx + az * bz > 0.999 * Math.hypot(ax, az) * Math.hypot(bx, bz)
+          && ((this.pathDetour && (position[0] - corner[0]) * ax + (position[2] - corner[2]) * az >= 0)
+            || distanceXZ(this.ports.dynamicObstacles.resolve(corner, position, PLAYER_RADIUS), corner) > 0.005)) {
+          index += 1;
+          this.pathDetour = null;
+          continue;
+        }
+      }
       const gap = distanceXZ(position, corner);
-      if (gap <= 0.005) {
+      if (!this.moverDetour && gap <= 0.025) {
         index += 1;
+        this.pathDetour = null;
         continue;
       }
-      if (gap <= remaining) {
-        position = [corner[0], corner[1], corner[2]];
-        remaining -= gap;
-        index += 1;
-        continue;
+      if (!this.moverDetour && !this.pathDetour) this.moverDetour = this.planMoverDetour(state, position, path, index);
+      if (this.pathDetour && distanceXZ(position, this.pathDetour) < 0.06) this.pathDetour = null;
+      if (!this.moverDetour && !this.pathDetour && this.ports.dynamicObstacles) {
+        this.pathDetour = this.ports.dynamicObstacles.waypoint(position, corner, PLAYER_RADIUS, (candidate) => {
+          // Endpoint snapping alone cannot prove that a detour stays on this side of a wall.
+          const route = this.nav.findPathDetailed(position, candidate);
+          let routeLength = 0;
+          if (route) for (let i = 1; i < route.path.length; i += 1) {
+            routeLength += distanceXZ(route.path[i - 1]!, route.path[i]!);
+          }
+          const end = route?.path.at(-1);
+          return !!route && !!end && !route.partial && distanceXZ(end, candidate) < 0.2
+            && routeLength <= distanceXZ(position, candidate) + 0.2;
+        });
       }
-      const t = remaining / gap;
-      position = [
-        position[0] + (corner[0] - position[0]) * t,
-        position[1] + (corner[1] - position[1]) * t,
-        position[2] + (corner[2] - position[2]) * t,
-      ];
-      remaining = 0;
-    }
-
-    // Y between two Detour corners is a straight line and the ground is not: on the Karrowmoor
-    // terraces a 3-point, 56 m path ran 4.46 m UNDER the surface at its midpoint and past 3 m under
-    // for 60% of the segment. Re-snapping every tick is one Detour query at 10 Hz, which costs
-    // nothing, and `applyDirect` has always done it.
-    const snapped = this.nav.closestPoint(position);
-    if (snapped && distanceXZ(snapped, position) < CORNER_RADIUS) position = snapped;
-    const previousRegionId = player.regionId;
-    const solids = this.ports.solids;
-    if (solids) position = solids.resolve(position, start, PLAYER_RADIUS);
-    position = this.ground(state, position);
-    if (!slopeStepAllowed(start, position)) {
-      position = start;
-      index = movement.pathIndex;
-      player.regionId = previousRegionId;
+      const target = this.moverDetour?.points[this.moverDetour.next] ?? this.pathDetour ?? corner;
+      detoured ||= this.pathDetour !== null || this.moverDetour !== null;
+      const targetGap = distanceXZ(position, target);
+      if (targetGap < 1e-6) break;
+      const travel = Math.min(remaining, targetGap);
+      const next = this.clampStep(state, position,
+        (target[0] - position[0]) * travel / targetGap,
+        (target[2] - position[2]) * travel / targetGap);
+      if (this.detourDiagnostics) {
+        this.detourDiagnostics.steps.push({ atMs, position: [...position], index, corner, target,
+          kind: this.moverDetour ? "body" : this.pathDetour ? "forest" : "path", next });
+        if (this.detourDiagnostics.steps.length > 96) this.detourDiagnostics.steps.shift();
+      }
+      if (!next) break;
+      remaining -= travel;
+      position = next;
+      // Intended arc-length progress is not proof of reaching a corner after collision.
+      if (!this.moverDetour && distanceXZ(position, corner) < 0.025) { index += 1; this.pathDetour = null; }
     }
 
     player.position = position;
@@ -791,7 +1154,9 @@ export class Movement {
 
     // Face a point further down the path, not the next corner. That is what stops the visible
     // zig-zag: the body leads the turn instead of snapping at each vertex.
-    const look = lookAheadPoint(path, index, position, LOOK_AHEAD);
+    const look = detoured && distanceXZ(start, position) > 0.001
+      ? [position[0] * 2 - start[0], position[1], position[2] * 2 - start[2]] as Vec3
+      : lookAheadPoint(path, index, position, LOOK_AHEAD);
     if (look) {
       const desired = Math.atan2(look[0] - position[0], look[2] - position[2]);
       if (Number.isFinite(desired)) {
@@ -800,9 +1165,7 @@ export class Movement {
     }
 
     const destination = movement.destination;
-    const arrived =
-      index >= path.length ||
-      (destination !== null && distanceXZ(position, destination) <= ARRIVE_EPSILON);
+    const arrived = destination !== null && distanceXZ(position, destination) <= ARRIVE_EPSILON;
 
     if (arrived) {
       this.finishPath(state, atMs);
@@ -849,11 +1212,28 @@ export class Movement {
       return true;
     }
 
+    if (leg.kind === "shortcut") {
+      const obstacleId = leg.obstacleId;
+      const port = this.ports.shortcuts;
+      if (!obstacleId || !port) {
+        this.stop(state, atMs, "shortcut-unavailable");
+        return false;
+      }
+      const usesBefore = state.world.obstaclesUsed[obstacleId] ?? 0;
+      const started = port.begin(obstacleId, leg.from, leg.to);
+      if (!started.ok) {
+        this.stop(state, atMs, "shortcut-rejected");
+        return false;
+      }
+      this.shortcut = { obstacleId, usesBefore };
+      return true;
+    }
+
     // A portal leg is executed as a traversal, not as a second mechanism: the player is already
     // standing at the crossing (the leg before it walked them there), the crossing takes time, and
     // then they are somewhere the navmesh could not have carried them. The one thing a shortcut
     // does not do is change which region the player is in, so that rides on the leg.
-    if (leg.kind === "shortcut" || leg.kind === "portal") {
+    if (leg.kind === "portal") {
       const movement = state.player.movement;
       const subjectId = leg.obstacleId ?? leg.portalId ?? null;
       movement.mode = "path";
@@ -866,6 +1246,8 @@ export class Movement {
         exit: leg.to,
         obstacleId: subjectId,
         regionId: leg.toRegionId ?? null,
+        transitionPending: false,
+        committed: false,
       };
       this.events.emit(
         "activity.started",
@@ -878,10 +1260,13 @@ export class Movement {
 
     // A route node can sit right beside a carved landmark, so a leg that stops a metre short of it
     // has arrived. Only a leg that cannot get near at all kills the route.
-    const started = this.startPath(state, leg.to, null, atMs, {
+    const started = this.setPath(state, leg.to, null, atMs, {
       quiet: true,
       quietFailure: true,
-      arrivalAllowance: ENTITY_ARRIVAL_ALLOWANCE,
+      arrivalAllowance: route.index === route.legs.length - 1 ? route.arrivalAllowance : ENTITY_ARRIVAL_ALLOWANCE,
+      // Portals and shortcuts need their real entry positions. Only the final walk approaches
+      // an interaction target, so every earlier route leg retains its original endpoint.
+      stopDistance: route.index === route.legs.length - 1 ? route.stopDistance : 0,
     });
     if (started) return true;
 
@@ -893,8 +1278,41 @@ export class Movement {
 
   private updateTraversal(state: GameState, atMs: number): void {
     const traversal = this.traversal;
-    if (!traversal) return;
-    if (atMs < traversal.endsAtMs) return;
+    if (!traversal || atMs < traversal.endsAtMs || traversal.transitionPending) return;
+
+    const portal = this.ports.portals;
+    if (portal) {
+      traversal.transitionPending = true;
+      this.halt();
+      this.publishSpeed(state.player.movement);
+      void this.transitionPortal(state, traversal, portal, atMs);
+      return;
+    }
+    this.commitTraversal(state, traversal, atMs);
+    this.finishTraversal(state, traversal, atMs);
+  }
+
+  private async transitionPortal(state: GameState, traversal: Traversal,
+    portal: NonNullable<MovementPorts["portals"]>, atMs: number): Promise<void> {
+    try {
+      await portal.transition(traversal.exit, traversal.regionId ?? state.player.regionId,
+        () => this.commitTraversal(state, traversal, atMs));
+      if (this.traversal !== traversal) return;
+      if (!traversal.committed) {
+        this.stop(state, atMs, "portal-transition-cancelled");
+        return;
+      }
+      // Committing the position is not permission to run the next leg under an opaque fade.
+      this.finishTraversal(state, traversal, atMs);
+    } catch {
+      if (this.traversal === traversal) this.stop(state, atMs, "portal-load-failed");
+    }
+  }
+
+  private commitTraversal(state: GameState, traversal: Traversal, atMs: number): void {
+    // Old callbacks can outlive stop, replacement or reset. A duplicate commit is harmless too.
+    if (this.traversal !== traversal || traversal.committed) return;
+    traversal.committed = true;
 
     // Region before position: `ground` passes `state.player.regionId` to the height port. The live
     // sampler ignores that argument because the world is one continuous field, but the port's
@@ -902,7 +1320,6 @@ export class Movement {
     if (traversal.regionId !== null) state.player.regionId = traversal.regionId;
     const landing = this.nav.closestPoint(traversal.exit) ?? traversal.exit;
     state.player.position = this.ground(state, landing);
-    this.traversal = null;
     this.events.emit(
       "activity.stopped",
       { kind: "traversing", completed: true },
@@ -914,8 +1331,27 @@ export class Movement {
     movement.mode = "idle";
     movement.destination = null;
     movement.destinationEntityId = null;
+    this.halt();
+    this.publishSpeed(movement);
+  }
 
+  private finishTraversal(state: GameState, traversal: Traversal, atMs: number): void {
+    if (this.traversal !== traversal || !traversal.committed) return;
+    this.traversal = null;
     if (this.route) this.advanceRoute(state, atMs);
+  }
+
+  private updateShortcut(state: GameState, atMs: number): void {
+    const shortcut = this.shortcut;
+    if (!shortcut) return;
+    if (state.activity?.kind === "traversing" && state.activity.obstacleId === shortcut.obstacleId) return;
+    this.shortcut = null;
+    // The Agility driver alone increments this counter after its successful placement and XP.
+    if ((state.world.obstaclesUsed[shortcut.obstacleId] ?? 0) > shortcut.usesBefore) {
+      this.advanceRoute(state, atMs);
+    } else {
+      this.stop(state, atMs, "shortcut-failed");
+    }
   }
 
   // -------------------------------------------------------- stuck rescue
@@ -924,6 +1360,9 @@ export class Movement {
     this.stuckSincePosition = state.player.position;
     this.stuckWindowMs = 0;
     this.recoveries = 0;
+    this.pathDetour = null;
+    this.moverDetour = null;
+    this.moverAttempt = null;
   }
 
   /**
@@ -948,30 +1387,34 @@ export class Movement {
     if (!destination) return;
 
     if (this.recoveries === 0) {
-      const snapped = this.nav.nearestWalkable(state.player.position, 4);
-      if (snapped) state.player.position = snapped;
+      // A nearest-walkable rescue can jump across an unbaked trunk. Local obstacles instead
+      // retry from the accepted position; the next recovery replans without teleporting.
+      if (!this.ports.dynamicObstacles) {
+        const snapped = this.nav.nearestWalkable(state.player.position, 4);
+        if (snapped) state.player.position = snapped;
+      }
+      this.pathDetour = null;
+      this.moverDetour = null;
+      this.moverAttempt = null;
       this.recoveries += 1;
       return;
     }
 
     if (this.recoveries < MAX_RECOVERIES) {
       this.recoveries += 1;
+      const recoveries = this.recoveries;
       const entityId = state.player.movement.destinationEntityId;
-      const replanned = this.startPath(state, destination, entityId, atMs, {
+      const replanned = this.setPath(state, destination, entityId, atMs, {
         quiet: true,
         // A route leg was started with this allowance, so a replan that demanded exact arrival
         // could refuse a leg the route had already accepted and kill a journey that was working.
-        ...(this.route ? { arrivalAllowance: ENTITY_ARRIVAL_ALLOWANCE } : {}),
+        ...(this.route ? { arrivalAllowance: this.route.index === this.route.legs.length - 1
+          ? this.route.arrivalAllowance : ENTITY_ARRIVAL_ALLOWANCE } : {}),
       });
+      this.recoveries = recoveries;
       if (replanned) return;
     }
 
-    this.events.emit(
-      "navigation.failed",
-      { reason: "stuck", position: state.player.position },
-      state.player.movement.destinationEntityId ?? undefined,
-      atMs,
-    );
     this.stop(state, atMs, "stuck");
   }
 
@@ -1048,10 +1491,20 @@ export class Movement {
   }
 }
 
-/**
- * Accepts a player-sized vertical step or a continuous slope within the directional limit.
- * Downhill gets its own larger angle so the same nav polygon may be legal in only one direction.
- */
+/** Continuous XZ body clearance, with gradual escape when an actor enters the player's space. */
+function moverBlocksSegment(from: Vec3, to: Vec3, mover: PathMover): boolean {
+  const dx = to[0] - from[0], dz = to[2] - from[2];
+  const ox = from[0] - mover.position[0], oz = from[2] - mover.position[2];
+  const lengthSq = dx * dx + dz * dz;
+  if (lengthSq < 1e-12) return false;
+  const inward = ox * dx + oz * dz;
+  // A body that moved onto the player permits gradual escape, never a deeper crossing.
+  if (ox * ox + oz * oz < mover.radius * mover.radius && inward >= 0) return false;
+  const t = Math.max(0, Math.min(1, -inward / lengthSq));
+  return Math.hypot(ox + dx * t, oz + dz * t) < mover.radius - 1e-6;
+}
+
+/** Downhill and uphill retain their different limits when validating a local detour. */
 function slopeStepAllowed(from: Vec3, to: Vec3): boolean {
   const vertical = to[1] - from[1];
   const height = Math.abs(vertical);
@@ -1113,14 +1566,21 @@ function trimTail(path: readonly Vec3[], stopDistance: number, destination: Vec3
   if (cut < 0) return [path[0]!];
 
   const output = path.slice(0, cut + 1);
-  // When the cut point is the second to last corner, the remaining segment runs straight at the
-  // destination, so the stop point is an exact interpolation. Otherwise stop at the corner, which
-  // is never closer than requested.
-  if (cut === path.length - 2) {
-    const from = path[cut]!;
-    const gap = distanceXZ(from, end);
-    if (gap > stopDistance) {
-      output.push(lerpVec(from, end, (gap - stopDistance) / gap));
+  // Intersect the actual segment entering the stand radius. Several short final corners can
+  // already be inside it; stopping at the previous corner would leave the player out of reach.
+  const from = path[cut]!;
+  const next = path[cut + 1];
+  if (next) {
+    const dx = next[0] - from[0];
+    const dz = next[2] - from[2];
+    const ox = from[0] - end[0];
+    const oz = from[2] - end[2];
+    const a = dx * dx + dz * dz;
+    const b = ox * dx + oz * dz;
+    const c = ox * ox + oz * oz - stopDistance * stopDistance;
+    if (a > 1e-12) {
+      const t = (-b - Math.sqrt(Math.max(0, b * b - a * c))) / a;
+      output.push(lerpVec(from, next, Math.max(0, Math.min(1, t))));
     }
   }
   return output;

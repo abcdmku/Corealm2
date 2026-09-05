@@ -99,7 +99,7 @@ import type { SettlementDef } from "../regions.js";
 
 export const COLDBRACE: SettlementDef = {
   id: "coldbrace",
-  name: "Coldbrace",
+  name: "Millfield",
   // Lime-washed plaster, fired pantiles, and a steep pitch on the river plain.
   kit: "plaster",
   centre: [-160, -80],
@@ -138,7 +138,7 @@ export const COLDBRACE: SettlementDef = {
     // town, which is the "continuous window band and NO door" in SET-town_center.png. It stands on
     // the square's north kerb now with its door at (-159.45,-70.02), looking straight down the
     // square at the south gate.
-    { id: "coldbrace_hall", name: "March Company Hall", prefab: "hall", position: [-160, -68], rotationY: 0, footprint: [12, 6] },
+    { id: "coldbrace_hall", name: "Trade Company Hall", prefab: "hall", position: [-160, -68], rotationY: 0, footprint: [12, 6] },
 
     // ---------------------------------------------------------- work buildings
     // Was `shed` at (-152,-98) rotY 0: its one door faced south at (-152.45,-100.02) while the
@@ -158,7 +158,7 @@ export const COLDBRACE: SettlementDef = {
     { id: "coldbrace_market", name: "Market Row", prefab: "arcade", position: [-170.5, -80], rotationY: Math.PI / 2, footprint: [8, 3] },
     // The wellhead. 5.0 m from the `town_center` route node, so its 1.6 x 1.6 m curb never contests
     // the spot `moveTo({ locationId: "town_center" })` resolves to.
-    { id: "coldbrace_well", name: "Coldbrace Well", prefab: "well", position: [-164, -77], rotationY: 0, footprint: [2, 2] },
+    { id: "coldbrace_well", name: "Millfield Well", prefab: "well", position: [-164, -77], rotationY: 0, footprint: [2, 2] },
 
     // --------------------------------------------------------------- houses
     // Every door below opens onto a paved street, the square, or a lane between two houses.
@@ -225,19 +225,19 @@ export const COLDBRACE: SettlementDef = {
     // gate-check's smithing line and Cold Iron stages 2 and 3 walk `moveTo({ entityId })` to these
     // two ids, so this is load-bearing and is verified by
     // runs/corealm/scenarios/SETC-coldbrace.json, not assumed.
-    { id: "coldbrace_furnace", name: "Coldbrace Furnace", kind: "furnace", skill: "smithing", position: [-144.6, -87], rotationY: -Math.PI / 2, assetId: "cauldron", scale: 1.6, recipeIds: [], attachedTo: "coldbrace_forge_shed" },
-    { id: "coldbrace_anvil", name: "Coldbrace Anvil", kind: "anvil", skill: "smithing", position: [-144.8, -84.6], rotationY: -Math.PI / 2, assetId: "anvil", scale: 1.4, recipeIds: [], attachedTo: "coldbrace_forge_shed" },
+    { id: "coldbrace_furnace", name: "Millfield Furnace", kind: "furnace", skill: "smithing", position: [-144.6, -87], rotationY: -Math.PI / 2, assetId: "cauldron", scale: 1.6, recipeIds: [], attachedTo: "coldbrace_forge_shed" },
+    { id: "coldbrace_anvil", name: "Millfield Anvil", kind: "anvil", skill: "smithing", position: [-144.8, -84.6], rotationY: -Math.PI / 2, assetId: "anvil", scale: 1.4, recipeIds: [], attachedTo: "coldbrace_forge_shed" },
     // Under the cookhouse lean-to. `cooking_pot` is a 0.54 x 0.49 m object; at 2.2 it draws
     // 1.19 x 1.07, which is a cauldron on a hearth rather than a saucepan on a lawn.
-    { id: "coldbrace_range", name: "Coldbrace Cooking Range", kind: "range", skill: "cooking", position: [-149, -72.3], rotationY: Math.PI, assetId: "cooking_pot", scale: 2.2, recipeIds: [], attachedTo: "coldbrace_cookhouse" },
-    { id: "coldbrace_crafting", name: "Coldbrace Crafting Table", kind: "crafting_table", skill: "crafting", position: [-174.4, -93.4], rotationY: Math.PI / 2, assetId: "workbench", recipeIds: [], attachedTo: "coldbrace_workshed" },
+    { id: "coldbrace_range", name: "Millfield Cooking Range", kind: "range", skill: "cooking", position: [-149, -72.3], rotationY: Math.PI, assetId: "cooking_pot", scale: 2.2, recipeIds: [], attachedTo: "coldbrace_cookhouse" },
+    { id: "coldbrace_crafting", name: "Millfield Crafting Table", kind: "crafting_table", skill: "crafting", position: [-174.4, -93.4], rotationY: Math.PI / 2, assetId: "workbench", recipeIds: [], attachedTo: "coldbrace_workshed" },
     // Was `workbench_drawers` at 1.6 - a 0.42 x 0.30 m drawer unit alone on grass 6 m from
     // anything. Scaling it up does not fix it: that asset's bbox is offset +0.516 m in x and
     // -0.346 m in z from its own pivot, and `regionBuilder.placeOnGround` corrects Y only, so at
     // the 3.5 the diagnosis suggested the mesh would draw 1.86 m from the entity the player is
     // told to click. `weapon_rack` is centred on its pivot to 0.000 m, draws 1.39 x 0.98 at scale
     // 1, and a rack of shafts and staves is what a fletching bench looks like from 6 m away.
-    { id: "coldbrace_fletching", name: "Coldbrace Fletching Bench", kind: "fletching_bench", skill: "fletching", position: [-174.4, -90.6], rotationY: Math.PI / 2, assetId: "weapon_rack", scale: 1.3, recipeIds: [], attachedTo: "coldbrace_workshed" },
+    { id: "coldbrace_fletching", name: "Millfield Fletching Bench", kind: "fletching_bench", skill: "fletching", position: [-174.4, -90.6], rotationY: Math.PI / 2, assetId: "weapon_rack", scale: 1.3, recipeIds: [], attachedTo: "coldbrace_workshed" },
   ],
 
   // In the porch's south bay, against the back wall, with the vault tower behind it and the
@@ -246,13 +246,13 @@ export const COLDBRACE: SettlementDef = {
   // z = -89.22 and the chest's starts at z = -89.76, so they clear by 0.54 m; and a stand at
   // (-162.0,-90.4), clear of the counter and of both porch posts, is 1.75 m from the chest, inside
   // `INTERACT_RANGE` 2.4 m. gate-check banks with `moveTo({ entityId })` on this id.
-  bank: { id: "coldbrace_bank", name: "Coldbrace Bank", position: [-163.75, -90.4], rotationY: Math.PI / 2, assetId: "chest_wood", attachedTo: "coldbrace_bank_porch" },
+  bank: { id: "coldbrace_bank", name: "Millfield Bank", position: [-163.75, -90.4], rotationY: Math.PI / 2, assetId: "chest_wood", attachedTo: "coldbrace_bank_porch" },
 
   shops: [
     // Under the market row's canopy, 0.22 m off its back wall.
     // market_stall's counter opens along local -Z, opposite the arcade prefab's +Z mouth. This
     // quarter turn presents the counter and goods east toward the square instead of its rear roof.
-    { id: "coldbrace_general", name: "Coldbrace General Supplies", shopKind: "general", position: [-171, -81], rotationY: -Math.PI / 2, assetId: "market_stall", attachedTo: "coldbrace_market" },
+    { id: "coldbrace_general", name: "Millfield General Supplies", shopKind: "general", position: [-171, -81], rotationY: -Math.PI / 2, assetId: "market_stall", attachedTo: "coldbrace_market" },
     // Clear of the forge's south-west corner. `market_stall_cart` is 3.02 x 1.06 m and grows to
     // 3.92 x 1.96 m once the navmesh erodes around it, so parked square in the mouth it walls the
     // forge off; parked here it leaves a wide eroded corridor into the opening while remaining

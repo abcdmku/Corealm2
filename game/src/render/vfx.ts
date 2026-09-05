@@ -406,7 +406,8 @@ export class Vfx {
     if (speed < MOVEMENT.walkPoseThreshold) return;
     if (nowMs - this.lastFootfallAtMs < FOOTFALL_INTERVAL_MS) return;
     this.lastFootfallAtMs = nowMs;
-    this.ambience.burst("dust", [position[0], position[1] + 0.05, position[2]], 4, nowMs);
+    const groundY = this.deps.groundHeightAt?.(position[0], position[2]) ?? position[1];
+    this.ambience.burst("dust", [position[0], Math.max(position[1], groundY) + 0.02, position[2]], 2, nowMs);
   }
 
   private buildTelegraph(id: string, radius: number): Telegraph {
@@ -528,12 +529,16 @@ interface KindProfile {
   lifeMs: number;
   /** Metres, start and end. */
   size: readonly [number, number];
-  /** Linear RGB. Additively blended, so this is light added, not surface colour. */
+  /** Linear RGB. Light for additive kinds, pigment for alpha-blended dust. */
   colour: readonly [number, number, number];
   defaultCount: number;
   cullMetres: number;
   /** Lies flat on the ground instead of facing the camera. */
   flat?: boolean;
+  /** Dust fades its alpha instead of adding light to the ground beneath it. */
+  alphaBlend?: boolean;
+  /** Billboard height relative to its width. */
+  aspect?: number;
   /** Local offset at phase p, given three stable hashes in 0..1. */
   motion(p: number, a: number, b: number, c: number): readonly [number, number, number];
   /** Brightness envelope over the particle's life. */
@@ -561,13 +566,14 @@ const PROFILES: Record<AmbienceKind, KindProfile> = {
     fade: (p) => Math.min(1, p * 7) * (1 - p) * (1 - p),
   },
   dust: {
-    lifeMs: 850, size: [0.2, 0.95], colour: [0.34, 0.29, 0.21], defaultCount: 5, cullMetres: 45,
+    lifeMs: 400, size: [0.12, 0.38], colour: [0.16, 0.135, 0.095], defaultCount: 2, cullMetres: 30,
+    alphaBlend: true, aspect: 0.45,
     motion: (p, a, b) => [
-      Math.cos(a * TAU) * p * 0.55,
-      p * 0.45 - p * p * 0.2,
-      Math.sin(a * TAU) * p * 0.55 + (b - 0.5) * 0.1,
+      Math.cos(a * TAU) * (0.03 + p * 0.18),
+      0.018 + p * 0.09,
+      Math.sin(a * TAU) * (0.03 + p * 0.18) + (b - 0.5) * 0.05,
     ],
-    fade: (p) => Math.min(1, p * 5) * (1 - p),
+    fade: (p) => Math.min(1, p * 9) * (1 - p) * (1 - p) * 0.32,
   },
   // Reads as backlit motes drifting down through the canopy rather than as opaque leaf
   // silhouettes; an opaque leaf needs alpha blending, which needs the second draw call this layer
@@ -618,25 +624,23 @@ const MAX_PARTICLES = 640;
 const MAX_BURSTS = 48;
 
 /**
- * All world ambience — chimney smoke, run dust, forge sparks, canopy leaf drift, fishing splashes,
- * torch flicker — as ONE additive InstancedMesh.
+ * World ambience uses one additive batch for smoke, sparks, leaf motes, splashes and flame.
+ * Footstep dust uses one small alpha-blended batch so overlapping puffs cannot emit bright light.
+ * Both batches disappear when empty and share the existing total particle cap.
  *
- * ONE DRAW CALL, and zero when nothing is alive, because `count` goes to 0 and `visible` to false.
- * That is the whole reason for the design: highcairn measures 397 against a 400 budget, so there is
- * room for exactly one more thing and this is it.
- *
- * Additive rather than alpha blending is a deliberate trade. Per-instance alpha needs a custom
- * shader program, and finding 12 of the ground diagnosis measured a single mid-session program
- * compile costing an 1,130 ms frame. Additive fades by multiplying the instance colour toward
- * black, which needs no program at all, at the cost that a dark particle over a bright sky is
- * invisible. Every kind here is therefore authored as light rather than as pigment.
+ * Dust uses Three's built-in RGBA vertex colours on an instanced attribute. Its opacity can fade
+ * per particle without a custom shader or changing the other effects' additive material.
  */
 export class Ambience {
   private readonly mesh: THREE.InstancedMesh;
+  private readonly dustMesh: THREE.InstancedMesh;
+  private readonly dustColours: THREE.InstancedBufferAttribute;
   private readonly emitters = new Map<string, AmbienceEmitter>();
   private readonly bursts: Burst[] = [];
   private readonly cullScale: number;
   private live = 0;
+  private additiveLive = 0;
+  private dustLive = 0;
 
   private readonly matrix = new THREE.Matrix4();
   private readonly position = new THREE.Vector3();
@@ -673,6 +677,32 @@ export class Ambience {
     this.mesh.count = 0;
     this.mesh.visible = false;
     parent.add(this.mesh);
+
+    const dustGeometry = new THREE.PlaneGeometry(1, 1);
+    // `instanceColor` is RGB-only. An instanced geometry colour attribute with four components
+    // selects USE_COLOR_ALPHA in Three's built-in material shader instead.
+    this.dustColours = new THREE.InstancedBufferAttribute(new Float32Array(capacity * 4), 4);
+    this.dustColours.setUsage(THREE.DynamicDrawUsage);
+    dustGeometry.setAttribute("color", this.dustColours);
+    const dustMaterial = new THREE.MeshBasicMaterial({
+      map: material.map,
+      vertexColors: true,
+      transparent: true,
+      blending: THREE.NormalBlending,
+      depthWrite: false,
+      fog: true,
+      toneMapped: true,
+    });
+    this.dustMesh = new THREE.InstancedMesh(dustGeometry, dustMaterial, capacity);
+    this.dustMesh.name = "ambience-dust";
+    this.dustMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+    this.dustMesh.castShadow = false;
+    this.dustMesh.receiveShadow = false;
+    this.dustMesh.renderOrder = 6;
+    this.dustMesh.frustumCulled = false;
+    this.dustMesh.count = 0;
+    this.dustMesh.visible = false;
+    parent.add(this.dustMesh);
   }
 
   addEmitter(emitter: AmbienceEmitter): void {
@@ -712,6 +742,8 @@ export class Ambience {
   update(nowMs: number, viewer: THREE.Vector3, facing?: THREE.Quaternion): void {
     if (facing) this.billboard.copy(facing);
     this.live = 0;
+    this.additiveLive = 0;
+    this.dustLive = 0;
     const capacity = this.mesh.instanceMatrix.count;
 
     for (const emitter of this.emitters.values()) {
@@ -748,11 +780,17 @@ export class Ambience {
       }
     }
 
-    this.mesh.count = this.live;
-    this.mesh.visible = this.live > 0;
-    if (this.live > 0) {
+    this.mesh.count = this.additiveLive;
+    this.mesh.visible = this.additiveLive > 0;
+    if (this.additiveLive > 0) {
       this.mesh.instanceMatrix.needsUpdate = true;
       if (this.mesh.instanceColor) this.mesh.instanceColor.needsUpdate = true;
+    }
+    this.dustMesh.count = this.dustLive;
+    this.dustMesh.visible = this.dustLive > 0;
+    if (this.dustLive > 0) {
+      this.dustMesh.instanceMatrix.needsUpdate = true;
+      this.dustColours.needsUpdate = true;
     }
   }
 
@@ -765,9 +803,9 @@ export class Ambience {
     return this.emitters.size;
   }
 
-  /** Draw calls this layer is currently adding. Exactly 0 or 1, by construction. */
+  /** One draw per nonempty batch, with a second batch only while dust is alive. */
   drawCalls(): number {
-    return this.mesh.visible ? 1 : 0;
+    return Number(this.mesh.visible) + Number(this.dustMesh.visible);
   }
 
   dispose(): void {
@@ -775,6 +813,10 @@ export class Ambience {
     this.mesh.geometry.dispose();
     (this.mesh.material as THREE.Material).dispose();
     this.mesh.dispose();
+    this.dustMesh.removeFromParent();
+    this.dustMesh.geometry.dispose();
+    (this.dustMesh.material as THREE.Material).dispose();
+    this.dustMesh.dispose();
     this.emitters.clear();
     this.bursts.length = 0;
   }
@@ -801,15 +843,24 @@ export class Ambience {
       origin[1] + offset[1] * emitterScale,
       origin[2] + offset[2] * emitterScale,
     );
-    this.scale.set(size, size, size);
+    this.scale.set(size, size * (profile.aspect ?? 1), size);
     this.matrix.compose(this.position, profile.flat ? this.flat : this.billboard, this.scale);
-    this.mesh.setMatrixAt(this.live, this.matrix);
-    this.colour.setRGB(
-      profile.colour[0] * brightness,
-      profile.colour[1] * brightness,
-      profile.colour[2] * brightness,
-    );
-    this.mesh.setColorAt(this.live, this.colour);
+    if (profile.alphaBlend) {
+      this.dustMesh.setMatrixAt(this.dustLive, this.matrix);
+      this.dustColours.setXYZW(
+        this.dustLive, profile.colour[0], profile.colour[1], profile.colour[2], brightness,
+      );
+      this.dustLive += 1;
+    } else {
+      this.mesh.setMatrixAt(this.additiveLive, this.matrix);
+      this.colour.setRGB(
+        profile.colour[0] * brightness,
+        profile.colour[1] * brightness,
+        profile.colour[2] * brightness,
+      );
+      this.mesh.setColorAt(this.additiveLive, this.colour);
+      this.additiveLive += 1;
+    }
     this.live += 1;
   }
 }

@@ -142,7 +142,10 @@ export class GatheringSystem implements TickSystem {
         ? this.resourceDefFor(entity, entity.resource.itemId)?.yieldRange
         : undefined;
       const [min, max] = authored ?? yieldRange(tier);
-      const rolled = this.deps.rng.get("gather").int(min, max);
+      const size = entity?.meta?.forestYieldFactor;
+      const sizeFactor = entity?.meta?.forestTree === true && typeof size === "number" && Number.isFinite(size)
+        ? Math.min(1.5, Math.max(0.65, size)) : 1;
+      const rolled = Math.max(1, Math.round(this.deps.rng.get("gather").int(min, max) * sizeFactor));
 
       node.remaining = rolled;
       node.maxYields = rolled;

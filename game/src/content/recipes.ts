@@ -29,7 +29,9 @@
 import type { ItemId } from "../contracts.js";
 import type { GatheringProductionTierDef, RecipeDef } from "./index.js";
 import { recipeXp } from "./index.js";
+import { CREATURE_LOOT_RECIPES } from "./creatureLoot.js";
 import { GATHERING_PRODUCTION_TIERS } from "./gatheringProductionTiers.js";
+import { ALL_ITEMS } from "./items.js";
 
 // ------------------------------------------------------------------- PRD 2.7 craft weights
 
@@ -241,16 +243,13 @@ function recipesForTier(definition: GatheringProductionTierDef): RecipeDef[] {
   ];
 }
 
-/**
- * Recipe display names for equipment mirror the item name. Item names live in `items.ts` and
- * `equipment.ts`, and importing them here would make this file depend on 100+ rows just to read a
- * string, so the id is title-cased instead. `Kaldite Sword` out of `kaldite_sword`.
- */
+const itemNames = new Map(ALL_ITEMS.map((item) => [item.id, item.name]));
+
+/** Recipes use the item's display name while their saved output IDs remain unchanged. */
 function nameOf(itemId: ItemId): string {
-  return itemId
-    .split("_")
-    .map((part) => (part.length === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)))
-    .join(" ");
+  const name = itemNames.get(itemId);
+  if (!name) throw new Error(`Recipe references an item without a display name: ${itemId}`);
+  return name;
 }
 
 function basicMagicRecipes(definition: GatheringProductionTierDef): RecipeDef[] {
@@ -274,7 +273,7 @@ function basicMagicRecipes(definition: GatheringProductionTierDef): RecipeDef[] 
 }
 
 /** Canonical production matrix plus the two replaceable starter-weapon recipes. */
-export const RECIPES: readonly RecipeDef[] = GATHERING_PRODUCTION_TIERS.flatMap((definition) => [
+export const RECIPES: readonly RecipeDef[] = [...GATHERING_PRODUCTION_TIERS.flatMap((definition) => [
   ...recipesForTier(definition),
   ...basicMagicRecipes(definition),
-]);
+]), ...CREATURE_LOOT_RECIPES];

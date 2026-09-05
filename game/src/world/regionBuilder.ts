@@ -30,9 +30,11 @@ import type {
   Archetype, EntityId, InteractionId, RegionId, SemanticEntity, SkillId, SolidVolume, Vec3,
 } from "../contracts.js";
 import { INTERACT_RANGE } from "../app/config.js";
+import { worldSiteResourceSlot, worldSitePoint } from "../content/worldSites.js";
+import { habitatForGroup, type HabitatDef } from "../content/worldHabitats.js";
 import { RngStreams, type Rng } from "../core/rng.js";
 import { content, enemyCombatLevel } from "../content/index.js";
-import type { GatheringResourceArchetype, ResourceDef } from "../content/index.js";
+import type { EnemyDef, GatheringResourceArchetype, ResourceDef } from "../content/index.js";
 import { enemyBlockFor } from "../content/enemies.js";
 import { QUESTS } from "../content/quests.js";
 import { resourceDef } from "../content/resources.js";
@@ -51,6 +53,7 @@ import { tierSilhouetteScale } from "../core/math.js";
 import { npcOutfitParts } from "../render/characterAppearances.js";
 import type { KnownLocation } from "./entities.js";
 import { WATER_FILL_DEPTH } from "./waterBodies.js";
+import { authoredThresholds, createDungeonDoorEntities } from "./dungeonDoors.js";
 
 // ------------------------------------------------------------------ formulas
 
@@ -237,6 +240,10 @@ export interface WorldPorts {
   assetCenterXZ?: (assetId: string) => AssetCenterXZ | null;
   /** Distance to the resolved visible road centreline; used to keep solid resources off roads. */
   roadDistance?: (x: number, z: number) => number;
+  /** Dry working positions for resources and route locations beside solved water bodies. */
+  accessPositions?: ReadonlyMap<string, Vec3>;
+  /** Root enables authored gate assets and partitions after their production lab acceptance. */
+  dungeonGates?: boolean;
 }
 
 // ------------------------------------------------------------------- build
@@ -262,6 +269,7 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
     assetSize: ports?.assetSize ?? (() => null),
     assetCenterXZ: ports?.assetCenterXZ ?? (() => null),
     roadDistance: ports?.roadDistance ?? (() => Infinity),
+    dungeonGates: ports?.dungeonGates ?? false,
     out: entities,
     buildings,
     solids,
@@ -276,6 +284,7 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
   const locationEntity = ctx.locationEntity;
 
   const addLocation = (regionId: RegionId, location: LocationDef, position: Vec3): void => {
+    position = ports?.accessPositions?.get(location.id) ?? position;
     nodePositions.set(location.id, position);
     knownLocations.push({ id: location.id, name: location.name, regionId, position });
     if (location.routeNode) {
@@ -302,6 +311,10 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
   // -- pass 2: entities.
   for (const region of REGIONS) {
     buildRegionEntities(region, rng, ctx);
+  }
+  for (const entity of entities) {
+    const access = ports?.accessPositions?.get(entity.id);
+    if (access) entity.interactionPosition = access;
   }
   for (const region of REGIONS) {
     const dungeon = region.dungeon;
@@ -482,6 +495,7 @@ interface BuildContext {
   readonly assetSize: (assetId: string) => AssetSize | null;
   readonly assetCenterXZ: (assetId: string) => AssetCenterXZ | null;
   readonly roadDistance: (x: number, z: number) => number;
+  readonly dungeonGates: boolean;
   readonly out: SemanticEntity[];
   readonly buildings: BuildingBox[];
   readonly solids: SolidVolume[];
@@ -674,7 +688,7 @@ const SOLID_MIN_FOOTPRINT_AREA = 0.15;
 /** Dressing that should never become a full-height navigation carve. */
 const NON_BLOCKING_COMPOSITION_ASSET = /^(?:banner|chain|flower|kerb|lamp|mushroom|rope|rubble|sack|stairs_|torch|vine)/;
 
-/** Composition parts nearer than this to their owner's origin are where the hero mesh already is. */
+/** Loose props near the origin share the hero's collision. Walls and supports keep their own shape. */
 const COMPOSITION_CLEARANCE_METRES = 1;
 
 function compositionPartBlocks(
@@ -686,7 +700,7 @@ function compositionPartBlocks(
   // Rootfall stump's visible stair flight is the road into the hamlet, not three invisible walls.
   if (composition === "milestone" || composition === "rootfall_stump" ||
       composition === "vault_door" || composition === "highcairn_crane") return false;
-  if (!size || part.dy > 0.45 || size.y * part.scale <= 0.45) return false;
+  if (!size || part.dy > 0.45 || size.y * part.scale * (part.scaleAxes?.[1] ?? 1) <= 0.45) return false;
   if (NON_BLOCKING_COMPOSITION_ASSET.test(part.assetId)) return false;
   // The farm's building and fence are structural. Loose yard clutter should not carve a metre-wide
   // hole in a plot the player reads as open ground.
@@ -916,26 +930,82 @@ export function structureCollisionFromCompositionParts(
   const cos = Math.cos(options.rotationY);
   const sin = Math.sin(options.rotationY);
   for (const part of parts) {
-    if (Math.hypot(part.dx, part.dz) < COMPOSITION_CLEARANCE_METRES) continue;
     const size = measurements.assetSize(part.assetId);
-    if (!compositionPartBlocks(composition, part, size)) continue;
+    if (!size || !compositionPartBlocks(composition, part, size)) continue;
+    // The hero reach allowance applies to loose dressing, not the load-bearing shell. Applying
+    // it to walls shortened gate piers and discarded the bank's counter and slim timber posts.
+    const structural = /^(?:wall_|overhang_|corner_|fence_)/.test(part.assetId) ||
+      (composition === "bank_counter" && part.tag === "counter");
+    if (!structural && Math.hypot(part.dx, part.dz) < COMPOSITION_CLEARANCE_METRES) continue;
     const position: Vec3 = [
       round2(options.origin[0] + part.dx * cos + part.dz * sin),
       round2(options.origin[1] + part.dy),
       round2(options.origin[2] - part.dx * sin + part.dz * cos),
     ];
-    const halfDiagonal = size ? Math.hypot(size.x * part.scale / 2, size.z * part.scale / 2) : 0;
-    const capped = Math.hypot(part.dx, part.dz) - halfDiagonal < INTERACT_RANGE;
-    const solid = assetSolidFromMeasurements(
-      `${options.ownerId}#${part.tag}`,
-      position,
-      part.assetId,
-      part.scale,
-      options.rotationY + part.rotationY,
-      capped,
-      measurements,
-    );
-    if (solid) solids.push(solid);
+    const axes: readonly [number, number, number] = part.scaleAxes ?? [1, 1, 1];
+    const centre = measurements.assetCenterXZ(part.assetId) ?? { x: 0, z: 0 };
+    const measured = {
+      suffix: "",
+      base: 0,
+      x: centre.x * part.scale * axes[0],
+      z: centre.z * part.scale * axes[2],
+      width: size.x * part.scale * axes[0],
+      height: size.y * part.scale * axes[1],
+      depth: size.z * part.scale * axes[2],
+    };
+    let boxes = [measured];
+    if (part.assetId === "wall_arch") {
+      // The shipped arch has 1/6 m jambs and a 5/3 m opening in a 2 m module. Only the
+      // grounded jambs obstruct walking; boxing its barrel would close the visible passage.
+      const jambWidth = measured.width / 12;
+      boxes = [-1, 1].map((side) => ({
+        ...measured,
+        suffix: side < 0 ? "#jamb_l" : "#jamb_r",
+        x: measured.x + side * (measured.width - jambWidth) / 2,
+        width: jambWidth,
+      }));
+    } else if (part.assetId === "overhang_plaster") {
+      // The mesh spans z=-0.2..2.0. Below head height it contains a 0.2 m plaster wall,
+      // a shallow waist rail and one narrow timber bracket. Its canopy is overhead.
+      // These dimensions come from the transformed source geometry, not its roof envelope.
+      const sx = measured.width / 2;
+      const sy = measured.height / 3.028;
+      const sz = measured.depth / 2.2;
+      const sourceZ = measured.z - 0.9 * sz;
+      boxes = [
+        { ...measured, z: sourceZ - 0.1 * sz, depth: 0.2 * sz },
+        {
+          ...measured, suffix: "#rail", base: 0.6495 * sy,
+          z: sourceZ + 0.03994 * sz, depth: 0.10498 * sz, height: 0.23366 * sy,
+        },
+        {
+          ...measured, suffix: "#stud", base: 0.4133 * sy,
+          x: measured.x - 0.00037 * sx, width: 0.12346 * sx,
+          z: sourceZ + 0.10622 * sz, depth: 0.23348 * sz, height: 1.43652 * sy,
+        },
+      ];
+    }
+    const rotationY = options.rotationY + part.rotationY;
+    const partCos = Math.cos(rotationY);
+    const partSin = Math.sin(rotationY);
+    for (const box of boxes) {
+      if (!structural && box.width * box.depth < SOLID_MIN_FOOTPRINT_AREA) continue;
+      const halfDiagonal = Math.hypot(box.width / 2, box.depth / 2);
+      const capped = !structural && Math.hypot(part.dx, part.dz) - halfDiagonal < INTERACT_RANGE;
+      const factor = capped ? capFactor(halfDiagonal) : 1;
+      solids.push({
+        kind: "box",
+        id: `${options.ownerId}#${part.tag}${box.suffix}`,
+        position: [
+          round2(position[0] + box.x * partCos + box.z * partSin),
+          round2(position[1] + box.base),
+          round2(position[2] - box.x * partSin + box.z * partCos),
+        ],
+        size: [round2(box.width * factor), round2(structural ? box.height : Math.max(0.3, box.height)),
+          round2(box.depth * factor)],
+        rotationY: round4(rotationY),
+      });
+    }
   }
   return solids;
 }
@@ -1557,10 +1627,10 @@ export function structureEntitiesFromParts(
  * Buildings get their collision from `prefabCollision`, which knows where the doorway is.
  * Composition mass is conservative: only grounded structural pieces are eligible. Low kerbs,
  * stairs, trim and elevated dressing do not become one-metre navigation carves, while grounded
- * walls, fences, rocks and counters retain physical mass. Anything within
- * `COMPOSITION_CLEARANCE_METRES` of the origin is also skipped because the hero mesh owns it.
+ * walls, fences, rocks and counters retain physical mass. Loose props within
+ * `COMPOSITION_CLEARANCE_METRES` of the origin share the hero's collision.
  *
- * A part is only reach-capped when its full volume could actually foul the owner's approach ring -
+ * Loose dressing is only reach-capped when its full volume could foul the owner's approach ring -
  * `distance - halfDiagonal < INTERACT_RANGE`. That matters: the Gravelmaw mouth's `cliff_step_2`
  * brow has a 9.99 m half-diagonal, and capping it to 1.40 m unconditionally would leave a 20 m
  * cliff face the player walks straight through to protect a reach that a cliff 12 m away was never
@@ -1747,19 +1817,26 @@ function buildDungeonEntities(
     ctx.locationEntity.set(chamber.id, `${chamber.id}_marker`);
   }
 
+  const thresholds = ctx.dungeonGates ? authoredThresholds(dungeon, floorBase) : [];
   for (const door of dungeon.doors) {
-    out.push({
-      id: door.id,
-      archetype: "door",
-      name: door.name,
-      tier: dungeon.tier,
-      regionId: dungeon.id,
-      position: placeOn(door.position, door.floorOffset, door.assetId, 2.2),
-      state: door.state,
-      interactions: ["inspect", "open"],
-      view: { assetId: door.assetId, scale: 2.2, labelHeight: 2.6 },
-      meta: { lockedReason: door.lockedReason },
-    });
+    if (!ctx.dungeonGates) {
+      out.push({
+        id: door.id, archetype: "door", name: door.name, tier: dungeon.tier, regionId: dungeon.id,
+        position: placeOn(door.position, door.floorOffset, door.assetId, 2.2), state: door.state,
+        interactions: ["inspect", "open"],
+        view: { assetId: door.assetId, scale: 2.2, labelHeight: 2.6 },
+        meta: { lockedReason: door.lockedReason },
+      });
+      continue;
+    }
+    const threshold = thresholds.find((entry) => entry.id === door.id)!;
+    out.push(...createDungeonDoorEntities(threshold, {
+      name: door.name, tier: dungeon.tier, regionId: dungeon.id,
+      state: door.state, lockedReason: door.lockedReason,
+    }));
+    // Only permanent masonry is baked. DungeonDoors handles the leaf so opening it removes
+    // both physical and navigation blocking immediately, without rebuilding the island.
+    ctx.solids.push(...threshold.staticSolids);
   }
 
   for (const obstacle of dungeon.obstacles) {
@@ -1807,19 +1884,22 @@ function buildCluster(
 
   for (let index = 0; index < cluster.count; index += 1) {
     const id = `${cluster.id}_${index + 1}`;
+    const authored = worldSiteResourceSlot(cluster.id, index + 1);
     const isHero = index === 0 && cluster.heroAssetId !== undefined;
     const assetId = isHero ? cluster.heroAssetId! : presentationAsset(resource, id);
-    const viewScale = isHero && cluster.heroScale !== undefined
+    const baseScale = isHero && cluster.heroScale !== undefined
       ? cluster.heroScale
       : presentationScale(ctx, resource, assetId, id);
+    const viewScale = baseScale * (authored?.slot.scale ?? 1);
     const scale = drawnScale(resource.archetype, viewScale, resource.tier);
     let spot = cluster.ringRadius === undefined
       ? spiralSpot(cluster.centre, cluster.radius, index, cluster.count, rng)
       : ringSpot(cluster.centre, cluster.ringRadius, index, cluster.count, rng);
+    if (authored) spot = [...worldSitePoint(authored.site, authored.slot.x, authored.slot.z)];
     // A ritual ring is one authored arrangement. Moving its slots independently to dodge a road
     // can stack two stones together, so only free-form clusters use the road-clearance retry.
     if ((resource.archetype === "tree" || resource.archetype === "ore")
-      && cluster.ringRadius === undefined) {
+      && cluster.ringRadius === undefined && !authored) {
       // Resource clusters are semantic content rather than procedural scatter, so the scatter
       // exclusion registry cannot move them. Retry the same deterministic spiral at finer phases
       // until the solid node clears the worn road and its shoulders.
@@ -1840,7 +1920,7 @@ function buildCluster(
 
     const [yieldMin, yieldMax] = resource.yieldRange ?? yieldRange(resource.tier);
     const maxYields = rng.int(yieldMin, yieldMax);
-    const rotationY = presentationRotation(id);
+    const rotationY = authored ? authored.site.rotationY + authored.slot.yaw : presentationRotation(id);
     preserveLegacyResourceRotationDraw(rng);
     const requirements: Partial<Record<SkillId, number>> = {};
     requirements[resource.skill] = resource.reqLevel;
@@ -1876,6 +1956,7 @@ function buildCluster(
       meta: {
         resourceId: resource.id, clusterId: cluster.id, locationId: cluster.locationId,
         skill: resource.skill,
+        ...(authored ? { worldSiteId: authored.site.id } : {}),
         ...(cluster.essenceElement === undefined
           ? {}
           : { essenceElement: cluster.essenceElement, essenceCache: true, essenceHero: isHero }),
@@ -1888,20 +1969,28 @@ function buildCluster(
   }
 }
 
-function buildEnemyGroup(
+export interface EnemyGroupBuildOptions {
+  habitat: HabitatDef;
+  members: readonly { id: string; stats: EnemyDef; scaleMultiplier: number }[];
+}
+
+/** Shared actor construction for authored groups and isolated pack fixtures. */
+export function buildEnemyGroup(
   regionId: RegionId,
   group: EnemyGroupDef,
   rng: Rng,
   place: Placer,
   out: SemanticEntity[],
   assetSize: (assetId: string) => AssetSize | null,
+  options?: EnemyGroupBuildOptions,
 ): void {
   // One lookup per group. `content/enemies.ts` publishes alias rows keyed by group id and by
   // family, so either spelling resolves. It is the ONLY source of combat stats: health, aggro
   // radius, behaviour and the displayed level all come from here, and `EnemyGroupDef` no longer
   // carries any of them. See the level comment below. Read straight off the table rather than
   // through `content.enemy`, so building a world does not depend on boot having registered first.
-  const enemyBlock = enemyBlockFor(group.id, group.family, group.tier);
+  if (options && options.members.length !== group.count) throw new Error(`Pack ${group.id} has mismatched members`);
+  const enemyBlock = options?.members[0]?.stats ?? enemyBlockFor(group.id, group.family, group.tier);
   if (!enemyBlock) {
     // Loud rather than silent. Without a block there is no health, no level and no behaviour, and
     // the old fallback fields that used to paper over this are gone. `content/regions.ts`
@@ -1910,7 +1999,6 @@ function buildEnemyGroup(
       `Enemy group "${group.id}" (family "${group.family}", tier ${group.tier}) has no stat block in content/enemies.ts`,
     );
   }
-  const stats = enemyBlock;
   // A miniboss shares the boss archetype — same respawn window, same semantic reading, same
   // label height — and differs only in draw scale and the published rank.
   const bossRank = group.boss ? "boss" : group.miniBoss ? "miniboss" : null;
@@ -1918,25 +2006,31 @@ function buildEnemyGroup(
   // A boss should not be the same size as the things guarding it. 1.6x on top of the authored
   // scale is the difference between "another enemy" and "the thing in the room"; a regional
   // miniboss draws at 1.3x, above the crowd and clearly below the three Orb bosses.
-  const viewScale = bossRank === "boss" ? group.scale * 1.6
+  const baseViewScale = bossRank === "boss" ? group.scale * 1.6
     : bossRank === "miniboss" ? group.scale * 1.3
     : group.scale;
-  const scale = drawnScale(archetype, viewScale, group.tier);
   // Widest of the two ground axes, halved: a stag is longer than it is wide and it is the long
   // axis that decides whether two of them are standing in each other. Null when the asset is not in
   // the manifest, which leaves `enemyAI` on its own fallback rather than inventing a size here.
   const assetBox = assetSize(group.assetId);
-  const bodyRadius = assetBox ? (Math.max(assetBox.x, assetBox.z) / 2) * scale : null;
+  const habitat = options?.habitat ?? (bossRank === null ? habitatForGroup(group.id) : null);
 
   for (let index = 0; index < group.count; index += 1) {
-    const spot = group.radius <= 0
+    const member = options?.members[index];
+    const stats = member?.stats ?? enemyBlock;
+    const viewScale = baseViewScale * (member?.scaleMultiplier ?? 1);
+    const scale = drawnScale(archetype, viewScale, group.tier);
+    const bodyRadius = assetBox ? (Math.max(assetBox.x, assetBox.z) / 2) * scale : null;
+    // Preserve the legacy stream so authoring a habitat does not move later actors.
+    const generatedSpot = group.radius <= 0
       ? group.centre
       : spiralSpot(group.centre, group.radius, index, group.count, rng);
+    const spot = habitat?.anchors[index] ?? generatedSpot;
     const position = place(spot, group.assetId, scale);
     out.push({
-      id: group.count === 1 ? group.id : `${group.id}_${index + 1}`,
+      id: member?.id ?? (group.count === 1 ? group.id : `${group.id}_${index + 1}`),
       archetype,
-      name: group.name,
+      name: member ? stats.name : group.name,
       tier: group.tier,
       regionId,
       position,
@@ -1981,7 +2075,9 @@ function buildEnemyGroup(
       },
       meta: {
         family: group.family,
+        enemyDefId: stats.id,
         groupId: group.id,
+        ...(habitat ? { habitatId: habitat.id } : {}),
         behaviour: stats.behaviour,
         spawnX: round2(position[0]),
         spawnZ: round2(position[2]),

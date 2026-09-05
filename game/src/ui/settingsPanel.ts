@@ -1,3 +1,4 @@
+import { PanelFrame } from "./panelFrame.js";
 /**
  * The settings screen, over `SettingsStore`.
  *
@@ -14,7 +15,8 @@
 import type { AudioBus } from "../contracts.js";
 import type { DrawDistance, RenderScale, SettingsStore, ShadowQuality, UiSettings } from "./settings.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import { PanelFrame } from "./panels.js";
+import type { SaveRecoveryControls } from "./titleScreen.js";
+
 import { notify } from "./contextMenu.js";
 
 /** The two non-renderer booleans, in the order they are shown. */
@@ -81,7 +83,7 @@ const AUDIO_CONTROLS: readonly {
   {
     key: "ambient",
     label: "Ambient",
-    hint: "Wind, wildlife, town life, and the Gravelmaw interior.",
+    hint: "Wind, wildlife, town life, and the Stone Cavern interior.",
   },
   {
     key: "sfx",
@@ -102,8 +104,24 @@ export class SettingsPanel implements ManagedPanel {
   private readonly audioInputs = new Map<AudioBus, HTMLInputElement>();
   private readonly audioOutputs = new Map<AudioBus, HTMLOutputElement>();
   private readonly unsubscribe: () => void;
+  private recoveryGroup: HTMLElement | null = null;
+  private recoveryIntro: HTMLElement | null = null;
+  private recoveryReason: HTMLElement | null = null;
+  private recoveryActions: HTMLElement | null = null;
+  private recoveryStatus: HTMLElement | null = null;
+  private recoveryDownload: HTMLButtonElement | null = null;
+  private recoveryImport: HTMLButtonElement | null = null;
+  private recoveryBusy = false;
+  private recoverySucceeded = false;
+  private recoveryMessage = "";
+  private disposed = false;
 
-  constructor(ctx: UiContext, private readonly settings: SettingsStore, onClose?: () => void) {
+  constructor(
+    ctx: UiContext,
+    private readonly settings: SettingsStore,
+    onClose?: () => void,
+    private readonly saveRecovery?: SaveRecoveryControls,
+  ) {
     this.frame = new PanelFrame({
       id: "settings",
       title: "Settings",
@@ -131,6 +149,7 @@ export class SettingsPanel implements ManagedPanel {
   }
 
   dispose(): void {
+    this.disposed = true;
     this.unsubscribe();
     this.frame.root.removeEventListener("keydown", this.onKeyDown);
     this.frame.dispose();
@@ -148,7 +167,7 @@ export class SettingsPanel implements ManagedPanel {
     event.stopPropagation();
     const stops = [...this.frame.root.querySelectorAll<HTMLElement>(
       "button:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex='0']",
-    )];
+    )].filter((stop) => !stop.hidden && !stop.closest("[hidden]"));
     const first = stops[0];
     const last = stops[stops.length - 1];
     if (!first || !last) return;
@@ -166,6 +185,7 @@ export class SettingsPanel implements ManagedPanel {
 
   private build(): void {
     this.body.replaceChildren();
+    if (this.saveRecovery) this.buildRecovery();
 
     const audio = this.group("Audio");
     for (const spec of AUDIO_CONTROLS) audio.appendChild(this.volumeRow(spec));
@@ -228,6 +248,143 @@ export class SettingsPanel implements ManagedPanel {
 
     footer.append(note, reset);
     this.body.appendChild(footer);
+  }
+
+  /** Recovery is visible only when a stored character needs it or an import just succeeded. */
+  private buildRecovery(): void {
+    const section = this.group("Save recovery");
+    section.dataset["saveRecovery"] = "true";
+    this.recoveryGroup = section;
+
+    const intro = document.createElement("p");
+    intro.className = "settings__note";
+    intro.textContent = "Saving is paused. Download the original file to keep a copy. Importing a working"
+      + " save loads that character and replaces the stored original. New game in the game menu deletes it.";
+    this.recoveryIntro = intro;
+
+    const reason = document.createElement("p");
+    reason.className = "settings__hint";
+    reason.style.overflowWrap = "anywhere";
+    this.recoveryReason = reason;
+
+    const actions = document.createElement("div");
+    actions.style.display = "flex";
+    actions.style.flexWrap = "wrap";
+    actions.style.gap = "8px";
+    this.recoveryActions = actions;
+
+    const download = document.createElement("button");
+    download.type = "button";
+    download.className = "btn";
+    download.textContent = "Download original save";
+    download.addEventListener("click", () => this.downloadOriginalSave());
+    this.recoveryDownload = download;
+
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = ".json,.txt,application/json,text/plain";
+    fileInput.hidden = true;
+    fileInput.style.display = "none";
+    fileInput.tabIndex = -1;
+    fileInput.setAttribute("aria-label", "Choose a save file to recover");
+    fileInput.addEventListener("change", () => {
+      const file = fileInput.files?.[0];
+      fileInput.value = "";
+      if (file) void this.importRecoveryFile(file);
+    });
+
+    const importButton = document.createElement("button");
+    importButton.type = "button";
+    importButton.className = "btn btn--primary";
+    importButton.textContent = "Import a working save";
+    importButton.addEventListener("click", () => fileInput.click());
+    this.recoveryImport = importButton;
+    actions.append(download, importButton, fileInput);
+
+    const status = document.createElement("p");
+    status.className = "settings__hint";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    status.tabIndex = -1;
+    this.recoveryStatus = status;
+    section.append(intro, reason, actions, status);
+  }
+
+  private downloadOriginalSave(): void {
+    const recovery = this.saveRecovery?.getRecovery();
+    if (!recovery || recovery.raw === null) return;
+    let url: string | null = null;
+    try {
+      // Export the original bytes, including whitespace and malformed JSON, without reserializing.
+      url = URL.createObjectURL(new Blob([recovery.raw], { type: "application/json" }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "corealm-original-save.json";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      this.recoveryMessage = "Original save download started. The stored original is still protected.";
+    } catch {
+      this.recoveryMessage = "The original save could not be downloaded. It is still protected.";
+    } finally {
+      if (url) {
+        const downloadUrl = url;
+        window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1_000);
+      }
+      this.syncRecovery();
+    }
+  }
+
+  private async importRecoveryFile(file: File): Promise<void> {
+    if (this.recoveryBusy || !this.saveRecovery?.getRecovery()) return;
+    this.recoveryBusy = true;
+    this.recoveryMessage = "Checking the selected save...";
+    this.syncRecovery();
+    try {
+      const json = await file.text();
+      // A disposed panel or an explicit New Game during the read cancels this pending import.
+      if (this.disposed || !this.saveRecovery.getRecovery()) return;
+      const result = this.saveRecovery.recoverSave(json);
+      this.recoverySucceeded = result.ok;
+      this.recoveryMessage = result.ok
+        ? "Save recovered. Your character is loaded and saving is active."
+        : `${result.reason ?? "The selected save could not be recovered."} The original is still protected.`;
+    } catch {
+      this.recoveryMessage = "The selected file could not be recovered. The original is still protected.";
+    } finally {
+      this.recoveryBusy = false;
+      if (!this.disposed) {
+        this.syncRecovery();
+        this.recoveryStatus?.focus({ preventScroll: true });
+      }
+    }
+  }
+
+  private syncRecovery(): void {
+    if (!this.recoveryGroup || !this.saveRecovery) return;
+    const recovery = this.saveRecovery.getRecovery();
+    const visible = Boolean(recovery) || this.recoverySucceeded;
+    this.recoveryGroup.hidden = !visible;
+    this.recoveryGroup.style.display = visible ? "" : "none";
+    if (this.recoveryIntro) this.recoveryIntro.hidden = !recovery;
+    if (this.recoveryReason) {
+      this.recoveryReason.hidden = !recovery;
+      this.recoveryReason.textContent = recovery
+        ? `${recovery.reason}${recovery.raw === null ? ". The browser could not read the original file." : ""}`
+        : "";
+    }
+    if (this.recoveryActions) {
+      this.recoveryActions.hidden = !recovery;
+      this.recoveryActions.style.display = recovery ? "flex" : "none";
+    }
+    if (this.recoveryDownload) this.recoveryDownload.disabled = !recovery || recovery.raw === null || this.recoveryBusy;
+    if (this.recoveryImport) {
+      this.recoveryImport.disabled = !recovery || this.recoveryBusy;
+      this.recoveryImport.textContent = this.recoveryBusy ? "Checking save..." : "Import a working save";
+    }
+    if (this.recoveryStatus && this.recoveryStatus.textContent !== this.recoveryMessage) {
+      this.recoveryStatus.textContent = this.recoveryMessage;
+    }
   }
 
   private group(title: string): HTMLElement {
@@ -417,6 +574,7 @@ export class SettingsPanel implements ManagedPanel {
   // ----------------------------------------------------------------- state
 
   private sync(): void {
+    this.syncRecovery();
     const current = this.settings.get();
 
     for (const spec of AUDIO_CONTROLS) {

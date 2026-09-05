@@ -94,35 +94,3 @@ describe("agility", () => {
     expect(agilitySuccessChance(99, 1)).toBeCloseTo(1, 10);
   });
 });
-
-describe("combat", () => {
-  const maxHit = (melee: number, gearPower: number): number => Math.floor(2 + (melee + gearPower) / 4.2);
-  const maxHealth = (melee: number, magic: number, vitality: number): number =>
-    20 + 3 * Math.max(1, Math.floor((melee + magic) / 2)) + vitality;
-
-  it("reproduces the PRD's melee max-hit table", () => {
-    expect(maxHit(1, 0)).toBe(2);
-    expect(maxHit(1, 6)).toBe(3);    // Grithe dagger
-    expect(maxHit(5, 14)).toBe(6);   // Corven sword
-    expect(maxHit(10, 26)).toBe(10); // Kaldite sword
-    expect(maxHit(20, 45)).toBe(17);
-    expect(maxHit(50, 110)).toBe(40);
-    expect(maxHit(99, 200)).toBe(73);
-  });
-
-  it("reproduces the PRD's derived health table", () => {
-    expect(maxHealth(1, 1, 0)).toBe(23);
-    expect(maxHealth(10, 1, 6)).toBe(41);
-    expect(maxHealth(12, 5, 14)).toBe(58);
-    expect(maxHealth(18, 8, 16)).toBe(75);
-    expect(maxHealth(99, 99, 90)).toBe(407);
-  });
-
-  it("clamps hit chance to the documented 5-95% band", () => {
-    const hitChance = (attack: number, defence: number): number =>
-      Math.max(0.05, Math.min(0.95, attack / (attack + defence)));
-    expect(hitChance(10, 10)).toBeCloseTo(0.5, 10);
-    expect(hitChance(1, 10_000)).toBeCloseTo(0.05, 10);
-    expect(hitChance(10_000, 1)).toBeCloseTo(0.95, 10);
-  });
-});

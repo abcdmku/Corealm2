@@ -68,6 +68,8 @@ export interface DebugDeps {
   audioState?(): unknown;
   audioHistory?(limit?: number): unknown;
   clearAudioHistory?(): void;
+  foliageOcclusion?(): unknown;
+  setFoliageOcclusionEnabled?(enabled: boolean): void;
   version: { build: string; contracts: string; content: string };
   /** Rebuilds the world and restores spawn state. Must complete synchronously. */
   resetWorld(seed?: number, keepSave?: boolean): void;
@@ -94,7 +96,7 @@ export interface DebugDeps {
    * above head height and off the walkable surface. This one places the orbit centre exactly where
    * it is asked to.
    */
-  inspectPose(target: Vec3, yaw: number, pitch: number, distance: number): boolean;
+  inspectPose(target: Vec3, yaw: number, pitch: number, distance: number, detached?: boolean): boolean;
   /** Freezes simulation and hides the player while documentation captures run. */
   setCaptureMode(enabled: boolean): void;
   /** Renders and returns the current gameplay canvas before another frame can clear it. */
@@ -138,6 +140,9 @@ export interface DebugDeps {
    * supplies `ScatterResult[]`; without it `getScatterStats()` answers `{ available: false }`.
    */
   scatterStats?(): unknown;
+  /** Generation-tile readiness, separate from the first playable frame. */
+  scatterResidency?(): unknown;
+  scatterVisibility?(): unknown;
   /** Live rig playback state; optional only for boot-fallback tests without a character rig. */
   playerMotion?(): unknown;
   entityMotion?(entityId: EntityId): unknown;
@@ -145,6 +150,9 @@ export interface DebugDeps {
   waterBodies?(): unknown;
   /** One JSON-safe terrain/biome/coast probe for world authoring tools. */
   worldSample?(x: number, z: number): unknown;
+  worldClearance?(options: { x: number; z: number; radius: number; y?: number }): unknown;
+  setMovementDetourDiagnostics?(enabled: boolean): void;
+  movementDetourDiagnostics?(): unknown;
   /** Build-time only: one north-up tile rendered from the complete Three scene. */
   captureWorldMapTile?(options: {
     centreX: number;
@@ -342,6 +350,8 @@ export function installGameDebug(deps: DebugDeps): void {
         drawCalls: stats.drawCalls,
         triangles: stats.triangles,
         programs: stats.programs,
+        textures: renderer.renderer.info.memory.textures,
+        geometries: renderer.renderer.info.memory.geometries,
         entityCount: api.hooks.entities?.all().length ?? 0,
         // Lives here and NOT in `getState`. `tools/play-game.ts` diffs state snapshots between
         // actions, and a per-frame particle count in that object would report a difference on every
@@ -354,6 +364,20 @@ export function installGameDebug(deps: DebugDeps): void {
 
     getErrors(): RecordedError[] {
       return deps.errors.map((entry) => ({ ...entry }));
+    },
+    setMovementDetourDiagnostics(enabled: boolean): void {
+      deps.setMovementDetourDiagnostics?.(enabled);
+    },
+    getMovementDetourDiagnostics(): unknown {
+      return deps.movementDetourDiagnostics?.() ?? null;
+    },
+
+    getFoliageOcclusion(): unknown {
+      return deps.foliageOcclusion?.() ?? null;
+    },
+
+    setFoliageOcclusionEnabled(enabled: boolean): void {
+      deps.setFoliageOcclusionEnabled?.(enabled);
     },
 
     getAudioState(): unknown {
@@ -481,13 +505,46 @@ export function installGameDebug(deps: DebugDeps): void {
       return nav.listRouteNodes();
     },
 
-    /**
-     * Counts what is actually in the scene graph, by group and by name prefix.
-     *
-     * Added because three separate "why can I not see X" investigations were each reduced to
-     * guessing from a screenshot. A render bug is either "the object was never created" or "the
-     * object exists and is invisible", and those need completely different fixes.
-     */
+    /** Measure actual GPU submissions in one frame, including its shadow pass. */
+    getRenderProfile(namePrefix?: string): unknown {
+      const gpu = renderer.renderer;
+      const original = gpu.renderBufferDirect;
+      const rows = new Map<string, { name: string; pass: string; calls: number; triangles: number }>();
+      gpu.renderBufferDirect = function (camera, scene, geometry, material, object, group) {
+        const calls = gpu.info.render.calls;
+        const triangles = gpu.info.render.triangles;
+        original.call(this, camera, scene, geometry, material, object, group);
+        const submitted = gpu.info.render.calls - calls;
+        if (!submitted) return;
+        const name = object.name || object.parent?.name || object.type;
+        const pass = camera === renderer.camera ? "colour" : "shadow";
+        const key = `${pass}:${name}`;
+        const row = rows.get(key) ?? { name, pass, calls: 0, triangles: 0 };
+        row.calls += submitted;
+        row.triangles += gpu.info.render.triangles - triangles;
+        rows.set(key, row);
+      };
+      try {
+        renderer.camera.updateMatrixWorld();
+        renderer.prepareScene?.(renderer.camera);
+        gpu.render(renderer.scene, renderer.camera);
+      } finally {
+        gpu.renderBufferDirect = original;
+      }
+      const draws = [...rows.values()].sort((a, b) => b.triangles - a.triangles);
+      return {
+        calls: draws.reduce((sum, row) => sum + row.calls, 0),
+        triangles: draws.reduce((sum, row) => sum + row.triangles, 0),
+        passes: Object.fromEntries(["colour", "shadow"].map((pass) => {
+          const submitted = draws.filter((row) => row.pass === pass);
+          return [pass, { calls: submitted.reduce((sum, row) => sum + row.calls, 0), triangles: submitted.reduce((sum, row) => sum + row.triangles, 0) }];
+        })),
+        textures: gpu.info.memory.textures,
+        draws: namePrefix ? draws.filter((row) => row.name.startsWith(namePrefix)) : draws.slice(0, 40),
+      };
+    },
+
+    /** Scene graph inventory, including objects culled from the current render. */
     getSceneStats(): Record<string, unknown> {
       const counts: Record<string, number> = {};
       const hidden: Record<string, number> = {};
@@ -652,6 +709,13 @@ export function installGameDebug(deps: DebugDeps): void {
       return { available: true, regions: deps.scatterStats() };
     },
 
+    getScatterResidency(): unknown {
+      return deps.scatterResidency?.() ?? null;
+    },
+    getScatterVisibility(): unknown {
+      return deps.scatterVisibility?.() ?? null;
+    },
+
     getPlayerMotion(): unknown {
       return deps.playerMotion?.() ?? null;
     },
@@ -666,6 +730,12 @@ export function installGameDebug(deps: DebugDeps): void {
 
     sampleWorld(x: number, z: number): unknown {
       return deps.worldSample?.(x, z) ?? null;
+    },
+
+    probeWorldClearance(options: { x: number; z: number; radius: number; y?: number }): unknown {
+      if (![options.x, options.z, options.radius].every(Number.isFinite) || options.radius <= 0
+        || (options.y !== undefined && !Number.isFinite(options.y))) throw new Error("A clearance probe needs finite coordinates and a positive radius.");
+      return deps.worldClearance?.(options) ?? null;
     },
 
     captureWorldMapTile(options: {
@@ -718,11 +788,12 @@ export function installGameDebug(deps: DebugDeps): void {
 
     /** Orbit an arbitrary world point. Structure audits need poses no route node offers. */
     inspectPose(pose: {
-      x: number; y: number; z: number; yaw?: number; pitch?: number; distance?: number;
+      x: number; y: number; z: number; yaw?: number; pitch?: number; distance?: number; detached?: boolean;
     }): boolean {
       return deps.inspectPose(
         [Number(pose.x), Number(pose.y), Number(pose.z)],
         Number(pose.yaw ?? 0), Number(pose.pitch ?? 0.35), Number(pose.distance ?? 14),
+        pose.detached === true,
       );
     },
 

@@ -9,9 +9,7 @@
  * (+2.56 m), an NPC (+1.38 m), an enemy (+3.40 m), a tree trunk (+1.04 m) and 13.86 m across a
  * pond floor was all reproducible in one session.
  *
- * Deliberately NOT a physics character controller. `systems/physics.ts` states the reason and it
- * still holds: a Rapier rigid body would be a second source of truth for the player's position,
- * and the two disagree within a minute of play. This is pure geometry over the volume list the
+ * Navigation owns the player's position. This is pure geometry over the volume list the
  * world layer produces — no stepping, no RNG, no state of its own. The navmesh stays authoritative
  * for where the player may stand; this clamps the step that gets there.
  *

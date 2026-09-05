@@ -303,6 +303,8 @@ export interface SemanticEntity {
   position: Vec3;
   /** Archetype-specific, e.g. "available" | "depleted" | "alive" | "dead". */
   state: string;
+  /** Reachable working position when the visible target is inaccessible, such as a fish school. */
+  interactionPosition?: Vec3;
   requirements?: Partial<Record<SkillId, number>>;
   interactions: InteractionId[];
   resource?: { remaining: number; maxYields: number; respawnSeconds: number; itemId: ItemId };
@@ -494,7 +496,9 @@ export interface ObservedEntity {
   tier: number;
   regionId: RegionId;
   position: Vec3;
-  /** Path distance in metres, not straight line. */
+  /** Working position, when different from the visible model. */
+  interactionPosition?: Vec3;
+  /** Path distance to the working position in metres. */
   distance: number;
   /**
    * The route-graph place this row stands at, when it is one.
@@ -945,6 +949,8 @@ export interface SpellbookView {
 export interface ShopView {
   shopId: EntityId;
   stock: { itemId: ItemId; name: string; buyPrice: number; sellPrice: number; quantity: number }[];
+  /** Authoritative per-unit quotes for carried items, including goods absent from shop stock. */
+  sellPrices: Record<ItemId, number>;
   currency: number;
 }
 
@@ -1082,6 +1088,8 @@ export interface FeatureLabState {
     destinationEntityId: EntityId | null;
   };
   selectedEntityId: EntityId | null;
+  /** Opt-in production foliage/resource comparison yard, absent in ordinary lab fixtures. */
+  presentation?: FeatureLabPresentationView;
   structure: FeatureLabStructureView;
   bank: {
     entityId: EntityId;
@@ -1132,6 +1140,12 @@ export interface FeatureLabState {
     spellLaunched: number;
   };
   errors: string[];
+}
+
+export interface FeatureLabPresentationView {
+  enabled: boolean;
+  resourceEntityIds: EntityId[];
+  scatterInstances: number;
 }
 
 /** Browser/control surface for setup only; ordinary play still goes through real pointer input. */

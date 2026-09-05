@@ -11,13 +11,15 @@
  * from the answer, so a panel opened by a key, by a world interaction, or by another panel all
  * light the same button.
  */
+import { createUiIcon, type UiIconName } from "./icons.js";
+
 export interface DockEntry {
   id: string;
   label: string;
   /** The key that toggles it, as the player should read it. */
   key: string;
-  /** Two or three characters. Item art does not exist yet; a letterform is honest and legible. */
-  glyph: string;
+  /** An authored line icon; the visible label carries the panel's name. */
+  icon: UiIconName;
   toggle(): void;
   isOpen(): boolean;
   /** Optional badge, e.g. the number of active quests. Empty string hides it. */
@@ -52,14 +54,16 @@ export class PanelDock {
 
       const glyph = document.createElement("span");
       glyph.className = "dock__glyph";
-      glyph.textContent = entry.glyph;
+      glyph.setAttribute("aria-hidden", "true");
+      glyph.appendChild(createUiIcon(entry.icon));
 
       const label = document.createElement("span");
       label.className = "dock__label";
       label.textContent = entry.label;
 
-      const key = document.createElement("span");
+      const key = document.createElement("kbd");
       key.className = "dock__key";
+      key.setAttribute("aria-hidden", "true");
       key.textContent = entry.key.toUpperCase();
 
       const badge = document.createElement("span");

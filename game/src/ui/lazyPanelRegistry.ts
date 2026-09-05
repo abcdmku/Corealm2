@@ -9,6 +9,16 @@
 import type { EntityId, FeatureLabApi, ItemId, SkillId } from "../contracts.js";
 import type { KeyBindingRegistry, Unregister } from "../input/keyboard.js";
 import type { ManagedPanel, PanelHandle, UiContext } from "./panels.js";
+import type { SettingsStore } from "./settings.js";
+import type { SaveRecoveryControls } from "./titleScreen.js";
+import { panelInteraction } from "./panelInteraction.js";
+
+const pendingPanels = new WeakMap<KeyBindingRegistry, Set<{ cancelPending(): void }>>();
+
+/** A title transition cancels unfinished requests without closing panels already on screen. */
+export function cancelPendingPanelOpens(registry: KeyBindingRegistry): void {
+  for (const panel of pendingPanels.get(registry) ?? []) panel.cancelPending();
+}
 
 export interface LazyPanelOptions<T extends ManagedPanel> {
   readonly id: string;
@@ -28,11 +38,19 @@ export class LazyPanel<T extends ManagedPanel> implements ManagedPanel {
   private loading: Promise<T | null> | null = null;
   private mountTarget: HTMLElement | null = null;
   private desiredOpen: boolean | null = null;
+  private openGeneration: number | null = null;
+  private popPendingEscape: Unregister | null = null;
   private actionGeneration = 0;
   private disposed = false;
   private readonly unregister: Unregister | null;
 
   constructor(private readonly options: LazyPanelOptions<T>) {
+    let panels = pendingPanels.get(options.registry);
+    if (!panels) {
+      panels = new Set();
+      pendingPanels.set(options.registry, panels);
+    }
+    panels.add(this);
     this.frame = {
       mount: (parent) => { this.mount(parent); },
       isOpen: () => this.isOpen(),
@@ -76,12 +94,18 @@ export class LazyPanel<T extends ManagedPanel> implements ManagedPanel {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
-    this.actionGeneration += 1;
-    this.desiredOpen = false;
+    this.cancelPending();
+    pendingPanels.get(this.options.registry)?.delete(this);
     this.panel?.dispose();
     this.panel = null;
     this.unregister?.();
     this.mountTarget = null;
+  }
+
+  cancelPending(): void {
+    this.actionGeneration += 1;
+    this.desiredOpen = false;
+    this.clearPendingOpen();
   }
 
   private mount(parent: HTMLElement): void {
@@ -101,14 +125,26 @@ export class LazyPanel<T extends ManagedPanel> implements ManagedPanel {
       this.panel.frame.open();
       return;
     }
+    this.clearPendingOpen();
     this.desiredOpen = true;
+    this.openGeneration = ++panelInteraction.generation;
+    this.popPendingEscape = this.options.registry.pushEscapeHandler(() => {
+      const current = this.openGeneration === panelInteraction.generation;
+      this.close();
+      return current;
+    });
     void this.ensureLoaded();
   }
 
   private close(): void {
-    this.actionGeneration += 1;
-    this.desiredOpen = false;
+    this.cancelPending();
     this.panel?.frame.close();
+  }
+
+  private clearPendingOpen(): void {
+    this.openGeneration = null;
+    this.popPendingEscape?.();
+    this.popPendingEscape = null;
   }
 
   private toggle(): void {
@@ -127,11 +163,14 @@ export class LazyPanel<T extends ManagedPanel> implements ManagedPanel {
       }
       this.panel = panel;
       if (this.mountTarget) panel.frame.mount(this.mountTarget);
-      if (this.desiredOpen === true) panel.frame.open();
+      const mayOpen = this.desiredOpen === true && this.openGeneration === panelInteraction.generation;
+      this.clearPendingOpen();
+      if (mayOpen) panel.frame.open();
       else if (this.desiredOpen === false) panel.frame.close();
       this.desiredOpen = null;
       return panel;
     }).catch((error: unknown) => {
+      this.clearPendingOpen();
       this.desiredOpen = null;
       this.options.onError?.(error);
       return null;
@@ -168,6 +207,11 @@ export interface DialoguePanelHandle extends ManagedPanel {
 export async function loadInventoryPanel(context: UiContext): Promise<ManagedPanel> {
   const { InventoryPanel } = await import("./inventoryPanel.js");
   return new InventoryPanel(context);
+}
+
+export async function loadProductionPanel(context: UiContext): Promise<ProductionPanelHandle> {
+  const { ProductionPanel } = await import("./productionPanel.js");
+  return new ProductionPanel(context);
 }
 
 export async function loadSkillGuidePanel(context: UiContext): Promise<SkillGuidePanelHandle> {
@@ -236,6 +280,13 @@ export async function loadDialoguePanel(context: UiContext): Promise<DialoguePan
 export async function loadControlsPanel(context: UiContext): Promise<ManagedPanel> {
   const { ControlsPanel } = await import("./controlsPanel.js");
   return new ControlsPanel(context);
+}
+
+export async function loadSettingsPanel(
+  context: UiContext, settings: SettingsStore, onClose: () => void, saveRecovery?: SaveRecoveryControls,
+): Promise<ManagedPanel> {
+  const { SettingsPanel } = await import("./settingsPanel.js");
+  return new SettingsPanel(context, settings, onClose, saveRecovery);
 }
 
 export async function loadMapPanel(context: UiContext): Promise<ManagedPanel> {

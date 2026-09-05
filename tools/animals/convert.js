@@ -33,6 +33,244 @@ const CM_TO_M = 0.01;
  */
 const SOURCE_FPS = 30;
 
+// CONTACT_GAIT_HELPERS_START
+// Self-contained Three.js helpers. The Node calibration tool evaluates this exact block,
+// so imported source metadata and shipped-GLB metadata use the same contact calculation.
+function legacyContactProfile(root, assetId = "") {
+  const has = name => Boolean(root.getObjectByName(name));
+  const groups = [];
+  const paired = names => names.filter(has).map(name => [name]);
+  if (has("Chicken_l_Toe_01_03SHJnt")) {
+    for (const side of ["l", "r"]) groups.push(["01", "02", "03"].map(toe => `Chicken_${side}_Toe_${toe}_03SHJnt`).filter(has));
+  } else if (has("CATRigLArmPalm")) {
+    groups.push(...paired(["CATRigLArmPalm", "CATRigRArmPalm", "CATRigLLegDigit11", "CATRigRLegDigit11"]));
+  } else if (has("toes_01l") && has("toes_01r")) {
+    groups.push(["toes_01l"], ["toes_01r"]);
+  } else if (has("Scorpion_l_FrontLeg_ToeSHJnt")) {
+    groups.push(...paired(["l", "r"].flatMap(side => ["FrontLeg", "MidFrontLeg", "MidBackLeg", "BackLeg"].map(leg => `Scorpion_${side}_${leg}_ToeSHJnt`))));
+  } else {
+    for (const prefix of ["Cow", "Goat", "WildRabbit", "Deer", "Wolf", "Bear", "WildBoar", "Ibex"]) {
+      if (!has(`${prefix}_l_FrontLeg_BallSHJnt`)) continue;
+      // Distal unweighted toe helpers can curl beneath the actual sole during rollover.
+      // These reviewed ball anchors were cross-checked against the skinned foot surface.
+      groups.push(...paired(["l", "r"].flatMap(side => ["FrontLeg", "HindLeg"].map(leg => `${prefix}_${side}_${leg}_BallSHJnt`))));
+      break;
+    }
+  }
+  if (!groups.length && /(?:^|_)hog(?:_|$)/i.test(assetId)) groups.push(...paired(["Bone027", "Bone027(mirrored)", "Bone033", "Bone033(mirrored)"]));
+  if (!groups.length && /(?:^|_)rat(?:_|$)/i.test(assetId)) groups.push(...paired(["Bone029", "Bone029(mirrored)", "Bone034", "Bone034(mirrored)"]));
+  if (!groups.length && /(?:^|_)frog(?:_|$)/i.test(assetId)) groups.push(...paired(["Bone017", "Bone017(mirrored)", "Bone013(mirrored)", "Bone013(mirrored)(mirrored)"]));
+  return { groups, axis: "z", direction: 1, heightM: /frog/i.test(assetId) ? .003 : /scorpion/i.test(assetId) ? .003 : .01 };
+}
+
+function measureProxyContactGait(root, clip, options = {}) {
+  if (!clip || !Number.isFinite(clip.duration) || clip.duration <= 0) return { speedMps: null, reason: "missing-clip", feet: [] };
+  const profile = { ...legacyContactProfile(root, options.assetId), ...options };
+  const groups = profile.groups.filter(group => group.length);
+  if (!groups.length) return { speedMps: null, reason: "no-reviewed-ground-contact-points", feet: [] };
+  const count = profile.samples ?? 1920, axis = profile.axis ?? "z", direction = profile.direction ?? 1;
+  if (!Number.isInteger(count) || count < 120 || count > 7680 || !["x", "z"].includes(axis)
+    || ![1, -1].includes(direction) || !Number.isFinite(profile.heightM) || profile.heightM <= 0) throw new Error("Invalid contact sampling profile");
+  const median = values => { if (!values.length) return null; const sorted = [...values].sort((a, b) => a - b); const middle = Math.floor(sorted.length / 2); return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2; };
+  const percentile = (values, fraction) => { if (!values.length) return null; const sorted = [...values].sort((a, b) => a - b); return sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * fraction))]; };
+  const saved = [];
+  root.traverse(node => saved.push({ node, position: node.position.clone(), quaternion: node.quaternion.clone(), scale: node.scale.clone(),
+    matrix: node.matrix.clone(), matrixWorld: node.matrixWorld.clone(), matrixWorldNeedsUpdate: node.matrixWorldNeedsUpdate,
+    bindMatrix: node.isSkinnedMesh ? node.bindMatrix.clone() : null, bindMatrixInverse: node.isSkinnedMesh ? node.bindMatrixInverse.clone() : null,
+    morphTargetInfluences: node.morphTargetInfluences?.slice() }));
+  const nodes = [...new Set(groups.flat())].map(name => {
+    const node = root.getObjectByName(name);
+    if (!node) throw new Error(`Missing reviewed contact node ${name}`);
+    return { node, positions: [] };
+  });
+  const mixer = new THREE.AnimationMixer(root), action = mixer.clipAction(clip);
+  action.setLoop(THREE.LoopOnce, 1); action.clampWhenFinished = true; action.play();
+  const dt = clip.duration / count, position = new THREE.Vector3();
+  try {
+    for (let index = 0; index <= count; index++) {
+      mixer.setTime(index * dt); root.updateMatrixWorld(true);
+      for (const row of nodes) {
+        row.node.getWorldPosition(position);
+        if (![position.x, position.y, position.z].every(Number.isFinite)) throw new Error(`Non-finite contact ${row.node.name}`);
+        row.positions.push({ x: position.x, y: position.y, z: position.z });
+      }
+    }
+  } finally {
+    mixer.stopAllAction(); mixer.uncacheRoot(root);
+    for (const pose of saved) {
+      const node = pose.node;
+      node.position.copy(pose.position); node.quaternion.copy(pose.quaternion); node.scale.copy(pose.scale);
+      node.matrix.copy(pose.matrix); node.matrixWorld.copy(pose.matrixWorld); node.matrixWorldNeedsUpdate = pose.matrixWorldNeedsUpdate;
+      if (pose.bindMatrix) { node.bindMatrix.copy(pose.bindMatrix); node.bindMatrixInverse.copy(pose.bindMatrixInverse); }
+      if (pose.morphTargetInfluences) for (let index = 0; index < pose.morphTargetInfluences.length; index++) node.morphTargetInfluences[index] = pose.morphTargetInfluences[index];
+    }
+  }
+  const contacts = nodes.map(({ node, positions }) => {
+    const minY = Math.min(...positions.map(p => p.y)), maxY = Math.max(...positions.map(p => p.y));
+    const speeds = [], lateral = [], phases = [];
+    for (let index = 1; index <= count; index++) {
+      const a = positions[index - 1], b = positions[index];
+      if (Math.max(a.y, b.y) > minY + profile.heightM) continue;
+      const speed = -direction * (b[axis] - a[axis]) / dt;
+      if (speed <= 1e-5) continue;
+      speeds.push(speed); lateral.push(Math.abs(b[axis === "z" ? "x" : "z"] - a[axis === "z" ? "x" : "z"]) / dt); phases.push((index - .5) / count);
+    }
+    return { bone: node.name, minY, maxY, samples: speeds.length, medianMps: median(speeds), p10Mps: percentile(speeds, .1), p90Mps: percentile(speeds, .9), lateralMedianMps: median(lateral), phases, speeds };
+  });
+  // One vote per physical foot: three toes must not outweigh another animal's one hoof.
+  const feet = groups.map(names => {
+    const rows = contacts.filter(row => names.includes(row.bone));
+    const speeds = rows.flatMap(row => row.speeds);
+    return { bones: names, samples: speeds.length, medianMps: median(speeds), p10Mps: percentile(speeds, .1), p90Mps: percentile(speeds, .9) };
+  });
+  const accepted = feet.filter(foot => foot.samples >= 8 && foot.medianMps > 0);
+  const speedMps = accepted.length === feet.length ? median(accepted.map(foot => foot.medianMps)) : null;
+  return { speedMps, reason: speedMps === null ? "insufficient-contact-samples" : null,
+    method: "bone-proxy-backward-contact-velocity", duration: clip.duration, sampleCount: count, axis, direction, heightM: profile.heightM,
+    feet, contacts: contacts.map(({ speeds, ...row }) => row) };
+}
+
+function legacyPhysicalContactProfile(root, assetId = "") {
+  const known = { animal_chicken: "Chicken", animal_chicken_speckled: "Chicken", animal_cattle: "Cow", animal_aurochs: "Cow", animal_goat: "Goat", animal_rabbit: "WildRabbit", animal_rabbit_dark: "WildRabbit", animal_deer: "Deer", animal_coyote: "Wolf", animal_bear: "Bear", animal_boar: "WildBoar", animal_ibex: "Ibex", animal_hog: "hog", animal_rat: "rat" };
+  let type = known[assetId];
+  if (!type) {
+    if (root.getObjectByName("Chicken_l_Toe_01_03SHJnt")) type = "Chicken";
+    else type = ["Cow", "Goat", "WildRabbit", "Deer", "Wolf", "Bear", "WildBoar", "Ibex"].find(prefix => root.getObjectByName(`${prefix}_l_FrontLeg_BallSHJnt`));
+  }
+  if (!type) return null;
+  const names = new Map();
+  const expectedFeet = type === "Chicken" ? ["l", "r"] : ["l_FrontLeg", "l_HindLeg", "r_FrontLeg", "r_HindLeg"];
+  if (type === "hog" || type === "rat") {
+    expectedFeet.splice(0, expectedFeet.length, "negativeX_front", "negativeX_hind", "positiveX_front", "positiveX_hind");
+    const front = type === "hog" ? [25, 26, 27] : [27, 28, 29], hind = type === "hog" ? [31, 32, 33] : [32, 33, 34];
+    for (const suffix of ["", "(mirrored)"]) for (const [end, chain] of [["front", front], ["hind", hind]]) {
+      for (const number of chain) names.set(`Bone${String(number).padStart(3, "0")}${suffix}`.replace(/[^\w]/g, ""), `${suffix ? "positiveX" : "negativeX"}_${end}`);
+    }
+  }
+  return { type, expectedFeet, names, soleBandM: type === "hog" ? .008 : type === "rat" ? .002 : .005 };
+}
+
+function measurePhysicalContactGait(root, clip, options, profile) {
+  const count = options.samples ?? 1920, axis = options.axis ?? "z", direction = options.direction ?? 1;
+  const requestedHeightM = options.heightM ?? .01, heightM = Math.min(.01, requestedHeightM);
+  if (!Number.isInteger(count) || count < 120 || count > 7680 || !["x", "z"].includes(axis)
+    || ![1, -1].includes(direction) || !Number.isFinite(requestedHeightM) || heightM <= 0) throw new Error("Invalid contact sampling profile");
+  const median = values => { if (!values.length) return null; const sorted = [...values].sort((a, b) => a - b); const middle = Math.floor(sorted.length / 2); return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2; };
+  const percentile = (values, fraction) => { if (!values.length) return null; const sorted = [...values].sort((a, b) => a - b); return sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * fraction))]; };
+  const base = { method: "physical-sole-backward-contact-velocity", duration: clip.duration, sampleCount: count, axis, direction, heightM,
+    physicalContact: true, metadataAloneProvesPlanting: false };
+  const saved = [];
+  root.traverse(node => saved.push({ node, position: node.position.clone(), quaternion: node.quaternion.clone(), scale: node.scale.clone(),
+    matrix: node.matrix.clone(), matrixWorld: node.matrixWorld.clone(), matrixWorldNeedsUpdate: node.matrixWorldNeedsUpdate,
+    bindMatrix: node.isSkinnedMesh ? node.bindMatrix.clone() : null, bindMatrixInverse: node.isSkinnedMesh ? node.bindMatrixInverse.clone() : null,
+    morphTargetInfluences: node.morphTargetInfluences?.slice() }));
+  let mixer;
+  try {
+    root.updateMatrixWorld(true);
+    const candidates = new Map(), point = new THREE.Vector3();
+    root.traverse(mesh => {
+      if (!mesh.isSkinnedMesh) return;
+      const positions = mesh.geometry.getAttribute("position"), joints = mesh.geometry.getAttribute("skinIndex"), weights = mesh.geometry.getAttribute("skinWeight");
+      if (!positions || !joints || !weights) return;
+      for (let index = 0; index < positions.count; index++) {
+        const groupWeights = new Map(), groupBones = new Map();
+        for (let influence = 0; influence < weights.itemSize; influence++) {
+          const bone = mesh.skeleton.bones[joints.getComponent(index, influence)];
+          if (!bone) throw new Error("Invalid skin joint while measuring physical contact");
+          const name = bone.name;
+          const match = profile.type === "Chicken" ? /^Chicken_([lr])_(?:Toe|Leg_Ankle)/.exec(name) : /_(l|r)_(FrontLeg|HindLeg)_(?:Ankle|Ball|Toe)/.exec(name);
+          const unnamed = profile.names.get(name.replace(/[^\w]/g, ""));
+          if (!match && !unnamed) continue;
+          const foot = unnamed ?? (profile.type === "Chicken" ? match[1] : `${match[1]}_${match[2]}`);
+          const weight = weights.getComponent(index, influence);
+          groupWeights.set(foot, (groupWeights.get(foot) ?? 0) + weight);
+          if (weight > 0) { const names = groupBones.get(foot) ?? new Set(); names.add(name); groupBones.set(foot, names); }
+        }
+        const best = [...groupWeights.entries()].sort((a, b) => b[1] - a[1])[0];
+        if (!best || best[1] < .5) continue;
+        mesh.getVertexPosition(index, point).applyMatrix4(mesh.matrixWorld);
+        if (![point.x, point.y, point.z].every(Number.isFinite)) throw new Error("Non-finite physical rest sole");
+        const group = candidates.get(best[0]) ?? [];
+        group.push({ mesh, index, rest: point.toArray(), positions: [], bones: [...groupBones.get(best[0])] });
+        candidates.set(best[0], group);
+      }
+    });
+    const groups = [...candidates].map(([foot, vertices]) => {
+      const floorY = Math.min(...vertices.map(vertex => vertex.rest[1]));
+      const low = vertices.filter(vertex => vertex.rest[1] <= floorY + profile.soleBandM);
+      const cells = new Map();
+      for (const vertex of low) {
+        const key = `${Math.round(vertex.rest[0] / .004)}:${Math.round(vertex.rest[2] / .004)}`;
+        if (!cells.has(key) || cells.get(key).rest[1] > vertex.rest[1]) cells.set(key, vertex);
+      }
+      return { foot, floorY, vertices: [...cells.values()] };
+    });
+    const missingFeet = profile.expectedFeet.filter(foot => !groups.some(group => group.foot === foot && group.vertices.length));
+    if (missingFeet.length || groups.length !== profile.expectedFeet.length) return { ...base, speedMps: null, reason: "missing-reviewed-physical-foot-group", missingFeet, feet: [], cadenceQualityFlags: ["missingPhysicalContact"], inconsistentSourceContacts: true };
+    mixer = new THREE.AnimationMixer(root);
+    const action = mixer.clipAction(clip).setLoop(THREE.LoopOnce, 1); action.clampWhenFinished = true; action.play();
+    for (let index = 0; index <= count; index++) {
+      mixer.setTime(index * clip.duration / count); root.updateMatrixWorld(true);
+      for (const group of groups) for (const vertex of group.vertices) {
+        vertex.mesh.getVertexPosition(vertex.index, point).applyMatrix4(vertex.mesh.matrixWorld);
+        if (![point.x, point.y, point.z].every(Number.isFinite)) throw new Error("Non-finite animated physical sole");
+        vertex.positions.push(point.toArray());
+      }
+    }
+    const dt = clip.duration / count, forwardIndex = axis === "z" ? 2 : 0;
+    const feet = groups.map(group => {
+      const phaseSpeeds = Array.from({ length: count }, () => []), vertical = [];
+      let minY = Infinity, maxY = -Infinity, belowFloorSamples = 0;
+      for (const vertex of group.vertices) {
+        for (let index = 1; index < vertex.positions.length; index++) {
+          const a = vertex.positions[index - 1], b = vertex.positions[index];
+          minY = Math.min(minY, a[1], b[1]); maxY = Math.max(maxY, a[1], b[1]);
+          const backward = -direction * (b[forwardIndex] - a[forwardIndex]) / dt, vy = Math.abs((b[1] - a[1]) / dt);
+          if (b[1] < group.floorY - .010) belowFloorSamples++;
+          if (backward <= 1e-6 || vy > .1 * backward + .01 || Math.abs(a[1] - group.floorY) > heightM || Math.abs(b[1] - group.floorY) > heightM) continue;
+          phaseSpeeds[index - 1].push(backward); vertical.push(vy);
+        }
+      }
+      const speeds = phaseSpeeds.flatMap(values => values.length ? [median(values)] : []);
+      const p10Mps = percentile(speeds, .1), p90Mps = percentile(speeds, .9);
+      return { foot: group.foot, bones: [...new Set(group.vertices.flatMap(vertex => vertex.bones))].sort(), samples: speeds.length,
+        medianMps: median(speeds), p10Mps, p90Mps, selectedSoleVertices: group.vertices.length, restFloorY: group.floorY, minY, maxY,
+        belowRestFloor10mmVertexSamples: belowFloorSamples, totalVertexSamples: group.vertices.length * count,
+        verticalMedianMps: median(vertical), sparseContact: speeds.length < count * .1,
+        stanceVelocityVaries: p10Mps === null || p90Mps === null || p90Mps / Math.max(p10Mps, 1e-6) > 1.25 };
+    });
+    const accepted = feet.filter(foot => foot.samples >= 8 && foot.medianMps > 0);
+    const speedMps = accepted.length === feet.length ? median(accepted.map(foot => foot.medianMps)) : null;
+    const rates = accepted.map(foot => foot.medianMps);
+    const maxToMinFootMedianRatio = rates.length ? Math.max(...rates) / Math.min(...rates) : null;
+    const physicalFootMediansDisagree = accepted.length !== feet.length || maxToMinFootMedianRatio > 1.1;
+    const cadenceQualityFlags = [...(physicalFootMediansDisagree ? ["physicalFootMediansDisagree"] : []), ...(feet.some(foot => foot.stanceVelocityVaries) ? ["velocityVariesWithinStance"] : []), ...(feet.some(foot => foot.sparseContact) ? ["sparsePhysicalContact"] : [])];
+    return { ...base, speedMps, reason: speedMps === null ? "insufficient-physical-contact-samples" : null, feet,
+      maxToMinFootMedianRatio, physicalFootMediansDisagree, cadenceQualityFlags, inconsistentSourceContacts: cadenceQualityFlags.length > 0,
+      contactMask: "Per-foot rest sole plane +/-10mm maximum; positive backward speed; abs(vertical)<=0.1*backward+0.01m/s",
+      aggregation: "Median contact vertex velocity per physical foot phase, median across phases, equal median vote per foot" };
+  } finally {
+    if (mixer) { mixer.stopAllAction(); mixer.uncacheRoot(root); }
+    for (const pose of saved) {
+      const node = pose.node;
+      node.position.copy(pose.position); node.quaternion.copy(pose.quaternion); node.scale.copy(pose.scale);
+      node.matrix.copy(pose.matrix); node.matrixWorld.copy(pose.matrixWorld); node.matrixWorldNeedsUpdate = pose.matrixWorldNeedsUpdate;
+      if (pose.bindMatrix) { node.bindMatrix.copy(pose.bindMatrix); node.bindMatrixInverse.copy(pose.bindMatrixInverse); }
+      if (pose.morphTargetInfluences) for (let index = 0; index < pose.morphTargetInfluences.length; index++) node.morphTargetInfluences[index] = pose.morphTargetInfluences[index];
+    }
+  }
+}
+
+function measureContactGait(root, clip, options = {}) {
+  if (!clip || !Number.isFinite(clip.duration) || clip.duration <= 0) return { speedMps: null, reason: "missing-clip", feet: [] };
+  // Explicit groups preserve synthetic tests and reviewed exotic/boss proxy profiles.
+  if (options.groups !== undefined) return measureProxyContactGait(root, clip, options);
+  const physical = legacyPhysicalContactProfile(root, options.assetId);
+  if (physical) return measurePhysicalContactGait(root, clip, options, physical);
+  return measureProxyContactGait(root, clip, options);
+}
+// CONTACT_GAIT_HELPERS_END
+
 function boxOf(object) {
   const box = new THREE.Box3();
   object.updateWorldMatrix(true, true);
@@ -136,103 +374,6 @@ function closeLoop(clip, fps) {
   return Math.max(seamFrames, 1);
 }
 
-/**
- * Builds a real attack for an animal the pack never animated one for.
- *
- * Ten of these rigs ship no attack clip. Substituting the nearest authored motion was the first
- * attempt and it was simply wrong: a deer and a chicken "attacked" by lowering their heads and
- * feeding at the ground, and the frog attacked by hopping a metre and a half away. None of those
- * are an animal striking at something in front of it.
- *
- * So the strike is authored here instead. The body keeps a short slice of its own idle, so the
- * stance and any breathing motion stay the animal's own, and the ROOT bone drives a lunge: forward
- * along +Z, nose pitching down into the blow, then back. That reads as a peck, a butt, a bite or a
- * claw rush depending on whose body is on top of it, which is exactly the range needed.
- *
- * +Z is forward for the whole pack, measured rather than assumed: the chicken, deer and rabbit put
- * their neck and jaw bones at positive Z, and the frog's baked hop travels +134.7 on Z.
- *
- * `reach` is a fraction of the animal's own body length, so one number suits a 0.25 m crab and a
- * 1.7 m stag. It is DELIBERATELY small - around a tenth of the body - because the simulation is
- * already closing the distance. A strike is the weight shifting onto the front foot, not the
- * animal covering ground; anything larger reads as a pounce and fights the movement system.
- */
-function synthesiseAttack(rootBone, idleClip, sizeZ, options) {
-  const reach = sizeZ * (options.reach ?? 0.25);
-  const dip = THREE.MathUtils.degToRad(options.dip ?? 14);
-  const seconds = (options.ms ?? 560) / 1000;
-  // strike lands at 30% of the clip, recovery fills the rest
-  const strike = seconds * 0.3;
-  const hold = seconds * 0.42;
-
-  // Body: whichever clip was handed in, cut to the attack's length so nothing is frozen or
-  // bind-posed. Bones with no track in the played clip fall back to bind pose, which snaps the
-  // whole body. For an animal with no attack that source is its idle; for one whose authored attack
-  // is real but too small to read - the coyote bites with its jaw and never moves its body - it is
-  // that attack, and the lunge is layered on top of the animator's work rather than replacing it.
-  const base = THREE.AnimationUtils.subclip(
-    idleClip, "Attack", 0, Math.max(2, Math.round(seconds * SOURCE_FPS)), SOURCE_FPS,
-  );
-  const tracks = base.tracks.filter((track) => track.name.split(".")[0] !== rootBone.name);
-
-  const times = [0, strike, hold, seconds];
-  const drive = [0, 1, 0.85, 0];
-
-  // The chain from the root toward the head: at each step take the child that sits furthest
-  // forward. That traces spine to neck to skull and ignores legs, which is the difference between
-  // an animal throwing its head at you and a rigid body tipping over.
-  const chain = [];
-  let node = rootBone;
-  while (node) {
-    chain.push(node);
-    let next = null;
-    let furthest = -Infinity;
-    for (const child of node.children) {
-      if (!child.isBone) continue;
-      const z = child.getWorldPosition(new THREE.Vector3()).z;
-      if (z > furthest) { furthest = z; next = child; }
-    }
-    if (!next || furthest <= node.getWorldPosition(new THREE.Vector3()).z) break;
-    node = next;
-  }
-
-  // Graded down the chain so the body arcs instead of rotating as one piece. The root barely
-  // turns and carries the travel; the head does most of the angle and arrives last.
-  for (let i = 0; i < chain.length; i += 1) {
-    const bone = chain[i];
-    // Weighted toward the far end of the chain. The root contributes almost nothing to the angle
-    // and carries the travel instead; the head does the strike. An even share across the chain is
-    // what made this read as the whole animal tipping over.
-    const t = chain.length === 1 ? 1 : i / (chain.length - 1);
-    const share = 0.08 + 0.92 * t * t;
-    const restQuat = bone.quaternion.clone();
-    const quats = [];
-    for (const amount of drive) {
-      const pitch = new THREE.Quaternion().setFromAxisAngle(
-        new THREE.Vector3(1, 0, 0), dip * share * amount,
-      );
-      const q = restQuat.clone().multiply(pitch);
-      quats.push(q.x, q.y, q.z, q.w);
-    }
-    const existing = tracks.findIndex((t) => t.name === `${bone.name}.quaternion`);
-    const track = new THREE.QuaternionKeyframeTrack(`${bone.name}.quaternion`, times, quats);
-    if (existing >= 0) tracks.splice(existing, 1, track);
-    else tracks.push(track);
-  }
-
-  const rest = rootBone.position;
-  const positions = [];
-  for (const amount of drive) {
-    positions.push(rest.x, rest.y, rest.z + reach * amount);
-  }
-  const posIndex = tracks.findIndex((t) => t.name === `${rootBone.name}.position`);
-  const posTrack = new THREE.VectorKeyframeTrack(`${rootBone.name}.position`, times, positions);
-  if (posIndex >= 0) tracks.splice(posIndex, 1, posTrack);
-  else tracks.push(posTrack);
-
-  return new THREE.AnimationClip("Attack", seconds, tracks);
-}
-
 async function loadTexture(url, { linear = false } = {}) {
   // Linear and sRGB reads of one file are different textures to the exporter, so they cache apart.
   const key = linear ? `linear:${url}` : url;
@@ -242,7 +383,9 @@ async function loadTexture(url, { linear = false } = {}) {
       // Normal maps are vector data, not colour: run them through the sRGB transfer curve and
       // every surface acquires a subtle skew toward its own tangent.
       texture.colorSpace = linear ? THREE.NoColorSpace : THREE.SRGBColorSpace;
-      texture.flipY = false;
+      // FBX uses the source atlas orientation. GLTFExporter bakes this flip into its image.
+      // Forcing false assigned white belly/eye texels to bear legs and split the neck atlas.
+      texture.flipY = true;
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
       return texture;
@@ -425,16 +568,23 @@ window.convertAnimal = async (spec) => {
     // failure that makes an enemy stand in bind pose through a whole fight.
     const targets = trackTargets(clip);
     const missing = targets.filter((t) => !rigNodes.has(t));
-    // Root motion is baked into the clips. The game drives position from the sim, so a clip that
-    // also translates the root fights it and the animal skates.
+    // Navigation owns horizontal root travel. Preserve vertical compression and airtime: deleting
+    // the whole position track removes the frog's hop height and drives its feet underground.
     //
     // Matched by BONE IDENTITY, not by name. This was a `MAINSHJnt|ROOTSHJnt|_root|Hips` regex,
     // which covers the named rigs and misses every `_exp` one, whose root is called `Bone001` or
     // `Bone002`. The frog's hop carries 134.7 units of root travel - 1.35 m - and none of it was
     // being stripped, so the frog physically leapt across the ground on every step and every swing.
     if (spec.stripRootMotion !== false && rootBoneName) {
-      clip.tracks = clip.tracks.filter((track) => !/\.position$/.test(track.name)
-        || track.name.split(".")[0] !== rootBoneName);
+      clip.tracks = clip.tracks.map((track) => {
+        if (!/\.position$/.test(track.name) || track.name.split(".")[0] !== rootBoneName) return track;
+        const inPlace = track.clone();
+        for (let i = 0; i < inPlace.values.length; i += 3) {
+          inPlace.values[i] = rootBone.position.x;
+          inPlace.values[i + 2] = rootBone.position.z;
+        }
+        return inPlace;
+      });
     }
     // Drop channels that cannot move a single vertex.
     //
@@ -459,21 +609,6 @@ window.convertAnimal = async (spec) => {
     });
   }
 
-  // Replace the substitute attack with an authored lunge, where the pack gave us nothing to use.
-  if (spec.synthAttack && rootBone) {
-    const baseName = spec.synthAttack.base === "Attack" ? "Attack" : "Idle";
-    const idle = clips.find((clip) => clip.name === baseName);
-    if (idle) {
-      const measured = boxOf(root).getSize(new THREE.Vector3());
-      const attack = synthesiseAttack(rootBone, idle, measured.z, spec.synthAttack);
-      const existing = clips.findIndex((clip) => clip.name === "Attack");
-      if (existing >= 0) clips.splice(existing, 1, attack);
-      else clips.push(attack);
-      const report = clipReport.find((row) => row.name === "Attack");
-      if (report) { report.synthesised = true; report.duration = attack.duration; }
-    }
-  }
-
   // Centimetres -> metres.
   //
   // Deliberately a node scale rather than a bake. Baking it into the geometry and the skeleton was
@@ -485,6 +620,7 @@ window.convertAnimal = async (spec) => {
   // (`render/entityViews.ts` pose bake) was fixed instead.
   root.scale.setScalar(CM_TO_M * (spec.extraScale ?? 1));
   root.updateMatrixWorld(true);
+  root.userData.fbxTextureOrientation = "source-correct";
 
   // What ground speed each locomotion cycle looks like it is travelling at, so the runtime can play
   // it at the rate that keeps the feet planted. Measured from the feet because these cycles are
@@ -495,52 +631,11 @@ window.convertAnimal = async (spec) => {
   // the runtime picks between them by whether the creature is pottering or pursuing, so it needs a
   // speed for each. Measuring only the walk and reusing it for the run was not a simplification —
   // it is what let a gallop be played as a walk for the whole roster.
-  const impliedMpsFor = (clipName) => {
-    const clip = clips.find((entry) => entry.name === clipName);
-    if (!clip || clip.duration <= 0) return 0;
-    const mixer = new THREE.AnimationMixer(root);
-    mixer.clipAction(clip).play();
-    // FEET ONLY. The widest-swinging bone in a gallop is not always a foot: a stag's antler tip and
-    // a coyote's tail sweep further than either hind leg, and taking those as the stride overstates
-    // it and asks for too slow a playback rate. Restricting to bones that sit in the bottom quarter
-    // of the animal in its rest pose keeps ankles and hooves and drops everything carried high.
-    const bones = [];
-    root.traverse((node) => { if (node.isBone) bones.push(node); });
-    root.updateMatrixWorld(true);
-    const restY = new Map();
-    let lowest = Infinity;
-    let highest = -Infinity;
-    for (const bone of bones) {
-      const y = bone.getWorldPosition(new THREE.Vector3()).y;
-      restY.set(bone.name, y);
-      lowest = Math.min(lowest, y);
-      highest = Math.max(highest, y);
-    }
-    const footCeiling = lowest + (highest - lowest) * 0.25;
-    const feet = bones.filter((bone) => restY.get(bone.name) <= footCeiling);
-    const sampled = feet.length > 0 ? feet : bones;
-
-    const lo = new Map();
-    const hi = new Map();
-    const SAMPLES = 24;
-    for (let i = 0; i < SAMPLES; i += 1) {
-      mixer.setTime((clip.duration * i) / SAMPLES);
-      root.updateMatrixWorld(true);
-      for (const bone of sampled) {
-        const z = bone.getWorldPosition(new THREE.Vector3()).z;
-        lo.set(bone.name, Math.min(lo.get(bone.name) ?? z, z));
-        hi.set(bone.name, Math.max(hi.get(bone.name) ?? z, z));
-      }
-    }
-    let stride = 0;
-    for (const [bone, low] of lo) stride = Math.max(stride, hi.get(bone) - low);
-    // Bone world positions here are ALREADY metres: this runs after the root has been scaled, so
-    // applying CM_TO_M again would divide the answer by a hundred.
-    mixer.stopAllAction();
-    return stride / clip.duration;
-  };
-  const impliedWalkMps = impliedMpsFor("Walk");
-  const impliedRunMps = impliedMpsFor("Run");
+  const gaitMeasurements = Object.fromEntries(["Walk", "Run"].map(name => [name,
+    measureContactGait(root, clips.find(clip => clip.name === name), { assetId: spec.id }),
+  ]));
+  const impliedWalkMps = gaitMeasurements.Walk.speedMps ?? 0;
+  const impliedRunMps = gaitMeasurements.Run.speedMps ?? 0;
 
   const box = boxOf(root);
   const size = box.getSize(new THREE.Vector3());
@@ -569,21 +664,11 @@ window.convertAnimal = async (spec) => {
     clips: clipReport,
     impliedWalkMps,
     impliedRunMps,
+    gaitMeasurements,
   };
 };
 
-/**
- * Measures the ground speed a locomotion clip actually implies, in metres per second.
- *
- * These cycles are authored IN PLACE - measured, every rig but the frog has zero root travel - so
- * the stride is not in the root track and has to be read off the feet. Sampling the skeleton
- * through the clip and taking the largest horizontal range of any bone finds whichever foot swings
- * furthest, and that peak-to-peak distance IS the stride: one full forward-and-back per cycle.
- *
- * `stride / duration` is then the speed the animation looks like it is travelling at. Divided into
- * the speed the simulation actually moves the enemy, it gives the playback rate that puts the feet
- * back on the ground.
- */
+/** Read backward contact velocity; excursion divided by a whole cycle is not a planted speed. */
 window.probeStride = async (rigUrl, clipUrl, frames, name, take) => {
   const rig = await fbxLoader.loadAsync(rigUrl);
   const source = await fbxLoader.loadAsync(clipUrl);
@@ -602,39 +687,12 @@ window.probeStride = async (rigUrl, clipUrl, frames, name, take) => {
       clip = THREE.AnimationUtils.subclip(clip, name || "probe", frames[0], frames[1], SOURCE_FPS);
     }
   }
-  const mixer = new THREE.AnimationMixer(rig);
-  mixer.clipAction(clip).play();
+  rig.scale.setScalar(CM_TO_M);
+  rig.updateMatrixWorld(true);
+  const result = measureContactGait(rig, clip, { assetId: name ?? "" });
+  return { ...result, duration: clip.duration, impliedMps: result.speedMps ?? 0,
+    strideM: (result.speedMps ?? 0) * clip.duration, strideDefinition: "equivalent-native-cycle-travel" };
 
-  const bones = [];
-  rig.traverse((node) => { if (node.isBone) bones.push(node); });
-  const min = new Map();
-  const max = new Map();
-  const SAMPLES = 24;
-  for (let i = 0; i < SAMPLES; i += 1) {
-    mixer.setTime((clip.duration * i) / SAMPLES);
-    rig.updateMatrixWorld(true);
-    for (const bone of bones) {
-      const p = bone.getWorldPosition(new THREE.Vector3());
-      const lo = min.get(bone.name);
-      const hi = max.get(bone.name);
-      min.set(bone.name, lo === undefined ? p.z : Math.min(lo, p.z));
-      max.set(bone.name, hi === undefined ? p.z : Math.max(hi, p.z));
-    }
-  }
-  let stride = 0;
-  let strideBone = "";
-  for (const [bone, lo] of min) {
-    const range = max.get(bone) - lo;
-    if (range > stride) { stride = range; strideBone = bone; }
-  }
-  // Source units are centimetres.
-  const strideM = stride * CM_TO_M;
-  return {
-    bone: strideBone,
-    strideM,
-    duration: clip.duration,
-    impliedMps: clip.duration > 0 ? strideM / clip.duration : 0,
-  };
 };
 
 /**

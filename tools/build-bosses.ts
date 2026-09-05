@@ -66,7 +66,9 @@ interface ManifestAsset {
   materials: string[];
   sha256: string;
   impliedWalkMps?: number;
+  impliedRunMps?: number;
   walkClipSeconds?: number;
+  runClipSeconds?: number;
 }
 
 function round(value: number): number {
@@ -113,8 +115,8 @@ async function optimize(document: Document): Promise<void> {
  * same two numbers, and `tests/creature-gait.test.ts` checks the result, so this is a build input
  * rather than a diagnostic.
  */
-function walkClipSeconds(document: Document): number | undefined {
-  const walk = document.getRoot().listAnimations().find((entry) => /^walk/i.test(entry.getName()));
+function walkClipSeconds(document: Document, name = "Walk"): number | undefined {
+  const walk = document.getRoot().listAnimations().find((entry) => entry.getName().toLowerCase() === name.toLowerCase());
   if (!walk) return undefined;
   let duration = 0;
   for (const sampler of walk.listSamplers()) {
@@ -183,6 +185,7 @@ async function main(): Promise<void> {
           base64: string; bytes: number; size: number[]; base: number[];
           meshNames: string[];
           impliedWalkMps: number;
+          impliedRunMps: number;
           clips: { name: string; ok: boolean; reason?: string; missing?: string[]; sealed?: boolean; seam?: number }[];
         }> }).convertAnimal(payload),
         {
@@ -242,6 +245,12 @@ async function main(): Promise<void> {
         ...(result.impliedWalkMps > 0.02
           ? { impliedWalkMps: Math.round(result.impliedWalkMps * 100) / 100 }
           : {}),
+        ...(result.impliedRunMps > 0.02
+          ? { impliedRunMps: Math.round(result.impliedRunMps * 100) / 100 }
+          : {}),
+        ...(walkClipSeconds(document, "Run") === undefined
+          ? {}
+          : { runClipSeconds: walkClipSeconds(document, "Run") }),
       });
 
       const dims = `${(bounds.max[0] - bounds.min[0]).toFixed(2)} x ${(bounds.max[1] - bounds.min[1]).toFixed(2)} x ${(bounds.max[2] - bounds.min[2]).toFixed(2)} m`;

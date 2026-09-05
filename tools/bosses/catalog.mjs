@@ -1,18 +1,7 @@
 /**
- * Which elemental boss becomes which asset, and which source clip answers which motion.
- *
- * CLIP NAMING IS LOAD-BEARING, exactly as in `tools/animals/catalog.mjs`. `render/entityViews.ts`
- * picks an asset's clips by regex: idle matches /^idle/i, walk /^walk/i, attack /^bite/i or
- * /attack/i, death /^death/i. The pack spells death "Dead", which matches nothing, so it is renamed
- * here or the boss dies by continuing to stand there.
- *
- * WALK IS THE RUN CYCLE, for the same reason the animals' is. `systems/enemyAI.ts` only moves an
- * enemy while pursuing (3.1 m/s) or returning (3.6 m/s); nothing wanders. A 0.9 m/s walk cycle
- * under a body moving at 3.4 would slide two and a half metres of foot every second.
- *
- * NOTHING IS SUBSTITUTED OR SYNTHESISED. Unlike ten of the animals, this rig ships a real Attack
- * and a real Dead, so there is no `synthAttack` here and no `substitutes` to declare. The clips it
- * does not use — Eats, Get_Hit, shout — have nowhere to go: the renderer knows four motions.
+ * Source rhino animation catalogue. Walk and Run remain separate gaits; Get_Hit is a real clip.
+ * tools/rebuild-creature-motion.ts additionally resolves duplicate FBX spine names by source node
+ * identity. Its staged output must pass the feature lab before promotion to production assets.
  */
 
 /**
@@ -58,7 +47,7 @@ export const BOSSES = [
     extraScale: RHINO_EXTRA_SCALE,
     is: "roc",
     tags: ["boss", "roc", "tempest", "air", "wind", "elemental", "monster", "territorial"],
-    clips: [["Rhino@Idle", "Idle"], ["Rhino@Run", "Walk"], ["Rhino@Attack", "Attack"], ["Rhino@Dead", "Death"]],
+    clips: [["Rhino@Idle", "Idle"], ["Rhino@Walk", "Walk"], ["Rhino@Run", "Run"], ["Rhino@Attack", "Attack"], ["Rhino@Get_Hit", "Hit"], ["Rhino@Dead", "Death"]],
     emissiveIntensity: 1.35,
   },
   {
@@ -66,7 +55,7 @@ export const BOSSES = [
     extraScale: RHINO_EXTRA_SCALE,
     is: "rootheart",
     tags: ["boss", "rootheart", "earth", "stone", "elemental", "monster", "territorial"],
-    clips: [["Rhino@Idle", "Idle"], ["Rhino@Run", "Walk"], ["Rhino@Attack", "Attack"], ["Rhino@Dead", "Death"]],
+    clips: [["Rhino@Idle", "Idle"], ["Rhino@Walk", "Walk"], ["Rhino@Run", "Run"], ["Rhino@Attack", "Attack"], ["Rhino@Get_Hit", "Hit"], ["Rhino@Dead", "Death"]],
     emissiveIntensity: 1.5,
   },
   {
@@ -74,7 +63,7 @@ export const BOSSES = [
     extraScale: RHINO_EXTRA_SCALE,
     is: "quarrykeeper",
     tags: ["boss", "quarrykeeper", "ordrun", "water", "ice", "elemental", "monster", "territorial"],
-    clips: [["Rhino@Idle", "Idle"], ["Rhino@Run", "Walk"], ["Rhino@Attack", "Attack"], ["Rhino@Dead", "Death"]],
+    clips: [["Rhino@Idle", "Idle"], ["Rhino@Walk", "Walk"], ["Rhino@Run", "Run"], ["Rhino@Attack", "Attack"], ["Rhino@Get_Hit", "Hit"], ["Rhino@Dead", "Death"]],
     emissiveIntensity: 1.2,
   },
 ];

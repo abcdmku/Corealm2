@@ -1,3 +1,4 @@
+import { PanelFrame } from "./panelFrame.js";
 /**
  * The conversation window.
  *
@@ -46,7 +47,7 @@
 import type { DialogueView } from "../contracts.js";
 import type { Unregister } from "../input/keyboard.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import { PanelFrame, report } from "./panels.js";
+import { report } from "./panels.js";
 
 /**
  * One line of the transcript. `you` turns are the reply the player chose to leave a node, which is

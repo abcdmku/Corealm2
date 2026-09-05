@@ -1,5 +1,9 @@
 import { readFileSync } from "node:fs";
+import { NodeIO } from "@gltf-transform/core";
+import { KHRONOS_EXTENSIONS } from "@gltf-transform/extensions";
+import { getBounds } from "@gltf-transform/functions";
 import { describe, expect, it } from "vitest";
+import { buildGravelmawMouthComposition } from "../game/src/render/compositions/gravelmawMouth.js";
 import {
   BUILDING_KITS,
   COMPOSITION_IDS,
@@ -150,5 +154,99 @@ describe("isolated structure constructors", () => {
       .map((part) => part.dz)).toEqual([-2, 4]);
     expect(assets).not.toContain("floor_brick");
     expect(assets.some((assetId) => assetId.startsWith("crop_"))).toBe(false);
+  });
+
+  it("keeps native Gravelmaw mouth rocks grounded and clear across all variants", async () => {
+    const io = new NodeIO().registerExtensions(KHRONOS_EXTENSIONS);
+    const measured = new Map<string, { min: number[]; max: number[] }>();
+    for (const id of ["corealm_rock_strata_1", "corealm_rock_strata_2"]) {
+      const entry = manifest.assets.find(asset => asset.id === id) as { id: string; file: string } | undefined;
+      expect(entry, `native geology asset ${id}`).toBeDefined();
+      const bytes = readFileSync(new URL(`../game/public/assets/${entry!.file}`, import.meta.url));
+      const document = await io.readBinary(new Uint8Array(bytes));
+      const bounds = getBounds(document.getRoot().listScenes()[0]!);
+      expect([...bounds.min, ...bounds.max].every(Number.isFinite)).toBe(true);
+      measured.set(id, { min: [...bounds.min], max: [...bounds.max] });
+    }
+    // Transform the actual GLB bounds, including its pivot, rather than treating authored
+    // placement coordinates as geometric centres. No rounded manifest dimensions are used.
+    const worldBounds = (part: PartPlacement) => {
+      const source = measured.get(part.assetId)!;
+      const min = [Infinity, Infinity, Infinity];
+      const max = [-Infinity, -Infinity, -Infinity];
+      const c = Math.cos(part.rotationY); const s = Math.sin(part.rotationY);
+      for (const x of [source.min[0]!, source.max[0]!]) {
+        for (const y of [source.min[1]!, source.max[1]!]) {
+          for (const z of [source.min[2]!, source.max[2]!]) {
+            const point = [
+              part.dx + part.scale * (c * x + s * z),
+              part.dy + part.scale * y,
+              part.dz + part.scale * (-s * x + c * z),
+            ];
+            for (let axis = 0; axis < 3; axis++) {
+              min[axis] = Math.min(min[axis]!, point[axis]!);
+              max[axis] = Math.max(max[axis]!, point[axis]!);
+            }
+          }
+        }
+      }
+      return { min, max };
+    };
+    const expectedTags = [
+      "masonry_l", "masonry_r", "threshold", "approach_stone", "brazier_l", "brazier_r",
+      "jaw_l", "jaw_r", "shoulder_l", "shoulder_r", "rear_l", "rear_r", "lip_l", "lip_r",
+    ].sort();
+    const thresholds = [[2.2, 0.58], [2.24, 0.62], [2.18, 0.56], [2.26, 0.6]] as const;
+    const paths = [2.55, 2.48, 2.62, 2.52] as const;
+    const variants = new Set<string>();
+    for (let seed = 0; seed < 4; seed++) for (const kitId of KIT_IDS) {
+      const kit = BUILDING_KITS[kitId];
+      const parts = buildGravelmawMouthComposition(seed, kit);
+      const label = `mouth variant ${seed}, kit ${kitId}`;
+      expect(parts.map(part => part.tag).sort(), label).toEqual(expectedTags);
+      expect(parts.some(part => part.tag.startsWith("crown_")), label).toBe(false);
+      const byTag = new Map(parts.map(part => [part.tag, part]));
+      for (const side of [-1, 1]) {
+        expect(byTag.get(`masonry_${side < 0 ? "l" : "r"}`), label).toEqual({
+          tag: `masonry_${side < 0 ? "l" : "r"}`, assetId: kit.gatePier,
+          dx: side * 3.12, dy: -0.04, dz: 0.14, rotationY: 0, scale: 1.04,
+        });
+      }
+      expect(byTag.get("threshold"), label).toEqual({
+        tag: "threshold", assetId: "kerb_straight", dx: 0, dy: -0.035,
+        dz: thresholds[seed]![1], rotationY: 0, scale: thresholds[seed]![0],
+      });
+      expect(byTag.get("approach_stone"), label).toMatchObject({
+        assetId: "floor_brick", dx: 0, dz: paths[seed], rotationY: 0, scale: 2.2,
+      });
+      expect(byTag.get("approach_stone")!.dy).toBeCloseTo(-0.01, 10);
+      const rocks = parts.filter(part => /^(jaw|shoulder|rear|lip)_[lr]$/.test(part.tag));
+      expect(rocks, label).toHaveLength(8);
+      variants.add(JSON.stringify(rocks));
+      for (const rock of rocks) {
+        expect(rock.assetId, `${label}, ${rock.tag}`).toBe(rock.tag.startsWith("jaw_")
+          ? "corealm_rock_strata_1" : "corealm_rock_strata_2");
+        expect(rock.scaleAxes, `${label}, uniform scale for ${rock.tag}`).toBeUndefined();
+        expect(rock.scale).toBeGreaterThan(0);
+        const box = worldBounds(rock);
+        expect([...box.min, ...box.max].every(Number.isFinite)).toBe(true);
+        if (rock.tag.endsWith("_l")) expect(box.max[0]!, `${label}, ${rock.tag} clear walk channel`).toBeLessThanOrEqual(-1.7);
+        else expect(box.min[0]!, `${label}, ${rock.tag} clear walk channel`).toBeGreaterThanOrEqual(1.7);
+        if (!rock.tag.startsWith("shoulder_")) {
+          expect(box.min[1]!, `${label}, buried foot of ${rock.tag}`).toBeLessThan(0);
+          expect(box.max[1]!, `${label}, exposed stone of ${rock.tag}`).toBeGreaterThan(0);
+        }
+        if (rock.tag.startsWith("lip_")) expect(box.max[2]!, `${label}, terrace lip ${rock.tag}`).toBeLessThanOrEqual(6);
+      }
+      for (const side of ["l", "r"]) {
+        const jaw = worldBounds(byTag.get(`jaw_${side}`)!);
+        const shoulder = worldBounds(byTag.get(`shoulder_${side}`)!);
+        for (let axis = 0; axis < 3; axis++) {
+          const overlap = Math.min(jaw.max[axis]!, shoulder.max[axis]!) - Math.max(jaw.min[axis]!, shoulder.min[axis]!);
+          expect(overlap, `${label}, ${side} jaw supports shoulder on axis ${axis}`).toBeGreaterThan(0);
+        }
+      }
+    }
+    expect(variants.size).toBe(4);
   });
 });

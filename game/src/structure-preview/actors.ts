@@ -13,7 +13,8 @@ import {
   type SpellRung,
   type Vec3,
 } from "../contracts.js";
-import { content } from "../content/index.js";
+import { content, enemyCombatLevel } from "../content/index.js";
+import { enemyBlockFor } from "../content/enemies.js";
 import { ALL_ITEMS } from "../content/items.js";
 import { SPELLS } from "../content/spells.js";
 import { REGIONS } from "../content/regions.js";
@@ -72,7 +73,7 @@ export const CREATURE_PRESETS: readonly ActorPreset[] = REGIONS.flatMap((region)
   ];
   return sources.map(({ group, regionId, dungeonName }) => ({
     id: dungeonName ? `${regionId}:${group.id}` : group.id,
-    label: `${group.name} (tier ${group.tier})${dungeonName ? ` - ${dungeonName}` : ""}`,
+    label: `${group.name}${enemyBlockFor(group.id, group.family, group.tier) ? ` (Level ${enemyCombatLevel(enemyBlockFor(group.id, group.family, group.tier)!)})` : ""}${dungeonName ? ` - ${dungeonName}` : ""}`,
     kind: "creature" as const,
     assetId: group.assetId,
     tier: group.tier,
@@ -102,7 +103,7 @@ export const LAB_EQUIPMENT: readonly {
   label: titleCaseIdentifier(slot),
   items: ALL_ITEMS
     .filter((item) => item.equip?.slot === slot)
-    .map((item) => ({ id: item.id, label: `${item.name} (tier ${item.tier})` })),
+    .map((item) => ({ id: item.id, label: item.name })),
 }));
 
 /** Skill controls in the frozen contract order, labelled by the production skill catalog. */
@@ -178,6 +179,7 @@ export class ActorLab {
   private pendingMeleeHit = false;
   private lastAction: ActorLabState["lastAction"] = null;
   private ready = false;
+  private gearRegistered = false;
   private errors: string[] = [];
   private pending: PendingAction[] = [];
 
@@ -217,7 +219,10 @@ export class ActorLab {
     this.ready = false;
     this.errors = [];
     try {
-      if (!this.assets.isLoaded("proc_staff_worn")) registerProceduralGear(this.assets);
+      if (!this.gearRegistered) {
+        registerProceduralGear(this.assets);
+        this.gearRegistered = true;
+      }
       await this.assets.loadAnimationLibraries();
       const built = await this.player.build({
         bodyAssetId: "base_male",

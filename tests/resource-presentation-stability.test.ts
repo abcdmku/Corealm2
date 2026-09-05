@@ -1,7 +1,6 @@
-import { createHash } from "node:crypto";
-import { describe, expect, it } from "vitest";
-import { REGIONS, type ResourceClusterDef } from "../game/src/content/regions.js";
-import { variantSeed } from "../game/src/render/buildings.js";
+import { describe, expect, it, vi } from "vitest";
+import { REGIONS } from "../game/src/content/regions.js";
+import * as worldSites from "../game/src/content/worldSites.js";
 import { buildWorld, type BuiltWorld } from "../game/src/world/regionBuilder.js";
 
 const SEED = 12_345;
@@ -11,80 +10,78 @@ function resourceEntities(world: BuiltWorld) {
   return world.entities.filter((entity) => entity.resource);
 }
 
-function expectedRotation(entityId: string): number {
-  const unit = variantSeed(`${entityId}:rotation`) / 0x1_0000_0000;
-  return Math.round(unit * Math.PI * 2 * 100) / 100;
-}
-
-function rotations(world: BuiltWorld, ids: ReadonlySet<string>): Map<string, number | undefined> {
-  return new Map(resourceEntities(world)
-    .filter((entity) => ids.has(entity.id))
-    .map((entity) => [entity.id, entity.view?.rotationY]));
-}
-
-function placementAndYieldFingerprint(world: BuiltWorld): string {
-  const rows = resourceEntities(world).map((entity) => ({
-    id: entity.id,
-    position: entity.position,
-    maxYields: entity.resource?.maxYields ?? null,
+function gatheringState(world: BuiltWorld) {
+  return resourceEntities(world).map((entity) => ({
+    id: entity.id, resource: entity.resource, requirements: entity.requirements,
+    interactions: entity.interactions, state: entity.state,
   }));
-  return createHash("sha256").update(JSON.stringify(rows)).digest("hex");
 }
 
 describe("resource presentation stability", () => {
-  it("derives gathering rotation from stable node ids", () => {
-    const baseline = buildWorld(SEED, FLAT_GROUND);
-    const baselineEntities = resourceEntities(baseline);
-    const baselineIds = new Set(baselineEntities.map((entity) => entity.id));
+  it("retains every declared resource ID and its initial yield state in deterministic replay", () => {
+    const first = resourceEntities(buildWorld(SEED, FLAT_GROUND));
+    const replay = resourceEntities(buildWorld(SEED, FLAT_GROUND));
+    const expectedIds = REGIONS.flatMap((region) => region.clusters.flatMap((cluster) =>
+      Array.from({ length: cluster.count }, (_, index) => `${cluster.id}_${index + 1}`)));
 
-    expect(baselineEntities.some((entity) => entity.resource)).toBe(true);
-    for (const entity of baselineEntities) {
-      expect(entity.view?.rotationY, entity.id).toBe(expectedRotation(entity.id));
-    }
-
-    const region = REGIONS.find((candidate) => candidate.id === "fallowmarch");
-    expect(region).toBeDefined();
-    const originalClusters = [...region!.clusters];
-    const source = originalClusters[0]!;
-    const extra = (id: string, centre: readonly [number, number]): ResourceClusterDef => ({
-      ...source,
-      id,
-      centre,
-      count: 1,
-      radius: 1,
-    });
-
-    try {
-      region!.clusters.splice(
-        0,
-        region!.clusters.length,
-        extra("test_resource_prefix", [-210, 110]),
-        ...originalClusters,
-        extra("test_resource_suffix", [-205, 105]),
-      );
-      const withSurroundingClusters = buildWorld(SEED, FLAT_GROUND);
-
-      expect(rotations(withSurroundingClusters, baselineIds)).toEqual(rotations(baseline, baselineIds));
-      expect(resourceEntities(withSurroundingClusters)
-        .filter((entity) => baselineIds.has(entity.id))
-        .map((entity) => entity.position))
-        .not.toEqual(baselineEntities.map((entity) => entity.position));
-    } finally {
-      region!.clusters.splice(0, region!.clusters.length, ...originalClusters);
+    expect(first.map((entity) => entity.id).sort()).toEqual(expectedIds.sort());
+    expect(replay).toEqual(first);
+    for (const entity of first) {
+      expect(entity.resource!.remaining, entity.id).toBe(entity.resource!.maxYields);
+      expect(entity.resource!.maxYields, entity.id).toBeGreaterThan(0);
     }
   });
 
-  // `buildWorld` draws every region from ONE `world` stream, and enemy groups draw from it between
-  // one region's clusters and the next region's. So this hash moves whenever a group's `count`
-  // changes, even though no resource was touched: swapping the monster roster for animals changed
-  // Vellenwood and Karrowmoor yields while Fallowmarch, which is built before the first changed
-  // group, stayed byte-identical. Node ids and the node count are the invariant here; when
-  // this hash moves, check those first, and only rebaseline once they have not.
-  it("keeps the authored placement and yield stream aligned", () => {
-    // Rebaselined after restoring the decorative Marchfield homestead and expanding its animal
-    // groups. The farm plots remain retired; the animal counts advance the shared world stream.
-    expect(placementAndYieldFingerprint(buildWorld(SEED, FLAT_GROUND))).toBe(
-      "0a723a29fbb1a704d0a5ae90254969f577bdd9148a1aa4b1eac860464429ff8a",
-    );
+  it("builds resource positions and facing from authored slots independently of the world seed", () => {
+    const first = new Map(resourceEntities(buildWorld(SEED, FLAT_GROUND)).map((entity) => [entity.id, entity]));
+    const otherSeed = new Map(resourceEntities(buildWorld(SEED + 1, FLAT_GROUND)).map((entity) => [entity.id, entity]));
+    for (const site of worldSites.WORLD_SITES) {
+      for (const slot of site.resourceSlots) {
+        const id = `${slot.clusterId}_${slot.index}`;
+        const entity = first.get(id)!;
+        const other = otherSeed.get(id)!;
+        expect(entity, id).toBeDefined();
+        const [x, z] = worldSites.worldSitePoint(site, slot.x, slot.z);
+        expect(entity.position[0], id).toBeCloseTo(x, 2);
+        expect(entity.position[2], id).toBeCloseTo(z, 2);
+        expect(entity.view!.rotationY, id).toBeCloseTo(site.rotationY + slot.yaw, 10);
+        expect(entity.meta?.worldSiteId, id).toBe(site.id);
+        expect(other.position, id).toEqual(entity.position);
+        expect(other.view!.rotationY, id).toBe(entity.view!.rotationY);
+      }
+    }
+    expect([...otherSeed.values()].map((entity) => entity.resource!.maxYields))
+      .not.toEqual([...first.values()].map((entity) => entity.resource!.maxYields));
+  });
+
+  it("lets an art edit move and turn a site without rerolling resources or disturbing other nodes", () => {
+    const baseline = buildWorld(SEED, FLAT_GROUND);
+    const originalLookup = worldSites.worldSiteResourceSlot;
+    const lookup = vi.spyOn(worldSites, "worldSiteResourceSlot").mockImplementation((clusterId, index) => {
+      const authored = originalLookup(clusterId, index);
+      if (!authored) return null;
+      return {
+        site: { ...authored.site, centre: [authored.site.centre[0] + 11, authored.site.centre[1] - 7],
+          rotationY: authored.site.rotationY + 0.7 },
+        slot: { ...authored.slot, yaw: authored.slot.yaw + 0.2, scale: authored.slot.scale * 1.1 },
+      };
+    });
+    try {
+      const edited = buildWorld(SEED, FLAT_GROUND);
+      expect(gatheringState(edited)).toEqual(gatheringState(baseline));
+      const originalEntities = new Map(resourceEntities(baseline).map((entity) => [entity.id, entity]));
+      for (const entity of resourceEntities(edited)) {
+        const original = originalEntities.get(entity.id)!;
+        if (entity.meta?.worldSiteId) {
+          expect(entity.position, entity.id).not.toEqual(original.position);
+          expect(entity.view!.rotationY! - original.view!.rotationY!, entity.id).toBeCloseTo(0.9, 10);
+          expect(entity.view!.scale! / original.view!.scale!, entity.id).toBeCloseTo(1.1, 10);
+        } else {
+          expect(entity, entity.id).toEqual(original);
+        }
+      }
+    } finally {
+      lookup.mockRestore();
+    }
   });
 });

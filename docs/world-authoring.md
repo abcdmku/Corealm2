@@ -15,14 +15,18 @@ Keep the exception narrow. Build reusable structures, foliage assets, materials,
   the root changes the contract and all callers together.
 - `game/src/content/regions.ts` owns semantic regions, locations, settlements, resource clusters, and
   interactable content. Its coordinates drive quests, navigation, and player region state.
+- `game/src/content/worldSites.ts` owns local mine, grove and fishery layouts. Resource slots retain
+  their cluster/index IDs while site transforms place veins, trees and fishing access meaningfully.
 - `game/src/app/worldSpec.ts` is the authored Corealm terrain and visual-field configuration. It is
   root-owned and frozen while workers are changing world details.
 - `game/src/world/organicFields.ts` owns reusable deterministic math, including biome, coast, and
   lake-shape sampling. `game/src/world/waterBodies.ts` owns lake profile dimensions.
 - `game/src/app/worldSurface.ts` turns authored roads, paving, and fishing clusters into surface
   stamps and water work. `game/src/render/scene.ts` owns terrain sampling, rendering, and wind.
-- `game/src/world/scatter.ts` owns non-interactable dressing. Grass, trees, flowers, ferns, and loose
-  stones belong here. A tree that can be chopped does not.
+- `game/src/world/scatter.ts` owns deterministic vegetation and dressing placement, including the
+  stable descriptors for ordinary harvestable forest trees within playable bounds.
+- `game/src/world/forestResources.ts` promotes nearby tree descriptors into normal gathering entities.
+  `forestObstacles.ts` handles resident trunk collision without rebuilding the island navmesh.
 
 Give concurrent agents distinct files. Do not change `contracts.ts` or `worldSpec.ts` to make a local
 task easier.
@@ -95,6 +99,22 @@ remain authored independently.
 Roads, paving, and waterlogged banks are stamped into the ground surface. Keep their placement on the
 same sampled surface rather than laying duplicate geometry over it.
 
+## Resource sites
+
+Use `WORLD_SITES`, its resource slots and the shared site transform to place a mine or grove. Existing
+resource IDs, resource definitions and saved yields survive a presentation/layout change. Ore belongs
+in a worked geological face with a dry, reachable work floor and an approach connected to the world.
+Do not scatter isolated ore boulders onto an empty field or duplicate a mine's shape in another sampler.
+
+The environment lab's `showSite()` and `showCutFace()` isolate production dressing, ore, extraction
+states, collision and local mining. Accept those before integrating the face with authored terrain.
+Then inspect the full site's relief, work floor, seam orientation, approach, navigation and depleted
+state. The world exception covers that spatial integration; it does not waive the reusable asset gate.
+
+Fishery slots must reference the solved production basin. Use dry casting positions for navigation
+and keep fish below the actual water surface. The dry environment gallery cannot prove fishing;
+`fishing=1` supplies the compact water fixture described in [the lab workflow](./feature-lab.md).
+
 ## Foliage and scatter recipes
 
 `DEFAULT_SCATTER` uses a simple 1.95 budget scale to keep density steady while the visual island is
@@ -107,12 +127,52 @@ Do not add a special coast-only copy when a normal biome recipe can cover the su
 carry smaller, sparser mesh dressing. Keep flowers, ferns, stones, and broad plants from inheriting
 the grass field's density. Road and water-bank layers follow `getRoadPolylines()` and solved water
 contours. The visual biome lobes use global authored and water exclusions, so landmarks and lakes stay
-readable without bringing back a rectangular cutoff. The scatter envelope and sampled surface are
-visual only, outside physics, navigation, and click terrain. Register gameplay footprints through
-`worldExclusions` and use a fade instead of a hard settlement circle.
+readable without bringing back a rectangular cutoff. The extended coastal collar remains visual only,
+outside physics, navigation and click terrain. Within playable bounds, ordinary oak and pine scatter
+also supplies harvestable forest descriptors. Register gameplay footprints through `worldExclusions`
+and use a fade instead of a hard settlement circle.
 
 After a scatter change, inspect `getScatterStats()`: the expected layers must place instances, missing
 assets must stay empty, and density increases must fit the available triangle and draw-call budget.
+
+### Harvestable forest trees
+
+Most ordinary visible trees within playable bounds should be harvestable. Keep distant trees in the
+production scatter path; do not allocate a permanent semantic entity or animated rig for every
+tree. Each accepted tree candidate has a stable ID derived before display aliases, mesh batching or
+render submission, plus its resource species, final uniform scale, grounded position, yaw and measured
+trunk radius. Never use a changing GPU slot index as its saved identity.
+
+`ForestResources` activates nearby descriptors within 35 m and releases available, unpinned trees
+beyond 50 m. Interaction targets remain pinned. Saved depleted trees retain their stump and suppress
+the original scatter instance, including after a streamed tile is rebuilt. Returning to the area must
+not grow a tree before its resource timer expires. Promotion/demotion must preserve the exact trunk
+origin, scale, yaw, solid collision and detailed source geometry; only one tree representation is visible.
+
+The resource definition supplies species-specific items, tier requirements and respawn timing. A
+stable tree ID determines the base yield within that definition's range; final drawn scale adjusts it
+with a factor clamped from 0.65 to 1.5. Saved `remaining` and `maxYields` take precedence when reactivated.
+Changing the model or batching must not reroll an existing tree's contents.
+
+Prove one real click through navigation, normal tool checks, inventory receipts and natural depletion
+in `forest=1`. Save the depleted state, leave beyond the residency boundary, return and reload it, then
+prove normal respawn at the same origin. State/bounds checks require stump and tree screenshots too.
+Finally repeat representative interactions in the authored forest, including trunk avoidance and a
+distant return. The compact fixture alone does not prove island placement or streaming performance.
+
+For foliage cost changes, use the same production grid, graphics settings and camera before/after.
+Read `getRenderProfile()` for actually submitted triangles and calls, then move away and return to
+check that rendering did not lose instances. Keep the detailed geometry at every visible distance;
+the owner rejected blocky far substitutes. Crown silhouette, branch structure, wind and shadows must
+survive optimization. A lower count from a different camera is not a performance comparison.
+
+Keep the 96 m generation grid and its seeded candidates stable. `FOLIAGE_RENDER_TILE_METRES`
+partitions those same placements into 24 m tree groups and 12 m fern/shrub groups for rendering.
+The environment foliage fixture uses the same `shardByTile()` path. Each group retains native
+geometry and wind-expanded bounds, and Three evaluates camera and shadow frusta independently.
+Harvest callbacks address a group's local instance slot; saved tree IDs never depend on that slot.
+Smaller groups reduce off-screen submissions but increase draw calls. Measure both costs in the
+dense fixture and the authored world before changing these sizes.
 
 ## Wind
 

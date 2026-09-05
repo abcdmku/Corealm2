@@ -7,6 +7,7 @@
  *  - Assets are metres, Y-up. No global scale factor anywhere.
  */
 import * as THREE from "three";
+import { applyCorealmSurfaceMaterials, loadCorealmSurfaceTextures } from "./corealmSurfaceMaterials.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { ASSET_BASE_URL, ASSET_MANIFEST_URL } from "../app/config.js";
 import { BOOT_SPANS, bootTelemetry } from "../perf/bootTelemetry.js";
@@ -54,6 +55,8 @@ export interface AssetEntry {
    * through `baseY()`, which falls back to 0. See `baseY` for why it matters.
    */
   base?: { x: number; y: number; z: number };
+  /** Rest-pose sole height for a rig whose bind bounds do not match its standing pose. */
+  groundY?: number;
   animations: string[];
   materials: string[];
   /**
@@ -86,6 +89,8 @@ export interface AssetPack {
   license: string;
   /** Lowercase SHA-256 of the pinned source archive for reproducible provenance. */
   archiveSha256?: string;
+  /** Original project meshes pin their checked-in generator instead of a downloaded archive. */
+  generatorSha256?: string;
 }
 
 export interface AssetManifest {
@@ -136,9 +141,8 @@ export interface AssetLoadStats {
   inflight: number;
 }
 
-interface QueuedAssetLoad {
+interface AssetRequest {
   id: string;
-  entry: AssetEntry;
   priority: AssetPriority;
   primary: boolean;
   retryCallbacks: Set<PrimaryAssetRetryCallback>;
@@ -148,6 +152,11 @@ interface QueuedAssetLoad {
   resolve: (group: THREE.Group) => void;
   reject: (error: Error) => void;
 }
+
+type QueuedAssetLoad = AssetRequest & (
+  | { entry: AssetEntry; factory?: never }
+  | { factory: () => Promise<THREE.Group>; entry?: never }
+);
 
 const ASSET_PRIORITY_RANK: Readonly<Record<AssetPriority, number>> = {
   player: 3,
@@ -159,17 +168,155 @@ const ASSET_PRIORITY_RANK: Readonly<Record<AssetPriority, number>> = {
 const DEFAULT_ASSET_PRIORITY: AssetPriority = "background";
 const MAX_CONCURRENT_ASSET_LOADS = 8;
 
+/** One registry's immutable external images; never changes Three's global file/image cache. */
+class CachedAssetImageLoader extends THREE.ImageBitmapLoader {
+  private readonly images = new Map<string, Promise<ImageBitmap>>();
+  private controller = new AbortController();
+
+  override load(
+    url: string,
+    onLoad?: (bitmap: ImageBitmap) => void,
+    _onProgress?: (event: ProgressEvent) => void,
+    onError?: (error: unknown) => void,
+  ): void {
+    const resolved = this.manager.resolveURL(this.path + url);
+    const credentials = this.crossOrigin === "anonymous" ? "same-origin" : "include";
+    const headers = new Headers(this.requestHeader);
+    // GLTFLoader leaves orientation unchanged and ImageBitmapLoader disables browser
+    // colour conversion. Capture options now so later loader configuration cannot alter a fetch.
+    const options: ImageBitmapOptions = { ...this.options, colorSpaceConversion: "none" };
+    const key = JSON.stringify([
+      resolved, credentials, [...headers.entries()].sort(([a], [b]) => a.localeCompare(b)),
+      Object.entries(options).sort(([a], [b]) => a.localeCompare(b)),
+    ]);
+    let pending = this.images.get(key);
+    if (!pending) {
+      const signal = typeof AbortSignal.any === "function"
+        ? AbortSignal.any([this.controller.signal, this.manager.abortController.signal])
+        : this.controller.signal;
+      pending = Promise.resolve().then(async () => {
+        const response = await fetch(resolved, { credentials, headers, signal });
+        if (!response.ok) throw new Error(`Asset image failed: ${response.status} ${response.statusText}`);
+        return createImageBitmap(await response.blob(), options);
+      }).catch((error: unknown) => {
+        this.images.delete(key);
+        throw error;
+      });
+      this.images.set(key, pending);
+    }
+    this.manager.itemStart(resolved);
+    void pending.then((bitmap) => {
+      try { onLoad?.(bitmap); } finally { this.manager.itemEnd(resolved); }
+    }, (error: unknown) => {
+      try { onError?.(error); } finally {
+        this.manager.itemError(resolved);
+        this.manager.itemEnd(resolved);
+      }
+    });
+  }
+
+  override abort(): this {
+    this.controller.abort();
+    this.controller = new AbortController();
+    return this;
+  }
+}
+
+function canonicalAssetUrl(url: string): string {
+  if (/^(?:data|blob):/i.test(url)) return url;
+  const base = typeof document !== "undefined" ? document.baseURI
+    : typeof location !== "undefined" ? location.href : undefined;
+  if (base) return new URL(url, base).href;
+  // Node-side asset tests use root-relative URLs without a document. Normalize their
+  // path too, while leaving fetch URLs relative to their existing test transport.
+  const resolved = new URL(url, "https://asset-registry.invalid/");
+  return resolved.origin === "https://asset-registry.invalid"
+    ? `${resolved.pathname}${resolved.search}${resolved.hash}` : resolved.href;
+}
+
+/**
+ * Share imported bitmap storage before publishing a newly parsed asset to any renderer.
+ * Texture transforms and samplers remain independent. Bitmaps stay alive with this cache and
+ * loaded assets; texture disposal remains Three's reference-counted GPU allocation ownership.
+ * Never close a bitmap when one asset or material is disposed, or intern an already-rendered texture.
+ */
+export class AssetTextureCache {
+  readonly manager = new THREE.LoadingManager();
+  private readonly sources = new WeakMap<ImageBitmap, Map<string, THREE.Source<ImageBitmap>>>();
+
+  constructor() {
+    this.manager.setURLModifier(canonicalAssetUrl);
+    if (typeof createImageBitmap === "function") {
+      this.manager.addHandler(
+        /^(?!data:|blob:).*\.(?:png|jpe?g)(?:[?#].*)?$/i,
+        new CachedAssetImageLoader(this.manager),
+      );
+    }
+  }
+
+  shareSources(roots: readonly THREE.Object3D[]): void {
+    const materials = new Set<THREE.Material>();
+    const textures = new Set<THREE.Texture>();
+    for (const root of roots) {
+      root.traverse((node) => {
+        const mesh = node as THREE.Mesh;
+        if (!mesh.isMesh) return;
+        for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+          if (material && !materials.has(material)) {
+            materials.add(material);
+            for (const value of Object.values(material)) {
+              if (value instanceof THREE.Texture) textures.add(value);
+            }
+          }
+        }
+      });
+    }
+    for (const texture of textures) {
+      const bitmap = texture.source.data;
+      // Canvas, video, typed pixel buffers, manual mipmaps and render targets can change
+      // independently. Restrict sharing to ordinary imported immutable bitmap textures.
+      if (texture.constructor !== THREE.Texture || texture.isRenderTargetTexture
+        || texture.mipmaps.length > 0 || !texture.source.dataReady
+        || typeof ImageBitmap === "undefined" || !(bitmap instanceof ImageBitmap)
+        || bitmap.width <= 0 || bitmap.height <= 0) continue;
+      let variants = this.sources.get(bitmap);
+      if (!variants) {
+        variants = new Map();
+        this.sources.set(bitmap, variants);
+      }
+      // Three r185's GPU cache fields, plus normalized internal-format selection.
+      // UV channel/TRS do not affect uploads.
+      const key = [
+        texture.wrapS, texture.wrapT, (texture as THREE.Data3DTexture).wrapR || 0,
+        texture.magFilter, texture.minFilter, texture.anisotropy, texture.internalFormat,
+        texture.format, texture.type, texture.normalized, texture.generateMipmaps, texture.premultiplyAlpha,
+        texture.flipY, texture.unpackAlignment, texture.colorSpace,
+      ].join(",");
+      let source = variants.get(key);
+      if (!source) {
+        source = new THREE.Source(bitmap);
+        source.version = texture.source.version;
+        variants.set(key, source);
+      }
+      // GLTFLoader already marked this fresh texture for upload. needsUpdate here would
+      // increment the shared source version and reupload images used by earlier assets.
+      texture.source = source;
+    }
+  }
+}
+
 export class AssetRegistry {
   private manifest: AssetManifest | null = null;
   private byId = new Map<string, AssetEntry>();
-  private loader = new GLTFLoader();
+  private readonly textureCache = new AssetTextureCache();
+  private loader = new GLTFLoader(this.textureCache.manager);
   private loaded = new Map<string, THREE.Group>();
   /**
-   * Ids that were BUILT rather than fetched, so `loadManifest` can catch a collision the other way
-   * round. `registerBuilt` runs before the manifest resolves, so its own `byId` check has nothing to
-   * compare against; this is the half that does the catching.
+   * Generated ids reserved before loading the manifest, including factories not yet requested.
+   * The manifest must reject these ids even before a generated group has entered the cache.
    */
   private readonly built = new Set<string>();
+  private readonly factories = new Map<string, () => Promise<THREE.Group>>();
   /** Includes queued and actively loading requests so both states deduplicate callers. */
   private inflight = new Map<string, Promise<THREE.Group>>();
   private pendingRequests = new Map<string, QueuedAssetLoad>();
@@ -245,7 +392,8 @@ export class AssetRegistry {
    * render/, and with this shape it does not have to.
    */
   baseY(assetId: string): number {
-    return this.byId.get(assetId)?.base?.y ?? 0;
+    const entry = this.byId.get(assetId);
+    return entry?.groundY ?? entry?.base?.y ?? 0;
   }
 
   /**
@@ -298,7 +446,7 @@ export class AssetRegistry {
   }
 
   /**
-   * Loads a GLB and caches its scene graph. Callers clone; they never mutate the cached original.
+   * Loads a GLB or runs its registered factory and caches the group. Callers clone the original.
    *
    * The returned promise is registered before the request enters the queue. Concurrent callers for
    * the same id therefore share one queued or active request. A later caller can raise that request's
@@ -313,8 +461,9 @@ export class AssetRegistry {
       return existing;
     }
 
-    const entry = this.byId.get(id);
-    if (!entry) return Promise.reject(new Error(`Unknown asset id: ${id}`));
+    const factory = this.factories.get(id);
+    const entry = factory ? undefined : this.byId.get(id);
+    if (!factory && !entry) return Promise.reject(new Error(`Unknown asset id: ${id}`));
 
     let resolve!: (group: THREE.Group) => void;
     let reject!: (error: Error) => void;
@@ -324,7 +473,7 @@ export class AssetRegistry {
     });
     const request: QueuedAssetLoad = {
       id,
-      entry,
+      ...(factory ? { factory } : { entry: entry! }),
       priority: options.priority ?? DEFAULT_ASSET_PRIORITY,
       primary: options.primary ?? options.onRetry !== undefined,
       retryCallbacks: new Set(options.onRetry ? [options.onRetry] : []),
@@ -335,7 +484,7 @@ export class AssetRegistry {
       reject,
     };
 
-    this.requested.add(id);
+    if (entry) this.requested.add(id);
     this.inflight.set(id, promise);
     this.pendingRequests.set(id, request);
     this.queued.set(id, request);
@@ -431,15 +580,28 @@ export class AssetRegistry {
     const { id, entry } = request;
     const attempt = (this.attempts.get(id) ?? 0) + 1;
     this.attempts.set(id, attempt);
-    const parseSpan = bootTelemetry.startSpan(BOOT_SPANS.GLTF_PARSE, {
+    const parseSpan = entry && bootTelemetry.startSpan(BOOT_SPANS.GLTF_PARSE, {
       detail: { assetId: id, file: entry.file },
     });
 
     void Promise.resolve()
-      .then(() => this.loader.loadAsync(`${ASSET_BASE_URL}${entry.file.replace(/^\/+/, "")}`))
-      .then((gltf) => {
+      .then(async () => {
+        if (request.factory) {
+          const group = await request.factory();
+          // Consume this reservation synchronously through the same publication guard as eager assets.
+          this.built.delete(id);
+          try { this.registerBuilt(id, group); } finally { this.built.add(id); }
+          this.factories.delete(id);
+          return group;
+        }
+        const entry = request.entry;
+        const gltf = await this.loader.loadAsync(`${ASSET_BASE_URL}${entry.file.replace(/^\/+/, "")}`);
         const group = gltf.scene;
         group.name = id;
+        if (entry.pack.startsWith("corealm-original-")) {
+          applyCorealmSurfaceMaterials(group, await loadCorealmSurfaceTextures());
+        }
+        this.textureCache.shareSources(gltf.scenes ?? [group]);
         for (const clip of gltf.animations) {
           this.assetClips.set(`${id}:${clip.name}`, clip);
           // The shared library is for the humanoid rig only. Letting a crab's "Idle" claim the
@@ -450,10 +612,13 @@ export class AssetRegistry {
         }
         this.loaded.set(id, group);
         this.loadedFiles.add(id);
+        parseSpan?.end({ assetId: id, file: entry.file, clips: gltf.animations.length });
+        return group;
+      })
+      .then((group) => {
         this.failed.delete(id);
         this.inflight.delete(id);
         this.pendingRequests.delete(id);
-        parseSpan.end({ assetId: id, file: entry.file, clips: gltf.animations.length });
         request.resolve(group);
       })
       .catch((error: unknown) => {
@@ -461,7 +626,7 @@ export class AssetRegistry {
         this.failed.add(id);
         this.inflight.delete(id);
         this.pendingRequests.delete(id);
-        parseSpan.fail(failure, { assetId: id, file: entry.file });
+        if (parseSpan && entry) parseSpan.fail(failure, { assetId: id, file: entry.file });
         if (request.primary) this.notifyPrimaryFailure(request, attempt, failure);
         request.reject(failure);
       })
@@ -511,19 +676,19 @@ export class AssetRegistry {
    * Callers keep ownership of its geometry and materials.
    */
   registerBuilt(id: string, group: THREE.Group): void {
-    // A built id that collides with a real asset would shadow the GLB for the whole session and
-    // there would be no error anywhere; fail at boot instead, where the id can still be renamed.
-    //
-    // BOTH maps are checked, and that is the point. `byId` is populated by `loadManifest()` alone,
-    // and `app/boot.ts` registers the built staffs BEFORE the manifest fetch resolves — so a `byId`
-    // check on its own is guaranteed to be empty at the only call site there is, and would catch
-    // nothing. `loaded` catches a second registration of the same id, and the manifest check below
-    // catches the real case: a future `build-assets.ts` run emitting a `proc_staff_*` GLB.
-    if (this.loaded.has(id)) throw new Error(`Built asset id registered twice: ${id}`);
+    if (this.built.has(id) || this.loaded.has(id)) throw new Error(`Built asset id registered twice: ${id}`);
     if (this.byId.has(id)) throw new Error(`Built asset id collides with a manifest asset: ${id}`);
     group.name = id;
     this.loaded.set(id, group);
     this.built.add(id);
+  }
+
+  /** Reserve a generated asset id now; construct and cache its group on the first load request. */
+  registerFactory(id: string, factory: () => Promise<THREE.Group>): void {
+    if (this.built.has(id) || this.loaded.has(id)) throw new Error(`Built asset id registered twice: ${id}`);
+    if (this.byId.has(id)) throw new Error(`Built asset id collides with a manifest asset: ${id}`);
+    this.built.add(id);
+    this.factories.set(id, factory);
   }
 
   async loadMany(ids: readonly string[], options: AssetLoadOptions = {}): Promise<void> {
@@ -614,7 +779,7 @@ export class AssetRegistry {
       total: this.manifest?.assets.length ?? 0,
       requested: this.requested.size,
       loaded: this.loadedFiles.size,
-      failed: this.failed.size,
+      failed: [...this.failed].filter((id) => !this.built.has(id)).length,
       queued: this.queued.size,
       inflight: this.activeLoads,
     };

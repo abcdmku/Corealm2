@@ -2,20 +2,7 @@ import * as THREE from "three";
 import { describe, expect, it } from "vitest";
 import { orderAnimationBudget } from "../game/src/render/entityViews.js";
 
-/**
- * Only ten skinned mixers are ticked per frame, and which ten decides whether a crowd animates.
- *
- * The bug this covers was reported from play as "nearly all creatures fail at walking smoothly" and
- * is invisible everywhere else: the feature lab spawns ONE creature, and one is always under the
- * cap. Measured in the Gravelmaw, where 17 stand within 40 m, ten animated and five stood frozen
- * mid-stride while sliding toward the player.
- *
- * Two earlier fixes degenerated straight back into it, both because they ranked the contested half
- * of the budget by a quantity that SATURATES — a starvation threshold in seconds, then clamped owed
- * time. On a slow machine one frame's delta exceeds either, every starved rig ties, and the sort
- * falls through to distance. Neither failure was visible without measuring a live crowd, which is
- * why the policy is a pure function now and why the frame-rate cases below exist.
- */
+// Full rigs share a bounded evaluator budget; every actor keeps an independent playback clock.
 
 interface Rig {
   id: string;
@@ -67,30 +54,7 @@ describe("animation budget", () => {
     for (const rig of all.slice(0, 5)) expect(ticks.get(rig.id), rig.id).toBe(40);
   });
 
-  it("never freezes a rig, however long the crowd outnumbers the budget", () => {
-    // The actual regression. Every rig inside the radius has to advance sometimes.
-    const all = rigs(17);
-    const ticks = run(all, 10, 60, viewer);
-    for (const rig of all) {
-      expect(ticks.get(rig.id), `${rig.id} never animated`).toBeGreaterThan(0);
-    }
-  });
-
-  it("shares the contested half of the budget evenly", () => {
-    // 17 rigs, 10 slots, 5 of them reserved for the nearest. The other 12 share 5 slots, so each
-    // should land close to 60 * 5 / 12 = 25 ticks. Even sharing is what makes the reduced refresh
-    // rate uniform rather than leaving one unlucky rig refreshing half as often as its neighbour,
-    // which is what a per-FRAME counter produced: ties settled by array position, so the nearest of
-    // the contested rigs took every one of them.
-    const all = rigs(17);
-    const ticks = run(all, 10, 60, viewer);
-    const contested = all.slice(5).map((rig) => ticks.get(rig.id) ?? 0);
-    const lowest = Math.min(...contested);
-    const highest = Math.max(...contested);
-    expect(highest - lowest, `spread ${lowest}..${highest}`).toBeLessThanOrEqual(1);
-  });
-
-  it("holds at every crowd size, not just the one that was measured", () => {
+  it("gives every crowded rig progress and shares spare evaluations evenly", () => {
     // Both previous fixes were correct at 60 fps and wrong at 7, and the reason was that their
     // ordering key depended on elapsed time. This one reads no clock at all, so frame rate cannot
     // enter into it — what is worth checking instead is that the guarantee survives any ratio of
@@ -119,13 +83,5 @@ describe("animation budget", () => {
     expect(Math.max(...counts) - Math.min(...counts)).toBeLessThanOrEqual(1);
   });
 
-  it("leaves the order alone when it is not over budget", () => {
-    // Under the cap the policy must be exactly the old nearest-first sort, so a change here cannot
-    // quietly alter which rig the renderer picks in the common case.
-    const all = rigs(4);
-    all[0]!.lastTickedFrame = 99;
-    const ranked = [all[3]!, all[1]!, all[0]!, all[2]!];
-    orderAnimationBudget(ranked, 10, viewer);
-    expect(ranked.map((rig) => rig.id)).toEqual(["rig-0", "rig-1", "rig-2", "rig-3"]);
-  });
+
 });

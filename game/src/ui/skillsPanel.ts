@@ -1,3 +1,4 @@
+import { PanelFrame } from "./panelFrame.js";
 /**
  * The ten skills, grouped the way the design groups them: combat, gathering, production,
  * utility. Each row carries its own colour from `content/skills.ts` — the same colour the floating
@@ -12,7 +13,7 @@ import type { SkillGroup } from "../content/skills.js";
 import { MAX_LEVEL, levelProgress } from "../content/xp.js";
 import { notify } from "./contextMenu.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import { PanelFrame, formatExact, formatQuantity } from "./panels.js";
+import { formatExact, formatQuantity } from "./panels.js";
 
 const GROUP_LABELS: readonly [SkillGroup, string][] = [
   ["combat", "Combat"],

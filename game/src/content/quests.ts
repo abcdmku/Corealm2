@@ -36,8 +36,8 @@ import type {
 export type QuestPredicate =
   /** The player reached a specific dialogue node with a specific NPC. */
   | { kind: "talk"; npcId: EntityId; dialogueNodeId: string }
-  /** Carrying at least this many, right now. */
-  | { kind: "have"; itemId: ItemId; quantity: number }
+  /** Carrying this many, or having already spent the unique Orb to awaken its named altar. */
+  | { kind: "have"; itemId: ItemId; quantity: number; orAwakenedAltarId?: EntityId }
   /** Stored in the bank, right now. */
   | { kind: "banked"; itemId: ItemId; quantity: number }
   /** Worn in any equipment slot. */
@@ -52,6 +52,8 @@ export type QuestPredicate =
   | { kind: "deplete"; itemId: ItemId; count: number }
   /** Player is within `radius` metres (XZ) of a route-graph location. Default 14 m. */
   | { kind: "reach"; locationId: string; radius?: number }
+  /** A visit made while this stage is active; retained when the player moves away. */
+  | { kind: "visit"; locationId: string; radius?: number }
   /** Player is within `radius` metres (XZ) of a named entity. Default 12 m. */
   | { kind: "nearEntity"; entityId: EntityId; radius?: number }
   /** The agility obstacle has been traversed at least once, per `world.obstaclesUsed`. */
@@ -153,24 +155,24 @@ const COLD_IRON: QuestDef = {
   regionId: "fallowmarch",
   kind: "skill",
   summary:
-    "Harrow the smith will not sell a weapon to somebody who has never made one. Pull Grithe out "
-    + "of the Bracken Pit, melt it, beat it into a dagger, and go and find out whether it holds.",
+    "Harrow the smith will not sell a weapon to somebody who has never made one. Pull Copper out "
+    + "of the Copper Pit, melt it, beat it into a dagger, and go and find out whether it holds.",
   giverNpcId: "npc_smith_harrow",
   requirements: {},
   prerequisiteQuestIds: [],
   stages: [
     {
       index: 0,
-      objective: "Mine 6 Grithe ore at the Bracken Pit.",
+      objective: "Mine 6 Copper ore at the Copper Pit.",
       refs: [{ kind: "item", id: "grithe_ore" }, { kind: "location", id: "bracken_pit" }],
       hint:
-        "Six seams stand at the pit, 160 m north of Coldbrace. `moveTo({ locationId: "
+        "Six seams stand at the pit, 160 m north of Millfield. `moveTo({ locationId: "
         + "\"bracken_pit\" })`, then `interact(<ore entity id>, \"mine\")`. Mining 1 is enough.",
       completion: { kind: "gather", itemId: "grithe_ore", count: 6 },
     },
     {
       index: 1,
-      objective: "Smelt 2 Grithe bars at the Coldbrace Furnace.",
+      objective: "Smelt 2 Copper bars at the Millfield Furnace.",
       refs: [
         { kind: "item", id: "grithe_bar" },
         { kind: "entity", id: "coldbrace_furnace" },
@@ -178,12 +180,12 @@ const COLD_IRON: QuestDef = {
       ],
       hint:
         "Stand at the furnace and `produce(\"smelt_grithe_bar\", 2)`. The furnace is in the forge "
-        + "yard on the east side of Coldbrace Square.",
+        + "yard on the east side of Millfield Square.",
       completion: { kind: "have", itemId: "grithe_bar", quantity: 2 },
     },
     {
       index: 2,
-      objective: "Smith a Grithe dagger at the Coldbrace Anvil.",
+      objective: "Smith a Copper dagger at the Millfield Anvil.",
       refs: [
         { kind: "item", id: "grithe_dagger" },
         { kind: "entity", id: "coldbrace_anvil" },
@@ -195,7 +197,7 @@ const COLD_IRON: QuestDef = {
     {
       index: 3,
       objective:
-        "Equip the Grithe dagger and kill 3 Redsill Frogs on the shallows south-east of town.",
+        "Equip the Copper dagger and kill 3 Frogs on the shallows south-east of town.",
       refs: [
         { kind: "item", id: "grithe_dagger" },
         { kind: "enemyFamily", id: "frog" },
@@ -219,7 +221,7 @@ const COLD_IRON: QuestDef = {
         { kind: "entity", id: "npc_smith_harrow" },
         { kind: "location", id: "town_center" },
       ],
-      hint: "Walk back into Coldbrace Square and `interact(\"npc_smith_harrow\", \"talk\")`.",
+      hint: "Walk back into Millfield Square and `interact(\"npc_smith_harrow\", \"talk\")`.",
       completion: { kind: "talk", npcId: "npc_smith_harrow", dialogueNodeId: "harrow_cold_iron_done" },
     },
   ],
@@ -232,7 +234,7 @@ const COLD_IRON: QuestDef = {
     currency: 150,
     unlocks: [
       "Harrow will talk about the higher tiers.",
-      "The rest of Coldbrace will give you work.",
+      "The rest of Millfield will give you work.",
     ],
   },
 };
@@ -253,7 +255,7 @@ const DORNS_TALLY: QuestDef = {
   regionId: "fallowmarch",
   kind: "puzzle",
   summary:
-    "The March Company ledger says a Grithe seam is worth four loads. Pitmaster Dorn has been "
+    "The Trade Company ledger says a Copper seam is worth four loads. Pitmaster Dorn has been "
     + "signing that figure for nine years and has never once believed it. Work a seam to the "
     + "bottom, count what it actually gave, and settle the argument with a number.",
   giverNpcId: "npc_pitmaster_dorn",
@@ -263,7 +265,7 @@ const DORNS_TALLY: QuestDef = {
     {
       index: 0,
       objective:
-        "Work one Grithe seam at the Bracken Pit until it is worked out. Stay on the same seam: "
+        "Work one Copper seam at the Copper Pit until it is worked out. Stay on the same seam: "
         + "Dorn wants the count from one node, not from six.",
       refs: [{ kind: "location", id: "bracken_pit" }, { kind: "item", id: "grithe_ore" }],
       hint:
@@ -292,7 +294,7 @@ const DORNS_TALLY: QuestDef = {
     {
       index: 2,
       objective:
-        "Make the vault agree with the ledger: bank 15 Grithe ore at the Coldbrace Bank.",
+        "Make the vault agree with the ledger: bank 15 Copper ore at the Millfield Bank.",
       refs: [
         { kind: "item", id: "grithe_ore" },
         { kind: "entity", id: "coldbrace_bank" },
@@ -347,13 +349,13 @@ const THE_CARTERS_WAGER: QuestDef = {
     {
       index: 0,
       objective:
-        "Train Agility to level 3 on the Brookvault Planks - vault them until the skill comes up.",
+        "Train Agility to level 3 on the Brook Planks - vault them until the skill comes up.",
       refs: [
         { kind: "entity", id: "brookvault_planks" },
         { kind: "location", id: "marchfield" },
       ],
       hint:
-        "The planks cross Corven Brook at (-78, -30) and need Agility 1. Every successful vault "
+        "The planks cross Iron Brook at (-78, -30) and need Agility 1. Every successful vault "
         + "pays Agility XP; a failure costs a few health and nothing else. `interact"
         + "(\"brookvault_planks\", \"vault\")`.",
       completion: { kind: "skill", skill: "agility", level: 3 },
@@ -361,7 +363,7 @@ const THE_CARTERS_WAGER: QuestDef = {
     },
     {
       index: 1,
-      objective: "Vault the Coldbrace north wall at least once.",
+      objective: "Vault the Millfield north wall at least once.",
       refs: [
         { kind: "entity", id: "wall_vault" },
         { kind: "location", id: "town_center" },
@@ -392,7 +394,7 @@ const THE_CARTERS_WAGER: QuestDef = {
     items: [{ itemId: "seared_minnow", quantity: 4 }],
     currency: 260,
     unlocks: [
-      "Warden Ilse will tell you where every shortcut in Fallowmarch is.",
+      "Warden Ilse will tell you where every shortcut in Farmland is.",
       "Carter Bel will tell you about a cousin.",
     ],
   },
@@ -406,7 +408,7 @@ const CROOKED_GRAIN: QuestDef = {
   regionId: "vellenwood",
   kind: "skill",
   summary:
-    "Woodward Ansel will let you take eight Duskoak out of his stand. He would like you to "
+    "Woodward Ansel will let you take eight maple logs out of his stand. He would like you to "
     + "understand, first, which one you are not taking.",
   giverNpcId: "npc_woodward_ansel",
   requirements: { woodcutting: 5 },
@@ -415,7 +417,7 @@ const CROOKED_GRAIN: QuestDef = {
     {
       index: 0,
       objective:
-        "Fell Duskoak at the Duskoak Stand until you hold 8 Duskoak logs.",
+        "Fell Maple at the Maple Grove until you hold 8 Maple logs.",
       refs: [{ kind: "location", id: "vellenwood_canopy" }, { kind: "item", id: "duskoak_log" }],
       hint:
         "Ten trees stand there and Woodcutting 5 is the gate. Logs do not stack, so eight logs is "
@@ -426,13 +428,13 @@ const CROOKED_GRAIN: QuestDef = {
     {
       index: 1,
       objective:
-        "Go and stand at the Split Duskoak, the one tree Ansel will not let anybody cut.",
+        "Go and stand at the Split Maple, the one tree Ansel will not let anybody cut.",
       refs: [
         { kind: "entity", id: "split_duskoak" },
         { kind: "location", id: "blackwater_pools" },
       ],
       hint:
-        "It is at (170, 112), east of Rootfall past the Blackwater Pools. `observe({ radius: 140, "
+        "It is at (170, 112), east of Oakwood past the Blackwater Pools. `observe({ radius: 140, "
         + "archetypes: [\"landmark\"] })` finds it, then `moveTo({ entityId: \"split_duskoak\" })`. "
         + "`inspect` it when you get there; it is still alive on one side.",
       completion: { kind: "nearEntity", entityId: "split_duskoak", radius: 12 },
@@ -441,7 +443,7 @@ const CROOKED_GRAIN: QuestDef = {
     {
       index: 2,
       objective:
-        "Bring the 8 Duskoak logs back to Woodward Ansel in Rootfall and tell him what you saw.",
+        "Bring the 8 Maple logs back to Woodward Ansel in Oakwood and tell him what you saw.",
       refs: [
         { kind: "entity", id: "npc_woodward_ansel" },
         { kind: "item", id: "duskoak_log" },
@@ -475,13 +477,13 @@ const KNOTS_AND_NAMES: QuestDef = {
   prerequisiteQuestIds: [],
   onStart: {
     items: [{ itemId: "pale_quartz", quantity: 3 }],
-    unlocks: ["Juno hands you three Pale Quartz to start on."],
+    unlocks: ["Juno hands you three Quartz to start on."],
   },
   stages: [
     {
       index: 0,
       objective:
-        "Fletch 4 Palewood shafts at a fletching bench.",
+        "Fletch 4 Oak shafts at a fletching bench.",
       refs: [
         { kind: "item", id: "palewood_shaft" },
         { kind: "entity", id: "coldbrace_fletching" },
@@ -489,21 +491,21 @@ const KNOTS_AND_NAMES: QuestDef = {
         { kind: "location", id: "town_center" },
       ],
       hint:
-        "Shafts come from Palewood logs, cut at the Palewood Copse in Fallowmarch (locationId "
-        + "`palewood_copse`). Coldbrace has the only fletching bench in Phase 1.",
+        "Shafts come from Oak logs, cut at the Oak Grove in Farmland (locationId "
+        + "`palewood_copse`). Millfield has the only fletching bench in Phase 1.",
       completion: { kind: "have", itemId: "palewood_shaft", quantity: 4 },
       grants: { xp: { fletching: 60 } },
     },
     {
       index: 1,
       objective:
-        "Mine 5 Air Essence from the distant Fallowmarch cache.",
+        "Mine 5 Air Essence from the distant Farmland cache.",
       refs: [
         { kind: "item", id: "air_essence" },
         { kind: "location", id: "fallowmarch_air_cache" },
       ],
       hint:
-        "The Air Essence Cache lies deep in southern Fallowmarch. Mine any of its five glowing "
+        "The Air Essence Cache lies deep in southern Farmland. Mine any of its five glowing "
         + "rocks; essence stacks, so this is one inventory slot.",
       completion: { kind: "have", itemId: "air_essence", quantity: 5 },
       grants: { xp: { mining: 60 } },
@@ -518,7 +520,7 @@ const KNOTS_AND_NAMES: QuestDef = {
         { kind: "item", id: "air_essence" },
         { kind: "location", id: "rootfall_hamlet" },
       ],
-      hint: "She works the trade post side of the Rootfall stump. The handover takes both.",
+      hint: "She works the trade post side of the Oakwood stump. The handover takes both.",
       completion: { kind: "talk", npcId: "npc_seamer_juno", dialogueNodeId: "juno_parts_taken" },
     },
   ],
@@ -536,7 +538,7 @@ const KNOTS_AND_NAMES: QuestDef = {
 // ------------------------------------------------------------------ quest 6
 
 /**
- * The exploration quest, and the second joke. Four `reach` predicates in one stage: the objective
+ * The exploration quest, and the second joke. Four `visit` predicates in one stage: the objective
  * lists all four location ids, so an agent can plan the circuit in one read rather than being fed
  * one waypoint at a time.
  */
@@ -555,7 +557,7 @@ const ELEVEN_EMPTY_DAYS: QuestDef = {
     {
       index: 0,
       objective:
-        "Walk Mott's trap line: the Blackwater Pools, the Gorge Head, the Thornline Camp and the "
+        "Walk Mott's trap line: the Blackwater Pools, the Gorge Head, The Thicket Camp and the "
         + "Gorge Ford, in any order.",
       refs: [
         { kind: "location", id: "blackwater_pools" },
@@ -565,15 +567,15 @@ const ELEVEN_EMPTY_DAYS: QuestDef = {
       ],
       hint:
         "All four are route-graph nodes: `moveTo({ locationId })` reaches each one directly. The "
-        + "Thornline is where the adders keep to the edge, so go there with health to "
+        + "Thicket is where the vipers keep to the edge, so go there with health to "
         + "spare or take the long way round by the ford.",
       completion: {
         kind: "all",
         of: [
-          { kind: "reach", locationId: "blackwater_pools" },
-          { kind: "reach", locationId: "gorge_head" },
-          { kind: "reach", locationId: "thornline_camp" },
-          { kind: "reach", locationId: "gorge_ford" },
+          { kind: "visit", locationId: "blackwater_pools" },
+          { kind: "visit", locationId: "gorge_head" },
+          { kind: "visit", locationId: "thornline_camp" },
+          { kind: "visit", locationId: "gorge_ford" },
         ],
       },
       grants: { xp: { agility: 90 }, flags: ["walked_the_line"] },
@@ -582,8 +584,8 @@ const ELEVEN_EMPTY_DAYS: QuestDef = {
       index: 1,
       objective:
         
-        "Something has been going through the bait. Kill 3 Bramble Hogs between Rootfall and "
-        + "the Thornline.",
+        "Something has been going through the bait. Kill 3 Pigs between Oakwood and "
+        + "The Thicket.",
       refs: [
         { kind: "enemyFamily", id: "hog" },
         { kind: "location", id: "thornline_camp" },
@@ -596,7 +598,7 @@ const ELEVEN_EMPTY_DAYS: QuestDef = {
       index: 2,
       objective:
         
-        "Report to Trapper Mott in Rootfall. Decide on the way whether to mention the thing you noticed about how his traps are set.",
+        "Report to Trapper Mott in Oakwood. Decide on the way whether to mention the thing you noticed about how his traps are set.",
       refs: [
         { kind: "entity", id: "npc_trapper_mott" },
         { kind: "location", id: "rootfall_hamlet" },
@@ -628,7 +630,7 @@ const BAD_GROUND: QuestDef = {
   kind: "skill",
   summary:
     "Foreman Arden has a crew that stopped digging and a camp that still has to eat. He wants "
-    + "sixteen Kaldite in the Highcairn vault and he wants to know which way you walked to get it.",
+    + "sixteen Cobalt in the Hillcrest vault and he wants to know which way you walked to get it.",
   giverNpcId: "npc_foreman_arden",
   requirements: { mining: 10, agility: 10 },
   prerequisiteQuestIds: [],
@@ -636,24 +638,24 @@ const BAD_GROUND: QuestDef = {
     {
       index: 0,
       objective:
-        "Mine 10 Kaldite ore at the Lower Quarry.",
+        "Mine 10 Cobalt ore at the Lower Quarry.",
       refs: [{ kind: "item", id: "kaldite_ore" }, { kind: "location", id: "karrowmoor_terraces" }],
       hint:
-        "Five Kaldite faces on terrace one, next to the Gravelmaw mouth. Mining 10 is the gate. "
+        "Five Cobalt faces on terrace one, next to Stone Cavern mouth. Mining 10 is the gate. "
         + "Ore does not stack: ten ore is ten slots.",
       completion: { kind: "gather", itemId: "kaldite_ore", count: 10 },
       grants: { xp: { mining: 150 } },
     },
     {
       index: 1,
-      objective: "Climb Sunder Ledge at least once.",
+      objective: "Climb Broken Ledge at least once.",
       refs: [
         { kind: "entity", id: "sunder_ledge" },
         { kind: "location", id: "highcairn_bank" },
         { kind: "location", id: "upper_karrow_seam" },
       ],
       hint:
-        "It runs from the Highcairn bank at (170, -74) up to the Upper Karrow Seam and needs "
+        "It runs from the Hillcrest bank at (170, -74) up to the Upper Cobalt Seam and needs "
         + "Agility 10. By road that trip is 188 m; over the ledge it is 46 m plus a six-second "
         + "climb. Compare `moveTo` path lengths before and after if you want to see the flip.",
       completion: { kind: "traverse", obstacleId: "sunder_ledge" },
@@ -662,14 +664,14 @@ const BAD_GROUND: QuestDef = {
     {
       index: 2,
       objective:
-        "Put 16 Kaldite ore into the Highcairn Bank.",
+        "Put 16 Cobalt ore into the Hillcrest Bank.",
       refs: [
         { kind: "item", id: "kaldite_ore" },
         { kind: "entity", id: "highcairn_bank_counter" },
         { kind: "location", id: "highcairn_bank" },
       ],
       hint:
-        "The Upper Karrow Seam is only three nodes and genuinely runs dry above Mining 20 - the "
+        "The Upper Cobalt Seam is only three nodes and genuinely runs dry above Mining 20 - the "
         + "Lower Quarry is the reliable half of the circuit. The stage counts the bank, not the bag.",
       completion: { kind: "banked", itemId: "kaldite_ore", quantity: 16 },
     },
@@ -705,7 +707,7 @@ const SPARKING_STONE: QuestDef = {
   regionId: "karrowmoor",
   kind: "skill",
   summary:
-    "Quarrier Vess has been cutting Kaldite for nine years and she has never liked what it does "
+    "Quarrier Vess has been cutting Cobalt for nine years and she has never liked what it does "
     + "in the dark. She would like somebody who is not her to find out what is in it.",
   giverNpcId: "npc_quarrier_vess",
   requirements: { mining: 10 },
@@ -715,38 +717,42 @@ const SPARKING_STONE: QuestDef = {
       { itemId: "palewood_log", quantity: 1 },
       { itemId: "air_essence", quantity: 100 },
     ],
-    unlocks: ["Vess gives you one palewood log and 100 measures of Air Essence."],
+    unlocks: ["Vess gives you one oak log and 100 measures of Air Essence."],
   },
   stages: [
     {
       index: 0,
-      objective: "Return to Fallowmarch and kill the Tempest Roc west of the Air Essence Cache.",
+      objective: "Return to Farmland and kill the Storm Rhino west of the Air Essence Cache.",
       refs: [
         { kind: "entity", id: "tempest_roc" },
         { kind: "location", id: "fallowmarch_air_cache" },
       ],
       hint:
-        "Go south through Vellenwood to Coldbrace, then follow the western track to locationId "
-        + "fallowmarch_air_cache. The Tempest Roc, entity tempest_roc, nests about 42 metres west "
+        "Go south through Woodlands to Millfield, then follow the western track to locationId "
+        + "fallowmarch_air_cache. The Storm Rhino, entity tempest_roc, roams about 42 metres west "
         + "of the cache. The Air Essence Vess gave you can power Voltrend during the fight.",
       completion: { kind: "kill", enemyFamily: "tempest_roc", count: 1 },
     },
     {
       index: 1,
-      objective: "Loot the Air Orb dropped by the Tempest Roc.",
+      objective: "Loot the Air Orb dropped by the Storm Rhino.",
       refs: [
         { kind: "item", id: "air_orb" },
         { kind: "entity", id: "tempest_roc" },
         { kind: "location", id: "fallowmarch_air_cache" },
       ],
       hint:
-        "The guaranteed Air Orb remains in the Tempest Roc's loot pile after the kill. Use `loot` "
-        + "on that pile. This step checks the orb in your inventory, not merely the boss kill.",
-      completion: { kind: "have", itemId: "air_orb", quantity: 1 },
+        "The guaranteed Air Orb remains in the Storm Rhino's loot pile after the kill. Use `loot` "
+        + "on that pile. If you already used its Orb to awaken the Air Altar, that earlier "
+        + "awakening counts and you can continue with your staff.",
+      completion: {
+        kind: "have", itemId: "air_orb", quantity: 1,
+        orAwakenedAltarId: "fallowmarch_air_altar",
+      },
     },
     {
       index: 2,
-      objective: "Awaken the cache altar with the Air Orb, make an Air Staff there, then equip it.",
+      objective: "Make an Air Staff at the Air Altar, then equip it.",
       refs: [
         { kind: "item", id: "palewood_log" },
         { kind: "item", id: "palewood_shaft" },
@@ -757,7 +763,7 @@ const SPARKING_STONE: QuestDef = {
         { kind: "location", id: "fallowmarch_air_cache" },
       ],
       hint:
-        "Use interaction awaken on entity fallowmarch_air_altar while carrying the Air Orb. At a "
+        "If the Air Altar is dormant, awaken it with the Air Orb first. At a "
         + "fletching bench, use fletch_palewood_shaft, then fletch_palewood_staff. Make "
         + "craft_air_staff at the awakened altar and equip it. Once partly spent, the same altar "
         + "restores it to 1000 for exactly 100 Air Essence.",
@@ -773,7 +779,7 @@ const SPARKING_STONE: QuestDef = {
         { kind: "entity", id: "fallowmarch_air_altar" },
       ],
       hint:
-        "The Air Staff spends its charge before carried Air Essence. Redsill Frogs near "
+        "The Air Staff spends its charge before carried Air Essence. Frogs near "
         + "locationId redsill_shallows are cheap targets. Recharge at entity "
         + "fallowmarch_air_altar with 100 Air Essence when needed.",
       completion: { kind: "skill", skill: "magic", level: 5 },
@@ -782,13 +788,13 @@ const SPARKING_STONE: QuestDef = {
     {
       index: 4,
       objective:
-        "Bring Quarrier Vess 6 Kaldite ore so she can watch what a live spell does to it.",
+        "Bring Quarrier Vess 6 Cobalt ore so she can watch what a live spell does to it.",
       refs: [
         { kind: "entity", id: "npc_quarrier_vess" },
         { kind: "item", id: "kaldite_ore" },
         { kind: "location", id: "highcairn_outpost" },
       ],
-      hint: "She is at the middle of Highcairn. The handover takes the ore.",
+      hint: "She is at the middle of Hillcrest. The handover takes the ore.",
       completion: { kind: "talk", npcId: "npc_quarrier_vess", dialogueNodeId: "vess_stone_tested" },
     },
   ],
@@ -798,7 +804,7 @@ const SPARKING_STONE: QuestDef = {
       { itemId: "earth_essence", quantity: 25 },
     ],
     currency: 700,
-    unlocks: ["Vess stops calling the Kaldite \"that\" and starts calling it by its name."],
+    unlocks: ["Vess stops calling the Cobalt \"that\" and starts calling it by its name."],
   },
 };
 
@@ -825,7 +831,7 @@ const LONG_CAIRN: QuestDef = {
   regionId: "karrowmoor",
   kind: "chain",
   summary:
-    "Somebody has been re-stacking the cairns on Karrowmoor. Cairnkeeper Ode knows every stone on "
+    "Somebody has been re-stacking the cairns on Highlands. Cairnkeeper Ode knows every stone on "
     + "this moor by name and she did not move them. The line of re-stacked cairns runs from terrace "
     + "four down the ramps and into a hole the quarry crew stopped digging six months ago.",
   giverNpcId: "npc_cairnkeeper_ode",
@@ -837,7 +843,7 @@ const LONG_CAIRN: QuestDef = {
       objective: "Go and look at the Great Cairn on terrace four.",
       refs: [{ kind: "entity", id: "great_cairn_stone" }, { kind: "location", id: "great_cairn" }],
       hint:
-        "`moveTo({ locationId: \"great_cairn\" })` from Highcairn goes bank -> Second Ramp -> Third "
+        "`moveTo({ locationId: \"great_cairn\" })` from Hillcrest goes bank -> Second Ramp -> Third "
         + "Ramp -> the cairn. Bears hold the ground around (100, -110) on the way, so travel "
         + "fed and armed. `inspect(\"great_cairn_stone\")` when you arrive.",
       completion: { kind: "reach", locationId: "great_cairn", radius: 16 },
@@ -846,7 +852,7 @@ const LONG_CAIRN: QuestDef = {
     {
       index: 1,
       objective:
-        "Tell Cairnkeeper Ode at Highcairn that the Great Cairn has been re-stacked.",
+        "Tell Cairnkeeper Ode at Hillcrest that the Great Cairn has been re-stacked.",
       refs: [
         { kind: "entity", id: "npc_cairnkeeper_ode" },
         { kind: "location", id: "highcairn_outpost" },
@@ -858,13 +864,13 @@ const LONG_CAIRN: QuestDef = {
     {
       index: 2,
       objective:
-        "Ask Watcher Hale what the rota has seen come out of the Gravelmaw.",
+        "Ask Watcher Hale what the rota has seen come out of Stone Cavern.",
       refs: [
         { kind: "entity", id: "npc_watcher_hale" },
         { kind: "location", id: "highcairn_outpost" },
       ],
       hint:
-        "Hale is at (152, -74), the east side of Highcairn. He watches the mouth for a living and "
+        "Hale is at (152, -74), the east side of Hillcrest. He watches the mouth for a living and "
         + "he will tell you what is in the first chamber if you ask him directly.",
       completion: { kind: "talk", npcId: "npc_watcher_hale", dialogueNodeId: "hale_gravelmaw_told" },
       grants: { xp: { magic: 90 }, flags: ["knows_gravelmaw"] },
@@ -872,7 +878,7 @@ const LONG_CAIRN: QuestDef = {
     {
       index: 3,
       objective:
-        "Enter the Gravelmaw, kill 4 Gravelmaw Rats in the Lit Gallery, and reach The Collapse.",
+        "Enter Stone Cavern, kill 4 Giant Rats in the Lit Gallery, and reach The Collapse.",
       refs: [
         { kind: "entity", id: "gravelmaw_mouth_portal" },
         { kind: "enemyFamily", id: "rat" },
@@ -934,6 +940,10 @@ const LONG_CAIRN: QuestDef = {
       grants: {
         xp: { agility: 200, mining: 200 },
         flags: ["door_open"],
+        worldState: [{
+          entityId: "gravelmaw_stone_door", state: "open",
+          lockedReason: "The three levers are thrown. The door stands open.",
+        }],
         unlocks: ["The Collapse now walks straight through into The Cairn Hall."],
       },
     },
@@ -946,7 +956,7 @@ const LONG_CAIRN: QuestDef = {
         { kind: "location", id: "highcairn_outpost" },
       ],
       hint:
-        "She will hand you a Cairn Garnet (item `cairn_garnet`). Do not sell it; stage 7 checks "
+        "She will hand you a Garnet (item `cairn_garnet`). Do not sell it; stage 7 checks "
         + "that you are still carrying it.",
       completion: { kind: "talk", npcId: "npc_cairnkeeper_ode", dialogueNodeId: "ode_long_cairn_stone_given" },
       grants: {
@@ -959,7 +969,7 @@ const LONG_CAIRN: QuestDef = {
       index: 6,
       objective:
         
-        "Carry the Cairn Garnet into The Cairn Hall, kill the 2 cave bears standing over the cairn, and set the stone on it.",
+        "Carry the Garnet into The Cairn Hall, kill the 2 cave bears standing over the cairn, and set the stone on it.",
       refs: [
         { kind: "item", id: "cairn_garnet" },
         { kind: "location", id: "gravelmaw_entrance" },
@@ -969,7 +979,7 @@ const LONG_CAIRN: QuestDef = {
       hint:
         "With the door open, chamber 2 walks straight through to chamber 3. The stage completes "
         + "the moment all three hold at once: both bears dead, you inside the hall, garnet still "
-        + "in your bag. Completing it takes the garnet and unseals the Quarrykeeper's Gate.",
+        + "in your bag. Completing it takes the garnet and unseals the Armored Rhino's Gate.",
       completion: {
         kind: "all",
         of: [
@@ -992,7 +1002,7 @@ const LONG_CAIRN: QuestDef = {
     ],
     currency: 2400,
     unlocks: [
-      "The Quarrykeeper's Gate (entity `ordrun_gate`) is unsealed. Ordrun is behind it.",
+      "The Armored Rhino's Gate (entity `ordrun_gate`) is unsealed. Armored Rhino is behind it.",
       "Cairnkeeper Ode will speak plainly about what is under the Great Cairn.",
     ],
     worldState: [

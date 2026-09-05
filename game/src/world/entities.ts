@@ -106,7 +106,7 @@ export class EntityStore {
 
   add(entity: SemanticEntity): void {
     this.entities.set(entity.id, entity);
-    this.spatial.insert(entity.id, entity.position);
+    this.spatial.insert(entity.id, entity.interactionPosition ?? entity.position);
   }
 
   remove(id: EntityId): boolean {
@@ -160,7 +160,7 @@ export class EntityStore {
     const entity = this.entities.get(id);
     if (!entity) return false;
     entity.position = position;
-    this.spatial.move(id, position);
+    this.spatial.move(id, entity.interactionPosition ?? position);
     return true;
   }
 
@@ -194,7 +194,7 @@ export class EntityStore {
       const entity = this.entities.get(id);
       if (!entity) return;
       if (!this.matches(entity, filter)) return;
-      const distance = this.distanceFn(from, entity.position);
+      const distance = this.distanceFn(from, entity.interactionPosition ?? entity.position);
       if (distance > radius) return;
       candidates.push({ entity, distance });
     });
@@ -227,7 +227,7 @@ export class EntityStore {
       if (filter.regionId && location.regionId !== filter.regionId) continue;
 
       const entity = location.entityId ? this.entities.get(location.entityId) : undefined;
-      const position = entity?.position ?? location.position;
+      const position = entity?.interactionPosition ?? entity?.position ?? location.position;
       const distance = this.distanceFn(from, position);
 
       if (entity) {
@@ -331,6 +331,7 @@ export class EntityStore {
       tier: entity.tier,
       regionId: entity.regionId,
       position: entity.position,
+      ...(entity.interactionPosition ? { interactionPosition: entity.interactionPosition } : {}),
       distance: roundMetres(distance),
       state: entity.state,
       interactions: entity.interactions,
@@ -366,7 +367,7 @@ export class EntityStore {
       const entity = this.entities.get(id);
       if (!entity) continue;
       if (accept && !accept(entity)) continue;
-      const distance = this.distanceFn(from, entity.position);
+      const distance = this.distanceFn(from, entity.interactionPosition ?? entity.position);
       if (distance < bestDistance) {
         bestDistance = distance;
         best = entity;

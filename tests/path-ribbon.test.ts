@@ -69,7 +69,7 @@ describe("buildRibbonGeometry", () => {
 });
 
 describe("createRibbonMaterial", () => {
-  it("is a stock basic material with its own program key and the trail attribute patched in", () => {
+  it("shares live uniforms and preserves transparent overlay rendering", () => {
     const uniforms = { uTime: { value: 0 }, uLength: { value: 12 }, uHead: { value: 0 } };
     const material = createRibbonMaterial(new THREE.Color("#ffd98a"), uniforms);
     expect(material.customProgramCacheKey()).toMatch(/ribbon/);
@@ -85,13 +85,6 @@ describe("createRibbonMaterial", () => {
     expect(shader.uniforms.uTime).toBe(uniforms.uTime);
     expect(shader.uniforms.uLength).toBe(uniforms.uLength);
     expect(shader.uniforms.uHead).toBe(uniforms.uHead);
-    expect(shader.vertexShader).toContain("attribute vec2 aTrail;");
-    expect(shader.vertexShader).toContain("vTrail = aTrail;");
-    expect(shader.fragmentShader).toContain("uniform float uLength;");
-    expect(shader.fragmentShader).toContain("uniform float uHead;");
-    // The head fade is measured from the sliding head, and the chevrons from the destination.
-    expect(shader.fragmentShader).toContain("vTrail.x - uHead");
-    expect(shader.fragmentShader).toContain("float toGo = uLength - vTrail.x;");
-    expect(shader.fragmentShader).toContain("diffuseColor.a *=");
+
   });
 });

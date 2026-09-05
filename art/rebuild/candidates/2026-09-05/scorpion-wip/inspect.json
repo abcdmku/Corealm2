@@ -1,0 +1,6762 @@
+{
+  "meshVertices": 1321,
+  "meshRestMinimumY": -0.001777163101645131,
+  "meshNodes": [
+    {
+      "name": "Scorpion_Mesh",
+      "primitives": 1
+    }
+  ],
+  "joints": [
+    [
+      "Scorpion_MAINSHJnt",
+      "Scorpion_ROOTSHJnt",
+      "Scorpion_l_FrontLeg_HipSHJnt",
+      "Scorpion_l_FrontLeg_Knee1SHJnt",
+      "Scorpion_l_FrontLeg_Knee2SHJnt",
+      "Scorpion_l_FrontLeg_AnkleSHJnt",
+      "Scorpion_l_FrontLeg_BallSHJnt",
+      "Scorpion_r_FrontLeg_HipSHJnt",
+      "Scorpion_r_FrontLeg_Knee1SHJnt",
+      "Scorpion_r_FrontLeg_Knee2SHJnt",
+      "Scorpion_r_FrontLeg_AnkleSHJnt",
+      "Scorpion_r_FrontLeg_BallSHJnt",
+      "Scorpion_l_MidFrontLeg_HipSHJnt",
+      "Scorpion_l_MidFrontLeg_Knee1SHJnt",
+      "Scorpion_l_MidFrontLeg_Knee2SHJnt",
+      "Scorpion_l_MidFrontLeg_AnkleSHJnt",
+      "Scorpion_l_MidFrontLeg_BallSHJnt",
+      "Scorpion_r_MidFrontLeg_HipSHJnt",
+      "Scorpion_r_MidFrontLeg_Knee1SHJnt",
+      "Scorpion_r_MidFrontLeg_Knee2SHJnt",
+      "Scorpion_r_MidFrontLeg_AnkleSHJnt",
+      "Scorpion_r_MidFrontLeg_BallSHJnt",
+      "Scorpion_l_MidBackLeg_HipSHJnt",
+      "Scorpion_l_MidBackLeg_Knee1SHJnt",
+      "Scorpion_l_MidBackLeg_Knee2SHJnt",
+      "Scorpion_l_MidBackLeg_AnkleSHJnt",
+      "Scorpion_l_MidBackLeg_BallSHJnt",
+      "Scorpion_r_MidBackLeg_HipSHJnt",
+      "Scorpion_r_MidBackLeg_Knee1SHJnt",
+      "Scorpion_r_MidBackLeg_Knee2SHJnt",
+      "Scorpion_r_MidBackLeg_AnkleSHJnt",
+      "Scorpion_r_MidBackLeg_BallSHJnt",
+      "Scorpion_l_BackLeg_HipSHJnt",
+      "Scorpion_l_BackLeg_Knee1SHJnt",
+      "Scorpion_l_BackLeg_Knee2SHJnt",
+      "Scorpion_l_BackLeg_AnkleSHJnt",
+      "Scorpion_l_BackLeg_BallSHJnt",
+      "Scorpion_r_BackLeg_HipSHJnt",
+      "Scorpion_r_BackLeg_Knee1SHJnt",
+      "Scorpion_r_BackLeg_Knee2SHJnt",
+      "Scorpion_r_BackLeg_AnkleSHJnt",
+      "Scorpion_r_BackLeg_BallSHJnt",
+      "Scorpion_Abdomen_01_01SHJnt",
+      "Scorpion_Abdomen_01_02SHJnt",
+      "Scorpion_Abdomen_01_03SHJnt",
+      "Scorpion_Abdomen_01_04SHJnt",
+      "Scorpion_Abdomen_01_05SHJnt",
+      "Scorpion_Sting_01_01SHJnt",
+      "Scorpion_Sting_01_02SHJnt",
+      "Scorpion_Sting_01_03SHJnt",
+      "Scorpion_Sting_01_04SHJnt",
+      "Scorpion_Sting_01_05SHJnt",
+      "Scorpion_Sting_01_06SHJnt",
+      "Scorpion_Sting_01_07SHJnt",
+      "Scorpion_l_Pedipalp_01_01SHJnt",
+      "Scorpion_l_Pedipalp_01_02SHJnt",
+      "Scorpion_l_Pedipalp_01_03SHJnt",
+      "Scorpion_l_Pedipalp_01_04SHJnt",
+      "Scorpion_l_Claw_01_01SHJnt",
+      "Scorpion_l_Claw_01_02SHJnt",
+      "Scorpion_l_Claw_02_01SHJnt",
+      "Scorpion_l_Claw_02_02SHJnt",
+      "Scorpion_r_Pedipalp_01_01SHJnt",
+      "Scorpion_r_Pedipalp_01_02SHJnt",
+      "Scorpion_r_Pedipalp_01_03SHJnt",
+      "Scorpion_r_Pedipalp_01_04SHJnt",
+      "Scorpion_r_Claw_01_01SHJnt",
+      "Scorpion_r_Claw_02_01SHJnt"
+    ]
+  ],
+  "seconds": 0.6333333253860474,
+  "rows": [
+    {
+      "side": "l",
+      "leg": "FrontLeg",
+      "chain": [
+        {
+          "name": "Scorpion_l_FrontLeg_HipSHJnt",
+          "world": [
+            0.029283379133014584,
+            0.025061625506122787,
+            0.017885173708061815
+          ],
+          "t": [
+            2.9283379133014584,
+            -1.8140124737939014,
+            2.8228239681175853
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0
+        },
+        {
+          "name": "Scorpion_l_FrontLeg_Knee1SHJnt",
+          "world": [
+            0.0728289157735487,
+            0.052936066555431635,
+            0.029170833792472463
+          ],
+          "t": [
+            5.292035854625659,
+            2.220446049250313e-16,
+            7.216449660063518e-16
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.052920358546256596
+        },
+        {
+          "name": "Scorpion_l_FrontLeg_Knee2SHJnt",
+          "world": [
+            0.09750407836573885,
+            0.041866579966535186,
+            0.04393236573657124
+          ],
+          "t": [
+            3.081071254660343,
+            -2.886579864025407e-15,
+            0
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.030810712546603444
+        },
+        {
+          "name": "Scorpion_l_FrontLeg_AnkleSHJnt",
+          "world": [
+            0.10394171697201005,
+            0.0063877793780549655,
+            0.0613257636297294
+          ],
+          "t": [
+            4.0033970228942,
+            2.581268532253489e-15,
+            7.105427357601002e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.04003397022894203
+        },
+        {
+          "name": "Scorpion_l_FrontLeg_BallSHJnt",
+          "world": [
+            0.10886482860558352,
+            0.002822239085187863,
+            0.06788011437813107
+          ],
+          "t": [
+            0.35655383905731247,
+            -0.08989743593482569,
+            0.8147907741030362
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.008939218056953245
+        },
+        {
+          "name": "Scorpion_l_FrontLeg_ToeSHJnt",
+          "world": [
+            0.11531872198568001,
+            -1.480585621422767e-8,
+            0.07506995443991045
+          ],
+          "t": [
+            0.9659135650515189,
+            -0.0218291559812398,
+            -0.28222516154651217
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.010065369188516351
+        }
+      ],
+      "vertices": [
+        {
+          "index": 624,
+          "rest": [
+            0.10507069366183755,
+            -0.00003410854908221675,
+            0.059009876009880925
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_FrontLeg_Knee1SHJnt",
+              "weight": 0.024399999529123306
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_Knee2SHJnt",
+              "weight": 0.489300012588501
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_AnkleSHJnt",
+              "weight": 0.2581999897956848
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_BallSHJnt",
+              "weight": 0.2281000018119812
+            }
+          ]
+        },
+        {
+          "index": 625,
+          "rest": [
+            0.10191489290009234,
+            0.0002575966522432762,
+            0.06107066753765748
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_FrontLeg_Knee1SHJnt",
+              "weight": 0.01489999983459711
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_Knee2SHJnt",
+              "weight": 0.43380001187324524
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_AnkleSHJnt",
+              "weight": 0.2533000111579895
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_BallSHJnt",
+              "weight": 0.2980000078678131
+            }
+          ]
+        },
+        {
+          "index": 626,
+          "rest": [
+            0.09918362355093407,
+            0.00219273064299879,
+            0.0640909470060686
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_FrontLeg_Knee1SHJnt",
+              "weight": 0.008999999612569809
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_Knee2SHJnt",
+              "weight": 0.37940001487731934
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_AnkleSHJnt",
+              "weight": 0.26649999618530273
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_BallSHJnt",
+              "weight": 0.3450999855995178
+            }
+          ]
+        },
+        {
+          "index": 650,
+          "rest": [
+            0.11428771162541981,
+            -0.0003922321329502997,
+            0.07091058329743562
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_FrontLeg_Knee1SHJnt",
+              "weight": 0.0024999999441206455
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_Knee2SHJnt",
+              "weight": 0.21490000188350677
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_AnkleSHJnt",
+              "weight": 0.2070000022649765
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_BallSHJnt",
+              "weight": 0.5756000280380249
+            }
+          ]
+        },
+        {
+          "index": 651,
+          "rest": [
+            0.11109508930958502,
+            -0.0005834103923890131,
+            0.07328909960459157
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_FrontLeg_Knee2SHJnt",
+              "weight": 0.17152005434036255
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_AnkleSHJnt",
+              "weight": 0.19553688168525696
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_BallSHJnt",
+              "weight": 0.6329430341720581
+            }
+          ]
+        },
+        {
+          "index": 652,
+          "rest": [
+            0.11044616231067561,
+            0.002307615092421783,
+            0.07527629502020285
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_FrontLeg_Knee1SHJnt",
+              "weight": 0.00139999995008111
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_Knee2SHJnt",
+              "weight": 0.18119999766349792
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_AnkleSHJnt",
+              "weight": 0.20260000228881836
+            },
+            {
+              "node": "Scorpion_l_FrontLeg_BallSHJnt",
+              "weight": 0.614799976348877
+            }
+          ]
+        }
+      ],
+      "pads": [
+        624,
+        625,
+        650,
+        651
+      ],
+      "low": -0.0005834103923890131
+    },
+    {
+      "side": "l",
+      "leg": "MidFrontLeg",
+      "chain": [
+        {
+          "name": "Scorpion_l_MidFrontLeg_HipSHJnt",
+          "world": [
+            0.03017677928413891,
+            0.02357842127042261,
+            -0.011759442462108635
+          ],
+          "t": [
+            3.017677928413891,
+            -1.9623328973639191,
+            -0.1416376488994595
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0
+        },
+        {
+          "name": "Scorpion_l_MidFrontLeg_Knee1SHJnt",
+          "world": [
+            0.08736008409993785,
+            0.05966719377359497,
+            -0.017227915329865354
+          ],
+          "t": [
+            6.783976743730548,
+            -7.771561172376096e-16,
+            1.6653345369377348e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.06783976743730549
+        },
+        {
+          "name": "Scorpion_l_MidFrontLeg_Knee2SHJnt",
+          "world": [
+            0.11936943452603031,
+            0.037031669260586327,
+            -0.013928890987717794
+          ],
+          "t": [
+            3.934271274695585,
+            5.10702591327572e-15,
+            -7.105427357601002e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.03934271274695586
+        },
+        {
+          "name": "Scorpion_l_MidFrontLeg_AnkleSHJnt",
+          "world": [
+            0.1340198399066503,
+            0.004244226671468121,
+            -0.005337772081827967
+          ],
+          "t": [
+            3.6925033424580107,
+            4.440892098500626e-16,
+            7.105427357601002e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.036925033424580124
+        },
+        {
+          "name": "Scorpion_l_MidFrontLeg_BallSHJnt",
+          "world": [
+            0.1417493159623858,
+            3.469446951953614e-18,
+            -0.0012342220365432598
+          ],
+          "t": [
+            0.42442266714681204,
+            -0.1080589310045248,
+            0.8684252979580922
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.009726118604517716
+        },
+        {
+          "name": "Scorpion_l_MidFrontLeg_ToeSHJnt",
+          "world": [
+            0.15454251879363862,
+            1.2054729016763278e-19,
+            0.0036435471802947986
+          ],
+          "t": [
+            1.369155474058033,
+            8.881784197001252e-16,
+            -3.8001698289769995e-16
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.013691554740580345
+        }
+      ],
+      "vertices": [
+        {
+          "index": 594,
+          "rest": [
+            0.13423052760623913,
+            0.002792298263976407,
+            -0.009115587487163285
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee1SHJnt",
+              "weight": 0.04800000041723251
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.42660000920295715
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.21770000457763672
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_BallSHJnt",
+              "weight": 0.3077000081539154
+            }
+          ]
+        },
+        {
+          "index": 596,
+          "rest": [
+            0.13097149568555133,
+            0.0013032514330897865,
+            -0.0018525571864671454
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee1SHJnt",
+              "weight": 0.041104111820459366
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.4227422773838043
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.22692269086837769
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_BallSHJnt",
+              "weight": 0.3092309236526489
+            }
+          ]
+        },
+        {
+          "index": 597,
+          "rest": [
+            0.13078120894710515,
+            -0.00036261443022735465,
+            -0.006759500301290267
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee1SHJnt",
+              "weight": 0.036303628236055374
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.44874489307403564
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.20942093431949615
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_BallSHJnt",
+              "weight": 0.3055305480957031
+            }
+          ]
+        },
+        {
+          "index": 632,
+          "rest": [
+            0.1501549828264885,
+            0.0010519362921983864,
+            0.005286610918612556
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee1SHJnt",
+              "weight": 0.003800000064074993
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.15520000457763672
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.16089999675750732
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_BallSHJnt",
+              "weight": 0.6801000237464905
+            }
+          ]
+        },
+        {
+          "index": 633,
+          "rest": [
+            0.15004099266171605,
+            -0.0017771630669589878,
+            0.00005475160388908851
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee1SHJnt",
+              "weight": 0.003000000026077032
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.1793999969959259
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.14169999957084656
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_BallSHJnt",
+              "weight": 0.6758999824523926
+            }
+          ]
+        },
+        {
+          "index": 635,
+          "rest": [
+            0.15284315654192004,
+            0.0013355639921300653,
+            -0.000959487734882805
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee1SHJnt",
+              "weight": 0.0031999999191612005
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.17599999904632568
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.13590000569820404
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_BallSHJnt",
+              "weight": 0.6848999857902527
+            }
+          ]
+        },
+        {
+          "index": 655,
+          "rest": [
+            0.15352709997607505,
+            0.0022537649791908396,
+            0.0031288840251559044
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.07970000058412552
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.09830000251531601
+            },
+            {
+              "node": "Scorpion_l_MidFrontLeg_BallSHJnt",
+              "weight": 0.8220000267028809
+            }
+          ]
+        }
+      ],
+      "pads": [
+        597,
+        633
+      ],
+      "low": -0.0017771630669589878
+    },
+    {
+      "side": "l",
+      "leg": "MidBackLeg",
+      "chain": [
+        {
+          "name": "Scorpion_l_MidBackLeg_HipSHJnt",
+          "world": [
+            0.03110732727951597,
+            0.026968493517505313,
+            -0.04277377013861739
+          ],
+          "t": [
+            3.110732727951597,
+            -1.6233256726556489,
+            -3.243070416550335
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0
+        },
+        {
+          "name": "Scorpion_l_MidBackLeg_Knee1SHJnt",
+          "world": [
+            0.09346310002513789,
+            0.05373106771475068,
+            -0.06893548735673437
+          ],
+          "t": [
+            7.272491471406087,
+            2.6645352591003757e-15,
+            -6.217248937900877e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.07272491471406087
+        },
+        {
+          "name": "Scorpion_l_MidBackLeg_Knee2SHJnt",
+          "world": [
+            0.11857920206449235,
+            0.03650080996807134,
+            -0.08776476229007896
+          ],
+          "t": [
+            3.5808406250261235,
+            3.552713678800501e-15,
+            -1.7763568394002505e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.035808406250261236
+        },
+        {
+          "name": "Scorpion_l_MidBackLeg_AnkleSHJnt",
+          "world": [
+            0.14173040750397273,
+            0.0035512586198236107,
+            -0.1003164860131892
+          ],
+          "t": [
+            4.218052887023972,
+            -5.329070518200751e-15,
+            5.329070518200751e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.042180528870239736
+        },
+        {
+          "name": "Scorpion_l_MidBackLeg_BallSHJnt",
+          "world": [
+            0.15043808497915812,
+            -1.2697409807610471e-9,
+            -0.10452734329323832
+          ],
+          "t": [
+            0.3551264481282495,
+            7.993605777301127e-15,
+            0.9672379925954395
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.010303708693864747
+        },
+        {
+          "name": "Scorpion_l_MidBackLeg_ToeSHJnt",
+          "world": [
+            0.1574642273161775,
+            2.4352729709271456e-9,
+            -0.10792504418539438
+          ],
+          "t": [
+            0.7804552997618011,
+            -2.6645352591003757e-15,
+            2.1662020593081477e-16
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.0078045529976180075
+        }
+      ],
+      "vertices": [
+        {
+          "index": 581,
+          "rest": [
+            0.1405098375329186,
+            0.0007566369030857503,
+            -0.09612475476163442
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_MidBackLeg_Knee1SHJnt",
+              "weight": 0.044199999421834946
+            },
+            {
+              "node": "Scorpion_l_MidBackLeg_Knee2SHJnt",
+              "weight": 0.44999998807907104
+            },
+            {
+              "node": "Scorpion_l_MidBackLeg_AnkleSHJnt",
+              "weight": 0.22699999809265137
+            },
+            {
+              "node": "Scorpion_l_MidBackLeg_BallSHJnt",
+              "weight": 0.27880001068115234
+            }
+          ]
+        },
+        {
+          "index": 585,
+          "rest": [
+            0.14027647548209454,
+            0.0012691509730616323,
+            -0.10420186263437928
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_MidBackLeg_Knee1SHJnt",
+              "weight": 0.04089999943971634
+            },
+            {
+              "node": "Scorpion_l_MidBackLeg_Knee2SHJnt",
+              "weight": 0.43320000171661377
+            },
+            {
+              "node": "Scorpion_l_MidBackLeg_AnkleSHJnt",
+              "weight": 0.27149999141693115
+            },
+            {
+              "node": "Scorpion_l_MidBackLeg_BallSHJnt",
+              "weight": 0.25440001487731934
+            }
+          ]
+        },
+        {
+          "index": 639,
+          "rest": [
+            0.15327041175430522,
+            0.0021496492383920153,
+            -0.10968952444543174
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_MidBackLeg_Knee1SHJnt",
+              "weight": 0.003599999938160181
+            },
+            {
+              "node": "Scorpion_l_MidBackLeg_Knee2SHJnt",
+              "weight": 0.19259999692440033
+            },
+            {
+              "node": "Scorpion_l_MidBackLeg_AnkleSHJnt",
+              "weight": 0.2502000033855438
+            },
+            {
+              "node": "Scorpion_l_MidBackLeg_BallSHJnt",
+              "weight": 0.553600013256073
+            }
+          ]
+        },
+        {
+          "index": 640,
+          "rest": [
+            0.155254913264584,
+            0.0004451852549016667,
+            -0.10625009837057901
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_MidBackLeg_Knee1SHJnt",
+              "weight": 0.0032999999821186066
+            },
+            {
+              "node": "Scorpion_l_MidBackLeg_Knee2SHJnt",
+              "weight": 0.18719999492168427
+            },
+            {
+              "node": "Scorpion_l_MidBackLeg_AnkleSHJnt",
+              "weight": 0.23430000245571136
+            },
+            {
+              "node": "Scorpion_l_MidBackLeg_BallSHJnt",
+              "weight": 0.5752000212669373
+            }
+          ]
+        }
+      ],
+      "pads": [
+        581,
+        585,
+        639,
+        640
+      ],
+      "low": 0.0004451852549016667
+    },
+    {
+      "side": "l",
+      "leg": "BackLeg",
+      "chain": [
+        {
+          "name": "Scorpion_l_BackLeg_HipSHJnt",
+          "world": [
+            0.03143903228410053,
+            0.02794734480857923,
+            -0.06823281481081298
+          ],
+          "t": [
+            3.1439032284100534,
+            -1.5254405435482572,
+            -5.788974883769894
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0
+        },
+        {
+          "name": "Scorpion_l_BackLeg_Knee1SHJnt",
+          "world": [
+            0.0765017642726687,
+            0.060543269812067216,
+            -0.1087891581536524
+          ],
+          "t": [
+            6.883284918154131,
+            -4.884981308350689e-15,
+            2.220446049250313e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.06883284918154133
+        },
+        {
+          "name": "Scorpion_l_BackLeg_Knee2SHJnt",
+          "world": [
+            0.09953919485005154,
+            0.04357171004117177,
+            -0.13141761528221302
+          ],
+          "t": [
+            3.6480188057134733,
+            8.881784197001252e-15,
+            7.105427357601002e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.036480188057134745
+        },
+        {
+          "name": "Scorpion_l_BackLeg_AnkleSHJnt",
+          "world": [
+            0.118649092801728,
+            0.005097065493173694,
+            -0.14445251224008174
+          ],
+          "t": [
+            4.489315105359102,
+            0,
+            0
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.04489315105359103
+        },
+        {
+          "name": "Scorpion_l_BackLeg_BallSHJnt",
+          "world": [
+            0.12425906477689343,
+            -1.2632112049958122e-8,
+            -0.14911159671667087
+          ],
+          "t": [
+            0.5097076652163657,
+            2.220446049250313e-15,
+            0.7292384297290546
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.008897137693517044
+        },
+        {
+          "name": "Scorpion_l_BackLeg_ToeSHJnt",
+          "world": [
+            0.1316826098685361,
+            -1.458146003386972e-8,
+            -0.15527685466551472
+          ],
+          "t": [
+            0.9649840791610913,
+            3.552713678800501e-15,
+            2.678373236359669e-16
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.009649840791610926
+        }
+      ],
+      "vertices": [
+        {
+          "index": 617,
+          "rest": [
+            0.11731605774258749,
+            0.00033838385407018067,
+            -0.14198003285851024
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_BackLeg_Knee1SHJnt",
+              "weight": 0.04990499094128609
+            },
+            {
+              "node": "Scorpion_l_BackLeg_Knee2SHJnt",
+              "weight": 0.3750374913215637
+            },
+            {
+              "node": "Scorpion_l_BackLeg_AnkleSHJnt",
+              "weight": 0.35833582282066345
+            },
+            {
+              "node": "Scorpion_l_BackLeg_BallSHJnt",
+              "weight": 0.21672166883945465
+            }
+          ]
+        },
+        {
+          "index": 642,
+          "rest": [
+            0.13280789939646745,
+            0.0026082998275551005,
+            -0.15139809822305617
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_BackLeg_Knee1SHJnt",
+              "weight": 0.0032999999821186066
+            },
+            {
+              "node": "Scorpion_l_BackLeg_Knee2SHJnt",
+              "weight": 0.18459999561309814
+            },
+            {
+              "node": "Scorpion_l_BackLeg_AnkleSHJnt",
+              "weight": 0.27720001339912415
+            },
+            {
+              "node": "Scorpion_l_BackLeg_BallSHJnt",
+              "weight": 0.5349000096321106
+            }
+          ]
+        },
+        {
+          "index": 645,
+          "rest": [
+            0.12697646318544675,
+            0.002977199974341143,
+            -0.15605911056937108
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_BackLeg_Knee1SHJnt",
+              "weight": 0.004000000189989805
+            },
+            {
+              "node": "Scorpion_l_BackLeg_Knee2SHJnt",
+              "weight": 0.16269999742507935
+            },
+            {
+              "node": "Scorpion_l_BackLeg_AnkleSHJnt",
+              "weight": 0.2890999913215637
+            },
+            {
+              "node": "Scorpion_l_BackLeg_BallSHJnt",
+              "weight": 0.5442000031471252
+            }
+          ]
+        },
+        {
+          "index": 647,
+          "rest": [
+            0.13004162930910546,
+            0.0002952961795362365,
+            -0.1535163281892923
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_l_BackLeg_Knee1SHJnt",
+              "weight": 0.0038003800436854362
+            },
+            {
+              "node": "Scorpion_l_BackLeg_Knee2SHJnt",
+              "weight": 0.17161715030670166
+            },
+            {
+              "node": "Scorpion_l_BackLeg_AnkleSHJnt",
+              "weight": 0.350335031747818
+            },
+            {
+              "node": "Scorpion_l_BackLeg_BallSHJnt",
+              "weight": 0.47424742579460144
+            }
+          ]
+        }
+      ],
+      "pads": [
+        617,
+        647
+      ],
+      "low": 0.0002952961795362365
+    },
+    {
+      "side": "r",
+      "leg": "FrontLeg",
+      "chain": [
+        {
+          "name": "Scorpion_r_FrontLeg_HipSHJnt",
+          "world": [
+            -0.029283379133014584,
+            0.02506162550612278,
+            0.017885173708061815
+          ],
+          "t": [
+            -2.9283379133014584,
+            -1.8140124737939023,
+            2.8228239681175853
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0
+        },
+        {
+          "name": "Scorpion_r_FrontLeg_Knee1SHJnt",
+          "world": [
+            -0.07282891577354866,
+            0.052936066555431635,
+            0.029170833792472435
+          ],
+          "t": [
+            5.292035854625656,
+            -2.4424906541753444e-15,
+            3.58046925441613e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.05292035854625656
+        },
+        {
+          "name": "Scorpion_r_FrontLeg_Knee2SHJnt",
+          "world": [
+            -0.09750407836573888,
+            0.04186657996653516,
+            0.0439323657365712
+          ],
+          "t": [
+            3.0810712546603503,
+            4.440892098500626e-16,
+            0
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.030810712546603503
+        },
+        {
+          "name": "Scorpion_r_FrontLeg_AnkleSHJnt",
+          "world": [
+            -0.10394171697201005,
+            0.006387779378054931,
+            0.06132576362972926
+          ],
+          "t": [
+            4.003397022894197,
+            -3.0531133177191805e-15,
+            0
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.040033970228941985
+        },
+        {
+          "name": "Scorpion_r_FrontLeg_BallSHJnt",
+          "world": [
+            -0.10886482850921526,
+            0.002822239118984206,
+            0.06788011446890023
+          ],
+          "t": [
+            0.3565538390573149,
+            0.08989743593482702,
+            0.8147907741030327
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.008939218056953217
+        },
+        {
+          "name": "Scorpion_r_FrontLeg_ToeSHJnt",
+          "world": [
+            -0.11531872178019782,
+            -1.4731695510174225e-8,
+            0.07506995464446913
+          ],
+          "t": [
+            0.9659135650515225,
+            0.02182915598123758,
+            -0.28222516154651184
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.010065369188516386
+        }
+      ],
+      "vertices": [
+        {
+          "index": 1261,
+          "rest": [
+            -0.10507069205188255,
+            -0.000034108851562042404,
+            0.059010775815383415
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_FrontLeg_Knee1SHJnt",
+              "weight": 0.017801780253648758
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_Knee2SHJnt",
+              "weight": 0.36463645100593567
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_AnkleSHJnt",
+              "weight": 0.24982497096061707
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_BallSHJnt",
+              "weight": 0.3677367866039276
+            }
+          ]
+        },
+        {
+          "index": 1263,
+          "rest": [
+            -0.09918362290457837,
+            0.0021927299406172976,
+            0.06409094609114553
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_FrontLeg_Knee1SHJnt",
+              "weight": 0.024102410301566124
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_Knee2SHJnt",
+              "weight": 0.49994999170303345
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_AnkleSHJnt",
+              "weight": 0.23242324590682983
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_BallSHJnt",
+              "weight": 0.24352434277534485
+            }
+          ]
+        },
+        {
+          "index": 1264,
+          "rest": [
+            -0.1019148875189295,
+            0.0002575961280653368,
+            0.0610706637893787
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_FrontLeg_Knee1SHJnt",
+              "weight": 0.013201319612562656
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_Knee2SHJnt",
+              "weight": 0.44244423508644104
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_AnkleSHJnt",
+              "weight": 0.23722372949123383
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_BallSHJnt",
+              "weight": 0.30713069438934326
+            }
+          ]
+        },
+        {
+          "index": 1288,
+          "rest": [
+            -0.1142868136822405,
+            -0.0003922321311746118,
+            0.07091058397354053
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_FrontLeg_Knee2SHJnt",
+              "weight": 0.10396237671375275
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_AnkleSHJnt",
+              "weight": 0.151590958237648
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_BallSHJnt",
+              "weight": 0.7444466948509216
+            }
+          ]
+        },
+        {
+          "index": 1289,
+          "rest": [
+            -0.11044616318216212,
+            0.0023076149034045794,
+            0.07527629708060204
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_FrontLeg_Knee1SHJnt",
+              "weight": 0.0012000000569969416
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_Knee2SHJnt",
+              "weight": 0.1923999935388565
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_AnkleSHJnt",
+              "weight": 0.19539999961853027
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_BallSHJnt",
+              "weight": 0.6110000014305115
+            }
+          ]
+        },
+        {
+          "index": 1290,
+          "rest": [
+            -0.1110942028159698,
+            -0.0005834105487642783,
+            0.07329000274515989
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_FrontLeg_Knee2SHJnt",
+              "weight": 0.15715716779232025
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_AnkleSHJnt",
+              "weight": 0.1759759783744812
+            },
+            {
+              "node": "Scorpion_r_FrontLeg_BallSHJnt",
+              "weight": 0.6668668389320374
+            }
+          ]
+        }
+      ],
+      "pads": [
+        1261,
+        1264,
+        1288,
+        1290
+      ],
+      "low": -0.0005834105487642783
+    },
+    {
+      "side": "r",
+      "leg": "MidFrontLeg",
+      "chain": [
+        {
+          "name": "Scorpion_r_MidFrontLeg_HipSHJnt",
+          "world": [
+            -0.03017677928413892,
+            0.023578421270422607,
+            -0.011759442462108636
+          ],
+          "t": [
+            -3.017677928413892,
+            -1.9623328973639196,
+            -0.14163764889945973
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0
+        },
+        {
+          "name": "Scorpion_r_MidFrontLeg_Knee1SHJnt",
+          "world": [
+            -0.0873600840999377,
+            0.059667193773595015,
+            -0.017227915329865378
+          ],
+          "t": [
+            6.783976743730538,
+            1.1102230246251565e-15,
+            2.7755575615628914e-16
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.06783976743730538
+        },
+        {
+          "name": "Scorpion_r_MidFrontLeg_Knee2SHJnt",
+          "world": [
+            -0.11936943452603027,
+            0.03703166926058636,
+            -0.0139288909877178
+          ],
+          "t": [
+            3.934271274695596,
+            -8.881784197001252e-16,
+            -1.7763568394002505e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.03934271274695595
+        },
+        {
+          "name": "Scorpion_r_MidFrontLeg_AnkleSHJnt",
+          "world": [
+            -0.1340198399066503,
+            0.004244226671468107,
+            -0.005337772081827959
+          ],
+          "t": [
+            3.6925033424580187,
+            -1.3322676295501878e-15,
+            0
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.036925033424580186
+        },
+        {
+          "name": "Scorpion_r_MidFrontLeg_BallSHJnt",
+          "world": [
+            -0.1417493159623858,
+            -1.734723475976807e-17,
+            -0.001234222036543253
+          ],
+          "t": [
+            0.42442266714681204,
+            0.1080589310045248,
+            0.8684252979580922
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.009726118604517718
+        },
+        {
+          "name": "Scorpion_r_MidFrontLeg_ToeSHJnt",
+          "world": [
+            -0.15454251879363853,
+            -2.272988860523203e-17,
+            0.003643547180294791
+          ],
+          "t": [
+            1.3691554740580276,
+            -8.881784197001252e-16,
+            3.5952473754941613e-16
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.013691554740580262
+        }
+      ],
+      "vertices": [
+        {
+          "index": 1231,
+          "rest": [
+            -0.13423052606934344,
+            0.0027922982208708315,
+            -0.00911558738193755
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee1SHJnt",
+              "weight": 0.042399998754262924
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.4296000003814697
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.21780000627040863
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_BallSHJnt",
+              "weight": 0.3102000057697296
+            }
+          ]
+        },
+        {
+          "index": 1234,
+          "rest": [
+            -0.1309714967818239,
+            0.001303251487763857,
+            -0.0018525572084478721
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee1SHJnt",
+              "weight": 0.05829999968409538
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.4108000099658966
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.2249000072479248
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_BallSHJnt",
+              "weight": 0.3059999942779541
+            }
+          ]
+        },
+        {
+          "index": 1235,
+          "rest": [
+            -0.13078120856403153,
+            -0.0003626143866437073,
+            -0.006759500281802852
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee1SHJnt",
+              "weight": 0.05040504038333893
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.4371437132358551
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.20732073485851288
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_BallSHJnt",
+              "weight": 0.3051305115222931
+            }
+          ]
+        },
+        {
+          "index": 1270,
+          "rest": [
+            -0.1501549789675473,
+            0.0010519362135273155,
+            0.005286610765166404
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee1SHJnt",
+              "weight": 0.004399999976158142
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.17399999499320984
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.13910000026226044
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_BallSHJnt",
+              "weight": 0.6825000047683716
+            }
+          ]
+        },
+        {
+          "index": 1271,
+          "rest": [
+            -0.1500409951002329,
+            -0.001777163101645131,
+            0.00005475160135655489
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee1SHJnt",
+              "weight": 0.003800000064074993
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.18160000443458557
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.13830000162124634
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_BallSHJnt",
+              "weight": 0.6762999892234802
+            }
+          ]
+        },
+        {
+          "index": 1273,
+          "rest": [
+            -0.15284315739361268,
+            0.001335564042359789,
+            -0.0009585900759314648
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee1SHJnt",
+              "weight": 0.002899999963119626
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.1607999950647354
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.15240000188350677
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_BallSHJnt",
+              "weight": 0.683899998664856
+            }
+          ]
+        },
+        {
+          "index": 1293,
+          "rest": [
+            -0.15352620505164244,
+            0.002253764861705531,
+            0.0031288838618739774
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_MidFrontLeg_Knee2SHJnt",
+              "weight": 0.07970000058412552
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_AnkleSHJnt",
+              "weight": 0.09790000319480896
+            },
+            {
+              "node": "Scorpion_r_MidFrontLeg_BallSHJnt",
+              "weight": 0.8223999738693237
+            }
+          ]
+        }
+      ],
+      "pads": [
+        1235,
+        1271
+      ],
+      "low": -0.001777163101645131
+    },
+    {
+      "side": "r",
+      "leg": "MidBackLeg",
+      "chain": [
+        {
+          "name": "Scorpion_r_MidBackLeg_HipSHJnt",
+          "world": [
+            -0.031107327279515973,
+            0.02696849351750532,
+            -0.04277377013861736
+          ],
+          "t": [
+            -3.1107327279515973,
+            -1.6233256726556484,
+            -3.2430704165503323
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0
+        },
+        {
+          "name": "Scorpion_r_MidBackLeg_Knee1SHJnt",
+          "world": [
+            -0.0934631000251379,
+            0.05373106771475074,
+            -0.06893548735673428
+          ],
+          "t": [
+            7.272491471406089,
+            4.440892098500626e-16,
+            2.2065682614424986e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.07272491471406088
+        },
+        {
+          "name": "Scorpion_r_MidBackLeg_Knee2SHJnt",
+          "world": [
+            -0.11857920206449236,
+            0.036500809968071424,
+            -0.08776476229007882
+          ],
+          "t": [
+            3.580840625026119,
+            -2.6645352591003757e-15,
+            0
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.035808406250261195
+        },
+        {
+          "name": "Scorpion_r_MidBackLeg_AnkleSHJnt",
+          "world": [
+            -0.14173040750397276,
+            0.00355125861982359,
+            -0.10031648601318917
+          ],
+          "t": [
+            4.218052887023986,
+            2.6645352591003757e-15,
+            1.7763568394002505e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.04218052887023986
+        },
+        {
+          "name": "Scorpion_r_MidBackLeg_BallSHJnt",
+          "world": [
+            -0.1504380849936729,
+            -1.2717511935038395e-9,
+            -0.1045273432615275
+          ],
+          "t": [
+            0.3551264481282501,
+            -3.552713678800501e-15,
+            0.9672379925954253
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.01030370869386464
+        },
+        {
+          "name": "Scorpion_r_MidBackLeg_ToeSHJnt",
+          "world": [
+            -0.15746422734974796,
+            2.4316407637146876e-9,
+            -0.10792504411427836
+          ],
+          "t": [
+            0.7804552997618117,
+            2.220446049250313e-15,
+            3.465889413575146e-16
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.007804552997618107
+        }
+      ],
+      "vertices": [
+        {
+          "index": 1220,
+          "rest": [
+            -0.1405098354831861,
+            0.0007566367159211976,
+            -0.09612385689400754
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_MidBackLeg_Knee1SHJnt",
+              "weight": 0.03700369969010353
+            },
+            {
+              "node": "Scorpion_r_MidBackLeg_Knee2SHJnt",
+              "weight": 0.4759475886821747
+            },
+            {
+              "node": "Scorpion_r_MidBackLeg_AnkleSHJnt",
+              "weight": 0.24632462859153748
+            },
+            {
+              "node": "Scorpion_r_MidBackLeg_BallSHJnt",
+              "weight": 0.24072407186031342
+            }
+          ]
+        },
+        {
+          "index": 1223,
+          "rest": [
+            -0.14027647138495059,
+            0.0012691507404201923,
+            -0.10420186032259567
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_MidBackLeg_Knee1SHJnt",
+              "weight": 0.032999999821186066
+            },
+            {
+              "node": "Scorpion_r_MidBackLeg_Knee2SHJnt",
+              "weight": 0.43549999594688416
+            },
+            {
+              "node": "Scorpion_r_MidBackLeg_AnkleSHJnt",
+              "weight": 0.2467000037431717
+            },
+            {
+              "node": "Scorpion_r_MidBackLeg_BallSHJnt",
+              "weight": 0.2847999930381775
+            }
+          ]
+        },
+        {
+          "index": 1277,
+          "rest": [
+            -0.15327040473429931,
+            0.0021496490472381075,
+            -0.10968952345539018
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_MidBackLeg_Knee1SHJnt",
+              "weight": 0.003100000089034438
+            },
+            {
+              "node": "Scorpion_r_MidBackLeg_Knee2SHJnt",
+              "weight": 0.17919999361038208
+            },
+            {
+              "node": "Scorpion_r_MidBackLeg_AnkleSHJnt",
+              "weight": 0.24770000576972961
+            },
+            {
+              "node": "Scorpion_r_MidBackLeg_BallSHJnt",
+              "weight": 0.5699999928474426
+            }
+          ]
+        },
+        {
+          "index": 1278,
+          "rest": [
+            -0.1552549042123858,
+            0.00044518515769574455,
+            -0.10625009581403749
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_MidBackLeg_Knee1SHJnt",
+              "weight": 0.00279999990016222
+            },
+            {
+              "node": "Scorpion_r_MidBackLeg_Knee2SHJnt",
+              "weight": 0.20029999315738678
+            },
+            {
+              "node": "Scorpion_r_MidBackLeg_AnkleSHJnt",
+              "weight": 0.2363000065088272
+            },
+            {
+              "node": "Scorpion_r_MidBackLeg_BallSHJnt",
+              "weight": 0.5605999827384949
+            }
+          ]
+        }
+      ],
+      "pads": [
+        1220,
+        1223,
+        1277,
+        1278
+      ],
+      "low": 0.00044518515769574455
+    },
+    {
+      "side": "r",
+      "leg": "BackLeg",
+      "chain": [
+        {
+          "name": "Scorpion_r_BackLeg_HipSHJnt",
+          "world": [
+            -0.031439032284100554,
+            0.027947344808579248,
+            -0.06823281481081299
+          ],
+          "t": [
+            -3.143903228410055,
+            -1.5254405435482554,
+            -5.788974883769895
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0
+        },
+        {
+          "name": "Scorpion_r_BackLeg_Knee1SHJnt",
+          "world": [
+            -0.07650176427266875,
+            0.06054326981206719,
+            -0.10878915815365245
+          ],
+          "t": [
+            6.883284918154134,
+            -2.220446049250313e-15,
+            -1.7763568394002505e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.06883284918154134
+        },
+        {
+          "name": "Scorpion_r_BackLeg_Knee2SHJnt",
+          "world": [
+            -0.09953919485005133,
+            0.04357171004117122,
+            -0.1314176152822128
+          ],
+          "t": [
+            3.6480188057134644,
+            -2.220446049250313e-15,
+            -3.552713678800501e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.036480188057134655
+        },
+        {
+          "name": "Scorpion_r_BackLeg_AnkleSHJnt",
+          "world": [
+            -0.11864909280172745,
+            0.0050970654931728684,
+            -0.14445251224008115
+          ],
+          "t": [
+            4.4893151053591005,
+            4.440892098500626e-16,
+            7.105427357601002e-15
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.04489315105359101
+        },
+        {
+          "name": "Scorpion_r_BackLeg_BallSHJnt",
+          "world": [
+            -0.12425906484458621,
+            -1.2622566957810888e-8,
+            -0.1491115966456045
+          ],
+          "t": [
+            0.5097076652163648,
+            -3.552713678800501e-15,
+            0.7292384297290546
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.008897137693517033
+        },
+        {
+          "name": "Scorpion_r_BackLeg_ToeSHJnt",
+          "world": [
+            -0.1316826100785596,
+            -1.4559283066585309e-8,
+            -0.15527685442306888
+          ],
+          "t": [
+            0.9649840791610913,
+            8.881784197001252e-16,
+            -1.0713399771814479e-16
+          ],
+          "s": [
+            1,
+            1,
+            1
+          ],
+          "length": 0.009649840791610912
+        }
+      ],
+      "vertices": [
+        {
+          "index": 1256,
+          "rest": [
+            -0.1173160617384259,
+            0.0003383838499054696,
+            -0.14198003479012905
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_BackLeg_Knee1SHJnt",
+              "weight": 0.044199999421834946
+            },
+            {
+              "node": "Scorpion_r_BackLeg_Knee2SHJnt",
+              "weight": 0.40939998626708984
+            },
+            {
+              "node": "Scorpion_r_BackLeg_AnkleSHJnt",
+              "weight": 0.33480000495910645
+            },
+            {
+              "node": "Scorpion_r_BackLeg_BallSHJnt",
+              "weight": 0.21160000562667847
+            }
+          ]
+        },
+        {
+          "index": 1281,
+          "rest": [
+            -0.13280789490699263,
+            0.0026082995587457837,
+            -0.15139808783087463
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_BackLeg_Knee1SHJnt",
+              "weight": 0.0036000001709908247
+            },
+            {
+              "node": "Scorpion_r_BackLeg_Knee2SHJnt",
+              "weight": 0.16440001130104065
+            },
+            {
+              "node": "Scorpion_r_BackLeg_AnkleSHJnt",
+              "weight": 0.30379998683929443
+            },
+            {
+              "node": "Scorpion_r_BackLeg_BallSHJnt",
+              "weight": 0.5281999707221985
+            }
+          ]
+        },
+        {
+          "index": 1283,
+          "rest": [
+            -0.1269764689168561,
+            0.002977200122381473,
+            -0.15605911154632374
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_BackLeg_Knee1SHJnt",
+              "weight": 0.0035000001080334187
+            },
+            {
+              "node": "Scorpion_r_BackLeg_Knee2SHJnt",
+              "weight": 0.20829999446868896
+            },
+            {
+              "node": "Scorpion_r_BackLeg_AnkleSHJnt",
+              "weight": 0.2493000030517578
+            },
+            {
+              "node": "Scorpion_r_BackLeg_BallSHJnt",
+              "weight": 0.5389000177383423
+            }
+          ]
+        },
+        {
+          "index": 1284,
+          "rest": [
+            -0.13004163607343983,
+            0.0002952961628011154,
+            -0.15351633049884683
+          ],
+          "weights": [
+            {
+              "node": "Scorpion_r_BackLeg_Knee1SHJnt",
+              "weight": 0.0033003301359713078
+            },
+            {
+              "node": "Scorpion_r_BackLeg_Knee2SHJnt",
+              "weight": 0.18871888518333435
+            },
+            {
+              "node": "Scorpion_r_BackLeg_AnkleSHJnt",
+              "weight": 0.33783379197120667
+            },
+            {
+              "node": "Scorpion_r_BackLeg_BallSHJnt",
+              "weight": 0.4701470136642456
+            }
+          ]
+        }
+      ],
+      "pads": [
+        1256,
+        1284
+      ],
+      "low": 0.0002952961628011154
+    }
+  ],
+  "body": [
+    {
+      "phase": 0,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.004166666666666667,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.008333333333333333,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.0125,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.016666666666666666,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.020833333333333332,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.025,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.029166666666666667,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.03333333333333333,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.0375,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.041666666666666664,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.04583333333333333,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.05,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.05416666666666667,
+      "root": [
+        0,
+        0.046895827037168505,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.058333333333333334,
+      "root": [
+        0,
+        0.04679889548657961,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.0625,
+      "root": [
+        0,
+        0.04670196393599071,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.06666666666666667,
+      "root": [
+        0,
+        0.046605032385401805,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.07083333333333333,
+      "root": [
+        0,
+        0.0465081008348129,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.075,
+      "root": [
+        0,
+        0.04641116928422401,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.07916666666666666,
+      "root": [
+        0,
+        0.0463142377336351,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.08333333333333333,
+      "root": [
+        0,
+        0.0462173061830462,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.0875,
+      "root": [
+        0,
+        0.0461203746324573,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.09166666666666666,
+      "root": [
+        0,
+        0.0460234430818684,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.09583333333333334,
+      "root": [
+        0,
+        0.0459265115312795,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.1,
+      "root": [
+        0,
+        0.0458295799806906,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.10416666666666667,
+      "root": [
+        0,
+        0.045732648430101705,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.10833333333333334,
+      "root": [
+        0,
+        0.04564682635846596,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.1125,
+      "root": [
+        0,
+        0.04556497199133168,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.11666666666666667,
+      "root": [
+        0,
+        0.0454831176241974,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.12083333333333333,
+      "root": [
+        0,
+        0.04540126325706311,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.125,
+      "root": [
+        0,
+        0.045319408889928824,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.12916666666666668,
+      "root": [
+        0,
+        0.045237554522794536,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.13333333333333333,
+      "root": [
+        0,
+        0.045155700155660256,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.1375,
+      "root": [
+        0,
+        0.04507384578852597,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.14166666666666666,
+      "root": [
+        0,
+        0.04499199142139168,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.14583333333333334,
+      "root": [
+        0,
+        0.0449101370542574,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.15,
+      "root": [
+        0,
+        0.04482828268712312,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.15416666666666667,
+      "root": [
+        0,
+        0.044746428319988825,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.15833333333333333,
+      "root": [
+        0,
+        0.04466956225706383,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.1625,
+      "root": [
+        0,
+        0.04463509724821103,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.16666666666666666,
+      "root": [
+        0,
+        0.04460063223935822,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.17083333333333334,
+      "root": [
+        0,
+        0.04456616723050542,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.175,
+      "root": [
+        0,
+        0.044531702221652605,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.17916666666666667,
+      "root": [
+        0,
+        0.0444972372127998,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.18333333333333332,
+      "root": [
+        0,
+        0.044462772203946996,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.1875,
+      "root": [
+        0,
+        0.04442830719509419,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.19166666666666668,
+      "root": [
+        0,
+        0.044393842186241386,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.19583333333333333,
+      "root": [
+        0,
+        0.044359377177388574,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.2,
+      "root": [
+        0,
+        0.04432491216853578,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.20416666666666666,
+      "root": [
+        0,
+        0.044290447159682965,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.20833333333333334,
+      "root": [
+        0,
+        0.04425598215083016,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.2125,
+      "root": [
+        0,
+        0.04429679961323094,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.21666666666666667,
+      "root": [
+        0,
+        0.04442126536278851,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.22083333333333333,
+      "root": [
+        0,
+        0.04454573111234606,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.225,
+      "root": [
+        0,
+        0.04467019686190363,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.22916666666666666,
+      "root": [
+        0,
+        0.044794662611461186,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.23333333333333334,
+      "root": [
+        0,
+        0.04491912836101875,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.2375,
+      "root": [
+        0,
+        0.045043594110576304,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.24166666666666667,
+      "root": [
+        0,
+        0.04516805986013387,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.24583333333333332,
+      "root": [
+        0,
+        0.04529252560969143,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.25,
+      "root": [
+        0,
+        0.045416991359248995,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.25416666666666665,
+      "root": [
+        0,
+        0.04554145710880655,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.25833333333333336,
+      "root": [
+        0,
+        0.045665922858364114,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.2625,
+      "root": [
+        0,
+        0.04579038860792167,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.26666666666666666,
+      "root": [
+        0,
+        0.04600469401165088,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.2708333333333333,
+      "root": [
+        0,
+        0.04623584468940064,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.275,
+      "root": [
+        0,
+        0.0464669953671504,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.2791666666666667,
+      "root": [
+        0,
+        0.04669814604490015,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.2833333333333333,
+      "root": [
+        0,
+        0.04692929672264991,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.2875,
+      "root": [
+        0,
+        0.047160447400399666,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.2916666666666667,
+      "root": [
+        0,
+        0.04739159807814942,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.29583333333333334,
+      "root": [
+        0,
+        0.047622748755899176,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.3,
+      "root": [
+        0,
+        0.047853899433648935,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.30416666666666664,
+      "root": [
+        0,
+        0.048085050111398686,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.30833333333333335,
+      "root": [
+        0,
+        0.048316200789148445,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.3125,
+      "root": [
+        0,
+        0.0485473514668982,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.31666666666666665,
+      "root": [
+        0,
+        0.04875604238171098,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.32083333333333336,
+      "root": [
+        0,
+        0.04888050813126854,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.325,
+      "root": [
+        0,
+        0.0490049738808261,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.32916666666666666,
+      "root": [
+        0,
+        0.04912943963038366,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.3333333333333333,
+      "root": [
+        0,
+        0.049253905379941225,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.3375,
+      "root": [
+        0,
+        0.04937837112949878,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.3416666666666667,
+      "root": [
+        0,
+        0.04950283687905634,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.3458333333333333,
+      "root": [
+        0,
+        0.0496273026286139,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.35,
+      "root": [
+        0,
+        0.04975176837817147,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.3541666666666667,
+      "root": [
+        0,
+        0.04987623412772902,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.35833333333333334,
+      "root": [
+        0,
+        0.050000699877286586,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.3625,
+      "root": [
+        0,
+        0.050125165626844145,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.36666666666666664,
+      "root": [
+        0,
+        0.05024963137640171,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.37083333333333335,
+      "root": [
+        0,
+        0.05028144993532119,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.375,
+      "root": [
+        0,
+        0.05024588830848775,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.37916666666666665,
+      "root": [
+        0,
+        0.05021032668165431,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.38333333333333336,
+      "root": [
+        0,
+        0.05017476505482086,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.3875,
+      "root": [
+        0,
+        0.05013920342798741,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.39166666666666666,
+      "root": [
+        0,
+        0.050103641801153974,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.3958333333333333,
+      "root": [
+        0,
+        0.050068080174320524,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.4,
+      "root": [
+        0,
+        0.05003251854748708,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.4041666666666667,
+      "root": [
+        0,
+        0.04999695692065363,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.4083333333333333,
+      "root": [
+        0,
+        0.049961395293820196,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.4125,
+      "root": [
+        0,
+        0.049925833666986746,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.4166666666666667,
+      "root": [
+        0,
+        0.049890272040153304,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.42083333333333334,
+      "root": [
+        0,
+        0.049854710413319854,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.425,
+      "root": [
+        0,
+        0.0497686141542118,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.42916666666666664,
+      "root": [
+        0,
+        0.04967971004738497,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.43333333333333335,
+      "root": [
+        0,
+        0.04959080594055814,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.4375,
+      "root": [
+        0,
+        0.049501901833731314,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.44166666666666665,
+      "root": [
+        0,
+        0.049412997726904474,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.44583333333333336,
+      "root": [
+        0,
+        0.04932409362007765,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.45,
+      "root": [
+        0,
+        0.04923518951325082,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.45416666666666666,
+      "root": [
+        0,
+        0.04914628540642399,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.4583333333333333,
+      "root": [
+        0,
+        0.049057381299597164,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.4625,
+      "root": [
+        0,
+        0.04896847719277034,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.4666666666666667,
+      "root": [
+        0,
+        0.048879573085943505,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.4708333333333333,
+      "root": [
+        0,
+        0.04879066897911668,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.475,
+      "root": [
+        0,
+        0.04869334253649145,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.4791666666666667,
+      "root": [
+        0,
+        0.04857776719761657,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.48333333333333334,
+      "root": [
+        0,
+        0.04846219185874169,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.4875,
+      "root": [
+        0,
+        0.04834661651986681,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.49166666666666664,
+      "root": [
+        0,
+        0.04823104118099193,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.49583333333333335,
+      "root": [
+        0,
+        0.04811546584211706,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5,
+      "root": [
+        0,
+        0.04799989050324218,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5041666666666667,
+      "root": [
+        0,
+        0.04788431516436731,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5083333333333333,
+      "root": [
+        0,
+        0.04776873982549242,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5125,
+      "root": [
+        0,
+        0.04765316448661754,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5166666666666667,
+      "root": [
+        0,
+        0.04753758914774268,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5208333333333334,
+      "root": [
+        0,
+        0.04742201380886779,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.525,
+      "root": [
+        0,
+        0.04730643846999292,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5291666666666667,
+      "root": [
+        0,
+        0.04719086313111804,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5333333333333333,
+      "root": [
+        0,
+        0.04707528779224316,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5375,
+      "root": [
+        0,
+        0.04695971245336828,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5416666666666666,
+      "root": [
+        0,
+        0.04684413711449341,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5458333333333333,
+      "root": [
+        0,
+        0.04672856177561853,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.55,
+      "root": [
+        0,
+        0.04661298643674365,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5541666666666667,
+      "root": [
+        0,
+        0.04649741109786877,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5583333333333333,
+      "root": [
+        0,
+        0.04638183575899389,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5625,
+      "root": [
+        0,
+        0.04626626042011901,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5666666666666667,
+      "root": [
+        0,
+        0.04615068508124414,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5708333333333333,
+      "root": [
+        0,
+        0.04603510974236926,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.575,
+      "root": [
+        0,
+        0.04591953440349438,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5791666666666667,
+      "root": [
+        0,
+        0.045805362686848615,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5833333333333334,
+      "root": [
+        0,
+        0.04571645858002178,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5875,
+      "root": [
+        0,
+        0.045627554473194956,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5916666666666667,
+      "root": [
+        0,
+        0.045538650366368116,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.5958333333333333,
+      "root": [
+        0,
+        0.04544974625954129,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6,
+      "root": [
+        0,
+        0.045360842152714465,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6041666666666666,
+      "root": [
+        0,
+        0.04527193804588763,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6083333333333333,
+      "root": [
+        0,
+        0.045183033939060806,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6125,
+      "root": [
+        0,
+        0.04509412983223398,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6166666666666667,
+      "root": [
+        0,
+        0.04500522572540715,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6208333333333333,
+      "root": [
+        0,
+        0.04491632161858032,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.625,
+      "root": [
+        0,
+        0.044827417511753495,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6291666666666667,
+      "root": [
+        0,
+        0.04473851340492666,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6333333333333333,
+      "root": [
+        0,
+        0.04467206906103681,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6375,
+      "root": [
+        0,
+        0.04463650741830608,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6416666666666667,
+      "root": [
+        0,
+        0.04460094577557534,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6458333333333334,
+      "root": [
+        0,
+        0.04456538413284461,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.65,
+      "root": [
+        0,
+        0.044529822490113884,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6541666666666667,
+      "root": [
+        0,
+        0.04449426084738315,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6583333333333333,
+      "root": [
+        0,
+        0.04445869920465242,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6625,
+      "root": [
+        0,
+        0.04442313756192169,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6666666666666666,
+      "root": [
+        0,
+        0.04438757591919096,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6708333333333333,
+      "root": [
+        0,
+        0.04435201427646022,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.675,
+      "root": [
+        0,
+        0.04431645263372949,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6791666666666667,
+      "root": [
+        0,
+        0.04428089099099876,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6833333333333333,
+      "root": [
+        0,
+        0.044245329348268025,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6875,
+      "root": [
+        0,
+        0.044297063085939906,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6916666666666667,
+      "root": [
+        0,
+        0.04437207609122959,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.6958333333333333,
+      "root": [
+        0,
+        0.044447089096519274,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7,
+      "root": [
+        0,
+        0.04452210210180895,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7041666666666667,
+      "root": [
+        0,
+        0.044597115107098635,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7083333333333334,
+      "root": [
+        0,
+        0.04467212811238832,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7125,
+      "root": [
+        0,
+        0.044747141117678,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7166666666666667,
+      "root": [
+        0,
+        0.044822154122967674,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7208333333333333,
+      "root": [
+        0,
+        0.04489716712825736,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.725,
+      "root": [
+        0,
+        0.04497218013354704,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7291666666666666,
+      "root": [
+        0,
+        0.045047193138836726,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7333333333333333,
+      "root": [
+        0,
+        0.04512220614412641,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7375,
+      "root": [
+        0,
+        0.04521143180707636,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7416666666666667,
+      "root": [
+        0,
+        0.045376460005193804,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7458333333333333,
+      "root": [
+        0,
+        0.045541488203311255,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.75,
+      "root": [
+        0,
+        0.0457065164014287,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7541666666666667,
+      "root": [
+        0,
+        0.045871544599546156,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7583333333333333,
+      "root": [
+        0,
+        0.04603657279766361,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7625,
+      "root": [
+        0,
+        0.04620160099578105,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7666666666666667,
+      "root": [
+        0,
+        0.04636662919389851,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7708333333333334,
+      "root": [
+        0,
+        0.04653165739201596,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.775,
+      "root": [
+        0,
+        0.0466966855901334,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7791666666666667,
+      "root": [
+        0,
+        0.04686171378825086,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7833333333333333,
+      "root": [
+        0,
+        0.0470267419863683,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7875,
+      "root": [
+        0,
+        0.047191770184485754,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7916666666666666,
+      "root": [
+        0,
+        0.04735679838260321,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.7958333333333333,
+      "root": [
+        0,
+        0.047521826580720655,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8,
+      "root": [
+        0,
+        0.047686854778838106,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8041666666666667,
+      "root": [
+        0,
+        0.04785188297695556,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8083333333333333,
+      "root": [
+        0,
+        0.04801691117507301,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8125,
+      "root": [
+        0,
+        0.04818193937319046,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8166666666666667,
+      "root": [
+        0,
+        0.04834696757130791,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8208333333333333,
+      "root": [
+        0,
+        0.04851199576942536,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.825,
+      "root": [
+        0,
+        0.04867702396754281,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8291666666666667,
+      "root": [
+        0,
+        0.04884205216566026,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8333333333333334,
+      "root": [
+        0,
+        0.049007080363777704,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8375,
+      "root": [
+        0,
+        0.049172108561895154,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8416666666666667,
+      "root": [
+        0,
+        0.04933713676001261,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8458333333333333,
+      "root": [
+        0,
+        0.04942162594811065,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.85,
+      "root": [
+        0,
+        0.04949663864297081,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8541666666666666,
+      "root": [
+        0,
+        0.04957165133783097,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8583333333333333,
+      "root": [
+        0,
+        0.04964666403269113,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8625,
+      "root": [
+        0,
+        0.04972167672755129,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8666666666666667,
+      "root": [
+        0,
+        0.04979668942241145,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8708333333333333,
+      "root": [
+        0,
+        0.04987170211727161,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.875,
+      "root": [
+        0,
+        0.049946714812131775,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8791666666666667,
+      "root": [
+        0,
+        0.05002172750699192,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8833333333333333,
+      "root": [
+        0,
+        0.050096740201852084,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8875,
+      "root": [
+        0,
+        0.050171752896712246,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8916666666666667,
+      "root": [
+        0,
+        0.05024676559157241,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.8958333333333334,
+      "root": [
+        0,
+        0.050273112213811276,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9,
+      "root": [
+        0,
+        0.05016319299729823,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9041666666666667,
+      "root": [
+        0,
+        0.05005327378078519,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9083333333333333,
+      "root": [
+        0,
+        0.049943354564272145,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9125,
+      "root": [
+        0,
+        0.0498334353477591,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9166666666666666,
+      "root": [
+        0,
+        0.04972351613124607,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9208333333333333,
+      "root": [
+        0,
+        0.04961359691473303,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.925,
+      "root": [
+        0,
+        0.049503677698219985,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9291666666666667,
+      "root": [
+        0,
+        0.04939375848170694,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9333333333333333,
+      "root": [
+        0,
+        0.049283839265193904,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9375,
+      "root": [
+        0,
+        0.04917392004868086,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9416666666666667,
+      "root": [
+        0,
+        0.04906400083216782,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9458333333333333,
+      "root": [
+        0,
+        0.04895408161565478,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.95,
+      "root": [
+        0,
+        0.04881448326889908,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9541666666666667,
+      "root": [
+        0,
+        0.04865757121164483,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9583333333333334,
+      "root": [
+        0,
+        0.0485006591543906,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9625,
+      "root": [
+        0,
+        0.04834374709713635,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9666666666666667,
+      "root": [
+        0,
+        0.0481868350398821,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9708333333333333,
+      "root": [
+        0,
+        0.04802992298262786,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.975,
+      "root": [
+        0,
+        0.04787301092537361,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9791666666666666,
+      "root": [
+        0,
+        0.047716098868119367,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9833333333333333,
+      "root": [
+        0,
+        0.04755918681086513,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9875,
+      "root": [
+        0,
+        0.04740227475361088,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9916666666666667,
+      "root": [
+        0,
+        0.04724536269635663,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 0.9958333333333333,
+      "root": [
+        0,
+        0.04708845063910239,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "phase": 1,
+      "root": [
+        0,
+        0.04693153858184815,
+        -0.010343066453933717
+      ],
+      "rootQ": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "main": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

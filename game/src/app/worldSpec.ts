@@ -20,6 +20,7 @@ import {
   type SettlementDef,
 } from "../content/regions.js";
 import { resourceDef } from "../content/resources.js";
+import { WORLD_SITES } from "../content/worldSites.js";
 import type { FlatSpot, RegionTerrainSpec, WorldTerrainSpec, Rect } from "../render/scene.js";
 import { seedFromText, type OrganicBiomeSpec } from "../world/organicFields.js";
 import { WATER_BASIN_DEPTH, waterBasinForCluster } from "../world/waterBodies.js";
@@ -122,6 +123,7 @@ function flatSpotsFor(region: RegionDef): FlatSpot[] {
   // toward the dry terrain.
   for (const location of region.locations) {
     if (location.kind === "water") continue;
+    if (WORLD_SITES.some((site) => site.locationId === location.id)) continue;
     // The regional Essence Cache and its altar share a centre. Keep the purpose-built 12.5 m court
     // above instead of layering the generic seven-metre interaction pad over the same ground.
     if (essenceAltars.some((altar) => (
@@ -252,7 +254,7 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
       bias: 0.1,
       anchors: [
         { id: "moorgate", centre: [256, 4], radius: 28, holdRadius: 5, strength: 1.55 },
-        { id: "lower-quarry", centre: [60, -16], radius: 40, strength: 1.4 },
+        { id: "lower-quarry", centre: [140, -16], radius: 40, strength: 1.4 },
         { id: "highcairn", centre: [144, -66], radius: 46, strength: 1.65 },
         { id: "upper-seam", centre: [194, -132], radius: 40, strength: 1.35 },
         { id: "great-cairn", centre: [140, -176], radius: 32, strength: 1.2 },
@@ -265,7 +267,7 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
         { id: "south-spur", centre: [45, -290], radius: 26, strength: 1.0 },
       ],
       corridors: [
-        { from: [60, -16], to: [144, -66], halfWidth: 28, strength: 0.64 },
+        { from: [140, -16], to: [144, -66], halfWidth: 28, strength: 0.64 },
         { from: [144, -66], to: [194, -132], halfWidth: 30, strength: 0.66 },
         { from: [194, -132], to: [140, -176], halfWidth: 24, strength: 0.52 },
         { from: [206, -88], to: [284, -110], halfWidth: 26, strength: 0.58 },
@@ -345,6 +347,10 @@ export function buildWorldTerrainSpec(): WorldTerrainSpec {
     regions,
     flats,
     basins,
+    worldSites: WORLD_SITES,
+    portalLandforms: REGIONS.flatMap((region) => region.dungeon
+      ? [{ centre: region.dungeon.entrance, rotationY: region.dungeon.entranceRotationY ?? 0 }]
+      : []),
     biomes: COREALM_BIOMES,
     // The gameplay bounds above stay put. This only describes the rendered land edge and ocean.
     coast: {

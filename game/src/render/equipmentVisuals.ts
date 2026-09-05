@@ -3,12 +3,13 @@
  *
  * Melee armour uses Quaternius' Knight set and magic armour uses the hooded Ranger set. Magic
  * weapons use the staff and wand meshes from Blink's FREE - RPG Weapons pack. Every wood tier
- * keeps the same silhouette and changes only its unlit base colour. Altar-crafted elemental
- * weapons add one small faceted mesh at the crown.
+ * keeps the same silhouette and uses its authored wood grain under a tier colour treatment.
+ * Altar-crafted elemental weapons add a cut crystal at the crown.
  */
 import * as THREE from "three";
 import type { EquipSlot, ItemId } from "../contracts.js";
 import { tierSilhouetteScale } from "./materials.js";
+import { buildEquipmentCoreGeometry } from "./equipmentDetails.js";
 
 /** Which base body the parts are resolved against. `boot.ts` builds the player as `base_male`. */
 export type CharacterBody = "male" | "female";
@@ -62,39 +63,24 @@ export const VISIBLE_EQUIP_SLOTS: readonly EquipSlot[] = [
 // ------------------------------------------------------------------------ tints
 
 /**
- * ## What a tint can and cannot do here, measured
- *
- * Every asset in this ladder is textured AND vertex-coloured: parsing the GLBs, sword, axe and
- * pickaxe are one `MI_Trim_Props_Vertex` primitive with a `baseColorTexture` and a `COLOR_0`
- * attribute; shield has three trim materials, all textured and vertex-coloured; the ranger and
- * knight parts are `MI_Ranger` / `MI_Knight`, both textured. `MeshStandardMaterial.color`
- * MULTIPLIES both of those, so a tint can darken and it can shift hue, and it can never lighten.
- *
- * That was tested rather than assumed: dropping `map` on the bone-attached weapons and re-shooting
- * the tier-1 kit turned the sword GOLD, not grey, because `COLOR_0` carries the bronze too
- * (runs/corealm/screenshots/rig2-tier-t1-crop.png at that revision). Killing both would leave a
- * flat, unlit-looking silhouette. Knight keeps that textured multiply. Ranger's almost-black
- * albedo also gets the small uniform colour lift in `tintedMaterial`, so its full outfit can read
- * blue and green without throwing away the painted seams and buckles.
- *
- * The armour colours below are the authored gameplay ladder. Melee moves from bronze to dark iron
- * to bright steel. Magic moves from blue to dark green to black. The Knight and Ranger silhouettes
- * keep the two combat styles distinct when their palettes happen to have similar luminance.
+ * The tier colours are applied over authored material regions. Restored ORM maps separate steel
+ * from cloth, leather and wood. A metal-only luminance treatment removes the source weapons'
+ * bronze vertex hue and prevents a second dark multiply from hiding their painted wear.
+ * Knight uses the same metal mask, so straps and its red scarf keep their authored colours.
+ * Ranger and magic wood have separate texture-luminance treatments below.
  */
 
 /** Tier 0. Old iron with rust in it: warmer and darker than Grithe, so the upgrade reads. */
 const WORN = 0x6f6257;
-/** Melee tier 1: bronze over the Knight's authored plate texture. */
+/** Melee tier 1: bronze. */
 const GRITHE = 0xb77a3f;
 /** Melee tier 5: medium neutral grey, separated clearly from both bronze and bright steel. */
 const CORVEN = 0x7f8589;
-/** Melee tier 10: full-white multiply, the brightest the textured source steel can render. */
+/** Melee tier 10: neutral bright steel, with wear still supplied by the authored texture. */
 const KALDITE = 0xffffff;
 const KALDITE_GARNET = 0x5c1522;
 /**
- * Melee tier 20: kiln steel. A multiply can never lighten, so Emberite cannot be "brighter than
- * Kaldite"; instead it is as bright as the texture allows with a warm cast, against Kaldite's
- * neutral white — heat against cold, at equal value.
+ * Melee tier 20: kiln steel with a warm cast against Kaldite's neutral steel.
  */
 const EMBERITE = 0xffc9a0;
 const EMBERITE_OPAL = 0xb8481e;
@@ -137,13 +123,14 @@ const MAGIC_WAND_SCALE = 0.80;
 type OutfitKit = "ranger" | "knight";
 type OutfitPart = "helmet" | "hood" | "chest" | "legs" | "boots" | "gloves" | "pauldron" | "scarf";
 type WeaponAsset =
-  | "sword" | "shield" | "axe" | "pickaxe" | "rpg_weapon_staff" | "rpg_weapon_wand"
+  | "sword" | "corealm_dagger" | "shield" | "axe" | "pickaxe" | "rpg_weapon_staff" | "rpg_weapon_wand"
   | "miniboss_sword" | "miniboss_staff";
 
 /**
  * A resolved part before the body variant is chosen. One item can be more than one part.
  *
- * Every weapon entry is file-backed. Magic variants deliberately reuse one mesh per weapon kind.
+ * The dagger is authored in equipmentDetails; other weapons are file-backed. Magic variants reuse
+ * one mesh per weapon kind.
  */
 type PartSpec =
   | { kind: "outfit"; kit: OutfitKit; part: OutfitPart; tint: number; accent?: number }
@@ -167,7 +154,7 @@ interface LadderTier {
   /** Tint for the off-hand shield. */
   offHandTint?: number;
   /**
-   * `sword` covers both dagger and sword geometry. Magic variants use the pack staff or wand.
+   * Dagger and sword have separate geometry. Magic variants use the pack staff or wand.
    */
   mainHand: readonly { id: ItemId; asset: WeaponAsset; scale?: number; fixedScale?: boolean }[];
   offHand?: { id: ItemId; scale: number };
@@ -187,7 +174,7 @@ const LADDER: readonly LadderTier[] = [
   {
     tier: 1, kit: "knight", cloth: GRITHE, weapon: GRITHE, offHandTint: 0x8a6f4d,
     mainHand: [
-      { id: "grithe_dagger", asset: "sword", scale: 0.62 },
+      { id: "grithe_dagger", asset: "corealm_dagger", scale: 1, fixedScale: true },
       { id: "grithe_sword", asset: "sword", scale: 1 },
     ],
     offHand: { id: "palewood_shield", scale: 1 },
@@ -198,7 +185,7 @@ const LADDER: readonly LadderTier[] = [
   {
     tier: 5, kit: "knight", cloth: CORVEN, weapon: CORVEN, offHandTint: 0x5c4a33,
     mainHand: [
-      { id: "corven_dagger", asset: "sword", scale: 0.62 },
+      { id: "corven_dagger", asset: "corealm_dagger", scale: 1, fixedScale: true },
       { id: "corven_sword", asset: "sword", scale: 1 },
     ],
     offHand: { id: "duskoak_shield", scale: 1 },
@@ -210,7 +197,7 @@ const LADDER: readonly LadderTier[] = [
     tier: 10, kit: "knight", cloth: KALDITE,
     weapon: KALDITE, weaponAccent: KALDITE_GARNET, offHandTint: KALDITE,
     mainHand: [
-      { id: "kaldite_dagger", asset: "sword", scale: 0.62 },
+      { id: "kaldite_dagger", asset: "corealm_dagger", scale: 1, fixedScale: true },
       { id: "kaldite_sword", asset: "sword", scale: 1 },
     ],
     offHand: { id: "cairnpine_shield", scale: 1 },
@@ -258,7 +245,7 @@ const LADDER: readonly LadderTier[] = [
     tier: 20, kit: "knight", cloth: EMBERITE,
     weapon: EMBERITE, weaponAccent: EMBERITE_OPAL, offHandTint: EMBERITE,
     mainHand: [
-      { id: "emberite_dagger", asset: "sword", scale: 0.62 },
+      { id: "emberite_dagger", asset: "corealm_dagger", scale: 1, fixedScale: true },
       { id: "emberite_sword", asset: "sword", scale: 1 },
     ],
     offHand: { id: "cinderpine_shield", scale: 1 },
@@ -318,9 +305,8 @@ function buildTable(): Map<ItemId, GearVisual> {
 
   // Tier 0, outside the LADDER because it is one weapon and no kit. `tierSilhouetteScale(0)` clamps
   // to the tier-1 value of 0.900, so the worn blade would draw exactly as big as a Grithe sword;
-  // 0.86 of that keeps it visibly the smaller weapon, which is the only signal a player gets before
-  // they open the Worn panel. WORN is a browner, duller multiply than GRITHE's cool grey — this is
-  // old iron with rust in it, not clean steel.
+  // 0.86 of that keeps it visibly smaller. WORN gives its metal a dull brown iron colour; the
+  // Grithe upgrade has a brighter bronze finish.
   table.set("worn_sword", {
     slot: "mainHand",
     parts: [weaponPart("sword", WORN, round3(tierSilhouetteScale(1) * 0.86))],
@@ -417,8 +403,7 @@ export function gatheringToolAppearance(itemId: ItemId): GearAppearance | null {
 export const GEAR_APPEARANCE_IDS: readonly ItemId[] = [...GEAR_VISUALS.keys()];
 
 /**
- * Every distinct FILE-BACKED asset the 59 rows can ask for, so a rig can warm them before the
- * player equips.
+ * Every distinct registered asset the current rows can ask for, so a rig can warm them before equip.
  *
  * This exists because of a measured stall, not a hunch. Instrumenting `CharacterRig.attachBoneSlot`
  * with `performance.now()` in a headless run: `applyEquipment` fired 1 ms after the equip landed in
@@ -492,6 +477,8 @@ const ORB_PALETTES: Readonly<Record<string, OrbPalette>> = {
   earth_staff: { element: "earth", colour: 0xd5b558, emissive: 0x83bd50 },
   water_wand: { element: "water", colour: 0x6cbcff, emissive: 0x197ce8 },
   water_staff: { element: "water", colour: 0x6cbcff, emissive: 0x197ce8 },
+  fire_wand: { element: "fire", colour: 0xffba59, emissive: 0xf4691c },
+  fire_staff: { element: "fire", colour: 0xffba59, emissive: 0xf4691c },
 };
 
 /**
@@ -516,7 +503,7 @@ export function gearAppearancePartsWithCharge(
   body: CharacterBody = "male",
 ): readonly GearAppearance[] {
   const parts = gearAppearanceParts(itemId, body);
-  const palette = charge.itemId ? ORB_PALETTES[charge.itemId] : undefined;
+  const palette = charge.itemId === itemId ? ORB_PALETTES[itemId] : undefined;
   if (!palette) return parts;
   return parts.map((part) => {
     const socket = ORB_SOCKETS[part.assetId];
@@ -591,6 +578,7 @@ interface SocketParts {
 /** Where the grip centre lands relative to the asset origin AFTER `rotation`, at scale 1. */
 const SOCKET_PARTS: Readonly<Record<string, SocketParts>> = {
   sword: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.100], rotation: [Math.PI / 2, 0, 0] },
+  corealm_dagger: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.100], rotation: [Math.PI / 2, 0, 0] },
   axe: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.250], rotation: [Math.PI / 2, 0, 0] },
   pickaxe: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.150], rotation: [Math.PI / 2, Math.PI / 2, 0] },
   shield: { bone: "hand_l", fist: FIST_LEFT, grip: [0.022, 0, 0], rotation: [Math.PI / 2, -Math.PI / 2, 0] },
@@ -682,16 +670,18 @@ export function applyGearAppearance(object: THREE.Object3D, appearance: GearAppe
 function tintedMaterial(material: THREE.Material, appearance: GearAppearance): THREE.Material {
   const clone = material.clone();
   const shaded = clone as Partial<THREE.MeshStandardMaterial>;
-  if (appearance.tint !== undefined && shaded.color instanceof THREE.Color) {
+  const role = material.userData["equipmentRole"] as string | undefined;
+  const tintable = role !== "leather" && role !== "gem";
+  if (tintable && appearance.tint !== undefined && shaded.color instanceof THREE.Color) {
     shaded.color.setHex(appearance.tint);
   }
   if (appearance.accent !== undefined && shaded.emissive instanceof THREE.Color) {
-    shaded.emissive.setHex(appearance.accent);
-    // On a material with no emissive map this is a restrained uniform gem cast rather than a
-    // localized glow, so it stays faint. The imported rare weapons DO carry an authored emissive
-    // map (the staff crystal, the sword's edge line); there the accent recolours that authored
-    // glow and must stay bright enough to read as one at gameplay distance.
-    shaded.emissiveIntensity = shaded.emissiveMap ? 1.2 : 0.15;
+    // Accents belong to an authored light mask or a separate setting. A uniform emissive cast
+    // over a steel blade hides its edge and makes its leather grip glow.
+    const localized = Boolean(shaded.emissiveMap) || role === "gem";
+    shaded.emissive.setHex(localized ? appearance.accent : 0x000000);
+    shaded.emissiveIntensity = localized ? (shaded.emissiveMap ? 1.2 : 0.18) : 0;
+    if (role === "gem" && shaded.color instanceof THREE.Color) shaded.color.setHex(appearance.accent);
   }
   if (isRangerOutfitAsset(appearance.assetId)
     && appearance.tint !== undefined
@@ -699,18 +689,38 @@ function tintedMaterial(material: THREE.Material, appearance: GearAppearance): T
     applyRangerTierColour(clone, appearance.tint);
   }
   if (isMagicWeaponAsset(appearance.assetId)) {
-    // The source FBXs each use one material, so there is no safe sub-material to recolour. Removing
-    // the albedo and vertex-colour multipliers makes the authored normal detail read in exactly one
-    // wood colour. It also removes the basic staff texture's green accent. The model stays unlit.
-    shaded.map = null;
-    shaded.emissiveMap = null;
-    shaded.vertexColors = false;
+    // These GLBs already contain brown, unlit albedo with the original carved grain, bindings and
+    // wear. Rehue its luminance instead of dropping the texture or multiplying dark brown twice.
     if (shaded.emissive instanceof THREE.Color) shaded.emissive.setHex(0x000000);
     shaded.emissiveIntensity = 0;
-    shaded.metalness = 0.04;
-    shaded.roughness = 0.72;
-    clone.needsUpdate = true;
+    shaded.metalness = 0;
+    shaded.roughness = 0.78;
+    if (appearance.tint !== undefined) applyWoodTierColour(clone, appearance.tint);
+  } else if (appearance.assetId === "miniboss_sword" || appearance.assetId === "miniboss_staff") {
+    // Keep the native normal and emissive maps. The neutralized albedo still supplies the edge,
+    // runes and fittings; the regional colour should not turn its light edges into a solid stripe.
+    if (!shaded.metalnessMap) shaded.metalness = appearance.assetId === "miniboss_sword" ? 0.58 : 0.28;
+    if (!shaded.roughnessMap) shaded.roughness = appearance.assetId === "miniboss_sword" ? 0.40 : 0.52;
+    if (appearance.tint !== undefined) applyRareTierColour(clone, appearance.tint);
+  } else if (appearance.tint !== undefined && shaded.color instanceof THREE.Color) {
+    const source = material as THREE.MeshStandardMaterial;
+    if (appearance.assetId === "shield") {
+      // The shield's tier tint describes its board. Applying it to every trim turns the rim
+      // brown and its leather grip almost black, despite their separate authored materials.
+      if (material.name === "MI_Trim_Metal_Vertex" && shaded.metalnessMap && tintable) {
+        applyMetalTierColour(clone, source, shieldMetalTint(appearance.tint), 0.061);
+      } else if (material.name === "MI_Trim_Props") {
+        shaded.color.copy(source.color);
+      }
+    } else if (shaded.metalnessMap && tintable
+      && (isKnightOutfitAsset(appearance.assetId) || ["sword", "axe", "pickaxe"].includes(appearance.assetId))) {
+      applyMetalTierColour(clone, source, appearance.tint, isKnightOutfitAsset(appearance.assetId) ? 0.22 : 0.10);
+    }
   }
+  // CharacterRig merges modular parts by material name and base colour. Shader-owned colour is
+  // white, so include treatment identity in the name to keep mixed armour tiers distinct.
+  clone.name = `${material.name || material.type}|gear:${appearance.tint ?? "native"}:${appearance.accent ?? "none"}`;
+  clone.needsUpdate = true;
   return clone;
 }
 
@@ -722,14 +732,113 @@ function isRangerOutfitAsset(assetId: string): boolean {
   return assetId.startsWith("outfit_male_ranger_") || assetId.startsWith("outfit_female_ranger_");
 }
 
+function isKnightOutfitAsset(assetId: string): boolean {
+  return assetId.startsWith("outfit_male_knight_") || assetId.startsWith("outfit_female_knight_");
+}
+
+function shieldMetalTint(woodTint: number): number {
+  if (woodTint === 0x8a6f4d) return GRITHE;
+  if (woodTint === 0x5c4a33) return CORVEN;
+  return woodTint;
+}
+
+/**
+ * UV-weighted source samples put metal luminance near .10 for the bronze weapons, .061 for
+ * shield fittings and .22 for Knight plate. These references restore a shared tier colour while
+ * retaining dark seams, bright wear, native map colour and all authored roughness/normal detail.
+ */
+function applyMetalTierColour(
+  material: THREE.Material,
+  source: THREE.MeshStandardMaterial,
+  tint: number,
+  reference: number,
+): void {
+  const shaded = material as THREE.MeshStandardMaterial;
+  shaded.color.copy(source.color);
+  shaded.emissive.copy(source.emissive);
+  shaded.emissiveIntensity = source.emissiveIntensity;
+  const inheritedCompile = material.onBeforeCompile;
+  const inheritedCacheKey = material.customProgramCacheKey.bind(material);
+  material.onBeforeCompile = (shader, renderer): void => {
+    inheritedCompile.call(material, shader, renderer);
+    shader.fragmentShader = shader.fragmentShader.replace("#include <color_fragment>", `
+      vec3 gearMetalSource = diffuseColor.rgb;
+      #include <color_fragment>
+      #if defined(USE_COLOR) || defined(USE_COLOR_ALPHA)
+        gearMetalSource *= dot(vColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+      #endif
+    `);
+    shader.fragmentShader = shader.fragmentShader.replace("#include <metalnessmap_fragment>", `
+      #include <metalnessmap_fragment>
+      float gearMetalMask = smoothstep(0.20, 0.70, metalnessFactor);
+      float gearMetalLuma = dot(gearMetalSource, vec3(0.2126, 0.7152, 0.0722));
+      float gearMetalWear = max(pow(max(gearMetalLuma, 0.0001) / ${reference.toFixed(3)}, 0.80), 0.08);
+      vec3 gearMetalColour = ${glslColour(tint)} * 0.72 * gearMetalWear
+        * gearMetalSource / max(gearMetalLuma, 0.001);
+      vec3 gearMetalHighlight = max(gearMetalColour - vec3(0.78), vec3(0.0));
+      gearMetalColour = min(gearMetalColour, vec3(0.78))
+        + 0.17 * gearMetalHighlight / (vec3(0.17) + gearMetalHighlight);
+      diffuseColor.rgb = mix(diffuseColor.rgb, gearMetalColour, gearMetalMask);
+    `);
+  };
+  material.customProgramCacheKey = (): string => `${inheritedCacheKey()}|metal-tier:${tint}:${reference}`;
+}
+
+/** Keep texture-driven grain and wear while giving each log tier its intended albedo. */
+function applyWoodTierColour(material: THREE.Material, tint: number): void {
+  const shaded = material as THREE.MeshStandardMaterial;
+  if (!(shaded.color instanceof THREE.Color)) return;
+  shaded.color.setHex(0xffffff);
+  const colour = glslColour(tint);
+  patchGearShader(material, `wood-tier:${tint}`, `
+    float gearWoodLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+    float gearWoodGrain = clamp(pow(max(gearWoodLuma, 0.001) / 0.050, 0.85), 0.20, 1.45);
+    diffuseColor.rgb = ${colour} * gearWoodGrain;
+  `, `
+    roughnessFactor = clamp(roughnessFactor * mix(1.14, 0.86,
+      smoothstep(0.014, 0.090, gearWoodLuma)), 0.48, 0.96);
+  `);
+}
+
+/** Regional colour stays strongest in the midtones; worn bright edges keep a steel reflection. */
+function applyRareTierColour(material: THREE.Material, tint: number): void {
+  const shaded = material as THREE.MeshStandardMaterial;
+  if (!(shaded.color instanceof THREE.Color)) return;
+  shaded.color.setHex(0xffffff);
+  patchGearShader(material, `rare-tier:${tint}`, `
+    float gearRareLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+    float gearRareEdge = smoothstep(0.38, 0.80, gearRareLuma);
+    vec3 gearRareColour = mix(${glslColour(tint)}, vec3(0.78, 0.83, 0.87), gearRareEdge * 0.62);
+    diffuseColor.rgb *= gearRareColour;
+  `);
+}
+
+function glslColour(tint: number): string {
+  const colour = new THREE.Color(tint);
+  return `vec3(${colour.r.toFixed(6)}, ${colour.g.toFixed(6)}, ${colour.b.toFixed(6)})`;
+}
+
+function patchGearShader(material: THREE.Material, key: string, colour: string, roughness = ""): void {
+  const inheritedCompile = material.onBeforeCompile;
+  const inheritedCacheKey = material.customProgramCacheKey.bind(material);
+  material.onBeforeCompile = (shader, renderer): void => {
+    inheritedCompile.call(material, shader, renderer);
+    shader.fragmentShader = shader.fragmentShader.replace("#include <color_fragment>", `#include <color_fragment>${colour}`);
+    if (roughness) {
+      shader.fragmentShader = shader.fragmentShader.replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>${roughness}`);
+    }
+  };
+  material.customProgramCacheKey = (): string => `${inheritedCacheKey()}|${key}`;
+}
+
 /**
  * Rehues Ranger's nearly black albedo without using emissive light.
  *
  * A uniform emissive lift made every normal face equally bright, which erased the hood folds,
  * chest planes, straps, and boot shape. This fragment pass reads the authored texture and vertex
  * colour luminance, maps that value into the tier hue, then leaves Three's normal PBR lighting to
- * shade the result. The 0.26 floor makes the dark cloth accept blue or green. Expanding the
- * source's first 0.22 luminance into the remaining range keeps its low-contrast detail readable.
+ * shade the result. A soft luminance expansion keeps the cloth folds, while warm source pixels
+ * retain the leather colour. There is no emissive lift.
  */
 function applyRangerTierColour(material: THREE.Material, tint: number): void {
   const shaded = material as Partial<THREE.MeshStandardMaterial>;
@@ -752,8 +861,10 @@ function applyRangerTierColour(material: THREE.Material, tint: number): void {
     if (!shader.fragmentShader.includes(marker)) return;
     shader.fragmentShader = shader.fragmentShader.replace(marker, `${marker}
       float gearTierSourceLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-      float gearTierValue = mix(0.26, 1.0, smoothstep(0.0, 0.22, gearTierSourceLuma));
-      diffuseColor.rgb = ${colourLiteral} * gearTierValue;
+      float gearTierValue = clamp(pow(max(gearTierSourceLuma, 0.001) / 0.14, 0.72), 0.18, 1.32);
+      float gearLeatherMask = smoothstep(0.012, 0.065, diffuseColor.r - diffuseColor.b);
+      vec3 gearClothColour = ${colourLiteral} * gearTierValue;
+      diffuseColor.rgb = mix(gearClothColour, diffuseColor.rgb * 1.32, gearLeatherMask * 0.88);
     `);
   };
   material.customProgramCacheKey = (): string => (
@@ -762,20 +873,23 @@ function applyRangerTierColour(material: THREE.Material, tint: number): void {
   material.needsUpdate = true;
 }
 
-/** One shared 20-triangle shape. Each attachment owns only its tiny material. */
-const MAGIC_ORB_GEOMETRY = new THREE.IcosahedronGeometry(1, 0);
+/** A cut crystal with a bevelled girdle and finished facets; geometry is shared for the session. */
+const MAGIC_ORB_GEOMETRY = buildEquipmentCoreGeometry();
 
 function magicOrbMesh(appearance: GearOrbAppearance): THREE.Mesh {
   const charged = appearance.charged;
-  const material = new THREE.MeshStandardMaterial({
-    color: charged ? appearance.colour : 0x181b1c,
+  const material = new THREE.MeshPhysicalMaterial({
+    color: charged ? appearance.colour : 0x384044,
     emissive: charged ? appearance.emissive : 0x000000,
-    emissiveIntensity: charged ? 2.1 : 0,
-    metalness: charged ? 0.05 : 0.18,
-    roughness: charged ? 0.24 : 0.58,
+    emissiveIntensity: charged ? 0.72 : 0,
+    metalness: charged ? 0.03 : 0.12,
+    roughness: charged ? 0.17 : 0.39,
+    clearcoat: 0.88,
+    clearcoatRoughness: 0.12,
+    vertexColors: true,
     transparent: true,
-    opacity: charged ? 0.94 : 0.42,
-    depthWrite: charged,
+    opacity: charged ? 0.97 : 0.66,
+    depthWrite: true,
   });
   const orb = new THREE.Mesh(MAGIC_ORB_GEOMETRY, material);
   orb.name = `magic-weapon-socket-${appearance.element}-${charged ? "charged" : "empty"}`;

@@ -19,6 +19,14 @@ const TILE_BLEED_PIXELS = 128;
 const SOURCE_IMAGE_FILE = "world-map.png";
 const METADATA_FILE = "world-map.json";
 const MINIMAP_MAX_BYTES = 150_000;
+// A canonical building in every settlement must have real resident, drawable parts before capture.
+// Source catalogue counts alone missed the settings callback unloading the three distant towns.
+const SETTLEMENT_CAPTURE_REPRESENTATIVES = [
+  { settlement: "Coldbrace", regionId: "fallowmarch", buildingId: "coldbrace_hall" },
+  { settlement: "Rootfall", regionId: "vellenwood", buildingId: "rootfall_house_1" },
+  { settlement: "Highcairn", regionId: "karrowmoor", buildingId: "highcairn_hut_1" },
+  { settlement: "Emberfast", regionId: "kilnhalt", buildingId: "emberfast_hut_1" },
+] as const;
 /**
  * REVIEWED for the Kilnhalt expansion, per this tripwire's own instruction: the canonical image
  * grew 33% in pixels (4800x3600 -> 4800x4800) and the northern band's dry-brush ground texture
@@ -216,109 +224,19 @@ function exactMetresPerPixel(layout: MapLayout, width: number, height: number): 
   return horizontal;
 }
 
-function medianFromHistogram(histogram: Uint32Array, count: number): number {
-  const middle = Math.ceil(count / 2);
-  let seen = 0;
-  for (let value = 0; value < histogram.length; value += 1) {
-    seen += histogram[value]!;
-    if (seen >= middle) return value;
-  }
-  throw new Error("Cannot measure an empty ocean sample.");
-}
-
-/**
- * The capture extends to the next tile boundary beyond the coast mesh. In that outer strip, the
- * transparent ocean plane sits over the scene background instead of the coast floor, which makes a
- * rectangular light frame. Match only that strip to the adjacent guaranteed-ocean band. The organic
- * shoreline ends before either sample, so terrain, roads, lakes, props and entities stay untouched.
- */
-async function normalizeOceanBackdrop(layout: MapLayout, sourceImage: Buffer): Promise<Buffer> {
-  const coast = buildWorldTerrainSpec().coast;
-  if (!coast) throw new Error("World-map ocean normalization needs the authored coast spec.");
-  const metresPerPixel = exactMetresPerPixel(layout, layout.width, layout.height);
-
-  // The coast-floor rectangle in PIXELS, computed per side from the playable bounds plus the
-  // collar. The strip widths are no longer uniform: the tile-grid snap in `buildMapLayout` can
-  // pad one side more than another (the Kilnhalt image carries 290 m at the north edge against
-  // 250 m elsewhere), and the old single `imagePaddingMetres - collar` strip width mislabelled
-  // the extra band as coast floor — that was the pale bar across the top of the first capture.
-  const toPixelX = (metres: number): number => (metres - layout.imageBounds.minX) / metresPerPixel;
-  // Image rows run north (maxZ) at row 0.
-  const toPixelY = (metres: number): number => (layout.imageBounds.maxZ - metres) / metresPerPixel;
-  const floorLeft = Math.round(toPixelX(layout.playableBounds.minX - coast.collar));
-  const floorRight = Math.round(toPixelX(layout.playableBounds.maxX + coast.collar));
-  const floorTop = Math.round(toPixelY(layout.playableBounds.maxZ + coast.collar));
-  const floorBottom = Math.round(toPixelY(layout.playableBounds.minZ - coast.collar));
-  if (floorLeft <= 0 || floorTop <= 0 || floorRight >= layout.width || floorBottom >= layout.height) {
-    throw new Error("World-map ocean backdrop strip collapsed; the image bounds must exceed the coast floor.");
-  }
-
-  const safeOceanMetres = coast.collar - coast.shoreline[1];
-  if (safeOceanMetres <= metresPerPixel * 2) {
-    throw new Error("The authored coast leaves no safe ocean-only band for backdrop normalization.");
-  }
-  // Sample half the guaranteed gap between the maximum shoreline reach and the coast-floor edge.
-  const referenceBandPixels = Math.max(1, Math.floor((safeOceanMetres / 2) / metresPerPixel));
-  const { data, info } = await sharp(sourceImage)
-    .toColourspace("srgb")
-    .removeAlpha()
-    .raw()
-    .toBuffer({ resolveWithObject: true });
-  if (info.width !== layout.width || info.height !== layout.height || info.channels !== 3) {
-    throw new Error("World-map ocean normalization needs an RGB capture at the authored dimensions.");
-  }
-
-  const innerHistograms = Array.from({ length: 3 }, () => new Uint32Array(256));
-  let innerCount = 0;
-  for (let y = floorTop; y < floorBottom; y += 1) {
-    for (let x = floorLeft; x < floorRight; x += 1) {
-      const inner = x < floorLeft + referenceBandPixels
-        || x >= floorRight - referenceBandPixels
-        || y < floorTop + referenceBandPixels
-        || y >= floorBottom - referenceBandPixels;
-      if (!inner) continue;
-      const offset: number = (y * info.width + x) * info.channels;
-      for (let channel = 0; channel < 3; channel += 1) {
-        const histogram = innerHistograms[channel]!;
-        const value = data[offset + channel]!;
-        histogram[value] = (histogram[value] ?? 0) + 1;
-      }
-      innerCount += 1;
-    }
-  }
-  const innerMedian = innerHistograms.map((histogram) => medianFromHistogram(histogram, innerCount));
-
-  // PAINT the whole backdrop with the sampled guaranteed-ocean colour instead of offsetting it.
-  // Beyond the coast floor the capture shows the transparent ocean plane over whatever the scene
-  // background resolved to per tile — the old small uniform offset could match a well-behaved
-  // strip but not the sky-gradient leaks the snapped corners exposed. A flat fill of the median
-  // ocean colour is deterministic, idempotent, and byte-exact inside the coast floor.
-  const corrected = Buffer.from(data);
-  for (let y = 0; y < info.height; y += 1) {
-    for (let x = 0; x < info.width; x += 1) {
-      if (x >= floorLeft && x < floorRight && y >= floorTop && y < floorBottom) continue;
-      const offset: number = (y * info.width + x) * info.channels;
-      for (let channel = 0; channel < 3; channel += 1) {
-        corrected[offset + channel] = innerMedian[channel]!;
-      }
-    }
-  }
-  // True-colour PNG keeps every pixel inside the corrected ring byte-exact. Palette re-quantizing
-  // the whole capture would needlessly move colours on roads, lakes and the organic shoreline.
-  return sharp(corrected, { raw: info })
-    .png({ compressionLevel: 9, palette: false })
-    .toBuffer();
-}
-
 async function renderRendition(
   sourceImage: Buffer,
   outputDir: string,
   layout: MapLayout,
   spec: RenditionSpec,
 ): Promise<MapRenditionMetadata> {
+  // The detailed foliage capture fits the original 1.275 MB ceiling with the photo encoder's
+  // standard chroma sampling. Town, forest, quarry and coast crops were reviewed at native scale;
+  // retain the 4800 px output and quality 60. Smaller renditions keep their existing encoding.
+  const largestDetail = spec.id === "detail-4800";
   const image = await sharp(sourceImage)
     .resize({ width: spec.width, height: spec.height, fit: "fill", kernel: "lanczos3" })
-    .webp({ quality: spec.quality, effort: 6, smartSubsample: true })
+    .webp({ quality: spec.quality, effort: 6, smartSubsample: !largestDetail, preset: largestDetail ? "photo" : "default" })
     .toBuffer();
   if (image.byteLength > spec.maxBytes) {
     throw new Error(
@@ -349,7 +267,8 @@ async function writeWorldMapArtifacts(layout: MapLayout, sourceImage: Buffer): P
         + `expected ${layout.width}x${layout.height} from the authored bounds.`,
     );
   }
-  const normalizedSourceImage = await normalizeOceanBackdrop(layout, sourceImage);
+  // Ocean depth and opacity come from the rendered coast. Preserve the raw capture here so a
+  // broken shoreline or finite-floor boundary remains visible in the map acceptance evidence.
 
   const outputDir = path.join(gameRoot, "public", "generated");
   const generatedSourceDir = path.join(gameRoot, "src", "generated");
@@ -357,19 +276,19 @@ async function writeWorldMapArtifacts(layout: MapLayout, sourceImage: Buffer): P
     mkdir(outputDir, { recursive: true }),
     mkdir(generatedSourceDir, { recursive: true }),
   ]);
-  await writeFile(path.join(outputDir, SOURCE_IMAGE_FILE), normalizedSourceImage);
+  await writeFile(path.join(outputDir, SOURCE_IMAGE_FILE), sourceImage);
 
   const minimap = await renderRendition(
-    normalizedSourceImage, outputDir, layout, sizedRendition(layout, MINIMAP_RENDITION),
+    sourceImage, outputDir, layout, sizedRendition(layout, MINIMAP_RENDITION),
   );
   const detail: MapRenditionMetadata[] = [];
   for (const rendition of DETAIL_RENDITIONS) {
     detail.push(await renderRendition(
-      normalizedSourceImage, outputDir, layout, sizedRendition(layout, rendition),
+      sourceImage, outputDir, layout, sizedRendition(layout, rendition),
     ));
   }
 
-  const sourceSha256 = createHash("sha256").update(normalizedSourceImage).digest("hex");
+  const sourceSha256 = createHash("sha256").update(sourceImage).digest("hex");
   const renderFingerprint = createHash("sha256")
     .update(JSON.stringify({
       schemaVersion: 4,
@@ -390,7 +309,7 @@ async function writeWorldMapArtifacts(layout: MapLayout, sourceImage: Buffer): P
       format: "png",
       width: layout.width,
       height: layout.height,
-      bytes: normalizedSourceImage.byteLength,
+      bytes: sourceImage.byteLength,
       sha256: sourceSha256,
     },
     // Kept for consumers of the v3 metadata. The source capture is still the canonical map image.
@@ -457,6 +376,68 @@ export async function generateWorldMap(): Promise<MapMetadata> {
       return typeof method === "function" ? method() : [];
     });
     if (gameErrors.length > 0) errors.push(`Game debug errors: ${JSON.stringify(gameErrors).slice(0, 2000)}`);
+
+    const settlementPresence = await page.evaluate((representatives) => {
+      const api = window.__gameDebug as unknown as {
+        getEntities?: () => { id: string; regionId: string }[];
+        getEntityViewStats?: () => {
+          residency?: { fullResidency: boolean; residentIds: string[] };
+        };
+        getDrawnBounds?: (id: string) => {
+          min: { x: number; y: number; z: number };
+          max: { x: number; y: number; z: number };
+          meshes: number;
+          width: number;
+          height: number;
+        } | null;
+      } | undefined;
+      if (typeof api?.getEntities !== "function"
+        || typeof api.getEntityViewStats !== "function"
+        || typeof api.getDrawnBounds !== "function") {
+        throw new Error("World-map capture needs entity residency and drawn-bounds debug state.");
+      }
+      const residency = api.getEntityViewStats().residency;
+      if (residency?.fullResidency !== true || !Array.isArray(residency.residentIds)) {
+        throw new Error("World-map capture requires full entity residency after graphics settings are applied.");
+      }
+      const residentIds = new Set(residency.residentIds);
+      const entities = api.getEntities();
+      return representatives.map(({ settlement, regionId, buildingId }) => {
+        // Buildings are emitted as individual #part entities, so their parent ID has no draw.
+        const parts = entities.filter((entity) => entity.id.startsWith(`${buildingId}#`));
+        if (parts.length === 0) {
+          throw new Error(`World-map settlement guard: ${settlement} has no emitted parts for ${buildingId}.`);
+        }
+        const missing: string[] = [];
+        let meshes = 0;
+        for (const part of parts) {
+          if (part.regionId !== regionId || !residentIds.has(part.id)) {
+            missing.push(`${part.id}: not resident in ${regionId}`);
+            continue;
+          }
+          const bounds = api.getDrawnBounds!(part.id);
+          const finiteBounds = bounds && [
+            bounds.min.x, bounds.min.y, bounds.min.z,
+            bounds.max.x, bounds.max.y, bounds.max.z,
+          ].every(Number.isFinite);
+          const drawable = bounds && [bounds.meshes, bounds.width, bounds.height]
+            .every((value) => Number.isFinite(value) && value > 0);
+          if (!bounds || !finiteBounds || !drawable) {
+            missing.push(`${part.id}: no drawable bounds`);
+            continue;
+          }
+          meshes += bounds.meshes;
+        }
+        if (missing.length > 0) {
+          throw new Error(
+            `World-map settlement guard: ${settlement} is missing ${missing.length}/${parts.length} parts of ${buildingId}: `
+              + missing.slice(0, 8).join("; "),
+          );
+        }
+        return { settlement, regionId, buildingId, residentParts: parts.length, meshes };
+      });
+    }, SETTLEMENT_CAPTURE_REPRESENTATIVES);
+    console.log(`World-map settlement presence: ${JSON.stringify(settlementPresence)}`);
 
     const inputs: OverlayOptions[] = [];
     const bleedMetres = TILE_BLEED_PIXELS * METRES_PER_PIXEL;

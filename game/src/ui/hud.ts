@@ -298,7 +298,9 @@ export class Hud {
     }
 
     const expiresAtMs = Number(found.value.meta?.["expiresAtMs"] ?? 0);
-    const remainingMs = Math.max(0, expiresAtMs - this.ctx.api.getTime().simMs);
+    const wallDeadline = found.value.meta?.["expiresAtWallMs"];
+    const remainingMs = Math.max(0, typeof wallDeadline === "number" && Number.isFinite(wallDeadline)
+      ? wallDeadline - Date.now() : expiresAtMs - this.ctx.api.getTime().simMs);
 
     // Straight line from the cache's own position, not `observe` path distance: `observe` caps at
     // 140 m and a cache is routinely 340 m behind you, so the honest number is the one that is

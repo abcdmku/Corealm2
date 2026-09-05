@@ -45,6 +45,7 @@ export interface GatheringProductionManifestPack {
   license: string;
   /** Lowercase SHA-256 of the source archive. */
   archiveSha256?: string;
+  generatorSha256?: string;
 }
 
 export interface GatheringProductionManifestAsset {
@@ -342,12 +343,15 @@ export function validateGatheringProduction(
   };
 
   for (const pack of input.assetManifest.packs) {
-    if (!isHttpSource(pack.source)) {
+    const isOriginal = pack.license === "LicenseRef-Corealm-Original"
+      && /^tools\/build-(?:corealm-(?:nature|geology|farm|minerals)|creature-expansion)\.ts$/.test(pack.source)
+      && LOWERCASE_SHA256.test(pack.generatorSha256 ?? "");
+    if (!isHttpSource(pack.source) && !isOriginal) {
       problems.push(`manifest pack ${pack.id} has no reproducible HTTP(S) source`);
     }
     const isCc0 = pack.license === "CC0-1.0";
     const isUnityStoreAsset = pack.license.startsWith(UNITY_ASSET_STORE_LICENSE);
-    if (!isCc0 && !isUnityStoreAsset) {
+    if (!isCc0 && !isUnityStoreAsset && !isOriginal) {
       problems.push(`manifest pack ${pack.id} has unsupported license "${pack.license}"`);
     }
     if (isCc0 && (!pack.archiveSha256 || !LOWERCASE_SHA256.test(pack.archiveSha256))) {

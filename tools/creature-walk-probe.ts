@@ -7,9 +7,9 @@
  * sampled separately:
  *
  *   slide   the feet against the ground. A cycle authored at 0.75 m/s under a body the simulation
- *           moves at 3.1 is skating, whatever else is right. `impliedWalkMps * timeScale` is how
- *           fast the feet think they are going; comparing it to the real ground speed is the whole
- *           measurement, and `render/entityViews.ts: motionTimeScale` exists to make them equal.
+ *           moves at 3.1 is skating, whatever else is right. Source gait speed multiplied by
+ *           drawn forward scale and playback rate is the feet's world speed. Compare that with the
+ *           real ground speed; `render/entityViews.ts: motionTimeScale` exists to make them equal.
  *   turn    heading change per second. `systems/movement.ts` caps the PLAYER at 7 rad/s;
  *           `enemyAI.faceDirection` assigns `atan2` outright with no cap at all, so a creature can
  *           spin on the spot between two ticks. That reads as a jitter, not as a walk.
@@ -29,6 +29,7 @@
 import { chromium, type Browser, type Page } from "playwright";
 import type { FeatureLabCatalog, FeatureLabState } from "../game/src/contracts.js";
 import { REGIONS } from "../game/src/content/regions.js";
+import { CREATURE_SPECIES } from "../game/src/content/creatureSpecies.js";
 import MANIFEST from "../game/public/assets/manifest.json" with { type: "json" };
 import { installTestDeadline } from "./lib/deadline.js";
 import { startGameServer, type RunningGameServer } from "./lib/server.js";
@@ -53,6 +54,8 @@ interface Sample {
   simYaw: number;
   drawnYaw: number;
   timeScale: number | null;
+  /** Renderer scale * build[2] * scaleAxes[2], including tier and boss scale. */
+  drawnStrideScale: number | null;
   motion: string | null;
   clip: string | null;
   path: string | null;
@@ -62,12 +65,14 @@ interface WalkReport {
   presetId: string;
   label: string;
   impliedWalkMps: number | null;
+  impliedRunMps: number | null;
   moveSpeedMps: number | null;
   samples: number;
   paths: string[];
   motions: string[];
   clips: string[];
   timeScale: number | null;
+  drawnStrideScale: number | null;
   /** Median ground speed while actually moving, m/s. */
   groundSpeed: number;
   /** What the feet imply at the applied playback rate, m/s. */
@@ -129,7 +134,7 @@ try {
   }
 
   reports.sort((a, b) => (b.slide ?? -1) - (a.slide ?? -1));
-  const header = `${"creature".padEnd(24)} ${"path".padEnd(14)} ${"ground".padStart(7)} ${"feet".padStart(7)} ${"slide".padStart(6)}  ${"turn p90".padStart(9)}  ${"off".padStart(5)}  notes`;
+  const header = `${"creature".padEnd(24)} ${"path".padEnd(14)} ${"ground".padStart(7)} ${"feet".padStart(7)} ${"scaleZ".padStart(7)} ${"slide".padStart(6)}  ${"turn p90".padStart(9)}  ${"off".padStart(5)}  notes`;
   console.log(header);
   console.log("-".repeat(header.length));
   for (const row of reports) {
@@ -137,6 +142,7 @@ try {
       `${row.presetId.padEnd(24)} ${(row.paths.join("/") || "-").padEnd(14)}`
       + ` ${row.groundSpeed.toFixed(2).padStart(7)}`
       + ` ${(row.footSpeed === null ? "-" : row.footSpeed.toFixed(2)).padStart(7)}`
+      + ` ${(row.drawnStrideScale === null ? "-" : row.drawnStrideScale.toFixed(3)).padStart(7)}`
       + ` ${(row.slide === null ? "-" : `${Math.round(row.slide * 100)}%`).padStart(6)}`
       + `  ${row.drawnTurnDegPerSec.p90.toFixed(0).padStart(9)}`
       + `  ${row.groundOffset.median.toFixed(2).padStart(5)}`
@@ -213,6 +219,10 @@ async function probe(targetPage: Page, presetId: string, label: string): Promise
         simYaw: motion["semanticRotationY"],
         drawnYaw: motion["drawnRotationY"],
         timeScale: motion["timeScale"],
+        drawnStrideScale: typeof motion["drawnStrideScale"] === "number"
+          && Number.isFinite(motion["drawnStrideScale"])
+          && Math.abs(motion["drawnStrideScale"]) > 1e-6
+          ? Math.abs(motion["drawnStrideScale"]) : null,
         motion: motion["motion"],
         clip: motion["clip"],
         path: motion["path"],
@@ -266,9 +276,13 @@ function summarise(
   const locomoting = samples.filter((s) => s.motion === "walk" || s.motion === "run");
   const gait = locomoting.at(-1);
   const timeScale = gait?.timeScale ?? null;
+  const drawnStrideScale = gait?.drawnStrideScale ?? null;
   const groundSpeed = median(speeds);
-  const impliedGait = gait?.motion === "run" ? implied.run : implied.walk;
-  const footSpeed = impliedGait !== null && timeScale !== null ? impliedGait * timeScale : null;
+  const impliedGait = gait?.motion === "run" ? implied.run ?? implied.walk : implied.walk;
+  // Manifest speeds are source-model metres. Use the renderer's actual forward transform, which
+  // already includes placement/tier scale and the entity's build; multiplying tier again is wrong.
+  const footSpeed = impliedGait !== null && timeScale !== null && drawnStrideScale !== null
+    ? impliedGait * drawnStrideScale * timeScale : null;
   const slide = footSpeed !== null && groundSpeed > 0.2
     ? Math.abs(groundSpeed - footSpeed) / groundSpeed
     : null;
@@ -279,6 +293,7 @@ function summarise(
   else if (speeds.length === 0) verdict.push("never moved");
   if (!paths.includes("live-rig")) verdict.push("NOT ANIMATED");
   if (locomoting.length === 0 && speeds.length > 0) verdict.push("moved without a locomotion clip");
+  if (locomoting.length > 0 && drawnStrideScale === null) verdict.push("drawn stride scale unavailable");
   if (slide !== null && slide > SLIDE_TOLERANCE) verdict.push(`${Math.round(slide * 100)}% foot slide`);
   const drawnP90 = percentile(drawnTurns.map(Math.abs), 0.9);
   if (drawnP90 > PLAYER_TURN_CAP_DEG) verdict.push(`turns ${drawnP90.toFixed(0)} deg/s`);
@@ -288,12 +303,14 @@ function summarise(
     presetId,
     label,
     impliedWalkMps: implied.walk,
+    impliedRunMps: implied.run,
     moveSpeedMps,
     samples: samples.length,
     paths,
     motions: [...new Set(samples.map((s) => s.motion).filter((m): m is string => Boolean(m)))],
     clips: [...new Set(samples.map((s) => s.clip).filter((c): c is string => Boolean(c)))],
     timeScale,
+    drawnStrideScale,
     groundSpeed,
     footSpeed,
     slide,
@@ -308,8 +325,8 @@ function summarise(
  * The ground speeds the creature's own cycles imply, straight out of the manifest.
  *
  * Resolved in Node rather than in the page because the manifest is already a build input here and
- * the browser has no lookup for it. Preset ids are the enemy group ids, and a dungeon group is
- * prefixed with its dungeon, which is the same key `featureLab/catalog.ts` builds.
+ * the browser has no lookup for it. Presets use enemy group IDs, dungeon-prefixed group IDs, or
+ * `species:<id>`, matching the keys `featureLab/catalog.ts` builds.
  */
 function impliedGaitsFor(presetId: string): { walk: number | null; run: number | null } {
   const groups = REGIONS.flatMap((region) => [
@@ -318,7 +335,8 @@ function impliedGaitsFor(presetId: string): { walk: number | null; run: number |
       (group) => [`${region.dungeon!.id}:${group.id}`, group.assetId] as const,
     ),
   ]);
-  const assetId = groups.find(([id]) => id === presetId)?.[1];
+  const assetId = groups.find(([id]) => id === presetId)?.[1]
+    ?? CREATURE_SPECIES.find((species) => `species:${species.id}` === presetId)?.assetId;
   if (assetId === undefined) return { walk: null, run: null };
   const asset = MANIFEST.assets.find((row) => row.id === assetId) as
     { impliedWalkMps?: number; impliedRunMps?: number } | undefined;

@@ -11,7 +11,7 @@
 import path from "node:path";
 import { writeFile } from "node:fs/promises";
 import { lintStructures, structureCaseCount } from "./lib/structure-geometry.js";
-import { argValue, hasArg, repoRoot } from "./lib/paths.js";
+import { argValue, repoRoot } from "./lib/paths.js";
 
 const args = process.argv.slice(2);
 const filter = argValue(args, "--only");
@@ -31,7 +31,7 @@ for (const row of report) {
   for (const defect of row.defects) totals[defect.kind] = (totals[defect.kind] ?? 0) + 1;
 }
 
-if (!hasArg(args, "--quiet")) {
+if (!args.includes("--quiet")) {
   for (const row of report) {
     process.stdout.write(`
 ${row.key}

@@ -23,7 +23,7 @@ import { SPELLS } from "../game/src/content/spells.js";
 import { UNREACHABLE_DESTINATION_MESSAGE } from "../game/src/api/gameApi.js";
 import { RELEASED_MAGIC_ELEMENTS } from "../game/src/systems/essence.js";
 import { installTestDeadline } from "./lib/deadline.js";
-import { repoRoot } from "./lib/paths.js";
+import { argValue, repoRoot } from "./lib/paths.js";
 import { startGameServer, type RunningGameServer } from "./lib/server.js";
 
 /**
@@ -54,7 +54,8 @@ const LAB_TEST_SETTINGS = {
   sfx: 0,
 } as const;
 type FeatureLabShard = "all" | "building" | "navigation" | "combat";
-const TEST_SHARD = readTestShard(process.argv.slice(2));
+const args = process.argv.slice(2);
+const TEST_SHARD = readTestShard(args);
 
 const PREFAB_SELECTION = {
   kind: "prefab",
@@ -252,7 +253,8 @@ function logProgress(label: string): void {
 
 try {
   await mkdir(screenshotDir, { recursive: true });
-  server = await startGameServer({ logLevel: "error" });
+  const url = argValue(args, "--url");
+  server = url ? { url, close: async () => {} } : await startGameServer({ logLevel: "error" });
   browser = await chromium.launch({
     headless: true,
     args: ["--enable-unsafe-swiftshader", "--mute-audio"],

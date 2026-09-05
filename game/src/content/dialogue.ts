@@ -10,7 +10,7 @@
  *     branches that are not merely unavailable but irrelevant - offering a quest you already
  *     finished is noise, not a locked door.
  *  2. **Nothing in a line depends on seeing anything.** Every fact a player needs to act on is in
- *     the text: ids, directions in metres, and the actual reasoning for the one puzzle. An agent
+ *     the text: place names, directions in metres, and the actual reasoning for the one puzzle. An agent
  *     reading `corealm_dialogue` has exactly the information a human reading the panel has.
  *  3. **Twelve people, twelve voices.** Each tree is written against the `voice` rule on that
  *     character in `content/npcs.ts`. Read the rule before you add a line.
@@ -92,7 +92,7 @@ const ILSE: DialogueNodeDef[] = [
   {
     id: "ilse_root",
     text:
-      "Warden Ilse, Coldbrace, acting under March Company charter clause fourteen. You are "
+      "Warden Ilse, Millfield, acting under Trade Company charter clause fourteen. You are "
       + "welcome here, you are counted, and you are responsible for your own equipment. What do "
       + "you need?",
     variants: [
@@ -105,7 +105,7 @@ const ILSE: DialogueNodeDef[] = [
     ],
     options: [
       { id: "ilse_root#who", text: "Who in this town has work?", next: "ilse_directory" },
-      { id: "ilse_root#town", text: "What is Coldbrace, exactly?", next: "ilse_town" },
+      { id: "ilse_root#town", text: "What is Millfield, exactly?", next: "ilse_town" },
       { id: "ilse_root#shortcuts", text: "Is there a faster way to the pit than the road?", next: "ilse_shortcuts" },
       {
         id: "ilse_root#charter",
@@ -124,11 +124,11 @@ const ILSE: DialogueNodeDef[] = [
   {
     id: "ilse_directory",
     text:
-      "Four people. Harrow the Smith, entity npc_smith_harrow, east side of the square, will not "
-      + "sell you a weapon until you have made one. Pitmaster Dorn, npc_pitmaster_dorn, has a "
-      + "ledger problem he calls a pit problem. Ranger Syb, npc_ranger_syb, knows every useful "
-      + "water source in the region. Carter Bel, npc_carter_bel, is at the south gate and is "
-      + "wrong.",
+      "Four people. Harrow the Smith, east side of the square, will not sell you a weapon until "
+      + "you have made one. Pitmaster Dorn, by the bank counter, has a ledger problem he calls "
+      + "a pit problem. Ranger Syb, by the Rope House on the north-west side of the square, "
+      + "knows every useful water source in the region. Carter Bel is at the south gate and "
+      + "is wrong.",
     options: [
       { id: "ilse_directory#back", text: "Something else.", next: "ilse_root" },
       LEAVE("ilse_directory#bye"),
@@ -150,9 +150,9 @@ const ILSE: DialogueNodeDef[] = [
   {
     id: "ilse_north",
     text:
-      "The March Road runs to the North Gate, locationId fallowmarch_north_gate, and into "
-      + "Vellenwood. The trees there were surveyed as terrain rather than as trees, which tells "
-      + "you what the surveyor thought of them. Beyond Vellenwood is Karrowmoor. I have never "
+      "The Farm Road runs to the North Gate and into "
+      + "Woodlands. The trees there were surveyed as terrain rather than as trees, which tells "
+      + "you what the surveyor thought of them. Beyond Woodlands is Highlands. I have never "
       + "been. It is not in my charter.",
     options: [
       { id: "ilse_north#back", text: "Something else.", next: "ilse_root" },
@@ -162,9 +162,9 @@ const ILSE: DialogueNodeDef[] = [
   {
     id: "ilse_shortcuts",
     text:
-      "There are two. The Brookvault Planks, entity brookvault_planks, cross Corven Brook at "
+      "There are two. The Brook Planks cross Iron Brook at "
       + "roughly minus seventy-eight, minus thirty, and save sixty-six metres on the trip to "
-      + "Redsill Shallows. The Wall Vault, entity wall_vault, goes over our own north wall and "
+      + "River Shallows. The Wall Vault goes over our own north wall and "
       + "saves forty-four metres to the pit. Regulation nine forbids the second one. Nobody has "
       + "obeyed regulation nine since it was written.",
     options: [
@@ -225,14 +225,14 @@ const HARROW: DialogueNodeDef[] = [
         ],
         next: "harrow_cold_iron_done",
       },
-      { id: "harrow_root#tiers", text: "What comes after Grithe?", next: "harrow_tiers" },
+      { id: "harrow_root#tiers", text: "What comes after Copper?", next: "harrow_tiers" },
       {
         id: "harrow_root#kaldite",
-        text: "Sell me something in Kaldite.",
+        text: "Sell me something in Cobalt.",
         requires: [
           {
             kind: "skill", skill: "smithing", level: 10,
-            reason: "Harrow will not sell Kaldite work below Smithing 10. He says it would be a waste of the bar.",
+            reason: "Harrow will not sell Cobalt work below Smithing 10. He says it would be a waste of the bar.",
           },
         ],
         next: "harrow_kaldite",
@@ -243,8 +243,8 @@ const HARROW: DialogueNodeDef[] = [
   {
     id: "harrow_cold_iron_offer",
     text:
-      "No. Make one first. Six Grithe out of the Bracken Pit, locationId bracken_pit. Two bars at "
-      + "my furnace, entity coldbrace_furnace. A dagger at my anvil, entity coldbrace_anvil. Then "
+      "No. Make one first. Six Copper out of the Copper Pit. Two bars at my furnace. "
+      + "A dagger at my anvil. Then "
       + "put it in something and tell me it held.",
     options: [
       {
@@ -305,7 +305,7 @@ const HARROW: DialogueNodeDef[] = [
   {
     id: "harrow_tiers",
     text:
-      "Grithe here. Corven in Vellenwood, green in the break. Kaldite on the moor, blue-black, "
+      "Copper here. Iron in Woodlands, green in the break. Cobalt on the moor, blue-black, "
       + "splits with a line like lightning. Same three steps every time. Ore, bar, thing.",
     options: [
       { id: "harrow_tiers#back", text: "Something else.", next: "harrow_root" },
@@ -314,7 +314,7 @@ const HARROW: DialogueNodeDef[] = [
   },
   {
     id: "harrow_kaldite",
-    text: "Kaldite dagger. Kaldite sword. Kaldite plate if you have the bars. Stall is behind me.",
+    text: "Cobalt dagger. Cobalt sword. Cobalt plate if you have the bars. Stall is behind me.",
     options: [
       { id: "harrow_kaldite#back", text: "Something else.", next: "harrow_root" },
       LEAVE("harrow_kaldite#bye"),
@@ -373,20 +373,20 @@ const DORN: DialogueNodeDef[] = [
         requires: [
           {
             kind: "questStage", questId: "dorns_tally", min: 3,
-            reason: "The bank has to agree with the ledger first. Fifteen Grithe ore in the Coldbrace vault.",
+            reason: "The bank has to agree with the ledger first. Fifteen Copper ore in the Millfield vault.",
           },
         ],
         next: "dorn_tally_signed",
       },
-      { id: "dorn_root#pit", text: "Tell me about the Bracken Pit.", next: "dorn_pit" },
+      { id: "dorn_root#pit", text: "Tell me about the Copper Pit.", next: "dorn_pit" },
       LEAVE("dorn_root#bye"),
     ],
   },
   {
     id: "dorn_tally_offer",
     text:
-      "Nobody knows! That is the, that is exactly the problem. Go up to the pit, locationId "
-      + "bracken_pit, pick one seam, and stay on it until it is finished. Not until you are bored. "
+      "Nobody knows! That is the, that is exactly the problem. Go up to the Copper Pit, "
+      + "pick one seam, and stay on it until it is finished. Not until you are bored. "
       + "Until it is empty and it tells you so. Then come back with the number.",
     options: [
       {
@@ -468,8 +468,8 @@ const DORN: DialogueNodeDef[] = [
     id: "dorn_tally_correct",
     text:
       "That. That is a real number. Say it again while I write it. Nine years of four. Right, "
-      + "one more thing and it is finished: put fifteen Grithe ore in the vault, entity "
-      + "coldbrace_bank, so the store agrees with the page. A number nobody can weigh is a rumour.",
+      + "one more thing and it is finished: put fifteen Copper ore in the Millfield vault, "
+      + "so the store agrees with the page. A number nobody can weigh is a rumour.",
     options: [
       { id: "dorn_tally_correct#back", text: "Fifteen in the vault. Done.", next: "dorn_root" },
       LEAVE("dorn_tally_correct#bye"),
@@ -488,8 +488,8 @@ const DORN: DialogueNodeDef[] = [
   {
     id: "dorn_pit",
     text:
-      "Six Grithe seams and two stone faces, one hundred and sixty metres due north, locationId "
-      + "bracken_pit. A seam comes back about twenty-one seconds after it empties, so if you work "
+      "Six Copper seams and two stone faces at the Copper Pit, one hundred and sixty metres "
+      + "due north. A seam comes back about twenty-one seconds after it empties, so if you work "
       + "them in a ring the first is ready before the last runs out. That much I do know.",
     options: [
       { id: "dorn_pit#back", text: "Something else.", next: "dorn_root" },
@@ -507,17 +507,17 @@ const SYB: DialogueNodeDef[] = [
       + "clear enough to fish. That is the useful part.",
     options: [
       { id: "syb_root#water", text: "Where is the water around here?", next: "syb_water" },
-      { id: "syb_root#march", text: "What is out on the open march?", next: "syb_march" },
+      { id: "syb_root#march", text: "What is out on open meadow?", next: "syb_march" },
       LEAVE("syb_root#bye"),
     ],
   },
   {
     id: "syb_water",
     text:
-      "Three places worth a line. Redsill Shallows here, locationId redsill_shallows, minnow, "
-      + "shallow and red-silted. Blackwater Pools in Vellenwood, locationId blackwater_pools, "
-      + "bramble trout, deeper than they look and colder than they look. Cairn Tarns on the moor, "
-      + "locationId cairn_tarns, cragfin, and a second pair at far_tarn across the gap.",
+      "Three places worth a line. River Shallows here, minnow, "
+      + "shallow and red-silted. Blackwater Pools in Woodlands, "
+      + "trout, deeper than they look and colder than they look. Mountain Lakes on the moor, "
+      + "perch, and a second pair at the Far Lake across the gap.",
     options: [
       { id: "syb_water#back", text: "Something else.", next: "syb_root" },
       LEAVE("syb_water#bye"),
@@ -527,7 +527,7 @@ const SYB: DialogueNodeDef[] = [
     id: "syb_march",
     text:
       "Frogs in the wet ground by the shallows, minus fifty-six, minus seventy-two. They will "
-      + "not start it. Billy goats on the rise at the Open March, minus two-fifty, thirty. "
+      + "not start it. Billy goats on the rise at Open Meadow, minus two-fifty, thirty. "
       + "They will. Neither will kill you if you have eaten. That is most of what I know and all "
       + "of what matters.",
     options: [
@@ -580,7 +580,7 @@ const BEL: DialogueNodeDef[] = [
         requires: [
           {
             kind: "questStage", questId: "the_carters_wager", min: 2,
-            reason: "Bel wants both obstacles run: the Brookvault Planks first, then the Wall Vault.",
+            reason: "Bel wants both obstacles run: the Brook Planks first, then the Wall Vault.",
           },
         ],
         next: "bel_wager_report",
@@ -592,8 +592,8 @@ const BEL: DialogueNodeDef[] = [
   {
     id: "bel_wager_offer",
     text:
-      "Two weeks of cart duty, that is the bet! She says road. I say over. Over the planks at the "
-      + "brook, entity brookvault_planks, and over our own north wall, entity wall_vault. You "
+      "Two weeks of cart duty, that is the bet! She says road. I say over. Over the Brook "
+      + "Planks at the brook, and over our own north wall at the Wall Vault. You "
       + "cannot do the wall cold, mind, you have to have some legs on you first. Vault the planks "
       + "until you are quick at it. Then the wall. Then come and tell me a number!",
     options: [
@@ -680,7 +680,7 @@ const BEL: DialogueNodeDef[] = [
   {
     id: "bel_cousin",
     text:
-      "My cousin walked from here to Rootfall in a morning! A morning! Now, people say that is "
+      "My cousin walked from here to Oakwood in a morning! A morning! Now, people say that is "
       + "not possible, and to those people I say: he had a very good morning.",
     options: [
       { id: "bel_cousin#back", text: "Something else.", next: "bel_root" },
@@ -715,44 +715,44 @@ const ANSEL: DialogueNodeDef[] = [
     options: [
       {
         id: "ansel_root#offer",
-        text: "I want to fell Duskoak.",
+        text: "I want to fell Maple.",
         showIf: [{ kind: "questStatus", questId: "crooked_grain", status: "unstarted", reason: "" }],
         requires: [
           {
             kind: "skill", skill: "woodcutting", level: 5,
-            reason: "Ansel will not put a Duskoak in front of anyone under Woodcutting 5. He says the tree deserves better.",
+            reason: "Ansel will not put a Maple in front of anyone under Woodcutting 5. He says the tree deserves better.",
           },
         ],
         next: "ansel_grain_offer",
       },
       {
         id: "ansel_root#deliver",
-        text: "Eight Duskoak logs, and I went and saw the split one.",
+        text: "Eight Maple logs, and I went and saw the split one.",
         showIf: [{ kind: "questStatus", questId: "crooked_grain", status: "active", reason: "" }],
         requires: [
           {
             kind: "questStage", questId: "crooked_grain", min: 2,
-            reason: "Fell the eight first, then go and stand at the Split Duskoak, entity split_duskoak.",
+            reason: "Fell the eight first, then go and stand at the Split Maple east of the pools.",
           },
           {
             kind: "item", itemId: "duskoak_log", quantity: 8,
-            reason: "You need 8 Duskoak logs in your bag. Logs do not stack, so that is 8 slots.",
+            reason: "You need 8 Maple logs in your bag. Logs do not stack, so that is 8 slots.",
           },
         ],
         effects: [{ kind: "takeItem", itemId: "duskoak_log", quantity: 8 }],
         next: "ansel_logs_taken",
       },
       { id: "ansel_root#stand", text: "Tell me about the stand.", next: "ansel_stand" },
-      { id: "ansel_root#thornline", text: "What is at the Thornline?", next: "ansel_thornline" },
+      { id: "ansel_root#thornline", text: "What is at The Thicket?", next: "ansel_thornline" },
       LEAVE("ansel_root#bye"),
     ],
   },
   {
     id: "ansel_grain_offer",
     text:
-      "Eight. You may have eight. Duskoak Stand, locationId vellenwood_canopy, ten trees there "
+      "Eight. You may have eight. Maple Grove, north-west of Oakwood, ten trees there "
       + "and eight is what the stand can spare this season. ... And before you bring them to me, "
-      + "you will go east and stand under the Split Duskoak, entity split_duskoak, out past the "
+      + "you will go east and stand under the Split Maple, out past the "
       + "pools at one-seventy, one-twelve. I want you to have seen it. That is the whole of the "
       + "price.",
     options: [
@@ -777,7 +777,7 @@ const ANSEL: DialogueNodeDef[] = [
     id: "ansel_grain_accepted",
     text:
       "Eight. And bring them here, do not bank them, I want to count them out of your hands. ... "
-      + "The pools are the safe way east. The Fallen Duskoak, entity fallen_duskoak, is the fast "
+      + "The pools are the safe way east. The Fallen Maple is the fast "
       + "way and it wants Agility five in you.",
     options: [
       { id: "ansel_grain_accepted#back", text: "Understood.", next: "ansel_root" },
@@ -789,7 +789,7 @@ const ANSEL: DialogueNodeDef[] = [
     text:
       "Eight. Good weight, clean ends. ... And you saw it. Split top to root, and green on the "
       + "west side, still. Fifty years like that. That is why the rule is eight and never the "
-      + "ninth: a thing can be that far gone and still be working. Take the hatchet. Corven. It "
+      + "ninth: a thing can be that far gone and still be working. Take the hatchet. Iron. It "
       + "will hold an edge in the deep stand.",
     options: [
       { id: "ansel_logs_taken#back", text: "What else may I cut?", next: "ansel_stand" },
@@ -799,9 +799,9 @@ const ANSEL: DialogueNodeDef[] = [
   {
     id: "ansel_stand",
     text:
-      "Ten Duskoak at the stand, locationId vellenwood_canopy, north-west of Rootfall. The canopy "
-      + "closes over it, so the walking is the hard part, not the cutting. The Canopy Walk, entity "
-      + "canopy_walk, goes over the top of the wet ground and wants Agility six. It saves near "
+      "Ten maple trees at the stand north-west of Oakwood. The canopy "
+      + "closes over it, so the walking is the hard part, not the cutting. The Canopy Walk "
+      + "goes over the top of the wet ground and wants Agility six. It saves near "
       + "eighty metres. I do not use it. I am old and I like the ground.",
     options: [
       { id: "ansel_stand#back", text: "Something else.", next: "ansel_root" },
@@ -812,7 +812,7 @@ const ANSEL: DialogueNodeDef[] = [
     id: "ansel_thornline",
     text:
       "The stags keep to the edges of the clearings. They do not come in past the standing "
-      + "stones, entity thornline_stones. ... Nobody knows why and I will not be the one to find "
+      + "stones at The Thicket. ... Nobody knows why and I will not be the one to find "
       + "out. Trapper Mott sets his line out that way, which tells you what Mott is like.",
     options: [
       { id: "ansel_thornline#back", text: "Something else.", next: "ansel_root" },
@@ -833,7 +833,7 @@ const JUNO: DialogueNodeDef[] = [
         when: [{ kind: "questStatus", questId: "knots_and_names", status: "complete", reason: "" }],
         text:
           "There she is, the fletcher. You know what a shaft is for now, which puts you ahead of "
-          + "most of Rootfall. Lean on the bench if you like. You have earned it.",
+          + "most of Oakwood. Lean on the bench if you like. You have earned it.",
       },
       {
         when: [{ kind: "questStatus", questId: "knots_and_names", status: "active", reason: "" }],
@@ -861,11 +861,11 @@ const JUNO: DialogueNodeDef[] = [
           },
           {
             kind: "item", itemId: "palewood_shaft", quantity: 4,
-            reason: "You need 4 Palewood shafts. Fletch them from Palewood logs at entity coldbrace_fletching.",
+            reason: "You need 4 Oak shafts. Fletch them from Oak logs at the bench on the west side of Millfield square.",
           },
           {
             kind: "item", itemId: "air_essence", quantity: 5,
-            reason: "You need 5 Air Essence. Mine it at location fallowmarch_air_cache.",
+            reason: "You need 5 Air Essence. Mine it at the Air Essence Cache south-west of Millfield. Follow West Track, then head south.",
           },
         ],
         effects: [
@@ -883,8 +883,8 @@ const JUNO: DialogueNodeDef[] = [
     id: "juno_parts_offer",
     text:
       "Parts trades, both of them, one afternoon. Fletching first: shafts, which is a straight "
-      + "length of split log, which is to say, sticks, but good ones. Four Palewood shafts. Then "
-      + "mining next: five measures of Air Essence from the southern cache. Here, take three Pale "
+      + "length of split log, which is to say, sticks, but good ones. Four Oak shafts. Then "
+      + "mining next: five measures of Air Essence from the southern cache. Here, take three "
       + "Quartz as well; I have a drawer of them and no patience.",
     options: [
       {
@@ -899,9 +899,9 @@ const JUNO: DialogueNodeDef[] = [
   {
     id: "juno_parts_accepted",
     text:
-      "The fletching bench is entity coldbrace_fletching on the west side of Coldbrace square. "
-      + "Palewood logs come out of the copse at locationId palewood_copse. The Air Essence Cache "
-      + "is the distant route node at locationId fallowmarch_air_cache.",
+      "The fletching bench is in the workshed on the west side of Millfield square. "
+      + "Oak logs come out of Oak Grove, west of town along West Track. Follow "
+      + "West Track, then head south for the Air Essence Cache. Bring your pickaxe.",
     options: [
       { id: "juno_parts_accepted#back", text: "Back soon.", next: "juno_root" },
       LEAVE("juno_parts_accepted#bye"),
@@ -911,7 +911,7 @@ const JUNO: DialogueNodeDef[] = [
     id: "juno_parts_taken",
     text:
       "Four and five. Grain runs true on all four, which means: you did not rush them. Right. "
-      + "Wraps, take them, bramblehide, they will not stop a bear but they will stop the "
+      + "Wraps, take them, thick hide, they will not stop a bear but they will stop the "
       + "cold. And a stack of Air Essence, because it powers Air spells before and after an upgrade.",
     options: [
       { id: "juno_parts_taken#shards", text: "So what does the orb do?", next: "juno_shards" },
@@ -933,7 +933,7 @@ const JUNO: DialogueNodeDef[] = [
   {
     id: "juno_hide",
     text:
-      "Coarse hide off the march, bramble hide off anything with a thorn in it, and cairn pelt, "
+      "Coarse hide off the march, thick hide off anything with a thorn in it, and fur pelt, "
       + "which comes off the big ones and which I do not enjoy handling. Robes and wraps, mostly. Anything "
       + "that has to bend rather than stop a blade.",
     options: [
@@ -988,7 +988,7 @@ const MOTT: DialogueNodeDef[] = [
         requires: [
           {
             kind: "questStage", questId: "eleven_empty_days", min: 2,
-            reason: "Walk all four sites and clear the Bramble Hogs first.",
+            reason: "Walk all four sites and clear the Pigs first.",
           },
         ],
         next: "mott_report",
@@ -1000,9 +1000,8 @@ const MOTT: DialogueNodeDef[] = [
   {
     id: "mott_line_offer",
     text:
-      "Would you? Nobody ever does. Four places: Blackwater Pools, locationId blackwater_pools. "
-      + "Gorge Head, locationId gorge_head. The Thornline, locationId thornline_camp, and I am "
-      + "sorry about the Thornline. Gorge Ford, locationId gorge_ford. Look at all four. Then "
+      "Would you? Nobody ever does. Four places: Blackwater Pools. Gorge Head. The Thicket, "
+      + "and I am sorry about The Thicket. Gorge Ford. Look at all four. Then "
       + "kill three of whatever is eating my bait, because something is.",
     options: [
       {
@@ -1017,8 +1016,8 @@ const MOTT: DialogueNodeDef[] = [
   {
     id: "mott_line_accepted",
     text:
-      "Thank you. Genuinely. The adders on the Thornline are territorial, so they will not "
-      + "chase you far, they will simply be extremely present. Bramble Hogs sit between "
+      "Thank you. Genuinely. The vipers on The Thicket are territorial, so they will not "
+      + "chase you far, they will simply be extremely present. Pigs sit between "
       + "here and there, around one-fifty, one-twenty-eight, and they are the ones I would bet "
       + "on for the bait.",
     options: [
@@ -1068,7 +1067,7 @@ const MOTT: DialogueNodeDef[] = [
     id: "mott_luck",
     text:
       "Once. One good week, four years ago. I caught nine in six days and I bought a coat with "
-      + "the money. ... Then the coat caught on a Duskoak and tore across the back, and I have "
+      + "the money. ... Then the coat caught on a Maple and tore across the back, and I have "
       + "not had a week since. I still have the coat. I keep it as a record.",
     options: [
       { id: "mott_luck#back", text: "Something else.", next: "mott_root" },
@@ -1086,7 +1085,7 @@ const ARDEN: DialogueNodeDef[] = [
   {
     id: "arden_root",
     text:
-      "Highcairn. Nineteen crew, one wall, no dig. We stopped six months ago and we have eaten "
+      "Hillcrest. Nineteen crew, one wall, no dig. We stopped six months ago and we have eaten "
       + "for six months, which is a harder trick than digging. State your business and state it "
       + "in the order you intend to do it.",
     variants: [
@@ -1109,18 +1108,18 @@ const ARDEN: DialogueNodeDef[] = [
         requires: [
           {
             kind: "skill", skill: "mining", level: 10,
-            reason: "Kaldite needs Mining 10. Arden does not hand out work he knows you cannot start.",
+            reason: "Cobalt needs Mining 10. Arden does not hand out work he knows you cannot start.",
           },
           {
             kind: "skill", skill: "agility", level: 10,
-            reason: "Sunder Ledge needs Agility 10, and the whole point of the job is the ledge.",
+            reason: "Broken Ledge needs Agility 10, and the whole point of the job is the ledge.",
           },
         ],
         next: "arden_ground_offer",
       },
       {
         id: "arden_root#report",
-        text: "Sixteen Kaldite are in the vault.",
+        text: "Sixteen Cobalt are in the vault.",
         showIf: [{ kind: "questStatus", questId: "bad_ground", status: "active", reason: "" }],
         requires: [
           {
@@ -1138,10 +1137,10 @@ const ARDEN: DialogueNodeDef[] = [
   {
     id: "arden_ground_offer",
     text:
-      "Three things, in this order. One: ten Kaldite out of the Lower Quarry, locationId "
-      + "karrowmoor_terraces. Two: climb Sunder Ledge, entity sunder_ledge, at least once, so you "
-      + "have the number in your legs and not just on a board. Three: sixteen Kaldite ore in the "
-      + "Highcairn vault, entity highcairn_bank_counter. Then tell me which way you walked.",
+      "Three things, in this order. One: ten Cobalt out of the Lower Quarry on terrace one. "
+      + "Two: climb Broken Ledge at least once, so you "
+      + "have the number in your legs and not just on a board. Three: sixteen Cobalt ore in the "
+      + "Hillcrest vault. Then tell me which way you walked.",
     options: [
       {
         id: "arden_ground_offer#accept",
@@ -1155,8 +1154,8 @@ const ARDEN: DialogueNodeDef[] = [
   {
     id: "arden_ground_accepted",
     text:
-      "Good. Figures, since you will want them. Bank to Upper Karrow by road: one hundred and "
-      + "eighty-eight metres, three legs, two ramps. Bank to Upper Karrow over the ledge: "
+      "Good. Figures, since you will want them. Bank to Upper Highland by road: one hundred and "
+      + "eighty-eight metres, three legs, two ramps. Bank to Upper Highland over the ledge: "
       + "forty-six metres and a six second climb. That is the whole of the argument and it is not "
       + "close.",
     options: [
@@ -1189,9 +1188,9 @@ const ARDEN: DialogueNodeDef[] = [
   {
     id: "arden_dig",
     text:
-      "Because we hit a room. Twelve metres of black in a grey face, entity "
-      + "gravelmaw_mouth_portal, and nineteen crew who all wanted to be somewhere else. I do not "
-      + "pay people to be somewhere else. Ask Hale, npc_watcher_hale. It is his rota.",
+      "Because we hit a room. Stone Cavern mouth. Twelve metres of black in a grey face, "
+      + "and nineteen crew who all wanted to be somewhere else. I do not "
+      + "pay people to be somewhere else. Ask Watcher Hale. It is his rota.",
     options: [
       { id: "arden_dig#back", text: "Something else.", next: "arden_root" },
       LEAVE("arden_dig#bye"),
@@ -1210,7 +1209,7 @@ const VESS: DialogueNodeDef[] = [
       {
         when: [{ kind: "questStatus", questId: "sparking_stone", status: "complete", reason: "" }],
         text:
-          "Kaldite. That is what it is, that is all it is, and I have watched a spell go into it "
+          "Cobalt. That is what it is, that is all it is, and I have watched a spell go into it "
           + "and come back out again and I know what it is doing now. Nine years of calling it "
           + "that. Ridiculous.",
       },
@@ -1220,7 +1219,7 @@ const VESS: DialogueNodeDef[] = [
           { kind: "questStage", questId: "sparking_stone", min: 0, max: 0, reason: "" },
         ],
         text:
-          "Tempest Roc first. Back to Fallowmarch, west of the Air Essence Cache. Kill it without "
+          "Storm Rhino first. Back to Farmland, west of the Air Essence Cache. Kill it without "
           + "waiting for me. The Essence I gave you already lets your starter wand cast.",
       },
       {
@@ -1229,7 +1228,7 @@ const VESS: DialogueNodeDef[] = [
           { kind: "questStage", questId: "sparking_stone", min: 1, max: 1, reason: "" },
         ],
         text:
-          "The Roc is dead. Good. Its Air Orb is still in the loot pile unless you picked it up, "
+          "The Storm Rhino is dead. Good. Its Air Orb is still in the loot pile unless you picked it up, "
           + "so go and pick it up.",
       },
       {
@@ -1239,7 +1238,7 @@ const VESS: DialogueNodeDef[] = [
         ],
         text:
           "Take the Air Orb to the ruined altar at the Air Essence Cache and wake it. Then fletch "
-          + "the palewood into shafts and a staff, use the awakened altar to make the Air Staff, "
+          + "the oak into shafts and a staff, use the awakened altar to make the Air Staff, "
           + "and put it in your main hand.",
       },
       {
@@ -1248,7 +1247,7 @@ const VESS: DialogueNodeDef[] = [
           { kind: "questStage", questId: "sparking_stone", min: 3, max: 3, reason: "" },
         ],
         text:
-          "Now Voltrend. Get Magic to five. Use Redsill Frogs, and return to the awakened Air "
+          "Now Voltrend. Get Magic to five. Use Frogs, and return to the awakened Air "
           + "Altar if you somehow chew through a thousand charges.",
       },
       {
@@ -1256,7 +1255,7 @@ const VESS: DialogueNodeDef[] = [
           { kind: "questStatus", questId: "sparking_stone", status: "active", reason: "" },
           { kind: "questStage", questId: "sparking_stone", min: 4, reason: "" },
         ],
-        text: "Magic five. Six Kaldite ore. Bring it here and we find out whether I was right.",
+        text: "Magic five. Six Cobalt ore. Bring it here and we find out whether I was right.",
       },
     ],
     options: [
@@ -1267,24 +1266,24 @@ const VESS: DialogueNodeDef[] = [
         requires: [
           {
             kind: "skill", skill: "mining", level: 10,
-            reason: "Vess wants somebody who can actually cut Kaldite. That is Mining 10.",
+            reason: "Vess wants somebody who can actually cut Cobalt. That is Mining 10.",
           },
         ],
         next: "vess_stone_offer",
       },
       {
         id: "vess_root#deliver",
-        text: "Six Kaldite. Watch this.",
+        text: "Six Cobalt. Watch this.",
         showIf: [{ kind: "questStatus", questId: "sparking_stone", status: "active", reason: "" }],
         requires: [
           {
             kind: "questStage", questId: "sparking_stone", min: 4,
             reason:
-              "Kill the Tempest Roc, loot its Air Orb, awaken the Air Altar, make and equip the Air Staff, and get Magic to 5 first.",
+              "Kill the Storm Rhino, loot its Air Orb, awaken the Air Altar, make and equip the Air Staff, and get Magic to 5 first.",
           },
           {
             kind: "item", itemId: "kaldite_ore", quantity: 6,
-            reason: "You need 6 Kaldite ore in your bag.",
+            reason: "You need 6 Cobalt ore in your bag.",
           },
         ],
         effects: [{ kind: "takeItem", itemId: "kaldite_ore", quantity: 6 }],
@@ -1292,11 +1291,11 @@ const VESS: DialogueNodeDef[] = [
       },
       {
         id: "vess_root#roc_route",
-        text: "Remind me where the Tempest Roc is.",
+        text: "Remind me where the Storm Rhino is.",
         showIf: [{ kind: "questStatus", questId: "sparking_stone", status: "active", reason: "" }],
         next: "vess_stone_accepted",
       },
-      { id: "vess_root#faces", text: "Where are the Kaldite faces?", next: "vess_faces" },
+      { id: "vess_root#faces", text: "Where are the Cobalt faces?", next: "vess_faces" },
       { id: "vess_root#cairns", text: "Who is stacking the cairns?", next: "vess_cairns" },
       LEAVE("vess_root#bye"),
     ],
@@ -1306,15 +1305,15 @@ const VESS: DialogueNodeDef[] = [
     text:
       "It holds. Whatever you put in it, it holds it, and it gives it back later when nobody is "
       + "looking. I want somebody to put something in it on purpose so I can stop imagining what "
-      + "it is holding. Here. Palewood from my brother's stock and 100 Air Essence. The Air Orb is "
-      + "not mine to give. Go back to Fallowmarch, kill the Tempest Roc west of the Air Essence Cache, and "
+      + "it is holding. Here. Oak from my brother's stock and 100 Air Essence. The Air Orb is "
+      + "not mine to give. Go back to Farmland, kill the Storm Rhino west of the Air Essence Cache, and "
       + "take its orb. Use it on the ruined altar at the cache, then fletch the wood into a staff "
       + "and make an Air Staff at the awakened altar. "
       + "Get Magic to five, and bring me six ore.",
     options: [
       {
         id: "vess_stone_offer#accept",
-        text: "Tempest Roc, Air Orb, staff, Magic five, six ore.",
+        text: "Storm Rhino, Air Orb, staff, Magic five, six ore.",
         effects: [{ kind: "startQuest", questId: "sparking_stone" }],
         next: "vess_stone_accepted",
       },
@@ -1332,15 +1331,15 @@ const VESS: DialogueNodeDef[] = [
   {
     id: "vess_stone_accepted",
     text:
-      "Go south through Vellenwood to Coldbrace, then west to locationId fallowmarch_air_cache. "
-      + "The Tempest Roc, entity tempest_roc, nests about 42 metres west of the Air Essence Cache. "
-      + "Loot the Air Orb from the pile it leaves. The drop is guaranteed, but it does not jump "
-      + "into your bag. At a fletching bench, use fletch_palewood_shaft and "
-      + "fletch_palewood_staff. Use the Air Orb on entity fallowmarch_air_altar to awaken it, then "
-      + "use recipe craft_air_staff at that altar. Equip the Air Staff. It starts with 1000 charges "
-      + "and spends those before carried Air Essence. The same altar fills it back to 1000 for 100 "
-      + "Air Essence. Then use Voltrend on Redsill Frogs near locationId "
-      + "redsill_shallows. Do not practise on bears.",
+      "Go south through Woodlands to Millfield. Follow West Track out of town, then head south "
+      + "to the Air Essence Cache. The Storm Rhino roams about 42 metres west of the cache. "
+      + "Kill it, then loot the Air Orb from the pile it leaves. It will be there, but it will "
+      + "not jump into your bag. At a fletching bench, make Oak Shafts from an Oak log, "
+      + "then use three shafts to make an Oak Staff. Use the Air Orb on the Air Essence Altar "
+      + "at the cache to awaken it, then turn the Oak Staff into an Air Staff there. Equip "
+      + "the Air Staff. It starts with 1000 charges and spends those before carried Air Essence. "
+      + "The same altar fills it back to 1000 for 100 Air Essence. Then use Voltrend on "
+      + "Frogs at River Shallows. Do not practise on bears.",
     options: [
       { id: "vess_stone_accepted#back", text: "Right.", next: "vess_root" },
       LEAVE("vess_stone_accepted#bye"),
@@ -1361,8 +1360,8 @@ const VESS: DialogueNodeDef[] = [
   {
     id: "vess_faces",
     text:
-      "Five in the Lower Quarry, locationId karrowmoor_terraces, terrace one, next to the hole. "
-      + "Three at Upper Karrow, locationId upper_karrow_seam, terrace four, and that one runs dry "
+      "Five in the Lower Quarry, terrace one, next to the hole. "
+      + "Three at Upper Highland, terrace four, and that one runs dry "
       + "if you are any good. Take the ledge up, do not take the road, the road is for carts and "
       + "regret.",
     options: [
@@ -1373,7 +1372,7 @@ const VESS: DialogueNodeDef[] = [
   {
     id: "vess_cairns",
     text:
-      "Not us. Ask Ode, npc_cairnkeeper_ode, she knows every stone up there by name and she has "
+      "Not us. Ask Cairnkeeper Ode. She knows every stone up there by name and she has "
       + "gone quiet about it, which is the part that bothers me. Cairnkeeper going quiet. That is "
       + "a weather sign, that is.",
     options: [
@@ -1437,7 +1436,7 @@ const ODE: DialogueNodeDef[] = [
         requires: [
           {
             kind: "questStage", questId: "long_cairn", min: 1, max: 1,
-            reason: "Go and see the Great Cairn first: moveTo({ locationId: \"great_cairn\" }).",
+            reason: "Go and see the Great Cairn on terrace four first. Take the Second Ramp, then the Third Ramp, and head west.",
           },
         ],
         next: "ode_long_cairn_reported",
@@ -1507,7 +1506,7 @@ const ODE: DialogueNodeDef[] = [
   {
     id: "ode_long_cairn_offer",
     text:
-      "The Great Cairn, locationId great_cairn, on terrace four. It was head height and forty "
+      "The Great Cairn on terrace four. It was head height and forty "
       + "paces round when the quarry opened and it is neither of those things now. Go and stand "
       + "at it and look at the top three courses, then come back and tell me I am not an old "
       + "woman miscounting stones.",
@@ -1537,7 +1536,7 @@ const ODE: DialogueNodeDef[] = [
       "Re-stacked. Not fallen, not robbed. Re-stacked, by something with a sense of order and "
       + "more patience than the living have. ... The nineteen make a line. It runs off terrace "
       + "four, down both ramps and into the quarry face, and it ends at a hole my neighbours have "
-      + "a rota for. Go and ask Watcher Hale, npc_watcher_hale, what his rota has actually seen. "
+      + "a rota for. Go and ask Watcher Hale what his rota has actually seen. "
       + "He will tell you if you ask him plainly.",
     options: [
       { id: "ode_long_cairn_reported#back", text: "Hale it is.", next: "ode_root" },
@@ -1626,9 +1625,8 @@ const ODE: DialogueNodeDef[] = [
     id: "ode_levers_correct",
     text:
       "Wedge, drop, closed eye. Stone, water, dark. That is the door's own order and it will "
-      + "answer to it now. Go down to The Collapse, locationId gravelmaw_chamber2, and open it: "
-      + "the door is entity gravelmaw_stone_door and the verb is open. It will not argue with you "
-      + "twice.",
+      + "answer to it now. Go down to The Collapse, the second chamber of Stone Cavern, "
+      + "and open the stone door. It will not argue with you twice.",
     options: [
       { id: "ode_levers_correct#back", text: "Down I go.", next: "ode_root" },
       LEAVE("ode_levers_correct#bye"),
@@ -1638,8 +1636,8 @@ const ODE: DialogueNodeDef[] = [
     id: "ode_levers_told",
     text:
       "Wedge, drop, closed eye. There. It costs me nothing to say it and it is costing you "
-      + "daylight not to know it. The door is entity gravelmaw_stone_door, in The Collapse, "
-      + "locationId gravelmaw_chamber2. Open it.",
+      + "daylight not to know it. The stone door is in The Collapse, the second chamber "
+      + "of Stone Cavern. Open it.",
     options: [
       { id: "ode_levers_told#back", text: "Thank you.", next: "ode_root" },
       LEAVE("ode_levers_told#bye"),
@@ -1649,8 +1647,8 @@ const ODE: DialogueNodeDef[] = [
     id: "ode_long_cairn_stone_given",
     text:
       "Then the hall is reachable and the office can be finished properly. This is a keeping-"
-      + "stone. Cairn garnet, cut and not polished, and it goes on the top course of the cairn in "
-      + "that hall, item cairn_garnet. Two cave bears stand over it and they will have to "
+      + "stone. Garnet, cut and not polished, and it goes on the top course of the cairn in "
+      + "that hall. Two cave bears stand over it and they will have to "
       + "be moved, and I am sorry, and I mean it. Do not sell the stone on the way.",
     options: [
       { id: "ode_long_cairn_stone_given#back", text: "Top course. Understood.", next: "ode_root" },
@@ -1662,7 +1660,7 @@ const ODE: DialogueNodeDef[] = [
     text:
       "Then here is another, and I will not ask. Garnet is common on this moor and patience is "
       + "not, so I have a great deal of one and I am spending the other. Top course of the cairn "
-      + "in the hall, item cairn_garnet, locationId gravelmaw_chamber3.",
+      + "in the Cairn Hall, the third chamber of Stone Cavern. That is where this garnet belongs.",
     options: [
       { id: "ode_replacement_stone#back", text: "It will get there this time.", next: "ode_root" },
       LEAVE("ode_replacement_stone#bye"),
@@ -1712,7 +1710,7 @@ const HALE: DialogueNodeDef[] = [
     options: [
       {
         id: "hale_root#gravelmaw",
-        text: "Tell me plainly what comes out of the Gravelmaw.",
+        text: "Tell me plainly what comes out of Stone Cavern.",
         showIf: [{ kind: "questStatus", questId: "long_cairn", status: "active", reason: "" }],
         requires: [
           {
@@ -1735,8 +1733,8 @@ const HALE: DialogueNodeDef[] = [
       + "there is a collapse, and it is dark, and there are a lot of the small ones in it. And "
       + "there is a door with three levers that none of us could work out, and after that... I "
       + "have not been after that. Nobody on the rota has been after that.\n\n"
-      + "The mouth is entity gravelmaw_mouth_portal, terrace one, next to the quarry. Chamber one "
-      + "is locationId gravelmaw_chamber1. Go armed. Please go armed.",
+      + "Stone Cavern mouth is on terrace one, next to the quarry. It opens into The Lit Gallery. "
+      + "Go armed. Please go armed.",
     options: [
       { id: "hale_gravelmaw_told#mouth", text: "What does it look like from here?", next: "hale_mouth" },
       LEAVE("hale_gravelmaw_told#bye"),

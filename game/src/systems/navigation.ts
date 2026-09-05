@@ -41,14 +41,38 @@ import {
 } from "./navigationArtifact.js";
 
 type RecastCoreModule = typeof import("@recast-navigation/core");
-type RecastThreeModule = typeof import("@recast-navigation/three");
+type RecastGeneratorsModule = typeof import("@recast-navigation/generators");
+type RecastCoreRuntime = Pick<RecastCoreModule, "init" | "NavMeshQuery" | "importNavMesh" | "exportNavMesh">;
+type RecastGeneratorsRuntime = Pick<RecastGeneratorsModule, "generateSoloNavMesh" | "generateTiledNavMesh" | "mergePositionsAndIndices">;
 
-let recastRuntime: { core: RecastCoreModule; three: RecastThreeModule } | null = null;
+let recastRuntime: { core: RecastCoreRuntime; generators: RecastGeneratorsRuntime } | null = null;
 let recastInitialization: Promise<void> | null = null;
 
-function requireRecast(): { core: RecastCoreModule; three: RecastThreeModule } {
+function requireRecast(): { core: RecastCoreRuntime; generators: RecastGeneratorsRuntime } {
   if (!recastRuntime) throw new Error("Recast is not initialized. Await Navigation.initLibrary() first.");
   return recastRuntime;
+}
+
+/** Convert production mesh triangles without importing Recast's unused Three debug renderers. */
+function navigationGeometry(meshes: readonly THREE.Mesh[]): [Float32Array, Uint32Array] {
+  const inputs: Parameters<RecastGeneratorsRuntime["mergePositionsAndIndices"]>[0] = [];
+  const point = new THREE.Vector3();
+  for (const mesh of meshes) {
+    const attribute = mesh.geometry.getAttribute("position");
+    if (!attribute || attribute.itemSize !== 3) continue;
+    mesh.updateWorldMatrix(true, false);
+    const positions = new Float32Array(attribute.count * 3);
+    for (let vertex = 0; vertex < attribute.count; vertex++) {
+      point.fromBufferAttribute(attribute, vertex).applyMatrix4(mesh.matrixWorld);
+      point.toArray(positions, vertex * 3);
+    }
+    const indices = mesh.geometry.getIndex()?.array
+      ?? Uint32Array.from({ length: attribute.count }, (_, index) => index);
+    inputs.push({ positions, indices });
+  }
+  // Keep the generator package's vertex welding and triangle order. Cached navmesh artifacts and
+  // runtime regeneration must see the same triangles for indexed and non-indexed source meshes.
+  return requireRecast().generators.mergePositionsAndIndices(inputs);
 }
 
 export type NavStatus = "uninitialized" | "building" | "ready" | "failed";
@@ -316,20 +340,30 @@ export class Navigation {
 
   private routeNodes = new Map<string, RouteNode>();
   private routeEdges: RouteEdge[] = [];
+  private pathConstraint: ((path: readonly Vec3[]) => { path: Vec3[]; blocked: boolean }) | null = null;
+
+  /** Live barriers clip a baked route at its reachable near face until gameplay opens them. */
+  setPathConstraint(constraint: ((path: readonly Vec3[]) => { path: Vec3[]; blocked: boolean }) | null): void {
+    this.pathConstraint = constraint;
+  }
 
   static async initLibrary(): Promise<void> {
     if (recastRuntime) return;
     recastInitialization ??= Promise.all([
-      import("@recast-navigation/core"),
-      import("@recast-navigation/three"),
+      // Project exports at the import boundary. Retaining either module namespace also retains
+      // unused crowd, tile-cache and debug drawing APIs and their Three line-rendering helpers.
+      import("@recast-navigation/core").then(({ init, NavMeshQuery, importNavMesh, exportNavMesh }) =>
+        ({ init, NavMeshQuery, importNavMesh, exportNavMesh })),
+      import("@recast-navigation/generators").then(({ generateSoloNavMesh, generateTiledNavMesh, mergePositionsAndIndices }) =>
+        ({ generateSoloNavMesh, generateTiledNavMesh, mergePositionsAndIndices })),
       typeof window === "undefined"
         ? Promise.resolve(null)
         : import("@recast-navigation/wasm/wasm"),
-    ]).then(async ([core, three, wasm]) => {
+    ]).then(async ([core, generators, wasm]) => {
       // The dynamic boundary separates the Emscripten module evaluation from the application
       // entry task. Browser boot still starts it immediately and still uses the external WASM.
       await core.init(wasm?.default);
-      recastRuntime = { core, three };
+      recastRuntime = { core, generators };
     }).catch((error: unknown) => {
       recastInitialization = null;
       throw error;
@@ -578,7 +612,7 @@ export class Navigation {
   }
 
   private generate(walkable: THREE.Mesh[], strategy: NavStrategy): NavMesh | null {
-    const { three } = requireRecast();
+    const { generators } = requireRecast();
     const config = {
       cs: this.worldCellSize(),
       ch: this.overrides.ch ?? NAV_CONFIG.ch,
@@ -590,9 +624,10 @@ export class Navigation {
     };
 
     try {
+      const [positions, indices] = navigationGeometry(walkable);
       if (strategy === "tiled") {
         const tileSize = this.overrides.tileSizeVoxels ?? TILE_SIZE_VOXELS;
-        const result = three.threeToTiledNavMesh(walkable, { ...config, tileSize });
+        const result = generators.generateTiledNavMesh(positions, indices, { ...config, tileSize });
         if (!result.success || !result.navMesh) {
           this.error = result.success ? "Tiled navmesh returned no mesh" : result.error;
           return null;
@@ -600,7 +635,7 @@ export class Navigation {
         return result.navMesh;
       }
 
-      const result = three.threeToSoloNavMesh(walkable, config);
+      const result = generators.generateSoloNavMesh(positions, indices, config);
       if (!result.success || !result.navMesh) {
         this.error = result.success ? "Solo navmesh returned no mesh" : result.error;
         return null;
@@ -736,6 +771,12 @@ export class Navigation {
       if (arrivalGap <= APPEND_TOLERANCE && distance(last, snappedEnd) > 0.05) {
         points.push(snappedEnd);
       }
+      const constrained = this.pathConstraint?.(points);
+      if (constrained?.blocked) {
+        const reachableEnd = constrained.path.at(-1);
+        if (!reachableEnd) return null;
+        return { path: constrained.path, partial: true, arrivalGap: distanceXZ(reachableEnd, snappedEnd) };
+      }
       return { path: points, partial: arrivalGap > ARRIVAL_TOLERANCE, arrivalGap };
     } catch {
       return null;
@@ -758,7 +799,7 @@ export class Navigation {
   isConnected(from: Vec3, to: Vec3, tolerance = ARRIVAL_TOLERANCE): boolean {
     const detailed = this.findPathDetailed(from, to);
     if (!detailed || detailed.path.length === 0) return false;
-    return detailed.arrivalGap <= tolerance;
+    return !detailed.partial && detailed.arrivalGap <= tolerance;
   }
 
   /** Connectivity matrix over a set of probe points. The root asserts three-region connectivity. */
@@ -840,6 +881,11 @@ export class Navigation {
     const usable = this.routeEdges.filter((edge) => edge.kind === "walk" || (edge.reqLevel ?? 0) <= agilityLevel);
     const adjacency = new Map<string, RouteEdge[]>();
     for (const edge of usable) {
+      if (edge.kind === "walk" && this.pathConstraint) {
+        const from = this.routeNodes.get(edge.from);
+        const to = this.routeNodes.get(edge.to);
+        if (!from || !to || !this.findPath(from.position, to.position)) continue;
+      }
       if (!adjacency.has(edge.from)) adjacency.set(edge.from, []);
       adjacency.get(edge.from)!.push(edge);
     }

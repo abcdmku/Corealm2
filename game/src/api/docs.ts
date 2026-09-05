@@ -16,10 +16,11 @@ import type { DocHit, SkillId } from "../contracts.js";
 import { SKILLS } from "../content/skills.js";
 import { MAX_LEVEL, TIERS, totalXpAt, xpTable } from "../content/xp.js";
 import {
-  content, gatherXp, healAmount, respawnSeconds, sellPrice, toolBonus, yieldRange,
+  content, enemyCombatLevel, gatherXp, healAmount, respawnSeconds, sellPrice, toolBonus, yieldRange,
 } from "../content/index.js";
 import { REGIONS } from "../content/regions.js";
 import { RESOURCE_ARCHETYPES, resourceDef } from "../content/resources.js";
+import { GATHERING_PRODUCTION_TIERS } from "../content/gatheringProductionTiers.js";
 
 export interface DocEntry {
   id: string;
@@ -46,8 +47,8 @@ export function buildDocs(): DocEntry[] {
       `Every skill runs from level 1 to level ${MAX_LEVEL}. Reaching level ${MAX_LEVEL} in one skill `
       + `costs ${totalXpAt(MAX_LEVEL).toLocaleString()} experience in total. The curve is exponential: `
       + `${checkpoints}. Level 92 is roughly the halfway point of the total, so the second half of a `
-      + `skill costs about as much as the first 92 levels combined. Content tiers sit at `
-      + `${TIERS.join(", ")}.`,
+      + `skill costs about as much as the first 92 levels combined. New gathering materials unlock at levels `
+      + `${GATHERING_PRODUCTION_TIERS.map(row => row.reqLevel).join(", ")}.`,
     keywords: ["xp", "experience", "level", "curve", "table", "99"],
   });
 
@@ -81,13 +82,13 @@ export function buildDocs(): DocEntry[] {
       "Mining, Woodcutting and Fishing share one model. A gather attempt happens every 1.8 seconds. "
       + "At the node's own required level the success chance is exactly 30%, which is one yield every "
       + "6 seconds; the chance rises by 1.6 percentage points per level above the requirement and caps "
-      + "at 95%. Experience per yield is round(10 * tier^0.55), so "
-      + `${[1, 5, 10].map((tier) => `tier ${tier} gives ${gatherXp(tier)} XP`).join(", ")}. `
+      + "at 95%. Experience per yield depends on the material: "
+      + `${GATHERING_PRODUCTION_TIERS.map(row => `${row.metalName} gives ${gatherXp(row.tier)} XP`).join(", ")}. `
       + "A better tool raises your effective level but never lets you gather a node you do not meet "
-      + `the base requirement for: ${[1, 5, 10].map((tier) => `a tier ${tier} tool adds +${toolBonus(tier)} effective levels`).join(", ")}. `
-      + `Nodes give a limited number of yields before depleting: ${[1, 5, 10].map((tier) => {
-        const [low, high] = yieldRange(tier);
-        return `tier ${tier} gives ${low} to ${high} and respawns after ${respawnSeconds(tier)} seconds`;
+      + `the base requirement for: ${GATHERING_PRODUCTION_TIERS.map(row => `${row.metalName} tools add +${toolBonus(row.tier)} effective levels`).join(", ")}. `
+      + `Nodes give a limited number of yields before depleting: ${GATHERING_PRODUCTION_TIERS.map(row => {
+        const [low, high] = yieldRange(row.tier);
+        return `${row.metalName} deposits give ${low} to ${high} and respawn after ${respawnSeconds(row.tier)} seconds`;
       }).join(", ")}. Essence caches are authored exceptions. Each one holds 40 to 90 successful `
       + "mining yields and returns 30 seconds after depletion.",
     keywords: ["mining", "woodcutting", "fishing", "gather", "xp per hour", "respawn", "depleted"],
@@ -175,7 +176,7 @@ export function buildDocs(): DocEntry[] {
       + "equipment each take a whole slot, which is why a gathering trip is limited by pack space "
       + "rather than by time. Banks hold far more and everything stacks there. Because banks are "
       + "fixed places, how far a resource sits from the nearest bank changes its real experience per "
-      + "hour — a lower-tier resource beside a bank often beats a higher-tier one far from it.",
+      + "hour. An easier resource beside a bank often beats a valuable one far from it.",
     keywords: ["inventory", "28", "bank", "deposit", "withdraw", "slots", "full"],
   });
 
@@ -187,14 +188,13 @@ export function buildDocs(): DocEntry[] {
       "Agility opens climbs, vaults and tunnels that shorten routes. A shortcut has a required "
       + "Agility level; succeeding moves you to the far side, failing costs 2 to 6 health and leaves "
       + "you where you started. Shortcuts matter because they change which training spot is actually "
-      + "the most efficient: a distant high-tier resource can go from worse to better than a nearby "
-      + "low-tier one the moment its shortcut opens.",
+      + "the most efficient. A distant resource can become a better choice when its shortcut opens.",
     keywords: ["agility", "shortcut", "climb", "vault", "route", "efficiency"],
   });
 
   // ------------------------------------------------------------------ items
   for (const item of content.allItems()) {
-    const parts = [`${item.name} is a tier ${item.tier} ${item.category}.`, item.description];
+    const parts = [`${item.name} is a ${item.category} item.`, item.description];
     if (item.equip) {
       const requires = Object.entries(item.equip.requires)
         .map(([skill, level]) => `${SKILLS[skill as SkillId]?.name ?? skill} ${level}`)
@@ -242,7 +242,7 @@ export function buildDocs(): DocEntry[] {
       title: item.name,
       section: "Items",
       body: parts.join(" "),
-      keywords: [item.id, item.category, `tier ${item.tier}`],
+      keywords: [item.id, item.category],
     });
   }
 
@@ -272,11 +272,11 @@ export function buildDocs(): DocEntry[] {
       title: enemy.name,
       section: "Enemies",
       body:
-        `${enemy.name} is a tier ${enemy.tier} ${enemy.family} with ${enemy.maxHealth} health. `
+        `${enemy.name} is level ${enemyCombatLevel(enemy)} with ${enemy.maxHealth} health. `
         + `It hits for up to ${enemy.maxHit}, attacks every ${(enemy.attackSpeedMs / 1000).toFixed(1)} `
         + `seconds, and has ${enemy.armour} armour and ${enemy.magicArmour} magic armour. `
         + `It is ${enemy.behaviour}${enemy.behaviour === "aggressive" ? ` and attacks on sight within ${enemy.aggroRadius} metres` : ""}.`,
-      keywords: [enemy.id, enemy.family, `tier ${enemy.tier}`],
+      keywords: [enemy.id, enemy.family, `level ${enemyCombatLevel(enemy)}`],
     });
   }
 
@@ -306,7 +306,7 @@ export function buildDocs(): DocEntry[] {
     const resources = region.clusters
       .map((cluster) => {
         const resource = resourceDef(cluster.resourceId);
-        return `${resource.name} (tier ${resource.tier} ${resource.skill})`;
+        return `${resource.name} (${SKILLS[resource.skill].name} ${resource.reqLevel})`;
       })
       .join(", ");
     entries.push({
@@ -341,14 +341,14 @@ export function buildDocs(): DocEntry[] {
         .filter((cluster) => cluster.locationId === location.id)
         .map((cluster) => {
           const resource = resourceDef(cluster.resourceId);
-          return `${resource.name} (tier ${resource.tier} ${resource.skill}, needs level ${resource.reqLevel})`;
+          return `${resource.name} (${SKILLS[resource.skill].name} ${resource.reqLevel})`;
         });
       entries.push({
         id: `place-${location.id}`,
         title: location.name,
         section: "Places",
         body:
-          `${location.name} is a ${location.kind} in ${region.name}, tier ${region.tier}. `
+          `${location.name} is a ${location.kind} in ${region.name}. `
           + `Travel there with moveTo({ locationId: "${location.id}" }). `
           + `${clusters.length ? `You can gather here: ${clusters.join(", ")}.` : ""}`,
         keywords: [

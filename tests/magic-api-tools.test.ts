@@ -238,9 +238,10 @@ describe("routed interaction outcomes", () => {
       interactions: ["recharge"],
     };
     const movement = {
+      planPath: () => ({ points: [[0, 0, 0], [12, 0, 0]], pathLength: 12, etaMs: 3_000 }),
       startPath: () => ({ pathLength: 12, etaMs: 3_000 }),
     } as unknown as Movement;
-    const nav = { isReady: () => true } as unknown as Navigation;
+    const nav = { isReady: () => true, planRouteVia: () => null } as unknown as Navigation;
     const api = new CorealmGameApi(store, events, nav, movement, clock);
     api.register("entities", {
       get: (id) => id === altar.id ? altar : undefined,

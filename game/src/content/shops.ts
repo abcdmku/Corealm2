@@ -29,7 +29,7 @@ const SELL_MULTIPLIER = 0.6;
 export const SHOPS: readonly ShopDef[] = [
   {
     id: "coldbrace_general",
-    name: "Coldbrace General Supplies",
+    name: "Millfield General Supplies",
     buyMultiplier: BUY_MULTIPLIER,
     sellMultiplier: SELL_MULTIPLIER,
     stock: [
@@ -62,7 +62,7 @@ export const SHOPS: readonly ShopDef[] = [
   },
   {
     id: "rootfall_general",
-    name: "Rootfall Trade Post",
+    name: "Oakwood Trade Post",
     buyMultiplier: BUY_MULTIPLIER,
     sellMultiplier: SELL_MULTIPLIER,
     stock: [
@@ -80,7 +80,7 @@ export const SHOPS: readonly ShopDef[] = [
   },
   {
     id: "highcairn_general",
-    name: "Highcairn Camp Store",
+    name: "Hillcrest Camp Store",
     buyMultiplier: BUY_MULTIPLIER,
     sellMultiplier: SELL_MULTIPLIER,
     stock: [
@@ -115,7 +115,7 @@ export const SHOPS: readonly ShopDef[] = [
   },
   {
     id: "emberfast_general",
-    name: "Emberfast Provisioners",
+    name: "Ashford Provisioners",
     buyMultiplier: BUY_MULTIPLIER,
     sellMultiplier: SELL_MULTIPLIER,
     stock: [

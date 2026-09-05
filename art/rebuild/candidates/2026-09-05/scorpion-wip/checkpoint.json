@@ -1,0 +1,64 @@
+{
+  "frozenAt": "2026-09-05T16:05:12.137320+00:00",
+  "readyForPromotion": false,
+  "scope": "Scorpion Run only. No runtime/public/cap edits by this round. Frozen frog/crab staged outputs unchanged.",
+  "currentSource": {
+    "file": "tools/lib/scorpion-ground-gait.ts",
+    "sha256": "391e954c71c1c81d2cf843ef9b52f3086dee26d44c72e0aa1e99012fb4f2835d",
+    "status": "Experimental full-sole rotation correction; last build stopped before export at anatomical correction guard: 0.699107775 rad exceeds0.65. Nullable-channel type guard fixed after that run; scoped strict TypeScript passes."
+  },
+  "firstCandidateSource": {
+    "file": "test-results/scorpion-ground-gait/scorpion-first-candidate.source.txt",
+    "sha256": "1da18739b105453e450cc20aa1f15d06150222deab9ce7107034befa49a62f75",
+    "matchesStagedGeneratorHash": true
+  },
+  "firstCandidate": {
+    "file": "C:/Users/Borg/Documents/GitHub/Corealm2/test-results/scorpion-ground-gait/animal_scorpion.glb",
+    "sha256": "4043c93090b896abaa82cd1d8701836d25feee2272d36ff1689cf848d5259d19",
+    "bytes": 1364976,
+    "passed": false,
+    "failures": [
+      "l_FrontLeg: physical sole contact speed exceeds12mm/s",
+      "l_BackLeg: physical sole contact speed exceeds12mm/s",
+      "l_BackLeg: all-phase physical contact speed exceeds12mm/s",
+      "r_BackLeg: physical sole contact speed exceeds12mm/s",
+      "r_BackLeg: all-phase physical contact speed exceeds12mm/s"
+    ],
+    "nativeMps": 0.31,
+    "seconds": 0.6333333253860474,
+    "maxIndividualPrimarySlipMps": 0.0015342032132750112,
+    "maxAllPhaseContactPlaneSlipMps": 0.09275828317606821,
+    "meshPenetrationM": 0,
+    "wholeMeshLoopPositionM": 0
+  },
+  "rebuildCommand": "npx tsx tools/repair-ground-creature-gaits.ts --asset animal_scorpion",
+  "frozenFrogCrab": [
+    {
+      "id": "animal_frog",
+      "matchesFrozenSha": true,
+      "sha256": "0d0c9c63ca299fce2c5e15fd781ef1285175945be9af9da8e19940674a9b2daa"
+    },
+    {
+      "id": "animal_frog_green",
+      "matchesFrozenSha": true,
+      "sha256": "31ce3e3360e08edcdd7beeedcdc1844b287cec6ea5f00dc8b6cd1f221cae098b"
+    },
+    {
+      "id": "animal_crab",
+      "matchesFrozenSha": true,
+      "sha256": "67e7cede7699c2c3b7d08ac9490bcb2817be4b32051e4e1d50d31d4326d74b4d"
+    }
+  ],
+  "filesToCarry": [
+    "tools/lib/scorpion-ground-gait.ts",
+    "tools/repair-ground-creature-gaits.ts",
+    "test-results/scorpion-ground-gait/README.md",
+    "test-results/scorpion-ground-gait/checkpoint.json",
+    "test-results/scorpion-ground-gait/animal_scorpion.glb",
+    "test-results/scorpion-ground-gait/report.json",
+    "test-results/scorpion-ground-gait/manifest-updates.json",
+    "test-results/scorpion-ground-gait/inspect.ts",
+    "test-results/scorpion-ground-gait/inspect.json",
+    "test-results/scorpion-ground-gait/scorpion-first-candidate.source.txt"
+  ]
+}

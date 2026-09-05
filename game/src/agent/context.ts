@@ -295,7 +295,7 @@ function suggest(
       && (row.archetype === "ore" || row.archetype === "tree" || row.archetype === "fishing_spot"));
     if (node) {
       const interaction = node.archetype === "ore" ? "mine" : node.archetype === "tree" ? "chop" : "fish";
-      out.push(act("corealm_gather", { interaction, entityId: node.id, quantity: Math.max(1, Math.min(10, inventory.freeSlots)) }, `${node.name} (tier ${node.tier}) is ${Math.round(node.distance)} m away and the player qualifies.`));
+      out.push(act("corealm_gather", { interaction, entityId: node.id, quantity: Math.max(1, Math.min(10, inventory.freeSlots)) }, `${node.name} is ${Math.round(node.distance)} m away and the player qualifies.`));
     }
   }
   if (out.length === 0) {

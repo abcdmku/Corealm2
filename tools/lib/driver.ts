@@ -85,9 +85,11 @@ export class GameDriver {
     });
   }
 
-  async open(timeoutMs = 20_000): Promise<void> {
+  async open(timeoutMs = 20_000, route = "/"): Promise<void> {
     const page = this.requirePage();
-    await page.goto(this.server.url, { waitUntil: "load", timeout: timeoutMs });
+    const url = new URL(route, this.server.url);
+    if (url.origin !== new URL(this.server.url).origin) throw new Error("Game route must use the server origin");
+    await page.goto(url.href, { waitUntil: "load", timeout: timeoutMs });
     await page.waitForFunction(
       () => window.__gameDebug?.getState().ready === true,
       undefined,
@@ -104,8 +106,8 @@ export class GameDriver {
     const keyboard = this.requirePage().keyboard;
     if (holdMs > 0) {
       await keyboard.down(key);
-      await this.wait(holdMs);
-      await keyboard.up(key);
+      try { await this.wait(holdMs); }
+      finally { await keyboard.up(key); }
       return;
     }
     await keyboard.press(key);
@@ -125,8 +127,8 @@ export class GameDriver {
     const mouse = this.requirePage().mouse;
     await mouse.move(x1, y1);
     await mouse.down({ button });
-    await mouse.move(x2, y2, { steps: 12 });
-    await mouse.up({ button });
+    try { await mouse.move(x2, y2, { steps: 12 }); }
+    finally { await mouse.up({ button }); }
   }
 
   async moveMouse(x: number, y: number): Promise<void> {
@@ -146,8 +148,8 @@ export class GameDriver {
       async ({ methodName, methodArgs }) => {
         const api = window.__gameDebug as unknown as Record<string, unknown> | undefined;
         const fn = api?.[methodName];
-        if (typeof fn !== "function") throw new Error(`window.__gameDebug.${methodName} is not a function`);
-        const value = await (fn as (...values: unknown[]) => unknown)(...methodArgs);
+        if (!api || !Object.hasOwn(api, methodName) || typeof fn !== "function") throw new Error(`window.__gameDebug.${methodName} is not a function`);
+        const value = await (fn as (...values: unknown[]) => unknown).apply(api, methodArgs);
         return JSON.parse(JSON.stringify(value ?? null));
       },
       { methodName: method, methodArgs: args },
@@ -175,19 +177,11 @@ export class GameDriver {
     }, profile === "full");
   }
 
-  /**
-   * Playwright's 30 s default is not enough for this world on a software rasteriser.
-   *
-   * `screenshot()` forces a fresh paint, and Chromium here runs on SwiftShader — measured at boot:
-   * 524 draw calls and 18.2 M triangles a frame, with the page taking 16.7 s just to reach
-   * `ready()`. Against that a single composite regularly runs past 30 s and the call rejects with a
-   * TimeoutError, which is a harness fault reported as if the game were broken. `animations:
-   * "disabled"` also stops it waiting on CSS transitions that a paused sim never finishes.
-   */
+  /** A stalled capture must fail within the lab feedback budget. */
   async screenshot(directory: string, name: string): Promise<string> {
     const file = path.join(directory, `${safeName(name)}.png`);
     await this.requirePage().screenshot({
-      path: file, type: "png", timeout: 180_000, animations: "disabled",
+      path: file, type: "png", timeout: 5_000, animations: "disabled",
     });
     return file;
   }

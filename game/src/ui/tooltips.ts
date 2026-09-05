@@ -3,7 +3,7 @@
  *
  * Every panel that shows an item hands this the item id and an anchor element; nothing else builds
  * its own hover card. That matters for the PRD's readability contract, which is specific about what
- * an item tooltip must say: name, tier, category, description, requirements in plain text with the
+ * an item tooltip must say: name, category, description, requirements in plain text with the
  * reason when they are unmet, value, and — for equipment — the stat delta against what is currently
  * worn. A second tooltip implementation somewhere would drift off that list within a round.
  *
@@ -213,7 +213,7 @@ export class Tooltip {
 
     const meta = document.createElement("div");
     meta.className = "tooltip__tier";
-    meta.textContent = `Tier ${def.tier} · ${def.category}${def.stackable ? " · stacks" : ""}`;
+    meta.textContent = `${def.category}${def.stackable ? " · stacks" : ""}`;
     nodes.push(meta);
 
     if (def.description) {
@@ -280,7 +280,7 @@ export class Tooltip {
       if (!def.orb.released) {
         const unreleased = document.createElement("div");
         unreleased.className = "tooltip__requirement is-unmet";
-        unreleased.textContent = `Coming at tier ${def.tier}. This orb is not released.`;
+        unreleased.textContent = "This orb is not released.";
         nodes.push(unreleased);
       }
     }

@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "generatedAt": "2026-09-05T15:31:57.342460+00:00",
+  "assets": 3,
+  "clips": 6,
+  "samplesPerCycle": 3840,
+  "cycles": 2,
+  "checks": [
+    "Exact source and staged SHA/bytes",
+    "All original BIN bytes unchanged",
+    "Nodes/meshes/skins/materials/images/scene metadata unchanged",
+    "Original accessor and buffer-view entries unchanged",
+    "All six nonlocomotion clips unchanged",
+    "All six locomotion audits pass",
+    "Generator hashes match frozen sources",
+    "All three manifest updates match full report"
+  ]
+}

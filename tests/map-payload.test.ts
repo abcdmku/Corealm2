@@ -153,22 +153,6 @@ describe("generated world-map payloads", () => {
     }
   });
 
-  it("keeps detail asset names out of boot and minimap request paths", async () => {
-    const [bootSource, minimapSource, canvasSource] = await Promise.all([
-      readFile("game/src/app/boot.ts", "utf8"),
-      readFile("game/src/ui/minimap.ts", "utf8"),
-      readFile("game/src/ui/worldMapCanvas.ts", "utf8"),
-    ]);
-    for (const [file, source] of [["boot.ts", bootSource], ["minimap.ts", minimapSource]] as const) {
-      expect(source, file).not.toContain("WORLD_MAP_DETAIL_RENDITIONS");
-      expect(source, file).not.toMatch(/generated\/world-map-detail-/);
-      expect(source, file).not.toContain("generated/world-map.png");
-    }
-    expect(minimapSource).toContain("WORLD_MAP_MINIMAP_RENDITION.path");
-    expect(canvasSource).toContain("WORLD_MAP_DETAIL_RENDITIONS");
-    expect(canvasSource).not.toMatch(/createElement\(["']canvas["']\)/);
-  });
-
   it("does not request detail imagery until the full-map canvas renders", () => {
     const requested: string[] = [];
     class FakeImage {

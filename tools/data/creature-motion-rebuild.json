@@ -1,0 +1,5147 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-05T01:59:47.723Z",
+  "status": "staged; requires production feature-lab motion and texture acceptance before promotion",
+  "sourceTextureDefect": "FBX converter forced map.flipY=false. Geometry UVs are unchanged; embedded atlas must be vertically corrected.",
+  "assets": [
+    {
+      "id": "animal_aurochs",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_aurochs.glb",
+      "productionFile": "models/animal/animal_aurochs.glb",
+      "sourceSha256": "410a167ba20085766ffe8f771894eff32b25b130ed7faf56b9e30e3986d8fe49",
+      "sha256": "c1e4363275d2c708235cbf3b1bf3b0d16398da4b570d7118b483f10c688da7e5",
+      "bytes": 717064,
+      "originalBytes": 606296,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 1.7999999523162842,
+        "contactNormalized": 0.575,
+        "source": "Original FBX authored attack",
+        "label": "Contact estimated from forward strike-joint reach; confirm with feature lab timeline"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.1333333253860474,
+          "impliedMps": 0.47206117160938627,
+          "strideMetres": 0.5350026574056993
+        },
+        "Run": {
+          "clipSeconds": 0.6666666865348816,
+          "impliedMps": 1.4834462856495636,
+          "strideMetres": 0.988964219906472
+        }
+      },
+      "changes": [
+        "Keep previously corrected FBX texture orientation",
+        "Replace recoil with anatomical shoulder and pelvis compression, neck recoil and planted contacts; preserve all non-hit clips"
+      ],
+      "correctedTextures": [],
+      "validation": {
+        "clips": 8,
+        "channels": 964,
+        "animatedJoints": {
+          "Idle": 13,
+          "Walk": 36,
+          "Run": 31,
+          "Attack": 36,
+          "Death": 38,
+          "Hit": 18,
+          "HitLeft": 19,
+          "HitRight": 19
+        },
+        "maxQuaternionError": 4.293376409947314e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.3446068247412779,
+              -0.05462130430738693,
+              -1.0102743896914927
+            ],
+            "max": [
+              0.34445900742892294,
+              1.4817924358917514,
+              1.5169631301620297
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.3344347500038475,
+              -0.010051162006902219,
+              -1.4928720270275184
+            ],
+            "max": [
+              0.3244019982827769,
+              1.457454225010237,
+              1.5147878046783536
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.32291740542719943,
+              -0.029406603046101876,
+              -1.1452789352610746
+            ],
+            "max": [
+              0.32293733117900136,
+              1.5655351452479596,
+              1.761739556168986
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.4356641699789152,
+              -0.004848093783507545,
+              -1.005976331196749
+            ],
+            "max": [
+              0.3215528376634594,
+              1.6135026540762571,
+              1.5272884741868973
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.3215850020661217,
+              -0.0048516350139910834,
+              -1.005976331196749
+            ],
+            "max": [
+              0.486530591896519,
+              1.633153968233569,
+              1.5272884741868973
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.4865541394082386,
+              -0.0048527107336449205,
+              -1.005976331196749
+            ],
+            "max": [
+              0.3215616627216761,
+              1.6173645416035518,
+              1.5272884741868973
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.1333333253860474,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6666666865348816,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.7999999523162842,
+          "contactNormalized": 0.575
+        },
+        {
+          "name": "Death",
+          "seconds": 1.5,
+          "contactNormalized": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.8399999737739563,
+          "contactNormalized": 0.13095238095238096
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.8399999737739563,
+          "contactNormalized": 0.13095238095238096
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.8399999737739563,
+          "contactNormalized": 0.13095238095238096
+        }
+      ],
+      "groundY": -0.005,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.005,
+        "groundY": -0.005,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 156,
+        "footGroups": [
+          "left-FrontLeg",
+          "left-HindLeg",
+          "right-FrontLeg",
+          "right-HindLeg"
+        ],
+        "idleSoleY": -0.00456,
+        "idleMeshMinY": [
+          -0.006821,
+          -0.00456,
+          -0.003654
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.0040315723392229715,
+            "samples": 79,
+            "meshMinY": -0.06228367264998454,
+            "meshMaxMinY": -0.0021853423125175833
+          },
+          "Run": {
+            "y": 0.010803938306445661,
+            "samples": 18,
+            "meshMinY": -0.02294825964603314,
+            "meshMaxMinY": 0.0991285271090928
+          }
+        },
+        "issues": []
+      },
+      "recalibratedGaits": false
+    },
+    {
+      "id": "animal_bear",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_bear.glb",
+      "productionFile": "models/animal/animal_bear.glb",
+      "sourceSha256": "046632a497c3a82640e57cbec3333f97f84ef88cab2f675a49af639e23feca41",
+      "sha256": "fb65eb1e00b44f46156516a279a53688cbde72ab80afea8cb1f8c0078d5af97d",
+      "bytes": 665248,
+      "originalBytes": 565532,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 2.4666666984558105,
+        "contactNormalized": 0.15,
+        "source": "Original FBX authored attack",
+        "label": "Contact estimated from forward strike-joint reach; confirm with feature lab timeline"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.100000023841858,
+          "impliedMps": 0.7394411384124244,
+          "strideMetres": 0.8133852698833174
+        },
+        "Run": {
+          "clipSeconds": 0.5666666626930237,
+          "impliedMps": 2.2469002344778586,
+          "strideMetres": 1.2732434572757405
+        }
+      },
+      "recalibratedGaits": false,
+      "changes": [
+        "Keep previously corrected FBX texture orientation",
+        "Replace bear recoil with delayed shoulder and pelvis compression, neck recoil and four planted paws; preserve all non-hit clips"
+      ],
+      "correctedTextures": [],
+      "validation": {
+        "clips": 8,
+        "channels": 778,
+        "animatedJoints": {
+          "Idle": 15,
+          "Walk": 27,
+          "Run": 27,
+          "Attack": 27,
+          "Death": 24,
+          "Hit": 21,
+          "HitLeft": 21,
+          "HitRight": 21
+        },
+        "maxQuaternionError": 4.6973698486496573e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.3862306575419011,
+              -0.03230566438127097,
+              -1.0954388451720656
+            ],
+            "max": [
+              0.38974618997070604,
+              1.3150782016848281,
+              1.5069984850245683
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.37784054002367706,
+              -0.02378978842097214,
+              -1.1805391094499045
+            ],
+            "max": [
+              0.3701185075810458,
+              1.328895878273733,
+              1.5473376710785378
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.8366939304927843,
+              -0.0061406088793448145,
+              -1.036052317335868
+            ],
+            "max": [
+              0.6800153517391578,
+              2.5158752047321125,
+              1.5030745260811047
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.38237898500981915,
+              -0.0065392586657311924,
+              -0.955405270075126
+            ],
+            "max": [
+              0.3543702585405617,
+              1.4021917787401543,
+              1.5125959144989913
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.35435279263202796,
+              -0.006565102065780787,
+              -0.955405270075126
+            ],
+            "max": [
+              0.48388769143435584,
+              1.4021917787401543,
+              1.5123277257124923
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.48388767804830624,
+              -0.006578394192691481,
+              -0.955405270075126
+            ],
+            "max": [
+              0.3543702585405617,
+              1.4021917787401543,
+              1.5123277255076208
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 6,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.100000023841858,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.5666666626930237,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 2.4666666984558105,
+          "contactNormalized": 0.15
+        },
+        {
+          "name": "Death",
+          "seconds": 1.4333332777023315,
+          "contactNormalized": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.7799999713897705,
+          "contactNormalized": 0.14102564102564102
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.7799999713897705,
+          "contactNormalized": 0.14102564102564102
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.7799999713897705,
+          "contactNormalized": 0.14102564102564102
+        }
+      ],
+      "groundY": -0.006,
+      "groundCalibration": {
+        "bindBaseY": -0.006,
+        "groundY": -0.006,
+        "delta": 0,
+        "idleSoleY": -0.006177,
+        "issues": [],
+        "status": "unchanged-within-2mm",
+        "method": "Preserved existing measured Idle and locomotion grounding; Hit-only rebuild keeps geometry, bind pose and all non-Hit clips unchanged",
+        "source": "runs/local-creature-rebuild/grounding-calibration.json"
+      }
+    },
+    {
+      "id": "animal_boar",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_boar.glb",
+      "productionFile": "models/animal/animal_boar.glb",
+      "sourceSha256": "245a4db81b89b35b29259ab01ebf2cdddefcf0bba1443874ab5a8acd145c5f42",
+      "sha256": "9e1192788411744743042396fd4e958b16c001c49d91aab73e56dc27b1c7383c",
+      "bytes": 596064,
+      "originalBytes": 507108,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 0.699999988079071,
+        "contactNormalized": 0.7,
+        "source": "Original FBX authored attack",
+        "label": "Contact estimated from forward strike-joint reach; confirm with feature lab timeline"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 0.9666666388511658,
+          "impliedMps": 0.6734017630746574,
+          "strideMetres": 0.6509550189078281
+        },
+        "Run": {
+          "clipSeconds": 0.5,
+          "impliedMps": 1.2519976417014305,
+          "strideMetres": 0.6259988208507152
+        }
+      },
+      "changes": [
+        "Keep previously corrected FBX texture orientation",
+        "Replace recoil with anatomical shoulder and pelvis compression, neck recoil and planted contacts; preserve all non-hit clips"
+      ],
+      "correctedTextures": [],
+      "validation": {
+        "clips": 8,
+        "channels": 895,
+        "animatedJoints": {
+          "Idle": 18,
+          "Walk": 29,
+          "Run": 32,
+          "Attack": 30,
+          "Death": 34,
+          "Hit": 18,
+          "HitLeft": 19,
+          "HitRight": 19
+        },
+        "maxQuaternionError": 4.08357856418462e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.27006042781092315,
+              -0.019305219110777122,
+              -0.7804922868338712
+            ],
+            "max": [
+              0.2698095387626481,
+              0.9328234079497619,
+              0.9958483225949548
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.25758466430073457,
+              -0.0034006916792293923,
+              -0.97922273527783
+            ],
+            "max": [
+              0.2589097730599251,
+              0.9855727582257694,
+              0.9822598727384304
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.25026810488719425,
+              -0.01011335530746738,
+              -0.8404535958798751
+            ],
+            "max": [
+              0.3334348577084947,
+              1.5352023347087598,
+              1.0034327519970518
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.29476988834784995,
+              -0.002023583505619642,
+              -0.7191531104112716
+            ],
+            "max": [
+              0.23628457993469945,
+              0.9631075833571132,
+              0.9988851600723119
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.2386524348430966,
+              -0.0020547654146893996,
+              -0.7191531104112716
+            ],
+            "max": [
+              0.3399685732782801,
+              0.9631075833571132,
+              0.9988851600723119
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.33854179293214726,
+              -0.0020094285994345417,
+              -0.7191531104112716
+            ],
+            "max": [
+              0.23639202140789567,
+              0.9631075833571132,
+              0.9988851600723119
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 6,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.9666666388511658,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.5,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.699999988079071,
+          "contactNormalized": 0.7
+        },
+        {
+          "name": "Death",
+          "seconds": 0.6333333253860474,
+          "contactNormalized": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.699999988079071,
+          "contactNormalized": 0.1285714285714286
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.699999988079071,
+          "contactNormalized": 0.1285714285714286
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.699999988079071,
+          "contactNormalized": 0.1285714285714286
+        }
+      ],
+      "groundY": -0.001,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.001,
+        "groundY": -0.001,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 159,
+        "footGroups": [
+          "left-FrontLeg",
+          "left-HindLeg",
+          "right-FrontLeg",
+          "right-HindLeg"
+        ],
+        "idleSoleY": -0.001007,
+        "idleMeshMinY": [
+          -0.001323,
+          -0.001007,
+          -0.000319
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": 0.001220013251074986,
+            "samples": 44,
+            "meshMinY": -0.025288073674186905,
+            "meshMaxMinY": 0.0015186297883201187
+          },
+          "Run": {
+            "y": 0.0014751315048948076,
+            "samples": 33,
+            "meshMinY": -0.0054223245618850915,
+            "meshMaxMinY": 0.07308778615924161
+          }
+        },
+        "issues": []
+      },
+      "recalibratedGaits": false
+    },
+    {
+      "id": "animal_cattle",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_cattle.glb",
+      "productionFile": "models/animal/animal_cattle.glb",
+      "sourceSha256": "54d84f44247ebb74ea6e48f0c6a32235d1bc9cc7a7a5cea58aaaddd04eea5aec",
+      "sha256": "8c75982604c2b5d2cb66341a122ccb7bee5ba36e7c0bcfda6c6255d14eb8068d",
+      "bytes": 733184,
+      "originalBytes": 622416,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 1.7999999523162842,
+        "contactNormalized": 0.575,
+        "source": "Original FBX authored attack",
+        "label": "Contact estimated from forward strike-joint reach; confirm with feature lab timeline"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.1333333253860474,
+          "impliedMps": 0.47206117160938627,
+          "strideMetres": 0.5350026574056993
+        },
+        "Run": {
+          "clipSeconds": 0.6666666865348816,
+          "impliedMps": 1.4834462856495636,
+          "strideMetres": 0.988964219906472
+        }
+      },
+      "recalibratedGaits": false,
+      "changes": [
+        "Keep previously corrected FBX texture orientation",
+        "Replace recoil with anatomical shoulder and pelvis compression, neck recoil and planted contacts; preserve all non-hit clips"
+      ],
+      "correctedTextures": [],
+      "validation": {
+        "clips": 8,
+        "channels": 964,
+        "animatedJoints": {
+          "Idle": 13,
+          "Walk": 36,
+          "Run": 31,
+          "Attack": 36,
+          "Death": 38,
+          "Hit": 18,
+          "HitLeft": 19,
+          "HitRight": 19
+        },
+        "maxQuaternionError": 4.293376409947314e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.3446068247412779,
+              -0.05462130430738693,
+              -1.0102743896914927
+            ],
+            "max": [
+              0.34445900742892294,
+              1.4817924358917514,
+              1.5169631301620297
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.3344347500038475,
+              -0.010051162006902219,
+              -1.4928720270275184
+            ],
+            "max": [
+              0.3244019982827769,
+              1.457454225010237,
+              1.5147878046783536
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.32291740542719943,
+              -0.029406603046101876,
+              -1.1452789352610746
+            ],
+            "max": [
+              0.32293733117900136,
+              1.5655351452479596,
+              1.761739556168986
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.4356641699789152,
+              -0.004848093783507545,
+              -1.005976331196749
+            ],
+            "max": [
+              0.3215528376634594,
+              1.6135026540762571,
+              1.5272884741868973
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.3215850020661217,
+              -0.0048516350139910834,
+              -1.005976331196749
+            ],
+            "max": [
+              0.486530591896519,
+              1.633153968233569,
+              1.5272884741868973
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.4865541394082386,
+              -0.0048527107336449205,
+              -1.005976331196749
+            ],
+            "max": [
+              0.3215616627216761,
+              1.6173645416035518,
+              1.5272884741868973
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.1333333253860474,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6666666865348816,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.7999999523162842,
+          "contactNormalized": 0.575
+        },
+        {
+          "name": "Death",
+          "seconds": 1.5,
+          "contactNormalized": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.8399999737739563,
+          "contactNormalized": 0.13095238095238096
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.8399999737739563,
+          "contactNormalized": 0.13095238095238096
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.8399999737739563,
+          "contactNormalized": 0.13095238095238096
+        }
+      ],
+      "groundY": -0.005,
+      "groundCalibration": {
+        "bindBaseY": -0.005,
+        "groundY": -0.005,
+        "delta": 0,
+        "idleSoleY": -0.00456,
+        "issues": [],
+        "status": "unchanged-within-2mm",
+        "method": "Preserved existing measured Idle and locomotion grounding; Hit-only rebuild keeps geometry, bind pose and all non-Hit clips unchanged",
+        "source": "runs/local-creature-rebuild/grounding-calibration.json"
+      }
+    },
+    {
+      "id": "animal_chicken",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_chicken.glb",
+      "productionFile": "models/animal/animal_chicken.glb",
+      "sourceSha256": "67f362328f5d29f01607b266f92a917baabb6a0d84d2942f7ce46359c72e2a97",
+      "sha256": "fa23a1289583064e65a73e7dd0e0e950b516817aea74795d71a53e696866f900",
+      "bytes": 388976,
+      "originalBytes": 364532,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 0.7,
+        "contactNormalized": 0.43,
+        "source": "Corealm authored articulated clip",
+        "label": "alert neck coil, forward peck, recoil and settle"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.0333333015441895,
+          "impliedMps": 0.2175983620905572,
+          "strideMetres": 0.22485163390964347
+        },
+        "Run": {
+          "clipSeconds": 0.5666666626930237,
+          "impliedMps": 0.6577980485338032,
+          "strideMetres": 0.37275222488863385
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Replace root lunge with alert neck coil, forward peck, recoil and settle across 10 joints",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "77fd4848529fd95c277a623ed394f441834c2b6df33d00e420e38bda79af38cf",
+          "after": "ec42232935b7af8da695cadc4ad4674291176228ca200af6b58c78792af890f0",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.5787315368652344,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 550,
+        "animatedJoints": {
+          "Idle": 20,
+          "Walk": 32,
+          "Run": 26,
+          "Death": 35,
+          "Attack": 9,
+          "Hit": 6,
+          "HitLeft": 7,
+          "HitRight": 7
+        },
+        "maxQuaternionError": 4.316663737569115e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.12470461454346661,
+              -0.010184321062553205,
+              -0.26781573666274694
+            ],
+            "max": [
+              0.12437350040204746,
+              0.5612250418014313,
+              0.3276924110543768
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.12518671998543168,
+              -0.005257489405592234,
+              -0.2677939995676368
+            ],
+            "max": [
+              0.12479619186490938,
+              0.5787636605205154,
+              0.33427842976927763
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.12296165478200874,
+              -0.0064871136440506445,
+              -0.2815267214909691
+            ],
+            "max": [
+              0.12192955098259828,
+              0.6253350335741621,
+              0.3298969233613043
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.12296165478200868,
+              -0.0016289001405269173,
+              -0.26782471124113616
+            ],
+            "max": [
+              0.12192955090319008,
+              0.6230610927548932,
+              0.29753027252791814
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.12296165478200868,
+              -0.0016289001405269173,
+              -0.26782471124113616
+            ],
+            "max": [
+              0.12192955090319008,
+              0.6203063692812115,
+              0.2973234635645646
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.12296165478200868,
+              -0.0016289001405269173,
+              -0.26782471124113616
+            ],
+            "max": [
+              0.12192955090319008,
+              0.6203959921843002,
+              0.29728888281931365
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 6,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.0333333015441895,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.5666666626930237,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 1.5,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.699999988079071,
+          "contactNormalized": 0.43
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.001,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.001,
+        "groundY": -0.001,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 277,
+        "footGroups": [
+          "left-Leg",
+          "left-foot",
+          "right-Leg",
+          "right-foot"
+        ],
+        "idleSoleY": -0.001431,
+        "idleMeshMinY": [
+          -0.001524,
+          -0.001431,
+          -0.001243
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.001557593523490037,
+            "samples": 72,
+            "meshMinY": -0.010526709989370792,
+            "meshMaxMinY": -0.0008674882016572703
+          },
+          "Run": {
+            "y": -0.0014502348356601274,
+            "samples": 24,
+            "meshMinY": -0.010707426560393507,
+            "meshMaxMinY": 0.01516734900011559
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "animal_chicken_speckled",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_chicken_speckled.glb",
+      "productionFile": "models/animal/animal_chicken_speckled.glb",
+      "sourceSha256": "30f20c9b96e25a330338af5983db5c525936f618e20dd3b1dee15ddd7f25b5c4",
+      "sha256": "cc14a547d0f0b708bfd2f7a985c3c8dbf808cf922a98c40c9a464787782a92b3",
+      "bytes": 428904,
+      "originalBytes": 397108,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 0.7,
+        "contactNormalized": 0.43,
+        "source": "Corealm authored articulated clip",
+        "label": "alert neck coil, forward peck, recoil and settle"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.0333333015441895,
+          "impliedMps": 0.2175983620905572,
+          "strideMetres": 0.22485163390964347
+        },
+        "Run": {
+          "clipSeconds": 0.5666666626930237,
+          "impliedMps": 0.6577980485338032,
+          "strideMetres": 0.37275222488863385
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Replace root lunge with alert neck coil, forward peck, recoil and settle across 10 joints",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "db9aa06df67b90d4ab82a7f8bdc7e2b7d27751e99b09438b7194c0492908e5e3",
+          "after": "a8111c567b136a5021bb5345201881af08e90819e1e964a932e873f4d172eb9b",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.8532002766927084,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 550,
+        "animatedJoints": {
+          "Idle": 20,
+          "Walk": 32,
+          "Run": 26,
+          "Death": 35,
+          "Attack": 9,
+          "Hit": 6,
+          "HitLeft": 7,
+          "HitRight": 7
+        },
+        "maxQuaternionError": 4.316663737569115e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.12470461454346661,
+              -0.010184321062553205,
+              -0.26781573666274694
+            ],
+            "max": [
+              0.12437350040204746,
+              0.5612250418014313,
+              0.3276924110543768
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.12518671998543168,
+              -0.005257489405592234,
+              -0.2677939995676368
+            ],
+            "max": [
+              0.12479619186490938,
+              0.5787636605205154,
+              0.33427842976927763
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.12296165478200874,
+              -0.0064871136440506445,
+              -0.2815267214909691
+            ],
+            "max": [
+              0.12192955098259828,
+              0.6253350335741621,
+              0.3298969233613043
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.12296165478200868,
+              -0.0016289001405269173,
+              -0.26782471124113616
+            ],
+            "max": [
+              0.12192955090319008,
+              0.6230610927548932,
+              0.29753027252791814
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.12296165478200868,
+              -0.0016289001405269173,
+              -0.26782471124113616
+            ],
+            "max": [
+              0.12192955090319008,
+              0.6203063692812115,
+              0.2973234635645646
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.12296165478200868,
+              -0.0016289001405269173,
+              -0.26782471124113616
+            ],
+            "max": [
+              0.12192955090319008,
+              0.6203959921843002,
+              0.29728888281931365
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 6,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.0333333015441895,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.5666666626930237,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 1.5,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.699999988079071,
+          "contactNormalized": 0.43
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.001,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.001,
+        "groundY": -0.001,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 277,
+        "footGroups": [
+          "left-Leg",
+          "left-foot",
+          "right-Leg",
+          "right-foot"
+        ],
+        "idleSoleY": -0.001431,
+        "idleMeshMinY": [
+          -0.001524,
+          -0.001431,
+          -0.001243
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.001557593523490037,
+            "samples": 72,
+            "meshMinY": -0.010526709989370792,
+            "meshMaxMinY": -0.0008674882016572703
+          },
+          "Run": {
+            "y": -0.0014502348356601274,
+            "samples": 24,
+            "meshMinY": -0.010707426560393507,
+            "meshMaxMinY": 0.01516734900011559
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "animal_coyote",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_coyote.glb",
+      "productionFile": "models/animal/animal_coyote.glb",
+      "sourceSha256": "5a748dd0fb7ae3e52d188fc9a79e74b55f67a953ea5af6984585068ce704a1a7",
+      "sha256": "460965f62d8d70bae75e035370ee145b5eeb9233dd5e64a6e88e37887adabd9d",
+      "bytes": 767868,
+      "originalBytes": 661932,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 1.399999976158142,
+        "contactNormalized": 0.525,
+        "source": "Original FBX authored attack",
+        "label": "Contact estimated from forward strike-joint reach; confirm with feature lab timeline"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 0.9666666388511658,
+          "impliedMps": 0.5057650915678048,
+          "strideMetres": 0.4889062411141019
+        },
+        "Run": {
+          "clipSeconds": 0.5666666626930237,
+          "impliedMps": 1.7262123490946204,
+          "strideMetres": 0.9781869909609333
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Restore Wolf_Attack jaw/neck animation and remove synthetic root lunge",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "64beb9f39fd6a937ee870fb3de353e06dcb1bb0597e01f66d344f0a8d7a66ce6",
+          "after": "716320312e46fb9e4ad1ccbb57c4745453ce19afeeb2ed758ba2cb5fc3abf6b4",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.7366015116373698,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 824,
+        "animatedJoints": {
+          "Idle": 10,
+          "Walk": 29,
+          "Run": 37,
+          "Death": 40,
+          "Attack": 29,
+          "Hit": 6,
+          "HitLeft": 9,
+          "HitRight": 9
+        },
+        "maxQuaternionError": 4.5208740528934754e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.20264047188947037,
+              -0.06051347942219876,
+              -0.6420512163436898
+            ],
+            "max": [
+              0.20270783204156317,
+              0.9944553995416133,
+              0.9651870887999198
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.18175089662904786,
+              -0.02186733624814489,
+              -0.9690043480638231
+            ],
+            "max": [
+              0.2097380785478442,
+              1.0277523161706061,
+              1.0138035164913222
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.2050717140063344,
+              -0.0038873114206880964,
+              -0.7096116580377593
+            ],
+            "max": [
+              0.2632294673466351,
+              1.0480758442291802,
+              1.0650374453522267
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.1820368696717049,
+              -0.006671231077343468,
+              -0.6006635802328842
+            ],
+            "max": [
+              0.18203678679987226,
+              1.126315470352186,
+              0.9726409385074274
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.19383247744695709,
+              -0.007337712486245046,
+              -0.6006636816684883
+            ],
+            "max": [
+              0.2322030338598652,
+              1.130092789994941,
+              0.9719418001859947
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.23082155690643635,
+              -0.00945192423393857,
+              -0.6006550142605844
+            ],
+            "max": [
+              0.19380312455053061,
+              1.1300929678523068,
+              0.9719418850982567
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 7,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.9666666388511658,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.5666666626930237,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 4.166666507720947,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.399999976158142,
+          "contactNormalized": 0.525
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.003,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.003,
+        "groundY": -0.003,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 1001,
+        "footGroups": [
+          "left-FrontLeg",
+          "left-HindLeg",
+          "right-FrontLeg",
+          "right-HindLeg"
+        ],
+        "idleSoleY": -0.002977,
+        "idleMeshMinY": [
+          -0.004238,
+          -0.002977,
+          -0.002578
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.002704483047760992,
+            "samples": 107,
+            "meshMinY": -0.06051347942219876,
+            "meshMaxMinY": -0.0027957653156148333
+          },
+          "Run": {
+            "y": -0.006111100204786612,
+            "samples": 13,
+            "meshMinY": -0.024807504923256864,
+            "meshMaxMinY": 0.09897360653908603
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "animal_crab",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_crab.glb",
+      "productionFile": "models/animal/animal_crab.glb",
+      "sourceSha256": "562433be26e429f771ffc3a177f36646d72c603121d91f60dac62eb5f88bc82f",
+      "sha256": "0a3fa8f0d6bd5f8b47d706728f67b4266b04295670f2ec18d24e4b484b0ac4d8",
+      "bytes": 403356,
+      "originalBytes": 359084,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 0.88,
+        "contactNormalized": 0.43,
+        "source": "Corealm authored articulated clip",
+        "label": "left claw cock, forward pinch, right claw guard"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.066666603088379,
+          "impliedMps": 0.012530810470136818,
+          "strideMetres": 0.013366197038125131
+        },
+        "Run": {
+          "clipSeconds": 0.46666669845581055,
+          "impliedMps": 0.03467254638898572,
+          "strideMetres": 0.0161805227504039
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Replace scuttling-in-place Idle with the source planted stance and a restrained 3.6s claw idle",
+        "Replace root lunge with left claw cock, forward pinch, right claw guard across 15 joints",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing",
+        "Remove 1 identical keyframes sharing a timestamp in source clips"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "d9fe09d46394683c8856f1129aa6c0653a3f5ff18ffff8af01cd5f156662898d",
+          "after": "f1a4f33cbc9331011f2cbc4275dc2b466b4fbb0014c6db266f95a4e4f0a28a07",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.5335718790690104,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 381,
+        "animatedJoints": {
+          "Walk": 16,
+          "Run": 16,
+          "Death": 23,
+          "Idle": 0,
+          "Attack": 7,
+          "Hit": 12,
+          "HitLeft": 12,
+          "HitRight": 12
+        },
+        "maxQuaternionError": 4.085929572461566e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.1679113587935324,
+              -0.009157992720798444,
+              -0.09535329536213089
+            ],
+            "max": [
+              0.16202467699970882,
+              0.08153435915875387,
+              0.12355495794234461
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.16790833116140358,
+              -0.009431272465879822,
+              -0.09509133456101862
+            ],
+            "max": [
+              0.15471377766397543,
+              0.11249976508802423,
+              0.12872446087063
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.16227988733942378,
+              -0.01038885673321816,
+              -0.10944129158315102
+            ],
+            "max": [
+              0.1619789305293336,
+              0.10089594442711795,
+              0.14266579200513857
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.16152282859527786,
+              -0.0022908179520219085,
+              -0.11269255864412293
+            ],
+            "max": [
+              0.16152034156171569,
+              0.09513555886677495,
+              0.14343896152239555
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.16152282859527786,
+              -0.0022908179520219085,
+              -0.11269255864412293
+            ],
+            "max": [
+              0.16152034156171569,
+              0.0963740407172646,
+              0.14382303244381334
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.16152282859527786,
+              -0.0022908179520219085,
+              -0.11269255864412293
+            ],
+            "max": [
+              0.16152034156171569,
+              0.09383493498152043,
+              0.1448913433782148
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Walk",
+        "Run",
+        "Death",
+        "Idle",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Walk",
+          "seconds": 1.066666603088379,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.46666669845581055,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 0.6333332061767578,
+          "contactNormalized": null
+        },
+        {
+          "name": "Idle",
+          "seconds": 3.5999999046325684,
+          "contactNormalized": 0
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.8799999952316284,
+          "contactNormalized": 0.43
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.002,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.002,
+        "groundY": -0.002,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 74,
+        "footGroups": [
+          "left-022",
+          "left-025",
+          "left-028",
+          "left-031",
+          "right-022",
+          "right-025",
+          "right-028",
+          "right-031"
+        ],
+        "idleSoleY": -0.001636,
+        "idleMeshMinY": [
+          -0.001636,
+          -0.001636,
+          -0.001636
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.0015647791442212067,
+            "samples": 72,
+            "meshMinY": -0.009209118437523513,
+            "meshMaxMinY": -0.0031106956049983354
+          },
+          "Run": {
+            "y": -0.0014253321903966998,
+            "samples": 57,
+            "meshMinY": -0.009431272465879822,
+            "meshMaxMinY": -0.0029063676050627117
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "animal_deer",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_deer.glb",
+      "productionFile": "models/animal/animal_deer.glb",
+      "sourceSha256": "27008ad7ffe6fb252a9a63683cf5910c137933840c5b31351808a10b295f634b",
+      "sha256": "e2bb94f19786805b0fbc6b038a807a3451051102d52d8e9c06540f45ef7abfb3",
+      "bytes": 479352,
+      "originalBytes": 457748,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 1.08,
+        "contactNormalized": 0.43,
+        "source": "Corealm authored articulated clip",
+        "label": "antler presentation, planted head thrust, guarded recovery"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 0.9666666388511658,
+          "impliedMps": 0.6237047185441541,
+          "strideMetres": 0.6029145439106898
+        },
+        "Run": {
+          "clipSeconds": 0.6333333253860474,
+          "impliedMps": 1.2221527961791208,
+          "strideMetres": 0.7740300945339786
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Replace root lunge with antler presentation, planted head thrust, guarded recovery across 15 joints",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "2e89186d233ee617886a05fea188de497768ad4ef4f1b123ce7f86da77066697",
+          "after": "35ded2189e108912ae0765a2194e08803f69e88c4ceae246bd540b9168298829",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.23559061686197916,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 630,
+        "animatedJoints": {
+          "Idle": 10,
+          "Walk": 30,
+          "Run": 31,
+          "Death": 33,
+          "Attack": 15,
+          "Hit": 8,
+          "HitLeft": 13,
+          "HitRight": 13
+        },
+        "maxQuaternionError": 4.300763301046118e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.24782246990470402,
+              -0.015503919854909159,
+              -0.6662684855619614
+            ],
+            "max": [
+              0.2479036652068473,
+              1.852326852171812,
+              1.0891620222141993
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.23297929868260248,
+              -0.01002405613629789,
+              -0.7782102236453312
+            ],
+            "max": [
+              0.2329452625554988,
+              2.0308488720270144,
+              1.113089488541335
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.21904231873825458,
+              -0.015912392890276218,
+              -0.6427481763820454
+            ],
+            "max": [
+              0.21903958290091238,
+              1.8800835620480314,
+              1.1710196415796517
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.2281095992460842,
+              -0.007029476345942853,
+              -0.6427481802223421
+            ],
+            "max": [
+              0.24378529389642734,
+              1.8761913975437778,
+              1.0880813243472272
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.31557373101724173,
+              -0.008108489205441135,
+              -0.6427481802223421
+            ],
+            "max": [
+              0.2550018478254366,
+              1.8814607210600622,
+              1.0872988757267676
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.255004599713754,
+              -0.008108624481853304,
+              -0.6427481802223421
+            ],
+            "max": [
+              0.315570993270495,
+              1.881460716030506,
+              1.0872987204886164
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 5.333333492279053,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.9666666388511658,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6333333253860474,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 0.8333333134651184,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.0800000429153442,
+          "contactNormalized": 0.43
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.007,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.007,
+        "groundY": -0.007,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 136,
+        "footGroups": [
+          "left-FrontLeg",
+          "left-HindLeg",
+          "right-FrontLeg",
+          "right-HindLeg"
+        ],
+        "idleSoleY": -0.007129,
+        "idleMeshMinY": [
+          -0.007178,
+          -0.007129,
+          -0.007029
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.007121562946473512,
+            "samples": 54,
+            "meshMinY": -0.04269031411062939,
+            "meshMaxMinY": -0.0070278511235270956
+          },
+          "Run": {
+            "y": -0.008384304828841707,
+            "samples": 26,
+            "meshMinY": -0.030041666964388827,
+            "meshMaxMinY": 0.2918986613276604
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "animal_frog",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_frog.glb",
+      "productionFile": "models/animal/animal_frog.glb",
+      "sourceSha256": "c4c07df22d285ac4527568aa5fc93a9c5c471a1c30b12557fbff8ed997a4a332",
+      "sha256": "3219cea576cebf825faf325f78d5f825fd8edf31e3c3ed42701cca2f412feeb1",
+      "bytes": 472448,
+      "originalBytes": 398044,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 0.68,
+        "contactNormalized": 0.43,
+        "source": "Corealm authored articulated clip",
+        "label": "hind leg compression, jaw snap and foreleg catch"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.3333333730697632,
+          "impliedMps": 0.17486736003476894,
+          "strideMetres": 0.23315648699496316
+        },
+        "Run": {
+          "clipSeconds": 0.7666667103767395,
+          "impliedMps": 0.452627405192761,
+          "strideMetres": 0.3470143637654936
+        }
+      },
+      "recalibratedGaits": true,
+      "changes": [
+        "Keep previously corrected FBX texture orientation",
+        "Restore source frog locomotion with vertical hop compression/airtime; root X/Z stay fixed",
+        "Replace root lunge with hind leg compression, jaw snap and foreleg catch across 11 joints",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [],
+      "validation": {
+        "clips": 8,
+        "channels": 376,
+        "animatedJoints": {
+          "Idle": 7,
+          "Death": 18,
+          "Walk": 17,
+          "Run": 18,
+          "Attack": 11,
+          "Hit": 8,
+          "HitLeft": 8,
+          "HitRight": 8
+        },
+        "maxQuaternionError": 4.097328343277695e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.14712307193259683,
+              -0.017711939358315498,
+              -0.2798121420747458
+            ],
+            "max": [
+              0.15275300597811706,
+              0.11320110107105404,
+              0.14092094230140959
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.13666833480180768,
+              -0.018235987458400795,
+              -0.36969628771161106
+            ],
+            "max": [
+              0.13984602047968364,
+              0.45437353498041055,
+              0.1358745137928062
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.13663804046816164,
+              -0.009041397138762619,
+              -0.14420748525746843
+            ],
+            "max": [
+              0.13972666865092756,
+              0.12801012227952213,
+              0.13845516721880327
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.13842841148104224,
+              -0.007996154889231291,
+              -0.1443174194103963
+            ],
+            "max": [
+              0.1403193012679382,
+              0.1307029269204799,
+              0.13633430816211045
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.13892144920193772,
+              -0.01627712799742941,
+              -0.14431785975072234
+            ],
+            "max": [
+              0.14617561569182067,
+              0.13119095104433348,
+              0.13617269862235337
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.1431382995912756,
+              -0.016364500807381825,
+              -0.1443171548606673
+            ],
+            "max": [
+              0.14198853858876748,
+              0.1311904977800763,
+              0.13617331416641382
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Death",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8.200000762939453,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 0.8999996185302734,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.3333333730697632,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.7666667103767395,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.6800000071525574,
+          "contactNormalized": 0.43
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": 0.002758,
+      "groundCalibration": {
+        "status": "calibrated",
+        "bindBaseY": -0.001,
+        "groundY": 0.002758,
+        "delta": 0.003758,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 1011,
+        "footGroups": [
+          "left-front",
+          "left-hind",
+          "right-front",
+          "right-hind"
+        ],
+        "idleSoleY": 0.002758,
+        "idleMeshMinY": [
+          0.002756,
+          0.002758,
+          0.002761
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.003631625465410463,
+            "samples": 79,
+            "meshMinY": -0.018604379435091207,
+            "meshMaxMinY": -0.0037205620500370302
+          },
+          "Run": {
+            "y": -0.0031759602504036343,
+            "samples": 25,
+            "meshMinY": -0.03826755278583303,
+            "meshMaxMinY": 0.3157915060827844
+          }
+        },
+        "issues": [
+          "Run: transient toe downstroke exceeds static-grounding tolerance"
+        ]
+      }
+    },
+    {
+      "id": "animal_frog_green",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_frog_green.glb",
+      "productionFile": "models/animal/animal_frog_green.glb",
+      "sourceSha256": "85f3aa75f49a9909b2695db2c405699a21c6c05a1de89544448f7d54a68e80cf",
+      "sha256": "5932c0a21ae41480b5208fe069de48b98faa0922e638b5e4f877e11e60736baa",
+      "bytes": 470176,
+      "originalBytes": 395764,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 0.68,
+        "contactNormalized": 0.43,
+        "source": "Corealm authored articulated clip",
+        "label": "hind leg compression, jaw snap and foreleg catch"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.3333333730697632,
+          "impliedMps": 0.17486736003476894,
+          "strideMetres": 0.23315648699496316
+        },
+        "Run": {
+          "clipSeconds": 0.7666667103767395,
+          "impliedMps": 0.452627405192761,
+          "strideMetres": 0.3470143637654936
+        }
+      },
+      "recalibratedGaits": true,
+      "changes": [
+        "Keep previously corrected FBX texture orientation",
+        "Restore source frog locomotion with vertical hop compression/airtime; root X/Z stay fixed",
+        "Replace root lunge with hind leg compression, jaw snap and foreleg catch across 11 joints",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [],
+      "validation": {
+        "clips": 8,
+        "channels": 376,
+        "animatedJoints": {
+          "Idle": 7,
+          "Death": 18,
+          "Walk": 17,
+          "Run": 18,
+          "Attack": 11,
+          "Hit": 8,
+          "HitLeft": 8,
+          "HitRight": 8
+        },
+        "maxQuaternionError": 4.097328343277695e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.14712307193259683,
+              -0.017711939358315498,
+              -0.2798121420747458
+            ],
+            "max": [
+              0.15275300597811706,
+              0.11320110107105404,
+              0.14092094230140959
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.13666833480180768,
+              -0.018235987458400795,
+              -0.36969628771161106
+            ],
+            "max": [
+              0.13984602047968364,
+              0.45437353498041055,
+              0.1358745137928062
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.13663804046816164,
+              -0.009041397138762619,
+              -0.14420748525746843
+            ],
+            "max": [
+              0.13972666865092756,
+              0.12801012227952213,
+              0.13845516721880327
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.13842841148104224,
+              -0.007996154889231291,
+              -0.1443174194103963
+            ],
+            "max": [
+              0.1403193012679382,
+              0.1307029269204799,
+              0.13633430816211045
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.13892144920193772,
+              -0.01627712799742941,
+              -0.14431785975072234
+            ],
+            "max": [
+              0.14617561569182067,
+              0.13119095104433348,
+              0.13617269862235337
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.1431382995912756,
+              -0.016364500807381825,
+              -0.1443171548606673
+            ],
+            "max": [
+              0.14198853858876748,
+              0.1311904977800763,
+              0.13617331416641382
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Death",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8.200000762939453,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 0.8999996185302734,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.3333333730697632,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.7666667103767395,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.6800000071525574,
+          "contactNormalized": 0.43
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": 0.002758,
+      "groundCalibration": {
+        "status": "calibrated",
+        "bindBaseY": -0.001,
+        "groundY": 0.002758,
+        "delta": 0.003758,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 1011,
+        "footGroups": [
+          "left-front",
+          "left-hind",
+          "right-front",
+          "right-hind"
+        ],
+        "idleSoleY": 0.002758,
+        "idleMeshMinY": [
+          0.002756,
+          0.002758,
+          0.002761
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.003631625465410463,
+            "samples": 79,
+            "meshMinY": -0.018604379435091207,
+            "meshMaxMinY": -0.0037205620500370302
+          },
+          "Run": {
+            "y": -0.0031759602504036343,
+            "samples": 25,
+            "meshMinY": -0.03826755278583303,
+            "meshMaxMinY": 0.3157915060827844
+          }
+        },
+        "issues": [
+          "Run: transient toe downstroke exceeds static-grounding tolerance"
+        ]
+      }
+    },
+    {
+      "id": "animal_goat",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_goat.glb",
+      "productionFile": "models/animal/animal_goat.glb",
+      "sourceSha256": "244c1ff038b56403a9b2148e458d6e73ee45e0ad0c753dcf424975f51f7622f4",
+      "sha256": "f8283c572e27d1ffe9b641c727db9ae4df7cee8a773986610e35f922fcd1d9b0",
+      "bytes": 557300,
+      "originalBytes": 499264,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 1.4666666984558105,
+        "contactNormalized": 0.55,
+        "source": "Original FBX authored attack",
+        "label": "Contact estimated from forward strike-joint reach; confirm with feature lab timeline"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.100000023841858,
+          "impliedMps": 0.5227026594766245,
+          "strideMetres": 0.5749729378864895
+        },
+        "Run": {
+          "clipSeconds": 0.46666666865348816,
+          "impliedMps": 1.8422439605690182,
+          "strideMetres": 0.8597138519257517
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "ee1be6d2c4878db8a7b412e62976cc835911cbb9afe918f6bbfeeba6e4c6d1ff",
+          "after": "47a4f76e32ba58311c6fb803fd145c074c2edf4e40f2e6f1713a9edcb18227cf",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.5604947408040365,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 793,
+        "animatedJoints": {
+          "Idle": 13,
+          "Walk": 33,
+          "Run": 31,
+          "Attack": 32,
+          "Death": 34,
+          "Hit": 8,
+          "HitLeft": 11,
+          "HitRight": 11
+        },
+        "maxQuaternionError": 4.237956785502206e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.23577164424666247,
+              -0.04246289855099715,
+              -0.6019862399174162
+            ],
+            "max": [
+              0.23637271061545398,
+              1.2627711063860192,
+              0.9173419078781909
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.224092500048053,
+              -0.007569210123037205,
+              -0.7284504106567244
+            ],
+            "max": [
+              0.218107680942348,
+              1.27926891462513,
+              0.9450205615191929
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.23141984319933662,
+              -0.042073847739012134,
+              -0.6454530472420849
+            ],
+            "max": [
+              0.23079505428595207,
+              1.2873308495698832,
+              1.4235905597339416
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.22226670398804665,
+              -0.0019062016194073077,
+              -0.6012489675919535
+            ],
+            "max": [
+              0.2320897280041435,
+              1.3209573631324603,
+              0.9258364333112424
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.27388554940776844,
+              -0.0019062016194073077,
+              -0.6014479433338636
+            ],
+            "max": [
+              0.23758902064904575,
+              1.3265113338863763,
+              0.9251334945173008
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.2373807443939681,
+              -0.0019062016194073077,
+              -0.6014632929011158
+            ],
+            "max": [
+              0.27408946990364025,
+              1.3265183546207662,
+              0.925146213371555
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 5.333333492279053,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.100000023841858,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.46666666865348816,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.4666666984558105,
+          "contactNormalized": 0.55
+        },
+        {
+          "name": "Death",
+          "seconds": 0.8333333134651184,
+          "contactNormalized": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.002,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.002,
+        "groundY": -0.002,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 162,
+        "footGroups": [
+          "left-FrontLeg",
+          "left-HindLeg",
+          "right-FrontLeg",
+          "right-HindLeg"
+        ],
+        "idleSoleY": -0.001913,
+        "idleMeshMinY": [
+          -0.001933,
+          -0.001913,
+          -0.001901
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.0018503581573587112,
+            "samples": 54,
+            "meshMinY": -0.05291591540033551,
+            "meshMaxMinY": -0.001359899458747847
+          },
+          "Run": {
+            "y": -0.0000718607601587401,
+            "samples": 31,
+            "meshMinY": -0.008009444178044053,
+            "meshMaxMinY": 0.08399539543671788
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "animal_hog",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_hog.glb",
+      "productionFile": "models/animal/animal_hog.glb",
+      "sourceSha256": "31a64dffb3f0cf1a3c694e4d0e51bec6febf2b4dd82b3e3241e77b8165c5f040",
+      "sha256": "dc00de3f80c02a168c8fbd4ea1f7e00733b2b47604913e47f841814a729eafc9",
+      "bytes": 414920,
+      "originalBytes": 377780,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 0.86,
+        "contactNormalized": 0.43,
+        "source": "Corealm authored articulated clip",
+        "label": "lowered tusk guard, rising neck jab, shoulder recovery"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.3333332538604736,
+          "impliedMps": 0.2932832806637597,
+          "strideMetres": 0.3910443509102853
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Replace root lunge with lowered tusk guard, rising neck jab, shoulder recovery across 11 joints",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "760959d0461dc3642614f0e850245b1e1da7bc4b604f08fb081c871e34b441b3",
+          "after": "e5a9979650c0d451d5ee238c5acb574496aac0538fb85a87caace95e378cc975",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.4906463623046875,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 7,
+        "channels": 400,
+        "animatedJoints": {
+          "Idle": 6,
+          "Walk": 20,
+          "Death": 23,
+          "Attack": 11,
+          "Hit": 6,
+          "HitLeft": 6,
+          "HitRight": 6
+        },
+        "maxQuaternionError": 3.648116064791651e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.25641415691275543,
+              -0.006200819806244248,
+              -0.7013628265731712
+            ],
+            "max": [
+              0.24568806672898566,
+              0.9246705303714751,
+              1.0476704334471991
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.23145463474414257,
+              -0.011970079280966049,
+              -0.6911634810012903
+            ],
+            "max": [
+              0.27635630291234026,
+              0.9532594864816613,
+              1.0500827756277988
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.23145463474414257,
+              -0.010339459265782662,
+              -0.6911634810012903
+            ],
+            "max": [
+              0.27355943151187323,
+              0.9246526430354989,
+              1.0530801329605066
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.23145463474414257,
+              -0.010339459265782662,
+              -0.6911634810012903
+            ],
+            "max": [
+              0.28057010905706564,
+              0.9246526430354989,
+              1.0687350486443046
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.23145463474414257,
+              -0.010339459265782662,
+              -0.6911634810012903
+            ],
+            "max": [
+              0.3272950425167057,
+              0.9246526430354989,
+              1.048750816356379
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.299999713897705,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.3333332538604736,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 0.9666662216186523,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.8600000143051147,
+          "contactNormalized": 0.43
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.007839,
+      "groundCalibration": {
+        "status": "calibrated",
+        "bindBaseY": -0.004,
+        "groundY": -0.007839,
+        "delta": -0.003839,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 228,
+        "footGroups": [
+          "left-front",
+          "left-hind",
+          "right-front",
+          "right-hind"
+        ],
+        "idleSoleY": -0.007839,
+        "idleMeshMinY": [
+          -0.007839,
+          -0.007839,
+          -0.007839
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.003711841296944178,
+            "samples": 18,
+            "meshMinY": -0.00781762839297767,
+            "meshMaxMinY": 0.004388372610887607
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "animal_ibex",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_ibex.glb",
+      "productionFile": "models/animal/animal_ibex.glb",
+      "sourceSha256": "ad9f35b5062b4dea78eb766a87f0be20e0383f2fe79cce3aef8d92aee52a98f7",
+      "sha256": "ac24a84acd299ada77bd4b2acc70370a382227296cdb4d8251ef811382b8924c",
+      "bytes": 513308,
+      "originalBytes": 463708,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 1.5333333015441895,
+        "contactNormalized": 0.55,
+        "source": "Original FBX authored attack",
+        "label": "Contact estimated from forward strike-joint reach; confirm with feature lab timeline"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 0.9666666388511658,
+          "impliedMps": 0.595543397016747,
+          "strideMetres": 0.5756919338841842
+        },
+        "Run": {
+          "clipSeconds": 0.46666666865348816,
+          "impliedMps": 2.021784981860942,
+          "strideMetres": 0.9434996622186989
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "6f4c1a40933973a5a5ecbcedea27f531759e23a3093f5f9bc41db9b56dd680ef",
+          "after": "c39f926dea1152190d1748c44b47e37b31583384ad3d0865525de07de9819d21",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.30728403727213544,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 787,
+        "animatedJoints": {
+          "Idle": 15,
+          "Walk": 32,
+          "Run": 30,
+          "Attack": 32,
+          "Death": 34,
+          "Hit": 8,
+          "HitLeft": 11,
+          "HitRight": 11
+        },
+        "maxQuaternionError": 4.1490467506122286e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.23484559657431525,
+              -0.02631751582134306,
+              -0.6457610958665403
+            ],
+            "max": [
+              0.22881671504237078,
+              1.450236429763597,
+              0.9701491968835096
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.24724301260971016,
+              -0.00822480351275921,
+              -0.8556478287214253
+            ],
+            "max": [
+              0.24302750352502858,
+              1.4699976432998882,
+              0.9899641698486131
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.23991376069337642,
+              -0.023129202888827048,
+              -0.6993876305061899
+            ],
+            "max": [
+              0.23990236116729688,
+              1.443379315688554,
+              1.6583237732805574
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.21667493632583792,
+              -0.004077851154917546,
+              -0.6393325611481486
+            ],
+            "max": [
+              0.22665878969843475,
+              1.463740605516014,
+              0.9849312256220879
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.2691946258206953,
+              -0.006519946350692184,
+              -0.6393325611481486
+            ],
+            "max": [
+              0.25044509944875115,
+              1.4772074378626907,
+              0.9842207715575931
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.24910122435446116,
+              -0.006520735689870154,
+              -0.6393325611481486
+            ],
+            "max": [
+              0.2691832010896892,
+              1.4770652884400013,
+              0.9842200066949446
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 5.333333492279053,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.9666666388511658,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.46666666865348816,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.5333333015441895,
+          "contactNormalized": 0.55
+        },
+        {
+          "name": "Death",
+          "seconds": 0.8333333134651184,
+          "contactNormalized": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.003,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.003,
+        "groundY": -0.003,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 134,
+        "footGroups": [
+          "left-FrontLeg",
+          "left-HindLeg",
+          "right-FrontLeg",
+          "right-HindLeg"
+        ],
+        "idleSoleY": -0.003184,
+        "idleMeshMinY": [
+          -0.003227,
+          -0.003184,
+          -0.003132
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.003171783157495506,
+            "samples": 69,
+            "meshMinY": -0.049486867528264866,
+            "meshMaxMinY": -0.0031317018522498694
+          },
+          "Run": {
+            "y": -0.003162267973391181,
+            "samples": 46,
+            "meshMinY": -0.00989646402923638,
+            "meshMaxMinY": 0.058613207622148215
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "animal_perch",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_perch.glb",
+      "productionFile": "models/animal/animal_perch.glb",
+      "sourceSha256": "03f41b39fedf84b2563db4e6346f9adcba2ebcc478ce038cc848ec33ca992200",
+      "sha256": "fd4e42a360a20b05ede221f6c0d84a9a5915d3605647dfc595dab25401ad91e3",
+      "bytes": 222640,
+      "originalBytes": 187072,
+      "attack": null,
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 0.8333333134651184,
+          "impliedMps": 0.00331496661690344,
+          "strideMetres": 0.0027624721148903977
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "19523d789ff4b38c78223a5f8da7e38136e39023e9bc58b2f8a407afe6fd294c",
+          "after": "a07c70f33198b3ac7648ca2ced084837352561ba877f0042fdc4fbbe8c913eae",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.6479619344075521,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 2,
+        "channels": 74,
+        "animatedJoints": {
+          "Idle": 8,
+          "Walk": 7
+        },
+        "maxQuaternionError": 3.752308019855377e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.1036153165026338,
+              -0.1519832363849492,
+              -0.32371596388809637
+            ],
+            "max": [
+              0.09026119394060536,
+              0.1305744190133133,
+              0.2179730582231291
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 1.7333333492279053,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.8333333134651184,
+          "contactNormalized": null
+        }
+      ],
+      "groundY": -0.152,
+      "groundCalibration": {
+        "status": "unchanged-waterborne",
+        "bindBaseY": -0.152,
+        "reason": "Ambient fish retain authored water depth; fins are not ground contacts."
+      }
+    },
+    {
+      "id": "animal_pike",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_pike.glb",
+      "productionFile": "models/animal/animal_pike.glb",
+      "sourceSha256": "026ac472845fc646798b7c13348dab06d8921016f7dd922be34aeac1e44fdd68",
+      "sha256": "301e532da38f2d53eaa50f400ece60f197fe0b8a5f5b6052bc3ac01e56e7d239",
+      "bytes": 251348,
+      "originalBytes": 203800,
+      "attack": null,
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 0.8333333134651184,
+          "impliedMps": 0.000477859538219833,
+          "strideMetres": 0.00039821627235564483
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "b3c726d388caa3ae8b3545f5d3ff383ece6601df10ee689c8d12deea480acd66",
+          "after": "84860905f6e25a18cd12439e847d6b58a9cb5e8fdd66070d5bcc4e93477f4df4",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.8461825052897135,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 2,
+        "channels": 70,
+        "animatedJoints": {
+          "Idle": 6,
+          "Walk": 7
+        },
+        "maxQuaternionError": 3.9522656702928316e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.15434781285847038,
+              -0.11221693018013099,
+              -0.43286010212265635
+            ],
+            "max": [
+              0.1375279207714597,
+              0.11208267153495868,
+              0.3378776426275766
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 1.7333333492279053,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.8333333134651184,
+          "contactNormalized": null
+        }
+      ],
+      "groundY": -0.112,
+      "groundCalibration": {
+        "status": "unchanged-waterborne",
+        "bindBaseY": -0.112,
+        "reason": "Ambient fish retain authored water depth; fins are not ground contacts."
+      }
+    },
+    {
+      "id": "animal_rabbit",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_rabbit.glb",
+      "productionFile": "models/animal/animal_rabbit.glb",
+      "sourceSha256": "7946c39a527464f4df0f19bb82d38ed971fbcd839f1ad9c784e1cc65bd500cbe",
+      "sha256": "105875b9f68e2fba30bd6577d385d896f2d3c2fa42bd26a15d8f4d029e3f08ed",
+      "bytes": 514312,
+      "originalBytes": 470120,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 0.66,
+        "contactNormalized": 0.43,
+        "source": "Corealm authored articulated clip",
+        "label": "hindquarter brace, short articulated nip, ear follow-through"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 0.6333333253860474,
+          "impliedMps": 0.4089292195569835,
+          "strideMetres": 0.25898850246954547
+        },
+        "Run": {
+          "clipSeconds": 0.4333333373069763,
+          "impliedMps": 0.7823657136662747,
+          "strideMetres": 0.3390251456975611
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Replace root lunge with hindquarter brace, short articulated nip, ear follow-through across 15 joints",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "76f7205d24b25fef21807c03acb2019c01d2d694b1ad83786d3863435cefa8f5",
+          "after": "203ad50cc55315975257e3ad6e0120da9fc676f73f87c06fc9867476f4d0d489",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.3742357889811198,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 671,
+        "animatedJoints": {
+          "Idle": 15,
+          "Walk": 26,
+          "Run": 26,
+          "Death": 29,
+          "Attack": 15,
+          "Hit": 6,
+          "HitLeft": 9,
+          "HitRight": 9
+        },
+        "maxQuaternionError": 4.307862511154781e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.16888454652554757,
+              -0.010240309825738751,
+              -0.2968027396535398
+            ],
+            "max": [
+              0.1663074052428058,
+              0.46066135220662147,
+              0.4063739960746371
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.16026827006696906,
+              -0.008148588366337898,
+              -0.30737712787592986
+            ],
+            "max": [
+              0.1561203703368542,
+              0.6010433875775575,
+              0.4250578478628996
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.15330145457821048,
+              -0.010583325932686254,
+              -0.25034822173710286
+            ],
+            "max": [
+              0.15302012211549915,
+              0.6183105669005776,
+              0.3418015137423493
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.15330144961092826,
+              -0.00494680211095356,
+              -0.25034822154581743
+            ],
+            "max": [
+              0.15302011991798495,
+              0.6147180264431233,
+              0.3146079724328326
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.15330144961092826,
+              -0.00494680211095356,
+              -0.25034822154581743
+            ],
+            "max": [
+              0.15302011991798495,
+              0.6202034081240608,
+              0.3133373993858056
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.15330144961092826,
+              -0.00494680211095356,
+              -0.25034822154581743
+            ],
+            "max": [
+              0.15302011991798495,
+              0.6202007761511104,
+              0.3133366182303541
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 7.9666666984558105,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.6333333253860474,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.4333333373069763,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 2,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.6600000262260437,
+          "contactNormalized": 0.43
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.006,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.006,
+        "groundY": -0.006,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 462,
+        "footGroups": [
+          "left-FrontLeg",
+          "left-HindLeg",
+          "right-FrontLeg",
+          "right-HindLeg"
+        ],
+        "idleSoleY": -0.004947,
+        "idleMeshMinY": [
+          -0.004986,
+          -0.004947,
+          -0.004937
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.005948409976956522,
+            "samples": 60,
+            "meshMinY": -0.012931712213504365,
+            "meshMaxMinY": -0.005148932159255923
+          },
+          "Run": {
+            "y": -0.006167918872689415,
+            "samples": 27,
+            "meshMinY": -0.022369307169811843,
+            "meshMaxMinY": 0.05600472109918786
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "animal_rabbit_dark",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_rabbit_dark.glb",
+      "productionFile": "models/animal/animal_rabbit_dark.glb",
+      "sourceSha256": "297b201ad8ef362b2a07673c867d125c3d240f3e4abc697d960b2c461bd32ad1",
+      "sha256": "7f69e6d38c07efff7de76578fe61987eaf31b17db869d8a1884d52247139653b",
+      "bytes": 523060,
+      "originalBytes": 472980,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 0.66,
+        "contactNormalized": 0.43,
+        "source": "Corealm authored articulated clip",
+        "label": "hindquarter brace, short articulated nip, ear follow-through"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 0.6333333253860474,
+          "impliedMps": 0.4089292195569835,
+          "strideMetres": 0.25898850246954547
+        },
+        "Run": {
+          "clipSeconds": 0.4333333373069763,
+          "impliedMps": 0.7823657136662747,
+          "strideMetres": 0.3390251456975611
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Replace root lunge with hindquarter brace, short articulated nip, ear follow-through across 15 joints",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "e6dc5273ad5a4128103596ce06c02d6bd843e93a57f299c886810ceb7ec76e8b",
+          "after": "10fd2712e45d59e697f03a4ca9d65ad345a398ce82294086cbb9ce1a6b3752f0",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.5734837849934896,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 671,
+        "animatedJoints": {
+          "Idle": 15,
+          "Walk": 26,
+          "Run": 26,
+          "Death": 29,
+          "Attack": 15,
+          "Hit": 6,
+          "HitLeft": 9,
+          "HitRight": 9
+        },
+        "maxQuaternionError": 4.307862511154781e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.16888454652554757,
+              -0.010240309825738751,
+              -0.2968027396535398
+            ],
+            "max": [
+              0.1663074052428058,
+              0.46066135220662147,
+              0.4063739960746371
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.16026827006696906,
+              -0.008148588366337898,
+              -0.30737712787592986
+            ],
+            "max": [
+              0.1561203703368542,
+              0.6010433875775575,
+              0.4250578478628996
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.15330145457821048,
+              -0.010583325932686254,
+              -0.25034822173710286
+            ],
+            "max": [
+              0.15302012211549915,
+              0.6183105669005776,
+              0.3418015137423493
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.15330144961092826,
+              -0.00494680211095356,
+              -0.25034822154581743
+            ],
+            "max": [
+              0.15302011991798495,
+              0.6147180264431233,
+              0.3146079724328326
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.15330144961092826,
+              -0.00494680211095356,
+              -0.25034822154581743
+            ],
+            "max": [
+              0.15302011991798495,
+              0.6202034081240608,
+              0.3133373993858056
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.15330144961092826,
+              -0.00494680211095356,
+              -0.25034822154581743
+            ],
+            "max": [
+              0.15302011991798495,
+              0.6202007761511104,
+              0.3133366182303541
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 7.9666666984558105,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.6333333253860474,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.4333333373069763,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 2,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.6600000262260437,
+          "contactNormalized": 0.43
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.006,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.006,
+        "groundY": -0.006,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 462,
+        "footGroups": [
+          "left-FrontLeg",
+          "left-HindLeg",
+          "right-FrontLeg",
+          "right-HindLeg"
+        ],
+        "idleSoleY": -0.004947,
+        "idleMeshMinY": [
+          -0.004986,
+          -0.004947,
+          -0.004937
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.005948409976956522,
+            "samples": 60,
+            "meshMinY": -0.012931712213504365,
+            "meshMaxMinY": -0.005148932159255923
+          },
+          "Run": {
+            "y": -0.006167918872689415,
+            "samples": 27,
+            "meshMinY": -0.022369307169811843,
+            "meshMaxMinY": 0.05600472109918786
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "animal_rat",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_rat.glb",
+      "productionFile": "models/animal/animal_rat.glb",
+      "sourceSha256": "6964b846bc5375354c15d66442c5a0e50e5af66833e01aa4247bca70a707011d",
+      "sha256": "b86f5636946c6406dc344b39fc056375da7dba4e6389959291542222380a9563",
+      "bytes": 388672,
+      "originalBytes": 343840,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 0.58,
+        "contactNormalized": 0.43,
+        "source": "Corealm authored articulated clip",
+        "label": "crouched nip with jaw closure and tail balance"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.399999976158142,
+          "impliedMps": 0.06216867162307423,
+          "strideMetres": 0.08703613879008729
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Replace root lunge with crouched nip with jaw closure and tail balance across 13 joints",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "a7c0b09320f97741ea2d16bb6c49e60e9653aa87d61ceb04a4916824815ae349",
+          "after": "d92c9fd50674f7093e7682ae338380cef52db34cb45d6625027785d88267761c",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.4460500081380208,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 7,
+        "channels": 378,
+        "animatedJoints": {
+          "Idle": 13,
+          "Walk": 27,
+          "Death": 28,
+          "Attack": 13,
+          "Hit": 6,
+          "HitLeft": 6,
+          "HitRight": 6
+        },
+        "maxQuaternionError": 3.943677517881383e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.06926476337892455,
+              -0.009449219695593161,
+              -0.36155981427870176
+            ],
+            "max": [
+              0.06973435114392368,
+              0.1385036633506438,
+              0.240256061459389
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.06770878194066957,
+              -0.0081225361465776,
+              -0.3565403028178811
+            ],
+            "max": [
+              0.08259969630966321,
+              0.1442996761137823,
+              0.23749911096612072
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.06770878185745809,
+              -0.0018437732182305178,
+              -0.3511694010765998
+            ],
+            "max": [
+              0.06770846206899475,
+              0.14584916135632575,
+              0.23558566850385582
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.06770878185745809,
+              -0.003395175942572476,
+              -0.3511694010765998
+            ],
+            "max": [
+              0.06770846206899475,
+              0.13853260459531402,
+              0.23726110607029027
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.06770878185745809,
+              -0.003394610100139397,
+              -0.3511694010765998
+            ],
+            "max": [
+              0.06770846206899475,
+              0.1458508258807164,
+              0.23460381121187568
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.033332347869873,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.399999976158142,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 0.9666662216186523,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.5799999833106995,
+          "contactNormalized": 0.43
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.001,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.001,
+        "groundY": -0.001,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 506,
+        "footGroups": [
+          "left-front",
+          "left-hind",
+          "right-front",
+          "right-hind"
+        ],
+        "idleSoleY": -0.000996,
+        "idleMeshMinY": [
+          -0.000996,
+          -0.000996,
+          -0.000996
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.004080981041716272,
+            "samples": 33,
+            "meshMinY": -0.010105787808981137,
+            "meshMaxMinY": -0.001721081494462642
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "animal_salmon",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_salmon.glb",
+      "productionFile": "models/animal/animal_salmon.glb",
+      "sourceSha256": "0e878eaf18ed5886cb010e08a48447e6b62f04d17d26d4f9fea74e401a39a153",
+      "sha256": "baab55038925dbc47c5b9f3cf737df4756da1ca931a69276c022a7397e15fcdc",
+      "bytes": 151108,
+      "originalBytes": 132532,
+      "attack": null,
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 0.8333333134651184,
+          "impliedMps": 0.0000281963024986631,
+          "strideMetres": 0.00002349691818867572
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "4b494f492a22b2b0ec578aaaa4f47fb1d138913ad8d39de3d981ac2227e8deb0",
+          "after": "025335f1427e6298b5da7641cb020fdac510aba7175b65db84c7a378b4ac3b87",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.4830220540364583,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 2,
+        "channels": 60,
+        "animatedJoints": {
+          "Idle": 8,
+          "Walk": 6
+        },
+        "maxQuaternionError": 4.004474885022091e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.13814308561372135,
+              -0.0744102614314079,
+              -0.3918734756915057
+            ],
+            "max": [
+              0.13791678138205674,
+              0.10702496332011457,
+              0.24524184824714879
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 1.7333333492279053,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.8333333134651184,
+          "contactNormalized": null
+        }
+      ],
+      "groundY": -0.074,
+      "groundCalibration": {
+        "status": "unchanged-waterborne",
+        "bindBaseY": -0.074,
+        "reason": "Ambient fish retain authored water depth; fins are not ground contacts."
+      }
+    },
+    {
+      "id": "animal_scorpion",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_scorpion.glb",
+      "productionFile": "models/animal/animal_scorpion.glb",
+      "sourceSha256": "987b332e239841d87c75540d842e6acb5a76ca22447b03a4ce4e9668ee801eef",
+      "sha256": "69997972b3cd201feb1e20dc123fa0de64981b384be50de94b192446b42bc704",
+      "bytes": 517424,
+      "originalBytes": 469660,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 0.800000011920929,
+        "contactNormalized": 0.45,
+        "source": "Original FBX authored attack",
+        "label": "Contact estimated from forward strike-joint reach; confirm with feature lab timeline"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1,
+          "impliedMps": 0.06977195939323116,
+          "strideMetres": 0.06977195939323116
+        },
+        "Run": {
+          "clipSeconds": 0.6333333253860474,
+          "impliedMps": 0.11017347413658456,
+          "strideMetres": 0.06977653274425678
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "173d74f5a6009adb98cfd3df6206983304587e8b658ec928368a4ce8b3e81e1a",
+          "after": "de35f316154cac89bb91c9ebc48d3cf704107c6aa0accfdccdb6e88c28befca3",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.29726537068684894,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 1075,
+        "animatedJoints": {
+          "Idle": 5,
+          "Walk": 34,
+          "Run": 34,
+          "Attack": 50,
+          "Death": 52,
+          "Hit": 14,
+          "HitLeft": 15,
+          "HitRight": 15
+        },
+        "maxQuaternionError": 4.111974205578406e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.15587248457855896,
+              -0.0021324765766033964,
+              -0.2602054521998012
+            ],
+            "max": [
+              0.1552625795990422,
+              0.19685341617017138,
+              0.23029516613284381
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.15585672191164135,
+              -0.0021993063537520743,
+              -0.2599295107121521
+            ],
+            "max": [
+              0.15531095357932456,
+              0.19916380991062516,
+              0.23067604641692951
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.1581800388424303,
+              -0.003252246246375749,
+              -0.2304880465190905
+            ],
+            "max": [
+              0.15818004350158577,
+              0.3058603470600742,
+              0.24919244334256133
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.15818003623450633,
+              -0.002075353866117216,
+              -0.23198600600223657
+            ],
+            "max": [
+              0.15818004084475426,
+              0.2431532641598081,
+              0.21367760054816404
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.15818003623450633,
+              -0.002075353866117216,
+              -0.23174541603145102
+            ],
+            "max": [
+              0.15818004084475426,
+              0.24196741528368507,
+              0.21367760054816404
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.15818003623450633,
+              -0.002075353866117216,
+              -0.23174541603145105
+            ],
+            "max": [
+              0.15818004084475426,
+              0.24196741528368507,
+              0.21367760054816404
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6333333253860474,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.800000011920929,
+          "contactNormalized": 0.45
+        },
+        {
+          "name": "Death",
+          "seconds": 0.800000011920929,
+          "contactNormalized": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.002,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.002,
+        "groundY": -0.002,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 106,
+        "footGroups": [
+          "left-BackLeg",
+          "left-FrontLeg",
+          "left-MidBackLeg",
+          "left-MidFrontLeg",
+          "right-BackLeg",
+          "right-FrontLeg",
+          "right-MidBackLeg",
+          "right-MidFrontLeg"
+        ],
+        "idleSoleY": -0.001781,
+        "idleMeshMinY": [
+          -0.001888,
+          -0.001781,
+          -0.001751
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.00023456974370390012,
+            "samples": 136,
+            "meshMinY": -0.0021376400588548334,
+            "meshMaxMinY": -0.00131566084402879
+          },
+          "Run": {
+            "y": -0.00027464716715766064,
+            "samples": 130,
+            "meshMinY": -0.0021993063537520743,
+            "meshMaxMinY": -0.0012956888501184445
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "animal_viper",
+      "stagedFile": "runs/local-creature-rebuild/models/animal/animal_viper.glb",
+      "productionFile": "models/animal/animal_viper.glb",
+      "sourceSha256": "0fb8c3d3bef7039e619b1a935a67422476d88c46afbf9379ffadc0c60c320e63",
+      "sha256": "e51f6386de6b0cb9acd952306041b2ce4ba3a60f242532dfb8acbe5672da037b",
+      "bytes": 459596,
+      "originalBytes": 399996,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 1.6666666269302368,
+        "contactNormalized": 0.525,
+        "source": "Original FBX authored attack",
+        "label": "Contact estimated from forward strike-joint reach; confirm with feature lab timeline"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.5333333015441895,
+          "impliedMps": 0.015564577139136952,
+          "strideMetres": 0.023865684451892077
+        },
+        "Run": {
+          "clipSeconds": 1.066666603088379,
+          "impliedMps": 0.02189659673032372,
+          "strideMetres": 0.023356368453530507
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "a453ed5c0bb8e2217db1ad2100b4bdcce7b1bba9440ed46e1b6c954919675085",
+          "after": "6c2ff530133f9c00fc8afbcbf08bbdc2a5f90e7c9e8beefc9e0cc1af212e4a66",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.40865198771158856,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 634,
+        "animatedJoints": {
+          "Idle": 10,
+          "Walk": 20,
+          "Run": 20,
+          "Attack": 15,
+          "Death": 26,
+          "Hit": 3,
+          "HitLeft": 4,
+          "HitRight": 4
+        },
+        "maxQuaternionError": 4.3133473015544155e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.1912922810418255,
+              -0.010195768747891578,
+              -0.694262632769792
+            ],
+            "max": [
+              0.19696901813138978,
+              0.061371799714684296,
+              0.7027691716303216
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.1951245999170198,
+              -0.010209842297472415,
+              -0.6929437066317266
+            ],
+            "max": [
+              0.20094810785382544,
+              0.06139237979960656,
+              0.6990748502786875
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -0.0476937071396536,
+              -0.010231375951841816,
+              -0.732042493346916
+            ],
+            "max": [
+              0.03737091907334011,
+              0.2021719628038707,
+              0.810034678933019
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.1912922810418255,
+              -0.009888209622328299,
+              -0.6778029449667899
+            ],
+            "max": [
+              0.20135880910721454,
+              0.10762589651681714,
+              0.6796947487543786
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.1912922810418255,
+              -0.011243362928142275,
+              -0.6802426273623592
+            ],
+            "max": [
+              0.217796846887396,
+              0.11634581187985553,
+              0.6851775442327359
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.1912922810418255,
+              -0.009888209622827117,
+              -0.6894622953512941
+            ],
+            "max": [
+              0.21435744443554836,
+              0.1006709061904342,
+              0.6834590708261031
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.5333333015441895,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 1.066666603088379,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.6666666269302368,
+          "contactNormalized": 0.525
+        },
+        {
+          "name": "Death",
+          "seconds": 2,
+          "contactNormalized": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": -0.01,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": -0.01,
+        "groundY": -0.01,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 704,
+        "footGroups": [
+          "body-contact"
+        ],
+        "idleSoleY": -0.009861,
+        "idleMeshMinY": [
+          -0.009933,
+          -0.009861,
+          -0.009769
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.009801032926751413,
+            "samples": 48,
+            "meshMinY": -0.010196262322734873,
+            "meshMaxMinY": -0.00944807180840495
+          },
+          "Run": {
+            "y": -0.009757958247343795,
+            "samples": 48,
+            "meshMinY": -0.010209842297472415,
+            "meshMaxMinY": -0.00949828010760647
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "boss_rhino_air",
+      "stagedFile": "runs/local-creature-rebuild/models/boss/boss_rhino_air.glb",
+      "productionFile": "models/boss/boss_rhino_air.glb",
+      "sourceSha256": "995f78406231278ab6033cbb9096f6fd3f317c8615f42e2645a1dc85a60a1456",
+      "sha256": "0e361fc212a4da00e5a7a04c5fe590dac7214fb8071b9b1b1493753a326c7556",
+      "bytes": 1021816,
+      "originalBytes": 564840,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 1.2333333492279053,
+        "contactNormalized": 0.7,
+        "source": "Original FBX authored attack",
+        "label": "Contact estimated from forward strike-joint reach; confirm with feature lab timeline"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.6666666269302368,
+          "impliedMps": 0.3588017103164838,
+          "strideMetres": 0.598002836269974
+        },
+        "Run": {
+          "clipSeconds": 0.6666666865348816,
+          "impliedMps": 1.319306879044933,
+          "strideMetres": 0.8795379455755613
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Restore actual Walk and Get_Hit; retain Run separately; bind all source clips by FBX identity to repair duplicate-name tracks",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "c2ff5896707724743295e5e8f1f8226742b5374bc20450c188806c74f90a356e",
+          "after": "9509ad9892501cc87d9c76545d7c0408a0f2c6956c94b822f248e98e42cc91e3",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.582787831624349,
+          "format": "jpeg"
+        },
+        {
+          "name": "",
+          "before": "b4057874ace5d446f2bbb6a38c68e39a7bb5de39d76a8c7b1af7fd0d556df5eb",
+          "after": "d61c8463b5e48b6b9ef817c7fe11b375f30074ace76cd8c6533eea973ad05fb9",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.7321256001790365,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 670,
+        "animatedJoints": {
+          "Idle": 20,
+          "Walk": 21,
+          "Run": 23,
+          "Attack": 21,
+          "Hit": 19,
+          "Death": 18,
+          "HitLeft": 5,
+          "HitRight": 5
+        },
+        "maxQuaternionError": 4.203969083960146e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.509659629573918,
+              -0.00781642070965649,
+              -1.1208139041638248
+            ],
+            "max": [
+              0.5175438121060519,
+              1.6904337083161054,
+              1.662523237663835
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.5107010919402659,
+              -0.010858885195937501,
+              -1.3187977703904312
+            ],
+            "max": [
+              0.5494395866406026,
+              1.6883943135080046,
+              1.6650766290912888
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -1.0208766531560625,
+              -0.0009233431376985495,
+              -1.0187422492273859
+            ],
+            "max": [
+              0.6952685843663192,
+              1.6883930424058538,
+              1.6522436346455074
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.4918898381850506,
+              -0.0013038765777267382,
+              -1.000708554576352
+            ],
+            "max": [
+              0.7552239487926197,
+              1.6883930424058538,
+              1.6522436346455074
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.4954994167289712,
+              -0.02708125914372669,
+              -1.0007085526015915
+            ],
+            "max": [
+              0.5341996723671597,
+              1.6998371842060724,
+              1.6682492065929977
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.49699823597836496,
+              -0.01534841058241061,
+              -1.0007085526015915
+            ],
+            "max": [
+              0.5072296710591131,
+              1.6998372558638786,
+              1.6773099770889837
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.6666666269302368,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6666666865348816,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.2333333492279053,
+          "contactNormalized": 0.7
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.6666666865348816,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 1.6666666269302368,
+          "contactNormalized": null
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.6600000262260437,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.6600000262260437,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": 0,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": 0,
+        "groundY": 0,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 374,
+        "footGroups": [
+          "left-front",
+          "left-hind",
+          "right-front",
+          "right-hind"
+        ],
+        "idleSoleY": 0.000036,
+        "idleMeshMinY": [
+          -0.000124,
+          0,
+          0
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.00013683763121182885,
+            "samples": 95,
+            "meshMinY": -0.00781642070965649,
+            "meshMaxMinY": -3.1471252417309825e-8
+          },
+          "Run": {
+            "y": 0.003328888805122436,
+            "samples": 23,
+            "meshMinY": -0.016171448009573264,
+            "meshMaxMinY": -3.1471252417309825e-8
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "boss_rhino_earth",
+      "stagedFile": "runs/local-creature-rebuild/models/boss/boss_rhino_earth.glb",
+      "productionFile": "models/boss/boss_rhino_earth.glb",
+      "sourceSha256": "a4d6ea9a853598415374a4f658dbd50655ff1e22d3a989dfe7424901c857dfa3",
+      "sha256": "700ff55b402bc3e0a2a69cff5c87f44701cc7e14f818bbb640857e98a6474788",
+      "bytes": 1011616,
+      "originalBytes": 561768,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 1.2333333492279053,
+        "contactNormalized": 0.7,
+        "source": "Original FBX authored attack",
+        "label": "Contact estimated from forward strike-joint reach; confirm with feature lab timeline"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.6666666269302368,
+          "impliedMps": 0.3588017103164838,
+          "strideMetres": 0.598002836269974
+        },
+        "Run": {
+          "clipSeconds": 0.6666666865348816,
+          "impliedMps": 1.319306879044933,
+          "strideMetres": 0.8795379455755613
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Restore actual Walk and Get_Hit; retain Run separately; bind all source clips by FBX identity to repair duplicate-name tracks",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "a0986ed6205bd81abb440ba88d1e9aeb10b738be10774543ba79936bbe804d9d",
+          "after": "8c3abaed6134506c06541609fd45178695a85bdd2fa4e8048a696636d78c79a4",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.6511319478352865,
+          "format": "jpeg"
+        },
+        {
+          "name": "",
+          "before": "9d3b3ffd989fb99980456ec8a2038adf9369b98e9468867e403c1735fb460dfa",
+          "after": "1ad19283c046a5fe6c673b3ba6b8af085bf1d83ae8913e2bd1a19c288f296411",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.6424306233723959,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 670,
+        "animatedJoints": {
+          "Idle": 20,
+          "Walk": 21,
+          "Run": 23,
+          "Attack": 21,
+          "Hit": 19,
+          "Death": 18,
+          "HitLeft": 5,
+          "HitRight": 5
+        },
+        "maxQuaternionError": 4.203969083960146e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.509659629573918,
+              -0.00781642070965649,
+              -1.1208139041638248
+            ],
+            "max": [
+              0.5175438121060519,
+              1.6904337083161054,
+              1.662523237663835
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.5107010919402659,
+              -0.010858885195937501,
+              -1.3187977703904312
+            ],
+            "max": [
+              0.5494395866406026,
+              1.6883943135080046,
+              1.6650766290912888
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -1.0208766531560625,
+              -0.0009233431376985495,
+              -1.0187422492273859
+            ],
+            "max": [
+              0.6952685843663192,
+              1.6883930424058538,
+              1.6522436346455074
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.4918898381850506,
+              -0.0013038765777267382,
+              -1.000708554576352
+            ],
+            "max": [
+              0.7552239487926197,
+              1.6883930424058538,
+              1.6522436346455074
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.4954994167289712,
+              -0.02708125914372669,
+              -1.0007085526015915
+            ],
+            "max": [
+              0.5341996723671597,
+              1.6998371842060724,
+              1.6682492065929977
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.49699823597836496,
+              -0.01534841058241061,
+              -1.0007085526015915
+            ],
+            "max": [
+              0.5072296710591131,
+              1.6998372558638786,
+              1.6773099770889837
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.6666666269302368,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6666666865348816,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.2333333492279053,
+          "contactNormalized": 0.7
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.6666666865348816,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 1.6666666269302368,
+          "contactNormalized": null
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.6600000262260437,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.6600000262260437,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": 0,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": 0,
+        "groundY": 0,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 374,
+        "footGroups": [
+          "left-front",
+          "left-hind",
+          "right-front",
+          "right-hind"
+        ],
+        "idleSoleY": 0.000036,
+        "idleMeshMinY": [
+          -0.000124,
+          0,
+          0
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.00013683763121182885,
+            "samples": 95,
+            "meshMinY": -0.00781642070965649,
+            "meshMaxMinY": -3.1471252417309825e-8
+          },
+          "Run": {
+            "y": 0.003328888805122436,
+            "samples": 23,
+            "meshMinY": -0.016171448009573264,
+            "meshMaxMinY": -3.1471252417309825e-8
+          }
+        },
+        "issues": []
+      }
+    },
+    {
+      "id": "boss_rhino_water",
+      "stagedFile": "runs/local-creature-rebuild/models/boss/boss_rhino_water.glb",
+      "productionFile": "models/boss/boss_rhino_water.glb",
+      "sourceSha256": "4f7da2ae14dd58bcce40edf6f49a94a4768a0295a6ddc1483897b48a913dfb92",
+      "sha256": "f85ea2b8033deda8ff8232d8de709e0da56f81fd2f5dce7b7cb7ca6c9318e43a",
+      "bytes": 985584,
+      "originalBytes": 543456,
+      "attack": {
+        "clip": "Attack",
+        "seconds": 1.2333333492279053,
+        "contactNormalized": 0.7,
+        "source": "Original FBX authored attack",
+        "label": "Contact estimated from forward strike-joint reach; confirm with feature lab timeline"
+      },
+      "gaits": {
+        "Walk": {
+          "clipSeconds": 1.6666666269302368,
+          "impliedMps": 0.3588017103164838,
+          "strideMetres": 0.598002836269974
+        },
+        "Run": {
+          "clipSeconds": 0.6666666865348816,
+          "impliedMps": 1.319306879044933,
+          "strideMetres": 0.8795379455755613
+        }
+      },
+      "changes": [
+        "Correct FBX vertical texture orientation; preserve PNG alpha/RGB exactly and bound JPEG re-encoding error below 1.5/255",
+        "Restore actual Walk and Get_Hit; retain Run separately; bind all source clips by FBX identity to repair duplicate-name tracks",
+        "Add directional articulated recoil with delayed torso recovery and separate limb bracing"
+      ],
+      "correctedTextures": [
+        {
+          "name": "",
+          "before": "78337e3998e7629c8d1297649814a95d6cfc125e83e709084182d97deee1019e",
+          "after": "9ce7338b7cbec8b8012c083a64ae5cf2b4e41476eab688f3a200a3b6eb679d6e",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.4766553243001302,
+          "format": "jpeg"
+        },
+        {
+          "name": "",
+          "before": "df6332b7462e3629ae7bc3fed7499f201cf9cf9c321b468c35c39a0632608321",
+          "after": "911183c7800e098420cef82ad460cee9c98a9b9c2da18d4a59d8d0a0c981a93e",
+          "preCompressionFlipExact": true,
+          "meanChannelError": 0.4463958740234375,
+          "format": "jpeg"
+        }
+      ],
+      "validation": {
+        "clips": 8,
+        "channels": 670,
+        "animatedJoints": {
+          "Idle": 20,
+          "Walk": 21,
+          "Run": 23,
+          "Attack": 21,
+          "Hit": 19,
+          "Death": 18,
+          "HitLeft": 5,
+          "HitRight": 5
+        },
+        "maxQuaternionError": 4.203969083960146e-8,
+        "geometryUvSkinBindPoseUnchanged": true,
+        "serializedRoundTripValid": true,
+        "deformation": {
+          "Walk": {
+            "min": [
+              -0.509659629573918,
+              -0.00781642070965649,
+              -1.1208139041638248
+            ],
+            "max": [
+              0.5175438121060519,
+              1.6904337083161054,
+              1.662523237663835
+            ],
+            "rootTravelXZ": 0
+          },
+          "Run": {
+            "min": [
+              -0.5107010919402659,
+              -0.010858885195937501,
+              -1.3187977703904312
+            ],
+            "max": [
+              0.5494395866406026,
+              1.6883943135080046,
+              1.6650766290912888
+            ],
+            "rootTravelXZ": 0
+          },
+          "Attack": {
+            "min": [
+              -1.0208766531560625,
+              -0.0009233431376985495,
+              -1.0187422492273859
+            ],
+            "max": [
+              0.6952685843663192,
+              1.6883930424058538,
+              1.6522436346455074
+            ],
+            "rootTravelXZ": 0
+          },
+          "Hit": {
+            "min": [
+              -0.4918898381850506,
+              -0.0013038765777267382,
+              -1.000708554576352
+            ],
+            "max": [
+              0.7552239487926197,
+              1.6883930424058538,
+              1.6522436346455074
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitLeft": {
+            "min": [
+              -0.4954994167289712,
+              -0.02708125914372669,
+              -1.0007085526015915
+            ],
+            "max": [
+              0.5341996723671597,
+              1.6998371842060724,
+              1.6682492065929977
+            ],
+            "rootTravelXZ": 0
+          },
+          "HitRight": {
+            "min": [
+              -0.49699823597836496,
+              -0.01534841058241061,
+              -1.0007085526015915
+            ],
+            "max": [
+              0.5072296710591131,
+              1.6998372558638786,
+              1.6773099770889837
+            ],
+            "rootTravelXZ": 0
+          }
+        }
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8,
+          "contactNormalized": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.6666666269302368,
+          "contactNormalized": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6666666865348816,
+          "contactNormalized": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.2333333492279053,
+          "contactNormalized": 0.7
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.6666666865348816,
+          "contactNormalized": null
+        },
+        {
+          "name": "Death",
+          "seconds": 1.6666666269302368,
+          "contactNormalized": null
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.6600000262260437,
+          "contactNormalized": 0.12
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.6600000262260437,
+          "contactNormalized": 0.12
+        }
+      ],
+      "groundY": 0,
+      "groundCalibration": {
+        "status": "unchanged-within-2mm",
+        "bindBaseY": 0,
+        "groundY": 0,
+        "delta": 0,
+        "method": "Median Idle sole contact with stable planted locomotion bands; no whole-mesh tail extrema",
+        "samplesPerClip": 48,
+        "soleVertices": 374,
+        "footGroups": [
+          "left-front",
+          "left-hind",
+          "right-front",
+          "right-hind"
+        ],
+        "idleSoleY": 0.000036,
+        "idleMeshMinY": [
+          -0.000124,
+          0,
+          0
+        ],
+        "locomotion": {
+          "Walk": {
+            "y": -0.00013683763121182885,
+            "samples": 95,
+            "meshMinY": -0.00781642070965649,
+            "meshMaxMinY": -3.1471252417309825e-8
+          },
+          "Run": {
+            "y": 0.003328888805122436,
+            "samples": 23,
+            "meshMinY": -0.016171448009573264,
+            "meshMaxMinY": -3.1471252417309825e-8
+          }
+        },
+        "issues": []
+      }
+    }
+  ]
+}

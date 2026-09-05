@@ -11,10 +11,6 @@ export function argValue(args: string[], flag: string): string | undefined {
   return index >= 0 ? args[index + 1] : undefined;
 }
 
-export function hasArg(args: string[], flag: string): boolean {
-  return args.includes(flag);
-}
-
 export function resolveInside(base: string, candidate: string): string {
   const resolved = path.resolve(repoRoot, candidate);
   const relative = path.relative(base, resolved);

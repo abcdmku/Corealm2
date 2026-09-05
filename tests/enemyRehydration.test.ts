@@ -83,6 +83,89 @@ describe("enemy runtime rehydration", () => {
     expect(wounded.state).toBe("alive");
   });
 
+  it("moves a wounded saved animal's respawn point into its authored habitat", () => {
+    const wounded = enemy("redsill_cattle_1", 16);
+    const rebuiltPosition: [number, number, number] = [124, 9, -58];
+    wounded.position = rebuiltPosition;
+    wounded.meta = { habitatId: "redsill_pasture", spawnX: 120, spawnZ: -60 };
+    const state = stateWith({
+      redsill_cattle_1: {
+        health: 7, state: "returning", spawnPos: [-300, 2, 240], respawnAtMs: null,
+      },
+    });
+
+    const result = rehydrateEnemyRuntimes(
+      state,
+      { all: () => [wounded], add: () => undefined, remove: () => false },
+    );
+
+    expect(result).toEqual({ deadApplied: 0, healthApplied: 1 });
+    expect(state.world.enemies[wounded.id]).toEqual({
+      health: 7, state: "returning", spawnPos: [120, 9, -60], respawnAtMs: null,
+    });
+    expect(wounded.combat?.health).toBe(7);
+    expect(wounded.state).toBe("alive");
+
+    rebuiltPosition[0] = 130;
+    rebuiltPosition[1] = 10;
+    rebuiltPosition[2] = -50;
+    expect(state.world.enemies[wounded.id]?.spawnPos).toEqual([120, 9, -60]);
+  });
+
+  it("moves a dead saved animal's respawn point without reviving it or keeping the old clock", () => {
+    const corpse = enemy("marchfield_hens_1", 4);
+    corpse.position = [28, 6, 42];
+    corpse.meta = { habitatId: "marchfield_farmyard", spawnX: 30, spawnZ: 40 };
+    const state = stateWith({
+      marchfield_hens_1: {
+        health: 0, state: "dead", spawnPos: [-120, 1, -90],
+        diedAtMs: 60_000, respawnAtMs: 90_000,
+      },
+    });
+
+    const result = rehydrateEnemyRuntimes(
+      state,
+      { all: () => [corpse], add: () => undefined, remove: () => false },
+      500,
+    );
+
+    expect(result).toEqual({ deadApplied: 1, healthApplied: 0 });
+    expect(state.world.enemies[corpse.id]).toEqual({
+      health: 0, state: "dead", spawnPos: [30, 6, 40],
+      diedAtMs: 500, respawnAtMs: 30_500,
+    });
+    expect(corpse.state).toBe("dead");
+    expect(corpse.view?.diedAtMs).toBe(500);
+  });
+
+  it.each([
+    { label: "an enemy without a habitat", archetype: "enemy", habitatId: undefined },
+    { label: "an enemy with an empty habitat id", archetype: "enemy", habitatId: "" },
+    { label: "a boss with habitat metadata", archetype: "boss", habitatId: "boss_arena" },
+  ] as const)("keeps the saved spawn and combat state for $label", ({ archetype, habitatId }) => {
+    const retained = enemy("retained_spawn", 100);
+    retained.archetype = archetype;
+    retained.position = [40, 12, 80];
+    retained.meta = {
+      spawnX: 42, spawnZ: 82,
+      ...(habitatId === undefined ? {} : { habitatId }),
+    };
+    const saved = {
+      health: 55, state: "aggro" as const, spawnPos: [10, 3, 20] as const,
+      respawnAtMs: null, bossPhase: 2,
+    };
+    const state = stateWith({ retained_spawn: { ...saved } });
+
+    rehydrateEnemyRuntimes(
+      state,
+      { all: () => [retained], add: () => undefined, remove: () => false },
+    );
+
+    expect(state.world.enemies[retained.id]).toEqual(saved);
+    expect(retained.combat?.health).toBe(55);
+    expect(retained.state).toBe("alive");
+  });
+
   it("leaves enemies without a saved runtime untouched", () => {
     const untouched = enemy("open_march_goats_1", 12);
     const result = rehydrateEnemyRuntimes(

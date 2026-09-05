@@ -1,6 +1,6 @@
 # Realtime feature labs
 
-The combat and building labs are two modes of the same compact Fallowmarch yard. Both boot through `game/index.html`, the production renderer and `WorldScene`, and the normal asset, material, rig, animation, entity-view, effect, navigation, physics, and input paths. The yard is a 256 m by 256 m plains terrain with gentle relief and a 96 m by 96 m flat central build pad. It keeps edit feedback fast by leaving out the full authored island, persistence, quests, economy, water, biome blending, scatter, and ordinary world content.
+The combat and building labs are two modes of the same compact Fallowmarch yard. Both boot through `game/index.html`, the production renderer and `WorldScene`, and the normal asset, material, rig, animation, entity-view, effect, navigation, physics, and input paths. The yard is a 256 m by 256 m plains terrain with gentle relief and a 96 m by 96 m flat central build pad. It keeps edit feedback fast by leaving out the full authored island and its ordinary content. Optional fixtures add production foliage, forest gathering and persistence, or an enclosed fishing basin when those systems are under review.
 
 The shared setting matters. A structure seen in building mode and an actor or spell seen in combat mode receive the same terrain, daylight, fog, camera stack, and scene treatment. The labs are real game scenes, not separate Three.js turntables.
 
@@ -26,8 +26,8 @@ The gate may be skipped only when the behavior being built is the authored full 
 Start with the smallest loop that can reject a bad change:
 
 ```bash
-# General unit tests, kept alive while editing
-npm run test:watch
+# Keep the relevant behavior tests alive while editing, for example forest residency
+npx vitest tests/forest-resources.test.ts tests/forest-obstacles.test.ts
 
 # Structure recipes, compositions, collisions, and asset references
 npm run structure:contracts:watch
@@ -42,13 +42,167 @@ npm run lab:preview
 npm run lab:building:preview
 ```
 
-Both preview commands use port 4174, so run one at a time. You can switch workbenches from inside the lab without restarting Vite. A workbench change updates `mode` in the current URL, preserves every other query parameter and the hash, and performs a full document reload. The destination boots a fresh scene with its own defaults. Runtime state, spawned targets, movement, and unsaved panel setup do not transfer across that reload. Realtime HMR remains active because the Vite server stays running.
+Both preview commands use port 4174, so run one at a time. A workbench change updates `mode` in the current URL, preserves every other query parameter and the hash, and performs a full document reload. Runtime state, spawned targets, movement, and unsaved panel setup do not transfer across that reload. Preview servers use HMR; tool-owned acceptance servers disable it so another worker's edit cannot interrupt a proof. Restart the server and reopen the document after dependency or Vite configuration changes.
+
+### Persistent browser session
+
+Use the persistent session while editing, capturing models, or investigating an interaction. It keeps one Chromium process and page alive and reuses the Vite server supplied by `--url`. Omitting `--url` starts a server owned by the session; closing the session stops that server. An external server is left running.
+
+```bash
+npm run lab:session -- --url http://127.0.0.1:4174 --route "/index.html?mode=combat&environment=1" --out test-results/rebuild-acceptance --compact
+```
+
+Wait for the tool's `type: "ready"` JSON line, then send one JSON command per line. Commands run sequentially and await loading and scene changes. Responses carry the caller's `id`, `ok` and elapsed time. `--compact` omits large results from terminal output; omit that flag for the original full JSON response. Both modes append every full command and response to `<out>/session.jsonl` as `{at, command, response}`, including errors. A command error produces `ok: false` and leaves the session available for diagnosis.
+
+```json
+{"id":1,"op":"call","surface":"environment","method":"showSite","args":["bracken_workings"]}
+{"id":2,"op":"frameEnvironment"}
+{"id":3,"op":"capture","name":"bracken-approach"}
+{"id":4,"op":"spawn","kind":"creature","presetId":"redsill_cattle","distance":9}
+{"id":5,"op":"call","surface":"lab","method":"perform","args":["attack"]}
+{"id":6,"op":"sampleMotion","samples":12,"intervalMs":120,"captureFrames":[0,5,11],"name":"cattle-attack"}
+{"id":7,"op":"errors"}
+{"id":8,"op":"close"}
+```
+
+The available operations are:
+
+| Operation | Purpose |
+| --- | --- |
+| `open` / `reopen` / `resetFixture` | Reload the current route, or a supplied `route`, and await readiness. This resets scene state while retaining browser and asset caches. |
+| `spawn` | Prepare and spawn a production `npc` or `creature` by `presetId`, with optional `distance`. |
+| `call` | Await a method on the `lab`, `environment`, `creatures`, `forest`, or `debug` surface. Supply `method` and an optional `args` array. |
+| `frameEnvironment` | Fit a ready environment fixture with drawn bounds. `detail: true` uses the close inspection camera. Requires `environment=1` and a ready game. |
+| `frameCreatures` | Fit a ready creature gallery with drawn bounds. Requires `creatures=1` and a ready game. |
+| `camera` | Apply a named `shot` or explicit `pose` containing x, y, z, yaw, pitch and distance. |
+| `input` | Send one `key` with optional `holdMs`, a `click` coordinate pair, or a four-coordinate `drag`. |
+| `observe` | Read compact state, selected actor details, gallery/environment selection, metrics and events since the previous observation. Optional `entityIds` selects up to 64 entities. With a creature gallery, the default detailed entity is its first actor. |
+| `waitForEntity` | Wait for a real entity `state` by `entityId`, with `timeoutMs` up to 30,000. Does not change simulation time or resource state. |
+| `capture` | Capture a named PNG plus current observation. Each capture has a five-second deadline. |
+| `sampleMotion` | Sample a fixed, nonempty set of production actors with motion state and drawn geometry; optionally capture up to six sample indexes. Rejects unavailable game state or document reloads. |
+| `errors` / `close` | Read browser and game errors, or release the session's browser and owned server. |
+
+Captures overwrite files under `--out`; the journal appends across sessions. The default `test-results/lab-session/` and all other `test-results/` paths are ignored. `--headed` shows the browser. The default session uses production graphics and requests hardware rendering, including ANGLE D3D11 on Windows. `--software` explicitly selects SwiftShader and reduced graphics for semantic checks; those captures are not production-quality visual evidence.
+
+Read a large result without copying it through the terminal session, for example in PowerShell:
+
+```powershell
+Get-Content test-results/rebuild-acceptance/session.jsonl | ForEach-Object { $_ | ConvertFrom-Json } | Where-Object { $_.command.method -eq 'getRenderProfile' } | ForEach-Object { $_.response.result | Select-Object calls, triangles }
+```
+
+`ok: true` means a command completed, not that its picture is accepted. A cold-boot error screen, `ready: false`, empty motion sample, or missing fixture provides no gameplay or art proof. Framing and sampling reject those conditions. Static model review uses `capture`; motion sampling accepts live, sampled and baked actor paths so a distant animation defect remains observable. Inspect `errors`, restart/reopen after dependency changes, and repeat the setup before recording acceptance. Do not catch a boot failure and continue the proof on the old page.
+
+After an edit causes a document reload, use `reopen` and repeat the small setup command sequence. The session reports the document identity and resets its event cursor when that identity changes. It deliberately does not attempt to restore stale objects across HMR. Motion sampling rejects a document reload mid-sample. Filmstrip captures can extend sample intervals, so use recorded timestamps when assessing cadence. Advancing clip time proves activity, not animation quality: inspect contact, reaction, planted feet and continuity in the frames.
+
+### Environment, foliage and cut face
+
+The environment gallery uses original production models at native scale. `showGallery(assetId)` selects one model; `showGallery()` stages the full catalogue. `getCatalog()` exposes source paths and dimensions. `showSite(siteId)` uses authored mine/grove dressing and real gatherable resources. The panel also exposes native oak, pine, fern and shrub foliage with grid/lane layout, count and span controls. The same detailed source geometry, wind and materials remain active at every visible distance. API changes update the panel's selection and foliage settings.
+
+The owner rejected the blocky distance substitutes. Do not restore simplified far foliage or judge scattered foliage from model-gallery screenshots alone. Use `showFoliage`, move away and return, and compare actual colour submissions with `getRenderProfile()`. Inspect the branch silhouette, canopy gaps, leaf size and shading at both distances. Ordinary spatial culling remains separate from model detail.
+
+`npx tsx tools/foliage-distance-lab-test.ts --url http://127.0.0.1:4174` checks all ten native oak, pine, fern and shrub models through near, far and return poses. It requires actual colour-pass triangle counts to match the served source, unchanged instance populations and bounds, loaded panel metadata, and no alternate far asset requests. Representative near/far screenshots still require inspection. `getRenderProfile("lab-foliage-")` filters draw rows before the diagnostic limit while preserving whole-frame totals. The one-instance distance check does not prove dense-scene performance. Use the 1,024-shrub fixture and identical cameras for that comparison.
+
+```json
+{"op":"open","route":"/index.html?mode=combat&environment=1"}
+{"op":"call","surface":"environment","method":"showFoliage","args":["corealm_shrub_2",{"layout":"grid","count":1024,"span":96}]}
+{"op":"camera","pose":{"x":0,"y":0,"z":14,"yaw":0,"pitch":0.5,"distance":15}}
+{"op":"call","surface":"debug","method":"getRenderProfile"}
+{"op":"capture","name":"shrub-density"}
+{"op":"call","surface":"environment","method":"showFoliage","args":["corealm_fern_1",{"layout":"lane","count":12,"span":70}]}
+{"op":"frameEnvironment"}
+{"op":"capture","name":"fern-lane"}
+{"op":"call","surface":"environment","method":"showCutFace"}
+{"op":"frameEnvironment"}
+{"op":"capture","name":"two-seam-cut-face"}
+```
+
+`showCutFace()` stages two production ore resources in a sloped cut face near `(70, 25)`, with matching extraction states and production collision. State reports mode `cut-face` and selection `two-seam-slope`. The fixture isolates seam geometry, contact and mining presentation. Debug-granted tools and API-started mining are setup/interaction diagnostics; record a real click and resource/inventory changes for pointer acceptance. Final-world terrain embedding, mine approach and navigation still need integration evidence.
+
+### Forest and fishing fixtures
+
+`forest=1` adds a deterministic oak/pine lane with the production forest descriptors, lazy entity activation, tree collision, gathering, save/load and respawn. `window.__forestLab.getState()` reports residency and `getTrees()` returns the stable descriptors. A tree must keep the same trunk origin through scatter, nearby interaction, depletion, leaving the area and returning.
+
+```json
+{"op":"open","route":"/index.html?mode=combat&forest=1"}
+{"op":"call","surface":"forest","method":"getTrees"}
+{"op":"camera","pose":{"x":22,"y":0,"z":12,"yaw":0.5,"pitch":0.45,"distance":16}}
+{"op":"observe","entityIds":["feature-lab:forest:oak:4"]}
+```
+
+The ordinary environment workbench is dry, so its fishery site entries stay unavailable. Use `/index.html?mode=combat&fishing=1` for the separate translated Redsill fishery with a real carved basin, enclosed production water, four schools and dry casting positions. Fish do not belong on dry gallery ground. The fishing gate must prove the clicked school, dry-bank route and natural inventory receipt, then inspect underwater visibility and the bank view.
+
+Root-owned browser gates:
+
+```bash
+npm run lab:creatures
+npx tsx tools/forest-lab-test.ts --url http://127.0.0.1:4174
+npx tsx tools/fishing-lab-test.ts --url http://127.0.0.1:4174
+```
+
+These write ignored `report.json` files and screenshots under `test-results/creature-lab/`, `forest-lab/` and `fishing-lab/`. Forest and fishing accept `--url` to reuse a server. Their reports distinguish debug setup from real input. The creature gate follows natural attack, flee, death and respawn behavior in its own lifecycle loop; it does not certify every creature's art.
+
+### Creature gallery
+
+Add `creatures=1` to a combat-lab route for the compact creature acceptance grid. It starts with one cow near `(0, 70)`. The selector uses the production creature catalogue, and a count from 1 to 64 stages separate production entities with stable `lab:creatures:<preset>:<index>` IDs. Grid spacing follows the actual creature footprint. Ordinary AI does not move gallery actors; they keep their real meshes, rigs, animation clocks, rendering and distance transitions.
+
+```json
+{"op":"open","route":"/index.html?mode=combat&creatures=1"}
+{"op":"call","surface":"creatures","method":"show","args":["highcairn_bears",1]}
+{"op":"frameCreatures"}
+{"op":"capture","name":"bear-textures"}
+{"op":"call","surface":"creatures","method":"show","args":["open_march_goats",32]}
+{"op":"call","surface":"creatures","method":"play","args":["walk"]}
+{"op":"frameCreatures"}
+{"op":"sampleMotion","samples":8,"intervalMs":120,"captureFrames":[0,7],"name":"goat-crowd"}
+```
+
+`play` accepts `idle`, `walk`, `run`, `attack` and `hit`, using the production renderer's motion methods. Walk/run are stationary cycle inspections, not evidence of physical travel or planted feet under movement. Attack/hit commands inspect articulation and blending; the combat lab remains responsible for hit timing, damage and AI commitment.
+
+Without explicit `entityIds`, `sampleMotion` samples every staged gallery actor. Move the camera across the near/far transition and compare each actor's production motion path and phase; also inspect the filmstrip for pose jumps. A single close actor cannot prove crowd animation quality. Both gallery panels refresh changed selection state every 500 ms, including changes made through the APIs, and avoid rebuilding controls when state is unchanged.
+
+### Scripted scenarios and acceptance status
+
+`npm run play` distinguishes a diagnostic recording from an assertion-backed check. Existing recordings with only action labels and snapshots report `status: "diagnostic"` and `passed: false`. An action succeeding without throwing does not establish that movement, gathering or damage occurred.
+
+```bash
+npm run play -- --run runs/corealm-rebuild --scenario tools/scenarios/lab-movement.json --url http://127.0.0.1:4174
+```
+
+Scenario actions may include an `expect` array. Paths start with `before`, `after`, `initial`, or `result`; missing paths fail. Each expectation has exactly one comparison: `equals`, `gt`, `gte`, `lt`, `lte`, `changedFrom`, or `deltaFrom`.
+
+```json
+{
+  "name":"keyboard movement",
+  "route":"/index.html?mode=combat",
+  "actions":[
+    {
+      "key":"w",
+      "holdMs":500,
+      "expect":[{"path":"after.playerPosition","changedFrom":"before.playerPosition"}]
+    }
+  ]
+}
+```
+
+For an inventory receipt, an exact delta can be written as `{"path":"after.state.inventoryUsed","deltaFrom":{"path":"before.state.inventoryUsed","equals":1}}` when that interaction is expected to occupy one new slot. Stack quantities should be asserted from the relevant inventory/result field, since an occupied-slot count does not prove quantity conservation. A negative debug probe must specify its exact `expectError` code; unexpected structured tool errors fail the scenario.
+
+Unknown actions, extra fields, malformed arguments and invalid expectations are rejected before boot. The runner stops at the first action/assertion failure. Browser errors, failed requests and game-recorded errors also fail acceptance. Reports use `passed`, `failed`, or `diagnostic`; only `passed` sets the `passed` boolean to true. The standalone CLI exits nonzero on `failed`; diagnostic recordings remain usable as recordings. Assertions certify only the outcomes they name. Screenshots and motion samples still require visual review.
+
+The persistent session is the edit loop. The self-contained lab gates below remain the integration and CI checks; avoid relaunching them for every camera adjustment or asset inspection.
 
 ### Combat mode
 
 `npm run lab:preview` opens `/index.html?mode=combat`. Use the lab controls to spawn production NPCs and creatures, choose equipment by slot, set presentation-only skill levels, select a spell, and exercise melee and spell effects. A deterministic production bank fixture near the yard spawn can be opened or reset from the Bank workbench. Its contents and carried inventory are published in lab state so transfer behavior can be checked without relying on a save. Walking, ground clicks, target selection, animation, damage, effects, and bank interaction still flow through the production game systems.
 
 Editable skill values and direct equipment choices are test setup. They do not simulate progression, item eligibility, inventory acquisition, or persistence.
+
+### Presentation fixture
+
+Use `/index.html?mode=combat&presentation=1` or the **Add presentation fixture** link in either workbench. The optional fixture adds a gatherable Palewood tree and Grithe seam, a matching decorative tree, ferns, and grass through the production material and scatter paths. The bank fixture supplies a pickaxe and hatchet. Close the lab panel and click a resource to gather through normal navigation, tool checks, inventory yield, depletion, and respawn.
+
+`window.__featureLab.getState().presentation` identifies the two resource entities and the scatter instance count. Compare the standing and depleted tree against its decorative copy, and inspect foliage under the same lighting used for actors and equipment. Disabling the fixture reloads a fresh yard. Ordinary lab routes and their existing fixture defaults remain unchanged.
+
+For player visibility checks, frame the player at `(7, 0, 7)` with yaw `0`, pitch `0.42`, and distance `16`. The gatherable tree sits between the camera and player. Repeat at x `13` for the decorative tree, then reverse yaw to `Math.PI` to put the trees behind the player. `__gameDebug.getFoliageOcclusion()` publishes the projected body capsule; `setFoliageOcclusionEnabled(false/true)` provides a comparison switch. Hiding the player disables the opening automatically. Use keyboard movement and inspect both views to verify that the opening follows the player and leaves background trees intact.
 
 ### Building mode
 
@@ -172,6 +326,8 @@ These are hard design targets for every testing loop:
 | Focused unit or contract tests | under 10 seconds |
 | Persistent lab edit feedback | realtime HMR |
 | Combined labs and legacy redirect gate | at most 60 seconds |
+| Forest or fishing interaction gate | under 60 seconds each |
+| Creature lifecycle gate, including chase and return | at most 120 seconds |
 | Lab interactions after startup | at most 10 seconds |
 | Full-world smoke | at most 2 minutes |
 | Entire GitHub CI workflow | at most 5 minutes |

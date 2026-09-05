@@ -1,0 +1,842 @@
+{
+  "pack": {
+    "id": "corealm-original-nature",
+    "name": "Corealm authored nature",
+    "author": "Corealm project",
+    "source": "tools/build-corealm-nature.ts",
+    "license": "Original project geometry; no third-party source assets or textures"
+  },
+  "generator": {
+    "command": "npx tsx tools/build-corealm-nature.ts",
+    "version": 8,
+    "deterministic": true,
+    "coordinateSystem": "+Y up; metres; origin at ground contact under the trunk or plant base"
+  },
+  "artStatement": "Stylized natural woodland with fine botanical structure. Curved oak shoots bear small lobed leaves with cupped laminae and twisting margins. Pine boughs divide into five curved branchlets carrying slender paired needles. Woodland ferns divide twice into tapered pinnules; upright ferns have long serrated pinnae. Wood has smooth transported normals, axial contour, tapered branch collars and curved spreading root flares. Continuous leaf UVs register midrib and margin detail; physical bark UVs register grain across branch sizes. Detailed native geometry remains active at every visible distance with the same grounded production envelopes.",
+  "validation": {
+    "finiteAttributes": true,
+    "unitNormals": true,
+    "nonDegenerateTriangles": true,
+    "outwardSmoothNormals": true,
+    "groundedPivots": true,
+    "roundTripBounds": true,
+    "triangleBudgets": {
+      "oak": 155000,
+      "pine": 140000,
+      "deadwood": 8000,
+      "stump": 3000,
+      "fern": 30000,
+      "grass": 80,
+      "shrub": 40000,
+      "flower": 2000
+    },
+    "preservedProductionBounds": true,
+    "botanicalSprayProvenance": true,
+    "coherentLeafUV": "U across blade, midrib .5, V base 0 to tip 1",
+    "barkUV": "U circumference metres, V arc-length metres before small envelope fit"
+  },
+  "assets": [
+    {
+      "id": "corealm_oak_1",
+      "file": "models/corealm/nature/corealm_oak_1.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Mature spreading oak with a low divided trunk, lifted secondary boughs and an open, broad crown.",
+      "tags": [
+        "oak",
+        "corealm",
+        "original",
+        "stylized",
+        "tree",
+        "woodland"
+      ],
+      "bytes": 5320892,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3783284066,
+        "maxLinearColourError": 0.0019604068,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 8064424
+      },
+      "size": {
+        "x": 6.813,
+        "y": 7.9465,
+        "z": 6.4061
+      },
+      "base": {
+        "x": -3.2961,
+        "y": 0,
+        "z": -3.1075
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm",
+        "Leaves_Corealm_broadleaf"
+      ],
+      "sha256": "9d0258d1ab2b040eb8678dc3964fcf6c81830bdac432db92b457096aec2a1d28",
+      "triangles": 146516,
+      "seed": 7241,
+      "laminae": 5740,
+      "botanicalSprays": 700
+    },
+    {
+      "id": "corealm_oak_2",
+      "file": "models/corealm/nature/corealm_oak_2.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Tall leaning oak with a dominant side bough and uneven ascending crown.",
+      "tags": [
+        "oak",
+        "corealm",
+        "original",
+        "stylized",
+        "tree",
+        "woodland"
+      ],
+      "bytes": 5329068,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3817794845,
+        "maxLinearColourError": 0.0019607404,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 8076072
+      },
+      "size": {
+        "x": 7.4677,
+        "y": 8.5595,
+        "z": 7.3968
+      },
+      "base": {
+        "x": -3.581,
+        "y": 0,
+        "z": -3.4813
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm",
+        "Leaves_Corealm_broadleaf"
+      ],
+      "sha256": "beccb1a09324adbaf7db1600ac565f9da454b381bee35afa24c285ec32c407f6",
+      "triangles": 146866,
+      "seed": 1927,
+      "laminae": 5740,
+      "botanicalSprays": 700
+    },
+    {
+      "id": "corealm_oak_3",
+      "file": "models/corealm/nature/corealm_oak_3.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Young woodland oak with a narrower raised crown and slender, visibly branching trunk.",
+      "tags": [
+        "oak",
+        "corealm",
+        "original",
+        "stylized",
+        "tree",
+        "woodland"
+      ],
+      "bytes": 5154296,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3842310679,
+        "maxLinearColourError": 0.0019607614,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 7818996
+      },
+      "size": {
+        "x": 5.2962,
+        "y": 6.5614,
+        "z": 5.1566
+      },
+      "base": {
+        "x": -2.6443,
+        "y": 0,
+        "z": -2.3622
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm",
+        "Leaves_Corealm_broadleaf"
+      ],
+      "sha256": "db1190196713c786c1b51a27cb7e6a099c82fcaee8bbb91b3f43fc00fca701c7",
+      "triangles": 141742,
+      "seed": 8359,
+      "laminae": 5740,
+      "botanicalSprays": 700
+    },
+    {
+      "id": "corealm_pine_1",
+      "file": "models/corealm/nature/corealm_pine_1.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Mature pine with irregular horizontal branch whorls, distinct spaces between boughs and a rising leader.",
+      "tags": [
+        "pine",
+        "corealm",
+        "original",
+        "stylized",
+        "tree",
+        "woodland"
+      ],
+      "bytes": 5438512,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3797236902,
+        "maxLinearColourError": 0.0019607802,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 8318844
+      },
+      "size": {
+        "x": 6.9317,
+        "y": 10.5469,
+        "z": 7.4056
+      },
+      "base": {
+        "x": -3.364,
+        "y": 0,
+        "z": -3.5697
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm",
+        "Leaves_Corealm_needle"
+      ],
+      "sha256": "94827c97c3b7f82e5bb1d135a0430af55390c67c4e5d3a1d3a9214e1b2be8288",
+      "triangles": 129106,
+      "seed": 5843,
+      "laminae": 10200,
+      "botanicalSprays": 1020
+    },
+    {
+      "id": "corealm_pine_2",
+      "file": "models/corealm/nature/corealm_pine_2.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Wind-shaped pine with a gently leaning leader and unequal layered boughs.",
+      "tags": [
+        "pine",
+        "corealm",
+        "original",
+        "stylized",
+        "tree",
+        "woodland"
+      ],
+      "bytes": 5254400,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3784516128,
+        "maxLinearColourError": 0.0019607435,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 8047244
+      },
+      "size": {
+        "x": 6.3792,
+        "y": 9.7286,
+        "z": 5.8893
+      },
+      "base": {
+        "x": -2.7851,
+        "y": 0,
+        "z": -2.9892
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm",
+        "Leaves_Corealm_needle"
+      ],
+      "sha256": "e977221ccf4cbede53b69343d3374609b0fe386997121a7b309168d77214f925",
+      "triangles": 123938,
+      "seed": 2399,
+      "laminae": 10200,
+      "botanicalSprays": 1020
+    },
+    {
+      "id": "corealm_pine_3",
+      "file": "models/corealm/nature/corealm_pine_3.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Young pine with lifted lower branches and a slender, open conical crown.",
+      "tags": [
+        "pine",
+        "corealm",
+        "original",
+        "stylized",
+        "tree",
+        "woodland"
+      ],
+      "bytes": 5044332,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3809884553,
+        "maxLinearColourError": 0.0019607714,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 7737592
+      },
+      "size": {
+        "x": 5.243,
+        "y": 7.6918,
+        "z": 4.9501
+      },
+      "base": {
+        "x": -2.5151,
+        "y": 0,
+        "z": -2.5209
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm",
+        "Leaves_Corealm_needle"
+      ],
+      "sha256": "7c70b9ef5de7ae7e17b93b3bdfc7f1b43e52fa1ef435951279731a94ad49301e",
+      "triangles": 117971,
+      "seed": 9437,
+      "laminae": 10200,
+      "botanicalSprays": 1020
+    },
+    {
+      "id": "corealm_deadwood_1",
+      "file": "models/corealm/nature/corealm_deadwood_1.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Weathered standing oak snag with root flare, a splintered top and asymmetric broken boughs.",
+      "tags": [
+        "deadwood",
+        "corealm",
+        "original",
+        "stylized",
+        "dressing"
+      ],
+      "bytes": 274040,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3707279946,
+        "maxLinearColourError": 0.0019591045,
+        "maxBladeUVError": 0,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 405128
+      },
+      "size": {
+        "x": 2.7485,
+        "y": 6.3722,
+        "z": 2.6919
+      },
+      "base": {
+        "x": -1.3719,
+        "y": 0,
+        "z": -1.3914
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm"
+      ],
+      "sha256": "4a3cc5d4bf27079ac3af8123755d62a50e1d21e253bee80ed65aef2b105b490b",
+      "triangles": 7135,
+      "seed": 3989,
+      "laminae": 0,
+      "botanicalSprays": 0
+    },
+    {
+      "id": "corealm_deadwood_2",
+      "file": "models/corealm/nature/corealm_deadwood_2.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Leaning dead pine with a snapped leader, exposed branch ends and grounded spreading roots.",
+      "tags": [
+        "deadwood",
+        "corealm",
+        "original",
+        "stylized",
+        "dressing"
+      ],
+      "bytes": 184988,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3702299778,
+        "maxLinearColourError": 0.0019596542,
+        "maxBladeUVError": 0,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 273488
+      },
+      "size": {
+        "x": 1.9363,
+        "y": 5.7264,
+        "z": 1.9221
+      },
+      "base": {
+        "x": -0.7807,
+        "y": 0,
+        "z": -1.0062
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm"
+      ],
+      "sha256": "17babf5f313a3bbfcc735e4d8fb09f1f5b379589dbece42c49b7622dd3fbabb9",
+      "triangles": 4716,
+      "seed": 6823,
+      "laminae": 0,
+      "botanicalSprays": 0
+    },
+    {
+      "id": "corealm_stump_oak",
+      "file": "models/corealm/nature/corealm_stump_oak.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Low oak stump with buttress roots, an uneven cut rim and visible concentric growth grain.",
+      "tags": [
+        "stump",
+        "corealm",
+        "original",
+        "stylized",
+        "dressing"
+      ],
+      "bytes": 95232,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3671341794,
+        "maxLinearColourError": 0.0019504204,
+        "maxBladeUVError": 0,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 140800
+      },
+      "size": {
+        "x": 2.0886,
+        "y": 0.8818,
+        "z": 1.8799
+      },
+      "base": {
+        "x": -1.0209,
+        "y": 0,
+        "z": -0.9352
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm",
+        "Cutwood_Corealm"
+      ],
+      "sha256": "ac1f26c2ec12a887b4be78e7d9eff1c8cfc4b26e8789d27b607dcce09a4908b9",
+      "triangles": 2100,
+      "seed": 1139,
+      "laminae": 0,
+      "botanicalSprays": 0
+    },
+    {
+      "id": "corealm_stump_pine",
+      "file": "models/corealm/nature/corealm_stump_pine.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Slender pine stump with a sloping cut face and weathered root flare.",
+      "tags": [
+        "stump",
+        "corealm",
+        "original",
+        "stylized",
+        "dressing"
+      ],
+      "bytes": 56040,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.346145373,
+        "maxLinearColourError": 0.0019578724,
+        "maxBladeUVError": 0,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 82708
+      },
+      "size": {
+        "x": 1.3771,
+        "y": 0.6318,
+        "z": 1.3717
+      },
+      "base": {
+        "x": -0.6597,
+        "y": 0,
+        "z": -0.6634
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm",
+        "Cutwood_Corealm"
+      ],
+      "sha256": "e46faa8588a9c8dda4da18ab4bec380823b41e7ead59fa80f22fee4afea41e93",
+      "triangles": 1078,
+      "seed": 1291,
+      "laminae": 0,
+      "botanicalSprays": 0
+    },
+    {
+      "id": "corealm_fern_1",
+      "file": "models/corealm/nature/corealm_fern_1.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Spreading woodland fern with arched rachises and graduated, folded pairs of pinnae.",
+      "tags": [
+        "fern",
+        "corealm",
+        "original",
+        "stylized",
+        "dressing"
+      ],
+      "bytes": 756828,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3729709808,
+        "maxLinearColourError": 0.0019604203,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 1222088
+      },
+      "size": {
+        "x": 1.9204,
+        "y": 0.6294,
+        "z": 1.7659
+      },
+      "base": {
+        "x": -0.9791,
+        "y": 0.0147,
+        "z": -0.982
+      },
+      "animations": [],
+      "materials": [
+        "Leaves_Corealm_fern",
+        "Stem_Corealm"
+      ],
+      "sha256": "0979ecd4e80f9fdb58791ae55a9375d6ffc4ae60a391b154cac795d9ee43d75e",
+      "triangles": 20968,
+      "seed": 7727,
+      "laminae": 1448,
+      "botanicalSprays": 168
+    },
+    {
+      "id": "corealm_fern_2",
+      "file": "models/corealm/nature/corealm_fern_2.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Upright young fern with tightly grouped fronds, tapered leaflets and two uncurling stems.",
+      "tags": [
+        "fern",
+        "corealm",
+        "original",
+        "stylized",
+        "dressing"
+      ],
+      "bytes": 292424,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3743962589,
+        "maxLinearColourError": 0.0019590875,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 473656
+      },
+      "size": {
+        "x": 0.9999,
+        "y": 0.7567,
+        "z": 0.9837
+      },
+      "base": {
+        "x": -0.4782,
+        "y": 0.0163,
+        "z": -0.5176
+      },
+      "animations": [],
+      "materials": [
+        "Leaves_Corealm_fern",
+        "Stem_Corealm"
+      ],
+      "sha256": "2f9d22bfc559d93964d892cfe1e130de121dec8be1caa3c6733a04fb81e4c369",
+      "triangles": 10976,
+      "seed": 2711,
+      "laminae": 248,
+      "botanicalSprays": 248
+    },
+    {
+      "id": "corealm_grass_1",
+      "file": "models/corealm/nature/corealm_grass_1.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Low tuft of broad grass blades in three unequal fans with bent tips and folded centres.",
+      "tags": [
+        "grass",
+        "corealm",
+        "original",
+        "stylized",
+        "dressing"
+      ],
+      "bytes": 3856,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3180186674,
+        "maxLinearColourError": 0.0018290708,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 5152
+      },
+      "size": {
+        "x": 0.5627,
+        "y": 0.4007,
+        "z": 0.4954
+      },
+      "base": {
+        "x": -0.3953,
+        "y": 0.005,
+        "z": -0.1799
+      },
+      "animations": [],
+      "materials": [
+        "Leaves_Corealm_grass"
+      ],
+      "sha256": "2fc8e3ca25f9de812223431b6096b24e7a3663f3220f3141103f6c1f1ad24e70",
+      "triangles": 72,
+      "seed": 6229,
+      "laminae": 6,
+      "botanicalSprays": 6
+    },
+    {
+      "id": "corealm_grass_2",
+      "file": "models/corealm/nature/corealm_grass_2.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Taller meadow grass with separated blade fans and a few warm, dry tips.",
+      "tags": [
+        "grass",
+        "corealm",
+        "original",
+        "stylized",
+        "dressing"
+      ],
+      "bytes": 3856,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.318459753,
+        "maxLinearColourError": 0.0019525305,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 5152
+      },
+      "size": {
+        "x": 1.0249,
+        "y": 0.6396,
+        "z": 0.7389
+      },
+      "base": {
+        "x": -0.5321,
+        "y": 0.005,
+        "z": -0.34
+      },
+      "animations": [],
+      "materials": [
+        "Leaves_Corealm_grass"
+      ],
+      "sha256": "2caf80f6753abd7666ac989b4500a190cb6a9ced1a11701869737eb8a10cd812",
+      "triangles": 72,
+      "seed": 3529,
+      "laminae": 6,
+      "botanicalSprays": 6
+    },
+    {
+      "id": "corealm_shrub_1",
+      "file": "models/corealm/nature/corealm_shrub_1.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Spreading hazel-like shrub with exposed woody stems and separate matte leaf sprays.",
+      "tags": [
+        "shrub",
+        "corealm",
+        "original",
+        "stylized",
+        "dressing"
+      ],
+      "bytes": 602344,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3842165401,
+        "maxLinearColourError": 0.0019599846,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 953956
+      },
+      "size": {
+        "x": 1.5777,
+        "y": 1.2026,
+        "z": 1.4938
+      },
+      "base": {
+        "x": -0.7885,
+        "y": 0,
+        "z": -0.73
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm",
+        "Leaves_Corealm_broadleaf"
+      ],
+      "sha256": "df5e1dcd33bc39516dc716482c3d8f23a958ffe8b3cbdde64c5d81b3cf608d31",
+      "triangles": 17129,
+      "seed": 6791,
+      "laminae": 784,
+      "botanicalSprays": 196
+    },
+    {
+      "id": "corealm_shrub_2",
+      "file": "models/corealm/nature/corealm_shrub_2.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Compact heath-edge shrub with rising red-brown shoots and small folded oval leaves.",
+      "tags": [
+        "shrub",
+        "corealm",
+        "original",
+        "stylized",
+        "dressing"
+      ],
+      "bytes": 595704,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3630532035,
+        "maxLinearColourError": 0.0019604697,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 944180
+      },
+      "size": {
+        "x": 1.0353,
+        "y": 0.7257,
+        "z": 0.9821
+      },
+      "base": {
+        "x": -0.5108,
+        "y": 0.0012,
+        "z": -0.5237
+      },
+      "animations": [],
+      "materials": [
+        "Bark_Corealm",
+        "Leaves_Corealm_broadleaf"
+      ],
+      "sha256": "a3430dc7c8859891ce9a7723c15f9ce43578b66fb6d99d6e4684838c5b6d21c1",
+      "triangles": 16933,
+      "seed": 7963,
+      "laminae": 784,
+      "botanicalSprays": 196
+    },
+    {
+      "id": "corealm_flower_1",
+      "file": "models/corealm/nature/corealm_flower_1.glb",
+      "pack": "corealm-original-nature",
+      "category": "nature",
+      "is": "Small woodland flower patch with cream petals, ochre centres and narrow basal leaves.",
+      "tags": [
+        "flower",
+        "corealm",
+        "original",
+        "stylized",
+        "dressing"
+      ],
+      "bytes": 51900,
+      "encoding": {
+        "positions": "Float32 unchanged",
+        "normals": "normalized Int8",
+        "linearColours": "normalized Uint8",
+        "bladeUV": "normalized Uint16",
+        "woodUV": "Float32 unchanged",
+        "maxNormalAngleDegrees": 0.3671433808,
+        "maxLinearColourError": 0.0019492501,
+        "maxBladeUVError": 0.0000076295,
+        "groundedIdentityTransform": true,
+        "unpackedBytes": 82852
+      },
+      "size": {
+        "x": 0.5459,
+        "y": 0.5103,
+        "z": 0.5712
+      },
+      "base": {
+        "x": -0.3143,
+        "y": 0.0099,
+        "z": -0.3179
+      },
+      "animations": [],
+      "materials": [
+        "Leaves_Corealm_broadleaf",
+        "Stem_Corealm",
+        "Flowers_Corealm"
+      ],
+      "sha256": "74d79a561e69fcec0e3283b46f3214a438123ff445b8d698503c830f510f3ae1",
+      "triangles": 1500,
+      "seed": 8629,
+      "laminae": 25,
+      "botanicalSprays": 25
+    }
+  ]
+}

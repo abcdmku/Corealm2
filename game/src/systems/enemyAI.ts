@@ -20,7 +20,7 @@
  * `state.world.enemies[id]`, plus `telegraphs()` and `onTelegraph()` on this class. Nothing here
  * knows a mesh exists.
  */
-import type { EntityId, SemanticEntity, Vec3 } from "../contracts.js";
+import type { EntityId, RegionId, SemanticEntity, Vec3 } from "../contracts.js";
 import type { GameState, Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
 import type { TickSystem } from "../app/loop.js";
@@ -28,8 +28,14 @@ import { distanceXZ, turnToward } from "../core/math.js";
 import { Rng } from "../core/rng.js";
 import type { BossPhase } from "../content/enemies.js";
 import { ORDRUN_PHASES } from "../content/enemies.js";
+import { REGIONS, WORLD_BOUNDS } from "../content/regions.js";
+import { habitatForGroup, type HabitatDef } from "../content/worldHabitats.js";
+import { habitatIdleTargets, hashId } from "../world/habitatMovement.js";
+export { hashId } from "../world/habitatMovement.js";
 import type { CombatEntityPort, CombatSystem } from "./combat.js";
-import { cloneVec3, enemyStandoffMetres, spawnPositionOf } from "./combat.js";
+import {
+  cloneVec3, combatRealmOf as realmOf, enemyStandoffMetres, sameCombatRealm as sameRealm, spawnPositionOf,
+} from "./combat.js";
 
 // ------------------------------------------------------------------ tunables
 
@@ -188,16 +194,6 @@ export function headingGap(from: number, to: number): number {
   return Math.abs(delta);
 }
 
-/** Stable per-entity seed, so one creature's wander is its own and survives a reload. */
-export function hashId(entityId: string): number {
-  let hash = 2166136261;
-  for (let index = 0; index < entityId.length; index += 1) {
-    hash ^= entityId.charCodeAt(index);
-    hash = Math.imul(hash, 16777619);
-  }
-  return hash >>> 0;
-}
-
 function returnSpeed(entity: SemanticEntity): number {
   return pursuitSpeed(entity) * (ENEMY_RETURN_SPEED_MPS / ENEMY_SPEED_MPS);
 }
@@ -248,6 +244,30 @@ export const AI_ACTIVE_RADIUS = 70;
 
 /** The enemy list is rebuilt on this cadence rather than every 100 ms tick. */
 const ENEMY_SCAN_INTERVAL_MS = 2_000;
+
+const HABITAT_NAV_TOLERANCE = 0.1;
+const HABITAT_PAUSES: Readonly<Record<HabitatDef["activity"], readonly [number, number]>> = {
+  graze: [10_000, 22_000], forage: [4_000, 10_000], prowl: [2_000, 6_000], patrol: [800, 2_400],
+};
+
+function worldHabitat(entity: SemanticEntity): HabitatDef | null {
+  if (entity.archetype !== "enemy" || entity.meta?.featureLab === true
+    || entity.meta?.galleryMotion === true || entity.id.startsWith("feature-lab:")
+    || entity.id.startsWith("lab:")) return null;
+  const groupId = entity.meta?.groupId;
+  const habitat = typeof groupId === "string" ? habitatForGroup(groupId) : null;
+  return habitat?.regionId === entity.regionId ? habitat : null;
+}
+
+function insideHabitat(habitat: HabitatDef, position: Vec3): boolean {
+  const [x, , z] = position;
+  const bounds = REGIONS.find((region) => region.id === habitat.regionId)?.bounds;
+  return bounds !== undefined && Number.isFinite(x) && Number.isFinite(z)
+    && x >= WORLD_BOUNDS.min[0] && x <= WORLD_BOUNDS.max[0]
+    && z >= WORLD_BOUNDS.min[1] && z <= WORLD_BOUNDS.max[1]
+    && x >= bounds.min[0] && x <= bounds.max[0] && z >= bounds.min[1] && z <= bounds.max[1]
+    && Math.hypot(x - habitat.centre[0], z - habitat.centre[1]) <= habitat.radius;
+}
 
 // ------------------------------------------------------------- boss tuning
 
@@ -314,6 +334,8 @@ export interface EnemyAiDeps {
    * that stand up no scene.
    */
   groundHeightAt?: (x: number, z: number) => number;
+  /** Explicit encounter habitats use the same movement rules as the authored world. */
+  habitatForEntity?: (entity: SemanticEntity) => HabitatDef | null;
 }
 
 type AiMode = "idle" | "aggro" | "returning";
@@ -327,6 +349,9 @@ interface AiRecord {
   wanderTarget: Vec3 | null;
   /** Sim time the current pause ends. Only read while `wanderTarget` is null. */
   wanderUntilMs: number;
+  /** Last selected authored anchor; patrols continue around the same route after each pause. */
+  habitatAnchorIndex: number | null;
+  wanderStuckMs: number;
   /** Seeded from the entity id, so a flock does not move in lockstep and a replay is a replay. */
   rng: Rng;
 }
@@ -344,11 +369,16 @@ export class EnemyAiSystem implements TickSystem {
 
   private enemies: SemanticEntity[] = [];
   private nextScanAtMs = -1;
+  private scannedRealm: RegionId | null | undefined;
 
   constructor(private readonly deps: EnemyAiDeps) {
     // Being struck provokes, whatever the behaviour says. This is what makes `territorial` work
     // and what stops a `passive` frog standing still while it is beaten to death.
     deps.combat.onEnemyProvoked((enemyId, atMs) => this.provoke(enemyId, atMs));
+  }
+
+  private habitat(entity: SemanticEntity): HabitatDef | null {
+    return this.deps.habitatForEntity?.(entity) ?? worldHabitat(entity);
   }
 
   // -------------------------------------------------------------------- tick
@@ -363,6 +393,11 @@ export class EnemyAiSystem implements TickSystem {
     const playerPos = state.player.position;
 
     for (const entity of this.enemies) {
+      const inPlayerRealm = sameRealm(state.player.regionId, entity.regionId);
+      const previous = this.records.get(entity.id);
+      // A cached idle actor must stop immediately when the player changes floors. Existing
+      // pursuers remain simulated only long enough to disengage and finish walking home.
+      if (!inPlayerRealm && previous?.mode !== "aggro" && previous?.mode !== "returning") continue;
       const runtime = this.deps.combat.runtimeFor(state, entity);
       if (runtime.state === "dead") continue;
 
@@ -372,8 +407,10 @@ export class EnemyAiSystem implements TickSystem {
       const distanceToPlayer = distanceXZ(playerPos, entity.position);
       const distanceFromSpawn = distanceXZ(spawn, entity.position);
 
+      // Cancel the swing and any pending slam before boss damage is resolved on this tick.
+      if (!inPlayerRealm && record.mode === "aggro") this.leash(state, entity, record, atMs);
       const phases = BOSS_PHASES[entity.id];
-      if (phases) this.updateBoss(state, entity, runtime, record, phases, atMs);
+      if (phases && inPlayerRealm) this.updateBoss(state, entity, runtime, record, phases, atMs);
 
       // 1. leash. Nothing outruns 28 m from home, including a boss mid-telegraph.
       if (record.mode === "aggro" && distanceFromSpawn > LEASH_METRES) {
@@ -414,6 +451,11 @@ export class EnemyAiSystem implements TickSystem {
       if (record.mode === "aggro") {
         if (!playerAlive || (atMs >= record.provokedUntilMs && distanceToPlayer > def.aggroRadius + 6)) {
           this.leash(state, entity, record, atMs);
+          continue;
+        }
+        if (this.deps.combat.isAttackCommitted(entity.id)) {
+          // The attack owns its planted stance until recovery. Chasing here slides the clip.
+          this.faceless(entity, playerPos, deltaMs);
           continue;
         }
         // The same `?? 0` fallback `combat.bodyRadiusOf` uses, NOT `DEFAULT_BODY_RADIUS`: the
@@ -460,19 +502,28 @@ export class EnemyAiSystem implements TickSystem {
     for (let i = 0; i < active.length; i += 1) {
       const a = active[i]!;
       if (state.world.enemies[a.id]?.state === "dead") continue;
+      if (!sameRealm(state.player.regionId, a.regionId) && this.records.get(a.id)?.mode !== "returning") continue;
       const ra = a.combat?.bodyRadius ?? DEFAULT_BODY_RADIUS;
+      const aCommitted = this.deps.combat.isAttackCommitted(a.id);
 
       for (let j = i + 1; j < active.length; j += 1) {
         const b = active[j]!;
         if (state.world.enemies[b.id]?.state === "dead") continue;
+        if (!sameRealm(a.regionId, b.regionId)) continue;
+        if (!sameRealm(state.player.regionId, b.regionId) && this.records.get(b.id)?.mode !== "returning") continue;
+        const bCommitted = this.deps.combat.isAttackCommitted(b.id);
+        if (aCommitted && bCommitted) continue;
         const want = ra + (b.combat?.bodyRadius ?? DEFAULT_BODY_RADIUS);
+        // One movable neighbor takes the full overlap, with the same speed cap as before.
+        const yieldFactor = aCommitted || bCommitted ? 2 : 1;
 
         const push = separationPush(
-          b.position[0] - a.position[0], b.position[2] - a.position[2], want, limit, i * 31 + j * 17,
+          b.position[0] - a.position[0], b.position[2] - a.position[2],
+          want, limit / yieldFactor, i * 31 + j * 17,
         );
         if (!push) continue;
-        this.nudge(a, -push.x, -push.z);
-        this.nudge(b, push.x, push.z);
+        if (!aCommitted) this.nudge(a, -push.x * yieldFactor, -push.z * yieldFactor);
+        if (!bCommitted) this.nudge(b, push.x * yieldFactor, push.z * yieldFactor);
       }
     }
   }
@@ -481,7 +532,8 @@ export class EnemyAiSystem implements TickSystem {
   private nudge(entity: SemanticEntity, dx: number, dz: number): void {
     const from = entity.position;
     const wanted: Vec3 = [from[0] + dx, from[1], from[2] + dz];
-    const snapped = this.snapStep(wanted);
+    const habitat = this.records.get(entity.id)?.mode === "idle" ? this.habitat(entity) : null;
+    const snapped = habitat ? this.snapHabitatStep(wanted, habitat) : this.snapStep(wanted);
     // No `faceDirection` here on purpose: a creature being shoved aside is still looking at what it
     // is chasing, and turning it to face the shove is what made the animals spin.
     if (!snapped || distanceXZ(from, snapped) <= 0.001) return;
@@ -496,7 +548,7 @@ export class EnemyAiSystem implements TickSystem {
   provoke(enemyId: EntityId, atMs: number): void {
     const state = this.deps.store.get();
     const entity = this.deps.entities.get(enemyId);
-    if (!entity) return;
+    if (!entity || !sameRealm(state.player.regionId, entity.regionId)) return;
     const runtime = this.deps.combat.runtimeFor(state, entity);
     if (runtime.state === "dead") return;
 
@@ -524,26 +576,7 @@ export class EnemyAiSystem implements TickSystem {
     this.deps.store.markDirty();
   }
 
-  /**
-   * Idle drift: short strolls near the spawn point, long pauses between them.
-   *
-   * SPEED IS THE CREATURE'S `walkSpeedMps`, which is the speed its WALK cycle depicts.
-   *
-   * CORRECTION. This used to use `moveSpeedMps`, the pursuit speed, on the reasoning that the
-   * renderer retimes one locomotion clip against that number and a second speed would desynchronise
-   * the feet. That was true only because every creature had one locomotion clip and it was the RUN
-   * cycle. It now has both, `render/entityViews.ts` picks between them by whether the creature is
-   * pursuing, and each is retimed against its own measured stride — so pottering on the walk cycle
-   * at the walk cycle's own speed is what keeps the feet planted, and pottering at a pursuit speed
-   * is what would not.
-   *
-   * The radius is small on purpose. `spawnPos` still anchors the leash, the respawn point and every
-   * "walk home" in this file, so drifting far would quietly change all three; six metres is enough
-   * for a flock to look alive and nowhere near the 28 m leash.
-   *
-   * Bosses never wander. Each of them guards one thing in one place, and a boss found wandering off
-   * its arena is a boss the quest pointing at it cannot promise is there.
-   */
+  /** Authored browse patches and patrol routes use the creature's measured walking gait. */
   private wander(
     entity: SemanticEntity,
     record: AiRecord,
@@ -552,12 +585,23 @@ export class EnemyAiSystem implements TickSystem {
     deltaMs: number,
   ): void {
     if (entity.archetype === "boss") return;
+    const habitat = this.habitat(entity);
+    const pause: readonly [number, number] = habitat ? HABITAT_PAUSES[habitat.activity]
+      : [WANDER_PAUSE_MIN_MS, WANDER_PAUSE_MAX_MS];
+    const [pauseMin, pauseMax] = pause;
 
     const target = record.wanderTarget;
     if (target) {
-      if (this.stepToward(entity, target, wanderSpeed(entity), deltaMs, WANDER_ARRIVE_METRES)) {
+      const before = entity.position;
+      const arrived = this.stepToward(
+        entity, target, wanderSpeed(entity), deltaMs, habitat ? 0.3 : WANDER_ARRIVE_METRES, habitat,
+      );
+      record.wanderStuckMs = distanceXZ(before, entity.position) > STEP_EPSILON_METRES
+        ? 0 : record.wanderStuckMs + deltaMs;
+      if (arrived || (habitat && record.wanderStuckMs >= 3_000)) {
         record.wanderTarget = null;
-        record.wanderUntilMs = atMs + record.rng.int(WANDER_PAUSE_MIN_MS, WANDER_PAUSE_MAX_MS);
+        record.wanderStuckMs = 0;
+        record.wanderUntilMs = atMs + record.rng.int(pauseMin, pauseMax);
       }
       return;
     }
@@ -566,19 +610,39 @@ export class EnemyAiSystem implements TickSystem {
     // First tick of this creature's life lands here with `wanderUntilMs` still 0, which would send
     // every creature in the world walking on the same tick. Stagger the first pause instead.
     if (record.wanderUntilMs === 0) {
-      record.wanderUntilMs = atMs + record.rng.int(0, WANDER_PAUSE_MAX_MS);
+      record.wanderUntilMs = atMs + record.rng.int(0, pauseMax);
       return;
     }
 
-    const wanted = wanderDestination(runtime.spawnPos, record.rng);
-    // Off the navmesh means there is nowhere to walk; wait and roll again rather than shuffling
-    // into a wall for the next few seconds.
-    const landed = this.snapStep(wanted);
-    if (!landed || distanceXZ(entity.position, landed) < WANDER_MIN_METRES) {
-      record.wanderUntilMs = atMs + record.rng.int(WANDER_PAUSE_MIN_MS, WANDER_PAUSE_MAX_MS);
+    const landed = habitat
+      ? this.habitatDestination(entity, record, runtime.spawnPos, habitat)
+      : this.snapStep(wanderDestination(runtime.spawnPos, record.rng));
+    if (!landed || distanceXZ(entity.position, landed) < (habitat ? 0.6 : WANDER_MIN_METRES)) {
+      record.wanderUntilMs = atMs + record.rng.int(pauseMin, pauseMax);
       return;
     }
     record.wanderTarget = landed;
+    record.wanderStuckMs = 0;
+  }
+
+  private habitatDestination(
+    entity: SemanticEntity, record: AiRecord, spawn: Vec3, habitat: HabitatDef,
+  ): Vec3 | null {
+    const { ranging, nearestAnchorIndex, candidates } = habitatIdleTargets(entity.id, spawn, habitat);
+    const count = candidates.length;
+    if (count === 0) return null;
+    const first = ranging ? (record.habitatAnchorIndex ?? nearestAnchorIndex!) + 1
+      : record.rng.int(0, count - 1);
+    for (let attempt = 0; attempt < count; attempt += 1) {
+      const { anchorIndex: index, position: wanted } = candidates[(first + attempt) % count]!;
+      const anchor = habitat.anchors[index]!;
+      if (!insideHabitat(habitat, [anchor[0], spawn[1], anchor[1]])) continue;
+      const landed = this.snapHabitatStep(wanted, habitat);
+      if (!landed || distanceXZ(entity.position, landed) < 0.6) continue;
+      record.habitatAnchorIndex = index;
+      return landed;
+    }
+    return null;
   }
 
   private leash(state: GameState, entity: SemanticEntity, record: AiRecord, atMs: number): void {
@@ -586,6 +650,8 @@ export class EnemyAiSystem implements TickSystem {
     record.provokedUntilMs = 0;
     record.telegraph = null;
     record.wanderTarget = null;
+    record.habitatAnchorIndex = null;
+    record.wanderStuckMs = 0;
     const runtime = state.world.enemies[entity.id];
     if (runtime) runtime.state = "returning";
     this.setEntityState(entity, "returning");
@@ -627,6 +693,8 @@ export class EnemyAiSystem implements TickSystem {
       record.nextSlamAtMs = 0;
       // A respawned creature stands on its spawn point for a beat before it starts pottering again.
       record.wanderTarget = null;
+      record.habitatAnchorIndex = null;
+      record.wanderStuckMs = 0;
       record.wanderUntilMs = atMs + record.rng.int(WANDER_PAUSE_MIN_MS, WANDER_PAUSE_MAX_MS);
       this.deps.combat.setEnemyOverride(entityId, null);
       this.deps.store.markDirty();
@@ -805,6 +873,7 @@ export class EnemyAiSystem implements TickSystem {
     const created: AiRecord = {
       mode: "idle", provokedUntilMs: 0, nextSlamAtMs: 0, telegraph: null,
       wanderTarget: null, wanderUntilMs: 0, rng: new Rng(hashId(entityId)),
+      habitatAnchorIndex: null, wanderStuckMs: 0,
     };
     this.records.set(entityId, created);
     return created;
@@ -815,16 +884,20 @@ export class EnemyAiSystem implements TickSystem {
    * world costs one filtered pass every two seconds rather than a distance check per tick.
    */
   private rescanIfDue(atMs: number): void {
-    if (this.nextScanAtMs > atMs) return;
-    this.nextScanAtMs = atMs + ENEMY_SCAN_INTERVAL_MS;
-
     const state = this.deps.store.get();
+    const realm = realmOf(state.player.regionId);
+    if (this.nextScanAtMs > atMs && this.scannedRealm === realm) return;
+    this.nextScanAtMs = atMs + ENEMY_SCAN_INTERVAL_MS;
+    this.scannedRealm = realm;
+
     const from = state.player.position;
     const next: SemanticEntity[] = [];
     for (const entity of this.deps.entities.all()) {
       if (entity.archetype !== "enemy" && entity.archetype !== "boss") continue;
+      if (entity.meta?.galleryMotion === true) continue;
       const record = this.records.get(entity.id);
       const busy = record !== undefined && record.mode !== "idle";
+      if (!busy && !sameRealm(state.player.regionId, entity.regionId)) continue;
       const runtime = state.world.enemies[entity.id];
       const dead = runtime?.state === "dead";
       if (!busy && !dead && distanceXZ(from, entity.position) > AI_ACTIVE_RADIUS) continue;
@@ -844,6 +917,7 @@ export class EnemyAiSystem implements TickSystem {
     speed: number,
     deltaMs: number,
     stopWithin: number,
+    habitat: HabitatDef | null = null,
   ): boolean {
     const from = entity.position;
     const dx = target[0] - from[0];
@@ -881,7 +955,7 @@ export class EnemyAiSystem implements TickSystem {
     const nx = from[0] + (dx / gap) * step;
     const nz = from[2] + (dz / gap) * step;
     const wanted: Vec3 = [nx, from[1], nz];
-    let snapped = this.snapStep(wanted);
+    let snapped = habitat ? this.snapHabitatStep(wanted, habitat) : this.snapStep(wanted);
 
     // Detour returns the current boundary point when the direct candidate falls inside a carved
     // solid. Retrying that point forever is the enemy version of walking into a wall. Sliding one
@@ -889,8 +963,10 @@ export class EnemyAiSystem implements TickSystem {
     // corners without a full path query per enemy per tick.
     if (!this.madeProgress(from, snapped, target, gap)) {
       const candidates = [
-        this.snapStep([nx, from[1], from[2]]),
-        this.snapStep([from[0], from[1], nz]),
+        habitat ? this.snapHabitatStep([nx, from[1], from[2]], habitat)
+          : this.snapStep([nx, from[1], from[2]]),
+        habitat ? this.snapHabitatStep([from[0], from[1], nz], habitat)
+          : this.snapStep([from[0], from[1], nz]),
       ].filter((candidate): candidate is Vec3 => this.madeProgress(from, candidate, target, gap));
       candidates.sort((a, b) => distanceXZ(a, target) - distanceXZ(b, target));
       snapped = candidates[0] ?? null;
@@ -916,6 +992,16 @@ export class EnemyAiSystem implements TickSystem {
   private snapStep(wanted: Vec3): Vec3 | null {
     const snapped = this.deps.nav ? this.deps.nav.nearestWalkable(wanted, 2) : wanted;
     return snapped ? this.ground(snapped) : null;
+  }
+
+  /** A nearby polygon across a fence or shore is not the requested habitat footing. */
+  private snapHabitatStep(wanted: Vec3, habitat: HabitatDef): Vec3 | null {
+    if (!insideHabitat(habitat, wanted)) return null;
+    const snapped = this.deps.nav
+      ? this.deps.nav.nearestWalkable(wanted, HABITAT_NAV_TOLERANCE) : wanted;
+    if (!snapped || distanceXZ(wanted, snapped) > HABITAT_NAV_TOLERANCE
+      || !insideHabitat(habitat, snapped)) return null;
+    return this.ground(snapped);
   }
 
   /**

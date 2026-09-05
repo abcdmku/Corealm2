@@ -10,12 +10,15 @@ import {
   REGIONS,
   type PavingAssetId,
 } from "../content/regions.js";
+import { WORLD_SITES, worldSitePoint, type WorldSite } from "../content/worldSites.js";
 import { resourceDef } from "../content/resources.js";
 import {
   WorldScene, pavingStampFromRect,
   type PavingStamp, type PavingSurface, type RoadStamp, type WaterStamp,
 } from "../render/scene.js";
 import { WATER_FILL_DEPTH, waterBasinForCluster } from "../world/waterBodies.js";
+import { fishingAccessPositions } from "./fishingAccess.js";
+import { worldSiteHaulRamp } from "../world/siteTerrain.js";
 
 export const DEFAULT_WORLD_SEED = 1337;
 
@@ -37,11 +40,12 @@ export function prepareWorldSurface(
   scene: WorldScene,
   seed = DEFAULT_WORLD_SEED,
 ): PreparedWorldSurface {
-  const roads = collectRoadStamps(scene);
   const paving = collectPavingStamps();
   const water = collectWaterStamps(scene);
-  scene.setGroundStamps({ roads, paving, water, seed });
   const waterCount = buildWaterBodies(scene);
+  const access = fishingAccessPositions(WORLD_SITES, scene.getWaterBodies(), (x, z) => scene.meshHeightAt(x, z));
+  const roads = collectRoadStamps(scene, access);
+  scene.setGroundStamps({ roads, paving, water, seed });
   return { roadCount: roads.length, pavingCount: paving.length, waterCount };
 }
 
@@ -49,16 +53,22 @@ export function prepareWorldSurface(
  * Resolves authored links through actual gates. The scene's visual curve is also the line consumed
  * by foliage exclusions and the map; semantic navigation keeps the authored link unchanged.
  */
-export function collectRoadStamps(scene: WorldScene): RoadStamp[] {
+export function collectRoadStamps(scene: WorldScene, access: ReadonlyMap<string, Vec3> = new Map()): RoadStamp[] {
   const stamps: RoadStamp[] = [];
   for (const region of REGIONS) {
     const locationById = new Map(region.locations.map((location) => [location.id, location]));
     for (const road of region.roads) {
-      const from = locationById.get(road.from);
-      const to = locationById.get(road.to);
-      if (!from || !to) continue;
+      const sourceFrom = locationById.get(road.from);
+      const sourceTo = locationById.get(road.to);
+      if (!sourceFrom || !sourceTo) continue;
+      const fromAccess = access.get(sourceFrom.id);
+      const toAccess = access.get(sourceTo.id);
+      const from = fromAccess ? { ...sourceFrom, position: [fromAccess[0], fromAccess[2]] as [number, number] } : sourceFrom;
+      const to = toAccess ? { ...sourceTo, position: [toAccess[0], toAccess[2]] as [number, number] } : sourceTo;
 
-      const waypoints = [from.position];
+      const fromMine = WORLD_SITES.find((site) => site.kind === "mine" && site.locationId === from.id);
+      const toMine = WORLD_SITES.find((site) => site.kind === "mine" && site.locationId === to.id);
+      const waypoints = fromMine ? mineRoadApproach(fromMine, to.position) : [from.position];
       const settlement = region.settlement;
       const gates = settlement?.buildings.filter((building) => building.prefab === "gatehouse") ?? [];
       if (settlement && gates.length > 0) {
@@ -103,7 +113,7 @@ export function collectRoadStamps(scene: WorldScene): RoadStamp[] {
           }
         }
       }
-      waypoints.push(to.position);
+      waypoints.push(...(toMine ? mineRoadApproach(toMine, from.position).reverse() : [to.position]));
 
       // Do not fill the link with straight six-metre samples here. Each sample becomes a hard
       // control in `curveRoadPolyline`, which used to suppress the meander entirely.
@@ -112,6 +122,28 @@ export function collectRoadStamps(scene: WorldScene): RoadStamp[] {
     }
   }
   return stamps;
+}
+
+/** Workings are reached across their open apron; onward roads pass around the rock face. */
+function mineRoadApproach(site: WorldSite, other: readonly [number, number]): (readonly [number, number])[] {
+  const dx = other[0] - site.centre[0], dz = other[1] - site.centre[1];
+  const angle = site.terrain.approachAngle;
+  const bearing = site.rotationY + angle;
+  const localX = dx * Math.cos(bearing) - dz * Math.sin(bearing);
+  const localZ = dx * Math.sin(bearing) + dz * Math.cos(bearing);
+  const ramp = worldSiteHaulRamp(site);
+  const approachPoint = (x: number, z: number) => worldSitePoint(site,
+    x * Math.cos(angle) + z * Math.sin(angle), -x * Math.sin(angle) + z * Math.cos(angle));
+  const points: (readonly [number, number])[] = [site.centre,
+    approachPoint(0, ramp.startDistance), approachPoint(0, (ramp.startDistance + ramp.endDistance) / 2), ramp.worldEnd];
+  if (localZ < 0) {
+    // Clearance includes the road curve's nine-metre meander and its worn shoulder.
+    const halfSide = site.extent[0] * Math.abs(Math.cos(angle)) + site.extent[1] * Math.abs(Math.sin(angle));
+    const halfDepth = site.extent[0] * Math.abs(Math.sin(angle)) + site.extent[1] * Math.abs(Math.cos(angle));
+    const side = (localX < 0 ? -1 : 1) * (halfSide + 12);
+    points.push(approachPoint(side, ramp.endDistance), approachPoint(side, -halfDepth - 12));
+  }
+  return points;
 }
 
 /**

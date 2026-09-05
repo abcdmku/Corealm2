@@ -19,6 +19,7 @@ import { KeyboardController, type KeyBindingRegistry } from "./keyboard.js";
 import {
   ContextMenu, interactionLabel, notify, primaryInteraction, reportResult,
 } from "../ui/contextMenu.js";
+import { entityExamineLabel, entityLevelLabel } from "../ui/displayLabels.js";
 
 /** Pointer travel beyond this distance switches hover handling into drag mode. */
 const DRAG_THRESHOLD_PX = 4;
@@ -376,7 +377,7 @@ export class InputController {
   private inspectEntity(entityId: EntityId): void {
     const inspected = this.api.inspect(entityId);
     if (!reportResult(inspected)) return;
-    notify(`${inspected.value.name} — tier ${inspected.value.tier}, ${inspected.value.state}.`, "info");
+    notify(entityExamineLabel(inspected.value), "info");
   }
 
   private primaryInteractionFor(entityId: EntityId): InteractionId | null {
@@ -483,14 +484,17 @@ export class InputController {
     const label = this.hoverLabel ?? this.createHoverLabel();
     if (!label) return;
 
-    label.textContent = interaction
-      ? `${interactionLabel(entity, interaction)} ${entity.name}`
-      : entity.name;
+    label.textContent = entity.state === "depleted"
+      ? `${entity.name} · Depleted`
+      : interaction ? `${interactionLabel(entity, interaction)} ${entity.name}` : entity.name;
 
-    const tier = document.createElement("span");
-    tier.className = "hover-label__tier";
-    tier.textContent = `T${entity.tier}`;
-    label.appendChild(tier);
+    const levelText = entityLevelLabel(entity);
+    if (levelText) {
+      const level = document.createElement("span");
+      level.className = "hover-label__tier";
+      level.textContent = levelText;
+      label.appendChild(level);
+    }
 
     // New text means a new width, so force the next position pass even if the cursor is still.
     this.labelAtX = Number.NaN;

@@ -13,6 +13,7 @@
 import type {
   EntityId, GameApi, InteractionId, Result, SemanticEntity, SkillId, SkillView, Vec3,
 } from "../contracts.js";
+import { entityExamineLabel, entityLevelLabel } from "./displayLabels.js";
 
 // -------------------------------------------------------------- notice channel
 
@@ -454,7 +455,7 @@ export class ContextMenu {
       const result = this.deps.api.inspect(entity.id);
       if (!reportResult(result)) return;
       const seen = result.value;
-      notify(`${seen.name} — tier ${seen.tier}, ${seen.state}.`, "info");
+      notify(entityExamineLabel(seen), "info");
       return;
     }
     if (interaction === "produce" && entity.station && this.deps.onProduction) {
@@ -546,10 +547,8 @@ function entitySubtitle(entity: SemanticEntity, api: GameApi): string {
   // Combat level leads for anything that fights back, because it is the one number that tells a
   // player whether to swing. It is computed from the stat block by `enemyCombatLevel` rather than
   // authored anywhere, so what is printed here IS the creature's attack, defence, armour and
-  // health read back out. Everything else keeps the plain tier line it had.
-  const base = entity.combat
-    ? `Level ${entity.combat.level} · Tier ${entity.tier} · ${entity.state}`
-    : `Tier ${entity.tier} · ${entity.state}`;
+  // health read back out. Resources and shortcuts show their actual skill requirements.
+  const base = [entityLevelLabel(entity), entity.state].filter(Boolean).join(" · ");
   if (entity.station?.kind !== "campfire") return base;
   const remainingMs = contextRemainingMs(entity, api);
   return remainingMs === null ? `${base} · portable fire` : `${base} · ${formatRemaining(remainingMs)} left`;

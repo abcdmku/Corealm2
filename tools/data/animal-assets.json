@@ -23,7 +23,7 @@
         "animal",
         "passive"
       ],
-      "bytes": 364532,
+      "bytes": 388976,
       "size": {
         "x": 0.245,
         "y": 0.613,
@@ -38,8 +38,11 @@
         "Idle",
         "Walk",
         "Run",
+        "Death",
         "Attack",
-        "Death"
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 1.033,
       "materials": [
@@ -47,7 +50,9 @@
       ],
       "impliedWalkMps": 0.22,
       "impliedRunMps": 0.75,
-      "runClipSeconds": 0.567
+      "runClipSeconds": 0.567,
+      "sha256": "FA23A1289583064E65A73E7DD0E0E950B516817AEA74795D71A53E696866F900",
+      "groundY": -0.001
     },
     {
       "id": "animal_chicken_speckled",
@@ -65,7 +70,7 @@
         "animal",
         "variant"
       ],
-      "bytes": 397108,
+      "bytes": 428904,
       "size": {
         "x": 0.245,
         "y": 0.613,
@@ -80,8 +85,11 @@
         "Idle",
         "Walk",
         "Run",
+        "Death",
         "Attack",
-        "Death"
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 1.033,
       "materials": [
@@ -89,7 +97,9 @@
       ],
       "impliedWalkMps": 0.22,
       "impliedRunMps": 0.75,
-      "runClipSeconds": 0.567
+      "runClipSeconds": 0.567,
+      "sha256": "CC14A547D0F0B708BFD2F7A985C3C8DBF808CF922A98C40C9A464787782A92B3",
+      "groundY": -0.001
     },
     {
       "id": "animal_cattle",
@@ -107,7 +117,7 @@
         "animal",
         "territorial"
       ],
-      "bytes": 567280,
+      "bytes": 733184,
       "size": {
         "x": 0.643,
         "y": 1.57,
@@ -123,7 +133,10 @@
         "Walk",
         "Run",
         "Attack",
-        "Death"
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 1.133,
       "materials": [
@@ -131,7 +144,9 @@
       ],
       "impliedWalkMps": 0.51,
       "impliedRunMps": 1.65,
-      "runClipSeconds": 0.667
+      "runClipSeconds": 0.667,
+      "sha256": "8c75982604c2b5d2cb66341a122ccb7bee5ba36e7c0bcfda6c6255d14eb8068d",
+      "groundY": -0.005
     },
     {
       "id": "animal_aurochs",
@@ -148,7 +163,7 @@
         "animal",
         "variant"
       ],
-      "bytes": 553360,
+      "bytes": 717064,
       "size": {
         "x": 0.643,
         "y": 1.57,
@@ -164,7 +179,10 @@
         "Walk",
         "Run",
         "Attack",
-        "Death"
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 1.133,
       "materials": [
@@ -172,7 +190,9 @@
       ],
       "impliedWalkMps": 0.51,
       "impliedRunMps": 1.65,
-      "runClipSeconds": 0.667
+      "runClipSeconds": 0.667,
+      "sha256": "c1e4363275d2c708235cbf3b1bf3b0d16398da4b570d7118b483f10c688da7e5",
+      "groundY": -0.005
     },
     {
       "id": "animal_goat",
@@ -189,7 +209,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 499264,
+      "bytes": 557300,
       "size": {
         "x": 0.434,
         "y": 1.289,
@@ -205,7 +225,10 @@
         "Walk",
         "Run",
         "Attack",
-        "Death"
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 1.1,
       "materials": [
@@ -213,7 +236,9 @@
       ],
       "impliedWalkMps": 0.52,
       "impliedRunMps": 1.84,
-      "runClipSeconds": 0.467
+      "runClipSeconds": 0.467,
+      "sha256": "F8283C572E27D1FFE9B641C727DB9AE4DF7CEE8A773986610E35F922FCD1D9B0",
+      "groundY": -0.002
     },
     {
       "id": "animal_rabbit",
@@ -231,7 +256,7 @@
         "animal",
         "passive"
       ],
-      "bytes": 470120,
+      "bytes": 514312,
       "size": {
         "x": 0.291,
         "y": 0.44,
@@ -246,8 +271,11 @@
         "Idle",
         "Walk",
         "Run",
+        "Death",
         "Attack",
-        "Death"
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 0.633,
       "materials": [
@@ -255,7 +283,9 @@
       ],
       "impliedWalkMps": 0.41,
       "impliedRunMps": 0.78,
-      "runClipSeconds": 0.433
+      "runClipSeconds": 0.433,
+      "sha256": "105875B9F68E2FBA30BD6577D385D896F2D3C2FA42BD26A15D8F4D029E3F08ED",
+      "groundY": -0.006
     },
     {
       "id": "animal_rabbit_dark",
@@ -272,7 +302,7 @@
         "animal",
         "variant"
       ],
-      "bytes": 472980,
+      "bytes": 523060,
       "size": {
         "x": 0.291,
         "y": 0.44,
@@ -287,8 +317,11 @@
         "Idle",
         "Walk",
         "Run",
+        "Death",
         "Attack",
-        "Death"
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 0.633,
       "materials": [
@@ -296,7 +329,9 @@
       ],
       "impliedWalkMps": 0.41,
       "impliedRunMps": 0.78,
-      "runClipSeconds": 0.433
+      "runClipSeconds": 0.433,
+      "sha256": "7F69E6D38C07EFFF7DE76578FE61987EAF31B17DB869D8A1884D52247139653B",
+      "groundY": -0.006
     },
     {
       "id": "animal_frog",
@@ -314,7 +349,7 @@
         "animal",
         "passive"
       ],
-      "bytes": 338868,
+      "bytes": 472448,
       "size": {
         "x": 0.318,
         "y": 0.123,
@@ -327,18 +362,23 @@
       },
       "animations": [
         "Idle",
+        "Death",
         "Walk",
         "Run",
         "Attack",
-        "Death"
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
-      "walkClipSeconds": 1.367,
+      "walkClipSeconds": 1.333333,
       "materials": [
         "animal_frog_mat"
       ],
-      "impliedWalkMps": 0.17,
-      "impliedRunMps": 0.52,
-      "runClipSeconds": 0.633
+      "impliedWalkMps": 0.174867,
+      "impliedRunMps": 0.452627,
+      "runClipSeconds": 0.766667,
+      "sha256": "3219CEA576CEBF825FAF325F78D5F825FD8EDF31E3C3ED42701CCA2F412FEEB1",
+      "groundY": 0.002758
     },
     {
       "id": "animal_frog_green",
@@ -356,7 +396,7 @@
         "animal",
         "variant"
       ],
-      "bytes": 335424,
+      "bytes": 470176,
       "size": {
         "x": 0.318,
         "y": 0.123,
@@ -369,18 +409,23 @@
       },
       "animations": [
         "Idle",
+        "Death",
         "Walk",
         "Run",
         "Attack",
-        "Death"
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
-      "walkClipSeconds": 1.367,
+      "walkClipSeconds": 1.333333,
       "materials": [
         "animal_frog_green_mat"
       ],
-      "impliedWalkMps": 0.17,
-      "impliedRunMps": 0.52,
-      "runClipSeconds": 0.633
+      "impliedWalkMps": 0.174867,
+      "impliedRunMps": 0.452627,
+      "runClipSeconds": 0.766667,
+      "sha256": "5932C0A21AE41480B5208FE069DE48B98FAA0922E638B5E4F877E11E60736BAA",
+      "groundY": 0.002758
     },
     {
       "id": "animal_deer",
@@ -398,7 +443,7 @@
         "animal",
         "territorial"
       ],
-      "bytes": 457748,
+      "bytes": 479352,
       "size": {
         "x": 0.438,
         "y": 1.874,
@@ -413,8 +458,11 @@
         "Idle",
         "Walk",
         "Run",
+        "Death",
         "Attack",
-        "Death"
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 0.967,
       "materials": [
@@ -422,7 +470,9 @@
       ],
       "impliedWalkMps": 0.62,
       "impliedRunMps": 1.22,
-      "runClipSeconds": 0.633
+      "runClipSeconds": 0.633,
+      "sha256": "E2BB94F19786805B0FBC6B038A807A3451051102D52D8E9C06540F45EF7ABFB3",
+      "groundY": -0.007
     },
     {
       "id": "animal_coyote",
@@ -439,7 +489,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 661932,
+      "bytes": 767868,
       "size": {
         "x": 0.364,
         "y": 1.062,
@@ -454,8 +504,11 @@
         "Idle",
         "Walk",
         "Run",
+        "Death",
         "Attack",
-        "Death"
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 0.967,
       "materials": [
@@ -463,7 +516,9 @@
       ],
       "impliedWalkMps": 0.68,
       "impliedRunMps": 2.05,
-      "runClipSeconds": 0.567
+      "runClipSeconds": 0.567,
+      "sha256": "460965F62D8D70BAE75E035370EE145B5EEB9233DD5E64A6E88E37887ADABD9D",
+      "groundY": -0.003
     },
     {
       "id": "animal_hog",
@@ -480,7 +535,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 377780,
+      "bytes": 414920,
       "size": {
         "x": 0.463,
         "y": 0.929,
@@ -494,14 +549,19 @@
       "animations": [
         "Idle",
         "Walk",
+        "Death",
         "Attack",
-        "Death"
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 1.333,
       "materials": [
         "animal_hog_mat"
       ],
-      "impliedWalkMps": 0.29
+      "impliedWalkMps": 0.29,
+      "sha256": "DC00DE3F80C02A168C8FBD4EA1F7E00733B2B47604913E47F841814A729EAFC9",
+      "groundY": -0.007839
     },
     {
       "id": "animal_viper",
@@ -519,7 +579,7 @@
         "animal",
         "territorial"
       ],
-      "bytes": 399996,
+      "bytes": 459596,
       "size": {
         "x": 0.074,
         "y": 0.07,
@@ -535,14 +595,19 @@
         "Walk",
         "Run",
         "Attack",
-        "Death"
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 1.533,
       "materials": [
         "animal_viper_mat"
       ],
       "impliedRunMps": 0.02,
-      "runClipSeconds": 1.067
+      "runClipSeconds": 1.067,
+      "sha256": "E51F6386DE6B0CB9ACD952306041B2CE4BA3A60F242532DFB8ACBE5672DA037B",
+      "groundY": -0.01
     },
     {
       "id": "animal_bear",
@@ -559,7 +624,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 526752,
+      "bytes": 665248,
       "size": {
         "x": 0.707,
         "y": 1.408,
@@ -575,7 +640,10 @@
         "Walk",
         "Run",
         "Attack",
-        "Death"
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 1.1,
       "materials": [
@@ -583,7 +651,9 @@
       ],
       "impliedWalkMps": 0.74,
       "impliedRunMps": 2.25,
-      "runClipSeconds": 0.567
+      "runClipSeconds": 0.567,
+      "sha256": "FB65EB1E00B44F46156516A279A53688CBDE72AB80AFEA8CB1F8C0078D5AF97D",
+      "groundY": -0.006
     },
     {
       "id": "animal_boar",
@@ -600,7 +670,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 455684,
+      "bytes": 596064,
       "size": {
         "x": 0.474,
         "y": 0.963,
@@ -616,7 +686,10 @@
         "Walk",
         "Run",
         "Attack",
-        "Death"
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 0.967,
       "materials": [
@@ -624,7 +697,9 @@
       ],
       "impliedWalkMps": 0.67,
       "impliedRunMps": 1.25,
-      "runClipSeconds": 0.5
+      "runClipSeconds": 0.5,
+      "sha256": "9e1192788411744743042396fd4e958b16c001c49d91aab73e56dc27b1c7383c",
+      "groundY": -0.001
     },
     {
       "id": "animal_ibex",
@@ -641,7 +716,7 @@
         "animal",
         "territorial"
       ],
-      "bytes": 463708,
+      "bytes": 513308,
       "size": {
         "x": 0.43,
         "y": 1.447,
@@ -657,7 +732,10 @@
         "Walk",
         "Run",
         "Attack",
-        "Death"
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 0.967,
       "materials": [
@@ -665,7 +743,9 @@
       ],
       "impliedWalkMps": 0.6,
       "impliedRunMps": 2.02,
-      "runClipSeconds": 0.467
+      "runClipSeconds": 0.467,
+      "sha256": "AC24A84ACD299ADA77BD4B2ACC70370A382227296CDB4D8251EF811382B8924C",
+      "groundY": -0.003
     },
     {
       "id": "animal_rat",
@@ -682,7 +762,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 343840,
+      "bytes": 388672,
       "size": {
         "x": 0.135,
         "y": 0.139,
@@ -696,14 +776,19 @@
       "animations": [
         "Idle",
         "Walk",
+        "Death",
         "Attack",
-        "Death"
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 1.4,
       "materials": [
         "animal_rat_mat"
       ],
-      "impliedWalkMps": 0.06
+      "impliedWalkMps": 0.06,
+      "sha256": "B86F5636946C6406DC344B39FC056375DA7DBA4E6389959291542222380A9563",
+      "groundY": -0.001
     },
     {
       "id": "animal_scorpion",
@@ -720,7 +805,7 @@
         "animal",
         "aggressive"
       ],
-      "bytes": 469660,
+      "bytes": 517424,
       "size": {
         "x": 0.316,
         "y": 0.24,
@@ -736,7 +821,10 @@
         "Walk",
         "Run",
         "Attack",
-        "Death"
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 1,
       "materials": [
@@ -744,7 +832,9 @@
       ],
       "impliedWalkMps": 0.08,
       "impliedRunMps": 0.12,
-      "runClipSeconds": 0.633
+      "runClipSeconds": 0.633,
+      "sha256": "69997972B3CD201FEB1E20DC123FA0DE64981B384BE50DE94B192446B42BC704",
+      "groundY": -0.002
     },
     {
       "id": "animal_crab",
@@ -762,7 +852,7 @@
         "animal",
         "territorial"
       ],
-      "bytes": 359084,
+      "bytes": 403356,
       "size": {
         "x": 0.323,
         "y": 0.082,
@@ -774,18 +864,23 @@
         "z": -0.109
       },
       "animations": [
-        "Idle",
         "Walk",
         "Run",
+        "Death",
+        "Idle",
         "Attack",
-        "Death"
+        "Hit",
+        "HitLeft",
+        "HitRight"
       ],
       "walkClipSeconds": 1.067,
       "materials": [
         "animal_crab_mat"
       ],
       "impliedRunMps": 0.03,
-      "runClipSeconds": 0.467
+      "runClipSeconds": 0.467,
+      "sha256": "0A3FA8F0D6BD5F8B47D706728F67B4266B04295670F2EC18D24E4B484B0AC4D8",
+      "groundY": -0.002
     },
     {
       "id": "animal_perch",
@@ -802,7 +897,7 @@
         "fishing",
         "animal"
       ],
-      "bytes": 187072,
+      "bytes": 222640,
       "size": {
         "x": 0.174,
         "y": 0.283,
@@ -820,7 +915,9 @@
       "walkClipSeconds": 0.833,
       "materials": [
         "animal_perch_mat"
-      ]
+      ],
+      "sha256": "FD4E42A360A20B05EDE221F6C0D84A9A5915D3605647DFC595DAB25401AD91E3",
+      "groundY": -0.152
     },
     {
       "id": "animal_pike",
@@ -837,7 +934,7 @@
         "fishing",
         "animal"
       ],
-      "bytes": 203800,
+      "bytes": 251348,
       "size": {
         "x": 0.091,
         "y": 0.224,
@@ -855,7 +952,9 @@
       "walkClipSeconds": 0.833,
       "materials": [
         "animal_pike_mat"
-      ]
+      ],
+      "sha256": "301E532DA38F2D53EAA50F400ECE60F197FE0B8A5F5B6052BC3AC01E56E7D239",
+      "groundY": -0.112
     },
     {
       "id": "animal_salmon",
@@ -872,7 +971,7 @@
         "fishing",
         "animal"
       ],
-      "bytes": 132532,
+      "bytes": 151108,
       "size": {
         "x": 0.157,
         "y": 0.181,
@@ -890,7 +989,9 @@
       "walkClipSeconds": 0.833,
       "materials": [
         "animal_salmon_mat"
-      ]
+      ],
+      "sha256": "BAAB55038925DBC47C5B9F3CF737DF4756DA1CA931A69276C022A7397E15FCDC",
+      "groundY": -0.074
     }
   ]
 }

@@ -58,8 +58,8 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
   defineTier({
     tier: 1,
     reqLevel: 1,
-    metalName: "Grithe",
-    woodName: "Palewood",
+    metalName: "Copper",
+    woodName: "Oak",
     items: {
       ore: "grithe_ore", flux: "march_stone", gem: "pale_quartz", bar: "grithe_bar",
       log: "palewood_log", shaft: "palewood_shaft", handle: "palewood_handle", hide: "coarse_hide",
@@ -82,32 +82,32 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
     },
     resourceDefs: [
       {
-        id: "ore_grithe", name: "Grithe Seam", archetype: "ore", skill: "mining",
+        id: "ore_grithe", name: "Copper Seam", archetype: "ore", skill: "mining",
         itemId: "grithe_ore", bonus: [{ itemId: "pale_quartz", chance: 0.06 }],
         presentation: {
-          availableAssetIds: ["rock_medium_1", "rock_medium_2"], targetWorldSize: 1.55,
+          availableAssetIds: ["corealm_ore_grithe"], depletedAssetId: "corealm_ore_grithe_spent", targetWorldSize: 2.6,
           variantScale: [0.92, 1.08], materialTier: 1,
         },
       },
       {
-        id: "ore_marchstone", name: "Marchstone Face", archetype: "ore", skill: "mining",
+        id: "ore_marchstone", name: "Limestone Face", archetype: "ore", skill: "mining",
         itemId: "march_stone", bonus: [{ itemId: "pale_quartz", chance: 0.03 }],
         presentation: {
-          availableAssetIds: ["rock_medium_3"], targetWorldSize: 1.45,
+          availableAssetIds: ["corealm_ore_stone"], depletedAssetId: "corealm_ore_stone_spent", targetWorldSize: 2.6,
           variantScale: [0.94, 1.06], materialTier: 1,
         },
       },
       {
-        id: "tree_palewood", name: "Palewood", archetype: "tree", skill: "woodcutting",
+        id: "tree_palewood", name: "Oak", archetype: "tree", skill: "woodcutting",
         itemId: "palewood_log",
         presentation: {
-          availableAssetIds: ["tree_common_1", "tree_common_2"],
-          depletedAssetId: "nature_tree_stump", targetWorldSize: 8,
+          availableAssetIds: ["corealm_oak_1", "corealm_oak_2", "corealm_oak_3"],
+          depletedAssetId: "corealm_stump_oak", targetWorldSize: 8,
           variantScale: [0.92, 1.08], materialTier: 1,
         },
       },
       {
-        id: "fish_silt_minnow", name: "Redsill Shallow", archetype: "fishing_spot", skill: "fishing",
+        id: "fish_silt_minnow", name: "River Shallow", archetype: "fishing_spot", skill: "fishing",
         itemId: "silt_minnow",
         presentation: {
           availableAssetIds: ["fish_minnow"], targetWorldSize: 0.42,
@@ -121,8 +121,8 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
   defineTier({
     tier: 5,
     reqLevel: 5,
-    metalName: "Corven",
-    woodName: "Duskoak",
+    metalName: "Iron",
+    woodName: "Maple",
     items: {
       ore: "corven_ore", flux: "march_stone", gem: "vell_amber", bar: "corven_bar",
       log: "duskoak_log", shaft: "duskoak_shaft", handle: "duskoak_handle", hide: "bramble_hide",
@@ -144,19 +144,19 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
     },
     resourceDefs: [
       {
-        id: "ore_corven", name: "Corven Seam", archetype: "ore", skill: "mining",
+        id: "ore_corven", name: "Iron Seam", archetype: "ore", skill: "mining",
         itemId: "corven_ore", bonus: [{ itemId: "vell_amber", chance: 0.06 }],
         presentation: {
-          availableAssetIds: ["rock_medium_2", "rock_medium_1"], targetWorldSize: 1.65,
+          availableAssetIds: ["corealm_ore_corven"], depletedAssetId: "corealm_ore_corven_spent", targetWorldSize: 2.6,
           variantScale: [0.92, 1.08], materialTier: 5,
         },
       },
       {
-        id: "tree_duskoak", name: "Duskoak", archetype: "tree", skill: "woodcutting",
+        id: "tree_duskoak", name: "Maple", archetype: "tree", skill: "woodcutting",
         itemId: "duskoak_log",
         presentation: {
-          availableAssetIds: ["tree_common_2", "tree_common_1"],
-          depletedAssetId: "nature_tree_stump_moss", targetWorldSize: 10,
+          availableAssetIds: ["corealm_oak_2", "corealm_oak_1", "corealm_oak_3"],
+          depletedAssetId: "corealm_stump_oak", targetWorldSize: 10,
           variantScale: [0.94, 1.1], materialTier: 5,
         },
       },
@@ -176,8 +176,8 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
   defineTier({
     tier: 10,
     reqLevel: 10,
-    metalName: "Kaldite",
-    woodName: "Cairnpine",
+    metalName: "Cobalt",
+    woodName: "Pine",
     items: {
       ore: "kaldite_ore", flux: "march_stone", gem: "cairn_garnet", bar: "kaldite_bar",
       log: "cairnpine_log", shaft: "cairnpine_shaft", handle: "cairnpine_handle", hide: "cairn_pelt",
@@ -199,24 +199,24 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
     },
     resourceDefs: [
       {
-        id: "ore_kaldite", name: "Kaldite Face", archetype: "ore", skill: "mining",
+        id: "ore_kaldite", name: "Cobalt Face", archetype: "ore", skill: "mining",
         itemId: "kaldite_ore", bonus: [{ itemId: "cairn_garnet", chance: 0.07 }],
         presentation: {
-          availableAssetIds: ["rock_medium_3", "rock_medium_1"], targetWorldSize: 1.75,
+          availableAssetIds: ["corealm_ore_kaldite"], depletedAssetId: "corealm_ore_kaldite_spent", targetWorldSize: 2.6,
           variantScale: [0.92, 1.08], materialTier: 10,
         },
       },
       {
-        id: "tree_cairnpine", name: "Cairnpine", archetype: "tree", skill: "woodcutting",
+        id: "tree_cairnpine", name: "Pine", archetype: "tree", skill: "woodcutting",
         itemId: "cairnpine_log",
         presentation: {
-          availableAssetIds: ["tree_pine_2", "tree_pine_1"],
-          depletedAssetId: "nature_tree_stump_snow", targetWorldSize: 9,
+          availableAssetIds: ["corealm_pine_2", "corealm_pine_1", "corealm_pine_3"],
+          depletedAssetId: "corealm_stump_pine", targetWorldSize: 9,
           variantScale: [0.92, 1.08], materialTier: 10,
         },
       },
       {
-        id: "fish_cragfin", name: "Cairn Tarn", archetype: "fishing_spot", skill: "fishing",
+        id: "fish_cragfin", name: "Mountain Lake", archetype: "fishing_spot", skill: "fishing",
         itemId: "cragfin",
         presentation: {
           availableAssetIds: ["fish_cragfin"], targetWorldSize: 0.92,
@@ -231,8 +231,8 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
   defineTier({
     tier: 20,
     reqLevel: 20,
-    metalName: "Emberite",
-    woodName: "Cinderpine",
+    metalName: "Titanium",
+    woodName: "Cedar",
     items: {
       ore: "emberite_ore", flux: "kilnstone", gem: "fire_opal", bar: "emberite_bar",
       log: "cinderpine_log", shaft: "cinderpine_shaft", handle: "cinderpine_handle", hide: "charhide",
@@ -254,36 +254,36 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
     },
     resourceDefs: [
       {
-        id: "ore_emberite", name: "Emberite Seam", archetype: "ore", skill: "mining",
+        id: "ore_emberite", name: "Titanium Seam", archetype: "ore", skill: "mining",
         itemId: "emberite_ore", bonus: [{ itemId: "fire_opal", chance: 0.07 }],
         presentation: {
-          availableAssetIds: ["rock_medium_1", "rock_medium_3"], targetWorldSize: 1.8,
+          availableAssetIds: ["corealm_ore_emberite"], depletedAssetId: "corealm_ore_emberite_spent", targetWorldSize: 2.6,
           variantScale: [0.92, 1.08], materialTier: 20,
         },
       },
       {
         // Kilnstone is tier 20's own flux the way March Stone is tiers 1-10's: mined beside the
         // ore it fluxes, so the Clinker Rows circuit feeds the furnace without a trip south.
-        id: "ore_kilnstone", name: "Kilnstone Face", archetype: "ore", skill: "mining",
+        id: "ore_kilnstone", name: "Flux Stone Face", archetype: "ore", skill: "mining",
         itemId: "kilnstone", bonus: [{ itemId: "fire_opal", chance: 0.03 }],
         presentation: {
-          availableAssetIds: ["rock_medium_2"], targetWorldSize: 1.5,
+          availableAssetIds: ["corealm_ore_kilnstone"], depletedAssetId: "corealm_ore_kilnstone_spent", targetWorldSize: 2.6,
           variantScale: [0.94, 1.06], materialTier: 20,
         },
       },
       {
-        id: "tree_cinderpine", name: "Cinderpine", archetype: "tree", skill: "woodcutting",
+        id: "tree_cinderpine", name: "Cedar", archetype: "tree", skill: "woodcutting",
         itemId: "cinderpine_log",
         presentation: {
           // The twisted silhouettes read as fire-shaped survivors; tier-20 material treatment
           // carries the char. The regular stump reads best against dark soil.
-          availableAssetIds: ["tree_twisted_2", "tree_twisted_1"],
-          depletedAssetId: "nature_tree_stump", targetWorldSize: 9,
+          availableAssetIds: ["corealm_pine_3", "corealm_pine_1"],
+          depletedAssetId: "corealm_stump_pine", targetWorldSize: 9,
           variantScale: [0.92, 1.08], materialTier: 20,
         },
       },
       {
-        id: "fish_ashfin", name: "Ashfin Spring", archetype: "fishing_spot", skill: "fishing",
+        id: "fish_ashfin", name: "Hot Spring", archetype: "fishing_spot", skill: "fishing",
         itemId: "ashfin",
         presentation: {
           // Reuses the cragfin mesh: the shipped fish pack has three bodies, and the tier-20

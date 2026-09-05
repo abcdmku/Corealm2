@@ -1,3 +1,5 @@
+import { PanelFrame } from "./panelFrame.js";
+import { QuantitySelector } from "./quantitySelector.js";
 /**
  * The bank window: bank on the left, inventory on the right, because every real bank interaction is
  * a transfer between the two and a player should never have to remember what is in the other one.
@@ -13,10 +15,7 @@ import type { BankView, EntityId, InventorySlot, ItemId, ItemStack } from "../co
 import { notify } from "./contextMenu.js";
 import type { ContextMenuItem } from "./contextMenu.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import {
-  INVENTORY_COLUMNS, INVENTORY_SLOTS, PanelFrame, QuantitySelector, emptyState, formatExact,
-  installRovingGrid, itemName, paintSlot, report, stackSignature,
-} from "./panels.js";
+import { INVENTORY_COLUMNS, INVENTORY_SLOTS, emptyState, formatExact, installRovingGrid, itemName, paintSlot, report, stackSignature } from "./panels.js";
 
 const BANK_COLUMNS = 8;
 const BANK_PAGE_SIZE = 80;

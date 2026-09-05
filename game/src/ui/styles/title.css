@@ -45,21 +45,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-4);
   width: min(440px, 100%);
   max-height: 100%;
   overflow: auto;
-  padding: var(--space-5) var(--space-5) var(--space-4);
-  background: linear-gradient(180deg, rgba(26, 22, 16, 0.94), rgba(12, 10, 8, 0.96));
-  border: 1px solid rgba(0, 0, 0, 0.85);
+  padding: 32px var(--space-5) 24px;
+  background: linear-gradient(180deg, rgba(31, 27, 21, 0.98), rgba(16, 14, 11, 0.98));
+  border: 1px solid rgba(169, 144, 92, 0.4);
   border-radius: var(--radius-lg);
-  box-shadow: inset 0 0 0 1px rgba(212, 175, 88, 0.22), var(--shadow-panel);
+  box-shadow: inset 0 1px 0 rgba(255, 236, 193, 0.1), var(--shadow-panel);
   text-align: center;
 }
 
 .title__eyebrow {
   margin: 0;
-  color: var(--ink-faint);
+  color: var(--ink-dim);
 }
 
 /* The boot mark, one step down: the same letterform, no longer the only thing on screen. */
@@ -69,9 +69,9 @@
   font-size: 34px;
   font-weight: 600;
   line-height: 1.1;
-  letter-spacing: 0.34em;
+  letter-spacing: 0.24em;
   /* The tracking is trailing space on the last letter; the indent puts the word back on centre. */
-  text-indent: 0.34em;
+  text-indent: 0.24em;
   color: var(--accent);
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
 }
@@ -96,14 +96,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  width: min(240px, 100%);
+  width: min(272px, 100%);
   margin-top: var(--space-2);
 }
 
 /* Menu buttons are the biggest thing on the card because one of them is the one you always want. */
 .title__action {
   width: 100%;
-  min-height: 32px;
+  min-height: 38px;
   text-decoration: none;
   font-size: var(--size-sm);
   letter-spacing: 0.1em;
@@ -376,9 +376,9 @@
  * computed left edge, so narrowing them would push them off centre.
  */
 #ui-root.is-compact {
-  --size-xs: 9px;
-  --size-sm: 10px;
-  --size-md: 11px;
+  --size-xs: 10px;
+  --size-sm: 11px;
+  --size-md: 12px;
   --size-lg: 13px;
   --size-xl: 16px;
 
@@ -387,6 +387,8 @@
   --space-3: 8px;
   --space-4: 11px;
   --space-5: 15px;
+  --side-panel-width: 202px;
+  --dock-clearance: 72px;
 }
 
 /* ---- HUD clusters hug the edges harder */
@@ -400,19 +402,20 @@
 #ui-root.is-compact .bar--thin { height: 3px; }
 
 #ui-root.is-compact .dock { gap: 2px; }
-#ui-root.is-compact .dock__btn { width: 30px; height: 30px; }
-#ui-root.is-compact .dock__glyph { font-size: 14px; line-height: 14px; }
-#ui-root.is-compact .dock__key { font-size: 7px; line-height: 9px; }
+#ui-root.is-compact .dock__btn { width: 58px; height: 46px; grid-template-rows: 21px 15px; padding: 3px 4px; }
+#ui-root.is-compact .dock__glyph .ui-icon { width: 19px; height: 19px; }
+#ui-root.is-compact .dock__label { font-size: 10px; line-height: 15px; }
+#ui-root.is-compact .dock__key { font-size: 10px; line-height: 13px; }
 
 /* ---- controls and slots */
-#ui-root.is-compact .btn { min-height: 20px; padding: 1px 8px; }
-#ui-root.is-compact .panel__header { min-height: 20px; }
+#ui-root.is-compact .btn { min-height: 24px; padding: 2px 8px; }
+#ui-root.is-compact .panel__header { min-height: 32px; }
 #ui-root.is-compact .slot { min-width: 30px; }
 #ui-root.is-compact .slot-grid { gap: 2px; }
 #ui-root.is-compact .equip-grid {
-  grid-template-columns: repeat(3, 40px);
-  grid-template-rows: repeat(4, 40px);
-  gap: 2px;
+  grid-template-columns: repeat(3, 48px);
+  grid-template-rows: repeat(4, 48px);
+  gap: 4px;
 }
 #ui-root.is-compact .switch__track { width: 28px; height: 14px; }
 #ui-root.is-compact .switch__knob { width: 8px; height: 8px; }
@@ -421,16 +424,16 @@
 #ui-root.is-compact .volume { grid-template-columns: minmax(90px, 130px) 34px; min-width: 146px; }
 
 /* ---- the side slot narrows; centre-anchored panels stay put (they centre by transform) */
-#ui-root.is-compact #panel-inventory { max-width: 170px; }
-#ui-root.is-compact #panel-skills { max-width: 170px; }
-#ui-root.is-compact #panel-equipment { max-width: 170px; }
-#ui-root.is-compact #panel-quests { max-width: 170px; }
-#ui-root.is-compact #panel-settings { max-width: 320px; }
+#ui-root.is-compact #panel-inventory { max-width: var(--side-panel-width); }
+#ui-root.is-compact #panel-skills { max-width: var(--side-panel-width); }
+#ui-root.is-compact #panel-equipment { max-width: var(--side-panel-width); }
+#ui-root.is-compact #panel-quests { max-width: var(--side-panel-width); }
+#ui-root.is-compact #panel-settings { max-width: 400px; }
 
 /* ---- and the menu itself, since it is inside #ui-root too */
 #ui-root.is-compact .title__card { width: min(400px, 100%); }
 #ui-root.is-compact .title__mark { font-size: 28px; }
-#ui-root.is-compact .title__action { min-height: 28px; }
+#ui-root.is-compact .title__action { min-height: 32px; }
 
 /* ================================================================== smaller screens */
 
@@ -439,7 +442,7 @@
   .title__card { gap: var(--space-2); padding: var(--space-4) var(--space-4) var(--space-3); }
   .title__mark { font-size: 28px; }
   .title__actions { margin-top: var(--space-1); }
-  .title__action { min-height: 28px; }
+  .title__action { min-height: 34px; }
   .settings__row { padding: 3px 0; }
   .settings { gap: var(--space-2); }
 }

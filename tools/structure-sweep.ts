@@ -24,7 +24,7 @@ import {
 } from "../game/src/render/buildings.js";
 import { structureVariantCount } from "../game/src/render/structures/catalog.js";
 import { installTestDeadline } from "./lib/deadline.js";
-import { argValue, hasArg, repoRoot, safeName } from "./lib/paths.js";
+import { argValue, repoRoot, safeName } from "./lib/paths.js";
 import { startGameServer, type RunningGameServer } from "./lib/server.js";
 
 const READY_BUDGET_MS = 60_000;
@@ -101,8 +101,8 @@ const limit = Number(argValue(args, "--limit") ?? Number.POSITIVE_INFINITY);
 const angleFilter = (argValue(args, "--angles") ?? "").split(",").map((value) => value.trim()).filter(Boolean);
 const shotWidth = Number(argValue(args, "--width") ?? 1200);
 const shotHeight = Number(argValue(args, "--height") ?? 800);
-const headed = hasArg(args, "--headed");
-const asJpeg = !hasArg(args, "--png");
+const headed = args.includes("--headed");
+const asJpeg = !args.includes("--png");
 const jpegQuality = Number(argValue(args, "--quality") ?? 88);
 const deadlineMs = Number(argValue(args, "--deadline") ?? 3_600_000);
 
@@ -257,7 +257,7 @@ try {
 
   await page.goto(`${server.url}/index.html?mode=building`, { waitUntil: "load", timeout: READY_BUDGET_MS });
   await waitForLab(page);
-  if (!hasArg(args, "--keep-ui")) await page.addStyleTag({ content: HIDE_UI_CSS });
+  if (!args.includes("--keep-ui")) await page.addStyleTag({ content: HIDE_UI_CSS });
   await page.evaluate(() => {
     const api = window.__featureLab;
     if (!api) throw new Error("window.__featureLab is unavailable");
@@ -308,7 +308,7 @@ try {
     if (!apiPresent) {
       process.stdout.write("  (page reloaded; waiting for the lab and rebuilding)\n");
       await waitForLab(page);
-      if (!hasArg(args, "--keep-ui")) await page.addStyleTag({ content: HIDE_UI_CSS });
+      if (!args.includes("--keep-ui")) await page.addStyleTag({ content: HIDE_UI_CSS });
       await page.evaluate(() => {
         const api = window.__featureLab;
         api?.setPlayerVisible(false);

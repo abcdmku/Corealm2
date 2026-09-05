@@ -19,13 +19,14 @@ import type {
 import { EQUIP_SLOTS, SKILL_IDS, err, ok } from "../contracts.js";
 import type { GameState, Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
-import type { Navigation } from "../systems/navigation.js";
-import type { Movement } from "../systems/movement.js";
+import type { Navigation, RouteLeg } from "../systems/navigation.js";
+import { ARRIVE_EPSILON, ENTITY_ARRIVAL_ALLOWANCE, type Movement, type MovementPathPlan } from "../systems/movement.js";
 import { equipmentTotalsOf } from "../systems/equipment.js";
+import { agilityDurationOf, resolveShortcutEndpoints } from "../systems/agility.js";
 import type { SimClock } from "../core/time.js";
 import { levelProgress, xpToNextLevel } from "../content/xp.js";
 import { distanceXZ } from "../core/math.js";
-import { INTERACT_RANGE, PLAYER_SPEED } from "../app/config.js";
+import { INTERACT_RANGE } from "../app/config.js";
 import { content } from "../content/index.js";
 import { magicMaxHit } from "../systems/combat.js";
 import {
@@ -39,6 +40,8 @@ import {
  * wandering enemy would then bounce them between "in range" and "walk closer" for the whole fight.
  */
 const RANGED_APPROACH_SLACK = 1.5;
+/** Keeps short interactions inside reach even when movement finishes within its 0.35 m tolerance. */
+const INTERACTION_APPROACH_SLACK = 0.5;
 
 /**
  * One player-facing answer for a destination that neither the navmesh nor route graph can reach.
@@ -56,15 +59,9 @@ export interface PendingInteractionOutcome {
   result: Result<{ started: string }>;
 }
 
-/** Metres along a polyline, in XZ and Y alike — the same measure `Movement` walks. */
-function pathLengthOf(points: readonly Vec3[]): number {
-  let total = 0;
-  for (let i = 1; i < points.length; i += 1) {
-    const a = points[i - 1]!;
-    const b = points[i]!;
-    total += Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]);
-  }
-  return total;
+interface MovementCandidate extends MovementPathPlan {
+  /** Empty for a direct navmesh path. */
+  legs: RouteLeg[];
 }
 
 /** Total quantity of one item across inventory slots, ignoring the empty ones. */
@@ -134,7 +131,7 @@ export interface SystemHooks {
      * caster into melee before the first cast and the dispatcher's own SPELL_RANGE never came into
      * play. Optional, so a partially-registered hook still behaves exactly as before.
      */
-    rangeFor?(interaction: InteractionId): number;
+    rangeFor?(interaction: InteractionId, entityId?: EntityId): number;
   };
   loot?: {
     take(entityId: EntityId, stackIndex?: number): Result<LootTakeResult>;
@@ -311,9 +308,8 @@ export class CorealmGameApi implements GameApiContract {
    * `moveTo`, but allowed to stop short.
    *
    * `stopDistance` is metres of the tail to leave unwalked, which `Movement.startPath` implements by
-   * trimming the path. It exists for ranged interactions: a click on an enemy fifteen metres off
-   * used to path all the way ONTO the target and only then check range, so a caster jogged into
-   * melee to cast a spell that already had line of sight from where they were standing.
+   * trimming the path. Gathering and other short interactions need a reachable stand point
+   * outside the target's solid footprint; ranged interactions stop at their longer verb reach.
    */
   private walkTo(target: MoveTarget, stopDistance: number): Result<{ pathLength: number; etaMs: number }> {
     if (!this.movementCommandsEnabled) {
@@ -332,7 +328,7 @@ export class CorealmGameApi implements GameApiContract {
     } else if ("entityId" in target) {
       const entity = this.hooks.entities?.get(target.entityId);
       if (!entity) return err("NOT_FOUND", `No entity with id ${target.entityId}`, target.entityId);
-      destination = entity.position;
+      destination = entity.interactionPosition ?? entity.position;
       entityId = entity.id;
     } else {
       const node = this.nav.routeNode(target.locationId);
@@ -343,29 +339,36 @@ export class CorealmGameApi implements GameApiContract {
 
     if (!destination) return err("INVALID_ARGUMENT", "No destination resolved");
 
-    // The probe is silent on failure: it is a question, not an answer, and an agent waiting on
-    // `navigation.failed` must not hear it while the route below is walking the player out.
-    const started = this.movement.startPath(state, destination, entityId, this.clock.elapsedMs, {
-      quietFailure: true,
-      stopDistance,
-    });
-    if (started) {
+    // A new destination owns the arrival. `interact` installs its next action after this succeeds.
+    this.pending = null;
+
+    const candidate = this.selectMovementCandidate(state, destination, entityId, locationId, stopDistance);
+    if (candidate && candidate.legs.length > 0) {
+      const started = this.movement.startRoute(state, candidate.legs, this.clock.elapsedMs, entityId, {
+        stopDistance,
+        arrivalAllowance: entityId !== null ? ENTITY_ARRIVAL_ALLOWANCE : 0,
+      });
       this.store.markDirty();
-      return ok(started);
+      // Movement reports a failed route leg itself. Do not emit a second failure for that journey.
+      return started
+        ? ok({ pathLength: Math.round(candidate.pathLength * 100) / 100, etaMs: Math.round(candidate.etaMs) })
+        : err("NOT_REACHABLE", UNREACHABLE_DESTINATION_MESSAGE);
+    }
+    if (candidate) {
+      const started = this.movement.startPath(state, destination, entityId, this.clock.elapsedMs, {
+        quietFailure: true,
+        stopDistance,
+      });
+      if (started) {
+        this.store.markDirty();
+        return ok(started);
+      }
+    } else {
+      this.movement.replaceIntent(state, this.clock.elapsedMs);
     }
 
-    // One navmesh query is not the whole answer to "walk to that thing". A portal is a gameplay
-    // link the mesh cannot express, so from inside the Gravelmaw every overworld target is
-    // correctly NOT_REACHABLE on the mesh and still perfectly reachable on foot — you walk out
-    // through the mouth first. That is what a player does, so it is what this does.
-    const routed = this.startPlannedRoute(state, destination, entityId, locationId);
-    if (routed) {
-      this.store.markDirty();
-      return ok(routed);
-    }
-
-    // Both answers are no, so now the failure is real and it is emitted exactly as `startPath`
-    // used to emit it, because that is what the UI and every waiting agent already handle.
+    // Planning has no events. A destination neither candidate can reach fails exactly once here.
+    this.store.markDirty();
     this.eventBus.emit(
       "navigation.failed",
       { reason: "unreachable", to: destination },
@@ -376,18 +379,29 @@ export class CorealmGameApi implements GameApiContract {
   }
 
   /**
-   * The route fallback behind `moveTo`.
-   *
-   * `pathLength` counts only the walk legs, because a portal crossing and an Agility traversal are
-   * durations rather than distances and folding them in at walking pace would report metres nobody
-   * walks. `etaMs` is the whole plan, which is what a caller waiting on arrival actually needs.
+   * Compare executable walking time and crossing durations before starting either journey.
+   * The graph's authored costs choose a candidate; real prepared paths decide whether it saves time.
    */
-  private startPlannedRoute(
+  private selectMovementCandidate(
     state: GameState,
     destination: Vec3,
     entityId: EntityId | null,
     locationId: string | null,
-  ): { pathLength: number; etaMs: number } | null {
+    stopDistance = 0,
+  ): MovementCandidate | null {
+    const direct = this.movement.planPath(state.player.position, destination, entityId, { stopDistance });
+    const directCandidate: MovementCandidate | null = direct ? { ...direct, legs: [] } : null;
+    const routed = this.planGraphCandidate(state, destination, entityId, locationId, stopDistance);
+    return routed && (!directCandidate || routed.etaMs < directCandidate.etaMs) ? routed : directCandidate;
+  }
+
+  private planGraphCandidate(
+    state: GameState,
+    destination: Vec3,
+    entityId: EntityId | null,
+    locationId: string | null,
+    stopDistance: number,
+  ): MovementCandidate | null {
     const agility = state.skills.agility.level;
     const plan = locationId !== null
       ? this.nav.planRouteVia(state.player.position, { locationId }, agility)
@@ -397,21 +411,72 @@ export class CorealmGameApi implements GameApiContract {
         agility,
       );
     if (!plan || plan.legs.length === 0) return null;
-    if (!this.movement.startRoute(state, plan.legs, this.clock.elapsedMs, entityId)) return null;
+    const legs = plan.legs.map((leg) => ({ ...leg }));
+    const last = legs.at(-1)!;
+    // The graph omits target tails up to 0.5 m. Price and finish at the requested destination;
+    // an interaction's stand radius is also measured around that point, rather than its anchor.
+    if (last.kind === "walk") {
+      legs[legs.length - 1] = { ...last, to: destination, toId: entityId ?? last.toId };
+    } else if (distanceXZ(last.to, destination) > 0.001) {
+      legs.push({
+        kind: "walk", from: last.to, to: destination, fromId: last.toId,
+        toId: entityId ?? last.toId, cost: 0,
+      });
+    }
+    const points: Vec3[] = [[...state.player.position] as Vec3];
+    let cursor = state.player.position;
+    let arrivalTolerance = 0;
+    let pathLength = 0;
+    let etaMs = 0;
+    for (const [index, leg] of legs.entries()) {
+      if (leg.kind === "walk") {
+        const prepared = this.movement.planPath(cursor, leg.to, null, {
+          arrivalAllowance: index === legs.length - 1 && entityId === null ? 0 : ENTITY_ARRIVAL_ALLOWANCE,
+          stopDistance: index === legs.length - 1 ? stopDistance : 0,
+        });
+        if (!prepared) return null;
+        leg.cost = prepared.etaMs / 1000;
+        leg.path = prepared.points;
+        pathLength += prepared.pathLength;
+        etaMs += prepared.etaMs;
+        points.push(...prepared.points.map((point) => [...point] as Vec3));
+        cursor = prepared.points.at(-1)!;
+        arrivalTolerance = ARRIVE_EPSILON;
+        continue;
+      }
 
-    const walked = plan.legs
-      .filter((leg) => leg.kind === "walk")
-      .reduce((sum, leg) => sum + leg.cost, 0) * PLAYER_SPEED;
-    return {
-      pathLength: Math.round(walked * 100) / 100,
-      etaMs: Math.round(plan.cost * 1000),
-    };
+      let durationMs: number;
+      if (leg.kind === "shortcut") {
+        const entity = leg.obstacleId ? this.hooks.entities?.get(leg.obstacleId) : undefined;
+        const obstacle = entity?.obstacle;
+        if (!entity || !obstacle || agility < obstacle.reqLevel || agility < (leg.reqLevel ?? 0)) return null;
+        if (Object.entries(entity.requirements ?? {}).some(([skill, level]) => state.skills[skill as SkillId].level < level)) return null;
+        const verb = entity.interactions.find((interaction) => interaction === "climb" || interaction === "vault" || interaction === "enter");
+        if (!verb) return null;
+        const endpoints = resolveShortcutEndpoints(entity, leg.from, leg.to, this.nav);
+        if (!endpoints) return null;
+        const reach = this.hooks.interactions?.rangeFor?.(verb, entity.id) ?? INTERACT_RANGE;
+        // A walk can finish slightly before its prepared endpoint; crossings place the player exactly.
+        if (distanceXZ(cursor, endpoints.entryPosition) + arrivalTolerance > reach) return null;
+        leg.from = endpoints.entryPosition;
+        leg.to = endpoints.exitPosition;
+        durationMs = agilityDurationOf(entity);
+        leg.reqLevel = obstacle.reqLevel;
+      } else {
+        durationMs = leg.durationMs ?? 0;
+      }
+      leg.durationMs = durationMs;
+      leg.cost = durationMs / 1000;
+      etaMs += durationMs;
+      cursor = this.nav.closestPoint(leg.to) ?? leg.to;
+      arrivalTolerance = 0;
+      points.push([...cursor] as Vec3);
+    }
+    return { points, pathLength, etaMs, legs };
   }
 
   /**
-   * The read-only twin of `walkTo`: the same destination resolution and the same two answers
-   * (navmesh first, route graph second), returned instead of started. Nothing here touches the
-   * store or the bus, so an assistant can draw a route as often as it likes.
+   * The read-only twin of `walkTo`, using the same candidate selection without starting movement.
    */
   planPath(target: MoveTarget): Result<PathPlan> {
     if (!this.nav.isReady()) return err("UNAVAILABLE", "Navigation is not ready");
@@ -425,7 +490,7 @@ export class CorealmGameApi implements GameApiContract {
     } else if ("entityId" in target) {
       const entity = this.hooks.entities?.get(target.entityId);
       if (!entity) return err("NOT_FOUND", `No entity with id ${target.entityId}`, target.entityId);
-      destination = entity.position;
+      destination = entity.interactionPosition ?? entity.position;
       entityId = entity.id;
     } else {
       const node = this.nav.routeNode(target.locationId);
@@ -434,41 +499,13 @@ export class CorealmGameApi implements GameApiContract {
       locationId = target.locationId;
     }
 
-    const from = state.player.position;
-    const direct = this.nav.findPathDetailed(from, destination);
-    if (direct && !direct.partial) {
-      const length = pathLengthOf(direct.path);
-      return ok({
-        points: direct.path.map((point) => [...point] as unknown as Vec3),
-        pathLength: Math.round(length * 100) / 100,
-        etaMs: Math.round((length / PLAYER_SPEED) * 1000),
-        legs: [],
-      });
-    }
-
-    const agility = state.skills.agility.level;
-    const plan = locationId !== null
-      ? this.nav.planRouteVia(from, { locationId }, agility)
-      : this.nav.planRouteVia(from, entityId !== null ? { position: destination, id: entityId } : { position: destination }, agility);
-    if (!plan || plan.legs.length === 0) return err("NOT_REACHABLE", UNREACHABLE_DESTINATION_MESSAGE);
-
-    const points: Vec3[] = [[...from] as unknown as Vec3];
-    let walked = 0;
-    for (const leg of plan.legs) {
-      if (leg.kind === "walk") {
-        const detailed = this.nav.findPathDetailed(leg.from, leg.to);
-        const segment = detailed && !detailed.partial ? detailed.path : [leg.from, leg.to];
-        for (const point of segment) points.push([...point] as unknown as Vec3);
-        walked += leg.cost * PLAYER_SPEED;
-      } else {
-        points.push([...leg.to] as unknown as Vec3);
-      }
-    }
+    const candidate = this.selectMovementCandidate(state, destination, entityId, locationId);
+    if (!candidate) return err("NOT_REACHABLE", UNREACHABLE_DESTINATION_MESSAGE);
     return ok({
-      points,
-      pathLength: Math.round(walked * 100) / 100,
-      etaMs: Math.round(plan.cost * 1000),
-      legs: plan.legs.map((leg) => ({
+      points: candidate.points.map((point) => [...point] as Vec3),
+      pathLength: Math.round(candidate.pathLength * 100) / 100,
+      etaMs: Math.round(candidate.etaMs),
+      legs: candidate.legs.map((leg) => ({
         kind: leg.kind,
         fromId: leg.fromId,
         toId: leg.toId,
@@ -481,11 +518,14 @@ export class CorealmGameApi implements GameApiContract {
     const state = this.store.get();
     const stopped: string[] = [];
     this.pending = null;
+    const activityBeforeMovement = state.activity;
     if (this.movement.stop(state, this.clock.elapsedMs, "cancelled")) stopped.push("navigation");
     if (state.activity) {
       this.eventBus.emit("activity.stopped", { kind: state.activity.kind, reason: "cancelled" }, undefined, this.clock.elapsedMs);
       stopped.push(state.activity.kind);
       state.activity = null;
+    } else if (activityBeforeMovement) {
+      stopped.push(activityBeforeMovement.kind);
     }
     if (state.combat.targetId) {
       this.eventBus.emit("combat.ended", { reason: "disengaged" }, state.combat.targetId, this.clock.elapsedMs);
@@ -508,22 +548,24 @@ export class CorealmGameApi implements GameApiContract {
     if (!entity.interactions.includes(interaction)) {
       return err("INVALID_ARGUMENT", `${entity.name} has no "${interaction}" interaction`, entityId);
     }
+    if (state.activity?.kind === "traversing" && state.activity.obstacleId === entityId
+      && (interaction === "climb" || interaction === "vault" || interaction === "enter")) {
+      return ok({ started: `already on ${entity.name}` });
+    }
 
     // The VERB's reach, not one constant for all of them. A staff attack is allowed to start from
     // nine metres; a chop still needs the player at the tree.
-    const reach = this.hooks.interactions?.rangeFor?.(interaction) ?? INTERACT_RANGE;
-    const gap = distanceXZ(state.player.position, entity.position);
+    const reach = this.hooks.interactions?.rangeFor?.(interaction, entityId) ?? INTERACT_RANGE;
+    const gap = distanceXZ(state.player.position, entity.interactionPosition ?? entity.position);
     if (gap > reach) {
       // One click walks into range and THEN acts. The interaction is remembered and re-fired by
       // `resumePending` when navigation completes.
       //
-      // Walk only as far as the verb needs. A short-reach verb still walks onto its target — you
-      // chop a tree from arm's length — but anything with real reach stops at the edge of it, less
-      // a metre and a half of slack so a target that drifts a step does not immediately fall out of
-      // range and restart the approach.
+      // Leave a stand point outside the target instead of asking navigation to enter its trunk,
+      // rock or station. Ranged verbs keep more slack for targets that move during the approach.
       const moved = this.walkTo(
         { entityId },
-        reach > INTERACT_RANGE ? Math.max(0, reach - RANGED_APPROACH_SLACK) : 0,
+        Math.max(0, reach - (reach > INTERACT_RANGE ? RANGED_APPROACH_SLACK : INTERACTION_APPROACH_SLACK)),
       );
       if (!moved.ok) return moved as Result<{ started: string }>;
       this.pending = {
@@ -539,6 +581,7 @@ export class CorealmGameApi implements GameApiContract {
     this.pending = null;
     const runner = this.hooks.interactions;
     if (!runner) return err("UNAVAILABLE", "Interaction system is not available yet");
+    if (this.movement.replaceIntent(state, this.clock.elapsedMs)) this.store.markDirty();
     return runner.run(entityId, interaction);
   }
 
@@ -823,8 +866,8 @@ export class CorealmGameApi implements GameApiContract {
     //
     // The 1.6 slack is kept as-is. It is a "has the world moved too much" guard, not a range check;
     // `world/interactions.ts` applies the real range immediately below.
-    const reach = this.hooks.interactions?.rangeFor?.(pending.interaction) ?? INTERACT_RANGE;
-    const gap = distanceXZ(this.store.get().player.position, entity.position);
+    const reach = this.hooks.interactions?.rangeFor?.(pending.interaction, entity.id) ?? INTERACT_RANGE;
+    const gap = distanceXZ(this.store.get().player.position, entity.interactionPosition ?? entity.position);
     if (gap > reach * 1.6) {
       return this.publishPendingResult(pending, err(
         "OUT_OF_RANGE",

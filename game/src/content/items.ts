@@ -22,13 +22,14 @@
 import type { EquipSlot, ItemDef, ItemStack } from "../contracts.js";
 import { healAmount, toolBonus } from "./index.js";
 import { EQUIPMENT, MAGIC_ORBS } from "./equipment.js";
+import { CREATURE_LOOT_ITEMS } from "./creatureLoot.js";
 
 // ------------------------------------------------------------------------------ currency
 
 const CURRENCY: readonly ItemDef[] = [
   {
     id: "marks", name: "Marks", tier: 1,
-    description: "Stamped March Company scrip. Every settlement between here and the moor takes it.",
+    description: "Stamped Trade Company scrip. Every settlement between here and the moor takes it.",
     stackable: true, value: 1, category: "currency",
   },
 ];
@@ -39,74 +40,74 @@ const CURRENCY: readonly ItemDef[] = [
 const RESOURCE_ITEMS: readonly ItemDef[] = [
   // mining
   {
-    id: "grithe_ore", name: "Grithe Ore", tier: 1,
+    id: "grithe_ore", name: "Copper Ore", tier: 1,
     description: "Grey ore, streaked rust-red. Smelts easily, which is the only nice thing about it.",
     stackable: false, value: 12, category: "resource",
   },
   {
-    id: "march_stone", name: "March Stone", tier: 1,
-    description: "Crumbly limestone from the Bracken Pit. Every furnace on the frontier runs on it as flux.",
+    id: "march_stone", name: "Limestone", tier: 1,
+    description: "Crumbly limestone from the Copper Pit. Every furnace on the frontier runs on it as flux.",
     stackable: false, value: 5, category: "resource",
   },
   {
-    id: "corven_ore", name: "Corven Ore", tier: 5,
+    id: "corven_ore", name: "Iron Ore", tier: 5,
     description: "Dark deepwood ore. Heavier than it looks and slightly oily on the break.",
     stackable: false, value: 42, category: "resource",
   },
   {
-    id: "kaldite_ore", name: "Kaldite Ore", tier: 10,
-    description: "Black Karrowmoor ore with a blue fracture. It takes a furnace twice to give anything up.",
+    id: "kaldite_ore", name: "Cobalt Ore", tier: 10,
+    description: "Black Highlands ore with a blue fracture. It takes a furnace twice to give anything up.",
     stackable: false, value: 95, category: "resource",
   },
   {
-    id: "emberite_ore", name: "Emberite Ore", tier: 20,
-    description: "Rust-orange Kilnhalt ore, warm off the seam. It smells faintly of a banked fire.",
+    id: "emberite_ore", name: "Titanium Ore", tier: 20,
+    description: "Rust-orange Ashlands ore, warm off the seam. It smells faintly of a banked fire.",
     stackable: false, value: 210, category: "resource",
   },
   {
-    id: "kilnstone", name: "Kilnstone", tier: 20,
-    description: "Grey-black flux off the Clinker Rows. Emberite refuses to run without it.",
+    id: "kilnstone", name: "Flux Stone", tier: 20,
+    description: "Grey-black flux off the Quarry Seams. Titanium refuses to run without it.",
     stackable: false, value: 12, category: "resource",
   },
   // woodcutting
   {
-    id: "palewood_log", name: "Palewood Log", tier: 1,
+    id: "palewood_log", name: "Oak Log", tier: 1,
     description: "Pale, straight-grained, and dries in a day. The march is short of everything except this.",
     stackable: false, value: 10, category: "resource",
   },
   {
-    id: "duskoak_log", name: "Duskoak Log", tier: 5,
-    description: "Close-grained oak from under the Vellenwood canopy. Dense enough to sink.",
+    id: "duskoak_log", name: "Maple Log", tier: 5,
+    description: "Close-grained maple from the Woodlands canopy. Seasoned for strong handles and shields.",
     stackable: false, value: 38, category: "resource",
   },
   {
-    id: "cairnpine_log", name: "Cairnpine Log", tier: 10,
-    description: "Ridge pine, resin-heavy and stubborn. It holds a Kaldite ferrule without splitting.",
+    id: "cairnpine_log", name: "Pine Log", tier: 10,
+    description: "Ridge pine, resin-heavy and stubborn. It holds a Cobalt ferrule without splitting.",
     stackable: false, value: 88, category: "resource",
   },
   {
-    id: "cinderpine_log", name: "Cinderpine Log", tier: 20,
-    description: "Foothill pine, bark scorched black and heartwood sound. It burns long and splits clean.",
+    id: "cinderpine_log", name: "Cedar Log", tier: 20,
+    description: "Aromatic cedar from the foothills. Its straight grain splits cleanly into shafts and kindling.",
     stackable: false, value: 195, category: "resource",
   },
   // fishing (raw, inedible until cooked)
   {
-    id: "silt_minnow", name: "Silt Minnow", tier: 1,
-    description: "A palm-sized fish out of the Redsill shallows. Raw, it is mostly bone.",
+    id: "silt_minnow", name: "Minnow", tier: 1,
+    description: "A palm-sized fish out of the River shallows. Raw, it is mostly bone.",
     stackable: false, value: 14, category: "resource",
   },
   {
-    id: "bramble_trout", name: "Bramble Trout", tier: 5,
+    id: "bramble_trout", name: "Trout", tier: 5,
     description: "Black-backed trout from the Blackwater pools. Fights the line the whole way in.",
     stackable: false, value: 44, category: "resource",
   },
   {
-    id: "cragfin", name: "Cragfin", tier: 10,
-    description: "A slab-sided tarn fish with a spined dorsal. Highcairn eats little else.",
+    id: "cragfin", name: "Perch", tier: 10,
+    description: "A slab-sided tarn fish with a spined dorsal. Hillcrest eats little else.",
     stackable: false, value: 96, category: "resource",
   },
   {
-    id: "ashfin", name: "Ashfin", tier: 20,
+    id: "ashfin", name: "Bass", tier: 20,
     description: "A dark-finned spring fish that thrives where the water runs warm. Oily and rich.",
     stackable: false, value: 215, category: "resource",
   },
@@ -116,23 +117,23 @@ const RESOURCE_ITEMS: readonly ItemDef[] = [
 
 const BARS: readonly ItemDef[] = [
   {
-    id: "grithe_bar", name: "Grithe Bar", tier: 1,
+    id: "grithe_bar", name: "Copper Bar", tier: 1,
     description: "One ore, one stone, one bar. The first thing anybody makes.",
     stackable: false, value: 30, category: "bar",
   },
   {
-    id: "corven_bar", name: "Corven Bar", tier: 5,
-    description: "Dark and dense. Rings a full tone lower than Grithe on the anvil.",
+    id: "corven_bar", name: "Iron Bar", tier: 5,
+    description: "Dark and dense. Rings a full tone lower than Copper on the anvil.",
     stackable: false, value: 110, category: "bar",
   },
   {
-    id: "kaldite_bar", name: "Kaldite Bar", tier: 10,
-    description: "Black with a blue sheen. Holds an edge through cairn stone, which is why Highcairn exists.",
+    id: "kaldite_bar", name: "Cobalt Bar", tier: 10,
+    description: "Black with a blue sheen. Holds an edge through cairn stone, which is why Hillcrest exists.",
     stackable: false, value: 250, category: "bar",
   },
   {
-    id: "emberite_bar", name: "Emberite Bar", tier: 20,
-    description: "Three ores and two kilnstones a bar, and it comes off the furnace still glowing at the core.",
+    id: "emberite_bar", name: "Titanium Bar", tier: 20,
+    description: "Three ores and two flux stones a bar, and it comes off the furnace still glowing at the core.",
     stackable: false, value: 760, category: "bar",
   },
 ];
@@ -143,65 +144,65 @@ const BARS: readonly ItemDef[] = [
 const COMPONENTS: readonly ItemDef[] = [
   // gems, the secondary drop off every ore node
   {
-    id: "pale_quartz", name: "Pale Quartz", tier: 1,
-    description: "A milky chip out of a Grithe seam. Holds a charge just long enough to be useful.",
+    id: "pale_quartz", name: "Quartz", tier: 1,
+    description: "A milky chip out of a Copper seam. Holds a charge just long enough to be useful.",
     stackable: true, value: 20, category: "component",
   },
   {
-    id: "vell_amber", name: "Vell Amber", tier: 5,
+    id: "vell_amber", name: "Amber", tier: 5,
     description: "Fossil resin from under the deepwood. Warm in the hand and nobody knows why.",
     stackable: true, value: 70, category: "component",
   },
   {
-    id: "cairn_garnet", name: "Cairn Garnet", tier: 10,
-    description: "Deep red, cut square by the rock itself. Highcairn jewellers cage it in Kaldite.",
+    id: "cairn_garnet", name: "Garnet", tier: 10,
+    description: "Deep red, cut square by the rock itself. Hillcrest jewellers cage it in Cobalt.",
     stackable: true, value: 160, category: "component",
   },
   {
     id: "fire_opal", name: "Fire Opal", tier: 20,
-    description: "An orange stone with a live spark in it. Emberfast cages them in Emberite claws.",
+    description: "An orange stone with a live spark in it. Ashford cages them in Titanium claws.",
     stackable: true, value: 350, category: "component",
   },
   // shafts, the fletching intermediate
   {
-    id: "palewood_shaft", name: "Palewood Shaft", tier: 1,
-    description: "A shaved length of palewood. Handle, haft, or half a staff.",
+    id: "palewood_shaft", name: "Oak Shaft", tier: 1,
+    description: "A shaved length of oak. Handle, haft, or half a staff.",
     stackable: true, value: 4, category: "component",
   },
   {
-    id: "duskoak_shaft", name: "Duskoak Shaft", tier: 5,
-    description: "Duskoak, turned down and oiled. Will not warp in Vellenwood damp.",
+    id: "duskoak_shaft", name: "Maple Shaft", tier: 5,
+    description: "Maple, turned down and oiled. Will not warp in Woodlands damp.",
     stackable: true, value: 14, category: "component",
   },
   {
-    id: "cairnpine_shaft", name: "Cairnpine Shaft", tier: 10,
-    description: "Resinous, springy, and heavy. Takes a Kaldite ferrule without splitting.",
+    id: "cairnpine_shaft", name: "Pine Shaft", tier: 10,
+    description: "Resinous, springy, and heavy. Takes a Cobalt ferrule without splitting.",
     stackable: true, value: 32, category: "component",
   },
   {
-    id: "cinderpine_shaft", name: "Cinderpine Shaft", tier: 20,
-    description: "Scorch-hardened pine, shaved true. It keeps its spring in the kiln heat.",
+    id: "cinderpine_shaft", name: "Cedar Shaft", tier: 20,
+    description: "A straight cedar shaft, shaped and seasoned for rods and staves.",
     stackable: true, value: 70, category: "component",
   },
   // handles, the shared fletching input for metal weapons and gathering tools
   {
-    id: "palewood_handle", name: "Palewood Handle", tier: 1,
-    description: "A short palewood grip, shaped for a Grithe tang or tool head.",
+    id: "palewood_handle", name: "Oak Handle", tier: 1,
+    description: "A short oak grip, shaped for a Copper tang or tool head.",
     stackable: true, value: 6, category: "component",
   },
   {
-    id: "duskoak_handle", name: "Duskoak Handle", tier: 5,
-    description: "Oiled duskoak with enough weight to balance a Corven head.",
+    id: "duskoak_handle", name: "Maple Handle", tier: 5,
+    description: "Oiled maple with enough weight to balance an Iron head.",
     stackable: true, value: 23, category: "component",
   },
   {
-    id: "cairnpine_handle", name: "Cairnpine Handle", tier: 10,
-    description: "Cairnpine shaped around the grain so a Kaldite tang will not split it.",
+    id: "cairnpine_handle", name: "Pine Handle", tier: 10,
+    description: "Pine shaped around the grain so a Cobalt tang will not split it.",
     stackable: true, value: 53, category: "component",
   },
   {
-    id: "cinderpine_handle", name: "Cinderpine Handle", tier: 20,
-    description: "A charred-and-oiled grip that an Emberite tang seats into without a wedge.",
+    id: "cinderpine_handle", name: "Cedar Handle", tier: 20,
+    description: "An oiled cedar grip shaped to hold a Titanium tang securely.",
     stackable: true, value: 117, category: "component",
   },
   // Hides, the crafting input for the whole magic line and every fishing rod.
@@ -213,22 +214,22 @@ const COMPONENTS: readonly ItemDef[] = [
   // icon table moved with it.
   {
     id: "coarse_hide", name: "Coarse Hide", tier: 1,
-    description: "Goat and coney skins, scraped and salted together. Stiff until you work it.",
+    description: "Goat and rabbit skins, scraped and salted together. Stiff until you work it.",
     stackable: false, value: 16, category: "component",
   },
   {
-    id: "bramble_hide", name: "Bramble Hide", tier: 5,
-    description: "Deepwood deer and hog, thorns still in the seam. Nothing in Vellenwood tans clean.",
+    id: "bramble_hide", name: "Thick Hide", tier: 5,
+    description: "Deepwood deer and hog, thorns still in the seam. Nothing in Woodlands tans clean.",
     stackable: false, value: 55, category: "component",
   },
   {
-    id: "cairn_pelt", name: "Cairn Pelt", tier: 10,
+    id: "cairn_pelt", name: "Fur Pelt", tier: 10,
     description: "Winter coat off something that lived above the treeline. Takes no dye and does not tear.",
     stackable: false, value: 130, category: "component",
   },
   {
-    id: "charhide", name: "Charhide", tier: 20,
-    description: "Foothill hide seared grey at the edges. Sheds heat the way cairn pelt sheds cold.",
+    id: "charhide", name: "Heavy Hide", tier: 20,
+    description: "Foothill hide seared grey at the edges. Sheds heat the way fur pelt sheds cold.",
     stackable: false, value: 290, category: "component",
   },
 ];
@@ -238,22 +239,22 @@ const COMPONENTS: readonly ItemDef[] = [
 const ESSENCES: readonly ItemDef[] = [
   {
     id: "air_essence", name: "Air Essence", tier: 1,
-    description: "A stackable charge drawn from the distant Fallowmarch cache.",
+    description: "A stackable charge drawn from the distant Farmland cache.",
     stackable: true, value: 9, category: "resource",
   },
   {
     id: "earth_essence", name: "Earth Essence", tier: 5,
-    description: "Dense green-brown essence mined beneath the Vellenwood roots.",
+    description: "Dense green-brown essence mined beneath the Woodlands roots.",
     stackable: true, value: 24, category: "resource",
   },
   {
     id: "water_essence", name: "Water Essence", tier: 10,
-    description: "Cold blue essence gathered from the far Karrowmoor cache.",
+    description: "Cold blue essence gathered from the far Highlands cache.",
     stackable: true, value: 55, category: "resource",
   },
   {
     id: "fire_essence", name: "Fire Essence", tier: 20,
-    description: "A hot orange charge mined at the Kilnhalt altar ruins. It never quite cools.",
+    description: "A hot orange charge mined at the Ashlands altar ruins. It never quite cools.",
     stackable: true, value: 120, category: "resource",
   },
 ];
@@ -286,16 +287,16 @@ const TROPHIES: readonly ItemDef[] = [
   },
   {
     id: "curl_horn", name: "Curled Horn", tier: 1,
-    description: "One horn off an Open March billy. Hollow, and loud if you know how to blow it.",
+    description: "One horn from a goat. Hollow, and loud if you know how to blow it.",
     stackable: false, value: 22, category: "component",
   },
   {
     id: "ox_horn", name: "Ox Horn", tier: 1,
-    description: "Short, thick and scarred at the base. Coldbrace turns them into cups and lamp horn.",
+    description: "Short, thick and scarred at the base. Millfield turns them into cups and lamp horn.",
     stackable: false, value: 26, category: "component",
   },
   {
-    id: "coney_foot", name: "Coney Foot", tier: 1,
+    id: "coney_foot", name: "Rabbit Foot", tier: 1,
     description: "Carried for luck by everyone who has ever admitted the moor frightens them.",
     stackable: true, value: 18, category: "component",
   },
@@ -306,7 +307,7 @@ const TROPHIES: readonly ItemDef[] = [
   },
   {
     id: "viper_skin", name: "Viper Skin", tier: 1,
-    description: "Shed whole and inside out. Grithe fletchers back their nocks with it.",
+    description: "Shed whole and inside out. Copper fletchers back their nocks with it.",
     stackable: false, value: 24, category: "component",
   },
 
@@ -318,7 +319,7 @@ const TROPHIES: readonly ItemDef[] = [
   },
   {
     id: "stag_antler", name: "Stag Antler", tier: 5,
-    description: "Six points of Duskoak hart. Cut down, it makes every knife handle in Rootfall.",
+    description: "A six-point stag antler. Cut and polished, it makes a strong knife handle.",
     stackable: false, value: 78, category: "component",
   },
   {
@@ -327,7 +328,7 @@ const TROPHIES: readonly ItemDef[] = [
     stackable: false, value: 72, category: "component",
   },
   {
-    id: "coyote_fang", name: "Coyote Fang", tier: 5,
+    id: "coyote_fang", name: "Wolf Fang", tier: 5,
     description: "Long in the root, which is the part nobody expects until they pull one.",
     stackable: true, value: 58, category: "component",
   },
@@ -335,12 +336,12 @@ const TROPHIES: readonly ItemDef[] = [
   // tier 10, Karrowmoor and Gravelmaw
   {
     id: "bear_claw", name: "Bear Claw", tier: 10,
-    description: "Longer than a finger and blunt from stone. Highcairn hangs them over doorways.",
+    description: "Longer than a finger and blunt from stone. Hillcrest hangs them over doorways.",
     stackable: true, value: 150, category: "component",
   },
   {
     id: "boar_bristle", name: "Boar Bristle", tier: 10,
-    description: "A fistful of black wire off a scree boar's shoulder. It will not lie flat.",
+    description: "A fistful of black wire off a wild boar's shoulder. It will not lie flat.",
     stackable: true, value: 96, category: "component",
   },
   {
@@ -355,7 +356,7 @@ const TROPHIES: readonly ItemDef[] = [
   },
   {
     id: "rat_tail", name: "Rat Tail", tier: 10,
-    description: "Gravelmaw pays a bounty per tail. Nobody in Highcairn asks what the count is for.",
+    description: "Stone Cavern pays a bounty per tail. Nobody in Hillcrest asks what the count is for.",
     stackable: true, value: 84, category: "component",
   },
   {
@@ -365,29 +366,29 @@ const TROPHIES: readonly ItemDef[] = [
   },
   {
     id: "crab_claw", name: "Crab Claw", tier: 10,
-    description: "Off a sump crab, and big enough to have taken a pick handle in half.",
+    description: "Off a giant crab, and big enough to have taken a pick handle in half.",
     stackable: false, value: 158, category: "component",
   },
 
   // tier 20, Kilnhalt
   {
-    id: "ashback_claw", name: "Ashback Claw", tier: 20,
-    description: "Grey to the root, like the bear it came off. Emberfast doors hang two, crossed.",
+    id: "ashback_claw", name: "Dire Bear Claw", tier: 20,
+    description: "Grey to the root, like the bear it came off. Ashford doors hang two, crossed.",
     stackable: true, value: 320, category: "component",
   },
   {
-    id: "cinder_tusk", name: "Cinder Tusk", tier: 20,
+    id: "cinder_tusk", name: "Dire Boar Tusk", tier: 20,
     description: "A boar tusk stained kiln-black. The point still goes through boot leather.",
     stackable: false, value: 300, category: "component",
   },
   {
-    id: "emberhorn", name: "Emberhorn", tier: 20,
+    id: "emberhorn", name: "Large Ibex Horn", tier: 20,
     description: "Ridged ibex horn with a red cast the foothill dust never washes out of.",
     stackable: false, value: 360, category: "component",
   },
   {
-    id: "kiln_fang", name: "Kiln Fang", tier: 20,
-    description: "An adder fang the colour of cooling slag. Hot to the touch for a day after the kill.",
+    id: "kiln_fang", name: "Giant Viper Fang", tier: 20,
+    description: "An viper fang the colour of cooling slag. Hot to the touch for a day after the kill.",
     stackable: true, value: 310, category: "component",
   },
 ];
@@ -409,7 +410,7 @@ const TROPHIES: readonly ItemDef[] = [
 const GAME_MEAT: readonly ItemDef[] = [
   {
     id: "raw_game_meat", name: "Raw Game Meat", tier: 1,
-    description: "Whatever the Fallowmarch was carrying. Fowl, goat or coney, jointed the same way.",
+    description: "Whatever the Farmland was carrying. Fowl, goat or rabbit, jointed the same way.",
     stackable: false, value: 12, category: "resource",
   },
   {
@@ -429,7 +430,7 @@ const GAME_MEAT: readonly ItemDef[] = [
   },
   {
     id: "roast_venison", name: "Roast Venison", tier: 5,
-    description: "Seared hard and rested. The one meal in Rootfall nobody complains about.",
+    description: "Seared hard and rested. The one meal in Oakwood nobody complains about.",
     stackable: false, value: 66, category: "food", food: { healAmount: healAmount(5) },
   },
   {
@@ -444,7 +445,7 @@ const GAME_MEAT: readonly ItemDef[] = [
   },
   {
     id: "roast_haunch", name: "Roast Haunch", tier: 10,
-    description: "Four hours over Highcairn coals. It is a meal and most of a day's carrying.",
+    description: "Four hours over Hillcrest coals. It is a meal and most of a day's carrying.",
     stackable: false, value: 118, category: "food", food: { healAmount: healAmount(10) },
   },
   {
@@ -453,18 +454,18 @@ const GAME_MEAT: readonly ItemDef[] = [
     stackable: false, value: 1, category: "food",
   },
   {
-    id: "raw_ember_haunch", name: "Raw Ember Haunch", tier: 20,
+    id: "raw_ember_haunch", name: "Raw Prime Haunch", tier: 20,
     description: "A hind quarter off a foothill beast, marbled from a life spent on warm ground.",
     stackable: false, value: 190, category: "resource",
   },
   {
-    id: "roast_ember_haunch", name: "Roast Ember Haunch", tier: 20,
-    description: "Cooked slow over cinderpine coals. Emberfast calls it a wage, not a meal.",
+    id: "roast_ember_haunch", name: "Roast Prime Haunch", tier: 20,
+    description: "Cooked slow over cedar coals. Ashford calls it a wage, not a meal.",
     stackable: false, value: 255, category: "food", food: { healAmount: healAmount(20) },
   },
   {
-    id: "burnt_ember_haunch", name: "Burnt Ember Haunch", tier: 20,
-    description: "The one place in Kilnhalt where more fire was not the answer.",
+    id: "burnt_ember_haunch", name: "Burnt Prime Haunch", tier: 20,
+    description: "The one place in Ashlands where more fire was not the answer.",
     stackable: false, value: 1, category: "food",
   },
 ];
@@ -487,7 +488,7 @@ const FOOD: readonly ItemDef[] = [
   },
   {
     id: "seared_trout", name: "Seared Trout", tier: 5,
-    description: "Split, salted, and laid on the stone. Rootfall's entire cuisine.",
+    description: "Split, salted, and laid on the stone. Oakwood's entire cuisine.",
     stackable: false, value: 62, category: "food", food: { healAmount: healAmount(5) },
   },
   {
@@ -496,22 +497,22 @@ const FOOD: readonly ItemDef[] = [
     stackable: false, value: 1, category: "food",
   },
   {
-    id: "seared_cragfin", name: "Seared Cragfin", tier: 10,
-    description: "The reason anyone survives Ordrun's floor. Highcairn will not sell you fewer than five.",
+    id: "seared_cragfin", name: "Seared Perch", tier: 10,
+    description: "The reason anyone survives Armored Rhino's floor. Hillcrest will not sell you fewer than five.",
     stackable: false, value: 70, category: "food", food: { healAmount: healAmount(10) },
   },
   {
-    id: "burnt_cragfin", name: "Burnt Cragfin", tier: 10,
-    description: "Ninety-six marks of fish, ruined. Highcairn has opinions about this.",
+    id: "burnt_cragfin", name: "Burnt Perch", tier: 10,
+    description: "Ninety-six marks of fish, ruined. Hillcrest has opinions about this.",
     stackable: false, value: 1, category: "food",
   },
   {
-    id: "seared_ashfin", name: "Seared Ashfin", tier: 20,
-    description: "The oil crisps its own skin. What a Cinderwake attempt is provisioned with.",
+    id: "seared_ashfin", name: "Seared Bass", tier: 20,
+    description: "The oil crisps its own skin. What a Fire Ogre attempt is provisioned with.",
     stackable: false, value: 150, category: "food", food: { healAmount: healAmount(20) },
   },
   {
-    id: "burnt_ashfin", name: "Burnt Ashfin", tier: 20,
+    id: "burnt_ashfin", name: "Burnt Bass", tier: 20,
     description: "It cooked itself the rest of the way while you watched.",
     stackable: false, value: 1, category: "food",
   },
@@ -537,7 +538,7 @@ const TOOLS: readonly ItemDef[] = [
   },
   {
     id: "worn_hatchet", name: "Worn Hatchet", tier: 0,
-    description: "More wedge than edge. It will get through palewood if you are patient.",
+    description: "More wedge than edge. It will get through oak if you are patient.",
     stackable: false, value: 8, category: "tool", tool: { skill: "woodcutting", gatherBonus: 1 },
   },
   {
@@ -546,63 +547,63 @@ const TOOLS: readonly ItemDef[] = [
     stackable: false, value: 6, category: "tool", tool: { skill: "fishing", gatherBonus: 1 },
   },
   {
-    id: "grithe_pickaxe", name: "Grithe Pickaxe", tier: 1,
-    description: "A bar of Grithe on a palewood haft. Adds two effective Mining levels.",
+    id: "grithe_pickaxe", name: "Copper Pickaxe", tier: 1,
+    description: "A bar of Copper on an oak haft. Adds two effective Mining levels.",
     stackable: false, value: 60, category: "tool", tool: { skill: "mining", gatherBonus: toolBonus(1) },
   },
   {
-    id: "corven_pickaxe", name: "Corven Pickaxe", tier: 5,
-    description: "Corven head, duskoak haft. Five effective Mining levels.",
+    id: "corven_pickaxe", name: "Iron Pickaxe", tier: 5,
+    description: "Iron head, maple haft. Five effective Mining levels.",
     stackable: false, value: 240, category: "tool", tool: { skill: "mining", gatherBonus: toolBonus(5) },
   },
   {
-    id: "kaldite_pickaxe", name: "Kaldite Pickaxe", tier: 10,
-    description: "Kaldite on cairnpine. Nine effective Mining levels, and it will outlive you.",
+    id: "kaldite_pickaxe", name: "Cobalt Pickaxe", tier: 10,
+    description: "Cobalt on pine. Nine effective Mining levels, and it will outlive you.",
     stackable: false, value: 620, category: "tool", tool: { skill: "mining", gatherBonus: toolBonus(10) },
   },
   {
-    id: "grithe_hatchet", name: "Grithe Hatchet", tier: 1,
-    description: "Light, blunt-ish, and enough for palewood. Two effective Woodcutting levels.",
+    id: "grithe_hatchet", name: "Copper Hatchet", tier: 1,
+    description: "Light, blunt-ish, and enough for oak. Two effective Woodcutting levels.",
     stackable: false, value: 55, category: "tool", tool: { skill: "woodcutting", gatherBonus: toolBonus(1) },
   },
   {
-    id: "corven_hatchet", name: "Corven Hatchet", tier: 5,
-    description: "Corven bit, deep bevel. Five effective Woodcutting levels.",
+    id: "corven_hatchet", name: "Iron Hatchet", tier: 5,
+    description: "Iron bit, deep bevel. Five effective Woodcutting levels.",
     stackable: false, value: 225, category: "tool", tool: { skill: "woodcutting", gatherBonus: toolBonus(5) },
   },
   {
-    id: "kaldite_hatchet", name: "Kaldite Hatchet", tier: 10,
-    description: "Goes through cairnpine resin without gumming. Nine effective Woodcutting levels.",
+    id: "kaldite_hatchet", name: "Cobalt Hatchet", tier: 10,
+    description: "Goes through pine resin without gumming. Nine effective Woodcutting levels.",
     stackable: false, value: 600, category: "tool", tool: { skill: "woodcutting", gatherBonus: toolBonus(10) },
   },
   {
-    id: "palewood_rod", name: "Palewood Rod", tier: 1,
+    id: "palewood_rod", name: "Oak Rod", tier: 1,
     description: "A shaft, a hide line, and a bent pin. Two effective Fishing levels.",
     stackable: false, value: 45, category: "tool", tool: { skill: "fishing", gatherBonus: toolBonus(1) },
   },
   {
-    id: "duskoak_rod", name: "Duskoak Rod", tier: 5,
-    description: "Springy enough for a bramble trout. Five effective Fishing levels.",
+    id: "duskoak_rod", name: "Maple Rod", tier: 5,
+    description: "Springy enough for a trout. Five effective Fishing levels.",
     stackable: false, value: 190, category: "tool", tool: { skill: "fishing", gatherBonus: toolBonus(5) },
   },
   {
-    id: "cairnpine_rod", name: "Cairnpine Rod", tier: 10,
-    description: "Built for cragfin, which fight like something with a grudge. Nine effective Fishing levels.",
+    id: "cairnpine_rod", name: "Pine Rod", tier: 10,
+    description: "Built for perch, which fight like something with a grudge. Nine effective Fishing levels.",
     stackable: false, value: 480, category: "tool", tool: { skill: "fishing", gatherBonus: toolBonus(10) },
   },
   {
-    id: "emberite_pickaxe", name: "Emberite Pickaxe", tier: 20,
-    description: "An Emberite head on cinderpine. Seventeen effective Mining levels.",
+    id: "emberite_pickaxe", name: "Titanium Pickaxe", tier: 20,
+    description: "An Titanium head on cedar. Seventeen effective Mining levels.",
     stackable: false, value: 1400, category: "tool", tool: { skill: "mining", gatherBonus: toolBonus(20) },
   },
   {
-    id: "emberite_hatchet", name: "Emberite Hatchet", tier: 20,
+    id: "emberite_hatchet", name: "Titanium Hatchet", tier: 20,
     description: "Bites through scorched bark without a second swing. Seventeen effective Woodcutting levels.",
     stackable: false, value: 1350, category: "tool", tool: { skill: "woodcutting", gatherBonus: toolBonus(20) },
   },
   {
-    id: "cinderpine_rod", name: "Cinderpine Rod", tier: 20,
-    description: "Springy scorched pine for ashfin, which run heavy. Seventeen effective Fishing levels.",
+    id: "cinderpine_rod", name: "Cedar Rod", tier: 20,
+    description: "A flexible cedar rod built for heavy bass. Seventeen effective Fishing levels.",
     stackable: false, value: 1100, category: "tool", tool: { skill: "fishing", gatherBonus: toolBonus(20) },
   },
 ];
@@ -621,7 +622,7 @@ export const ITEMS: readonly ItemDef[] = [
 ];
 
 /** The table the root registers as `items`. */
-export const ALL_ITEMS: readonly ItemDef[] = [...ITEMS, ...MAGIC_ORBS, ...EQUIPMENT];
+export const ALL_ITEMS: readonly ItemDef[] = [...ITEMS, ...MAGIC_ORBS, ...EQUIPMENT, ...CREATURE_LOOT_ITEMS];
 
 /** The currency item id, so nothing else has to spell it. PRD 2.10: currency is marks. */
 export const CURRENCY_ITEM_ID = "marks";

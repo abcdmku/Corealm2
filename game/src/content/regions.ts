@@ -100,6 +100,7 @@ import { EMBERFAST } from "./settlements/emberfast.js";
 import { HIGHCAIRN } from "./settlements/highcairn.js";
 import { ROOTFALL } from "./settlements/rootfall.js";
 import { resourceDef } from "./resources.js";
+import { CREATURE_ENEMY_GROUPS, CREATURE_HABITATS } from "./creatureHabitats.js";
 
 // ------------------------------------------------------------------ primitives
 
@@ -738,13 +739,13 @@ export const REGIONAL_ESSENCE_ALTARS = {
  */
 const FALLOWMARCH: RegionDef = {
   id: "fallowmarch",
-  name: "Fallowmarch",
+  name: "Farmland",
   tier: 1,
   lore:
-    "The last surveyed land before the maps stop being useful. Two generations ago the March " +
+    "The last surveyed land before the maps stop being useful. Two generations ago the Trade " +
     "Company drove a road north, planted a bank vault at the end of it, walled a town around the " +
-    "vault, and then stopped answering letters. What is left is Coldbrace: two hundred people " +
-    "pulling soft grey Grithe out of a shallow pit and pretending the wind off the northern moor " +
+    "vault, and then stopped answering letters. What is left is Millfield: two hundred people " +
+    "pulling Copper ore out of a shallow pit and pretending the wind off the northern moor " +
     "does not sound like anything.",
   bounds: { min: [-350, -200], max: [-20, 200] },
   terrainSeed: 0x0f411,
@@ -763,38 +764,38 @@ const FALLOWMARCH: RegionDef = {
   respawnPointId: "coldbrace",
 
   locations: [
-    { id: "spawn", name: "March Road End", position: [-160, -118], kind: "junction", routeNode: true,
-      blurb: "Where the March Company road gives out, a stone throw south of Coldbrace." },
-    { id: "town_entrance", name: "Coldbrace South Gate", position: [-160, -108], kind: "gate", routeNode: true,
-      blurb: "The south gate of Coldbrace. The only one the carters use." },
-    { id: "town_center", name: "Coldbrace Square", position: [-160, -80], kind: "settlement", routeNode: true,
-      blurb: "The town square, built around the March Company vault." },
-    { id: "bank_interior", name: "Coldbrace Bank", position: [-160, -88], kind: "bank", routeNode: true,
-      blurb: "The March Company vault counter. Twelve windows, one very deep store." },
-    { id: "coldbrace_east_gate", name: "Coldbrace East Gate", position: [-134, -80], kind: "gate", routeNode: true,
+    { id: "spawn", name: "Farm Road End", position: [-160, -118], kind: "junction", routeNode: true,
+      blurb: "Where the Trade Company road gives out, a stone throw south of Millfield." },
+    { id: "town_entrance", name: "Millfield South Gate", position: [-160, -108], kind: "gate", routeNode: true,
+      blurb: "The south gate of Millfield. The only one the carters use." },
+    { id: "town_center", name: "Millfield Square", position: [-160, -80], kind: "settlement", routeNode: true,
+      blurb: "The town square, built around the Trade Company vault." },
+    { id: "bank_interior", name: "Millfield Bank", position: [-160, -88], kind: "bank", routeNode: true,
+      blurb: "The Trade Company vault counter. Twelve windows, one very deep store." },
+    { id: "coldbrace_east_gate", name: "Millfield East Gate", position: [-134, -80], kind: "gate", routeNode: true,
       blurb: "The gate the pit road leaves by." },
     { id: "north_milestone", name: "The Broken Milestone", position: [-108, -8], kind: "landmark", routeNode: true,
-      blurb: "A snapped March Company marker where the pit road bends around the rise." },
-    { id: "bracken_pit", name: "Bracken Pit", position: [-160, 80], kind: "seam", routeNode: true,
-      blurb: "A shallow Grithe pit 160 m north of Coldbrace. Six seams and two stone faces." },
+      blurb: "A snapped Trade Company marker where the pit road bends around the rise." },
+    { id: "bracken_pit", name: "Copper Pit", position: [-160, 80], kind: "seam", routeNode: true,
+      blurb: "A shallow Copper pit 160 m north of Millfield. Six seams and two stone faces." },
     { id: "fallowmarch_kiln_road", name: "Kiln Road South", position: [-160, 192], kind: "junction", routeNode: true,
       blurb: "Where the pit track runs on toward the ember foothills. No gate; the border is open ground." },
-    { id: "palewood_copse", name: "Palewood Copse", position: [-334, -64], kind: "grove", routeNode: true,
-      blurb: "Eight Palewood on the western track. The only shade on the plain." },
-    { id: "redsill_shallows", name: "Redsill Shallows", position: [-40, -60], kind: "water", routeNode: true,
-      blurb: "Where Corven Brook runs thin over red silt. Minnow water." },
-    { id: "corven_ford", name: "Corven Ford", position: [-72, -146], kind: "junction", routeNode: true,
-      blurb: "The only cart crossing of Corven Brook, well south of the shallows." },
-    { id: "marchfield", name: "Marchfield", position: [-96, -22], kind: "landmark", routeNode: true,
+    { id: "palewood_copse", name: "Oak Grove", position: [-334, -64], kind: "grove", routeNode: true,
+      blurb: "Eight oak trees on the western track. The only shade on the plain." },
+    { id: "redsill_shallows", name: "River Shallows", position: [-40, -60], kind: "water", routeNode: true,
+      blurb: "Where Iron Brook runs thin over red silt. Minnow water." },
+    { id: "corven_ford", name: "River Crossing", position: [-72, -146], kind: "junction", routeNode: true,
+      blurb: "The only cart crossing of Iron Brook, well south of the shallows." },
+    { id: "marchfield", name: "Farm Fields", position: [-96, -22], kind: "landmark", routeNode: true,
       blurb: "A weathered homestead with two fenced yards inside the old wall line." },
     { id: "west_track", name: "West Track", position: [-230, -60], kind: "junction", routeNode: true,
       blurb: "Where the copse track leaves the town road." },
-    { id: "open_march_camp", name: "The Open March", position: [-250, 30], kind: "camp", routeNode: true,
+    { id: "open_march_camp", name: "Open Meadow", position: [-250, 30], kind: "camp", routeNode: true,
       blurb: "Open tussock. Frogs down in the wet, billy goats on the rise." },
     { id: "fallowmarch_air_cache", name: "Air Essence Cache", position: [-250, -150], kind: "landmark", routeNode: true,
       blurb: "A wind-scoured stone cache far beyond the west track, bright with trapped air essence." },
     { id: "fallowmarch_north_gate", name: "North Gate", position: [-26, 118], kind: "gate", routeNode: true,
-      blurb: "The top of the March Road, and the way into Vellenwood." },
+      blurb: "The top of the Farm Road, and the way into Woodlands." },
   ],
 
   // Road legs. Straight-line cost between the two nodes unless `meters` overrides.
@@ -866,7 +867,7 @@ const FALLOWMARCH: RegionDef = {
       // Over the planks: 100.4 m to the entrance + 40.5 m off the far bank = 140.9 m + 2.0 s.
       // Saves 65.9 m. PRD 2.8 quoted 205 -> 130; the 205 reproduces, the 130 does not fit a
       // brook this far east, so the measured 141 is used.
-      id: "brookvault_planks", name: "Brookvault Planks", reqLevel: 1,
+      id: "brookvault_planks", name: "Brook Planks", reqLevel: 1,
       position: [-78, -30], exitPosition: [-62, -26],
       durationMs: 2000, savesMeters: 66,
       assetId: "floor_wood", scale: 1.6, rotationY: 0.25,
@@ -899,7 +900,7 @@ const FALLOWMARCH: RegionDef = {
       //
       // This is the first thing most characters kill. PRD 2.4 solves two of its rows against these
       // exact numbers, so the frog inherited them whole - see `frog_t1` in content/enemies.ts.
-      id: "redsill_frogs", family: "frog", name: "Redsill Frog", tier: 1,
+      id: "redsill_frogs", family: "frog", name: "Frog", tier: 1,
       count: 6, centre: [-56, -72], radius: 12,
       // 0.32 m of frog native. 2.2 x 0.90 draws it 0.63 m long, which is a big frog and a small
       // enemy - readable on the bank without pretending to be dangerous.
@@ -908,21 +909,21 @@ const FALLOWMARCH: RegionDef = {
     {
       // The smaller gated pen inside the Marchfield farm yard. Twelve hens make it read as a real
       // flock at a glance; passive at 3 m, so the enclosure stays harmless unless attacked.
-      id: "marchfield_hens", family: "hen", name: "Marchfield Hen", tier: 1,
+      id: "marchfield_hens", family: "hen", name: "Hen", tier: 1,
       count: 12, centre: [-93, -21], radius: 2.1,
       assetId: "animal_chicken", scale: 1.0,
     },
     {
       // A second flock on the Bracken Pit track, on the speckled texture so the two groups do not
       // read as one flock spread over 100 m.
-      id: "bracken_hens", family: "hen", name: "Bracken Hen", tier: 1,
+      id: "bracken_hens", family: "hen", name: "Speckled Hen", tier: 1,
       count: 4, centre: [-152, 44], radius: 16,
       assetId: "animal_chicken_speckled", scale: 1.0,
     },
     {
       // The aggressive tier 1 spawn, on the west track between Coldbrace and the Open March camp.
       // 77 m from the square at its nearest, so it cannot become the closest enemy to town.
-      id: "open_march_goats", family: "goat", name: "Open March Billy", tier: 1,
+      id: "open_march_goats", family: "goat", name: "Goat", tier: 1,
       count: 4, centre: [-250, 30], radius: 26,
       // 1.29 m of goat native. 0.85 x 0.90 draws a 0.99 m animal against a 1.82 m player.
       assetId: "animal_goat", scale: 0.85,
@@ -930,7 +931,7 @@ const FALLOWMARCH: RegionDef = {
     {
       // A few cattle graze south-west of the homestead, clear of the road and close enough to read
       // as part of the same yard. Territorial at 5 m, so they do not start an early-game fight.
-      id: "redsill_cattle", family: "cattle", name: "Marchfield Cow", tier: 1,
+      id: "redsill_cattle", family: "cattle", name: "Cow", tier: 1,
       count: 4, centre: [-110, -34], radius: 5,
       // 1.57 m native, drawn at 1.41 m. Shorter than the player and roughly three times the mass.
       assetId: "animal_cattle", scale: 1.0,
@@ -939,14 +940,14 @@ const FALLOWMARCH: RegionDef = {
       // RARE on the plain, by design and by the brief. Two of them, spread over a 22 m radius of
       // open ground between the Bracken Pit track and the Marchfield, so meeting one is luck. The
       // forest group at Rootfall is the one a player can rely on finding.
-      id: "marchfield_coneys", family: "coney", name: "Marchfield Coney", tier: 1,
+      id: "marchfield_coneys", family: "coney", name: "Rabbit", tier: 1,
       count: 2, centre: [-140, 10], radius: 22,
       assetId: "animal_rabbit", scale: 0.9,
     },
     {
       // The dead ground south of the Palewood Copse, 37 m from the woodcutting cluster: close
       // enough to be the reason you look up, territorial so it is not the reason you die.
-      id: "palewood_adders", family: "viper", name: "Palewood Adder", tier: 1,
+      id: "palewood_adders", family: "viper", name: "Viper", tier: 1,
       count: 4, centre: [-320, -98], radius: 16,
       // 1.51 m of snake native, drawn 1.50 m long and 7 cm tall. Low to the ground on purpose.
       assetId: "animal_viper", scale: 1.1,
@@ -956,14 +957,14 @@ const FALLOWMARCH: RegionDef = {
       // the NPCs use: `render/entityViews.ts` maps a clothes-only outfit id onto `base_male` and
       // layers a per-entity hair pick on top, which is why three Reavers standing together are
       // three different men rather than three copies.
-      id: "march_road_reavers", family: "reaver", name: "March Road Reaver", tier: 1,
+      id: "march_road_reavers", family: "reaver", name: "Road Bandit", tier: 1,
       count: 3, centre: [-234, -24], radius: 16,
       assetId: "outfit_male_peasant", scale: 1.12,
     },
     {
       // West of the cache and well clear of its approach road. The four-metre hovering silhouette
       // is visible over the plain before its territorial leash can pull a traveller into combat.
-      id: "tempest_roc", family: "tempest_roc", name: "Tempest Roc", tier: 1,
+      id: "tempest_roc", family: "tempest_roc", name: "Storm Rhino", tier: 1,
       count: 1, centre: [-292, -156], radius: 0,
       // 2.63 m of rig. Boss scaling in `world/regionBuilder.ts` is 1.6x on top of this, and the
       // tier 1 silhouette is 0.90, so it is drawn 3.79 m long — the biggest thing in Fallowmarch
@@ -979,7 +980,7 @@ const FALLOWMARCH: RegionDef = {
       // the "boss" archetype and respawn window but draws at 1.3x rather than 1.6x and stamps
       // `meta.rank: "miniboss"`. Stats, drops and the 10% rare-weapon rolls live on
       // `galeskin_t1` in content/enemies.ts.
-      id: "galeskin", family: "galeskin", name: "Galeskin", tier: 1,
+      id: "galeskin", family: "galeskin", name: "Plains Ogre", tier: 1,
       count: 1, centre: [-300, 145], radius: 0,
       assetId: "miniboss_galeskin", scale: 1,
       miniBoss: true,
@@ -990,7 +991,7 @@ const FALLOWMARCH: RegionDef = {
     {
       id: "fallowmarch_air_altar_ruins", name: "Air Altar Ruins", position: [-250, -150],
       assetId: "altar_ruins_site", scale: 1, rotationY: 0, solid: false, originOnGround: true,
-      blurb: "A dormant stone court ringed by Air Essence. The Tempest Roc's Orb is its missing light.",
+      blurb: "A dormant stone court ringed by Air Essence. The Storm Rhino's Orb is its missing light.",
     },
     {
       // Round-1 critique finding 8: this was a bare `roof_tower` cone standing on the grass - the
@@ -998,7 +999,7 @@ const FALLOWMARCH: RegionDef = {
       // building (prefab `tower`, two brick storeys under the spire) at (-168,-90), and the landmark
       // moved 3.3 m south onto its doorway - a hero mesh that belongs at ground level, facing the
       // south gate the player spawns at.
-      id: "march_vault_tower", name: "March Company Vault Tower", position: [-168, -93.3],
+      id: "march_vault_tower", name: "Trade Company Vault Tower", position: [-168, -93.3],
       assetId: "door_frame_round", scale: 1.5, rotationY: Math.PI,
       composition: "vault_door",
       blurb: "The tallest thing on the plain. Visible from 300 m, which is the entire point of it.",
@@ -1019,18 +1020,18 @@ const FALLOWMARCH: RegionDef = {
       id: "west_track", name: "West Track Waypost", position: [-233, -64],
       assetId: "corner_wood", scale: 0.9, rotationY: 1.8,
       composition: "path_waypoint",
-      blurb: "Three weathered arms: Coldbrace, Palewood, and the Open March.",
+      blurb: "Three weathered arms: Millfield, Oak, and Open Meadow.",
     },
     {
-      id: "lone_dead_palewood", name: "The Lone Palewood", position: [-196, 24],
+      id: "lone_dead_palewood", name: "The Lone Oak", position: [-196, 24],
       assetId: "tree_dead_3", scale: 0.85,
-      blurb: "One dead Palewood at the top of the rise. Every direction from here looks the same.",
+      blurb: "One dead Oak at the top of the rise. Every direction from here looks the same.",
     },
     {
       // Farming gameplay stays retired. The old composition is useful scenery on its own: a
       // farmhouse, an outer paddock, a second gated chicken pen, and ordinary yard clutter. Crop
       // beds were separate resource entities and remain absent from the authored clusters above.
-      id: "marchfield_farmstead", name: "Marchfield Farmstead", position: [-96, -22],
+      id: "marchfield_farmstead", name: "Meadow Farm", position: [-96, -22],
       assetId: "farm_crate_empty", scale: 0.8, rotationY: 0,
       composition: "farm_yard",
       blurb: "A weathered farmhouse with two fenced yards, a crowded hen pen, and cattle nearby.",
@@ -1064,11 +1065,11 @@ const FALLOWMARCH: RegionDef = {
  */
 const VELLENWOOD: RegionDef = {
   id: "vellenwood",
-  name: "Vellenwood",
+  name: "Woodlands",
   tier: 5,
   lore:
-    "Within two hundred metres of the gate the sky closes. The Duskoak here are old enough that " +
-    "the March Company surveyors marked them as terrain rather than trees. Rootfall is the only " +
+    "Within two hundred metres of the gate the sky closes. The Maple here are old enough that " +
+    "the Trade Company surveyors marked them as terrain rather than trees. Oakwood is the only " +
     "settlement: nine buildings and a bank chest built on and around a stump so large the stump " +
     "is the town square. The people there will tell you which paths are safe. They will not tell " +
     "you why the stags only move at the edges of the clearings.",
@@ -1085,33 +1086,33 @@ const VELLENWOOD: RegionDef = {
   respawnPointId: "rootfall",
 
   locations: [
-    { id: "vellenwood_marchgate", name: "Marchgate", position: [-12, 122], kind: "gate", routeNode: true,
-      blurb: "Vellenwood's gate onto the March Road. Named for the direction, not the compass." },
-    { id: "rootfall_hamlet", name: "Rootfall", position: [60, 120], kind: "settlement", routeNode: true,
-      blurb: "Nine buildings around a Duskoak stump the size of a square." },
-    { id: "rootfall_bank", name: "Rootfall Bank Chest", position: [60, 128], kind: "bank", routeNode: true,
-      blurb: "One chest, set into the stump. Thirty-eight metres from the Hollowcut Seam." },
-    { id: "hollowcut_seam", name: "Hollowcut Seam", position: [94, 145], kind: "seam", routeNode: true,
-      blurb: "Five Corven seams, 38 m from the bank chest. The best XP in the game until Agility 10." },
-    { id: "vellenwood_canopy", name: "Duskoak Stand", position: [14, 166], kind: "grove", routeNode: true,
-      blurb: "Ten Duskoak. The canopy closes hard enough here that pathing is the puzzle." },
-    { id: "mire_skirt", name: "Mire Skirt", position: [-6, 120], kind: "junction", routeNode: true,
+    { id: "vellenwood_marchgate", name: "Forest Gate", position: [-12, 122], kind: "gate", routeNode: true,
+      blurb: "Woodlands's gate onto the Farm Road. Named for the direction, not the compass." },
+    { id: "rootfall_hamlet", name: "Oakwood", position: [60, 120], kind: "settlement", routeNode: true,
+      blurb: "Nine buildings around a Maple stump the size of a square." },
+    { id: "rootfall_bank", name: "Oakwood Bank Chest", position: [60, 128], kind: "bank", routeNode: true,
+      blurb: "One chest, set into the stump. Thirty-eight metres from the Forest Quarry." },
+    { id: "hollowcut_seam", name: "Forest Quarry", position: [94, 145], kind: "seam", routeNode: true,
+      blurb: "Five Iron seams, 38 m from the bank chest. The best XP in the game until Agility 10." },
+    { id: "vellenwood_canopy", name: "Maple Grove", position: [14, 166], kind: "grove", routeNode: true,
+      blurb: "Ten maple trees. The canopy closes hard enough here that pathing is the puzzle." },
+    { id: "mire_skirt", name: "Marsh Edge", position: [-6, 120], kind: "junction", routeNode: true,
       blurb: "The long dry way around the standing water below the stand." },
     { id: "blackwater_pools", name: "Blackwater Pools", position: [128, 84], kind: "water", routeNode: true,
-      blurb: "Five pools, deeper than they look. Bramble trout." },
+      blurb: "Five pools, deeper than they look. Trout." },
     { id: "gorge_ford", name: "Gorge Ford", position: [230, 44], kind: "junction", routeNode: true,
       blurb: "The southern crossing of the gorge. Slow, wet, and the only way across without Agility." },
     { id: "gorge_head", name: "Gorge Head", position: [104, 192], kind: "junction", routeNode: true,
       blurb: "Where the gorge peters out against the northern ridge." },
-    { id: "thornline_camp", name: "The Thornline", position: [196, 152], kind: "camp", routeNode: true,
-      blurb: "The edge the adders keep to. They do not enter the clearings and nobody says why." },
+    { id: "thornline_camp", name: "The Thicket", position: [196, 152], kind: "camp", routeNode: true,
+      blurb: "The edge the vipers keep to. They do not enter the clearings and nobody says why." },
     { id: "vellenwood_earth_cache", name: "Earth Essence Cache", position: [262, 176], kind: "landmark", routeNode: true,
       blurb: "An old stone heart under the eastern canopy, split through with earth essence." },
-    { id: "vellenwood_east_gate", name: "Cairn Gate", position: [250, 24], kind: "gate", routeNode: true,
-      blurb: "The east gate. On a clear day you can see the Karrowmoor ridge from it." },
+    { id: "vellenwood_east_gate", name: "Mountain Gate", position: [250, 24], kind: "gate", routeNode: true,
+      blurb: "The east gate. On a clear day you can see the Highlands ridge from it." },
     { id: "vellenwood_kiln_path", name: "Kiln Path", position: [150, 194], kind: "junction", routeNode: true,
       blurb: "A foot track over the northern ridge toward the ember foothills. No gate; it never needed one." },
-    { id: "vellenwood_ember_edge", name: "Ember Edge", position: [286, 194], kind: "junction", routeNode: true,
+    { id: "vellenwood_ember_edge", name: "Ash Border", position: [286, 194], kind: "junction", routeNode: true,
       blurb: "The canopy's last shade line. North of here the trees stand scorched and far apart." },
   ],
 
@@ -1186,7 +1187,7 @@ const VELLENWOOD: RegionDef = {
       // Blackwater Pools -> Thornline on foot goes right round to the ford: 109.6 + 113.2 =
       // 222.8 m. Over the fallen tree: 52.0 + 56.1 = 108.1 m + 3.0 s. Saves 114.7 m.
       // PRD quoted 85 m; that assumed a 380 m region. Measured value used.
-      id: "fallen_duskoak", name: "The Fallen Duskoak", reqLevel: 5,
+      id: "fallen_duskoak", name: "The Fallen Maple", reqLevel: 5,
       position: [176, 104], exitPosition: [200, 96],
       durationMs: 3000, savesMeters: 115,
       // `roof_log` is a 10.7 m timber beam - the only asset in the library shaped like a felled
@@ -1216,7 +1217,7 @@ const VELLENWOOD: RegionDef = {
     {
       // The Duskoak Stand. Territorial at 9 m, which is a rutting hart: the one deer that does not
       // run. Carries PRD 2.4's tier 5 defensive row (defenceLevel 7 / armour 10) verbatim.
-      id: "duskoak_stags", family: "deer", name: "Duskoak Stag", tier: 5,
+      id: "duskoak_stags", family: "deer", name: "Stag", tier: 5,
       count: 5, centre: [10, 186], radius: 18,
       // 1.87 m native including the antlers. 0.85 x 1.075 draws a 1.71 m animal, just under the
       // player's eye line, and the antler silhouette does the rest.
@@ -1225,21 +1226,21 @@ const VELLENWOOD: RegionDef = {
     {
       // The bramble between Rootfall and the Thornline. magicArmour 55 makes this the tier's "put
       // the staff away" fight, and aggressive at only 7 m makes it the one you walk into.
-      id: "bramble_hogs", family: "hog", name: "Bramble Hog", tier: 5,
+      id: "bramble_hogs", family: "hog", name: "Pig", tier: 5,
       count: 5, centre: [150, 128], radius: 20,
       assetId: "animal_hog", scale: 1.0,
     },
     {
       // Deep wood north-west of Rootfall. The pack hunter, and the block a staff answers:
       // magicArmour 8 against the hog's 55, 100 m apart.
-      id: "deepwood_coyotes", family: "coyote", name: "Deepwood Coyote", tier: 5,
+      id: "deepwood_coyotes", family: "coyote", name: "Forest Wolf", tier: 5,
       count: 4, centre: [46, 158], radius: 22,
       assetId: "animal_coyote", scale: 0.9,
     },
     {
       // On the Blackwater Pools, 20 m off the pond centre so the spread sits on the bank. The tier
       // 5 swarm, on the same 1200 ms cadence as the Marchfield hens.
-      id: "blackwater_frogs", family: "frog", name: "Blackwater Frog", tier: 5,
+      id: "blackwater_frogs", family: "frog", name: "Green Frog", tier: 5,
       count: 7, centre: [112, 96], radius: 14,
       assetId: "animal_frog_green", scale: 2.4,
     },
@@ -1247,26 +1248,26 @@ const VELLENWOOD: RegionDef = {
       // COMMON in the forest, which is the other half of the coney rule: six here against two on
       // the whole Fallowmarch plain. Still the cheapest thing in the region to kill, and still
       // passive at 2 m.
-      id: "rootfall_coneys", family: "coney", name: "Rootfall Coney", tier: 5,
+      id: "rootfall_coneys", family: "coney", name: "Forest Rabbit", tier: 5,
       count: 6, centre: [76, 150], radius: 26,
       assetId: "animal_rabbit_dark", scale: 0.9,
     },
     {
       // The Thornline. Armour 6 is the lowest in Vellenwood and max hit 8 is the biggest single
       // blow in it: it dies fast and takes a quarter of your health with it if the roll goes badly.
-      id: "thornline_adders", family: "viper", name: "Thornline Adder", tier: 5,
+      id: "thornline_adders", family: "viper", name: "Forest Viper", tier: 5,
       count: 4, centre: [196, 152], radius: 18,
       assetId: "animal_viper", scale: 1.2,
     },
     {
-      id: "gorge_reavers", family: "reaver", name: "Gorge Reaver", tier: 5,
+      id: "gorge_reavers", family: "reaver", name: "Forest Bandit", tier: 5,
       count: 3, centre: [214, 64], radius: 16,
       assetId: "outfit_female_ranger", scale: 0.95,
     },
     {
       // East of the cache, outside the cache ring and its Thornline approach. The scaled old-growth
       // tree is a six-metre combat silhouette without placing its roots across the route.
-      id: "rootheart", family: "rootheart", name: "The Rootheart", tier: 5,
+      id: "rootheart", family: "rootheart", name: "Stone Rhino", tier: 5,
       count: 1, centre: [304, 158], radius: 0,
       // The same rig as the Tempest Roc, in earth. Drawn 4.52 m long here against Fallowmarch's
       // 3.79, because the tier 5 silhouette is 1.075 against tier 1's 0.90: one creature, three
@@ -1279,7 +1280,7 @@ const VELLENWOOD: RegionDef = {
       // canopy opens — clear of the gorge reavers' patrol and the two east roads. Same rig as the
       // other three minibosses in this pack's moss variant; stats and the rare rolls live on
       // `mossbound_t5` in content/enemies.ts.
-      id: "mossbound", family: "mossbound", name: "Mossbound", tier: 5,
+      id: "mossbound", family: "mossbound", name: "Forest Ogre", tier: 5,
       count: 1, centre: [318, 72], radius: 0,
       assetId: "miniboss_mossbound", scale: 1,
       miniBoss: true,
@@ -1290,10 +1291,10 @@ const VELLENWOOD: RegionDef = {
     {
       id: "vellenwood_earth_altar_ruins", name: "Earth Altar Ruins", position: [262, 176],
       assetId: "altar_ruins_site", scale: 1, rotationY: 0, solid: false, originOnGround: true,
-      blurb: "A root-bound stone court ringed by Earth Essence. The Rootheart's Orb can wake it.",
+      blurb: "A root-bound stone court ringed by Earth Essence. Stone Rhino's Orb can wake it.",
     },
     {
-      id: "rootfall_stump", name: "The Rootfall Stump", position: [60, 120],
+      id: "rootfall_stump", name: "The Oakwood Stump", position: [60, 120],
       // A real Duskoak, cut off just above the flare of its roots. The library ships no stump, and
       // the round-3 stand-in was `anvil_log` — an anvil that happens to sit on a log — drawn at
       // five times scale, so Rootfall's town square was a giant anvil. `clipFraction` keeps the
@@ -1303,7 +1304,7 @@ const VELLENWOOD: RegionDef = {
       blurb: "The stump is the square. Somebody has cut steps into the north face of it.",
     },
     {
-      id: "split_duskoak", name: "The Split Duskoak", position: [170, 112],
+      id: "split_duskoak", name: "The Split Maple", position: [170, 112],
       assetId: "tree_twisted_2", scale: 0.8, rotationY: 1.1,
       blurb: "Split top to root by something, a long time ago. It is still alive on one side.",
     },
@@ -1311,13 +1312,13 @@ const VELLENWOOD: RegionDef = {
       // The dry wedge between the east-west trail and the canopy branch. Both stamped lane
       // centrelines stay about four metres away, so the marker reads as the junction's shoulder
       // without blocking either route.
-      id: "mire_skirt", name: "Mire Skirt Trailhead", position: [0, 124],
+      id: "mire_skirt", name: "Marsh Edge Trailhead", position: [0, 124],
       assetId: "corner_wood", scale: 1.0, rotationY: Math.PI / 2,
       composition: "path_waypoint",
       blurb: "A moss-dark trail marker where the dry path skirts the standing water.",
     },
     {
-      id: "thornline_stones", name: "The Thornline Stones", position: [206, 168],
+      id: "thornline_stones", name: "The Thicket Stones", position: [206, 168],
       // Was `boulder_medium` at 1.1, which is one of the six untextured platformer rocks: a 5.3 m
       // smooth tan cone standing in the middle of four textured grey ones. `rock_medium_2` carries
       // TEXCOORD_0 and the shared Rocks atlas, so the hero belongs to its own ring.
@@ -1328,8 +1329,8 @@ const VELLENWOOD: RegionDef = {
   ],
 
   gates: [
-    { id: "vellenwood_marchgate", name: "Marchgate", position: [-12, 122], assetId: "wall_arch", toRegionId: "fallowmarch", toLocationId: "fallowmarch_north_gate", rotationY: Math.PI / 2, composition: "region_gate" },
-    { id: "vellenwood_east_gate", name: "Cairn Gate", position: [250, 24], assetId: "wall_arch", toRegionId: "karrowmoor", toLocationId: "karrowmoor_north_gate", rotationY: 0, composition: "region_gate" },
+    { id: "vellenwood_marchgate", name: "Forest Gate", position: [-12, 122], assetId: "wall_arch", toRegionId: "fallowmarch", toLocationId: "fallowmarch_north_gate", rotationY: Math.PI / 2, composition: "region_gate" },
+    { id: "vellenwood_east_gate", name: "Mountain Gate", position: [250, 24], assetId: "wall_arch", toRegionId: "karrowmoor", toLocationId: "karrowmoor_north_gate", rotationY: 0, composition: "region_gate" },
   ],
 
   adjacency: [
@@ -1351,14 +1352,14 @@ const VELLENWOOD: RegionDef = {
  */
 const KARROWMOOR: RegionDef = {
   id: "karrowmoor",
-  name: "Karrowmoor",
+  name: "Highlands",
   tier: 10,
   lore:
-    "Fallowmarch tilted sixty degrees with the soil taken away. The moor climbs in terraces of " +
-    "grey slate and every flat surface on it is covered in cairns nobody in Highcairn built and " +
-    "nobody in Highcairn will move. The outpost is a quarry camp with a wall, kept alive by " +
-    "Kaldite and by the fact that the crew stopped digging six months ago. What they hit was the " +
-    "Gravelmaw. They have a rota for who watches the entrance. They have never discussed sealing it.",
+    "Farmland tilted sixty degrees with the soil taken away. The moor climbs in terraces of " +
+    "grey slate and every flat surface on it is covered in cairns nobody in Hillcrest built and " +
+    "nobody in Hillcrest will move. The outpost is a quarry camp with a wall, kept alive by " +
+    "Cobalt and by the fact that the crew stopped digging six months ago. What they hit was the " +
+    "Stone Cavern. They have a rota for who watches the entrance. They have never discussed sealing it.",
   bounds: { min: [-20, -200], max: [350, 10] },
   terrainSeed: 0x0ca770,
   terrainAmplitude: 62,
@@ -1378,33 +1379,33 @@ const KARROWMOOR: RegionDef = {
   respawnPointId: "highcairn",
 
   locations: [
-    { id: "karrowmoor_north_gate", name: "Moorgate", position: [256, 4], kind: "gate", routeNode: true,
-      blurb: "Where the Vellenwood road tips over onto the first terrace." },
+    { id: "karrowmoor_north_gate", name: "Highland Gate", position: [256, 4], kind: "gate", routeNode: true,
+      blurb: "Where the Woodlands road tips over onto the first terrace." },
     { id: "moor_road_bend", name: "Moor Road Bend", position: [170, -6], kind: "junction", routeNode: true,
-      blurb: "The quarry road forks here: down to the Lower Quarry, or up to Highcairn." },
-    { id: "karrowmoor_terraces", name: "Lower Quarry", position: [60, -16], kind: "seam", routeNode: true,
-      blurb: "Terrace one. Five Kaldite faces, and the hole the crew stopped digging." },
-    { id: "gravelmaw_entrance", name: "The Gravelmaw", position: [46, -24], kind: "dungeon", routeNode: true,
+      blurb: "The quarry road forks here: down to the Lower Quarry, or up to Hillcrest." },
+    { id: "karrowmoor_terraces", name: "Lower Quarry", position: [140, -16], kind: "seam", routeNode: true,
+      blurb: "Terrace one. Five Cobalt faces, and the hole the crew stopped digging." },
+    { id: "gravelmaw_entrance", name: "Stone Cavern", position: [46, -24], kind: "dungeon", routeNode: true,
       blurb: "A twelve-metre black wound in grey stone. Visible from anywhere on terrace one." },
-    { id: "highcairn_outpost", name: "Highcairn", position: [144, -66], kind: "settlement", routeNode: true,
+    { id: "highcairn_outpost", name: "Hillcrest", position: [144, -66], kind: "settlement", routeNode: true,
       blurb: "Terrace two. A quarry camp with a wall around it and a crane it no longer uses." },
-    { id: "highcairn_bank", name: "Highcairn Bank", position: [150, -70], kind: "bank", routeNode: true,
-      blurb: "One counter. 188 m from the Upper Karrow Seam by road, 46 m over Sunder Ledge." },
+    { id: "highcairn_bank", name: "Hillcrest Bank", position: [150, -70], kind: "bank", routeNode: true,
+      blurb: "One counter. 188 m from the Upper Cobalt Seam by road, 46 m over Broken Ledge." },
     { id: "karrow_ramp_two", name: "Second Ramp", position: [100, -80], kind: "junction", routeNode: true,
       blurb: "The slate ramp from terrace two to terrace three." },
     { id: "karrow_ramp_three", name: "Third Ramp", position: [118, -138], kind: "junction", routeNode: true,
       blurb: "The long ramp onto terrace four. Everything above here is exposed." },
-    { id: "upper_karrow_seam", name: "Upper Karrow Seam", position: [194, -132], kind: "seam", routeNode: true,
-      blurb: "Three Kaldite faces on terrace four. A small seam - it genuinely runs dry above Mining 20." },
+    { id: "upper_karrow_seam", name: "Upper Cobalt Seam", position: [194, -132], kind: "seam", routeNode: true,
+      blurb: "Three Cobalt faces on terrace four. A small seam - it genuinely runs dry above Mining 20." },
     { id: "great_cairn", name: "The Great Cairn", position: [140, -176], kind: "landmark", routeNode: true,
       blurb: "The largest cairn on the moor. Nobody will say who is under it." },
-    { id: "cairn_tarns", name: "Cairn Tarns", position: [206, -88], kind: "water", routeNode: true,
-      blurb: "Two black tarns on the terrace two lip. Cragfin in both." },
+    { id: "cairn_tarns", name: "Mountain Lakes", position: [206, -88], kind: "water", routeNode: true,
+      blurb: "Two black tarns on the terrace two lip. Perch in both." },
     { id: "ridge_pines", name: "Ridge Pines", position: [250, -96], kind: "grove", routeNode: true,
-      blurb: "Eight Cairnpine on terrace three, all bent the same way." },
-    { id: "far_tarn", name: "Far Tarn", position: [284, -110], kind: "water", routeNode: true,
+      blurb: "Eight pine trees on terrace three, all bent the same way." },
+    { id: "far_tarn", name: "Far Lake", position: [284, -110], kind: "water", routeNode: true,
       blurb: "Across the terrace three gap. Two more tarns, and nobody fishing them." },
-    { id: "tarn_track", name: "Tarn Track", position: [300, -80], kind: "junction", routeNode: true,
+    { id: "tarn_track", name: "Lake Trail", position: [300, -80], kind: "junction", routeNode: true,
       blurb: "The long way round the terrace three gap." },
     { id: "karrowmoor_water_cache", name: "Water Essence Cache", position: [328, -176], kind: "landmark", routeNode: true,
       blurb: "A blue-lit cache at the moor's far edge, where water essence beads on dry slate." },
@@ -1431,7 +1432,7 @@ const KARROWMOOR: RegionDef = {
   clusters: [
     {
       id: "lower_quarry_kaldite", resourceId: "ore_kaldite",
-      count: 5, centre: [60, -16], radius: 10,
+      count: 5, centre: [140, -16], radius: 10,
       locationId: "karrowmoor_terraces",
     },
     {
@@ -1471,7 +1472,7 @@ const KARROWMOOR: RegionDef = {
     {
       // THE FLIP. Road: 51.0 + 60.7 + 76.2 = 187.9 m. Ledge: 20.4 + 25.5 = 45.9 m + 6.0 s.
       // Saves 142.0 m. See the DISTANCE LEDGER at the top of this file for the XP/hr arithmetic.
-      id: "sunder_ledge", name: "Sunder Ledge", reqLevel: 10,
+      id: "sunder_ledge", name: "Broken Ledge", reqLevel: 10,
       position: [170, -74], exitPosition: [176, -114],
       durationMs: 6000, savesMeters: 142,
       // The Stylized Nature kit tops out at a 3.2 m rock; the platformer pack's cliff steps are
@@ -1481,9 +1482,9 @@ const KARROWMOOR: RegionDef = {
       interaction: "climb",
     },
     {
-      // One-way, downhill. Walking the same trip is great_cairn -> ramp three -> ramp two ->
-      // bank -> outpost -> quarry = 260.6 m; the slide is 44.4 + 48.7 = 93.1 m + 3.2 s.
-      id: "scree_slide", name: "Scree Slide", reqLevel: 12,
+      // One-way downhill to the open apron west of the relocated quarry. The route graph
+      // measures both approaches from the authored endpoints when choosing this shortcut.
+      id: "scree_slide", name: "Rockslide", reqLevel: 12,
       position: [96, -170], exitPosition: [108, -24],
       durationMs: 3200, savesMeters: 168,
       assetId: "cliff_step_3", scale: 1.3,
@@ -1512,7 +1513,7 @@ const KARROWMOOR: RegionDef = {
       // The cairn fields. Carries PRD 2.4's "Melee 12 Kaldite sword, 46%, 33 s" row (defenceLevel
       // 11 / armour 55), and its magicArmour 10 against that armour 55 is the half of the magic
       // gate where the staff wins by 27%. Aggressive at 10 m and the largest silhouette on the moor.
-      id: "highcairn_bears", family: "bear", name: "Highcairn Bear", tier: 10,
+      id: "highcairn_bears", family: "bear", name: "Brown Bear", tier: 10,
       count: 4, centre: [100, -110], radius: 26,
       // 2.46 m of bear native. 1.0 x 1.15 draws it 2.83 m long and 1.62 m tall - shorter than the
       // player at the shoulder and about four times the volume.
@@ -1521,14 +1522,14 @@ const KARROWMOOR: RegionDef = {
     {
       // The scree south of Highcairn. The other half of the magic gate: armour 30 against
       // magicArmour 115, so melee wins here by 10% and the staff is the wrong tool.
-      id: "scree_boars", family: "boar", name: "Scree Boar", tier: 10,
+      id: "scree_boars", family: "boar", name: "Wild Boar", tier: 10,
       count: 6, centre: [170, -160], radius: 24,
       assetId: "animal_boar", scale: 1.0,
     },
     {
       // The ridge line above the far tarn. 44 health is the biggest ordinary pool on the surface
       // and the resistances are symmetric, so this is the block you simply have to out-fight.
-      id: "ridge_ibex", family: "ibex", name: "Ridge Ibex", tier: 10,
+      id: "ridge_ibex", family: "ibex", name: "Ibex", tier: 10,
       count: 3, centre: [268, -140], radius: 18,
       assetId: "animal_ibex", scale: 0.95,
     },
@@ -1536,19 +1537,19 @@ const KARROWMOOR: RegionDef = {
       // The terraces above the lower quarry. Armour 78 against magicArmour 0 is the widest split in
       // the game, and at 1.1 x 1.15 this is the largest non-boss animal in Corealm at 3.20 m long:
       // the last aurochs herd anywhere, and it reads like it.
-      id: "terrace_aurochs", family: "aurochs", name: "Terrace Aurochs", tier: 10,
+      id: "terrace_aurochs", family: "aurochs", name: "Aurochs", tier: 10,
       count: 3, centre: [72, -44], radius: 14,
       assetId: "animal_aurochs", scale: 1.1,
     },
     {
       // Down at the Cairn Tarns, where the fishing is. 1800 ms is the fastest tier 10 cadence, so
       // this is the thing that punishes standing still at the water's edge.
-      id: "tarn_coyotes", family: "coyote", name: "Tarn Coyote", tier: 10,
+      id: "tarn_coyotes", family: "coyote", name: "Dire Wolf", tier: 10,
       count: 4, centre: [228, -70], radius: 14,
       assetId: "animal_coyote", scale: 0.95,
     },
     {
-      id: "karrow_reavers", family: "reaver", name: "Karrow Reaver", tier: 10,
+      id: "karrow_reavers", family: "reaver", name: "Highland Bandit", tier: 10,
       count: 4, centre: [148, -128], radius: 12,
       assetId: "outfit_male_ranger", scale: 0.90,
     },
@@ -1556,7 +1557,7 @@ const KARROWMOOR: RegionDef = {
       // The tier 10 regional miniboss, on the bare top-terrace shelf west of the Great Cairn —
       // above the Scree Slide entrance and away from every road, so the climb to it is deliberate.
       // Stats and the rare rolls live on `tideworn_t10` in content/enemies.ts.
-      id: "tideworn", family: "tideworn", name: "Tideworn", tier: 10,
+      id: "tideworn", family: "tideworn", name: "Cave Ogre", tier: 10,
       count: 1, centre: [18, -164], radius: 0,
       assetId: "miniboss_tideworn", scale: 1,
       miniBoss: true,
@@ -1567,15 +1568,15 @@ const KARROWMOOR: RegionDef = {
     {
       id: "karrowmoor_water_altar_ruins", name: "Water Altar Ruins", position: [328, -176],
       assetId: "altar_ruins_site", scale: 1, rotationY: 0, solid: false, originOnGround: true,
-      blurb: "A rain-cut stone court ringed by Water Essence. Ordrun's Orb can wake it.",
+      blurb: "A rain-cut stone court ringed by Water Essence. Armored Rhino's Orb can wake it.",
     },
     {
       // North shoulder of the long Moor Road descent, 4.5 m from its centreline and outside the
       // Kaldite cluster. A slate post over a cairn foot now reads as part of the quarry arrival.
-      id: "lower_quarry_waystone", name: "Lower Quarry Waystone", position: [76, -10],
+      id: "lower_quarry_waystone", name: "Lower Quarry Waystone", position: [157, -14],
       assetId: "corner_brick", scale: 0.85, rotationY: 1.5,
       composition: "path_waypoint",
-      blurb: "A quarry cairn marking the split between Highcairn and the Gravelmaw road.",
+      blurb: "A quarry cairn marking the split between Hillcrest and Stone Cavern road.",
     },
     {
       // Southwest shoulder of the upper-ramp junction. The actual route node remains at
@@ -1586,7 +1587,7 @@ const KARROWMOOR: RegionDef = {
       blurb: "A low slate marker at the last sheltered turn before the upper moor.",
     },
     {
-      id: "highcairn_crane", name: "The Highcairn Crane", position: [156, -64],
+      id: "highcairn_crane", name: "The Hillcrest Crane", position: [156, -64],
       // No crane mesh. Round 1 used `support_beam` at 3x, which floats: that asset's pivot is
       // 1.211 m BELOW the post, so a 3x copy started 3.6 m in the air. `corner_wood` is the only
       // asset in the library that is a plain vertical post standing on its own origin - at 3.2x it
@@ -1610,7 +1611,7 @@ const KARROWMOOR: RegionDef = {
   ],
 
   gates: [
-    { id: "karrowmoor_north_gate", name: "Moorgate", position: [256, 4], assetId: "wall_arch", toRegionId: "vellenwood", toLocationId: "vellenwood_east_gate", rotationY: 0, composition: "region_gate" },
+    { id: "karrowmoor_north_gate", name: "Highland Gate", position: [256, 4], assetId: "wall_arch", toRegionId: "vellenwood", toLocationId: "vellenwood_east_gate", rotationY: 0, composition: "region_gate" },
   ],
 
   adjacency: [
@@ -1619,7 +1620,7 @@ const KARROWMOOR: RegionDef = {
 
   dungeon: {
     id: "gravelmaw",
-    name: "The Gravelmaw",
+    name: "Stone Cavern",
     tier: 10,
     entrance: [46, -24],
     // `wall_brick_door` is a real masonry arch module. At 3x it fits inside the dressed rock face;
@@ -1632,20 +1633,22 @@ const KARROWMOOR: RegionDef = {
     entranceComposition: "gravelmaw_mouth",
     palette: ["#3a3f47", "#2a2e35", "#4a505a", "#5a6250", "#1b1e23", "#7a6a52", "#c86a2a", "#8f97a1"],
     chambers: [
-      { id: "gravelmaw_chamber1", name: "The Lit Gallery", centre: [40, -40], radius: 11, floorOffset: -2, lit: true },
-      { id: "gravelmaw_chamber2", name: "The Collapse", centre: [30, -58], radius: 12, floorOffset: -6, lit: false },
-      { id: "gravelmaw_chamber3", name: "The Cairn Hall", centre: [22, -76], radius: 12, floorOffset: -10, lit: false },
-      { id: "gravelmaw_arena", name: "The Quarrykeeper's Floor", centre: [10, -96], radius: 12, floorOffset: -12, lit: true },
+      // The complete roof and partition walls stay beneath the lowest overlying terrain,
+      // with at least one metre of rock cover. Relative chamber slopes remain unchanged.
+      { id: "gravelmaw_chamber1", name: "The Lit Gallery", centre: [40, -40], radius: 11, floorOffset: -23.2, lit: true },
+      { id: "gravelmaw_chamber2", name: "The Collapse", centre: [30, -58], radius: 12, floorOffset: -27.2, lit: false },
+      { id: "gravelmaw_chamber3", name: "The Cairn Hall", centre: [22, -76], radius: 12, floorOffset: -31.2, lit: false },
+      { id: "gravelmaw_arena", name: "The Armored Rhino's Floor", centre: [10, -96], radius: 12, floorOffset: -33.2, lit: true },
     ],
     doors: [
       {
-        id: "gravelmaw_stone_door", name: "The Three-Lever Door", position: [26, -68], floorOffset: -8,
+        id: "gravelmaw_stone_door", name: "The Three-Lever Door", position: [26, -68], floorOffset: -29.2,
         // `cage` is the library's portcullis stand-in (asset-report gap 8).
         assetId: "cage", state: "locked",
         lockedReason: "Three stone levers hold it. The Long Cairn's fifth stage describes them.",
       },
       {
-        id: "ordrun_gate", name: "The Quarrykeeper's Gate", position: [14, -88], floorOffset: -11,
+        id: "ordrun_gate", name: "The Armored Rhino's Gate", position: [14, -88], floorOffset: -32.2,
         assetId: "cage", state: "sealed",
         lockedReason: "Sealed until The Long Cairn is complete.",
       },
@@ -1669,14 +1672,14 @@ const KARROWMOOR: RegionDef = {
       // Underground, and stocked to read as one: rats in the entry drifts, scorpions in the middle
       // workings, crabs in the flooded sump, and two cave bears standing between you and Ordrun.
       {
-        id: "gravelmaw_ch1_rats", family: "rat", name: "Gravelmaw Rat", tier: 10,
+        id: "gravelmaw_ch1_rats", family: "rat", name: "Giant Rat", tier: 10,
         count: 4, centre: [40, -40], radius: 8,
         // 0.60 m of rat native. 1.8 x 1.15 draws it 1.24 m long and 0.29 m tall: low, quick and
         // clearly not an ordinary rat.
         assetId: "animal_rat", scale: 1.8,
       },
       {
-        id: "gravelmaw_ch1_reavers", family: "reaver", name: "Karrow Reaver", tier: 10,
+        id: "gravelmaw_ch1_reavers", family: "reaver", name: "Highland Bandit", tier: 10,
         count: 2, centre: [44, -36], radius: 5,
         assetId: "outfit_male_ranger", scale: 0.90,
       },
@@ -1684,13 +1687,13 @@ const KARROWMOOR: RegionDef = {
         // The middle workings. High armour AND high magicArmour, the only block in the game with
         // both, so nothing answers a scorpion cheaply and a player already committed to the dungeon
         // cannot re-kit to solve it.
-        id: "gravelmaw_ch2_scorpions", family: "scorpion", name: "Quarry Scorpion", tier: 10,
+        id: "gravelmaw_ch2_scorpions", family: "scorpion", name: "Giant Scorpion", tier: 10,
         count: 6, centre: [30, -58], radius: 9,
         assetId: "animal_scorpion", scale: 2.2,
       },
       {
         // The flooded sump. Armour 82 is the highest in the game.
-        id: "gravelmaw_ch2_crabs", family: "crab", name: "Sump Crab", tier: 10,
+        id: "gravelmaw_ch2_crabs", family: "crab", name: "Giant Crab", tier: 10,
         count: 3, centre: [27, -54], radius: 4,
         // 0.32 m across native, which is a rock-pool crab. 4.0 x 1.15 draws it 1.47 m across.
         assetId: "animal_crab", scale: 4.0,
@@ -1698,7 +1701,7 @@ const KARROWMOOR: RegionDef = {
       {
         // The last room before the boss. Territorial rather than aggressive, so the fight is the
         // player's choice right up to the door.
-        id: "gravelmaw_ch3_bears", family: "bear", name: "Gravelmaw Cave Bear", tier: 10,
+        id: "gravelmaw_ch3_bears", family: "bear", name: "Cave Bear", tier: 10,
         count: 2, centre: [22, -76], radius: 7,
         assetId: "animal_bear", scale: 1.05,
       },
@@ -1710,7 +1713,7 @@ const KARROWMOOR: RegionDef = {
         // now: on a floor of rats, scorpions and crabs he was the only thing that was not an
         // animal, and looked like a lost hiker rather than what holds the Water Orb. Sharing the
         // orb bosses' silhouette says what he is before he moves.
-        id: "ordrun", family: "quarrykeeper", name: "Ordrun the Quarrykeeper", tier: 10,
+        id: "ordrun", family: "quarrykeeper", name: "Armored Rhino", tier: 10,
         count: 1, centre: [10, -96], radius: 0,
         assetId: "boss_rhino_water", scale: 1, boss: true,
       },
@@ -1722,7 +1725,7 @@ const KARROWMOOR: RegionDef = {
         blurb: "Chamber two. Dark, fallen in, and a stone door with three levers." },
       { id: "gravelmaw_chamber3", name: "The Cairn Hall", position: [22, -76], kind: "dungeon", routeNode: true,
         blurb: "Chamber three. Cairns, indoors, arranged since the crew left." },
-      { id: "gravelmaw_arena", name: "The Quarrykeeper's Floor", position: [10, -96], kind: "dungeon", routeNode: true,
+      { id: "gravelmaw_arena", name: "The Armored Rhino's Floor", position: [10, -96], kind: "dungeon", routeNode: true,
         blurb: "A twenty-four metre circle of swept stone." },
     ],
     roads: [
@@ -1750,13 +1753,13 @@ const KARROWMOOR: RegionDef = {
  */
 const KILNHALT: RegionDef = {
   id: "kilnhalt",
-  name: "Kilnhalt",
+  name: "Ashlands",
   tier: 20,
   lore:
     "The foothills north of the old survey line, where the ground runs warm and the pines grow " +
-    "back scorched. Somebody fired kilns here long before the March Company drew its maps, and " +
-    "the ground never entirely went out. Emberfast is the camp that grew up on the warm flat in " +
-    "the middle: smiths, mostly, because Emberite is the first metal since Kaldite worth the " +
+    "back scorched. Somebody fired kilns here long before the Trade Company drew its maps, and " +
+    "the ground never entirely went out. Ashford is the camp that grew up on the warm flat in " +
+    "the middle: smiths, mostly, because Titanium is the first metal since Cobalt worth the " +
     "walk, and the walk is why they stay. Nobody watches the southern border. There is no " +
     "border. You just notice, somewhere past the last milestone, that the wind has gone warm.",
   bounds: { min: [-350, 200], max: [350, 460] },
@@ -1773,32 +1776,32 @@ const KILNHALT: RegionDef = {
 
   locations: [
     { id: "kilnhalt_south_track", name: "Kiln Road South", position: [-160, 214], kind: "junction", routeNode: true,
-      blurb: "The pit track out of Fallowmarch, on warm ground now. The border is somewhere behind you." },
+      blurb: "The pit track out of Farmland, on warm ground now. The border is somewhere behind you." },
     { id: "kilnhalt_vellen_track", name: "Ridge Track", position: [150, 214], kind: "junction", routeNode: true,
-      blurb: "The foot track down off the Vellenwood ridge. The first scorched pines start here." },
-    { id: "kilnhalt_east_track", name: "Ember Edge Track", position: [290, 214], kind: "junction", routeNode: true,
+      blurb: "The foot track down off the Woodlands ridge. The first scorched pines start here." },
+    { id: "kilnhalt_east_track", name: "Ash Border Track", position: [290, 214], kind: "junction", routeNode: true,
       blurb: "Where the canopy shade gives out for good. The springs lie north-west of here." },
-    { id: "kilnroad_fork", name: "Kilnroad Fork", position: [0, 254], kind: "junction", routeNode: true,
-      blurb: "Both southern tracks meet here. Emberfast's rampart torches are visible up the road." },
+    { id: "kilnroad_fork", name: "Kiln Road Fork", position: [0, 254], kind: "junction", routeNode: true,
+      blurb: "Both southern tracks meet here. Ashford's rampart torches are visible up the road." },
     { id: "emberfast_south_bend", name: "South Bend", position: [40, 300], kind: "junction", routeNode: true,
-      blurb: "The road swings east around Emberfast's rampart to reach the gate." },
-    { id: "emberfast_town", name: "Emberfast", position: [2, 325], kind: "settlement", routeNode: true,
-      blurb: "A walled kiln camp with every counter and bench a tier-20 trade needs inside one wall." },
-    { id: "emberfast_bank", name: "Emberfast Bank", position: [8, 321], kind: "bank", routeNode: true,
+      blurb: "The road swings east around Ashford's rampart to reach the gate." },
+    { id: "emberfast_town", name: "Ashford", position: [2, 325], kind: "settlement", routeNode: true,
+      blurb: "A walled kiln camp with a bank, market, and workshops for titanium and cedar." },
+    { id: "emberfast_bank", name: "Ashford Bank", position: [8, 321], kind: "bank", routeNode: true,
       blurb: "One chest under a porch. The vault ledger smells faintly of smoke." },
-    { id: "emberfast_east_gate", name: "Emberfast Gate", position: [24, 333], kind: "gate", routeNode: true,
+    { id: "emberfast_east_gate", name: "Ashford Gate", position: [24, 333], kind: "gate", routeNode: true,
       blurb: "The east gatehouse. Carts to the stand and the springs leave this way." },
     { id: "emberfast_west_postern", name: "Quarry Postern", position: [-24, 333], kind: "gate", routeNode: true,
       blurb: "The west gatehouse, opening onto the plots and the quarry road." },
-    { id: "clinker_quarry", name: "Clinker Quarry", position: [-250, 330], kind: "seam", routeNode: true,
-      blurb: "Six Emberite seams and two Kilnstone faces, still warm at the break." },
-    { id: "ashfin_springs", name: "Ashfin Springs", position: [210, 250], kind: "water", routeNode: true,
-      blurb: "Four warm pools where the ashfin run heavy. The water steams at dawn." },
-    { id: "cinderpine_stand", name: "Cinderpine Stand", position: [240, 340], kind: "grove", routeNode: true,
-      blurb: "Eight cinderpine, scorched black outside and sound within. The fire chose not to eat them." },
+    { id: "clinker_quarry", name: "Volcanic Quarry", position: [-250, 330], kind: "seam", routeNode: true,
+      blurb: "Six Titanium seams and two Flux Stone faces, still warm at the break." },
+    { id: "ashfin_springs", name: "Hot Springs", position: [210, 250], kind: "water", routeNode: true,
+      blurb: "Four warm pools where the bass run heavy. The water steams at dawn." },
+    { id: "cinderpine_stand", name: "Cedar Grove", position: [240, 340], kind: "grove", routeNode: true,
+      blurb: "Eight cedar trees with weathered bark and sound heartwood." },
     { id: "kilnhalt_fire_cache", name: "Fire Essence Cache", position: [290, 400], kind: "landmark", routeNode: true,
       blurb: "A ruined stone court where fire essence beads out of the warm rock. The altar is dark." },
-    { id: "cinderwake_arena", name: "Cinderwake Arena", position: [286, 420], kind: "landmark", routeNode: true,
+    { id: "cinderwake_arena", name: "Fire Ogre Arena", position: [286, 420], kind: "landmark", routeNode: true,
       blurb: "A swept circle of scorched stone past the altar court. Something keeps it swept." },
   ],
 
@@ -1862,29 +1865,29 @@ const KILNHALT: RegionDef = {
     // ibex on the western rise, adders around the springs, and reavers working the Kilnroad.
     {
       // The staff answer at tier 20, and the region's biggest ordinary silhouette.
-      id: "ashback_bears", family: "bear", name: "Ashback Bear", tier: 20,
+      id: "ashback_bears", family: "bear", name: "Dire Bear", tier: 20,
       count: 4, centre: [-120, 400], radius: 26,
       assetId: "animal_bear", scale: 1.05,
     },
     {
       // The sword answer: the boar's mud-caked rule continues at tier 20.
-      id: "cinder_boars", family: "boar", name: "Cinder Boar", tier: 20,
+      id: "cinder_boars", family: "boar", name: "Dire Boar", tier: 20,
       count: 5, centre: [80, 380], radius: 24,
       assetId: "animal_boar", scale: 1.05,
     },
     {
-      id: "emberhorn_ibex", family: "ibex", name: "Emberhorn Ibex", tier: 20,
+      id: "emberhorn_ibex", family: "ibex", name: "Large Ibex", tier: 20,
       count: 3, centre: [-260, 420], radius: 18,
       assetId: "animal_ibex", scale: 1.0,
     },
     {
       // Around the warm water, where the fishing is: the springs' standing risk.
-      id: "cinder_adders", family: "viper", name: "Cinder Adder", tier: 20,
+      id: "cinder_adders", family: "viper", name: "Giant Viper", tier: 20,
       count: 3, centre: [170, 300], radius: 14,
       assetId: "animal_viper", scale: 1.25,
     },
     {
-      id: "kilnroad_reavers", family: "reaver", name: "Kilnroad Reaver", tier: 20,
+      id: "kilnroad_reavers", family: "reaver", name: "Quarry Bandit", tier: 20,
       count: 4, centre: [-40, 262], radius: 14,
       assetId: "outfit_male_ranger", scale: 0.90,
     },
@@ -1892,7 +1895,7 @@ const KILNHALT: RegionDef = {
       // The tier 20 miniboss and the Fire Orb's keeper, alone on its swept arena floor past the
       // altar court. Stats, the guaranteed singleton Orb, and the rare rolls live on
       // `cinderwake_t20` in content/enemies.ts.
-      id: "cinderwake", family: "cinderwake", name: "Cinderwake", tier: 20,
+      id: "cinderwake", family: "cinderwake", name: "Fire Ogre", tier: 20,
       count: 1, centre: [286, 420], radius: 0,
       assetId: "miniboss_cinderwake", scale: 1,
       miniBoss: true,
@@ -1903,14 +1906,14 @@ const KILNHALT: RegionDef = {
     {
       id: "kilnhalt_fire_altar_ruins", name: "Fire Altar Ruins", position: [290, 400],
       assetId: "altar_ruins_site", scale: 1, rotationY: 0, solid: false, originOnGround: true,
-      blurb: "A heat-cracked stone court ringed by Fire Essence. Cinderwake's Orb is its missing light.",
+      blurb: "A heat-cracked stone court ringed by Fire Essence. Fire Ogre's Orb is its missing light.",
     },
     {
       // The fork waystone, same composition vocabulary as the other regions' road markers.
-      id: "kilnroad_waystone", name: "Kilnroad Waystone", position: [6, 248],
+      id: "kilnroad_waystone", name: "Kiln Road Waystone", position: [6, 248],
       assetId: "corner_brick", scale: 0.85, rotationY: 0.8,
       composition: "path_waypoint",
-      blurb: "Three arms: Fallowmarch, the ridge, and Emberfast. The southern arm is newest.",
+      blurb: "Three arms: Farmland, the ridge, and Ashford. The southern arm is newest.",
     },
     {
       // The arena's edge stone: a semantic anchor a player can inspect from outside the fight.
@@ -1933,7 +1936,11 @@ const KILNHALT: RegionDef = {
 // ------------------------------------------------------------------- exports
 
 /** The four surface regions, in a fixed order. `buildWorld` iterates this to stay deterministic. */
-export const REGIONS: readonly RegionDef[] = [FALLOWMARCH, VELLENWOOD, KARROWMOOR, KILNHALT];
+export const REGIONS: readonly RegionDef[] = [FALLOWMARCH, VELLENWOOD, KARROWMOOR, KILNHALT].map((region) => ({
+  ...region,
+  enemyGroups: [...region.enemyGroups, ...CREATURE_ENEMY_GROUPS.filter((group) =>
+    CREATURE_HABITATS.some((habitat) => habitat.groupId === group.id && habitat.regionId === region.id))],
+}));
 
 export const STARTING_REGION: RegionId = "fallowmarch";
 

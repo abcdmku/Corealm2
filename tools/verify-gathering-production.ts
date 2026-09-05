@@ -17,7 +17,8 @@ import { pathToFileURL } from "node:url";
 import { GATHERING_PRODUCTION_TIERS } from "../game/src/content/gatheringProductionTiers.js";
 import { gatherSuccessChance, toolBonus } from "../game/src/content/index.js";
 import { RECIPES } from "../game/src/content/recipes.js";
-import { fishingRodAssetId, wandAssetId } from "../game/src/render/proceduralGear.js";
+import { gearAppearance, weaponAttachment } from "../game/src/render/equipmentVisuals.js";
+import { fishingRodAssetId } from "../game/src/render/proceduralGear.js";
 import { campfirePlacementCandidates } from "../game/src/systems/campfire.js";
 import type { Vec3 } from "../game/src/contracts.js";
 import { GameDriver } from "./lib/driver.js";
@@ -337,16 +338,22 @@ async function main(): Promise<void> {
       if (openSquare !== true) throw new Error("Could not move the held-wand capture to town_center");
       await driver.callDebug("focusPlayer");
       await driver.wait(250);
+      const wandAppearance = gearAppearance(tier.items.wand);
+      const wandSocket = wandAppearance && weaponAttachment(wandAppearance);
+      if (wandAppearance?.slot !== "mainHand" || wandAppearance.attach !== "bone" || !wandSocket) {
+        throw new Error(`${tier.items.wand} has no production main-hand appearance and socket`);
+      }
+      const attachmentName = `equip-${wandAppearance.slot}-${wandAppearance.assetId}`;
       const wandVisible = await waitUntil(async () => {
         const stats = await driver.callDebug("getSceneStats") as { counts?: Record<string, number> };
-        const attachmentName = `equip-mainHand-${wandAssetId(tier.items.wand)}`;
         return Object.entries(stats.counts ?? {}).some(([name, count]) =>
           name.includes(attachmentName) && count > 0);
       }, 10_000, 150);
       check(
         "held-wand.scene",
         wandVisible,
-        wandVisible ? "procedural wand attachment is in the live character scene" : "no procedural wand attachment appeared",
+        wandVisible ? `${attachmentName} is in the live character scene` : `${attachmentName} did not appear`,
+        { appearance: wandAppearance, socket: wandSocket },
       );
       // The close player framing is part of this acceptance revision. Refresh this one shot even
       // when the expensive resource contact-sheet captures are being reused.

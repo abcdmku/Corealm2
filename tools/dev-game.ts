@@ -10,7 +10,7 @@ import { startGameServer } from "./lib/server.js";
  * short of killing a server that belongs to somebody else's checkout.
  */
 const port = Number.parseInt(process.env["PORT"] ?? "", 10) || 4173;
-const server = await startGameServer({ port, strictPort: true, logLevel: "info" });
+const server = await startGameServer({ port, strictPort: true, logLevel: "info", hmr: true });
 console.log(`Game available at ${server.url}`);
 
 const stop = async (): Promise<void> => {

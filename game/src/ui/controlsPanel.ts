@@ -1,3 +1,4 @@
+import { PanelFrame } from "./panelFrame.js";
 /**
  * Every key the game answers to, read from the live registry.
  *
@@ -23,7 +24,7 @@
 import type { KeyBinding } from "../input/keyboard.js";
 import { normaliseChord } from "../input/keyboard.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import { PanelFrame } from "./panels.js";
+
 
 /**
  * How a chord part is drawn on a cap. Anything not in here is title-cased, so a binding that

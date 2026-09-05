@@ -6,7 +6,7 @@
  * and gating that behind a button would mean either a long stare at a static image or a second
  * loading path. So the game is ready underneath and this sits on top of it.
  *
- * "Continue" is therefore just a dismiss. "New Game" is the only button that does anything to the
+ * "Return to game" dismisses this screen. "New Game" is the only button that changes the
  * world: it clears the save and rebuilds, through the same `resetWorld` the debug surface uses.
  *
  * Three behaviours in here are load-bearing rather than decorative:
@@ -29,15 +29,23 @@
 import { keybindings } from "../input/keyboard.js";
 import type { Unregister } from "../input/keyboard.js";
 
+/** Root-owned persistence actions. These controls never read or write browser storage. */
+export interface SaveRecoveryControls {
+  getRecovery(): { reason: string; raw: string | null } | null;
+  recoverSave(json: string): { ok: boolean; reason?: string };
+}
+
 export interface TitleScreenOptions {
-  /** True when a save was found at boot, so "Continue" is meaningful. */
+  /** True when a save was found, for the new-game confirmation. */
   hasSave(): boolean;
   /** Clears the save and rebuilds the world. Wired by the root to `resetWorld`. */
   onNewGame(): void;
   /** Opens the client settings panel. */
   onSettings(): void;
-  /** Dismisses. Called on Continue and on Escape. */
+  /** Dismisses. Called on Return to game and on Escape. */
   onClose(): void;
+  /** Present when the root exposes recovery of a rejected saved character. */
+  saveRecovery?: SaveRecoveryControls;
 }
 
 type View = "menu" | "confirm";
@@ -147,6 +155,8 @@ export class TitleScreen {
     }
 
     this.root.removeAttribute("aria-hidden");
+    // Recovery can complete in Settings while this menu is covered.
+    this.render();
     this.installEscapeHandler();
     this.focusFirst();
   }
@@ -227,11 +237,10 @@ export class TitleScreen {
    * been looking at exactly that word for the last second and a half.
    */
   private renderMenu(): void {
-    const hasSave = this.options.hasSave();
-
+    const recovery = this.options.saveRecovery?.getRecovery();
     const eyebrow = document.createElement("p");
     eyebrow.className = "title__eyebrow u-caps";
-    eyebrow.textContent = "Paused";
+    eyebrow.textContent = "Game menu";
 
     const mark = document.createElement("h1");
     mark.className = "title__mark";
@@ -239,17 +248,18 @@ export class TitleScreen {
 
     const tagline = document.createElement("p");
     tagline.className = "title__tagline";
-    tagline.textContent = hasSave
-      ? "Your frontier is still running behind this."
-      : "A fresh frontier is already running behind this.";
+    tagline.textContent = recovery
+      ? "Your saved character could not be loaded. Saving is paused so the original stays protected."
+      : "The world continues while this menu is open.";
 
     const actions = document.createElement("div");
     actions.className = "title__actions";
 
-    const resume = this.button(hasSave ? "Continue" : "Begin", "btn btn--primary title__action", () => {
+    const resume = this.button(recovery ? "Continue without saving" : "Return to game",
+      recovery ? "btn title__action" : "btn btn--primary title__action", () => {
       this.options.onClose();
     });
-    resume.dataset["autofocus"] = "true";
+    if (!recovery) resume.dataset["autofocus"] = "true";
 
     const fresh = this.button("New game", "btn title__action", () => this.setView("confirm"));
     const settings = this.button("Settings", "btn title__action", () => this.options.onSettings());
@@ -261,13 +271,25 @@ export class TitleScreen {
     guide.textContent = "Game guide";
     guide.setAttribute("aria-label", "Open the game guide in a new tab");
 
+    if (recovery) {
+      const recover = this.button("Recover save", "btn btn--primary title__action", () => this.options.onSettings());
+      recover.dataset["autofocus"] = "true";
+      actions.appendChild(recover);
+    }
     actions.append(resume, fresh, settings, guide);
 
     const hint = document.createElement("p");
     hint.className = "title__hint";
     hint.append(cap("Esc"), text(" returns to the world. "), cap("H"), text(" lists every key."));
 
-    this.card.append(eyebrow, mark, tagline, actions, hint);
+    this.card.append(eyebrow, mark);
+    if (recovery) {
+      const warning = document.createElement("h2");
+      warning.className = "title__warning";
+      warning.textContent = "Save needs recovery";
+      this.card.appendChild(warning);
+    }
+    this.card.append(tagline, actions, hint);
   }
 
   /**
@@ -276,7 +298,8 @@ export class TitleScreen {
    * they know what it does.
    */
   private renderConfirm(): void {
-    const hasSave = this.options.hasSave();
+    const recovery = this.options.saveRecovery?.getRecovery();
+    const hasSave = this.options.hasSave() || Boolean(recovery);
 
     const eyebrow = document.createElement("p");
     eyebrow.className = "title__eyebrow u-caps";
@@ -284,11 +307,15 @@ export class TitleScreen {
 
     const heading = document.createElement("h2");
     heading.className = "title__warning";
-    heading.textContent = hasSave ? "This deletes your save." : "This throws away this run.";
+    heading.textContent = recovery ? "This deletes the protected save."
+      : hasSave ? "This deletes your save." : "This throws away this run.";
 
     const body = document.createElement("p");
     body.className = "title__tagline";
-    body.textContent = hasSave
+    body.textContent = recovery
+      ? "The original save will be deleted and replaced with a new character. Download it from"
+        + " Recover save first if you want to keep a copy. Your settings are kept."
+      : hasSave
       ? "Every level, every item and every quest on this character goes, the world is rebuilt from"
         + " scratch, and there is no undo. Your settings are kept."
       : "The world is rebuilt from scratch and anything you have done in this session goes with it."
@@ -302,7 +329,9 @@ export class TitleScreen {
     box.className = "title__ack-box";
 
     const ackText = document.createElement("span");
-    ackText.textContent = hasSave
+    ackText.textContent = recovery
+      ? "I understand the protected original save will be deleted."
+      : hasSave
       ? "I understand my saved character will be deleted."
       : "I understand this run will be thrown away.";
 
@@ -311,7 +340,8 @@ export class TitleScreen {
     const actions = document.createElement("div");
     actions.className = "title__actions title__actions--confirm";
 
-    const keep = this.button("Keep playing", "btn btn--primary title__action", () => this.setView("menu"));
+    const keep = this.button(recovery ? "Keep original save" : "Keep playing",
+      "btn btn--primary title__action", () => this.setView("menu"));
     // The safe answer holds the focus ring: Enter on this screen must never be the one that deletes.
     keep.dataset["autofocus"] = "true";
 

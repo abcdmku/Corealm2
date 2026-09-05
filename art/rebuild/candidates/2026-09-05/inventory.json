@@ -1,0 +1,129 @@
+[
+  {
+    "group": "trees",
+    "id": "corealm_oak_1",
+    "bytes": 5703512,
+    "sha256": "0e07d1790e6673315ee4cfdf72d08b6a093720df7dba4f0f7299836793bf0666"
+  },
+  {
+    "group": "trees",
+    "id": "corealm_oak_2",
+    "bytes": 5610136,
+    "sha256": "954734cf4ef14ea9310a474f09dbf8ba590eb7695f9a0bd7d286bfac25b15efe"
+  },
+  {
+    "group": "trees",
+    "id": "corealm_oak_3",
+    "bytes": 4459612,
+    "sha256": "a851bd5b060e168519edc8dd95a926c268924c95c293d6bf34e8791ba8343053"
+  },
+  {
+    "group": "trees",
+    "id": "corealm_pine_1",
+    "bytes": 6710196,
+    "sha256": "ff856e8b80b0c9931f0a8e27a9e64650eb8b6f4f273507c5be53a1db6dbada0a"
+  },
+  {
+    "group": "trees",
+    "id": "corealm_pine_2",
+    "bytes": 5706780,
+    "sha256": "bb62be7c3f140b6670a01fb2f12fece45e5367ecde1915d3e75babdf4bff207d"
+  },
+  {
+    "group": "trees",
+    "id": "corealm_pine_3",
+    "bytes": 5028932,
+    "sha256": "3e0cea331b63464abc6291ad950afd915b05fd571b8c980d00a1b82bfd28a30a"
+  },
+  {
+    "group": "cliffs",
+    "id": "corealm_sunder_ledge",
+    "bytes": 1423660,
+    "sha256": "4f1630dc9f11b589110b1fbd7d4d67a9757237ec075c5cf824b823a03877e085"
+  },
+  {
+    "group": "cliffs",
+    "id": "corealm_scree_slide",
+    "bytes": 971316,
+    "sha256": "fabdbfc49fef2287e61b6b66f1e30d0ecb5c3c0299adb1200f51c78b7286efa4"
+  },
+  {
+    "group": "minerals",
+    "id": "corealm_item_grithe_ore",
+    "bytes": 446944,
+    "sha256": "b8be5d4c1206d04a0d6807fba82fd1cccc48113367a2fe7d152f3266ff8b9106"
+  },
+  {
+    "group": "minerals",
+    "id": "corealm_item_corven_ore",
+    "bytes": 382820,
+    "sha256": "e9556dc796e75cb5556ce0bf91ba70b2f8ffdda4ac9d3f48bbbeb1bc47dd266b"
+  },
+  {
+    "group": "minerals",
+    "id": "corealm_item_kaldite_ore",
+    "bytes": 403280,
+    "sha256": "9d3d195c764699c6f3631761ea23b5a8c53abf884a3b00d255c4628d1cf8c4b4"
+  },
+  {
+    "group": "minerals",
+    "id": "corealm_item_emberite_ore",
+    "bytes": 464508,
+    "sha256": "7b9591da8e342536a42d90acdb3e37d9263bd6eb76345863a54508363604ddfc"
+  },
+  {
+    "group": "minerals",
+    "id": "corealm_item_pale_quartz",
+    "bytes": 285120,
+    "sha256": "70d6e032e386d440651580d8f84a3541e777fbb834d86d8943d3b7a7bf9f0284"
+  },
+  {
+    "group": "minerals",
+    "id": "corealm_item_vell_amber",
+    "bytes": 212840,
+    "sha256": "ae8d6701db9bd85ea71118e10d678befc5728fa926ec51c56410acd924edc7eb"
+  },
+  {
+    "group": "minerals",
+    "id": "corealm_item_cairn_garnet",
+    "bytes": 751928,
+    "sha256": "06b0559344d4fdc80b059755a5902fd79e3a48fa1a959a7d24c6f165ae17026e"
+  },
+  {
+    "group": "minerals",
+    "id": "corealm_item_fire_opal",
+    "bytes": 304740,
+    "sha256": "252f0ae2de966cf51956066fc95718e34dd070203360552e111bedaa2bd90ccf"
+  },
+  {
+    "group": "ground-gaits",
+    "id": "animal_frog",
+    "bytes": 1380328,
+    "sha256": "0d0c9c63ca299fce2c5e15fd781ef1285175945be9af9da8e19940674a9b2daa"
+  },
+  {
+    "group": "ground-gaits",
+    "id": "animal_frog_green",
+    "bytes": 1378056,
+    "sha256": "31ce3e3360e08edcdd7beeedcdc1844b287cec6ea5f00dc8b6cd1f221cae098b"
+  },
+  {
+    "group": "ground-gaits",
+    "id": "animal_crab",
+    "bytes": 1050992,
+    "sha256": "67e7cede7699c2c3b7d08ac9490bcb2817be4b32051e4e1d50d31d4326d74b4d"
+  },
+  {
+    "group": "ground-ore",
+    "id": "corealm_ore_grithe",
+    "bytes": 3919768,
+    "sha256": "66b25d5e43d360fe9c8a29b43f470f764da8ee7af741bb4208f0299f94c29c49"
+  },
+  {
+    "group": "scorpion-wip",
+    "id": "animal_scorpion",
+    "bytes": 1364976,
+    "sha256": "4043c93090b896abaa82cd1d8701836d25feee2272d36ff1689cf848d5259d19",
+    "status": "Failed candidate; source advanced beyond this export"
+  }
+]

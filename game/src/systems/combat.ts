@@ -20,7 +20,7 @@
  * seeded `loot` stream (drop rolls), so a fight replays identically from a seed and a tick count.
  */
 import type {
-  EntityId, EquipSlot, EquipmentBonuses, GameErrorCode, ItemId, ItemStack, Result,
+  EntityId, EquipSlot, EquipmentBonuses, GameErrorCode, ItemId, ItemStack, RegionId, Result,
   SemanticEntity, SkillId, SpellId, Vec3,
 } from "../contracts.js";
 import { err, ok } from "../contracts.js";
@@ -37,11 +37,23 @@ import type { InteractionDispatcher } from "../world/interactions.js";
 import type { TickSystem } from "../app/loop.js";
 import type { EnemyDef, SpellDef } from "../content/index.js";
 import { content } from "../content/index.js";
+import { REGIONS } from "../content/regions.js";
 import {
   magicLoadout, spellBlockReason, spendSpellFuel, type SpellFuelSpend,
 } from "./essence.js";
 
 // ------------------------------------------------------------------ tunables
+
+const DUNGEON_REGIONS = new Set<RegionId>(REGIONS.flatMap((region) => region.dungeon ? [region.dungeon.id] : []));
+
+/** Surface region borders share one world; each authored dungeon occupies a separate floor. */
+export function combatRealmOf(regionId: RegionId): RegionId | null {
+  return DUNGEON_REGIONS.has(regionId) ? regionId : null;
+}
+
+export function sameCombatRealm(a: RegionId, b: RegionId): boolean {
+  return combatRealmOf(a) === combatRealmOf(b);
+}
 
 /**
  * How fast the player turns to face what they are fighting, in radians per second.
@@ -291,9 +303,32 @@ export interface CombatHit {
   spellId: SpellId | null;
 }
 
+/** A committed melee action. All timestamps use the simulation clock. */
+export interface CombatAttackStart {
+  id: number;
+  atMs: number;
+  contactAtMs: number;
+  recoverAtMs: number;
+  attacker: "player" | "enemy";
+  sourceId: EntityId;
+  targetId: EntityId;
+  kind: "melee";
+}
+
+interface PendingMeleeAttack {
+  start: CombatAttackStart;
+  realm: RegionId | null;
+  damage: number;
+  hit: boolean;
+  maxHit: number;
+  contacted: boolean;
+}
+
 /** One cast between its roll and its arrival. See `CombatSystem.pendingSpellHits`. */
 interface PendingSpellHit {
   landsAtMs: number;
+  sourceId: EntityId;
+  realm: RegionId | null;
   targetId: EntityId;
   spellId: SpellId;
   damage: number;
@@ -313,6 +348,10 @@ export interface CombatDeps {
   activity?: CombatActivityPort;
   /** View block stamped onto spawned loot piles. Omitted means the pile is state-only. */
   lootView?: SemanticEntity["view"];
+  /** Clip contact and recovery offsets from attack start, supplied without a render dependency. */
+  meleeTiming?: (
+    attacker: "player" | "enemy", sourceId: EntityId, targetId: EntityId,
+  ) => { contactMs: number; recoveryMs: number };
 }
 
 /** Live enemy runtime, mirroring `state.world.enemies` exactly. */
@@ -339,6 +378,9 @@ export class CombatSystem implements TickSystem {
   private readonly defCache = new Map<EntityId, EnemyDef>();
   private readonly provokeListeners: ((enemyId: EntityId, atMs: number) => void)[] = [];
   private readonly hitLog: CombatHit[] = [];
+  private readonly attackStarts: CombatAttackStart[] = [];
+  private readonly meleeAttacks = new Map<EntityId, PendingMeleeAttack>();
+  private attackSequence = 0;
   /**
    * Spells in the air: rolled, paid for, and not yet arrived.
    *
@@ -352,6 +394,7 @@ export class CombatSystem implements TickSystem {
   private nextCombatTickAtMs = -1;
   private lastAtMs = 0;
   private pileSequence = 0;
+  private playerCombatRealm: RegionId | null | undefined;
 
   constructor(private readonly deps: CombatDeps) {
     this.combatRng = deps.rng.get("combat");
@@ -487,6 +530,8 @@ export class CombatSystem implements TickSystem {
   disengagePlayer(reason: string, atMs = this.lastAtMs): boolean {
     const state = this.deps.store.get();
     const targetId = state.combat.targetId;
+    this.playerCombatRealm = undefined;
+    this.cancelMeleeAttack(state.player.id);
     if (!targetId) return false;
     state.combat.targetId = null;
     state.combat.activeSpellId = null;
@@ -508,6 +553,11 @@ export class CombatSystem implements TickSystem {
     // flight — so the bolt visibly struck and the health bar moved half a second afterwards. On the
     // sim tick the worst case is 100 ms, which is under a frame at any playable rate.
     const state = this.deps.store.get();
+    const target = state.combat.targetId ? this.deps.entities.get(state.combat.targetId) : undefined;
+    if (target && (!sameCombatRealm(state.player.regionId, target.regionId)
+      || (this.playerCombatRealm !== undefined && combatRealmOf(state.player.regionId) !== this.playerCombatRealm))) {
+      this.disengagePlayer("different-realm", atMs);
+    }
     this.landSpellHits(state, atMs);
 
     // Magic cannot share the 600 ms swing clock: 2200 ms rounds up to 2400 ms there. Both shipped
@@ -520,12 +570,16 @@ export class CombatSystem implements TickSystem {
 
     let guard = 0;
     while (atMs >= this.nextCombatTickAtMs && guard < MAX_CATCHUP_TICKS) {
+      // Catch-up keeps contact before the next swing; a time jump cannot overwrite an unpaid hit.
+      this.advanceMeleeAttacks(state, this.nextCombatTickAtMs);
       this.resolveCombatTick(this.nextCombatTickAtMs);
       this.nextCombatTickAtMs += COMBAT_TICK_MS;
       guard += 1;
     }
     // A debug time jump larger than the catch-up budget resyncs rather than accumulating debt.
     if (atMs > this.nextCombatTickAtMs) this.nextCombatTickAtMs = atMs + COMBAT_TICK_MS;
+    // Contact and recovery use the 100 ms simulation step, not the slower cadence clock.
+    this.advanceMeleeAttacks(state, atMs);
   }
 
   private resolveCombatTick(atMs: number): void {
@@ -549,11 +603,19 @@ export class CombatSystem implements TickSystem {
       this.disengagePlayer("target-gone", atMs);
       return;
     }
+    if (!sameCombatRealm(state.player.regionId, entity.regionId)) {
+      this.disengagePlayer("different-realm", atMs);
+      return;
+    }
     const runtime = this.runtimeFor(state, entity);
     if (runtime.state === "dead" || runtime.health <= 0 || entity.state === "dead") {
       this.disengagePlayer("target-dead", atMs);
       return;
     }
+
+    const committed = this.meleeAttacks.get(state.player.id);
+    if (committed && atMs < committed.start.recoverAtMs
+      && this.meleeAttackActive(state, committed)) return;
 
     const spellId = state.combat.activeSpellId;
     const spell = spellId ? content.spell(spellId) : undefined;
@@ -589,12 +651,13 @@ export class CombatSystem implements TickSystem {
 
     // Eating blocks attacks for its 1.8 s, per PRD 2.7. The engagement survives it.
     if (state.activity?.kind === "eating") return;
+    if (!spell && state.player.movement.mode !== "idle"
+      && state.player.movement.destinationEntityId !== entity.id) return;
     if (atMs < state.combat.nextAttackAtMs) return;
 
     const def = this.defFor(entity);
     const gear = this.deps.equipment.totals();
 
-    let skill: SkillId;
     let chance: number;
     let maxHit: number;
     let intervalMs: number;
@@ -608,7 +671,6 @@ export class CombatSystem implements TickSystem {
         return;
       }
       castFuel = paid.value;
-      skill = "magic";
       chance = hitChance(
         attackRoll(state.skills.magic.level, gear.magicAccuracy, MAGIC_STYLE_FACTOR),
         defenceRoll(def.defenceLevel, def.magicArmour),
@@ -618,7 +680,6 @@ export class CombatSystem implements TickSystem {
       // PRD 2.4: a cast awards its base XP hit or miss.
       this.awardXp(state, "magic", spell.baseXp, atMs);
     } else {
-      skill = "melee";
       chance = hitChance(
         attackRoll(state.skills.melee.level, gear.accuracy, MELEE_STYLE_FACTOR),
         defenceRoll(def.defenceLevel, def.armour),
@@ -649,6 +710,8 @@ export class CombatSystem implements TickSystem {
       const flightMs = spellFlightMs(spell.rung, distanceXZ(state.player.position, entity.position));
       this.pendingSpellHits.push({
         landsAtMs: atMs + flightMs,
+        sourceId: state.player.id,
+        realm: combatRealmOf(state.player.regionId),
         targetId: entity.id,
         spellId: spell.id,
         damage,
@@ -679,31 +742,12 @@ export class CombatSystem implements TickSystem {
       return;
     }
 
-    let killed = false;
-    if (damage > 0) {
-      this.awardXp(state, skill, damage * XP_PER_DAMAGE, atMs);
-      killed = this.applyEnemyDamage(state, entity, runtime, damage, skill, atMs);
+    if (state.player.movement.mode !== "idle"
+      && state.player.movement.destinationEntityId === entity.id) {
+      // Cancel the approach deliberately; its remaining path must not slide through the strike.
+      this.deps.movement?.stop(state, atMs, "cancelled");
     }
-
-    this.record({
-      atMs,
-      attacker: "player",
-      sourceId: state.player.id,
-      targetId: entity.id,
-      damage,
-      hit: landed,
-      maxHit,
-      kind: "melee",
-      killed,
-      spellId: null,
-    });
-
-    // A struck enemy always fights back, whatever its behaviour says. This is the ONLY place the
-    // player provokes anything: `engagePlayer` used to do it too, on the click, which meant a
-    // creature charged before a blow was thrown. Fired on a MISS as well as a hit, deliberately —
-    // a swing that goes wide is still a swing, and letting a caster plink at something with
-    // impunity until they first roll well would be a hole rather than a mechanic.
-    for (const listener of this.provokeListeners) listener(entity.id, atMs);
+    this.beginMeleeAttack("player", state.player.id, entity.id, atMs, intervalMs, damage, landed, maxHit);
     this.deps.store.markDirty();
   }
 
@@ -717,20 +761,26 @@ export class CombatSystem implements TickSystem {
    *
    * A bolt in flight is independent of the engagement that threw it: the caster may have disengaged,
    * walked away or died in the meantime, and the spell still lands - it was already in the air. The
-   * one thing that cancels it is the target dying first, because the alternative is killing a corpse
-   * and paying the kill XP for it twice.
+   * target dying first cancels it. Crossing a dungeon boundary also cancels it: a bolt belongs to
+   * the world in which it was launched, even if both participants later enter another one.
    */
   private landSpellHits(state: GameState, atMs: number): void {
     for (let index = 0; index < this.pendingSpellHits.length;) {
       const pending = this.pendingSpellHits[index]!;
+      const entity = this.deps.entities.get(pending.targetId);
+      // Check before the arrival deadline so leaving and returning cannot revive a cancelled bolt.
+      if (!entity || state.player.id !== pending.sourceId
+        || combatRealmOf(state.player.regionId) !== pending.realm
+        || combatRealmOf(entity.regionId) !== pending.realm) {
+        this.pendingSpellHits.splice(index, 1);
+        continue;
+      }
       if (atMs < pending.landsAtMs) {
         index += 1;
         continue;
       }
       this.pendingSpellHits.splice(index, 1);
 
-      const entity = this.deps.entities.get(pending.targetId);
-      if (!entity) continue;
       const runtime = this.runtimeFor(state, entity);
       if (runtime.state === "dead" || runtime.health <= 0) continue;
 
@@ -743,7 +793,7 @@ export class CombatSystem implements TickSystem {
       this.record({
         atMs,
         attacker: "player",
-        sourceId: state.player.id,
+        sourceId: pending.sourceId,
         targetId: entity.id,
         damage: pending.damage,
         hit: pending.hit,
@@ -800,7 +850,7 @@ export class CombatSystem implements TickSystem {
 
     for (const enemyId of [...state.combat.engagedBy]) {
       const entity = this.deps.entities.get(enemyId);
-      if (!entity) {
+      if (!entity || !sameCombatRealm(state.player.regionId, entity.regionId)) {
         this.disengageEnemy(state, enemyId, atMs);
         continue;
       }
@@ -820,7 +870,7 @@ export class CombatSystem implements TickSystem {
       const intervalMs = attackIntervalMs(def.attackSpeedMs);
       const due = this.enemyNextAttackAtMs.get(enemyId);
       if (due === undefined) {
-        // First swing lands one full cadence after contact, not on the frame the enemy arrives.
+        // The first windup begins one cadence after arrival. Later starts keep that cadence.
         this.enemyNextAttackAtMs.set(enemyId, atMs + intervalMs);
         continue;
       }
@@ -835,9 +885,121 @@ export class CombatSystem implements TickSystem {
       const landed = this.combatRng.chance(chance);
       const damage = landed ? Math.max(1, this.combatRng.int(1, Math.max(1, def.maxHit))) : 0;
 
-      this.damagePlayer(damage, enemyId, atMs, "melee", def.maxHit);
-      if (state.player.health <= 0) return;
+      this.beginMeleeAttack("enemy", enemyId, state.player.id, atMs, intervalMs, damage, landed, def.maxHit);
     }
+  }
+
+  private beginMeleeAttack(
+    attacker: "player" | "enemy", sourceId: EntityId, targetId: EntityId,
+    atMs: number, intervalMs: number, damage: number, hit: boolean, maxHit: number,
+  ): void {
+    const timing = this.deps.meleeTiming?.(attacker, sourceId, targetId);
+    const contactMs = clamp(
+      timing && Number.isFinite(timing.contactMs) ? timing.contactMs : 350,
+      1, intervalMs - 1,
+    );
+    const recoveryMs = clamp(
+      timing && Number.isFinite(timing.recoveryMs) ? timing.recoveryMs : 900,
+      contactMs + 1, intervalMs,
+    );
+    const start: CombatAttackStart = {
+      id: ++this.attackSequence,
+      atMs,
+      contactAtMs: atMs + contactMs,
+      recoverAtMs: atMs + recoveryMs,
+      attacker,
+      sourceId,
+      targetId,
+      kind: "melee",
+    };
+    this.meleeAttacks.set(sourceId, {
+      start, realm: combatRealmOf(this.deps.store.get().player.regionId), damage, hit, maxHit, contacted: false,
+    });
+    this.attackStarts.push(start);
+    if (this.attackStarts.length > HIT_LOG_CAPACITY) {
+      this.attackStarts.splice(0, this.attackStarts.length - HIT_LOG_CAPACITY);
+    }
+  }
+
+  /** Stop/switch/death cancel the action; leaving reach produces a miss at contact instead. */
+  private meleeAttackActive(state: GameState, attack: PendingMeleeAttack): boolean {
+    const start = attack.start;
+    if (state.player.health <= 0) return false;
+    const enemyId = start.attacker === "player" ? start.targetId : start.sourceId;
+    const entity = this.deps.entities.get(enemyId);
+    if (!entity || entity.state === "dead") return false;
+    if (combatRealmOf(state.player.regionId) !== attack.realm || combatRealmOf(entity.regionId) !== attack.realm) return false;
+    const runtime = state.world.enemies[enemyId];
+    if (!runtime || runtime.state === "dead" || runtime.health <= 0) return false;
+    if (start.attacker === "enemy") return state.combat.engagedBy.includes(enemyId);
+    if (state.player.id !== start.sourceId || state.combat.targetId !== enemyId
+      || state.combat.activeSpellId !== null || state.activity?.kind === "eating") return false;
+    const movement = state.player.movement;
+    return movement.mode === "idle" || movement.destinationEntityId === enemyId;
+  }
+
+  private advanceMeleeAttacks(state: GameState, atMs: number): void {
+    if (this.meleeAttacks.size === 0) return;
+    const due: PendingMeleeAttack[] = [];
+    for (const [sourceId, attack] of this.meleeAttacks) {
+      if (!this.meleeAttackActive(state, attack)) {
+        this.cancelMeleeAttack(sourceId);
+        continue;
+      }
+      if (!attack.contacted && atMs >= attack.start.contactAtMs) due.push(attack);
+    }
+    // Unequal clip windups can cross in a catch-up step. The earlier strike must get the kill.
+    due.sort((a, b) => a.start.contactAtMs - b.start.contactAtMs || a.start.id - b.start.id);
+    for (const attack of due) {
+      const start = attack.start;
+      const sourceId = start.sourceId;
+      if (this.meleeAttacks.get(sourceId) !== attack || !this.meleeAttackActive(state, attack)) {
+        this.cancelMeleeAttack(sourceId);
+        continue;
+      }
+      // Mark before applying damage: death and provocation can synchronously disengage an actor.
+      attack.contacted = true;
+      const enemyId = start.attacker === "player" ? start.targetId : start.sourceId;
+      const entity = this.deps.entities.get(enemyId)!;
+      const reach = start.attacker === "player"
+        ? meleeReachMetres(bodyRadiusOf(entity))
+        : enemyAttackRangeMetres(bodyRadiusOf(entity));
+      const inRange = distanceXZ(state.player.position, entity.position) <= reach;
+      const damage = inRange ? attack.damage : 0;
+      const contactAtMs = start.contactAtMs;
+      if (start.attacker === "enemy") {
+        this.damagePlayer(damage, sourceId, contactAtMs, "melee", attack.maxHit);
+      } else {
+        let killed = false;
+        if (damage > 0) {
+          this.awardXp(state, "melee", damage * XP_PER_DAMAGE, contactAtMs);
+          killed = this.applyEnemyDamage(
+            state, entity, state.world.enemies[enemyId]!, damage, "melee", contactAtMs,
+          );
+        }
+        this.record({
+          atMs: contactAtMs, attacker: "player", sourceId, targetId: enemyId,
+          damage, hit: inRange && attack.hit, maxHit: attack.maxHit, kind: "melee", killed,
+          spellId: null,
+        });
+        // A nearby swing provokes even if its roll misses. A target that escaped reach is safe.
+        if (inRange && !killed) {
+          for (const listener of this.provokeListeners) listener(enemyId, contactAtMs);
+        }
+        this.deps.store.markDirty();
+      }
+    }
+    for (const [sourceId, attack] of this.meleeAttacks) {
+      if (atMs >= attack.start.recoverAtMs) this.meleeAttacks.delete(sourceId);
+    }
+  }
+
+  private cancelMeleeAttack(sourceId: EntityId): void {
+    const attack = this.meleeAttacks.get(sourceId);
+    if (!attack) return;
+    this.meleeAttacks.delete(sourceId);
+    const queued = this.attackStarts.findIndex((start) => start.id === attack.start.id);
+    if (queued >= 0) this.attackStarts.splice(queued, 1);
   }
 
   // --------------------------------------------------------- damage, death
@@ -1028,6 +1190,7 @@ export class CombatSystem implements TickSystem {
   }
 
   disengageEnemy(state: GameState, enemyId: EntityId, atMs: number, emit = true): void {
+    this.cancelMeleeAttack(enemyId);
     const index = state.combat.engagedBy.indexOf(enemyId);
     if (index >= 0) {
       state.combat.engagedBy.splice(index, 1);
@@ -1076,6 +1239,7 @@ export class CombatSystem implements TickSystem {
   /** Called by `systems/death.ts` on respawn: nothing survives a death. */
   resetOnDeath(atMs: number): void {
     const state = this.deps.store.get();
+    this.playerCombatRealm = undefined;
     for (const enemyId of [...state.combat.engagedBy]) this.disengageEnemy(state, enemyId, atMs, false);
     state.combat.engagedBy.length = 0;
     state.combat.targetId = null;
@@ -1089,6 +1253,8 @@ export class CombatSystem implements TickSystem {
     // damage and re-PROVOKE a creature that the death had just released, seconds after the screen
     // said the fight was over.
     this.pendingSpellHits.length = 0;
+    this.meleeAttacks.clear();
+    this.attackStarts.length = 0;
     this.deps.store.markDirty();
   }
 
@@ -1101,7 +1267,10 @@ export class CombatSystem implements TickSystem {
    * entity id that now belongs to a different creature or to nothing at all.
    */
   resetForNewWorld(): void {
+    this.playerCombatRealm = undefined;
     this.pendingSpellHits.length = 0;
+    this.meleeAttacks.clear();
+    this.attackStarts.length = 0;
     this.hitLog.length = 0;
     this.enemyNextAttackAtMs.clear();
     this.enemyOverrides.clear();
@@ -1119,6 +1288,18 @@ export class CombatSystem implements TickSystem {
   /** Drains the hit log. A renderer that has consumed the frame's hits calls this. */
   consumeHits(): CombatHit[] {
     return this.hitLog.splice(0, this.hitLog.length);
+  }
+
+  /** The render layer starts the attack pose at windup, before any damage is paid. */
+  consumeAttackStarts(): CombatAttackStart[] {
+    return this.attackStarts.splice(0, this.attackStarts.length);
+  }
+
+  /** AI holds its feet during windup and recovery; explicit player movement still cancels. */
+  isAttackCommitted(entityId: EntityId): boolean {
+    const attack = this.meleeAttacks.get(entityId);
+    return attack !== undefined && this.lastAtMs < attack.start.recoverAtMs
+      && this.meleeAttackActive(this.deps.store.get(), attack);
   }
 
   /**
@@ -1219,6 +1400,9 @@ export class CombatSystem implements TickSystem {
     if (entity.state === "dead") {
       return { code: "INVALID_ARGUMENT", message: `${entity.name} is already dead.` };
     }
+    if (!sameCombatRealm(this.deps.store.get().player.regionId, entity.regionId)) {
+      return { code: "OUT_OF_RANGE", message: `${entity.name} is on another floor. Enter that area first.` };
+    }
     return undefined;
   }
 
@@ -1240,6 +1424,7 @@ export class CombatSystem implements TickSystem {
 
     state.combat.targetId = entity.id;
     state.combat.activeSpellId = spellId;
+    this.playerCombatRealm = combatRealmOf(state.player.regionId);
     // Neither re-clicking nor switching targets restarts cadence. A fresh character has a due time
     // of zero, and an idle character's old due time is already in the past, so a genuine first
     // attack remains immediate without writing the timer here.

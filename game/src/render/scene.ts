@@ -27,13 +27,20 @@
  * This file owns no gameplay state. It reads geometry parameters and draws.
  */
 import * as THREE from "three";
+import { createGrassBladeGeometry } from "./grassBlades.js";
+import type { WorldSite } from "../content/worldSites.js";
+import { applyWorldSiteTerrain, worldSiteWorkFloorWeight } from "../world/siteTerrain.js";
+import { portalLandformHeight, type PortalLandform } from "../world/portalLandform.js";
 import type { GroundSurfaceSample, RegionId, Vec3 } from "../contracts.js";
-import { MaterialLibrary, REGION_PALETTES, surfaceColour } from "./materials.js";
+import { GRASS_WIND_STRENGTH, MaterialLibrary, REGION_PALETTES, surfaceColour } from "./materials.js";
+import { artSurfaceRoleForMaterial } from "./artDirection.js";
+import { finalizeScatterBounds, scatterWindMargin } from "./scatterBounds.js";
+import { ScatterVisibility } from "./scatterVisibility.js";
 import { PLAYER_HEIGHT, PLAYER_RADIUS } from "../app/config.js";
 import { Rng } from "../core/rng.js";
 import { clamp } from "../core/math.js";
 import { yieldToMainThread } from "../core/yield.js";
-import type { WaterBasinSpec } from "../world/waterBodies.js";
+import { resolveWaterBasinBaseHeight, waterBasinOuterBankHeight, type WaterBasinSpec } from "../world/waterBodies.js";
 import {
   organicDistance,
   sampleOrganicBiomeWeights,
@@ -44,18 +51,6 @@ import {
 } from "../world/organicFields.js";
 
 // ----------------------------------------------------------------- specs
-
-/** Round-0 shape. Still supported: the boot sequence and tests call it. */
-export interface TerrainSpec {
-  regionId: RegionId;
-  /** Metres. The terrain is a square centred on `centre`. */
-  size: number;
-  centre: [number, number];
-  segments: number;
-  /** Peak vertical displacement in metres. */
-  amplitude: number;
-  seed: number;
-}
 
 export interface Rect {
   minX: number;
@@ -127,6 +122,8 @@ export interface WorldTerrainSpec {
   blendMetres: number;
   regions: RegionTerrainSpec[];
   flats?: FlatSpot[];
+  worldSites?: readonly WorldSite[];
+  portalLandforms?: readonly Omit<PortalLandform, "floorY">[];
   /** Closed recessed profiles for authored water. Applied after flats and haul roads. */
   basins?: WaterBasinSpec[];
   /** Normalized hub-and-band fields shared by terrain relief, palette, and scatter. */
@@ -320,7 +317,6 @@ interface RegionField {
    *
    * Normalising against the measured range keeps the full authored palette available. `buildWorld`
    * measures the coast-expanded visual rectangle so the palette does not reset at a semantic edge.
-   * Legacy `buildTerrain` still measures only its single terrain rectangle.
    */
   hMin: number;
   hMax: number;
@@ -428,7 +424,7 @@ export interface GrassSpritePlacement {
   width: number;
   /** Drawn height from the grounded base, in world metres. */
   height: number;
-  /** Packed sRGB instance tint. The shared texture itself is white. */
+  /** Packed sRGB instance tint, multiplied by the shared blade shading. */
   colour: number;
   normal?: Vec3;
   tilt?: number;
@@ -466,12 +462,6 @@ function materialMovesInWind(material: THREE.Material): boolean {
   return /^(?:Leaves(?:_|$)|Flowers(?:_|$)|MI_Vine(?:_|$))/i.test(material.name);
 }
 
-/** One contact patch. `radius` is the half-width of the darkening, in metres. */
-export interface ContactDecalPlacement {
-  position: Vec3;
-  radius: number;
-}
-
 export interface RegionLayout {
   regionId: RegionId;
   rect: Rect;
@@ -498,18 +488,27 @@ export class WorldScene {
   readonly overlayGroup = new THREE.Group();
 
   readonly materials = new MaterialLibrary();
+  readonly scatterVisibility = new ScatterVisibility();
   /** Shared by every grass tile for this scene and retained across `clear()` rebuilds. */
   private readonly grassSpriteGeometry = createGrassSpriteGeometry();
+  private grassBladeGeometry: THREE.BufferGeometry | null = null;
+
+  setGrassSource(source: THREE.Object3D): void {
+    this.grassBladeGeometry?.dispose();
+    this.grassBladeGeometry = createGrassBladeGeometry(source);
+  }
+
+  hasNativeGrass(): boolean { return this.grassBladeGeometry !== null; }
 
   /** The meshes recast builds the navmesh from. Ground only — never scatter, never props. */
   private walkable: THREE.Mesh[] = [];
   private fields: RegionField[] = [];
+  private mineSurfaces: { site: WorldSite; reach: number }[] = [];
+  private portalLandforms: PortalLandform[] = [];
   private flats: FlatSpot[] = [];
   private basinSpecs: WaterBasinSpec[] = [];
   private basins: ResolvedWaterBasin[] = [];
   private world: WorldTerrainSpec | null = null;
-  /** Round-0 fallback for single-region builds. */
-  private legacySamplers = new Map<RegionId, (x: number, z: number) => number>();
   private scatterByRegion = new Map<RegionId, THREE.Object3D[]>();
 
   /**
@@ -572,8 +571,6 @@ export class WorldScene {
    * road.
    */
   private protectedPads: FlatSpot[] = [];
-  /** Set once stamps have been supplied, which is what retires the road ribbon path. */
-  private stampsProvided = false;
   private terrainBuildStats: TerrainBuildStats = {
     chunkBuildCount: 0,
     restampPassCount: 0,
@@ -668,9 +665,14 @@ export class WorldScene {
         restampedVertexCount: 0,
       };
       this.world = spec;
+      this.portalLandforms = [];
+      this.mineSurfaces = (spec.worldSites ?? []).filter((site) => site.kind === "mine").map((site) => ({
+        site,
+        reach: Math.hypot(site.extent[0], site.extent[1]),
+      }));
       this.coastGrid = null;
-      // Flats registered through `addFlatSpot` before the build are kept: settlement pads are
-      // registered by whoever knows where the settlement is, which is not this file.
+      this.materials.setOceanDepthGrid(null);
+      // Carry existing pads forward when rebuilding without a preceding clear().
       this.flats = [...this.flats, ...(spec.flats ?? [])].map((flat) => ({ ...flat }));
       this.basinSpecs = (spec.basins ?? []).map((basin) => ({ ...basin }));
       this.basins = [];
@@ -700,6 +702,12 @@ export class WorldScene {
       },
       () => this.buildHaulRoads(),
       () => this.normaliseFlats(),
+      () => {
+        this.portalLandforms = (spec.portalLandforms ?? []).map((landform) => ({
+          ...landform,
+          floorY: this.preBasinHeight(landform.centre[0], landform.centre[1]),
+        }));
+      },
       () => this.resolveBasins(),
       () => this.buildLattice(),
       // Roads and paving need the resolved height field, while water needs the exact lattice to
@@ -726,58 +734,6 @@ export class WorldScene {
     return steps;
   }
 
-  /**
-   * Round-0 compatible single-region terrain. Kept because the boot sequence and the smoke test
-   * call it; it now routes through the same field machinery so `heightAt` behaves identically
-   * whichever entry point built the ground.
-   */
-  buildTerrain(spec: TerrainSpec): THREE.Mesh {
-    const rect: Rect = {
-      minX: spec.centre[0] - spec.size / 2,
-      maxX: spec.centre[0] + spec.size / 2,
-      minZ: spec.centre[1] - spec.size / 2,
-      maxZ: spec.centre[1] + spec.size / 2,
-    };
-    const region: RegionTerrainSpec = {
-      regionId: spec.regionId,
-      rect,
-      seed: spec.seed,
-      character: characterFor(spec.regionId),
-      baseHeight: 0,
-      amplitude: spec.amplitude,
-    };
-    const field = makeRegionField(region);
-    const range = sweepFieldRange(rect, field);
-    this.surfaceNoise ??= createValueNoise(spec.seed ^ 0x51_7f_ac_e1);
-    this.fields.push({
-      spec: region,
-      height: field,
-      palette: REGION_PALETTES[spec.regionId],
-      hMin: range.min,
-      hMax: range.max,
-    });
-    this.legacySamplers.set(spec.regionId, field);
-    if (!this.world) {
-      this.world = {
-        bounds: rect,
-        chunkSize: spec.size,
-        metresPerQuad: spec.size / spec.segments,
-        blendMetres: 45,
-        regions: [region],
-      };
-    }
-    this.buildLattice();
-
-    const mesh = this.buildChunk(
-      rect.minX, rect.minZ, spec.size, spec.size, spec.segments, spec.segments, this.materials.ground(),
-    );
-    mesh.name = `terrain-${spec.regionId}`;
-    mesh.userData.regionId = spec.regionId;
-    mesh.userData.walkable = true;
-    this.terrainGroup.add(mesh);
-    this.walkable.push(mesh);
-    return mesh;
-  }
 
   private buildChunk(
     originX: number,
@@ -940,6 +896,7 @@ export class WorldScene {
         stepX,
         stepZ,
       };
+      this.materials.setOceanDepthGrid(this.coastGrid, spec.seaLevel);
     });
 
     for (let row = 0; row < rows; row += 1) {
@@ -1046,7 +1003,8 @@ export class WorldScene {
       const oceanDepth = new Float32Array(oceanGeometry.getAttribute("position").count);
       oceanDepth.fill(Math.max(1.2, spec.floorDepth));
       oceanGeometry.setAttribute("aWaterDepth", new THREE.BufferAttribute(oceanDepth, 1));
-      const ocean = new THREE.Mesh(oceanGeometry, this.materials.water("fallowmarch"));
+      const ocean = new THREE.Mesh(oceanGeometry, this.materials.water("fallowmarch", "ocean"));
+      ocean.userData.ownedGeometry = true;
       ocean.name = "infinite-ocean";
       ocean.position.set((bounds.minX + bounds.maxX) / 2, spec.seaLevel, (bounds.minZ + bounds.maxZ) / 2);
       ocean.renderOrder = 0;
@@ -1060,11 +1018,9 @@ export class WorldScene {
   /**
    * Recomputes the surface of every terrain vertex inside a world-space box.
    *
-   * Used when a stamp arrives after the chunks are already built, which is the case for the road
-   * corridor: `buildRoad` is called after `buildWorld` and the corridor has to reach the ground
-   * that was drawn without it. Everything is recomputed from scratch against the CURRENT stamp
-   * list rather than blended into what is already there, so restamping the same ground twice
-   * produces the same answer as stamping it once.
+   * Used when ground or water stamps arrive after the chunks are built. Every affected vertex is
+   * recomputed against the current stamps, so restamping the same ground twice gives the same
+   * answer as stamping it once.
    */
   private restampArea(minX: number, minZ: number, maxX: number, maxZ: number): void {
     this.terrainBuildStats.restampPassCount += 1;
@@ -1234,7 +1190,7 @@ export class WorldScene {
     }
 
     this.basins = this.basinSpecs.map((basin) => {
-      const baseY = this.preBasinHeight(basin.x, basin.z);
+      const baseY = resolveWaterBasinBaseHeight(basin, (x, z) => this.preBasinHeight(x, z));
       const floorY = baseY - basin.depth;
       return {
         ...basin,
@@ -1523,10 +1479,6 @@ export class WorldScene {
     return authority;
   }
 
-  /** Adds a flattened building pad. Call before `buildWorld`; it changes the ground. */
-  addFlatSpot(flat: FlatSpot): void {
-    this.flats.push(flat);
-  }
 
   // ------------------------------------------------------------- queries
 
@@ -1535,11 +1487,8 @@ export class WorldScene {
    * is one continuous field, so the answer is correct at region boundaries by construction and
    * does not depend on which region the caller thinks it is in.
    */
-  heightAt(regionId: RegionId, x: number, z: number): number {
-    if (this.fields.length === 0) {
-      const legacy = this.legacySamplers.get(regionId);
-      return legacy ? legacy(x, z) : 0;
-    }
+  heightAt(_regionId: RegionId, x: number, z: number): number {
+    if (this.fields.length === 0) return 0;
     return this.heightAtXZ(x, z);
   }
 
@@ -1568,8 +1517,16 @@ export class WorldScene {
   }
 
   private preBasinHeight(x: number, z: number): number {
-    return this.applyHaulRoads(x, z, this.applyFlats(x, z, this.naturalHeight(x, z)));
+    const flattened = this.applyFlats(x, z, this.naturalHeight(x, z));
+    const worked = this.world?.worldSites?.length
+      ? applyWorldSiteTerrain(x, z, flattened, this.world.worldSites, this.sampleNaturalHeight)
+      : flattened;
+    let height = this.applyHaulRoads(x, z, worked);
+    for (const landform of this.portalLandforms) height = portalLandformHeight(x, z, height, landform);
+    return height;
   }
+
+  private readonly sampleNaturalHeight = (x: number, z: number): number => this.naturalHeight(x, z);
 
   /**
    * Carves a flat floor, raises it to the waterline, closes it with a dry crest, then returns to the
@@ -1598,9 +1555,7 @@ export class WorldScene {
           // This is a MINIMUM bank, not another full terrain blend. On a high side the broad
           // `terrainReturn` below climbs back to the hillside; pulling the crest directly to a
           // 23 m hill over ten metres is what made Redsill's first closed version a 74-degree cut.
-          const target = Math.min(height, crestY);
-          const t = smoothstep01((radius - basin.crestRadius) / (basin.outerRadius - basin.crestRadius));
-          bankProfile = crestY + (target - crestY) * t;
+          bankProfile = waterBasinOuterBankHeight(basin, x, z, height, crestY, (sampleX, sampleZ) => this.preBasinHeight(sampleX, sampleZ));
         }
       }
 
@@ -1974,31 +1929,6 @@ export class WorldScene {
     }));
   }
 
-  /** Midpoint of the border shared by two regions, snapped to the ground. Gates go here. */
-  seamBetween(a: RegionId, b: RegionId): Vec3 | null {
-    const rectA = this.getRegionRect(a);
-    const rectB = this.getRegionRect(b);
-    if (!rectA || !rectB) return null;
-    const overlapZ = Math.min(rectA.maxZ, rectB.maxZ) - Math.max(rectA.minZ, rectB.minZ);
-    const overlapX = Math.min(rectA.maxX, rectB.maxX) - Math.max(rectA.minX, rectB.minX);
-    if (overlapZ > 0 && Math.abs(rectA.maxX - rectB.minX) < 0.01) {
-      const z = (Math.max(rectA.minZ, rectB.minZ) + Math.min(rectA.maxZ, rectB.maxZ)) / 2;
-      return [rectA.maxX, this.heightAtXZ(rectA.maxX, z), z];
-    }
-    if (overlapZ > 0 && Math.abs(rectB.maxX - rectA.minX) < 0.01) {
-      const z = (Math.max(rectA.minZ, rectB.minZ) + Math.min(rectA.maxZ, rectB.maxZ)) / 2;
-      return [rectA.minX, this.heightAtXZ(rectA.minX, z), z];
-    }
-    if (overlapX > 0 && Math.abs(rectA.maxZ - rectB.minZ) < 0.01) {
-      const x = (Math.max(rectA.minX, rectB.minX) + Math.min(rectA.maxX, rectB.maxX)) / 2;
-      return [x, this.heightAtXZ(x, rectA.maxZ), rectA.maxZ];
-    }
-    if (overlapX > 0 && Math.abs(rectB.maxZ - rectA.minZ) < 0.01) {
-      const x = (Math.max(rectA.minX, rectB.minX) + Math.min(rectA.maxX, rectB.maxX)) / 2;
-      return [x, this.heightAtXZ(x, rectA.minZ), rectA.minZ];
-    }
-    return null;
-  }
 
   getWalkableMeshes(): THREE.Mesh[] {
     return this.walkable;
@@ -2152,13 +2082,9 @@ export class WorldScene {
    * Hands the ground the things that change it rather than stand on it.
    *
    * Call from `buildWorld`'s surface-preparation callback and the stamps are baked into each chunk
-   * as it is built. A late call remains supported for legacy single-region callers and uses
-   * `restampArea`. Supplying roads here also retires the ribbon path: `buildRoad` becomes a no-op,
-   * because the corridor is already in the terrain and drawing it twice is exactly the z-fighting
-   * the ribbon's polygon offset existed to paper over.
+   * as it is built. A late call updates the existing chunks through `restampArea`.
    */
   setGroundStamps(stamps: GroundStamps): void {
-    this.stampsProvided = true;
     this.paving = (stamps.paving ?? []).map((entry) => ({ ...entry }));
     this.waters = (stamps.water ?? []).map((entry) => ({ ...entry }));
     this.roadPolylines = [];
@@ -2383,6 +2309,24 @@ export class WorldScene {
     const gravel = smoothstep01((curvature - 0.05) / 0.14) * (1 - rock * 0.6)
       * clamp(0.45 + macro * 0.8, 0, 1);
 
+    // Mine floors wear along their exposure and haul approach. The cut's banks retain their
+    // regional stone/soil response; this is an irregular working area, not a circular paving pad.
+    let worked = 0;
+    let workedGrit = 0.26;
+    for (const { site, reach } of this.mineSurfaces) {
+      const dx = x - site.centre[0];
+      const dz = z - site.centre[1];
+      if (Math.abs(dx) >= reach || Math.abs(dz) >= reach) continue;
+      const floor = worldSiteWorkFloorWeight(x, z, site);
+      if (floor <= 0) continue;
+      const grain = noise ? noise((x + 47) / 5.7, (z - 83) / 5.7) : 0;
+      const wear = clamp(floor + grain * 0.18 * floor * (1 - floor), 0, 1) * (1 - rock * 0.85) * 0.96;
+      if (wear > worked) {
+        worked = wear;
+        workedGrit = clamp(0.26 + grain * 0.12, 0.16, 0.38);
+      }
+    }
+
     // Stamps, in priority order: paving beats a road, a road beats a waterlogged bank.
     //
     // The stamp owns the local width. Its low-frequency drift moves the worn edge, fade and gravel
@@ -2461,6 +2405,12 @@ export class WorldScene {
     mud = Math.min(mud, Math.max(0, 1 - cobble - dirt - wet));
     verge = Math.min(verge, Math.max(0, 1 - cobble - dirt - wet - mud));
 
+    // Existing paving, roads and wet banks keep their priority. The working surface replaces only
+    // unclaimed natural ground and never advertises road ruts or a paved material to the shader.
+    const workingSurface = worked * Math.max(0, 1 - cobble - dirt - wet - mud - verge);
+    dirt += workingSurface * (1 - workedGrit);
+    verge += workingSurface * workedGrit;
+
     const stamped = clamp(cobble + dirt + wet + mud + verge, 0, 1);
     const natural = 1 - stamped;
     out.rock = rock * natural;
@@ -2531,55 +2481,6 @@ export class WorldScene {
     return AO_FLOOR + (1 - AO_FLOOR) * (1 - clamp(maxAngle / (Math.PI / 2), 0, 1));
   }
 
-  /**
-   * A worn track. Stamped into the ground rather than drawn on top of it.
-   *
-   * This used to build a four-lane transparent ribbon per authored link. Measured, that was 42
-   * separate `depthWrite:false` meshes — the frame's largest overdraw source and its largest
-   * single draw-call block — and it had three defects the ribbon form could not be rid of:
-   * `endFade` zeroed the alpha across the whole first and last cross-section, so 3-5 links ending
-   * at the same node punched an unpainted circle of grass at the exact point the routes meet
-   * (visible as green at the centre of the X in terrain-bracken_pit); 10% of the ribbon's vertices
-   * sat below the drawn ground, because the ribbon sampled the analytic field while the mesh is
-   * the 2 m interpolant; and the ribbon and the water disc did not know about each other, so a
-   * road ran across the surface of a pond.
-   *
-   * In the terrain's own splat weights all three stop existing by construction: mip-correct,
-   * shadow-correct, z-fight-free, and a junction is just ground that two corridors both cover.
-   *
-   * Returns null and draws nothing. The signature is kept because boot calls it, and the
-   * `width` and `regionId` arguments still do their jobs — width sets the full worn width, and
-   * the region decides which soil the track exposes.
-   */
-  buildRoad(points: readonly Vec3[], width = 4.5, regionId: RegionId = "fallowmarch"): THREE.Mesh | null {
-    void regionId;
-    if (points.length < 2) return null;
-    // Stamps supplied up front already contain the roads; stamping them again would double-count
-    // the corridor at every vertex the two descriptions share.
-    if (this.stampsProvided) return null;
-
-    const roadSeed = roadSeedFromStamp(0x0a0d, { points, width });
-    const curved = curveRoadPolyline(points, roadSeed);
-    this.roadPolylines.push(curved);
-    const before = this.roads.length;
-    appendRoadSegments(this.roads, curved, width, roadSeed, points);
-    this.rebuildRoadGrid();
-
-    let minX = Infinity;
-    let maxX = -Infinity;
-    let minZ = Infinity;
-    let maxZ = -Infinity;
-    for (let index = before; index < this.roads.length; index += 1) {
-      const segment = this.roads[index]!;
-      minX = Math.min(minX, segment.ax, segment.bx);
-      maxX = Math.max(maxX, segment.ax, segment.bx);
-      minZ = Math.min(minZ, segment.az, segment.bz);
-      maxZ = Math.max(maxZ, segment.az, segment.bz);
-    }
-    const reach = roadOuterHalf(width * (1 + ROAD_WIDTH_DRIFT)) + 1;
-    this.restampArea(minX - reach, minZ - reach, maxX + reach, maxZ + reach);
-    return null;
-  }
 
   /**
    * A still water surface for a pool, tarn or brook. Not walkable, not a collider.
@@ -2782,16 +2683,20 @@ export class WorldScene {
    * This is the draw-call discipline the budget depends on: 200 trees cost the same handful of
    * calls as one tree. Tier variants must be colour swaps over a shared texture, never separate
    * textures, or batching fragments (runs/corealm/architecture.md, correction R6).
+   * The source geometry stays intact at every visible distance. Spatial shards, instancing and
+   * frustum rejection control rendering cost without changing branch or foliage silhouettes.
    */
   scatterInstanced(
     source: THREE.Object3D,
     placements: ScatterPlacement[],
     name: string,
-    options: { regionId?: RegionId; castShadow?: boolean; windStrength?: number } = {},
+    options: {
+      regionId?: RegionId; castShadow?: boolean; windStrength?: number; compactVisibility?: boolean;
+    } = {},
   ): THREE.InstancedMesh[] {
     if (placements.length === 0) return [];
 
-    const parts: { geometry: THREE.BufferGeometry; material: THREE.Material; matrix: THREE.Matrix4 }[] = [];
+    const parts: { geometry: THREE.BufferGeometry; material: THREE.Material; matrix: THREE.Matrix4; windStrength: number }[] = [];
     source.updateMatrixWorld(true);
     source.traverse((child) => {
       const mesh = child as THREE.Mesh;
@@ -2799,15 +2704,17 @@ export class WorldScene {
       const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
       if (!material) return;
       let resolvedMaterial = needsStoneDetail(mesh.geometry, material) ? stoneDetail(material) : material;
-      if ((options.windStrength ?? 0) > 0 && materialMovesInWind(material)) {
-        resolvedMaterial = this.materials.wind(resolvedMaterial, options.windStrength!);
-      }
+      const organicRole = artSurfaceRoleForMaterial(material.name);
+      if (organicRole) resolvedMaterial = this.materials.organic(resolvedMaterial, organicRole);
+      const windStrength = materialMovesInWind(material) ? (options.windStrength ?? 0) : 0;
+      if (windStrength > 0) resolvedMaterial = this.materials.wind(resolvedMaterial, windStrength);
       parts.push({
         geometry: mesh.geometry,
         // The six platformer rocks ship with no UVs and no texture, so a scattered crag drew as a
         // smooth flat cone. See `stoneDetail`.
         material: resolvedMaterial,
         matrix: mesh.matrixWorld.clone(),
+        windStrength,
       });
     });
 
@@ -2825,8 +2732,13 @@ export class WorldScene {
       const instanced = new THREE.InstancedMesh(part.geometry, part.material, placements.length);
       instanced.name = `${name}-${index}`;
       instanced.castShadow = options.castShadow ?? true;
+      if (part.windStrength > 0) {
+        instanced.customDepthMaterial = this.materials.windShadow(part.material, part.windStrength, "depth");
+        instanced.customDistanceMaterial = this.materials.windShadow(part.material, part.windStrength, "distance");
+      }
       instanced.receiveShadow = true;
       instanced.frustumCulled = true;
+      let windMargin = 0;
 
       for (const [slot, entry] of placements.entries()) {
         positionVector.set(entry.position[0], entry.position[1], entry.position[2]);
@@ -2847,9 +2759,11 @@ export class WorldScene {
         placement.compose(positionVector, quaternion, scaleVector);
         transform.multiplyMatrices(placement, part.matrix);
         instanced.setMatrixAt(slot, transform);
+        if (part.windStrength > 0) windMargin = Math.max(windMargin, scatterWindMargin(transform, part.windStrength));
       }
       instanced.instanceMatrix.needsUpdate = true;
-      instanced.computeBoundingSphere();
+      finalizeScatterBounds(instanced, windMargin);
+      if (options.compactVisibility) this.scatterVisibility.add(instanced, windMargin);
 
       // Size-classed cull radius, consumed by `updateStreaming`. The fog wall justifies hiding
       // ANY shard past ~195 m (fog is opaque at 210 m from the CAMERA, which trails the player
@@ -2864,7 +2778,7 @@ export class WorldScene {
           : Math.max(entry.scale[0], entry.scale[1], entry.scale[2]);
         if (s > maxScale) maxScale = s;
       }
-      part.geometry.computeBoundingSphere();
+      if (!part.geometry.boundingSphere) part.geometry.computeBoundingSphere();
       const drawnRadius = (part.geometry.boundingSphere?.radius ?? 1) * maxScale;
       instanced.userData.cullRadius = drawnRadius < 1.5 ? 170 : undefined;
 
@@ -2890,8 +2804,8 @@ export class WorldScene {
     if (placements.length === 0) return [];
 
     const instanced = new THREE.InstancedMesh(
-      this.grassSpriteGeometry,
-      this.materials.grassSprite(),
+      this.grassBladeGeometry ?? this.grassSpriteGeometry,
+      this.grassBladeGeometry ? this.materials.grassBlades() : this.materials.grassSprite(),
       placements.length,
     );
     instanced.name = name;
@@ -2907,6 +2821,7 @@ export class WorldScene {
     const scale = new THREE.Vector3();
     const position = new THREE.Vector3();
     const colour = new THREE.Color();
+    let windMargin = 0;
 
     for (const [slot, entry] of placements.entries()) {
       position.set(entry.position[0], entry.position[1], entry.position[2]);
@@ -2921,12 +2836,13 @@ export class WorldScene {
       scale.set(entry.width, entry.height, entry.width);
       matrix.compose(position, quaternion, scale);
       instanced.setMatrixAt(slot, matrix);
+      windMargin = Math.max(windMargin, scatterWindMargin(matrix, GRASS_WIND_STRENGTH));
       instanced.setColorAt(slot, colour.setHex(entry.colour));
     }
 
     instanced.instanceMatrix.needsUpdate = true;
     if (instanced.instanceColor) instanced.instanceColor.needsUpdate = true;
-    instanced.computeBoundingSphere();
+    finalizeScatterBounds(instanced, windMargin);
     // Grass blades are the smallest thing scattered; see the cull-radius note in scatterInstanced.
     instanced.userData.cullRadius = 170;
     this.scatterGroup.add(instanced);
@@ -2934,58 +2850,6 @@ export class WorldScene {
     return [instanced];
   }
 
-  /**
-   * One InstancedMesh of contact patches — the whole world's contact shadows in ONE draw call.
-   *
-   * There was no ambient occlusion, no cavity term and no contact decal anywhere, so the only
-   * thing joining an object to the ground was the directional shadow, which at the old 50-degree
-   * sun elevation landed metres away from the object's base. terrain-hollowcut_seam showed six ore
-   * boulders meeting the grass at a hard elliptical cut with no darkening at all.
-   *
-   * Each quad is laid on the DRAWN ground (`meshHeightAt`, not the analytic field) and tilted to
-   * the local normal, so it stays in contact on a slope instead of clipping through one edge, and
-   * it multiplies rather than blends so it needs no sorting against the terrain under it.
-   *
-   * Returns null for an empty list rather than an empty InstancedMesh, which would still cost a
-   * draw call.
-   */
-  buildContactDecals(placements: readonly ContactDecalPlacement[], name = "contact-decals"): THREE.InstancedMesh | null {
-    if (placements.length === 0) return null;
-    const geometry = new THREE.PlaneGeometry(1, 1);
-    geometry.rotateX(-Math.PI / 2);
-    const mesh = new THREE.InstancedMesh(geometry, this.materials.contactDecal(), placements.length);
-    mesh.name = name;
-    mesh.castShadow = false;
-    mesh.receiveShadow = false;
-    mesh.renderOrder = 1;
-    mesh.frustumCulled = true;
-
-    const matrix = new THREE.Matrix4();
-    const position = new THREE.Vector3();
-    const quaternion = new THREE.Quaternion();
-    const scale = new THREE.Vector3();
-    const up = new THREE.Vector3(0, 1, 0);
-    const normalVector = new THREE.Vector3();
-
-    for (const [slot, entry] of placements.entries()) {
-      const x = entry.position[0];
-      const z = entry.position[2];
-      const normal = this.normalAt(x, z);
-      normalVector.set(normal[0], normal[1], normal[2]);
-      quaternion.setFromUnitVectors(up, normalVector);
-      // 3 cm of lift on top of the material's polygon offset. Less and a 2 m quad clips into the
-      // lattice interpolant on a convex rise; more and the patch reads as a floating card.
-      position.set(x, this.meshHeightAt(x, z) + CONTACT_DECAL_LIFT, z);
-      const size = Math.max(0.3, entry.radius * 2);
-      scale.set(size, 1, size);
-      matrix.compose(position, quaternion, scale);
-      mesh.setMatrixAt(slot, matrix);
-    }
-    mesh.instanceMatrix.needsUpdate = true;
-    mesh.computeBoundingSphere();
-    this.scatterGroup.add(mesh);
-    return mesh;
-  }
 
   /** Advances every animated surface. View-only: no gameplay state is read or written here. */
   updateTime(seconds: number): void {
@@ -3007,9 +2871,35 @@ export class WorldScene {
     }
   }
 
+  unregisterScatter(object: THREE.Object3D): void {
+    if ((object as THREE.InstancedMesh).isInstancedMesh) this.scatterVisibility.remove(object as THREE.InstancedMesh);
+    for (const [regionId, objects] of this.scatterByRegion) {
+      const index = objects.indexOf(object);
+      if (index < 0) continue;
+      objects.splice(index, 1);
+      if (objects.length === 0) this.scatterByRegion.delete(regionId);
+      break;
+    }
+    object.removeFromParent();
+    // The asset registry retains geometry/materials. InstancedMesh owns only its uploaded
+    // instance buffers here, and removeFromParent alone does not release those GPU allocations.
+    if ((object as THREE.InstancedMesh).isInstancedMesh) (object as THREE.InstancedMesh).dispose();
+  }
+
   private applyScatterCull(object: THREE.Object3D, x: number, z: number, radius: number): void {
     if (radius === Infinity) {
       object.visible = true;
+      return;
+    }
+    const cull = Math.min(radius, (object.userData.cullRadius as number | undefined) ?? radius);
+    const box = (object as THREE.InstancedMesh).boundingBox;
+    if (box && !box.isEmpty()) {
+      // Tile bounds are already in world space. Their enclosing sphere extends well beyond
+      // the actual tile edges, keeping distant shards alive unnecessarily. Measure the nearest
+      // horizontal box edge instead. finalizeScatterBounds already includes shader wind.
+      const dx = Math.max(box.min.x - x, 0, x - box.max.x);
+      const dz = Math.max(box.min.z - z, 0, z - box.max.z);
+      object.visible = dx * dx + dz * dz < cull * cull;
       return;
     }
     const sphere = (object as THREE.InstancedMesh).boundingSphere
@@ -3021,7 +2911,6 @@ export class WorldScene {
     }
     const dx = sphere.center.x - x;
     const dz = sphere.center.z - z;
-    const cull = Math.min(radius, (object.userData.cullRadius as number | undefined) ?? radius);
     object.visible = Math.hypot(dx, dz) - sphere.radius < cull;
   }
 
@@ -3131,21 +3020,32 @@ export class WorldScene {
   }
 
   clear(): void {
+    this.scatterVisibility.clear();
     this.terrainGroup.clear();
+    this.scatterGroup.traverse((object) => {
+      if ((object as THREE.InstancedMesh).isInstancedMesh) (object as THREE.InstancedMesh).dispose();
+      if (object.userData.ownedGeometry && (object as THREE.Mesh).isMesh) (object as THREE.Mesh).geometry.dispose();
+      if (object.userData.ownedMaterial && (object as THREE.Mesh).isMesh) {
+        const material = (object as THREE.Mesh).material;
+        for (const entry of Array.isArray(material) ? material : [material]) entry.dispose();
+      }
+    });
     this.scatterGroup.clear();
     this.entityGroup.clear();
     this.overlayGroup.clear();
     this.walkable = [];
     this.fields = [];
+    this.mineSurfaces = [];
+    this.portalLandforms = [];
     this.flats = [];
     this.world = null;
-    this.legacySamplers.clear();
     this.scatterByRegion.clear();
     this.surfaceNoise = null;
     this.playerMesh = null;
     this.lastSyncMs = 0;
     this.lattice = null;
     this.coastGrid = null;
+    this.materials.setOceanDepthGrid(null);
     this.chunks = [];
     this.roads = [];
     this.roadPolylines = [];
@@ -3158,12 +3058,20 @@ export class WorldScene {
     this.hauls = [];
     this.haulGrid.clear();
     this.carvedPads.clear();
-    this.stampsProvided = false;
     this.terrainBuildStats = {
       chunkBuildCount: 0,
       restampPassCount: 0,
       restampedVertexCount: 0,
     };
+  }
+
+  /** Final release of scene-owned shared resources. Ordinary clear() rebuilds retain grass. */
+  dispose(): void {
+    this.clear();
+    this.grassBladeGeometry?.dispose();
+    this.grassBladeGeometry = null;
+    this.grassSpriteGeometry.dispose();
+    this.materials.dispose();
   }
 }
 
@@ -3319,17 +3227,6 @@ export function stoneDetail(source: THREE.Material): THREE.MeshStandardMaterial 
 }
 
 // ------------------------------------------------------------ region fields
-
-function characterFor(regionId: RegionId): RegionCharacter {
-  switch (regionId) {
-    case "vellenwood": return "woodland";
-    case "karrowmoor": return "highlands";
-    // Ember foothills: highland relief without terraces; see app/worldSpec.ts characterOf.
-    case "kilnhalt": return "highlands";
-    case "gravelmaw": return "cavern";
-    default: return "plains";
-  }
-}
 
 /** Authored Vellenwood stream reach. Both ends sit beyond the old semantic region edges. */
 const WOODLAND_STREAM_START: readonly [number, number] = [-75, 250];
@@ -3721,9 +3618,6 @@ const HAUL_INDEX_STRIDE = 4096;
  * in the 19 m gap between the two populations.
  */
 const HAUL_PROTECTED_PAD_REACH = 20;
-
-/** Vertical lift on a contact decal, in metres, on top of the material's polygon offset. */
-const CONTACT_DECAL_LIFT = 0.03;
 
 /** Spacing at which a stamped road polyline is resampled into segments, in metres. */
 const ROAD_SEGMENT_SPACING = 4;

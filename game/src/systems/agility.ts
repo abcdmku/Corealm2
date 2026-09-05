@@ -12,16 +12,14 @@
  *   successChance     = clamp(0.60 + 0.02 * (agilityLevel - obstacle.reqLevel), 0.50, 1.00)
  *   onFail            = randomInt(2, 6) damage, no XP, player stays at the entrance
  *
- * `systems/movement.ts` walks the *planned route* version of the same thing: `startRoute` turns a
- * shortcut leg into its own timed traversal and emits its own `activity.started` / `activity.stopped`
- * pair. That path is for `moveTo({ locationId })`; this one is for a direct `climb` / `vault`
- * interaction. They stay out of each other's way because movement's route traversal never touches
- * `state.activity`, and this system refuses to start while the player is moving.
+ * Planned route shortcuts enter through the same dispatcher and activity driver as direct
+ * climb, vault and enter interactions. Movement waits for this driver to finish before taking
+ * the next route leg, so a route cannot skip the duration, failure roll or XP receipt.
  *
  * The failure placement is the entrance, not a `failPoint`: the frozen `SemanticEntity.obstacle`
  * shape has no such field, and inventing one would be a contract change.
  */
-import type { ActivitySummary, Result, SemanticEntity, Vec3 } from "../contracts.js";
+import type { ActivitySummary, EntityId, InteractionId, Result, SemanticEntity, SkillId, Vec3 } from "../contracts.js";
 import { err, ok } from "../contracts.js";
 import type { ActivityState, GameState, Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
@@ -33,6 +31,7 @@ import type { ActivitySystem } from "./activity.js";
 import { CONTINUE, awardXp, progressToward, stopWith } from "./activity.js";
 import type { TickSystem } from "../app/loop.js";
 import { agilitySuccessChance, agilityXp } from "../content/index.js";
+import { distanceXZ } from "../core/math.js";
 
 /** PRD 2.8: a botched climb costs 2 to 6 health. */
 const FAIL_DAMAGE_RANGE: readonly [number, number] = [2, 6];
@@ -43,6 +42,33 @@ const DEFAULT_DURATION_MS = 3000;
 /** The navmesh snap this system needs. Injected so agility never imports the navigation system. */
 export interface NavSnap {
   closestPoint(point: Vec3): Vec3 | null;
+}
+
+/** Validates graph direction and derives the landing from the live authored obstacle. */
+export function resolveShortcutEndpoints(
+  entity: SemanticEntity,
+  entry: Vec3,
+  exit: Vec3,
+  nav: NavSnap,
+): { entryPosition: Vec3; exitPosition: Vec3 } | null {
+  if (!entity.obstacle) return null;
+  const first = entity.interactionPosition ?? entity.position;
+  const second = entity.obstacle.exitPosition;
+  const firstSnap = nav.closestPoint(first);
+  const secondSnap = nav.closestPoint(second);
+  const matches = (point: Vec3, authored: Vec3, snapped: Vec3 | null): boolean =>
+    closeEndpoint(point, authored) || (snapped !== null && closeEndpoint(point, snapped));
+  if (matches(entry, first, firstSnap) && matches(exit, second, secondSnap)) {
+    return { entryPosition: first, exitPosition: second };
+  }
+  if (matches(entry, second, secondSnap) && matches(exit, first, firstSnap)) {
+    return { entryPosition: second, exitPosition: first };
+  }
+  return null;
+}
+
+function closeEndpoint(a: Vec3, b: Vec3): boolean {
+  return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]) <= 0.01;
 }
 
 export interface AgilityDeps {
@@ -96,10 +122,39 @@ export class AgilitySystem implements TickSystem {
 
   // ------------------------------------------------------------------ start
 
-  private begin(context: InteractionContext): Result<{ started: string }> {
+  /** Route entry uses the same live entity, reach, requirements and handler as a direct click. */
+  beginRoute(obstacleId: EntityId, entry: Vec3, exit: Vec3): Result<{ started: string }> {
+    const entity = this.deps.entities.get(obstacleId);
+    if (!entity) return err("NOT_FOUND", `No obstacle with id ${obstacleId}`, obstacleId);
+    if (!entity.obstacle) return err("INVALID_ARGUMENT", `${entity.name} is not an obstacle.`, obstacleId);
+    const interaction = entity.interactions.find((verb) => verb === "climb" || verb === "vault" || verb === "enter");
+    if (!interaction) return err("INVALID_ARGUMENT", `${entity.name} has no traversal interaction.`, obstacleId);
+    const endpoints = resolveShortcutEndpoints(entity, entry, exit, this.deps.nav);
+    if (!endpoints) return err("INVALID_ARGUMENT", `${entity.name} does not connect those endpoints.`, obstacleId);
+    return this.beginAt(entity, interaction, endpoints.entryPosition, endpoints.exitPosition);
+  }
+
+  /** Movement replacement owns cancellation of a traversal, never another activity kind. */
+  cancelTraversal(atMs: number, reason: "replaced" | "cancelled"): boolean {
+    return this.deps.store.get().activity?.kind === "traversing"
+      ? this.deps.activity.stop(reason, atMs)
+      : false;
+  }
+
+  begin(context: InteractionContext): Result<{ started: string }> {
+    return this.beginAt(context.entity, context.interaction, context.entity.interactionPosition ?? context.entity.position);
+  }
+
+  private beginAt(
+    entity: SemanticEntity,
+    interaction: InteractionId,
+    entry: Vec3,
+    exitPosition?: Vec3,
+  ): Result<{ started: string }> {
     const state = this.deps.store.get();
     const atMs = this.deps.clock.elapsedMs;
-    const entity = context.entity;
+
+    if (state.player.health <= 0) return err("DEAD", "The player is dead", entity.id);
 
     const obstacle = entity.obstacle;
     if (!obstacle) {
@@ -116,6 +171,16 @@ export class AgilitySystem implements TickSystem {
       );
     }
 
+    for (const [skill, level] of Object.entries(entity.requirements ?? {})) {
+      if (state.skills[skill as SkillId].level < level) {
+        return err("REQUIREMENTS_NOT_MET", `${entity.name} needs ${skill} ${level}.`, entity.id);
+      }
+    }
+    const range = this.deps.dispatcher.rangeFor(interaction);
+    if (distanceXZ(state.player.position, entry) > range) {
+      return err("OUT_OF_RANGE", `Move within ${range} m of ${entity.name}'s entrance.`, entity.id);
+    }
+
     if (state.player.movement.mode !== "idle") {
       return err("BUSY", "Stop moving before you take the shortcut.", entity.id);
     }
@@ -127,14 +192,15 @@ export class AgilitySystem implements TickSystem {
         : err("BUSY", "You are already on an obstacle.", entity.id);
     }
 
-    const durationMs = obstacle.durationMs > 0 ? obstacle.durationMs : DEFAULT_DURATION_MS;
+    const durationMs = agilityDurationOf(entity);
     const chance = agilitySuccessChance(state.skills.agility.level, obstacle.reqLevel);
 
     this.deps.activity.start(
-      { kind: "traversing", obstacleId: entity.id, endsAtMs: atMs + durationMs },
+      { kind: "traversing", obstacleId: entity.id, endsAtMs: atMs + durationMs,
+        ...(exitPosition ? { exitPosition: [...exitPosition] as Vec3 } : {}) },
       atMs,
       {
-        op: context.interaction,
+        op: interaction,
         durationMs,
         reqLevel: obstacle.reqLevel,
         savesMeters: obstacle.savesMeters,
@@ -143,7 +209,7 @@ export class AgilitySystem implements TickSystem {
       },
     );
 
-    return ok({ started: `${context.interaction} ${entity.name}` });
+    return ok({ started: `${interaction} ${entity.name}` });
   }
 
   // ------------------------------------------------------- activity driver
@@ -174,7 +240,8 @@ export class AgilitySystem implements TickSystem {
       return stopWith("failed");
     }
 
-    const landing = this.deps.nav.closestPoint(obstacle.exitPosition) ?? obstacle.exitPosition;
+    const exit = activity.exitPosition ?? obstacle.exitPosition;
+    const landing = this.deps.nav.closestPoint(exit) ?? exit;
     state.player.position = [landing[0], landing[1], landing[2]];
     state.player.movement.mode = "idle";
     state.player.movement.path = null;
@@ -196,7 +263,7 @@ export class AgilitySystem implements TickSystem {
       return { kind: activity.kind, progress: 0, completed: 0, remaining: 0 };
     }
     const entity = this.deps.entities.get(activity.obstacleId);
-    const durationMs = durationOf(entity);
+    const durationMs = agilityDurationOf(entity);
     return {
       kind: "traversing",
       skill: "agility",
@@ -208,7 +275,7 @@ export class AgilitySystem implements TickSystem {
   }
 }
 
-function durationOf(entity: SemanticEntity | undefined): number {
+export function agilityDurationOf(entity: SemanticEntity | undefined): number {
   const durationMs = entity?.obstacle?.durationMs;
   return durationMs && durationMs > 0 ? durationMs : DEFAULT_DURATION_MS;
 }

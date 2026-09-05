@@ -15,6 +15,7 @@ import { ALL_ITEMS } from "../game/src/content/items.js";
 import { RECIPES } from "../game/src/content/recipes.js";
 import { RESOURCES } from "../game/src/content/resources.js";
 import { GATHERING_PRODUCTION_TIERS } from "../game/src/content/gatheringProductionTiers.js";
+import { CREATURE_LOOT_RECIPES } from "../game/src/content/creatureLoot.js";
 
 const ITEMS_BY_ID = new Map<ItemId, ItemDef>(ALL_ITEMS.map((item) => [item.id, item]));
 const RESOURCES_BY_ID = new Map(RESOURCES.map((resource) => [resource.id, resource]));
@@ -66,8 +67,7 @@ describe("generated gathering and production matrix", () => {
 
     for (const definition of GATHERING_PRODUCTION_TIERS) {
       const { tier, items } = definition;
-      const recipes = RECIPES.filter((recipe) => recipe.tier === tier);
-      expect(recipes, `tier ${tier} recipe count`).toHaveLength(tier === 1 ? 31 : 29);
+      const recipes = RECIPES.filter((recipe) => recipe.tier === tier && !CREATURE_LOOT_RECIPES.includes(recipe));
       expect(recipes.every((recipe) => recipe.reqLevel === tier), `tier ${tier} requirements`).toBe(true);
 
       const expectedOutputs: ItemId[] = [

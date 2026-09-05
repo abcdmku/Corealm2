@@ -1,9 +1,9 @@
 /**
  * Corealm's material system.
  *
- * The style target sits between Synty low-poly and classic RuneScape readability: clean shapes,
- * simple surfaces, restrained PBR, strong silhouettes. That means high roughness, near-zero
- * metalness, and saturated-but-not-neon colour.
+ * Rich stylized natural surfaces: botanical silhouettes, weathered bark and rock, readable
+ * material transitions, and restrained regional palettes. Authored normal and roughness maps
+ * provide surface response while the meshes carry curvature, fractures, and large forms.
  *
  * Tier variants are deliberately colour/roughness swaps over a SHARED base texture rather than
  * distinct textures. That is what keeps `InstancedMesh` batching intact — distinct textures would
@@ -15,10 +15,13 @@
  */
 import * as THREE from "three";
 import type { RegionId } from "../contracts.js";
+import { oceanDepthGridBounds, type OceanDepthGrid } from "../world/coastDepth.js";
+import { createArtDirectedMaterial, type ArtSurfaceRole } from "./artDirection.js";
+import { createFoliageOcclusionMaterial, FoliageOcclusion } from "./foliageOcclusion.js";
+import type { CorealmSurfaceTextures } from "./corealmSurfaceMaterials.js";
 import {
   DETAIL_TILING_METRES,
   DETAIL_VALUE_OFFSET,
-  createContactDecalTexture,
   createDetailAtlas,
   createDetailNormals,
   createGrassSpriteTexture,
@@ -26,6 +29,9 @@ import {
   createWaterNormalMap,
   disposeGeneratedTextures,
 } from "./proceduralTextures.js";
+
+/** Shared with CPU scatter bounds so wind never escapes a culled tile. */
+export const GRASS_WIND_STRENGTH = 0.085;
 
 /**
  * How much of `scene.environment` the terrain takes, against the scene default in renderer.ts.
@@ -430,7 +436,103 @@ interface GroundUniforms {
   uMacro: { value: THREE.Texture };
   uNormalGS: { value: THREE.Texture };
   uNormalRV: { value: THREE.Texture };
+  uCobble: { value: THREE.DataTexture };
+  uCobbleTiling: { value: number };
   uDetailTiling: { value: THREE.Vector4 };
+}
+
+const COBBLE_TILE_METRES = 4.8;
+
+/** Value, world-X/world-Z normal and face coverage for stones laid in a repeating 4.8 m patch. */
+function createCobbleSurfaceTexture(): THREE.DataTexture {
+  const size = 512;
+  const courses = 8;
+  const stoneMetres = COBBLE_TILE_METRES / courses;
+  const data = new Uint8Array(size * size * 4);
+  const heights = new Float32Array(size * size);
+  const wrap = (value: number, span: number): number => ((value % span) + span) % span;
+  const hash = (col: number, row: number, salt: number): number => {
+    let value = Math.imul(wrap(col, courses) + 1, 374761393)
+      ^ Math.imul(wrap(row, courses) + 1, 668265263) ^ salt;
+    value = Math.imul(value ^ (value >>> 13), 1274126177);
+    return ((value ^ (value >>> 16)) >>> 0) / 4294967296;
+  };
+  const sites = new Map<string, { x: number; z: number; tone: number; weight: number }>();
+  for (let row = -1; row <= courses; row++) {
+    for (let col = -1; col <= courses; col++) {
+      sites.set(`${col}:${row}`, {
+        x: col + 0.5 + (hash(col, row, 19) - 0.5) * 0.68,
+        z: row + 0.5 + (hash(col, row, 47) - 0.5) * 0.68,
+        tone: hash(col, row, 97),
+        weight: (hash(col, row, 131) - 0.5) * 0.24,
+      });
+    }
+  }
+  const patches = Array.from({ length: courses * courses }, (_, index) => {
+    const col = index % courses, row = Math.floor(index / courses);
+    return Array.from({ length: 9 }, (_, neighbour) =>
+      sites.get(`${col + neighbour % 3 - 1}:${row + Math.floor(neighbour / 3) - 1}`)!);
+  });
+
+  // Unequal stone sizes and jittered centres avoid the even hexagons produced by staggered rows.
+  // The weighted nearest boundary keeps the stones fitted together, including at the tile seam.
+  for (let z = 0; z < size; z++) {
+    for (let x = 0; x < size; x++) {
+      const px = (x + 0.5) / size * courses;
+      const pz = (z + 0.5) / size * courses;
+      const neighbours = patches[Math.floor(pz) * courses + Math.floor(px)]!;
+      let closest = neighbours[0]!;
+      let nearestSquared = Infinity;
+      for (const site of neighbours) {
+        const distanceSquared = (px - site.x) ** 2 + (pz - site.z) ** 2 - site.weight;
+        if (distanceSquared < nearestSquared) {
+          nearestSquared = distanceSquared;
+          closest = site;
+        }
+      }
+      let edge = Infinity;
+      for (const site of neighbours) {
+        if (site === closest) continue;
+        const distanceSquared = (px - site.x) ** 2 + (pz - site.z) ** 2 - site.weight;
+        edge = Math.min(edge, (distanceSquared - nearestSquared)
+          / (2 * Math.hypot(site.x - closest.x, site.z - closest.z)));
+      }
+      const phaseX = px / courses * Math.PI * 2, phaseZ = pz / courses * Math.PI * 2;
+      const edgeWear = Math.sin(phaseX * 23 + phaseZ * 31) * Math.sin(phaseX * 41 - phaseZ * 19);
+      const inset = edge * stoneMetres + edgeWear * 0.002;
+      const joint = 0.005 + closest.tone * 0.003;
+      const face = THREE.MathUtils.smoothstep(inset, joint, joint + 0.009);
+      const bevel = THREE.MathUtils.smoothstep(inset, joint, joint + 0.028);
+      const crown = 1 - Math.exp(-Math.max(0, inset - joint) * 7);
+      const stoneValue = 0.99 + closest.tone * 0.16;
+      const value = THREE.MathUtils.lerp(0.80, stoneValue, face);
+      const offset = (z * size + x) * 4;
+      data[offset] = Math.round(value / 1.5 * 255);
+      data[offset + 3] = Math.round(face * 255);
+      heights[z * size + x] = bevel * 0.024 + crown * 0.027;
+    }
+  }
+  const pixelMetres = COBBLE_TILE_METRES / size;
+  for (let z = 0; z < size; z++) {
+    for (let x = 0; x < size; x++) {
+      const dx = (heights[z * size + wrap(x + 1, size)]! - heights[z * size + wrap(x - 1, size)]!) / (2 * pixelMetres);
+      const dz = (heights[wrap(z + 1, size) * size + x]! - heights[wrap(z - 1, size) * size + x]!) / (2 * pixelMetres);
+      const length = Math.hypot(dx, 1, dz);
+      const offset = (z * size + x) * 4;
+      data[offset + 1] = Math.round((0.5 - dx / length * 0.5) * 255);
+      data[offset + 2] = Math.round((0.5 - dz / length * 0.5) * 255);
+    }
+  }
+  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType);
+  texture.name = "laid-cobble-value-normal-face";
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+  texture.generateMipmaps = true;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.anisotropy = 8;
+  texture.colorSpace = THREE.NoColorSpace;
+  texture.needsUpdate = true;
+  return texture;
 }
 
 /**
@@ -566,6 +668,14 @@ uniform sampler2D uDetail;
 uniform sampler2D uMacro;
 uniform sampler2D uNormalGS;
 uniform sampler2D uNormalRV;
+uniform sampler2D uCobble;
+uniform float uCobbleTiling;
+uniform sampler2D uGroundStoneAlbedo;
+uniform sampler2D uGroundStoneNormal;
+uniform sampler2D uGroundStoneRoughness;
+uniform vec3 uGroundStoneMean;
+uniform float uGroundStoneTiling;
+uniform float uGroundStoneReady;
 uniform vec4 uDetailTiling;
 varying vec4 vSplatA;
 varying vec4 vSplatB;
@@ -574,6 +684,9 @@ varying vec3 vGroundWorld;
 varying float vPaved;
 float gMacroShade;
 vec2 gGroundBump;
+vec2 gCobbleBump;
+float gCobbleCoverage;
+float gCobbleRoughness;
 
 // One hash per unit laid, off the unit's own cell index, so a stone keeps its tone across a chunk
 // seam and adding a paving rect cannot re-roll the one next to it.
@@ -610,27 +723,15 @@ const GROUND_FRAGMENT_BODY = /* glsl */ `
   float total = max( 0.001, channel.x + channel.y + channel.z + channel.w );
   channel /= total;
 
-  // FOUR reads, multiplied rather than mixed, because each one mips away at a different range and
-  // whichever survives has to still carry contrast on its own. The rates are a 2.5x geometric
-  // ladder — 2.5, 6.3, 16, 40 m — and the 6.3 m rung is this round's addition. With only 2.5 /
-  // 9.5 / 37 the ground carried no signal at all between 40 cm and 1.2 m, because the detail
-  // atlas's coarsest authored feature is one of its 12 base cells (21 cm) and the 9.5 m read's
-  // finest was 40 cm. That band is what the eye reads at 5-20 m, which in every open-field shot is
-  // most of the frame, and its absence is the "flattens toward a single tone" in the brief.
-  //
-  // Weights 0.85/0.9 became 0.72 each when the fourth read landed, to hold the product's variance
-  // roughly where it was: 0.123^2 + 3 * (0.72 * 0.140)^2 = 0.045, sigma 0.212, against the 0.212
-  // the three-read version measured. Same contrast, spread over one more octave of scale.
-  //
-  // Clamped, and the bounds moved with the textures. contrastStretch in proceduralTextures.ts
-  // makes each channel realise its authored range instead of hugging its mean, so the standard
-  // deviations are detail 0.123 and macro 0.140 (runs/corealm/audit/w3lit-tex.mjs), which puts
-  // p1..p99 at 0.51..1.49. 0.52..1.38 was clipping 4% of texels against the top bound and
-  // flattening exactly the crests the contrast was added for.
-  float macroShade = mix( 1.0, dot( channel, near ), 0.72 )
+  // Preserve the broad 16/40 m color variation while quieting the 6.3 m pattern. Multiplication
+  // lets each scale fade through its own mip levels without changing the region's base palette.
+  float macroShade = mix( 1.0, dot( channel, near ), 0.45 )
     * mix( 1.0, dot( channel, middle ), 0.72 )
     * mix( 1.0, dot( channel, macro ), 0.72 );
-  float shade = clamp( dot( channel, detail ) * macroShade, 0.50, 1.46 );
+  // Fine terrain grain supports the authored meshes. Gravel keeps stronger per-stone variation;
+  // the rock channel's dense ridges stay subordinate to the outcrop's broad faces.
+  float detailStrength = dot( channel, vec4( 0.28, 0.25, 0.36, 0.65 ) );
+  float shade = clamp( mix( 1.0, dot( channel, detail ), detailStrength ) * macroShade, 0.50, 1.46 );
 
   // Two wheel ruts at +/-0.55 m from the centreline, 0.16 m wide.
   float perpendicular = ( vGroundExtra.x - 0.5 ) * 7.0;
@@ -688,21 +789,40 @@ const GROUND_FRAGMENT_BODY = /* glsl */ `
 
   // LAID GROUND.
   //
-  // A settlement is paved by stamping the terrain, so brick courses and plank runs have to be drawn
-  // rather than modelled. They share a grid of units, offset row by row, with a dark joint between
-  // them and a tone per unit. Gathered cobble keeps the atlas detail underneath. Drawn in world XZ,
-  // so a course is a fixed size in METRES: it runs
-  // unbroken across a chunk seam, it does not stretch on a slope, and it costs no texture fetch.
-  //
-  // Joint width is the authored width PLUS the texel footprint, and it is not clamped, so as the
-  // surface recedes the joints widen into the unit tone instead of aliasing into a moire the way a
-  // 2 m slab mesh did. Past about 35 m only the vertex swatch is left, which is what should be.
+  // Paving is stamped into terrain. Gathered cobble combines fitted faces with the same authored
+  // stone PBR maps as the quarry assets. World-XZ coordinates keep its size fixed in metres
+  // across terrain chunks. Cobble joints and stone grain fade through their mip chains;
+  // the drawn brick and plank joints include the pixel footprint to avoid distant shimmer.
   float paved = vSplatB.z;
-  // Gathered cobble keeps the original ground detail. Only authored brick and plank surfaces draw
-  // unit lines; applying that grid to stone made the altar courts look like fake square bricks.
+  // Gathered stone uses a separate irregular pattern. Brick and plank retain their laid courses.
   float wStone = max( 0.0, 1.0 - vPaved * 2.0 );
   float wPlank = max( 0.0, vPaved * 2.0 - 1.0 );
   float wBrick = 1.0 - wStone - wPlank;
+  float cobbled = paved * wStone;
+  gCobbleCoverage = cobbled;
+  gCobbleBump = vec2( 0.0 );
+  gCobbleRoughness = 0.97;
+  if ( cobbled > 0.004 ) {
+    vec4 cobble = texture2D( uCobble, vGroundWorld.xz * uCobbleTiling );
+    vec3 stoneDetail = vec3( 1.0 );
+    vec2 stoneNormal = vec2( 0.0 );
+    if ( uGroundStoneReady > 0.5 ) {
+      vec2 stoneUv = vGroundWorld.xz * uGroundStoneTiling;
+      vec3 stoneRelative = texture2D( uGroundStoneAlbedo, stoneUv ).rgb / uGroundStoneMean;
+      float stoneLuma = dot( stoneRelative, vec3( 0.2126, 0.7152, 0.0722 ) );
+      stoneRelative = mix( vec3( stoneLuma ), stoneRelative, 0.45 );
+      stoneDetail = clamp( mix( vec3( 1.0 ), stoneRelative, 0.86 ), vec3( 0.42 ), vec3( 1.90 ) );
+      stoneNormal = texture2D( uGroundStoneNormal, stoneUv ).xy * 2.0 - 1.0;
+      float stoneRoughness = texture2D( uGroundStoneRoughness, stoneUv ).g;
+      gCobbleRoughness = mix( 0.95, clamp( stoneRoughness, 0.52, 0.96 ), cobble.a );
+    }
+    float cobbleShade = cobble.r * 1.5 * macroShade;
+    shade = mix( shade, cobbleShade, cobbled );
+    gGroundBump *= 1.0 - cobbled;
+    gCobbleBump = ( cobble.gb * 2.0 - 1.0 ) + stoneNormal * 0.65 * cobble.a;
+    gMacroShade = mix( gMacroShade, macroShade, cobbled );
+    tint = mix( tint, mix( vec3( 1.0 ), stoneDetail, cobble.a ), cobbled );
+  }
   float laid = paved * ( 1.0 - wStone );
   if ( laid > 0.004 ) {
 
@@ -765,12 +885,10 @@ const GROUND_FRAGMENT_BODY = /* glsl */ `
  * tool at that scale: `gMacroShade` is already in registers, so this costs two `dFdx`-class
  * instructions and no fetch, and it is automatically mip-correct.
  *
- * 2.4, up from the 1.5 the combined detail+macro signal used, because the detail read has been
- * taken OUT of this term (it has its own map now) and the macro-only signal is the shallower of
- * the two. Restrained regardless: this perturbs a normal that lighting, shadow receipt and fog all
- * read, and pushed hard it turns a hillside at a grazing sun angle into noise.
+ * Broad color patches need only shallow relief. The lower response keeps those patches from
+ * reading as ripples under the low sun; authored terrain geometry supplies the large slopes.
  */
-const GROUND_MACRO_BUMP_SCALE = 2.4;
+const GROUND_MACRO_BUMP_SCALE = 0.6;
 
 /**
  * Strength multiplier on the detail normal maps, on top of the metres of relief baked into them.
@@ -781,7 +899,7 @@ const GROUND_MACRO_BUMP_SCALE = 2.4;
  * filling the frame is roughly twice too strong once the same surface is 20 m away and lit at a
  * grazing angle.
  */
-const GROUND_NORMAL_SCALE = 1.0;
+const GROUND_NORMAL_SCALE = 0.3;
 
 const GROUND_NORMAL_BODY = /* glsl */ `
 {
@@ -803,6 +921,10 @@ const GROUND_NORMAL_BODY = /* glsl */ `
   // rigid transform, so mat3 of it needs no inverse-transpose.
   vec3 worldBump = vec3( gGroundBump.x, 0.0, gGroundBump.y ) * ${GROUND_NORMAL_SCALE.toFixed(1)};
   normal = normalize( normal + mat3( viewMatrix ) * worldBump );
+  // Cobble crowns need their own response. The terrain's 0.3 grain scale flattened these broad
+  // faces even though the sampled normals were valid. This term is zero off stone pavement.
+  vec3 cobbleWorldBump = vec3( gCobbleBump.x, 0.0, gCobbleBump.y ) * 0.72 * gCobbleCoverage;
+  normal = normalize( normal + mat3( viewMatrix ) * cobbleWorldBump );
 }
 `;
 
@@ -842,6 +964,50 @@ const WATER_FRAGMENT_BODY = /* glsl */ `
 }
 `;
 
+// The full-world coast supplies the same raw heights used by its triangles. Manual nearest
+// sampling avoids float-linear-filter requirements and preserves the actual shoreline slope.
+const OCEAN_DEPTH_FRAGMENT_HEADER = /* glsl */ `
+uniform sampler2D uOceanDepthGrid;
+uniform float uOceanDepthReady;
+uniform vec4 uOceanGridBounds;
+uniform vec2 uOceanGridSize;
+uniform vec2 uOceanGridStep;
+uniform float uOceanSeaLevel;
+
+float corealmOceanDepth( vec2 worldXZ ) {
+  if ( uOceanDepthReady < 0.5
+    || any( lessThan( worldXZ, uOceanGridBounds.xy ) )
+    || any( greaterThan( worldXZ, uOceanGridBounds.zw ) ) ) {
+    return max( uDepthRange, vWaterDepth );
+  }
+  vec2 gridPosition = clamp(
+    ( worldXZ - uOceanGridBounds.xy ) / uOceanGridStep,
+    vec2( 0.0 ), uOceanGridSize - vec2( 1.0 )
+  );
+  vec2 cell = min( floor( gridPosition ), uOceanGridSize - vec2( 2.0 ) );
+  vec2 f = gridPosition - cell;
+  float a = texture2D( uOceanDepthGrid, ( cell + vec2( 0.5, 0.5 ) ) / uOceanGridSize ).r;
+  float b = texture2D( uOceanDepthGrid, ( cell + vec2( 1.5, 0.5 ) ) / uOceanGridSize ).r;
+  float c = texture2D( uOceanDepthGrid, ( cell + vec2( 0.5, 1.5 ) ) / uOceanGridSize ).r;
+  float d = texture2D( uOceanDepthGrid, ( cell + vec2( 1.5, 1.5 ) ) / uOceanGridSize ).r;
+  // Match the coast's (a,c,b), (b,c,d) diagonal. Interpolate raw height before clamping depth.
+  float height = f.x + f.y <= 1.0
+    ? a + ( b - a ) * f.x + ( c - a ) * f.y
+    : d + ( c - d ) * ( 1.0 - f.x ) + ( b - d ) * ( 1.0 - f.y );
+  return max( 0.0, uOceanSeaLevel - height );
+}
+`;
+
+const OCEAN_FRAGMENT_BODY = /* glsl */ `
+{
+  float depth = corealmOceanDepth( vWaterWorld.xz );
+  float depth01 = clamp( depth / uDepthRange, 0.0, 1.0 );
+  diffuseColor.rgb *= mix( uShallow, uDeep, depth01 );
+  // Deep water must not reveal where the finite coastal floor ends. Shallows keep their fade.
+  diffuseColor.a *= smoothstep( 0.0, uEdgeFade, depth ) * mix( 0.94, 1.0, depth01 );
+}
+`;
+
 const WATER_NORMAL_BODY = /* glsl */ `
 #ifdef USE_NORMALMAP_TANGENTSPACE
   vec3 waveA = texture2D( normalMap, vWaterWorld.xz * uWaveScale.x + uWaveScrollA * uTime ).xyz * 2.0 - 1.0;
@@ -871,10 +1037,33 @@ export class MaterialLibrary {
   private nextVariantKey = 0;
   /** Held so the compiled ground program cannot outlive the atlas it samples. */
   private groundUniforms: GroundUniforms | null = null;
+  /** Shared authored maps are borrowed; their loader owns their lifetime. */
+  private readonly groundStoneUniforms = {
+    uGroundStoneAlbedo: { value: null as THREE.Texture | null },
+    uGroundStoneNormal: { value: null as THREE.Texture | null },
+    uGroundStoneRoughness: { value: null as THREE.Texture | null },
+    uGroundStoneMean: { value: new THREE.Vector3(1, 1, 1) },
+    uGroundStoneTiling: { value: 1 },
+    uGroundStoneReady: { value: 0 },
+  };
   private waterUniforms: WaterUniforms[] = [];
+  private oceanDepthTexture: THREE.DataTexture | null = null;
+  // Stable wrappers also update ocean programs compiled before a world rebuild.
+  private readonly oceanDepthUniforms = {
+    uOceanDepthGrid: { value: null as THREE.DataTexture | null },
+    uOceanDepthReady: { value: 0 },
+    uOceanGridBounds: { value: new THREE.Vector4() },
+    uOceanGridSize: { value: new THREE.Vector2(2, 2) },
+    uOceanGridStep: { value: new THREE.Vector2(1, 1) },
+    uOceanSeaLevel: { value: 0 },
+  };
   private windUniforms: WindUniforms[] = [];
   private grassSpriteMaterial: THREE.MeshStandardMaterial | null = null;
   private timeSeconds = 0;
+  private readonly foliageOcclusion = new FoliageOcclusion();
+  private readonly foliagePlayerFeet = new THREE.Vector3();
+  private readonly foliageBufferSize = new THREE.Vector2();
+  private foliageOcclusionEnabled = false;
 
   private key(parts: (string | number | boolean)[]): string {
     return parts.join("|");
@@ -892,6 +1081,58 @@ export class MaterialLibrary {
   surface(colour: number, roughness = 0.92, metalness = 0): THREE.MeshStandardMaterial {
     return this.remember(this.key(["surface", colour, roughness, metalness]), () =>
       new THREE.MeshStandardMaterial({ color: colour, roughness, metalness, flatShading: false }));
+  }
+
+  /** Shared organic treatment after tier/state colour and before animation shader extensions. */
+  organic(source: THREE.Material, role: ArtSurfaceRole): THREE.Material {
+    return this.remember(this.key(["organic", this.baseKey(source), role]), () => {
+      const graded = createArtDirectedMaterial(source, role);
+      const name = source.name.split("@", 1)[0]!;
+      const treeOrPlant = role === "bark"
+        || (role === "foliage" && !/^(?:Grass|grass-sprite)$/i.test(name));
+      if (!treeOrPlant) return graded;
+      const reveal = createFoliageOcclusionMaterial(graded, this.foliageOcclusion);
+      // The final clone retains the shader closure and shared textures. Dispose only the unused
+      // intermediate material; the asset registry continues to own the original source.
+      if (reveal !== graded && graded !== source) graded.dispose();
+      return reveal;
+    });
+  }
+
+  setFoliageOcclusionEnabled(enabled: boolean): void {
+    this.foliageOcclusionEnabled = enabled;
+    if (!enabled) this.foliageOcclusion.setEnabled(false);
+  }
+
+  updatePlayerOcclusion(
+    renderer: THREE.WebGLRenderer,
+    camera: THREE.Camera,
+    position: readonly [number, number, number],
+    playerVisible: boolean,
+  ): void {
+    this.foliagePlayerFeet.set(position[0], position[1], position[2]);
+    renderer.getDrawingBufferSize(this.foliageBufferSize);
+    this.foliageOcclusion.update(camera, this.foliagePlayerFeet, this.foliageBufferSize,
+      this.foliageOcclusionEnabled && playerVisible);
+  }
+
+  getFoliageOcclusion(): ReturnType<FoliageOcclusion["snapshot"]> {
+    return this.foliageOcclusion.snapshot();
+  }
+
+  /** Boot awaits the shared surface loader, then supplies these maps before terrain creation. */
+  setGroundStoneSurface(textures: CorealmSurfaceTextures): void {
+    const stone = textures.stone;
+    if (!Number.isFinite(stone.tileMetres) || stone.tileMetres <= 0
+      || stone.meanLinearRgb.some(value => !Number.isFinite(value) || value <= 0)) {
+      throw new Error("Ground stone surface needs positive tile metres and mean linear RGB");
+    }
+    this.groundStoneUniforms.uGroundStoneAlbedo.value = stone.albedo;
+    this.groundStoneUniforms.uGroundStoneNormal.value = stone.normal;
+    this.groundStoneUniforms.uGroundStoneRoughness.value = stone.roughness;
+    this.groundStoneUniforms.uGroundStoneMean.value.fromArray(stone.meanLinearRgb);
+    this.groundStoneUniforms.uGroundStoneTiling.value = 1 / stone.tileMetres;
+    this.groundStoneUniforms.uGroundStoneReady.value = 1;
   }
 
   /**
@@ -933,6 +1174,8 @@ export class MaterialLibrary {
         uMacro: { value: createMacroVariation() },
         uNormalGS: { value: normals.grassSoil },
         uNormalRV: { value: normals.rockGravel },
+        uCobble: { value: createCobbleSurfaceTexture() },
+        uCobbleTiling: { value: 1 / COBBLE_TILE_METRES },
         // 2.5 m for the detail read, then 6.3, 16 and 40 m — a 2.5x geometric ladder, so the four
         // reads cover 1 cm to 13 m features with no gap and no two of them come back into phase
         // inside the fog radius. The three far reads come from their OWN texture: reading the
@@ -943,13 +1186,16 @@ export class MaterialLibrary {
       // Held so a hot reload cannot orphan the atlas while a compiled program still references it.
       this.groundUniforms = uniforms;
 
-      material.customProgramCacheKey = () => "corealm-ground-splat-v7";
+      material.customProgramCacheKey = () => "corealm-ground-splat-v11";
       material.onBeforeCompile = (shader) => {
         shader.uniforms.uDetail = uniforms.uDetail;
         shader.uniforms.uMacro = uniforms.uMacro;
         shader.uniforms.uNormalGS = uniforms.uNormalGS;
         shader.uniforms.uNormalRV = uniforms.uNormalRV;
+        shader.uniforms.uCobble = uniforms.uCobble;
+        shader.uniforms.uCobbleTiling = uniforms.uCobbleTiling;
         shader.uniforms.uDetailTiling = uniforms.uDetailTiling;
+        Object.assign(shader.uniforms, this.groundStoneUniforms);
 
         shader.vertexShader = `${GROUND_VERTEX_HEADER}\n${shader.vertexShader}`.replace(
           "#include <begin_vertex>",
@@ -957,6 +1203,8 @@ export class MaterialLibrary {
         );
         shader.fragmentShader = `${GROUND_FRAGMENT_HEADER}\n${shader.fragmentShader}`
           .replace("#include <map_fragment>", `#include <map_fragment>\n${GROUND_FRAGMENT_BODY}`)
+          .replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>
+roughnessFactor = mix( roughnessFactor, gCobbleRoughness, gCobbleCoverage );`)
           .replace("#include <normal_fragment_maps>", GROUND_NORMAL_BODY)
           .replace("#include <lights_fragment_maps>", iblScale(GROUND_ENV_RESPONSE));
       };
@@ -964,37 +1212,14 @@ export class MaterialLibrary {
     });
   }
 
-  /**
-   * The 1 x 1 m contact patch drawn under a prop, rock or tree.
-   *
-   * `MultiplyBlending`, not alpha: a contact shadow is a darkening of whatever is already there,
-   * so it needs no sorting against the ground and no depth write of its own, and the generated
-   * texture is pure white outside its falloff, which makes the quad's square edge invisible.
-   * One InstancedMesh of these is ONE draw call for the entire world's contact shadows, against
-   * the alternative of an SSAO pass or a second shadow cascade.
-   */
-  contactDecal(): THREE.MeshBasicMaterial {
-    return this.remember("contact-decal", () =>
-      new THREE.MeshBasicMaterial({
-        map: createContactDecalTexture(),
-        blending: THREE.MultiplyBlending,
-        transparent: true,
-        depthWrite: false,
-        toneMapped: false,
-        side: THREE.DoubleSide,
-        polygonOffset: true,
-        polygonOffsetFactor: -2,
-        polygonOffsetUnits: -4,
-      })) as THREE.MeshBasicMaterial;
-  }
 
   /**
    * The shared cutout material for every grass card.
    *
    * Alpha testing keeps the cards in the opaque queue, writes depth, and avoids sorting hundreds
    * of thousands of overlapping tufts. `alphaToCoverage` softens that hard cut on the renderer's
-   * multisampled canvas without changing the material to transparent. The map is white, so each
-   * `InstancedMesh` can carry green, gold and small value shifts through `instanceColor` while all
+   * multisampled canvas without changing the material to transparent. The map carries folded-blade
+   * shading; each `InstancedMesh` carries the meadow palette and value shifts through `instanceColor` while all
    * regions and all four former grass assets keep one program and one material.
    */
   grassSprite(): THREE.MeshStandardMaterial {
@@ -1017,8 +1242,33 @@ export class MaterialLibrary {
       side: THREE.DoubleSide,
     });
     source.name = "grass-sprite";
-    this.grassSpriteMaterial = this.wind(source, 0.085) as THREE.MeshStandardMaterial;
+    // Upright cards approximate many curved blades. An upward diffuse normal keeps their two
+    // faces from alternating between bright green and black as the camera orbits the same tuft.
+    source.onBeforeCompile = (shader) => {
+      shader.fragmentShader = shader.fragmentShader.replace(
+        "#include <normal_fragment_begin>",
+        `#include <normal_fragment_begin>
+vec3 grassUp = normalize( mat3( viewMatrix ) * vec3( 0.0, 1.0, 0.0 ) );
+normal = normalize( mix( normal, grassUp, 0.78 ) );`,
+      );
+    };
+    source.customProgramCacheKey = () => "corealm-grass-light-v1";
+    this.grassSpriteMaterial = this.wind(this.organic(source, "foliage"), GRASS_WIND_STRENGTH) as THREE.MeshStandardMaterial;
     return this.grassSpriteMaterial;
+  }
+
+  grassBlades(): THREE.Material {
+    return this.remember("grass-blades", () => {
+      const source = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide, roughness: 0.92 });
+      source.name = "Corealm folded grass blades";
+      source.onBeforeCompile = (shader) => {
+        shader.fragmentShader = shader.fragmentShader.replace("#include <normal_fragment_begin>", `#include <normal_fragment_begin>
+vec3 grassUp = normalize(mat3(viewMatrix) * vec3(0.0, 1.0, 0.0));
+normal = normalize(mix(normal, grassUp, 0.45));`);
+      };
+      source.customProgramCacheKey = () => "corealm-grass-blades-v1";
+      return this.wind(this.organic(source, "foliage"), GRASS_WIND_STRENGTH);
+    });
   }
 
   /**
@@ -1058,6 +1308,27 @@ export class MaterialLibrary {
     });
   }
 
+  /** Shadow passes sample the identical wind displacement and clock as the visible foliage. */
+  windShadow(source: THREE.Material, strength: number, mode: "depth" | "distance"): THREE.Material {
+    return this.remember(this.key(["wind-shadow", this.baseKey(source), strength, mode]), () => {
+      const original = source as THREE.MeshStandardMaterial;
+      const shadow = mode === "depth"
+        ? new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking })
+        : new THREE.MeshDistanceMaterial();
+      shadow.name = `${source.name}:${mode}`;
+      shadow.map = original.map ?? null;
+      shadow.alphaMap = original.alphaMap ?? null;
+      shadow.alphaTest = original.alphaTest;
+      shadow.side = original.side;
+      shadow.displacementMap = original.displacementMap ?? null;
+      shadow.displacementScale = original.displacementScale ?? 1;
+      shadow.displacementBias = original.displacementBias ?? 0;
+      const animated = this.wind(shadow, strength);
+      if (animated !== shadow) shadow.dispose();
+      return animated;
+    });
+  }
+
   /**
    * Standing water: depth-tinted, alpha driven by depth, and two generated normal maps scrolling
    * across each other.
@@ -1079,15 +1350,16 @@ export class MaterialLibrary {
    * and at 0.50 the water lost its sky and went back to a flat tinted plane. `WATER_ENV_RESPONSE`
    * puts it back for this material alone.
    */
-  water(regionId: RegionId = "fallowmarch"): THREE.MeshStandardMaterial {
-    return this.remember(this.key(["water", regionId]), () => {
+  water(regionId: RegionId = "fallowmarch", mode: "lake" | "ocean" = "lake"): THREE.MeshStandardMaterial {
+    const ocean = mode === "ocean";
+    return this.remember(this.key(["water", regionId, mode]), () => {
       const palette = REGION_PALETTES[regionId];
       const material = new THREE.MeshStandardMaterial({
         color: 0xffffff,
         roughness: 0.14,
         metalness: 0,
         transparent: true,
-        opacity: 0.94,
+        opacity: ocean ? 1 : 0.94,
         // The basin owns a closed bank. Rendering the back face would make an invalid or clipped
         // water plane visible from below, which is the exact defect the basin closure prevents.
         side: THREE.FrontSide,
@@ -1095,7 +1367,7 @@ export class MaterialLibrary {
         normalMap: createWaterNormalMap("fine"),
         normalScale: new THREE.Vector2(0.55, 0.55),
       });
-      material.name = `water-${regionId}`;
+      material.name = ocean ? `ocean-${regionId}` : `water-${regionId}`;
 
       const uniforms = {
         uTime: { value: this.timeSeconds },
@@ -1115,21 +1387,66 @@ export class MaterialLibrary {
       };
       this.waterUniforms.push(uniforms);
 
-      material.customProgramCacheKey = () => "corealm-water-v2";
+      material.customProgramCacheKey = () => ocean ? "corealm-ocean-water-v1" : "corealm-water-v2";
       material.onBeforeCompile = (shader) => {
         for (const [name, uniform] of Object.entries(uniforms)) shader.uniforms[name] = uniform;
+        if (ocean) {
+          for (const [name, uniform] of Object.entries(this.oceanDepthUniforms)) shader.uniforms[name] = uniform;
+        }
 
         shader.vertexShader = `${WATER_VERTEX_HEADER}\n${shader.vertexShader}`.replace(
           "#include <begin_vertex>",
           `#include <begin_vertex>\n${WATER_VERTEX_BODY}`,
         );
-        shader.fragmentShader = `${WATER_FRAGMENT_HEADER}\n${shader.fragmentShader}`
-          .replace("#include <map_fragment>", `#include <map_fragment>\n${WATER_FRAGMENT_BODY}`)
+        shader.fragmentShader = `${WATER_FRAGMENT_HEADER}\n${ocean ? OCEAN_DEPTH_FRAGMENT_HEADER : ""}\n${shader.fragmentShader}`
+          .replace("#include <map_fragment>", `#include <map_fragment>\n${ocean ? OCEAN_FRAGMENT_BODY : WATER_FRAGMENT_BODY}`)
           .replace("#include <normal_fragment_maps>", WATER_NORMAL_BODY)
           .replace("#include <lights_fragment_maps>", iblScale(WATER_ENV_RESPONSE));
       };
       return material;
     });
+  }
+
+  /**
+   * Snapshot the completed coast mesh grid. Replacing or clearing it releases the prior texture;
+   * cached ocean materials keep their uniform wrappers, while lakes never receive these uniforms.
+   * WorldScene must clear this field when clearing or rebuilding its coast.
+   */
+  setOceanDepthGrid(grid: OceanDepthGrid | null, seaLevel = 0): void {
+    if (!Number.isFinite(Math.fround(seaLevel))) {
+      throw new RangeError("Ocean sea level must be finite");
+    }
+    const bounds = grid ? oceanDepthGridBounds(grid) : null;
+    let texture: THREE.DataTexture | null = null;
+    if (grid) {
+      texture = new THREE.DataTexture(grid.heights.slice(), grid.cols, grid.rows, THREE.RedFormat, THREE.FloatType);
+      texture.name = "ocean-coast-depth";
+      texture.minFilter = THREE.NearestFilter;
+      texture.magFilter = THREE.NearestFilter;
+      texture.wrapS = THREE.ClampToEdgeWrapping;
+      texture.wrapT = THREE.ClampToEdgeWrapping;
+      texture.generateMipmaps = false;
+      texture.flipY = false;
+      texture.unpackAlignment = 1;
+      texture.colorSpace = THREE.NoColorSpace;
+      texture.needsUpdate = true;
+    }
+    const previousTexture = this.oceanDepthTexture;
+    this.oceanDepthTexture = texture;
+    const uniforms = this.oceanDepthUniforms;
+    uniforms.uOceanDepthGrid.value = texture;
+    uniforms.uOceanDepthReady.value = grid ? 1 : 0;
+    uniforms.uOceanSeaLevel.value = seaLevel;
+    if (grid && bounds) {
+      uniforms.uOceanGridBounds.value.set(grid.minX, grid.minZ, bounds.maxX, bounds.maxZ);
+      uniforms.uOceanGridSize.value.set(grid.cols, grid.rows);
+      uniforms.uOceanGridStep.value.set(grid.stepX, grid.stepZ);
+    } else {
+      uniforms.uOceanGridBounds.value.set(0, 0, 0, 0);
+      uniforms.uOceanGridSize.value.set(2, 2);
+      uniforms.uOceanGridStep.value.set(1, 1);
+    }
+    previousTexture?.dispose();
   }
 
   /** Advances every animated material. View-only: nothing here feeds semantic state. */
@@ -1292,6 +1609,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gArchitectureTinted, ${strength} ) * $
       }
       const target = new THREE.Color(swatchColour(palette, swatch));
       const clone = source.clone();
+      clone.onBeforeCompile = (shader, renderer) => source.onBeforeCompile.call(source, shader, renderer);
+      clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
       // clone() keeps the same texture object references. Do NOT reassign clone.map.
       clone.color = new THREE.Color(source.color.getHex()).lerp(target, strength);
       // A tier tint on a TEXTURED material changes hue only. This is the fix for the black
@@ -1346,6 +1665,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gArchitectureTinted, ${strength} ) * $
     return this.remember(key, () => {
       if (!source.isMeshStandardMaterial) return source;
       const clone = source.clone();
+      clone.onBeforeCompile = (shader, renderer) => source.onBeforeCompile.call(source, shader, renderer);
+      clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
       clone.color = new THREE.Color(source.color.getHex());
       applyDepletion(clone.color);
       clone.roughness = 1;
@@ -1410,12 +1731,19 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gArchitectureTinted, ${strength} ) * $
   }
 
   dispose(): void {
-    for (const material of this.cache.values()) material.dispose();
+    this.setOceanDepthGrid(null);
+    for (const material of new Set(this.cache.values())) material.dispose();
     this.cache.clear();
+    this.groundUniforms?.uCobble.value.dispose();
     this.groundUniforms = null;
+    this.groundStoneUniforms.uGroundStoneAlbedo.value = null;
+    this.groundStoneUniforms.uGroundStoneNormal.value = null;
+    this.groundStoneUniforms.uGroundStoneRoughness.value = null;
+    this.groundStoneUniforms.uGroundStoneReady.value = 0;
     this.waterUniforms = [];
     this.windUniforms = [];
     this.grassSpriteMaterial = null;
+    this.foliageOcclusion.setEnabled(false);
     this.timeSeconds = 0;
     disposeGeneratedTextures();
   }

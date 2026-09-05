@@ -1,86 +1,14 @@
 /**
- * Deterministic procedural dressing.
- *
- * Scatter is everything the player can see and nothing the player can touch. Gameplay entities are
- * authored in region data and built by the world layer; this file places grass, trees, rocks and
- * clutter around them. If something here becomes interactable, it has been put in the wrong file.
- *
- * Five properties are load-bearing:
- *
- *  1. **Deterministic.** Same seed, byte-identical layout. Every draw comes from `core/rng.ts`;
- *     `Math.random` is banned. Each layer gets its own derived stream, so adding a layer or
- *     changing one layer's count cannot shift the layout of any other layer.
- *  2. **Clustered, not even.** Round 2 measured the old sampler and found the mechanical cause of
- *     the brief's "random assets thrown on a board": `poissonDisc` overrode every authored
- *     `spacing` with `sqrt(area * 0.66 / maxCount)`, so Fallowmarch's authored 3.4 m grass had a
- *     10.4 m minimum and an 11.3 m mean nearest-neighbour gap, and Vellenwood's canopy a 15.3 m
- *     minimum. Poisson-disc is an ANTI-clustering algorithm, and the `patchiness` control layered
- *     on top was a per-point Bernoulli test that only ever removed points — so no grove, treeline,
- *     reed bed or rock field could form at any setting. Placement is now two-level: Poisson the
- *     cluster CENTRES at `cluster.spacing`, test the terrain, mask and settlement rules on the
- *     CENTRE, then Poisson the members inside a disc with a radial falloff and a dominant/secondary
- *     species split. `maxCount` caps accepted clusters rather than widening a radius.
- *  3. **Grounded.** Every instance sits on `meshHeightAt` (the DRAWN surface) rather than
- *     `heightAtXZ` (the analytic field); the two differ by meanAbs 0.031 m with 6.1% of samples
- *     over 5 cm, which is exactly the band in which a 9 cm pebble floats or vanishes. Instances
- *     also lean into `normalAt` by a per-layer `tilt`, so a stone on a scree slope beds into the
- *     slope instead of standing plumb through it.
- *  4. **Instanced and TILED.** One `InstancedMesh` per (asset, material, spatial tile), per region.
- *     That is the whole budget argument (runs/corealm/architecture.md, correction R6). Draw calls
- *     are FLAT in instance count and LINEAR in species count, so density is nearly free and each
- *     new species costs 1-2 calls (2-4 with shadows) in every tile it appears in. Every number in
- *     `DEFAULT_SCATTER` is chosen against that asymmetry: counts run high, species lists stay
- *     short.
- *  5. **Field-shaped, and REGIONAL.** `groundcover` supplies mixed tufts while `bladecarpet` uses
- *     broad masked clusters for the grass floor. There is deliberately no uniform Poisson grass
- *     layer between them. Each region has its own pool — `MEADOW_COVER`, `WOODLAND_COVER`,
- *     `UPLAND_COVER` — because one shared pool made all three regions the same sward with a
- *     different vertex colour under it.
- *
- * The consequence of (4) worth stating out loud, and what it used to cost: a REGION-wide
- * `InstancedMesh` has a region-wide bounding sphere, so it was never frustum-culled and never
- * distance-culled below `WorldScene.updateStreaming`'s per-region granularity. Every streamed-in
- * region submitted all of its triangles to the colour pass AND to a 96 x 96 m shadow pass, every
- * frame. Cutting the buckets on a grid — 96 m for shadow casters, matching the shadow box, 128 m
- * for the big ground-cover buckets — hands three.js a sphere it can actually reject.
- * `THREE.BatchedMesh` keyed on MATERIAL would additionally collapse the species-count cost, and is
- * the only way to spend fewer draw calls AND fewer triangles at once — the 63-asset nature+rock kit
- * uses only 17 materials — but it lives in `render/scene.ts`, which this pass does not own.
- *
- * ROUND 5 RE-EXAMINED THE TILING AND LEFT IT ALONE, which is worth writing down because the
- * standing recommendation said to undo it. The argument for undoing it was that the draw-call
- * budget was blown (517 of 400 at `town_entrance`) and frame time had 4x headroom, so trading calls
- * for triangles was the wrong way round. What was actually eating the budget was `render/
- * entityViews.ts` submitting 490 separate `InstancedMesh`es; batching those took the worst pose from
- * 517 to 299 and did not touch this file at all. With 100 calls of margin and median frame time
- * roughly doubled by the per-instance cull, the axis that is tight is now triangles, which is the
- * side of the trade the tiling is already on.
- *
- * The sweep behind that, per pose, is runs/corealm/audit/dcb-sweep.ts: it runs the real
- * `scatterRegion`, rebuilds every candidate shard's bounding sphere, and tests it against the real
- * camera frustum (fov 55, far = FOG_FAR 210) and the 96 m shadow box at all 18 shot poses.
- *
- * ```text
- *   config                                 worst-pose calls   worst-pose tris   mean calls   mean tris
- *   no tiling at all                                     60            12.01M           46       9.98M
- *   shipped: shadow 96, cover 128 / 4000                166             7.88M          103       5.59M  <-
- *   + a 4-instance-per-tile floor                       162             8.27M           99       5.91M
- *   + an 8-instance-per-tile floor                      156             8.87M           93       6.41M
- *   + a 16-instance-per-tile floor                      125            10.35M           80       7.44M
- *   + a 24-instance-per-tile floor                      113            10.61M           76       7.67M
- * ```
- *
- * Every step away from the shipped row buys draw calls at 100,000 triangles each, which is a worse
- * rate than any line in the original sweep. The suspicious-looking buckets are suspicious only
- * world-wide: `vellenwood:tree_twisted_2` really does hold 14 instances in 8 tiles, and un-tiling it
- * plus the two `tree_dead_5` buckets saves 74 draw calls WORLD-WIDE and only 4 at any actual pose,
- * because the culling those tiles exist for is already doing its job. Those species are also 3-10k
- * triangles each, so the 4 calls cost 0.39M triangles. Left as shipped.
- *
- * Exclusion zones are how gameplay space stays clear, and they are now a DENSITY FIELD rather than
- * a boolean: a settlement thins out over a band instead of ending in a bare 46 m disc.
+ * Deterministic ecological dressing around authored sites. Generate stable candidates on the
+ * 96 m world grid. Native understory reserves growing space within those original patches;
+ * trees and grass retain their exact streams. Render shards keep native geometry at every distance.
+ * Ordinary forest descriptors feed nearby harvesting; distant trees remain static instances.
+ * Placement exclusions, terrain, climate, roads and water use the production world fields.
  */
 import type { RegionId, Vec3 } from "../contracts.js";
+import { Matrix4, Quaternion, Vector3 } from "three";
+import type { ForestTreeDescriptor } from "./forestResources.js";
+import { GRASS_COLOURS } from "../render/artDirection.js";
 import { REGIONS } from "../content/regions.js";
 import { Rng } from "../core/rng.js";
 import { BOOT_SPANS, bootTelemetry } from "../perf/bootTelemetry.js";
@@ -103,6 +31,7 @@ export type ExclusionKind =
   | "spawn"
   | "water"
   | "ritual"
+  | "worksite"
   | "custom";
 
 interface CircleZone { kind: ExclusionKind; id: string; x: number; z: number; radius: number }
@@ -115,6 +44,14 @@ interface RectZone {
   halfZ: number;
   rotationY: number;
   margin: number;
+}
+
+interface TreeClearance {
+  id: string;
+  /** Counterclockwise convex hull in XZ, with point and segment degeneracies retained. */
+  hull: readonly (readonly [number, number])[];
+  bodyRadius: number;
+  bounds: Rect;
 }
 
 /**
@@ -150,6 +87,8 @@ const HARD_EDGE: ExclusionProfile = { base: { hard: 0, fade: 0 } };
  */
 const ZONE_INDEX_REACH = 48;
 const ZONE_CELL = 24;
+const exclusionRevisions = new WeakMap<ExclusionZones, number>();
+let nextExclusionRevision = 0;
 
 /**
  * Places nothing may be scattered, and how sharply. Registered by the root before `scatterRegion`
@@ -158,11 +97,13 @@ const ZONE_CELL = 24;
 export class ExclusionZones {
   private circles: CircleZone[] = [];
   private rects: RectZone[] = [];
+  private treeClearances: TreeClearance[] = [];
   private index: Map<number, number[]> | null = null;
   private rectIndex: Map<number, number[]> | null = null;
 
   addCircle(x: number, z: number, radius: number, kind: ExclusionKind = "custom", id = ""): this {
     this.circles.push({ kind, id, x, z, radius });
+    exclusionRevisions.set(this, ++nextExclusionRevision);
     this.index = null;
     return this;
   }
@@ -206,6 +147,7 @@ export class ExclusionZones {
       margin,
     });
     this.rectIndex = null;
+    exclusionRevisions.set(this, ++nextExclusionRevision);
     return this;
   }
 
@@ -224,6 +166,66 @@ export class ExclusionZones {
       }
     }
     return this;
+  }
+
+  /**
+   * Reserves a local convex walking footprint for tree trunks only. One point makes a disc, two
+   * make an exact capsule, and more points reserve their convex interior. The root supplies the
+   * animal's movement envelope and drawn body radius; scatter owns neither habitat nor AI policy.
+   * This separate query lane never participates in candidate generation or exclusion profiles.
+   */
+  addTreeClearance(points: readonly Vec3[], bodyRadius: number, id = ""): this {
+    if (!Number.isFinite(bodyRadius) || bodyRadius < 0) throw new Error("Tree clearance needs a finite nonnegative body radius.");
+    if (points.some((point) => !Number.isFinite(point[0]) || !Number.isFinite(point[2]))) {
+      throw new Error("Tree clearance needs finite XZ positions.");
+    }
+    if (points.length === 0) return this;
+    const hull = treeClearanceHull(points);
+    this.treeClearances.push({
+      id, hull, bodyRadius,
+      bounds: {
+        minX: Math.min(...hull.map((point) => point[0])), maxX: Math.max(...hull.map((point) => point[0])),
+        minZ: Math.min(...hull.map((point) => point[1])), maxZ: Math.max(...hull.map((point) => point[1])),
+      },
+    });
+    exclusionRevisions.set(this, ++nextExclusionRevision);
+    return this;
+  }
+
+  /** Tests the final trunk origin against the body footprint expanded by that trunk's radius. */
+  blocksTreeClearance(x: number, z: number, trunkRadius: number): boolean {
+    if (!Number.isFinite(x) || !Number.isFinite(z) || !Number.isFinite(trunkRadius) || trunkRadius < 0) {
+      throw new Error("Tree clearance query needs finite XZ and a nonnegative trunk radius.");
+    }
+    for (const zone of this.treeClearances) {
+      // Endpoint subtraction can place exact contact a few ulps outside a diagonal capsule.
+      // Scale the rounding allowance to world coordinates; it remains picometres on this island.
+      const rounding = 16 * Number.EPSILON * Math.max(1, Math.abs(x), Math.abs(z),
+        Math.abs(zone.bounds.minX), Math.abs(zone.bounds.maxX), Math.abs(zone.bounds.minZ), Math.abs(zone.bounds.maxZ));
+      const reach = zone.bodyRadius + trunkRadius + rounding;
+      // There are few authored walking footprints. Skip their boxes before doing polygon work.
+      if (x < zone.bounds.minX - reach || x > zone.bounds.maxX + reach
+        || z < zone.bounds.minZ - reach || z > zone.bounds.maxZ + reach) continue;
+      const squaredReach = reach * reach;
+      const first = zone.hull[0]!;
+      if (zone.hull.length === 1) {
+        if ((x - first[0]) ** 2 + (z - first[1]) ** 2 <= squaredReach) return true;
+        continue;
+      }
+      let inside = zone.hull.length > 2;
+      const edges = zone.hull.length === 2 ? 1 : zone.hull.length;
+      for (let index = 0; index < edges; index += 1) {
+        const from = zone.hull[index]!;
+        const to = zone.hull[(index + 1) % zone.hull.length]!;
+        const dx = to[0] - from[0], dz = to[1] - from[1];
+        const px = x - from[0], pz = z - from[1];
+        if (dx * pz - dz * px < 0) inside = false;
+        const fraction = Math.max(0, Math.min(1, (px * dx + pz * dz) / (dx * dx + dz * dz)));
+        if ((px - dx * fraction) ** 2 + (pz - dz * fraction) ** 2 <= squaredReach) return true;
+      }
+      if (inside) return true;
+    }
+    return false;
   }
 
   /**
@@ -265,7 +267,7 @@ export class ExclusionZones {
   }
 
   count(): number {
-    return this.circles.length + this.rects.length;
+    return this.circles.length + this.rects.length + this.treeClearances.length;
   }
 
   /** JSON-safe, for the debug surface. */
@@ -273,12 +275,15 @@ export class ExclusionZones {
     const kinds: Record<string, number> = {};
     for (const circle of this.circles) kinds[circle.kind] = (kinds[circle.kind] ?? 0) + 1;
     for (const zone of this.rects) kinds[zone.kind] = (kinds[zone.kind] ?? 0) + 1;
+    if (this.treeClearances.length > 0) kinds.treeClearance = this.treeClearances.length;
     return { circles: this.circles.length, rects: this.rects.length, kinds };
   }
 
   clear(): void {
+    exclusionRevisions.set(this, ++nextExclusionRevision);
     this.circles = [];
     this.rects = [];
+    this.treeClearances = [];
     this.index = null;
     this.rectIndex = null;
   }
@@ -352,6 +357,26 @@ export class ExclusionZones {
 const EMPTY_ZONES: CircleZone[] = [];
 const EMPTY_RECT_ZONES: RectZone[] = [];
 
+/** Copy, deduplicate and remove interior points without changing the caller's authored array. */
+function treeClearanceHull(points: readonly Vec3[]): [number, number][] {
+  const sorted = points.map((point): [number, number] => [point[0], point[2]])
+    .sort((a, b) => a[0] - b[0] || a[1] - b[1])
+    .filter((point, index, all) => index === 0 || point[0] !== all[index - 1]![0] || point[1] !== all[index - 1]![1]);
+  if (sorted.length <= 2) return sorted;
+  const cross = (a: readonly number[], b: readonly number[], c: readonly number[]): number =>
+    (b[0]! - a[0]!) * (c[1]! - a[1]!) - (b[1]! - a[1]!) * (c[0]! - a[0]!);
+  const half = (ordered: readonly [number, number][]): [number, number][] => {
+    const hull: [number, number][] = [];
+    for (const point of ordered) {
+      while (hull.length >= 2 && cross(hull[hull.length - 2]!, hull[hull.length - 1]!, point) <= 0) hull.pop();
+      hull.push(point);
+    }
+    hull.pop();
+    return hull;
+  };
+  return [...half(sorted), ...half([...sorted].reverse())];
+}
+
 function profileReach(profile: ExclusionProfile): number {
   let reach = Math.max(0, profile.base.hard + profile.base.fade);
   for (const band of Object.values(profile.byKind ?? {})) {
@@ -364,67 +389,20 @@ function cellKey(col: number, row: number): number {
   return ((col & 0xffff) << 16) | (row & 0xffff);
 }
 
-/**
- * Metres per side of the spatial tile a large NON-casting bucket is cut into.
- *
- * One `InstancedMesh` per (asset, region) has a region-wide bounding sphere, and
- * `Frustum.intersectsObject` tests exactly that sphere, so a 240 x 400 m sphere intersects every
- * frustum there is: nothing was ever culled and every streamed-in region submitted 100% of its
- * instances to the colour pass AND to the shadow pass, every frame. Cutting a bucket on a grid
- * hands three.js a sphere it can reject.
- *
- * The sizes are a measured compromise, not a guess. A culled tile costs nothing but a VISIBLE one
- * costs a draw call, and draw calls are gated at 400 per pose, so every halving of the tile trades
- * calls for triangles. Measured over all 18 poses by `runs/corealm/audit/cov-offline.ts`, which
- * rebuilds each candidate mesh's bounding sphere and tests it against the real camera frustum and
- * the 96 m shadow box (scatter only — it isolates this file from the rest of the renderer):
- *
- * ```text
- *   config                   worst-pose calls   worst-pose triangles   mean calls   mean triangles
- *   one mesh per asset                46              11.44M              34           9.20M
- *   casters at 96 m                   76               9.08M              45           7.10M
- *   + cover 256 m over 1200          106               7.81M              66           5.58M
- *   + cover 160 m over 1200          130               7.06M              86           4.86M
- *   + cover 128 m over 1200          138               6.42M              88           4.34M
- *   + cover 128 m over 4000          112               6.64M              71           4.71M   <-
- *   + cover  96 m over 1200          177               6.05M             114           4.08M
- * ```
- *
- * 128 m over a 4,000-instance floor is the knee, and it beats the 160 m setting on BOTH axes: past
- * it, each further halving costs as many calls again for a tenth as many triangles. The small
- * buckets — bloom, fungus, the three stones, mushrooms, and small mixed-cover pools — are left
- * whole by `TILE_MIN_INSTANCES`, because each would multiply into several visible tiles for a few
- * hundred instances.
- */
+/** Existing coarse groups remain appropriate for inexpensive grass, pebbles and props. */
 const BUCKET_TILE_METRES = 128;
-
-/**
- * Tile size for shadow casters, in metres.
- *
- * 96 because `render/renderer.ts` runs an orthographic shadow camera of exactly 96 x 96 m — 9,216
- * m2 against a 96,000 m2 region — so before this, 90% of every tree drawn into the shadow map was
- * outside the box it was being drawn for. This is the single best line in the table above: 2.36M
- * triangles for 30 draw calls, better than twice the rate of any cover setting, because a tree is
- * 3,200 triangles against a grass tuft's 155 and it pays for the shadow pass twice over.
- */
+/** Also the generation grid. Changing this rerolls world candidates and is not a render optimization. */
 const SHADOW_TILE_METRES = 96;
-
-/**
- * Instances below which a non-casting bucket is left as one region-wide mesh.
- *
- * A bucket of 300 pebbles cut into 5 visible tiles costs 4 extra draw calls to cull ~0.03M
- * triangles; a bucket of 8,700 grass tufts costs the same 4 calls to cull ~0.9M. The threshold
- * sorts one from the other, and 4,000 rather than 1,200 because the sweep above measured 1,200 as
- * 26 more draw calls at the worst pose for 0.22M fewer triangles — the wrong end of the trade.
- */
 const TILE_MIN_INSTANCES = 4000;
 
 interface MeshInstanceBucket {
   kind: "mesh";
   assetId: string;
   castShadow: boolean;
-  placements: ScatterPlacement[];
+  placements: ForestScatterPlacement[];
 }
+
+type ForestScatterPlacement = ScatterPlacement & { forestTree?: ForestTreeDescriptor };
 
 interface GrassInstanceBucket {
   kind: "grass";
@@ -448,6 +426,8 @@ function isGrassSprite(assetId: string): boolean {
 
 /** Small material bend for living mesh foliage. Grass sprites animate in their own material. */
 function windStrengthForAsset(assetId: string): number {
+  if (assetId.startsWith("corealm_oak_") || assetId.startsWith("corealm_pine_")) return 0.035;
+  if (assetId.startsWith("corealm_fern_") || assetId.startsWith("corealm_shrub_")) return 0.075;
   if (assetId.startsWith("tree_dead_") || assetId.startsWith("mushroom_")) return 0;
   if (
     assetId.startsWith("rock_")
@@ -471,13 +451,17 @@ function tileIndex(x: number, z: number, metres: number): number {
   return cellKey(Math.floor(x / metres), Math.floor(z / metres));
 }
 
-/** One mesh per tile for a caster or a big bucket, one mesh for everything else. */
-function shardByTile<T extends { position: Vec3 }>(
+/** Detailed foliage needs small render groups; generation tiles and saved identities stay fixed. */
+export const FOLIAGE_RENDER_TILE_METRES = { trees: 24, understory: 12 } as const;
+
+/** Partition existing placements without changing their transforms, order within a tile, or IDs. */
+export function shardByTile<T extends { position: Vec3 }>(
   bucket: { castShadow: boolean; placements: T[] },
+  tileMetres?: number,
 ): { tile: number; placements: T[] }[] {
-  const metres = bucket.castShadow
+  const metres = tileMetres ?? (bucket.castShadow
     ? SHADOW_TILE_METRES
-    : bucket.placements.length >= TILE_MIN_INSTANCES ? BUCKET_TILE_METRES : 0;
+    : bucket.placements.length >= TILE_MIN_INSTANCES ? BUCKET_TILE_METRES : 0);
   if (metres <= 0) return [{ tile: 0, placements: bucket.placements }];
   const shards = new Map<number, T[]>();
   for (const placement of bucket.placements) {
@@ -527,6 +511,8 @@ export interface ScatterTileLoadOptions {
   regionId?: RegionId;
   /** Cooperative browser scheduler used between authored layers; it never participates in seeds. */
   yieldToMain?: () => Promise<void>;
+  /** Register a resource only after all primitive instances exist and can be suppressed together. */
+  onTree?: (descriptor: ForestTreeDescriptor, setVisible: (visible: boolean) => void) => void;
 }
 
 function scatterTileFromCell(col: number, row: number): ScatterTile {
@@ -1157,16 +1143,38 @@ interface LayerContext {
   authored: ExclusionZones;
   altitude: { base: number; amplitude: number };
   roads: { x: number; z: number; nx: number; nz: number }[];
+  seed: number;
 }
 
 interface ResolvedSpecies {
   assetId: string;
+  sourceAssetId: string;
+  sizeRatio: number;
+  treeSpecies: "oak" | "pine" | null;
   weight: number;
   scale: [number, number];
   tilt: number;
   sink: number;
   sources: ScatterSource[] | null;
 }
+
+/** Display aliases retain the recipe's species weights and random-number sequence. */
+const COREALM_SCATTER_ALIASES: Readonly<Record<string, string>> = {
+  tree_common_1: "corealm_oak_1", tree_common_2: "corealm_oak_2", tree_common_3: "corealm_oak_3",
+  tree_common_4: "corealm_oak_3", tree_common_5: "corealm_oak_1",
+  tree_pine_1: "corealm_pine_3", tree_pine_2: "corealm_pine_2", tree_pine_3: "corealm_pine_1",
+  tree_pine_4: "corealm_pine_1", tree_pine_5: "corealm_pine_2",
+  tree_twisted_1: "corealm_oak_1", tree_twisted_2: "corealm_oak_2",
+  tree_twisted_3: "corealm_pine_3", tree_twisted_4: "corealm_pine_1", tree_twisted_5: "corealm_oak_3",
+  fern_1: "corealm_fern_1", fern_2: "corealm_fern_2",
+  plant_leafy_small: "corealm_shrub_2", plant_leafy_large: "corealm_shrub_1", bush_common: "corealm_shrub_1",
+  rock_medium_1: "corealm_rock_strata_1", rock_medium_2: "corealm_rock_strata_2", rock_medium_3: "corealm_rock_strata_3",
+};
+
+const TREE_TRUNK_RADII: Readonly<Record<string, number>> = {
+  corealm_oak_1: 0.48, corealm_oak_2: 0.44, corealm_oak_3: 0.30,
+  corealm_pine_1: 0.34, corealm_pine_2: 0.32, corealm_pine_3: 0.23,
+};
 
 /**
  * Resolves the species pool a layer will actually use.
@@ -1190,9 +1198,29 @@ function resolveSpecies(
   const species: ResolvedSpecies[] = [];
   const unknown: string[] = [];
   for (const entry of declared) {
-    if (assets.entry(entry.assetId) === undefined) { unknown.push(entry.assetId); continue; }
+    const source = assets.entry(entry.assetId);
+    if (!source) { unknown.push(entry.assetId); continue; }
+    const assetId = COREALM_SCATTER_ALIASES[entry.assetId] ?? entry.assetId;
+    const replacement = assets.entry(assetId);
+    if (!replacement) { unknown.push(assetId); continue; }
+    const treeSpecies = assetId.startsWith("corealm_oak_") ? "oak"
+      : assetId.startsWith("corealm_pine_") ? "pine" : null;
+    let sizeRatio = 1;
+    if (assetId !== entry.assetId) {
+      const originalWidth = Math.max(source.size.x, source.size.z);
+      const replacementWidth = Math.max(replacement.size.x, replacement.size.z);
+      sizeRatio = treeSpecies === "oak"
+        ? Math.min(source.size.y / replacement.size.y, originalWidth * 1.35 / replacementWidth)
+        : treeSpecies === "pine" ? source.size.y / replacement.size.y
+          : Math.max(source.size.x, source.size.y, source.size.z)
+            / Math.max(replacement.size.x, replacement.size.y, replacement.size.z);
+      if (!Number.isFinite(sizeRatio) || sizeRatio <= 0) throw new Error(`Invalid scatter dimensions for ${entry.assetId} -> ${assetId}.`);
+    }
     species.push({
-      assetId: entry.assetId,
+      assetId,
+      sourceAssetId: entry.assetId,
+      sizeRatio,
+      treeSpecies,
       weight: entry.weight ?? 1,
       scale: entry.scale ?? layer.scale,
       tilt: entry.tilt ?? layer.tilt ?? 0.4,
@@ -1340,9 +1368,8 @@ function layerProfile(layer: ScatterLayerSpec, source: ScatterSource): Exclusion
   for (const [kind, band] of Object.entries(base.byKind ?? {})) {
     if (band) byKind[kind as ExclusionKind] = widen(band);
   }
-  // A road layer answers to the CURVED centreline it was generated from, so the root's
-  // straight-endpoint corridor must not veto it.
-  if (source === "road") byKind.road = { hard: -1000, fade: 0 };
+  // Road candidates use the same resolved curves as the exclusion corridors. Keep their
+  // clearance checks so jitter and intersecting roads cannot plant the worn carriageway.
   // `authored` has to be carried through. Dropping it here made every `authored` band in every
   // profile dead code — `siteFactor` reads `profile.authored ?? profile.base` and always got the
   // base — so a wall or a paving kerb was answered with the open-country fade instead of the
@@ -1448,6 +1475,307 @@ function fieldBudgetForTile(total: number, bounds: Rect, ctx: LayerContext): num
   return 0;
 }
 
+const isNativeUnderstory = (id: string): boolean => /^corealm_(fern|shrub)_\d+$/.test(id);
+const UNDERSTORY_SPACE = 1.5;
+const UNDERSTORY_CROWN_CONTACT = 0.85;
+const UNDERSTORY_PLAN_LIMIT = 32;
+const UNDERSTORY_ACCENTS = new Set(["bracken", "undergrowth", "scrub", "dry_scrub"]);
+
+interface ScatterLayerPlan {
+  candidates: Candidate[];
+  transformState: number;
+  rejected: number;
+  clusters: number;
+  missingAssets: string[];
+}
+
+interface UnderstorySite {
+  candidate: Candidate;
+  x: number;
+  z: number;
+  radius: number;
+  rank: number;
+  priority: number;
+  identity: string;
+}
+
+interface UnderstoryTilePlan {
+  layers: Map<RegionId, Map<ScatterLayerSpec, ScatterLayerPlan>>;
+  sites: UnderstorySite[];
+}
+
+interface UnderstoryPlanCache {
+  inputs: readonly unknown[];
+  signature: string;
+  halo: number;
+  tiles: Map<string, ScatterTile>;
+  pending: Map<string, Promise<UnderstoryTilePlan>>;
+  completed: Map<string, UnderstoryTilePlan>;
+}
+
+const understoryPlanCaches = new WeakMap<WorldScene, UnderstoryPlanCache>();
+
+function layerContext(
+  scene: WorldScene, regionId: RegionId, spec: RegionScatterSpec, seed: number, tile: ScatterTile,
+): LayerContext | null {
+  const rect = spec.rect ?? scene.getRegionRect(regionId);
+  return rect ? {
+    scene, regionId, rect, tile, exclusions: spec.exclusions ?? worldExclusions,
+    waters: waterBodies(scene), authored: authoredZones(), altitude: regionAltitude(regionId),
+    roads: roadStations(scene), seed,
+  } : null;
+}
+
+/** Plan the unchanged source stream without loading GLBs or publishing any scene objects. */
+async function planScatterLayer(
+  ctx: LayerContext, assets: AssetRegistry, layer: ScatterLayerSpec, yieldToMain?: () => Promise<void>,
+): Promise<ScatterLayerPlan> {
+  const { species, unknown } = resolveSpecies(assets, layer);
+  const result = createScatterResult(ctx.regionId);
+  result.missingAssets = unknown.map((id) => `${layer.id}:${id}`);
+  if (species.length === 0) result.missingAssets.push(layer.id);
+  const rng = new Rng(deriveScatterTileSeed(ctx.seed, ctx.regionId, layer.id, ctx.tile.id));
+  const candidates: Candidate[] = [];
+  if (species.length > 0) {
+    const span = bootTelemetry.startSpan(BOOT_SPANS.SCATTER_CANDIDATES, {
+      detail: { regionId: ctx.regionId, layerId: layer.id, tileId: ctx.tile.id },
+    });
+    try {
+      const mask = createFbm(layerSeed(ctx.seed, ctx.regionId, `${layer.id}-mask`));
+      await collectField(layer, ctx, species, rng, mask, candidates, result, yieldToMain);
+      await yieldToMain?.();
+      collectRoad(layer, ctx, species, rng, candidates, result);
+      await yieldToMain?.();
+      collectShore(layer, ctx, species, rng, candidates, result);
+      span.end({ regionId: ctx.regionId, layerId: layer.id, tileId: ctx.tile.id, candidates: candidates.length });
+    } catch (error) {
+      span.fail(error, { regionId: ctx.regionId, layerId: layer.id, tileId: ctx.tile.id });
+      throw error;
+    }
+  }
+  return {
+    candidates, transformState: rng.getState(), rejected: result.rejected,
+    clusters: result.clusters, missingAssets: result.missingAssets,
+  };
+}
+
+/** Actual static crown envelope about the placement origin; shader wind is not growth space. */
+function understoryRadius(assets: AssetRegistry, assetId: string, placement: ScatterPlacement): number {
+  const asset = assets.entry(assetId)!;
+  const size = asset.size;
+  const base = asset.base ?? { x: -size.x / 2, y: 0, z: -size.z / 2 };
+  const up = new Vector3(0, 1, 0);
+  const rotation = new Quaternion().setFromAxisAngle(up, placement.rotationY);
+  if (placement.normal && (placement.tilt ?? 1) > 0) {
+    const tilt = new Quaternion().setFromUnitVectors(up, new Vector3(...placement.normal).normalize());
+    tilt.slerp(new Quaternion(), 1 - clamp01(placement.tilt ?? 1));
+    rotation.premultiply(tilt);
+  }
+  const scale = typeof placement.scale === "number"
+    ? new Vector3().setScalar(placement.scale) : new Vector3(...placement.scale);
+  const corner = new Vector3();
+  let radius = 0;
+  for (const x of [base.x, base.x + size.x]) for (const y of [base.y, base.y + size.y]) {
+    for (const z of [base.z, base.z + size.z]) {
+      corner.set(x, y, z).multiply(scale).applyQuaternion(rotation);
+      radius = Math.max(radius, Math.hypot(corner.x, corner.z));
+    }
+  }
+  return radius;
+}
+
+function understoryPriority(identity: string, seed: number): number {
+  let value = seed >>> 0;
+  for (let index = 0; index < identity.length; index += 1) {
+    value = Math.imul(value ^ identity.charCodeAt(index), 0x01000193) >>> 0;
+  }
+  return hash32(value, identity.length);
+}
+
+function understoryInputs(
+  scene: WorldScene, assets: AssetRegistry, seed: number, specs: Partial<Record<RegionId, RegionScatterSpec>>,
+): Pick<UnderstoryPlanCache, "inputs" | "signature"> {
+  const walkable = scene.getWalkableMeshes?.();
+  const inputs = [
+    assets, assets.getManifest?.(), seed, walkable, walkable?.length, walkable?.at(-1),
+    scene.terrainGroup?.children[0], scene.terrainGroup?.children.length,
+    scene.getTerrainBuildStats?.().restampPassCount,
+    ...Object.values(specs).flatMap((spec) => [spec, ...spec.layers]),
+  ];
+  // Include values so an in-place authoring edit or exclusion update cannot reuse stale plans.
+  const signature = JSON.stringify(Object.entries(specs).map(([regionId, spec]) => [regionId, {
+    ...spec, exclusions: exclusionRevisions.get(spec.exclusions ?? worldExclusions) ?? 0,
+  }]));
+  return { inputs, signature };
+}
+
+function sameUnderstoryInputs(
+  left: Pick<UnderstoryPlanCache, "inputs" | "signature">,
+  right: Pick<UnderstoryPlanCache, "inputs" | "signature">,
+): boolean {
+  return left.signature === right.signature && left.inputs.length === right.inputs.length
+    && left.inputs.every((value, index) => value === right.inputs[index]);
+}
+
+function understoryCache(
+  scene: WorldScene, assets: AssetRegistry, seed: number, specs: Partial<Record<RegionId, RegionScatterSpec>>,
+): UnderstoryPlanCache {
+  const { inputs, signature } = understoryInputs(scene, assets, seed, specs);
+  const previous = understoryPlanCaches.get(scene);
+  if (previous && sameUnderstoryInputs(previous, { inputs, signature })) return previous;
+
+  // These older input caches also belong to the terrain/exclusion generation being replaced.
+  waterBodyCache.delete(scene);
+  roadStationCache.delete(scene);
+  tileFieldWeightCache.delete(scene);
+  let excursion = 0;
+  let maximumRadius = 0;
+  for (const spec of Object.values(specs)) for (const layer of spec.layers) {
+    const native = resolveSpecies(assets, layer).species.filter((entry) => isNativeUnderstory(entry.assetId));
+    if (native.length === 0) continue;
+    excursion = Math.max(excursion, layer.cluster?.radius[1] ?? 0,
+      layer.road ? Math.max(...layer.road.band.map(Math.abs)) + Math.SQRT2 * 0.4 : 0,
+      layer.shore ? Math.max(...layer.shore.band.map(Math.abs)) : 0);
+    for (const entry of native) {
+      const asset = assets.entry(entry.assetId)!;
+      const { size } = asset;
+      const base = asset.base ?? { x: -size.x / 2, y: 0, z: -size.z / 2 };
+      // Rotation and tilt cannot exceed this scaled 3D distance from the native origin.
+      maximumRadius = Math.max(maximumRadius, entry.sizeRatio * Math.max(...entry.scale.map(Math.abs))
+        * Math.hypot(1.12 * Math.max(Math.abs(base.x), Math.abs(base.x + size.x)),
+          1.25 * Math.max(Math.abs(base.y), Math.abs(base.y + size.y)),
+          1.12 * Math.max(Math.abs(base.z), Math.abs(base.z + size.z))));
+    }
+  }
+  const cache: UnderstoryPlanCache = {
+    inputs, signature,
+    halo: Math.ceil((2 * excursion + Math.max(UNDERSTORY_SPACE, 2 * UNDERSTORY_CROWN_CONTACT * maximumRadius))
+      / SCATTER_STREAM_TILE_METRES),
+    tiles: new Map(scatterTilesForBounds(scene.getScatterBounds(Infinity)).map((tile) => [tile.id, tile])),
+    pending: new Map(), completed: new Map(),
+  };
+  understoryPlanCaches.set(scene, cache);
+  return cache;
+}
+
+async function planUnderstoryTile(
+  cache: UnderstoryPlanCache, scene: WorldScene, assets: AssetRegistry, seed: number, tile: ScatterTile,
+  specs: Partial<Record<RegionId, RegionScatterSpec>>, yieldToMain?: () => Promise<void>,
+): Promise<UnderstoryTilePlan> {
+  const cached = cache.completed.get(tile.id);
+  if (cached) {
+    cache.completed.delete(tile.id);
+    cache.completed.set(tile.id, cached);
+    return cached;
+  }
+  const pending = cache.pending.get(tile.id);
+  if (pending) return pending;
+  const task = (async (): Promise<UnderstoryTilePlan> => {
+    const plan: UnderstoryTilePlan = { layers: new Map(), sites: [] };
+    for (const layout of scene.describeRegions()) {
+      const spec = specs[layout.regionId];
+      if (!spec) continue;
+      const ctx = layerContext(scene, layout.regionId, spec, seed, tile);
+      if (!ctx) continue;
+      const layers = new Map<ScatterLayerSpec, ScatterLayerPlan>();
+      plan.layers.set(layout.regionId, layers);
+      for (const layer of spec.layers) {
+        if (!resolveSpecies(assets, layer).species.some((entry) => isNativeUnderstory(entry.assetId))) continue;
+        const raw = await planScatterLayer(ctx, assets, layer, yieldToMain);
+        layers.set(layer, raw);
+        const rng = new Rng(0);
+        rng.setState(raw.transformState);
+        for (const [index, candidate] of raw.candidates.entries()) {
+          // Grass composition wraps this same function without consuming any extra RNG.
+          const placement = composePlacement(layer, ctx, candidate.species, candidate, assets, rng);
+          if ((index + 1) % 128 === 0) await yieldToMain?.();
+          if (!isNativeUnderstory(candidate.species.assetId)) continue;
+          const identity = `${layout.regionId}:${layer.id}:${tile.id}:${candidate.source}:${index}:${candidate.x}:${candidate.z}`;
+          plan.sites.push({
+            candidate, x: placement.position[0], z: placement.position[2],
+            radius: understoryRadius(assets, candidate.species.assetId, placement),
+            rank: candidate.source === "shore" && candidate.species.assetId.startsWith("corealm_fern_") ? 0
+              : UNDERSTORY_ACCENTS.has(layer.id) ? 1 : 2,
+            priority: understoryPriority(identity, seed), identity,
+          });
+        }
+        await yieldToMain?.();
+      }
+    }
+    return plan;
+  })();
+  cache.pending.set(tile.id, task);
+  try {
+    const plan = await task;
+    cache.completed.set(tile.id, plan);
+    while (cache.completed.size > UNDERSTORY_PLAN_LIMIT) cache.completed.delete(cache.completed.keys().next().value!);
+    return plan;
+  } finally {
+    if (cache.pending.get(tile.id) === task) cache.pending.delete(tile.id);
+  }
+}
+
+async function understoryCompetition(
+  scene: WorldScene, assets: AssetRegistry, seed: number, tile: ScatterTile,
+  specs: Partial<Record<RegionId, RegionScatterSpec>>, yieldToMain?: () => Promise<void>,
+): Promise<{ own: UnderstoryTilePlan; rejected: Set<Candidate>; assertCurrent: () => void }> {
+  const cache = understoryCache(scene, assets, seed, specs);
+  const assertCurrent = (): void => {
+    // A different immutable recipe may be planning on the same scene concurrently.
+    // Validate these inputs without replacing its cache or invalidating either request.
+    if (!sameUnderstoryInputs(cache, understoryInputs(scene, assets, seed, specs))) {
+      throw new Error("Scatter planning was invalidated by changed world inputs");
+    }
+  };
+  const own = await planUnderstoryTile(cache, scene, assets, seed, tile, specs, yieldToMain);
+  const rejected = new Set<Candidate>();
+  if (own.sites.length === 0) {
+    assertCurrent();
+    return { own, rejected, assertCurrent };
+  }
+  const plans = [own];
+  for (let row = tile.row - cache.halo; row <= tile.row + cache.halo; row += 1) {
+    for (let col = tile.col - cache.halo; col <= tile.col + cache.halo; col += 1) {
+      const neighbour = cache.tiles.get(`${col}:${row}`);
+      if (!neighbour || neighbour.id === tile.id) continue;
+      plans.push(await planUnderstoryTile(cache, scene, assets, seed, neighbour, specs, yieldToMain));
+    }
+  }
+  let maximumRadius = 0;
+  for (const plan of plans) for (const site of plan.sites) maximumRadius = Math.max(maximumRadius, site.radius);
+  const cellSize = Math.max(UNDERSTORY_SPACE, 2 * UNDERSTORY_CROWN_CONTACT * maximumRadius);
+  const index = new Map<string, UnderstorySite[]>();
+  for (const plan of plans) {
+    for (const site of plan.sites) {
+      const key = `${Math.floor(site.x / cellSize)}:${Math.floor(site.z / cellSize)}`;
+      const cell = index.get(key);
+      if (cell) cell.push(site);
+      else index.set(key, [site]);
+    }
+    await yieldToMain?.();
+  }
+  for (const [siteIndex, site] of own.sites.entries()) {
+    const col = Math.floor(site.x / cellSize);
+    const row = Math.floor(site.z / cellSize);
+    search: for (let dy = -1; dy <= 1; dy += 1) for (let dx = -1; dx <= 1; dx += 1) {
+      for (const other of index.get(`${col + dx}:${row + dy}`) ?? []) {
+        const priority = other.rank - site.rank || other.priority - site.priority
+          || (other.identity < site.identity ? -1 : other.identity > site.identity ? 1 : 0);
+        if (priority >= 0) continue;
+        const spacing = Math.max(UNDERSTORY_SPACE, UNDERSTORY_CROWN_CONTACT * (site.radius + other.radius));
+        if ((site.x - other.x) ** 2 + (site.z - other.z) ** 2 >= spacing ** 2) continue;
+        // Compare RAW candidates. Accepted-only competition has unbounded priority chains
+        // and would depend on which generation tile happened to stream first.
+        rejected.add(site.candidate);
+        break search;
+      }
+    }
+    if ((siteIndex + 1) % 128 === 0) await yieldToMain?.();
+  }
+  assertCurrent();
+  return { own, rejected, assertCurrent };
+}
+
 /** Places one generation tile of one visual-biome recipe. */
 async function scatterRegionTile(
   scene: WorldScene,
@@ -1457,6 +1785,7 @@ async function scatterRegionTile(
   seed: number,
   tile: ScatterTile,
   loadOptions: ScatterTileLoadOptions,
+  competition?: Awaited<ReturnType<typeof understoryCompetition>>,
 ): Promise<ScatterResult> {
   const rect = spec.rect ?? scene.getRegionRect(regionId);
   const exclusions = spec.exclusions ?? worldExclusions;
@@ -1473,6 +1802,7 @@ async function scatterRegionTile(
     authored: authoredZones(),
     altitude: regionAltitude(regionId),
     roads: roadStations(scene),
+    seed,
   };
 
   // Region-wide rather than per-layer: `scatterInstanced` builds one InstancedMesh per (asset,
@@ -1483,36 +1813,20 @@ async function scatterRegionTile(
   const buckets = new Map<string, InstanceBucket>();
 
   for (const layer of spec.layers) {
-    const { species, unknown } = resolveSpecies(assets, layer);
-    for (const id of unknown) result.missingAssets.push(`${layer.id}:${id}`);
-    if (species.length === 0) {
-      result.missingAssets.push(layer.id);
-      continue;
-    }
-
-    const rng = new Rng(deriveScatterTileSeed(seed, regionId, layer.id, tile.id));
-    const mask = createFbm(layerSeed(seed, regionId, `${layer.id}-mask`));
-    const candidates: Candidate[] = [];
-
-    const candidateSpan = bootTelemetry.startSpan(BOOT_SPANS.SCATTER_CANDIDATES, {
-      detail: { regionId, layerId: layer.id, tileId: tile.id },
-    });
-    try {
-      await collectField(layer, ctx, species, rng, mask, candidates, result, loadOptions.yieldToMain);
-      await loadOptions.yieldToMain?.();
-      collectRoad(layer, ctx, species, rng, candidates, result);
-      await loadOptions.yieldToMain?.();
-      collectShore(layer, ctx, species, rng, candidates, result);
-      candidateSpan.end({ regionId, layerId: layer.id, tileId: tile.id, candidates: candidates.length });
-    } catch (error) {
-      candidateSpan.fail(error, { regionId, layerId: layer.id, tileId: tile.id });
-      throw error;
-    }
+    const plan = competition?.own.layers.get(regionId)?.get(layer)
+      ?? await planScatterLayer(ctx, assets, layer, loadOptions.yieldToMain);
+    result.rejected += plan.rejected;
+    result.clusters += plan.clusters;
+    result.missingAssets.push(...plan.missingAssets);
+    const candidates = plan.candidates;
+    const rng = new Rng(0);
+    rng.setState(plan.transformState);
 
     try {
       // Candidate generation comes first so a spawn tile requests only assets it actually uses.
       // Grass uses generated cards and never requests its source GLB.
       const requested = [...new Set(candidates
+        .filter((candidate) => !competition?.rejected.has(candidate))
         .map((candidate) => candidate.species.assetId)
         .filter((assetId) => !isGrassSprite(assetId)))];
       if (requested.length > 0) {
@@ -1529,6 +1843,7 @@ async function scatterRegionTile(
       throw error;
     }
 
+    competition?.assertCurrent();
     const castShadow = layer.castShadow ?? false;
     for (const candidate of candidates) {
       const entry = candidate.species;
@@ -1539,7 +1854,15 @@ async function scatterRegionTile(
         const bucket: GrassInstanceBucket = found?.kind === "grass"
           ? found
           : { kind: "grass", assetId: "grass-sprite", castShadow: false, placements: [] };
-        bucket.placements.push(composeGrassPlacement(layer, ctx, entry, candidate, assets, rng));
+        const grassPlacement = composeGrassPlacement(layer, ctx, entry, candidate, assets, rng);
+        // Folded blades replace four-triangle cards. Keep the same clustered field and RNG
+        // sequence with a deterministic quarter-density sample, then broaden each tuft slightly.
+        if (scene.hasNativeGrass?.()) {
+          const coverage = Math.imul(Math.round(candidate.x * 100), 73856093) ^ Math.imul(Math.round(candidate.z * 100), 19349663);
+          if ((coverage >>> 0) % 4 !== 0) continue;
+          grassPlacement.width *= 1.4;
+        }
+        bucket.placements.push(grassPlacement);
         buckets.set(key, bucket);
         result.placed += 1;
         result.byLayer[layer.id] = (result.byLayer[layer.id] ?? 0) + 1;
@@ -1549,12 +1872,29 @@ async function scatterRegionTile(
       // Keyed on shadow as well as asset, because the shadow flag is a property of the
       // InstancedMesh: fern undergrowth and fern on a damp bank share one mesh, a shadow-casting
       // pine and a non-casting one could not.
+      // Always consume the source transform, even for a crowded native plant. Grass,
+      // trees and later transforms keep their original stream, and rejected slots never refill.
+      const placement = composePlacement(layer, ctx, entry, candidate, assets, rng);
+      if (competition?.rejected.has(candidate)) {
+        result.rejected += 1;
+        continue;
+      }
+      // Habitat clearances reject only the already-composed native trunk. Its origin can differ
+      // from the source candidate after display-alias fitting, and its final uniform scale owns
+      // trunk width. Keeping this after every transform draw preserves all surviving placements.
+      if (entry.treeSpecies && exclusions.blocksTreeClearance(
+        placement.position[0], placement.position[2],
+        placement.forestTree?.trunkRadius ?? TREE_TRUNK_RADII[assetId]! * (placement.scale as number),
+      )) {
+        result.rejected += 1;
+        continue;
+      }
       const key = `${assetId}|${castShadow ? "s" : "-"}`;
       const found = buckets.get(key);
       const bucket: MeshInstanceBucket = found?.kind === "mesh"
         ? found
         : { kind: "mesh", assetId, castShadow, placements: [] };
-      bucket.placements.push(composePlacement(layer, ctx, entry, candidate, rng));
+      bucket.placements.push(placement);
       buckets.set(key, bucket);
       result.placed += 1;
       result.byLayer[layer.id] = (result.byLayer[layer.id] ?? 0) + 1;
@@ -1569,6 +1909,7 @@ async function scatterRegionTile(
   const meshSpan = bootTelemetry.startSpan(BOOT_SPANS.SCATTER_MESHES, {
     detail: { regionId, tileId: tile.id },
   });
+  competition?.assertCurrent();
   for (const bucket of buckets.values()) {
     if (bucket.kind === "grass") {
       for (const shard of shardByTile(bucket)) {
@@ -1589,14 +1930,40 @@ async function scatterRegionTile(
       }
       continue;
     }
-    for (const shard of shardByTile(bucket)) {
+    const renderTile = /^corealm_(oak|pine)_\d+$/.test(bucket.assetId) ? FOLIAGE_RENDER_TILE_METRES.trees
+      : /^corealm_(fern|shrub)_\d+$/.test(bucket.assetId) ? FOLIAGE_RENDER_TILE_METRES.understory : undefined;
+    for (const shard of shardByTile(bucket, renderTile)) {
       result.tiles += 1;
       const meshes = scene.scatterInstanced(
         assets.instance(bucket.assetId),
         shard.placements,
         `scatter-${regionId}-${bucket.assetId}-g${tile.id}-t${shard.tile >>> 0}`,
-        { regionId, castShadow: bucket.castShadow, windStrength: windStrengthForAsset(bucket.assetId) },
+        {
+          regionId, castShadow: bucket.castShadow, windStrength: windStrengthForAsset(bucket.assetId),
+          compactVisibility: !bucket.castShadow && /^corealm_(fern|shrub)_\d+$/.test(bucket.assetId),
+        },
       );
+      if (loadOptions.onTree && meshes.length > 0) {
+        for (const [slot, placement] of shard.placements.entries()) {
+          if (!placement.forestTree) continue;
+          const originals = meshes.map((mesh) => {
+            const matrix = new Matrix4();
+            mesh.getMatrixAt(slot, matrix);
+            return matrix;
+          });
+          const hidden = originals.map((matrix) => matrix.clone().scale(new Vector3(0, 0, 0)));
+          let visible = true;
+          loadOptions.onTree(placement.forestTree, (nextVisible) => {
+            if (visible === nextVisible) return;
+            visible = nextVisible;
+            for (let primitive = 0; primitive < meshes.length; primitive += 1) {
+              const mesh = meshes[primitive]!;
+              mesh.setMatrixAt(slot, (visible ? originals : hidden)[primitive]!);
+              mesh.instanceMatrix.needsUpdate = true;
+            }
+          });
+        }
+      }
       result.instancedMeshes += meshes.length;
       result.estimatedDrawCalls += meshes.length * (bucket.castShadow ? 2 : 1);
       for (const mesh of meshes) {
@@ -1628,10 +1995,11 @@ export async function scatterWorldTile(
   loadOptions: ScatterTileLoadOptions = {},
 ): Promise<ScatterResult[]> {
   const results: ScatterResult[] = [];
+  const competition = await understoryCompetition(scene, assets, seed, tile, specs, loadOptions.yieldToMain);
   for (const layout of scene.describeRegions()) {
     const spec = specs[layout.regionId];
     if (!spec) continue;
-    results.push(await scatterRegionTile(scene, assets, layout.regionId, spec, seed, tile, loadOptions));
+    results.push(await scatterRegionTile(scene, assets, layout.regionId, spec, seed, tile, loadOptions, competition));
   }
   return results;
 }
@@ -1648,8 +2016,10 @@ export async function scatterRegion(
   seed: number,
 ): Promise<ScatterResult> {
   const partials: ScatterResult[] = [];
+  const specs = { [regionId]: spec };
   for (const tile of scatterTilesForBounds(scene.getScatterBounds(Infinity))) {
-    partials.push(await scatterRegionTile(scene, assets, regionId, spec, seed, tile, {}));
+    const competition = await understoryCompetition(scene, assets, seed, tile, specs);
+    partials.push(await scatterRegionTile(scene, assets, regionId, spec, seed, tile, {}, competition));
   }
   return mergeScatterResults(partials, { [regionId]: spec })[0] ?? createScatterResult(regionId, spec);
 }
@@ -1839,8 +2209,9 @@ function composePlacement(
   ctx: LayerContext,
   entry: ResolvedSpecies,
   candidate: Candidate,
+  assets: AssetRegistry,
   rng: Rng,
-): ScatterPlacement {
+): ForestScatterPlacement {
   const surface = ctx.scene.scatterSurfaceAt(candidate.x, candidate.z);
   const height = surface?.height ?? ctx.scene.meshHeightAt(candidate.x, candidate.z);
   const bias = layer.sizeBias ?? 2.2;
@@ -1850,10 +2221,48 @@ function composePlacement(
   // Always consume the old mirror draw when enabled so this safety fix does not move any later RNG
   // draws. A half turn supplies the facing variation without negative scale.
   const halfTurn = (layer.mirror ?? false) && rng.next() < 0.5 ? Math.PI : 0;
+  const rotationY = rng.next() * Math.PI * 2 + halfTurn;
+  const scaledSize = size * entry.sizeRatio;
+  if (entry.treeSpecies) {
+    // Preserve old canopy footprint for broad oaks, with the approved 35% allowance, and old
+    // height for conifers. Consume both old aspect draws but never stretch a harvestable tree.
+    const scale = scaledSize * (entry.treeSpecies === "oak" ? width : stretch);
+    const old = assets.entry(entry.sourceAssetId)!;
+    const next = assets.entry(entry.assetId)!;
+    const oldX = (old.base?.x ?? -old.size.x / 2) + old.size.x / 2;
+    const oldZ = (old.base?.z ?? -old.size.z / 2) + old.size.z / 2;
+    const nextX = (next.base?.x ?? -next.size.x / 2) + next.size.x / 2;
+    const nextZ = (next.base?.z ?? -next.size.z / 2) + next.size.z / 2;
+    const offsetX = oldX * size * width - nextX * scale;
+    const offsetZ = oldZ * size * width - nextZ * scale;
+    const x = candidate.x + offsetX * Math.cos(rotationY) + offsetZ * Math.sin(rotationY);
+    const z = candidate.z - offsetX * Math.sin(rotationY) + offsetZ * Math.cos(rotationY);
+    const ground = ctx.scene.meshHeightAt(x, z);
+    const position: Vec3 = [x, ground - (next.base?.y ?? 0) * scale, z];
+    const semantic = ctx.scene.describeRegions().find((layout) => {
+      const rect = ctx.scene.getRegionRect(layout.regionId);
+      return rect && x >= rect.minX && x <= rect.maxX && z >= rect.minZ && z <= rect.maxZ;
+    });
+    const resourceId = entry.treeSpecies === "oak"
+      ? semantic?.regionId === "fallowmarch" ? "tree_palewood" : "tree_duskoak"
+      : semantic?.regionId === "kilnhalt" ? "tree_cinderpine" : "tree_cairnpine";
+    const nativeTrunkRadius = TREE_TRUNK_RADII[entry.assetId];
+    if (nativeTrunkRadius === undefined) throw new Error(`Missing trunk dimensions for ${entry.assetId}.`);
+    return {
+      position, rotationY, scale, tilt: 0,
+      ...(semantic ? { forestTree: {
+        // The source candidate identifies the tree before display aliases, batching or sharding.
+        id: `forest:${ctx.seed >>> 0}:${ctx.regionId}:${layer.id}:${ctx.tile.id}:${candidate.source}:${candidate.x.toFixed(4)}:${candidate.z.toFixed(4)}`,
+        resourceId, regionId: semantic.regionId, position, assetId: entry.assetId, scale, rotationY,
+        trunkRadius: nativeTrunkRadius * scale,
+      } } : {}),
+    };
+  }
+  const nativeBase = entry.assetId !== entry.sourceAssetId ? assets.entry(entry.assetId)?.base?.y ?? 0 : 0;
   return {
-    position: [candidate.x, height - entry.sink, candidate.z],
-    rotationY: rng.next() * Math.PI * 2 + halfTurn,
-    scale: [size * width, size * stretch, size * width],
+    position: [candidate.x, height - entry.sink - nativeBase * scaledSize * stretch, candidate.z],
+    rotationY,
+    scale: [scaledSize * width, scaledSize * stretch, scaledSize * width],
     normal: entry.tilt > 0
       ? surface?.normal ?? ctx.scene.normalAt(candidate.x, candidate.z)
       : undefined,
@@ -1874,7 +2283,7 @@ function composeGrassPlacement(
   assets: AssetRegistry,
   rng: Rng,
 ): GrassSpritePlacement {
-  const placement = composePlacement(layer, ctx, entry, candidate, rng);
+  const placement = composePlacement(layer, ctx, entry, candidate, assets, rng);
   const scale = typeof placement.scale === "number"
     ? [placement.scale, placement.scale, placement.scale] as const
     : placement.scale;
@@ -1910,7 +2319,7 @@ function grassColour(assetId: string, x: number, z: number): number {
     ^ Math.imul(Math.round(z * 32), 0x5f356495)) >>> 0;
   const unit = hash32(seed, position) / 0xffffffff;
   const gain = 0.86 + unit * 0.22;
-  return scaleHex(assetId.startsWith("grass_wispy") ? 0xb69f00 : 0x79ab20, gain);
+  return scaleHex(assetId.startsWith("grass_wispy") ? GRASS_COLOURS.dry : GRASS_COLOURS.green, gain);
 }
 
 function scaleHex(colour: number, gain: number): number {

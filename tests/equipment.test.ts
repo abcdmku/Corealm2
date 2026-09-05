@@ -11,6 +11,7 @@ import {
   weaponAttachment, weaponSocket,
 } from "../game/src/render/equipmentVisuals.js";
 import { iconShapeFor } from "../game/src/ui/itemIcons.js";
+import { isProceduralGearAsset } from "../game/src/render/proceduralGear.js";
 
 /**
  * The equipment ladder, frozen as tests.
@@ -197,11 +198,11 @@ describe("gear appearance", () => {
     // publishes it into the same cache `load()` reads, so it will never appear in a manifest that
     // `tools/build-assets.ts` derives from files on disk. Excusing it by prefix would let any typo
     // starting "proc_" through, so it is checked against the real registration list instead.
-    // Every worn part is now file-backed, including both FREE - RPG Weapons meshes.
+    // The authored dagger is built by the same registry that supplies held fishing tools.
     for (const body of ["male", "female"] as const) {
       for (const def of EQUIPMENT) {
         for (const part of gearAppearanceParts(def.id, body)) {
-          expect(MANIFEST_IDS.has(part.assetId), `${def.id} (${body}) -> ${part.assetId}`).toBe(true);
+          expect(MANIFEST_IDS.has(part.assetId) || isProceduralGearAsset(part.assetId), `${def.id} (${body}) -> ${part.assetId}`).toBe(true);
         }
       }
     }
@@ -225,11 +226,16 @@ describe("gear appearance", () => {
 
   it("renders the crafted elemental core on the weapon", () => {
     expect(gearAppearanceParts("air_orb")).toHaveLength(0);
-    const wand = gearAppearancePartsWithCharge("air_wand", { itemId: "air_wand", charged: true });
-    expect(wand).toHaveLength(1);
-    expect(wand[0]?.orb).toMatchObject({ element: "wind", charged: true });
-    const uncharged = gearAppearancePartsWithCharge("water_staff", { itemId: "water_staff", charged: false });
-    expect(uncharged[0]?.orb).toMatchObject({ element: "water", charged: false });
+    for (const [prefix, element] of [["air", "wind"], ["earth", "earth"], ["water", "water"], ["fire", "fire"]] as const) {
+      for (const kind of ["wand", "staff"]) {
+        const itemId = `${prefix}_${kind}`;
+        for (const charged of [true, false]) {
+          const parts = gearAppearancePartsWithCharge(itemId, { itemId, charged });
+          expect(parts).toHaveLength(1);
+          expect(parts[0]?.orb, `${itemId}: ${charged}`).toMatchObject({ element, charged });
+        }
+      }
+    }
   });
 
   it("shows something for every visible slot, with no gaps left", () => {
@@ -303,10 +309,23 @@ describe("weapon sockets", () => {
     expect(weaponSocket("rpg_weapon_wand")?.bone).toBe("hand_r");
   });
 
-  it("shrinks the grip offset with the part, so a dagger does not float off the pommel", () => {
+  it("keeps the dagger's full grip seated in the fist at every tier", () => {
+    for (const tier of ["grithe", "corven", "kaldite", "emberite"]) {
+      const dagger = gearAppearance(`${tier}_dagger`);
+      expect(dagger?.assetId).toBe("corealm_dagger");
+      const socket = dagger ? weaponAttachment(dagger) : null;
+      expect(socket?.scale).toBe(1);
+      const grip = new THREE.Vector3(0, -0.1, 0);
+      grip.applyEuler(new THREE.Euler(...socket!.rotation)).multiplyScalar(socket!.scale);
+      grip.add(new THREE.Vector3(...socket!.position));
+      expect(grip.distanceTo(new THREE.Vector3(-0.01, 0.085, 0))).toBeLessThan(0.001);
+    }
+  });
+
+  it("compensates the socket when another caller scales a held part", () => {
     const dagger = gearAppearance("grithe_dagger");
     expect(dagger).not.toBeNull();
-    const socket = dagger ? weaponAttachment(dagger) : null;
+    const socket = dagger ? weaponAttachment({ ...dagger, scale: 0.558 }) : null;
     expect(socket).not.toBeNull();
     // 0.62 * tierSilhouetteScale(1) = 0.558; the uncompensated 0.100 m offset would put the grip
     // 4.4 cm from the fist centre, past its 3.8 cm half-span.
@@ -356,19 +375,54 @@ describe("tinting", () => {
     expect((knight.material as THREE.MeshStandardMaterial).emissive.getHex()).toBe(0x000000);
   });
 
-  it("puts Kaldite's garnet in the emissive channel, since the weapon GLBs carry one material", () => {
+  it("restricts Kaldite's glow to authored masks or a separate gem material", () => {
     const mesh = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
     const sword = gearAppearance("kaldite_sword");
     expect(sword?.accent).toBeDefined();
     if (sword) applyGearAppearance(mesh, sword);
     const painted = mesh.material as THREE.MeshStandardMaterial;
-    expect(painted.emissive.getHex()).toBe(sword?.accent);
-    expect(painted.emissiveIntensity).toBeLessThan(0.3);
+    expect(painted.emissive.getHex()).toBe(0x000000);
+    expect(painted.emissiveIntensity).toBe(0);
+    const masked = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial({ emissiveMap: new THREE.Texture() }));
+    if (sword) applyGearAppearance(masked, sword);
+    expect(masked.material.emissive.getHex()).toBe(sword?.accent);
+    expect(masked.material.emissiveIntensity).toBeGreaterThan(0);
     // Grithe and Corven have no accent, so they must not gain an emissive at all.
     const grithe = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshStandardMaterial());
     const grey = gearAppearance("grithe_sword");
     if (grey) applyGearAppearance(grithe, grey);
     expect((grithe.material as THREE.MeshStandardMaterial).emissive.getHex()).toBe(0x000000);
+  });
+
+  it("keeps authored wood and rare weapon maps without recolouring another cached user", () => {
+    for (const itemId of ["basic_wooden_staff", "cinderpine_wand", "tideworn_sword", "mossbound_staff"]) {
+      const source = new THREE.MeshStandardMaterial({
+        map: new THREE.Texture(), normalMap: new THREE.Texture(),
+        roughnessMap: new THREE.Texture(), metalnessMap: new THREE.Texture(),
+      });
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(), source);
+      applyGearAppearance(mesh, gearAppearance(itemId)!);
+      expect(mesh.material).not.toBe(source);
+      for (const map of ["map", "normalMap", "roughnessMap", "metalnessMap"] as const) {
+        expect(mesh.material[map], `${itemId}: ${map}`).toBe(source[map]);
+      }
+      expect(source.color.getHex()).toBe(0xffffff);
+      if (itemId.includes("wooden") || itemId === "cinderpine_wand") {
+        expect(mesh.material.emissive.getHex()).toBe(0);
+        expect(mesh.material.emissiveIntensity).toBe(0);
+      }
+    }
+    expect(gearAppearancePartsWithCharge("basic_wooden_wand", { itemId: "fire_wand", charged: true })[0]?.orb).toBeUndefined();
+  });
+
+  it("gives mixed Ranger tiers distinct material merge identities", () => {
+    const source = new THREE.MeshStandardMaterial({ name: "MI_Ranger" });
+    const identities = ["marchhide_robe", "bramblehide_leggings", "cairnpelt_wraps", "charhide_boots"].map(id => {
+      const mesh = new THREE.Mesh(new THREE.BoxGeometry(), source);
+      applyGearAppearance(mesh, gearAppearance(id)!);
+      return `${mesh.material.name}|${mesh.material.color.getHexString()}`;
+    });
+    expect(new Set(identities).size).toBe(4);
   });
 });
 

@@ -11,13 +11,13 @@
  * asserted below. The lab only chooses which creature stands where.
  */
 import path from "node:path";
-import { mkdir } from "node:fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { chromium, type Browser, type Page } from "playwright";
 import type { FeatureLabCatalog, FeatureLabState } from "../game/src/contracts.js";
 import { LEASH_METRES } from "../game/src/systems/enemyAI.js";
 import { ENEMY_RESPAWN_MS } from "../game/src/systems/combat.js";
 import { installTestDeadline } from "./lib/deadline.js";
-import { repoRoot } from "./lib/paths.js";
+import { argValue, repoRoot } from "./lib/paths.js";
 import { startGameServer, type RunningGameServer } from "./lib/server.js";
 
 const TOTAL_BUDGET_MS = Number(process.env["CREATURE_LAB_BUDGET_MS"] ?? 120_000);
@@ -123,7 +123,9 @@ interface FleeEvidence {
 
 interface KillEvidence {
   label: string;
-  swings: number;
+  entityId: string;
+  attackCommands: number;
+  healthTrace: number[];
   entityState: string | undefined;
   aiState: string | undefined;
   health: number | null | undefined;
@@ -182,7 +184,8 @@ let stage = "startup";
 
 try {
   await mkdir(screenshotDir, { recursive: true });
-  server = await startGameServer({ logLevel: "error" });
+  const externalUrl = argValue(process.argv.slice(2), "--url");
+  server = externalUrl ? { url: externalUrl, close: async () => {} } : await startGameServer({ logLevel: "error" });
   browser = await chromium.launch({
     headless: true,
     args: ["--enable-unsafe-swiftshader", "--mute-audio"],
@@ -349,7 +352,7 @@ try {
   };
   const passed = Object.values(checks).every(Boolean);
 
-  console.log(JSON.stringify({
+  const report = {
     passed,
     elapsedMs: Math.round(performance.now() - started),
     url: server.url,
@@ -367,17 +370,38 @@ try {
     },
     screenshots,
     errors: { runtime: final.errors, console: consoleErrors, page: pageErrors },
-  }, null, 2));
+  };
+  const reportJson = JSON.stringify(report, null, 2);
+  await writeFile(path.join(screenshotDir, "report.json"), reportJson + "\n");
+  console.log(reportJson);
   process.exitCode = passed ? 0 : 1;
 } catch (cause) {
-  console.error(JSON.stringify({
+  const failureState = await page?.evaluate(() => {
+    const state = window.__featureLab?.getState();
+    const debug = (window as unknown as {
+      __gameDebug?: { getEvents?: () => { events: unknown[] } };
+    }).__gameDebug;
+    return {
+      player: state?.player,
+      target: state?.target,
+      movement: state?.movement,
+      counters: state?.counters,
+      errors: state?.errors,
+      events: debug?.getEvents?.().events.slice(-64),
+    };
+  }).catch((error: unknown) => ({ readError: String(error) })) ?? null;
+  const report = {
     passed: false,
     stage,
     elapsedMs: Math.round(performance.now() - started),
     error: cause instanceof Error ? (cause.stack ?? cause.message) : String(cause),
     errors: { console: consoleErrors, page: pageErrors },
+    failureState,
     screenshots,
-  }, null, 2));
+  };
+  const reportJson = JSON.stringify(report, null, 2);
+  await writeFile(path.join(screenshotDir, "report.json"), reportJson + "\n");
+  console.error(reportJson);
   process.exitCode = 1;
 } finally {
   clearDeadline();
@@ -518,30 +542,37 @@ async function observeFlee(
   };
 }
 
-/** Swings until the health bar reaches zero, and reads what the death left behind. */
+/** One attack command must carry the fight through death without help from the test. */
 async function observeKill(
   targetPage: Page,
   creature: { presetId: string; label: string },
 ): Promise<KillEvidence> {
   const before = await spawn(targetPage, creature.presetId, 5);
-  const xpBefore = await readCombatXp(targetPage);
-  let swings = 0;
-  let state = before;
-  // Auto-attack keeps swinging on its own; re-issuing covers the case where the creature stepped
-  // out of reach between ticks and the player gave up pursuing.
-  while (state.target?.state !== "dead" && swings < 12) {
-    await perform(targetPage, "attack");
-    swings += 1;
-    state = await waitForState(targetPage, "creature dies", (next) => (
-      next.target?.state === "dead" || next.target?.ai?.state === "dead"
-    ), 4_000).catch(() => readState(targetPage));
+  const target = before.target;
+  if (!target || target.state !== "alive" || target.ai?.state === "dead"
+    || target.health === null || target.health <= 0 || target.health !== target.maxHealth) {
+    throw new Error(`Kill requires a living full-health target: ${JSON.stringify(target)}`);
   }
-  const dead = await waitForState(targetPage, "death is committed to the runtime", (next) => (
-    next.target?.ai?.state === "dead" && next.target?.ai?.respawnInMs !== null
-  ), ACTION_BUDGET_MS).catch(() => state);
+  const xpBefore = await readCombatXp(targetPage);
+  const healthTrace = [target.health];
+  // The production attack owns pursuit and cadence. Reissuing from a stale snapshot can race a
+  // lethal contact, and would also conceal a fight that incorrectly stopped pursuing its target.
+  await perform(targetPage, "attack");
+  const dead = await waitForState(targetPage, "one attack command commits the creature's death", (next) => {
+    const current = next.target;
+    if (current?.entityId !== target.entityId) return false;
+    if (current.health !== null && healthTrace.at(-1) !== current.health) {
+      healthTrace.push(current.health);
+    }
+    return current.state === "dead" && current.health === 0
+      && current.ai?.state === "dead" && current.ai.respawnInMs !== null
+      && next.counters.combatStarted > before.counters.combatStarted;
+  }, ACTION_BUDGET_MS * 2);
   return {
     label: creature.label,
-    swings,
+    entityId: target.entityId,
+    attackCommands: 1,
+    healthTrace,
     entityState: dead.target?.state,
     aiState: dead.target?.ai?.state,
     health: dead.target?.health,

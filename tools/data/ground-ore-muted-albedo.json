@@ -1,0 +1,11 @@
+{
+  "asset": "ground-ore-muted-albedo.png",
+  "purpose": "Quiet copper candidate albedo for a portable work-in-progress checkpoint",
+  "tool": "Built-in image_gen image editing",
+  "sourceReference": "game/public/assets/models/magic/rocks_free_essence_node.glb",
+  "sourceReferencePack": "dexsoft-rocks-free",
+  "sourceLicense": "Existing project DEXSOFT Rocks FREE pack Standard Unity Asset Store EULA retained",
+  "prompt": "Use case: precise-object-edit. Edit target is an existing 1024x1024 UV texture atlas for a 3D rock. Preserve the exact pixel locations, scale, silhouettes, boundaries, padding, and orientation of every UV island. No layout change, no new islands, no new objects, no text. Change only its stone albedo appearance: compress all stone color contrast substantially into restrained neutral warm gray, approximately sRGB #929087 with subtle fine mottling only. Remove the conspicuous pale/white rims and nearly black painted cavities inside the stone islands; make those regions close to the same midtone as their surrounding stone. Keep just faint gentle mineral texture so it remains a natural ordinary rock rather than blank fill. The UV atlas is too busy now: reduce large and small pattern contrast by roughly 75 percent, with no high-contrast highlights, no luminous edges, no dark cracks, no grainy sparkling dots, no directional bands, no added roughness. Keep black/dark unused atlas areas outside the islands and their precise island outline mask unchanged. Output the same square 1024x1024 atlas, flat unlit albedo, not a photograph or a rendered rock.",
+  "qa": "The image tool changed the island masks, so this is not used as a drop-in atlas. Albedo UVs sample only the quiet interior rectangle U=0.34..0.44, V=0.32..0.42. Original UVs remain in TEXCOORD_1 for the source normal and roughness maps. Geometry and mineral locations are unchanged.",
+  "acceptance": "Pending root production copper screenshot review"
+}

@@ -1,3 +1,4 @@
+import { PanelFrame } from "./panelFrame.js";
 /** Setup controls around the shared production feature yard. */
 import type {
   FeatureLabApi,
@@ -12,7 +13,7 @@ import type {
 } from "../contracts.js";
 import { notify } from "./contextMenu.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import { PanelFrame } from "./panels.js";
+
 
 function option(value: string, label: string): HTMLOptionElement {
   const node = document.createElement("option");
@@ -54,6 +55,8 @@ export class FeatureLabPanel implements ManagedPanel {
 
   private readonly mode = field(document.createElement("select"), "lab-mode");
   private readonly status = document.createElement("p");
+  private readonly presentationToggle = document.createElement("a");
+  private readonly presentationNote = document.createElement("p");
   private readonly combatWorkbench = workbench("lab-combat-workbench", "Combat workbench");
   private readonly bankWorkbench = workbench("lab-bank-workbench", "Bank workbench");
   private readonly buildingWorkbench = workbench("lab-building-workbench", "Building workbench");
@@ -105,6 +108,11 @@ export class FeatureLabPanel implements ManagedPanel {
     this.status.id = "lab-status";
     this.status.className = "lab-status";
     this.status.style.whiteSpace = "pre-wrap";
+
+    this.presentationToggle.id = "lab-presentation-toggle";
+    this.presentationToggle.className = "btn";
+    this.presentationNote.id = "lab-presentation-note";
+    this.presentationNote.className = "empty-state";
 
     this.kind.append(option("creature", "Creature"), option("npc", "NPC"));
     this.kind.addEventListener("change", () => {
@@ -267,6 +275,8 @@ export class FeatureLabPanel implements ManagedPanel {
 
     this.frame.body.append(
       labelled("Workbench", this.mode),
+      this.presentationToggle,
+      this.presentationNote,
       this.status,
       this.combatWorkbench,
       this.bankWorkbench,
@@ -286,6 +296,20 @@ export class FeatureLabPanel implements ManagedPanel {
     this.signature = signature;
 
     this.mode.value = state.mode;
+    const presentationUrl = new URL(window.location.href);
+    const presentationRequested = presentationUrl.searchParams.get("presentation") === "1";
+    if (presentationRequested) presentationUrl.searchParams.delete("presentation");
+    else presentationUrl.searchParams.set("presentation", "1");
+    this.presentationToggle.href = presentationUrl.href;
+    this.presentationToggle.textContent = presentationRequested
+      ? "Remove presentation fixture"
+      : "Add presentation fixture";
+    this.presentationNote.hidden = !presentationRequested;
+    this.presentationNote.textContent = state.presentation?.enabled
+      ? `${state.presentation.resourceEntityIds.length} gatherable resources; `
+        + `${state.presentation.scatterInstances} foliage instances. Close the lab panel, then click `
+        + "Oak or Copper Rock to gather. Compare the matching trees before and after chopping."
+      : "Switch to Combat to load the presentation fixture.";
     this.showWorkbench(this.combatWorkbench, state.mode === "combat");
     this.showWorkbench(this.bankWorkbench, state.mode === "combat");
     this.showWorkbench(this.buildingWorkbench, state.mode === "building");

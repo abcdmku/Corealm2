@@ -3,22 +3,22 @@ import type { BuildingKit, PartPlacement } from "../buildings.js";
 /**
  * Set dressing for the Gravelmaw's surface portal.
  *
- * The portal entity owns the `wall_brick_door` hero and the renderer supplies its recessed black
- * backdrop. This module builds a broken quarry face over and around it: the inner 3.4 m stays
- * open from local +Z (the approach), while forward masonry and the high crown hide the hero's
- * timber-looking outer panel. All coordinates are authored in that frame, in metres, before the
- * caller's entrance yaw is applied.
+ * The portal entity owns the `wall_brick_door` hero. `dungeonMouth.ts` supplies its dressed stone
+ * crown and recessed passage; the authored landform buries its back. This module beds the side
+ * masonry and quarry shoulders into that bank, leaving the inner 3.4 m open from local +Z.
+ * All coordinates are authored in that frame, in metres, before the caller's entrance yaw.
  *
  * The surface drops away toward +Z. Lower rock courses are therefore deliberately sunk rather
  * than lifted to the mouth's origin height. The front lip is centred near z 4 and its rotated
- * bounds stop below z 6; even its largest textured rock remains inside the tested terrace bounds
- * and has a buried foot on the downhill ground. `rock_medium_*` are the textured Stylized Nature
- * stones; the untextured `cliff_*` and `boulder_*` assets are intentionally not used here.
+ * bounds stop below z 6, with a buried foot on the downhill ground. The native strata use uniform
+ * scales fitted to the previous rotated XZ bounds. Their measured centre and base corrections
+ * preserve that footprint and burial despite the imported rocks' off-centre source pivots.
  */
 
 interface RockSpec {
   readonly tag: string;
-  readonly assetId: "rock_medium_1" | "rock_medium_2" | "rock_medium_3";
+  readonly assetId: "rock_medium_1" | "rock_medium_2" | "rock_medium_3"
+    | "corealm_rock_strata_1" | "corealm_rock_strata_2";
   readonly dx: number;
   readonly dy: number;
   readonly dz: number;
@@ -37,22 +37,18 @@ interface MouthVariant {
 
 const MOUTH_VARIANTS: readonly MouthVariant[] = [
   {
-    // A broad, even jaw with a three-stone lintel. The side courses sit behind the brick piers so
-    // their silhouettes read as a cut quarry face instead of boulders clipping through masonry.
+    // Broad, even jaws support paired shoulders behind the brick piers. The fitted masonry
+    // coping remains the uninterrupted upper silhouette of the entrance.
     rocks: [
-      { tag: "jaw_l", assetId: "rock_medium_3", dx: -4.7, dy: -0.58, dz: -1.82, rotationY: 0.45, scale: 0.9 },
-      { tag: "jaw_r", assetId: "rock_medium_1", dx: 4.7, dy: -0.58, dz: -1.82, rotationY: -0.7, scale: 0.9 },
-      // Shoulders bed INTO the jaws below them. Authored 0.18-0.24 m higher, every one of them
-      // was a boulder hanging in the air over the jaw it is supposed to be resting on.
-      { tag: "shoulder_l", assetId: "rock_medium_1", dx: -4.75, dy: 1.32, dz: -1.9, rotationY: 1.1, scale: 0.82 },
-      { tag: "shoulder_r", assetId: "rock_medium_3", dx: 4.75, dy: 1.4, dz: -1.9, rotationY: 2.0, scale: 0.78 },
-      { tag: "crown_l", assetId: "rock_medium_1", dx: -3.2, dy: 7.1, dz: -0.45, rotationY: 0.08, scale: 0.98 },
-      { tag: "crown_c", assetId: "rock_medium_2", dx: 0, dy: 7.45, dz: -0.5, rotationY: 1.55, scale: 1.0 },
-      { tag: "crown_r", assetId: "rock_medium_3", dx: 3.2, dy: 7.1, dz: -0.45, rotationY: 0.12, scale: 0.92 },
-      { tag: "rear_l", assetId: "rock_medium_2", dx: -5.8, dy: -0.72, dz: -3.0, rotationY: 0.7, scale: 0.72 },
-      { tag: "rear_r", assetId: "rock_medium_1", dx: 5.8, dy: -0.74, dz: -3.0, rotationY: 2.4, scale: 0.72 },
-      { tag: "lip_l", assetId: "rock_medium_2", dx: -4.35, dy: -1.08, dz: 3.9, rotationY: 0.4, scale: 0.72 },
-      { tag: "lip_r", assetId: "rock_medium_1", dx: 4.35, dy: -1.08, dz: 3.9, rotationY: 2.6, scale: 0.7 },
+      { tag: "jaw_l", assetId: "corealm_rock_strata_1", dx: -4.460772, dy: -0.864077, dz: -1.088388, rotationY: 0.45, scale: 0.651672 },
+      { tag: "jaw_r", assetId: "corealm_rock_strata_1", dx: 4.421189, dy: -0.823966, dz: -1.649244, rotationY: -0.7, scale: 0.625466 },
+      // The broader native jaws overlap the lower shoulder faces, keeping both courses seated.
+      { tag: "shoulder_l", assetId: "corealm_rock_strata_2", dx: -4.540775, dy: 1.097720, dz: -1.687964, rotationY: 1.1, scale: 0.595517 },
+      { tag: "shoulder_r", assetId: "corealm_rock_strata_2", dx: 5.388238, dy: 1.153800, dz: -2.094101, rotationY: 2, scale: 0.617403 },
+      { tag: "rear_l", assetId: "corealm_rock_strata_2", dx: -5.866926, dy: -0.756622, dz: -2.867933, rotationY: 0.7, scale: 0.466448 },
+      { tag: "rear_r", assetId: "corealm_rock_strata_2", dx: 6.028536, dy: -0.935173, dz: -3.127213, rotationY: 2.4, scale: 0.525921 },
+      { tag: "lip_l", assetId: "corealm_rock_strata_2", dx: -4.452966, dy: -1.116622, dz: 4.006391, rotationY: 0.4, scale: 0.459618 },
+      { tag: "lip_r", assetId: "corealm_rock_strata_2", dx: 4.543187, dy: -1.269751, dz: 3.734645, rotationY: 2.6, scale: 0.509160 },
     ],
     torchScale: 2.16,
     torchY: 0.4,
@@ -61,20 +57,16 @@ const MOUTH_VARIANTS: readonly MouthVariant[] = [
     pathZ: 2.55,
   },
   {
-    // A slightly collapsed right shoulder: asymmetry gives the rocky mouth a broken profile while
-    // the centre crown still lands on the same deliberate masonry span.
+    // A lower right shoulder and unequal rear stones bed into the bank beside the opening.
     rocks: [
-      { tag: "jaw_l", assetId: "rock_medium_1", dx: -4.75, dy: -0.62, dz: -1.85, rotationY: -0.3, scale: 0.9 },
-      { tag: "jaw_r", assetId: "rock_medium_3", dx: 4.82, dy: -0.56, dz: -1.9, rotationY: 1.3, scale: 0.84 },
-      { tag: "shoulder_l", assetId: "rock_medium_3", dx: -4.7, dy: 1.26, dz: -1.98, rotationY: 1.95, scale: 0.76 },
-      { tag: "shoulder_r", assetId: "rock_medium_2", dx: 4.92, dy: 1.04, dz: -1.92, rotationY: 0.3, scale: 0.86 },
-      { tag: "crown_l", assetId: "rock_medium_2", dx: -3.15, dy: 7.08, dz: -0.4, rotationY: 1.6, scale: 0.92 },
-      { tag: "crown_c", assetId: "rock_medium_1", dx: 0.02, dy: 7.6, dz: -0.46, rotationY: 0.05, scale: 0.9 },
-      { tag: "crown_r", assetId: "rock_medium_3", dx: 3.25, dy: 7.08, dz: -0.4, rotationY: 0.08, scale: 0.86 },
-      { tag: "rear_l", assetId: "rock_medium_3", dx: -5.75, dy: -0.7, dz: -3.08, rotationY: 0.6, scale: 0.68 },
-      { tag: "rear_r", assetId: "rock_medium_2", dx: 5.9, dy: -0.66, dz: -3.08, rotationY: 2.3, scale: 0.75 },
-      { tag: "lip_l", assetId: "rock_medium_3", dx: -4.3, dy: -1.08, dz: 3.85, rotationY: 1.5, scale: 0.68 },
-      { tag: "lip_r", assetId: "rock_medium_2", dx: 4.3, dy: -1.1, dz: 3.85, rotationY: 2.85, scale: 0.74 },
+      { tag: "jaw_l", assetId: "corealm_rock_strata_1", dx: -4.940306, dy: -0.863966, dz: -1.584149, rotationY: -0.3, scale: 0.578893 },
+      { tag: "jaw_r", assetId: "corealm_rock_strata_1", dx: 5.480363, dy: -0.825138, dz: -1.617085, rotationY: 1.3, scale: 0.580637 },
+      { tag: "shoulder_l", assetId: "corealm_rock_strata_2", dx: -4.069452, dy: 1.020113, dz: -2.137807, rotationY: 1.95, scale: 0.599285 },
+      { tag: "shoulder_r", assetId: "corealm_rock_strata_2", dx: 4.784941, dy: 0.996257, dz: -1.805835, rotationY: 0.3, scale: 0.545801 },
+      { tag: "rear_l", assetId: "corealm_rock_strata_2", dx: -5.488674, dy: -0.914636, dz: -2.560445, rotationY: 0.6, scale: 0.544845 },
+      { tag: "rear_r", assetId: "corealm_rock_strata_2", dx: 6.039547, dy: -0.698148, dz: -3.014332, rotationY: 2.3, scale: 0.486522 },
+      { tag: "lip_l", assetId: "corealm_rock_strata_2", dx: -3.730575, dy: -1.294636, dz: 3.968257, rotationY: 1.5, scale: 0.521210 },
+      { tag: "lip_r", assetId: "corealm_rock_strata_2", dx: 4.451248, dy: -1.137640, dz: 3.833270, rotationY: 2.85, scale: 0.469398 },
     ],
     torchScale: 2.24,
     torchY: 0.43,
@@ -83,20 +75,17 @@ const MOUTH_VARIANTS: readonly MouthVariant[] = [
     pathZ: 2.48,
   },
   {
-    // A taller, more deliberate crown. The raised centre stone makes a readable apex over the
-    // portal; every grounded piece remains behind the piers or outside the 3.4 m walk channel.
+    // A wider left jaw and lower right shoulder frame the dressed portal. Every stone stays
+    // behind the piers or outside the 3.4 m walk channel.
     rocks: [
-      { tag: "jaw_l", assetId: "rock_medium_2", dx: -4.75, dy: -0.55, dz: -1.88, rotationY: 2.3, scale: 0.92 },
-      { tag: "jaw_r", assetId: "rock_medium_1", dx: 4.72, dy: -0.62, dz: -1.86, rotationY: -1, scale: 0.9 },
-      { tag: "shoulder_l", assetId: "rock_medium_1", dx: -4.72, dy: 1.3, dz: -1.96, rotationY: 0.8, scale: 0.82 },
-      { tag: "shoulder_r", assetId: "rock_medium_3", dx: 4.78, dy: 1.18, dz: -1.92, rotationY: 1.9, scale: 0.78 },
-      { tag: "crown_l", assetId: "rock_medium_3", dx: -3.25, dy: 7.08, dz: -0.42, rotationY: 0.08, scale: 0.88 },
-      { tag: "crown_c", assetId: "rock_medium_2", dx: 0, dy: 7.78, dz: -0.48, rotationY: 0.02, scale: 1.0 },
-      { tag: "crown_r", assetId: "rock_medium_1", dx: 3.25, dy: 7.08, dz: -0.42, rotationY: 0.08, scale: 0.9 },
-      { tag: "rear_l", assetId: "rock_medium_3", dx: -5.78, dy: -0.68, dz: -3.05, rotationY: 1.55, scale: 0.68 },
-      { tag: "rear_r", assetId: "rock_medium_1", dx: 5.82, dy: -0.7, dz: -3.05, rotationY: -0.2, scale: 0.74 },
-      { tag: "lip_l", assetId: "rock_medium_1", dx: -4.35, dy: -1.06, dz: 3.9, rotationY: 2.4, scale: 0.7 },
-      { tag: "lip_r", assetId: "rock_medium_3", dx: 4.35, dy: -1.08, dz: 3.9, rotationY: 0.45, scale: 0.68 },
+      { tag: "jaw_l", assetId: "corealm_rock_strata_1", dx: -4.578822, dy: -0.596795, dz: -1.799447, rotationY: 2.3, scale: 0.573912 },
+      { tag: "jaw_r", assetId: "corealm_rock_strata_1", dx: 4.403180, dy: -0.863966, dz: -1.779264, rotationY: -1, scale: 0.610582 },
+      { tag: "shoulder_l", assetId: "corealm_rock_strata_2", dx: -4.582781, dy: 1.077720, dz: -1.695604, rotationY: 0.8, scale: 0.599331 },
+      { tag: "shoulder_r", assetId: "corealm_rock_strata_2", dx: 5.434427, dy: 0.933800, dz: -2.049414, rotationY: 1.9, scale: 0.612622 },
+      { tag: "rear_l", assetId: "corealm_rock_strata_2", dx: -5.205377, dy: -0.894636, dz: -2.960350, rotationY: 1.55, scale: 0.518160 },
+      { tag: "rear_r", assetId: "corealm_rock_strata_2", dx: 5.686130, dy: -0.900594, dz: -2.816882, rotationY: -0.2, scale: 0.533818 },
+      { tag: "lip_l", assetId: "corealm_rock_strata_2", dx: -4.127813, dy: -1.249751, dz: 3.776321, rotationY: 2.4, scale: 0.511313 },
+      { tag: "lip_r", assetId: "corealm_rock_strata_2", dx: 4.530750, dy: -1.294636, dz: 4.452773, rotationY: 0.45, scale: 0.539081 },
     ],
     torchScale: 2.2,
     torchY: 0.42,
@@ -105,20 +94,17 @@ const MOUTH_VARIANTS: readonly MouthVariant[] = [
     pathZ: 2.62,
   },
   {
-    // The most fractured profile: a lower left cap and a heavier right shoulder keep it distinct
-    // while the brick piers remain the clean transition back to the masonry hero.
+    // A low left shoulder and heavier right shoulder give the bank an uneven toe while the
+    // brick piers retain their alignment with the masonry hero.
     rocks: [
-      { tag: "jaw_l", assetId: "rock_medium_3", dx: -4.78, dy: -0.62, dz: -1.9, rotationY: -0.8, scale: 0.86 },
-      { tag: "jaw_r", assetId: "rock_medium_2", dx: 4.8, dy: -0.58, dz: -1.88, rotationY: 1.7, scale: 0.9 },
-      { tag: "shoulder_l", assetId: "rock_medium_2", dx: -4.78, dy: 1.12, dz: -1.96, rotationY: 2.4, scale: 0.82 },
-      { tag: "shoulder_r", assetId: "rock_medium_3", dx: 4.82, dy: 1.36, dz: -1.94, rotationY: 0.9, scale: 0.8 },
-      { tag: "crown_l", assetId: "rock_medium_1", dx: -3.25, dy: 7.08, dz: -0.42, rotationY: 0.06, scale: 0.9 },
-      { tag: "crown_c", assetId: "rock_medium_3", dx: 0, dy: 7.45, dz: -0.48, rotationY: 0.06, scale: 0.92 },
-      { tag: "crown_r", assetId: "rock_medium_2", dx: 3.25, dy: 7.08, dz: -0.42, rotationY: 0.06, scale: 0.9 },
-      { tag: "rear_l", assetId: "rock_medium_1", dx: -5.8, dy: -0.7, dz: -3.08, rotationY: 1.0, scale: 0.7 },
-      { tag: "rear_r", assetId: "rock_medium_2", dx: 5.86, dy: -0.66, dz: -3.08, rotationY: 2.1, scale: 0.76 },
-      { tag: "lip_l", assetId: "rock_medium_2", dx: -4.36, dy: -1.1, dz: 3.9, rotationY: 0.3, scale: 0.7 },
-      { tag: "lip_r", assetId: "rock_medium_1", dx: 4.36, dy: -1.06, dz: 3.9, rotationY: 1.9, scale: 0.72 },
+      { tag: "jaw_l", assetId: "corealm_rock_strata_1", dx: -5.371349, dy: -0.891451, dz: -1.462625, rotationY: -0.8, scale: 0.671638 },
+      { tag: "jaw_r", assetId: "corealm_rock_strata_1", dx: 4.893713, dy: -0.625778, dz: -1.720409, rotationY: 1.7, scale: 0.519324 },
+      { tag: "shoulder_l", assetId: "corealm_rock_strata_2", dx: -4.621023, dy: 1.078291, dz: -1.903793, rotationY: 2.4, scale: 0.532225 },
+      { tag: "shoulder_r", assetId: "corealm_rock_strata_2", dx: 5.294345, dy: 1.107487, dz: -1.446914, rotationY: 0.9, scale: 0.644087 },
+      { tag: "rear_l", assetId: "corealm_rock_strata_2", dx: -5.640356, dy: -0.889751, dz: -2.882067, rotationY: 1, scale: 0.509481 },
+      { tag: "rear_r", assetId: "corealm_rock_strata_2", dx: 5.985369, dy: -0.698657, dz: -2.986689, rotationY: 2.1, scale: 0.488424 },
+      { tag: "lip_l", assetId: "corealm_rock_strata_2", dx: -4.469932, dy: -1.135605, dz: 3.992925, rotationY: 0.3, scale: 0.444257 },
+      { tag: "lip_r", assetId: "corealm_rock_strata_2", dx: 4.621548, dy: -1.255173, dz: 3.897926, rotationY: 1.9, scale: 0.521161 },
     ],
     torchScale: 2.12,
     torchY: 0.38,
@@ -156,10 +142,9 @@ function placement(
 }
 
 /**
- * Build one deterministic mouth dressing. The four recipes stay at seventeen parts: two brick
- * piers, a low kerb threshold, one brick approach tile, two upright torches, and eleven textured
- * rocks. Their measured source cost remains comfortably below the composition budget even when a
- * variant uses the high-density `rock_medium_3` in every quarry-facing position.
+ * Build one deterministic mouth dressing. Each of the four recipes has fourteen parts: two brick
+ * piers, a low kerb threshold, one brick approach tile, two upright torches, and eight bedded rocks.
+ * The hero's fitted crown needs no suspended rock dressing.
  */
 export function buildGravelmawMouthComposition(seed: number, kit: BuildingKit): PartPlacement[] {
   const variant = MOUTH_VARIANTS[(seed >>> 0) % MOUTH_VARIANTS.length]!;

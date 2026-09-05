@@ -1,3 +1,4 @@
+import { PanelFrame } from "./panelFrame.js";
 /**
  * The compact unlock list shown after a player clicks a skill.
  *
@@ -13,7 +14,7 @@ import {
   type SkillUnlockKind,
 } from "../content/skillGuides.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import { PanelFrame, formatQuantity } from "./panels.js";
+import { formatQuantity } from "./panels.js";
 
 const KIND_ORDER: readonly SkillUnlockKind[] = [
   "resource", "recipe", "spell", "gear", "shortcut",
@@ -41,9 +42,8 @@ export class SkillGuidePanel implements ManagedPanel {
     this.frame = new PanelFrame({
       id: "skill-guide",
       title: "Skill guide",
-      // The Skills panel is 190px wide at the right edge. Keep this compact companion pane beside
-      // it so the list that opened the guide remains visible.
-      placement: { top: "96px", right: "210px", width: "320px" },
+      // Follow the Skills panel's normal or compact width, plus its 10px edge inset and a 10px gap.
+      placement: { top: "96px", right: "calc(var(--side-panel-width, 224px) + 20px)", width: "320px" },
       movable: true,
       registry: ctx.registry,
       onOpen: () => this.refresh(true),

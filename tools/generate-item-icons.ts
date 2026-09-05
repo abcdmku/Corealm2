@@ -4,7 +4,7 @@ import { access, mkdir, readFile, writeFile } from "node:fs/promises";
 import { chromium, type Browser, type Page } from "playwright";
 import sharp from "sharp";
 import { ALL_ITEMS } from "../game/src/content/items.js";
-import type { ItemId } from "../game/src/contracts.js";
+import type { ItemDef, ItemId } from "../game/src/contracts.js";
 import { itemIconAppearance } from "../game/src/render/itemIconAppearances.js";
 import { repoRoot } from "./lib/paths.js";
 import { startGameServer, type RunningGameServer } from "./lib/server.js";
@@ -18,7 +18,28 @@ export const ITEM_ICON_GAME_DIR = path.join(repoRoot, "game", "public", "assets"
 export const ITEM_ICON_CONTACT_SHEET = path.join(repoRoot, "art", "item-icons", "contact-sheet-48.png");
 
 export interface GenerateItemIconOptions {
-  all?: boolean;
+  /** Force fresh masters and derivatives for the selected items. */
+  readonly all?: boolean;
+  /** Reuse an existing Vite server. The generator does not start or close that server. */
+  readonly url?: string;
+  /** Exact item IDs. Output order follows the catalog, independent of argument order. */
+  readonly only?: readonly ItemId[];
+  /** Stage every output beneath this directory instead of the published icon locations. */
+  readonly out?: string;
+}
+
+export interface ItemIconOutputPaths {
+  readonly masterDir: string;
+  readonly gameDir: string;
+  readonly contactSheet: string;
+  readonly diagnosticsDir: string;
+}
+
+export interface GenerateItemIconResult {
+  readonly rendered: number;
+  readonly derived: number;
+  readonly itemIds: readonly ItemId[];
+  readonly paths: ItemIconOutputPaths;
 }
 
 interface ImageCheck {
@@ -26,11 +47,106 @@ interface ImageCheck {
   reason?: string;
 }
 
-export function itemIconFiles(itemId: ItemId): { master: string; game: string } {
+function within(directory: string, candidate: string): boolean {
+  const relative = path.relative(directory, candidate);
+  return relative === "" || (!path.isAbsolute(relative) && relative !== ".." && !relative.startsWith(`..${path.sep}`));
+}
+
+/** Resolve all destinations once so staged masters, derivatives and diagnostics stay together. */
+export function itemIconOutputPaths(out?: string): ItemIconOutputPaths {
+  if (out === undefined) {
+    return {
+      masterDir: ITEM_ICON_MASTER_DIR,
+      gameDir: ITEM_ICON_GAME_DIR,
+      contactSheet: ITEM_ICON_CONTACT_SHEET,
+      diagnosticsDir: path.join(repoRoot, "runs", "corealm", "icon-diagnostics"),
+    };
+  }
+  if (!out.trim()) throw new Error("Item icon --out requires a nonempty staging directory");
+  const root = path.resolve(repoRoot, out);
+  const publicRoot = path.join(repoRoot, "game", "public");
+  const publishedArt = path.dirname(ITEM_ICON_MASTER_DIR);
+  if (within(publicRoot, root) || within(publishedArt, root)) {
+    throw new Error("Item icon --out must stay outside game/public and art/item-icons; omit --out to publish");
+  }
   return {
-    master: path.join(ITEM_ICON_MASTER_DIR, `${itemId}.png`),
-    game: path.join(ITEM_ICON_GAME_DIR, `${itemId}.png`),
+    masterDir: path.join(root, String(ITEM_ICON_MASTER_SIZE)),
+    gameDir: path.join(root, String(ITEM_ICON_GAME_SIZE)),
+    contactSheet: path.join(root, "contact-sheet-48.png"),
+    diagnosticsDir: path.join(root, "diagnostics"),
   };
+}
+
+export function itemIconFiles(
+  itemId: ItemId,
+  paths: ItemIconOutputPaths = itemIconOutputPaths(),
+): { readonly master: string; readonly game: string } {
+  return {
+    master: path.join(paths.masterDir, `${itemId}.png`),
+    game: path.join(paths.gameDir, `${itemId}.png`),
+  };
+}
+
+function selectedItems(only?: readonly ItemId[]): readonly ItemDef[] {
+  if (only === undefined) return ALL_ITEMS;
+  if (only.length === 0 || new Set(only).size !== only.length) {
+    throw new Error("Item icon --only requires nonempty, distinct exact item IDs");
+  }
+  const knownIds = new Set(ALL_ITEMS.map(item => item.id));
+  const unknown = only.filter(id => !knownIds.has(id));
+  if (unknown.length > 0) throw new Error(`Unknown item icon ID(s): ${unknown.join(", ")}`);
+  const selected = new Set(only);
+  return ALL_ITEMS.filter(item => selected.has(item.id));
+}
+
+/** Accept a server base URL or one of its HTML pages, including a Vite base prefix. */
+export function itemIconRendererUrl(value: string): string {
+  const url = new URL(value);
+  if (url.protocol !== "http:" && url.protocol !== "https:") {
+    throw new Error("Item icon --url must use http or https");
+  }
+  const base = url.pathname.endsWith(".html")
+    ? url.pathname.slice(0, url.pathname.lastIndexOf("/") + 1)
+    : `${url.pathname.replace(/\/$/, "")}/`;
+  url.pathname = `${base}item-icon-renderer.html`;
+  url.search = "";
+  url.hash = "";
+  return url.href;
+}
+
+const USAGE = "Usage: npm run icons [-- --all] [--url http://127.0.0.1:4174] [--only item_id,other_id] [--out test-results/icon-review]";
+
+export function parseGenerateItemIconOptions(args: readonly string[]): GenerateItemIconOptions {
+  const values = new Map<string, string>();
+  let all = false;
+  for (let index = 0; index < args.length; index += 1) {
+    const argument = args[index]!;
+    const equals = argument.indexOf("=");
+    const flag = equals < 0 ? argument : argument.slice(0, equals);
+    if (flag === "--all" && equals < 0) {
+      if (all) throw new Error("Duplicate item icon option: --all");
+      all = true;
+      continue;
+    }
+    if (flag !== "--url" && flag !== "--only" && flag !== "--out") {
+      throw new Error(`${USAGE}\nUnknown item icon option: ${argument}`);
+    }
+    if (values.has(flag)) throw new Error(`Duplicate item icon option: ${flag}`);
+    const value = equals < 0 ? args[++index] : argument.slice(equals + 1);
+    if (!value?.trim() || value.startsWith("--")) throw new Error(`${flag} requires a value\n${USAGE}`);
+    values.set(flag, value);
+  }
+  const onlyValue = values.get("--only");
+  const options: GenerateItemIconOptions = {
+    ...(all ? { all: true } : {}),
+    ...(values.has("--url") ? { url: values.get("--url")! } : {}),
+    ...(onlyValue === undefined ? {} : { only: onlyValue.split(",").map(id => id.trim()) }),
+    ...(values.has("--out") ? { out: values.get("--out")! } : {}),
+  };
+  selectedItems(options.only);
+  itemIconOutputPaths(options.out);
+  if (options.url !== undefined) itemIconRendererUrl(options.url);
+  return options;
 }
 
 async function inspectImage(input: Buffer, expectedSize: number): Promise<ImageCheck> {
@@ -144,13 +260,13 @@ function decodePngDataUrl(value: string): Buffer {
   return Buffer.from(match[1], "base64");
 }
 
-async function openRenderer(): Promise<{
-  server: RunningGameServer;
+async function openRenderer(rendererUrl?: string): Promise<{
+  server: RunningGameServer | undefined;
   browser: Browser;
   page: Page;
   errors: string[];
 }> {
-  const server = await startGameServer({ logLevel: "error" });
+  const server = rendererUrl === undefined ? await startGameServer({ logLevel: "error" }) : undefined;
   let browser: Browser | undefined;
   try {
     browser = await chromium.launch({ headless: true, args: ["--enable-unsafe-swiftshader", "--mute-audio"] });
@@ -160,12 +276,12 @@ async function openRenderer(): Promise<{
       if (message.type() === "error") errors.push(message.text().slice(0, 1000));
     });
     page.on("pageerror", (error) => errors.push(String(error).slice(0, 1000)));
-    await page.goto(`${server.url}/item-icon-renderer.html`, { waitUntil: "load", timeout: 30_000 });
+    await page.goto(rendererUrl ?? itemIconRendererUrl(server!.url), { waitUntil: "load", timeout: 30_000 });
     await page.waitForFunction(() => window.__itemIconRenderer?.ready === true, undefined, { timeout: 30_000 });
     return { server, browser, page, errors };
   } catch (error) {
     await browser?.close().catch(() => undefined);
-    await server.close().catch(() => undefined);
+    await server?.close().catch(() => undefined);
     throw error;
   }
 }
@@ -183,18 +299,18 @@ function escapeXml(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-async function writeContactSheet(): Promise<void> {
-  const columns = 6;
+async function writeContactSheet(items: readonly ItemDef[], paths: ItemIconOutputPaths): Promise<void> {
+  const columns = Math.min(6, items.length);
   const cellWidth = 200;
   const cellHeight = 72;
-  const rows = Math.ceil(ALL_ITEMS.length / columns);
+  const rows = Math.ceil(items.length / columns);
   const width = columns * cellWidth;
   const height = rows * cellHeight;
   const cells: string[] = [];
-  for (const [index, item] of ALL_ITEMS.entries()) {
+  for (const [index, item] of items.entries()) {
     const x = (index % columns) * cellWidth;
     const y = Math.floor(index / columns) * cellHeight;
-    const image = (await readFile(itemIconFiles(item.id).game)).toString("base64");
+    const image = (await readFile(itemIconFiles(item.id, paths).game)).toString("base64");
     cells.push(
       `<g transform="translate(${x} ${y})">`,
       `<rect width="${cellWidth}" height="${cellHeight}" fill="${index % 2 === 0 ? "#1d1916" : "#241f1a"}" stroke="#3d352d"/>`,
@@ -205,24 +321,24 @@ async function writeContactSheet(): Promise<void> {
     );
   }
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><rect width="100%" height="100%" fill="#171411"/>${cells.join("")}</svg>`;
-  await mkdir(path.dirname(ITEM_ICON_CONTACT_SHEET), { recursive: true });
-  await writeFile(ITEM_ICON_CONTACT_SHEET, await sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toBuffer());
+  await mkdir(path.dirname(paths.contactSheet), { recursive: true });
+  await writeFile(paths.contactSheet, await sharp(Buffer.from(svg)).png({ compressionLevel: 9 }).toBuffer());
 }
 
-export async function generateItemIcons(options: GenerateItemIconOptions = {}): Promise<{
-  rendered: number;
-  derived: number;
-}> {
-  // Resolve the catalog before touching the filesystem. A missing mapping is a source error.
-  for (const item of ALL_ITEMS) itemIconAppearance(item.id);
+export async function generateItemIcons(options: GenerateItemIconOptions = {}): Promise<GenerateItemIconResult> {
+  // Validate selection and destinations before touching the filesystem or opening a browser.
+  const items = selectedItems(options.only);
+  const paths = itemIconOutputPaths(options.out);
+  const rendererUrl = options.url === undefined ? undefined : itemIconRendererUrl(options.url);
+  for (const item of items) itemIconAppearance(item.id);
 
-  await mkdir(ITEM_ICON_MASTER_DIR, { recursive: true });
-  await mkdir(ITEM_ICON_GAME_DIR, { recursive: true });
+  await mkdir(paths.masterDir, { recursive: true });
+  await mkdir(paths.gameDir, { recursive: true });
 
   const masterNeeded = new Set<ItemId>();
   const gameNeeded = new Set<ItemId>();
-  for (const item of ALL_ITEMS) {
-    const files = itemIconFiles(item.id);
+  for (const item of items) {
+    const files = itemIconFiles(item.id, paths);
     if (options.all || !(await validFile(files.master, ITEM_ICON_MASTER_SIZE))) masterNeeded.add(item.id);
     if (options.all || masterNeeded.has(item.id) || !(await validFile(files.game, ITEM_ICON_GAME_SIZE))) gameNeeded.add(item.id);
   }
@@ -232,18 +348,18 @@ export async function generateItemIcons(options: GenerateItemIconOptions = {}): 
   let rendererSession: Awaited<ReturnType<typeof openRenderer>> | undefined;
   try {
     if (masterNeeded.size > 0) {
-      rendererSession = await openRenderer();
-      for (const item of ALL_ITEMS) {
+      rendererSession = await openRenderer(rendererUrl);
+      for (const item of items) {
         if (!masterNeeded.has(item.id)) continue;
         const master = await renderMaster(rendererSession.page, item.id);
         const check = await inspectImage(master, ITEM_ICON_MASTER_SIZE);
         if (!check.ok) {
-          const diagnostic = path.join(repoRoot, "runs", "corealm", "icon-diagnostics", `${item.id}.png`);
+          const diagnostic = path.join(paths.diagnosticsDir, `${item.id}.png`);
           await mkdir(path.dirname(diagnostic), { recursive: true });
           await writeFile(diagnostic, master);
           throw new Error(`${item.id} master failed validation: ${check.reason}; wrote ${diagnostic}`);
         }
-        await writeFile(itemIconFiles(item.id).master, master);
+        await writeFile(itemIconFiles(item.id, paths).master, master);
         rendered += 1;
         process.stdout.write(`rendered ${item.id}\n`);
       }
@@ -252,30 +368,30 @@ export async function generateItemIcons(options: GenerateItemIconOptions = {}): 
       }
     }
 
-    for (const item of ALL_ITEMS) {
+    for (const item of items) {
       if (!gameNeeded.has(item.id)) continue;
-      const master = await readFile(itemIconFiles(item.id).master);
+      const master = await readFile(itemIconFiles(item.id, paths).master);
       const game = await deriveGameIcon(master);
       const check = await inspectImage(game, ITEM_ICON_GAME_SIZE);
       if (!check.ok) throw new Error(`${item.id} ${ITEM_ICON_GAME_SIZE}px icon failed validation: ${check.reason}`);
-      await writeFile(itemIconFiles(item.id).game, game);
+      await writeFile(itemIconFiles(item.id, paths).game, game);
       derived += 1;
     }
-    if (rendered > 0 || derived > 0 || !(await fileExists(ITEM_ICON_CONTACT_SHEET))) await writeContactSheet();
+    // Review directories may be reused for a different selection with already-valid images.
+    if (options.out !== undefined || options.only !== undefined || rendered > 0 || derived > 0 || !(await fileExists(paths.contactSheet))) {
+      await writeContactSheet(items, paths);
+    }
   } finally {
     await rendererSession?.browser.close().catch(() => undefined);
-    await rendererSession?.server.close().catch(() => undefined);
+    await rendererSession?.server?.close().catch(() => undefined);
   }
 
   process.stdout.write(`item icons: ${rendered} master render(s), ${derived} gameplay derivative(s)\n`);
-  return { rendered, derived };
+  return { rendered, derived, itemIds: items.map(item => item.id), paths };
 }
 
 async function main(): Promise<void> {
-  const args = process.argv.slice(2);
-  const unknown = args.filter((arg) => arg !== "--all");
-  if (unknown.length > 0) throw new Error(`Usage: npm run icons [-- --all]\nUnknown argument(s): ${unknown.join(", ")}`);
-  await generateItemIcons({ all: args.includes("--all") });
+  await generateItemIcons(parseGenerateItemIconOptions(process.argv.slice(2)));
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) await main();

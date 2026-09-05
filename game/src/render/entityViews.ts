@@ -84,6 +84,8 @@ import type { Archetype, EntityId, RegionId, SemanticEntity, Vec3 } from "../con
 import type { AssetLoadOptions, AssetRegistry } from "./assets.js";
 import type { WorldScene } from "./scene.js";
 import type { PaletteSwatch } from "./materials.js";
+import { artSurfaceRoleForMaterial } from "./artDirection.js";
+import { scatterWindMargin } from "./scatterBounds.js";
 import { EntityActiveSet } from "./entityActiveSet.js";
 import { Rng } from "../core/rng.js";
 import {
@@ -94,6 +96,11 @@ import {
   tierSilhouetteScale,
 } from "./materials.js";
 import { runPresentationScale } from "./characterRig.js";
+import { AnimationLod } from "./animationLod.js";
+import {
+  advanceCreaturePlayback, createCreaturePlayback, creatureBlend, missingCreatureHit,
+  transitionCreaturePlayback, type CreaturePlayback,
+} from "./creatureMotion.js";
 import {
   assembleDressedCharacter,
   headCapHeightFor,
@@ -326,6 +333,8 @@ const LEAF_MATERIAL = /leaf|leaves|foliage|canopy/i;
 
 /** Local-space bend at full height. Trunks stay fixed while their foliage moves. */
 const TREE_FOLIAGE_WIND = 0.055;
+const NATIVE_TREE_ASSET = /^corealm_(?:(?:oak|pine)_|stump_(?:oak|pine)$)/;
+const NATIVE_TREE_FOLIAGE_WIND = 0.035;
 
 /**
  * Materials a tier tint must never touch. Eyes, teeth and the pure black/white trims on the
@@ -941,27 +950,12 @@ const NEAREST_ANIMATION_SHARE = 0.5;
 const MAX_PENDING_ANIMATION_SECONDS = 0.25;
 
 /**
- * Metres of movement between syncs below which an entity counts as standing still.
- *
- * MUST STAY BELOW THE SMALLEST STEP ANY CREATURE CAN TAKE IN ONE SIM TICK, and that is not a
- * comfortable margin — it is the whole correctness condition.
- *
- * `systems/enemyAI.ts` writes a position every 100 ms tick, so a creature pottering at its walk
- * cycle's own speed moves `walkSpeedMps / 10` metres per tick. The slowest gait in the game is the
- * frog's 0.17 m/s, which is 1.7 cm. At the 3 cm this used to be, the frog and the hen fell UNDER
- * the threshold: `syncMotion` skipped them, so `record.target` did not advance, their drawn
- * position jumped in doubled steps every second tick, and the motion flipped walk-idle-walk around
- * each jump. Every one of those flips crossfades a fresh action from zero, which is what "the
- * animation resets many times a second" is.
- *
- * It only appeared when pottering speeds dropped to what the walk cycles actually depict; at the
- * old 1.2 to 3.1 m/s every creature cleared 3 cm a tick with room to spare. 5 mm keeps a threefold
- * margin under the slowest gait and still sits five times above the 1 mm `STEP_EPSILON_METRES`
- * that `enemyAI` treats as no movement at all, so navmesh snap noise cannot register as a step.
- * `tests/creature-gait.test.ts` pins the relationship so slowing a creature cannot quietly
- * reintroduce it.
+ * Ignore submillimetre position noise, while recognizing every accepted simulation step.
+ * A snail walks 2.5 mm per 100 ms tick. The former 5 mm threshold skipped its targets and
+ * repeatedly restarted its gait. The AI already rejects navigation progress below 1 mm;
+ * this 0.1 mm rendering tolerance stays below that rule and gives the snail a 25-fold margin.
  */
-export const MOVING_EPSILON = 0.005;
+export const MOVING_EPSILON = 0.0001;
 
 /**
  * Whether this render frame is the first of a new simulation tick.
@@ -1073,8 +1067,8 @@ const NAMED_CHARACTER_SHARE = 0.6;
  *
  * 1.75 rather than 1.0 because a boundary with no hysteresis thrashes: a character parked at
  * exactly the radius would rebuild its skeleton and re-merge its geometry every frame. 40 m in,
- * 70 m out. Between the two it keeps its rig but stops being ticked (`update` already cuts at
- * `animationRadius`), so it holds its pose and costs nothing but its draw calls.
+ * 70 m out. Between the two its full rig keeps running. Beyond release it uses an interpolated
+ * skeletal palette with the same phase, so the boundary changes cost without freezing motion.
  */
 const UNIQUE_RELEASE_FACTOR = 1.75;
 
@@ -1115,6 +1109,8 @@ interface SourcePart {
   material: THREE.Material;
   matrix: THREE.Matrix4;
   triangles: number;
+  /** Local displacement bound for shader wind; copied into the batch's per-geometry bounds. */
+  windStrength?: number;
   /** Optional local motion for generated resource details. It never affects gameplay position. */
   resourceDetail?: ResourcePartDetail;
 }
@@ -1254,6 +1250,9 @@ interface InstanceGroup {
   posed: boolean;
   /** True when the asset is rigged but no baked pose was available when the group was built. */
   needsPose: boolean;
+  /** Interpolated skeletal instances used whenever an actor does not own a live rig. */
+  animationLod: AnimationLod | null;
+  animationLodUsedAt: number;
 }
 
 /** A live skeletal animation on one non-instanced entity. */
@@ -1268,6 +1267,8 @@ interface RigState {
   resting: CharacterMotion;
   /** Per-entity idle jitter. Locomotion and one-shots use deterministic tempos. */
   idleTimeScale: number;
+  previousAction: THREE.AnimationAction | null;
+  replayActions: Map<THREE.AnimationClip, THREE.AnimationAction>;
 }
 
 interface ViewRecord {
@@ -1281,6 +1282,10 @@ interface ViewRecord {
   dressed: DressedCharacter | null;
   /** Mixer driving `unique`, when this entity earned one. */
   rig: RigState | null;
+  playback: CreaturePlayback | null;
+  motion: CharacterMotion;
+  resting: CharacterMotion;
+  idleTimeScale: number;
   /** Meshes in `unique`, counted once at build rather than guessed. */
   uniqueMeshes: number;
   /** Draw calls `unique` costs, shadow pass included. Returned to the pool on release. */
@@ -1303,6 +1308,9 @@ interface ViewRecord {
   target: THREE.Vector3;
   /** The one before that, so a render frame can interpolate between the two. */
   previous: THREE.Vector3;
+  /** Structural sync may consume a new target before the same frame's motion update. */
+  motionTargetPending: boolean;
+  rotationTargetPending: boolean;
   /**
    * The interpolation alpha this record last drew at, used only to spot a sim-tick boundary.
    *
@@ -1402,6 +1410,8 @@ interface ViewRecord {
   tilt: number;
   labelHeight: number;
   radius: number;
+  /** Authored forest contact radius in world metres; independent of the canopy's pick bounds. */
+  trunkRadius: number | null;
   /** False for inspect-only entities past `MAX_INSPECT_ONLY_PICK_RADIUS`; `pick` skips them. */
   pickable: boolean;
 }
@@ -1527,7 +1537,7 @@ export interface EntityRegionPreloadResult {
   residency: EntityResidencyStats;
 }
 
-export type EntityMotionPath = "live-rig" | "unique-static" | "baked" | "instanced-static";
+export type EntityMotionPath = "live-rig" | "sampled-rig" | "unique-static" | "baked" | "instanced-static";
 
 /** JSON-safe renderer state for browser motion acceptance. Gameplay never reads this. */
 export interface EntityMotionSnapshot {
@@ -1536,6 +1546,8 @@ export interface EntityMotionSnapshot {
   readonly path: EntityMotionPath | null;
   readonly semanticPosition: Vec3;
   readonly drawnPosition: Vec3;
+  /** Model-to-world scale along its forward stride, including authored build variation. */
+  readonly drawnStrideScale: number;
   readonly semanticRotationY: number;
   readonly drawnRotationY: number;
   readonly facing: Vec3;
@@ -1579,7 +1591,7 @@ export interface EntityViewOptions {
    * CPU every frame while a unique object only costs draw calls when it is on screen.
    */
   maxAnimatedViews?: number;
-  /** Metres past which a rig stops being ticked and holds its pose. Sits inside the fog start. */
+  /** Acquisition radius for full rigs. Farther actors continue through sampled skeletal poses. */
   animationRadius?: number;
   /** Ring radius floor, so a small node is still clickable-looking at 12 m. */
   minHighlightRadius?: number;
@@ -1589,6 +1601,9 @@ export class EntityViews {
   private readonly activeSet = new EntityActiveSet();
   private readonly groups = new Map<string, InstanceGroup>();
   private readonly records = new Map<EntityId, ViewRecord>();
+  /** Live semantic references for resident movers, refreshed with structural residency. */
+  private readonly residentMovingEntities: SemanticEntity[] = [];
+  private readonly locomotionIntents = new Map<EntityId, "idle" | "walk" | "run">();
   /** Non-null only while the documentation pipeline renders one semantic entity in isolation. */
   private captureSubjectId: EntityId | null = null;
   private readonly highlights = new Map<EntityId, THREE.Object3D>();
@@ -1676,6 +1691,7 @@ export class EntityViews {
   private readonly characterCosts = new Map<string, number>();
   /** Resolved character specs, keyed by (entity, assetId, authored parts). See `characterFor`. */
   private readonly characterSpecs = new Map<string, CharacterSpec | null>();
+  private readonly missingHitClips = new Map<string, THREE.AnimationClip | null>();
   private uniqueDrawCalls = 0;
   private namedDrawCalls = 0;
   private otherDrawCalls = 0;
@@ -1699,7 +1715,10 @@ export class EntityViews {
   /** Records whose asset is skinned, instanced or not. Kept apart so the rebalance is ~60 rows. */
   private readonly rigCandidates = new Set<ViewRecord>();
   private ringGeometry: THREE.BufferGeometry | null = null;
+  private resourceRingGeometry: THREE.BufferGeometry | null = null;
   private pipGeometry: THREE.BufferGeometry | null = null;
+  private readonly resourceHighlightMaterials = new Map<THREE.Material, THREE.MeshBasicMaterial>();
+  private readonly treeContactRadii = new WeakMap<readonly SourcePart[], number>();
 
   constructor(
     private readonly scene: EntityViewScene,
@@ -1879,6 +1898,11 @@ export class EntityViews {
    */
   sync(entities: readonly SemanticEntity[]): void {
     this.activeSet.replace(entities);
+    // Residency and rig demotion may discard a drawn record while its semantic actor still
+    // exists. Only removal from the authoritative snapshot ends its explicit motion intent.
+    for (const entityId of this.locomotionIntents.keys()) {
+      if (!this.activeSet.has(entityId)) this.locomotionIntents.delete(entityId);
+    }
     this.reconcileActiveSet();
   }
 
@@ -1889,10 +1913,16 @@ export class EntityViews {
     }
 
     const seen = new Set<EntityId>();
+    this.residentMovingEntities.length = 0;
 
     for (const entity of this.activeSet.selected()) {
       seen.add(entity.id);
       this.syncOne(entity);
+      // Refresh even when syncOne's signature is unchanged: a save restore or semantic rebuild
+      // can replace the object behind the same id without changing its current drawn transform.
+      if (this.records.has(entity.id) && MOVING_ARCHETYPES.has(entity.archetype)) {
+        this.residentMovingEntities.push(entity);
+      }
     }
 
     for (const [entityId, record] of this.records) {
@@ -1911,10 +1941,9 @@ export class EntityViews {
    * `sync` is NOT this — it runs a few times a second and diffs semantics. Animation needs real
    * wall-clock delta every frame, which is why it is a separate entry point.
    *
-   * The viewer position is optional. With it, rigs are ticked nearest-first and anything past
-   * `animationRadius` stops being ticked at all; without it, the nearest-first ordering is skipped
-   * and the budget alone applies. Either way an untickled rig FREEZES on its current pose rather
-   * than snapping back to bind, so the fallback is a still character, never a T-pose.
+   * Each resident actor advances its own playback clock. Near actors evaluate a full skeleton;
+   * other actors interpolate a sampled skeletal palette. The viewer ranks full-rig evaluations
+   * and never decides whether a visible actor's animation clock runs.
    */
   update(deltaSeconds: number, viewer?: THREE.Vector3, nowMs?: number): void {
     this.animatedLastFrame = 0;
@@ -1943,18 +1972,36 @@ export class EntityViews {
       if (group) this.writeSlot(group, record);
     }
 
+    // Every resident actor has a running clock, including actors outside the full-rig radius.
+    // Only pose evaluation is budgeted; elapsed time never depends on representation or distance.
+    for (const record of this.rigCandidates) {
+      if (this.captureSubjectId !== null && record.entityId !== this.captureSubjectId) continue;
+      const state = record.playback;
+      if (!state || record.fade >= 1) continue;
+      const finished = advanceCreaturePlayback(state, delta);
+      if (finished && ONE_SHOT_MOTIONS.has(record.motion)) this.setMotion(record, record.resting);
+      if (record.unique) {
+        if (record.motion === "death" && finished) {
+          this.sampleRig(record);
+          this.animated.delete(record);
+        }
+      } else {
+        const group = this.groups.get(record.groupKey);
+        if (group) this.writeSlot(group, record);
+      }
+    }
     if (this.animated.size === 0) return;
 
     // Reused rather than rebuilt: this runs every frame, and a fresh array per frame is garbage
     // the collector has to walk during exactly the frames that are already the most expensive.
     //
-    // Only rigs inside the animation radius are candidates, and they are FILTERED rather than
-    // sorted-then-broken-out-of: the order below is no longer distance alone, so a far record at
-    // the front of the list would end the loop for everyone behind it.
+    // Rigs inside release hysteresis remain candidates. Actors beyond it already draw their
+    // interpolated palette, so neither representation contains a distance-based frozen band.
     const ranked = this.animationOrder;
     ranked.length = 0;
     for (const record of this.animated) {
-      if (viewer && record.position.distanceToSquared(viewer) > this.animationRadiusSq) continue;
+      // Retained rigs remain animated throughout release hysteresis. Far instances use the
+      // same playback clock through the palette shader instead of freezing.
       // Owed time accrues for every candidate, whether or not the budget reaches it this frame.
       // Clamped for the same reason `delta` is: a rig that has been out of range for a minute must
       // not fast-forward a minute of animation the instant it comes back.
@@ -1977,7 +2024,7 @@ export class EntityViews {
 
     for (const record of ranked) {
       if (this.animatedLastFrame >= this.maxAnimatedViews) break;
-      record.rig?.mixer.update(record.pendingDelta);
+      this.sampleRig(record);
       record.pendingDelta = 0;
       // Incremented PER RIG rather than per frame, so no two rigs ever share a value and
       // least-recently-ticked is a strict total order. Sharing a per-frame number leaves ties, and
@@ -2029,8 +2076,13 @@ export class EntityViews {
       const dz = entity.position[2] - record.target.z;
       const tickRolled = crossedSimTick(blend, record.lastAlpha);
       record.lastAlpha = blend;
-      if (Math.hypot(dx, dz) > MOVING_EPSILON) {
-        record.previous.copy(record.target);
+      const moved = Math.hypot(dx, dz) > MOVING_EPSILON;
+      const structuralStep = record.motionTargetPending;
+      record.motionTargetPending = false;
+      if (moved || structuralStep) {
+        // syncOne already retained the previous target for a structural step. Copying its new
+        // target again would erase the interpolation span and falsely settle the gait this tick.
+        if (moved) record.previous.copy(record.target);
         record.target.set(entity.position[0], entity.position[1], entity.position[2]);
         record.settledTicks = 0;
         // Re-arm the hold here too. Without it, calling this every frame consumes the position
@@ -2066,7 +2118,7 @@ export class EntityViews {
       if (rotationY !== record.targetRotationY) {
         record.previousRotationY = record.targetRotationY;
         record.targetRotationY = rotationY;
-      } else if (tickRolled) {
+      } else if (tickRolled && !record.rotationTargetPending) {
         // SETTLE, exactly as the position span above and for the same reason. `systems/enemyAI.ts`
         // writes `view.rotationY = atan2(...)` while an enemy is turning, and when it stops the two
         // ends of this span stay a step apart while `blend` keeps sawtoothing 0 to 1, so the yaw
@@ -2075,6 +2127,7 @@ export class EntityViews {
         // `shortestArc` then sweeps all of it every tick, which is the spinning.
         record.previousRotationY = record.targetRotationY;
       }
+      record.rotationTargetPending = false;
 
       record.position.lerpVectors(record.previous, record.target, blend);
       record.rotationY = shortestArc(record.previousRotationY, record.targetRotationY, blend);
@@ -2087,6 +2140,15 @@ export class EntityViews {
       if (!group) continue;
       this.writeSlot(group, record);
     }
+  }
+
+  /**
+   * Updates resident movers without collecting or scanning the semantic world each frame.
+   * References follow the latest structural sync and residency selection; in-place simulation
+   * position and facing changes remain visible between those syncs. This does not advance clocks.
+   */
+  syncResidentMotion(alpha = 1): void {
+    this.syncMotion(this.residentMovingEntities, alpha);
   }
 
   /**
@@ -2129,6 +2191,7 @@ export class EntityViews {
       this.writeSlot(group, record);
       return;
     }
+    group.animationLod?.hide(record.slot);
     for (const draw of group.live) hideInstance(draw, record.slot);
     for (const draw of group.spent) hideInstance(draw, record.slot);
     for (const draw of group.moving) hideInstance(draw, record.slot);
@@ -2218,7 +2281,10 @@ export class EntityViews {
     record.signature = signature;
     record.target.set(entity.position[0], entity.position[1], entity.position[2]);
     record.position.copy(record.target);
-    record.previousRotationY = record.targetRotationY;
+    if (rotationY !== record.targetRotationY) {
+      record.previousRotationY = record.targetRotationY;
+      record.rotationTargetPending = MOVING_ARCHETYPES.has(entity.archetype);
+    }
     record.targetRotationY = rotationY;
     record.rotationY = rotationY;
     record.scale = scale;
@@ -2229,6 +2295,9 @@ export class EntityViews {
     record.normal = normal;
     record.tilt = tilt;
     record.labelHeight = view.labelHeight ?? 1.6;
+    record.trunkRadius = typeof entity.meta?.trunkRadius === "number"
+      && Number.isFinite(entity.meta.trunkRadius) && entity.meta.trunkRadius > 0
+      ? entity.meta.trunkRadius : null;
     record.radius = Math.max(
       this.minHighlightRadius,
       this.assetRadius(view.assetId) * scale * record.build[0] * Math.max(...scaleAxes),
@@ -2238,7 +2307,7 @@ export class EntityViews {
     const group = this.groups.get(groupKey);
     if (!group) return;
 
-    this.setMotion(record, spent ? "death" : moving ? gaitFor(record) : "idle", moving);
+    this.setMotion(record, spent ? "death" : moving ? gaitFor(record) : "idle");
 
     if (record.unique) {
       this.placeUnique(record);
@@ -2265,6 +2334,7 @@ export class EntityViews {
     const dz = entity.position[2] - record.target.z;
     if (Math.hypot(dx, dz) > MOVING_EPSILON) {
       record.previous.copy(record.target);
+      record.motionTargetPending = true;
       record.movingTicks = MOVING_HOLD_SYNCS;
     } else if (record.movingTicks > 0) {
       record.movingTicks -= 1;
@@ -2304,6 +2374,10 @@ export class EntityViews {
       unique: null,
       dressed: null,
       rig: null,
+      playback: null,
+      motion: "idle",
+      resting: "idle",
+      idleTimeScale: new Rng(hashString(entity.id)).float(0.88, 1.12),
       uniqueMeshes: 0,
       uniqueCost: 0,
       named: entity.archetype === "npc" || entity.archetype === "boss",
@@ -2317,6 +2391,8 @@ export class EntityViews {
       position: new THREE.Vector3(entity.position[0], entity.position[1], entity.position[2]),
       target: new THREE.Vector3(entity.position[0], entity.position[1], entity.position[2]),
       previous: new THREE.Vector3(entity.position[0], entity.position[1], entity.position[2]),
+      motionTargetPending: false,
+      rotationTargetPending: false,
       // Starts at 1 so the first frame reads as a tick boundary and a record that spawns
       // standing still settles immediately rather than after its first movement.
       lastAlpha: 1,
@@ -2349,6 +2425,7 @@ export class EntityViews {
       tilt: 0,
       labelHeight: view.labelHeight ?? 1.6,
       radius: this.minHighlightRadius,
+      trunkRadius: null,
       pickable: true,
     };
 
@@ -2413,10 +2490,10 @@ export class EntityViews {
     this.uniqueViewCount += 1;
     this.spend(record.named, record.uniqueCost);
 
-    record.rig = this.attachRig(entityId, dressed?.animationRoot ?? unique, assetId);
+    record.rig = this.attachRig(record, dressed?.animationRoot ?? unique, assetId);
     if (record.rig) {
       this.animated.add(record);
-      this.bindRigEvents(record);
+      this.sampleRig(record);
     }
     return true;
   }
@@ -2588,6 +2665,7 @@ export class EntityViews {
     if (slot < 0 || group.slots[slot] !== entityId) return;
     group.slots[slot] = null;
     group.free.push(slot);
+    group.animationLod?.hide(slot);
     for (const draw of group.live) hideInstance(draw, slot);
     for (const draw of group.spent) hideInstance(draw, slot);
     for (const draw of group.moving) hideInstance(draw, slot);
@@ -2634,6 +2712,7 @@ export class EntityViews {
       this.releaseDraws(group.live);
       this.releaseDraws(group.spent);
       this.releaseDraws(group.moving);
+      group.animationLod?.dispose();
       this.groups.delete(key);
     }
   }
@@ -2676,7 +2755,7 @@ export class EntityViews {
 
     // The ore seam. It is a separate part on the LIVE side only: losing the vein is half of what
     // makes a depleted node read as depleted.
-    if (archetype === "ore" && !essenceElement && liveParts.length > 0) {
+    if (archetype === "ore" && !assetId.startsWith("corealm_ore_") && !essenceElement && liveParts.length > 0) {
       const seam = this.seamPart(assetId, tier, liveParts);
       if (seam) liveParts.push(seam);
     }
@@ -2701,6 +2780,8 @@ export class EntityViews {
       moving: [],
       posed: ready,
       needsPose: rigged && !ready,
+      animationLod: null,
+      animationLodUsedAt: 0,
     };
     group.live = this.buildDraws(group.liveParts, group.cell, group.archetype);
     this.groups.set(key, group);
@@ -2749,6 +2830,52 @@ export class EntityViews {
     group.moving = this.buildDraws(group.movingParts, group.cell, group.archetype);
   }
 
+  /** Builds one shared palette for a group's animated instances, independent of actor count. */
+  private ensureAnimationLod(group: InstanceGroup, record: ViewRecord): AnimationLod | null {
+    group.animationLodUsedAt = this.resourceTimeSeconds;
+    if (group.animationLod) return group.animationLod;
+    if (!group.posed || group.archetype === "fishing_spot") return null;
+    const source = this.sourceOf(group.assetId);
+    if (!source) return null;
+    const dressed = group.character ? this.assembleCharacter(group.character) : null;
+    const root = dressed?.group ?? source;
+    const animationRoot = dressed?.animationRoot ?? root;
+    const clips = new Map<string, THREE.AnimationClip>();
+    for (const motion of ["idle", "walk", "run", "attack", "hit", "death"] as const) {
+      for (const name of this.clipCandidates(group.assetId, record.entityId, motion)) {
+        const clip = this.firstFittingClip(group.assetId, [name], animationRoot);
+        if (clip) clips.set(clip.name, clip);
+      }
+    }
+    const fallbackHit = this.motionClip(record, "hit");
+    if (fallbackHit) clips.set(fallbackHit.name, fallbackHit);
+    if (record.playback) clips.set(record.playback.clip.name, record.playback.clip);
+    try {
+      group.animationLod = new AnimationLod(
+        this.group, root, animationRoot, [...clips.values()],
+        (material) => this.variantFor(material, group.assetId, group.archetype, group.tier, group.regionId, false),
+      );
+    } finally {
+      dressed?.dispose();
+    }
+    // Groups outlive their resident entities. Keep revisiting a town cheap without accumulating
+    // every town's animation atlases for the rest of a long play session.
+    let cachedBytes = 0;
+    for (const candidate of this.groups.values()) cachedBytes += candidate.animationLod?.textureBytes ?? 0;
+    if (cachedBytes > 128 * 1024 * 1024) {
+      const dormant = [...this.groups.values()]
+        .filter((candidate) => candidate !== group && candidate.animationLod?.drawCalls === 0)
+        .sort((a, b) => a.animationLodUsedAt - b.animationLodUsedAt);
+      for (const candidate of dormant) {
+        if (cachedBytes <= 128 * 1024 * 1024) break;
+        cachedBytes -= candidate.animationLod!.textureBytes;
+        candidate.animationLod!.dispose();
+        candidate.animationLod = null;
+      }
+    }
+    return group.animationLod;
+  }
+
   /**
    * What a worked-out node looks like.
    *
@@ -2772,7 +2899,12 @@ export class EntityViews {
         : this.collectParts(
           group.depletedAssetId, group.archetype, group.tier, group.regionId, false,
         );
-      if (parts.length > 0) return this.alignDepletedParts(group.liveParts, parts);
+      if (parts.length > 0) {
+        // Native stumps share the tree's rooted origin. A spreading or leaning canopy's centre
+        // is not the trunk: centering this pair would move the cut tree sideways on harvest.
+        if (NATIVE_TREE_ASSET.test(group.assetId) && /^corealm_stump_(?:oak|pine)$/.test(group.depletedAssetId)) return parts;
+        return this.alignDepletedParts(group.liveParts, parts);
+      }
     }
 
     const live = this.spentMaterialParts(group);
@@ -2880,6 +3012,8 @@ export class EntityViews {
         ),
         matrix: mesh.matrixWorld.clone(),
         triangles: triangleCount(mesh.geometry),
+        windStrength: !spent && NATIVE_TREE_ASSET.test(assetId) && artSurfaceRoleForMaterial(base.name) === "foliage"
+          ? NATIVE_TREE_FOLIAGE_WIND : 0,
       });
     });
     if (assetId === ESSENCE_ALTAR_ASSET && essenceElement && !spent) {
@@ -3215,6 +3349,17 @@ export class EntityViews {
     spent: boolean,
     essenceElement: EssenceElement | null = null,
   ): THREE.Material {
+    // Native seams and their spent companions carry authored mineral colors and stone layers.
+    if (assetId.startsWith("corealm_ore_")) return base;
+    if (NATIVE_TREE_ASSET.test(assetId)) {
+      // Forest activation swaps scatter instances for semantic views at the exact same placement.
+      // Keep the same authored palette, organic grade and world-origin wind phase on both paths.
+      const role = artSurfaceRoleForMaterial(base.name);
+      const surface = role ? this.materials.organic(base, role) : base;
+      return !spent && role === "foliage"
+        ? this.materials.wind(surface, NATIVE_TREE_FOLIAGE_WIND)
+        : surface;
+    }
     if (regionId && ARCHITECTURE_ARCHETYPES.has(archetype)) {
       const architectureRole = architectureMaterialRoleForAsset(assetId, base.name);
       if (architectureRole) {
@@ -3248,12 +3393,14 @@ export class EntityViews {
           : assetId === ESSENCE_ALTAR_RUINS_ASSET ? "structure" : "veins",
       );
     }
-    const variant = this.materials.variant(base, {
+    let variant = this.materials.variant(base, {
       tier,
       state: spent ? "depleted" : "normal",
       strength: look.strength,
       swatch: look.swatch,
     });
+    const organicRole = artSurfaceRoleForMaterial(base.name);
+    if (organicRole) variant = this.materials.organic(variant, organicRole);
     if (spent) return variant;
     if (archetype === "tree" && LEAF_MATERIAL.test(base.name)) {
       return this.materials.wind(variant, TREE_FOLIAGE_WIND);
@@ -3385,6 +3532,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     assetId: string,
     character: CharacterSpec | null,
   ): number | string {
+    if (NATIVE_TREE_ASSET.test(assetId)) return "-";
     if (archetype === "ore") return tier;
     if ((APPEARANCE[archetype]?.strength ?? 0) > 0) return tier;
     if (TIER_BLIND_ARCHETYPES.has(archetype)) return "-";
@@ -3930,102 +4078,135 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
    * in the clip it starts (so the two who did land on the same clip are not in lockstep). Timescale
    * is nudged +/-12% for the same reason — identical loop lengths resynchronise within a minute.
    */
-  private attachRig(entityId: EntityId, root: THREE.Object3D, assetId: string): RigState | null {
-    const rng = new Rng(hashString(entityId));
-    const clip = this.firstFittingClip(assetId, this.clipCandidates(assetId, entityId, "idle"), root);
-    if (!clip) return null;
-
+  private attachRig(record: ViewRecord, root: THREE.Object3D, assetId: string): RigState | null {
+    this.ensurePlayback(record, root, assetId);
+    const state = record.playback;
+    if (!state) return null;
     const mixer = new THREE.AnimationMixer(root);
-    const action = mixer.clipAction(clip);
-    action.setLoop(THREE.LoopRepeat, Infinity);
-    action.play();
-    // setTime applies the pose as well as setting it, so the very first rendered frame is already
-    // mid-idle. Without it the object holds bind pose until the first update() lands.
-    mixer.setTime(rng.float(0, Math.max(0.001, clip.duration)));
-    const idleTimeScale = rng.float(0.88, 1.12);
-    action.timeScale = idleTimeScale;
-    return {
-      mixer, root, action, clipName: clip.name, motion: "idle", resting: "idle", idleTimeScale,
+    const action = mixer.clipAction(state.clip);
+    action.setLoop(THREE.LoopRepeat, Infinity).play();
+    const rig: RigState = {
+      mixer, root, action, previousAction: null, replayActions: new Map(), clipName: state.clip.name,
+      motion: record.motion, resting: record.resting, idleTimeScale: record.idleTimeScale,
     };
+    return rig;
   }
 
-  /**
-   * Switches a rigged entity's clip when what it is doing changes.
-   *
-   * Crossfades rather than cutting, and — this is the guard the animation diagnosis asks for — does
-   * nothing at all when the motion is unchanged. Re-selecting the same pose and calling
-   * `action.reset()` for it is exactly what froze the player's run clip: the loop asked for it
-   * twenty times a second and the clip never advanced past its first two milliseconds.
-   *
-   * Death is a one-way door: it plays once, clamps on its last frame, and the record leaves the
-   * animated set so a corpse costs no mixer time. Nothing brings a rig back out of it except a
-   * respawn, which rebuilds the record.
-   */
-  private setMotion(record: ViewRecord, motion: CharacterMotion, interruptOneShot = false): void {
-    const rig = record.rig;
-    if (!rig || !record.unique) return;
-    if (rig.motion === motion) return;
-    // Death is a one-way door while the entity is still dead, so a stray one-shot cannot stand a
-    // corpse back up. `EnemyAI.respawnDead` writes `state: "alive"` back onto the entity, and that
-    // is the one thing that reopens it — otherwise a respawned enemy would lie on the ground for
-    // the rest of the session.
-    if (rig.motion === "death" && (motion === "death" || record.spent)) return;
-    if (!ONE_SHOT_MOTIONS.has(motion)) rig.resting = motion;
-    // A running one-shot outranks locomotion: THE ATTACK IS THE READ, per play direction, so a
-    // swing or flinch finishes even while the root translates — the resting motion above is still
-    // updated, so the `finished` callback hands the rig straight back to the gait it should be in.
-    // A clamped action is no longer running and must also be allowed through. This is the route the
-    // mixer's `finished` callback uses to hand the rig back to its resting motion.
-    if (ONE_SHOT_MOTIONS.has(rig.motion)
-      && !ONE_SHOT_MOTIONS.has(motion)
-      && motion !== "death"
-      && rig.action.isRunning()
-      && !interruptOneShot) return;
+  private ensurePlayback(record: ViewRecord, root: THREE.Object3D, assetId: string): void {
+    if (record.playback) return;
+    const clip = this.firstFittingClip(assetId, this.clipCandidates(assetId, record.entityId, "idle"), root);
+    if (!clip) return;
+    const phase = new Rng(hashString(record.entityId) ^ 0x18ab_54e3).float(0, 1);
+    record.playback = createCreaturePlayback(clip, record.idleTimeScale, phase);
+  }
 
-    const assetId = this.groups.get(record.groupKey)?.assetId ?? "";
+  private motionClip(record: ViewRecord, motion: CharacterMotion): THREE.AnimationClip | null {
+    const group = this.groups.get(record.groupKey);
+    if (!group) return null;
+    const root = record.rig?.root ?? this.sourceOf(group.assetId);
+    if (!root) return null;
     const clip = this.firstFittingClip(
-      assetId,
-      this.clipCandidates(assetId, record.entityId, motion, gaitSpeed(record, motion)),
-      rig.root,
+      group.assetId,
+      this.clipCandidates(group.assetId, record.entityId, motion, gaitSpeed(record, motion)), root,
     );
-    // Two motions can resolve to the same clip — enemy_bee has neither Idle nor Walk and answers
-    // `Flying` to both. Crossfading an action from itself zeroes its weight; record the state change
-    // and leave the clip running.
-    if (clip && clip.name === rig.clipName) {
-      rig.action.timeScale = this.motionTimeScale(assetId, motion, clip, rig.idleTimeScale, gaitSpeed(record, motion));
-      rig.motion = motion;
+    if (clip || motion !== "hit") return clip;
+    if (!this.missingHitClips.has(group.assetId)) {
+      const idle = this.firstFittingClip(group.assetId, this.clipCandidates(group.assetId, record.entityId, "idle"), root);
+      this.missingHitClips.set(group.assetId, idle ? missingCreatureHit(root, idle) : null);
+    }
+    return this.missingHitClips.get(group.assetId) ?? null;
+  }
+
+  /** Motion intent updates the shared clock; both skeletal representations sample that clock. */
+  private setMotion(record: ViewRecord, motion: CharacterMotion, interruptOneShot = false, restart = false): void {
+    if (motion === "idle" || motion === "walk" || motion === "run") {
+      motion = this.locomotionIntents.get(record.entityId) ?? motion;
+    }
+    const group = this.groups.get(record.groupKey);
+    const root = record.rig?.root ?? (group ? this.sourceOf(group.assetId) : null);
+    if (!group || !root || !record.rigCandidate) return;
+    this.ensurePlayback(record, root, group.assetId);
+    const state = record.playback;
+    if (!state) return;
+    if (record.motion === "death" && (record.spent || motion === "death")) return;
+    if (!ONE_SHOT_MOTIONS.has(motion)) record.resting = motion;
+    if (record.motion === motion && !restart) {
+      state.timeScale = this.motionTimeScale(
+        group.assetId, motion, state.clip, record.idleTimeScale, gaitSpeed(record, motion),
+        record.scale * record.build[2] * record.scaleAxes[2],
+      );
       return;
     }
+    if (ONE_SHOT_MOTIONS.has(record.motion) && !ONE_SHOT_MOTIONS.has(motion)
+      && motion !== "death" && state.time < state.clip.duration && !interruptOneShot) return;
+    const clip = this.motionClip(record, motion);
     if (!clip) {
-      // No death clip on this rig: hold the last live pose rather than idling as a corpse. This is
-      // the old `action.paused = spent` behaviour, kept for exactly the case it was written for.
       if (motion === "death") {
-        rig.action.paused = true;
-        rig.motion = "death";
+        record.motion = "death";
+        state.loop = false;
+        state.timeScale = 0;
+        state.previousClip = null;
+        this.sampleRig(record);
         this.animated.delete(record);
       }
       return;
     }
-
-    const next = rig.mixer.clipAction(clip);
     const oneShot = ONE_SHOT_MOTIONS.has(motion) || motion === "death";
-    next.setLoop(oneShot ? THREE.LoopOnce : THREE.LoopRepeat, oneShot ? 1 : Infinity);
-    next.clampWhenFinished = oneShot;
-    next.timeScale = this.motionTimeScale(assetId, motion, clip, rig.idleTimeScale, gaitSpeed(record, motion));
-    next.reset();
-    next.enabled = true;
-    next.setEffectiveWeight(1);
-    // 0.06 s for a one-shot, 0.18 s for locomotion. Hit_Chest is 0.333 s long; an 0.18 s crossfade
-    // spends over half the clip getting into it and the flinch never reads.
-    next.crossFadeFrom(rig.action, oneShot ? 0.06 : 0.18, false).play();
+    const timeScale = this.motionTimeScale(
+      group.assetId, motion, clip, record.idleTimeScale, gaitSpeed(record, motion),
+      record.scale * record.build[2] * record.scaleAxes[2],
+    );
+    if (clip.name === state.clip.name && !oneShot) {
+      state.timeScale = timeScale;
+      state.loop = true;
+    } else {
+      transitionCreaturePlayback(state, clip, timeScale, !oneShot, oneShot ? 0.06 : 0.18);
+    }
+    record.motion = motion;
+    if (record.rig) {
+      this.sampleRig(record);
+      this.animated.add(record);
+    }
+  }
 
-    rig.action = next;
-    rig.clipName = clip.name;
-    rig.motion = motion;
-    // A dying rig stays in `animated` until the clip actually reaches its end — a corpse dropped
-    // from the tick set the instant the crossfade starts freezes halfway into the fall. The
-    // `finished` listener in `bindRigEvents` is what takes it out.
-    this.animated.add(record);
+  /** Evaluates a full rig at exactly the same time and weights as the instanced palette path. */
+  private sampleRig(record: ViewRecord): void {
+    const rig = record.rig;
+    const state = record.playback;
+    if (!rig || !state) return;
+    const action = rig.mixer.clipAction(state.clip);
+    let previous = state.previousClip ? rig.mixer.clipAction(state.previousClip) : null;
+    if (state.previousClip === state.clip) {
+      // A second hit can restart the same clip before its first recoil has settled. Three caches
+      // one action per clip; a separate action is necessary to blend the two different phases.
+      previous = rig.replayActions.get(state.clip) ?? null;
+      if (!previous) {
+        previous = rig.mixer.clipAction(state.clip.clone());
+        rig.replayActions.set(state.clip, previous);
+      }
+    }
+    if (rig.action !== action || rig.previousAction !== previous) {
+      rig.mixer.stopAllAction();
+      if (previous) previous.setLoop(THREE.LoopRepeat, Infinity).play();
+      action.setLoop(THREE.LoopRepeat, Infinity).play();
+      rig.action = action;
+      rig.previousAction = previous;
+    }
+    const blend = creatureBlend(state);
+    action.enabled = true;
+    action.time = state.time;
+    action.timeScale = state.timeScale;
+    action.setEffectiveWeight(blend);
+    if (previous) {
+      previous.enabled = true;
+      previous.time = state.previousTime;
+      previous.timeScale = state.previousTimeScale;
+      previous.setEffectiveWeight(1 - blend);
+    }
+    rig.clipName = state.clip.name;
+    rig.motion = record.motion;
+    rig.resting = record.resting;
+    rig.mixer.update(0);
   }
 
   /** Idle may vary per person. A gait or one-shot must match what the entity is doing. */
@@ -4035,6 +4216,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     clip: THREE.AnimationClip,
     idleTimeScale: number,
     moveSpeedMps?: number,
+    drawnStrideScale = 1,
   ): number {
     if (motion === "idle") return idleTimeScale;
     const entry = this.assets.entry(assetId);
@@ -4062,8 +4244,9 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     // simulation is moving is pure foot slide: the chicken's cycle implies 0.75 m/s and it was
     // travelling at 3.1, so its legs ran four times too slowly for the distance covered - "the feet
     // barely move and they move way too fast". `tools/build-animals.ts` measures the implied speed
-    // off the feet and puts it in the manifest; dividing the creature's real speed by it gives the
-    // rate that plants them.
+    // off the feet and puts it in the manifest. That measurement is in source-model metres.
+    // The placement scales its forward stride by the same Z factor in live rigs and sampled
+    // instances, so the world-space implied speed must include that factor before retiming.
     //
     // Clamped because a few rigs have no real stride to measure - a viper slithers, a crab scuttles
     // sideways, a fish swims - and their implied speed is near zero, which would ask for a playback
@@ -4075,7 +4258,13 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       ? entry?.impliedRunMps ?? entry?.impliedWalkMps
       : entry?.impliedWalkMps;
     if ((motion === "walk" || motion === "run") && implied && moveSpeedMps) {
-      const rate = Math.min(WALK_RATE_MAX, Math.max(WALK_RATE_MIN, moveSpeedMps / implied));
+      const strideScale = Number.isFinite(drawnStrideScale) && Math.abs(drawnStrideScale) > 1e-6
+        ? Math.abs(drawnStrideScale) : 1;
+      // A measured stride needs exact ground-speed matching even during a deliberate slow walk.
+      // A minimum playback rate forced the moose, tapir and several other slow gaits to slide.
+      // Upper limits remain a guard for poorly measured or stride-less rigs; authored movement
+      // speeds must fit those limits at every resident's actual drawn scale.
+      const rate = Math.min(WALK_RATE_MAX, moveSpeedMps / (implied * strideScale));
       // Then the cadence ceiling, which needs the clip's own length: playing a 0.47 s cycle at 1.6x
       // is 3.4 leg cycles a second, and playing a 1.33 s cycle at the same 1.6x is 1.2. Only the
       // first of those reads as a creature sprinting on the spot. Each gait gets its own ceiling:
@@ -4089,27 +4278,6 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
   }
 
   /**
-   * Wires a rig's `finished` events: one-shots hand back to the resting motion, and a finished
-   * death clip drops the record out of the tick set for good.
-   *
-   * Attached here rather than in `attachRig` because it closes over the record, and the record does
-   * not exist until after the rig is built.
-   */
-  private bindRigEvents(record: ViewRecord): void {
-    const rig = record.rig;
-    if (!rig) return;
-    rig.mixer.addEventListener("finished", (event) => {
-      // Fades leave old actions running for a moment; only the CURRENT action's end means anything.
-      if (event.action !== rig.action) return;
-      if (rig.motion === "death") {
-        this.animated.delete(record);
-        return;
-      }
-      this.setMotion(record, rig.resting);
-    });
-  }
-
-  /**
    * Plays a one-shot on an entity's rig: a swing, or a flinch when it takes one.
    *
    * CORRECTION: this said "OPT-IN and currently uncalled". `app/loop.ts:493` calls it with
@@ -4119,13 +4287,11 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
    * `animated:Idle` at rest, `animated:HitRecieve` within 700 ms of the first swing and
    * `animated:Death` once it dies.
    *
-   * Returns false when the entity has no live mixer. Before the rig pools were allocated by camera
-   * distance that was the answer for 46 of the world's 50 enemies whatever you did to them; it is
-   * now the answer only for enemies further away than `animationRadius`, which cannot be the one
-   * you are fighting. An instanced character cannot play a one-shot at all, and pretending
-   * otherwise would make the caller think it worked.
+   * Both full and sampled rigs consume the same action. A near combat target gets a priority
+   * promotion when a full rig is affordable; distance never suppresses the action itself.
+   * An optional duration aligns the authored clip with the simulation's committed attack timeline.
    */
-  playAction(entityId: EntityId, motion: "attack" | "hit"): boolean {
+  playAction(entityId: EntityId, motion: "attack" | "hit", options?: { durationSeconds?: number }): boolean {
     const record = this.records.get(entityId);
     if (!record) return false;
     // No movement gate. An earlier round refused an attack while the rig was translating, on the
@@ -4145,10 +4311,28 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
         record.actionPriority = false;
       }
     }
-    if (!record.rig || record.rig.motion === "death") return false;
-    const before = record.rig.motion;
-    this.setMotion(record, motion);
-    return record.rig.motion !== before;
+    if (!record.playback || record.motion === "death" || record.spent) return false;
+    this.setMotion(record, motion, false, true);
+    if (record.motion !== motion) return false;
+    const duration = options?.durationSeconds;
+    if (duration !== undefined && Number.isFinite(duration) && duration > 0 && record.playback) {
+      record.playback.timeScale = record.playback.clip.duration / duration;
+      this.sampleRig(record);
+    }
+    return true;
+  }
+
+  /** Explicit motion intent for stationary production-rig authoring and motion inspection. */
+  setLocomotion(entityId: EntityId, motion: "idle" | "walk" | "run"): boolean {
+    const record = this.records.get(entityId);
+    if (!record?.rigCandidate || record.spent) return false;
+    this.locomotionIntents.set(entityId, motion);
+    this.setMotion(record, motion, true);
+    return record.motion === motion;
+  }
+
+  clearLocomotion(entityId: EntityId): void {
+    this.locomotionIntents.delete(entityId);
   }
 
   /**
@@ -4352,6 +4536,10 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const castsShadow = part.material.userData.entityCastShadow !== false;
     mesh.castShadow = castsShadow;
     mesh.receiveShadow = castsShadow;
+    if ((part.windStrength ?? 0) > 0) {
+      mesh.customDepthMaterial = this.materials.windShadow(part.material, part.windStrength!, "depth");
+      mesh.customDistanceMaterial = this.materials.windShadow(part.material, part.windStrength!, "distance");
+    }
     // Per-INSTANCE culling is the whole reason this class is here, and it makes the object-level
     // test both redundant and wrong: a batch's bounding sphere spans every region that uses the
     // material, so it would never cull, while `onBeforeRender` (and `onBeforeShadow`) already drops
@@ -4388,7 +4576,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
   }
 
   /** Uploads one geometry into a batch, growing its buffers first if it will not fit. */
-  private addBatchGeometry(batch: Batch, geometry: THREE.BufferGeometry): number {
+  private addBatchGeometry(batch: Batch, geometry: THREE.BufferGeometry, windStrength = 0): number {
     const existing = batch.geometryIds.get(geometry);
     if (existing !== undefined) return existing;
 
@@ -4400,7 +4588,23 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       batch.maxIndices = Math.max(batch.maxIndices * 2, batch.usedIndices + indices);
       batch.mesh.setGeometrySize(batch.maxVertices, batch.maxIndices);
     }
-    const id = batch.mesh.addGeometry(geometry);
+    let upload = geometry;
+    if (windStrength > 0) {
+      // BatchedMesh copies these bounds and uses them for both camera and shadow culling.
+      // Share the source buffers while giving the upload its own expanded bounds: scattering
+      // still owns the original geometry, and no second set of vertex buffers is needed here.
+      upload = new THREE.BufferGeometry();
+      upload.setIndex(geometry.index);
+      for (const [name, attribute] of Object.entries(geometry.attributes)) upload.setAttribute(name, attribute);
+      upload.boundingBox = geometry.boundingBox?.clone()
+        ?? new THREE.Box3().setFromBufferAttribute(geometry.getAttribute("position") as THREE.BufferAttribute);
+      upload.boundingSphere = geometry.boundingSphere?.clone()
+        ?? upload.boundingBox.getBoundingSphere(new THREE.Sphere());
+      const margin = scatterWindMargin(new THREE.Matrix4(), windStrength);
+      upload.boundingBox.expandByScalar(margin);
+      upload.boundingSphere.radius += margin;
+    }
+    const id = batch.mesh.addGeometry(upload);
     batch.usedVertices += vertices;
     batch.usedIndices += indices;
     batch.geometryIds.set(geometry, id);
@@ -4436,7 +4640,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       if (!batch) continue;
       draws.push({
         batch,
-        geometryId: this.addBatchGeometry(batch, part.geometry),
+        geometryId: this.addBatchGeometry(batch, part.geometry, part.windStrength),
         part,
         instances: [],
         role: tintable
@@ -4479,14 +4683,13 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     // `syncMotion` calls this for every enemy every frame and would otherwise put it straight back
     // on screen. Enemies are in `MOVING_ARCHETYPES`, and a dead one is still an enemy.
     if (record.fade >= 1) {
+      group.animationLod?.hide(slot);
       for (const variant of [group.live, group.spent, group.moving]) {
         for (const draw of variant) hideInstance(draw, slot);
       }
       return;
     }
     const moving = record.movingTicks > 0 && !record.spent;
-    if (record.spent) this.ensureSpent(group);
-    else if (moving) this.ensureMoving(group);
 
     // Module scratch, for the reason the quaternions above are: `syncMotion` calls this once per
     // moving entity per RENDER frame. Two fresh Matrix4s per call is garbage allocated in exactly
@@ -4502,6 +4705,30 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       ),
     );
     const transform = SCRATCH_TRANSFORM;
+
+    const playback = record.playback;
+    const lod = playback ? this.ensureAnimationLod(group, record) : null;
+    if (lod && playback) {
+      lod.set(slot, placement, {
+        clip: playback.clip,
+        time: playback.time,
+        ...(playback.previousClip ? {
+          previousClip: playback.previousClip, previousTime: playback.previousTime,
+        } : {}),
+        blend: creatureBlend(playback),
+        opacity: 1 - record.fade,
+      }, (source) => {
+        if (!record.tints) return null;
+        const hex = tintFor(record.tints, tintRoleFor(source.name));
+        return hex === NO_TINT ? null : SCRATCH_COLOUR.setHex(hex);
+      });
+      for (const variant of [group.live, group.spent, group.moving]) {
+        for (const draw of variant) hideInstance(draw, slot);
+      }
+      return;
+    }
+    if (record.spent) this.ensureSpent(group);
+    else if (moving) this.ensureMoving(group);
 
     // A spent group with no geometry of its own keeps drawing its LIVE parts rather than nothing.
     // Hiding the live instance without drawing a replacement is how a worked-out node used to
@@ -4739,8 +4966,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       if (record.lingerMs === null) {
         // `syncOne` switches the rig to its death clip in the same call that stamped the instant
         // above, so by this frame the clip is already the right one to measure.
-        const rig = record.rig;
-        const clip = rig && rig.motion === "death" ? rig.action.getClip().duration : null;
+        const clip = record.motion === "death" ? record.playback?.clip.duration ?? null : null;
         record.lingerMs = corpseLinger(clip);
       }
       const fade = corpseFade(nowMs, diedAtMs, record.lingerMs);
@@ -4789,6 +5015,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
         const source = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
         const clones = source.map((material) => {
           const clone = material.clone();
+          clone.onBeforeCompile = material.onBeforeCompile;
+          clone.customProgramCacheKey = material.customProgramCacheKey.bind(material);
           clone.transparent = true;
           clone.depthWrite = false;
           owned.push(clone);
@@ -4828,6 +5056,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       // After the tier pass, not instead of it: the tier says what LEAGUE a thing is in and the
       // dye says which individual it is, and both are multiplies against the same texture.
       this.applyEntityTint(record);
+      this.applyOrganicMaterials(record.unique);
       return;
     }
     record.unique.traverse((child) => {
@@ -4852,13 +5081,27 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     // A corpse keeps the individual's dye. Losing it on death would make every body in a swarm
     // the same body, which is the read this whole pass exists to remove.
     this.applyEntityTint(record);
+    this.applyOrganicMaterials(record.unique);
+  }
+
+  /** Promoted rigs and baked distant poses keep the same surface treatment. */
+  private applyOrganicMaterials(root: THREE.Object3D): void {
+    root.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const grade = (material: THREE.Material): THREE.Material => {
+        const role = artSurfaceRoleForMaterial(material.name);
+        return role ? this.materials.organic(material, role) : material;
+      };
+      mesh.material = Array.isArray(mesh.material) ? mesh.material.map(grade) : grade(mesh.material);
+    });
   }
 
   // --------------------------------------------------- hover / selection
 
   /**
-   * Ring with an optional overhead pip. The ring says "this is the thing on the ground"; selected
-   * targets keep the pip so a 7 m tree remains identifiable. Colour matches `OverlaySpec`.
+   * Ground contact ring with an optional overhead pip. Picking still uses the complete model;
+   * a broad canopy must not turn a chop target into a clearing-sized ground marker.
    */
   setHighlight(
     entityId: EntityId,
@@ -4869,11 +5112,25 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     if (!record) return false;
 
     this.clearHighlight(entityId);
-    const material = this.materials.highlight(colour);
+    const resource = record.archetype === "tree" || record.archetype === "ore";
+    const source = this.materials.highlight(colour);
+    let material = source;
+    if (resource) {
+      let quiet = this.resourceHighlightMaterials.get(source);
+      if (!quiet) {
+        quiet = source.clone();
+        quiet.color.lerp(new THREE.Color(0xaaa18b), 0.4);
+        quiet.opacity = 0.46;
+        quiet.toneMapped = true;
+        this.resourceHighlightMaterials.set(source, quiet);
+      }
+      material = quiet;
+    }
     const marker = new THREE.Group();
     marker.name = `highlight-${entityId}`;
 
-    const ring = new THREE.Mesh(this.ring(), material);
+    const ring = new THREE.Mesh(resource ? this.resourceRing() : this.ring(), material);
+    ring.name = "ring";
     ring.rotation.x = -Math.PI / 2;
     marker.add(ring);
 
@@ -4902,15 +5159,63 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
 
   private placeHighlight(marker: THREE.Object3D, record: ViewRecord): void {
     marker.position.copy(record.position);
-    marker.position.y += 0.06;
-    marker.scale.setScalar(record.radius);
+    marker.position.y += 0.04;
+    let radius = record.radius;
+    let height = record.labelHeight;
+    const resource = record.archetype === "tree" || record.archetype === "ore";
+    if (resource) {
+      const group = this.groups.get(record.groupKey);
+      const bounds = this.drawnBounds(record.entityId);
+      if (record.archetype === "tree" && !record.spent) {
+        const contact = record.trunkRadius
+          ?? (group ? this.treeContactRadius(group.liveParts) * record.scale : 0.3);
+        radius = Math.max(0.35, contact * 1.15 + 0.12);
+      } else if (bounds) {
+        // A stump and a worked seam have their own silhouette. The old canopy or boulder must
+        // not continue driving either the ground ring or the marker's height after depletion.
+        const footprint = Math.max(bounds.max[0] - bounds.min[0], bounds.max[2] - bounds.min[2]);
+        radius = Math.min(1.2, Math.max(0.35, footprint * 0.5 + 0.1));
+      } else radius = 0.45;
+      if (bounds) height = bounds.max[1] - record.position.y + 0.16;
+    }
+    marker.scale.setScalar(1);
+    marker.getObjectByName("ring")?.scale.setScalar(radius);
     const pip = marker.getObjectByName("pip");
-    if (pip) pip.position.y = record.labelHeight / Math.max(0.001, record.radius);
+    if (pip) {
+      pip.position.y = height;
+      // Pip size is a UI measure, independent of tree height and canopy width.
+      pip.scale.setScalar(resource ? 0.42 : record.radius);
+    }
+  }
+
+  /** Imported trees without a forest descriptor use their lowest trunk geometry, not foliage. */
+  private treeContactRadius(parts: readonly SourcePart[]): number {
+    const cached = this.treeContactRadii.get(parts);
+    if (cached !== undefined) return cached;
+    const trunks = parts.filter((part) => !LEAF_MATERIAL.test(part.material.name));
+    const bounds = this.partsBounds(trunks);
+    const ceiling = bounds.min.y + Math.min(0.6, (bounds.max.y - bounds.min.y) * 0.15);
+    const point = new THREE.Vector3();
+    let radius = 0;
+    for (const part of trunks) {
+      const positions = part.geometry.getAttribute("position");
+      for (let index = 0; index < positions.count; index += 1) {
+        point.fromBufferAttribute(positions, index).applyMatrix4(part.matrix);
+        if (point.y <= ceiling) radius = Math.max(radius, Math.hypot(point.x, point.z));
+      }
+    }
+    this.treeContactRadii.set(parts, radius || 0.3);
+    return radius || 0.3;
   }
 
   private ring(): THREE.BufferGeometry {
     if (!this.ringGeometry) this.ringGeometry = new THREE.RingGeometry(0.86, 1.06, 28);
     return this.ringGeometry;
+  }
+
+  private resourceRing(): THREE.BufferGeometry {
+    this.resourceRingGeometry ??= new THREE.RingGeometry(0.955, 1, 40);
+    return this.resourceRingGeometry;
   }
 
   private pip(): THREE.BufferGeometry {
@@ -5100,6 +5405,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       ? "live-rig"
       : record.unique
         ? "unique-static"
+        : group?.animationLod && record.playback
+          ? "sampled-rig"
         : group?.posed
           ? "baked"
           : group
@@ -5113,15 +5420,16 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       path,
       semanticPosition: [record.target.x, record.target.y, record.target.z],
       drawnPosition: [record.position.x, record.position.y, record.position.z],
+      drawnStrideScale: Math.abs(record.scale * record.build[2] * record.scaleAxes[2]),
       semanticRotationY: record.targetRotationY,
       drawnRotationY: rotationY,
       facing: [Math.sin(rotationY), 0, Math.cos(rotationY)],
-      motion: rig?.motion ?? bakedMotion,
-      restingMotion: rig?.resting ?? null,
-      clip: rig?.clipName ?? null,
-      time: rig?.action.time ?? null,
-      duration: rig?.action.getClip().duration ?? null,
-      timeScale: rig?.action.getEffectiveTimeScale() ?? null,
+      motion: record.playback ? record.motion : bakedMotion,
+      restingMotion: record.playback ? record.resting : null,
+      clip: record.playback?.clip.name ?? null,
+      time: record.playback?.time ?? null,
+      duration: record.playback?.clip.duration ?? null,
+      timeScale: record.playback?.timeScale ?? null,
     };
   }
 
@@ -5182,6 +5490,12 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
 
     const group = this.groups.get(record.groupKey);
     if (!group || record.slot < 0) return null;
+    if (group.animationLod && record.playback) {
+      const bounds = group.animationLod.bounds(record.slot, box);
+      return bounds && !bounds.isEmpty()
+        ? boxToBounds(bounds, group.animationLod.drawCalls, `sampled:${record.playback.clip.name}`, record.fade)
+        : null;
+    }
     const moving = record.movingTicks > 0 && !record.spent;
     const active = record.spent && group.spent.length > 0
       ? group.spent
@@ -5213,6 +5527,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       if (record.slot < 0) continue;
       const group = this.groups.get(record.groupKey);
       if (!group) continue;
+      if (group.animationLod && record.playback) continue;
       const flags = occupied.get(group.key) ?? { live: false, spent: false, moving: false };
       const moving = record.movingTicks > 0 && !record.spent;
       if (record.spent && group.spent.length > 0) flags.spent = true;
@@ -5226,12 +5541,14 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     let triangles = 0;
     let bakedPoses = 0;
     let dressedGroups = 0;
+    let sampledDrawCalls = 0;
     const drawnBatches = new Set<Batch>();
     const charge = (draws: readonly PartDraw[]): void => {
       drawnInstancedMeshes += draws.length;
       for (const draw of draws) drawnBatches.add(draw.batch);
     };
     for (const group of this.groups.values()) {
+      sampledDrawCalls += group.animationLod?.drawCalls ?? 0;
       instancedMeshes += group.live.length + group.spent.length + group.moving.length;
       const flags = occupied.get(group.key);
       if (flags) {
@@ -5280,7 +5597,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       // part: every part that shares a material shares one `multiDrawElements`. Unique character
       // meshes are still one draw each and cast, so two; highlights are unlit overlays that do not
       // cast, so a ring plus a pip is two. World-wide and unculled — see the field doc.
-      estimatedDrawCalls: drawnBatches.size * 2 + uniqueMeshes * 2 + this.highlights.size * 2,
+      estimatedDrawCalls: (drawnBatches.size + sampledDrawCalls + uniqueMeshes + this.highlights.size) * 2,
       uniqueDrawCalls: this.uniqueDrawCalls,
       namedDrawCalls: this.namedDrawCalls,
       otherDrawCalls: this.otherDrawCalls,
@@ -5298,6 +5615,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     this.activeSet.replace([]);
     this.clearAllHighlights();
     for (const record of this.records.values()) this.release(record);
+    for (const group of this.groups.values()) group.animationLod?.dispose();
     for (const batch of this.batches.values()) {
       batch.mesh.removeFromParent();
       batch.mesh.dispose();
@@ -5306,6 +5624,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     this.group.clear();
     this.groups.clear();
     this.records.clear();
+    this.residentMovingEntities.length = 0;
+    this.locomotionIntents.clear();
     this.animated.clear();
     this.fading.clear();
     this.rigCandidates.clear();
@@ -5315,6 +5635,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     this.meshCounts.clear();
     this.characterCosts.clear();
     this.characterSpecs.clear();
+    this.missingHitClips.clear();
     this.uniqueDrawCalls = 0;
     this.namedDrawCalls = 0;
     this.otherDrawCalls = 0;
@@ -5363,9 +5684,13 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     this.tierKeyed.clear();
     this.architectureAssets.clear();
     this.ringGeometry?.dispose();
+    this.resourceRingGeometry?.dispose();
     this.pipGeometry?.dispose();
     this.ringGeometry = null;
+    this.resourceRingGeometry = null;
     this.pipGeometry = null;
+    for (const material of this.resourceHighlightMaterials.values()) material.dispose();
+    this.resourceHighlightMaterials.clear();
   }
 }
 

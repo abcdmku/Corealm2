@@ -12,6 +12,8 @@ export interface GameServerOptions {
   port?: number;
   strictPort?: boolean;
   logLevel?: LogLevel;
+  /** Acceptance runs keep one document stable while other workers edit. */
+  hmr?: boolean;
 }
 
 export async function assertGameInitialized(): Promise<void> {
@@ -33,6 +35,7 @@ export async function startGameServer(options: GameServerOptions = {}): Promise<
       host: "127.0.0.1",
       port: options.port ?? 0,
       strictPort: options.strictPort ?? false,
+      hmr: options.hmr ?? false,
     },
   });
   await vite.listen();

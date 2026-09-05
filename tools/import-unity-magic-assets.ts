@@ -116,7 +116,7 @@ const catalog: CatalogEntry[] = [
     is: "essence-altar",
     tags: ["altar", "ruin", "station", "essence", "awakening", "emissive-overlay-target", "non-emissive-source"],
     expectedLongestAxis: [1, 12],
-    expectedSha256: "821047016861542C1244638237BA634D32BAA5D2DF3C15F069E7B8109E2CDF18",
+    expectedSha256: "2A9817274193D386343A00ED408B164A325A766C88F59EBA4E1C2D7F8BB9DED1",
   },
   {
     id: "altar_ruins_site",
@@ -125,7 +125,7 @@ const catalog: CatalogEntry[] = [
     is: "essence-altar-ruins",
     tags: ["altar", "ruin", "landmark", "essence", "stone", "non-emissive"],
     expectedLongestAxis: [10, 120],
-    expectedSha256: "63BB98E1C5ED8714E5AEF1F282BBAD7DFC2B6642C978B891041DB38E71C288BA",
+    expectedSha256: "39732BAA18D038E84D91EE655FE7CC2AE4704488657550FC8D9C40F21330517A",
   },
 ];
 

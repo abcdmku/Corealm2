@@ -97,6 +97,7 @@
  * ---------------------------------------------------------------------------------------------
  */
 import type { EnemyDef } from "./index.js";
+import { CREATURE_SPECIES } from "./creatureSpecies.js";
 
 /** PRD 2.4: enemies leash at 28 m from their spawn point, at every tier. */
 export const LEASH_RADIUS_M = 28;
@@ -125,7 +126,7 @@ export function enemyIdFor(family: string, tier: number): string {
 const BLOCKS: readonly EnemyDef[] = [
   // ---------------------------------------------------------------- Fallowmarch, tier 1
   {
-    id: "frog_t1", name: "Redsill Frog", family: "frog", tier: 1,
+    id: "frog_t1", name: "Frog", family: "frog", tier: 1,
     // The first thing most characters kill, and it inherits the Rill Skitterling's numbers EXACTLY
     // because PRD 2.4 solves two of its rows against them: defenceLevel 1 / armour 0 is what makes
     // "Melee 1 unarmed, 50% hit chance, 19 s" and "Melee 3 with a Grithe dagger, 56%, 10 s" both
@@ -143,7 +144,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "hen_t1", name: "Marchfield Hen", family: "hen", tier: 1,
+    id: "hen_t1", name: "Hen", family: "hen", tier: 1,
     // The swarm shape, and the only one in the table: 1200 ms is the fastest cadence in the game
     // (two combat ticks) and max hit 1 makes every landed peck worth exactly 1. Against a Melee 1
     // player in the starter kit it deals 0.437 dmg/s and dies in 12.6 s, so one hen costs 5.5 of 23
@@ -160,7 +161,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "goat_t1", name: "Open March Billy", family: "goat", tier: 1,
+    id: "goat_t1", name: "Goat", family: "goat", tier: 1,
     // The aggressive tier 1 spawn: the one animal on the plain that starts the fight. Against a
     // naked Melee 1 player (23 max health, PRD 2.3) it runs 43 s and lands 0.479 dmg/s, so it costs
     // about 21 health - survivable, and obviously not free. With a Grithe dagger it is 31 s and 15
@@ -178,7 +179,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "cattle_t1", name: "Marchfield Cow", family: "cattle", tier: 1,
+    id: "cattle_t1", name: "Cow", family: "cattle", tier: 1,
     // The bulwark: armour 35 against magicArmour 0, the widest split at tier 1, so a staff is the
     // right answer and a dagger is the wrong one. 3600 ms is the slowest cadence in the game and
     // max hit 5 is the biggest single blow at the tier, which is a cow exactly: it ignores you, and
@@ -197,7 +198,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "coney_t1", name: "Marchfield Coney", family: "coney", tier: 1,
+    id: "coney_t1", name: "Rabbit", family: "coney", tier: 1,
     // The rare one. Defence 4 against attack 2 is the only inverted block in the table and it is
     // the whole design: a coney is hard to land a swing on and cannot hurt you back. 2 m aggro is
     // the smallest in the game, so it is passive in the strongest sense - you have to walk onto it.
@@ -213,7 +214,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "viper_t1", name: "Palewood Adder", family: "viper", tier: 1,
+    id: "viper_t1", name: "Viper", family: "viper", tier: 1,
     // The glass cannon. Armour 0 and 9 health make it the fastest tier 1 kill in the table, and max
     // hit 5 on a 3000 ms cadence makes it the hardest single blow at the tier - a bad roll takes a
     // fifth of a new character's health in one bite. magicArmour 20 against armour 0 is the mirror
@@ -230,7 +231,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "reaver_t1", name: "March Road Reaver", family: "reaver", tier: 1,
+    id: "reaver_t1", name: "Road Bandit", family: "reaver", tier: 1,
     // The humanoid shape, and the widest aggro radius in the game outside Ordrun: 14 m, against
     // 6-11 m everywhere else. A Reaver is the enemy that comes to you, and the one that pays for
     // it (see `purseMarksFor`). Balanced armour and magicArmour both at 10, so neither style has an
@@ -259,7 +260,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "tempest_roc_t1", name: "Tempest Roc", family: "tempest_roc", tier: 1,
+    id: "tempest_roc_t1", name: "Storm Rhino", family: "tempest_roc", tier: 1,
     // 2.1 m/s, which is 1.6x the 1.32 m/s its own walk cycle implies — the same rule every animal
     // in this table follows, and it has to be here rather than left to the shared default. Without
     // it `render/entityViews.ts: motionTimeScale` has nothing to divide by, plays the cycle at its
@@ -270,7 +271,7 @@ const BLOCKS: readonly EnemyDef[] = [
     // enough health separates the fight from the ordinary road enemies.
     maxHealth: 80, attackLevel: 9, defenceLevel: 7,
     accuracy: 10, armour: 18, magicArmour: 24,
-    maxHit: 6, attackSpeedMs: 3000, aggroRadius: 20, moveSpeedMps: 2.11, walkSpeedMps: 1.32, behaviour: "territorial",
+    maxHit: 6, attackSpeedMs: 3000, aggroRadius: 20, moveSpeedMps: 2.11, walkSpeedMps: 0.72, behaviour: "territorial",
     marks: [80, 140],
     drops: [
       { itemId: "air_orb", quantity: [1, 1], chance: 1.00 },
@@ -281,7 +282,7 @@ const BLOCKS: readonly EnemyDef[] = [
 
   // ---------------------------------------------------------------- Vellenwood, tier 5
   {
-    id: "deer_t5", name: "Duskoak Stag", family: "deer", tier: 5,
+    id: "deer_t5", name: "Stag", family: "deer", tier: 5,
     // Carries PRD 2.4's tier 5 defensive row verbatim: defenceLevel 7 / armour 10 is what makes
     // "Melee 7 with a Corven sword, 51% hit chance, max hit 7, 30 s" true, and 26 health is the
     // other half of it. magicArmour 18 is deliberately modest - a stag is fast, not warded, and the
@@ -300,7 +301,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "hog_t5", name: "Bramble Hog", family: "hog", tier: 5,
+    id: "hog_t5", name: "Pig", family: "hog", tier: 5,
     // magicArmour 55 against armour 18 is the tier's "put the staff away" block: a bristled hide
     // caked in Vellenwood mud sheds a spell and does very little against a blade. Aggressive at
     // 7 m, which is short for an aggressive block, so it is the fight you walk into rather than the
@@ -317,7 +318,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "coyote_t5", name: "Deepwood Coyote", family: "coyote", tier: 5,
+    id: "coyote_t5", name: "Forest Wolf", family: "coyote", tier: 5,
     // The pack hunter. magicArmour 8 is the lowest in Vellenwood, so this is the block a staff
     // answers and the hog does not. 28 health and max hit 6 make it the most expensive ordinary
     // fight in the region after the Reaver: 27.6 s at Melee 7 with a Corven sword.
@@ -333,7 +334,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "frog_t5", name: "Blackwater Frog", family: "frog", tier: 5,
+    id: "frog_t5", name: "Green Frog", family: "frog", tier: 5,
     // The tier 5 swarm, on the Blackwater Pools. Same 1200 ms cadence as the Marchfield hen and the
     // same passive 4 m, scaled to the region: 12 health and max hit 3 instead of 4 and 1.
     maxHealth: 12, attackLevel: 10, defenceLevel: 5,
@@ -347,7 +348,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "coney_t5", name: "Rootfall Coney", family: "coney", tier: 5,
+    id: "coney_t5", name: "Forest Rabbit", family: "coney", tier: 5,
     // The same inverted block as the Marchfield coney, at tier 5 and much more common: defence 9
     // against attack 4. Vellenwood is where coneys actually live, so this is the group a player
     // meets in numbers, and it is still the cheapest thing in the region to kill.
@@ -362,7 +363,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "viper_t5", name: "Thornline Adder", family: "viper", tier: 5,
+    id: "viper_t5", name: "Forest Viper", family: "viper", tier: 5,
     // Armour 6 is the lowest in Vellenwood and max hit 8 at 3000 ms is the biggest single blow in
     // it, two above the coyote. The glass cannon stated in numbers: it dies quickly and it takes a
     // quarter of a Corven-kitted player's health with it if the roll goes badly.
@@ -378,7 +379,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "reaver_t5", name: "Gorge Reaver", family: "reaver", tier: 5,
+    id: "reaver_t5", name: "Forest Bandit", family: "reaver", tier: 5,
     // Armour 26 / magicArmour 24 hold the family's "no style has the answer" rule at tier 5, where
     // every other Vellenwood block is lopsided (Duskoak Stag 10/18, Bramble Hog 18/55, Deepwood
     // Coyote 14/8). Melee 7 with a Corven sword takes 35.0 s and 28.9 of 32 health, which is the
@@ -396,13 +397,13 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "rootheart_t5", name: "The Rootheart", family: "rootheart", tier: 5,
+    id: "rootheart_t5", name: "Stone Rhino", family: "rootheart", tier: 5,
     // Same 2.1 m/s and the same reason as the Tempest Roc: one rig, one walk cycle, one honest gait.
     // Vellenwood's region boss. High physical armour favours the Earth Orb it guards once the
     // player has earned that progression reward.
     maxHealth: 140, attackLevel: 18, defenceLevel: 14,
     accuracy: 16, armour: 48, magicArmour: 32,
-    maxHit: 9, attackSpeedMs: 3000, aggroRadius: 22, moveSpeedMps: 2.11, walkSpeedMps: 1.32, behaviour: "territorial",
+    maxHit: 9, attackSpeedMs: 3000, aggroRadius: 22, moveSpeedMps: 2.11, walkSpeedMps: 0.72, behaviour: "territorial",
     marks: [350, 550],
     drops: [
       { itemId: "earth_orb", quantity: [1, 1], chance: 1.00 },
@@ -414,7 +415,7 @@ const BLOCKS: readonly EnemyDef[] = [
 
   // ---------------------------------------------------------------- Karrowmoor, tier 10
   {
-    id: "bear_t10", name: "Highcairn Bear", family: "bear", tier: 10,
+    id: "bear_t10", name: "Brown Bear", family: "bear", tier: 10,
     // Carries PRD 2.4's Cairnwight row verbatim: defenceLevel 11 / armour 55 is what makes "Melee
     // 12 with a Kaldite sword, 46%, max hit 11, 33 s" true, and magicArmour 10 against that armour
     // 55 is the reason the magic gate in the same section works - Voltrend at Magic 10 kills this
@@ -433,7 +434,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "boar_t10", name: "Scree Boar", family: "boar", tier: 10,
+    id: "boar_t10", name: "Wild Boar", family: "boar", tier: 10,
     // The other half of PRD 2.4's magic gate, and the block the PRD's own number could not support.
     // defenceLevel 11 / armour 30 is solved from "Melee 12 with a Kaldite sword, 51%, 11, 27 s".
     // magicArmour is 115, not the +40 the PRD quotes: hit chance saturates, so with a magic attack
@@ -456,7 +457,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "ibex_t10", name: "Ridge Ibex", family: "ibex", tier: 10,
+    id: "ibex_t10", name: "Ibex", family: "ibex", tier: 10,
     // The biggest ordinary health pool on the surface at 44, and the block that punishes standing
     // still: max hit 8 at 3000 ms off armour 40 / magicArmour 30. Symmetric resistances on purpose,
     // because the bear and the boar between them already own both lopsided answers at this tier, so
@@ -474,7 +475,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "aurochs_t10", name: "Terrace Aurochs", family: "aurochs", tier: 10,
+    id: "aurochs_t10", name: "Aurochs", family: "aurochs", tier: 10,
     // The highest armour in the game at 78, against magicArmour 0 - the widest split anywhere, and
     // the tier 10 restatement of the Redsill cow it is descended from. 3600 ms and max hit 11 make
     // it the single hardest blow outside the boss. Territorial at 6 m, which is what keeps a herd of
@@ -492,7 +493,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "reaver_t10", name: "Karrow Reaver", family: "reaver", tier: 10,
+    id: "reaver_t10", name: "Highland Bandit", family: "reaver", tier: 10,
     // The last quarry crew, still armed. Armour 42 / magicArmour 40 keeps the family symmetric at
     // the top tier, and 40 health puts it between the Highcairn Bear (38) and the Ridge Ibex (44)
     // rather than beyond either. Aggro 14 makes it the thing that finds you on the moor road, so its
@@ -510,7 +511,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "coyote_t10", name: "Tarn Coyote", family: "coyote", tier: 10,
+    id: "coyote_t10", name: "Dire Wolf", family: "coyote", tier: 10,
     // The family's second tier, and the only tier 10 block that swings faster than 2400 ms. 1800 ms
     // is three combat ticks, so it lands four swings for every three of anything else on the moor:
     // 1.206 dmg/s through a Melee 12 Kaldite kit, the highest on the surface, off the LOWEST tier 10
@@ -531,7 +532,7 @@ const BLOCKS: readonly EnemyDef[] = [
 
   // ---------------------------------------------------------------- Gravelmaw, tier 10
   {
-    id: "rat_t10", name: "Gravelmaw Rat", family: "rat", tier: 10,
+    id: "rat_t10", name: "Giant Rat", family: "rat", tier: 10,
     // Underground, nothing is armoured and everything is quick. 1800 ms off armour 12 makes this
     // the fastest, softest tier 10 block in the game: it is the first thing in the dungeon and it
     // is meant to be survivable while telling you the cadence down here is different.
@@ -547,7 +548,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "scorpion_t10", name: "Quarry Scorpion", family: "scorpion", tier: 10,
+    id: "scorpion_t10", name: "Giant Scorpion", family: "scorpion", tier: 10,
     // The armoured scuttler, and the only block in the game with high armour AND high magicArmour
     // (45 / 60). Nothing answers a scorpion cheaply; you pay for it in time whichever hand you
     // fight with. That is the correct shape for the middle of a dungeon, where a player has already
@@ -564,7 +565,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "crab_t10", name: "Sump Crab", family: "crab", tier: 10,
+    id: "crab_t10", name: "Giant Crab", family: "crab", tier: 10,
     // The dungeon's bulwark: armour 82 against magicArmour 0, one point of armour above the
     // Terrace Aurochs and the highest in the game. 3600 ms and max hit 10. In the flooded lower
     // chamber this is the block that says "bring the staff you left in the bank".
@@ -586,7 +587,7 @@ const BLOCKS: readonly EnemyDef[] = [
   // bear/boar pair restates the Karrowmoor style gate at tier 20: the Ashback answers to a staff
   // in 27.6 s against melee's 36.5, the Cinder Boar answers to a sword in 29.1 against magic's 34.9.
   {
-    id: "bear_t20", name: "Ashback Bear", family: "bear", tier: 20,
+    id: "bear_t20", name: "Dire Bear", family: "bear", tier: 20,
     // The staff answer, one tier up: armour 110 against magicArmour 15. Melee 20 in the full
     // Emberite kit takes 36.5 s; Emberlash in the Charhide kit takes 27.6 s. MAGIC WINS by 24%.
     maxHealth: 60, attackLevel: 26, defenceLevel: 22,
@@ -602,7 +603,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "boar_t20", name: "Cinder Boar", family: "boar", tier: 20,
+    id: "boar_t20", name: "Dire Boar", family: "boar", tier: 20,
     // The sword answer: magicArmour 130 continues the Scree Boar's mud-caked rule at tier 20.
     // Melee takes 29.1 s, the staff 34.9 s. MELEE WINS by 17%.
     maxHealth: 56, attackLevel: 24, defenceLevel: 21,
@@ -617,7 +618,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "ibex_t20", name: "Emberhorn Ibex", family: "ibex", tier: 20,
+    id: "ibex_t20", name: "Large Ibex", family: "ibex", tier: 20,
     // The out-fight-it block, as at tier 10: near-symmetric 80/60 with the biggest ordinary
     // health pool in the region. 35.3 s at Melee 20; neither style shortcuts it.
     maxHealth: 62, attackLevel: 27, defenceLevel: 23,
@@ -633,7 +634,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "viper_t20", name: "Cinder Adder", family: "viper", tier: 20,
+    id: "viper_t20", name: "Giant Viper", family: "viper", tier: 20,
     // The family's glass cannon, kept honest at the fast end of the band: 25.7 s at Melee 20,
     // and maxHit 14 at 3000 ms is the hardest ordinary blow in Kilnhalt when it lands.
     maxHealth: 58, attackLevel: 30, defenceLevel: 18,
@@ -648,7 +649,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "reaver_t20", name: "Kilnroad Reaver", family: "reaver", tier: 20,
+    id: "reaver_t20", name: "Quarry Bandit", family: "reaver", tier: 20,
     // The family rule holds at tier 20: symmetric 62/60, aggro 14, and a pursuit at 4.05 m/s -
     // still under the player's 4.2, and the closest any reaver comes. 31.2 s at Melee 20, purse
     // pays 140-540 marks.
@@ -673,7 +674,7 @@ const BLOCKS: readonly EnemyDef[] = [
   // cycle at 0.82 m/s implied and the run at 2.22, so the authored walk matches the cycle and the
   // 2.0 m/s pursuit sits under the run clip's rate and well under the player's 4.2.
   {
-    id: "galeskin_t1", name: "Galeskin", family: "galeskin", tier: 1,
+    id: "galeskin_t1", name: "Plains Ogre", family: "galeskin", tier: 1,
     // Sized between the road reavers and the Tempest Roc: a fight a tier-1 player chooses, long
     // but survivable, and territorial so the choice is real.
     maxHealth: 50, attackLevel: 8, defenceLevel: 6,
@@ -689,7 +690,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "mossbound_t5", name: "Mossbound", family: "mossbound", tier: 5,
+    id: "mossbound_t5", name: "Forest Ogre", family: "mossbound", tier: 5,
     maxHealth: 95, attackLevel: 14, defenceLevel: 10,
     accuracy: 12, armour: 34, magicArmour: 30,
     maxHit: 7, attackSpeedMs: 3000, aggroRadius: 16, moveSpeedMps: 2.0, walkSpeedMps: 0.82, behaviour: "territorial",
@@ -703,7 +704,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "tideworn_t10", name: "Tideworn", family: "tideworn", tier: 10,
+    id: "tideworn_t10", name: "Cave Ogre", family: "tideworn", tier: 10,
     maxHealth: 140, attackLevel: 20, defenceLevel: 14,
     accuracy: 16, armour: 50, magicArmour: 40,
     maxHit: 9, attackSpeedMs: 3000, aggroRadius: 18, moveSpeedMps: 2.0, walkSpeedMps: 0.82, behaviour: "territorial",
@@ -717,7 +718,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "cinderwake_t20", name: "Cinderwake", family: "cinderwake", tier: 20,
+    id: "cinderwake_t20", name: "Fire Ogre", family: "cinderwake", tier: 20,
     // Kilnhalt's arena fight and the Fire Orb's keeper. 260 health at Melee 20 in the Emberite
     // kit runs about 149 s and roughly 187 incoming damage - a boss you can lose, exactly like
     // Ordrun. The Orb drop is 100% and singleton: once it is owned or consumed, the shared
@@ -738,7 +739,7 @@ const BLOCKS: readonly EnemyDef[] = [
 
   // ---------------------------------------------------------------- Gravelmaw boss
   {
-    id: "quarrykeeper_t10", name: "Ordrun the Quarrykeeper", family: "quarrykeeper", tier: 10,
+    id: "quarrykeeper_t10", name: "Armored Rhino", family: "quarrykeeper", tier: 10,
     // Same 2.1 m/s as the other two orb bosses. He is heavier than anything else on the floor and
     // reads that way; the arena is 24 m across, so this is not a fight anyone outruns by accident.
     // 200 HP and magicArmour 18 are given. defenceLevel 20 / armour 62 are solved from the 45%
@@ -747,7 +748,7 @@ const BLOCKS: readonly EnemyDef[] = [
     // can lose, which PRD 2.4 says is the point.
     maxHealth: 200, attackLevel: 24, defenceLevel: 20,
     accuracy: 15, armour: 62, magicArmour: 18,
-    maxHit: 12, attackSpeedMs: 3000, aggroRadius: 24, moveSpeedMps: 2.11, walkSpeedMps: 1.32, behaviour: "territorial",
+    maxHit: 12, attackSpeedMs: 3000, aggroRadius: 24, moveSpeedMps: 2.11, walkSpeedMps: 0.72, behaviour: "territorial",
     marks: [900, 1400],
     drops: [
       { itemId: "water_orb", quantity: [1, 1], chance: 1.00 },
@@ -839,7 +840,8 @@ const GROUP_BLOCK: readonly (readonly [string, string])[] = [
   ["ordrun", "quarrykeeper_t10"],
 ];
 
-const BY_BLOCK_ID = new Map(BLOCKS.map((row) => [row.id, row] as const));
+const ALL_BLOCKS = [...BLOCKS, ...CREATURE_SPECIES.map((species) => species.stats)];
+const BY_BLOCK_ID = new Map(ALL_BLOCKS.map((row) => [row.id, row] as const));
 
 const GROUP_ALIASES: readonly EnemyDef[] = GROUP_BLOCK.flatMap(([groupId, blockId]) => {
   const base = BY_BLOCK_ID.get(blockId);
@@ -847,10 +849,10 @@ const GROUP_ALIASES: readonly EnemyDef[] = GROUP_BLOCK.flatMap(([groupId, blockI
 });
 
 /** Thirty-five stat blocks plus thirty-eight group aliases: 73 rows. */
-export const ENEMIES: readonly EnemyDef[] = [...BLOCKS, ...GROUP_ALIASES];
+export const ENEMIES: readonly EnemyDef[] = [...ALL_BLOCKS, ...GROUP_ALIASES];
 
 /** The thirty-five canonical stat blocks, without the group aliases. For docs and the bestiary. */
-export const ENEMY_BLOCKS: readonly EnemyDef[] = BLOCKS;
+export const ENEMY_BLOCKS: readonly EnemyDef[] = ALL_BLOCKS;
 
 const BY_ANY_ID = new Map(ENEMIES.map((row) => [row.id, row] as const));
 

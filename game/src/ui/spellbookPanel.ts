@@ -1,3 +1,4 @@
+import { PanelFrame } from "./panelFrame.js";
 /**
  * Four elements crossed with four spell rungs. The panel only presents values resolved by GameApi,
  * so charge rules and weapon cadence stay identical in combat, agent tools, and the UI.
@@ -6,20 +7,14 @@ import type { SpellElement, SpellId, SpellRow, SpellRung, SpellbookView } from "
 import { SPELL_ELEMENTS, SPELL_RUNGS } from "../contracts.js";
 import { ELEMENT_COLOURS } from "../render/spellVfx.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import { PanelFrame, formatQuantity, installRovingGrid, report } from "./panels.js";
+import { formatQuantity, installRovingGrid, report } from "./panels.js";
+import { spellElementRequirementLabel } from "./displayLabels.js";
 
 const ELEMENT_LABELS: Readonly<Record<SpellElement, string>> = {
   wind: "Air",
   water: "Water",
   earth: "Earth",
   fire: "Fire",
-};
-
-const ELEMENT_BLURBS: Readonly<Record<SpellElement, string>> = {
-  wind: "Tier 1",
-  water: "Tier 10",
-  earth: "Tier 5",
-  fire: "Tier 20",
 };
 
 const RUNG_LABELS: Readonly<Record<SpellRung, string>> = {
@@ -109,7 +104,7 @@ export class SpellbookPanel implements ManagedPanel {
     corner.setAttribute("aria-hidden", "true");
     grid.appendChild(corner);
     for (const element of SPELL_ELEMENTS) {
-      grid.appendChild(this.buildHead(element, view.releasedElements.includes(element)));
+      grid.appendChild(this.buildHead(element, view.releasedElements.includes(element), view.spells));
     }
 
     let index = 0;
@@ -164,14 +159,15 @@ export class SpellbookPanel implements ManagedPanel {
     this.frame.dispose();
   }
 
-  private buildHead(element: SpellElement, released: boolean): HTMLElement {
+  private buildHead(element: SpellElement, released: boolean, spells: readonly SpellRow[]): HTMLElement {
+    const requirement = spellElementRequirementLabel(spells, element);
     const head = document.createElement("div");
     head.className = "spellbook__head";
     head.classList.toggle("is-unreleased", !released);
     head.setAttribute(
       "aria-label",
       released
-        ? `${ELEMENT_LABELS[element]} spells, ${ELEMENT_BLURBS[element]}`
+        ? [`${ELEMENT_LABELS[element]} spells`, requirement].filter(Boolean).join(", ")
         : `${ELEMENT_LABELS[element]}. Unreleased.`,
     );
 
@@ -190,7 +186,7 @@ export class SpellbookPanel implements ManagedPanel {
 
     const blurb = document.createElement("span");
     blurb.className = "spellbook__head-blurb";
-    blurb.textContent = ELEMENT_BLURBS[element];
+    blurb.textContent = released ? requirement : "Unreleased";
     head.append(line, blurb);
     return head;
   }

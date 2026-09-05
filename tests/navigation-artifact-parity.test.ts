@@ -88,6 +88,51 @@ afterAll(() => {
 });
 
 describe("prebaked navigation artifact", () => {
+  it.each(["solo", "tiled"] as const)("%s keeps indexed and non-indexed floors connected under parent transforms", (strategy) => {
+    const parent = new THREE.Group();
+    parent.position.set(37, 4, -29);
+    parent.rotation.y = 0.37;
+    parent.scale.set(1.25, 1, 1.15);
+    const transformed = [-6, 6].map((x, index) => {
+      let geometry: THREE.BufferGeometry = new THREE.PlaneGeometry(12, 20, 6, 10);
+      geometry.rotateX(-Math.PI / 2);
+      if (index === 1) {
+        const flat = geometry.toNonIndexed();
+        geometry.dispose();
+        geometry = flat;
+      }
+      const mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
+      mesh.position.x = x;
+      parent.add(mesh);
+      return mesh;
+    });
+    parent.updateMatrixWorld(true);
+    const sourcePositions = transformed.map((mesh) => Array.from(mesh.geometry.getAttribute("position").array));
+    const baked = transformed.map((mesh) => {
+      const geometry = mesh.geometry.clone().applyMatrix4(mesh.matrixWorld);
+      return new THREE.Mesh(geometry, new THREE.MeshBasicMaterial());
+    });
+    try {
+      const actual = new Navigation();
+      const reference = new Navigation();
+      expect(actual.build(transformed, strategy)).toBe(true);
+      expect(reference.build(baked, strategy)).toBe(true);
+      const worldPoint = (x: number): Vec3 => new THREE.Vector3(x, 0, 0).applyMatrix4(parent.matrixWorld).toArray();
+      const from = worldPoint(-8);
+      const to = worldPoint(8);
+      const route = actual.findPathDetailed(from, to);
+      expect(route, "path must cross the indexed/non-indexed floor join").not.toBeNull();
+      expect(route!.partial).toBe(false);
+      expect(route!.path[0]![1]).toBeCloseTo(4, 0);
+      expectPathParity(actual, reference, from, to);
+      for (const point of [from, worldPoint(0), to]) expectPointParity(actual.closestPoint(point), reference.closestPoint(point));
+      expect(transformed.map((mesh) => Array.from(mesh.geometry.getAttribute("position").array))).toEqual(sourcePositions);
+    } finally {
+      disposeMeshes(transformed);
+      disposeMeshes(baked);
+    }
+  });
+
   it("imports without running Recast and preserves closest-point and path queries", async () => {
     const meshes = makeWalkable();
     const imported = new Navigation();

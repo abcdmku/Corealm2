@@ -1,0 +1,10 @@
+import {chromium} from 'playwright';
+const browser=await chromium.launch({headless:true});
+const page=await browser.newPage({viewport:{width:1200,height:900}});page.on('pageerror',e=>console.error(e.message));
+await page.goto('http://127.0.0.1:59099/tools/creature-expansion/convert.html');
+await page.evaluate(async()=>{const THREE=await import('three');const {buildMantis}=await import('/tools/creature-expansion/monsters/mantis.mjs');const {object,clips}=await buildMantis();const scene=new THREE.Scene();scene.background=new THREE.Color('#252b32');scene.add(object);const mixer=new THREE.AnimationMixer(object);object.updateMatrixWorld(true);scene.add(new THREE.HemisphereLight(0xffffff,0x777777,2));const sun=new THREE.DirectionalLight(0xffffff,3);sun.position.set(-3,7,5);scene.add(sun);const floor=new THREE.Mesh(new THREE.PlaneGeometry(20,20),new THREE.MeshStandardMaterial({color:0x657071}));floor.rotation.x=-Math.PI/2;floor.position.y=-.01;scene.add(floor);scene.add(new THREE.GridHelper(12,24));const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(1200,900);renderer.setPixelRatio(1);document.body.replaceChildren(renderer.domElement);document.body.style.margin='0';const camera=new THREE.PerspectiveCamera(38,1200/900,.01,100);camera.position.set(3,2.2,4.5);camera.lookAt(0,1.0,0);window.inspectMantis={THREE,object,clips,mixer,scene,renderer,camera};});
+for(const [clipName,phase] of [['Walk',.25],['Run',.5],['Attack',.25],['Attack',.5],['Attack',.75],['HitLeft',.24],['Death',.5],['Death',1]]){
+ await page.evaluate(({clipName,phase})=>{const x=window.inspectMantis;x.mixer.stopAllAction();const c=x.clips.find(c=>c.name===clipName);const a=x.mixer.clipAction(c);a.reset();a.setLoop(x.THREE.LoopOnce,1);a.clampWhenFinished=true;a.play();x.mixer.setTime(c.duration*phase);x.renderer.render(x.scene,x.camera);},{clipName,phase});
+ await page.screenshot({path:`test-results/creature-expansion/sources/monsters/mantis/import-${clipName.toLowerCase()}-${phase}.png`});
+}
+await browser.close();

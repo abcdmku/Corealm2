@@ -11,6 +11,7 @@ import {
 import { tierSilhouetteScale } from "../core/math.js";
 import { enemyCombatLevel } from "../content/index.js";
 import { enemyBlockFor } from "../content/enemies.js";
+import { CREATURE_SPECIES } from "../content/creatureSpecies.js";
 import { ALL_ITEMS } from "../content/items.js";
 import { QUESTS } from "../content/quests.js";
 import {
@@ -41,6 +42,11 @@ interface CreatureTargetSource {
 
 type TargetSource = NpcTargetSource | CreatureTargetSource;
 
+function creatureOptionLabel(group: EnemyGroupDef): string {
+  const stats = enemyBlockFor(group.id, group.family, group.tier);
+  return stats ? `${group.name} (Level ${enemyCombatLevel(stats)})` : group.name;
+}
+
 const NPC_SOURCES: readonly NpcTargetSource[] = REGIONS.flatMap((region) => (
   region.settlement.npcs.map((npc) => ({
     kind: "npc" as const,
@@ -56,12 +62,12 @@ const NPC_SOURCES: readonly NpcTargetSource[] = REGIONS.flatMap((region) => (
   }))
 ));
 
-const CREATURE_SOURCES: readonly CreatureTargetSource[] = REGIONS.flatMap((region) => {
+const CREATURE_SOURCES: readonly CreatureTargetSource[] = [...REGIONS.flatMap((region) => {
   const surface = region.enemyGroups.map((group) => ({
     kind: "creature" as const,
     preset: {
       id: group.id,
-      label: `${group.name} (tier ${group.tier})`,
+      label: creatureOptionLabel(group),
       kind: "creature" as const,
       tier: group.tier,
     },
@@ -77,7 +83,7 @@ const CREATURE_SOURCES: readonly CreatureTargetSource[] = REGIONS.flatMap((regio
       kind: "creature" as const,
       preset: {
         id: `${dungeon.id}:${group.id}`,
-        label: `${group.name} (tier ${group.tier}) - ${dungeon.name}`,
+        label: `${creatureOptionLabel(group)} - ${dungeon.name}`,
         kind: "creature" as const,
         tier: group.tier,
       },
@@ -86,7 +92,17 @@ const CREATURE_SOURCES: readonly CreatureTargetSource[] = REGIONS.flatMap((regio
       group,
     })),
   ];
-});
+}), ...CREATURE_SPECIES.map((species): CreatureTargetSource => ({
+  kind: "creature",
+  preset: { id: `species:${species.id}`, label: `${species.stats.name} (Level ${enemyCombatLevel(species.stats)})`, kind: "creature", tier: species.stats.tier },
+  regionId: species.regionId,
+  dungeonName: null,
+  group: {
+    id: `species:${species.id}`, family: species.stats.family, name: species.stats.name,
+    tier: species.stats.tier, assetId: species.assetId, scale: species.scale,
+    count: 1, centre: [0, 0], radius: 0,
+  },
+}))];
 
 const TARGET_SOURCE_BY_KEY = new Map<string, TargetSource>();
 for (const source of [...NPC_SOURCES, ...CREATURE_SOURCES]) {
@@ -114,7 +130,7 @@ export const FEATURE_LAB_CATALOG = {
     label: titleCaseIdentifier(slot),
     items: ALL_ITEMS
       .filter((item) => item.equip?.slot === slot)
-      .map((item) => ({ id: item.id, label: `${item.name} (tier ${item.tier})` })),
+      .map((item) => ({ id: item.id, label: item.name })),
   })),
   skills: SKILL_IDS.map((id) => ({ id, label: SKILLS[id].name })),
   spells: SPELLS.map((spell) => ({
@@ -295,6 +311,7 @@ function createCreatureEntity(
     },
     meta: {
       family: group.family,
+      enemyDefId: stats.id,
       groupId: group.id,
       behaviour: stats.behaviour,
       spawnX: round2(position[0]),

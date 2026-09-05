@@ -259,6 +259,7 @@ export class KeyboardController {
       keys: ["escape"],
       label: "Close panel / cancel action",
       group: "General",
+      allowInInput: true,
       // Runs last: a panel that pushed an escape handler, or the context menu, gets first refusal.
       priority: 900,
       onDown: () => {
@@ -281,10 +282,13 @@ export class KeyboardController {
       group: "General",
       priority: 200,
       onDown: (event) => {
+        // Focused controls own Space, including native button activation on keyup.
+        if (typeof Element !== "undefined" && event.target instanceof Element
+          && event.target.closest("button, input, select, textarea, a[href], summary, [role='button']")) return false;
         const activate = this.options.activateTarget;
         if (!activate) return false;
         if (!this.options.getActionTargetId?.()) return false;
-        // Space scrolls and re-clicks focused buttons otherwise.
+        // A world interaction must not also scroll the page.
         event.preventDefault();
         activate();
         return true;
@@ -333,10 +337,12 @@ export class KeyboardController {
   }
 
   private onKeyDown = (event: KeyboardEvent): void => {
+    // Map and menu handlers may consume a key before it bubbles to this controller.
+    if (event.defaultPrevented) return;
     if (isTextEntry(event.target)) {
       // Typing a bank filter must never walk the player into a wall.
       this.clear();
-      this.registry.handleKeyDown(event);
+      if (this.registry.handleKeyDown(event)) event.preventDefault();
       return;
     }
     this.shift = event.shiftKey;

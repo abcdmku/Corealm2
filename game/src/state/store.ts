@@ -28,7 +28,7 @@ export type ActivityState =
       kind: "production"; skill: SkillId; recipeId: RecipeId; stationId: EntityId;
       remaining: number; completed: number; nextCompleteAtMs: number;
   }
-  | { kind: "traversing"; obstacleId: EntityId; endsAtMs: number }
+  | { kind: "traversing"; obstacleId: EntityId; endsAtMs: number; exitPosition?: Vec3 }
   | { kind: "eating"; itemId: ItemId; endsAtMs: number }
   | {
       kind: "building_campfire"; logItemId: ItemId; tier: number; regionId: RegionId; position: Vec3;
@@ -139,6 +139,8 @@ export interface GameState {
     lootPiles: Record<EntityId, { position: Vec3; items: ItemStack[]; expiresAtMs: number; ownerOnly: boolean }>;
     recoveryCache: {
       id: EntityId; position: Vec3; regionId: RegionId; items: ItemStack[]; expiresAtMs: number;
+      /** Epoch deadline for new/migrated caches. expiresAtMs remains the legacy simulation deadline. */
+      expiresAtWallMs?: number;
     } | null;
     campfire: {
       id: EntityId; position: Vec3; regionId: RegionId; logItemId: ItemId; tier: number;

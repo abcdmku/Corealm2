@@ -1,3 +1,4 @@
+import { PanelFrame } from "./panelFrame.js";
 /**
  * Terrain-backed world map.
  *
@@ -11,7 +12,7 @@ import { REGIONS, WALK_SPEED_MPS, WORLD_BOUNDS as CONTENT_WORLD_BOUNDS, allLocat
 import { REGION_PALETTES } from "../render/materials.js";
 import { notify } from "./contextMenu.js";
 import type { ManagedPanel, MapTerrainSource, UiContext } from "./panels.js";
-import { PanelFrame, report } from "./panels.js";
+import { report } from "./panels.js";
 import {
   MAP_HOME_ZOOM, MAP_MAX_ZOOM, MAP_MIN_ZOOM, WorldMapCanvas, type MapScreenPoint,
 } from "./worldMapCanvas.js";
@@ -397,7 +398,7 @@ export class MapPanel implements ManagedPanel {
 
   private subtitle(rows: ObservedEntity[], regionId: RegionId): string {
     const region = REGIONS.find((entry) => entry.id === regionId);
-    const where = region ? `${region.name} · tier ${region.tier}` : regionId;
+    const where = region ? region.name : regionId;
     const count = rows.length === 1 ? "1 place found" : `${rows.length} places found`;
     return `${count} · ${where}`;
   }
@@ -477,7 +478,7 @@ export class MapPanel implements ManagedPanel {
       const y = this.source.sample(x, z).height;
       const label = el("text", { class: "map__region-name u-caps", "text-anchor": "middle" });
       label.style.setProperty("--region-tint", hexColour(REGION_PALETTES[region.id].accent));
-      label.textContent = `${region.name} · T${region.tier}`;
+      label.textContent = region.name;
       group.appendChild(label);
       this.regionLabels.push({ position: [x, y, z], label, screen: { x: 0, y: 0, visible: false } });
     }

@@ -1,3 +1,4 @@
+import { PanelFrame } from "./panelFrame.js";
 /**
  * The nine equipment slots, laid out around a silhouette, with the summed bonuses underneath.
  *
@@ -14,7 +15,7 @@ import type { ContextMenuItem } from "./contextMenu.js";
 import { EquipmentSlotGrid, EQUIPMENT_SLOT_LABELS } from "./equipmentSlotGrid.js";
 import { createItemIcon } from "./itemIcons.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import { PanelFrame, itemDef, itemName, report, stackSignature } from "./panels.js";
+import { itemDef, itemName, report, stackSignature } from "./panels.js";
 
 const BONUS_ROWS: readonly [keyof EquipmentBonuses, string][] = [
   ["accuracy", "Accuracy"],

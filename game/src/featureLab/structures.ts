@@ -99,9 +99,9 @@ export const FEATURE_LAB_STRUCTURE_CATALOG: FeatureLabCatalog["structures"] = Ob
     label: titleCaseIdentifier(id),
   }))),
   kits: Object.freeze([
-    Object.freeze({ id: "plaster" as const, label: "Fallowmarch plaster" }),
-    Object.freeze({ id: "timber" as const, label: "Vellenwood timber" }),
-    Object.freeze({ id: "stone" as const, label: "Karrowmoor stone" }),
+    Object.freeze({ id: "plaster" as const, label: "Farmland plaster" }),
+    Object.freeze({ id: "timber" as const, label: "Woodlands timber" }),
+    Object.freeze({ id: "stone" as const, label: "Highlands stone" }),
   ]),
 });
 

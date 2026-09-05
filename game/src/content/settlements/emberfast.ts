@@ -26,7 +26,7 @@ import type { SettlementDef } from "../regions.js";
 
 export const EMBERFAST: SettlementDef = {
   id: "emberfast",
-  name: "Emberfast",
+  name: "Ashford",
   kit: "stone",
   centre: [0, 330],
   respawnPointId: "emberfast",
@@ -87,7 +87,7 @@ export const EMBERFAST: SettlementDef = {
     },
 
     // GATEHOUSES in their wall openings, [8,4] for the full 4 m clear span.
-    { id: "emberfast_gate", name: "Emberfast Gate", prefab: "gatehouse", position: [20, 333], rotationY: Math.PI / 2, footprint: [8, 4] },
+    { id: "emberfast_gate", name: "Ashford Gate", prefab: "gatehouse", position: [20, 333], rotationY: Math.PI / 2, footprint: [8, 4] },
     { id: "emberfast_postern", name: "Quarry Postern", prefab: "gatehouse", position: [-20, 333], rotationY: -Math.PI / 2, footprint: [8, 4] },
   ],
 
@@ -100,42 +100,42 @@ export const EMBERFAST: SettlementDef = {
 
   stations: [
     {
-      id: "emberfast_furnace", name: "Emberfast Furnace", kind: "furnace", skill: "smithing",
+      id: "emberfast_furnace", name: "Ashford Furnace", kind: "furnace", skill: "smithing",
       position: [0.7, 320.4], rotationY: 0, assetId: "cauldron", scale: 2, recipeIds: [],
       attachedTo: "emberfast_forge",
     },
     {
-      id: "emberfast_anvil", name: "Emberfast Anvil", kind: "anvil", skill: "smithing",
+      id: "emberfast_anvil", name: "Ashford Anvil", kind: "anvil", skill: "smithing",
       position: [3, 321.8], rotationY: 0, assetId: "anvil", scale: 1.4, recipeIds: [],
       attachedTo: "emberfast_forge",
     },
     {
-      id: "emberfast_range", name: "Emberfast Cooking Range", kind: "range", skill: "cooking",
+      id: "emberfast_range", name: "Ashford Cooking Range", kind: "range", skill: "cooking",
       position: [-3.8, 327.2], rotationY: 0, assetId: "cooking_pot", scale: 2.2, recipeIds: [],
       attachedTo: "emberfast_market",
     },
     {
       // Under the works row's west bay. Same asset choices as Coldbrace's proven pair.
-      id: "emberfast_crafting", name: "Emberfast Crafting Table", kind: "crafting_table", skill: "crafting",
+      id: "emberfast_crafting", name: "Ashford Crafting Table", kind: "crafting_table", skill: "crafting",
       position: [10.6, 327.2], rotationY: 0, assetId: "workbench", recipeIds: [],
       attachedTo: "emberfast_works",
     },
     {
-      id: "emberfast_fletching", name: "Emberfast Fletching Bench", kind: "fletching_bench", skill: "fletching",
+      id: "emberfast_fletching", name: "Ashford Fletching Bench", kind: "fletching_bench", skill: "fletching",
       position: [13.4, 327.2], rotationY: 0, assetId: "weapon_rack", scale: 1.3, recipeIds: [],
       attachedTo: "emberfast_works",
     },
   ],
 
   bank: {
-    id: "emberfast_bank_counter", name: "Emberfast Bank",
+    id: "emberfast_bank_counter", name: "Ashford Bank",
     position: [8, 321], rotationY: 0, assetId: "chest_wood",
     attachedTo: "emberfast_bank_porch",
   },
 
   shops: [
     {
-      id: "emberfast_general", name: "Emberfast Provisioners", shopKind: "general",
+      id: "emberfast_general", name: "Ashford Provisioners", shopKind: "general",
       position: [-6.1, 327.1], rotationY: Math.PI, assetId: "market_stall",
       attachedTo: "emberfast_market",
     },

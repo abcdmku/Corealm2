@@ -20,30 +20,31 @@
  */
 import type {
   EntityId, FeatureLabApi, GameApi, ItemDef, ItemId, ItemStack, LootContainerView, QuestId,
-  RegionId, Result, SemanticEntity, SkillId, StationKind, Vec3,
+  RegionId, Result, SkillId, Vec3,
 } from "../contracts.js";
-import { burnChance, content } from "../content/index.js";
-import type { RecipeDef } from "../content/index.js";
+import { content } from "../content/index.js";
 import { SKILLS } from "../content/skills.js";
 import { keybindings } from "../input/keyboard.js";
-import type { KeyBindingRegistry, Unregister } from "../input/keyboard.js";
+import type { KeyBindingRegistry } from "../input/keyboard.js";
 import { ContextMenu, notify, reportResult, setNoticeSink } from "./contextMenu.js";
 import type { NoticeTone } from "./contextMenu.js";
-import { Tooltip } from "./tooltips.js";
+import type { Tooltip } from "./tooltips.js";
+import { DeferredTooltip } from "./deferredTooltip.js";
+import { DeferredOverlay } from "./deferredOverlay.js";
 import { createItemIcon } from "./itemIcons.js";
 import { Hud } from "./hud.js";
-import { DeathScreen, type DeathDetail } from "./deathScreen.js";
-import { TitleScreen } from "./titleScreen.js";
-import { SettingsPanel } from "./settingsPanel.js";
+import type { DeathDetail } from "./deathScreen.js";
+import { TitleScreen, type SaveRecoveryControls } from "./titleScreen.js";
 import { SettingsStore } from "./settings.js";
 import { PanelDock } from "./dock.js";
+import { panelInteraction } from "./panelInteraction.js";
 import { QuestTracker } from "./questTracker.js";
 import { AgentPanel } from "./agentPanel.js";
 import type { AgentSession } from "../agent/session.js";
 import { Minimap } from "./minimap.js";
-import { LootReveal } from "./lootReveal.js";
 import {
   LazyPanel,
+  cancelPendingPanelOpens,
   loadBankPanel,
   loadControlsPanel,
   loadDialoguePanel,
@@ -51,7 +52,9 @@ import {
   loadFeatureLabPanel,
   loadInventoryPanel,
   loadMapPanel,
+  loadProductionPanel,
   loadQuestPanel,
+  loadSettingsPanel,
   loadShopPanel,
   loadSkillGuidePanel,
   loadSkillsPanel,
@@ -59,6 +62,7 @@ import {
   type BankPanelHandle,
   type DialoguePanelHandle,
   type ShopPanelHandle,
+  type ProductionPanelHandle,
   type SkillGuidePanelHandle,
 } from "./lazyPanelRegistry.js";
 
@@ -171,268 +175,6 @@ export function paintSlot(cell: HTMLElement, stack: ItemStack | null, emptyLabel
   );
 }
 
-// ---------------------------------------------------------------- the frame
-
-export interface PanelPlacement {
-  top?: string;
-  left?: string;
-  right?: string;
-  bottom?: string;
-  width?: string;
-  maxHeight?: string;
-}
-
-export interface PanelFrameOptions {
-  id: string;
-  title: string;
-  placement: PanelPlacement;
-  registry?: KeyBindingRegistry;
-  /** Chord that toggles the panel, e.g. "i". Omit for panels opened by world interaction. */
-  key?: string;
-  /** Shown in a controls list. Defaults to "Toggle <title>". */
-  keyLabel?: string;
-  /**
-   * Panels in the same group share one screen slot: opening one closes the others. This is the
-   * no-overlap rule — "side" is the tab slot above the dock, "center" is the one large window.
-   * The group name is also added as a `panel--<group>` class so the stylesheet can shape the slot.
-   */
-  group?: string;
-  /** Draggable by its header. The first drag converts the placement to explicit left/top. */
-  movable?: boolean;
-  onOpen?(): void;
-  onClose?(): void;
-}
-
-/** Matches `--z-panel` in styles.css. A raised panel stays inside the band above it. */
-const PANEL_Z_BASE = 20;
-
-/** How far a raise may climb before it wraps. Keeps panels below `--z-menu` at 30. */
-const PANEL_STACK_DEPTH = 9;
-
-let panelZCounter = 0;
-
-/** Frames by group, so open() can vacate a shared slot. Module-level: frames register on
- * construction and leave on dispose, and the map never outlives the page. */
-const panelGroups = new Map<string, Set<PanelFrame>>();
-
-/**
- * One panel chrome: header, close button, body, key binding, Escape handling, focus restore.
- *
- * Escape goes through `pushEscapeHandler` so the input layer's cancel binding sees it last — the
- * PRD rule is "close the top panel, otherwise cancel the activity", and the escape stack is what
- * makes "top" mean the most recently opened panel.
- */
-export class PanelFrame {
-  readonly root: HTMLElement;
-  readonly body: HTMLElement;
-  private readonly subtitleEl: HTMLElement;
-  private readonly registry: KeyBindingRegistry;
-  private readonly disposers: Unregister[] = [];
-  private popEscape: Unregister | null = null;
-  private restoreFocus: HTMLElement | null = null;
-  private opened = false;
-
-  constructor(private readonly options: PanelFrameOptions) {
-    this.registry = options.registry ?? keybindings;
-
-    const root = document.createElement("section");
-    root.className = "panel panel--float";
-    if (options.group) {
-      root.classList.add(`panel--${options.group}`);
-      let peers = panelGroups.get(options.group);
-      if (!peers) {
-        peers = new Set();
-        panelGroups.set(options.group, peers);
-      }
-      peers.add(this);
-    }
-    root.id = `panel-${options.id}`;
-    root.hidden = true;
-    root.tabIndex = -1;
-    root.setAttribute("role", "dialog");
-    root.setAttribute("aria-label", options.title);
-    const place = options.placement;
-    if (place.top !== undefined) root.style.top = place.top;
-    if (place.left !== undefined) root.style.left = place.left;
-    if (place.right !== undefined) root.style.right = place.right;
-    if (place.bottom !== undefined) root.style.bottom = place.bottom;
-    if (place.width !== undefined) root.style.width = place.width;
-    // Only when a panel asks for one. Writing the default inline made it beat every stylesheet
-    // rule, including the `@media (max-height: 800px)` block in styles.css that exists to shrink
-    // panels on a short screen — which had therefore never done anything since it was written.
-    // The default now lives on `.panel--float`, where a media query can reach it.
-    if (place.maxHeight !== undefined) root.style.maxHeight = place.maxHeight;
-
-    const header = document.createElement("header");
-    header.className = "panel__header";
-
-    const titles = document.createElement("div");
-    titles.className = "panel__titles";
-    const title = document.createElement("h2");
-    title.className = "panel__title";
-    title.textContent = options.title;
-    const subtitle = document.createElement("div");
-    subtitle.className = "panel__subtitle";
-    titles.append(title, subtitle);
-
-    const close = document.createElement("button");
-    close.type = "button";
-    close.className = "panel__close";
-    close.setAttribute("aria-label", `Close ${options.title}`);
-    close.textContent = "×";
-    close.addEventListener("click", () => this.close());
-
-    header.append(titles, close);
-
-    /*
-     * Drag-to-move, on the header only. The placement may be anchored any way (right/bottom, or
-     * left:50% + a stylesheet transform); the first drag converts it to explicit left/top and
-     * kills the transform, because mixing a centring transform with a dragged position doubles
-     * every movement. Listeners on window exist only for the duration of a drag.
-     */
-    if (options.movable) {
-      root.classList.add("panel--movable");
-      header.addEventListener("pointerdown", (event) => {
-        if (event.button !== 0) return;
-        if (event.target instanceof Element && event.target.closest("button")) return;
-        const rect = root.getBoundingClientRect();
-        const grabX = event.clientX - rect.left;
-        const grabY = event.clientY - rect.top;
-        const onMove = (move: PointerEvent) => {
-          const left = Math.min(Math.max(move.clientX - grabX, 0), Math.max(0, window.innerWidth - rect.width));
-          const top = Math.min(Math.max(move.clientY - grabY, 0), Math.max(0, window.innerHeight - 32));
-          root.classList.add("is-moved");
-          root.style.left = `${Math.round(left)}px`;
-          root.style.top = `${Math.round(top)}px`;
-          root.style.right = "auto";
-          root.style.bottom = "auto";
-          root.style.transform = "none";
-        };
-        const onUp = () => {
-          window.removeEventListener("pointermove", onMove);
-          window.removeEventListener("pointerup", onUp);
-        };
-        window.addEventListener("pointermove", onMove);
-        window.addEventListener("pointerup", onUp);
-        event.preventDefault();
-      });
-    }
-
-    const body = document.createElement("div");
-    body.className = "panel__body";
-
-    root.append(header, body);
-
-    this.root = root;
-    this.body = body;
-    this.subtitleEl = subtitle;
-
-    if (options.key) {
-      this.disposers.push(this.registry.register({
-        id: `panel.${options.id}`,
-        keys: [options.key],
-        label: options.keyLabel ?? `Toggle ${options.title}`,
-        group: "Panels",
-        onDown: () => {
-          this.toggle();
-          return true;
-        },
-      }));
-    }
-  }
-
-  mount(parent: HTMLElement): void {
-    parent.appendChild(this.root);
-  }
-
-  isOpen(): boolean {
-    return this.opened;
-  }
-
-  setSubtitle(text: string): void {
-    if (this.subtitleEl.textContent !== text) this.subtitleEl.textContent = text;
-  }
-
-  open(): void {
-    if (this.opened) {
-      this.raise();
-      return;
-    }
-    // One slot per group. The sibling closes BEFORE this opens so focus restore and the escape
-    // stack see a plain close-then-open, never two panels fighting over the same pixels.
-    if (this.options.group) {
-      for (const peer of panelGroups.get(this.options.group) ?? []) {
-        if (peer !== this) peer.close();
-      }
-    }
-    this.opened = true;
-    this.root.hidden = false;
-    this.raise();
-    this.restoreFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    this.popEscape = this.registry.pushEscapeHandler(() => {
-      if (!this.opened) return false;
-      this.close();
-      return true;
-    });
-    this.options.onOpen?.();
-    this.focusFirst();
-  }
-
-  close(): void {
-    if (!this.opened) return;
-    this.opened = false;
-    this.root.hidden = true;
-    this.popEscape?.();
-    this.popEscape = null;
-    this.options.onClose?.();
-
-    // Focus goes back where it came from, or the next keystroke lands on a hidden element.
-    const restore = this.restoreFocus;
-    this.restoreFocus = null;
-    if (restore && restore.isConnected && !this.root.contains(restore)) {
-      restore.focus({ preventScroll: true });
-    } else if (document.activeElement instanceof HTMLElement && this.root.contains(document.activeElement)) {
-      document.activeElement.blur();
-    }
-  }
-
-  toggle(): void {
-    if (this.opened) this.close();
-    else this.open();
-  }
-
-  /**
-   * Brings this panel above the others without reordering the DOM.
-   *
-   * The counter is clamped. Unbounded, it climbed past every layer in the stylesheet — the context
-   * menu at 30, the tooltip at 40, the boot screen and the pause menu at 50 — so after enough panel
-   * opens an ordinary panel would cover the menu that opened it. That is not hypothetical: the
-   * settings panel is opened FROM the pause screen and drew underneath it, and the only fix
-   * available from a stylesheet was `!important`, because an inline style outranks a rule.
-   *
-   * Nine steps of ordering is more than any real stack of panels needs, and it keeps every raise
-   * inside the band the tokens reserve for panels.
-   */
-  raise(): void {
-    panelZCounter = (panelZCounter + 1) % PANEL_STACK_DEPTH;
-    this.root.style.zIndex = String(PANEL_Z_BASE + panelZCounter);
-  }
-
-  focusFirst(): void {
-    const target = this.body.querySelector<HTMLElement>("[data-autofocus]")
-      ?? this.body.querySelector<HTMLElement>("button:not([disabled]), input, select, [tabindex='0']");
-    (target ?? this.root).focus({ preventScroll: true });
-  }
-
-  dispose(): void {
-    this.close();
-    if (this.options.group) panelGroups.get(this.options.group)?.delete(this);
-    for (const dispose of this.disposers) dispose();
-    this.disposers.length = 0;
-    this.root.remove();
-  }
-}
-
 /**
  * Roving-tabindex arrow navigation over a slot grid. 28 tab stops in the inventory would make the
  * keyboard route unusable, so the grid is one tab stop and the arrows move inside it.
@@ -481,91 +223,6 @@ export function installRovingGrid(container: HTMLElement, columns: number): void
   });
 }
 
-export type QuantityMode = "1" | "5" | "10" | "all" | "custom";
-
-/** A labelled row of quantity choices: 1 / 5 / 10 / All / custom. Shared by the bank and the shop. */
-export class QuantitySelector {
-  readonly root: HTMLElement;
-  private mode: QuantityMode = "1";
-  private readonly input: HTMLInputElement;
-  private readonly buttons: HTMLButtonElement[] = [];
-
-  constructor(label: string, private readonly onChange?: () => void) {
-    const root = document.createElement("div");
-    root.className = "qty";
-
-    const caption = document.createElement("span");
-    caption.className = "u-caps u-dim";
-    caption.textContent = label;
-    root.appendChild(caption);
-
-    const group = document.createElement("div");
-    group.className = "qty__group";
-    group.setAttribute("role", "radiogroup");
-    group.setAttribute("aria-label", label);
-
-    const modes: QuantityMode[] = ["1", "5", "10", "all", "custom"];
-    for (const mode of modes) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "btn btn--ghost qty__btn";
-      button.textContent = mode === "all" ? "All" : mode === "custom" ? "X" : mode;
-      button.setAttribute("role", "radio");
-      button.setAttribute("aria-checked", mode === this.mode ? "true" : "false");
-      button.addEventListener("click", () => this.setMode(mode));
-      this.buttons.push(button);
-      group.appendChild(button);
-    }
-    root.appendChild(group);
-
-    const input = document.createElement("input");
-    input.type = "number";
-    input.className = "field field--qty";
-    input.min = "1";
-    input.value = "100";
-    input.hidden = true;
-    input.setAttribute("aria-label", `${label}: custom amount`);
-    input.addEventListener("change", () => this.onChange?.());
-    root.appendChild(input);
-
-    this.root = root;
-    this.input = input;
-    this.syncButtons();
-  }
-
-  setMode(mode: QuantityMode): void {
-    this.mode = mode;
-    this.syncButtons();
-    if (mode === "custom") this.input.focus();
-    this.onChange?.();
-  }
-
-  /** `available` is the stack size the player could act on, used for "All". */
-  resolve(available: number): number {
-    switch (this.mode) {
-      case "1": return 1;
-      case "5": return Math.max(1, Math.min(5, available));
-      case "10": return Math.max(1, Math.min(10, available));
-      case "all": return Math.max(1, available);
-      case "custom": {
-        const parsed = Number.parseInt(this.input.value, 10);
-        return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
-      }
-      default: return 1;
-    }
-  }
-
-  private syncButtons(): void {
-    const modes: QuantityMode[] = ["1", "5", "10", "all", "custom"];
-    this.buttons.forEach((button, index) => {
-      const on = modes[index] === this.mode;
-      button.classList.toggle("is-active", on);
-      button.setAttribute("aria-checked", on ? "true" : "false");
-    });
-    this.input.hidden = this.mode !== "custom";
-  }
-}
-
 /** A short "this system is not online yet" body. Used wherever the API answers UNAVAILABLE. */
 export function emptyState(message: string): HTMLElement {
   const node = document.createElement("p");
@@ -591,7 +248,7 @@ export interface MapTerrainSource {
 /** What each panel is handed. Everything shared, nothing global. */
 export interface UiContext {
   readonly api: GameApi;
-  readonly tooltip: Tooltip;
+  readonly tooltip: Pick<Tooltip, "attach" | "refresh">;
   readonly menu: ContextMenu;
   readonly registry: KeyBindingRegistry;
   /** Lightweight source for the real terrain-backed map; absent only in isolated UI tests. */
@@ -629,328 +286,10 @@ export interface ManagedPanel {
   dispose(): void;
 }
 
-// -------------------------------------------------------------- production
-
-/**
- * Recipe selection for one inspected station.
- *
- * Content owns the rows and `GameApi.produce` owns every rule. This panel only mirrors level,
- * ingredient, station, and cooking-burn information so choosing a batch does not require a blind
- * API call. A portable fire is an ordinary `station.kind === "campfire"` here.
- */
-class ProductionPanel implements ManagedPanel {
-  readonly frame: PanelFrame;
-
-  private readonly quantity: QuantitySelector;
-  private readonly stationLine: HTMLElement;
-  private readonly fireLine: HTMLElement;
-  private readonly list: HTMLElement;
-  private stationId: EntityId | null = null;
-  private signature = "";
-
-  constructor(private readonly ctx: UiContext) {
-    this.frame = new PanelFrame({
-      id: "production",
-      title: "Production",
-      registry: ctx.registry,
-      placement: { top: "64px", left: "calc(50% - 240px)", width: "480px" },
-      group: "center",
-      onOpen: () => this.refresh(true),
-    });
-
-    const toolbar = document.createElement("div");
-    toolbar.className = "toolbar production-toolbar";
-    this.quantity = new QuantitySelector("Batch", () => this.refresh(true));
-    toolbar.appendChild(this.quantity.root);
-
-    const station = document.createElement("div");
-    station.className = "production-station";
-    this.stationLine = document.createElement("div");
-    this.stationLine.className = "production-station__name";
-    this.fireLine = document.createElement("div");
-    this.fireLine.className = "production-station__fire u-dim";
-    this.fireLine.hidden = true;
-    station.append(this.stationLine, this.fireLine);
-
-    this.list = document.createElement("div");
-    this.list.className = "production-list";
-    this.list.setAttribute("role", "list");
-
-    this.frame.body.append(toolbar, station, this.list);
-  }
-
-  openFor(entityId: EntityId): void {
-    const inspected = this.ctx.api.inspect(entityId);
-    if (!inspected.ok) {
-      report(inspected);
-      return;
-    }
-    if (!inspected.value.station) {
-      notify(`${inspected.value.name} is not a production station.`, "error");
-      return;
-    }
-
-    this.stationId = entityId;
-    this.signature = "";
-    this.frame.setSubtitle(inspected.value.name);
-    this.frame.open();
-    this.refresh(true);
-  }
-
-  refresh(force = false): void {
-    if (!this.stationId) return;
-    const inspected = this.ctx.api.inspect(this.stationId);
-    if (!inspected.ok) {
-      const message = inspected.error.message;
-      if (force || this.signature !== `missing:${message}`) {
-        this.signature = `missing:${message}`;
-        this.stationLine.textContent = message;
-        this.fireLine.hidden = true;
-        this.list.replaceChildren(emptyState(message));
-      }
-      return;
-    }
-
-    const entity = inspected.value;
-    const station = entity.station;
-    if (!station) {
-      const message = "This station is no longer available.";
-      if (force || this.signature !== `missing:${message}`) {
-        this.signature = `missing:${message}`;
-        this.stationLine.textContent = message;
-        this.fireLine.hidden = true;
-        this.list.replaceChildren(emptyState(message));
-      }
-      return;
-    }
-    const recipes = this.recipesFor(station.kind, station.skill, station.recipeIds);
-    const inventory = this.ctx.api.getInventory();
-    const skills = this.ctx.api.getSkills();
-    const activity = this.ctx.api.getActivity();
-    const selectedRemainingMs = campfireRemainingMs(entity, this.ctx.api);
-    const nearbyFire = station.kind === "campfire" ? null : this.nearbyCampfire();
-    const nearbyRemainingMs = nearbyFire ? campfireRemainingMs(nearbyFire, this.ctx.api) : null;
-    const remainingToken = selectedRemainingMs === null ? "-" : Math.ceil(selectedRemainingMs / 1_000);
-    const nearbyToken = nearbyRemainingMs === null ? "-" : Math.ceil(nearbyRemainingMs / 1_000);
-    const signature = [
-      entity.id, entity.state, station.kind, station.skill,
-      ...inventory.slots.map(stackSignature),
-      ...recipes.map((recipe) => `${recipe.id}:${skills[recipe.skill]?.level ?? 1}`),
-      activity ? `${activity.kind}:${activity.recipeId ?? "-"}:${activity.completed}:${activity.remaining}` : "idle",
-      remainingToken, nearbyFire?.id ?? "-", nearbyToken,
-    ].join("|");
-    if (!force && signature === this.signature) return;
-    this.signature = signature;
-
-    this.frame.setSubtitle(entity.name);
-    this.stationLine.textContent = `${stationLabel(station.kind)} · ${skillName(station.skill)}`;
-    this.paintFireLine(entity, selectedRemainingMs, nearbyFire, nearbyRemainingMs);
-
-    if (recipes.length === 0) {
-      this.list.replaceChildren(emptyState("This station has no compatible recipes."));
-      return;
-    }
-
-    const fragment = document.createDocumentFragment();
-    for (const recipe of recipes) {
-      fragment.appendChild(this.recipeRow(recipe, inventory.slots, skills[recipe.skill]?.level ?? 1, activity));
-    }
-    this.list.replaceChildren(fragment);
-  }
-
-  dispose(): void {
-    this.frame.dispose();
-  }
-
-  private recipesFor(kind: StationKind, skill: SkillId, listedIds: readonly string[]): RecipeDef[] {
-    const candidates = listedIds.length > 0
-      ? listedIds.map((id) => content.recipe(id)).filter(isRecipeDef)
-      : content.recipesForSkill(skill);
-    return candidates
-      .filter((recipe) => recipe.stations === null || recipe.stations.includes(kind))
-      .sort((a, b) => a.reqLevel - b.reqLevel || a.name.localeCompare(b.name));
-  }
-
-  private recipeRow(
-    recipe: RecipeDef,
-    slots: readonly (ItemStack | null)[],
-    level: number,
-    activity: ReturnType<GameApi["getActivity"]>,
-  ): HTMLElement {
-    const max = maxRecipeBatches(recipe, slots);
-    const requested = this.quantity.resolve(max);
-    const levelMet = level >= recipe.reqLevel;
-    const ingredientsMet = requested <= max;
-    const busy = activity !== null;
-    const enabled = levelMet && ingredientsMet && !busy;
-    const blockedReason = !levelMet
-      ? `Requires ${skillName(recipe.skill)} ${recipe.reqLevel}`
-      : !ingredientsMet
-        ? `Need ingredients for ${requested}`
-        : busy
-          ? "Finish or stop the current activity first"
-          : null;
-
-    const root = document.createElement("article");
-    root.className = "production-row";
-    root.setAttribute("role", "listitem");
-    if (!enabled) root.classList.add("is-blocked");
-
-    const glyph = document.createElement("span");
-    glyph.className = "slot__glyph production-row__glyph";
-    glyph.appendChild(createItemIcon(itemDef(recipe.output.itemId)));
-
-    const text = document.createElement("div");
-    text.className = "production-row__text";
-    const name = document.createElement("div");
-    name.className = "production-row__name";
-    name.textContent = recipe.name;
-    const ingredients = document.createElement("div");
-    ingredients.className = "production-row__ingredients";
-    ingredients.textContent = recipe.inputs
-      .map((input) => `${input.quantity} ${itemName(input.itemId)}`)
-      .join(" + ");
-    const details = document.createElement("div");
-    details.className = "production-row__details u-dim";
-    const detailParts = [
-      `${skillName(recipe.skill)} ${recipe.reqLevel}`,
-      recipe.stations === null ? "No station required" : `At ${formatStations(recipe.stations)}`,
-      `${formatDuration(recipe.durationMs)} each`,
-      `${formatQuantity(recipe.xp)} xp`,
-    ];
-    if (recipe.kind === "cook") {
-      detailParts.push(`${Math.round(burnChance(level, recipe.reqLevel) * 100)}% burn`);
-    }
-    details.textContent = detailParts.join(" · ");
-    const batch = document.createElement("div");
-    batch.className = "production-row__batch u-dim";
-    batch.textContent = `Batch ${requested} · ${max} possible${blockedReason ? ` · ${blockedReason}` : ""}`;
-    text.append(name, ingredients, details, batch);
-
-    const make = document.createElement("button");
-    make.type = "button";
-    make.className = "btn btn--primary production-row__action";
-    make.textContent = recipe.kind === "cook" ? "Cook" : "Make";
-    make.disabled = !enabled;
-    if (blockedReason) make.title = blockedReason;
-    make.addEventListener("click", () => {
-      if (!this.stationId) return;
-      const result = this.ctx.api.produceAt(
-        this.stationId,
-        recipe.id,
-        this.quantity.resolve(maxRecipeBatches(recipe, this.ctx.api.getInventory().slots)),
-      );
-      if (result.ok) {
-        notify(`Started ${recipe.name} · batch ${result.value.queued}.`, "success");
-        this.refresh(true);
-        this.ctx.refresh();
-      } else {
-        report(result);
-      }
-    });
-
-    root.append(glyph, text, make);
-    return root;
-  }
-
-  private nearbyCampfire(): SemanticEntity | null {
-    const nearby = this.ctx.api.observe({
-      scope: "visible",
-      radius: 8,
-      archetypes: ["station"],
-      interaction: "produce",
-      limit: 12,
-    });
-    for (const row of nearby) {
-      const inspected = this.ctx.api.inspect(row.id);
-      if (inspected.ok && inspected.value.station?.kind === "campfire") return inspected.value;
-    }
-    return null;
-  }
-
-  private paintFireLine(
-    selected: SemanticEntity,
-    selectedRemainingMs: number | null,
-    nearby: SemanticEntity | null,
-    nearbyRemainingMs: number | null,
-  ): void {
-    if (selected.station?.kind === "campfire") {
-      this.fireLine.hidden = false;
-      this.fireLine.textContent = selectedRemainingMs === null
-        ? "Portable fire"
-        : `Fire remaining ${formatRemaining(selectedRemainingMs)}`;
-      return;
-    }
-    if (nearby) {
-      this.fireLine.hidden = false;
-      this.fireLine.textContent = nearbyRemainingMs === null
-        ? "Portable campfire nearby"
-        : `Nearby campfire ${formatRemaining(nearbyRemainingMs)} remaining`;
-      return;
-    }
-    this.fireLine.hidden = true;
-    this.fireLine.textContent = "";
-  }
-}
-
-function isRecipeDef(recipe: RecipeDef | undefined): recipe is RecipeDef {
-  return recipe !== undefined;
-}
-
-function stationLabel(kind: StationKind): string {
-  return kind.split("_").map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(" ");
-}
-
-function formatStations(stations: readonly StationKind[] | null): string {
-  return stations === null ? "Anywhere" : stations.map(stationLabel).join(" or ");
-}
-
-function formatDuration(durationMs: number): string {
-  const seconds = durationMs / 1_000;
-  return Number.isInteger(seconds) ? `${seconds}s` : `${seconds.toFixed(1)}s`;
-}
-
-function formatRemaining(remainingMs: number): string {
-  const seconds = Math.max(0, Math.ceil(remainingMs / 1_000));
-  const minutes = Math.floor(seconds / 60);
-  const tail = seconds % 60;
-  return minutes > 0 ? `${minutes}:${String(tail).padStart(2, "0")}` : `${tail}s`;
-}
-
-function campfireRemainingMs(entity: { meta?: Record<string, string | number | boolean> }, api: GameApi): number | null {
-  const meta = entity.meta;
-  if (!meta) return null;
-  const directMs = meta["remainingMs"] ?? meta["campfireRemainingMs"];
-  if (typeof directMs === "number" && Number.isFinite(directMs)) return Math.max(0, directMs);
-  const directSeconds = meta["remainingSeconds"] ?? meta["campfireRemainingSeconds"];
-  if (typeof directSeconds === "number" && Number.isFinite(directSeconds)) return Math.max(0, directSeconds * 1_000);
-  const expiresAtMs = meta["expiresAtMs"];
-  if (typeof expiresAtMs === "number" && Number.isFinite(expiresAtMs)) {
-    return Math.max(0, expiresAtMs - api.getTime().simMs);
-  }
-  return null;
-}
-
-function maxRecipeBatches(recipe: RecipeDef, slots: readonly (ItemStack | null)[]): number {
-  const totals = new Map<ItemId, number>();
-  const needs = new Map<ItemId, number>();
-  for (const slot of slots) {
-    if (!slot) continue;
-    totals.set(slot.itemId, (totals.get(slot.itemId) ?? 0) + slot.quantity);
-  }
-  for (const input of recipe.inputs) {
-    needs.set(input.itemId, (needs.get(input.itemId) ?? 0) + input.quantity);
-  }
-  let max = Number.POSITIVE_INFINITY;
-  for (const [itemId, quantity] of needs) {
-    max = Math.min(max, Math.floor((totals.get(itemId) ?? 0) / quantity));
-  }
-  return Number.isFinite(max) ? Math.max(0, max) : 0;
-}
-
 // ------------------------------------------------------------------- the UI
 
 export interface UiOptions {
+  saveRecovery?: SaveRecoveryControls;
   registry?: KeyBindingRegistry;
   /** Existing client-preference store, when boot must apply audio before the UI is constructed. */
   settings?: SettingsStore;
@@ -1019,12 +358,13 @@ const PANEL_INTERVAL_MS = 220;
 export function createUi(api: GameApi, options: UiOptions = {}): Ui {
   const registry = options.registry ?? keybindings;
   const settings = options.settings ?? new SettingsStore();
-  const tooltip = new Tooltip(api);
-  let production: ProductionPanel | null = null;
+  const tooltip = new DeferredTooltip(api, (error) => loadError("Item details")(error));
+  let production: LazyPanel<ProductionPanelHandle> | null = null;
+  let cancelProductionOpen: (() => void) | null = null;
   const menu = new ContextMenu({
     api,
     skillLabel: skillName,
-    onProduction: (entityId) => production?.openFor(entityId),
+    onProduction: openProduction,
   });
 
   let bank: LazyPanel<BankPanelHandle> | null = null;
@@ -1056,7 +396,14 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     notify(`Could not open ${title}. Try again.`, "error");
   };
   const hud = new Hud(context, options);
-  const loot = new LootReveal(context);
+  const loot = new DeferredOverlay<LootContainerView>({
+    registry,
+    load: async () => {
+      const { LootReveal } = await import("./lootReveal.js");
+      return new LootReveal(context);
+    },
+    onError: loadError("Loot"),
+  });
   const inventory = new LazyPanel({
     id: "inventory", title: "Inventory", key: "i", keyLabel: "Inventory", registry,
     load: () => loadInventoryPanel(context), onError: loadError("Inventory"),
@@ -1076,7 +423,14 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     id: "equipment", title: "Equipment", key: "e", keyLabel: "Equipment", registry,
     load: () => loadEquipmentPanel(context, options.featureLab), onError: loadError("Equipment"),
   });
-  production = new ProductionPanel(context);
+  production = new LazyPanel<ProductionPanelHandle>({
+    id: "production", title: "Production", registry,
+    load: () => loadProductionPanel(context),
+    onError: (error) => {
+      cancelProductionOpen?.();
+      loadError("Production")(error);
+    },
+  });
   const quests = new LazyPanel({
     id: "quests", title: "Quests", key: "j", keyLabel: "Quests", registry,
     load: () => loadQuestPanel(context), onError: loadError("Quests"),
@@ -1102,10 +456,14 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     load: () => loadFeatureLabPanel(context, options.featureLab!), onError: loadError("Feature lab"),
   }) : null;
   let titleCoveredBySettings = false;
-  const settingsPanel = new SettingsPanel(context, settings, () => {
-    if (!titleCoveredBySettings) return;
-    titleCoveredBySettings = false;
-    title.setCovered(false);
+  const settingsPanel = new LazyPanel({
+    id: "settings", title: "Settings", registry,
+    load: () => loadSettingsPanel(context, settings, () => {
+      if (!titleCoveredBySettings) return;
+      titleCoveredBySettings = false;
+      title.setCovered(false);
+    }, options.saveRecovery),
+    onError: loadError("Settings"),
   });
   bank = new LazyPanel<BankPanelHandle>({
     id: "bank", title: "Bank", registry,
@@ -1121,26 +479,53 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     ...(featureLab ? [featureLab] : []),
   ];
 
-  const death = new DeathScreen(context);
+  const death = new DeferredOverlay<DeathDetail>({
+    registry,
+    load: async () => {
+      const { DeathScreen } = await import("./deathScreen.js");
+      return new DeathScreen(context);
+    },
+    onError: loadError("Death report"),
+  });
   const title = new TitleScreen({
+    saveRecovery: options.saveRecovery,
     hasSave: () => options.hasSave?.() ?? false,
     onNewGame: () => {
+      cancelPendingPanelOpens(registry);
+      cancelProductionOpen?.();
+      death.cancelPending();
+      loot.cancelPending();
+      settingsPanel.frame.close();
       options.onNewGame?.();
       title.close();
     },
     onSettings: () => {
-      titleCoveredBySettings = true;
-      title.setCovered(true);
-      settingsPanel.frame.open();
+      // Keep the menu usable while the optional controls load, including Escape and retries.
+      settingsPanel.withPanel((panel) => {
+        if (!title.isOpen()) return;
+        titleCoveredBySettings = true;
+        title.setCovered(true);
+        panel.frame.open();
+      });
     },
-    onClose: () => title.close(),
+    onClose: () => {
+      cancelProductionOpen?.();
+      settingsPanel.frame.close();
+      title.close();
+    },
   });
 
   // Built after the map and the title screen exist: its corner buttons drive both.
   const minimap = options.mapTerrain
     ? new Minimap(api, options.mapTerrain, options.getDestination, options.getHeadingRad, {
         onOpenMap: () => map.frame.toggle(),
-        onMenu: () => title.open(),
+        onMenu: () => {
+          cancelPendingPanelOpens(registry);
+          cancelProductionOpen?.();
+          death.cancelPending();
+          loot.cancelPending();
+          title.open();
+        },
       })
     : null;
 
@@ -1148,19 +533,19 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
   // are deliberately not on it: both are opened by standing at one, and a button that answers
   // "you are not at a bank" is worse than no button.
   const dock = new PanelDock([
-    ...(featureLab ? [{ id: "feature-lab", label: "Lab", key: "l", glyph: "LAB",
+    ...(featureLab ? [{ id: "feature-lab", label: "Lab", key: "l", icon: "lab" as const,
       toggle: () => featureLab.frame.toggle(), isOpen: () => featureLab.frame.isOpen() }] : []),
-    { id: "inventory", label: "Pack", key: "i", glyph: "▦",
+    { id: "inventory", label: "Pack", key: "i", icon: "pack",
       toggle: () => inventory.frame.toggle(), isOpen: () => inventory.frame.isOpen(),
       badge: () => {
         const used = api.getInventory().slots.filter((slot) => slot !== null).length;
         return used >= INVENTORY_SLOTS ? "FULL" : "";
       } },
-    { id: "skills", label: "Skills", key: "k", glyph: "◈",
+    { id: "skills", label: "Skills", key: "k", icon: "skills",
       toggle: () => skills.frame.toggle(), isOpen: () => skills.frame.isOpen() },
-    { id: "equipment", label: "Worn", key: "e", glyph: "⛨",
+    { id: "equipment", label: "Worn", key: "e", icon: "equipment",
       toggle: () => equipment.frame.toggle(), isOpen: () => equipment.frame.isOpen() },
-    { id: "quests", label: "Quests", key: "j", glyph: "❋",
+    { id: "quests", label: "Quests", key: "j", icon: "quests",
       toggle: () => quests.frame.toggle(), isOpen: () => quests.frame.isOpen(),
       badge: () => {
         const active = api.getQuests().filter((quest) => quest.status === "active").length;
@@ -1170,7 +555,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     // own corner button (`ui/minimap.ts`, "Full map (M)") and keeps its "m" binding, so a second
     // dock entry for it was the least useful button on the bar; the spellbook, with sixteen spells
     // behind it, is the most. The map panel itself is unchanged and still registered below.
-    { id: "spellbook", label: "Spells", key: "b", glyph: "✦",
+    { id: "spellbook", label: "Spells", key: "b", icon: "spells",
       toggle: () => spellbook.frame.toggle(), isOpen: () => spellbook.frame.isOpen(),
       // The badge is the element the player has chosen, or nothing while the game is choosing for
       // them. A caster who set fire and then out-levelled it needs to see that from the dock,
@@ -1180,13 +565,31 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
         if (!book.preferredSpellId) return "";
         return book.spells.find((row) => row.id === book.preferredSpellId)?.element.slice(0, 1).toUpperCase() ?? "";
       } },
-    { id: "controls", label: "Keys", key: "h", glyph: "⌨",
+    { id: "controls", label: "Keys", key: "h", icon: "keys",
       toggle: () => controls.frame.toggle(), isOpen: () => controls.frame.isOpen() },
   ]);
 
   let mounted = false;
   let lastHudMs = 0;
   let lastPanelMs = 0;
+
+  function openProduction(entityId: EntityId): void {
+    cancelProductionOpen?.();
+    if (title.isOpen()) return;
+    const generation = panelInteraction.generation;
+    const popEscape = registry.pushEscapeHandler(() => { cancel(); return true; });
+    const cancel = () => {
+      popEscape();
+      if (cancelProductionOpen === cancel) cancelProductionOpen = null;
+    };
+    cancelProductionOpen = cancel;
+    production?.withPanel((panel) => {
+      const requested = cancelProductionOpen === cancel;
+      cancel();
+      // A station selected before loading must not replace a newer menu or panel.
+      if (requested && !title.isOpen() && generation === panelInteraction.generation) panel.openFor(entityId);
+    });
+  }
 
   function refreshAll(force: boolean): void {
     for (const panel of panels) {
@@ -1232,12 +635,14 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
       if (now - lastPanelMs >= PANEL_INTERVAL_MS) {
         lastPanelMs = now;
         refreshAll(false);
+        tooltip.refresh();
         tracker.update();
         agentPanel?.update();
       }
     },
 
     dispose(): void {
+      cancelProductionOpen?.();
       setNoticeSink(null);
       minimap?.dispose();
       tracker.dispose();
@@ -1261,9 +666,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
       shop?.withPanel((panel) => panel.openFor(shopId));
     },
 
-    openProduction(entityId: EntityId): void {
-      production?.openFor(entityId);
-    },
+    openProduction,
 
     openDialogue(): void {
       dialogue.withPanel((panel) => panel.openFor());
@@ -1274,14 +677,22 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     },
 
     showDeath(detail: DeathDetail): void {
-      death.show(detail);
+      loot.cancelPending();
+      const generation = panelInteraction.generation;
+      death.show(detail, () => !title.isOpen() && generation === panelInteraction.generation);
     },
 
     openLoot(container: LootContainerView): void {
-      loot.show(container);
+      death.cancelPending();
+      const generation = panelInteraction.generation;
+      loot.show(container, () => !title.isOpen() && generation === panelInteraction.generation);
     },
 
     openTitle(): void {
+      cancelPendingPanelOpens(registry);
+      cancelProductionOpen?.();
+      death.cancelPending();
+      loot.cancelPending();
       title.open();
     },
 

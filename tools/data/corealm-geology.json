@@ -1,0 +1,646 @@
+{
+  "pack": {
+    "id": "corealm-original-geology",
+    "name": "Corealm fractured strata and mineral workings",
+    "author": "Corealm",
+    "source": "tools/build-corealm-geology.ts",
+    "license": "Original project artwork; no third-party assets"
+  },
+  "generator": "npx tsx tools/build-corealm-geology.ts",
+  "coordinates": "Metres, Y-up, centred XZ, minimum Y=0. Ore worked faces point +Z; back geology toward -Z.",
+  "oreMount": {
+    "matingPlaneZ": 0.12,
+    "perimeterZ": 0.055,
+    "substrateBackZ": -0.325,
+    "instruction": "Place a real continuous host face at local Z=+0.12 times asset scale. It must swallow the identical active/spent perimeter while leaving interior mineral relief exposed. An overlapping host bounding box is not attachment proof."
+  },
+  "construction": "Continuous terraced outcrops use distinct shoulders, split saddles and elongated tilted beds. Broad quarry cliffs retain unequal bedding shelves and oblique breakout joints. Scree consists of separate worn fracture flakes. Ore uses narrow irregular branching fissures with lower metallic cores, recut spent scars and identical active/spent perimeters. All exposed surfaces carry metre-density UVs, restrained vertex colour variation and angle-limited smooth normals; hard fracture boundaries remain sharp.",
+  "assets": [
+    {
+      "id": "corealm_rock_strata_1",
+      "file": "models/corealm/geology/corealm_rock_strata_1.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "rock",
+      "tags": [
+        "rock",
+        "strata",
+        "geology",
+        "environment"
+      ],
+      "bytes": 355596,
+      "size": {
+        "x": 5.4,
+        "y": 3.7,
+        "z": 3.4
+      },
+      "base": {
+        "x": -2.7,
+        "y": 0,
+        "z": -1.7
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "5b24519a4797a60fca29acade91423d262d99a15b80a144b863bd59bdd1105fd",
+      "triangles": 5498,
+      "blocks": 1,
+      "mineralFaces": 0
+    },
+    {
+      "id": "corealm_rock_strata_2",
+      "file": "models/corealm/geology/corealm_rock_strata_2.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "rock",
+      "tags": [
+        "rock",
+        "strata",
+        "geology",
+        "environment"
+      ],
+      "bytes": 280252,
+      "size": {
+        "x": 4.5,
+        "y": 2.65,
+        "z": 4
+      },
+      "base": {
+        "x": -2.25,
+        "y": 0,
+        "z": -2
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "d68ad0bec1605114004d73291776ecb9586163fec67dbb5b376aceace5ce8bb4",
+      "triangles": 4984,
+      "blocks": 1,
+      "mineralFaces": 0
+    },
+    {
+      "id": "corealm_rock_strata_3",
+      "file": "models/corealm/geology/corealm_rock_strata_3.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "rock",
+      "tags": [
+        "rock",
+        "strata",
+        "geology",
+        "environment"
+      ],
+      "bytes": 251240,
+      "size": {
+        "x": 6.1,
+        "y": 2.4,
+        "z": 2.8
+      },
+      "base": {
+        "x": -3.05,
+        "y": 0,
+        "z": -1.4
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "0a6449d1a301ad09118b9d91847ba2d150ff649c9223c883efb2bae347567066",
+      "triangles": 4906,
+      "blocks": 1,
+      "mineralFaces": 0
+    },
+    {
+      "id": "corealm_cliff_strata_1",
+      "file": "models/corealm/geology/corealm_cliff_strata_1.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "cliff",
+        "strata",
+        "geology",
+        "environment"
+      ],
+      "bytes": 398652,
+      "size": {
+        "x": 12,
+        "y": 7,
+        "z": 4.8
+      },
+      "base": {
+        "x": -6,
+        "y": 0,
+        "z": -2.4
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "5591dac557bf853aa989486b288c9a3fdeadd3cc4b13cf9afbcc49909d012874",
+      "triangles": 8340,
+      "blocks": 1,
+      "mineralFaces": 0
+    },
+    {
+      "id": "corealm_cliff_strata_2",
+      "file": "models/corealm/geology/corealm_cliff_strata_2.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "cliff",
+        "strata",
+        "geology",
+        "environment"
+      ],
+      "bytes": 351284,
+      "size": {
+        "x": 9,
+        "y": 8.6,
+        "z": 5.2
+      },
+      "base": {
+        "x": -4.5,
+        "y": 0,
+        "z": -2.6
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "2526843ce1333784464ecb13b1e7c5ea3cddce6408f4625282350f9c5fb19a5c",
+      "triangles": 6514,
+      "blocks": 1,
+      "mineralFaces": 0
+    },
+    {
+      "id": "corealm_scree_1",
+      "file": "models/corealm/geology/corealm_scree_1.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "rock",
+      "tags": [
+        "rock",
+        "strata",
+        "geology",
+        "environment"
+      ],
+      "bytes": 421908,
+      "size": {
+        "x": 3.4,
+        "y": 0.6,
+        "z": 2.3
+      },
+      "base": {
+        "x": -1.7,
+        "y": 0,
+        "z": -1.15
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "99288131e734ed5dead0e97a3216be8b0f9ac458eb53900a74db0e8bedc11bac",
+      "triangles": 6770,
+      "blocks": 27,
+      "mineralFaces": 0
+    },
+    {
+      "id": "corealm_scree_2",
+      "file": "models/corealm/geology/corealm_scree_2.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "rock",
+      "tags": [
+        "rock",
+        "strata",
+        "geology",
+        "environment"
+      ],
+      "bytes": 385532,
+      "size": {
+        "x": 2.7,
+        "y": 0.5,
+        "z": 2.8
+      },
+      "base": {
+        "x": -1.35,
+        "y": 0,
+        "z": -1.4
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "d26ccf01e1f0a3d188fd245544a57703fc7f9e8b3264a7d4c818d6385588a6da",
+      "triangles": 6283,
+      "blocks": 22,
+      "mineralFaces": 0
+    },
+    {
+      "id": "corealm_ore_grithe",
+      "file": "models/corealm/geology/corealm_ore_grithe.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "strata",
+        "geology",
+        "grithe",
+        "resource"
+      ],
+      "bytes": 392404,
+      "size": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 0.65
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.325
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata",
+        "Corealm mineral seam"
+      ],
+      "sha256": "1c41ba18e3ba5d36a99c1599c0304be1093cadac6b87dabd477d8ddbf1105c44",
+      "triangles": 9549,
+      "blocks": 1,
+      "mineralFaces": 466
+    },
+    {
+      "id": "corealm_ore_grithe_spent",
+      "file": "models/corealm/geology/corealm_ore_grithe_spent.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "strata",
+        "geology",
+        "grithe",
+        "depleted"
+      ],
+      "bytes": 389116,
+      "size": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 0.65
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.325
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "ddfccf106137533f43248f8b4ebfde5536d37f70c84184dc5612d08494589ac7",
+      "triangles": 9549,
+      "blocks": 1,
+      "mineralFaces": 466
+    },
+    {
+      "id": "corealm_ore_corven",
+      "file": "models/corealm/geology/corealm_ore_corven.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "strata",
+        "geology",
+        "corven",
+        "resource"
+      ],
+      "bytes": 396560,
+      "size": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 0.65
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.325
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata",
+        "Corealm mineral seam"
+      ],
+      "sha256": "9769ed6f976d44cabd3e64a841159b18e2319065358d6fdd9103af67c778ff07",
+      "triangles": 9538,
+      "blocks": 1,
+      "mineralFaces": 447
+    },
+    {
+      "id": "corealm_ore_corven_spent",
+      "file": "models/corealm/geology/corealm_ore_corven_spent.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "strata",
+        "geology",
+        "corven",
+        "depleted"
+      ],
+      "bytes": 396176,
+      "size": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 0.65
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.325
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "d8a3cff54ef622f469e310d02308340e473777a075e7201b2dfe2356ed3bafe3",
+      "triangles": 9538,
+      "blocks": 1,
+      "mineralFaces": 447
+    },
+    {
+      "id": "corealm_ore_kaldite",
+      "file": "models/corealm/geology/corealm_ore_kaldite.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "strata",
+        "geology",
+        "kaldite",
+        "resource"
+      ],
+      "bytes": 392464,
+      "size": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 0.65
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.325
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata",
+        "Corealm mineral seam"
+      ],
+      "sha256": "91f8b86d310f6478844f5df1e7c075ad00019bde4cf42e5a9d6ce5d397623112",
+      "triangles": 9544,
+      "blocks": 1,
+      "mineralFaces": 480
+    },
+    {
+      "id": "corealm_ore_kaldite_spent",
+      "file": "models/corealm/geology/corealm_ore_kaldite_spent.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "strata",
+        "geology",
+        "kaldite",
+        "depleted"
+      ],
+      "bytes": 389172,
+      "size": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 0.65
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.325
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "981054b256f47a79d136b64c89cbba93eb8618c5f3b989fb352a702e04cd1953",
+      "triangles": 9544,
+      "blocks": 1,
+      "mineralFaces": 480
+    },
+    {
+      "id": "corealm_ore_emberite",
+      "file": "models/corealm/geology/corealm_ore_emberite.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "strata",
+        "geology",
+        "emberite",
+        "resource"
+      ],
+      "bytes": 394852,
+      "size": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 0.65
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.325
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata",
+        "Corealm mineral seam"
+      ],
+      "sha256": "41717fea47bd61c895751f0141225b6112dcde7c81adf9457099218198bb717e",
+      "triangles": 9545,
+      "blocks": 1,
+      "mineralFaces": 453
+    },
+    {
+      "id": "corealm_ore_emberite_spent",
+      "file": "models/corealm/geology/corealm_ore_emberite_spent.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "strata",
+        "geology",
+        "emberite",
+        "depleted"
+      ],
+      "bytes": 395080,
+      "size": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 0.65
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.325
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "a2e4d30614b9efa7231e1812b302cfd07e0b8afa1c20c13b6a29e9b6e6e454fc",
+      "triangles": 9545,
+      "blocks": 1,
+      "mineralFaces": 453
+    },
+    {
+      "id": "corealm_ore_stone",
+      "file": "models/corealm/geology/corealm_ore_stone.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "strata",
+        "geology",
+        "stone",
+        "resource"
+      ],
+      "bytes": 389200,
+      "size": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 0.65
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.325
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata",
+        "Corealm mineral seam"
+      ],
+      "sha256": "0d02cf048a54ddd7e57f70d225c652750393f9f0791a8bd4f0d02faf9b234a75",
+      "triangles": 9536,
+      "blocks": 1,
+      "mineralFaces": 455
+    },
+    {
+      "id": "corealm_ore_stone_spent",
+      "file": "models/corealm/geology/corealm_ore_stone_spent.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "strata",
+        "geology",
+        "stone",
+        "depleted"
+      ],
+      "bytes": 387580,
+      "size": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 0.65
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.325
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "73200082a9dc3c6784a6e591658e73c711bfb7be1769a1be8e15d6320f4ee1d7",
+      "triangles": 9536,
+      "blocks": 1,
+      "mineralFaces": 455
+    },
+    {
+      "id": "corealm_ore_kilnstone",
+      "file": "models/corealm/geology/corealm_ore_kilnstone.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "strata",
+        "geology",
+        "kilnstone",
+        "resource"
+      ],
+      "bytes": 395260,
+      "size": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 0.65
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.325
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata",
+        "Corealm mineral seam"
+      ],
+      "sha256": "e84bc2adced2c22ea6b208b7af58f2b755941aad06845512a34412d3158254fb",
+      "triangles": 9547,
+      "blocks": 1,
+      "mineralFaces": 467
+    },
+    {
+      "id": "corealm_ore_kilnstone_spent",
+      "file": "models/corealm/geology/corealm_ore_kilnstone_spent.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "strata",
+        "geology",
+        "kilnstone",
+        "depleted"
+      ],
+      "bytes": 394568,
+      "size": {
+        "x": 2.6,
+        "y": 1.6,
+        "z": 0.65
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.325
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "21391d8fbcf78b4fc1dc7b224034adb2c9ee753d7ca22f667ad8973ec07260b3",
+      "triangles": 9547,
+      "blocks": 1,
+      "mineralFaces": 467
+    }
+  ]
+}

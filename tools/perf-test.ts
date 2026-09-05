@@ -51,6 +51,7 @@ export interface PerfReport {
   viewport: { width: number; height: number };
   targetFps: number;
   maxDrawCalls: number;
+  scatterResidency: { resident: number; total: number; complete: boolean } | null;
   shots: ShotPerf[];
   passed: boolean;
   errors: string[];
@@ -114,6 +115,7 @@ export async function runPerfTest(
     viewport: { width: 1920, height: 1080 },
     targetFps: TARGET_FPS,
     maxDrawCalls: MAX_DRAW_CALLS,
+    scatterResidency: null,
     shots: [],
     passed: false,
     errors: [],
@@ -130,6 +132,43 @@ export async function runPerfTest(
 
     await page.goto(server.url, { waitUntil: "load", timeout: 60_000 });
     await page.waitForFunction(() => window.__gameDebug?.getState().ready === true, undefined, { timeout: 90_000 });
+
+    // First playable only guarantees the spawn ring. Waiting for all generation tiles prevents
+    // a fast camera sweep from passing the budget while grass, stones and shrubs are still absent.
+    // Pause rendering during this setup phase: an uncapped render loop can starve background
+    // streaming. Capture mode restores the user's render scale and shadows before measurement.
+    await page.evaluate(() => {
+      (window.__gameDebug as unknown as { setCaptureMode(enabled: boolean): void }).setCaptureMode(true);
+    });
+    try {
+      await page.waitForFunction(() => {
+        const api = window.__gameDebug as unknown as {
+          getScatterResidency?: () => { complete: boolean } | null;
+        };
+        return api.getScatterResidency?.()?.complete === true;
+      }, undefined, { timeout: 60_000, polling: 100 });
+    } catch (error) {
+      const loading = await page.evaluate(() => {
+        const api = window.__gameDebug as unknown as {
+          getScatterResidency(): unknown;
+          getErrors(): unknown;
+        };
+        return { residency: api.getScatterResidency(), errors: api.getErrors() };
+      });
+      report.errors.push(`Scatter did not finish loading: ${JSON.stringify(loading)}`);
+      throw error;
+    } finally {
+      await page.evaluate(() => {
+        (window.__gameDebug as unknown as { setCaptureMode(enabled: boolean): void }).setCaptureMode(false);
+      });
+    }
+    report.scatterResidency = await page.evaluate(() => {
+      const api = window.__gameDebug as unknown as {
+        getScatterResidency(): { resident: string[]; total: number; complete: boolean };
+      };
+      const state = api.getScatterResidency();
+      return { resident: state.resident.length, total: state.total, complete: state.complete };
+    });
 
     report.renderer = await page.evaluate(() => {
       const canvas = document.createElement("canvas");
@@ -206,6 +245,11 @@ export async function runPerfTest(
       report.shots.push(entry);
     }
 
+    const runtimeErrors = await page.evaluate(() => {
+      const api = window.__gameDebug as unknown as { getErrors(): unknown[] };
+      return api.getErrors();
+    });
+    for (const error of runtimeErrors) report.errors.push(`Game runtime: ${JSON.stringify(error)}`);
     report.passed =
       report.usedRealGpu &&
       report.shots.length > 0 &&
@@ -236,6 +280,7 @@ async function main(): Promise<void> {
   console.log(JSON.stringify({
     renderer: report.renderer,
     usedRealGpu: report.usedRealGpu,
+    scatterResidency: report.scatterResidency,
     passed: report.passed,
     shots: report.shots,
     errors: report.errors,

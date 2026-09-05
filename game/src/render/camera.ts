@@ -404,7 +404,7 @@ export class OrbitCamera {
   rotate(deltaYaw: number, deltaPitch: number): void {
     if (this.invertPitch) deltaPitch = -deltaPitch;
     this.yaw += deltaYaw;
-    this.pitch = clamp(this.pitch + deltaPitch, CAMERA.minPitch, CAMERA.maxPitch);
+    this.pitch = clamp(this.pitch + deltaPitch, this.freeMove ? -1.4 : CAMERA.minPitch, CAMERA.maxPitch);
   }
 
   zoom(delta: number): void {
@@ -415,6 +415,7 @@ export class OrbitCamera {
   setFreeTarget(position: Vec3 | null): void {
     this.freeMove = position !== null;
     if (position) this.freeTarget.set(position[0], position[1], position[2]);
+    else this.pitch = clamp(this.pitch, CAMERA.minPitch, CAMERA.maxPitch);
     this.initialised = false;
   }
 
@@ -439,7 +440,8 @@ export class OrbitCamera {
     minDistance = CAMERA.minDistance,
   ): void {
     this.yaw = yaw;
-    this.pitch = clamp(pitch, CAMERA.minPitch, CAMERA.maxPitch);
+    // Free inspection needs to see ceilings and the underside of structures.
+    this.pitch = clamp(pitch, this.freeMove ? -1.4 : CAMERA.minPitch, CAMERA.maxPitch);
     this.distance = clamp(distance, minDistance, CAMERA.maxAuthoredDistance);
   }
 

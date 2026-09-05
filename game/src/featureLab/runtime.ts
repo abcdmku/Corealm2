@@ -8,6 +8,7 @@ import {
   type FeatureLabCreatureAi,
   type FeatureLabMode,
   type FeatureLabMotionView,
+  type FeatureLabPresentationView,
   type FeatureLabPreset,
   type FeatureLabState,
   type FeatureLabStructureSelection,
@@ -85,6 +86,7 @@ export interface FeatureLabRuntimeDeps {
   readonly initialPlayerVisible: boolean;
   readonly initialFreeCameraEnabled: boolean;
   readonly initialStructure: FeatureLabStructureView;
+  readonly presentation?: FeatureLabPresentationView;
   readonly replaceStructure: (
     selection: FeatureLabStructureSelection,
   ) => Promise<FeatureLabStructureView>;
@@ -470,6 +472,12 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
       structure: cloneStructureView(structure),
       bank,
       altar,
+      ...(deps.presentation ? {
+        presentation: {
+          ...deps.presentation,
+          resourceEntityIds: [...deps.presentation.resourceEntityIds],
+        },
+      } : {}),
       target: entity && target ? {
         kind: target.preset.kind,
         presetId: target.preset.id,
@@ -567,6 +575,7 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
       ...LAB_BANK_INVENTORY.map((stack) => stack.itemId),
       ...Object.values(ESSENCE_BY_ELEMENT).filter((itemId): itemId is ItemId => itemId !== null),
       "air_orb",
+      ...(deps.presentation?.enabled ? ["grithe_pickaxe", "grithe_hatchet"] : []),
     ]);
     for (const itemId of fixtureItemIds) discardFromSetupInventory(itemId);
     deps.store.get().bank.slots = LAB_BANK_CONTENTS.map((stack) => ({ ...stack }));
@@ -575,6 +584,10 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
       requireOk(deps.inventory.addItem(itemId, LAB_ITEM_QUANTITY), `stock ${itemId}`);
     }
     requireOk(deps.inventory.addItem("air_orb", 1), "stock the Air Orb");
+    if (deps.presentation?.enabled) {
+      requireOk(deps.inventory.addItem("grithe_pickaxe", 1), "stock the presentation pickaxe");
+      requireOk(deps.inventory.addItem("grithe_hatchet", 1), "stock the presentation hatchet");
+    }
     for (const stack of LAB_BANK_INVENTORY) {
       requireOk(deps.inventory.addItem(stack.itemId, stack.quantity), `stock ${stack.itemId}`);
     }

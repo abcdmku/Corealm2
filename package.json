@@ -33,6 +33,9 @@
     "lab:building:preview": "vite game --host 127.0.0.1 --port 4174 --strictPort --open /index.html?mode=building",
     "lab:test": "tsx tools/feature-lab-test.ts",
     "lab:creatures": "tsx tools/creature-lab-test.ts",
+    "lab:forest": "tsx tools/forest-lab-test.ts",
+    "lab:fishing": "tsx tools/fishing-lab-test.ts",
+    "lab:session": "tsx tools/lab-session.ts",
     "structure:preview": "vite game --host 127.0.0.1 --port 4174 --strictPort --open /structure-preview.html?mode=structures",
     "structure:contracts": "vitest run tests/structures.test.ts",
     "structure:contracts:watch": "vitest tests/structures.test.ts",
@@ -68,9 +71,8 @@
     "verify:gathering-production": "tsx tools/verify-gathering-production.ts --run runs/corealm"
   },
   "dependencies": {
-    "@dimforge/rapier3d": "0.20.0",
     "@recast-navigation/core": "0.43.1",
-    "@recast-navigation/three": "0.43.1",
+    "@recast-navigation/generators": "^0.43.1",
     "@recast-navigation/wasm": "0.43.1",
     "recast-navigation": "0.43.1",
     "three": "0.185.1"

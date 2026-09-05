@@ -101,7 +101,7 @@ export const TOOL_SPECS = {
     title: "Inspect one entity",
     access: "read",
     description:
-      "Full detail for one entity: state, tier, requirements, available interactions, and for a "
+      "Full detail for one entity: state, requirements, available interactions, and for a "
       + "resource node how many gathers it has left and how long it takes to respawn. NPC rows "
       + "list the quests they give. Returns NOT_FOUND for anything the player has never seen.",
     inputSchema: obj({ entityId: STR("Entity id from corealm_observe", { minLength: 1 }) }, ["entityId"]),
@@ -222,7 +222,7 @@ export const TOOL_SPECS = {
     description:
       "Build a portable cooking fire from one carried log. The game chooses the first valid "
       + "nearby dry placement; the three-second build consumes the log only when it completes.",
-    inputSchema: obj({ logItemId: STR("Palewood, Duskoak, or Cairnpine log item id", { minLength: 1 }) }, ["logItemId"]),
+    inputSchema: obj({ logItemId: STR("Oak, Maple, Pine, or Cedar log item id", { minLength: 1 }) }, ["logItemId"]),
   },
   corealm_attack: {
     name: "corealm_attack",

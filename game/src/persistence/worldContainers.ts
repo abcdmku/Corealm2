@@ -1,7 +1,7 @@
 /** Rebuilds runtime-only semantic entities for containers held in canonical save state. */
 import type { EntityId, RegionId, SemanticEntity, Vec3 } from "../contracts.js";
 import type { GameState } from "../state/store.js";
-import { BOSS_RESPAWN_MS, ENEMY_RESPAWN_MS } from "../systems/combat.js";
+import { BOSS_RESPAWN_MS, ENEMY_RESPAWN_MS, spawnPositionOf } from "../systems/combat.js";
 
 export const RECOVERY_CACHE_VIEW: NonNullable<SemanticEntity["view"]> = {
   assetId: "crate_wood",
@@ -51,6 +51,10 @@ export function rehydrateWorldContainers(
   }
 
   let recoveryCaches = 0;
+  if (state.world.recoveryCache?.expiresAtWallMs !== undefined
+    && Date.now() >= state.world.recoveryCache.expiresAtWallMs) {
+    state.world.recoveryCache = null;
+  }
   const cache = state.world.recoveryCache;
   if (cache && cache.items.length > 0) {
     entities.add({
@@ -66,6 +70,7 @@ export function rehydrateWorldContainers(
       meta: {
         blurb: "Everything you were carrying when you died. It will not wait forever.",
         expiresAtMs: cache.expiresAtMs,
+        ...(cache.expiresAtWallMs !== undefined ? { expiresAtWallMs: cache.expiresAtWallMs } : {}),
         itemCount: cache.items.length,
       },
     });
@@ -132,6 +137,12 @@ export function rehydrateEnemyRuntimes(
     if (entity.archetype !== "enemy" && entity.archetype !== "boss") continue;
     const runtime = state.world.enemies[entity.id];
     if (!runtime) continue;
+    if (entity.archetype === "enemy" && typeof entity.meta?.habitatId === "string"
+      && entity.meta.habitatId.length > 0) {
+      // Habitat placement belongs to current world content. Old saves retain health and death,
+      // but their previous random spawn must not pull the animal out of its authored setting.
+      runtime.spawnPos = spawnPositionOf(entity);
+    }
     if (runtime.state === "dead") {
       entity.state = "dead";
       runtime.diedAtMs = nowMs;

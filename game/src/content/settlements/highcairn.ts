@@ -68,7 +68,7 @@ import type { SettlementDef } from "../regions.js";
 
 export const HIGHCAIRN: SettlementDef = {
   id: "highcairn",
-  name: "Highcairn",
+  name: "Hillcrest",
   // Brick and cut stone to the eaves, brick piers, gable ends closed in stone, and the shallower
   // six-wide roof. A town built out of the quarry it works.
   kit: "stone",
@@ -155,7 +155,7 @@ export const HIGHCAIRN: SettlementDef = {
     // GATE_GAP_METRES = 4 clear span and gives the returns two native 2 m depth modules. At the
     // old [6,3] there was only room for one 2 m pier a side and a 2 m gap, of which 0.20 m survived
     // navmesh erosion.
-    { id: "highcairn_gate", name: "Highcairn Gate", prefab: "gatehouse", position: [162, -58], rotationY: Math.PI / 2, footprint: [8, 4] },
+    { id: "highcairn_gate", name: "Hillcrest Gate", prefab: "gatehouse", position: [162, -58], rotationY: Math.PI / 2, footprint: [8, 4] },
     { id: "highcairn_postern", name: "Quarry Postern", prefab: "gatehouse", position: [122, -58], rotationY: -Math.PI / 2, footprint: [8, 4] },
   ],
 
@@ -178,14 +178,14 @@ export const HIGHCAIRN: SettlementDef = {
     {
       // Inside the forge, against the west wall. cauldron at 2.0 draws 1.98 x 1.89, and the forge's
       // interior after its three 0.6 m collision walls is x [141.6,146.4] z [-71.4,-68.0].
-      id: "highcairn_furnace", name: "Highcairn Furnace", kind: "furnace", skill: "smithing",
+      id: "highcairn_furnace", name: "Hillcrest Furnace", kind: "furnace", skill: "smithing",
       position: [142.7, -70.6], rotationY: 0, assetId: "cauldron", scale: 2, recipeIds: [],
       attachedTo: "highcairn_forge",
     },
     {
       // In the mouth, 1.2 m inside the open face, so the player walks in and stands at it. anvil at
       // 1.4 draws 1.52 x 0.56 and clears the furnace by 0.55 m.
-      id: "highcairn_anvil", name: "Highcairn Anvil", kind: "anvil", skill: "smithing",
+      id: "highcairn_anvil", name: "Hillcrest Anvil", kind: "anvil", skill: "smithing",
       position: [145, -69.2], rotationY: 0, assetId: "anvil", scale: 1.4, recipeIds: [],
       attachedTo: "highcairn_forge",
     },
@@ -193,7 +193,7 @@ export const HIGHCAIRN: SettlementDef = {
       // The camp cook fire, under the east bay of the covered row. Scale 2.2 rather than the old
       // 1.6: `cooking_pot` is a 0.539 x 0.486 mesh, so 1.6 drew a 0.86 m pot standing alone on
       // slate at (148,-76) — 8 m outside the town and over the terrace lip.
-      id: "highcairn_range", name: "Highcairn Cooking Range", kind: "range", skill: "cooking",
+      id: "highcairn_range", name: "Hillcrest Cooking Range", kind: "range", skill: "cooking",
       position: [138.2, -63.8], rotationY: 0, assetId: "cooking_pot", scale: 2.2, recipeIds: [],
       attachedTo: "highcairn_market",
     },
@@ -202,7 +202,7 @@ export const HIGHCAIRN: SettlementDef = {
   // rotationY 0 turns the chest to face the yard. It was PI, which pointed the lid at whatever was
   // behind it; there is now a porch back wall 0.9 m behind it, so PI would face the wall.
   bank: {
-    id: "highcairn_bank_counter", name: "Highcairn Bank",
+    id: "highcairn_bank_counter", name: "Hillcrest Bank",
     position: [150, -70], rotationY: 0, assetId: "chest_wood",
     attachedTo: "highcairn_bank_porch",
   },
@@ -210,7 +210,7 @@ export const HIGHCAIRN: SettlementDef = {
   shops: [
     {
       // Under the west bay of the covered row, facing the yard.
-      id: "highcairn_general", name: "Highcairn Camp Store", shopKind: "general",
+      id: "highcairn_general", name: "Hillcrest Camp Store", shopKind: "general",
       // The stall's local -Z counter faces north into the yard at this half turn.
       position: [135.9, -63.9], rotationY: Math.PI, assetId: "market_stall",
       attachedTo: "highcairn_market",

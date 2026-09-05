@@ -72,7 +72,7 @@ export const ERROR_CATALOGUE: Record<GameErrorCode, string> = {
 function overview(version: ToolDeps["version"]): string {
   return [
     "Corealm is a single-player browser RPG played by a human and an AI agent together, through one set of actions.",
-    "The player walks a character across five regions (Fallowmarch, Vellenwood, Karrowmoor, Kilnhalt, and the Gravelmaw dungeon), trains ten skills, accepts quests from NPCs, gathers resources, crafts at stations, fights enemies and bosses, banks, and trades.",
+    "The player walks a character across five regions (Farmland, Woodlands, Highlands, Ashlands, and the Stone Cavern dungeon), trains ten skills, accepts quests from NPCs, gathers resources, crafts at stations, fights enemies and bosses, banks, and trades.",
     "Every tool you have calls the same game function a click does. There is no privileged path and no cheat: if a human cannot do it, neither can you. Movement takes real time at 4.2 m/s; gathering rolls every 1.8 s; a fight lasts as long as it lasts.",
     `Versions: build ${version.build}, contracts ${version.contracts}, content ${version.content}. Cache what you learn from corealm_search_docs against the content version.`,
     "Start with corealm_context. It returns the session, the player, the surroundings, and suggested next actions as exact tool calls. Then act in the mode the player has given you (see topic modes).",
@@ -102,7 +102,7 @@ const CONTROL = [
 
 const RULES = [
   "Skills: melee, magic, mining, woodcutting, fishing, smithing, crafting, cooking, fletching, agility. Levels 1 to 99 on an exponential XP table (corealm_search_docs \"xp table\").",
-  "Gathering: one corealm_interact on a node keeps yielding until the node depletes, the pack fills, the character moves, or you stop. Success per 1.8 s attempt is 0.30 + 0.016 × (effective level − required level), capped at 0.95. Higher tier is not always better XP per hour: distance to the bank matters.",
+  "Gathering: one corealm_interact on a node keeps yielding until the node depletes, the pack fills, the character moves, or you stop. Success per 1.8 s attempt is 0.30 + 0.016 × (effective level − required level), capped at 0.95. A more demanding resource is not always better XP per hour: distance to the bank matters.",
   "Inventory: 28 slots. Most resources do not stack. Bank at a bank entity (corealm_interact {interaction:\"bank\"}, then corealm_bank).",
   "Production: at the right station with the ingredients in the pack. corealm_craft runs a batch and waits. Recipes and stations are in corealm_search_docs.",
   "Combat: melee reaches 1.6 m and walks in; a wand or staff casts at 15 m. A cast costs one matching Essence or one weapon charge and lands flightMs later. Regeneration stops for eight seconds after any blow. Below the low-health threshold, eat (corealm_use_item on food) or retreat.",
@@ -118,7 +118,7 @@ const TERMINOLOGY = [
   "locationId — a place on the route graph, e.g. bracken_pit. From corealm_search_docs or corealm_observe {scope:\"known\"}. A bank entity coldbrace_bank stands at location bank_interior; only the location id goes to navigate {locationId}.",
   "archetype — what kind of entity: ore, tree, fishing_spot, enemy, boss, npc, station, bank, shop, obstacle, door, portal, loot, recovery_cache, landmark.",
   "interaction — a verb an entity offers: mine, chop, fish, attack, talk, open, enter, climb, vault, loot, take, awaken, produce, recharge, bank, trade, inspect.",
-  "tier — content tier (1, 5, 10, 20). Higher tier needs a higher level and gives more XP per gather.",
+  "level — an enemy's combat level is calculated from its actual stats. Resource, equipment, and spell requirements are actual skill levels. Internal content bands are not player-facing levels.",
   "marks — the currency.",
   "Essence — carried spell fuel by element (Air, Earth, Water, Fire). The internal element name for Air is wind.",
   "requirementsMet / blockedBy — whether the player qualifies for an entity right now, and why not.",

@@ -11,6 +11,7 @@ import {
   type RegionScatterSpec,
   type ScatterResult,
   type ScatterTile,
+  type ScatterTileLoadOptions,
 } from "./scatter.js";
 
 export interface ScatterResidency {
@@ -28,20 +29,18 @@ export interface ScatterStreamingOptions {
   nearRing?: number;
   /** Called between background tiles. Tests may supply a resolved promise. */
   yieldToMain?: () => Promise<void>;
-}
-
-function defaultYieldToMain(): Promise<void> {
-  return yieldToMainThread();
+  onTree?: ScatterTileLoadOptions["onTree"];
 }
 
 /**
- * Visual-only scatter residency. It holds no store, save, quest, route, or entity references, so a
- * tile load can add meshes and stats but cannot mutate semantic state.
+ * Scatter residency owns generation and rendering order. Resource descriptors cross the onTree
+ * port after their meshes exist; the forest resource controller owns semantic state and saves.
  */
 export class ScatterStreamingController {
   private readonly specs: Partial<Record<RegionId, RegionScatterSpec>>;
   private readonly nearRing: number;
   private readonly yieldToMain: () => Promise<void>;
+  private readonly onTree: ScatterTileLoadOptions["onTree"];
   private readonly tiles: ScatterTile[];
   private readonly tilesById: Map<string, ScatterTile>;
   private readonly resident = new Set<string>();
@@ -59,17 +58,17 @@ export class ScatterStreamingController {
   ) {
     this.specs = options.specs ?? DEFAULT_SCATTER;
     this.nearRing = Math.max(0, Math.floor(options.nearRing ?? 1));
-    this.yieldToMain = options.yieldToMain ?? defaultYieldToMain;
+    this.onTree = options.onTree;
+    let sliceStarted = performance.now();
+    this.yieldToMain = options.yieldToMain ?? (async () => {
+      // Empty phases and tiny clusters should not each spend a whole browser task. Give input
+      // and rendering a turn after a bounded amount of real work, independent of recipe count.
+      if (performance.now() - sliceStarted < 4) return;
+      await yieldToMainThread();
+      sliceStarted = performance.now();
+    });
     this.tiles = scatterTilesForBounds(scene.getScatterBounds(Infinity));
     this.tilesById = new Map(this.tiles.map((tile) => [tile.id, tile]));
-  }
-
-  tileAt(x: number, z: number): ScatterTile {
-    return scatterTileAt(x, z);
-  }
-
-  allTiles(): ScatterTile[] {
-    return [...this.tiles];
   }
 
   setActivePosition(x: number, z: number): void {
@@ -181,6 +180,7 @@ export class ScatterStreamingController {
         // cannot be demoted. Deferred work follows the tile's semantic owner.
         regionId: priority === "visible-spawn" ? undefined : this.semanticRegionForTile(tile),
         yieldToMain: this.yieldToMain,
+        onTree: this.onTree,
       },
     )
       .then((results) => {
@@ -222,13 +222,4 @@ export class ScatterStreamingController {
     }
     return nearest?.regionId;
   }
-}
-
-export function createScatterStreaming(
-  scene: WorldScene,
-  assets: AssetRegistry,
-  seed: number,
-  options: ScatterStreamingOptions = {},
-): ScatterStreamingController {
-  return new ScatterStreamingController(scene, assets, seed, options);
 }

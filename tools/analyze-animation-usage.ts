@@ -145,6 +145,13 @@ interface RegexEntry {
   source: string;
 }
 
+interface AssetClipLookup {
+  /** Null means a runtime-selected asset; this is a lookup, not a requirement on every rig. */
+  assetId: string | null;
+  clip: string;
+  source: string;
+}
+
 interface TextPart {
   text: string;
   start: number;
@@ -306,7 +313,7 @@ export async function analyzeAnimationUsage(repoRoot = defaultRepoRoot): Promise
     .filter((reference) => !availableClips.includes(reference.clip))
     .map((reference) => reference.clip));
   const unusedClips = availableClips.filter((clip) => !referencedNames.has(clip));
-  const assetClipUsage = buildAssetClipUsage(manifest.assets, ownClipPatterns);
+  const assetClipUsage = buildAssetClipUsage(manifest.assets, ownClipPatterns, dynamicCallSources.assetLookups);
   const unresolvedRows = uniqueUnresolved(unresolved);
 
   return {
@@ -562,9 +569,10 @@ function scanClipCalls(
   sources: readonly ParsedSource[],
   addReference: (clip: string, source: string, context: string) => void,
   unresolved: UnresolvedAnimationReference[],
-): { sharedPlayer: string[]; sharedEntities: string[] } {
+): { sharedPlayer: string[]; sharedEntities: string[]; assetLookups: AssetClipLookup[] } {
   const sharedPlayer = new Set<string>();
   const sharedEntities = new Set<string>();
+  const assetLookups: AssetClipLookup[] = [];
   for (const source of sources) {
     const callPattern = /\.(clipOf|clip)\s*\(/g;
     let match: RegExpExecArray | null;
@@ -581,7 +589,14 @@ function scanClipCalls(
       const location = sourceLocation(source, match.index, `${method}()`);
       const decoded = decodeStringLiteral(argument.text);
       if (decoded !== null) {
-        addReference(decoded, location, method === "clipOf" ? "asset.direct" : "shared.direct");
+        if (method === "clipOf") {
+          // An optional clipOf(assetId, "Attack") probe must never require a humanoid Attack
+          // clip. Record it only against matching asset-owned namespaces below.
+          const assetArgument = unwrapTextExpression(trimTriviaPart(args[0]!).text);
+          assetLookups.push({ assetId: decodeStringLiteral(assetArgument.text), clip: decoded, source: location });
+        } else {
+          addReference(decoded, location, "shared.direct");
+        }
         continue;
       }
 
@@ -597,20 +612,20 @@ function scanClipCalls(
       unresolved.push({ source: location, expression: argument.text });
     }
   }
-  return { sharedPlayer: [...sharedPlayer].sort(), sharedEntities: [...sharedEntities].sort() };
+  return { sharedPlayer: [...sharedPlayer].sort(), sharedEntities: [...sharedEntities].sort(), assetLookups };
 }
 
 function buildAssetClipUsage(
   assets: readonly ManifestAsset[],
   patterns: ReadonlyMap<string, RegexEntry[]>,
+  lookups: readonly AssetClipLookup[],
 ): AssetClipUsage[] {
   return assets
     .filter((asset) => asset.category !== "animation" && asset.animations.length > 0)
     .map((asset) => {
-      // Current world content routes the four enemy character assets through EntityViews' motion
-      // selector. Outfit part clips and prop transform clips load with their assets but have no
-      // AssetRegistry.clipOf call path.
-      const routed = asset.category === "character" && asset.id.startsWith("enemy_");
+      // Characters with native clips use EntityViews' selector, including animals and bosses.
+      // Outfit part clips and prop transform clips do not use the character motion selector.
+      const routed = asset.category === "character";
       const motions: AssetClipMotionUsage[] = [];
       if (routed) {
         for (const [motion, motionPatterns] of [...patterns].sort(([a], [b]) => a.localeCompare(b))) {
@@ -633,6 +648,13 @@ function buildAssetClipUsage(
           });
         }
       }
+      const direct = lookups.filter((lookup) => (lookup.assetId === null || lookup.assetId === asset.id)
+        && asset.animations.includes(lookup.clip));
+      if (direct.length > 0) motions.push({
+        motion: "lookup",
+        clips: sortedUnique(direct.map((lookup) => lookup.clip)),
+        sources: sortedUnique(direct.map((lookup) => lookup.source)),
+      });
       const referencedClips = sortedUnique(motions.flatMap((motion) => motion.clips));
       const availableClips = sortedUnique(asset.animations);
       return {

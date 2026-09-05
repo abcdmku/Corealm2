@@ -22,12 +22,12 @@
  * ---------------------------------------------------------------------------------------------
  * It does not know what a quest is. Quest reads and writes go through `DialogueQuestPort`, which
  * `systems/quests.ts` implements; items and XP go through their own ports. That is what lets a
- * dialogue option hand over five fish without this file importing an inventory.
+ * dialogue option hand over five fish through the same inventory rules used in ordinary play.
  */
 import type { DialogueView, EntityId, ItemId, Result, SemanticEntity, SkillId } from "../contracts.js";
 import { err, ok } from "../contracts.js";
-import type { Store } from "../state/store.js";
-import type { EventBus } from "../core/events.js";
+import { addSkillXp, Store } from "../state/store.js";
+import { EventBus } from "../core/events.js";
 import type { SimClock } from "../core/time.js";
 import type { InteractionContext, InteractionDispatcher } from "../world/interactions.js";
 import type {
@@ -36,6 +36,8 @@ import type {
 import { dialogueNode } from "../content/dialogue.js";
 import { dialogueRootFor, npcName } from "../content/npcs.js";
 import { quest } from "../content/quests.js";
+import { content } from "../content/index.js";
+import { InventorySystem } from "./inventory.js";
 
 // -------------------------------------------------------------------- ports
 
@@ -185,7 +187,10 @@ export class DialogueSystem {
     }
 
     const npcId = open.npcId;
-    this.applyEffects(option.effects);
+    const ready = this.preflightEffects(option.effects);
+    if (!ready.ok) return ready;
+    const applied = this.applyEffects(option.effects);
+    if (!applied.ok) return applied;
 
     const nextId = this.resolveNext(option);
     if (nextId === null) {
@@ -372,36 +377,110 @@ export class DialogueSystem {
 
   // ---------------------------------------------------------------- effects
 
-  private applyEffects(effects: DialogueEffect[] | undefined): void {
-    if (!effects) return;
+  /**
+   * Item handovers are indivisible choices. Preview every move in authored order before flags,
+   * finite replacement counters, quest starts or node arrival can commit. A private store and
+   * event bus use the production stack rules without publishing receipts or mutating live state.
+   */
+  private preflightEffects(effects: DialogueEffect[] | undefined): Result<void> {
+    if (!effects?.some((effect) => effect.kind === "giveItem" || effect.kind === "takeItem")) return ok(undefined);
+    const previewStore = new Store();
+    previewStore.replace(this.deps.store.snapshot());
+    const inventory = new InventorySystem({
+      store: previewStore, events: new EventBus(), now: () => this.deps.clock.elapsedMs,
+    });
+
+    for (const effect of effects) {
+      if (effect.kind === "giveItem") {
+        const added = inventory.addItem(effect.itemId, effect.quantity);
+        if (!added.ok) return added;
+        if (added.value < Math.floor(effect.quantity)) return this.incompleteGrant(effect.itemId, effect.quantity);
+      } else if (effect.kind === "takeItem") {
+        const removed = inventory.removeItem(effect.itemId, effect.quantity);
+        if (!removed.ok) return removed;
+      } else if (effect.kind === "grantCurrency") {
+        const paid = inventory.addCurrency(effect.amount);
+        if (!paid.ok) return paid;
+      } else if (effect.kind === "grantXp") {
+        addSkillXp(previewStore.get(), effect.skill, effect.amount);
+      } else if (effect.kind === "startQuest") {
+        // A first quest start can use slots before a later direct handover. Quest-owned grants
+        // deliberately park shortfalls, so they may partially fit and must not block acceptance.
+        // Active/complete or repeated starts never replay the onStart grant.
+        const def = quest(effect.questId);
+        if (!def) return err("NOT_FOUND", `No quest with id ${effect.questId}`);
+        const state = previewStore.get();
+        if ((state.quests[effect.questId]?.status ?? "unstarted") !== "unstarted") continue;
+        for (const skill of Object.keys(def.requirements) as SkillId[]) {
+          const needed = def.requirements[skill];
+          if (needed !== undefined && state.skills[skill].level < needed) {
+            return err("REQUIREMENTS_NOT_MET", `Requires ${skill} ${needed}`);
+          }
+        }
+        for (const prerequisite of def.prerequisiteQuestIds) {
+          if (state.quests[prerequisite]?.status !== "complete") {
+            return err("REQUIREMENTS_NOT_MET", `Requires the quest "${quest(prerequisite)?.name ?? prerequisite}" first`);
+          }
+        }
+        state.quests[effect.questId] = { status: "active", stage: 0, counters: {}, flags: {} };
+        const grant = def.onStart;
+        for (const skill of Object.keys(grant?.xp ?? {}) as SkillId[]) {
+          const amount = grant?.xp?.[skill];
+          if (amount !== undefined) addSkillXp(state, skill, amount);
+        }
+        for (const stack of grant?.takeItems ?? []) inventory.removeItem(stack.itemId, stack.quantity);
+        for (const stack of grant?.items ?? []) inventory.addItem(stack.itemId, stack.quantity);
+        if (grant?.currency !== undefined && grant.currency > 0) inventory.addCurrency(grant.currency);
+      }
+    }
+    return ok(undefined);
+  }
+
+  private incompleteGrant(itemId: ItemId, quantity: number): Result<never> {
+    const name = content.item(itemId)?.name ?? "the reward";
+    return err("INVENTORY_FULL", `Make room for all ${Math.floor(quantity)} ${name} before choosing this reply.`);
+  }
+
+  private applyEffects(effects: DialogueEffect[] | undefined): Result<void> {
+    if (!effects) return ok(undefined);
     for (const effect of effects) {
       switch (effect.kind) {
-        case "startQuest":
-          this.deps.quests.start(effect.questId);
+        case "startQuest": {
+          const started = this.deps.quests.start(effect.questId);
+          if (!started.ok) return started;
           break;
+        }
         case "setFlag":
           this.deps.quests.setFlag(effect.questId, effect.flag, effect.value ?? true);
           break;
         case "bumpCounter":
           this.deps.quests.bumpCounter(effect.questId, effect.counter, effect.by ?? 1);
           break;
-        case "giveItem":
-          this.deps.inventory.addItem(effect.itemId, effect.quantity);
+        case "giveItem": {
+          const added = this.deps.inventory.addItem(effect.itemId, effect.quantity);
+          if (!added.ok) return added;
+          if (added.value < Math.floor(effect.quantity)) return this.incompleteGrant(effect.itemId, effect.quantity);
           break;
-        case "takeItem":
-          this.deps.inventory.removeItem(effect.itemId, effect.quantity);
+        }
+        case "takeItem": {
+          const removed = this.deps.inventory.removeItem(effect.itemId, effect.quantity);
+          if (!removed.ok) return removed;
           break;
+        }
         case "grantXp":
           this.deps.xp.award(effect.skill, effect.amount);
           break;
-        case "grantCurrency":
-          this.deps.inventory.addCurrency(effect.amount);
+        case "grantCurrency": {
+          const paid = this.deps.inventory.addCurrency(effect.amount);
+          if (!paid.ok) return paid;
           break;
+        }
         default:
           break;
       }
     }
     this.deps.store.markDirty();
+    return ok(undefined);
   }
 
   private resolveNext(option: DialogueOptionDef): string | null {

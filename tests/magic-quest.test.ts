@@ -45,7 +45,7 @@ function questRuntime() {
   const tempestRoc: SemanticEntity = {
     id: "tempest_roc",
     archetype: "enemy",
-    name: "Tempest Roc",
+    name: "Storm Rhino",
     tier: 1,
     regionId: "fallowmarch",
     position: [-292, 0, -156],
@@ -115,7 +115,10 @@ describe("The Sparking Stone Air Orb route", () => {
     expect(def.stages.map((stage) => stage.index)).toEqual([0, 1, 2, 3, 4]);
     expect(def.stages.map((stage) => stage.completion)).toEqual([
       { kind: "kill", enemyFamily: "tempest_roc", count: 1 },
-      { kind: "have", itemId: "air_orb", quantity: 1 },
+      {
+        kind: "have", itemId: "air_orb", quantity: 1,
+        orAwakenedAltarId: "fallowmarch_air_altar",
+      },
       { kind: "equipped", itemId: "air_staff" },
       { kind: "skill", skill: "magic", level: 5 },
       { kind: "talk", npcId: "npc_quarrier_vess", dialogueNodeId: "vess_stone_tested" },
@@ -176,11 +179,11 @@ describe("The Sparking Stone Air Orb route", () => {
     const root = dialogueNode("vess_root");
     const text = `${offer?.text ?? ""} ${directions?.text ?? ""}`;
 
-    expect(text).toMatch(/Tempest Roc/);
-    expect(text).toMatch(/fallowmarch_air_cache/);
+    expect(text).toMatch(/Storm Rhino/);
+    expect(text).toMatch(/Air Essence Cache/);
     expect(text).toMatch(/loot the Air Orb/i);
-    expect(text).toMatch(/craft_air_staff/);
-    expect(text).toMatch(/fallowmarch_air_altar/);
+    expect(text).toMatch(/Air Staff/);
+    expect(text).toMatch(/Air Essence Altar/);
     expect(text).toMatch(/awaken/i);
     expect(text).toMatch(/1000/);
     expect(text).toMatch(/100 Air Essence/);

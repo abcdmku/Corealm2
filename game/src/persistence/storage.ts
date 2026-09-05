@@ -9,6 +9,8 @@ import { levelForXp } from "../content/xp.js";
 import { CAMPFIRE_FUELS } from "../content/gatheringProductionTiers.js";
 import { SKILL_IDS, type RegionId } from "../contracts.js";
 import { migrate, type MigrationResult } from "./migrate.js";
+import { validateSaveState } from "./validate.js";
+import { RECOVERY_CACHE_TTL_MS } from "../systems/death.js";
 
 const SAVE_KEY = "corealm.save.v1";
 
@@ -27,8 +29,15 @@ export interface LoadOutcome {
   reason?: string;
 }
 
+/** The original storage record stays untouched while this recovery notice is present. */
+export interface SaveRecovery {
+  reason: string;
+  raw: string | null;
+}
+
 export class SaveService {
   private available: boolean;
+  private recovery: SaveRecovery | null = null;
 
   constructor(persistent = true) {
     // Focused real-engine sessions must never load or overwrite the player's normal save. Keeping
@@ -40,8 +49,17 @@ export class SaveService {
     return this.available;
   }
 
+  /** A copy suitable for the title/settings recovery flow, including an exact-byte export. */
+  getRecovery(): SaveRecovery | null {
+    return this.recovery ? { ...this.recovery } : null;
+  }
+
   save(state: GameState, nowMs: number): boolean {
-    if (!this.available) return false;
+    if (!this.available || this.recovery) return false;
+    return this.write(state, nowMs);
+  }
+
+  private write(state: GameState, nowMs: number): boolean {
     try {
       const payload = JSON.parse(JSON.stringify(state)) as GameState;
       payload.meta.saveVersion = SAVE_VERSION;
@@ -59,11 +77,19 @@ export class SaveService {
     try {
       raw = localStorage.getItem(SAVE_KEY);
     } catch {
+      this.recovery = { reason: "localStorage read failed", raw: null };
       return { status: "failed", reason: "localStorage read failed" };
     }
-    if (raw === null) return { status: "empty" };
+    if (raw === null) {
+      this.recovery = null;
+      return { status: "empty" };
+    }
 
-    return this.loadSerialized(raw);
+    const loaded = this.loadSerialized(raw);
+    this.recovery = loaded.status === "failed"
+      ? { reason: loaded.reason ?? "Save could not be loaded", raw }
+      : null;
+    return loaded;
   }
 
   /** Runs the same import pipeline as load(), without writing the supplied text to localStorage. */
@@ -84,7 +110,11 @@ export class SaveService {
     if (!result.ok || !result.state) return { status: "failed", reason: result.reason ?? "Migration failed" };
 
     try {
-      return { status: "loaded", state: recompute(result.state) };
+      const state = recompute(result.state);
+      const invalid = validateSaveState(state);
+      if (invalid) return { status: "failed", reason: invalid };
+      repairRecoveryCacheClock(state, Date.now());
+      return { status: "loaded", state };
     } catch {
       return { status: "failed", reason: "Save repair failed" };
     }
@@ -93,6 +123,17 @@ export class SaveService {
   /** Compatibility name used by callers that treat exported text as a deserialization boundary. */
   deserialize(raw: string): LoadOutcome {
     return this.loadSerialized(raw);
+  }
+
+  /** Explicit recovery replaces the rejected record only after the replacement is valid. */
+  recoverSerialized(json: string, nowMs = Date.now()): LoadOutcome {
+    const loaded = this.loadSerialized(json);
+    if (loaded.status !== "loaded" || !loaded.state) return loaded;
+    if (!this.available || !this.write(loaded.state, nowMs)) {
+      return { status: "failed", reason: "Recovered save could not be written" };
+    }
+    this.recovery = null;
+    return loaded;
   }
 
   /** The raw JSON that would be written. Used by the debug API and the export-on-failure path. */
@@ -104,6 +145,7 @@ export class SaveService {
     if (!this.available) return;
     try {
       localStorage.removeItem(SAVE_KEY);
+      this.recovery = null;
     } catch {
       /* nothing useful to do */
     }
@@ -118,6 +160,7 @@ export class SaveService {
  * default rather than to undefined.
  */
 function recompute(state: GameState): GameState {
+  assertRepairableSlices(state);
   const fresh = createInitialState(state.meta?.seed ?? 1337, Date.now());
 
   const rawSkills = (state as unknown as Record<string, unknown>).skills;
@@ -206,6 +249,48 @@ function recompute(state: GameState): GameState {
   state.inventory = { slots };
 
   return state;
+}
+
+/** Missing old slices have defaults. Supplied corrupt progress must not become fresh progress. */
+function assertRepairableSlices(state: GameState): void {
+  const raw = state as unknown as Record<string, unknown>;
+  for (const key of ["skills", "world", "inventory", "equipment", "bank", "discovery", "quests", "magic"]) {
+    if (raw[key] !== undefined && !isRecord(raw[key])) throw new Error(`Invalid ${key} slice`);
+  }
+  for (const key of ["inventory", "bank"]) {
+    const candidate = raw[key];
+    if (isRecord(candidate) && candidate.slots !== undefined && !Array.isArray(candidate.slots)) {
+      throw new Error(`Invalid ${key} slots`);
+    }
+  }
+  if (isRecord(raw.skills)) {
+    for (const skill of SKILL_IDS) {
+      const entry = raw.skills[skill];
+      if (entry !== undefined && (!isRecord(entry)
+        || (entry.xp !== undefined && (typeof entry.xp !== "number" || !Number.isFinite(entry.xp) || entry.xp < 0)))) {
+        throw new Error(`Invalid ${skill} progress`);
+      }
+    }
+  }
+  if (raw.currency !== undefined
+    && (typeof raw.currency !== "number" || !Number.isFinite(raw.currency) || raw.currency < 0)) {
+    throw new Error("Invalid currency");
+  }
+}
+
+/** Every newly saved cache uses the same epoch deadline across sessions and closed pages. */
+function repairRecoveryCacheClock(state: GameState, nowMs: number): void {
+  const cache = state.world.recoveryCache;
+  if (!cache) return;
+  if (cache.expiresAtWallMs === undefined) {
+    // Old saves kept only a session-clock deadline and cumulative played time. They cannot reveal
+    // the old session's elapsed time. Subtracting cumulative time is a conservative lower bound:
+    // it may expire an old cache early after several sessions, but cannot grant another lifetime.
+    const remainingMs = Math.min(RECOVERY_CACHE_TTL_MS,
+      Math.max(0, cache.expiresAtMs - state.meta.playSeconds * 1_000));
+    cache.expiresAtWallMs = state.meta.lastSavedAtMs + remainingMs;
+  }
+  if (cache.expiresAtWallMs <= nowMs) state.world.recoveryCache = null;
 }
 
 type PersistedCampfire = NonNullable<GameState["world"]["campfire"]>;

@@ -1,26 +1,15 @@
 /**
  * What happened when you died, and where your things are.
  *
- * Death already works and the gate proves it: the pack empties into a recovery cache, the player
- * respawns at their bound point, and the cache can be walked back to and looted. The only thing a
- * player was ever told about any of that was the word "dead" on the health bar and a toast that
- * scrolled away. Respawn is instant and automatic, so this is not a gate the player has to click
- * through — it is a report, dismissed with Escape or the button, and it is the only place the
- * cache's location and expiry are ever stated.
+ * Respawn is automatic. This report explains the inventory loss and provides a route back to the
+ * recovery cache. Escape or Dismiss closes it without blocking play.
  *
  * Not a `PanelFrame`: it covers the screen, it has no key, and it is raised by an event rather than
  * by the player.
  *
- * Three things this file is careful about:
- *
- *  1. **It never blocks the world.** The backdrop is `pointer-events: none` and only the card opts
- *     back in, so the game underneath stays clickable even while the report is up, and `hidden`
- *     takes the whole thing out of the layout. A full-screen layer that keeps eating clicks after
- *     it is dismissed is the one way this component can break every other system.
- *  2. **The countdown is on the sim clock, not the wall clock.** See `simNowMs` below.
- *  3. **`api.inspect` is the ground truth for whether the cache still exists.** The countdown is an
- *     estimate; the entity either resolves or it does not. When the two disagree, the entity wins,
- *     so the screen never says "gone" about a cache that is still standing, or the reverse.
+ * The backdrop leaves the world clickable. The countdown uses the cache's persisted wall
+ * deadline, with a simulation-clock fallback for legacy caches. `api.inspect` decides whether the
+ * cache still exists, including the brief interval between its deadline and the next expiry tick.
  */
 import type { RegionId } from "../contracts.js";
 import { REGIONS, findLocation, getRegion } from "../content/regions.js";
@@ -38,17 +27,11 @@ export interface DeathDetail {
   /** The recovery cache holding what they were carrying, or null if they carried nothing. */
   cacheId: string | null;
   itemsLost: number;
-  /** Sim-clock milliseconds at which the cache is destroyed, or null. */
+  /** Legacy simulation deadline, used only when no wall deadline is available. */
   expiresAtMs: number | null;
+  /** Epoch milliseconds at which the cache is destroyed, or null when nothing dropped. */
+  expiresAtWallMs?: number | null;
 }
-
-/** How often the screen re-samples the sim clock. `update()` runs four times as often as this. */
-const CLOCK_POLL_MS = 400;
-/**
- * A sample this far behind the running estimate is a discontinuity in the sim clock — a pause, a
- * time scale, a debug jump — not jitter, so the countdown is allowed to correct upward.
- */
-const CLOCK_RESYNC_MS = 3_000;
 
 // -------------------------------------------------------------------- naming
 
@@ -108,15 +91,6 @@ export class DeathScreen {
   private popEscape: (() => void) | null = null;
   private restoreFocus: HTMLElement | null = null;
 
-  // ---- sim-clock estimate. See `simNowMs`.
-  private anchorSimMs = 0;
-  private anchorWallMs = 0;
-  private lastSimMs = 0;
-  private clockAnchored = false;
-  private eventCursor = 0;
-  private pollInFlight = false;
-  private lastPollWallMs = 0;
-
   constructor(private readonly ctx: UiContext) {
     const root = document.createElement("section");
     root.className = "death";
@@ -141,9 +115,6 @@ export class DeathScreen {
     this.popEscape = null;
 
     this.detail = detail;
-    this.clockAnchored = false;
-    this.lastSimMs = 0;
-    this.lastPollWallMs = 0;
     this.liveSig = "";
 
     const wasOpen = this.isOpen();
@@ -153,9 +124,6 @@ export class DeathScreen {
     }
 
     this.build();
-    // Reads the whole event ring once to anchor the sim clock. Resolves on a microtask, so the
-    // countdown is populated before the first paint.
-    this.sampleClock(0);
     this.refresh(true);
 
     this.popEscape = this.ctx.registry.pushEscapeHandler(() => {
@@ -194,11 +162,6 @@ export class DeathScreen {
   /** Called on the HUD cadence while open, for the cache expiry countdown. */
   update(): void {
     if (!this.isOpen()) return;
-    const wall = performance.now();
-    if (wall - this.lastPollWallMs >= CLOCK_POLL_MS) {
-      this.lastPollWallMs = wall;
-      this.sampleClock(this.eventCursor);
-    }
     this.refresh(false);
   }
 
@@ -208,75 +171,27 @@ export class DeathScreen {
     this.root.remove();
   }
 
-  // ------------------------------------------------------------- the sim clock
-
-  /**
-   * The current sim-clock time, or NaN before the first sample lands.
-   *
-   * `expiresAtMs` is sim-clock milliseconds, and the sim clock is not wall time: it can be paused
-   * and time-scaled, and `advanceGameTime` jumps it outright. `GameApi` has no synchronous read of
-   * `SimClock.elapsedMs` — there is no `getTime()` on the interface — and the UI must not reach
-   * past the API into `app/*` or `debug/*` to find one. What the API does expose is
-   * `GameEvent.atMs`, which IS the sim clock, through `events()`. Called without a timeout that is
-   * a pure cursor read over the event ring: no long poll, no side effects, resolves on a microtask.
-   *
-   * So the countdown is anchored to a real sim-clock reading and re-anchored to a fresh one every
-   * time an event lands, which while anything at all is happening is several times a second and at
-   * worst is the 400 ms poll below. Between anchors it advances at wall rate, because that is the
-   * only assumption available and at 1x it is exactly right. A pause, a time scale or a debug jump
-   * therefore shows up as a correction at the next anchor rather than as a number that quietly
-   * drifts away from the truth for fifteen minutes.
-   *
-   * The blind spot is a world that emits nothing at all while the clock is stopped or rescaled:
-   * no events, no anchors, and the estimate coasts. That is what `api.inspect` on the cache entity
-   * is for — see `readCache`. The estimate can be a little wrong; the claim "it is gone" never is.
-   */
-  private simNowMs(): number {
-    if (!this.clockAnchored) return Number.NaN;
-    const estimate = this.anchorSimMs + (performance.now() - this.anchorWallMs);
-    // Monotone, so a 200 ms sampling wobble never makes the countdown tick backwards.
-    this.lastSimMs = Math.max(this.lastSimMs, estimate);
-    return this.lastSimMs;
-  }
-
-  private sampleClock(sinceSeq: number): void {
-    if (this.pollInFlight) return;
-    this.pollInFlight = true;
-    void Promise.resolve(this.ctx.api.events(sinceSeq))
-      .then((batch) => {
-        this.pollInFlight = false;
-        this.eventCursor = batch.nextSeq;
-        const last = batch.events[batch.events.length - 1];
-        if (!last) return;
-        this.acceptSample(last.atMs);
-        if (this.isOpen()) this.refresh(false);
-      })
-      .catch(() => {
-        this.pollInFlight = false;
-      });
-  }
-
-  private acceptSample(simMs: number): void {
-    // An event's `atMs` is the tick it was emitted in, so a sample is at most one 100 ms tick old.
-    // Against a fifteen minute budget that is not worth correcting for.
-    this.anchorSimMs = simMs;
-    this.anchorWallMs = performance.now();
-    if (!this.clockAnchored || simMs < this.lastSimMs - CLOCK_RESYNC_MS) {
-      this.clockAnchored = true;
-      this.lastSimMs = simMs;
-    }
-  }
-
   // ------------------------------------------------------------------- the cache
 
   /** The cache entity is authoritative. It is removed the tick it expires, and when it is emptied. */
-  private readCache(): { alive: boolean; expiresAtMs: number | null } {
+  private readCache(): { alive: boolean; remainingMs: number | null } {
     const detail = this.detail;
-    if (!detail?.cacheId) return { alive: false, expiresAtMs: null };
+    if (!detail?.cacheId) return { alive: false, remainingMs: null };
     const found = this.ctx.api.inspect(detail.cacheId);
-    if (!found.ok) return { alive: false, expiresAtMs: detail.expiresAtMs };
-    const raw = found.value.meta?.["expiresAtMs"];
-    return { alive: true, expiresAtMs: typeof raw === "number" ? raw : detail.expiresAtMs };
+    if (!found.ok) return { alive: false, remainingMs: null };
+    const rawWall = found.value.meta?.["expiresAtWallMs"];
+    const wallDeadline = typeof rawWall === "number" ? rawWall : detail.expiresAtWallMs;
+    if (typeof wallDeadline === "number" && Number.isFinite(wallDeadline)) {
+      return { alive: true, remainingMs: wallDeadline - Date.now() };
+    }
+    const rawSim = found.value.meta?.["expiresAtMs"];
+    const simDeadline = typeof rawSim === "number" ? rawSim : detail.expiresAtMs;
+    return {
+      alive: true,
+      remainingMs: typeof simDeadline === "number" && Number.isFinite(simDeadline)
+        ? simDeadline - this.ctx.api.getTime().simMs
+        : null,
+    };
   }
 
   private walkBack(): void {
@@ -407,16 +322,13 @@ export class DeathScreen {
     const player = this.ctx.api.getPlayer();
     const away = `${formatMetres(distanceXZ(player.position, detail.position))} away`;
 
-    const cache = detail.cacheId ? this.readCache() : { alive: false, expiresAtMs: null };
-    const simNow = this.simNowMs();
+    const cache = detail.cacheId ? this.readCache() : { alive: false, remainingMs: null };
 
     let countdown = "—";
     if (detail.cacheId && !cache.alive) countdown = "gone";
-    else if (detail.cacheId && cache.expiresAtMs !== null && Number.isFinite(simNow)) {
-      const remaining = cache.expiresAtMs - simNow;
-      // The entity outranks the estimate: still standing means still standing, whatever the maths
-      // says, and 0:00 next to a cache that is really there would be the worse lie.
-      countdown = remaining > 0 ? formatCountdown(remaining) : "any moment";
+    else if (detail.cacheId && cache.remainingMs !== null) {
+      // The next death-system tick removes the entity when its deadline is reached.
+      countdown = cache.remainingMs > 0 ? formatCountdown(cache.remainingMs) : "any moment";
     }
 
     const signature = `${away}|${countdown}|${cache.alive}`;

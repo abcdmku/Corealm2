@@ -35,10 +35,10 @@ const REQUIRED_METHODS = [
   "reset",
 ] as const;
 
-export async function runSmokeTest(runCandidate: string): Promise<SmokeReport> {
+export async function runSmokeTest(runCandidate: string, options: { url?: string } = {}): Promise<SmokeReport> {
   const started = Date.now();
   const runDir = await prepareRun(runCandidate);
-  const server = await startGameServer();
+  const server = options.url ? { url: options.url, close: async () => {} } : await startGameServer();
   const driver = new GameDriver(server, {
     // The smoke gate proves renderer startup and gameplay state transitions, not visual quality.
     // Keep software-rendered CI fast enough to remain a useful per-change check.
@@ -184,9 +184,10 @@ function bankQuantity(value: unknown, itemId: string): number {
 }
 
 async function main(): Promise<void> {
-  const runCandidate = argValue(process.argv.slice(2), "--run");
-  if (!runCandidate) throw new Error("Usage: npm run smoke -- --run runs/<id>");
-  const report = await runSmokeTest(runCandidate);
+  const args = process.argv.slice(2);
+  const runCandidate = argValue(args, "--run");
+  if (!runCandidate) throw new Error("Usage: npm run smoke -- --run runs/<id> [--url http://127.0.0.1:4174]");
+  const report = await runSmokeTest(runCandidate, { url: argValue(args, "--url") });
   console.log(JSON.stringify({ passed: report.passed, checks: report.checks, errors: report.errors }, null, 2));
   if (!report.passed) process.exitCode = 1;
 }

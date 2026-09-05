@@ -125,6 +125,10 @@ function counterKeysOf(predicate: QuestPredicate, into: string[]): void {
   if (key) into.push(key);
 }
 
+function visitFlag(stageIndex: number, locationId: string): string {
+  return `@visit:${JSON.stringify([stageIndex, locationId])}`;
+}
+
 // ------------------------------------------------------------------- system
 
 export class QuestSystem implements TickSystem {
@@ -346,6 +350,28 @@ export class QuestSystem implements TickSystem {
     this.evaluate();
   }
 
+  /** Restores derived world entities after rebuilding them, without paying any quest grant. */
+  rehydrateWorldState(): void {
+    const write = (grant: Pick<QuestGrant, "worldState"> | undefined): void => {
+      for (const state of grant?.worldState ?? []) {
+        this.deps.entities.setState(state.entityId, state.state, state.lockedReason);
+      }
+    };
+    for (const def of QUESTS) {
+      const record = this.deps.store.get().quests[def.id];
+      if (!record || record.status === "unstarted") continue;
+      write(def.onStart);
+      for (const stage of def.stages) {
+        if (stage.index > record.stage && record.status !== "complete") break;
+        for (const reaction of stage.onFlag ?? []) {
+          if (record.flags[`@reacted:${stage.index}:${reaction.flag}`] === true) write(reaction.grant);
+        }
+        if (record.status === "complete" || stage.index < record.stage) write(stage.grants);
+      }
+      if (record.status === "complete") write(def.rewards);
+    }
+  }
+
   // -------------------------------------------------------- interaction: open
 
   /**
@@ -365,7 +391,7 @@ export class QuestSystem implements TickSystem {
         return err(
           "INVALID_ARGUMENT",
           "Three stone levers hold this door and you do not know their order. Cairnkeeper Ode "
-          + "(entity npc_cairnkeeper_ode, at Highcairn) knows it.",
+          + "(entity npc_cairnkeeper_ode, at Hillcrest) knows it.",
           entity.id,
         );
       }
@@ -379,7 +405,7 @@ export class QuestSystem implements TickSystem {
     }
 
     if (entity.id === "ordrun_gate") {
-      return ok({ started: "The Quarrykeeper's Gate stands open. What is beyond it is awake." });
+      return ok({ started: "The Armored Rhino's Gate stands open. What is beyond it is awake." });
     }
 
     if (entity.archetype !== "door" && entity.archetype !== "portal") {
@@ -472,9 +498,12 @@ export class QuestSystem implements TickSystem {
 
     for (const def of QUESTS) {
       const record = state.quests[def.id];
-      if (!record || record.status !== "active") continue;
+      if (!record || record.status === "unstarted") continue;
 
+      // Completion can owe physical rewards after paying XP and marks. Deliver that saved debt
+      // without re-entering stages or applying the completion grant again.
       if (this.flushPending(record)) changed = true;
+      if (record.status !== "active") continue;
 
       // Bounded on purpose: a chain of stages that all read true at once still terminates.
       for (let guard = 0; guard <= def.stages.length; guard += 1) {
@@ -487,6 +516,7 @@ export class QuestSystem implements TickSystem {
         }
 
         if (this.applyStageReactions(def, record, stageDef)) changed = true;
+        if (this.collectVisits(state, record, stageDef.completion)) changed = true;
 
         if (!this.satisfied(state, record, stageDef.completion)) break;
 
@@ -537,16 +567,54 @@ export class QuestSystem implements TickSystem {
 
   // -------------------------------------------------------------- predicates
 
+  /** Visit every leaf before testing `all`, so its first false child cannot hide later stops. */
+  private collectVisits(state: GameState, record: QuestRecord, predicate: QuestPredicate): boolean {
+    if (state.player.health <= 0) return false;
+    if (predicate.kind === "all") {
+      let changed = false;
+      for (const child of predicate.of) {
+        if (this.collectVisits(state, record, child)) changed = true;
+      }
+      return changed;
+    }
+    if (predicate.kind !== "visit") return false;
+    const key = visitFlag(record.stage, predicate.locationId);
+    if (record.flags[key]) return false;
+    const radius = predicate.radius ?? REACH_RADIUS;
+    const marker = this.deps.entities.get(`${predicate.locationId}_marker`);
+    let reached = false;
+    if (marker) {
+      // The same three-dimensional marker geometry as reach, including dungeon floor height.
+      reached = state.player.regionId === marker.regionId && Math.hypot(
+        state.player.position[0] - marker.position[0],
+        state.player.position[1] - marker.position[1],
+        state.player.position[2] - marker.position[2],
+      ) <= radius;
+    } else {
+      const entry = findLocation(predicate.locationId);
+      reached = entry !== undefined && state.player.regionId === entry.regionId
+        && horizontalDistance(state.player.position, ...entry.location.position) <= radius;
+    }
+    if (!reached) return false;
+    record.flags[key] = true;
+    return true;
+  }
+
   private satisfied(state: GameState, record: QuestRecord, predicate: QuestPredicate): boolean {
     switch (predicate.kind) {
       case "all":
         return predicate.of.every((child) => this.satisfied(state, record, child));
 
+      case "visit":
+        return record.flags[visitFlag(record.stage, predicate.locationId)] === true;
+
       case "talk":
         return record.flags[`${TALK_FLAG_PREFIX}${predicate.npcId}:${predicate.dialogueNodeId}`] === true;
 
       case "have":
-        return this.deps.inventory.countItem(predicate.itemId) >= predicate.quantity;
+        return this.deps.inventory.countItem(predicate.itemId) >= predicate.quantity
+          || (predicate.orAwakenedAltarId !== undefined
+            && state.magic.awakenedAltars[predicate.orAwakenedAltarId] === true);
 
       case "banked": {
         let held = 0;
@@ -678,7 +746,16 @@ export class QuestSystem implements TickSystem {
         continue;
       }
       const itemId = key.slice(PENDING_PREFIX.length);
-      const result = this.deps.inventory.addItem(itemId, owed);
+      // Waiting for space is ordinary state, not a fresh failed pickup every heartbeat.
+      if (!this.deps.inventory.hasRoomFor(itemId, 1)) continue;
+      let fits = 1;
+      let upper = owed;
+      while (fits < upper) {
+        const middle = Math.ceil((fits + upper) / 2);
+        if (this.deps.inventory.hasRoomFor(itemId, middle)) fits = middle;
+        else upper = middle - 1;
+      }
+      const result = this.deps.inventory.addItem(itemId, fits);
       const added = result.ok ? result.value : 0;
       if (added <= 0) continue;
       const left = owed - added;

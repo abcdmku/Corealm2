@@ -8,13 +8,19 @@
  */
 import type { ItemDef, ItemId } from "../contracts.js";
 import { ALL_ITEMS } from "../content/items.js";
-import { gearAppearanceParts } from "./equipmentVisuals.js";
+import {
+  gatheringToolAppearance, gearAppearanceParts, gearAppearancePartsWithCharge,
+  type GearAppearance,
+} from "./equipmentVisuals.js";
 import { paletteForTier } from "./materials.js";
+import { fishingRodAssetId } from "./proceduralGear.js";
 
 export type ItemIconPrimitive =
   | "amulet"
   | "antler"
+  | "antler-palm"
   | "claw"
+  | "cord"
   | "dagger"
   | "essence"
   | "egg"
@@ -28,11 +34,15 @@ export type ItemIconPrimitive =
   | "log"
   | "orb"
   | "meat"
+  | "quill"
   | "ring"
   | "rod"
   | "seed"
+  | "scute"
+  | "shell"
   | "shaft"
-  | "staff";
+  | "staff"
+  | "tuft";
 
 export interface ItemIconAssetPart {
   kind: "asset";
@@ -40,6 +50,8 @@ export interface ItemIconAssetPart {
   colour?: number;
   accent?: number;
   scale?: number;
+  /** Exact production equipment treatment, including its charged or depleted crystal. */
+  gearAppearance?: GearAppearance;
 }
 
 export interface ItemIconPrimitivePart {
@@ -47,6 +59,8 @@ export interface ItemIconPrimitivePart {
   primitive: ItemIconPrimitive;
   colour: number;
   accent?: number;
+  /** Stable anatomical variation within a finished material family. */
+  variant?: number;
 }
 
 export type ItemIconPart = ItemIconAssetPart | ItemIconPrimitivePart;
@@ -58,6 +72,13 @@ export interface ItemIconAppearance {
   frameScale?: number;
   /** Corrects an authored model's pose while leaving the shared camera fixed. */
   rotation?: readonly [number, number, number];
+  /** Compact inventory staging of the authored hand/cuff geometry. */
+  presentation?: "paired-hands";
+}
+
+export interface ItemIconPresentationState {
+  /** Omit for canonical item art; elemental items show their charged identity by default. */
+  charged?: boolean;
 }
 
 const APPEARANCES = new Map<ItemId, ItemIconAppearance>();
@@ -72,7 +93,7 @@ function def(id: ItemId): ItemDef {
 function put(
   itemId: ItemId,
   parts: readonly ItemIconPart[],
-  options: Pick<ItemIconAppearance, "frameScale" | "rotation"> = {},
+  options: Pick<ItemIconAppearance, "frameScale" | "rotation" | "presentation"> = {},
 ): void {
   if (APPEARANCES.has(itemId)) throw new Error(`Duplicate item icon appearance: ${itemId}`);
   if (parts.length === 0) throw new Error(`Item icon appearance has no parts: ${itemId}`);
@@ -87,8 +108,20 @@ function primitive(
   shape: ItemIconPrimitive,
   colour: number,
   accent?: number,
+  variant?: number,
 ): ItemIconPrimitivePart {
-  return { kind: "primitive", primitive: shape, colour, ...(accent === undefined ? {} : { accent }) };
+  return {
+    kind: "primitive", primitive: shape, colour,
+    ...(accent === undefined ? {} : { accent }),
+    ...(variant === undefined ? {} : { variant }),
+  };
+}
+
+function equipmentPart(appearance: GearAppearance): ItemIconAssetPart {
+  return {
+    kind: "asset", assetId: appearance.assetId, gearAppearance: appearance,
+    ...(appearance.scale === undefined ? {} : { scale: appearance.scale }),
+  };
 }
 
 function tierMetal(id: ItemId): number {
@@ -111,34 +144,29 @@ const WOOD: Readonly<Record<number, number>> = {
   20: 0x4a3a30,
 };
 
-/** Exact solid colours used by the worn Blink meshes in equipmentVisuals.ts. */
-const MAGIC_WOOD: Readonly<Record<number, number>> = {
-  0: 0x8a5a32,
-  1: 0xd7bd8e,
-  5: 0x53341f,
-  10: 0x596162,
-  20: 0x40322b,
+/** Fresh end grain stays lighter than bark, including the scorched Cinderpine tier. */
+const LOG_END_GRAIN: Readonly<Record<number, number>> = {
+  1: 0xd9c49a,
+  5: 0xb99a74,
+  10: 0xcab18a,
+  20: 0xa18a70,
 };
 
 function wood(id: ItemId): number {
   return WOOD[def(id).tier] ?? WOOD[1]!;
 }
 
-function magicWood(id: ItemId): number {
-  return MAGIC_WOOD[def(id).tier] ?? MAGIC_WOOD[1]!;
-}
-
 // Currency and gathered resources.
 put("marks", [asset("coin", 0xd6a83f)], { rotation: [0.22, 0, -0.15] });
-put("grithe_ore", [asset("ore_crystal_pink", tierMetal("grithe_ore"))]);
+put("grithe_ore", [asset("corealm_item_grithe_ore")]);
 put("march_stone", [asset("rock_small_2", 0xb8aa91)]);
-put("corven_ore", [asset("ore_crystal_green", tierMetal("corven_ore"))]);
-put("kaldite_ore", [asset("ore_crystal_blue", tierMetal("kaldite_ore"))]);
-put("emberite_ore", [asset("ore_crystal_pink", tierMetal("emberite_ore"))]);
+put("corven_ore", [asset("corealm_item_corven_ore")]);
+put("kaldite_ore", [asset("corealm_item_kaldite_ore")]);
+put("emberite_ore", [asset("corealm_item_emberite_ore")]);
 put("kilnstone", [asset("rock_small_1", 0x4a443c)]);
 
 for (const id of ["palewood_log", "duskoak_log", "cairnpine_log", "cinderpine_log"] as const) {
-  put(id, [primitive("log", wood(id), tierBody(id))], { rotation: [0, 0, -0.2] });
+  put(id, [primitive("log", wood(id), LOG_END_GRAIN[def(id).tier])], { rotation: [0, 0, -0.2] });
 }
 
 put("silt_minnow", [primitive("fish", 0x7f98a3, 0xc4d4d7)]);
@@ -151,10 +179,10 @@ for (const id of ["grithe_bar", "corven_bar", "kaldite_bar", "emberite_bar"] as 
   put(id, [primitive("ingot", tierMetal(id), tierBody(id))]);
 }
 
-put("pale_quartz", [asset("ore_crystal_blue", 0xe3ded2)]);
-put("vell_amber", [asset("ore_crystal_green", 0xc47b2b)]);
-put("cairn_garnet", [asset("ore_crystal_pink", 0x8e2337)]);
-put("fire_opal", [asset("ore_crystal_pink", 0xe57a2e)]);
+put("pale_quartz", [asset("corealm_item_pale_quartz")]);
+put("vell_amber", [asset("corealm_item_vell_amber")]);
+put("cairn_garnet", [asset("corealm_item_cairn_garnet")]);
+put("fire_opal", [asset("corealm_item_fire_opal")]);
 for (const id of ["palewood_shaft", "duskoak_shaft", "cairnpine_shaft", "cinderpine_shaft"] as const) {
   put(id, [primitive("shaft", wood(id), tierMetal(id))], { rotation: [0, 0, -0.25] });
 }
@@ -206,6 +234,45 @@ put("cinder_tusk", [primitive("horn", 0x5a4c40, 0x2e2520)]);
 put("emberhorn", [primitive("horn", 0x8a5a44, 0x53301f)]);
 put("kiln_fang", [primitive("claw", 0xb5764a, 0x6e3a1e)]);
 
+// Authored creature-expansion materials. Rows remain explicit while root registers the new item
+// catalogue in its later integration step; unregistered rows do not create phantom icon IDs.
+const CREATURE_TROPHY_ICONS: readonly {
+  id: ItemId; shape: ItemIconPrimitive; colour: number; accent: number; variant: number;
+}[] = [
+  { id: "fox_guardhair", shape: "tuft", colour: 0x9b4930, accent: 0xcda177, variant: 0 },
+  { id: "lynx_sinew", shape: "cord", colour: 0xc2aa80, accent: 0x6a5136, variant: 0 },
+  { id: "badger_bristle", shape: "tuft", colour: 0x3c3b37, accent: 0xcfcdc1, variant: 1 },
+  { id: "porcupine_quill", shape: "quill", colour: 0xdbccb1, accent: 0x46382b, variant: 0 },
+  { id: "horse_tailhair", shape: "cord", colour: 0x443329, accent: 0x93714b, variant: 1 },
+  { id: "bighorn_fleece", shape: "tuft", colour: 0xbaa88c, accent: 0x8c765b, variant: 2 },
+  { id: "moose_antler_palm", shape: "antler-palm", colour: 0xa98f6b, accent: 0x634b32, variant: 0 },
+  { id: "tapir_leather", shape: "hide", colour: 0x7a6551, accent: 0x3f3025, variant: 1 },
+  { id: "crocodile_scute", shape: "scute", colour: 0x6c7859, accent: 0x434b35, variant: 0 },
+  { id: "salamander_secretion", shape: "gland", colour: 0x9f7b38, accent: 0x433321, variant: 1 },
+  { id: "tortoise_shell_plate", shape: "shell", colour: 0x7b6753, accent: 0x42342b, variant: 0 },
+  { id: "monitor_sinew", shape: "cord", colour: 0x926d48, accent: 0x473225, variant: 0 },
+  { id: "goose_down", shape: "tuft", colour: 0xdedbd4, accent: 0xb4af9e, variant: 3 },
+  { id: "heron_quill", shape: "quill", colour: 0x899fa1, accent: 0xe4ddcf, variant: 1 },
+  { id: "bustard_plume", shape: "feather", colour: 0xa98963, accent: 0x574843, variant: 1 },
+  { id: "turkey_tailfeather", shape: "feather", colour: 0x815435, accent: 0xded0a4, variant: 2 },
+  { id: "snail_mucus", shape: "gland", colour: 0x99aca2, accent: 0x967b55, variant: 2 },
+  { id: "beetle_mandible", shape: "claw", colour: 0x514433, accent: 0xb09f73, variant: 1 },
+  { id: "centipede_chitin", shape: "scute", colour: 0x4e3e31, accent: 0x241e1b, variant: 1 },
+  { id: "spider_thread", shape: "cord", colour: 0xd3ceba, accent: 0x9f9475, variant: 2 },
+  { id: "ravager_talon", shape: "claw", colour: 0x3b2722, accent: 0x83453c, variant: 2 },
+  { id: "drake_scale", shape: "scute", colour: 0x545050, accent: 0x9a846b, variant: 2 },
+  { id: "mantis_scythe", shape: "claw", colour: 0x626b42, accent: 0x787750, variant: 3 },
+  { id: "nightmare_plate", shape: "scute", colour: 0x5c5f64, accent: 0x858982, variant: 3 },
+];
+for (const row of CREATURE_TROPHY_ICONS) {
+  if (BY_ID.has(row.id)) put(row.id, [primitive(row.shape, row.colour, row.accent, row.variant)]);
+}
+
+const ACCESSORY_ANATOMY: Readonly<Record<ItemId, number>> = {
+  foxhair_ring: 1, lynx_sinew_ring: 2, quillguard_ring: 3, chitin_ring: 4,
+  turkey_plume_charm: 1, heron_quill_charm: 2, antler_palm_charm: 3, mantis_edge_charm: 4,
+};
+
 // Game meat. Raw, cooked and burnt share one model; colour carries preparation state, exactly the
 // convention the fish line below already uses.
 put("raw_game_meat", [primitive("meat", 0xbe6a63, 0xe8ddc6)]);
@@ -231,15 +298,15 @@ put("burnt_cragfin", [primitive("fish", 0x282322, 0x59443a)]);
 put("seared_ashfin", [primitive("fish", 0xa06342, 0xe8ab6a)]);
 put("burnt_ashfin", [primitive("fish", 0x231f1e, 0x4f3c32)]);
 
-// Tools use the authored meshes where the library has them. Fishing rods are purpose-built.
-for (const id of ["worn_pickaxe", "grithe_pickaxe", "corven_pickaxe", "kaldite_pickaxe", "emberite_pickaxe"] as const) {
-  put(id, [asset("pickaxe", id === "worn_pickaxe" ? 0x6d6256 : tierMetal(id))], { rotation: [0, 0, -0.28] });
-}
-for (const id of ["worn_hatchet", "grithe_hatchet", "corven_hatchet", "kaldite_hatchet", "emberite_hatchet"] as const) {
-  put(id, [asset("axe", id === "worn_hatchet" ? 0x6d6256 : tierMetal(id))], { rotation: [0, 0, -0.28] });
+// The same finished tools, tint and grip dimensions shown during production gathering.
+for (const id of ["worn_pickaxe", "grithe_pickaxe", "corven_pickaxe", "kaldite_pickaxe", "emberite_pickaxe",
+  "worn_hatchet", "grithe_hatchet", "corven_hatchet", "kaldite_hatchet", "emberite_hatchet"] as const) {
+  const appearance = gatheringToolAppearance(id);
+  if (!appearance) throw new Error(`Gathering tool icon has no production appearance: ${id}`);
+  put(id, [equipmentPart(appearance)], { rotation: [0, 0, -0.38] });
 }
 for (const id of ["worn_rod", "palewood_rod", "duskoak_rod", "cairnpine_rod", "cinderpine_rod"] as const) {
-  put(id, [primitive("rod", wood(id), id === "worn_rod" ? 0x77716a : tierMetal(id))], { rotation: [0, 0, -0.18] });
+  put(id, [asset(fishingRodAssetId(id))], { rotation: [0, 0, -0.28] });
 }
 
 for (const item of ALL_ITEMS.filter((entry) => entry.orb !== undefined)) {
@@ -253,52 +320,28 @@ for (const item of ALL_ITEMS.filter((entry) => entry.orb !== undefined)) {
   });
 }
 
-// Equipment normally reuses the same appearance the character rig wears. Magic weapons are
-// explicit here because their silhouettes come from Blink's FREE - RPG Weapons pack. The wood
-// tint carries the log tier while the absent accent keeps an unequipped weapon visibly unlit.
-/**
- * The rare miniboss staves carry `magicWeapon` but must NOT take the shared Blink rpg silhouette:
- * their look is the imported miniboss staff mesh with the regional tint, which
- * `gearAppearanceParts` already resolves. Listing them here routes them down that branch.
- */
-const RARE_MINIBOSS_WEAPONS = new Set<ItemId>([
-  "galeskin_sword", "galeskin_staff", "mossbound_sword", "mossbound_staff",
-  "tideworn_sword", "tideworn_staff", "cinderwake_sword", "cinderwake_staff",
-]);
-
+// Static item art shows elemental identity. Explicit charge previews use the same runtime core.
 for (const item of ALL_ITEMS.filter((entry) => entry.category === "equipment")) {
   const id = item.id;
-  if (item.magicWeapon && !RARE_MINIBOSS_WEAPONS.has(id)) {
-    const assetId = item.magicWeapon.kind === "staff" ? "rpg_weapon_staff" : "rpg_weapon_wand";
-    put(id, [asset(assetId, magicWood(id))], { rotation: [0, 0, -0.2] });
-    continue;
-  }
-  if (/_dagger$/.test(id)) {
-    put(id, [primitive("dagger", tierMetal(id), tierBody(id))], { rotation: [0, 0, -0.32] });
-    continue;
-  }
   if (/_ring$/.test(id)) {
-    put(id, [primitive("ring", tierMetal(id), tierAccent(id))]);
+    put(id, [primitive("ring", tierMetal(id), tierAccent(id), ACCESSORY_ANATOMY[id])]);
     continue;
   }
   if (/_pendant$|_charm$/.test(id)) {
-    put(id, [primitive("amulet", tierMetal(id), tierAccent(id))]);
+    put(id, [primitive("amulet", tierMetal(id), tierAccent(id), ACCESSORY_ANATOMY[id])]);
     continue;
   }
 
-  const gear = gearAppearanceParts(id);
+  const gear = item.magicWeapon?.charge
+    ? gearAppearancePartsWithCharge(id, { itemId: id, charged: true })
+    : gearAppearanceParts(id);
   if (gear.length === 0) throw new Error(`Equipment icon has neither worn geometry nor a proxy: ${id}`);
   put(
     id,
-    gear.map((part) => ({
-      kind: "asset" as const,
-      assetId: part.assetId,
-      ...(part.tint === undefined ? {} : { colour: part.tint }),
-      ...(part.accent === undefined ? {} : { accent: part.accent }),
-      ...(part.scale === undefined ? {} : { scale: part.scale }),
-    })),
+    gear.map(equipmentPart),
     {
-      rotation: item.equip?.slot === "mainHand" ? [0, 0, -0.22] : undefined,
+      ...(item.equip?.slot === "mainHand" ? { rotation: [0, 0, -0.38] as const } : {}),
+      ...(item.equip?.slot === "hands" ? { presentation: "paired-hands" as const } : {}),
     },
   );
 }
@@ -311,9 +354,15 @@ if (APPEARANCES.size !== ALL_ITEMS.length) {
 
 export const ITEM_ICON_APPEARANCE_IDS: readonly ItemId[] = [...APPEARANCES.keys()];
 
-export function itemIconAppearance(itemId: ItemId): ItemIconAppearance {
+export function itemIconAppearance(itemId: ItemId, state?: ItemIconPresentationState): ItemIconAppearance {
   const appearance = APPEARANCES.get(itemId);
   if (!appearance) throw new Error(`No item icon appearance for ${itemId}`);
+  if (state?.charged !== undefined && def(itemId).magicWeapon?.charge) {
+    return {
+      ...appearance,
+      parts: gearAppearancePartsWithCharge(itemId, { itemId, charged: state.charged }).map(equipmentPart),
+    };
+  }
   return appearance;
 }
 

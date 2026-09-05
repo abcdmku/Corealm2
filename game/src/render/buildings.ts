@@ -3049,10 +3049,8 @@ function farmYard(rng: Rng, kit: BuildingKit): PartPlacement[] {
     });
   }
 
-  // The yard. `training_dummy` is a post with a stuffed body and outstretched arms - the closest
-  // thing in the library to the scarecrow the asset report lists as gap 5.
-  out.push(loose("scarecrow", "training_dummy", -3.4, 0, 2.6, rng.float(0, Math.PI * 2), 1.15));
-  out.push(loose("trough", "barrel_rack", 3.9, 0, -0.8, rng.float(2.9, 3.4), 1.1));
+  out.push(loose("scarecrow", "corealm_scarecrow", -3.4, 0, 2.6, rng.float(0, Math.PI * 2), 1.15));
+  out.push(loose("trough", "corealm_water_trough", 3.9, 0, -0.8, rng.float(2.9, 3.4), 1.1));
   out.push(loose("yard_crate", "farm_crate_empty", 2.4, 0, -3.4, rng.float(0, Math.PI)));
   out.push(loose("yard_sack", "sack", 1.6, 0, -3.9, rng.float(0, Math.PI)));
   out.push(loose("yard_barrel", "barrel", -2.2, 0, -3.6, rng.float(0, Math.PI)));

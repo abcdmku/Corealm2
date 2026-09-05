@@ -771,81 +771,93 @@ interface GrassBlade {
   width: number;
   lean: number;
   curve: number;
+  dry: number;
+  shade: number;
 }
 
 /**
- * One white, alpha-cut grass tuft shared by every instanced grass card in the world.
+ * One shaded, alpha-cut grass tuft shared by every instanced grass card in the world.
  *
  * The source grass GLBs cannot supply this texture: all four embed an opaque JPEG and use their
  * geometry for the blade silhouette. The renderer needs an RGBA cutout to replace hundreds of
- * triangles with two crossed quads. Keeping the texels white lets `InstancedMesh.instanceColor`
- * supply common-green, dry-gold and their deterministic value variation without another texture
- * or material bucket.
+ * triangles with two crossed quads. Instance colour supplies the species palette; this map adds
+ * shaded roots, a subtle folded blade and warmer tips without another material bucket.
  *
- * The silhouette is generated rather than painted into the repository so it stays deterministic,
- * has no asset download, and follows the same disposal lifetime as the other generated textures.
- * RGB remains white even outside the cutout. That prevents the dark fringe a transparent-black
- * border would bleed into its mipmaps.
+ * Uneven groups of roots open into bent leaves. There is no connecting strip at the bottom of the
+ * card. Transparent texels carry the nearest blade's colour to avoid dark filtering fringes.
  */
 export function createGrassSpriteTexture(): THREE.DataTexture {
   if (grassSprite) return grassSprite;
 
-  const size = 128;
+  const size = 256;
   const data = new Uint8Array(size * size * 4);
+  // Taller back leaves come first, with shorter leaves crossing them in front. The three root
+  // groups leave open soil between them instead of producing a row of evenly spaced teeth.
   const blades: readonly GrassBlade[] = [
-    { base: -0.49, height: 0.48, width: 0.027, lean: -0.05, curve: 0.03 },
-    { base: -0.45, height: 0.69, width: 0.021, lean: -0.10, curve: 0.04 },
-    { base: -0.41, height: 0.57, width: 0.024, lean: 0.05, curve: -0.03 },
-    { base: -0.37, height: 0.82, width: 0.018, lean: -0.06, curve: 0.04 },
-    { base: -0.33, height: 0.64, width: 0.023, lean: 0.09, curve: -0.05 },
-    { base: -0.29, height: 0.91, width: 0.017, lean: -0.04, curve: 0.03 },
-    { base: -0.25, height: 0.73, width: 0.022, lean: -0.10, curve: 0.06 },
-    { base: -0.21, height: 0.54, width: 0.026, lean: 0.06, curve: -0.04 },
-    { base: -0.17, height: 0.96, width: 0.016, lean: 0.07, curve: 0.03 },
-    { base: -0.13, height: 0.77, width: 0.021, lean: -0.07, curve: -0.03 },
-    { base: -0.09, height: 0.62, width: 0.024, lean: 0.10, curve: 0.04 },
-    { base: -0.05, height: 0.87, width: 0.018, lean: -0.03, curve: 0.05 },
-    { base: -0.01, height: 1.00, width: 0.016, lean: 0.03, curve: -0.03 },
-    { base: 0.03, height: 0.68, width: 0.023, lean: -0.09, curve: 0.04 },
-    { base: 0.07, height: 0.92, width: 0.017, lean: 0.08, curve: -0.04 },
-    { base: 0.11, height: 0.58, width: 0.025, lean: -0.04, curve: 0.03 },
-    { base: 0.15, height: 0.79, width: 0.020, lean: 0.10, curve: -0.05 },
-    { base: 0.19, height: 0.97, width: 0.016, lean: -0.05, curve: 0.04 },
-    { base: 0.23, height: 0.65, width: 0.024, lean: 0.05, curve: 0.03 },
-    { base: 0.27, height: 0.86, width: 0.018, lean: -0.08, curve: -0.04 },
-    { base: 0.31, height: 0.72, width: 0.022, lean: 0.09, curve: 0.05 },
-    { base: 0.35, height: 0.53, width: 0.026, lean: -0.05, curve: -0.03 },
-    { base: 0.39, height: 0.89, width: 0.017, lean: 0.04, curve: 0.04 },
-    { base: 0.43, height: 0.66, width: 0.022, lean: 0.10, curve: -0.04 },
-    { base: 0.47, height: 0.50, width: 0.027, lean: 0.04, curve: 0.03 },
+    { base: -0.228, height: 0.72, width: 0.022, lean: -0.045, curve: -0.190, dry: 0.10, shade: 0.88 },
+    { base: -0.201, height: 0.86, width: 0.019, lean: 0.028, curve: -0.100, dry: 0.22, shade: 0.94 },
+    { base: -0.062, height: 0.96, width: 0.017, lean: -0.040, curve: 0.088, dry: 0.06, shade: 0.92 },
+    { base: -0.028, height: 0.82, width: 0.021, lean: 0.025, curve: 0.165, dry: 0.15, shade: 0.90 },
+    { base: 0.159, height: 0.89, width: 0.019, lean: 0.008, curve: 0.146, dry: 0.36, shade: 0.92 },
+    { base: 0.195, height: 0.67, width: 0.024, lean: 0.060, curve: 0.208, dry: 0.50, shade: 0.96 },
+    { base: -0.194, height: 0.68, width: 0.027, lean: 0.026, curve: 0.145, dry: 0.05, shade: 1.00 },
+    { base: -0.244, height: 0.44, width: 0.030, lean: -0.078, curve: -0.130, dry: 0.32, shade: 0.98 },
+    { base: -0.044, height: 0.74, width: 0.023, lean: -0.062, curve: -0.142, dry: 0.10, shade: 1.00 },
+    { base: 0.148, height: 0.70, width: 0.026, lean: -0.035, curve: -0.106, dry: 0.03, shade: 0.95 },
+    { base: -0.013, height: 0.56, width: 0.029, lean: 0.087, curve: 0.156, dry: 0.25, shade: 1.02 },
+    { base: 0.184, height: 0.49, width: 0.031, lean: 0.065, curve: 0.160, dry: 0.18, shade: 1.00 },
+    { base: -0.214, height: 0.39, width: 0.025, lean: 0.060, curve: 0.087, dry: 0.40, shade: 0.94 },
+    { base: -0.069, height: 0.43, width: 0.028, lean: -0.070, curve: -0.114, dry: 0.16, shade: 0.98 },
+    { base: 0.136, height: 0.36, width: 0.025, lean: -0.070, curve: -0.122, dry: 0.25, shade: 1.00 },
   ];
 
   for (let row = 0; row < size; row += 1) {
-    const y = row / (size - 1);
+    const y = (row + 0.5) / size;
     for (let column = 0; column < size; column += 1) {
-      const x = (column / (size - 1)) * 1.1 - 0.55;
+      const x = ((column + 0.5) / size) * 1.1 - 0.55;
       let coverage = 0;
+      let red = 0;
+      let green = 0;
+      let blue = 0;
+      let nearestDistance = Infinity;
+      let nearestRed = 0;
+      let nearestGreen = 0;
+      let nearestBlue = 0;
       for (const blade of blades) {
-        if (y > blade.height) continue;
-        const t = y / blade.height;
-        const centre = blade.base + blade.lean * t + Math.sin(t * Math.PI) * blade.curve;
-        // Fine blades narrow to pointed tips. The smooth edge gives mipmaps enough coverage to keep
-        // them visible without turning the whole card into a translucent block.
-        const halfWidth = blade.width * Math.pow(1 - t, 0.72) + 0.002;
+        const t = clamp(y / blade.height, 0, 1);
+        const centre = blade.base + blade.lean * t + blade.curve * t * t;
+        const halfWidth = blade.width * Math.pow(1 - t, 0.82) * (0.74 + 0.38 * Math.sin(t * Math.PI));
         const edge = halfWidth - Math.abs(x - centre);
-        coverage = Math.max(coverage, clamp(edge * size * 2.1, 0, 1));
-      }
+        const bladeCoverage = clamp(0.5 + edge * size / 1.1, 0, 1)
+          * clamp(0.5 + (blade.height - y) * size, 0, 1);
 
-      // A very low crown closes pinholes where the cards meet the ground without hiding the blades.
-      if (y < 0.035) {
-        const crown = 1 - Math.abs(x) / (0.50 - y * 1.4);
-        coverage = Math.max(coverage, clamp(crown * 2.2, 0, 1) * clamp((0.038 - y) * 42, 0, 1));
+        const root = 1 - Math.exp(-t * 6);
+        const tip = Math.pow(t, 3) * blade.dry;
+        const across = clamp((x - centre) / Math.max(halfWidth, 0.001), -1, 1);
+        // A broad fold gives each leaf two quiet planes, visible without painted edge outlines.
+        const fold = 0.95 + across * 0.035 + (1 - Math.abs(across)) * 0.025;
+        const gain = blade.shade * fold;
+        const bladeRed = (137 + root * 86 + tip * 16) * gain;
+        const bladeGreen = (148 + root * 78 - tip * 4) * gain;
+        const bladeBlue = (116 + root * 80 - tip * 35) * gain;
+        const distance = Math.max(0, -edge) + Math.max(0, y - blade.height);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestRed = bladeRed;
+          nearestGreen = bladeGreen;
+          nearestBlue = bladeBlue;
+        }
+
+        red = bladeRed * bladeCoverage + red * (1 - bladeCoverage);
+        green = bladeGreen * bladeCoverage + green * (1 - bladeCoverage);
+        blue = bladeBlue * bladeCoverage + blue * (1 - bladeCoverage);
+        coverage = bladeCoverage + coverage * (1 - bladeCoverage);
       }
 
       const index = (row * size + column) * 4;
-      data[index] = 255;
-      data[index + 1] = 255;
-      data[index + 2] = 255;
+      data[index] = Math.round(coverage > 0 ? red / coverage : nearestRed);
+      data[index + 1] = Math.round(coverage > 0 ? green / coverage : nearestGreen);
+      data[index + 2] = Math.round(coverage > 0 ? blue / coverage : nearestBlue);
       data[index + 3] = Math.round(coverage * 255);
     }
   }
@@ -861,53 +873,6 @@ export function createGrassSpriteTexture(): THREE.DataTexture {
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.needsUpdate = true;
   grassSprite = texture;
-  return texture;
-}
-
-// ---------------------------------------------------------- contact decal
-
-let contactDecal: THREE.DataTexture | null = null;
-
-/**
- * The radial darkening under a prop, rock or tree, authored as a multiply mask: dark at the
- * centre, white at the rim.
- *
- * Multiply rather than alpha because the whole point is a contact shadow, and a multiply blend
- * needs no sorting against the ground it darkens. 64 px is enough for a 1 m quad seen from 6 m up;
- * the falloff is smooth, so there is nothing here for more resolution to resolve.
- */
-export function createContactDecalTexture(): THREE.DataTexture {
-  if (contactDecal) return contactDecal;
-
-  const size = 64;
-  const data = new Uint8Array(size * size * 4);
-  const centre = (size - 1) / 2;
-  for (let y = 0; y < size; y += 1) {
-    for (let x = 0; x < size; x += 1) {
-      const r = Math.hypot(x - centre, y - centre) / centre;
-      // 0.42 of the radius is the solid core and the rest is falloff, so everything outside the
-      // quad's inscribed circle is pure white and the square edge never appears.
-      const t = clamp((r - 0.42) / 0.58, 0, 1);
-      const value = 0.34 + (1 - 0.34) * (t * t * (3 - 2 * t));
-      const byte = clamp(Math.round(value * 255), 0, 255);
-      const index = (y * size + x) * 4;
-      data[index] = byte;
-      data[index + 1] = byte;
-      data[index + 2] = byte;
-      data[index + 3] = 255;
-    }
-  }
-
-  const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat, THREE.UnsignedByteType);
-  texture.name = "contact-decal";
-  texture.wrapS = THREE.ClampToEdgeWrapping;
-  texture.wrapT = THREE.ClampToEdgeWrapping;
-  texture.generateMipmaps = true;
-  texture.minFilter = THREE.LinearMipmapLinearFilter;
-  texture.magFilter = THREE.LinearFilter;
-  texture.colorSpace = THREE.NoColorSpace;
-  texture.needsUpdate = true;
-  contactDecal = texture;
   return texture;
 }
 
@@ -927,6 +892,4 @@ export function disposeGeneratedTextures(): void {
   waterNormals.clear();
   grassSprite?.dispose();
   grassSprite = null;
-  contactDecal?.dispose();
-  contactDecal = null;
 }

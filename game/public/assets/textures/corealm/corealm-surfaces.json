@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "surfaces": {
+    "bark": {
+      "source": "art/rebuild/surface-sources/oak-bark-albedo-v1.png",
+      "sourceSha256": "d5f8dd3d90c64f6a00cb520c0da3c197ea724ca213f06f35a6408be1a7fa3e14",
+      "meanLinearRgb": [
+        0.14800917729334084,
+        0.10122701887674443,
+        0.05588273872678814
+      ],
+      "tileMetres": 1,
+      "reliefMetres": 0.02,
+      "albedoSize": 1024,
+      "pbrMapSize": 512,
+      "periodic": true
+    },
+    "stone": {
+      "source": "art/rebuild/surface-sources/quarry-stone-albedo-v1.png",
+      "sourceSha256": "ee4cfe3baf4c240ecf21198c9fd03146f942c0b46c09dac270644de594ae1e5e",
+      "meanLinearRgb": [
+        0.25957023729808637,
+        0.21692816036643647,
+        0.1649272307011334
+      ],
+      "tileMetres": 2.4,
+      "reliefMetres": 0.026,
+      "albedoSize": 1024,
+      "pbrMapSize": 512,
+      "periodic": true
+    },
+    "leaf": {
+      "source": "art/rebuild/surface-sources/broadleaf-albedo-v1.png",
+      "sourceSha256": "d3a092837ee97cd528a17536d2d7314a8a68ebb20952fe42973d2843d733ddc7",
+      "meanLinearRgb": [
+        0.06860158524486631,
+        0.08017680309258197,
+        0.009559761086701086
+      ],
+      "tileMetres": 0.16,
+      "reliefMetres": 0.00065,
+      "albedoSize": 512,
+      "pbrMapSize": 512,
+      "periodic": false
+    }
+  }
+}

@@ -399,6 +399,8 @@ export interface CharacterRigOptions {
   mergeParts?: boolean;
   /** Warm every equippable visual after build. Default true; boot defers the player's set. */
   preloadGear?: boolean;
+  /** Fit the player's jog stride to 4.2 m/s at its normal 1.2x cadence. */
+  playerLocomotion?: boolean;
 }
 
 /** What `poseFor` needs to know. `activitySkill` is what splits gathering three ways. */
@@ -428,6 +430,7 @@ export class CharacterRig {
 
   private mixer: THREE.AnimationMixer | null = null;
   private actions = new Map<string, THREE.AnimationAction>();
+  private locomotionClips = new Map<string, THREE.AnimationClip>();
   private current: CharacterPose = "idle";
   private currentAction: THREE.AnimationAction | null = null;
   private currentClipName: string | null = null;
@@ -534,6 +537,13 @@ export class CharacterRig {
         : options.hairAssetId;
       if (hair) this.baseOutfitIds.push(hair);
 
+      if (options.playerLocomotion) {
+        const jog = this.assets.clip("Jog_Fwd_Loop");
+        if (jog) {
+          const { bakePlayerJog } = await import("./playerLocomotion.js");
+          this.locomotionClips.set(jog.name, bakePlayerJog(jog, body, 3.5).clip);
+        }
+      }
       this.mixer = new THREE.AnimationMixer(body);
       await this.rebuildLayers();
       this.ready = true;
@@ -723,10 +733,9 @@ export class CharacterRig {
   /**
    * Sets locomotion playback without changing translation speed.
    *
-   * Walk_Loop is speed-matched because it remains readable across its whole band. The run is not.
-   * Matching Jog_Fwd_Loop's measured 5.92 m/s foot speed to 4.2 m/s requires 0.71x playback, which
-   * looks like slow motion and stretches each visible footfall over 2.76 m of translation. The run
-   * instead ramps to MOVEMENT.runPlaybackRate, giving it a stable 1.2x cadence at full speed.
+   * Walk_Loop is speed-matched across its whole band. The player's private jog shortens the leg
+   * stride to 3.5 m/s while preserving the source pelvis and foot roll, matching 4.2 m/s at the
+   * stable 1.2x cadence. Acceleration still blends toward that cadence through the run band.
    * Sprint_Loop receives the same treatment, but resolveAction reaches it only if Jog_Fwd_Loop is
    * unavailable.
    *
@@ -784,12 +793,21 @@ export class CharacterRig {
     }
   }
 
+  /** The selected clip and its measured contact marker drive both sim and presentation timing. */
+  meleeTiming(): { contactMs: number; recoveryMs: number; clipSeconds: number } {
+    const resolved = this.resolveAction("attack_melee");
+    const clipSeconds = resolved?.action.getClip().duration ?? 1.533333;
+    const phase = resolved ? CLIP_MOTION_MARKERS[resolved.clipName]?.find((marker) => marker.kind === "impact")?.phase ?? 0.3 : 0.3;
+    const recoveryMs = clipSeconds * 1000 / (POSE_TIME_SCALE.attack_melee ?? 1);
+    return { contactMs: recoveryMs * phase, recoveryMs, clipSeconds };
+  }
+
   private resolveAction(pose: CharacterPose): { action: THREE.AnimationAction; clipName: string } | null {
     if (!this.mixer) return null;
     for (const clipName of POSE_CLIPS[pose]) {
       const cached = this.actions.get(clipName);
       if (cached) return { action: cached, clipName };
-      const clip = this.assets.clip(clipName);
+      const clip = this.locomotionClips.get(clipName) ?? this.assets.clip(clipName);
       if (!clip) {
         this.missingClips.add(clipName);
         continue;
@@ -1221,19 +1239,42 @@ export class CharacterRig {
   }
 
   /** Live playback state for browser acceptance; gameplay never reads this. */
-  motionSnapshot(): {
+  motionSnapshot(includeFeet = false): {
     pose: CharacterPose;
     clip: string | null;
     time: number;
     duration: number;
     timeScale: number;
+    clipUuid: string | null;
+    clipSource: "player-local" | "shared" | null;
+    nativeStrideMps: number | null;
+    actionWeight: number;
+    drawnPosition: Vec3;
+    drawnRotationY: number;
+    feet?: { left: { ball: Vec3; ankle: Vec3 }; right: { ball: Vec3; ankle: Vec3 } };
   } {
+    const clip = this.currentAction?.getClip();
+    const local = Boolean(clip && this.locomotionClips.get(clip.name) === clip);
+    const bonePosition = (name: string): Vec3 => {
+      const bone = this.hostBones.get(name);
+      return bone ? bone.getWorldPosition(new THREE.Vector3()).toArray() as Vec3 : [0, 0, 0];
+    };
     return {
       pose: this.current,
       clip: this.currentClipName,
       time: this.currentAction?.time ?? 0,
       duration: this.currentAction?.getClip().duration ?? 0,
       timeScale: this.controlledTimeScale ?? this.currentAction?.getEffectiveTimeScale() ?? 0,
+      clipUuid: clip?.uuid ?? null,
+      clipSource: clip ? local ? "player-local" : "shared" : null,
+      nativeStrideMps: local ? 3.5 : null,
+      actionWeight: this.currentAction?.getEffectiveWeight() ?? 0,
+      drawnPosition: this.root.position.toArray() as Vec3,
+      drawnRotationY: this.root.rotation.y,
+      ...(includeFeet ? { feet: {
+        left: { ball: bonePosition("ball_l"), ankle: bonePosition("foot_l") },
+        right: { ball: bonePosition("ball_r"), ankle: bonePosition("foot_r") },
+      } } : {}),
     };
   }
 

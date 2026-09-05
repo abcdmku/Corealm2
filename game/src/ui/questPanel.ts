@@ -1,3 +1,4 @@
+import { PanelFrame } from "./panelFrame.js";
 /**
  * The Quests panel.
  *
@@ -12,14 +13,14 @@
 import type { QuestObjectiveRef, QuestSummary } from "../contracts.js";
 import { content } from "../content/index.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import { PanelFrame, prettifyId, skillName } from "./panels.js";
+import { prettifyId, skillName } from "./panels.js";
 
 const REGION_NAMES: Record<string, string> = {
-  fallowmarch: "The Fallowmarch",
-  vellenwood: "Vellenwood",
-  karrowmoor: "Karrowmoor",
-  kilnhalt: "Kilnhalt",
-  gravelmaw: "The Gravelmaw",
+  fallowmarch: "Farmland",
+  vellenwood: "Woodlands",
+  karrowmoor: "Highlands",
+  kilnhalt: "Ashlands",
+  gravelmaw: "Stone Cavern",
 };
 
 const STATUS_ORDER: Record<QuestSummary["status"], number> = { active: 0, unstarted: 1, complete: 2 };

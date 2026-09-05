@@ -1,3 +1,4 @@
+import { PanelFrame } from "./panelFrame.js";
 /**
  * The 28-slot inventory, 4 across and 7 down, exactly as the PRD lays it out.
  *
@@ -11,12 +12,10 @@
 import type { InventorySlot, ItemId, ItemStack } from "../contracts.js";
 import { CAMPFIRE_FUELS } from "../content/gatheringProductionTiers.js";
 import { notify } from "./contextMenu.js";
+import { skillRequirementsLabel } from "./displayLabels.js";
 import type { ContextMenuItem } from "./contextMenu.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import {
-  INVENTORY_COLUMNS, INVENTORY_SLOTS, PanelFrame, formatExact, installRovingGrid, itemDef,
-  itemName, paintSlot, report, stackSignature,
-} from "./panels.js";
+import { INVENTORY_COLUMNS, INVENTORY_SLOTS, formatExact, installRovingGrid, itemDef, itemName, paintSlot, report, stackSignature } from "./panels.js";
 
 export class InventoryPanel implements ManagedPanel {
   readonly frame: PanelFrame;
@@ -243,7 +242,7 @@ export class InventoryPanel implements ManagedPanel {
 
     this.ctx.menu.open(clientX, clientY, items, {
       title: name,
-      subtitle: def ? `Tier ${def.tier} · ${def.category}` : undefined,
+      subtitle: def ? [def.category, skillRequirementsLabel(def.equip?.requires)].filter(Boolean).join(" · ") : undefined,
     });
   }
 }

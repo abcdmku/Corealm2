@@ -255,6 +255,8 @@ export class Renderer {
   readonly scene: THREE.Scene;
   readonly camera: THREE.PerspectiveCamera;
   readonly sun: THREE.DirectionalLight;
+  /** Prepare instance buffers after the camera settles and before Three uploads this frame. */
+  prepareScene?: (camera: THREE.Camera) => void;
 
   /** The two gradients: the one the sky is drawn from, and the one the world is lit by. */
   private readonly skyGradients: THREE.DataTexture[] = [];
@@ -280,7 +282,7 @@ export class Renderer {
       alpha: false,
     });
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     // Keep 1.00. SKY_STOPS.background is pre-compensated for this exposure, while fog is applied
@@ -533,6 +535,8 @@ export class Renderer {
   }
 
   render(nowMs: number): void {
+    this.camera.updateMatrixWorld();
+    this.prepareScene?.(this.camera);
     this.renderer.render(this.scene, this.camera);
 
     if (this.lastFrameAt > 0) {
@@ -559,6 +563,8 @@ export class Renderer {
 
   /** Renders and reads one gameplay frame synchronously for generated documentation. */
   captureFrame(): string {
+    this.camera.updateMatrixWorld();
+    this.prepareScene?.(this.camera);
     this.renderer.render(this.scene, this.camera);
     return this.renderer.domElement.toDataURL("image/png");
   }
@@ -643,6 +649,8 @@ export class Renderer {
       this.followShadow(shadowTarget);
       this.renderer.setPixelRatio(1);
       this.renderer.setSize(pixels, pixels, false);
+      camera.updateMatrixWorld();
+      this.prepareScene?.(camera);
       this.renderer.render(this.scene, camera);
       return this.renderer.domElement.toDataURL("image/png");
     } finally {

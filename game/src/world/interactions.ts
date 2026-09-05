@@ -30,7 +30,7 @@ export interface InteractionContext {
   interaction: InteractionId;
   playerPosition: Vec3;
   skills: Record<SkillId, number>;
-  /** Horizontal metres from the player to the entity, already computed. */
+  /** Horizontal metres from the player to the working position, already computed. */
   distance: number;
 }
 
@@ -99,7 +99,12 @@ export class InteractionDispatcher {
     this.ranges.set(interaction, metres);
   }
 
-  rangeFor(interaction: InteractionId): number {
+  rangeFor(interaction: InteractionId, entityId?: EntityId): number {
+    const entity = entityId ? this.deps.get(entityId) : undefined;
+    // A mining stance is already outside the rock. Stop at that stance before swinging,
+    // rather than treating it as another rock centre and stopping two metres short.
+    if (interaction === "mine" && entity?.archetype === "ore" && entity.interactionPosition) return 0.45;
+    if (interaction === "enter" && entity?.archetype === "portal" && entity.interactionPosition) return 0.45;
     return this.ranges.get(interaction) ?? INTERACT_RANGE;
   }
 
@@ -121,8 +126,8 @@ export class InteractionDispatcher {
     if (unmet) return err("REQUIREMENTS_NOT_MET", unmet, entityId);
 
     const playerPosition = this.deps.playerPosition();
-    const distance = distanceXZ(playerPosition, entity.position);
-    const range = this.rangeFor(interaction);
+    const distance = distanceXZ(playerPosition, entity.interactionPosition ?? entity.position);
+    const range = this.rangeFor(interaction, entityId);
     if (distance > range) {
       return err(
         "OUT_OF_RANGE",
@@ -221,14 +226,14 @@ function checkState(entity: SemanticEntity, interaction: InteractionId): StatePr
  * what state it is in, what it gives, and what it costs to use.
  */
 export function describe(entity: SemanticEntity): string {
-  const parts: string[] = [`${entity.name} (${entity.archetype}, tier ${entity.tier})`];
+  const parts: string[] = [entity.name];
   parts.push(entity.state);
 
   const resource = entity.resource;
   if (resource) {
     parts.push(
       resource.remaining > 0
-        ? `${resource.remaining}/${resource.maxYields} ${resource.itemId} left`
+        ? `${resource.remaining}/${resource.maxYields} yields left`
         : `worked out, back in ${resource.respawnSeconds} s`,
     );
   }

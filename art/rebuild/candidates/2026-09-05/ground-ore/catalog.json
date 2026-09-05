@@ -1,0 +1,529 @@
+{
+  "pack": {
+    "id": "corealm-original-ground-ores",
+    "name": "Corealm mineral-bearing ground boulders",
+    "author": "Corealm; rock foundation by DEXSOFT",
+    "source": "tools/build-ground-ores.ts",
+    "license": "Derivative geometry and material maps from the project's DEXSOFT Rocks FREE pack asset, under its existing Standard Unity Asset Store EULA. Corealm mineral coloring and presentation are project-authored."
+  },
+  "generator": "npx tsx tools/build-ground-ores.ts",
+  "generatorSha256": "a6f1cb96f9650e2cd11b95af57cd65a9759baf87e69b068aebf255249fd8afda",
+  "reference": {
+    "assetId": "rocks_free_essence_node",
+    "file": "game/public/assets/models/magic/rocks_free_essence_node.glb",
+    "pack": "dexsoft-rocks-free",
+    "author": "DEXSOFT",
+    "sha256": "c1c3c2af9eaed4027d80c84ed64422c9fb261eabc8bc275334a6a834fb541a1d",
+    "license": "Standard Unity Asset Store EULA; existing project asset license retained",
+    "changes": "Native rock geometry softened and its deepest clefts partially filled, cut to a broad soil contact, fitted to ore dimensions. Original UVs retained for reduced-strength normal and roughness maps; quieter generated albedo uses a safe interior patch. No runtime essence shader, crystals or emission."
+  },
+  "albedo": {
+    "file": "tools/data/ground-ore-muted-albedo.png",
+    "provenance": "tools/data/ground-ore-muted-albedo.json",
+    "sha256": "a50554a2d2078c608f3985e493333200855a32bffb6a3c4c992c49553aca4bc1",
+    "normalScale": 0.16,
+    "status": "copper candidate pending visual acceptance"
+  },
+  "coordinates": "Metres, Y-up, centred XZ, minimum Y=0. Ordinary ground boulders with closed soil-contact bases. Preferred work approach +Z. No wall mounting plane.",
+  "construction": "Ordinary asymmetric full rocks derived from the local essence-rock reference with less surface activity. Restrained isotropic mineral flecks replace horizontal bands and sculpted shelves. Mineral and depleted stone share the same ground footprint and outer bounds.",
+  "assets": [
+    {
+      "id": "corealm_ore_grithe",
+      "file": "models/corealm/geology/corealm_ore_grithe.glb",
+      "pack": "corealm-original-ground-ores",
+      "category": "rock",
+      "is": "ore",
+      "tags": [
+        "ore",
+        "ground-boulder",
+        "geology",
+        "grithe",
+        "resource"
+      ],
+      "bytes": 3919768,
+      "size": {
+        "x": 2.6,
+        "y": 1.8,
+        "z": 1.85
+      },
+      "base": {
+        "x": -1.3,
+        "y": 0,
+        "z": -0.925
+      },
+      "animations": [],
+      "materials": [
+        "Corealm ground host stone",
+        "Corealm exposed grithe mineral"
+      ],
+      "sha256": "66b25d5e43d360fe9c8a29b43f470f764da8ee7af741bb4208f0299f94c29c49",
+      "triangles": 7168,
+      "mineralFaces": 875,
+      "presentation": {
+        "kind": "ground-boulder",
+        "front": "+Z",
+        "frontZ": 0.925,
+        "footprint": [
+          [
+            -0.358544,
+            0,
+            0.668519
+          ],
+          [
+            -0.434358,
+            0,
+            0.669572
+          ],
+          [
+            -0.517939,
+            0,
+            0.659774
+          ],
+          [
+            -0.623568,
+            0,
+            0.651572
+          ],
+          [
+            -0.688681,
+            0,
+            0.611143
+          ],
+          [
+            -0.740525,
+            0,
+            0.579589
+          ],
+          [
+            -0.781988,
+            0,
+            0.528679
+          ],
+          [
+            -0.798098,
+            0,
+            0.475933
+          ],
+          [
+            -0.826138,
+            0,
+            0.431069
+          ],
+          [
+            -0.843781,
+            0,
+            0.379741
+          ],
+          [
+            -0.886848,
+            0,
+            0.272353
+          ],
+          [
+            -0.888776,
+            0,
+            0.265629
+          ],
+          [
+            -0.8928,
+            0,
+            0.260147
+          ],
+          [
+            -0.904876,
+            0,
+            0.238134
+          ],
+          [
+            -0.932707,
+            0,
+            0.145455
+          ],
+          [
+            -0.951569,
+            0,
+            0.083376
+          ],
+          [
+            -1.002046,
+            0,
+            -0.064893
+          ],
+          [
+            -1.01831,
+            0,
+            -0.111606
+          ],
+          [
+            -1.029937,
+            0,
+            -0.138125
+          ],
+          [
+            -1.078159,
+            0,
+            -0.172077
+          ],
+          [
+            -1.126924,
+            0,
+            -0.272921
+          ],
+          [
+            -1.148291,
+            0,
+            -0.28332
+          ],
+          [
+            -1.125206,
+            0,
+            -0.30506
+          ],
+          [
+            -1.08845,
+            0,
+            -0.393197
+          ],
+          [
+            -1.080071,
+            0,
+            -0.407756
+          ],
+          [
+            -1.004666,
+            0,
+            -0.46224
+          ],
+          [
+            -0.942388,
+            0,
+            -0.499638
+          ],
+          [
+            -0.898844,
+            0,
+            -0.539357
+          ],
+          [
+            -0.811755,
+            0,
+            -0.590533
+          ],
+          [
+            -0.787525,
+            0,
+            -0.607636
+          ],
+          [
+            -0.681546,
+            0,
+            -0.672097
+          ],
+          [
+            -0.675291,
+            0,
+            -0.677262
+          ],
+          [
+            -0.574488,
+            0,
+            -0.74353
+          ],
+          [
+            -0.568511,
+            0,
+            -0.747403
+          ],
+          [
+            -0.56821,
+            0,
+            -0.747554
+          ],
+          [
+            -0.567903,
+            0,
+            -0.747686
+          ],
+          [
+            -0.479991,
+            0,
+            -0.792943
+          ],
+          [
+            -0.440904,
+            0,
+            -0.802295
+          ],
+          [
+            -0.410657,
+            0,
+            -0.80844
+          ],
+          [
+            -0.345076,
+            0,
+            -0.799609
+          ],
+          [
+            -0.303575,
+            0,
+            -0.7932
+          ],
+          [
+            -0.232574,
+            0,
+            -0.775861
+          ],
+          [
+            -0.184571,
+            0,
+            -0.762546
+          ],
+          [
+            -0.081858,
+            0,
+            -0.734893
+          ],
+          [
+            -0.056512,
+            0,
+            -0.727642
+          ],
+          [
+            -0.042168,
+            0,
+            -0.723418
+          ],
+          [
+            0.065783,
+            0,
+            -0.686586
+          ],
+          [
+            0.123986,
+            0,
+            -0.663426
+          ],
+          [
+            0.202924,
+            0,
+            -0.636792
+          ],
+          [
+            0.251814,
+            0,
+            -0.618087
+          ],
+          [
+            0.316166,
+            0,
+            -0.592326
+          ],
+          [
+            0.354231,
+            0,
+            -0.57899
+          ],
+          [
+            0.498123,
+            0,
+            -0.525457
+          ],
+          [
+            0.509284,
+            0,
+            -0.521588
+          ],
+          [
+            0.648101,
+            0,
+            -0.470755
+          ],
+          [
+            0.669974,
+            0,
+            -0.463733
+          ],
+          [
+            0.764227,
+            0,
+            -0.425866
+          ],
+          [
+            0.824322,
+            0,
+            -0.405969
+          ],
+          [
+            0.887126,
+            0,
+            -0.384131
+          ],
+          [
+            0.956955,
+            0,
+            -0.36053
+          ],
+          [
+            0.983012,
+            0,
+            -0.351457
+          ],
+          [
+            1.052819,
+            0,
+            -0.32559
+          ],
+          [
+            1.054471,
+            0,
+            -0.321845
+          ],
+          [
+            1.084243,
+            0,
+            -0.285687
+          ],
+          [
+            1.078731,
+            0,
+            -0.279142
+          ],
+          [
+            1.057174,
+            0,
+            -0.237011
+          ],
+          [
+            1.024409,
+            0,
+            -0.214184
+          ],
+          [
+            0.973156,
+            0,
+            -0.174981
+          ],
+          [
+            0.900916,
+            0,
+            -0.129872
+          ],
+          [
+            0.866628,
+            0,
+            -0.10797
+          ],
+          [
+            0.785365,
+            0,
+            -0.057192
+          ],
+          [
+            0.765592,
+            0,
+            -0.044679
+          ],
+          [
+            0.686932,
+            0,
+            0.005004
+          ],
+          [
+            0.672883,
+            0,
+            0.014
+          ],
+          [
+            0.589613,
+            0,
+            0.06528
+          ],
+          [
+            0.577909,
+            0,
+            0.072558
+          ],
+          [
+            0.490513,
+            0,
+            0.122798
+          ],
+          [
+            0.477771,
+            0,
+            0.130268
+          ],
+          [
+            0.388045,
+            0,
+            0.179938
+          ],
+          [
+            0.372441,
+            0,
+            0.188535
+          ],
+          [
+            0.277142,
+            0,
+            0.24193
+          ],
+          [
+            0.257482,
+            0,
+            0.252632
+          ],
+          [
+            0.156242,
+            0,
+            0.315384
+          ],
+          [
+            0.131811,
+            0,
+            0.330128
+          ],
+          [
+            0.039634,
+            0,
+            0.399115
+          ],
+          [
+            0.016888,
+            0,
+            0.416051
+          ],
+          [
+            -0.065288,
+            0,
+            0.489519
+          ],
+          [
+            -0.076835,
+            0,
+            0.499632
+          ],
+          [
+            -0.132569,
+            0,
+            0.546215
+          ],
+          [
+            -0.179371,
+            0,
+            0.584416
+          ],
+          [
+            -0.220124,
+            0,
+            0.60286
+          ]
+        ],
+        "mineralAreaRatio": 0.023955,
+        "scarAreaRatio": 0
+      }
+    }
+  ],
+  "checkpointStatus": "Only this copper is current. Quieter material has not been visually accepted. Other family outputs are stale; see source/tests."
+}

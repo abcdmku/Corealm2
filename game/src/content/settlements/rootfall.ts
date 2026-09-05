@@ -84,7 +84,7 @@ import type { SettlementDef } from "../regions.js";
 
 export const ROOTFALL: SettlementDef = {
   id: "rootfall",
-  name: "Rootfall",
+  name: "Oakwood",
   // Exposed frame, a felled log along every ridge, dormers in the roof. A logging town.
   kit: "timber",
   centre: [60, 120],
@@ -137,7 +137,7 @@ export const ROOTFALL: SettlementDef = {
     // 6x4, not the diagnosis's 6x5. `roofFit` scales uniformly off the tighter of the two ratios,
     // so a 6x5 plan on a 4x6 roof asset fits at 1.25 and draws a 9.47 m roof: an eave of 1.733 m
     // into the postern lane. At 6x4 the roof is the cottage's own fit and the eave is 0.786 m.
-    { id: "rootfall_forge", name: "Rootfall Forge", prefab: "forge", position: [70.5, 137], rotationY: Math.PI, footprint: [6, 4] },
+    { id: "rootfall_forge", name: "Oakwood Forge", prefab: "forge", position: [70.5, 137], rotationY: Math.PI, footprint: [6, 4] },
     // Three covered bays over one back wall: the sawpit's work row. Back wall at z 138.5, canopy
     // out to z 136.5, and the only solid is the wall behind the benches.
     { id: "rootfall_sawpit", name: "The Sawpit", prefab: "arcade", position: [54, 137], rotationY: Math.PI, footprint: [6, 3] },
@@ -166,7 +166,7 @@ export const ROOTFALL: SettlementDef = {
     // The bank -> Hollowcut road already crossed the east wall here, but the old 6 m opening was
     // only a raw gap between two jambs. This full gatehouse retains a 4 m clear passage, and the
     // Root Tunnel now begins four metres beyond its east edge instead of occupying the inner lane.
-    { id: "rootfall_postern", name: "Hollowcut Postern", prefab: "gatehouse", position: [80, 138], rotationY: Math.PI / 2, footprint: [8, 4] },
+    { id: "rootfall_postern", name: "Forest Quarry Postern", prefab: "gatehouse", position: [80, 138], rotationY: Math.PI / 2, footprint: [8, 4] },
   ],
 
   /**
@@ -219,27 +219,27 @@ export const ROOTFALL: SettlementDef = {
     // draws 0.539 x 0.486 at scale 1, so 1.6 was a 0.86 m pot alone on grass; 2.2 is 1.19 m under
     // a roof.
     {
-      id: "rootfall_range", name: "Rootfall Cooking Range", kind: "range", skill: "cooking",
+      id: "rootfall_range", name: "Oakwood Cooking Range", kind: "range", skill: "cooking",
       position: [57, 112.4], rotationY: 0, assetId: "cooking_pot", scale: 2.2, recipeIds: [],
       attachedTo: "rootfall_cookhouse",
     },
     // Inside the forge, 2.0 m back from the mouth. The player walks in.
     {
-      id: "rootfall_anvil", name: "Rootfall Anvil", kind: "anvil", skill: "smithing",
+      id: "rootfall_anvil", name: "Oakwood Anvil", kind: "anvil", skill: "smithing",
       position: [70.5, 137.2], rotationY: Math.PI, assetId: "anvil", scale: 1.4, recipeIds: [],
       attachedTo: "rootfall_forge",
     },
     // New. Rootfall had two stations against Coldbrace's five and no bench of any kind, so its
     // crafter had nowhere to work. Both of these stand under the sawpit's canopy.
     {
-      id: "rootfall_crafting", name: "Rootfall Crafting Table", kind: "crafting_table", skill: "crafting",
+      id: "rootfall_crafting", name: "Oakwood Crafting Table", kind: "crafting_table", skill: "crafting",
       position: [52.6, 137.4], rotationY: Math.PI, assetId: "workbench", recipeIds: [],
       attachedTo: "rootfall_sawpit",
     },
     // workbench_drawers draws 0.423 x 0.299 at scale 1 — a 42 cm drawer unit. 3.5 makes it a
     // 1.48 m bench, which is what Coldbrace's 1.6 should have been.
     {
-      id: "rootfall_fletching", name: "Rootfall Fletching Bench", kind: "fletching_bench", skill: "fletching",
+      id: "rootfall_fletching", name: "Oakwood Fletching Bench", kind: "fletching_bench", skill: "fletching",
       position: [55.4, 137.4], rotationY: Math.PI, assetId: "workbench_drawers", scale: 3.5, recipeIds: [],
       attachedTo: "rootfall_sawpit",
     },
@@ -249,7 +249,7 @@ export const ROOTFALL: SettlementDef = {
   // flip. What changed is that it now stands under the Stump Counter's canopy with a counter and a
   // banker beside it instead of on 10 m of open grass.
   bank: {
-    id: "rootfall_bank_chest", name: "Rootfall Bank Chest", position: [60, 128], rotationY: Math.PI,
+    id: "rootfall_bank_chest", name: "Oakwood Bank Chest", position: [60, 128], rotationY: Math.PI,
     assetId: "chest_wood", attachedTo: "rootfall_counter",
   },
 
@@ -257,7 +257,7 @@ export const ROOTFALL: SettlementDef = {
     // Under the same porch as the chest, in its east bay. market_stall is 2.627 m tall and the
     // canopy soffits at 2.68, so it fits under the roof rather than beside it.
     {
-      id: "rootfall_general", name: "Rootfall Trade Post", shopKind: "general",
+      id: "rootfall_general", name: "Oakwood Trade Post", shopKind: "general",
       // The stall opens along local -Z; yaw zero faces its counter south toward the green.
       position: [62, 128.8], rotationY: 0, assetId: "market_stall",
       attachedTo: "rootfall_counter",

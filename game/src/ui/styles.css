@@ -7,8 +7,8 @@
  * frameless text with a hard shadow, and the world stays visible through everything.
  *
  * Space is expensive. Panels live in two fixed slots — the side slot above the dock (one panel at
- * a time, swapped like tabs) and the centre slot for the one large window — so nothing ever
- * overlaps and nothing floats loose. Density beats whitespace everywhere.
+ * a time, swapped like tabs) and the centre slot for the one large window. Labels stay readable
+ * at the normal game resolution, with compact density available in settings.
  *
  * Rules that must survive every later edit:
  *   - #boot-screen, #ui-root and #viewport keep their ids and their behaviour. The boot sequence
@@ -49,9 +49,9 @@
 
 :root {
   /* ---- ink. One scale: every surface is dark glass, so ink is always light. */
-  --ink: #ece4d2;
-  --ink-dim: #b0a68c;
-  --ink-faint: #80785f;
+  --ink: #f0e8d8;
+  --ink-dim: #c1b7a1;
+  --ink-faint: #a09783;
   --ink-inverse: #17130c;
 
   /* ---- surfaces. Translucent smoked glass; the world is the background. */
@@ -59,8 +59,8 @@
   --panel-solid: #16130e;
   --panel-raised: rgba(255, 255, 255, 0.05);
   --panel-sunken: rgba(0, 0, 0, 0.32);
-  --panel-edge: rgba(255, 255, 255, 0.09);
-  --panel-edge-bright: rgba(212, 175, 88, 0.35);
+  --panel-edge: rgba(235, 220, 188, 0.14);
+  --panel-edge-bright: rgba(212, 175, 88, 0.48);
 
   /* ---- accents. Brass for anything actionable; the highlight is candle-light, not neon. */
   --accent: #d4af4e;
@@ -83,7 +83,7 @@
   --border: 1px solid var(--panel-edge);
   --border-bright: 1px solid var(--panel-edge-bright);
   --space-1: 3px;
-  --space-2: 6px;
+  --space-2: 8px;
   --space-3: 10px;
   --space-4: 14px;
   --space-5: 20px;
@@ -98,12 +98,14 @@
   --font: "Segoe UI", "Trebuchet MS", system-ui, sans-serif;
   --font-display: "Cinzel", "Trebuchet MS", serif;
   --font-numeric: "Consolas", "SF Mono", ui-monospace, monospace;
-  --size-xs: 10px;
-  --size-sm: 11px;
+  --size-xs: 11px;
+  --size-sm: 12px;
   --size-md: 13px;
   --size-lg: 15px;
   --size-xl: 19px;
   --tracking-wide: 0.08em;
+  --side-panel-width: 224px;
+  --dock-clearance: 80px;
 
   /* ---- layers. every fixed UI element picks from this list, never a raw number */
   --z-hud: 10;
@@ -128,6 +130,8 @@
 }
 
 * { box-sizing: border-box; }
+
+.ui-icon { display: block; flex: 0 0 auto; pointer-events: none; }
 
 html, body {
   margin: 0;
@@ -235,10 +239,10 @@ html, body {
   display: flex;
   flex-direction: column;
   min-width: 170px;
-  background: linear-gradient(180deg, rgba(28, 23, 17, 0.92), rgba(13, 11, 8, 0.9));
-  border: 1px solid rgba(0, 0, 0, 0.85);
+  background: linear-gradient(180deg, rgba(31, 27, 21, 0.97), rgba(16, 14, 11, 0.96));
+  border: 1px solid rgba(169, 144, 92, 0.34);
   border-radius: var(--radius-lg);
-  box-shadow: inset 0 0 0 1px rgba(212, 175, 88, 0.16), var(--shadow-panel);
+  box-shadow: inset 0 1px 0 rgba(255, 236, 193, 0.08), var(--shadow-panel);
   color: var(--ink);
   z-index: var(--z-panel);
   overflow: hidden;
@@ -249,19 +253,20 @@ html, body {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
-  min-height: 24px;
-  padding: 2px var(--space-2) 2px var(--space-3);
-  background: rgba(0, 0, 0, 0.28);
+  min-height: 38px;
+  padding: 5px var(--space-2) 5px var(--space-3);
+  background: linear-gradient(180deg, rgba(213, 174, 91, 0.06), rgba(0, 0, 0, 0.12));
   border-bottom: 1px solid rgba(212, 175, 88, 0.2);
 }
 
 .panel__title {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: var(--size-sm);
+  font-size: var(--size-md);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--accent);
+  letter-spacing: 0.08em;
+  color: var(--highlight);
   text-shadow: var(--shadow-text);
 }
 
@@ -275,7 +280,7 @@ html, body {
   white-space: nowrap;
 }
 
-.panel__body { padding: var(--space-2); overflow: auto; }
+.panel__body { min-height: 0; padding: var(--space-3); overflow: auto; }
 
 .panel__footer {
   padding: var(--space-1) var(--space-2);
@@ -286,9 +291,14 @@ html, body {
 .panel--sunken { background: var(--panel-sunken); box-shadow: var(--inset-well); }
 
 .panel__close {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
   border: none;
   background: none;
-  color: var(--ink-faint);
+  color: var(--ink-dim);
   font-size: var(--size-md);
   line-height: 1;
   cursor: pointer;
@@ -297,6 +307,12 @@ html, body {
 }
 
 .panel__close:hover { color: var(--highlight); background: rgba(255, 255, 255, 0.07); }
+.panel__close .ui-icon { width: 16px; height: 16px; }
+
+.panel :is(button, input, select, a):focus-visible {
+  outline: 2px solid var(--highlight);
+  outline-offset: 2px;
+}
 
 /* --------------------------------------------------------------- buttons */
 
@@ -306,8 +322,8 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: 2px 10px;
-  min-height: 22px;
+  padding: 4px 10px;
+  min-height: 28px;
   font-family: inherit;
   font-size: var(--size-sm);
   font-weight: 600;
@@ -400,10 +416,10 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 9px;
-  color: var(--ink-faint);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  font-size: var(--size-xs);
+  color: var(--ink-dim);
+  letter-spacing: 0.02em;
+  text-align: center;
   pointer-events: none;
 }
 
@@ -752,8 +768,10 @@ html, body {
  * needs a different ceiling still passes one through `placement.maxHeight`.
  */
 .panel--float { min-width: 170px; max-height: calc(100vh - 96px); }
-.panel__titles { display: flex; flex-direction: row; align-items: baseline; gap: var(--space-2); min-width: 0; white-space: nowrap; }
+.panel__titles { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-width: 0; }
 .panel__titles .panel__title { flex: 0 0 auto; }
+.panel__subtitle:empty { display: none; }
+.panel__subtitle { max-width: 100%; }
 .panel__body { display: flex; flex-direction: column; gap: var(--space-2); }
 
 /*
@@ -1058,13 +1076,13 @@ html, body {
 .equip-grid {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(3, 46px);
-  grid-template-rows: repeat(4, 46px);
-  gap: var(--space-1);
+  grid-template-columns: repeat(3, 52px);
+  grid-template-rows: repeat(4, 52px);
+  gap: 6px;
 }
 
 .slot--equip { min-width: 0; }
-.slot--equip.is-empty .slot__label { font-size: 8px; }
+.slot--equip.is-empty .slot__label { font-size: 11px; }
 .slot--equip.slot--focus,
 .slot--equip.slot--focus.is-empty:hover { border-color: var(--accent-dim); }
 
@@ -1077,7 +1095,7 @@ html, body {
   border-radius: 2px;
   background: rgba(5, 8, 10, 0.82);
   color: #fff;
-  font-size: 8px;
+  font-size: 10px;
   line-height: 1;
   text-align: center;
   text-shadow: 0 1px 2px #000;
@@ -1165,6 +1183,7 @@ html, body {
  * 1280x720 floor and at 1280x800; the body scrolls, while status stays visible at its top edge.
  */
 #panel-feature-lab {
+  --side-panel-width: 320px;
   max-width: calc(100vw - 20px);
   max-height: min(680px, calc(100vh - 224px)) !important;
 }
@@ -1211,7 +1230,7 @@ html, body {
 
 .lab-field {
   display: grid;
-  grid-template-columns: 68px minmax(0, 1fr);
+  grid-template-columns: 82px minmax(0, 1fr);
   align-items: center;
   gap: var(--space-1);
   min-width: 0;
@@ -1220,7 +1239,7 @@ html, body {
 .lab-field > span {
   min-width: 0;
   line-height: 1.2;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
 }
 
 .lab-field select,
@@ -1410,29 +1429,33 @@ html, body {
 
 /* ------------------------------------------------------------- the dock */
 
-/*
- * An action bar, not a toolbar: six small glass squares, brass when open, each printing its key
- * in the corner. It sits hard in the bottom-right; the side slot opens directly above it.
- */
+/* Labeled controls share one quiet frame. The side slot opens above its full height. */
 .dock {
   position: absolute;
   right: 10px;
   bottom: 10px;
   display: flex;
-  gap: 3px;
+  gap: 4px;
+  padding: 4px;
+  background: rgba(15, 13, 10, 0.94);
+  border: 1px solid rgba(169, 144, 92, 0.32);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-panel);
   z-index: var(--z-hud);
 }
 
 .dock__btn {
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 17px;
+  grid-template-rows: 24px 16px;
   align-items: center;
-  justify-content: center;
-  width: 34px;
-  height: 34px;
-  padding: 0;
-  background: rgba(16, 13, 10, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  justify-items: center;
+  width: 64px;
+  height: 54px;
+  padding: 5px 6px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid transparent;
   border-radius: var(--radius);
   color: var(--ink-dim);
   font-family: var(--font);
@@ -1440,49 +1463,49 @@ html, body {
   transition: border-color var(--transition), color var(--transition), background var(--transition);
 }
 
-.dock__btn:hover { color: var(--ink); border-color: var(--panel-edge-bright); }
+.dock__btn:hover { color: var(--ink); border-color: var(--panel-edge-bright); background: rgba(212, 175, 78, 0.09); }
 .dock__btn:hover .dock__glyph { color: var(--highlight); }
-.dock__btn:focus-visible { outline: 1px solid var(--accent); outline-offset: 1px; }
+.dock__btn:focus-visible { outline: 2px solid var(--highlight); outline-offset: 1px; }
 
 .dock__btn.is-active {
   color: var(--ink);
   border-color: var(--accent);
   background: rgba(212, 175, 78, 0.16);
+  box-shadow: inset 0 -2px 0 var(--accent);
 }
 
 .dock__btn.is-active .dock__glyph { color: var(--accent); }
 
-.dock__glyph { font-size: 16px; line-height: 16px; color: var(--ink-dim); text-shadow: var(--shadow-text); transition: color var(--transition); }
+.dock__glyph { grid-column: 1; color: var(--ink-dim); transition: color var(--transition); }
+.dock__glyph .ui-icon { width: 21px; height: 21px; }
 
-/* Icon-only bar: the hover title still names the panel, the key cap still teaches the key. */
-.dock__label { display: none; }
+.dock__label { grid-column: 1 / -1; grid-row: 2; font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: 0.02em; }
 
 .dock__key {
-  position: absolute;
-  right: 1px;
-  bottom: 0;
-  min-width: 0;
-  padding: 0 2px;
-  background: none;
-  border: none;
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 15px;
+  padding: 0 2px 1px;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--panel-edge);
+  border-radius: 2px;
   font-family: var(--font-numeric);
-  font-size: 8px;
-  line-height: 10px;
-  color: var(--ink-faint);
-  text-shadow: 0 1px 1px #000;
+  font-size: 10px;
+  line-height: 14px;
+  color: var(--ink-dim);
 }
 
 .dock__badge {
   position: absolute;
-  top: -4px;
-  right: -4px;
-  padding: 0 3px;
+  top: -5px;
+  right: 1px;
+  padding: 0 4px;
   background: var(--accent);
   color: var(--accent-ink);
   border-radius: 2px;
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 700;
-  line-height: 12px;
+  line-height: 14px;
 }
 
 .dock__badge[hidden] { display: none; }

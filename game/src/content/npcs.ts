@@ -44,9 +44,9 @@ export const NPCS: readonly NpcDef[] = [
     name: "Warden Ilse",
     regionId: "fallowmarch",
     settlementId: "coldbrace",
-    role: "Warden of Coldbrace. Runs a town on behalf of a company that stopped writing back.",
+    role: "Warden of Millfield. Runs a town on behalf of a company that stopped writing back.",
     voice:
-      "Precise and administrative. Complete sentences, no contractions, cites March Company "
+      "Precise and administrative. Complete sentences, no contractions, cites Trade Company "
       + "regulations by number as though someone were still enforcing them. Never raises her "
       + "voice; the joke is that she is entirely serious.",
     dialogueRootId: "ilse_root",
@@ -58,7 +58,7 @@ export const NPCS: readonly NpcDef[] = [
     name: "Pitmaster Dorn",
     regionId: "fallowmarch",
     settlementId: "coldbrace",
-    role: "Runs the Bracken Pit, and the ledger that says what the Bracken Pit contains.",
+    role: "Runs the Copper Pit, and the ledger that says what the Copper Pit contains.",
     voice:
       "Numbers first, sentences second. Interrupts himself to correct a figure. Anxious in a "
       + "clerical way: the pit does not frighten him, the arithmetic does.",
@@ -71,7 +71,7 @@ export const NPCS: readonly NpcDef[] = [
     name: "Harrow the Smith",
     regionId: "fallowmarch",
     settlementId: "coldbrace",
-    role: "Coldbrace's smith. Sells metal, teaches the material loop, says very little.",
+    role: "Millfield's smith. Sells metal, teaches the material loop, says very little.",
     voice:
       "Short declaratives. Rarely more than eight words. Uses two sentences where most people "
       + "would use a paragraph, and never explains twice.",
@@ -112,7 +112,7 @@ export const NPCS: readonly NpcDef[] = [
     name: "Woodward Ansel",
     regionId: "vellenwood",
     settlementId: "rootfall",
-    role: "Keeps the Duskoak stand. Decides which trees may be felled and which may not.",
+    role: "Keeps the Maple Grove. Decides which trees may be felled and which may not.",
     voice:
       "Slow, reverent, superstitious about trees specifically. Long pauses written as sentence "
       + "breaks. Calls trees by name and people by their job.",
@@ -125,7 +125,7 @@ export const NPCS: readonly NpcDef[] = [
     name: "Seamer Juno",
     regionId: "vellenwood",
     settlementId: "rootfall",
-    role: "Rootfall's crafter. Shafts, hide, cord, and anything that has to hold under load.",
+    role: "Oakwood's crafter. Shafts, hide, cord, and anything that has to hold under load.",
     voice:
       "Brisk and teasing. Uses trade jargon and then translates it in the same breath, because "
       + "she has explained this to a hundred people and enjoys it anyway.",
@@ -153,7 +153,7 @@ export const NPCS: readonly NpcDef[] = [
     name: "Foreman Arden",
     regionId: "karrowmoor",
     settlementId: "highcairn",
-    role: "Foreman of the Highcairn quarry crew. Stopped the dig six months ago and kept the camp.",
+    role: "Foreman of the Hillcrest quarry crew. Stopped the dig six months ago and kept the camp.",
     voice:
       "A manager. Everything is a cost, a distance, or a headcount. Gives instructions in the "
       + "order they must be carried out and expects them back in the same order.",
@@ -166,7 +166,7 @@ export const NPCS: readonly NpcDef[] = [
     name: "Quarrier Vess",
     regionId: "karrowmoor",
     settlementId: "highcairn",
-    role: "Works the Kaldite faces. Does not like what the blue-black stone does in the dark.",
+    role: "Works the Cobalt faces. Does not like what the blue-black stone does in the dark.",
     voice:
       "Blunt and physical, mildly superstitious. Curses in weather and stone. Says the "
       + "frightening part flatly and then changes the subject herself.",
@@ -182,7 +182,7 @@ export const NPCS: readonly NpcDef[] = [
     role: "Keeps the cairns on the moor. Nobody appointed her; nobody has argued.",
     voice:
       "Formal and liturgical. Speaks of the cairns as duties rather than objects, and of the "
-      + "Gravelmaw as a room in a house she is responsible for. Never uses the word monster.",
+      + "Stone Cavern as a room in a house she is responsible for. Never uses the word monster.",
     dialogueRootId: "ode_root",
     questIds: ["long_cairn"],
     locationId: "highcairn_outpost",
@@ -192,7 +192,7 @@ export const NPCS: readonly NpcDef[] = [
     name: "Watcher Hale",
     regionId: "karrowmoor",
     settlementId: "highcairn",
-    role: "On the rota that watches the Gravelmaw mouth. It is his shift more often than it should be.",
+    role: "On the rota that watches Stone Cavern mouth. It is his shift more often than it should be.",
     voice:
       "Quiet, frightened, and constitutionally unable to overstate anything. Describes a horror "
       + "as an inconvenience. Trails off rather than finishing the worst sentence.",

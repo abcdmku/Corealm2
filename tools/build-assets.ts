@@ -8,9 +8,9 @@
  *   costs nothing when the outputs are already current.
  * - No zip dependency: a minimal central-directory reader lives in this file,
  *   because the repo has no declared zip package and this tool may not add one.
- * - Optimization is aggressive on purpose. The source packs ship 1-4 MB PBR
- *   normal/roughness/ORM maps; this art style only needs base colour, so every
- *   other map is dropped and base colour is capped at 512x512.
+ * - The legacy publication pipeline retains its original base-color-only policy.
+ *   --stage-materials restores authored PBR maps in a separate, selected output
+ *   tree without geometry transforms or production publication.
  * - Idempotent: a state file records the inputs and options that produced each
  *   GLB. Unchanged entries are reused and their measured metadata is replayed
  *   into the manifest, so nothing is rebuilt or corrupted on a second run.
@@ -23,19 +23,28 @@
  *   npx tsx tools/build-assets.ts --metrics  re-measure size/base from source, no rebuild
  *   npx tsx tools/build-assets.ts --metrics --write   ...and write them into the manifest
  *   npx tsx tools/build-assets.ts --probe <zip-key> <substring>   inspect sources
+ *   npx tsx tools/build-assets.ts --stage-materials --only wall_brick_straight,sword --out test-results/material-restoration/representatives
+ *   npx tsx tools/build-assets.ts --stage-materials --shared-textures --only-pack medieval-village-megakit --out test-results/material-restoration/shared-village
  */
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 import zlib from "node:zlib";
 import { createHash, randomUUID } from "node:crypto";
 import { createReadStream } from "node:fs";
 import { open, mkdir, readFile, writeFile, rm, readdir, stat, rename, cp } from "node:fs/promises";
 import type { FileHandle } from "node:fs/promises";
 import type { Dirent } from "node:fs";
-import { Document, Logger, NodeIO, type JSONDocument, type TypedArray } from "@gltf-transform/core";
+import { Document, Logger, NodeIO, type Accessor, type JSONDocument, type TypedArray } from "@gltf-transform/core";
 import { KHRONOS_EXTENSIONS } from "@gltf-transform/extensions";
 import { dedup, prune, weld, resample, quantize, textureCompress, getBounds } from "@gltf-transform/functions";
 import sharp from "sharp";
 import { repoRoot, gameRoot } from "./lib/paths.js";
+import {
+  MATERIAL_RESTORATION_VERSION,
+  restoreSourceMaterialTextures,
+  type MaterialTexturePolicy,
+} from "./lib/asset-material-restoration.js";
+import { externalizeGlbMaterialTextures } from "./lib/shared-material-textures.js";
 
 // ---------------------------------------------------------------------------
 // Minimal ZIP reader (central directory + per-entry inflate, ZIP64 aware)
@@ -1183,7 +1192,7 @@ function mtlDiffuseMaps(source: string): string[] {
   return [...maps];
 }
 
-async function planSource(pick: Pick): Promise<{ zip: ZipArchive; plan: SourcePlan }> {
+async function planSource(pick: Pick, preserveMaterialMaps = false): Promise<{ zip: ZipArchive; plan: SourcePlan }> {
   const pack = PACK_BY_ID.get(pick.pack);
   if (!pack) throw new Error(`Unknown pack ${pick.pack} for ${pick.id}`);
   const zip = await archive(pick.pack);
@@ -1224,18 +1233,20 @@ async function planSource(pick: Pick): Promise<{ zip: ZipArchive; plan: SourcePl
     seen.add(uri);
   }
 
-  // Only base colour images are ever loaded. Normal/ORM/roughness maps are
-  // stripped later anyway, so reading them would cost several MB per asset for
-  // nothing -- and some packs (Universal Base Characters) reference normal maps
-  // that are not actually in the zip. A 1x1 stand-in keeps the glTF readable,
-  // and prune() removes the texture straight after.
+  // The legacy path loads base color only, including placeholder handling for
+  // old packs with absent normal files. Material staging loads every authored
+  // image and fails on missing resources rather than silently manufacturing maps.
   const baseColorImages = baseColorImageIndices(json);
   const images = Array.isArray(json.images) ? (json.images as Array<{ uri?: string }>) : [];
   for (let i = 0; i < images.length; i += 1) {
     const uri = images[i]?.uri;
     if (typeof uri !== "string" || !uri || uri.startsWith("data:") || seen.has(uri)) continue;
     seen.add(uri);
-    resources.push({ uri, entry: baseColorImages.has(i) ? resolveResource(zip, index, dir, uri) : null });
+    const entry = preserveMaterialMaps || baseColorImages.has(i) ? resolveResource(zip, index, dir, uri) : null;
+    if (preserveMaterialMaps && !entry) {
+      throw new Error(`Cannot restore authored texture "${uri}" for ${pick.id} (${gltfEntry})`);
+    }
+    resources.push({ uri, entry });
   }
 
   return { zip, plan: { entry: gltfEntry, format: "gltf", json, resources } };
@@ -1949,9 +1960,295 @@ async function probe(zipKey: string, needle: string): Promise<void> {
   await zip.close();
 }
 
+const MATERIAL_STAGE_ROOT = path.join(repoRoot, "test-results", "material-restoration");
+const MATERIAL_STAGE_PACKS = new Set([
+  "medieval-village-megakit",
+  "fantasy-props-megakit",
+  "modular-character-outfits-fantasy",
+  "modular-character-outfits-fantasy-source",
+]);
+
+/** Requires explicit asset IDs or supported packs and a staging destination. Never publishes. */
+export function materialStagingOptions(args: readonly string[]): { ids: string[]; outputRoot: string; packIds?: string[]; sharedTextures?: true } {
+  const values = new Map<string, string>();
+  let sharedTextures = false;
+  for (let index = 0; index < args.length; index += 1) {
+    const flag = args[index]!;
+    if (flag === "--stage-materials") continue;
+    if (flag === "--shared-textures") { sharedTextures = true; continue; }
+    if (flag !== "--only" && flag !== "--only-pack" && flag !== "--out") throw new Error(`Unknown material staging option: ${flag}`);
+    const value = args[++index];
+    if (!value || value.startsWith("--") || values.has(flag)) throw new Error(`Expected one value for ${flag}`);
+    values.set(flag, value);
+  }
+  const ids = (values.get("--only") ?? "").split(",").map((id) => id.trim()).filter(Boolean);
+  const packIds = (values.get("--only-pack") ?? "").split(",").map((id) => id.trim()).filter(Boolean);
+  if ((!ids.length && !packIds.length) || ids.some((id) => !/^[a-z0-9_]+$/.test(id)) || new Set(ids).size !== ids.length) {
+    throw new Error("Material staging requires --only with distinct exact asset IDs");
+  }
+  if (packIds.some(id => !MATERIAL_STAGE_PACKS.has(id)) || new Set(packIds).size !== packIds.length) {
+    throw new Error("Material staging --only-pack requires distinct supported pack IDs");
+  }
+  if (!values.has("--out")) throw new Error("Material staging requires --out test-results/material-restoration/<name>");
+  const outputRoot = path.resolve(repoRoot, values.get("--out")!);
+  const relative = path.relative(MATERIAL_STAGE_ROOT, outputRoot);
+  if (relative === ".." || relative.startsWith(`..${path.sep}`) || path.isAbsolute(relative)) {
+    throw new Error(`Material staging output must stay inside ${MATERIAL_STAGE_ROOT}`);
+  }
+  return { ids, outputRoot, ...(packIds.length ? { packIds } : {}), ...(sharedTextures ? { sharedTextures: true as const } : {}) };
+}
+
+/** Exact source geometry, transforms, morphs, rig and motion; texture bytes are excluded. */
+export function restorationGeometrySnapshot(document: Document): unknown {
+  const root = document.getRoot();
+  const nodes = root.listNodes();
+  const meshes = root.listMeshes();
+  const skins = root.listSkins();
+  const accessor = (value: Accessor | null) => {
+    if (!value) return null;
+    const array = value.getArray();
+    return {
+      type: value.getType(), componentType: value.getComponentType(), normalized: value.getNormalized(),
+      count: value.getCount(),
+      bytes: array ? sha256(new Uint8Array(array.buffer, array.byteOffset, array.byteLength)) : null,
+    };
+  };
+  return {
+    scenes: root.listScenes().map((scene) => ({ name: scene.getName(), children: scene.listChildren().map(node => nodes.indexOf(node)) })),
+    defaultScene: root.listScenes().indexOf(root.getDefaultScene()!),
+    nodes: nodes.map((node) => ({
+      name: node.getName(), translation: node.getTranslation(), rotation: node.getRotation(), scale: node.getScale(),
+      children: node.listChildren().map(child => nodes.indexOf(child)), mesh: meshes.indexOf(node.getMesh()!),
+      skin: skins.indexOf(node.getSkin()!), weights: node.getWeights(), extras: node.getExtras(),
+    })),
+    meshes: meshes.map((mesh) => ({
+      name: mesh.getName(), weights: mesh.getWeights(),
+      primitives: mesh.listPrimitives().map((primitive) => ({
+        mode: primitive.getMode(), indices: accessor(primitive.getIndices()),
+        attributes: primitive.listSemantics().sort().map(semantic => [semantic, accessor(primitive.getAttribute(semantic))]),
+        targets: primitive.listTargets().map(target => target.listSemantics().sort().map(semantic => [semantic, accessor(target.getAttribute(semantic))])),
+      })),
+    })),
+    skins: skins.map((skin) => ({
+      name: skin.getName(), skeleton: nodes.indexOf(skin.getSkeleton()!),
+      joints: skin.listJoints().map(joint => nodes.indexOf(joint)), inverseBindMatrices: accessor(skin.getInverseBindMatrices()),
+    })),
+    animations: root.listAnimations().map(animation => ({
+      name: animation.getName(),
+      channels: animation.listChannels().map(channel => ({
+        node: nodes.indexOf(channel.getTargetNode()!), path: channel.getTargetPath(),
+        interpolation: channel.getSampler()?.getInterpolation(),
+        input: accessor(channel.getSampler()?.getInput() ?? null), output: accessor(channel.getSampler()?.getOutput() ?? null),
+      })),
+    })),
+  };
+}
+
+/** NodeIO elides transforms within epsilon of identity. Preserve the source rig's exact TRS. */
+export async function writeRestoredMaterialGlb(document: Document): Promise<Uint8Array> {
+  const encoded = Buffer.from(await io.writeBinary(document));
+  const jsonLength = encoded.readUInt32LE(12);
+  const json = JSON.parse(encoded.subarray(20, 20 + jsonLength).toString("utf8")) as {
+    nodes?: Array<{ name?: string; children?: number[]; matrix?: number[]; translation?: number[]; rotation?: number[]; scale?: number[] }>;
+  };
+  const nodes = document.getRoot().listNodes();
+  if ((json.nodes?.length ?? 0) !== nodes.length) throw new Error("GLB writer changed the node catalogue");
+  nodes.forEach((node, index) => {
+    const definition = json.nodes![index]!;
+    if ((definition.name ?? "") !== node.getName()
+      || JSON.stringify(definition.children ?? []) !== JSON.stringify(node.listChildren().map(child => nodes.indexOf(child)))) {
+      throw new Error("GLB writer reordered nodes; authored transform preservation needs an explicit index mapping");
+    }
+    delete definition.matrix;
+    definition.translation = node.getTranslation();
+    definition.rotation = node.getRotation();
+    definition.scale = node.getScale();
+  });
+  const text = Buffer.from(JSON.stringify(json));
+  const paddedLength = Math.ceil(text.length / 4) * 4;
+  const padded = Buffer.alloc(paddedLength, 0x20);
+  text.copy(padded);
+  const remainder = encoded.subarray(20 + jsonLength);
+  const header = Buffer.from(encoded.subarray(0, 20));
+  header.writeUInt32LE(20 + paddedLength + remainder.length, 8);
+  header.writeUInt32LE(paddedLength, 12);
+  return new Uint8Array(Buffer.concat([header, padded, remainder]));
+}
+
+function materialRestorationInventory(document: Document): unknown {
+  return document.getRoot().listMaterials().map(material => ({
+    name: material.getName(), baseColor: material.getBaseColorFactor(), metallic: material.getMetallicFactor(),
+    roughness: material.getRoughnessFactor(), emissive: material.getEmissiveFactor(),
+    normalScale: material.getNormalScale(), occlusionStrength: material.getOcclusionStrength(),
+    alphaMode: material.getAlphaMode(), alphaCutoff: material.getAlphaCutoff(), doubleSided: material.getDoubleSided(),
+    maps: {
+      baseColor: material.getBaseColorTexture()?.getName() ?? null,
+      normal: material.getNormalTexture()?.getName() ?? null,
+      metallicRoughness: material.getMetallicRoughnessTexture()?.getName() ?? null,
+      occlusion: material.getOcclusionTexture()?.getName() ?? null,
+      emissive: material.getEmissiveTexture()?.getName() ?? null,
+    },
+  }));
+}
+
+async function stageMaterialRestoration(args: readonly string[]): Promise<void> {
+  const { ids, outputRoot, packIds = [], sharedTextures = false } = materialStagingOptions(args);
+  const selectedIds = [...new Set([...ids, ...CATALOG.filter(pick => packIds.includes(pick.pack)).map(pick => pick.id)])];
+  const selected = selectedIds.map(id => {
+    const pick = CATALOG.find(candidate => candidate.id === id);
+    if (!pick) throw new Error(`Unknown material staging asset: ${id}`);
+    if (!MATERIAL_STAGE_PACKS.has(pick.pack) || pick.animationLibrary) {
+      throw new Error(`Material staging does not support ${id} from ${pick.pack}`);
+    }
+    return pick;
+  });
+  const previous = await readManifest();
+  const published = new Map(previous.assets.map(asset => [asset.id, asset]));
+  const assets: ManifestAsset[] = [];
+  const records: unknown[] = [];
+  const uniqueTextures = new Map<string, { bytes: number; estimatedRgba8MipBytes: number }>();
+  const sharedFiles = new Map<string, { file: string; bytes: number; sha256: string; mimeType: string }>();
+  let standaloneGlbBytes = 0;
+  const failures: Array<{ id: string; error: string }> = [];
+  await mkdir(outputRoot, { recursive: true });
+  try {
+    for (const pick of selected) {
+      try {
+        const pack = PACK_BY_ID.get(pick.pack)!;
+        const { zip, plan } = await planSource(pick, true);
+        const { document, sourceBytes } = await materialize(zip, plan);
+        const sourceGeometry = JSON.stringify(restorationGeometrySnapshot(document));
+        const sourceMaterials = materialRestorationInventory(document);
+        const metrics = measure(document);
+        // Keep the accepted 1K surface policy throughout this restoration library.
+        // A prop and an equipped asset can share an atlas; category-wide 512 caps
+        // would both lower visible detail and create a second copy of that atlas.
+        const policy: MaterialTexturePolicy = {
+          colorLimit: Math.max(1024, pick.textureLimit ?? 1024),
+          dataLimit: 1024,
+        };
+        const textures = await restoreSourceMaterialTextures(document, policy);
+        if (sourceGeometry !== JSON.stringify(restorationGeometrySnapshot(document))) {
+          throw new Error("Material restoration modified source geometry, transforms, rig or animations");
+        }
+        const standalone = await writeRestoredMaterialGlb(document);
+        const restored = await io.readBinary(standalone);
+        const restoredGeometry = JSON.stringify(restorationGeometrySnapshot(restored));
+        if (sourceGeometry !== restoredGeometry) {
+          await writeTextAtomically(path.join(outputRoot, `${pick.id}.source-geometry.json`), sourceGeometry);
+          await writeTextAtomically(path.join(outputRoot, `${pick.id}.restored-geometry.json`), restoredGeometry);
+          throw new Error("GLB round-trip changed source geometry, UVs, pivots, rig or animations; diagnostic snapshots were staged");
+        }
+        if (JSON.stringify(sourceMaterials) !== JSON.stringify(materialRestorationInventory(restored))) {
+          throw new Error("GLB round-trip changed authored material factors or bindings");
+        }
+        const relative = `models/${pick.category}/${pick.id}.glb`;
+        const file = path.join(outputRoot, relative);
+        const shared = sharedTextures ? externalizeGlbMaterialTextures(standalone, relative) : null;
+        const glb = shared?.glb ?? standalone;
+        for (const texture of shared?.textures ?? []) {
+          if (sharedFiles.has(texture.file)) continue;
+          const target = path.join(outputRoot, texture.file);
+          await mkdir(path.dirname(target), { recursive: true });
+          await writeFile(target, texture.bytes);
+          sharedFiles.set(texture.file, { file: texture.file, bytes: texture.bytes.byteLength, sha256: texture.sha256, mimeType: texture.mimeType });
+        }
+        await mkdir(path.dirname(file), { recursive: true });
+        await writeFile(file, glb);
+        if (shared) {
+          const external = await io.read(file);
+          if (sourceGeometry !== JSON.stringify(restorationGeometrySnapshot(external))
+            || JSON.stringify(sourceMaterials) !== JSON.stringify(materialRestorationInventory(external))) {
+            throw new Error("Shared-texture GLB changed source geometry, rig, material factors or map bindings");
+          }
+          const externalImageHashes = external.getRoot().listTextures().map(texture => sha256(texture.getImage()!));
+          const standaloneImageHashes = restored.getRoot().listTextures().map(texture => sha256(texture.getImage()!));
+          if (JSON.stringify(externalImageHashes) !== JSON.stringify(standaloneImageHashes)) {
+            throw new Error("Shared-texture GLB changed encoded image payloads or image order");
+          }
+        }
+        standaloneGlbBytes += standalone.byteLength;
+        const asset = describe(pick, relative, glb.byteLength, restored, metrics);
+        assets.push(asset);
+        for (const texture of textures) uniqueTextures.set(texture.outputSha256, {
+          bytes: texture.outputBytes,
+          estimatedRgba8MipBytes: Math.ceil(texture.width * texture.height * 4 * 4 / 3),
+        });
+        const old = published.get(pick.id);
+        const publishedHash = old ? await sha256File(path.join(OUT_DIR, old.file)) : null;
+        records.push({
+          id: pick.id, asset, policy,
+          optionsHash: sha1(MATERIAL_RESTORATION_VERSION, JSON.stringify(policy), pick.id, pick.pack),
+          source: {
+            archive: zip.file, archiveSha256: pack.archiveSha256, entry: plan.entry,
+            entrySha256: sha256(await zip.read(plan.entry)), inputHash: fingerprintSource(zip, plan), sourceBytes,
+            resources: plan.resources,
+          },
+          output: { file: relative, bytes: glb.byteLength, sha256: sha256(glb), standaloneBytes: standalone.byteLength, sharedTextures: shared?.textures.map(texture => texture.file) ?? [] },
+          geometry: {
+            exactSourceParity: true, sourceSha256: sha256(Buffer.from(sourceGeometry)), stagedSha256: sha256(Buffer.from(restoredGeometry)),
+            meshes: restored.getRoot().listMeshes().length, skins: restored.getRoot().listSkins().length,
+            nodes: restored.getRoot().listNodes().length, animations: restored.getRoot().listAnimations().length,
+            bounds: metrics,
+          },
+          publishedBaseline: old ? {
+            file: old.file, bytes: old.bytes, sha256: publishedHash, size: old.size, base: old.base,
+            sourceBoundsMatch: JSON.stringify({ size: old.size, base: old.base }) === JSON.stringify(metrics),
+          } : null,
+          materials: sourceMaterials, textures,
+          textureBudget: {
+            encodedBytes: textures.reduce((sum, texture) => sum + texture.outputBytes, 0),
+            estimatedRgba8MipBytes: textures.reduce((sum, texture) => sum + Math.ceil(texture.width * texture.height * 4 * 4 / 3), 0),
+            note: "RGBA8 plus full mip pyramid estimate per asset before shared-texture deduplication",
+          },
+        });
+        console.log(`staged ${pick.id}: ${readableSize(glb.byteLength)}, ${textures.length} textures, exact source geometry/rig parity`);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        failures.push({ id: pick.id, error: message });
+        console.error(`FAILED ${pick.id}: ${message}`);
+      }
+    }
+    const manifest: Manifest = {
+      generatedAt: previous.generatedAt,
+      packs: PACKS.filter(pack => selected.some(pick => pick.pack === pack.id)).map(({ zip: _zip, root: _root, sourceFormat: _format, ...pack }) => pack),
+      assets,
+    };
+    await writeTextAtomically(path.join(outputRoot, "manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
+    await writeTextAtomically(path.join(outputRoot, "report.json"), `${JSON.stringify({
+      version: MATERIAL_RESTORATION_VERSION, status: failures.length ? "failed" : "staged-awaiting-lab",
+      selected: selectedIds, productionFilesWritten: false, sharedTextures, sharedFiles: [...sharedFiles.values()], assets: records, failures,
+      summary: {
+        glbBytes: assets.reduce((sum, asset) => sum + asset.bytes, 0),
+        standaloneGlbBytes,
+        sharedTextureBytes: [...sharedFiles.values()].reduce((sum, texture) => sum + texture.bytes, 0),
+        totalAssetBytes: assets.reduce((sum, asset) => sum + asset.bytes, 0) + [...sharedFiles.values()].reduce((sum, texture) => sum + texture.bytes, 0),
+        uniqueTextureImages: uniqueTextures.size,
+        uniqueTextureBytes: [...uniqueTextures.values()].reduce((sum, texture) => sum + texture.bytes, 0),
+        uniqueRgba8MipBytes: [...uniqueTextures.values()].reduce((sum, texture) => sum + texture.estimatedRgba8MipBytes, 0),
+        note: sharedTextures
+          ? "GLBs use exact encoded images via portable ../../textures/imported/<hash> URIs. File deduplication is measured; runtime request/image/GPU reuse still needs canonical URLs and loader/cache proof."
+          : "Standalone GLBs repeat source atlases. Unique-image totals are a packaging opportunity, not current runtime memory proof.",
+      },
+    }, null, 2)}\n`);
+    if (failures.length) throw new Error(`${failures.length}/${selected.length} material staging assets failed; see ${path.join(outputRoot, "report.json")}`);
+  } finally {
+    for (const zip of archives.values()) await zip.close();
+    archives.clear();
+    basenameIndex.clear();
+  }
+}
+
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
+  if (args.includes("--stage-materials")) {
+    await stageMaterialRestoration(args);
+    return;
+  }
+  if (["--only", "--only-pack", "--out", "--shared-textures"].some(flag => args.includes(flag))) {
+    throw new Error("Staging selection/output options require --stage-materials; no production build was started");
+  }
   if (args[0] === "--probe") {
     await probe(args[1]!, args[2] ?? "");
     return;
@@ -2162,4 +2459,4 @@ async function main(): Promise<void> {
   }
 }
 
-await main();
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) await main();

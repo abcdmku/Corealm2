@@ -26,7 +26,7 @@ describe("Marchfield homestead", () => {
     expect(hens.centre).toEqual([-93, -21]);
     expect(hens.radius).toBeLessThanOrEqual(2.1);
     expect(cattle.count).toBe(4);
-    expect(cattle.name).toBe("Marchfield Cow");
+    expect(cattle.name).toBe("Cow");
     expect(Math.hypot(cattle.centre[0] + 96, cattle.centre[1] + 22)).toBeLessThan(20);
 
     const world = buildWorld(1337, () => 0);

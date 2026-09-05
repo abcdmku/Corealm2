@@ -12,7 +12,6 @@ export const BOOT_TELEMETRY_GLOBAL = "__corealmBootTelemetry" as const;
 export const BOOT_SPANS = {
   TOTAL: "boot.total",
   JS_EVALUATION: "boot.js.evaluate",
-  PHYSICS_WASM_INIT: "boot.wasm.physics.initialize",
   NAVIGATION_WASM_INIT: "boot.wasm.navigation.initialize",
   MANIFEST_LOAD: "boot.assets.manifest.load",
   ANIMATION_LOAD: "boot.assets.animations.load",

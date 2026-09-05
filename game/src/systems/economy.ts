@@ -3,8 +3,8 @@
  *
  * Prices are fixed and readable off the content tables, never haggled and never dynamic — an agent
  * should be able to work out whether a trip is worth it from `ItemDef.value` and two multipliers,
- * without sampling the market. Buy is `value * buyMultiplier`, sell is `sellPrice(value) *
- * sellMultiplier`, which is the 40% spread PRD 2.10 tabulates.
+ * without sampling the market. Buy is `value * buyMultiplier`, sell is `value * sellMultiplier`,
+ * rounded once per item, which is the 40% spread PRD 2.10 tabulates.
  *
  * Stock is fixed in the literal sense: `ShopDef.stock` quantities are what the shop always has.
  * There is no per-shop stock in `state`, so a depleting shelf would need a new state field, and the
@@ -15,9 +15,10 @@
 import type { EntityId, ItemId, Result, ShopView } from "../contracts.js";
 import { err, ok } from "../contracts.js";
 import type { ShopDef } from "../content/index.js";
-import { content, sellPrice } from "../content/index.js";
+import { content } from "../content/index.js";
 import type { GameState, Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
+import type { InteractionContext, InteractionDispatcher } from "../world/interactions.js";
 import type { InventorySystem } from "./inventory.js";
 
 export type ShopOp = "list" | "buy" | "sell";
@@ -43,6 +44,7 @@ export interface EconomyDeps {
   store: Store;
   events: EventBus;
   inventory: InventorySystem;
+  dispatcher: InteractionDispatcher;
   now: () => number;
   /**
    * Resolves which shop a call refers to. With no `shopId` this should return the nearest shop
@@ -53,10 +55,28 @@ export interface EconomyDeps {
 }
 
 export class EconomySystem {
-  constructor(private readonly deps: EconomyDeps) {}
+  constructor(private readonly deps: EconomyDeps) {
+    deps.dispatcher.registerHandler("trade", (context) => this.open(context));
+  }
 
   private get state(): GameState {
     return this.deps.store.get();
+  }
+
+  /** Opens the shop through the same interaction path used by pointer and agent play. */
+  private open(context: InteractionContext): Result<{ started: string }> {
+    if (context.entity.archetype !== "shop") {
+      return err("INVALID_ARGUMENT", `${context.entity.name} is not a shop`, context.entity.id);
+    }
+    const listed = this.op("list", { shopId: context.entity.id });
+    if (!listed.ok) return { ok: false, error: listed.error };
+    this.deps.events.emit(
+      "activity.started",
+      { kind: "shop", interaction: "trade" },
+      context.entity.id,
+      this.deps.now(),
+    );
+    return ok({ started: `trading at ${context.entity.name}` });
   }
 
   /** Matches `SystemHooks.shop`. */
@@ -98,7 +118,7 @@ export class EconomySystem {
   sellPriceOf(def: ShopDef, itemId: ItemId): number | null {
     const item = content.item(itemId);
     if (!item) return null;
-    return Math.max(0, Math.round(sellPrice(item.value) * def.sellMultiplier));
+    return Math.max(0, Math.round(item.value * def.sellMultiplier));
   }
 
   private view(entityId: EntityId, def: ShopDef): ShopView {
@@ -110,11 +130,16 @@ export class EconomySystem {
         itemId: row.itemId,
         name: item.name,
         buyPrice: this.buyPriceOf(def, row.itemId) ?? item.value,
-        sellPrice: this.sellPriceOf(def, row.itemId) ?? sellPrice(item.value),
+        sellPrice: this.sellPriceOf(def, row.itemId) ?? 0,
         quantity: row.quantity,
       });
     }
-    return { shopId: entityId, stock, currency: this.state.currency };
+    const sellPrices: ShopView["sellPrices"] = {};
+    for (const slot of this.state.inventory.slots) {
+      if (!slot) continue;
+      sellPrices[slot.itemId] = this.sellPriceOf(def, slot.itemId) ?? 0;
+    }
+    return { shopId: entityId, stock, sellPrices, currency: this.state.currency };
   }
 
   // -------------------------------------------------------------------- buy
@@ -183,7 +208,7 @@ export class EconomySystem {
       return err("NOT_ENOUGH_ITEMS", `You have ${held} ${item.name}, not ${wanted}`);
     }
 
-    const unit = this.sellPriceOf(def, itemId) ?? sellPrice(item.value);
+    const unit = this.sellPriceOf(def, itemId) ?? 0;
     if (unit < 1) {
       return err("INVALID_ARGUMENT", `${def.name} will not pay anything for ${item.name}`, entityId);
     }

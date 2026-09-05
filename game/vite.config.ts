@@ -1,10 +1,10 @@
 import path from "node:path";
 import { brotliCompressSync, constants as zlibConstants, gzipSync } from "node:zlib";
-import { defineConfig, type Plugin, type ResolveModulePreloadDependenciesFn } from "vite";
+import { defineConfig, type Plugin } from "vite";
 
 const APPLICATION_INITIAL_JS_GZIP_BUDGET = 1_000_000;
 const CRITICAL_JS_AND_WASM_GZIP_BUDGET = 1_500_000;
-const DEDICATED_ENGINE_CHUNKS = ["three", "rapier", "recast"] as const;
+const DEDICATED_ENGINE_CHUNKS = ["three", "recast"] as const;
 const VENDOR_CHUNKS = new Set<string>([...DEDICATED_ENGINE_CHUNKS, "vendor"]);
 
 export const BUNDLE_BUDGETS = Object.freeze({
@@ -50,30 +50,6 @@ export interface BundleBudgetReport {
   sourceMaps: string[];
   missingDedicatedChunks: string[];
 }
-
-/** Stable chunk ownership keeps engine upgrades out of the application chunk. */
-export function bundleChunkForModule(moduleId: string): string | undefined {
-  const id = moduleId.replaceAll("\\", "/");
-  if (id.includes("/node_modules/three/")) return "three";
-  if (id.includes("/node_modules/@dimforge/rapier3d")) return "rapier";
-  if (
-    id.includes("/node_modules/@recast-navigation/")
-    || id.includes("/node_modules/recast-navigation/")
-  ) return "recast";
-  if (id.includes("/node_modules/")) return "vendor";
-  return undefined;
-}
-
-/**
- * Vite passes only the entry's synchronous dependency graph for an HTML host. Preserve that graph
- * so every module needed to evaluate boot is discovered with the entry instead of one import at a
- * time. Dependencies of later dynamic imports are attached to their JS host and remain deferred.
- */
-export const resolveCriticalPreloads: ResolveModulePreloadDependenciesFn = (
-  _filename,
-  dependencies,
-  _context,
-) => dependencies;
 
 function bytesOf(artifact: BundleArtifact): string | Uint8Array {
   return artifact.type === "chunk" ? artifact.code : artifact.source;
@@ -252,8 +228,15 @@ export default defineConfig({
     alias: [{ find: /^@recast-navigation\/wasm$/, replacement: "@recast-navigation/wasm/wasm" }],
   },
   optimizeDeps: {
-    // Preserve package-owned WASM URLs. Prebundling turns them into an opaque compatibility chain.
-    exclude: ["@dimforge/rapier3d", "@recast-navigation/wasm", "@recast-navigation/wasm/wasm"],
+    // Recast's generators and init must share core's mutable Raw singleton. Keep this pure ESM
+    // graph outside the optimizer so a dependency rediscovery cannot give them different cached
+    // core identities in a running lab. The WASM loaders also keep their package-owned URLs.
+    exclude: [
+      "@recast-navigation/core",
+      "@recast-navigation/generators",
+      "@recast-navigation/wasm",
+      "@recast-navigation/wasm/wasm",
+    ],
   },
   plugins: [wasmMimePlugin(), compressedBundleBudgetPlugin()],
   build: {
@@ -264,7 +247,6 @@ export default defineConfig({
     assetsInlineLimit: (filePath) => filePath.endsWith(".wasm") ? false : undefined,
     modulePreload: {
       polyfill: false,
-      resolveDependencies: resolveCriticalPreloads,
     },
     // The budget plugin reports both gzip and Brotli, then enforces the gzip transfer limits.
     reportCompressedSize: false,
@@ -275,14 +257,6 @@ export default defineConfig({
         // static entry dependency again.
         codeSplitting: {
           groups: [
-            {
-              name: "rapier",
-              test: /node_modules[\/]@dimforge[\/]rapier3d/,
-              priority: 4,
-              // Rapier's generated entry and glue are mutually dependent; keep that package
-              // atomic so code splitting cannot turn the cycle into two runtime chunks.
-              includeDependenciesRecursively: true,
-            },
             {
               name: "recast",
               test: /node_modules[\/](?:@recast-navigation|recast-navigation)[\/]/,

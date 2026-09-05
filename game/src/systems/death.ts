@@ -154,7 +154,8 @@ export class DeathSystem implements TickSystem {
           respawnPosition: cloneVec3(target.position),
           cacheId,
           itemsLost: items.length,
-          expiresAtMs: cacheId ? atMs + RECOVERY_CACHE_TTL_MS : null,
+          expiresAtMs: state.world.recoveryCache?.expiresAtMs ?? null,
+          expiresAtWallMs: state.world.recoveryCache?.expiresAtWallMs ?? null,
         },
         cacheId ?? undefined,
         atMs,
@@ -197,6 +198,7 @@ export class DeathSystem implements TickSystem {
   ): EntityId {
     const snapped = this.deps.snapToGround?.(position) ?? position;
     const expiresAtMs = atMs + RECOVERY_CACHE_TTL_MS;
+    const expiresAtWallMs = Date.now() + RECOVERY_CACHE_TTL_MS;
 
     state.world.recoveryCache = {
       id: RECOVERY_CACHE_ID,
@@ -204,6 +206,7 @@ export class DeathSystem implements TickSystem {
       regionId,
       items,
       expiresAtMs,
+      expiresAtWallMs,
     };
     this.deps.store.markDirty();
 
@@ -221,6 +224,7 @@ export class DeathSystem implements TickSystem {
       meta: {
         blurb: "Everything you were carrying when you died. It will not wait forever.",
         expiresAtMs,
+        expiresAtWallMs,
         itemCount: items.length,
       },
     });
@@ -248,7 +252,10 @@ export class DeathSystem implements TickSystem {
   private expireCache(state: GameState, atMs: number): void {
     const cache = state.world.recoveryCache;
     if (!cache) return;
-    if (atMs < cache.expiresAtMs) return;
+    const remaining = cache.expiresAtWallMs !== undefined
+      ? cache.expiresAtWallMs - Date.now()
+      : cache.expiresAtMs - atMs;
+    if (remaining > 0) return;
     this.destroyCache(state, "expired", atMs);
   }
 
@@ -263,9 +270,10 @@ export class DeathSystem implements TickSystem {
 
   // ------------------------------------------------------------------- loot
 
-  /** Opening is deliberately read-only. Taking a displayed stack is a separate GameApi command. */
+  /** Opening never transfers items. Taking a displayed stack is a separate GameApi command. */
   loot(entity: SemanticEntity): Result<{ started: string }> {
     const state = this.deps.store.get();
+    this.expireCache(state, this.lastAtMs);
     let items: ItemStack[];
 
     if (entity.archetype === "recovery_cache") {
@@ -292,6 +300,7 @@ export class DeathSystem implements TickSystem {
   /** Takes one selected stack, or every stack when `stackIndex` is omitted by an agent command. */
   take(entityId: EntityId, stackIndex?: number): Result<LootTakeResult> {
     const state = this.deps.store.get();
+    this.expireCache(state, this.lastAtMs);
     const entity = this.deps.entities.get(entityId);
     if (!entity) return err("NOT_FOUND", "That loot container is gone.", entityId);
 
@@ -385,6 +394,8 @@ export class DeathSystem implements TickSystem {
   cacheRemainingMs(atMs: number = this.lastAtMs): number | null {
     const cache = this.deps.store.get().world.recoveryCache;
     if (!cache) return null;
-    return Math.max(0, cache.expiresAtMs - atMs);
+    return Math.max(0, cache.expiresAtWallMs !== undefined
+      ? cache.expiresAtWallMs - Date.now()
+      : cache.expiresAtMs - atMs);
   }
 }

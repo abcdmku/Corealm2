@@ -21,10 +21,9 @@ import type { RngStreams } from "../core/rng.js";
 import type { Renderer } from "../render/renderer.js";
 import type { OrbitCamera } from "../render/camera.js";
 import type { WorldScene } from "../render/scene.js";
-import type { Physics } from "../systems/physics.js";
 import type { Navigation } from "../systems/navigation.js";
 import type { Movement } from "../systems/movement.js";
-import type { CombatHit } from "../systems/combat.js";
+import type { CombatAttackStart, CombatHit } from "../systems/combat.js";
 import type { CorealmGameApi } from "../api/gameApi.js";
 import type { SaveService } from "../persistence/storage.js";
 import type { InputController } from "../input/mouse.js";
@@ -68,7 +67,6 @@ export interface LoopDeps {
   renderer: Renderer;
   camera: OrbitCamera;
   scene: WorldScene;
-  physics: Physics;
   nav: Navigation;
   movement: Movement;
   api: CorealmGameApi;
@@ -135,11 +133,6 @@ function bestCarriedGatheringTool(state: GameState, skill: SkillId): ItemId | nu
 
 
 /**
- * One player hit held between the roll that produced it and the frame that should appear to cause
- * it. `flightUntilMs` is null for melee and for any cast the effect layer could not fly; see the
- * field comment on `pendingPlayerHits`.
- */
-/**
  * How fast the single casting clip plays, by rung.
  *
  * `Spell_Simple_Shoot` is 1.0 s of the same gesture whatever is being thrown. A lash runs slightly
@@ -166,11 +159,6 @@ function castTimeScale(rung: SpellRung | null): number | null {
   }
 }
 
-interface PendingPlayerHit {
-  hit: CombatHit;
-  swingPresented: boolean;
-}
-
 export class GameLoop {
   private running = false;
   private frameHandle = 0;
@@ -184,18 +172,9 @@ export class GameLoop {
   private playerRig: CharacterRig | null = null;
   private vfx: Vfx | null = null;
   private drainHits: (() => readonly CombatHit[]) | null = null;
+  private drainAttackStarts: (() => readonly CombatAttackStart[]) | null = null;
   private playerMotionHandler: ((event: CharacterMotionEvent) => void) | null = null;
   private combatPresentationHandler: ((hit: CombatHit, phase: "swing" | "impact" | "combined") => void) | null = null;
-  /**
-   * MELEE hits waiting for the animation frame that should appear to cause them.
-   *
-   * Melee only, now. A sword's contact marker IS the moment it connects, so a swing pays out on
-   * `impact` and is done. Magic used to queue here too, with a flight deadline layered on top,
-   * because the damage was canonical the instant the cast resolved and only the number could be
-   * held back. `systems/combat.ts` now holds the DAMAGE back for the length of the flight, so a
-   * magic hit reaches this class already on time and is presented immediately.
-   */
-  private readonly pendingPlayerHits: PendingPlayerHit[] = [];
   private spellVfx: SpellVfx | null = null;
   /** Scratch for the cast origin, so a cast allocates nothing. */
   private readonly spellOriginTuple: [number, number, number] = [0, 0, 0];
@@ -331,6 +310,10 @@ export class GameLoop {
     this.drainHits = drain;
   }
 
+  setCombatAttackStarts(drain: () => readonly CombatAttackStart[]): void {
+    this.drainAttackStarts = drain;
+  }
+
   /** Sound and other presentation systems consume the rig's measured contact frames here. */
   setPlayerMotionHandler(handler: (event: CharacterMotionEvent) => void): void {
     this.playerMotionHandler = handler;
@@ -386,7 +369,6 @@ export class GameLoop {
   resetPresentation(): void {
     this.pendingRigPose = null;
     this.pendingRigPoseTimeScale = null;
-    this.pendingPlayerHits.length = 0;
     this.gatheringRigKey = null;
     this.playerRig?.drainMotionEvents();
     this.playerRig?.play("idle", true);
@@ -419,16 +401,13 @@ export class GameLoop {
 
   /** One 100 ms simulation step. */
   private simTick(): void {
-    const { store, clock, movement, physics, events } = this.deps;
+    const { store, clock, movement, events } = this.deps;
     const state = store.get();
     const atMs = clock.elapsedMs;
 
     // 1. input has already been folded into the movement controller by the input layer
     // 2. movement
     movement.update(state, SIM_TICK_MS, atMs);
-
-    // 3. physics (static world for now; keeps the collider set warm and ground queries valid)
-    physics.step();
 
     // 4..11. registered systems: gathering, production, combat, enemy AI, health, quests
     for (const system of this.systems) system.tick(SIM_TICK_MS, atMs);
@@ -524,6 +503,7 @@ export class GameLoop {
     // wildly wrong one.
     this.entityViews?.update(realDeltaMs / 1000, renderer.camera.position, this.deps.clock.elapsedMs);
     this.overlays?.update(this.deps.clock.elapsedMs, position);
+    this.presentAttackStarts();
     this.paintCombatHits(nowMs);
     this.vfx?.update(nowMs);
     // After `vfx`, so a spell burst draws over the floating numbers rather than under them.
@@ -535,6 +515,8 @@ export class GameLoop {
     camera.update(position[0], position[1], position[2]);
     renderer.followShadow(renderer.camera.position.clone().setY(position[1]));
     renderer.camera.updateMatrixWorld();
+    scene.materials.updatePlayerOcclusion(renderer.renderer, renderer.camera, position,
+      this.playerRig?.root.visible ?? true);
     renderer.render(nowMs);
   }
 
@@ -604,7 +586,6 @@ export class GameLoop {
     rig.update(realDeltaMs / 1000);
     for (const event of rig.drainMotionEvents()) {
       this.playerMotionHandler?.(event);
-      this.presentPlayerCombatEvent(event, nowMs);
     }
   }
 
@@ -661,65 +642,34 @@ export class GameLoop {
    * to see, and `Hit_Chest` is 0.333 s against `Sword_Attack`'s 1.533 s, so it reads as an
    * interruption and recovers before the next 600 ms combat tick.
    */
-  private paintCombatHits(nowMs: number): void {
-    if (!this.drainHits) return;
-    const playerId = this.deps.store.get().player.id;
-    let swingPose: CharacterPose | null = null;
-    for (const swing of this.drainHits()) {
-      const incoming = swing.attacker === "enemy";
-      const kind = incoming ? "incoming" : swing.kind === "magic" ? "magic" : "melee";
-      if (incoming) {
-        this.vfx?.damage(null, swing.damage, kind, nowMs);
-        this.combatPresentationHandler?.(swing, "combined");
-        if (swing.hit && swing.targetId === playerId) swingPose = "hit";
-        // The enemy that threw it swings; the player takes it. Without this the boss fight is a
-        // frozen statue exchanging damage numbers with a moving player.
-        this.entityViews?.playAction(swing.sourceId, "attack");
-      } else if (swing.kind === "magic") {
-        // A magic hit arrives ALREADY on time: `systems/combat.ts` held the damage back for the
-        // whole flight, so this IS the frame the bolt reached the target. Waiting for the rig's
-        // contact marker the way melee does would delay it a second time — and the cast animation
-        // that owns those markers finished while the bolt was still travelling, so the next marker
-        // is a whole cast interval away. No pose either: the caster threw this a second ago and is
-        // standing still now. `handleSpellLaunch` played the cast when it was actually cast.
-        // "impact", not "combined": the cast half already sounded when the spell launched, and
-        // "combined" replays both.
-        this.combatPresentationHandler?.(swing, "impact");
-        this.vfx?.damage(swing.targetId, swing.damage, "magic", nowMs);
-        if (swing.hit) this.entityViews?.playAction(swing.targetId, "hit");
+  private presentAttackStarts(): void {
+    for (const start of this.drainAttackStarts?.() ?? []) {
+      const durationSeconds = Math.max(0.05, (start.recoverAtMs - start.atMs) / 1000 / (this.deps.clock.timeScale || 1));
+      if (start.attacker === "player") {
+        this.pendingRigPose = "attack_melee";
+        this.pendingRigPoseTimeScale = (this.playerRig?.meleeTiming().clipSeconds ?? 1.533333) / durationSeconds;
       } else {
-        // Damage is already canonical. Its sound and number wait for the attack clip's measured
-        // contact frame, so the player's sword is what appears to cause it.
-        if (this.pendingPlayerHits.length > 0) this.flushPendingPlayerHits(nowMs);
-        this.pendingPlayerHits.push({ hit: swing, swingPresented: false });
-        if (swingPose !== "hit") swingPose = "attack_melee";
+        this.entityViews?.playAction(start.sourceId, "attack", { durationSeconds });
       }
-    }
-    // A flinch outranks the attack pose. If both land in one render frame there will be no player
-    // contact marker to consume the queued hit, so present it now instead of losing the feedback.
-    if (swingPose === "hit" && this.pendingPlayerHits.length > 0) this.flushPendingPlayerHits(nowMs);
-    if (!this.playerRig && this.pendingPlayerHits.length > 0) this.flushPendingPlayerHits(nowMs);
-    if (swingPose) {
-      this.pendingRigPose = swingPose;
-      this.pendingRigPoseTimeScale = null;
     }
   }
 
-  private presentPlayerCombatEvent(event: CharacterMotionEvent, nowMs: number): void {
-    if (event.kind === "footstep" || (event.pose !== "attack_melee" && event.pose !== "cast")) return;
-    const expectedKind = event.pose === "cast" ? "magic" : "melee";
-    const pending = this.pendingPlayerHits.find((entry) => entry.hit.kind === expectedKind);
-    if (!pending) return;
-
-    if (event.kind === "swing") {
-      if (pending.swingPresented) return;
-      pending.swingPresented = true;
-      this.combatPresentationHandler?.(pending.hit, "swing");
-      return;
+  private paintCombatHits(nowMs: number): void {
+    const playerId = this.deps.store.get().player.id;
+    for (const hit of this.drainHits?.() ?? []) {
+      // Simulation has reached the contact frame. Health, recoil, sound and numbers agree here.
+      this.combatPresentationHandler?.(hit, hit.kind === "magic" ? "impact" : "combined");
+      if (hit.attacker === "enemy") {
+        this.vfx?.damage(null, hit.damage, "incoming", nowMs);
+        if (hit.hit && hit.targetId === playerId) {
+          this.pendingRigPose = "hit";
+          this.pendingRigPoseTimeScale = null;
+        }
+      } else {
+        this.vfx?.damage(hit.targetId, hit.damage, hit.kind === "magic" ? "magic" : "melee", nowMs);
+        if (hit.hit) this.entityViews?.playAction(hit.targetId, "hit");
+      }
     }
-
-    if (!pending.swingPresented) this.combatPresentationHandler?.(pending.hit, "swing");
-    this.payOutPlayerHit(pending, nowMs);
   }
 
   /**
@@ -795,41 +745,6 @@ export class GameLoop {
       if (entity.id === entityId) return entity.position;
     }
     return null;
-  }
-
-  private payOutPlayerHit(pending: PendingPlayerHit, nowMs: number): void {
-    this.combatPresentationHandler?.(pending.hit, "impact");
-    const kind = pending.hit.kind === "magic" ? "magic" : "melee";
-    this.vfx?.damage(pending.hit.targetId, pending.hit.damage, kind, nowMs);
-    if (pending.hit.hit) this.entityViews?.playAction(pending.hit.targetId, "hit");
-    const index = this.pendingPlayerHits.indexOf(pending);
-    if (index >= 0) this.pendingPlayerHits.splice(index, 1);
-  }
-
-  /**
-   * Pays out every queued hit at once, without waiting for a contact marker.
-   *
-   * Reached when a flinch outranks the attack pose in the same frame, when a second hit lands before
-   * the first was presented, and when there is no player rig at all. All three are cases where the
-   * marker that would normally trigger the payout is never going to arrive.
-   *
-   * IT MUST STILL FIRE THE SPELL EFFECT, and the first version of this did not. `launchSpell` was
-   * only called from the rig's swing marker, so a cast that flushed drew a damage number out of
-   * thin air with nothing leaving the staff. That is not a rare path: a caster fighting anything
-   * that fights back gets flinched constantly, and `tools/verify-magic.ts` found it by casting four
-   * times at an aggressive target and seeing zero particles every time — while the same cast against
-   * a target that had not yet retaliated drew fine.
-   *
-   * Melee only. A magic hit never reaches this queue: it is presented the moment it arrives, which
-   * is already the right moment.
-   */
-  private flushPendingPlayerHits(nowMs: number): void {
-    for (const pending of this.pendingPlayerHits.splice(0, this.pendingPlayerHits.length)) {
-      this.combatPresentationHandler?.(pending.hit, "combined");
-      const kind = pending.hit.kind === "magic" ? "magic" : "melee";
-      this.vfx?.damage(pending.hit.targetId, pending.hit.damage, kind, nowMs);
-      if (pending.hit.hit) this.entityViews?.playAction(pending.hit.targetId, "hit");
-    }
   }
 
   /** Diffs semantic entities into the render layer a few times a second, not every frame. */
