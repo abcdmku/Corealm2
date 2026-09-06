@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T00:46:21.653Z",
+  "generatedAt": "2026-09-06T05:39:28.538Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -339,6 +339,18 @@
       "source": "https://assetstore.unity.com/packages/3d/props/weapons/free-rpg-weapons-199738",
       "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
       "upstreamPackId": "blink-free-rpg-weapons",
+      "derivation": "Corealm geometry, proportion, equipment and animation edits. Source rights retained; per-asset sourceProvenance lists all combined sources and modifications."
+    },
+    {
+      "id": "corealm-rpg-dungeon-skeletons-demo",
+      "name": "Corealm RPG derivatives — Dungeon Skeletons Demo",
+      "author": "Polygon Blacksmith",
+      "source": "https://assetstore.unity.com/packages/3d/characters/creatures/dungeon-skeletons-demo-71087",
+      "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+      "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+      "assetStoreId": "71087",
+      "sourceArchive": "Dungeon Skeletons Demo.unitypackage",
+      "upstreamPackId": "dungeon-skeletons-demo",
       "derivation": "Corealm geometry, proportion, equipment and animation edits. Source rights retained; per-asset sourceProvenance lists all combined sources and modifications."
     }
   ],
@@ -28442,6 +28454,751 @@
       "impliedWalkMps": 1.02122,
       "impliedRunMps": 1.02122,
       "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_skeleton_soldier",
+      "file": "models/creature/creature_skeleton_soldier.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "skeleton soldier",
+      "tags": [
+        "creature",
+        "rpg",
+        "skeleton_soldier"
+      ],
+      "bytes": 584320,
+      "sha256": "858e5d64f151e7f4bd1a0d440f20d5e24c0a3a53c43b94851236bfb9579218fe",
+      "size": {
+        "x": 1.2294581210833742,
+        "y": 1.5959422176642555,
+        "z": 0.8351349091732603
+      },
+      "base": {
+        "x": -0.872976577198899,
+        "y": 0.0032741110492161326,
+        "z": -0.387269709140566
+      },
+      "groundY": 0.0032741110492161326,
+      "triangles": 1150,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_soldier_DS_Skeleton_standard",
+        "animal_rpg_skeleton_soldier_DS_equipment_standard"
+      ],
+      "walkClipSeconds": 1.1666666269302368,
+      "runClipSeconds": 0.7933332920074463,
+      "attackSeconds": 1.5,
+      "contactNormalized": 0.4,
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "mesh": "models/DungeonSkeleton_demo.FBX",
+        "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0.",
+        "hitRevision": {
+          "kind": "clip-only",
+          "baselineSha256": "b322df501fd9e916fba28eb1e6b067beb7783b142f586c1a85e973d9cd530426",
+          "candidateSha256": "858e5d64f151e7f4bd1a0d440f20d5e24c0a3a53c43b94851236bfb9579218fe",
+          "description": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal"
+        }
+      },
+      "metadata": {
+        "family": "skeleton",
+        "style": "source-onehand-soldier",
+        "heightM": 1.8143914708695248,
+        "dimensionsM": {
+          "width": 0.6257249590048719,
+          "height": 1.8143914708695248,
+          "depth": 0.7927388546838348
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": -1.4268100589909238e-16,
+        "rig": "Original Dungeon Skeletons biped skin, bind matrices and weights",
+        "sourceSkinned": true,
+        "boneCount": 30,
+        "sourceVertices": 3606,
+        "attackContactPhase": 0.4,
+        "attackContactStatus": "Provisional contact phase pending production review of original Attack take",
+        "textureBindings": [
+          {
+            "materialName": "DS_Skeleton_standard",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoSkeleton.png",
+            "flipY": true
+          },
+          {
+            "materialName": "DS_equipment_standard",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoEquipment.png",
+            "flipY": true
+          }
+        ],
+        "provenance": {
+          "publisher": "Polygon Blacksmith",
+          "package": "Dungeon Skeletons Demo.unitypackage",
+          "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "mesh": "models/DungeonSkeleton_demo.FBX",
+          "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0."
+        },
+        "animationProvenance": {
+          "Idle": "Original DS_onehand_idle_A.FBX take",
+          "Walk": "Original DS_onehand_walk.FBX take",
+          "Attack": "Original DS_onehand_attack_A.FBX take",
+          "Run": "PROPOSAL: original Walk retimed to 68% duration; no authored run in demo",
+          "Hit": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "HitLeft": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "HitRight": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "Death": "PROPOSAL: authored backward root collapse over source idle pose; no authored death in demo"
+        },
+        "acceptance": "Source candidate. Original mesh/material/rig preserved; derived motions need production review. Not accepted.",
+        "helmetModification": {
+          "removedHornTriangles": 52,
+          "removedHornComponents": [
+            {
+              "triangles": 26,
+              "min": [
+                -0.1815052598784736,
+                1.6647911761140672,
+                -0.03819738445343579
+              ],
+              "max": [
+                -0.049025541320902345,
+                1.7632333311028443,
+                0.10698005429677825
+              ]
+            },
+            {
+              "triangles": 26,
+              "min": [
+                0.04902742550705219,
+                1.664791171827675,
+                -0.03819736299599851
+              ],
+              "max": [
+                0.18150714802322265,
+                1.7632333167036884,
+                0.10698010579455214
+              ]
+            }
+          ],
+          "retainedHelmetBowlTriangles": 92,
+          "method": "Only the two reviewed disconnected 26-triangle source helmet horns removed. Retained source attributes and all rig/clip data unchanged."
+        },
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-joint-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        },
+        "revision": "retained-skeleton-hit-round1"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 1.48327,
+      "impliedRunMps": 2.18128,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_skeleton_archer",
+      "file": "models/creature/creature_skeleton_archer.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "skeleton archer",
+      "tags": [
+        "creature",
+        "rpg",
+        "skeleton_archer"
+      ],
+      "bytes": 681044,
+      "sha256": "3ed625f29179d7328a468d43cd5b55ee5db9e16c6d09236e17b1545b6db3a006",
+      "size": {
+        "x": 0.8372029468515483,
+        "y": 1.6491435861654662,
+        "z": 0.8129906793584354
+      },
+      "base": {
+        "x": -0.45772806064275917,
+        "y": 0.0032741110492161326,
+        "z": -0.387269709140566
+      },
+      "groundY": 0.0032741110492161326,
+      "triangles": 1844,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_archer_DS_Skeleton_standard",
+        "animal_rpg_skeleton_archer_DS_equipment_standard",
+        "animal_rpg_skeleton_archer_Variant_oiled_yew",
+        "animal_rpg_skeleton_archer_Variant_aged_brass",
+        "animal_rpg_skeleton_archer_Variant_worn_leather",
+        "animal_rpg_skeleton_archer_Variant_bowstring",
+        "animal_rpg_skeleton_archer_Variant_arrowhead"
+      ],
+      "walkClipSeconds": 1.1666666269302368,
+      "runClipSeconds": 0.7933332920074463,
+      "attackSeconds": 1.55,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "mesh": "models/DungeonSkeleton_demo.FBX",
+        "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0.",
+        "hitRevision": {
+          "kind": "clip-only",
+          "baselineSha256": "490c761d848958e18bec8350949b990371e2782702a17a99ed9983700622f524",
+          "candidateSha256": "3ed625f29179d7328a468d43cd5b55ee5db9e16c6d09236e17b1545b6db3a006",
+          "description": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal"
+        }
+      },
+      "metadata": {
+        "family": "skeleton",
+        "style": "source-archer",
+        "heightM": 1.8143914708695248,
+        "dimensionsM": {
+          "width": 0.5951306069202851,
+          "height": 1.8143914708695248,
+          "depth": 0.4436490436519936
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": -1.4268100589909238e-16,
+        "rig": "Original Dungeon Skeletons biped skin, bind matrices and weights",
+        "sourceSkinned": true,
+        "boneCount": 30,
+        "sourceVertices": 3606,
+        "attackContactPhase": 0.5,
+        "attackContactStatus": "Authored nocked arrow release and string snap at phase .5; projectile belongs to gameplay.",
+        "textureBindings": [
+          {
+            "materialName": "DS_Skeleton_standard",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoSkeleton.png",
+            "flipY": true
+          },
+          {
+            "materialName": "DS_equipment_standard",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoEquipment.png",
+            "flipY": true
+          }
+        ],
+        "provenance": {
+          "publisher": "Polygon Blacksmith",
+          "package": "Dungeon Skeletons Demo.unitypackage",
+          "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "mesh": "models/DungeonSkeleton_demo.FBX",
+          "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0."
+        },
+        "animationProvenance": {
+          "Idle": "Original DS_onehand_idle_A.FBX take; Corealm-derived role arm poses over source rig.",
+          "Walk": "Original DS_onehand_walk.FBX take; Corealm-derived role arm poses over source rig.",
+          "Attack": "Corealm-derived arm IK over original source locomotion. Role Attack is authored on source idle rig pose. Original melee attack is replaced, not renamed.",
+          "Run": "PROPOSAL: original Walk retimed to 68% duration; no authored run in demo; Corealm-derived role arm poses over source rig.",
+          "Hit": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "HitLeft": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "HitRight": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "Death": "PROPOSAL: authored backward root collapse over source idle pose; no authored death in demo"
+        },
+        "acceptance": "Source candidate. Original mesh/material/rig preserved; derived motions need production review. Not accepted.",
+        "role": "archer",
+        "removedSourceEquipmentTriangles": 88,
+        "attackContactNode": "ArcherRelease",
+        "equipmentProvenance": "Corealm-authored bone-attached equipment over original Dungeon Skeleton body, skin and UVs.",
+        "roleAnimationProvenance": "Corealm-derived arm IK over original source locomotion. Role Attack is authored on source idle rig pose. Original melee attack is replaced, not renamed.",
+        "helmetModification": {
+          "removedHornTriangles": 52,
+          "removedHornComponents": [
+            {
+              "triangles": 26,
+              "min": [
+                -0.1815052598784736,
+                1.6647911761140672,
+                -0.03819738445343579
+              ],
+              "max": [
+                -0.049025541320902345,
+                1.7632333311028443,
+                0.10698005429677825
+              ]
+            },
+            {
+              "triangles": 26,
+              "min": [
+                0.04902742550705219,
+                1.664791171827675,
+                -0.03819736299599851
+              ],
+              "max": [
+                0.18150714802322265,
+                1.7632333167036884,
+                0.10698010579455214
+              ]
+            }
+          ],
+          "retainedHelmetBowlTriangles": 92,
+          "method": "Only the two reviewed disconnected 26-triangle source helmet horns removed. Retained source attributes and all rig/clip data unchanged."
+        },
+        "retainedSourceVertices": 3186,
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-joint-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        },
+        "revision": "retained-skeleton-hit-round1"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 1.48327,
+      "impliedRunMps": 2.18128,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_grave_ghoul",
+      "file": "models/creature/creature_grave_ghoul.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "grave ghoul",
+      "tags": [
+        "creature",
+        "rpg",
+        "grave_ghoul"
+      ],
+      "bytes": 1381996,
+      "sha256": "fa480d4b0c717a5470003a26c4cd968d9e594b2e3ec5e81662e836496b572d64",
+      "size": {
+        "x": 0.7705184027513425,
+        "y": 1.0652261727719385,
+        "z": 0.7126008935355386
+      },
+      "base": {
+        "x": -0.35418571424251133,
+        "y": 0.0009999999783805431,
+        "z": -0.2678679766459788
+      },
+      "groundY": 0.0009999999783805431,
+      "triangles": 16001,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_grave_ghoul_grave_ghoul_desiccated_mouth",
+        "animal_rpg_grave_ghoul_grave_ghoul_exposed_teeth",
+        "animal_rpg_grave_ghoul_ghoul_keratin_claws",
+        "animal_rpg_grave_ghoul_grave_ghoul_source_base_male_MI_Hair_1",
+        "animal_rpg_grave_ghoul_grave_ghoul_source_base_male_MI_Eyes",
+        "animal_rpg_grave_ghoul_grave_ghoul_source_base_male_MI_Superhero_Male",
+        "animal_rpg_grave_ghoul_grave_ghoul_source_outfit_male_peasant_legs_MI_Peasant"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 1.7999999523162842,
+      "contactNormalized": 0.33,
+      "sourceProvenance": {
+        "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
+        "license": "CC0-1.0",
+        "sourceAssets": [
+          "base_male",
+          "outfit_male_peasant_legs",
+          "animation_library_1",
+          "UAL2_Standard"
+        ],
+        "modifications": "Source UV layout, anatomical albedo luminance and 65-joint weights retained. Albedo repainted to corpse pallor with verified socket, cheek-necrosis and mouth masks; source eyes clouded and burial cloth weathered. Coherent vertex/joint gaunt proportions, recessed cheeks, narrowed arms, torn left sleeve, removed lip triangles and recessed mouth/teeth. Ghoul has elongated forearms/fingers, shortened legs, deeper crouch, bare torso and bone-attached tapered claws."
+      },
+      "metadata": {
+        "family": "zombie",
+        "style": "gaunt-long-clawed-ghoul",
+        "heightM": 1.0652261727719385,
+        "dimensionsM": {
+          "width": 0.7705184027513425,
+          "height": 1.0652261727719385,
+          "depth": 0.7126008935355386
+        },
+        "sourceSkinned": true,
+        "boneCount": 65,
+        "retainedVertices": 8478,
+        "removedClothingAndHiddenBodyTriangles": 713,
+        "attackContactPhase": 0.33,
+        "attackContactNode": "ZombieScratchContact",
+        "attackContactStatus": "Measured maximum forward right-hand extension in source Zombie_Scratch between phases .10 and .85; gameplay contact pending production review.",
+        "textureBindings": [
+          {
+            "materialName": "grave_ghoul_source_base_male_MI_Hair_1",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\base_male-0-baseColorPath.png"
+          },
+          {
+            "materialName": "grave_ghoul_source_base_male_MI_Eyes",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\grave_ghoul-clouded-eyes.png"
+          },
+          {
+            "materialName": "grave_ghoul_source_base_male_MI_Superhero_Male",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\grave_ghoul-corpse-albedo.png"
+          },
+          {
+            "materialName": "grave_ghoul_source_outfit_male_peasant_legs_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\grave_ghoul-burial-cloth.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_legs-0-normalPath.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_legs-0-metallicRoughnessPath.png"
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 201,
+            "maximumLift": 0.006066415205102812
+          },
+          "Walk": {
+            "samples": 201,
+            "maximumLift": 0.010918849639266408
+          },
+          "Run": {
+            "samples": 141,
+            "maximumLift": 0.001
+          },
+          "Attack": {
+            "samples": 269,
+            "maximumLift": 0.13790450152738834
+          },
+          "Hit": {
+            "samples": 51,
+            "maximumLift": 0.01800651238662955
+          },
+          "HitLeft": {
+            "samples": 51,
+            "maximumLift": 0.01800651238662955
+          },
+          "HitRight": {
+            "samples": 51,
+            "maximumLift": 0.01800651238662955
+          },
+          "Death": {
+            "samples": 351,
+            "maximumLift": 0.05508811480847199
+          }
+        },
+        "textureOrientation": "Original glTF UV and image rows, no flipY",
+        "corpseTextureRevision": "UV-authored-pallor-socket-cheek-decay-v2",
+        "animationProvenance": {
+          "Idle": "UAL2_Standard:Zombie_Idle_Loop; gaunt proportions and crouched spine retarget",
+          "Walk": "UAL2_Standard:Zombie_Walk_Fwd_Loop; gaunt proportions and crouched spine retarget",
+          "Run": "animation/animation_library_1:Jog_Fwd_Loop; gaunt proportions and crouched spine retarget",
+          "Attack": "UAL2_Standard:Zombie_Scratch; gaunt proportions and crouched spine retarget",
+          "Hit": "animation/animation_library_1:Hit_Chest; gaunt proportions and crouched spine retarget",
+          "HitLeft": "animation/animation_library_1:Hit_Chest; Corealm directional recoil added; gaunt proportions and crouched spine retarget",
+          "HitRight": "animation/animation_library_1:Hit_Chest; Corealm directional recoil added; gaunt proportions and crouched spine retarget",
+          "Death": "animation/animation_library_1:Death01; gaunt proportions and crouched spine retarget"
+        },
+        "provenance": {
+          "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
+          "license": "CC0-1.0",
+          "sourceAssets": [
+            "base_male",
+            "outfit_male_peasant_legs",
+            "animation_library_1",
+            "UAL2_Standard"
+          ],
+          "modifications": "Source UV layout, anatomical albedo luminance and 65-joint weights retained. Albedo repainted to corpse pallor with verified socket, cheek-necrosis and mouth masks; source eyes clouded and burial cloth weathered. Coherent vertex/joint gaunt proportions, recessed cheeks, narrowed arms, torn left sleeve, removed lip triangles and recessed mouth/teeth. Ghoul has elongated forearms/fingers, shortened legs, deeper crouch, bare torso and bone-attached tapered claws."
+        },
+        "acceptance": "Source candidate; requires production browser motion and visual review. No source review is treated as gameplay acceptance.",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-joint-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 0.83859,
+      "impliedRunMps": 5.05053,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_wraith",
+      "file": "models/creature/creature_wraith.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "wraith",
+      "tags": [
+        "creature",
+        "rpg",
+        "wraith"
+      ],
+      "bytes": 907916,
+      "sha256": "8946fc54ab4191ba99389be482e4271ec511ec34a70d4dfbf8da810469dca5fe",
+      "size": {
+        "x": 0.5851408048182939,
+        "y": 1.7314751689466006,
+        "z": 1.2651960488508256
+      },
+      "base": {
+        "x": -0.3295455485631394,
+        "y": 0.09000000005312062,
+        "z": -0.4624662247613074
+      },
+      "groundY": 0,
+      "triangles": 12574,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_wraith_wraith_source_Male_Wizard_Body_MI_Wizard",
+        "animal_rpg_wraith_wraith_source_Male_Wizard_Arms_MI_Regular_Male",
+        "animal_rpg_wraith_wraith_source_outfit_male_ranger_hood_MI_Ranger"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 1.5333333015441895,
+      "contactNormalized": 0.3,
+      "sourceProvenance": {
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "sourceAssets": [
+          "base_male",
+          "Male_Wizard_Body",
+          "Male_Wizard_Arms",
+          "outfit_male_ranger_hood",
+          "animation_library_1"
+        ],
+        "sources": [
+          {
+            "file": "game/public/assets/models/character/base_male.glb",
+            "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+          },
+          {
+            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
+            "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
+          },
+          {
+            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
+            "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
+            "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
+          },
+          {
+            "file": "game/public/assets/models/animation/animation_library_1.glb",
+            "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+          }
+        ],
+        "sourcePacks": [
+          {
+            "id": "universal-base-characters",
+            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+          },
+          {
+            "id": "modular-character-outfits-fantasy-source",
+            "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
+          },
+          {
+            "id": "universal-animation-library",
+            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+          }
+        ],
+        "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
+      },
+      "metadata": {
+        "family": "wraith",
+        "height": 1.7314751689466006,
+        "dimensions": [
+          0.5851408048182939,
+          1.7314751689466006,
+          1.2651960488508256
+        ],
+        "rig": "entitled-universal-base-65-joint",
+        "sourceSkinned": true,
+        "vertices": 9505,
+        "triangles": 12574,
+        "textureBindings": [
+          {
+            "materialName": "wraith_source_Male_Wizard_Body_MI_Wizard",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-normalPath.png"
+          },
+          {
+            "materialName": "wraith_source_Male_Wizard_Arms_MI_Wizard",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-normalPath.png"
+          },
+          {
+            "materialName": "wraith_source_Male_Wizard_Arms_MI_Regular_Male",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-normalPath.png"
+          },
+          {
+            "materialName": "wraith_source_outfit_male_ranger_hood_MI_Ranger",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-normalPath.png"
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 189,
+            "maximumLift": 0
+          },
+          "Walk": {
+            "samples": 121,
+            "maximumLift": 0
+          },
+          "Run": {
+            "samples": 85,
+            "maximumLift": 0.11174275407024165
+          },
+          "Attack": {
+            "samples": 137,
+            "maximumLift": 0.27412773870900126
+          },
+          "Hit": {
+            "samples": 31,
+            "maximumLift": 0
+          },
+          "HitLeft": {
+            "samples": 31,
+            "maximumLift": 0
+          },
+          "HitRight": {
+            "samples": 31,
+            "maximumLift": 0
+          },
+          "Death": {
+            "samples": 207,
+            "maximumLift": 0.4396956787748252
+          }
+        },
+        "attackContact": 0.3,
+        "attackContactSource": "Sword_Attack production marker .30",
+        "license": "CC0-1.0",
+        "provenance": {
+          "author": "Quaternius",
+          "license": "CC0-1.0",
+          "sourceAssets": [
+            "base_male",
+            "Male_Wizard_Body",
+            "Male_Wizard_Arms",
+            "outfit_male_ranger_hood",
+            "animation_library_1"
+          ],
+          "sources": [
+            {
+              "file": "game/public/assets/models/character/base_male.glb",
+              "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+            },
+            {
+              "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
+              "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
+            },
+            {
+              "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
+              "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
+              "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
+            },
+            {
+              "file": "game/public/assets/models/animation/animation_library_1.glb",
+              "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+            }
+          ],
+          "sourcePacks": [
+            {
+              "id": "universal-base-characters",
+              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+            },
+            {
+              "id": "modular-character-outfits-fantasy-source",
+              "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
+            },
+            {
+              "id": "universal-animation-library",
+              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+            }
+          ],
+          "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
+        },
+        "textureOrientation": "Original glTF UVs and image rows, flipY false",
+        "sourceClips": {
+          "Idle": "Spell_Simple_Idle_Loop",
+          "Walk": "Walk_Loop",
+          "Run": "Jog_Fwd_Loop",
+          "Attack": "Sword_Attack",
+          "Hit": "Hit_Chest",
+          "HitLeft": "Hit_Chest",
+          "HitRight": "Hit_Chest",
+          "Death": "Death01"
+        },
+        "animationAcceptance": "candidate-needs-production-lab-motion-review; floating cloak, no foot-contact claim",
+        "revision": "wraith-source-review-2",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "grounding": "Intentional source robe hover; preserve the 9 cm authored clearance."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
     }
   ]
 }
