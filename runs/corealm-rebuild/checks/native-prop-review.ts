@@ -27,7 +27,7 @@ if(!selections.length)selections.push(...defaultSelections);
 
 await mkdir(out,{recursive:true});
 const clearDeadline=installTestDeadline('Native prop review',60000);
-const driver=new GameDriver({url:'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
+const driver=new GameDriver({url:process.env.COREALM_URL ?? 'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
 const report:any={passed:false,visualAccepted:false,out,selections,shots:[]};
 try{
  await driver.launch();

@@ -8,7 +8,7 @@ import { assertGameplayHardware } from "./finish-gameplay-renderer.js";
 const out=`test-results/audio-gameplay/${Date.now()}`;await mkdir(out,{recursive:true});
 const finish=installTestDeadline("Gameplay audio recording",59000);
 const report:Record<string,unknown>={passed:false,scope:"Real gathering and stop output, recorded from production mix. Listening review remains separate."};
-const driver=new GameDriver({url:process.env.COREALM_URL??"http://127.0.0.1:4175",close:async()=>{}},
+const driver=new GameDriver({url:process.env.COREALM_URL ?? "http://127.0.0.1:4175",close:async()=>{}},
   {headless:true,browserArgs:["--use-angle=d3d11","--enable-gpu","--ignore-gpu-blocklist","--autoplay-policy=no-user-gesture-required"],
     settings:{...FAST_TEST_SETTINGS,music:0.3,ambient:0.5,sfx:0.9}});
 try {

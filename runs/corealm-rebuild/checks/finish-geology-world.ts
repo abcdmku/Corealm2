@@ -16,7 +16,7 @@ const paths=[generator,'game/src/content/regions.ts','game/src/world/regionBuild
 const sources=await Promise.all(paths.map(async path=>({path,sha256:await hash(path)})));
 const out=`test-results/finish-geology-world/${id}/${new Date().toISOString().replace(/[:.]/g,'-')}`;await mkdir(out,{recursive:true});
 const clear=installTestDeadline(`Candidate ${id} world landing`,60000);
-const driver=new GameDriver({url:'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
+const driver=new GameDriver({url:process.env.COREALM_URL ?? 'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
 const report:any={passed:false,visualAccepted:false,id,sources,candidateAliases:catalog.candidateAliases,shots:[],scope:'World terrain embedding/landing exception after compact native gallery review. Legacy semantic asset IDs are browser-only aliases for the exact candidate GLBs.'};
 try{
  await driver.launch();await installAssetCandidates(driver.page!,catalogue);await driver.open(30000,'/index.html');const page=driver.page!;

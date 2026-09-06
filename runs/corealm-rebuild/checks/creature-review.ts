@@ -4,7 +4,7 @@ import sharp from 'sharp';
 import {GameDriver} from '../../../tools/lib/driver.js';
 import {CREATURE_EXPANSION} from '../../../game/src/content/creatureExpansion.js';
 const out='test-results/creature-review';await mkdir(out,{recursive:true});
-const driver=new GameDriver({url:'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
+const driver=new GameDriver({url:process.env.COREALM_URL ?? 'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
 const selected=process.argv.slice(2), species=CREATURE_EXPANSION.filter(s=>!selected.length||selected.includes(s.id));
 const report:any={passed:false,actors:[]};
 try{

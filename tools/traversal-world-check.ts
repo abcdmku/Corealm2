@@ -68,8 +68,17 @@ try {
 
   // Setup: stand on the authored route node the shortcut is planned from, so the approach walk,
   // the planner's choice and the traversal all run through production movement.
-  const fromNode = await driver.callDebug("getNavPoint", [[from.position[0], await driver.callDebug("groundHeight", [from.position[0], from.position[1]]) as number, from.position[1]]]) as Xyz | null;
-  assert(fromNode, `Route node ${fromLocationId} is off the navmesh`);
+  //
+  // Take that node from the route plan, not from the region rectangle's authored coordinate. A
+  // fishery location's authored point is the middle of the water and its route node is the solved
+  // dry landing, and a dungeon chamber's node is 28 m below the surface height at the same XZ.
+  report.plan = await driver.callDebug("planRoute", [fromLocationId, toLocationId, 20]);
+  const planned = (report.plan as { legs?: { from?: Vec3 }[] } | null)?.legs?.[0]?.from;
+  const nodePoint: Vec3 = planned && planned.every(Number.isFinite)
+    ? [planned[0], planned[1], planned[2]]
+    : [from.position[0], await driver.callDebug("groundHeight", [from.position[0], from.position[1]]) as number, from.position[1]];
+  const fromNode = await driver.callDebug("getNavPoint", [nodePoint]) as Xyz | null;
+  assert(fromNode, `Route node ${fromLocationId} is off the navmesh at ${JSON.stringify(nodePoint)}`);
   let stand: Xyz | null = fromNode;
   if (scenario === "interrupt") {
     stand = null;
@@ -78,13 +87,11 @@ try {
     for (const back of [6, 4, 8, 3, 10]) {
       const x = entry[0] + towardFrom[0]! / length * back;
       const z = entry[2] + towardFrom[1]! / length * back;
-      const y = await driver.callDebug("groundHeight", [x, z]) as number;
-      const candidate = await driver.callDebug("getNavPoint", [[x, y, z]]) as Xyz | null;
+      const candidate = await driver.callDebug("getNavPoint", [[x, entry[1], z]]) as Xyz | null;
       if (candidate && Math.hypot(candidate.x - x, candidate.z - z) < 1.5) { stand = candidate; break; }
     }
   }
   assert(stand, "No navigable approach point near the entrance");
-  report.plan = await driver.callDebug("planRoute", [fromLocationId, toLocationId, 20]);
   const yaw = Math.atan2(entry[0] - stand.x, entry[2] - stand.z);
   await driver.callDebug("teleport", [xyz(stand)]);
   await driver.callDebug("inspectPose", [{ ...stand, yaw, pitch: 0.42, distance: 9, detached: false }]);
@@ -165,7 +172,30 @@ try {
       report.directStart = direct;
       assert(!direct.error, `Direct traversal refused: ${JSON.stringify(direct)}`);
     }
-    await page.waitForFunction(() => (window as any).__gameDebug.getCurrentActivity()?.kind === "traversing", undefined, { timeout: 45_000 });
+    // The planner compares real prepared paths, so it may correctly decline a shortcut whose
+    // authored road saving does not survive Detour. Record that and then prove the crossing
+    // itself through a direct click, rather than reporting the shortcut as broken.
+    const arrival = await page.waitForFunction(() => {
+      const w = window as any;
+      if (w.__gameDebug.getCurrentActivity()?.kind === "traversing") return "traversing";
+      return w.__gameDebug.getPlayer().moving ? false : "idle";
+    }, undefined, { timeout: 60_000, polling: 100 }).then((handle) => handle.jsonValue() as Promise<string>);
+    let routed = arrival === "traversing";
+    if (!routed) {
+      report.routedDeclinedShortcut = { started, planCostSeconds: (report.plan as any)?.cost ?? null,
+        arrivedAt: await driver.callDebug("getPlayer") };
+      findings.push(`Routed travel walked instead of using ${id}: direct path ${(started as any).pathLength} m / ${(started as any).etaMs} ms beats the ${(report.plan as any)?.cost}s graph route`);
+      await driver.callDebug("callTool", ["corealm_stop", {}]);
+      const approach = await driver.callDebug("callTool", ["corealm_move_to", { position: entry }]) as any;
+      report.directApproach = approach;
+      assert(!approach.error, `Walk to the entrance refused: ${JSON.stringify(approach)}`);
+      await page.waitForFunction(() => !(window as any).__gameDebug.getPlayer().moving, undefined, { timeout: 45_000 });
+      const direct = await driver.callDebug("callTool", ["corealm_interact", { entityId: id, interaction }]) as any;
+      report.directStart = direct;
+      assert(!direct.error, `Direct traversal refused: ${JSON.stringify(direct)}`);
+      await page.waitForFunction(() => (window as any).__gameDebug.getCurrentActivity()?.kind === "traversing", undefined, { timeout: 20_000 });
+    }
+    report.routedTravelUsedShortcut = routed;
     const atEntry = await driver.callDebug("getPlayer") as any;
     report.atEntry = atEntry;
     report.entryClearance = await driver.callDebug("probeWorldClearance", [{ ...atEntry.position, radius: 0.35 }]).catch(() => null);
@@ -227,8 +257,16 @@ try {
         assert.equal(xpDelta, expectedXp, `XP delta ${xpDelta} != ${expectedXp}`);
         assert(gap(xyz(landed.position), exit) < 0.6, `Landed ${gap(xyz(landed.position), exit).toFixed(2)} m from the authored exit`);
         assert(landedNav && Math.hypot(landedNav.x - landed.position.x, landedNav.z - landed.position.z) < 0.15, "Landing is off the navmesh");
-        assert.equal(failures.length, 0, `Route failed after landing: ${JSON.stringify(failures)}`);
-        assert(completed.length >= 1, "Routed travel did not complete after the shortcut");
+        if (routed) {
+          assert.equal(failures.length, 0, `Route failed after landing: ${JSON.stringify(failures)}`);
+          assert(completed.length >= 1, "Routed travel did not complete after the shortcut");
+        } else {
+          // A direct crossing still has to leave the player able to walk away from the landing.
+          await driver.press("w", 600);
+          const walked = await driver.callDebug("getPlayer") as any;
+          report.walkedAfterLanding = walked;
+          assert(gap(xyz(landed.position), xyz(walked.position)) > 0.5, "Player cannot walk away from the landing");
+        }
       } else {
         assert.equal(xpDelta, 0, "Failed traversal awarded XP");
         assert(after.health < before.health, "Failed traversal dealt no damage");

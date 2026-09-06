@@ -7,7 +7,7 @@ import {GameDriver} from '../../../tools/lib/driver.js';
 import {installTestDeadline} from '../../../tools/lib/deadline.js';
 const out=`test-results/finish-rootfall-world/${new Date().toISOString().replace(/[:.]/g,'-')}`;await mkdir(out,{recursive:true});
 const clear=installTestDeadline('Rootfall world stair and bank',60000);
-const driver=new GameDriver({url:'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
+const driver=new GameDriver({url:process.env.COREALM_URL ?? 'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
 const paths=['game/src/render/camera.ts','game/src/systems/staticCameraQueries.ts','game/src/render/structureCameraSources.ts','game/src/app/boot.ts','game/src/app/config.ts','game/src/systems/movement.ts','game/src/systems/navigation.ts','game/src/content/regions.ts','game/src/content/settlements/rootfall.ts','game/src/render/buildings.ts','game/src/render/rootfallNavigation.ts','game/src/render/structureNavigation.ts','game/src/world/rootfallStump.ts','game/src/featureLab/structures.ts','game/public/assets/models/corealm/nature/corealm_stump_oak.glb','game/public/assets/models/building/stairs_exterior.glb'];
 const sources=await Promise.all(paths.map(async path=>({path,sha256:createHash('sha256').update(await readFile(path)).digest('hex')})));
 const report:any={passed:false,visualAccepted:false,sources,walk:[],shots:[]};

@@ -34,7 +34,7 @@ async function capture(name: string) {
 }
 const distance = (a: number[], b: number[]) => Math.hypot(a[0] - b[0], a[2] - b[2]);
 try {
-  await page.goto("http://127.0.0.1:4175/index.html?mode=combat", { timeout: 20_000 });
+  await page.goto(`${process.env.COREALM_URL ?? "http://127.0.0.1:4175"}/index.html?mode=combat`, { timeout: 20_000 });
   await page.waitForFunction(() => (window as any).__featureLab?.getState()?.ready === true, null, { timeout: 20_000 });
   report.renderer = await assertGameplayHardware(page);
   await call("__featureLab", "setWalkingEnabled", [true]);

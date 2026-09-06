@@ -1260,7 +1260,12 @@ export class CharacterRig {
       if (!this.traversalHiddenGear.has(object)) this.traversalHiddenGear.set(object, object.visible);
       object.visible = false;
     }
-    const pose: CharacterPose = sample.concealed || sample.kind === "passage" ? "idle" : sample.kind;
+    // A concealed crossing is only hidden once its cover is opaque. Until then the actor is in
+    // plain view at the entrance, so play the start of the real move: walking into a passage
+    // mouth, or the climb/vault/balance/slide itself. Idle there read as a stationary timer.
+    const uncovered = sample.curtainOpacity < 1;
+    const moving: CharacterPose = sample.kind === "passage" ? "walk" : sample.kind;
+    const pose: CharacterPose = !sample.concealed ? moving : uncovered ? moving : "idle";
     this.play(pose);
     const action = this.currentAction;
     if (!action || sample.concealed) return;

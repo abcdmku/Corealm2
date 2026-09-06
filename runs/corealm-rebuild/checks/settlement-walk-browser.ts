@@ -32,7 +32,7 @@ const stops = [
   { role: "shop", source: shop, verb: "Trade with", panel: "shop", interaction: "trade" },
   { role: "craft", source: station, verb: "Use", panel: "production", interaction: "produce" },
 ];
-const origin = argument("--url", "http://127.0.0.1:4175");
+const origin = argument("--url", process.env.COREALM_URL ?? "http://127.0.0.1:4175");
 const output = path.resolve("test-results/settlement-walk-browser", regionId);
 const started = Date.now(), deadline = started + 57_000;
 const driver = new GameDriver({ url: origin, close: async () => {} }, {
