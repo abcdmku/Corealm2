@@ -206,6 +206,11 @@ For player visibility checks, frame the player at `(7, 0, 7)` with yaw `0`, pitc
 
 ### Building mode
 
+For movement regression checks, append `terrain=slopes` to either lab URL. This deterministic
+terrain fixture raises the yard's existing relief outside the central build pad. It uses production
+terrain, navigation, physics, and movement. Use `groundHeight`, `getNavPath`, and player state to
+verify uphill and downhill travel before testing authored world routes.
+
 `npm run lab:building:preview` opens `/index.html?mode=building`. The building controls can select a prefab, composition, or wall run; change the plaster, timber, or stone regional kit; edit supported dimensions; step through variant seeds; and fit the production camera to the result.
 
 Prefab width and depth are whole metres from 2 through 30. Compositions have authored dimensions, so their size controls are disabled. Wall runs follow the production two-metre module grid. Their total width is an even value from 6 through 30 m. The field labelled `Opening` is also even, starts at 2 m, and stops at `width - 4`, leaving at least one two-metre wall module on each side. Dimension values entered in the panel or URL are clamped and snapped to these supported ranges before a recipe runs.

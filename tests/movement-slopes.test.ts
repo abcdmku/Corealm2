@@ -28,6 +28,15 @@ function walkFor(movement: Movement, state: ReturnType<typeof createInitialState
 }
 
 describe("directional player slope traversal", () => {
+  it("settles a navmesh landing before checking the first uphill step", () => {
+    const height = slopeHeight(50);
+    const state = createInitialState();
+    state.player.position = [0, 1, 0];
+    const movement = movementOn(height, 1);
+    walkFor(movement, state);
+    expect(state.player.position[0]).toBeGreaterThan(2);
+    expect(state.player.position[1]).toBeCloseTo(height(state.player.position[0]), 5);
+  });
   it("walks uphill on demanding ground below the very-steep limit", () => {
     const state = createInitialState();
     const movement = movementOn(slopeHeight(PLAYER_SLOPES.maxAscentAngle - 4));
@@ -58,9 +67,9 @@ describe("directional player slope traversal", () => {
     expect(state.player.position[1]).toBeLessThan(0.5);
   });
 
-  it("walks down the same steep ground that is blocked uphill", () => {
+  it("walks down steep ground inside the shared navigation limit", () => {
     const state = createInitialState();
-    const movement = movementOn(slopeHeight(PLAYER_SLOPES.maxAscentAngle + 6, true));
+    const movement = movementOn(slopeHeight(PLAYER_SLOPES.maxDescentAngle - 2, true));
 
     walkFor(movement, state);
 
@@ -68,8 +77,8 @@ describe("directional player slope traversal", () => {
     expect(state.player.position[1]).toBeLessThan(-5);
   });
 
-  it("applies the downhill exception to click-to-move paths", () => {
-    const angle = PLAYER_SLOPES.maxAscentAngle + 6;
+  it("follows steep downhill click-to-move paths", () => {
+    const angle = PLAYER_SLOPES.maxDescentAngle - 2;
     const height = slopeHeight(angle, true);
     const state = createInitialState();
     const movement = movementOn(height);

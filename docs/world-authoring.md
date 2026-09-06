@@ -33,8 +33,9 @@ task easier.
 
 ## Semantic regions and visual biomes
 
-The authored region rectangles remain exact. They own `regionAt()`, player state, quests, routes, and
-playable bounds. The source `worldBounds` and map markers use those same canonical gameplay bounds.
+The authored region rectangles remain exact. They own `regionAt()`, player state, quests, and routes.
+Outside those rectangles, coastal land inherits the nearest semantic region. Map movement bounds
+include the coastal terrain extent; dry ground and navigation determine the actual playable edge.
 These rectangles are semantic ownership, not the shape of the land. They may still be useful as
 content envelopes, but they must never be used as visual biome masks or scatter limits.
 
@@ -49,11 +50,12 @@ rectangle around it. Corridors guide a biome between intents, but their finite h
 long straight border.
 
 The field may cross a semantic rectangle, but never moves a location or changes gameplay ownership.
-Relief still flows through the single `heightAtXZ()` source used to build terrain, the physics
-heightfield, navigation input, and entity placement. Never add a render-only height sampler or write
-biome weights into content or saved state.
+The analytic `heightAtXZ()` field initializes the terrain lattice. Road grading updates that shared
+lattice before meshes are built. `meshHeightAt()` then supplies terrain placement and physics from
+the graded core or coastal grid. Never add a separate render-only height sampler or write biome
+weights into content or saved state.
 
-The coast is render-only. `sampleOrganicCoast()` keeps the canonical rectangle dry, then walks one
+The coast is playable terrain. `sampleOrganicCoast()` keeps the canonical rectangle dry, then walks one
 continuous periodic turn around a rounded rectangle reference. A five-band quintic value-noise fBm
 (3, 7, 15, 31, and 63 cells) creates the broad reach. Separate 63, 127, and 255 cell bands add only
 8 m, 3 m, and 1.5 m of detail after shaping, so smaller inlets stay visible without becoming long
@@ -62,8 +64,13 @@ join bridges soften the descent where a side meets a corner without changing the
 Dry headlands inherit the actual organic biome relief and material sampling, so the continuation
 does not become a flat shore. The shoreline range is 18-190 m and the rendered collar is 210 m,
 leaving a 20 m guaranteed margin beyond the furthest reach. Map padding rounds beyond that to 250 m,
-while markers and source `worldBounds` remain the canonical playable bounds. Do not add an ocean
-region, expand playable bounds, or make the collar walkable.
+while authored markers retain their coordinates. Dry coastal triangles feed navigation and terrain
+picking, and the physics heightfield and placement sampler use the same coastal grid. Submerged
+triangles are excluded from navigation. Do not add an ocean region.
+
+`coastalSpawnSites()` distributes deterministic creature sites across dry coastal land. Species come
+from the visual biome's ordinary enemy groups; semantic ownership remains the nearest region.
+Reject wet footprints and steep sites before passing them to the production enemy builder.
 
 ## Organic fields and lakes
 
@@ -92,9 +99,11 @@ basin guide.
 
 `collectRoadStamps()` keeps authored endpoints and gate-axis controls. `scene.curveRoadPolyline()` adds
 the deterministic broad meander, up to 9 m. `RoadStamp.width` controls the worn track, fade, and verge;
-keep width drift restrained. `getRoadPolylines()` is the authority for the drawn path used by the map,
-scatter, and exclusions. The visual path stamp does not deform terrain; navigation and route costs
-remain authored independently.
+keep width drift restrained. Bends shrink when the sampled lane would leave a graded ramp.
+`getRoadPolylines()` is the authority for the drawn path used by the map, scatter, and exclusions.
+Steep tracks grade the shared height lattice before terrain chunks, physics, and navigation are built.
+Settlement foundations and water floors retain their ground. Dry lake approaches can be graded while
+preserving closed banks. Route endpoints remain authored.
 
 Roads, paving, and waterlogged banks are stamped into the ground surface. Keep their placement on the
 same sampled surface rather than laying duplicate geometry over it.
@@ -127,10 +136,10 @@ Do not add a special coast-only copy when a normal biome recipe can cover the su
 carry smaller, sparser mesh dressing. Keep flowers, ferns, stones, and broad plants from inheriting
 the grass field's density. Road and water-bank layers follow `getRoadPolylines()` and solved water
 contours. The visual biome lobes use global authored and water exclusions, so landmarks and lakes stay
-readable without bringing back a rectangular cutoff. The extended coastal collar remains visual only,
-outside physics, navigation and click terrain. Within playable bounds, ordinary oak and pine scatter
-also supplies harvestable forest descriptors. Register gameplay footprints through `worldExclusions`
-and use a fade instead of a hard settlement circle.
+readable without bringing back a rectangular cutoff. Dry coastal ground participates in physics,
+navigation and terrain picking. Ordinary oak and pine scatter also supplies harvestable forest
+descriptors. Register gameplay footprints through `worldExclusions` and use a fade instead of a
+hard settlement circle.
 
 After a scatter change, inspect `getScatterStats()`: the expected layers must place instances, missing
 assets must stay empty, and density increases must fit the available triangle and draw-call budget.
@@ -225,7 +234,7 @@ Authoring workflow:
 3. Run `npm run world-preview`. Confirm every centre owns its field with a positive margin, transitions
    are broad enough to read as ecotones, and no border follows one semantic x or z axis for a long run.
 4. Check the coast and lakes separately, then regenerate the in-game map and inspect the real browser
-   scene. The coastline is an approved render-only field and should not be folded into biome ownership.
+   scene. Coastal gameplay uses the existing semantic regions and organic visual biomes.
 
 Never solve missing coverage by adding a broad rectangle-sized backstop. That turns the visual field
 back into the semantic map and restores hard cutoffs.
@@ -238,7 +247,7 @@ npm run world-map
 
 This captures the real scene into the padded `game/public/generated/world-map.png` and `.json`, plus
 `game/src/generated/worldMapFingerprint.ts`. Map metadata v4 records `playableBounds`, `imageBounds`,
-and `imagePaddingMetres`; the padded image may extend beyond the canonical gameplay bounds.
+and `imagePaddingMetres`; playable bounds enclose the coastal terrain and the padded image adds ocean beyond it.
 
 Focused development probes are available on `window.__gameDebug`:
 
@@ -247,8 +256,9 @@ Focused development probes are available on `window.__gameDebug`:
 - `getWaterBodies()` reports solved contours and closure state.
 - `groundHeight(x, z)` reads the surface used for placement.
 - `sampleWorld(x, z)` returns the semantic region, visual winner, normalized `biomeWeights`, height,
-  slope, water body, and coast facts. Outside playable bounds, slope is `null` and the height/coast
-  values describe the rendered collar or ocean.
+  slope, water body, and coast facts. Dry coast reports playable ground and a slope. Ocean reports
+  non-playable ground and a null slope.
+- `getRoadPolylines()` returns the drawn, graded routes for traversal probes.
 
 ## Real-browser visual check
 

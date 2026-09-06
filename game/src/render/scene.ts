@@ -128,12 +128,12 @@ export interface WorldTerrainSpec {
   basins?: WaterBasinSpec[];
   /** Normalized hub-and-band fields shared by terrain relief, palette, and scatter. */
   biomes?: OrganicBiomeSpec<RegionId>;
-  /** Render-only land edge and ocean. It never expands physics, navigation, or map bounds. */
+  /** Coastal land and ocean. Dry terrain extends physics, navigation, and placement. */
   coast?: CoastSpec;
 }
 
 export interface CoastSpec extends OrganicCoastShapeSpec {
-  /** Rendered land outside the playable bounds, in metres. */
+  /** Terrain extent outside the semantic region rectangle, in metres. */
   collar: number;
   seaLevel: number;
   /** Seabed depth below sea level at the outside of the collar. */
@@ -522,7 +522,7 @@ export class WorldScene {
    * 1.75M analytic field evaluations into 1.75M array reads.
    */
   private lattice: HeightLattice | null = null;
-  /** The drawn render-only coast grid. It never enters physics, navigation, or terrain raycasts. */
+  /** Coastal terrain shared by rendering, physics, navigation, and placement. */
   private coastGrid: CoastHeightGrid | null = null;
   private chunks: ChunkRecord[] = [];
   private roads: RoadSegment[] = [];
@@ -801,9 +801,8 @@ export class WorldScene {
   }
 
   /**
-   * Builds a visual collar around the fixed gameplay rectangle, then puts one ocean plane under it.
-   * Neither mesh is walkable or raycast as terrain: content, nav, physics, and the map keep their
-   * existing bounds while the camera sees a shoreline instead of the end of a rectangular slab.
+   * Continues terrain to its organic shoreline with an ocean plane underneath. Dry triangles
+   * join the core for navigation and picking; the shared grid also supplies physics.
    */
   private coastBuildSteps(spec: CoastSpec, world: WorldTerrainSpec): Array<() => void> {
     // Read the bounds off the SPEC being built, never `this.world`: the step list is assembled
@@ -997,6 +996,24 @@ export class WorldScene {
       coast.castShadow = false;
       coast.receiveShadow = true;
       this.scatterGroup.add(coast);
+
+      // Only dry triangles enter navigation and terrain picking. The ocean floor stays visible
+      // through the water without becoming a route across the sea.
+      const dryIndices: number[] = [];
+      for (let i = 0; i < indices.length; i += 3) {
+        const triangle = indices.slice(i, i + 3);
+        if (triangle.every((vertex) => heights[vertex]! >= spec.seaLevel)) {
+          dryIndices.push(...triangle);
+        }
+      }
+      const dryGeometry = new THREE.BufferGeometry();
+      dryGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+      dryGeometry.setIndex(dryIndices);
+      const dryCoast = new THREE.Mesh(dryGeometry, this.materials.ground());
+      dryCoast.name = "coastal-ground";
+      dryCoast.visible = false;
+      this.terrainGroup.add(dryCoast);
+      this.walkable.push(dryCoast);
 
       const oceanGeometry = new THREE.PlaneGeometry(spec.oceanSize, spec.oceanSize);
       oceanGeometry.rotateX(-Math.PI / 2);
@@ -1489,7 +1506,7 @@ export class WorldScene {
    */
   heightAt(_regionId: RegionId, x: number, z: number): number {
     if (this.fields.length === 0) return 0;
-    return this.heightAtXZ(x, z);
+    return this.meshHeightAt(x, z);
   }
 
   /**
@@ -1781,8 +1798,8 @@ export class WorldScene {
 
   /** Terrain steepness at a point, as rise over run. 0 is flat, 1 is 45 degrees. */
   slopeAt(x: number, z: number, step = 1.5): number {
-    const dx = (this.heightAtXZ(x + step, z) - this.heightAtXZ(x - step, z)) / (2 * step);
-    const dz = (this.heightAtXZ(x, z + step) - this.heightAtXZ(x, z - step)) / (2 * step);
+    const dx = (this.meshHeightAt(x + step, z) - this.meshHeightAt(x - step, z)) / (2 * step);
+    const dz = (this.meshHeightAt(x, z + step) - this.meshHeightAt(x, z - step)) / (2 * step);
     return Math.hypot(dx, dz);
   }
 
@@ -1795,8 +1812,7 @@ export class WorldScene {
   }
 
   /**
-   * Candidate bounds for visual scatter. Gameplay bounds stay canonical; a requested bleed may
-   * reach the coast mesh but never past its declared rectangular collar.
+   * Candidate bounds for scatter, capped at the coastal terrain extent.
    */
   getScatterBounds(bleed: number): Rect {
     const bounds = this.getWorldBounds();
@@ -1812,9 +1828,7 @@ export class WorldScene {
   }
 
   /**
-   * The drawn ground visual scatter may sit on. Outside gameplay this reads only the render coast
-   * grid, fades through its final shore band, and disappears before the ocean surface. It is never
-   * used by physics, navigation, entity placement, or click raycasts.
+   * The drawn ground scatter may sit on, with density fading through the final shore band.
    */
   scatterSurfaceAt(x: number, z: number): {
     height: number;
@@ -1879,7 +1893,7 @@ export class WorldScene {
     const boundaryX = clamp(x, bounds.minX, bounds.maxX);
     const boundaryZ = clamp(z, bounds.minZ, bounds.maxZ);
     const outsideDistance = Math.hypot(x - boundaryX, z - boundaryZ);
-    const playable = outsideDistance <= 0.000_001;
+    const core = outsideDistance <= 0.000_001;
     const raw = this.biomeWeightsAt(x, z);
     const biomeWeights: Partial<Record<RegionId, number>> = {};
     for (const entry of raw) biomeWeights[entry.id] = entry.weight;
@@ -1890,6 +1904,8 @@ export class WorldScene {
 
     const coastSpec = this.world?.coast;
     const profile = coastSpec ? this.coastProfileAt(x, z, coastSpec) : null;
+    const playable = core || Boolean(coastSpec && outsideDistance <= coastSpec.collar
+      && this.meshHeightAt(x, z) >= coastSpec.seaLevel);
     const height = playable
       ? this.meshHeightAt(x, z)
       : profile
@@ -1942,7 +1958,7 @@ export class WorldScene {
    * requires.
    */
   heightfieldSamples(resolution = 2): HeightfieldSamples {
-    const bounds = this.getWorldBounds();
+    const bounds = this.getScatterBounds(Infinity);
     const width = bounds.maxX - bounds.minX;
     const depth = bounds.maxZ - bounds.minZ;
     const ncols = Math.max(1, Math.round(width / resolution));
@@ -1953,7 +1969,7 @@ export class WorldScene {
       const x = bounds.minX + (col / ncols) * width;
       for (let row = 0; row <= nrows; row += 1) {
         const z = bounds.minZ + (row / nrows) * depth;
-        heights[col * (nrows + 1) + row] = this.sampleLattice(x, z);
+        heights[col * (nrows + 1) + row] = this.meshHeightAt(x, z);
       }
     }
 
@@ -2014,7 +2030,7 @@ export class WorldScene {
     return top + (bottom - top) * tz;
   }
 
-  /** Bilinear read of the render-only coast grid. Coordinates outside its rectangle clamp to it. */
+  /** Bilinear read of the shared coastal terrain grid. Coordinates outside its rectangle clamp to it. */
   private sampleCoastGrid(x: number, z: number): number | null {
     const grid = this.coastGrid;
     if (!grid) return null;
@@ -2044,6 +2060,10 @@ export class WorldScene {
    * player sees — a decal, a shoreline, a placed prop — belongs on this one.
    */
   meshHeightAt(x: number, z: number): number {
+    const bounds = this.world?.bounds;
+    if (bounds && (x < bounds.minX || x > bounds.maxX || z < bounds.minZ || z > bounds.maxZ)) {
+      return this.sampleCoastGrid(x, z) ?? this.sampleLattice(x, z);
+    }
     return this.sampleLattice(x, z);
   }
 
@@ -2093,7 +2113,7 @@ export class WorldScene {
     const seed = stamps.seed ?? 0x0a0d;
     for (const road of stamps.roads ?? []) {
       const roadSeed = roadSeedFromStamp(seed, road);
-      const curved = curveRoadPolyline(road.points, roadSeed);
+      const curved = curveRoadPolyline(road.points, roadSeed, (x, z) => this.meshHeightAt(x, z));
       this.roadPolylines.push(curved);
       appendRoadSegments(
         this.roads,
@@ -2103,8 +2123,102 @@ export class WorldScene {
         road.points,
       );
     }
+    this.gradeStampedRoads();
     this.rebuildRoadGrid();
     if (this.chunks.length > 0) this.restampArea(-Infinity, -Infinity, Infinity, Infinity);
+  }
+
+  /** Cut the drawn tracks into the shared height lattice before terrain and physics are built. */
+  private gradeStampedRoads(): void {
+    const grid = this.lattice;
+    if (!grid || this.chunks.length > 0 || this.roadPolylines.length === 0) return;
+    const totals = new Float64Array(grid.heights.length);
+    const weights = new Float64Array(grid.heights.length);
+    const influences = new Float32Array(grid.heights.length);
+    for (const line of this.roadPolylines) {
+      const samples = resamplePolyline(line, 1);
+      const distances = [0];
+      const heights = samples.map((point, index) => {
+        if (index > 0) distances.push(distances[index - 1]! + Math.hypot(
+          point[0] - samples[index - 1]![0], point[2] - samples[index - 1]![2],
+        ));
+        return this.meshHeightAt(point[0], point[2]);
+      });
+      const last = heights.length - 1;
+      if (!heights.some((height, index) => index > 0 && Math.abs(height - heights[index - 1]!)
+        > (distances[index]! - distances[index - 1]!) * 0.9)) continue;
+      const startHeight = heights[0]!;
+      const endHeight = heights[last]!;
+      const span = distances[last]!;
+      if (span < 1) continue;
+      const grade = Math.max(0.55, Math.abs(endHeight - startHeight) / span + 0.05);
+      // Endpoint cones preserve authored destination elevations while removing intervening cliffs.
+      for (let i = 1; i < last; i++) {
+        const fromStart = grade * distances[i]!;
+        const fromEnd = grade * (span - distances[i]!);
+        heights[i] = clamp(heights[i]!, Math.max(startHeight - fromStart, endHeight - fromEnd),
+          Math.min(startHeight + fromStart, endHeight + fromEnd));
+      }
+      for (let pass = 0; pass < 3; pass++) {
+        for (let i = 1; i < last; i++) {
+          const limit = grade * (distances[i]! - distances[i - 1]!);
+          heights[i] = clamp(heights[i]!, heights[i - 1]! - limit, heights[i - 1]! + limit);
+        }
+        for (let i = last - 1; i > 0; i--) {
+          const limit = grade * (distances[i + 1]! - distances[i]!);
+          heights[i] = clamp(heights[i]!, heights[i + 1]! - limit, heights[i + 1]! + limit);
+        }
+      }
+      // Carry the lake's required bank height out along the approach instead of restoring it as
+      // a sudden step after grading. The floor and freeboard remain the water system's authority.
+      for (let i = 0; i < samples.length; i++) {
+        const point = samples[i]!;
+        for (const basin of this.basins) {
+          if (organicDistance(point[0] - basin.x, point[2] - basin.z, basin.shape) >= basin.outerRadius) continue;
+          heights[i] = Math.max(heights[i]!, Math.min(this.meshHeightAt(point[0], point[2]), basin.level + basin.freeboard));
+        }
+      }
+      for (let i = 1; i < last; i++) heights[i] = Math.max(heights[i]!, heights[i - 1]! - grade * (distances[i]! - distances[i - 1]!));
+      for (let i = last - 1; i > 0; i--) heights[i] = Math.max(heights[i]!, heights[i + 1]! - grade * (distances[i + 1]! - distances[i]!));
+      for (let i = 0; i < samples.length; i++) {
+        const point = samples[i]!;
+        const reach = 10;
+        const minCol = Math.max(0, Math.ceil((point[0] - reach - grid.minX) / grid.step));
+        const maxCol = Math.min(grid.cols - 1, Math.floor((point[0] + reach - grid.minX) / grid.step));
+        const minRow = Math.max(0, Math.ceil((point[2] - reach - grid.minZ) / grid.step));
+        const maxRow = Math.min(grid.rows - 1, Math.floor((point[2] + reach - grid.minZ) / grid.step));
+        for (let row = minRow; row <= maxRow; row++) for (let col = minCol; col <= maxCol; col++) {
+          const distance = Math.hypot(grid.minX + col * grid.step - point[0], grid.minZ + row * grid.step - point[2]);
+          if (distance >= reach) continue;
+          const weight = 1 - smoothstep01((distance - 3.6) / (reach - 3.6));
+          const index = row * grid.cols + col;
+          totals[index] = totals[index]! + heights[i]! * weight;
+          weights[index] = weights[index]! + weight;
+          influences[index] = Math.max(influences[index]!, weight);
+        }
+      }
+    }
+    for (let i = 0; i < grid.heights.length; i++) {
+      if (weights[i]! <= 0) continue;
+      const change = totals[i]! / weights[i]! - grid.heights[i]!;
+      const x = grid.minX + (i % grid.cols) * grid.step;
+      const z = grid.minZ + Math.floor(i / grid.cols) * grid.step;
+      let protection = this.protectedAuthority(x, z, Math.abs(change));
+      let minimumHeight = -Infinity;
+      for (const basin of this.basins) {
+        const radius = organicDistance(x - basin.x, z - basin.z, basin.shape);
+        if (radius < basin.outerRadius) {
+          minimumHeight = Math.max(minimumHeight, Math.min(grid.heights[i]!, basin.level + basin.freeboard));
+        }
+        // Keep the water floor and its closed shore. The dry outer bank may carry an approach
+        // ramp; protecting its entire original hillside would leave lakes behind cliff rings.
+        protection = Math.max(protection,
+          1 - smoothstep01((radius - basin.floorRadius - 2) / 4));
+      }
+      grid.heights[i] = Math.max(minimumHeight, grid.heights[i]! + change * influences[i]! * (1 - protection));
+    }
+    this.roadPolylines = this.roadPolylines.map((line) => line.map((point): Vec3 =>
+      [point[0], this.meshHeightAt(point[0], point[2]), point[2]]));
   }
 
   /**
@@ -3983,7 +4097,9 @@ function appendRoadSegments(
  * The route graph is unaffected. It works on node ids, and both endpoints here are untouched, so
  * the distance ledger the Agility route flip is measured against does not move.
  */
-export function curveRoadPolyline(points: readonly Vec3[], seed: number): Vec3[] {
+export function curveRoadPolyline(
+  points: readonly Vec3[], seed: number, heightAt?: (x: number, z: number) => number,
+): Vec3[] {
   if (points.length < 2) return points.map((point) => [point[0], point[1], point[2]] as Vec3);
   const rng = new Rng(seed);
   const output: Vec3[] = [];
@@ -4028,6 +4144,35 @@ export function curveRoadPolyline(points: readonly Vec3[], seed: number): Vec3[]
     }
     legPoints[0] = [start[0], start[1], start[2]];
     legPoints[legPoints.length - 1] = [end[0], end[1], end[2]];
+
+    // A decorative bend must not leave a graded ramp for the cliff beside it. Try progressively
+    // smaller bends, measuring the actual ground along the whole lane, including its shoulders.
+    if (heightAt) {
+      let best = legPoints;
+      let bestGrade = Infinity;
+      for (const amount of [1, 0.5, 0.2, 0]) {
+        const candidate = legPoints.map((point, index): Vec3 => {
+          const t = index / divisions;
+          const x = start[0] + dx * t + (point[0] - start[0] - dx * t) * amount;
+          const z = start[2] + dz * t + (point[2] - start[2] - dz * t) * amount;
+          return [x, heightAt(x, z), z];
+        });
+        let grade = 0;
+        for (const point of candidate) {
+          for (const offset of [-1, 0, 1]) {
+            const x = point[0] + nx * offset;
+            const z = point[2] + nz * offset;
+            grade = Math.max(grade, Math.hypot(
+              heightAt(x + 0.5, z) - heightAt(x - 0.5, z),
+              heightAt(x, z + 0.5) - heightAt(x, z - 0.5),
+            ));
+          }
+        }
+        if (grade < bestGrade) { best = candidate; bestGrade = grade; }
+        if (grade <= 1) break;
+      }
+      legPoints.splice(0, legPoints.length, ...best);
+    }
 
     output.push(...(leg === 0 ? legPoints : legPoints.slice(1)));
   }

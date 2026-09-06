@@ -85,6 +85,7 @@ import { HuntContractsSystem } from "../systems/huntContracts.js";
 import { deriveHuntTargets } from "../content/huntContracts.js";
 import { CombatSystem } from "../systems/combat.js";
 import { EnemyAiSystem } from "../systems/enemyAI.js";
+import { coastalSpawnSites } from "./coastalSpawns.js";
 import { HealthSystem } from "../systems/health.js";
 import { DeathSystem } from "../systems/death.js";
 import { RespawnAnchorSystem, buildSettlementRespawnAnchors } from "../systems/respawnAnchors.js";
@@ -439,6 +440,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     assetSize: (assetId: string): { x: number; y: number; z: number } | null => assets.assetSize(assetId),
     assetCenterXZ: (assetId: string): { x: number; z: number } | null => assets.assetCenterXZ(assetId),
     roadDistance,
+    coastalSpawns: profile.worldSurface ? coastalSpawnSites(scene, store.get().meta.seed) : [],
   };
   const shopLab = profile.kind === "feature-lab" && new URLSearchParams(window.location.search).get("shop") === "1"
     ? await import("../featureLab/shop.js") : null;
@@ -2181,7 +2183,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     },
     settings: clientSettings,
     mapTerrain: {
-      bounds: terrainSpec.bounds,
+      bounds: scene.getScatterBounds(Infinity),
       sample: (x, z) => ({
         height: scene.meshHeightAt(x, z),
         normal: scene.normalAt(x, z),
@@ -2676,7 +2678,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     entityViewStats: () => entityViews.stats(),
     selection: () => ({ hovered: input.hoveredEntityId, selected: input.selectedEntityId }),
     select: (entityId) => { input.select(entityId); },
-    groundHeight: (x: number, z: number) => scene.heightAtXZ(x, z),
+    groundHeight: (x: number, z: number) => scene.meshHeightAt(x, z),
+    roadPolylines: () => scene.getRoadPolylines(),
     listBuildings: () => REGIONS.flatMap((region) => (region.settlement?.buildings ?? []).map((building) => ({
       id: building.id,
       prefab: building.prefab,

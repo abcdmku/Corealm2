@@ -583,6 +583,9 @@ export class Movement {
   update(state: GameState, deltaMs: number, atMs: number): void {
     const movement = state.player.movement;
     const deltaSeconds = deltaMs / 1000;
+    // A navmesh landing sits above the rendered ramp. Settle that offset before comparing the
+    // next step's grade, or the first centimetre of travel looks like a vertical drop.
+    if (!this.traversal) state.player.position = this.ground(state, state.player.position);
 
     // Direct input always wins. Pressing a key mid-path cancels the path, as a player expects.
     if (this.hasDirectInput()) {

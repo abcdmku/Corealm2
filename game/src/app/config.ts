@@ -121,23 +121,18 @@ export const NAV_CONFIG = {
   // the town the player spawns in front of. At radius 1 the inset is 0.45 m — still 0.10 m more than
   // PLAYER_RADIUS 0.35 — and a 2 m arch becomes a 1.10 m corridor. polyCount rises from 3169.
   walkableRadius: 1,     // voxels
-  walkableClimb: 2,      // voxels
+  walkableClimb: 10,     // voxels; preserves continuous 60-degree slopes across neighbouring cells
   walkableHeight: 9,     // voxels
-  // Recast only has one slope limit, but player movement is directional. Keep steep terrain in
-  // the mesh so it can be descended, then let Movement apply the lower uphill limit below.
-  walkableSlopeAngle: 78,
+  // Movement and route generation share a limit so a route is traversable in both directions.
+  walkableSlopeAngle: 60,
   minRegionArea: 4,
 } as const;
 
 /**
- * Directional terrain limits for player movement.
- *
- * Sixty-four degrees is already a scramble, so steeper uphill faces stay blocked. Downhill travel
- * remains available until the ground is nearly a wall. The navmesh uses the downhill value because
- * excluding a polygon at bake time would also remove the legal direction across it.
+ * Terrain limits shared with the navmesh. Steep ramps are traversable; cliff faces remain blocked.
  */
 export const PLAYER_SLOPES = {
-  maxAscentAngle: 64,
+  maxAscentAngle: NAV_CONFIG.walkableSlopeAngle,
   maxDescentAngle: NAV_CONFIG.walkableSlopeAngle,
 } as const;
 

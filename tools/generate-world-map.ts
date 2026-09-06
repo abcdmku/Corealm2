@@ -187,9 +187,14 @@ function buildMapLayout(): MapLayout {
   return {
     width: columnCount * TILE_PIXELS,
     height: rowCount * TILE_PIXELS,
-    playableBounds: { ...spec.bounds },
+    playableBounds: {
+      minX: spec.bounds.minX - coast.collar,
+      maxX: spec.bounds.maxX + coast.collar,
+      minZ: spec.bounds.minZ - coast.collar,
+      maxZ: spec.bounds.maxZ + coast.collar,
+    },
     imageBounds,
-    imagePaddingMetres,
+    imagePaddingMetres: imagePaddingMetres - coast.collar,
     seed: DEFAULT_WORLD_SEED,
     tiles: {
       columns: columnCount,

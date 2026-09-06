@@ -83,7 +83,7 @@ const fallowmarch = (() => {
   return region;
 })();
 
-function buildFeatureLabTerrain(): WorldTerrainSpec {
+function buildFeatureLabTerrain(slopes = false): WorldTerrainSpec {
   const bounds = { ...FEATURE_LAB_YARD_BOUNDS };
   return {
     bounds,
@@ -96,7 +96,7 @@ function buildFeatureLabTerrain(): WorldTerrainSpec {
       seed: fallowmarch.terrainSeed,
       character: "plains",
       baseHeight: fallowmarch.baseHeight,
-      amplitude: 3,
+      amplitude: slopes ? 180 : 3,
     }],
     flats: [{
       ...FEATURE_LAB_BUILD_PAD,
@@ -198,6 +198,9 @@ export function bootProfileFor(
       ? locationOrSearch
       : new URLSearchParams(locationOrSearch.search);
   const mode = params.get("mode");
+  if ((mode === "combat" || mode === "building") && params.get("terrain") === "slopes") {
+    return { ...FEATURE_LAB_PROFILES[mode], terrain: () => buildFeatureLabTerrain(true) };
+  }
   if (mode === "combat" || mode === "actors") return FEATURE_LAB_PROFILES.combat;
   if (mode === "building" || mode === "structures") return FEATURE_LAB_PROFILES.building;
   return GAME_BOOT_PROFILE;

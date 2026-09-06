@@ -32,7 +32,7 @@ import type {
 import { INTERACT_RANGE } from "../app/config.js";
 import { worldSiteResourceSlot, worldSitePoint } from "../content/worldSites.js";
 import { habitatForGroup, type HabitatDef } from "../content/worldHabitats.js";
-import { RngStreams, type Rng } from "../core/rng.js";
+import { RngStreams, Rng } from "../core/rng.js";
 import { content, enemyCombatLevel } from "../content/index.js";
 import type { EnemyDef, GatheringResourceArchetype, ResourceDef } from "../content/index.js";
 import { enemyBlockFor } from "../content/enemies.js";
@@ -246,6 +246,8 @@ export interface WorldPorts {
   accessPositions?: ReadonlyMap<string, Vec3>;
   /** Root enables authored gate assets and partitions after their production lab acceptance. */
   dungeonGates?: boolean;
+  /** Dry coastal sites supplied by the production terrain sampler. */
+  coastalSpawns?: readonly { id: string; regionId: RegionId; biomeId: RegionId; spot: Spot }[];
 }
 
 // ------------------------------------------------------------------- build
@@ -321,6 +323,16 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
   for (const region of REGIONS) {
     const dungeon = region.dungeon;
     if (dungeon) buildDungeonEntities(region, dungeon, rng, ctx);
+  }
+  for (const site of ports?.coastalSpawns ?? []) {
+    const region = REGIONS.find((entry) => entry.id === site.biomeId);
+    const groups = region?.enemyGroups.filter((group) => !group.boss && !group.miniBoss) ?? [];
+    const coastalRng = new Rng(seed ^ variantSeed(site.id));
+    const source = coastalRng.pick(groups);
+    if (!source) continue;
+    buildEnemyGroup(site.regionId, { ...source, id: site.id, centre: site.spot, count: 1, radius: 0 },
+      coastalRng, (spot, assetId, scale) => placeOnGround(ctx, site.regionId, spot, assetId, scale),
+      entities, ctx.assetSize);
   }
 
   // The approach pad is the surface destination. Keep every graph copy aligned before costs

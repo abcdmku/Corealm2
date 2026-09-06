@@ -135,6 +135,7 @@ export interface DebugDeps {
   select?(entityId: EntityId | null): void;
   /** Terrain height at a world XZ. The same function the world layer places entities with. */
   groundHeight(x: number, z: number): number;
+  roadPolylines?(): readonly (readonly Vec3[])[];
   /** Every assembled building, with the footprint the terrain has to be flat across. */
   listBuildings(): { id: string; prefab: string; x: number; z: number; width: number; depth: number; rotationY: number }[];
   /**
@@ -719,6 +720,10 @@ export function installGameDebug(deps: DebugDeps): void {
     groundHeight(x: number, z: number): number {
       if (!Number.isFinite(x) || !Number.isFinite(z)) return 0;
       return round3(deps.groundHeight(x, z));
+    },
+
+    getRoadPolylines(): readonly (readonly Vec3[])[] {
+      return deps.roadPolylines?.() ?? [];
     },
 
     /** Every assembled building and the footprint the terrain has to be flat across. Same story. */

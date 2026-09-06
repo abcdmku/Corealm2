@@ -352,14 +352,14 @@ export function buildWorldTerrainSpec(): WorldTerrainSpec {
       ? [{ centre: region.dungeon.entrance, rotationY: region.dungeon.entranceRotationY ?? 0 }]
       : []),
     biomes: COREALM_BIOMES,
-    // The gameplay bounds above stay put. This only describes the rendered land edge and ocean.
+    // The bounds above describe semantic regions. Dry coastal land is also playable.
     coast: {
       seed: seedFromText("corealm:coast"),
       collar: 210,
       shoreline: [18, 190] as const,
       seaLevel: -5.25,
       floorDepth: 3,
-      // Match the terrain lattice at the inner seam so the render-only collar cannot form cracks.
+      // Match the terrain lattice so coastal navigation and physics share a continuous seam.
       gridStep: 2,
       oceanSize: 2400,
     },

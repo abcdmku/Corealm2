@@ -134,12 +134,10 @@ const CARVE_SKIRT = 1.5;
 /**
  * Shortest ring a carve may be.
  *
- * `walkableClimb` is 2 voxels at ch 0.2 = 0.40 m. `rcAddSpan` merges a new span into an existing
- * one and keeps the WALKABLE area flag when the two tops are within that threshold, so a carve
- * shorter than 0.40 m above the terrain merges back into the ground span as walkable and does
- * nothing at all. 1.0 m is 2.5x the threshold, which is enough margin for the ch quantisation.
+ * Recast merges spans within walkableClimb. Keep obstacle rings above that threshold even when
+ * the slope rasterisation allowance changes, or short props disappear from route planning.
  */
-const MIN_CARVE_HEIGHT = 1;
+const MIN_CARVE_HEIGHT = NAV_CONFIG.walkableClimb * NAV_CONFIG.ch + 0.6;
 
 /** Sides on a cylinder carve. 10 gives a decagon within 5% of the circle it stands in for. */
 const CYLINDER_SEGMENTS = 10;
