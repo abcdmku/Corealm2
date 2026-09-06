@@ -178,8 +178,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "marchwild_horse_t5",
     "activity": "graze",
-    "nativeBodyRadius": 1.6627995989690856,
-    "nativeVisualRadius": 1.8479814802167864
+    "nativeBodyRadius": 1.550673290217461,
+    "nativeVisualRadius": 1.7794178954964508
   },
   {
     "id": "cairn_bighorn_residents",
@@ -187,8 +187,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "cairn_bighorn_t10",
     "activity": "graze",
-    "nativeBodyRadius": 1.1879706740379334,
-    "nativeVisualRadius": 1.4651450990704056
+    "nativeBodyRadius": 1.1665486181705864,
+    "nativeVisualRadius": 1.3731898101282751
   },
   {
     "id": "ashscale_monitor_residents",

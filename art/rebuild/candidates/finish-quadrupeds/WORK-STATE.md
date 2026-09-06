@@ -1,6 +1,6 @@
 # Quadruped work state
 
-**Two creatures are now accepted and promoted.** See
+**Six creatures are now accepted and promoted.** See
 `runs/corealm-rebuild/SLICE-05-CREATURE-REPLACEMENTS.md` for the full decision table, measurements
 and evidence paths; that file, not this one, is the durable record.
 
@@ -9,6 +9,12 @@ and evidence paths; that file, not this one, is the durable record.
   already approved; what it needed was the moving lifecycle and the settled death pose, both of which
   now pass on hardware. The generator sources still hash to the values pinned in
   `monitor-promotion.json`.
+- **Cairn Bighorn, Marchwild Horse, Marsh Moose, Bracken Tapir** — re-exported from the corrected
+  hoofed sources and promoted. Every shipped version's Death clip sank 45–88 cm through the ground and
+  spent 13–31% of the clip fully airborne, measured over all skinned vertices with
+  `clip-floor-audit.mjs`. The re-exports never leave the ground. Staged in `hoofed-death-export/`.
+  Their old manifest bounds were inflated by that broken corpse, which is why the derived pack radii
+  went down.
 - **Redbrush Fox** — promoted at
   `6c5c6329126b5800a62c79e766f4f2b6f5bdea85bfdff56dce5d003656342f00`, built from the complete Khronos
   source: `Fox.adaptive-actor.glb` → `paws-v2.mjs` → `paws-v3.mjs` (padded four-lobed paws) →
@@ -46,7 +52,9 @@ The Fox is the worked example of that approach paying off; the rest follow the s
   Walk/Run/Die.
 - `source-bighorn-sheep/`: p0ss Sheep2, CC-BY-SA-3.0, accepted for adaptation with attribution and
   share-alike records. v4 is the current revision; v2 and v3 were deleted as superseded. Source motion
-  is contact-rejected; v4 is an anatomy candidate only.
+  is contact-rejected; v4 is an anatomy candidate only. Note the promoted Bighorn is the ORIGINAL
+  Corealm-authored one, not this; the sheep-derived line is still an open art experiment. The
+  promoted Bighorn's legs are noticeably spindly under a barrel body and deserve another pass.
 - `source-moose-horse/` and `source-tapir-horse/`: Lyndon Daniels CC0 horse (ChadM's rigged derivative
   also CC0). The native armature has no actions and lacks `Bone.005` despite 330 body vertices being
   dominated by that group; mane, tail and eyes need binding. `revision3` is current for the Moose;

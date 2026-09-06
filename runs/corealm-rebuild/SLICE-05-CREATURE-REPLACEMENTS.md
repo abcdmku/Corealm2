@@ -19,12 +19,13 @@ Ground rules that hold for every row below:
 | --- | --- | --- | --- | --- |
 | Ashscale Monitor (`creature_ashscale_monitor`) | **Accepted, promoted** | Full natural lifecycle passed on hardware with no console errors; front/side/rear/gameplay silhouettes read as a monitor; the settled death pose is grounded and belly-down; loot, XP and respawn all natural. | `test-results/s05-monitor-lifecycle/run5/report.json`, `test-results/s05-monitor-views/` | Original Corealm authored geometry, rig and clips (`tools/creature-expansion/reptiles/monitor.mjs`), pack `corealm-creature-expansion`, `LicenseRef-Corealm-Original` |
 | Redbrush Fox (`creature_redbrush_fox`) | **Accepted, promoted** | Paws reshaped into padded four-lobed canid paws (`paws-v3`), resting clip renamed to `Idle`, full natural lifecycle passed on hardware with no console errors. | `test-results/s05-fox-lifecycle/run3/report.json`, `test-results/s05-fox-v3-views/`, `test-results/s05-fox-v3-close/`, `art/rebuild/candidates/finish-quadrupeds/source-fox-adaptation/paws-v3-review.json` | Khronos glTF-Sample-Assets Fox — PixelMannen (model, CC0-1.0), tomkranis (rig/animation, CC-BY-4.0), @AsoboStudio and @scurest (glTF conversion, CC-BY-4.0); adapted asset distributed CC-BY-4.0 |
-| Duskoak Lynx | Deferred | Cat-derived actor still has 3.37/9.29 m/s stance-release slip and 139/157 mm blend burial. Not started this round. | `art/rebuild/candidates/finish-quadrupeds/CURRENT-SOURCE-HANDOFF.md` | JonasDichelle Cat, CC-BY-3.0 (base only) |
-| Rootdelve Badger | Deferred | CC0-rat-derived candidate penetrates ~52/17/60 mm on Walk/Run/Die. Not started this round. | same | CDmir/TinyWorlds rat, CC0-1.0 (base only) |
-| Quillback Porcupine | Deferred | Rat-derived candidate slides 2.14/3.35 m/s at real toe contacts. Not started this round. | same | CDmir/TinyWorlds rat, CC0-1.0 (base only) |
-| Cairn Bighorn | Deferred | Sheep-derived v3 is a CPU-still anatomy candidate; source motion is contact-rejected. | same | p0ss Sheep2, CC-BY-SA-3.0 (base only) |
-| Bracken Tapir | Deferred | Horse-derived head/ear/toe revision only checked in CPU stills. | same | Lyndon Daniels horse, CC0-1.0 (base only) |
-| Marchwild Horse / Marsh Moose death clips | Deferred | Corrected Death clips exist in source but have not been exported since; Moose still has unresolved `Bone.005` mapping. | `test-results/hoofed-death-audit.json` | Lyndon Daniels horse, CC0-1.0 |
+| Duskoak Lynx | **Held** | Fresh hardware view: forelegs collapse forward at the wrist with the chest almost on the ground, and the silhouette reads closer to a hyena than a lynx. The candidate also has no Attack, Hit or Death clip at all, on a 196-joint, 50 372-triangle, 20 MB rig. | `test-results/s05-lynx-views/`, `source-feline/PAUSED-ACTOR2-CHECKPOINT.md` | JonasDichelle Cat, CC-BY-3.0 (base only) |
+| Rootdelve Badger | **Held** | Fresh hardware view: the head is buried in the ground and the body is slumped flat with the legs splayed — it reads as a dying animal in its idle. Only 5 930 triangles. | `test-results/s05-mammal-views/` | CDmir/TinyWorlds rat, CC0-1.0 (base only) |
+| Quillback Porcupine | **Held** | Closest of the three rat/cat-derived mammals: the quill mantle reads well. Still blocked by a crouched idle with no weight-bearing feet, and by a naked pink rat tail that no porcupine has. Slides 2.14/3.35 m/s at real toe contacts. | `test-results/s05-mammal-views/` | CDmir/TinyWorlds rat, CC0-1.0 (base only) |
+| Cairn Bighorn (`creature_cairn_bighorn`) | **Accepted, promoted** | Re-exported from the corrected source. Shipped Death sank 0.453 m through the floor for 29% of its samples; the new one never leaves the ground. Full lifecycle passed. | `test-results/s05-hoofed-lifecycle/cairn_bighorn/report.json`, `test-results/s05-hoofed-views/` | Original Corealm authored anatomy, rig and clips (`tools/creature-expansion/hoofed/`), `LicenseRef-Corealm-Original`. The separate p0ss Sheep2 CC-BY-SA-3.0 source-derived candidate remains a static anatomy experiment and was **not** promoted. |
+| Bracken Tapir (`creature_bracken_tapir`) | **Accepted, promoted** | Re-exported from the corrected source. Shipped Death sank 0.451 m through the floor for 31% of its samples; the new one never leaves the ground. Full lifecycle passed. | `test-results/s05-hoofed-lifecycle/bracken_tapir/report.json`, `test-results/s05-hoofed-views/`, `test-results/s05-hoofed-shipped/` | Original Corealm authored anatomy, rig and clips, `LicenseRef-Corealm-Original`. The separate CC0-horse-derived candidate remains a static anatomy experiment and was **not** promoted. |
+| Marchwild Horse (`creature_marchwild_horse`) | **Accepted, promoted** | Re-exported from the corrected source. Shipped Death sank 0.625 m through the floor for 13% of its samples; the new one never leaves the ground. Full lifecycle passed. | `test-results/s05-hoofed-lifecycle/marchwild_horse/report.json` | Original Corealm authored anatomy, rig and clips, `LicenseRef-Corealm-Original` |
+| Marsh Moose (`creature_marsh_moose`) | **Accepted, promoted** | Re-exported from the corrected source. Shipped Death sank 0.880 m through the floor for 26% of its samples; the new one never leaves the ground. Full lifecycle passed. | `test-results/s05-hoofed-lifecycle/marsh_moose/report.json` | Original Corealm authored anatomy, rig and clips, `LicenseRef-Corealm-Original`. The CC0-horse-derived Moose remains unresolved (`Bone.005` mapping) and was **not** promoted. |
 
 No animal-head humanoid, demonic or chunky/rubbery cartoon candidate was considered, produced or
 retained at any point in this round.
@@ -156,21 +157,69 @@ over it filled the shot. The detached inspection camera sits at `(sin yaw, cos y
 — measured, not assumed — so corpse frames now derive their yaw from the **killer's** azimuth:
 `side` looks along the perpendicular to the player, `rear` the other perpendicular, `front` from
 directly opposite. The yaw actually used is recorded with every capture.
+## The four hoofed species: a death clip that fell through the world
+
+The handoff said Horse, Moose, Bighorn and Tapir had integrated whole-body helpers and corrected
+Death clips in source that had never been exported. Re-exporting them with
+`tools/build-creature-expansion.ts` and measuring both builds turned that claim into a number.
+
+`tools/creature-expansion/mammals/clip-floor-audit.mjs` (new) samples every clip at each animation
+key time and each interval midpoint and reports the lowest **skinned world Y** over all vertices, plus
+how much of the clip the whole body spends more than 1 cm off the ground. Bone tips would have missed
+all of this.
+
+| Species | Shipped Death: lowest Y | Shipped Death airborne | New Death: lowest Y | New airborne |
+| --- | --- | --- | --- | --- |
+| Marsh Moose | **-0.880 m** | 26.2% of samples | +0.0012 m | 0 |
+| Marchwild Horse | **-0.625 m** | 12.8% | +0.0015 m | 0 |
+| Cairn Bighorn | **-0.453 m** | 29.0% | +0.0015 m | 0 |
+| Bracken Tapir | **-0.451 m** | 30.8% | +0.0007 m | 0 |
+
+Every shipped hoofed animal sinks between 45 and 88 cm through the ground as it dies, and spends a
+sixth to a third of that clip fully airborne. All seven other clips were already fine on both builds
+and stay fine. This is the single largest visible defect found this round.
+
+That broken Death also poisoned the manifest bounds, because `deformedBounds` measures across every
+clip: the shipped Bighorn recorded a 1.062 m width and the Tapir a 1.487 m height that only existed
+because their corpses flailed underground. The re-exports measure 0.741 m and 1.123 m, which is why
+their derived pack radii move down rather than because anything shrank.
+
+All four passed the full natural lifecycle on hardware
+(`test-results/s05-hoofed-lifecycle/`), each with an ordinary drop and pickup: `bighorn_fleece`,
+`horse_tailhair`, `moose_antler_palm`, `tapir_leather`. Inspected corpses all lie flat on their side,
+grounded, with folded legs — moose antlers and bighorn horns resting on the ground rather than
+skewering it.
+
+One honest caveat recorded rather than smoothed over: the Bighorn's legs are noticeably spindly under
+a barrel body, and the re-exported Tapir is leaner with smaller ears than the one it replaces
+(`test-results/s05-hoofed-shipped/` holds the before frames). Neither is a regression introduced here
+— both are the current authored anatomy — and neither outweighs a corpse that falls through the
+floor, but both are worth another art pass.
+
 ## Shared and production files touched
 
-- `game/public/assets/manifest.json`, `models/creature/creature_ashscale_monitor.glb` and
-  `models/creature/creature_redbrush_fox.glb` — only through
+- `game/public/assets/manifest.json` and six creature GLBs — `creature_ashscale_monitor`,
+  `creature_redbrush_fox`, `creature_cairn_bighorn`, `creature_marchwild_horse`,
+  `creature_marsh_moose`, `creature_bracken_tapir` — only through
   `tools/creature-expansion/mammals/promote-candidate.mjs`, added here as this slice's promote
   helper. It refuses to move anything whose staged bytes, SHA-256, production path, declared pack,
   Creative Commons metadata or lifecycle evidence hash does not check out, and it stamps the evidence
   path into the manifest entry's `acceptance` block.
-- `game/src/content/regionalPacks.ts` — two pinned pairs of numbers, both derived from the assets'
-  own manifest bounds and recomputed by `tests/regional-packs.test.ts`:
-  `ashscale_monitor_residents.nativeVisualRadius` 3.126749966751312 → 3.1445374043543763 (body radius
-  unchanged), and `redbrush_fox_residents` 1.2132761287689209 / 1.37619566011836 → 0.7671434755255592 /
-  0.8766702550812312. The fox pin drops sharply because the replaced procedural fox was a 2.43 m long,
-  0.42 m wide body; the source-derived one is a correctly proportioned 1.53 m. Leaving either pin
-  stale would fail the suite and misstate the actor's footprint to melee spacing.
+- `game/src/content/regionalPacks.ts` — four pinned pairs of numbers, all derived from the assets'
+  own manifest bounds and all recomputed by `tests/regional-packs.test.ts`. Leaving any of them stale
+  fails the suite and misstates the actor's footprint to melee spacing.
+
+  | Pack source | nativeBodyRadius | nativeVisualRadius |
+  | --- | --- | --- |
+  | `ashscale_monitor_residents` | unchanged 2.3840643191337585 | 3.126749966751312 → 3.1445374043543763 |
+  | `redbrush_fox_residents` | 1.2132761287689209 → 0.7671434755255592 | 1.37619566011836 → 0.8766702550812312 |
+  | `marchwild_horse_residents` | 1.6627995989690856 → 1.550673290217461 | 1.8479814802167864 → 1.7794178954964508 |
+  | `cairn_bighorn_residents` | 1.1879706740379334 → 1.1665486181705864 | 1.4651450990704056 → 1.3731898101282751 |
+
+  The fox drops sharply because the procedural fox it replaces was a 2.43 m long, 0.42 m wide body
+  and the source-derived one is a correctly proportioned 1.53 m. The horse and bighorn drop because
+  their old bounds included a corpse sunk through the floor. Moose and Tapir have no
+  `REGIONAL_PACK_SOURCES` row, so nothing to repin.
 - The manifest gains the `khronos-fox-complete-source` pack, `CC-BY-4.0`, with the pinned upstream
   archive hash `d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7`, full attribution
   and a retained derivative licence. The promote helper runs the production
@@ -187,9 +236,9 @@ directly opposite. The yaw actually used is recorded with every capture.
 `assets.ts`, `systems/combat.ts`, `enemyAI.ts` and `tools/build-assets.ts` were not modified. The
 Fox's `Survey`→`Idle` rename exists precisely so that the renderer's clip table did not have to be.
 
-Both species' habitat rows in `content/creatureHabitats.ts` remain `enabled: false` and
+All six species' habitat rows in `content/creatureHabitats.ts` remain `enabled: false` and
 `proposed_pending_lab_and_world_acceptance`. Lab acceptance does not by itself place a species in the
-world, so both promoted manifest entries record `worldIntegrated: false`.
+world, so every promoted manifest entry records `worldIntegrated: false`.
 
 ## Cleanup
 
@@ -218,9 +267,9 @@ Kept deliberately: every source snapshot and `provenance.json`, the accepted sta
 
 `npm run typecheck` passes.
 
-The full vitest suite was run twice, once with the promotions in place and once with them stashed.
-Both runs fail the same 16 files, so every one of those failures is pre-existing on this branch and
-none is caused by this work. Named for the record: `creature-gait`, `creature-motion-continuity`,
+The full vitest suite was run with the promotions in place and again with them stashed. Both runs
+fail exactly the same 16 files and 25 tests, so every one of those failures is pre-existing on this
+branch and none is caused by this work. Named for the record: `creature-gait`, `creature-motion-continuity`,
 `humanoidGait`, `coastal-traversal`, `renderer-frame-timing`, `structure-movement-grounding`,
 `sunder-ledge-geology`, the three shortcut-source suites, and the five `tools/creature-motion`
 gait suites. Everything touching creatures, packs, provenance, habitats and spacing passes:
