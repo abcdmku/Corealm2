@@ -350,10 +350,10 @@ export class InputController {
     if (pick.entityId) {
       const interaction = this.primaryInteractionFor(pick.entityId);
       if (!interaction) {
-        // Scenery can sit on top of otherwise walkable ground. Treat it exactly like a ground
-        // click instead of making a non-actionable prop look actionable.
+        // Roofs and bridge decks must not redirect a floor click to the prop's origin.
+        const ground = this.picker.pickGroundAt(clientX, clientY);
         this.setSelected(null);
-        this.moveTo({ entityId: pick.entityId }, pick.point);
+        if (ground) this.moveTo({ position: ground.point }, ground.point);
         return;
       }
       this.setSelected(pick.entityId);

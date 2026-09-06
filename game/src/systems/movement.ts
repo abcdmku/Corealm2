@@ -396,13 +396,14 @@ export class Movement {
     entityId: EntityId | null,
     atMs: number,
     options: PathOptions = {},
+    prepared?: MovementPathPlan,
   ): { pathLength: number; etaMs: number } | null {
     // A ground click replaces the route, not the player's stride. Keeping the current velocity lets
     // the renderer stay on the run clip while the next path is installed. Explicit stops and route
     // changes still use the ordinary clearing path below.
     const preserveMotion = this.canPreservePathMotion(state);
     this.replaceIntent(state, atMs, preserveMotion);
-    const started = this.setPath(state, to, entityId, atMs, options);
+    const started = this.setPath(state, to, entityId, atMs, options, prepared);
     if (!started && preserveMotion) {
       // A failed replacement must not leave an idle movement mode carrying the old speed into the
       // next render frame.
@@ -419,8 +420,9 @@ export class Movement {
     entityId: EntityId | null,
     atMs: number,
     options: PathOptions,
+    prepared?: MovementPathPlan,
   ): { pathLength: number; etaMs: number } | null {
-    const planned = this.planPath(state.player.position, to, entityId, options);
+    const planned = prepared ?? this.planPath(state.player.position, to, entityId, options);
     if (!planned) {
       if (!options.quietFailure) {
         this.events.emit("navigation.failed", { reason: "unreachable", to }, entityId ?? undefined, atMs);

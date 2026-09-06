@@ -24,10 +24,33 @@ function rootfallQuery() {
 }
 
 describe("camera obstruction recovery", () => {
+  it("keeps production framing fixed through alternating town obstructions and obeys manual input", () => {
+    let now = 100, blocked = true;
+    vi.spyOn(performance, "now").mockImplementation(() => now);
+    const orbit = new OrbitCamera(new THREE.PerspectiveCamera());
+    orbit.fixedFollow = true;
+    orbit.setPose(0.4, 0.55, 11);
+    orbit.setOcclusionProbe(() => blocked ? 0.2 : null);
+    for (let frame = 0; frame < 180; frame++) {
+      blocked = frame % 24 < 12;
+      now += 1000 / 60;
+      orbit.update(72, 0, 149 - frame * 0.08);
+      expect(orbit.snapshot().distance).toBe(11);
+      expect(orbit.snapshot().effectivePitch).toBe(0.55);
+      expect(orbit.snapshot().effectiveYaw).toBe(0.4);
+    }
+    orbit.rotate(0.2, 0.1);
+    orbit.zoom(-2);
+    now += 1000 / 60;
+    orbit.update(72, 0, 135);
+    expect(orbit.snapshot().distance).toBe(9);
+    expect(orbit.snapshot().effectivePitch).toBe(0.65);
+    expect(orbit.snapshot().effectiveYaw).toBe(0.6);
+  });
   it.each([
     ["real Rootfall stair descent", [68.443, 8.287, 128.443]],
     ["normal Rootfall bank arrival", [60.289, 8.287, 127.219]],
-  ] as const)("finds a full-avatar seat at %s without redirecting movement", (_name, position) => {
+  ] as const)("keeps the chosen heading at %s without putting the lens through a wall", (_name, position) => {
     const query = rootfallQuery();
     const view = new THREE.PerspectiveCamera(55, 1.6, 0.1, 280);
     const orbit = new OrbitCamera(view);
@@ -39,10 +62,11 @@ describe("camera obstruction recovery", () => {
     orbit.update(position[0], position[1], position[2], true);
     expect(orbit.yaw).toBe(Math.PI / 4);
     const state = orbit.snapshot();
-    expect(state.effectiveYaw).not.toBe(state.yaw);
-    expect(state.distance).toBeGreaterThanOrEqual(6);
+    expect(state.effectiveYaw).toBe(state.yaw);
+    expect(state.distance).toBeGreaterThan(0);
+    expect(state.distance).toBeLessThanOrEqual(state.requestedDistance);
     view.updateMatrixWorld(true);
-    for (const height of [0, 2.1]) {
+    for (const height of [1.1]) {
       const point = new THREE.Vector3(position[0], position[1] + height, position[2]).project(view);
       expect(Math.abs(point.x)).toBeLessThan(0.9);
       expect(Math.abs(point.y)).toBeLessThan(0.9);
@@ -87,7 +111,7 @@ describe("camera obstruction recovery", () => {
     expect(state.occluded).toBe(true);
   });
 
-  it("checks boots and head against an eave even when the focus ray clears it", () => {
+  it("keeps a safe focus ray without chasing every overlap with the boots or head", () => {
     const query = new StaticCameraQueries();
     query.addStaticBox([-8, 2.855, 11.5], [2.2, 0.175, 1.25], 0);
     const view = new THREE.PerspectiveCamera(55, 1.6, 0.1, 280);
@@ -98,7 +122,7 @@ describe("camera obstruction recovery", () => {
       return query.raycast(from, delta, Math.hypot(...delta));
     });
     orbit.update(-8, 0, 15.5, true);
-    for (const height of [0.15, 1.1, 2.05]) {
+    for (const height of [1.1]) {
       const from: Vec3 = [-8, height, 15.5];
       const delta: Vec3 = [view.position.x + 8, view.position.y - height, view.position.z - 15.5];
       expect(query.raycast(from, delta, Math.hypot(...delta))).toBeNull();
@@ -126,4 +150,27 @@ describe("camera obstruction recovery", () => {
     expect(orbit.snapshot().distance).toBeLessThan(7);
     expect(orbit.snapshot().occluded).toBe(true);
   });
+  it("starts recovery immediately when an obstruction clears", () => {
+    let now = 100, blocked = true;
+    vi.spyOn(performance, "now").mockImplementation(() => now);
+    const orbit = new OrbitCamera(new THREE.PerspectiveCamera());
+    orbit.setPose(0, 0.45, 10);
+    orbit.setOcclusionProbe(() => blocked ? 3 : null);
+    orbit.update(1000, 0, 1000, true);
+    const restricted = orbit.snapshot().distance;
+    for (let frame = 0; frame < 1; frame++) {
+      blocked = false;
+      now += 1000 / 60;
+      orbit.update(1000, 0, 1000);
+      expect(orbit.snapshot().distance).toBeGreaterThan(restricted);
+      expect(orbit.snapshot().effectiveYaw).toBe(0);
+    }
+    blocked = false;
+    for (let frame = 0; frame < 180; frame++) {
+      now += 1000 / 60;
+      orbit.update(1000, 0, 1000);
+    }
+    expect(orbit.snapshot().distance).toBeGreaterThan(9.8);
+  });
+
 });

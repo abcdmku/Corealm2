@@ -112,4 +112,23 @@ describe("held left pointer movement", () => {
     expect(api.moveTo).toHaveBeenCalledTimes(2);
     expect(movement.setDirectInput).toHaveBeenLastCalledWith({ forward: 0, strafe: 0, cameraYaw: 0 });
   });
+  it("clicks the floor beyond a non-interactive overhead prop, not its origin", () => {
+    const windowTarget = new EventTarget();
+    vi.stubGlobal("window", windowTarget);
+    const canvas = new TestCanvas();
+    const api = {
+      inspect: vi.fn(() => success({ interactions: [] })),
+      moveTo: vi.fn(() => success({ pathLength: 5, etaMs: 1000 })),
+    } as unknown as GameApi;
+    const input = new InputController(canvas as unknown as HTMLCanvasElement,
+      { camera: new THREE.PerspectiveCamera(), scene: new THREE.Scene() },
+      { yaw: 0, rotate: vi.fn(), zoom: vi.fn(), panPixels: vi.fn() }, api,
+      { setDirectInput: vi.fn() });
+    cleanups.push(() => input.dispose());
+    input.picker.setEntitySource(() => ({entityId: "roof", point: [0, 4, 0], distance: 2}));
+    input.picker.setGroundSource(() => ({entityId: null, point: [0, 0, -5], distance: 8}));
+    canvas.dispatchEvent(pointerEvent("pointerdown"));
+    expect(api.moveTo).toHaveBeenCalledExactlyOnceWith({position: [0, 0, -5]});
+  });
+
 });

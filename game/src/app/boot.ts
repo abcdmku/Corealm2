@@ -39,6 +39,7 @@ import { registerProceduralGear } from "../render/proceduralGear.js";
 import { WorldScene } from "../render/scene.js";
 import { EntityViews } from "../render/entityViews.js";
 import { buildStructureNavigationSources } from "../render/structureNavigation.js";
+import { RoofVisibility } from "../render/roofVisibility.js";
 import { buildStructureCameraSources } from "../render/structureCameraSources.js";
 import { STOREY_METRES } from "../render/buildings.js";
 import { isStructureEntity } from "../render/entityActiveSet.js";
@@ -287,6 +288,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   setStatus("lighting the frontier…");
   const renderer = new Renderer(canvas);
   const camera = new OrbitCamera(renderer.camera);
+  camera.fixedFollow = true;
   const scene = new WorldScene(renderer.scene);
   renderer.prepareScene = (viewCamera) => scene.scatterVisibility.prepare(
     viewCamera, renderer.scene.fog instanceof THREE.Fog ? renderer.scene.fog.far : undefined,
@@ -691,10 +693,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // 8b. Buildings become solid before the navmesh is generated, so paths route around them
   //     instead of through a wall. Gatehouses emit two pier boxes with the gate gap left open.
   for (const box of built.buildings) {
-    cameraQueries.addStaticBox(box.position, box.halfExtents as unknown as Vec3, box.rotationY);
+    cameraQueries.addStaticBox(box.position, box.halfExtents as unknown as Vec3, box.rotationY, box.buildingId);
   }
   for (const mesh of structureNavigation.meshes) cameraQueries.addStaticMesh(mesh);
   const structureCamera = await buildStructureCameraSources(assets, built.entities);
+  const roofVisibility = new RoofVisibility();
+  roofVisibility.setSources(structureCamera.meshes);
   for (const mesh of structureCamera.meshes) cameraQueries.addStaticMesh(mesh);
   // Recast reads raw geometry, so the cheapest way to make something block a path is to hand the
   // navmesh an invisible carve for it.
@@ -890,6 +894,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
 
   // 12. Player.
+  renderer.playerSilhouette.obstructionProbe = (from, direction, length) => cameraQueries.raycast(from, direction, length);
   const groundY = scene.heightAt(spawnSpec.regionId, spawnSpec.x, spawnSpec.z);
   const spawn: Vec3 = nav.closestPoint([spawnSpec.x, groundY + 0.2, spawnSpec.z]) ?? [spawnSpec.x, groundY, spawnSpec.z];
   // Facing convention matches NpcStandDef and debug/shots.ts: 0 looks toward +z.
@@ -918,6 +923,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   );
   if (rigged) {
     scene.entityGroup.add(playerRig.root);
+    renderer.playerSilhouette.source = playerRig.root;
     playerRig.setPosition(initialPlayerPosition, initialPlayerFacing);
   } else {
     errors.push({ atMs: atMs(), source: "characterRig", message: "Player rig failed to build; using the placeholder" });
@@ -1775,6 +1781,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
             [solid.position[0], solid.position[1] + solid.size[1] / 2, solid.position[2]],
             [solid.size[0] / 2, solid.size[1] / 2, solid.size[2] / 2],
             solid.rotationY,
+            solid.id.includes("#") ? solid.id.split("#", 1)[0] : undefined,
           );
         } else {
           cameraQueries.addStaticCylinder(solid.position, solid.radius, solid.height);
@@ -1784,6 +1791,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         cameraQueries.addStaticMesh(mesh);
       }
       for (const mesh of [...structureCamera.meshes, ...cameraMeshes]) cameraQueries.addStaticMesh(mesh);
+      cameraQueries.setHiddenEntities(roofVisibility.hiddenEntities, roofVisibility.cutHeights);
       solids = new Solids(allSolids);
       structureMovementBounds = importedSurfaceBounds([...structureNavigation.meshes, ...structureMeshes]);
       movement.setPorts({ solids: movementSolids, heightAt, preserveNavigationHeight, entities: entityStore });
@@ -1840,6 +1848,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       activeStructure = next;
       activeStructureNavigation = nextStructureNavigation.meshes;
       activeStructureCamera = nextStructureCamera.meshes;
+      roofVisibility.setSources([...structureCamera.meshes, ...activeStructureCamera]);
       const structureUrl = new URL(window.location.href);
       structureUrl.searchParams.set("kind", next.selection.kind);
       structureUrl.searchParams.set("id", next.selection.id);
@@ -2338,6 +2347,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   const loop = new GameLoop({
     store, events, clock, rng, renderer, camera, scene, nav, movement, api, saves, input,
+    updateRoofVisibility: (position) => {
+      const lens = renderer.camera.position;
+      if (!roofVisibility.update(position, position ? {
+        actual: [lens.x, lens.y, lens.z], requested: camera.requestedPosition(position), nowMs: performance.now(),
+      } : undefined)) return;
+      entityViews.setHiddenRoofs(roofVisibility.hiddenEntities);
+      cameraQueries.setHiddenEntities(roofVisibility.hiddenEntities, roofVisibility.cutHeights);
+      camera.setHiddenRoofs(roofVisibility.hiddenBuildings);
+    },
   });
   // The Gravelmaw chambers are authored a few metres below the surface, right beside the entrance,
   // so rendering every entity unconditionally drew the whole dungeon population on top of the
@@ -2582,6 +2600,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     scatterVisibility: () => scene.scatterVisibility.getStats(),
     playerMotion: () => playerRig.motionSnapshot(true),
     foliageOcclusion: () => scene.materials.getFoliageOcclusion(),
+    roofVisibility: () => roofVisibility.snapshot(),
+    playerSilhouette: () => renderer.playerSilhouette.snapshot(),
     setFoliageOcclusionEnabled: (enabled) => scene.materials.setFoliageOcclusionEnabled(enabled),
     setContainedTroughWater: (enabled) => entityViews.setContainedTroughWater(enabled),
     setFoliageOcclusionBoundsOptimization: (enabled) => scene.materials.setFoliageOcclusionBoundsOptimization(enabled),

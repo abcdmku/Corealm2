@@ -68,6 +68,7 @@ export type OcclusionProbe = (from: Vec3, to: Vec3) => number | null;
  * 0.980). `COVER_RANGE_METRES` keeps that assumption honest by ignoring anything further away.
  */
 interface CoverSlab {
+  readonly ownerId: string;
   /** World centre of the covered rectangle, including the prefab's own local offset. */
   readonly cx: number;
   readonly cz: number;
@@ -114,6 +115,7 @@ function overheadCover(): readonly CoverSlab[] {
       const sin = Math.sin(building.rotationY);
       // Local -> world is (x, z) => (cos*lx + sin*lz, -sin*lx + cos*lz), matching `emitParts`.
       slabs.push({
+        ownerId: building.id,
         cx: building.position[0] + sin * rect.dz,
         cz: building.position[1] + cos * rect.dz,
         hx: rect.hx,
@@ -192,11 +194,6 @@ function coverRect(
   }
 }
 
-/** Try nearby bearings when pulling straight in would crop the avatar. */
-const YAW_RECOVERY_OFFSETS = [Math.PI / 6, -Math.PI / 6, Math.PI / 3, -Math.PI / 3,
-  Math.PI / 2, -Math.PI / 2, Math.PI * 0.75, -Math.PI * 0.75, Math.PI] as const;
-const YAW_RECOVERY_DISTANCE = 4;
-
 /** Metres of clearance kept in front of whatever the probe hit, so the near plane never enters it. */
 const OCCLUSION_PADDING = 0.45;
 
@@ -213,22 +210,9 @@ const PROBE_OFFSETS: readonly (readonly [number, number])[] = [
   [1, 0], [-1, 0], [0, 1], [0, -1],
 ];
 
-/**
- * Per-60 Hz-frame rates. Pull in fast enough to never lose the player, ease out gently.
- *
- * Measured on the real class against a scripted blocker at 60 Hz (runs/corealm/audit/cam-spring.ts,
- * which stubs `performance.now`): at 0.4 the camera covers 18 m -> 4.6 m in 150 ms, which is the
- * requirement — a player who steps behind a wall must not spend a beat invisible.
- *
- * The ease-out was 0.05, and that is what made a fence RATCHET. Posts on 2 m centres at the 4.2 m/s
- * walk speed present a blocker every 480 ms; the pull-in takes 150 ms, `EASE_OUT_HOLD_MS` then ate
- * most of the gap, and at 0.05 the camera recovered 90% of the pull only after 950 ms — longer than
- * the gap, so it never got back out along the whole fence. At 0.10 that recovery is 430 ms, which
- * fits inside the gap, and the step response still shows exactly one direction reversal per
- * blocker rather than an oscillation.
- */
+/** Per-60 Hz-frame rates for prompt, smooth collision recovery. */
 const PULL_IN_RATE = 0.4;
-const EASE_OUT_RATE = 0.1;
+const EASE_OUT_RATE = 0.3;
 
 /**
  * Extra pitch the camera is allowed to climb when something blocks the shot, in radians.
@@ -306,21 +290,6 @@ const CLIMB_ACCEPT_FRACTION = 0.8;
 const CLIMB_MIN_GAIN_METRES = 1.5;
 const CLIMB_MIN_GAIN_FRACTION = 0.25;
 
-/**
- * How long the camera stays pulled in after the blocker clears, at most.
- *
- * Without it, walking past a fence post or a tree trunk at pitch 0.52 makes the spring fire and
- * release several times a second, and the resulting in-out breathing is more distracting than the
- * occlusion was. 220 ms is longer than any single-post transit at 4.2 m/s and short enough that
- * stepping out of a doorway does not feel sticky.
- *
- * "At most", because the hold is now capped by how long the blocker actually lasted. A flat 220 ms
- * meant a 100 ms graze bought a 220 ms latch, so along a fence the latch covered more of each gap
- * than the blocker did — the camera spent more time held in by posts it had already passed than by
- * posts it was behind.
- */
-const EASE_OUT_HOLD_MS = 220;
-
 /** Distance change below this is not worth acting on; it only produces visible jitter. */
 const OCCLUSION_DEAD_ZONE = 0.05;
 
@@ -366,6 +335,9 @@ export class OrbitCamera {
   private initialised = false;
   private lastUpdateMs = 0;
   private occlusionProbe: OcclusionProbe | null = null;
+  /** Production follow uses building cutaways instead of changing the player's chosen framing. */
+  fixedFollow = false;
+  private hiddenRoofs: ReadonlySet<string> = new Set();
   /** The distance actually used this frame, after occlusion. */
   private effectiveDistance = CAMERA.defaultDistance;
   /** Whether the probe reported a blocker on the most recent update. Read by the debug snapshot. */
@@ -377,10 +349,6 @@ export class OrbitCamera {
    * search has to be able to tell them apart. See `eavePitch`.
    */
   private coverBlocked = false;
-  /** Milliseconds left on the ease-out hold. See `EASE_OUT_HOLD_MS`. */
-  private holdMs = 0;
-  /** How long the current unbroken run of occluded frames has lasted. Caps `holdMs`. */
-  private occludedMs = 0;
   /** The pitch actually used this frame, after any climb over or duck under an occluder. */
   private effectivePitch = CAMERA.defaultPitch;
   /**
@@ -393,7 +361,6 @@ export class OrbitCamera {
   private flatClearance = CAMERA.defaultDistance;
   private effectiveYaw = this.yaw;
   private probeYaw = this.yaw;
-  private recoveryYawOffset = 0;
 
   constructor(private readonly camera: THREE.PerspectiveCamera) {}
 
@@ -408,11 +375,15 @@ export class OrbitCamera {
   rotate(deltaYaw: number, deltaPitch: number): void {
     if (this.invertPitch) deltaPitch = -deltaPitch;
     this.yaw += deltaYaw;
+    const oldPitch = this.pitch;
     this.pitch = clamp(this.pitch + deltaPitch, this.freeMove ? -1.4 : CAMERA.minPitch, CAMERA.maxPitch);
+    this.effectivePitch += this.pitch - oldPitch;
   }
 
   zoom(delta: number): void {
+    const oldDistance = this.distance;
     this.distance = clamp(this.distance + delta, CAMERA.minDistance, CAMERA.maxDistance);
+    this.effectiveDistance += this.distance - oldDistance;
   }
 
   /** Detaches camera focus from the player while retaining the production orbit camera. */
@@ -467,6 +438,20 @@ export class OrbitCamera {
     if (!probe) this.occluded = false;
   }
 
+  /** Ignore analytic canopy slabs for the currently occupied building. */
+  setHiddenRoofs(buildingIds: ReadonlySet<string>): void {
+    this.hiddenRoofs = buildingIds;
+  }
+
+  /** The unobstructed follow seat, used to decide when overhead structures can safely return. */
+  requestedPosition(target: Vec3): Vec3 {
+    if (this.freeMove) return [this.camera.position.x, this.camera.position.y, this.camera.position.z];
+    const horizontal = Math.cos(this.pitch) * this.distance;
+    return [target[0] + Math.sin(this.yaw) * horizontal,
+      target[1] + FOCUS_HEIGHT_METRES + Math.sin(this.pitch) * this.distance,
+      target[2] + Math.cos(this.yaw) * horizontal];
+  }
+
   /** True when the last update pulled the camera in because something blocked the player. */
   isOccluded(): boolean {
     return this.occluded;
@@ -496,9 +481,6 @@ export class OrbitCamera {
       this.smoothed.copy(this.focus);
       this.effectiveDistance = this.distance;
       this.effectivePitch = this.pitch;
-      this.holdMs = 0;
-      this.occludedMs = 0;
-      this.recoveryYawOffset = 0;
       this.initialised = true;
     } else {
       // CAMERA.followLerp is authored as "per 60 Hz frame"; convert it to a per-second rate so the
@@ -510,54 +492,32 @@ export class OrbitCamera {
       this.smoothed.y += (this.focus.y - this.smoothed.y) * verticalAlpha;
     }
 
-    const resolved = this.freeMove
+    const fixedPose = this.freeMove || this.fixedFollow;
+    const resolved = fixedPose
       ? { distance: this.distance, pitch: this.pitch, yaw: this.yaw }
       : this.resolveFollowOcclusion(this.distance);
-    if (this.freeMove) this.occluded = false;
+    if (fixedPose) {
+      this.occluded = false;
+      this.flatClearance = this.distance;
+    }
     this.effectiveYaw = resolved.yaw;
 
-    // Pull in fast so the player never disappears behind rock; ease back out slowly, and only after
-    // the hold expires. Asymmetric on purpose: a symmetric spring either snaps outward through the
-    // obstacle it just cleared, or lags far enough on the way in that the player is behind geometry
-    // for a beat — the exact failure in the round-1 Vellenwood shot, where the player was not
-    // visible in their own frame.
-    if (snap) {
+    // Manual orbit and zoom follow input directly. Collision corrections recover without a hold.
+    if (snap || fixedPose) {
       this.effectiveDistance = resolved.distance;
       this.effectivePitch = resolved.pitch;
     } else {
-      const pullingIn = resolved.distance < this.effectiveDistance;
-      if (this.occluded) {
-        this.occludedMs += deltaMs;
-        this.holdMs = Math.min(EASE_OUT_HOLD_MS, this.occludedMs);
-      } else {
-        this.holdMs = Math.max(0, this.holdMs - deltaMs);
-        this.occludedMs = 0;
+      const rate = resolved.distance < this.effectiveDistance ? PULL_IN_RATE : EASE_OUT_RATE;
+      const alpha = 1 - Math.pow(1 - rate, deltaMs / 16.667);
+      if (Math.abs(resolved.distance - this.effectiveDistance) > OCCLUSION_DEAD_ZONE) {
+        this.effectiveDistance += (resolved.distance - this.effectiveDistance) * alpha;
       }
-      // A farther but still blocked seat is safe progress, not a cleared-obstacle release.
-      // Holding it would refresh holdMs forever while occluded remains true.
-      const partialRecovery = this.occluded && resolved.distance > this.effectiveDistance + OCCLUSION_DEAD_ZONE;
-      if (pullingIn || this.holdMs <= 0 || partialRecovery) {
-        if (Math.abs(resolved.distance - this.effectiveDistance) > OCCLUSION_DEAD_ZONE) {
-          const rate = pullingIn ? PULL_IN_RATE : EASE_OUT_RATE;
-          const alpha = 1 - Math.pow(1 - rate, deltaMs / 16.667);
-          this.effectiveDistance += (resolved.distance - this.effectiveDistance) * alpha;
-        }
-        // Fast AWAY from the authored pitch, slow back TO it. The round-1 version keyed this on
-        // "is the target pitch higher", which was the same thing while the only correction was a
-        // climb. It stopped being the same thing when `PITCH_STEPS` gained negative entries: a duck
-        // under a porch eave is the camera solving an occlusion and has to be as urgent as a pull
-        // in, and at EASE_OUT_RATE it took 1.1 s to get under a roof the player walked under in one
-        // step.
-        const returning = Math.abs(resolved.pitch - this.pitch) < Math.abs(this.effectivePitch - this.pitch);
-        const pitchRate = returning ? EASE_OUT_RATE : PULL_IN_RATE;
-        const pitchAlpha = 1 - Math.pow(1 - pitchRate, deltaMs / 16.667);
-        this.effectivePitch += (resolved.pitch - this.effectivePitch) * pitchAlpha;
-      }
+      this.effectivePitch += (resolved.pitch - this.effectivePitch) * alpha;
     }
 
     // The interpolated pitch is a different segment from the winning candidate. Validate the
     // actual seat as well, and never ease through a wall while the spring catches up.
-    if (!this.freeMove) {
+    if (!fixedPose) {
       this.probeYaw = this.effectiveYaw;
       this.aim(this.effectivePitch, this.effectiveDistance);
       const safeDistance = this.clearance(this.effectiveDistance);
@@ -576,38 +536,9 @@ export class OrbitCamera {
   }
 
   private resolveFollowOcclusion(requested: number): { distance: number; pitch: number; yaw: number } {
+    // Never swing sideways or reverse the view to get around an obstruction.
     this.probeYaw = this.yaw;
-    const authored = this.resolveOcclusion(requested);
-    const returnDistance = Math.min(CAMERA.minDistance, requested);
-    if (authored.distance >= returnDistance ||
-      (this.recoveryYawOffset === 0 && authored.distance >= YAW_RECOVERY_DISTANCE)) {
-      this.recoveryYawOffset = 0;
-      return { ...authored, yaw: this.yaw };
-    }
-    // Keep the same recovered side while it stays usable. This avoids alternating sides as the
-    // player crosses small posts. Steering still uses public yaw, so W/S remains continuous.
-    const measure = (offset: number) => {
-      this.probeYaw = this.yaw + offset;
-      this.aim(this.pitch, requested);
-      return this.clearance(requested);
-    };
-    if (this.recoveryYawOffset !== 0) {
-      const clear = measure(this.recoveryYawOffset);
-      if (clear >= returnDistance) {
-        this.occluded = clear < requested;
-        return { distance: clear, pitch: this.pitch, yaw: this.probeYaw };
-      }
-    }
-    for (const offset of YAW_RECOVERY_OFFSETS) {
-      const clear = measure(offset);
-      if (clear < returnDistance) continue;
-      this.recoveryYawOffset = offset;
-      this.occluded = clear < requested;
-      return { distance: clear, pitch: this.pitch, yaw: this.probeYaw };
-    }
-    this.recoveryYawOffset = 0;
-    this.occluded = authored.distance < requested;
-    return { ...authored, yaw: this.yaw };
+    return { ...this.resolveOcclusion(requested), yaw: this.yaw };
   }
 
   /**
@@ -700,15 +631,6 @@ export class OrbitCamera {
     for (const [right, up] of PROBE_OFFSETS) {
       const hit = this.probeSegment(right * PROBE_OFFSET_METRES, up * PROBE_OFFSET_METRES, requested);
       if (hit !== null && (nearest === null || hit < nearest)) nearest = hit;
-    }
-    // Lens clearance alone can leave the boots behind an eave even with a clear focus ray.
-    // Both ends of the avatar must see the same lens. Already unusable long-distance candidates
-    // need no extra rays; shortened final seats are checked without that early rejection.
-    if (nearest === null || nearest >= YAW_RECOVERY_DISTANCE || requested < YAW_RECOVERY_DISTANCE) {
-      for (const height of [-0.95, 0.95]) {
-        const hit = this.probeSegment(0, height, requested, 0);
-        if (hit !== null && (nearest === null || hit < nearest)) nearest = hit;
-      }
     }
     if (nearest === null) return requested;
     // No comfort floor can override a wall. For an extremely close hit, retain half the free
@@ -803,6 +725,7 @@ export class OrbitCamera {
 
     let best: number | null = null;
     for (const slab of slabs) {
+      if (this.hiddenRoofs.has(slab.ownerId)) continue;
       const ox = ax - slab.cx;
       const oz = az - slab.cz;
       if (ox * ox + oz * oz > COVER_RANGE_METRES * COVER_RANGE_METRES) continue;
@@ -857,6 +780,7 @@ export class OrbitCamera {
 
     let nearest: number | null = null;
     for (const slab of slabs) {
+      if (this.hiddenRoofs.has(slab.ownerId)) continue;
       const ox = ax - slab.cx;
       const oz = az - slab.cz;
       if (ox * ox + oz * oz > COVER_RANGE_METRES * COVER_RANGE_METRES) continue;
@@ -960,11 +884,8 @@ export class OrbitCamera {
     this.effectiveDistance = CAMERA.defaultDistance;
     this.effectivePitch = CAMERA.defaultPitch;
     this.effectiveYaw = this.yaw;
-    this.recoveryYawOffset = 0;
     this.flatClearance = CAMERA.defaultDistance;
     this.occluded = false;
-    this.holdMs = 0;
-    this.occludedMs = 0;
     this.initialised = false;
     this.lastUpdateMs = 0;
   }

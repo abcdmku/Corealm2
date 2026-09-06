@@ -5,6 +5,7 @@ it("excludes an explicitly stopped interval from resumed frame-rate measurements
   const renderer = Object.assign(Object.create(Renderer.prototype), {
     frameTimes: [], lastFrameAt: 0, gpuTimer: null,
     transmissionOcclusion: { active: false },
+    playerSilhouette: { render() {} },
     camera: { updateMatrixWorld() {} },
     renderer: { getContext: () => ({}), render() {}, info: { render: { calls: 2, triangles: 100 }, programs: [] } },
   }) as Renderer;

@@ -358,7 +358,7 @@ export class CorealmGameApi implements GameApiContract {
       const started = this.movement.startPath(state, destination, entityId, this.clock.elapsedMs, {
         quietFailure: true,
         stopDistance,
-      });
+      }, candidate);
       if (started) {
         this.store.markDirty();
         return ok(started);
@@ -391,7 +391,7 @@ export class CorealmGameApi implements GameApiContract {
   ): MovementCandidate | null {
     const direct = this.movement.planPath(state.player.position, destination, entityId, { stopDistance });
     const directCandidate: MovementCandidate | null = direct ? { ...direct, legs: [] } : null;
-    const routed = this.planGraphCandidate(state, destination, entityId, locationId, stopDistance);
+    const routed = this.planGraphCandidate(state, destination, entityId, locationId, stopDistance, direct?.pathLength);
     return routed && (!directCandidate || routed.etaMs < directCandidate.etaMs) ? routed : directCandidate;
   }
 
@@ -401,14 +401,21 @@ export class CorealmGameApi implements GameApiContract {
     entityId: EntityId | null,
     locationId: string | null,
     stopDistance: number,
+    directLength?: number,
   ): MovementCandidate | null {
     const agility = state.skills.agility.level;
+    // Graph entry/exit walking alone cannot exceed the complete direct walk and still win.
+    // Include the trimmed tail and anchor arrival tolerances so the bound stays conservative.
+    const options = directLength === undefined ? {} : {
+      maxWalkingMetres: directLength + stopDistance + 2 * ENTITY_ARRIVAL_ALLOWANCE + 2,
+    };
     const plan = locationId !== null
-      ? this.nav.planRouteVia(state.player.position, { locationId }, agility)
+      ? this.nav.planRouteVia(state.player.position, { locationId }, agility, options)
       : this.nav.planRouteVia(
         state.player.position,
         entityId !== null ? { position: destination, id: entityId } : { position: destination },
         agility,
+        options,
       );
     if (!plan || plan.legs.length === 0) return null;
     const legs = plan.legs.map((leg) => ({ ...leg }));

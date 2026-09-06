@@ -1652,6 +1652,7 @@ export class EntityViews {
   private readonly locomotionIntents = new Map<EntityId, "idle" | "walk" | "run">();
   /** Non-null only while the documentation pipeline renders one semantic entity in isolation. */
   private captureSubjectId: EntityId | null = null;
+  private hiddenRoofs = new Set<EntityId>();
   private readonly highlights = new Map<EntityId, THREE.Object3D>();
   /** Every `BatchedMesh` this layer draws through, keyed by material identity. See `Batch`. */
   private readonly batches = new Map<string, Batch>();
@@ -2227,7 +2228,21 @@ export class EntityViews {
     }
   }
 
+  /** Update individual roof instances, never shared material visibility. */
+  setHiddenRoofs(ids: ReadonlySet<EntityId>): void {
+    const changed = new Set([...this.hiddenRoofs, ...ids]);
+    const previous = this.hiddenRoofs;
+    this.hiddenRoofs = new Set(ids);
+    for (const id of changed) {
+      if (previous.has(id) === ids.has(id)) continue;
+      const record = this.records.get(id);
+      if (record) this.setCaptureRecordVisible(record,
+        !ids.has(id) && (this.captureSubjectId === null || this.captureSubjectId === id));
+    }
+  }
+
   private setCaptureRecordVisible(record: ViewRecord, visible: boolean): void {
+    visible = visible && !this.hiddenRoofs.has(record.entityId);
     if (record.unique) {
       record.unique.visible = visible;
       return;
@@ -4772,7 +4787,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     // A dissolved corpse is switched off here rather than only in `tickCorpseFade`, because
     // `syncMotion` calls this for every enemy every frame and would otherwise put it straight back
     // on screen. Enemies are in `MOVING_ARCHETYPES`, and a dead one is still an enemy.
-    if (record.fade >= 1) {
+    if (record.fade >= 1 || this.hiddenRoofs.has(record.entityId)) {
       group.animationLod?.hide(slot);
       for (const variant of [group.live, group.spent, group.moving]) {
         for (const draw of variant) hideInstance(draw, slot);
@@ -5342,7 +5357,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const nearest = new Map<EntityId, number>();
     for (const hit of raycaster.intersectObject(this.group, true)) {
       const entityId = this.entityOfHit(hit);
-      if (!entityId) continue;
+      if (!entityId || this.hiddenRoofs.has(entityId)) continue;
       // A hit on a 20 m ruin is a hit on the place, not on a thing. Let it fall through to
       // whatever is behind it — usually the ground, so the click walks there.
       if (this.records.get(entityId)?.pickable === false) continue;
@@ -5788,6 +5803,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     this.missing.clear();
     this.sourcesChanged = false;
     this.captureSubjectId = null;
+    this.hiddenRoofs.clear();
     this.riggedAssets.clear();
     this.tierKeyed.clear();
     this.architectureAssets.clear();

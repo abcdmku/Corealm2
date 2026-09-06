@@ -69,6 +69,8 @@ export interface DebugDeps {
   audioHistory?(limit?: number): unknown;
   clearAudioHistory?(): void;
   foliageOcclusion?(): unknown;
+  roofVisibility?(): unknown;
+  playerSilhouette?(): unknown;
   setFoliageOcclusionEnabled?(enabled: boolean): void;
   setContainedTroughWater?(enabled: boolean): unknown;
   setFoliageOcclusionBoundsOptimization?(enabled: boolean): void;
@@ -382,6 +384,11 @@ export function installGameDebug(deps: DebugDeps): void {
     },
     getMovementDetourDiagnostics(): unknown {
       return deps.movementDetourDiagnostics?.() ?? null;
+    },
+
+    getPlayerSilhouette(): unknown { return deps.playerSilhouette?.() ?? null; },
+    getRoofVisibility(): unknown {
+      return deps.roofVisibility?.() ?? null;
     },
 
     getFoliageOcclusion(): unknown {

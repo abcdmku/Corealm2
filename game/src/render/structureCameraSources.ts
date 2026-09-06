@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { roofOwner, structureOwner } from "./roofVisibility.js";
 import type { SemanticEntity } from "../contracts.js";
 import type { AssetRegistry } from "./assets.js";
 
@@ -58,6 +59,9 @@ export async function buildStructureCameraSources(
         throw new Error(`Camera structure ${entity.id} requires ordinary static source meshes`);
       }
       mesh.userData["structureCamera"] = entity.id;
+      mesh.userData["roofOwner"] = roofOwner(entity);
+      mesh.userData["structureOwner"] = structureOwner(entity);
+      mesh.userData["structureAnchorY"] = entity.position[1];
       meshes.push(mesh);
     });
     roots.push(root);

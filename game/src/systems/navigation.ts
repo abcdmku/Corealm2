@@ -1018,10 +1018,11 @@ export class Navigation {
     from: Vec3,
     to: { locationId: string } | { position: Vec3; id?: string },
     agilityLevel: number,
-    options: { withPaths?: boolean } = {},
+    options: { withPaths?: boolean; maxWalkingMetres?: number } = {},
   ): RoutePlan | null {
     const withPaths = options.withPaths ?? false;
-    const starts = this.reachableNodesNear(from);
+    const maxWalkingMetres = options.maxWalkingMetres ?? Infinity;
+    const starts = this.reachableNodesNear(from, maxWalkingMetres);
     if (starts.length === 0) return null;
 
     let ends: { node: RouteNode; metres: number }[];
@@ -1032,7 +1033,7 @@ export class Navigation {
       if (!node) return null;
       ends = [{ node, metres: 0 }];
     } else {
-      ends = this.reachableNodesNear(to.position);
+      ends = this.reachableNodesNear(to.position, maxWalkingMetres);
       tail = to.position;
       tailId = to.id ?? "destination";
     }
@@ -1047,6 +1048,7 @@ export class Navigation {
 
     for (const start of starts) {
       for (const end of ends) {
+        if (distance(from, start.node.position) + (tail ? distance(tail, end.node.position) : 0) > maxWalkingMetres) continue;
         const plan = this.planRoute(start.node.id, end.node.id, agilityLevel, { withPaths });
         if (!plan) continue;
         const total = (start.metres + end.metres) / PLAYER_SPEED + plan.cost;
@@ -1099,7 +1101,7 @@ export class Navigation {
    * rather than ranked — which is what keeps a surface node from being chosen as the anchor for a
    * player standing 12 m under it in the Gravelmaw.
    */
-  private reachableNodesNear(position: Vec3): { node: RouteNode; metres: number }[] {
+  private reachableNodesNear(position: Vec3, maxMetres = Infinity): { node: RouteNode; metres: number }[] {
     const byDistance = [...this.routeNodes.values()]
       .map((node) => ({ node, gap: distance(node.position, position) }))
       .sort((a, b) => a.gap - b.gap);
@@ -1107,6 +1109,7 @@ export class Navigation {
     const hits: { node: RouteNode; metres: number }[] = [];
     for (const candidate of byDistance.slice(0, ANCHOR_PROBES)) {
       if (hits.length >= ANCHOR_CANDIDATES) break;
+      if (candidate.gap > maxMetres) break;
       const metres = this.pathDistance(position, candidate.node.position);
       if (metres === null) continue;
       hits.push({ node: candidate.node, metres });

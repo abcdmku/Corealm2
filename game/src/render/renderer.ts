@@ -1,3 +1,4 @@
+import { PlayerSilhouette } from "./playerSilhouette.js";
 /**
  * Renderer ownership: the WebGL context, the render target size, sky, atmosphere, lighting rig,
  * and per-frame stats.
@@ -254,6 +255,7 @@ export interface WarmupOptions {
 
 export class Renderer {
   readonly renderer: THREE.WebGLRenderer;
+  readonly playerSilhouette = new PlayerSilhouette();
   readonly scene: THREE.Scene;
   readonly camera: THREE.PerspectiveCamera;
   readonly sun: THREE.DirectionalLight;
@@ -290,6 +292,7 @@ export class Renderer {
     this.renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: true,
+      stencil: true,
       powerPreference: "high-performance",
       alpha: false,
     });
@@ -578,6 +581,7 @@ export class Renderer {
         this.scene.getObjectByName("terrain"), this.transmissionCandidates?.() ?? [], this.transmissionOpaqueOccluders?.() ?? []);
       this.timingRender = true;
       this.renderer.render(this.scene, this.camera);
+      this.playerSilhouette.render(this.renderer, this.camera);
     } finally {
       this.timingRender = false;
       this.cpuSubmitMs = performance.now() - submitStart;
@@ -612,6 +616,7 @@ export class Renderer {
     this.camera.updateMatrixWorld();
     this.prepareScene?.(this.camera);
     this.renderer.render(this.scene, this.camera);
+    this.playerSilhouette.render(this.renderer, this.camera);
     return this.renderer.domElement.toDataURL("image/png");
   }
 
@@ -750,6 +755,7 @@ export class Renderer {
   }
 
   dispose(): void {
+    this.playerSilhouette.dispose();
     this.transmissionOcclusion.dispose();
     this.gpuTimer?.dispose();
     this.shadowGpuTimer?.dispose();

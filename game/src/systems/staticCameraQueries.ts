@@ -22,9 +22,9 @@ type Tree<T extends Bounded> = Bounded & (
 );
 type Triangle = Bounded & { a: Vec3; b: Vec3; c: Vec3 };
 type Shape = Bounded & (
-  | { kind: "box"; centre: Vec3; halfExtents: Vec3; cosine: number; sine: number }
+  | { kind: "box"; centre: Vec3; halfExtents: Vec3; cosine: number; sine: number; ownerId?: string; cutHeight: number }
   | { kind: "cylinder"; base: Vec3; radius: number; height: number }
-  | { kind: "mesh"; tree: Tree<Triangle> }
+  | { kind: "mesh"; tree: Tree<Triangle>; entityId?: string; hidden: boolean }
   | { kind: "heightfield"; field: HeightfieldInput; stepX: number; stepZ: number }
 );
 
@@ -218,10 +218,12 @@ function castHeightfield(shape: Extract<Shape, { kind: "heightfield" }>, ray: Ra
 
 function castShape(shape: Shape, ray: Ray, limit: number): number | null {
   switch (shape.kind) {
-    case "mesh": return castTree(shape.tree, ray, limit, castTriangle);
+    case "mesh": return shape.hidden ? null : castTree(shape.tree, ray, limit, castTriangle);
     case "heightfield": return castHeightfield(shape, ray, limit);
     case "cylinder": return castCylinder(shape, ray, limit);
     case "box": {
+      const top = Math.min(shape.halfExtents[1], shape.cutHeight - shape.centre[1]);
+      if (top <= -shape.halfExtents[1]) return null;
       const x = ray.origin[0] - shape.centre[0];
       const z = ray.origin[2] - shape.centre[2];
       const [dx, dy, dz] = ray.direction;
@@ -231,7 +233,7 @@ function castShape(shape: Shape, ray: Ray, limit: number): number | null {
       };
       return boundsInterval(local, {
         min: [-shape.halfExtents[0], -shape.halfExtents[1], -shape.halfExtents[2]],
-        max: [...shape.halfExtents],
+        max: [shape.halfExtents[0], top, shape.halfExtents[2]],
       }, limit)?.[0] ?? null;
     }
   }
@@ -271,14 +273,14 @@ export class StaticCameraQueries {
     return true;
   }
 
-  addStaticBox(centre: Vec3, halfExtents: Vec3, rotationY = 0): boolean {
+  addStaticBox(centre: Vec3, halfExtents: Vec3, rotationY = 0, ownerId?: string): boolean {
     if (![...centre, ...halfExtents, rotationY].every(Number.isFinite) || halfExtents.some((extent) => extent < 0)) return false;
     const cosine = Math.cos(rotationY);
     const sine = Math.sin(rotationY);
     const extentX = Math.abs(cosine) * halfExtents[0] + Math.abs(sine) * halfExtents[2];
     const extentZ = Math.abs(sine) * halfExtents[0] + Math.abs(cosine) * halfExtents[2];
     this.add({
-      kind: "box", centre: [...centre], halfExtents: [...halfExtents], cosine, sine,
+      kind: "box", centre: [...centre], halfExtents: [...halfExtents], cosine, sine, ownerId, cutHeight: Infinity,
       bounds: {
         min: [centre[0] - extentX, centre[1] - halfExtents[1], centre[2] - extentZ],
         max: [centre[0] + extentX, centre[1] + halfExtents[1], centre[2] + extentZ],
@@ -322,7 +324,8 @@ export class StaticCameraQueries {
     }
     if (triangles.length === 0) return false;
     const tree = buildTree(triangles);
-    this.add({ kind: "mesh", tree, bounds: tree.bounds });
+    this.add({ kind: "mesh", tree, bounds: tree.bounds, hidden: false,
+      entityId: mesh.userData["structureCamera"] as string | undefined });
     return true;
   }
 
@@ -339,6 +342,16 @@ export class StaticCameraQueries {
       origin, direction: [direction[0] / length, direction[1] / length, direction[2] / length],
     }, maxDistance, castShape);
     return hit !== null && hit < maxDistance ? hit : null;
+  }
+
+  /** Hidden roofs stop blocking the camera; movement and navigation geometry are unchanged. */
+  setHiddenEntities(ids: ReadonlySet<string>, cutHeights: ReadonlyMap<string, number> = new Map()): void {
+    for (const shape of this.shapes) if (shape.kind === "box") {
+      shape.cutHeight = shape.ownerId ? cutHeights.get(shape.ownerId) ?? Infinity : Infinity;
+    }
+    for (const shape of this.shapes) if (shape.kind === "mesh") {
+      shape.hidden = shape.entityId !== undefined && ids.has(shape.entityId);
+    }
   }
 
   clearStatic(): void {

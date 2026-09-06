@@ -10,7 +10,7 @@ import { Store } from "../game/src/state/store.js";
 import { ActivitySystem } from "../game/src/systems/activity.js";
 import { AgilitySystem } from "../game/src/systems/agility.js";
 import { Movement } from "../game/src/systems/movement.js";
-import type { Navigation, RouteLeg, RoutePlan } from "../game/src/systems/navigation.js";
+import { Navigation, type RouteLeg, type RoutePlan } from "../game/src/systems/navigation.js";
 import { InteractionDispatcher } from "../game/src/world/interactions.js";
 
 const START: Vec3 = [0, 0, 0];
@@ -158,6 +158,25 @@ function expectDirect(h: ReturnType<typeof runtime>, target: MoveTarget = { posi
 }
 
 describe("API route cost selection", () => {
+  it("skips distant anchors before querying paths but retains nearby portal candidates", () => {
+    const nav = new Navigation();
+    nav.setRouteGraph([
+      { id: "entry", name: "Entry", position: [100, 0, 0], regionId: "fallowmarch" },
+      { id: "exit", name: "Exit", position: [200, 0, 0], regionId: "fallowmarch" },
+    ], [{ from: "entry", to: "exit", kind: "portal", cost: 0, durationMs: 0 }]);
+    const paths = vi.spyOn(nav, "pathDistance").mockImplementation((a, b) => distanceXZ(a, b));
+    expect(nav.planRouteVia(START, { position: [5, 0, 0] }, 99, { maxWalkingMetres: 15 })).toBeNull();
+    expect(paths).not.toHaveBeenCalled();
+    const route = nav.planRouteVia([99, 0, 0], { position: [201, 0, 0] }, 99, { maxWalkingMetres: 15 });
+    expect(route?.legs.some((leg) => leg.kind === "portal")).toBe(true);
+  });
+  it("installs the prepared direct path without querying it again", () => {
+    const h = runtime();
+    h.controls.graphEnabled = false;
+    expect(h.api.moveTo({ position: GOAL }).ok).toBe(true);
+    expect(h.pathQueries).toHaveLength(1);
+    expect(h.store.get().player.movement.destination).toEqual(GOAL);
+  });
   it("uses the faster shortcut at Agility 8 even when the direct walk succeeds", () => {
     const h = runtime();
     const preview = value(h.api.planPath({ position: GOAL }));
