@@ -115,15 +115,19 @@ describe("Corealm audio catalog", () => {
 
   it("keeps footsteps level-matched from measured file loudness and dirt free of the sharp source", () => {
     // Values come from runs/corealm-rebuild/checks/audio-file-review.ts: each surface's variants are
-    // brought to their quietest file (active RMS) and the cue gain places that at -39 dBFS.
+    // matched on active RMS to a -35 dBFS family target, then capped so no as-played peak passes
+    // -13.5 dBFS. Grass and forest need a gain above 1 to reach that target, which is the reason
+    // AudioEngine's per-voice ceiling is no longer unity.
     const grass = COREALM_AUDIO_CATALOG.cues["movement.footstep_grass"];
     const dirt = COREALM_AUDIO_CATALOG.cues["movement.footstep_dirt"];
     const stone = COREALM_AUDIO_CATALOG.cues["movement.footstep_stone"];
     const wood = COREALM_AUDIO_CATALOG.cues["movement.footstep_wood"];
+    const forest = COREALM_AUDIO_CATALOG.cues["movement.footstep_forest"];
 
-    expect(grass.gain).toBe(1);
-    expect(dirt).toMatchObject({ gain: 0.3, playbackRate: 0.82 });
-    expect(stone.gain).toBe(0.47);
+    expect(grass.gain).toBe(1.64);
+    expect(forest.gain).toBe(1.26);
+    expect(dirt).toMatchObject({ gain: 0.47, playbackRate: 0.82 });
+    expect(stone.gain).toBe(0.66);
     expect(dirt.variants.map((variant) => typeof variant === "string" ? variant : variant.url))
       .toEqual([
         "/audio/sfx/oga/footstep-ground-01.ogg",
@@ -132,6 +136,23 @@ describe("Corealm audio catalog", () => {
     expect(dirt.variants[1]).toMatchObject({ url: "/audio/sfx/oga/footstep-ground-02.ogg", gain: 0.57 });
     // The second wood step is 7.5 dB hotter than the first in the file; the variant gain closes that.
     expect(wood.variants[1]).toMatchObject({ url: "/audio/sfx/nox/footstep-wood-02.ogg", gain: 0.42 });
+    // The sharp stone heel click has a 27 dB crest. RMS matching alone would put its peak 8 dB over
+    // the soft turf step, so the peak cap pulls it down instead.
+    expect(stone.variants[0]).toMatchObject({ url: "/audio/sfx/nox/footstep-stone-01.ogg", gain: 0.59 });
+  });
+
+  it("keeps every non-footstep cue at or under unity gain", () => {
+    // The raised ceiling exists for one measured reason. Anything else drifting over unity is a
+    // level decision that never went through the file review, and should show up here first.
+    const over: string[] = [];
+    for (const [cue, definition] of Object.entries(COREALM_AUDIO_CATALOG.cues)) {
+      if (cue.startsWith("movement.footstep_")) continue;
+      if ((definition.gain ?? 1) > 1) over.push(`${cue} ${definition.gain}`);
+      for (const variant of definition.variants as readonly (string | AudioVariant)[]) {
+        if (typeof variant !== "string" && (variant.gain ?? 1) > 1) over.push(`${cue} ${variant.url} ${variant.gain}`);
+      }
+    }
+    expect(over).toEqual([]);
   });
 
   it("trims contact pre-roll only where the recording has it, never on an animal voice", () => {

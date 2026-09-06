@@ -36,12 +36,20 @@ const animal = (name: string): string => publicAsset(`audio/sfx/animals/${name}.
  * (dBFS before the bus, active RMS as played). Before this pass the three `combat.melee_hit`
  * variants spanned 18 dB and the frog croaks sat 15 dB under the ambience bed.
  *
- *   footsteps -39 · swings/misses -36/-32 · gather and melee impacts -25 · big breaks -22
+ *   footsteps -35, peaks capped at -13.5 · swings/misses -36/-32 · gather and melee impacts -25 · big breaks -22
  *   boss slam -20 · player hurt -24 · UI -36 (error -32, level-up -22) · interactions -27..-38
  *   animal voices -24 (bear) .. -31 (coney), then `CREATURE_CALL_GAIN` and distance falloff.
  *
  * `startOffsetS` skips a recording's pre-roll so its transient lands on the frame that asked for
  * it. The body-impact thuds carried 128-139 ms of room tone; the second sword whoosh 118 ms.
+ *
+ * Footsteps are the exception to pure RMS matching, and the reason the engine's per-voice gain
+ * ceiling moved off 1. Measured in a recorded default-volume session (`audio-actions-browser.ts
+ * --case mix`): a running player's own steps cleared the ambience bed's true peak by 3.0 dB, while
+ * a UI click cleared it by 10.3 and a sword blow by 13.3. The family had been anchored at -39 dBFS
+ * because `footstep-grass-01.ogg` decodes at -39.3 and its cue gain was already at the old ceiling.
+ * The family now targets -35 dBFS active RMS with a -13.5 dBFS as-played peak cap, so the six
+ * surfaces keep matched bodies without the sharp stone click poking 8 dB over the soft turf one.
  */
 const cues = {
   "ui.click": { variants: [{ url: cow1("ui-button-press-01"), startOffsetS: 0.038 }], gain: 0.34, minIntervalMs: 70, maxConcurrent: 2 },
@@ -56,12 +64,12 @@ const cues = {
     maxConcurrent: 1,
   },
 
-  "movement.footstep_grass": { variants: [noxSfx("footstep-grass-01"), { url: noxSfx("footstep-grass-02"), gain: 0.93 }], gain: 1, playbackRate: [0.96, 1.04], maxConcurrent: 2 },
-  "movement.footstep_dirt": { variants: [{ url: oga("footstep-ground-01"), startOffsetS: 0.081 }, { url: oga("footstep-ground-02"), gain: 0.57, startOffsetS: 0.076 }], gain: 0.3, playbackRate: 0.82, maxConcurrent: 2 },
-  "movement.footstep_forest": { variants: [{ url: noxSfx("footstep-forest-01"), gain: 0.97 }, noxSfx("footstep-forest-02")], gain: 0.79, playbackRate: [0.96, 1.04], maxConcurrent: 2 },
-  "movement.footstep_stone": { variants: [{ url: noxSfx("footstep-stone-01"), startOffsetS: 0.032 }, { url: noxSfx("footstep-stone-02"), gain: 0.88 }], gain: 0.47, playbackRate: [0.96, 1.04], maxConcurrent: 2 },
-  "movement.footstep_wood": { variants: [noxSfx("footstep-wood-01"), { url: noxSfx("footstep-wood-02"), gain: 0.42 }], gain: 0.58, playbackRate: [0.96, 1.04], maxConcurrent: 2 },
-  "movement.footstep_cave": { variants: [{ url: noxSfx("footstep-cave-01"), gain: 0.64 }, noxSfx("footstep-cave-02")], gain: 0.66, playbackRate: [0.95, 1.03], maxConcurrent: 2 },
+  "movement.footstep_grass": { variants: [noxSfx("footstep-grass-01"), { url: noxSfx("footstep-grass-02"), gain: 0.93 }], gain: 1.64, playbackRate: [0.96, 1.04], maxConcurrent: 2 },
+  "movement.footstep_dirt": { variants: [{ url: oga("footstep-ground-01"), startOffsetS: 0.081 }, { url: oga("footstep-ground-02"), gain: 0.57, startOffsetS: 0.076 }], gain: 0.47, playbackRate: 0.82, maxConcurrent: 2 },
+  "movement.footstep_forest": { variants: [{ url: noxSfx("footstep-forest-01"), gain: 0.74 }, noxSfx("footstep-forest-02")], gain: 1.26, playbackRate: [0.96, 1.04], maxConcurrent: 2 },
+  "movement.footstep_stone": { variants: [{ url: noxSfx("footstep-stone-01"), gain: 0.59, startOffsetS: 0.032 }, noxSfx("footstep-stone-02")], gain: 0.66, playbackRate: [0.96, 1.04], maxConcurrent: 2 },
+  "movement.footstep_wood": { variants: [noxSfx("footstep-wood-01"), { url: noxSfx("footstep-wood-02"), gain: 0.42 }], gain: 0.92, playbackRate: [0.96, 1.04], maxConcurrent: 2 },
+  "movement.footstep_cave": { variants: [{ url: noxSfx("footstep-cave-01"), gain: 0.64 }, noxSfx("footstep-cave-02")], gain: 1.05, playbackRate: [0.95, 1.03], maxConcurrent: 2 },
 
   "gather.mining_swing": { variants: [{ url: tom("sword-swing-01"), startOffsetS: 0.053 }, { url: tom("sword-swing-02"), startOffsetS: 0.118 }], gain: 0.35, playbackRate: [0.72, 0.8], minIntervalMs: 240 },
   "gather.mining_impact": { variants: [{ url: cow4("mining-rock-impact-01"), gain: 0.45, startOffsetS: 0.039 }, { url: cow4("mining-rock-impact-02"), gain: 0.52, startOffsetS: 0.061 }, oga("mining-impact-stone-01")], gain: 0.54, playbackRate: [0.94, 1.04], minIntervalMs: 240 },
@@ -141,6 +149,20 @@ export const COREALM_AUDIO_CATALOG = defineAudioCatalog({
   // which at the old 0.62 put them 8 dB above a landed sword blow; 0.22 places them near -27 LUFS
   // before the music bus. The ambience files span 13 dB (cave room tone -27 LUFS, upland wind -40),
   // so their gains land every bed close to -40 LUFS, with the enclosed cave a little forward.
+  //
+  // The four music beds carry lead-in and run-out silence from their masters, measured by the file
+  // review: 0.12/0.87 s around `starter-plains`, 0.84/0.97 s around `deep-woodland`, 0.65/2.47 s
+  // around `distant-plains`, 0.54/0.02 s around `stone-city`. Each repeat therefore has a one- to
+  // three-second hole in it, roughly every two minutes.
+  //
+  // `loopStart`/`loopEnd` exist for exactly this and were tried here. Set to the measured silence
+  // boundaries they made the seam worse, not better: 0.12 s into `starter-plains` is still inside
+  // the fade-in, so the loop jumped from a full-level bar back to a near-silent one and the
+  // measured seam went from 9.6 dB to 23.9 dB. A loop point that works has to fall on a musical
+  // boundary as well as a level match, and picking one is a listening decision, not a measurement.
+  // Left looping end to end until someone can hear the candidates; the gap is recorded in
+  // runs/corealm-rebuild/SLICE-12-AUDIO.md as a human-listening item. The ambience beds measure
+  // 0 ms of edge silence and need nothing.
   loops: {
     "music.starter-plains": { url: music("starter-plains"), bus: "music", gain: 0.22, fadeMs: 1800 },
     "music.distant-plains": { url: music("distant-plains"), bus: "music", gain: 0.22, fadeMs: 1800 },

@@ -284,7 +284,7 @@ export class AudioEngine {
       voiceGain = context.createGain();
       source.buffer = buffer;
       source.playbackRate.value = playbackRate(definition, options.playbackRate);
-      voiceGain.gain.value = clamp01(
+      voiceGain.gain.value = clampVoiceGain(
         finiteOr(definition.gain, 1) * finiteOr(variant.gain, 1) * finiteOr(options.gain, 1),
       );
       source.connect(voiceGain);
@@ -786,6 +786,27 @@ function disconnect(node: { disconnect(): void } | null): void {
 function clamp01(value: number): number {
   if (!Number.isFinite(value)) return 0;
   return Math.max(0, Math.min(1, value));
+}
+
+/**
+ * A one-shot's gain may exceed unity. Bus and loop gains may not.
+ *
+ * A catalogue that can only ever attenuate is anchored to its quietest recording. Measured: every
+ * footstep in the game sat at -39 dBFS active RMS purely because `footstep-grass-01.ogg` decodes at
+ * -39.3 with the cue gain already at the old ceiling of 1, which put a running player's own steps
+ * 3 dB over the ambience bed's peak while a UI click cleared it by 10. The frog croaks hit the same
+ * wall and had to be re-encoded to escape it; that should not have been necessary.
+ *
+ * The ceiling is +12 dB. It is a boost for a quiet source, not a mastering stage: the sfx bus and
+ * the destination still sit downstream, and the catalogue documents each variant's measured peak so
+ * a boost that would clip is visible before it ships. `voiceGain` is per-voice, so this cannot
+ * raise a bus or a bed.
+ */
+const VOICE_GAIN_CEILING = 4;
+
+function clampVoiceGain(value: number): number {
+  if (!Number.isFinite(value)) return 0;
+  return Math.max(0, Math.min(VOICE_GAIN_CEILING, value));
 }
 
 function finiteOr(value: number | undefined, fallback: number): number {

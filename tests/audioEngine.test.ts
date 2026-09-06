@@ -404,6 +404,38 @@ describe("AudioEngine variant pre-roll", () => {
   });
 });
 
+describe("AudioEngine voice gain ceiling", () => {
+  it("lets a quiet recording be boosted past unity, up to the stated ceiling, without touching a bus", async () => {
+    const context = new FakeContext();
+    const quiet = defineAudioCatalog({
+      cues: {
+        // `movement.footstep_grass` is the real case: the file decodes at -39.3 dBFS active RMS and
+        // could never reach the family target while the per-voice gain stopped at 1.
+        "movement.footstep_grass": { variants: ["test:quiet", { url: "test:quieter", gain: 0.93 }], minIntervalMs: 0, maxConcurrent: 8, gain: 1.64 },
+        // Far past the ceiling, and asked for again through the per-play option.
+        "ui.click": { variants: ["test:shared"], minIntervalMs: 0, maxConcurrent: 8, gain: 12 },
+      },
+      loops: { plain: { url: "test:plain", bus: "music", gain: 4 } },
+    });
+    const engine = new AudioEngine(quiet, { contextFactory: () => context as unknown as AudioContext, fetcher: okFetcher() });
+    await engine.unlock();
+    const busCount = context.gains.length;
+
+    expect(await engine.playCue("movement.footstep_grass")).toBe(true);
+    expect(context.gains[busCount]!.gain.value).toBeCloseTo(1.64, 5);
+    expect(await engine.playCue("movement.footstep_grass")).toBe(true);
+    expect(context.gains[busCount + 1]!.gain.value).toBeCloseTo(1.5252, 4);
+
+    expect(await engine.playCue("ui.click", { gain: 3 })).toBe(true);
+    expect(context.gains[busCount + 2]!.gain.value).toBe(4);
+
+    // A bed is not a voice: its gain still stops at unity, so no catalogue edit can push a loop
+    // over the bus it feeds.
+    expect(await engine.startLoop("plain")).toBe(true);
+    expect(context.gains.at(-1)!.gain.value).toBe(1);
+  });
+});
+
 describe("AudioEngine loops", () => {
   it("starts a pending loop after gesture unlock and crossfades by name", async () => {
     const { engine, context } = createEngine();
