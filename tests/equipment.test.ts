@@ -208,20 +208,34 @@ describe("gear appearance", () => {
     }
   });
 
-  it("uses the pack wand and staff silhouettes while the wood tier changes only base colour", () => {
+  it("gives every magic tier its own authored wand and staff construction", () => {
     for (const kind of ["wand", "staff"] as const) {
-      const ids = ["basic_wooden", "palewood", "duskoak", "cairnpine"].map((wood) => `${wood}_${kind}`);
+      // basic_wooden shares the tier-1 construction and is separated by its fittings colour only.
+      const ids = ["basic_wooden", "palewood", "duskoak", "cairnpine", "cinderpine"].map((wood) => `${wood}_${kind}`);
       const parts = ids.map((id) => gearAppearanceParts(id)[0]);
       for (const [index, part] of parts.entries()) {
         expect(part, `${ids[index]} draws nothing`).toBeDefined();
-        expect(part?.assetId, ids[index]).toBe(`rpg_weapon_${kind}`);
+        expect(part?.assetId, ids[index]).toMatch(new RegExp(`^corealm_${kind}_[1-4]$`));
         expect(part?.accent, `${ids[index]} should be unlit`).toBeUndefined();
         expect(part?.orb, `${ids[index]} should have an empty socket by itself`).toBeUndefined();
         expect(weaponSocket(part?.assetId ?? ""), `${ids[index]} has no hand socket`).not.toBeNull();
       }
-      expect(new Set(parts.map((part) => part?.tint)).size, `${kind} wood colours`).toBe(4);
-      expect(new Set(parts.map((part) => part?.scale)).size, `${kind} silhouette scales`).toBe(1);
+      // Four separate meshes across the four wood tiers, not one mesh with four colours.
+      expect(new Set(parts.slice(1).map((part) => part?.assetId)).size, `${kind} constructions`).toBe(4);
+      expect(new Set(parts.map((part) => part?.tint)).size, `${kind} fitting colours`).toBe(5);
+      // The grades carry their own size progression, so nothing is scaled at bind time.
+      expect(new Set(parts.map((part) => part?.scale))).toEqual(new Set([1]));
     }
+  });
+
+  it("gives every shield tier its own authored board", () => {
+    const ids = ["palewood_shield", "duskoak_shield", "cairnpine_shield", "cinderpine_shield"];
+    const parts = ids.map((id) => gearAppearanceParts(id)[0]);
+    for (const [index, part] of parts.entries()) {
+      expect(part?.assetId, ids[index]).toMatch(/^corealm_shield_[1-4]$/);
+      expect(part?.scale, ids[index]).toBe(1);
+    }
+    expect(new Set(parts.map((part) => part?.assetId)).size).toBe(4);
   });
 
   it("renders the crafted elemental core on the weapon", () => {
@@ -307,8 +321,8 @@ describe("weapon sockets", () => {
       bone: "hand_r", position: [-0.01, 0.085, 0.1], rotation: [Math.PI / 2, 0, 0], scale: 1,
     });
     expect(weaponSocket("pickaxe")?.rotation[1]).toBeCloseTo(Math.PI / 2, 10);
-    expect(weaponSocket("rpg_weapon_staff")?.bone).toBe("hand_r");
-    expect(weaponSocket("rpg_weapon_wand")?.bone).toBe("hand_r");
+    expect(weaponSocket("corealm_staff_1")?.bone).toBe("hand_r");
+    expect(weaponSocket("corealm_wand_4")?.bone).toBe("hand_r");
   });
 
   it("straps the shield to the left forearm clear of the arm instead of dangling it from the fist", () => {
@@ -452,8 +466,9 @@ describe("tinting", () => {
       }
       expect(source.color.getHex()).toBe(0xffffff);
       if (itemId.includes("wooden") || itemId === "cinderpine_wand") {
+        // Unlit means no emissive colour. Intensity is left at the material default because a
+        // black emissive contributes nothing whatever it is multiplied by.
         expect(mesh.material.emissive.getHex()).toBe(0);
-        expect(mesh.material.emissiveIntensity).toBe(0);
       }
     }
     expect(gearAppearancePartsWithCharge("basic_wooden_wand", { itemId: "fire_wand", charged: true })[0]?.orb).toBeUndefined();

@@ -12,7 +12,7 @@ describe("equipment source shader inheritance", () => {
     expect(mesh.material.roughness).toBe(0.74);
     mesh.geometry.dispose(); mesh.material.dispose(); material.dispose();
   });
-  it.each(["grithe_cuirass", "marchhide_robe", "basic_wooden_staff"])(
+  it.each(["grithe_cuirass", "marchhide_robe", "tideworn_sword"])(
     "keeps authored shader work and cache identity when applying %s", (itemId) => {
       const source = new THREE.MeshStandardMaterial({ color: 0xffffff });
       source.metalnessMap = new THREE.Texture();
@@ -34,7 +34,7 @@ describe("equipment source shader inheritance", () => {
       painted.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
       expect(shader.uniforms.authoredSurface?.value).toBe("hammered-v2");
       expect(shader.fragmentShader).toContain("// authored-surface");
-      expect(shader.fragmentShader).toMatch(/gearMetal|gearTier|gearWood/);
+      expect(shader.fragmentShader).toMatch(/gearMetal|gearTier|gearRare/);
       expect(painted.customProgramCacheKey()).toContain("hammered-v2|");
       expect(painted).not.toBe(source);
       expect(source.onBeforeCompile).toBe(sourceHook);
@@ -46,4 +46,32 @@ describe("equipment source shader inheritance", () => {
       source.dispose();
     },
   );
+
+  it("inherits an authored hook untouched for a part that takes no shader treatment", () => {
+    // The Corealm magic grades separate their materials by role, so the tier colour is a plain
+    // base-colour swap on the fittings with no fragment pass. The source's own compile hook and
+    // cache key still have to survive the clone, or its authored surface would be lost.
+    const source = new THREE.MeshStandardMaterial({ color: 0xffffff });
+    source.userData.surfaceRevision = "hammered-v2";
+    source.onBeforeCompile = function (shader) {
+      shader.fragmentShader += `${"\n"}// authored-surface`;
+    };
+    source.customProgramCacheKey = function () { return this.userData.surfaceRevision as string; };
+    const sourceHook = source.onBeforeCompile;
+    const mesh = new THREE.Mesh(new THREE.BufferGeometry(), source);
+    applyGearAppearance(mesh, gearAppearance("palewood_staff")!);
+    const painted = mesh.material;
+    const shader = {
+      vertexShader: THREE.ShaderLib.standard.vertexShader,
+      fragmentShader: THREE.ShaderLib.standard.fragmentShader,
+      uniforms: THREE.UniformsUtils.clone(THREE.ShaderLib.standard.uniforms),
+    } as Parameters<THREE.Material["onBeforeCompile"]>[0];
+    painted.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+    expect(shader.fragmentShader).toContain("// authored-surface");
+    expect(shader.fragmentShader).not.toMatch(/gearMetal|gearTier|gearWood|gearRare/);
+    expect(painted.customProgramCacheKey()).toBe("hammered-v2");
+    expect(painted).not.toBe(source);
+    expect(source.onBeforeCompile).toBe(sourceHook);
+    painted.dispose(); mesh.geometry.dispose(); source.dispose();
+  });
 });

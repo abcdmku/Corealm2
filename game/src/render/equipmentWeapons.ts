@@ -14,7 +14,7 @@ const GEMS = [0xaac6cf, 0x72945e, 0x772f42, 0xb55d35];
 /** Each asset uses metre dimensions and stores its measured local grip for socket fitting. */
 export function buildEquipmentWeapon(form: WeaponForm, grade: WeaponGrade): THREE.Group {
   if (form === "dagger") {
-    const dagger = buildEquipmentDagger();
+    const dagger = buildEquipmentDagger(grade);
     dagger.name = `corealm-dagger-${grade}`;
     dagger.userData.form = form;
     dagger.userData.grade = grade;
@@ -118,43 +118,191 @@ export function buildEquipmentWeapon(form: WeaponForm, grade: WeaponGrade): THRE
   } else if (form === "shield") {
     group.userData.gripCenter = [0, 0, -0.065];
     const shape = new THREE.Shape();
-    shape.moveTo(-0.30, 0.31); shape.quadraticCurveTo(0, 0.40, 0.30, 0.31);
-    shape.lineTo(0.285, -0.02); shape.quadraticCurveTo(0.22, -0.24, 0, -0.43 - grade * 0.02);
-    shape.quadraticCurveTo(-0.22, -0.24, -0.285, -0.02); shape.closePath();
-    add("joined-board", extrude(shape, 0.030), "wood");
-    const outline = shape.getPoints(48);
-    if (outline[0]!.equals(outline.at(-1)!)) outline.pop();
-    const contour = outline.map(v => new THREE.Vector3(v.x, v.y, 0.013));
-    add("rolled-rim", new THREE.TubeGeometry(new THREE.CatmullRomCurve3(contour, true), 96, 0.012, 8, true), "metal");
-    const boss = new THREE.SphereGeometry(0.096, 20, 12); boss.scale(1, 1, 0.58);
-    add("hammered-boss", boss, "metal", [0, 0.035, 0.020]);
-    for (const x of [-0.13, 0.13]) {
-      const brace = new THREE.BoxGeometry(0.033, 0.49, 0.015);
-      add(`rear-brace-${x}`, brace, "wood", [x, 0.0, -0.025]);
+    if (grade === 0) {
+      // An oval buckler meets the height envelope with individually cut planks and open seams.
+      for (let plank = 0; plank < 7; plank++) {
+        const left = -0.305 + plank * 0.61 / 7 + 0.002;
+        const right = -0.305 + (plank + 1) * 0.61 / 7 - 0.002;
+        const board = new THREE.Shape();
+        for (let i = 0; i <= 12; i++) {
+          const x = left + (right - left) * i / 12;
+          const y = 0.37 * Math.sqrt(Math.max(0, 1 - (x / 0.305) ** 2));
+          if (i === 0) board.moveTo(x, y); else board.lineTo(x, y);
+        }
+        for (let i = 12; i >= 0; i--) {
+          const x = left + (right - left) * i / 12;
+          board.lineTo(x, -0.37 * Math.sqrt(Math.max(0, 1 - (x / 0.305) ** 2)));
+        }
+        board.closePath();
+        const geometry = new THREE.ExtrudeGeometry(board, { depth: 0.03, bevelEnabled: false });
+        geometry.translate(0, 0, -0.015);
+        add(`buckler-plank-${plank}`, geometry, "wood");
+      }
+    } else {
+      if (grade === 1) {
+        shape.moveTo(-0.30, 0.35); shape.lineTo(0.30, 0.35);
+        shape.lineTo(0.27, -0.06); shape.quadraticCurveTo(0.18, -0.25, 0, -0.41);
+        shape.quadraticCurveTo(-0.18, -0.25, -0.27, -0.06); shape.closePath();
+      } else if (grade === 2) {
+        shape.moveTo(0, 0.41); shape.quadraticCurveTo(0.32, 0.41, 0.30, 0.13);
+        shape.quadraticCurveTo(0.24, -0.17, 0, -0.43);
+        shape.quadraticCurveTo(-0.24, -0.17, -0.30, 0.13);
+        shape.quadraticCurveTo(-0.32, 0.41, 0, 0.41); shape.closePath();
+      } else {
+        shape.moveTo(-0.25, 0.44); shape.lineTo(0.25, 0.44); shape.lineTo(0.31, 0.38);
+        shape.lineTo(0.31, -0.38); shape.lineTo(0.25, -0.44); shape.lineTo(-0.25, -0.44);
+        shape.lineTo(-0.31, -0.38); shape.lineTo(-0.31, 0.38); shape.closePath();
+      }
+      add("joined-board", extrude(shape, 0.030), "wood");
+    }
+    const strap = (name: string, start: Point, end: Point, width: number, role: Role) => {
+      const a = new THREE.Vector3(...start), b = new THREE.Vector3(...end);
+      const mesh = add(name, new THREE.BoxGeometry(width, a.distanceTo(b), 0.016), role,
+        a.clone().add(b).multiplyScalar(0.5).toArray() as [number, number, number]);
+      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.sub(a).normalize());
+    };
+    const nail = (x: number, y: number, z: number) =>
+      add(`rivet-${x}-${y}-${z}`, new THREE.SphereGeometry(0.009, 8, 6), "metal", [x, y, z]);
+    if (grade === 0) {
+      for (const y of [-0.19, 0.19]) {
+        strap(`nailed-batten-${y}`, [-0.245, y, -0.026], [0.245, y, -0.026], 0.045, "wood");
+        for (const x of [-0.22, -0.11, 0, 0.11, 0.22]) nail(x, y, 0.017);
+      }
+      const boss = new THREE.SphereGeometry(1, 16, 10); boss.scale(0.075, 0.075, 0.038);
+      add("plain-iron-boss", boss, "metal", [0, 0, 0.02]);
+    } else if (grade === 1) {
+      strap("top-edge-iron", [-0.30, 0.345, 0.022], [0.30, 0.345, 0.022], 0.035, "metal");
+      for (const x of [-0.27, -0.135, 0, 0.135, 0.27]) nail(x, 0.345, 0.033);
+      strap("rear-cross-upright", [0, -0.29, -0.027], [0, 0.29, -0.027], 0.047, "wood");
+      strap("rear-cross-arm", [-0.25, 0.09, -0.027], [0.25, 0.09, -0.027], 0.047, "wood");
+      const boss = new THREE.CylinderGeometry(0.085, 0.10, 0.035, 8); boss.rotateX(Math.PI / 2);
+      add("octagonal-boss", boss, "metal", [0, 0.035, 0.034]);
+    } else if (grade === 2) {
+      const outline = shape.getPoints(48);
+      if (outline[0]!.equals(outline.at(-1)!)) outline.pop();
+      const contour = outline.map(v => new THREE.Vector3(v.x, v.y, 0.015));
+      add("rolled-rim", new THREE.TubeGeometry(new THREE.CatmullRomCurve3(contour, true), 128, 0.012, 8, true), "metal");
+      for (const [x, y] of [[-0.265, 0.23], [0.265, 0.23], [-0.18, -0.12], [0.18, -0.12], [0, -0.36], [0, 0.36]] as const) {
+        strap(`radial-strap-${x}-${y}`, [0, 0.035, 0.029], [x, y, 0.029], 0.027, "metal");
+        nail(x, y, 0.041);
+      }
+      const boss = new THREE.SphereGeometry(1, 20, 12); boss.scale(0.11, 0.11, 0.083);
+      add("raised-domed-boss", boss, "metal", [0, 0.035, 0.025]);
+    } else {
+      for (const y of [-0.32, -0.16, 0, 0.16, 0.32]) {
+        strap(`tower-face-band-${y}`, [-0.30, y, 0.027], [0.30, y, 0.027], 0.05, "metal");
+        for (const x of [-0.275, 0.275]) nail(x, y, 0.04);
+      }
+      for (const x of [-0.27, 0.27]) for (const y of [-0.39, 0.39]) {
+        const cap = new THREE.Shape();
+        cap.moveTo(x - Math.sign(x) * 0.065, y + Math.sign(y) * 0.042);
+        cap.lineTo(x, y + Math.sign(y) * 0.042);
+        cap.lineTo(x + Math.sign(x) * 0.035, y + Math.sign(y) * 0.007);
+        cap.lineTo(x + Math.sign(x) * 0.035, y - Math.sign(y) * 0.065); cap.closePath();
+        add(`corner-cap-${x}-${y}`, extrude(cap, 0.022), "metal", [0, 0, 0.026]);
+      }
+      for (let step = 0; step < 3; step++) {
+        const boss = new THREE.CylinderGeometry(0.112 - step * 0.025, 0.112 - step * 0.025, 0.024, 8);
+        boss.rotateX(Math.PI / 2);
+        add(`stepped-boss-${step}`, boss, "metal", [0, 0.035, 0.045 + step * 0.024]);
+      }
     }
     const grip = new THREE.CylinderGeometry(0.018, 0.018, 0.19, 12); grip.rotateZ(Math.PI / 2);
     add("rear-handgrip", grip, "leather", [0, 0, -0.065]);
     for (const x of [-0.1, 0.1]) add(`grip-standoff-${x}`, new THREE.BoxGeometry(0.023, 0.034, 0.048), "metal", [x, 0, -0.045]);
   } else {
     const staff = form === "staff";
-    const start = staff ? -0.72 : -0.12, end = staff ? 0.87 : 0.49;
-    cylinder("turned-shaft", staff ? 0.026 : 0.021, staff ? 0.021 : 0.011, start, end, "wood");
-    handle(staff ? -0.14 : -0.09, staff ? 0.14 : 0.075, staff ? 0.030 : 0.024);
-    band(start + 0.012, staff ? 0.029 : 0.024); band(end - 0.04, staff ? 0.026 : 0.019);
-    if (staff) {
-      const cradle = new THREE.TorusGeometry(0.086, 0.011, 8, 32, Math.PI * 1.65); cradle.rotateZ(-Math.PI * 0.325);
-      add("open-metal-cradle", cradle, "metal", [0, end + 0.054, 0]);
-      cylinder("head-tenon", 0.025, 0.019, end - 0.05, end + 0.005, "metal");
-    } else {
+    const start = staff ? -0.72 : -0.10;
+    const neck = staff ? 0.72 : 0.205;
+    const crystalY = staff ? 0.85 : 0.265;
+    const crystalRadius = staff ? 0.055 : 0.025;
+    const crystalHalfHeight = staff ? 0.085 : 0.042;
+    const tube = (name: string, points: Point[], radius: number, role: Role) =>
+      add(name, new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points.map(p => new THREE.Vector3(...p))),
+        Math.max(24, points.length * 8), radius, 8), role);
+    const wrap = (name: string, low: number, high: number, radius: number, turns: number, thickness: number, role: Role, topRadius = radius) => {
+      const points: Point[] = Array.from({ length: turns * 24 + 1 }, (_, i) => {
+        const t = i / (turns * 24), angle = t * turns * Math.PI * 2;
+        const r = radius + (topRadius - radius) * t;
+        return [Math.cos(angle) * r, low + t * (high - low), Math.sin(angle) * r];
+      });
+      tube(name, points, thickness, role);
+    };
+    if (grade === 0) {
+      const shaft = new THREE.CylinderGeometry(staff ? 0.024 : 0.012, staff ? 0.030 : 0.020, neck - start, 7, 12);
+      const positions = shaft.getAttribute("position");
+      for (let i = 0; i < positions.count; i++) {
+        const y = positions.getY(i) + (start + neck) / 2;
+        // Keep the palm straight while the cut branch bends above and below it.
+        const bend = Math.max(0, Math.abs(y) - 0.10);
+        positions.setXYZ(i, positions.getX(i) + Math.sin(y * 13) * bend * 0.035,
+          positions.getY(i), positions.getZ(i) + Math.sin(y * 21) * bend * 0.016);
+      }
+      shaft.computeVertexNormals();
+      add("whittled-branch", shaft, "wood", [0, (start + neck) / 2, 0]);
+      wrap("cord-grip", staff ? -0.12 : -0.075, staff ? 0.12 : 0.065, staff ? 0.032 : 0.021, staff ? 12 : 8, 0.003, "leather");
       for (const side of [-1, 1]) {
-        const points = [[side * 0.010, end - 0.04, 0], [side * 0.035, end + 0.01, 0], [side * 0.02, end + 0.074, 0]];
-        add(`crown-prong-${side}`, new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points.map(p => new THREE.Vector3(...p))), 12, 0.006, 8), "metal");
+        tube(`bound-fork-${side}`, [[0, neck - 0.05, 0], [side * crystalRadius, crystalY - 0.04, 0],
+          [side * crystalRadius * 0.8, crystalY + 0.025, 0]], staff ? 0.015 : 0.007, "wood");
+      }
+      wrap("crystal-lashing", neck - 0.035, neck + 0.02, staff ? 0.029 : 0.019, 4, 0.003, "leather");
+      tube("crystal-tie", [[-crystalRadius, crystalY - 0.025, 0], [0, crystalY, crystalRadius * 0.8],
+        [crystalRadius, crystalY - 0.025, 0], [0, crystalY - 0.045, -crystalRadius * 0.8],
+        [-crystalRadius, crystalY - 0.025, 0]], 0.0025, "leather");
+    } else if (grade === 1) {
+      cylinder("turned-shaft", staff ? 0.027 : 0.023, staff ? 0.022 : 0.011, start, neck, "wood");
+      handle(staff ? -0.12 : -0.075, staff ? 0.12 : 0.065, staff ? 0.031 : 0.025);
+      band(start + 0.014, staff ? 0.032 : 0.026);
+      cylinder("head-ferrule", staff ? 0.031 : 0.018, staff ? 0.036 : 0.028, neck - 0.035, neck + 0.033, "metal");
+      if (!staff) {
+        const socket = new THREE.TorusGeometry(0.025, 0.005, 8, 16); socket.rotateX(Math.PI / 2);
+        add("crystal-socket", socket, "metal", [0, crystalY - 0.025, 0]);
+      }
+    } else if (grade === 2) {
+      const joints = staff ? [start, -0.30, 0.22, 0.50, neck] : [start, 0.075, neck];
+      for (let i = 0; i < joints.length - 1; i++) {
+        const low = joints[i]!, high = joints[i + 1]!;
+        add(`faceted-segment-${i}`, new THREE.CylinderGeometry(staff ? 0.025 : 0.014,
+          staff ? 0.029 : 0.020, high - low, 6), "wood", [0, (low + high) / 2, 0]);
+      }
+      for (const y of joints) cylinder(`joint-collar-${y}`, staff ? 0.038 : 0.026,
+        staff ? 0.038 : 0.026, y - 0.014, y + 0.014, "metal");
+      handle(staff ? -0.12 : -0.075, staff ? 0.12 : 0.06, staff ? 0.032 : 0.024);
+    } else {
+      cylinder("tapered-shaft", staff ? 0.031 : 0.021, staff ? 0.018 : 0.012, start, neck, "wood");
+      handle(staff ? -0.12 : -0.075, staff ? 0.12 : 0.06, staff ? 0.034 : 0.025);
+      if (staff) {
+        wrap("spiral-iron-vine", start + 0.03, neck, 0.033, 8, 0.006, "metal", 0.020);
+      } else {
+        for (let i = 0; i < 6; i++) {
+          const y = 0.08 + i * 0.022;
+          cylinder(`carved-shaft-rib-${i}`, 0.023 - i * 0.001, 0.022 - i * 0.001, y, y + 0.011, "wood");
+        }
+      }
+      cylinder("cage-collar", staff ? 0.043 : 0.030, staff ? 0.040 : 0.027, neck - 0.016, neck + 0.024, "metal");
+    }
+    // Crowns surround the crystal in depth as well as width, leaving space between the bars.
+    if (grade >= 2 || (staff && grade === 1)) {
+      const prongs = grade === 1 ? 2 : grade === 2 ? (staff ? 4 : 3) : 4;
+      const closed = grade === 3;
+      for (let i = 0; i < prongs; i++) {
+        const angle = i * Math.PI * 2 / prongs + (grade === 2 ? Math.PI / 6 : 0);
+        const radial = (r: number, y: number): Point => [Math.cos(angle) * r, y, Math.sin(angle) * r];
+        tube(`crown-prong-${i}`, [radial(crystalRadius * 0.35, neck),
+          radial(crystalRadius * 1.48, crystalY - crystalHalfHeight * 0.25),
+          radial(crystalRadius * 1.15, crystalY + crystalHalfHeight * 0.65),
+          radial(closed ? 0 : crystalRadius * 0.70, crystalY + crystalHalfHeight + (closed ? 0.015 : -0.007))],
+        staff ? 0.010 : 0.0045, "metal");
+      }
+      if (closed) {
+        cylinder("cage-finial", staff ? 0.019 : 0.009, 0.001,
+          crystalY + crystalHalfHeight + 0.008, crystalY + crystalHalfHeight + (staff ? 0.062 : 0.030), "metal");
       }
     }
     const gem = new THREE.OctahedronGeometry(1, 0);
-    gem.scale(staff ? 0.041 : 0.019, staff ? 0.067 : 0.041, staff ? 0.032 : 0.016);
-    add("set-crystal", gem, "gem", [0, end + (staff ? 0.052 : 0.026), 0]);
-    group.userData.elementalSocket = [0, end + (staff ? 0.052 : 0.026), 0];
+    gem.scale(crystalRadius, crystalHalfHeight, crystalRadius * 0.8);
+    add("set-crystal", gem, "gem", [0, crystalY, 0]);
+    group.userData.elementalSocket = [0, crystalY, 0];
   }
   return group;
 }

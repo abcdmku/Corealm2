@@ -224,23 +224,37 @@ describe("restored equipment metal materials", () => {
     }
   });
 
-  it.each(SHIELDS)("separates metal, wooden boards and the original grip on %s", (shieldId, swordId) => {
+  it.each(SHIELDS)("tints only the iron on %s and leaves its board and grip authored", (shieldId, swordId) => {
+    // The Corealm boards separate wood, metal and leather into their own materials, so the tier
+    // colour reaches the rim and boss while the planks and the rear handgrip keep what they were
+    // authored with. The old imported board had one vertex-coloured trim material shared across all
+    // three, which is why its tier tint used to turn the rim pink and the grip near-black.
     const appearance = gearAppearance(shieldId)!;
+    expect(appearance.assetId).toMatch(/^corealm_shield_[1-4]$/);
+    // The sword of the same tier carries the same metal colour, which is what ties a kit together.
+    expect(appearance.tint).toBe(gearAppearance(swordId)!.tint);
     const sources = [
-      fixtureMaterial("MI_Trim_Metal_Vertex"),
-      fixtureMaterial("MI_Trim_Furniture"),
-      fixtureMaterial("MI_Trim_Props"),
+      fixtureMaterial("corealm-weapon-metal"),
+      fixtureMaterial("corealm-weapon-wood"),
+      fixtureMaterial("corealm-weapon-leather"),
     ];
+    for (const [index, role] of ["metal", "wood", "leather"].entries()) {
+      sources[index]!.userData["equipmentRole"] = role;
+      // These originals carry no metalness map, so the imported metal shader treatment must not run.
+      sources[index]!.metalnessMap = null;
+    }
+    const authored = sources.map(material => material.color.getHex());
     const before = sources.map(materialState);
     const mesh = new THREE.Mesh(new THREE.BufferGeometry(), sources);
     applyGearAppearance(mesh, appearance);
     const [metal, boards, grip] = mesh.material;
-    expectAuthoredSurface(metal!, sources[0]!);
-    expect(compile(metal!)).toContain(glslColour(gearAppearance(swordId)!.tint!));
-    expect(boards!.color.getHex()).toBe(appearance.tint);
-    expect(compile(boards!)).toBe(compile(sources[1]!));
-    expectAuthoredSurface(grip!, sources[2]!);
-    expect(compile(grip!)).toBe(compile(sources[2]!));
+    expect(metal!.color.getHex(), "rim and boss take the tier metal").toBe(appearance.tint);
+    expect(boards!.color.getHex(), "planks stay authored").toBe(authored[1]);
+    expect(grip!.color.getHex(), "handgrip stays authored").toBe(authored[2]);
+    for (const material of mesh.material) {
+      expect(compile(material)).not.toContain("gearMetalSource");
+      expect(material.customProgramCacheKey()).not.toContain("metal-tier:");
+    }
     for (const [index, material] of mesh.material.entries()) {
       expect(material).not.toBe(sources[index]);
       for (const field of MAP_FIELDS) expect(material[field], field).toBe(sources[index]![field]);

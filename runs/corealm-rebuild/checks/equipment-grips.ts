@@ -29,22 +29,28 @@ await mkdir(out, { recursive: true });
 
 /** mainHand id, optional offHand id. `hand` picks which side the tight camera orbits. */
 const HELD: readonly { name: string; mainHand: string | null; offHand?: string | null; hand: "r" | "l" }[] = [
-  { name: "shield-cairnpine", mainHand: "kaldite_sword", offHand: "cairnpine_shield", hand: "l" },
-  { name: "shield-palewood", mainHand: "grithe_sword", offHand: "palewood_shield", hand: "l" },
+  { name: "shield-1-palewood", mainHand: "grithe_sword", offHand: "palewood_shield", hand: "l" },
+  { name: "shield-2-duskoak", mainHand: "corven_sword", offHand: "duskoak_shield", hand: "l" },
+  { name: "shield-3-cairnpine", mainHand: "kaldite_sword", offHand: "cairnpine_shield", hand: "l" },
+  { name: "shield-4-cinderpine", mainHand: "emberite_sword", offHand: "cinderpine_shield", hand: "l" },
   { name: "dagger-1-grithe", mainHand: "grithe_dagger", offHand: null, hand: "r" },
   { name: "dagger-2-corven", mainHand: "corven_dagger", offHand: null, hand: "r" },
   { name: "dagger-3-kaldite", mainHand: "kaldite_dagger", offHand: null, hand: "r" },
   { name: "dagger-4-emberite", mainHand: "emberite_dagger", offHand: null, hand: "r" },
   { name: "sword-kaldite", mainHand: "kaldite_sword", offHand: null, hand: "r" },
-  { name: "staff-cairnpine", mainHand: "cairnpine_staff", offHand: null, hand: "r" },
-  { name: "staff-basic", mainHand: "basic_wooden_staff", offHand: null, hand: "r" },
-  { name: "wand-cairnpine", mainHand: "cairnpine_wand", offHand: null, hand: "r" },
-  { name: "wand-fire", mainHand: "fire_wand", offHand: null, hand: "r" },
-  { name: "staff-fire", mainHand: "fire_staff", offHand: null, hand: "r" },
-  { name: "staff-tideworn", mainHand: "tideworn_staff", offHand: null, hand: "r" },
-  { name: "sword-tideworn", mainHand: "tideworn_sword", offHand: null, hand: "r" },
+  { name: "staff-1-palewood", mainHand: "palewood_staff", offHand: null, hand: "r" },
+  { name: "staff-2-duskoak", mainHand: "duskoak_staff", offHand: null, hand: "r" },
+  { name: "staff-3-cairnpine", mainHand: "cairnpine_staff", offHand: null, hand: "r" },
+  { name: "staff-4-cinderpine", mainHand: "cinderpine_staff", offHand: null, hand: "r" },
+  { name: "staff-5-fire-charged", mainHand: "fire_staff", offHand: null, hand: "r" },
+  { name: "wand-1-palewood", mainHand: "palewood_wand", offHand: null, hand: "r" },
+  { name: "wand-2-duskoak", mainHand: "duskoak_wand", offHand: null, hand: "r" },
+  { name: "wand-3-cairnpine", mainHand: "cairnpine_wand", offHand: null, hand: "r" },
+  { name: "wand-4-cinderpine", mainHand: "cinderpine_wand", offHand: null, hand: "r" },
+  { name: "wand-5-water-charged", mainHand: "water_wand", offHand: null, hand: "r" },
+  { name: "rare-tideworn-staff", mainHand: "tideworn_staff", offHand: null, hand: "r" },
+  { name: "rare-tideworn-sword", mainHand: "tideworn_sword", offHand: null, hand: "r" },
 ];
-
 const driver = new GameDriver({ url, close: async () => {} }, {
   headless: true, viewport: { width: 1200, height: 900 },
   browserArgs: ["--use-angle=d3d11", "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"],

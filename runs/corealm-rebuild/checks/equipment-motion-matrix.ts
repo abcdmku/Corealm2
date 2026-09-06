@@ -121,26 +121,46 @@ function screenCandidates(camera: { position: { x: number; y: number; z: number 
  * both male mixed shards on the pre-rebase run). Retry with a fresh spawn instead of forcing a
  * tougher creature, which would obstruct the close camera.
  */
-async function spawnAndAttack(distance = 2.2): Promise<void> {
+/** Wait for a reset or teleport to land before a camera is framed on the actor. */
+async function settle(): Promise<void> {
+  await driver.page!.waitForFunction(() => {
+    const p = (window as any).__gameDebug.getPlayer();
+    return p.moving === false && p.activityKind === null || p.moving === false;
+  }, undefined, { timeout: 6000 });
+  await driver.wait(250);
+}
+
+async function spawnLiveTarget(distance = 2.2): Promise<void> {
+  const page = driver.page!;
+  await page.evaluate(async (reach) => {
+    const lab = (window as any).__featureLab;
+    const catalog = lab.getCatalog().targets.creature;
+    const preset = catalog.find((p: any) => /frog|rat|coney|rabbit/i.test(p.label)) ?? catalog[0];
+    await lab.spawnTarget("creature", preset.id, { distance: reach });
+  }, distance);
+  await page.waitForFunction(() => (window as any).__gameDebug.getEntities()
+    .some((e: any) => String(e.id).startsWith("feature-lab:creature:") && e.health > 0), undefined, { timeout: 6000 });
+}
+
+/** Open on the live target, replacing a corpse with a fresh spawn and reframing if the first try lost it. */
+async function attackLiveTarget(frameCamera: () => Promise<void>): Promise<void> {
   const page = driver.page!;
   let lastError: unknown = null;
   for (let attempt = 0; attempt < 3; attempt += 1) {
     try {
-      await page.evaluate(async (reach) => {
-        const lab = (window as any).__featureLab;
-        const catalog = lab.getCatalog().targets.creature;
-        const preset = catalog.find((p: any) => /frog|rat|coney|rabbit/i.test(p.label)) ?? catalog[0];
-        await lab.spawnTarget("creature", preset.id, { distance: reach });
-      }, distance);
-      await page.waitForFunction(() => (window as any).__gameDebug.getEntities()
-        .some((e: any) => String(e.id).startsWith("feature-lab:creature:") && e.health > 0), undefined, { timeout: 6000 });
       await page.evaluate(async () => (window as any).__featureLab.perform("attack"));
+      // The actor may walk the last step into reach, so frame once the swing itself has started.
+      await page.waitForFunction(() => {
+        const m = (window as any).__gameDebug.getPlayerMotion();
+        return m.pose === "attack_melee" || m.pose === "idle";
+      }, undefined, { timeout: 8000 });
+      await frameCamera();
       report.phases.push({ attack: "opened", attempt });
       return;
     } catch (error) {
       lastError = error;
-      report.phases.push({ attack: "retry", attempt, error: String(error).split("
-")[0] });
+      report.phases.push({ attack: "retry", attempt, error: String(error).slice(0, 160) });
+      await spawnLiveTarget();
     }
   }
   throw lastError;
@@ -284,8 +304,9 @@ try {
     // camera, S toward it and A/D across it. Re-framing stops input, so each view is framed first and
     // captured within the first strides of the jog loop.
     await clearPanels();
-    for (const [name, key, fraction] of [["01-run-back", "w", 0.2], ["01-run-front", "s", 0.5], ["01-run-sword-side", "d", 0.35], ["01-run-shield-side", "a", 0.7]] as const) {
-      await frame(0.2, 0.12, 4.2);
+    // Across-camera strides leave a close frame fastest, so they are captured early in the loop.
+    for (const [name, key, fraction] of [["01-run-back", "w", 0.2], ["01-run-front", "s", 0.5], ["01-run-sword-side", "d", 0.25], ["01-run-shield-side", "a", 0.25]] as const) {
+      await frame(0.2, 0.12, 5.2);
       await page.keyboard.down(key);
       try { await shot(name, "run", fraction, 8000); } finally { await page.keyboard.up(key); }
       await page.waitForFunction(() => (window as any).__gameDebug.getPlayerMotion().pose === "idle", undefined, { timeout: 5000 });
@@ -296,14 +317,17 @@ try {
 
     // Real melee against a production creature.
     await page.evaluate(() => { const lab = (window as any).__featureLab; lab.setLevel("melee", 10); lab.setLevel("magic", 20); });
-    await frame(0.9, 0.14, 3.7);
-    await spawnAndAttack();
+    // Spawn inside reach FIRST, then frame, so the actor is not mid-walk when the camera is set.
+    await settle();
+    await spawnLiveTarget();
+    await attackLiveTarget(() => frame(0.9, 0.14, 3.7));
     await shot("02-melee-windup", "attack_melee", 0.12, 8000, /corealm_sword_/);
     await shot("02-melee-impact", "attack_melee", 0.42, 4000, /corealm_sword_/);
     // Return to spawn so the second swing starts without a walk that would leave the framed camera.
     await page.evaluate(async () => (window as any).__featureLab.perform("reset-player"));
-    await frame(-0.7, 0.2, 3.7);
-    await spawnAndAttack();
+    await settle();
+    await spawnLiveTarget();
+    await attackLiveTarget(() => frame(-0.7, 0.2, 3.7));
     await shot("02-melee-front", "attack_melee", 0.3, 8000, /corealm_sword_/);
 
     // Real casts with a two-hand staff and a wand.

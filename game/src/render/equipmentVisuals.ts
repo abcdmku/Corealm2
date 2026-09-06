@@ -1,10 +1,12 @@
 /**
  * Item-to-model mappings, hand sockets, and per-item material treatment for worn gear.
  *
- * Melee armour uses Quaternius' Knight set and magic armour uses the hooded Ranger set. Magic
- * weapons use the staff and wand meshes from Blink's FREE - RPG Weapons pack. Every wood tier
- * keeps the same silhouette and uses its authored wood grain under a tier colour treatment.
- * Altar-crafted elemental weapons add a cut crystal at the crown.
+ * Melee armour uses Quaternius' Knight set and magic armour uses the hooded Ranger set, one mesh
+ * per slot under a tier colour treatment. Held gear is Corealm original: four sword grades, four
+ * dagger grades, four shield boards, four staves and four wands, each grade a separate
+ * construction with its own wood, leather, metal and crystal materials. The tier tint therefore
+ * reaches the metal only; the other three roles keep what they were authored with.
+ * Altar-crafted elemental weapons add a charged core around the set crystal.
  */
 import * as THREE from "three";
 import type { EquipSlot, ItemId } from "../contracts.js";
@@ -93,12 +95,19 @@ const WIGHTSHROUD = 0x4a4d52;
 /** Magic tier 20: seared warm grey-brown, the charhide read against the tier 10 cold charcoal. */
 const CHARHIDE = 0x5c4a3c;
 
-/** Magic tiers share geometry. Their unlit wood colour is the only tier-specific treatment. */
-const BASIC_WOOD = 0x8a5a32;
-const PALEWOOD = 0xd7bd8e;
-const DUSKOAK = 0x53341f;
-const CAIRNPINE = 0x596162;
-const CINDERPINE = 0x40322b;
+/**
+ * Magic tier fittings.
+ *
+ * Each magic tier now has its own authored staff and wand construction, and each construction
+ * carries its own wood, leather and crystal. The tint pipeline leaves those three roles alone, so
+ * these values describe the ferrules, collars, cages and prongs only. Before the Corealm grades
+ * landed all nine staff ids shared one imported mesh and these were wood colours applied over the
+ * whole object, which is what turned the Cairnpine staff into flat slate in the lab.
+ */
+const PALEWOOD_FITTING = 0xc9a86a;
+const DUSKOAK_FITTING = 0x8d7a5c;
+const CAIRNPINE_FITTING = 0xa9b2b6;
+const CINDERPINE_FITTING = 0xc08a5a;
 
 /**
  * The four rare miniboss weapon tints, from the Phase 2 amendment: one shared imported sword and
@@ -114,18 +123,17 @@ const TIDEWORN_TEAL = 0x2f9ba0;   // ...and teal.
 const CINDERWAKE_TINT = 0xd86a2e; // Kilnhalt: ember orange...
 const CINDERWAKE_CRIMSON = 0x9c2420; // ...and crimson.
 
-/** Source bounds are 2.212 m for the staff and 0.985 m for the wand. */
-const MAGIC_STAFF_SCALE = 0.82;
-const MAGIC_WAND_SCALE = 0.80;
-
 // ------------------------------------------------------------------------ the ladder
 
 type OutfitKit = "ranger" | "knight";
 type OutfitPart = "helmet" | "hood" | "chest" | "legs" | "boots" | "gloves" | "pauldron" | "scarf";
 type WeaponAsset =
-  | "sword" | "shield" | "axe" | "pickaxe" | "rpg_weapon_staff" | "rpg_weapon_wand"
+  | "axe" | "pickaxe" | "miniboss_sword" | "miniboss_staff" | "corealm_axe_1"
+  | "corealm_sword_1" | "corealm_sword_2" | "corealm_sword_3" | "corealm_sword_4"
   | "corealm_dagger_1" | "corealm_dagger_2" | "corealm_dagger_3" | "corealm_dagger_4"
-  | "miniboss_sword" | "miniboss_staff" | "corealm_sword_1" | "corealm_sword_2" | "corealm_sword_3" | "corealm_sword_4" | "corealm_axe_1";
+  | "corealm_shield_1" | "corealm_shield_2" | "corealm_shield_3" | "corealm_shield_4"
+  | "corealm_staff_1" | "corealm_staff_2" | "corealm_staff_3" | "corealm_staff_4"
+  | "corealm_wand_1" | "corealm_wand_2" | "corealm_wand_3" | "corealm_wand_4";
 
 /**
  * A resolved part before the body variant is chosen. One item can be more than one part.
@@ -155,10 +163,11 @@ interface LadderTier {
   /** Tint for the off-hand shield. */
   offHandTint?: number;
   /**
-   * Dagger and sword have separate geometry. Magic variants use the pack staff or wand.
+   * Every held row names its own grade asset. An elemental variant shares the construction of the
+   * wood tier it is crafted from, and differs by its charged core.
    */
   mainHand: readonly { id: ItemId; asset: WeaponAsset; scale?: number; fixedScale?: boolean }[];
-  offHand?: { id: ItemId; scale: number };
+  offHand?: { id: ItemId; asset: WeaponAsset };
   head: ItemId;
   body: ItemId;
   legs: ItemId;
@@ -175,23 +184,23 @@ const LADDER: readonly LadderTier[] = [
   // Reviewed native sword grades already contain their length progression. The common
   // fit scale matches the held first-grade proof; applying tierSilhouetteScale again doubles it.
   {
-    tier: 1, kit: "knight", cloth: GRITHE, weapon: GRITHE, offHandTint: 0x8a6f4d,
+    tier: 1, kit: "knight", cloth: GRITHE, weapon: GRITHE, offHandTint: GRITHE,
     mainHand: [
       { id: "grithe_dagger", asset: "corealm_dagger_1", scale: 1, fixedScale: true },
       { id: "grithe_sword", asset: "corealm_sword_1", scale: 0.9, fixedScale: true },
     ],
-    offHand: { id: "palewood_shield", scale: 1 },
+    offHand: { id: "palewood_shield", asset: "corealm_shield_1" },
     head: "grithe_helm", body: "grithe_cuirass", legs: "grithe_greaves",
     feet: "grithe_boots", hands: "grithe_gloves",
     accessories: ["grithe_ring", "grithe_pendant"],
   },
   {
-    tier: 5, kit: "knight", cloth: CORVEN, weapon: CORVEN, offHandTint: 0x5c4a33,
+    tier: 5, kit: "knight", cloth: CORVEN, weapon: CORVEN, offHandTint: CORVEN,
     mainHand: [
       { id: "corven_dagger", asset: "corealm_dagger_2", scale: 1, fixedScale: true },
       { id: "corven_sword", asset: "corealm_sword_2", scale: 0.9, fixedScale: true },
     ],
-    offHand: { id: "duskoak_shield", scale: 1 },
+    offHand: { id: "duskoak_shield", asset: "corealm_shield_2" },
     head: "corven_helm", body: "corven_plate", legs: "corven_greaves",
     feet: "corven_boots", hands: "corven_gauntlets",
     accessories: ["corven_ring", "corven_pendant"],
@@ -203,42 +212,42 @@ const LADDER: readonly LadderTier[] = [
       { id: "kaldite_dagger", asset: "corealm_dagger_3", scale: 1, fixedScale: true },
       { id: "kaldite_sword", asset: "corealm_sword_3", scale: 0.9, fixedScale: true },
     ],
-    offHand: { id: "cairnpine_shield", scale: 1 },
+    offHand: { id: "cairnpine_shield", asset: "corealm_shield_3" },
     head: "kaldite_helm", body: "kaldite_plate", legs: "kaldite_greaves",
     feet: "kaldite_boots", hands: "kaldite_gauntlets",
     accessories: ["kaldite_ring", "kaldite_pendant"],
   },
   {
-    tier: 1, kit: "ranger", cloth: MARCHHIDE, weapon: PALEWOOD,
+    tier: 1, kit: "ranger", cloth: MARCHHIDE, weapon: PALEWOOD_FITTING,
     mainHand: [
-      { id: "palewood_wand", asset: "rpg_weapon_wand", scale: MAGIC_WAND_SCALE, fixedScale: true },
-      { id: "palewood_staff", asset: "rpg_weapon_staff", scale: MAGIC_STAFF_SCALE, fixedScale: true },
-      { id: "air_wand", asset: "rpg_weapon_wand", scale: MAGIC_WAND_SCALE, fixedScale: true },
-      { id: "air_staff", asset: "rpg_weapon_staff", scale: MAGIC_STAFF_SCALE, fixedScale: true },
+      { id: "palewood_wand", asset: "corealm_wand_1", scale: 1, fixedScale: true },
+      { id: "palewood_staff", asset: "corealm_staff_1", scale: 1, fixedScale: true },
+      { id: "air_wand", asset: "corealm_wand_1", scale: 1, fixedScale: true },
+      { id: "air_staff", asset: "corealm_staff_1", scale: 1, fixedScale: true },
     ],
     head: "marchhide_hood", body: "marchhide_robe", legs: "marchhide_leggings",
     feet: "marchhide_boots", hands: "marchhide_wraps",
     accessories: ["ember_ring", "ember_charm"],
   },
   {
-    tier: 5, kit: "ranger", cloth: BRAMBLEHIDE, weapon: DUSKOAK,
+    tier: 5, kit: "ranger", cloth: BRAMBLEHIDE, weapon: DUSKOAK_FITTING,
     mainHand: [
-      { id: "duskoak_wand", asset: "rpg_weapon_wand", scale: MAGIC_WAND_SCALE, fixedScale: true },
-      { id: "duskoak_staff", asset: "rpg_weapon_staff", scale: MAGIC_STAFF_SCALE, fixedScale: true },
-      { id: "earth_wand", asset: "rpg_weapon_wand", scale: MAGIC_WAND_SCALE, fixedScale: true },
-      { id: "earth_staff", asset: "rpg_weapon_staff", scale: MAGIC_STAFF_SCALE, fixedScale: true },
+      { id: "duskoak_wand", asset: "corealm_wand_2", scale: 1, fixedScale: true },
+      { id: "duskoak_staff", asset: "corealm_staff_2", scale: 1, fixedScale: true },
+      { id: "earth_wand", asset: "corealm_wand_2", scale: 1, fixedScale: true },
+      { id: "earth_staff", asset: "corealm_staff_2", scale: 1, fixedScale: true },
     ],
     head: "bramblehide_hood", body: "bramblehide_robe", legs: "bramblehide_leggings",
     feet: "bramblehide_boots", hands: "bramblehide_wraps",
     accessories: ["stone_ring", "stone_charm"],
   },
   {
-    tier: 10, kit: "ranger", cloth: WIGHTSHROUD, weapon: CAIRNPINE,
+    tier: 10, kit: "ranger", cloth: WIGHTSHROUD, weapon: CAIRNPINE_FITTING,
     mainHand: [
-      { id: "cairnpine_wand", asset: "rpg_weapon_wand", scale: MAGIC_WAND_SCALE, fixedScale: true },
-      { id: "cairnpine_staff", asset: "rpg_weapon_staff", scale: MAGIC_STAFF_SCALE, fixedScale: true },
-      { id: "water_wand", asset: "rpg_weapon_wand", scale: MAGIC_WAND_SCALE, fixedScale: true },
-      { id: "water_staff", asset: "rpg_weapon_staff", scale: MAGIC_STAFF_SCALE, fixedScale: true },
+      { id: "cairnpine_wand", asset: "corealm_wand_3", scale: 1, fixedScale: true },
+      { id: "cairnpine_staff", asset: "corealm_staff_3", scale: 1, fixedScale: true },
+      { id: "water_wand", asset: "corealm_wand_3", scale: 1, fixedScale: true },
+      { id: "water_staff", asset: "corealm_staff_3", scale: 1, fixedScale: true },
     ],
     head: "cairnpelt_hood", body: "cairnpelt_robe", legs: "cairnpelt_leggings",
     feet: "cairnpelt_boots", hands: "cairnpelt_wraps",
@@ -251,18 +260,18 @@ const LADDER: readonly LadderTier[] = [
       { id: "emberite_dagger", asset: "corealm_dagger_4", scale: 1, fixedScale: true },
       { id: "emberite_sword", asset: "corealm_sword_4", scale: 0.9, fixedScale: true },
     ],
-    offHand: { id: "cinderpine_shield", scale: 1 },
+    offHand: { id: "cinderpine_shield", asset: "corealm_shield_4" },
     head: "emberite_helm", body: "emberite_plate", legs: "emberite_greaves",
     feet: "emberite_boots", hands: "emberite_gauntlets",
     accessories: ["emberite_ring", "emberite_pendant"],
   },
   {
-    tier: 20, kit: "ranger", cloth: CHARHIDE, weapon: CINDERPINE,
+    tier: 20, kit: "ranger", cloth: CHARHIDE, weapon: CINDERPINE_FITTING,
     mainHand: [
-      { id: "cinderpine_wand", asset: "rpg_weapon_wand", scale: MAGIC_WAND_SCALE, fixedScale: true },
-      { id: "cinderpine_staff", asset: "rpg_weapon_staff", scale: MAGIC_STAFF_SCALE, fixedScale: true },
-      { id: "fire_wand", asset: "rpg_weapon_wand", scale: MAGIC_WAND_SCALE, fixedScale: true },
-      { id: "fire_staff", asset: "rpg_weapon_staff", scale: MAGIC_STAFF_SCALE, fixedScale: true },
+      { id: "cinderpine_wand", asset: "corealm_wand_4", scale: 1, fixedScale: true },
+      { id: "cinderpine_staff", asset: "corealm_staff_4", scale: 1, fixedScale: true },
+      { id: "fire_wand", asset: "corealm_wand_4", scale: 1, fixedScale: true },
+      { id: "fire_staff", asset: "corealm_staff_4", scale: 1, fixedScale: true },
     ],
     head: "charhide_hood", body: "charhide_robe", legs: "charhide_leggings",
     feet: "charhide_boots", hands: "charhide_wraps",
@@ -318,11 +327,11 @@ function buildTable(): Map<ItemId, GearVisual> {
   // Both starter weapons are plain brown and unlit.
   table.set("basic_wooden_wand", {
     slot: "mainHand",
-    parts: [weaponPart("rpg_weapon_wand", BASIC_WOOD, MAGIC_WAND_SCALE)],
+    parts: [weaponPart("corealm_wand_1", WORN, 1)],
   });
   table.set("basic_wooden_staff", {
     slot: "mainHand",
-    parts: [weaponPart("rpg_weapon_staff", BASIC_WOOD, MAGIC_STAFF_SCALE)],
+    parts: [weaponPart("corealm_staff_1", WORN, 1)],
   });
 
   for (const row of LADDER) {
@@ -339,9 +348,13 @@ function buildTable(): Map<ItemId, GearVisual> {
       });
     }
     if (row.offHand) {
+      // The four boards carry their own size and construction progression, so the tier silhouette
+      // factor is not applied again. `offHandTint` now describes the iron rim and boss only: the
+      // board, its battens and its leather grip are authored wood and leather and keep their
+      // colour through the tint pipeline.
       table.set(row.offHand.id, {
         slot: "offHand",
-        parts: [weaponPart("shield", row.offHandTint ?? row.weapon, row.offHand.scale * silhouette)],
+        parts: [weaponPart(row.offHand.asset, row.offHandTint ?? row.weapon, 1)],
       });
     }
 
@@ -485,18 +498,23 @@ const ORB_PALETTES: Readonly<Record<string, OrbPalette>> = {
 };
 
 /**
- * Root-local sockets derived from the source FBX bounds.
+ * Root-local elemental core sockets.
  *
- * The staff spans y -1.335..0.877 m and the wand -0.319..0.666 m. These points sit at 94–95% of
- * each +Y extent, just inside the modeled crown. The root integration screenshot is the final check
- * because the Unity-to-GLB export may add a wrapper transform around the original mesh node.
+ * Every Corealm staff grade sets its crystal at [0, 0.85, 0] and every wand grade at [0, 0.265, 0]
+ * (`buildEquipmentWeapon`'s `userData.elementalSocket`, verified against the exported bounds). The
+ * radii are a little wider than the authored crystal, 0.170 m and 0.084 m tall, so a charged core
+ * reads as a shell wrapping the set stone rather than a second solid coincident with it.
  */
+const STAFF_ORB = { position: [0, 0.85, 0] as const, radius: 0.098 };
+const WAND_ORB = { position: [0, 0.265, 0] as const, radius: 0.053 };
 const ORB_SOCKETS: Readonly<Record<string, {
   position: readonly [number, number, number];
   radius: number;
 }>> = {
-  rpg_weapon_staff: { position: [0, 0.744, 0], radius: 0.092 },
-  rpg_weapon_wand: { position: [-0.052, 0.617, 0], radius: 0.070 },
+  corealm_staff_1: STAFF_ORB, corealm_staff_2: STAFF_ORB,
+  corealm_staff_3: STAFF_ORB, corealm_staff_4: STAFF_ORB,
+  corealm_wand_1: WAND_ORB, corealm_wand_2: WAND_ORB,
+  corealm_wand_3: WAND_ORB, corealm_wand_4: WAND_ORB,
 };
 
 /** Adds the crafted elemental core to a magic weapon. */
@@ -607,14 +625,40 @@ const SOCKET_PARTS: Readonly<Record<string, SocketParts>> = {
     bone: "lowerarm_l", fist: [-0.060, 0.120, 0], grip: [0, 0, 0],
     rotation: [Math.PI / 2, -Math.PI / 2, 0],
   },
-  rpg_weapon_staff: {
-    // Hold the source mesh at its midpoint. The first turn follows the diagonal through the fist;
-    // the small second turn pushes the shaft away from the torso when viewed from above.
-    bone: "hand_r", fist: FIST_RIGHT, grip: [0.043, -0.021, 0.224],
+  /**
+   * The Corealm boards, which are taller than they are wide and pointed at the bottom, so unlike
+   * the round import they need their long axis to run down the body rather than across the arm.
+   *
+   * Euler (0, -PI/2, PI) sends asset +Z (the boss) to local -X, the back-of-hand side, and asset +Y
+   * (the wide top of the board) to local -Y, which is toward the elbow and shoulder while the arm
+   * hangs. The point therefore hangs past the wrist. The anchor stands the board's rear plane
+   * 0.075 m clear of the forearm axis, so the visible face never meets the arm; the enarme bar and
+   * standoffs, which sit 0.045-0.065 m behind that plane, land inside the forearm, which is where
+   * an arm actually goes through a strapped shield.
+   */
+  corealm_shield: {
+    bone: "lowerarm_l", fist: [-0.075, 0.100, 0], grip: [0, 0, 0],
+    rotation: [0, -Math.PI / 2, Math.PI],
+  },
+  /**
+   * The Corealm staff grades put their leather grip across the origin (`handle(-0.14, 0.14)`), so
+   * the grip offset along the shaft is zero. The lateral pair is inherited from the reviewed
+   * imported-staff socket and is what keeps the shaft off the torso from above.
+   */
+  corealm_staff: {
+    bone: "hand_r", fist: FIST_RIGHT, grip: [0.043, -0.021, 0],
     rotation: [Math.PI * 0.53, 0, -Math.PI * 0.06],
   },
-  rpg_weapon_wand: {
-    bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.200], rotation: [Math.PI / 2, 0, 0],
+  /**
+   * The wand grades hold their handle across the origin too.
+   *
+   * They are modelled at 0.407-0.437 m, which is a wand rather than the import's 0.79 m baton, but
+   * at that size an uncharged wand almost disappeared at the gameplay camera in the lab. A 1.22 fit
+   * brings them to 0.50-0.53 m: still unmistakably a wand beside a 1.03 m sword, and its crystal is
+   * large enough to find.
+   */
+  corealm_wand: {
+    bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0], rotation: [Math.PI / 2, 0, 0], fit: 1.22,
   },
   // The imported rare weapons keep their authored grip pivots: the sword's crossguard sits exactly
   // on its origin (grip centre a hand-width down the handle), and the staff's grip is its origin.
@@ -652,6 +696,9 @@ const SOCKET_PARTS: Readonly<Record<string, SocketParts>> = {
 function socketPartsFor(assetId: string): SocketParts | undefined {
   if (/^corealm_sword_[1-4]$/.test(assetId)) return SOCKET_PARTS["sword"];
   if (/^corealm_dagger_[1-4]$/.test(assetId)) return SOCKET_PARTS["dagger"];
+  if (/^corealm_shield_[1-4]$/.test(assetId)) return SOCKET_PARTS["corealm_shield"];
+  if (/^corealm_staff_[1-4]$/.test(assetId)) return SOCKET_PARTS["corealm_staff"];
+  if (/^corealm_wand_[1-4]$/.test(assetId)) return SOCKET_PARTS["corealm_wand"];
   if (assetId === "corealm_axe_1") return SOCKET_PARTS["axe"];
   if (assetId.startsWith("proc_rod_")) return SOCKET_PARTS["fishing_rod"];
   return SOCKET_PARTS[assetId];
@@ -741,15 +788,7 @@ function tintedMaterial(material: THREE.Material, appearance: GearAppearance): T
     && shaded.color instanceof THREE.Color) {
     applyRangerTierColour(clone, appearance.tint);
   }
-  if (isMagicWeaponAsset(appearance.assetId)) {
-    // These GLBs already contain brown, unlit albedo with the original carved grain, bindings and
-    // wear. Rehue its luminance instead of dropping the texture or multiplying dark brown twice.
-    if (shaded.emissive instanceof THREE.Color) shaded.emissive.setHex(0x000000);
-    shaded.emissiveIntensity = 0;
-    shaded.metalness = 0;
-    shaded.roughness = 0.78;
-    if (appearance.tint !== undefined) applyWoodTierColour(clone, appearance.tint);
-  } else if (appearance.assetId === "miniboss_sword" || appearance.assetId === "miniboss_staff") {
+  if (appearance.assetId === "miniboss_sword" || appearance.assetId === "miniboss_staff") {
     // Keep the native normal and emissive maps. The neutralized albedo still supplies the edge,
     // runes and fittings; the regional colour should not turn its light edges into a solid stripe.
     if (!shaded.metalnessMap) shaded.metalness = appearance.assetId === "miniboss_sword" ? 0.58 : 0.28;
@@ -757,15 +796,7 @@ function tintedMaterial(material: THREE.Material, appearance: GearAppearance): T
     if (appearance.tint !== undefined) applyRareTierColour(clone, appearance.tint);
   } else if (appearance.tint !== undefined && shaded.color instanceof THREE.Color) {
     const source = material as THREE.MeshStandardMaterial;
-    if (appearance.assetId === "shield") {
-      // The shield's tier tint describes its board. Applying it to every trim turns the rim
-      // brown and its leather grip almost black, despite their separate authored materials.
-      if (material.name === "MI_Trim_Metal_Vertex" && shaded.metalnessMap && tintable) {
-        applyMetalTierColour(clone, source, shieldMetalTint(appearance.tint), 0.061);
-      } else if (material.name === "MI_Trim_Props") {
-        shaded.color.copy(source.color);
-      }
-    } else if (shaded.metalnessMap && tintable
+    if (shaded.metalnessMap && tintable
       && (isKnightOutfitAsset(appearance.assetId) || ["sword", "axe", "pickaxe", "corealm_axe_1"].includes(appearance.assetId)
         || /^corealm_sword_[1-4]$/.test(appearance.assetId))) {
       applyMetalTierColour(clone, source, appearance.tint, isKnightOutfitAsset(appearance.assetId) ? 0.22 : 0.10);
@@ -778,22 +809,12 @@ function tintedMaterial(material: THREE.Material, appearance: GearAppearance): T
   return clone;
 }
 
-function isMagicWeaponAsset(assetId: string): boolean {
-  return assetId === "rpg_weapon_staff" || assetId === "rpg_weapon_wand";
-}
-
 function isRangerOutfitAsset(assetId: string): boolean {
   return assetId.startsWith("outfit_male_ranger_") || assetId.startsWith("outfit_female_ranger_");
 }
 
 function isKnightOutfitAsset(assetId: string): boolean {
   return assetId.startsWith("outfit_male_knight_") || assetId.startsWith("outfit_female_knight_");
-}
-
-function shieldMetalTint(woodTint: number): number {
-  if (woodTint === 0x8a6f4d) return GRITHE;
-  if (woodTint === 0x5c4a33) return CORVEN;
-  return woodTint;
 }
 
 /**
@@ -836,31 +857,6 @@ function applyMetalTierColour(
     `);
   };
   material.customProgramCacheKey = (): string => `${inheritedCacheKey()}|metal-tier:${tint}:${reference}`;
-}
-
-/**
- * Keep texture-driven grain and wear while giving each log tier its intended albedo.
- *
- * The grain factor used to multiply the tier colour directly, with a 0.20 floor. On the pale tiers
- * that reads as wood, but on the dark tiers it stacked two dark values: the Cairnpine staff came
- * out of the lab as flat slate with no visible grain, and the Cinderpine wand as a black stick.
- * Remapping the same grain into a 0.50-1.47 band keeps the authored carving, bindings and wear
- * legible while letting the tier colour survive to the surface. Pale tiers move by about +12% at
- * the grain midpoint, which the basic wooden staff (the tier that already read correctly) absorbs.
- */
-function applyWoodTierColour(material: THREE.Material, tint: number): void {
-  const shaded = material as THREE.MeshStandardMaterial;
-  if (!(shaded.color instanceof THREE.Color)) return;
-  shaded.color.setHex(0xffffff);
-  const colour = glslColour(tint);
-  patchGearShader(material, `wood-tier:${tint}`, `
-    float gearWoodLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
-    float gearWoodGrain = clamp(pow(max(gearWoodLuma, 0.001) / 0.050, 0.85), 0.20, 1.45);
-    diffuseColor.rgb = ${colour} * (0.34 + 0.78 * gearWoodGrain);
-  `, `
-    roughnessFactor = clamp(roughnessFactor * mix(1.14, 0.86,
-      smoothstep(0.014, 0.090, gearWoodLuma)), 0.48, 0.96);
-  `);
 }
 
 /** Regional colour stays strongest in the midtones; worn bright edges keep a steel reflection. */
@@ -925,9 +921,19 @@ function applyRangerTierColour(material: THREE.Material, tint: number): void {
     shader.fragmentShader = shader.fragmentShader.replace(marker, `${marker}
       float gearTierSourceLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
       float gearTierValue = clamp(pow(max(gearTierSourceLuma, 0.001) / 0.14, 0.72), 0.18, 1.32);
-      float gearLeatherMask = smoothstep(0.012, 0.065, diffuseColor.r - diffuseColor.b);
+      // Leather has to be BROWN, not merely warm. The old mask was red-minus-blue alone, which is
+      // positive for the hood's mossy green, the tan boots and the pauldron fur, so those three
+      // parts kept their source colour at every tier: Hide and Heavy Hide were identical above the
+      // waist in the lab. Requiring red over green as well leaves straps and belts protected and
+      // lets dyed cloth take the tier.
+      float gearWarm = smoothstep(0.012, 0.065, diffuseColor.r - diffuseColor.b);
+      float gearBrown = smoothstep(0.000, 0.030, diffuseColor.r - diffuseColor.g);
+      float gearLeatherMask = gearWarm * gearBrown;
       vec3 gearClothColour = ${colourLiteral} * gearTierValue;
-      diffuseColor.rgb = mix(gearClothColour, diffuseColor.rgb * 1.32, gearLeatherMask * 0.88);
+      // Even protected leather carries some of the tier, or a full hide set reads as one dye lot
+      // with brown accessories bolted on.
+      vec3 gearLeatherColour = mix(diffuseColor.rgb * 1.32, gearClothColour * 1.15, 0.42);
+      diffuseColor.rgb = mix(gearClothColour, gearLeatherColour, gearLeatherMask * 0.88);
     `);
   };
   material.customProgramCacheKey = (): string => (
