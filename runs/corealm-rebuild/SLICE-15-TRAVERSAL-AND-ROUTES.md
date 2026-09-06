@@ -207,6 +207,25 @@ between the two tarn landings is 20.1 m. The gap it is authored to cross is not 
    rail passes through the hanging banner
    (`test-results/traversal-world/canopy_walk-traverse/01-entry.png`).
 
+9. **Sealed buildings keep an unreachable walkable island inside them.** `getNavPoint` returns
+   ground-level walkable floor at `(-168, 1.035, -90)` in the Millfield Vault Tower,
+   `(-160, 1.035, -68)` in the Trade Company Hall, `(50, 131)` in Rootfall's Carter cottage and
+   `(72, 128)` in Rootfall's townhouse 7, and `planPath` finds no route to any of them from
+   outside. Click-to-move onto those floors answers "There is no route to that place". They should
+   be carved out of the mesh rather than left as islands.
+
+10. **All 17 fish schools sit exactly on their water surface** rather than under it, in all five
+    fisheries. Measured levels are in the fishing section below.
+
+11. **The Hillcrest anvil cannot be reached by pointer.** `highcairn_anvil` at `(145, 27.07, -69.2)`
+    was hovered from three orbit bearings and every attempt hit `npc_quarrier_vess` instead. The
+    smith stands on the only camera lines to their own anvil.
+
+12. **The Rootfall shed approach detours.** `rootfall_shed` at `(48, 140)` is reachable, but the
+    routed walk from the bearing-0 side is 46.2 m for an 11 m straight line, 4.2x, and every
+    approach stops 2.5–2.7 m short of the interior. Inside it, the player is drawn through
+    geometry.
+
 ## Route ledger
 
 `npx tsx tools/traversal-route-ledger.ts` recomputes the authored road-graph saving for every
@@ -291,10 +310,18 @@ routed arrival is within 0.34 m of the authored stance every time. The 9.7–18.
 across the water is by design: fish keep their underwater positions and the dispatcher measures the
 authored dry stance.
 
-One readability note rather than a failure: at Blackwater and Far Tarn the player finishes the
-routed walk facing away from the water and casts with the pool behind them
-(`test-results/world-landings/{blackwater_landing,far_tarn_cove}-cast.png`). Facing comes from the
-movement look-ahead at the last path corner, not from the interaction target.
+Two notes that are not landing failures:
+
+ - **Every fish school sits exactly on its water surface.** All 17 schools report a y equal to
+   their own solved body's level to the centimetre: redsill -2.60 against -2.60, blackwater 6.88
+   against 6.88, cairn tarn 29.37 against 29.37, far tarn 42.16 against 42.16, ashfin 33.39 against
+   33.39. `docs/world-authoring.md` asks for fish below the actual water surface, and in the
+   captures they read as blobs floating on the sheet
+   (`test-results/traversal-world/cairn_leap-traverse/05-landed.png` shows two of them).
+ - At Blackwater and Far Tarn the player finishes the routed walk facing away from the water and
+   casts with the pool behind them
+   (`test-results/world-landings/{blackwater_landing,far_tarn_cove}-cast.png`). Facing comes from
+   the movement look-ahead at the last path corner, not from the interaction target.
 
 ## Coast, lake and relief views
 
@@ -322,12 +349,28 @@ reachable with an unoccluded camera.
 
 Composition issues from these ordinary standing positions:
 
- - **The coastal collar is undressed.** At `(-478, 130)`, `(386, 130)` and `(0, 548)` the ground is
-   an unbroken plain with no grass, rock, tree or dressing of any kind, and it is walkable.
-   `docs/world-authoring.md` says normal biome recipes sample all dry visual land through
-   `getScatterBounds(Infinity)`, so this is either an unfinished part of the coastal work or a
-   scatter-residency delay. The re-run records `getScatterResidency()` at each point to separate
-   the two.
+ - **The coastal collar reads bare when you arrive, and the scatter generator is the reason.** After
+   2.5 s standing at each point, `getScatterResidency()` reports `complete: false` everywhere and a
+   resident tile count that falls off with distance from the world centre:
+
+   | point | resident tiles of 144 |
+   | --- | --- |
+   | coast-west (-486, -3.19, 130) | 11 |
+   | coast-east (394, -3.44, 130) | 20 |
+   | coast-south (0, -3.94, -307.1) | 40 |
+   | coast-north (0.13, -3.14, 555.74) | 50 |
+   | lake-redsill_spots | 54 |
+   | rockslide-landing | 89 |
+   | coldbrace-mill-road (-160, 1.04, -55.1) | 103 |
+
+   A first pass with a 0.7 s settle photographed four completely undressed coastal plains; with
+   2.5 s, sparse grass appears at the west edge and nothing else. So this is generation latency at
+   the far edge rather than missing recipes — but the player-facing result is the same: arrive at
+   the coast and you stand on bare ground for seconds.
+ - **The shoreline is a hard arc with no beach.** At the south and west edges the land meets the
+   water plane as a clean geometric curve between one flat dark ground material and the water, with
+   no sand or shingle band, no shore scatter and no material transition
+   (`test-results/world-views/coast-south.png`, `coast-west.png`).
  - **A bare 59-degree face at the eastern coast.** `tools/verify-slope-traversal.ts` found and
    walked a real authored 58.99-degree facet, `(464, 13.68, -75)` down to `(466, 10.35, -75)` and
    back up, both legs completing exactly. The face itself is a featureless brown slope running into

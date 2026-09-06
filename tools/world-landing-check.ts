@@ -137,7 +137,9 @@ try {
       // The dispatcher measures the school's authored stance, not the fish. `reach` is the cast
       // distance across the water and is recorded for review, not asserted.
       if ((entry.stanceGap as number) > INTERACT_RANGE) findings.push(`${site.id}/${school.id}: routed arrival is ${(entry.stanceGap as number).toFixed(2)} m from the authored stance`);
-      const level = waterBodies.find((water) => Math.abs(water.level - (school.position[1] as number)) < 8)?.level;
+      // Match the school's own solved body by id, not by nearest level: Ashfin's spring and the
+      // Cairn tarn are only 4 m apart in height and the wrong one was being quoted.
+      const level = waterBodies.find((water) => school.id.startsWith(water.id))?.level;
       if (level !== undefined && school.position[1] > level - 0.1) {
         findings.push(`${site.id}/${school.id}: fish sit at ${school.position[1].toFixed(2)} m against a ${level.toFixed(2)} m water surface`);
       }
