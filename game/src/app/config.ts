@@ -121,7 +121,13 @@ export const NAV_CONFIG = {
   // the town the player spawns in front of. At radius 1 the inset is 0.45 m — still 0.10 m more than
   // PLAYER_RADIUS 0.35 — and a 2 m arch becomes a 1.10 m corridor. polyCount rises from 3169.
   walkableRadius: 1,     // voxels
-  walkableClimb: 10,     // voxels; preserves continuous 60-degree slopes across neighbouring cells
+  // 8 voxels = 1.60 m. Recast's ledge filter drops a span when the SPREAD between its lowest and
+  // highest 4-neighbour exceeds walkableClimb, and a continuous 60-degree face rises 0.45 * tan 60
+  // = 0.779 m per cell in both directions, so the limit is 2 * 0.779 = 1.559 m, not 0.779 m.
+  // Measured: 4-7 voxels drop the 50 and 58 degree bakes in coastal-traversal, 8 bakes all three.
+  // 10 voxels (2.00 m) went too far the other way and merged the Rootfall stump's 0.92 m first
+  // flight into the ground span, so the navmesh stepped 0.87 m in one 100 ms tick there.
+  walkableClimb: 8,      // voxels
   walkableHeight: 9,     // voxels
   // Movement and route generation share a limit so a route is traversable in both directions.
   walkableSlopeAngle: 60,
