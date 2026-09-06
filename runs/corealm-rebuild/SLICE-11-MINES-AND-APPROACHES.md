@@ -115,7 +115,46 @@ The inside-out repair and the plan-footprint metric are also mine.
 
 ## Mine × check matrix
 
-### AFTER-MATRIX
+One command, one Chromium session, hardware `ANGLE (NVIDIA GeForce RTX 5080, Direct3D11)`, clock at
+`timeScale 1` and unpaused throughout. Receipt: `test-results/slice11/after/report.json`. Zero runtime
+errors, zero console errors, zero failed requests.
+
+| check | Bracken | Hollowcut | Lower Quarry | Upper Seam | Clinker |
+|---|---|---|---|---|---|
+| stances on navmesh (count, worst gap) | 8, 0.121 m | 5, 0.001 m | 5, 0.080 m | 3, 0.015 m | 8, 0.124 m |
+| body clear of statics and trunks at every stance | pass, 0 shift | pass, 0 shift | pass, 0 shift | pass, 0 shift | pass, 0 shift |
+| approach route node → ramp end | north_milestone, 87.3 m | rootfall_hamlet, 21.8 m | moor_road_bend, 16.6 m | ridge_pines, 77.7 m | kilnhalt_south_track, 138.3 m |
+| no climb-looking route leg (max grade, bound 0.55) | 0.055 | 0.000 | 0.090 | 0.122 | 0.008 |
+| haul-ramp grade on real terrain (bound 0.55) | 0.442 | **0.616 FAIL** | 0.400 | 0.376 | 0.234 |
+| every rock clicked at full, with ore + XP receipt | 8/8 | 5/5 | 5/5 | 3/3 | 8/8 |
+| every rock clicked again at partial, with receipt | 8/8 | 5/5 | 5/5 | 3/3 | 8/8 |
+| worked from inside the 0.45 m stance (worst) | 0.326 m | 0.132 m | 0.284 m | 0.321 m | 0.330 m |
+| depleted rock stays drawn, clicks, yields nothing | pass | pass | pass | pass | pass |
+| natural respawn back to available | 21 s / 15 s | 32 s / 25 s | 43 s / 36 s | 43 s / 36 s | 65 s / 58 s |
+| inventory-full stop | `inventory.full` | `inventory.full` | `inventory.full` | `inventory.full` | `inventory.full` |
+| haul return by ground click (arrival gap) | 0.46 m | 0.12 m | 0.03 m | 0.68 m | 0.55 m |
+| every rock readable from the approach | 8/8 | **4/5 FAIL** | 5/5 | 3/3 | **7/8 FAIL** |
+| cut face composition views | 5 | 5 | 5 | 5 | 5 |
+
+Reading the rows:
+
+- *stances on navmesh* projects each ore's production `interactionPosition` with `getNavPoint` and measures
+  the horizontal displacement; *body clear* is `probeWorldClearance` at `PLAYER_RADIUS`.
+- *approach* is the nearest authored route node from which production navigation actually reaches the haul
+  endpoint. The check walks down the candidate list and records the ones it rejected, so an unreachable
+  mine would show as a failure rather than a silently different start.
+- *every rock clicked* is a real canvas hover-and-click on the drawn ore, then production movement all the
+  way in. XP is read from the Mining skill total because gathering emits no XP event of its own; the gains
+  were 10 at Bracken, 24 at Hollowcut, 35 at Lower Quarry and Upper Seam, 52 at Clinker, with the two
+  higher-tier flux rocks paying 120 and 104.
+- *readable from the approach* is the strict one. It fails when the rock needs the player to walk onto the
+  apron, or a detached camera, before it can be hovered at all. `hollowcut_corven_1` and
+  `clinker_kilnstone_1` fail it; both still got their real click and receipts from a framed camera.
+
+`clinker_kilnstone_1` is the far west flux rock, 11.5 m off the aisle centre along the seam. Nothing
+occludes it — every sample simply projected off screen from the follow camera at the emberite stances. It
+is an authored-layout readability gap rather than an obstruction, and much milder than Hollowcut's.
+
 
 ## Defects that this slice measured but did not fix
 
@@ -195,4 +234,9 @@ camera round shows the follow camera sitting inside a cut face, that is the mome
   matrix fits one browser session. Every rock at every mine gets its full and partial states.
 - The composition views are a detached inspection camera. They establish cut-face appearance, not gameplay
   camera clearance.
-- `hollowcut_corven_1` has no accepted click evidence, because it cannot be hovered past the postern.
+- `hollowcut_corven_1` and `clinker_kilnstone_1` were clicked from a framed camera the follow camera never
+  reached. Their extraction is real; their readability is not accepted.
+- The audit's `rear` column is not comparable across the fix, because the same geometry changes facing bin.
+  Compare `top` and the new plan footprint instead.
+- Deleted as superseded and unreferenced: `art/rebuild/candidates/2026-09-05/ground-ore/` (3.8 MB, twelve
+  models from generator `a6f1cb96`, not the served bytes).
