@@ -127,7 +127,11 @@ try {
           if (!arrived || leg.gapMetres >= .6) throw new Error(`Side navigation did not arrive (${leg.gapMetres.toFixed(2)} m short)`);
         }
         trial.positioned = await snap(entityId);
-        await call('debug', 'inspectPose', [{ x, y: y + .7, z, yaw: heading + 1.1, pitch: .2, distance: 5, detached: true }]);
+        // Framed off the actual production body radius. A fixed 5 m put the camera inside a
+        // 2.4 m-radius boss rhino: the stills came back as flank and belly, with the head - the
+        // only place a masked recoil is drawn - out of shot or unreadably small.
+        await call('debug', 'inspectPose', [{ x, y: y + bodyRadius * .6, z, yaw: heading + 1.1, pitch: .18,
+          distance: Math.max(5, bodyRadius * 4.2), detached: true }]);
         trial.screenshots.push(await capture(`${id}-${side}-${attempt}-before`, entityId));
         const healthBefore = trial.positioned.entity.combat.health;
         await call('debug', 'callTool', ['corealm_attack', { entityId }]);
@@ -136,6 +140,21 @@ try {
           const sample = await snap(entityId); trial.samples.push({ ...sample, stage: 'attack' });
           if (sample.motion.hitOverlay && sample.entity.combat.health < healthBefore) {
             trial.hit = sample; recorded = true;
+            // The overlay fades in across its opening frames: the sample that first SEES it is
+            // drawn at a recoil weight of ~0, so a screenshot taken there is the base gait and
+            // shows no recoil at all. Follow the SAME overlay up to its full drawn weight and
+            // photograph that instead. Nothing is forced - this only waits.
+            let peak = sample;
+            const untilPeak = performance.now() + 600;
+            while (performance.now() < untilPeak) {
+              const next = await snap(entityId); trial.samples.push({ ...next, stage: 'attack' });
+              const overlay = next.motion.hitOverlay;
+              if (!overlay || overlay.clip !== sample.motion.hitOverlay.clip) break;
+              if (overlay.weight > peak.motion.hitOverlay.weight) peak = next;
+              if (overlay.weight >= .9) break;
+              await page.waitForTimeout(16);
+            }
+            trial.recoilPeak = { weight: peak.motion.hitOverlay?.weight ?? 0, overlaySeconds: peak.motion.hitOverlay?.time ?? 0, baseClip: peak.motion.clip };
             trial.screenshots.push(await capture(`${id}-${side}-${attempt}-during`, entityId));
             break;
           }
@@ -156,6 +175,8 @@ try {
   }
   report.coverage = selected.map(id => ({ id, clips: ['Hit', 'HitLeft', 'HitRight'].map(clip => ({ clip,
     observed: report.trials.some((trial: any) => trial.id === id && trial.hit?.motion?.hitOverlay?.clip === `${clip}_MaskedOverlay`) })) }));
+  report.recoilWeights = report.trials.filter((trial: any) => trial.recoilPeak)
+    .map((trial: any) => ({ id: trial.id, side: trial.side, clip: trial.observedOverlay?.clip, ...trial.recoilPeak }));
   report.status = report.coverage.every((row: any) => row.clips.every((clip: any) => clip.observed)) && !report.errors.length
     ? 'natural-clips-observed-awaiting-visual-review' : 'incomplete';
 } catch (error) { report.errors.push(String(error)); }

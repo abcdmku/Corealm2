@@ -19,9 +19,14 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   "animal_rat": { seconds: 0.58, contactNormalized: 0.43 },
   "animal_scorpion": { seconds: 0.8, contactNormalized: 0.45 },
   "animal_viper": { seconds: 1.666667, contactNormalized: 0.525 },
-  "boss_rhino_air": { seconds: 1.233333, contactNormalized: 0.7 },
-  "boss_rhino_earth": { seconds: 1.233333, contactNormalized: 0.7 },
-  "boss_rhino_water": { seconds: 1.233333, contactNormalized: 0.7 },
+  // Remeasured off the repaired Attack, where the horn actually crosses the target: 0.7 was a
+  // third of a second after the strike had already swept past and started back down. Measured
+  // offline by `tools/creature-motion/rhino-contact.ts` and confirmed in the production combat
+  // lab, where the observed damage lands at normalized 0.392 once the simulation tick quantizes
+  // it (test-results/rhino-{air,earth,water}-attack).
+  "boss_rhino_air": { seconds: 1.233333, contactNormalized: 0.33229264631653577 },
+  "boss_rhino_earth": { seconds: 1.233333, contactNormalized: 0.33229264631653577 },
+  "boss_rhino_water": { seconds: 1.233333, contactNormalized: 0.33229264631653577 },
   "creature_redbrush_fox": { seconds: 0.88, contactNormalized: 0.49 },
   "creature_duskoak_lynx": { seconds: 1.02, contactNormalized: 0.43 },
   "creature_rootdelve_badger": { seconds: 1.1, contactNormalized: 0.46 },

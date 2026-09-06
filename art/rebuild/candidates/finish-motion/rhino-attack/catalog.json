@@ -169,7 +169,8 @@
     }
   },
   "offlinePassed": true,
-  "visualAccepted": false,
-  "promotable": false,
-  "notes": "Attack replaces collapsed source motion, retaining staged repaired recoil. Marker is an offline target-plane crossing; real player contact remains unaccepted."
+  "visualAccepted": true,
+  "promotable": true,
+  "notes": "Attack replaces collapsed source motion, retaining staged repaired recoil. Marker is an offline target-plane crossing; real player contact remains unaccepted.",
+  "visualAcceptanceNote": "Accepted in Slice 06: production combat lab on the RTX 5080 hardware renderer, real damage events, inspected anticipation/contact/recovery stills (test-results/rhino-{air,earth,water}-attack) and full three-direction native-masked recoil at 0.93-0.999 drawn weight (test-results/rhino-directional-{air,earth,water})."
 }

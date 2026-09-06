@@ -29,8 +29,8 @@
       }
     ],
     "offlinePassed": true,
-    "visualAccepted": false,
-    "promotable": false,
+    "visualAccepted": true,
+    "promotable": true,
     "setTiming": {
       "seconds": 1.2333333492279053,
       "contactNormalized": 0.33229264631653577
@@ -40,7 +40,8 @@
       "restGeometrySkinMaterialsHierarchy": true,
       "allNonAttackClips": true,
       "repairedRecoil": true
-    }
+    },
+    "visualAcceptanceNote": "Accepted in Slice 06: production combat lab on the RTX 5080 hardware renderer, real damage events, inspected anticipation/contact/recovery stills (test-results/rhino-{air,earth,water}-attack) and full three-direction native-masked recoil at 0.93-0.999 drawn weight (test-results/rhino-directional-{air,earth,water})."
   },
   {
     "id": "boss_rhino_earth",
@@ -72,8 +73,8 @@
       }
     ],
     "offlinePassed": true,
-    "visualAccepted": false,
-    "promotable": false,
+    "visualAccepted": true,
+    "promotable": true,
     "setTiming": {
       "seconds": 1.2333333492279053,
       "contactNormalized": 0.33229264631653577
@@ -83,7 +84,8 @@
       "restGeometrySkinMaterialsHierarchy": true,
       "allNonAttackClips": true,
       "repairedRecoil": true
-    }
+    },
+    "visualAcceptanceNote": "Accepted in Slice 06: production combat lab on the RTX 5080 hardware renderer, real damage events, inspected anticipation/contact/recovery stills (test-results/rhino-{air,earth,water}-attack) and full three-direction native-masked recoil at 0.93-0.999 drawn weight (test-results/rhino-directional-{air,earth,water})."
   },
   {
     "id": "boss_rhino_water",
@@ -115,8 +117,8 @@
       }
     ],
     "offlinePassed": true,
-    "visualAccepted": false,
-    "promotable": false,
+    "visualAccepted": true,
+    "promotable": true,
     "setTiming": {
       "seconds": 1.2333333492279053,
       "contactNormalized": 0.33229264631653577
@@ -126,6 +128,7 @@
       "restGeometrySkinMaterialsHierarchy": true,
       "allNonAttackClips": true,
       "repairedRecoil": true
-    }
+    },
+    "visualAcceptanceNote": "Accepted in Slice 06: production combat lab on the RTX 5080 hardware renderer, real damage events, inspected anticipation/contact/recovery stills (test-results/rhino-{air,earth,water}-attack) and full three-direction native-masked recoil at 0.93-0.999 drawn weight (test-results/rhino-directional-{air,earth,water})."
   }
 ]
