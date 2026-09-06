@@ -296,7 +296,7 @@ for (const [cue, definition] of Object.entries(cues)) {
     const cueGain = definition.gain ?? 1;
     rows.push({
       cue, url, file: path.relative(publicRoot, urlToPath(url)).replace(/\\/g, "/"), probe: info, metrics,
-      cueGain, variantGain, rate: rateOf(definition),
+      cueGain, variantGain, trimMs, rate: rateOf(definition),
       asPlayedDbfs: round1(metrics.activeRmsDbfs + db(cueGain * variantGain)),
       flags: [...flagsFor(cue, definition, metrics, trimMs, round1(metrics.activeRmsDbfs + db(cueGain * variantGain))),
         ...(metrics.peakDbfs + db(cueGain * variantGain) > -1 ? [`as-played peak ${round1(metrics.peakDbfs + db(cueGain * variantGain))} dBFS before the bus (clips when stacked)`] : []),

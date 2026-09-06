@@ -1,54 +1,61 @@
-# Audio acceptance follow-up
+# Audio acceptance
 
-Production files remain AudioEngine, AudioDirector and CorealmAudioBridge. The existing offline HRTF graph test proves directional energy and attenuation. It does not prove subjective source quality or real gameplay contact timing.
+Production files remain `AudioEngine`, `AudioDirector` and `CorealmAudioBridge`. The full slice record — per-family review table, timing measurements, balance tables, cleanup and limits — is [`SLICE-12-AUDIO.md`](./SLICE-12-AUDIO.md). This page is the short status.
 
-## CPU output recordings
+**No listening claim is made.** The tools available to the agents that produced this evidence do not provide audio perception. Everything below is a measurement of decoded samples or of wall-clock timestamps. The items needing a person's ears are enumerated in section 6 of the slice record, with file paths and timestamps into concatenated MP3 copies.
 
-`npx tsx runs/corealm-rebuild/checks/audio-output-browser.ts --case species`
+## What is proven
 
-`npx tsx runs/corealm-rebuild/checks/audio-output-browser.ts --case ambience`
+Hardware Chromium, ANGLE Direct3D11, RTX 5080, real audio, MediaRecorder on the production bus. Port 4186.
 
-`npx tsx runs/corealm-rebuild/checks/audio-output-browser.ts --case contacts`
-
-These DOM-only Chromium runs disable GPU, decode actual production catalogue files, and capture the production bus mix with MediaRecorder. Each has a 59-second ceiling and timestamped evidence. Species and contacts are soundboard stimuli, with 2.6-second excerpts then reset; they are not gameplay timing evidence. Species records the first variant of each of eleven cue families. Ambience uses the real director to transition through all five authored region beds, then disposes the director. Reports include cue/loop history and an elapsed-time track list for listening.
-
-Verified recordings:
-
-- `test-results/audio-output/species-1788642913339/production-output.webm`: eleven cue families; decoding/recording passed. FFmpeg measured mean -32.8 dBFS, peak -10.8 dBFS.
-- `test-results/audio-output/ambience-1788642961378/production-output.webm`: region sequence passed. After five seconds in each region, only that region's loops remain; Kilnhalt has upland ambience only, Gravelmaw cave ambience only. Disposal leaves no desired/active loops. Mean -26.2 dBFS, peak -9.7 dBFS.
-- `test-results/audio-output/contacts-1788643070136/production-output.webm`: thirteen material/contact/combat/death cue excerpts; decoding/recording passed. Mean -37.7 dBFS, peak -5.3 dBFS. Each recording also has a `production-output.mp3` listening copy.
-
-No listening claim is made. Available tools do not provide audio perception. The source ledger `docs/audio-source-animals.md` expressly records label-based selection and calls out hen, stag, viper and coney substitutes as uncertain. Wolf-named actors still use the coyote family bank, and three rhino boss families have no idle voice. These are source/coverage observations, not subjective judgments or instructions to add unsuitable generic recordings.
-
-## Queued integrated recording
-
-`npx tsx runs/corealm-rebuild/checks/audio-gameplay-browser.ts`
-
-Requires the root's GPU lease at port 4175. The helper enables actual audio, validates hardware Direct3D11, records the production mix, uses declared hatchet/approach fixture setup, invokes real chopping, waits for two actual wood impact cues, stops, and checks no stale impact occurs afterward. Reports include semantic saves, events, audio cue history and actual AudioBufferSource start timestamps. It is prepared and syntax-checked; hardware execution remains queued.
-
-## Remaining scope
-
-Listening review of the captured species/contacts/ambience output remains required. Integrated combat swing/contact, spell launch/arrival, realm travel/death cleanup and live interior ambience still need recorded gameplay evidence. CPU tests currently cover realm reset generation, listener updates, dead-player animal suppression, time rewind, and exact rig-event routing. Boot wires mining/woodcutting/footsteps from CharacterRig motion markers and combat presentation phases; spell launch uses its semantic event. Those source facts do not replace visual/audio synchronization acceptance.
-
-Four additional GPU shards are prepared, each with a separate 59-second ceiling:
-
-`npx tsx runs/corealm-rebuild/checks/audio-actions-browser.ts --case combat`
-
-`npx tsx runs/corealm-rebuild/checks/audio-actions-browser.ts --case spell`
-
-`npx tsx runs/corealm-rebuild/checks/audio-actions-browser.ts --case death`
-
-`npx tsx runs/corealm-rebuild/checks/audio-actions-browser.ts --case travel`
-
-Combat and spell use an authored Brown Bear fixture and production attack/cast. Death sets one health as a prerequisite, then requires a normal lethal enemy hit. Travel approaches the authored lab portals, invokes real entry/return, and waits for the proper region loops. `audio-capture-support.ts` wraps existing bridge methods in the served diagnostic document without altering their arguments/results; the record contains real motion/event dispatch timestamps and AudioBufferSource starts alongside production cue history. Hardware execution is queued, not accepted.
-
-## Specific source replacement candidates
-
-Source-page audit on September 5, 2026; none was downloaded or substituted. These recommendations concern documented source identity, not sounds heard by this agent.
-
-| Current uncertain cue | Proposed candidate | Verified source and limitation |
+| Area | Check | Result |
 | --- | --- | --- |
-| Hen (`cute_01`, `cute_05` generic creature clips) | [Chicken clucking, Breviceps](https://freesound.org/people/Breviceps/sounds/456803/) | Author describes chicken clucking; page states CC0; 14.953-second mono WAV, 16 kHz. Prefer extracting individual clucks after listening. Original download requires Freesound login. |
-| Coney/rabbit (`cute_03`, `cute_07`) | [Rabbit oinks and squeaks, kessir](https://freesound.org/people/kessir/sounds/372075/) | Author identifies their own rabbit recording; page states CC0; 39-second mono WAV, 44.1 kHz. Needs isolated call selection. Original download requires login. The existing cue is shared with rats, so a rabbit-specific change must not silently change rat source identity. |
-| Stag (`roar_04`, `roar_05` generic creature roars) | [Bellowing deer, IchBinChrist](https://freesound.org/people/IchBinChrist/sounds/407631/) | Search-returned source page states CC0 and deer bellowing; 16.752-second MP3. Direct page returned 403 and the description links video, so verify authorship/origin and listen before replacing. This is a candidate, not an accepted asset. |
-| Viper (`breath`, `breath_02`) | No verified better shipping candidate yet | [Sonoran Gopher Snake hiss](https://acousticatlas.org/item/1106) is a documented captive snake recording, but its NC/ND licence is unsuitable for this shipping/edit workflow. [Qubodup SNAKE](https://freesound.org/people/qubodup/sounds/182789/) is a human imitation with CC-BY3 requirements; substituting it would not resolve the species-recording uncertainty. Keep current cue pending a suitable source/listening decision. |
+| Spatial energy and attenuation | `audio-spatial-browser.ts` | Offline HRTF graph; directional energy and distance falloff. Held from the previous round. |
+| File integrity and level | `audio-file-review.ts` | All 94 files behind 57 cues and 8 loops measured: duration, peak, active RMS, LUFS, silence, onset, clipping, DC, spectral centroid and bands, per-cue spread. Listening copies with timestamps. |
+| Tool and combat timing | `audio-timing-browser.ts --case chop\|mine\|melee\|spell\|fish` | Marker-to-source-start offsets 0.9 – 12 ms across every case, one 34 ms outlier on a spell's first decode. Chop and mine impacts land within 0.5 ms of the semantic yield roll. Melee swing leads contact by 233 ms on the clip's own marker; the thud trails the rig's contact frame by 49 – 50 ms. |
+| Region-to-cave ambience | `audio-actions-browser.ts --case travel` | Real portal both ways plus a reload. Only the destination bed survives each crossfade, nothing is left desired-but-silent, running loop nodes equal active beds, and each bed starts exactly once on reload. |
+| Volume balance | `audio-actions-browser.ts --case mix` | Default-volume 28 s session, EBU R128 on the recorded mix. Programme -29.0 LUFS, true peak -6.9 dBTP, LRA 4.2 LU. Footsteps clear the bed by 7.0 dB, UI by 10.1, combat by 13.3. |
+| Death and node cleanup | `audio-actions-browser.ts --case death\|kills` | One death voice, no animal calls after the player dies, empty voice pool. Across five real kills the live source count never leaves the two region beds; 19 buffer sources constructed, 43 disconnects, no growth. |
+| Production output recordings | `audio-output-browser.ts --case species\|ambience\|contacts` | DOM-only capture of the production bus decoding real catalogue files. Soundboard stimuli, not gameplay timing. |
+| Unit | `tests/audioEngine.test.ts`, `audioCatalog.test.ts`, `audio-combat-timing.test.ts`, `audio-travel.test.ts`, `audioSettings.test.ts` | 42 tests. Voice-gain ceiling, footstep level matching, pre-roll trims, creature-voice coverage counted against `content/enemies.ts`, realm reset, listener updates, dead-player animal suppression, rig-event routing. |
+
+## Defects fixed this round
+
+1. **Footsteps were the least audible thing in the game.** Measured at default volumes: a running player's own steps cleared the ambience bed's true peak by 3.0 dB, a UI click by 10.3. Root cause was `AudioEngine` clamping the per-voice gain to 1, which anchored the whole footstep family to the -39.3 dBFS of `footstep-grass-01.ogg`. The ceiling is now +12 dB; bus, loop and bed gains still clamp at 1. Footsteps re-matched to -35 dBFS with a -13.5 dBFS peak cap, and the transient margin went 3.0 → 7.0 dB.
+2. **`cueForCreature` misdescribed its own coverage.** It claimed the only silent families were "the two humanoid families" and named `quarrykeeper`, which is the Armored Rhino. The real figure is 53 of 69 families with no idle voice. The comment now names both halves of the gap and the test counts it against content.
+3. **Four check-script defects** that were reporting the game as broken when it was not, or the reverse: the melee assertion counted the *enemy's* misses as player contacts; the travel check fired the return portal during the outgoing curtain and got a real `BUSY`; it also asserted the loop set before the outgoing beds had faded; and the death check raced the respawn. Details in the slice record.
+
+## Not fixed, and why
+
+- **Melee audio trails the visible contact by ~50 ms.** Measured twice, consistently. Audio lagging video is the benign direction, and moving the cue onto the rig marker would sound a hit before the simulation knows whether it landed. Recorded rather than fudged.
+- **A spell's first cast schedules 34 ms after its launch event**, against 9 ms for the second. That is the first decode of the file; pre-warming is a loading-slice decision.
+- **Music beds have 0.1 – 2.5 s of edge silence**, so each repeat has a hole in it. `loopStart`/`loopEnd` were tried at the measured silence boundaries and made the seam worse (9.6 → 23.9 dB on `starter-plains`) because the boundary is inside the fade-in. A musical loop point needs ears.
+- **21 of 94 source files decode above full scale.** That is in the masters and cannot be undone by a gain. No cue clips the bus.
+- **An enemy melee miss is silent** while the player's plays a whoosh. A design decision outside this slice.
+
+## Source substitutions still awaiting a decision
+
+`docs/audio-source-animals.md` records these as label-based selections. Objective measurement this round adds:
+
+| Cue | Measured | Status |
+| --- | --- | --- |
+| `creature.hen_cluck` | 1051 / 1604 Hz, in band | CC0 chicken candidates prepared under `audio-candidates/`, not installed. |
+| `creature.coney_squeak` | 920 / 1011 Hz — below the squeak band | CC0 rabbit candidates prepared, not installed. Shared with the Gravelmaw rat, so a change affects both. |
+| `creature.stag_bell` | 292 / 259 Hz, consistent with a rut bellow | From generic monster roars. Freesound 407631 identified last round but not downloaded: the page 403'd and its description links a video, so authorship needs verifying. |
+| `creature.viper_hiss` | 2016 / 2293 Hz, broadband, in band | From clips labelled `breath`. No suitable replacement exists: Acoustic Atlas' snake is NC/ND, qubodup's SNAKE is a human imitation under CC-BY-3.0. Keep. |
+| `creature.coyote_howl` | in band for a canid | Also carries Dire Wolf and Forest Wolf. |
+| `creature.bear_roar` (`bear-roar-01`) | 129 Hz, 85% sub-150 Hz | Outside the growl/roar band. Rumble or roar is a listening call. |
+| Rhino and ogre bosses | no cue at all | Seven boss families with no rights-traced recording of anything close. Needs a source decision or an explicit "stays silent". |
+
+## Reproduce
+
+```
+npx tsx runs/corealm-rebuild/checks/audio-file-review.ts
+npx tsx runs/corealm-rebuild/checks/audio-timing-browser.ts  --case chop|mine|melee|spell|fish
+npx tsx runs/corealm-rebuild/checks/audio-actions-browser.ts --case travel|death|kills|mix
+npx tsx runs/corealm-rebuild/checks/audio-output-browser.ts  --case species|ambience|contacts
+npx tsx runs/corealm-rebuild/checks/audio-spatial-browser.ts
+npx vitest run tests/audioEngine.test.ts tests/audioCatalog.test.ts tests/audio-combat-timing.test.ts tests/audio-travel.test.ts tests/audioSettings.test.ts
+```
+
+All audio checks resolve their server through `audioCheckUrl()`: `--url`, then `COREALM_URL`, then 4186. They need `ffmpeg` and `ffprobe` on PATH. Evidence goes to ignored `test-results/`; raw webm captures are deleted once their MP3 listening copy exists.
