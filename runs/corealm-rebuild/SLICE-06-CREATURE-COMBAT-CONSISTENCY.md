@@ -1,54 +1,94 @@
 # Slice 06 — Creature combat consistency
 
-Branch `finish/slice-06-combat-consistency`, rebased onto `main` at 6e383f2 (slice 04 merged, 404
-manifest assets). Port 4182. All browser work ran on the RTX 5080 hardware renderer
+Branch `finish/slice-06-combat-consistency`, rebased onto `main` at bcaba21 (slices 04, 09 and 10
+merged, 404 manifest assets). Port 4182. All browser work ran on the RTX 5080 hardware renderer
 (`ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11)`), normal simulation time, no
 forced pose, health, damage, AI or clock, and every session hashed the bytes the server actually
 served against the candidate catalogue.
 
 ## The chase speed defect
 
-`content/index.ts` states the rule as hard rather than advisory: an animal's `moveSpeedMps` is
-SOLVED from its own walk cycle,
+`render/entityViews.ts` retimes a gait to the ground it covers, so asking a creature for more speed
+than its cycle can carry does not slide its feet - it spins them. `systems/enemyAI.ts` stepped
+every chase and every walk home at one shared `CREATURE_RUN_SPEED` of 4.68 m/s regardless of what
+the creature's own cycle could carry. Measured against the shipped stride metadata, 21 of the 53
+spawned world residents were over the run cadence ceiling, and the same again on the return leg:
 
-    moveSpeedMps <= MAX_WALK_CADENCE_HZ * impliedWalkMps * walkClipSeconds
-
-so its legs never cycle past the ceiling. `systems/enemyAI.ts` then stepped every chase and every
-walk home at one shared `CREATURE_RUN_SPEED` of 4.68 m/s and discarded the solution.
-
-Measured against the shipped stride metadata, 21 of the 53 spawned roster rows were over the run
-ceiling, and the same again on the return leg:
-
-| resident | native run stride | cadence at 4.68 m/s | cadence at its own speed |
+| resident | native run stride | cadence at 4.68 m/s | cadence at its own ceiling |
 | --- | --- | --- | --- |
-| `reedbank_goose_residents` | 0.433 m/s | 20.25 Hz | 2.16 Hz |
-| `slateback_tortoise_residents` | 0.168 m/s | 15.44 Hz | 1.49 Hz |
-| `kiln_salamander_residents` | 0.373 m/s | 15.07 Hz | 2.90 Hz |
-| `gravelmaw_ch2_scorpions` | 0.310 m/s | 10.84 Hz | 2.78 Hz |
-| `redsill_frogs` | 0.300 m/s | 9.25 Hz | 1.56 Hz |
-| `marchfield_coneys` | 1.312 m/s | 9.15 Hz | 1.58 Hz |
+| `reedbank_goose_residents` | 0.433 m/s | 20.25 Hz | 0.66 m/s |
+| `slateback_tortoise_residents` | 0.168 m/s | 15.44 Hz | 0.86 m/s |
+| `kiln_salamander_residents` | 0.373 m/s | 15.07 Hz | 0.88 m/s |
+| `gravelmaw_ch2_scorpions` | 0.310 m/s | 10.84 Hz | 0.56 m/s |
+| `redsill_frogs` | 0.300 m/s | 9.25 Hz | 1.44 m/s |
+| `marchfield_coneys` | 1.312 m/s | 9.15 Hz | 1.46 m/s |
 
-The roster had already been retuned once for exactly this. The `moveSpeedMps` comment records a
-coney at 3.94 Hz, a frog at 3.62 and a goat at 3.35, "all at zero foot slide, and all reported from
-play as feet moving rapidly and jittering". A goose at 20.3 Hz is five times that.
+The roster had already been retuned once for exactly this. The `EnemyDef.moveSpeedMps` comment
+records a coney at 3.94 Hz, a frog at 3.62 and a goat at 3.35, "all at zero foot slide, and all
+reported from play as feet moving rapidly and jittering". A goose at 20.3 Hz is five times that.
 
-`enemyPursuitSpeedMps` (`game/src/content/index.ts`) keeps the authored solution and caps it at the
-shared speed. The shared speed stays the ceiling and the fallback, for the rigs with no stride to
-solve from. Checked across the post-slice-04 roster: exactly 3 of 53 rows take the shared speed,
-and they are exactly the 3 rows with no `impliedWalkMps` — the reavers, who wear `outfit_*` assets
-with no animations and borrow the player's `Jog_Fwd_Loop`, played at `runPresentationScale` rather
-than retimed to a stride. Slowing them only clamps the jog and starts the feet skating.
+### Solved from the run clip, after a first attempt solved it from the wrong one
 
-A creature now also walks home at the speed it chased at. Returning faster than you can chase was
-an artefact of `ENEMY_RETURN_SPEED_MPS` being redefined to `CREATURE_RUN_SPEED` while
-`ENEMY_SPEED_MPS` stayed at 3.1, and it is what pushed the return leg over the ceiling first — the
-"19 residents, return gait only" signature reported from slice 04.
+The first fix here capped the chase with `EnemyDef.moveSpeedMps`. That was wrong, and it was caught
+in review before merge. `moveSpeedMps` is solved off the WALK cycle and belongs to pottering; the
+chase plays the RUN cycle. Capping one with the other measures a cadence nothing plays - the same
+category of mistake as stepping a walk at the run speed.
+
+The cost was not a slower monster but no monster. It put 109 of the 118 spawnable enemies under the
+player's 5.2 m/s and 103 under 3 m/s: every goblin and skeleton at 1.60, both zombies at 1.20, the
+stone and iron golems at 1.30, and Ordrun - a boss - at 2.11. A player who simply walked away could
+not have been caught by anything in the bestiary.
+
+`CREATURE_PURSUIT_CEILING_MPS` in `content/creatureMotionTiming.ts` solves the bound off the clip
+that actually plays, `3 Hz * impliedRunMps * runClipSeconds`, and `enemyPursuitSpeedMps` applies it.
+Off the run cycle the ceiling barely binds a hunter at all:
+
+| enemy | resolved pursuit | enemy | resolved pursuit |
+| --- | --- | --- | --- |
+| goblin scout / archer / shaman | 4.68 | stone / iron golem | 4.68 |
+| skeleton soldier / archer / mage | 4.68 | lava golem, beetle golem | 4.68 |
+| grave ghoul | 4.68 | plague zombie | 4.68 |
+| wraith, banshee, revenant | 4.68 | mossback sentinel | 4.22 |
+| every boss and miniboss, Ordrun included | 4.68 | zombie (tier 1) | 3.46 |
+| | | webweaver spider | 2.76 |
+
+18 of 80 blocks now resolve under 3 m/s, against 103 of 118 under the walk-solved cap, and they are
+the geese, tortoises, crabs, frogs, hens and coneys - ambient fauna whose slowness is a fact about
+their bodies. Only two hunters come under the shared speed at all: the shambling zombie, which
+should be slower than a sprint, and the webweaver spider.
+
+The stored ceilings are native, so they are scaled by the same factor the renderer scales the drawn
+stride by - `view.scale * tierSilhouetteScale(tier) * scaleAxes[2]` - times the smallest `buildFor`
+variation, since that one is hashed per individual and content cannot see it. A hen solving exactly
+to the ceiling landed at 3.0009 Hz, so the cap leaves one percent of headroom: the ceiling is a
+must-not-exceed, not a target.
+
+Assets with no measured stride are omitted from the table and keep the shared speed, which retired
+the hand-kept family list the first attempt needed. The floating undead, the viper and the
+`outfit_*` raiders now fall out of one rule: no planted foot, no contact to slide. The rat and the
+snail are omitted on the artefact footing `tests/creature-gait.test.ts` already excludes them on.
+
+### Three pins against a repeat
+
+Added to `tests/creature-gait.test.ts`, and each verified by injecting the mistake it guards:
+
+- the ceiling table is checked entry by entry against the manifest, off the clip the chase plays.
+  A walk-derived table trips it.
+- every boss and miniboss must keep the full shared speed. Capping with `moveSpeedMps` trips it and
+  names all seven.
+- every bestiary monster must outpace a walking player. Those monsters spawn outside the region
+  enemy groups, so nothing else in the file covered them; capping with `moveSpeedMps` trips it and
+  names each one at 1.20-1.60 against a 1.6 m/s walk.
+
+A creature also now walks home at the speed it chased at. Returning faster than you can chase was an
+artefact of `ENEMY_RETURN_SPEED_MPS` being redefined to `CREATURE_RUN_SPEED` while `ENEMY_SPEED_MPS`
+stayed at 3.1, and it is what pushed the return leg over the ceiling first - the "19 residents,
+return gait only" signature reported from slice 04.
 
 `fb5c839` ("Preserve gait on retarget") was ruled out as the cause. It touches `input/mouse.ts`,
-`render/overlays.ts` and `systems/movement.ts` — the PLAYER's navigation retarget — and no file on
+`render/overlays.ts` and `systems/movement.ts` - the PLAYER's navigation retarget - and no file on
 the creature gait path: not `enemyAI.ts`, `app/config.ts`, `render/entityViews.ts`, the manifest or
-the test. No cadence ceiling was raised and no asset metadata was touched; the fix is entirely in
-which speed the simulation moves a creature at.
+the test. No cadence ceiling was raised and no asset metadata was touched.
 
 ## Rhino attack and recoil
 
@@ -176,9 +216,10 @@ None of these are known defects. They are uncollected evidence, and each needs a
 
 - `game/src/systems/enemyAI.ts` — two `stepToward` call sites routed through
   `enemyPursuitSpeedMps`, plus the `ENEMY_RETURN_SPEED_MPS` doc comment. Nothing else.
-- `game/src/content/index.ts` — added `enemyPursuitSpeedMps` and `SHARED_RIG_FAMILIES`, beside the
-  `moveSpeedMps` invariant they enforce. Not a restricted file.
-- `game/src/content/creatureMotionTiming.ts` — the three rhino contact markers. Not restricted.
+- `game/src/content/index.ts` — added `enemyPursuitSpeedMps`. Not a restricted file.
+- `game/src/content/creatureMotionTiming.ts` — the three rhino contact markers and
+  `CREATURE_PURSUIT_CEILING_MPS`, beside the per-asset motion facts it already holds. Not
+  restricted.
 - `game/public/assets/manifest.json` — only via `tools/promote-finish-assets.ts --apply`.
 - `content/enemies.ts`, `items.ts`, `equipment.ts`, `recipes.ts`, `regions.ts`, `contracts.ts`,
   `app/boot.ts`, `world/regionBuilder.ts`, `systems/combat.ts`, `render/entityViews.ts` and the save
