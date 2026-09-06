@@ -377,7 +377,10 @@ export class EnemyAiSystem implements TickSystem {
     if (typeof groupId !== "string" || !groupId.startsWith("pack_")) return null;
     const habitat = this.habitat(entity);
     if (!habitat) return null;
-    return { ...habitat, radius: Math.max(0.5, habitat.radius - (entity.combat?.bodyRadius ?? 0) - 0.45) };
+    // The habitat confines idle roaming, not retaliation. A sword or spell can reach across
+    // its edge. Give pursuit a full combat leash beyond that edge; the spawn leash still
+    // caps the creature's actual travel at LEASH_METRES.
+    return { ...habitat, radius: habitat.radius + LEASH_METRES };
   }
 
   private habitat(entity: SemanticEntity): HabitatDef | null {
@@ -539,8 +542,8 @@ export class EnemyAiSystem implements TickSystem {
   private nudge(entity: SemanticEntity, dx: number, dz: number): void {
     const from = entity.position;
     const wanted: Vec3 = [from[0] + dx, from[1], from[2] + dz];
-    const habitat = this.pursuitHabitat(entity)
-      ?? (this.records.get(entity.id)?.mode === "idle" ? this.habitat(entity) : null);
+    const habitat = this.records.get(entity.id)?.mode === "idle"
+      ? this.habitat(entity) : this.pursuitHabitat(entity);
     const snapped = habitat ? this.snapHabitatStep(wanted, habitat) : this.snapStep(wanted);
     // No `faceDirection` here on purpose: a creature being shoved aside is still looking at what it
     // is chasing, and turning it to face the shove is what made the animals spin.

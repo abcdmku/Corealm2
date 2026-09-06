@@ -284,8 +284,9 @@ describe("authored enemy habitat behavior", () => {
     });
   });
 
-  it("does not push an idle animal beyond its habitat edge while making room for a neighbour", () => {
-    const habitat = habitats.habitatForGroup("open_march_goats")!;
+  it.each(["open_march_goats", "pack_test"])("keeps idle %s inside its habitat during separation", groupId => {
+    const habitat = { ...habitats.habitatForGroup("open_march_goats")!, groupId };
+    vi.spyOn(habitats, "habitatForGroup").mockReturnValue(habitat);
     const edge: Vec3 = [habitat.centre[0] + habitat.radius - 0.01, 0, habitat.centre[1]];
     const actor = enemy(habitat, "edge_goat", [...edge]);
     const neighbour = enemy(habitat, "inner_goat", [edge[0] - 0.2, edge[1], edge[2]]);
@@ -322,7 +323,7 @@ describe("authored enemy habitat behavior", () => {
 
 
 describe("hostile pack pursuit boundary", () => {
-  it("disengages at the inset habitat edge and cannot be provoked from outside", () => {
+  it("retaliates across the idle habitat edge, then disengages beyond the combat leash", () => {
     const habitat: HabitatDef = { id: "test", groupId: "pack_test", regionId: "fallowmarch",
       centre: [-250, 30], radius: 6, activity: "patrol", anchors: [[-250, 30]], dressing: [] };
     vi.spyOn(habitats, "habitatForGroup").mockReturnValue(habitat);
@@ -334,10 +335,17 @@ describe("hostile pack pursuit boundary", () => {
     sim.advance(1_000);
     expect(sim.ai.modeOf(actor.id)).toBe("aggro");
     sim.state.player.position = [-243, 0, 30];
-    sim.advance(5_000, () => expect(distance(actor.position, point(habitat.centre))).toBeLessThanOrEqual(5.05));
+    sim.advance(2_000);
+    expect(sim.state.combat.engagedBy).toContain(actor.id);
+    expect(distance(actor.position, point(habitat.centre))).toBeGreaterThan(5.05);
+    sim.state.player.position = [-210, 0, 30];
+    sim.advance(5_000);
     expect(sim.state.combat.engagedBy).not.toContain(actor.id);
     expect(sim.ai.modeOf(actor.id)).toBe("idle");
-    sim.ai.provoke(actor.id, 6_000);
+    sim.ai.provoke(actor.id, 8_000);
     expect(sim.ai.modeOf(actor.id)).toBe("idle");
+    sim.state.player.position = [-243, 0, 30];
+    sim.ai.provoke(actor.id, 8_000);
+    expect(sim.ai.modeOf(actor.id)).toBe("aggro");
   });
 });

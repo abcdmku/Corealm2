@@ -1,6 +1,7 @@
 import type { RegionId } from "../contracts.js";
 import { REGIONAL_PACKS, type RegionalPackRegionId } from "./regionalPacks.js";
 import type { RpgPackAssignmentOverrides } from "./rpgRegionalPacks.js";
+import { STARTER_GROUPS } from "./starterHabitats.js";
 
 /**
  * Root acceptance decision for the final-world regional pack population.
@@ -27,6 +28,9 @@ export const REGIONAL_PACK_ACTIVATION: RegionalPackActivation = {
   // the main thing holding Vellenwood.
   regions: ["fallowmarch"],
   excludedPackIds: [
+    // These pockets are already populated by the accepted starter encounters. Do not
+    // assemble a second regional-pack population over the same stable group IDs.
+    ...STARTER_GROUPS.filter(group => REGIONAL_PACKS.some(pack => pack.id === group.id)).map(group => group.id),
     // Failed its lifecycle. Its sibling pack_fallowmarch_palewood_east_brush proves the same
     // zombie-in-a-burial-shrine combination, so the region does not lose that coverage.
     "pack_fallowmarch_northgate_west_scrub",

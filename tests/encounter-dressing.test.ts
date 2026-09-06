@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import MANIFEST from "../game/public/assets/manifest.json";
 import { encounterSetting } from "../game/src/content/encounterDressing.js";
 import { RPG_BESTIARY } from "../game/src/content/rpgBestiary.js";
+import { STARTER_CREATURES } from "../game/src/content/starterCreatures.js";
 import { createRpgRegionalPackCatalogue } from "../game/src/content/rpgRegionalPacks.js";
 import { tierSilhouetteScale } from "../game/src/core/math.js";
 import { regionalPackDressingSite } from "../game/src/world/regionalPackDressing.js";
@@ -9,7 +10,10 @@ import { regionalPackDressingSite } from "../game/src/world/regionalPackDressing
 const assets = new Map(MANIFEST.assets.map((row) => [row.id, row]));
 const catalogue = createRpgRegionalPackCatalogue((id) => {
   const species = RPG_BESTIARY.find((row) => row.assetId === id);
-  if (!species) return null;
+  if (!species) {
+    const asset = assets.get(id);
+    return asset?.base ? { size: asset.size, base: asset.base } : null;
+  }
   return { size: { x: species.nativeSize[0], y: species.nativeSize[1], z: species.nativeSize[2] },
     base: { x: species.nativeBase[0], y: species.nativeBase[1], z: species.nativeBase[2] } };
 });
@@ -17,7 +21,10 @@ const catalogue = createRpgRegionalPackCatalogue((id) => {
 describe("purposeful RPG encounter settings", () => {
   it("assigns camps, burial sites, workings and roosts without dressing the retained wildlife", () => {
     const dressed = catalogue.habitats.filter((habitat) => habitat.dressing.length);
-    expect(dressed).toHaveLength(81);
+    expect(dressed.length).toBeLessThan(81);
+    for (const pack of catalogue.packs.filter(pack => STARTER_CREATURES.some(row => row.id === pack.speciesId))) {
+      expect(catalogue.habitats.find(row => row.groupId === pack.id)!.dressing).toEqual([]);
+    }
     expect(encounterSetting("goblin", [0, 0], 4).kind).toBe("supply-camp");
     expect(encounterSetting("zombie", [0, 0], 4).kind).toBe("burial-shrine");
     expect(encounterSetting("golem", [0, 0], 4).kind).toBe("stone-working");

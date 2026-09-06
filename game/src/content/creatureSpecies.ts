@@ -1,6 +1,7 @@
 import type { RegionId } from "../contracts.js";
 import type { EnemyDef } from "./index.js";
 import { CREATURE_EXPANSION } from "./creatureExpansion.js";
+import { STARTER_CREATURES } from "./starterCreatures.js";
 
 /** Production species can be tested before an encounter is placed in the authored world. */
 export interface CreatureSpeciesDef {
@@ -13,4 +14,4 @@ export interface CreatureSpeciesDef {
   readonly description: string;
 }
 
-export const CREATURE_SPECIES: readonly CreatureSpeciesDef[] = CREATURE_EXPANSION;
+export const CREATURE_SPECIES: readonly CreatureSpeciesDef[] = [...CREATURE_EXPANSION, ...STARTER_CREATURES];

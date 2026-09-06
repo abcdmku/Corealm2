@@ -5,6 +5,7 @@ import {
 } from "../game/src/content/regionalPackActivation.js";
 import { REGIONAL_PACKS } from "../game/src/content/regionalPacks.js";
 import { createRpgRegionalPackCatalogue } from "../game/src/content/rpgRegionalPacks.js";
+import { STARTER_GROUPS } from "../game/src/content/starterHabitats.js";
 
 interface ManifestAsset {
   readonly id: string;
@@ -22,6 +23,10 @@ const measure = (assetId: string) => {
 };
 
 describe("regional pack activation", () => {
+  it("does not duplicate pockets already populated by starter encounters", () => {
+    const ids = new Set(activatedRegionalPackIds());
+    for (const group of STARTER_GROUPS) expect(ids.has(group.id), group.id).toBe(false);
+  });
   it("activates only packs inside root-accepted regions and never through a query parameter", () => {
     const ids = activatedRegionalPackIds();
     const byId = new Map(REGIONAL_PACKS.map((pack) => [pack.id, pack]));

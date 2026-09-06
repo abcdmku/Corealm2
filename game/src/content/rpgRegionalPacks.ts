@@ -1,4 +1,5 @@
 import { RPG_BESTIARY_BY_ID } from "./rpgBestiary.js";
+import { CREATURE_SPECIES } from "./creatureSpecies.js";
 import { enemyCombatLevel } from "./index.js";
 import {
   REGIONAL_PACKS, REGIONAL_PACK_VARIANTS, type RegionalPackDef, type RegionalPackRegionId,
@@ -13,28 +14,28 @@ import type { RegionalPackCatalogue } from "../world/regionalPackEntities.js";
  * the wildlife already authored there. These assignments stage RPG occupants, not public assets. */
 const assignments: Readonly<Record<RegionalPackRegionId, readonly (string | null)[]>> = {
   fallowmarch: [
-    "goblin_archer", "goblin_scout", null, "goblin_scout", "goblin_shaman", "goblin_archer",
-    "zombie", "goblin_shaman", "goblin_scout", "goblin_scout", "goblin_scout", null,
-    null, "goblin_scout", "goblin_archer", null, "zombie", "zombie", "goblin_scout",
-    null, "goblin_archer", "zombie", "goblin_scout", "goblin_shaman",
+    "goblin_archer", "grass_viper", null, "goblin_scout", "goblin_shaman", "field_wasp",
+    "creek_crab", "briar_spider", "granary_rat", "grass_viper", "granary_rat", null,
+    null, "field_wasp", "granary_rat", null, "briar_spider", "grass_viper", "granary_rat",
+    null, "creek_crab", "creek_crab", "field_wasp", "briar_spider",
   ],
   vellenwood: [
-    "skeleton_soldier", null, "skeleton_soldier", "skeleton_archer", "grave_ghoul", null,
-    "skeleton_soldier", "grave_ghoul", "wraith", "skeleton_archer", "wraith", "skeleton_archer",
-    "skeleton_soldier", null, "wraith", "wraith", "skeleton_soldier", "wraith", null,
-    "wraith", "grave_ghoul", "skeleton_archer", "skeleton_archer", "skeleton_soldier",
+    "webweaver_spider", null, "skeleton_soldier", "duskoak_lynx", "marsh_wasp", null,
+    "rootdelve_badger", "grave_ghoul", "wraith", "skeleton_archer", "bracken_tapir", "marsh_wasp",
+    "skeleton_soldier", null, "webweaver_spider", "wraith", "rootdelve_badger", "marsh_wasp", null,
+    "duskoak_lynx", "grave_ghoul", "webweaver_spider", "skeleton_archer", "bracken_tapir",
   ],
   karrowmoor: [
-    "stone_golem", "iron_golem", "iron_golem", "stone_golem", "iron_golem", "stone_golem",
-    null, "stone_golem", "stone_golem", "iron_golem", null, "stone_golem",
-    "stone_golem", "iron_golem", "iron_golem", null, "stone_golem", "iron_golem",
-    "iron_golem", null, "iron_golem", "stone_golem", "stone_golem", "stone_golem",
+    "stone_golem", "quillback_porcupine", "iron_golem", "slateback_tortoise", "cairn_bighorn", "stone_golem",
+    null, "antler_beetle", "stone_golem", "slateback_tortoise", null, "quillback_porcupine",
+    "stone_golem", "iron_golem", "slateback_tortoise", null, "cairn_bighorn", "antler_beetle",
+    "iron_golem", null, "quillback_porcupine", "stone_golem", "slateback_tortoise", "cairn_bighorn",
   ],
   kilnhalt: [
-    "skeleton_mage", "skeleton_mage", "revenant", "plague_zombie", "skeleton_mage", "revenant",
-    "fire_golem", "banshee", "fire_golem", null, "revenant", "skeleton_mage",
-    "skeleton_mage", "skeleton_mage", "banshee", null, "fire_golem", "skeleton_mage",
-    "skeleton_mage", "revenant", "plague_zombie", "banshee", "revenant", "revenant",
+    "skeleton_mage", "kiln_salamander", "revenant", "plague_zombie", "gorge_mantis", "cinder_ravager",
+    "fire_golem", "banshee", "basalt_drake", null, "revenant", "kiln_salamander",
+    "skeleton_mage", "gorge_mantis", "banshee", null, "fire_golem", "slag_centipede",
+    "kiln_salamander", "revenant", "plague_zombie", "banshee", "cinder_ravager", "basalt_drake",
   ],
 };
 
@@ -96,11 +97,13 @@ export function createRpgRegionalPackCatalogue(
       for (const member of original.members) variants.set(member.variantId, legacyVariants.get(member.variantId)!);
       return original;
     }
-    const species = RPG_BESTIARY_BY_ID.get(speciesId);
+    const species = RPG_BESTIARY_BY_ID.get(speciesId) ?? CREATURE_SPECIES.find(row => row.id === speciesId);
     if (!species || species.regionId !== original.regionId) throw new Error(`Invalid RPG pack species: ${speciesId}`);
     const model = measurement(species.assetId);
     if (!model || !Object.values(model.size).every((value) => Number.isFinite(value) && value > 0)
       || !Object.values(model.base).every(Number.isFinite)) throw new Error(`RPG pack requires measured model: ${species.assetId}`);
+    const wildlife = CREATURE_SPECIES.some(row => row.id === speciesId);
+    const residents = wildlife ? original.members.slice(0, 3) : original.members;
     const maxScale = species.scale * tierSilhouetteScale(species.stats.tier) * 1.04;
     const bodyRadius = Math.max(model.size.x, model.size.z) * maxScale / 2;
     const visualRadius = Math.hypot(
@@ -110,16 +113,16 @@ export function createRpgRegionalPackCatalogue(
     const ring = original.radius - visualRadius - 0.6;
     if (ring <= 0) throw new Error(`RPG pack model exceeds habitat: ${original.id}/${speciesId}`);
     const phase = (hashId(original.id) % 360) * Math.PI / 180;
-    const anchors = original.members.map((_, index) => {
-      const angle = phase + index * Math.PI * 2 / original.members.length;
+    const anchors = residents.map((_, index) => {
+      const angle = phase + index * Math.PI * 2 / residents.length;
       return [original.centre[0] + Math.cos(angle) * ring, original.centre[1] + Math.sin(angle) * ring] as const;
     });
     for (let a = 0; a < anchors.length; a++) for (let b = a + 1; b < anchors.length; b++) {
       if (Math.hypot(anchors[a]![0] - anchors[b]![0], anchors[a]![1] - anchors[b]![1]) < bodyRadius * 2 + 0.3)
         throw new Error(`RPG pack bodies overlap: ${original.id}/${speciesId}; author a larger pocket or smaller resident count`);
     }
-    const members = original.members.map((member, index) => {
-      const step = index === original.members.length - 1 ? 2 : index === 1 ? 1 : 0;
+    const members = residents.map((member, index) => {
+      const step = index === residents.length - 1 ? 2 : index === 1 ? 1 : 0;
       const rank = (["ordinary", "seasoned", "mature"] as const)[step]!;
       const id = `${species.stats.id}_pack_${rank}`;
       variants.set(id, { id, baseEnemyDefId: species.stats.id, rank, scaleMultiplier: 1 + step * 0.02,
@@ -132,7 +135,7 @@ export function createRpgRegionalPackCatalogue(
     const levels = members.map((member) => enemyCombatLevel(variants.get(member.variantId)!.stats));
     return { ...original, speciesId, baseGroupId: `${speciesId}_residents`, baseEnemyDefId: species.stats.id,
       assetId: species.assetId, scale: species.scale, activity: species.activity, anchors, members,
-      rationale: `${species.stats.name} residents require ${species.habitat}. ${REGIONAL_PACK_LAYOUT[original.id]!.purpose}`,
+      rationale: `${species.description} ${wildlife ? "An undressed creature pocket." : REGIONAL_PACK_LAYOUT[original.id]!.purpose}`,
       placementRisks: [...original.placementRisks, "RPG models and encounter dressing are candidates until production lab acceptance."],
       levelRange: [Math.min(...levels), Math.max(...levels)],
     };
@@ -146,6 +149,6 @@ export function createRpgRegionalPackCatalogue(
     }),
     habitats: packs.map((pack) => ({ id: `${pack.id}_habitat`, groupId: pack.id, regionId: pack.regionId,
       centre: pack.centre, radius: pack.radius, anchors: pack.anchors, activity: pack.activity,
-      dressing: REGIONAL_PACK_LAYOUT[pack.id]!.dressing })),
+      dressing: CREATURE_SPECIES.some(row => row.id === pack.speciesId) ? [] : REGIONAL_PACK_LAYOUT[pack.id]!.dressing })),
   };
 }

@@ -10,6 +10,10 @@
 *.tga
 *.TGA
 *.png
+!whole-insects/textures/harpy-plumage.png
+!whole-insects/textures/harpy-plumage-normal.png
+!whole-insects/textures/wasp-wing-pearl.png
+!whole-insects/textures/starter-scales.png
 *.jpg
 *.jpeg
 *.zip

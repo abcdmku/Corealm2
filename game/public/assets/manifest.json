@@ -25154,8 +25154,8 @@
         "rpg",
         "marsh_wasp"
       ],
-      "bytes": 1194004,
-      "sha256": "b4877cf2f8164da857901e510d0ed9747eb1a2be888bda037bdbffcb2139f7d3",
+      "bytes": 11976144,
+      "sha256": "4c21f1e630b939322cc3d9623f67da7d759aaf13be65323050eff85811f610cd",
       "size": {
         "x": 1.2000000000000006,
         "y": 1.882373445392276,
@@ -25167,7 +25167,7 @@
         "z": -0.751139447183798
       },
       "groundY": 0,
-      "triangles": 5528,
+      "triangles": 3984,
       "animations": [
         "Idle",
         "Walk",
@@ -25181,7 +25181,8 @@
       "materials": [
         "animal_rpg_marsh_wasp_Yellow",
         "animal_rpg_marsh_wasp_LightBlue",
-        "animal_rpg_marsh_wasp_Orange"
+        "animal_rpg_marsh_wasp_Orange",
+        "wasp_dark_eyes"
       ],
       "walkClipSeconds": 1.5,
       "runClipSeconds": 0.9090909090909092,
@@ -25475,7 +25476,37 @@
           "sharedByEncodedSha256": true,
           "originalsPreserved": true
         },
-        "grounding": "Preserve the original complete wasp flight altitude."
+        "grounding": "Preserve the original complete wasp flight altitude.",
+        "waspAppearance": {
+          "direction": "Fine blue-violet scales and filaments, translucent sparkling fractal wings, small dark purple eyes with muted wine-red irises",
+          "textureSource": "tools/rpg-bestiary/whole-insects/textures/harpy-plumage.png",
+          "generator": "tools/rpg-bestiary/whole-insects/texture-wasp.mjs",
+          "geometryAndMotionPreserved": false,
+          "material": {
+            "roughness": 0.46,
+            "metalness": 0.08,
+            "clearcoat": 0.28,
+            "clearcoatRoughness": 0.38,
+            "iridescence": 0.24
+          },
+          "mapping": "11 connected body components, principal-axis UVs with corrected triangle seams",
+          "normals": "Area-weighted body smoothing across coincident corners, preserving sharp folds",
+          "sourceAnimationPreserved": true,
+          "eyes": {
+            "scale": 0.42,
+            "colour": "dark purple with muted wine-red iris"
+          },
+          "wings": {
+            "opacity": 0.48,
+            "iridescence": 0.85,
+            "raisedVeinsRemoved": true,
+            "texture": "tools/rpg-bestiary/whole-insects/textures/wasp-wing-pearl.png",
+            "pairs": 2,
+            "rearScale": 0.78,
+            "rearAngleRadians": -0.55
+          },
+          "normalTexture": "tools/rpg-bestiary/whole-insects/textures/harpy-plumage-normal.png"
+        }
       },
       "acceptance": {
         "exported": true,
@@ -31245,6 +31276,1164 @@
         0,
         0
       ]
+    },
+    {
+      "id": "creature_field_wasp",
+      "file": "models/creature/creature_field_wasp.glb",
+      "pack": "corealm-rpg-quaternius-easy-enemies",
+      "category": "character",
+      "is": "field wasp",
+      "tags": [
+        "creature",
+        "rpg",
+        "starter",
+        "moss green"
+      ],
+      "bytes": 11411648,
+      "sha256": "9b7d71864a04c17ec21ccd5a818755a073d413226fa2724edbd7cb4bc210a21d",
+      "size": {
+        "x": 0.8160000000000005,
+        "y": 1.2800139428667479,
+        "z": 1.6883166405778758
+      },
+      "base": {
+        "x": -0.3920144232644707,
+        "y": 0.2575945566450013,
+        "z": -0.5107748240849826
+      },
+      "groundY": 0,
+      "triangles": 3984,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_marsh_wasp_Yellow",
+        "animal_rpg_marsh_wasp_LightBlue",
+        "animal_rpg_marsh_wasp_Orange",
+        "wasp_dark_eyes"
+      ],
+      "walkClipSeconds": 1.5,
+      "runClipSeconds": 0.9090909090909092,
+      "attackSeconds": 0.75,
+      "contactNormalized": 0.4444444444444444,
+      "sourceProvenance": {
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "source": "https://quaternius.itch.io/animated-easy-enemies",
+        "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+        "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Wasp.fbx",
+        "sourceSha256": "ba312b82400745237d5cb638cc265214f87a7b2cf05eb03190ced7118d95847a",
+        "modifications": "Complete source body, rig, native animation and UVs retained; wing contour, vertex palette and skinned veins revised by fantasy-wasp.mjs. uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
+        "fantasyRevision": {
+          "design": "Jade and bronze marsh wasp with amber-edged, lightly scalloped pointed membranes and paired branching wing veins",
+          "sourceBodyPreserved": true,
+          "sourceRigPreserved": true,
+          "sourceAnimationPreserved": true,
+          "sourceUvState": "Source has no UV attribute; vertex colors used",
+          "originalVertices": 11208,
+          "originalTriangles": 3736,
+          "changedOriginalVertices": 552,
+          "changedOriginalTriangles": 200,
+          "vertexColorVertices": 16584,
+          "changedOriginalRegion": "Wing membrane positions and wing normals only; body positions/normals and all original skin influences unchanged",
+          "addedVertices": 5376,
+          "addedTriangles": 1792,
+          "veinStrands": 28,
+          "surfaceProjectionMisses": 0,
+          "finalVertices": 16584,
+          "finalTriangles": 5528,
+          "materialGroups": 4,
+          "materialPbr": [
+            {
+              "name": "Yellow",
+              "roughness": 0.51,
+              "metalness": 0.19
+            },
+            {
+              "name": "Black",
+              "roughness": 0.51,
+              "metalness": 0.19
+            },
+            {
+              "name": "LightBlue",
+              "roughness": 0.48,
+              "metalness": 0.08
+            },
+            {
+              "name": "Orange",
+              "roughness": 0.43,
+              "metalness": 0.32
+            }
+          ],
+          "transmission": false,
+          "addedTextures": 0
+        },
+        "sourceSkinRepair": {
+          "method": "Mirror the exact opposite-side control point weights onto the four duplicates of one unweighted source point",
+          "orphanVertices": [
+            6640,
+            6643,
+            6700,
+            6703
+          ],
+          "mirrorVertex": 1033,
+          "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
+          "influences": [
+            {
+              "bone": "Abdomen",
+              "weight": 0.02303488925099373
+            },
+            {
+              "bone": "BottomLeg1R",
+              "weight": 0.4854068160057068
+            },
+            {
+              "bone": "MidLeg1R",
+              "weight": 0.18748067319393158
+            },
+            {
+              "bone": "TopLeg1R",
+              "weight": 0.3040776252746582
+            }
+          ],
+          "changesPositions": false,
+          "changesClips": false
+        },
+        "materialTranslation": {
+          "from": "MeshPhongMaterial",
+          "to": "MeshStandardMaterial",
+          "preserved": [
+            "color",
+            "opacity",
+            "transparent",
+            "side",
+            "alphaTest",
+            "depthWrite",
+            "vertexColors",
+            "map"
+          ],
+          "roughness": "Per-material fantasyPbr overrides",
+          "metalness": "Per-material fantasyPbr overrides",
+          "transmission": false
+        },
+        "floorLift": {
+          "track": "insect_floor.position",
+          "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
+          "clearanceMeters": 0.003,
+          "changesSourceGeometry": false
+        }
+      },
+      "metadata": {
+        "family": "wasp",
+        "height": 1.882373445392276,
+        "dimensions": [
+          1.2000000000000006,
+          1.882373445392276,
+          2.4828185890851113
+        ],
+        "rig": "whole-source-39-joint",
+        "attackContact": 0.4444444444444444,
+        "attackContactSource": "Measured maximum forward world-z of original Sting_end bone over 181 original Attack samples",
+        "source": "Quaternius Easy Enemy Pack complete body and original skeletal animation",
+        "license": "CC0-1.0",
+        "provenance": {
+          "author": "Quaternius",
+          "license": "CC0-1.0",
+          "source": "https://quaternius.itch.io/animated-easy-enemies",
+          "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+          "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Wasp.fbx",
+          "sourceSha256": "ba312b82400745237d5cb638cc265214f87a7b2cf05eb03190ced7118d95847a",
+          "modifications": "Complete source body, rig, native animation and UVs retained; wing contour, vertex palette and skinned veins revised by fantasy-wasp.mjs. uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
+          "fantasyRevision": {
+            "design": "Jade and bronze marsh wasp with amber-edged, lightly scalloped pointed membranes and paired branching wing veins",
+            "sourceBodyPreserved": true,
+            "sourceRigPreserved": true,
+            "sourceAnimationPreserved": true,
+            "sourceUvState": "Source has no UV attribute; vertex colors used",
+            "originalVertices": 11208,
+            "originalTriangles": 3736,
+            "changedOriginalVertices": 552,
+            "changedOriginalTriangles": 200,
+            "vertexColorVertices": 16584,
+            "changedOriginalRegion": "Wing membrane positions and wing normals only; body positions/normals and all original skin influences unchanged",
+            "addedVertices": 5376,
+            "addedTriangles": 1792,
+            "veinStrands": 28,
+            "surfaceProjectionMisses": 0,
+            "finalVertices": 16584,
+            "finalTriangles": 5528,
+            "materialGroups": 4,
+            "materialPbr": [
+              {
+                "name": "Yellow",
+                "roughness": 0.51,
+                "metalness": 0.19
+              },
+              {
+                "name": "Black",
+                "roughness": 0.51,
+                "metalness": 0.19
+              },
+              {
+                "name": "LightBlue",
+                "roughness": 0.48,
+                "metalness": 0.08
+              },
+              {
+                "name": "Orange",
+                "roughness": 0.43,
+                "metalness": 0.32
+              }
+            ],
+            "transmission": false,
+            "addedTextures": 0
+          },
+          "sourceSkinRepair": {
+            "method": "Mirror the exact opposite-side control point weights onto the four duplicates of one unweighted source point",
+            "orphanVertices": [
+              6640,
+              6643,
+              6700,
+              6703
+            ],
+            "mirrorVertex": 1033,
+            "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
+            "influences": [
+              {
+                "bone": "Abdomen",
+                "weight": 0.02303488925099373
+              },
+              {
+                "bone": "BottomLeg1R",
+                "weight": 0.4854068160057068
+              },
+              {
+                "bone": "MidLeg1R",
+                "weight": 0.18748067319393158
+              },
+              {
+                "bone": "TopLeg1R",
+                "weight": 0.3040776252746582
+              }
+            ],
+            "changesPositions": false,
+            "changesClips": false
+          },
+          "materialTranslation": {
+            "from": "MeshPhongMaterial",
+            "to": "MeshStandardMaterial",
+            "preserved": [
+              "color",
+              "opacity",
+              "transparent",
+              "side",
+              "alphaTest",
+              "depthWrite",
+              "vertexColors",
+              "map"
+            ],
+            "roughness": "Per-material fantasyPbr overrides",
+            "metalness": "Per-material fantasyPbr overrides",
+            "transmission": false
+          },
+          "floorLift": {
+            "track": "insect_floor.position",
+            "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
+            "clearanceMeters": 0.003,
+            "changesSourceGeometry": false
+          }
+        },
+        "floorCorrection": {
+          "Idle": {
+            "samples": 121,
+            "maximumLift": 0
+          },
+          "Walk": {
+            "samples": 121,
+            "maximumLift": 0
+          },
+          "Run": {
+            "samples": 91,
+            "maximumLift": 0
+          },
+          "Attack": {
+            "samples": 61,
+            "maximumLift": 0
+          },
+          "Hit": {
+            "samples": 65,
+            "maximumLift": 0
+          },
+          "HitLeft": {
+            "samples": 65,
+            "maximumLift": 0
+          },
+          "HitRight": {
+            "samples": 65,
+            "maximumLift": 0
+          },
+          "Death": {
+            "samples": 61,
+            "maximumLift": 0.25642869756187514
+          }
+        },
+        "nativeMotion": {
+          "sourceClips": [
+            {
+              "name": "Armature|Wasp_Flying",
+              "duration": 1.5
+            },
+            {
+              "name": "Armature|Wasp_Death",
+              "duration": 0.75
+            },
+            {
+              "name": "Armature|Wasp_Attack",
+              "duration": 0.75
+            }
+          ],
+          "locomotion": "Armature|Wasp_Flying",
+          "runTimeScale": 1.65,
+          "mode": "airborne",
+          "uniformSourceScale": 0.006651728109105579,
+          "vertexCount": 16584
+        },
+        "animationAcceptance": "CPU candidate; production visual and contact review required",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "grounding": "Preserve the original complete wasp flight altitude.",
+        "waspAppearance": {
+          "direction": "Small moss green starter wasp with subdued wings",
+          "textureSource": "tools/rpg-bestiary/whole-insects/textures/starter-scales.png",
+          "generator": "tools/rpg-bestiary/whole-insects/texture-wasp.mjs",
+          "geometryAndMotionPreserved": false,
+          "material": {
+            "roughness": 0.72,
+            "metalness": 0,
+            "normalScale": 0.22,
+            "clearcoat": 0.08,
+            "iridescence": 0.04
+          },
+          "mapping": "11 connected body components, principal-axis UVs with corrected triangle seams",
+          "normals": "Area-weighted body smoothing across coincident corners, preserving sharp folds",
+          "sourceAnimationPreserved": true,
+          "eyes": {
+            "scale": 0.42,
+            "colour": "dark purple with muted wine-red iris"
+          },
+          "wings": {
+            "opacity": 0.35,
+            "iridescence": 0.12,
+            "raisedVeinsRemoved": true,
+            "texture": "tools/rpg-bestiary/whole-insects/textures/wasp-wing-pearl.png",
+            "pairs": 2,
+            "rearScale": 0.78,
+            "rearAngleRadians": -0.55
+          },
+          "normalTexture": "tools/rpg-bestiary/whole-insects/textures/harpy-plumage-normal.png"
+        },
+        "starterVariant": {
+          "id": "creature_field_wasp",
+          "name": "Field Wasp",
+          "colour": "moss green",
+          "tint": [
+            0.48,
+            0.62,
+            0.34
+          ],
+          "size": 0.68,
+          "sourceAssetId": "creature_marsh_wasp",
+          "sourceSha256": "4c21f1e630b939322cc3d9623f67da7d759aaf13be65323050eff85811f610cd",
+          "appearance": "Muted body, reduced sheen, smaller uniform rig wrapper"
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": true,
+        "worldIntegrated": true
+      }
+    },
+    {
+      "id": "creature_heath_wasp",
+      "file": "models/creature/creature_heath_wasp.glb",
+      "pack": "corealm-rpg-quaternius-easy-enemies",
+      "category": "character",
+      "is": "heath wasp",
+      "tags": [
+        "creature",
+        "rpg",
+        "starter",
+        "dusty brown"
+      ],
+      "bytes": 11411648,
+      "sha256": "6687517f1753cc5078d48879c2dca7488fc4431ec61fe6066ad1e290db65cb37",
+      "size": {
+        "x": 0.7440000000000003,
+        "y": 1.1670715361432111,
+        "z": 1.539347525232769
+      },
+      "base": {
+        "x": -0.3574249153293703,
+        "y": 0.23486562517632467,
+        "z": -0.46570645725395476
+      },
+      "groundY": 0,
+      "triangles": 3984,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_marsh_wasp_Yellow",
+        "animal_rpg_marsh_wasp_LightBlue",
+        "animal_rpg_marsh_wasp_Orange",
+        "wasp_dark_eyes"
+      ],
+      "walkClipSeconds": 1.5,
+      "runClipSeconds": 0.9090909090909092,
+      "attackSeconds": 0.75,
+      "contactNormalized": 0.4444444444444444,
+      "sourceProvenance": {
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "source": "https://quaternius.itch.io/animated-easy-enemies",
+        "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+        "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Wasp.fbx",
+        "sourceSha256": "ba312b82400745237d5cb638cc265214f87a7b2cf05eb03190ced7118d95847a",
+        "modifications": "Complete source body, rig, native animation and UVs retained; wing contour, vertex palette and skinned veins revised by fantasy-wasp.mjs. uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
+        "fantasyRevision": {
+          "design": "Jade and bronze marsh wasp with amber-edged, lightly scalloped pointed membranes and paired branching wing veins",
+          "sourceBodyPreserved": true,
+          "sourceRigPreserved": true,
+          "sourceAnimationPreserved": true,
+          "sourceUvState": "Source has no UV attribute; vertex colors used",
+          "originalVertices": 11208,
+          "originalTriangles": 3736,
+          "changedOriginalVertices": 552,
+          "changedOriginalTriangles": 200,
+          "vertexColorVertices": 16584,
+          "changedOriginalRegion": "Wing membrane positions and wing normals only; body positions/normals and all original skin influences unchanged",
+          "addedVertices": 5376,
+          "addedTriangles": 1792,
+          "veinStrands": 28,
+          "surfaceProjectionMisses": 0,
+          "finalVertices": 16584,
+          "finalTriangles": 5528,
+          "materialGroups": 4,
+          "materialPbr": [
+            {
+              "name": "Yellow",
+              "roughness": 0.51,
+              "metalness": 0.19
+            },
+            {
+              "name": "Black",
+              "roughness": 0.51,
+              "metalness": 0.19
+            },
+            {
+              "name": "LightBlue",
+              "roughness": 0.48,
+              "metalness": 0.08
+            },
+            {
+              "name": "Orange",
+              "roughness": 0.43,
+              "metalness": 0.32
+            }
+          ],
+          "transmission": false,
+          "addedTextures": 0
+        },
+        "sourceSkinRepair": {
+          "method": "Mirror the exact opposite-side control point weights onto the four duplicates of one unweighted source point",
+          "orphanVertices": [
+            6640,
+            6643,
+            6700,
+            6703
+          ],
+          "mirrorVertex": 1033,
+          "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
+          "influences": [
+            {
+              "bone": "Abdomen",
+              "weight": 0.02303488925099373
+            },
+            {
+              "bone": "BottomLeg1R",
+              "weight": 0.4854068160057068
+            },
+            {
+              "bone": "MidLeg1R",
+              "weight": 0.18748067319393158
+            },
+            {
+              "bone": "TopLeg1R",
+              "weight": 0.3040776252746582
+            }
+          ],
+          "changesPositions": false,
+          "changesClips": false
+        },
+        "materialTranslation": {
+          "from": "MeshPhongMaterial",
+          "to": "MeshStandardMaterial",
+          "preserved": [
+            "color",
+            "opacity",
+            "transparent",
+            "side",
+            "alphaTest",
+            "depthWrite",
+            "vertexColors",
+            "map"
+          ],
+          "roughness": "Per-material fantasyPbr overrides",
+          "metalness": "Per-material fantasyPbr overrides",
+          "transmission": false
+        },
+        "floorLift": {
+          "track": "insect_floor.position",
+          "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
+          "clearanceMeters": 0.003,
+          "changesSourceGeometry": false
+        }
+      },
+      "metadata": {
+        "family": "wasp",
+        "height": 1.882373445392276,
+        "dimensions": [
+          1.2000000000000006,
+          1.882373445392276,
+          2.4828185890851113
+        ],
+        "rig": "whole-source-39-joint",
+        "attackContact": 0.4444444444444444,
+        "attackContactSource": "Measured maximum forward world-z of original Sting_end bone over 181 original Attack samples",
+        "source": "Quaternius Easy Enemy Pack complete body and original skeletal animation",
+        "license": "CC0-1.0",
+        "provenance": {
+          "author": "Quaternius",
+          "license": "CC0-1.0",
+          "source": "https://quaternius.itch.io/animated-easy-enemies",
+          "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+          "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Wasp.fbx",
+          "sourceSha256": "ba312b82400745237d5cb638cc265214f87a7b2cf05eb03190ced7118d95847a",
+          "modifications": "Complete source body, rig, native animation and UVs retained; wing contour, vertex palette and skinned veins revised by fantasy-wasp.mjs. uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
+          "fantasyRevision": {
+            "design": "Jade and bronze marsh wasp with amber-edged, lightly scalloped pointed membranes and paired branching wing veins",
+            "sourceBodyPreserved": true,
+            "sourceRigPreserved": true,
+            "sourceAnimationPreserved": true,
+            "sourceUvState": "Source has no UV attribute; vertex colors used",
+            "originalVertices": 11208,
+            "originalTriangles": 3736,
+            "changedOriginalVertices": 552,
+            "changedOriginalTriangles": 200,
+            "vertexColorVertices": 16584,
+            "changedOriginalRegion": "Wing membrane positions and wing normals only; body positions/normals and all original skin influences unchanged",
+            "addedVertices": 5376,
+            "addedTriangles": 1792,
+            "veinStrands": 28,
+            "surfaceProjectionMisses": 0,
+            "finalVertices": 16584,
+            "finalTriangles": 5528,
+            "materialGroups": 4,
+            "materialPbr": [
+              {
+                "name": "Yellow",
+                "roughness": 0.51,
+                "metalness": 0.19
+              },
+              {
+                "name": "Black",
+                "roughness": 0.51,
+                "metalness": 0.19
+              },
+              {
+                "name": "LightBlue",
+                "roughness": 0.48,
+                "metalness": 0.08
+              },
+              {
+                "name": "Orange",
+                "roughness": 0.43,
+                "metalness": 0.32
+              }
+            ],
+            "transmission": false,
+            "addedTextures": 0
+          },
+          "sourceSkinRepair": {
+            "method": "Mirror the exact opposite-side control point weights onto the four duplicates of one unweighted source point",
+            "orphanVertices": [
+              6640,
+              6643,
+              6700,
+              6703
+            ],
+            "mirrorVertex": 1033,
+            "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
+            "influences": [
+              {
+                "bone": "Abdomen",
+                "weight": 0.02303488925099373
+              },
+              {
+                "bone": "BottomLeg1R",
+                "weight": 0.4854068160057068
+              },
+              {
+                "bone": "MidLeg1R",
+                "weight": 0.18748067319393158
+              },
+              {
+                "bone": "TopLeg1R",
+                "weight": 0.3040776252746582
+              }
+            ],
+            "changesPositions": false,
+            "changesClips": false
+          },
+          "materialTranslation": {
+            "from": "MeshPhongMaterial",
+            "to": "MeshStandardMaterial",
+            "preserved": [
+              "color",
+              "opacity",
+              "transparent",
+              "side",
+              "alphaTest",
+              "depthWrite",
+              "vertexColors",
+              "map"
+            ],
+            "roughness": "Per-material fantasyPbr overrides",
+            "metalness": "Per-material fantasyPbr overrides",
+            "transmission": false
+          },
+          "floorLift": {
+            "track": "insect_floor.position",
+            "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
+            "clearanceMeters": 0.003,
+            "changesSourceGeometry": false
+          }
+        },
+        "floorCorrection": {
+          "Idle": {
+            "samples": 121,
+            "maximumLift": 0
+          },
+          "Walk": {
+            "samples": 121,
+            "maximumLift": 0
+          },
+          "Run": {
+            "samples": 91,
+            "maximumLift": 0
+          },
+          "Attack": {
+            "samples": 61,
+            "maximumLift": 0
+          },
+          "Hit": {
+            "samples": 65,
+            "maximumLift": 0
+          },
+          "HitLeft": {
+            "samples": 65,
+            "maximumLift": 0
+          },
+          "HitRight": {
+            "samples": 65,
+            "maximumLift": 0
+          },
+          "Death": {
+            "samples": 61,
+            "maximumLift": 0.25642869756187514
+          }
+        },
+        "nativeMotion": {
+          "sourceClips": [
+            {
+              "name": "Armature|Wasp_Flying",
+              "duration": 1.5
+            },
+            {
+              "name": "Armature|Wasp_Death",
+              "duration": 0.75
+            },
+            {
+              "name": "Armature|Wasp_Attack",
+              "duration": 0.75
+            }
+          ],
+          "locomotion": "Armature|Wasp_Flying",
+          "runTimeScale": 1.65,
+          "mode": "airborne",
+          "uniformSourceScale": 0.006651728109105579,
+          "vertexCount": 16584
+        },
+        "animationAcceptance": "CPU candidate; production visual and contact review required",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "grounding": "Preserve the original complete wasp flight altitude.",
+        "waspAppearance": {
+          "direction": "Small dusty brown starter wasp with subdued wings",
+          "textureSource": "tools/rpg-bestiary/whole-insects/textures/starter-scales.png",
+          "generator": "tools/rpg-bestiary/whole-insects/texture-wasp.mjs",
+          "geometryAndMotionPreserved": false,
+          "material": {
+            "roughness": 0.72,
+            "metalness": 0,
+            "normalScale": 0.22,
+            "clearcoat": 0.08,
+            "iridescence": 0.04
+          },
+          "mapping": "11 connected body components, principal-axis UVs with corrected triangle seams",
+          "normals": "Area-weighted body smoothing across coincident corners, preserving sharp folds",
+          "sourceAnimationPreserved": true,
+          "eyes": {
+            "scale": 0.42,
+            "colour": "dark purple with muted wine-red iris"
+          },
+          "wings": {
+            "opacity": 0.35,
+            "iridescence": 0.12,
+            "raisedVeinsRemoved": true,
+            "texture": "tools/rpg-bestiary/whole-insects/textures/wasp-wing-pearl.png",
+            "pairs": 2,
+            "rearScale": 0.78,
+            "rearAngleRadians": -0.55
+          },
+          "normalTexture": "tools/rpg-bestiary/whole-insects/textures/harpy-plumage-normal.png"
+        },
+        "starterVariant": {
+          "id": "creature_heath_wasp",
+          "name": "Heath Wasp",
+          "colour": "dusty brown",
+          "tint": [
+            0.63,
+            0.47,
+            0.33
+          ],
+          "size": 0.62,
+          "sourceAssetId": "creature_marsh_wasp",
+          "sourceSha256": "4c21f1e630b939322cc3d9623f67da7d759aaf13be65323050eff85811f610cd",
+          "appearance": "Muted body, reduced sheen, smaller uniform rig wrapper"
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": true,
+        "worldIntegrated": true
+      }
+    },
+    {
+      "id": "creature_reed_wasp",
+      "file": "models/creature/creature_reed_wasp.glb",
+      "pack": "corealm-rpg-quaternius-easy-enemies",
+      "category": "character",
+      "is": "reed wasp",
+      "tags": [
+        "creature",
+        "rpg",
+        "starter",
+        "slate blue"
+      ],
+      "bytes": 11411648,
+      "sha256": "df29dbf69950036bb517648c0bb08766fe928223e439f26b2b7771ef0d19a1d2",
+      "size": {
+        "x": 0.8640000000000004,
+        "y": 1.3553088806824387,
+        "z": 1.78762938414128
+      },
+      "base": {
+        "x": -0.41507409522120425,
+        "y": 0.272747177624119,
+        "z": -0.5408204019723345
+      },
+      "groundY": 0,
+      "triangles": 3984,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_marsh_wasp_Yellow",
+        "animal_rpg_marsh_wasp_LightBlue",
+        "animal_rpg_marsh_wasp_Orange",
+        "wasp_dark_eyes"
+      ],
+      "walkClipSeconds": 1.5,
+      "runClipSeconds": 0.9090909090909092,
+      "attackSeconds": 0.75,
+      "contactNormalized": 0.4444444444444444,
+      "sourceProvenance": {
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "source": "https://quaternius.itch.io/animated-easy-enemies",
+        "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+        "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Wasp.fbx",
+        "sourceSha256": "ba312b82400745237d5cb638cc265214f87a7b2cf05eb03190ced7118d95847a",
+        "modifications": "Complete source body, rig, native animation and UVs retained; wing contour, vertex palette and skinned veins revised by fantasy-wasp.mjs. uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
+        "fantasyRevision": {
+          "design": "Jade and bronze marsh wasp with amber-edged, lightly scalloped pointed membranes and paired branching wing veins",
+          "sourceBodyPreserved": true,
+          "sourceRigPreserved": true,
+          "sourceAnimationPreserved": true,
+          "sourceUvState": "Source has no UV attribute; vertex colors used",
+          "originalVertices": 11208,
+          "originalTriangles": 3736,
+          "changedOriginalVertices": 552,
+          "changedOriginalTriangles": 200,
+          "vertexColorVertices": 16584,
+          "changedOriginalRegion": "Wing membrane positions and wing normals only; body positions/normals and all original skin influences unchanged",
+          "addedVertices": 5376,
+          "addedTriangles": 1792,
+          "veinStrands": 28,
+          "surfaceProjectionMisses": 0,
+          "finalVertices": 16584,
+          "finalTriangles": 5528,
+          "materialGroups": 4,
+          "materialPbr": [
+            {
+              "name": "Yellow",
+              "roughness": 0.51,
+              "metalness": 0.19
+            },
+            {
+              "name": "Black",
+              "roughness": 0.51,
+              "metalness": 0.19
+            },
+            {
+              "name": "LightBlue",
+              "roughness": 0.48,
+              "metalness": 0.08
+            },
+            {
+              "name": "Orange",
+              "roughness": 0.43,
+              "metalness": 0.32
+            }
+          ],
+          "transmission": false,
+          "addedTextures": 0
+        },
+        "sourceSkinRepair": {
+          "method": "Mirror the exact opposite-side control point weights onto the four duplicates of one unweighted source point",
+          "orphanVertices": [
+            6640,
+            6643,
+            6700,
+            6703
+          ],
+          "mirrorVertex": 1033,
+          "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
+          "influences": [
+            {
+              "bone": "Abdomen",
+              "weight": 0.02303488925099373
+            },
+            {
+              "bone": "BottomLeg1R",
+              "weight": 0.4854068160057068
+            },
+            {
+              "bone": "MidLeg1R",
+              "weight": 0.18748067319393158
+            },
+            {
+              "bone": "TopLeg1R",
+              "weight": 0.3040776252746582
+            }
+          ],
+          "changesPositions": false,
+          "changesClips": false
+        },
+        "materialTranslation": {
+          "from": "MeshPhongMaterial",
+          "to": "MeshStandardMaterial",
+          "preserved": [
+            "color",
+            "opacity",
+            "transparent",
+            "side",
+            "alphaTest",
+            "depthWrite",
+            "vertexColors",
+            "map"
+          ],
+          "roughness": "Per-material fantasyPbr overrides",
+          "metalness": "Per-material fantasyPbr overrides",
+          "transmission": false
+        },
+        "floorLift": {
+          "track": "insect_floor.position",
+          "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
+          "clearanceMeters": 0.003,
+          "changesSourceGeometry": false
+        }
+      },
+      "metadata": {
+        "family": "wasp",
+        "height": 1.882373445392276,
+        "dimensions": [
+          1.2000000000000006,
+          1.882373445392276,
+          2.4828185890851113
+        ],
+        "rig": "whole-source-39-joint",
+        "attackContact": 0.4444444444444444,
+        "attackContactSource": "Measured maximum forward world-z of original Sting_end bone over 181 original Attack samples",
+        "source": "Quaternius Easy Enemy Pack complete body and original skeletal animation",
+        "license": "CC0-1.0",
+        "provenance": {
+          "author": "Quaternius",
+          "license": "CC0-1.0",
+          "source": "https://quaternius.itch.io/animated-easy-enemies",
+          "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+          "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Wasp.fbx",
+          "sourceSha256": "ba312b82400745237d5cb638cc265214f87a7b2cf05eb03190ced7118d95847a",
+          "modifications": "Complete source body, rig, native animation and UVs retained; wing contour, vertex palette and skinned veins revised by fantasy-wasp.mjs. uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
+          "fantasyRevision": {
+            "design": "Jade and bronze marsh wasp with amber-edged, lightly scalloped pointed membranes and paired branching wing veins",
+            "sourceBodyPreserved": true,
+            "sourceRigPreserved": true,
+            "sourceAnimationPreserved": true,
+            "sourceUvState": "Source has no UV attribute; vertex colors used",
+            "originalVertices": 11208,
+            "originalTriangles": 3736,
+            "changedOriginalVertices": 552,
+            "changedOriginalTriangles": 200,
+            "vertexColorVertices": 16584,
+            "changedOriginalRegion": "Wing membrane positions and wing normals only; body positions/normals and all original skin influences unchanged",
+            "addedVertices": 5376,
+            "addedTriangles": 1792,
+            "veinStrands": 28,
+            "surfaceProjectionMisses": 0,
+            "finalVertices": 16584,
+            "finalTriangles": 5528,
+            "materialGroups": 4,
+            "materialPbr": [
+              {
+                "name": "Yellow",
+                "roughness": 0.51,
+                "metalness": 0.19
+              },
+              {
+                "name": "Black",
+                "roughness": 0.51,
+                "metalness": 0.19
+              },
+              {
+                "name": "LightBlue",
+                "roughness": 0.48,
+                "metalness": 0.08
+              },
+              {
+                "name": "Orange",
+                "roughness": 0.43,
+                "metalness": 0.32
+              }
+            ],
+            "transmission": false,
+            "addedTextures": 0
+          },
+          "sourceSkinRepair": {
+            "method": "Mirror the exact opposite-side control point weights onto the four duplicates of one unweighted source point",
+            "orphanVertices": [
+              6640,
+              6643,
+              6700,
+              6703
+            ],
+            "mirrorVertex": 1033,
+            "mirrorDistanceSourceUnits": 2.1490760299348766e-7,
+            "influences": [
+              {
+                "bone": "Abdomen",
+                "weight": 0.02303488925099373
+              },
+              {
+                "bone": "BottomLeg1R",
+                "weight": 0.4854068160057068
+              },
+              {
+                "bone": "MidLeg1R",
+                "weight": 0.18748067319393158
+              },
+              {
+                "bone": "TopLeg1R",
+                "weight": 0.3040776252746582
+              }
+            ],
+            "changesPositions": false,
+            "changesClips": false
+          },
+          "materialTranslation": {
+            "from": "MeshPhongMaterial",
+            "to": "MeshStandardMaterial",
+            "preserved": [
+              "color",
+              "opacity",
+              "transparent",
+              "side",
+              "alphaTest",
+              "depthWrite",
+              "vertexColors",
+              "map"
+            ],
+            "roughness": "Per-material fantasyPbr overrides",
+            "metalness": "Per-material fantasyPbr overrides",
+            "transmission": false
+          },
+          "floorLift": {
+            "track": "insect_floor.position",
+            "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
+            "clearanceMeters": 0.003,
+            "changesSourceGeometry": false
+          }
+        },
+        "floorCorrection": {
+          "Idle": {
+            "samples": 121,
+            "maximumLift": 0
+          },
+          "Walk": {
+            "samples": 121,
+            "maximumLift": 0
+          },
+          "Run": {
+            "samples": 91,
+            "maximumLift": 0
+          },
+          "Attack": {
+            "samples": 61,
+            "maximumLift": 0
+          },
+          "Hit": {
+            "samples": 65,
+            "maximumLift": 0
+          },
+          "HitLeft": {
+            "samples": 65,
+            "maximumLift": 0
+          },
+          "HitRight": {
+            "samples": 65,
+            "maximumLift": 0
+          },
+          "Death": {
+            "samples": 61,
+            "maximumLift": 0.25642869756187514
+          }
+        },
+        "nativeMotion": {
+          "sourceClips": [
+            {
+              "name": "Armature|Wasp_Flying",
+              "duration": 1.5
+            },
+            {
+              "name": "Armature|Wasp_Death",
+              "duration": 0.75
+            },
+            {
+              "name": "Armature|Wasp_Attack",
+              "duration": 0.75
+            }
+          ],
+          "locomotion": "Armature|Wasp_Flying",
+          "runTimeScale": 1.65,
+          "mode": "airborne",
+          "uniformSourceScale": 0.006651728109105579,
+          "vertexCount": 16584
+        },
+        "animationAcceptance": "CPU candidate; production visual and contact review required",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "grounding": "Preserve the original complete wasp flight altitude.",
+        "waspAppearance": {
+          "direction": "Small slate blue starter wasp with subdued wings",
+          "textureSource": "tools/rpg-bestiary/whole-insects/textures/starter-scales.png",
+          "generator": "tools/rpg-bestiary/whole-insects/texture-wasp.mjs",
+          "geometryAndMotionPreserved": false,
+          "material": {
+            "roughness": 0.72,
+            "metalness": 0,
+            "normalScale": 0.22,
+            "clearcoat": 0.08,
+            "iridescence": 0.04
+          },
+          "mapping": "11 connected body components, principal-axis UVs with corrected triangle seams",
+          "normals": "Area-weighted body smoothing across coincident corners, preserving sharp folds",
+          "sourceAnimationPreserved": true,
+          "eyes": {
+            "scale": 0.42,
+            "colour": "dark purple with muted wine-red iris"
+          },
+          "wings": {
+            "opacity": 0.35,
+            "iridescence": 0.12,
+            "raisedVeinsRemoved": true,
+            "texture": "tools/rpg-bestiary/whole-insects/textures/wasp-wing-pearl.png",
+            "pairs": 2,
+            "rearScale": 0.78,
+            "rearAngleRadians": -0.55
+          },
+          "normalTexture": "tools/rpg-bestiary/whole-insects/textures/harpy-plumage-normal.png"
+        },
+        "starterVariant": {
+          "id": "creature_reed_wasp",
+          "name": "Reed Wasp",
+          "colour": "slate blue",
+          "tint": [
+            0.38,
+            0.52,
+            0.64
+          ],
+          "size": 0.72,
+          "sourceAssetId": "creature_marsh_wasp",
+          "sourceSha256": "4c21f1e630b939322cc3d9623f67da7d759aaf13be65323050eff85811f610cd",
+          "appearance": "Muted body, reduced sheen, smaller uniform rig wrapper"
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": true,
+        "worldIntegrated": true
+      }
     }
   ]
 }

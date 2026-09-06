@@ -1,5 +1,6 @@
 import type { RegionId } from "../contracts.js";
 import { CREATURE_HABITATS } from "./creatureHabitats.js";
+import { STARTER_HABITATS } from "./starterHabitats.js";
 
 export interface HabitatDef {
   readonly id: string;
@@ -262,6 +263,7 @@ export const WORLD_HABITATS: readonly HabitatDef[] = [
     ],
   },
   ...CREATURE_HABITATS,
+  ...STARTER_HABITATS,
 ];
 
 const HABITAT_BY_GROUP = new Map(WORLD_HABITATS.map((habitat) => [habitat.groupId, habitat]));

@@ -1,5 +1,7 @@
 # Corealm content rebuild specification
 
+September 6 roster amendment: [starter creatures](../../docs/starter-creatures.md), authorized by the owner's request for fewer goblins, smaller starter monsters, regional variety and free source assets first.
+
 Status: Approved for implementation by the owner's explicit September 4 rebuild instruction. Existing gameplay rules remain authoritative except where this amendment changes world interaction and presentation. Root owns contracts and integration.
 
 The owner's later visual correction supersedes the earlier sparse low-poly interpretation. Retain a stylized identity with finer botanical silhouettes, curved branches and leaves, weathered rock contours and detailed material surfaces. Large flat facets, chunky leaf clusters, flat colour plus generic noise, and polygon-count reduction alone do not meet the requested quality. Judge close views and normal play views before expanding a representative asset treatment across its family.

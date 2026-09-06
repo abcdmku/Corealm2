@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { REGIONAL_PACKS } from "../game/src/content/regionalPacks.js";
 import { RPG_BESTIARY } from "../game/src/content/rpgBestiary.js";
+import { CREATURE_SPECIES } from "../game/src/content/creatureSpecies.js";
+import { STARTER_CREATURES } from "../game/src/content/starterCreatures.js";
 import { createRpgRegionalPackCatalogue, RPG_REGIONAL_PACK_PLAN, regionalPackReplacements, RPG_ACCEPTED_SOURCE_PACK_ASSIGNMENTS } from "../game/src/content/rpgRegionalPacks.js";
 import { assembleRegionalPackFixture } from "../game/src/featureLab/regionalPacks.js";
 import { enemyCombatLevel } from "../game/src/content/index.js";
@@ -10,24 +12,31 @@ import { enemyCombatLevel } from "../game/src/content/index.js";
 const measured = { size: { x: 0.8, y: 1.8, z: 0.8 }, base: { x: -0.4, y: 0, z: -0.4 } };
 
 describe("RPG regional encounter candidate catalogue", () => {
-  it("assigns retained monsters to their own regions while retaining wildlife and all 558 saved IDs", () => {
+  it("varies regional inhabitants and preserves surviving member IDs while reducing starter packs", () => {
     const catalogue = createRpgRegionalPackCatalogue(() => measured);
     expect(catalogue.packs).toHaveLength(96);
     const assignedIds = new Set(RPG_REGIONAL_PACK_PLAN.flatMap(row => row.speciesId ? [row.speciesId] : []));
-    expect(assignedIds.size).toBe(21);
+    expect(assignedIds.size).toBeGreaterThan(30);
     expect(assignedIds.has("webweaver_spider")).toBe(true);
     expect(assignedIds.has("marsh_wasp")).toBe(true);
-    for (const id of assignedIds) expect(RPG_BESTIARY.some(species => species.id === id)).toBe(true);
+    for (const id of assignedIds) expect([...RPG_BESTIARY, ...CREATURE_SPECIES].some(species => species.id === id)).toBe(true);
     for (const species of RPG_BESTIARY.filter(row => assignedIds.has(row.id))) {
       expect(catalogue.packs.some((pack) => pack.speciesId === species.id && pack.regionId === species.regionId), species.id).toBe(true);
     }
     for (const regionId of ["fallowmarch", "vellenwood", "karrowmoor", "kilnhalt"]) {
       const packs = catalogue.packs.filter((pack) => pack.regionId === regionId);
       expect(packs).toHaveLength(24);
-      expect(packs.filter((pack) => RPG_BESTIARY.some((species) => species.id === pack.speciesId)).length).toBeGreaterThanOrEqual(19);
+      expect(new Set(packs.map(pack => pack.speciesId)).size).toBeGreaterThanOrEqual(8);
     }
-    expect(catalogue.packs.flatMap((pack) => pack.members.map((member) => member.id)))
-      .toEqual(REGIONAL_PACKS.flatMap((pack) => pack.members.map((member) => member.id)));
+    for (const pack of catalogue.packs) {
+      const original = REGIONAL_PACKS.find(row => row.id === pack.id)!;
+      const small = RPG_REGIONAL_PACK_PLAN.some(row => row.packId === pack.id && row.speciesId !== null)
+        && CREATURE_SPECIES.some(row => row.id === pack.speciesId);
+      expect(pack.members.map(row => row.id)).toEqual(original.members.slice(0, small ? 3 : undefined).map(row => row.id));
+    }
+    const starter = catalogue.packs.filter(pack => pack.regionId === "fallowmarch");
+    expect(starter.filter(pack => pack.speciesId.startsWith("goblin_"))).toHaveLength(3);
+    expect(starter.filter(pack => STARTER_CREATURES.some(row => row.id === pack.speciesId))).toHaveLength(16);
     expect(catalogue.packs.map((pack) => [pack.id, pack.centre, pack.radius]))
       .toEqual(REGIONAL_PACKS.map((pack) => [pack.id, pack.centre, pack.radius]));
   });
@@ -90,7 +99,7 @@ describe("RPG regional encounter candidate catalogue", () => {
       }
     }
     const fire = catalogue.packs.filter(pack => pack.speciesId === "fire_golem");
-    expect(fire).toHaveLength(3);
+    expect(fire).toHaveLength(2);
     for (const pack of fire) {
       expect(pack.assetId).toBe("creature_lava_golem");
       expect(pack.baseEnemyDefId).toBe("fire_golem_t20");

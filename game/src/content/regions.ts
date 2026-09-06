@@ -102,6 +102,7 @@ import { HIGHCAIRN } from "./settlements/highcairn.js";
 import { ROOTFALL } from "./settlements/rootfall.js";
 import { resourceDef } from "./resources.js";
 import { CREATURE_ENEMY_GROUPS, CREATURE_HABITATS } from "./creatureHabitats.js";
+import { STARTER_GROUPS } from "./starterHabitats.js";
 
 // ------------------------------------------------------------------ primitives
 
@@ -1937,7 +1938,7 @@ const KILNHALT: RegionDef = {
 /** The four surface regions, in a fixed order. `buildWorld` iterates this to stay deterministic. */
 export const REGIONS: readonly RegionDef[] = [FALLOWMARCH, VELLENWOOD, KARROWMOOR, KILNHALT].map((region) => ({
   ...region,
-  enemyGroups: [...region.enemyGroups, ...CREATURE_ENEMY_GROUPS.filter((group) =>
+  enemyGroups: [...region.enemyGroups, ...(region.id === "fallowmarch" ? STARTER_GROUPS : []), ...CREATURE_ENEMY_GROUPS.filter((group) =>
     CREATURE_HABITATS.some((habitat) => habitat.groupId === group.id && habitat.regionId === region.id))],
 }));
 
