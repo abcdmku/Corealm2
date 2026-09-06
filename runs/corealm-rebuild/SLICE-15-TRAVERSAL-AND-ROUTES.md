@@ -260,11 +260,14 @@ the production panel, with a clearance probe at every sampled position.
 | Millfield (fallowmarch) | — | — | — | boot exceeded the script's 20 s allowance, 22.3 s elapsed |
 | Rootfall (vellenwood) | — | — | — | boot exceeded the script's 20 s allowance, 21.3 s elapsed |
 
-The two boot timeouts are this branch's own cost. `game/src/app/config.ts` changed, so the shipped
-navmesh artifact's fingerprint no longer matches and the runtime generates the mesh at boot. The
-script's budget is a hard 60 s with 20 s of it for boot; my own tools allow 50 s and boot fine. Run
-`tools/build-navmesh.ts` and the import path — and the 20 s allowance — come back. I did not raise
-the shared script's budget to paper over it.
+The two boot timeouts are almost certainly this branch's own cost. `game/src/app/config.ts` is in
+`build-navmesh.ts`'s `navigationSettings` fingerprint group and it changed, so the shipped artifact
+is rejected and the runtime builds the mesh at boot; `getNavigationState()` reports
+`strategy: "solo"` and `polyCount: 3544` after boot, which is consistent with a generated mesh, but
+`getNavigationState` does not surface `artifact.status` so I did not read the rejection directly.
+The script's budget is a hard 60 s with 20 s of it for boot; my own tools allow 50 s and boot fine.
+Re-running `tools/build-navmesh.ts` restores the import path. I did not raise the shared script's
+budget to paper over it.
 
 `npx tsx tools/settlement-door-check.ts --region <id> --limit 4` approaches one building per prefab
 family from three bearings, walks in through the route planner, records the roof cutaway and camera
