@@ -1,0 +1,9 @@
+{
+  "id": "polyhaven-rock-face-01",
+  "name": "Rock Face 01",
+  "author": "Dario Barresi / Poly Haven",
+  "source": "https://polyhaven.com/a/rock_face_01",
+  "license": "CC0-1.0",
+  "sourceArchive": "rock_face_01.bin (Poly Haven glTF 8k geometry buffer, https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/rock_face_01/rock_face_01.bin)",
+  "archiveSha256": "873eac0319333e92bc96ddeedf8ebf69dc3c68ff1dfe32d8c14ddc165cdb20ac"
+}

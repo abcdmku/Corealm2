@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-05T21:57:54.718Z",
+  "generatedAt": "2026-09-06T05:40:12.616Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -321,6 +321,15 @@
       "derivativeLicense": "CC-BY-3.0",
       "attribution": "Earth Elemental / Golem by piacenti. Source: https://opengameart.org/content/earth-elemental-golem. Converted and adapted for Corealm with the complete source body and rig retained; scale, grounded pivot and runtime animation bindings adapted. The adapted asset is distributed under CC BY 3.0.",
       "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+    },
+    {
+      "id": "polyhaven-rock-face-01",
+      "name": "Rock Face 01",
+      "author": "Dario Barresi / Poly Haven",
+      "source": "https://polyhaven.com/a/rock_face_01",
+      "license": "CC0-1.0",
+      "sourceArchive": "rock_face_01.bin (Poly Haven glTF 8k geometry buffer, https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/rock_face_01/rock_face_01.bin)",
+      "archiveSha256": "873eac0319333e92bc96ddeedf8ebf69dc3c68ff1dfe32d8c14ddc165cdb20ac"
     }
   ],
   "assets": [
@@ -27581,6 +27590,36 @@
       "trunkRadius": 0.2826,
       "laminae": 434,
       "botanicalSprays": 434
+    },
+    {
+      "id": "cave_rock_face_01",
+      "file": "models/cave/rock-face-01.glb",
+      "pack": "polyhaven-rock-face-01",
+      "category": "rock",
+      "is": "cave-facing",
+      "tags": [
+        "cave",
+        "rock",
+        "scan",
+        "strata"
+      ],
+      "bytes": 2734132,
+      "sha256": "2dae909dde94c9df91d3b28b9c1e82268af2d73dc9615734173b1ad281d27557",
+      "size": {
+        "x": 3,
+        "y": 2.6,
+        "z": 0.44936636644948663
+      },
+      "base": {
+        "x": -1.5,
+        "y": 0,
+        "z": 0
+      },
+      "triangles": 7168,
+      "animations": [],
+      "materials": [
+        "Poly Haven Rock Face 01 front-envelope"
+      ]
     }
   ]
 }

@@ -38,7 +38,10 @@
       "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/rock_face_01/rock_face_01_1k.gltf",
       "bytes": 2793,
       "md5": "b4855bc7e841a17a94332561a9b301c0",
-      "sha256": "96c332c01d173a2431115f3bac29be101fba341e5500e2a08e384f4edd17299e"
+      "sha256": "96c332c01d173a2431115f3bac29be101fba341e5500e2a08e384f4edd17299e",
+      "stagedSha256": "fdcd95e281af402e5cb886e2f6ce1a6a1b241828e62f8e6671b070a2d63f32f1",
+      "stagedBytes": 2952,
+      "stagedNote": "The staged copy is the same document re-serialised with two-space indentation, so it does not hash to the upstream download. The geometry buffer and all three textures are byte-identical to their pinned upstream files."
     },
     {
       "file": "source/textures/rock_face_01_arm_1k.jpg",
