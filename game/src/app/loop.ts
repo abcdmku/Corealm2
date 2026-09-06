@@ -200,6 +200,7 @@ export class GameLoop {
   private spellVfx: SpellVfx | null = null;
   /** Scratch for the cast origin, so a cast allocates nothing. */
   private readonly spellOriginTuple: [number, number, number] = [0, 0, 0];
+  private fishingRigKey: string | null = null;
   private gatheringRigKey: string | null = null;
   private ui: Ui | null = null;
   private interiors: { group: { visible: boolean }; visible: () => boolean }[] = [];
@@ -608,7 +609,10 @@ export class GameLoop {
     const speed = movement.speed ?? (moving ? MOVEMENT.runSpeed : 0);
     const activity = state.activity;
 
-    rig.setPosition(position, facingRad);
+    const fishingSpot = activity?.kind === "gathering" && activity.skill === "fishing"
+      ? this.entityPositionFor(activity.entityId) : null;
+    rig.setPosition(position, fishingSpot && state.player.health > 0
+      ? Math.atan2(fishingSpot[0] - position[0], fishingSpot[2] - position[2]) : facingRad);
 
     // A one-shot claimed by an interaction or a swing outranks the steady-state pose for this
     // frame; `update()` drops back to idle when the clip finishes.
@@ -655,8 +659,20 @@ export class GameLoop {
       this.gatheringRigKey = null;
     }
 
+    if (activity?.kind === "gathering" && activity.skill === "fishing" && state.player.health > 0) {
+      const presentationAtMs = Math.max(0, this.deps.clock.elapsedMs - SIM_TICK_MS + this.renderAlpha * SIM_TICK_MS);
+      const key = `${activity.entityId}:${activity.startedAtMs}:fishing`;
+      rig.syncFishingCycle(this.entityPositionFor(activity.entityId), presentationAtMs - activity.startedAtMs,
+        activity.nextRollAtMs - presentationAtMs, GATHER_TICK_MS, key !== this.fishingRigKey);
+      this.fishingRigKey = key;
+    } else if (this.fishingRigKey !== null) {
+      rig.syncFishingCycle(null, 0, 0, GATHER_TICK_MS);
+      this.fishingRigKey = null;
+    }
     rig.syncTraversalPose(activeTraversal);
     rig.update(realDeltaMs / 1000);
+    const fishingSplash = this.fishingRigKey !== null ? rig.drainFishingSplash() : null;
+    if (fishingSplash) this.vfx?.fishingCastSplash(fishingSplash, nowMs);
     for (const event of rig.drainMotionEvents()) {
       if (event.kind === "swing" && event.pose === "attack_melee") this.presentPlayerSwing();
       this.playerMotionHandler?.(event);

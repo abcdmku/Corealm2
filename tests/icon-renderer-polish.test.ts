@@ -297,9 +297,11 @@ describe("item icon camera fit", () => {
   const assets = new AssetRegistry();
   registerProceduralGear(assets);
 
+  // Icon framing tightened when the baked line and float left the rod model: the frame no longer
+  // has to contain a bobber hanging 0.36 m past the tip, so the shaft itself fills more of it.
   it.each([
-    ["worn_rod", 191.2856], ["palewood_rod", 192.7390], ["duskoak_rod", 193.9815],
-    ["cairnpine_rod", 195.0560], ["cinderpine_rod", 195.9945],
+    ["worn_rod", 209.7421], ["palewood_rod", 209.7571], ["duskoak_rod", 209.7697],
+    ["cairnpine_rod", 209.7806], ["cinderpine_rod", 209.7899],
   ] as const)("fills the canvas with %s while retaining its full shaft", async (itemId, expectedShaftPixels) => {
     const appearance = itemIconAppearance(itemId);
     expect(appearance.parts).toHaveLength(1);
@@ -326,8 +328,8 @@ describe("item icon camera fit", () => {
     expect(shaft).toBeDefined();
     const shaftSize = projectedVertexBounds(shaft, camera).getSize(new THREE.Vector3());
     const shaftPixels = Math.max(shaftSize.x, shaftSize.y) * 128;
-    expect(shaftPixels).toBeGreaterThan(191);
-    expect(shaftPixels).toBeLessThan(197);
+    expect(shaftPixels).toBeGreaterThan(209);
+    expect(shaftPixels).toBeLessThan(211);
     expect(shaftPixels).toBeCloseTo(expectedShaftPixels, 3);
     const worldSize = new THREE.Box3().setFromObject(iconRoot, true).getSize(new THREE.Vector3());
     expect(Math.max(worldSize.x, worldSize.y, worldSize.z)).toBeCloseTo(2, 6);

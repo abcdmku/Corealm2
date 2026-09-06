@@ -66,11 +66,16 @@ describe("production fishing rods", () => {
       const bounds = new THREE.Box3().setFromObject(group);
       const height = bounds.max.y - bounds.min.y;
       expect(bounds.min.y).toBeCloseTo(-look.length * 0.18 - 0.0005, 5);
-      expect(bounds.max.y).toBeCloseTo(look.length * 0.82 + 0.364, 3);
+      // The model now ENDS at its tip guide. The line and float used to be baked in as static
+      // geometry, which is why the envelope reached 0.364 m past the tip and 0.568 m in +Z: a
+      // bobber hung in mid-air beside the player for the whole activity. `render/fishingPose.ts`
+      // solves both in world space against the school instead.
+      expect(bounds.max.y).toBeCloseTo(look.length * 0.82 + 0.0018, 4);
       expect(bounds.min.x).toBeGreaterThan(-0.030);
       expect(bounds.max.x).toBeLessThan(look.bend + 0.030);
       expect(bounds.min.z).toBeGreaterThan(-0.030);
-      expect(bounds.max.z).toBeCloseTo(0.568, 3);
+      // Guide eyes and the reel are the only things standing off the shaft, at every tier.
+      expect(bounds.max.z).toBeCloseTo(0.088, 3);
       expect(height).toBeGreaterThan(previousHeight);
       if (previousHeight > 0) expect(height / previousHeight).toBeLessThan(1.2);
       previousHeight = height;

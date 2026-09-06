@@ -150,6 +150,10 @@ export class Vfx {
    * Reacts to one game event. Wire this to `EventBus.subscribe` at boot.
    * Unknown event types are ignored on purpose: a new event should never crash the renderer.
    */
+  fishingCastSplash(at: Vec3, nowMs: number): void {
+    this.ambience?.burst("splash", [at[0], at[1] + 0.04, at[2]], 4, nowMs);
+  }
+
   handle(event: GameEvent, nowMs: number): void {
     switch (event.type) {
       case "item.received": {

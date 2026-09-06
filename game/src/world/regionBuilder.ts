@@ -244,6 +244,14 @@ export interface WorldPorts {
   roadDistance?: (x: number, z: number) => number;
   /** Dry working positions for resources and route locations beside solved water bodies. */
   accessPositions?: ReadonlyMap<string, Vec3>;
+  /**
+   * Solved near-shore school positions, on the water plane, keyed by resource entity id.
+   *
+   * Authored fishing slots describe which stance owns which school, not where the fish float:
+   * only the solved contour and the carved bed know where the water is both near the bank and
+   * deep enough to hide a fish. Without this the builder falls back to the authored slot point.
+   */
+  fishingSchools?: ReadonlyMap<string, Vec3>;
   /** Root enables authored gate assets and partitions after their production lab acceptance. */
   dungeonGates?: boolean;
   /** Dry coastal sites supplied by the production terrain sampler. */
@@ -274,6 +282,7 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
     assetCenterXZ: ports?.assetCenterXZ ?? (() => null),
     roadDistance: ports?.roadDistance ?? (() => Infinity),
     dungeonGates: ports?.dungeonGates ?? false,
+    fishingSchools: ports?.fishingSchools ?? new Map(),
     out: entities,
     buildings,
     solids,
@@ -520,6 +529,8 @@ interface BuildContext {
   readonly assetCenterXZ: (assetId: string) => AssetCenterXZ | null;
   readonly roadDistance: (x: number, z: number) => number;
   readonly dungeonGates: boolean;
+  /** Solved near-shore school positions on the water plane, keyed by resource entity id. */
+  readonly fishingSchools: ReadonlyMap<string, Vec3>;
   readonly out: SemanticEntity[];
   readonly buildings: BuildingBox[];
   readonly solids: SolidVolume[];
@@ -1931,6 +1942,13 @@ function buildCluster(
       ? spiralSpot(cluster.centre, cluster.radius, index, cluster.count, rng)
       : ringSpot(cluster.centre, cluster.ringRadius, index, cluster.count, rng);
     if (authored) spot = [...worldSitePoint(authored.site, authored.slot.x, authored.slot.z)];
+    // A solved school outranks its authored slot point. The authored (x, z) sat near the basin
+    // centre — 14.3 m of open water from the stance that fishes it at Redsill — while only the
+    // built contour and carved bed know where the pond is both near the bank and deep enough to
+    // hide a fish. `app/fishingAccess.ts` solves that; the slot still owns which stance, yaw and
+    // draw scale the school gets.
+    const school = resource.archetype === "fishing_spot" ? ctx.fishingSchools.get(id) : undefined;
+    if (school) spot = [school[0], school[2]];
     // A ritual ring is one authored arrangement. Moving its slots independently to dodge a road
     // can stack two stones together, so only free-form clusters use the road-clearance retry.
     if ((resource.archetype === "tree" || resource.archetype === "ore")
@@ -1949,8 +1967,10 @@ function buildCluster(
     // school by its authored waterOffset while the interaction proxy stays on the surface. Do not
     // use the fish mesh's floor-corrected `grounded.y`: its authored pivot is presentation data and
     // used to lift the proxy by up to 21 cm above the actual water.
+    // A solved school already carries the water plane. Without one — no ports, so no built water —
+    // the flat basin floor plus its fill is the only available stand-in.
     const position: Vec3 = resource.archetype === "fishing_spot"
-      ? [spot[0], round2(ctx.heightAt(regionId, spot[0], spot[1]) + WATER_FILL_DEPTH), spot[1]]
+      ? school ?? [spot[0], round2(ctx.heightAt(regionId, spot[0], spot[1]) + WATER_FILL_DEPTH), spot[1]]
       : grounded;
 
     const [yieldMin, yieldMax] = resource.yieldRange ?? yieldRange(resource.tier);

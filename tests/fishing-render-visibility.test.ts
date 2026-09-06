@@ -5,7 +5,7 @@ import { GATHERING_PRODUCTION_TIERS } from "../game/src/content/gatheringProduct
 import { tierSilhouetteScale } from "../game/src/core/math.js";
 import { EntityViews } from "../game/src/render/entityViews.js";
 import { MaterialLibrary } from "../game/src/render/materials.js";
-import { WATER_FILL_DEPTH } from "../game/src/world/waterBodies.js";
+import { SCHOOL_MIN_WATER_DEPTH, WATER_FILL_DEPTH } from "../game/src/world/waterBodies.js";
 
 interface TestPart {
   geometry: THREE.BufferGeometry;
@@ -252,6 +252,14 @@ describe("fishing resource visibility", () => {
       expect(
         floorClearance,
         `${resource.id} clears the basin floor by ${(floorClearance * 1_000).toFixed(1)} mm`,
+      ).toBeGreaterThanOrEqual(MIN_BASIN_FLOOR_CLEARANCE);
+      // Schools are solved against depth near the waterline, not against the flat floor, so the
+      // authored minimum has to cover the deepest-drawing fish or `fishingAccess` would place one
+      // where its belly is through the bed. Measured worst case is 476.2 mm at the tarn tiers.
+      const schoolClearance = SCHOOL_MIN_WATER_DEPTH + lowestPoint;
+      expect(
+        schoolClearance,
+        `${resource.id} clears a minimum-depth school position by ${(schoolClearance * 1_000).toFixed(1)} mm`,
       ).toBeGreaterThanOrEqual(MIN_BASIN_FLOOR_CLEARANCE);
       expect(
         -highestPoint,

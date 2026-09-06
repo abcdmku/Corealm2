@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { Scene } from "three";
-import { fishingAccessPositions } from "../game/src/app/fishingAccess.js";
+import { fishingSiteAnchors } from "../game/src/app/fishingAccess.js";
 import { buildWorldTerrainSpec } from "../game/src/app/worldSpec.js";
-import { WORLD_SITES, worldSitePoint } from "../game/src/content/worldSites.js";
+import { WORLD_SITES } from "../game/src/content/worldSites.js";
 import { WorldScene } from "../game/src/render/scene.js";
 import { organicRadiusScale } from "../game/src/world/organicFields.js";
-import { WATER_FILL_DEPTH, type WaterBasinSpec } from "../game/src/world/waterBodies.js";
+import { SCHOOL_MIN_WATER_DEPTH, WATER_FILL_DEPTH, type WaterBasinSpec } from "../game/src/world/waterBodies.js";
 
 function cairnFixture(fitted: boolean) {
   const spec = buildWorldTerrainSpec();
@@ -80,12 +80,14 @@ describe("Cairn Tarn landform", () => {
       const site = WORLD_SITES.find((candidate) => candidate.id === "cairn_tarn_ledge")!;
       const bodies = scene.getWaterBodies();
       const water = bodies[0]!;
-      const positions = fishingAccessPositions([site], bodies, (x, z) => scene.meshHeightAt(x, z));
+      const anchors = fishingSiteAnchors([site], bodies, (x, z) => scene.meshHeightAt(x, z));
       for (const slot of site.resourceSlots) {
-        const [x, z] = worldSitePoint(site, slot.x, slot.z);
+        // The authored slot no longer places the school — it picks the ray. What has to survive a
+        // basin edit is the SOLVED school: still submerged, still deep enough for the drawn fish.
+        const [x, , z] = anchors.schools.get(`${slot.clusterId}_${slot.index}`)!;
         expect(scene.sampleWorld(x, z).waterBodyId).toBe(basin.id);
-        expect(water.level - scene.meshHeightAt(x, z)).toBeGreaterThan(0.4);
-        const stand = positions.get(`${slot.clusterId}_${slot.index}`)!;
+        expect(water.level - scene.meshHeightAt(x, z)).toBeGreaterThanOrEqual(SCHOOL_MIN_WATER_DEPTH);
+        const stand = anchors.banks.get(`${slot.clusterId}_${slot.index}`)!;
         expect(stand).toBeDefined();
         expect(stand[1]).toBe(scene.meshHeightAt(stand[0], stand[2]));
         const slopeX = scene.meshHeightAt(stand[0] + 0.5, stand[2]) - scene.meshHeightAt(stand[0] - 0.5, stand[2]);

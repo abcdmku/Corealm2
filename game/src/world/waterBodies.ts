@@ -3,13 +3,25 @@ import { resourceDef } from "../content/resources.js";
 import { organicDistance, organicRadiusScale, seedFromText, type OrganicShapeSpec } from "./organicFields.js";
 
 /** Vertical distance from the dry ground at a body's centre to its basin floor. */
-export const WATER_BASIN_DEPTH = 0.9;
+export const WATER_BASIN_DEPTH = 1.1;
 
 /** Fraction of the basin depth filled with water. */
-export const WATER_FILL_FRACTION = 0.55;
+export const WATER_FILL_FRACTION = 0.6;
 
 /** Water depth over the flat centre of every authored body. */
 export const WATER_FILL_DEPTH = WATER_BASIN_DEPTH * WATER_FILL_FRACTION;
+
+/**
+ * Water a school needs beneath it, in metres.
+ *
+ * The deepest authored fish draws 476.2 mm at the bottom of its deterministic bob (measured over
+ * all four fishing tiers; `tests/fishing-render-visibility.test.ts` re-measures it and asserts this
+ * constant still covers it). Schools are placed against this depth rather than against the flat
+ * floor, which is what lets them sit within about two metres of the waterline instead of out in
+ * the middle of the pond. The old 0.495 m fill left 18.9 mm of slack, so nothing could move off
+ * the floor at all.
+ */
+export const SCHOOL_MIN_WATER_DEPTH = 0.55;
 
 /** Height of the closed bank above the water plane. */
 export const WATER_BANK_FREEBOARD = 0.45;
@@ -17,10 +29,14 @@ export const WATER_BANK_FREEBOARD = 0.45;
 /**
  * An authored fishing body as terrain understands it.
  *
- * The four radii describe one continuous radial profile. The floor holds every fishing marker on
- * level ground. The rising bed meets the water at `shoreRadius`, then climbs to a dry crest before
- * returning to the terrain outside. The same organic shape deforms all four rings. A hillside
- * basin can fit its elevation to the lower bank instead of raising a dam to its centre height.
+ * The four radii describe one continuous radial profile. The rising bed meets the water at
+ * `shoreRadius`, then climbs to a dry crest before returning to the terrain outside. The same
+ * organic shape deforms all four rings. A hillside basin can fit its elevation to the lower bank
+ * instead of raising a dam to its centre height.
+ *
+ * Schools are no longer authored against the flat floor. `app/fishingAccess.ts` solves them
+ * inward from the SOLVED waterline against `SCHOOL_MIN_WATER_DEPTH`, so what this profile owes
+ * them is a short shelf and enough fill for a fish to sit under it near the bank.
  */
 export interface WaterBasinSpec {
   id: string;
@@ -48,6 +64,17 @@ const FLOOR_MARGIN = 4;
 const SHORE_MARGIN = 12;
 const CREST_MARGIN = 14;
 const OUTER_MARGIN = 32;
+
+/**
+ * Widest nominal band over which the bed may climb from the flat floor to the waterline.
+ *
+ * The shelf is where a school runs out of depth, so its width alone decides how close to the bank
+ * a fishing spot can sit. It is entirely underwater, so narrowing it costs nothing visible and
+ * buys the whole difference: at 3 the solved Redsill school still landed 2 m out, at 1.8 it holds
+ * full depth to within a metre of the waterline. The uncapped rule gave the two small tarns an
+ * 8 m shelf and pushed their schools four metres offshore for no authored reason.
+ */
+const SHORE_SHELF = 1.8;
 
 type BasinShapeProfile = Pick<OrganicShapeSpec, "aspectRatio" | "irregularity" | "lobes">;
 
@@ -87,7 +114,7 @@ export function waterBasinForCluster(cluster: ResourceClusterDef): WaterBasinSpe
   const minimumScale = (shape.aspectRatio ?? 1) * (1 - shape.irregularity);
   const floorRadius = Math.min(
     shoreRadius - 1,
-    Math.max(cluster.radius + FLOOR_MARGIN, cluster.radius / minimumScale + 0.75),
+    Math.max(shoreRadius - SHORE_SHELF, cluster.radius + FLOOR_MARGIN, cluster.radius / minimumScale + 0.75),
   );
   return {
     id: cluster.id,

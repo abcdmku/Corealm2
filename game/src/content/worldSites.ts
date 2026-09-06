@@ -4,7 +4,13 @@ export interface WorldSiteResourceSlot {
   readonly clusterId: string;
   /** One-based suffix of the existing semantic entity id. */
   readonly index: number;
+  /**
+   * Local across-site offset. On a fishery it is the ONLY placement authority: `x` picks the
+   * outward ray, and `app/fishingAccess.ts` solves both the casting stance and the school it
+   * faces along that ray from the built water body.
+   */
   readonly x: number;
+  /** Local depth into the site. Inert on a fishery, where solved depth decides how far out. */
   readonly z: number;
   readonly yaw: number;
   /** Multiplier on the resource's canonical presentation scale. */

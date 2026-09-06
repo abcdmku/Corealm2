@@ -7,11 +7,11 @@
     "terrain": 50,
     "water": 0
   },
-  "fingerprint": "c1f7024ecf81550547fc9ae3a4ee1b2f87e461d1be41a37622e75fed86c80406",
+  "fingerprint": "607646b88185c1cccdf8d2c302d64eb63c509f1bfa526dd31382845598b7f2ef",
   "format": "corealm-navmesh",
   "formatVersion": 1,
-  "navDataSha256": "41d02826bdab6fc10885451549b3e2995ff0d7c6d01d99aafe9401281ad63b8a",
-  "polyCount": 3575,
+  "navDataSha256": "cd25c04de19b682dae269fd2fa3c6aebce871fd11045f8a86a6f7553c7a62610",
+  "polyCount": 3561,
   "recastVersion": "0.43.1",
   "settings": {
     "ch": 0.2,
@@ -25,16 +25,16 @@
     "walkableSlopeAngle": 60
   },
   "sourceMeshes": 987,
-  "sourceTriangles": 459731,
+  "sourceTriangles": 459632,
   "tileCount": 1,
   "path": "generated/corealm-navmesh.bin",
-  "bytes": 1019029,
+  "bytes": 1016257,
   "worldSeed": "1337",
   "authoredInputs": {
-    "terrainGeometry": "ee0666f3264372b1e225c558e476ff3ffb229e135311d9df2912ab4a50906140",
-    "roads": "eec45ce476f209ea4345f96d8bc46acc133fbe9d961328f2cb6880ba39e796f0",
-    "water": "e3891950e36260d76dde276e71264e110002cc34b16967ca4e7aad2f4c1b8306",
-    "solidCarves": "9c905d4740cc81deb9cbefb9a412db1303bad98d54c53c7a1ca117ac1704aae6",
+    "terrainGeometry": "8c67daf595193de9dcb57193af2ff5e88cc469739192d419dc2d03c14b1f3559",
+    "roads": "46326b8372d1918cd30b73e6d016713713522422cca77c8c4664624ce95d4e0f",
+    "water": "b29720116ded2472d547733f08ab7810c3cb070b0701192635a7d34118cbe8ee",
+    "solidCarves": "14ff16b5bb817bee908619488c1c70708909fc7a7d7fa8a47823c7bd71280ec8",
     "dungeonGeometry": "00bb4019b86e96455c457decadb5055b956ecc0ed6d52b9d3830c64f18e886e2",
     "seedDependentInputs": "c71b1cc75aeb98e912593cee8ba323129a4e8358b72fd1215d0737a2a1226e96",
     "navigationSettings": "f9ccc1c26e66669a8c1a79f270583be5298b86478605c47238d255bafec5a665"

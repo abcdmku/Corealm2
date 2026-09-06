@@ -32,6 +32,7 @@ import { clone as cloneSkinned } from "three/examples/jsm/utils/SkeletonUtils.js
 import type { EquipSlot, ItemId, ItemStack, Vec3 } from "../contracts.js";
 import { MOVEMENT } from "../app/config.js";
 import type { TraversalSample } from "../systems/traversalMotion.js";
+import { FishingPoseLayer, FishingLine, FishingRodFlex, sampleFishing, type FishingSample } from "./fishingPose.js";
 import { TraversalPoseLayer } from "./traversalPose.js";
 import type { AssetRegistry } from "./assets.js";
 import * as equipmentVisuals from "./equipmentVisuals.js";
@@ -124,7 +125,7 @@ const GATHER_IMPACT_PHASE = 0.22;
  *
  * The gaps are real and worth stating: neither library ships a fishing or a mining clip (measured —
  * the 85 loaded clips are listed in animation_library_1 and _2 and contain neither), so fishing
- * borrows a held-rail idle and the feedback comes from the bobber and ripple instead of the body,
+ * borrows the rail stance under a procedural cast, hold and roll-timed reel layer,
  * and mining borrows the tree-chopping swing, which reads correctly with a pickaxe in hand. `mine`
  * and `chop` therefore resolve to the SAME action; `play` treats that as a no-op rather than a
  * restart, so switching a gathering target mid-swing does not stutter.
@@ -454,6 +455,14 @@ export class CharacterRig {
   private missingClips = new Set<string>();
   private traversalSample: TraversalSample | null = null;
   private readonly traversalPose = new TraversalPoseLayer();
+  private readonly fishingPose = new FishingPoseLayer();
+  private readonly fishingLine = new FishingLine();
+  private readonly fishingFlex = new FishingRodFlex();
+  private fishingSample: FishingSample | null = null;
+  private fishingSpot: Vec3 | null = null;
+  private fishingLanded = false;
+  private fishingFade: FishingSample | null = null;
+  private fishingSplash: Vec3 | null = null;
   private readonly traversalHiddenGear = new Map<THREE.Object3D, boolean>();
 
   // Assembly.
@@ -789,11 +798,24 @@ export class CharacterRig {
     action.paused = true;
     action.time = phase * action.getClip().duration;
     this.controlledTimeScale = action.getClip().duration / (Math.max(1, cycleMs) / 1000);
+    this.fishingPose.restore();
     this.mixer?.update(0);
 
     if (!reset) this.recordMotionMarkers(clipName, previous, phase);
     this.markerAction = action;
     this.markerPhase = phase;
+  }
+
+  syncFishingCycle(spot: Vec3 | null, ageMs: number, msUntilRoll: number, cycleMs: number, reset = false): void {
+    this.fishingSpot = spot;
+    if (reset || !spot) this.fishingLanded = false;
+    this.fishingSample = spot ? sampleFishing(ageMs, msUntilRoll, cycleMs) : null;
+  }
+
+  drainFishingSplash(): Vec3 | null {
+    const at = this.fishingSplash;
+    this.fishingSplash = null;
+    return at;
   }
 
   /** Drains contact events once. Rendering, sound, and hit feedback consume the same edges. */
@@ -1294,6 +1316,7 @@ export class CharacterRig {
   }
 
   update(deltaSeconds: number): void {
+    this.fishingPose.restore();
     this.traversalPose.restore();
     const action = this.currentAction;
     const clipName = this.currentClipName;
@@ -1303,6 +1326,21 @@ export class CharacterRig {
       : 0;
     this.mixer?.update(deltaSeconds);
     this.traversalPose.apply(this.root, this.hostBones, this.traversalSample);
+    const fishing = this.current === "fish" && !this.traversalSample ? this.fishingSample : null;
+    const rod = this.boneAttachments.get("mainHand");
+    if (fishing) this.fishingFade = { ...fishing };
+    else if (this.fishingFade) {
+      this.fishingFade.weight = Math.max(0, this.fishingFade.weight - deltaSeconds / 0.18);
+      if (this.fishingFade.weight === 0 || !["idle", "walk", "run", "fish"].includes(this.current) || this.traversalSample) this.fishingFade = null;
+    }
+    this.fishingPose.apply(this.root, this.hostBones, fishing ?? this.fishingFade, fishing ? rod : undefined);
+    if (!this.fishingLine.root.parent) this.root.add(this.fishingLine.root);
+    this.fishingFlex.update(fishing ? rod : undefined, fishing);
+    this.fishingLine.update(rod, this.fishingSpot, fishing);
+    if (fishing && fishing.flight === 1 && !this.fishingLanded && this.fishingLine.root.visible) {
+      this.fishingLanded = true;
+      this.fishingSplash = this.fishingLine.float.toArray() as Vec3;
+    }
 
     if (action && clipName && action === this.currentAction && clipName === this.currentClipName && duration > 0) {
       const current = Math.min(1, Math.max(0, action.time / duration));
@@ -1354,6 +1392,7 @@ export class CharacterRig {
     layerMeshes?: string[];
     layerAssets?: string[];
     hairVisible?: boolean;
+    fishing?: { sample: FishingSample | null; visible: boolean; tip: number[]; float: number[]; spot: Vec3 | null; bones: string[] };
   } {
     const clip = this.currentAction?.getClip();
     const local = Boolean(clip && this.locomotionClips.get(clip.name) === clip);
@@ -1362,6 +1401,7 @@ export class CharacterRig {
       return bone ? bone.getWorldPosition(new THREE.Vector3()).toArray() as Vec3 : [0, 0, 0];
     };
     return {
+      fishing: { sample: this.fishingSample, visible: this.fishingLine.root.visible, tip: this.fishingLine.tip.toArray(), float: this.fishingLine.float.toArray(), spot: this.fishingSpot, bones: [...this.hostBones.keys()] },
       pose: this.current,
       clip: this.currentClipName,
       time: this.currentAction?.time ?? 0,
@@ -1418,6 +1458,9 @@ export class CharacterRig {
   }
 
   dispose(): void {
+    this.fishingPose.restore();
+    this.fishingFlex.dispose();
+    this.fishingLine.dispose();
     this.mixer?.stopAllAction();
     this.actions.clear();
     this.clearLayers();

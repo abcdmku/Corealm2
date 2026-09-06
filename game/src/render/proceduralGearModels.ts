@@ -94,28 +94,7 @@ export function buildFishingRod(look: FishingRodLook): THREE.Group {
     bindings.push(paint(binding, look.binding));
   }
 
-  // +Z becomes downward with the existing hand attachment. The float hangs on that axis.
   const tipEye = guidePoints[guidePoints.length - 1]!;
-  const floatCentre = new THREE.Vector3(look.bend, tipY + 0.34, 0.535);
-  const linePoints = [
-    new THREE.Vector3(0, -0.110, 0.052), ...guidePoints,
-    new THREE.Vector3(look.bend + 0.014, tipY + 0.15, 0.16),
-    new THREE.Vector3(look.bend + 0.009, tipY + 0.29, 0.37),
-    floatCentre.clone().add(new THREE.Vector3(0, 0, -0.033)),
-  ];
-  bindings.push(paint(rodCord(linePoints, 0.0018, 112), look.line));
-  const floatLower = rodProfile([
-    [0.024, 0], [0.023, 0.013], [0.016, 0.025], [0.007, 0.030], [0, 0.033],
-  ]);
-  const floatUpper = rodProfile([
-    [0, -0.033], [0.005, -0.030], [0.006, -0.023], [0.016, -0.019], [0.023, -0.009], [0.024, 0],
-  ]);
-  for (const [geometry, colour] of [[floatLower, look.bobber], [floatUpper, 0xd8d1bd]] as const) {
-    geometry.rotateX(Math.PI / 2);
-    geometry.translate(floatCentre.x, floatCentre.y, floatCentre.z);
-    bindings.push(paint(geometry, colour));
-  }
-
   const group = new THREE.Group();
   group.name = "procedural-fishing-rod";
   group.add(mergedMesh([paint(rodShaft(look), look.shaft)], rodWoodMaterial(), "rod-shaft"));
@@ -127,7 +106,7 @@ export function buildFishingRod(look: FishingRodLook): THREE.Group {
   }), "rod-fittings"));
   group.userData["fishingRod"] = {
     grip: [0, 0, 0], tip: rodCentre(look, tipY).toArray(),
-    lineGuide: tipEye.toArray(), float: floatCentre.toArray(),
+    lineGuide: tipEye.toArray(), line: look.line, bobber: look.bobber,
   };
   return group;
 }

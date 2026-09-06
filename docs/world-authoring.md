@@ -120,9 +120,14 @@ states, collision and local mining. Accept those before integrating the face wit
 Then inspect the full site's relief, work floor, seam orientation, approach, navigation and depleted
 state. The world exception covers that spatial integration; it does not waive the reusable asset gate.
 
-Fishery slots must reference the solved production basin. Use dry casting positions for navigation
-and keep fish below the actual water surface. The dry environment gallery cannot prove fishing;
-`fishing=1` supplies the compact water fixture described in [the lab workflow](./feature-lab.md).
+Fishery slots must reference the solved production basin. A fishery slot authors only which
+outward ray a school belongs to (`slot.x`) and how it is drawn; `game/src/app/fishingAccess.ts`
+solves the dry casting stance and the school itself from the built water body, so both sit on one
+ray and the school lands just inside the waterline in water deep enough to hide the fish
+(`SCHOOL_MIN_WATER_DEPTH`). Do not reintroduce an authored `slot.z` offset for fish: that is what
+put Redsill's schools 14 m out in open water while the player cast from the far bank. The dry
+environment gallery cannot prove fishing; `fishing=1` supplies the compact water fixture described
+in [the lab workflow](./feature-lab.md).
 
 ## Foliage and scatter recipes
 

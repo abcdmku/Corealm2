@@ -1,7 +1,7 @@
 /** Generated held gear missing from the asset library. Each model is rooted at its grip. */
 import type * as THREE from "three";
 
-/** A held fishing tool with a continuous shaft, fittings, line and bobber. */
+/** A held fishing tool with shaft and fittings, plus colours for its dynamic line and float. */
 export interface FishingRodLook {
   shaft: number;
   binding: number;
@@ -59,7 +59,7 @@ export const FISHING_ROD_LOOKS: Readonly<Record<string, FishingRodLook>> = {
   },
 };
 
-/** Asset id for a fishing rod, including its line and bobber. */
+/** Asset id for the held fishing rod. FishingLine owns its world-space line and float. */
 export function fishingRodAssetId(itemId: string): string {
   return `proc_rod_${itemId.replace(/_rod$/, "")}`;
 }

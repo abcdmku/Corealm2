@@ -1,9 +1,9 @@
 import type { SemanticEntity } from "../contracts.js";
-import { fishingAccessPositions } from "../app/fishingAccess.js";
+import { fishingSiteAnchors } from "../app/fishingAccess.js";
 import { respawnSeconds, yieldRange } from "../content/index.js";
 import { REGIONS } from "../content/regions.js";
 import { resourceDef } from "../content/resources.js";
-import { WORLD_SITES, worldSitePoint, type WorldSite } from "../content/worldSites.js";
+import { WORLD_SITES, type WorldSite } from "../content/worldSites.js";
 import { tierSilhouetteScale } from "../core/math.js";
 import type { AssetRegistry } from "../render/assets.js";
 import type { WorldScene } from "../render/scene.js";
@@ -37,7 +37,7 @@ export function createFishingLabEntities(scene: WorldScene, assets: AssetRegistr
   const waterBodies = scene.getWaterBodies();
   const body = waterBodies.find((candidate) => candidate.id === FISHING_LAB_BASIN.id);
   if (!body?.closed || body.error) throw new Error("Build the fishing lab water surface before its resources");
-  const access = fishingAccessPositions([FISHING_LAB_SITE], waterBodies, (x, z) => scene.meshHeightAt(x, z));
+  const anchors = fishingSiteAnchors([FISHING_LAB_SITE], waterBodies, (x, z) => scene.meshHeightAt(x, z));
   const resource = resourceDef(redsillCluster!.resourceId);
   const assetId = resource.presentation.availableAssetIds[0];
   if (!assetId) throw new Error(`Resource ${resource.id} has no production fish model`);
@@ -51,14 +51,15 @@ export function createFishingLabEntities(scene: WorldScene, assets: AssetRegistr
 
   return FISHING_LAB_SITE.resourceSlots.map((slot): SemanticEntity => {
     const id = `${slot.clusterId}_${slot.index}`;
-    const [x, z] = worldSitePoint(FISHING_LAB_SITE, slot.x, slot.z);
-    const interactionPosition = access.get(id);
+    const school = anchors.schools.get(id);
+    if (!school) throw new Error(`Fishing lab resource ${id} has no solved near-shore school`);
+    const interactionPosition = anchors.banks.get(id);
     if (!interactionPosition) throw new Error(`Fishing lab resource ${id} has no dry casting position`);
     return {
       id, name: resource.name, archetype: resource.archetype, tier: resource.tier,
       regionId: FISHING_LAB_SITE.regionId,
       // Match production: the surface proxy stays at water level; EntityViews applies waterOffset.
-      position: [x, body.level, z], interactionPosition,
+      position: school, interactionPosition,
       state: "available", interactions: ["inspect", "fish"], requirements: { [resource.skill]: resource.reqLevel },
       resource: {
         remaining: maxYields, maxYields, itemId: resource.itemId,

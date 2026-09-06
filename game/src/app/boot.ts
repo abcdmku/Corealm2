@@ -65,7 +65,7 @@ import { GameLoop } from "./loop.js";
 import { formatBootAssetProgress } from "./bootStatus.js";
 import { InputController } from "../input/mouse.js";
 import { prepareWorldSurface } from "./worldSurface.js";
-import { fishingAccessPositions } from "./fishingAccess.js";
+import { fishingSiteAnchors } from "./fishingAccess.js";
 import { miningAccessPositions } from "./miningAccess.js";
 import { worldSiteHaulRamp } from "../world/siteTerrain.js";
 import { CAMERA } from "./config.js";
@@ -444,15 +444,23 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
     return best;
   };
+  // One pass over the solved water bodies yields both halves of a fishery: the dry stance and the
+  // school it faces. They have to come from the same solved contour or they drift apart.
+  const fishingAnchors = profile.kind === "game"
+    ? fishingSiteAnchors(WORLD_SITES, scene.getWaterBodies(), (x, z) => scene.meshHeightAt(x, z))
+    : null;
   const worldPorts = {
     heightAt,
     dungeonGates: worldDoorThresholds.length > 0,
-    ...(profile.kind === "game" ? { accessPositions: new Map([
-      ...fishingAccessPositions(WORLD_SITES, scene.getWaterBodies(), (x, z) => scene.meshHeightAt(x, z)),
-      ...miningAccessPositions(WORLD_SITES, (x, z) => scene.meshHeightAt(x, z), {
-        assetSize: (id) => assets.assetSize(id), assetCenterXZ: (id) => assets.assetCenterXZ(id),
-      }),
-    ]) } : {}),
+    ...(fishingAnchors ? {
+      accessPositions: new Map([
+        ...fishingAnchors.banks,
+        ...miningAccessPositions(WORLD_SITES, (x, z) => scene.meshHeightAt(x, z), {
+          assetSize: (id) => assets.assetSize(id), assetCenterXZ: (id) => assets.assetCenterXZ(id),
+        }),
+      ]),
+      fishingSchools: fishingAnchors.schools,
+    } : {}),
     baseY: (assetId: string): number => assets.baseY(assetId),
     assetSize: (assetId: string): { x: number; y: number; z: number } | null => assets.assetSize(assetId),
     assetCenterXZ: (assetId: string): { x: number; z: number } | null => assets.assetCenterXZ(assetId),
