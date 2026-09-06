@@ -1,0 +1,112 @@
+[
+  {
+    "id": "beetle_golem",
+    "glbSha256": "c4b14bafdfc11fac3b0db973e187187bbd07005af25ae4671e724edbf53eda84",
+    "passed": true,
+    "weightedVertices": 1860,
+    "lowestY": 0.0028544748550320964,
+    "maxBoundsDifference": 1.7725470469187599e-7,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0030000000586489772,
+        "maxBoundsDifference": 1.7725470469187599e-7
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.002944147420260279,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0029005371687469417,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0029589483017644636,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0029987270527978005,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0029987270527978005,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.002990004940797819,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0028544748550320964,
+        "maxBoundsDifference": 0
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  },
+  {
+    "id": "lava_golem",
+    "glbSha256": "0a54a15bacdc355293120e788000a237e74bcc430038aa465a8fb27359a22837",
+    "passed": true,
+    "weightedVertices": 3337,
+    "lowestY": 0.0028347322868886443,
+    "maxBoundsDifference": 1.90279294542961e-7,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.003000000452914528,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.002937918770612391,
+        "maxBoundsDifference": 1.5921995666356992e-10
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0028347322868886443,
+        "maxBoundsDifference": 1.5268514230726282e-10
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.003000000452914528,
+        "maxBoundsDifference": 1.90279294542961e-7
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.003000000452914528,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.003000000452914528,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.003000000452914528,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.002999979607113623,
+        "maxBoundsDifference": 0
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  }
+]

@@ -30,6 +30,9 @@ const WINDOW_INSERT_SCALE = 1;
  * linter reports them as a free assembly 2.20 m in the air.
  */
 const FRONT_BRACE_SETBACK = 0.18;
+// Native support_beam reaches y 2.920026 at its head. At scale 0.48 this seats that
+// head against the shared 3.123 m canopy while its foot remains inside the supporting post/wall.
+const BRACE_Y = 3.123 - 2.9200263023376465 * 0.48;
 
 interface PorchFrame {
   readonly bays: number;
@@ -165,7 +168,7 @@ function frontBraces(frame: PorchFrame, prefix = "brace"): readonly PartPlacemen
     `${prefix}_${index}`,
     "support_beam",
     frame.postX * side,
-    1.62,
+    BRACE_Y,
     frame.frontZ - FRONT_BRACE_SETBACK,
     Math.PI,
     0.48,
@@ -177,7 +180,7 @@ function rearBraces(frame: PorchFrame): readonly PartPlacement[] {
     `rear_brace_${index}`,
     "support_beam",
     frame.postX * side,
-    1.62,
+    BRACE_Y,
     frame.backZ + 0.08,
     0,
     0.48,
@@ -187,40 +190,22 @@ function rearBraces(frame: PorchFrame): readonly PartPlacement[] {
 /**
  * Make the shuttered bay a real opening in the exact base bay it occupies.
  *
- * Plaster and timber use `overhang_plaster`, whose single mesh combines the roof and a solid wall.
- * There is no way to cut only its wall portion from this recipe, so the selected `o` tag becomes
- * the kit's apertured wall and its old trim tag carries the available slab canopy. The slab is
- * lowered so its top aligns with the neighbouring plaster canopy. Stone already has separate wall,
- * trim and canopy tags, so only its selected wall tag changes and the original canopy is untouched.
+ * Covered bays have separate wall, canopy and footing parts in every kit. Replace only the wall:
+ * mixing the old integral plaster canopy with a different roof over a window produced a stepped
+ * roofline, a wedge at the panel joint and a missing footing where its tag became the replacement
+ * roof. Native window panels now share their neighbours' wall frame and keep the original aperture.
  */
 function convertWindowBays(
   context: StructureVariantContext,
   base: readonly PartPlacement[],
-  frame: PorchFrame,
+  _frame: PorchFrame,
   selectedBayIndices: readonly number[],
 ): PartPlacement[] {
   const selected = new Set(selectedBayIndices);
   return base.map((part) => {
-    const match = /^b(\d+)_(w|o|t)$/.exec(part.tag);
+    const match = /^b(\d+)_w$/.exec(part.tag);
     if (match === null || !selected.has(Number(match[1]))) return part;
-
-    if ((match[2] === "w" && part.assetId === context.kit.wall)
-      || (match[2] === "o" && part.assetId === "overhang_plaster")) {
-      return { ...part, assetId: context.kit.wallWindow };
-    }
-
-    if (match[2] === "t" && part.assetId === "wall_bottom_trim" && context.kitId !== "stone") {
-      // overhang_brick's top is 0.058 m below its pivot. 3.086 puts that top at 3.028 m,
-      // matching overhang_plaster while retaining the original bay's two-metre canopy reach.
-      return {
-        ...part,
-        assetId: "overhang_brick",
-        dy: 3.086,
-        dz: frame.backZ + 1,
-      };
-    }
-
-    return part;
+    return { ...part, assetId: context.kit.wallWindow };
   });
 }
 

@@ -9,6 +9,7 @@ import { SimClock } from "../game/src/core/time.js";
 import { Store } from "../game/src/state/store.js";
 import { ActivitySystem } from "../game/src/systems/activity.js";
 import { AgilitySystem } from "../game/src/systems/agility.js";
+import type { TraversalPresentationPort } from "../game/src/systems/traversalMotion.js";
 import { Movement } from "../game/src/systems/movement.js";
 import type { Navigation, RouteLeg } from "../game/src/systems/navigation.js";
 import { InteractionDispatcher } from "../game/src/world/interactions.js";
@@ -20,7 +21,7 @@ function seedFor(success: boolean): number {
   throw new Error("No deterministic traversal seed found");
 }
 
-function runtime(seed = seedFor(true)) {
+function runtime(seed = seedFor(true), presentation?: TraversalPresentationPort, isLandingSafe?: (point: Vec3) => boolean) {
   const store = new Store(seed, 0);
   const state = store.get();
   state.player.position = [0, 0, 0];
@@ -48,7 +49,7 @@ function runtime(seed = seedFor(true)) {
     skillLevels: () => Object.fromEntries(SKILL_IDS.map((id) => [id, state.skills[id].level])) as Record<SkillId, number>,
   });
   const activity = new ActivitySystem(store, events);
-  const agility = new AgilitySystem({ store, events, clock, rng, entities, activity, dispatcher, nav });
+  const agility = new AgilitySystem({ store, events, clock, rng, entities, activity, dispatcher, nav, presentation, isLandingSafe });
   const movement = new Movement(nav, events, {
     shortcuts: {
       begin: (id, entry, exit) => agility.beginRoute(id, entry, exit),
@@ -81,6 +82,60 @@ function runtime(seed = seedFor(true)) {
 }
 
 describe("Agility route parity", () => {
+  it("waits for an opaque painted frame before RNG and placement and ends after the commit", () => {
+    let ready = false;
+    const calls: string[] = [];
+    const h = runtime(seedFor(true), {
+      begin: () => calls.push("begin"), update: () => calls.push("update"),
+      readyToCommit: () => ready,
+      end: (reason, position) => calls.push(`${reason}:${position[0]}`),
+    });
+    h.api.interact(h.obstacle.id, "climb");
+    const rngBefore = h.rng.get("misc").getState();
+    h.step(10);
+    expect(h.state.player.position).toEqual([0, 0, 0]);
+    expect(h.rng.get("misc").getState()).toBe(rngBefore);
+    expect(calls).not.toContain("completed:8");
+    ready = true;
+    h.step(1);
+    expect(calls.at(-1)).toBe("completed:8");
+    expect(h.state.skills.agility.xp).toBe(18);
+  });
+
+  it("checks live landing collision at start and again at commit", () => {
+    let safe = false;
+    const h = runtime(seedFor(true), undefined, () => safe);
+    expect(h.api.interact(h.obstacle.id, "climb").ok).toBe(false);
+    safe = true;
+    expect(h.api.interact(h.obstacle.id, "climb").ok).toBe(true);
+    const rngBefore = h.rng.get("misc").getState();
+    safe = false;
+    h.step(9);
+    expect(h.state.player.position).toEqual([0, 0, 0]);
+    expect(h.rng.get("misc").getState()).toBe(rngBefore);
+    expect(h.state.skills.agility.xp).toBe(0);
+  });
+  it("rejects reverse traversal of a one-way obstacle without consuming RNG", () => {
+    const h = runtime();
+    h.obstacle.meta = { oneWay: true };
+    h.state.player.position = [8, 0, 0];
+    const before = h.outcome();
+    expect(h.agility.beginRoute(h.obstacle.id, [8, 0, 0], [0, 0, 0])).toMatchObject({ ok: false });
+    expect(h.outcome()).toEqual(before);
+  });
+
+  it("rejects a landing that disappears during traversal with no XP or RNG roll", () => {
+    const h = runtime();
+    expect(h.api.interact(h.obstacle.id, "climb").ok).toBe(true);
+    const before = h.outcome();
+    // Authored destination can be invalidated while the activity is running.
+    h.obstacle.obstacle!.exitPosition = [Number.NaN, 0, 0];
+    h.step(9);
+    expect(h.outcome()).toEqual(before);
+    expect(h.state.activity).toBeNull();
+    expect(h.events.since(0, ["activity.stopped"]).events[0]?.data)
+      .toMatchObject({ reason: "failed", landingBlocked: true, xp: 0, damage: 0 });
+  });
   it.each([true, false])("uses direct traversal duration and seeded outcome for success=%s", (success) => {
     const direct = runtime(seedFor(success));
     const route = runtime(seedFor(success));

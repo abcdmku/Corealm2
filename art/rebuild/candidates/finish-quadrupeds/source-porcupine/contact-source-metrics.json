@@ -1,0 +1,74 @@
+{
+  "source": "contact-source-ik.json",
+  "method": "Compare source-evaluated consecutive native joint head distances for .0 to .001, .001 to .002 and .002 to .003 before/after IK. These measure actual world segment lengths, independent of use_stretch flag. Also report target correction temporal steps.",
+  "clips": [
+    {
+      "name": "Run",
+      "limbs": {
+        "FrontLeg_L": {
+          "maximumSegmentLengthDeltaMeters": 4.259027391701521e-8,
+          "maximumSegmentLengthRatioDelta": 8.694529441966026e-7,
+          "maximumPawCorrectionStepDegrees": 3.0000000000000004,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 3456.0131836440423,
+          "maximumLiftStepMeters": 0.0028552591191982743
+        },
+        "FrontLeg_R": {
+          "maximumSegmentLengthDeltaMeters": 4.5838888811815774e-8,
+          "maximumSegmentLengthRatioDelta": 8.933714230607848e-7,
+          "maximumPawCorrectionStepDegrees": 3.0000000000000004,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 3456.0131836440423,
+          "maximumLiftStepMeters": 0.0036783969439161536
+        },
+        "BackLeg_L": {
+          "maximumSegmentLengthDeltaMeters": 3.252445509474823e-8,
+          "maximumSegmentLengthRatioDelta": 5.010993761045412e-7,
+          "maximumPawCorrectionStepDegrees": 3.0000000000000004,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 3456.0131836440423,
+          "maximumLiftStepMeters": 0.0037797482188961034
+        },
+        "BackLeg_R": {
+          "maximumSegmentLengthDeltaMeters": 4.0399346476923894e-8,
+          "maximumSegmentLengthRatioDelta": 3.5724892444299883e-7,
+          "maximumPawCorrectionStepDegrees": 3.0000000000000004,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 3456.0131836440423,
+          "maximumLiftStepMeters": 0.005576956721962544
+        }
+      },
+      "maxProtectedMatrixDelta": 0
+    },
+    {
+      "name": "Walk",
+      "limbs": {
+        "FrontLeg_L": {
+          "maximumSegmentLengthDeltaMeters": 5.721284178029666e-8,
+          "maximumSegmentLengthRatioDelta": 8.744328685583724e-7,
+          "maximumPawCorrectionStepDegrees": 3.0000000000000004,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 5760.087891966125,
+          "maximumLiftStepMeters": 0.003573054410260551
+        },
+        "FrontLeg_R": {
+          "maximumSegmentLengthDeltaMeters": 4.1594529573066435e-8,
+          "maximumSegmentLengthRatioDelta": 9.053184393259528e-7,
+          "maximumPawCorrectionStepDegrees": 3.0000000000000004,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 11520.17578393225,
+          "maximumLiftStepMeters": 0.0035676400244513853
+        },
+        "BackLeg_L": {
+          "maximumSegmentLengthDeltaMeters": 5.239994290158925e-8,
+          "maximumSegmentLengthRatioDelta": 3.7396954888357925e-7,
+          "maximumPawCorrectionStepDegrees": 3.0000000000000018,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 9215.718758582809,
+          "maximumLiftStepMeters": 0.005979627965226762
+        },
+        "BackLeg_R": {
+          "maximumSegmentLengthDeltaMeters": 4.694892794916196e-8,
+          "maximumSegmentLengthRatioDelta": 4.5439521612067324e-7,
+          "maximumPawCorrectionStepDegrees": 3.0000000000000018,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 9216.562534334373,
+          "maximumLiftStepMeters": 0.005979503916768534
+        }
+      },
+      "maxProtectedMatrixDelta": 0
+    }
+  ]
+}

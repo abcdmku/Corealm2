@@ -41,6 +41,7 @@ import { panelInteraction } from "./panelInteraction.js";
 import { QuestTracker } from "./questTracker.js";
 import { AgentPanel } from "./agentPanel.js";
 import type { AgentSession } from "../agent/session.js";
+import type { HuntContractsSystem } from "../systems/huntContracts.js";
 import { Minimap } from "./minimap.js";
 import {
   LazyPanel,
@@ -247,6 +248,7 @@ export interface MapTerrainSource {
 
 /** What each panel is handed. Everything shared, nothing global. */
 export interface UiContext {
+  huntContracts?(): HuntContractsSystem | null;
   readonly api: GameApi;
   readonly tooltip: Pick<Tooltip, "attach" | "refresh">;
   readonly menu: ContextMenu;
@@ -321,6 +323,7 @@ export interface UiOptions {
 }
 
 export interface Ui {
+  setHuntContracts(hunts: HuntContractsSystem | null): void;
   mount(root: HTMLElement): void;
   /** Call once a frame. Internally throttled; it does not repaint per frame. */
   update(): void;
@@ -356,6 +359,8 @@ const PANEL_INTERVAL_MS = 220;
  * The single entry point. One call at boot, one `update()` a frame, one `dispose()` on teardown.
  */
 export function createUi(api: GameApi, options: UiOptions = {}): Ui {
+  let hunts: HuntContractsSystem | null = null;
+  let lastUiRegion: RegionId | null = null;
   const registry = options.registry ?? keybindings;
   const settings = options.settings ?? new SettingsStore();
   const tooltip = new DeferredTooltip(api, (error) => loadError("Item details")(error));
@@ -376,6 +381,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     : null;
 
   const context: UiContext = {
+    huntContracts: () => hunts,
     api,
     tooltip,
     menu,
@@ -491,10 +497,8 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     saveRecovery: options.saveRecovery,
     hasSave: () => options.hasSave?.() ?? false,
     onNewGame: () => {
-      cancelPendingPanelOpens(registry);
-      cancelProductionOpen?.();
-      death.cancelPending();
-      loot.cancelPending();
+      dismissTransient();
+      death.hide();
       settingsPanel.frame.close();
       options.onNewGame?.();
       title.close();
@@ -597,7 +601,20 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     }
   }
 
+  function dismissTransient(): void {
+    cancelPendingPanelOpens(registry);
+    cancelProductionOpen?.();
+    menu.close();
+    loot.hide();
+    for (const panel of panels) panel.frame.close();
+    tooltip.refresh();
+  }
+
   return {
+    setHuntContracts(next: HuntContractsSystem | null): void {
+      hunts = next;
+      refreshAll(true);
+    },
     mount(root: HTMLElement): void {
       if (mounted) return;
       mounted = true;
@@ -623,6 +640,9 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
 
     update(): void {
       if (!mounted) return;
+      const region = api.getPlayer().regionId;
+      if (lastUiRegion !== null && region !== lastUiRegion) dismissTransient();
+      lastUiRegion = region;
       loot.update();
       const now = performance.now();
       if (now - lastHudMs >= HUD_INTERVAL_MS) {
@@ -677,7 +697,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     },
 
     showDeath(detail: DeathDetail): void {
-      loot.cancelPending();
+      dismissTransient();
       const generation = panelInteraction.generation;
       death.show(detail, () => !title.isOpen() && generation === panelInteraction.generation);
     },

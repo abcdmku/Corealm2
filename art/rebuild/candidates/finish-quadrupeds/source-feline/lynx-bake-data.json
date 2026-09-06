@@ -1,0 +1,1809 @@
+{
+  "boneNames": [
+    "Foot_front_IK_L",
+    "Foot_front_IK_L_end",
+    "Knee_back_IK_L",
+    "Knee_back_IK_L_end",
+    "Foot_Back_IK_L",
+    "Foot_Back_IK_L_end",
+    "Knee_front_IK_L",
+    "Knee_front_IK_L_end",
+    "Tail_controller",
+    "Tail_controller_end",
+    "Foot_front_IK_R",
+    "Foot_front_IK_R_end",
+    "Knee_back_IK_R",
+    "Knee_back_IK_R_end",
+    "Foot_Back_IK_R",
+    "Foot_Back_IK_R_end",
+    "Knee_front_IK_R",
+    "Knee_front_IK_R_end",
+    "Spine",
+    "Spine.001",
+    "Spine.002",
+    "Spine.003",
+    "Spine.004",
+    "Spine.004_end",
+    "Neck",
+    "Neck.001",
+    "Neck.002",
+    "Head",
+    "Mouth",
+    "Mouth_end",
+    "Nose",
+    "Nose_end",
+    "Ear_connector",
+    "Ear",
+    "Ear.001",
+    "Ear.002",
+    "Ear.002_end",
+    "Ear_connector.001",
+    "Ear.006",
+    "Ear.003",
+    "Ear.004",
+    "Ear.004_end",
+    "Head_controller",
+    "Head_controller_end",
+    "Shoulder_front_L",
+    "Shoulder_front_L_end",
+    "Thigh_front_L",
+    "Calf_Front_L",
+    "Foot_front_L2",
+    "Foot_front_L",
+    "toe_connector_L.001",
+    "toe_connector_L",
+    "Toe_pinky_L_front",
+    "Toe_pinky_L_front_end",
+    "Toe_ring_L_front",
+    "Toe_ring_L_front_end",
+    "toe_connector_L.002",
+    "Toe_thumb_L_front",
+    "Toe_thumb_L_front_end",
+    "Toe_Pointer_L_front",
+    "Toe_Pointer_L_front_end",
+    "Thigh_front_R",
+    "Calf_Front_R",
+    "Foot_front_L2.002",
+    "Foot_front_R",
+    "toe_connector_R",
+    "toe_connector_R.001",
+    "Toe_pinky_L_front.002",
+    "Toe_pinky_L_front.002_end",
+    "Toe_ring_L_front.002",
+    "Toe_ring_L_front.002_end",
+    "toe_connector_R.002",
+    "Toe_thumb_L_front.002",
+    "Toe_thumb_L_front.002_end",
+    "Toe_Pointer_L_front.002",
+    "Toe_Pointer_L_front.002_end",
+    "Hip",
+    "Thigh_Back_L",
+    "Calf_back_L",
+    "Foot_Back_L",
+    "Foot_Back_L2",
+    "toe_connector_L_back.002",
+    "Toe_back_L_Thumb",
+    "Toe_back_L_Thumb_end",
+    "toe_connector_L_back.001",
+    "toe_connector_L_back",
+    "Toe_back_L_pinky",
+    "Toe_back_L_pinky_end",
+    "Toe_back_L_Ring",
+    "Toe_back_L_Ring_end",
+    "Toe_back_L_Pointer",
+    "Toe_back_L_Pointer_end",
+    "Thigh_Back_R",
+    "Calf_back_R",
+    "Foot_Back_R",
+    "Foot_Back_L2.002",
+    "toe_connector_L_back.006",
+    "Toe_back_L_Thumb.002",
+    "Toe_back_L_Thumb.002_end",
+    "toe_connector_L_back.003",
+    "toe_connector_L_back.004",
+    "Toe_back_L_pinky.002",
+    "Toe_back_L_pinky.002_end",
+    "Toe_back_L_Ring.002",
+    "Toe_back_L_Ring.002_end",
+    "Toe_back_L_Pointer.002",
+    "Toe_back_L_Pointer.002_end",
+    "Tail",
+    "Tail.001",
+    "Tail.002",
+    "Tail.003",
+    "Tail.004",
+    "Tail.005",
+    "Tail.006",
+    "Tail.007",
+    "Tail.007_end",
+    "Spine_controller_1",
+    "Spine_controller_1_end",
+    "Spine_controller_2",
+    "Spine_controller_2_end"
+  ],
+  "samples": [
+    {
+      "clip": "Run",
+      "frame": 1.0,
+      "time": 0.0
+    },
+    {
+      "clip": "Run",
+      "frame": 1.125,
+      "time": 0.005208333333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 1.25,
+      "time": 0.010416666666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 1.375,
+      "time": 0.015625
+    },
+    {
+      "clip": "Run",
+      "frame": 1.5,
+      "time": 0.020833333333333332
+    },
+    {
+      "clip": "Run",
+      "frame": 1.625,
+      "time": 0.026041666666666668
+    },
+    {
+      "clip": "Run",
+      "frame": 1.75,
+      "time": 0.03125
+    },
+    {
+      "clip": "Run",
+      "frame": 1.875,
+      "time": 0.036458333333333336
+    },
+    {
+      "clip": "Run",
+      "frame": 2.0,
+      "time": 0.041666666666666664
+    },
+    {
+      "clip": "Run",
+      "frame": 2.125,
+      "time": 0.046875
+    },
+    {
+      "clip": "Run",
+      "frame": 2.25,
+      "time": 0.052083333333333336
+    },
+    {
+      "clip": "Run",
+      "frame": 2.375,
+      "time": 0.057291666666666664
+    },
+    {
+      "clip": "Run",
+      "frame": 2.5,
+      "time": 0.0625
+    },
+    {
+      "clip": "Run",
+      "frame": 2.625,
+      "time": 0.06770833333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 2.75,
+      "time": 0.07291666666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 2.875,
+      "time": 0.078125
+    },
+    {
+      "clip": "Run",
+      "frame": 3.0,
+      "time": 0.08333333333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 3.125,
+      "time": 0.08854166666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 3.25,
+      "time": 0.09375
+    },
+    {
+      "clip": "Run",
+      "frame": 3.375,
+      "time": 0.09895833333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 3.5,
+      "time": 0.10416666666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 3.625,
+      "time": 0.109375
+    },
+    {
+      "clip": "Run",
+      "frame": 3.75,
+      "time": 0.11458333333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 3.875,
+      "time": 0.11979166666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 4.0,
+      "time": 0.125
+    },
+    {
+      "clip": "Run",
+      "frame": 4.125,
+      "time": 0.13020833333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 4.25,
+      "time": 0.13541666666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 4.375,
+      "time": 0.140625
+    },
+    {
+      "clip": "Run",
+      "frame": 4.5,
+      "time": 0.14583333333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 4.625,
+      "time": 0.15104166666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 4.75,
+      "time": 0.15625
+    },
+    {
+      "clip": "Run",
+      "frame": 4.875,
+      "time": 0.16145833333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 5.0,
+      "time": 0.16666666666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 5.125,
+      "time": 0.171875
+    },
+    {
+      "clip": "Run",
+      "frame": 5.25,
+      "time": 0.17708333333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 5.375,
+      "time": 0.18229166666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 5.5,
+      "time": 0.1875
+    },
+    {
+      "clip": "Run",
+      "frame": 5.625,
+      "time": 0.19270833333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 5.75,
+      "time": 0.19791666666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 5.875,
+      "time": 0.203125
+    },
+    {
+      "clip": "Run",
+      "frame": 6.0,
+      "time": 0.20833333333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 6.125,
+      "time": 0.21354166666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 6.25,
+      "time": 0.21875
+    },
+    {
+      "clip": "Run",
+      "frame": 6.375,
+      "time": 0.22395833333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 6.5,
+      "time": 0.22916666666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 6.625,
+      "time": 0.234375
+    },
+    {
+      "clip": "Run",
+      "frame": 6.75,
+      "time": 0.23958333333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 6.875,
+      "time": 0.24479166666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 7.0,
+      "time": 0.25
+    },
+    {
+      "clip": "Run",
+      "frame": 7.125,
+      "time": 0.2552083333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 7.25,
+      "time": 0.2604166666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 7.375,
+      "time": 0.265625
+    },
+    {
+      "clip": "Run",
+      "frame": 7.5,
+      "time": 0.2708333333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 7.625,
+      "time": 0.2760416666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 7.75,
+      "time": 0.28125
+    },
+    {
+      "clip": "Run",
+      "frame": 7.875,
+      "time": 0.2864583333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 8.0,
+      "time": 0.2916666666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 8.125,
+      "time": 0.296875
+    },
+    {
+      "clip": "Run",
+      "frame": 8.25,
+      "time": 0.3020833333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 8.375,
+      "time": 0.3072916666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 8.5,
+      "time": 0.3125
+    },
+    {
+      "clip": "Run",
+      "frame": 8.625,
+      "time": 0.3177083333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 8.75,
+      "time": 0.3229166666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 8.875,
+      "time": 0.328125
+    },
+    {
+      "clip": "Run",
+      "frame": 9.0,
+      "time": 0.3333333333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 9.125,
+      "time": 0.3385416666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 9.25,
+      "time": 0.34375
+    },
+    {
+      "clip": "Run",
+      "frame": 9.375,
+      "time": 0.3489583333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 9.5,
+      "time": 0.3541666666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 9.625,
+      "time": 0.359375
+    },
+    {
+      "clip": "Run",
+      "frame": 9.75,
+      "time": 0.3645833333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 9.875,
+      "time": 0.3697916666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 10.0,
+      "time": 0.375
+    },
+    {
+      "clip": "Run",
+      "frame": 10.125,
+      "time": 0.3802083333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 10.25,
+      "time": 0.3854166666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 10.375,
+      "time": 0.390625
+    },
+    {
+      "clip": "Run",
+      "frame": 10.5,
+      "time": 0.3958333333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 10.625,
+      "time": 0.4010416666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 10.75,
+      "time": 0.40625
+    },
+    {
+      "clip": "Run",
+      "frame": 10.875,
+      "time": 0.4114583333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 11.0,
+      "time": 0.4166666666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 11.125,
+      "time": 0.421875
+    },
+    {
+      "clip": "Run",
+      "frame": 11.25,
+      "time": 0.4270833333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 11.375,
+      "time": 0.4322916666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 11.5,
+      "time": 0.4375
+    },
+    {
+      "clip": "Run",
+      "frame": 11.625,
+      "time": 0.4427083333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 11.75,
+      "time": 0.4479166666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 11.875,
+      "time": 0.453125
+    },
+    {
+      "clip": "Run",
+      "frame": 12.0,
+      "time": 0.4583333333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 12.125,
+      "time": 0.4635416666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 12.25,
+      "time": 0.46875
+    },
+    {
+      "clip": "Run",
+      "frame": 12.375,
+      "time": 0.4739583333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 12.5,
+      "time": 0.4791666666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 12.625,
+      "time": 0.484375
+    },
+    {
+      "clip": "Run",
+      "frame": 12.75,
+      "time": 0.4895833333333333
+    },
+    {
+      "clip": "Run",
+      "frame": 12.875,
+      "time": 0.4947916666666667
+    },
+    {
+      "clip": "Run",
+      "frame": 13.0,
+      "time": 0.5
+    },
+    {
+      "clip": "Run",
+      "frame": 13.125,
+      "time": 0.5052083333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 13.25,
+      "time": 0.5104166666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 13.375,
+      "time": 0.515625
+    },
+    {
+      "clip": "Run",
+      "frame": 13.5,
+      "time": 0.5208333333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 13.625,
+      "time": 0.5260416666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 13.75,
+      "time": 0.53125
+    },
+    {
+      "clip": "Run",
+      "frame": 13.875,
+      "time": 0.5364583333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 14.0,
+      "time": 0.5416666666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 14.125,
+      "time": 0.546875
+    },
+    {
+      "clip": "Run",
+      "frame": 14.25,
+      "time": 0.5520833333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 14.375,
+      "time": 0.5572916666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 14.5,
+      "time": 0.5625
+    },
+    {
+      "clip": "Run",
+      "frame": 14.625,
+      "time": 0.5677083333333334
+    },
+    {
+      "clip": "Run",
+      "frame": 14.75,
+      "time": 0.5729166666666666
+    },
+    {
+      "clip": "Run",
+      "frame": 14.875,
+      "time": 0.578125
+    },
+    {
+      "clip": "Run",
+      "frame": 15.0,
+      "time": 0.5833333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 1.0,
+      "time": 0.0
+    },
+    {
+      "clip": "Walk",
+      "frame": 1.125,
+      "time": 0.005208333333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 1.25,
+      "time": 0.010416666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 1.375,
+      "time": 0.015625
+    },
+    {
+      "clip": "Walk",
+      "frame": 1.5,
+      "time": 0.020833333333333332
+    },
+    {
+      "clip": "Walk",
+      "frame": 1.625,
+      "time": 0.026041666666666668
+    },
+    {
+      "clip": "Walk",
+      "frame": 1.75,
+      "time": 0.03125
+    },
+    {
+      "clip": "Walk",
+      "frame": 1.875,
+      "time": 0.036458333333333336
+    },
+    {
+      "clip": "Walk",
+      "frame": 2.0,
+      "time": 0.041666666666666664
+    },
+    {
+      "clip": "Walk",
+      "frame": 2.125,
+      "time": 0.046875
+    },
+    {
+      "clip": "Walk",
+      "frame": 2.25,
+      "time": 0.052083333333333336
+    },
+    {
+      "clip": "Walk",
+      "frame": 2.375,
+      "time": 0.057291666666666664
+    },
+    {
+      "clip": "Walk",
+      "frame": 2.5,
+      "time": 0.0625
+    },
+    {
+      "clip": "Walk",
+      "frame": 2.625,
+      "time": 0.06770833333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 2.75,
+      "time": 0.07291666666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 2.875,
+      "time": 0.078125
+    },
+    {
+      "clip": "Walk",
+      "frame": 3.0,
+      "time": 0.08333333333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 3.125,
+      "time": 0.08854166666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 3.25,
+      "time": 0.09375
+    },
+    {
+      "clip": "Walk",
+      "frame": 3.375,
+      "time": 0.09895833333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 3.5,
+      "time": 0.10416666666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 3.625,
+      "time": 0.109375
+    },
+    {
+      "clip": "Walk",
+      "frame": 3.75,
+      "time": 0.11458333333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 3.875,
+      "time": 0.11979166666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 4.0,
+      "time": 0.125
+    },
+    {
+      "clip": "Walk",
+      "frame": 4.125,
+      "time": 0.13020833333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 4.25,
+      "time": 0.13541666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 4.375,
+      "time": 0.140625
+    },
+    {
+      "clip": "Walk",
+      "frame": 4.5,
+      "time": 0.14583333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 4.625,
+      "time": 0.15104166666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 4.75,
+      "time": 0.15625
+    },
+    {
+      "clip": "Walk",
+      "frame": 4.875,
+      "time": 0.16145833333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 5.0,
+      "time": 0.16666666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 5.125,
+      "time": 0.171875
+    },
+    {
+      "clip": "Walk",
+      "frame": 5.25,
+      "time": 0.17708333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 5.375,
+      "time": 0.18229166666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 5.5,
+      "time": 0.1875
+    },
+    {
+      "clip": "Walk",
+      "frame": 5.625,
+      "time": 0.19270833333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 5.75,
+      "time": 0.19791666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 5.875,
+      "time": 0.203125
+    },
+    {
+      "clip": "Walk",
+      "frame": 6.0,
+      "time": 0.20833333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 6.125,
+      "time": 0.21354166666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 6.25,
+      "time": 0.21875
+    },
+    {
+      "clip": "Walk",
+      "frame": 6.375,
+      "time": 0.22395833333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 6.5,
+      "time": 0.22916666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 6.625,
+      "time": 0.234375
+    },
+    {
+      "clip": "Walk",
+      "frame": 6.75,
+      "time": 0.23958333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 6.875,
+      "time": 0.24479166666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 7.0,
+      "time": 0.25
+    },
+    {
+      "clip": "Walk",
+      "frame": 7.125,
+      "time": 0.2552083333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 7.25,
+      "time": 0.2604166666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 7.375,
+      "time": 0.265625
+    },
+    {
+      "clip": "Walk",
+      "frame": 7.5,
+      "time": 0.2708333333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 7.625,
+      "time": 0.2760416666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 7.75,
+      "time": 0.28125
+    },
+    {
+      "clip": "Walk",
+      "frame": 7.875,
+      "time": 0.2864583333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 8.0,
+      "time": 0.2916666666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 8.125,
+      "time": 0.296875
+    },
+    {
+      "clip": "Walk",
+      "frame": 8.25,
+      "time": 0.3020833333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 8.375,
+      "time": 0.3072916666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 8.5,
+      "time": 0.3125
+    },
+    {
+      "clip": "Walk",
+      "frame": 8.625,
+      "time": 0.3177083333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 8.75,
+      "time": 0.3229166666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 8.875,
+      "time": 0.328125
+    },
+    {
+      "clip": "Walk",
+      "frame": 9.0,
+      "time": 0.3333333333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 9.125,
+      "time": 0.3385416666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 9.25,
+      "time": 0.34375
+    },
+    {
+      "clip": "Walk",
+      "frame": 9.375,
+      "time": 0.3489583333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 9.5,
+      "time": 0.3541666666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 9.625,
+      "time": 0.359375
+    },
+    {
+      "clip": "Walk",
+      "frame": 9.75,
+      "time": 0.3645833333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 9.875,
+      "time": 0.3697916666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 10.0,
+      "time": 0.375
+    },
+    {
+      "clip": "Walk",
+      "frame": 10.125,
+      "time": 0.3802083333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 10.25,
+      "time": 0.3854166666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 10.375,
+      "time": 0.390625
+    },
+    {
+      "clip": "Walk",
+      "frame": 10.5,
+      "time": 0.3958333333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 10.625,
+      "time": 0.4010416666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 10.75,
+      "time": 0.40625
+    },
+    {
+      "clip": "Walk",
+      "frame": 10.875,
+      "time": 0.4114583333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 11.0,
+      "time": 0.4166666666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 11.125,
+      "time": 0.421875
+    },
+    {
+      "clip": "Walk",
+      "frame": 11.25,
+      "time": 0.4270833333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 11.375,
+      "time": 0.4322916666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 11.5,
+      "time": 0.4375
+    },
+    {
+      "clip": "Walk",
+      "frame": 11.625,
+      "time": 0.4427083333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 11.75,
+      "time": 0.4479166666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 11.875,
+      "time": 0.453125
+    },
+    {
+      "clip": "Walk",
+      "frame": 12.0,
+      "time": 0.4583333333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 12.125,
+      "time": 0.4635416666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 12.25,
+      "time": 0.46875
+    },
+    {
+      "clip": "Walk",
+      "frame": 12.375,
+      "time": 0.4739583333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 12.5,
+      "time": 0.4791666666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 12.625,
+      "time": 0.484375
+    },
+    {
+      "clip": "Walk",
+      "frame": 12.75,
+      "time": 0.4895833333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 12.875,
+      "time": 0.4947916666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 13.0,
+      "time": 0.5
+    },
+    {
+      "clip": "Walk",
+      "frame": 13.125,
+      "time": 0.5052083333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 13.25,
+      "time": 0.5104166666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 13.375,
+      "time": 0.515625
+    },
+    {
+      "clip": "Walk",
+      "frame": 13.5,
+      "time": 0.5208333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 13.625,
+      "time": 0.5260416666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 13.75,
+      "time": 0.53125
+    },
+    {
+      "clip": "Walk",
+      "frame": 13.875,
+      "time": 0.5364583333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 14.0,
+      "time": 0.5416666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 14.125,
+      "time": 0.546875
+    },
+    {
+      "clip": "Walk",
+      "frame": 14.25,
+      "time": 0.5520833333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 14.375,
+      "time": 0.5572916666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 14.5,
+      "time": 0.5625
+    },
+    {
+      "clip": "Walk",
+      "frame": 14.625,
+      "time": 0.5677083333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 14.75,
+      "time": 0.5729166666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 14.875,
+      "time": 0.578125
+    },
+    {
+      "clip": "Walk",
+      "frame": 15.0,
+      "time": 0.5833333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 15.125,
+      "time": 0.5885416666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 15.25,
+      "time": 0.59375
+    },
+    {
+      "clip": "Walk",
+      "frame": 15.375,
+      "time": 0.5989583333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 15.5,
+      "time": 0.6041666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 15.625,
+      "time": 0.609375
+    },
+    {
+      "clip": "Walk",
+      "frame": 15.75,
+      "time": 0.6145833333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 15.875,
+      "time": 0.6197916666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 16.0,
+      "time": 0.625
+    },
+    {
+      "clip": "Walk",
+      "frame": 16.125,
+      "time": 0.6302083333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 16.25,
+      "time": 0.6354166666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 16.375,
+      "time": 0.640625
+    },
+    {
+      "clip": "Walk",
+      "frame": 16.5,
+      "time": 0.6458333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 16.625,
+      "time": 0.6510416666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 16.75,
+      "time": 0.65625
+    },
+    {
+      "clip": "Walk",
+      "frame": 16.875,
+      "time": 0.6614583333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 17.0,
+      "time": 0.6666666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 17.125,
+      "time": 0.671875
+    },
+    {
+      "clip": "Walk",
+      "frame": 17.25,
+      "time": 0.6770833333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 17.375,
+      "time": 0.6822916666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 17.5,
+      "time": 0.6875
+    },
+    {
+      "clip": "Walk",
+      "frame": 17.625,
+      "time": 0.6927083333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 17.75,
+      "time": 0.6979166666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 17.875,
+      "time": 0.703125
+    },
+    {
+      "clip": "Walk",
+      "frame": 18.0,
+      "time": 0.7083333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 18.125,
+      "time": 0.7135416666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 18.25,
+      "time": 0.71875
+    },
+    {
+      "clip": "Walk",
+      "frame": 18.375,
+      "time": 0.7239583333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 18.5,
+      "time": 0.7291666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 18.625,
+      "time": 0.734375
+    },
+    {
+      "clip": "Walk",
+      "frame": 18.75,
+      "time": 0.7395833333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 18.875,
+      "time": 0.7447916666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 19.0,
+      "time": 0.75
+    },
+    {
+      "clip": "Walk",
+      "frame": 19.125,
+      "time": 0.7552083333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 19.25,
+      "time": 0.7604166666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 19.375,
+      "time": 0.765625
+    },
+    {
+      "clip": "Walk",
+      "frame": 19.5,
+      "time": 0.7708333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 19.625,
+      "time": 0.7760416666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 19.75,
+      "time": 0.78125
+    },
+    {
+      "clip": "Walk",
+      "frame": 19.875,
+      "time": 0.7864583333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 20.0,
+      "time": 0.7916666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 20.125,
+      "time": 0.796875
+    },
+    {
+      "clip": "Walk",
+      "frame": 20.25,
+      "time": 0.8020833333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 20.375,
+      "time": 0.8072916666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 20.5,
+      "time": 0.8125
+    },
+    {
+      "clip": "Walk",
+      "frame": 20.625,
+      "time": 0.8177083333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 20.75,
+      "time": 0.8229166666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 20.875,
+      "time": 0.828125
+    },
+    {
+      "clip": "Walk",
+      "frame": 21.0,
+      "time": 0.8333333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 21.125,
+      "time": 0.8385416666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 21.25,
+      "time": 0.84375
+    },
+    {
+      "clip": "Walk",
+      "frame": 21.375,
+      "time": 0.8489583333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 21.5,
+      "time": 0.8541666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 21.625,
+      "time": 0.859375
+    },
+    {
+      "clip": "Walk",
+      "frame": 21.75,
+      "time": 0.8645833333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 21.875,
+      "time": 0.8697916666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 22.0,
+      "time": 0.875
+    },
+    {
+      "clip": "Walk",
+      "frame": 22.125,
+      "time": 0.8802083333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 22.25,
+      "time": 0.8854166666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 22.375,
+      "time": 0.890625
+    },
+    {
+      "clip": "Walk",
+      "frame": 22.5,
+      "time": 0.8958333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 22.625,
+      "time": 0.9010416666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 22.75,
+      "time": 0.90625
+    },
+    {
+      "clip": "Walk",
+      "frame": 22.875,
+      "time": 0.9114583333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 23.0,
+      "time": 0.9166666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 23.125,
+      "time": 0.921875
+    },
+    {
+      "clip": "Walk",
+      "frame": 23.25,
+      "time": 0.9270833333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 23.375,
+      "time": 0.9322916666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 23.5,
+      "time": 0.9375
+    },
+    {
+      "clip": "Walk",
+      "frame": 23.625,
+      "time": 0.9427083333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 23.75,
+      "time": 0.9479166666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 23.875,
+      "time": 0.953125
+    },
+    {
+      "clip": "Walk",
+      "frame": 24.0,
+      "time": 0.9583333333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 24.125,
+      "time": 0.9635416666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 24.25,
+      "time": 0.96875
+    },
+    {
+      "clip": "Walk",
+      "frame": 24.375,
+      "time": 0.9739583333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 24.5,
+      "time": 0.9791666666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 24.625,
+      "time": 0.984375
+    },
+    {
+      "clip": "Walk",
+      "frame": 24.75,
+      "time": 0.9895833333333334
+    },
+    {
+      "clip": "Walk",
+      "frame": 24.875,
+      "time": 0.9947916666666666
+    },
+    {
+      "clip": "Walk",
+      "frame": 25.0,
+      "time": 1.0
+    },
+    {
+      "clip": "Walk",
+      "frame": 25.125,
+      "time": 1.0052083333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 25.25,
+      "time": 1.0104166666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 25.375,
+      "time": 1.015625
+    },
+    {
+      "clip": "Walk",
+      "frame": 25.5,
+      "time": 1.0208333333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 25.625,
+      "time": 1.0260416666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 25.75,
+      "time": 1.03125
+    },
+    {
+      "clip": "Walk",
+      "frame": 25.875,
+      "time": 1.0364583333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 26.0,
+      "time": 1.0416666666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 26.125,
+      "time": 1.046875
+    },
+    {
+      "clip": "Walk",
+      "frame": 26.25,
+      "time": 1.0520833333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 26.375,
+      "time": 1.0572916666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 26.5,
+      "time": 1.0625
+    },
+    {
+      "clip": "Walk",
+      "frame": 26.625,
+      "time": 1.0677083333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 26.75,
+      "time": 1.0729166666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 26.875,
+      "time": 1.078125
+    },
+    {
+      "clip": "Walk",
+      "frame": 27.0,
+      "time": 1.0833333333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 27.125,
+      "time": 1.0885416666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 27.25,
+      "time": 1.09375
+    },
+    {
+      "clip": "Walk",
+      "frame": 27.375,
+      "time": 1.0989583333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 27.5,
+      "time": 1.1041666666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 27.625,
+      "time": 1.109375
+    },
+    {
+      "clip": "Walk",
+      "frame": 27.75,
+      "time": 1.1145833333333333
+    },
+    {
+      "clip": "Walk",
+      "frame": 27.875,
+      "time": 1.1197916666666667
+    },
+    {
+      "clip": "Walk",
+      "frame": 28.0,
+      "time": 1.125
+    }
+  ],
+  "eyes": [
+    {
+      "name": "Sphere",
+      "oldVertices": 31746,
+      "vertices": 1271,
+      "triangles": 2538,
+      "oneWaySurfaceMaxMmAtPointOneScale": 0.29241847805678844,
+      "method": "Every original vertex to nearest reduced triangle. Reverse surface error and hardware silhouette remain separate checks."
+    },
+    {
+      "name": "Sphere.001",
+      "oldVertices": 31746,
+      "vertices": 1271,
+      "triangles": 2538,
+      "oneWaySurfaceMaxMmAtPointOneScale": 0.29241847805678844,
+      "method": "Every original vertex to nearest reduced triangle. Reverse surface error and hardware silhouette remain separate checks."
+    }
+  ],
+  "sourceSceneRemoved": true,
+  "displayScale": 0.1,
+  "geometrySpace": "Original body-local; output skin matrices map to normalized Y-up at .1 scale.",
+  "samplingFps": 192,
+  "adaptation": {
+    "vertices": 22650,
+    "polygons": 22648,
+    "tail_vertices": 4819,
+    "max_delta_source_units": 4.318506601516282,
+    "native_motion_preserved": false,
+    "source_forward": "-Y",
+    "source_up": "+Z",
+    "hindquarter_lift": 0.0,
+    "rest_rig_adapted": true
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "id": "animal_aurochs",
+  "candidateSha256": "24a15de21d19f14fd526d69fdc89d2d1352170dd01ffe3cfad682cb400deda23",
+  "sourceSha256": "c1e4363275d2c708235cbf3b1bf3b0d16398da4b570d7118b483f10c688da7e5",
+  "passed": true,
+  "results": [
+    {
+      "id": "animal_aurochs",
+      "name": "Walk",
+      "candidateSha256": "24a15de21d19f14fd526d69fdc89d2d1352170dd01ffe3cfad682cb400deda23",
+      "sourceSha256": "c1e4363275d2c708235cbf3b1bf3b0d16398da4b570d7118b483f10c688da7e5",
+      "clearanceM": 0.0005,
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "velocityIntervalSeconds": 0.0001475694434096416,
+      "maximumMps": 0.004153438869809052,
+      "count": 36906,
+      "worst": {
+        "vertex": 2057,
+        "phase": 0.7496744791666666,
+        "clearanceM": 0.000500408889542758,
+        "declared": true
+      },
+      "nonFiniteVertices": 0,
+      "maximumPenetrationM": 0,
+      "passed": true
+    },
+    {
+      "id": "animal_aurochs",
+      "name": "Run",
+      "candidateSha256": "24a15de21d19f14fd526d69fdc89d2d1352170dd01ffe3cfad682cb400deda23",
+      "sourceSha256": "c1e4363275d2c708235cbf3b1bf3b0d16398da4b570d7118b483f10c688da7e5",
+      "clearanceM": 0.0005,
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "velocityIntervalSeconds": 0.0000868055581425627,
+      "maximumMps": 0.0065009426725249255,
+      "count": 25848,
+      "worst": {
+        "vertex": 2087,
+        "phase": 0.4202473958333333,
+        "clearanceM": 0.0005006519297925741,
+        "declared": true
+      },
+      "nonFiniteVertices": 0,
+      "maximumPenetrationM": 0,
+      "passed": true
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "cave_roach",
+    "glbSha256": "dd1da7331eff7cb6cad91d0db24201c725cd4e29f70554f7932f9288ab9bd114",
+    "passed": true,
+    "weightedVertices": 9012,
+    "lowestY": 0.0038362715798120495,
+    "maxBoundsDifference": 9.054394853942702e-8,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.004986745115610591,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.004999995901558526,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0038362715798120495,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.004720066573865393,
+        "maxBoundsDifference": 8.054936329049491e-8
+      },
+      {
+        "clip": "AttackSecondary",
+        "minimumY": 0.004722940571505671,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.004999999886187406,
+        "maxBoundsDifference": 8.827270809520363e-8
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.004999999886187406,
+        "maxBoundsDifference": 8.60831526222882e-8
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.004999999886187406,
+        "maxBoundsDifference": 9.054394853942702e-8
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.004995624456574518,
+        "maxBoundsDifference": 0
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  }
+]

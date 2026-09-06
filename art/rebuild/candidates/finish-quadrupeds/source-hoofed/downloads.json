@@ -1,0 +1,26 @@
+[
+  {
+    "url": "https://opengameart.org/sites/default/files/riggedHorse.blend",
+    "file": "riggedHorse.blend",
+    "bytes": 20194164,
+    "sha256": "9cca670b93a74d50e89263e50d55ab035a6c46aa7d2b21e354bdac6987037f4a"
+  },
+  {
+    "url": "https://opengameart.org/sites/default/files/riggedHorse.jpg",
+    "file": "riggedHorse.jpg",
+    "bytes": 534176,
+    "sha256": "a575bebee8798cec06a41ca90e011dbb7f593a48bef0f6706df1e2d910d44193"
+  },
+  {
+    "url": "https://opengameart.org/sites/default/files/horse_default_0.png",
+    "file": "horse_default_0.png",
+    "bytes": 681513,
+    "sha256": "d843de316f1c5267981ad6c2cc1d4ff920e103f44daf0af5239614717883d22e"
+  },
+  {
+    "url": "https://opengameart.org/sites/default/files/horse.zip",
+    "file": "horse.zip",
+    "bytes": 18130019,
+    "sha256": "469704f523c97b18627c14d47dcda69271357f2bb2787309f461b310a0043d27"
+  }
+]

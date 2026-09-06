@@ -1,0 +1,160 @@
+{
+  "animationCount": 0,
+  "categories": [
+    {
+      "uid": "ed9e048550b2478eb1ab2faaba192832",
+      "name": "Animals & Pets",
+      "slug": "animals-pets",
+      "uri": "https://api.sketchfab.com/v3/categories/ed9e048550b2478eb1ab2faaba192832",
+      "icon": "https://static.sketchfab.com/static/builds/web/dist/static/assets/images/icons/categories/926733e187aa5a479aedd2581bffb3ea-v2.svg",
+      "thumbnails": [
+        {
+          "width": "512",
+          "height": "288",
+          "url": "https://static.sketchfab.com/categories/ed9e048550b2478eb1ab2faaba192832/512x288.png"
+        },
+        {
+          "width": "800",
+          "height": "450",
+          "url": "https://static.sketchfab.com/categories/ed9e048550b2478eb1ab2faaba192832/800x450.png"
+        }
+      ]
+    },
+    {
+      "uid": "1a99e2b67fc84de0b3ea0d3925208a04",
+      "name": "Nature & Plants",
+      "slug": "nature-plants",
+      "uri": "https://api.sketchfab.com/v3/categories/1a99e2b67fc84de0b3ea0d3925208a04",
+      "icon": "https://static.sketchfab.com/static/builds/web/dist/static/assets/images/icons/categories/98a605cec9718b6f02f1a5759039a5ad-v2.svg",
+      "thumbnails": [
+        {
+          "width": "512",
+          "height": "288",
+          "url": "https://static.sketchfab.com/categories/1a99e2b67fc84de0b3ea0d3925208a04/512x288.png"
+        },
+        {
+          "width": "800",
+          "height": "450",
+          "url": "https://static.sketchfab.com/categories/1a99e2b67fc84de0b3ea0d3925208a04/800x450.png"
+        }
+      ]
+    }
+  ],
+  "commentCount": 0,
+  "createdAt": "2017-11-01T21:14:56.709981",
+  "embedUrl": "https://sketchfab.com/models/b81366fe82994499bc9cad1828050310/embed",
+  "faceCount": 2999473,
+  "isAgeRestricted": false,
+  "license": {
+    "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+    "label": "CC Attribution",
+    "fullName": "Creative Commons Attribution",
+    "requirements": "Author must be credited. Commercial use is allowed.",
+    "url": "http://creativecommons.org/licenses/by/4.0/",
+    "slug": "by"
+  },
+  "likeCount": 24,
+  "name": "North American Porcupine - FW6194",
+  "publishedAt": "2017-11-01T21:25:05.705251",
+  "soundCount": 0,
+  "staffpickedAt": null,
+  "tags": [],
+  "thumbnails": {
+    "images": [
+      {
+        "uid": "77ef2ecf20cf4a4fb6d070337e52d057",
+        "width": 1920,
+        "height": 1080,
+        "size": 146537,
+        "url": "https://media.sketchfab.com/models/b81366fe82994499bc9cad1828050310/thumbnails/46d45fad5b0547e1a5f491e79750e3a9/c5ce07b85ebf4d33b154e7133ff76716.jpeg"
+      },
+      {
+        "uid": "71ec11c78fd6420daae6dfaf8b0f8293",
+        "width": 1024,
+        "height": 576,
+        "size": 47456,
+        "url": "https://media.sketchfab.com/models/b81366fe82994499bc9cad1828050310/thumbnails/46d45fad5b0547e1a5f491e79750e3a9/e6e3ccf4c256495e80683630d8c6b60d.jpeg"
+      },
+      {
+        "uid": "dd814d0b9e0a4d2a9b26782d11b3f113",
+        "width": 720,
+        "height": 405,
+        "size": 27040,
+        "url": "https://media.sketchfab.com/models/b81366fe82994499bc9cad1828050310/thumbnails/46d45fad5b0547e1a5f491e79750e3a9/9d5f93aefc4c4382925cb675c2b46539.jpeg"
+      },
+      {
+        "uid": "278d5ff8f9844d429cbc09e5ebc12942",
+        "width": 256,
+        "height": 144,
+        "size": 5330,
+        "url": "https://media.sketchfab.com/models/b81366fe82994499bc9cad1828050310/thumbnails/46d45fad5b0547e1a5f491e79750e3a9/4a5dda74215d4f2993aacb497ac9cfc9.jpeg"
+      },
+      {
+        "uid": "09644bb6f6f44eb798591bf0c093b518",
+        "width": 64,
+        "height": 36,
+        "size": 950,
+        "url": "https://media.sketchfab.com/models/b81366fe82994499bc9cad1828050310/thumbnails/46d45fad5b0547e1a5f491e79750e3a9/8f9023bd57d7402d9f6f2aaebe90f996.jpeg"
+      }
+    ]
+  },
+  "uid": "b81366fe82994499bc9cad1828050310",
+  "uri": "https://api.sketchfab.com/v3/models/b81366fe82994499bc9cad1828050310",
+  "user": {
+    "uid": "9619b91dbbfa4dce8e28256296524d62",
+    "username": "OSU.Multimedia",
+    "displayName": "osuecampus",
+    "account": "ent",
+    "profileUrl": "https://sketchfab.com/OSU.Multimedia",
+    "avatar": {
+      "uid": "3616003833fb4b219c3bdae29d0945ed",
+      "uri": "https://api.sketchfab.com/v3/avatars/3616003833fb4b219c3bdae29d0945ed",
+      "images": [
+        {
+          "width": 32,
+          "height": 32,
+          "size": 881,
+          "url": "https://media.sketchfab.com/avatars/3616003833fb4b219c3bdae29d0945ed/87ccf84215d3491aa801da87b5261216.jpeg"
+        },
+        {
+          "width": 48,
+          "height": 48,
+          "size": 1445,
+          "url": "https://media.sketchfab.com/avatars/3616003833fb4b219c3bdae29d0945ed/4a8d83945c014ada86e359ccfd6a7077.jpeg"
+        },
+        {
+          "width": 90,
+          "height": 90,
+          "size": 3732,
+          "url": "https://media.sketchfab.com/avatars/3616003833fb4b219c3bdae29d0945ed/370b3ba5dd594c95ac2bdf8490b65276.jpeg"
+        },
+        {
+          "width": 100,
+          "height": 100,
+          "size": 4463,
+          "url": "https://media.sketchfab.com/avatars/3616003833fb4b219c3bdae29d0945ed/6419ac87e3a143d8af59357212dd2534.jpeg"
+        }
+      ]
+    },
+    "uri": "https://api.sketchfab.com/v3/users/9619b91dbbfa4dce8e28256296524d62"
+  },
+  "vertexCount": 1500577,
+  "viewCount": 1081,
+  "viewerUrl": "https://sketchfab.com/3d-models/north-american-porcupine-fw6194-b81366fe82994499bc9cad1828050310",
+  "isDownloadable": true,
+  "isProtected": false,
+  "description": "Sceintific name: Erethizon dorsatum\nSex: Female\n\nCollected by Alex Walker on 12 December, 1919 from Unity East Camp Creek in Baker County, Oregon.",
+  "price": null,
+  "downloadCount": 198,
+  "editorUrl": "https://sketchfab.com/orgs/osuecampus/models/b81366fe82994499bc9cad1828050310/edit",
+  "status": {
+    "warning": {},
+    "processing": "SUCCEEDED"
+  },
+  "source": "website",
+  "hasCommentsDisabled": false,
+  "updatedAt": "2022-07-18T19:59:20.68675",
+  "pbrType": null,
+  "textureCount": 2,
+  "materialCount": 2
+}

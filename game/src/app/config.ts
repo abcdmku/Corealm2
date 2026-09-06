@@ -1,48 +1,22 @@
 /** Tunables the root owns. Numbers come from runs/corealm/PRD.md. */
 import type { SpellRung } from "../contracts.js";
 
-export const PLAYER_SPEED = 4.2;          // m/s over the navmesh
+export const PLAYER_SPEED = 5.2;          // m/s over the navmesh
+/** Uniform creature pursuit speed leaves the player a ten-percent escape margin. */
+export const CREATURE_RUN_SPEED = PLAYER_SPEED * 0.9;
 export const PLAYER_RADIUS = 0.35;        // m, capsule radius for collision and navmesh inset
 export const PLAYER_HEIGHT = 1.8;         // m
 
 /**
- * How the player gets up to speed and which locomotion clip that speed selects.
- *
- * NOT to be confused with `WALK_SPEED_MPS` in `content/regions.ts`, which is also 4.2 and is the
- * figure every route-graph edge cost and the whole Agility route-flip ledger is computed from.
- * That one is a content constant and must not move. These are the movement feel.
- *
- * `walkSpeed` exists because `Walk_Loop` was unreachable. `characterRig.poseFor` picks the run clip
- * above 2.2 m/s, and 4.2 m/s was once the only speed the player ever moved at. Of 11,050 recorded
- * frames of continuous movement, exactly one landed in the walk band. Forward-kinematics analysis
- * of `animation_library_1.glb` gives `Walk_Loop` an implied ground speed of 0.98 m/s, so a 1.6 m/s
- * walk can still match its stride by adjusting playback speed.
- *
- * `walkPoseThreshold` is the speed above which the rig should choose `Jog_Fwd_Loop` over
- * `Walk_Loop`. 2.2 sits between the two gaits rather than above both, which 3.0 did.
- *
- * Running deliberately uses a presentation cadence instead of planted-foot speed matching. The
- * jog's planted foot implies 5.92 m/s, so matching it to the game's 4.2 m/s translation requires
- * 0.71x playback. That turns its 0.933 s loop into 1.316 s of visible slow motion, about 91 steps
- * per minute and 2.76 m of translation per footfall. `runPlaybackRate` makes the steady run 1.2x,
- * about 154 steps per minute and 1.63 m per footfall. Some foot slide remains. A scalar playback
- * rate cannot give this clip both planted feet and a believable run at 4.2 m/s; fixing both needs
- * stride warping, foot IK, or a different animation.
- *
- * `runMinPlaybackRate` prevents the jog from entering slow motion during the short acceleration
- * through the run band. It does not affect translation speed.
- *
- * `accelMps2` / `decelMps2` replace binary velocity. Movement today is a switch: the player covers
- * 0.4202 m per 100 ms sim tick or stands still, and an input tap shorter than ~40 ms produces no
- * displacement at all. 18 m/s^2 takes 0 -> 4.2 in 0.23 s, 25 m/s^2 takes 4.2 -> 0 in 0.17 s —
- * short enough that the walk still feels immediate, long enough that a tap moves you and that the
- * animation time scale has a ramp to follow.
+ * Player acceleration and gait selection. Route estimates use the same PLAYER_SPEED.
+ * Walk uses the measured source stride. Run retains its authored presentation cadence;
+ * changing translation speed does not change the movement acceleration or stop behaviour.
  */
 export const MOVEMENT = {
   walkSpeed: 1.6,                 // m/s, the slow gait
-  runSpeed: PLAYER_SPEED,         // m/s, the default gait — the same 4.2 the navmesh is walked at
+  runSpeed: PLAYER_SPEED,         // m/s, the default gait
   walkPoseThreshold: 2.2,         // m/s, above this the rig plays a jog rather than a walk
-  runPlaybackRate: 1.2,           // authored clip speed multiplier at a steady 4.2 m/s run
+  runPlaybackRate: 1.2,           // authored clip speed multiplier at a steady run
   runMinPlaybackRate: 0.9,        // never show the jog or sprint fallback in slow motion
   accelMps2: 18,
   decelMps2: 25,

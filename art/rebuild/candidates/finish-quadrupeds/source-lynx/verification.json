@@ -1,0 +1,34 @@
+{
+  "checkedAt": "2026-09-05T19:58:58.412Z",
+  "source": {
+    "uid": "227d603fe1334577b4812a764683c92a",
+    "author": "nicholas.w.charles",
+    "url": "https://sketchfab.com/3d-models/lynx-model-227d603fe1334577b4812a764683c92a",
+    "metadataUrl": "https://api.sketchfab.com/v3/models/227d603fe1334577b4812a764683c92a",
+    "expectedLicense": "http://creativecommons.org/licenses/by/4.0/"
+  },
+  "metadataSha256": "459aa205b765d7415ddce7419ede4dc25344bdd30d4a5bc2e2828e175bfcbf92",
+  "license": {
+    "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+    "label": "CC Attribution",
+    "fullName": "Creative Commons Attribution",
+    "requirements": "Author must be credited. Commercial use is allowed.",
+    "url": "http://creativecommons.org/licenses/by/4.0/",
+    "slug": "by"
+  },
+  "licenseMatches": true,
+  "isDownloadable": true,
+  "faceCount": 23048,
+  "vertexCount": 11543,
+  "textureCount": 10,
+  "materialCount": 2,
+  "animationCount": 0,
+  "sourceArchiveDownloaded": false,
+  "sourceArchiveSha256": null,
+  "downloadEndpointStatus": 401,
+  "downloadError": "Authentication credentials were not provided.",
+  "wholeAnimalVisuallyVerified": false,
+  "visualReview": "Web page returned 403 and the web tool could not display the official thumbnail. A browser inspection is still required.",
+  "nextStep": "Use an authorized logged-in Sketchfab download workflow after whole-body visual review. Do not extract viewer payloads.",
+  "attribution": "Lynx Model by nicholas.w.charles, https://sketchfab.com/3d-models/lynx-model-227d603fe1334577b4812a764683c92a, licensed CC BY 4.0. No source mesh obtained or modified."
+}

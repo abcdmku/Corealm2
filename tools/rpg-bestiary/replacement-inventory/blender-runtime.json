@@ -1,0 +1,12 @@
+{
+  "version": "4.5.11 LTS",
+  "exePath": "C:/Users/Borg/Documents/GitHub/Corealm2/test-results/bestiary-programs/blender-4.5.11-windows-x64/blender.exe",
+  "archivePath": "C:/Users/Borg/Documents/GitHub/Corealm2/test-results/bestiary-programs/blender-4.5.11-windows-x64.zip",
+  "archiveUrl": "https://download.blender.org/release/Blender4.5/blender-4.5.11-windows-x64.zip",
+  "checksumUrl": "https://download.blender.org/release/Blender4.5/blender-4.5.11.sha256",
+  "sha256": "e11d3a8e4d4249be5a7db4a9325c1f670037d4233467c3b0bda181001efe44d3",
+  "publishedSha256VerifiedBeforeExtraction": true,
+  "mode": "Portable ZIP; no installer, registration, GUI or system PATH changes",
+  "existingSearch": "Configured codex-runtimes and specific tool-cache directory names; none found. Standard Program Files and repo already checked by parent.",
+  "cpuUse": "Use --background --factory-startup --disable-autoexec for source file inspection/export."
+}

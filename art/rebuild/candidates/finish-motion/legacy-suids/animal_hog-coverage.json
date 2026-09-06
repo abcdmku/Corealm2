@@ -1,0 +1,29 @@
+{
+  "id": "animal_hog",
+  "candidateSha256": "ff493baf603f94b57ccb2a69721a566f282461e4aae87dd8cb001132f1902a61",
+  "sourceSha256": "dc00de3f80c02a168c8fbd4ea1f7e00733b2b47604913e47f841814a729eafc9",
+  "passed": true,
+  "results": [
+    {
+      "id": "animal_hog",
+      "name": "Walk",
+      "candidateSha256": "ff493baf603f94b57ccb2a69721a566f282461e4aae87dd8cb001132f1902a61",
+      "sourceSha256": "dc00de3f80c02a168c8fbd4ea1f7e00733b2b47604913e47f841814a729eafc9",
+      "clearanceM": 0.0005,
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "velocityIntervalSeconds": 0.0001736111007630825,
+      "maximumMps": 0.002304036452921698,
+      "count": 30776,
+      "worst": {
+        "vertex": 870,
+        "phase": 0.49954427083333336,
+        "clearanceM": 0.0005005883608013711,
+        "declared": true
+      },
+      "nonFiniteVertices": 0,
+      "maximumPenetrationM": 0,
+      "passed": true
+    }
+  ]
+}

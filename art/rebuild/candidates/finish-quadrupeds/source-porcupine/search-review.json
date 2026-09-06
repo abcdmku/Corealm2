@@ -1,0 +1,146 @@
+{
+  "checkedAt": "2026-09-05T20:08:47.5160829Z",
+  "outcome": "No candidate meets all required whole-body visual and creator provenance checks yet. Official metadata and license checked; no model downloads.",
+  "museumWarning": "FW6194 is included in a public Skulls collection. Suspected skull specimen, not verified whole-body taxidermy.",
+  "webPreview": "Direct web thumbnail rendering failed or returned no visible image. Browser inspection is still required.",
+  "candidates": [
+    {
+      "uid": "b81366fe82994499bc9cad1828050310",
+      "name": "North American Porcupine - FW6194",
+      "author": "OSU.Multimedia",
+      "url": "https://sketchfab.com/3d-models/north-american-porcupine-fw6194-b81366fe82994499bc9cad1828050310",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "triangles": 2999473,
+      "animations": 0,
+      "isDownloadable": true,
+      "downloadStatus": 401,
+      "wholeBodyVisuallyVerified": false,
+      "archiveObtained": false,
+      "archiveSHA256": null,
+      "metadataSHA256": "6ffc5a3a05a622ab9a7bdfbcf7b23933197f1eca50c2e0d132008c1f8cc4f5ee",
+      "preview": "https://media.sketchfab.com/models/b81366fe82994499bc9cad1828050310/thumbnails/46d45fad5b0547e1a5f491e79750e3a9/c5ce07b85ebf4d33b154e7133ff76716.jpeg"
+    },
+    {
+      "uid": "71260ebf31cc4942a55668d3d5c6a8ce",
+      "name": "Javanese porcupine",
+      "author": "nf50",
+      "url": "https://sketchfab.com/3d-models/javanese-porcupine-71260ebf31cc4942a55668d3d5c6a8ce",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "triangles": 828,
+      "animations": 0,
+      "isDownloadable": true,
+      "downloadStatus": 401,
+      "wholeBodyVisuallyVerified": false,
+      "archiveObtained": false,
+      "archiveSHA256": null,
+      "metadataSHA256": "331f20870cdea30634a76e851a2dffdf054ceeb2c4804f84e33cd0627ff245bb",
+      "preview": "https://media.sketchfab.com/models/71260ebf31cc4942a55668d3d5c6a8ce/thumbnails/bd66a3322a734f189c143bb826617158/748b7b8d486e4c23a6b78804a98a1a9c.jpeg"
+    },
+    {
+      "uid": "fc1c87006f55412fa2c750acc59742f5",
+      "name": "6F-Porcupine-BC1840",
+      "author": "SJSUSERC",
+      "url": "https://sketchfab.com/3d-models/6f-porcupine-bc1840-fc1c87006f55412fa2c750acc59742f5",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "triangles": 145390,
+      "animations": 0,
+      "isDownloadable": true,
+      "downloadStatus": 401,
+      "wholeBodyVisuallyVerified": false,
+      "archiveObtained": false,
+      "archiveSHA256": null,
+      "metadataSHA256": "4fbb00ef9b7aa16cd385bf7e929d9b70efc18f498c6aecc7e08aa32a6506de90",
+      "preview": "https://media.sketchfab.com/models/fc1c87006f55412fa2c750acc59742f5/thumbnails/be4a8450f2e64e0b8a0b2dcfe0f78a1a/204a4e02f3bc4f748c06c17da8757e78.jpeg"
+    },
+    {
+      "uid": "170affbe949e4bd2adfbc2ce9cbc4c4f",
+      "name": "Prismatic Porcupine Low Poly 3d Model",
+      "author": "rt699448",
+      "url": "https://sketchfab.com/3d-models/prismatic-porcupine-low-poly-3d-model-170affbe949e4bd2adfbc2ce9cbc4c4f",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "triangles": 9643,
+      "animations": 0,
+      "isDownloadable": true,
+      "downloadStatus": 401,
+      "wholeBodyVisuallyVerified": false,
+      "archiveObtained": false,
+      "archiveSHA256": null,
+      "metadataSHA256": "bfdf59cfdc5bcb377f67038e9490604b243f263c16c837c7fa9ba1eebf917bc5",
+      "preview": "https://media.sketchfab.com/models/170affbe949e4bd2adfbc2ce9cbc4c4f/thumbnails/cf85f9c4ae534b68b6b999003e5a252e/155e63ec086742478cabe85da6136544.jpeg"
+    },
+    {
+      "uid": "1cc58b77dbc74f2e9eed10e3f96fd567",
+      "name": "Spiny Porcupine High Poly 3d Model",
+      "author": "rt699448",
+      "url": "https://sketchfab.com/3d-models/spiny-porcupine-high-poly-3d-model-1cc58b77dbc74f2e9eed10e3f96fd567",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "triangles": 4055040,
+      "animations": 0,
+      "isDownloadable": true,
+      "downloadStatus": 401,
+      "wholeBodyVisuallyVerified": false,
+      "archiveObtained": false,
+      "archiveSHA256": null,
+      "metadataSHA256": "d57780f673ebb9c72a5b23581db3031b23af891f89752a1a44445b9854506a75",
+      "preview": "https://media.sketchfab.com/models/1cc58b77dbc74f2e9eed10e3f96fd567/thumbnails/dd788b4dccbb4fdda0c6a63b44fcc984/9e378f3c1792486982b21706ef07dc58.jpeg"
+    },
+    {
+      "uid": "64c77a0358544c31874a4e879cafbca2",
+      "name": "Pig & Porcupine",
+      "author": "hoamulanvn",
+      "url": "https://sketchfab.com/3d-models/pig-porcupine-64c77a0358544c31874a4e879cafbca2",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "triangles": 266004,
+      "animations": 1,
+      "isDownloadable": true,
+      "downloadStatus": 401,
+      "wholeBodyVisuallyVerified": false,
+      "archiveObtained": false,
+      "archiveSHA256": null,
+      "metadataSHA256": "b139802681c20c091d85354c321cf7ca86836266318aa851aae47a21718aba25",
+      "preview": "https://media.sketchfab.com/models/64c77a0358544c31874a4e879cafbca2/thumbnails/fb5539dccd9147cbb62ad69761384737/5c9de1a9841f4ccd91eae489a3b40bbf.jpeg"
+    }
+  ]
+}

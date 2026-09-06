@@ -1,0 +1,57 @@
+[
+  {
+    "id": "mossback_sentinel",
+    "glbSha256": "4a167c124d5987959af011c4e4f8a46355e0e87ecd1ba39ef431e0038ed196a0",
+    "passed": true,
+    "weightedVertices": 4527,
+    "lowestY": -0.004087944531270142,
+    "maxBoundsDifference": 1.0815107120976108e-7,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0029999999992796475,
+        "maxBoundsDifference": 7.315007799491013e-8
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.002892107036534017,
+        "maxBoundsDifference": 8.86147604184373e-8
+      },
+      {
+        "clip": "Run",
+        "minimumY": -0.0013766797493177108,
+        "maxBoundsDifference": 8.861475908616967e-8
+      },
+      {
+        "clip": "Attack",
+        "minimumY": -0.004087944531270142,
+        "maxBoundsDifference": 1.0815107120976108e-7
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0029999999992796483,
+        "maxBoundsDifference": 7.466177498471893e-8
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0029999999992796483,
+        "maxBoundsDifference": 7.12265150193403e-8
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0029999999992796483,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0022639227773829373,
+        "maxBoundsDifference": 8.069247958708559e-8
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  }
+]

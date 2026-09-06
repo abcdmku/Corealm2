@@ -1,0 +1,57 @@
+{
+  "lods": true,
+  "name": "Namaqualand Boulder 03",
+  "type": 2,
+  "max_resolution": [
+    8192,
+    8192
+  ],
+  "polycount": 121546,
+  "texel_density": 1601.6442644186425,
+  "dimensions": [
+    2407.663106918335,
+    3065.406084060669,
+    1473.654329776764
+  ],
+  "staging": null,
+  "categories": [
+    "nature",
+    "rocks",
+    "collection: namaqualand"
+  ],
+  "date_published": 1728345600,
+  "files_hash": "d45a977057ab8e8538e1747b7a5d89013da6743e",
+  "tags": [
+    "karoo",
+    "south africa",
+    "desert",
+    "boulder",
+    "rock",
+    "rough",
+    "brown",
+    "geological",
+    "landscaping",
+    "stone"
+  ],
+  "description": "Free 8K model: rough brown boulder from the Karoo, detailed geological rock with weathered facets - perfect for desert scenes and landscaping.",
+  "authors": {
+    "Jenelle van Heerden": "modeling",
+    "Dario Barresi": "Photography"
+  },
+  "category_id": "c6a45865-4d6c-5d8e-95fd-e5c3a03d3abf",
+  "category": "Nature/Rocks & Stone/Desert Boulders",
+  "collections": [
+    "namaqualand"
+  ],
+  "attributes": {
+    "condition": [
+      "weathered"
+    ],
+    "material": [
+      "stone"
+    ],
+    "lods": true
+  },
+  "download_count": 20972,
+  "thumbnail_url": "https://cdn.polyhaven.com/asset_img/thumbs/namaqualand_boulder_03.png?width=256&height=256"
+}

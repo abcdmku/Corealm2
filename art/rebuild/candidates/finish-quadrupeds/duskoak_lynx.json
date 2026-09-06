@@ -1,0 +1,235 @@
+{
+  "id": "creature_duskoak_lynx",
+  "file": "models/creature/creature_duskoak_lynx.glb",
+  "pack": "corealm-creature-expansion",
+  "category": "character",
+  "is": "a tall woodland lynx with a deep feline chest, high haunches, cheek ruffs, broad paws and a short black-tipped tail",
+  "tags": [
+    "mammal",
+    "quadruped",
+    "lynx",
+    "feline",
+    "woodland"
+  ],
+  "bytes": 1594988,
+  "sha256": "bd21ba94ab5d71753597ba7eaed2eeeef6800ac1b0ae76316f4aa3beb1fb8ae7",
+  "size": {
+    "x": 0.5048537610342556,
+    "y": 1.1330645312070846,
+    "z": 1.7158002266883852
+  },
+  "base": {
+    "x": -0.25238752655083635,
+    "y": 1.0728835736495412e-9,
+    "z": -0.7511616477966309
+  },
+  "bounds": {
+    "min": [
+      -0.25238752655083635,
+      1.0728835736495412e-9,
+      -0.7511616477966309
+    ],
+    "max": [
+      0.25246623448341926,
+      1.1330645322799682,
+      0.9646385788917542
+    ]
+  },
+  "groundY": 1.0728835736495412e-9,
+  "triangles": 32732,
+  "animations": [
+    "Idle",
+    "Walk",
+    "Run",
+    "Attack",
+    "Hit",
+    "HitLeft",
+    "HitRight",
+    "Death"
+  ],
+  "materials": [
+    "duskoak_lynx_painted_fur",
+    "duskoak_lynx_eyes_claws_whiskers"
+  ],
+  "sourceProvenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+  "impliedWalkMps": 0.5616509926854755,
+  "impliedRunMps": 2.5101763907734056,
+  "walkClipSeconds": 1.159999966621399,
+  "runClipSeconds": 0.6700000166893005,
+  "attackSeconds": 1.0199999809265137,
+  "contactNormalized": 0.43,
+  "measuredGait": {
+    "gait": {
+      "walk": {
+        "seconds": 1.159999966621399,
+        "sampledFootBones": 4,
+        "stanceSamples": 229,
+        "measuredStanceMps": 0.5616072816612467,
+        "feet": [
+          {
+            "bone": "FR_Ankle",
+            "minY": 0.14969940996043113,
+            "maxY": 0.2340976086332523,
+            "strideZ": 0.4170196411742547,
+            "contactSamples": 50,
+            "stanceMedianMps": 0.5613370552201171
+          },
+          {
+            "bone": "FL_Ankle",
+            "minY": 0.14955395286623135,
+            "maxY": 0.23409444373390392,
+            "strideZ": 0.41571099349499163,
+            "contactSamples": 51,
+            "stanceMedianMps": 0.5615344231147342
+          },
+          {
+            "bone": "HR_Ankle",
+            "minY": 0.22974762103161964,
+            "maxY": 0.2966632890123767,
+            "strideZ": 0.42755178062442606,
+            "contactSamples": 64,
+            "stanceMedianMps": 0.5617536106123249
+          },
+          {
+            "bone": "HL_Ankle",
+            "minY": 0.22983114493445161,
+            "maxY": 0.2968216246518059,
+            "strideZ": 0.4268269231910089,
+            "contactSamples": 64,
+            "stanceMedianMps": 0.5617294457323871
+          }
+        ],
+        "rootHorizontalTravel": [
+          {
+            "bone": "Root",
+            "x": 0,
+            "z": 0
+          }
+        ]
+      },
+      "run": {
+        "seconds": 0.6700000166893005,
+        "sampledFootBones": 4,
+        "stanceSamples": 173,
+        "measuredStanceMps": 2.5072041269683925,
+        "feet": [
+          {
+            "bone": "FR_Ankle",
+            "minY": 0.14233205582395334,
+            "maxY": 0.3506104485329487,
+            "strideZ": 0.7208481918342786,
+            "contactSamples": 41,
+            "stanceMedianMps": 2.5095081951261924
+          },
+          {
+            "bone": "FL_Ankle",
+            "minY": 0.14787161153119577,
+            "maxY": 0.3526685037812013,
+            "strideZ": 0.7278810320939159,
+            "contactSamples": 44,
+            "stanceMedianMps": 2.5098427756342474
+          },
+          {
+            "bone": "HR_Ankle",
+            "minY": 0.22748461536525755,
+            "maxY": 0.4145280456254238,
+            "strideZ": 0.7310128892948992,
+            "contactSamples": 44,
+            "stanceMedianMps": 2.5075287860383706
+          },
+          {
+            "bone": "HL_Ankle",
+            "minY": 0.22741300624828872,
+            "maxY": 0.41327525632745077,
+            "strideZ": 0.7329218719000026,
+            "contactSamples": 44,
+            "stanceMedianMps": 2.503371787835152
+          }
+        ],
+        "rootHorizontalTravel": [
+          {
+            "bone": "Root",
+            "x": 0,
+            "z": 0
+          }
+        ]
+      }
+    },
+    "loops": {
+      "Idle": {
+        "seconds": 3.4000000953674316,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006356162701409191,
+        "maxScaleGap": 0
+      },
+      "Walk": {
+        "seconds": 1.159999966621399,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006824759111396155,
+        "maxScaleGap": 0
+      },
+      "Run": {
+        "seconds": 0.6700000166893005,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006459606883570087,
+        "maxScaleGap": 0
+      }
+    },
+    "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+  },
+  "metadata": {
+    "is": "a tall woodland lynx with a deep feline chest, high haunches, cheek ruffs, broad paws and a short black-tipped tail",
+    "tags": [
+      "mammal",
+      "quadruped",
+      "lynx",
+      "feline",
+      "woodland"
+    ],
+    "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+    "attackSeconds": 1.02,
+    "contactNormalized": 0.43,
+    "impliedWalkMps": 0.5616509926854755,
+    "impliedRunMps": 2.5101763907734056,
+    "walkClipSeconds": 1.16,
+    "runClipSeconds": 0.67,
+    "notes": "Feet follow flat-ground stance trajectories at a constant backwards velocity, with smooth lifted swing arcs. Three limb segments use authored knee bend planes and two-link IK to the hock, plus a controlled distal segment; paw orientation cancels the parent rotation during gait. Root does not translate horizontally in locomotion. Contact is an authored flat-plane assumption, not runtime terrain IK. Stride matching requires the stated implied speed. Idle, Walk and Run have identical first/last poses. Death is an authored collapse rather than a physics ragdoll. Coat colour, markings, ears, feet, face and tail are individually shaped for this species.",
+    "boneNames": [
+      "Root",
+      "Pelvis",
+      "Spine",
+      "Chest",
+      "Neck",
+      "Head",
+      "Jaw",
+      "Ear_L",
+      "Ear_R",
+      "FR_Upper",
+      "FR_Lower",
+      "FR_Ankle",
+      "FR_Paw",
+      "FL_Upper",
+      "FL_Lower",
+      "FL_Ankle",
+      "FL_Paw",
+      "Tail_1",
+      "Tail_2",
+      "Tail_3",
+      "Tail_4",
+      "HR_Upper",
+      "HR_Lower",
+      "HR_Ankle",
+      "HR_Paw",
+      "HL_Upper",
+      "HL_Lower",
+      "HL_Ankle",
+      "HL_Paw"
+    ],
+    "authoringModule": "tools/creature-expansion/mammals.mjs"
+  },
+  "acceptance": {
+    "assetAudit": true,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

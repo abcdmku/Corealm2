@@ -1,0 +1,131 @@
+[
+  {
+    "id": "boss_rhino_air",
+    "sourceFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\boss\\boss_rhino_air.glb",
+    "stagedFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-contact\\boss_rhino_air.glb",
+    "sourceSha256": "0e361fc212a4da00e5a7a04c5fe590dac7214fb8071b9b1b1493753a326c7556",
+    "sha256": "9c275983d1fb913c51b48fc22adf9daee616bf0e16fb7852aa34fea87e190daa",
+    "bytes": 1329904,
+    "generator": [
+      {
+        "file": "tools/creature-motion/stage-rhino-contact.ts",
+        "sha256": "d613d5725f57c23e02bb17be858d598460b9f9875f459ca6a2be36abdbd8cdf0"
+      },
+      {
+        "file": "tools/creature-motion/rhino-contact.ts",
+        "sha256": "72b63bb39a2992edee8f054200baf1ce75f9db9cda211b174575c5e9f3069b77"
+      },
+      {
+        "file": "tools/creature-motion/profiles.ts",
+        "sha256": "ec9f11a3d5d5727771b2bc84f6ceb818871ea5cd40fd41836f86a41f4d6f7d76"
+      },
+      {
+        "file": "tools/creature-motion/pose.ts",
+        "sha256": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795"
+      },
+      {
+        "file": "tools/lib/ground-gait.ts",
+        "sha256": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a"
+      }
+    ],
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false,
+    "setTiming": {
+      "seconds": 1.2333333492279053,
+      "contactNormalized": 0.3620833333333333
+    },
+    "preserved": {
+      "originalBinPrefix": true,
+      "geometrySkinMaterialsHierarchy": true,
+      "idleWalkRunDeathClipJSONAndSamplers": true,
+      "attackSamplers": true
+    }
+  },
+  {
+    "id": "boss_rhino_earth",
+    "sourceFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\boss\\boss_rhino_earth.glb",
+    "stagedFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-contact\\boss_rhino_earth.glb",
+    "sourceSha256": "700ff55b402bc3e0a2a69cff5c87f44701cc7e14f818bbb640857e98a6474788",
+    "sha256": "564312c745bf052fa0f4884a9e4b0400cfed7e9edb67eae32ece48c17ef0a17c",
+    "bytes": 1319704,
+    "generator": [
+      {
+        "file": "tools/creature-motion/stage-rhino-contact.ts",
+        "sha256": "d613d5725f57c23e02bb17be858d598460b9f9875f459ca6a2be36abdbd8cdf0"
+      },
+      {
+        "file": "tools/creature-motion/rhino-contact.ts",
+        "sha256": "72b63bb39a2992edee8f054200baf1ce75f9db9cda211b174575c5e9f3069b77"
+      },
+      {
+        "file": "tools/creature-motion/profiles.ts",
+        "sha256": "ec9f11a3d5d5727771b2bc84f6ceb818871ea5cd40fd41836f86a41f4d6f7d76"
+      },
+      {
+        "file": "tools/creature-motion/pose.ts",
+        "sha256": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795"
+      },
+      {
+        "file": "tools/lib/ground-gait.ts",
+        "sha256": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a"
+      }
+    ],
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false,
+    "setTiming": {
+      "seconds": 1.2333333492279053,
+      "contactNormalized": 0.3620833333333333
+    },
+    "preserved": {
+      "originalBinPrefix": true,
+      "geometrySkinMaterialsHierarchy": true,
+      "idleWalkRunDeathClipJSONAndSamplers": true,
+      "attackSamplers": true
+    }
+  },
+  {
+    "id": "boss_rhino_water",
+    "sourceFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\boss\\boss_rhino_water.glb",
+    "stagedFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-contact\\boss_rhino_water.glb",
+    "sourceSha256": "f85ea2b8033deda8ff8232d8de709e0da56f81fd2f5dce7b7cb7ca6c9318e43a",
+    "sha256": "b9efdfeecb24b40be03cf5a611fa64e8140e21f4ab8135ae41c631ee9e17523e",
+    "bytes": 1293672,
+    "generator": [
+      {
+        "file": "tools/creature-motion/stage-rhino-contact.ts",
+        "sha256": "d613d5725f57c23e02bb17be858d598460b9f9875f459ca6a2be36abdbd8cdf0"
+      },
+      {
+        "file": "tools/creature-motion/rhino-contact.ts",
+        "sha256": "72b63bb39a2992edee8f054200baf1ce75f9db9cda211b174575c5e9f3069b77"
+      },
+      {
+        "file": "tools/creature-motion/profiles.ts",
+        "sha256": "ec9f11a3d5d5727771b2bc84f6ceb818871ea5cd40fd41836f86a41f4d6f7d76"
+      },
+      {
+        "file": "tools/creature-motion/pose.ts",
+        "sha256": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795"
+      },
+      {
+        "file": "tools/lib/ground-gait.ts",
+        "sha256": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a"
+      }
+    ],
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false,
+    "setTiming": {
+      "seconds": 1.2333333492279053,
+      "contactNormalized": 0.3620833333333333
+    },
+    "preserved": {
+      "originalBinPrefix": true,
+      "geometrySkinMaterialsHierarchy": true,
+      "idleWalkRunDeathClipJSONAndSamplers": true,
+      "attackSamplers": true
+    }
+  }
+]

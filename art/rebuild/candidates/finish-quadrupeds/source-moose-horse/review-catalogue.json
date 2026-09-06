@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "scope": "Static whole-body moose adaptation review. Not animated or accepted for gameplay.",
+  "assets": [
+    {
+      "id": "creature_marsh_moose",
+      "file": "models/creature/creature_marsh_moose.glb",
+      "pack": "corealm-cc0-horse-moose-adaptation",
+      "category": "character",
+      "is": "moose",
+      "tags": [
+        "animal",
+        "moose",
+        "hoofed",
+        "source-derived",
+        "static"
+      ],
+      "bytes": 17899372,
+      "sha256": "29fed85c52a9447d00101fc344a3bfc7fd31e55e1aec23a3f1a85aa80cf50545",
+      "base": {
+        "x": -0.8673413991928101,
+        "y": 0.0020000000949949026,
+        "z": -1.199770450592041
+      },
+      "size": {
+        "x": 1.7346827983856201,
+        "y": 2.919020030880347,
+        "z": 3.0802924633026123
+      },
+      "bounds": {
+        "min": [
+          -0.8673413991928101,
+          0.0020000000949949026,
+          -1.199770450592041
+        ],
+        "max": [
+          0.8673413991928101,
+          2.921020030975342,
+          1.8805220127105713
+        ]
+      },
+      "groundY": 0.0020000000949949026,
+      "triangles": 20678,
+      "animations": [],
+      "materials": [
+        "Material.003_Hair12Main2k.png",
+        "Material_HorseMain4k00.png",
+        "Eye_brown",
+        "Corealm_moose_palm_keratin",
+        "Corealm_moose_bell_skin"
+      ],
+      "sourceProvenance": {
+        "author": "Lyndon Daniels; Corealm adaptation",
+        "source": "https://opengameart.org/content/realtime-ranchers-3d-model-pack",
+        "license": "CC0-1.0 source; project-owned additions",
+        "description": "Complete source horse body/skull/legs/ears deformed coherently with original topology and UVs retained. Corealm palmate antlers and throat bell added."
+      },
+      "reviewOnly": true,
+      "skinned": false
+    }
+  ],
+  "files": {
+    "creature_marsh_moose": "moose-from-horse-static.glb"
+  },
+  "pack": {
+    "id": "corealm-cc0-horse-moose-adaptation",
+    "name": "CC0 horse-derived moose source candidate",
+    "author": "Lyndon Daniels; Corealm adaptation",
+    "source": "https://opengameart.org/content/realtime-ranchers-3d-model-pack",
+    "license": "CC0-1.0 source; project-owned additions"
+  },
+  "sourceReview": {
+    "status": "awaiting-production-static-critique",
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z"
+    },
+    "wrapper": {
+      "rotationY": 0,
+      "uniformScale": 1,
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    },
+    "skins": 0,
+    "animations": 0,
+    "cpuPreviews": [
+      "front-cpu.png",
+      "side-cpu.png",
+      "three-quarter-cpu.png"
+    ],
+    "rigMapping": "rig-mapping.json",
+    "sourceRigBlocker": "Missing Bone.005 influences 1298 native body vertices,330 above50%; no actions."
+  }
+}

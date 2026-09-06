@@ -1,0 +1,29 @@
+{
+  "generatorSha256": "e8200209c2b9f4967bdcee8699776d9700163c3e5053523cc07376db78ba7343",
+  "deterministicRegeneration": "byte-identical GLB hashes",
+  "assets": [
+    {
+      "id": "corealm_sunder_ledge",
+      "sha256": "4f1630dc9f11b589110b1fbd7d4d67a9757237ec075c5cf824b823a03877e085",
+      "bytes": 1423660
+    },
+    {
+      "id": "corealm_scree_slide",
+      "sha256": "fabdbfc49fef2287e61b6b66f1e30d0ecb5c3c0299adb1200f51c78b7286efa4",
+      "bytes": 971316
+    }
+  ],
+  "worldCandidateAliases": [
+    {
+      "semanticId": "cliff_step_2",
+      "nativeCandidateId": "corealm_sunder_ledge",
+      "sha256": "4f1630dc9f11b589110b1fbd7d4d67a9757237ec075c5cf824b823a03877e085"
+    },
+    {
+      "semanticId": "cliff_step_3",
+      "nativeCandidateId": "corealm_scree_slide",
+      "sha256": "fabdbfc49fef2287e61b6b66f1e30d0ecb5c3c0299adb1200f51c78b7286efa4"
+    }
+  ],
+  "promotion": "pending world placement and landing proof"
+}

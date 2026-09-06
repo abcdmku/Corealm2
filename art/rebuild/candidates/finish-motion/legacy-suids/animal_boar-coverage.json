@@ -1,0 +1,50 @@
+{
+  "id": "animal_boar",
+  "candidateSha256": "58d6a103dcd547478e05d14fba1aafc3e7a517c94c364af6ef7ad585ec4a765d",
+  "sourceSha256": "9e1192788411744743042396fd4e958b16c001c49d91aab73e56dc27b1c7383c",
+  "passed": true,
+  "results": [
+    {
+      "id": "animal_boar",
+      "name": "Walk",
+      "candidateSha256": "58d6a103dcd547478e05d14fba1aafc3e7a517c94c364af6ef7ad585ec4a765d",
+      "sourceSha256": "9e1192788411744743042396fd4e958b16c001c49d91aab73e56dc27b1c7383c",
+      "clearanceM": 0.0005,
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "velocityIntervalSeconds": 0.00012586805193374553,
+      "maximumMps": 0.004768218305911044,
+      "count": 61544,
+      "worst": {
+        "vertex": 1410,
+        "phase": 0.7495442708333333,
+        "clearanceM": 0.0005004422221629987,
+        "declared": true
+      },
+      "nonFiniteVertices": 0,
+      "maximumPenetrationM": 0,
+      "passed": true
+    },
+    {
+      "id": "animal_boar",
+      "name": "Run",
+      "candidateSha256": "58d6a103dcd547478e05d14fba1aafc3e7a517c94c364af6ef7ad585ec4a765d",
+      "sourceSha256": "9e1192788411744743042396fd4e958b16c001c49d91aab73e56dc27b1c7383c",
+      "clearanceM": 0.0005,
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "velocityIntervalSeconds": 0.00006510416666666667,
+      "maximumMps": 0.008344677467808682,
+      "count": 46784,
+      "worst": {
+        "vertex": 535,
+        "phase": 0.4996744791666667,
+        "clearanceM": 0.0005004239282061639,
+        "declared": true
+      },
+      "nonFiniteVertices": 0,
+      "maximumPenetrationM": 0,
+      "passed": true
+    }
+  ]
+}

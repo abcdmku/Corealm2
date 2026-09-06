@@ -1,0 +1,121 @@
+{
+  "animationCount": 1,
+  "categories": [],
+  "commentCount": 0,
+  "createdAt": "2018-01-30T02:49:33.800029",
+  "embedUrl": "https://sketchfab.com/models/64c77a0358544c31874a4e879cafbca2/embed",
+  "faceCount": 266004,
+  "isAgeRestricted": false,
+  "license": {
+    "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+    "label": "CC Attribution",
+    "fullName": "Creative Commons Attribution",
+    "requirements": "Author must be credited. Commercial use is allowed.",
+    "url": "http://creativecommons.org/licenses/by/4.0/",
+    "slug": "by"
+  },
+  "likeCount": 2,
+  "name": "Pig & Porcupine",
+  "publishedAt": "2018-01-30T03:35:21.017362",
+  "soundCount": 0,
+  "staffpickedAt": null,
+  "tags": [],
+  "thumbnails": {
+    "images": [
+      {
+        "uid": "0e37d72688024da3bd78cb434915d831",
+        "width": 1920,
+        "height": 1080,
+        "size": 190824,
+        "url": "https://media.sketchfab.com/models/64c77a0358544c31874a4e879cafbca2/thumbnails/fb5539dccd9147cbb62ad69761384737/5c9de1a9841f4ccd91eae489a3b40bbf.jpeg"
+      },
+      {
+        "uid": "de1b6d71407148f68a00c28810c6526e",
+        "width": 1024,
+        "height": 576,
+        "size": 57851,
+        "url": "https://media.sketchfab.com/models/64c77a0358544c31874a4e879cafbca2/thumbnails/fb5539dccd9147cbb62ad69761384737/69c87f126d554c839bd3d17ca094c4d6.jpeg"
+      },
+      {
+        "uid": "0e08a59a129f434eab0241c95e1064b3",
+        "width": 720,
+        "height": 405,
+        "size": 32866,
+        "url": "https://media.sketchfab.com/models/64c77a0358544c31874a4e879cafbca2/thumbnails/fb5539dccd9147cbb62ad69761384737/f44964c2a9eb4f52ba71fc6102450bf5.jpeg"
+      },
+      {
+        "uid": "316211a87c754ae99a02591bea6f43b1",
+        "width": 256,
+        "height": 144,
+        "size": 6386,
+        "url": "https://media.sketchfab.com/models/64c77a0358544c31874a4e879cafbca2/thumbnails/fb5539dccd9147cbb62ad69761384737/fa4af9c7422346f6bca6d851e269edda.jpeg"
+      },
+      {
+        "uid": "9a12be01ce5c459ba0fbb07260800a36",
+        "width": 64,
+        "height": 36,
+        "size": 994,
+        "url": "https://media.sketchfab.com/models/64c77a0358544c31874a4e879cafbca2/thumbnails/fb5539dccd9147cbb62ad69761384737/4e68d4468a54436587383078df7366fb.jpeg"
+      }
+    ]
+  },
+  "uid": "64c77a0358544c31874a4e879cafbca2",
+  "uri": "https://api.sketchfab.com/v3/models/64c77a0358544c31874a4e879cafbca2",
+  "user": {
+    "uid": "d04eb5acbdb24c01b837ae34ab61c565",
+    "username": "hoamulanvn",
+    "displayName": "hoamulanvn",
+    "account": "basic",
+    "profileUrl": "https://sketchfab.com/hoamulanvn",
+    "avatar": {
+      "uid": "b99da47fcd6a4f7b9c2dfb3e166b558a",
+      "uri": "https://api.sketchfab.com/v3/avatars/b99da47fcd6a4f7b9c2dfb3e166b558a",
+      "images": [
+        {
+          "width": 32,
+          "height": 32,
+          "size": 1264,
+          "url": "https://media.sketchfab.com/avatars/b99da47fcd6a4f7b9c2dfb3e166b558a/c7de3f6068fc4eadb4b613f6b75d41d1.jpeg"
+        },
+        {
+          "width": 48,
+          "height": 48,
+          "size": 1915,
+          "url": "https://media.sketchfab.com/avatars/b99da47fcd6a4f7b9c2dfb3e166b558a/a198c205c856411badb47703a1ec209a.jpeg"
+        },
+        {
+          "width": 90,
+          "height": 90,
+          "size": 4260,
+          "url": "https://media.sketchfab.com/avatars/b99da47fcd6a4f7b9c2dfb3e166b558a/bdca9a6e954d4659b49961480a5b330b.jpeg"
+        },
+        {
+          "width": 100,
+          "height": 100,
+          "size": 4894,
+          "url": "https://media.sketchfab.com/avatars/b99da47fcd6a4f7b9c2dfb3e166b558a/d3bc685ee72d4f6885511eb805d62a73.jpeg"
+        }
+      ]
+    },
+    "uri": "https://api.sketchfab.com/v3/users/d04eb5acbdb24c01b837ae34ab61c565"
+  },
+  "vertexCount": 249600,
+  "viewCount": 119,
+  "viewerUrl": "https://sketchfab.com/3d-models/pig-porcupine-64c77a0358544c31874a4e879cafbca2",
+  "isDownloadable": true,
+  "isProtected": false,
+  "description": "",
+  "price": null,
+  "downloadCount": 22,
+  "editorUrl": "https://sketchfab.com/models/64c77a0358544c31874a4e879cafbca2/edit",
+  "status": {
+    "warning": {},
+    "processing": "SUCCEEDED"
+  },
+  "source": "website",
+  "hasCommentsDisabled": false,
+  "updatedAt": "2022-03-13T03:18:08.225915",
+  "pbrType": null,
+  "textureCount": 1,
+  "materialCount": 13
+}

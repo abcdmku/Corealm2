@@ -764,8 +764,8 @@ const SPARKING_STONE: QuestDef = {
       ],
       hint:
         "If the Air Altar is dormant, awaken it with the Air Orb first. At a "
-        + "fletching bench, use fletch_palewood_shaft, then fletch_palewood_staff. Make "
-        + "craft_air_staff at the awakened altar and equip it. Once partly spent, the same altar "
+        + "fletching bench, make an Oak Shaft, then an Oak Staff. Make "
+        + "an Air Staff at the awakened altar and equip it. Once partly spent, the same altar "
         + "restores it to 1000 for exactly 100 Air Essence.",
       completion: { kind: "equipped", itemId: "air_staff" },
     },

@@ -12,6 +12,7 @@ import { tierSilhouetteScale } from "../core/math.js";
 import { enemyCombatLevel } from "../content/index.js";
 import { enemyBlockFor } from "../content/enemies.js";
 import { CREATURE_SPECIES } from "../content/creatureSpecies.js";
+import { RPG_BESTIARY, RPG_BESTIARY_REVIEW_BY_ID } from "../content/rpgBestiary.js";
 import { ALL_ITEMS } from "../content/items.js";
 import { QUESTS } from "../content/quests.js";
 import {
@@ -92,7 +93,7 @@ const CREATURE_SOURCES: readonly CreatureTargetSource[] = [...REGIONS.flatMap((r
       group,
     })),
   ];
-}), ...CREATURE_SPECIES.map((species): CreatureTargetSource => ({
+}), ...[...CREATURE_SPECIES, ...RPG_BESTIARY].map((species): CreatureTargetSource => ({
   kind: "creature",
   preset: { id: `species:${species.id}`, label: `${species.stats.name} (Level ${enemyCombatLevel(species.stats)})`, kind: "creature", tier: species.stats.tier },
   regionId: species.regionId,
@@ -105,12 +106,27 @@ const CREATURE_SOURCES: readonly CreatureTargetSource[] = [...REGIONS.flatMap((r
 }))];
 
 const TARGET_SOURCE_BY_KEY = new Map<string, TargetSource>();
-for (const source of [...NPC_SOURCES, ...CREATURE_SOURCES]) {
+// Explicit candidate IDs are available to review tools without entering the normal catalogue.
+const STAGED_SOURCES: readonly CreatureTargetSource[] = [...RPG_BESTIARY_REVIEW_BY_ID.values()].map((species) => ({
+  kind: "creature",
+  preset: { id: `candidate:${species.id}`, label: `${species.stats.name} (Level ${enemyCombatLevel(species.stats)})`, kind: "creature", tier: species.stats.tier },
+  regionId: species.regionId,
+  dungeonName: null,
+  group: { id: `candidate:${species.id}`, family: species.stats.family, name: species.stats.name,
+    tier: species.stats.tier, assetId: species.assetId, scale: species.scale,
+    count: 1, centre: [0, 0], radius: 0 },
+}));
+for (const source of [...NPC_SOURCES, ...CREATURE_SOURCES, ...STAGED_SOURCES]) {
   const key = targetKey(source.preset);
   if (TARGET_SOURCE_BY_KEY.has(key)) {
     throw new Error(`Duplicate feature-lab target preset: ${key}`);
   }
   TARGET_SOURCE_BY_KEY.set(key, source);
+}
+
+/** Explicit review-tool lookup; staged presets remain outside the player-facing catalogue. */
+export function stagedCreaturePreset(id: string): FeatureLabPreset | undefined {
+  return STAGED_SOURCES.find((source) => source.preset.id === id)?.preset;
 }
 
 /**
@@ -263,7 +279,9 @@ function createCreatureEntity(
   // not live on `EnemyGroupDef` any more, so there is no placement-hint fallback to fall back to:
   // a group with no stat block is a content bug, and the lab must report it rather than spawn a
   // creature whose numbers differ from the one in the world.
-  const stats = enemyBlockFor(group.id, group.family, group.tier);
+  const stats = group.id.startsWith("candidate:")
+    ? RPG_BESTIARY_REVIEW_BY_ID.get(group.id.slice("candidate:".length))?.stats
+    : enemyBlockFor(group.id, group.family, group.tier);
   if (!stats) {
     throw new Error(
       `Enemy group "${group.id}" (family "${group.family}", tier ${group.tier}) has no stat block in content/enemies.ts`,

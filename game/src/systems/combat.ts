@@ -137,6 +137,17 @@ export function enemyAttackRangeMetres(bodyRadius: number): number {
   return enemyStandoffMetres(bodyRadius) + ENEMY_SWING_SLACK_METRES;
 }
 
+/** Authored ranged reach, with the established body-aware melee fallback. */
+export function enemyReachMetres(def: EnemyDef, bodyRadius: number): number {
+  return def.attackStyle && def.attackStyle !== "melee"
+    ? Math.max(2, def.attackRangeM ?? 10) : enemyAttackRangeMetres(bodyRadius);
+}
+
+export function enemyHoldMetres(def: EnemyDef, bodyRadius: number): number {
+  return def.attackStyle && def.attackStyle !== "melee"
+    ? Math.max(1.5, enemyReachMetres(def, bodyRadius) - 1.5) : enemyStandoffMetres(bodyRadius);
+}
+
 /** The player's melee reach to THIS creature: sword range to its surface, not its centre. */
 export function meleeReachMetres(bodyRadius: number): number {
   return MELEE_RANGE + bodyRadius;
@@ -288,7 +299,7 @@ export interface CombatHit {
   damage: number;
   hit: boolean;
   maxHit: number;
-  kind: "melee" | "magic" | "special";
+  kind: "melee" | "ranged" | "magic" | "special";
   killed: boolean;
   /**
    * Which spell threw it, on a `kind: "magic"` hit only; null on every other kind.
@@ -312,7 +323,7 @@ export interface CombatAttackStart {
   attacker: "player" | "enemy";
   sourceId: EntityId;
   targetId: EntityId;
-  kind: "melee";
+  kind: "melee" | "ranged" | "magic";
 }
 
 interface PendingMeleeAttack {
@@ -487,6 +498,7 @@ export class CombatSystem implements TickSystem {
     }
 
     const speedMs = this.weaponSpeedMs();
+    this.replaceUnrelatedMovement(state, entity.id, atMs);
     this.engagePlayer(state, entity, null, atMs);
     if (gap > meleeReachMetres(bodyRadiusOf(entity))) this.pursue(state, entity, atMs);
     return ok({ targetId: entity.id, attackSpeedMs: attackIntervalMs(speedMs) });
@@ -521,6 +533,7 @@ export class CombatSystem implements TickSystem {
       );
     }
 
+    this.replaceUnrelatedMovement(state, entity.id, atMs);
     this.engagePlayer(state, entity, spell.id, atMs);
     if (gap > SPELL_RANGE) this.pursue(state, entity, atMs);
     return ok({ targetId: entity.id, castMs: loadout.castMs });
@@ -865,7 +878,7 @@ export class CombatSystem implements TickSystem {
 
       // Being hunted blocks regeneration even while the enemy is still closing (PRD 2.3).
       this.markInCombat(state, atMs);
-      if (gap > enemyAttackRangeMetres(bodyRadiusOf(entity))) continue;
+      if (gap > enemyReachMetres(def, bodyRadiusOf(entity))) continue;
 
       const intervalMs = attackIntervalMs(def.attackSpeedMs);
       const due = this.enemyNextAttackAtMs.get(enemyId);
@@ -879,19 +892,21 @@ export class CombatSystem implements TickSystem {
 
       const gear = this.deps.equipment.totals();
       const chance = hitChance(
-        attackRoll(def.attackLevel, def.accuracy, MELEE_STYLE_FACTOR),
-        defenceRoll(state.skills.melee.level, gear.armour),
+        attackRoll(def.attackLevel, def.accuracy, def.attackStyle === "magic" ? MAGIC_STYLE_FACTOR : MELEE_STYLE_FACTOR),
+        defenceRoll(def.attackStyle === "magic" ? state.skills.magic.level : state.skills.melee.level,
+          def.attackStyle === "magic" ? gear.magicArmour : gear.armour),
       );
       const landed = this.combatRng.chance(chance);
       const damage = landed ? Math.max(1, this.combatRng.int(1, Math.max(1, def.maxHit))) : 0;
 
-      this.beginMeleeAttack("enemy", enemyId, state.player.id, atMs, intervalMs, damage, landed, def.maxHit);
+      this.beginMeleeAttack("enemy", enemyId, state.player.id, atMs, intervalMs, damage, landed, def.maxHit, def.attackStyle ?? "melee");
     }
   }
 
   private beginMeleeAttack(
     attacker: "player" | "enemy", sourceId: EntityId, targetId: EntityId,
     atMs: number, intervalMs: number, damage: number, hit: boolean, maxHit: number,
+    kind: CombatAttackStart["kind"] = "melee",
   ): void {
     const timing = this.deps.meleeTiming?.(attacker, sourceId, targetId);
     const contactMs = clamp(
@@ -910,7 +925,7 @@ export class CombatSystem implements TickSystem {
       attacker,
       sourceId,
       targetId,
-      kind: "melee",
+      kind,
     };
     this.meleeAttacks.set(sourceId, {
       start, realm: combatRealmOf(this.deps.store.get().player.regionId), damage, hit, maxHit, contacted: false,
@@ -963,12 +978,12 @@ export class CombatSystem implements TickSystem {
       const entity = this.deps.entities.get(enemyId)!;
       const reach = start.attacker === "player"
         ? meleeReachMetres(bodyRadiusOf(entity))
-        : enemyAttackRangeMetres(bodyRadiusOf(entity));
+        : enemyReachMetres(this.defFor(entity), bodyRadiusOf(entity));
       const inRange = distanceXZ(state.player.position, entity.position) <= reach;
       const damage = inRange ? attack.damage : 0;
       const contactAtMs = start.contactAtMs;
       if (start.attacker === "enemy") {
-        this.damagePlayer(damage, sourceId, contactAtMs, "melee", attack.maxHit);
+        this.damagePlayer(damage, sourceId, contactAtMs, start.kind, attack.maxHit);
       } else {
         let killed = false;
         if (damage > 0) {
@@ -1034,8 +1049,7 @@ export class CombatSystem implements TickSystem {
       maxHit,
       kind,
       killed: state.player.health <= 0,
-      // Nothing in the game casts at the player. Enemies swing and Ordrun slams; both are physical,
-      // and this stays null until something on the other side of the fight owns a spell.
+      // Enemy spell actions use their authored attack, not a player spell or Essence cost.
       spellId: null,
     });
   }
@@ -1098,9 +1112,12 @@ export class CombatSystem implements TickSystem {
 
     this.rollDrops(state, entity, def, atMs);
 
+    const killSerial = skill ? ++state.huntContracts.killSerial : null;
+
     this.deps.events.emit(
       "combat.ended",
-      { reason: "killed", enemyId: entity.id, name: entity.name, xp: Math.round(maxHealth * KILL_XP_MULTIPLIER) },
+      { reason: "killed", enemyId: entity.id, name: entity.name, xp: skill ? Math.round(maxHealth * KILL_XP_MULTIPLIER) : 0,
+        creditedPlayerId: skill ? state.player.id : null, killSerial },
       entity.id,
       atMs,
     );
@@ -1404,6 +1421,15 @@ export class CombatSystem implements TickSystem {
       return { code: "OUT_OF_RANGE", message: `${entity.name} is on another floor. Enter that area first.` };
     }
     return undefined;
+  }
+
+  /** Only a validated explicit command replaces movement; combat ticks never claim this authority. */
+  private replaceUnrelatedMovement(state: GameState, targetId: EntityId, atMs: number): void {
+    const movement = state.player.movement;
+    if (movement.mode === "path" && movement.destinationEntityId === targetId) return;
+    // A portal can be semantically idle after placement while its curtain still owns a queued
+    // route continuation. Stop also invalidates that private token before the new command starts.
+    this.deps.movement?.stop(state, atMs, "combat-command");
   }
 
   private engagePlayer(

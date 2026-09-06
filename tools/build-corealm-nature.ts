@@ -22,10 +22,15 @@ type Kind = "oak" | "pine" | "deadwood" | "stump" | "fern" | "grass" | "shrub" |
 interface Spec { id: string; kind: Kind; seed: number; variant: number; description: string }
 interface Skin { positions: number[]; normals: number[]; colours: number[]; uvs: number[] }
 interface Ring { p: V; radius: number }
-interface BladeOptions { segments?: number; midribStride?: number; curve?: number; curl?: number; twist?: number; lobes?: number; role?: Role; spray?: number }
+interface BladeOptions { segments?: number; midribStride?: number; curve?: number; curl?: number; twist?: number; lobes?: number; lobeDepth?: number; lobePhase?: number; role?: Role; spray?: number }
 const TAU = Math.PI * 2;
-const outDir = path.join(gameRoot, "public/assets/models/corealm/nature");
-const catalogueFile = path.join(repoRoot, "tools/data/corealm-nature.json");
+// Candidate builds never touch live models or their production catalogue.
+const stageIndex = process.argv.indexOf("--stage");
+const stageArgument = stageIndex < 0 ? undefined : process.argv[stageIndex + 1];
+if (stageIndex >= 0 && (!stageArgument || stageArgument.startsWith("--"))) throw new Error("--stage requires an output directory");
+const stageRoot = stageArgument ? path.resolve(repoRoot, stageArgument) : undefined;
+const outDir = stageRoot ? path.join(stageRoot, "models/corealm/nature") : path.join(gameRoot, "public/assets/models/corealm/nature");
+const catalogueFile = stageRoot ? path.join(stageRoot, "catalog.json") : path.join(repoRoot, "tools/data/corealm-nature.json");
 const io = new NodeIO().registerExtensions([KHRMeshQuantization]);
 const checkOnly = process.argv.includes("--check-only");
 const pendingWrites: Array<{ destination: string; binary: Uint8Array }> = [];
@@ -377,7 +382,7 @@ class Plant {
       const across = add(mul(side, Math.cos(theta)), mul(up, Math.sin(theta)));
       const raised = norm(cross(across, forward));
       const profile = Math.max(0, Math.sin(Math.PI * t)) ** 0.73 * (1 - t * 0.18);
-      const lobe = 1 + (options.lobes ? 0.11 * Math.sin(t * Math.PI * options.lobes) : 0);
+      const lobe = 1 + (options.lobes ? (options.lobeDepth ?? 0.11) * Math.sin(t * Math.PI * options.lobes + (options.lobePhase ?? 0)) : 0);
       const w = width * 0.5 * profile * lobe;
       const arch = length * (bend * Math.sin(Math.PI * t) + curl * t * t);
       const fold = width * 0.14 * Math.sin(Math.PI * t) * (1 - Math.abs(u) ** 1.35);
@@ -560,14 +565,14 @@ function oakTerminal(plant: Plant, axes: TreeAxis[], parent: TreeAxis, bearing: 
       const spray = ++plant.spraySerial;
       for (let l = 0; l < 8; l++) {
         const q = 0.05 + l * 0.128, segments = tip.rings.length - 1, segment = Math.min(segments - 1, Math.floor(q * segments));
-        const at = mix(tip.rings[segment]!.p, tip.rings[segment + 1]!.p, q * segments - segment);
+        const at = treeJoint(tip, segment, q * segments - segment).p;
         const forward = norm(sub(tip.rings[segment + 1]!.p, tip.rings[segment]!.p));
         const lateral = norm(cross(forward, [0, 1, 0]));
         const phi = l * 2.39996 + shoot * 0.6;
         const direction = add(mul(forward, 0.28), add(mul(lateral, Math.cos(phi)), [0, Math.sin(phi) * 0.74 - q * 0.16, 0]));
         const length = size * (0.30 + plant.random() * 0.10) * (1 - q * 0.16);
         plant.blade(at, direction, length, length * 0.58, tint(plant.leaf, 0.86 + plant.random() * 0.28),
-          (plant.random() - 0.5) * 1.7, { spray, segments: 5, curve: 0.10, curl: -0.12, twist: side * 0.28, lobes: 10 });
+          (plant.random() - 0.5) * 1.7, { spray, segments: 6, midribStride: 2, curve: 0.10, curl: -0.12, twist: side * 0.28, lobes: 6, lobeDepth: 0.32, lobePhase: -Math.PI / 2 });
       }
     }
   }
@@ -587,14 +592,14 @@ function pineTerminal(plant: Plant, axes: TreeAxis[], parent: TreeAxis, attachme
     const spray = ++plant.spraySerial;
     for (let node = 0; node < 7; node++) {
       const q = 0.03 + node * 0.15, segments = branchlet.rings.length - 1, segment = Math.min(segments - 1, Math.floor(q * segments));
-      const at = mix(branchlet.rings[segment]!.p, branchlet.rings[segment + 1]!.p, q * segments - segment);
+      const at = treeJoint(branchlet, segment, q * segments - segment).p;
       const f = norm(sub(branchlet.rings[segment + 1]!.p, branchlet.rings[segment]!.p));
       const lateral = norm(cross(f, [0, 1, 0])), up = norm(cross(lateral, f));
       for (let needle = 0; needle < 3; needle++) {
         const phi = needle * TAU / 3 + node * 2.39996 + b * 0.57;
         const direction = add(mul(f, 0.45), add(mul(lateral, Math.cos(phi) * 0.86), mul(up, Math.sin(phi) * 0.83)));
-        const length = size * (0.28 + plant.random() * 0.10) * (1 - q * 0.15);
-        plant.blade(at, direction, length, length * 0.30, tint(plant.leaf, 0.90 + plant.random() * 0.24),
+        const length = size * (0.34 + plant.random() * 0.12) * (1 - q * 0.15);
+        plant.blade(at, direction, length, length * 0.16, tint(plant.leaf, 0.90 + plant.random() * 0.24),
           phi * 0.31, { spray, segments: 2, curve: 0.10, curl: -0.06, twist: Math.sin(phi) * 0.25 });
       }
     }
@@ -1053,7 +1058,7 @@ async function exportPlant(spec: Spec) {
   };
 }
 
-await mkdir(outDir, { recursive: true });
+if (!checkOnly) await mkdir(outDir, { recursive: true });
 const previous = await readFile(catalogueFile, "utf8").catch(() => "");
 const assets = [];
 for (const spec of specs) {
@@ -1064,8 +1069,8 @@ for (const spec of specs) {
 console.log(JSON.stringify({ assets: assets.length, bytesBeforeEncoding: assets.reduce((sum, asset) => sum + asset.encoding.unpackedBytes, 0), bytesAfterEncoding: assets.reduce((sum, asset) => sum + asset.bytes, 0), maxNormalAngleDegrees: Math.max(...assets.map(asset => asset.encoding.maxNormalAngleDegrees)), maxLinearColourError: Math.max(...assets.map(asset => asset.encoding.maxLinearColourError)), maxBladeUVError: Math.max(...assets.map(asset => asset.encoding.maxBladeUVError)), positionError: 0, groundedIdentityTransforms: true }));
 const catalogue = JSON.stringify({
   pack: { id: "corealm-original-nature", name: "Corealm authored nature", author: "Corealm project", source: "tools/build-corealm-nature.ts", license: "Original project geometry; no third-party source assets or textures" },
-  generator: { command: "npx tsx tools/build-corealm-nature.ts", version: 8, deterministic: true, coordinateSystem: "+Y up; metres; origin at ground contact under the trunk or plant base" },
-  artStatement: "Stylized natural woodland with fine botanical structure. Curved oak shoots bear small lobed leaves with cupped laminae and twisting margins. Pine boughs divide into five curved branchlets carrying slender paired needles. Woodland ferns divide twice into tapered pinnules; upright ferns have long serrated pinnae. Wood has smooth transported normals, axial contour, tapered branch collars and curved spreading root flares. Continuous leaf UVs register midrib and margin detail; physical bark UVs register grain across branch sizes. Detailed native geometry remains active at every visible distance with the same grounded production envelopes.",
+  generator: { command: "npx tsx tools/build-corealm-nature.ts", version: 10, deterministic: true, coordinateSystem: "+Y up; metres; origin at ground contact under the trunk or plant base" },
+  artStatement: "Stylized natural woodland with fine botanical structure. Curved oak shoots bear three-lobed leaves with cupped laminae and twisting margins. Their sampled edges preserve actual lobes. Pine boughs divide into five curved branchlets carrying narrow needles. Every lamina base follows the same curved centreline as its wood shoot. Woodland ferns divide twice into tapered pinnules; upright ferns have long serrated pinnae. Wood has smooth transported normals, axial contour, tapered branch collars and curved spreading root flares. Continuous leaf UVs register midrib and margin detail; physical bark UVs register grain across branch sizes. Detailed native geometry remains active at every visible distance with the same grounded production envelopes.",
   validation: { finiteAttributes: true, unitNormals: true, nonDegenerateTriangles: true, outwardSmoothNormals: true, groundedPivots: true, roundTripBounds: true, triangleBudgets: budgets, preservedProductionBounds: true, botanicalSprayProvenance: true, coherentLeafUV: "U across blade, midrib .5, V base 0 to tip 1", barkUV: "U circumference metres, V arc-length metres before small envelope fit" },
   assets,
 }, null, 2) + "\n";

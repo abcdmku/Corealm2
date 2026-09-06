@@ -1,0 +1,430 @@
+{
+  "source": "contact-source-stance-v5.json",
+  "method": "Compare source-evaluated consecutive native joint head distances for .0 to .001, .001 to .002 and .002 to .003 before/after IK. These measure actual world segment lengths, independent of use_stretch flag. Also report target correction temporal steps.",
+  "clips": [
+    {
+      "name": "Run",
+      "limbs": {
+        "FrontLeg_L": {
+          "maximumSegmentLengthDeltaMeters": 5.8447002522711385e-8,
+          "maximumSegmentLengthRatioDelta": 9.187170709745729e-7,
+          "maximumPawCorrectionStepDegrees": 0.49060651166649194,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 588.7178483494148,
+          "maximumLiftStepMeters": 0.002011413387029721
+        },
+        "FrontLeg_R": {
+          "maximumSegmentLengthDeltaMeters": 3.777509663000856e-8,
+          "maximumSegmentLengthRatioDelta": 9.901154617297792e-7,
+          "maximumPawCorrectionStepDegrees": 0.17564482453093055,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 210.7739904468579,
+          "maximumLiftStepMeters": 0.0016259179375269
+        },
+        "BackLeg_L": {
+          "maximumSegmentLengthDeltaMeters": 9.58230981976412e-8,
+          "maximumSegmentLengthRatioDelta": 6.396487330917466e-7,
+          "maximumPawCorrectionStepDegrees": 0.7627485689564804,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 915.299155645073,
+          "maximumLiftStepMeters": 0.009386366684951747
+        },
+        "BackLeg_R": {
+          "maximumSegmentLengthDeltaMeters": 4.878399899881554e-8,
+          "maximumSegmentLengthRatioDelta": 4.290476693924461e-7,
+          "maximumPawCorrectionStepDegrees": 1.6695842473226108,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 2003.503007476494,
+          "maximumLiftStepMeters": 0.001704651041647092
+        }
+      },
+      "actualJointMotion": {
+        "FrontLeg_L": {
+          "maximumSourceAngularStepDegrees": 1.230293266917534,
+          "maximumCandidateAngularStepDegrees": 1.8461672447776458,
+          "maximumSourceSpeedMps": 0.9131299787414616,
+          "maximumCandidateSpeedMps": 0.9131299787414616,
+          "witness": {
+            "time": 0.16833333671092987,
+            "dt": 0.0008333474397659302,
+            "angularSpeedDegreesPerSecond": 2215.3631926873086
+          }
+        },
+        "FrontLeg_L.001": {
+          "maximumSourceAngularStepDegrees": 1.314612276053261,
+          "maximumCandidateAngularStepDegrees": 3.9311431044784073,
+          "maximumSourceSpeedMps": 2.4007899094823237,
+          "maximumCandidateSpeedMps": 2.9210134297602726,
+          "witness": {
+            "time": 0.03500000014901161,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 4717.376224214635
+          }
+        },
+        "FrontLeg_L.002": {
+          "maximumSourceAngularStepDegrees": 0.32154917643435865,
+          "maximumCandidateAngularStepDegrees": 0.8121885576271902,
+          "maximumSourceSpeedMps": 2.447742027184151,
+          "maximumCandidateSpeedMps": 8.132791834525788,
+          "witness": {
+            "time": 0.16833333671092987,
+            "dt": 0.0008333474397659302,
+            "angularSpeedDegreesPerSecond": 974.609771232173
+          }
+        },
+        "FrontLeg_L.003": {
+          "maximumSourceAngularStepDegrees": 1.938318964755013,
+          "maximumCandidateAngularStepDegrees": 4.052246103209885,
+          "maximumSourceSpeedMps": 2.3407827264397048,
+          "maximumCandidateSpeedMps": 8.073616186470531,
+          "witness": {
+            "time": 0.1691666692495346,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 4862.699961283924
+          }
+        },
+        "FrontLeg_R": {
+          "maximumSourceAngularStepDegrees": 0.9124909646347383,
+          "maximumCandidateAngularStepDegrees": 1.3930705506522267,
+          "maximumSourceSpeedMps": 0.9130760223283525,
+          "maximumCandidateSpeedMps": 0.9130760223283525,
+          "witness": {
+            "time": 0.23250000178813934,
+            "dt": 0.0008333474397659302,
+            "angularSpeedDegreesPerSecond": 1671.6563634532927
+          }
+        },
+        "FrontLeg_R.001": {
+          "maximumSourceAngularStepDegrees": 0.9446793051208502,
+          "maximumCandidateAngularStepDegrees": 1.5280842353630653,
+          "maximumSourceSpeedMps": 1.8217771988531142,
+          "maximumCandidateSpeedMps": 2.5548544778632594,
+          "witness": {
+            "time": 0.03749999776482582,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 1833.7028311909723
+          }
+        },
+        "FrontLeg_R.002": {
+          "maximumSourceAngularStepDegrees": 0.3215485803751443,
+          "maximumCandidateAngularStepDegrees": 0.32153513654635857,
+          "maximumSourceSpeedMps": 1.878477137946001,
+          "maximumCandidateSpeedMps": 3.427178891151792,
+          "witness": {
+            "time": 0.20916666090488434,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 385.84253182374306
+          }
+        },
+        "FrontLeg_R.003": {
+          "maximumSourceAngularStepDegrees": 2.2509796833631635,
+          "maximumCandidateAngularStepDegrees": 2.250966543591835,
+          "maximumSourceSpeedMps": 1.878477137946001,
+          "maximumCandidateSpeedMps": 3.3981821394410767,
+          "witness": {
+            "time": 0.20916666090488434,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 2701.1624283394344
+          }
+        },
+        "BackLeg_L": {
+          "maximumSourceAngularStepDegrees": 1.1523937422902772,
+          "maximumCandidateAngularStepDegrees": 5.233956604869683,
+          "maximumSourceSpeedMps": 0.27244034753440366,
+          "maximumCandidateSpeedMps": 0.27244034753440366,
+          "witness": {
+            "time": 0.13499999046325684,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 6280.753915637317
+          }
+        },
+        "BackLeg_L.001": {
+          "maximumSourceAngularStepDegrees": 0.930021516813247,
+          "maximumCandidateAngularStepDegrees": 3.774143006872325,
+          "maximumSourceSpeedMps": 2.699060954801595,
+          "maximumCandidateSpeedMps": 12.40490938104646,
+          "witness": {
+            "time": 0.13499999046325684,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 4528.975927414812
+          }
+        },
+        "BackLeg_L.002": {
+          "maximumSourceAngularStepDegrees": 0.42149977091311935,
+          "maximumCandidateAngularStepDegrees": 0.7380530223021646,
+          "maximumSourceSpeedMps": 3.638495330496451,
+          "maximumCandidateSpeedMps": 7.5220783047116315,
+          "witness": {
+            "time": 0.08749999850988388,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 885.6644713980569
+          }
+        },
+        "BackLeg_L.003": {
+          "maximumSourceAngularStepDegrees": 0.42148155613858296,
+          "maximumCandidateAngularStepDegrees": 0.7002000401246175,
+          "maximumSourceSpeedMps": 3.63821778967571,
+          "maximumCandidateSpeedMps": 7.711486743054851,
+          "witness": {
+            "time": 0.3199999928474426,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 840.2408494656587
+          }
+        },
+        "BackLeg_R": {
+          "maximumSourceAngularStepDegrees": 0.7274409811565152,
+          "maximumCandidateAngularStepDegrees": 1.4367646289065947,
+          "maximumSourceSpeedMps": 0.27244068216703776,
+          "maximumCandidateSpeedMps": 0.27244068216703776,
+          "witness": {
+            "time": 0.07333333045244217,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 1724.119198936112
+          }
+        },
+        "BackLeg_R.001": {
+          "maximumSourceAngularStepDegrees": 0.6213325232074669,
+          "maximumCandidateAngularStepDegrees": 1.4261768104375405,
+          "maximumSourceSpeedMps": 1.8793595560685075,
+          "maximumCandidateSpeedMps": 3.400628539630273,
+          "witness": {
+            "time": 0.27416667342185974,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 1711.413804656439
+          }
+        },
+        "BackLeg_R.002": {
+          "maximumSourceAngularStepDegrees": 0.8198311312292694,
+          "maximumCandidateAngularStepDegrees": 1.4794403745869646,
+          "maximumSourceSpeedMps": 2.439295623257733,
+          "maximumCandidateSpeedMps": 3.132785039864578,
+          "witness": {
+            "time": 0.07083333283662796,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 1775.3301425911177
+          }
+        },
+        "BackLeg_R.003": {
+          "maximumSourceAngularStepDegrees": 0.5735126181021211,
+          "maximumCandidateAngularStepDegrees": 0.9045265932711115,
+          "maximumSourceSpeedMps": 2.4391291191138813,
+          "maximumCandidateSpeedMps": 3.547113853487576,
+          "witness": {
+            "time": 0.27166664600372314,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 1085.4329470748576
+          }
+        }
+      },
+      "maxProtectedMatrixDelta": 0
+    },
+    {
+      "name": "Walk",
+      "limbs": {
+        "FrontLeg_L": {
+          "maximumSegmentLengthDeltaMeters": 5.1511930662025635e-8,
+          "maximumSegmentLengthRatioDelta": 9.57846369997739e-7,
+          "maximumPawCorrectionStepDegrees": 0.1918760220415252,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 230.23497833009793,
+          "maximumLiftStepMeters": 0.008061181098942133
+        },
+        "FrontLeg_R": {
+          "maximumSegmentLengthDeltaMeters": 7.313781408181735e-8,
+          "maximumSegmentLengthRatioDelta": 9.016398907490952e-7,
+          "maximumPawCorrectionStepDegrees": 0.1918760220415252,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 230.25144603472066,
+          "maximumLiftStepMeters": 0.008062968297422486
+        },
+        "BackLeg_L": {
+          "maximumSegmentLengthDeltaMeters": 6.805874414147928e-8,
+          "maximumSegmentLengthRatioDelta": 5.837265619756948e-7,
+          "maximumPawCorrectionStepDegrees": 1.3719357023508572,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 1646.3244128783376,
+          "maximumLiftStepMeters": 0.0007298777821299791
+        },
+        "BackLeg_R": {
+          "maximumSegmentLengthDeltaMeters": 6.974497775231743e-8,
+          "maximumSegmentLengthRatioDelta": 6.309573417073722e-7,
+          "maximumPawCorrectionStepDegrees": 1.3719339948035625,
+          "maximumPawCorrectionVelocityDegreesPerSecond": 1646.3223638196298,
+          "maximumLiftStepMeters": 0.0007295782609743531
+        }
+      },
+      "actualJointMotion": {
+        "FrontLeg_L": {
+          "maximumSourceAngularStepDegrees": 3.142773720163498,
+          "maximumCandidateAngularStepDegrees": 4.847178640832986,
+          "maximumSourceSpeedMps": 0.059298803898478795,
+          "maximumCandidateSpeedMps": 0.059298803898478795,
+          "witness": {
+            "time": 0.36666664481163025,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 5816.6199161606055
+          }
+        },
+        "FrontLeg_L.001": {
+          "maximumSourceAngularStepDegrees": 2.9264797378950127,
+          "maximumCandidateAngularStepDegrees": 4.735107137308519,
+          "maximumSourceSpeedMps": 6.355782074868078,
+          "maximumCandidateSpeedMps": 9.794917981393215,
+          "witness": {
+            "time": 0.36666664481163025,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 5682.133983675466
+          }
+        },
+        "FrontLeg_L.002": {
+          "maximumSourceAngularStepDegrees": 0.2824520838764133,
+          "maximumCandidateAngularStepDegrees": 0.29028032844951934,
+          "maximumSourceSpeedMps": 0.6839819928243631,
+          "maximumCandidateSpeedMps": 2.4704435603589348,
+          "witness": {
+            "time": 1.0199999809265137,
+            "dt": 0.0008333921432495117,
+            "angularSpeedDegreesPerSecond": 348.31181311318346
+          }
+        },
+        "FrontLeg_L.003": {
+          "maximumSourceAngularStepDegrees": 1.0795728087560292,
+          "maximumCandidateAngularStepDegrees": 1.1294572211317542,
+          "maximumSourceSpeedMps": 0.7179674888162945,
+          "maximumCandidateSpeedMps": 2.3319015650801456,
+          "witness": {
+            "time": 1.0233333110809326,
+            "dt": 0.0008333921432495117,
+            "angularSpeedDegreesPerSecond": 1355.253022578115
+          }
+        },
+        "FrontLeg_R": {
+          "maximumSourceAngularStepDegrees": 3.1432757518524688,
+          "maximumCandidateAngularStepDegrees": 4.846597219272079,
+          "maximumSourceSpeedMps": 0.059267649174228394,
+          "maximumCandidateSpeedMps": 0.059267649174228394,
+          "witness": {
+            "time": 0.949999988079071,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 5815.922209622132
+          }
+        },
+        "FrontLeg_R.001": {
+          "maximumSourceAngularStepDegrees": 2.927342095003781,
+          "maximumCandidateAngularStepDegrees": 4.7350827907847455,
+          "maximumSourceSpeedMps": 6.358443039042724,
+          "maximumCandidateSpeedMps": 9.79483942851634,
+          "witness": {
+            "time": 0.949999988079071,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 5682.104767819074
+          }
+        },
+        "FrontLeg_R.002": {
+          "maximumSourceAngularStepDegrees": 0.2824565050000071,
+          "maximumCandidateAngularStepDegrees": 0.29025332650440006,
+          "maximumSourceSpeedMps": 0.683974052511467,
+          "maximumCandidateSpeedMps": 2.4725494507271453,
+          "witness": {
+            "time": 0.4366666376590729,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 348.30432397416814
+          }
+        },
+        "FrontLeg_R.003": {
+          "maximumSourceAngularStepDegrees": 1.0862750050455776,
+          "maximumCandidateAngularStepDegrees": 1.133112228515842,
+          "maximumSourceSpeedMps": 0.7178895664686473,
+          "maximumCandidateSpeedMps": 2.333871250195127,
+          "witness": {
+            "time": 0.4391666650772095,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 1359.7359709642828
+          }
+        },
+        "BackLeg_L": {
+          "maximumSourceAngularStepDegrees": 3.3010341939034364,
+          "maximumCandidateAngularStepDegrees": 0.8119221097089395,
+          "maximumSourceSpeedMps": 0.03788891223145929,
+          "maximumCandidateSpeedMps": 0.03788891223145929,
+          "witness": {
+            "time": 0.9374999403953552,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 974.3074608227291
+          }
+        },
+        "BackLeg_L.001": {
+          "maximumSourceAngularStepDegrees": 2.526408301057001,
+          "maximumCandidateAngularStepDegrees": 0.6085356744644255,
+          "maximumSourceSpeedMps": 7.92622878368898,
+          "maximumCandidateSpeedMps": 1.8571602353658851,
+          "witness": {
+            "time": 0.9333332777023315,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 730.2435057717868
+          }
+        },
+        "BackLeg_L.002": {
+          "maximumSourceAngularStepDegrees": 0.41371542136388234,
+          "maximumCandidateAngularStepDegrees": 1.6960681553030552,
+          "maximumSourceSpeedMps": 0.77536015463297,
+          "maximumCandidateSpeedMps": 2.3443922513351505,
+          "witness": {
+            "time": 0.3174999952316284,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 2035.2837273614837
+          }
+        },
+        "BackLeg_L.003": {
+          "maximumSourceAngularStepDegrees": 0.9753514904969799,
+          "maximumCandidateAngularStepDegrees": 0.9753526859181542,
+          "maximumSourceSpeedMps": 0.8732150878628441,
+          "maximumCandidateSpeedMps": 2.2869303035690263,
+          "witness": {
+            "time": 0.4791666567325592,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 1170.4243393054167
+          }
+        },
+        "BackLeg_R": {
+          "maximumSourceAngularStepDegrees": 3.303115579194292,
+          "maximumCandidateAngularStepDegrees": 0.8068008934206623,
+          "maximumSourceSpeedMps": 0.037879839256858554,
+          "maximumCandidateSpeedMps": 0.037879839256858554,
+          "witness": {
+            "time": 0.3541666567325592,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 968.161995416024
+          }
+        },
+        "BackLeg_R.001": {
+          "maximumSourceAngularStepDegrees": 2.5242733265185917,
+          "maximumCandidateAngularStepDegrees": 0.61107225987183,
+          "maximumSourceSpeedMps": 7.927516722331739,
+          "maximumCandidateSpeedMps": 1.7962754814180864,
+          "witness": {
+            "time": 0.3499999940395355,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 733.2874111635666
+          }
+        },
+        "BackLeg_R.002": {
+          "maximumSourceAngularStepDegrees": 0.4137139420201829,
+          "maximumCandidateAngularStepDegrees": 1.69609471330295,
+          "maximumSourceSpeedMps": 0.775362277719655,
+          "maximumCandidateSpeedMps": 2.3443687304112997,
+          "witness": {
+            "time": 0.9008333086967468,
+            "dt": 0.0008333325386047363,
+            "angularSpeedDegreesPerSecond": 2035.3155969917507
+          }
+        },
+        "BackLeg_R.003": {
+          "maximumSourceAngularStepDegrees": 0.9665806778434226,
+          "maximumCandidateAngularStepDegrees": 0.966580125051624,
+          "maximumSourceSpeedMps": 0.8732970317978904,
+          "maximumCandidateSpeedMps": 2.286900959550275,
+          "witness": {
+            "time": 1.0625,
+            "dt": 0.0008333921432495117,
+            "angularSpeedDegreesPerSecond": 1159.814299763847
+          }
+        }
+      },
+      "maxProtectedMatrixDelta": 0
+    }
+  ]
+}

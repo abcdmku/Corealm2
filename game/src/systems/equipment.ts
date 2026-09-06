@@ -19,6 +19,7 @@ import type { EquipSlot, EquipmentBonuses, ItemId, ItemStack, Result, SkillId } 
 import { EQUIP_SLOTS, err, ok } from "../contracts.js";
 import type { GameState, Store } from "../state/store.js";
 import { content } from "../content/index.js";
+import { getEquipmentSetBonuses } from "../content/equipmentSets.js";
 import type { EventBus } from "../core/events.js";
 import type { InventorySystem } from "./inventory.js";
 
@@ -46,7 +47,7 @@ export function emptyEquipmentBonuses(): EquipmentBonuses {
  * `getEquipment()` do the same; it needs no system and no state beyond what it is handed.
  */
 export function equipmentTotalsOf(slots: Readonly<Record<EquipSlot, ItemStack | null>>): EquipmentBonuses {
-  const totals = emptyEquipmentBonuses();
+  const totals = getEquipmentSetBonuses(slots);
   for (const slot of EQUIP_SLOTS) {
     const worn = slots[slot];
     if (!worn) continue;

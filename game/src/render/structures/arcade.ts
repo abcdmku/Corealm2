@@ -5,10 +5,6 @@ import type { StructureVariantContext, StructureVariantRecipe } from "./types.js
 
 const CANOPY_DEPTH = 2;
 const BRACE_SCALE = 0.92;
-// overhang_brick's top is 0.058 m below its pivot; this height lines it up with the plaster canopy
-// top at 3.028 m when a combined plaster bay has to be split around a real aperture.
-const CANOPY_SLAB_Y = 3.086;
-const CANOPY_SLAB_FORWARD_SHIFT = 0.99;
 const BANNER_SCALE = 0.75;
 const BANNER_Y = 2.38;
 const BANNER_ASSET = "banner_1" as const;
@@ -30,10 +26,9 @@ const BANNER_WALL_FACE_OFFSET = 0.103;
  *
  * `lamp_wall` is 1.337 m tall over a base at +0.082 with its mounting plate at local z -0.051.
  */
-const LANTERN_SCALE = 1;
+const LANTERN_SCALE = 0.55;
 const LAMP_WALL_PLATE_Z = -0.051;
-const LANTERN_HEAD_Y = 2.82;
-const LANTERN_Y = LANTERN_HEAD_Y - (0.082 + 1.337) * LANTERN_SCALE;
+const LANTERN_Y = 2.10 - 0.082 * LANTERN_SCALE;
 const WINDOW_INSERT_SCALE = 1;
 const WINDOW_INSERT_OUT = 0.03;
 const SHUTTER_SCALE = 0.72;
@@ -126,46 +121,22 @@ function wallAttachment(
 }
 
 /**
- * Convert the selected back bays before adding any facade insert.  Plaster/timber bays use one
- * combined `overhang_plaster` part, so the old canopy tag becomes the kit aperture and its stable
- * trim tag carries a measured slab.  Stone already has separate wall, trim and canopy tags; only
- * its wall tag changes.  Keeping this as the shared conversion path prevents narrow windows from
- * becoming decoration pasted onto a solid wall while the shuttered variant remains intact.
+ * Change only the selected native wall panels. Every kit now has separate roof and footing
+ * parts, so window conversion preserves their continuous profile and original aperture shape.
  */
 function convertBackWindowBays(
   context: StructureVariantContext,
   base: readonly PartPlacement[],
   selected: readonly ArcadeBay[],
 ): PartPlacement[] {
-  const bays = arcadeBays(base);
   const selectedByIndex = new Set(selected.map((bay) => bay.index));
-  // Stone bays already separate their wall (`bN_w`) from the canopy slab (`bN_o`). Plaster and
-  // timber use one combined `overhang_plaster`, so split that exact bay by reusing its stable wall
-  // tag for the kit aperture and its stable trim tag for the measured slab. This keeps the canopy,
-  // collision box and open front unchanged while ensuring shutters never sit on solid masonry.
-  const shell = base.map((part) => {
-    const match = /^(?:b)(\d+)_(w|o|t)$/.exec(part.tag);
+  return base.map((part) => {
+    const match = /^b(\d+)_w$/.exec(part.tag);
     if (match === null) return part;
     const index = Number(match[1]);
     if (!selectedByIndex.has(index)) return part;
-    const bay = bays[index];
-    if (bay === undefined) return part;
-
-    if (match[2] === "w" || (match[2] === "o" && bay.wall === undefined)) {
-      return { ...part, assetId: context.kit.wallWindow };
-    }
-    if (match[2] === "t" && bay.wall === undefined) {
-      return {
-        ...part,
-        assetId: "overhang_brick",
-        dy: CANOPY_SLAB_Y,
-        dz: part.dz + CANOPY_SLAB_FORWARD_SHIFT,
-      };
-    }
-    return part;
+    return { ...part, assetId: context.kit.wallWindow };
   });
-
-  return shell;
 }
 
 function shutteredBack(
@@ -250,9 +221,7 @@ export const ARCADE_VARIANTS: readonly StructureVariantRecipe[] = [
       const litBays = centres.length % 2 === 0
         ? [centres[middle - 1]!, centres[middle]!]
         : [centres[middle]!];
-      // `lamp_wall` is 1.337 m tall over a base at +0.082, so at 1.15 it reaches 1.63 m above its
-      // pivot. Hung at 2.1 it topped out at 3.73 against a canopy soffit at 2.92 and a slab top of
-      // 3.03: a lantern standing three quarters of a metre out through the roof it hangs under.
+      // The native lantern spans y 2.10..2.835 at scale 0.55, below the canopy's hanging brackets.
       const backZ = -context.depth / 2;
       const lamps = litBays.map((centre, index) => variantPart(
         `lamp_${index}`,
@@ -282,11 +251,8 @@ export const ARCADE_VARIANTS: readonly StructureVariantRecipe[] = [
     detailBudget: 8,
     build: (context, base) => {
       const bays = arcadeBays(base);
-      // Preserve the authored all-bay rhythm, but turn each selected bay into a genuine aperture
-      // first.  This is deliberately the same shell conversion as `arcade:shuttered-back`: on
-      // plaster/timber the combined canopy is split into `wallWindow` + measured slab, while
-      // stone swaps only its stable `bN_w` wall tag.  The thin insert is then seated on that wall
-      // face instead of floating in front of `overhang_plaster`.
+      // Preserve the authored all-bay rhythm. As in the shuttered variant, only each bN_w
+      // panel changes to a native aperture; its roof and footing stay in the shared bay frame.
       const shell = convertBackWindowBays(context, base, bays);
       const windows = bays.flatMap((bay) => {
         const anchor = bay.wall ?? bay.canopy;

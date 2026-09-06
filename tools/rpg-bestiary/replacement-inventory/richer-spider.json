@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "status": "Source research only; no accepted asset and no geometry, model export or GPU work",
+  "candidates": [
+    {
+      "id": "guiea_spider_3d",
+      "source": "https://opengameart.org/content/spider-3d",
+      "author": "Guillaume \"GuieA_7\" Englert",
+      "license": "CC-BY-SA-4.0",
+      "attribution": "Credit Guillaume \"GuieA_7\" Englert.",
+      "directDownloads": [
+        "https://opengameart.org/sites/default/files/spider.zip"
+      ],
+      "files": [
+        {
+          "path": "C:/Users/Borg/Documents/GitHub/Corealm2/test-results/richer-spider-source-cache/spider-3d-spider.zip",
+          "bytes": 1797796,
+          "sha256": "d6ce3bff4d4610feef329bb93450f5f316de8d03422d4b18ca58465e9411fd69",
+          "archiveMembers": [
+            "Spider/",
+            "Spider/spider.blend",
+            "Spider/spider.png",
+            "Spider/spider.xcf",
+            "Spider/spider_noIK.blend"
+          ]
+        }
+      ],
+      "sourceClaims": {
+        "triangles": 758,
+        "texture": "512x512 PNG with XCF source",
+        "rig": "IK armature in Spider/spider.blend; author says avoid spider_noIK.blend",
+        "clips": [
+          "walk",
+          "attack",
+          "idle",
+          "sleep",
+          "die"
+        ]
+      },
+      "assessment": "Strongest accessible complete animation package. Textured anatomical spider, but low triangle count and vintage512px diffuse mean production fidelity remains uncertain. Needs actual preview and CPU Blend inspection before model work."
+    },
+    {
+      "id": "p0ss_giant_spider",
+      "source": "https://opengameart.org/content/low-poly-giant-spider",
+      "author": "p0ss; original geometry by sunburn; fur image by Michelle Buntin",
+      "license": "CC-BY-3.0 geometry; linked source texture CC-BY-SA-3.0 or GPL-2.0",
+      "licenseEvidence": [
+        "https://opengameart.org/content/low-poly-giant-spider",
+        "https://opengameart.org/content/spider",
+        "https://opengameart.org/content/woodland-animals-texture-pack"
+      ],
+      "directDownloads": [
+        "https://opengameart.org/sites/default/files/spider-textured.blend",
+        "https://opengameart.org/sites/default/files/spider_textures.zip"
+      ],
+      "files": [
+        {
+          "path": "C:/Users/Borg/Documents/GitHub/Corealm2/test-results/richer-spider-source-cache/low-poly-giant-spider-spider-textured.blend",
+          "bytes": 4678260,
+          "sha256": "c7221d410a54b46c80d67e74d6560c5608589636195f77801a8e9530e81c6d36"
+        },
+        {
+          "path": "C:/Users/Borg/Documents/GitHub/Corealm2/test-results/richer-spider-source-cache/low-poly-giant-spider-spider_textures.zip",
+          "bytes": 12319921,
+          "sha256": "7c7d3f2fb6d76106e23f513329dd697b8ebbf2dd132a1292504261eae77afa85",
+          "archiveMembers": [
+            "Spider-body-brown-tex.png",
+            "Spider-body-glo.png",
+            "Spider-body-green-tex.png",
+            "Spider-body-nm.png",
+            "Spider-body-spec.tga",
+            "Spider-body-tex.tga",
+            "Spider-leg-brown-tex.png",
+            "Spider-leg-glo.tga",
+            "Spider-leg-green-tex.png",
+            "Spider-leg-nm.png",
+            "Spider-leg-redback-tex.png",
+            "Spider-leg-spec.tga",
+            "Spider-leg-tex.tga"
+          ]
+        }
+      ],
+      "sourceClaims": {
+        "faces": 3000,
+        "rig": "Static mesh; no supplied animation claimed",
+        "textures": [
+          "normal",
+          "specular",
+          "glow",
+          "grey diffuse",
+          "redback diffuse",
+          "green diffuse",
+          "brown diffuse"
+        ]
+      },
+      "assessment": "Most promising direct-download surface-detail route among inspected OGA candidates. Complete body but needs new rig/clips. Author decimated a2.6million-face original; comments report UVs only on one leg. Both require source inspection. Fur texture licensing differs from mesh page; retain attribution and share-alike texture terms or author replacement texture."
+    },
+    {
+      "id": "cptx032_tarantula",
+      "source": "https://opengameart.org/content/lowpoly-brachypelma-smithi-tarantula-spider",
+      "author": "cptx032",
+      "license": "GPL-3.0",
+      "directDownloads": [
+        "https://opengameart.org/sites/default/files/spider_II.blend"
+      ],
+      "files": [
+        {
+          "path": "C:/Users/Borg/Documents/GitHub/Corealm2/test-results/richer-spider-source-cache/lowpoly-brachypelma-smithi-tarantula-spider-spider_II.blend",
+          "bytes": 9825084,
+          "sha256": "63c2e6a2e9776e0a87b2b839ae8bc7a941e2b58cace726cd868c3d4e641970e8"
+        }
+      ],
+      "sourceClaims": {
+        "rig": "Semi-animated according to author; exact bone/action counts not yet inspected"
+      },
+      "assessment": "Species-specific Brachypelma smithi tarantula and larger9.8MB source file. Worth inspecting complete anatomy, but size does not establish quality. GPL route requires preserving source/license obligations; not preferred over CC0/CCBY."
+    }
+  ],
+  "rejectedOrDeferred": [
+    {
+      "source": "https://sketchfab.com/3d-models/animated-low-poly-spider-game-ready-2d79c585b5404a23b7bcc0be06068283",
+      "reason": "Author offers rich animation list but current displayed license is CC Attribution-NonCommercial-NoDerivs, so excluded from commercial derivative production."
+    },
+    {
+      "source": "https://opengameart.org/content/spider-2",
+      "reason": "CC0 but222triangles/256px and only3clips; insufficient reason to expect fidelity improvement."
+    },
+    {
+      "source": "https://opengameart.org/content/low-poly-spider",
+      "reason": "Author explicitly says preview fur texture is copyrighted and not included. OBJ-only fallback has no rig."
+    },
+    {
+      "source": "https://www.blendswap.com/blend/8841",
+      "reason": "CC0 rigged Black Widow lead, but login required for download; no authenticated download attempted."
+    },
+    {
+      "source": "https://www.turbosquid.com/3d-models/3d-3d-spider-tarantula-rigged-and-animation-2003536",
+      "reason": "Paid source; no purchase requested or attempted."
+    }
+  ],
+  "nextStep": "Inspect downloaded Blend files and official previews before selecting one. GuieA has existing complete animations; p0ss offers richer maps but new full-body rigging is required. No candidate is declared sufficient based on polygon count alone."
+}

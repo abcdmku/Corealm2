@@ -1,0 +1,9 @@
+{
+  "output": "source-new-bases-comparison",
+  "inputs": [
+    ["source-badger/candidate-catalogue-material-v2.json", "creature_rootdelve_badger"],
+    ["source-hoofed/review-catalogue.json", "creature_marchwild_horse"],
+    ["source-caprine-free/review-catalogue.json", "creature_cairn_bighorn"]
+  ],
+  "scope": "Frozen complete-source selection only. Badger has corrected material channels but provisional original-creator rights. Horse is the complete CC0 source. Sheep 2 is a CC-BY-SA3 sheep base in the Bighorn slot, without horns or species adaptation. All three are static, with zero skins/actions in these preview exports. Four geometry views each; no motion, lifecycle, finished-species or promotion acceptance."
+}

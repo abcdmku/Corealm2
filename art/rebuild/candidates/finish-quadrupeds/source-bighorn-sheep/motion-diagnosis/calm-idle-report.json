@@ -1,0 +1,1119 @@
+{
+  "action": "Idle_Calm_Authored",
+  "authored": true,
+  "sourceActionAlias": false,
+  "bones": 22,
+  "seconds": 5,
+  "framesSampled": 121,
+  "soleRangeMeters": [
+    0.0,
+    0.003944814205169678
+  ],
+  "maxHorizontalSoleCentroidDisplacementMeters": 0,
+  "maxSegmentLengthChangeMeters": 0,
+  "physicalSegmentLengthsMeters": {
+    "forearm L": 0.23026051448639318,
+    "forearm R": 0.2543086903975613,
+    "Shin L": 0.2534912782190396,
+    "Shin R": 0.28117619699832275
+  },
+  "nonfiniteVertices": 0,
+  "contactPassed": true,
+  "productionAccepted": false,
+  "license": "CC-BY-SA-3.0",
+  "sourceAuthor": "p0ss",
+  "texturePhotographer": "titus tscharntke",
+  "adaptationAuthor": "Corealm",
+  "sha256": "5a6ceb7a024b336157176a6ab95fafa1370987a724cd8ac320edab89ceed7bf4",
+  "samples": [
+    {
+      "frame": 0,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 1,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 2,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 3,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 4,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 5,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 6,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 7,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 8,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 9,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 10,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 11,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 12,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 13,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 14,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 15,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 16,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 17,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 18,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 19,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 20,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 21,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 22,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 23,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 24,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 25,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 26,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 27,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 28,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 29,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 30,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 31,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 32,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 33,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 34,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 35,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 36,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 37,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 38,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 39,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 40,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 41,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 42,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 43,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 44,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 45,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 46,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 47,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 48,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 49,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 50,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 51,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 52,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 53,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 54,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 55,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 56,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 57,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 58,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 59,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 60,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 61,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 62,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 63,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 64,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 65,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 66,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 67,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 68,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 69,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 70,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 71,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 72,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 73,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 74,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 75,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 76,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 77,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 78,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 79,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 80,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 81,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 82,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 83,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 84,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 85,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 86,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 87,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 88,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 89,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 90,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 91,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 92,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 93,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 94,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 95,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 96,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 97,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 98,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 99,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 100,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 101,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 102,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 103,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 104,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 105,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 106,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 107,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 108,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 109,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 110,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 111,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 112,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 113,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 114,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 115,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 116,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 117,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 118,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 119,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    },
+    {
+      "frame": 120,
+      "weightedPhysicalSoles": {
+        "forearm L": 0.003944814205169678,
+        "forearm R": 0.00022810697555541992,
+        "Shin L": 0.0016688108444213867,
+        "Shin R": 0.0
+      }
+    }
+  ]
+}

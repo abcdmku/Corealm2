@@ -1,0 +1,62 @@
+{
+  "basis": "NodeIO CPU parse in this process, five sequential parses with GC when available; not browser mixer/GPU/runtime resident acceptance. AccessorBytes exact; heap/external deltas noisy per-process measurements.",
+  "reports": [
+    {
+      "file": "Fox.completed-actor.glb",
+      "fileBytes": 2895828,
+      "parseMilliseconds": [
+        12.735199999999999,
+        7.481099999999998,
+        8.187199999999997,
+        6.5077,
+        6.495399999999989
+      ],
+      "medianParseMilliseconds": 7.481099999999998,
+      "lastMeasuredDocumentCost": {
+        "heapDelta": 1130384,
+        "externalDelta": 0,
+        "accessorBytes": 2812728,
+        "runValueKeys": 38425,
+        "channels": 25
+      }
+    },
+    {
+      "file": "Fox.completed-high.glb",
+      "fileBytes": 3415588,
+      "parseMilliseconds": [
+        7.106700000000004,
+        6.266300000000001,
+        5.523300000000006,
+        6.227400000000017,
+        6.839400000000012
+      ],
+      "medianParseMilliseconds": 6.266300000000001,
+      "lastMeasuredDocumentCost": {
+        "heapDelta": 1034592,
+        "externalDelta": 0,
+        "accessorBytes": 3336648,
+        "runValueKeys": 76825,
+        "channels": 25
+      }
+    },
+    {
+      "file": "Fox.adaptive-actor.glb",
+      "fileBytes": 2280448,
+      "parseMilliseconds": [
+        6.50569999999999,
+        5.255300000000005,
+        6.826300000000003,
+        6.486400000000003,
+        6.188600000000008
+      ],
+      "medianParseMilliseconds": 6.486400000000003,
+      "lastMeasuredDocumentCost": {
+        "heapDelta": 1039704,
+        "externalDelta": 0,
+        "accessorBytes": 2200540,
+        "runValueKeys": 5767,
+        "channels": 25
+      }
+    }
+  ]
+}

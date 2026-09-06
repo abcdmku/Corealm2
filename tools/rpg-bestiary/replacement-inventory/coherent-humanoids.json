@@ -1,0 +1,639 @@
+{
+  "schemaVersion": 1,
+  "screenedAt": "2026-09-05",
+  "scope": "Complete authored nonhorned fantasy humanoids; source investigation only, no catalog changes or GPU use.",
+  "acceptanceStatus": "None accepted in production. Preview screening and source inspection only.",
+  "localCacheFinding": {
+    "roots": [
+      "C:/Users/Borg/AppData/Roaming/Unity/Asset Store-5.x",
+      "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache"
+    ],
+    "result": "No dedicated entitled ogre, troll, or cyclops source identified. Existing creature packages include dragons, rhino, Fantasy Monster02/04/09 and Dungeon Skeletons Demo. Quaternius caches contain complete low-poly creatures but do not solve the requested higher-detail troll/ogre direction."
+  },
+  "shortlist": [
+    {
+      "rank": 1,
+      "title": "Troll Mauler",
+      "author": "piacenti",
+      "sourceUrl": "https://opengameart.org/content/troll-mauler",
+      "license": "CC-BY-3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "licenseEvidence": "Creator upload page explicitly labels CC-BY 3.0.",
+      "downloadUrl": "https://opengameart.org/sites/default/files/troll.blend",
+      "previewUrls": [
+        "https://opengameart.org/sites/default/files/preview1_8.png",
+        "https://opengameart.org/sites/default/files/preview2_23.png",
+        "https://opengameart.org/sites/default/files/preview3_7.png"
+      ],
+      "localSource": "test-results/coherent-humanoid-source-cache/troll-mauler.blend",
+      "localPreview": "test-results/coherent-humanoid-source-cache/troll-mauler.png",
+      "sourceBytes": 55714048,
+      "sourceFormat": "Blender 2.73 native blend",
+      "geometryEvidence": "CPU Blender 4.5.11 inspection measures low: 749 vertices / 1494 triangles; med: 2999 vertices / 5994 triangles. These actual triangulated counts differ from the creator page 3000/12000 claims. Both have UVMap and separate baked diffuse/normal/occlusion maps. Same broad body bounds and fourfold topology density support authored low/medium versions, but low has no skin or armature modifier: not a ready interchangeable animated LOD.",
+      "rigEvidence": "Armature has 33 bones, including torso chain Bone.004/Bone/Bone.001/Bone.002/Bone.003, bilateral shoulder/arm/forearm/hand and thigh/shin/foot/foot_tip, plus foot IK controls. No finger bones. med, eye med, cloth and cloth.001 have armature modifiers and every vertex has positive bone weights. Body/cloth have up to 14 influences, non-unit weight sums; future four-weight export needs normalization and deformation comparison. Low body/eyes are unskinned. Leg IK constraints exist; forearm IK constraints have no target.",
+      "clipEvidence": "Exactly one action, ArmatureAction, frames 1\u201340 at 24 fps (1.625 seconds between endpoints), 330 curves with keys at 1/20/40. Stored NLA strip spans 1\u201350. Meaningfully changing channels affect torso location and upper-body rotations; lower-limb controls are constant. CPU sampling with NLA disabled confirms planted feet and body/arm sway: plausibly an idle/breathing loop, not an authored walk or attack. No named locomotion/combat/death set exists.",
+      "anatomyScreen": "Inspected original preview. Complete stocky troll/ogre with integrated face, broad belly, oversized hands and feet, sculpted muscle and skin folds, loincloth and painted detail. No horns, bovine traits or pasted animal head. Strongest match found. Exaggerated muscle masses should still be compared against the retained skeleton style.",
+      "nextStep": "Root preview approval first; medium body is the rigged candidate. A later scoped converter would need legacy texture material reconstruction, weight normalization/influence preservation checks, isolated action baking and separately sourced/derived locomotion/combat. Do not export low and med together. CPU source inspection alone does not establish visual or gameplay readiness.",
+      "priority": "Recommended source extraction checkpoint",
+      "sourceSha256": "83fc5e524d31020d8b7c9641517f965cecd65840b3119582b4e984649f708c51",
+      "materialTextureEvidence": "Legacy Blender Internal materials cloth, eye, floor, low, Material and med have no node trees in Blender 4.5.11. Legacy texture datablocks preserve named image references. Packed body diffuse/normal/occlusion: troll_baseTexBaked.png, troll_normals.png, troll_occlusion.png (4096\u00b2); low equivalents also 4096\u00b2. Packed cloth uv.png / cloth uv_NRM.png / cloth uv_OCC.png are 1024\u00b2; packed eye_baseTexBaked.png is 512\u00b2 under image name Material Diffuse Color. Generated eye Diffuse Color is 512\u00b2. Material node reconstruction is required; no modern PBR roughness/metallic maps established.",
+      "cpuInspection": {
+        "runtime": "4.5.11 LTS",
+        "report": "test-results/coherent-humanoid-source-cache/troll-inspection.json",
+        "inspector": "test-results/coherent-humanoid-source-cache/inspect_troll.py",
+        "meshSummary": [
+          {
+            "name": "cloth",
+            "vertices": 48,
+            "triangles": 64,
+            "uvLayers": [
+              "UVMap"
+            ],
+            "materials": [
+              "cloth"
+            ],
+            "skin": {
+              "boneWeightedVertices": 48,
+              "unweightedVertices": 0,
+              "weightSumRange": [
+                2.8315394511446357,
+                4.954249069094658
+              ]
+            }
+          },
+          {
+            "name": "cloth.001",
+            "vertices": 48,
+            "triangles": 64,
+            "uvLayers": [
+              "UVMap"
+            ],
+            "materials": [
+              "cloth"
+            ],
+            "skin": {
+              "boneWeightedVertices": 48,
+              "unweightedVertices": 0,
+              "weightSumRange": [
+                2.8315394511446357,
+                4.954249069094658
+              ]
+            }
+          },
+          {
+            "name": "eye low",
+            "vertices": 60,
+            "triangles": 80,
+            "uvLayers": [
+              "UVMap"
+            ],
+            "materials": [
+              "Material"
+            ],
+            "skin": {
+              "boneWeightedVertices": 0,
+              "unweightedVertices": 60,
+              "weightSumRange": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "name": "eye med",
+            "vertices": 196,
+            "triangles": 312,
+            "uvLayers": [
+              "UVMap"
+            ],
+            "materials": [
+              "eye"
+            ],
+            "skin": {
+              "boneWeightedVertices": 196,
+              "unweightedVertices": 0,
+              "weightSumRange": [
+                1.0,
+                1.0
+              ]
+            }
+          },
+          {
+            "name": "low",
+            "vertices": 749,
+            "triangles": 1494,
+            "uvLayers": [
+              "UVMap"
+            ],
+            "materials": [
+              "low"
+            ],
+            "skin": {
+              "boneWeightedVertices": 0,
+              "unweightedVertices": 749,
+              "weightSumRange": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "name": "med",
+            "vertices": 2999,
+            "triangles": 5994,
+            "uvLayers": [
+              "UVMap"
+            ],
+            "materials": [
+              "med"
+            ],
+            "skin": {
+              "boneWeightedVertices": 2999,
+              "unweightedVertices": 0,
+              "weightSumRange": [
+                0.1754698024597019,
+                1.2004431635141373
+              ]
+            }
+          },
+          {
+            "name": "Plane",
+            "vertices": 18,
+            "triangles": 16,
+            "uvLayers": [],
+            "materials": [
+              "floor"
+            ],
+            "skin": {
+              "boneWeightedVertices": 0,
+              "unweightedVertices": 18,
+              "weightSumRange": [
+                0,
+                0
+              ]
+            }
+          },
+          {
+            "name": "Plane.001",
+            "vertices": 18,
+            "triangles": 16,
+            "uvLayers": [],
+            "materials": [
+              "floor"
+            ],
+            "skin": {
+              "boneWeightedVertices": 0,
+              "unweightedVertices": 18,
+              "weightSumRange": [
+                0,
+                0
+              ]
+            }
+          }
+        ],
+        "bones": [
+          {
+            "name": "Bone.004",
+            "parent": null,
+            "deform": true
+          },
+          {
+            "name": "Bone",
+            "parent": "Bone.004",
+            "deform": true
+          },
+          {
+            "name": "Bone.001",
+            "parent": "Bone",
+            "deform": true
+          },
+          {
+            "name": "Bone.002",
+            "parent": "Bone.001",
+            "deform": true
+          },
+          {
+            "name": "Bone.003",
+            "parent": "Bone.002",
+            "deform": true
+          },
+          {
+            "name": "shoulder.L",
+            "parent": "Bone.002",
+            "deform": true
+          },
+          {
+            "name": "arm.L",
+            "parent": "shoulder.L",
+            "deform": true
+          },
+          {
+            "name": "forearm.L",
+            "parent": "arm.L",
+            "deform": true
+          },
+          {
+            "name": "hand.L",
+            "parent": "forearm.L",
+            "deform": true
+          },
+          {
+            "name": "shoulder.R",
+            "parent": "Bone.002",
+            "deform": true
+          },
+          {
+            "name": "arm.R",
+            "parent": "shoulder.R",
+            "deform": true
+          },
+          {
+            "name": "forearm.R",
+            "parent": "arm.R",
+            "deform": true
+          },
+          {
+            "name": "hand.R",
+            "parent": "forearm.R",
+            "deform": true
+          },
+          {
+            "name": "thigh.L",
+            "parent": "Bone",
+            "deform": true
+          },
+          {
+            "name": "shin.L",
+            "parent": "thigh.L",
+            "deform": true
+          },
+          {
+            "name": "foot.L",
+            "parent": "shin.L",
+            "deform": true
+          },
+          {
+            "name": "foot_tip.L",
+            "parent": "foot.L",
+            "deform": true
+          },
+          {
+            "name": "thigh.R",
+            "parent": "Bone",
+            "deform": true
+          },
+          {
+            "name": "shin.R",
+            "parent": "thigh.R",
+            "deform": true
+          },
+          {
+            "name": "foot.R",
+            "parent": "shin.R",
+            "deform": true
+          },
+          {
+            "name": "foot_tip.R",
+            "parent": "foot.R",
+            "deform": true
+          },
+          {
+            "name": "foot_main.L",
+            "parent": null,
+            "deform": true
+          },
+          {
+            "name": "roll_IK.L",
+            "parent": "foot_main.L",
+            "deform": true
+          },
+          {
+            "name": "pole.L",
+            "parent": "foot_main.L",
+            "deform": true
+          },
+          {
+            "name": "sole_inverse.L",
+            "parent": "foot_main.L",
+            "deform": true
+          },
+          {
+            "name": "sole.L",
+            "parent": "sole_inverse.L",
+            "deform": true
+          },
+          {
+            "name": "foot_IK.L",
+            "parent": "sole.L",
+            "deform": true
+          },
+          {
+            "name": "foot_main.R",
+            "parent": null,
+            "deform": true
+          },
+          {
+            "name": "roll_IK.R",
+            "parent": "foot_main.R",
+            "deform": true
+          },
+          {
+            "name": "pole.R",
+            "parent": "foot_main.R",
+            "deform": true
+          },
+          {
+            "name": "sole_inverse.R",
+            "parent": "foot_main.R",
+            "deform": true
+          },
+          {
+            "name": "sole.R",
+            "parent": "sole_inverse.R",
+            "deform": true
+          },
+          {
+            "name": "foot_IK.R",
+            "parent": "sole.R",
+            "deform": true
+          }
+        ],
+        "actionDetails": {
+          "keyFrames": [
+            1.0,
+            20.0,
+            40.0
+          ],
+          "changingPaths": [
+            "pose.bones[\"Bone\"].location",
+            "pose.bones[\"Bone.002\"].rotation_quaternion",
+            "pose.bones[\"arm.L\"].rotation_quaternion",
+            "pose.bones[\"arm.R\"].rotation_quaternion",
+            "pose.bones[\"forearm.L\"].rotation_quaternion",
+            "pose.bones[\"forearm.R\"].rotation_quaternion",
+            "pose.bones[\"shoulder.L\"].rotation_quaternion",
+            "pose.bones[\"shoulder.R\"].rotation_quaternion"
+          ]
+        },
+        "images": [
+          {
+            "name": "cloth uv.png",
+            "filepath": "C:\\Users\\Gabriel\\Desktop\\new Blender\\characters\\summo monster\\cloth uv.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true,
+            "source": "FILE",
+            "channels": 4
+          },
+          {
+            "name": "cloth uv_NRM.png",
+            "filepath": "C:\\Users\\Gabriel\\Desktop\\new Blender\\characters\\summo monster\\cloth uv_NRM.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true,
+            "source": "FILE",
+            "channels": 4
+          },
+          {
+            "name": "cloth uv_OCC.png",
+            "filepath": "C:\\Users\\Gabriel\\Desktop\\new Blender\\characters\\summo monster\\cloth uv_OCC.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true,
+            "source": "FILE",
+            "channels": 4
+          },
+          {
+            "name": "eye Diffuse Color",
+            "filepath": "",
+            "size": [
+              512,
+              512
+            ],
+            "packed": false,
+            "source": "GENERATED",
+            "channels": 4
+          },
+          {
+            "name": "Material Diffuse Color",
+            "filepath": "//eye_baseTexBaked.png",
+            "size": [
+              512,
+              512
+            ],
+            "packed": true,
+            "source": "FILE",
+            "channels": 4
+          },
+          {
+            "name": "Render Result",
+            "filepath": "",
+            "size": [
+              0,
+              0
+            ],
+            "packed": false,
+            "source": "VIEWER",
+            "channels": 0
+          },
+          {
+            "name": "troll_baseTexBaked.png",
+            "filepath": "C:\\Users\\Gabriel\\Desktop\\new Blender\\characters\\summo monster\\troll_baseTexBaked.png",
+            "size": [
+              4096,
+              4096
+            ],
+            "packed": true,
+            "source": "FILE",
+            "channels": 4
+          },
+          {
+            "name": "troll_low_baseTexBaked.png",
+            "filepath": "//troll_low_baseTexBaked.png",
+            "size": [
+              4096,
+              4096
+            ],
+            "packed": true,
+            "source": "FILE",
+            "channels": 4
+          },
+          {
+            "name": "troll_low_normals.png",
+            "filepath": "//troll_low_normals.png",
+            "size": [
+              4096,
+              4096
+            ],
+            "packed": true,
+            "source": "FILE",
+            "channels": 4
+          },
+          {
+            "name": "troll_low_occlusion.png",
+            "filepath": "//troll_low_occlusion.png",
+            "size": [
+              4096,
+              4096
+            ],
+            "packed": true,
+            "source": "FILE",
+            "channels": 4
+          },
+          {
+            "name": "troll_normals.png",
+            "filepath": "C:\\Users\\Gabriel\\Desktop\\new Blender\\characters\\summo monster\\troll_normals.png",
+            "size": [
+              4096,
+              4096
+            ],
+            "packed": true,
+            "source": "FILE",
+            "channels": 4
+          },
+          {
+            "name": "troll_occlusion.png",
+            "filepath": "//troll_occlusion.png",
+            "size": [
+              4096,
+              4096
+            ],
+            "packed": true,
+            "source": "FILE",
+            "channels": 4
+          }
+        ],
+        "legacyTextures": [
+          {
+            "name": "cloth",
+            "type": "IMAGE",
+            "image": "cloth uv.png"
+          },
+          {
+            "name": "cloth normal",
+            "type": "IMAGE",
+            "image": "cloth uv_NRM.png"
+          },
+          {
+            "name": "cloth occ",
+            "type": "IMAGE",
+            "image": "cloth uv_OCC.png"
+          },
+          {
+            "name": "Diffuse Color",
+            "type": "IMAGE",
+            "image": "Material Diffuse Color"
+          },
+          {
+            "name": "Diffuse Color.001",
+            "type": "IMAGE",
+            "image": "eye Diffuse Color"
+          },
+          {
+            "name": "eye stencil",
+            "type": "IMAGE",
+            "image": null
+          },
+          {
+            "name": "low diff",
+            "type": "IMAGE",
+            "image": "troll_low_baseTexBaked.png"
+          },
+          {
+            "name": "low norm",
+            "type": "IMAGE",
+            "image": "troll_low_normals.png"
+          },
+          {
+            "name": "low occ",
+            "type": "IMAGE",
+            "image": "troll_low_occlusion.png"
+          },
+          {
+            "name": "med diff",
+            "type": "IMAGE",
+            "image": "troll_baseTexBaked.png"
+          },
+          {
+            "name": "med norm",
+            "type": "IMAGE",
+            "image": "troll_normals.png"
+          },
+          {
+            "name": "med occ",
+            "type": "IMAGE",
+            "image": "troll_occlusion.png"
+          }
+        ]
+      }
+    },
+    {
+      "rank": 2,
+      "title": "Skinny Troll",
+      "author": "piacenti",
+      "sourceUrl": "https://opengameart.org/content/skinny-troll",
+      "license": "CC-BY-3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "licenseEvidence": "Creator upload page explicitly labels CC-BY 3.0.",
+      "downloadUrl": "https://opengameart.org/sites/default/files/troll%20game.zip",
+      "previewUrls": [
+        "https://opengameart.org/sites/default/files/prev_12.png",
+        "https://opengameart.org/sites/default/files/prev2_3.png",
+        "https://opengameart.org/sites/default/files/prev3_3.png"
+      ],
+      "localPreview": "test-results/coherent-humanoid-source-cache/skinny-troll.png",
+      "sourceDownloaded": false,
+      "rigEvidence": "Page discussion reports a basic rig; source rig not independently inspected.",
+      "clipEvidence": "No named animation set established from the page. Do not claim animated readiness.",
+      "textureEvidence": "Creator page says textures are packed in the blend.",
+      "anatomyScreen": "Inspected original preview. Coherent thin, long-limbed whole troll with facial structure and sinewy body detail, no anatomical horns. Skull trophies and spiked club may conflict with the desired non-demonic presentation. Conditional option only if those accessories can be removed while preserving the authored body.",
+      "nextStep": "Only investigate after Troll Mauler. Inspect source for separately removable skull/club equipment and verify rig and clip contents.",
+      "priority": "Conditional reserve; accessory review required"
+    }
+  ],
+  "screenedButNotRecommended": [
+    {
+      "title": "Ogre Creature",
+      "author": "Sazerac",
+      "sourceUrl": "https://blendswap.com/blend/4979",
+      "previewUrl": "https://blendswap.com/blend_previews/4979/0/0",
+      "localPreview": "test-results/coherent-humanoid-source-cache/sazerac-preview.jpg",
+      "license": "CC0 according to creator page",
+      "rigClips": "Creator specifies Rigify; no named clips established. Source download not acquired.",
+      "reason": "Inspected preview: complete unhorned muscular ogre, but face strongly resembles a gorilla with tusks. Despite coherent whole-body authorship, it risks repeating the user's rejected animal-headed humanoid look."
+    },
+    {
+      "title": "Sinbad the Ogre",
+      "author": "Zi Ye",
+      "sourceUrl": "https://opengameart.org/content/sinbad-the-ogre",
+      "previewUrl": "https://opengameart.org/sites/default/files/sinbad_preview3.jpg",
+      "localPreview": "test-results/coherent-humanoid-source-cache/sinbad.jpg",
+      "license": "CC-BY-SA-3.0 according to creator page",
+      "rigClips": "Creator provides rigged animated Blender/Maya/Ogre source; exact clip inventory not independently inspected.",
+      "reason": "Inspected preview: whole unhorned green ogre in clothing, but smooth cartoon surfaces and proportions fall below the requested anatomy/detail direction."
+    },
+    {
+      "title": "LOTR Troll for animating/rigging",
+      "sourceUrl": "https://sketchfab.com/3d-models/lotr-troll-for-animatingrigging-f4d777fd41d045fb8692f19f07b998fe",
+      "reason": "Named franchise derivative, and creator explicitly says no rig or animations. Not a clean original source recommendation."
+    },
+    {
+      "title": "Jerry the Ogre",
+      "sourceUrl": "https://opengameart.org/content/jerry-the-ogre",
+      "reason": "Head/bust source rather than a complete body."
+    }
+  ],
+  "cyclopsFinding": "No sufficiently detailed, complete, verified open cyclops source established in this bounded search. Paid listings were excluded; no purchase was made.",
+  "validationLimits": [
+    "Preview inspection is not production acceptance.",
+    "Troll Mauler CPU source inspection and five action samples were performed; no GPU, gameplay or GLB conversion validation.",
+    "The source includes an apparent idle motion, not a complete production clip set.",
+    "Attribution and modification notes must accompany any eventual CC-BY integration."
+  ]
+}

@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import type { SemanticEntity } from "../contracts.js";
+import { PORTAL_MANTLE } from "../world/portalMantle.js";
 
 // Transformed opening vertices from wall_brick_door.glb, whose front is local Z=0.
 // At the authored 3x scale the jamb gap is 3.915 m and the apex is 7.419 m.
@@ -264,5 +265,66 @@ export function buildDungeonMouth(entity: SemanticEntity): THREE.Group {
   group.rotation.y = yaw;
   group.scale.set(scale * axes[0], scale * axes[1], scale * axes[2]);
   group.add(stone, rear);
+  if (entity.regionId !== "gravelmaw") group.add(buildRockMantle(profile));
   return group;
+}
+
+/** A closed rock volume surrounds the surface passage and meets the bank behind it. */
+function buildRockMantle(opening: readonly Point[]): THREE.Mesh {
+  const positions: number[] = [], indices: number[] = [], colours: number[] = [], uvs: number[] = [];
+  const rings = 13, count = opening.length;
+  const colour = new THREE.Color(0x625c51);
+  for (let ring = 0; ring < rings; ring++) {
+    const t = ring / (rings - 1);
+    const z = PORTAL_MANTLE.frontZ + (PORTAL_MANTLE.backZ - PORTAL_MANTLE.frontZ) * t;
+    for (let vertex = 0; vertex < count; vertex++) {
+      const [ix, iy] = opening[vertex]!;
+      const f = Math.max(0, (iy - FLOOR) / (APEX + OVERLAP - FLOOR));
+      const irregularity = Math.sin(t * 13.7 + vertex * 0.71) * 0.025
+        + Math.sin(t * 5.8 + vertex * 1.27) * 0.025;
+      const width = 1.6 + 0.22 * Math.sin(t * Math.PI);
+      const x = ix * width + Math.sign(ix) * irregularity * f;
+      // A 0.6 m minimum rock roof covers the existing tunnel; at the rear it tapers into
+      // the authored 8.2 m bank crest. The base remains buried and the sides carry the roof.
+      const roofY = PORTAL_MANTLE.frontRoofY + (PORTAL_MANTLE.rearRoofY - PORTAL_MANTLE.frontRoofY) * t;
+      const y = iy <= FLOOR ? PORTAL_MANTLE.baseY : PORTAL_MANTLE.baseY + f * roofY + irregularity * f;
+      positions.push(x, y, z);
+      const shade = 0.91 + 0.09 * Math.sin(vertex * 0.43 + t * 8.7);
+      colours.push(colour.r * shade, colour.g * shade, colour.b * shade);
+      uvs.push(z, iy <= FLOOR ? x : y + ix * 0.37);
+    }
+  }
+  for (let ring = 0; ring < rings - 1; ring++) for (let edge = 0; edge < count; edge++) {
+    const next = (edge + 1) % count;
+    const a = ring * count + edge, b = ring * count + next;
+    const c = (ring + 1) * count + edge, d = (ring + 1) * count + next;
+    indices.push(a, c, b, b, c, d);
+  }
+  // Front annulus connects to the real aperture. It leaves the passage completely open.
+  const innerStart = positions.length / 3;
+  for (const [x, y] of opening) {
+    positions.push(x, y, PORTAL_MANTLE.frontZ);
+    colours.push(colour.r, colour.g, colour.b); uvs.push(x, y);
+  }
+  for (let edge = 0; edge < count; edge++) {
+    const next = (edge + 1) % count;
+    indices.push(edge, next, innerStart + edge, next, innerStart + next, innerStart + edge);
+  }
+  const rearCentre = positions.length / 3;
+  positions.push(0, 1.25, PORTAL_MANTLE.backZ); colours.push(colour.r, colour.g, colour.b); uvs.push(0, 1.25);
+  for (let edge = 0; edge < count; edge++) {
+    indices.push((rings - 1) * count + edge, rearCentre, (rings - 1) * count + (edge + 1) % count);
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute("color", new THREE.Float32BufferAttribute(colours, 3));
+  geometry.setAttribute("uv", new THREE.Float32BufferAttribute(uvs, 2));
+  geometry.setIndex(indices); geometry.computeVertexNormals(); geometry.computeBoundingSphere();
+  const material = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.96, metalness: 0, side: THREE.DoubleSide });
+  material.name = "Corealm weathered strata";
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.name = "dungeon-mouth-rock-mantle";
+  mesh.castShadow = true; mesh.receiveShadow = true;
+  mesh.userData.ownedGeometry = true; mesh.userData.ownedMaterial = true;
+  return mesh;
 }

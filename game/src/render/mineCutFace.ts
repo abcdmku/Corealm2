@@ -34,6 +34,44 @@ export interface MineCutFaceResult {
   solids: SolidVolume[];
 }
 
+/** Read the actual terrain triangle for burial without changing gameplay's height sampler. */
+export function createMineBurialSampler(scene: WorldScene): (x: number, z: number) => number {
+  const grids = (scene.getWalkableMeshes?.() ?? []).flatMap((mesh) => {
+    const geometry = mesh.geometry as THREE.PlaneGeometry;
+    const parameters = geometry.parameters;
+    if (!parameters?.widthSegments || !parameters.heightSegments || !geometry.index) return [];
+    const positions = geometry.getAttribute("position");
+    const columns = parameters.widthSegments, rows = parameters.heightSegments;
+    const stepX = positions.getX(1) - positions.getX(0);
+    const stepZ = positions.getZ(columns + 1) - positions.getZ(0);
+    if (stepX <= 0 || stepZ <= 0 || mesh.rotation.x || mesh.rotation.y || mesh.rotation.z) return [];
+    return [{ positions, index: geometry.index, columns, rows, stepX, stepZ,
+      x: positions.getX(0) + mesh.position.x, z: positions.getZ(0) + mesh.position.z,
+      offset: mesh.position }];
+  });
+  return (x, z) => {
+    for (const grid of grids) {
+      const u = (x - grid.x) / grid.stepX, v = (z - grid.z) / grid.stepZ;
+      if (u < 0 || v < 0 || u > grid.columns || v > grid.rows) continue;
+      const col = Math.min(grid.columns - 1, Math.floor(u)), row = Math.min(grid.rows - 1, Math.floor(v));
+      const first = (row * grid.columns + col) * 6;
+      // Read both triangles' real indices: never assume which diagonal the renderer uses.
+      for (const triangle of [0, 3]) {
+        const ids = [0, 1, 2].map((corner) => grid.index.getX(first + triangle + corner));
+        const points = ids.map((id) => ({ x: grid.positions.getX(id) + grid.offset.x,
+          y: grid.positions.getY(id) + grid.offset.y, z: grid.positions.getZ(id) + grid.offset.z }));
+        const [a, b, c] = points as [typeof points[number], typeof points[number], typeof points[number]];
+        const denominator = (b.z - c.z) * (a.x - c.x) + (c.x - b.x) * (a.z - c.z);
+        const wa = ((b.z - c.z) * (x - c.x) + (c.x - b.x) * (z - c.z)) / denominator;
+        const wb = ((c.z - a.z) * (x - c.x) + (a.x - c.x) * (z - c.z)) / denominator;
+        const wc = 1 - wa - wb;
+        if (Math.min(wa, wb, wc) >= -1e-6) return wa * a.y + wb * b.y + wc * c.y;
+      }
+    }
+    return scene.meshHeightAt(x, z);
+  };
+}
+
 /**
  * A closed geological face behind the authored ground ore positions. Ore meshes remain separate
  * and never set the cliff's dimensions, relief or material. This builder borrows the cached host
@@ -48,6 +86,7 @@ export async function buildMineCutFace(
   const cut = site.cutFace;
   if (!cut || cut.stations.length === 0) return { objects: [], solids: [] };
   const setback = cut.frontSetback ?? 2.4;
+  const burialHeightAt = createMineBurialSampler(scene);
   if (site.kind !== "mine" || ![cut.backDepth, cut.buryDepth, setback].every((value) => Number.isFinite(value) && value > 0)) {
     throw new Error(`Mine cut ${site.id} requires positive back and burial depths.`);
   }
@@ -109,7 +148,7 @@ export async function buildMineCutFace(
       };
       const buried = (z: number): THREE.Vector3 => {
         const foot = point(0, z);
-        foot.y = scene.meshHeightAt(foot.x, foot.z) - cut.buryDepth;
+        foot.y = burialHeightAt(foot.x, foot.z) - cut.buryDepth;
         return foot;
       };
       const windowTop = atHeight(origin.y + station.crestHeight * (0.43 + weather(at * 0.37, seed + 41) * 0.06),
@@ -135,12 +174,12 @@ export async function buildMineCutFace(
     const direction = edge.points[0]!.clone().sub(neighbour.points[0]!);
     direction.y = 0; direction.normalize().multiplyScalar(end === 0 ? 1.2 : 1.45);
     const points = edge.points.map((point) => point.clone().add(direction));
-    const ground = scene.meshHeightAt(points[0]!.x, points[0]!.z);
+    const ground = burialHeightAt(points[0]!.x, points[0]!.z);
     points[0]!.y = ground - cut.buryDepth;
     points[1]!.y = ground + 0.35;
     points[2]!.y = ground + (end === 0 ? 1.0 : 0.72);
-    points[3]!.y = scene.meshHeightAt(points[3]!.x, points[3]!.z) + 0.48;
-    points[4]!.y = scene.meshHeightAt(points[4]!.x, points[4]!.z) - cut.buryDepth;
+    points[3]!.y = burialHeightAt(points[3]!.x, points[3]!.z) + 0.48;
+    points[4]!.y = burialHeightAt(points[4]!.x, points[4]!.z) - cut.buryDepth;
     const toe = { points, plane: edge.plane, lowerRelief: 1, terminal: 1 };
     if (end === 0) sections.unshift(toe);
     else sections.push(toe);
@@ -205,16 +244,16 @@ export async function buildMineCutFace(
     window.x = THREE.MathUtils.lerp(window.x, foot.x, settle);
     window.z = THREE.MathUtils.lerp(window.z, foot.z, settle);
     for (const [point, burial] of [[window, 0.24], [crest, 0.14], [rear, 0.16]] as const) {
-      point.y = THREE.MathUtils.lerp(point.y, scene.meshHeightAt(point.x, point.z) - burial, settle);
+      point.y = THREE.MathUtils.lerp(point.y, burialHeightAt(point.x, point.z) - burial, settle);
     }
-    rearFoot.y = scene.meshHeightAt(rearFoot.x, rearFoot.z) - cut.buryDepth;
+    rearFoot.y = burialHeightAt(rearFoot.x, rearFoot.z) - cut.buryDepth;
     // Retain a finite shell below the ground at the end, rather than collapsing triangles to
     // zero-area vertices. The visible geometry above it narrows smoothly into the earth.
     if (terminal === 1) {
-      foot.y = scene.meshHeightAt(foot.x, foot.z) - cut.buryDepth;
-      window.y = scene.meshHeightAt(window.x, window.z) - 0.24;
-      crest.y = scene.meshHeightAt(crest.x, crest.z) - 0.14;
-      rear.y = scene.meshHeightAt(rear.x, rear.z) - 0.16;
+      foot.y = burialHeightAt(foot.x, foot.z) - cut.buryDepth;
+      window.y = burialHeightAt(window.x, window.z) - 0.24;
+      crest.y = burialHeightAt(crest.x, crest.z) - 0.14;
+      rear.y = burialHeightAt(rear.x, rear.z) - 0.16;
     }
   }
 
@@ -271,7 +310,7 @@ export async function buildMineCutFace(
     const [foot, window, crest, oldRear, rearFoot] = section.points as [THREE.Vector3, THREE.Vector3, THREE.Vector3, THREE.Vector3, THREE.Vector3];
     const ring = [foot.clone()];
     const push = (point: THREE.Vector3, projection: Projection = "front"): void => {
-      if (section.terminal === 1) point.y = Math.min(point.y, scene.meshHeightAt(point.x, point.z) - 0.12);
+      if (section.terminal === 1) point.y = Math.min(point.y, burialHeightAt(point.x, point.z) - 0.12);
       ring.push(point);
       if (sectionIndex === 0) projections.push(projection);
     };
@@ -340,20 +379,40 @@ export async function buildMineCutFace(
     // The rear seam must actually disappear into terrain. The previous toe used ground+0.48,
     // which could never be buried by raising the terrain and showed daylight under quarry ends.
     const rear = oldRear.clone();
-    rear.y = Math.max(rearFoot.y + 0.08, Math.min(rear.y, scene.meshHeightAt(rear.x, rear.z) - 0.12));
-    const shoulderDepth = 0.52 + weather(across * 0.29, seed + 137) * 0.16;
+    rear.y = Math.max(rearFoot.y + 0.08, Math.min(rear.y, burialHeightAt(rear.x, rear.z) - 0.12));
+    const rearDistance = Math.hypot(rear.x - crest.x, rear.z - crest.z);
+    // Meet the bank where its drawn surface reaches the crest. Burying within one metre
+    // while the bank is still at work-floor height leaves a steep exposed rear wall.
+    // Flat fixtures without a receiving bank keep a short, buried shoulder.
+    let shoulderDepth = 0.85 + weather(across * 0.29, seed + 137) * 0.15;
+    for (let sample = 1; sample <= 40; sample++) {
+      const point = crest.clone().lerp(rear, sample / 40);
+      if (burialHeightAt(point.x, point.z) >= crest.y - 0.30) {
+        shoulderDepth = Math.max(shoulderDepth, rearDistance * sample / 40);
+        break;
+      }
+    }
     for (let row = 1; row <= 20; row++) {
       const t = row / 20;
       const point = crest.clone().lerp(rear, t);
-      const ground = scene.meshHeightAt(point.x, point.z);
-      const buried = THREE.MathUtils.smoothstep(t, 0, shoulderDepth);
-      point.y = THREE.MathUtils.lerp(crest.y, ground - 0.12, buried);
-      point.y += (1 - buried) * Math.sin(Math.PI * t / shoulderDepth) * exposedDetail
+      const ground = burialHeightAt(point.x, point.z);
+      const depth = t * rearDistance;
+      const buried = THREE.MathUtils.smoothstep(depth, 0, shoulderDepth);
+      point.y = THREE.MathUtils.lerp(crest.y, ground - 0.30, buried);
+      point.y += (1 - buried) * Math.sin(Math.PI * Math.min(1, depth / shoulderDepth)) * exposedDetail
         * (weather(across * 0.65 + t * 5, seed + 139) * 0.17
           + weather(across * 1.7 - t * 8, seed + 141) * 0.05);
       push(point, "top");
     }
     push(rearFoot.clone());
+    // Close beneath the actual heightfield, not with a ten-metre chord between the feet.
+    // That chord crossed a convex bank and rendered as detached triangular stone strips.
+    // Sampling the underside also keeps collision slices inside a genuinely buried shell.
+    for (let row = 1; row < 32; row++) {
+      const point = rearFoot.clone().lerp(foot, row / 32);
+      point.y = burialHeightAt(point.x, point.z) - cut.buryDepth;
+      push(point, "top");
+    }
     if (sectionIndex === 0) projections.push("top");
     return ring;
   });

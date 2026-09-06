@@ -2,6 +2,7 @@ import * as THREE from "three";
 
 /** The playback clock belongs to an actor, not to its current render representation. */
 export interface CreaturePlayback {
+  hitOverlay: { clip: THREE.AnimationClip; time: number; timeScale: number; bones?: readonly string[]; maskStatus?: string } | null;
   clip: THREE.AnimationClip;
   time: number;
   timeScale: number;
@@ -23,6 +24,7 @@ export function createCreaturePlayback(
   clip: THREE.AnimationClip, timeScale: number, phase = 0,
 ): CreaturePlayback {
   return {
+    hitOverlay: null,
     clip, time: playbackTime(phase * clip.duration, clip.duration, true), timeScale, loop: true,
     previousClip: null, previousTime: 0, previousTimeScale: 1, previousLoop: true,
     transitionSeconds: 0, transitionElapsed: 0,
@@ -48,6 +50,10 @@ export function transitionCreaturePlayback(
 /** Returns true once a non-looping action reaches its final pose. */
 export function advanceCreaturePlayback(state: CreaturePlayback, seconds: number): boolean {
   const delta = Math.max(0, Math.min(0.25, seconds));
+  if (state.hitOverlay) {
+    state.hitOverlay.time += delta * state.hitOverlay.timeScale;
+    if (state.hitOverlay.time >= state.hitOverlay.clip.duration) state.hitOverlay = null;
+  }
   const next = state.time + delta * state.timeScale;
   state.time = playbackTime(next, state.clip.duration, state.loop);
   state.transitionElapsed += delta;

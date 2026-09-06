@@ -1,0 +1,224 @@
+{
+  "source": "gonsplitters-gpbadger01",
+  "types": {
+    "MeshFilter": 2,
+    "Transform": 4,
+    "Shader": 1,
+    "Texture2D": 6,
+    "GameObject": 4,
+    "MeshRenderer": 2,
+    "AssetBundle": 1,
+    "TextAsset": 1,
+    "Mesh": 1,
+    "Material": 1
+  },
+  "meshes": [
+    {
+      "name": "default",
+      "vertices": 25966,
+      "triangles": 49976,
+      "bindPoseCount": 0,
+      "bounds": {
+        "m_Center": {
+          "x": 0.03747499734163284,
+          "y": 0.3048725128173828,
+          "z": 0.10712750256061554
+        },
+        "m_Extent": {
+          "x": 0.23105400800704956,
+          "y": 0.2032495141029358,
+          "z": 0.38655751943588257
+        }
+      },
+      "uvCount": 25966,
+      "finite": true
+    }
+  ],
+  "textures": [
+    {
+      "name": "badger_Normal",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "name": "portrait",
+      "width": 128,
+      "height": 128
+    },
+    {
+      "name": "badger_AmbOc",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "name": "badger_Metal_Roughness",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "name": "badger_BaseColor_Opacity",
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "name": "badger_Height",
+      "width": 1024,
+      "height": 1024
+    }
+  ],
+  "transforms": [
+    {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 4055966063960598520
+      },
+      "m_LocalRotation": {
+        "x": 0.0,
+        "y": -0.0,
+        "z": -0.0,
+        "w": 1.0
+      },
+      "m_LocalPosition": {
+        "x": -0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "m_LocalScale": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "m_Children": [
+        {
+          "m_FileID": 0,
+          "m_PathID": -2310922133106485648
+        }
+      ],
+      "m_Father": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 3916760190089007494
+      },
+      "m_LocalRotation": {
+        "x": 0.0,
+        "y": -0.0,
+        "z": -0.0,
+        "w": 1.0
+      },
+      "m_LocalPosition": {
+        "x": -0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "m_LocalScale": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "m_Children": [],
+      "m_Father": {
+        "m_FileID": 0,
+        "m_PathID": -7939322216964832710
+      }
+    },
+    {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": 6849359055452760047
+      },
+      "m_LocalRotation": {
+        "x": 0.0,
+        "y": -0.0,
+        "z": -0.0,
+        "w": 1.0
+      },
+      "m_LocalPosition": {
+        "x": -0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "m_LocalScale": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "m_Children": [
+        {
+          "m_FileID": 0,
+          "m_PathID": 3527917930738018682
+        }
+      ],
+      "m_Father": {
+        "m_FileID": 0,
+        "m_PathID": 0
+      }
+    },
+    {
+      "m_GameObject": {
+        "m_FileID": 0,
+        "m_PathID": -4774696373594748213
+      },
+      "m_LocalRotation": {
+        "x": 0.0,
+        "y": -0.0,
+        "z": -0.0,
+        "w": 1.0
+      },
+      "m_LocalPosition": {
+        "x": 0.004395800177007914,
+        "y": -0.01899999938905239,
+        "z": 0.01256600022315979
+      },
+      "m_LocalScale": {
+        "x": 0.8827000260353088,
+        "y": 0.8827000260353088,
+        "z": 0.8827000260353088
+      },
+      "m_Children": [],
+      "m_Father": {
+        "m_FileID": 0,
+        "m_PathID": 687549628238343805
+      }
+    }
+  ],
+  "assetInfo": {
+    "m_Name": "info",
+    "m_Script": "{\r\n  \"name\": \"Badger\",\r\n  \"kind\": \"Creature\",\r\n  \"groupName\": \"Beast\",\r\n  \"description\": \"Tiny beast\",\r\n  \"tags\": \"Tiny\",\r\n  \"author\": \"Gonsplitters\",\r\n  \"version\": \"1.0\",\r\n  \"comment\": \"\",\r\n  \"size\": 1.0,\r\n  \"assetBase\": \"Default\",\r\n  \"code\": \"\",\r\n  \"locations\":\r\n  {\r\n    \"head\": \"0.0,0.2,0.0\",\r\n    \"hit\": \"0.0,0.1,0.0\",\r\n    \"spell\": \"0.0,0.1,0.0\",\r\n    \"torch\": \"0.0,0.1,-0.1\"\r\n  },\r\n  \"meshAdjustments\":\r\n  {\r\n    \"size\": \"1.0,1.0,1.0\",\r\n    \"rotationOffset\": \"0.0,0.0,0.0\",\r\n    \"positionOffset\": \"0.0,0.0,0.0\"\r\n  }\r\n}\r\n"
+  },
+  "sourceLicense": "CC-BY-SA 4.0 declared in included LICENSE and README; uploader credits original sculpt to mz4250. Original-creator license not independently retrieved.",
+  "originalCreatorRoute": "https://thangs.com/designer/mz4250/3d-model/Badger-18694",
+  "originalCreatorAccess": "403 browser challenge on read-only page request; no bypass attempted.",
+  "previewEvidence": "Official package full-body collection preview inspected; badger small. Original bundle128px portrait inspected, feet cropped. Full-size all-angle geometry review pending root hardware session.",
+  "adaptation": "Static whole badger source. Requires posed-mesh rest correction, UV/material review, rig, weight painting and clips. Not accepted or integrated.",
+  "hashes": {
+    "Gonsplitters_Beasts_Collection-1.0.3.zip": {
+      "bytes": 51656897,
+      "sha256": "ef00545e513c4b3008947418b784f22288cc9a654234591bda456fd1a94f0e86"
+    },
+    "gonsplitters-gpbadger01": {
+      "bytes": 2319763,
+      "sha256": "3103ab112e7a97790b67d8655b71401e126ef6184877cc3050d1b398c2006ea9"
+    },
+    "gonsplitters-LICENSE": {
+      "bytes": 14545,
+      "sha256": "25cd87d843d5a64ee27e733bd436b3aa5a4559d0116e901ec5e7a019fb850496"
+    },
+    "gonsplitters-README.md": {
+      "bytes": 1379,
+      "sha256": "408e4979d775ff9a3e4d63500478cabb4f091641d5f98b6f44552b72636b832c"
+    },
+    "gonsplitters-badger-source.obj": {
+      "bytes": 5503495,
+      "sha256": "63cac3fc2848c5077776a776a04ea51222030f113a6bbd8617e2ad2aac425be3"
+    },
+    "gonsplitters-official-preview.jpg": {
+      "bytes": 682306,
+      "sha256": "170f709595d8b001ce9c71c7f00273ee11bba6cf49a8b8bfc638456e39076765"
+    }
+  }
+}

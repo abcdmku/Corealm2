@@ -1,0 +1,3127 @@
+{
+  "schema": 1,
+  "floor": {
+    "y": 0,
+    "units": "metres",
+    "basis": [
+      "mammals.mjs buildSpecies object.userData.groundY=0",
+      "implicit.mjs sole flattening clamps contact patch to y=0",
+      "animation-audit.mjs groundPlaneY=0 and DEFAULT_MAX_PENETRATION=0.025",
+      "This audits the authored flat-ground source. It does not claim the live world terrain has absolute y=0."
+    ]
+  },
+  "thresholds": {
+    "existingDiagnosticMaxPenetrationM": 0.025,
+    "proposedPhysicalSoleReviewM": 0.001,
+    "proposalBasis": "1mm is a new stricter review criterion for rigid planted soles, not an existing project acceptance rule. Values above it need fixing or explicit root disposition; the 25mm diagnostic pass alone is insufficient."
+  },
+  "assets": [
+    {
+      "id": "redbrush_fox",
+      "label": "current source",
+      "sourceSha256": null,
+      "sourcePath": "current buildSpecies source",
+      "clips": [
+        {
+          "clip": "Idle",
+          "duration": 3.4,
+          "samples": 549,
+          "intervalSubdivisions": 4,
+          "frames": 137,
+          "rawTrackBytes": 147960,
+          "worst": {
+            "y": -6e-9,
+            "time": 3.3875,
+            "mesh": "redbrush_fox_Anatomy",
+            "vertex": 10244,
+            "bindPosition": [
+              -0.1135372743010521,
+              0,
+              0.43823307752609253
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.113537276,
+              -6e-9,
+              0.438233119
+            ],
+            "restBonePosition": [
+              -0.122,
+              0.05499999999999999,
+              0.406
+            ],
+            "posedBonePosition": [
+              -0.122000001,
+              0.054999994,
+              0.406000042
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 3.375,
+                "worldY": 3e-8
+              },
+              {
+                "time": 3.4,
+                "worldY": 3e-8
+              }
+            ],
+            "penetrationM": 6e-9,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Walk",
+          "duration": 1.02,
+          "samples": 661,
+          "intervalSubdivisions": 4,
+          "frames": 165,
+          "rawTrackBytes": 178200,
+          "worst": {
+            "y": -0.000007824,
+            "time": 0.668597579,
+            "mesh": "redbrush_fox_Anatomy",
+            "vertex": 10249,
+            "bindPosition": [
+              0.11378759890794754,
+              0,
+              0.43770185112953186
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FL",
+              "normalizedClipTime": 0.655487823,
+              "authoredLegPhaseOffset": 0,
+              "legCyclePhase": 0.655487823,
+              "stanceDuty": 0.66,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.1137876,
+              -0.000007824,
+              0.26016392
+            ],
+            "restBonePosition": [
+              0.122,
+              0.05499999999999999,
+              0.406
+            ],
+            "posedBonePosition": [
+              0.122000001,
+              0.054992177,
+              0.228462069
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.665487826,
+                "worldY": 2.9e-8
+              },
+              {
+                "time": 0.671707332,
+                "worldY": 3e-8
+              }
+            ],
+            "penetrationM": 0.000007824,
+            "interpretation": "authored physical sole below floor during stance"
+          },
+          "worstStanceSole": {
+            "y": -0.000007824,
+            "time": 0.668597579,
+            "mesh": "redbrush_fox_Anatomy",
+            "vertex": 10249,
+            "bindPosition": [
+              0.11378759890794754,
+              0,
+              0.43770185112953186
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FL",
+              "normalizedClipTime": 0.655487823,
+              "authoredLegPhaseOffset": 0,
+              "legCyclePhase": 0.655487823,
+              "stanceDuty": 0.66,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.1137876,
+              -0.000007824,
+              0.26016392
+            ],
+            "restBonePosition": [
+              0.122,
+              0.05499999999999999,
+              0.406
+            ],
+            "posedBonePosition": [
+              0.122000001,
+              0.054992177,
+              0.228462069
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.665487826,
+                "worldY": 2.9e-8
+              },
+              {
+                "time": 0.671707332,
+                "worldY": 3e-8
+              }
+            ],
+            "penetrationM": 0.000007824,
+            "interpretation": "authored physical sole below floor during stance"
+          }
+        },
+        {
+          "clip": "Run",
+          "duration": 0.66,
+          "samples": 429,
+          "intervalSubdivisions": 4,
+          "frames": 107,
+          "rawTrackBytes": 115560,
+          "worst": {
+            "y": -0.000518041,
+            "time": 0.513679266,
+            "mesh": "redbrush_fox_Anatomy",
+            "vertex": 2566,
+            "bindPosition": [
+              -0.12825016677379608,
+              0,
+              -0.33113712072372437
+            ],
+            "dominantBone": "HR_Paw",
+            "weights": [
+              {
+                "bone": "HR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "HR",
+              "normalizedClipTime": 0.778301918,
+              "authoredLegPhaseOffset": 0.65,
+              "legCyclePhase": 0.428301918,
+              "stanceDuty": 0.44,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.128250168,
+              -0.000518041,
+              -0.615649781
+            ],
+            "restBonePosition": [
+              -0.122,
+              0.05499999999999999,
+              -0.32499999999999996
+            ],
+            "posedBonePosition": [
+              -0.122000001,
+              0.05448196,
+              -0.609512661
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.510566056,
+                "worldY": 1.2e-8
+              },
+              {
+                "time": 0.516792476,
+                "worldY": 4e-9
+              }
+            ],
+            "penetrationM": 0.000518041,
+            "interpretation": "authored physical sole below floor during stance"
+          },
+          "worstStanceSole": {
+            "y": -0.000518041,
+            "time": 0.513679266,
+            "mesh": "redbrush_fox_Anatomy",
+            "vertex": 2566,
+            "bindPosition": [
+              -0.12825016677379608,
+              0,
+              -0.33113712072372437
+            ],
+            "dominantBone": "HR_Paw",
+            "weights": [
+              {
+                "bone": "HR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "HR",
+              "normalizedClipTime": 0.778301918,
+              "authoredLegPhaseOffset": 0.65,
+              "legCyclePhase": 0.428301918,
+              "stanceDuty": 0.44,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.128250168,
+              -0.000518041,
+              -0.615649781
+            ],
+            "restBonePosition": [
+              -0.122,
+              0.05499999999999999,
+              -0.32499999999999996
+            ],
+            "posedBonePosition": [
+              -0.122000001,
+              0.05448196,
+              -0.609512661
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.510566056,
+                "worldY": 1.2e-8
+              },
+              {
+                "time": 0.516792476,
+                "worldY": 4e-9
+              }
+            ],
+            "penetrationM": 0.000518041,
+            "interpretation": "authored physical sole below floor during stance"
+          }
+        },
+        {
+          "clip": "Attack",
+          "duration": 0.88,
+          "samples": 569,
+          "intervalSubdivisions": 4,
+          "frames": 142,
+          "rawTrackBytes": 153360,
+          "worst": {
+            "y": -0.000007111,
+            "time": 0.539858133,
+            "mesh": "redbrush_fox_Anatomy",
+            "vertex": 10244,
+            "bindPosition": [
+              -0.1135372743010521,
+              0,
+              0.43823307752609253
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.113537276,
+              -0.000007111,
+              0.494242043
+            ],
+            "restBonePosition": [
+              -0.122,
+              0.05499999999999999,
+              0.406
+            ],
+            "posedBonePosition": [
+              -0.122000001,
+              0.054992889,
+              0.462008965
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.536737561,
+                "worldY": 3.3e-8
+              },
+              {
+                "time": 0.542978704,
+                "worldY": 2.9e-8
+              }
+            ],
+            "penetrationM": 0.000007111,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Hit",
+          "duration": 0.7,
+          "samples": 117,
+          "intervalSubdivisions": 4,
+          "frames": 29,
+          "rawTrackBytes": 31320,
+          "worst": {
+            "y": -0.000009344,
+            "time": 0.112500001,
+            "mesh": "redbrush_fox_Anatomy",
+            "vertex": 10244,
+            "bindPosition": [
+              -0.1135372743010521,
+              0,
+              0.43823307752609253
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.113537276,
+              -0.000009344,
+              0.438239189
+            ],
+            "restBonePosition": [
+              -0.122,
+              0.05499999999999999,
+              0.406
+            ],
+            "posedBonePosition": [
+              -0.122000001,
+              0.054990656,
+              0.406006112
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.100000001,
+                "worldY": 3e-8
+              },
+              {
+                "time": 0.125,
+                "worldY": 3.1e-8
+              }
+            ],
+            "penetrationM": 0.000009344,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "HitLeft",
+          "duration": 0.7,
+          "samples": 117,
+          "intervalSubdivisions": 4,
+          "frames": 29,
+          "rawTrackBytes": 31320,
+          "worst": {
+            "y": -0.000023248,
+            "time": 0.112500001,
+            "mesh": "redbrush_fox_Anatomy",
+            "vertex": 10243,
+            "bindPosition": [
+              -0.1277981996536255,
+              0,
+              0.43744325637817383
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.127802935,
+              -0.000023248,
+              0.437454031
+            ],
+            "restBonePosition": [
+              -0.122,
+              0.05499999999999999,
+              0.406
+            ],
+            "posedBonePosition": [
+              -0.122004174,
+              0.054976761,
+              0.406010894
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.100000001,
+                "worldY": 2.9e-8
+              },
+              {
+                "time": 0.125,
+                "worldY": 2.8e-8
+              }
+            ],
+            "penetrationM": 0.000023248,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "HitRight",
+          "duration": 0.7,
+          "samples": 117,
+          "intervalSubdivisions": 4,
+          "frames": 29,
+          "rawTrackBytes": 31320,
+          "worst": {
+            "y": -0.000023249,
+            "time": 0.112500001,
+            "mesh": "redbrush_fox_Anatomy",
+            "vertex": 10250,
+            "bindPosition": [
+              0.1283143013715744,
+              0,
+              0.43760478496551514
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.128319039,
+              -0.000023249,
+              0.43761555
+            ],
+            "restBonePosition": [
+              0.122,
+              0.05499999999999999,
+              0.406
+            ],
+            "posedBonePosition": [
+              0.122004174,
+              0.054976761,
+              0.406010894
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.100000001,
+                "worldY": 2.9e-8
+              },
+              {
+                "time": 0.125,
+                "worldY": 2.8e-8
+              }
+            ],
+            "penetrationM": 0.000023249,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Death",
+          "duration": 1.5,
+          "samples": 241,
+          "intervalSubdivisions": 4,
+          "frames": 61,
+          "rawTrackBytes": 65880,
+          "worst": {
+            "y": -0.000095102,
+            "time": 0.862500012,
+            "mesh": "redbrush_fox_Face_Claws",
+            "vertex": 52,
+            "bindPosition": [
+              -0.15053048729896545,
+              0.008388284593820572,
+              0.48061907291412354
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.073628917,
+              -0.0000951,
+              0.577438076
+            ],
+            "restBonePosition": [
+              -0.122,
+              0.05499999999999999,
+              0.406
+            ],
+            "posedBonePosition": [
+              0.054651943,
+              0.059082034,
+              0.508935608
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.850000024,
+                "worldY": 1.9e-8
+              },
+              {
+                "time": 0.875,
+                "worldY": 1.8e-8
+              }
+            ],
+            "penetrationM": 0.000095102,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        }
+      ]
+    },
+    {
+      "id": "duskoak_lynx",
+      "label": "current source",
+      "sourceSha256": null,
+      "sourcePath": "current buildSpecies source",
+      "clips": [
+        {
+          "clip": "Idle",
+          "duration": 3.4,
+          "samples": 549,
+          "intervalSubdivisions": 4,
+          "frames": 137,
+          "rawTrackBytes": 143028,
+          "worst": {
+            "y": -2.14e-7,
+            "time": 1.8125,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 13258,
+            "bindPosition": [
+              0.15671196579933167,
+              0,
+              0.3665705621242523
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.15671196,
+              -2.14e-7,
+              0.366570607
+            ],
+            "restBonePosition": [
+              0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              0.158999994,
+              0.072999786,
+              0.376000045
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 1.799999952,
+                "worldY": 0
+              },
+              {
+                "time": 1.825000048,
+                "worldY": 0
+              }
+            ],
+            "penetrationM": 2.14e-7,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Walk",
+          "duration": 1.16,
+          "samples": 749,
+          "intervalSubdivisions": 4,
+          "frames": 187,
+          "rawTrackBytes": 195228,
+          "worst": {
+            "y": -0.0000908,
+            "time": 0.68290323,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 13258,
+            "bindPosition": [
+              0.15671196579933167,
+              0,
+              0.3665705621242523
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FL",
+              "normalizedClipTime": 0.588709681,
+              "authoredLegPhaseOffset": 0,
+              "legCyclePhase": 0.588709681,
+              "stanceDuty": 0.66,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.15671196,
+              -0.0000908,
+              0.198000618
+            ],
+            "restBonePosition": [
+              0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              0.158999994,
+              0.0729092,
+              0.207430055
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.679784954,
+                "worldY": 2e-9
+              },
+              {
+                "time": 0.686021507,
+                "worldY": 1e-9
+              }
+            ],
+            "penetrationM": 0.0000908,
+            "interpretation": "authored physical sole below floor during stance"
+          },
+          "worstStanceSole": {
+            "y": -0.0000908,
+            "time": 0.68290323,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 13258,
+            "bindPosition": [
+              0.15671196579933167,
+              0,
+              0.3665705621242523
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FL",
+              "normalizedClipTime": 0.588709681,
+              "authoredLegPhaseOffset": 0,
+              "legCyclePhase": 0.588709681,
+              "stanceDuty": 0.66,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.15671196,
+              -0.0000908,
+              0.198000618
+            ],
+            "restBonePosition": [
+              0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              0.158999994,
+              0.0729092,
+              0.207430055
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.679784954,
+                "worldY": 2e-9
+              },
+              {
+                "time": 0.686021507,
+                "worldY": 1e-9
+              }
+            ],
+            "penetrationM": 0.0000908,
+            "interpretation": "authored physical sole below floor during stance"
+          }
+        },
+        {
+          "clip": "Run",
+          "duration": 0.67,
+          "samples": 865,
+          "intervalSubdivisions": 4,
+          "frames": 216,
+          "rawTrackBytes": 225504,
+          "worst": {
+            "y": -0.000575361,
+            "time": 0.596767455,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 14266,
+            "bindPosition": [
+              -0.14222678542137146,
+              0,
+              0.42376431822776794
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FR",
+              "normalizedClipTime": 0.890697695,
+              "authoredLegPhaseOffset": 0.15,
+              "legCyclePhase": 0.040697695,
+              "stanceDuty": 0.44,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.14222678,
+              -0.000575361,
+              0.725699169
+            ],
+            "restBonePosition": [
+              -0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              -0.158999994,
+              0.072424639,
+              0.677934851
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.595209301,
+                "worldY": 0.000348322
+              },
+              {
+                "time": 0.59832561,
+                "worldY": -1e-9
+              }
+            ],
+            "penetrationM": 0.000575361,
+            "interpretation": "authored physical sole below floor during stance"
+          },
+          "worstStanceSole": {
+            "y": -0.000575361,
+            "time": 0.596767455,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 14266,
+            "bindPosition": [
+              -0.14222678542137146,
+              0,
+              0.42376431822776794
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FR",
+              "normalizedClipTime": 0.890697695,
+              "authoredLegPhaseOffset": 0.15,
+              "legCyclePhase": 0.040697695,
+              "stanceDuty": 0.44,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.14222678,
+              -0.000575361,
+              0.725699169
+            ],
+            "restBonePosition": [
+              -0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              -0.158999994,
+              0.072424639,
+              0.677934851
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.595209301,
+                "worldY": 0.000348322
+              },
+              {
+                "time": 0.59832561,
+                "worldY": -1e-9
+              }
+            ],
+            "penetrationM": 0.000575361,
+            "interpretation": "authored physical sole below floor during stance"
+          }
+        },
+        {
+          "clip": "Attack",
+          "duration": 1.02,
+          "samples": 661,
+          "intervalSubdivisions": 4,
+          "frames": 165,
+          "rawTrackBytes": 172260,
+          "worst": {
+            "y": -0.000003901,
+            "time": 0.363841474,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 3544,
+            "bindPosition": [
+              0.15671281516551971,
+              0,
+              -0.37370285391807556
+            ],
+            "dominantBone": "HL_Paw",
+            "weights": [
+              {
+                "bone": "HL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.15671281,
+              -0.000003901,
+              -0.373703574
+            ],
+            "restBonePosition": [
+              0.159,
+              0.07299999999999998,
+              -0.365
+            ],
+            "posedBonePosition": [
+              0.158999994,
+              0.072996099,
+              -0.36500072
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.360731721,
+                "worldY": -1.6e-8
+              },
+              {
+                "time": 0.366951227,
+                "worldY": -1.6e-8
+              }
+            ],
+            "penetrationM": 0.000003901,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Hit",
+          "duration": 0.7,
+          "samples": 117,
+          "intervalSubdivisions": 4,
+          "frames": 29,
+          "rawTrackBytes": 30276,
+          "worst": {
+            "y": -0.000048461,
+            "time": 0.087500002,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 14266,
+            "bindPosition": [
+              -0.14222678542137146,
+              0,
+              0.42376431822776794
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.14222678,
+              -0.000048461,
+              0.423771339
+            ],
+            "restBonePosition": [
+              -0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              -0.158999994,
+              0.072951539,
+              0.376007021
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.075000003,
+                "worldY": 0
+              },
+              {
+                "time": 0.100000001,
+                "worldY": -1e-9
+              }
+            ],
+            "penetrationM": 0.000048461,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "HitLeft",
+          "duration": 0.7,
+          "samples": 117,
+          "intervalSubdivisions": 4,
+          "frames": 29,
+          "rawTrackBytes": 30276,
+          "worst": {
+            "y": -0.000110538,
+            "time": 0.087500002,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 14049,
+            "bindPosition": [
+              -0.18489228188991547,
+              0,
+              0.40939977765083313
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.184903626,
+              -0.000110538,
+              0.409412054
+            ],
+            "restBonePosition": [
+              -0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              -0.159009407,
+              0.072889478,
+              0.376013815
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.075000003,
+                "worldY": 0
+              },
+              {
+                "time": 0.100000001,
+                "worldY": 0
+              }
+            ],
+            "penetrationM": 0.000110538,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "HitRight",
+          "duration": 0.7,
+          "samples": 117,
+          "intervalSubdivisions": 4,
+          "frames": 29,
+          "rawTrackBytes": 30276,
+          "worst": {
+            "y": -0.000110538,
+            "time": 0.087500002,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 14060,
+            "bindPosition": [
+              0.18476127088069916,
+              0,
+              0.4093743860721588
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.184772614,
+              -0.000110538,
+              0.40938667
+            ],
+            "restBonePosition": [
+              0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              0.159009407,
+              0.072889478,
+              0.376013815
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.075000003,
+                "worldY": 0
+              },
+              {
+                "time": 0.100000001,
+                "worldY": 0
+              }
+            ],
+            "penetrationM": 0.000110538,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Death",
+          "duration": 1.5,
+          "samples": 241,
+          "intervalSubdivisions": 4,
+          "frames": 61,
+          "rawTrackBytes": 63684,
+          "worst": {
+            "y": -0.000103741,
+            "time": 0.887499988,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 4310,
+            "bindPosition": [
+              -0.24645663797855377,
+              0.029284190386533737,
+              -0.3455144464969635
+            ],
+            "dominantBone": "HR_Paw",
+            "weights": [
+              {
+                "bone": "HR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": false,
+            "worldPosition": [
+              0.002380913,
+              -0.00010375,
+              -0.39596809
+            ],
+            "restBonePosition": [
+              -0.159,
+              0.07299999999999998,
+              -0.365
+            ],
+            "posedBonePosition": [
+              0.02920808,
+              0.092496531,
+              -0.421363241
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.875,
+                "worldY": -3e-8
+              },
+              {
+                "time": 0.899999976,
+                "worldY": -2.3e-8
+              }
+            ],
+            "penetrationM": 0.000103741,
+            "interpretation": "non-sole surface"
+          },
+          "worstStanceSole": null
+        }
+      ]
+    },
+    {
+      "id": "rootdelve_badger",
+      "label": "current source",
+      "sourceSha256": null,
+      "sourcePath": "current buildSpecies source",
+      "clips": [
+        {
+          "clip": "Idle",
+          "duration": 3.4,
+          "samples": 549,
+          "intervalSubdivisions": 4,
+          "frames": 137,
+          "rawTrackBytes": 138096,
+          "worst": {
+            "y": -3e-8,
+            "time": 3.3875,
+            "mesh": "rootdelve_badger_Anatomy",
+            "vertex": 12132,
+            "bindPosition": [
+              -0.18527524173259735,
+              0,
+              0.352084219455719
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.185275239,
+              -3e-8,
+              0.352084262
+            ],
+            "restBonePosition": [
+              -0.19,
+              0.04100000000000001,
+              0.361
+            ],
+            "posedBonePosition": [
+              -0.189999998,
+              0.04099997,
+              0.361000042
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 3.375,
+                "worldY": -5e-9
+              },
+              {
+                "time": 3.4,
+                "worldY": -5e-9
+              }
+            ],
+            "penetrationM": 3e-8,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Walk",
+          "duration": 1.15,
+          "samples": 741,
+          "intervalSubdivisions": 4,
+          "frames": 185,
+          "rawTrackBytes": 186480,
+          "worst": {
+            "y": -0.000005032,
+            "time": 0.753125012,
+            "mesh": "rootdelve_badger_Anatomy",
+            "vertex": 12144,
+            "bindPosition": [
+              0.19913846254348755,
+              0,
+              0.352085679769516
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FL",
+              "normalizedClipTime": 0.654891315,
+              "authoredLegPhaseOffset": 0,
+              "legCyclePhase": 0.654891315,
+              "stanceDuty": 0.66,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.19913846,
+              -0.000005032,
+              0.219176567
+            ],
+            "restBonePosition": [
+              0.19,
+              0.04100000000000001,
+              0.361
+            ],
+            "posedBonePosition": [
+              0.189999998,
+              0.040994968,
+              0.228090886
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.75,
+                "worldY": -7e-9
+              },
+              {
+                "time": 0.756250024,
+                "worldY": -1e-9
+              }
+            ],
+            "penetrationM": 0.000005032,
+            "interpretation": "authored physical sole below floor during stance"
+          },
+          "worstStanceSole": {
+            "y": -0.000005032,
+            "time": 0.753125012,
+            "mesh": "rootdelve_badger_Anatomy",
+            "vertex": 12144,
+            "bindPosition": [
+              0.19913846254348755,
+              0,
+              0.352085679769516
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FL",
+              "normalizedClipTime": 0.654891315,
+              "authoredLegPhaseOffset": 0,
+              "legCyclePhase": 0.654891315,
+              "stanceDuty": 0.66,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.19913846,
+              -0.000005032,
+              0.219176567
+            ],
+            "restBonePosition": [
+              0.19,
+              0.04100000000000001,
+              0.361
+            ],
+            "posedBonePosition": [
+              0.189999998,
+              0.040994968,
+              0.228090886
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.75,
+                "worldY": -7e-9
+              },
+              {
+                "time": 0.756250024,
+                "worldY": -1e-9
+              }
+            ],
+            "penetrationM": 0.000005032,
+            "interpretation": "authored physical sole below floor during stance"
+          }
+        },
+        {
+          "clip": "Run",
+          "duration": 0.73,
+          "samples": 473,
+          "intervalSubdivisions": 4,
+          "frames": 118,
+          "rawTrackBytes": 118944,
+          "worst": {
+            "y": -0.000333216,
+            "time": 0.683205128,
+            "mesh": "rootdelve_badger_Anatomy",
+            "vertex": 3635,
+            "bindPosition": [
+              0.1855076402425766,
+              0,
+              -0.4036170542240143
+            ],
+            "dominantBone": "HL_Paw",
+            "weights": [
+              {
+                "bone": "HL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "HL",
+              "normalizedClipTime": 0.935897435,
+              "authoredLegPhaseOffset": 0.5,
+              "legCyclePhase": 0.435897435,
+              "stanceDuty": 0.44,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.185507638,
+              -0.000333216,
+              -0.610102362
+            ],
+            "restBonePosition": [
+              0.19,
+              0.04100000000000001,
+              -0.395
+            ],
+            "posedBonePosition": [
+              0.189999998,
+              0.040666785,
+              -0.601485308
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.68008548,
+                "worldY": -2.2e-8
+              },
+              {
+                "time": 0.686324775,
+                "worldY": 0.000528531
+              }
+            ],
+            "penetrationM": 0.000333216,
+            "interpretation": "authored physical sole below floor during stance"
+          },
+          "worstStanceSole": {
+            "y": -0.000333216,
+            "time": 0.683205128,
+            "mesh": "rootdelve_badger_Anatomy",
+            "vertex": 3635,
+            "bindPosition": [
+              0.1855076402425766,
+              0,
+              -0.4036170542240143
+            ],
+            "dominantBone": "HL_Paw",
+            "weights": [
+              {
+                "bone": "HL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "HL",
+              "normalizedClipTime": 0.935897435,
+              "authoredLegPhaseOffset": 0.5,
+              "legCyclePhase": 0.435897435,
+              "stanceDuty": 0.44,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.185507638,
+              -0.000333216,
+              -0.610102362
+            ],
+            "restBonePosition": [
+              0.19,
+              0.04100000000000001,
+              -0.395
+            ],
+            "posedBonePosition": [
+              0.189999998,
+              0.040666785,
+              -0.601485308
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.68008548,
+                "worldY": -2.2e-8
+              },
+              {
+                "time": 0.686324775,
+                "worldY": 0.000528531
+              }
+            ],
+            "penetrationM": 0.000333216,
+            "interpretation": "authored physical sole below floor during stance"
+          }
+        },
+        {
+          "clip": "Attack",
+          "duration": 1.1,
+          "samples": 709,
+          "intervalSubdivisions": 4,
+          "frames": 177,
+          "rawTrackBytes": 178416,
+          "worst": {
+            "y": -0.000006832,
+            "time": 0.646874994,
+            "mesh": "rootdelve_badger_Anatomy",
+            "vertex": 12132,
+            "bindPosition": [
+              -0.18527524173259735,
+              0,
+              0.352084219455719
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.185275239,
+              -0.000006832,
+              0.414094758
+            ],
+            "restBonePosition": [
+              -0.19,
+              0.04100000000000001,
+              0.361
+            ],
+            "posedBonePosition": [
+              -0.189999998,
+              0.040993168,
+              0.423010538
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.643750012,
+                "worldY": -4e-9
+              },
+              {
+                "time": 0.649999976,
+                "worldY": -5e-9
+              }
+            ],
+            "penetrationM": 0.000006832,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Hit",
+          "duration": 0.7,
+          "samples": 117,
+          "intervalSubdivisions": 4,
+          "frames": 29,
+          "rawTrackBytes": 29232,
+          "worst": {
+            "y": -0.000011568,
+            "time": 0.112500001,
+            "mesh": "rootdelve_badger_Anatomy",
+            "vertex": 12780,
+            "bindPosition": [
+              0.21380479633808136,
+              0,
+              0.39544373750686646
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.213804794,
+              -0.000011568,
+              0.395454336
+            ],
+            "restBonePosition": [
+              0.19,
+              0.04100000000000001,
+              0.361
+            ],
+            "posedBonePosition": [
+              0.189999998,
+              0.040988432,
+              0.361010598
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.100000001,
+                "worldY": -6e-9
+              },
+              {
+                "time": 0.125,
+                "worldY": -5e-9
+              }
+            ],
+            "penetrationM": 0.000011568,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "HitLeft",
+          "duration": 0.7,
+          "samples": 117,
+          "intervalSubdivisions": 4,
+          "frames": 29,
+          "rawTrackBytes": 29232,
+          "worst": {
+            "y": -0.000033545,
+            "time": 0.087500002,
+            "mesh": "rootdelve_badger_Anatomy",
+            "vertex": 12767,
+            "bindPosition": [
+              -0.21359138190746307,
+              0,
+              0.3950382173061371
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.213602616,
+              -0.000033545,
+              0.395066033
+            ],
+            "restBonePosition": [
+              -0.19,
+              0.04100000000000001,
+              0.361
+            ],
+            "posedBonePosition": [
+              -0.190010081,
+              0.040966469,
+              0.361028631
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.075000003,
+                "worldY": -6e-9
+              },
+              {
+                "time": 0.100000001,
+                "worldY": -7e-9
+              }
+            ],
+            "penetrationM": 0.000033545,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "HitRight",
+          "duration": 0.7,
+          "samples": 117,
+          "intervalSubdivisions": 4,
+          "frames": 29,
+          "rawTrackBytes": 29232,
+          "worst": {
+            "y": -0.000033545,
+            "time": 0.087500002,
+            "mesh": "rootdelve_badger_Anatomy",
+            "vertex": 12780,
+            "bindPosition": [
+              0.21380479633808136,
+              0,
+              0.39544373750686646
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.213816044,
+              -0.000033545,
+              0.395471546
+            ],
+            "restBonePosition": [
+              0.19,
+              0.04100000000000001,
+              0.361
+            ],
+            "posedBonePosition": [
+              0.190010081,
+              0.040966469,
+              0.361028631
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.075000003,
+                "worldY": -6e-9
+              },
+              {
+                "time": 0.100000001,
+                "worldY": -7e-9
+              }
+            ],
+            "penetrationM": 0.000033545,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Death",
+          "duration": 1.5,
+          "samples": 241,
+          "intervalSubdivisions": 4,
+          "frames": 61,
+          "rawTrackBytes": 61488,
+          "worst": {
+            "y": -0.000130655,
+            "time": 0.862500012,
+            "mesh": "rootdelve_badger_Face_Claws",
+            "vertex": 52,
+            "bindPosition": [
+              -0.23172077536582947,
+              0.0056556337513029575,
+              0.48449769616127014
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.028805332,
+              -0.000130646,
+              0.549068649
+            ],
+            "restBonePosition": [
+              -0.19,
+              0.04100000000000001,
+              0.361
+            ],
+            "posedBonePosition": [
+              -0.034693533,
+              0.064625864,
+              0.430690222
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.850000024,
+                "worldY": 0
+              },
+              {
+                "time": 0.875,
+                "worldY": -8e-9
+              }
+            ],
+            "penetrationM": 0.000130655,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        }
+      ]
+    },
+    {
+      "id": "quillback_porcupine",
+      "label": "current source",
+      "sourceSha256": null,
+      "sourcePath": "current buildSpecies source",
+      "clips": [
+        {
+          "clip": "Idle",
+          "duration": 3.4,
+          "samples": 549,
+          "intervalSubdivisions": 4,
+          "frames": 137,
+          "rawTrackBytes": 143028,
+          "worst": {
+            "y": -3.4e-8,
+            "time": 3.3875,
+            "mesh": "quillback_porcupine_Anatomy",
+            "vertex": 11288,
+            "bindPosition": [
+              0.1708795428276062,
+              0,
+              0.3096417188644409
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.170879547,
+              -3.4e-8,
+              0.309641755
+            ],
+            "restBonePosition": [
+              0.164,
+              0.045,
+              0.316
+            ],
+            "posedBonePosition": [
+              0.164000005,
+              0.044999966,
+              0.316000036
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 3.375,
+                "worldY": -1.2e-8
+              },
+              {
+                "time": 3.4,
+                "worldY": -1.2e-8
+              }
+            ],
+            "penetrationM": 3.4e-8,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Walk",
+          "duration": 1.25,
+          "samples": 801,
+          "intervalSubdivisions": 4,
+          "frames": 201,
+          "rawTrackBytes": 209844,
+          "worst": {
+            "y": -0.000003651,
+            "time": 0.821875006,
+            "mesh": "quillback_porcupine_Anatomy",
+            "vertex": 11288,
+            "bindPosition": [
+              0.1708795428276062,
+              0,
+              0.3096417188644409
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FL",
+              "normalizedClipTime": 0.657500005,
+              "authoredLegPhaseOffset": 0,
+              "legCyclePhase": 0.657500005,
+              "stanceDuty": 0.66,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.170879547,
+              -0.000003651,
+              0.190551577
+            ],
+            "restBonePosition": [
+              0.164,
+              0.045,
+              0.316
+            ],
+            "posedBonePosition": [
+              0.164000005,
+              0.044996349,
+              0.196909858
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.818750024,
+                "worldY": -1.2e-8
+              },
+              {
+                "time": 0.824999988,
+                "worldY": -1.3e-8
+              }
+            ],
+            "penetrationM": 0.000003651,
+            "interpretation": "authored physical sole below floor during stance"
+          },
+          "worstStanceSole": {
+            "y": -0.000003651,
+            "time": 0.821875006,
+            "mesh": "quillback_porcupine_Anatomy",
+            "vertex": 11288,
+            "bindPosition": [
+              0.1708795428276062,
+              0,
+              0.3096417188644409
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FL",
+              "normalizedClipTime": 0.657500005,
+              "authoredLegPhaseOffset": 0,
+              "legCyclePhase": 0.657500005,
+              "stanceDuty": 0.66,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.170879547,
+              -0.000003651,
+              0.190551577
+            ],
+            "restBonePosition": [
+              0.164,
+              0.045,
+              0.316
+            ],
+            "posedBonePosition": [
+              0.164000005,
+              0.044996349,
+              0.196909858
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.818750024,
+                "worldY": -1.2e-8
+              },
+              {
+                "time": 0.824999988,
+                "worldY": -1.3e-8
+              }
+            ],
+            "penetrationM": 0.000003651,
+            "interpretation": "authored physical sole below floor during stance"
+          }
+        },
+        {
+          "clip": "Run",
+          "duration": 0.76,
+          "samples": 493,
+          "intervalSubdivisions": 4,
+          "frames": 123,
+          "rawTrackBytes": 128412,
+          "worst": {
+            "y": -0.00032436,
+            "time": 0.707049191,
+            "mesh": "quillback_porcupine_Anatomy",
+            "vertex": 4320,
+            "bindPosition": [
+              0.15617945790290833,
+              0,
+              -0.28819119930267334
+            ],
+            "dominantBone": "HL_Paw",
+            "weights": [
+              {
+                "bone": "HL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "HL",
+              "normalizedClipTime": 0.930327883,
+              "authoredLegPhaseOffset": 0.5,
+              "legCyclePhase": 0.430327883,
+              "stanceDuty": 0.44,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.156179462,
+              -0.00032436,
+              -0.475018416
+            ],
+            "restBonePosition": [
+              0.164,
+              0.045,
+              -0.28500000000000003
+            ],
+            "posedBonePosition": [
+              0.164000005,
+              0.04467564,
+              -0.471827217
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.703934431,
+                "worldY": -9e-9
+              },
+              {
+                "time": 0.710163951,
+                "worldY": -1.9e-8
+              }
+            ],
+            "penetrationM": 0.00032436,
+            "interpretation": "authored physical sole below floor during stance"
+          },
+          "worstStanceSole": {
+            "y": -0.00032436,
+            "time": 0.707049191,
+            "mesh": "quillback_porcupine_Anatomy",
+            "vertex": 4320,
+            "bindPosition": [
+              0.15617945790290833,
+              0,
+              -0.28819119930267334
+            ],
+            "dominantBone": "HL_Paw",
+            "weights": [
+              {
+                "bone": "HL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "HL",
+              "normalizedClipTime": 0.930327883,
+              "authoredLegPhaseOffset": 0.5,
+              "legCyclePhase": 0.430327883,
+              "stanceDuty": 0.44,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.156179462,
+              -0.00032436,
+              -0.475018416
+            ],
+            "restBonePosition": [
+              0.164,
+              0.045,
+              -0.28500000000000003
+            ],
+            "posedBonePosition": [
+              0.164000005,
+              0.04467564,
+              -0.471827217
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.703934431,
+                "worldY": -9e-9
+              },
+              {
+                "time": 0.710163951,
+                "worldY": -1.9e-8
+              }
+            ],
+            "penetrationM": 0.00032436,
+            "interpretation": "authored physical sole below floor during stance"
+          }
+        },
+        {
+          "clip": "Attack",
+          "duration": 1.16,
+          "samples": 749,
+          "intervalSubdivisions": 4,
+          "frames": 187,
+          "rawTrackBytes": 195228,
+          "worst": {
+            "y": -0.000785247,
+            "time": 0.739032269,
+            "mesh": "quillback_porcupine_Anatomy",
+            "vertex": 11625,
+            "bindPosition": [
+              0.170924112200737,
+              0,
+              0.33827874064445496
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.170659249,
+              -0.000785247,
+              0.396001036
+            ],
+            "restBonePosition": [
+              0.164,
+              0.045,
+              0.316
+            ],
+            "posedBonePosition": [
+              0.163746788,
+              0.044225599,
+              0.373740595
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.735913992,
+                "worldY": -1.2e-8
+              },
+              {
+                "time": 0.742150545,
+                "worldY": -1.4e-8
+              }
+            ],
+            "penetrationM": 0.000785247,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Hit",
+          "duration": 0.7,
+          "samples": 117,
+          "intervalSubdivisions": 4,
+          "frames": 29,
+          "rawTrackBytes": 30276,
+          "worst": {
+            "y": -0.000018134,
+            "time": 0.087500002,
+            "mesh": "quillback_porcupine_Anatomy",
+            "vertex": 11619,
+            "bindPosition": [
+              -0.15650036931037903,
+              0,
+              0.3382801115512848
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.156500374,
+              -0.000018134,
+              0.338293918
+            ],
+            "restBonePosition": [
+              -0.164,
+              0.045,
+              0.316
+            ],
+            "posedBonePosition": [
+              -0.164000005,
+              0.044981866,
+              0.316013806
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.075000003,
+                "worldY": -1.2e-8
+              },
+              {
+                "time": 0.100000001,
+                "worldY": -1.2e-8
+              }
+            ],
+            "penetrationM": 0.000018134,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "HitLeft",
+          "duration": 0.7,
+          "samples": 117,
+          "intervalSubdivisions": 4,
+          "frames": 29,
+          "rawTrackBytes": 30276,
+          "worst": {
+            "y": -0.000041524,
+            "time": 0.087500002,
+            "mesh": "quillback_porcupine_Anatomy",
+            "vertex": 11618,
+            "bindPosition": [
+              -0.17080652713775635,
+              0,
+              0.33802202343940735
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.170819061,
+              -0.000041524,
+              0.338056648
+            ],
+            "restBonePosition": [
+              -0.164,
+              0.045,
+              0.316
+            ],
+            "posedBonePosition": [
+              -0.164011669,
+              0.044958484,
+              0.316034909
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.075000003,
+                "worldY": -1.2e-8
+              },
+              {
+                "time": 0.100000001,
+                "worldY": -1.3e-8
+              }
+            ],
+            "penetrationM": 0.000041524,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "HitRight",
+          "duration": 0.7,
+          "samples": 117,
+          "intervalSubdivisions": 4,
+          "frames": 29,
+          "rawTrackBytes": 30276,
+          "worst": {
+            "y": -0.000041524,
+            "time": 0.087500002,
+            "mesh": "quillback_porcupine_Anatomy",
+            "vertex": 11625,
+            "bindPosition": [
+              0.170924112200737,
+              0,
+              0.33827874064445496
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.170936656,
+              -0.000041524,
+              0.33831336
+            ],
+            "restBonePosition": [
+              0.164,
+              0.045,
+              0.316
+            ],
+            "posedBonePosition": [
+              0.164011669,
+              0.044958484,
+              0.316034909
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.075000003,
+                "worldY": -1.2e-8
+              },
+              {
+                "time": 0.100000001,
+                "worldY": -1.3e-8
+              }
+            ],
+            "penetrationM": 0.000041524,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Death",
+          "duration": 1.5,
+          "samples": 241,
+          "intervalSubdivisions": 4,
+          "frames": 61,
+          "rawTrackBytes": 63684,
+          "worst": {
+            "y": -0.000107319,
+            "time": 0.862500012,
+            "mesh": "quillback_porcupine_Face_Claws",
+            "vertex": 52,
+            "bindPosition": [
+              -0.19475077092647552,
+              0.0047530741430819035,
+              0.37654539942741394
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.018036824,
+              -0.000107309,
+              0.440544934
+            ],
+            "restBonePosition": [
+              -0.164,
+              0.045,
+              0.316
+            ],
+            "posedBonePosition": [
+              -0.029776536,
+              0.054993964,
+              0.385252987
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.850000024,
+                "worldY": -1.5e-8
+              },
+              {
+                "time": 0.875,
+                "worldY": -2.2e-8
+              }
+            ],
+            "penetrationM": 0.000107319,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        }
+      ]
+    },
+    {
+      "id": "duskoak_lynx",
+      "label": "staged prior candidate; exact SHA256 recorded, revision label not inferred",
+      "sourceSha256": "bd21ba94ab5d71753597ba7eaed2eeeef6800ac1b0ae76316f4aa3beb1fb8ae7",
+      "sourcePath": "/C:/Users/Borg/Documents/GitHub/Corealm2/art/rebuild/candidates/finish-quadrupeds/models/creature_duskoak_lynx.glb",
+      "clips": [
+        {
+          "clip": "Idle",
+          "duration": 3.4000000953674316,
+          "samples": 361,
+          "intervalSubdivisions": 4,
+          "frames": 2,
+          "rawTrackBytes": 5988,
+          "worst": {
+            "y": -0.000831397,
+            "time": 2.950000048,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 7006,
+            "bindPosition": [
+              -0.16397316753864288,
+              0.000022761463696951978,
+              0.41526365280151367
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.163973168,
+              -0.000831397,
+              0.412649563
+            ],
+            "restBonePosition": [
+              -0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              -0.158999994,
+              0.07228653,
+              0.373648519
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 2.950000048,
+                "worldY": -0.000831397
+              }
+            ],
+            "penetrationM": 0.000831397,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Walk",
+          "duration": 1.159999966621399,
+          "samples": 189,
+          "intervalSubdivisions": 4,
+          "frames": 35,
+          "rawTrackBytes": 18876,
+          "worst": {
+            "y": -0.000410751,
+            "time": 0.672553182,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 6854,
+            "bindPosition": [
+              0.1846769005060196,
+              0,
+              0.39473795890808105
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FL",
+              "normalizedClipTime": 0.579787242,
+              "authoredLegPhaseOffset": 0,
+              "legCyclePhase": 0.579787242,
+              "stanceDuty": 0.66,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.184676901,
+              -0.000410751,
+              0.231939023
+            ],
+            "restBonePosition": [
+              0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              0.158999994,
+              0.072589604,
+              0.213202436
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.666382968,
+                "worldY": -0.000062408
+              },
+              {
+                "time": 0.691063821,
+                "worldY": 0.000658921
+              }
+            ],
+            "penetrationM": 0.000410751,
+            "interpretation": "authored physical sole below floor during stance"
+          },
+          "worstStanceSole": {
+            "y": -0.000410751,
+            "time": 0.672553182,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 6854,
+            "bindPosition": [
+              0.1846769005060196,
+              0,
+              0.39473795890808105
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FL",
+              "normalizedClipTime": 0.579787242,
+              "authoredLegPhaseOffset": 0,
+              "legCyclePhase": 0.579787242,
+              "stanceDuty": 0.66,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.184676901,
+              -0.000410751,
+              0.231939023
+            ],
+            "restBonePosition": [
+              0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              0.158999994,
+              0.072589604,
+              0.213202436
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.666382968,
+                "worldY": -0.000062408
+              },
+              {
+                "time": 0.691063821,
+                "worldY": 0.000658921
+              }
+            ],
+            "penetrationM": 0.000410751,
+            "interpretation": "authored physical sole below floor during stance"
+          }
+        },
+        {
+          "clip": "Run",
+          "duration": 0.6700000166893005,
+          "samples": 109,
+          "intervalSubdivisions": 4,
+          "frames": 26,
+          "rawTrackBytes": 13572,
+          "worst": {
+            "y": -0.007699924,
+            "time": 0.607962966,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 6845,
+            "bindPosition": [
+              -0.1433703452348709,
+              0,
+              0.3946765959262848
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FR",
+              "normalizedClipTime": 0.907407389,
+              "authoredLegPhaseOffset": 0.15,
+              "legCyclePhase": 0.057407389,
+              "stanceDuty": 0.44,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.143370345,
+              -0.007699924,
+              0.672364795
+            ],
+            "restBonePosition": [
+              -0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              -0.158999994,
+              0.065300075,
+              0.653688189
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.595555544,
+                "worldY": -8e-9
+              },
+              {
+                "time": 0.620370388,
+                "worldY": -4e-9
+              }
+            ],
+            "penetrationM": 0.007699924,
+            "interpretation": "authored physical sole below floor during stance"
+          },
+          "worstStanceSole": {
+            "y": -0.007699924,
+            "time": 0.607962966,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 6845,
+            "bindPosition": [
+              -0.1433703452348709,
+              0,
+              0.3946765959262848
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "leg": "FR",
+              "normalizedClipTime": 0.907407389,
+              "authoredLegPhaseOffset": 0.15,
+              "legCyclePhase": 0.057407389,
+              "stanceDuty": 0.44,
+              "stage": "stance",
+              "phaseBasis": "mammals.mjs buildClips phase/stance expressions; key intervals may cross a stance boundary"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.143370345,
+              -0.007699924,
+              0.672364795
+            ],
+            "restBonePosition": [
+              -0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              -0.158999994,
+              0.065300075,
+              0.653688189
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.595555544,
+                "worldY": -8e-9
+              },
+              {
+                "time": 0.620370388,
+                "worldY": -4e-9
+              }
+            ],
+            "penetrationM": 0.007699924,
+            "interpretation": "authored physical sole below floor during stance"
+          }
+        },
+        {
+          "clip": "Attack",
+          "duration": 1.0199999809265137,
+          "samples": 129,
+          "intervalSubdivisions": 4,
+          "frames": 27,
+          "rawTrackBytes": 15308,
+          "worst": {
+            "y": -0.000075652,
+            "time": 0.578414634,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 6854,
+            "bindPosition": [
+              0.1846769005060196,
+              0,
+              0.39473795890808105
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.184676901,
+              -0.000075652,
+              0.459210554
+            ],
+            "restBonePosition": [
+              0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              0.158999994,
+              0.072924396,
+              0.440472774
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.572195113,
+                "worldY": -0.000064184
+              },
+              {
+                "time": 0.597073197,
+                "worldY": 6.34e-7
+              }
+            ],
+            "penetrationM": 0.000075652,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Hit",
+          "duration": 0.699999988079071,
+          "samples": 85,
+          "intervalSubdivisions": 4,
+          "frames": 18,
+          "rawTrackBytes": 8144,
+          "worst": {
+            "y": -0.00012097,
+            "time": 0.5,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 1887,
+            "bindPosition": [
+              -0.16410894691944122,
+              0,
+              -0.3640669882297516
+            ],
+            "dominantBone": "HR_Paw",
+            "weights": [
+              {
+                "bone": "HR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.164108947,
+              -0.00012097,
+              -0.364066966
+            ],
+            "restBonePosition": [
+              -0.159,
+              0.07299999999999998,
+              -0.365
+            ],
+            "posedBonePosition": [
+              -0.158999994,
+              0.072879029,
+              -0.364999987
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.5,
+                "worldY": -0.00012097
+              }
+            ],
+            "penetrationM": 0.00012097,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "HitLeft",
+          "duration": 0.699999988079071,
+          "samples": 85,
+          "intervalSubdivisions": 4,
+          "frames": 18,
+          "rawTrackBytes": 8784,
+          "worst": {
+            "y": -0.000181549,
+            "time": 0.093750002,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 6843,
+            "bindPosition": [
+              -0.18457406759262085,
+              0,
+              0.39428818225860596
+            ],
+            "dominantBone": "FR_Paw",
+            "weights": [
+              {
+                "bone": "FR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.184482327,
+              -0.000181549,
+              0.39429704
+            ],
+            "restBonePosition": [
+              -0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              -0.158917353,
+              0.072821939,
+              0.37601005
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.075000003,
+                "worldY": 1e-9
+              },
+              {
+                "time": 0.100000001,
+                "worldY": -0.000131557
+              }
+            ],
+            "penetrationM": 0.000181549,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "HitRight",
+          "duration": 0.699999988079071,
+          "samples": 85,
+          "intervalSubdivisions": 4,
+          "frames": 18,
+          "rawTrackBytes": 8784,
+          "worst": {
+            "y": -0.000181563,
+            "time": 0.093750002,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 6854,
+            "bindPosition": [
+              0.1846769005060196,
+              0,
+              0.39473795890808105
+            ],
+            "dominantBone": "FL_Paw",
+            "weights": [
+              {
+                "bone": "FL_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              0.18458518,
+              -0.000181563,
+              0.394746812
+            ],
+            "restBonePosition": [
+              0.159,
+              0.07299999999999997,
+              0.376
+            ],
+            "posedBonePosition": [
+              0.158917353,
+              0.072821939,
+              0.37601005
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.075000003,
+                "worldY": 1e-9
+              },
+              {
+                "time": 0.100000001,
+                "worldY": -0.000131576
+              }
+            ],
+            "penetrationM": 0.000181563,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        },
+        {
+          "clip": "Death",
+          "duration": 1.5,
+          "samples": 193,
+          "intervalSubdivisions": 4,
+          "frames": 44,
+          "rawTrackBytes": 13100,
+          "worst": {
+            "y": -0.000126148,
+            "time": 0.8125,
+            "mesh": "duskoak_lynx_Anatomy",
+            "vertex": 9656,
+            "bindPosition": [
+              -0.22676265239715576,
+              0.006102155428379774,
+              -0.28567999601364136
+            ],
+            "dominantBone": "HR_Paw",
+            "weights": [
+              {
+                "bone": "HR_Paw",
+                "weight": 1
+              }
+            ],
+            "phase": {
+              "stage": "not-a-locomotion-clip"
+            },
+            "physicalSole": true,
+            "worldPosition": [
+              -0.046331105,
+              -0.000126154,
+              -0.333435411
+            ],
+            "restBonePosition": [
+              -0.159,
+              0.07299999999999998,
+              -0.365
+            ],
+            "posedBonePosition": [
+              -0.025856613,
+              0.084837801,
+              -0.421302842
+            ],
+            "adjacentAuthoredKeys": [
+              {
+                "time": 0.800000012,
+                "worldY": -0.000080486
+              },
+              {
+                "time": 0.824999988,
+                "worldY": 2e-9
+              }
+            ],
+            "penetrationM": 0.000126148,
+            "interpretation": "physical sole outside stance"
+          },
+          "worstStanceSole": null
+        }
+      ]
+    }
+  ],
+  "currentSourceFiles": [
+    {
+      "path": "tools/creature-expansion/mammals.mjs",
+      "sha256": "44563ac85bfb39a4a839588627ed6e29f7f8f828e04e9aa577badf0782b5ba00"
+    },
+    {
+      "path": "tools/creature-expansion/mammals/implicit.mjs",
+      "sha256": "56e71e13692f0b84aefb91f556384c45e6b2828766a2e572b6f601f3606208ec"
+    },
+    {
+      "path": "tools/creature-expansion/mammals/fox-anatomy.mjs",
+      "sha256": "836e6984cda9944a162c6024fbc1fa178b5fe9172bf19bee4969dc91f5502946"
+    },
+    {
+      "path": "tools/creature-expansion/mammals/badger-anatomy.mjs",
+      "sha256": "5249858afca8117b6ccd5e16981f9b8d11946fe55f317f6570f74798149edd25"
+    },
+    {
+      "path": "tools/creature-expansion/mammals/porcupine-anatomy.mjs",
+      "sha256": "890553e9ddfdebd33a6f4688ef14326051231aec8e6c2e144ce67eb217acfc13"
+    }
+  ],
+  "summary": [
+    {
+      "id": "redbrush_fox",
+      "label": "current source",
+      "maxPenetrationM": 0.000518041,
+      "maxStanceSolePenetrationM": 0.000518041,
+      "requiresPhysicalContactReview": false
+    },
+    {
+      "id": "duskoak_lynx",
+      "label": "current source",
+      "maxPenetrationM": 0.000575361,
+      "maxStanceSolePenetrationM": 0.000575361,
+      "requiresPhysicalContactReview": false
+    },
+    {
+      "id": "rootdelve_badger",
+      "label": "current source",
+      "maxPenetrationM": 0.000333216,
+      "maxStanceSolePenetrationM": 0.000333216,
+      "requiresPhysicalContactReview": false
+    },
+    {
+      "id": "quillback_porcupine",
+      "label": "current source",
+      "maxPenetrationM": 0.000785247,
+      "maxStanceSolePenetrationM": 0.00032436,
+      "requiresPhysicalContactReview": false
+    },
+    {
+      "id": "duskoak_lynx",
+      "label": "staged prior candidate; exact SHA256 recorded, revision label not inferred",
+      "maxPenetrationM": 0.007699924,
+      "maxStanceSolePenetrationM": 0.007699924,
+      "requiresPhysicalContactReview": true
+    }
+  ],
+  "finding": "The preserved before-contact-fix report and prior staged Lynx show 7.7mm burial of a 100% FR_Paw-weighted sole during stance. Adjacent authored keys stay at y=0: this is between-key skeletal interpolation sag, not fur or a floor offset. Current values below are measured after the sampling-only source fix.",
+  "contactFix": "Walk/Run/Attack bake at160Hz, except Lynx Run320Hz after160Hz still failed1mm. Other clips remain40Hz. Shapes, target paths, clip durations, markers and speed metadata are unchanged. Quarter/mid/three-quarter interval samples supplement the whole-vertex key/midpoint audit. Original diagnostic25mm remains unchanged;1mm is the explicit goal for this repair.",
+  "samplingBaselineComparison": [
+    {
+      "id": "redbrush_fox",
+      "basis": "same current geometry re-evaluated at original40Hz; original measured penetration preserved separately",
+      "before": {
+        "geometry": "7445ccaca154936e4e301b769c5fbda1857efce4ee236ee6410fe1d0df7f38ee",
+        "endpoints": "95f1e4b6544ae177840da54d5477167a38c0100e8ba647f97e42f0d2f353cc40",
+        "metadata": "f8e37101c3f5139de10431ae7af727c8bf59ff53a4be20bec6fb4ca93f55ccc3",
+        "rawTrackBytes": 423360
+      },
+      "after": {
+        "geometry": "7445ccaca154936e4e301b769c5fbda1857efce4ee236ee6410fe1d0df7f38ee",
+        "endpoints": "95f1e4b6544ae177840da54d5477167a38c0100e8ba647f97e42f0d2f353cc40",
+        "metadata": "f8e37101c3f5139de10431ae7af727c8bf59ff53a4be20bec6fb4ca93f55ccc3",
+        "rawTrackBytes": 754920
+      },
+      "preserved": {
+        "geometry": true,
+        "clipEndpointsAndDurations": true,
+        "metadata": true
+      },
+      "rawTrackBytesIncrease": 331560,
+      "rawTrackBytesRatio": 1.783163265
+    },
+    {
+      "id": "duskoak_lynx",
+      "basis": "same current geometry re-evaluated at original40Hz; original measured penetration preserved separately",
+      "before": {
+        "geometry": "e051c172fa7ce9135534b0600020c5a0a84b50c154220b408e9b0f29a017a7c3",
+        "endpoints": "3d0ce8e42531656e8f4d7321784c97339f2c703687fa4359243c83a108bb7e44",
+        "metadata": "4d5cceb613a67e97c735426b70dde4f3a7e5aff652727d1e624192802538f0e9",
+        "rawTrackBytes": 420732
+      },
+      "after": {
+        "geometry": "e051c172fa7ce9135534b0600020c5a0a84b50c154220b408e9b0f29a017a7c3",
+        "endpoints": "3d0ce8e42531656e8f4d7321784c97339f2c703687fa4359243c83a108bb7e44",
+        "metadata": "4d5cceb613a67e97c735426b70dde4f3a7e5aff652727d1e624192802538f0e9",
+        "rawTrackBytes": 890532
+      },
+      "preserved": {
+        "geometry": true,
+        "clipEndpointsAndDurations": true,
+        "metadata": true
+      },
+      "rawTrackBytesIncrease": 469800,
+      "rawTrackBytesRatio": 2.11662531
+    },
+    {
+      "id": "rootdelve_badger",
+      "basis": "same current geometry re-evaluated at original40Hz; original measured penetration preserved separately",
+      "before": {
+        "geometry": "77b40d0c3d7ebd39b1c2ba3fc9d22961ae2c435f19dd052c05f1daaaa37e2142",
+        "endpoints": "2175244b0ae8e0113d796b74c3c57af0caa464b99975a63c5cddb6901ff76e3a",
+        "metadata": "914862a235c83aace0315ecc917885ecdd1b61e6470fc5d98ff587f31b886db5",
+        "rawTrackBytes": 411264
+      },
+      "after": {
+        "geometry": "77b40d0c3d7ebd39b1c2ba3fc9d22961ae2c435f19dd052c05f1daaaa37e2142",
+        "endpoints": "2175244b0ae8e0113d796b74c3c57af0caa464b99975a63c5cddb6901ff76e3a",
+        "metadata": "914862a235c83aace0315ecc917885ecdd1b61e6470fc5d98ff587f31b886db5",
+        "rawTrackBytes": 771120
+      },
+      "preserved": {
+        "geometry": true,
+        "clipEndpointsAndDurations": true,
+        "metadata": true
+      },
+      "rawTrackBytesIncrease": 359856,
+      "rawTrackBytesRatio": 1.875
+    },
+    {
+      "id": "quillback_porcupine",
+      "basis": "same current geometry re-evaluated at original40Hz; original measured penetration preserved separately",
+      "before": {
+        "geometry": "2b7116eab7786e1108cf4079de0f3bbc0eeaf3b9024b061ed6886b659da7f271",
+        "endpoints": "c906630af15a061f4dbae6bd7fb6270c8a95611a42f5ac91c6d88e1bb5b424e4",
+        "metadata": "9ef899f72478fdfcbc877ac4367a5c03df287e665133fdf43758466c6054bff6",
+        "rawTrackBytes": 434304
+      },
+      "after": {
+        "geometry": "2b7116eab7786e1108cf4079de0f3bbc0eeaf3b9024b061ed6886b659da7f271",
+        "endpoints": "c906630af15a061f4dbae6bd7fb6270c8a95611a42f5ac91c6d88e1bb5b424e4",
+        "metadata": "9ef899f72478fdfcbc877ac4367a5c03df287e665133fdf43758466c6054bff6",
+        "rawTrackBytes": 831024
+      },
+      "preserved": {
+        "geometry": true,
+        "clipEndpointsAndDurations": true,
+        "metadata": true
+      },
+      "rawTrackBytesIncrease": 396720,
+      "rawTrackBytesRatio": 1.913461538
+    }
+  ]
+}

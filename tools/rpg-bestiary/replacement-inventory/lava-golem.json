@@ -1,0 +1,81 @@
+{
+  "id": "lava-golem",
+  "title": "lava golem",
+  "author": "gavlig",
+  "license": "CC0-1.0",
+  "sourceUrl": "https://opengameart.org/content/lava-golem",
+  "officialDownload": "https://opengameart.org/sites/default/files/golem_clean.blend.zip",
+  "archiveSha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81",
+  "officialPreview": "https://opengameart.org/sites/default/files/golem_swap.png",
+  "previewEvidence": "Official static author image inspected in browser: hunched integrated stone biped, slab shoulders, stone hands/feet, orange fissures; no horns/demon/animal-head motifs. Textured rock appearance in preview uses omitted third-party photographic maps.",
+  "sourceConflict": "Author removed cgtextures-derived diffuse/normal/specular images from official clean archive. Restricted Dropbox full-texture bundle not used.",
+  "sourceRig": {
+    "bones": 71,
+    "meshCount": 1,
+    "nativeTakes": {
+      "idle": [
+        0,
+        300
+      ],
+      "walk": [
+        0,
+        100
+      ],
+      "smash": [
+        0,
+        120
+      ]
+    },
+    "fps": 60,
+    "triangles": 5502
+  },
+  "conversion": {
+    "builder": "tools/rpg-bestiary/lava-golem-source/lava-golem.mjs",
+    "nativeBodyPreserved": true,
+    "replacementMaterial": "Original procedural basalt colour/micro-normal; source glow preserved as emissive",
+    "missingNativeTakes": [
+      "run",
+      "hit",
+      "death"
+    ],
+    "derivedTakes": {
+      "Idle": "native idle0–300 at60fps",
+      "Walk": "native walk0–100 at60fps",
+      "Run": "native Walk retimed1.45x; no native run",
+      "Attack": "native smash0–120 at60fps",
+      "Hit": "idle-derived0.6s with authored spine recoil; no native hit",
+      "HitLeft": "same derivative with positive lateral spine turn",
+      "HitRight": "same derivative with negative lateral spine turn",
+      "Death": "authored1.6s forward collapse from original idle pose with spine curl; no native death"
+    },
+    "status": "cpu-converted-awaiting-production-browser-review"
+  },
+  "provenance": {
+    "author": "gavlig",
+    "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
+    "source": "https://opengameart.org/content/lava-golem",
+    "sourceAssets": [
+      "golem_clean.blend",
+      "golem_emit.png"
+    ],
+    "sourcePacks": [
+      {
+        "id": "gavlig-lava-golem-clean",
+        "author": "gavlig",
+        "license": "CC0-1.0",
+        "source": "https://opengameart.org/content/lava-golem",
+        "download": "https://opengameart.org/sites/default/files/golem_clean.blend.zip",
+        "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81"
+      }
+    ],
+    "sourceRecords": [
+      {
+        "archive": "golem_clean.blend.zip",
+        "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81",
+        "excluded": "Author removed cgtextures-derived diffuse/normal/specular images from official clean archive. Restricted Dropbox full-texture bundle not used.",
+        "conceptCredit": "Source page credits Boris concept artwork; model authored by gavlig and official clean asset labeled CC0."
+      }
+    ],
+    "modifications": "Complete authored body and 71-bone rig, no anatomy edits or grafts. Source constraints baked by Blender4.5.11. Own deterministic object-space basalt colour/micro-normal maps replace omitted textures. Original glow atlas remains emissive at original slot factor0.9434782266616821. Native idle/walk/smash retained; running, hit reactions and death are explicitly authored derivatives. Uniform1.5 source scale and whole-mesh ground alignment."
+  }
+}

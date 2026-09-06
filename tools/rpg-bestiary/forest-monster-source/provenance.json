@@ -1,0 +1,29 @@
+{
+  "author": "Čestmír Dammer (CDmir); texture derivation Rick Hoppmann; concept Torben",
+  "license": "CC0-1.0",
+  "source": "https://opengameart.org/content/forest-monster",
+  "sourceAssets": [
+    "forest-monster-final.blend",
+    "Monster",
+    "Tree"
+  ],
+  "sourcePacks": [
+    {
+      "id": "forest-monster-current",
+      "author": "Čestmír Dammer (CDmir)",
+      "license": "CC0-1.0",
+      "source": "https://opengameart.org/content/forest-monster",
+      "download": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
+      "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e"
+    }
+  ],
+  "sourceRecords": [
+    {
+      "archive": "forest-monster_0.7z",
+      "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
+      "licenseFile": "tools/rpg-bestiary/forest-monster-source/Licenses.txt",
+      "licenseEvidence": "Current archive says CC0; official author 2015-09-03 comment confirms former restricted tree texture replaced and all current contents CC0"
+    }
+  ],
+  "modifications": "Complete authored Monster and Tree meshes with original 76-bone rig; Blender constraint animation baked to glTF; no topology additions, grafts or anatomy edits; uniform source-units conversion to meters; original current-archive diffuse/normal/AO/specular texture channels; Walk-tempo Run and Melee_Hold-derived directional hit clips; whole-mesh ground alignment; native takes contain no authored aerial locomotion"
+}

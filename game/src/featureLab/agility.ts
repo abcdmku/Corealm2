@@ -5,10 +5,12 @@ import { setSkillLevel } from "../state/store.js";
 import type { Movement, MovementPathPlan } from "../systems/movement.js";
 import type { Navigation, RouteEdge, RouteNode } from "../systems/navigation.js";
 import type { QuestSystem } from "../systems/quests.js";
+import { sampleTraversal, type TraversalSample } from "../systems/traversalMotion.js";
+import { TRAVERSAL_CONTACTS, type ContactTraversalKind } from "../systems/traversalContacts.js";
 import { buildWorld, type AssetCenterXZ, type AssetSize } from "../world/regionBuilder.js";
 import type { DungeonDoorFixture } from "./dungeonDoors.js";
 
-export type AgilityFixtureId = "root_tunnel" | "sunder_ledge";
+export type AgilityFixtureId = "root_tunnel" | "sunder_ledge" | `contact_${ContactTraversalKind}`;
 
 export interface AgilityFixtureLane {
   id: AgilityFixtureId;
@@ -17,6 +19,7 @@ export interface AgilityFixtureLane {
   reqLevel: number;
   durationMs: number;
   tier: number;
+  contact?: { kind: ContactTraversalKind; width: number; depth: number; rise: number; origin: Vec3 };
 }
 
 export interface AgilityFixture {
@@ -78,6 +81,7 @@ export function assembleAgilityFixture(
       if (entity.id === definition.id) {
         entity.interactionPosition = entry;
         entity.obstacle!.exitPosition = exit;
+        entity.meta.traversalKind = definition.id === "root_tunnel" ? "passage" : "climb";
       }
     }
     result.entities.push(...entities);
@@ -123,6 +127,35 @@ export function assembleAgilityFixture(
     result.lanes.push({ id: definition.id, entry, exit, reqLevel: hero.obstacle.reqLevel,
       durationMs, tier: hero.tier });
   }
+  for (const [index, kind] of (Object.keys(TRAVERSAL_CONTACTS) as ContactTraversalKind[]).entries()) {
+    const d = TRAVERSAL_CONTACTS[kind];
+    const id: AgilityFixtureId = `contact_${kind}`;
+    const x = -8 + index * 9;
+    const z = -32;
+    const position = point(x, z);
+    const entry = point(x, z - 2.2);
+    const exit = point(x, z + 2.2);
+    const name = { climb: "Training ledge", vault: "Low vault wall", balance: "Balance timber", slide: "Practice slide" }[kind];
+    result.entities.push({ id, name, archetype: "obstacle", tier: 1, regionId: "fallowmarch",
+      position, interactionPosition: entry, state: "available", interactions: ["inspect", kind === "vault" ? "vault" : "climb"],
+      requirements: { agility: 1 },
+      obstacle: { reqLevel: 1, exitPosition: exit, durationMs: d.durationMs, savesMeters: 4 },
+      view: { assetId: d.assetId, labelHeight: d.rise + 0.5 },
+      meta: { featureLab: true, agilityFixture: true, traversalKind: kind,
+        traversalContactDepth: d.depth, traversalContactWidth: d.width, traversalRise: d.rise, oneWay: kind === "slide" },
+    });
+    result.solids.push({ kind: "box", id, position, size: [d.width, d.rise + (kind === "slide" ? 0.025 : 0), d.depth], rotationY: 0 });
+    const from = `${id}:entry`;
+    const to = `${id}:exit`;
+    result.routeNodes.push({ id: from, name: `${name} entrance`, position: entry, regionId: "fallowmarch" },
+      { id: to, name: `${name} exit`, position: exit, regionId: "fallowmarch" });
+    result.routeEdges.push({ from, to, kind: "shortcut", obstacleId: id, entrance: entry, exit,
+      durationMs: d.durationMs, reqLevel: 1, cost: d.durationMs / 1000 });
+    if (kind !== "slide") result.routeEdges.push({ from: to, to: from, kind: "shortcut", obstacleId: id,
+      entrance: exit, exit: entry, durationMs: d.durationMs, reqLevel: 1, cost: d.durationMs / 1000 });
+    result.lanes.push({ id, entry, exit, reqLevel: 1, durationMs: d.durationMs, tier: 1,
+      contact: { kind, width: d.width, depth: d.depth, rise: d.rise, origin: position } });
+  }
   return result;
 }
 
@@ -137,12 +170,14 @@ export interface AgilityWorkbenchState {
   quest: GameState["quests"][string] | null;
   miscState: number;
   setup: { seed: number; miscState: number };
+  traversal: TraversalSample | null;
 }
 
 export interface AgilityWorkbenchApi {
   prepare(): AgilityWorkbenchState;
   setLevel(level: 8 | 10): AgilityWorkbenchState;
   getState(): AgilityWorkbenchState;
+  setLandingAvailable(id: `contact_${ContactTraversalKind}`, available: boolean): AgilityWorkbenchState;
 }
 
 /**
@@ -161,6 +196,8 @@ export function createAgilityWorkbench(fixture: AgilityFixture, deps: {
   navigation: Pick<Navigation, "closestPoint">;
   movement: Pick<Movement, "planPath">;
   rng: Rng;
+  elapsedMs?(): number;
+  getEntity?(id: EntityId): SemanticEntity | undefined;
 }): AgilityWorkbenchApi {
   const setup = { seed: 2, miscState: 26212 };
   const idle = (): GameState => {
@@ -173,7 +210,12 @@ export function createAgilityWorkbench(fixture: AgilityFixture, deps: {
   };
   function getState(): AgilityWorkbenchState {
     const state = deps.store.get();
+    const traversal = state.activity?.kind === "traversing" ? state.activity : null;
+    const entity = traversal ? fixture.entities.find((candidate) => candidate.id === traversal.obstacleId) : undefined;
     return {
+      traversal: traversal && entity ? sampleTraversal(entity, state.player.position,
+        traversal.exitPosition ?? entity.obstacle!.exitPosition,
+        deps.elapsedMs ? 1 - (traversal.endsAtMs - deps.elapsedMs()) / entity.obstacle!.durationMs : 0) : null,
       lanes: fixture.lanes.map((lane) => {
         const entry = deps.navigation.closestPoint(lane.entry) ?? lane.entry;
         const exit = deps.navigation.closestPoint(lane.exit) ?? lane.exit;
@@ -184,14 +226,21 @@ export function createAgilityWorkbench(fixture: AgilityFixture, deps: {
       activity: structuredClone(state.activity),
       movement: structuredClone(state.player.movement),
       agility: { ...state.skills.agility }, health: state.player.health,
-      uses: { root_tunnel: state.world.obstaclesUsed.root_tunnel ?? 0,
-        sunder_ledge: state.world.obstaclesUsed.sunder_ledge ?? 0 },
+      uses: Object.fromEntries(fixture.lanes.map((lane) => [lane.id, state.world.obstaclesUsed[lane.id] ?? 0])) as Record<AgilityFixtureId, number>,
       quest: structuredClone(state.quests.bad_ground ?? null),
       miscState: deps.rng.getState(), setup: { ...setup },
     };
   }
   return {
     getState,
+    setLandingAvailable(id, available) {
+      const fixtureEntity = fixture.entities.find((entity) => entity.id === id && entity.meta?.traversalContactDepth !== undefined);
+      const live = deps.getEntity?.(id);
+      if (!fixtureEntity?.obstacle || !live?.obstacle) throw new Error("The compact landing fixture is unavailable.");
+      // Controlled invalid-navigation setup. Gameplay still enters through the real dispatcher.
+      live.obstacle.exitPosition = available ? [...fixtureEntity.obstacle.exitPosition] : [999999, 0, 999999];
+      return getState();
+    },
     prepare() {
       const state = idle();
       setSkillLevel(state, "agility", 8);
@@ -199,6 +248,7 @@ export function createAgilityWorkbench(fixture: AgilityFixture, deps: {
       state.player.health = state.player.maxHealth;
       delete state.world.obstaclesUsed.root_tunnel;
       delete state.world.obstaclesUsed.sunder_ledge;
+      for (const lane of fixture.lanes) if (lane.contact) delete state.world.obstaclesUsed[lane.id];
       state.bank.slots = state.bank.slots.filter((slot) => slot.itemId !== "kaldite_ore");
       const quest = deps.quests.setStage("bad_ground", 1);
       if (!quest.ok) throw new Error(quest.error.message);

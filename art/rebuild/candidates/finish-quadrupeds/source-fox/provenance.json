@@ -1,0 +1,61 @@
+{
+  "repositoryUrl": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+  "commit": "81e8b567643b5166e6ff40024e4ff71ad4b18676",
+  "downloadedAt": "2026-09-05T19:59:02.913Z",
+  "unchangedSource": true,
+  "files": [
+    {
+      "file": "Fox.original.glb",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/81e8b567643b5166e6ff40024e4ff71ad4b18676/Models/Fox/glTF-Binary/Fox.glb",
+      "bytes": 162852,
+      "sha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7"
+    },
+    {
+      "file": "LICENSE.original.md",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/81e8b567643b5166e6ff40024e4ff71ad4b18676/Models/Fox/LICENSE.md",
+      "bytes": 1063,
+      "sha256": "cde77ede120ead30e83135cdf3732c6b857d81ab7857ea0d027559bd2af8b38d"
+    },
+    {
+      "file": "README.original.md",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/81e8b567643b5166e6ff40024e4ff71ad4b18676/Models/Fox/README.md",
+      "bytes": 1782,
+      "sha256": "cf767a7943b12f3af0ea14a1b18947a45ed7a03c3e722678df33854d97df0f88"
+    },
+    {
+      "file": "metadata.original.json",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/81e8b567643b5166e6ff40024e4ff71ad4b18676/Models/Fox/metadata.json",
+      "bytes": 1430,
+      "sha256": "1d888d832b5eb2a32a461ae6d5e2bc00f925e3a571c1447842466d2061800604"
+    },
+    {
+      "file": "preview.original.jpg",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/81e8b567643b5166e6ff40024e4ff71ad4b18676/Models/Fox/screenshot/screenshot.jpg",
+      "bytes": 6639,
+      "sha256": "e9268fc07e1ae6cf2118fdfaa215a169cb12b3b4acaac888ca310e53bb84d9b2"
+    }
+  ],
+  "attribution": [
+    {
+      "author": "PixelMannen",
+      "work": "Model",
+      "year": 2014,
+      "license": "CC0-1.0",
+      "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
+    },
+    {
+      "author": "tomkranis",
+      "work": "Rigging & Animation",
+      "year": 2014,
+      "license": "CC-BY-4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+    },
+    {
+      "author": "@AsoboStudio and @scurest",
+      "work": "Conversion to glTF",
+      "year": 2017,
+      "license": "CC-BY-4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+    }
+  ]
+}

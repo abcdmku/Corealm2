@@ -1,3 +1,4 @@
+import { ROOTFALL_STUMP } from "../world/rootfallStump.js";
 import type {
   FeatureLabCatalog,
   FeatureLabStructureKit,
@@ -8,6 +9,7 @@ import type {
   SolidVolume,
   Vec3,
 } from "../contracts.js";
+import { REGIONS } from "../content/regions.js";
 import {
   BUILDING_KITS,
   COMPOSITION_IDS,
@@ -20,6 +22,7 @@ import {
   prefabCollision,
   prefabHeight,
   wallRunCollision,
+  variantSeed,
   type CompositionId,
   type PartPlacement,
   type PrefabId,
@@ -156,7 +159,7 @@ export function assembleFeatureLabStructure(
   const placementOrigin: Vec3 = sanitized.kind === "wall-run"
     ? [origin[0] - sanitized.width / 2, origin[1], origin[2]]
     : [...origin];
-  const parts = partsFor(sanitized);
+  const parts = buildFeatureLabStructureParts(sanitized);
   const entities = structureEntitiesFromParts(parts, {
     origin: placementOrigin,
     rotationY: 0,
@@ -171,6 +174,15 @@ export function assembleFeatureLabStructure(
       structureId: sanitized.id,
     },
   });
+  if (sanitized.kind === "composition" && sanitized.id === "vault_door") {
+    const host = vaultHost();
+    for (const entity of entities.filter(entity => entity.id.includes("#host_"))) {
+      entity.regionId = host.region.id;
+      entity.tier = host.region.tier;
+      if (entity.view) entity.view = {...entity.view, materialTier:host.region.tier};
+      entity.meta = {...entity.meta, buildingId:host.building.id, compositionHost:true};
+    }
+  }
   if (sanitized.kind === "composition" && sanitized.id === "essence_altar_ruins") {
     for (const entity of entities) {
       if (entity.view?.assetId === "altar_ruins_site") {
@@ -231,11 +243,12 @@ export function assembleFeatureLabStructure(
       ...parts.map((part) => part.assetId),
       ...(hero ? [hero.assetId] : []),
     ])].sort(),
-    focus: [origin[0], round2(origin[1] + focusHeight(sanitized, parts) / 2), origin[2]],
+    focus: [origin[0], round2(origin[1] + focusHeight(sanitized, parts) / 2), origin[2] + (sanitized.kind === "composition" && sanitized.id === "vault_door" ? vaultHost().offset[2] / 2 : 0)],
   };
 }
 
-function partsFor(selection: FeatureLabStructureSelection): PartPlacement[] {
+/** Exact selectable production parts, including a composition's authored structural host. */
+export function buildFeatureLabStructureParts(selection: FeatureLabStructureSelection): PartPlacement[] {
   if (selection.kind === "prefab") {
     return buildPrefab(
       selection.id as PrefabId,
@@ -245,7 +258,7 @@ function partsFor(selection: FeatureLabStructureSelection): PartPlacement[] {
     );
   }
   if (selection.kind === "composition") {
-    return buildComposition(selection.id as CompositionId, selection.seed, selection.kit);
+    return [...buildComposition(selection.id as CompositionId, selection.seed, selection.kit), ...compositionHostParts(selection)];
   }
   return buildWallRun(
     selection.width,
@@ -253,6 +266,32 @@ function partsFor(selection: FeatureLabStructureSelection): PartPlacement[] {
     BUILDING_KITS[selection.kit],
     selection.seed,
   );
+}
+
+/** Resolve the real tower relative to its south-facing landmark, preserving its authored seed. */
+function vaultHost() {
+  const region = REGIONS.find(region => region.settlement.buildings.some(building => building.id === "coldbrace_vault"));
+  const building = region?.settlement.buildings.find(building => building.id === "coldbrace_vault");
+  const landmark = region?.landmarks.find(landmark => landmark.id === "march_vault_tower");
+  if (!region || !building || !landmark) throw new Error("Vault fixture requires authored coldbrace_vault and march_vault_tower");
+  const yaw = landmark.rotationY ?? 0;
+  const dx = building.position[0] - landmark.position[0];
+  const dz = building.position[1] - landmark.position[1];
+  const offset: Vec3 = [dx * Math.cos(yaw) - dz * Math.sin(yaw), 0, dx * Math.sin(yaw) + dz * Math.cos(yaw)];
+  return {region, building, offset, rotationY:building.rotationY - yaw};
+}
+
+/** Native host geometry is shared with review fingerprints instead of hidden camera-only props. */
+export function compositionHostParts(selection: FeatureLabStructureSelection): PartPlacement[] {
+  if (selection.kind !== "composition" || selection.id !== "vault_door") return [];
+  const host = vaultHost();
+  const cos = Math.cos(host.rotationY); const sin = Math.sin(host.rotationY);
+  return buildPrefab(host.building.prefab, host.building.footprint, variantSeed(host.building.id), host.region.settlement.kit).map(part => ({
+    ...part, tag:`host_${part.tag}`,
+    dx:host.offset[0] + part.dx*cos + part.dz*sin,
+    dz:host.offset[2] - part.dx*sin + part.dz*cos,
+    rotationY:part.rotationY + host.rotationY,
+  }));
 }
 
 function collisionFor(
@@ -268,7 +307,7 @@ function collisionFor(
     const solids = measurements
       ? structureCollisionFromCompositionParts(
           selection.id as CompositionId,
-          parts,
+          parts.filter(part => !part.tag.startsWith("host_")),
           { origin, rotationY: 0, ownerId: STRUCTURE_OWNER_ID },
           measurements,
         )
@@ -290,10 +329,16 @@ function collisionFor(
       );
       if (heroSolid) solids.unshift(heroSolid);
     }
-    return {
-      buildings: [],
-      solids,
-    };
+    if (selection.id === "vault_door") {
+      const host = vaultHost();
+      const hostCollision = structureCollisionFromBoxes(prefabCollision(host.building.prefab, host.building.footprint), {
+        origin:[origin[0]+host.offset[0],origin[1],origin[2]+host.offset[2]],
+        rotationY:host.rotationY,regionId:host.region.id,ownerId:`${STRUCTURE_OWNER_ID}:host`,
+        name:host.building.name,prefab:host.building.prefab,
+      });
+      return {buildings:hostCollision.buildings,solids:[...solids,...hostCollision.solids]};
+    }
+    return {buildings:[],solids};
   }
 
   const prefab = selection.kind === "prefab" ? selection.id as PrefabId : "wall_segment";
@@ -399,7 +444,7 @@ export function compositionHero(selection: FeatureLabStructureSelection): Compos
     // the six untextured platformer rocks and drew as a smooth tan cone.
     standing_stones: { assetId: "rock_medium_2", scale: 1.35, solid: true },
     rootfall_stump: {
-      assetId: "tree_twisted_2", scale: 2, clipFraction: 0.24, solid: false,
+      assetId: ROOTFALL_STUMP.assetId, scale: ROOTFALL_STUMP.scale, solid: false,
     },
     region_gate: { assetId: "wall_arch", scale: 1.4, solid: false },
     root_tunnel_entrance: { assetId: "wall_arch", scale: 1.2, solid: true },
@@ -418,6 +463,7 @@ export function compositionHero(selection: FeatureLabStructureSelection): Compos
 }
 
 function focusHeight(selection: FeatureLabStructureSelection, parts: readonly PartPlacement[]): number {
+  if (selection.kind === "composition" && selection.id === "vault_door") return prefabHeight(vaultHost().building.prefab);
   if (selection.kind === "prefab") return prefabHeight(selection.id as PrefabId);
   if (selection.kind === "wall-run") return STOREY_METRES;
   let top = 2;
@@ -448,7 +494,7 @@ function structureKit(value: FeatureLabStructureKit | undefined): FeatureLabStru
 
 function structureSize(value: number | undefined, fallback: number): number {
   if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
-  return Math.min(MAX_SIZE_METRES, Math.max(MIN_SIZE_METRES, Math.round(value)));
+  return Math.min(MAX_SIZE_METRES, Math.max(MIN_SIZE_METRES, value));
 }
 
 /** Wall recipes are authored on the two-metre module grid and retain a module either side. */

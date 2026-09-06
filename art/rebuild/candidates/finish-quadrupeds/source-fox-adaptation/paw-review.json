@@ -1,0 +1,60 @@
+{
+  "source": "f9a2d34c69354947d873ce75ea82993360d0492f4d9f1568eed33b85617e2811",
+  "candidate": "cfb33d96ec8692ce07fbe3ee8259550b45c56bd7e959bac27c376b97abeb3a5d",
+  "method": "Connected original distal source surface reshaped to flattened elongated oval, tapered ankle transition and shallow toe clefts; no added geometry. Native skin weights, rig and animations unchanged.",
+  "feet": [
+    {
+      "name": "b_RightHand_08",
+      "vertices": 537,
+      "sourceSole": -0.05986923351883888,
+      "centre": [
+        -6.715498208999634,
+        21.45392608642578
+      ],
+      "authoredFootprintMaxWidthM": 0.063,
+      "authoredFootprintMaxLengthM": 0.103
+    },
+    {
+      "name": "b_LeftHand_011",
+      "vertices": 537,
+      "sourceSole": -0.05986923351883888,
+      "centre": [
+        6.71550178527832,
+        21.45392608642578
+      ],
+      "authoredFootprintMaxWidthM": 0.063,
+      "authoredFootprintMaxLengthM": 0.103
+    },
+    {
+      "name": "b_LeftFoot02_018",
+      "vertices": 429,
+      "sourceSole": -0.12174476683139801,
+      "centre": [
+        6.902348518371582,
+        -30.93423843383789
+      ],
+      "authoredFootprintMaxWidthM": 0.063,
+      "authoredFootprintMaxLengthM": 0.103
+    },
+    {
+      "name": "b_RightFoot02_022",
+      "vertices": 429,
+      "sourceSole": -0.12174476683139801,
+      "centre": [
+        -6.902332067489624,
+        -30.93423843383789
+      ],
+      "authoredFootprintMaxWidthM": 0.063,
+      "authoredFootprintMaxLengthM": 0.103
+    }
+  ],
+  "hardwareAccepted": false,
+  "validation": {
+    "locallyLimitedVertices": 130,
+    "nativeRigAndAnimationHashEqual": true,
+    "weightsUnchanged": true,
+    "degenerateTriangles": 0,
+    "trianglesWhoseNormalTurnedOver90Degrees": 0,
+    "finitePositions": true
+  }
+}

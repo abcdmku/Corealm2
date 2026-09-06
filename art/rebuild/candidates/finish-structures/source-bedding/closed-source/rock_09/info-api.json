@@ -1,0 +1,59 @@
+{
+  "lods": true,
+  "name": "Rock 09",
+  "categories": [
+    "nature",
+    "rocks",
+    "collection: verdant_trail"
+  ],
+  "type": 2,
+  "version_required": {
+    "blend": "4.0.1"
+  },
+  "tags": [
+    "rock",
+    "landscape",
+    "geology",
+    "formation",
+    "weathered",
+    "stone",
+    "dirt",
+    "boulder",
+    "terrain"
+  ],
+  "info": null,
+  "date_published": 1707177600,
+  "staging": null,
+  "max_resolution": [
+    8192,
+    8192
+  ],
+  "polycount": 23280,
+  "texel_density": 40149.92941912837,
+  "dimensions": [
+    74.13503155112267,
+    144.81624960899353,
+    32.94885210925713
+  ],
+  "authors": {
+    "Jenelle van Heerden": "All"
+  },
+  "files_hash": "1560e10c5800cc570d6e0a692fb5300443f72156",
+  "description": "Free 8K weathered boulder model with rugged, rust-brown stone, detailed dirt and erosion - ideal for natural terrain and landscape scenes.",
+  "category_id": "229f6baa-7051-5eb5-8f2d-ed2aba17c8ea",
+  "category": "Nature/Rocks & Stone/Boulders",
+  "collections": [
+    "verdant_trail"
+  ],
+  "attributes": {
+    "condition": [
+      "weathered"
+    ],
+    "material": [
+      "stone"
+    ],
+    "lods": true
+  },
+  "download_count": 14871,
+  "thumbnail_url": "https://cdn.polyhaven.com/asset_img/thumbs/rock_09.png?width=256&height=256"
+}

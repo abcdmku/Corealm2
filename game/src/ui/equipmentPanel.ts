@@ -10,6 +10,7 @@ import type {
   EquipSlot, EquipmentBonuses, EquippedMagicWeaponView, FeatureLabApi, ItemId, ItemStack,
 } from "../contracts.js";
 import { EQUIP_SLOTS } from "../contracts.js";
+import { inferEquipmentSets } from "../content/equipmentSets.js";
 import { notify } from "./contextMenu.js";
 import type { ContextMenuItem } from "./contextMenu.js";
 import { EquipmentSlotGrid, EQUIPMENT_SLOT_LABELS } from "./equipmentSlotGrid.js";
@@ -65,6 +66,7 @@ export class EquipmentPanel implements ManagedPanel {
   readonly frame: PanelFrame;
   private readonly slotGrid: EquipmentSlotGrid;
   private readonly totals = new Map<keyof EquipmentBonuses, HTMLElement>();
+  private readonly sets = document.createElement("section");
   private worn: Record<EquipSlot, ItemStack | null> | null = null;
   private signature = "";
   private picker: HTMLElement | null = null;
@@ -121,6 +123,9 @@ export class EquipmentPanel implements ManagedPanel {
       this.totals.set(key, value);
     }
     this.frame.body.appendChild(totals);
+    this.sets.className = "equip-sets";
+    this.sets.setAttribute("aria-label", "Armour sets");
+    this.frame.body.appendChild(this.sets);
 
     if (featureLab) {
       const picker = document.createElement("section");
@@ -164,6 +169,23 @@ export class EquipmentPanel implements ManagedPanel {
     }
 
     this.frame.setSubtitle(`${filled}/${EQUIP_SLOTS.length} worn`);
+    this.sets.replaceChildren();
+    for (const progress of inferEquipmentSets(equipment.slots)) {
+      const heading = document.createElement("strong");
+      heading.textContent = `${progress.set.name} set · ${progress.pieces}/5 pieces`;
+      const list = document.createElement("ul");
+      for (const threshold of progress.set.thresholds) {
+        const row = document.createElement("li");
+        const active = progress.pieces >= threshold.pieces;
+        row.className = active ? "u-positive" : "u-dim";
+        const bonuses = BONUS_ROWS.filter(([key]) => threshold.bonuses[key] !== 0)
+          .map(([key, label]) => `+${threshold.bonuses[key]} ${label.toLowerCase()}`).join(", ");
+        row.textContent = `${threshold.pieces} pieces: ${bonuses}${active ? " (active)" : ""}`;
+        list.appendChild(row);
+      }
+      this.sets.append(heading, list);
+    }
+    this.sets.hidden = !this.sets.childElementCount;
     if (this.selectedSlot) this.openPicker(this.selectedSlot);
     // Keep a hovered weapon card open while its charge changes.
     this.ctx.tooltip.refresh();

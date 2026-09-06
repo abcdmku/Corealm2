@@ -1,6 +1,13 @@
+import { BIGHORN_REFINEMENT, bighornRefinedFields, bighornPasternFields } from './bighorn-refinement.mjs';
+import { tapirRefinedFields, tapirRefinedDistance, tapirRefinedFaceFields, tapirRefinedLeg, TAPIR_REFINED_EYES } from './tapir-refinement.mjs';
 import * as THREE from 'three';
 import { MarchingCubes } from '../../../node_modules/three/examples/jsm/objects/MarchingCubes.js';
+import { axialDistance, tapirFields } from './tapir-sections.mjs';
 import { refineTapirToes } from './refine-tapir-toes.mjs';
+import { bighornAnatomy, BIGHORN_LANDMARKS } from './bighorn-anatomy.mjs';
+
+import { HORSE_LANDMARKS, horseAnatomy, horseLeg } from './horse-anatomy.mjs';
+import { MOOSE_CONFIG, mooseAnatomy } from './moose-anatomy.mjs';
 
 const clamp=THREE.MathUtils.clamp;
 const lerp=THREE.MathUtils.lerp;
@@ -28,68 +35,39 @@ export function implicitAnatomy(s,p,id,coat){
     const f=ell(center,scale,'Head',rotation,.010);shapes.pop();f.shade=shade;cuts.push(f);return f;
   }
   if(horse){
-    ell([0,1.40,-.19],[.385,.368,.93],'Body');
-    ell([0,1.43,-.66],[.402,.382,.43],'Body',[.03,0,0],.085);
-    ell([0,1.43,.52],[.344,.411,.43],'Body',[-.10,0,0],.10);
-    ell([0,1.68,.68],[.239,.44,.27],'Neck',[.49,0,0],.105,[[s.rig.index.Body,.18],[s.rig.index.Neck,.82]]);
-    ell([0,1.96,.91],[.165,.345,.211],'Neck',[.57,0,0],.085);
-    ell([0,2.076,1.177],[.176,.195,.225],'Head',[.43,0,0],.065);
-    ell([0,1.899,1.424],[.139,.142,.337],'Head',[.66,0,0],.057);
-    ell([0,1.735,1.651],[.145,.108,.139],'Head',[.18,0,0],.042);
-    ell([0,1.788,1.402],[.147,.10,.252],'Head',[.50,0,0],.035,[[s.rig.index.Head,.75],[s.rig.index.Jaw,.25]]);
-    for(const side of [-1,1]){
-      ell([side*.26,1.30,.45],[.125,.305,.218],'Body',[-.30,0,0],.065);
-      ell([side*.267,1.27,-.69],[.182,.307,.241],'Hind'+(side<0?'L':'R')+'Hip',[.30,0,side*.10],.077);
-      cavity([side*.127,1.764,1.697],[.040,.030,.058],[.20,side*.25,side*.1]);
-    }
+    horseAnatomy({ell,capsule,cavity,shapes,s,p});
   }else if(ram){
-    ell([0,.98,-.16],[.355,.329,.72],'Body');ell([0,1.02,-.54],[.335,.325,.35],'Body',undefined,.09);
-    ell([0,1.075,.39],[.312,.365,.38],'Body',undefined,.10);
-    ell([0,1.275,.615],[.248,.35,.273],'Neck',[.57,0,0],.09);
-    ell([0,1.46,.91],[.19,.19,.23],'Head',[.23,0,0],.066);
-    ell([0,1.361,1.145],[.135,.127,.214],'Head',[.38,0,0],.05);
-    ell([0,1.316,1.276],[.109,.092,.085],'Head',undefined,.035);
-    for(const side of [-1,1])cavity([side*.087,1.343,1.287],[.025,.023,.033],[0,side*.20,0]);
+    shapes.push(...bighornRefinedFields(s.rig));
+    for(const side of [-1,1])cavity([side*.067,1.343,1.268],[.015,.013,.023],[0,side*.20,0],p.dark);
   }else if(moose){
-    ell([0,1.66,-.21],[.447,.391,.91],'Body');ell([0,1.70,-.69],[.402,.36,.40],'Body',undefined,.09);
-    ell([0,1.79,.42],[.43,.49,.49],'Body',[-.19,0,0],.105);
-    ell([0,2.00,.56],[.305,.28,.39],'Body',[-.10,0,0],.08);
-    ell([0,1.90,.82],[.26,.34,.35],'Neck',[.45,0,0],.09);
-    ell([0,2.038,1.178],[.223,.235,.236],'Head',[.27,0,0],.065);
-    ell([0,1.845,1.421],[.218,.195,.343],'Head',[.65,0,0],.065);
-    ell([0,1.687,1.644],[.205,.150,.169],'Head',[.12,0,0],.045);
-    ell([0,1.652,1.507],[.156,.096,.226],'Head',[.24,0,0],.035);
-    for(const side of [-1,1])cavity([side*.175,1.733,1.686],[.044,.034,.064],[.2,side*.20,0]);
+    mooseAnatomy({shapes,cavity,s,p});
   }else{
-    ell([0,.93,-.10],[.46,.414,.83],'Body');ell([0,.952,-.59],[.381,.386,.40],'Body',undefined,.09);
-    ell([0,.971,.45],[.356,.359,.39],'Body',undefined,.085);
-    ell([0,1.057,.766],[.236,.265,.302],'Neck',[.37,0,0],.075);
-    ell([0,1.161,1.025],[.195,.196,.244],'Head',[.18,0,0],.065);
-    ell([0,1.085,1.247],[.145,.137,.233],'Head',[.38,0,0],.044);
-    ell([0,.967,1.439],[.083,.155,.112],'Nose',[.35,0,0],.028);
-    ell([0,.878,1.500],[.068,.077,.067],'Nose',undefined,.022);
-    for(const side of [-1,1])cavity([side*.044,.886,1.544],[.019,.019,.026],[.1,side*.1,0]);
+    shapes.push(...tapirRefinedFields(s.rig));
+    tapirRefinedFaceFields({ell,cavity});
   }
   for(const leg of s.rig.legs){
+    if(tapir){tapirRefinedLeg({ell,capsule,cavity,s,leg,toes,p});continue;}
+    if(horse){horseLeg({ell,capsule,s,leg});continue;}
     const tag=leg.tag,hip=leg.hip,knee=leg.knee,ankle=leg.ankle;
     const origin=[hip.x*.72,hip.y-.01,hip.z];
     const muscle=hip.clone().lerp(knee,.34);muscle.x=hip.x*.96;
-    const thigh=horse?(leg.front?.125:.179):moose?(leg.front?.140:.197):ram?(leg.front?.143:.165):(leg.front?.169:.196);
-    capsule(origin,muscle.toArray(),thigh*.78,thigh,tag+'Hip',.072,[[s.rig.index.Body,.23],[s.rig.index[tag+'Hip'],.77]]);
+    const thigh=horse?(leg.front?.125:.179):moose?(leg.front?MOOSE_CONFIG.upperLegRadii.front:MOOSE_CONFIG.upperLegRadii.hind):ram?(leg.front?.085:.119):(leg.front?.104:.128);
+    capsule(origin,muscle.toArray(),thigh*.78,thigh,tag+'Hip',ram?.036:moose?MOOSE_CONFIG.upperLegRadii.rootBlend:.072,[[s.rig.index.Body,.23],[s.rig.index[tag+'Hip'],.77]]);
     capsule(muscle.toArray(),knee.toArray(),thigh*.84,p.legR*.52,tag+'Hip',.036);
-    ell(knee.toArray(),[p.legR*.60,p.legR*.72,p.legR*.62],tag+'Knee',[leg.front?-.3:.25,0,0],.023,[[s.rig.index[tag+'Hip'],.42],[s.rig.index[tag+'Knee'],.58]]);
+    ell(knee.toArray(),[p.legR*(tapir?.46:.60),p.legR*(tapir?.60:.72),p.legR*(tapir?.46:.62)],tag+'Knee',[leg.front?-.3:.25,0,0],.023,[[s.rig.index[tag+'Hip'],.42],[s.rig.index[tag+'Knee'],.58]]);
     const shin=knee.clone().lerp(ankle,.73);
     capsule(knee.toArray(),shin.toArray(),p.legR*.45,p.legR*.33,tag+'Knee',.020);
     capsule(shin.toArray(),ankle.toArray(),p.legR*.33,p.legR*.43,tag+'Knee',.020,[[s.rig.index[tag+'Knee'],.76],[s.rig.index[tag+'Ankle'],.24]]);
+    if(ram)bighornPasternFields({ell,capsule,s,leg});
     if(tapir){
       // The instep, padded sole and fanned digits belong to this continuous
       // surface. Keratin is confined to each digit's low rounded front tip.
       ell([ankle.x,.158,ankle.z-.009],[.062,.090,.063],tag+'Ankle',[.12,0,0],.028,[[s.rig.index[tag+'Knee'],.25],[s.rig.index[tag+'Foot'],.75]]);
-      ell([ankle.x,.085,ankle.z+.021],[leg.front?.079:.074,.078,.103],tag+'Foot',[.07,0,0],.021);
+      ell([ankle.x,.085,ankle.z+.021],[leg.front?.078:.073,.062,.098],tag+'Foot',[.07,0,0],.021);
       const digits=[
-        {x:0,y:.054,z:.098,r:[.040,.050,.082]},
-        {x:-.054,y:.048,z:.078,r:[.031,.043,.070]},
-        {x:.055,y:.047,z:.080,r:[.031,.042,.071]},
+        {x:0,y:.050,z:.102,r:[.037,.045,.081]},
+        {x:-.054,y:.044,z:.083,r:[.029,.038,.069]},
+        {x:.055,y:.044,z:.085,r:[.029,.038,.070]},
       ];
       if(leg.front)digits.push({x:leg.side*.101,y:.041,z:.019,r:[.023,.036,.051]});
       for(const digit of digits){
@@ -100,12 +78,14 @@ export function implicitAnatomy(s,p,id,coat){
       for(const side of [-1,1])cavity([ankle.x+side*.027,.064,ankle.z+.175],[.007,.054,.070],[0,0,0],p.dark);
     }
   }
-  const eyes=horse?[.168,2.057,1.282]:ram?[.180,1.499,1.011]:moose?[.218,2.035,1.268]:[.18,1.182,1.128];
-  for(const side of [-1,1])cavity([eyes[0]*side,eyes[1],eyes[2]],[.035,.037,.042],[0,0,0],0x403329);
+  const eyes=horse?HORSE_LANDMARKS.eyes:ram?BIGHORN_REFINEMENT.eyes:moose?MOOSE_CONFIG.eyes:TAPIR_REFINED_EYES;
+  for(const side of [-1,1])cavity([eyes[0]*side,eyes[1],eyes[2]],ram?BIGHORN_REFINEMENT.eyeCavityScale:tapir?[.015,.018,.021]:[.035,.037,.042],[0,0,0],0x403329);
   const center=[0,moose?1.25:1.04,.32],span=moose?3.5:3.2,resolution=moose?132:128;
   const half=span*.5,step=span/resolution,origin=center.map(v=>v-half);
   const mc=new MarchingCubes(resolution,new THREE.MeshStandardMaterial(),false,false,140000);mc.isolation=0;mc.field.fill(-10);
   function distance(f,x,y,z){
+    if(f.type==='tapir-section')return tapirRefinedDistance(f,x,y,z);
+    if(f.type==='axial')return axialDistance(f,x,y,z);
     if(f.type==='capsule'){
       const dx=x-f.a[0],dy=y-f.a[1],dz=z-f.a[2],a=clamp((dx*f.direction.x+dy*f.direction.y+dz*f.direction.z)/f.lengthSq,0,1);
       return Math.hypot(dx-f.direction.x*a,dy-f.direction.y*a,dz-f.direction.z*a)-lerp(f.r0,f.r1,a);
@@ -113,7 +93,7 @@ export function implicitAnatomy(s,p,id,coat){
     const dx=x-f.center[0],dy=y-f.center[1],dz=z-f.center[2],q=f.inv;
     const ix=q.w*dx+q.y*dz-q.z*dy,iy=q.w*dy+q.z*dx-q.x*dz,iz=q.w*dz+q.x*dy-q.y*dx,iw=-q.x*dx-q.y*dy-q.z*dz;
     const px=ix*q.w+iw*-q.x+iy*-q.z-iz*-q.y,py=iy*q.w+iw*-q.y+iz*-q.x-ix*-q.z,pz=iz*q.w+iw*-q.z+ix*-q.y-iy*-q.x;
-    const k0=Math.hypot(px/f.scale[0],py/f.scale[1],pz/f.scale[2]),k1=Math.hypot(px/(f.scale[0]**2),py/(f.scale[1]**2),pz/(f.scale[2]**2));
+    const power=f.power??2,k0=(Math.abs(px/f.scale[0])**power+Math.abs(py/f.scale[1])**power+Math.abs(pz/f.scale[2])**power)**(1/power),k1=Math.hypot(px/(f.scale[0]**2),py/(f.scale[1]**2),pz/(f.scale[2]**2));
     return k1<1e-8?-Math.min(...f.scale):k0*(k0-1)/k1;
   }
   function stamp(f,cut=false){
@@ -225,7 +205,7 @@ export function implicitAnatomy(s,p,id,coat){
   };
   for(let i=0;i<indices.length;i+=3){
     const a=vertices[indices[i]],b=vertices[indices[i+1]],c=vertices[indices[i+2]],z=(a[2]+b[2]+c[2])/3,y=(a[1]+b[1]+c[1])/3;
-    const skin=horse?z>1.53&&y<1.88:ram?z>1.21:moose?z>1.54&&y<1.84:z>1.365;
+    const skin=horse?z>1.53&&y<1.88:ram?z>1.21:moose?z>MOOSE_CONFIG.muzzleSkin.minZ&&y<MOOSE_CONFIG.muzzleSkin.maxY:z>1.255;
     if(tapir&&y<.13){
       const triangle=[indices[i],indices[i+1],indices[i+2]],amounts=triangle.map(index=>nailAmount(vertices[index])-.52);
       if(amounts.some(v=>v>=0)&&amounts.some(v=>v<0)){

@@ -1,0 +1,40 @@
+{
+  "faceTriangles": 4416,
+  "faceTreatment": "Original source face triangles and UVs retained; local material omits diffuse and normal horse markings; source images unchanged; embedded eye meshes retained.",
+  "fore_left": {
+    "sourceBoundaryVertices": 30,
+    "shellBoundaryVertices": [
+      16,
+      16
+    ],
+    "collarTriangles": 64,
+    "method": "Triangulated actual clipped source boundary with two shell-top holes; exact coincident boundary coordinates, no overlapping top caps."
+  },
+  "fore_right": {
+    "sourceBoundaryVertices": 30,
+    "shellBoundaryVertices": [
+      16,
+      16
+    ],
+    "collarTriangles": 64,
+    "method": "Triangulated actual clipped source boundary with two shell-top holes; exact coincident boundary coordinates, no overlapping top caps."
+  },
+  "hind_left": {
+    "sourceBoundaryVertices": 16,
+    "shellBoundaryVertices": [
+      16,
+      16
+    ],
+    "collarTriangles": 50,
+    "method": "Triangulated actual clipped source boundary with two shell-top holes; exact coincident boundary coordinates, no overlapping top caps."
+  },
+  "hind_right": {
+    "sourceBoundaryVertices": 16,
+    "shellBoundaryVertices": [
+      16,
+      16
+    ],
+    "collarTriangles": 50,
+    "method": "Triangulated actual clipped source boundary with two shell-top holes; exact coincident boundary coordinates, no overlapping top caps."
+  }
+}

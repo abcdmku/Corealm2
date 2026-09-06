@@ -49,6 +49,10 @@ export interface EnvironmentGalleryOptions {
   /** Inspect one source at its authored placement size and bearing. Defaults remain native/zero. */
   scale?: number;
   rotationY?: number;
+  /** Contact/occlusion fixture offset; the source asset and its scale remain unchanged. */
+  verticalOffset?: number;
+  /** Native companion for shared-material batch isolation fixtures. */
+  companionAssetId?: string;
 }
 
 export interface EnvironmentFoliageOptions {
@@ -219,19 +223,28 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
         if (assetId && !catalog.assets.some((entry) => entry.id === assetId)) throw new Error(`Unknown environment asset: ${assetId}`);
         const scale = options.scale ?? 1;
         const rotationY = options.rotationY ?? 0;
-        if (!Number.isFinite(scale) || scale <= 0 || !Number.isFinite(rotationY)) {
+        const verticalOffset = options.verticalOffset ?? 0;
+        if (!Number.isFinite(scale) || scale <= 0 || !Number.isFinite(rotationY) || !Number.isFinite(verticalOffset)) {
           throw new Error("Environment gallery scale must be positive and its bearing finite");
         }
         // Small ground plants occupy the front rows; trees and cliff sections have their own space.
         const selected = assetId ? catalog.assets.filter((entry) => entry.id === assetId) : catalog.assets.filter((entry) => entry.id.startsWith("corealm_")).sort((a, b) => a.size[1] - b.size[1]);
+        if (options.companionAssetId) {
+          const companion = catalog.assets.find(entry => entry.id === options.companionAssetId);
+          if (!assetId || !companion || companion.id === assetId) throw new Error("Gallery companion requires a distinct native catalog asset");
+          selected.push(companion);
+        }
         const columns = Math.min(6, selected.length);
         const entities: SemanticEntity[] = selected.map((entry, index) => {
-          const x = assetId ? 0 : (index % columns - (columns - 1) / 2) * 15;
+          const companion = assetId && entry.id === options.companionAssetId;
+          const x = assetId ? companion ? 3 : 0 : (index % columns - (columns - 1) / 2) * 15;
           const z = assetId ? 25 : 7 + Math.floor(index / columns) * 13;
+          const origin = grounded(entry.id, x, z, scale, rotationY);
+          const position: Vec3 = [origin[0], origin[1] + (companion ? 0 : verticalOffset), origin[2]];
           return {
             id: `lab:environment:gallery:${entry.id}`, name: entry.label,
             archetype: "landmark", tier: 1, regionId: "fallowmarch", state: "available",
-            position: grounded(entry.id, x, z, scale, rotationY), interactions: ["inspect"],
+            position, interactions: ["inspect"],
             view: { assetId: entry.id, scale, rotationY, materialTier: 1, labelHeight: entry.size[1] * scale + 0.3 },
             meta: { featureLab: true, environmentGallery: true, source: entry.source, file: entry.file },
           };

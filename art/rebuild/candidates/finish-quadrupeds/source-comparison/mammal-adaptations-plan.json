@@ -1,0 +1,9 @@
+{
+  "output": "complete-mammal-adaptations-comparison",
+  "inputs": [
+    ["source-feline/lynx-baked-grounded-preview-catalogue.json", "creature_duskoak_lynx"],
+    ["source-porcupine/porcupine-candidate-catalogue.json", "creature_quillback_porcupine"],
+    ["source-badger-cc0/candidate-catalogue.json", "creature_rootdelve_badger"]
+  ],
+  "scope": "Frozen complete-source species adaptation review: Cat-derived Lynx, CC0 Rat-derived Porcupine and CC0 Rat-derived Badger. This Badger uses none of the separate provisional-rights model. Source-derived clips remain subject to measured contact/deformation and hardware review. Fixed source placement is not foot contact repair. Per-view state must identify actual clips. No completed-species, lifecycle or promotion acceptance."
+}

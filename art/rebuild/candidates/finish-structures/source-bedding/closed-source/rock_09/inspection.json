@@ -1,0 +1,80 @@
+{
+  "id": "rock_09",
+  "source": "https://polyhaven.com/a/rock_09",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "metadataUrl": "https://api.polyhaven.com/files/rock_09",
+  "infoUrl": "https://api.polyhaven.com/info/rock_09",
+  "author": {
+    "Jenelle van Heerden": "All"
+  },
+  "files": [
+    {
+      "file": "rock_09.gltf",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/rock_09/rock_09_1k.gltf",
+      "bytes": 2745,
+      "md5": "d12ac6e8433fe1346fe6945154269f66",
+      "sha256": "636e57eb0090889627da18edaec202ff9f65f83101b94f91b7da4d21dc080ab9"
+    },
+    {
+      "file": "rock_09.bin",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/rock_09/rock_09.bin",
+      "bytes": 286592,
+      "md5": "6f2f71c9ca594566c1a3b29da27293a1",
+      "sha256": "780c37d6fc11ca3a01c3763535ef883908b6007271a46bd446d2289ded820751"
+    },
+    {
+      "file": "textures/rock_09_arm_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/rock_09/rock_09_arm_1k.jpg",
+      "bytes": 322950,
+      "md5": "323d7cca17cd87656e7f80230a372368",
+      "sha256": "594e2cec49e6bb40bd9bab2649e37dcc261079456cf4d6f680f56770c19db5ea"
+    },
+    {
+      "file": "textures/rock_09_nor_gl_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/rock_09/rock_09_nor_gl_1k.jpg",
+      "bytes": 757031,
+      "md5": "dc1a208133a23006582f792a309c2dcc",
+      "sha256": "2195b5c7da3a23af2a5f93dbb20f38bc069028509b106397bc8d2aee0bc55729"
+    },
+    {
+      "file": "textures/rock_09_diff_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/rock_09/rock_09_diff_1k.jpg",
+      "bytes": 595103,
+      "md5": "07f92b23d6e05fbd28cbabecdd98b321",
+      "sha256": "afb7ae5ae82238d304aba589391ac6bc87f7cf1dbfe50980c21f762cfdd87efd"
+    }
+  ],
+  "geometry": {
+    "vertices": 6628,
+    "triangles": 12416,
+    "bounds": {
+      "min": [
+        -0.036732789129018784,
+        -0.0005740977358072996,
+        -0.06106271967291832
+      ],
+      "max": [
+        0.03727707266807556,
+        0.03229531645774841,
+        0.08356179296970367
+      ],
+      "size": [
+        0.07400986179709435,
+        0.03286941419355571,
+        0.144624512642622
+      ]
+    },
+    "weldTolerance": 1.6575315288032517e-8,
+    "weldedVertices": 6210,
+    "boundaryEdges": 0,
+    "nonmanifoldEdges": 0,
+    "degenerateTriangles": 0,
+    "components": 1,
+    "euler": 2,
+    "signedVolume": 0.00013537728009698725
+  },
+  "mapsDownloaded": true,
+  "derivativeCreated": false,
+  "browserReviewed": false
+}

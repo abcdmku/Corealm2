@@ -1,0 +1,146 @@
+{
+  "packs": [
+    {
+      "id": "cdmir-rat-porcupine-adaptation",
+      "name": "Complete-source Porcupine candidate",
+      "author": "CDmir; TinyWorlds; Corealm species adaptation",
+      "source": "https://opengameart.org/content/evil-giant-rat",
+      "license": "CC0-1.0"
+    }
+  ],
+  "assets": [
+    {
+      "id": "creature_quillback_porcupine",
+      "file": "models/creature/creature_quillback_porcupine.glb",
+      "pack": "cdmir-rat-porcupine-adaptation",
+      "category": "character",
+      "is": "Porcupine species adaptation of CDmir and TinyWorlds complete CC0 rat source; candidate awaiting visual review",
+      "tags": [
+        "porcupine",
+        "rat-source-adaptation",
+        "native-animation",
+        "candidate"
+      ],
+      "bytes": 10645964,
+      "sha256": "3cbfb186bc81e5a6d3070eb032b9e8937f2dedff42de1debd54ba09433a29cf3",
+      "size": {
+        "x": 0.3962993830254975,
+        "y": 0.46000000007353686,
+        "z": 0.6889737756963277
+      },
+      "base": {
+        "x": -0.19814969151274875,
+        "y": -3.8703567466224174e-12,
+        "z": -0.3444868878918974
+      },
+      "bounds": {
+        "min": [
+          -0.19814969151274875,
+          -3.8703567466224174e-12,
+          -0.3444868878918974
+        ],
+        "max": [
+          0.19814969151274875,
+          0.4600000000696665,
+          0.3444868878044303
+        ]
+      },
+      "groundY": -3.8703567466224174e-12,
+      "triangles": 18128,
+      "animations": [
+        "Attack.000",
+        "Attack.001",
+        "Attack.002",
+        "Attack.003",
+        "Attack.Begin",
+        "Attack.End",
+        "Die",
+        "Hit",
+        "Idle.001",
+        "Idle.002",
+        "Run",
+        "Stand",
+        "Walk"
+      ],
+      "materials": [
+        "body",
+        "head",
+        "Material.002",
+        "Teeth",
+        "head.001",
+        "Porcupine_dark_eyes",
+        "Porcupine_banded_quills"
+      ],
+      "sourceProvenance": {
+        "source": "cdmir-rat-native.glb",
+        "sourceSha256": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047",
+        "output": "cdmir-porcupine-adapted.glb",
+        "sha256": "304f3ccdcc6d355304a2705038356a5704d95bbc4370ebadc385d516b003e4da",
+        "bytes": 10645764,
+        "sourceAuthor": "CDmir; TinyWorlds",
+        "license": "CC0-1.0",
+        "sourceUrl": "https://opengameart.org/content/evil-giant-rat",
+        "originalBlendSha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+        "reference": {
+          "target": "crested porcupine inspired fantasy animal",
+          "anatomySource": "https://animaldiversity.org/accounts/Hystrix_cristata/",
+          "anatomyNotes": "Short tail, nape crest, long defensive quills on flanks and rump. Measurements below are authored proportions, not zoological measurements."
+        },
+        "quillCount": 970,
+        "nativeActions": [
+          "Attack.000",
+          "Attack.001",
+          "Attack.002",
+          "Attack.003",
+          "Attack.Begin",
+          "Attack.End",
+          "Die",
+          "Hit",
+          "Idle.001",
+          "Idle.002",
+          "Run",
+          "Stand",
+          "Walk"
+        ],
+        "nativeExportAudit": {
+          "file": "native-export-report.json",
+          "finalByteMaximumNormalizedMm": 0.9643288760306397,
+          "sourceActionsPreservedInOriginal": 14,
+          "omittedSourceActions": [
+            {
+              "name": "Idle.000",
+              "reason": "Six original Blender B-bone discontinuities; source jumps 33.4–51.35 mm at preview scale.",
+              "evidence": "weight-audit-tail-discontinuity.json"
+            }
+          ]
+        },
+        "topology": "Original body/head/limbs/tail topology retained and reshaped; quills added to Body skin.",
+        "limits": [
+          "CPU candidate only. No hardware visual or gameplay acceptance.",
+          "Original native tracks retained; species reshaping changes resulting surface motion and requires a separate contact and silhouette review.",
+          "Quill root weights copied intact from source vertices; added quill lengths amplify local rotational motion.",
+          "Tail pivots and translation paths retargeted to the shorter source mesh; Run/Walk/Attack contact still requires review."
+        ]
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_quillback_porcupine": "creature_quillback_porcupine.3cbfb186bc81.glb"
+  },
+  "origins": [
+    {
+      "slot": "creature_quillback_porcupine",
+      "catalogue": "source-porcupine/porcupine-candidate-catalogue.json",
+      "catalogueSha256": "367f577af7025e1224e6ec7305df35e87e305e1c37120689894adb3d27628b75",
+      "sha256": "3cbfb186bc81e5a6d3070eb032b9e8937f2dedff42de1debd54ba09433a29cf3",
+      "sourceDescription": "Porcupine species adaptation of CDmir and TinyWorlds complete CC0 rat source; candidate awaiting visual review",
+      "rightsStatus": "See original source attribution and license records."
+    }
+  ],
+  "scope": "Frozen complete CC0 Rat-derived Porcupine anatomy review with 970 attached quills and 13 real source-derived clips. Original 14-action Rat archive remains preserved; broken long Idle.000 is explicitly omitted. Fixed rest wrapper only, no per-frame body lift. Native source foot penetration remains measured and unaccepted, including Walk, Run and Die. This is not finished-species, contact, lifecycle or promotion acceptance."
+}

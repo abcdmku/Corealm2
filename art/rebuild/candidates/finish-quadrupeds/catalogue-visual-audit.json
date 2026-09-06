@@ -1,0 +1,475 @@
+{
+  "scope": "All 145 images inspected across three reviewers. KEEP preserves the base for repair and runtime acceptance, not unconditional approval. Stationary clips do not prove travel planting, terrain, transitions or AI. Root owns acceptance and promotion. Bighorn/Tapir direction approval conflicts with the fresh critic; both remain staged.",
+  "counts": {
+    "total": 29,
+    "keep": 16,
+    "rebuild": 11,
+    "replace": 2
+  },
+  "assets": [
+    {
+      "id": "animal_cattle",
+      "disposition": "rebuild",
+      "notes": "Retain cow base; repair neck/shoulder/upper-leg seam rings and blunt unsplit hoof appearance.",
+      "sha256": "8c75982604c2b5d2cb66341a122ccb7bee5ba36e7c0bcfda6c6255d14eb8068d",
+      "bytes": 733184,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_cattle-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_cattle-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_cattle-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_cattle-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_cattle-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "animal_aurochs",
+      "disposition": "rebuild",
+      "notes": "Domestic cow silhouette, udder and heavy belly undermine wild bovine identity; repair seam rings and brown material separation.",
+      "sha256": "24a15de21d19f14fd526d69fdc89d2d1352170dd01ffe3cfad682cb400deda23",
+      "bytes": 2417544,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_aurochs-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_aurochs-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_aurochs-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_aurochs-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_aurochs-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "animal_goat",
+      "disposition": "keep",
+      "notes": "Credible proportions, horns and fur. Plain hoof ends and angular compressed run pose need motion review.",
+      "sha256": "e44126a6e6670c3b2b5fbe89db687b4fb5d1e929fb4ff830c916d8e0adb07f12",
+      "bytes": 2240368,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_goat-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_goat-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_goat-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_goat-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_goat-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "animal_deer",
+      "disposition": "keep",
+      "notes": "Clear deer proportions and antlers. Coarse antler facets, plain lower legs and dark rear detail.",
+      "sha256": "E2BB94F19786805B0FBC6B038A807A3451051102D52D8E9C06540F45EF7ABFB3",
+      "bytes": 479352,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_deer-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_deer-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_deer-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_deer-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_deer-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "animal_coyote",
+      "disposition": "keep",
+      "notes": "Strong anatomy, coat and feet. UI Forest Wolf versus source coyote identity needs confirmation.",
+      "sha256": "460965F62D8D70BAE75E035370EE145B5EEB9233DD5E64A6E88E37887ADABD9D",
+      "bytes": 767868,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_coyote-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_coyote-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_coyote-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_coyote-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_coyote-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "animal_bear",
+      "disposition": "keep",
+      "notes": "Convincing heavy bear mass and claws. Smooth fur outline and compressed shoulder in run need temporal review.",
+      "sha256": "c3f1dad82615244bec66f80ee7dbc95078f67b91132c3dbe356a693f2dc3e5f0",
+      "bytes": 2335604,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_bear-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_bear-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_bear-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_bear-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_bear-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "animal_boar",
+      "disposition": "keep",
+      "notes": "Coherent boar anatomy and tusks. Smooth dorsal outline, repetitive bristles and plain hoof wedges.",
+      "sha256": "9e1192788411744743042396fd4e958b16c001c49d91aab73e56dc27b1c7383c",
+      "bytes": 596064,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_boar-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_boar-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_boar-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_boar-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_boar-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "animal_ibex",
+      "disposition": "keep",
+      "notes": "Distinct ribbed horns and credible anatomy. Plain hoof ends; raised idle legs require support review.",
+      "sha256": "AC24A84ACD299ADA77BD4B2ACC70370A382227296CDB4D8251EF811382B8924C",
+      "bytes": 513308,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_ibex-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_ibex-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_ibex-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_ibex-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_ibex-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "animal_hog",
+      "disposition": "keep",
+      "notes": "Coherent sow anatomy. Muddy coat and plain feet; no Run clip in metadata.",
+      "sha256": "DC00DE3F80C02A168C8FBD4EA1F7E00733B2B47604913E47F841814A729EAFC9",
+      "bytes": 414920,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_hog-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_hog-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_hog-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_hog-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_hog-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "animal_rat",
+      "disposition": "keep",
+      "notes": "Recognizable rodent and tapering tail. Small gameplay silhouette; no Run clip in metadata.",
+      "sha256": "B86F5636946C6406DC344B39FC056375DA7DBA4E6389959291542222380A9563",
+      "bytes": 388672,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_rat-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_rat-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_rat-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_rat-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard1/animal_rat-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "animal_rabbit",
+      "disposition": "keep",
+      "notes": "Sound rabbit silhouette. Dark fur and shoulder seams; neutral grounding proof pending.",
+      "sha256": "105875B9F68E2FBA30BD6577D385D896F2D3C2FA42BD26A15D8F4D029E3F08ED",
+      "bytes": 514312,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard2/animal_rabbit-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/animal_rabbit-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/animal_rabbit-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/animal_rabbit-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/animal_rabbit-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "animal_rabbit_dark",
+      "disposition": "keep",
+      "notes": "Sound rabbit base. Pale neck/shoulder/belly seams need cleanup.",
+      "sha256": "948e777d291cf45e7b7e57bdbdef0b1d8e8990c014fd26a0aef7b3e5aa31e22f",
+      "bytes": 2108816,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard2/animal_rabbit_dark-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/animal_rabbit_dark-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/animal_rabbit_dark-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/animal_rabbit_dark-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/animal_rabbit_dark-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "boss_rhino_air",
+      "disposition": "keep",
+      "notes": "Strong fantasy rhino base. Detached underbody triangles require investigation; roc identity mismatch.",
+      "sha256": "0E361FC212A4DA00E5A7A04C5FE590DAC7214FB8071B9B1B1493753A326C7556",
+      "bytes": 1021816,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_air-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_air-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_air-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_air-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_air-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "boss_rhino_earth",
+      "disposition": "keep",
+      "notes": "Strong fantasy rhino base. Painted green markings do not communicate stone armor; underbody triangles.",
+      "sha256": "700FF55B402BC3E0A2A69CFF5C87F44701CC7E14F818BBB640857E98A6474788",
+      "bytes": 1011616,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_earth-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_earth-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_earth-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_earth-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_earth-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "boss_rhino_water",
+      "disposition": "keep",
+      "notes": "Strong fantasy rhino base. Flat blue patches lack water/ice construction; underbody triangles.",
+      "sha256": "F85EA2B8033DEDA8FF8232D8DE709E0DA56F81FD2F5DCE7B7CB7CA6C9318E43A",
+      "bytes": 985584,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_water-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_water-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_water-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_water-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/boss_rhino_water-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_marchwild_horse",
+      "disposition": "rebuild",
+      "notes": "Balloon torso, soft muzzle, unstructured lower legs, boot hooves and solid-strip mane/tail.",
+      "sha256": "7c22d6e71dccf631dfad298c59126a28e50cb26a24b420833d4bf7b169f52a99",
+      "bytes": 2614564,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_marchwild_horse-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_marchwild_horse-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_marchwild_horse-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_marchwild_horse-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_marchwild_horse-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_redbrush_fox",
+      "disposition": "rebuild",
+      "notes": "Tubular torso, abrupt rump/tail transition, knobby legs, mitten feet, projecting eyes and thick ear inserts.",
+      "sha256": "4cea19d183bce605de42fea91f6f30ae477692c306b9464b476ad2ebc31ae765",
+      "bytes": 1703828,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_redbrush_fox-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_redbrush_fox-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_redbrush_fox-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_redbrush_fox-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_redbrush_fox-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_duskoak_lynx",
+      "disposition": "rebuild",
+      "notes": "Revision 6 corrugated legs, inflated toes, barrel torso and smudged coat. Revision 7 source awaits export and review.",
+      "sha256": "bd21ba94ab5d71753597ba7eaed2eeeef6800ac1b0ae76316f4aa3beb1fb8ae7",
+      "bytes": 1594988,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_duskoak_lynx-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_duskoak_lynx-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_duskoak_lynx-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_duskoak_lynx-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_duskoak_lynx-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_rootdelve_badger",
+      "disposition": "rebuild",
+      "notes": "Capsule torso, circular rump, attached shoulder balls, mitten feet, pin ankles and overly long head wedge.",
+      "sha256": "80532daf085c3d3c3145083eba289e68ff25f91b4b7e2ba40297ebf06d3c1f1d",
+      "bytes": 1544448,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_rootdelve_badger-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_rootdelve_badger-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_rootdelve_badger-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_rootdelve_badger-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_rootdelve_badger-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_quillback_porcupine",
+      "disposition": "rebuild",
+      "notes": "Regular sparse quill rows expose bare barrel; smooth oval head, round shoulders, mitten feet and bare conical tail.",
+      "sha256": "8164845978ec33ad12665854849cb88577a1ac50fcfd7c96ecb2195cd0594471",
+      "bytes": 1799040,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_quillback_porcupine-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_quillback_porcupine-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_quillback_porcupine-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_quillback_porcupine-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_quillback_porcupine-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_cairn_bighorn",
+      "disposition": "rebuild",
+      "notes": "Root retained direction; independent lifecycle/static critic rejects bead eyes, segmented hose horns, peg legs, separate hoof blocks and uniform tan finish. Root decision pending.",
+      "sha256": "6f1e5349279e348087d62533a0589ae0e48342328d6c1d0c3bc535e2bec1e9d1",
+      "bytes": 2534588,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_cairn_bighorn-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_cairn_bighorn-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_cairn_bighorn-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_cairn_bighorn-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_cairn_bighorn-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_marsh_moose",
+      "disposition": "rebuild",
+      "notes": "Blob muzzle, featureless dark mass, thick antler roots, leaf dewlap, zigzag idle legs and generic cuff hooves.",
+      "sha256": "b622388373aaec3771e4a4e67fd3fb8a256325ed62a057008bd9c982564df6d9",
+      "bytes": 2641056,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_marsh_moose-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_marsh_moose-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_marsh_moose-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_marsh_moose-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_marsh_moose-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_bracken_tapir",
+      "disposition": "rebuild",
+      "notes": "Root retained direction; independent lifecycle/static critic rejects capsule torso, bead eyes, circular rim ears and bulbous toes. Root decision pending.",
+      "sha256": "88b1fe8f89a84125105c401d109915b304890ac150f923adf4df9a00968fd462",
+      "bytes": 2618316,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_bracken_tapir-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_bracken_tapir-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_bracken_tapir-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_bracken_tapir-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_bracken_tapir-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_reedjaw_crocodile",
+      "disposition": "keep",
+      "notes": "Believable low torso, armored back, jaw and muscular tail. Dark facial detail and stretched flank scales.",
+      "sha256": "93898e69d5c0f968bc7a93e3fdb3bc2d92de801228741b8bc05bf61affdf39bc",
+      "bytes": 5820000,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_reedjaw_crocodile-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_reedjaw_crocodile-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_reedjaw_crocodile-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_reedjaw_crocodile-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_reedjaw_crocodile-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_kiln_salamander",
+      "disposition": "keep",
+      "notes": "Coherent elongated anatomy and yellow markings. Crushed black detail and small feet need brighter close inspection.",
+      "sha256": "342cc93490966705e1100a185be68d6ff060067ef8170169cb7d69eb5cede5ad",
+      "bytes": 3569736,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_kiln_salamander-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_kiln_salamander-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_kiln_salamander-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_kiln_salamander-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_kiln_salamander-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_slateback_tortoise",
+      "disposition": "keep",
+      "notes": "Strong shell and material separation. Cylindrical neck/simple legs, regular ridges; similar run/side stills do not prove gait.",
+      "sha256": "455a10534e2acbde916d6d57c01b8a7305702c1f08263bad3db77e37e191e80a",
+      "bytes": 2588512,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_slateback_tortoise-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_slateback_tortoise-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_slateback_tortoise-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_slateback_tortoise-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_slateback_tortoise-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_ashscale_monitor",
+      "disposition": "rebuild",
+      "notes": "Humanlike shoulder bulges, thin vertical forearms, flat star hands and abrupt narrow neck; generic dinosaur silhouette.",
+      "sha256": "7177dba27d5453b40d5dad3ab184b024bb024cc15c7dccc8a32db0fc42ed6483",
+      "bytes": 3137032,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_ashscale_monitor-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_ashscale_monitor-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_ashscale_monitor-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_ashscale_monitor-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_ashscale_monitor-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_basalt_drake",
+      "disposition": "replace",
+      "notes": "Anatomical base is coherent, but prominent paired pale head horns conflict with the user direction against horned monster designs.",
+      "sha256": "2c0dc6807f07e5a87e02f883d37a0c30d73c85deb2986a088394317e04bf2ce9",
+      "bytes": 6511488,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_basalt_drake-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_basalt_drake-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_basalt_drake-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_basalt_drake-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_basalt_drake-run.png"
+      ],
+      "rootAccepted": false
+    },
+    {
+      "id": "creature_quarry_nightmare",
+      "disposition": "replace",
+      "notes": "Demonic hooked skull and horn/spine projections conflict with user direction. Blunt tall shoulder towers also need source conversion investigation; brown coat contradicts pale/albino identity.",
+      "sha256": "6f91b9e2870d6342fb4e116dc42a2f350599792ce5cb8cbcb1f91a19d4ce4c14",
+      "bytes": 7066308,
+      "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+      "screenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_quarry_nightmare-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_quarry_nightmare-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_quarry_nightmare-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_quarry_nightmare-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_quarry_nightmare-run.png"
+      ],
+      "rootAccepted": false
+    }
+  ]
+}

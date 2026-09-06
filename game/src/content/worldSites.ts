@@ -86,8 +86,6 @@ export const WORLD_SITES: readonly WorldSite[] = [
       { clusterId: "bracken_pit_stone", index: 2, x: 12.8, z: 3.7, yaw: -0.85, scale: 0.86 },
     ],
     dressing: [
-      { id: "west_cut", assetId: "corealm_cliff_strata_1", x: -5.8, z: -10.2, yaw: 0.18, scale: [1.1, 0.68, 1.0], sink: 0.65 },
-      { id: "east_cut", assetId: "corealm_cliff_strata_2", x: 2.2, z: -11.3, yaw: -0.18, scale: [0.92, 0.6, 1.0], sink: 0.85 },
       { id: "east_face_step", assetId: "corealm_rock_strata_1", x: 7.0, z: -6.4, yaw: -0.47, scale: [1.25, 0.85, 1.15], sink: 0.35 },
       { id: "stone_shoulder", assetId: "corealm_rock_strata_1", x: 14.6, z: -2.5, yaw: -0.7, scale: [1.333, 1.2, 0.988], sink: 0.45 },
       { id: "west_foot", assetId: "corealm_rock_strata_2", x: -10.6, z: -5.5, yaw: 0.7, scale: [0.95, 0.7, 0.92], sink: 0.55 },
@@ -153,8 +151,6 @@ export const WORLD_SITES: readonly WorldSite[] = [
       { clusterId: "lower_quarry_kaldite", index: 5, x: 8.3, z: -2.3, yaw: -0.32, scale: 0.96 },
     ],
     dressing: [
-      { id: "cut_west", assetId: "corealm_cliff_strata_2", x: -5.8, z: -8.5, yaw: 0.38, scale: [1.0, 0.64, 1.1], sink: 0.8 },
-      { id: "cut_east", assetId: "corealm_cliff_strata_1", x: 1.4, z: -11.9, yaw: -0.1, scale: [1.08, 0.78, 1.18], sink: 0.9 },
       { id: "bench_end", assetId: "corealm_rock_strata_3", x: 8.6, z: -6.0, yaw: -0.62, scale: [1.1, 1.4, 1.16], sink: 0.40 },
       { id: "west_root", assetId: "corealm_rock_strata_3", x: -10.0, z: -5.8, yaw: 0.82, scale: [1.0, 0.9, 1.1], sink: 0.65 },
       { id: "graded_spoil", assetId: "corealm_scree_1", x: -8.7, z: 1.9, yaw: 0.50, scale: [1.2, 0.85, 1.2], sink: 0.12 },
@@ -220,8 +216,6 @@ export const WORLD_SITES: readonly WorldSite[] = [
       { clusterId: "clinker_kilnstone", index: 2, x: -14.4, z: 3.5, yaw: 0.85, scale: 0.90 },
     ],
     dressing: [
-      { id: "kiln_bedding_west", assetId: "corealm_cliff_strata_2", x: -4.5, z: -11.2, yaw: 0.17, scale: [1.3, 0.83, 1.2], sink: 1.05 },
-      { id: "kiln_bedding_east", assetId: "corealm_cliff_strata_1", x: 4.5, z: -14.3, yaw: -0.33, scale: [1.08, 0.94, 1.13], sink: 1.0 },
       { id: "flux_face", assetId: "corealm_cliff_strata_2", x: -11.6, z: -2.1, yaw: 1.08, scale: [0.915, 0.63, 0.657], sink: 0.45 },
       { id: "east_fracture", assetId: "corealm_rock_strata_1", x: 12.0, z: -6.9, yaw: -0.82, scale: [1.15, 0.88, 0.95], sink: 0.65 },
       { id: "clinker_spoil", assetId: "corealm_scree_1", x: 11.2, z: -0.35, yaw: -0.45, scale: [1.45, 0.95, 1.2], sink: 0.12 },

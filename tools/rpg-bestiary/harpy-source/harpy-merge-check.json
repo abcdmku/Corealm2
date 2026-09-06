@@ -1,0 +1,85 @@
+{
+  "id": "harpy",
+  "before": {
+    "meshes": 442,
+    "triangles": 53250,
+    "vertices": 34301,
+    "materials": [
+      "harpy_base_female_0",
+      "harpy_base_female_1",
+      "harpy_base_female_2",
+      "harpy_hair_long_0",
+      "harpy_horn",
+      "harpy_outfit_female_ranger_chest_0",
+      "harpy_plumage_0",
+      "harpy_plumage_1",
+      "harpy_plumage_2",
+      "harpy_plumage_3",
+      "harpy_shank_ochre",
+      "harpy_shank_scale"
+    ]
+  },
+  "after": {
+    "meshes": 14,
+    "triangles": 53250,
+    "vertices": 34301,
+    "materials": [
+      "harpy_base_female_0",
+      "harpy_base_female_1",
+      "harpy_base_female_2",
+      "harpy_hair_long_0",
+      "harpy_horn",
+      "harpy_outfit_female_ranger_chest_0",
+      "harpy_plumage_0",
+      "harpy_plumage_1",
+      "harpy_plumage_2",
+      "harpy_plumage_3",
+      "harpy_shank_ochre",
+      "harpy_shank_scale"
+    ]
+  },
+  "minimumY": 0.0019998676919543157,
+  "maximumBoundsDifference": 2.3344694177751535e-8,
+  "samples": [
+    {
+      "clip": "Idle",
+      "sampleCount": 593,
+      "maximumBoundsDifference": 9.163342751250525e-9
+    },
+    {
+      "clip": "Walk",
+      "sampleCount": 379,
+      "maximumBoundsDifference": 8.710752563700908e-9
+    },
+    {
+      "clip": "Run",
+      "sampleCount": 273,
+      "maximumBoundsDifference": 1.2150949801892352e-8
+    },
+    {
+      "clip": "Attack",
+      "sampleCount": 255,
+      "maximumBoundsDifference": 1.2051803111035042e-8
+    },
+    {
+      "clip": "Hit",
+      "sampleCount": 113,
+      "maximumBoundsDifference": 1.0635083036447668e-8
+    },
+    {
+      "clip": "HitLeft",
+      "sampleCount": 113,
+      "maximumBoundsDifference": 1.0635083036447668e-8
+    },
+    {
+      "clip": "HitRight",
+      "sampleCount": 113,
+      "maximumBoundsDifference": 1.0635083036447668e-8
+    },
+    {
+      "clip": "Death",
+      "sampleCount": 639,
+      "maximumBoundsDifference": 2.3344694177751535e-8
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "baseline": "art/rebuild/candidates/finish-bestiary/source-round6",
+  "catalogueSha256": "8fc7e01deee54441c4ec4965c91407f4531a7082a6256552fb8652906e2650be",
+  "geometryAcceptance": false,
+  "changes": [
+    {
+      "id": "orc_warrior",
+      "glbChanged": false,
+      "beforeSha256": "ea4668d75af20c7d8464f2084a2896cda4724c8d6e0d3ba1a21439f8b99c3388",
+      "sha256": "ea4668d75af20c7d8464f2084a2896cda4724c8d6e0d3ba1a21439f8b99c3388"
+    },
+    {
+      "id": "skeleton_soldier",
+      "glbChanged": false,
+      "beforeSha256": "2aac3ea41d55c6aac2635f96a90bfd184888a5183ed9a7eb482e749d4d082c6a",
+      "sha256": "2aac3ea41d55c6aac2635f96a90bfd184888a5183ed9a7eb482e749d4d082c6a"
+    },
+    {
+      "id": "skeleton_archer",
+      "glbChanged": false,
+      "beforeSha256": "fd37598d2b081ead36556a15bdc769094a7bcfa93e6377efe654e0025347b305",
+      "sha256": "fd37598d2b081ead36556a15bdc769094a7bcfa93e6377efe654e0025347b305"
+    },
+    {
+      "id": "skeleton_mage",
+      "glbChanged": false,
+      "beforeSha256": "68d88c7916a4892cf260f591e161100d12e72d909c0b1f04bbf74ca040658792",
+      "sha256": "68d88c7916a4892cf260f591e161100d12e72d909c0b1f04bbf74ca040658792"
+    },
+    {
+      "id": "wraith",
+      "glbChanged": false,
+      "beforeSha256": "8946fc54ab4191ba99389be482e4271ec511ec34a70d4dfbf8da810469dca5fe",
+      "sha256": "8946fc54ab4191ba99389be482e4271ec511ec34a70d4dfbf8da810469dca5fe"
+    },
+    {
+      "id": "banshee",
+      "glbChanged": false,
+      "beforeSha256": "b905c1c540caea25b5414dfe57f915a8f0f9071384954dc2567e22212bb33849",
+      "sha256": "b905c1c540caea25b5414dfe57f915a8f0f9071384954dc2567e22212bb33849"
+    },
+    {
+      "id": "revenant",
+      "glbChanged": false,
+      "beforeSha256": "c787503928a34acfb10467f1e7f62dd2cb0e14b04decba4b1f377c7478ae026f",
+      "sha256": "c787503928a34acfb10467f1e7f62dd2cb0e14b04decba4b1f377c7478ae026f"
+    },
+    {
+      "id": "stone_golem",
+      "glbChanged": false,
+      "beforeSha256": "987f4f59e973922652a47aedc24849aa6646bab28b566e3285dd10b51f911e5e",
+      "sha256": "987f4f59e973922652a47aedc24849aa6646bab28b566e3285dd10b51f911e5e"
+    },
+    {
+      "id": "iron_golem",
+      "glbChanged": false,
+      "beforeSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
+      "sha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a"
+    },
+    {
+      "id": "fire_golem",
+      "glbChanged": false,
+      "beforeSha256": "5f8bc940674bcd7a5178d49092d0d4dd54039111090825976d0e2dfc5b50490f",
+      "sha256": "5f8bc940674bcd7a5178d49092d0d4dd54039111090825976d0e2dfc5b50490f"
+    },
+    {
+      "id": "gargoyle",
+      "glbChanged": false,
+      "beforeSha256": "aca3fd8381aae1a40ad2790d2a4f8846121b8d66e20242479ca4edaeb831e155",
+      "sha256": "aca3fd8381aae1a40ad2790d2a4f8846121b8d66e20242479ca4edaeb831e155"
+    },
+    {
+      "id": "obsidian_gargoyle",
+      "glbChanged": false,
+      "beforeSha256": "4f7e486652af1c5a3c2efc8972319e6c9af2ae89e2faa32964f11bb84513eca4",
+      "sha256": "4f7e486652af1c5a3c2efc8972319e6c9af2ae89e2faa32964f11bb84513eca4"
+    },
+    {
+      "id": "ancient_gargoyle",
+      "glbChanged": false,
+      "beforeSha256": "a8daaa39601633f10c58f6dc0991d1a6bd3f1757802feba94f7c253123c3bf33",
+      "sha256": "a8daaa39601633f10c58f6dc0991d1a6bd3f1757802feba94f7c253123c3bf33"
+    },
+    {
+      "id": "minotaur",
+      "glbChanged": false,
+      "beforeSha256": "85fb43992c9e5ff8d8c4b19ee41897db37fa0e9c7fe4db742517323159833754",
+      "sha256": "85fb43992c9e5ff8d8c4b19ee41897db37fa0e9c7fe4db742517323159833754"
+    },
+    {
+      "id": "horned_demon",
+      "glbChanged": false,
+      "beforeSha256": "842cb9b67d0d84b7a821cf21796f832584f3dc3a1f7b40dfb76fbcc9f6e4b214",
+      "sha256": "842cb9b67d0d84b7a821cf21796f832584f3dc3a1f7b40dfb76fbcc9f6e4b214"
+    },
+    {
+      "id": "orc_berserker",
+      "glbChanged": false,
+      "beforeSha256": "10e2c3907d096a5e66b55b8f9015abccd662a4c7012233e1ab7c07085ca8ec90",
+      "sha256": "10e2c3907d096a5e66b55b8f9015abccd662a4c7012233e1ab7c07085ca8ec90"
+    },
+    {
+      "id": "orc_warlord",
+      "glbChanged": false,
+      "beforeSha256": "812f195f66d11f285ac67dfcb7b17f1cd7913c0cff2b1570fddad96576e1ff8b",
+      "sha256": "812f195f66d11f285ac67dfcb7b17f1cd7913c0cff2b1570fddad96576e1ff8b"
+    },
+    {
+      "id": "elder_minotaur",
+      "glbChanged": false,
+      "beforeSha256": "71d22ca19b44c61385ac8ff0d5451a65f73bf6730048da26dd02eb69c86f3087",
+      "sha256": "71d22ca19b44c61385ac8ff0d5451a65f73bf6730048da26dd02eb69c86f3087"
+    },
+    {
+      "id": "harpy",
+      "glbChanged": false,
+      "beforeSha256": "40d58f0ba0a89d8c540d82e5d4e0393eaaf2b3926d197c0d3a63cc16081d4ea1",
+      "sha256": "40d58f0ba0a89d8c540d82e5d4e0393eaaf2b3926d197c0d3a63cc16081d4ea1"
+    },
+    {
+      "id": "cliff_harpy",
+      "glbChanged": false,
+      "beforeSha256": "ff4e0d7c7168a2673875ba71893fe430f3d4ca22d87b9747aebda4f2d84ef092",
+      "sha256": "ff4e0d7c7168a2673875ba71893fe430f3d4ca22d87b9747aebda4f2d84ef092"
+    },
+    {
+      "id": "storm_harpy",
+      "glbChanged": false,
+      "beforeSha256": "d389b2c05adfcdf4bef556d3ed2d819173873129a84acf0803689772c5c0d7e8",
+      "sha256": "d389b2c05adfcdf4bef556d3ed2d819173873129a84acf0803689772c5c0d7e8"
+    },
+    {
+      "id": "grave_ghoul",
+      "glbChanged": true,
+      "beforeSha256": "64cbf4c673c8b2797924175c1c29f4fa5620f09e544621cdaacf6c6d30405a8b",
+      "sha256": "fa480d4b0c717a5470003a26c4cd968d9e594b2e3ec5e81662e836496b572d64"
+    },
+    {
+      "id": "zombie",
+      "glbChanged": true,
+      "beforeSha256": "4a015bb4e76a6e94b5355da8061de83506e2604a91b3f7ca81fd19a0a5eda433",
+      "sha256": "4da56ba89a47940d701777b6edda08a3d4e073a0a532e7ea29e5f0ee0d0d4296"
+    },
+    {
+      "id": "plague_zombie",
+      "glbChanged": true,
+      "beforeSha256": "ba01a2d260b8c8513f45ba894a6756bff496987078387dece672368be748ec3f",
+      "sha256": "213778109d6eabe886ac756b0f2cdd578b77a68529bd93063f633623c11c7962"
+    },
+    {
+      "id": "labyrinth_guardian",
+      "glbChanged": true,
+      "beforeSha256": "52744667f97bb0b7053482c16984e2efa0344165b770c24754ee0f21a14a257d",
+      "sha256": "34887c7207aa735888ed0173fc40e5e909d043023502c1d1574e5149dfcc07e5"
+    },
+    {
+      "id": "imp",
+      "glbChanged": true,
+      "beforeSha256": "0e676f50f0271eb1806bc83cba8d915267e81b29306c3c1943716229f820ec39",
+      "sha256": "7465fa03640171c25f4ab38bf48f36fd4ae9578792bc451f20347ffd0a5e129e"
+    },
+    {
+      "id": "abyssal_demon",
+      "glbChanged": true,
+      "beforeSha256": "a781b6e0dd7b8409b907f85be54bd620e0cf38ae7ed013e24e5b7355518394c7",
+      "sha256": "582ef624fafb6de795d57824df2250576e8b334341fe2d9785d7cd3c407f08a7"
+    },
+    {
+      "id": "goblin_scout",
+      "glbChanged": true,
+      "beforeSha256": "fe2ddea2d44f8e4ba0bc116029512fd4d73fc977f91f6ed3941a5246cdd99c27",
+      "sha256": "c6dd78d3518658a3347b592f69570c3df479cb0756ca506208c7a50bc39dbfa6"
+    },
+    {
+      "id": "goblin_archer",
+      "glbChanged": true,
+      "beforeSha256": "a5411f7185bc6711517e0649c2ae83606968dd4818916445b4623047959fa87e",
+      "sha256": "33c116cc78f4e378ec413b7741ae5af22ce510605859179a23e920deca870379"
+    },
+    {
+      "id": "goblin_shaman",
+      "glbChanged": true,
+      "beforeSha256": "279bb8d1f7be12292c805d78c4d6930dfb480b68b339193cf39c42d538db8417",
+      "sha256": "3cca8fe953e3b1dc59c948bd65d865497625b4567ba12f66a8d8a3d53069d421"
+    },
+    {
+      "id": "gnoll_hunter",
+      "glbChanged": true,
+      "beforeSha256": "af65ba6410956dad9ef97c1118c78111f20483ecef6cd90cd43f2fdb37d2640a",
+      "sha256": "6e115ec8b56ef23c54ba56ee7efa6016cd27f4e2297423f9b1f336794e3b61ea"
+    },
+    {
+      "id": "gnoll_brute",
+      "glbChanged": true,
+      "beforeSha256": "73f4c153e0e283ec02fc1f4e8453ad2c0f703baf67d35a14e45a5b61e15d0a2b",
+      "sha256": "a3ff491d112448cc10aef0629b377702daafc54314311b27c463513ad84938cf"
+    },
+    {
+      "id": "gnoll_chieftain",
+      "glbChanged": true,
+      "beforeSha256": "9379c7a8ff4573f0b2dac2dfd6c2336a87a0c911761662baa3a7c36c9c58f222",
+      "sha256": "f5ec3e1fdd82f595069b5a27275f849ea69492e6078579b838f4cdea107d6589"
+    },
+    {
+      "id": "lizardman_scout",
+      "glbChanged": true,
+      "beforeSha256": "0ccdcc76c6fdbf87a4150c488ef761312a4bd4c3bf795e2b8a871b812d57d16f",
+      "sha256": "c1cc554b7b0a58425e006c86a8b13da76c208fd5f4d15fb4179b1e2405d5fa15"
+    },
+    {
+      "id": "lizardman_guard",
+      "glbChanged": true,
+      "beforeSha256": "3495930d90b319fc5664d24ca20cc99e3f3b6f29383f17b147f7dbdd870c0076",
+      "sha256": "74dc3ed24756a2f23ddb4b27d49220e65178848b30755e79a99831b9c46758b8"
+    },
+    {
+      "id": "lizardman_shaman",
+      "glbChanged": true,
+      "beforeSha256": "bc68ea2610f1ea277df82e57dcececb356a7c66d70279dfc5b9f46b7cbfeed94",
+      "sha256": "b73e971fedc31b13f057150769a824801bbb36a177c5c66ed1a870a43e16fede"
+    }
+  ]
+}

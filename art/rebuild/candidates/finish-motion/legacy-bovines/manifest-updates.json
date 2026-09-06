@@ -1,0 +1,48 @@
+[
+  {
+    "id": "animal_cattle",
+    "sourceFile": "game/public/assets/models/animal/animal_cattle.glb",
+    "stagedFile": "art/rebuild/candidates/finish-motion/legacy-bovines/animal_cattle.glb",
+    "sourceSha256": "8c75982604c2b5d2cb66341a122ccb7bee5ba36e7c0bcfda6c6255d14eb8068d",
+    "sha256": "ab3c7af0724313091abc60a67e491adc20e808ba09f6342cd6280c3214d9802a",
+    "bytes": 2433664,
+    "generatorSha256": {
+      "tools/creature-motion/bovine-gait.ts": "4bd55e1b7d33841a9bf2ebe33cd595696ae9ed3df136ad683bd83e426e64ec80",
+      "tools/creature-motion/stage-bovine-gaits.ts": "2a7fe0586e8a1c97d43d26539f75c86cedc06e457d7c456f3ff2d084caa944b5",
+      "tools/lib/ground-gait.ts": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a",
+      "tools/repair-ground-creature-gaits.ts": "070b3a2bff61c97e763ecb8f64e59eeee9a36249a1724f9b28118709c961ec2f"
+    },
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false,
+    "set": {
+      "impliedWalkMps": 0.9039947403423454,
+      "impliedRunMps": 3.11442052609775,
+      "walkClipSeconds": 1.1333333253860474,
+      "runClipSeconds": 0.6666666865348816
+    }
+  },
+  {
+    "id": "animal_aurochs",
+    "sourceFile": "game/public/assets/models/animal/animal_aurochs.glb",
+    "stagedFile": "art/rebuild/candidates/finish-motion/legacy-bovines/animal_aurochs.glb",
+    "sourceSha256": "c1e4363275d2c708235cbf3b1bf3b0d16398da4b570d7118b483f10c688da7e5",
+    "sha256": "24a15de21d19f14fd526d69fdc89d2d1352170dd01ffe3cfad682cb400deda23",
+    "bytes": 2417544,
+    "generatorSha256": {
+      "tools/creature-motion/bovine-gait.ts": "4bd55e1b7d33841a9bf2ebe33cd595696ae9ed3df136ad683bd83e426e64ec80",
+      "tools/creature-motion/stage-bovine-gaits.ts": "2a7fe0586e8a1c97d43d26539f75c86cedc06e457d7c456f3ff2d084caa944b5",
+      "tools/lib/ground-gait.ts": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a",
+      "tools/repair-ground-creature-gaits.ts": "070b3a2bff61c97e763ecb8f64e59eeee9a36249a1724f9b28118709c961ec2f"
+    },
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false,
+    "set": {
+      "impliedWalkMps": 0.9039947403423454,
+      "impliedRunMps": 3.11442052609775,
+      "walkClipSeconds": 1.1333333253860474,
+      "runClipSeconds": 0.6666666865348816
+    }
+  }
+]

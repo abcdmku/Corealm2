@@ -1,0 +1,60 @@
+{
+  "id": "namaqualand_boulder_03",
+  "source": "https://polyhaven.com/a/namaqualand_boulder_03",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "metadataUrl": "https://api.polyhaven.com/files/namaqualand_boulder_03",
+  "infoUrl": "https://api.polyhaven.com/info/namaqualand_boulder_03",
+  "author": {
+    "Jenelle van Heerden": "modeling",
+    "Dario Barresi": "Photography"
+  },
+  "files": [
+    {
+      "file": "namaqualand_boulder_03.gltf",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/namaqualand_boulder_03/namaqualand_boulder_03_1k.gltf",
+      "bytes": 2823,
+      "md5": "419d98b4512f1bc06245555c84f6effc",
+      "sha256": "14560936aaad68da0c0fc549b54c67bba4cd573dfe5b07f92835b9ca044a0092"
+    },
+    {
+      "file": "namaqualand_boulder_03.bin",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/namaqualand_boulder_03/namaqualand_boulder_03.bin",
+      "bytes": 1450268,
+      "md5": "ded61ea310a66144546eac2a891b6dba",
+      "sha256": "d24151021ed310fe3207f1b5964bff22b583e77d2617427a88b5dcbc0447a475"
+    }
+  ],
+  "geometry": {
+    "vertices": 33166,
+    "triangles": 64826,
+    "bounds": {
+      "min": [
+        -1.054810881614685,
+        -0.014703452587127686,
+        -1.3895807266235352
+      ],
+      "max": [
+        1.3522862195968628,
+        1.4584896564483643,
+        1.6758253574371338
+      ],
+      "size": [
+        2.407097101211548,
+        1.473193109035492,
+        3.065406084060669
+      ]
+    },
+    "weldTolerance": 4.166668795496813e-7,
+    "weldedVertices": 32414,
+    "boundaryEdges": 0,
+    "nonmanifoldEdges": 0,
+    "degenerateTriangles": 0,
+    "components": 1,
+    "euler": 1,
+    "signedVolume": 4.3869486464240355
+  },
+  "mapsDownloaded": false,
+  "derivativeCreated": false,
+  "browserReviewed": false
+}

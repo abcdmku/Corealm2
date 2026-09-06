@@ -1,0 +1,232 @@
+{
+  "sourceSha256": "33de55ae603553c7a4f9b8e639016678b434da7fa7931943c61639518976b7ad",
+  "candidateSha256": "c12dc9521901be07455c8d81049c79511f96e7dc187e357081112849bc0766cb",
+  "method": "One constant world-Y translation added to Survey hip track after measuring every physical sole and the entire skinned mesh. All original key times, rotations, duration and non-Survey clips preserved. No per-frame ground following.",
+  "constantLiftM": 0.0013708967433231965,
+  "before": {
+    "samples": 1642,
+    "minimumY": -0.0013208967433231966,
+    "maximumMinimumY": -0.0013089681930205134,
+    "footRanges": {
+      "foreRight": {
+        "min": -0.0006338643435424592,
+        "max": -0.000593125859734578
+      },
+      "foreLeft": {
+        "min": -0.0006812898248604263,
+        "max": -0.0006387870676102265
+      },
+      "hindLeft": {
+        "min": -0.0013208967433231966,
+        "max": -0.0013089681930205134
+      },
+      "hindRight": {
+        "min": -0.0012246599575825557,
+        "max": -0.0012137471895234874
+      }
+    }
+  },
+  "after": {
+    "samples": 1642,
+    "minimumY": 0.000049990981096537135,
+    "maximumMinimumY": 0.00006191953139910923,
+    "footRanges": {
+      "foreRight": {
+        "min": 0.0007370234151896275,
+        "max": 0.0007777618989976196
+      },
+      "foreLeft": {
+        "min": 0.0006895979353079914,
+        "max": 0.0007321006925583022
+      },
+      "hindLeft": {
+        "min": 0.000049990981096537135,
+        "max": 0.00006191953139910923
+      },
+      "hindRight": {
+        "min": 0.00014622776683717803,
+        "max": 0.00015714053489613515
+      }
+    }
+  },
+  "loop": {
+    "maximumLocalPositionDifference": 0,
+    "maximumJointAngleRadians": 0
+  },
+  "transitions": [
+    {
+      "to": "Walk",
+      "surveyPhase": 0,
+      "minimumY": -0.0037062065980206635,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Walk",
+      "surveyPhase": 0.25,
+      "minimumY": -0.0036226368698247953,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Walk",
+      "surveyPhase": 0.5,
+      "minimumY": -0.0038597166984799714,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Walk",
+      "surveyPhase": 0.75,
+      "minimumY": -0.0037013985966842453,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Run",
+      "surveyPhase": 0,
+      "minimumY": -0.012500618804684237,
+      "worstBlend": 0.46875
+    },
+    {
+      "to": "Run",
+      "surveyPhase": 0.25,
+      "minimumY": -0.01216482200353228,
+      "worstBlend": 0.46875
+    },
+    {
+      "to": "Run",
+      "surveyPhase": 0.5,
+      "minimumY": -0.013064036471163453,
+      "worstBlend": 0.46875
+    },
+    {
+      "to": "Run",
+      "surveyPhase": 0.75,
+      "minimumY": -0.01248097665629001,
+      "worstBlend": 0.46875
+    },
+    {
+      "to": "Attack",
+      "surveyPhase": 0,
+      "minimumY": -0.0030380531244325916,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Attack",
+      "surveyPhase": 0.25,
+      "minimumY": -0.002980943778313946,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Attack",
+      "surveyPhase": 0.5,
+      "minimumY": -0.003149439370692788,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Attack",
+      "surveyPhase": 0.75,
+      "minimumY": -0.0030348038862406347,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Hit",
+      "surveyPhase": 0,
+      "minimumY": -0.0030380531244325916,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Hit",
+      "surveyPhase": 0.25,
+      "minimumY": -0.002980943778313946,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Hit",
+      "surveyPhase": 0.5,
+      "minimumY": -0.003149439370692788,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Hit",
+      "surveyPhase": 0.75,
+      "minimumY": -0.0030348038862406347,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "HitLeft",
+      "surveyPhase": 0,
+      "minimumY": -0.0030380531244325916,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "HitLeft",
+      "surveyPhase": 0.25,
+      "minimumY": -0.002980943778313946,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "HitLeft",
+      "surveyPhase": 0.5,
+      "minimumY": -0.003149439370692788,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "HitLeft",
+      "surveyPhase": 0.75,
+      "minimumY": -0.0030348038862406347,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "HitRight",
+      "surveyPhase": 0,
+      "minimumY": -0.0030380531244325916,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "HitRight",
+      "surveyPhase": 0.25,
+      "minimumY": -0.002980943778313946,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "HitRight",
+      "surveyPhase": 0.5,
+      "minimumY": -0.003149439370692788,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "HitRight",
+      "surveyPhase": 0.75,
+      "minimumY": -0.0030348038862406347,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Death",
+      "surveyPhase": 0,
+      "minimumY": -0.00303803405094669,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Death",
+      "surveyPhase": 0.25,
+      "minimumY": -0.0029809247048280443,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Death",
+      "surveyPhase": 0.5,
+      "minimumY": -0.0031494202972068863,
+      "worstBlend": 0.5
+    },
+    {
+      "to": "Death",
+      "surveyPhase": 0.75,
+      "minimumY": -0.0030347848127547884,
+      "worstBlend": 0.5
+    }
+  ],
+  "hardwareAccepted": false,
+  "nonSurveyClipsPreserved": true,
+  "allSurveyRotationsAndTimesPreserved": true,
+  "sourceFilePreserved": true,
+  "transitionBoundaryPassed": false,
+  "stationaryIdleContactPassed": true
+}

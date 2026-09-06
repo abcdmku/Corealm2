@@ -14,6 +14,7 @@ import type {
 import { EQUIP_SLOTS, SKILL_IDS } from "../contracts.js";
 import { levelForXp, totalXpAt } from "../content/xp.js";
 import { STARTING_EQUIPMENT, STARTING_INVENTORY } from "../content/items.js";
+import { createInitialHuntContracts, type HuntContractsState } from "../systems/huntContracts.js";
 
 export const INVENTORY_SLOTS = 28;
 export const BANK_CAPACITY = 400;
@@ -45,6 +46,7 @@ export interface ResourceNodeState {
 }
 
 export interface GameState {
+  huntContracts: HuntContractsState;
   meta: {
     saveVersion: number;
     createdAtMs: number;
@@ -208,6 +210,7 @@ export function createInitialState(seed = 1337, nowMs = 0): GameState {
       activeSpellId: null, preferredSpellId: null, engagedBy: [],
     },
     quests: {},
+    huntContracts: createInitialHuntContracts(seed),
     dialogue: null,
     world: { nodes: {}, enemies: {}, obstaclesUsed: {}, lootPiles: {}, recoveryCache: null, campfire: null },
     discovery: { entities: {}, locations: {}, regions: [DEFAULT_REGION] },

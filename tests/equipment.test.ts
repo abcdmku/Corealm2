@@ -259,7 +259,10 @@ describe("gear appearance", () => {
   it("uses the requested Quaternius armour families and swaps the body variant", () => {
     const t1 = gearAppearance("grithe_sword");
     const t10 = gearAppearance("kaldite_sword");
-    expect(t1?.scale).toBeLessThan(t10?.scale ?? 0);
+    expect(t1?.scale).toBe(0.9);
+    expect(t10?.scale).toBe(0.9);
+    expect(t1?.assetId).toBe("corealm_sword_1");
+    expect(t10?.assetId).toBe("corealm_sword_3");
     expect(t1?.tint).not.toBe(t10?.tint);
     expect(gearAppearanceParts("grithe_cuirass").map((part) => part.assetId)).toEqual([
       "outfit_male_knight_chest",

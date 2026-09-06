@@ -1,0 +1,2861 @@
+{
+  "family": "rat",
+  "height": 0.3399999888393904,
+  "dimensions": [
+    0.28335867093505596,
+    0.3399999888393904,
+    1.2393493879750102
+  ],
+  "vertices": 4440,
+  "triangles": 5930,
+  "rig": "original-rat-133-joints-including-100-correctives",
+  "sourceSkinned": true,
+  "textureBindings": [
+    {
+      "materialName": "giant_rat_original_0_body",
+      "flipY": false,
+      "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\giant-rat-source\\derived\\0-baseColorPath.png",
+      "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\giant-rat-source\\derived\\0-normalPath.png"
+    },
+    {
+      "materialName": "giant_rat_original_1_head",
+      "flipY": false,
+      "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\giant-rat-source\\derived\\1-baseColorPath.png",
+      "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\giant-rat-source\\derived\\1-normalPath.png"
+    },
+    {
+      "materialName": "giant_rat_original_4_head.001",
+      "flipY": false,
+      "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\giant-rat-source\\derived\\4-baseColorPath.png",
+      "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\giant-rat-source\\derived\\4-normalPath.png"
+    }
+  ],
+  "floorCorrection": {
+    "policy": "disabled; no blanket whole-body lift"
+  },
+  "contactRepair": null,
+  "contactHold": [
+    "Walk front feet",
+    "Run"
+  ],
+  "nativeClipMapping": {
+    "Idle": "Idle.001",
+    "Walk": "Walk",
+    "Run": "Run",
+    "Attack": "Attack.000",
+    "Hit": "Hit",
+    "HitLeft": "Hit",
+    "HitRight": "Hit",
+    "Death": "Die"
+  },
+  "nativeClipNames": [
+    "Attack.000",
+    "Attack.001",
+    "Attack.002",
+    "Attack.003",
+    "Attack.Begin",
+    "Attack.End",
+    "Die",
+    "Hit",
+    "Idle.001",
+    "Idle.002",
+    "Run",
+    "Stand",
+    "Walk"
+  ],
+  "nativeScale": 0.240830591906,
+  "attackContact": 0.5,
+  "attackContactSource": "Provisional native Attack.000 contact pending production review",
+  "license": "CC0-1.0",
+  "source": "https://opengameart.org/content/evil-giant-rat",
+  "provenance": {
+    "author": "CDmir; TinyWorlds",
+    "license": "CC0-1.0",
+    "url": "https://opengameart.org/content/evil-giant-rat",
+    "originalSha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+    "directory": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-quadrupeds\\source-porcupine\\",
+    "originalSpecies": "rat",
+    "source": "https://opengameart.org/content/evil-giant-rat",
+    "sourceUrl": "https://opengameart.org/content/evil-giant-rat",
+    "attribution": "Evil Giant Rat by CDmir and TinyWorlds, CC0. Faithful native conversion and runtime aliases for Corealm.",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "sourcePacks": [
+      {
+        "id": "evil-giant-rat",
+        "sha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2"
+      }
+    ],
+    "nativeGlbSha256": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047",
+    "modifications": "Original geometry, maps and133-joint hierarchy preserved. Fixed idle wrapper grounding only, no animated body lift. Approved distal quaternion correction only for Walk BackLeg_L.003/BackLeg_R.003 and Death FrontLeg_R.003. All other native channels preserved; front Walk and Run remain HOLD."
+  },
+  "upstream": {
+    "sha256": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047",
+    "report": {
+      "source": "cdmir-rat-original.blend",
+      "sourceSha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+      "output": "cdmir-rat-native.glb",
+      "sha256": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047",
+      "bytes": 8374124,
+      "blender": "4.5.11 LTS",
+      "fps": 24,
+      "units": "Original source world scale, glTF Y up. Normalized metrics use .24083059 uniform scale.",
+      "nativeActions": 13,
+      "sourceNativeActions": 14,
+      "omittedNativeActions": [
+        {
+          "name": "Idle.000",
+          "reason": "Original source B-bone discontinuities cause 33.4-51.35 mm normalized body jumps; see weight-audit-tail-discontinuity.json. Original .blend and rejected all-14 artifact retained."
+        }
+      ],
+      "linearAndSegmentJoints": 33,
+      "translationCorrectiveJoints": 100,
+      "totalJoints": 133,
+      "correctiveThresholdNormalizedMm": 1,
+      "weightAudit": {
+        "Body": {
+          "vertices": 2159,
+          "expandedInfluenceMax": 12,
+          "verticesAboveFour": 228,
+          "optimizedVertices": 196,
+          "correctiveVertices": 93,
+          "faithfulReconstruction": {
+            "maxSourceUnits": 6.128599697837966e-7,
+            "rmsSourceUnits": 8.772684148797446e-8,
+            "maxNormalizedMm": 0.0001475954281104139,
+            "rmsNormalizedMm": 0.00002112730699438537
+          },
+          "topFour": {
+            "maxSourceUnits": 0.13754757073103643,
+            "rmsSourceUnits": 0.0031767965340567957,
+            "maxNormalizedMm": 33.125662612222236,
+            "rmsNormalizedMm": 0.7650697836068533
+          },
+          "optimizedFour": {
+            "maxSourceUnits": 0.084658566728419,
+            "rmsSourceUnits": 0.0023727613115646948,
+            "maxNormalizedMm": 20.38837257375952,
+            "rmsNormalizedMm": 0.5714335065932993
+          },
+          "optimizedFourHeldOut": {
+            "maxSourceUnits": 0.08334562362948357,
+            "rmsSourceUnits": 0.002375128153366752,
+            "maxNormalizedMm": 20.072175712606473,
+            "rmsNormalizedMm": 0.5720035145009253
+          }
+        },
+        "Head": {
+          "vertices": 795,
+          "expandedInfluenceMax": 6,
+          "verticesAboveFour": 23,
+          "optimizedVertices": 15,
+          "correctiveVertices": 7,
+          "faithfulReconstruction": {
+            "maxSourceUnits": 6.983249327861923e-7,
+            "rmsSourceUnits": 1.3394366045136642e-7,
+            "maxNormalizedMm": 0.00016817800557460905,
+            "rmsNormalizedMm": 0.00003225773077326224
+          },
+          "topFour": {
+            "maxSourceUnits": 0.018891277983622598,
+            "rmsSourceUnits": 0.00031870540893252756,
+            "maxNormalizedMm": 4.549597622649841,
+            "rmsNormalizedMm": 0.07675401166941188
+          },
+          "optimizedFour": {
+            "maxSourceUnits": 0.010721187263736325,
+            "rmsSourceUnits": 0.00022885745689922574,
+            "maxNormalizedMm": 2.5819898542261046,
+            "rmsNormalizedMm": 0.055115876370940106
+          },
+          "optimizedFourHeldOut": {
+            "maxSourceUnits": 0.010601488382533924,
+            "rmsSourceUnits": 0.0002283422808709001,
+            "maxNormalizedMm": 2.5531627020437906,
+            "rmsNormalizedMm": 0.054991806224084595
+          }
+        },
+        "Eyes": {
+          "vertices": 26,
+          "expandedInfluenceMax": 1,
+          "verticesAboveFour": 0,
+          "optimizedVertices": 0,
+          "correctiveVertices": 0,
+          "faithfulReconstruction": {
+            "maxSourceUnits": 4.1589659020637775e-7,
+            "rmsSourceUnits": 1.2101565503262834e-7,
+            "maxNormalizedMm": 0.00010016062119839019,
+            "rmsNormalizedMm": 0.000029144271600744354
+          },
+          "topFour": {
+            "maxSourceUnits": 4.378974303320163e-7,
+            "rmsSourceUnits": 1.2237027623459393e-7,
+            "maxNormalizedMm": 0.00010545909650634338,
+            "rmsNormalizedMm": 0.000029470505824040237
+          },
+          "optimizedFour": {
+            "maxSourceUnits": 4.378974303320163e-7,
+            "rmsSourceUnits": 1.2237027623459393e-7,
+            "maxNormalizedMm": 0.00010545909650634338,
+            "rmsNormalizedMm": 0.000029470505824040237
+          },
+          "optimizedFourHeldOut": {
+            "maxSourceUnits": 4.1701216606225705e-7,
+            "rmsSourceUnits": 1.2572838756945956e-7,
+            "maxNormalizedMm": 0.00010042928598995134,
+            "rmsNormalizedMm": 0.00003027924175810161
+          }
+        },
+        "Teeth": {
+          "vertices": 157,
+          "expandedInfluenceMax": 2,
+          "verticesAboveFour": 0,
+          "optimizedVertices": 0,
+          "correctiveVertices": 0,
+          "faithfulReconstruction": {
+            "maxSourceUnits": 5.938453110652357e-7,
+            "rmsSourceUnits": 1.298925323238874e-7,
+            "maxNormalizedMm": 0.00014301611663257425,
+            "rmsNormalizedMm": 0.00003128209519615588
+          },
+          "topFour": {
+            "maxSourceUnits": 6.157989611885098e-7,
+            "rmsSourceUnits": 1.415321884492963e-7,
+            "maxNormalizedMm": 0.00014830322714441593,
+            "rmsNormalizedMm": 0.000034085280448235215
+          },
+          "optimizedFour": {
+            "maxSourceUnits": 6.157989611885098e-7,
+            "rmsSourceUnits": 1.415321884492963e-7,
+            "maxNormalizedMm": 0.00014830322714441593,
+            "rmsNormalizedMm": 0.000034085280448235215
+          },
+          "optimizedFourHeldOut": {
+            "maxSourceUnits": 5.883381258465612e-7,
+            "rmsSourceUnits": 1.4183078130430293e-7,
+            "maxNormalizedMm": 0.0001416898179671216,
+            "rmsNormalizedMm": 0.00003415719074167624
+          }
+        }
+      },
+      "topology": {
+        "Body": {
+          "sourceVertices": 2159,
+          "sourceTriangles": 4210,
+          "exportedTriangles": 4210,
+          "skippedRepeatedIndexTriangles": 0,
+          "exportedVertices": 3053
+        },
+        "Head": {
+          "sourceVertices": 795,
+          "sourceTriangles": 1484,
+          "exportedTriangles": 1484,
+          "skippedRepeatedIndexTriangles": 0,
+          "exportedVertices": 1119
+        },
+        "Eyes": {
+          "sourceVertices": 26,
+          "sourceTriangles": 36,
+          "exportedTriangles": 36,
+          "skippedRepeatedIndexTriangles": 0,
+          "exportedVertices": 26
+        },
+        "Teeth": {
+          "sourceVertices": 157,
+          "sourceTriangles": 200,
+          "exportedTriangles": 200,
+          "skippedRepeatedIndexTriangles": 0,
+          "exportedVertices": 242
+        }
+      },
+      "clips": [
+        {
+          "name": "Attack.000",
+          "sourceFrames": [
+            0,
+            21
+          ],
+          "durationSeconds": 0.875,
+          "keySamples": 706,
+          "sourceBakeSamples": 1411,
+          "adaptiveAddedKeys": 33,
+          "adaptiveMaximumMidpointInterpolationMm": 0.24045144236652563,
+          "heldOutSamples": 64,
+          "heldOutFrames": [
+            0.0078125,
+            0.0234375,
+            0.6953125,
+            0.7109375,
+            1.4140625,
+            1.4296875,
+            2.1015625,
+            2.1171875,
+            2.7890625,
+            2.8046875,
+            3.36767578125,
+            3.36865234375,
+            3.7890625,
+            3.8046875,
+            4.4765625,
+            4.4921875,
+            5.1953125,
+            5.2109375,
+            5.9140625,
+            5.9296875,
+            6.6015625,
+            6.6171875,
+            7.2890625,
+            7.3046875,
+            8.0078125,
+            8.0234375,
+            8.7265625,
+            8.7421875,
+            9.41015625,
+            9.41796875,
+            9.9140625,
+            9.9296875,
+            10.6328125,
+            10.6484375,
+            11.3515625,
+            11.3671875,
+            12.0390625,
+            12.0546875,
+            12.7578125,
+            12.7734375,
+            13.4765625,
+            13.4921875,
+            14.1640625,
+            14.1796875,
+            14.8828125,
+            14.8984375,
+            15.2890625,
+            15.3046875,
+            16.0078125,
+            16.0234375,
+            16.6953125,
+            16.7109375,
+            17.4140625,
+            17.4296875,
+            18.1328125,
+            18.1484375,
+            18.8203125,
+            18.8359375,
+            19.5390625,
+            19.5546875,
+            20.2578125,
+            20.2734375,
+            20.9765625,
+            20.9921875
+          ],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.003184528414045214,
+                "rmsSourceUnits": 0.00010375527351385719,
+                "maxNormalizedMm": 0.7669318568262732
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0031747381932972847,
+                "rmsSourceUnits": 0.00010334046013578154,
+                "maxNormalizedMm": 0.7645740721873191,
+                "rmsNormalizedMm": 0.02488754398537175
+              },
+              "worstHeldOut": {
+                "error": 0.0031747381932972847,
+                "frame": 9.41796875,
+                "vertex": 56,
+                "corrective": false
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.002504031919824161,
+                "rmsSourceUnits": 0.00007118412045461025,
+                "maxNormalizedMm": 0.6030474846300854
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0024733247247271987,
+                "rmsSourceUnits": 0.00007925896228211309,
+                "maxNormalizedMm": 0.5956522527176388,
+                "rmsNormalizedMm": 0.01908798264918904
+              },
+              "worstHeldOut": {
+                "error": 0.0024733247247271987,
+                "frame": 6.6015625,
+                "vertex": 141,
+                "corrective": false
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 4.650610491593609e-7,
+                "rmsSourceUnits": 1.2715845395172186e-7,
+                "maxNormalizedMm": 0.0001120009268550679
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00018508037367790024,
+                "rmsSourceUnits": 0.00003598545331694446,
+                "maxNormalizedMm": 0.04457301559026919,
+                "rmsNormalizedMm": 0.008666397953737191
+              },
+              "worstHeldOut": {
+                "error": 0.00018508037367790024,
+                "frame": 12.7578125,
+                "vertex": 2,
+                "corrective": false
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 6.437700818128549e-7,
+                "rmsSourceUnits": 1.5800317424564878e-7,
+                "maxNormalizedMm": 0.00015503952862733816
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0001851934561457565,
+                "rmsSourceUnits": 0.00003639830348224775,
+                "maxNormalizedMm": 0.04460024930772166,
+                "rmsNormalizedMm": 0.008765824902628781
+              },
+              "worstHeldOut": {
+                "error": 0.0001851934561457565,
+                "frame": 12.7578125,
+                "vertex": 64,
+                "corrective": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Attack.001",
+          "sourceFrames": [
+            0,
+            21
+          ],
+          "durationSeconds": 0.875,
+          "keySamples": 705,
+          "sourceBakeSamples": 1409,
+          "adaptiveAddedKeys": 32,
+          "adaptiveMaximumMidpointInterpolationMm": 0.2490088501020198,
+          "heldOutSamples": 64,
+          "heldOutFrames": [
+            0.0078125,
+            0.0234375,
+            0.6953125,
+            0.7109375,
+            1.4140625,
+            1.4296875,
+            2.1015625,
+            2.1171875,
+            2.7890625,
+            2.8046875,
+            3.36767578125,
+            3.36865234375,
+            3.7890625,
+            3.8046875,
+            4.4765625,
+            4.4921875,
+            5.1953125,
+            5.2109375,
+            5.9140625,
+            5.9296875,
+            6.5703125,
+            6.5859375,
+            7.2890625,
+            7.3046875,
+            8.0078125,
+            8.0234375,
+            8.6953125,
+            8.7109375,
+            9.3203125,
+            9.3359375,
+            9.8515625,
+            9.8671875,
+            10.5390625,
+            10.5546875,
+            11.2578125,
+            11.2734375,
+            11.9453125,
+            11.9609375,
+            12.6103515625,
+            12.6123046875,
+            13.1953125,
+            13.2109375,
+            13.9140625,
+            13.9296875,
+            14.6015625,
+            14.6171875,
+            15.3203125,
+            15.3359375,
+            16.0390625,
+            16.0546875,
+            16.7265625,
+            16.7421875,
+            17.4453125,
+            17.4609375,
+            18.1640625,
+            18.1796875,
+            18.8203125,
+            18.8359375,
+            19.5390625,
+            19.5546875,
+            20.2578125,
+            20.2734375,
+            20.9765625,
+            20.9921875
+          ],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.0029290812633736983,
+                "rmsSourceUnits": 0.00010569088227870107,
+                "maxNormalizedMm": 0.7054123688162331
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.002913814876462598,
+                "rmsSourceUnits": 0.00010527607199127674,
+                "maxNormalizedMm": 0.7017357558492647,
+                "rmsNormalizedMm": 0.025353698530541653
+              },
+              "worstHeldOut": {
+                "error": 0.002913814876462598,
+                "frame": 5.1953125,
+                "vertex": 56,
+                "corrective": false
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.002503748634589072,
+                "rmsSourceUnits": 0.00007006791182375972,
+                "maxNormalizedMm": 0.6029792608797806
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.002484356376565228,
+                "rmsSourceUnits": 0.00006984309573856968,
+                "maxNormalizedMm": 0.5983090119384661,
+                "rmsNormalizedMm": 0.01682035395414622
+              },
+              "worstHeldOut": {
+                "error": 0.002484356376565228,
+                "frame": 6.5703125,
+                "vertex": 68,
+                "corrective": false
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 4.727990669603074e-7,
+                "rmsSourceUnits": 1.4750006482248367e-7,
+                "maxNormalizedMm": 0.00011386447824750035
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.000022123812799940073,
+                "rmsSourceUnits": 0.000007719200201660156,
+                "maxNormalizedMm": 0.0053280908896591195,
+                "rmsNormalizedMm": 0.0018590195388939344
+              },
+              "worstHeldOut": {
+                "error": 0.000022123812799940073,
+                "frame": 10.5390625,
+                "vertex": 18,
+                "corrective": false
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 7.30270250755682e-7,
+                "rmsSourceUnits": 1.6926188036666435e-7,
+                "maxNormalizedMm": 0.00017587141534893883
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.000029006242973499308,
+                "rmsSourceUnits": 0.00000953405064890262,
+                "maxNormalizedMm": 0.006985590608991193,
+                "rmsNormalizedMm": 0.0022960910428651013
+              },
+              "worstHeldOut": {
+                "error": 0.000029006242973499308,
+                "frame": 10.5390625,
+                "vertex": 155,
+                "corrective": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Attack.002",
+          "sourceFrames": [
+            0,
+            20
+          ],
+          "durationSeconds": 0.8333333333333334,
+          "keySamples": 224,
+          "sourceBakeSamples": 447,
+          "adaptiveAddedKeys": 63,
+          "adaptiveMaximumMidpointInterpolationMm": 0.2439064836698975,
+          "heldOutSamples": 64,
+          "heldOutFrames": [
+            0.03125,
+            0.09375,
+            0.90625,
+            0.96875,
+            1.78125,
+            1.84375,
+            2.265625,
+            2.296875,
+            2.703125,
+            2.734375,
+            3.15625,
+            3.21875,
+            4.03125,
+            4.09375,
+            5.015625,
+            5.046875,
+            5.453125,
+            5.484375,
+            5.890625,
+            5.921875,
+            6.14453125,
+            6.15234375,
+            6.19775390625,
+            6.19873046875,
+            6.2890625,
+            6.3046875,
+            6.5390625,
+            6.5546875,
+            6.765625,
+            6.796875,
+            7.203125,
+            7.234375,
+            7.640625,
+            7.671875,
+            8.28125,
+            8.34375,
+            9.15625,
+            9.21875,
+            10.15625,
+            10.21875,
+            11.03125,
+            11.09375,
+            11.90625,
+            11.96875,
+            12.4736328125,
+            12.4755859375,
+            12.703125,
+            12.734375,
+            13.53125,
+            13.59375,
+            14.53125,
+            14.59375,
+            15.40625,
+            15.46875,
+            16.28125,
+            16.34375,
+            17.15625,
+            17.21875,
+            18.03125,
+            18.09375,
+            18.90625,
+            18.96875,
+            19.90625,
+            19.96875
+          ],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.003425083809825791,
+                "rmsSourceUnits": 0.00009874307666040385,
+                "maxNormalizedMm": 0.824864954719793
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0034115886805990417,
+                "rmsSourceUnits": 0.00012468605981883244,
+                "maxNormalizedMm": 0.8216149147859888,
+                "rmsNormalizedMm": 0.03002821735094471
+              },
+              "worstHeldOut": {
+                "error": 0.0034115886805990417,
+                "frame": 6.2890625,
+                "vertex": 305,
+                "corrective": false
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.0029510997716480423,
+                "rmsSourceUnits": 0.00009056237348516501,
+                "maxNormalizedMm": 0.7107150991548633
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.002974255334333658,
+                "rmsSourceUnits": 0.00010647633490823302,
+                "maxNormalizedMm": 0.7162916669782221,
+                "rmsNormalizedMm": 0.025642758556987357
+              },
+              "worstHeldOut": {
+                "error": 0.002974255334333658,
+                "frame": 5.015625,
+                "vertex": 68,
+                "corrective": false
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 3.9618496519825675e-7,
+                "rmsSourceUnits": 1.1507088426214807e-7,
+                "maxNormalizedMm": 0.00009541345891782565
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00012702499552127137,
+                "rmsSourceUnits": 0.0000542511932415409,
+                "maxNormalizedMm": 0.030591504616135145,
+                "rmsNormalizedMm": 0.013065346876564308
+              },
+              "worstHeldOut": {
+                "error": 0.00012702499552127137,
+                "frame": 0.09375,
+                "vertex": 4,
+                "corrective": false
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 6.124843742413092e-7,
+                "rmsSourceUnits": 1.4362813216089364e-7,
+                "maxNormalizedMm": 0.0001475049732143153
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00017599183815272362,
+                "rmsSourceUnits": 0.00006196169900525907,
+                "maxNormalizedMm": 0.042384218217504946,
+                "rmsNormalizedMm": 0.014922272528838956
+              },
+              "worstHeldOut": {
+                "error": 0.00017599183815272362,
+                "frame": 0.09375,
+                "vertex": 148,
+                "corrective": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Attack.003",
+          "sourceFrames": [
+            0,
+            20
+          ],
+          "durationSeconds": 0.8333333333333334,
+          "keySamples": 230,
+          "sourceBakeSamples": 459,
+          "adaptiveAddedKeys": 69,
+          "adaptiveMaximumMidpointInterpolationMm": 0.24711143905562336,
+          "heldOutSamples": 64,
+          "heldOutFrames": [
+            0.03125,
+            0.09375,
+            0.90625,
+            0.96875,
+            1.765625,
+            1.796875,
+            2.2578125,
+            2.2734375,
+            2.4765625,
+            2.4921875,
+            2.828125,
+            2.859375,
+            3.40625,
+            3.46875,
+            4.28125,
+            4.34375,
+            5.078125,
+            5.109375,
+            5.578125,
+            5.609375,
+            6.0078125,
+            6.0234375,
+            6.173828125,
+            6.177734375,
+            6.20166015625,
+            6.20263671875,
+            6.3828125,
+            6.3984375,
+            6.6015625,
+            6.6171875,
+            6.953125,
+            6.984375,
+            7.390625,
+            7.421875,
+            8.03125,
+            8.09375,
+            8.90625,
+            8.96875,
+            9.78125,
+            9.84375,
+            10.78125,
+            10.84375,
+            11.65625,
+            11.71875,
+            12.4453125,
+            12.4609375,
+            12.640625,
+            12.671875,
+            13.40625,
+            13.46875,
+            14.28125,
+            14.34375,
+            15.28125,
+            15.34375,
+            16.15625,
+            16.21875,
+            17.03125,
+            17.09375,
+            18.03125,
+            18.09375,
+            18.90625,
+            18.96875,
+            19.90625,
+            19.96875
+          ],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.003697425017347709,
+                "rmsSourceUnits": 0.00009613892085658628,
+                "maxNormalizedMm": 0.8904530484086091
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0036973273927804326,
+                "rmsSourceUnits": 0.00012039935465370534,
+                "maxNormalizedMm": 0.8904295374264733,
+                "rmsNormalizedMm": 0.028995847616871104
+              },
+              "worstHeldOut": {
+                "error": 0.0036973273927804326,
+                "frame": 6.20166015625,
+                "vertex": 56,
+                "corrective": false
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.002959125589488945,
+                "rmsSourceUnits": 0.00009101408216567324,
+                "maxNormalizedMm": 0.7126479616007204
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.002965616922604773,
+                "rmsSourceUnits": 0.00010712386440649137,
+                "maxNormalizedMm": 0.7142112731848917,
+                "rmsNormalizedMm": 0.02579870346809532
+              },
+              "worstHeldOut": {
+                "error": 0.002965616922604773,
+                "frame": 5.078125,
+                "vertex": 141,
+                "corrective": false
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 3.9406619014531864e-7,
+                "rmsSourceUnits": 1.1379741978770735e-7,
+                "maxNormalizedMm": 0.00009490319307174927
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.000135406003770438,
+                "rmsSourceUnits": 0.00005467789202243428,
+                "maxNormalizedMm": 0.03260990777757681,
+                "rmsNormalizedMm": 0.013168108995719142
+              },
+              "worstHeldOut": {
+                "error": 0.000135406003770438,
+                "frame": 0.09375,
+                "vertex": 17,
+                "corrective": false
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 6.06024233666082e-7,
+                "rmsSourceUnits": 1.469968208682033e-7,
+                "maxNormalizedMm": 0.0001459491737481004
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00018443464512913347,
+                "rmsSourceUnits": 0.0000626322259708684,
+                "maxNormalizedMm": 0.04441750440288984,
+                "rmsNormalizedMm": 0.015083755933577563
+              },
+              "worstHeldOut": {
+                "error": 0.00018443464512913347,
+                "frame": 0.09375,
+                "vertex": 156,
+                "corrective": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Attack.Begin",
+          "sourceFrames": [
+            0,
+            20
+          ],
+          "durationSeconds": 0.8333333333333334,
+          "keySamples": 165,
+          "sourceBakeSamples": 329,
+          "adaptiveAddedKeys": 4,
+          "adaptiveMaximumMidpointInterpolationMm": 0.2026493010457184,
+          "heldOutSamples": 64,
+          "heldOutFrames": [
+            0.03125,
+            0.09375,
+            0.65625,
+            0.71875,
+            1.28125,
+            1.34375,
+            1.90625,
+            1.96875,
+            2.65625,
+            2.71875,
+            3.28125,
+            3.34375,
+            3.90625,
+            3.96875,
+            4.53125,
+            4.59375,
+            5.28125,
+            5.34375,
+            5.90625,
+            5.96875,
+            6.53125,
+            6.59375,
+            7.15625,
+            7.21875,
+            7.90625,
+            7.96875,
+            8.53125,
+            8.59375,
+            9.15625,
+            9.21875,
+            9.78125,
+            9.84375,
+            10.53125,
+            10.59375,
+            11.15625,
+            11.21875,
+            11.78125,
+            11.84375,
+            12.31640625,
+            12.32421875,
+            12.65625,
+            12.71875,
+            13.28125,
+            13.34375,
+            13.90625,
+            13.96875,
+            14.53125,
+            14.59375,
+            15.28125,
+            15.34375,
+            15.90625,
+            15.96875,
+            16.53125,
+            16.59375,
+            17.15625,
+            17.21875,
+            17.90625,
+            17.96875,
+            18.53125,
+            18.59375,
+            19.15625,
+            19.21875,
+            19.90625,
+            19.96875
+          ],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.001925593614197879,
+                "rmsSourceUnits": 0.000037761683415425705,
+                "maxNormalizedMm": 0.4637418462075076
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0019255209088334885,
+                "rmsSourceUnits": 0.00003881549417265971,
+                "maxNormalizedMm": 0.46372433653170525,
+                "rmsNormalizedMm": 0.0093479583627432
+              },
+              "worstHeldOut": {
+                "error": 0.0019255209088334885,
+                "frame": 19.96875,
+                "vertex": 56,
+                "corrective": false
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.0015192247093588275,
+                "rmsSourceUnits": 0.00004234514447984725,
+                "maxNormalizedMm": 0.36587578309746493
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0014629459449256308,
+                "rmsSourceUnits": 0.00006249075358768855,
+                "maxNormalizedMm": 0.35232213505454724,
+                "rmsNormalizedMm": 0.015049685056067652
+              },
+              "worstHeldOut": {
+                "error": 0.0014629459449256308,
+                "frame": 11.15625,
+                "vertex": 141,
+                "corrective": false
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 3.2725184596718933e-7,
+                "rmsSourceUnits": 1.1789300034958018e-7,
+                "maxNormalizedMm": 0.00007881225514286733
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00007195971952594579,
+                "rmsSourceUnits": 0.00002354760812978027,
+                "maxNormalizedMm": 0.017330101709668047,
+                "rmsNormalizedMm": 0.00567098435898378
+              },
+              "worstHeldOut": {
+                "error": 0.00007195971952594579,
+                "frame": 7.21875,
+                "vertex": 2,
+                "corrective": false
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 5.338535072926753e-7,
+                "rmsSourceUnits": 1.427441265715899e-7,
+                "maxNormalizedMm": 0.00012856825513486432
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00035227547036811933,
+                "rmsSourceUnits": 0.000060023314212394165,
+                "maxNormalizedMm": 0.0848387093712817,
+                "rmsNormalizedMm": 0.014455450175526272
+              },
+              "worstHeldOut": {
+                "error": 0.00035227547036811933,
+                "frame": 13.34375,
+                "vertex": 75,
+                "corrective": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Attack.End",
+          "sourceFrames": [
+            0,
+            20
+          ],
+          "durationSeconds": 0.8333333333333334,
+          "keySamples": 643,
+          "sourceBakeSamples": 1285,
+          "adaptiveAddedKeys": 2,
+          "adaptiveMaximumMidpointInterpolationMm": 0.0271314283463331,
+          "heldOutSamples": 64,
+          "heldOutFrames": [
+            0.0078125,
+            0.0234375,
+            0.6328125,
+            0.6484375,
+            1.2890625,
+            1.3046875,
+            1.9453125,
+            1.9609375,
+            2.5703125,
+            2.5859375,
+            3.2265625,
+            3.2421875,
+            3.8828125,
+            3.8984375,
+            4.5078125,
+            4.5234375,
+            5.1640625,
+            5.1796875,
+            5.8203125,
+            5.8359375,
+            6.4453125,
+            6.4609375,
+            7.1015625,
+            7.1171875,
+            7.6953125,
+            7.7109375,
+            8.3203125,
+            8.3359375,
+            8.9765625,
+            8.9921875,
+            9.6328125,
+            9.6484375,
+            10.2578125,
+            10.2734375,
+            10.9140625,
+            10.9296875,
+            11.5703125,
+            11.5859375,
+            12.1953125,
+            12.2109375,
+            12.8515625,
+            12.8671875,
+            13.5078125,
+            13.5234375,
+            14.1328125,
+            14.1484375,
+            14.7890625,
+            14.8046875,
+            15.4453125,
+            15.4609375,
+            16.0703125,
+            16.0859375,
+            16.7265625,
+            16.7421875,
+            17.3828125,
+            17.3984375,
+            18.0078125,
+            18.0234375,
+            18.6640625,
+            18.6796875,
+            19.3203125,
+            19.3359375,
+            19.9765625,
+            19.9921875
+          ],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.001925593614197879,
+                "rmsSourceUnits": 0.000038022112965063996,
+                "maxNormalizedMm": 0.4637418462075076
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0019255936080316894,
+                "rmsSourceUnits": 0.00003858995929930185,
+                "maxNormalizedMm": 0.4637418447225005,
+                "rmsNormalizedMm": 0.009293642666126853
+              },
+              "worstHeldOut": {
+                "error": 0.0019255936080316894,
+                "frame": 0.0078125,
+                "vertex": 56,
+                "corrective": false
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.0015193183248343204,
+                "rmsSourceUnits": 0.00004172136020575766,
+                "maxNormalizedMm": 0.3658983285676611
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0015002877269914999,
+                "rmsSourceUnits": 0.000041573327446347635,
+                "maxNormalizedMm": 0.3613151784611219,
+                "rmsNormalizedMm": 0.010012128977167094
+              },
+              "worstHeldOut": {
+                "error": 0.0015002877269914999,
+                "frame": 9.6328125,
+                "vertex": 141,
+                "corrective": false
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 3.3489558368646174e-7,
+                "rmsSourceUnits": 1.1694684409844268e-7,
+                "maxNormalizedMm": 0.00008065310100760496
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.000004724658830573878,
+                "rmsSourceUnits": 0.0000015169626320360775,
+                "maxNormalizedMm": 0.0011378423737158172,
+                "rmsNormalizedMm": 0.0003653310056812015
+              },
+              "worstHeldOut": {
+                "error": 0.000004724658830573878,
+                "frame": 9.6328125,
+                "vertex": 16,
+                "corrective": false
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 5.928093986953758e-7,
+                "rmsSourceUnits": 1.4488451435120435e-7,
+                "maxNormalizedMm": 0.0001427666372453526
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00002234193638688662,
+                "rmsSourceUnits": 0.000003464377980533221,
+                "maxNormalizedMm": 0.005380621721796374,
+                "rmsNormalizedMm": 0.0008343281930348242
+              },
+              "worstHeldOut": {
+                "error": 0.00002234193638688662,
+                "frame": 6.4609375,
+                "vertex": 75,
+                "corrective": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Die",
+          "sourceFrames": [
+            0,
+            27
+          ],
+          "durationSeconds": 1.125,
+          "keySamples": 223,
+          "sourceBakeSamples": 445,
+          "adaptiveAddedKeys": 6,
+          "adaptiveMaximumMidpointInterpolationMm": 0.235274467878837,
+          "heldOutSamples": 64,
+          "heldOutFrames": [
+            0.03125,
+            0.09375,
+            0.90625,
+            0.96875,
+            1.78125,
+            1.84375,
+            2.65625,
+            2.71875,
+            3.53125,
+            3.59375,
+            4.40625,
+            4.46875,
+            5.28125,
+            5.34375,
+            6.15625,
+            6.21875,
+            7.15625,
+            7.21875,
+            8.03125,
+            8.09375,
+            8.90625,
+            8.96875,
+            9.78125,
+            9.84375,
+            10.640625,
+            10.671875,
+            11.40625,
+            11.46875,
+            12.28125,
+            12.34375,
+            13.15625,
+            13.21875,
+            14.15625,
+            14.21875,
+            14.90625,
+            14.96875,
+            15.78125,
+            15.84375,
+            16.65625,
+            16.71875,
+            17.53125,
+            17.59375,
+            18.28125,
+            18.34375,
+            19.15625,
+            19.21875,
+            19.91015625,
+            19.91796875,
+            20.65625,
+            20.71875,
+            21.53125,
+            21.59375,
+            22.40625,
+            22.46875,
+            23.28125,
+            23.34375,
+            24.15625,
+            24.21875,
+            25.03125,
+            25.09375,
+            25.90625,
+            25.96875,
+            26.90625,
+            26.96875
+          ],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.003497830688619386,
+                "rmsSourceUnits": 0.00010088292851911458,
+                "maxNormalizedMm": 0.842384628460313
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0034978294210028433,
+                "rmsSourceUnits": 0.00010383197792304692,
+                "maxNormalizedMm": 0.8423843231794732,
+                "rmsNormalizedMm": 0.025005916504074365
+              },
+              "worstHeldOut": {
+                "error": 0.0034978294210028433,
+                "frame": 23.28125,
+                "vertex": 56,
+                "corrective": false
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.001424199317434126,
+                "rmsSourceUnits": 0.000055620543442989325,
+                "maxNormalizedMm": 0.34299076189525785
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0014195719587813973,
+                "rmsSourceUnits": 0.00008046916933514518,
+                "maxNormalizedMm": 0.34187635238077957,
+                "rmsNormalizedMm": 0.019379437527792923
+              },
+              "worstHeldOut": {
+                "error": 0.0014195719587813973,
+                "frame": 9.78125,
+                "vertex": 68,
+                "corrective": false
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 3.720764297364535e-7,
+                "rmsSourceUnits": 1.1577134661343652e-7,
+                "maxNormalizedMm": 0.00008960738609852365
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00007098302091932683,
+                "rmsSourceUnits": 0.000027829961034384055,
+                "maxNormalizedMm": 0.01709488280798382,
+                "rmsNormalizedMm": 0.006702305935587722
+              },
+              "worstHeldOut": {
+                "error": 0.00007098302091932683,
+                "frame": 19.15625,
+                "vertex": 25,
+                "corrective": false
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 6.490859115877229e-7,
+                "rmsSourceUnits": 1.3780601450949385e-7,
+                "maxNormalizedMm": 0.00015631974304835915
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0011348643290243505,
+                "rmsSourceUnits": 0.00008649033097919496,
+                "maxNormalizedMm": 0.27331004592888847,
+                "rmsNormalizedMm": 0.0208295174390148
+              },
+              "worstHeldOut": {
+                "error": 0.0011348643290243505,
+                "frame": 10.671875,
+                "vertex": 75,
+                "corrective": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Hit",
+          "sourceFrames": [
+            0,
+            10
+          ],
+          "durationSeconds": 0.4166666666666667,
+          "keySamples": 322,
+          "sourceBakeSamples": 643,
+          "adaptiveAddedKeys": 1,
+          "adaptiveMaximumMidpointInterpolationMm": 0.23907179896978203,
+          "heldOutSamples": 64,
+          "heldOutFrames": [
+            0.0078125,
+            0.0234375,
+            0.2890625,
+            0.3046875,
+            0.6015625,
+            0.6171875,
+            0.9140625,
+            0.9296875,
+            1.2578125,
+            1.2734375,
+            1.5703125,
+            1.5859375,
+            1.8828125,
+            1.8984375,
+            2.2265625,
+            2.2421875,
+            2.5390625,
+            2.5546875,
+            2.8515625,
+            2.8671875,
+            3.1953125,
+            3.2109375,
+            3.5078125,
+            3.5234375,
+            3.8203125,
+            3.8359375,
+            4.1640625,
+            4.1796875,
+            4.4765625,
+            4.4921875,
+            4.7890625,
+            4.8046875,
+            5.1328125,
+            5.1484375,
+            5.4453125,
+            5.4609375,
+            5.7578125,
+            5.7734375,
+            6.1015625,
+            6.1171875,
+            6.4140625,
+            6.4296875,
+            6.7265625,
+            6.7421875,
+            7.0703125,
+            7.0859375,
+            7.3828125,
+            7.3984375,
+            7.6953125,
+            7.7109375,
+            8.0390625,
+            8.0546875,
+            8.3515625,
+            8.3671875,
+            8.6640625,
+            8.6796875,
+            9.0078125,
+            9.0234375,
+            9.3203125,
+            9.3359375,
+            9.6328125,
+            9.6484375,
+            9.9765625,
+            9.9921875
+          ],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.0031709829778854065,
+                "rmsSourceUnits": 0.00008687871403617069,
+                "maxNormalizedMm": 0.7636697014440994
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0031802483593582416,
+                "rmsSourceUnits": 0.00008704387518155127,
+                "maxNormalizedMm": 0.7659010887307774,
+                "rmsNormalizedMm": 0.02096282781585935
+              },
+              "worstHeldOut": {
+                "error": 0.0031802483593582416,
+                "frame": 1.8984375,
+                "vertex": 263,
+                "corrective": false
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.0012635627698751374,
+                "rmsSourceUnits": 0.00004539880253762759,
+                "maxNormalizedMm": 0.3043045673710636
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0012590032597789484,
+                "rmsSourceUnits": 0.000049786233556690115,
+                "maxNormalizedMm": 0.3032064978644874,
+                "rmsNormalizedMm": 0.01199004800133548
+              },
+              "worstHeldOut": {
+                "error": 0.0012590032597789484,
+                "frame": 9.0234375,
+                "vertex": 141,
+                "corrective": false
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 3.9538370674851045e-7,
+                "rmsSourceUnits": 1.1960729140789776e-7,
+                "maxNormalizedMm": 0.00009522049137263075
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00005118398153380904,
+                "rmsSourceUnits": 0.000017047204807320766,
+                "maxNormalizedMm": 0.012326668471336337,
+                "rmsNormalizedMm": 0.0041054883915978965
+              },
+              "worstHeldOut": {
+                "error": 0.00005118398153380904,
+                "frame": 1.8984375,
+                "vertex": 17,
+                "corrective": false
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 5.546230725077117e-7,
+                "rmsSourceUnits": 1.3412788185236453e-7,
+                "maxNormalizedMm": 0.00013357020177964498
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00007506479143905555,
+                "rmsSourceUnits": 0.00002251065602383906,
+                "maxNormalizedMm": 0.018077898010494697,
+                "rmsNormalizedMm": 0.005421254571508214
+              },
+              "worstHeldOut": {
+                "error": 0.00007506479143905555,
+                "frame": 1.8828125,
+                "vertex": 156,
+                "corrective": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Idle.001",
+          "sourceFrames": [
+            0,
+            90
+          ],
+          "durationSeconds": 3.75,
+          "keySamples": 181,
+          "sourceBakeSamples": 361,
+          "adaptiveAddedKeys": 0,
+          "adaptiveMaximumMidpointInterpolationMm": 0.024817008172262647,
+          "heldOutSamples": 64,
+          "heldOutFrames": [
+            0.125,
+            0.375,
+            2.625,
+            2.875,
+            5.625,
+            5.875,
+            8.625,
+            8.875,
+            11.625,
+            11.875,
+            14.125,
+            14.375,
+            17.125,
+            17.375,
+            20.125,
+            20.375,
+            23.125,
+            23.375,
+            25.625,
+            25.875,
+            28.625,
+            28.875,
+            31.625,
+            31.875,
+            34.625,
+            34.875,
+            37.625,
+            37.875,
+            40.125,
+            40.375,
+            43.125,
+            43.375,
+            46.125,
+            46.375,
+            49.125,
+            49.375,
+            51.625,
+            51.875,
+            54.625,
+            54.875,
+            57.625,
+            57.875,
+            60.625,
+            60.875,
+            63.625,
+            63.875,
+            66.125,
+            66.375,
+            69.125,
+            69.375,
+            72.125,
+            72.375,
+            75.125,
+            75.375,
+            77.625,
+            77.875,
+            80.625,
+            80.875,
+            83.625,
+            83.875,
+            86.625,
+            86.875,
+            89.625,
+            89.875
+          ],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.001286683350484968,
+                "rmsSourceUnits": 0.0000485555471368548,
+                "maxNormalizedMm": 0.30987271044047165
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0012867138402047047,
+                "rmsSourceUnits": 0.00004857192159252698,
+                "maxNormalizedMm": 0.30988005329766477,
+                "rmsNormalizedMm": 0.011697604534562015
+              },
+              "worstHeldOut": {
+                "error": 0.0012867138402047047,
+                "frame": 0.125,
+                "vertex": 305,
+                "corrective": false
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.0008792736244197404,
+                "rmsSourceUnits": 0.00004221029873263498,
+                "maxNormalizedMm": 0.21175598574044452
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0008853804651475137,
+                "rmsSourceUnits": 0.00004479188941364625,
+                "maxNormalizedMm": 0.21322669979595016,
+                "rmsNormalizedMm": 0.010787257154703182
+              },
+              "worstHeldOut": {
+                "error": 0.0008853804651475137,
+                "frame": 89.875,
+                "vertex": 141,
+                "corrective": false
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 3.718968217043284e-7,
+                "rmsSourceUnits": 1.1686027199056716e-7,
+                "maxNormalizedMm": 0.0000895641309901782
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.000039820793287270205,
+                "rmsSourceUnits": 0.000014030778395792847,
+                "maxNormalizedMm": 0.009590065141641324,
+                "rmsNormalizedMm": 0.003379040639218045
+              },
+              "worstHeldOut": {
+                "error": 0.000039820793287270205,
+                "frame": 31.625,
+                "vertex": 11,
+                "corrective": false
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 5.079943553908239e-7,
+                "rmsSourceUnits": 1.2239706859774593e-7,
+                "maxNormalizedMm": 0.0001223405803254418
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.000029972706026802797,
+                "rmsSourceUnits": 0.000012131263893144415,
+                "maxNormalizedMm": 0.007218344476331473,
+                "rmsNormalizedMm": 0.0029215794408316664
+              },
+              "worstHeldOut": {
+                "error": 0.000029972706026802797,
+                "frame": 31.625,
+                "vertex": 145,
+                "corrective": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Idle.002",
+          "sourceFrames": [
+            0,
+            90
+          ],
+          "durationSeconds": 3.75,
+          "keySamples": 181,
+          "sourceBakeSamples": 361,
+          "adaptiveAddedKeys": 0,
+          "adaptiveMaximumMidpointInterpolationMm": 0.02448746836253608,
+          "heldOutSamples": 64,
+          "heldOutFrames": [
+            0.125,
+            0.375,
+            2.625,
+            2.875,
+            5.625,
+            5.875,
+            8.625,
+            8.875,
+            11.625,
+            11.875,
+            14.125,
+            14.375,
+            17.125,
+            17.375,
+            20.125,
+            20.375,
+            23.125,
+            23.375,
+            25.625,
+            25.875,
+            28.625,
+            28.875,
+            31.625,
+            31.875,
+            34.625,
+            34.875,
+            37.625,
+            37.875,
+            40.125,
+            40.375,
+            43.125,
+            43.375,
+            46.125,
+            46.375,
+            49.125,
+            49.375,
+            51.625,
+            51.875,
+            54.625,
+            54.875,
+            57.625,
+            57.875,
+            60.625,
+            60.875,
+            63.625,
+            63.875,
+            66.125,
+            66.375,
+            69.125,
+            69.375,
+            72.125,
+            72.375,
+            75.125,
+            75.375,
+            77.625,
+            77.875,
+            80.625,
+            80.875,
+            83.625,
+            83.875,
+            86.625,
+            86.875,
+            89.625,
+            89.875
+          ],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.001286683350484968,
+                "rmsSourceUnits": 0.00004871497305523723,
+                "maxNormalizedMm": 0.30987271044047165
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0012867138402047047,
+                "rmsSourceUnits": 0.0000487281202497408,
+                "maxNormalizedMm": 0.30988005329766477,
+                "rmsNormalizedMm": 0.011735221949336025
+              },
+              "worstHeldOut": {
+                "error": 0.0012867138402047047,
+                "frame": 0.125,
+                "vertex": 305,
+                "corrective": false
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.0009167665981554419,
+                "rmsSourceUnits": 0.00004335576857919477,
+                "maxNormalizedMm": 0.220785440726068
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0009211427833084854,
+                "rmsSourceUnits": 0.00004579666710450969,
+                "maxNormalizedMm": 0.2218393599784247,
+                "rmsNormalizedMm": 0.01102923835881266
+              },
+              "worstHeldOut": {
+                "error": 0.0009211427833084854,
+                "frame": 57.875,
+                "vertex": 141,
+                "corrective": false
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 3.715873915595447e-7,
+                "rmsSourceUnits": 1.1430330620819772e-7,
+                "maxNormalizedMm": 0.00008948961074584617
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00003879025574245224,
+                "rmsSourceUnits": 0.000013834257382598543,
+                "maxNormalizedMm": 0.009341880176705663,
+                "rmsNormalizedMm": 0.003331712367663063
+              },
+              "worstHeldOut": {
+                "error": 0.00003879025574245224,
+                "frame": 31.625,
+                "vertex": 24,
+                "corrective": false
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 5.280138377678887e-7,
+                "rmsSourceUnits": 1.2241304378607346e-7,
+                "maxNormalizedMm": 0.00012716188407780493
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00002862372503775274,
+                "rmsSourceUnits": 0.000012024170767716969,
+                "maxNormalizedMm": 0.006893468588839765,
+                "rmsNormalizedMm": 0.0028957881402500306
+              },
+              "worstHeldOut": {
+                "error": 0.00002862372503775274,
+                "frame": 31.625,
+                "vertex": 151,
+                "corrective": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "sourceFrames": [
+            0,
+            10
+          ],
+          "durationSeconds": 0.4166666666666667,
+          "keySamples": 134,
+          "sourceBakeSamples": 267,
+          "adaptiveAddedKeys": 53,
+          "adaptiveMaximumMidpointInterpolationMm": 0.24909344060225583,
+          "heldOutSamples": 64,
+          "heldOutFrames": [
+            0.015625,
+            0.046875,
+            0.265625,
+            0.296875,
+            0.640625,
+            0.671875,
+            0.890625,
+            0.921875,
+            1.265625,
+            1.296875,
+            1.515625,
+            1.546875,
+            1.765625,
+            1.796875,
+            2.015625,
+            2.046875,
+            2.328125,
+            2.359375,
+            2.578125,
+            2.609375,
+            2.90625,
+            2.96875,
+            3.40625,
+            3.46875,
+            4.015625,
+            4.046875,
+            4.265625,
+            4.296875,
+            4.515625,
+            4.546875,
+            4.78125,
+            4.84375,
+            5.328125,
+            5.359375,
+            5.578125,
+            5.609375,
+            5.90625,
+            5.96875,
+            6.203125,
+            6.234375,
+            6.78125,
+            6.84375,
+            7.203125,
+            7.234375,
+            7.453125,
+            7.484375,
+            7.703125,
+            7.734375,
+            8.078125,
+            8.109375,
+            8.328125,
+            8.359375,
+            8.578125,
+            8.609375,
+            8.828125,
+            8.859375,
+            9.140625,
+            9.171875,
+            9.390625,
+            9.421875,
+            9.640625,
+            9.671875,
+            9.953125,
+            9.984375
+          ],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.003999139231723716,
+                "rmsSourceUnits": 0.00008952805702707587,
+                "maxNormalizedMm": 0.9631150606681693
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00399504107867308,
+                "rmsSourceUnits": 0.00017256886151718155,
+                "maxNormalizedMm": 0.9621281000510742,
+                "rmsNormalizedMm": 0.04155986073481113
+              },
+              "worstHeldOut": {
+                "error": 0.00399504107867308,
+                "frame": 6.84375,
+                "vertex": 263,
+                "corrective": false
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.0030517724893231323,
+                "rmsSourceUnits": 0.00009034777943621274,
+                "maxNormalizedMm": 0.7349601691494586
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.003019112192621761,
+                "rmsSourceUnits": 0.00016614859675293482,
+                "maxNormalizedMm": 0.7270945706252924,
+                "rmsNormalizedMm": 0.04001366458368138
+              },
+              "worstHeldOut": {
+                "error": 0.003019112192621761,
+                "frame": 0.015625,
+                "vertex": 68,
+                "corrective": false
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 3.3913903673927225e-7,
+                "rmsSourceUnits": 1.1567667674958031e-7,
+                "maxNormalizedMm": 0.00008167505430995061
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00046705846689530265,
+                "rmsSourceUnits": 0.00012538960788215426,
+                "maxNormalizedMm": 0.11248196614689121,
+                "rmsNormalizedMm": 0.030197653246127863
+              },
+              "worstHeldOut": {
+                "error": 0.00046705846689530265,
+                "frame": 6.84375,
+                "vertex": 3,
+                "corrective": false
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 6.157989616304306e-7,
+                "rmsSourceUnits": 1.3622185378439222e-7,
+                "maxNormalizedMm": 0.00014830322725084398
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0005577308557039016,
+                "rmsSourceUnits": 0.0001438540125071093,
+                "maxNormalizedMm": 0.1343186510403755,
+                "rmsNormalizedMm": 0.03464444670595451
+              },
+              "worstHeldOut": {
+                "error": 0.0005577308557039016,
+                "frame": 6.84375,
+                "vertex": 155,
+                "corrective": false
+              }
+            }
+          }
+        },
+        {
+          "name": "Stand",
+          "sourceFrames": [
+            0,
+            0
+          ],
+          "durationSeconds": 0,
+          "keySamples": 1,
+          "sourceBakeSamples": 1,
+          "adaptiveAddedKeys": 0,
+          "adaptiveMaximumMidpointInterpolationMm": 0,
+          "heldOutSamples": 0,
+          "heldOutFrames": [],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.001286683350484968,
+                "rmsSourceUnits": 0.00004843779882226443,
+                "maxNormalizedMm": 0.30987271044047165
+              },
+              "heldOut": null,
+              "worstHeldOut": {
+                "error": 0
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.0008792736244197404,
+                "rmsSourceUnits": 0.00004422762572670958,
+                "maxNormalizedMm": 0.21175598574044452
+              },
+              "heldOut": null,
+              "worstHeldOut": {
+                "error": 0
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 1.4376513943048667e-7,
+                "rmsSourceUnits": 7.866820407184994e-8,
+                "maxNormalizedMm": 0.00003462304335047637
+              },
+              "heldOut": null,
+              "worstHeldOut": {
+                "error": 0
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 2.4061474273642053e-7,
+                "rmsSourceUnits": 1.0363829640857577e-7,
+                "maxNormalizedMm": 0.000057947390455910374
+              },
+              "heldOut": null,
+              "worstHeldOut": {
+                "error": 0
+              }
+            }
+          }
+        },
+        {
+          "name": "Walk",
+          "sourceFrames": [
+            0,
+            28
+          ],
+          "durationSeconds": 1.1666666666666667,
+          "keySamples": 933,
+          "sourceBakeSamples": 1865,
+          "adaptiveAddedKeys": 36,
+          "adaptiveMaximumMidpointInterpolationMm": 0.24696281487995442,
+          "heldOutSamples": 64,
+          "heldOutFrames": [
+            0.0078125,
+            0.0234375,
+            0.9453125,
+            0.9609375,
+            1.8828125,
+            1.8984375,
+            2.8203125,
+            2.8359375,
+            3.7578125,
+            3.7734375,
+            4.6953125,
+            4.7109375,
+            5.5078125,
+            5.5234375,
+            6.4453125,
+            6.4609375,
+            7.1328125,
+            7.1484375,
+            8.0703125,
+            8.0859375,
+            9.0078125,
+            9.0234375,
+            9.9453125,
+            9.9609375,
+            10.6953125,
+            10.7109375,
+            11.6328125,
+            11.6484375,
+            12.5703125,
+            12.5859375,
+            13.5078125,
+            13.5234375,
+            14.4453125,
+            14.4609375,
+            15.3828125,
+            15.3984375,
+            16.3203125,
+            16.3359375,
+            17.2578125,
+            17.2734375,
+            18.1953125,
+            18.2109375,
+            19.1328125,
+            19.1484375,
+            19.9453125,
+            19.9609375,
+            20.78369140625,
+            20.78466796875,
+            21.5703125,
+            21.5859375,
+            22.5078125,
+            22.5234375,
+            23.4453125,
+            23.4609375,
+            24.2265625,
+            24.2421875,
+            25.1328125,
+            25.1484375,
+            26.0703125,
+            26.0859375,
+            27.0078125,
+            27.0234375,
+            27.9765625,
+            27.9921875
+          ],
+          "meshes": {
+            "Body": {
+              "atKeys": {
+                "maxSourceUnits": 0.0039229886686081294,
+                "rmsSourceUnits": 0.00009309898442045578,
+                "maxNormalizedMm": 0.9447756756242104
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0038968317994814406,
+                "rmsSourceUnits": 0.00009424841711220458,
+                "maxNormalizedMm": 0.9384763013998771,
+                "rmsNormalizedMm": 0.022697901899698326
+              },
+              "worstHeldOut": {
+                "error": 0.0038968317994814406,
+                "frame": 20.78369140625,
+                "vertex": 263,
+                "corrective": false
+              }
+            },
+            "Head": {
+              "atKeys": {
+                "maxSourceUnits": 0.0010494078194153483,
+                "rmsSourceUnits": 0.00003741043181629576,
+                "maxNormalizedMm": 0.2527295043004118
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0010266966909440627,
+                "rmsSourceUnits": 0.00003706781200921284,
+                "maxNormalizedMm": 0.24725996983110632,
+                "rmsNormalizedMm": 0.008927063036187814
+              },
+              "worstHeldOut": {
+                "error": 0.0010266966909440627,
+                "frame": 20.78466796875,
+                "vertex": 141,
+                "corrective": false
+              }
+            },
+            "Eyes": {
+              "atKeys": {
+                "maxSourceUnits": 3.710297308546624e-7,
+                "rmsSourceUnits": 1.1427355825892334e-7,
+                "maxNormalizedMm": 0.00008935530898926956
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.00000143428911399963,
+                "rmsSourceUnits": 4.374189626355263e-7,
+                "maxNormalizedMm": 0.00034542069355510813,
+                "rmsNormalizedMm": 0.00010534386684870176
+              },
+              "worstHeldOut": {
+                "error": 0.00000143428911399963,
+                "frame": 9.0078125,
+                "vertex": 3,
+                "corrective": false
+              }
+            },
+            "Teeth": {
+              "atKeys": {
+                "maxSourceUnits": 5.740619613899615e-7,
+                "rmsSourceUnits": 1.3556177238737464e-7,
+                "maxNormalizedMm": 0.00013825168085810166
+              },
+              "heldOut": {
+                "maxSourceUnits": 0.0000017082613911969587,
+                "rmsSourceUnits": 4.856742816474289e-7,
+                "maxNormalizedMm": 0.00041140159871618436,
+                "rmsNormalizedMm": 0.00011696522379697649
+              },
+              "worstHeldOut": {
+                "error": 0.0000017082613911969587,
+                "frame": 9.0078125,
+                "vertex": 151,
+                "corrective": false
+              }
+            }
+          }
+        }
+      ],
+      "correctives": [
+        {
+          "name": "correct_Body_8",
+          "object": "Body",
+          "vertex": 8,
+          "joint": 33
+        },
+        {
+          "name": "correct_Body_10",
+          "object": "Body",
+          "vertex": 10,
+          "joint": 34
+        },
+        {
+          "name": "correct_Body_12",
+          "object": "Body",
+          "vertex": 12,
+          "joint": 35
+        },
+        {
+          "name": "correct_Body_13",
+          "object": "Body",
+          "vertex": 13,
+          "joint": 36
+        },
+        {
+          "name": "correct_Body_15",
+          "object": "Body",
+          "vertex": 15,
+          "joint": 37
+        },
+        {
+          "name": "correct_Body_17",
+          "object": "Body",
+          "vertex": 17,
+          "joint": 38
+        },
+        {
+          "name": "correct_Body_18",
+          "object": "Body",
+          "vertex": 18,
+          "joint": 39
+        },
+        {
+          "name": "correct_Body_19",
+          "object": "Body",
+          "vertex": 19,
+          "joint": 40
+        },
+        {
+          "name": "correct_Body_20",
+          "object": "Body",
+          "vertex": 20,
+          "joint": 41
+        },
+        {
+          "name": "correct_Body_21",
+          "object": "Body",
+          "vertex": 21,
+          "joint": 42
+        },
+        {
+          "name": "correct_Body_22",
+          "object": "Body",
+          "vertex": 22,
+          "joint": 43
+        },
+        {
+          "name": "correct_Body_26",
+          "object": "Body",
+          "vertex": 26,
+          "joint": 44
+        },
+        {
+          "name": "correct_Body_50",
+          "object": "Body",
+          "vertex": 50,
+          "joint": 45
+        },
+        {
+          "name": "correct_Body_51",
+          "object": "Body",
+          "vertex": 51,
+          "joint": 46
+        },
+        {
+          "name": "correct_Body_52",
+          "object": "Body",
+          "vertex": 52,
+          "joint": 47
+        },
+        {
+          "name": "correct_Body_53",
+          "object": "Body",
+          "vertex": 53,
+          "joint": 48
+        },
+        {
+          "name": "correct_Body_54",
+          "object": "Body",
+          "vertex": 54,
+          "joint": 49
+        },
+        {
+          "name": "correct_Body_82",
+          "object": "Body",
+          "vertex": 82,
+          "joint": 50
+        },
+        {
+          "name": "correct_Body_84",
+          "object": "Body",
+          "vertex": 84,
+          "joint": 51
+        },
+        {
+          "name": "correct_Body_257",
+          "object": "Body",
+          "vertex": 257,
+          "joint": 52
+        },
+        {
+          "name": "correct_Body_259",
+          "object": "Body",
+          "vertex": 259,
+          "joint": 53
+        },
+        {
+          "name": "correct_Body_261",
+          "object": "Body",
+          "vertex": 261,
+          "joint": 54
+        },
+        {
+          "name": "correct_Body_262",
+          "object": "Body",
+          "vertex": 262,
+          "joint": 55
+        },
+        {
+          "name": "correct_Body_264",
+          "object": "Body",
+          "vertex": 264,
+          "joint": 56
+        },
+        {
+          "name": "correct_Body_266",
+          "object": "Body",
+          "vertex": 266,
+          "joint": 57
+        },
+        {
+          "name": "correct_Body_267",
+          "object": "Body",
+          "vertex": 267,
+          "joint": 58
+        },
+        {
+          "name": "correct_Body_268",
+          "object": "Body",
+          "vertex": 268,
+          "joint": 59
+        },
+        {
+          "name": "correct_Body_269",
+          "object": "Body",
+          "vertex": 269,
+          "joint": 60
+        },
+        {
+          "name": "correct_Body_270",
+          "object": "Body",
+          "vertex": 270,
+          "joint": 61
+        },
+        {
+          "name": "correct_Body_271",
+          "object": "Body",
+          "vertex": 271,
+          "joint": 62
+        },
+        {
+          "name": "correct_Body_275",
+          "object": "Body",
+          "vertex": 275,
+          "joint": 63
+        },
+        {
+          "name": "correct_Body_299",
+          "object": "Body",
+          "vertex": 299,
+          "joint": 64
+        },
+        {
+          "name": "correct_Body_300",
+          "object": "Body",
+          "vertex": 300,
+          "joint": 65
+        },
+        {
+          "name": "correct_Body_301",
+          "object": "Body",
+          "vertex": 301,
+          "joint": 66
+        },
+        {
+          "name": "correct_Body_302",
+          "object": "Body",
+          "vertex": 302,
+          "joint": 67
+        },
+        {
+          "name": "correct_Body_303",
+          "object": "Body",
+          "vertex": 303,
+          "joint": 68
+        },
+        {
+          "name": "correct_Body_331",
+          "object": "Body",
+          "vertex": 331,
+          "joint": 69
+        },
+        {
+          "name": "correct_Body_333",
+          "object": "Body",
+          "vertex": 333,
+          "joint": 70
+        },
+        {
+          "name": "correct_Body_520",
+          "object": "Body",
+          "vertex": 520,
+          "joint": 71
+        },
+        {
+          "name": "correct_Body_525",
+          "object": "Body",
+          "vertex": 525,
+          "joint": 72
+        },
+        {
+          "name": "correct_Body_528",
+          "object": "Body",
+          "vertex": 528,
+          "joint": 73
+        },
+        {
+          "name": "correct_Body_529",
+          "object": "Body",
+          "vertex": 529,
+          "joint": 74
+        },
+        {
+          "name": "correct_Body_530",
+          "object": "Body",
+          "vertex": 530,
+          "joint": 75
+        },
+        {
+          "name": "correct_Body_531",
+          "object": "Body",
+          "vertex": 531,
+          "joint": 76
+        },
+        {
+          "name": "correct_Body_533",
+          "object": "Body",
+          "vertex": 533,
+          "joint": 77
+        },
+        {
+          "name": "correct_Body_535",
+          "object": "Body",
+          "vertex": 535,
+          "joint": 78
+        },
+        {
+          "name": "correct_Body_536",
+          "object": "Body",
+          "vertex": 536,
+          "joint": 79
+        },
+        {
+          "name": "correct_Body_538",
+          "object": "Body",
+          "vertex": 538,
+          "joint": 80
+        },
+        {
+          "name": "correct_Body_539",
+          "object": "Body",
+          "vertex": 539,
+          "joint": 81
+        },
+        {
+          "name": "correct_Body_544",
+          "object": "Body",
+          "vertex": 544,
+          "joint": 82
+        },
+        {
+          "name": "correct_Body_545",
+          "object": "Body",
+          "vertex": 545,
+          "joint": 83
+        },
+        {
+          "name": "correct_Body_546",
+          "object": "Body",
+          "vertex": 546,
+          "joint": 84
+        },
+        {
+          "name": "correct_Body_550",
+          "object": "Body",
+          "vertex": 550,
+          "joint": 85
+        },
+        {
+          "name": "correct_Body_551",
+          "object": "Body",
+          "vertex": 551,
+          "joint": 86
+        },
+        {
+          "name": "correct_Body_553",
+          "object": "Body",
+          "vertex": 553,
+          "joint": 87
+        },
+        {
+          "name": "correct_Body_554",
+          "object": "Body",
+          "vertex": 554,
+          "joint": 88
+        },
+        {
+          "name": "correct_Body_613",
+          "object": "Body",
+          "vertex": 613,
+          "joint": 89
+        },
+        {
+          "name": "correct_Body_615",
+          "object": "Body",
+          "vertex": 615,
+          "joint": 90
+        },
+        {
+          "name": "correct_Body_616",
+          "object": "Body",
+          "vertex": 616,
+          "joint": 91
+        },
+        {
+          "name": "correct_Body_617",
+          "object": "Body",
+          "vertex": 617,
+          "joint": 92
+        },
+        {
+          "name": "correct_Body_619",
+          "object": "Body",
+          "vertex": 619,
+          "joint": 93
+        },
+        {
+          "name": "correct_Body_625",
+          "object": "Body",
+          "vertex": 625,
+          "joint": 94
+        },
+        {
+          "name": "correct_Body_627",
+          "object": "Body",
+          "vertex": 627,
+          "joint": 95
+        },
+        {
+          "name": "correct_Body_684",
+          "object": "Body",
+          "vertex": 684,
+          "joint": 96
+        },
+        {
+          "name": "correct_Body_1028",
+          "object": "Body",
+          "vertex": 1028,
+          "joint": 97
+        },
+        {
+          "name": "correct_Body_1033",
+          "object": "Body",
+          "vertex": 1033,
+          "joint": 98
+        },
+        {
+          "name": "correct_Body_1035",
+          "object": "Body",
+          "vertex": 1035,
+          "joint": 99
+        },
+        {
+          "name": "correct_Body_1036",
+          "object": "Body",
+          "vertex": 1036,
+          "joint": 100
+        },
+        {
+          "name": "correct_Body_1037",
+          "object": "Body",
+          "vertex": 1037,
+          "joint": 101
+        },
+        {
+          "name": "correct_Body_1039",
+          "object": "Body",
+          "vertex": 1039,
+          "joint": 102
+        },
+        {
+          "name": "correct_Body_1041",
+          "object": "Body",
+          "vertex": 1041,
+          "joint": 103
+        },
+        {
+          "name": "correct_Body_1042",
+          "object": "Body",
+          "vertex": 1042,
+          "joint": 104
+        },
+        {
+          "name": "correct_Body_1043",
+          "object": "Body",
+          "vertex": 1043,
+          "joint": 105
+        },
+        {
+          "name": "correct_Body_1047",
+          "object": "Body",
+          "vertex": 1047,
+          "joint": 106
+        },
+        {
+          "name": "correct_Body_1048",
+          "object": "Body",
+          "vertex": 1048,
+          "joint": 107
+        },
+        {
+          "name": "correct_Body_1052",
+          "object": "Body",
+          "vertex": 1052,
+          "joint": 108
+        },
+        {
+          "name": "correct_Body_1054",
+          "object": "Body",
+          "vertex": 1054,
+          "joint": 109
+        },
+        {
+          "name": "correct_Body_1099",
+          "object": "Body",
+          "vertex": 1099,
+          "joint": 110
+        },
+        {
+          "name": "correct_Body_1101",
+          "object": "Body",
+          "vertex": 1101,
+          "joint": 111
+        },
+        {
+          "name": "correct_Body_1102",
+          "object": "Body",
+          "vertex": 1102,
+          "joint": 112
+        },
+        {
+          "name": "correct_Body_1103",
+          "object": "Body",
+          "vertex": 1103,
+          "joint": 113
+        },
+        {
+          "name": "correct_Body_1105",
+          "object": "Body",
+          "vertex": 1105,
+          "joint": 114
+        },
+        {
+          "name": "correct_Body_1111",
+          "object": "Body",
+          "vertex": 1111,
+          "joint": 115
+        },
+        {
+          "name": "correct_Body_1113",
+          "object": "Body",
+          "vertex": 1113,
+          "joint": 116
+        },
+        {
+          "name": "correct_Body_1170",
+          "object": "Body",
+          "vertex": 1170,
+          "joint": 117
+        },
+        {
+          "name": "correct_Body_1508",
+          "object": "Body",
+          "vertex": 1508,
+          "joint": 118
+        },
+        {
+          "name": "correct_Body_1511",
+          "object": "Body",
+          "vertex": 1511,
+          "joint": 119
+        },
+        {
+          "name": "correct_Body_1535",
+          "object": "Body",
+          "vertex": 1535,
+          "joint": 120
+        },
+        {
+          "name": "correct_Body_1749",
+          "object": "Body",
+          "vertex": 1749,
+          "joint": 121
+        },
+        {
+          "name": "correct_Body_1755",
+          "object": "Body",
+          "vertex": 1755,
+          "joint": 122
+        },
+        {
+          "name": "correct_Body_1759",
+          "object": "Body",
+          "vertex": 1759,
+          "joint": 123
+        },
+        {
+          "name": "correct_Body_1760",
+          "object": "Body",
+          "vertex": 1760,
+          "joint": 124
+        },
+        {
+          "name": "correct_Body_1799",
+          "object": "Body",
+          "vertex": 1799,
+          "joint": 125
+        },
+        {
+          "name": "correct_Head_149",
+          "object": "Head",
+          "vertex": 149,
+          "joint": 126
+        },
+        {
+          "name": "correct_Head_153",
+          "object": "Head",
+          "vertex": 153,
+          "joint": 127
+        },
+        {
+          "name": "correct_Head_305",
+          "object": "Head",
+          "vertex": 305,
+          "joint": 128
+        },
+        {
+          "name": "correct_Head_465",
+          "object": "Head",
+          "vertex": 465,
+          "joint": 129
+        },
+        {
+          "name": "correct_Head_473",
+          "object": "Head",
+          "vertex": 473,
+          "joint": 130
+        },
+        {
+          "name": "correct_Head_476",
+          "object": "Head",
+          "vertex": 476,
+          "joint": 131
+        },
+        {
+          "name": "correct_Head_654",
+          "object": "Head",
+          "vertex": 654,
+          "joint": 132
+        }
+      ],
+      "materialTranslation": "Original packed albedo and tangent normal textures; roughness .82. Legacy AO and vertex-color omitted; diffuse colors for untextured source materials.",
+      "omittedObjects": [
+        "Hair intentionally hidden in original source Collection6",
+        "lights",
+        "cameras",
+        "planes"
+      ],
+      "limits": [
+        "Measured skeletal approximation of original source, not a porcupine adaptation.",
+        "Four-weight residual below corrective threshold remains and is reported per clip.",
+        "Held-out checks cover 32 intervals per clip, not every temporal extremum.",
+        "CPU source-versus-export-equivalent TRS proof; browser playback remains untested.",
+        "No source mesh topology validation or edits; repeated-index triangles alone omitted if present."
+      ],
+      "elapsedSeconds": 79.60899999999674,
+      "releaseReady": true,
+      "finalByteAudit": "native-export-readback-audit.json",
+      "finalByteAuditSha256": "b1256838b33d071b0519486018d02930a0a7122e76bb352ebf7427474bcb442c",
+      "finalByteMaximumNormalizedMm": 0.9643288760306397,
+      "correctiveOrientation": "Stable dominant source joint rotation; translation compensated to preserve source vertex position. Normal alignment intentionally not fitted because native source smooth normals can flip. Lighting approximation measured against exact source corner normals."
+    },
+    "provenance": {
+      "author": "CDmir; TinyWorlds",
+      "license": "CC0-1.0",
+      "url": "https://opengameart.org/content/evil-giant-rat",
+      "originalSha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+      "directory": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-quadrupeds\\source-porcupine\\",
+      "originalSpecies": "rat"
+    },
+    "normalizedPreviewScale": 0.240830591906,
+    "labAccepted": false
+  },
+  "revision": "giant-rat-contact-round2",
+  "animationAcceptance": "Not accepted. Bounded distal toe correction; front Walk and Run remain HOLD. Needs final-byte contact audit and production review.",
+  "finalByteSha256": "3594e991334de029803864e25e4f0d68511d47bdc3522574406cc2927fc6799b",
+  "acceptance": {
+    "cpuContactAudit": "pending",
+    "labAccepted": false,
+    "hold": [
+      "Walk front feet",
+      "Run"
+    ]
+  }
+}

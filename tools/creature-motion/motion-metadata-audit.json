@@ -1,0 +1,2983 @@
+{
+  "generatedAt": "2026-09-05T21:14:45.703Z",
+  "scope": "12 legacy, 4 ground, 3 rhino production assets",
+  "assetCount": 19,
+  "metadataProblemCount": 0,
+  "rows": [
+    {
+      "id": "animal_coyote",
+      "sha256": "ca9a84bcb36f1ff3dbbf03d84688dbf3b0e00ace3a2857f63beb227ed95316cf",
+      "currentCandidateMatch": true,
+      "candidateSha256": "ca9a84bcb36f1ff3dbbf03d84688dbf3b0e00ace3a2857f63beb227ed95316cf",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 1.4,
+        "contactNormalized": 0.525
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 7,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 149,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.9666666388511658,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 159,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 1.0792709897552932,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.5666666626930237,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 159,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 4.307269259126366,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 4.166666507720947,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 149,
+          "extras": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.399999976158142,
+          "marker": 0.525,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 150,
+          "extras": {
+            "source": "Wolf_Attack.fbx",
+            "sourceSha256": "abdc0f10825a48afabf8f7cb69bb46195d35b44d3333f25564ec869009b1fd49",
+            "importedByIdentity": true,
+            "contactNormalized": 0.525
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 26,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "frontal impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 26,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 26,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.182,
+          "y": -0.003,
+          "z": -0.601
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Death",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 0.9666666388511658,
+        "impliedWalkMps": 1.0792709897552932,
+        "impliedRunMps": 4.307269259126366,
+        "runClipSeconds": 0.5666666626930237,
+        "groundY": -0.003
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_bear",
+      "sha256": "c3f1dad82615244bec66f80ee7dbc95078f67b91132c3dbe356a693f2dc3e5f0",
+      "currentCandidateMatch": true,
+      "candidateSha256": "c3f1dad82615244bec66f80ee7dbc95078f67b91132c3dbe356a693f2dc3e5f0",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 2.466667,
+        "contactNormalized": 0.15
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 6,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 122,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.100000023841858,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 126,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 1.3715749601767004,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.5666666626930237,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 126,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 5.154917840934721,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 2.4666666984558105,
+          "marker": 0.15,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 122,
+          "extras": {
+            "contactNormalized": 0.15
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 1.4333332777023315,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 122,
+          "extras": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.7799999713897705,
+          "marker": 0.14102564102564102,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 56,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.14102564102564102,
+            "description": "head and neck recoil, delayed shoulder compression and twist, four planted paws, heavy recovery",
+            "bodyCompressionMetres": 0.11,
+            "plantedPawErrorMetres": 1.7521351174985635e-15,
+            "bearHitVersion": 2
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.7799999713897705,
+          "marker": 0.14102564102564102,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 56,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.14102564102564102,
+            "description": "head and neck recoil, delayed shoulder compression and twist, four planted paws, heavy recovery",
+            "bodyCompressionMetres": 0.11,
+            "plantedPawErrorMetres": 1.2294372089921434e-15,
+            "bearHitVersion": 2
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.7799999713897705,
+          "marker": 0.14102564102564102,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 56,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.14102564102564102,
+            "description": "head and neck recoil, delayed shoulder compression and twist, four planted paws, heavy recovery",
+            "bodyCompressionMetres": 0.11,
+            "plantedPawErrorMetres": 1.240602711940443e-15,
+            "bearHitVersion": 2
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.353,
+          "y": -0.006,
+          "z": -0.955
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Death",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 1.100000023841858,
+        "impliedWalkMps": 1.3715749601767004,
+        "impliedRunMps": 5.154917840934721,
+        "runClipSeconds": 0.5666666626930237,
+        "groundY": -0.006
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_cattle",
+      "sha256": "ab3c7af0724313091abc60a67e491adc20e808ba09f6342cd6280c3214d9802a",
+      "currentCandidateMatch": true,
+      "candidateSha256": "ab3c7af0724313091abc60a67e491adc20e808ba09f6342cd6280c3214d9802a",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 1.8,
+        "contactNormalized": 0.575
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 155,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.1333333253860474,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 171,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.9039947403423454,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6666666865348816,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 171,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 3.11442052609775,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.7999999523162842,
+          "marker": 0.575,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 155,
+          "extras": {
+            "contactNormalized": 0.575
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 1.5,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 155,
+          "extras": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.8399999737739563,
+          "marker": 0.13095238095238096,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 63,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.13095238095238096,
+            "hoovedHitVersion": 1,
+            "description": "muzzle and horn recoil, delayed shoulder compression, three-segment legs and four planted hooves",
+            "bodyCompressionMetres": 0.09,
+            "plantedHoofErrorMetres": 8.331297329690976e-16
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.8399999737739563,
+          "marker": 0.13095238095238096,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 63,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.13095238095238096,
+            "hoovedHitVersion": 1,
+            "description": "muzzle and horn recoil, delayed shoulder compression, three-segment legs and four planted hooves",
+            "bodyCompressionMetres": 0.09,
+            "plantedHoofErrorMetres": 1.051877727233763e-15
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.8399999737739563,
+          "marker": 0.13095238095238096,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 63,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.13095238095238096,
+            "hoovedHitVersion": 1,
+            "description": "muzzle and horn recoil, delayed shoulder compression, three-segment legs and four planted hooves",
+            "bodyCompressionMetres": 0.09,
+            "plantedHoofErrorMetres": 9.04082224356802e-16
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.322,
+          "y": -0.005,
+          "z": -1.006
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Death",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 1.1333333253860474,
+        "impliedWalkMps": 0.9039947403423454,
+        "impliedRunMps": 3.11442052609775,
+        "runClipSeconds": 0.6666666865348816,
+        "groundY": -0.005
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_aurochs",
+      "sha256": "24a15de21d19f14fd526d69fdc89d2d1352170dd01ffe3cfad682cb400deda23",
+      "currentCandidateMatch": true,
+      "candidateSha256": "24a15de21d19f14fd526d69fdc89d2d1352170dd01ffe3cfad682cb400deda23",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 1.8,
+        "contactNormalized": 0.575
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 155,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.1333333253860474,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 171,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.9039947403423454,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6666666865348816,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 171,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 3.11442052609775,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.7999999523162842,
+          "marker": 0.575,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 155,
+          "extras": {
+            "contactNormalized": 0.575
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 1.5,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 155,
+          "extras": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.8399999737739563,
+          "marker": 0.13095238095238096,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 63,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.13095238095238096,
+            "hoovedHitVersion": 1,
+            "description": "muzzle and horn recoil, delayed shoulder compression, three-segment legs and four planted hooves",
+            "bodyCompressionMetres": 0.09,
+            "plantedHoofErrorMetres": 8.331297329690976e-16
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.8399999737739563,
+          "marker": 0.13095238095238096,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 63,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.13095238095238096,
+            "hoovedHitVersion": 1,
+            "description": "muzzle and horn recoil, delayed shoulder compression, three-segment legs and four planted hooves",
+            "bodyCompressionMetres": 0.09,
+            "plantedHoofErrorMetres": 1.051877727233763e-15
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.8399999737739563,
+          "marker": 0.13095238095238096,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 63,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.13095238095238096,
+            "hoovedHitVersion": 1,
+            "description": "muzzle and horn recoil, delayed shoulder compression, three-segment legs and four planted hooves",
+            "bodyCompressionMetres": 0.09,
+            "plantedHoofErrorMetres": 9.04082224356802e-16
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.322,
+          "y": -0.005,
+          "z": -1.006
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Death",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 1.1333333253860474,
+        "impliedWalkMps": 0.9039947403423454,
+        "impliedRunMps": 3.11442052609775,
+        "runClipSeconds": 0.6666666865348816,
+        "groundY": -0.005
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_goat",
+      "sha256": "e44126a6e6670c3b2b5fbe89db687b4fb5d1e929fb4ff830c916d8e0adb07f12",
+      "currentCandidateMatch": true,
+      "candidateSha256": "e44126a6e6670c3b2b5fbe89db687b4fb5d1e929fb4ff830c916d8e0adb07f12",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 1.466667,
+        "contactNormalized": 0.55
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 5.333333492279053,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 143,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.100000023841858,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 147,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.9910944906604278,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.46666666865348816,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 147,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 3.204238655155496,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.4666666984558105,
+          "marker": 0.55,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 143,
+          "extras": {
+            "contactNormalized": 0.55
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 0.8333333134651184,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 143,
+          "extras": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 26,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "frontal impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 26,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 26,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.217,
+          "y": -0.002,
+          "z": -0.601
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Death",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 1.100000023841858,
+        "impliedWalkMps": 0.9910944906604278,
+        "impliedRunMps": 3.204238655155496,
+        "runClipSeconds": 0.46666666865348816,
+        "groundY": -0.002
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_ibex",
+      "sha256": "c94f7ecf46610ed4fb0140a0a660afe7370848a669ec4d2c53d6744dac33d5f1",
+      "currentCandidateMatch": true,
+      "candidateSha256": "c94f7ecf46610ed4fb0140a0a660afe7370848a669ec4d2c53d6744dac33d5f1",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 1.533333,
+        "contactNormalized": 0.55
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 5.333333492279053,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 143,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.9666666388511658,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 147,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 1.0966599135717898,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.46666666865348816,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 147,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 2.86402643946435,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.5333333015441895,
+          "marker": 0.55,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 143,
+          "extras": {
+            "contactNormalized": 0.55
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 0.8333333134651184,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 143,
+          "extras": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 24,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "frontal impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 24,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 24,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.212,
+          "y": -0.003,
+          "z": -0.639
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Death",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 0.9666666388511658,
+        "impliedWalkMps": 1.0966599135717898,
+        "impliedRunMps": 2.86402643946435,
+        "runClipSeconds": 0.46666666865348816,
+        "groundY": -0.003
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_deer",
+      "sha256": "1024912844d00105ffe2b7ba947730a26931ba04282cb57560fef5671de00b7e",
+      "currentCandidateMatch": true,
+      "candidateSha256": "1024912844d00105ffe2b7ba947730a26931ba04282cb57560fef5671de00b7e",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 1.08,
+        "contactNormalized": 0.43
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 5.333333492279053,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 143,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.9666666388511658,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 126,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 1.1216721226201816,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6333333253860474,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 126,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 3.4474474408533786,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 0.8333333134651184,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 143,
+          "extras": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.0800000429153442,
+          "marker": 0.43,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 16,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.43,
+            "description": "antler presentation, planted head thrust, guarded recovery"
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 14,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "frontal impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 14,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 14,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.219,
+          "y": -0.007,
+          "z": -0.643
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Death",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 0.9666666388511658,
+        "impliedWalkMps": 1.1216721226201816,
+        "impliedRunMps": 3.4474474408533786,
+        "runClipSeconds": 0.6333333253860474,
+        "groundY": -0.007
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_boar",
+      "sha256": "58d6a103dcd547478e05d14fba1aafc3e7a517c94c364af6ef7ad585ec4a765d",
+      "currentCandidateMatch": true,
+      "candidateSha256": "58d6a103dcd547478e05d14fba1aafc3e7a517c94c364af6ef7ad585ec4a765d",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 0.7,
+        "contactNormalized": 0.7
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 6,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 146,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.9666666388511658,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 153,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 1.4594823863512718,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.5,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 153,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 2.3933659539500596,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.699999988079071,
+          "marker": 0.7,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 146,
+          "extras": {
+            "contactNormalized": 0.7
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 0.6333333253860474,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 146,
+          "extras": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.699999988079071,
+          "marker": 0.1285714285714286,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 55,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.1285714285714286,
+            "hoovedHitVersion": 1,
+            "description": "short-neck tusk recoil, delayed shoulder compression, three-segment legs and four planted hooves",
+            "bodyCompressionMetres": 0.065,
+            "plantedHoofErrorMetres": 5.328510317633702e-16
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.699999988079071,
+          "marker": 0.1285714285714286,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 55,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.1285714285714286,
+            "hoovedHitVersion": 1,
+            "description": "short-neck tusk recoil, delayed shoulder compression, three-segment legs and four planted hooves",
+            "bodyCompressionMetres": 0.065,
+            "plantedHoofErrorMetres": 7.101102785407264e-16
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.699999988079071,
+          "marker": 0.1285714285714286,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 55,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.1285714285714286,
+            "hoovedHitVersion": 1,
+            "description": "short-neck tusk recoil, delayed shoulder compression, three-segment legs and four planted hooves",
+            "bodyCompressionMetres": 0.065,
+            "plantedHoofErrorMetres": 6.276151861417945e-16
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.237,
+          "y": -0.001,
+          "z": -0.719
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Death",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 0.9666666388511658,
+        "impliedWalkMps": 1.4594823863512718,
+        "impliedRunMps": 2.3933659539500596,
+        "runClipSeconds": 0.5,
+        "groundY": -0.001
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_hog",
+      "sha256": "ff493baf603f94b57ccb2a69721a566f282461e4aae87dd8cb001132f1902a61",
+      "currentCandidateMatch": true,
+      "candidateSha256": "ff493baf603f94b57ccb2a69721a566f282461e4aae87dd8cb001132f1902a61",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 0.86,
+        "contactNormalized": 0.43
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.299999713897705,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 85,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.3333332538604736,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 195,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.418258559489884,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 0.9666662216186523,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 146,
+          "extras": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.8600000143051147,
+          "marker": 0.43,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 20,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.43,
+            "description": "lowered tusk guard, rising neck jab, shoulder recovery"
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 16,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "frontal impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 16,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 16,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.231,
+          "y": -0.004,
+          "z": -0.759
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Death",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 1.3333332538604736,
+        "impliedWalkMps": 0.418258559489884,
+        "groundY": -0.007839
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_rat",
+      "sha256": "ab2ed3175e6cad999f04faaa03327f927b1338ba847bd1ff20ad0498b4bcffac",
+      "currentCandidateMatch": true,
+      "candidateSha256": "ab2ed3175e6cad999f04faaa03327f927b1338ba847bd1ff20ad0498b4bcffac",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 0.58,
+        "contactNormalized": 0.43
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.033332347869873,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 93,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.399999976158142,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 180,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.12231044887073027,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 0.9666662216186523,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 94,
+          "extras": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.5799999833106995,
+          "marker": 0.43,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 26,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.43,
+            "description": "crouched nip with jaw closure and tail balance"
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 20,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "frontal impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 20,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 20,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.068,
+          "y": -0.001,
+          "z": -0.36
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Death",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 1.399999976158142,
+        "impliedWalkMps": 0.12231044887073027,
+        "groundY": -0.001
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_rabbit",
+      "sha256": "d6cdf12b04103deede6c807b27d24245af49a0d518953f124b8e560e3977bd54",
+      "currentCandidateMatch": true,
+      "candidateSha256": "d6cdf12b04103deede6c807b27d24245af49a0d518953f124b8e560e3977bd54",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 0.66,
+        "contactNormalized": 0.43
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 7.9666666984558105,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 134,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.6333333253860474,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 138,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.7355347668682819,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.4333333373069763,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 138,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 1.3119361133444458,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 2,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 134,
+          "extras": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.6600000262260437,
+          "marker": 0.43,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 33,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.43,
+            "description": "hindquarter brace, short articulated nip, ear follow-through"
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 34,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "frontal impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 34,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 34,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.145,
+          "y": -0.006,
+          "z": -0.268
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Death",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 0.6333333253860474,
+        "impliedWalkMps": 0.7355347668682819,
+        "impliedRunMps": 1.3119361133444458,
+        "runClipSeconds": 0.4333333373069763,
+        "groundY": -0.006
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_rabbit_dark",
+      "sha256": "948e777d291cf45e7b7e57bdbdef0b1d8e8990c014fd26a0aef7b3e5aa31e22f",
+      "currentCandidateMatch": true,
+      "candidateSha256": "948e777d291cf45e7b7e57bdbdef0b1d8e8990c014fd26a0aef7b3e5aa31e22f",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 0.66,
+        "contactNormalized": 0.43
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 7.9666666984558105,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 134,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.6333333253860474,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 138,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.7355347668682819,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.4333333373069763,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 138,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 1.3119361133444458,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 2,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 134,
+          "extras": null
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.6600000262260437,
+          "marker": 0.43,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 33,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.43,
+            "description": "hindquarter brace, short articulated nip, ear follow-through"
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 34,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "frontal impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 34,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 34,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.145,
+          "y": -0.006,
+          "z": -0.268
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Death",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 0.6333333253860474,
+        "impliedWalkMps": 0.7355347668682819,
+        "impliedRunMps": 1.3119361133444458,
+        "runClipSeconds": 0.4333333373069763,
+        "groundY": -0.006
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_frog",
+      "sha256": "0d0c9c63ca299fce2c5e15fd781ef1285175945be9af9da8e19940674a9b2daa",
+      "currentCandidateMatch": true,
+      "candidateSha256": "0d0c9c63ca299fce2c5e15fd781ef1285175945be9af9da8e19940674a9b2daa",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Death",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 0.68,
+        "contactNormalized": 0.43
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8.200000762939453,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 77,
+          "extras": null
+        },
+        {
+          "name": "Death",
+          "seconds": 0.8999996185302734,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 74,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.3333333730697632,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 180,
+          "extras": {
+            "source": "common_frog_walk_anim.FBX",
+            "sourceSha256": "d70742708c436b49d1b1317bfe2e5ea7711d2f4c6a1e8deba19e79b94c291c2d",
+            "importedByIdentity": true,
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.08,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.7666667103767395,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 180,
+          "extras": {
+            "source": "common_frog_run_anim.FBX",
+            "sourceSha256": "08ab079fe87d4b730096ff501c892f2b4d2759ed0a3586eb23818e1e282c4a6c",
+            "importedByIdentity": true,
+            "loopRecoverySeconds": 0.1,
+            "sourceEndGapDegrees": 15.395312554751126,
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.3,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.6800000071525574,
+          "marker": 0.43,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 18,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.43,
+            "description": "hind leg compression, jaw snap and foreleg catch"
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 17,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "frontal impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 17,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 17,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.159,
+          "y": -0.001,
+          "z": -0.157
+        },
+        "animations": [
+          "Idle",
+          "Death",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 1.3333333730697632,
+        "impliedWalkMps": 0.08,
+        "impliedRunMps": 0.3,
+        "runClipSeconds": 0.7666667103767395,
+        "groundY": 0.002758
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_frog_green",
+      "sha256": "31ce3e3360e08edcdd7beeedcdc1844b287cec6ea5f00dc8b6cd1f221cae098b",
+      "currentCandidateMatch": true,
+      "candidateSha256": "31ce3e3360e08edcdd7beeedcdc1844b287cec6ea5f00dc8b6cd1f221cae098b",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Death",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 0.68,
+        "contactNormalized": 0.43
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8.200000762939453,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 77,
+          "extras": null
+        },
+        {
+          "name": "Death",
+          "seconds": 0.8999996185302734,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 74,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.3333333730697632,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 180,
+          "extras": {
+            "source": "common_frog_walk_anim.FBX",
+            "sourceSha256": "d70742708c436b49d1b1317bfe2e5ea7711d2f4c6a1e8deba19e79b94c291c2d",
+            "importedByIdentity": true,
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.08,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.7666667103767395,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 180,
+          "extras": {
+            "source": "common_frog_run_anim.FBX",
+            "sourceSha256": "08ab079fe87d4b730096ff501c892f2b4d2759ed0a3586eb23818e1e282c4a6c",
+            "importedByIdentity": true,
+            "loopRecoverySeconds": 0.1,
+            "sourceEndGapDegrees": 15.395312554751126,
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.3,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.6800000071525574,
+          "marker": 0.43,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 18,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.43,
+            "description": "hind leg compression, jaw snap and foreleg catch"
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 17,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "frontal impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 17,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 17,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.159,
+          "y": -0.001,
+          "z": -0.157
+        },
+        "animations": [
+          "Idle",
+          "Death",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 1.3333333730697632,
+        "impliedWalkMps": 0.08,
+        "impliedRunMps": 0.3,
+        "runClipSeconds": 0.7666667103767395,
+        "groundY": 0.002758
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_crab",
+      "sha256": "67e7cede7699c2c3b7d08ac9490bcb2817be4b32051e4e1d50d31d4326d74b4d",
+      "currentCandidateMatch": true,
+      "candidateSha256": "67e7cede7699c2c3b7d08ac9490bcb2817be4b32051e4e1d50d31d4326d74b4d",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Walk",
+        "Run",
+        "Death",
+        "Idle",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 0.88,
+        "contactNormalized": 0.43
+      },
+      "clips": [
+        {
+          "name": "Walk",
+          "seconds": 1.066666603088379,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 113,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.10869565217391305,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.46666669845581055,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 100,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.28260869565217395,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 0.6333332061767578,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 99,
+          "extras": null
+        },
+        {
+          "name": "Idle",
+          "seconds": 3.5999999046325684,
+          "marker": 0,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 7,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0,
+            "description": "planted source stance with quiet claw and mouthpart motion"
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.8799999952316284,
+          "marker": 0.43,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 17,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.43,
+            "description": "left claw cock, forward pinch, right claw guard"
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 15,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "frontal impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 15,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 15,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.162,
+          "y": -0.002,
+          "z": -0.109
+        },
+        "animations": [
+          "Walk",
+          "Run",
+          "Death",
+          "Idle",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 1.066666603088379,
+        "runClipSeconds": 0.46666669845581055,
+        "groundY": -0.002,
+        "impliedWalkMps": 0.10869565217391305,
+        "impliedRunMps": 0.28260869565217395
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "animal_scorpion",
+      "sha256": "97bee26c1e512bb91937f181e276b9ca58922277f4ca1fe8e6180173d26ba7d4",
+      "currentCandidateMatch": true,
+      "candidateSha256": "97bee26c1e512bb91937f181e276b9ca58922277f4ca1fe8e6180173d26ba7d4",
+      "stagedCandidateTiming": null,
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 0.8,
+        "contactNormalized": 0.45
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 203,
+          "extras": null
+        },
+        {
+          "name": "Walk",
+          "seconds": 1,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 203,
+          "extras": null
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6333333253860474,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 237,
+          "extras": {
+            "groundContactRepair": {
+              "version": 1,
+              "nativeMps": 0.31,
+              "forwardAxis": "+Z",
+              "generatedBy": "tools/repair-ground-creature-gaits.ts"
+            }
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.800000011920929,
+          "marker": 0.45,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 203,
+          "extras": {
+            "contactNormalized": 0.45
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 0.800000011920929,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 203,
+          "extras": null
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 20,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "frontal impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 20,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.5,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 20,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.158,
+          "y": -0.002,
+          "z": -0.215
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Death",
+          "Hit",
+          "HitLeft",
+          "HitRight"
+        ],
+        "walkClipSeconds": 1,
+        "impliedWalkMps": 0.10490138694330797,
+        "impliedRunMps": 0.31,
+        "runClipSeconds": 0.6333333253860474,
+        "groundY": -0.002
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "boss_rhino_air",
+      "sha256": "0e361fc212a4da00e5a7a04c5fe590dac7214fb8071b9b1b1493753a326c7556",
+      "currentCandidateMatch": false,
+      "candidateSha256": "3350ab7f8300adddd57d661a859e756ed7e4af9f5d9be4031703b40992b9692f",
+      "stagedCandidateTiming": {
+        "seconds": 1.2333333492279053,
+        "contactNormalized": 0.33229264631653577
+      },
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 1.233333,
+        "contactNormalized": 0.7
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Idle.FBX",
+            "sourceSha256": "6d4def782500a751e2108b6ba47135e3279f83106459bfaef655ed11d22bae6b",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.6666666269302368,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Walk.FBX",
+            "sourceSha256": "b0195f7aeb1a68324c13bba1bee3e68acca498ff664b2c652cbf830b0464269c",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6666666865348816,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Run.FBX",
+            "sourceSha256": "31982ca1d32cf964fccf2d7191f45593dfb98d03ec40068b18cfc078b3ed6c43",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.2333333492279053,
+          "marker": 0.7,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Attack.FBX",
+            "sourceSha256": "6dbfd456cbe9b70a87e44222c6e7fd065a571e16e3f9a9bc772af466b206934d",
+            "importedByIdentity": true,
+            "contactNormalized": 0.7
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.6666666865348816,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Get_Hit.FBX",
+            "sourceSha256": "07bc5b11b0b769bf8e736f8c4b835d6c36ff77d05608b4fb42f7c1ab87b65136",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 1.6666666269302368,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Dead.FBX",
+            "sourceSha256": "7e8523b71f3faa9696936c9e368ed2dcd0e97bc7964ee098096c515fbba7b530",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.6600000262260437,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 47,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.6600000262260437,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 47,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.524,
+          "y": 0,
+          "z": -1.001
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death",
+          "HitLeft",
+          "HitRight"
+        ],
+        "impliedWalkMps": 0.8409099444326276,
+        "walkClipSeconds": 1.6666666269302368,
+        "impliedRunMps": 2.4628998315130746,
+        "runClipSeconds": 0.6666666865348816,
+        "groundY": 0
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion",
+        "Production is not the latest staged candidate; candidate review cannot be attributed to current public bytes"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "boss_rhino_earth",
+      "sha256": "700ff55b402bc3e0a2a69cff5c87f44701cc7e14f818bbb640857e98a6474788",
+      "currentCandidateMatch": false,
+      "candidateSha256": "b8f8c30ba5d2f917fe9555e92f8852d25ac0d137a221e8ce5744e361087f79ae",
+      "stagedCandidateTiming": {
+        "seconds": 1.2333333492279053,
+        "contactNormalized": 0.33229264631653577
+      },
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 1.233333,
+        "contactNormalized": 0.7
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Idle.FBX",
+            "sourceSha256": "6d4def782500a751e2108b6ba47135e3279f83106459bfaef655ed11d22bae6b",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.6666666269302368,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Walk.FBX",
+            "sourceSha256": "b0195f7aeb1a68324c13bba1bee3e68acca498ff664b2c652cbf830b0464269c",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6666666865348816,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Run.FBX",
+            "sourceSha256": "31982ca1d32cf964fccf2d7191f45593dfb98d03ec40068b18cfc078b3ed6c43",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.2333333492279053,
+          "marker": 0.7,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Attack.FBX",
+            "sourceSha256": "6dbfd456cbe9b70a87e44222c6e7fd065a571e16e3f9a9bc772af466b206934d",
+            "importedByIdentity": true,
+            "contactNormalized": 0.7
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.6666666865348816,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Get_Hit.FBX",
+            "sourceSha256": "07bc5b11b0b769bf8e736f8c4b835d6c36ff77d05608b4fb42f7c1ab87b65136",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 1.6666666269302368,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Dead.FBX",
+            "sourceSha256": "7e8523b71f3faa9696936c9e368ed2dcd0e97bc7964ee098096c515fbba7b530",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.6600000262260437,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 47,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.6600000262260437,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 47,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.524,
+          "y": 0,
+          "z": -1.001
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death",
+          "HitLeft",
+          "HitRight"
+        ],
+        "impliedWalkMps": 0.8409099444326276,
+        "walkClipSeconds": 1.6666666269302368,
+        "impliedRunMps": 2.4628998315130746,
+        "runClipSeconds": 0.6666666865348816,
+        "groundY": 0
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion",
+        "Production is not the latest staged candidate; candidate review cannot be attributed to current public bytes"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    },
+    {
+      "id": "boss_rhino_water",
+      "sha256": "f85ea2b8033deda8ff8232d8de709e0da56f81fd2f5dce7b7cb7ca6c9318e43a",
+      "currentCandidateMatch": false,
+      "candidateSha256": "bec1b97ae9e313e0849d7c219b61c08674f4c2df041b2d4134f8b41ec50e9c71",
+      "stagedCandidateTiming": {
+        "seconds": 1.2333333492279053,
+        "contactNormalized": 0.33229264631653577
+      },
+      "manifestAnimations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "runtimeAttackTiming": {
+        "seconds": 1.233333,
+        "contactNormalized": 0.7
+      },
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 8,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Idle.FBX",
+            "sourceSha256": "6d4def782500a751e2108b6ba47135e3279f83106459bfaef655ed11d22bae6b",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.6666666269302368,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Walk.FBX",
+            "sourceSha256": "b0195f7aeb1a68324c13bba1bee3e68acca498ff664b2c652cbf830b0464269c",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "Run",
+          "seconds": 0.6666666865348816,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Run.FBX",
+            "sourceSha256": "31982ca1d32cf964fccf2d7191f45593dfb98d03ec40068b18cfc078b3ed6c43",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.2333333492279053,
+          "marker": 0.7,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Attack.FBX",
+            "sourceSha256": "6dbfd456cbe9b70a87e44222c6e7fd065a571e16e3f9a9bc772af466b206934d",
+            "importedByIdentity": true,
+            "contactNormalized": 0.7
+          }
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.6666666865348816,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Get_Hit.FBX",
+            "sourceSha256": "07bc5b11b0b769bf8e736f8c4b835d6c36ff77d05608b4fb42f7c1ab87b65136",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "Death",
+          "seconds": 1.6666666269302368,
+          "marker": null,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 96,
+          "extras": {
+            "source": "Rhino@Dead.FBX",
+            "sourceSha256": "7e8523b71f3faa9696936c9e368ed2dcd0e97bc7964ee098096c515fbba7b530",
+            "importedByIdentity": true
+          }
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.6600000262260437,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 47,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "left impact, limb brace and damped recovery"
+          }
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.6600000262260437,
+          "marker": 0.12,
+          "invalidTimes": 0,
+          "duplicateTargets": 0,
+          "channels": 47,
+          "extras": {
+            "authored": true,
+            "contactNormalized": 0.12,
+            "description": "right impact, limb brace and damped recovery"
+          }
+        }
+      ],
+      "metadata": {
+        "base": {
+          "x": -0.524,
+          "y": 0,
+          "z": -1.001
+        },
+        "animations": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "Death",
+          "HitLeft",
+          "HitRight"
+        ],
+        "impliedWalkMps": 0.8409099444326276,
+        "walkClipSeconds": 1.6666666269302368,
+        "impliedRunMps": 2.4628998315130746,
+        "runClipSeconds": 0.6666666865348816,
+        "groundY": 0
+      },
+      "problems": [],
+      "observations": [
+        "No distinct Stagger clip",
+        "No distinct Turn clip; turning uses locomotion",
+        "Production is not the latest staged candidate; candidate review cannot be attributed to current public bytes"
+      ],
+      "gameplayAcceptedByThisAudit": false
+    }
+  ],
+  "residency": {
+    "perAssetPhaseMetadataRequired": false,
+    "implementation": "game/src/render/creatureMotion.ts owns per-actor time, previous clip/time and blend state; manifest gait durations/speeds support both representations.",
+    "limitation": "Presence of that implementation does not prove phase preservation while real actors cross live/sampled/resident boundaries."
+  },
+  "recommendedBrowserShards": [
+    {
+      "ids": [
+        "animal_bear",
+        "animal_cattle",
+        "animal_boar"
+      ],
+      "proof": "Heavy quadrupeds: real attack/damage contact, all hit directions, death endpoint, actor movement into/out of live rig range."
+    },
+    {
+      "ids": [
+        "animal_coyote",
+        "animal_goat",
+        "animal_deer"
+      ],
+      "proof": "Canine/caprine/cervine: normal attack anticipation/recovery, death silhouette, phase continuity across live/sampled changes."
+    },
+    {
+      "ids": [
+        "animal_hog",
+        "animal_rat",
+        "animal_rabbit"
+      ],
+      "proof": "Small mammals and Walk-only pursuit: real contact/recoil/death and no playback reset on representation switches."
+    },
+    {
+      "ids": [
+        "animal_frog",
+        "animal_crab",
+        "animal_scorpion"
+      ],
+      "proof": "Different anatomies: attack interruption, directional hit/death, planted transition and actual representation crossing."
+    },
+    {
+      "ids": [
+        "boss_rhino_earth",
+        "boss_rhino_water"
+      ],
+      "proof": "Natural Attack contact plus actual front/left/right hit clips; whole head/player visual relation and retained feet."
+    }
+  ],
+  "limitations": [
+    "No browser/GPU session run.",
+    "No death, recoil, attack contact or residency acceptance inferred from gait approval.",
+    "Null Hit/Death contact markers are not inherently missing metadata: damage timing uses Attack; Hit onset and Death endpoint require gameplay review."
+  ]
+}

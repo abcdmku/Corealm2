@@ -1,0 +1,61 @@
+{
+  "selected": true,
+  "sourceBinSha256": "99ba28ddc8da9ba24e1a419e69ed05f14c4b483bf06268a8a77495545985318a",
+  "nativeDimensions": [
+    2.52215313911438,
+    1.9004622101783752,
+    2.496422290802002
+  ],
+  "nativeHeightToLongestHorizontal": 0.7535078583078016,
+  "rotationDegrees": [
+    0,
+    0,
+    0
+  ],
+  "fits": [
+    {
+      "legacyId": "cliff_step_2",
+      "target": [
+        9.319,
+        4.448,
+        6.735
+      ],
+      "axisScale": [
+        3.6948589106180294,
+        2.340483265690674,
+        2.6978608646521542
+      ],
+      "uniformScale": 2.8574215514976107,
+      "relativeAxisScale": [
+        1.2930744883202505,
+        0.8190892465495675,
+        0.9441592064839615
+      ],
+      "anisotropyRatio": 1.5786735008026986,
+      "nativeYZeroAfterLegacyFit": -0.12122343335539737
+    },
+    {
+      "legacyId": "cliff_step_3",
+      "target": [
+        5.996,
+        4.382,
+        5.44
+      ],
+      "axisScale": [
+        2.3773338371140365,
+        2.305754871910192,
+        2.17911850092171
+      ],
+      "uniformScale": 2.2859218817401787,
+      "relativeAxisScale": [
+        1.039989098535716,
+        1.0086761452035775,
+        0.9532777643577376
+      ],
+      "anisotropyRatio": 1.0909612469943633,
+      "nativeYZeroAfterLegacyFit": -0.05624394895758797
+    }
+  ],
+  "derivativeCreated": false,
+  "placementAccepted": false
+}

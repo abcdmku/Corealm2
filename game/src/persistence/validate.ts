@@ -1,6 +1,7 @@
 /** Checks the repaired save before any runtime owner receives it. Content ids may be legacy ids. */
 import { EQUIP_SLOTS, SKILL_IDS, type RegionId } from "../contracts.js";
 import { INVENTORY_SLOTS } from "../state/store.js";
+import { normalizeHuntContracts } from "../systems/huntContracts.js";
 
 const REGIONS: Readonly<Record<RegionId, true>> = {
   fallowmarch: true, vellenwood: true, karrowmoor: true, kilnhalt: true, gravelmaw: true,
@@ -27,6 +28,8 @@ const stack = (value: unknown): boolean => record(value) && id(value.itemId)
 
 /** A reason is returned rather than throwing so rejected imports leave the running store alone. */
 export function validateSaveState(value: unknown): string | null {
+  try { normalizeHuntContracts((value as { huntContracts?: unknown } | null)?.huntContracts); }
+  catch { return "Invalid hunt contract save"; }
   const invalid = (slice: string): string => `Save has invalid ${slice}`;
   if (!record(value)) return invalid("state");
 

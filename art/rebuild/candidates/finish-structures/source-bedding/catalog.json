@@ -1,0 +1,514 @@
+{
+  "generator": "tools/build-bedded-shortcuts.ts",
+  "generatorSha256": "e9bd57c265029eb47d301ac3d8f0f12f18d1075f946b8cb0fe5986174c4193d9",
+  "pack": {
+    "id": "corealm-polyhaven-bedded-shortcuts",
+    "name": "Corealm source-panel shortcut prototypes",
+    "author": "Corealm; scan by Dario Barresi / Poly Haven",
+    "source": "https://polyhaven.com/a/rock_face_01",
+    "license": "Mixed: Poly Haven scanned faces CC0-1.0; DEXSOFT buried rock bodies under the project’s Standard Unity Asset Store EULA"
+  },
+  "source": {
+    "path": "art/rebuild/candidates/finish-cave-source/models/cave/rock-face-01.glb",
+    "sha256": "80b6994e739dc3ddcb43fd24fdf3d3b25744a1830fc8327e5a14066818fc7b44",
+    "provenance": "art/rebuild/candidates/finish-cave-source/provenance.json"
+  },
+  "support": {
+    "path": "art/rebuild/candidates/finish-structures/source-outcrops-quiet/models/corealm_sunder_ledge.glb",
+    "sha256": "41f2964cf41078667860748a249387301aef58fad621797bb2829561ca906382",
+    "provenance": "art/rebuild/candidates/finish-structures/source-outcrops-quiet/shortcut-outcrops.json"
+  },
+  "method": "Affine original scan panels and buried quiet licensed source rock bodies. Source POSITION, NORMAL, TEXCOORD_0, indices and material maps copied unchanged. Node transforms provide assembly and one overall legacy-bounds fit. Open edges overlap adjacent source panels and support bodies; complete opaque exterior is pending visual inspection.",
+  "assets": [
+    {
+      "id": "corealm_sunder_ledge",
+      "file": "models/corealm_sunder_ledge.glb",
+      "pack": "corealm-polyhaven-bedded-shortcuts",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "rock",
+        "bedding",
+        "source-derived",
+        "shortcut"
+      ],
+      "size": {
+        "x": 9.319,
+        "y": 4.448,
+        "z": 6.735
+      },
+      "base": {
+        "x": -4.702,
+        "y": -0.19,
+        "z": -2.909
+      },
+      "animations": [],
+      "materials": [
+        "Poly Haven Rock Face 01",
+        "Corealm quiet DEXSOFT outcrop"
+      ],
+      "bytes": 6739464,
+      "sha256": "60d1ccee6073e1ab940e2a73777d3e9a8b396d6e5a89e6ff76c4e1606777e803",
+      "triangles": 102430,
+      "placement": {
+        "replacesAssetId": "cliff_step_2"
+      },
+      "panels": [
+        {
+          "name": "front bedding",
+          "position": [
+            0,
+            0,
+            1.35
+          ],
+          "rotation": [
+            0.03,
+            0,
+            -0.035
+          ],
+          "scale": [
+            1.38,
+            0.47,
+            1.05
+          ]
+        },
+        {
+          "name": "rear bedding",
+          "position": [
+            0.12,
+            0,
+            -1.65
+          ],
+          "rotation": [
+            -0.025,
+            3.141592653589793,
+            0.035
+          ],
+          "scale": [
+            1.35,
+            0.49,
+            1.1
+          ]
+        },
+        {
+          "name": "left flank",
+          "position": [
+            -2.85,
+            0,
+            -0.04
+          ],
+          "rotation": [
+            0,
+            -1.5707963267948966,
+            0.02
+          ],
+          "scale": [
+            0.93,
+            0.46,
+            0.8
+          ]
+        },
+        {
+          "name": "right flank",
+          "position": [
+            2.85,
+            0,
+            -0.1
+          ],
+          "rotation": [
+            0,
+            1.5707963267948966,
+            -0.04
+          ],
+          "scale": [
+            0.94,
+            0.47,
+            0.82
+          ]
+        },
+        {
+          "name": "upper fractured bed",
+          "position": [
+            -0.1,
+            2.04,
+            2.6
+          ],
+          "rotation": [
+            -1.5307963267948965,
+            0,
+            0.035
+          ],
+          "scale": [
+            1.43,
+            1.05,
+            1.02
+          ]
+        }
+      ],
+      "panelBounds": [
+        {
+          "name": "front bedding",
+          "min": [
+            -4.242587202084413,
+            0.09792015437624436,
+            2.224663413325467
+          ],
+          "max": [
+            4.32333985647721,
+            3.2181760894562585,
+            3.561815780124384
+          ]
+        },
+        {
+          "name": "rear bedding",
+          "min": [
+            -4.013778281371517,
+            0.06857844049573071,
+            -2.909
+          ],
+          "max": [
+            4.4297357213469475,
+            3.3656838687597976,
+            -1.5100313300374721
+          ]
+        },
+        {
+          "name": "left flank",
+          "min": [
+            -4.55341947487997,
+            0.16430826423994083,
+            -2.3840356752016945
+          ],
+          "max": [
+            -3.5349321072480353,
+            3.156211257576678,
+            3.316127341803321
+          ]
+        },
+        {
+          "name": "right flank",
+          "min": [
+            3.5730504481772676,
+            0.14765854167380676,
+            -2.4700827483327674
+          ],
+          "max": [
+            4.617000000000001,
+            3.2278102652188916,
+            3.2470371657757426
+          ]
+        },
+        {
+          "name": "upper fractured bed",
+          "min": [
+            -4.702,
+            2.858618483476581,
+            -2.8340059941186206
+          ],
+          "max": [
+            4.308905836754618,
+            4.258,
+            3.8260000000000005
+          ]
+        }
+      ],
+      "supportBodies": [
+        [
+          -2.82,
+          -0.3,
+          -1.62,
+          2.82,
+          2.03,
+          1.32
+        ]
+      ],
+      "rearToFrontDrop": 0.05341824464387468,
+      "topology": "Overlapping open source panels with complete licensed support rocks. Not a watertight or manifold claim."
+    },
+    {
+      "id": "corealm_scree_slide",
+      "file": "models/corealm_scree_slide.glb",
+      "pack": "corealm-polyhaven-bedded-shortcuts",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "rock",
+        "bedding",
+        "source-derived",
+        "shortcut"
+      ],
+      "size": {
+        "x": 5.996,
+        "y": 4.382,
+        "z": 5.44
+      },
+      "base": {
+        "x": -2.941,
+        "y": -0.124,
+        "z": -2.318
+      },
+      "animations": [],
+      "materials": [
+        "Poly Haven Rock Face 01",
+        "Corealm quiet DEXSOFT outcrop"
+      ],
+      "bytes": 6740356,
+      "sha256": "db12e5bdb37455dd79243d6acbeba8f339b255a7a5622f774e4f1fc95b180da2",
+      "triangles": 145898,
+      "placement": {
+        "replacesAssetId": "cliff_step_3"
+      },
+      "panels": [
+        {
+          "name": "continuous descending bed",
+          "position": [
+            0,
+            0.08,
+            2.25
+          ],
+          "rotation": [
+            -1.0053096491487339,
+            0,
+            0.025
+          ],
+          "scale": [
+            0.93,
+            1.04,
+            0.72
+          ]
+        },
+        {
+          "name": "rear supporting bedding",
+          "position": [
+            0.03,
+            0,
+            -1.25
+          ],
+          "rotation": [
+            0,
+            3.141592653589793,
+            0.025
+          ],
+          "scale": [
+            0.83,
+            0.55,
+            0.72
+          ]
+        },
+        {
+          "name": "front buried toe",
+          "position": [
+            0.05,
+            -0.1,
+            1.65
+          ],
+          "rotation": [
+            0.1,
+            0,
+            -0.025
+          ],
+          "scale": [
+            0.89,
+            0.2,
+            0.6
+          ]
+        },
+        {
+          "name": "left rear support",
+          "position": [
+            -1.75,
+            0,
+            -0.75
+          ],
+          "rotation": [
+            0,
+            -1.5707963267948966,
+            0.04
+          ],
+          "scale": [
+            0.48,
+            0.46,
+            0.65
+          ]
+        },
+        {
+          "name": "right rear support",
+          "position": [
+            1.74,
+            0,
+            -0.72
+          ],
+          "rotation": [
+            0,
+            1.5707963267948966,
+            -0.04
+          ],
+          "scale": [
+            0.48,
+            0.46,
+            0.65
+          ]
+        },
+        {
+          "name": "left toe support",
+          "position": [
+            -1.74,
+            0,
+            0.94
+          ],
+          "rotation": [
+            0,
+            -1.5707963267948966,
+            0.025
+          ],
+          "scale": [
+            0.42,
+            0.3,
+            0.59
+          ]
+        },
+        {
+          "name": "right toe support",
+          "position": [
+            1.73,
+            0,
+            0.93
+          ],
+          "rotation": [
+            0,
+            1.5707963267948966,
+            -0.025
+          ],
+          "scale": [
+            0.42,
+            0.3,
+            0.59
+          ]
+        }
+      ],
+      "panelBounds": [
+        {
+          "name": "continuous descending bed",
+          "min": [
+            -2.9306961859070078,
+            0.7563832909276049,
+            -2.318
+          ],
+          "max": [
+            2.927991743285854,
+            4.257999999999999,
+            3.122
+          ]
+        },
+        {
+          "name": "rear supporting bedding",
+          "min": [
+            -2.4641786656765094,
+            0.22166221104508826,
+            -2.261731411247864
+          ],
+          "max": [
+            2.730498846075038,
+            3.734996691521441,
+            -1.4048393725657198
+          ]
+        },
+        {
+          "name": "front buried toe",
+          "min": [
+            -2.6284892826787063,
+            0.04783603014782595,
+            2.027792807311225
+          ],
+          "max": [
+            2.89234295271997,
+            1.3584437684561597,
+            2.7734375927674444
+          ]
+        },
+        {
+          "name": "left rear support",
+          "min": [
+            -2.941,
+            0.22363159246344574,
+            -2.2894122165607165
+          ],
+          "max": [
+            -2.115011214660978,
+            3.165310859092809,
+            0.5581746466137623
+          ]
+        },
+        {
+          "name": "right rear support",
+          "min": [
+            2.229011214660979,
+            0.24841147479766973,
+            -2.1963599943001104
+          ],
+          "max": [
+            3.055000000000001,
+            3.153811874909838,
+            0.5777821296011233
+          ]
+        },
+        {
+          "name": "left toe support",
+          "min": [
+            -2.8523078256819114,
+            0.23465937792554364,
+            -0.10051633992205647
+          ],
+          "max": [
+            -2.1025641589895683,
+            2.148951776537404,
+            2.363167864233881
+          ]
+        },
+        {
+          "name": "right toe support",
+          "min": [
+            2.21656415898957,
+            0.2527423953075378,
+            -0.09049843338906433
+          ],
+          "max": [
+            2.9663078256819126,
+            2.1418143445766478,
+            2.345246788335931
+          ]
+        }
+      ],
+      "supportBodies": [
+        [
+          -1.7,
+          -0.3,
+          -1.8,
+          1.7,
+          1.86,
+          -0.7
+        ],
+        [
+          -1.7,
+          -0.3,
+          -0.8,
+          1.7,
+          1.2,
+          0.4
+        ],
+        [
+          -1.68,
+          -0.3,
+          0.35,
+          1.68,
+          0.57,
+          1.43
+        ]
+      ],
+      "rearToFrontDrop": 2.1581555565434734,
+      "topology": "Overlapping open source panels with complete licensed support rocks. Not a watertight or manifold claim."
+    }
+  ],
+  "visualAccepted": false,
+  "browserReviewed": false
+}

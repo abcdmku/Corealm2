@@ -1,0 +1,43 @@
+{
+  "units": "meters",
+  "axisOrder": "Blender width X, longitudinal Y, height Z",
+  "headMask": "Final connected body vertices with Y < -0.85; excludes most ear crowns and neck",
+  "torsoMask": "Final connected body vertices -0.43 < Y < 0.83 and Z > 0.55; geometric region, not zoological landmarks",
+  "head": {
+    "min": [
+      -0.17674684524536133,
+      -1.1412124633789062,
+      0.8139877319335938
+    ],
+    "max": [
+      0.1765168160200119,
+      -0.8501238822937012,
+      1.0933592319488525
+    ],
+    "dimensions": [
+      0.35326366126537323,
+      0.2910885810852051,
+      0.2793715000152588
+    ]
+  },
+  "torso": {
+    "min": [
+      -0.3435046076774597,
+      -0.4299657344818115,
+      0.5501181483268738
+    ],
+    "max": [
+      0.34143322706222534,
+      0.8285589218139648,
+      1.1297330856323242
+    ],
+    "dimensions": [
+      0.6849378347396851,
+      1.2585246562957764,
+      0.5796149373054504
+    ]
+  },
+  "headLengthToTorsoLength": 0.23129350674937743,
+  "headWidthToTorsoWidth": 0.5157601804835811,
+  "reviewConcern": "Side CPU view retains oversized rear barrel and small head on protruding narrow neck. CPU review is not acceptance."
+}

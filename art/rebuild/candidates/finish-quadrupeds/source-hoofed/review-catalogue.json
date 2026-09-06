@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "scope": "Static whole-body source review only. Original complete CC0 horse by Lyndon Daniels; zero skins and zero actions. No gameplay motion claims.",
+  "assets": [
+    {
+      "id": "creature_marchwild_horse",
+      "file": "models/creature/creature_marchwild_horse.glb",
+      "pack": "lyndon-realtime-ranchers-cc0",
+      "category": "character",
+      "is": "wild horse",
+      "tags": [
+        "animal",
+        "hoofed",
+        "horse",
+        "complete-source",
+        "static",
+        "cc0"
+      ],
+      "bytes": 17538080,
+      "sha256": "cdf4f716f7bd1a980814c53ed9fa81d28e016e2e316ed3f319982d7e3cbce782",
+      "size": {
+        "x": 0.9703096455174851,
+        "y": 2.399999687586625,
+        "z": 3.621283668852593
+      },
+      "base": {
+        "x": -0.4851537040401581,
+        "y": 4.605924419642804e-8,
+        "z": -1.8106417863700888
+      },
+      "bounds": {
+        "min": [
+          -0.4851537040401581,
+          4.605924419642804e-8,
+          -1.8106417863700888
+        ],
+        "max": [
+          0.485155941477327,
+          2.399999733645869,
+          1.810641882482504
+        ]
+      },
+      "groundY": 4.605924419642804e-8,
+      "triangles": 14986,
+      "animations": [],
+      "materials": [
+        "Material.003_Hair12Main2k.png",
+        "Material_HorseMain4k00.png",
+        "Eye_brown"
+      ],
+      "sourceProvenance": {
+        "author": "Lyndon Daniels",
+        "source": "https://opengameart.org/content/realtime-ranchers-3d-model-pack",
+        "license": "CC0-1.0",
+        "originalFiles": [
+          "horse.zip",
+          "original/horse/LD_HorseRtime02.obj"
+        ],
+        "licenseEvidence": [
+          "ranchers.html",
+          "LICENSE.md"
+        ]
+      },
+      "reviewOnly": true,
+      "skinned": false
+    }
+  ],
+  "files": {
+    "creature_marchwild_horse": "horse-source-static.glb"
+  },
+  "pack": {
+    "id": "lyndon-realtime-ranchers-cc0",
+    "name": "Realtime Rancher horse",
+    "author": "Lyndon Daniels",
+    "source": "https://opengameart.org/content/realtime-ranchers-3d-model-pack",
+    "license": "CC0-1.0"
+  },
+  "sourceReview": {
+    "status": "awaiting-production-static-view",
+    "wrapper": {
+      "rotationY": 0,
+      "uniformScale": 1,
+      "translation": [
+        0,
+        0,
+        0
+      ]
+    },
+    "orientation": {
+      "up": "+Y",
+      "forward": "+Z",
+      "explanation": "Native Blender horse faces -Y; Blender glTF export maps this to +Z. Uniform source normalization is baked into existing node transforms; no additional runtime rotation or scale is requested."
+    },
+    "completeBody": true,
+    "skins": 0,
+    "animations": 0,
+    "creatorPreviews": [
+      "horse_default_0.png",
+      "riggedHorse.jpg"
+    ],
+    "limitations": [
+      "Static review only; do not infer Idle/Walk/Run/Attack/Death from fallback runtime movement.",
+      "Native rigged derivative exists but has no actions and unweighted mane, tail and eyes.",
+      "No GPU preview of converted GLB yet."
+    ]
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "source": "cdmir-rat-original.blend",
+  "sourceSha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+  "action": "Idle.000",
+  "method": "Locate serialized suspect segment intervals, then bisect original Blender segment orientation transitions 18 times. Compare original Blender evaluated body vertices immediately either side. No GLB or approximated skinning enters measured source positions.",
+  "findings": [
+    {
+      "bone": "Tail",
+      "initialQuaternionDot": 0.010362161323428154,
+      "sourceFrames": [
+        584.9275207701721,
+        584.9275207850151
+      ],
+      "separationSeconds": 6.184563972055912E-10,
+      "sourceMatrixDifference": 2.8284271547026854,
+      "sourceBodyMaxJumpUnits": 0.21320063914097007,
+      "sourceBodyMaxJumpNormalizedMm": 51.34523571269691,
+      "worstVertex": 1773,
+      "sourcePositions": [
+        [
+          0.15329629182815552,
+          1.3688087463378906,
+          0.4061029851436615
+        ],
+        [
+          -0.056543368846178055,
+          1.3735425472259521,
+          0.44351181387901306
+        ]
+      ]
+    },
+    {
+      "bone": "Tail",
+      "initialQuaternionDot": 0.00799557939171791,
+      "sourceFrames": [
+        587.3909606733941,
+        587.3909606882371
+      ],
+      "separationSeconds": 6.184563972055912E-10,
+      "sourceMatrixDifference": 2.82842715766958,
+      "sourceBodyMaxJumpUnits": 0.2132196014564409,
+      "sourceBodyMaxJumpNormalizedMm": 51.34980241831952,
+      "worstVertex": 1773,
+      "sourcePositions": [
+        [
+          0.15883955359458923,
+          1.451827049255371,
+          0.3249191641807556
+        ],
+        [
+          -0.047436539083719254,
+          1.4395878314971924,
+          0.27235516905784607
+        ]
+      ]
+    },
+    {
+      "bone": "Tail",
+      "initialQuaternionDot": 0.008276308886706829,
+      "sourceFrames": [
+        870.3373107954394,
+        870.337310810457
+      ],
+      "separationSeconds": 6.257323548197746E-10,
+      "sourceMatrixDifference": 2.8284274282393165,
+      "sourceBodyMaxJumpUnits": 0.2132207450978535,
+      "sourceBodyMaxJumpNormalizedMm": 51.35007784215566,
+      "worstVertex": 1773,
+      "sourcePositions": [
+        [
+          -0.047430939972400665,
+          1.439586877822876,
+          0.2723511755466461
+        ],
+        [
+          0.158842995762825,
+          1.4518284797668457,
+          0.3249277174472809
+        ]
+      ]
+    },
+    {
+      "bone": "Tail",
+      "initialQuaternionDot": 0.010748510248959064,
+      "sourceFrames": [
+        872.7127990946174,
+        872.7127991092857
+      ],
+      "separationSeconds": 6.111804395914078E-10,
+      "sourceMatrixDifference": 2.8284263672854952,
+      "sourceBodyMaxJumpUnits": 0.21320067896052386,
+      "sourceBodyMaxJumpNormalizedMm": 51.345245302463546,
+      "worstVertex": 1773,
+      "sourcePositions": [
+        [
+          -0.056547146290540695,
+          1.373535394668579,
+          0.44348734617233276
+        ],
+        [
+          0.15330179035663605,
+          1.368811845779419,
+          0.40612906217575073
+        ]
+      ]
+    },
+    {
+      "bone": "Tail.002",
+      "initialQuaternionDot": 0.006720311939716339,
+      "sourceFrames": [
+        589.2127380163874,
+        589.212738031405
+      ],
+      "separationSeconds": 6.257323548197746E-10,
+      "sourceMatrixDifference": 2.828427214840931,
+      "sourceBodyMaxJumpUnits": 0.13875518080847576,
+      "sourceBodyMaxJumpNormalizedMm": 33.4164920596619,
+      "worstVertex": 1784,
+      "sourcePositions": [
+        [
+          -0.04789303243160248,
+          2.6733224391937256,
+          0.15816280245780945
+        ],
+        [
+          0.0907607227563858,
+          2.670243740081787,
+          0.16248229146003723
+        ]
+      ]
+    },
+    {
+      "bone": "Tail.002",
+      "initialQuaternionDot": 0.006967741996049881,
+      "sourceFrames": [
+        868.5805969513021,
+        868.5805969663197
+      ],
+      "separationSeconds": 6.257323548197746E-10,
+      "sourceMatrixDifference": 2.8284275363082,
+      "sourceBodyMaxJumpUnits": 0.13875594687955356,
+      "sourceBodyMaxJumpNormalizedMm": 33.41667655301154,
+      "worstVertex": 1784,
+      "sourcePositions": [
+        [
+          0.0907578095793724,
+          2.67024302482605,
+          0.16248497366905212
+        ],
+        [
+          -0.047896500676870346,
+          2.6733219623565674,
+          0.15815886855125427
+        ]
+      ]
+    }
+  ],
+  "evaluatedWith": "Blender 4.5.11 LTS, original Blender 2.75 .blend loaded without source edits. This documents current evaluated source behavior; it does not claim the original Blender 2.75 renderer had identical behavior."
+}

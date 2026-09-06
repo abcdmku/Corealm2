@@ -1,0 +1,29 @@
+{
+  "candidateSha256": "ab2ed3175e6cad999f04faaa03327f927b1338ba847bd1ff20ad0498b4bcffac",
+  "id": "animal_rat",
+  "passed": true,
+  "results": [
+    {
+      "id": "animal_rat",
+      "name": "Walk",
+      "candidateSha256": "ab2ed3175e6cad999f04faaa03327f927b1338ba847bd1ff20ad0498b4bcffac",
+      "sourceSha256": "b86f5636946c6406dc344b39fc056375da7dba4e6389959291542222380a9563",
+      "clearanceM": 0.0005,
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "velocityIntervalSeconds": 0.00018229166356225807,
+      "maximumMps": 0.0013185337737972236,
+      "count": 30832,
+      "worst": {
+        "vertex": 676,
+        "phase": 0.7508463541666667,
+        "clearanceM": 0.0005008046650486146,
+        "declared": true
+      },
+      "nonFiniteVertices": 0,
+      "maximumPenetrationM": 0,
+      "passed": true
+    }
+  ],
+  "sourceSha256": "b86f5636946c6406dc344b39fc056375da7dba4e6389959291542222380a9563"
+}

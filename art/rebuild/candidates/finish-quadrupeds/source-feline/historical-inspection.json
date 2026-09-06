@@ -1,0 +1,60 @@
+{
+  "bones": 290,
+  "meshes": [
+    {
+      "name": "Sphere",
+      "vertices": 190464,
+      "skinned": true,
+      "joints": 85
+    },
+    {
+      "name": "Sphere001",
+      "vertices": 190464,
+      "skinned": true,
+      "joints": 85
+    },
+    {
+      "name": "eye",
+      "vertices": 0,
+      "skinned": false
+    },
+    {
+      "name": "Cat",
+      "vertices": 135870,
+      "skinned": true,
+      "joints": 85
+    },
+    {
+      "name": "Plane",
+      "vertices": 1536,
+      "skinned": false
+    }
+  ],
+  "clips": [
+    {
+      "name": "Armature|Walk",
+      "duration": 1.125,
+      "tracks": 258
+    },
+    {
+      "name": "Armature|CameraAction",
+      "duration": 0.0416666679084301,
+      "tracks": 258
+    },
+    {
+      "name": "Armature|run",
+      "duration": 0.5833333134651184,
+      "tracks": 258
+    },
+    {
+      "name": "Plane|CameraAction",
+      "duration": 0.0416666679084301,
+      "tracks": 3
+    },
+    {
+      "name": "Camera|CameraAction",
+      "duration": 0.0416666679084301,
+      "tracks": 3
+    }
+  ]
+}

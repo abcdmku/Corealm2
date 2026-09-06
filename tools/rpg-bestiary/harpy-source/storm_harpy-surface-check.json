@@ -1,0 +1,221 @@
+{
+  "id": "storm_harpy",
+  "passed": true,
+  "sourceMeshesExactlyPreserved": 7,
+  "attachmentMeshRanges": 449,
+  "attachmentVertices": 21360,
+  "attachmentTriangles": 36792,
+  "uvValuesExactlyPreserved": true,
+  "triangleIndicesExactlyPreserved": true,
+  "materialAssignmentsExactlyPreserved": true,
+  "boneNamesAndRigidWeightsExactlyPreserved": true,
+  "maximumWorldPointDifference": 3.044624986388764e-8,
+  "maximumWorldNormalDifference": 6.491349315994702e-7,
+  "poses": [
+    {
+      "pose": "rest",
+      "maximumWorldPointDifference": 3.0446243595712324e-8,
+      "maximumWorldNormalDifference": 4.0918439887423264e-8
+    },
+    {
+      "pose": "Idle@0",
+      "maximumWorldPointDifference": 3.044623910190893e-8,
+      "maximumWorldNormalDifference": 2.0162085074455894e-7
+    },
+    {
+      "pose": "Idle@0.25",
+      "maximumWorldPointDifference": 3.0446239156918426e-8,
+      "maximumWorldNormalDifference": 2.016219721038289e-7
+    },
+    {
+      "pose": "Idle@0.5",
+      "maximumWorldPointDifference": 3.0446239152192954e-8,
+      "maximumWorldNormalDifference": 2.0161431864163056e-7
+    },
+    {
+      "pose": "Idle@0.75",
+      "maximumWorldPointDifference": 3.044623886515312e-8,
+      "maximumWorldNormalDifference": 2.0162181444099748e-7
+    },
+    {
+      "pose": "Idle@1",
+      "maximumWorldPointDifference": 3.044624660346309e-8,
+      "maximumWorldNormalDifference": 6.491349315994702e-7
+    },
+    {
+      "pose": "Walk@0",
+      "maximumWorldPointDifference": 3.044623908348594e-8,
+      "maximumWorldNormalDifference": 1.753948285378026e-7
+    },
+    {
+      "pose": "Walk@0.25",
+      "maximumWorldPointDifference": 3.044623891348027e-8,
+      "maximumWorldNormalDifference": 2.0188314745358862e-7
+    },
+    {
+      "pose": "Walk@0.5",
+      "maximumWorldPointDifference": 3.044623884496307e-8,
+      "maximumWorldNormalDifference": 2.0153466989606626e-7
+    },
+    {
+      "pose": "Walk@0.75",
+      "maximumWorldPointDifference": 3.044623895087147e-8,
+      "maximumWorldNormalDifference": 2.052775822817311e-7
+    },
+    {
+      "pose": "Walk@1",
+      "maximumWorldPointDifference": 3.044624986388764e-8,
+      "maximumWorldNormalDifference": 4.7191590091203146e-7
+    },
+    {
+      "pose": "Run@0",
+      "maximumWorldPointDifference": 3.044623912949148e-8,
+      "maximumWorldNormalDifference": 1.6174486508640558e-7
+    },
+    {
+      "pose": "Run@0.25",
+      "maximumWorldPointDifference": 3.0446239298636646e-8,
+      "maximumWorldNormalDifference": 3.945520741494586e-7
+    },
+    {
+      "pose": "Run@0.5",
+      "maximumWorldPointDifference": 3.0446239128071964e-8,
+      "maximumWorldNormalDifference": 1.9162312384274425e-7
+    },
+    {
+      "pose": "Run@0.75",
+      "maximumWorldPointDifference": 3.044623987603857e-8,
+      "maximumWorldNormalDifference": 3.7182118715802286e-7
+    },
+    {
+      "pose": "Run@1",
+      "maximumWorldPointDifference": 3.044624767132875e-8,
+      "maximumWorldNormalDifference": 3.4350073537833827e-7
+    },
+    {
+      "pose": "Attack@0",
+      "maximumWorldPointDifference": 3.044624281760463e-8,
+      "maximumWorldNormalDifference": 2.7826069408584365e-7
+    },
+    {
+      "pose": "Attack@0.25",
+      "maximumWorldPointDifference": 3.044624025138029e-8,
+      "maximumWorldNormalDifference": 2.6437158148524887e-7
+    },
+    {
+      "pose": "Attack@0.5",
+      "maximumWorldPointDifference": 3.0446240881827146e-8,
+      "maximumWorldNormalDifference": 2.5096732600033973e-7
+    },
+    {
+      "pose": "Attack@0.75",
+      "maximumWorldPointDifference": 3.044624211784312e-8,
+      "maximumWorldNormalDifference": 2.6415273935087723e-7
+    },
+    {
+      "pose": "Attack@1",
+      "maximumWorldPointDifference": 3.044624761551499e-8,
+      "maximumWorldNormalDifference": 4.206338268330508e-7
+    },
+    {
+      "pose": "Hit@0",
+      "maximumWorldPointDifference": 3.044623924074291e-8,
+      "maximumWorldNormalDifference": 2.0161060227923082e-7
+    },
+    {
+      "pose": "Hit@0.25",
+      "maximumWorldPointDifference": 3.044623942980258e-8,
+      "maximumWorldNormalDifference": 2.0161246233886323e-7
+    },
+    {
+      "pose": "Hit@0.5",
+      "maximumWorldPointDifference": 3.044623906298257e-8,
+      "maximumWorldNormalDifference": 2.0161570698296621e-7
+    },
+    {
+      "pose": "Hit@0.75",
+      "maximumWorldPointDifference": 3.0446239059188386e-8,
+      "maximumWorldNormalDifference": 2.01619490396116e-7
+    },
+    {
+      "pose": "Hit@1",
+      "maximumWorldPointDifference": 3.044624287658159e-8,
+      "maximumWorldNormalDifference": 3.638133713897592e-7
+    },
+    {
+      "pose": "HitLeft@0",
+      "maximumWorldPointDifference": 3.044623924074291e-8,
+      "maximumWorldNormalDifference": 2.0161060227923082e-7
+    },
+    {
+      "pose": "HitLeft@0.25",
+      "maximumWorldPointDifference": 3.044623942980258e-8,
+      "maximumWorldNormalDifference": 2.0161246233886323e-7
+    },
+    {
+      "pose": "HitLeft@0.5",
+      "maximumWorldPointDifference": 3.044623906298257e-8,
+      "maximumWorldNormalDifference": 2.0161570698296621e-7
+    },
+    {
+      "pose": "HitLeft@0.75",
+      "maximumWorldPointDifference": 3.0446239059188386e-8,
+      "maximumWorldNormalDifference": 2.01619490396116e-7
+    },
+    {
+      "pose": "HitLeft@1",
+      "maximumWorldPointDifference": 3.044624287658159e-8,
+      "maximumWorldNormalDifference": 3.638133713897592e-7
+    },
+    {
+      "pose": "HitRight@0",
+      "maximumWorldPointDifference": 3.044623924074291e-8,
+      "maximumWorldNormalDifference": 2.0161060227923082e-7
+    },
+    {
+      "pose": "HitRight@0.25",
+      "maximumWorldPointDifference": 3.044623942980258e-8,
+      "maximumWorldNormalDifference": 2.0161246233886323e-7
+    },
+    {
+      "pose": "HitRight@0.5",
+      "maximumWorldPointDifference": 3.044623906298257e-8,
+      "maximumWorldNormalDifference": 2.0161570698296621e-7
+    },
+    {
+      "pose": "HitRight@0.75",
+      "maximumWorldPointDifference": 3.0446239059188386e-8,
+      "maximumWorldNormalDifference": 2.01619490396116e-7
+    },
+    {
+      "pose": "HitRight@1",
+      "maximumWorldPointDifference": 3.044624287658159e-8,
+      "maximumWorldNormalDifference": 3.638133713897592e-7
+    },
+    {
+      "pose": "Death@0",
+      "maximumWorldPointDifference": 3.044624627385845e-8,
+      "maximumWorldNormalDifference": 3.4084599908355115e-7
+    },
+    {
+      "pose": "Death@0.25",
+      "maximumWorldPointDifference": 3.044624202967379e-8,
+      "maximumWorldNormalDifference": 3.151832460773528e-7
+    },
+    {
+      "pose": "Death@0.5",
+      "maximumWorldPointDifference": 3.044624806619785e-8,
+      "maximumWorldNormalDifference": 3.108529725043298e-7
+    },
+    {
+      "pose": "Death@0.75",
+      "maximumWorldPointDifference": 3.044623893984512e-8,
+      "maximumWorldNormalDifference": 1.8619102177773152e-7
+    },
+    {
+      "pose": "Death@1",
+      "maximumWorldPointDifference": 3.0446249190906784e-8,
+      "maximumWorldNormalDifference": 4.094217495143247e-7
+    }
+  ]
+}

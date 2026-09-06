@@ -1,0 +1,51 @@
+{
+  "source": "cdmir-rat-native.glb",
+  "sourceSha256": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047",
+  "output": "cdmir-porcupine-adapted.glb",
+  "sha256": "304f3ccdcc6d355304a2705038356a5704d95bbc4370ebadc385d516b003e4da",
+  "bytes": 10645764,
+  "sourceAuthor": "CDmir; TinyWorlds",
+  "license": "CC0-1.0",
+  "sourceUrl": "https://opengameart.org/content/evil-giant-rat",
+  "originalBlendSha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+  "reference": {
+    "target": "crested porcupine inspired fantasy animal",
+    "anatomySource": "https://animaldiversity.org/accounts/Hystrix_cristata/",
+    "anatomyNotes": "Short tail, nape crest, long defensive quills on flanks and rump. Measurements below are authored proportions, not zoological measurements."
+  },
+  "quillCount": 970,
+  "nativeActions": [
+    "Attack.000",
+    "Attack.001",
+    "Attack.002",
+    "Attack.003",
+    "Attack.Begin",
+    "Attack.End",
+    "Die",
+    "Hit",
+    "Idle.001",
+    "Idle.002",
+    "Run",
+    "Stand",
+    "Walk"
+  ],
+  "nativeExportAudit": {
+    "file": "native-export-report.json",
+    "finalByteMaximumNormalizedMm": 0.9643288760306397,
+    "sourceActionsPreservedInOriginal": 14,
+    "omittedSourceActions": [
+      {
+        "name": "Idle.000",
+        "reason": "Six original Blender B-bone discontinuities; source jumps 33.4–51.35 mm at preview scale.",
+        "evidence": "weight-audit-tail-discontinuity.json"
+      }
+    ]
+  },
+  "topology": "Original body/head/limbs/tail topology retained and reshaped; quills added to Body skin.",
+  "limits": [
+    "CPU candidate only. No hardware visual or gameplay acceptance.",
+    "Original native tracks retained; species reshaping changes resulting surface motion and requires a separate contact and silhouette review.",
+    "Quill root weights copied intact from source vertices; added quill lengths amplify local rotational motion.",
+    "Tail pivots and translation paths retargeted to the shorter source mesh; Run/Walk/Attack contact still requires review."
+  ]
+}

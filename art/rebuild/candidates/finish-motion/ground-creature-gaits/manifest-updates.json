@@ -1,0 +1,47 @@
+[
+  {
+    "id": "animal_frog",
+    "sourceSha256": "3219cea576cebf825faf325f78d5f825fd8edf31e3c3ed42701cca2f412feeb1",
+    "sha256": "0d0c9c63ca299fce2c5e15fd781ef1285175945be9af9da8e19940674a9b2daa",
+    "bytes": 1380328,
+    "set": {
+      "impliedWalkMps": 0.08,
+      "impliedRunMps": 0.3,
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.7666667103767395
+    },
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false
+  },
+  {
+    "id": "animal_frog_green",
+    "sourceSha256": "5932c0a21ae41480b5208fe069de48b98faa0922e638b5e4f877e11e60736baa",
+    "sha256": "31ce3e3360e08edcdd7beeedcdc1844b287cec6ea5f00dc8b6cd1f221cae098b",
+    "bytes": 1378056,
+    "set": {
+      "impliedWalkMps": 0.08,
+      "impliedRunMps": 0.3,
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.7666667103767395
+    },
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false
+  },
+  {
+    "id": "animal_crab",
+    "sourceSha256": "0a3fa8f0d6bd5f8b47d706728f67b4266b04295670f2ec18d24e4b484b0ac4d8",
+    "sha256": "67e7cede7699c2c3b7d08ac9490bcb2817be4b32051e4e1d50d31d4326d74b4d",
+    "bytes": 1050992,
+    "set": {
+      "impliedWalkMps": 0.10869565217391305,
+      "impliedRunMps": 0.28260869565217395,
+      "walkClipSeconds": 1.066666603088379,
+      "runClipSeconds": 0.46666669845581055
+    },
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false
+  }
+]

@@ -1,0 +1,186 @@
+{
+  "schema": 1,
+  "scope": "Original rat source preview using the porcupine asset interception slot. No species adaptation, native animation export or gameplay acceptance.",
+  "assets": [
+    {
+      "id": "creature_quillback_porcupine",
+      "file": "models/creature/creature_quillback_porcupine.glb",
+      "pack": "cdmir-cc0-rat-source-evaluation",
+      "category": "character",
+      "is": "original complete rat body by CDmir and TinyWorlds, source evaluation only; NOT a porcupine",
+      "tags": [
+        "rat",
+        "rodent",
+        "original-source",
+        "whole-body-evaluation",
+        "not-porcupine",
+        "static-preview"
+      ],
+      "bytes": 2852220,
+      "sha256": "ae3cb18c2590b34b5bacca459df0ac1318a532f171eccc5276aca7252c199ddb",
+      "size": {
+        "x": 0.28257939502814233,
+        "y": 0.34000000000424085,
+        "z": 1.23003600850538
+      },
+      "base": {
+        "x": -0.14128969751407133,
+        "y": -4.240863076518795e-12,
+        "z": -0.6150180042526902
+      },
+      "bounds": {
+        "min": [
+          -0.14128969751407133,
+          -4.240863076518795e-12,
+          -0.6150180042526902
+        ],
+        "max": [
+          0.14128969751407103,
+          0.33999999999999997,
+          0.61501800425269
+        ]
+      },
+      "groundY": -4.240863076518795e-12,
+      "triangles": 5930,
+      "animations": [],
+      "materials": [
+        "body",
+        "head.001",
+        "head",
+        "Teeth"
+      ],
+      "sourceProvenance": {
+        "author": "CDmir; TinyWorlds",
+        "source": "https://opengameart.org/content/evil-giant-rat",
+        "download": "https://opengameart.org/sites/default/files/rat_2.blend",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "originalSpecies": "rat",
+        "sourceFile": "cdmir-rat-original.blend",
+        "sourceSha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+        "rawPreviewSha256": "3bf380281a98800107167a3e55beff9e46377a2f0b020cbab793ab7624db6057",
+        "sourceNativeActions": [
+          "Attack.000",
+          "Attack.001",
+          "Attack.002",
+          "Attack.003",
+          "Attack.Begin",
+          "Attack.End",
+          "Die",
+          "Hit",
+          "Idle.000",
+          "Idle.001",
+          "Idle.002",
+          "Run",
+          "Stand",
+          "Walk"
+        ],
+        "adaptationPerformed": false
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "cdmir-cc0-rat-source-evaluation",
+      "name": "CDmir and TinyWorlds original rat source evaluation",
+      "author": "CDmir; TinyWorlds",
+      "source": "https://opengameart.org/content/evil-giant-rat",
+      "license": "CC0-1.0"
+    }
+  ],
+  "files": {
+    "creature_quillback_porcupine": "cdmir-rat-preview-normalized.glb"
+  },
+  "previewTransform": {
+    "scale": 0.24083059190609232,
+    "translation": [
+      1.5030158044496858e-8,
+      0.0045534667585066515,
+      0.07219911277013222
+    ],
+    "rotation": "identity: stock Blender glTF export already maps the source nose toward +Z",
+    "targetHeight": 0.34,
+    "units": "Authored preview scale, not measured zoological dimensions.",
+    "rawBounds": {
+      "min": [
+        -0.586676764882604,
+        -0.018907343632997408,
+        -2.8535291616556364
+      ],
+      "max": [
+        0.5866766400632617,
+        1.3928734326754255,
+        2.253944929447421
+      ]
+    },
+    "geometryAndWeightsSha256": "d38affd3c48deebc74157d7641b10eb9b0d48ee1b17cce0c9f374001aa71a050",
+    "geometryAndWeightsUnchanged": true
+  },
+  "floorAndAxisLimits": [
+    "Ground offset places the lowest drawn rest vertex at y=0; this does not prove all paws planted or motion contact.",
+    "No animation clips exported. Gallery Walk/Run/Attack cannot demonstrate native movement.",
+    "Long original rat tail remains and contributes to centering and bounds.",
+    "Original Hair object omitted by stock export; source exporter flagged invalid Rat mesh and reduced vertices with more than4 influences.",
+    "Materials approximate original packed albedo and normals; AO and legacy vertex colors are not translated.",
+    "This preview is the original rat body. Porcupine anatomy, tail and quills remain unauthored."
+  ],
+  "perMeshDrawnBounds": [
+    {
+      "name": "Body",
+      "min": [
+        -0.14128969751407133,
+        -4.240863076518795e-12,
+        -0.6150180042526902
+      ],
+      "max": [
+        0.14128969751407103,
+        0.33999999999999997,
+        0.4632724252011349
+      ]
+    },
+    {
+      "name": "Eyes",
+      "min": [
+        -0.04139242547353367,
+        0.17708895280299217,
+        0.46924864587708764
+      ],
+      "max": [
+        0.041392455533863226,
+        0.20719418861103908,
+        0.489015847501776
+      ]
+    },
+    {
+      "name": "Head",
+      "min": [
+        -0.11742352659045355,
+        0.062196929958658324,
+        0.37531517211877613
+      ],
+      "max": [
+        0.11742355665076659,
+        0.23713894129166999,
+        0.61501800425269
+      ]
+    },
+    {
+      "name": "Teeth",
+      "min": [
+        -0.02639717734575343,
+        0.08576708265110992,
+        0.49261023230844053
+      ],
+      "max": [
+        0.026397207406096,
+        0.17485748540181226,
+        0.5836633793632118
+      ]
+    }
+  ]
+}

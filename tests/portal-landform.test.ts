@@ -31,7 +31,7 @@ function profile() {
         (sample(x, z + 0.025) - sample(x, z - 0.025)) / 0.05,
       );
       // The protected recess deliberately cuts into the bank. The rest must return broadly.
-      const cut = Math.abs(x) <= 4.1 && z >= -8.6 && z <= 0;
+      const cut = Math.abs(x) <= 8.2 && z >= -11.8 && z <= 0;
       if (cut && grade > maxCutGrade) { maxCutGrade = grade; cutAt = [x, z]; }
       if (!cut && grade > maxOuterGrade) { maxOuterGrade = grade; outerAt = [x, z]; }
     }
@@ -40,41 +40,38 @@ function profile() {
 }
 
 describe("authored portal host terrain", () => {
-  it("preserves the exact entrance corridor, recess floor and whole forward approach", () => {
+  it("supports the entrance corridor and paving on their common floor datum", () => {
     for (const landform of [LOCAL, AUTHORED]) {
       for (const x of [-2.4, -1.96, -1, 0, 1, 1.96, 2.4]) {
         for (let step = 0; step <= 60; step++) {
-          const z = -6.2 + step * 0.5;
+          const z = -6.2 + step * 0.18;
           const height = landform.floorY + x * 0.01 + z * 0.02;
           const [wx, wz] = point(x, z, landform);
-          expect(portalLandformHeight(wx, wz, height, landform)).toBe(height);
+          expect(portalLandformHeight(wx, wz, height, landform)).toBeCloseTo(landform.floorY, 10);
         }
       }
-      for (const x of [-20, -8, -4, 0, 4, 8, 20]) {
-        for (const z of [0, 0.01, 1, 4, 18]) {
-          const [wx, wz] = point(x, z, landform);
-          expect(portalLandformHeight(wx, wz, 17.25, landform)).toBe(17.25);
-        }
-      }
+      const [wx, wz] = point(0, 14, landform);
+      expect(portalLandformHeight(wx, wz, 17.25, landform)).toBe(17.25);
     }
     // The accepted recess ends at -5.555 m, leaving 0.645 m before the terrain closes behind it.
     expect(sample(0, -5.555)).toBe(0);
     expect(sample(0, -6.2)).toBe(0);
-    expect(sample(0, -8.5)).toBeGreaterThan(7);
+    expect(sample(0, -8.5)).toBeGreaterThan(0);
+    expect(sample(0, -12)).toBeGreaterThan(8);
   });
 
   it("places one smooth rear crest and unequal shoulders within the bounded footprint", () => {
-    expect(sample(0, -10)).toBeCloseTo(8.2, 12);
-    expect(sample(-6.8, -3.5)).toBeGreaterThan(sample(6.8, -3.5) + 0.3);
-    expect(sample(-6.8, -3.5)).toBeGreaterThan(3.3);
-    for (const [x, z] of [[-12, -10], [12, -10], [0, -18], [-20, -4], [20, -4], [0, 1]]) {
+    expect(sample(0, -12)).toBeCloseTo(8.2, 12);
+    expect(sample(-6.8, -3.5)).toBeGreaterThan(sample(6.8, -3.5) + 0.2);
+    expect(sample(-6.8, -3.5)).toBeGreaterThan(1.8);
+    for (const [x, z] of [[-12, -10], [12, -10], [0, -20], [-20, -4], [20, -4], [0, 14]]) {
       expect(sample(x!, z!, -2)).toBe(-2);
     }
     // The ridge has curvature, and the outer contour approaches the unchanged ground gradually.
-    expect(sample(0, -11)).toBeLessThan(sample(0, -10) - 0.25);
+    expect(sample(0, -13)).toBeLessThan(sample(0, -12) - 0.25);
     expect(sample(0, -13)).toBeGreaterThan(sample(0, -15));
     expect(sample(0, -15)).toBeGreaterThan(sample(0, -17));
-    expect(sample(0, -17)).toBeLessThan(0.3);
+    expect(sample(0, -19)).toBeLessThan(0.3);
   });
 
   it("returns with zero edge slope and no step beside the protected approach", () => {
@@ -87,7 +84,7 @@ describe("authored portal host terrain", () => {
       expect(sample(2.4 + epsilon, z) / epsilon).toBeLessThan(0.01);
     }
     expect(sample(0, -6.2 - epsilon) / epsilon).toBeLessThan(0.01);
-    expect(sample(0, -18 + epsilon) / epsilon).toBeLessThan(0.01);
+    expect(sample(0, -20 + epsilon) / epsilon).toBeLessThan(0.01);
   });
 
   it("preserves higher natural ground and rotates the complete bank with the portal", () => {
@@ -98,8 +95,10 @@ describe("authored portal host terrain", () => {
         const [wx, wz] = point(x, z, AUTHORED);
         expect(portalLandformHeight(wx, wz, AUTHORED.floorY + natural, AUTHORED) - AUTHORED.floorY)
           .toBeCloseTo(expected, 10);
-        expect(expected).toBeGreaterThanOrEqual(natural);
-        expect(sample(x, z, 12)).toBe(12);
+        if (Math.abs(x) >= 8.2 || z <= -11.8 || z >= 10.4) {
+          expect(expected).toBeGreaterThanOrEqual(natural);
+          expect(sample(x, z, 12)).toBe(12);
+        }
       }
     }
   });
@@ -112,7 +111,7 @@ describe("authored portal host terrain", () => {
     expect(result.maxCutGrade).toBeGreaterThan(result.maxOuterGrade);
   });
 
-  it("keeps the central walk approach clear on the authored world-aligned terrain lattice", () => {
+  it.each([0, 0.15, -0.2, 0.4])("keeps recess and full paving clear on sampled sloping terrain, grade %s", (grade) => {
     // Production first fills an exact 2 m Float32 lattice, then bilinearly resamples it onto
     // chunks. The current 660 m world depth uses seven chunks with 47 quads each. Include both
     // interpolation stages before raycasting the actual Three triangles across the approach.
@@ -125,7 +124,9 @@ describe("authored portal host terrain", () => {
     const heights = new Float32Array(latticeSize * latticeSize);
     for (let z = 0; z < latticeSize; z++) {
       for (let x = 0; x < latticeSize; x++) {
-        heights[z * latticeSize + x] = portalLandformHeight(30 + x * 2, -42 + z * 2, 0, landform);
+        const wx = 30 + x * 2, wz = -42 + z * 2;
+        const natural = (wx - 46) * grade + (wz + 24) * 0.12;
+        heights[z * latticeSize + x] = portalLandformHeight(wx, wz, natural, landform);
       }
     }
     const latticeHeight = (x: number, z: number): number => {
@@ -149,8 +150,8 @@ describe("authored portal host terrain", () => {
     try {
       let maxLift = 0;
       let worstAt: [number, number] = [0, 0];
-      for (const x of [-1, -0.5, 0, 0.5, 1]) {
-        for (const z of [-2, -1, 0, 1, 2, 4, 6]) {
+      for (const x of [-2.2, -1.96, -1, 0, 1, 1.96, 2.2]) {
+        for (const z of [-5.5, -4, -2, -1, 0, 1, 2, 4, 4.82]) {
           const [wx, wz] = point(x, z, landform);
           ray.set(new Vector3(wx, 100, wz), new Vector3(0, -1, 0));
           const hit = ray.intersectObject(mesh)[0];

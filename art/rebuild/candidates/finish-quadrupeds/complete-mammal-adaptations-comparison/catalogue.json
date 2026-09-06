@@ -1,0 +1,428 @@
+{
+  "packs": [
+    {
+      "id": "jonasdichelle-cat-source-review",
+      "name": "JonasDichelle complete Cat source review",
+      "author": "JonasDichelle; FBX redistribution by nrz/Ylikuutio",
+      "source": "https://blendswap.com/blend/18519",
+      "license": "CC-BY-3.0",
+      "archiveSha256": "4e156a3b81638d07a78278889d2184c9a106fd81c2de84bd212c1bd12ea03428"
+    },
+    {
+      "id": "cdmir-rat-porcupine-adaptation",
+      "name": "Complete-source Porcupine candidate",
+      "author": "CDmir; TinyWorlds; Corealm species adaptation",
+      "source": "https://opengameart.org/content/evil-giant-rat",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "cdmir-cc0-wholebody-badger-adaptation",
+      "name": "CC0 complete-source Badger adaptation",
+      "author": "CDmir; TinyWorlds; Corealm adaptation",
+      "source": "https://opengameart.org/content/evil-giant-rat",
+      "license": "CC0-1.0"
+    }
+  ],
+  "assets": [
+    {
+      "id": "creature_duskoak_lynx",
+      "file": "models/creature/creature_duskoak_lynx.glb",
+      "pack": "jonasdichelle-cat-source-review",
+      "category": "character",
+      "is": "lynx",
+      "tags": [
+        "animal",
+        "lynx",
+        "source-adapted-baked-rig",
+        "inspection"
+      ],
+      "bytes": 14033428,
+      "sha256": "556f17e082d94c0b2bc64872eefc5d6e655ec9ee0bb61507d1754f44271c414e",
+      "size": {
+        "x": 0.28321624354157554,
+        "y": 0.5457321658578516,
+        "z": 1.0212353469464635
+      },
+      "base": {
+        "x": -0.12317826998059732,
+        "y": 0,
+        "z": -0.5760878829326352
+      },
+      "groundY": 0,
+      "bounds": {
+        "min": [
+          -0.12317826998059732,
+          0,
+          -0.5760878829326352
+        ],
+        "max": [
+          0.1600379735609782,
+          0.5457321658578516,
+          0.44514746401382815
+        ]
+      },
+      "animations": [
+        "Walk",
+        "Run"
+      ],
+      "materials": [
+        "skin"
+      ],
+      "triangles": 50372,
+      "sourceProvenance": {
+        "title": "Rigged and animated Cat",
+        "author": "JonasDichelle",
+        "creatorUrl": "https://blendswap.com/blend/18519",
+        "license": "CC-BY-3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+        "mirror": "https://github.com/nrz/ylikuutio",
+        "mirrorChanges": "Original cat.blend exported to FBX by Ylikuutio project. Complete FBX staged unchanged. Mirror README explicitly credits author and license.",
+        "localModifications": "None",
+        "mirrorCommit": "ea7e8abeb1a1263082f163c8586e1d8c81f74674",
+        "sourceSha256": "b12adb6b0a0d061b1909a4095d3f75ad1f919d1eb01b10ecbf0edfd5f6311488",
+        "modifications": "Historical full source rig baked at 192 Hz into flat standard joints with 76 shared corrective pairs and four native shear frames. Four fitted normalized influences; native hierarchy and channels replaced. Complete original body topology/UVs, reduced original eyes, neutral material. Walk/Run durations retained; no Idle/Attack/Hit/Death aliases. Source placement removed and .1 display scaling baked into skin transforms. Species adaptation: connected closed stub tail about13.5 cm, broadened paws, connected cheek ruff, narrowed dark-tipped ears, grey-buff dapple vertex coat. Tail/ear rest chains adapted and all evaluated matrices rebaked/refitted against full-weight adapted rig. This intentionally changes source anatomy and deformation. Constant whole-scene preview translation Y +0.27964838717050555 m places Walk time-zero minimum at yard floor. This is preview placement, not native contact correction.",
+        "historicalMirrorCommit": "864ea1982524367ed416803db425f1895e4a0717",
+        "limits": {
+          "train": {
+            "frames": 43,
+            "rmsMm": 0.38877240381744577,
+            "p95Mm": 0.8095634613935451,
+            "p99Mm": 1.8481740468379193,
+            "maxMm": 8.963229844905522,
+            "samples": 973950
+          },
+          "heldout": {
+            "frames": 41,
+            "rmsMm": 0.37676202148994353,
+            "p95Mm": 0.7921881913790818,
+            "p99Mm": 1.7874865829561462,
+            "maxMm": 8.97995026210942,
+            "samples": 928650
+          },
+          "random": {
+            "frames": 46,
+            "rmsMm": 0.44407313498374557,
+            "p95Mm": 0.9186792377293217,
+            "p99Mm": 2.0360067149928334,
+            "maxMm": 9.047273339770092,
+            "samples": 1041900
+          }
+        }
+      },
+      "animationMetadata": [
+        {
+          "name": "Walk",
+          "duration": 1.125
+        },
+        {
+          "name": "Run",
+          "duration": 0.5833333134651184
+        }
+      ]
+    },
+    {
+      "id": "creature_quillback_porcupine",
+      "file": "models/creature/creature_quillback_porcupine.glb",
+      "pack": "cdmir-rat-porcupine-adaptation",
+      "category": "character",
+      "is": "Porcupine species adaptation of CDmir and TinyWorlds complete CC0 rat source; candidate awaiting visual review",
+      "tags": [
+        "porcupine",
+        "rat-source-adaptation",
+        "native-animation",
+        "candidate"
+      ],
+      "bytes": 10645964,
+      "sha256": "3cbfb186bc81e5a6d3070eb032b9e8937f2dedff42de1debd54ba09433a29cf3",
+      "size": {
+        "x": 0.3962993830254975,
+        "y": 0.46000000007353686,
+        "z": 0.6889737756963277
+      },
+      "base": {
+        "x": -0.19814969151274875,
+        "y": -3.8703567466224174e-12,
+        "z": -0.3444868878918974
+      },
+      "bounds": {
+        "min": [
+          -0.19814969151274875,
+          -3.8703567466224174e-12,
+          -0.3444868878918974
+        ],
+        "max": [
+          0.19814969151274875,
+          0.4600000000696665,
+          0.3444868878044303
+        ]
+      },
+      "groundY": -3.8703567466224174e-12,
+      "triangles": 18128,
+      "animations": [
+        "Attack.000",
+        "Attack.001",
+        "Attack.002",
+        "Attack.003",
+        "Attack.Begin",
+        "Attack.End",
+        "Die",
+        "Hit",
+        "Idle.001",
+        "Idle.002",
+        "Run",
+        "Stand",
+        "Walk"
+      ],
+      "materials": [
+        "body",
+        "head",
+        "Material.002",
+        "Teeth",
+        "head.001",
+        "Porcupine_dark_eyes",
+        "Porcupine_banded_quills"
+      ],
+      "sourceProvenance": {
+        "source": "cdmir-rat-native.glb",
+        "sourceSha256": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047",
+        "output": "cdmir-porcupine-adapted.glb",
+        "sha256": "304f3ccdcc6d355304a2705038356a5704d95bbc4370ebadc385d516b003e4da",
+        "bytes": 10645764,
+        "sourceAuthor": "CDmir; TinyWorlds",
+        "license": "CC0-1.0",
+        "sourceUrl": "https://opengameart.org/content/evil-giant-rat",
+        "originalBlendSha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+        "reference": {
+          "target": "crested porcupine inspired fantasy animal",
+          "anatomySource": "https://animaldiversity.org/accounts/Hystrix_cristata/",
+          "anatomyNotes": "Short tail, nape crest, long defensive quills on flanks and rump. Measurements below are authored proportions, not zoological measurements."
+        },
+        "quillCount": 970,
+        "nativeActions": [
+          "Attack.000",
+          "Attack.001",
+          "Attack.002",
+          "Attack.003",
+          "Attack.Begin",
+          "Attack.End",
+          "Die",
+          "Hit",
+          "Idle.001",
+          "Idle.002",
+          "Run",
+          "Stand",
+          "Walk"
+        ],
+        "nativeExportAudit": {
+          "file": "native-export-report.json",
+          "finalByteMaximumNormalizedMm": 0.9643288760306397,
+          "sourceActionsPreservedInOriginal": 14,
+          "omittedSourceActions": [
+            {
+              "name": "Idle.000",
+              "reason": "Six original Blender B-bone discontinuities; source jumps 33.4–51.35 mm at preview scale.",
+              "evidence": "weight-audit-tail-discontinuity.json"
+            }
+          ]
+        },
+        "topology": "Original body/head/limbs/tail topology retained and reshaped; quills added to Body skin.",
+        "limits": [
+          "CPU candidate only. No hardware visual or gameplay acceptance.",
+          "Original native tracks retained; species reshaping changes resulting surface motion and requires a separate contact and silhouette review.",
+          "Quill root weights copied intact from source vertices; added quill lengths amplify local rotational motion.",
+          "Tail pivots and translation paths retargeted to the shorter source mesh; Run/Walk/Attack contact still requires review."
+        ]
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_rootdelve_badger",
+      "file": "models/creature/creature_rootdelve_badger.glb",
+      "pack": "cdmir-cc0-wholebody-badger-adaptation",
+      "category": "character",
+      "is": "Badger candidate adapted from complete CDmir/TinyWorlds CC0 rat mesh; authored body and coat; pending hardware species review",
+      "tags": [
+        "badger",
+        "cc0-rat-wholebody-adaptation",
+        "native-animation",
+        "candidate"
+      ],
+      "bytes": 10779584,
+      "sha256": "7e2b87920ac035d6a9886ad3c35a050fee7e6097fd5a1bb75e76702e2bd59bf0",
+      "size": {
+        "x": 0.4339463038094016,
+        "y": 0.3500000000041913,
+        "z": 0.8766661460378073
+      },
+      "base": {
+        "x": -0.2169731519047008,
+        "y": -4.191436779728016e-12,
+        "z": -0.4383330730189037
+      },
+      "bounds": {
+        "min": [
+          -0.2169731519047008,
+          -4.191436779728016e-12,
+          -0.4383330730189037
+        ],
+        "max": [
+          0.21697315190470076,
+          0.34999999999999987,
+          0.4383330730189036
+        ]
+      },
+      "groundY": -4.191436779728016e-12,
+      "triangles": 5930,
+      "animations": [
+        "Attack.000",
+        "Attack.001",
+        "Attack.002",
+        "Attack.003",
+        "Attack.Begin",
+        "Attack.End",
+        "Die",
+        "Hit",
+        "Idle.001",
+        "Idle.002",
+        "Run",
+        "Stand",
+        "Walk"
+      ],
+      "materials": [
+        "body",
+        "head",
+        "Material.002",
+        "Teeth",
+        "head.001",
+        "Body_authored_badger_coat",
+        "Head_authored_badger_coat",
+        "Eyes_authored_badger_coat",
+        "Teeth_authored_badger_coat"
+      ],
+      "sourceProvenance": {
+        "sourceOriginalSha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+        "nativeSha256": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047",
+        "normalizedSha256": "7e2b87920ac035d6a9886ad3c35a050fee7e6097fd5a1bb75e76702e2bd59bf0",
+        "rawAdaptedSha256": "ed9ca3625baf91807765558609258031fb039ae9ced97861e2eef3a799c7494f",
+        "bytes": 10779584,
+        "reference": {
+          "source": "https://opengameart.org/content/evil-giant-rat",
+          "author": "CDmir; TinyWorlds",
+          "license": "CC0-1.0",
+          "originalSpecies": "rat",
+          "anatomy": [
+            "https://science.rspca.org.uk/en/web/rspca/adviceandwelfare/wildlife/badgers",
+            "https://britishwildlifecentre.co.uk/planyourvisit/animals/badger/"
+          ],
+          "scope": "Complete-source Badger adaptation; no unverified badger mesh or texture used."
+        },
+        "nativeClipNames": [
+          "Attack.000",
+          "Attack.001",
+          "Attack.002",
+          "Attack.003",
+          "Attack.Begin",
+          "Attack.End",
+          "Die",
+          "Hit",
+          "Idle.001",
+          "Idle.002",
+          "Run",
+          "Stand",
+          "Walk"
+        ],
+        "sourceAuditMaximumNormalizedMm": 0.9643288760306397,
+        "topology": [
+          {
+            "mesh": "Body",
+            "primitive": 0,
+            "triangles": 4210,
+            "degenerate": 0,
+            "normalDirectionReversals": 0,
+            "minAreaRatio": 0.051535408726919626
+          },
+          {
+            "mesh": "Head",
+            "primitive": 1,
+            "triangles": 1484,
+            "degenerate": 0,
+            "normalDirectionReversals": 16,
+            "minAreaRatio": 0.06394665951757428
+          },
+          {
+            "mesh": "Eyes",
+            "primitive": 2,
+            "triangles": 36,
+            "degenerate": 0,
+            "normalDirectionReversals": 0,
+            "minAreaRatio": 0.32847459927559564
+          },
+          {
+            "mesh": "Teeth",
+            "primitive": 3,
+            "triangles": 200,
+            "degenerate": 0,
+            "normalDirectionReversals": 0,
+            "minAreaRatio": 0.19186362132685414
+          }
+        ],
+        "previewTransform": {
+          "scale": 0.30516588034082454,
+          "translation": [
+            -5.280903229667912e-9,
+            0.004500523242515621,
+            -0.18500950803406002
+          ]
+        },
+        "scope": "Whole original rat mesh resculpt into Badger, with new authored coat. Original topology, skin weights, native clip names/timing retained; all joint pivots/translations retargeted. No unverified Badger source used.",
+        "limits": [
+          "CPU candidate; species silhouette, facial seams, paws, tail and motion contact require hardware review.",
+          "Source digit counts retained; no claim of anatomically verified five-toe Badger paws.",
+          "Rat source Idle.000 remains excluded for original B-bone discontinuities; original blend preserves all14 actions.",
+          "New coat is position-baked using original UVs, with smooth normals recomputed; no borrowed or generated-image textures."
+        ]
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_duskoak_lynx": "creature_duskoak_lynx.556f17e082d9.glb",
+    "creature_quillback_porcupine": "creature_quillback_porcupine.3cbfb186bc81.glb",
+    "creature_rootdelve_badger": "creature_rootdelve_badger.7e2b87920ac0.glb"
+  },
+  "origins": [
+    {
+      "slot": "creature_duskoak_lynx",
+      "catalogue": "source-feline/lynx-baked-grounded-preview-catalogue.json",
+      "catalogueSha256": "be3496d784e6bc8e197493ef6f95a888f2ea0b4f1f1301bd8a1f6cb934619019",
+      "sha256": "556f17e082d94c0b2bc64872eefc5d6e655ec9ee0bb61507d1754f44271c414e",
+      "sourceDescription": "lynx",
+      "rightsStatus": "See original source attribution and license records."
+    },
+    {
+      "slot": "creature_quillback_porcupine",
+      "catalogue": "source-porcupine/porcupine-candidate-catalogue.json",
+      "catalogueSha256": "367f577af7025e1224e6ec7305df35e87e305e1c37120689894adb3d27628b75",
+      "sha256": "3cbfb186bc81e5a6d3070eb032b9e8937f2dedff42de1debd54ba09433a29cf3",
+      "sourceDescription": "Porcupine species adaptation of CDmir and TinyWorlds complete CC0 rat source; candidate awaiting visual review",
+      "rightsStatus": "See original source attribution and license records."
+    },
+    {
+      "slot": "creature_rootdelve_badger",
+      "catalogue": "source-badger-cc0/candidate-catalogue.json",
+      "catalogueSha256": "b52efa7996e7643000bedb73150012c9e131405b962ace3097f67f23229d44ca",
+      "sha256": "7e2b87920ac035d6a9886ad3c35a050fee7e6097fd5a1bb75e76702e2bd59bf0",
+      "sourceDescription": "Badger candidate adapted from complete CDmir/TinyWorlds CC0 rat mesh; authored body and coat; pending hardware species review",
+      "rightsStatus": "See original source attribution and license records."
+    }
+  ],
+  "scope": "Frozen complete-source species adaptation review: Cat-derived Lynx, CC0 Rat-derived Porcupine and CC0 Rat-derived Badger. This Badger uses none of the separate provisional-rights model. Source-derived clips remain subject to measured contact/deformation and hardware review. Fixed source placement is not foot contact repair. Per-view state must identify actual clips. No completed-species, lifecycle or promotion acceptance."
+}

@@ -36,24 +36,15 @@
  *      stone kit closed its gables at all, and it sized them off the footprint rather than off the
  *      roof, so they fell 0.36 m short of the ridge and one of each pair faced backwards.
  *      `gableEnds` closes all of them; the audit puts what is left at 0.054 m2 per end.
- *   2. THE MODULE JOINTS ARE SLOTS, and this one is not fixable here. `world/regionBuilder.ts`
- *      emits every building part at `1 / tierSilhouetteScale(tier)` on the unscaled 2 m grid, so a
- *      2 m panel draws 1.860 m at Rootfall and 1.738 m at Highcairn: a full-height 0.140 m and
- *      0.262 m slot at every joint of every building. `jointStuds` puts a post in each joint, which
- *      closes it and is also what half-timbering looks like, but the fix is dropping `compensation`
- *      in `emitParts`.
- *   3. THE EAVES BAND, which is the same compensation seen sideways: the panel MESH shrinks and its
- *      placement height does not, so the ring stops at 2.905 m at Rootfall and 2.714 m at Highcairn
- *      under a gable that starts at 3.123 m. The tiles cover that band on the two eave sides, but a
- *      roof prism is open at its ends, so 83-100% of the width of BOTH gable ends of all 24
- *      Rootfall and Highcairn buildings was a letterbox you could see the far side of the world
- *      through - measured before and after with `W4_NO_PLATE=1 npx tsx
- *      runs/corealm/audit/w4-leak.ts`. `eavesPlate` closes it to 0-8%.
- *   4. A WINDOW OPPOSITE THE FRONT DOOR. `ringWindows` refuses to put a window opposite a window,
+ *   2. MODULE JOINTS AND EAVES. Older world placement divided part scale by tier silhouette
+ *      scale while leaving the 2 m grid unchanged, opening full-height joints and eaves bands.
+ *      `regionBuilder` now preserves authored part scales. `jointStuds` and `eavesPlate` remain
+ *      as timber construction details; do not add inverse tier compensation to these recipes.
+ *   3. A WINDOW OPPOSITE THE FRONT DOOR. `ringWindows` refuses to put a window opposite a window,
  *      but the doorway was never in its plan, and every ring prefab puts the door at the mirror
  *      index of its own entry face. Measured at the drawn scale: a 0.98 m column straight through
  *      all six Highcairn quarry huts, 0.20 m through the Coldbrace cottages and the vault tower.
- *   5. APERTURED AND HALF-TIMBERED PANELS USED AS WALLS. Fixed in an earlier pass; the panel
+ *   4. APERTURED AND HALF-TIMBERED PANELS USED AS WALLS. Fixed in an earlier pass; the panel
  *      table below is why.
  *
  * WHICH PANELS ARE ACTUALLY SOLID. A bounding box says every `wall_*` is 2.000 x 3.123 x 0.406.
@@ -94,6 +85,7 @@
  *   building's ground position, so a prefab is authored once facing +Z and reused at any bearing.
  */
 import { Rng } from "../core/rng.js";
+import { ROOTFALL_STUMP } from "../world/rootfallStump.js";
 import { wallMountedBanner } from "./bannerPlacement.js";
 import { buildCanopyWalkComposition } from "./compositions/canopyWalk.js";
 import {
@@ -1507,15 +1499,16 @@ function hall(width: number, depth: number, rng: Rng, kit: BuildingKit): PartPla
     entry.yaw,
   ));
   // The kit banner is a projecting bracket: its rail mounts to the facade and local +X reaches
-  // outward. Equal along offsets mirror the pair around the entry bay at one common height.
+  // outward. Fit the full native rail beneath the sloping eave, whose outer underside drops
+  // below the wall head. The compact lanterns retain 2.06 m walking clearance at their bottoms.
   out.push(wallMountedBanner(
-    "banner_l", "banner_1", onSide(entry, entryCount, doorIndex, 2.6, WALL_FACE + 0.01, -2), entry.yaw,
+    "banner_l", "banner_1", onSide(entry, entryCount, doorIndex, 1.80, WALL_FACE + 0.01, -2), entry.yaw, 0.72,
   ));
   out.push(wallMountedBanner(
-    "banner_r", "banner_1", onSide(entry, entryCount, doorIndex, 2.6, WALL_FACE + 0.01, 2), entry.yaw,
+    "banner_r", "banner_1", onSide(entry, entryCount, doorIndex, 1.80, WALL_FACE + 0.01, 2), entry.yaw, 0.72,
   ));
-  out.push(part("lamp_l", "lamp_wall", onSide(entry, entryCount, doorIndex, 1.3, 0.08, -1.2), entry.yaw, 1.1));
-  out.push(part("lamp_r", "lamp_wall", onSide(entry, entryCount, doorIndex, 1.3, 0.08, 1.2), entry.yaw, 1.1));
+  out.push(part("lamp_l", "lamp_wall", onSide(entry, entryCount, doorIndex, 2.06 - 0.082 * 0.37, WALL_FACE + 0.051 * 0.37, -1.2), entry.yaw, 0.37));
+  out.push(part("lamp_r", "lamp_wall", onSide(entry, entryCount, doorIndex, 2.06 - 0.082 * 0.37, WALL_FACE + 0.051 * 0.37, 1.2), entry.yaw, 0.37));
   foundationGreenery(out, width, depth, rng, 4);
 
   return out;
@@ -2001,57 +1994,25 @@ function ruin(width: number, depth: number, rng: Rng, kit: BuildingKit): PartPla
 
 // ----------------------------------------------------------- open structures
 
-/**
- * One 2 m bay of roof you can walk under, hung on a back wall at `backZ` and reaching
- * CANOPY_DEPTH_METRES out along +Z.
- *
- * The two kit overhangs are NOT the same shape, and the difference is the whole reason this helper
- * exists. Measured off the GLBs:
- *   overhang_plaster  2.000 x 3.028 x 2.200, base (-1, 0, -0.2) - a FULL wall panel standing from
- *                     y 0 to 3.028, whose canopy runs from z +0.2 to z +2.0 at y 2.68..3.03. One
- *                     part is a whole bay.
- *   overhang_brick    2.000 x 0.266 x 2.022, base (-1, -0.324, -1.022) - a bare slab with no wall
- *                     under it, hanging 0.324 m below its own pivot and spanning z -1.022..+1.000.
- *                     It needs a `kit.wall` behind it or there is nothing holding it up.
- * So plaster and timber take one part per bay and stone takes three. Both stop at z = backZ + 2.0,
- * which is where the callers put their posts.
+/** A native wall, footing and full-depth slab share the same bay contract in every kit.
+ * Separate walls let window variants retain the same canopy and plinth as adjacent bays.
  */
 function coveredBay(
   out: PartPlacement[], tag: string, kit: BuildingKit, dx: number, backZ: number,
 ): void {
-  if (kit.id === "stone") {
-    out.push(loose(`${tag}w`, kit.wall, dx, 0, backZ, 0));
-    out.push(loose(`${tag}t`, "wall_bottom_trim", dx, 0, backZ + 0.01, 0));
-    // + 0.324 puts the slab's underside on the wall head at 3.123 rather than through it.
-    //
-    // AND IT HAS TO REACH THE BACK OF THE WALL. `overhang_brick` is 2.022 m of slab spanning
-    // z -1.022 .. +1.000 about its pivot, and placed at backZ + 1 it started at backZ - 0.022 -
-    // inside the panel's 0.406 m thickness, with 0.29 m of bare wall head left uncovered behind
-    // it. Looked at from above, which is where this game's camera is, that is a slab, a step, a
-    // strip of wall top and then daylight: four stacked edges instead of a roof. The canopy is
-    // stretched along Z only, so the bay stays exactly one 2 m module wide and adjacent slabs
-    // still meet without overlapping.
-    const reach = CANOPY_DEPTH_METRES + WALL_THICKNESS - WALL_FACE;
-    const stretch = r4(reach / 2.022);
-    out.push({
-      ...loose(
-        `${tag}o`, "overhang_brick",
-        dx, STOREY_METRES + 0.324, r3(backZ - WALL_THICKNESS + WALL_FACE + 1.022 * stretch), 0,
-      ),
-      scaleAxes: [1, 1, stretch],
-    });
-    return;
-  }
-  out.push(loose(`${tag}o`, "overhang_plaster", dx, 0, backZ, 0));
-  // `overhang_plaster` carries its own wall, whose face is at z + 0.2 rather than the kit panel's
-  // z + 0.093. The plinth was placed on the kit convention and therefore sat 0.072 m BEHIND the
-  // face of the wall it was supposed to foot: invisible on every porch, arcade and bank counter in
-  // the plaster and timber towns, while the stone versions had one.
-  // The plinth seats on the plaster plane at `backZ`. The old `+ 0.2 - 0.118 + 0.01` mixed the
-  // wall-face offset into a band that is only 0.432 m deep, so it stood 0.091 m clear of the
-  // wall it foots and every plaster and timber porch, arcade and bank counter had a floating
-  // skirting board instead of a footing.
-  out.push(loose(`${tag}t`, "wall_bottom_trim", dx, 0, backZ + 0.001, 0));
+  out.push(loose(`${tag}w`, kit.wall, dx, 0, backZ, 0));
+  out.push(loose(`${tag}t`, "wall_bottom_trim", dx, 0, backZ + 0.01, 0));
+  // Native upward rays put the main deck underside at about -.069, while the -.324 bounding
+  // minimum belongs to its hanging brackets. Seat the deck itself on the wall/post heads.
+  const reach = CANOPY_DEPTH_METRES + WALL_THICKNESS - WALL_FACE;
+  const stretch = r4(reach / 2.022);
+  out.push({
+    ...loose(
+      `${tag}o`, "overhang_brick",
+      dx, STOREY_METRES + 0.074, r3(backZ - WALL_THICKNESS + WALL_FACE + 1.022 * stretch), 0,
+    ),
+    scaleAxes: [1, 1, stretch],
+  });
 }
 
 /** How many whole 2 m bays a covered structure of this width gets, at least `low`, at most `high`. */
@@ -2127,23 +2088,13 @@ function forge(width: number, depth: number, rng: Rng, kit: BuildingKit): PartPl
  * [6,3] is three regardless of the exact authored width.
  */
 /** How far a covered bay's back wall face stands in front of the bay's authored anchor. */
-export function bayWallFace(kit: BuildingKit): number {
-  // `overhang_plaster` carries its own wall, whose face is 0.2 m proud of the anchor; the stone
-  // bay uses a kit panel, whose face is the usual `WALL_FACE`.
-  return kit.id === "stone" ? WALL_FACE : 0.2;
+export function bayWallFace(_kit: BuildingKit): number {
+  return WALL_FACE;
 }
 
-/**
- * A lantern bracketed to the back wall of a covered bay, under the canopy rather than through it.
- *
- * `lamp_wall` is 0.357 x 1.337 x 1.302 about a base at (-0.179, 0.082, -0.051): its plate is the
- * -Z face and the lantern hangs out along +Z. Every caller used to place it at `dy 2.1, scale
- * 1.15`, which puts its head at 3.73 m - 0.70 m above the plaster canopy's 3.03 m slab and 0.81 m
- * above its 2.92 m roof plane - so the lamp stood out through the roof it was hanging under. In
- * the stone kit the same `backZ + 0.35` left its plate 0.22 m clear of the panel behind it.
- */
-const BAY_LAMP_SCALE = 1;
-const BAY_LAMP_HEAD_Y = 2.82;
+/** The whole native lantern fits above headroom and below the supported slab. */
+const BAY_LAMP_SCALE = 0.55;
+const BAY_LAMP_HEAD_Y = 2.1 + 1.337 * BAY_LAMP_SCALE;
 const LAMP_WALL_BASE_Y = 0.082;
 const LAMP_WALL_HEIGHT = 1.337;
 const LAMP_WALL_PLATE_Z = -0.051;
@@ -2182,9 +2133,9 @@ function porch(width: number, depth: number, kit: BuildingKit): PartPlacement[] 
   out.push(bayLamp("lamp", kit, -span / 2 + 0.7, backZ));
   out.push(wallMountedBanner(
     "banner", "banner_1",
-    { dx: span / 2 - 0.55, dy: 2.4, dz: backZ + WALL_FACE + 0.01 },
+    { dx: span / 2 - 0.55, dy: 2.38, dz: backZ + WALL_FACE + 0.01 },
     0,
-    1.05,
+    0.75,
   ));
 
   return out;
@@ -2815,30 +2766,20 @@ function standingStones(rng: Rng): PartPlacement[] {
 }
 
 /** Somebody has cut steps into the north face of it. */
-/**
- * The Rootfall Stump: steps cut into the north face, brackets on the flanks, one vine.
- *
- * Sized against the hero mesh it actually stands on, which is `tree_twisted_2` clipped to its
- * lowest quarter at 2x: roughly 3.7 m across and 3.7 m tall. The round-3 numbers were authored
- * against a five-times-scale `anvil_log` and left every part of this composition hanging in space
- * once the hero mesh changed — steps climbing to 4 m up a 3.7 m stump, brackets 2.3 m clear of a
- * face that is only 1.85 m from the centre.
- *
- * `stairs_exterior` is 2.0 x 1.204 x 2.078 with its pivot on the floor, so each flight rises
- * 1.204 m and reaches 2.078 m back: three of them climb 3.6 m, which is the top.
- */
+/** Four fitted stone flights reach the native oak stump's 3.527 m cut face. */
 function rootfallStump(): PartPlacement[] {
+  const stair = ROOTFALL_STUMP.stairScale;
+  const yaw = ROOTFALL_STUMP.stairYaw;
   return [
-    loose("step_1", "stairs_exterior", 0, 0, 3.6, 0, 1.0),
-    loose("step_2", "stairs_exterior", 0, 1.2, 1.9, 0, 1.0),
-    loose("step_3", "stairs_exterior", 0, 2.4, 0.2, 0, 1.0),
-    // Brackets grow ON the trunk: 1.7 m out from the axis puts their inner edge against the bark.
-    // The old 1.6x caps dominated the square like orange awnings. These are trunk-scale brackets:
-    // still readable from the gate, but subordinate to the stair and cut-stump silhouette.
-    loose("shelf_1", "mushroom_bracket", -1.65, 1.35, 0.45, 0.8, 0.82),
-    loose("shelf_2", "mushroom_bracket", 1.55, 2.15, -0.65, 2.4, 0.72),
-    // The vine hangs from the cut face, so its top is at the top and it falls 2.6 m down the side.
-    loose("vine", "vine_1", 1.45, 0.8, 0.95, 1.9, 0.78),
+    ...Array.from({length: ROOTFALL_STUMP.stairFlights}, (_, index) => ({...loose(`step_${index + 1}`, "stairs_exterior",
+      Math.sin(yaw) * (ROOTFALL_STUMP.stairFrontZ - index * 2 * stair),
+      index * stair,
+      Math.cos(yaw) * (ROOTFALL_STUMP.stairFrontZ - index * 2 * stair), yaw, stair),scaleAxes:[ROOTFALL_STUMP.stairWidthScale,1,1] as const})),
+    // Small brackets sit against the broad native trunk, away from the climbing route.
+    loose("shelf_1", "mushroom_bracket", -2.45, 1.25, 0.45, 0.8, 0.68),
+    loose("shelf_2", "mushroom_bracket", 2.35, 1.9, -0.65, 2.4, 0.6),
+    // Side growth leaves the stone approach clear.
+    loose("vine", "vine_1", -2.35, 0.45, 0.7, 1.9, 0.65),
   ];
 }
 
@@ -2873,7 +2814,7 @@ function bankCounter(kit: BuildingKit): PartPlacement[] {
   out.push(bayLamp("lamp_l", kit, -1.5, backZ));
   out.push(bayLamp("lamp_r", kit, 1.5, backZ));
   out.push(wallMountedBanner(
-    "banner", "banner_1", { dx: -0.65, dy: 2.55, dz: backZ + WALL_FACE + 0.01 }, 0, 1.05,
+    "banner", "banner_1", { dx: -0.65, dy: 2.38, dz: backZ + WALL_FACE + 0.01 }, 0, 0.75,
   ));
   out.push(loose("kerb_l", "kerb_straight", -1, 0, 1.05, 0));
   out.push(loose("kerb_r", "kerb_straight", 1, 0, 1.05, 0));
@@ -3110,7 +3051,10 @@ export function prefabCollision(prefab: PrefabId, footprint: readonly [number, n
     }];
   }
   if (prefab === "stall") {
-    return [{ tag: "stall", dx: 0, dz: 0, sizeX: width, sizeZ: depth * 0.6, height }];
+    // The hero mesh stays at native scale for every footprint. Its measured bounds are
+    // 1.845 x 2.627 x 0.932 m, with base [-0.922, -0.005, -0.461].
+    // This box covers the structural counter; loose recipe goods are dressing.
+    return [{ tag: "stall", dx: 0.0005, dz: 0.005, sizeX: 1.845, sizeZ: 0.932, height: 2.622 }];
   }
   if (prefab === "forge") {
     // Three walls and an open mouth. 0.6 m thick, which is the 0.406 m panel plus the corner posts

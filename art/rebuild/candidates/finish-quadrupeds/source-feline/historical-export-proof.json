@@ -1,0 +1,82 @@
+{
+  "sourceFbxSha256": "b12adb6b0a0d061b1909a4095d3f75ad1f919d1eb01b10ecbf0edfd5f6311488",
+  "glbSha256": "367c69f977f0544eb075d458a4f23ecca6095e0328a09afdc5c47e4ca7e97547",
+  "bytes": 7301392,
+  "nativeClips": [
+    {
+      "name": "Run",
+      "channels": 363,
+      "start": 0,
+      "end": 0.5833333134651184
+    },
+    {
+      "name": "Walk",
+      "channels": 363,
+      "start": 0,
+      "end": 1.125
+    }
+  ],
+  "nodesWithMeshes": [
+    {
+      "name": "Cat",
+      "skinJoints": 120,
+      "primitives": [
+        {
+          "vertices": 23572,
+          "triangles": 45296,
+          "attributes": [
+            "POSITION",
+            "NORMAL",
+            "TEXCOORD_0",
+            "COLOR_0",
+            "COLOR_1",
+            "JOINTS_0",
+            "JOINTS_1",
+            "JOINTS_2",
+            "JOINTS_3",
+            "WEIGHTS_0",
+            "WEIGHTS_1",
+            "WEIGHTS_2",
+            "WEIGHTS_3"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sphere",
+      "skinJoints": 120,
+      "primitives": [
+        {
+          "vertices": 31983,
+          "triangles": 63488,
+          "attributes": [
+            "POSITION",
+            "NORMAL",
+            "TEXCOORD_0",
+            "JOINTS_0",
+            "WEIGHTS_0"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Sphere.001",
+      "skinJoints": 120,
+      "primitives": [
+        {
+          "vertices": 31983,
+          "triangles": 63488,
+          "attributes": [
+            "POSITION",
+            "NORMAL",
+            "TEXCOORD_0",
+            "JOINTS_0",
+            "WEIGHTS_0"
+          ]
+        }
+      ]
+    }
+  ],
+  "sceneCameraCount": 0,
+  "scope": "Archival isolated native rig, all source influences preserved. Not a production-ready four-weight candidate. No palette/anatomy edits. Camera actions and nonactor scene objects excluded. Native action timestamps shifted together to begin at zero, outputs preserved."
+}

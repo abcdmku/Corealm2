@@ -1,0 +1,235 @@
+{
+  "id": "creature_quillback_porcupine",
+  "file": "models/creature/creature_quillback_porcupine.glb",
+  "pack": "corealm-creature-expansion",
+  "category": "character",
+  "is": "a heavy-rumped porcupine with individually curved banded quills, a blunt face and short grasping feet",
+  "tags": [
+    "mammal",
+    "quadruped",
+    "porcupine",
+    "rodent",
+    "quills"
+  ],
+  "bytes": 3167064,
+  "sha256": "b5719fbba8aea17455c1923bd2d99a64e3e6755d7e75aec6e09d6a72ce044dbf",
+  "size": {
+    "x": 0.87363600730896,
+    "y": 0.8627880889177322,
+    "z": 1.606558166742325
+  },
+  "base": {
+    "x": -0.4284454584121704,
+    "y": -1.7881393449270533e-9,
+    "z": -0.8410502755641938
+  },
+  "bounds": {
+    "min": [
+      -0.4284454584121704,
+      -1.7881393449270533e-9,
+      -0.8410502755641938
+    ],
+    "max": [
+      0.44519054889678955,
+      0.8627880871295929,
+      0.7655078911781311
+    ]
+  },
+  "groundY": -1.7881393449270533e-9,
+  "triangles": 61976,
+  "animations": [
+    "Idle",
+    "Walk",
+    "Run",
+    "Attack",
+    "Hit",
+    "HitLeft",
+    "HitRight",
+    "Death"
+  ],
+  "materials": [
+    "quillback_porcupine_painted_fur",
+    "quillback_porcupine_eyes_claws_whiskers"
+  ],
+  "sourceProvenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+  "impliedWalkMps": 0.2909090909090909,
+  "impliedRunMps": 1.166267942583732,
+  "walkClipSeconds": 1.25,
+  "runClipSeconds": 0.7599999904632568,
+  "attackSeconds": 1.159999966621399,
+  "contactNormalized": 0.54,
+  "measuredGait": {
+    "gait": {
+      "walk": {
+        "seconds": 1.25,
+        "sampledFootBones": 4,
+        "stanceSamples": 258,
+        "measuredStanceMps": 0.29091275017228924,
+        "feet": [
+          {
+            "bone": "FR_Ankle",
+            "minY": 0.1198276199264597,
+            "maxY": 0.1382092835312116,
+            "strideZ": 0.24031326539134346,
+            "contactSamples": 64,
+            "stanceMedianMps": 0.2909090030134905
+          },
+          {
+            "bone": "FL_Ankle",
+            "minY": 0.1198901927906145,
+            "maxY": 0.1381138086487038,
+            "strideZ": 0.24028113566042092,
+            "contactSamples": 64,
+            "stanceMedianMps": 0.29098195644030583
+          },
+          {
+            "bone": "HR_Ankle",
+            "minY": 0.11986182496273108,
+            "maxY": 0.12655100111669498,
+            "strideZ": 0.2378974079029163,
+            "contactSamples": 65,
+            "stanceMedianMps": 0.2908964385079841
+          },
+          {
+            "bone": "HL_Ankle",
+            "minY": 0.11986182550976429,
+            "maxY": 0.12655099938894188,
+            "strideZ": 0.2378974077218603,
+            "contactSamples": 65,
+            "stanceMedianMps": 0.2908973236836417
+          }
+        ],
+        "rootHorizontalTravel": [
+          {
+            "bone": "Root",
+            "x": 0,
+            "z": 0
+          }
+        ]
+      },
+      "run": {
+        "seconds": 0.7599999904632568,
+        "sampledFootBones": 4,
+        "stanceSamples": 180,
+        "measuredStanceMps": 1.1663923017864506,
+        "feet": [
+          {
+            "bone": "FR_Ankle",
+            "minY": 0.11931513085722563,
+            "maxY": 0.17287978211738037,
+            "strideZ": 0.38578011652808336,
+            "contactSamples": 46,
+            "stanceMedianMps": 1.1664855166675017
+          },
+          {
+            "bone": "FL_Ankle",
+            "minY": 0.11906691426509661,
+            "maxY": 0.173104892201557,
+            "strideZ": 0.38974287270949304,
+            "contactSamples": 44,
+            "stanceMedianMps": 1.165909078012005
+          },
+          {
+            "bone": "HR_Ankle",
+            "minY": 0.11884787258426291,
+            "maxY": 0.16139297083186924,
+            "strideZ": 0.3900808915408943,
+            "contactSamples": 44,
+            "stanceMedianMps": 1.1679442745697646
+          },
+          {
+            "bone": "HL_Ankle",
+            "minY": 0.1174634419569826,
+            "maxY": 0.161188986936864,
+            "strideZ": 0.38564768271080074,
+            "contactSamples": 46,
+            "stanceMedianMps": 1.1654234877946636
+          }
+        ],
+        "rootHorizontalTravel": [
+          {
+            "bone": "Root",
+            "x": 0,
+            "z": 0
+          }
+        ]
+      }
+    },
+    "loops": {
+      "Idle": {
+        "seconds": 3.4000000953674316,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006356162701409191,
+        "maxScaleGap": 0
+      },
+      "Walk": {
+        "seconds": 1.25,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006969629833158052,
+        "maxScaleGap": 0
+      },
+      "Run": {
+        "seconds": 0.7599999904632568,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006873803040778739,
+        "maxScaleGap": 0
+      }
+    },
+    "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+  },
+  "metadata": {
+    "is": "a heavy-rumped porcupine with individually curved banded quills, a blunt face and short grasping feet",
+    "tags": [
+      "mammal",
+      "quadruped",
+      "porcupine",
+      "rodent",
+      "quills"
+    ],
+    "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+    "attackSeconds": 1.16,
+    "contactNormalized": 0.54,
+    "impliedWalkMps": 0.2909090909090909,
+    "impliedRunMps": 1.166267942583732,
+    "walkClipSeconds": 1.25,
+    "runClipSeconds": 0.76,
+    "notes": "Feet follow flat-ground stance trajectories at a constant backwards velocity, with smooth lifted swing arcs. Three limb segments use authored knee bend planes and two-link IK to the hock, plus a controlled distal segment; paw orientation cancels the parent rotation during gait. Root does not translate horizontally in locomotion. Contact is an authored flat-plane assumption, not runtime terrain IK. Stride matching requires the stated implied speed. Idle, Walk and Run have identical first/last poses. Death is an authored collapse rather than a physics ragdoll. Coat colour, markings, ears, feet, face and tail are individually shaped for this species.",
+    "boneNames": [
+      "Root",
+      "Pelvis",
+      "Spine",
+      "Chest",
+      "Neck",
+      "Head",
+      "Jaw",
+      "Ear_L",
+      "Ear_R",
+      "FR_Upper",
+      "FR_Lower",
+      "FR_Ankle",
+      "FR_Paw",
+      "FL_Upper",
+      "FL_Lower",
+      "FL_Ankle",
+      "FL_Paw",
+      "Tail_1",
+      "Tail_2",
+      "Tail_3",
+      "Tail_4",
+      "HR_Upper",
+      "HR_Lower",
+      "HR_Ankle",
+      "HR_Paw",
+      "HL_Upper",
+      "HL_Lower",
+      "HL_Ankle",
+      "HL_Paw"
+    ],
+    "authoringModule": "tools/creature-expansion/mammals.mjs"
+  },
+  "acceptance": {
+    "assetAudit": true,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

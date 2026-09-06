@@ -86,6 +86,7 @@
  * value is used and the discrepancy is noted at the obstacle.
  */
 import type { ItemId, QuestId, RecipeId, RegionId, SkillId, StationKind } from "../contracts.js";
+import { PLAYER_SPEED } from "../app/config.js";
 import {
   COMPOSITION_IDS, KIT_IDS, MODULE_METRES, PREFAB_IDS, compositionPartAssetIds, isCompositionId,
   isKitId, isPrefabId, prefabPartAssetIds, type CompositionId, type KitId, type PrefabId,
@@ -692,7 +693,7 @@ export interface RegionDef {
 }
 
 /** Movement speed the route graph costs walking edges at. Mirrors `app/config.ts` PLAYER_SPEED. */
-export const WALK_SPEED_MPS = 4.2;
+export const WALK_SPEED_MPS = PLAYER_SPEED;
 
 export const WORLD_BOUNDS: RegionBounds = { min: [-350, -200], max: [350, 460] };
 
@@ -1088,7 +1089,7 @@ const VELLENWOOD: RegionDef = {
   locations: [
     { id: "vellenwood_marchgate", name: "Forest Gate", position: [-12, 122], kind: "gate", routeNode: true,
       blurb: "Woodlands's gate onto the Farm Road. Named for the direction, not the compass." },
-    { id: "rootfall_hamlet", name: "Oakwood", position: [60, 120], kind: "settlement", routeNode: true,
+    { id: "rootfall_hamlet", name: "Oakwood", position: [64, 127], kind: "settlement", routeNode: true,
       blurb: "Nine buildings around a Maple stump the size of a square." },
     { id: "rootfall_bank", name: "Oakwood Bank Chest", position: [60, 128], kind: "bank", routeNode: true,
       blurb: "One chest, set into the stump. Thirty-eight metres from the Forest Quarry." },
@@ -1197,13 +1198,13 @@ const VELLENWOOD: RegionDef = {
       interaction: "climb",
     },
     {
-      // Rootfall -> Thornline on foot goes round the gorge head: 84.4 + 100.3 = 184.7 m.
+      // Oakwood -> Thornline on foot goes round the gorge head: 176.6 m.
       // The entrance now stands outside the Hollowcut Postern instead of being pinched between
-      // the forge, townhouse and gate. Through the roots: 31.6 + 8.2 = 39.8 m + 3.5 s, saving
-      // about 145 m while giving the authored arch an unobstructed approach.
+      // the forge, townhouse and gate. Through the roots: 24.6 + 8.2 m + 3.5 s, saving
+      // about 144 m while giving the authored arch an unobstructed approach.
       id: "root_tunnel", name: "Root Tunnel", reqLevel: 8,
       position: [86, 138], exitPosition: [188, 154],
-      durationMs: 3500, savesMeters: 145,
+      durationMs: 3500, savesMeters: 144,
       // Local +Z faces west through the postern, the direction players actually approach from.
       assetId: "wall_arch", composition: "root_tunnel_entrance", scale: 1.2, rotationY: -Math.PI / 2,
       fromLocationId: "rootfall_hamlet", toLocationId: "thornline_camp",
@@ -1295,13 +1296,10 @@ const VELLENWOOD: RegionDef = {
     },
     {
       id: "rootfall_stump", name: "The Oakwood Stump", position: [60, 120],
-      // A real Duskoak, cut off just above the flare of its roots. The library ships no stump, and
-      // the round-3 stand-in was `anvil_log` — an anvil that happens to sit on a log — drawn at
-      // five times scale, so Rootfall's town square was a giant anvil. `clipFraction` keeps the
-      // lowest quarter of the same twisted oak that stands split on the ridge above the town.
-      assetId: "tree_twisted_2", scale: 2.0, clipFraction: 0.24,
+      // Native cut face and four stone flights share exact geometry with the navigation source.
+      assetId: "corealm_stump_oak", scale: 4, solid: false, originOnGround: true,
       composition: "rootfall_stump",
-      blurb: "The stump is the square. Somebody has cut steps into the north face of it.",
+      blurb: "The stump is the square. Stone steps climb its southeast face.",
     },
     {
       id: "split_duskoak", name: "The Split Maple", position: [170, 112],
@@ -1486,7 +1484,8 @@ const KARROWMOOR: RegionDef = {
       // measures both approaches from the authored endpoints when choosing this shortcut.
       id: "scree_slide", name: "Rockslide", reqLevel: 12,
       position: [96, -170], exitPosition: [108, -24],
-      durationMs: 3200, savesMeters: 168,
+      // Current road ledger: 213 m around minus 77.39 m of entry/exit approaches.
+      durationMs: 3200, savesMeters: 136,
       assetId: "cliff_step_3", scale: 1.3,
       fromLocationId: "great_cairn", toLocationId: "karrowmoor_terraces",
       oneWay: true,

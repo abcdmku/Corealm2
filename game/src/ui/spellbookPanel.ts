@@ -83,7 +83,7 @@ export class SpellbookPanel implements ManagedPanel {
       key: "b",
       keyLabel: "Spellbook",
       registry: ctx.registry,
-      placement: { top: "56px", left: "50%", width: "280px", maxHeight: "calc(100vh - 112px)" },
+      placement: { top: "56px", left: "50%", width: "360px", maxHeight: "calc(100vh - 112px)" },
       group: "center",
       onOpen: () => this.refresh(true),
     });

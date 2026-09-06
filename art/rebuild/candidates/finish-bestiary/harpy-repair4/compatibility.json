@@ -1,0 +1,56 @@
+[
+  {
+    "id": "harpy",
+    "passed": true,
+    "weightedVertices": 10785,
+    "lowestY": 0.0019999868354465544,
+    "maxBoundsDifference": 0.0008124706990924847,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0019999993118092543,
+        "maxBoundsDifference": 9.531196032419587e-8
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.001999996782323432,
+        "maxBoundsDifference": 9.602291428656429e-8
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0019999966806570346,
+        "maxBoundsDifference": 9.061943218036106e-8
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0019999991335274345,
+        "maxBoundsDifference": 3.698286964358857e-8
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0019999996138127807,
+        "maxBoundsDifference": 9.651125026253162e-8
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0019999996138127807,
+        "maxBoundsDifference": 9.651125026253162e-8
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0019999996138127807,
+        "maxBoundsDifference": 9.651125026253162e-8
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0019999868354465544,
+        "maxBoundsDifference": 0.0008124706990924847
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  }
+]

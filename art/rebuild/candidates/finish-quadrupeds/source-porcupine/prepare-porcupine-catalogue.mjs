@@ -1,0 +1,19 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {NodeIO} from '@gltf-transform/core';
+import {KHRONOS_EXTENSIONS} from '@gltf-transform/extensions';
+import {Box3,Vector3,Matrix4} from 'three';
+const dir=new URL('./',import.meta.url),io=new NodeIO().registerExtensions(KHRONOS_EXTENSIONS),bytes=await readFile(new URL('cdmir-porcupine-adapted.glb',dir)),doc=await io.readBinary(bytes),root=doc.getRoot();
+function bounds(){const box=new Box3();for(const node of root.listNodes())if(node.getMesh()){
+ const skin=node.getSkin(),matrices=skin?.listJoints().map((j,i)=>{const b=[];skin.getInverseBindMatrices().getElement(i,b);return new Matrix4().fromArray(j.getWorldMatrix()).multiply(new Matrix4().fromArray(b));});
+ for(const p of node.getMesh().listPrimitives()){const pos=p.getAttribute('POSITION'),weights=p.getAttribute('WEIGHTS_0'),joints=p.getAttribute('JOINTS_0');for(let i=0;i<pos.getCount();i++){
+ const v=[],w=[],j=[];pos.getElement(i,v);let point=new Vector3();if(skin){weights.getElement(i,w);joints.getElement(i,j);for(let k=0;k<4;k++)if(w[k])point.addScaledVector(new Vector3(...v).applyMatrix4(matrices[j[k]]),w[k]);}else point.fromArray(v).applyMatrix4(new Matrix4().fromArray(node.getWorldMatrix()));box.expandByPoint(point);
+ }}}return box;}
+const before=bounds(),scale=.46/before.getSize(new Vector3()).y,centre=before.getCenter(new Vector3()),translation=[-centre.x*scale,-before.min.y*scale,-centre.z*scale];
+for(const scene of root.listScenes()){const wrapper=doc.createNode('Porcupine_preview_scale').setScale([scale,scale,scale]).setTranslation(translation);for(const child of [...scene.listChildren()]){scene.removeChild(child);wrapper.addChild(child);}scene.addChild(wrapper);}
+const after=bounds(),size=after.getSize(new Vector3()),file='cdmir-porcupine-normalized.glb',output=await io.writeBinary(doc);await writeFile(new URL(file,dir),output);
+const report=JSON.parse(await readFile(new URL('porcupine-adaptation.json',dir),'utf8')),id='creature_quillback_porcupine',pack='cdmir-rat-porcupine-adaptation';
+const asset={id,file:'models/creature/'+id+'.glb',pack,category:'character',is:'Porcupine species adaptation of CDmir and TinyWorlds complete CC0 rat source; candidate awaiting visual review',tags:['porcupine','rat-source-adaptation','native-animation','candidate'],bytes:output.length,sha256:createHash('sha256').update(output).digest('hex'),size:{x:size.x,y:size.y,z:size.z},base:{x:after.min.x,y:after.min.y,z:after.min.z},bounds:{min:after.min.toArray(),max:after.max.toArray()},groundY:after.min.y,triangles:root.listMeshes().reduce((sum,m)=>sum+m.listPrimitives().reduce((s,p)=>s+(p.getIndices()?.getCount()||p.getAttribute('POSITION').getCount())/3,0),0),animations:root.listAnimations().map(a=>a.getName()),materials:root.listMaterials().map(m=>m.getName()),sourceProvenance:report,acceptance:{sourceMeasured:true,labAccepted:false,worldIntegrated:false}};
+const catalogue={assets:[asset],packs:[{id:pack,name:'Complete-source Porcupine candidate',author:'CDmir; TinyWorlds; Corealm species adaptation',source:report.sourceUrl,license:'CC0-1.0'}],files:{[id]:file},previewTransform:{scale,translation,units:'Authored .46 m total rest height including quills; source dimensions were unspecified.'},limits:['Rest minimum is grounded. Native motion may dip below ground; this is not contact acceptance.','Stand is a zero-duration pose. Source Idle.000 was omitted for confirmed original B-bone discontinuities; use real Idle.001 or Idle.002. All 14 remain in the original blend.','Source skeletal conversion and adapted species anatomy require separate acceptance.','No GPU or game acceptance performed.']};
+await writeFile(new URL('porcupine-candidate-catalogue.json',dir),JSON.stringify(catalogue,null,2)+'\n');console.log(JSON.stringify({file,asset:asset.sha256,bounds:asset.bounds,triangles:asset.triangles,scale,animations:asset.animations}));
+

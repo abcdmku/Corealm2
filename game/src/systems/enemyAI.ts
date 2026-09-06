@@ -24,6 +24,7 @@ import type { EntityId, RegionId, SemanticEntity, Vec3 } from "../contracts.js";
 import type { GameState, Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
 import type { TickSystem } from "../app/loop.js";
+import { CREATURE_RUN_SPEED } from "../app/config.js";
 import { distanceXZ, turnToward } from "../core/math.js";
 import { Rng } from "../core/rng.js";
 import type { BossPhase } from "../content/enemies.js";
@@ -34,7 +35,7 @@ import { habitatIdleTargets, hashId } from "../world/habitatMovement.js";
 export { hashId } from "../world/habitatMovement.js";
 import type { CombatEntityPort, CombatSystem } from "./combat.js";
 import {
-  cloneVec3, combatRealmOf as realmOf, enemyStandoffMetres, sameCombatRealm as sameRealm, spawnPositionOf,
+  cloneVec3, combatRealmOf as realmOf, enemyHoldMetres, sameCombatRealm as sameRealm, spawnPositionOf,
 } from "./combat.js";
 
 // ------------------------------------------------------------------ tunables
@@ -42,7 +43,7 @@ import {
 /** PRD 2.4: enemies leash at 28 m from their spawn point. */
 export const LEASH_METRES = 28;
 
-/** Enemies move slower than the player's 4.2 m/s, so disengaging by running is a real option. */
+/** Legacy speed retained only for the unauthored walking-speed fallback. */
 export const ENEMY_SPEED_MPS = 3.1;
 
 /**
@@ -136,16 +137,8 @@ export function separationPush(
   const push = Math.min(limit, (want - gap) / 2);
   return { x: ux * push, z: uz * push };
 }
-export const ENEMY_RETURN_SPEED_MPS = 3.6;
+export const ENEMY_RETURN_SPEED_MPS = CREATURE_RUN_SPEED;
 
-/**
- * How fast this creature pursues, in metres per second.
- *
- * `content/enemies.ts` sets it per family from the animal's own gait, because one shared speed made
- * a hen and a bear cover ground identically and neither's legs could keep up with it: the hen's
- * walk cycle implies 0.75 m/s against the 3.1 it was travelling at. `render/entityViews.ts` reads
- * the same number to pick the clip's playback rate, so the two cannot drift.
- */
 /**
  * How fast this creature potters, in metres per second.
  *
@@ -154,14 +147,9 @@ export const ENEMY_RETURN_SPEED_MPS = 3.6;
  * against 1.84) — a defensible amble rather than a creature strolling at a sprint.
  */
 function wanderSpeed(entity: SemanticEntity): number {
-  return entity.combat?.walkSpeedMps ?? pursuitSpeed(entity) / 3;
+  return entity.combat?.walkSpeedMps ?? (entity.combat?.moveSpeedMps ?? ENEMY_SPEED_MPS) / 3;
 }
 
-function pursuitSpeed(entity: SemanticEntity): number {
-  return entity.combat?.moveSpeedMps ?? ENEMY_SPEED_MPS;
-}
-
-/** Returning is the same gait, hurried by the ratio the shared constants already establish. */
 /**
  * Picks a point to amble to, somewhere in the ring around a creature's spawn.
  *
@@ -192,10 +180,6 @@ export function headingGap(from: number, to: number): number {
   while (delta > Math.PI) delta -= Math.PI * 2;
   while (delta < -Math.PI) delta += Math.PI * 2;
   return Math.abs(delta);
-}
-
-function returnSpeed(entity: SemanticEntity): number {
-  return pursuitSpeed(entity) * (ENEMY_RETURN_SPEED_MPS / ENEMY_SPEED_MPS);
 }
 
 // Where an enemy stops closing is no longer one constant: `combat.enemyStandoffMetres` adds the
@@ -377,6 +361,14 @@ export class EnemyAiSystem implements TickSystem {
     deps.combat.onEnemyProvoked((enemyId, atMs) => this.provoke(enemyId, atMs));
   }
 
+  private pursuitHabitat(entity: SemanticEntity): HabitatDef | null {
+    const groupId = entity.meta?.groupId;
+    if (typeof groupId !== "string" || !groupId.startsWith("pack_")) return null;
+    const habitat = this.habitat(entity);
+    if (!habitat) return null;
+    return { ...habitat, radius: Math.max(0.5, habitat.radius - (entity.combat?.bodyRadius ?? 0) - 0.45) };
+  }
+
   private habitat(entity: SemanticEntity): HabitatDef | null {
     return this.deps.habitatForEntity?.(entity) ?? worldHabitat(entity);
   }
@@ -399,11 +391,15 @@ export class EnemyAiSystem implements TickSystem {
       // pursuers remain simulated only long enough to disengage and finish walking home.
       if (!inPlayerRealm && previous?.mode !== "aggro" && previous?.mode !== "returning") continue;
       const runtime = this.deps.combat.runtimeFor(state, entity);
-      if (runtime.state === "dead") continue;
+      if (runtime.state === "dead") {
+        continue;
+      }
 
       const record = this.recordFor(entity.id);
       const def = this.deps.combat.defFor(entity);
       const spawn = runtime.spawnPos;
+      const pursuitHabitat = this.pursuitHabitat(entity);
+      const playerInHabitat = !pursuitHabitat || insideHabitat(pursuitHabitat, playerPos);
       const distanceToPlayer = distanceXZ(playerPos, entity.position);
       const distanceFromSpawn = distanceXZ(spawn, entity.position);
 
@@ -413,13 +409,13 @@ export class EnemyAiSystem implements TickSystem {
       if (phases && inPlayerRealm) this.updateBoss(state, entity, runtime, record, phases, atMs);
 
       // 1. leash. Nothing outruns 28 m from home, including a boss mid-telegraph.
-      if (record.mode === "aggro" && distanceFromSpawn > LEASH_METRES) {
+      if (record.mode === "aggro" && (distanceFromSpawn > LEASH_METRES || !playerInHabitat)) {
         this.leash(state, entity, record, atMs);
       }
 
       // 2. return home.
       if (record.mode === "returning") {
-        const arrived = this.stepToward(entity, spawn, returnSpeed(entity), deltaMs, 0.6);
+        const arrived = this.stepToward(entity, spawn, CREATURE_RUN_SPEED, deltaMs, 0.6);
         if (arrived) {
           record.mode = "idle";
           runtime.state = "idle";
@@ -433,7 +429,7 @@ export class EnemyAiSystem implements TickSystem {
       }
 
       // 3. acquire.
-      if (record.mode === "idle" && playerAlive) {
+      if (record.mode === "idle" && playerAlive && playerInHabitat) {
         const provoked = atMs < record.provokedUntilMs;
         const inAggro = distanceToPlayer <= def.aggroRadius;
         const initiates = def.behaviour === "aggressive" && inAggro;
@@ -461,9 +457,9 @@ export class EnemyAiSystem implements TickSystem {
         // The same `?? 0` fallback `combat.bodyRadiusOf` uses, NOT `DEFAULT_BODY_RADIUS`: the
         // standoff and the swing gate must be computed from the same radius or a content gap
         // could park a creature outside its own reach.
-        const standoff = enemyStandoffMetres(entity.combat?.bodyRadius ?? 0);
+        const standoff = enemyHoldMetres(def, entity.combat?.bodyRadius ?? 0);
         if (distanceToPlayer > standoff) {
-          this.stepToward(entity, playerPos, pursuitSpeed(entity), deltaMs, standoff);
+          this.stepToward(entity, playerPos, CREATURE_RUN_SPEED, deltaMs, standoff, pursuitHabitat);
         } else {
           // At standoff there is no displacement for stepToward to face along. Keep looking at the
           // player while the combat system swings.
@@ -532,7 +528,8 @@ export class EnemyAiSystem implements TickSystem {
   private nudge(entity: SemanticEntity, dx: number, dz: number): void {
     const from = entity.position;
     const wanted: Vec3 = [from[0] + dx, from[1], from[2] + dz];
-    const habitat = this.records.get(entity.id)?.mode === "idle" ? this.habitat(entity) : null;
+    const habitat = this.pursuitHabitat(entity)
+      ?? (this.records.get(entity.id)?.mode === "idle" ? this.habitat(entity) : null);
     const snapped = habitat ? this.snapHabitatStep(wanted, habitat) : this.snapStep(wanted);
     // No `faceDirection` here on purpose: a creature being shoved aside is still looking at what it
     // is chasing, and turning it to face the shove is what made the animals spin.
@@ -549,6 +546,8 @@ export class EnemyAiSystem implements TickSystem {
     const state = this.deps.store.get();
     const entity = this.deps.entities.get(enemyId);
     if (!entity || !sameRealm(state.player.regionId, entity.regionId)) return;
+    const habitat = this.pursuitHabitat(entity);
+    if (habitat && !insideHabitat(habitat, state.player.position)) return;
     const runtime = this.deps.combat.runtimeFor(state, entity);
     if (runtime.state === "dead") return;
 
@@ -979,9 +978,7 @@ export class EnemyAiSystem implements TickSystem {
     this.deps.entities.setPosition?.(entity.id, snapped);
     // Publish the speed this body is ACTUALLY being stepped at, so the renderer retimes the
     // locomotion cycle against it. Before this existed the renderer fell back to the authored
-    // pursuit speed, which is wrong for a leash return — returnSpeed is 1.16x pursuit — and
-    // that gap is a permanent 16% foot slide on every walk home, reported as the run looking
-    // "a hair too slow".
+    // pursuit speed, which differs from the authored amble. Pursuit and return now share speed.
     if (entity.view) entity.view.gaitSpeedMps = speed;
     this.faceDirection(entity, movedX, movedZ, deltaMs);
     this.deps.store.markDirty();

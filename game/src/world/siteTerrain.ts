@@ -159,8 +159,10 @@ export function worldSiteWorkFloorWeight(x: number, z: number, site: WorldSite):
 }
 
 /**
- * Applies mine cuts to the shared heightfield. The callback must read natural regional terrain,
- * before flats or site edits. Run this after settlement flats and before roads and water basins.
+ * Applies mine cuts to the shared heightfield. The natural callback reads regional relief;
+ * the optional support callback reads terrain after flats but before site edits. This keeps
+ * a mine beside a raised settlement connected to that settlement's approach. Neither callback
+ * may sample site-edited terrain recursively. Run before roads and water basins.
  * Groves keep their natural ground and fisheries keep the existing water basin profile.
  */
 export function applyWorldSiteTerrain(
@@ -169,6 +171,7 @@ export function applyWorldSiteTerrain(
   currentHeight: number,
   sites: readonly WorldSite[],
   heightAtNatural: (x: number, z: number) => number,
+  heightAtSupport: (x: number, z: number) => number = heightAtNatural,
 ): number {
   let shapes = shapesBySites.get(sites);
   if (!shapes) {
@@ -186,7 +189,9 @@ export function applyWorldSiteTerrain(
     const { backRise, backDistance } = site.terrain;
     const { weight } = sample;
     const centreHeight = heightAtNatural(site.centre[0], site.centre[1]);
-    const floor = centreHeight - Math.min(2.3, Math.max(1.3, backRise * 0.35));
+    const supportHeight = heightAtSupport === heightAtNatural ? centreHeight
+      : heightAtSupport(site.centre[0], site.centre[1]);
+    const floor = supportHeight - Math.min(2.3, Math.max(1.3, backRise * 0.35));
     // Two percent drainage grade toward the approach. Rear distance is measured from the
     // exposed seam, so curved returns and deep stations retain the same accessible footing.
     const back = smoothstep(3.6, Math.max(4.6, backDistance), -sample.distance);

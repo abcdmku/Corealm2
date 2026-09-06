@@ -19,7 +19,7 @@
  *
  * Everything below the nine is a Corealm-specific test helper.
  */
-import type * as THREE from "three";
+import * as THREE from "three";
 import type { EntityId, ItemId, QuestId, SkillId, Vec3 } from "../contracts.js";
 import type { Store } from "../state/store.js";
 import type { EventBus } from "../core/events.js";
@@ -70,6 +70,8 @@ export interface DebugDeps {
   clearAudioHistory?(): void;
   foliageOcclusion?(): unknown;
   setFoliageOcclusionEnabled?(enabled: boolean): void;
+  setContainedTroughWater?(enabled: boolean): unknown;
+  setFoliageOcclusionBoundsOptimization?(enabled: boolean): void;
   version: { build: string; contracts: string; content: string };
   /** Rebuilds the world and restores spawn state. Must complete synchronously. */
   resetWorld(seed?: number, keepSave?: boolean): void;
@@ -341,6 +343,16 @@ export function installGameDebug(deps: DebugDeps): void {
       clock.timeScale = Math.max(0.1, Math.min(100, scale));
     },
 
+    getPerformanceTimings(): Record<string, unknown> {
+      return renderer.getPerformanceTimings();
+    },
+    setTransmissionOcclusionEnabled(enabled: boolean): void {
+      renderer.setTransmissionOcclusionEnabled(Boolean(enabled));
+    },
+    setTransmissionProbeMode(mode: "bounds" | "exact-diagnostic"): void {
+      renderer.setTransmissionProbeMode(mode === "exact-diagnostic" ? mode : "bounds");
+    },
+
     getMetrics(): Record<string, number> {
       const stats = renderer.getStats();
       const memory = (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory;
@@ -376,8 +388,14 @@ export function installGameDebug(deps: DebugDeps): void {
       return deps.foliageOcclusion?.() ?? null;
     },
 
+    setContainedTroughWater(enabled: boolean): unknown {
+      return deps.setContainedTroughWater?.(Boolean(enabled));
+    },
     setFoliageOcclusionEnabled(enabled: boolean): void {
       deps.setFoliageOcclusionEnabled?.(enabled);
+    },
+    setFoliageOcclusionBoundsOptimization(enabled: boolean): void {
+      deps.setFoliageOcclusionBoundsOptimization?.(enabled);
     },
 
     getAudioState(): unknown {
@@ -509,7 +527,8 @@ export function installGameDebug(deps: DebugDeps): void {
     getRenderProfile(namePrefix?: string): unknown {
       const gpu = renderer.renderer;
       const original = gpu.renderBufferDirect;
-      const rows = new Map<string, { name: string; pass: string; calls: number; triangles: number }>();
+      const rows = new Map<string, { name: string; pass: string; calls: number; triangles: number;
+        objects: number[]; targets: string[]; materials: { name: string; uuid: string; transparent: boolean; opacity: number; side: number; forceSinglePass: boolean; transmission: number }[] }>();
       gpu.renderBufferDirect = function (camera, scene, geometry, material, object, group) {
         const calls = gpu.info.render.calls;
         const triangles = gpu.info.render.triangles;
@@ -517,11 +536,20 @@ export function installGameDebug(deps: DebugDeps): void {
         const submitted = gpu.info.render.calls - calls;
         if (!submitted) return;
         const name = object.name || object.parent?.name || object.type;
-        const pass = camera === renderer.camera ? "colour" : "shadow";
+        const target = gpu.getRenderTarget();
+        const pass = camera === renderer.camera ? target ? "colour-offscreen" : "colour" : "shadow";
         const key = `${pass}:${name}`;
-        const row = rows.get(key) ?? { name, pass, calls: 0, triangles: 0 };
+        const row = rows.get(key) ?? { name, pass, calls: 0, triangles: 0, objects: [], targets: [], materials: [] };
         row.calls += submitted;
         row.triangles += gpu.info.render.triangles - triangles;
+        if (!row.objects.includes(object.id)) row.objects.push(object.id);
+        const targetId = target?.texture.uuid ?? "canvas";
+        if (!row.targets.includes(targetId)) row.targets.push(targetId);
+        if (!row.materials.some(entry => entry.uuid === material.uuid && entry.side === material.side)) row.materials.push({
+          name: material.name, uuid: material.uuid, transparent: material.transparent,
+          opacity: material.opacity, side: material.side, forceSinglePass: material.forceSinglePass,
+          transmission: (material as THREE.MeshPhysicalMaterial).transmission ?? 0,
+        });
         rows.set(key, row);
       };
       try {
@@ -532,16 +560,66 @@ export function installGameDebug(deps: DebugDeps): void {
         gpu.renderBufferDirect = original;
       }
       const draws = [...rows.values()].sort((a, b) => b.triangles - a.triangles);
+      const transmissiveCandidates: Record<string, unknown>[] = [];
+      const cameraFrustum = new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4()
+        .multiplyMatrices(renderer.camera.projectionMatrix, renderer.camera.matrixWorldInverse));
+      renderer.scene.traverseVisible(object => {
+        const mesh = object as THREE.Mesh;
+        if (!mesh.isMesh || !object.layers.test(renderer.camera.layers)) return;
+        const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+        const transmissive = materials.filter(material => material.visible && (material as THREE.MeshPhysicalMaterial).transmission > 0);
+        if (!transmissive.length || (mesh.frustumCulled && !cameraFrustum.intersectsObject(mesh))) return;
+        const bounds = new THREE.Box3().setFromObject(mesh);
+        const projected = new THREE.Box2();
+        for (const x of [bounds.min.x, bounds.max.x]) for (const y of [bounds.min.y, bounds.max.y]) for (const z of [bounds.min.z, bounds.max.z]) {
+          const point = new THREE.Vector3(x, y, z).project(renderer.camera);
+          projected.expandByPoint(new THREE.Vector2((point.x + 1) * gpu.domElement.width / 2, (1 - point.y) * gpu.domElement.height / 2));
+        }
+        transmissiveCandidates.push({ name: object.name, objectId: object.id, type: object.type,
+          count: (object as THREE.InstancedMesh).count ?? null,
+          instanceCount: (object as THREE.BatchedMesh).instanceCount ?? null,
+          worldBounds: { min: bounds.min.toArray(), max: bounds.max.toArray() },
+          projectedBoundsPixels: { min: projected.min.toArray(), max: projected.max.toArray() },
+          nearbyEntities: (api.hooks.entities?.all() ?? []).filter(entity => bounds.distanceToPoint(new THREE.Vector3(...entity.position)) < 5)
+            .map(entity => ({ id: entity.id, assetId: entity.view?.assetId, position: entity.position })),
+          materials: transmissive.map(material => ({ name: material.name, uuid: material.uuid,
+            transmission: (material as THREE.MeshPhysicalMaterial).transmission })) });
+      });
       return {
         calls: draws.reduce((sum, row) => sum + row.calls, 0),
         triangles: draws.reduce((sum, row) => sum + row.triangles, 0),
-        passes: Object.fromEntries(["colour", "shadow"].map((pass) => {
+        passes: Object.fromEntries(["colour", "colour-offscreen", "shadow"].map((pass) => {
           const submitted = draws.filter((row) => row.pass === pass);
           return [pass, { calls: submitted.reduce((sum, row) => sum + row.calls, 0), triangles: submitted.reduce((sum, row) => sum + row.triangles, 0) }];
         })),
         textures: gpu.info.memory.textures,
+        transmissiveDraws: draws.filter(row => row.materials.some(material => material.transmission > 0)),
+        transmissiveCandidates,
         draws: namePrefix ? draws.filter((row) => row.name.startsWith(namePrefix)) : draws.slice(0, 40),
       };
+    },
+
+    /** Temporary diagnostic only; restores the material's actual mesh before returning. */
+    captureTransmissionContribution(objectId: number): { withSurface: string; withoutSurface: string } {
+      const object = renderer.scene.getObjectById(objectId) as THREE.Mesh | undefined;
+      const materials = object?.isMesh ? Array.isArray(object.material) ? object.material : [object.material] : [];
+      if (!object || !materials.some(material => (material as THREE.MeshPhysicalMaterial).transmission > 0)) {
+        throw new Error("Contribution capture requires an existing transmissive mesh");
+      }
+      const visible = object.visible;
+      const draw = () => { renderer.prepareScene?.(renderer.camera); renderer.renderer.render(renderer.scene, renderer.camera);
+        return renderer.renderer.domElement.toDataURL("image/png"); };
+      // One synchronous call: no simulation, animation or wind update can run between images.
+      try {
+        object.visible = true;
+        const withSurface = draw();
+        object.visible = false;
+        const withoutSurface = draw();
+        return { withSurface, withoutSurface };
+      } finally {
+        object.visible = visible;
+        draw();
+      }
     },
 
     /** Scene graph inventory, including objects culled from the current render. */

@@ -1,0 +1,52 @@
+{
+  "sha256": "d605c4e2f547b04569c57e687201ad03b0b62d135a28f41f93cd963db8a37b63",
+  "bytes": 19276904,
+  "skins": 0,
+  "animations": 0,
+  "sourceMeshes": [
+    {
+      "name": "BezierCurve.005_Mesh.005",
+      "vertices": 969,
+      "originalTopologyPreserved": true,
+      "originalUvPreserved": true
+    },
+    {
+      "name": "BezierCurve_Mesh",
+      "vertices": 2306,
+      "originalTopologyPreserved": true,
+      "originalUvPreserved": true
+    },
+    {
+      "name": "Plane",
+      "vertices": 21402,
+      "originalTopologyPreserved": false,
+      "originalUvPreserved": false
+    },
+    {
+      "name": "Sphere",
+      "vertices": 1984,
+      "originalTopologyPreserved": true,
+      "originalUvPreserved": true
+    },
+    {
+      "name": "Sphere.002_Sphere.004",
+      "vertices": 1984,
+      "originalTopologyPreserved": true,
+      "originalUvPreserved": true
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.8673413991928101,
+      0.0020000000949949026,
+      -1.177071452140808
+    ],
+    "max": [
+      0.8673413991928101,
+      2.921020030975342,
+      1.7127500772476196
+    ]
+  },
+  "triangles": 22146,
+  "vertices": 53943
+}

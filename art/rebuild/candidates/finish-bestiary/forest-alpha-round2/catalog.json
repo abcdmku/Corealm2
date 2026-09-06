@@ -1,0 +1,441 @@
+{
+  "packs": [
+    {
+      "id": "corealm-rpg-forest-monster-current",
+      "name": "Forest Monster",
+      "author": "Čestmír Dammer (CDmir)",
+      "source": "https://opengameart.org/content/forest-monster",
+      "license": "CC0-1.0",
+      "sourceArchive": "forest-monster_0.7z",
+      "archiveSha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
+      "upstreamPackId": "forest-monster-current",
+      "derivation": "Complete original source body and rig retained; sourceProvenance records conversion and clip adaptations."
+    }
+  ],
+  "sharedTextures": [
+    {
+      "file": "textures/imported/d38cb162995360135df55289e9bc937be244b6c278a75b85d2577d701de9abb0.png",
+      "bytes": 5856195,
+      "sha256": "d38cb162995360135df55289e9bc937be244b6c278a75b85d2577d701de9abb0",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/c85b72cc3cff8d53e2e4f31c70eba4566bd9a14b7cbc46fbf3033f0dd2d85c40.png",
+      "bytes": 8413427,
+      "sha256": "c85b72cc3cff8d53e2e4f31c70eba4566bd9a14b7cbc46fbf3033f0dd2d85c40",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/971e1cec35db96c85bee683cded2ec8206179faf77e0d24775ea21d52929e4b7.png",
+      "bytes": 507370,
+      "sha256": "971e1cec35db96c85bee683cded2ec8206179faf77e0d24775ea21d52929e4b7",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/4a5dc9f41974549ccd0bf6f1f8afb5f1c1a82c36d017f739782f3e20f8e6df69.png",
+      "bytes": 396817,
+      "sha256": "4a5dc9f41974549ccd0bf6f1f8afb5f1c1a82c36d017f739782f3e20f8e6df69",
+      "mimeType": "image/png"
+    }
+  ],
+  "files": {
+    "creature_mossback_sentinel": "models/creature/creature_mossback_sentinel.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_mossback_sentinel",
+      "file": "models/creature/creature_mossback_sentinel.glb",
+      "candidateFile": "models/creature/creature_mossback_sentinel.glb",
+      "pack": "corealm-rpg-forest-monster-current",
+      "category": "character",
+      "is": "mossback sentinel",
+      "tags": [
+        "creature",
+        "rpg",
+        "mossback_sentinel"
+      ],
+      "bytes": 800412,
+      "sha256": "4a167c124d5987959af011c4e4f8a46355e0e87ecd1ba39ef431e0038ed196a0",
+      "size": {
+        "x": 2.0170493470025503,
+        "y": 4.018234333077321,
+        "z": 2.3927751261490036
+      },
+      "base": {
+        "x": -1.049471848914935,
+        "y": 0.0029999999992796483,
+        "z": -1.6199505099890523
+      },
+      "groundY": 0.0029999999992796483,
+      "triangles": 6582,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_mossback_sentinel_forest_authored_0_Monster",
+        "animal_rpg_mossback_sentinel_forest_authored_1_Tree"
+      ],
+      "walkClipSeconds": 1.6666666269302368,
+      "runClipSeconds": 1.1494252599518875,
+      "attackSeconds": 1.25,
+      "contactNormalized": 0.4,
+      "sourceProvenance": {
+        "author": "Čestmír Dammer (CDmir); texture derivation Rick Hoppmann; concept Torben",
+        "license": "CC0-1.0",
+        "source": "https://opengameart.org/content/forest-monster",
+        "sourceAssets": [
+          "forest-monster-final.blend",
+          "Monster",
+          "Tree"
+        ],
+        "sourcePacks": [
+          {
+            "id": "forest-monster-current",
+            "author": "Čestmír Dammer (CDmir)",
+            "license": "CC0-1.0",
+            "source": "https://opengameart.org/content/forest-monster",
+            "download": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
+            "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e"
+          }
+        ],
+        "sourceRecords": [
+          {
+            "archive": "forest-monster_0.7z",
+            "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
+            "licenseFile": "tools/rpg-bestiary/forest-monster-source/Licenses.txt",
+            "licenseEvidence": "Current archive says CC0; official author 2015-09-03 comment confirms former restricted tree texture replaced and all current contents CC0"
+          }
+        ],
+        "modifications": "Complete authored Monster and Tree meshes with original 76-bone rig; Blender constraint animation baked to glTF; no topology additions, grafts or anatomy edits; uniform source-units conversion to meters; original current-archive diffuse/normal/AO/specular texture channels; Walk-tempo Run and Melee_Hold-derived directional hit clips; whole-mesh ground alignment; native takes contain no authored aerial locomotion"
+      },
+      "metadata": {
+        "id": "mossback_sentinel",
+        "family": "forest_monster",
+        "revision": "forest-monster-source-review-1",
+        "height": 4.123531475580428,
+        "dimensions": [
+          2.224532393427154,
+          4.123531475580428,
+          2.353381533996444
+        ],
+        "rig": "authored-76-bone-forest-monster",
+        "meshCount": 2,
+        "vertices": 4527,
+        "triangles": 6582,
+        "attackContact": 0.4,
+        "attackContactSource": "Author Licenses.txt marks native strike frames10–15 of30; midpoint12 used",
+        "source": "https://opengameart.org/content/forest-monster",
+        "license": "CC0-1.0",
+        "provenance": {
+          "author": "Čestmír Dammer (CDmir); texture derivation Rick Hoppmann; concept Torben",
+          "license": "CC0-1.0",
+          "source": "https://opengameart.org/content/forest-monster",
+          "sourceAssets": [
+            "forest-monster-final.blend",
+            "Monster",
+            "Tree"
+          ],
+          "sourcePacks": [
+            {
+              "id": "forest-monster-current",
+              "author": "Čestmír Dammer (CDmir)",
+              "license": "CC0-1.0",
+              "source": "https://opengameart.org/content/forest-monster",
+              "download": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
+              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e"
+            }
+          ],
+          "sourceRecords": [
+            {
+              "archive": "forest-monster_0.7z",
+              "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
+              "licenseFile": "tools/rpg-bestiary/forest-monster-source/Licenses.txt",
+              "licenseEvidence": "Current archive says CC0; official author 2015-09-03 comment confirms former restricted tree texture replaced and all current contents CC0"
+            }
+          ],
+          "modifications": "Complete authored Monster and Tree meshes with original 76-bone rig; Blender constraint animation baked to glTF; no topology additions, grafts or anatomy edits; uniform source-units conversion to meters; original current-archive diffuse/normal/AO/specular texture channels; Walk-tempo Run and Melee_Hold-derived directional hit clips; whole-mesh ground alignment; native takes contain no authored aerial locomotion"
+        },
+        "textureBindings": [
+          {
+            "materialName": "forest_authored_0_Monster",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-skin1.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-norm.png",
+            "specularPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-spec.png",
+            "flipY": false
+          },
+          {
+            "materialName": "forest_authored_1_Tree",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree-norm.png",
+            "specularPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree-spec.png",
+            "flipY": false
+          }
+        ],
+        "sourceOcclusion": {
+          "aoPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-AO.png",
+          "sha256": "c7dfa8616a5b044ab48c00ad0256b9538c1266dd6733d4b24d4a94fdff5eef83",
+          "active": false,
+          "reason": "Original Blender 2.75 Material/MTex pointers contain no AO binding. Monster has only diffuse, normal and specular slots. The AO image is retained from the current archive as unused source data; no runtime occlusion binding or inferred strength is added.",
+          "evidence": "test-results/forest-monster-source/legacy-material-slots.json",
+          "inspectionMethod": "Direct original-file SDNA decode with inspect_legacy_ao.mjs"
+        },
+        "sourceAlpha": {
+          "material": "Tree",
+          "mode": "MASK",
+          "cutoff": 0.5,
+          "channel": "baseColorTexture.a",
+          "textureSha256": "172dcdeb6ec402e0dfa12719aaee9e990cf815c91d2cf23873f9177134496940",
+          "sourceConvention": "Original MATree diffuse MTex mapto129 = color1 + alpha128; alphafac1. PNG has102618 fully transparent texels and42145 partial-alpha texels.",
+          "translation": "Source alpha translated to production cutout threshold0.5; threshold is a runtime choice, not claimed as an original Blender value.",
+          "evidence": "test-results/forest-alpha-repair/alpha-evidence.json",
+          "textureBytesModified": false
+        },
+        "textureChannels": [
+          {
+            "materialName": "forest_authored_0_Monster",
+            "baseColorPath": {
+              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-skin1.png",
+              "sha256": "8ecf0c8f4b70feefa40fdc6d61fde2b8327ce8bf40053977a4e6d6c995eccf2f"
+            },
+            "normalPath": {
+              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-norm.png",
+              "sha256": "98a90aaf5e6c08db2eec60a520fa4960b97753ff4a4d3ff8987d8b8d7652e439"
+            },
+            "specularPath": {
+              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\forest-monster-spec.png",
+              "sha256": "2cf0f13a2e1b505453d70637b2fcec51ba2650504efafbecf24f2050fd763538"
+            },
+            "flipY": false
+          },
+          {
+            "materialName": "forest_authored_1_Tree",
+            "baseColorPath": {
+              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree.png",
+              "sha256": "172dcdeb6ec402e0dfa12719aaee9e990cf815c91d2cf23873f9177134496940"
+            },
+            "normalPath": {
+              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree-norm.png",
+              "sha256": "6a178f5479a7401c8bf8ca994abf3b515bc9fc525afadee049b7d66e699e5c29"
+            },
+            "specularPath": {
+              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\forest-monster-source\\derived\\tree-spec.png",
+              "sha256": "722067474adb7b2e96f1719449e54db3854828a3fc8a43dff82789d03917da46"
+            },
+            "flipY": false
+          }
+        ],
+        "clipSources": {
+          "Idle": {
+            "take": "Idle",
+            "frames": [
+              0,
+              190
+            ]
+          },
+          "Walk": {
+            "take": "Walk",
+            "frames": [
+              0,
+              40
+            ]
+          },
+          "Run": {
+            "take": "Walk",
+            "frames": [
+              0,
+              40
+            ],
+            "derivative": "1.45x native Walk tempo; no authored running take"
+          },
+          "Attack": {
+            "take": "Attack",
+            "frames": [
+              0,
+              30
+            ],
+            "contactFrames": [
+              10,
+              15
+            ]
+          },
+          "Hit": {
+            "take": "Melee_Hold",
+            "frames": [
+              0,
+              50
+            ],
+            "derivative": "compressed to 0.6s with 0.10rad Spine2 recoil"
+          },
+          "HitLeft": {
+            "take": "Melee_Hold",
+            "frames": [
+              0,
+              50
+            ],
+            "derivative": "same recoil plus +0.16rad directional Spine2 turn"
+          },
+          "HitRight": {
+            "take": "Melee_Hold",
+            "frames": [
+              0,
+              50
+            ],
+            "derivative": "same recoil plus -0.16rad directional Spine2 turn"
+          },
+          "Death": {
+            "take": "Dying",
+            "frames": [
+              0,
+              35
+            ]
+          }
+        },
+        "animationFloorChecks": [
+          {
+            "clip": "Idle",
+            "rawMinFloor": 0.10689334817374654,
+            "maximumLift": 0,
+            "minFloor": 0.0029999999992796483,
+            "maxHeight": 4.030557655718908,
+            "firstBounds": [
+              -1.049471848914935,
+              0.0029999999992796483,
+              -1.6199505099890523,
+              0.9675774980876151,
+              4.021234333076601,
+              0.7728246161599515
+            ]
+          },
+          {
+            "clip": "Walk",
+            "rawMinFloor": 0.01813139636374765,
+            "maximumLift": 0,
+            "minFloor": 0.0028914848962731457,
+            "maxHeight": 3.5706791980244534,
+            "firstBounds": [
+              -1.189548130842616,
+              0.0029999985307447383,
+              -0.8615581221131342,
+              1.0606916061536253,
+              3.450180122793115,
+              1.885922921411111
+            ]
+          },
+          {
+            "clip": "Run",
+            "rawMinFloor": 0.01645777156997795,
+            "maximumLift": 0,
+            "minFloor": -0.0013766797493177108,
+            "maxHeight": 3.570509281016618,
+            "firstBounds": [
+              -1.189548130842616,
+              0.0029999985307447383,
+              -0.8615581221131342,
+              1.0606916061536253,
+              3.450180122793115,
+              1.885922921411111
+            ]
+          },
+          {
+            "clip": "Attack",
+            "rawMinFloor": 0.058748393274765574,
+            "maximumLift": 0,
+            "minFloor": 0.0015529289089054668,
+            "maxHeight": 4.036798488158019,
+            "firstBounds": [
+              -1.0494718648157368,
+              0.0029999999992796483,
+              -1.6199504730070882,
+              0.9675775015978078,
+              4.021234316953496,
+              0.7728246485105749
+            ]
+          },
+          {
+            "clip": "Hit",
+            "rawMinFloor": 0.10689334817374654,
+            "maximumLift": 0,
+            "minFloor": 0.0029999999992796483,
+            "maxHeight": 4.021234316953496,
+            "firstBounds": [
+              -1.0494718463525352,
+              0.0029999999992796483,
+              -1.6199504730070882,
+              0.9675775015978078,
+              4.021234316953496,
+              0.7728246485105749
+            ]
+          },
+          {
+            "clip": "HitLeft",
+            "rawMinFloor": 0.10689334817374654,
+            "maximumLift": 0,
+            "minFloor": 0.0029999999992796483,
+            "maxHeight": 4.023456017869573,
+            "firstBounds": [
+              -1.0494718463525352,
+              0.0029999999992796483,
+              -1.6199504730070882,
+              0.9675775015978078,
+              4.021234316953496,
+              0.7728246485105749
+            ]
+          },
+          {
+            "clip": "HitRight",
+            "rawMinFloor": 0.10689334817374654,
+            "maximumLift": 0,
+            "minFloor": 0.0029999999992796483,
+            "maxHeight": 4.021234316953496,
+            "firstBounds": [
+              -1.0494718463525352,
+              0.0029999999992796483,
+              -1.6199504730070882,
+              0.9675775015978078,
+              4.021234316953496,
+              0.7728246485105749
+            ]
+          },
+          {
+            "clip": "Death",
+            "rawMinFloor": -0.13215362212044202,
+            "maximumLift": 0.13515362212044202,
+            "minFloor": 0.0019174360814546432,
+            "maxHeight": 4.021234329992012,
+            "firstBounds": [
+              -1.0494718628300377,
+              0.0029999999414600503,
+              -1.6199504730070882,
+              0.9675775015978078,
+              4.021234329992012,
+              0.7728246485105749
+            ]
+          }
+        ],
+        "exportNotes": "Blender4.5.11 forced sampling preserves evaluated source constraints; source vertices with >4 weights reduced to top4 and renormalized for production glTF path",
+        "approval": "candidate-awaiting-production-browser-review",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "pending-exact-source-measurement",
+          "visualContactAccepted": false
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

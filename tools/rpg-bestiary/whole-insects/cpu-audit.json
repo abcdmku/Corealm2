@@ -1,0 +1,155 @@
+{
+  "method": "CPU original weighted meshes evaluated at 74 independent times per clip; source Run joint values identical to Walk, only time scale changes.",
+  "results": [
+    {
+      "id": "webweaver_spider",
+      "rig": "whole-source-59-joint",
+      "attackContact": 0.5555555555555556,
+      "attackContactMethod": "Measured maximum forward world-z of original Head_end bone over 181 original Attack samples",
+      "maxWeightError": 3.608874976634979e-8,
+      "nativeRunValuesIdenticalToWalk": true,
+      "clips": [
+        {
+          "clip": "Idle",
+          "duration": 4.166666507720947,
+          "samples": 74,
+          "minimumY": 0.0029999996815107273,
+          "largestBoundingDiagonal": 2.1695937264184937,
+          "rootCycleDisplacement": 0
+        },
+        {
+          "clip": "Walk",
+          "duration": 0.8333333134651184,
+          "samples": 74,
+          "minimumY": 0.00299794489068414,
+          "largestBoundingDiagonal": 2.1734381437593107,
+          "rootCycleDisplacement": 3.259629011154175e-9
+        },
+        {
+          "clip": "Run",
+          "duration": 0.5050504930091627,
+          "samples": 74,
+          "minimumY": 0.0029947696702436978,
+          "largestBoundingDiagonal": 2.1734381443637583,
+          "rootCycleDisplacement": 3.259629011154175e-9
+        },
+        {
+          "clip": "Attack",
+          "duration": 0.75,
+          "samples": 74,
+          "minimumY": 0.0029999992897998956,
+          "largestBoundingDiagonal": 2.3395481473865827,
+          "rootCycleDisplacement": 0
+        },
+        {
+          "clip": "Hit",
+          "duration": 0.42,
+          "samples": 74,
+          "minimumY": 0.002999493937153097,
+          "largestBoundingDiagonal": 2.1970056150562396,
+          "rootCycleDisplacement": 0
+        },
+        {
+          "clip": "HitLeft",
+          "duration": 0.42,
+          "samples": 74,
+          "minimumY": 0.0029938506729436792,
+          "largestBoundingDiagonal": 2.2287447219753744,
+          "rootCycleDisplacement": 0
+        },
+        {
+          "clip": "HitRight",
+          "duration": 0.42,
+          "samples": 74,
+          "minimumY": 0.0029916501046131083,
+          "largestBoundingDiagonal": 2.25441463363439,
+          "rootCycleDisplacement": 0
+        },
+        {
+          "clip": "Death",
+          "duration": 1.0416666269302368,
+          "samples": 74,
+          "minimumY": 0.0029999998084782385,
+          "largestBoundingDiagonal": 2.4408448579585507,
+          "rootCycleDisplacement": 0.010008397046476603
+        }
+      ],
+      "visualAcceptance": "pending"
+    },
+    {
+      "id": "marsh_wasp",
+      "rig": "whole-source-39-joint",
+      "attackContact": 0.4444444444444444,
+      "attackContactMethod": "Measured maximum forward world-z of original Sting_end bone over 181 original Attack samples",
+      "maxWeightError": 4.470348358154297e-8,
+      "nativeRunValuesIdenticalToWalk": true,
+      "clips": [
+        {
+          "clip": "Idle",
+          "duration": 1.5,
+          "samples": 74,
+          "minimumY": 0.37899075158209433,
+          "largestBoundingDiagonal": 3.9276372460484823,
+          "rootCycleDisplacement": 0
+        },
+        {
+          "clip": "Walk",
+          "duration": 1.5,
+          "samples": 74,
+          "minimumY": 0.37899075158209433,
+          "largestBoundingDiagonal": 3.9276372460484823,
+          "rootCycleDisplacement": 0
+        },
+        {
+          "clip": "Run",
+          "duration": 0.9090909090909092,
+          "samples": 74,
+          "minimumY": 0.37899075158209433,
+          "largestBoundingDiagonal": 3.927637245876211,
+          "rootCycleDisplacement": 0
+        },
+        {
+          "clip": "Attack",
+          "duration": 0.75,
+          "samples": 74,
+          "minimumY": 0.05670033567502044,
+          "largestBoundingDiagonal": 4.218016807003526,
+          "rootCycleDisplacement": 0
+        },
+        {
+          "clip": "Hit",
+          "duration": 0.42,
+          "samples": 74,
+          "minimumY": 0.37899075158209433,
+          "largestBoundingDiagonal": 3.925707714461505,
+          "rootCycleDisplacement": 0
+        },
+        {
+          "clip": "HitLeft",
+          "duration": 0.42,
+          "samples": 74,
+          "minimumY": 0.37899075158209433,
+          "largestBoundingDiagonal": 3.926281745569741,
+          "rootCycleDisplacement": 0
+        },
+        {
+          "clip": "HitRight",
+          "duration": 0.42,
+          "samples": 74,
+          "minimumY": 0.37899075158209433,
+          "largestBoundingDiagonal": 3.9323540714876737,
+          "rootCycleDisplacement": 0
+        },
+        {
+          "clip": "Death",
+          "duration": 0.75,
+          "samples": 74,
+          "minimumY": 0.0028319261014466135,
+          "largestBoundingDiagonal": 4.103964236017102,
+          "rootCycleDisplacement": 0.2543453276157379
+        }
+      ],
+      "visualAcceptance": "pending"
+    }
+  ]
+}

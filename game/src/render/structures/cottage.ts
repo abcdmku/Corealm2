@@ -93,8 +93,10 @@ function entryLamp(
   base: readonly PartPlacement[],
   side: -1 | 1,
 ): PartPlacement {
-  // At 0.56 scale the lamp's 1.251 m projection stays under the plaster roof's 0.757 m front eave.
-  return wallAttachment(doorWall(context, base), "entry_lamp", "lamp_wall", 0.05, side * 1.18, 1.45, 0.56);
+  // Keep the whole native bracket and chain together. After world-position rounding its bottom
+  // is 2.057 m; the shortened projection clears the actual sloping eave in all three kits.
+  // The plate's local z=-0.050977 puts its back 5 mm outside the wall face at z=0.093.
+  return wallAttachment(doorWall(context, base), "entry_lamp", "lamp_wall", 0.121, side * 1.18, 2.02, 0.45);
 }
 
 function windowInserts(

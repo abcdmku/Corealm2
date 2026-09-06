@@ -1,0 +1,50 @@
+{
+  "id": "polyhaven-rock-face-01",
+  "name": "Rock Face 01",
+  "author": "Dario Barresi / Poly Haven",
+  "source": "https://polyhaven.com/a/rock_face_01",
+  "license": "CC0-1.0",
+  "sourceFile": "../models/cave/rock-face-01.glb",
+  "sourceSha256": "80b6994e739dc3ddcb43fd24fdf3d3b25744a1830fc8327e5a14066818fc7b44",
+  "crop": {
+    "minX": -1.5,
+    "maxX": 1.5,
+    "minY": 0.75,
+    "maxY": 3.35
+  },
+  "seamWidth": 0.18,
+  "boundaryVertices": 3275,
+  "interiorTriangles": 3796,
+  "transitionTriangles": 1414,
+  "method": "Original interior source triangles retained with their UV charts. Outer18cm replaced by consistently +Z-wound strips following exact frontmost source border segment envelope, with flat outer45mm lip. No source folds flattened into degenerate topology. Transition UVs constant because world stone owns this collar.",
+  "derived": {
+    "id": "cave_rock_face_01",
+    "file": "models/cave/rock-face-01.glb",
+    "pack": "polyhaven-rock-face-01",
+    "category": "rock",
+    "is": "cave-facing",
+    "tags": [
+      "cave",
+      "rock",
+      "scan",
+      "strata"
+    ],
+    "bytes": 2708596,
+    "sha256": "e85efc93aed5775db34a4d2e3fae6c5ae6d1a1e743b6539b09c5102a0cd48a9b",
+    "size": {
+      "x": 3,
+      "y": 2.6,
+      "z": 0.47512010112404823
+    },
+    "base": {
+      "x": -1.5,
+      "y": 0,
+      "z": 0
+    },
+    "triangles": 5210,
+    "animations": [],
+    "materials": [
+      "Poly Haven Rock Face 01 — continuous triangle crop"
+    ]
+  }
+}

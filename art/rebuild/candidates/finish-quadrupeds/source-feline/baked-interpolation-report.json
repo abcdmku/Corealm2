@@ -1,0 +1,227 @@
+{
+  "method": "Final GLB accessors and LINEAR quaternion/TRS interpolation, multiplied through actual joint pairs. Compared with full Blender-evaluated source at .1 scale after removing scene placement. No GPU proof.",
+  "verticesPerPose": 22650,
+  "frameCount": 130,
+  "regions": {
+    "body": {
+      "train": {
+        "rmsMm": 0.8968917929590244,
+        "p95Mm": 1.917614784310716,
+        "p99Mm": 3.0533840725487393,
+        "maxMm": 8.876077766420545,
+        "samples": 120400
+      },
+      "heldout": {
+        "rmsMm": 0.8711874947178806,
+        "p95Mm": 1.8584395511168743,
+        "p99Mm": 2.9534445248609735,
+        "maxMm": 8.97995026210942,
+        "samples": 114800
+      },
+      "random": {
+        "rmsMm": 0.9555292161358222,
+        "p95Mm": 2.008758687425002,
+        "p99Mm": 3.246100708823699,
+        "maxMm": 9.047273339770092,
+        "samples": 128800
+      }
+    },
+    "head": {
+      "train": {
+        "rmsMm": 0.05664206655492019,
+        "p95Mm": 0.02783896566285208,
+        "p99Mm": 0.26565413305514707,
+        "maxMm": 2.1850821914847525,
+        "samples": 185373
+      },
+      "heldout": {
+        "rmsMm": 0.05551076195067139,
+        "p95Mm": 0.028908841306211665,
+        "p99Mm": 0.26502022245758955,
+        "maxMm": 1.763039666607892,
+        "samples": 176751
+      },
+      "random": {
+        "rmsMm": 0.05939929642825808,
+        "p95Mm": 0.0388249336841276,
+        "p99Mm": 0.27222244785717364,
+        "maxMm": 2.0820046276241313,
+        "samples": 198306
+      }
+    },
+    "limbs": {
+      "train": {
+        "rmsMm": 0.4449996029228276,
+        "p95Mm": 0.9947463015811842,
+        "p99Mm": 1.9676862671950905,
+        "maxMm": 8.963229844905522,
+        "samples": 219859
+      },
+      "heldout": {
+        "rmsMm": 0.4303837267105303,
+        "p95Mm": 0.9695517333705708,
+        "p99Mm": 1.8890698273803732,
+        "maxMm": 6.144430967118724,
+        "samples": 209633
+      },
+      "random": {
+        "rmsMm": 0.4733300384709842,
+        "p95Mm": 1.0743864563268823,
+        "p99Mm": 2.0079098853743793,
+        "maxMm": 7.269747006231424,
+        "samples": 235198
+      }
+    },
+    "paws": {
+      "train": {
+        "rmsMm": 0.00014356641511083105,
+        "p95Mm": 0.00027521360754531187,
+        "p99Mm": 0.0004151402156346091,
+        "maxMm": 0.0006961005427659354,
+        "samples": 264794
+      },
+      "heldout": {
+        "rmsMm": 0.00015076284175697096,
+        "p95Mm": 0.0002999313852536858,
+        "p99Mm": 0.0004868422738769877,
+        "maxMm": 0.0006392159954546854,
+        "samples": 252478
+      },
+      "random": {
+        "rmsMm": 0.3176206840747198,
+        "p95Mm": 0.38401659476142797,
+        "p99Mm": 1.0734912715208524,
+        "maxMm": 3.7238612741395087,
+        "samples": 283268
+      }
+    },
+    "tail": {
+      "train": {
+        "rmsMm": 0.1417358127602326,
+        "p95Mm": 0.20757633680398255,
+        "p99Mm": 0.717040113357245,
+        "maxMm": 3.3505534404710806,
+        "samples": 183524
+      },
+      "heldout": {
+        "rmsMm": 0.13712702940329785,
+        "p95Mm": 0.20614524777115995,
+        "p99Mm": 0.7001664203238701,
+        "maxMm": 3.288290058187427,
+        "samples": 174988
+      },
+      "random": {
+        "rmsMm": 0.14559279831623184,
+        "p95Mm": 0.21496247379832828,
+        "p99Mm": 0.7288667427271747,
+        "maxMm": 3.2929432817655133,
+        "samples": 196328
+      }
+    }
+  },
+  "splits": {
+    "train": {
+      "frames": 43,
+      "rmsMm": 0.3854089849709156,
+      "p95Mm": 0.8009860577167892,
+      "p99Mm": 1.8251531840712603,
+      "maxMm": 8.963229844905522,
+      "samples": 973950
+    },
+    "heldout": {
+      "frames": 41,
+      "rmsMm": 0.37385469855818554,
+      "p95Mm": 0.7841555673189814,
+      "p99Mm": 1.7708695322201415,
+      "maxMm": 8.97995026210942,
+      "samples": 928650
+    },
+    "random": {
+      "frames": 46,
+      "rmsMm": 0.44219708021095294,
+      "p95Mm": 0.9135027284388806,
+      "p99Mm": 2.0240485512536344,
+      "maxMm": 9.047273339770092,
+      "samples": 1041900
+    }
+  },
+  "normals": {
+    "train": {
+      "p95Degrees": 0.40748178138614516,
+      "p99Degrees": 1.4312188116402775,
+      "maxDegrees": 21.467592992372083,
+      "method": "First exported corner normal per source vertex; standard weighted linear skin-normal response compared with full weights. Does not replace surface-normal/hardware shading review."
+    },
+    "heldout": {
+      "p95Degrees": 0.4024412728327457,
+      "p99Degrees": 1.4133824336057006,
+      "maxDegrees": 20.6321943134995,
+      "method": "First exported corner normal per source vertex; standard weighted linear skin-normal response compared with full weights. Does not replace surface-normal/hardware shading review."
+    },
+    "random": {
+      "p95Degrees": 0.4477870384630703,
+      "p99Degrees": 1.563555812910998,
+      "maxDegrees": 20.87588891727134,
+      "method": "First exported corner normal per source vertex; standard weighted linear skin-normal response compared with full weights. Does not replace surface-normal/hardware shading review."
+    }
+  },
+  "seams": {
+    "Run": {
+      "sourceEndpointDifference": {
+        "rmsMm": 11.88920222551729,
+        "p95Mm": 27.293762080934442,
+        "p99Mm": 40.31960759288863,
+        "maxMm": 52.75033155280722,
+        "samples": 22650
+      },
+      "convertedEndpointDifference": {
+        "rmsMm": 11.881487174830346,
+        "p95Mm": 27.27817017918979,
+        "p99Mm": 40.451489163631805,
+        "maxMm": 52.750372371813036,
+        "samples": 22650
+      },
+      "addedSeamError": {
+        "rmsMm": 0.17328411484453643,
+        "p95Mm": 0.26827194046226716,
+        "p99Mm": 0.9794696267701802,
+        "maxMm": 2.444175376148816,
+        "samples": 22650
+      }
+    },
+    "Walk": {
+      "sourceEndpointDifference": {
+        "rmsMm": 8.599273739588316,
+        "p95Mm": 23.97172164511822,
+        "p99Mm": 32.872817842181504,
+        "maxMm": 35.11248356312665,
+        "samples": 22650
+      },
+      "convertedEndpointDifference": {
+        "rmsMm": 8.60030889314847,
+        "p95Mm": 23.971782086594065,
+        "p99Mm": 32.87281035586941,
+        "maxMm": 35.11242970274557,
+        "samples": 22650
+      },
+      "addedSeamError": {
+        "rmsMm": 0.06265765209599385,
+        "p95Mm": 0.012762222043731484,
+        "p99Mm": 0.3241913907552719,
+        "maxMm": 1.175546798832333,
+        "samples": 22650
+      }
+    }
+  },
+  "accepted": false,
+  "worst": {
+    "sample": {
+      "clip": "Armature|Armature|run",
+      "frame": 9.303183722700075,
+      "split": "random"
+    },
+    "vertex": 7987,
+    "region": "body",
+    "mm": 9.047273339770092
+  }
+}

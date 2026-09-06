@@ -78,6 +78,9 @@
  *    `view.groundNormal` by `view.tiltStrength`, defaulted per archetype by `DEFAULT_TILT`.
  */
 import * as THREE from "three";
+import { containedWaterMaterialSnapshot } from "./containedTroughWater.js";
+import { selectSpeedMatchedLocomotion } from "./speedMatchedLocomotion.js";
+import { createMaskedHitOverlay, hitOverlayWeight } from './creatureHitOverlay.js';
 import { clone as cloneRigged } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import type { Archetype, EntityId, RegionId, SemanticEntity, Vec3 } from "../contracts.js";
@@ -493,18 +496,6 @@ const WALK_RATE_MAX = 3.2;
  * exceeds this cadence, and nothing needs the cap to avoid exceeding it.
  */
 const MAX_WALK_CADENCE_HZ = 2.4;
-
-/**
- * The fastest a RUN cycle may be played, in cycles per second.
- *
- * Separate from the walk ceiling because the gaits genuinely differ: quadruped walks and trots
- * top out around 2.5 Hz, but gallop stride frequency runs to 3 and beyond. Applying the 2.4 walk
- * cap to runs forced `content/enemies.ts` to tune pursuit speeds to exactly the cap (the cattle
- * sit at 2.40 Hz to the second decimal), which left NO headroom for a leash return — returnSpeed
- * is 1.16x pursuit, its cadence wants 2.79 Hz, and the cap shaved the legs 14% under the ground
- * they covered: the run reading "a hair too slow" on every walk home.
- */
-const MAX_RUN_CADENCE_HZ = 3.0;
 
 /**
  * Whole sim ticks with no displacement after which a mover's gait pose drops to idle.
@@ -1269,6 +1260,7 @@ interface RigState {
   idleTimeScale: number;
   previousAction: THREE.AnimationAction | null;
   replayActions: Map<THREE.AnimationClip, THREE.AnimationAction>;
+  hitAction: THREE.AnimationAction | null;
 }
 
 interface ViewRecord {
@@ -1541,6 +1533,7 @@ export type EntityMotionPath = "live-rig" | "sampled-rig" | "unique-static" | "b
 
 /** JSON-safe renderer state for browser motion acceptance. Gameplay never reads this. */
 export interface EntityMotionSnapshot {
+  readonly hitOverlay: { clip: string; time: number; duration: number; weight: number; active: true; bones: readonly string[]; maskStatus: string } | null;
   readonly entityId: EntityId;
   readonly liveRig: boolean;
   readonly path: EntityMotionPath | null;
@@ -1598,6 +1591,59 @@ export interface EntityViewOptions {
 }
 
 export class EntityViews {
+  private readonly containedWaterOriginals = new Map<THREE.Mesh, THREE.Material | THREE.Material[]>();
+
+  /** Explicit lab switch, default off. It changes only already-loaded native water-trough batches. */
+  setContainedTroughWater(enabled: boolean) {
+    for (const [mesh, original] of this.containedWaterOriginals) mesh.material = original;
+    this.containedWaterOriginals.clear();
+    const rows = [];
+    for (const batch of this.batches.values()) {
+      const owners = batch.owners.filter(owner => owner !== null);
+      if (!owners.length || owners.some(owner => owner.group.assetId !== "corealm_water_trough")) continue;
+      const source = batch.mesh.material as THREE.MeshPhysicalMaterial;
+      if (!source.isMeshPhysicalMaterial || !source.name.startsWith("Corealm farm water")) continue;
+      if (enabled) {
+        this.containedWaterOriginals.set(batch.mesh, batch.mesh.material);
+        batch.mesh.material = this.materials.containedTroughWater(source);
+      }
+      rows.push({ mesh: batch.mesh.name, geometry: batch.mesh.geometry.uuid,
+        material: containedWaterMaterialSnapshot(batch.mesh.material as THREE.MeshPhysicalMaterial) });
+    }
+    return { enabled, meshes: rows };
+  }
+
+  /** Explicit immutable source whitelist for the transmission depth diagnostic. */
+  staticOccluderMeshes(): { mesh: THREE.Mesh; revision: string; instanceIds: number[]; sourceInstanceIds: number[] }[] {
+    const result: { mesh: THREE.Mesh; revision: string; instanceIds: number[]; sourceInstanceIds: number[] }[] = [];
+    const matrix = new THREE.Matrix4();
+    for (const batch of this.batches.values()) {
+      const mesh = batch.mesh;
+      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      if (materials.some(material => material.transparent || !material.depthWrite
+        || (material as THREE.MeshPhysicalMaterial).transmission > 0)) continue;
+      const owners = batch.owners.flatMap((owner, instance) => owner && owner.group.assetId === "corealm_water_trough"
+        && mesh.getVisibleAt(instance) ? [{ owner, instance }] : []);
+      if (!owners.length) continue;
+      const revision = owners.map(({ owner, instance }) => {
+        mesh.getMatrixAt(instance, matrix);
+        return `${instance}:${owner.group.slots[owner.slot]}:${matrix.elements.join(",")}`;
+      }).join("|");
+      const position = mesh.geometry.getAttribute("position");
+      const version = "version" in position ? position.version : position.data.version;
+      result.push({ mesh, revision: `${mesh.geometry.uuid}:${version}:${mesh.geometry.index?.version}|${revision}`,
+        instanceIds: owners.map(owner => owner.instance), sourceInstanceIds: batch.owners.flatMap((owner, instance) => owner ? [instance] : []) });
+    }
+    return result;
+  }
+
+  /** Small public-API candidate list; shadow-casting materials retain ordinary rendering. */
+  transmissiveMeshes(): THREE.Mesh[] {
+    return [...this.batches.values()].map(batch => batch.mesh).filter(mesh => !mesh.castShadow
+      && (Array.isArray(mesh.material) ? mesh.material : [mesh.material])
+        .some(material => (material as THREE.MeshPhysicalMaterial).transmission > 0));
+  }
+
   private readonly activeSet = new EntityActiveSet();
   private readonly groups = new Map<string, InstanceGroup>();
   private readonly records = new Map<EntityId, ViewRecord>();
@@ -1692,6 +1738,7 @@ export class EntityViews {
   /** Resolved character specs, keyed by (entity, assetId, authored parts). See `characterFor`. */
   private readonly characterSpecs = new Map<string, CharacterSpec | null>();
   private readonly missingHitClips = new Map<string, THREE.AnimationClip | null>();
+  private readonly hitOverlayClips = new Map<string, ReturnType<typeof createMaskedHitOverlay>>();
   private uniqueDrawCalls = 0;
   private namedDrawCalls = 0;
   private otherDrawCalls = 0;
@@ -4086,7 +4133,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const action = mixer.clipAction(state.clip);
     action.setLoop(THREE.LoopRepeat, Infinity).play();
     const rig: RigState = {
-      mixer, root, action, previousAction: null, replayActions: new Map(), clipName: state.clip.name,
+      mixer, root, action, previousAction: null, replayActions: new Map(), hitAction: null, clipName: state.clip.name,
       motion: record.motion, resting: record.resting, idleTimeScale: record.idleTimeScale,
     };
     return rig;
@@ -4100,14 +4147,27 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     record.playback = createCreaturePlayback(clip, record.idleTimeScale, phase);
   }
 
-  private motionClip(record: ViewRecord, motion: CharacterMotion): THREE.AnimationClip | null {
+  private motionClip(record: ViewRecord, motion: CharacterMotion, impactSide?: "left" | "right" | "front"): THREE.AnimationClip | null {
     const group = this.groups.get(record.groupKey);
     if (!group) return null;
     const root = record.rig?.root ?? this.sourceOf(group.assetId);
     if (!root) return null;
+    const speed = gaitSpeed(record, motion);
+    // Explicit authoring controls still inspect the requested native clip. Runtime pursuit can
+    // choose a walk without changing semantic combat/movement intent or the shared motion clock.
+    const selected = this.locomotionIntents.has(record.entityId) ? motion
+      : selectSpeedMatchedLocomotion(motion, speed, this.assets.entry(group.assetId),
+        record.scale * record.build[2] * record.scaleAxes[2]).motion;
+    const candidates = this.clipCandidates(group.assetId, record.entityId, selected, speed);
+    if (selected !== motion) candidates.push(...this.clipCandidates(group.assetId, record.entityId, motion, speed)
+      .filter(name => !candidates.includes(name)));
+    if (motion === "hit" && impactSide && impactSide !== "front") {
+      const directional = impactSide === "left" ? "HitLeft" : "HitRight";
+      if (this.assets.entry(group.assetId)?.animations?.includes(directional)) candidates.unshift(directional);
+    }
     const clip = this.firstFittingClip(
       group.assetId,
-      this.clipCandidates(group.assetId, record.entityId, motion, gaitSpeed(record, motion)), root,
+      candidates, root,
     );
     if (clip || motion !== "hit") return clip;
     if (!this.missingHitClips.has(group.assetId)) {
@@ -4118,7 +4178,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
   }
 
   /** Motion intent updates the shared clock; both skeletal representations sample that clock. */
-  private setMotion(record: ViewRecord, motion: CharacterMotion, interruptOneShot = false, restart = false): void {
+  private setMotion(record: ViewRecord, motion: CharacterMotion, interruptOneShot = false, restart = false,
+    impactSide?: "left" | "right" | "front"): void {
     if (motion === "idle" || motion === "walk" || motion === "run") {
       motion = this.locomotionIntents.get(record.entityId) ?? motion;
     }
@@ -4129,8 +4190,11 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const state = record.playback;
     if (!state) return;
     if (record.motion === "death" && (record.spent || motion === "death")) return;
+    if (motion === 'death') state.hitOverlay = null;
     if (!ONE_SHOT_MOTIONS.has(motion)) record.resting = motion;
-    if (record.motion === motion && !restart) {
+    const desiredGaitClip = motion === "run" && this.assets.entry(group.assetId)?.locomotionPolicy === "speed-matched"
+      ? this.motionClip(record, motion) : null;
+    if (record.motion === motion && !restart && (!desiredGaitClip || desiredGaitClip === state.clip)) {
       state.timeScale = this.motionTimeScale(
         group.assetId, motion, state.clip, record.idleTimeScale, gaitSpeed(record, motion),
         record.scale * record.build[2] * record.scaleAxes[2],
@@ -4139,7 +4203,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     }
     if (ONE_SHOT_MOTIONS.has(record.motion) && !ONE_SHOT_MOTIONS.has(motion)
       && motion !== "death" && state.time < state.clip.duration && !interruptOneShot) return;
-    const clip = this.motionClip(record, motion);
+    const clip = desiredGaitClip ?? this.motionClip(record, motion, impactSide);
     if (!clip) {
       if (motion === "death") {
         record.motion = "death";
@@ -4203,6 +4267,18 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       previous.timeScale = state.previousTimeScale;
       previous.setEffectiveWeight(1 - blend);
     }
+    const overlay = state.hitOverlay;
+    const hitAction = overlay ? rig.mixer.clipAction(overlay.clip) : null;
+    if (rig.hitAction && rig.hitAction !== hitAction) rig.hitAction.stop();
+    rig.hitAction = hitAction;
+    if (hitAction && overlay) {
+      hitAction.enabled = true;
+      hitAction.setLoop(THREE.LoopOnce, 1);
+      hitAction.clampWhenFinished = true;
+      hitAction.play();
+      hitAction.time = overlay.time;
+      hitAction.setEffectiveWeight(hitOverlayWeight(overlay.time, overlay.clip.duration));
+    }
     rig.clipName = state.clip.name;
     rig.motion = record.motion;
     rig.resting = record.resting;
@@ -4254,25 +4330,18 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     // Each gait is retimed against its OWN measured stride. A run cycle covers far more ground per
     // cycle than a walk, so dividing a pursuit speed by the walk's implied speed asks for a rate
     // several times too high — which is the shape of the original bug, in miniature.
-    const implied = motion === "run"
+    const measuredMotion = entry?.locomotionPolicy === "speed-matched" && motion === "run" && /^walk/i.test(clip.name)
+      ? "walk" : motion;
+    const implied = measuredMotion === "run"
       ? entry?.impliedRunMps ?? entry?.impliedWalkMps
       : entry?.impliedWalkMps;
-    if ((motion === "walk" || motion === "run") && implied && moveSpeedMps) {
+    if ((motion === "walk" || motion === "run") && implied !== undefined && Number.isFinite(implied) && implied > 0
+      && moveSpeedMps !== undefined && Number.isFinite(moveSpeedMps) && moveSpeedMps > 0) {
       const strideScale = Number.isFinite(drawnStrideScale) && Math.abs(drawnStrideScale) > 1e-6
         ? Math.abs(drawnStrideScale) : 1;
-      // A measured stride needs exact ground-speed matching even during a deliberate slow walk.
-      // A minimum playback rate forced the moose, tapir and several other slow gaits to slide.
-      // Upper limits remain a guard for poorly measured or stride-less rigs; authored movement
-      // speeds must fit those limits at every resident's actual drawn scale.
-      const rate = Math.min(WALK_RATE_MAX, moveSpeedMps / (implied * strideScale));
-      // Then the cadence ceiling, which needs the clip's own length: playing a 0.47 s cycle at 1.6x
-      // is 3.4 leg cycles a second, and playing a 1.33 s cycle at the same 1.6x is 1.2. Only the
-      // first of those reads as a creature sprinting on the spot. Each gait gets its own ceiling:
-      // a gallop legitimately cycles faster than any walk.
-      const cadenceCap = motion === "run" ? MAX_RUN_CADENCE_HZ : MAX_WALK_CADENCE_HZ;
-      const duration = clip.duration;
-      if (duration > 0) return Math.min(rate, cadenceCap * duration);
-      return rate;
+      // A measured stride must cover the actual requested distance, including fast pursuit.
+      // Capping this rate leaves a planted foot moving across the ground under the actor.
+      return moveSpeedMps / (implied * strideScale);
     }
     return 1;
   }
@@ -4291,16 +4360,37 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
    * promotion when a full rig is affordable; distance never suppresses the action itself.
    * An optional duration aligns the authored clip with the simulation's committed attack timeline.
    */
-  playAction(entityId: EntityId, motion: "attack" | "hit", options?: { durationSeconds?: number }): boolean {
+  actionDurationSeconds(entityId: EntityId, motion: "attack" | "hit", impactSide?: "left" | "right" | "front"): number | null {
+    const record = this.records.get(entityId);
+    if (!record || record.spent || record.motion === "death") return null;
+    const clip = this.motionClip(record, motion, impactSide);
+    return clip && Number.isFinite(clip.duration) && clip.duration > 0 ? clip.duration : null;
+  }
+
+  playAction(entityId: EntityId, motion: "attack" | "hit",
+    options?: { durationSeconds?: number; impactSide?: "left" | "right" | "front" }): boolean {
     const record = this.records.get(entityId);
     if (!record) return false;
-    // No movement gate. An earlier round refused an attack while the rig was translating, on the
-    // argument that a planted-foot swing under a moving root is visible sliding — and the result
-    // was enemies trading damage numbers without ever visibly swinging whenever anything kept
-    // them shuffling. The direction from play is the opposite priority: THE ATTACK IS THE READ.
-    // A swing always plays; half a second of foot slide under a bite is a cheaper lie than damage
-    // from a creature that never moved. `syncMotion` honours the same rule by not interrupting a
-    // running one-shot when locomotion resumes.
+    if (motion === 'hit') {
+      if (!record.playback || record.spent || record.motion === 'death') return false;
+      const group = this.groups.get(record.groupKey);
+      const root = record.rig?.root ?? (group ? this.sourceOf(group.assetId) : null);
+      const nativeHit = this.motionClip(record, 'hit', options?.impactSide);
+      const idle = this.motionClip(record, 'idle');
+      if (!root || !group || !nativeHit || !idle) return false;
+      const key = `${group.assetId}:${nativeHit.uuid}`;
+      if (!this.hitOverlayClips.has(key)) this.hitOverlayClips.set(key, createMaskedHitOverlay(root, nativeHit, idle));
+      const masked = this.hitOverlayClips.get(key)!;
+      const clip = masked.clip;
+      if (!clip) return false;
+      const seconds = options?.durationSeconds;
+      record.playback.hitOverlay = { clip, time: 0, bones: masked.boneNames, maskStatus: masked.status,
+        timeScale: seconds !== undefined && Number.isFinite(seconds) && seconds > 0 ? clip.duration / seconds : 1 };
+      // The base gait clock, root interpolation and support limbs continue unchanged.
+      if (record.rig) { this.sampleRig(record); this.animated.add(record); }
+      else if (group.animationLod && record.slot >= 0) this.writeSlot(group, record);
+      return true;
+    }
     if (!record.rig) {
       // A combat target is necessarily near the player, but an old rig inside release hysteresis
       // may still own the pool. Give this record one synchronous priority pass before giving up.
@@ -4312,7 +4402,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       }
     }
     if (!record.playback || record.motion === "death" || record.spent) return false;
-    this.setMotion(record, motion, false, true);
+    this.setMotion(record, motion, false, true, options?.impactSide);
     if (record.motion !== motion) return false;
     const duration = options?.durationSeconds;
     if (duration !== undefined && Number.isFinite(duration) && duration > 0 && record.playback) {
@@ -4716,6 +4806,10 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
           previousClip: playback.previousClip, previousTime: playback.previousTime,
         } : {}),
         blend: creatureBlend(playback),
+        ...(playback.hitOverlay ? { overlay: {
+          clip: playback.hitOverlay.clip, time: playback.hitOverlay.time,
+          weight: hitOverlayWeight(playback.hitOverlay.time, playback.hitOverlay.clip.duration),
+        } } : {}),
         opacity: 1 - record.fade,
       }, (source) => {
         if (!record.tints) return null;
@@ -5231,7 +5325,12 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
    * does not know about the mouse.
    */
   pick(raycaster: THREE.Raycaster): EntityId | null {
-    return this.pickCandidates(raycaster)[0]?.entityId ?? null;
+    return this.pickHit(raycaster)?.entityId ?? null;
+  }
+
+  /** Distance is the actual mesh or character pick-shape intersection, never the entity base. */
+  pickHit(raycaster: THREE.Raycaster): { entityId: EntityId; distance: number } | null {
+    return this.pickCandidates(raycaster)[0] ?? null;
   }
 
   /** Distance-sorted pick, returning every entity under the ray. Right-click menus want this. */
@@ -5430,6 +5529,12 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       time: record.playback?.time ?? null,
       duration: record.playback?.clip.duration ?? null,
       timeScale: record.playback?.timeScale ?? null,
+      hitOverlay: record.playback?.hitOverlay ? {
+        clip: record.playback.hitOverlay.clip.name, time: record.playback.hitOverlay.time,
+        duration: record.playback.hitOverlay.clip.duration,
+        weight: hitOverlayWeight(record.playback.hitOverlay.time, record.playback.hitOverlay.clip.duration),
+        active: true, bones: record.playback.hitOverlay.bones ?? [], maskStatus: record.playback.hitOverlay.maskStatus ?? 'unknown',
+      } : null,
     };
   }
 
@@ -5612,6 +5717,8 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
   }
 
   dispose(): void {
+    for (const [mesh, original] of this.containedWaterOriginals) mesh.material = original;
+    this.containedWaterOriginals.clear();
     this.activeSet.replace([]);
     this.clearAllHighlights();
     for (const record of this.records.values()) this.release(record);
@@ -5636,6 +5743,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     this.characterCosts.clear();
     this.characterSpecs.clear();
     this.missingHitClips.clear();
+    this.hitOverlayClips.clear();
     this.uniqueDrawCalls = 0;
     this.namedDrawCalls = 0;
     this.otherDrawCalls = 0;
@@ -6128,12 +6236,27 @@ function clipPartsBelow(parts: readonly SourcePart[], fraction: number): SourceP
  * Returns null when the cut keeps nothing — for a tree canopy that is the correct answer, and the
  * caller drops the part entirely.
  */
-function clipGeometryBelow(
+export function clipGeometryBelow(
   geometry: THREE.BufferGeometry,
   matrix: THREE.Matrix4,
   cut: number,
 ): THREE.BufferGeometry | null {
-  const baked = geometry.clone().applyMatrix4(matrix);
+  const baked = geometry.clone();
+  // Quantized GLTF attributes decode through their getters, but matrix baking writes back
+  // into the attribute's storage. Metre-space positions overflow normalized integer storage.
+  // Decode both transformed attributes before applying the world/normal matrices.
+  for (const name of ["position", "normal"] as const) {
+    const attribute = baked.getAttribute(name);
+    if (!attribute || (attribute.array instanceof Float32Array && !attribute.normalized)) continue;
+    const values = new Float32Array(attribute.count * attribute.itemSize);
+    for (let vertex = 0; vertex < attribute.count; vertex += 1) {
+      for (let component = 0; component < attribute.itemSize; component += 1) {
+        values[vertex * attribute.itemSize + component] = attribute.getComponent(vertex, component);
+      }
+    }
+    baked.setAttribute(name, new THREE.BufferAttribute(values, attribute.itemSize));
+  }
+  baked.applyMatrix4(matrix);
   const source = baked.getIndex() ? baked.toNonIndexed() : baked;
   const position = source.getAttribute("position");
   if (!position || position.count < 3) return null;

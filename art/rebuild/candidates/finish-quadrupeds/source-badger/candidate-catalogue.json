@@ -1,0 +1,119 @@
+{
+  "schema": 1,
+  "scope": "Provisional Badger source review only; no runtime or licensing acceptance.",
+  "assets": [
+    {
+      "id": "creature_rootdelve_badger",
+      "file": "models/creature/creature_rootdelve_badger.glb",
+      "pack": "gonsplitters-badger-provisional-source-review",
+      "category": "character",
+      "is": "complete original Badger static source review; PROVISIONAL RIGHTS: publisher declares CC-BY-SA4, exact original creator grant unverified",
+      "tags": [
+        "badger",
+        "original-source",
+        "whole-body-evaluation",
+        "static-preview",
+        "provisional-rights"
+      ],
+      "bytes": 3111332,
+      "sha256": "65c9eca2fb53ad20770937306a5a133beff36b765045f3c0a7a2ce9c036cdd79",
+      "size": {
+        "x": 0.3978798363675895,
+        "y": 0.3499999999999999,
+        "z": 0.6656602246574949
+      },
+      "base": {
+        "x": -0.19893991818379475,
+        "y": 0.0,
+        "z": -0.33283011232874743
+      },
+      "bounds": {
+        "min": [
+          -0.19893991818379475,
+          0.0,
+          -0.33283011232874743
+        ],
+        "max": [
+          0.19893991818379478,
+          0.3499999999999999,
+          0.33283011232874743
+        ]
+      },
+      "groundY": 0.0,
+      "triangles": 49976,
+      "animations": [],
+      "materials": [
+        "Source_Unity_Standard_translated"
+      ],
+      "sourceProvenance": {
+        "author": "Miguel Zavala (mz4250), mesh attributed by Gonsplitters; texture/package Gonsplitters",
+        "source": "https://thunderstore.io/c/talespire/p/Gonsplitters/Gonsplitters_Beasts_Collection/",
+        "download": "https://thunderstore.io/package/download/Gonsplitters/Gonsplitters_Beasts_Collection/1.0.3/",
+        "license": "CC-BY-SA-4.0 declared by redistribution publisher; exact original creator grant UNVERIFIED",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "originalCreatorPage": "https://thangs.com/designer/mz4250/3d-model/Badger-18694",
+        "originalCreatorLicenseVerified": false,
+        "commercialClearance": "provisional, do not publish as cleared",
+        "sourceSha256": "ef00545e513c4b3008947418b784f22288cc9a654234591bda456fd1a94f0e86",
+        "rawPreviewSha256": "8d3371eb6f828555a31d93e871812ceac5193eab9d926acd810e093d753cc2fb",
+        "sourceNativeActions": [],
+        "adaptationPerformed": false
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false,
+        "originalCreatorGrantVerified": false
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "gonsplitters-badger-provisional-source-review",
+      "name": "Gonsplitters Badger provisional rights source review",
+      "author": "Miguel Zavala (mz4250), mesh attributed by Gonsplitters; texture/package Gonsplitters",
+      "source": "https://thunderstore.io/c/talespire/p/Gonsplitters/Gonsplitters_Beasts_Collection/",
+      "license": "CC-BY-SA-4.0 declared by redistribution publisher; exact original creator grant UNVERIFIED"
+    }
+  ],
+  "files": {
+    "creature_rootdelve_badger": "gonsplitters-badger-preview-normalized.glb"
+  },
+  "previewTransform": {
+    "scale": 0.8610104897758496,
+    "translation": [
+      0.032266365815467955,
+      -0.08749846231662155,
+      -0.09223795524881219
+    ],
+    "rotation": "identity; original facial white-mask UV samples lie at +Z end, nose points generally +Z in original authored pose",
+    "targetHeight": 0.35,
+    "units": "Authored .35m overall source height, approximately shoulder height for this posed source; not measured zoological dimensions.",
+    "rawBounds": {
+      "min": [
+        -0.2685289978981018,
+        0.10162299223485696,
+        -0.27942999526355317
+      ],
+      "max": [
+        0.19357900321483612,
+        0.5081221047963275,
+        0.493685120709992
+      ],
+      "size": [
+        0.4621080011129379,
+        0.40649911256147053,
+        0.7731151159735452
+      ]
+    },
+    "geometryAndTexturesUnchanged": true,
+    "binaryChunkSha256": "2730a0bee3dd0ab2dab9528d6e0288041743d0769c25402da65ce1b9ae61788b"
+  },
+  "floorAndAxisLimits": [
+    "Grounded minimum rest vertex at zero; does not prove each paw contact.",
+    "No bones, weights or animation clips exist in this source.",
+    "Original posed body, mesh topology and materials require hardware full-body review, especially feet.",
+    "No original creator grant verified. Publisher CC-BY-SA4 declaration retained; do not promote to cleared public assets.",
+    "Unity parallax height cannot be translated directly to standard GLTF and is omitted."
+  ]
+}

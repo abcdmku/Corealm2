@@ -57,7 +57,7 @@ function fixture(entities: SemanticEntity[], nav?: EnemyNavPort) {
   const ai = new EnemyAiSystem({ store, events, entities: entityPort, combat, nav });
   let now = 0;
   return {
-    state,
+    state, ai, combat,
     advance(durationMs: number, observe?: () => void) {
       const until = now + durationMs;
       while (now < until) {
@@ -318,4 +318,26 @@ describe("authored enemy habitat behavior", () => {
       expect(requests.every((wanted) => distance(wanted, [0, 0, 0]) <= 6.01)).toBe(true);
     },
   );
+});
+
+
+describe("hostile pack pursuit boundary", () => {
+  it("disengages at the inset habitat edge and cannot be provoked from outside", () => {
+    const habitat: HabitatDef = { id: "test", groupId: "pack_test", regionId: "fallowmarch",
+      centre: [-250, 30], radius: 6, activity: "patrol", anchors: [[-250, 30]], dressing: [] };
+    vi.spyOn(habitats, "habitatForGroup").mockReturnValue(habitat);
+    const actor = enemy(habitat, "pack_test:1");
+    actor.combat!.bodyRadius = 0.5;
+    const sim = fixture([actor]);
+    sim.state.player.position = [-247, 0, 30];
+    sim.ai.provoke(actor.id, 0);
+    sim.advance(1_000);
+    expect(sim.ai.modeOf(actor.id)).toBe("aggro");
+    sim.state.player.position = [-243, 0, 30];
+    sim.advance(5_000, () => expect(distance(actor.position, point(habitat.centre))).toBeLessThanOrEqual(5.05));
+    expect(sim.state.combat.engagedBy).not.toContain(actor.id);
+    expect(sim.ai.modeOf(actor.id)).toBe("idle");
+    sim.ai.provoke(actor.id, 6_000);
+    expect(sim.ai.modeOf(actor.id)).toBe("idle");
+  });
 });

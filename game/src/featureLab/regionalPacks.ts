@@ -1,7 +1,7 @@
 import type { Vec3 } from "../contracts.js";
 import { REGIONAL_PACKS } from "../content/regionalPacks.js";
 import {
-  assembleRegionalPack, type RegionalPackAssembly, type RegionalPackPorts,
+  assembleRegionalPack, type RegionalPackAssembly, type RegionalPackPorts, type RegionalPackCatalogue,
 } from "../world/regionalPackEntities.js";
 
 export const REGIONAL_PACK_LAB_CENTRE: readonly [number, number] = [-72, 30];
@@ -15,14 +15,16 @@ export interface RegionalPackFixture extends RegionalPackAssembly {
  */
 export function assembleRegionalPackFixture(
   packId: string, ports: RegionalPackPorts,
+  catalogue?: RegionalPackCatalogue,
 ): RegionalPackFixture {
-  const pack = REGIONAL_PACKS.find((candidate) => candidate.id === packId);
+  const pack = (catalogue?.packs ?? REGIONAL_PACKS).find((candidate) => candidate.id === packId);
   if (!pack) throw new Error(`Unknown regional pack fixture: ${packId}`);
   const assembly = assembleRegionalPack(packId, ports, {
     translation: [REGIONAL_PACK_LAB_CENTRE[0] - pack.centre[0], REGIONAL_PACK_LAB_CENTRE[1] - pack.centre[1]],
     regionId: "fallowmarch",
-  });
-  const spawn: Vec3 = [-72, ports.heightAt(-72, 0), 0];
+  }, catalogue);
+  // Enter from the setting's open +Z approach, facing its supply cache or shrine from the front.
+  const spawn: Vec3 = [-72, ports.heightAt(-72, 60), 60];
   if (!spawn.every(Number.isFinite)) throw new Error(`Regional pack fixture has invalid player grounding: ${packId}`);
   return { ...assembly, spawn };
 }

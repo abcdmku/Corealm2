@@ -51,6 +51,13 @@ class FakeSource {
 }
 
 class FakeContext {
+  readonly panners: Array<FakeGain & { positionX: FakeParam; positionY: FakeParam; positionZ: FakeParam; panningModel: string; distanceModel: string; maxDistance: number }> = [];
+  readonly listener = Object.fromEntries(["positionX", "positionY", "positionZ", "forwardX", "forwardY", "forwardZ", "upX", "upY", "upZ"].map(key => [key, new FakeParam()]));
+  createPanner(): PannerNode {
+    const panner = Object.assign(new FakeGain(), { positionX: new FakeParam(), positionY: new FakeParam(), positionZ: new FakeParam(), panningModel: "", distanceModel: "", maxDistance: 0 });
+    this.panners.push(panner);
+    return panner as unknown as PannerNode;
+  }
   state: AudioContextState = "suspended";
   currentTime = 2;
   readonly destination = {} as AudioDestinationNode;
@@ -136,6 +143,28 @@ function createEngine(
 }
 
 describe("AudioEngine buses and unlock", () => {
+  it("positions animal audio relative to the camera listener and releases its panner on travel", async () => {
+    const { engine, context } = createEngine();
+    engine.setListenerPose([1, 2, 3], [2, 0, 0]);
+    expect(await engine.playCue("ui.click", { position: [10, 2, 3], maxDistance: 34 })).toBe(true);
+    expect(context.panners).toHaveLength(1);
+    const panner = context.panners[0]!;
+    expect([panner.positionX.value, panner.positionY.value, panner.positionZ.value]).toEqual([10, 2, 3]);
+    expect(panner.panningModel).toBe("HRTF");
+    expect(panner.distanceModel).toBe("linear");
+    expect(context.listener.positionX!.value).toBe(1);
+    expect(context.listener.forwardX!.value).toBe(1);
+    expect(engine.resetOneShots()).toBe(1);
+    expect(panner.disconnected).toBe(true);
+  });
+
+  it("keeps UI cues centred and ignores invalid spatial coordinates", async () => {
+    const { engine, context } = createEngine();
+    await engine.playCue("ui.confirm");
+    await engine.playCue("ui.click", { position: [NaN, 0, 0] });
+    expect(context.panners).toHaveLength(0);
+  });
+
   it("clamps independent volume buses and applies a true zero", async () => {
     const { engine, context } = createEngine();
     engine.setVolumes({ music: 3, ambient: -2, sfx: Number.NaN });
@@ -471,5 +500,20 @@ describe("semantic cue selection", () => {
 
     expect(starts.filter((name) => name === "plain" || name === "woods"))
       .toEqual(["plain", "woods", "plain"]);
+  });
+
+  it("reset into a silent region stops old music and ambience", async () => {
+    const fakeEngine = {
+      startLoop: async () => true,
+      stopLoop: vi.fn(),
+      snapshot: () => ({ activeLoops: [] }),
+    };
+    const director = new AudioDirector(fakeEngine as unknown as AudioEngine, catalog);
+    director.setRegion("fallowmarch");
+    await Promise.resolve();
+    director.reset("gravelmaw");
+    expect(fakeEngine.stopLoop).toHaveBeenCalledWith("plain", 1200);
+    expect(fakeEngine.stopLoop).toHaveBeenCalledWith("wind", 1200);
+    director.dispose();
   });
 });

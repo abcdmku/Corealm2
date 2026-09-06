@@ -1,0 +1,11 @@
+{
+  "id": "animal_cattle",
+  "candidateSha256": "ab3c7af0724313091abc60a67e491adc20e808ba09f6342cd6280c3214d9802a",
+  "sourceSha256": "8c75982604c2b5d2cb66341a122ccb7bee5ba36e7c0bcfda6c6255d14eb8068d",
+  "passed": true,
+  "method": "Recorded from the complete contact-coverage-probe output before automatic evidence-file writing was added. All original vertices, 7680 intervals per cycle, two cycles, intended clearance 0.0005m plus 1um tolerance.",
+  "results": [
+    { "name": "Walk", "samplesPerCycle": 7680, "cycles": 2, "clearanceM": 0.0005, "maximumMps": 0.004153438869809052, "count": 36906, "worst": { "vertex": 2057, "phase": 0.7496744791666666, "clearanceM": 0.000500408889542758, "declared": true }, "nonFiniteVertices": 0, "maximumPenetrationM": 0, "passed": true },
+    { "name": "Run", "samplesPerCycle": 7680, "cycles": 2, "clearanceM": 0.0005, "maximumMps": 0.0065009426725249255, "count": 25848, "worst": { "vertex": 2087, "phase": 0.4202473958333333, "clearanceM": 0.0005006519297925741, "declared": true }, "nonFiniteVertices": 0, "maximumPenetrationM": 0, "passed": true }
+  ]
+}

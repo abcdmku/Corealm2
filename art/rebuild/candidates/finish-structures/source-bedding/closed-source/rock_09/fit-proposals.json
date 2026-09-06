@@ -1,0 +1,532 @@
+{
+  "sourceBinSha256": "780c37d6fc11ca3a01c3763535ef883908b6007271a46bd446d2289ded820751",
+  "method": "Measured original vertices under rigid rotations only; axis fit calculated but not applied or exported.",
+  "candidates": {
+    "cliff_step_2": [
+      {
+        "yawDegrees": 120,
+        "pitchDegrees": 18,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.05467709963637553,
+            -0.02542361748912957,
+            -0.04741590108527888
+          ],
+          "max": [
+            0.07959165731381412,
+            0.03739225658542707,
+            0.04986517004070645
+          ],
+          "size": [
+            0.13426875695018964,
+            0.06281587407455663,
+            0.09728107112598533
+          ]
+        },
+        "fitScale": [
+          69.40557290969124,
+          70.81012666831056,
+          69.23237914678937
+        ],
+        "uniformScale": 69.81246782895685,
+        "relativeAxisScale": [
+          0.9941716009773136,
+          1.0142905539709326,
+          0.9916907581094436
+        ],
+        "anisotropyRatio": 1.0227891564751226,
+        "rearToFrontQuarterDrop": -0.5803125019191229,
+        "verticesWithin35cmOfBottom": 166,
+        "vertexCount": 6628
+      },
+      {
+        "yawDegrees": 300,
+        "pitchDegrees": 18,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.07959165731381412,
+            -0.02542361748912957,
+            -0.04986517004070646
+          ],
+          "max": [
+            0.05467709963637553,
+            0.03739225658542707,
+            0.047415901085278885
+          ],
+          "size": [
+            0.13426875695018964,
+            0.06281587407455663,
+            0.09728107112598534
+          ]
+        },
+        "fitScale": [
+          69.40557290969124,
+          70.81012666831056,
+          69.23237914678936
+        ],
+        "uniformScale": 69.81246782895685,
+        "relativeAxisScale": [
+          0.9941716009773136,
+          1.0142905539709326,
+          0.9916907581094434
+        ],
+        "anisotropyRatio": 1.0227891564751228,
+        "rearToFrontQuarterDrop": 0.5803125019191229,
+        "verticesWithin35cmOfBottom": 166,
+        "vertexCount": 6628
+      },
+      {
+        "yawDegrees": 300,
+        "pitchDegrees": -21,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.07659623458683125,
+            -0.018721765280989785,
+            -0.053878636900746985
+          ],
+          "max": [
+            0.06165969394512668,
+            0.044743559491035825,
+            0.044548183853163184
+          ],
+          "size": [
+            0.13825592853195792,
+            0.06346532477202561,
+            0.09842682075391017
+          ]
+        },
+        "fitScale": [
+          67.40398114534314,
+          70.08551545237817,
+          68.42647104125265
+        ],
+        "uniformScale": 68.62978751961357,
+        "relativeAxisScale": [
+          0.9821388580881135,
+          1.0212113134161835,
+          0.9970374893219243
+        ],
+        "anisotropyRatio": 1.0397830255938867,
+        "rearToFrontQuarterDrop": -1.5509543925386773,
+        "verticesWithin35cmOfBottom": 208,
+        "vertexCount": 6628
+      },
+      {
+        "yawDegrees": 120,
+        "pitchDegrees": -21,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.06165969394512669,
+            -0.018721765280989785,
+            -0.04454818385316317
+          ],
+          "max": [
+            0.07659623458683125,
+            0.044743559491035825,
+            0.05387863690074697
+          ],
+          "size": [
+            0.13825592853195795,
+            0.06346532477202561,
+            0.09842682075391014
+          ]
+        },
+        "fitScale": [
+          67.40398114534312,
+          70.08551545237817,
+          68.42647104125268
+        ],
+        "uniformScale": 68.62978751961357,
+        "relativeAxisScale": [
+          0.9821388580881133,
+          1.0212113134161835,
+          0.9970374893219247
+        ],
+        "anisotropyRatio": 1.039783025593887,
+        "rearToFrontQuarterDrop": 1.5509543925386773,
+        "verticesWithin35cmOfBottom": 208,
+        "vertexCount": 6628
+      },
+      {
+        "yawDegrees": 115,
+        "pitchDegrees": 18,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.05537299430487599,
+            -0.02542361748912957,
+            -0.045535058849785884
+          ],
+          "max": [
+            0.08118857844443571,
+            0.03739225658542707,
+            0.048448713592846096
+          ],
+          "size": [
+            0.1365615727493117,
+            0.06281587407455663,
+            0.09398377244263198
+          ]
+        },
+        "fitScale": [
+          68.24028028080082,
+          70.81012666831056,
+          71.6613073188892
+        ],
+        "uniformScale": 70.22207095434385,
+        "relativeAxisScale": [
+          0.9717782365770511,
+          1.0083742291558027,
+          1.0204954987083918
+        ],
+        "anisotropyRatio": 1.0501320777700685,
+        "rearToFrontQuarterDrop": -0.4635299246535806,
+        "verticesWithin35cmOfBottom": 166,
+        "vertexCount": 6628
+      },
+      {
+        "yawDegrees": 295,
+        "pitchDegrees": 18,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.0811885784444357,
+            -0.02542361748912957,
+            -0.048448713592846096
+          ],
+          "max": [
+            0.05537299430487598,
+            0.03739225658542707,
+            0.045535058849785884
+          ],
+          "size": [
+            0.1365615727493117,
+            0.06281587407455663,
+            0.09398377244263198
+          ]
+        },
+        "fitScale": [
+          68.24028028080082,
+          70.81012666831056,
+          71.6613073188892
+        ],
+        "uniformScale": 70.22207095434385,
+        "relativeAxisScale": [
+          0.9717782365770511,
+          1.0083742291558027,
+          1.0204954987083918
+        ],
+        "anisotropyRatio": 1.0501320777700685,
+        "rearToFrontQuarterDrop": 0.4635299246535806,
+        "verticesWithin35cmOfBottom": 166,
+        "vertexCount": 6628
+      },
+      {
+        "yawDegrees": 70,
+        "pitchDegrees": -18,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.05774725379315673,
+            -0.0158114956858801,
+            -0.04386953691380765
+          ],
+          "max": [
+            0.06914588368211716,
+            0.04264033933013489,
+            0.04910998524502605
+          ],
+          "size": [
+            0.1268931374752739,
+            0.05845183501601499,
+            0.0929795221588337
+          ]
+        },
+        "fitScale": [
+          73.43974769176056,
+          76.0968410791776,
+          72.43530450172493
+        ],
+        "uniformScale": 73.97461240979915,
+        "relativeAxisScale": [
+          0.9927696178375955,
+          1.028688608162242,
+          0.9791914028620132
+        ],
+        "anisotropyRatio": 1.0505490603323893,
+        "rearToFrontQuarterDrop": -0.9009318594615168,
+        "verticesWithin35cmOfBottom": 196,
+        "vertexCount": 6628
+      },
+      {
+        "yawDegrees": 250,
+        "pitchDegrees": -18,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.06914588368211715,
+            -0.0158114956858801,
+            -0.04910998524502608
+          ],
+          "max": [
+            0.057747253793156726,
+            0.04264033933013489,
+            0.04386953691380767
+          ],
+          "size": [
+            0.12689313747527387,
+            0.05845183501601499,
+            0.09297952215883375
+          ]
+        },
+        "fitScale": [
+          73.43974769176057,
+          76.0968410791776,
+          72.4353045017249
+        ],
+        "uniformScale": 73.97461240979914,
+        "relativeAxisScale": [
+          0.992769617837596,
+          1.0286886081622422,
+          0.9791914028620131
+        ],
+        "anisotropyRatio": 1.0505490603323895,
+        "rearToFrontQuarterDrop": 0.9009318594615168,
+        "verticesWithin35cmOfBottom": 196,
+        "vertexCount": 6628
+      }
+    ],
+    "cliff_step_3": [
+      {
+        "yawDegrees": 145,
+        "pitchDegrees": -39,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.05001978436879467,
+            -0.03483778450616645,
+            -0.04933664985799435
+          ],
+          "max": [
+            0.05450895886904088,
+            0.05527240976511051,
+            0.056777938543180695
+          ],
+          "size": [
+            0.10452874323783555,
+            0.09011019427127696,
+            0.10611458840117505
+          ]
+        },
+        "fitScale": [
+          57.36221267252039,
+          48.629348049211586,
+          51.26533572776654
+        ],
+        "uniformScale": 52.293701410257896,
+        "relativeAxisScale": [
+          1.096923933964794,
+          0.9299274432249787,
+          0.9803348079260339
+        ],
+        "anisotropyRatio": 1.179580129564381,
+        "rearToFrontQuarterDrop": 2.01654045646778,
+        "verticesWithin35cmOfBottom": 292,
+        "vertexCount": 6628
+      },
+      {
+        "yawDegrees": 140,
+        "pitchDegrees": -42,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.051681615302402284,
+            -0.03724260971766,
+            -0.045104880554217144
+          ],
+          "max": [
+            0.05538114130720964,
+            0.058327589184841246,
+            0.05581483464360511
+          ],
+          "size": [
+            0.10706275660961193,
+            0.09557019890250124,
+            0.10091971519782225
+          ]
+        },
+        "fitScale": [
+          56.00453593646485,
+          45.85111311184386,
+          53.90423456245931
+        ],
+        "uniformScale": 51.72875070231178,
+        "relativeAxisScale": [
+          1.0826578097499266,
+          0.8863758062843523,
+          1.0420556041004545
+        ],
+        "anisotropyRatio": 1.2214433224304482,
+        "rearToFrontQuarterDrop": 2.016379113246472,
+        "verticesWithin35cmOfBottom": 314,
+        "vertexCount": 6628
+      },
+      {
+        "yawDegrees": 150,
+        "pitchDegrees": -39,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.04746100990126562,
+            -0.03483778450616645,
+            -0.05189161998632396
+          ],
+          "max": [
+            0.05150618155227196,
+            0.05527240976511051,
+            0.05684834773828892
+          ],
+          "size": [
+            0.09896719145353758,
+            0.09011019427127696,
+            0.10873996772461288
+          ]
+        },
+        "fitScale": [
+          60.585734645354265,
+          48.629348049211586,
+          50.02760359260873
+        ],
+        "uniformScale": 52.82337857711922,
+        "relativeAxisScale": [
+          1.1469492538593007,
+          0.9206027588374609,
+          0.9470731509452993
+        ],
+        "anisotropyRatio": 1.2458677131357618,
+        "rearToFrontQuarterDrop": 2.0014353794552155,
+        "verticesWithin35cmOfBottom": 292,
+        "vertexCount": 6628
+      },
+      {
+        "yawDegrees": 145,
+        "pitchDegrees": -42,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.04945538649506018,
+            -0.03724260971766,
+            -0.04733755430733454
+          ],
+          "max": [
+            0.05297795070899272,
+            0.058327589184841246,
+            0.056285427560538004
+          ],
+          "size": [
+            0.1024333372040529,
+            0.09557019890250124,
+            0.10362298186787254
+          ]
+        },
+        "fitScale": [
+          58.535630720061725,
+          45.85111311184386,
+          52.49800673499657
+        ],
+        "uniformScale": 52.03605131323112,
+        "relativeAxisScale": [
+          1.1249053155034068,
+          0.8811412848342965,
+          1.008877603317452
+        ],
+        "anisotropyRatio": 1.2766457943404064,
+        "rearToFrontQuarterDrop": 2.016379113246472,
+        "verticesWithin35cmOfBottom": 314,
+        "vertexCount": 6628
+      },
+      {
+        "yawDegrees": 135,
+        "pitchDegrees": -45,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.052811449165220736,
+            -0.03955091825007841,
+            -0.041751538412867245
+          ],
+          "max": [
+            0.055396331948968286,
+            0.06122289673691733,
+            0.05440168222821516
+          ],
+          "size": [
+            0.10820778111418902,
+            0.10077381498699574,
+            0.09615322064108241
+          ]
+        },
+        "fitScale": [
+          55.41191158584583,
+          43.48351802068296,
+          56.576368048099546
+        ],
+        "uniformScale": 51.466064116253,
+        "relativeAxisScale": [
+          1.076668918390181,
+          0.8448968998768034,
+          1.0992946326787927
+        ],
+        "anisotropyRatio": 1.3010991433855228,
+        "rearToFrontQuarterDrop": 2.0159211210455092,
+        "verticesWithin35cmOfBottom": 336,
+        "vertexCount": 6628
+      },
+      {
+        "yawDegrees": 180,
+        "pitchDegrees": -45,
+        "rotationOrder": "world yaw after source X pitch",
+        "rigidBounds": {
+          "min": [
+            -0.03727707266807556,
+            -0.03955091825007841,
+            -0.05869164756522288
+          ],
+          "max": [
+            0.036732789129018784,
+            0.06122289673691733,
+            0.05467397716968089
+          ],
+          "size": [
+            0.07400986179709435,
+            0.10077381498699574,
+            0.11336562473490377
+          ]
+        },
+        "fitScale": [
+          81.0162301942767,
+          43.48351802068296,
+          47.98632753730237
+        ],
+        "uniformScale": 55.29315943271569,
+        "relativeAxisScale": [
+          1.4652125330776677,
+          0.7864176774632768,
+          0.8678528778174677
+        ],
+        "anisotropyRatio": 1.8631480129032176,
+        "rearToFrontQuarterDrop": 2.2185065886845825,
+        "verticesWithin35cmOfBottom": 336,
+        "vertexCount": 6628
+      }
+    ]
+  },
+  "limitations": [
+    "AABB fitting is not ground support proof. Tilted undersides can require terrain embedding.",
+    "No adapted model was created, and no visual acceptance is implied."
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "lods": true,
+  "name": "Rock 07",
+  "categories": [
+    "rocks",
+    "nature",
+    "collection: verdant_trail"
+  ],
+  "type": 2,
+  "version_required": {
+    "blend": "4.0.1"
+  },
+  "tags": [
+    "rock",
+    "stones",
+    "landscape",
+    "geology",
+    "formation",
+    "weathered",
+    "boulder"
+  ],
+  "info": null,
+  "date_published": 1707177600,
+  "staging": null,
+  "max_resolution": [
+    8192,
+    8192
+  ],
+  "polycount": 27830,
+  "texel_density": 14662.084214178132,
+  "dimensions": [
+    169.10234838724136,
+    320.554181933403,
+    143.77418451476842
+  ],
+  "authors": {
+    "Jenelle van Heerden": "All"
+  },
+  "files_hash": "dd2ca74801cd50ae5f510331cbb86e4b76b05801",
+  "description": "Free 8K model: weathered boulder with rugged erosion-worn surfaces and rich earth tones, perfect for realistic landscapes and trail or geological scenes.",
+  "category_id": "229f6baa-7051-5eb5-8f2d-ed2aba17c8ea",
+  "category": "Nature/Rocks & Stone/Boulders",
+  "collections": [
+    "verdant_trail"
+  ],
+  "attributes": {
+    "condition": [
+      "weathered"
+    ],
+    "material": [
+      "stone"
+    ],
+    "lods": true
+  },
+  "download_count": 5608,
+  "thumbnail_url": "https://cdn.polyhaven.com/asset_img/thumbs/rock_07.png?width=256&height=256"
+}

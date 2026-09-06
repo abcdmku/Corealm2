@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { EquipmentBonuses, SemanticEntity, SkillId, Vec3 } from "../game/src/contracts.js";
 import { SKILL_IDS, ok } from "../game/src/contracts.js";
+import { CREATURE_RUN_SPEED } from "../game/src/app/config.js";
 import { EventBus } from "../game/src/core/events.js";
 import { RngStreams } from "../game/src/core/rng.js";
 import { Store } from "../game/src/state/store.js";
@@ -97,7 +98,7 @@ describe("enemy attack movement commitment", () => {
     expect(combat.isAttackCommitted(attacker.id)).toBe(false);
     advanceTo(releasedTick + 100);
     expect(attacker.position[2]).toBeLessThan(planted[2]);
-    expect(planted[2] - attacker.position[2]).toBeLessThanOrEqual(0.31 + 1e-8);
+    expect(planted[2] - attacker.position[2]).toBeLessThanOrEqual(CREATURE_RUN_SPEED * .1 + 1e-8);
     expect(combat.consumeHits()).toEqual([]);
   });
 

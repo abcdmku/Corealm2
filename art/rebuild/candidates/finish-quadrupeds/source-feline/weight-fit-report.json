@@ -1,0 +1,963 @@
+{
+  "method": "Exact enumeration of all 1\u20134 original-joint subsets; equality-constrained nonnegative least squares per subset. Fits source integer animation keys only; fractional midframes held out. Original data and clips unchanged.",
+  "vertexCount": 22650,
+  "sourceSamples": 84,
+  "trainingFrames": 43,
+  "heldoutFrames": 41,
+  "displayScale": 0.1,
+  "elapsedSeconds": 14.687467098236084,
+  "maxInfluences": 4,
+  "maxWeightSumError": 4.440892098500626e-16,
+  "train": {
+    "samples": 973950,
+    "rmsMetres": 0.0014106667390255594,
+    "p95Metres": 0.002341241079159598,
+    "p99Metres": 0.0069197292104432075,
+    "maxMetres": 0.030649429247830706
+  },
+  "heldout": {
+    "samples": 928650,
+    "rmsMetres": 0.0013663882540518233,
+    "p95Metres": 0.0022920144574254627,
+    "p99Metres": 0.006765048700910135,
+    "maxMetres": 0.02974490213255504
+  },
+  "regions": {
+    "body": {
+      "vertices": 2800,
+      "train": {
+        "samples": 120400,
+        "rmsMetres": 0.0034250728338894535,
+        "p95Metres": 0.007812259781129208,
+        "p99Metres": 0.012925966705943566,
+        "maxMetres": 0.030649429247830706
+      },
+      "heldout": {
+        "samples": 114800,
+        "rmsMetres": 0.0033136306653392105,
+        "p95Metres": 0.007613802122126692,
+        "p99Metres": 0.012412700344438277,
+        "maxMetres": 0.02974490213255504
+      }
+    },
+    "head": {
+      "vertices": 4311,
+      "train": {
+        "samples": 185373,
+        "rmsMetres": 0.0002911169030106397,
+        "p95Metres": 5.535744259551855e-05,
+        "p99Metres": 0.0014822781532942012,
+        "maxMetres": 0.004847569711274666
+      },
+      "heldout": {
+        "samples": 176751,
+        "rmsMetres": 0.0002901512675773733,
+        "p95Metres": 5.7007495617956606e-05,
+        "p99Metres": 0.0014857388617875275,
+        "maxMetres": 0.004597094134967382
+      }
+    },
+    "limbs": {
+      "vertices": 5113,
+      "train": {
+        "samples": 219859,
+        "rmsMetres": 0.001462488281692909,
+        "p95Metres": 0.0028220809102914904,
+        "p99Metres": 0.006381988913415638,
+        "maxMetres": 0.028455875124062845
+      },
+      "heldout": {
+        "samples": 209633,
+        "rmsMetres": 0.0014206863980330312,
+        "p95Metres": 0.002764695717754501,
+        "p99Metres": 0.006169734599761205,
+        "maxMetres": 0.027367641823049134
+      }
+    },
+    "paws": {
+      "vertices": 6158,
+      "train": {
+        "samples": 264794,
+        "rmsMetres": 3.705032372367193e-08,
+        "p95Metres": 6.758595968288669e-08,
+        "p99Metres": 9.348919220863232e-08,
+        "maxMetres": 2.1042325143468343e-07
+      },
+      "heldout": {
+        "samples": 252478,
+        "rmsMetres": 3.6744755492396366e-08,
+        "p95Metres": 6.635864854392054e-08,
+        "p99Metres": 9.126627810270012e-08,
+        "maxMetres": 2.0859745452281142e-07
+      }
+    },
+    "tail": {
+      "vertices": 4268,
+      "train": {
+        "samples": 183524,
+        "rmsMetres": 0.00046541824213667214,
+        "p95Metres": 0.0005979246070681924,
+        "p99Metres": 0.002244271388368571,
+        "maxMetres": 0.010919657879596175
+      },
+      "heldout": {
+        "samples": 174988,
+        "rmsMetres": 0.0004490855027544576,
+        "p95Metres": 0.0005835498493058858,
+        "p99Metres": 0.002187345814809151,
+        "maxMetres": 0.00984680055704754
+      }
+    }
+  },
+  "perClip": {
+    "Armature|Armature|Walk": {
+      "train": {
+        "samples": 634200,
+        "rmsMetres": 0.0011585291118769597,
+        "p95Metres": 0.0019407126313148494,
+        "p99Metres": 0.005846116287260184,
+        "maxMetres": 0.02054160666113339
+      },
+      "heldout": {
+        "samples": 611550,
+        "rmsMetres": 0.0011554673077598873,
+        "p95Metres": 0.001940038643927452,
+        "p99Metres": 0.005850678782505174,
+        "maxMetres": 0.019949572733114606
+      }
+    },
+    "Armature|Armature|run": {
+      "train": {
+        "samples": 339750,
+        "rmsMetres": 0.0017886280814009296,
+        "p95Metres": 0.003069953694892905,
+        "p99Metres": 0.008955497550822403,
+        "maxMetres": 0.030649429247830706
+      },
+      "heldout": {
+        "samples": 317100,
+        "rmsMetres": 0.0017008372814606755,
+        "p95Metres": 0.002959737276984456,
+        "p99Metres": 0.00850370297314224,
+        "maxMetres": 0.02974490213255504
+      }
+    }
+  },
+  "worstVertices": [
+    {
+      "vertex": 13069,
+      "region": "body",
+      "sourcePosition": [
+        0.4707546532154083,
+        -0.21105270087718964,
+        0.07046209275722504
+      ],
+      "errorMetres": 0.030649429247830706,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 10.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.0074452127211331945,
+        "Spine.001": 0.039726965608297055,
+        "Spine.002": 0.15182236109283645,
+        "Spine.003": 0.1854255449031146,
+        "Thigh_front_L": 0.13386009458988987,
+        "Calf_Front_L": 0.1180408622235086,
+        "Thigh_front_R": 0.03898439334641871,
+        "Calf_Front_R": 0.02323614692407873,
+        "Spine_controller_1": 0.3014584185907228
+      },
+      "fitted": {
+        "Spine.001": 0.3526888892647439,
+        "Thigh_front_L": 0.2452858716582616,
+        "Calf_Front_R": 0.0566464988057782,
+        "Spine_controller_1": 0.34537874027121623
+      }
+    },
+    {
+      "vertex": 433,
+      "region": "body",
+      "sourcePosition": [
+        0.380206823348999,
+        -0.3657432794570923,
+        0.03181855380535126
+      ],
+      "errorMetres": 0.030079577407035662,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 10.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.004869703968707367,
+        "Spine.001": 0.031249339884663947,
+        "Spine.002": 0.12846323472531074,
+        "Spine.003": 0.15530226715550483,
+        "Thigh_front_L": 0.17478028434664356,
+        "Calf_Front_L": 0.16174129985635566,
+        "Thigh_front_R": 0.054272590071117496,
+        "Calf_Front_R": 0.03514653412165966,
+        "Spine_controller_1": 0.2541747458700368
+      },
+      "fitted": {
+        "Spine.001": 0.2835029240261066,
+        "Thigh_front_L": 0.33194366877478526,
+        "Calf_Front_R": 0.08643440286501199,
+        "Spine_controller_1": 0.2981190043340962
+      }
+    },
+    {
+      "vertex": 13068,
+      "region": "body",
+      "sourcePosition": [
+        0.3937663435935974,
+        -0.21317793428897858,
+        0.025568876415491104
+      ],
+      "errorMetres": 0.029918371246106086,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 10.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.006140516875826628,
+        "Spine.001": 0.03940426173465799,
+        "Spine.002": 0.15181325468168194,
+        "Spine.003": 0.18353447264682254,
+        "Thigh_front_L": 0.1277556931356224,
+        "Calf_Front_L": 0.11203656719717711,
+        "Thigh_front_R": 0.046974059206971897,
+        "Calf_Front_R": 0.0319444294495553,
+        "Spine_controller_1": 0.3003967450716842
+      },
+      "fitted": {
+        "Spine.001": 0.3572702632972297,
+        "Thigh_front_L": 0.23154944265719477,
+        "Calf_Front_R": 0.06962082382781705,
+        "Spine_controller_1": 0.3415594702177584
+      }
+    },
+    {
+      "vertex": 13073,
+      "region": "body",
+      "sourcePosition": [
+        0.19565723836421967,
+        -0.2173205316066742,
+        -0.045707494020462036
+      ],
+      "errorMetres": 0.02974490213255504,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 9.5,
+        "split": "heldout"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.0032779491435186454,
+        "Spine.001": 0.03877822488353909,
+        "Spine.002": 0.15206502389015428,
+        "Spine.003": 0.17969104747511697,
+        "Thigh_front_L": 0.10925647426734446,
+        "Calf_Front_L": 0.0935059197022865,
+        "Thigh_front_R": 0.06958833783765445,
+        "Calf_Front_R": 0.05527236753675065,
+        "Spine_controller_1": 0.29856465526363496
+      },
+      "fitted": {
+        "Spine.001": 0.3689343171595979,
+        "Thigh_front_L": 0.19112821170206729,
+        "Calf_Front_R": 0.10555888594014178,
+        "Spine_controller_1": 0.33437858519819313
+      }
+    },
+    {
+      "vertex": 13067,
+      "region": "body",
+      "sourcePosition": [
+        0.3251359164714813,
+        -0.21504148840904236,
+        -0.00523936003446579
+      ],
+      "errorMetres": 0.029451670339452105,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 10.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.004845290270281654,
+        "Spine.001": 0.03908390258596012,
+        "Spine.002": 0.1518042247628868,
+        "Spine.003": 0.18165712445857102,
+        "Thigh_front_L": 0.12169559573444143,
+        "Calf_Front_L": 0.10607586100960809,
+        "Thigh_front_R": 0.05490573708294583,
+        "Calf_Front_R": 0.04058951128333341,
+        "Spine_controller_1": 0.29934275281197165
+      },
+      "fitted": {
+        "Spine.001": 0.36072192992907437,
+        "Thigh_front_L": 0.21819892200324348,
+        "Calf_Front_R": 0.08267483261199522,
+        "Spine_controller_1": 0.33840431545568694
+      }
+    },
+    {
+      "vertex": 21245,
+      "region": "body",
+      "sourcePosition": [
+        0.2605404853820801,
+        -0.21647761762142181,
+        -0.02723926492035389
+      ],
+      "errorMetres": 0.029405680981160462,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 9.5,
+        "split": "heldout"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.003559430239541504,
+        "Spine.001": 0.038765857452913166,
+        "Spine.002": 0.1517952493573818,
+        "Spine.003": 0.1797933417984159,
+        "Thigh_front_L": 0.1156793116640974,
+        "Calf_Front_L": 0.10015824935155106,
+        "Thigh_front_R": 0.06278005638803508,
+        "Calf_Front_R": 0.049172075453757284,
+        "Spine_controller_1": 0.2982964282943068
+      },
+      "fitted": {
+        "Spine.001": 0.363439107280809,
+        "Thigh_front_L": 0.20512797291888782,
+        "Calf_Front_R": 0.09576530420553137,
+        "Spine_controller_1": 0.33566761559477193
+      }
+    },
+    {
+      "vertex": 437,
+      "region": "body",
+      "sourcePosition": [
+        0.31314125657081604,
+        -0.3684322237968445,
+        0.00407356396317482
+      ],
+      "errorMetres": 0.029125434588206295,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 10.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.003830865973236702,
+        "Spine.001": 0.030901182676513404,
+        "Spine.002": 0.1294231095052661,
+        "Spine.003": 0.1549261144703004,
+        "Thigh_front_L": 0.16507446944961823,
+        "Calf_Front_L": 0.147094172892728,
+        "Thigh_front_R": 0.06681431301876811,
+        "Calf_Front_R": 0.04671339181221027,
+        "Spine_controller_1": 0.2552223802013588
+      },
+      "fitted": {
+        "Spine.001": 0.2935928855707267,
+        "Thigh_front_L": 0.3052793586603311,
+        "Calf_Front_R": 0.10496151812706651,
+        "Spine_controller_1": 0.2961662376418756
+      }
+    },
+    {
+      "vertex": 17187,
+      "region": "body",
+      "sourcePosition": [
+        -0.1305581033229828,
+        -0.21772441267967224,
+        -0.05988062918186188
+      ],
+      "errorMetres": 0.029076442373601692,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 8.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.002996557533181487,
+        "Spine.001": 0.03879058525284739,
+        "Spine.002": 0.1523346889351311,
+        "Spine.003": 0.17958877296209927,
+        "Thigh_front_L": 0.07639444800946345,
+        "Calf_Front_L": 0.06137072481803437,
+        "Thigh_front_R": 0.10283567846581335,
+        "Calf_Front_R": 0.08685570476103506,
+        "Spine_controller_1": 0.29883283926239457
+      },
+      "fitted": {
+        "Spine.002": 0.3413096214776322,
+        "Calf_Front_L": 0.12874177182004032,
+        "Thigh_front_R": 0.1836414354452703,
+        "Spine_controller_1": 0.3463071712570571
+      }
+    },
+    {
+      "vertex": 445,
+      "region": "body",
+      "sourcePosition": [
+        0.1253902018070221,
+        -0.374549925327301,
+        -0.047838762402534485
+      ],
+      "errorMetres": 0.0285828172440228,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 9.5,
+        "split": "heldout"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.002360838562578612,
+        "Spine.001": 0.030561171783238,
+        "Spine.002": 0.13114473101504168,
+        "Spine.003": 0.1547851222657871,
+        "Thigh_front_L": 0.137278683479597,
+        "Calf_Front_L": 0.1122923441664536,
+        "Thigh_front_R": 0.09915736344364595,
+        "Calf_Front_R": 0.07506694906992384,
+        "Spine_controller_1": 0.2573527962137342
+      },
+      "fitted": {
+        "Spine.001": 0.3160669465330989,
+        "Thigh_front_L": 0.23804664519483257,
+        "Calf_Front_R": 0.15270804106653665,
+        "Spine_controller_1": 0.2931783672055318
+      }
+    },
+    {
+      "vertex": 13070,
+      "region": "body",
+      "sourcePosition": [
+        0.2506275773048401,
+        -0.37091660499572754,
+        -0.015645690262317657
+      ],
+      "errorMetres": 0.02849162394015607,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 10.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.0028057612834941734,
+        "Spine.001": 0.030557627840629667,
+        "Spine.002": 0.13037028297764977,
+        "Spine.003": 0.15455492204827406,
+        "Thigh_front_L": 0.15549694853249973,
+        "Calf_Front_L": 0.13264068536227408,
+        "Thigh_front_R": 0.07919024006103609,
+        "Calf_Front_R": 0.05812734387086988,
+        "Spine_controller_1": 0.25625618802327255
+      },
+      "fitted": {
+        "Spine.001": 0.3022115629519948,
+        "Thigh_front_L": 0.2793005453636096,
+        "Calf_Front_R": 0.12341703117474237,
+        "Spine_controller_1": 0.2950708605096533
+      }
+    },
+    {
+      "vertex": 432,
+      "region": "limbs",
+      "sourcePosition": [
+        0.3626439571380615,
+        -0.5129676461219788,
+        0.04255915433168411
+      ],
+      "errorMetres": 0.028455875124062845,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 10.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.003444138157365192,
+        "Spine.001": 0.022101351424894687,
+        "Spine.002": 0.10226977800836141,
+        "Spine.003": 0.1236321169332413,
+        "Thigh_front_L": 0.22753127704016132,
+        "Calf_Front_L": 0.21749880755485698,
+        "Thigh_front_R": 0.06245990262523865,
+        "Calf_Front_R": 0.03873856715367166,
+        "Spine_controller_1": 0.2023240611022088
+      },
+      "fitted": {
+        "Spine.001": 0.20858330667094802,
+        "Thigh_front_L": 0.44471480577831646,
+        "Calf_Front_R": 0.10270097403314242,
+        "Spine_controller_1": 0.24400091351759312
+      }
+    },
+    {
+      "vertex": 17186,
+      "region": "body",
+      "sourcePosition": [
+        -0.19565722346305847,
+        -0.2173205316066742,
+        -0.045707494020462036
+      ],
+      "errorMetres": 0.028421484306241925,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 8.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.003277949042456522,
+        "Spine.001": 0.03877822088516237,
+        "Spine.002": 0.15206501920185267,
+        "Spine.003": 0.1796910531463167,
+        "Thigh_front_L": 0.06958833008656508,
+        "Calf_Front_L": 0.05527237143827205,
+        "Thigh_front_R": 0.10925647089886899,
+        "Calf_Front_R": 0.0935059168194148,
+        "Spine_controller_1": 0.29856466848109087
+      },
+      "fitted": {
+        "Spine.002": 0.3374657372043649,
+        "Calf_Front_L": 0.11815719145780323,
+        "Thigh_front_R": 0.19769795622502223,
+        "Spine_controller_1": 0.3466791151128096
+      }
+    },
+    {
+      "vertex": 446,
+      "region": "body",
+      "sourcePosition": [
+        0.18803754448890686,
+        -0.372980535030365,
+        -0.033403702080249786
+      ],
+      "errorMetres": 0.028221692916851216,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 10.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.0025832064994073976,
+        "Spine.001": 0.030559401803447083,
+        "Spine.002": 0.13075766272690947,
+        "Spine.003": 0.1546700752352725,
+        "Thigh_front_L": 0.14638397261654112,
+        "Calf_Front_L": 0.12246224204476111,
+        "Thigh_front_R": 0.08917799582800019,
+        "Calf_Front_R": 0.06660069924184318,
+        "Spine_controller_1": 0.256804744003818
+      },
+      "fitted": {
+        "Spine.001": 0.309460901055519,
+        "Thigh_front_L": 0.25859881083209363,
+        "Calf_Front_R": 0.13799750672613537,
+        "Spine_controller_1": 0.29394278138625196
+      }
+    },
+    {
+      "vertex": 6696,
+      "region": "limbs",
+      "sourcePosition": [
+        -0.34151625633239746,
+        -0.6554625630378723,
+        0.05430108681321144
+      ],
+      "errorMetres": 0.02782745894181514,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 8.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.0018337192515324213,
+        "Spine.001": 0.011767144300488709,
+        "Spine.002": 0.07267980732215336,
+        "Spine.003": 0.08785528954246696,
+        "Thigh_front_L": 0.07170882562240721,
+        "Calf_Front_L": 0.042796383194692526,
+        "Thigh_front_R": 0.2871225110769359,
+        "Calf_Front_R": 0.2804863845147459,
+        "Spine_controller_1": 0.14374993517457701
+      },
+      "fitted": {
+        "Spine.003": 0.2773469831617991,
+        "Thigh_front_L": 0.1346013859293101,
+        "Thigh_front_R": 0.2857707470329078,
+        "Calf_Front_R": 0.30228088387598306
+      }
+    },
+    {
+      "vertex": 21895,
+      "region": "body",
+      "sourcePosition": [
+        -0.2605404853820801,
+        -0.21647761762142181,
+        -0.02723926492035389
+      ],
+      "errorMetres": 0.027775517940941567,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 8.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.0035594301098276306,
+        "Spine.001": 0.03876585323694072,
+        "Spine.002": 0.15179524382561171,
+        "Spine.003": 0.17979334645935016,
+        "Thigh_front_L": 0.06278004849367476,
+        "Calf_Front_L": 0.04917207366181308,
+        "Thigh_front_R": 0.11567931866149524,
+        "Calf_Front_R": 0.10015824570155271,
+        "Spine_controller_1": 0.298296439849734
+      },
+      "fitted": {
+        "Spine.002": 0.3337691837912771,
+        "Calf_Front_L": 0.10747628958498977,
+        "Thigh_front_R": 0.2117578324688555,
+        "Spine_controller_1": 0.3469966941548776
+      }
+    },
+    {
+      "vertex": 6716,
+      "region": "body",
+      "sourcePosition": [
+        -0.1339505910873413,
+        -0.05597865581512451,
+        -0.06094108894467354
+      ],
+      "errorMetres": 0.027417300946477985,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 8.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.01135705499882117,
+        "Spine.001": 0.050408637768257054,
+        "Spine.002": 0.20133450065063313,
+        "Spine.003": 0.15265858679333486,
+        "Thigh_front_L": 0.06268220908143778,
+        "Calf_Front_L": 0.04850761784171279,
+        "Thigh_front_R": 0.08557575494755397,
+        "Calf_Front_R": 0.07063998954218857,
+        "Thigh_Back_L": 0.001121704231075253,
+        "Calf_back_L": 0.001982416332291503,
+        "Thigh_Back_R": 0.0032664146947734398,
+        "Calf_back_R": 0.004478536402257577,
+        "Spine_controller_1": 0.30598657671566293
+      },
+      "fitted": {
+        "Spine.002": 0.3996812598717704,
+        "Calf_Front_L": 0.10466903604736524,
+        "Thigh_front_R": 0.15197652133104034,
+        "Spine_controller_1": 0.34367318274982406
+      }
+    },
+    {
+      "vertex": 17180,
+      "region": "body",
+      "sourcePosition": [
+        -0.3251359164714813,
+        -0.21504148840904236,
+        -0.00523936003446579
+      ],
+      "errorMetres": 0.02724249504611644,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 8.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.004845289997644183,
+        "Spine.001": 0.03908389475991021,
+        "Spine.002": 0.15180421622108276,
+        "Spine.003": 0.18165713674440864,
+        "Thigh_front_L": 0.05490572836662419,
+        "Calf_Front_L": 0.04058950899942035,
+        "Thigh_front_R": 0.12169558888680639,
+        "Calf_Front_R": 0.10607585504087291,
+        "Spine_controller_1": 0.29934278098323036
+      },
+      "fitted": {
+        "Spine.002": 0.3326198237702168,
+        "Calf_Front_L": 0.09345353036001336,
+        "Thigh_front_R": 0.2249509372441959,
+        "Spine_controller_1": 0.3489757086255739
+      }
+    },
+    {
+      "vertex": 436,
+      "region": "limbs",
+      "sourcePosition": [
+        0.29784488677978516,
+        -0.5165368318557739,
+        0.019949816167354584
+      ],
+      "errorMetres": 0.02720517153702259,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 10.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.002700215992091279,
+        "Spine.001": 0.02178094044091449,
+        "Spine.002": 0.10447771340241302,
+        "Spine.003": 0.12513244133824838,
+        "Thigh_front_L": 0.2134234001467081,
+        "Calf_Front_L": 0.19281210892428038,
+        "Thigh_front_R": 0.08008730268264105,
+        "Calf_Front_R": 0.053538903861531546,
+        "Spine_controller_1": 0.20604697321117174
+      },
+      "fitted": {
+        "Spine.001": 0.2250000910866377,
+        "Thigh_front_L": 0.4025753123482971,
+        "Calf_Front_R": 0.12793279864419188,
+        "Spine_controller_1": 0.24449179792087342
+      }
+    },
+    {
+      "vertex": 431,
+      "region": "body",
+      "sourcePosition": [
+        0.4800514876842499,
+        -0.05255899578332901,
+        0.07403827458620071
+      ],
+      "errorMetres": 0.02718417760913616,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 10.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.01623760893929284,
+        "Spine.001": 0.051707469631378025,
+        "Spine.002": 0.2013961767667636,
+        "Spine.003": 0.15668285365587745,
+        "Thigh_front_L": 0.11053450830089118,
+        "Calf_Front_L": 0.09623824112275937,
+        "Thigh_front_R": 0.029832150374165558,
+        "Calf_Front_R": 0.017506976903875343,
+        "Thigh_Back_L": 0.005867159180263498,
+        "Calf_back_L": 0.006809370978594538,
+        "Calf_back_R": 0.00013329093527268376,
+        "Spine_controller_1": 0.3070541932108659
+      },
+      "fitted": {
+        "Spine.001": 0.4236329392166541,
+        "Thigh_front_L": 0.20287831758414754,
+        "Calf_Front_R": 0.04178610679353451,
+        "Spine_controller_1": 0.3317026364056639
+      }
+    },
+    {
+      "vertex": 17181,
+      "region": "body",
+      "sourcePosition": [
+        -0.3937663435935974,
+        -0.2131778746843338,
+        0.025569073855876923
+      ],
+      "errorMetres": 0.027094356387408584,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 8.5,
+        "split": "heldout"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.0061405165117113854,
+        "Spine.001": 0.03940425657442246,
+        "Spine.002": 0.15181324567958632,
+        "Spine.003": 0.18353448435314482,
+        "Thigh_front_L": 0.0469740507741943,
+        "Calf_Front_L": 0.031944427555341194,
+        "Thigh_front_R": 0.12775568556007197,
+        "Calf_Front_R": 0.11203656055372631,
+        "Spine_controller_1": 0.3003967724378012
+      },
+      "fitted": {
+        "Spine.002": 0.3314831171151384,
+        "Calf_Front_L": 0.07918807716082119,
+        "Thigh_front_R": 0.23832448818067847,
+        "Spine_controller_1": 0.351004317543362
+      }
+    },
+    {
+      "vertex": 17182,
+      "region": "body",
+      "sourcePosition": [
+        -0.4707546830177307,
+        -0.21105249226093292,
+        0.07046288251876831
+      ],
+      "errorMetres": 0.026913571409466822,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 8.5,
+        "split": "heldout"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.0074452121303414534,
+        "Spine.001": 0.03972695962189077,
+        "Spine.002": 0.15182234904544434,
+        "Spine.003": 0.18542556419720133,
+        "Thigh_front_L": 0.038984381750944416,
+        "Calf_Front_L": 0.023236145080246427,
+        "Thigh_front_R": 0.1338600953038227,
+        "Calf_Front_R": 0.11804085285674244,
+        "Spine_controller_1": 0.30145844001336614
+      },
+      "fitted": {
+        "Spine.002": 0.3301723756727755,
+        "Calf_Front_L": 0.0646287887067771,
+        "Thigh_front_R": 0.25197553744072454,
+        "Spine_controller_1": 0.3532232981797229
+      }
+    },
+    {
+      "vertex": 6717,
+      "region": "body",
+      "sourcePosition": [
+        -0.20069095492362976,
+        -0.056555766612291336,
+        -0.04725954681634903
+      ],
+      "errorMetres": 0.026675123666516854,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 8.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.011731619264530783,
+        "Spine.001": 0.050393907334258324,
+        "Spine.002": 0.20115322533696287,
+        "Spine.003": 0.15286049258513743,
+        "Thigh_front_L": 0.05671070698544076,
+        "Calf_Front_L": 0.04320308657646255,
+        "Thigh_front_R": 0.09106063720120748,
+        "Calf_Front_R": 0.0764109414486723,
+        "Thigh_Back_L": 0.0005610091362985902,
+        "Calf_back_L": 0.0012568275125535635,
+        "Thigh_Back_R": 0.0037789763769830896,
+        "Calf_back_R": 0.005002056216501453,
+        "Spine_controller_1": 0.30587651402499083
+      },
+      "fitted": {
+        "Spine.002": 0.39527331241257946,
+        "Calf_Front_L": 0.09572945659695131,
+        "Thigh_front_R": 0.16408551633083623,
+        "Spine_controller_1": 0.344911714659633
+      }
+    },
+    {
+      "vertex": 444,
+      "region": "body",
+      "sourcePosition": [
+        0.05938490480184555,
+        -0.5284834504127502,
+        -0.03750889003276825
+      ],
+      "errorMetres": 0.02654915687682933,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 9.5,
+        "split": "heldout"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.0015011173058343218,
+        "Spine.001": 0.021452041523559538,
+        "Spine.002": 0.10823141742267199,
+        "Spine.003": 0.12771503424827557,
+        "Thigh_front_L": 0.16330231278946505,
+        "Calf_Front_L": 0.12637146900479765,
+        "Thigh_front_R": 0.13779888671261634,
+        "Calf_Front_R": 0.10128232746636168,
+        "Spine_controller_1": 0.21234539352641785
+      },
+      "fitted": {
+        "Spine.001": 0.2621791051644368,
+        "Thigh_front_L": 0.2779162905329966,
+        "Calf_Front_R": 0.21431809936568555,
+        "Spine_controller_1": 0.24558650493688094
+      }
+    },
+    {
+      "vertex": 427,
+      "region": "body",
+      "sourcePosition": [
+        0.40288427472114563,
+        -0.05465968698263168,
+        0.027300342917442322
+      ],
+      "errorMetres": 0.026470558428759457,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 10.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.014856511115625259,
+        "Spine.001": 0.05126341487220542,
+        "Spine.002": 0.20125432530695223,
+        "Spine.003": 0.1554725425846712,
+        "Thigh_front_L": 0.10585890791143238,
+        "Calf_Front_L": 0.09154017028227872,
+        "Thigh_front_R": 0.036820425664495116,
+        "Calf_Front_R": 0.024323051356306094,
+        "Thigh_Back_L": 0.005340513513036564,
+        "Calf_back_L": 0.00638028633683239,
+        "Calf_back_R": 0.00026619215673801835,
+        "Spine_controller_1": 0.30662365889942667
+      },
+      "fitted": {
+        "Spine.001": 0.42694575718697286,
+        "Thigh_front_L": 0.1919089349521895,
+        "Calf_Front_R": 0.052173264810805406,
+        "Spine_controller_1": 0.3289720430500323
+      }
+    },
+    {
+      "vertex": 13071,
+      "region": "body",
+      "sourcePosition": [
+        0.2379998117685318,
+        -0.5202388763427734,
+        0.003445944283157587
+      ],
+      "errorMetres": 0.02638677726932079,
+      "frame": {
+        "clip": "Armature|Armature|run",
+        "frame": 10.0,
+        "split": "train"
+      },
+      "original": {
+        "Knee_front_IK_L": 0.001971061549311326,
+        "Spine.001": 0.021466888212244756,
+        "Spine.002": 0.10664181127248155,
+        "Spine.003": 0.12660298113533885,
+        "Thigh_front_L": 0.19959557929858904,
+        "Calf_Front_L": 0.16861546892805881,
+        "Thigh_front_R": 0.0973647767274876,
+        "Calf_Front_R": 0.06804544167034011,
+        "Spine_controller_1": 0.20969599120614796
+      },
+      "fitted": {
+        "Spine.001": 0.23912240947927,
+        "Thigh_front_L": 0.36172438713831695,
+        "Calf_Front_R": 0.15293836363496274,
+        "Spine_controller_1": 0.24621483974745037
+      }
+    }
+  ],
+  "accepted": false
+}

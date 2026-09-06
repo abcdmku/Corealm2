@@ -1,0 +1,5 @@
+{
+  "output": "lynx-adaptation-comparison",
+  "inputs": [["source-feline/lynx-baked-grounded-preview-catalogue.json", "creature_duskoak_lynx"]],
+  "scope": "Frozen complete Cat-derived Lynx anatomy and baked Walk/Run conversion review. Shortened tail, paws, cheek ruff, ears and coat are adapted on the complete source body. Standard four-influence rendering uses measured corrective transforms; source hierarchy and channels are not unchanged. A fixed Walk-t0 placement wrapper grounds the preview, not locomotion. Contact, calm Idle, combat, hit and death remain unaccepted or absent. No promotion acceptance."
+}

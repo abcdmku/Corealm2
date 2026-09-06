@@ -1,0 +1,100 @@
+import { describe, expect, it } from "vitest";
+import { REGIONAL_PACKS } from "../game/src/content/regionalPacks.js";
+import { RPG_BESTIARY } from "../game/src/content/rpgBestiary.js";
+import { createRpgRegionalPackCatalogue, RPG_REGIONAL_PACK_PLAN, regionalPackReplacements, RPG_ACCEPTED_SOURCE_PACK_ASSIGNMENTS } from "../game/src/content/rpgRegionalPacks.js";
+import { assembleRegionalPackFixture } from "../game/src/featureLab/regionalPacks.js";
+import { enemyCombatLevel } from "../game/src/content/index.js";
+
+// A controlled measured fixture model. Real candidate dimensions must pass this same factory
+// separately; these tests do not establish that any art fits the authored world.
+const measured = { size: { x: 0.8, y: 1.8, z: 0.8 }, base: { x: -0.4, y: 0, z: -0.4 } };
+
+describe("RPG regional encounter candidate catalogue", () => {
+  it("assigns retained monsters to their own regions while retaining wildlife and all 558 saved IDs", () => {
+    const catalogue = createRpgRegionalPackCatalogue(() => measured);
+    expect(catalogue.packs).toHaveLength(96);
+    const assignedIds = new Set(RPG_REGIONAL_PACK_PLAN.flatMap(row => row.speciesId ? [row.speciesId] : []));
+    expect(assignedIds.size).toBe(21);
+    expect(assignedIds.has("webweaver_spider")).toBe(true);
+    expect(assignedIds.has("marsh_wasp")).toBe(true);
+    for (const id of assignedIds) expect(RPG_BESTIARY.some(species => species.id === id)).toBe(true);
+    for (const species of RPG_BESTIARY.filter(row => assignedIds.has(row.id))) {
+      expect(catalogue.packs.some((pack) => pack.speciesId === species.id && pack.regionId === species.regionId), species.id).toBe(true);
+    }
+    for (const regionId of ["fallowmarch", "vellenwood", "karrowmoor", "kilnhalt"]) {
+      const packs = catalogue.packs.filter((pack) => pack.regionId === regionId);
+      expect(packs).toHaveLength(24);
+      expect(packs.filter((pack) => RPG_BESTIARY.some((species) => species.id === pack.speciesId)).length).toBeGreaterThanOrEqual(19);
+    }
+    expect(catalogue.packs.flatMap((pack) => pack.members.map((member) => member.id)))
+      .toEqual(REGIONAL_PACKS.flatMap((pack) => pack.members.map((member) => member.id)));
+    expect(catalogue.packs.map((pack) => [pack.id, pack.centre, pack.radius]))
+      .toEqual(REGIONAL_PACKS.map((pack) => [pack.id, pack.centre, pack.radius]));
+  });
+  it("constructs candidate packs through production entities and translated lab habitats", () => {
+    const catalogue = createRpgRegionalPackCatalogue(() => measured);
+    const first = catalogue.packs[0]!;
+    const fixture = assembleRegionalPackFixture(first.id, {
+      heightAt: () => 0, baseY: () => 0, assetSize: () => measured.size,
+    }, catalogue);
+    const stats = new Map(catalogue.variants.map((row) => [row.id, row.stats]));
+    expect(fixture.entities).toHaveLength(7);
+    expect(fixture.habitat.centre).toEqual([-72, 30]);
+    for (const entity of fixture.entities) {
+      const def = stats.get(String(entity.meta?.enemyDefId))!;
+      expect(entity.name).toBe("Goblin Archer");
+      expect(entity.view?.assetId).toBe("creature_goblin_archer");
+      expect(entity.combat?.level).toBe(enemyCombatLevel(def));
+      expect(entity.combat?.health).toBe(def.maxHealth);
+      expect(entity.meta?.groupId).toBe(first.id);
+    }
+  });
+  it("fails missing real measurements and formations whose bodies cannot fit", () => {
+    expect(() => createRpgRegionalPackCatalogue(() => null)).toThrow("requires measured model");
+    expect(() => createRpgRegionalPackCatalogue(() => ({ ...measured, size: { x: 6, y: 2, z: 6 } })))
+      .toThrow(/bodies overlap|exceeds habitat/);
+  });
+  it("isolates one candidate pack without requiring unrelated model downloads", () => {
+    const id = RPG_REGIONAL_PACK_PLAN[0]!.packId;
+    const catalogue = createRpgRegionalPackCatalogue((assetId) => assetId === "creature_goblin_archer" ? measured : null, [id]);
+    expect(catalogue.packs).toHaveLength(1);
+    expect(catalogue.groups).toHaveLength(1);
+    expect(catalogue.variants).toHaveLength(3);
+    expect(() => createRpgRegionalPackCatalogue(() => measured, ["missing"])).toThrow("Unknown RPG");
+  });
+  it("replaces occupants without moving saved pockets or their dressing", () => {
+    const id = RPG_REGIONAL_PACK_PLAN[0]!.packId;
+    const before = createRpgRegionalPackCatalogue(() => measured, [id]);
+    const overrides = regionalPackReplacements({ goblin_archer: "goblin_shaman" });
+    const after = createRpgRegionalPackCatalogue(() => measured, [id], overrides);
+    expect(after.packs[0]!.speciesId).toBe("goblin_shaman");
+    expect(after.packs[0]!.centre).toEqual(before.packs[0]!.centre);
+    expect(after.packs[0]!.radius).toBe(before.packs[0]!.radius);
+    expect(after.packs[0]!.members.map(member => member.id)).toEqual(before.packs[0]!.members.map(member => member.id));
+    expect(after.habitats[0]!.dressing).toEqual(before.habitats[0]!.dressing);
+    expect(() => regionalPackReplacements({ removed_unknown: "goblin_scout" })).toThrow("Unknown staged species");
+    expect(() => createRpgRegionalPackCatalogue(() => measured, [id], { [id]: "stone_golem" })).toThrow("Invalid RPG pack species");
+    expect(() => createRpgRegionalPackCatalogue(() => measured, [id], { missing: "goblin_scout" })).toThrow("Unknown RPG regional pack assignment");
+  });
+
+  it("binds seven promoted-body pockets and keeps Fire's stable stats on the accepted Lava asset", () => {
+    const catalogue = createRpgRegionalPackCatalogue(() => measured);
+    expect(Object.keys(RPG_ACCEPTED_SOURCE_PACK_ASSIGNMENTS)).toHaveLength(7);
+    for (const [id, proposal] of Object.entries(RPG_ACCEPTED_SOURCE_PACK_ASSIGNMENTS)) {
+      const pack = catalogue.packs.find(row => row.id === id)!;
+      expect(pack.speciesId).toBe(proposal.speciesId);
+      for (const member of pack.members) {
+        const stats = catalogue.variants.find(row => row.id === member.variantId)!.stats;
+        expect(enemyCombatLevel(stats)).toBeGreaterThanOrEqual(pack.levelRange[0]);
+        expect(enemyCombatLevel(stats)).toBeLessThanOrEqual(pack.levelRange[1]);
+      }
+    }
+    const fire = catalogue.packs.filter(pack => pack.speciesId === "fire_golem");
+    expect(fire).toHaveLength(3);
+    for (const pack of fire) {
+      expect(pack.assetId).toBe("creature_lava_golem");
+      expect(pack.baseEnemyDefId).toBe("fire_golem_t20");
+    }
+  });
+
+});

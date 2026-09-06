@@ -1,0 +1,86 @@
+{
+  "status": "Paused at root request. No running jobs. No production acceptance.",
+  "timeUtc": "2026-09-05T22:13:32.789972+00:00",
+  "files": {
+    "Lynx.actor-contact-v2.glb": {
+      "sha256": "a78c815d15292dfd2d1cd0368396a6f13989b8c1f09655e0e0c9c35ef506b008",
+      "bytes": 20243976
+    },
+    "actor2-independent-contact.json": {
+      "sha256": "12af8b7c2c0a4d7800a878b879c9f64a1161c26e2ec90bf3196f34a01de4c46f",
+      "bytes": 2513
+    },
+    "actor2-blend-audit.json": {
+      "sha256": "3acfc3741e4a6743cb6ebbb8d90533cafea01259ac1228f120f895f33ac8127f",
+      "bytes": 2013159
+    },
+    "actor2-baked-interpolation-report.json": {
+      "sha256": "d39a7ba844397296c7cd137871e87aed8fd4f0659576610745a7aa0f4f31e9d5",
+      "bytes": 7644
+    },
+    "actor2-baked-export-report.json": {
+      "sha256": "f2d526b29444d94dfa586d42ba1bee99c07e1df6efba5b62cd0894a3937ea22e",
+      "bytes": 783
+    },
+    "actor_motion_v2.py": {
+      "sha256": "1908e48d420c14cbf10331b6a4a8968d0ad9625fe612ced45e0382c4326a563f",
+      "bytes": 14147
+    },
+    "actor_data.py": {
+      "sha256": "aa13a46361dace29a5bb2fe7b040b611b78e7ceac2d74ab28a1282810f5b6806",
+      "bytes": 5050
+    },
+    "actor2-weight-fit-data.npz": {
+      "sha256": "04bce093f9ab8d86926a9a82917cae1fdc695852107cabfa6002498c9628c1ef",
+      "bytes": 86185635
+    },
+    "actor2-weight-random-data.npz": {
+      "sha256": "f207a331889bbdc371d156141ac77d617e30b9703281016eeff9a05330bfeb26",
+      "bytes": 31651585
+    },
+    "actor2-bake-data.npz": {
+      "sha256": "8f27ba16ca026ddded8149b6853ff4d930b739bb78628acf5fe26b81128efe8a",
+      "bytes": 8399140
+    },
+    "actor2-corrective-fit.npz": {
+      "sha256": "6b4eaeec8d22fd83aaae3172a53c9f78135522d2628774077a697b51a00718b6",
+      "bytes": 41547685
+    },
+    "Lynx.actor-baked.glb": {
+      "sha256": "fcc4296906bfeec04b9b2c650639a150238d2bccf14b2ec45b427ade1453b2d5",
+      "bytes": 19464836
+    },
+    "actor-baked-preview-catalogue.json": {
+      "sha256": "2e13686d8fbf353261f22dd77772b838b7ca9f6190b26e352adc4eecc30707cf",
+      "bytes": 5103
+    },
+    "Lynx.adapted-baked-grounded.glb": {
+      "sha256": "556f17e082d94c0b2bc64872eefc5d6e655ec9ee0bb61507d1754f44271c414e",
+      "bytes": 14033428
+    },
+    "lynx-baked-grounded-preview-catalogue.json": {
+      "sha256": "be3496d784e6bc8e197493ef6f95a888f2ea0b4f1f1301bd8a1f6cb934619019",
+      "bytes": 4604
+    },
+    "cat.historical-2017.original.fbx": {
+      "sha256": "b12adb6b0a0d061b1909a4095d3f75ad1f919d1eb01b10ecbf0edfd5f6311488",
+      "bytes": 7550684
+    }
+  },
+  "exportedRevision": "a78c815d15292dfd2d1cd0368396a6f13989b8c1f09655e0e0c9c35ef506b008",
+  "unexportedRepair": "Continuous periodic Hermite swing around rest-centered foot anchors, matching backward stance velocity at both ends; fixed swing clearances30mm Walk/45mm Run. Actor2 train/random/dense datasets match this helper. Existing fitted weights and GLB do not match these latest datasets.",
+  "dataSampling": {
+    "actor2-weight-fit-data.json": {
+      "poses": 229,
+      "maxIkSoleErrorMm": 0.00048059165980163243
+    },
+    "actor2-weight-random-data.json": {
+      "poses": 69,
+      "maxIkSoleErrorMm": 0.00048069068867562237
+    },
+    "actor2-bake-data.json": {
+      "poses": 994,
+      "maxIkSoleErrorMm": 0.0034974019248235066
+    }
+  }
+}

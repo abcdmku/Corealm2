@@ -1,0 +1,40 @@
+{
+  "leaseRequired": true,
+  "serialOnly": true,
+  "catalogues": {
+    "art\\rebuild\\candidates\\finish-bestiary\\retained-unhorned15\\catalog.json": "3272d559169c9072ae3b8f3a592dcc3d92162fc9069b7b2926bc13a12bb5de63",
+    "art\\rebuild\\candidates\\finish-bestiary\\iron-material-round1\\catalog.json": "f84a1dfa6fe0bce9487eae74effb2e6a64bd893125b343ead92797be4bf0881d"
+  },
+  "runs": [
+    {
+      "id": "goblin_shaman",
+      "budgetMs": 60000,
+      "command": "npx tsx tools/rpg-bestiary/lifecycle-proof.ts --supplement --id goblin_shaman --catalog art/rebuild/candidates/finish-bestiary/retained-unhorned15/catalog.json --out test-results/bestiary-retained-supplement/goblin_shaman --url http://127.0.0.1:4175"
+    },
+    {
+      "id": "skeleton_archer",
+      "budgetMs": 60000,
+      "command": "npx tsx tools/rpg-bestiary/lifecycle-proof.ts --supplement --id skeleton_archer --catalog art/rebuild/candidates/finish-bestiary/retained-unhorned15/catalog.json --out test-results/bestiary-retained-supplement/skeleton_archer --url http://127.0.0.1:4175"
+    },
+    {
+      "id": "zombie",
+      "budgetMs": 60000,
+      "command": "npx tsx tools/rpg-bestiary/lifecycle-proof.ts --supplement --id zombie --catalog art/rebuild/candidates/finish-bestiary/retained-unhorned15/catalog.json --out test-results/bestiary-retained-supplement/zombie --url http://127.0.0.1:4175"
+    },
+    {
+      "id": "wraith",
+      "budgetMs": 60000,
+      "command": "npx tsx tools/rpg-bestiary/lifecycle-proof.ts --supplement --id wraith --catalog art/rebuild/candidates/finish-bestiary/retained-unhorned15/catalog.json --out test-results/bestiary-retained-supplement/wraith --url http://127.0.0.1:4175"
+    },
+    {
+      "id": "stone_golem",
+      "budgetMs": 60000,
+      "command": "npx tsx tools/rpg-bestiary/lifecycle-proof.ts --supplement --id stone_golem --catalog art/rebuild/candidates/finish-bestiary/retained-unhorned15/catalog.json --out test-results/bestiary-retained-supplement/stone_golem --url http://127.0.0.1:4175"
+    },
+    {
+      "id": "iron_golem",
+      "budgetMs": 150000,
+      "command": "npx tsx tools/rpg-bestiary/review.ts --ids iron_golem --catalog art/rebuild/candidates/finish-bestiary/iron-material-round1/catalog.json --out test-results/bestiary-iron-material-gallery --url http://127.0.0.1:4175"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "boulder_01",
+  "source": "https://polyhaven.com/a/boulder_01",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "metadataUrl": "https://api.polyhaven.com/files/boulder_01",
+  "infoUrl": "https://api.polyhaven.com/info/boulder_01",
+  "author": {
+    "Rico Cilliers": "All"
+  },
+  "files": [
+    {
+      "file": "boulder_01.gltf",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/boulder_01/boulder_01_1k.gltf",
+      "bytes": 2773,
+      "md5": "26e2eef4a1f68c9557c65cd375b21d6c",
+      "sha256": "51487934db898b4c24072780a451e34eca5c02e3ada24a62bbc600bbc4019e92"
+    },
+    {
+      "file": "boulder_01.bin",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/boulder_01/boulder_01.bin",
+      "bytes": 2938808,
+      "md5": "27a19fa031d8b4c3a09261f19c444dc5",
+      "sha256": "7f5b06503d62bd95bfe9c6b8a354a5cc8ff04a4d271a8cf87a3e3125db4232d7"
+    }
+  ],
+  "geometry": {
+    "vertices": 67042,
+    "triangles": 66122,
+    "bounds": {
+      "min": [
+        -0.7481597065925598,
+        -0.07364296913146973,
+        -0.9484404921531677
+      ],
+      "max": [
+        0.5239759087562561,
+        0.9301872253417969,
+        0.8818937540054321
+      ],
+      "size": [
+        1.272135615348816,
+        1.0038301944732666,
+        1.8303342461585999
+      ]
+    },
+    "weldTolerance": 2.4446119397229725e-7,
+    "weldedVertices": 33063,
+    "boundaryEdges": 0,
+    "nonmanifoldEdges": 0,
+    "degenerateTriangles": 0,
+    "components": 1,
+    "euler": 2,
+    "signedVolume": 0.7343846464651433
+  },
+  "mapsDownloaded": false,
+  "derivativeCreated": false,
+  "browserReviewed": false
+}

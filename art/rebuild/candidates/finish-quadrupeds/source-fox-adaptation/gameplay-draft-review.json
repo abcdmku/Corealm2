@@ -1,0 +1,278 @@
+{
+  "sourceSha256": "2907e9bd1965ee15a9b9cf9c436e56aa542fd0f5f24f1446ddb94279b5b870e8",
+  "candidateSha256": "7005a0bf18e818e2e507df7327e110920dfdf6b92d8dffb2c18cb28c21460bc4",
+  "roleProvenance": [
+    {
+      "name": "Attack",
+      "duration": 1.05,
+      "provenance": "Authored anticipation crouch, short pounce, downward head strike, landing and braced recovery. No jaw animation or bite claim.",
+      "events": {
+        "anticipation": 0.16,
+        "launch": 0.22,
+        "impact": 0.46,
+        "recovery": 0.8
+      }
+    },
+    {
+      "name": "Hit",
+      "duration": 0.72,
+      "provenance": "Authored rearward recoil and four-paw brace with recovery.",
+      "events": {
+        "peak": 0.13,
+        "recovered": 0.65
+      }
+    },
+    {
+      "name": "HitLeft",
+      "duration": 0.72,
+      "provenance": "Authored left-side impact response: rightward trunk displacement, yaw and counter-tail, planted paws.",
+      "events": {
+        "peak": 0.13,
+        "recovered": 0.65
+      }
+    },
+    {
+      "name": "HitRight",
+      "duration": 0.72,
+      "provenance": "Authored right-side impact response: leftward trunk displacement, yaw and counter-tail, planted paws.",
+      "events": {
+        "peak": 0.13,
+        "recovered": 0.65
+      }
+    },
+    {
+      "name": "Death",
+      "duration": 1.4,
+      "provenance": "Authored collapse, limb folding, side roll, head/tail rest and geometry-derived body support. Final .45 seconds held motionless.",
+      "events": {
+        "collapse": 0.1,
+        "sideContact": 0.85,
+        "settled": 0.95
+      }
+    }
+  ],
+  "sourceGeometryUnchanged": true,
+  "hardwareAccepted": false,
+  "roles": [
+    {
+      "name": "Attack",
+      "duration": 1.05,
+      "samples": 1009,
+      "minimum": {
+        "y": -0.00001447655353608329,
+        "time": 0.05625,
+        "vertex": 255,
+        "bones": [
+          {
+            "name": "b_LeftHand_011",
+            "weight": 0.9985772371292114
+          },
+          {
+            "name": "b_LeftForeArm_010",
+            "weight": 0.0014227646170184016
+          }
+        ]
+      },
+      "finite": true,
+      "contact1mm": true,
+      "finalBounds": {
+        "min": [
+          -0.12225643787119361,
+          -2.292654226682656e-8,
+          -0.8681037430511783
+        ],
+        "max": [
+          0.1222564157513747,
+          0.7675509796652722,
+          0.6661832079999391
+        ],
+        "index": 255
+      },
+      "settledMaxTransformDrift": null,
+      "recoveryEndpointMaxDelta": 5.960464477539063e-8,
+      "maximumAuthoredJointExcursionRadians": 0.7364131293975819
+    },
+    {
+      "name": "Hit",
+      "duration": 0.72,
+      "samples": 693,
+      "minimum": {
+        "y": -0.0000022413630772066862,
+        "time": 0.11861271676300578,
+        "vertex": 285,
+        "bones": [
+          {
+            "name": "b_RightHand_08",
+            "weight": 0.9985772371292114
+          },
+          {
+            "name": "b_RightForeArm_07",
+            "weight": 0.0014227646170184016
+          }
+        ]
+      },
+      "finite": true,
+      "contact1mm": true,
+      "finalBounds": {
+        "min": [
+          -0.12225643787119353,
+          -2.2926542256010795e-8,
+          -0.8681037430511783
+        ],
+        "max": [
+          0.12225641575137479,
+          0.7675509796652722,
+          0.6661832079999391
+        ],
+        "index": 255
+      },
+      "settledMaxTransformDrift": null,
+      "recoveryEndpointMaxDelta": 5.960464477539063e-8,
+      "maximumAuthoredJointExcursionRadians": 0.1998882008890582
+    },
+    {
+      "name": "HitLeft",
+      "duration": 0.72,
+      "samples": 693,
+      "minimum": {
+        "y": -0.000004362726581721899,
+        "time": 0.06450867052023121,
+        "vertex": 255,
+        "bones": [
+          {
+            "name": "b_LeftHand_011",
+            "weight": 0.9985772371292114
+          },
+          {
+            "name": "b_LeftForeArm_010",
+            "weight": 0.0014227646170184016
+          }
+        ]
+      },
+      "finite": true,
+      "contact1mm": true,
+      "finalBounds": {
+        "min": [
+          -0.12225643787119353,
+          -2.2926542256010795e-8,
+          -0.8681037430511783
+        ],
+        "max": [
+          0.12225641575137479,
+          0.7675509796652722,
+          0.6661832079999391
+        ],
+        "index": 255
+      },
+      "settledMaxTransformDrift": null,
+      "recoveryEndpointMaxDelta": 5.960464477539063e-8,
+      "maximumAuthoredJointExcursionRadians": 0.35392942350061046
+    },
+    {
+      "name": "HitRight",
+      "duration": 0.72,
+      "samples": 693,
+      "minimum": {
+        "y": -0.000004345814596688392,
+        "time": 0.06450867052023121,
+        "vertex": 285,
+        "bones": [
+          {
+            "name": "b_RightHand_08",
+            "weight": 0.9985772371292114
+          },
+          {
+            "name": "b_RightForeArm_07",
+            "weight": 0.0014227646170184016
+          }
+        ]
+      },
+      "finite": true,
+      "contact1mm": true,
+      "finalBounds": {
+        "min": [
+          -0.12225643787119353,
+          -2.2926542256010795e-8,
+          -0.8681037430511783
+        ],
+        "max": [
+          0.12225641575137479,
+          0.7675509796652722,
+          0.6661832079999391
+        ],
+        "index": 255
+      },
+      "settledMaxTransformDrift": null,
+      "recoveryEndpointMaxDelta": 5.960464477539063e-8,
+      "maximumAuthoredJointExcursionRadians": 0.35419057076625854
+    },
+    {
+      "name": "Death",
+      "settledRegionMinimumY": {
+        "b_Hip_01": 0.0005591599791971418,
+        "b_Head_05": 2.46479170407099e-9,
+        "b_LeftUpperArm_09": 0.12344600391385116,
+        "b_Spine01_02": 0.00020581868205000656,
+        "b_LeftLeg02_016": 0.14441111027041634,
+        "b_LeftForeArm_010": 0.1464135270826958,
+        "b_Tail03_014": 0.02497457462508602,
+        "b_Spine02_03": 0.00109398604302219,
+        "b_Neck_04": 0.007388673018548077,
+        "b_RightUpperArm_06": 0.006549255137211774,
+        "b_RightLeg02_020": 0.0019353088920032009,
+        "b_RightForeArm_07": 0.015182392648878475,
+        "b_RightLeg01_019": 0.001572623824728978,
+        "b_LeftLeg01_015": 0.1698357688542155,
+        "b_Tail02_013": 0.02577709212242333,
+        "b_LeftFoot01_017": 0.1613496855591944,
+        "b_LeftFoot02_018": 0.15662739153292432,
+        "b_LeftHand_011": 0.15551400470115,
+        "b_RightFoot01_021": 0.02261374492237547,
+        "b_RightFoot02_022": 0.017611410720876897,
+        "b_RightHand_08": 0.02114808329096458,
+        "b_Tail01_012": 0.03899533799132466
+      },
+      "duration": 1.4,
+      "samples": 1345,
+      "minimum": {
+        "y": -0.000006294165753341693,
+        "time": 0.4645833333333333,
+        "vertex": 269,
+        "bones": [
+          {
+            "name": "b_RightFoot02_022",
+            "weight": 0.9974390268325806
+          },
+          {
+            "name": "b_RightFoot01_021",
+            "weight": 0.002560976194217801
+          }
+        ]
+      },
+      "finite": true,
+      "contact1mm": true,
+      "finalBounds": {
+        "min": [
+          -0.15718442660165222,
+          2.46479170407099e-9,
+          -0.8675879072821848
+        ],
+        "max": [
+          0.5514207259392019,
+          0.2443172719069437,
+          0.661131537446976
+        ],
+        "index": 70
+      },
+      "settledMaxTransformDrift": 3.552713678800501e-15,
+      "recoveryEndpointMaxDelta": null,
+      "maximumAuthoredJointExcursionRadians": 1.5707963267948937
+    }
+  ],
+  "bytes": 2386928,
+  "originalClipsPreserved": true,
+  "uniqueRoleData": true,
+  "sourceRigUnchanged": true,
+  "frozenSourceUnchanged": true,
+  "settledDeathTorsoContact1mm": true
+}

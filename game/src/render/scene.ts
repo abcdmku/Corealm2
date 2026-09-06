@@ -1519,7 +1519,7 @@ export class WorldScene {
   private preBasinHeight(x: number, z: number): number {
     const flattened = this.applyFlats(x, z, this.naturalHeight(x, z));
     const worked = this.world?.worldSites?.length
-      ? applyWorldSiteTerrain(x, z, flattened, this.world.worldSites, this.sampleNaturalHeight)
+      ? applyWorldSiteTerrain(x, z, flattened, this.world.worldSites, this.sampleNaturalHeight, this.sampleSiteSupportHeight)
       : flattened;
     let height = this.applyHaulRoads(x, z, worked);
     for (const landform of this.portalLandforms) height = portalLandformHeight(x, z, height, landform);
@@ -1527,6 +1527,7 @@ export class WorldScene {
   }
 
   private readonly sampleNaturalHeight = (x: number, z: number): number => this.naturalHeight(x, z);
+  private readonly sampleSiteSupportHeight = (x: number, z: number): number => this.applyFlats(x, z, this.naturalHeight(x, z));
 
   /**
    * Carves a flat floor, raises it to the waterline, closes it with a dry crest, then returns to the
@@ -2738,6 +2739,9 @@ export class WorldScene {
       }
       instanced.receiveShadow = true;
       instanced.frustumCulled = true;
+      // The object stays at identity; placement and wind live in instance data/shaders.
+      // Keep world-matrix propagation enabled so transformed fixture parents still work.
+      instanced.matrixAutoUpdate = false;
       let windMargin = 0;
 
       for (const [slot, entry] of placements.entries()) {
@@ -2812,6 +2816,7 @@ export class WorldScene {
     instanced.castShadow = false;
     instanced.receiveShadow = true;
     instanced.frustumCulled = true;
+    instanced.matrixAutoUpdate = false;
 
     const matrix = new THREE.Matrix4();
     const quaternion = new THREE.Quaternion();

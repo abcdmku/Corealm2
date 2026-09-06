@@ -1,0 +1,2012 @@
+[
+  {
+    "id": "goblin_scout",
+    "passed": true,
+    "weightedVertices": 13753,
+    "lowestY": 0.0013112396522217528,
+    "maxBoundsDifference": 3.847665041695081e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.001999674866747656,
+        "maxBoundsDifference": 3.499299394364966e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0019524831733289325,
+        "maxBoundsDifference": 3.7267768379128684e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.001999999760589382,
+        "maxBoundsDifference": 3.718704775409337e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0013112396522217528,
+        "maxBoundsDifference": 3.62893426981179e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0019986549094801603,
+        "maxBoundsDifference": 3.484362795214203e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0019986549094801603,
+        "maxBoundsDifference": 3.847665041695081e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0019986549094801603,
+        "maxBoundsDifference": 3.484362795214203e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0019999956659220303,
+        "maxBoundsDifference": 3.5167117247206414e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "fe2ddea2d44f8e4ba0bc116029512fd4d73fc977f91f6ed3941a5246cdd99c27",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "goblin_archer",
+    "passed": true,
+    "weightedVertices": 23712,
+    "lowestY": 0.0019524792164838795,
+    "maxBoundsDifference": 3.321574326697885e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.001999674866747656,
+        "maxBoundsDifference": 2.4083054340404445e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0019524792164838795,
+        "maxBoundsDifference": 2.5068590824141888e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0032635962833610747,
+        "maxBoundsDifference": 2.993228124634853e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0019992748452581175,
+        "maxBoundsDifference": 3.321574326697885e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0019986549094801603,
+        "maxBoundsDifference": 2.407964342563171e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0019986549094801603,
+        "maxBoundsDifference": 2.407964342563171e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0019986549094801603,
+        "maxBoundsDifference": 2.407964342563171e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.00199999271189244,
+        "maxBoundsDifference": 2.894637027734526e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "a5411f7185bc6711517e0649c2ae83606968dd4818916445b4623047959fa87e",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "goblin_shaman",
+    "passed": true,
+    "weightedVertices": 14246,
+    "lowestY": 0.0017284650125073409,
+    "maxBoundsDifference": 5.8223134542117955e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.001999932850168402,
+        "maxBoundsDifference": 2.66396968616959e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0019015940654599772,
+        "maxBoundsDifference": 3.7267768379128684e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0018882714778875043,
+        "maxBoundsDifference": 3.7062781137429606e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0019987358334844045,
+        "maxBoundsDifference": 5.8223134542117955e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0017307209315680083,
+        "maxBoundsDifference": 3.484362795214203e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.00174323490155337,
+        "maxBoundsDifference": 3.847665041695081e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0017284650125073409,
+        "maxBoundsDifference": 3.484362795214203e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.001999990417160258,
+        "maxBoundsDifference": 3.5167117247206414e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "279bb8d1f7be12292c805d78c4d6930dfb480b68b339193cf39c42d538db8417",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "orc_warrior",
+    "passed": true,
+    "weightedVertices": 20610,
+    "lowestY": 0.0014188955042848568,
+    "maxBoundsDifference": 8.505727767862313e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0019994517603207675,
+        "maxBoundsDifference": 4.049075115001842e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0015483744468658446,
+        "maxBoundsDifference": 6.17996362816496e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.016697855334515337,
+        "maxBoundsDifference": 8.505727767862313e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0014188955042848568,
+        "maxBoundsDifference": 4.775136291238822e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0019976665928138487,
+        "maxBoundsDifference": 4.050599380261037e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0019976665928138487,
+        "maxBoundsDifference": 5.95844697606614e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0019976665928138487,
+        "maxBoundsDifference": 5.083890287461648e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0019999938088561854,
+        "maxBoundsDifference": 8.192762261461886e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "ea4668d75af20c7d8464f2084a2896cda4724c8d6e0d3ba1a21439f8b99c3388",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "orc_berserker",
+    "passed": true,
+    "weightedVertices": 23712,
+    "lowestY": 0.001932327285311064,
+    "maxBoundsDifference": 8.505727767862313e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0019994517603207675,
+        "maxBoundsDifference": 4.146683068555544e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.001932327285311064,
+        "maxBoundsDifference": 5.7499029357059146e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.016697855334515337,
+        "maxBoundsDifference": 8.505727767862313e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.001973495054002454,
+        "maxBoundsDifference": 5.763438320867187e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0019976665928138487,
+        "maxBoundsDifference": 4.1421037404240114e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0019976665928138487,
+        "maxBoundsDifference": 4.1421037404240114e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0019976665928138487,
+        "maxBoundsDifference": 4.1421037404240114e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.001999993524098742,
+        "maxBoundsDifference": 8.191457853688522e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "10e2c3907d096a5e66b55b8f9015abccd662a4c7012233e1ab7c07085ca8ec90",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "orc_warlord",
+    "passed": true,
+    "weightedVertices": 21103,
+    "lowestY": 0.0014188955042848568,
+    "maxBoundsDifference": 8.505727767862313e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0019994517603207675,
+        "maxBoundsDifference": 4.046088436108351e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0015483744468658446,
+        "maxBoundsDifference": 6.033598179032967e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.016697855334515337,
+        "maxBoundsDifference": 8.505727767862313e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0014188955042848568,
+        "maxBoundsDifference": 4.775136291238822e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0019976665928138487,
+        "maxBoundsDifference": 4.047614142129742e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0019976665928138487,
+        "maxBoundsDifference": 5.9566688305720826e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0019976665928138487,
+        "maxBoundsDifference": 5.083890287461648e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0019999938088561854,
+        "maxBoundsDifference": 8.192762261461886e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "812f195f66d11f285ac67dfcb7b17f1cd7913c0cff2b1570fddad96576e1ff8b",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "gnoll_hunter",
+    "passed": true,
+    "weightedVertices": 29948,
+    "lowestY": 0.0019999991591626524,
+    "maxBoundsDifference": 1.0298909281794884e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.001999999621347325,
+        "maxBoundsDifference": 1.7169633557232966e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.00199999981224175,
+        "maxBoundsDifference": 1.0298909281794884e-07
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.02509957704367089,
+        "maxBoundsDifference": 8.097200228648559e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0019999991591626524,
+        "maxBoundsDifference": 7.322337765936754e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.001999999496642627,
+        "maxBoundsDifference": 3.389389063623402e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.001999999496642627,
+        "maxBoundsDifference": 3.394028551593737e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.001999999496642627,
+        "maxBoundsDifference": 3.385192051369456e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0019999995624510204,
+        "maxBoundsDifference": 9.6427717741058e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "af65ba6410956dad9ef97c1118c78111f20483ecef6cd90cd43f2fdb37d2640a",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "gnoll_brute",
+    "passed": true,
+    "weightedVertices": 29948,
+    "lowestY": 0.001999995048921843,
+    "maxBoundsDifference": 1.1379382596675335e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.001999999621347325,
+        "maxBoundsDifference": 1.7521446815541498e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.00199999981224175,
+        "maxBoundsDifference": 1.0300252319240689e-07
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.02509957704367089,
+        "maxBoundsDifference": 9.08214186725137e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0019999988828247207,
+        "maxBoundsDifference": 1.1379382596675335e-07
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.001999999496642627,
+        "maxBoundsDifference": 3.398666269129994e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.001999999496642627,
+        "maxBoundsDifference": 3.403136011268924e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.001999999496642627,
+        "maxBoundsDifference": 3.394028551593737e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.001999995048921843,
+        "maxBoundsDifference": 9.6427717741058e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "73f4c153e0e283ec02fc1f4e8453ad2c0f703baf67d35a14e45a5b61e15d0a2b",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "gnoll_chieftain",
+    "passed": true,
+    "weightedVertices": 32488,
+    "lowestY": 0.001999997712008539,
+    "maxBoundsDifference": 1.1379382596675335e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.001999999621347325,
+        "maxBoundsDifference": 4.5906476675156284e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.00199999981224175,
+        "maxBoundsDifference": 1.0298909281794884e-07
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.02509957704367089,
+        "maxBoundsDifference": 1.021614894772882e-07
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0019999988828247207,
+        "maxBoundsDifference": 1.1379382596675335e-07
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.001999999496642627,
+        "maxBoundsDifference": 4.6478057887768644e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.001999999496642627,
+        "maxBoundsDifference": 4.660894505388719e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.001999999496642627,
+        "maxBoundsDifference": 4.574098869946441e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.001999997712008539,
+        "maxBoundsDifference": 9.6427717741058e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "9379c7a8ff4573f0b2dac2dfd6c2336a87a0c911761662baa3a7c36c9c58f222",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "lizardman_scout",
+    "glbSha256": "0ccdcc76c6fdbf87a4150c488ef761312a4bd4c3bf795e2b8a871b812d57d16f",
+    "passed": true,
+    "weightedVertices": 20186,
+    "lowestY": 0.0019999668561929695,
+    "maxBoundsDifference": 2.0970990817185806e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0019999997043477317,
+        "maxBoundsDifference": 9.022122460338771e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.005776945562735119,
+        "maxBoundsDifference": 1.1791283021742136e-07
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.028665839286314408,
+        "maxBoundsDifference": 1.279618794197409e-07
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.001999998954424825,
+        "maxBoundsDifference": 8.270729862337806e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.001999999189457185,
+        "maxBoundsDifference": 2.054332382705881e-07
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.001999999189457185,
+        "maxBoundsDifference": 2.0970990817185806e-07
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.001999999189457185,
+        "maxBoundsDifference": 2.0543323843677445e-07
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0019999668561929695,
+        "maxBoundsDifference": 9.88802432953013e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  },
+  {
+    "id": "lizardman_guard",
+    "glbSha256": "3495930d90b319fc5664d24ca20cc99e3f3b6f29383f17b147f7dbdd870c0076",
+    "passed": true,
+    "weightedVertices": 27043,
+    "lowestY": 0.0019999668561929695,
+    "maxBoundsDifference": 2.0365985831105604e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0019999997043477317,
+        "maxBoundsDifference": 1.1358499487921369e-07
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.001999999671015655,
+        "maxBoundsDifference": 1.1799029581646282e-07
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.029143486429749593,
+        "maxBoundsDifference": 1.2609760668263232e-07
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0019999983578882895,
+        "maxBoundsDifference": 9.200591438325206e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.001999999189457185,
+        "maxBoundsDifference": 2.0346018736461247e-07
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.001999999189457185,
+        "maxBoundsDifference": 2.0365985831105604e-07
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.001999999189457185,
+        "maxBoundsDifference": 2.0346018758665707e-07
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0019999668561929695,
+        "maxBoundsDifference": 9.949276425924482e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  },
+  {
+    "id": "lizardman_shaman",
+    "glbSha256": "bc68ea2610f1ea277df82e57dcececb356a7c66d70279dfc5b9f46b7cbfeed94",
+    "passed": true,
+    "weightedVertices": 20679,
+    "lowestY": 0.0019999699974349028,
+    "maxBoundsDifference": 2.1042581892054062e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.00199999982072579,
+        "maxBoundsDifference": 9.324023591821247e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.009412355143945852,
+        "maxBoundsDifference": 1.2160650085358202e-07
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.03230124903004062,
+        "maxBoundsDifference": 1.3263650214376684e-07
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0019999998383542893,
+        "maxBoundsDifference": 1.084918316135278e-07
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0019999996004606904,
+        "maxBoundsDifference": 2.0617264007245485e-07
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0019999996004606904,
+        "maxBoundsDifference": 2.1042581892054062e-07
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0019999996004606904,
+        "maxBoundsDifference": 2.0543831962492633e-07
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0019999699974349028,
+        "maxBoundsDifference": 2.0240590311086469e-07
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  },
+  {
+    "id": "skeleton_soldier",
+    "passed": true,
+    "weightedVertices": 7212,
+    "lowestY": 0.00023844868803224797,
+    "maxBoundsDifference": 3.4859654210334564e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.003269658341705593,
+        "maxBoundsDifference": 2.7513849519254764e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.000450735992115113,
+        "maxBoundsDifference": 2.1773508369523426e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0004999986227601696,
+        "maxBoundsDifference": 2.1773508476455817e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.00023844868803224797,
+        "maxBoundsDifference": 3.4859654210334564e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.00048381597407071153,
+        "maxBoundsDifference": 1.6739328352643262e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0004628512012391922,
+        "maxBoundsDifference": 2.685835061249882e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.002094645275962331,
+        "maxBoundsDifference": 1.6764600917078304e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0004999834740985754,
+        "maxBoundsDifference": 1.9061178870273442e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "2aac3ea41d55c6aac2635f96a90bfd184888a5183ed9a7eb482e749d4d082c6a",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "skeleton_archer",
+    "passed": true,
+    "weightedVertices": 6684,
+    "lowestY": 0.0004507352160128177,
+    "maxBoundsDifference": 4.2667621436009995e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.003269658341705593,
+        "maxBoundsDifference": 3.1397261686867256e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0004507352160128177,
+        "maxBoundsDifference": 4.2106511290701913e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0004999986227601696,
+        "maxBoundsDifference": 4.2108164993430775e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.003274158791685175,
+        "maxBoundsDifference": 4.2667621436009995e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.00048381597407071153,
+        "maxBoundsDifference": 3.007725215486676e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0004628512012391922,
+        "maxBoundsDifference": 3.114723438004646e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.002094645275962331,
+        "maxBoundsDifference": 3.785796504975592e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0004999834740985754,
+        "maxBoundsDifference": 7.56749141923227e-09
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "fd37598d2b081ead36556a15bdc769094a7bcfa93e6377efe654e0025347b305",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "skeleton_mage",
+    "passed": true,
+    "weightedVertices": 5820,
+    "lowestY": 0.0004507352160128177,
+    "maxBoundsDifference": 4.315047387574675e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.003269658341705593,
+        "maxBoundsDifference": 3.7773294904734034e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0004507352160128177,
+        "maxBoundsDifference": 4.294756371879204e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0004999986227601696,
+        "maxBoundsDifference": 4.2943201886276795e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.003274158791685175,
+        "maxBoundsDifference": 4.315047387574675e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.00048381597407071153,
+        "maxBoundsDifference": 2.915133402260672e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0004628512012391922,
+        "maxBoundsDifference": 3.0867005620343425e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.002094645275962331,
+        "maxBoundsDifference": 3.937975276875294e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0004999834740985754,
+        "maxBoundsDifference": 1.2996807497884152e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "68d88c7916a4892cf260f591e161100d12e72d909c0b1f04bbf74ca040658792",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "zombie",
+    "passed": true,
+    "weightedVertices": 10679,
+    "lowestY": 0.0009564729161148451,
+    "maxBoundsDifference": 8.887154648994409e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.003502461168817669,
+        "maxBoundsDifference": 2.6016121611737457e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0009564729161148451,
+        "maxBoundsDifference": 2.8950869884310712e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.01316622685708983,
+        "maxBoundsDifference": 8.455521383014366e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.000999989647795907,
+        "maxBoundsDifference": 8.887154648994409e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0009994673844900877,
+        "maxBoundsDifference": 2.2953534304930116e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0009994673844900877,
+        "maxBoundsDifference": 2.5442553403320907e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0009994673844900877,
+        "maxBoundsDifference": 2.2834300562606004e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0009999978676894523,
+        "maxBoundsDifference": 7.018889522160081e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "4a015bb4e76a6e94b5355da8061de83506e2604a91b3f7ca81fd19a0a5eda433",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "plague_zombie",
+    "passed": true,
+    "weightedVertices": 10581,
+    "lowestY": 0.0009565188119127124,
+    "maxBoundsDifference": 9.041687492675683e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.00608966011890563,
+        "maxBoundsDifference": 4.399235341518294e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0009565188119127124,
+        "maxBoundsDifference": 5.260679368232409e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.013747187487885075,
+        "maxBoundsDifference": 7.864733002377724e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0009999956548758689,
+        "maxBoundsDifference": 9.041687492675683e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0009994635310216042,
+        "maxBoundsDifference": 2.681376812449077e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0009994635310216042,
+        "maxBoundsDifference": 2.2029760890080835e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0009994635310216042,
+        "maxBoundsDifference": 2.1273199445720753e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.000999997601634153,
+        "maxBoundsDifference": 5.7201798060798027e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "ba01a2d260b8c8513f45ba894a6756bff496987078387dece672368be748ec3f",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "grave_ghoul",
+    "passed": true,
+    "weightedVertices": 7762,
+    "lowestY": 0.0009618315060570589,
+    "maxBoundsDifference": 1.0450470962769493e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.00099952135446318,
+        "maxBoundsDifference": 3.23988327309373e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0009618315060570589,
+        "maxBoundsDifference": 5.5430129874860917e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.004993660521853279,
+        "maxBoundsDifference": 1.0450470962769493e-07
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0009999666356472793,
+        "maxBoundsDifference": 9.768134237501558e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0009995746409733192,
+        "maxBoundsDifference": 4.291534823342368e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0009995746409733192,
+        "maxBoundsDifference": 5.324173750276993e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0009995746409733192,
+        "maxBoundsDifference": 5.8570505617786775e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0009999964362138944,
+        "maxBoundsDifference": 7.601446315068657e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "64cbf4c673c8b2797924175c1c29f4fa5620f09e544621cdaacf6c6d30405a8b",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "wraith",
+    "passed": true,
+    "weightedVertices": 9505,
+    "lowestY": 0.01145462382309747,
+    "maxBoundsDifference": 1.880404456627961e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0796782363288576,
+        "maxBoundsDifference": 6.95248781998443e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.06685472095126706,
+        "maxBoundsDifference": 1.7777579940206455e-07
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.011984100585322812,
+        "maxBoundsDifference": 1.873093002274581e-07
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.01145462382309747,
+        "maxBoundsDifference": 1.880404456627961e-07
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.09733145218804927,
+        "maxBoundsDifference": 1.8013132539176822e-07
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.09733145218804927,
+        "maxBoundsDifference": 1.802923726218808e-07
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.09733145218804927,
+        "maxBoundsDifference": 1.8119673905360573e-07
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.01199998579821045,
+        "maxBoundsDifference": 1.79416762785784e-07
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "8946fc54ab4191ba99389be482e4271ec511ec34a70d4dfbf8da810469dca5fe",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "banshee",
+    "passed": true,
+    "weightedVertices": 9505,
+    "lowestY": 0.01198234581744112,
+    "maxBoundsDifference": 1.9287583698497e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.07970514347000107,
+        "maxBoundsDifference": 7.022598301538515e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.06775140543558848,
+        "maxBoundsDifference": 1.8693963703500738e-07
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.01198234581744112,
+        "maxBoundsDifference": 1.9287583698497e-07
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.08611977342093842,
+        "maxBoundsDifference": 1.8728108882197138e-07
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.09939753823605472,
+        "maxBoundsDifference": 1.8938007217521836e-07
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.09939753823605472,
+        "maxBoundsDifference": 1.8953149610621577e-07
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.09939753823605472,
+        "maxBoundsDifference": 1.896977087217561e-07
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.011999990837300897,
+        "maxBoundsDifference": 1.8783163308609812e-07
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "b905c1c540caea25b5414dfe57f915a8f0f9071384954dc2567e22212bb33849",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "revenant",
+    "passed": true,
+    "weightedVertices": 12045,
+    "lowestY": 0.011478549578408534,
+    "maxBoundsDifference": 1.8789429945141634e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.07836730721917937,
+        "maxBoundsDifference": 1.7889234232920725e-07
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.06042498886485877,
+        "maxBoundsDifference": 1.7990484403936147e-07
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.011984099293151501,
+        "maxBoundsDifference": 1.8688391004232204e-07
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.011478549578408534,
+        "maxBoundsDifference": 1.8789429945141634e-07
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.08996705925391961,
+        "maxBoundsDifference": 1.7968248975697554e-07
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.08996705925391961,
+        "maxBoundsDifference": 1.7984397748825015e-07
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.08996705925391961,
+        "maxBoundsDifference": 1.8074950673114651e-07
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.011999991168044594,
+        "maxBoundsDifference": 1.807116857599553e-07
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "c787503928a34acfb10467f1e7f62dd2cb0e14b04decba4b1f377c7478ae026f",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "stone_golem",
+    "passed": true,
+    "weightedVertices": 27104,
+    "lowestY": 0.001029484739786435,
+    "maxBoundsDifference": 2.5479847400023325e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.002999351076206969,
+        "maxBoundsDifference": 1.274867808160284e-07
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.002466735169188402,
+        "maxBoundsDifference": 7.871068533775434e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.001029484739786435,
+        "maxBoundsDifference": 1.2101076397456245e-07
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.002854093502353683,
+        "maxBoundsDifference": 2.420360667949717e-07
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0029969637327120968,
+        "maxBoundsDifference": 1.2208364438171386e-07
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0029969637327120968,
+        "maxBoundsDifference": 1.2208364438171386e-07
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0029969637327120968,
+        "maxBoundsDifference": 1.2208364438171386e-07
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.002999969214617315,
+        "maxBoundsDifference": 2.5479847400023325e-07
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "987f4f59e973922652a47aedc24849aa6646bab28b566e3285dd10b51f911e5e",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "iron_golem",
+    "passed": true,
+    "weightedVertices": 28687,
+    "lowestY": 0.001029484739786435,
+    "maxBoundsDifference": 2.520861075064405e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.002999351076206969,
+        "maxBoundsDifference": 3.258086687031251e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0024387320569044958,
+        "maxBoundsDifference": 7.13111295988696e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.001029484739786435,
+        "maxBoundsDifference": 1.2141988089659287e-07
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.002854093502353683,
+        "maxBoundsDifference": 2.3912245988606196e-07
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0029969637327120968,
+        "maxBoundsDifference": 5.032160580881712e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0029969637327120968,
+        "maxBoundsDifference": 3.1999474316507976e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0029969637327120968,
+        "maxBoundsDifference": 6.390449771507125e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0029999762271534225,
+        "maxBoundsDifference": 2.520861075064405e-07
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "fire_golem",
+    "passed": true,
+    "weightedVertices": 27104,
+    "lowestY": 0.001029484739786435,
+    "maxBoundsDifference": 2.5541850362743734e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.002999351076206969,
+        "maxBoundsDifference": 2.3085803122062208e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.002466735169188402,
+        "maxBoundsDifference": 6.730266922206253e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.001029484739786435,
+        "maxBoundsDifference": 1.2101076397456245e-07
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.002854093502353683,
+        "maxBoundsDifference": 2.4437258724172597e-07
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0029969637327120968,
+        "maxBoundsDifference": 2.5036214316014565e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0029969637327120968,
+        "maxBoundsDifference": 5.669504137569744e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0029969637327120968,
+        "maxBoundsDifference": 4.2118891312348346e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0029999590373671614,
+        "maxBoundsDifference": 2.5541850362743734e-07
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "5f8bc940674bcd7a5178d49092d0d4dd54039111090825976d0e2dfc5b50490f",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "harpy",
+    "glbSha256": "40d58f0ba0a89d8c540d82e5d4e0393eaaf2b3926d197c0d3a63cc16081d4ea1",
+    "passed": true,
+    "weightedVertices": 34301,
+    "lowestY": 0.001999989758632914,
+    "maxBoundsDifference": 9.627348863138778e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0019999984337071702,
+        "maxBoundsDifference": 9.531508953647136e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.00199999761886073,
+        "maxBoundsDifference": 9.608387666030974e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.001999998922399465,
+        "maxBoundsDifference": 9.101445949521898e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.001999998295002338,
+        "maxBoundsDifference": 4.004446052420452e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0019999986625919147,
+        "maxBoundsDifference": 9.627348863138778e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0019999986625919147,
+        "maxBoundsDifference": 9.627348863138778e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0019999986625919147,
+        "maxBoundsDifference": 9.627348863138778e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.001999989758632914,
+        "maxBoundsDifference": 7.789481114217612e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  },
+  {
+    "id": "cliff_harpy",
+    "glbSha256": "ff4e0d7c7168a2673875ba71893fe430f3d4ca22d87b9747aebda4f2d84ef092",
+    "passed": true,
+    "weightedVertices": 35171,
+    "lowestY": 0.0019999944445945605,
+    "maxBoundsDifference": 9.621289222121992e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0019999984337071702,
+        "maxBoundsDifference": 9.531508953647136e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.00199999761886073,
+        "maxBoundsDifference": 9.608387666030974e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.001999998922399465,
+        "maxBoundsDifference": 9.101445949521898e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.001999998295002338,
+        "maxBoundsDifference": 3.9888874474927635e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0019999986625919147,
+        "maxBoundsDifference": 9.621289222121992e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0019999986625919147,
+        "maxBoundsDifference": 9.621289222121992e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0019999986625919147,
+        "maxBoundsDifference": 9.621289222121992e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0019999944445945605,
+        "maxBoundsDifference": 7.801090529556713e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  },
+  {
+    "id": "storm_harpy",
+    "glbSha256": "d389b2c05adfcdf4bef556d3ed2d819173873129a84acf0803689772c5c0d7e8",
+    "passed": true,
+    "weightedVertices": 35225,
+    "lowestY": 0.001999979105113514,
+    "maxBoundsDifference": 9.62160660367192e-08,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0019999984337071702,
+        "maxBoundsDifference": 9.533760977292981e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.00199999761886073,
+        "maxBoundsDifference": 9.608387666030974e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.001999998922399465,
+        "maxBoundsDifference": 9.101445949521898e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.001999998295002338,
+        "maxBoundsDifference": 3.8945313435872943e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0019999986625919147,
+        "maxBoundsDifference": 9.62160660367192e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0019999986625919147,
+        "maxBoundsDifference": 9.62160660367192e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0019999986625919147,
+        "maxBoundsDifference": 9.62160660367192e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.001999979105113514,
+        "maxBoundsDifference": 6.549011302974729e-08
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  },
+  {
+    "id": "gargoyle",
+    "passed": true,
+    "weightedVertices": 18282,
+    "lowestY": 1.3888163523075384e-07,
+    "maxBoundsDifference": 0,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0009999371440248092,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0019622845791392837,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.001989912137195725,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0003476394025829282,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 1.3888163523075384e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Death",
+        "minimumY": 5.106360675927006e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 1.3888163523075384e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 1.3888163523075384e-07,
+        "maxBoundsDifference": 0
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "aca3fd8381aae1a40ad2790d2a4f8846121b8d66e20242479ca4edaeb831e155",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "obsidian_gargoyle",
+    "passed": true,
+    "weightedVertices": 18282,
+    "lowestY": 1.3888163523075384e-07,
+    "maxBoundsDifference": 0,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0009999371440248092,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0019622845791392837,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.001989912137195725,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0003476394025829282,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 1.3888163523075384e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Death",
+        "minimumY": 5.106360675927006e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 1.3888163523075384e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 1.3888163523075384e-07,
+        "maxBoundsDifference": 0
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "4f7e486652af1c5a3c2efc8972319e6c9af2ae89e2faa32964f11bb84513eca4",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "ancient_gargoyle",
+    "passed": true,
+    "weightedVertices": 18282,
+    "lowestY": 1.4999216607592888e-07,
+    "maxBoundsDifference": 0,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.00107993211554677,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0021192673454702255,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.002149105108170942,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.00037545055478957956,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 1.4999216607592888e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Death",
+        "minimumY": 5.514869530088423e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 1.4999216607592888e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 1.4999216607592888e-07,
+        "maxBoundsDifference": 0
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "a8daaa39601633f10c58f6dc0991d1a6bd3f1757802feba94f7c253123c3bf33",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "minotaur",
+    "passed": true,
+    "weightedVertices": 6679,
+    "lowestY": -0.0005769663160485584,
+    "maxBoundsDifference": 1.1256390375358194e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.001999345841144126,
+        "maxBoundsDifference": 7.737194107626522e-09
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.007515159919988232,
+        "maxBoundsDifference": 9.254509125700139e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.04671087779978189,
+        "maxBoundsDifference": 8.433351761372165e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0019691881423878344,
+        "maxBoundsDifference": 5.52886580051639e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.001989925349139804,
+        "maxBoundsDifference": 1.5819904275460317e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.001989925349139804,
+        "maxBoundsDifference": 8.985269051020595e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.001989925349139804,
+        "maxBoundsDifference": 2.9808146310507156e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": -0.0005769663160485584,
+        "maxBoundsDifference": 1.1256390375358194e-07
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "85fb43992c9e5ff8d8c4b19ee41897db37fa0e9c7fe4db742517323159833754",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "labyrinth_guardian",
+    "passed": true,
+    "weightedVertices": 14555,
+    "lowestY": -0.0019482844349048012,
+    "maxBoundsDifference": 1.1295704616109958e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0019993458533709013,
+        "maxBoundsDifference": 3.6639618117284556e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0075291849290037155,
+        "maxBoundsDifference": 6.890041381879541e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.046721323633313605,
+        "maxBoundsDifference": 7.830250525753257e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.001969189047490494,
+        "maxBoundsDifference": 3.89586956583976e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0019899136828023523,
+        "maxBoundsDifference": 4.435103651001526e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0019899136828023523,
+        "maxBoundsDifference": 3.806725734634142e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0019899136828023523,
+        "maxBoundsDifference": 5.23128760310243e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": -0.0019482844349048012,
+        "maxBoundsDifference": 1.1295704616109958e-07
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "52744667f97bb0b7053482c16984e2efa0344165b770c24754ee0f21a14a257d",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "elder_minotaur",
+    "passed": true,
+    "weightedVertices": 8442,
+    "lowestY": -0.0013661886770799329,
+    "maxBoundsDifference": 1.310662400832996e-07,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.001999345788774684,
+        "maxBoundsDifference": 5.630700514439864e-08
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.007526719133576318,
+        "maxBoundsDifference": 5.068874242564192e-08
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.046718587026044256,
+        "maxBoundsDifference": 7.6085582167984e-08
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.001969189270789873,
+        "maxBoundsDifference": 6.762140450867807e-08
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.001989926081015586,
+        "maxBoundsDifference": 4.7001548431069295e-08
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.001989926081015586,
+        "maxBoundsDifference": 5.268173719485958e-08
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.001989926081015586,
+        "maxBoundsDifference": 8.336875196696375e-08
+      },
+      {
+        "clip": "Death",
+        "minimumY": -0.0013661886770799329,
+        "maxBoundsDifference": 1.310662400832996e-07
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "71d22ca19b44c61385ac8ff0d5451a65f73bf6730048da26dd02eb69c86f3087",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "imp",
+    "passed": true,
+    "weightedVertices": 18282,
+    "lowestY": 9.166187927645356e-08,
+    "maxBoundsDifference": 0,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0006599585150565412,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0012951078222317967,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0013133420105490004,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.00022944200570464363,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 9.166187927645356e-08,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0019999896424326385,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 9.166187927645356e-08,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 9.166187927645356e-08,
+        "maxBoundsDifference": 0
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "0e676f50f0271eb1806bc83cba8d915267e81b29306c3c1943716229f820ec39",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "horned_demon",
+    "passed": true,
+    "weightedVertices": 18282,
+    "lowestY": 1.3888163523075384e-07,
+    "maxBoundsDifference": 0,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0009999371440248092,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0019622845791392837,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.001989912137195725,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0003476394025829282,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 1.3888163523075384e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Death",
+        "minimumY": 5.106360675927006e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 1.3888163523075384e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 1.3888163523075384e-07,
+        "maxBoundsDifference": 0
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "842cb9b67d0d84b7a821cf21796f832584f3dc3a1f7b40dfb76fbcc9f6e4b214",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  },
+  {
+    "id": "abyssal_demon",
+    "passed": true,
+    "weightedVertices": 18282,
+    "lowestY": 1.5693624785817484e-07,
+    "maxBoundsDifference": 0,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.001129928972748127,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0022173815744272493,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.002248600715030971,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.00039283252491824523,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 1.5693624785817484e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Death",
+        "minimumY": 5.77018756271145e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 1.5693624785817484e-07,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 1.5693624785817484e-07,
+        "maxBoundsDifference": 0
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    },
+    "glbSha256": "a781b6e0dd7b8409b907f85be54bd620e0cf38ae7ed013e24e5b7355518394c7",
+    "evidenceOrigin": "Unchanged GLB, exact SHA256 match to source-round5 full audit"
+  }
+]

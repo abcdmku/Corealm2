@@ -4,6 +4,7 @@ interface Overlay<Detail> {
   mount(parent: HTMLElement): void;
   show(detail: Detail): void;
   update(): void;
+  hide?(): void;
   dispose(): void;
 }
 
@@ -33,7 +34,7 @@ export class DeferredOverlay<Detail> {
   show(detail: Detail, mayShow: () => boolean): void {
     if (this.disposed) return;
     if (this.overlay) {
-      this.overlay.show(detail);
+      if (mayShow()) this.overlay.show(detail);
       return;
     }
     this.cancelPending();
@@ -68,6 +69,11 @@ export class DeferredOverlay<Detail> {
 
   update(): void {
     this.overlay?.update();
+  }
+
+  hide(): void {
+    this.cancelPending();
+    this.overlay?.hide?.();
   }
 
   dispose(): void {

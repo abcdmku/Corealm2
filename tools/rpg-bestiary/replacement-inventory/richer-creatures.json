@@ -1,0 +1,95 @@
+{
+  "checkedAt": "2026-09-05",
+  "scope": "Official-source research and original archive inspection only; no source conversion, GPU, catalogue edits or acceptance claims.",
+  "shortlist": [
+    {
+      "id": "forest-monster",
+      "title": "Forest Monster",
+      "author": "Čestmír Dammer (CDmir), TinyWorlds",
+      "sourceUrl": "https://opengameart.org/content/forest-monster",
+      "license": "CC0",
+      "officialDownload": "https://opengameart.org/sites/default/files/forest-monster_0.7z",
+      "officialPreview": "https://opengameart.org/sites/default/files/prom2.png",
+      "previewEvidence": {
+        "method": "Inspected official static author preview in browser, no 3D rendering",
+        "observation": "Layered mossy rock back, integrated tree canopy, barky arms/chest and recessed elemental face. Complete authored body; no horns or animal-head graft."
+      },
+      "rigEvidence": "Archive includes forest-monster-final.blend. Licenses.txt explicitly lists Idle0–190, Walk0–40, melee hold0–50, melee0–30 with strike10–15, Dying0–35. Actions not yet decoded.",
+      "status": "candidate_needs_original_source_conversion_and_visual_review",
+      "archivePath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\richer-creatures-source-cache\\forest-monster_0.7z",
+      "extractedPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\richer-creatures-source-cache\\forest-monster",
+      "sha256": "3378edfe2441d1cee93feeeb6e045b9ff0c700d85b398dfa6c29c83f7e696a5e",
+      "sizeBytes": 24888014,
+      "licenseEvidence": "Current archive Licenses.txt says CC0. Official author Sept3 2015 comment says former noncommercial tree texture replaced and all current contents CC0. Current archive contains tree.png/tree-norm.png/tree-spec.png and five forest textures.",
+      "materials": "Original diffuse, normal, AO and specular PNGs preserved.",
+      "conversionCaveat": "Requires Blender-compatible reader; no Blender executable found in PATH or Downloads/.cache search."
+    },
+    {
+      "id": "earth-elemental-golem",
+      "title": "Earth Elemental / Golem",
+      "author": "piacenti",
+      "sourceUrl": "https://opengameart.org/content/earth-elemental-golem",
+      "license": "CC-BY-3.0",
+      "officialDownload": "https://opengameart.org/sites/default/files/earth%20elemental%201.1.zip",
+      "officialPreview": "https://opengameart.org/sites/default/files/screen3.png",
+      "previewEvidence": {
+        "method": "Inspected official static author preview in browser, no 3D rendering",
+        "observation": "Hunched continuous craggy rock body, recessed integrated head/eyes, heavy curved forearms and broad feet. Detailed mottled stone texture; no horns or head graft."
+      },
+      "rigEvidence": "Author states two variants and10animations. Both extracted ASCII FBX contain limb skeleton, deformers and15 Take labels including DefaultTake and generically named metarig actions. Unity clip metadata remains intact; mapping not yet decoded.",
+      "status": "candidate_needs_original_source_conversion_and_visual_review",
+      "archivePath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\richer-creatures-source-cache\\earth-elemental-1.1.zip",
+      "extractedPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\richer-creatures-source-cache\\earth-elemental",
+      "sha256": "a3f76b3961cdf18073b5d2337450c5e9753722f71d9b6e811e42458023a491c8",
+      "sizeBytes": 49964673,
+      "licenseEvidence": "Official author upload labels CC-BY3.0; original source HTML retained in source cache.",
+      "materials": "Two original diffuse PNGs, two normal PNGs, Unity materials and prefab metadata preserved.",
+      "conversionCaveat": "FBX6.1ASCII authored by Blender exporter. Modern Blender FBX importer may reject ASCII; mainzip has no blend despite author comment about later blend upload. No current supplement link found."
+    }
+  ],
+  "reserve": [
+    {
+      "id": "swamp-limule",
+      "title": "Swamp Limule",
+      "author": "CDmir and TinyWorlds",
+      "sourceUrl": "https://opengameart.org/content/swamp-limule",
+      "license": "CC0",
+      "officialDownload": "https://opengameart.org/sites/default/files/limule-final.blend",
+      "officialPreview": "https://opengameart.org/sites/default/files/swamp-limule.png",
+      "previewEvidence": {
+        "method": "Inspected official static author preview in browser, no 3D rendering",
+        "observation": "Natural horseshoe crab profile with weathered textured shell and long anatomical tail. Strong wholebody identity; top preview hides legs so gait and underside quality unresolved."
+      },
+      "rigEvidence": "Author says rigged and animated with diffuse/normal packed inside blend. Not downloaded or decoded.",
+      "status": "reserve_pending_underside_and_animation_inspection",
+      "downloadHeadStatus": 200,
+      "sizeBytes": 4366679
+    }
+  ],
+  "excluded": [
+    {
+      "id": "shell-bug",
+      "sourceUrl": "https://opengameart.org/content/shell-bug",
+      "license": "CC0",
+      "officialDownload": "https://opengameart.org/sites/default/files/shellbug.zip",
+      "officialPreview": "https://opengameart.org/sites/default/files/bug_preview.png",
+      "reason": "Actual preview flat wedge face, straight cylinder legs and simple glossy shell repeat rejected toy fidelity despite normalmap and seven motions."
+    },
+    {
+      "id": "roach-game-ready-and-animated",
+      "sourceUrl": "https://opengameart.org/content/roach-game-ready-and-animated",
+      "license": "CC-BY-SA-3.0",
+      "officialDownload": "https://opengameart.org/sites/default/files/Roach.zip",
+      "officialPreview": "https://opengameart.org/sites/default/files/Roach3.png",
+      "reason": "Actual preview spiked alien carapace and dinosaur jaw conflict with non-demonic direction. Share-alike is also outside preferred CC0/plainCCBY licenses."
+    },
+    {
+      "id": "evil-tree-creature",
+      "sourceUrl": "https://opengameart.org/content/evil-tree-creature",
+      "license": "CC-BY-3.0",
+      "officialDownload": "https://opengameart.org/sites/default/files/Tree_Creature.blend",
+      "officialPreview": "https://opengameart.org/sites/default/files/Rend_03.png",
+      "reason": "Actual preview coarse cutout eyes, angular stump and thin straight limbs. Not convincing fidelity improvement; only Idle/Walk/Run/two attacks stated."
+    }
+  ]
+}

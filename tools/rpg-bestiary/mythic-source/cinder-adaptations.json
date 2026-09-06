@@ -1,0 +1,229 @@
+{
+  "id": "cinder_ravager",
+  "is": "A tall plated ravager with a forked head crest, broad clawed arms and digitigrade feet.",
+  "tags": [
+    "creature",
+    "monster",
+    "biped",
+    "ground",
+    "claw"
+  ],
+  "provenance": {
+    "author": "PixeliusVita",
+    "pack": "Fantasy Monster 3D Model 04 - Game Ready - PixeliusVita",
+    "license": "Standard Unity Asset Store EULA",
+    "source": "Assets/Stylized3DMonster/Monster04/Monster04_AllAnim.fbx",
+    "texture": "Monster04_Color03.png",
+    "modifications": "Metre conversion; in-place root channels; exact loop endpoint; directional torso/head recoil overlays over the authored GetHit take; upward-only root height corrections from actual skinned minima. Walk and Run have shorter toe paths solved on the original leg chain at native cadence; Run ankle roll is 40% and knee-plane variation 50% around the authored planted pose. Mesh scale and six non-gait clips are preserved."
+  },
+  "attackSeconds": 2.3333332538604736,
+  "contactNormalized": 0.235,
+  "impliedWalkMps": 0.8999961735371228,
+  "impliedRunMps": 3.000004795975098,
+  "gaitFootBones": [
+    "toes_01l",
+    "toes_01r"
+  ],
+  "gaitStanceAudit": {
+    "walk": {
+      "mps": 0.8999961735371228,
+      "contacts": [
+        {
+          "bone": "toes_01l",
+          "samples": 120,
+          "stanceMps": 0.9000039880411635,
+          "heightWindowM": 0.020133818415268474
+        },
+        {
+          "bone": "toes_01r",
+          "samples": 132,
+          "stanceMps": 0.8999822188528809,
+          "heightWindowM": 0.028487247587989498
+        }
+      ],
+      "method": "Median backward speed at 240 phase samples, named sole joints within their lowest 12% vertical range, 8-40 mm window."
+    },
+    "run": {
+      "mps": 3.000004795975098,
+      "contacts": [
+        {
+          "bone": "toes_01l",
+          "samples": 79,
+          "stanceMps": 2.999990855745508,
+          "heightWindowM": 0.04
+        },
+        {
+          "bone": "toes_01r",
+          "samples": 88,
+          "stanceMps": 3.0000053387593795,
+          "heightWindowM": 0.04
+        }
+      ],
+      "method": "Median backward speed at 240 phase samples, named sole joints within their lowest 12% vertical range, 8-40 mm window."
+    }
+  },
+  "groundCorrections": [
+    {
+      "name": "Idle",
+      "maxLiftM": 0.0010153535911738756
+    },
+    {
+      "name": "Walk",
+      "maxLiftM": 0.04676179588103981
+    },
+    {
+      "name": "Run",
+      "maxLiftM": 0.059252446691748985
+    },
+    {
+      "name": "Attack",
+      "maxLiftM": 0.04036067686018777
+    },
+    {
+      "name": "Hit",
+      "maxLiftM": 0.007387100491124016
+    },
+    {
+      "name": "Death",
+      "maxLiftM": 0.0988392413319924
+    },
+    {
+      "name": "HitLeft",
+      "maxLiftM": 0.007387100491124016
+    },
+    {
+      "name": "HitRight",
+      "maxLiftM": 0.007387100491124016
+    }
+  ],
+  "gaitGroundCorrections": [
+    {
+      "name": "Walk",
+      "maxLiftM": 0
+    },
+    {
+      "name": "Run",
+      "maxLiftM": 0
+    }
+  ],
+  "gaitFloorSeal": [
+    {
+      "name": "Walk",
+      "minimumBeforeM": 0.0019777836008402286,
+      "maxAdditionalLiftM": 0,
+      "sampleHz": 480
+    },
+    {
+      "name": "Run",
+      "minimumBeforeM": 0.0019877774246581455,
+      "maxAdditionalLiftM": 0,
+      "sampleHz": 480
+    }
+  ],
+  "gaitAdaptation": [
+    {
+      "name": "Walk",
+      "nativeDuration": 1.3333333730697632,
+      "targetStanceMps": 0.9,
+      "supportFraction": 0.6,
+      "toeStanceSweepM": 0.7200000214576722,
+      "liftM": 0.12,
+      "bakeHz": 240,
+      "maxIkResidualM": 5.968813179414793e-8,
+      "kneeInteriorDegrees": [
+        79.18067069950074,
+        138.84394874265627
+      ],
+      "method": "Toe target moves backward at constant world metres per second while planted. Source foot roll and projected source knee bend plane are retained, with Run roll at 40% and knee-plane variation at 50% around the source planted pose. Two-bone IK changes only lower-body gait channels; source upper-body channels are copied."
+    },
+    {
+      "name": "Run",
+      "nativeDuration": 0.6666666865348816,
+      "targetStanceMps": 3,
+      "supportFraction": 0.34,
+      "toeStanceSweepM": 0.6800000202655793,
+      "liftM": 0.24,
+      "bakeHz": 960,
+      "maxIkResidualM": 4.2331587410460006e-8,
+      "kneeInteriorDegrees": [
+        59.08778358356357,
+        120.6666644989449
+      ],
+      "method": "Toe target moves backward at constant world metres per second while planted. Source foot roll and projected source knee bend plane are retained, with Run roll at 40% and knee-plane variation at 50% around the source planted pose. Two-bone IK changes only lower-body gait channels; source upper-body channels are copied."
+    }
+  ],
+  "walkClipSeconds": 1.3333333730697632,
+  "runClipSeconds": 0.6666666865348816,
+  "animationResampleTolerance": 0.000001,
+  "notes": [
+    "Six named embedded FBX takes retained without broad-take substitutions. Walk and Run retain source upper-body channels and cadence, with shorter planted toe paths solved through the original leg chain.",
+    "Native atlas and vertex normals retained. The source package has no true tangent normal or roughness texture.",
+    "Walk retains source ankle roll and knee bend direction. Run reduces ankle roll to 40% and knee-plane variation to 50% around the source planted pose. Toe contacts move backward at .9 m/s Walk and 3 m/s Run. Actual weighted sole vertices control leg contact height; metadata measures the final clips after floor correction.",
+    "Attack01 is the authored ground claw combination. Contact at 0.548s marks the first descending claw sweep; the later spin is recovery motion for the one-hit runtime attack."
+  ],
+  "boneNames": [
+    "rootx",
+    "thigh_stretchl",
+    "leg_stretchl",
+    "leg_twistl",
+    "footl",
+    "toes_01l",
+    "thigh_twistl",
+    "thigh_stretchr",
+    "thigh_twistr",
+    "leg_stretchr",
+    "leg_twistr",
+    "footr",
+    "toes_01r",
+    "spine_01x",
+    "spine_02x",
+    "spine_03x",
+    "shoulderr",
+    "arm_stretchr",
+    "forearm_stretchr",
+    "handr",
+    "thumb1r",
+    "thumb2r",
+    "thumb3r",
+    "index1_baser",
+    "index1r",
+    "index2r",
+    "index3r",
+    "middle1_baser",
+    "middle1r",
+    "middle2r",
+    "middle3r",
+    "forearm_twistr",
+    "arm_twistr",
+    "shoulderl",
+    "arm_stretchl",
+    "forearm_stretchl",
+    "forearm_twistl",
+    "handl",
+    "index1_basel",
+    "index1l",
+    "index2l",
+    "index3l",
+    "middle1_basel",
+    "middle1l",
+    "middle2l",
+    "middle3l",
+    "thumb1l",
+    "thumb2l",
+    "thumb3l",
+    "arm_twistl",
+    "neckx",
+    "headx",
+    "c_ear_01l",
+    "c_ear_02l",
+    "c_ear_03l",
+    "c_ear_04l",
+    "c_ear_01r",
+    "c_ear_02r",
+    "c_ear_03r",
+    "c_ear_04r",
+    "c_bot_bendl",
+    "c_bot_bendr"
+  ],
+  "authoringModule": "tools/creature-expansion/monsters.mjs"
+}

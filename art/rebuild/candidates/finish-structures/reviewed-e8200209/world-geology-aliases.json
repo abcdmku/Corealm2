@@ -1,0 +1,117 @@
+{
+  "pack": {
+    "id": "corealm-original-geology",
+    "name": "Corealm fractured strata and mineral workings",
+    "author": "Corealm",
+    "source": "tools/build-corealm-geology.ts",
+    "license": "Original project artwork; no third-party assets"
+  },
+  "generator": "npx tsx tools/build-corealm-geology.ts",
+  "generatorSha256": "e8200209c2b9f4967bdcee8699776d9700163c3e5053523cc07376db78ba7343",
+  "coordinates": "Metres, Y-up. Native formations are centred XZ with minimum Y=0; fitted variants retain their declared legacy base and pivot. Ore worked faces point +Z; back geology toward -Z.",
+  "oreMount": {
+    "matingPlaneZ": 0.12,
+    "perimeterZ": 0.055,
+    "substrateBackZ": -0.325,
+    "instruction": "Place a real continuous host face at local Z=+0.12 times asset scale. It must swallow the identical active/spent perimeter while leaving interior mineral relief exposed. An overlapping host bounding box is not attachment proof."
+  },
+  "construction": "Continuous terraced outcrops use distinct shoulders, split saddles and elongated tilted beds. Broad quarry cliffs retain unequal bedding shelves and oblique breakout joints. Sunder is one closed cliff body cut by intersecting tilted fracture planes and approach recesses. Scree Slide is a descending solid wedge with an uneven widening fan of tumbled angular debris. Their actual rock volumes are fitted to legacy placement bounds without flat boundary sheets. Scree patches consist of separate worn fracture flakes. Ore uses narrow irregular branching fissures with lower metallic cores, recut spent scars and identical active/spent perimeters. All exposed surfaces carry metre-density UVs, restrained vertex colour variation and angle-limited smooth normals; hard fracture boundaries remain sharp.",
+  "assets": [
+    {
+      "id": "cliff_step_2",
+      "file": "models/corealm/geology/corealm_sunder_ledge.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "cliff",
+        "strata",
+        "geology",
+        "environment"
+      ],
+      "bytes": 1423660,
+      "size": {
+        "x": 9.319,
+        "y": 4.448,
+        "z": 6.735
+      },
+      "base": {
+        "x": -4.702,
+        "y": -0.19,
+        "z": -2.909
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "4f1630dc9f11b589110b1fbd7d4d67a9757237ec075c5cf824b823a03877e085",
+      "triangles": 36009,
+      "blocks": 13,
+      "mineralFaces": 0,
+      "placement": {
+        "replacesAssetId": "cliff_step_2",
+        "translation": [
+          -0.0425,
+          -0.19,
+          0.4585
+        ]
+      }
+    },
+    {
+      "id": "cliff_step_3",
+      "file": "models/corealm/geology/corealm_scree_slide.glb",
+      "pack": "corealm-original-geology",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "cliff",
+        "strata",
+        "geology",
+        "environment"
+      ],
+      "bytes": 971316,
+      "size": {
+        "x": 5.996,
+        "y": 4.382,
+        "z": 5.44
+      },
+      "base": {
+        "x": -2.941,
+        "y": -0.124,
+        "z": -2.318
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata"
+      ],
+      "sha256": "fabdbfc49fef2287e61b6b66f1e30d0ecb5c3c0299adb1200f51c78b7286efa4",
+      "triangles": 19704,
+      "blocks": 32,
+      "mineralFaces": 0,
+      "placement": {
+        "replacesAssetId": "cliff_step_3",
+        "translation": [
+          0.057,
+          -0.124,
+          0.402
+        ]
+      }
+    }
+  ],
+  "files": {
+    "cliff_step_2": "models/corealm/geology/corealm_sunder_ledge.glb",
+    "cliff_step_3": "models/corealm/geology/corealm_scree_slide.glb"
+  },
+  "candidateAliases": [
+    {
+      "semanticId": "cliff_step_2",
+      "nativeCandidateId": "corealm_sunder_ledge",
+      "sha256": "4f1630dc9f11b589110b1fbd7d4d67a9757237ec075c5cf824b823a03877e085"
+    },
+    {
+      "semanticId": "cliff_step_3",
+      "nativeCandidateId": "corealm_scree_slide",
+      "sha256": "fabdbfc49fef2287e61b6b66f1e30d0ecb5c3c0299adb1200f51c78b7286efa4"
+    }
+  ]
+}

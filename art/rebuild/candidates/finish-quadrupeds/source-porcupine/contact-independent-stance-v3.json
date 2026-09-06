@@ -1,0 +1,210 @@
+{
+  "file": "cdmir-porcupine-contact-stance-v3.glb",
+  "sha256": "1134d08111f73ac38bbd268cde674dad1a23372ee3ea6d11e782a0d4d46d5c98",
+  "method": "Actual byte readback with keys, quarter/midpoints and >=480 Hz samples. Skin uses exactly JOINTS_0/WEIGHTS_0 and inverse binds. Same original vertex within -1 mm..+0.5001 mm in both adjacent samples gets world velocity using explicit .32/1 m/s controller comparison. No solver stance labels.",
+  "clips": [
+    {
+      "name": "Walk",
+      "duration": 1.1666666269302368,
+      "authoredComparisonSpeedMps": 0.32,
+      "samples": 5869,
+      "maximumWholeMeshBurialMeters": 0,
+      "maximumOriginalMeshBurialMeters": 0,
+      "maxSameVertexGroundVelocityMps": 0.005721044752969461,
+      "slipWitness": {
+        "time": 0.8660888671875,
+        "dt": 0.00001017749309539795,
+        "sourceVertex": 420,
+        "foot": "FrontLeg_L",
+        "vx": -0.0010429463086112525,
+        "vz": -0.005625176980578794,
+        "y": [
+          0.00037132453121341464,
+          0.0003713357233043264
+        ]
+      },
+      "allFeetClearSampleFraction": 0,
+      "allFeetClearTimeFraction": 0,
+      "perFoot": {
+        "FrontLeg_L": {
+          "groundedIntervals": 2804,
+          "groundedDuration": 0.5543619841337204,
+          "maxSlipMps": 0.005721044752969461,
+          "minimumY": 0.0001499433201596764,
+          "velocityWitness": {
+            "time": 0.8660888671875,
+            "dt": 0.00001017749309539795,
+            "sourceVertex": 420,
+            "vx": -0.0010429463086112525,
+            "vz": -0.005625176980578794,
+            "y": [
+              0.00037132453121341464,
+              0.0003713357233043264
+            ]
+          }
+        },
+        "FrontLeg_R": {
+          "groundedIntervals": 2784,
+          "groundedDuration": 0.5543619602918626,
+          "maxSlipMps": 0.00541311301552712,
+          "minimumY": 0.00014995963045331265,
+          "velocityWitness": {
+            "time": 0.2827555239200592,
+            "dt": 0.000010170042514801025,
+            "sourceVertex": 170,
+            "vx": 0.0012898298710475474,
+            "vz": -0.005257198058150614,
+            "y": [
+              0.00036566650780621847,
+              0.000365683436669251
+            ]
+          }
+        },
+        "BackLeg_L": {
+          "groundedIntervals": 2366,
+          "groundedDuration": 0.4725910872220993,
+          "maxSlipMps": 0.0007911756384895278,
+          "minimumY": 0.00014995583640008375,
+          "velocityWitness": {
+            "time": 0.12638887763023376,
+            "dt": 0.00002169981598854065,
+            "sourceVertex": 2021,
+            "vx": -0.00005730364008011224,
+            "vz": 0.000789097702298569,
+            "y": [
+              0.0004085088524362424,
+              0.0004085113749814559
+            ]
+          }
+        },
+        "BackLeg_R": {
+          "groundedIntervals": 2374,
+          "groundedDuration": 0.4725911170244217,
+          "maxSlipMps": 0.0008626556080937446,
+          "minimumY": 0.00014995613493965052,
+          "velocityWitness": {
+            "time": 0.42449951171875,
+            "dt": 0.00001017749309539795,
+            "sourceVertex": 117,
+            "vx": -0.00007592436024376449,
+            "vz": -0.0008593079713916096,
+            "y": [
+              0.000356870883225141,
+              0.0003568676295100644
+            ]
+          }
+        }
+      },
+      "hipLoopDelta": [
+        0,
+        0,
+        0
+      ],
+      "maximumOriginalVertexLoopDeltaMeters": 1.5498065341578833e-8
+    },
+    {
+      "name": "Run",
+      "duration": 0.4166666567325592,
+      "authoredComparisonSpeedMps": 1,
+      "samples": 2081,
+      "maximumWholeMeshBurialMeters": 0,
+      "maximumOriginalMeshBurialMeters": 0,
+      "maxSameVertexGroundVelocityMps": 0.023303107552309025,
+      "slipWitness": {
+        "time": 0.3454861044883728,
+        "dt": 0.00021701306104660034,
+        "sourceVertex": 419,
+        "foot": "FrontLeg_L",
+        "vx": -0.0028606594543408204,
+        "vz": -0.0231268555813533,
+        "y": [
+          0.0004202735149352902,
+          0.00042177175197216605
+        ]
+      },
+      "allFeetClearSampleFraction": 0.1941374339259971,
+      "allFeetClearTimeFraction": 0.1932291583592691,
+      "perFoot": {
+        "FrontLeg_L": {
+          "groundedIntervals": 981,
+          "groundedDuration": 0.19639758113771677,
+          "maxSlipMps": 0.023303107552309025,
+          "minimumY": 0.00014994285089703352,
+          "velocityWitness": {
+            "time": 0.3454861044883728,
+            "dt": 0.00021701306104660034,
+            "sourceVertex": 419,
+            "vx": -0.0028606594543408204,
+            "vz": -0.0231268555813533,
+            "y": [
+              0.0004202735149352902,
+              0.00042177175197216605
+            ]
+          }
+        },
+        "FrontLeg_R": {
+          "groundedIntervals": 919,
+          "groundedDuration": 0.1842013841867447,
+          "maxSlipMps": 0.020684238060078453,
+          "minimumY": 0.00014996336284999945,
+          "velocityWitness": {
+            "time": 0.3654513657093048,
+            "dt": 0.00021700561046600342,
+            "sourceVertex": 169,
+            "vx": 0.0024081001487078185,
+            "vz": -0.020543581912602082,
+            "y": [
+              0.00041099770425230813,
+              0.0004122512492884171
+            ]
+          }
+        },
+        "BackLeg_L": {
+          "groundedIntervals": 996,
+          "groundedDuration": 0.1994357481598854,
+          "maxSlipMps": 0.0009347036114610664,
+          "minimumY": 0.00014995821573460342,
+          "velocityWitness": {
+            "time": 0.1148003488779068,
+            "dt": 0.00021702051162719727,
+            "sourceVertex": 366,
+            "vx": 0.000021835653069389454,
+            "vz": 0.0009344485248173884,
+            "y": [
+              0.0003305053203438061,
+              0.00033816800409944324
+            ]
+          }
+        },
+        "BackLeg_R": {
+          "groundedIntervals": 936,
+          "groundedDuration": 0.1875000074505806,
+          "maxSlipMps": 0.00014761680623825275,
+          "minimumY": 0.00014995516591407286,
+          "velocityWitness": {
+            "time": 0.2866753563284874,
+            "dt": 0.00021704286336898804,
+            "sourceVertex": 112,
+            "vx": -0.000046655108704551735,
+            "vz": 0.00014005007074524567,
+            "y": [
+              0.0004339536795918514,
+              0.00036336393036156525
+            ]
+          }
+        }
+      },
+      "hipLoopDelta": [
+        -3.903127820947816e-16,
+        0.002889269547306922,
+        0
+      ],
+      "maximumOriginalVertexLoopDeltaMeters": 0.004610073979849047
+    }
+  ],
+  "limits": [
+    "Contact coverage must be nonzero and appropriate; a low slip value with hovering paws is not acceptance.",
+    "Toe roll/support changes and sliding must still be inspected in hardware.",
+    "This is a fixed-speed comparison, not measurement of the original author intended traversal speed."
+  ]
+}

@@ -1,0 +1,482 @@
+{
+  "FrontLeg_L": {
+    "parent": "Backbone.001",
+    "head": [
+      0.222855344414711,
+      -1.042069911956787,
+      0.6407281756401062
+    ],
+    "tail": [
+      0.28366944193840027,
+      -0.8343267440795898,
+      0.2589988708496094
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "FrontLeg_L.001": {
+    "parent": "FrontLeg_L",
+    "head": [
+      0.28366944193840027,
+      -0.8343267440795898,
+      0.2589988708496094
+    ],
+    "tail": [
+      0.3536522686481476,
+      -1.217159628868103,
+      0.060648005455732346
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": [
+      {
+        "name": "IK",
+        "type": "IK",
+        "influence": 1.0,
+        "target": "Armature",
+        "subtarget": "IK-FrontLeg_L",
+        "pole_target": "Armature",
+        "pole_subtarget": "IK-FrontLegT_L",
+        "chain_count": 2,
+        "use_tail": true,
+        "use_stretch": true,
+        "pole_angle": 1.7453299760818481,
+        "owner_space": "WORLD",
+        "target_space": "WORLD"
+      }
+    ]
+  },
+  "FrontLeg_L.002": {
+    "parent": "FrontLeg_L.001",
+    "head": [
+      0.3536522686481476,
+      -1.217159628868103,
+      0.060648005455732346
+    ],
+    "tail": [
+      0.37796643376350403,
+      -1.3475784063339233,
+      0.03498290479183197
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": [
+      {
+        "name": "Copy Rotation",
+        "type": "COPY_ROTATION",
+        "influence": 1.0,
+        "target": "Armature",
+        "subtarget": "IK-FrontLeg_L",
+        "owner_space": "WORLD",
+        "target_space": "WORLD",
+        "use_x": true,
+        "use_y": true,
+        "use_z": true,
+        "mix_mode": "REPLACE"
+      }
+    ]
+  },
+  "FrontLeg_L.003": {
+    "parent": "FrontLeg_L.002",
+    "head": [
+      0.37796643376350403,
+      -1.3475784063339233,
+      0.03498290479183197
+    ],
+    "tail": [
+      0.4090844690799713,
+      -1.5375666618347168,
+      0.03498290479183197
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "FrontLeg_R": {
+    "parent": "Backbone.001",
+    "head": [
+      -0.222855344414711,
+      -1.042069911956787,
+      0.6407281756401062
+    ],
+    "tail": [
+      -0.28366944193840027,
+      -0.8343267440795898,
+      0.2589988708496094
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "FrontLeg_R.001": {
+    "parent": "FrontLeg_R",
+    "head": [
+      -0.28366944193840027,
+      -0.8343267440795898,
+      0.2589988708496094
+    ],
+    "tail": [
+      -0.3536522686481476,
+      -1.217159628868103,
+      0.060648005455732346
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": [
+      {
+        "name": "IK",
+        "type": "IK",
+        "influence": 1.0,
+        "target": "Armature",
+        "subtarget": "IK-FrontLeg_R",
+        "pole_target": "Armature",
+        "pole_subtarget": "IK-FrontLegT_R",
+        "chain_count": 2,
+        "use_tail": true,
+        "use_stretch": true,
+        "pole_angle": 1.380906343460083,
+        "owner_space": "WORLD",
+        "target_space": "WORLD"
+      }
+    ]
+  },
+  "FrontLeg_R.002": {
+    "parent": "FrontLeg_R.001",
+    "head": [
+      -0.3536522686481476,
+      -1.217159628868103,
+      0.060648005455732346
+    ],
+    "tail": [
+      -0.37796643376350403,
+      -1.3475784063339233,
+      0.03498290479183197
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": [
+      {
+        "name": "Copy Rotation",
+        "type": "COPY_ROTATION",
+        "influence": 1.0,
+        "target": "Armature",
+        "subtarget": "IK-FrontLeg_R",
+        "owner_space": "WORLD",
+        "target_space": "WORLD",
+        "use_x": true,
+        "use_y": true,
+        "use_z": true,
+        "mix_mode": "REPLACE"
+      }
+    ]
+  },
+  "FrontLeg_R.003": {
+    "parent": "FrontLeg_R.002",
+    "head": [
+      -0.37796643376350403,
+      -1.3475784063339233,
+      0.03498290479183197
+    ],
+    "tail": [
+      -0.4090844690799713,
+      -1.5375666618347168,
+      0.03498290479183197
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "BackLeg_L": {
+    "parent": "Hip",
+    "head": [
+      0.2782362401485443,
+      -0.1504649519920349,
+      0.981406569480896
+    ],
+    "tail": [
+      0.43313148617744446,
+      -0.19807060062885284,
+      0.48619508743286133
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "BackLeg_L.001": {
+    "parent": "BackLeg_L",
+    "head": [
+      0.43313148617744446,
+      -0.19807060062885284,
+      0.48619508743286133
+    ],
+    "tail": [
+      0.4112233519554138,
+      0.38593220710754395,
+      0.13548487424850464
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": [
+      {
+        "name": "IK",
+        "type": "IK",
+        "influence": 1.0,
+        "target": "Armature",
+        "subtarget": "IK-BackLeg_L",
+        "pole_target": "Armature",
+        "pole_subtarget": "IK-BackLegT_L",
+        "chain_count": 2,
+        "use_tail": true,
+        "use_stretch": true,
+        "pole_angle": -1.3962639570236206,
+        "owner_space": "WORLD",
+        "target_space": "WORLD"
+      }
+    ]
+  },
+  "BackLeg_L.002": {
+    "parent": "BackLeg_L.001",
+    "head": [
+      0.4112233519554138,
+      0.38593220710754395,
+      0.13548487424850464
+    ],
+    "tail": [
+      0.43313148617744446,
+      0.2215886414051056,
+      0.06662029772996902
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": [
+      {
+        "name": "Copy Rotation",
+        "type": "COPY_ROTATION",
+        "influence": 1.0,
+        "target": "Armature",
+        "subtarget": "IK-BackLeg_L",
+        "owner_space": "WORLD",
+        "target_space": "WORLD",
+        "use_x": true,
+        "use_y": true,
+        "use_z": true,
+        "mix_mode": "REPLACE"
+      }
+    ]
+  },
+  "BackLeg_L.003": {
+    "parent": "BackLeg_L.002",
+    "head": [
+      0.43313148617744446,
+      0.2215886414051056,
+      0.06662029772996902
+    ],
+    "tail": [
+      0.4538865089416504,
+      -0.026967257261276245,
+      0.06662029772996902
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "BackLeg_R": {
+    "parent": "Hip",
+    "head": [
+      -0.2782362401485443,
+      -0.1504649519920349,
+      0.981406569480896
+    ],
+    "tail": [
+      -0.43313148617744446,
+      -0.19807060062885284,
+      0.48619508743286133
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "BackLeg_R.001": {
+    "parent": "BackLeg_R",
+    "head": [
+      -0.43313148617744446,
+      -0.19807060062885284,
+      0.48619508743286133
+    ],
+    "tail": [
+      -0.4112233519554138,
+      0.38593220710754395,
+      0.13548487424850464
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": [
+      {
+        "name": "IK",
+        "type": "IK",
+        "influence": 1.0,
+        "target": "Armature",
+        "subtarget": "IK-BackLeg_R",
+        "pole_target": "Armature",
+        "pole_subtarget": "IK-BackLegT_R",
+        "chain_count": 2,
+        "use_tail": true,
+        "use_stretch": true,
+        "pole_angle": -1.658063530921936,
+        "owner_space": "WORLD",
+        "target_space": "WORLD"
+      }
+    ]
+  },
+  "BackLeg_R.002": {
+    "parent": "BackLeg_R.001",
+    "head": [
+      -0.4112233519554138,
+      0.38593220710754395,
+      0.13548487424850464
+    ],
+    "tail": [
+      -0.43313148617744446,
+      0.2215886414051056,
+      0.06662029772996902
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": [
+      {
+        "name": "Copy Rotation",
+        "type": "COPY_ROTATION",
+        "influence": 1.0,
+        "target": "Armature",
+        "subtarget": "IK-BackLeg_R",
+        "owner_space": "WORLD",
+        "target_space": "WORLD",
+        "use_x": true,
+        "use_y": true,
+        "use_z": true,
+        "mix_mode": "REPLACE"
+      }
+    ]
+  },
+  "BackLeg_R.003": {
+    "parent": "BackLeg_R.002",
+    "head": [
+      -0.43313148617744446,
+      0.2215886414051056,
+      0.06662029772996902
+    ],
+    "tail": [
+      -0.4538865089416504,
+      -0.026967257261276245,
+      0.06662029772996902
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "IK-BackLeg_L": {
+    "parent": "Main",
+    "head": [
+      0.4112233519554138,
+      0.38593220710754395,
+      0.13548487424850464
+    ],
+    "tail": [
+      0.43313148617744446,
+      0.2215886414051056,
+      0.06662029772996902
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "IK-BackLeg_R": {
+    "parent": "Main",
+    "head": [
+      -0.4112233519554138,
+      0.38593220710754395,
+      0.13548487424850464
+    ],
+    "tail": [
+      -0.43313148617744446,
+      0.2215886414051056,
+      0.06662029772996902
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "IK-FrontLegT_L": {
+    "parent": "Main",
+    "head": [
+      0.20680545270442963,
+      -0.16293269395828247,
+      0.3310563266277313
+    ],
+    "tail": [
+      0.20680545270442963,
+      -0.10510522127151489,
+      0.3310563266277313
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "IK-FrontLegT_R": {
+    "parent": "Main",
+    "head": [
+      -0.20680545270442963,
+      -0.16293269395828247,
+      0.3310563266277313
+    ],
+    "tail": [
+      -0.20680545270442963,
+      -0.10510522127151489,
+      0.3310563266277313
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "IK-BackLegT_L": {
+    "parent": "Main",
+    "head": [
+      0.5193187594413757,
+      -0.595950722694397,
+      0.48619508743286133
+    ],
+    "tail": [
+      0.5193187594413757,
+      -0.6689528226852417,
+      0.48619508743286133
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "IK-BackLegT_R": {
+    "parent": "Main",
+    "head": [
+      -0.5193187594413757,
+      -0.595950722694397,
+      0.48619508743286133
+    ],
+    "tail": [
+      -0.5193187594413757,
+      -0.6689528226852417,
+      0.48619508743286133
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "IK-FrontLeg_L": {
+    "parent": null,
+    "head": [
+      0.3536522686481476,
+      -1.217159628868103,
+      0.060648005455732346
+    ],
+    "tail": [
+      0.37796643376350403,
+      -1.3475784063339233,
+      0.03498290479183197
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  },
+  "IK-FrontLeg_R": {
+    "parent": null,
+    "head": [
+      -0.3536522686481476,
+      -1.217159628868103,
+      0.060648005455732346
+    ],
+    "tail": [
+      -0.37796643376350403,
+      -1.3475784063339233,
+      0.03498290479183197
+    ],
+    "rotationMode": "QUATERNION",
+    "constraints": []
+  }
+}

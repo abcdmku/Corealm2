@@ -1,0 +1,14 @@
+{
+  "url": "https://raw.githubusercontent.com/nrz/ylikuutio/864ea1982524367ed416803db425f1895e4a0717/res/objects/www.blendswap.com/86110_rigged_and_animated_cat/cat.fbx",
+  "bytes": 7550684,
+  "sha256": "b12adb6b0a0d061b1909a4095d3f75ad1f919d1eb01b10ecbf0edfd5f6311488",
+  "author": "JonasDichelle",
+  "license": "CC-BY-3.0",
+  "source": "Same licensed mirror initial Cat commit; not original .blend. No preview file overwritten.",
+  "licenseFile": {
+    "file": "LICENSE.historical.original.html",
+    "url": "https://raw.githubusercontent.com/nrz/ylikuutio/864ea1982524367ed416803db425f1895e4a0717/res/objects/www.blendswap.com/86110_rigged_and_animated_cat/86110%20-%20LICENSE.html",
+    "bytes": 2737,
+    "sha256": "cbf84d42693147ea5dc1d7b0ad82c2140bb680262523133c82da84995353e17e"
+  }
+}

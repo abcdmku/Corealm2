@@ -1,0 +1,385 @@
+{
+  "accepted": false,
+  "coordinateSystem": "Metres, Y-up, forward+Z",
+  "method": "Final GLB weighted sole vertices at298 integer/midpoint/random poses. Contact pairs require authored support at both endpoints; physical sole samples additionally require <=2mm floor clearance at both endpoints. World stance slip adds unchanged authored source-space movement speed to per-vertex pose velocity.",
+  "clips": {
+    "Idle": {
+      "sourceSpaceSpeedTargetMps": 0,
+      "wholeMeshMinY": -7.249141831255912e-08,
+      "feet": {
+        "front_L": {
+          "stanceCenterBackwardMps": {
+            "samples": 167,
+            "median": 0.0,
+            "p95": -0.0,
+            "max": 2.9886890129466458e-15,
+            "min": -6.220902773012988e-12
+          },
+          "actualContactVertexWorldHorizontalSlipMps": {
+            "samples": 3173,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "min": 0.0
+          },
+          "actualContactVertexVerticalSpeedMps": {
+            "samples": 3173,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "min": 0.0
+          },
+          "stanceMinimumY": {
+            "samples": 334,
+            "median": -4.5119705971430335e-08,
+            "p95": -4.5119705971430335e-08,
+            "max": -4.5119705971430335e-08,
+            "min": -4.5119706026941486e-08
+          }
+        },
+        "front_R": {
+          "stanceCenterBackwardMps": {
+            "samples": 167,
+            "median": 0.0,
+            "p95": -0.0,
+            "max": 5.9773780258932916e-15,
+            "min": -1.2441805546025975e-11
+          },
+          "actualContactVertexWorldHorizontalSlipMps": {
+            "samples": 3173,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "min": 0.0
+          },
+          "actualContactVertexVerticalSpeedMps": {
+            "samples": 3173,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "min": 0.0
+          },
+          "stanceMinimumY": {
+            "samples": 334,
+            "median": -7.249141825704797e-08,
+            "p95": -7.249141825704797e-08,
+            "max": -7.249141825704797e-08,
+            "min": -7.249141831255912e-08
+          }
+        },
+        "hind_L": {
+          "stanceCenterBackwardMps": {
+            "samples": 167,
+            "median": 0.0,
+            "p95": -0.0,
+            "max": -0.0,
+            "min": -0.0
+          },
+          "actualContactVertexWorldHorizontalSlipMps": {
+            "samples": 29893,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "min": 0.0
+          },
+          "actualContactVertexVerticalSpeedMps": {
+            "samples": 29893,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 1.218565426341911e-08,
+            "min": 0.0
+          },
+          "stanceMinimumY": {
+            "samples": 334,
+            "median": -2.7036937855218213e-08,
+            "p95": -2.7036937855218213e-08,
+            "max": -2.703693779970706e-08,
+            "min": -2.7036937855218213e-08
+          }
+        },
+        "hind_R": {
+          "stanceCenterBackwardMps": {
+            "samples": 167,
+            "median": 0.0,
+            "p95": -0.0,
+            "max": -0.0,
+            "min": -0.0
+          },
+          "actualContactVertexWorldHorizontalSlipMps": {
+            "samples": 29893,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "min": 0.0
+          },
+          "actualContactVertexVerticalSpeedMps": {
+            "samples": 29893,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 5.587935447692871e-09,
+            "min": 0.0
+          },
+          "stanceMinimumY": {
+            "samples": 334,
+            "median": -3.522050301407731e-08,
+            "p95": -3.522050301407731e-08,
+            "max": -3.522050295856616e-08,
+            "min": -3.522050301407731e-08
+          }
+        }
+      }
+    },
+    "Walk": {
+      "sourceSpaceSpeedTargetMps": 0.65,
+      "wholeMeshMinY": -0.00012309321024961406,
+      "feet": {
+        "front_L": {
+          "stanceCenterBackwardMps": {
+            "samples": 52,
+            "median": 0.6500002182327084,
+            "p95": 0.650009148864269,
+            "max": 0.6500207593829093,
+            "min": 0.6499867190178935
+          },
+          "actualContactVertexWorldHorizontalSlipMps": {
+            "samples": 988,
+            "median": 2.5889769403875107e-06,
+            "p95": 1.5616416931152344e-05,
+            "max": 2.716281778702978e-05,
+            "min": 1.1920928955078125e-07
+          },
+          "actualContactVertexVerticalSpeedMps": {
+            "samples": 988,
+            "median": 2.1653249859809875e-06,
+            "p95": 1.0180832896367065e-05,
+            "max": 1.5409568732138723e-05,
+            "min": 2.2351741790771484e-08
+          },
+          "stanceMinimumY": {
+            "samples": 104,
+            "median": -1.5883363152502383e-07,
+            "p95": -8.064526015871821e-08,
+            "max": -3.894802902415506e-08,
+            "min": -3.746332216114645e-07
+          }
+        },
+        "front_R": {
+          "stanceCenterBackwardMps": {
+            "samples": 53,
+            "median": 0.6500001024978185,
+            "p95": 0.6500098974469574,
+            "max": 0.6500227405886189,
+            "min": 0.6499781737167458
+          },
+          "actualContactVertexWorldHorizontalSlipMps": {
+            "samples": 1007,
+            "median": 0.000631574890576303,
+            "p95": 0.008083909749984741,
+            "max": 0.01328678335994482,
+            "min": 5.960464477539063e-08
+          },
+          "actualContactVertexVerticalSpeedMps": {
+            "samples": 1007,
+            "median": 2.9336661100387573e-06,
+            "p95": 1.2555550893011966e-05,
+            "max": 1.8711893062572926e-05,
+            "min": 0.0
+          },
+          "stanceMinimumY": {
+            "samples": 106,
+            "median": -1.3647550728412838e-07,
+            "p95": -1.2431208604168908e-08,
+            "max": -3.9977366417254245e-09,
+            "min": -2.918063723433839e-07
+          }
+        },
+        "hind_L": {
+          "stanceCenterBackwardMps": {
+            "samples": 56,
+            "median": 0.649999025169132,
+            "p95": 0.650014487192047,
+            "max": 0.6521228793951913,
+            "min": 0.6325907747704572
+          },
+          "actualContactVertexWorldHorizontalSlipMps": {
+            "samples": 10024,
+            "median": 4.187624199403217e-06,
+            "p95": 0.008472045883536339,
+            "max": 0.019233347848057747,
+            "min": 1.1920928955078125e-07
+          },
+          "actualContactVertexVerticalSpeedMps": {
+            "samples": 10024,
+            "median": 3.5378149050302454e-06,
+            "p95": 3.790534101426602e-05,
+            "max": 0.00014128211478237063,
+            "min": 0.0
+          },
+          "stanceMinimumY": {
+            "samples": 112,
+            "median": 2.0381665966073825e-08,
+            "p95": 2.4147042693156706e-07,
+            "max": 2.5966633357965563e-06,
+            "min": -9.304489467787391e-08
+          }
+        },
+        "hind_R": {
+          "stanceCenterBackwardMps": {
+            "samples": 54,
+            "median": 0.6499994542435017,
+            "p95": 0.6500128406760678,
+            "max": 0.6501936979506009,
+            "min": 0.6497916988539643
+          },
+          "actualContactVertexWorldHorizontalSlipMps": {
+            "samples": 9666,
+            "median": 4.425218321557622e-06,
+            "p95": 3.1828880310058594e-05,
+            "max": 0.0002161276206606999,
+            "min": 1.1920928955078125e-07
+          },
+          "actualContactVertexVerticalSpeedMps": {
+            "samples": 9666,
+            "median": 3.6695378184958827e-06,
+            "p95": 2.1868541807634756e-05,
+            "max": 0.0002675056457519531,
+            "min": 0.0
+          },
+          "stanceMinimumY": {
+            "samples": 108,
+            "median": 2.563099621433196e-09,
+            "p95": 9.671193473836937e-08,
+            "max": 5.574800040930583e-06,
+            "min": -1.8328955980750905e-07
+          }
+        }
+      }
+    },
+    "Run": {
+      "sourceSpaceSpeedTargetMps": 2.2,
+      "wholeMeshMinY": -0.00013514698554600857,
+      "feet": {
+        "front_L": {
+          "stanceCenterBackwardMps": {
+            "samples": 11,
+            "median": 2.2000008368055384,
+            "p95": 2.200006824365736,
+            "max": 2.200007543117091,
+            "min": 2.1999956402437806
+          },
+          "actualContactVertexWorldHorizontalSlipMps": {
+            "samples": 209,
+            "median": 0.0025263214483857155,
+            "p95": 0.0034352124202996492,
+            "max": 0.0034352135844528675,
+            "min": 7.152557373046875e-07
+          },
+          "actualContactVertexVerticalSpeedMps": {
+            "samples": 209,
+            "median": 3.90111563319806e-06,
+            "p95": 1.4351508070831187e-05,
+            "max": 1.5561870895908214e-05,
+            "min": 1.3530468834233034e-07
+          },
+          "stanceMinimumY": {
+            "samples": 22,
+            "median": -5.790859303189677e-08,
+            "p95": 2.4495692418910864e-10,
+            "max": 1.9233771242355147e-09,
+            "min": -1.6560653648411972e-07
+          }
+        },
+        "front_R": {
+          "stanceCenterBackwardMps": {
+            "samples": 3,
+            "median": 2.2000024518172525,
+            "p95": 2.2000063285282803,
+            "max": 2.20000675927395,
+            "min": 2.1999971530416382
+          },
+          "actualContactVertexWorldHorizontalSlipMps": {
+            "samples": 57,
+            "median": 2.8832880616391776e-06,
+            "p95": 5.961384886177257e-06,
+            "max": 6.8819722400803585e-06,
+            "min": 5.700942438124912e-07
+          },
+          "actualContactVertexVerticalSpeedMps": {
+            "samples": 57,
+            "median": 3.0901283025741577e-06,
+            "p95": 5.8906377489620356e-06,
+            "max": 5.931808118475601e-06,
+            "min": 2.0505454756403196e-07
+          },
+          "stanceMinimumY": {
+            "samples": 6,
+            "median": 1.5600933089832125e-07,
+            "p95": 1.9270406530214057e-07,
+            "max": 2.0296953229248516e-07,
+            "min": 9.671316142378927e-08
+          }
+        },
+        "hind_L": {
+          "stanceCenterBackwardMps": {
+            "samples": 5,
+            "median": 2.2000026527089203,
+            "p95": 2.200028652083293,
+            "max": 2.200034948899984,
+            "min": 2.1999897582168835
+          },
+          "actualContactVertexWorldHorizontalSlipMps": {
+            "samples": 895,
+            "median": 4.719978278444614e-06,
+            "p95": 3.6508299672277644e-05,
+            "max": 3.906898928107694e-05,
+            "min": 0.0
+          },
+          "actualContactVertexVerticalSpeedMps": {
+            "samples": 895,
+            "median": 1.005219019134529e-05,
+            "p95": 1.6756818513385952e-05,
+            "max": 1.724381399981212e-05,
+            "min": 1.9014643726222857e-07
+          },
+          "stanceMinimumY": {
+            "samples": 10,
+            "median": 5.4112533037775634e-08,
+            "p95": 1.2313761821314273e-07,
+            "max": 1.2313761821314273e-07,
+            "min": -5.6697384287485164e-08
+          }
+        },
+        "hind_R": {
+          "stanceCenterBackwardMps": {
+            "samples": 14,
+            "median": 2.200001576548665,
+            "p95": 2.200020318945015,
+            "max": 2.200030440504829,
+            "min": 2.1999880821515303
+          },
+          "actualContactVertexWorldHorizontalSlipMps": {
+            "samples": 2506,
+            "median": 1.4451909919444006e-05,
+            "p95": 0.010141144506633282,
+            "max": 0.010142497718334198,
+            "min": 0.0
+          },
+          "actualContactVertexVerticalSpeedMps": {
+            "samples": 2506,
+            "median": 5.396855840444914e-06,
+            "p95": 2.541275171097368e-05,
+            "max": 3.226241824449971e-05,
+            "min": 8.904248005592308e-08
+          },
+          "stanceMinimumY": {
+            "samples": 28,
+            "median": -1.3360688555508204e-08,
+            "p95": 7.342049102299068e-08,
+            "max": 8.997665962295898e-08,
+            "min": -1.09145692206436e-07
+          }
+        }
+      }
+    }
+  }
+}

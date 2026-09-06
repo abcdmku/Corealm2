@@ -1,0 +1,73 @@
+{
+  "id": "polyhaven-rock-face-01",
+  "name": "Rock Face 01",
+  "author": "Dario Barresi / Poly Haven",
+  "source": "https://polyhaven.com/a/rock_face_01",
+  "license": "CC0-1.0",
+  "sourceSha256": "80b6994e739dc3ddcb43fd24fdf3d3b25744a1830fc8327e5a14066818fc7b44",
+  "method": "Continuous frontmost source-triangle envelope. Periodic cubic blending of adjacent source fields over a50cm band; unblended interior samples are exact. Only geometry derives from scan; runtime uses continuous world stone, never source atlas interpolation.",
+  "width": 3,
+  "height": 2.6,
+  "centreY": 2.05,
+  "halfBand": 0.25,
+  "columns": 64,
+  "rows": 56,
+  "metrics": {
+    "interiorMaximumError": 2.0539125955565396e-15,
+    "blendedBandErrorMetres": {
+      "median": 0.016118027887251862,
+      "p95": 0.08734011962431726,
+      "maximum": 0.20302226331495196
+    },
+    "rawBandCurvature": {
+      "median": 5.177906711510792,
+      "p95": 33.99977039143839,
+      "maximum": 94.69045692547591
+    },
+    "blendedBandCurvature": {
+      "median": 5.8541147413165815,
+      "p95": 25.31877474850395,
+      "maximum": 92.17528877530958
+    },
+    "interpolatedReliefErrorMetres": {
+      "median": 0.001323777988619268,
+      "p95": 0.01499975893622224,
+      "maximum": 0.13720909789940786
+    },
+    "interpolatedInteriorErrorMetres": {
+      "median": 0.0011856981702755287,
+      "p95": 0.016877693196925975,
+      "maximum": 0.13720909789940786
+    }
+  },
+  "derived": {
+    "id": "cave_rock_face_01",
+    "file": "models/cave/rock-face-01.glb",
+    "pack": "polyhaven-rock-face-01",
+    "category": "rock",
+    "is": "cave-facing",
+    "tags": [
+      "cave",
+      "rock",
+      "scan",
+      "strata"
+    ],
+    "bytes": 2734088,
+    "sha256": "4c9949fda418cf3e68fe86a573fc0d2d86f965ccd4d887bd9a9a621bfcbc3ae3",
+    "size": {
+      "x": 3,
+      "y": 2.6,
+      "z": 0.44936636644948663
+    },
+    "base": {
+      "x": -1.5,
+      "y": 0,
+      "z": 0
+    },
+    "triangles": 7168,
+    "animations": [],
+    "materials": [
+      "Poly Haven Rock Face 01 front-envelope"
+    ]
+  }
+}

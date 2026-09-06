@@ -124,7 +124,7 @@ type OutfitKit = "ranger" | "knight";
 type OutfitPart = "helmet" | "hood" | "chest" | "legs" | "boots" | "gloves" | "pauldron" | "scarf";
 type WeaponAsset =
   | "sword" | "corealm_dagger" | "shield" | "axe" | "pickaxe" | "rpg_weapon_staff" | "rpg_weapon_wand"
-  | "miniboss_sword" | "miniboss_staff";
+  | "miniboss_sword" | "miniboss_staff" | "corealm_sword_1" | "corealm_sword_2" | "corealm_sword_3" | "corealm_sword_4" | "corealm_axe_1";
 
 /**
  * A resolved part before the body variant is chosen. One item can be more than one part.
@@ -171,11 +171,13 @@ interface LadderTier {
  * their class silhouette and change palette, stats, names, and weapon scale.
  */
 const LADDER: readonly LadderTier[] = [
+  // Reviewed native sword grades already contain their length progression. The common
+  // fit scale matches the held first-grade proof; applying tierSilhouetteScale again doubles it.
   {
     tier: 1, kit: "knight", cloth: GRITHE, weapon: GRITHE, offHandTint: 0x8a6f4d,
     mainHand: [
       { id: "grithe_dagger", asset: "corealm_dagger", scale: 1, fixedScale: true },
-      { id: "grithe_sword", asset: "sword", scale: 1 },
+      { id: "grithe_sword", asset: "corealm_sword_1", scale: 0.9, fixedScale: true },
     ],
     offHand: { id: "palewood_shield", scale: 1 },
     head: "grithe_helm", body: "grithe_cuirass", legs: "grithe_greaves",
@@ -186,7 +188,7 @@ const LADDER: readonly LadderTier[] = [
     tier: 5, kit: "knight", cloth: CORVEN, weapon: CORVEN, offHandTint: 0x5c4a33,
     mainHand: [
       { id: "corven_dagger", asset: "corealm_dagger", scale: 1, fixedScale: true },
-      { id: "corven_sword", asset: "sword", scale: 1 },
+      { id: "corven_sword", asset: "corealm_sword_2", scale: 0.9, fixedScale: true },
     ],
     offHand: { id: "duskoak_shield", scale: 1 },
     head: "corven_helm", body: "corven_plate", legs: "corven_greaves",
@@ -198,7 +200,7 @@ const LADDER: readonly LadderTier[] = [
     weapon: KALDITE, weaponAccent: KALDITE_GARNET, offHandTint: KALDITE,
     mainHand: [
       { id: "kaldite_dagger", asset: "corealm_dagger", scale: 1, fixedScale: true },
-      { id: "kaldite_sword", asset: "sword", scale: 1 },
+      { id: "kaldite_sword", asset: "corealm_sword_3", scale: 0.9, fixedScale: true },
     ],
     offHand: { id: "cairnpine_shield", scale: 1 },
     head: "kaldite_helm", body: "kaldite_plate", legs: "kaldite_greaves",
@@ -246,7 +248,7 @@ const LADDER: readonly LadderTier[] = [
     weapon: EMBERITE, weaponAccent: EMBERITE_OPAL, offHandTint: EMBERITE,
     mainHand: [
       { id: "emberite_dagger", asset: "corealm_dagger", scale: 1, fixedScale: true },
-      { id: "emberite_sword", asset: "sword", scale: 1 },
+      { id: "emberite_sword", asset: "corealm_sword_4", scale: 0.9, fixedScale: true },
     ],
     offHand: { id: "cinderpine_shield", scale: 1 },
     head: "emberite_helm", body: "emberite_plate", legs: "emberite_greaves",
@@ -309,7 +311,7 @@ function buildTable(): Map<ItemId, GearVisual> {
   // Grithe upgrade has a brighter bronze finish.
   table.set("worn_sword", {
     slot: "mainHand",
-    parts: [weaponPart("sword", WORN, round3(tierSilhouetteScale(1) * 0.86))],
+    parts: [weaponPart("corealm_sword_1", WORN, round3(tierSilhouetteScale(1) * 0.86))],
   });
 
   // Both starter weapons are plain brown and unlit.
@@ -386,12 +388,12 @@ const GATHERING_TOOL_APPEARANCES = new Map<ItemId, GearAppearance>([
   ["grithe_pickaxe", { assetId: "pickaxe", slot: "mainHand", attach: "bone", tint: GRITHE, scale: tierSilhouetteScale(1) }],
   ["corven_pickaxe", { assetId: "pickaxe", slot: "mainHand", attach: "bone", tint: CORVEN, scale: tierSilhouetteScale(5) }],
   ["kaldite_pickaxe", { assetId: "pickaxe", slot: "mainHand", attach: "bone", tint: KALDITE, scale: tierSilhouetteScale(10), accent: KALDITE_GARNET }],
-  ["worn_hatchet", { assetId: "axe", slot: "mainHand", attach: "bone", tint: WORN, scale: 0.84 }],
-  ["grithe_hatchet", { assetId: "axe", slot: "mainHand", attach: "bone", tint: GRITHE, scale: tierSilhouetteScale(1) }],
-  ["corven_hatchet", { assetId: "axe", slot: "mainHand", attach: "bone", tint: CORVEN, scale: tierSilhouetteScale(5) }],
-  ["kaldite_hatchet", { assetId: "axe", slot: "mainHand", attach: "bone", tint: KALDITE, scale: tierSilhouetteScale(10), accent: KALDITE_GARNET }],
+  ["worn_hatchet", { assetId: "corealm_axe_1", slot: "mainHand", attach: "bone", tint: WORN, scale: 0.84 }],
+  ["grithe_hatchet", { assetId: "corealm_axe_1", slot: "mainHand", attach: "bone", tint: GRITHE, scale: tierSilhouetteScale(1) }],
+  ["corven_hatchet", { assetId: "corealm_axe_1", slot: "mainHand", attach: "bone", tint: CORVEN, scale: tierSilhouetteScale(5) }],
+  ["kaldite_hatchet", { assetId: "corealm_axe_1", slot: "mainHand", attach: "bone", tint: KALDITE, scale: tierSilhouetteScale(10), accent: KALDITE_GARNET }],
   ["emberite_pickaxe", { assetId: "pickaxe", slot: "mainHand", attach: "bone", tint: EMBERITE, scale: tierSilhouetteScale(20), accent: EMBERITE_OPAL }],
-  ["emberite_hatchet", { assetId: "axe", slot: "mainHand", attach: "bone", tint: EMBERITE, scale: tierSilhouetteScale(20), accent: EMBERITE_OPAL }],
+  ["emberite_hatchet", { assetId: "corealm_axe_1", slot: "mainHand", attach: "bone", tint: EMBERITE, scale: tierSilhouetteScale(20), accent: EMBERITE_OPAL }],
 ]);
 
 /** Appearance of a carried pickaxe or hatchet while gathering, if the item is one. */
@@ -611,7 +613,8 @@ const SOCKET_PARTS: Readonly<Record<string, SocketParts>> = {
 };
 
 function socketAt(assetId: string, scale: number): WeaponSocket | null {
-  const parts = SOCKET_PARTS[assetId];
+  const nativeId = /^corealm_sword_[1-4]$/.test(assetId) ? "sword" : assetId === "corealm_axe_1" ? "axe" : assetId;
+  const parts = SOCKET_PARTS[nativeId];
   if (!parts) return null;
   return {
     bone: parts.bone,
@@ -669,9 +672,13 @@ export function applyGearAppearance(object: THREE.Object3D, appearance: GearAppe
 
 function tintedMaterial(material: THREE.Material, appearance: GearAppearance): THREE.Material {
   const clone = material.clone();
+  // Three does not copy compile callbacks. Keep the source's authored surface shader when
+  // applying a tier, as MaterialManager's variants do for other production assets.
+  clone.onBeforeCompile = (shader, renderer) => material.onBeforeCompile.call(material, shader, renderer);
+  clone.customProgramCacheKey = material.customProgramCacheKey.bind(material);
   const shaded = clone as Partial<THREE.MeshStandardMaterial>;
   const role = material.userData["equipmentRole"] as string | undefined;
-  const tintable = role !== "leather" && role !== "gem";
+  const tintable = role !== "leather" && role !== "gem" && role !== "wood";
   if (tintable && appearance.tint !== undefined && shaded.color instanceof THREE.Color) {
     shaded.color.setHex(appearance.tint);
   }
@@ -713,7 +720,8 @@ function tintedMaterial(material: THREE.Material, appearance: GearAppearance): T
         shaded.color.copy(source.color);
       }
     } else if (shaded.metalnessMap && tintable
-      && (isKnightOutfitAsset(appearance.assetId) || ["sword", "axe", "pickaxe"].includes(appearance.assetId))) {
+      && (isKnightOutfitAsset(appearance.assetId) || ["sword", "axe", "pickaxe", "corealm_axe_1"].includes(appearance.assetId)
+        || /^corealm_sword_[1-4]$/.test(appearance.assetId))) {
       applyMetalTierColour(clone, source, appearance.tint, isKnightOutfitAsset(appearance.assetId) ? 0.22 : 0.10);
     }
   }

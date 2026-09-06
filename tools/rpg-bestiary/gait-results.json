@@ -1,0 +1,4733 @@
+{
+  "version": 1,
+  "units": "metres and seconds",
+  "forwardAxis": "+Z",
+  "method": "480 uniform phase samples of final buildBestiary Walk/Run. Median negative-Z velocity at named toe joints within lowest 12% of their vertical range, clamped to an 8-40 mm height window. Require backward velocity >0.05 m/s. Exclude closing seam. Report bilateral agreement, speed distribution, contiguous stance length, and ankle cross-check. Estimates use actual transformed joint paths after proportions and floor correction, never copied source metadata.",
+  "limitations": "Joint contact is a proxy for weighted sole geometry. Confidence labels are CPU evidence only. Production lab playback must confirm visible foot contact, speed, and cycle cadence before acceptance. No public catalogue mutation.",
+  "results": [
+    {
+      "id": "goblin_scout",
+      "rig": "entitled-universal-base-65-joint",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.6659,
+      "impliedRunMps": 4.02812,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.6659,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01734,
+        "p10ToP90SpreadFraction": 0.55454,
+        "speedMps": {
+          "min": 0.05222,
+          "p10": 0.31164,
+          "median": 0.6659,
+          "p90": 0.68091,
+          "max": 0.74705
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 216,
+            "stanceFraction": 0.45094,
+            "longestStanceSeconds": 0.6,
+            "heightMinM": 0.02309,
+            "heightMaxM": 0.13741,
+            "heightWindowM": 0.01372,
+            "speedMps": {
+              "min": 0.09803,
+              "p10": 0.31201,
+              "median": 0.65553,
+              "p90": 0.68113,
+              "max": 0.74705
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 216,
+            "stanceFraction": 0.45094,
+            "longestStanceSeconds": 0.53611,
+            "heightMinM": 0.02372,
+            "heightMaxM": 0.13736,
+            "heightWindowM": 0.01364,
+            "speedMps": {
+              "min": 0.05222,
+              "p10": 0.26833,
+              "median": 0.6671,
+              "p90": 0.68007,
+              "max": 0.73983
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.66157,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 4.02812,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00019,
+        "p10ToP90SpreadFraction": 0.10885,
+        "speedMps": {
+          "min": 3.66907,
+          "p10": 3.78171,
+          "median": 4.02812,
+          "p90": 4.22019,
+          "max": 5.55886
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 80,
+            "stanceFraction": 0.16701,
+            "longestStanceSeconds": 0.15556,
+            "heightMinM": 0.01967,
+            "heightMaxM": 0.27686,
+            "heightWindowM": 0.03086,
+            "speedMps": {
+              "min": 3.68353,
+              "p10": 3.79653,
+              "median": 4.02889,
+              "p90": 4.22075,
+              "max": 5.55886
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 80,
+            "stanceFraction": 0.16701,
+            "longestStanceSeconds": 0.15556,
+            "heightMinM": 0.01943,
+            "heightMaxM": 0.27675,
+            "heightWindowM": 0.03088,
+            "speedMps": {
+              "min": 3.66907,
+              "p10": 3.78171,
+              "median": 4.02812,
+              "p90": 4.22013,
+              "max": 5.53889
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 3.60956,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    },
+    {
+      "id": "goblin_archer",
+      "rig": "entitled-universal-base-65-joint",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.6659,
+      "impliedRunMps": 4.02732,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.6659,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01734,
+        "p10ToP90SpreadFraction": 0.55454,
+        "speedMps": {
+          "min": 0.05222,
+          "p10": 0.31164,
+          "median": 0.6659,
+          "p90": 0.68091,
+          "max": 0.74705
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 216,
+            "stanceFraction": 0.45094,
+            "longestStanceSeconds": 0.6,
+            "heightMinM": 0.02309,
+            "heightMaxM": 0.13741,
+            "heightWindowM": 0.01372,
+            "speedMps": {
+              "min": 0.09803,
+              "p10": 0.31201,
+              "median": 0.65553,
+              "p90": 0.68113,
+              "max": 0.74705
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 216,
+            "stanceFraction": 0.45094,
+            "longestStanceSeconds": 0.53611,
+            "heightMinM": 0.02372,
+            "heightMaxM": 0.13736,
+            "heightWindowM": 0.01364,
+            "speedMps": {
+              "min": 0.05222,
+              "p10": 0.26833,
+              "median": 0.6671,
+              "p90": 0.68007,
+              "max": 0.73983
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.66194,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 4.02732,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.0002,
+        "p10ToP90SpreadFraction": 0.10886,
+        "speedMps": {
+          "min": 3.66907,
+          "p10": 3.78171,
+          "median": 4.02732,
+          "p90": 4.22013,
+          "max": 5.55886
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 79,
+            "stanceFraction": 0.16493,
+            "longestStanceSeconds": 0.15361,
+            "heightMinM": 0.01939,
+            "heightMaxM": 0.27686,
+            "heightWindowM": 0.0309,
+            "speedMps": {
+              "min": 3.68353,
+              "p10": 3.79653,
+              "median": 4.02732,
+              "p90": 4.21713,
+              "max": 5.55886
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 80,
+            "stanceFraction": 0.16701,
+            "longestStanceSeconds": 0.15556,
+            "heightMinM": 0.0193,
+            "heightMaxM": 0.27675,
+            "heightWindowM": 0.03089,
+            "speedMps": {
+              "min": 3.66907,
+              "p10": 3.78171,
+              "median": 4.02812,
+              "p90": 4.22013,
+              "max": 5.53889
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 3.60956,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    },
+    {
+      "id": "goblin_shaman",
+      "rig": "entitled-universal-base-65-joint",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.66598,
+      "impliedRunMps": 4.02264,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.66598,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.02079,
+        "p10ToP90SpreadFraction": 0.24715,
+        "speedMps": {
+          "min": 0.05579,
+          "p10": 0.51632,
+          "median": 0.66598,
+          "p90": 0.68092,
+          "max": 0.73983
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 205,
+            "stanceFraction": 0.42797,
+            "longestStanceSeconds": 0.56944,
+            "heightMinM": 0.02566,
+            "heightMaxM": 0.13974,
+            "heightWindowM": 0.01369,
+            "speedMps": {
+              "min": 0.09803,
+              "p10": 0.31164,
+              "median": 0.65418,
+              "p90": 0.68047,
+              "max": 0.68885
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 195,
+            "stanceFraction": 0.4071,
+            "longestStanceSeconds": 0.54167,
+            "heightMinM": 0.02605,
+            "heightMaxM": 0.13969,
+            "heightWindowM": 0.01364,
+            "speedMps": {
+              "min": 0.05579,
+              "p10": 0.66335,
+              "median": 0.66807,
+              "p90": 0.68329,
+              "max": 0.73983
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.64882,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 4.02264,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00741,
+        "p10ToP90SpreadFraction": 0.14429,
+        "speedMps": {
+          "min": 3.66907,
+          "p10": 3.77331,
+          "median": 4.02264,
+          "p90": 4.35372,
+          "max": 5.55886
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 79,
+            "stanceFraction": 0.16493,
+            "longestStanceSeconds": 0.15361,
+            "heightMinM": 0.02172,
+            "heightMaxM": 0.2792,
+            "heightWindowM": 0.0309,
+            "speedMps": {
+              "min": 3.68353,
+              "p10": 3.79653,
+              "median": 4.02732,
+              "p90": 4.21713,
+              "max": 5.55886
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 42,
+            "stanceFraction": 0.08768,
+            "longestStanceSeconds": 0.08167,
+            "heightMinM": 0.02667,
+            "heightMaxM": 0.27908,
+            "heightWindowM": 0.03029,
+            "speedMps": {
+              "min": 3.66907,
+              "p10": 3.73751,
+              "median": 3.99748,
+              "p90": 5.04697,
+              "max": 5.53889
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 3.61364,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    },
+    {
+      "id": "orc_warrior",
+      "rig": "entitled-universal-base-65-joint",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.12252,
+      "impliedRunMps": 6.79464,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.12252,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01736,
+        "p10ToP90SpreadFraction": 0.55152,
+        "speedMps": {
+          "min": 0.08934,
+          "p10": 0.52447,
+          "median": 1.12252,
+          "p90": 1.14356,
+          "max": 1.2025
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 185,
+            "stanceFraction": 0.38622,
+            "longestStanceSeconds": 0.51389,
+            "heightMinM": 0.03697,
+            "heightMaxM": 0.22872,
+            "heightWindowM": 0.02301,
+            "speedMps": {
+              "min": 0.16679,
+              "p10": 0.52615,
+              "median": 1.10564,
+              "p90": 1.14437,
+              "max": 1.15858
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 185,
+            "stanceFraction": 0.38622,
+            "longestStanceSeconds": 0.51389,
+            "heightMinM": 0.0397,
+            "heightMaxM": 0.22865,
+            "heightWindowM": 0.02267,
+            "speedMps": {
+              "min": 0.08934,
+              "p10": 0.45029,
+              "median": 1.12517,
+              "p90": 1.14266,
+              "max": 1.2025
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.07565,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.79464,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00039,
+        "p10ToP90SpreadFraction": 0.10341,
+        "speedMps": {
+          "min": 6.19574,
+          "p10": 6.38519,
+          "median": 6.79464,
+          "p90": 7.08783,
+          "max": 9.42707
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 77,
+            "stanceFraction": 0.16075,
+            "longestStanceSeconds": 0.14972,
+            "heightMinM": 0.04461,
+            "heightMaxM": 0.47115,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 6.23302,
+              "p10": 6.41121,
+              "median": 6.79315,
+              "p90": 7.08777,
+              "max": 9.42707
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 78,
+            "stanceFraction": 0.16284,
+            "longestStanceSeconds": 0.15167,
+            "heightMinM": 0.04448,
+            "heightMaxM": 0.47091,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 6.19574,
+              "p10": 6.39959,
+              "median": 6.7958,
+              "p90": 7.08701,
+              "max": 9.39274
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 6.43194,
+        "ankleConfidence": "needs-visual-review"
+      }
+    },
+    {
+      "id": "orc_berserker",
+      "rig": "entitled-universal-base-65-joint",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.12304,
+      "impliedRunMps": 6.79464,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.12304,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01578,
+        "p10ToP90SpreadFraction": 0.55122,
+        "speedMps": {
+          "min": 0.08934,
+          "p10": 0.52648,
+          "median": 1.12304,
+          "p90": 1.14552,
+          "max": 1.2604
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 216,
+            "stanceFraction": 0.45094,
+            "longestStanceSeconds": 0.6,
+            "heightMinM": 0.03697,
+            "heightMaxM": 0.22872,
+            "heightWindowM": 0.02301,
+            "speedMps": {
+              "min": 0.16679,
+              "p10": 0.52742,
+              "median": 1.10744,
+              "p90": 1.14654,
+              "max": 1.2604
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 217,
+            "stanceFraction": 0.45303,
+            "longestStanceSeconds": 0.60278,
+            "heightMinM": 0.03943,
+            "heightMaxM": 0.22865,
+            "heightWindowM": 0.02271,
+            "speedMps": {
+              "min": 0.08934,
+              "p10": 0.45861,
+              "median": 1.12519,
+              "p90": 1.14238,
+              "max": 1.24909
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.09664,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.79464,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00039,
+        "p10ToP90SpreadFraction": 0.10341,
+        "speedMps": {
+          "min": 6.19574,
+          "p10": 6.38519,
+          "median": 6.79464,
+          "p90": 7.08783,
+          "max": 9.42707
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 77,
+            "stanceFraction": 0.16075,
+            "longestStanceSeconds": 0.14972,
+            "heightMinM": 0.04461,
+            "heightMaxM": 0.47115,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 6.23302,
+              "p10": 6.41121,
+              "median": 6.79315,
+              "p90": 7.08777,
+              "max": 9.42707
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 78,
+            "stanceFraction": 0.16284,
+            "longestStanceSeconds": 0.15167,
+            "heightMinM": 0.04448,
+            "heightMaxM": 0.47091,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 6.19574,
+              "p10": 6.39959,
+              "median": 6.7958,
+              "p90": 7.08701,
+              "max": 9.39274
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 6.43194,
+        "ankleConfidence": "needs-visual-review"
+      }
+    },
+    {
+      "id": "orc_warlord",
+      "rig": "entitled-universal-base-65-joint",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.12252,
+      "impliedRunMps": 6.79464,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.12252,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01736,
+        "p10ToP90SpreadFraction": 0.55152,
+        "speedMps": {
+          "min": 0.08934,
+          "p10": 0.52447,
+          "median": 1.12252,
+          "p90": 1.14356,
+          "max": 1.2025
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 185,
+            "stanceFraction": 0.38622,
+            "longestStanceSeconds": 0.51389,
+            "heightMinM": 0.03697,
+            "heightMaxM": 0.22872,
+            "heightWindowM": 0.02301,
+            "speedMps": {
+              "min": 0.16679,
+              "p10": 0.52615,
+              "median": 1.10564,
+              "p90": 1.14437,
+              "max": 1.15858
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 185,
+            "stanceFraction": 0.38622,
+            "longestStanceSeconds": 0.51389,
+            "heightMinM": 0.0397,
+            "heightMaxM": 0.22865,
+            "heightWindowM": 0.02267,
+            "speedMps": {
+              "min": 0.08934,
+              "p10": 0.45029,
+              "median": 1.12517,
+              "p90": 1.14266,
+              "max": 1.2025
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.07565,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.79464,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00039,
+        "p10ToP90SpreadFraction": 0.10341,
+        "speedMps": {
+          "min": 6.19574,
+          "p10": 6.38519,
+          "median": 6.79464,
+          "p90": 7.08783,
+          "max": 9.42707
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 77,
+            "stanceFraction": 0.16075,
+            "longestStanceSeconds": 0.14972,
+            "heightMinM": 0.04461,
+            "heightMaxM": 0.47115,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 6.23302,
+              "p10": 6.41121,
+              "median": 6.79315,
+              "p90": 7.08777,
+              "max": 9.42707
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 78,
+            "stanceFraction": 0.16284,
+            "longestStanceSeconds": 0.15167,
+            "heightMinM": 0.04448,
+            "heightMaxM": 0.47091,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 6.19574,
+              "p10": 6.39959,
+              "median": 6.7958,
+              "p90": 7.08701,
+              "max": 9.39274
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 6.43194,
+        "ankleConfidence": "needs-visual-review"
+      }
+    },
+    {
+      "id": "gnoll_hunter",
+      "rig": "source65-plus-animal-jaw",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.0337,
+      "impliedRunMps": 6.22241,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.0337,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01642,
+        "p10ToP90SpreadFraction": 0.37172,
+        "speedMps": {
+          "min": 0.08187,
+          "p10": 0.69567,
+          "median": 1.0337,
+          "p90": 1.07992,
+          "max": 1.2723
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 237,
+            "stanceFraction": 0.49478,
+            "longestStanceSeconds": 0.65833,
+            "heightMinM": 0.03192,
+            "heightMaxM": 0.22315,
+            "heightWindowM": 0.02295,
+            "speedMps": {
+              "min": 0.15248,
+              "p10": 0.77713,
+              "median": 1.01876,
+              "p90": 1.06196,
+              "max": 1.2723
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 240,
+            "stanceFraction": 0.50104,
+            "longestStanceSeconds": 0.66667,
+            "heightMinM": 0.03576,
+            "heightMaxM": 0.22311,
+            "heightWindowM": 0.02248,
+            "speedMps": {
+              "min": 0.08187,
+              "p10": 0.69567,
+              "median": 1.03577,
+              "p90": 1.09528,
+              "max": 1.26616
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.00719,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.22241,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00001,
+        "p10ToP90SpreadFraction": 0.09507,
+        "speedMps": {
+          "min": 5.69343,
+          "p10": 5.88181,
+          "median": 6.22241,
+          "p90": 6.47335,
+          "max": 8.63563
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 80,
+            "stanceFraction": 0.16701,
+            "longestStanceSeconds": 0.15556,
+            "heightMinM": 0.0501,
+            "heightMaxM": 0.44755,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.73292,
+              "p10": 5.88468,
+              "median": 6.22241,
+              "p90": 6.47335,
+              "max": 8.63563
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 80,
+            "stanceFraction": 0.16701,
+            "longestStanceSeconds": 0.15556,
+            "heightMinM": 0.05002,
+            "heightMaxM": 0.44744,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.69343,
+              "p10": 5.88181,
+              "median": 6.22249,
+              "p90": 6.47266,
+              "max": 8.6031
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 5.79372,
+        "ankleConfidence": "needs-visual-review"
+      }
+    },
+    {
+      "id": "gnoll_brute",
+      "rig": "source65-plus-animal-jaw",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.0337,
+      "impliedRunMps": 6.22241,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.0337,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01642,
+        "p10ToP90SpreadFraction": 0.37172,
+        "speedMps": {
+          "min": 0.08187,
+          "p10": 0.69567,
+          "median": 1.0337,
+          "p90": 1.07992,
+          "max": 1.2723
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 237,
+            "stanceFraction": 0.49478,
+            "longestStanceSeconds": 0.65833,
+            "heightMinM": 0.03192,
+            "heightMaxM": 0.22315,
+            "heightWindowM": 0.02295,
+            "speedMps": {
+              "min": 0.15248,
+              "p10": 0.77713,
+              "median": 1.01876,
+              "p90": 1.06196,
+              "max": 1.2723
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 240,
+            "stanceFraction": 0.50104,
+            "longestStanceSeconds": 0.66667,
+            "heightMinM": 0.03576,
+            "heightMaxM": 0.22311,
+            "heightWindowM": 0.02248,
+            "speedMps": {
+              "min": 0.08187,
+              "p10": 0.69567,
+              "median": 1.03577,
+              "p90": 1.09528,
+              "max": 1.26616
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.00719,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.22241,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00001,
+        "p10ToP90SpreadFraction": 0.09507,
+        "speedMps": {
+          "min": 5.69343,
+          "p10": 5.88181,
+          "median": 6.22241,
+          "p90": 6.47335,
+          "max": 8.63563
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 80,
+            "stanceFraction": 0.16701,
+            "longestStanceSeconds": 0.15556,
+            "heightMinM": 0.0501,
+            "heightMaxM": 0.44755,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.73292,
+              "p10": 5.88468,
+              "median": 6.22241,
+              "p90": 6.47335,
+              "max": 8.63563
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 80,
+            "stanceFraction": 0.16701,
+            "longestStanceSeconds": 0.15556,
+            "heightMinM": 0.05002,
+            "heightMaxM": 0.44744,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.69343,
+              "p10": 5.88181,
+              "median": 6.22249,
+              "p90": 6.47266,
+              "max": 8.6031
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 5.79372,
+        "ankleConfidence": "needs-visual-review"
+      }
+    },
+    {
+      "id": "gnoll_chieftain",
+      "rig": "source65-plus-animal-jaw",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.0337,
+      "impliedRunMps": 6.22241,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.0337,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01642,
+        "p10ToP90SpreadFraction": 0.37172,
+        "speedMps": {
+          "min": 0.08187,
+          "p10": 0.69567,
+          "median": 1.0337,
+          "p90": 1.07992,
+          "max": 1.2723
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 237,
+            "stanceFraction": 0.49478,
+            "longestStanceSeconds": 0.65833,
+            "heightMinM": 0.03192,
+            "heightMaxM": 0.22315,
+            "heightWindowM": 0.02295,
+            "speedMps": {
+              "min": 0.15248,
+              "p10": 0.77713,
+              "median": 1.01876,
+              "p90": 1.06196,
+              "max": 1.2723
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 240,
+            "stanceFraction": 0.50104,
+            "longestStanceSeconds": 0.66667,
+            "heightMinM": 0.03576,
+            "heightMaxM": 0.22311,
+            "heightWindowM": 0.02248,
+            "speedMps": {
+              "min": 0.08187,
+              "p10": 0.69567,
+              "median": 1.03577,
+              "p90": 1.09528,
+              "max": 1.26616
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.00719,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.22241,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00001,
+        "p10ToP90SpreadFraction": 0.09507,
+        "speedMps": {
+          "min": 5.69343,
+          "p10": 5.88181,
+          "median": 6.22241,
+          "p90": 6.47335,
+          "max": 8.63563
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 80,
+            "stanceFraction": 0.16701,
+            "longestStanceSeconds": 0.15556,
+            "heightMinM": 0.0501,
+            "heightMaxM": 0.44755,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.73292,
+              "p10": 5.88468,
+              "median": 6.22241,
+              "p90": 6.47335,
+              "max": 8.63563
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 80,
+            "stanceFraction": 0.16701,
+            "longestStanceSeconds": 0.15556,
+            "heightMinM": 0.05002,
+            "heightMaxM": 0.44744,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.69343,
+              "p10": 5.88181,
+              "median": 6.22249,
+              "p90": 6.47266,
+              "max": 8.6031
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 5.79372,
+        "ankleConfidence": "needs-visual-review"
+      }
+    },
+    {
+      "id": "lizardman_scout",
+      "rig": "source65-plus7-tail-plus-animal-jaw",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.01504,
+      "impliedRunMps": 6.10002,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.01504,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01241,
+        "p10ToP90SpreadFraction": 0.46807,
+        "speedMps": {
+          "min": 0.08016,
+          "p10": 0.63761,
+          "median": 1.01504,
+          "p90": 1.11272,
+          "max": 1.25191
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 235,
+            "stanceFraction": 0.49061,
+            "longestStanceSeconds": 0.65278,
+            "heightMinM": 0.03061,
+            "heightMaxM": 0.23397,
+            "heightWindowM": 0.0244,
+            "speedMps": {
+              "min": 0.14849,
+              "p10": 0.45298,
+              "median": 1.0042,
+              "p90": 1.1206,
+              "max": 1.25191
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 242,
+            "stanceFraction": 0.50522,
+            "longestStanceSeconds": 0.67222,
+            "heightMinM": 0.03493,
+            "heightMaxM": 0.23395,
+            "heightWindowM": 0.02388,
+            "speedMps": {
+              "min": 0.08016,
+              "p10": 0.63761,
+              "median": 1.01682,
+              "p90": 1.11105,
+              "max": 1.24369
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.98743,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.10002,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00174,
+        "p10ToP90SpreadFraction": 0.14581,
+        "speedMps": {
+          "min": 5.58586,
+          "p10": 5.72853,
+          "median": 6.10002,
+          "p90": 6.61799,
+          "max": 8.44412
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 81,
+            "stanceFraction": 0.1691,
+            "longestStanceSeconds": 0.1575,
+            "heightMinM": 0.05279,
+            "heightMaxM": 0.45123,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.62334,
+              "p10": 5.72858,
+              "median": 6.08939,
+              "p90": 6.61758,
+              "max": 8.44412
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 81,
+            "stanceFraction": 0.1691,
+            "longestStanceSeconds": 0.1575,
+            "heightMinM": 0.05092,
+            "heightMaxM": 0.4512,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.58586,
+              "p10": 5.72684,
+              "median": 6.10002,
+              "p90": 6.61799,
+              "max": 8.41128
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 5.6027,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    },
+    {
+      "id": "lizardman_guard",
+      "rig": "source65-plus7-tail-plus-animal-jaw",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.01459,
+      "impliedRunMps": 6.10002,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.01459,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01425,
+        "p10ToP90SpreadFraction": 0.5823,
+        "speedMps": {
+          "min": 0.08016,
+          "p10": 0.45289,
+          "median": 1.01459,
+          "p90": 1.04369,
+          "max": 1.25191
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 227,
+            "stanceFraction": 0.4739,
+            "longestStanceSeconds": 0.63056,
+            "heightMinM": 0.03061,
+            "heightMaxM": 0.23397,
+            "heightWindowM": 0.0244,
+            "speedMps": {
+              "min": 0.14849,
+              "p10": 0.45298,
+              "median": 1.00214,
+              "p90": 1.04091,
+              "max": 1.25191
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 231,
+            "stanceFraction": 0.48225,
+            "longestStanceSeconds": 0.64167,
+            "heightMinM": 0.03493,
+            "heightMaxM": 0.23395,
+            "heightWindowM": 0.02388,
+            "speedMps": {
+              "min": 0.08016,
+              "p10": 0.38466,
+              "median": 1.01663,
+              "p90": 1.05953,
+              "max": 1.24369
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.98743,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.10002,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00174,
+        "p10ToP90SpreadFraction": 0.14581,
+        "speedMps": {
+          "min": 5.58586,
+          "p10": 5.72853,
+          "median": 6.10002,
+          "p90": 6.61799,
+          "max": 8.44412
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 81,
+            "stanceFraction": 0.1691,
+            "longestStanceSeconds": 0.1575,
+            "heightMinM": 0.05279,
+            "heightMaxM": 0.45123,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.62334,
+              "p10": 5.72858,
+              "median": 6.08939,
+              "p90": 6.61758,
+              "max": 8.44412
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 81,
+            "stanceFraction": 0.1691,
+            "longestStanceSeconds": 0.1575,
+            "heightMinM": 0.05092,
+            "heightMaxM": 0.4512,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.58586,
+              "p10": 5.72684,
+              "median": 6.10002,
+              "p90": 6.61799,
+              "max": 8.41128
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 5.6027,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    },
+    {
+      "id": "lizardman_shaman",
+      "rig": "source65-plus7-tail-plus-animal-jaw",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.01504,
+      "impliedRunMps": 6.10002,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.01504,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01241,
+        "p10ToP90SpreadFraction": 0.46807,
+        "speedMps": {
+          "min": 0.08016,
+          "p10": 0.63761,
+          "median": 1.01504,
+          "p90": 1.11272,
+          "max": 1.25191
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 235,
+            "stanceFraction": 0.49061,
+            "longestStanceSeconds": 0.65278,
+            "heightMinM": 0.03425,
+            "heightMaxM": 0.2376,
+            "heightWindowM": 0.0244,
+            "speedMps": {
+              "min": 0.14849,
+              "p10": 0.45298,
+              "median": 1.0042,
+              "p90": 1.1206,
+              "max": 1.25191
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 242,
+            "stanceFraction": 0.50522,
+            "longestStanceSeconds": 0.67222,
+            "heightMinM": 0.03857,
+            "heightMaxM": 0.23758,
+            "heightWindowM": 0.02388,
+            "speedMps": {
+              "min": 0.08016,
+              "p10": 0.63761,
+              "median": 1.01682,
+              "p90": 1.11105,
+              "max": 1.24369
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.98743,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.10002,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00174,
+        "p10ToP90SpreadFraction": 0.14581,
+        "speedMps": {
+          "min": 5.58586,
+          "p10": 5.72853,
+          "median": 6.10002,
+          "p90": 6.61799,
+          "max": 8.44412
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 81,
+            "stanceFraction": 0.1691,
+            "longestStanceSeconds": 0.1575,
+            "heightMinM": 0.05642,
+            "heightMaxM": 0.45486,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.62334,
+              "p10": 5.72858,
+              "median": 6.08939,
+              "p90": 6.61758,
+              "max": 8.44412
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 81,
+            "stanceFraction": 0.1691,
+            "longestStanceSeconds": 0.1575,
+            "heightMinM": 0.05455,
+            "heightMaxM": 0.45483,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.58586,
+              "p10": 5.72684,
+              "median": 6.10002,
+              "p90": 6.61799,
+              "max": 8.41128
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 5.6027,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    },
+    {
+      "id": "skeleton_soldier",
+      "rig": "Original Dungeon Skeletons biped skin, bind matrices and weights",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.48327,
+      "impliedRunMps": 2.18128,
+      "walk": {
+        "cycleSeconds": 1.16667,
+        "impliedMps": 1.48327,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.15403,
+        "p10ToP90SpreadFraction": 0.43374,
+        "speedMps": {
+          "min": 0.96236,
+          "p10": 1.13593,
+          "median": 1.48327,
+          "p90": 1.77928,
+          "max": 2.03191
+        },
+        "contacts": [
+          {
+            "bone": "Bip001_L_Toe0",
+            "samples": 223,
+            "stanceFraction": 0.46555,
+            "longestStanceSeconds": 0.45451,
+            "heightMinM": 0.00313,
+            "heightMaxM": 0.12192,
+            "heightWindowM": 0.01425,
+            "speedMps": {
+              "min": 1.11147,
+              "p10": 1.139,
+              "median": 1.58037,
+              "p90": 1.62282,
+              "max": 1.74527
+            }
+          },
+          {
+            "bone": "Bip001_R_Toe0",
+            "samples": 241,
+            "stanceFraction": 0.50313,
+            "longestStanceSeconds": 0.58576,
+            "heightMinM": 0.00364,
+            "heightMaxM": 0.12989,
+            "heightWindowM": 0.01515,
+            "speedMps": {
+              "min": 0.96236,
+              "p10": 1.03339,
+              "median": 1.33695,
+              "p90": 1.83007,
+              "max": 2.03191
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.33193,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.79333,
+        "impliedMps": 2.18128,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.15403,
+        "p10ToP90SpreadFraction": 0.43374,
+        "speedMps": {
+          "min": 1.41523,
+          "p10": 1.67048,
+          "median": 2.18128,
+          "p90": 2.61659,
+          "max": 2.9881
+        },
+        "contacts": [
+          {
+            "bone": "Bip001_L_Toe0",
+            "samples": 223,
+            "stanceFraction": 0.46555,
+            "longestStanceSeconds": 0.30907,
+            "heightMinM": 0.00314,
+            "heightMaxM": 0.12192,
+            "heightWindowM": 0.01425,
+            "speedMps": {
+              "min": 1.63452,
+              "p10": 1.67499,
+              "median": 2.32408,
+              "p90": 2.3865,
+              "max": 2.56658
+            }
+          },
+          {
+            "bone": "Bip001_R_Toe0",
+            "samples": 241,
+            "stanceFraction": 0.50313,
+            "longestStanceSeconds": 0.39832,
+            "heightMinM": 0.00361,
+            "heightMaxM": 0.12989,
+            "heightWindowM": 0.01515,
+            "speedMps": {
+              "min": 1.41523,
+              "p10": 1.5197,
+              "median": 1.9661,
+              "p90": 2.69128,
+              "max": 2.9881
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.9587,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "caveat": "Run is retimed Walk; this measures the resulting clip without claiming an authored run."
+    },
+    {
+      "id": "skeleton_archer",
+      "rig": "Original Dungeon Skeletons biped skin, bind matrices and weights",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.48327,
+      "impliedRunMps": 2.18128,
+      "walk": {
+        "cycleSeconds": 1.16667,
+        "impliedMps": 1.48327,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.15403,
+        "p10ToP90SpreadFraction": 0.43374,
+        "speedMps": {
+          "min": 0.96236,
+          "p10": 1.13593,
+          "median": 1.48327,
+          "p90": 1.77928,
+          "max": 2.03191
+        },
+        "contacts": [
+          {
+            "bone": "Bip001_L_Toe0",
+            "samples": 223,
+            "stanceFraction": 0.46555,
+            "longestStanceSeconds": 0.45451,
+            "heightMinM": 0.00313,
+            "heightMaxM": 0.12192,
+            "heightWindowM": 0.01425,
+            "speedMps": {
+              "min": 1.11147,
+              "p10": 1.139,
+              "median": 1.58037,
+              "p90": 1.62282,
+              "max": 1.74527
+            }
+          },
+          {
+            "bone": "Bip001_R_Toe0",
+            "samples": 241,
+            "stanceFraction": 0.50313,
+            "longestStanceSeconds": 0.58576,
+            "heightMinM": 0.00364,
+            "heightMaxM": 0.12989,
+            "heightWindowM": 0.01515,
+            "speedMps": {
+              "min": 0.96236,
+              "p10": 1.03339,
+              "median": 1.33695,
+              "p90": 1.83007,
+              "max": 2.03191
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.33193,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.79333,
+        "impliedMps": 2.18128,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.15403,
+        "p10ToP90SpreadFraction": 0.43374,
+        "speedMps": {
+          "min": 1.41523,
+          "p10": 1.67048,
+          "median": 2.18128,
+          "p90": 2.61659,
+          "max": 2.9881
+        },
+        "contacts": [
+          {
+            "bone": "Bip001_L_Toe0",
+            "samples": 223,
+            "stanceFraction": 0.46555,
+            "longestStanceSeconds": 0.30907,
+            "heightMinM": 0.00314,
+            "heightMaxM": 0.12192,
+            "heightWindowM": 0.01425,
+            "speedMps": {
+              "min": 1.63452,
+              "p10": 1.67499,
+              "median": 2.32408,
+              "p90": 2.3865,
+              "max": 2.56658
+            }
+          },
+          {
+            "bone": "Bip001_R_Toe0",
+            "samples": 241,
+            "stanceFraction": 0.50313,
+            "longestStanceSeconds": 0.39832,
+            "heightMinM": 0.00361,
+            "heightMaxM": 0.12989,
+            "heightWindowM": 0.01515,
+            "speedMps": {
+              "min": 1.41523,
+              "p10": 1.5197,
+              "median": 1.9661,
+              "p90": 2.69128,
+              "max": 2.9881
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.9587,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "caveat": "Run is retimed Walk; this measures the resulting clip without claiming an authored run."
+    },
+    {
+      "id": "skeleton_mage",
+      "rig": "Original Dungeon Skeletons biped skin, bind matrices and weights",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.48327,
+      "impliedRunMps": 2.18128,
+      "walk": {
+        "cycleSeconds": 1.16667,
+        "impliedMps": 1.48327,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.15403,
+        "p10ToP90SpreadFraction": 0.43374,
+        "speedMps": {
+          "min": 0.96236,
+          "p10": 1.13593,
+          "median": 1.48327,
+          "p90": 1.77928,
+          "max": 2.03191
+        },
+        "contacts": [
+          {
+            "bone": "Bip001_L_Toe0",
+            "samples": 223,
+            "stanceFraction": 0.46555,
+            "longestStanceSeconds": 0.45451,
+            "heightMinM": 0.00313,
+            "heightMaxM": 0.12192,
+            "heightWindowM": 0.01425,
+            "speedMps": {
+              "min": 1.11147,
+              "p10": 1.139,
+              "median": 1.58037,
+              "p90": 1.62282,
+              "max": 1.74527
+            }
+          },
+          {
+            "bone": "Bip001_R_Toe0",
+            "samples": 241,
+            "stanceFraction": 0.50313,
+            "longestStanceSeconds": 0.58576,
+            "heightMinM": 0.00364,
+            "heightMaxM": 0.12989,
+            "heightWindowM": 0.01515,
+            "speedMps": {
+              "min": 0.96236,
+              "p10": 1.03339,
+              "median": 1.33695,
+              "p90": 1.83007,
+              "max": 2.03191
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.33193,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.79333,
+        "impliedMps": 2.18128,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.15403,
+        "p10ToP90SpreadFraction": 0.43374,
+        "speedMps": {
+          "min": 1.41523,
+          "p10": 1.67048,
+          "median": 2.18128,
+          "p90": 2.61659,
+          "max": 2.9881
+        },
+        "contacts": [
+          {
+            "bone": "Bip001_L_Toe0",
+            "samples": 223,
+            "stanceFraction": 0.46555,
+            "longestStanceSeconds": 0.30907,
+            "heightMinM": 0.00314,
+            "heightMaxM": 0.12192,
+            "heightWindowM": 0.01425,
+            "speedMps": {
+              "min": 1.63452,
+              "p10": 1.67499,
+              "median": 2.32408,
+              "p90": 2.3865,
+              "max": 2.56658
+            }
+          },
+          {
+            "bone": "Bip001_R_Toe0",
+            "samples": 241,
+            "stanceFraction": 0.50313,
+            "longestStanceSeconds": 0.39832,
+            "heightMinM": 0.00361,
+            "heightMaxM": 0.12989,
+            "heightWindowM": 0.01515,
+            "speedMps": {
+              "min": 1.41523,
+              "p10": 1.5197,
+              "median": 1.9661,
+              "p90": 2.69128,
+              "max": 2.9881
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.9587,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "caveat": "Run is retimed Walk; this measures the resulting clip without claiming an authored run."
+    },
+    {
+      "id": "zombie",
+      "status": "needs-visual-review",
+      "impliedWalkMps": 1.02122,
+      "impliedRunMps": 6.37367,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.02426,
+        "confidence": "needs-visual-review",
+        "bilateralDifferenceFraction": 0.00683,
+        "p10ToP90SpreadFraction": 0.09557,
+        "speedMps": {
+          "min": 0.97523,
+          "p10": 0.99919,
+          "median": 1.02426,
+          "p90": 1.09708,
+          "max": 1.16885
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 179,
+            "stanceFraction": 0.3737,
+            "longestStanceSeconds": 0.49722,
+            "heightMinM": 0.02372,
+            "heightMaxM": 0.11849,
+            "heightWindowM": 0.01137,
+            "speedMps": {
+              "min": 0.97523,
+              "p10": 0.99919,
+              "median": 1.02324,
+              "p90": 1.09932,
+              "max": 1.16885
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 25,
+            "stanceFraction": 0.05219,
+            "longestStanceSeconds": 0.06944,
+            "heightMinM": 0.02032,
+            "heightMaxM": 0.0519,
+            "heightWindowM": 0.008,
+            "speedMps": {
+              "min": 0.98507,
+              "p10": 1.0081,
+              "median": 1.03028,
+              "p90": 1.0794,
+              "max": 1.09708
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.04295,
+        "ankleConfidence": "needs-visual-review"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.15944,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00071,
+        "p10ToP90SpreadFraction": 0.13955,
+        "speedMps": {
+          "min": 5.64673,
+          "p10": 5.82862,
+          "median": 6.15944,
+          "p90": 6.6882,
+          "max": 8.52675
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 81,
+            "stanceFraction": 0.1691,
+            "longestStanceSeconds": 0.1575,
+            "heightMinM": 0.0384,
+            "heightMaxM": 0.43747,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.68586,
+              "p10": 5.83191,
+              "median": 6.15506,
+              "p90": 6.68649,
+              "max": 8.52675
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 81,
+            "stanceFraction": 0.1691,
+            "longestStanceSeconds": 0.1575,
+            "heightMinM": 0.03834,
+            "heightMaxM": 0.43742,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.64673,
+              "p10": 5.82862,
+              "median": 6.15944,
+              "p90": 6.6882,
+              "max": 8.49528
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 5.67086,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "geometryContact": {
+        "walk": {
+          "cycleSeconds": 1.33333,
+          "impliedMps": 1.02122,
+          "confidence": "credible-geometry-estimate",
+          "bilateralDifferenceFraction": 0.01041,
+          "p10ToP90SpreadFraction": 0.0606,
+          "speedMps": {
+            "min": 0.2174,
+            "p10": 1.00738,
+            "median": 1.02122,
+            "p90": 1.06927,
+            "max": 1.18553
+          },
+          "contacts": [
+            {
+              "side": "l",
+              "candidateVertices": 327,
+              "meshNames": [
+                "zombie_Male_Peasant_Feet"
+              ],
+              "samples": 299,
+              "stanceFraction": 0.62552,
+              "intervals": [
+                {
+                  "startPhase": 0.00208,
+                  "endPhase": 0.625,
+                  "seconds": 0.83056
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.00082,
+                "p10": 0.00116,
+                "median": 0.00865,
+                "p90": 0.05582,
+                "max": 0.06142
+              },
+              "speedMps": {
+                "min": 0.2174,
+                "p10": 0.80817,
+                "median": 1.03702,
+                "p90": 1.23022,
+                "max": 1.3872
+              },
+              "coreSpeedMps": {
+                "min": 0.2174,
+                "p10": 1.00628,
+                "median": 1.02781,
+                "p90": 1.10131,
+                "max": 1.18553
+              },
+              "mainStanceSeconds": 0.83056,
+              "coreStanceSeconds": 0.58611,
+              "contactVertexCounts": {
+                "min": 6,
+                "p10": 8,
+                "median": 16,
+                "p90": 49,
+                "max": 49
+              }
+            },
+            {
+              "side": "r",
+              "candidateVertices": 327,
+              "meshNames": [
+                "zombie_Male_Peasant_Feet"
+              ],
+              "samples": 232,
+              "stanceFraction": 0.48536,
+              "intervals": [
+                {
+                  "startPhase": 0.5,
+                  "endPhase": 0.98333,
+                  "seconds": 0.64444
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.0009,
+                "p10": 0.00099,
+                "median": 0.01293,
+                "p90": 0.0219,
+                "max": 0.02543
+              },
+              "speedMps": {
+                "min": 0.44322,
+                "p10": 1.01125,
+                "median": 1.02335,
+                "p90": 1.04389,
+                "max": 1.10376
+              },
+              "coreSpeedMps": {
+                "min": 0.95535,
+                "p10": 1.00871,
+                "median": 1.01711,
+                "p90": 1.03731,
+                "max": 1.07352
+              },
+              "mainStanceSeconds": 0.64444,
+              "coreStanceSeconds": 0.45556,
+              "contactVertexCounts": {
+                "min": 8,
+                "p10": 8,
+                "median": 16,
+                "p90": 49,
+                "max": 49
+              }
+            }
+          ]
+        },
+        "run": {
+          "cycleSeconds": 0.93333,
+          "impliedMps": 6.37367,
+          "confidence": "needs-visual-review",
+          "bilateralDifferenceFraction": 0.00008,
+          "p10ToP90SpreadFraction": 0.02697,
+          "speedMps": {
+            "min": 6.19207,
+            "p10": 6.23775,
+            "median": 6.37367,
+            "p90": 6.40962,
+            "max": 6.41063
+          },
+          "contacts": [
+            {
+              "side": "l",
+              "candidateVertices": 327,
+              "meshNames": [
+                "zombie_Male_Peasant_Feet"
+              ],
+              "samples": 13,
+              "stanceFraction": 0.0272,
+              "intervals": [
+                {
+                  "startPhase": 0.15,
+                  "endPhase": 0.17708,
+                  "seconds": 0.02528
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.0125,
+                "p10": 0.02527,
+                "median": 0.18609,
+                "p90": 0.31226,
+                "max": 0.33219
+              },
+              "speedMps": {
+                "min": 6.14147,
+                "p10": 6.19219,
+                "median": 6.37367,
+                "p90": 6.40953,
+                "max": 6.41036
+              },
+              "coreSpeedMps": {
+                "min": 6.19219,
+                "p10": 6.23775,
+                "median": 6.37367,
+                "p90": 6.40953,
+                "max": 6.41036
+              },
+              "mainStanceSeconds": 0.02528,
+              "coreStanceSeconds": 0.02139,
+              "contactVertexCounts": {
+                "min": 12,
+                "p10": 12,
+                "median": 12,
+                "p90": 12,
+                "max": 12
+              }
+            },
+            {
+              "side": "r",
+              "candidateVertices": 327,
+              "meshNames": [
+                "zombie_Male_Peasant_Feet"
+              ],
+              "samples": 28,
+              "stanceFraction": 0.05858,
+              "intervals": [
+                {
+                  "startPhase": 0.51667,
+                  "endPhase": 0.525,
+                  "seconds": 0.00778
+                },
+                {
+                  "startPhase": 0.55,
+                  "endPhase": 0.56458,
+                  "seconds": 0.01361
+                },
+                {
+                  "startPhase": 0.58333,
+                  "endPhase": 0.59167,
+                  "seconds": 0.00778
+                },
+                {
+                  "startPhase": 0.65,
+                  "endPhase": 0.67708,
+                  "seconds": 0.02528
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.01244,
+                "p10": 0.02277,
+                "median": 0.19458,
+                "p90": 0.31505,
+                "max": 0.33216
+              },
+              "speedMps": {
+                "min": 5.96322,
+                "p10": 6.11672,
+                "median": 6.28123,
+                "p90": 8.05442,
+                "max": 8.42244
+              },
+              "coreSpeedMps": {
+                "min": 6.19207,
+                "p10": 6.23936,
+                "median": 6.37314,
+                "p90": 6.40962,
+                "max": 6.41063
+              },
+              "mainStanceSeconds": 0.02528,
+              "coreStanceSeconds": 0.02139,
+              "contactVertexCounts": {
+                "min": 12,
+                "p10": 12,
+                "median": 13,
+                "p90": 20,
+                "max": 20
+              }
+            }
+          ]
+        }
+      },
+      "jointProxySpeeds": {
+        "impliedWalkMps": 1.02426,
+        "impliedRunMps": 6.15944
+      },
+      "caveat": "Speed fields now derive from actual weighted contact geometry. Joint audit retained for comparison. Production contact playback still required."
+    },
+    {
+      "id": "plague_zombie",
+      "status": "needs-visual-review",
+      "impliedWalkMps": 1.02228,
+      "impliedRunMps": 6.38014,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.01937,
+        "confidence": "needs-visual-review",
+        "bilateralDifferenceFraction": 0.0187,
+        "p10ToP90SpreadFraction": 0.09207,
+        "speedMps": {
+          "min": 0.15772,
+          "p10": 0.99375,
+          "median": 1.01937,
+          "p90": 1.0876,
+          "max": 1.14694
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 214,
+            "stanceFraction": 0.44676,
+            "longestStanceSeconds": 0.59444,
+            "heightMinM": 0.0281,
+            "heightMaxM": 0.12423,
+            "heightWindowM": 0.01154,
+            "speedMps": {
+              "min": 0.15772,
+              "p10": 0.99229,
+              "median": 1.01518,
+              "p90": 1.08614,
+              "max": 1.14694
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 21,
+            "stanceFraction": 0.04384,
+            "longestStanceSeconds": 0.05833,
+            "heightMinM": 0.0204,
+            "heightMaxM": 0.04642,
+            "heightWindowM": 0.008,
+            "speedMps": {
+              "min": 0.9939,
+              "p10": 1.01741,
+              "median": 1.03453,
+              "p90": 1.09038,
+              "max": 1.10852
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.043,
+        "ankleConfidence": "needs-visual-review"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.13684,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00107,
+        "p10ToP90SpreadFraction": 0.09836,
+        "speedMps": {
+          "min": 5.61543,
+          "p10": 5.78721,
+          "median": 6.13684,
+          "p90": 6.39084,
+          "max": 8.58913
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 80,
+            "stanceFraction": 0.16701,
+            "longestStanceSeconds": 0.15556,
+            "heightMinM": 0.03944,
+            "heightMaxM": 0.43206,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.65231,
+              "p10": 5.80767,
+              "median": 6.13684,
+              "p90": 6.39084,
+              "max": 8.58913
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 80,
+            "stanceFraction": 0.16701,
+            "longestStanceSeconds": 0.15556,
+            "heightMinM": 0.03935,
+            "heightMaxM": 0.4319,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.61543,
+              "p10": 5.78721,
+              "median": 6.14343,
+              "p90": 6.38983,
+              "max": 8.55295
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 5.69168,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "geometryContact": {
+        "walk": {
+          "cycleSeconds": 1.33333,
+          "impliedMps": 1.02228,
+          "confidence": "credible-geometry-estimate",
+          "bilateralDifferenceFraction": 0.00735,
+          "p10ToP90SpreadFraction": 0.04954,
+          "speedMps": {
+            "min": 0.21707,
+            "p10": 1.00546,
+            "median": 1.02228,
+            "p90": 1.0561,
+            "max": 1.18527
+          },
+          "contacts": [
+            {
+              "side": "l",
+              "candidateVertices": 327,
+              "meshNames": [
+                "plague_zombie_Male_Peasant_Feet"
+              ],
+              "samples": 299,
+              "stanceFraction": 0.62552,
+              "intervals": [
+                {
+                  "startPhase": 0.00208,
+                  "endPhase": 0.625,
+                  "seconds": 0.83056
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.00083,
+                "p10": 0.00328,
+                "median": 0.0129,
+                "p90": 0.06138,
+                "max": 0.06761
+              },
+              "speedMps": {
+                "min": 0.21707,
+                "p10": 0.80815,
+                "median": 1.03394,
+                "p90": 1.2344,
+                "max": 1.38707
+              },
+              "coreSpeedMps": {
+                "min": 0.21707,
+                "p10": 1.00546,
+                "median": 1.02627,
+                "p90": 1.08281,
+                "max": 1.18527
+              },
+              "mainStanceSeconds": 0.83056,
+              "coreStanceSeconds": 0.58611,
+              "contactVertexCounts": {
+                "min": 6,
+                "p10": 8,
+                "median": 16,
+                "p90": 49,
+                "max": 49
+              }
+            },
+            {
+              "side": "r",
+              "candidateVertices": 327,
+              "meshNames": [
+                "plague_zombie_Male_Peasant_Feet"
+              ],
+              "samples": 287,
+              "stanceFraction": 0.60042,
+              "intervals": [
+                {
+                  "startPhase": 0.00208,
+                  "endPhase": 0.10208,
+                  "seconds": 0.13333
+                },
+                {
+                  "startPhase": 0.5,
+                  "endPhase": 0.99792,
+                  "seconds": 0.66389
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.0009,
+                "p10": 0.00097,
+                "median": 0.01041,
+                "p90": 0.01634,
+                "max": 0.01833
+              },
+              "speedMps": {
+                "min": 0.11488,
+                "p10": 0.34103,
+                "median": 1.01829,
+                "p90": 1.04298,
+                "max": 1.11509
+              },
+              "coreSpeedMps": {
+                "min": 0.33623,
+                "p10": 1.00594,
+                "median": 1.01873,
+                "p90": 1.04223,
+                "max": 1.06818
+              },
+              "mainStanceSeconds": 0.79722,
+              "coreStanceSeconds": 0.55833,
+              "contactVertexCounts": {
+                "min": 8,
+                "p10": 8,
+                "median": 15,
+                "p90": 49,
+                "max": 49
+              }
+            }
+          ]
+        },
+        "run": {
+          "cycleSeconds": 0.93333,
+          "impliedMps": 6.38014,
+          "confidence": "needs-visual-review",
+          "bilateralDifferenceFraction": 0.00002,
+          "p10ToP90SpreadFraction": 0.02386,
+          "speedMps": {
+            "min": 6.21042,
+            "p10": 6.25605,
+            "median": 6.38014,
+            "p90": 6.40828,
+            "max": 6.40961
+          },
+          "contacts": [
+            {
+              "side": "l",
+              "candidateVertices": 327,
+              "meshNames": [
+                "plague_zombie_Male_Peasant_Feet"
+              ],
+              "samples": 12,
+              "stanceFraction": 0.0251,
+              "intervals": [
+                {
+                  "startPhase": 0.15208,
+                  "endPhase": 0.17708,
+                  "seconds": 0.02333
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.01351,
+                "p10": 0.03104,
+                "median": 0.18471,
+                "p90": 0.31537,
+                "max": 0.32679
+              },
+              "speedMps": {
+                "min": 6.16164,
+                "p10": 6.21042,
+                "median": 6.38024,
+                "p90": 6.40799,
+                "max": 6.4094
+              },
+              "coreSpeedMps": {
+                "min": 6.21042,
+                "p10": 6.25605,
+                "median": 6.38024,
+                "p90": 6.40799,
+                "max": 6.4094
+              },
+              "mainStanceSeconds": 0.02333,
+              "coreStanceSeconds": 0.01944,
+              "contactVertexCounts": {
+                "min": 12,
+                "p10": 12,
+                "median": 12,
+                "p90": 12,
+                "max": 12
+              }
+            },
+            {
+              "side": "r",
+              "candidateVertices": 327,
+              "meshNames": [
+                "plague_zombie_Male_Peasant_Feet"
+              ],
+              "samples": 12,
+              "stanceFraction": 0.0251,
+              "intervals": [
+                {
+                  "startPhase": 0.65208,
+                  "endPhase": 0.67708,
+                  "seconds": 0.02333
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.01341,
+                "p10": 0.02755,
+                "median": 0.19445,
+                "p90": 0.31812,
+                "max": 0.32664
+              },
+              "speedMps": {
+                "min": 6.16225,
+                "p10": 6.21267,
+                "median": 6.38014,
+                "p90": 6.40828,
+                "max": 6.40961
+              },
+              "coreSpeedMps": {
+                "min": 6.21267,
+                "p10": 6.25769,
+                "median": 6.38014,
+                "p90": 6.40828,
+                "max": 6.40961
+              },
+              "mainStanceSeconds": 0.02333,
+              "coreStanceSeconds": 0.01944,
+              "contactVertexCounts": {
+                "min": 12,
+                "p10": 12,
+                "median": 12,
+                "p90": 12,
+                "max": 12
+              }
+            }
+          ]
+        }
+      },
+      "jointProxySpeeds": {
+        "impliedWalkMps": 1.01937,
+        "impliedRunMps": 6.13684
+      },
+      "caveat": "Speed fields now derive from actual weighted contact geometry. Joint audit retained for comparison. Production contact playback still required."
+    },
+    {
+      "id": "grave_ghoul",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.83859,
+      "impliedRunMps": 5.05053,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.83859,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.0065,
+        "p10ToP90SpreadFraction": 0.07488,
+        "speedMps": {
+          "min": 0.12849,
+          "p10": 0.81849,
+          "median": 0.83859,
+          "p90": 0.88128,
+          "max": 0.94665
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 168,
+            "stanceFraction": 0.35073,
+            "longestStanceSeconds": 0.44444,
+            "heightMinM": 0.0212,
+            "heightMaxM": 0.09483,
+            "heightWindowM": 0.00884,
+            "speedMps": {
+              "min": 0.12849,
+              "p10": 0.81521,
+              "median": 0.83357,
+              "p90": 0.9061,
+              "max": 0.94665
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 225,
+            "stanceFraction": 0.46973,
+            "longestStanceSeconds": 0.625,
+            "heightMinM": 0.0212,
+            "heightMaxM": 0.03928,
+            "heightWindowM": 0.008,
+            "speedMps": {
+              "min": 0.78249,
+              "p10": 0.82873,
+              "median": 0.83902,
+              "p90": 0.85526,
+              "max": 0.90302
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.84639,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 5.05053,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00006,
+        "p10ToP90SpreadFraction": 0.14119,
+        "speedMps": {
+          "min": 4.62355,
+          "p10": 4.77528,
+          "median": 5.05053,
+          "p90": 5.48835,
+          "max": 7.01027
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 82,
+            "stanceFraction": 0.17119,
+            "longestStanceSeconds": 0.15944,
+            "heightMinM": 0.02505,
+            "heightMaxM": 0.34972,
+            "heightWindowM": 0.03896,
+            "speedMps": {
+              "min": 4.65568,
+              "p10": 4.77792,
+              "median": 5.05084,
+              "p90": 5.48599,
+              "max": 7.01027
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 82,
+            "stanceFraction": 0.17119,
+            "longestStanceSeconds": 0.15944,
+            "heightMinM": 0.02495,
+            "heightMaxM": 0.34955,
+            "heightWindowM": 0.03895,
+            "speedMps": {
+              "min": 4.62355,
+              "p10": 4.77528,
+              "median": 5.05053,
+              "p90": 5.48835,
+              "max": 6.98398
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 4.58585,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    },
+    {
+      "id": "wraith",
+      "status": "exempt-hover",
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "reason": "Floating robe has no authored planted feet; hidden leg motion cannot establish travel speed."
+    },
+    {
+      "id": "banshee",
+      "status": "exempt-hover",
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "reason": "Floating robe has no authored planted feet; hidden leg motion cannot establish travel speed."
+    },
+    {
+      "id": "revenant",
+      "status": "exempt-hover",
+      "impliedWalkMps": null,
+      "impliedRunMps": null,
+      "reason": "Floating robe has no authored planted feet; hidden leg motion cannot establish travel speed."
+    },
+    {
+      "id": "stone_golem",
+      "rig": "entitled-universal-base-65-joint",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.97835,
+      "impliedRunMps": 6.7042,
+      "walk": {
+        "cycleSeconds": 1.8,
+        "impliedMps": 0.97835,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01608,
+        "p10ToP90SpreadFraction": 0.05637,
+        "speedMps": {
+          "min": 0.07783,
+          "p10": 0.94458,
+          "median": 0.97835,
+          "p90": 0.99973,
+          "max": 1.05749
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 116,
+            "stanceFraction": 0.24217,
+            "longestStanceSeconds": 0.2775,
+            "heightMinM": 0.03577,
+            "heightMaxM": 0.24923,
+            "heightWindowM": 0.02562,
+            "speedMps": {
+              "min": 0.14621,
+              "p10": 0.94604,
+              "median": 0.96607,
+              "p90": 0.98896,
+              "max": 1.00484
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 118,
+            "stanceFraction": 0.24635,
+            "longestStanceSeconds": 0.28125,
+            "heightMinM": 0.03689,
+            "heightMaxM": 0.24918,
+            "heightWindowM": 0.02547,
+            "speedMps": {
+              "min": 0.07783,
+              "p10": 0.97338,
+              "median": 0.98186,
+              "p90": 1.00219,
+              "max": 1.05749
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.9851,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 1.12,
+        "impliedMps": 6.7042,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00525,
+        "p10ToP90SpreadFraction": 0.10657,
+        "speedMps": {
+          "min": 6.08965,
+          "p10": 6.2788,
+          "median": 6.7042,
+          "p90": 6.99327,
+          "max": 9.2892
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 73,
+            "stanceFraction": 0.1524,
+            "longestStanceSeconds": 0.17033,
+            "heightMinM": 0.03517,
+            "heightMaxM": 0.53764,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 6.11907,
+              "p10": 6.2788,
+              "median": 6.69315,
+              "p90": 6.96817,
+              "max": 7.03345
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 76,
+            "stanceFraction": 0.15866,
+            "longestStanceSeconds": 0.17733,
+            "heightMinM": 0.03422,
+            "heightMaxM": 0.53443,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 6.08965,
+              "p10": 6.28802,
+              "median": 6.72847,
+              "p90": 7.01544,
+              "max": 9.2892
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 6.40439,
+        "ankleConfidence": "needs-visual-review"
+      }
+    },
+    {
+      "id": "iron_golem",
+      "rig": "entitled-universal-base-65-joint",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.97535,
+      "impliedRunMps": 6.7042,
+      "walk": {
+        "cycleSeconds": 1.8,
+        "impliedMps": 0.97535,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.0234,
+        "p10ToP90SpreadFraction": 0.53668,
+        "speedMps": {
+          "min": 0.40896,
+          "p10": 0.47127,
+          "median": 0.97535,
+          "p90": 0.99472,
+          "max": 1.05749
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 73,
+            "stanceFraction": 0.1524,
+            "longestStanceSeconds": 0.24375,
+            "heightMinM": 0.03626,
+            "heightMaxM": 0.28963,
+            "heightWindowM": 0.0304,
+            "speedMps": {
+              "min": 0.46855,
+              "p10": 0.47127,
+              "median": 0.95891,
+              "p90": 0.98194,
+              "max": 1.00253
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 72,
+            "stanceFraction": 0.15031,
+            "longestStanceSeconds": 0.24375,
+            "heightMinM": 0.03709,
+            "heightMaxM": 0.28959,
+            "heightWindowM": 0.0303,
+            "speedMps": {
+              "min": 0.40896,
+              "p10": 0.97338,
+              "median": 0.98189,
+              "p90": 1.00219,
+              "max": 1.05749
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.01175,
+        "ankleConfidence": "needs-visual-review"
+      },
+      "run": {
+        "cycleSeconds": 1.12,
+        "impliedMps": 6.7042,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00525,
+        "p10ToP90SpreadFraction": 0.10657,
+        "speedMps": {
+          "min": 6.08965,
+          "p10": 6.2788,
+          "median": 6.7042,
+          "p90": 6.99327,
+          "max": 9.2892
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 73,
+            "stanceFraction": 0.1524,
+            "longestStanceSeconds": 0.17033,
+            "heightMinM": 0.03517,
+            "heightMaxM": 0.53764,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 6.11907,
+              "p10": 6.2788,
+              "median": 6.69315,
+              "p90": 6.96817,
+              "max": 7.03345
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 76,
+            "stanceFraction": 0.15866,
+            "longestStanceSeconds": 0.17733,
+            "heightMinM": 0.03422,
+            "heightMaxM": 0.53443,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 6.08965,
+              "p10": 6.28802,
+              "median": 6.72847,
+              "p90": 7.01544,
+              "max": 9.2892
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 6.40439,
+        "ankleConfidence": "needs-visual-review"
+      }
+    },
+    {
+      "id": "fire_golem",
+      "rig": "entitled-universal-base-65-joint",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.97835,
+      "impliedRunMps": 6.7042,
+      "walk": {
+        "cycleSeconds": 1.8,
+        "impliedMps": 0.97835,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01608,
+        "p10ToP90SpreadFraction": 0.05637,
+        "speedMps": {
+          "min": 0.07783,
+          "p10": 0.94458,
+          "median": 0.97835,
+          "p90": 0.99973,
+          "max": 1.05749
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 116,
+            "stanceFraction": 0.24217,
+            "longestStanceSeconds": 0.2775,
+            "heightMinM": 0.03577,
+            "heightMaxM": 0.24923,
+            "heightWindowM": 0.02562,
+            "speedMps": {
+              "min": 0.14621,
+              "p10": 0.94604,
+              "median": 0.96607,
+              "p90": 0.98896,
+              "max": 1.00484
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 118,
+            "stanceFraction": 0.24635,
+            "longestStanceSeconds": 0.28125,
+            "heightMinM": 0.03689,
+            "heightMaxM": 0.24918,
+            "heightWindowM": 0.02547,
+            "speedMps": {
+              "min": 0.07783,
+              "p10": 0.97338,
+              "median": 0.98186,
+              "p90": 1.00219,
+              "max": 1.05749
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.9851,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 1.12,
+        "impliedMps": 6.7042,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00525,
+        "p10ToP90SpreadFraction": 0.10657,
+        "speedMps": {
+          "min": 6.08965,
+          "p10": 6.2788,
+          "median": 6.7042,
+          "p90": 6.99327,
+          "max": 9.2892
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 73,
+            "stanceFraction": 0.1524,
+            "longestStanceSeconds": 0.17033,
+            "heightMinM": 0.03517,
+            "heightMaxM": 0.53764,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 6.11907,
+              "p10": 6.2788,
+              "median": 6.69315,
+              "p90": 6.96817,
+              "max": 7.03345
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 76,
+            "stanceFraction": 0.15866,
+            "longestStanceSeconds": 0.17733,
+            "heightMinM": 0.03422,
+            "heightMaxM": 0.53443,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 6.08965,
+              "p10": 6.28802,
+              "median": 6.72847,
+              "p90": 7.01544,
+              "max": 9.2892
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 6.40439,
+        "ankleConfidence": "needs-visual-review"
+      }
+    },
+    {
+      "id": "harpy",
+      "status": "credible-geometry-estimate",
+      "impliedWalkMps": 1.01996,
+      "impliedRunMps": 6.25276,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.98441,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00373,
+        "p10ToP90SpreadFraction": 0.03127,
+        "speedMps": {
+          "min": 0.96321,
+          "p10": 0.97168,
+          "median": 0.98441,
+          "p90": 1.00246,
+          "max": 1.01017
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 79,
+            "stanceFraction": 0.16493,
+            "longestStanceSeconds": 0.21944,
+            "heightMinM": 0.0113,
+            "heightMaxM": 0.20198,
+            "heightWindowM": 0.02288,
+            "speedMps": {
+              "min": 0.96321,
+              "p10": 0.96993,
+              "median": 0.98314,
+              "p90": 0.99061,
+              "max": 0.99945
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 94,
+            "stanceFraction": 0.19624,
+            "longestStanceSeconds": 0.26111,
+            "heightMinM": 0.01883,
+            "heightMaxM": 0.1959,
+            "heightWindowM": 0.02125,
+            "speedMps": {
+              "min": 0.96869,
+              "p10": 0.97451,
+              "median": 0.98682,
+              "p90": 1.00457,
+              "max": 1.01017
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.93416,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.0409,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00729,
+        "p10ToP90SpreadFraction": 0.3598,
+        "speedMps": {
+          "min": 5.42684,
+          "p10": 5.56078,
+          "median": 6.0409,
+          "p90": 7.73427,
+          "max": 8.69896
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 51,
+            "stanceFraction": 0.10647,
+            "longestStanceSeconds": 0.09917,
+            "heightMinM": 0.04558,
+            "heightMaxM": 0.39343,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.44329,
+              "p10": 5.58424,
+              "median": 6.01671,
+              "p90": 7.73427,
+              "max": 8.69896
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 46,
+            "stanceFraction": 0.09603,
+            "longestStanceSeconds": 0.08944,
+            "heightMinM": 0.03907,
+            "heightMaxM": 0.39343,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.42684,
+              "p10": 5.56078,
+              "median": 6.06088,
+              "p90": 7.92818,
+              "max": 8.65099
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 5.86766,
+        "ankleConfidence": "needs-visual-review"
+      },
+      "caveat": "Speed fields now derive from actual weighted contact geometry. Joint audit retained for comparison. Production contact playback still required.",
+      "geometryContact": {
+        "walk": {
+          "cycleSeconds": 1.33333,
+          "impliedMps": 1.01996,
+          "confidence": "credible-geometry-estimate",
+          "bilateralDifferenceFraction": 0.0125,
+          "p10ToP90SpreadFraction": 0.49347,
+          "speedMps": {
+            "min": 0.18191,
+            "p10": 0.54703,
+            "median": 1.01996,
+            "p90": 1.05035,
+            "max": 1.5513
+          },
+          "contacts": [
+            {
+              "side": "l",
+              "candidateVertices": 1386,
+              "meshNames": [
+                "harpy_batched_harpy_shank_ochre",
+                "harpy_batched_harpy_horn",
+                "harpy_batched_harpy_shank_scale"
+              ],
+              "samples": 232,
+              "stanceFraction": 0.48536,
+              "intervals": [
+                {
+                  "startPhase": 0.19167,
+                  "endPhase": 0.675,
+                  "seconds": 0.64444
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.00188,
+                "p10": 0.00198,
+                "median": 0.01154,
+                "p90": 0.08561,
+                "max": 0.14566
+              },
+              "speedMps": {
+                "min": 0.18191,
+                "p10": 0.53933,
+                "median": 1.0195,
+                "p90": 1.30948,
+                "max": 1.5936
+              },
+              "coreSpeedMps": {
+                "min": 0.18191,
+                "p10": 0.54281,
+                "median": 1.0317,
+                "p90": 1.04976,
+                "max": 1.53313
+              },
+              "mainStanceSeconds": 0.64444,
+              "coreStanceSeconds": 0.45556,
+              "contactVertexCounts": {
+                "min": 18,
+                "p10": 18,
+                "median": 27,
+                "p90": 54,
+                "max": 81
+              }
+            },
+            {
+              "side": "r",
+              "candidateVertices": 1386,
+              "meshNames": [
+                "harpy_batched_harpy_shank_ochre",
+                "harpy_batched_harpy_horn",
+                "harpy_batched_harpy_shank_scale"
+              ],
+              "samples": 233,
+              "stanceFraction": 0.48745,
+              "intervals": [
+                {
+                  "startPhase": 0.00208,
+                  "endPhase": 0.175,
+                  "seconds": 0.23056
+                },
+                {
+                  "startPhase": 0.68542,
+                  "endPhase": 0.99792,
+                  "seconds": 0.41667
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.00191,
+                "p10": 0.00196,
+                "median": 0.00499,
+                "p90": 0.08749,
+                "max": 0.1541
+              },
+              "speedMps": {
+                "min": 0.18244,
+                "p10": 0.57517,
+                "median": 1.01372,
+                "p90": 1.32235,
+                "max": 1.59126
+              },
+              "coreSpeedMps": {
+                "min": 0.18244,
+                "p10": 0.58532,
+                "median": 1.0188,
+                "p90": 1.06163,
+                "max": 1.5513
+              },
+              "mainStanceSeconds": 0.64722,
+              "coreStanceSeconds": 0.45833,
+              "contactVertexCounts": {
+                "min": 18,
+                "p10": 21,
+                "median": 36,
+                "p90": 45,
+                "max": 45
+              }
+            }
+          ]
+        },
+        "run": {
+          "cycleSeconds": 0.93333,
+          "impliedMps": 6.25276,
+          "confidence": "credible-geometry-estimate",
+          "bilateralDifferenceFraction": 0.0025,
+          "p10ToP90SpreadFraction": 0.28094,
+          "speedMps": {
+            "min": 5.78172,
+            "p10": 5.90926,
+            "median": 6.25276,
+            "p90": 7.6659,
+            "max": 7.8298
+          },
+          "contacts": [
+            {
+              "side": "l",
+              "candidateVertices": 1386,
+              "meshNames": [
+                "harpy_batched_harpy_shank_ochre",
+                "harpy_batched_harpy_horn",
+                "harpy_batched_harpy_shank_scale"
+              ],
+              "samples": 87,
+              "stanceFraction": 0.18201,
+              "intervals": [
+                {
+                  "startPhase": 0.05625,
+                  "endPhase": 0.2375,
+                  "seconds": 0.16917
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.0012,
+                "p10": 0.00188,
+                "median": 0.1269,
+                "p90": 0.30551,
+                "max": 0.32877
+              },
+              "speedMps": {
+                "min": 4.54923,
+                "p10": 4.5888,
+                "median": 6.19978,
+                "p90": 7.62806,
+                "max": 7.84027
+              },
+              "coreSpeedMps": {
+                "min": 5.78574,
+                "p10": 5.9197,
+                "median": 6.25144,
+                "p90": 7.6659,
+                "max": 7.82826
+              },
+              "mainStanceSeconds": 0.16917,
+              "coreStanceSeconds": 0.11861,
+              "contactVertexCounts": {
+                "min": 18,
+                "p10": 18,
+                "median": 24,
+                "p90": 36,
+                "max": 36
+              }
+            },
+            {
+              "side": "r",
+              "candidateVertices": 1386,
+              "meshNames": [
+                "harpy_batched_harpy_shank_ochre",
+                "harpy_batched_harpy_horn",
+                "harpy_batched_harpy_shank_scale"
+              ],
+              "samples": 90,
+              "stanceFraction": 0.18828,
+              "intervals": [
+                {
+                  "startPhase": 0.55,
+                  "endPhase": 0.7375,
+                  "seconds": 0.175
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.00124,
+                "p10": 0.00187,
+                "median": 0.13619,
+                "p90": 0.31146,
+                "max": 0.32648
+              },
+              "speedMps": {
+                "min": 4.54878,
+                "p10": 4.58914,
+                "median": 6.22763,
+                "p90": 7.62761,
+                "max": 7.84211
+              },
+              "coreSpeedMps": {
+                "min": 5.78172,
+                "p10": 5.90926,
+                "median": 6.2671,
+                "p90": 7.66571,
+                "max": 7.8298
+              },
+              "mainStanceSeconds": 0.175,
+              "coreStanceSeconds": 0.12444,
+              "contactVertexCounts": {
+                "min": 18,
+                "p10": 18,
+                "median": 24,
+                "p90": 36,
+                "max": 36
+              }
+            }
+          ]
+        }
+      },
+      "jointProxySpeeds": {
+        "impliedWalkMps": 0.98441,
+        "impliedRunMps": 6.0409
+      }
+    },
+    {
+      "id": "cliff_harpy",
+      "status": "credible-geometry-estimate",
+      "impliedWalkMps": 1.01996,
+      "impliedRunMps": 6.25276,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.98441,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00373,
+        "p10ToP90SpreadFraction": 0.03127,
+        "speedMps": {
+          "min": 0.96321,
+          "p10": 0.97168,
+          "median": 0.98441,
+          "p90": 1.00246,
+          "max": 1.01017
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 79,
+            "stanceFraction": 0.16493,
+            "longestStanceSeconds": 0.21944,
+            "heightMinM": 0.0113,
+            "heightMaxM": 0.20198,
+            "heightWindowM": 0.02288,
+            "speedMps": {
+              "min": 0.96321,
+              "p10": 0.96993,
+              "median": 0.98314,
+              "p90": 0.99061,
+              "max": 0.99945
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 94,
+            "stanceFraction": 0.19624,
+            "longestStanceSeconds": 0.26111,
+            "heightMinM": 0.01883,
+            "heightMaxM": 0.1959,
+            "heightWindowM": 0.02125,
+            "speedMps": {
+              "min": 0.96869,
+              "p10": 0.97451,
+              "median": 0.98682,
+              "p90": 1.00457,
+              "max": 1.01017
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.93416,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.0409,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00729,
+        "p10ToP90SpreadFraction": 0.3598,
+        "speedMps": {
+          "min": 5.42684,
+          "p10": 5.56078,
+          "median": 6.0409,
+          "p90": 7.73427,
+          "max": 8.69896
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 51,
+            "stanceFraction": 0.10647,
+            "longestStanceSeconds": 0.09917,
+            "heightMinM": 0.04558,
+            "heightMaxM": 0.39343,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.44329,
+              "p10": 5.58424,
+              "median": 6.01671,
+              "p90": 7.73427,
+              "max": 8.69896
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 46,
+            "stanceFraction": 0.09603,
+            "longestStanceSeconds": 0.08944,
+            "heightMinM": 0.03907,
+            "heightMaxM": 0.39343,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.42684,
+              "p10": 5.56078,
+              "median": 6.06088,
+              "p90": 7.92818,
+              "max": 8.65099
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 5.86766,
+        "ankleConfidence": "needs-visual-review"
+      },
+      "caveat": "Speed fields now derive from actual weighted contact geometry. Joint audit retained for comparison. Production contact playback still required.",
+      "geometryContact": {
+        "walk": {
+          "cycleSeconds": 1.33333,
+          "impliedMps": 1.01996,
+          "confidence": "credible-geometry-estimate",
+          "bilateralDifferenceFraction": 0.0125,
+          "p10ToP90SpreadFraction": 0.49347,
+          "speedMps": {
+            "min": 0.18191,
+            "p10": 0.54703,
+            "median": 1.01996,
+            "p90": 1.05035,
+            "max": 1.5513
+          },
+          "contacts": [
+            {
+              "side": "l",
+              "candidateVertices": 1386,
+              "meshNames": [
+                "cliff_harpy_batched_harpy_shank_ochre",
+                "cliff_harpy_batched_harpy_horn",
+                "cliff_harpy_batched_harpy_shank_scale"
+              ],
+              "samples": 232,
+              "stanceFraction": 0.48536,
+              "intervals": [
+                {
+                  "startPhase": 0.19167,
+                  "endPhase": 0.675,
+                  "seconds": 0.64444
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.00188,
+                "p10": 0.00198,
+                "median": 0.01154,
+                "p90": 0.08561,
+                "max": 0.14566
+              },
+              "speedMps": {
+                "min": 0.18191,
+                "p10": 0.53933,
+                "median": 1.0195,
+                "p90": 1.30948,
+                "max": 1.5936
+              },
+              "coreSpeedMps": {
+                "min": 0.18191,
+                "p10": 0.54281,
+                "median": 1.0317,
+                "p90": 1.04976,
+                "max": 1.53313
+              },
+              "mainStanceSeconds": 0.64444,
+              "coreStanceSeconds": 0.45556,
+              "contactVertexCounts": {
+                "min": 18,
+                "p10": 18,
+                "median": 27,
+                "p90": 54,
+                "max": 81
+              }
+            },
+            {
+              "side": "r",
+              "candidateVertices": 1386,
+              "meshNames": [
+                "cliff_harpy_batched_harpy_shank_ochre",
+                "cliff_harpy_batched_harpy_horn",
+                "cliff_harpy_batched_harpy_shank_scale"
+              ],
+              "samples": 233,
+              "stanceFraction": 0.48745,
+              "intervals": [
+                {
+                  "startPhase": 0.00208,
+                  "endPhase": 0.175,
+                  "seconds": 0.23056
+                },
+                {
+                  "startPhase": 0.68542,
+                  "endPhase": 0.99792,
+                  "seconds": 0.41667
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.00191,
+                "p10": 0.00196,
+                "median": 0.00499,
+                "p90": 0.08749,
+                "max": 0.1541
+              },
+              "speedMps": {
+                "min": 0.18244,
+                "p10": 0.57517,
+                "median": 1.01372,
+                "p90": 1.32235,
+                "max": 1.59126
+              },
+              "coreSpeedMps": {
+                "min": 0.18244,
+                "p10": 0.58532,
+                "median": 1.0188,
+                "p90": 1.06163,
+                "max": 1.5513
+              },
+              "mainStanceSeconds": 0.64722,
+              "coreStanceSeconds": 0.45833,
+              "contactVertexCounts": {
+                "min": 18,
+                "p10": 21,
+                "median": 36,
+                "p90": 45,
+                "max": 45
+              }
+            }
+          ]
+        },
+        "run": {
+          "cycleSeconds": 0.93333,
+          "impliedMps": 6.25276,
+          "confidence": "credible-geometry-estimate",
+          "bilateralDifferenceFraction": 0.0025,
+          "p10ToP90SpreadFraction": 0.28094,
+          "speedMps": {
+            "min": 5.78172,
+            "p10": 5.90926,
+            "median": 6.25276,
+            "p90": 7.6659,
+            "max": 7.8298
+          },
+          "contacts": [
+            {
+              "side": "l",
+              "candidateVertices": 1386,
+              "meshNames": [
+                "cliff_harpy_batched_harpy_shank_ochre",
+                "cliff_harpy_batched_harpy_horn",
+                "cliff_harpy_batched_harpy_shank_scale"
+              ],
+              "samples": 87,
+              "stanceFraction": 0.18201,
+              "intervals": [
+                {
+                  "startPhase": 0.05625,
+                  "endPhase": 0.2375,
+                  "seconds": 0.16917
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.0012,
+                "p10": 0.00188,
+                "median": 0.1269,
+                "p90": 0.30551,
+                "max": 0.32877
+              },
+              "speedMps": {
+                "min": 4.54923,
+                "p10": 4.5888,
+                "median": 6.19978,
+                "p90": 7.62806,
+                "max": 7.84027
+              },
+              "coreSpeedMps": {
+                "min": 5.78574,
+                "p10": 5.9197,
+                "median": 6.25144,
+                "p90": 7.6659,
+                "max": 7.82826
+              },
+              "mainStanceSeconds": 0.16917,
+              "coreStanceSeconds": 0.11861,
+              "contactVertexCounts": {
+                "min": 18,
+                "p10": 18,
+                "median": 24,
+                "p90": 36,
+                "max": 36
+              }
+            },
+            {
+              "side": "r",
+              "candidateVertices": 1386,
+              "meshNames": [
+                "cliff_harpy_batched_harpy_shank_ochre",
+                "cliff_harpy_batched_harpy_horn",
+                "cliff_harpy_batched_harpy_shank_scale"
+              ],
+              "samples": 90,
+              "stanceFraction": 0.18828,
+              "intervals": [
+                {
+                  "startPhase": 0.55,
+                  "endPhase": 0.7375,
+                  "seconds": 0.175
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.00124,
+                "p10": 0.00187,
+                "median": 0.13619,
+                "p90": 0.31146,
+                "max": 0.32648
+              },
+              "speedMps": {
+                "min": 4.54878,
+                "p10": 4.58914,
+                "median": 6.22763,
+                "p90": 7.62761,
+                "max": 7.84211
+              },
+              "coreSpeedMps": {
+                "min": 5.78172,
+                "p10": 5.90926,
+                "median": 6.2671,
+                "p90": 7.66571,
+                "max": 7.8298
+              },
+              "mainStanceSeconds": 0.175,
+              "coreStanceSeconds": 0.12444,
+              "contactVertexCounts": {
+                "min": 18,
+                "p10": 18,
+                "median": 24,
+                "p90": 36,
+                "max": 36
+              }
+            }
+          ]
+        }
+      },
+      "jointProxySpeeds": {
+        "impliedWalkMps": 0.98441,
+        "impliedRunMps": 6.0409
+      }
+    },
+    {
+      "id": "storm_harpy",
+      "status": "credible-geometry-estimate",
+      "impliedWalkMps": 1.01996,
+      "impliedRunMps": 6.25276,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.98441,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00373,
+        "p10ToP90SpreadFraction": 0.03127,
+        "speedMps": {
+          "min": 0.96321,
+          "p10": 0.97168,
+          "median": 0.98441,
+          "p90": 1.00246,
+          "max": 1.01017
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 79,
+            "stanceFraction": 0.16493,
+            "longestStanceSeconds": 0.21944,
+            "heightMinM": 0.0113,
+            "heightMaxM": 0.20198,
+            "heightWindowM": 0.02288,
+            "speedMps": {
+              "min": 0.96321,
+              "p10": 0.96993,
+              "median": 0.98314,
+              "p90": 0.99061,
+              "max": 0.99945
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 94,
+            "stanceFraction": 0.19624,
+            "longestStanceSeconds": 0.26111,
+            "heightMinM": 0.01883,
+            "heightMaxM": 0.1959,
+            "heightWindowM": 0.02125,
+            "speedMps": {
+              "min": 0.96869,
+              "p10": 0.97451,
+              "median": 0.98682,
+              "p90": 1.00457,
+              "max": 1.01017
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.93416,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 6.0409,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00729,
+        "p10ToP90SpreadFraction": 0.3598,
+        "speedMps": {
+          "min": 5.42684,
+          "p10": 5.56078,
+          "median": 6.0409,
+          "p90": 7.73427,
+          "max": 8.69896
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 51,
+            "stanceFraction": 0.10647,
+            "longestStanceSeconds": 0.09917,
+            "heightMinM": 0.04558,
+            "heightMaxM": 0.39343,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.44329,
+              "p10": 5.58424,
+              "median": 6.01671,
+              "p90": 7.73427,
+              "max": 8.69896
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 46,
+            "stanceFraction": 0.09603,
+            "longestStanceSeconds": 0.08944,
+            "heightMinM": 0.03907,
+            "heightMaxM": 0.39343,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 5.42684,
+              "p10": 5.56078,
+              "median": 6.06088,
+              "p90": 7.92818,
+              "max": 8.65099
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 5.86766,
+        "ankleConfidence": "needs-visual-review"
+      },
+      "caveat": "Speed fields now derive from actual weighted contact geometry. Joint audit retained for comparison. Production contact playback still required.",
+      "geometryContact": {
+        "walk": {
+          "cycleSeconds": 1.33333,
+          "impliedMps": 1.01996,
+          "confidence": "credible-geometry-estimate",
+          "bilateralDifferenceFraction": 0.0125,
+          "p10ToP90SpreadFraction": 0.49347,
+          "speedMps": {
+            "min": 0.18191,
+            "p10": 0.54703,
+            "median": 1.01996,
+            "p90": 1.05035,
+            "max": 1.5513
+          },
+          "contacts": [
+            {
+              "side": "l",
+              "candidateVertices": 1386,
+              "meshNames": [
+                "storm_harpy_batched_harpy_shank_ochre",
+                "storm_harpy_batched_harpy_horn",
+                "storm_harpy_batched_harpy_shank_scale"
+              ],
+              "samples": 232,
+              "stanceFraction": 0.48536,
+              "intervals": [
+                {
+                  "startPhase": 0.19167,
+                  "endPhase": 0.675,
+                  "seconds": 0.64444
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.00188,
+                "p10": 0.00198,
+                "median": 0.01154,
+                "p90": 0.08561,
+                "max": 0.14566
+              },
+              "speedMps": {
+                "min": 0.18191,
+                "p10": 0.53933,
+                "median": 1.0195,
+                "p90": 1.30948,
+                "max": 1.5936
+              },
+              "coreSpeedMps": {
+                "min": 0.18191,
+                "p10": 0.54281,
+                "median": 1.0317,
+                "p90": 1.04976,
+                "max": 1.53313
+              },
+              "mainStanceSeconds": 0.64444,
+              "coreStanceSeconds": 0.45556,
+              "contactVertexCounts": {
+                "min": 18,
+                "p10": 18,
+                "median": 27,
+                "p90": 54,
+                "max": 81
+              }
+            },
+            {
+              "side": "r",
+              "candidateVertices": 1386,
+              "meshNames": [
+                "storm_harpy_batched_harpy_shank_ochre",
+                "storm_harpy_batched_harpy_horn",
+                "storm_harpy_batched_harpy_shank_scale"
+              ],
+              "samples": 233,
+              "stanceFraction": 0.48745,
+              "intervals": [
+                {
+                  "startPhase": 0.00208,
+                  "endPhase": 0.175,
+                  "seconds": 0.23056
+                },
+                {
+                  "startPhase": 0.68542,
+                  "endPhase": 0.99792,
+                  "seconds": 0.41667
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.00191,
+                "p10": 0.00196,
+                "median": 0.00499,
+                "p90": 0.08749,
+                "max": 0.1541
+              },
+              "speedMps": {
+                "min": 0.18244,
+                "p10": 0.57517,
+                "median": 1.01372,
+                "p90": 1.32235,
+                "max": 1.59126
+              },
+              "coreSpeedMps": {
+                "min": 0.18244,
+                "p10": 0.58532,
+                "median": 1.0188,
+                "p90": 1.06163,
+                "max": 1.5513
+              },
+              "mainStanceSeconds": 0.64722,
+              "coreStanceSeconds": 0.45833,
+              "contactVertexCounts": {
+                "min": 18,
+                "p10": 21,
+                "median": 36,
+                "p90": 45,
+                "max": 45
+              }
+            }
+          ]
+        },
+        "run": {
+          "cycleSeconds": 0.93333,
+          "impliedMps": 6.25276,
+          "confidence": "credible-geometry-estimate",
+          "bilateralDifferenceFraction": 0.0025,
+          "p10ToP90SpreadFraction": 0.28094,
+          "speedMps": {
+            "min": 5.78172,
+            "p10": 5.90926,
+            "median": 6.25276,
+            "p90": 7.6659,
+            "max": 7.8298
+          },
+          "contacts": [
+            {
+              "side": "l",
+              "candidateVertices": 1386,
+              "meshNames": [
+                "storm_harpy_batched_harpy_shank_ochre",
+                "storm_harpy_batched_harpy_horn",
+                "storm_harpy_batched_harpy_shank_scale"
+              ],
+              "samples": 87,
+              "stanceFraction": 0.18201,
+              "intervals": [
+                {
+                  "startPhase": 0.05625,
+                  "endPhase": 0.2375,
+                  "seconds": 0.16917
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.0012,
+                "p10": 0.00188,
+                "median": 0.1269,
+                "p90": 0.30551,
+                "max": 0.32877
+              },
+              "speedMps": {
+                "min": 4.54923,
+                "p10": 4.5888,
+                "median": 6.19978,
+                "p90": 7.62806,
+                "max": 7.84027
+              },
+              "coreSpeedMps": {
+                "min": 5.78574,
+                "p10": 5.9197,
+                "median": 6.25144,
+                "p90": 7.6659,
+                "max": 7.82826
+              },
+              "mainStanceSeconds": 0.16917,
+              "coreStanceSeconds": 0.11861,
+              "contactVertexCounts": {
+                "min": 18,
+                "p10": 18,
+                "median": 24,
+                "p90": 36,
+                "max": 36
+              }
+            },
+            {
+              "side": "r",
+              "candidateVertices": 1386,
+              "meshNames": [
+                "storm_harpy_batched_harpy_shank_ochre",
+                "storm_harpy_batched_harpy_horn",
+                "storm_harpy_batched_harpy_shank_scale"
+              ],
+              "samples": 90,
+              "stanceFraction": 0.18828,
+              "intervals": [
+                {
+                  "startPhase": 0.55,
+                  "endPhase": 0.7375,
+                  "seconds": 0.175
+                }
+              ],
+              "soleHeightM": {
+                "min": 0.00124,
+                "p10": 0.00187,
+                "median": 0.13619,
+                "p90": 0.31146,
+                "max": 0.32648
+              },
+              "speedMps": {
+                "min": 4.54878,
+                "p10": 4.58914,
+                "median": 6.22763,
+                "p90": 7.62761,
+                "max": 7.84211
+              },
+              "coreSpeedMps": {
+                "min": 5.78172,
+                "p10": 5.90926,
+                "median": 6.2671,
+                "p90": 7.66571,
+                "max": 7.8298
+              },
+              "mainStanceSeconds": 0.175,
+              "coreStanceSeconds": 0.12444,
+              "contactVertexCounts": {
+                "min": 18,
+                "p10": 18,
+                "median": 24,
+                "p90": 36,
+                "max": 36
+              }
+            }
+          ]
+        }
+      },
+      "jointProxySpeeds": {
+        "impliedWalkMps": 0.98441,
+        "impliedRunMps": 6.0409
+      }
+    },
+    {
+      "id": "gargoyle",
+      "rig": "PixeliusVita Monster04 original 62-joint weighted rig",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.9,
+      "impliedRunMps": 2.99997,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.9,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00001,
+        "p10ToP90SpreadFraction": 0.00483,
+        "speedMps": {
+          "min": 0.23613,
+          "p10": 0.89662,
+          "median": 0.9,
+          "p90": 0.90097,
+          "max": 0.98858
+        },
+        "contacts": [
+          {
+            "bone": "toes_01l",
+            "samples": 240,
+            "stanceFraction": 0.50104,
+            "longestStanceSeconds": 0.63056,
+            "heightMinM": 0.03206,
+            "heightMaxM": 0.20009,
+            "heightWindowM": 0.02016,
+            "speedMps": {
+              "min": 0.81307,
+              "p10": 0.89901,
+              "median": 0.90001,
+              "p90": 0.90074,
+              "max": 0.98789
+            }
+          },
+          {
+            "bone": "toes_01r",
+            "samples": 266,
+            "stanceFraction": 0.55532,
+            "longestStanceSeconds": 0.65833,
+            "heightMinM": 0.032,
+            "heightMaxM": 0.26939,
+            "heightWindowM": 0.02849,
+            "speedMps": {
+              "min": 0.23613,
+              "p10": 0.8873,
+              "median": 0.9,
+              "p90": 0.90169,
+              "max": 0.98858
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.83322,
+        "ankleConfidence": "needs-visual-review"
+      },
+      "run": {
+        "cycleSeconds": 0.66667,
+        "impliedMps": 2.99997,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00003,
+        "p10ToP90SpreadFraction": 0.02751,
+        "speedMps": {
+          "min": 1.51678,
+          "p10": 2.91795,
+          "median": 2.99997,
+          "p90": 3.00049,
+          "max": 3.22304
+        },
+        "contacts": [
+          {
+            "bone": "toes_01l",
+            "samples": 160,
+            "stanceFraction": 0.33403,
+            "longestStanceSeconds": 0.22222,
+            "heightMinM": 0.02797,
+            "heightMaxM": 0.42628,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 1.62267,
+              "p10": 2.90102,
+              "median": 2.99991,
+              "p90": 3.00053,
+              "max": 3.22304
+            }
+          },
+          {
+            "bone": "toes_01r",
+            "samples": 175,
+            "stanceFraction": 0.36534,
+            "longestStanceSeconds": 0.24306,
+            "heightMinM": 0.02673,
+            "heightMaxM": 0.42631,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 1.51678,
+              "p10": 2.94712,
+              "median": 2.99999,
+              "p90": 3.00042,
+              "max": 3.10362
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 2.76238,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    },
+    {
+      "id": "obsidian_gargoyle",
+      "rig": "PixeliusVita Monster04 original 62-joint weighted rig",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.9,
+      "impliedRunMps": 2.99997,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.9,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00001,
+        "p10ToP90SpreadFraction": 0.00483,
+        "speedMps": {
+          "min": 0.23613,
+          "p10": 0.89662,
+          "median": 0.9,
+          "p90": 0.90097,
+          "max": 0.98858
+        },
+        "contacts": [
+          {
+            "bone": "toes_01l",
+            "samples": 240,
+            "stanceFraction": 0.50104,
+            "longestStanceSeconds": 0.63056,
+            "heightMinM": 0.03206,
+            "heightMaxM": 0.20009,
+            "heightWindowM": 0.02016,
+            "speedMps": {
+              "min": 0.81307,
+              "p10": 0.89901,
+              "median": 0.90001,
+              "p90": 0.90074,
+              "max": 0.98789
+            }
+          },
+          {
+            "bone": "toes_01r",
+            "samples": 266,
+            "stanceFraction": 0.55532,
+            "longestStanceSeconds": 0.65833,
+            "heightMinM": 0.032,
+            "heightMaxM": 0.26939,
+            "heightWindowM": 0.02849,
+            "speedMps": {
+              "min": 0.23613,
+              "p10": 0.8873,
+              "median": 0.9,
+              "p90": 0.90169,
+              "max": 0.98858
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.83322,
+        "ankleConfidence": "needs-visual-review"
+      },
+      "run": {
+        "cycleSeconds": 0.66667,
+        "impliedMps": 2.99997,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00003,
+        "p10ToP90SpreadFraction": 0.02751,
+        "speedMps": {
+          "min": 1.51678,
+          "p10": 2.91795,
+          "median": 2.99997,
+          "p90": 3.00049,
+          "max": 3.22304
+        },
+        "contacts": [
+          {
+            "bone": "toes_01l",
+            "samples": 160,
+            "stanceFraction": 0.33403,
+            "longestStanceSeconds": 0.22222,
+            "heightMinM": 0.02797,
+            "heightMaxM": 0.42628,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 1.62267,
+              "p10": 2.90102,
+              "median": 2.99991,
+              "p90": 3.00053,
+              "max": 3.22304
+            }
+          },
+          {
+            "bone": "toes_01r",
+            "samples": 175,
+            "stanceFraction": 0.36534,
+            "longestStanceSeconds": 0.24306,
+            "heightMinM": 0.02673,
+            "heightMaxM": 0.42631,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 1.51678,
+              "p10": 2.94712,
+              "median": 2.99999,
+              "p90": 3.00042,
+              "max": 3.10362
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 2.76238,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    },
+    {
+      "id": "ancient_gargoyle",
+      "rig": "PixeliusVita Monster04 original 62-joint weighted rig",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.972,
+      "impliedRunMps": 3.23997,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.972,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00001,
+        "p10ToP90SpreadFraction": 0.00484,
+        "speedMps": {
+          "min": 0.25502,
+          "p10": 0.96835,
+          "median": 0.972,
+          "p90": 0.97305,
+          "max": 1.06767
+        },
+        "contacts": [
+          {
+            "bone": "toes_01l",
+            "samples": 240,
+            "stanceFraction": 0.50104,
+            "longestStanceSeconds": 0.63056,
+            "heightMinM": 0.03462,
+            "heightMaxM": 0.2161,
+            "heightWindowM": 0.02178,
+            "speedMps": {
+              "min": 0.87811,
+              "p10": 0.97093,
+              "median": 0.97201,
+              "p90": 0.9728,
+              "max": 1.06692
+            }
+          },
+          {
+            "bone": "toes_01r",
+            "samples": 266,
+            "stanceFraction": 0.55532,
+            "longestStanceSeconds": 0.65833,
+            "heightMinM": 0.03456,
+            "heightMaxM": 0.29094,
+            "heightWindowM": 0.03077,
+            "speedMps": {
+              "min": 0.25502,
+              "p10": 0.95828,
+              "median": 0.972,
+              "p90": 0.97383,
+              "max": 1.06767
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.89988,
+        "ankleConfidence": "needs-visual-review"
+      },
+      "run": {
+        "cycleSeconds": 0.66667,
+        "impliedMps": 3.23997,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00003,
+        "p10ToP90SpreadFraction": 0.02408,
+        "speedMps": {
+          "min": 2.08521,
+          "p10": 3.16252,
+          "median": 3.23997,
+          "p90": 3.24053,
+          "max": 3.48088
+        },
+        "contacts": [
+          {
+            "bone": "toes_01l",
+            "samples": 155,
+            "stanceFraction": 0.32359,
+            "longestStanceSeconds": 0.21528,
+            "heightMinM": 0.03021,
+            "heightMaxM": 0.46038,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 2.08521,
+              "p10": 3.1331,
+              "median": 3.2399,
+              "p90": 3.24059,
+              "max": 3.48088
+            }
+          },
+          {
+            "bone": "toes_01r",
+            "samples": 170,
+            "stanceFraction": 0.35491,
+            "longestStanceSeconds": 0.23611,
+            "heightMinM": 0.02887,
+            "heightMaxM": 0.46042,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 2.09572,
+              "p10": 3.2211,
+              "median": 3.23999,
+              "p90": 3.24045,
+              "max": 3.35191
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 2.98337,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    },
+    {
+      "id": "minotaur",
+      "rig": "source65-bovine-head-and-hooves",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.34026,
+      "impliedRunMps": 8.08694,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.34026,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.0152,
+        "p10ToP90SpreadFraction": 0.32869,
+        "speedMps": {
+          "min": 0.10625,
+          "p10": 0.94338,
+          "median": 1.34026,
+          "p90": 1.38391,
+          "max": 1.64494
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 241,
+            "stanceFraction": 0.50313,
+            "longestStanceSeconds": 0.66944,
+            "heightMinM": 0.02609,
+            "heightMaxM": 0.2557,
+            "heightWindowM": 0.02755,
+            "speedMps": {
+              "min": 0.19915,
+              "p10": 1.03304,
+              "median": 1.32184,
+              "p90": 1.37624,
+              "max": 1.64494
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 243,
+            "stanceFraction": 0.50731,
+            "longestStanceSeconds": 0.675,
+            "heightMinM": 0.02963,
+            "heightMaxM": 0.25564,
+            "heightWindowM": 0.02712,
+            "speedMps": {
+              "min": 0.10625,
+              "p10": 0.94338,
+              "median": 1.34224,
+              "p90": 1.41255,
+              "max": 1.63932
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.33448,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 8.08694,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00286,
+        "p10ToP90SpreadFraction": 0.10274,
+        "speedMps": {
+          "min": 7.37807,
+          "p10": 7.60444,
+          "median": 8.08694,
+          "p90": 8.43531,
+          "max": 11.22479
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 74,
+            "stanceFraction": 0.15449,
+            "longestStanceSeconds": 0.14389,
+            "heightMinM": 0.03927,
+            "heightMaxM": 0.54731,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 7.42368,
+              "p10": 7.60444,
+              "median": 8.0696,
+              "p90": 8.42178,
+              "max": 11.22479
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 76,
+            "stanceFraction": 0.15866,
+            "longestStanceSeconds": 0.14778,
+            "heightMinM": 0.03915,
+            "heightMaxM": 0.54714,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 7.37807,
+              "p10": 7.62154,
+              "median": 8.09271,
+              "p90": 8.43578,
+              "max": 11.18368
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 7.70993,
+        "ankleConfidence": "needs-visual-review"
+      }
+    },
+    {
+      "id": "labyrinth_guardian",
+      "rig": "source65-bovine-head-and-hooves",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.34025,
+      "impliedRunMps": 8.08657,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.34025,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01518,
+        "p10ToP90SpreadFraction": 0.32875,
+        "speedMps": {
+          "min": 0.10622,
+          "p10": 0.94336,
+          "median": 1.34025,
+          "p90": 1.38397,
+          "max": 1.64492
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 241,
+            "stanceFraction": 0.50313,
+            "longestStanceSeconds": 0.66944,
+            "heightMinM": 0.02609,
+            "heightMaxM": 0.25573,
+            "heightWindowM": 0.02756,
+            "speedMps": {
+              "min": 0.19915,
+              "p10": 1.03304,
+              "median": 1.32184,
+              "p90": 1.3762,
+              "max": 1.64492
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 243,
+            "stanceFraction": 0.50731,
+            "longestStanceSeconds": 0.675,
+            "heightMinM": 0.02965,
+            "heightMaxM": 0.25566,
+            "heightWindowM": 0.02712,
+            "speedMps": {
+              "min": 0.10622,
+              "p10": 0.94336,
+              "median": 1.34222,
+              "p90": 1.4126,
+              "max": 1.6393
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.33448,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 8.08657,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00281,
+        "p10ToP90SpreadFraction": 0.10275,
+        "speedMps": {
+          "min": 7.37781,
+          "p10": 7.60442,
+          "median": 8.08657,
+          "p90": 8.43535,
+          "max": 11.22534
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 74,
+            "stanceFraction": 0.15449,
+            "longestStanceSeconds": 0.14389,
+            "heightMinM": 0.03929,
+            "heightMaxM": 0.54728,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 7.42366,
+              "p10": 7.60442,
+              "median": 8.06965,
+              "p90": 8.42184,
+              "max": 11.22534
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 76,
+            "stanceFraction": 0.15866,
+            "longestStanceSeconds": 0.14778,
+            "heightMinM": 0.03917,
+            "heightMaxM": 0.5471,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 7.37781,
+              "p10": 7.62153,
+              "median": 8.09242,
+              "p90": 8.43573,
+              "max": 11.18419
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 7.70991,
+        "ankleConfidence": "needs-visual-review"
+      }
+    },
+    {
+      "id": "elder_minotaur",
+      "rig": "source65-bovine-head-and-hooves",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 1.34025,
+      "impliedRunMps": 8.08667,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 1.34025,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.01519,
+        "p10ToP90SpreadFraction": 0.32871,
+        "speedMps": {
+          "min": 0.10624,
+          "p10": 0.94338,
+          "median": 1.34025,
+          "p90": 1.38394,
+          "max": 1.64494
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 241,
+            "stanceFraction": 0.50313,
+            "longestStanceSeconds": 0.66944,
+            "heightMinM": 0.0261,
+            "heightMaxM": 0.25572,
+            "heightWindowM": 0.02755,
+            "speedMps": {
+              "min": 0.19915,
+              "p10": 1.03304,
+              "median": 1.32184,
+              "p90": 1.37622,
+              "max": 1.64494
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 243,
+            "stanceFraction": 0.50731,
+            "longestStanceSeconds": 0.675,
+            "heightMinM": 0.02965,
+            "heightMaxM": 0.25565,
+            "heightWindowM": 0.02712,
+            "speedMps": {
+              "min": 0.10624,
+              "p10": 0.94338,
+              "median": 1.34223,
+              "p90": 1.41257,
+              "max": 1.63932
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.33449,
+        "ankleConfidence": "credible-joint-estimate"
+      },
+      "run": {
+        "cycleSeconds": 0.93333,
+        "impliedMps": 8.08667,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00282,
+        "p10ToP90SpreadFraction": 0.10275,
+        "speedMps": {
+          "min": 7.37787,
+          "p10": 7.6044,
+          "median": 8.08667,
+          "p90": 8.43534,
+          "max": 11.22517
+        },
+        "contacts": [
+          {
+            "bone": "ball_l",
+            "samples": 74,
+            "stanceFraction": 0.15449,
+            "longestStanceSeconds": 0.14389,
+            "heightMinM": 0.03928,
+            "heightMaxM": 0.54728,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 7.42364,
+              "p10": 7.6044,
+              "median": 8.06965,
+              "p90": 8.42183,
+              "max": 11.22517
+            }
+          },
+          {
+            "bone": "ball_r",
+            "samples": 76,
+            "stanceFraction": 0.15866,
+            "longestStanceSeconds": 0.14778,
+            "heightMinM": 0.03916,
+            "heightMaxM": 0.5471,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 7.37787,
+              "p10": 7.6215,
+              "median": 8.09248,
+              "p90": 8.43574,
+              "max": 11.18403
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 7.70989,
+        "ankleConfidence": "needs-visual-review"
+      }
+    },
+    {
+      "id": "imp",
+      "rig": "PixeliusVita Monster04 original 62-joint weighted rig",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.594,
+      "impliedRunMps": 1.97998,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.594,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0,
+        "p10ToP90SpreadFraction": 0.00483,
+        "speedMps": {
+          "min": 0.15584,
+          "p10": 0.59177,
+          "median": 0.594,
+          "p90": 0.59464,
+          "max": 0.65246
+        },
+        "contacts": [
+          {
+            "bone": "toes_01l",
+            "samples": 240,
+            "stanceFraction": 0.50104,
+            "longestStanceSeconds": 0.63056,
+            "heightMinM": 0.02116,
+            "heightMaxM": 0.13206,
+            "heightWindowM": 0.01331,
+            "speedMps": {
+              "min": 0.53663,
+              "p10": 0.59335,
+              "median": 0.594,
+              "p90": 0.59449,
+              "max": 0.65201
+            }
+          },
+          {
+            "bone": "toes_01r",
+            "samples": 266,
+            "stanceFraction": 0.55532,
+            "longestStanceSeconds": 0.65833,
+            "heightMinM": 0.02112,
+            "heightMaxM": 0.1778,
+            "heightWindowM": 0.0188,
+            "speedMps": {
+              "min": 0.15584,
+              "p10": 0.58562,
+              "median": 0.594,
+              "p90": 0.59512,
+              "max": 0.65246
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.54993,
+        "ankleConfidence": "needs-visual-review"
+      },
+      "run": {
+        "cycleSeconds": 0.66667,
+        "impliedMps": 1.97998,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00003,
+        "p10ToP90SpreadFraction": 0.05362,
+        "speedMps": {
+          "min": 1.00107,
+          "p10": 1.87413,
+          "median": 1.97998,
+          "p90": 1.9803,
+          "max": 2.12721
+        },
+        "contacts": [
+          {
+            "bone": "toes_01l",
+            "samples": 171,
+            "stanceFraction": 0.35699,
+            "longestStanceSeconds": 0.2375,
+            "heightMinM": 0.01846,
+            "heightMaxM": 0.28134,
+            "heightWindowM": 0.03155,
+            "speedMps": {
+              "min": 1.07096,
+              "p10": 1.87413,
+              "median": 1.97994,
+              "p90": 1.98035,
+              "max": 2.12721
+            }
+          },
+          {
+            "bone": "toes_01r",
+            "samples": 185,
+            "stanceFraction": 0.38622,
+            "longestStanceSeconds": 0.25694,
+            "heightMinM": 0.01764,
+            "heightMaxM": 0.28137,
+            "heightWindowM": 0.03165,
+            "speedMps": {
+              "min": 1.00107,
+              "p10": 1.86988,
+              "median": 1.97999,
+              "p90": 1.98027,
+              "max": 2.04839
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 1.82384,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    },
+    {
+      "id": "horned_demon",
+      "rig": "PixeliusVita Monster04 original 62-joint weighted rig",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.9,
+      "impliedRunMps": 2.99997,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.9,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00001,
+        "p10ToP90SpreadFraction": 0.00483,
+        "speedMps": {
+          "min": 0.23613,
+          "p10": 0.89662,
+          "median": 0.9,
+          "p90": 0.90097,
+          "max": 0.98858
+        },
+        "contacts": [
+          {
+            "bone": "toes_01l",
+            "samples": 240,
+            "stanceFraction": 0.50104,
+            "longestStanceSeconds": 0.63056,
+            "heightMinM": 0.03206,
+            "heightMaxM": 0.20009,
+            "heightWindowM": 0.02016,
+            "speedMps": {
+              "min": 0.81307,
+              "p10": 0.89901,
+              "median": 0.90001,
+              "p90": 0.90074,
+              "max": 0.98789
+            }
+          },
+          {
+            "bone": "toes_01r",
+            "samples": 266,
+            "stanceFraction": 0.55532,
+            "longestStanceSeconds": 0.65833,
+            "heightMinM": 0.032,
+            "heightMaxM": 0.26939,
+            "heightWindowM": 0.02849,
+            "speedMps": {
+              "min": 0.23613,
+              "p10": 0.8873,
+              "median": 0.9,
+              "p90": 0.90169,
+              "max": 0.98858
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.83322,
+        "ankleConfidence": "needs-visual-review"
+      },
+      "run": {
+        "cycleSeconds": 0.66667,
+        "impliedMps": 2.99997,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00003,
+        "p10ToP90SpreadFraction": 0.02751,
+        "speedMps": {
+          "min": 1.51678,
+          "p10": 2.91795,
+          "median": 2.99997,
+          "p90": 3.00049,
+          "max": 3.22304
+        },
+        "contacts": [
+          {
+            "bone": "toes_01l",
+            "samples": 160,
+            "stanceFraction": 0.33403,
+            "longestStanceSeconds": 0.22222,
+            "heightMinM": 0.02797,
+            "heightMaxM": 0.42628,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 1.62267,
+              "p10": 2.90102,
+              "median": 2.99991,
+              "p90": 3.00053,
+              "max": 3.22304
+            }
+          },
+          {
+            "bone": "toes_01r",
+            "samples": 175,
+            "stanceFraction": 0.36534,
+            "longestStanceSeconds": 0.24306,
+            "heightMinM": 0.02673,
+            "heightMaxM": 0.42631,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 1.51678,
+              "p10": 2.94712,
+              "median": 2.99999,
+              "p90": 3.00042,
+              "max": 3.10362
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 2.76238,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    },
+    {
+      "id": "abyssal_demon",
+      "rig": "PixeliusVita Monster04 original 62-joint weighted rig",
+      "status": "credible-joint-estimate",
+      "impliedWalkMps": 0.972,
+      "impliedRunMps": 3.23997,
+      "walk": {
+        "cycleSeconds": 1.33333,
+        "impliedMps": 0.972,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00001,
+        "p10ToP90SpreadFraction": 0.00484,
+        "speedMps": {
+          "min": 0.25502,
+          "p10": 0.96835,
+          "median": 0.972,
+          "p90": 0.97305,
+          "max": 1.06767
+        },
+        "contacts": [
+          {
+            "bone": "toes_01l",
+            "samples": 240,
+            "stanceFraction": 0.50104,
+            "longestStanceSeconds": 0.63056,
+            "heightMinM": 0.03623,
+            "heightMaxM": 0.22611,
+            "heightWindowM": 0.02279,
+            "speedMps": {
+              "min": 0.87811,
+              "p10": 0.97093,
+              "median": 0.97201,
+              "p90": 0.9728,
+              "max": 1.06692
+            }
+          },
+          {
+            "bone": "toes_01r",
+            "samples": 266,
+            "stanceFraction": 0.55532,
+            "longestStanceSeconds": 0.65833,
+            "heightMinM": 0.03616,
+            "heightMaxM": 0.30441,
+            "heightWindowM": 0.03219,
+            "speedMps": {
+              "min": 0.25502,
+              "p10": 0.95828,
+              "median": 0.972,
+              "p90": 0.97383,
+              "max": 1.06767
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 0.89973,
+        "ankleConfidence": "needs-visual-review"
+      },
+      "run": {
+        "cycleSeconds": 0.66667,
+        "impliedMps": 3.23997,
+        "confidence": "credible-joint-estimate",
+        "bilateralDifferenceFraction": 0.00002,
+        "p10ToP90SpreadFraction": 0.01346,
+        "speedMps": {
+          "min": 2.08521,
+          "p10": 3.19691,
+          "median": 3.23997,
+          "p90": 3.24053,
+          "max": 3.48088
+        },
+        "contacts": [
+          {
+            "bone": "toes_01l",
+            "samples": 152,
+            "stanceFraction": 0.31733,
+            "longestStanceSeconds": 0.21111,
+            "heightMinM": 0.03161,
+            "heightMaxM": 0.4817,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 2.08521,
+              "p10": 3.15138,
+              "median": 3.23991,
+              "p90": 3.24059,
+              "max": 3.48088
+            }
+          },
+          {
+            "bone": "toes_01r",
+            "samples": 167,
+            "stanceFraction": 0.34864,
+            "longestStanceSeconds": 0.23194,
+            "heightMinM": 0.03021,
+            "heightMaxM": 0.48173,
+            "heightWindowM": 0.04,
+            "speedMps": {
+              "min": 2.09572,
+              "p10": 3.22612,
+              "median": 3.23999,
+              "p90": 3.24045,
+              "max": 3.35191
+            }
+          }
+        ],
+        "ankleCrossCheckMps": 2.98336,
+        "ankleConfidence": "credible-joint-estimate"
+      }
+    }
+  ],
+  "geometryMethod": "480 poses of actual referenced vertices with >=50% foot/toe weights. Grounded sole must be <=20 mm above floor. Contact patch comprises vertices within 8 mm of each foot minimum. Track identical vertex through adjacent poses for central-difference negative-Z speed, then median per-frame patch speeds to avoid tessellation weighting. Main estimate uses center 70% of longest contiguous grounded backward interval per foot, joining intervals across phase zero, to exclude heel-strike/toe-off roll. Full interval distributions retained. No seam derivatives. Bilateral and stance thresholds match joint audit. CPU evidence only."
+}

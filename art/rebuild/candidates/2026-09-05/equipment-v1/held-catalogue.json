@@ -1,0 +1,85 @@
+{
+  "status": "browser-only-native-grip-aliases",
+  "pack": {
+    "id": "corealm-original-equipment",
+    "name": "Corealm original equipment",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/build-corealm-equipment.ts"
+  },
+  "assets": [
+    {
+      "id": "sword",
+      "file": "models/corealm/equipment/corealm_sword_1.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "sword",
+      "tags": [
+        "sword",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 146060,
+      "size": {
+        "x": 0.2769061326980591,
+        "y": 0.999999981790781,
+        "z": 0.0560000017285347
+      },
+      "base": {
+        "x": -0.13845306634902954,
+        "y": -0.23000000086426736,
+        "z": -0.02800000086426735
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "5f0a55210edfe713e051873c1e6ca548fbad2371891c3585ebe008118a49e8dd",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "axe",
+      "file": "models/corealm/equipment/corealm_axe_1.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "axe",
+      "tags": [
+        "axe",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 175368,
+      "size": {
+        "x": 0.34074999392032623,
+        "y": 0.8380012655258179,
+        "z": 0.07400000095367432
+      },
+      "base": {
+        "x": -0.052000001072883606,
+        "y": -0.39,
+        "z": -0.03700000047683716
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573",
+      "gripCenter": [
+        0,
+        -0.25,
+        0
+      ]
+    }
+  ]
+}

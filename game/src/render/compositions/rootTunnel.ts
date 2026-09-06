@@ -191,9 +191,8 @@ function variantC(kit: BuildingKit): PartPlacement[] {
     lintel("root_c_lintel", 0.33, -0.08),
     brace("root_c_brace_l", -1.53, 0.96, 0.6),
     brace("root_c_brace_r", 1.53, 0.96, 0.6),
-    // Rootfall's forge and postern sit immediately beside this entrance. Variant C uses its roots
-    // and vines as the footing instead of embedding large colliders in those buildings.
-    rock("root_c_rock_l", "rock_medium_2", -2.62, 0.62, 0.56),
+    // The left flank borders Hollowcut's raised haul approach. Keep its timber brace and vine,
+    // but leave the adjacent walking strip clear of a decorative rock collider.
     rock("root_c_rock_r", "rock_medium_1", 2.64, 0.74, 0.52),
     hangingVine("root_c_vine_l", -1.56, 0.11, 0.6),
     hangingVine("root_c_vine_r", 1.56, 0.11, 0.6),

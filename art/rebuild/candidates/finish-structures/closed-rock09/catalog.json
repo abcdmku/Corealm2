@@ -1,0 +1,254 @@
+{
+  "generator": "tools/build-rock09-shortcuts.ts",
+  "generatorSha256": "a18bcd6ff2014513fd9965e7223390fcf273f85e71630ea6380e430a8478a558",
+  "pack": {
+    "id": "corealm-polyhaven-rock09-shortcuts",
+    "name": "Corealm Rock 09 shortcut derivatives",
+    "author": "Corealm placement; original Rock 09 by Jenelle van Heerden / Poly Haven",
+    "source": "https://polyhaven.com/a/rock_09",
+    "license": "CC0-1.0"
+  },
+  "source": {
+    "file": "art/rebuild/candidates/finish-structures/source-bedding/closed-source/rock_09/rock_09.gltf",
+    "inspection": "art/rebuild/candidates/finish-structures/source-bedding/closed-source/rock_09/inspection.json",
+    "files": [
+      {
+        "file": "rock_09.gltf",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/rock_09/rock_09_1k.gltf",
+        "bytes": 2745,
+        "md5": "d12ac6e8433fe1346fe6945154269f66",
+        "sha256": "636e57eb0090889627da18edaec202ff9f65f83101b94f91b7da4d21dc080ab9"
+      },
+      {
+        "file": "rock_09.bin",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/rock_09/rock_09.bin",
+        "bytes": 286592,
+        "md5": "6f2f71c9ca594566c1a3b29da27293a1",
+        "sha256": "780c37d6fc11ca3a01c3763535ef883908b6007271a46bd446d2289ded820751"
+      },
+      {
+        "file": "textures/rock_09_arm_1k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/rock_09/rock_09_arm_1k.jpg",
+        "bytes": 322950,
+        "md5": "323d7cca17cd87656e7f80230a372368",
+        "sha256": "594e2cec49e6bb40bd9bab2649e37dcc261079456cf4d6f680f56770c19db5ea"
+      },
+      {
+        "file": "textures/rock_09_nor_gl_1k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/rock_09/rock_09_nor_gl_1k.jpg",
+        "bytes": 757031,
+        "md5": "dc1a208133a23006582f792a309c2dcc",
+        "sha256": "2195b5c7da3a23af2a5f93dbb20f38bc069028509b106397bc8d2aee0bc55729"
+      },
+      {
+        "file": "textures/rock_09_diff_1k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/rock_09/rock_09_diff_1k.jpg",
+        "bytes": 595103,
+        "md5": "07f92b23d6e05fbd28cbabecdd98b321",
+        "sha256": "afb7ae5ae82238d304aba589391ac6bc87f7cf1dbfe50980c21f762cfdd87efd"
+      }
+    ],
+    "topology": {
+      "vertices": 6628,
+      "triangles": 12416,
+      "bounds": {
+        "min": [
+          -0.036732789129018784,
+          -0.0005740977358072996,
+          -0.06106271967291832
+        ],
+        "max": [
+          0.03727707266807556,
+          0.03229531645774841,
+          0.08356179296970367
+        ],
+        "size": [
+          0.07400986179709435,
+          0.03286941419355571,
+          0.144624512642622
+        ]
+      },
+      "weldTolerance": 1.6575315288032517e-8,
+      "weldedVertices": 6210,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "degenerateTriangles": 0,
+      "components": 1,
+      "euler": 2,
+      "signedVolume": 0.00013537728009698725
+    }
+  },
+  "method": "One entire original Rock 09 mesh per asset. Original geometry channels, indices and materials unchanged. Rigid rotation and modest axis fit only. No extra support, open panels, terrain or procedural deformation.",
+  "assets": [
+    {
+      "id": "corealm_sunder_ledge",
+      "file": "models/corealm_sunder_ledge.glb",
+      "pack": "corealm-polyhaven-rock09-shortcuts",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "rock",
+        "fractured",
+        "source-derived",
+        "shortcut"
+      ],
+      "size": {
+        "x": 9.319,
+        "y": 4.448,
+        "z": 6.735
+      },
+      "base": {
+        "x": -4.702,
+        "y": -0.19,
+        "z": -2.909
+      },
+      "animations": [],
+      "materials": [
+        "rock_09"
+      ],
+      "bytes": 1963700,
+      "sha256": "eaea3f833ca2b4eeaa4dddac558a76a7bcdb1d8f59375e3976e9acb6182c8b7b",
+      "triangles": 12416,
+      "placement": {
+        "replacesAssetId": "cliff_step_2"
+      },
+      "transform": {
+        "yawDegrees": 120,
+        "pitchDegrees": 18,
+        "order": "source X pitch then world Y yaw, then axis fit and legacy-base translation",
+        "rigidBounds": {
+          "min": [
+            -0.05467709963637553,
+            -0.02542361748912957,
+            -0.04741590108527888
+          ],
+          "max": [
+            0.07959165731381412,
+            0.03739225658542707,
+            0.04986517004070645
+          ],
+          "size": [
+            0.13426875695018964,
+            0.06281587407455663,
+            0.09728107112598533
+          ]
+        },
+        "axisScale": [
+          69.40557290969124,
+          70.81012666831056,
+          69.23237914678937
+        ],
+        "translation": [
+          -0.9071045746970854,
+          1.6102495747719405,
+          0.373715641522689
+        ]
+      },
+      "rearToFrontQuarterDrop": -0.5803125019191233,
+      "support": {
+        "method": "96×96 vertical-ray grid over exact transformed GLB triangle footprint; ground plane Y=0, pivot held at legacy base",
+        "sampledFootprintColumns": 5198,
+        "groundIntersectingColumns": 113,
+        "groundIntersectingFootprintFraction": 0.021739130434782608,
+        "minimumUndersideY": -0.1867785077302666,
+        "medianUndersideY": 1.7606151282795752,
+        "maximumUndersideY": 3.9936617857126615,
+        "additionalDownwardBurialForUndersideQuantile": {
+          "25percent": 0.87029666885245,
+          "50percent": 1.7583471006469993,
+          "75percent": 2.4520385917273755,
+          "90percent": 2.8595414406929276
+        },
+        "pivotChangedBeyondLegacyFit": false,
+        "terrainChanged": false,
+        "caveat": "Underside quantiles report how far a flat ground plane would need to rise relative to this held pivot. This is an embedding diagnostic, not an instruction to change terrain or an approved stability threshold."
+      }
+    },
+    {
+      "id": "corealm_scree_slide",
+      "file": "models/corealm_scree_slide.glb",
+      "pack": "corealm-polyhaven-rock09-shortcuts",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "rock",
+        "fractured",
+        "source-derived",
+        "shortcut"
+      ],
+      "size": {
+        "x": 5.996,
+        "y": 4.382,
+        "z": 5.44
+      },
+      "base": {
+        "x": -2.941,
+        "y": -0.124,
+        "z": -2.318
+      },
+      "animations": [],
+      "materials": [
+        "rock_09"
+      ],
+      "bytes": 1963704,
+      "sha256": "4f8a3dd9af1d2eab0e5e25770beece584c053fe8a17652a844a23163098d6eb2",
+      "triangles": 12416,
+      "placement": {
+        "replacesAssetId": "cliff_step_3"
+      },
+      "transform": {
+        "yawDegrees": 145,
+        "pitchDegrees": -39,
+        "order": "source X pitch then world Y yaw, then axis fit and legacy-base translation",
+        "rigidBounds": {
+          "min": [
+            -0.05001978436879467,
+            -0.03483778450616645,
+            -0.04933664985799435
+          ],
+          "max": [
+            0.05450895886904088,
+            0.05527240976511051,
+            0.056777938543180695
+          ],
+          "size": [
+            0.10452874323783555,
+            0.09011019427127696,
+            0.10611458840117505
+          ]
+        },
+        "axisScale": [
+          57.36221267252039,
+          48.629348049211586,
+          51.26533572776654
+        ],
+        "translation": [
+          -0.07175449120358879,
+          1.5701387480137994,
+          0.21125991865334592
+        ]
+      },
+      "rearToFrontQuarterDrop": 2.01654045646778,
+      "support": {
+        "method": "96×96 vertical-ray grid over exact transformed GLB triangle footprint; ground plane Y=0, pivot held at legacy base",
+        "sampledFootprintColumns": 5571,
+        "groundIntersectingColumns": 97,
+        "groundIntersectingFootprintFraction": 0.0174115957637767,
+        "minimumUndersideY": -0.12371666232815456,
+        "medianUndersideY": 1.7542648831564658,
+        "maximumUndersideY": 4.147083964527373,
+        "additionalDownwardBurialForUndersideQuantile": {
+          "25percent": 0.787500744345477,
+          "50percent": 1.7542648831564658,
+          "75percent": 2.7782554816417324,
+          "90percent": 3.35218408752615
+        },
+        "pivotChangedBeyondLegacyFit": false,
+        "terrainChanged": false,
+        "caveat": "Underside quantiles report how far a flat ground plane would need to rise relative to this held pivot. This is an embedding diagnostic, not an instruction to change terrain or an approved stability threshold."
+      }
+    }
+  ],
+  "visualAccepted": false,
+  "browserReviewed": false
+}

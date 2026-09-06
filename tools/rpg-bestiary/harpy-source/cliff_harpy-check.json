@@ -1,0 +1,222 @@
+{
+  "status": "Unapproved first harpy candidate; browser proof required",
+  "sources": [
+    {
+      "id": "animation_library_1",
+      "file": "models/animation/animation_library_1.glb",
+      "pack": "universal-animation-library",
+      "category": "animation",
+      "is": "animation",
+      "tags": [
+        "animation",
+        "clips",
+        "humanoid",
+        "locomotion",
+        "combat",
+        "library",
+        "in-place"
+      ],
+      "bytes": 789416,
+      "size": {
+        "x": 1.944,
+        "y": 1.829,
+        "z": 0.37
+      },
+      "base": {
+        "x": -0.972,
+        "y": 0,
+        "z": -0.164
+      },
+      "animations": [
+        "Death01",
+        "Fixing_Kneeling",
+        "Hit_Chest",
+        "Idle_Loop",
+        "Idle_Talking_Loop",
+        "Interact",
+        "Jog_Fwd_Loop",
+        "Punch_Jab",
+        "Spell_Simple_Idle_Loop",
+        "Spell_Simple_Shoot",
+        "Sprint_Loop",
+        "Sword_Attack",
+        "Walk_Loop"
+      ],
+      "materials": [],
+      "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+    },
+    {
+      "id": "base_female",
+      "file": "models/character/base_female.glb",
+      "pack": "universal-base-characters",
+      "category": "character",
+      "is": "character",
+      "tags": [
+        "character",
+        "base",
+        "humanoid",
+        "female",
+        "player",
+        "npc",
+        "rigged"
+      ],
+      "bytes": 651876,
+      "size": {
+        "x": 1.669,
+        "y": 1.775,
+        "z": 0.303
+      },
+      "base": {
+        "x": -0.834,
+        "y": -0.008,
+        "z": -0.162
+      },
+      "animations": [],
+      "materials": [
+        "MI_Hair_2",
+        "MI_Eyes",
+        "MI_Superhero_Female"
+      ],
+      "sha256": "75ad4eee7a2caad26cdd2fe54040cdb7e866f9a8236d7d4934f4a0496b042baf"
+    },
+    {
+      "id": "hair_long",
+      "file": "models/character/hair_long.glb",
+      "pack": "universal-base-characters",
+      "category": "character",
+      "is": "hair",
+      "tags": [
+        "hair",
+        "head",
+        "customisation",
+        "recolour"
+      ],
+      "bytes": 231776,
+      "size": {
+        "x": 0.245,
+        "y": 0.276,
+        "z": 0.27
+      },
+      "base": {
+        "x": -0.122,
+        "y": 1.501,
+        "z": -0.162
+      },
+      "animations": [],
+      "materials": [
+        "MI_Hair_2"
+      ],
+      "sha256": "20fa793039eaca5e5bb108d74dc3e5e008a22a4a536196be8448d853b10604f9"
+    },
+    {
+      "id": "outfit_female_ranger_chest",
+      "file": "models/outfit/outfit_female_ranger_chest.glb",
+      "pack": "modular-character-outfits-fantasy",
+      "category": "outfit",
+      "is": "outfit",
+      "tags": [
+        "outfit",
+        "modular",
+        "equip",
+        "torso",
+        "ranger",
+        "armour",
+        "female"
+      ],
+      "bytes": 442400,
+      "size": {
+        "x": 0.38,
+        "y": 0.622,
+        "z": 0.345
+      },
+      "base": {
+        "x": -0.19,
+        "y": 0.919,
+        "z": -0.182
+      },
+      "animations": [],
+      "materials": [
+        "MI_Ranger"
+      ],
+      "sha256": "3eff2a6ea73e2abd2923325d25f3ca5ba18a500460123feac7da90060af2dbca"
+    }
+  ],
+  "packs": [
+    {
+      "id": "universal-base-characters",
+      "name": "Universal Base Characters",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/universal-base-characters",
+      "license": "CC0-1.0",
+      "archiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+    },
+    {
+      "id": "modular-character-outfits-fantasy",
+      "name": "Modular Character Outfits - Fantasy",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/modular-character-outfits-fantasy",
+      "license": "CC0-1.0",
+      "archiveSha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+    },
+    {
+      "id": "universal-animation-library",
+      "name": "Universal Animation Library",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/universal-animation-library",
+      "license": "CC0-1.0",
+      "archiveSha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+    }
+  ],
+  "additions": "Corealm original thin cambered layered feather geometry, rachis and barb SVG texture, swept head crest, full thigh cuffs, tapered shanks with overlapping scales, segmented toes and separate hooked horn claws. Source body and long hair topology, weights and textures preserved. Source animation arm posture adaptation and sampled whole-geometry floor correction.",
+  "checks": [
+    {
+      "clip": "Idle",
+      "duration": 2.5,
+      "minY": 0.0019997660357526023,
+      "maxY": 1.811097811402397
+    },
+    {
+      "clip": "Walk",
+      "duration": 1.3333333730697632,
+      "minY": 0.0018881995116915573,
+      "maxY": 1.8679315347386067
+    },
+    {
+      "clip": "Run",
+      "duration": 0.9333333373069763,
+      "minY": 0.001244738849027316,
+      "maxY": 1.825370457587179
+    },
+    {
+      "clip": "Attack",
+      "duration": 0.8666666746139526,
+      "minY": 0.0019443075482749733,
+      "maxY": 1.8008903729407755
+    },
+    {
+      "clip": "Hit",
+      "duration": 0.3333333432674408,
+      "minY": 0.001999378087534358,
+      "maxY": 1.8100635741981717
+    },
+    {
+      "clip": "HitLeft",
+      "duration": 0.3333333432674408,
+      "minY": 0.001999378087534358,
+      "maxY": 1.8100635741981717
+    },
+    {
+      "clip": "HitRight",
+      "duration": 0.3333333432674408,
+      "minY": 0.001999378087534358,
+      "maxY": 1.8100635741981717
+    },
+    {
+      "clip": "Death",
+      "duration": 2.4000000953674316,
+      "minY": 0.0018074211386582273,
+      "maxY": 1.8170232679718046
+    }
+  ],
+  "triangles": 54858
+}

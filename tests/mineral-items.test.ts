@@ -1,7 +1,8 @@
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { NodeIO, type Document } from "@gltf-transform/core";
-import { ALL_EXTENSIONS, type IOR, type Transmission, type Volume } from "@gltf-transform/extensions";
+import { ALL_EXTENSIONS, type IOR, type Iridescence, type Transmission, type Volume } from "@gltf-transform/extensions";
+import sharp from "sharp";
 import { Ray, Triangle, Vector3 } from "three";
 import { beforeAll, describe, expect, it } from "vitest";
 import { itemIconAppearance } from "../game/src/render/itemIconAppearances.js";
@@ -12,15 +13,16 @@ import {
 
 const ITEMS = ["grithe_ore", "corven_ore", "kaldite_ore", "emberite_ore", "pale_quartz", "vell_amber", "cairn_garnet", "fire_opal"];
 const hash = (bytes: Uint8Array): string => createHash("sha256").update(bytes).digest("hex");
-// Root accepted these five specimens in production browser review before the remaining
-// three gem revisions. Captured directly from test-results/mineral-items/models/corealm/minerals
-// on 2026-09-05; intentional replacement requires a new visual acceptance decision.
+// Root accepted seven specimens after the v6/v7 production browser reviews.
+// Only opal remains under revision; preserve the exact accepted bytes.
 const ACCEPTED_SPECIMEN_SHA256 = {
   corealm_item_grithe_ore: "b8be5d4c1206d04a0d6807fba82fd1cccc48113367a2fe7d152f3266ff8b9106",
   corealm_item_corven_ore: "e9556dc796e75cb5556ce0bf91ba70b2f8ffdda4ac9d3f48bbbeb1bc47dd266b",
   corealm_item_kaldite_ore: "9d3d195c764699c6f3631761ea23b5a8c53abf884a3b00d255c4628d1cf8c4b4",
-  corealm_item_emberite_ore: "7b9591da8e342536a42d90acdb3e37d9263bd6eb76345863a54508363604ddfc",
+  corealm_item_emberite_ore: "2e3ff92e7138bc6387ddea040c7c944094f717526e9b876b337e044cb565d8a4",
   corealm_item_pale_quartz: "70d6e032e386d440651580d8f84a3541e777fbb834d86d8943d3b7a7bf9f0284",
+  corealm_item_vell_amber: "62e54d611aa942b0bc9a8f20bc1d3a5fe16d314194a70b42279984927f4e7b0e",
+  corealm_item_cairn_garnet: "06b0559344d4fdc80b059755a5902fd79e3a48fa1a959a7d24c6f165ae17026e",
 } as const;
 type SurfaceTriangle = { points: [Vector3, Vector3, Vector3]; material: string };
 const pointKey = (point: Vector3): string => point.toArray().map(value => Math.round(value * 1e6)).join(",");
@@ -127,7 +129,7 @@ describe("inventory mineral source assets", () => {
     }));
   });
 
-  it("regenerates the accepted ores and quartz byte-for-byte while other gems are revised", () => {
+  it("regenerates all seven accepted specimens byte-for-byte while opal is revised", () => {
     for (const [assetId, acceptedHash] of Object.entries(ACCEPTED_SPECIMEN_SHA256)) {
       const specimen = specimens.find(({ entry }) => entry.id === assetId)!;
       expect(specimen, assetId).toBeTruthy();
@@ -170,6 +172,7 @@ describe("inventory mineral source assets", () => {
     for (const { document, entry } of specimens) {
       const edges = new Map<string, number>();
       let signedVolume = 0, triangles = 0;
+      let minAreaSquared = Infinity, maxNormalLengthError = 0, minNormalDot = Infinity;
       const key = (point: number[]): string => point.map(value => Math.round(value * 1e6)).join(",");
       for (const mesh of document.getRoot().listMeshes()) for (const primitive of mesh.listPrimitives()) {
         for (const attribute of primitive.listAttributes()) expect(Array.from(attribute.getArray()!).every(Number.isFinite)).toBe(true);
@@ -183,13 +186,13 @@ describe("inventory mineral source assets", () => {
           const points = ids.map(index => positions.getElement(index, []));
           const [a, b, c] = points.map(point => new Vector3().fromArray(point));
           const area = b!.clone().sub(a!).cross(c!.clone().sub(a!));
-          expect(area.lengthSq(), `${entry.id} degenerate triangle`).toBeGreaterThan(0);
+          minAreaSquared = Math.min(minAreaSquared, area.lengthSq());
           signedVolume += a!.dot(b!.clone().cross(c!)) / 6;
           area.normalize();
           for (const index of ids) {
             const normal = new Vector3().fromArray(normals.getElement(index, []));
-            expect(normal.length()).toBeCloseTo(1, 5);
-            expect(normal.dot(area), `${entry.id} reversed normal`).toBeGreaterThan(0.60);
+            maxNormalLengthError = Math.max(maxNormalLengthError, Math.abs(normal.length() - 1));
+            minNormalDot = Math.min(minNormalDot, normal.dot(area));
           }
           for (let corner = 0; corner < 3; corner++) {
             const edge = [key(points[corner]!), key(points[(corner + 1) % 3]!)].sort().join("|");
@@ -199,6 +202,10 @@ describe("inventory mineral source assets", () => {
         }
       }
       expect(signedVolume, entry.id).toBeGreaterThan(0.0001);
+      // Check every triangle while avoiding hundreds of thousands of assertion wrappers.
+      expect(minAreaSquared, `${entry.id} degenerate triangle`).toBeGreaterThan(0);
+      expect(maxNormalLengthError, `${entry.id} non-unit normal`).toBeLessThan(0.000005);
+      expect(minNormalDot, `${entry.id} reversed normal`).toBeGreaterThan(0.60);
       expect(triangles).toBe(entry.triangles);
       const open = [...edges.values()].filter(count => count !== 2);
       expect(open, `${entry.id} open/nonmanifold triangle edges`).toHaveLength(0);
@@ -329,6 +336,61 @@ describe("inventory mineral source assets", () => {
       const a = neighbours[0]!.clone().sub(point).normalize(), b = neighbours[1]!.clone().sub(point).normalize();
       // Whole-triangle masks produce repeated acute sawteeth; a authored continuous edge does not.
       expect(a.dot(b), "opal contour zigzag").toBeLessThan(-0.90);
+    }
+  });
+
+  it("keeps amber inclusions small and fully enclosed by the transmitting shell", () => {
+    const specimen = specimens.find(({ entry }) => entry.itemId === "vell_amber")!;
+    const triangles = surfaceTriangles(specimen.document);
+    const shell = triangles.filter(triangle => triangle.material.endsWith("dielectric"));
+    const inclusions = triangles.filter(triangle => triangle.material.endsWith("internal inclusion"));
+    const shellVolume = solidThickness(shell).volume;
+    const inclusionVolume = connectedSurfaces(inclusions).reduce((sum, component) => sum + solidThickness(component).volume, 0);
+    // A centre-only containment test misses a large opaque insert poking through the shell.
+    // Check every unique inclusion vertex and limit the total opaque volume to one percent.
+    expect(inclusionVolume).toBeGreaterThan(0);
+    expect(inclusionVolume / shellVolume).toBeLessThan(0.01);
+    const vertices = new Map(inclusions.flatMap(triangle => triangle.points).map(point => [pointKey(point), point]));
+    for (const point of vertices.values()) expect(insideSurface(point, shell), `exposed amber inclusion at ${pointKey(point)}`).toBe(true);
+  });
+
+  it("keeps the opal exposure below surrounding matrix ridges instead of a raised button", () => {
+    const specimen = specimens.find(({ entry }) => entry.itemId === "fire_opal")!;
+    const triangles = surfaceTriangles(specimen.document);
+    const gem = triangles.filter(triangle => triangle.material.endsWith("dielectric"));
+    const host = triangles.filter(triangle => triangle.material === "Corealm weathered strata");
+    // Area-weighted normal of the open gem patch measures outward relief independently of pose.
+    const normal = gem.reduce((sum, { points: [a, b, c] }) =>
+      sum.add(b.clone().sub(a).cross(c.clone().sub(a))), new Vector3()).normalize();
+    const gemMax = Math.max(...gem.flatMap(triangle => triangle.points.map(point => point.dot(normal))));
+    const hostMax = Math.max(...host.flatMap(triangle => triangle.points.map(point => point.dot(normal))));
+    expect(hostMax - gemMax, "opal protrudes above its surrounding matrix").toBeGreaterThan(0.002);
+  });
+
+  it("gives opal continuous optical domains through a real thickness texture", async () => {
+    const specimen = specimens.find(({ entry }) => entry.itemId === "fire_opal")!;
+    const primitive = specimen.document.getRoot().listMeshes()[0]!.listPrimitives()
+      .find(part => part.getMaterial()!.getName().endsWith("dielectric"))!;
+    const optical = primitive.getMaterial()!.getExtension<Iridescence>("KHR_materials_iridescence")!;
+    expect(primitive.getMaterial()!.getBaseColorTextureInfo()!.getTexCoord()).toBe(1);
+    const colour = await sharp(primitive.getMaterial()!.getBaseColorTexture()!.getImage()!).raw().toBuffer();
+    const reds = Array.from(colour).filter((_, i) => i % 3 === 0);
+    const blues = Array.from(colour).filter((_, i) => i % 3 === 2);
+    expect(Math.max(...reds) - Math.min(...reds)).toBeGreaterThan(90);
+    expect(Math.max(...blues) - Math.min(...blues)).toBeGreaterThan(90);
+    expect(optical.getIridescenceThicknessTextureInfo()!.getTexCoord()).toBe(1);
+    const pixels = await sharp(optical.getIridescenceThicknessTexture()!.getImage()!).raw().toBuffer();
+    const green = Array.from(pixels).filter((_, i) => i % 3 === 1);
+    expect(Math.max(...green) - Math.min(...green)).toBeGreaterThan(180);
+    expect(optical.getIridescenceThicknessMaximum() - optical.getIridescenceThicknessMinimum()).toBeGreaterThan(300);
+    // Shared geometric vertices must use the same optical coordinate across normal-map projections.
+    const positions = primitive.getAttribute("POSITION")!, uv = primitive.getAttribute("TEXCOORD_1")!;
+    const seen = new Map<string, number[]>();
+    for (let i = 0; i < positions.getCount(); i++) {
+      const key = pointKey(new Vector3().fromArray(positions.getElement(i, []))), value = uv.getElement(i, []);
+      if (seen.has(key)) expect(value).toEqual(seen.get(key));
+      seen.set(key, value);
+      expect(value.every(coordinate => coordinate >= 0 && coordinate <= 1)).toBe(true);
     }
   });
 

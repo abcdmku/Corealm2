@@ -38,7 +38,7 @@ import type { EquipmentSystem } from "../systems/equipment.js";
 import type { InventorySystem } from "../systems/inventory.js";
 import { ESSENCE_BY_ELEMENT, type EssenceSystem } from "../systems/essence.js";
 import type { EntityStore } from "../world/entities.js";
-import { FEATURE_LAB_CATALOG, createFeatureLabEntity, featureLabTargetOffset } from "./catalog.js";
+import { FEATURE_LAB_CATALOG, createFeatureLabEntity, featureLabTargetOffset, stagedCreaturePreset } from "./catalog.js";
 
 const TARGET_DISTANCE = 10;
 /**
@@ -177,6 +177,15 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
         if (typeof visible !== "boolean") throw new Error("Player visibility must be a boolean");
         deps.setPlayerVisible(visible);
         playerVisible = visible;
+        return getState();
+      });
+    },
+
+    previewPlayerReaction(pose) {
+      return guard(() => {
+        if (pose !== "hit" && pose !== "death") throw new Error("Unsupported player reaction preview");
+        if (!deps.playerRigReady) throw new Error("Player rig is not ready");
+        deps.playerRig.play(pose, true);
         return getState();
       });
     },
@@ -552,7 +561,8 @@ export function createFeatureLabRuntime(deps: FeatureLabRuntimeDeps): FeatureLab
   }
 
   function findPreset(kind: FeatureLabTargetKind, presetId: string): FeatureLabPreset {
-    const preset = FEATURE_LAB_CATALOG.targets[kind].find((entry) => entry.id === presetId);
+    const preset = FEATURE_LAB_CATALOG.targets[kind].find((entry) => entry.id === presetId)
+      ?? (kind === "creature" ? stagedCreaturePreset(presetId) : undefined);
     if (!preset) throw new Error(`Unknown feature-lab ${kind} preset: ${presetId}`);
     return preset;
   }

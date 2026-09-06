@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "scope": "Complete source-derived Lynx adaptation candidate with baked/refitted Walk/Run only. Hardware species, material, motion and contact acceptance pending. Constant Walk-start floor placement variant; raw baked GLB/catalogue preserved.",
+  "pack": {
+    "id": "jonasdichelle-cat-source-review",
+    "name": "JonasDichelle complete Cat source review",
+    "author": "JonasDichelle; FBX redistribution by nrz/Ylikuutio",
+    "source": "https://blendswap.com/blend/18519",
+    "license": "CC-BY-3.0",
+    "archiveSha256": "4e156a3b81638d07a78278889d2184c9a106fd81c2de84bd212c1bd12ea03428"
+  },
+  "assets": [
+    {
+      "id": "creature_duskoak_lynx",
+      "file": "models/creature/creature_duskoak_lynx.glb",
+      "pack": "jonasdichelle-cat-source-review",
+      "category": "character",
+      "is": "lynx",
+      "tags": [
+        "animal",
+        "lynx",
+        "source-adapted-baked-rig",
+        "inspection"
+      ],
+      "bytes": 14033428,
+      "sha256": "556f17e082d94c0b2bc64872eefc5d6e655ec9ee0bb61507d1754f44271c414e",
+      "size": {
+        "x": 0.28321624354157554,
+        "y": 0.5457321658578516,
+        "z": 1.0212353469464635
+      },
+      "base": {
+        "x": -0.12317826998059732,
+        "y": 0,
+        "z": -0.5760878829326352
+      },
+      "groundY": 0,
+      "bounds": {
+        "min": [
+          -0.12317826998059732,
+          0,
+          -0.5760878829326352
+        ],
+        "max": [
+          0.1600379735609782,
+          0.5457321658578516,
+          0.44514746401382815
+        ]
+      },
+      "animations": [
+        "Walk",
+        "Run"
+      ],
+      "materials": [
+        "skin"
+      ],
+      "triangles": 50372,
+      "sourceProvenance": {
+        "title": "Rigged and animated Cat",
+        "author": "JonasDichelle",
+        "creatorUrl": "https://blendswap.com/blend/18519",
+        "license": "CC-BY-3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+        "mirror": "https://github.com/nrz/ylikuutio",
+        "mirrorChanges": "Original cat.blend exported to FBX by Ylikuutio project. Complete FBX staged unchanged. Mirror README explicitly credits author and license.",
+        "localModifications": "None",
+        "mirrorCommit": "ea7e8abeb1a1263082f163c8586e1d8c81f74674",
+        "sourceSha256": "b12adb6b0a0d061b1909a4095d3f75ad1f919d1eb01b10ecbf0edfd5f6311488",
+        "modifications": "Historical full source rig baked at 192 Hz into flat standard joints with 76 shared corrective pairs and four native shear frames. Four fitted normalized influences; native hierarchy and channels replaced. Complete original body topology/UVs, reduced original eyes, neutral material. Walk/Run durations retained; no Idle/Attack/Hit/Death aliases. Source placement removed and .1 display scaling baked into skin transforms. Species adaptation: connected closed stub tail about13.5 cm, broadened paws, connected cheek ruff, narrowed dark-tipped ears, grey-buff dapple vertex coat. Tail/ear rest chains adapted and all evaluated matrices rebaked/refitted against full-weight adapted rig. This intentionally changes source anatomy and deformation. Constant whole-scene preview translation Y +0.27964838717050555 m places Walk time-zero minimum at yard floor. This is preview placement, not native contact correction.",
+        "historicalMirrorCommit": "864ea1982524367ed416803db425f1895e4a0717",
+        "limits": {
+          "train": {
+            "frames": 43,
+            "rmsMm": 0.38877240381744577,
+            "p95Mm": 0.8095634613935451,
+            "p99Mm": 1.8481740468379193,
+            "maxMm": 8.963229844905522,
+            "samples": 973950
+          },
+          "heldout": {
+            "frames": 41,
+            "rmsMm": 0.37676202148994353,
+            "p95Mm": 0.7921881913790818,
+            "p99Mm": 1.7874865829561462,
+            "maxMm": 8.97995026210942,
+            "samples": 928650
+          },
+          "random": {
+            "frames": 46,
+            "rmsMm": 0.44407313498374557,
+            "p95Mm": 0.9186792377293217,
+            "p99Mm": 2.0360067149928334,
+            "maxMm": 9.047273339770092,
+            "samples": 1041900
+          }
+        }
+      },
+      "animationMetadata": [
+        {
+          "name": "Walk",
+          "duration": 1.125
+        },
+        {
+          "name": "Run",
+          "duration": 0.5833333134651184
+        }
+      ]
+    }
+  ],
+  "files": {
+    "creature_duskoak_lynx": "Lynx.adapted-baked-grounded.glb"
+  }
+}

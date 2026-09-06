@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "scope": "Complete static source Cat anatomy preview. Existing Lynx id used only for request interception. No native animations, no fabricated clip names, no production promotion.",
+  "pack": {
+    "id": "jonasdichelle-cat-source-review",
+    "name": "JonasDichelle complete Cat source review",
+    "author": "JonasDichelle; FBX redistribution by nrz/Ylikuutio",
+    "source": "https://blendswap.com/blend/18519",
+    "license": "CC-BY-3.0",
+    "archiveSha256": "4e156a3b81638d07a78278889d2184c9a106fd81c2de84bd212c1bd12ea03428"
+  },
+  "assets": [
+    {
+      "id": "creature_duskoak_lynx",
+      "file": "models/creature/creature_duskoak_lynx.glb",
+      "pack": "jonasdichelle-cat-source-review",
+      "category": "character",
+      "is": "cat",
+      "tags": [
+        "animal",
+        "cat",
+        "source-review",
+        "static"
+      ],
+      "bytes": 1310444,
+      "sha256": "f3c4649482a24f911bed5904ec5bb242425df3f29f8d17ebf4ff30d3f0bef9a6",
+      "size": {
+        "x": 0.2848958015441895,
+        "y": 0.9280742168426515,
+        "z": 0.9209949970245361
+      },
+      "base": {
+        "x": -0.14244790077209474,
+        "y": -0.2880086421966553,
+        "z": -0.4336576461791992
+      },
+      "groundY": -0.2880086421966553,
+      "bounds": {
+        "min": [
+          -0.14244790077209474,
+          -0.2880086421966553,
+          -0.4336576461791992
+        ],
+        "max": [
+          0.14244790077209474,
+          0.6400655746459961,
+          0.4873373508453369
+        ]
+      },
+      "animations": [],
+      "materials": [
+        "skin"
+      ],
+      "triangles": 45296,
+      "sourceProvenance": {
+        "title": "Rigged and animated Cat",
+        "author": "JonasDichelle",
+        "creatorUrl": "https://blendswap.com/blend/18519",
+        "license": "CC-BY-3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+        "mirror": "https://github.com/nrz/ylikuutio",
+        "mirrorChanges": "Original cat.blend exported to FBX by Ylikuutio project. Complete FBX staged unchanged. Mirror README explicitly credits author and license.",
+        "localModifications": "None",
+        "mirrorCommit": "ea7e8abeb1a1263082f163c8586e1d8c81f74674",
+        "sourceSha256": "4e156a3b81638d07a78278889d2184c9a106fd81c2de84bd212c1bd12ea03428",
+        "modifications": "Blender 4.5.11 CPU FBX import and glTF export with UVs/normals/all vertex colours; uniform .1 preview root scale after automatic FBX centimetre conversion; source body, materials and pose otherwise unchanged. No Lynx adaptation, rig or animations."
+      }
+    }
+  ],
+  "files": {
+    "creature_duskoak_lynx": "Cat.preview.glb"
+  }
+}

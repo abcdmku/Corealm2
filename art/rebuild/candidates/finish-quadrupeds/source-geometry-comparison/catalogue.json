@@ -1,0 +1,495 @@
+{
+  "packs": [
+    {
+      "id": "khronos-fox-source-review",
+      "name": "Khronos complete Fox source review",
+      "author": "PixelMannen; tomkranis; @AsoboStudio and @scurest",
+      "source": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+      "license": "CC0-1.0 model; CC-BY-4.0 rigging, animation and conversion",
+      "archiveSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7"
+    },
+    {
+      "id": "gonsplitters-badger-provisional-source-review",
+      "name": "Gonsplitters Badger provisional rights source review",
+      "author": "Miguel Zavala (mz4250), mesh attributed by Gonsplitters; texture/package Gonsplitters",
+      "source": "https://thunderstore.io/c/talespire/p/Gonsplitters/Gonsplitters_Beasts_Collection/",
+      "license": "CC-BY-SA-4.0 declared by redistribution publisher; exact original creator grant UNVERIFIED"
+    },
+    {
+      "id": "corealm-creature-expansion",
+      "name": "Corealm original creature expansion",
+      "author": "Corealm",
+      "source": "tools/build-creature-expansion.ts",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+    }
+  ],
+  "assets": [
+    {
+      "id": "creature_redbrush_fox",
+      "file": "models/creature/creature_redbrush_fox.glb",
+      "pack": "khronos-fox-source-review",
+      "category": "character",
+      "is": "fox",
+      "tags": [
+        "animal",
+        "fox",
+        "skinned",
+        "source-review"
+      ],
+      "bytes": 1731932,
+      "sha256": "f9a2d34c69354947d873ce75ea82993360d0492f4d9f1568eed33b85617e2811",
+      "size": {
+        "x": 0.24451285362256836,
+        "y": 0.7827743114985272,
+        "z": 1.5342869510511183
+      },
+      "base": {
+        "x": -0.12225643787119361,
+        "y": -0.001217441940560946,
+        "z": -0.8681037377774836
+      },
+      "bounds": {
+        "min": [
+          -0.12225643787119361,
+          -0.001217441940560946,
+          -0.8681037377774836
+        ],
+        "max": [
+          0.12225641575137475,
+          0.7815568695579662,
+          0.6661832132736347
+        ]
+      },
+      "groundY": -0.001217441940560946,
+      "animations": [
+        "Survey",
+        "Walk",
+        "Run"
+      ],
+      "materials": [
+        "fox_material"
+      ],
+      "triangles": 37200,
+      "walkClipSeconds": 0.7083333134651184,
+      "runClipSeconds": 1.1583333015441895,
+      "sourceProvenance": {
+        "repositoryUrl": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+        "commit": "81e8b567643b5166e6ff40024e4ff71ad4b18676",
+        "sourceSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+        "attribution": [
+          {
+            "author": "PixelMannen",
+            "work": "Model",
+            "year": 2014,
+            "license": "CC0-1.0",
+            "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
+          },
+          {
+            "author": "tomkranis",
+            "work": "Rigging & Animation",
+            "year": 2014,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          },
+          {
+            "author": "@AsoboStudio and @scurest",
+            "work": "Conversion to glTF",
+            "year": 2017,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          }
+        ],
+        "modifications": [
+          "Welded face duplicates by position and skin weights; averaged source texture colours at shared vertices without exchanging orange/white/dark coat regions.",
+          "Three controlled Loop-subdivision rounds on the complete original mesh cage. Ear/nose planes and sole elevation receive minimal relaxation.",
+          "Widened existing weighted distal foot vertices and eased pointed forefoot ends.",
+          "Source colour regions converted to linear vertex colours with directional grizzle; smooth normals and rough coat.",
+          "Added two small surface-projected almond eye details on native Head joint."
+        ]
+      },
+      "reviewOnly": {
+        "nativeDataExactlyPreserved": true,
+        "missingProductionBehaviors": [
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "contactAccepted": false,
+        "hardwareAccepted": false
+      }
+    },
+    {
+      "id": "creature_rootdelve_badger",
+      "file": "models/creature/creature_rootdelve_badger.glb",
+      "pack": "gonsplitters-badger-provisional-source-review",
+      "category": "character",
+      "is": "complete original Badger static source review; PROVISIONAL RIGHTS: publisher declares CC-BY-SA4, exact original creator grant unverified",
+      "tags": [
+        "badger",
+        "original-source",
+        "whole-body-evaluation",
+        "static-preview",
+        "provisional-rights"
+      ],
+      "bytes": 3111332,
+      "sha256": "65c9eca2fb53ad20770937306a5a133beff36b765045f3c0a7a2ce9c036cdd79",
+      "size": {
+        "x": 0.3978798363675895,
+        "y": 0.3499999999999999,
+        "z": 0.6656602246574949
+      },
+      "base": {
+        "x": -0.19893991818379475,
+        "y": 0,
+        "z": -0.33283011232874743
+      },
+      "bounds": {
+        "min": [
+          -0.19893991818379475,
+          0,
+          -0.33283011232874743
+        ],
+        "max": [
+          0.19893991818379478,
+          0.3499999999999999,
+          0.33283011232874743
+        ]
+      },
+      "groundY": 0,
+      "triangles": 49976,
+      "animations": [],
+      "materials": [
+        "Source_Unity_Standard_translated"
+      ],
+      "sourceProvenance": {
+        "author": "Miguel Zavala (mz4250), mesh attributed by Gonsplitters; texture/package Gonsplitters",
+        "source": "https://thunderstore.io/c/talespire/p/Gonsplitters/Gonsplitters_Beasts_Collection/",
+        "download": "https://thunderstore.io/package/download/Gonsplitters/Gonsplitters_Beasts_Collection/1.0.3/",
+        "license": "CC-BY-SA-4.0 declared by redistribution publisher; exact original creator grant UNVERIFIED",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "originalCreatorPage": "https://thangs.com/designer/mz4250/3d-model/Badger-18694",
+        "originalCreatorLicenseVerified": false,
+        "commercialClearance": "provisional, do not publish as cleared",
+        "sourceSha256": "ef00545e513c4b3008947418b784f22288cc9a654234591bda456fd1a94f0e86",
+        "rawPreviewSha256": "8d3371eb6f828555a31d93e871812ceac5193eab9d926acd810e093d753cc2fb",
+        "sourceNativeActions": [],
+        "adaptationPerformed": false
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false,
+        "originalCreatorGrantVerified": false
+      }
+    },
+    {
+      "id": "creature_ashscale_monitor",
+      "file": "models/creature/creature_ashscale_monitor.glb",
+      "pack": "corealm-creature-expansion",
+      "category": "character",
+      "is": "ashscale monitor",
+      "tags": [
+        "reptile",
+        "monitor",
+        "original",
+        "skinned",
+        "modeled-scales",
+        "five-toed",
+        "long-tail"
+      ],
+      "bytes": 3035692,
+      "sha256": "81aa4269996482a5ca3f752b1a50ca8830f0449cded062d817c588d73bddf00e",
+      "size": {
+        "x": 1.9464862937927248,
+        "y": 1.1931678258702159,
+        "z": 4.768128638267517
+      },
+      "base": {
+        "x": -0.9732204971313477,
+        "y": 0.005000162906944772,
+        "z": -2.9901286220550536
+      },
+      "bounds": {
+        "min": [
+          -0.9732204971313477,
+          0.005000162906944772,
+          -2.9901286220550536
+        ],
+        "max": [
+          0.973265796661377,
+          1.1981679887771606,
+          1.7780000162124634
+        ]
+      },
+      "groundY": 0.005000162906944772,
+      "triangles": 32230,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Ashscale pebbled skin and ventral scales",
+        "Soft mouth and forked tongue",
+        "Recessed dark eye surround",
+        "Old gold iris",
+        "Vertical black pupil",
+        "Worn keratin claws and teeth"
+      ],
+      "sourceProvenance": "Original Corealm authored continuous anatomical lofts, custom scale topology, weighted rig and analytical IK animation. No third-party meshes or textures.",
+      "impliedWalkMps": 0.4769475357710652,
+      "impliedRunMps": 1.6865079365079365,
+      "walkClipSeconds": 1.3600000143051147,
+      "runClipSeconds": 0.7200000286102295,
+      "attackSeconds": 1.100000023841858,
+      "contactNormalized": 0.48,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 1.3600000143051147,
+            "sampledFootBones": 4,
+            "stanceSamples": 284,
+            "measuredStanceMps": 0.4771984536725997,
+            "feet": [
+              {
+                "bone": "monitor_fore_left_foot",
+                "minY": 0.08493616598719467,
+                "maxY": 0.17281354844371044,
+                "strideZ": 0.47792443983564836,
+                "contactSamples": 71,
+                "stanceMedianMps": 0.4776951529961794
+              },
+              {
+                "bone": "monitor_fore_right_foot",
+                "minY": 0.08493744207859799,
+                "maxY": 0.17281355528595732,
+                "strideZ": 0.4781798727063604,
+                "contactSamples": 71,
+                "stanceMedianMps": 0.477655890876018
+              },
+              {
+                "bone": "monitor_hind_left_foot",
+                "minY": 0.08494173344625294,
+                "maxY": 0.17283943017747574,
+                "strideZ": 0.477924440577073,
+                "contactSamples": 71,
+                "stanceMedianMps": 0.4769951116774983
+              },
+              {
+                "bone": "monitor_hind_right_foot",
+                "minY": 0.08494173343981365,
+                "maxY": 0.17283942923792325,
+                "strideZ": 0.4778266391657542,
+                "contactSamples": 71,
+                "stanceMedianMps": 0.47702337692747465
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "monitor_root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.7200000286102295,
+            "sampledFootBones": 4,
+            "stanceSamples": 220,
+            "measuredStanceMps": 1.6863952226189496,
+            "feet": [
+              {
+                "bone": "monitor_fore_left_foot",
+                "minY": 0.08479257433839016,
+                "maxY": 0.22977555769727573,
+                "strideZ": 0.6779524422933589,
+                "contactSamples": 55,
+                "stanceMedianMps": 1.6863858152491518
+              },
+              {
+                "bone": "monitor_fore_right_foot",
+                "minY": 0.08479630102764268,
+                "maxY": 0.2297755587584486,
+                "strideZ": 0.6780071532155532,
+                "contactSamples": 55,
+                "stanceMedianMps": 1.686387490709537
+              },
+              {
+                "bone": "monitor_hind_left_foot",
+                "minY": 0.08487219942471314,
+                "maxY": 0.22975382431296767,
+                "strideZ": 0.6779205912910051,
+                "contactSamples": 55,
+                "stanceMedianMps": 1.6863968980963584
+              },
+              {
+                "bone": "monitor_hind_right_foot",
+                "minY": 0.0848898417485861,
+                "maxY": 0.22975382316680762,
+                "strideZ": 0.6779205791689638,
+                "contactSamples": 55,
+                "stanceMedianMps": 1.6863952226189496
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "monitor_root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 4.199999809265137,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0003367667748091781,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 1.3600000143051147,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006834822611278061,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.7200000286102295,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006290327506413761,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "id": "ashscale_monitor",
+        "is": "ashscale monitor",
+        "tags": [
+          "reptile",
+          "monitor",
+          "original",
+          "skinned",
+          "modeled-scales",
+          "five-toed",
+          "long-tail"
+        ],
+        "provenance": "Original Corealm authored continuous anatomical lofts, custom scale topology, weighted rig and analytical IK animation. No third-party meshes or textures.",
+        "attackSeconds": 1.1,
+        "contactNormalized": 0.48,
+        "impliedWalkMps": 0.4769475357710652,
+        "impliedRunMps": 1.6865079365079365,
+        "walkClipSeconds": 1.36,
+        "runClipSeconds": 0.72,
+        "gaitFootBones": [
+          "monitor_fore_left_foot",
+          "monitor_fore_right_foot",
+          "monitor_hind_left_foot",
+          "monitor_hind_right_foot"
+        ],
+        "notes": [
+          "+Z forward, Y up, metre units, contact pads at Y=0.",
+          "Continuous ribcage, muscular tapered tail, long raised neck and shallow wedge skull.",
+          "341 irregular modeled dorsal scutes, continuous fine scale colour/normal/roughness maps, flush throat folds, 20 unequal articulated clawed digits, recessed eyes, teeth and forked tongue.",
+          "Walk stance 74%, run stance 56%; contact feet translate backward linearly, paired with the recorded implied travel speeds. No root translation.",
+          "Idle/Walk/Run have matching endpoints. Attack and all three hit reactions return to their initial pose; Death holds its collapsed pose."
+        ],
+        "boneNames": [
+          "monitor_root",
+          "monitor_pelvis",
+          "monitor_spine",
+          "monitor_chest",
+          "monitor_neck_base",
+          "monitor_neck_upper",
+          "monitor_head",
+          "monitor_jaw",
+          "monitor_tongue",
+          "monitor_fore_left_upper",
+          "monitor_fore_left_lower",
+          "monitor_fore_left_foot",
+          "monitor_fore_left_toe_1",
+          "monitor_fore_left_toe_2",
+          "monitor_fore_left_toe_3",
+          "monitor_fore_left_toe_4",
+          "monitor_fore_left_toe_5",
+          "monitor_fore_right_upper",
+          "monitor_fore_right_lower",
+          "monitor_fore_right_foot",
+          "monitor_fore_right_toe_1",
+          "monitor_fore_right_toe_2",
+          "monitor_fore_right_toe_3",
+          "monitor_fore_right_toe_4",
+          "monitor_fore_right_toe_5",
+          "monitor_tail_1",
+          "monitor_tail_2",
+          "monitor_tail_3",
+          "monitor_tail_4",
+          "monitor_tail_5",
+          "monitor_tail_6",
+          "monitor_hind_left_upper",
+          "monitor_hind_left_lower",
+          "monitor_hind_left_foot",
+          "monitor_hind_left_toe_1",
+          "monitor_hind_left_toe_2",
+          "monitor_hind_left_toe_3",
+          "monitor_hind_left_toe_4",
+          "monitor_hind_left_toe_5",
+          "monitor_hind_right_upper",
+          "monitor_hind_right_lower",
+          "monitor_hind_right_foot",
+          "monitor_hind_right_toe_1",
+          "monitor_hind_right_toe_2",
+          "monitor_hind_right_toe_3",
+          "monitor_hind_right_toe_4",
+          "monitor_hind_right_toe_5"
+        ],
+        "authoringModule": "tools/creature-expansion/reptiles.mjs"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_redbrush_fox": "creature_redbrush_fox.f9a2d34c6935.glb",
+    "creature_rootdelve_badger": "creature_rootdelve_badger.65c9eca2fb53.glb",
+    "creature_ashscale_monitor": "creature_ashscale_monitor.81aa42699964.glb"
+  },
+  "origins": [
+    {
+      "slot": "creature_redbrush_fox",
+      "catalogue": "source-fox-adaptation/catalogue.json",
+      "catalogueSha256": "eedcff6dd3a83bb4d3a8364c309d18ecead0e245ba8b5ebbaee4ee3796d11379",
+      "sha256": "f9a2d34c69354947d873ce75ea82993360d0492f4d9f1568eed33b85617e2811",
+      "sourceDescription": "fox",
+      "rightsStatus": "See original source attribution and license records."
+    },
+    {
+      "slot": "creature_rootdelve_badger",
+      "catalogue": "source-badger/candidate-catalogue.json",
+      "catalogueSha256": "193d5a34f49c9d49df445a532fb39f306208dddb526ba403bd8bbf5a8e627b39",
+      "sha256": "65c9eca2fb53ad20770937306a5a133beff36b765045f3c0a7a2ce9c036cdd79",
+      "sourceDescription": "complete original Badger static source review; PROVISIONAL RIGHTS: publisher declares CC-BY-SA4, exact original creator grant unverified",
+      "rightsStatus": "Provisional. Redistribution publisher declares CC-BY-SA4; exact original creator grant remains unverified. No promotion or deep derivative."
+    },
+    {
+      "slot": "creature_ashscale_monitor",
+      "catalogue": "revision8/catalogue.json",
+      "catalogueSha256": "27aea05c36f21ae9a85ae0deaebc9b874fb93ba5acf6725fcb0b68a34b6f9e5c",
+      "sha256": "81aa4269996482a5ca3f752b1a50ca8830f0449cded062d817c588d73bddf00e",
+      "sourceDescription": "ashscale monitor",
+      "rightsStatus": "See original source attribution and license records."
+    }
+  ],
+  "scope": "Frozen geometry comparison only: Fox adaptation, provisional-rights complete static Badger source, and retained Monitor candidate. Four views each: front, side, rear, gameplay. No motion/lifecycle or promotion acceptance."
+}

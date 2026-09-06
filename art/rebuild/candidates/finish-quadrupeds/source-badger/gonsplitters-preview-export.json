@@ -1,0 +1,23 @@
+{
+  "file": "gonsplitters-badger-source-preview.glb",
+  "sha256": "8d3371eb6f828555a31d93e871812ceac5193eab9d926acd810e093d753cc2fb",
+  "bytes": 3111116,
+  "objects": [
+    {
+      "name": "gonsplitters-badger-source",
+      "vertices": 25966,
+      "polygons": 49976,
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "geometryReshaped": false,
+  "rigged": false,
+  "animations": 0,
+  "sourceCoordinates": "UnityPy OBJ X mirror, Blender axis import, GLTF Y-up export; no size normalization or pose edits",
+  "maps": "Original albedo with source tint; DXT5nm alpha/green reconstructed normal; roughness=1-source gloss alpha; original AO; opaque source mode retained",
+  "limits": "Static source selection preview only. Unity parallax height unavailable in glTF material, not translated. Node math/mix exporter material fidelity must be checked in report and hardware source view. Not art or runtime acceptance."
+}

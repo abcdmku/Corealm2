@@ -1,0 +1,199 @@
+{
+  "status": "root-reviewed-model-selection",
+  "pack": {
+    "id": "corealm-original-equipment",
+    "name": "Corealm original equipment",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/build-corealm-equipment.ts",
+    "generatorSha256": "b39719e7dd009a362e9396e73323d3f16776ba808a5501345fc9695ea7a085e5"
+  },
+  "assets": [
+    {
+      "id": "corealm_sword_1",
+      "file": "models/corealm/equipment/corealm_sword_1.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "sword",
+      "tags": [
+        "sword",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 146060,
+      "size": {
+        "x": 0.2769061326980591,
+        "y": 0.999999981790781,
+        "z": 0.0560000017285347
+      },
+      "base": {
+        "x": -0.13845306634902954,
+        "y": -0.23000000086426736,
+        "z": -0.02800000086426735
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "5f0a55210edfe713e051873c1e6ca548fbad2371891c3585ebe008118a49e8dd",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "corealm_sword_2",
+      "file": "models/corealm/equipment/corealm_sword_2.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "sword",
+      "tags": [
+        "sword",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 148196,
+      "size": {
+        "x": 0.3010334372520447,
+        "y": 1.090000015169382,
+        "z": 0.0560000017285347
+      },
+      "base": {
+        "x": -0.15051671862602234,
+        "y": -0.23000000086426736,
+        "z": -0.02800000086426735
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "e68c3e2fe7988dcdeed962233abf75c873774b81461ffc035104fcd95774edc1",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "corealm_sword_3",
+      "file": "models/corealm/equipment/corealm_sword_3.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "sword",
+      "tags": [
+        "sword",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 148384,
+      "size": {
+        "x": 0.32513636350631714,
+        "y": 1.1500000175535678,
+        "z": 0.0560000017285347
+      },
+      "base": {
+        "x": -0.16256818175315857,
+        "y": -0.23000000086426736,
+        "z": -0.02800000086426735
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "dc540db7697bfa2276dac22af98797233d53dc2d77cddfe4b4a0ea28537d2bad",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "corealm_sword_4",
+      "file": "models/corealm/equipment/corealm_sword_4.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "sword",
+      "tags": [
+        "sword",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 148100,
+      "size": {
+        "x": 0.3490915596485138,
+        "y": 1.1899999794065952,
+        "z": 0.0560000017285347
+      },
+      "base": {
+        "x": -0.1745457798242569,
+        "y": -0.23000000086426736,
+        "z": -0.02800000086426735
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "b5fe6b28706191c570f7272ca25b701925ad61c8f0032be9dd6043ff9bd423f6",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "corealm_axe_1",
+      "file": "models/corealm/equipment/corealm_axe_1.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "axe",
+      "tags": [
+        "axe",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 175368,
+      "size": {
+        "x": 0.34074999392032623,
+        "y": 0.8380012655258179,
+        "z": 0.07400000095367432
+      },
+      "base": {
+        "x": -0.052000001072883606,
+        "y": -0.39,
+        "z": -0.03700000047683716
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573",
+      "gripCenter": [
+        0,
+        -0.25,
+        0
+      ]
+    }
+  ],
+  "acceptance": "Root accepted these model selections; icons and full animation acceptance remain separate.",
+  "evidence": [
+    "test-results/sword-grade-review/report.json",
+    "test-results/equipment-held-candidates/report.json"
+  ]
+}

@@ -4,7 +4,7 @@ import type { SemanticEntity, SolidVolume } from "../game/src/contracts.js";
 import { WORLD_SITES, worldSitePoint, type WorldSite } from "../game/src/content/worldSites.js";
 import type { AssetRegistry } from "../game/src/render/assets.js";
 import type { WorldScene } from "../game/src/render/scene.js";
-import { buildMineCutFace } from "../game/src/render/mineCutFace.js";
+import { buildMineCutFace, createMineBurialSampler } from "../game/src/render/mineCutFace.js";
 
 const UP = new THREE.Vector3(0, 1, 0);
 const SETBACK = 2.4;
@@ -179,6 +179,26 @@ function assertExposedCollisionContained(mesh: THREE.Mesh, solids: readonly Soli
 }
 
 describe("authored stone mine cliff", () => {
+  it("samples burial from actual rendered triangle indices rather than a bilinear saddle", () => {
+    for (const flipped of [false, true]) {
+      const geometry = new THREE.PlaneGeometry(2, 2, 1, 1).rotateX(-Math.PI / 2);
+      const positions = geometry.getAttribute("position");
+      for (let i = 0; i < positions.count; i++) positions.setY(i, i === 0 || i === 3 ? 4 : 0);
+      if (flipped) geometry.setIndex([0, 2, 3, 0, 3, 1]);
+      const mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }));
+      mesh.position.set(7, 3, 11); mesh.updateMatrixWorld(true);
+      const scene = { getWalkableMeshes: () => [mesh], meshHeightAt: () => 5 } as unknown as WorldScene;
+      const sample = createMineBurialSampler(scene);
+      for (const [x, z] of [[6.3, 10.4], [7.6, 11.2], [6.8, 11.7], [7, 11]]) {
+        const hit = new THREE.Raycaster(new THREE.Vector3(x, 20, z), new THREE.Vector3(0, -1, 0)).intersectObject(mesh)[0]!;
+        expect(sample(x!, z!)).toBeCloseTo(hit.point.y, 6);
+      }
+      // At the saddle's centre the diagonal differs by two metres from bilinear terrain.
+      expect(Math.abs(sample(7, 11) - scene.meshHeightAt(7, 11))).toBeCloseTo(2, 6);
+      geometry.dispose(); (mesh.material as THREE.Material).dispose();
+    }
+  });
+
   it("anchors behind authored slots independently of ore placement, appearance, dimensions, or depletion", async () => {
     const h = fixture();
     const first = await h.build();
@@ -296,6 +316,61 @@ describe("authored stone mine cliff", () => {
     }
     expect(solids.length).toBeGreaterThan(0);
     assertExposedCollisionContained(mesh, solids, h.scene.meshHeightAt);
+  });
+
+  it("buries a deep rear shell within a metre of its lip instead of exposing a long roof", async () => {
+    const h = fixture(true);
+    const result = await h.build({ ...h.site, cutFace: { ...h.site.cutFace!, backDepth: 10.5 } });
+    const rear = vertices(result.objects[0] as THREE.Mesh)
+      .filter((point) => point.z < -SETBACK - 1.7);
+    expect(rear.length).toBeGreaterThan(100);
+    for (const point of rear) {
+      expect(point.y).toBeLessThanOrEqual(h.scene.meshHeightAt(point.x, point.z) - 0.10);
+    }
+  });
+
+  it("keeps the closed underside below a curved two-metre terrain lattice", async () => {
+    const h = fixture(true);
+    const analytic = (x: number, z: number) => {
+      const depth = Math.max(0, -z - SETBACK - 0.6);
+      return 8 * THREE.MathUtils.smoothstep(depth, 0, 8) + Math.sin(x * 0.5) * depth * 0.05;
+    };
+    h.scene.meshHeightAt = (x: number, z: number) => {
+      const x0 = Math.floor(x / 2) * 2, z0 = Math.floor(z / 2) * 2;
+      const u = (x - x0) / 2, v = (z - z0) / 2;
+      const a = analytic(x0, z0), b = analytic(x0 + 2, z0);
+      const c = analytic(x0, z0 + 2), d = analytic(x0 + 2, z0 + 2);
+      return u + v <= 1 ? a + u * (b - a) + v * (c - a)
+        : d + (1 - u) * (c - d) + (1 - v) * (b - d);
+    };
+    const result = await h.build({ ...h.site, cutFace: { ...h.site.cutFace!, backDepth: 10.5 } });
+    const mesh = result.objects[0] as THREE.Mesh;
+    assertClosedShell(mesh);
+    const material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide });
+    const probe = new THREE.Mesh(mesh.geometry, material);
+    probe.updateMatrixWorld(true);
+    let checked = 0;
+    for (const x of [-0.6, 0, 0.6]) for (let depth = 2; depth <= 9; depth += 0.2) {
+      const z = -SETBACK - depth;
+      const ground = h.scene.meshHeightAt(x, z);
+      const hits = new THREE.Raycaster(new THREE.Vector3(x, ground + 12, z), new THREE.Vector3(0, -1, 0), 0, 30)
+        .intersectObject(probe);
+      expect(hits.length).toBeGreaterThan(0);
+      const underside = hits.filter((hit) => hit.face!.normal.y < 0);
+      expect(underside.length).toBeGreaterThan(0);
+      for (const hit of underside) expect(hit.point.y, `buried underside at ${x},${z}`).toBeLessThan(ground - 0.1);
+      // Beyond the receiving bank the complete shell, including its top, stays hidden.
+      if (depth >= 5) for (const hit of hits) expect(hit.point.y).toBeLessThan(ground - 0.1);
+      checked++;
+    }
+    expect(checked).toBeGreaterThan(90);
+    const rearHit = new THREE.Raycaster(new THREE.Vector3(0, 3.0, -14), new THREE.Vector3(0, 0, 1), 0, 20)
+      .intersectObject(probe).find((hit) => hit.face!.normal.y > 0)!;
+    expect(rearHit).toBeDefined();
+    // The receiving shoulder meets this rear ray as a sloped cap, not the near-vertical
+    // back strip produced by forcing a high crest down to the work floor within one metre.
+    expect(rearHit.face!.normal.y).toBeGreaterThan(0.45);
+    material.dispose();
   });
 
   it("does nothing without a cut and requires each referenced station to be an ore entity", async () => {

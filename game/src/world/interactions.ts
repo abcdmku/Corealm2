@@ -105,6 +105,9 @@ export class InteractionDispatcher {
     // rather than treating it as another rock centre and stopping two metres short.
     if (interaction === "mine" && entity?.archetype === "ore" && entity.interactionPosition) return 0.45;
     if (interaction === "enter" && entity?.archetype === "portal" && entity.interactionPosition) return 0.45;
+    if ((interaction === "climb" || interaction === "vault" || interaction === "enter")
+      && entity?.archetype === "obstacle" && entity.interactionPosition
+      && typeof entity.meta?.traversalContactDepth === "number") return 0.45;
     return this.ranges.get(interaction) ?? INTERACT_RANGE;
   }
 

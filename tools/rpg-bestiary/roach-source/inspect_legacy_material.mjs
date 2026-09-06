@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+const file='test-results/fantasy-collection-source/roach-game-ready-and-animated/Roach.blend',b=fs.readFileSync(file);
+if(b.subarray(0,12).toString()!=='BLENDER-v269')throw new Error('Expected source Blender 2.69 little-endian 64-bit file');
+const blocks=[];for(let o=12;o+24<=b.length;){const code=b.subarray(o,o+4).toString().replace(/\0/g,''),size=b.readUInt32LE(o+4),ptr=b.readBigUInt64LE(o+8),sdna=b.readUInt32LE(o+16),count=b.readUInt32LE(o+20);blocks.push({code,size,ptr,sdna,count,data:b.subarray(o+24,o+24+size)});o+=24+size;if(code==='ENDB')break;}
+const dna=blocks.find(x=>x.code==='DNA1').data;let o=0;const token=s=>{if(dna.subarray(o,o+4).toString()!==s)throw new Error(`Expected ${s}`);o+=4;};const u16=()=>{const v=dna.readUInt16LE(o);o+=2;return v;},u32=()=>{const v=dna.readUInt32LE(o);o+=4;return v;},align=()=>{o=(o+3)&~3;};const strings=()=>{const n=u32(),a=[];for(let i=0;i<n;i++){const e=dna.indexOf(0,o);a.push(dna.subarray(o,e).toString());o=e+1;}align();return a;};token('SDNA');token('NAME');const names=strings();token('TYPE');const types=strings();token('TLEN');const lengths=types.map(()=>u16());align();token('STRC');const count=u32(),structs=[];
+for(let i=0;i<count;i++){const type=u16(),n=u16(),fields=[];let offset=0;for(let k=0;k<n;k++){const ti=u16(),ni=u16(),name=names[ni],dims=[...name.matchAll(/\[(\d+)\]/g)].reduce((v,m)=>v*Number(m[1]),1),pointer=name.includes('*'),size=(pointer?8:lengths[ti])*dims;fields.push({name:name.replace(/\*/g,'').replace(/\[.*$/,''),type:types[ti],pointer,dims,offset,size});offset+=size;}structs.push({name:types[type],size:lengths[type],fields});}
+const byType=new Map(structs.map(s=>[s.name,s])),byPointer=new Map(blocks.map(x=>[String(x.ptr),x]));
+function decode(data,type,depth=0){const s=byType.get(type),r={};for(const f of s.fields){const v=data.subarray(f.offset,f.offset+f.size);if(f.pointer){const values=Array.from({length:f.dims},(_,i)=>String(v.readBigUInt64LE(i*8)));r[f.name]=f.dims===1?values[0]:values;}
+else if(f.type==='char'){r[f.name]=f.dims>1?v.subarray(0,v.indexOf(0)<0?v.length:v.indexOf(0)).toString():v.readInt8();}
+else if(['short','ushort','int','uint','float','double'].includes(f.type)){const reader={short:'readInt16LE',ushort:'readUInt16LE',int:'readInt32LE',uint:'readUInt32LE',float:'readFloatLE',double:'readDoubleLE'}[f.type],sz=f.size/f.dims,values=Array.from({length:f.dims},(_,i)=>v[reader](i*sz));r[f.name]=f.dims===1?values[0]:values;}
+else if(depth<2&&byType.has(f.type))r[f.name]=decode(v,f.type,depth+1);
+}return r;}
+const resolve=p=>{const q=byPointer.get(String(p));return q?decode(q.data,structs[q.sdna].name):null;};
+const records=[];for(const block of blocks.filter(x=>structs[x.sdna]?.name==='Material')){const m=decode(block.data,'Material');records.push({name:m.id?.name,materialFields:{septex:m.septex,texact:m.texact,mode:m.mode,amb:m.amb,har:m.har,spec:m.spec,roughness:m.roughness},slots:(m.mtex||[]).map((p,index)=>{if(p==='0')return null;const slot=resolve(p),tex=resolve(slot.tex),image=tex?resolve(tex.ima):null;return {index,slot,texture:tex,image:image?{name:image.id?.name,path:image.name}:null};}).filter(Boolean)});}
+const output={source:file,blenderVersion:'2.69',method:'Direct SDNA decode of original Material/MTex/Tex/Image structures before Blender4 conversion',materials:records};fs.writeFileSync('test-results/roach-source/legacy-material-slots.json',JSON.stringify(output,null,2)+'\n');console.log(JSON.stringify(output,null,2));
+
+

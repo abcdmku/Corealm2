@@ -1,0 +1,749 @@
+{
+  "schema": 1,
+  "scope": "Frozen Bighorn revision5 and Tapir revision4 candidates. Static direction accepted by root. Natural AI lifecycle proof required before root-only promotion.",
+  "assets": [
+    {
+      "id": "creature_cairn_bighorn",
+      "file": "models/creature/creature_cairn_bighorn.glb",
+      "pack": "corealm-creature-expansion",
+      "category": "character",
+      "is": "bighorn sheep",
+      "tags": [
+        "animal",
+        "hoofed",
+        "mountain",
+        "original",
+        "skinned"
+      ],
+      "bytes": 2534588,
+      "sha256": "6f1e5349279e348087d62533a0589ae0e48342328d6c1d0c3bc535e2bec1e9d1",
+      "size": {
+        "x": 0.7424661884307862,
+        "y": 1.7055086521152407,
+        "z": 2.3150609919783878
+      },
+      "base": {
+        "x": -0.3687076637744904,
+        "y": 0.002000002479180696,
+        "z": -1.0114468121528626
+      },
+      "bounds": {
+        "min": [
+          -0.3687076637744904,
+          0.002000002479180696,
+          -1.0114468121528626
+        ],
+        "max": [
+          0.3737585246562958,
+          1.7075086545944214,
+          1.3036141798255252
+        ]
+      },
+      "groundY": 0.002000002479180696,
+      "triangles": 51532,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Sculpted_coat",
+        "Hoof_keratin",
+        "Horn_ivory",
+        "Wet_eye",
+        "Inner_ear",
+        "Muzzle_skin"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm",
+        "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+        "license": "Project-owned original"
+      },
+      "impliedWalkMps": 0.7894736842105263,
+      "impliedRunMps": 2.327127659574468,
+      "walkClipSeconds": 0.949999988079071,
+      "runClipSeconds": 0.6399999856948853,
+      "attackSeconds": 1.0499999523162842,
+      "contactNormalized": 0.46,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 0.949999988079071,
+            "sampledFootBones": 4,
+            "stanceSamples": 248,
+            "measuredStanceMps": 0.7894083170479104,
+            "feet": [
+              {
+                "bone": "cairn_bighorn_ForeLFoot",
+                "minY": 0.06488738452953119,
+                "maxY": 0.1944438873529059,
+                "strideZ": 0.47897280988142377,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.7894122840275863
+              },
+              {
+                "bone": "cairn_bighorn_ForeRFoot",
+                "minY": 0.06488738426205251,
+                "maxY": 0.19444389827045153,
+                "strideZ": 0.4789728072410091,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.7894114162088771
+              },
+              {
+                "bone": "cairn_bighorn_HindLFoot",
+                "minY": 0.0648538304026271,
+                "maxY": 0.19444393249921535,
+                "strideZ": 0.4791280204798408,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.7894091855804738
+              },
+              {
+                "bone": "cairn_bighorn_HindRFoot",
+                "minY": 0.06485383038519668,
+                "maxY": 0.1944439256346519,
+                "strideZ": 0.47912800414709245,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.7894083170479104
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "cairn_bighorn_Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.6399999856948853,
+            "sampledFootBones": 4,
+            "stanceSamples": 184,
+            "measuredStanceMps": 2.326781056799565,
+            "feet": [
+              {
+                "bone": "cairn_bighorn_ForeLFoot",
+                "minY": 0.06487591836327912,
+                "maxY": 0.3041612429060837,
+                "strideZ": 0.6990819671190162,
+                "contactSamples": 46,
+                "stanceMedianMps": 2.326829360910465
+              },
+              {
+                "bone": "cairn_bighorn_ForeRFoot",
+                "minY": 0.06488214497435818,
+                "maxY": 0.3041612429060834,
+                "strideZ": 0.6991253634793295,
+                "contactSamples": 46,
+                "stanceMedianMps": 2.326831092278586
+              },
+              {
+                "bone": "cairn_bighorn_HindLFoot",
+                "minY": 0.06488729256551601,
+                "maxY": 0.3041875249785587,
+                "strideZ": 0.6991204192378545,
+                "contactSamples": 46,
+                "stanceMedianMps": 2.3269445448465893
+              },
+              {
+                "bone": "cairn_bighorn_HindRFoot",
+                "minY": 0.06489519546488864,
+                "maxY": 0.3041875249785589,
+                "strideZ": 0.6990770101411509,
+                "contactSamples": 46,
+                "stanceMedianMps": 2.326481534012875
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "cairn_bighorn_Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 3.200000047683716,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006488404740159055,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 0.949999988079071,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0004659832052494485,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.6399999856948853,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006867416583365588,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "id": "cairn_bighorn",
+        "is": "bighorn sheep",
+        "tags": [
+          "animal",
+          "hoofed",
+          "mountain",
+          "original",
+          "skinned"
+        ],
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "attackSeconds": 1.05,
+        "contactNormalized": 0.46,
+        "impliedWalkMps": 0.7894736842105263,
+        "impliedRunMps": 2.327127659574468,
+        "walkClipSeconds": 0.95,
+        "runClipSeconds": 0.64,
+        "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
+        "triangles": 51532,
+        "boneNames": [
+          "cairn_bighorn_Root",
+          "cairn_bighorn_Body",
+          "cairn_bighorn_Neck",
+          "cairn_bighorn_Head",
+          "cairn_bighorn_Jaw",
+          "cairn_bighorn_Nose",
+          "cairn_bighorn_EarL",
+          "cairn_bighorn_EarR",
+          "cairn_bighorn_Tail",
+          "cairn_bighorn_TailTip",
+          "cairn_bighorn_ForeLHip",
+          "cairn_bighorn_ForeLKnee",
+          "cairn_bighorn_ForeLAnkle",
+          "cairn_bighorn_ForeLFoot",
+          "cairn_bighorn_ForeRHip",
+          "cairn_bighorn_ForeRKnee",
+          "cairn_bighorn_ForeRAnkle",
+          "cairn_bighorn_ForeRFoot",
+          "cairn_bighorn_HindLHip",
+          "cairn_bighorn_HindLKnee",
+          "cairn_bighorn_HindLAnkle",
+          "cairn_bighorn_HindLFoot",
+          "cairn_bighorn_HindRHip",
+          "cairn_bighorn_HindRKnee",
+          "cairn_bighorn_HindRAnkle",
+          "cairn_bighorn_HindRFoot"
+        ],
+        "authoringModule": "tools/creature-expansion/hoofed.mjs"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "models/creature_cairn_bighorn.glb"
+    },
+    {
+      "id": "creature_bracken_tapir",
+      "file": "models/creature/creature_bracken_tapir.glb",
+      "pack": "corealm-creature-expansion",
+      "category": "character",
+      "is": "tapir",
+      "tags": [
+        "animal",
+        "hoofed",
+        "forest",
+        "original",
+        "skinned"
+      ],
+      "bytes": 2618316,
+      "sha256": "88b1fe8f89a84125105c401d109915b304890ac150f923adf4df9a00968fd462",
+      "size": {
+        "x": 0.7772055554389954,
+        "y": 1.1479999937536194,
+        "z": 2.4400417912161743
+      },
+      "base": {
+        "x": -0.3886175894737244,
+        "y": 0.0010000024316832445,
+        "z": -1.0297929072380065
+      },
+      "bounds": {
+        "min": [
+          -0.3886175894737244,
+          0.0010000024316832445,
+          -1.0297929072380065
+        ],
+        "max": [
+          0.388587965965271,
+          1.1489999961853026,
+          1.410248883978168
+        ]
+      },
+      "groundY": 0.0010000024316832445,
+      "triangles": 51986,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Sculpted_coat",
+        "Hoof_keratin",
+        "Wet_eye",
+        "Inner_ear",
+        "Muzzle_skin"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm",
+        "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+        "license": "Project-owned original"
+      },
+      "impliedWalkMps": 0.504032258064516,
+      "impliedRunMps": 1.6622340425531914,
+      "walkClipSeconds": 0.9300000071525574,
+      "runClipSeconds": 0.6399999856948853,
+      "attackSeconds": 0.8999999761581421,
+      "contactNormalized": 0.48,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 0.9300000071525574,
+            "sampledFootBones": 4,
+            "stanceSamples": 248,
+            "measuredStanceMps": 0.5039758564541207,
+            "feet": [
+              {
+                "bone": "bracken_tapir_ForeLFoot",
+                "minY": 0.06487297710012367,
+                "maxY": 0.19444393494895798,
+                "strideZ": 0.2993467236035115,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.5039670655221287
+              },
+              {
+                "bone": "bracken_tapir_ForeRFoot",
+                "minY": 0.0648729773531303,
+                "maxY": 0.19444393494895784,
+                "strideZ": 0.2993467219022601,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.5039668785368727
+              },
+              {
+                "bone": "bracken_tapir_HindLFoot",
+                "minY": 0.06486610115939302,
+                "maxY": 0.1944439179636057,
+                "strideZ": 0.2994720117351623,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.5040260064785819
+              },
+              {
+                "bone": "bracken_tapir_HindRFoot",
+                "minY": 0.06486610096427933,
+                "maxY": 0.19444391748209794,
+                "strideZ": 0.29947200814953484,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.5040262496338623
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "bracken_tapir_Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.6399999856948853,
+            "sampledFootBones": 4,
+            "stanceSamples": 184,
+            "measuredStanceMps": 1.6618649063416255,
+            "feet": [
+              {
+                "bone": "bracken_tapir_ForeLFoot",
+                "minY": 0.06487034298902558,
+                "maxY": 0.3041656943236847,
+                "strideZ": 0.4993477268813931,
+                "contactSamples": 46,
+                "stanceMedianMps": 1.6621030413301308
+              },
+              {
+                "bone": "bracken_tapir_ForeRFoot",
+                "minY": 0.0648853658690445,
+                "maxY": 0.3041656943236846,
+                "strideZ": 0.49938078517944723,
+                "contactSamples": 46,
+                "stanceMedianMps": 1.6621042761390052
+              },
+              {
+                "bone": "bracken_tapir_HindLFoot",
+                "minY": 0.06489652855275646,
+                "maxY": 0.3041900574848261,
+                "strideZ": 0.4993783545683033,
+                "contactSamples": 46,
+                "stanceMedianMps": 1.6618688954245953
+              },
+              {
+                "bone": "bracken_tapir_HindRFoot",
+                "minY": 0.06490399698915533,
+                "maxY": 0.30419005748482597,
+                "strideZ": 0.49934529434117286,
+                "contactSamples": 46,
+                "stanceMedianMps": 1.6615829130900344
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "bracken_tapir_Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 3.200000047683716,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 0.9300000071525574,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006783501559213511,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.6399999856948853,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006415758880627768,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "id": "bracken_tapir",
+        "is": "tapir",
+        "tags": [
+          "animal",
+          "hoofed",
+          "forest",
+          "original",
+          "skinned"
+        ],
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "attackSeconds": 0.9,
+        "contactNormalized": 0.48,
+        "impliedWalkMps": 0.504032258064516,
+        "impliedRunMps": 1.6622340425531914,
+        "walkClipSeconds": 0.93,
+        "runClipSeconds": 0.64,
+        "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
+        "triangles": 51986,
+        "boneNames": [
+          "bracken_tapir_Root",
+          "bracken_tapir_Body",
+          "bracken_tapir_Neck",
+          "bracken_tapir_Head",
+          "bracken_tapir_Jaw",
+          "bracken_tapir_Nose",
+          "bracken_tapir_EarL",
+          "bracken_tapir_EarR",
+          "bracken_tapir_Tail",
+          "bracken_tapir_TailTip",
+          "bracken_tapir_ForeLHip",
+          "bracken_tapir_ForeLKnee",
+          "bracken_tapir_ForeLAnkle",
+          "bracken_tapir_ForeLFoot",
+          "bracken_tapir_ForeRHip",
+          "bracken_tapir_ForeRKnee",
+          "bracken_tapir_ForeRAnkle",
+          "bracken_tapir_ForeRFoot",
+          "bracken_tapir_HindLHip",
+          "bracken_tapir_HindLKnee",
+          "bracken_tapir_HindLAnkle",
+          "bracken_tapir_HindLFoot",
+          "bracken_tapir_HindRHip",
+          "bracken_tapir_HindRKnee",
+          "bracken_tapir_HindRAnkle",
+          "bracken_tapir_HindRFoot"
+        ],
+        "authoringModule": "tools/creature-expansion/hoofed.mjs"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "candidateFile": "models/creature_bracken_tapir.glb"
+    },
+    {
+      "id": "creature_duskoak_lynx",
+      "file": "models/creature/creature_duskoak_lynx.glb",
+      "pack": "corealm-creature-expansion",
+      "category": "character",
+      "is": "a tall woodland lynx with a deep feline chest, high haunches, cheek ruffs, broad paws and a short black-tipped tail",
+      "tags": [
+        "mammal",
+        "quadruped",
+        "lynx",
+        "feline",
+        "woodland"
+      ],
+      "bytes": 1594988,
+      "sha256": "bd21ba94ab5d71753597ba7eaed2eeeef6800ac1b0ae76316f4aa3beb1fb8ae7",
+      "size": {
+        "x": 0.5048537610342556,
+        "y": 1.1330645312070846,
+        "z": 1.7158002266883852
+      },
+      "base": {
+        "x": -0.25238752655083635,
+        "y": 1.0728835736495412e-09,
+        "z": -0.7511616477966309
+      },
+      "bounds": {
+        "min": [
+          -0.25238752655083635,
+          1.0728835736495412e-09,
+          -0.7511616477966309
+        ],
+        "max": [
+          0.25246623448341926,
+          1.1330645322799682,
+          0.9646385788917542
+        ]
+      },
+      "groundY": 1.0728835736495412e-09,
+      "triangles": 32732,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "duskoak_lynx_painted_fur",
+        "duskoak_lynx_eyes_claws_whiskers"
+      ],
+      "sourceProvenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+      "impliedWalkMps": 0.5616509926854755,
+      "impliedRunMps": 2.5101763907734056,
+      "walkClipSeconds": 1.159999966621399,
+      "runClipSeconds": 0.6700000166893005,
+      "attackSeconds": 1.0199999809265137,
+      "contactNormalized": 0.43,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 1.159999966621399,
+            "sampledFootBones": 4,
+            "stanceSamples": 229,
+            "measuredStanceMps": 0.5616072816612467,
+            "feet": [
+              {
+                "bone": "FR_Ankle",
+                "minY": 0.14969940996043113,
+                "maxY": 0.2340976086332523,
+                "strideZ": 0.4170196411742547,
+                "contactSamples": 50,
+                "stanceMedianMps": 0.5613370552201171
+              },
+              {
+                "bone": "FL_Ankle",
+                "minY": 0.14955395286623135,
+                "maxY": 0.23409444373390392,
+                "strideZ": 0.41571099349499163,
+                "contactSamples": 51,
+                "stanceMedianMps": 0.5615344231147342
+              },
+              {
+                "bone": "HR_Ankle",
+                "minY": 0.22974762103161964,
+                "maxY": 0.2966632890123767,
+                "strideZ": 0.42755178062442606,
+                "contactSamples": 64,
+                "stanceMedianMps": 0.5617536106123249
+              },
+              {
+                "bone": "HL_Ankle",
+                "minY": 0.22983114493445161,
+                "maxY": 0.2968216246518059,
+                "strideZ": 0.4268269231910089,
+                "contactSamples": 64,
+                "stanceMedianMps": 0.5617294457323871
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.6700000166893005,
+            "sampledFootBones": 4,
+            "stanceSamples": 173,
+            "measuredStanceMps": 2.5072041269683925,
+            "feet": [
+              {
+                "bone": "FR_Ankle",
+                "minY": 0.14233205582395334,
+                "maxY": 0.3506104485329487,
+                "strideZ": 0.7208481918342786,
+                "contactSamples": 41,
+                "stanceMedianMps": 2.5095081951261924
+              },
+              {
+                "bone": "FL_Ankle",
+                "minY": 0.14787161153119577,
+                "maxY": 0.3526685037812013,
+                "strideZ": 0.7278810320939159,
+                "contactSamples": 44,
+                "stanceMedianMps": 2.5098427756342474
+              },
+              {
+                "bone": "HR_Ankle",
+                "minY": 0.22748461536525755,
+                "maxY": 0.4145280456254238,
+                "strideZ": 0.7310128892948992,
+                "contactSamples": 44,
+                "stanceMedianMps": 2.5075287860383706
+              },
+              {
+                "bone": "HL_Ankle",
+                "minY": 0.22741300624828872,
+                "maxY": 0.41327525632745077,
+                "strideZ": 0.7329218719000026,
+                "contactSamples": 44,
+                "stanceMedianMps": 2.503371787835152
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 3.4000000953674316,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006356162701409191,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 1.159999966621399,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006824759111396155,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.6700000166893005,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006459606883570087,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "is": "a tall woodland lynx with a deep feline chest, high haunches, cheek ruffs, broad paws and a short black-tipped tail",
+        "tags": [
+          "mammal",
+          "quadruped",
+          "lynx",
+          "feline",
+          "woodland"
+        ],
+        "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+        "attackSeconds": 1.02,
+        "contactNormalized": 0.43,
+        "impliedWalkMps": 0.5616509926854755,
+        "impliedRunMps": 2.5101763907734056,
+        "walkClipSeconds": 1.16,
+        "runClipSeconds": 0.67,
+        "notes": "Feet follow flat-ground stance trajectories at a constant backwards velocity, with smooth lifted swing arcs. Three limb segments use authored knee bend planes and two-link IK to the hock, plus a controlled distal segment; paw orientation cancels the parent rotation during gait. Root does not translate horizontally in locomotion. Contact is an authored flat-plane assumption, not runtime terrain IK. Stride matching requires the stated implied speed. Idle, Walk and Run have identical first/last poses. Death is an authored collapse rather than a physics ragdoll. Coat colour, markings, ears, feet, face and tail are individually shaped for this species.",
+        "boneNames": [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Ear_L",
+          "Ear_R",
+          "FR_Upper",
+          "FR_Lower",
+          "FR_Ankle",
+          "FR_Paw",
+          "FL_Upper",
+          "FL_Lower",
+          "FL_Ankle",
+          "FL_Paw",
+          "Tail_1",
+          "Tail_2",
+          "Tail_3",
+          "Tail_4",
+          "HR_Upper",
+          "HR_Lower",
+          "HR_Ankle",
+          "HR_Paw",
+          "HL_Upper",
+          "HL_Lower",
+          "HL_Ankle",
+          "HL_Paw"
+        ],
+        "authoringModule": "tools/creature-expansion/mammals.mjs"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "packs": [
+    {
+      "id": "corealm-creature-expansion",
+      "name": "Corealm original creature expansion",
+      "author": "Corealm",
+      "source": "tools/build-creature-expansion.ts",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+    }
+  ],
+  "files": {
+    "creature_cairn_bighorn": "models/creature_cairn_bighorn.glb",
+    "creature_bracken_tapir": "models/creature_bracken_tapir.glb",
+    "creature_duskoak_lynx": "models/creature_duskoak_lynx.glb"
+  }
+}

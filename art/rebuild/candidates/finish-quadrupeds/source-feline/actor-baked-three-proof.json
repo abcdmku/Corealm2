@@ -1,0 +1,40 @@
+{
+  "glbSha256": "fcc4296906bfeec04b9b2c650639a150238d2bccf14b2ec45b427ade1453b2d5",
+  "probeCount": 528,
+  "pythonVsThreeMaxMetres": 2.7454625135965917e-8,
+  "meshAudit": [
+    {
+      "name": "Cat",
+      "vertices": 135888,
+      "skinJoints": 196
+    },
+    {
+      "name": "Sphere",
+      "vertices": 7614,
+      "skinJoints": 196
+    },
+    {
+      "name": "Sphere001",
+      "vertices": 7614,
+      "skinJoints": 196
+    }
+  ],
+  "bounds": {
+    "min": [
+      -0.1424479387887059,
+      -7.009078323403321e-8,
+      -0.431509140354707
+    ],
+    "max": [
+      0.14244803849849885,
+      0.7501130723720422,
+      0.48733736555780555
+    ]
+  },
+  "animations": [
+    "Idle",
+    "Walk",
+    "Run"
+  ],
+  "hardwareAccepted": false
+}

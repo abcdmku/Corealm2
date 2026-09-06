@@ -1,0 +1,86 @@
+{
+  "file": "Lynx.actor-baked.glb",
+  "sha256": "fcc4296906bfeec04b9b2c650639a150238d2bccf14b2ec45b427ade1453b2d5",
+  "predicate": "Same original vertex <=floor+.0005m at both timestamps, independent of authored stance/foot labels. All22650 body vertices eligible. Actual world XYZ velocity adds forward source speed. Maximum is acceptance statistic; limit.012m/s.",
+  "clips": {
+    "Idle": {
+      "posePairs": 1255,
+      "sameVertexContactSamples": 62750,
+      "wholeMeshMinY": -7.249141831255912e-08,
+      "maxAbsXYZMps": [
+        1.7426060594516457e-11,
+        5.142553050063725e-11,
+        1.3082868122182845e-11
+      ],
+      "worst": {
+        "xyzNormMps": 5.242834531854077e-11,
+        "xyzMps": [
+          1.7399415241925453e-11,
+          -4.7695181137896725e-11,
+          -1.3082868122182845e-11
+        ],
+        "vertex": 5531,
+        "time": 2.9999,
+        "nextTime": 0.0009416666666663964,
+        "heightPair": [
+          0.0003497873626249759,
+          0.0003497873625752934
+        ]
+      },
+      "passed": true
+    },
+    "Walk": {
+      "posePairs": 565,
+      "sameVertexContactSamples": 21097,
+      "wholeMeshMinY": -0.0008823661627408441,
+      "maxAbsXYZMps": [
+        0.30138595390062584,
+        0.5650969306220599,
+        3.365434197049742
+      ],
+      "worst": {
+        "xyzNormMps": 3.3718666795789196,
+        "xyzMps": [
+          -0.16798902335690702,
+          0.12295225989920056,
+          3.365434197049742
+        ],
+        "vertex": 20844,
+        "time": 0.4765625,
+        "nextTime": 0.47760416666666666,
+        "heightPair": [
+          -0.0008024165866958866,
+          -0.0006743413159675526
+        ]
+      },
+      "passed": false
+    },
+    "Run": {
+      "posePairs": 362,
+      "sameVertexContactSamples": 3573,
+      "wholeMeshMinY": -0.0015025111186076079,
+      "maxAbsXYZMps": [
+        0.1867427675886546,
+        1.574731395647646,
+        9.231575630426033
+      ],
+      "worst": {
+        "xyzNormMps": 9.288877355259459,
+        "xyzMps": [
+          -0.17205083699689983,
+          -1.0690035798176112,
+          -9.225555396661914
+        ],
+        "vertex": 16422,
+        "time": 0.5260416865348816,
+        "nextTime": 0.5270833532015483,
+        "heightPair": [
+          0.000152700677909956,
+          -0.000960844717733389
+        ]
+      },
+      "passed": false
+    }
+  },
+  "passed": false
+}

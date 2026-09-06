@@ -1,5 +1,4 @@
 import type { SemanticEntity, SolidVolume, Vec3 } from "../contracts.js";
-import { tierSilhouetteScale } from "../core/math.js";
 
 /** The masonry recess is a destination marker. Its interior is never walkable terrain. */
 export function portalEntrance(
@@ -10,7 +9,8 @@ export function portalEntrance(
   if (entity.archetype !== "portal" || view?.assetId !== "wall_brick_door") {
     throw new Error(`Unsupported masonry portal ${entity.id}`);
   }
-  const scale = (view.scale ?? 1) * tierSilhouetteScale(view.materialTier ?? entity.tier);
+  // Portals use authored metre scale, matching their rendered masonry and recess.
+  const scale = view.scale ?? 1;
   const axes = view.scaleAxes ?? [1, 1, 1];
   const yaw = view.rotationY ?? 0;
   const at = (forward: number): Vec3 => {

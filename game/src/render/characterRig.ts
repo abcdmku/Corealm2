@@ -31,6 +31,8 @@ import * as THREE from "three";
 import { clone as cloneSkinned } from "three/examples/jsm/utils/SkeletonUtils.js";
 import type { EquipSlot, ItemId, ItemStack, Vec3 } from "../contracts.js";
 import { MOVEMENT } from "../app/config.js";
+import type { TraversalSample } from "../systems/traversalMotion.js";
+import { TraversalPoseLayer } from "./traversalPose.js";
 import type { AssetRegistry } from "./assets.js";
 import * as equipmentVisuals from "./equipmentVisuals.js";
 import {
@@ -55,7 +57,7 @@ export type CharacterPose =
   | "idle" | "walk" | "run"
   | "mine" | "chop" | "fish"
   | "attack_melee" | "cast" | "hit" | "death"
-  | "eat" | "climb" | "produce" | "bank";
+  | "eat" | "climb" | "vault" | "balance" | "slide" | "produce" | "bank";
 
 /** Contact events measured from the authored clips and consumed by sound and combat feedback. */
 export type CharacterMotionEvent =
@@ -147,6 +149,11 @@ const POSE_CLIPS: Record<CharacterPose, readonly string[]> = {
   death: ["Death01"],
   eat: ["Consume"],
   climb: ["ClimbUp_1m", "NinjaJump_Start"],
+  vault: ["NinjaJump_Start"],
+  // These source clips provide the base gait/stance. TraversalPoseLayer authors the arms,
+  // narrow foot placement and planted crouch; the names do not relabel unchanged idle/walk.
+  balance: ["Walk_Loop"],
+  slide: ["Idle_Loop"],
   produce: ["Fixing_Kneeling", "Interact"],
   bank: ["Chest_Open", "Interact"],
 };
@@ -160,7 +167,7 @@ const POSE_CLIPS: Record<CharacterPose, readonly string[]> = {
  * runs/corealm/diagnosis/animation-and-movement-feel.md finding 12. Looping it is that finding's
  * own first recommendation.
  */
-const ONE_SHOT: ReadonlySet<CharacterPose> = new Set(["attack_melee", "cast", "hit", "eat", "bank"]);
+const ONE_SHOT: ReadonlySet<CharacterPose> = new Set(["attack_melee", "cast", "hit", "death", "eat", "bank"]);
 
 /**
  * Playback rate for a pose whose clip length does not match the event it stands for.
@@ -238,7 +245,8 @@ const SKIN_SLOTS: ReadonlySet<EquipSlot> = new Set<EquipSlot>(["body", "legs", "
  *
  * The outfit pack tags every modular part with a region word: `torso` (chest), `legs`, `feet`
  * (boots), `arms` (gloves), `head` (hood or helmet), `shoulder` (pauldron), and `neck` (scarf).
- * Hair is tagged both `hair` and `head`, so `hair` is tested first or a hood would evict it.
+ * Hair is tagged both `hair` and `head`, so it first gets its own region. Headgear then hides
+ * that region while worn, and removing the headgear restores the original hair.
  *
  * This is what lets an equipped chest piece REPLACE the starting tunic instead of layering inside
  * it, and it is what the head-cap coverage test below counts.
@@ -440,6 +448,9 @@ export class CharacterRig {
   private readonly motionEvents: CharacterMotionEvent[] = [];
   private ready = false;
   private missingClips = new Set<string>();
+  private traversalSample: TraversalSample | null = null;
+  private readonly traversalPose = new TraversalPoseLayer();
+  private readonly traversalHiddenGear = new Map<THREE.Object3D, boolean>();
 
   // Assembly.
   private bodyAssetId = "";
@@ -461,6 +472,9 @@ export class CharacterRig {
   private layerMaterials: THREE.Material[] = [];
   /** null until the first assembly. No real signature can be null, so the first call runs. */
   private layerSignature: string | null = null;
+  /** Source identities of the last successfully committed layers, retained across mesh merging. */
+  private committedLayerAssets: string[] = [];
+  private layerLoadPending = false;
   private layerWork: Promise<void> = Promise.resolve();
 
   // Head cap.
@@ -474,6 +488,8 @@ export class CharacterRig {
   private boneAttachments = new Map<EquipSlot, THREE.Object3D>();
   private boneAttachmentMaterials = new Map<EquipSlot, THREE.Material[]>();
   private slotEpoch = new Map<EquipSlot, number>();
+  private slotLoading = new Map<EquipSlot, string>();
+  private slotLoadErrors = new Map<EquipSlot, string>();
   /** Temporary gathering tool shown during its activity. Worn gear remains in `gearBySlot`. */
   private activityMainHandKey: string | null = null;
   /**
@@ -915,7 +931,7 @@ export class CharacterRig {
       }
     }
 
-    if (skinChanged) work.push(this.rebuildLayers());
+    if (skinChanged || this.layerLoadPending) work.push(this.rebuildLayers());
     await Promise.all(work);
   }
 
@@ -975,20 +991,28 @@ export class CharacterRig {
     }
     bone.add(object);
     this.boneAttachments.set(slot, object);
+    if (this.traversalSample && (slot === "mainHand" || slot === "offHand")) {
+      this.traversalHiddenGear.set(object, object.visible);
+      object.visible = false;
+    }
     if (ownedMaterials.length > 0) this.boneAttachmentMaterials.set(slot, [...ownedMaterials]);
   }
 
   private async attachBoneSlot(slot: EquipSlot, appearance: GearAppearanceLike | null): Promise<void> {
     const epoch = (this.slotEpoch.get(slot) ?? 0) + 1;
     this.slotEpoch.set(slot, epoch);
+    this.slotLoadErrors.delete(slot);
     if (!appearance) {
+      this.slotLoading.delete(slot);
       this.setSlot(slot, null);
       return;
     }
+    this.slotLoading.set(slot, appearance.assetId);
     try {
       const source = await this.assets.load(appearance.assetId);
       // A load that finished after a newer change to the same slot must not win the race.
       if (this.slotEpoch.get(slot) !== epoch) return;
+      this.slotLoading.delete(slot);
       const object = source.clone(true);
       const socket = this.socketFor(slot, appearance);
       object.position.set(socket.position[0], socket.position[1], socket.position[2]);
@@ -1009,9 +1033,13 @@ export class CharacterRig {
       } else {
         for (const material of cloned) material.dispose();
       }
-    } catch {
+    } catch (error) {
       // A stale failed load must not clear a newer attachment that already won this slot.
-      if (this.slotEpoch.get(slot) === epoch) this.setSlot(slot, null);
+      if (this.slotEpoch.get(slot) === epoch) {
+        this.slotLoading.delete(slot);
+        this.slotLoadErrors.set(slot, error instanceof Error ? error.message : String(error));
+        this.setSlot(slot, null);
+      }
     }
   }
 
@@ -1072,6 +1100,9 @@ export class CharacterRig {
         worn.set(appearance.assetId, appearance);
       }
     }
+    // These modular hoods and closed helmets have no authored opening for a hairstyle.
+    // Keep the base hairstyle in baseOutfitIds so unequipping restores it on the next rebuild.
+    if (byRegion.has("head")) byRegion.delete("hair");
 
     // Deduplicated: a part the manifest has no region tag for lands in `extras`, and the same id
     // can reach `extras` from both the base outfit and a worn piece. Layering one twice would
@@ -1088,7 +1119,10 @@ export class CharacterRig {
     // The tint is in the signature: two tiers of the same asset differ only by colour, so without
     // it swapping Corven plate for Kaldite plate would look like a no-op and never rebuild.
     const signature = `${wantCap ? "cap" : "raw"}|${ids.map((id) => `${id}:${appearanceKey(worn.get(id))}`).join("|")}`;
-    if (signature === this.layerSignature) return;
+    if (signature === this.layerSignature) {
+      this.layerLoadPending = false;
+      return;
+    }
 
     // Load first, mutate second: a failed load must not leave the character half dressed.
     const sources: { assetId: string; source: THREE.Object3D }[] = [];
@@ -1096,7 +1130,12 @@ export class CharacterRig {
       try {
         sources.push({ assetId, source: await this.assets.load(assetId) });
       } catch {
-        // A character in the wrong trousers is worth having; one that failed to dress is not.
+        // Keep the complete previous outfit and its matching body cap. Committing a partial
+        // source list could remove the body beneath trousers or sleeves that never loaded.
+        // The requested appearances are already recorded in gearBySlot. A pending flag lets
+        // a repeated applyEquipment call retry even when those appearances are unchanged.
+        this.layerLoadPending = true;
+        return;
       }
     }
 
@@ -1134,6 +1173,8 @@ export class CharacterRig {
       this.layerGeometries = [];
     }
     this.layerSignature = signature;
+    this.committedLayerAssets = [...ids];
+    this.layerLoadPending = false;
   }
 
   /** The manifest tag that says which body region a layered asset covers, or null. */
@@ -1147,6 +1188,7 @@ export class CharacterRig {
   private clearLayers(): void {
     for (const mesh of this.layerMeshes) mesh.removeFromParent();
     this.layerMeshes = [];
+    this.committedLayerAssets = [];
     for (const geometry of this.layerGeometries) geometry.dispose();
     this.layerGeometries = [];
     for (const material of this.layerMaterials) material.dispose();
@@ -1202,7 +1244,38 @@ export class CharacterRig {
     this.root.rotation.y = facingRad;
   }
 
+  /** Sample one authored traversal cycle from its activity clock, never repeat a climbing loop. */
+  syncTraversalPose(sample: TraversalSample | null): void {
+    const wasTraversing = this.traversalSample !== null;
+    this.traversalSample = sample;
+    if (!sample) {
+      for (const [object, visible] of this.traversalHiddenGear) object.visible = visible;
+      this.traversalHiddenGear.clear();
+      if (wasTraversing && this.currentAction) this.currentAction.paused = false;
+      return;
+    }
+    for (const slot of ["mainHand", "offHand"] as const) {
+      const object = this.boneAttachments.get(slot);
+      if (!object) continue;
+      if (!this.traversalHiddenGear.has(object)) this.traversalHiddenGear.set(object, object.visible);
+      object.visible = false;
+    }
+    const pose: CharacterPose = sample.concealed || sample.kind === "passage" ? "idle" : sample.kind;
+    this.play(pose);
+    const action = this.currentAction;
+    if (!action || sample.concealed) return;
+    const travel = Math.max(0, Math.min(1, (sample.progress - 0.12) / 0.74));
+    // The shipped jump is a takeoff, not a complete landing. Reverse its recovery half;
+    // the path's independent foot height supplies displacement, with no guessed RNG outcome.
+    const phase = sample.kind === "balance" ? (travel * 3) % 1
+      : sample.kind === "slide" ? 0.2
+        : travel < 0.5 ? travel * 2 : (1 - travel) * 2;
+    action.time = Math.min(0.999999, phase) * action.getClip().duration;
+    action.paused = true;
+  }
+
   update(deltaSeconds: number): void {
+    this.traversalPose.restore();
     const action = this.currentAction;
     const clipName = this.currentClipName;
     const duration = action?.getClip().duration ?? 0;
@@ -1210,6 +1283,7 @@ export class CharacterRig {
       ? (this.markerAction === action ? this.markerPhase : action.time / duration)
       : 0;
     this.mixer?.update(deltaSeconds);
+    this.traversalPose.apply(this.root, this.hostBones, this.traversalSample);
 
     if (action && clipName && action === this.currentAction && clipName === this.currentClipName && duration > 0) {
       const current = Math.min(1, Math.max(0, action.time / duration));
@@ -1252,6 +1326,15 @@ export class CharacterRig {
     drawnPosition: Vec3;
     drawnRotationY: number;
     feet?: { left: { ball: Vec3; ankle: Vec3 }; right: { ball: Vec3; ankle: Vec3 } };
+    attachments?: Record<string, string>;
+    attachmentLoading?: Record<string, string>;
+    attachmentErrors?: Record<string, string>;
+    activityMainHandKey?: string | null;
+    layerSignature?: string | null;
+    layerLoadPending?: boolean;
+    layerMeshes?: string[];
+    layerAssets?: string[];
+    hairVisible?: boolean;
   } {
     const clip = this.currentAction?.getClip();
     const local = Boolean(clip && this.locomotionClips.get(clip.name) === clip);
@@ -1271,7 +1354,14 @@ export class CharacterRig {
       actionWeight: this.currentAction?.getEffectiveWeight() ?? 0,
       drawnPosition: this.root.position.toArray() as Vec3,
       drawnRotationY: this.root.rotation.y,
-      ...(includeFeet ? { feet: {
+      ...(includeFeet ? { attachments: Object.fromEntries([...this.boneAttachments].map(([slot, object]) => [slot, object.name])),
+        layerSignature: this.layerSignature, layerLoadPending: this.layerLoadPending,
+        layerMeshes: this.layerMeshes.filter(mesh => mesh.parent && mesh.visible).map(mesh => mesh.name),
+        layerAssets: [...this.committedLayerAssets],
+        hairVisible: this.root.visible && this.layerMeshes.some(mesh => mesh.parent && mesh.visible)
+          && this.committedLayerAssets.some(assetId => this.regionOf(assetId) === "hair"),
+        attachmentLoading: Object.fromEntries(this.slotLoading), attachmentErrors: Object.fromEntries(this.slotLoadErrors),
+        activityMainHandKey: this.activityMainHandKey, feet: {
         left: { ball: bonePosition("ball_l"), ankle: bonePosition("foot_l") },
         right: { ball: bonePosition("ball_r"), ankle: bonePosition("foot_r") },
       } } : {}),

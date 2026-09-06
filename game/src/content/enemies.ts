@@ -98,6 +98,7 @@
  */
 import type { EnemyDef } from "./index.js";
 import { CREATURE_SPECIES } from "./creatureSpecies.js";
+import { RPG_BESTIARY } from "./rpgBestiary.js";
 
 /** PRD 2.4: enemies leash at 28 m from their spawn point, at every tier. */
 export const LEASH_RADIUS_M = 28;
@@ -840,7 +841,7 @@ const GROUP_BLOCK: readonly (readonly [string, string])[] = [
   ["ordrun", "quarrykeeper_t10"],
 ];
 
-const ALL_BLOCKS = [...BLOCKS, ...CREATURE_SPECIES.map((species) => species.stats)];
+const ALL_BLOCKS = [...BLOCKS, ...CREATURE_SPECIES.map((species) => species.stats), ...RPG_BESTIARY.map((species) => species.stats)];
 const BY_BLOCK_ID = new Map(ALL_BLOCKS.map((row) => [row.id, row] as const));
 
 const GROUP_ALIASES: readonly EnemyDef[] = GROUP_BLOCK.flatMap(([groupId, blockId]) => {

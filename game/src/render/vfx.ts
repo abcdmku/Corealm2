@@ -25,6 +25,7 @@
 import * as THREE from "three";
 import type { GameEvent, SkillId, Vec3 } from "../contracts.js";
 import { SKILLS } from "../content/skills.js";
+import { content } from "../content/index.js";
 import { MOVEMENT } from "../app/config.js";
 import { LevelUpVfx } from "./levelUpVfx.js";
 
@@ -36,6 +37,7 @@ interface FloatingText {
   riseMetres: number;
   /** Screen-space fan offset, so two numbers in the same frame do not print on top of each other. */
   offsetPx: number;
+  receiptSize: { width: number; height: number } | null;
 }
 
 interface Telegraph {
@@ -151,20 +153,20 @@ export class Vfx {
   handle(event: GameEvent, nowMs: number): void {
     switch (event.type) {
       case "item.received": {
-        // What this event actually carries, verified against all seven emit sites: `itemId`,
-        // `quantity`, sometimes `name`, sometimes `source`. Gathering and production
-        // attach the node or station as `entityId`; a shop purchase, a loot sweep and a quest
-        // reward do not. Keying on `entityId` is therefore what separates "a yield came out of that
-        // rock" from "your pack changed", and only the first is worth a number in the world.
+        // World yields and loot carry an entity anchor; shop/quest rewards stay in the HUD.
         if (!event.entityId) break;
         const data = event.data as Record<string, unknown>;
         const quantity = typeof data["quantity"] === "number" ? data["quantity"] : 0;
         if (quantity <= 0) break;
-        const at = this.deps.entityPosition(event.entityId);
+        // Taking the final stack removes its pile before queued events reach the renderer.
+        // Loot transfer is already range-checked, so keep that receipt beside the player.
+        const at = this.deps.entityPosition(event.entityId)
+          ?? (data["source"] === "loot" ? this.deps.playerPosition() : null);
         if (!at) break;
-        const name = typeof data["name"] === "string"
+        const itemId = typeof data["itemId"] === "string" ? data["itemId"] : "";
+        const name = content.item(itemId)?.name ?? (typeof data["name"] === "string"
           ? data["name"]
-          : prettyItemName(typeof data["itemId"] === "string" ? data["itemId"] : "");
+          : prettyItemName(itemId));
         this.floatAt(at, `+${quantity} ${name}`.trimEnd(), "vfx-xp", nowMs, XP_LIFETIME_MS, 1.4);
         if (data["source"] === "gather" && data["skill"] === "fishing") {
           this.ambience?.burst("splash", [at[0], at[1] + 0.08, at[2]], 6, nowMs);
@@ -280,6 +282,7 @@ export class Vfx {
 
   /** Per-frame: age floaters, project them to screen space, poll telegraphs and XP, tick ambience. */
   update(nowMs: number): void {
+    const receiptRects: Array<{ left: number; right: number; top: number; bottom: number }> = [];
     for (let index = this.floaters.length - 1; index >= 0; index -= 1) {
       const floater = this.floaters[index]!;
       const age = nowMs - floater.bornAtMs;
@@ -299,8 +302,28 @@ export class Vfx {
         continue;
       }
       floater.element.style.display = "block";
-      floater.element.style.left = `${(this.projected.x * 0.5 + 0.5) * window.innerWidth + floater.offsetPx}px`;
-      floater.element.style.top = `${(-this.projected.y * 0.5 + 0.5) * window.innerHeight}px`;
+      let x = (this.projected.x * 0.5 + 0.5) * window.innerWidth + floater.offsetPx;
+      let y = (-this.projected.y * 0.5 + 0.5) * window.innerHeight;
+      if (floater.receiptSize) {
+        const { width, height } = floater.receiptSize;
+        x = Math.max(width / 2 + 4, Math.min(window.innerWidth - width / 2 - 4, x));
+        let top = Math.min(window.innerHeight - height - 4, y - height / 2);
+        const left = x - width / 2;
+        const right = x + width / 2;
+        // Newest receipts keep their anchor. Older text rises above occupied rows without
+        // changing its lifetime or changing the existing damage-number fan.
+        for (let pass = 0; pass < receiptRects.length; pass += 1) {
+          const collision = receiptRects.find((rect) => left < rect.right && right > rect.left
+            && top < rect.bottom && top + height > rect.top);
+          if (!collision) break;
+          top = collision.top - height;
+        }
+        if (top < 4) { floater.element.style.display = "none"; continue; }
+        receiptRects.push({ left, right, top, bottom: top + height });
+        y = top + height / 2;
+      }
+      floater.element.style.left = `${x}px`;
+      floater.element.style.top = `${y}px`;
       // Hold full opacity for the first half, then fade, so a number is readable before it goes.
       floater.element.style.opacity = String(progress < 0.5 ? 1 : 1 - (progress - 0.5) * 2);
     }
@@ -477,6 +500,8 @@ export class Vfx {
       lifetimeMs,
       riseMetres,
       offsetPx,
+      receiptSize: className === "vfx-xp"
+        ? { width: element.offsetWidth + 8, height: element.offsetHeight + 5 } : null,
     });
     return element;
   }

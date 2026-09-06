@@ -1,0 +1,8 @@
+{
+  "sourceSha256": "1201df9f34c6d151e81548d1d04a8c862550d9e64bb62ef16c50784d1559efea",
+  "outputSha256": "556f17e082d94c0b2bc64872eefc5d6e655ec9ee0bb61507d1754f44271c414e",
+  "constantYTranslation": 0.27964838717050555,
+  "reference": "Whole skinned source at Walk time zero; minimum coincides with paw sole region. No per-frame/root-motion/contact changes.",
+  "binaryAccessorPayloadUnchanged": true,
+  "rawFilePreserved": true
+}

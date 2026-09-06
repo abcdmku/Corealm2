@@ -1,0 +1,361 @@
+{
+  "boneNames": [
+    "Foot_front_IK_L",
+    "Foot_front_IK_L_end",
+    "Knee_back_IK_L",
+    "Knee_back_IK_L_end",
+    "Foot_Back_IK_L",
+    "Foot_Back_IK_L_end",
+    "Knee_front_IK_L",
+    "Knee_front_IK_L_end",
+    "Tail_controller",
+    "Tail_controller_end",
+    "Foot_front_IK_R",
+    "Foot_front_IK_R_end",
+    "Knee_back_IK_R",
+    "Knee_back_IK_R_end",
+    "Foot_Back_IK_R",
+    "Foot_Back_IK_R_end",
+    "Knee_front_IK_R",
+    "Knee_front_IK_R_end",
+    "Spine",
+    "Spine.001",
+    "Spine.002",
+    "Spine.003",
+    "Spine.004",
+    "Spine.004_end",
+    "Neck",
+    "Neck.001",
+    "Neck.002",
+    "Head",
+    "Mouth",
+    "Mouth_end",
+    "Nose",
+    "Nose_end",
+    "Ear_connector",
+    "Ear",
+    "Ear.001",
+    "Ear.002",
+    "Ear.002_end",
+    "Ear_connector.001",
+    "Ear.006",
+    "Ear.003",
+    "Ear.004",
+    "Ear.004_end",
+    "Head_controller",
+    "Head_controller_end",
+    "Shoulder_front_L",
+    "Shoulder_front_L_end",
+    "Thigh_front_L",
+    "Calf_Front_L",
+    "Foot_front_L2",
+    "Foot_front_L",
+    "toe_connector_L.001",
+    "toe_connector_L",
+    "Toe_pinky_L_front",
+    "Toe_pinky_L_front_end",
+    "Toe_ring_L_front",
+    "Toe_ring_L_front_end",
+    "toe_connector_L.002",
+    "Toe_thumb_L_front",
+    "Toe_thumb_L_front_end",
+    "Toe_Pointer_L_front",
+    "Toe_Pointer_L_front_end",
+    "Thigh_front_R",
+    "Calf_Front_R",
+    "Foot_front_L2.002",
+    "Foot_front_R",
+    "toe_connector_R",
+    "toe_connector_R.001",
+    "Toe_pinky_L_front.002",
+    "Toe_pinky_L_front.002_end",
+    "Toe_ring_L_front.002",
+    "Toe_ring_L_front.002_end",
+    "toe_connector_R.002",
+    "Toe_thumb_L_front.002",
+    "Toe_thumb_L_front.002_end",
+    "Toe_Pointer_L_front.002",
+    "Toe_Pointer_L_front.002_end",
+    "Hip",
+    "Thigh_Back_L",
+    "Calf_back_L",
+    "Foot_Back_L",
+    "Foot_Back_L2",
+    "toe_connector_L_back.002",
+    "Toe_back_L_Thumb",
+    "Toe_back_L_Thumb_end",
+    "toe_connector_L_back.001",
+    "toe_connector_L_back",
+    "Toe_back_L_pinky",
+    "Toe_back_L_pinky_end",
+    "Toe_back_L_Ring",
+    "Toe_back_L_Ring_end",
+    "Toe_back_L_Pointer",
+    "Toe_back_L_Pointer_end",
+    "Thigh_Back_R",
+    "Calf_back_R",
+    "Foot_Back_R",
+    "Foot_Back_L2.002",
+    "toe_connector_L_back.006",
+    "Toe_back_L_Thumb.002",
+    "Toe_back_L_Thumb.002_end",
+    "toe_connector_L_back.003",
+    "toe_connector_L_back.004",
+    "Toe_back_L_pinky.002",
+    "Toe_back_L_pinky.002_end",
+    "Toe_back_L_Ring.002",
+    "Toe_back_L_Ring.002_end",
+    "Toe_back_L_Pointer.002",
+    "Toe_back_L_Pointer.002_end",
+    "Tail",
+    "Tail.001",
+    "Tail.002",
+    "Tail.003",
+    "Tail.004",
+    "Tail.005",
+    "Tail.006",
+    "Tail.007",
+    "Tail.007_end",
+    "Spine_controller_1",
+    "Spine_controller_1_end",
+    "Spine_controller_2",
+    "Spine_controller_2_end"
+  ],
+  "samples": [
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 1.831842267681241,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 2.5669647285862687,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 3.0180898243188743,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 3.5664901873884194,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 3.5772716529526445,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 3.6717390786784865,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 4.049422769704088,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 4.514254824537183,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 5.624012174703049,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 7.519161877612454,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 7.576505623384463,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 7.620099271892124,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 8.434817997483151,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 8.610342846127871,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 8.702716376648233,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 9.303183722700075,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 10.335316240369256,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 10.516521851008319,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 11.212868059277195,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 12.692778183846048,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 12.882030107715188,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 13.680003795499188,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 14.742528175474607,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 1.0036120813377587,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 1.3477878763346807,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 2.986430432171011,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 3.9863216234909724,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 4.397524508320137,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 4.731358808498711,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 6.450066102757657,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 6.733759694691815,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 9.375617853051853,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 10.767276638343374,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 12.542961519343663,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 13.24496567476076,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 13.75217979760722,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 13.94629463059942,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 14.898339467469643,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 15.62213123509257,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 15.65111061085231,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 18.328388290313043,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 19.505335872364412,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 20.86023546091229,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 22.602596233502304,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 25.026903557480956,
+      "split": "random"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 26.055110633192758,
+      "split": "random"
+    }
+  ],
+  "vertexCount": 22650,
+  "scale": 0.1,
+  "sourceReconstructionMaxMetres": 2.1719442597963454e-07,
+  "sourceReconstructionMeanMetres": 2.991198946651329e-08,
+  "armaturePreserveVolume": false
+}

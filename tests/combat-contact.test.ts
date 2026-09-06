@@ -208,7 +208,7 @@ describe("melee contact timing", () => {
     expect(state.skills.melee.xp).toBe(0);
   });
 
-  it.each(["target_a", "target_b"] as const)("an attack command stops only its own approach (%s)", (destinationEntityId) => {
+  it.each(["target_a", "target_b"] as const)("an explicit attack command replaces any prior approach (%s)", (destinationEntityId) => {
     const movement = new Movement(new Navigation(), new EventBus());
     const { combat, state, start, advanceTo } = setup(undefined, movement);
     const path: [number, number, number][] = [[0, 0, 0], [0, 0, 1.2]];
@@ -228,8 +228,8 @@ describe("melee contact timing", () => {
     } else {
       expect(combat.attack("target_a").ok).toBe(true);
       advanceTo(0);
-      expect(state.player.movement).toMatchObject({ mode: "path", path, destinationEntityId });
-      expect(combat.isAttackCommitted(state.player.id)).toBe(false);
+      expect(state.player.movement).toMatchObject({ mode: "idle", path: null, destinationEntityId: null });
+      expect(combat.isAttackCommitted(state.player.id)).toBe(true);
     }
   });
 
@@ -305,5 +305,38 @@ describe("melee contact timing", () => {
     };
 
     expect(simulate(true)).toEqual(simulate(false));
+  });
+});
+
+
+describe("enemy ranged attack lifecycle", () => {
+  it.each(["ranged", "magic"] as const)("%s attacks at authored reach and resolves only at contact", (attackStyle) => {
+    const { combat, state, targets, advanceTo, start } = setup();
+    targets.get("target_a")!.position = [0, 0, 8];
+    combat.setEnemyOverride("target_a", { attackStyle, attackRangeM: 10, attackLevel: 99, accuracy: 500, maxHit: 10 });
+    const attack = start("enemy");
+    expect(attack.kind).toBe(attackStyle);
+    expect(combat.isAttackCommitted("target_a")).toBe(true);
+    advanceTo(attack.contactAtMs - 1);
+    expect(state.player.health).toBe(10_000);
+    advanceTo(Math.ceil(attack.contactAtMs / 100) * 100);
+    expect(combat.consumeHits()).toMatchObject([{ kind: attackStyle, hit: true }]);
+    expect(state.player.health).toBeLessThan(10_000);
+    advanceTo(Math.ceil(attack.recoverAtMs / 100) * 100);
+    expect(combat.isAttackCommitted("target_a")).toBe(false);
+    expect(combat.consumeHits()).toEqual([]);
+  });
+
+  it.each(["range", "realm", "death"] as const)("cancels or misses a ranged windup after leaving %s", (reason) => {
+    const { combat, state, targets, advanceTo, start } = setup();
+    targets.get("target_a")!.position = [0, 0, 8];
+    combat.setEnemyOverride("target_a", { attackStyle: "ranged", attackRangeM: 10, attackLevel: 99, accuracy: 500, maxHit: 10 });
+    const attack = start("enemy");
+    if (reason === "range") state.player.position = [0, 0, -10];
+    if (reason === "realm") state.player.regionId = "gravelmaw";
+    if (reason === "death") combat.damageEnemy("target_a", 20_000, attack.atMs + 1);
+    advanceTo(Math.ceil(attack.recoverAtMs / 100) * 100);
+    expect(state.player.health).toBe(10_000);
+    expect(combat.hits().filter(hit => hit.attacker === "enemy" && hit.damage > 0)).toEqual([]);
   });
 });

@@ -1,0 +1,168 @@
+{
+  "nativeSha256": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047",
+  "sharedNativeBytesUnchanged": true,
+  "candidateSha256": "0a490a7e79df4ff88757d86481e9ed395e17d7a62fd805b13b1b239455ed3681",
+  "baselineSha256": "3594e991334de029803864e25e4f0d68511d47bdc3522574406cc2927fc6799b",
+  "method": "Independent final-byte NodeIO animation/linear skin evaluation. Changed clips 1200Hz plus157 seeded random times; other clips120Hz plus157random. Same original geometry; exact channel-array comparisons.",
+  "jointCount": 133,
+  "geometryAttributesUnchanged": true,
+  "changes": [
+    {
+      "clip": "Walk",
+      "node": "giant_rat_source_29_BackLeg_L_003",
+      "path": "rotation",
+      "permitted": true
+    },
+    {
+      "clip": "Walk",
+      "node": "giant_rat_source_33_BackLeg_R_003",
+      "path": "rotation",
+      "permitted": true
+    },
+    {
+      "clip": "Death",
+      "node": "giant_rat_source_14_FrontLeg_R_003",
+      "path": "rotation",
+      "permitted": true
+    }
+  ],
+  "rows": [
+    {
+      "clip": "Idle",
+      "samples": 608,
+      "minimumNativeY": 0.004000000623926224,
+      "minimumCandidateY": 0.004000000623926224,
+      "minimumCorrectedPatchY": null,
+      "maximumDeformationMeters": 0,
+      "maximumUnrelatedDeformationMeters": 0,
+      "worstAny": {
+        "time": 0.15833333333333333,
+        "mesh": 0,
+        "vertex": 971,
+        "dominantBone": "giant_rat_source_14_FrontLeg_R_003"
+      }
+    },
+    {
+      "clip": "Walk",
+      "samples": 1558,
+      "minimumNativeY": -0.02786032709941914,
+      "minimumCandidateY": -0.021359500390617236,
+      "minimumCorrectedPatchY": 0.0004987395185170225,
+      "maximumDeformationMeters": 0.10974069958020422,
+      "maximumUnrelatedDeformationMeters": 0,
+      "worstAny": {
+        "time": 0.4916666499205998,
+        "mesh": 0,
+        "vertex": 2774,
+        "dominantBone": "giant_rat_source_14_FrontLeg_R_003"
+      },
+      "worstCorrected": {
+        "time": 0.5008333162750517,
+        "mesh": 0,
+        "vertex": 2639
+      }
+    },
+    {
+      "clip": "Run",
+      "samples": 208,
+      "minimumNativeY": -0.01778012311794885,
+      "minimumCandidateY": -0.01778012311794885,
+      "minimumCorrectedPatchY": null,
+      "maximumDeformationMeters": 0,
+      "maximumUnrelatedDeformationMeters": 0,
+      "worstAny": {
+        "time": 0.03563763246267095,
+        "mesh": 0,
+        "vertex": 2978,
+        "dominantBone": "giant_rat_source_33_BackLeg_R_003"
+      }
+    },
+    {
+      "clip": "Attack",
+      "samples": 263,
+      "minimumNativeY": 0.0003313812106630314,
+      "minimumCandidateY": 0.0003313812106630314,
+      "minimumCorrectedPatchY": null,
+      "maximumDeformationMeters": 0,
+      "maximumUnrelatedDeformationMeters": 0,
+      "worstAny": {
+        "time": 0,
+        "mesh": 0,
+        "vertex": 205,
+        "dominantBone": "giant_rat_source_23_Tail_002__segment_1"
+      }
+    },
+    {
+      "clip": "Hit",
+      "samples": 208,
+      "minimumNativeY": 0.003999938788829632,
+      "minimumCandidateY": 0.003999938788829632,
+      "minimumCorrectedPatchY": null,
+      "maximumDeformationMeters": 0,
+      "maximumUnrelatedDeformationMeters": 0,
+      "worstAny": {
+        "time": 0,
+        "mesh": 0,
+        "vertex": 971,
+        "dominantBone": "giant_rat_source_14_FrontLeg_R_003"
+      }
+    },
+    {
+      "clip": "HitLeft",
+      "samples": 208,
+      "minimumNativeY": 0.003999938788829632,
+      "minimumCandidateY": 0.003999938788829632,
+      "minimumCorrectedPatchY": null,
+      "maximumDeformationMeters": 0,
+      "maximumUnrelatedDeformationMeters": 0,
+      "worstAny": {
+        "time": 0,
+        "mesh": 0,
+        "vertex": 971,
+        "dominantBone": "giant_rat_source_14_FrontLeg_R_003"
+      }
+    },
+    {
+      "clip": "HitRight",
+      "samples": 208,
+      "minimumNativeY": 0.003999938788829632,
+      "minimumCandidateY": 0.003999938788829632,
+      "minimumCorrectedPatchY": null,
+      "maximumDeformationMeters": 0,
+      "maximumUnrelatedDeformationMeters": 0,
+      "worstAny": {
+        "time": 0,
+        "mesh": 0,
+        "vertex": 971,
+        "dominantBone": "giant_rat_source_14_FrontLeg_R_003"
+      }
+    },
+    {
+      "clip": "Death",
+      "samples": 1508,
+      "minimumNativeY": -0.028650911068764662,
+      "minimumCandidateY": -0.011834474470592445,
+      "minimumCorrectedPatchY": 0.0004998657381984748,
+      "maximumDeformationMeters": 0.0823630064886294,
+      "maximumUnrelatedDeformationMeters": 0,
+      "worstAny": {
+        "time": 0.9175,
+        "mesh": 1,
+        "vertex": 1093,
+        "dominantBone": "giant_rat_source_5_Head"
+      },
+      "worstCorrected": {
+        "time": 0.69,
+        "mesh": 0,
+        "vertex": 1077
+      }
+    }
+  ],
+  "hold": [
+    "Walk front feet",
+    "Run",
+    "Death head penetration outside approved toe scope"
+  ],
+  "labAccepted": false,
+  "scopedContactPass": true
+}

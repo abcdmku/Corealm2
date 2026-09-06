@@ -1,0 +1,87 @@
+{
+  "id": "cliff_harpy",
+  "before": {
+    "meshes": 453,
+    "triangles": 54858,
+    "vertices": 35171,
+    "materials": [
+      "harpy_base_female_0",
+      "harpy_base_female_1",
+      "harpy_base_female_2",
+      "harpy_hair_long_0",
+      "harpy_horn",
+      "harpy_outfit_female_ranger_chest_0",
+      "harpy_plumage_0",
+      "harpy_plumage_1",
+      "harpy_plumage_2",
+      "harpy_plumage_3",
+      "harpy_plumage_4",
+      "harpy_shank_ochre",
+      "harpy_shank_scale"
+    ]
+  },
+  "after": {
+    "meshes": 15,
+    "triangles": 54858,
+    "vertices": 35171,
+    "materials": [
+      "harpy_base_female_0",
+      "harpy_base_female_1",
+      "harpy_base_female_2",
+      "harpy_hair_long_0",
+      "harpy_horn",
+      "harpy_outfit_female_ranger_chest_0",
+      "harpy_plumage_0",
+      "harpy_plumage_1",
+      "harpy_plumage_2",
+      "harpy_plumage_3",
+      "harpy_plumage_4",
+      "harpy_shank_ochre",
+      "harpy_shank_scale"
+    ]
+  },
+  "minimumY": 0.0019999003914795976,
+  "maximumBoundsDifference": 1.673748295516475e-8,
+  "samples": [
+    {
+      "clip": "Idle",
+      "sampleCount": 593,
+      "maximumBoundsDifference": 5.648694845206137e-9
+    },
+    {
+      "clip": "Walk",
+      "sampleCount": 379,
+      "maximumBoundsDifference": 8.169781906541829e-9
+    },
+    {
+      "clip": "Run",
+      "sampleCount": 273,
+      "maximumBoundsDifference": 1.420927520090487e-8
+    },
+    {
+      "clip": "Attack",
+      "sampleCount": 255,
+      "maximumBoundsDifference": 1.511412217602981e-8
+    },
+    {
+      "clip": "Hit",
+      "sampleCount": 113,
+      "maximumBoundsDifference": 1.210509381621705e-8
+    },
+    {
+      "clip": "HitLeft",
+      "sampleCount": 113,
+      "maximumBoundsDifference": 1.210509381621705e-8
+    },
+    {
+      "clip": "HitRight",
+      "sampleCount": 113,
+      "maximumBoundsDifference": 1.210509381621705e-8
+    },
+    {
+      "clip": "Death",
+      "sampleCount": 639,
+      "maximumBoundsDifference": 1.673748295516475e-8
+    }
+  ]
+}

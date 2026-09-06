@@ -1,0 +1,307 @@
+{
+  "sourceFile": "cdmir-rat-original.blend",
+  "blenderVersion": "275",
+  "inspection": "Read-only binary block ID inspection; no Blender execution, no mesh conversion. Embedded128px original preview inspected. Full quadruped rat visible, but exact topology/skin quality cannot be assessed from thumbnail.",
+  "records": [
+    {
+      "block": "SC",
+      "name": "SCScene",
+      "bytes": 5064
+    },
+    {
+      "block": "IM",
+      "name": "IMhair",
+      "bytes": 1976
+    },
+    {
+      "block": "IM",
+      "name": "IMrat-body",
+      "bytes": 1976
+    },
+    {
+      "block": "IM",
+      "name": "IMrat-body-AO.png",
+      "bytes": 1976
+    },
+    {
+      "block": "IM",
+      "name": "IMrat-body-Normalmap.png",
+      "bytes": 1976
+    },
+    {
+      "block": "IM",
+      "name": "IMrat-head",
+      "bytes": 1976
+    },
+    {
+      "block": "IM",
+      "name": "IMrat-head-AO.png",
+      "bytes": 1976
+    },
+    {
+      "block": "IM",
+      "name": "IMrat-head-Normalmap.png",
+      "bytes": 1976
+    },
+    {
+      "block": "IM",
+      "name": "IMRender Result",
+      "bytes": 1976
+    },
+    {
+      "block": "AR",
+      "name": "ARArmature",
+      "bytes": 256
+    },
+    {
+      "block": "AC",
+      "name": "ACAttack.000",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACAttack.001",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACAttack.002",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACAttack.003",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACAttack.Begin",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACAttack.End",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACDie",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACHit",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACIdle.000",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACIdle.001",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACIdle.002",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACRun",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACStand",
+      "bytes": 200
+    },
+    {
+      "block": "AC",
+      "name": "ACWalk",
+      "bytes": 200
+    },
+    {
+      "block": "OB",
+      "name": "OBArmature",
+      "bytes": 1424
+    },
+    {
+      "block": "OB",
+      "name": "OBBody",
+      "bytes": 1424
+    },
+    {
+      "block": "OB",
+      "name": "OBCamera",
+      "bytes": 1424
+    },
+    {
+      "block": "OB",
+      "name": "OBEyes",
+      "bytes": 1424
+    },
+    {
+      "block": "OB",
+      "name": "OBHair",
+      "bytes": 1424
+    },
+    {
+      "block": "OB",
+      "name": "OBHead",
+      "bytes": 1424
+    },
+    {
+      "block": "OB",
+      "name": "OBHemi",
+      "bytes": 1424
+    },
+    {
+      "block": "OB",
+      "name": "OBLamp",
+      "bytes": 1424
+    },
+    {
+      "block": "OB",
+      "name": "OBPlane",
+      "bytes": 1424
+    },
+    {
+      "block": "OB",
+      "name": "OBPlane.001",
+      "bytes": 1424
+    },
+    {
+      "block": "OB",
+      "name": "OBSun",
+      "bytes": 1424
+    },
+    {
+      "block": "OB",
+      "name": "OBTeeth",
+      "bytes": 1424
+    },
+    {
+      "block": "MA",
+      "name": "MAbody",
+      "bytes": 944
+    },
+    {
+      "block": "MA",
+      "name": "MAhead",
+      "bytes": 944
+    },
+    {
+      "block": "MA",
+      "name": "MAhead.001",
+      "bytes": 944
+    },
+    {
+      "block": "MA",
+      "name": "MAMaterial",
+      "bytes": 944
+    },
+    {
+      "block": "MA",
+      "name": "MAMaterial.001",
+      "bytes": 944
+    },
+    {
+      "block": "MA",
+      "name": "MAMaterial.002",
+      "bytes": 944
+    },
+    {
+      "block": "MA",
+      "name": "MATeeth",
+      "bytes": 944
+    },
+    {
+      "block": "TE",
+      "name": "TEBody-AO",
+      "bytes": 416
+    },
+    {
+      "block": "TE",
+      "name": "TEBody-Norm",
+      "bytes": 416
+    },
+    {
+      "block": "TE",
+      "name": "TEEyeLight",
+      "bytes": 416
+    },
+    {
+      "block": "TE",
+      "name": "TEHead-AO",
+      "bytes": 416
+    },
+    {
+      "block": "TE",
+      "name": "TEHead-Norm",
+      "bytes": 416
+    },
+    {
+      "block": "TE",
+      "name": "TETexture",
+      "bytes": 416
+    },
+    {
+      "block": "TE",
+      "name": "TETexture.001",
+      "bytes": 416
+    },
+    {
+      "block": "TE",
+      "name": "TETexture.002",
+      "bytes": 416
+    },
+    {
+      "block": "TE",
+      "name": "TETexture.003",
+      "bytes": 416
+    },
+    {
+      "block": "TE",
+      "name": "TETexture.004",
+      "bytes": 416
+    },
+    {
+      "block": "ME",
+      "name": "MEPlane",
+      "bytes": 1416
+    },
+    {
+      "block": "ME",
+      "name": "MEPlane.001",
+      "bytes": 1416
+    },
+    {
+      "block": "ME",
+      "name": "MEPlane.011",
+      "bytes": 1416
+    },
+    {
+      "block": "ME",
+      "name": "MERat",
+      "bytes": 1416
+    },
+    {
+      "block": "ME",
+      "name": "MERat.001",
+      "bytes": 1416
+    },
+    {
+      "block": "ME",
+      "name": "MERat.002",
+      "bytes": 1416
+    },
+    {
+      "block": "ME",
+      "name": "MERat.006",
+      "bytes": 1416
+    }
+  ]
+}

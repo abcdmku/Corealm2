@@ -1,0 +1,95 @@
+{
+  "id": "polyhaven-rock-face-01",
+  "name": "Rock Face 01",
+  "author": "Dario Barresi / Poly Haven",
+  "source": "https://polyhaven.com/a/rock_face_01",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "metadataUrl": "https://api.polyhaven.com/files/rock_face_01",
+  "changes": "Rigid rotation aligns the area-weighted face normal to +Z while preserving the projected original up direction; translation centres X, puts floor Y=0 and back Z=0. Original triangles, UVs and 1K albedo/normal/ARM maps retained. No decimation or procedural replacement.",
+  "rotationMatrix": [
+    0.9990390994941324,
+    0.03082764330819404,
+    -0.03115339612330879,
+    0,
+    0,
+    0.7108132945886672,
+    0.7033807363270655,
+    0,
+    0.04382781858538058,
+    -0.7027048574217113,
+    0.7101302737343195,
+    0,
+    0,
+    0,
+    0,
+    1
+  ],
+  "sourceFiles": [
+    {
+      "file": "source/rock_face_01.bin",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/rock_face_01/rock_face_01.bin",
+      "bytes": 476436,
+      "md5": "06caed23e725af568b64f8cbee210c1c",
+      "sha256": "873eac0319333e92bc96ddeedf8ebf69dc3c68ff1dfe32d8c14ddc165cdb20ac"
+    },
+    {
+      "file": "source/rock_face_01.gltf",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/rock_face_01/rock_face_01_1k.gltf",
+      "bytes": 2793,
+      "md5": "b4855bc7e841a17a94332561a9b301c0",
+      "sha256": "96c332c01d173a2431115f3bac29be101fba341e5500e2a08e384f4edd17299e"
+    },
+    {
+      "file": "source/textures/rock_face_01_arm_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/rock_face_01/rock_face_01_arm_1k.jpg",
+      "bytes": 693610,
+      "md5": "5799e7f5546350576b87bf67c34fb49f",
+      "sha256": "59128c79d207a50a69a38002986135ade3b19642d26158cec141eca41578c9ca"
+    },
+    {
+      "file": "source/textures/rock_face_01_diff_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/rock_face_01/rock_face_01_diff_1k.jpg",
+      "bytes": 853749,
+      "md5": "98ee9f024a6383d7e6cab44ed41e1f15",
+      "sha256": "41bd26ed2db1332b1ebb4b1326fd8af4d21f0f0eb57b8ea385033115c722cfdb"
+    },
+    {
+      "file": "source/textures/rock_face_01_nor_gl_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/rock_face_01/rock_face_01_nor_gl_1k.jpg",
+      "bytes": 1023400,
+      "md5": "46e01f5c3b8ac4463aeef2b4c61d1cd4",
+      "sha256": "9a9d85b9a01f4e24fc9ceec8baf96c019f552bca69591ff544c7a725e28b1d97"
+    }
+  ],
+  "derived": {
+    "id": "cave_rock_face_01",
+    "file": "models/cave/rock-face-01.glb",
+    "pack": "polyhaven-rock-face-01",
+    "category": "rock",
+    "is": "cave-facing",
+    "tags": [
+      "cave",
+      "rock",
+      "scan",
+      "strata"
+    ],
+    "bytes": 3048936,
+    "sha256": "80b6994e739dc3ddcb43fd24fdf3d3b25744a1830fc8327e5a14066818fc7b44",
+    "size": {
+      "x": 4.989238228464847,
+      "y": 5.080918258357839,
+      "z": 1.020925780411888
+    },
+    "base": {
+      "x": -2.4946191142324237,
+      "y": 0,
+      "z": 0
+    },
+    "triangles": 20174,
+    "animations": [],
+    "materials": [
+      "Poly Haven Rock Face 01"
+    ]
+  }
+}

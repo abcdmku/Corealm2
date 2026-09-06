@@ -1,0 +1,252 @@
+{
+  "source": "game/src/render/equipmentVisuals.ts",
+  "sourceSha256": "903b1d07228e13d8a9a790897a623192e83fef3107efdbcc0e47a27c94ef1d25",
+  "scalePolicy": "Sword geometry carries grade length; common reviewed fit scale0.9. Worn sword remains0.774. One accepted axe construction intentionally retains previous per-tier tint/scale.",
+  "materialPolicy": "Replace metal tint once; source wood/leather retain their authored colours/maps. Original candidate metal has no metalness map, so imported metal shader treatment does not apply twice.",
+  "bindings": [
+    {
+      "itemId": "worn_sword",
+      "appearance": {
+        "assetId": "corealm_sword_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 7299671,
+        "scale": 0.774
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.077
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 0.774
+      }
+    },
+    {
+      "itemId": "worn_hatchet",
+      "appearance": {
+        "assetId": "corealm_axe_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 7299671,
+        "scale": 0.84
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.21
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 0.84
+      }
+    },
+    {
+      "itemId": "grithe_sword",
+      "appearance": {
+        "assetId": "corealm_sword_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 12024383,
+        "scale": 0.9
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.09
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 0.9
+      }
+    },
+    {
+      "itemId": "grithe_hatchet",
+      "appearance": {
+        "assetId": "corealm_axe_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 12024383,
+        "scale": 0.9
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.225
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 0.9
+      }
+    },
+    {
+      "itemId": "corven_sword",
+      "appearance": {
+        "assetId": "corealm_sword_2",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 8357257,
+        "scale": 0.9
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.09
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 0.9
+      }
+    },
+    {
+      "itemId": "corven_hatchet",
+      "appearance": {
+        "assetId": "corealm_axe_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 8357257,
+        "scale": 1.075124693688562
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.269
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.075
+      }
+    },
+    {
+      "itemId": "kaldite_sword",
+      "appearance": {
+        "assetId": "corealm_sword_3",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 16777215,
+        "scale": 0.9,
+        "accent": 6034722
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.09
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 0.9
+      }
+    },
+    {
+      "itemId": "kaldite_hatchet",
+      "appearance": {
+        "assetId": "corealm_axe_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 16777215,
+        "scale": 1.150546794000009,
+        "accent": 6034722
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.288
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.151
+      }
+    },
+    {
+      "itemId": "emberite_sword",
+      "appearance": {
+        "assetId": "corealm_sword_4",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 16763296,
+        "scale": 0.9,
+        "accent": 12077086
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.09
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 0.9
+      }
+    },
+    {
+      "itemId": "emberite_hatchet",
+      "appearance": {
+        "assetId": "corealm_axe_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 16763296,
+        "scale": 1.225968894311456,
+        "accent": 12077086
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.306
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.226
+      }
+    }
+  ]
+}

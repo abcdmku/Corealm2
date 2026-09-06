@@ -1,0 +1,29 @@
+{
+  "scope": "Conservative core-stance proposals from original frozen ankle trajectories and weighted sole points. These are starting constraints, not accepted source contact labels or full stance windows.",
+  "source": "contact-audit.json",
+  "speed": {"walk": 0.32, "run": 1.0, "meaning": "Existing controller settings reported by motion lead; not inferred native measurements."},
+  "walk": {
+    "FrontLeg_L": {"corePhase": [0.50, 0.78], "supportSourceVertex": 432, "evidencePhase": 0.63},
+    "FrontLeg_R": {"corePhase": [0.00, 0.28], "supportSourceVertex": 181, "evidencePhase": 0.13},
+    "BackLeg_L": {"corePhase": [0.00, 0.20], "supportSourceVertex": 366, "evidencePhase": 0.10},
+    "BackLeg_R": {"corePhase": [0.50, 0.70], "supportSourceVertex": 122, "evidencePhase": 0.60}
+  },
+  "run": {
+    "FrontLeg_L": {"corePhase": [0.70, 0.94], "supportSourceVertex": 432, "evidencePhase": 0.80},
+    "FrontLeg_R": {"corePhase": [0.68, 0.98], "supportSourceVertex": 181, "evidencePhase": 0.82},
+    "BackLeg_L": {"corePhase": [0.85, 1.0], "possibleCircularExtension": [0.0, 0.15], "supportSourceVertex": 361, "evidencePhase": 0.92},
+    "BackLeg_R": {"corePhase": [0.78, 1.0], "possibleCircularExtension": [0.0, 0.08], "supportSourceVertex": 700, "evidencePhase": 0.90}
+  },
+  "findings": [
+    "Walk ankles are flat and sweep rearward in listed core ranges.",
+    "Walk hind soles remain about 3.8 mm above the fixed ground in core stance. Clearance-only upward correction cannot establish hind contact.",
+    "The deepest rising forward Walk toe dip is a swing transition, not a foot to plant.",
+    "Source Run has about 19.5 percent all-feet-clear samples at a 5 mm threshold. Preserve those intervals explicitly."
+  ],
+  "requiredSolverLimits": [
+    "Smooth circular landing/liftoff envelopes and support switches; no hard edge pinning.",
+    "Original poles, measured segment lengths and torso motion preserved.",
+    "World support target moves backward locally at one explicit common actor speed.",
+    "Independent final-byte same-vertex ground velocity, whole-mesh burial, contact coverage and flight proof; no reliance on these provisional labels for acceptance."
+  ]
+}

@@ -1,0 +1,72 @@
+[
+  {
+    "id": "animal_rat",
+    "sourceFile": "game/public/assets/models/animal/animal_rat.glb",
+    "stagedFile": "art/rebuild/candidates/finish-motion/legacy-small-mammals/animal_rat.glb",
+    "sourceSha256": "b86f5636946c6406dc344b39fc056375da7dba4e6389959291542222380a9563",
+    "sha256": "ab2ed3175e6cad999f04faaa03327f927b1338ba847bd1ff20ad0498b4bcffac",
+    "bytes": 1201164,
+    "generatorSha256": {
+      "tools/creature-motion/small-mammal-gait.ts": "e22ae8c118693f8741b712834a8d15e925d74e1ed8dd2781c037928b84691946",
+      "tools/creature-motion/stage-small-mammal-gaits.ts": "f3e12d7f56d7b674606d3a73984e085f6b48f3fee00fd70fab38a2d2925c92cb",
+      "tools/creature-motion/pose.ts": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795",
+      "tools/lib/ground-gait.ts": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a",
+      "tools/repair-ground-creature-gaits.ts": "070b3a2bff61c97e763ecb8f64e59eeee9a36249a1724f9b28118709c961ec2f"
+    },
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false,
+    "set": {
+      "impliedWalkMps": 0.12231044887073027,
+      "walkClipSeconds": 1.399999976158142
+    }
+  },
+  {
+    "id": "animal_rabbit",
+    "sourceFile": "game/public/assets/models/animal/animal_rabbit.glb",
+    "stagedFile": "art/rebuild/candidates/finish-motion/legacy-small-mammals/animal_rabbit.glb",
+    "sourceSha256": "105875b9f68e2fba30bd6577d385d896f2d3c2fa42bd26a15d8f4d029e3f08ed",
+    "sha256": "d6cdf12b04103deede6c807b27d24245af49a0d518953f124b8e560e3977bd54",
+    "bytes": 2100068,
+    "generatorSha256": {
+      "tools/creature-motion/small-mammal-gait.ts": "e22ae8c118693f8741b712834a8d15e925d74e1ed8dd2781c037928b84691946",
+      "tools/creature-motion/stage-small-mammal-gaits.ts": "f3e12d7f56d7b674606d3a73984e085f6b48f3fee00fd70fab38a2d2925c92cb",
+      "tools/creature-motion/pose.ts": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795",
+      "tools/lib/ground-gait.ts": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a",
+      "tools/repair-ground-creature-gaits.ts": "070b3a2bff61c97e763ecb8f64e59eeee9a36249a1724f9b28118709c961ec2f"
+    },
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false,
+    "set": {
+      "impliedWalkMps": 0.7355347668682819,
+      "impliedRunMps": 1.3119361133444458,
+      "walkClipSeconds": 0.6333333253860474,
+      "runClipSeconds": 0.4333333373069763
+    }
+  },
+  {
+    "id": "animal_rabbit_dark",
+    "sourceFile": "game/public/assets/models/animal/animal_rabbit_dark.glb",
+    "stagedFile": "art/rebuild/candidates/finish-motion/legacy-small-mammals/animal_rabbit_dark.glb",
+    "sourceSha256": "7f69e6d38c07efff7de76578fe61987eaf31b17db869d8a1884d52247139653b",
+    "sha256": "948e777d291cf45e7b7e57bdbdef0b1d8e8990c014fd26a0aef7b3e5aa31e22f",
+    "bytes": 2108816,
+    "generatorSha256": {
+      "tools/creature-motion/small-mammal-gait.ts": "e22ae8c118693f8741b712834a8d15e925d74e1ed8dd2781c037928b84691946",
+      "tools/creature-motion/stage-small-mammal-gaits.ts": "f3e12d7f56d7b674606d3a73984e085f6b48f3fee00fd70fab38a2d2925c92cb",
+      "tools/creature-motion/pose.ts": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795",
+      "tools/lib/ground-gait.ts": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a",
+      "tools/repair-ground-creature-gaits.ts": "070b3a2bff61c97e763ecb8f64e59eeee9a36249a1724f9b28118709c961ec2f"
+    },
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false,
+    "set": {
+      "impliedWalkMps": 0.7355347668682819,
+      "impliedRunMps": 1.3119361133444458,
+      "walkClipSeconds": 0.6333333253860474,
+      "runClipSeconds": 0.4333333373069763
+    }
+  }
+]

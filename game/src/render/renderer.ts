@@ -6,6 +6,8 @@
  */
 import * as THREE from "three";
 import { CAMERA, RENDER_BUDGET } from "../app/config.js";
+import { GpuTimer } from "./gpuTimer.js";
+import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transmissionOcclusion.js";
 
 export interface RenderStats {
   fps: number;
@@ -257,6 +259,16 @@ export class Renderer {
   readonly sun: THREE.DirectionalLight;
   /** Prepare instance buffers after the camera settles and before Three uploads this frame. */
   prepareScene?: (camera: THREE.Camera) => void;
+  transmissionCandidates?: () => readonly THREE.Mesh[];
+  transmissionOpaqueOccluders?: () => readonly TransmissionOpaqueOccluder[];
+  private readonly transmissionOcclusion = new TransmissionOcclusion();
+  private gpuTimer: GpuTimer | null = null;
+  private shadowGpuTimer: GpuTimer | null = null;
+  private restoreShadowTiming: (() => void) | null = null;
+  private timingRender = false;
+  private cpuPrepareMs = 0;
+  private cpuSubmitMs = 0;
+  private cpuShadowMs = 0;
 
   /** The two gradients: the one the sky is drawn from, and the one the world is lit by. */
   private readonly skyGradients: THREE.DataTexture[] = [];
@@ -535,9 +547,42 @@ export class Renderer {
   }
 
   render(nowMs: number): void {
+    const context = this.renderer.getContext();
+    if ("createQuery" in context && !this.gpuTimer) {
+      // WebGL elapsed queries cannot overlap. Whole-frame and shadow-only samples alternate.
+      this.gpuTimer = new GpuTimer(context, 20, 0);
+      this.shadowGpuTimer = new GpuTimer(context, 20, 10);
+      const shadowMap = this.renderer.shadowMap;
+      const original = shadowMap.render;
+      shadowMap.render = (...args) => {
+        if (!this.timingRender) return original.apply(shadowMap, args);
+        this.shadowGpuTimer?.begin();
+        const started = performance.now();
+        try { return original.apply(shadowMap, args); }
+        finally {
+          this.cpuShadowMs = performance.now() - started;
+          this.shadowGpuTimer?.end();
+        }
+      };
+      this.restoreShadowTiming = () => { shadowMap.render = original; };
+    }
+    const prepareStart = performance.now();
     this.camera.updateMatrixWorld();
     this.prepareScene?.(this.camera);
-    this.renderer.render(this.scene, this.camera);
+    this.cpuPrepareMs = performance.now() - prepareStart;
+    this.gpuTimer?.begin();
+    const submitStart = performance.now();
+    this.cpuShadowMs = 0;
+    try {
+      if (this.transmissionOcclusion.active) this.transmissionOcclusion.update(this.renderer, this.camera,
+        this.scene.getObjectByName("terrain"), this.transmissionCandidates?.() ?? [], this.transmissionOpaqueOccluders?.() ?? []);
+      this.timingRender = true;
+      this.renderer.render(this.scene, this.camera);
+    } finally {
+      this.timingRender = false;
+      this.cpuSubmitMs = performance.now() - submitStart;
+      this.gpuTimer?.end();
+    }
 
     if (this.lastFrameAt > 0) {
       const frameMs = nowMs - this.lastFrameAt;
@@ -563,6 +608,7 @@ export class Renderer {
 
   /** Renders and reads one gameplay frame synchronously for generated documentation. */
   captureFrame(): string {
+    this.transmissionOcclusion.restore();
     this.camera.updateMatrixWorld();
     this.prepareScene?.(this.camera);
     this.renderer.render(this.scene, this.camera);
@@ -578,6 +624,7 @@ export class Renderer {
    * supplies its live player/destination markers separately.
    */
   captureTopDownTile(options: TopDownTileOptions): string {
+    this.transmissionOcclusion.restore();
     const span = Math.max(1, options.spanMetres);
     const pixels = Math.max(16, Math.round(options.pixels));
     const camera = new THREE.OrthographicCamera(-span / 2, span / 2, span / 2, -span / 2, 0.1, 500);
@@ -675,7 +722,38 @@ export class Renderer {
     return { ...this.stats };
   }
 
+  /** A stopped render loop is not a slow frame. Start a fresh window when it resumes. */
+  resetFrameTiming(): void {
+    this.lastFrameAt = 0;
+    this.frameTimes.length = 0;
+  }
+
+  getPerformanceTimings(): Record<string, unknown> {
+    const gl = this.renderer.getContext();
+    const info = gl.getExtension("WEBGL_debug_renderer_info");
+    return {
+      cpuPrepareMs: this.cpuPrepareMs, cpuSubmitMs: this.cpuSubmitMs, cpuShadowMs: this.cpuShadowMs,
+      gpu: this.gpuTimer?.snapshot() ?? { supported: false, milliseconds: null, completed: 0, pending: 0 },
+      gpuShadow: this.shadowGpuTimer?.snapshot() ?? { supported: false, milliseconds: null, completed: 0, pending: 0 },
+      drawingBuffer: [gl.drawingBufferWidth, gl.drawingBufferHeight],
+      renderer: info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : null,
+      transmissionOcclusion: this.transmissionOcclusion.snapshot(),
+    };
+  }
+
+  setTransmissionOcclusionEnabled(enabled: boolean): void {
+    this.transmissionOcclusion.setEnabled(enabled);
+  }
+
+  setTransmissionProbeMode(mode: "bounds" | "exact-diagnostic"): void {
+    this.transmissionOcclusion.setProbeMode(mode);
+  }
+
   dispose(): void {
+    this.transmissionOcclusion.dispose();
+    this.gpuTimer?.dispose();
+    this.shadowGpuTimer?.dispose();
+    this.restoreShadowTiming?.();
     for (const material of this.warmupMaterials) material.dispose();
     this.warmupMaterials.length = 0;
     for (const target of this.prefiltered) target.dispose();

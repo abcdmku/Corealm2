@@ -1,7 +1,9 @@
 import type { RegionId, SemanticEntity, Vec3 } from "../contracts.js";
 import {
   REGIONAL_PACKS, REGIONAL_PACK_GROUPS, REGIONAL_PACK_HABITATS, REGIONAL_PACK_VARIANTS,
+  type RegionalPackDef, type RegionalPackVariant,
 } from "../content/regionalPacks.js";
+import type { EnemyGroupDef } from "../content/regions.js";
 import type { HabitatDef } from "../content/worldHabitats.js";
 import { Rng } from "../core/rng.js";
 import { hashId } from "./habitatMovement.js";
@@ -27,6 +29,13 @@ export interface RegionalPackAssembly {
   readonly packId: string;
 }
 
+export interface RegionalPackCatalogue {
+  readonly packs: readonly RegionalPackDef[];
+  readonly groups: readonly EnemyGroupDef[];
+  readonly habitats: readonly HabitatDef[];
+  readonly variants: readonly RegionalPackVariant[];
+}
+
 const packs = new Map(REGIONAL_PACKS.map((pack) => [pack.id, pack]));
 const groups = new Map(REGIONAL_PACK_GROUPS.map((group) => [group.id, group]));
 const habitats = new Map(REGIONAL_PACK_HABITATS.map((habitat) => [habitat.groupId, habitat]));
@@ -39,10 +48,11 @@ export function assembleRegionalPack(
   packId: string,
   ports: RegionalPackPorts,
   placement: RegionalPackPlacement = {},
+  catalogue?: RegionalPackCatalogue,
 ): RegionalPackAssembly {
-  const pack = packs.get(packId);
-  const sourceGroup = groups.get(packId);
-  const sourceHabitat = habitats.get(packId);
+  const pack = catalogue ? catalogue.packs.find((row) => row.id === packId) : packs.get(packId);
+  const sourceGroup = catalogue ? catalogue.groups.find((row) => row.id === packId) : groups.get(packId);
+  const sourceHabitat = catalogue ? catalogue.habitats.find((row) => row.groupId === packId) : habitats.get(packId);
   if (!pack || !sourceGroup || !sourceHabitat) throw new Error(`Unknown regional pack: ${packId}`);
   const [dx, dz] = placement.translation ?? [0, 0];
   const seed = placement.seed ?? 0;
@@ -65,7 +75,7 @@ export function assembleRegionalPack(
     throw new Error(`Regional pack requires finite model measurements: ${group.assetId}`);
   }
   const members = pack.members.map((member, index) => {
-    const variant = variants.get(member.variantId);
+    const variant = catalogue ? catalogue.variants.find((row) => row.id === member.variantId) : variants.get(member.variantId);
     if (!variant || variant.baseEnemyDefId !== pack.baseEnemyDefId || member.anchorIndex !== index) {
       throw new Error(`Regional pack has an invalid member binding: ${member.id}`);
     }

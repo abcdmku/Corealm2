@@ -1,0 +1,87 @@
+{
+  "id": "storm_harpy",
+  "before": {
+    "meshes": 456,
+    "triangles": 54930,
+    "vertices": 35225,
+    "materials": [
+      "harpy_base_female_0",
+      "harpy_base_female_1",
+      "harpy_base_female_2",
+      "harpy_hair_long_0",
+      "harpy_horn",
+      "harpy_outfit_female_ranger_chest_0",
+      "harpy_plumage_0",
+      "harpy_plumage_1",
+      "harpy_plumage_2",
+      "harpy_plumage_3",
+      "harpy_plumage_4",
+      "harpy_shank_ochre",
+      "harpy_shank_scale"
+    ]
+  },
+  "after": {
+    "meshes": 15,
+    "triangles": 54930,
+    "vertices": 35225,
+    "materials": [
+      "harpy_base_female_0",
+      "harpy_base_female_1",
+      "harpy_base_female_2",
+      "harpy_hair_long_0",
+      "harpy_horn",
+      "harpy_outfit_female_ranger_chest_0",
+      "harpy_plumage_0",
+      "harpy_plumage_1",
+      "harpy_plumage_2",
+      "harpy_plumage_3",
+      "harpy_plumage_4",
+      "harpy_shank_ochre",
+      "harpy_shank_scale"
+    ]
+  },
+  "minimumY": 0.0019998700129393865,
+  "maximumBoundsDifference": 2.1835733665653834e-8,
+  "samples": [
+    {
+      "clip": "Idle",
+      "sampleCount": 593,
+      "maximumBoundsDifference": 6.222529602695204e-9
+    },
+    {
+      "clip": "Walk",
+      "sampleCount": 379,
+      "maximumBoundsDifference": 1.2454698161690203e-8
+    },
+    {
+      "clip": "Run",
+      "sampleCount": 273,
+      "maximumBoundsDifference": 1.7702660004559334e-8
+    },
+    {
+      "clip": "Attack",
+      "sampleCount": 255,
+      "maximumBoundsDifference": 1.3260142428528354e-8
+    },
+    {
+      "clip": "Hit",
+      "sampleCount": 113,
+      "maximumBoundsDifference": 6.671018182302646e-9
+    },
+    {
+      "clip": "HitLeft",
+      "sampleCount": 113,
+      "maximumBoundsDifference": 6.671018182302646e-9
+    },
+    {
+      "clip": "HitRight",
+      "sampleCount": 113,
+      "maximumBoundsDifference": 6.671018182302646e-9
+    },
+    {
+      "clip": "Death",
+      "sampleCount": 639,
+      "maximumBoundsDifference": 2.1835733665653834e-8
+    }
+  ]
+}

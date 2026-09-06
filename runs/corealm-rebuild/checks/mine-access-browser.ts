@@ -34,13 +34,13 @@ type AccessProof = {
 type LiveTrace = {
   stopped: boolean; error: string | null; travelled: number; maxStaticShift: number; forestOverlapSamples: number;
   positions: { atMs: number; position: Point; clearance: Clearance; activity: unknown }[];
-  firstActive: { position: Point; stanceGap: number; atMs: number; activity: unknown } | null;
+  firstActive: { position: Point; stanceGap: number; atMs: number; activity: unknown; playerMotion: unknown } | null;
   maxActiveStanceGap: number; clockViolations: number;
 };
 type Observation = {
   state: State; entity: SemanticEntity; player: Point; camera: Camera; bounds: Bounds | null;
   events: EventBatch; activity: unknown; movement: GameState["player"]["movement"];
-  inventory: GameState["inventory"]; trace: LiveTrace | null; errors: unknown[];
+  inventory: GameState["inventory"]; trace: LiveTrace | null; errors: unknown[]; playerMotion: unknown;
 };
 
 const args = process.argv.slice(2);
@@ -82,6 +82,7 @@ const actions: { label: string; elapsedMs: number; value: unknown }[] = [];
 const screenshots: string[] = [];
 const report: Record<string, unknown> = {
   passed: false, status: "running", site: source.id, mode, cutFace, targetId, route, budgetMs: 59_500,
+  startedAt: new Date(started).toISOString(),
   viewport: { width: 1440, height: 900 }, actions, screenshots,
   visualAcceptance: "Pending root inspection of mine-wide and working-close screenshots. Semantic success does not accept the artwork.",
   scope: mode === "world"
@@ -134,7 +135,7 @@ async function capture(name: string): Promise<void> {
   record("screenshot", { name, filename, observation: await evaluate(`
     const d = window.__gameDebug;
     return { camera: d.getCamera(), player: d.getPlayerPosition(), activity: d.getCurrentActivity(),
-      entity: d.getEntity(input), clock: d.getState().clock };
+      entity: d.getEntity(input), clock: d.getState().clock, playerMotion: d.getPlayerMotion() };
   `, targetId) });
 }
 function gap(point: Point, target: Vec3): number { return Math.hypot(point.x - target[0], point.z - target[2]); }
@@ -145,7 +146,7 @@ async function observe(): Promise<Observation> {
     const save = JSON.parse(d.getSaveBlob());
     return { state: d.getState(), entity: d.getEntity(input.id), player: d.getPlayerPosition(),
       camera: d.getCamera(), bounds: d.getDrawnBounds(input.id), events: d.getEvents(input.since),
-      activity: d.getCurrentActivity(), movement: save.player.movement, inventory: save.inventory,
+      activity: d.getCurrentActivity(), movement: save.player.movement, inventory: save.inventory, playerMotion: d.getPlayerMotion(),
       trace: window.__mineAccessTrace || null, errors: d.getErrors() };
   `, { id: targetId, since: cursor });
 }
@@ -230,6 +231,11 @@ try {
     panel.hidden = true; return { id: panel.id, hidden: panel.hidden };
   `));
 
+  stage = "await resident ore views after haul-ramp placement";
+  await bounded("resident ore views", () => driver.page!.waitForFunction(resourceIds => resourceIds.every(id => {
+    const bounds = (window as any).__gameDebug.getDrawnBounds(id);
+    return bounds && bounds.meshes > 0;
+  }), ids, { timeout: remaining(8_000) }), 8_500);
   stage = "all ore stances and aisles";
   const apronXZ = worldSitePoint(site, Math.sin(site.terrain.approachAngle) * 2, Math.cos(site.terrain.approachAngle) * 2);
   const proof = await evaluate<AccessProof>(`
@@ -280,7 +286,11 @@ try {
       routes.push(row);
     };
     checkRoute('haul ramp to apron', input.start, apron);
-    for (const row of stances) if (row.stance) checkRoute('apron to ' + row.id, apron, row.stance);
+    for (const row of stances) if (row.stance) {
+      checkRoute('apron to ' + row.id, apron, row.stance);
+      checkRoute(row.id + ' return to apron', row.stance, apron);
+    }
+    checkRoute('apron return to haul ramp', apron, input.start);
     for (let index = 1; index < stances.length; index++) {
       const a = stances[index - 1], b = stances[index];
       if (a.stance && b.stance) checkRoute('adjacent aisle ' + a.id + ' to ' + b.id, a.stance, b.stance);
@@ -324,7 +334,7 @@ try {
         if (state.clock.timeScale !== 1 || state.clock.paused) trace.clockViolations++;
         if (activity && activity.kind === 'gathering' && activity.entityId === input.id) {
           const stanceGap = Math.hypot(position.x - input.stance[0], position.z - input.stance[2]);
-          if (!trace.firstActive) trace.firstActive = { position, stanceGap, atMs: state.clock.elapsedMs, activity };
+          if (!trace.firstActive) trace.firstActive = { position, stanceGap, atMs: state.clock.elapsedMs, activity, playerMotion: d.getPlayerMotion() };
           trace.maxActiveStanceGap = Math.max(trace.maxActiveStanceGap, stanceGap);
         }
         if (!previous || Math.hypot(position.x - previous.x, position.z - previous.z) > 0.001) {
@@ -408,7 +418,23 @@ try {
     await bounded("camera-only working zoom", () => driver.page!.mouse.wheel(0, -100));
   }
   await settleCamera();
+  await bounded("active mining attachment", () => driver.page!.waitForFunction(() => {
+    const d = (window as any).__gameDebug;
+    const motion = d.getPlayerMotion();
+    return d.getCurrentActivity()?.kind === "gathering"
+      && motion?.attachments?.mainHand === "equip-mainHand-pickaxe"
+      && !motion?.attachmentLoading?.mainHand;
+  }, undefined, { timeout: 2000 }), 2200);
+  const miningMotion = await debug<any>("getPlayerMotion");
+  record("active mining attachment", miningMotion);
+  assert.equal(miningMotion.attachments?.mainHand, "equip-mainHand-pickaxe");
+  assert(!miningMotion.attachmentErrors?.mainHand, "Mining pick attachment failed");
   await capture("02-working-close");
+  const toolStance = target.interactionPosition!;
+  await debug("inspectPose", [{ x: toolStance[0], y: toolStance[1] + 1.1, z: toolStance[2],
+    yaw: Number(target.view?.rotationY ?? 0) + 1.05, pitch: 0.44, distance: 7, detached: true }]);
+  await settleCamera();
+  await capture("02b-mining-tool-side");
   report.workingProfile = await debug("getRenderProfile");
   let after = await observe();
   while (Date.now() < interactUntil && !after.events.events.some((event) => event.type === "item.received" && event.entityId === targetId && event.data.source === "gather")) {
@@ -445,9 +471,123 @@ try {
     remainingBefore: before.entity.resource!.remaining, remainingAfter: after.entity.resource!.remaining,
     firstActivityStanceGap: after.trace.firstActive?.stanceGap, maxActiveStanceGap: after.trace.maxActiveStanceGap,
     clickedEntity: targetId, actualTravelled: after.trace.travelled };
+  if (mode === "world") {
+    stage = "real canvas return to haul ramp";
+    // The detached inspection port now guarantees camera-only placement in the
+    // authored world. Frame the whole return and verify the player stayed put.
+    // The initial overview yaw can otherwise leave the haul endpoint behind the camera.
+    const returnDeparture = await debug<Point>("getPlayerPosition");
+    const returnDistance = gap(returnDeparture, start);
+    let pointer: { x: number; y: number } | null = null;
+    const views = [
+      { yaw: site.rotationY + site.terrain.approachAngle, pitch: 0.70 },
+      { yaw: site.rotationY + site.terrain.approachAngle + Math.PI, pitch: 0.30 },
+      { yaw: site.rotationY + site.terrain.approachAngle + Math.PI, pitch: 0.12 },
+      { yaw: site.rotationY + site.terrain.approachAngle + Math.PI - 0.45, pitch: 0.18 },
+      { yaw: site.rotationY + site.terrain.approachAngle + Math.PI + 0.45, pitch: 0.18 },
+    ];
+    for (const view of views) {
+      await debug("inspectPose", [{ x: (returnDeparture.x + start[0]) / 2,
+        y: (returnDeparture.y + start[1]) / 2 + 0.6, z: (returnDeparture.z + start[2]) / 2,
+        ...view, distance: Math.max(26, returnDistance * 2), detached: true }]);
+      const afterReturnCamera = await debug<Point>("getPlayerPosition");
+      assert(gap(afterReturnCamera, tuple(returnDeparture)) <= 0.001,
+        "Detached return camera moved the player");
+      await settleCamera();
+      const returnScreen = await evaluate<{ camera: Camera; rect: { x: number; y: number; width: number; height: number } }>(`
+        const r = document.querySelector('canvas').getBoundingClientRect();
+        return { camera: window.__gameDebug.getCamera(), rect: { x:r.x, y:r.y, width:r.width, height:r.height } };
+      `);
+      const returnCamera = new PerspectiveCamera(CAMERA.fov, returnScreen.rect.width / returnScreen.rect.height, CAMERA.near, CAMERA.far);
+      returnCamera.position.set(returnScreen.camera.position.x, returnScreen.camera.position.y, returnScreen.camera.position.z);
+      returnCamera.lookAt(returnScreen.camera.target.x, returnScreen.camera.target.y, returnScreen.camera.target.z);
+      returnCamera.updateMatrixWorld(true);
+      const projected = new Vector3(...start).project(returnCamera);
+      if (Math.abs(projected.x) >= 0.92 || Math.abs(projected.y) >= 0.88 || projected.z >= 1) continue;
+      const candidate = { x: returnScreen.rect.x + (projected.x + 1) * returnScreen.rect.width / 2,
+        y: returnScreen.rect.y + (1 - projected.y) * returnScreen.rect.height / 2 };
+      await bounded("hover exact haul endpoint", () => driver.page!.mouse.move(candidate.x, candidate.y));
+      let clear = true;
+      for (let sample = 0; sample < 2; sample++) {
+        await bounded("stable ground hover", () => driver.wait(90));
+        const hit = await evaluate<{ hovered: string | null; canvas: boolean; terrainObstructed: boolean }>(`
+          const d = window.__gameDebug, camera = d.getCamera().position;
+          let terrainObstructed = false;
+          for (let i=1;i<24;i++) {
+            const t=i/24, x=camera.x+(input.target[0]-camera.x)*t, z=camera.z+(input.target[2]-camera.z)*t;
+            const y=camera.y+(input.target[1]-camera.y)*t;
+            if(d.sampleWorld(x,z).height>y+0.05) terrainObstructed=true;
+          }
+          return { hovered:d.getState().hoveredEntityId, terrainObstructed,
+            canvas:document.elementFromPoint(input.pointer.x,input.pointer.y)?.tagName==='CANVAS' };
+        `, { target: start, pointer: candidate });
+        record("return endpoint ray visibility", { view, candidate, sample, ...hit });
+        if (hit.hovered !== null || !hit.canvas || hit.terrainObstructed) { clear = false; break; }
+      }
+      if (clear) { pointer = candidate; break; }
+    }
+    assert(pointer, "No unobstructed ground view of the exact authored haul endpoint");
+    await capture("02c-return-ground-target");
+    await evaluate(`
+      const d = window.__gameDebug;
+      const trace = { stopped:false, error:null, travelled:0, maxStaticShift:0, forestOverlapSamples:0, clockViolations:0, positions:[] };
+      window.__mineReturnTrace = trace;
+      let previous = d.getPlayerPosition();
+      const sample = () => {
+        if (trace.stopped) return;
+        try {
+          const p = d.getPlayerPosition(), clock = d.getState().clock;
+          if (clock.timeScale !== 1 || clock.paused) trace.clockViolations++;
+          const length = Math.hypot(p.x-previous.x,p.z-previous.z);
+          trace.travelled += length;
+          const steps = Math.max(1, Math.ceil(length / 0.2));
+          for (let step=1;step<=steps;step++) {
+            const t=step/steps, position={x:previous.x+(p.x-previous.x)*t,y:previous.y+(p.y-previous.y)*t,z:previous.z+(p.z-previous.z)*t};
+            const clearance=d.probeWorldClearance({...position,radius:input.radius});
+            trace.maxStaticShift=Math.max(trace.maxStaticShift,clearance.staticShift);
+            trace.forestOverlapSamples+=clearance.forestOverlaps.length?1:0;
+            if (length > .001) trace.positions.push({position,clearance});
+          }
+          previous=p;
+          if(trace.positions.length>2000) throw new Error('Return exceeded sample budget');
+        } catch(error) { trace.error=String(error);trace.stopped=true; }
+        if(!trace.stopped) requestAnimationFrame(sample);
+      };
+      requestAnimationFrame(sample);
+    `, { radius: PLAYER_RADIUS });
+    const returnCursor = (await debug<EventBatch>("getEvents", [0])).nextSeq;
+    await bounded("ground pointer return", () => driver.page!.mouse.click(pointer.x, pointer.y));
+    let returned = await observe();
+    report.returnClick = returned;
+    assert(!returned.movement.destinationEntityId, "Return ground click selected a structure or resource");
+    // A planned route exposes only its current walk-leg destination here. The exact final
+    // ground goal is established by the unchanged physical-arrival assertion below.
+    const returnNavigation = [...returned.events.events].reverse().find((event) => event.seq >= returnCursor && event.type === "navigation.started");
+    const firstLegGap = returned.movement.destination ? Math.hypot(returned.movement.destination[0] - start[0],
+      returned.movement.destination[2] - start[2]) : Infinity;
+    assert(firstLegGap <= 0.55 || returnNavigation?.data.route === true,
+      "Return click neither targeted the haul ground nor began a planned route");
+    const returnUntil = Math.min(actionDeadline - 1_000, Date.now() + 12_000);
+    while (Date.now() < returnUntil && gap(returned.player, start) > 0.55) {
+      await bounded("normal return walk", () => driver.wait(80));
+      returned = await observe();
+    }
+    const returnTrace = await evaluate<{ error: string | null; travelled: number; maxStaticShift: number; forestOverlapSamples: number; clockViolations: number }>(
+      "window.__mineReturnTrace.stopped=true; return window.__mineReturnTrace;");
+    const returnEvents = await debug<EventBatch>("getEvents", [returnCursor]);
+    report.returnProof = { pointer, target: start, finalPosition: returned.player, arrivalGap: gap(returned.player, start), trace: returnTrace, events: returnEvents };
+    assert(!returnTrace.error, returnTrace.error ?? "Return trace failed");
+    assert(gap(returned.player, start) <= 0.55, "Ground click did not return to the authored haul endpoint");
+    assert(returnTrace.travelled > 3, "Return must contain actual movement");
+    assert(returnTrace.maxStaticShift <= 0.02 && returnTrace.forestOverlapSamples === 0, "Actual return intersects collision");
+    assert.equal(returnTrace.clockViolations, 0);
+    assert(!returnEvents.dropped && !returnEvents.events.some(event => event.type === "navigation.failed"), "Return navigation failed or evidence was dropped");
+    await capture("03-returned-to-haul-ramp");
+  }
   stage = "errors and final profile";
-  report.errors = { game: after.errors, console: driver.consoleErrors, page: driver.pageErrors, requests: driver.requestErrors };
-  assert.equal(after.errors.length + driver.consoleErrors.length + driver.pageErrors.length + driver.requestErrors.length, 0, "Browser or game errors invalidate this run");
+  const finalErrors = await debug<unknown[]>("getErrors");
+  report.errors = { game: finalErrors, console: driver.consoleErrors, page: driver.pageErrors, requests: driver.requestErrors };
+  assert.equal(finalErrors.length + driver.consoleErrors.length + driver.pageErrors.length + driver.requestErrors.length, 0, "Browser or game errors invalidate this run");
   report.passed = true;
   report.status = "passed";
 } catch (error) {

@@ -230,7 +230,7 @@ export const QUARRY_HUT_VARIANTS: readonly StructureVariantRecipe[] = [
         elevation,
         // A half-scale support beam lies across the facade as a bracket instead of jutting outward.
         variantPart("lamp_brace", "support_beam", x, 1.02, -context.depth / 2 - 0.02, Math.PI / 2, 0.55),
-        variantPart("entry_lamp", "lamp_wall", x, 1.45, -context.depth / 2 - 0.06, FRONT_YAW, 0.82),
+        variantPart("entry_lamp", "lamp_wall", x, 2.02, -context.depth / 2 - 0.121, FRONT_YAW, 0.45),
       );
     },
   },

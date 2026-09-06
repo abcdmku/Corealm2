@@ -8,6 +8,8 @@ export interface LodPose {
   previousTime?: number;
   blend: number;
   opacity?: number;
+  /** Already masked, additive local-bone recoil on the actor's existing locomotion clock. */
+  overlay?: { clip: THREE.AnimationClip; time: number; weight: number };
 }
 
 interface ClipSamples { offset: number; frames: number; duration: number }
@@ -16,6 +18,8 @@ interface Palette {
   bones: number;
   bounds: THREE.Box3;
   mirrored: boolean;
+  uploaded: boolean;
+  dirtyFrames: Set<number>;
 }
 interface Part {
   source: THREE.Material;
@@ -25,6 +29,7 @@ interface Part {
   distance: THREE.Material;
   mesh: THREE.InstancedMesh;
   triangles: number;
+  palette: Palette;
 }
 
 const SAMPLE_HZ = 20;
@@ -155,6 +160,16 @@ export class AnimationLod {
   private disposed = false;
   private readonly scratchMatrix = new THREE.Matrix4();
   private readonly scratchColor = new THREE.Color();
+  private samplingRoot: THREE.Object3D | null = null;
+  private samplingAnimationRoot: THREE.Object3D | null = null;
+  private samplingMixer: THREE.AnimationMixer | null = null;
+  private samplingMeshes: THREE.Mesh[] = [];
+  private samplingBounds: THREE.Box3[] = [];
+  private readonly replayClips = new Map<THREE.AnimationClip, THREE.AnimationClip>();
+  private readonly overlayFrames = new Map<number, number>();
+  private readonly freeOverlayFrames: number[] = [];
+  private overlayCapacity = 0;
+  private overlayHighWater = 0;
 
   constructor(
     private readonly parent: THREE.Object3D,
@@ -188,6 +203,10 @@ export class AnimationLod {
     if (!sampledAnimationRoot) throw new Error("AnimationLod animationRoot must belong to root.");
     const meshes = clones.filter((node): node is THREE.Mesh => (node as THREE.Mesh).isMesh && this.isVisible(node, sampledRoot));
     const mixer = new THREE.AnimationMixer(sampledAnimationRoot);
+    this.samplingRoot = sampledRoot;
+    this.samplingAnimationRoot = sampledAnimationRoot;
+    this.samplingMixer = mixer;
+    this.samplingMeshes = meshes;
     try {
       sampledRoot.updateMatrixWorld(true);
       for (const mesh of meshes) {
@@ -200,6 +219,7 @@ export class AnimationLod {
       const bind = new THREE.Matrix4();
       const transformedBounds = new THREE.Box3();
       const sourceBounds = meshes.map((mesh) => new THREE.Box3().setFromBufferAttribute(mesh.geometry.getAttribute("position") as THREE.BufferAttribute));
+      this.samplingBounds = sourceBounds;
       for (const [clip, sample] of this.samples) {
         mixer.stopAllAction();
         const action = mixer.clipAction(clip).reset().setLoop(THREE.LoopOnce, 1);
@@ -240,9 +260,7 @@ export class AnimationLod {
       throw error;
     } finally {
       mixer.stopAllAction();
-      mixer.uncacheRoot(sampledAnimationRoot);
-      // Only the sampling skeletons are owned; cloned meshes still refer to source geometry/maps.
-      for (const skeleton of new Set(meshes.filter((mesh) => (mesh as THREE.SkinnedMesh).isSkinnedMesh).map((mesh) => (mesh as THREE.SkinnedMesh).skeleton))) skeleton.dispose();
+      // Retain this one shared clone for transient exact local-bone overlay composition.
     }
   }
 
@@ -252,8 +270,19 @@ export class AnimationLod {
 
   set(slot: number, matrix: THREE.Matrix4, pose: LodPose, tintForMaterial?: (source: THREE.Material) => THREE.Color | null): void {
     if (this.disposed) throw new Error("AnimationLod has been disposed.");
-    const current = this.frameAt(pose.clip, pose.time);
+    let current = this.frameAt(pose.clip, pose.time);
     const previous = pose.previousClip ? this.frameAt(pose.previousClip, pose.previousTime ?? 0) : current;
+    const overlay = pose.overlay;
+    if (overlay && (!Number.isFinite(overlay.time) || !Number.isFinite(overlay.weight))) throw new Error("AnimationLod requires finite overlay time and weight.");
+    const hasOverlay = overlay !== undefined && overlay.weight > 0;
+    if (hasOverlay) {
+      if (overlay.clip.blendMode !== THREE.AdditiveAnimationBlendMode) throw new Error("AnimationLod overlay must be a masked additive clip.");
+      if (!Number.isFinite(pose.time) || !Number.isFinite(pose.blend)
+        || (pose.previousTime !== undefined && !Number.isFinite(pose.previousTime))) throw new Error("AnimationLod requires finite base clocks.");
+      const frame = this.overlayFrame(slot);
+      this.writeOverlay(frame, pose);
+      current = [frame, frame, 0];
+    } else this.releaseOverlayFrame(slot);
     let row = this.slots.get(slot);
     if (row === undefined) {
       row = this.rows.length;
@@ -261,7 +290,7 @@ export class AnimationLod {
       this.slots.set(slot, row);
       this.rows.push(slot);
     }
-    this.frames.setXYZW(row, current[0], current[1], current[2], pose.previousClip ? THREE.MathUtils.clamp(pose.blend, 0, 1) : 1);
+    this.frames.setXYZW(row, current[0], current[1], current[2], !hasOverlay && pose.previousClip ? THREE.MathUtils.clamp(pose.blend, 0, 1) : 1);
     this.previousFrames.setXYZW(row, previous[0], previous[1], previous[2], THREE.MathUtils.clamp(pose.opacity ?? 1, 0, 1));
     this.frames.needsUpdate = true;
     this.previousFrames.needsUpdate = true;
@@ -278,6 +307,7 @@ export class AnimationLod {
   }
 
   hide(slot: number): void {
+    this.releaseOverlayFrame(slot);
     const row = this.slots.get(slot);
     if (row === undefined) return;
     const last = this.rows.length - 1;
@@ -321,6 +351,17 @@ export class AnimationLod {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    this.samplingMixer?.stopAllAction();
+    if (this.samplingAnimationRoot) this.samplingMixer?.uncacheRoot(this.samplingAnimationRoot);
+    for (const skeleton of new Set(this.samplingMeshes.filter((mesh) => (mesh as THREE.SkinnedMesh).isSkinnedMesh).map((mesh) => (mesh as THREE.SkinnedMesh).skeleton))) skeleton.dispose();
+    this.samplingRoot = null;
+    this.samplingAnimationRoot = null;
+    this.samplingMixer = null;
+    this.samplingMeshes = [];
+    this.samplingBounds = [];
+    this.replayClips.clear();
+    this.overlayFrames.clear();
+    this.freeOverlayFrames.length = 0;
     for (const part of this.parts) {
       part.mesh.removeFromParent();
       part.mesh.dispose();
@@ -334,6 +375,109 @@ export class AnimationLod {
     this.palettes.length = 0;
     this.rows.length = 0;
     this.slots.clear();
+  }
+
+  private releaseOverlayFrame(slot: number): void {
+    const frame = this.overlayFrames.get(slot);
+    if (frame === undefined) return;
+    this.overlayFrames.delete(slot);
+    this.freeOverlayFrames.push(frame);
+  }
+
+  /** Dynamic frames belong to logical slots, independent of compacted instance rows. */
+  private overlayFrame(slot: number): number {
+    const existing = this.overlayFrames.get(slot);
+    if (existing !== undefined) return this.sampleCount + existing;
+    let frame = this.freeOverlayFrames.pop();
+    if (frame === undefined) {
+      if (this.overlayHighWater === this.overlayCapacity) this.growOverlayPalettes();
+      frame = this.overlayHighWater++;
+    }
+    this.overlayFrames.set(slot, frame);
+    return this.sampleCount + frame;
+  }
+
+  private growOverlayPalettes(): void {
+    let capacity = Math.max(1, this.overlayCapacity * 2);
+    const dimensions = (count: number) => this.palettes.map(palette => Math.ceil((this.sampleCount + count) * palette.bones * 4 / palette.texture.image.width));
+    const fits = (sizes: number[]) => sizes.every(height => height <= MAX_TEXTURE_SIZE)
+      && sizes.reduce((sum, height, index) => sum + height * this.palettes[index]!.texture.image.width * 16, 0) <= 64 * 1024 * 1024;
+    let heights = dimensions(capacity);
+    if (!fits(heights)) { capacity = this.overlayHighWater + 1; heights = dimensions(capacity); }
+    // Validate every part before mutating anything, including rigid attachments and all skin palettes.
+    if (!fits(heights)) {
+      throw new Error("AnimationLod additive overlays exceed its 64 MiB texture budget.");
+    }
+    this.palettes.forEach((palette, index) => {
+      const texture = palette.texture, height = heights[index]!;
+      if (height === texture.image.height) return;
+      const data = new Float32Array(texture.image.width * height * 4);
+      data.set(texture.image.data as Float32Array);
+      // Keep the uniform's texture identity while releasing immutable GPU storage before resizing.
+      texture.dispose();
+      texture.image = { data, width: texture.image.width, height };
+      texture.clearUpdateRanges();
+      palette.dirtyFrames.clear();
+      palette.uploaded = false;
+      texture.needsUpdate = true;
+    });
+    this.overlayCapacity = capacity;
+  }
+
+  /** One shared mixer composes local rotations before skinning; matrix-space addition is invalid. */
+  private writeOverlay(frame: number, pose: LodPose): void {
+    const mixer = this.samplingMixer!, root = this.samplingRoot!, overlay = pose.overlay!;
+    const blend = pose.previousClip ? THREE.MathUtils.clamp(pose.blend, 0, 1) : 1;
+    mixer.stopAllAction();
+    const play = (clip: THREE.AnimationClip, time: number, weight: number, mode: THREE.AnimationBlendMode): void => {
+      const action = mixer.clipAction(clip, undefined, mode).reset().setLoop(THREE.LoopOnce, 1);
+      action.clampWhenFinished = true;
+      action.setEffectiveWeight(weight).play();
+      action.time = THREE.MathUtils.clamp(time, 0, clip.duration);
+    };
+    if (pose.previousClip && blend < 1) {
+      let previous = pose.previousClip;
+      if (previous === pose.clip) {
+        if (!this.replayClips.has(previous)) this.replayClips.set(previous, previous.clone());
+        previous = this.replayClips.get(previous)!;
+      }
+      play(previous, pose.previousTime ?? 0, 1 - blend, THREE.NormalAnimationBlendMode);
+    }
+    play(pose.clip, pose.time, blend, THREE.NormalAnimationBlendMode);
+    play(overlay.clip, overlay.time, THREE.MathUtils.clamp(overlay.weight, 0, 1), THREE.AdditiveAnimationBlendMode);
+    mixer.update(0);
+    root.updateMatrixWorld(true);
+    const skin = new THREE.Matrix4(), bind = new THREE.Matrix4(), transformed = new THREE.Box3();
+    for (let part = 0; part < this.samplingMeshes.length; part++) {
+      const mesh = this.samplingMeshes[part]!, skinned = mesh as THREE.SkinnedMesh, palette = this.palettes[part]!;
+      const data = palette.texture.image.data as Float32Array;
+      for (let bone = 0; bone < palette.bones; bone++) {
+        if (skinned.isSkinnedMesh) {
+          bind.multiplyMatrices(mesh.matrixWorld, skinned.bindMatrixInverse);
+          skin.multiplyMatrices(skinned.skeleton.bones[bone]!.matrixWorld, skinned.skeleton.boneInverses[bone]!);
+          skin.premultiply(bind).multiply(skinned.bindMatrix);
+        } else skin.copy(mesh.matrixWorld);
+        skin.toArray(data, (frame * palette.bones + bone) * 16);
+        transformed.copy(this.samplingBounds[part]!).applyMatrix4(skin);
+        palette.bounds.union(transformed);
+      }
+      // Three's partial texture updates must not cross a texel row. Before first upload or
+      // after resizing, leave ranges empty so the complete baked library uploads as well.
+      if (palette.uploaded && !palette.dirtyFrames.has(frame)) {
+        palette.dirtyFrames.add(frame);
+        const rowWidth = palette.texture.image.width * 4;
+        let start = frame * palette.bones * 16, remaining = palette.bones * 16;
+        while (remaining > 0) {
+          const count = Math.min(remaining, rowWidth - start % rowWidth);
+          palette.texture.addUpdateRange(start, count); start += count; remaining -= count;
+        }
+      }
+      palette.texture.needsUpdate = true;
+    }
+    for (const part of this.parts) {
+      part.geometry.boundingBox!.copy(part.palette.bounds);
+      part.palette.bounds.getBoundingSphere(part.geometry.boundingSphere!);
+    }
   }
 
   private frameAt(clip: THREE.AnimationClip, time: number): [number, number, number] {
@@ -366,7 +510,9 @@ export class AnimationLod {
     texture.magFilter = THREE.NearestFilter;
     texture.generateMipmaps = false;
     texture.needsUpdate = true;
-    return { texture, bones, bounds: new THREE.Box3(), mirrored: mesh.matrixWorld.determinant() < 0 };
+    const palette = { texture, bones, bounds: new THREE.Box3(), mirrored: mesh.matrixWorld.determinant() < 0, uploaded: false, dirtyFrames: new Set<number>() };
+    texture.onUpdate = () => { palette.uploaded = true; palette.dirtyFrames.clear(); };
+    return palette;
   }
 
   private createParts(mesh: THREE.Mesh, palette: Palette, materialFor: (source: THREE.Material) => THREE.Material): void {
@@ -407,7 +553,7 @@ export class AnimationLod {
       const depth = mesh.customDepthMaterial ? ownedMaterial(mesh.customDepthMaterial) : shadowMaterial(material, false);
       const distance = mesh.customDistanceMaterial ? ownedMaterial(mesh.customDistanceMaterial) : shadowMaterial(material, true);
       for (const pass of [material, depth, distance]) wrapMaterial(pass, palette);
-      const part: Part = { source, geometry, material, depth, distance, mesh: null!, triangles: Math.floor(Math.max(0, end - start) / 3) };
+      const part: Part = { source, geometry, material, depth, distance, mesh: null!, triangles: Math.floor(Math.max(0, end - start) / 3), palette };
       part.mesh = this.makeMesh(part);
       this.parts.push(part);
       this.parent.add(part.mesh);

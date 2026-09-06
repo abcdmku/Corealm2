@@ -1,0 +1,131 @@
+[
+  {
+    "id": "boss_rhino_air",
+    "sourceFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-contact\\boss_rhino_air.glb",
+    "stagedFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-attack\\boss_rhino_air.glb",
+    "sourceSha256": "9c275983d1fb913c51b48fc22adf9daee616bf0e16fb7852aa34fea87e190daa",
+    "sha256": "3350ab7f8300adddd57d661a859e756ed7e4af9f5d9be4031703b40992b9692f",
+    "bytes": 1457908,
+    "generator": [
+      {
+        "file": "tools/creature-motion/rhino-attack.ts",
+        "sha256": "0cb7b73d9e6f963563dee721c7dd02ab04dc07ad27bb12b06c3cc372a57890bc"
+      },
+      {
+        "file": "tools/creature-motion/stage-rhino-attack.ts",
+        "sha256": "23402e5fc65d6289b13db6732134529db18400f93ec2c7fe22c8c4b759da77aa"
+      },
+      {
+        "file": "tools/creature-motion/pose.ts",
+        "sha256": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795"
+      },
+      {
+        "file": "tools/lib/ground-gait.ts",
+        "sha256": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a"
+      },
+      {
+        "file": "tools/repair-ground-creature-gaits.ts",
+        "sha256": "070b3a2bff61c97e763ecb8f64e59eeee9a36249a1724f9b28118709c961ec2f"
+      }
+    ],
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false,
+    "setTiming": {
+      "seconds": 1.2333333492279053,
+      "contactNormalized": 0.33229264631653577
+    },
+    "preserved": {
+      "sourceBinPrefix": true,
+      "restGeometrySkinMaterialsHierarchy": true,
+      "allNonAttackClips": true,
+      "repairedRecoil": true
+    }
+  },
+  {
+    "id": "boss_rhino_earth",
+    "sourceFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-contact\\boss_rhino_earth.glb",
+    "stagedFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-attack\\boss_rhino_earth.glb",
+    "sourceSha256": "564312c745bf052fa0f4884a9e4b0400cfed7e9edb67eae32ece48c17ef0a17c",
+    "sha256": "b8f8c30ba5d2f917fe9555e92f8852d25ac0d137a221e8ce5744e361087f79ae",
+    "bytes": 1447708,
+    "generator": [
+      {
+        "file": "tools/creature-motion/rhino-attack.ts",
+        "sha256": "0cb7b73d9e6f963563dee721c7dd02ab04dc07ad27bb12b06c3cc372a57890bc"
+      },
+      {
+        "file": "tools/creature-motion/stage-rhino-attack.ts",
+        "sha256": "23402e5fc65d6289b13db6732134529db18400f93ec2c7fe22c8c4b759da77aa"
+      },
+      {
+        "file": "tools/creature-motion/pose.ts",
+        "sha256": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795"
+      },
+      {
+        "file": "tools/lib/ground-gait.ts",
+        "sha256": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a"
+      },
+      {
+        "file": "tools/repair-ground-creature-gaits.ts",
+        "sha256": "070b3a2bff61c97e763ecb8f64e59eeee9a36249a1724f9b28118709c961ec2f"
+      }
+    ],
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false,
+    "setTiming": {
+      "seconds": 1.2333333492279053,
+      "contactNormalized": 0.33229264631653577
+    },
+    "preserved": {
+      "sourceBinPrefix": true,
+      "restGeometrySkinMaterialsHierarchy": true,
+      "allNonAttackClips": true,
+      "repairedRecoil": true
+    }
+  },
+  {
+    "id": "boss_rhino_water",
+    "sourceFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-contact\\boss_rhino_water.glb",
+    "stagedFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-attack\\boss_rhino_water.glb",
+    "sourceSha256": "b9efdfeecb24b40be03cf5a611fa64e8140e21f4ab8135ae41c631ee9e17523e",
+    "sha256": "bec1b97ae9e313e0849d7c219b61c08674f4c2df041b2d4134f8b41ec50e9c71",
+    "bytes": 1421676,
+    "generator": [
+      {
+        "file": "tools/creature-motion/rhino-attack.ts",
+        "sha256": "0cb7b73d9e6f963563dee721c7dd02ab04dc07ad27bb12b06c3cc372a57890bc"
+      },
+      {
+        "file": "tools/creature-motion/stage-rhino-attack.ts",
+        "sha256": "23402e5fc65d6289b13db6732134529db18400f93ec2c7fe22c8c4b759da77aa"
+      },
+      {
+        "file": "tools/creature-motion/pose.ts",
+        "sha256": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795"
+      },
+      {
+        "file": "tools/lib/ground-gait.ts",
+        "sha256": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a"
+      },
+      {
+        "file": "tools/repair-ground-creature-gaits.ts",
+        "sha256": "070b3a2bff61c97e763ecb8f64e59eeee9a36249a1724f9b28118709c961ec2f"
+      }
+    ],
+    "offlinePassed": true,
+    "visualAccepted": false,
+    "promotable": false,
+    "setTiming": {
+      "seconds": 1.2333333492279053,
+      "contactNormalized": 0.33229264631653577
+    },
+    "preserved": {
+      "sourceBinPrefix": true,
+      "restGeometrySkinMaterialsHierarchy": true,
+      "allNonAttackClips": true,
+      "repairedRecoil": true
+    }
+  }
+]

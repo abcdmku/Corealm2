@@ -1,0 +1,122 @@
+{
+  "file": "cdmir-porcupine-contact-ik-smooth.glb",
+  "sha256": "fb040b4f2ae5b45055d0b0c86c015de67f65db2640acd33c77748a4f4493f979",
+  "method": "Actual byte readback with keys, quarter/midpoints and >=480 Hz samples. Skin uses exactly JOINTS_0/WEIGHTS_0 and inverse binds. Same original vertex within -1 mm..+0.5001 mm in both adjacent samples gets world velocity using explicit .32/1 m/s controller comparison. No solver stance labels.",
+  "clips": [
+    {
+      "name": "Walk",
+      "duration": 1.1666666269302368,
+      "authoredComparisonSpeedMps": 0.32,
+      "samples": 5869,
+      "maximumWholeMeshBurialMeters": 0,
+      "maximumOriginalMeshBurialMeters": 0,
+      "maxSameVertexGroundVelocityMps": 2.137909401834515,
+      "slipWitness": {
+        "time": 0.4973958432674408,
+        "dt": 0.000325523316860199,
+        "sourceVertex": 2023,
+        "foot": "BackLeg_L",
+        "vx": 0.00003794211895041138,
+        "vz": -2.1379094014978297,
+        "y": [
+          0.00024853123230370033,
+          0.0002615675669741385
+        ]
+      },
+      "allFeetClearSampleFraction": 0,
+      "allFeetClearTimeFraction": 0,
+      "perFoot": {
+        "FrontLeg_L": {
+          "groundedIntervals": 3948,
+          "groundedDuration": 0.7810980789363384,
+          "maxSlipMps": 1.902595751392749,
+          "minimumY": 0.00016955318578510523
+        },
+        "FrontLeg_R": {
+          "groundedIntervals": 3930,
+          "groundedDuration": 0.7816406422427722,
+          "maxSlipMps": 1.9759836035375402,
+          "minimumY": 0.0001701323737555603
+        },
+        "BackLeg_L": {
+          "groundedIntervals": 2354,
+          "groundedDuration": 0.46171873062849045,
+          "maxSlipMps": 2.137909401834515,
+          "minimumY": 0.0001633776812199095
+        },
+        "BackLeg_R": {
+          "groundedIntervals": 2363,
+          "groundedDuration": 0.4615233317017555,
+          "maxSlipMps": 2.051626442412403,
+          "minimumY": 0.00016468282340964167
+        }
+      },
+      "hipLoopDelta": [
+        0,
+        0,
+        0
+      ],
+      "maximumOriginalVertexLoopDeltaMeters": 2.1260273013509594e-8
+    },
+    {
+      "name": "Run",
+      "duration": 0.4166666567325592,
+      "authoredComparisonSpeedMps": 1,
+      "samples": 2081,
+      "maximumWholeMeshBurialMeters": 0,
+      "maximumOriginalMeshBurialMeters": 0,
+      "maxSameVertexGroundVelocityMps": 3.3542934102421924,
+      "slipWitness": {
+        "time": 0.1929253414273262,
+        "dt": 0.00021701306104660034,
+        "sourceVertex": 2104,
+        "foot": "FrontLeg_L",
+        "vx": 0.0020500316776077654,
+        "vz": 3.3542927837868173,
+        "y": [
+          0.0002499888263384764,
+          0.00024710903224378633
+        ]
+      },
+      "allFeetClearSampleFraction": 0.19461797212878423,
+      "allFeetClearTimeFraction": 0.19374999865889547,
+      "perFoot": {
+        "FrontLeg_L": {
+          "groundedIntervals": 818,
+          "groundedDuration": 0.1638454853091389,
+          "maxSlipMps": 3.3542934102421924,
+          "minimumY": 0.00020323165093721896
+        },
+        "FrontLeg_R": {
+          "groundedIntervals": 1202,
+          "groundedDuration": 0.24084200825542212,
+          "maxSlipMps": 1.4404218711267107,
+          "minimumY": 0.00022729197871105896
+        },
+        "BackLeg_L": {
+          "groundedIntervals": 751,
+          "groundedDuration": 0.1506076455116272,
+          "maxSlipMps": 2.809324204964216,
+          "minimumY": 0.0001697935247795129
+        },
+        "BackLeg_R": {
+          "groundedIntervals": 789,
+          "groundedDuration": 0.15798610402271152,
+          "maxSlipMps": 1.5554103532135064,
+          "minimumY": 0.0001672261025082287
+        }
+      },
+      "hipLoopDelta": [
+        -3.903127820947816e-16,
+        0.002889269547306922,
+        0
+      ],
+      "maximumOriginalVertexLoopDeltaMeters": 0.004611859444158822
+    }
+  ],
+  "limits": [
+    "Contact coverage must be nonzero and appropriate; a low slip value with hovering paws is not acceptance.",
+    "Toe roll/support changes and sliding must still be inspected in hardware.",
+    "This is a fixed-speed comparison, not measurement of the original author intended traversal speed."
+  ]
+}

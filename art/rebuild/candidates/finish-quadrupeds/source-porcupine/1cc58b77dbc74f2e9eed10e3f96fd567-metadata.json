@@ -1,0 +1,211 @@
+{
+  "animationCount": 0,
+  "categories": [
+    {
+      "uid": "ed9e048550b2478eb1ab2faaba192832",
+      "name": "Animals & Pets",
+      "slug": "animals-pets",
+      "uri": "https://api.sketchfab.com/v3/categories/ed9e048550b2478eb1ab2faaba192832",
+      "icon": "https://static.sketchfab.com/static/builds/web/dist/static/assets/images/icons/categories/926733e187aa5a479aedd2581bffb3ea-v2.svg",
+      "thumbnails": [
+        {
+          "width": "512",
+          "height": "288",
+          "url": "https://static.sketchfab.com/categories/ed9e048550b2478eb1ab2faaba192832/512x288.png"
+        },
+        {
+          "width": "800",
+          "height": "450",
+          "url": "https://static.sketchfab.com/categories/ed9e048550b2478eb1ab2faaba192832/800x450.png"
+        }
+      ]
+    },
+    {
+      "uid": "2d643ff5ed03405b9c34ecdffff9d8d8",
+      "name": "Characters & Creatures",
+      "slug": "characters-creatures",
+      "uri": "https://api.sketchfab.com/v3/categories/2d643ff5ed03405b9c34ecdffff9d8d8",
+      "icon": "https://static.sketchfab.com/static/builds/web/dist/static/assets/images/icons/categories/f778c3dbe6efa00a06c257762c0e27ef-v2.svg",
+      "thumbnails": [
+        {
+          "width": "512",
+          "height": "288",
+          "url": "https://static.sketchfab.com/categories/2d643ff5ed03405b9c34ecdffff9d8d8/512x288.png"
+        },
+        {
+          "width": "800",
+          "height": "450",
+          "url": "https://static.sketchfab.com/categories/2d643ff5ed03405b9c34ecdffff9d8d8/800x450.png"
+        }
+      ]
+    }
+  ],
+  "commentCount": 0,
+  "createdAt": "2026-04-04T08:54:47.349096",
+  "embedUrl": "https://sketchfab.com/models/1cc58b77dbc74f2e9eed10e3f96fd567/embed",
+  "faceCount": 4055040,
+  "isAgeRestricted": false,
+  "license": {
+    "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+    "label": "CC Attribution",
+    "fullName": "Creative Commons Attribution",
+    "requirements": "Author must be credited. Commercial use is allowed.",
+    "url": "http://creativecommons.org/licenses/by/4.0/",
+    "slug": "by"
+  },
+  "likeCount": 4,
+  "name": "Spiny Porcupine High Poly 3d Model",
+  "publishedAt": "2026-04-10T08:46:59.261887",
+  "soundCount": 0,
+  "staffpickedAt": null,
+  "tags": [
+    {
+      "name": "cute",
+      "slug": "cute",
+      "uri": "https://api.sketchfab.com/v3/tags/cute"
+    },
+    {
+      "name": "wild",
+      "slug": "wild",
+      "uri": "https://api.sketchfab.com/v3/tags/wild"
+    },
+    {
+      "name": "species",
+      "slug": "species",
+      "uri": "https://api.sketchfab.com/v3/tags/species"
+    },
+    {
+      "name": "spine",
+      "slug": "spine",
+      "uri": "https://api.sketchfab.com/v3/tags/spine"
+    },
+    {
+      "name": "spiky",
+      "slug": "spiky",
+      "uri": "https://api.sketchfab.com/v3/tags/spiky"
+    },
+    {
+      "name": "furry",
+      "slug": "furry",
+      "uri": "https://api.sketchfab.com/v3/tags/furry"
+    },
+    {
+      "name": "Wildlife",
+      "slug": "wildlife",
+      "uri": "https://api.sketchfab.com/v3/tags/wildlife"
+    },
+    {
+      "name": "rodent",
+      "slug": "rodent",
+      "uri": "https://api.sketchfab.com/v3/tags/rodent"
+    },
+    {
+      "name": "Porcupine",
+      "slug": "porcupine",
+      "uri": "https://api.sketchfab.com/v3/tags/porcupine"
+    },
+    {
+      "name": "animal",
+      "slug": "animal",
+      "uri": "https://api.sketchfab.com/v3/tags/animal"
+    }
+  ],
+  "thumbnails": {
+    "images": [
+      {
+        "uid": "bb39c83b04f549ceada8efd33aab78b3",
+        "width": 1920,
+        "height": 1080,
+        "size": 98391,
+        "url": "https://media.sketchfab.com/models/1cc58b77dbc74f2e9eed10e3f96fd567/thumbnails/dd788b4dccbb4fdda0c6a63b44fcc984/9e378f3c1792486982b21706ef07dc58.jpeg"
+      },
+      {
+        "uid": "7dd698295f4945829665f8f394933ce8",
+        "width": 1024,
+        "height": 576,
+        "size": 30400,
+        "url": "https://media.sketchfab.com/models/1cc58b77dbc74f2e9eed10e3f96fd567/thumbnails/dd788b4dccbb4fdda0c6a63b44fcc984/b59c6853df91468ab6a4e6fca20705c6.jpeg"
+      },
+      {
+        "uid": "88b68c79c0da47d19e1c21f094144e75",
+        "width": 720,
+        "height": 405,
+        "size": 16575,
+        "url": "https://media.sketchfab.com/models/1cc58b77dbc74f2e9eed10e3f96fd567/thumbnails/dd788b4dccbb4fdda0c6a63b44fcc984/af1e019b7d2d4018acf7dcd082bd047f.jpeg"
+      },
+      {
+        "uid": "8d1ae3b0f76e47c180a98375e872d4f8",
+        "width": 256,
+        "height": 144,
+        "size": 2860,
+        "url": "https://media.sketchfab.com/models/1cc58b77dbc74f2e9eed10e3f96fd567/thumbnails/dd788b4dccbb4fdda0c6a63b44fcc984/2554fc99d2074b23babe7bf91faf4243.jpeg"
+      },
+      {
+        "uid": "fe85821e48e449e488b1247ebbcf56ae",
+        "width": 64,
+        "height": 36,
+        "size": 889,
+        "url": "https://media.sketchfab.com/models/1cc58b77dbc74f2e9eed10e3f96fd567/thumbnails/dd788b4dccbb4fdda0c6a63b44fcc984/d26b5751e2ff41afb933506532aea28b.jpeg"
+      }
+    ]
+  },
+  "uid": "1cc58b77dbc74f2e9eed10e3f96fd567",
+  "uri": "https://api.sketchfab.com/v3/models/1cc58b77dbc74f2e9eed10e3f96fd567",
+  "user": {
+    "uid": "19582ce57059454484f1d648cc3358b5",
+    "username": "rt699448",
+    "displayName": "iRahulRajput",
+    "account": "basic",
+    "profileUrl": "https://sketchfab.com/rt699448",
+    "avatar": {
+      "uid": "1e0c6525f9a94071b9f6191153fb15e7",
+      "uri": "https://api.sketchfab.com/v3/avatars/1e0c6525f9a94071b9f6191153fb15e7",
+      "images": [
+        {
+          "width": 32,
+          "height": 32,
+          "size": 1063,
+          "url": "https://media.sketchfab.com/avatars/1e0c6525f9a94071b9f6191153fb15e7/5fbc88a5b3444533b62c14ce2127754b.jpeg"
+        },
+        {
+          "width": 48,
+          "height": 48,
+          "size": 1487,
+          "url": "https://media.sketchfab.com/avatars/1e0c6525f9a94071b9f6191153fb15e7/546586c697ec43028150dc9ab59f7e20.jpeg"
+        },
+        {
+          "width": 90,
+          "height": 90,
+          "size": 3380,
+          "url": "https://media.sketchfab.com/avatars/1e0c6525f9a94071b9f6191153fb15e7/32b6d484942a4619ba13e4be743830c7.jpeg"
+        },
+        {
+          "width": 100,
+          "height": 100,
+          "size": 3898,
+          "url": "https://media.sketchfab.com/avatars/1e0c6525f9a94071b9f6191153fb15e7/7e522f6026ad486fbd6e730abf3396fa.jpeg"
+        }
+      ]
+    },
+    "uri": "https://api.sketchfab.com/v3/users/19582ce57059454484f1d648cc3358b5"
+  },
+  "vertexCount": 2026754,
+  "viewCount": 82,
+  "viewerUrl": "https://sketchfab.com/3d-models/spiny-porcupine-high-poly-3d-model-1cc58b77dbc74f2e9eed10e3f96fd567",
+  "isDownloadable": true,
+  "isProtected": false,
+  "description": "Spiny Porcupine 3d model Free \nHigh Poly",
+  "price": null,
+  "downloadCount": 47,
+  "editorUrl": "https://sketchfab.com/models/1cc58b77dbc74f2e9eed10e3f96fd567/edit",
+  "status": {
+    "warning": {},
+    "processing": "SUCCEEDED"
+  },
+  "source": "unknown",
+  "hasCommentsDisabled": false,
+  "updatedAt": "2026-04-10T08:46:59.394589",
+  "pbrType": null,
+  "textureCount": 0,
+  "materialCount": 1
+}

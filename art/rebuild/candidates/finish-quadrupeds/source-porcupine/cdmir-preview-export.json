@@ -1,0 +1,135 @@
+{
+  "file": "cdmir-source-preview.glb",
+  "sha256": "3bf380281a98800107167a3e55beff9e46377a2f0b020cbab793ab7624db6057",
+  "bytes": 2854564,
+  "selectedOriginalObjects": [
+    "Armature",
+    "Body",
+    "Head",
+    "Eyes",
+    "Hair",
+    "Teeth"
+  ],
+  "geometryChanged": "No manual vertex edits; stock exporter may validate/triangulate invalid source mesh. See exportWarnings.",
+  "rigChanged": false,
+  "animationsExported": false,
+  "materialsTranslated": [
+    {
+      "material": "body",
+      "albedo": "rat-body",
+      "normal": "rat-body-Normalmap.png",
+      "roughness": 0.82
+    },
+    {
+      "material": "head",
+      "albedo": "rat-head",
+      "normal": "rat-head-Normalmap.png",
+      "roughness": 0.82
+    },
+    {
+      "material": "head.001",
+      "albedo": "rat-head",
+      "normal": "rat-head-Normalmap.png",
+      "roughness": 0.82
+    },
+    {
+      "material": "Material.001",
+      "albedo": "hair",
+      "alpha": "hair alpha",
+      "roughness": 0.85
+    }
+  ],
+  "aoNotTranslated": true,
+  "worldBoundsBlenderZUp": [
+    {
+      "name": "Body",
+      "worldMin": [
+        -0.5920083522796631,
+        -1.623852252960205,
+        -0.034140489995479584
+      ],
+      "worldMax": [
+        0.5884348750114441,
+        2.778726577758789,
+        1.3925719261169434
+      ],
+      "vertices": 2159,
+      "vertexGroups": 26
+    },
+    {
+      "name": "Head",
+      "worldMin": [
+        -0.4521457254886627,
+        -2.232048988342285,
+        0.25788414478302
+      ],
+      "worldMax": [
+        0.5230089426040649,
+        -1.3265209197998047,
+        0.9897278547286987
+      ],
+      "vertices": 795,
+      "vertexGroups": 26
+    },
+    {
+      "name": "Eyes",
+      "worldMin": [
+        -0.13644197583198547,
+        -1.7575795650482178,
+        0.5926753282546997
+      ],
+      "worldMax": [
+        0.20730537176132202,
+        -1.6686283349990845,
+        0.7097470760345459
+      ],
+      "vertices": 26,
+      "vertexGroups": 26
+    },
+    {
+      "name": "Hair",
+      "worldMin": [
+        -6.38042688369751,
+        -20.28844451904297,
+        -7.1105194091796875
+      ],
+      "worldMax": [
+        8.64171314239502,
+        5.327248573303223,
+        9.94709587097168
+      ],
+      "vertices": 336,
+      "vertexGroups": 26
+    },
+    {
+      "name": "Teeth",
+      "worldMin": [
+        -0.07417730242013931,
+        -2.072019100189209,
+        0.26830071210861206
+      ],
+      "worldMax": [
+        0.14504079520702362,
+        -1.7108808755874634,
+        0.5075255632400513
+      ],
+      "vertices": 157,
+      "vertexGroups": 26
+    }
+  ],
+  "units": "Source unit system NONE scale1.0. Exported with stock glTF Y-up transform; no size normalization.",
+  "limits": "Source inspection preview only. Material conversion is approximate, not final author appearance proof. Not a porcupine and not integrated or accepted.",
+  "exportedMeshNodes": [
+    "Body",
+    "Eyes",
+    "Head",
+    "Teeth"
+  ],
+  "hairExported": false,
+  "exportWarnings": [
+    "Source mesh Rat flagged invalid by Blender glTF exporter; output needs topology review.",
+    "Source vertices with more than4 influences exported with4 largest weights normalized.",
+    "Legacy vertex color omitted because source materials do not reference it.",
+    "Original Hair has abnormal evaluated bounds and was not exported by selection."
+  ]
+}

@@ -1,0 +1,3 @@
+import fs from'node:fs';import * as THREE from'three';import{buildEarthElemental}from'./earth.mjs';const g=buildEarthElemental(),m=g.object.getObjectByName('earth_elemental_original_body'),mix=new THREE.AnimationMixer(g.object),matrices=[];
+for(const c of g.clips.filter(c=>!['Run','HitLeft','HitRight'].includes(c.name))){const a=mix.clipAction(c);a.setLoop(THREE.LoopOnce,1);a.clampWhenFinished=true;a.play();for(let i=0;i<=16;i++){mix.setTime(c.duration*i/16);g.object.updateMatrixWorld(true);matrices.push(m.skeleton.bones.map((b,i)=>new THREE.Matrix4().multiplyMatrices(b.matrixWorld,m.skeleton.boneInverses[i]).toArray()));}a.stop();}
+fs.writeFileSync('test-results/earth-elemental-source/skin-matrices.json',JSON.stringify(matrices));

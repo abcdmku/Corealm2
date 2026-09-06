@@ -1,0 +1,72 @@
+{
+  "checked": "2026-09-05",
+  "scope": [
+    "horse",
+    "moose",
+    "bighorn",
+    "tapir"
+  ],
+  "acquired": [
+    {
+      "species": "horse",
+      "source": "https://opengameart.org/content/realtime-ranchers-3d-model-pack",
+      "rigDerivative": "https://opengameart.org/content/rigged-horse",
+      "author": "Lyndon Daniels",
+      "rigAuthor": "ChadM",
+      "license": "CC0-1.0",
+      "status": "complete-source-acquired-static-conversion-ready-for-review",
+      "wholeBodyPreviewsInspected": [
+        "horse_default_0.png",
+        "riggedHorse.jpg"
+      ],
+      "sourceQuality": "Recognizable continuous equine shoulders, haunches, straight face, short muzzle and narrow shins. Textured hair is much more deliberate than procedural loft locks. Large stylized eye, low-poly hoof rims and baked shading remain concerns.",
+      "nativeRigSummary": {
+        "deformBones": 19,
+        "actions": 0,
+        "bodyFullyWeighted": true,
+        "unweightedParts": [
+          "mane",
+          "tail",
+          "both eyes"
+        ]
+      },
+      "staticCatalogue": "horse-static-catalogue.json"
+    }
+  ],
+  "deferred": [
+    {
+      "species": "bighorn",
+      "source": "https://sketchfab.com/3d-models/bighorn-demo-free-download-c0a977c9a6bf4a6893af98877a9ac12a",
+      "reason": "HTTP 403. No download or access workaround attempted."
+    },
+    {
+      "species": [
+        "moose",
+        "bighorn"
+      ],
+      "source": "https://www.patreon.com/wildmesh/posts/free-models-160668973",
+      "reason": "Creator offers Free Models containing 50 Static Animals.zip and Animated Animals 1.0.zip, but post is membership locked. No attachment bytes or usable asset license obtained."
+    },
+    {
+      "species": "tapir",
+      "source": "https://commons.wikimedia.org/wiki/File:Tapirus_terrestris_3d_scan_Natural_History_Museum_University_of_Pisa_C_529.stl",
+      "reason": "Museum source is a skeleton, not a complete living-animal body. Not a usable replacement."
+    },
+    {
+      "species": "horse",
+      "source": "https://quaternius.com/packs/ultimateanimatedanimals.html",
+      "reason": "CC0 complete animated source exists, but overtly low-poly style is a weaker match than the acquired textured horse. Not acquired in this bounded search."
+    },
+    {
+      "species": "horse",
+      "source": "https://opengameart.org/content/blender-horse-rig-alex",
+      "reason": "Rig only, no full body. Not acquired."
+    }
+  ],
+  "limits": [
+    "No production GPU/rendered conversion proof",
+    "No usable complete Moose, Bighorn or Tapir bytes acquired",
+    "No source rig or clip claims beyond native inventory",
+    "No paid purchase, membership signup or restricted file access"
+  ]
+}

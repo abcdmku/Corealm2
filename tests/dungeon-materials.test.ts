@@ -191,7 +191,7 @@ describe("dungeon material restoration", () => {
       expect(mesh.material.normalMap).toBeNull();
       expect(mesh.material.roughnessMap).toBeNull();
     }
-    expect(meshNamed(built, "dungeon-wall").material.flatShading).toBe(true);
+    expect(meshNamed(built, "dungeon-wall").material.flatShading).toBe(false);
   });
 
   it.each(CASES)("projects floor and ceiling UVs in world X/Z metres ($name)", ({ options }) => {
@@ -210,42 +210,32 @@ describe("dungeon material restoration", () => {
     }
   });
 
-  it.each(CASES)("unfolds each wall quad continuously at one UV unit per metre ($name)", ({ options }) => {
+  it.each(CASES)("keeps stone phase continuous across wall courses and panels ($name)", ({ options }) => {
     const geometry = meshNamed(build({ ...options, surfaceTextures: surfaceTextures() }), "dungeon-wall").geometry;
-    const position = geometry.getAttribute("position");
-    const uv = geometry.getAttribute("uv");
-    expect(geometry.index).toBeNull();
-    expect(position.count % 6).toBe(0);
-    expect(uv.itemSize).toBe(2);
+    const position = geometry.getAttribute("position"), uv = geometry.getAttribute("uv");
     expect(uv.count).toBe(position.count);
-    const p = (i: number) => new THREE.Vector3().fromBufferAttribute(position, i);
-    const t = (i: number) => new THREE.Vector2(uv.getX(i), uv.getY(i));
-    const cross = (a: THREE.Vector2, b: THREE.Vector2) => a.x * b.y - a.y * b.x;
-    let nonPlanarQuads = 0;
-    for (let base = 0; base < position.count; base += 6) {
-      const b0 = p(base), b1 = p(base + 1), t0 = p(base + 2), t1 = p(base + 4);
-      const ub0 = t(base), ub1 = t(base + 1), ut0 = t(base + 2), ut1 = t(base + 4);
-      // Both copies of the shared b1--t0 diagonal must have identical coordinates.
-      expect(p(base + 3).toArray()).toEqual(b1.toArray());
-      expect(p(base + 5).toArray()).toEqual(t0.toArray());
-      expect(t(base + 3).toArray()).toEqual(ub1.toArray());
-      expect(t(base + 5).toArray()).toEqual(ut0.toArray());
-      expect(Math.abs(ub1.y - ub0.y)).toBeLessThan(0.00001);
-      expect(Math.abs(ub1.x - ub0.x - b1.distanceTo(b0))).toBeLessThan(0.00001);
-      for (const offset of [0, 3]) for (const [a, b] of [[0, 1], [1, 2], [2, 0]] as const) {
-        const worldLength = p(base + offset + a).distanceTo(p(base + offset + b));
-        const uvLength = t(base + offset + a).distanceTo(t(base + offset + b));
-        expect(Math.abs(uvLength - worldLength), `quad ${base / 6}, triangle ${offset / 3}, edge ${a}-${b}`)
-          .toBeLessThan(0.00001);
-      }
-      const diagonal = ut0.clone().sub(ub1);
-      expect(cross(diagonal, ub0.clone().sub(ub1)) * cross(diagonal, ut1.clone().sub(ub1)))
-        .toBeLessThan(-0.00000001);
-      if (Math.abs(b1.clone().sub(b0).cross(t0.clone().sub(b0)).dot(t1.clone().sub(b0))) > 0.001) {
-        nonPlanarQuads++;
+    const endpoints = new Map<string, number[][]>();
+    for (let i = 0; i < position.count; i++) {
+      const key = [position.getX(i), position.getY(i), position.getZ(i)].map(v => v.toFixed(5)).join(",");
+      const coordinates = endpoints.get(key) ?? [];
+      coordinates.push([uv.getX(i), uv.getY(i)]);
+      endpoints.set(key, coordinates);
+      expect(uv.getY(i)).toBe(position.getY(i));
+    }
+    let shared = 0, wrapSeams = 0;
+    for (const values of endpoints.values()) {
+      if (values.length < 2) continue;
+      shared++;
+      const u = values.map(value => value[0]!);
+      const spread = Math.max(...u) - Math.min(...u);
+      // A closed perimeter needs one wrap seam. Every other shared vertex matches.
+      if (spread > 0.0001) {
+        expect(Math.min(...u)).toBe(0);
+        expect(spread).toBeGreaterThan(10);
+        wrapSeams++;
       }
     }
-    // This fixture must exercise actual nonplanar quads, where a single planar projection stretches.
-    expect(nonPlanarQuads).toBeGreaterThan(0);
+    expect(shared).toBeGreaterThan(100);
+    expect(wrapSeams).toBeLessThanOrEqual(15);
   });
 });

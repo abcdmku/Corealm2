@@ -60,6 +60,15 @@ export function eventChangesWeaponCharge(event: GameEvent): boolean {
   return event.type === "spell.launched" || event.type === "essence.recharged";
 }
 
+/** Production receipts use the catalogue's ordinary names, including creature-crafted gear. */
+export function describeProductionCompletion(data: GameEvent["data"]): string {
+  const itemId = typeof data["itemId"] === "string" ? data["itemId"] : null;
+  if (!itemId) return "Production finished.";
+  const quantity = typeof data["quantity"] === "number" ? data["quantity"] : 1;
+  const name = content.item(itemId)?.name ?? titleCase(itemId);
+  return `Made ${quantity} × ${name}.`;
+}
+
 /** A deliberate stop is not a pathfinding failure and must not be presented as one. */
 export function describeNavigationFailure(data: GameEvent["data"]): { text: string; tone: NoticeTone } | null {
   const reason = typeof data["reason"] === "string" ? data["reason"] : "";
@@ -470,11 +479,7 @@ export class Hud {
       case "player.died":
         return { text: "You have died.", tone: "error" };
       case "production.completed": {
-        const item = typeof data["itemId"] === "string" ? data["itemId"] : null;
-        const quantity = typeof data["quantity"] === "number" ? data["quantity"] : 1;
-        return item
-          ? { text: `Made ${quantity} × ${item.replace(/_/g, " ")}.`, tone: "success" }
-          : { text: "Production finished.", tone: "success" };
+        return { text: describeProductionCompletion(data), tone: "success" };
       }
       case "quest.updated": {
         const objective = typeof data["objective"] === "string" ? data["objective"] : null;

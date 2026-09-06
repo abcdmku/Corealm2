@@ -1,6 +1,7 @@
 import type { SemanticEntity, Vec3 } from "../contracts.js";
 import type { RouteEdge, RouteNode } from "../systems/navigation.js";
 import { portalEntrance } from "../world/portalEntrance.js";
+import { portalMantleSolid } from "../world/portalMantle.js";
 
 export const PORTAL_LAB_CAVE_ORIGIN: Vec3 = [-36, -12, -36];
 
@@ -23,6 +24,10 @@ export function assemblePortalFixture(heightAt: (x: number, z: number) => number
     entity.interactionPosition = entrance.interactionPosition;
     return entrance.solid;
   });
+  for (const entity of entities) {
+    const mantle = portalMantleSolid(entity);
+    if (mantle) solids.push(mantle);
+  }
   const routeNodes: RouteNode[] = [
     { id: "lab:portal:outside", name: "Cavern approach", regionId: "fallowmarch", position: entities[0]!.interactionPosition! },
     { id: "lab:portal:inside", name: "Cavern chamber", regionId: "gravelmaw", position: [...PORTAL_LAB_CAVE_ORIGIN] },

@@ -1,0 +1,58 @@
+{
+  "author": "Quaternius and Corealm",
+  "source": "Quaternius Universal Base Characters base_female; Modular Character Outfits Fantasy female ranger chest; Universal Animation Library. Quaternius hair_long weighted mesh and atlas.",
+  "license": "CC0-1.0 source packs; Corealm additions project-owned",
+  "sources": [
+    {
+      "id": "animation_library_1",
+      "file": "game/public/assets/models/animation/animation_library_1.glb",
+      "pack": "universal-animation-library",
+      "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+    },
+    {
+      "id": "base_female",
+      "file": "game/public/assets/models/character/base_female.glb",
+      "pack": "universal-base-characters",
+      "sha256": "75ad4eee7a2caad26cdd2fe54040cdb7e866f9a8236d7d4934f4a0496b042baf"
+    },
+    {
+      "id": "outfit_female_ranger_chest",
+      "file": "game/public/assets/models/outfit/outfit_female_ranger_chest.glb",
+      "pack": "modular-character-outfits-fantasy",
+      "sha256": "3eff2a6ea73e2abd2923325d25f3ca5ba18a500460123feac7da90060af2dbca"
+    },
+    {
+      "id": "hair_long",
+      "file": "game/public/assets/models/character/hair_long.glb",
+      "pack": "universal-base-characters",
+      "sha256": "20fa793039eaca5e5bb108d74dc3e5e008a22a4a536196be8448d853b10604f9"
+    }
+  ],
+  "packs": [
+    {
+      "id": "universal-base-characters",
+      "name": "Universal Base Characters",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/universal-base-characters",
+      "license": "CC0-1.0",
+      "archiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+    },
+    {
+      "id": "modular-character-outfits-fantasy",
+      "name": "Modular Character Outfits - Fantasy",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/modular-character-outfits-fantasy",
+      "license": "CC0-1.0",
+      "archiveSha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+    },
+    {
+      "id": "universal-animation-library",
+      "name": "Universal Animation Library",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/universal-animation-library",
+      "license": "CC0-1.0",
+      "archiveSha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+    }
+  ],
+  "modifications": "Corealm original thin cambered layered feather geometry, rachis and barb SVG texture, swept head crest, full thigh cuffs, tapered shanks with overlapping scales, segmented toes and separate hooked horn claws. Source body and long hair topology, weights and textures preserved. Source animation arm posture adaptation and sampled whole-geometry floor correction."
+}

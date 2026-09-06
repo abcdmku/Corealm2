@@ -1,0 +1,81 @@
+# Runtime performance investigation — September 5, 2026
+
+The settled portal wide view remains below the 60 fps target. These are short hardware diagnostics, not general performance acceptance. No geometry, density, wind amplitude, shadow content, resolution or budget was reduced.
+
+## Settled world measurement
+
+RTX 5080 through ANGLE D3D11, 1440 × 900 drawing buffer, full default quality, all 144 scatter tiles resident, asset queue and inflight counts zero. Normal simulation ran during each four-second measurement. Screenshots were captured afterward.
+
+| Portal view | Median / p95 RAF interval | Latest whole-render GPU | CPU submission / preparation | Triangles / calls |
+| --- | --- | --- | --- | --- |
+| Wide, pitch 0.48, distance 32 m | 49.9 / 66.7 ms | 46.034 ms | 18.8 / 1.6 ms | 84,360,479 / 2,217 |
+| Steep, pitch 1, distance 14 m | 16.7 / 16.8 ms | 4.807 ms | 9.1 / 1.8 ms | 22,522,701 / 241 |
+
+The steep profile contains 17,718,224 shadow and 4,804,477 colour triangles. The original run recorded only the final steep profile; it does not establish the wide view's pass split. Latest GPU and CPU values are snapshots rather than distributions. Source report and inspected screenshots: `test-results/performance/portal-settled/` (disposable, ignored). The earlier `portal/` report was still streaming and is not the settled comparison.
+
+Stopping rendering for capture had polluted rolling FPS with the stopped interval. `resetFrameTiming()` now clears the measurement window when the loop restarts; a focused test covers a 40-second stopped gap. This fixes measurement, not rendering cost.
+
+## Rejected static-wind experiment
+
+A default-off candidate factored static instance phases out of the wind vertex shader while retaining the exact two-wave displacement. CPU parity and compaction-attribute tests passed. Inspected matched native/candidate screenshots retained detailed leaf geometry. Counts and submitted triangles matched. Hardware timing did not justify the additional buffers and shader complexity:
+
+| Fixture / view | Native GPU | Candidate GPU |
+| --- | --- | --- |
+| Shrub partial view | 1.733 ms | 1.678 ms |
+| Shrub return view | 1.827 ms | 1.853 ms |
+| Fern partial view | 2.333 ms | 2.371 ms |
+| Fern return view | 2.259 ms | 2.405 ms |
+
+The candidate runtime, lab toggle and experiment-specific tests/tool were removed. Its report and screenshots remain in `test-results/performance/static-wind/`. The original tool's `all-visible` pose name was incorrect: camera distance was clamped to 34 m and only a subset was visible. Do not cite that pose as proof of all 1,024 plants visible.
+
+## Current profiling work
+
+Renderer timings now separately sample the real shadow pass and the complete render on alternating frames. WebGL elapsed queries never overlap and unavailable results are not read synchronously. These measurements preserve native shadows. Differences between the separately sampled times are diagnostic estimates, not exact same-frame subtraction.
+
+A subsequent settled run on the same RTX 5080 / 1440 × 900 drawing buffer measured wide median/p95 33.3/33.4 ms, latest whole-render GPU 27.947 ms and shadow GPU 1.916 ms. Its wide profile submitted 66,615,264 colour triangles in 2,087 calls and 17,715,817 shadow triangles in 129 calls. The steep pose measured 16.7/16.8 ms, whole GPU 6.557 ms and shadow GPU 1.889 ms, with 4,769,625 colour and 17,719,088 shadow triangles. Full residency and empty asset queues were verified; both screenshots were inspected. Source evidence is `test-results/performance/portal-shadow-split/`. Other world changes were present between runs, so the difference from the earlier run is not an attributed optimization win. The stable shadow cost across the two views indicates that the expensive wide-view work is predominantly outside the shadow pass.
+
+A proposed scatter depth-order candidate was removed before browser testing. Inspection of the installed THREE r185 `WebGLRenderer.js` lines 1892–1906 showed that its render-list depth already uses each instanced object's bounding-sphere centre transformed into camera space. The initial hypothesis that scatter shared object-origin depth was incorrect; the candidate duplicated the existing renderer behavior. No GPU time was spent comparing identical ordering.
+
+## Confirmed transmission prepass
+
+The next bounded hardware run recorded render-target identities and actual submitted materials. In the wide view, 32,640,010 triangles / 1,043 calls went to the canvas, and another 32,611,356 triangles / 1,036 calls went to an offscreen colour target. Shadows submitted 17,698,124 triangles / 129 calls. The apparent repeated tree draws were the same opaque geometry rendered for THREE's transmission prepass, not transparent back/front foliage passes. The earlier camera-only profiler combined both colour targets; it now reports `colour-offscreen` separately.
+
+The trigger was one actually submitted instance in `entity-batch-64`: `Corealm farm water@capillary-transmission-v2`, transmission 0.94, 22,144 submitted triangles. It was not an empty batch. The steep view had no transmissive candidates and no offscreen colour pass. Latest wide/steep whole GPU times were 24.673/3.724 ms; shadows were 1.841/1.892 ms. Wide median/p95 RAF was 16.7/33.4 ms, so it still does not establish sustained 60 fps. Other asset/world edits were present between diagnostic runs. Both screenshots were inspected; evidence is in `test-results/performance/portal-transmission-diagnosis/`.
+
+The loaded trough material has meaningful refraction: IOR 1.333, thickness 0.12, attenuation distance 0.9. Removing transmission would alter its appearance. THREE's internal transmission target is not exposed through a supported API: it is linear HDR with mipmaps and multisampling, and the prepass disables tone mapping. Exact reuse would require a substantial custom rendering pipeline preserving colour, depth and multisampling. No rendering shortcut has been promoted on this finding.
+
+## Pixel contribution and conservative candidate
+
+A same-tick diagnostic rendered the actual wide view with and without the water batch, then restored it before returning. The two full 1440 × 900 PNGs were byte-equivalent after decoding to RGB: zero changed pixels and maximum channel difference zero. The source is `marchfield_farmstead#trough`, asset `corealm_water_trough`, at `[-92.1, -1.94, -22.8]`. Its water bounds project to approximately x 296.30–302.11, y 162.46–165.68 pixels. Thus the surface submitted geometry but contributed no final pixels in this particular view. This does not establish which occluder covers it or permit hiding it from other viewpoints. Evidence: `test-results/performance/portal-transmission-contribution/`.
+
+The default-off `TransmissionOcclusion` candidate uses asynchronous conservative occlusion queries against a separate depth pass containing immutable terrain chunks only. It tests a padded enclosing box, retains uncertain results, and invalidates on camera, target, terrain or viewport changes. It excludes shadow casters and near-plane-intersecting boxes. Moving foliage never qualifies as a cached occluder. Query cost is inside whole-render GPU timing; query geometry has separate diagnostic counts. The existing colour geometry, native transmission and shadows remain intact. A stationary cache is not a claim of improved moving-camera performance.
+
+The corrected exact `ANY_SAMPLES_PASSED` query brackets only the enclosing-box draw and accepts both boolean and numeric zero results. The padded box supplies the conservative geometry; uncertain or positive results preserve drawing.
+
+`tools/transmission-occlusion-lab-test.ts` passed visible/hidden/return native-trough fixtures using the production gallery's default-zero vertical offset. On RTX 5080 at 1440 × 900, the hidden fixture at offset -3 m produced zero changed RGB channels when the native water was removed in a same-tick comparison. The candidate removed its offscreen pass and reduced latest whole-render GPU from 0.836 to 0.466 ms. Visible and return fixtures each had 8,602 changed RGB channels from the native water, retained the water, and retained the native pass counts. The three candidate screenshots were inspected. These checks establish the isolated behavior; the contribution comparison is not a general pixel comparison between frames with advancing animation. Evidence is in `test-results/performance/transmission-occlusion-lab/`.
+
+The following matched settled world A/B did not improve the wide view. Native and candidate both submitted 32,593,662 canvas triangles, 32,565,008 offscreen colour triangles and 17,693,082 shadow triangles. Latest whole-render GPU was 26.479 versus 26.176 ms, with shadow GPU 1.931 versus 1.831 ms. The terrain-only query returned visible for the padded trough bounds and culled nothing. Although short-sample RAF medians differed, identical submitted work and essentially unchanged GPU cost do not support an optimization claim. The candidate's depth probe submitted 61,100 terrain triangles once at this stationary pose. The steep control retained no offscreen pass and measured 4.461 ms whole GPU. Hardware, drawing buffer and empty asset queues were verified. Evidence is in `test-results/performance/portal-occlusion-ab/`.
+
+The candidate remains disabled for gameplay. Terrain-only enclosing-box occlusion has not solved the world blocker; the actual occluder or the conservatism of the enclosing box remains unresolved. Detailed geometry, transmission response and native shadows remain unchanged.
+
+## Exact native-water diagnostic
+
+An exact source-geometry diagnostic draws the original water batch against the terrain depth buffer, preserving native instance transforms, geometry and batch hooks. It reports visibility without hiding anything. Visible/hidden/return compact fixtures passed with query results 1/0/1 and same-tick contribution of 8,602/0/8,602 changed RGB channels. All three screenshots were inspected and accepted by the root. Evidence is in `test-results/performance/transmission-occlusion-lab-exact/`.
+
+The settled world run then returned 1 for the exact water source against terrain. Thus padding alone does not explain the positive enclosing-box result: terrain does not fully occlude the actual primitive samples. The corrected probe-state snapshot confirms depth testing, LEQUAL, disabled depth writes and four samples during the draw. Native and diagnostic retained identical 32,571,702 canvas, 32,543,048 offscreen and 17,698,910 shadow triangles. Latest GPU snapshots were 25.492 and 29.105 ms; this diagnostic is not an optimization. RTX 5080, 1440 × 900, settled assets and no page errors were verified. The wide screenshot was inspected. This command did not repeat the earlier final-image contribution comparison. Evidence is in `test-results/performance/portal-exact-water-probe/`.
+
+The remaining occluder diagnosis is the actual opaque trough shell or other immutable solids. Moving leaves cannot supply cached visibility proof. Neither query mode is enabled in normal gameplay.
+
+The diagnostic now accepts explicitly whitelisted native opaque trough batches. Every visible owner must be `corealm_water_trough`; instance transforms, owner IDs and geometry revisions invalidate results. It draws the actual timber and metal materials with their native alpha, sidedness and depth behavior, disabling only colour writes. The compact shell test passed visible/low-angle-hidden/terrain-hidden/return with query results 1/0/0/1 and changed RGB channels 8,602/0/0/8,602. Both actual shell batches submitted 13,856 triangles against 18,432 terrain triangles. All four screenshots were inspected. The low-angle view does not independently distinguish shell occlusion from native water backface culling; it establishes agreement between the diagnostic and final pixel contribution. Evidence is in `test-results/performance/transmission-occlusion-lab-exact-shell/`. World shell testing remains pending root review and a serial GPU lease.
+
+The subsequent settled world shell run returned query 1 while a repeated same-tick final-image comparison found zero changed pixels and maximum channel difference zero. However, only the metal batch qualified: 2,776 opaque triangles from `entity-batch-63`. The timber batch shares its material with other assets in the world and was excluded by the strict whole-batch whitelist. This result therefore does not rule out native timber-shell occlusion. Native and diagnostic both submitted 32,490,373 canvas triangles / 1,039 calls, 32,461,719 offscreen triangles / 1,032 calls and 17,699,510 shadow triangles / 127 calls. Latest GPU times were 23.828/23.854 ms. RTX 5080, 1440 × 900, settled assets and no page errors were verified; the wide screenshot was inspected. No geometry was culled. Evidence is in `test-results/performance/portal-exact-shell-probe/`. A native per-instance subset is needed to include the actual timber shell while continuing to exclude unrelated owners.
+
+The native subset diagnostic passed its mixed-material lab. A `corealm_feed_trough` companion shares both opaque batches with the water trough. Each batch reported two visible instances before the depth draw, one permitted trough instance during it, and two afterward. Only 13,856 native shell triangles were submitted. The companion remained present in all four inspected screenshots. Queries were 1/0/0/1 and RGB contribution 8,602/0/0/8,602 for visible/low-hidden/terrain-hidden/return. No diagnostic or page errors occurred. Evidence is in `test-results/performance/transmission-occlusion-lab-exact-shell-mixed/`. Focused tests cover restoration after throwing hooks, query cleanup, fail-open normal rendering, deleted instance holes and reused IDs. The candidate remains disabled and the world subset run is pending.
+
+The accepted subset then ran in the settled world. Both timber and metal contributed the complete 13,856 shell triangles. The timber batch restored visible counts 2 → 1 → 2; metal remained 1 → 1 → 1. Nevertheless the exact water query returned 1, while the same-tick final-image comparison again found zero changed pixels and maximum channel difference zero. Terrain plus native shell therefore does not fully occlude the water samples. Native and diagnostic pass counts were identical: canvas 32,489,967 triangles / 1,039 calls, offscreen 32,461,313 / 1,032, shadow 17,699,510 / 127. Latest GPU snapshots were 28.271/26.769 ms, with no culling or attributed performance gain. Hardware was RTX 5080 at 1440 × 900, assets settled, no page or diagnostic errors. The wide screenshot was inspected. Manifest SHA256 during the run was `A2125D85419BC48999768F9ECDA31BC7BD7667765A296926B15B2DA5A99350A1`. Evidence is in `test-results/performance/portal-exact-shell-subset/`. The actual remaining occluder is unresolved; normal gameplay keeps the candidate disabled.
+
+## Contained-water art candidate
+
+The root authorized an explicit opaque PBR alternative for contained trough water, preserving its original source as the baseline. This is an appearance change, not pixel parity with physical transmission. The opt-in candidate retains exact geometry and vertex normals/colours, uses colour `#28413b`, transmission 0, roughness 0.16, IOR 1.333, clearcoat 0.6, clearcoat roughness 0.12 and environment intensity 1. Source assets and ocean/fishing water remain unchanged.
+
+The near/normal/low lab passed material restoration and geometry-identity checks. All six comparison images plus the restored-native image were inspected. Normal view reads as dark water with strong reflected ripples; the near view is very dark and no longer shows the trough bottom. The candidate removed all offscreen calls while retaining exact canvas/shadow triangle counts. Latest native/candidate GPU times were near 1.281/2.198 ms, normal 2.207/3.490 ms and low 2.304/2.150 ms. These compact snapshots do not establish a speed improvement. Restored material identity and appearance were checked, but restored GPU time was not separately measured. Root visual acceptance and a later world measurement remain pending. Candidate default is off. Evidence is in `test-results/performance/contained-trough-water-lab/`.

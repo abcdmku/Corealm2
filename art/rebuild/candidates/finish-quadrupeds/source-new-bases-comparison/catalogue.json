@@ -1,0 +1,244 @@
+{
+  "packs": [
+    {
+      "id": "gonsplitters-badger-provisional-source-review",
+      "name": "Gonsplitters Badger provisional rights source review",
+      "author": "Miguel Zavala (mz4250), mesh attributed by Gonsplitters; texture/package Gonsplitters",
+      "source": "https://thunderstore.io/c/talespire/p/Gonsplitters/Gonsplitters_Beasts_Collection/",
+      "license": "CC-BY-SA-4.0 declared by redistribution publisher; exact original creator grant UNVERIFIED"
+    },
+    {
+      "id": "lyndon-realtime-ranchers-cc0",
+      "name": "Realtime Rancher horse",
+      "author": "Lyndon Daniels",
+      "source": "https://opengameart.org/content/realtime-ranchers-3d-model-pack",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "p0ss-sheep2-static-review",
+      "name": "p0ss Sheep 2 complete static base review",
+      "author": "p0ss",
+      "source": "https://opengameart.org/content/sheep-rigged-textured-and-animated",
+      "license": "CC-BY-SA-3.0"
+    }
+  ],
+  "assets": [
+    {
+      "id": "creature_rootdelve_badger",
+      "file": "models/creature/creature_rootdelve_badger.glb",
+      "pack": "gonsplitters-badger-provisional-source-review",
+      "category": "character",
+      "is": "complete original Badger static source review; PROVISIONAL RIGHTS: publisher declares CC-BY-SA4, exact original creator grant unverified; material-v2 corrects lost smoothness inversion",
+      "tags": [
+        "badger",
+        "original-source",
+        "whole-body-evaluation",
+        "static-preview",
+        "provisional-rights"
+      ],
+      "bytes": 3511656,
+      "sha256": "addd10e790b62aa1350cb0cbdc1b23090ecd488dc4da3d42d7c2311145d3dfa8",
+      "size": {
+        "x": 0.3978798363675895,
+        "y": 0.3499999999999999,
+        "z": 0.6656602246574949
+      },
+      "base": {
+        "x": -0.19893991818379475,
+        "y": 0,
+        "z": -0.33283011232874743
+      },
+      "bounds": {
+        "min": [
+          -0.19893991818379475,
+          0,
+          -0.33283011232874743
+        ],
+        "max": [
+          0.19893991818379478,
+          0.3499999999999999,
+          0.33283011232874743
+        ]
+      },
+      "groundY": 0,
+      "triangles": 49976,
+      "animations": [],
+      "materials": [
+        "Source_Unity_Standard_translated"
+      ],
+      "sourceProvenance": {
+        "author": "Miguel Zavala (mz4250), mesh attributed by Gonsplitters; texture/package Gonsplitters",
+        "source": "https://thunderstore.io/c/talespire/p/Gonsplitters/Gonsplitters_Beasts_Collection/",
+        "download": "https://thunderstore.io/package/download/Gonsplitters/Gonsplitters_Beasts_Collection/1.0.3/",
+        "license": "CC-BY-SA-4.0 declared by redistribution publisher; exact original creator grant UNVERIFIED",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+        "originalCreatorPage": "https://thangs.com/designer/mz4250/3d-model/Badger-18694",
+        "originalCreatorLicenseVerified": false,
+        "commercialClearance": "provisional, do not publish as cleared",
+        "sourceSha256": "ef00545e513c4b3008947418b784f22288cc9a654234591bda456fd1a94f0e86",
+        "rawPreviewSha256": "8d3371eb6f828555a31d93e871812ceac5193eab9d926acd810e093d753cc2fb",
+        "sourceNativeActions": [],
+        "adaptationPerformed": false
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false,
+        "originalCreatorGrantVerified": false
+      }
+    },
+    {
+      "id": "creature_marchwild_horse",
+      "file": "models/creature/creature_marchwild_horse.glb",
+      "pack": "lyndon-realtime-ranchers-cc0",
+      "category": "character",
+      "is": "wild horse",
+      "tags": [
+        "animal",
+        "hoofed",
+        "horse",
+        "complete-source",
+        "static",
+        "cc0"
+      ],
+      "bytes": 17538080,
+      "sha256": "cdf4f716f7bd1a980814c53ed9fa81d28e016e2e316ed3f319982d7e3cbce782",
+      "size": {
+        "x": 0.9703096455174851,
+        "y": 2.399999687586625,
+        "z": 3.621283668852593
+      },
+      "base": {
+        "x": -0.4851537040401581,
+        "y": 4.605924419642804e-8,
+        "z": -1.8106417863700888
+      },
+      "bounds": {
+        "min": [
+          -0.4851537040401581,
+          4.605924419642804e-8,
+          -1.8106417863700888
+        ],
+        "max": [
+          0.485155941477327,
+          2.399999733645869,
+          1.810641882482504
+        ]
+      },
+      "groundY": 4.605924419642804e-8,
+      "triangles": 14986,
+      "animations": [],
+      "materials": [
+        "Material.003_Hair12Main2k.png",
+        "Material_HorseMain4k00.png",
+        "Eye_brown"
+      ],
+      "sourceProvenance": {
+        "author": "Lyndon Daniels",
+        "source": "https://opengameart.org/content/realtime-ranchers-3d-model-pack",
+        "license": "CC0-1.0",
+        "originalFiles": [
+          "horse.zip",
+          "original/horse/LD_HorseRtime02.obj"
+        ],
+        "licenseEvidence": [
+          "ranchers.html",
+          "LICENSE.md"
+        ]
+      },
+      "reviewOnly": true,
+      "skinned": false
+    },
+    {
+      "id": "creature_cairn_bighorn",
+      "file": "models/creature/creature_cairn_bighorn.glb",
+      "pack": "p0ss-sheep2-static-review",
+      "category": "character",
+      "is": "Sheep 2 complete body base; possible Bighorn adaptation",
+      "tags": [
+        "animal",
+        "sheep",
+        "complete-source-body",
+        "static-source-review"
+      ],
+      "bytes": 1482428,
+      "sha256": "0eea803627badc84f642bbd3a5508b06604d9ba9bbd3f80e93f0ee85db79b9b1",
+      "size": {
+        "x": 0.40255071138948634,
+        "y": 0.9500000000000001,
+        "z": 1.236859701185623
+      },
+      "base": {
+        "x": -0.20127535569474317,
+        "y": 0,
+        "z": -0.6184298505928115
+      },
+      "bounds": {
+        "min": [
+          -0.20127535569474317,
+          0,
+          -0.6184298505928115
+        ],
+        "max": [
+          0.20127535569474317,
+          0.9500000000000001,
+          0.6184298505928115
+        ]
+      },
+      "groundY": 0,
+      "animations": [],
+      "triangles": 2940,
+      "static": true,
+      "accepted": false,
+      "sourceProvenance": {
+        "source": "https://opengameart.org/content/sheep-rigged-textured-and-animated",
+        "author": "p0ss",
+        "license": "CC-BY-SA-3.0",
+        "attribution": "Sheep by p0ss; source boar texture photograph by titus tscharntke.",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "rawStaticFile": "p0ss-sheep2-static.glb",
+        "rawStaticSha256": "65360a465086786d9eb212057782d6c252fae58ed31fa27063ff95ebf772f68b",
+        "uniformWrapperScale": 0.5198992296085831,
+        "geometryShapeModified": false,
+        "changes": [
+          "Rest-pose static bake of original Sheep 2",
+          "Original packed diffuse relinked",
+          "Rigid heading/ground alignment",
+          "Uniform root wrapper to 0.95 m height"
+        ]
+      }
+    }
+  ],
+  "files": {
+    "creature_rootdelve_badger": "creature_rootdelve_badger.addd10e790b6.glb",
+    "creature_marchwild_horse": "creature_marchwild_horse.cdf4f716f7bd.glb",
+    "creature_cairn_bighorn": "creature_cairn_bighorn.0eea803627ba.glb"
+  },
+  "origins": [
+    {
+      "slot": "creature_rootdelve_badger",
+      "catalogue": "source-badger/candidate-catalogue-material-v2.json",
+      "catalogueSha256": "d93b4497e68e91cd40eb9066fe34b2b518f37144785932c24baf9af6787e6b13",
+      "sha256": "addd10e790b62aa1350cb0cbdc1b23090ecd488dc4da3d42d7c2311145d3dfa8",
+      "sourceDescription": "complete original Badger static source review; PROVISIONAL RIGHTS: publisher declares CC-BY-SA4, exact original creator grant unverified; material-v2 corrects lost smoothness inversion",
+      "rightsStatus": "Provisional. Redistribution publisher declares CC-BY-SA4; exact original creator grant remains unverified. No promotion or deep derivative."
+    },
+    {
+      "slot": "creature_marchwild_horse",
+      "catalogue": "source-hoofed/review-catalogue.json",
+      "catalogueSha256": "e63635b25aa537b1c4d16679faef02e42beeeacb337199f10c149f0d6e39b24c",
+      "sha256": "cdf4f716f7bd1a980814c53ed9fa81d28e016e2e316ed3f319982d7e3cbce782",
+      "sourceDescription": "wild horse",
+      "rightsStatus": "See original source attribution and license records."
+    },
+    {
+      "slot": "creature_cairn_bighorn",
+      "catalogue": "source-caprine-free/review-catalogue.json",
+      "catalogueSha256": "d15b7083e73c0845439a1ffd739aa9f010b1023a4b1713591d39cb40319a0767",
+      "sha256": "0eea803627badc84f642bbd3a5508b06604d9ba9bbd3f80e93f0ee85db79b9b1",
+      "sourceDescription": "Sheep 2 complete body base; possible Bighorn adaptation",
+      "rightsStatus": "See original source attribution and license records."
+    }
+  ],
+  "scope": "Frozen complete-source selection only. Badger has corrected material channels but provisional original-creator rights. Horse is the complete CC0 source. Sheep 2 is a CC-BY-SA3 sheep base in the Bighorn slot, without horns or species adaptation. All three are static, with zero skins/actions in these preview exports. Four geometry views each; no motion, lifecycle, finished-species or promotion acceptance."
+}

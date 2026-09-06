@@ -1,0 +1,57 @@
+[
+  {
+    "id": "troll_mauler",
+    "glbSha256": "cda6ef873f20ac7e06d851d48f8c71c9dca0ecaf58636a504847f2f96e694278",
+    "passed": true,
+    "weightedVertices": 3625,
+    "lowestY": 0.0009365959101672594,
+    "maxBoundsDifference": 0,
+    "samples": [
+      {
+        "clip": "Attack",
+        "minimumY": 0.0009987761128475992,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.000999926948934693,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0009994359863958469,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0009990819219189984,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0009990860803605894,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Idle",
+        "minimumY": 0.000999362566433959,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0009365959101672594,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.000999999959768072,
+        "maxBoundsDifference": 0
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  }
+]

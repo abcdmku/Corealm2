@@ -1,0 +1,35 @@
+{
+  "source": "../v6/provenance.json",
+  "sourceSha256": "4c9949fda418cf3e68fe86a573fc0d2d86f965ccd4d887bd9a9a621bfcbc3ae3",
+  "method": "V6 source-derived periodic relief geometry unchanged. Scene metadata selects continuous global sampling-coordinate warp at runtime. No independent panel offsets or added geometric noise. Amplitude remains inside original source bounds.",
+  "derived": {
+    "id": "cave_rock_face_01",
+    "file": "models/cave/rock-face-01.glb",
+    "pack": "polyhaven-rock-face-01",
+    "category": "rock",
+    "is": "cave-facing",
+    "tags": [
+      "cave",
+      "rock",
+      "scan",
+      "strata"
+    ],
+    "bytes": 2734132,
+    "sha256": "2dae909dde94c9df91d3b28b9c1e82268af2d73dc9615734173b1ad281d27557",
+    "size": {
+      "x": 3,
+      "y": 2.6,
+      "z": 0.44936636644948663
+    },
+    "base": {
+      "x": -1.5,
+      "y": 0,
+      "z": 0
+    },
+    "triangles": 7168,
+    "animations": [],
+    "materials": [
+      "Poly Haven Rock Face 01 front-envelope"
+    ]
+  }
+}

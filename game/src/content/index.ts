@@ -151,6 +151,8 @@ export interface SpellDef {
 // ------------------------------------------------------------------ enemies
 
 export interface EnemyDef {
+  attackStyle?: "melee" | "ranged" | "magic";
+  attackRangeM?: number;
   id: string;
   name: string;
   family: string;

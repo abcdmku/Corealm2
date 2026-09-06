@@ -1,0 +1,5 @@
+{
+  "output": "fox-reach-comparison",
+  "inputs": [["source-fox-adaptation/reach-prototype-catalogue.json", "creature_redbrush_fox"]],
+  "scope": "Frozen licensed Fox source adaptation with connected reshaped paws and newly authored source-rig locomotion. Survey is retained; Walk/Run are corrected source-derived motions, with Run intentionally changed to a 0.55 second cycle. Native source motion is preserved separately. CPU contact is measured but hardware shape, cadence and deformation remain unaccepted. Attack, hit and death are absent. No promotion acceptance."
+}

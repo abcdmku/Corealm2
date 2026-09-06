@@ -1,4 +1,4 @@
-import type { AudioBus, AudioCueId, AudioVolumes } from "../contracts.js";
+import type { AudioBus, AudioCueId, AudioVolumes, Vec3 } from "../contracts.js";
 import type { AudioCatalog, AudioCueDefinition, AudioLoopDefinition, AudioVariant } from "./catalog.js";
 
 const BUS_IDS: readonly AudioBus[] = ["music", "ambient", "sfx"];
@@ -36,6 +36,9 @@ export interface AudioEngineOptions {
 export interface PlayCueOptions {
   gain?: number;
   playbackRate?: number;
+  /** World source position. UI and player contact cues omit it and remain centred. */
+  position?: Vec3;
+  maxDistance?: number;
 }
 
 export interface StartLoopOptions {
@@ -81,6 +84,7 @@ interface ActiveVoice {
   source: AudioBufferSourceNode;
   gain: GainNode;
   generation: number;
+  panner: PannerNode | null;
 }
 
 interface PendingLoopStart {
@@ -123,6 +127,27 @@ export class AudioEngine {
   private loopToken = 0;
   private unlocked = false;
   private disposed = false;
+  private listenerPosition: Vec3 = [0, 0, 0];
+  private listenerForward: Vec3 = [0, 0, -1];
+
+  setListenerPose(position: Vec3, forward: Vec3 = [0, 0, -1]): void {
+    if (this.disposed || !position.every(Number.isFinite) || !forward.every(Number.isFinite)) return;
+    this.listenerPosition = [...position];
+    const length = Math.hypot(...forward);
+    if (length > 0.001) this.listenerForward = [forward[0] / length, forward[1] / length, forward[2] / length];
+    this.applyListenerPose();
+  }
+
+  private applyListenerPose(): void {
+    const listener = this.context?.listener;
+    if (!listener || !this.context) return;
+    const at = this.context.currentTime;
+    const [x, y, z] = this.listenerPosition;
+    const [fx, fy, fz] = this.listenerForward;
+    listener.positionX.setValueAtTime(x, at); listener.positionY.setValueAtTime(y, at); listener.positionZ.setValueAtTime(z, at);
+    listener.forwardX.setValueAtTime(fx, at); listener.forwardY.setValueAtTime(fy, at); listener.forwardZ.setValueAtTime(fz, at);
+    listener.upX.setValueAtTime(0, at); listener.upY.setValueAtTime(1, at); listener.upZ.setValueAtTime(0, at);
+  }
   private historySequence = 0;
 
   constructor(private readonly catalog: AudioCatalog, options: AudioEngineOptions = {}) {
@@ -251,6 +276,7 @@ export class AudioEngine {
     const context = this.context;
     let source: AudioBufferSourceNode | null = null;
     let voiceGain: GainNode | null = null;
+    let panner: PannerNode | null = null;
     let voice: ActiveVoice | null = null;
     let pending = true;
     try {
@@ -262,9 +288,22 @@ export class AudioEngine {
         finiteOr(definition.gain, 1) * finiteOr(variant.gain, 1) * finiteOr(options.gain, 1),
       );
       source.connect(voiceGain);
-      voiceGain.connect(this.requireBus("sfx"));
+      if (options.position?.every(Number.isFinite)) {
+        panner = context.createPanner();
+        panner.panningModel = "HRTF";
+        panner.distanceModel = "linear";
+        panner.refDistance = 1;
+        panner.maxDistance = Math.max(1.01, positiveFinite(options.maxDistance ?? 34, 34));
+        panner.rolloffFactor = 1;
+        panner.positionX.value = options.position[0];
+        panner.positionY.value = options.position[1];
+        panner.positionZ.value = options.position[2];
+        this.applyListenerPose();
+        voiceGain.connect(panner);
+        panner.connect(this.requireBus("sfx"));
+      } else voiceGain.connect(this.requireBus("sfx"));
 
-      voice = { cue, source, gain: voiceGain, generation };
+      voice = { cue, source, gain: voiceGain, generation, panner };
       let ended = false;
       const finish = (): void => {
         if (ended) return;
@@ -273,6 +312,7 @@ export class AudioEngine {
         if (generation === this.oneShotGeneration) this.decrementCueReservation(cue);
         disconnect(source);
         disconnect(voiceGain);
+        disconnect(panner);
       };
       source.onended = finish;
       this.pendingOneShots -= 1;
@@ -288,6 +328,7 @@ export class AudioEngine {
       stopSource(source);
       disconnect(source);
       disconnect(voiceGain);
+      disconnect(panner);
       this.report({ kind: "playback-failed", message: `Could not play cue ${cue}.`, name: cue, cause });
       return false;
     }
@@ -359,6 +400,7 @@ export class AudioEngine {
       stopSource(voice.source);
       disconnect(voice.source);
       disconnect(voice.gain);
+      disconnect(voice.panner);
     }
     this.activeVoices.clear();
     this.pendingOneShots = 0;
@@ -413,7 +455,12 @@ export class AudioEngine {
     this.desiredLoops.clear();
     this.pendingLoopStarts.clear();
 
-    for (const voice of [...this.activeVoices]) stopSource(voice.source);
+    for (const voice of [...this.activeVoices]) {
+      stopSource(voice.source);
+      disconnect(voice.source);
+      disconnect(voice.gain);
+      disconnect(voice.panner);
+    }
     for (const active of this.activeLoops.values()) stopSource(active.source);
     for (const source of this.fadingLoops) stopSource(source);
     this.activeVoices.clear();

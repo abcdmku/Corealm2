@@ -1,0 +1,211 @@
+{
+  "animationCount": 0,
+  "categories": [
+    {
+      "uid": "ed9e048550b2478eb1ab2faaba192832",
+      "name": "Animals & Pets",
+      "slug": "animals-pets",
+      "uri": "https://api.sketchfab.com/v3/categories/ed9e048550b2478eb1ab2faaba192832",
+      "icon": "https://static.sketchfab.com/static/builds/web/dist/static/assets/images/icons/categories/926733e187aa5a479aedd2581bffb3ea-v2.svg",
+      "thumbnails": [
+        {
+          "width": "512",
+          "height": "288",
+          "url": "https://static.sketchfab.com/categories/ed9e048550b2478eb1ab2faaba192832/512x288.png"
+        },
+        {
+          "width": "800",
+          "height": "450",
+          "url": "https://static.sketchfab.com/categories/ed9e048550b2478eb1ab2faaba192832/800x450.png"
+        }
+      ]
+    },
+    {
+      "uid": "2d643ff5ed03405b9c34ecdffff9d8d8",
+      "name": "Characters & Creatures",
+      "slug": "characters-creatures",
+      "uri": "https://api.sketchfab.com/v3/categories/2d643ff5ed03405b9c34ecdffff9d8d8",
+      "icon": "https://static.sketchfab.com/static/builds/web/dist/static/assets/images/icons/categories/f778c3dbe6efa00a06c257762c0e27ef-v2.svg",
+      "thumbnails": [
+        {
+          "width": "512",
+          "height": "288",
+          "url": "https://static.sketchfab.com/categories/2d643ff5ed03405b9c34ecdffff9d8d8/512x288.png"
+        },
+        {
+          "width": "800",
+          "height": "450",
+          "url": "https://static.sketchfab.com/categories/2d643ff5ed03405b9c34ecdffff9d8d8/800x450.png"
+        }
+      ]
+    }
+  ],
+  "commentCount": 0,
+  "createdAt": "2026-04-04T09:46:13.738635",
+  "embedUrl": "https://sketchfab.com/models/170affbe949e4bd2adfbc2ce9cbc4c4f/embed",
+  "faceCount": 9643,
+  "isAgeRestricted": false,
+  "license": {
+    "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+    "label": "CC Attribution",
+    "fullName": "Creative Commons Attribution",
+    "requirements": "Author must be credited. Commercial use is allowed.",
+    "url": "http://creativecommons.org/licenses/by/4.0/",
+    "slug": "by"
+  },
+  "likeCount": 5,
+  "name": "Prismatic Porcupine Low Poly 3d Model",
+  "publishedAt": "2026-04-10T08:45:57.391411",
+  "soundCount": 0,
+  "staffpickedAt": null,
+  "tags": [
+    {
+      "name": "spikes",
+      "slug": "spikes",
+      "uri": "https://api.sketchfab.com/v3/tags/spikes"
+    },
+    {
+      "name": "fur",
+      "slug": "fur",
+      "uri": "https://api.sketchfab.com/v3/tags/fur"
+    },
+    {
+      "name": "Wildlife",
+      "slug": "wildlife",
+      "uri": "https://api.sketchfab.com/v3/tags/wildlife"
+    },
+    {
+      "name": "colorful",
+      "slug": "colorful",
+      "uri": "https://api.sketchfab.com/v3/tags/colorful"
+    },
+    {
+      "name": "Porcupine",
+      "slug": "porcupine",
+      "uri": "https://api.sketchfab.com/v3/tags/porcupine"
+    },
+    {
+      "name": "prismatic",
+      "slug": "prismatic",
+      "uri": "https://api.sketchfab.com/v3/tags/prismatic"
+    },
+    {
+      "name": "art",
+      "slug": "art",
+      "uri": "https://api.sketchfab.com/v3/tags/art"
+    },
+    {
+      "name": "animal",
+      "slug": "animal",
+      "uri": "https://api.sketchfab.com/v3/tags/animal"
+    },
+    {
+      "name": "stylized",
+      "slug": "stylized",
+      "uri": "https://api.sketchfab.com/v3/tags/stylized"
+    },
+    {
+      "name": "fantasy",
+      "slug": "fantasy",
+      "uri": "https://api.sketchfab.com/v3/tags/fantasy"
+    }
+  ],
+  "thumbnails": {
+    "images": [
+      {
+        "uid": "ca429668ea234bb59e2c81fa9413913d",
+        "width": 1920,
+        "height": 1080,
+        "size": 123149,
+        "url": "https://media.sketchfab.com/models/170affbe949e4bd2adfbc2ce9cbc4c4f/thumbnails/cf85f9c4ae534b68b6b999003e5a252e/155e63ec086742478cabe85da6136544.jpeg"
+      },
+      {
+        "uid": "992cdcd5a842427ab44dffb986cbc05a",
+        "width": 1024,
+        "height": 576,
+        "size": 37424,
+        "url": "https://media.sketchfab.com/models/170affbe949e4bd2adfbc2ce9cbc4c4f/thumbnails/cf85f9c4ae534b68b6b999003e5a252e/619b324791ff4a9a86b65c51fb080749.jpeg"
+      },
+      {
+        "uid": "4b431761f6a2415990870a9386c0eab6",
+        "width": 720,
+        "height": 405,
+        "size": 20153,
+        "url": "https://media.sketchfab.com/models/170affbe949e4bd2adfbc2ce9cbc4c4f/thumbnails/cf85f9c4ae534b68b6b999003e5a252e/7a4a0130c4e44ab08fbf3654a8a74a87.jpeg"
+      },
+      {
+        "uid": "c70334068e11417abddcefbd4b7f2bcd",
+        "width": 256,
+        "height": 144,
+        "size": 3493,
+        "url": "https://media.sketchfab.com/models/170affbe949e4bd2adfbc2ce9cbc4c4f/thumbnails/cf85f9c4ae534b68b6b999003e5a252e/9104f3dfef6e4d7484232a70dcd897d4.jpeg"
+      },
+      {
+        "uid": "78eb977331784e4e8ba85abee2ec92ea",
+        "width": 64,
+        "height": 36,
+        "size": 953,
+        "url": "https://media.sketchfab.com/models/170affbe949e4bd2adfbc2ce9cbc4c4f/thumbnails/cf85f9c4ae534b68b6b999003e5a252e/e5feda40a5d343b9be96e0196458c8ed.jpeg"
+      }
+    ]
+  },
+  "uid": "170affbe949e4bd2adfbc2ce9cbc4c4f",
+  "uri": "https://api.sketchfab.com/v3/models/170affbe949e4bd2adfbc2ce9cbc4c4f",
+  "user": {
+    "uid": "19582ce57059454484f1d648cc3358b5",
+    "username": "rt699448",
+    "displayName": "iRahulRajput",
+    "account": "basic",
+    "profileUrl": "https://sketchfab.com/rt699448",
+    "avatar": {
+      "uid": "1e0c6525f9a94071b9f6191153fb15e7",
+      "uri": "https://api.sketchfab.com/v3/avatars/1e0c6525f9a94071b9f6191153fb15e7",
+      "images": [
+        {
+          "width": 32,
+          "height": 32,
+          "size": 1063,
+          "url": "https://media.sketchfab.com/avatars/1e0c6525f9a94071b9f6191153fb15e7/5fbc88a5b3444533b62c14ce2127754b.jpeg"
+        },
+        {
+          "width": 48,
+          "height": 48,
+          "size": 1487,
+          "url": "https://media.sketchfab.com/avatars/1e0c6525f9a94071b9f6191153fb15e7/546586c697ec43028150dc9ab59f7e20.jpeg"
+        },
+        {
+          "width": 90,
+          "height": 90,
+          "size": 3380,
+          "url": "https://media.sketchfab.com/avatars/1e0c6525f9a94071b9f6191153fb15e7/32b6d484942a4619ba13e4be743830c7.jpeg"
+        },
+        {
+          "width": 100,
+          "height": 100,
+          "size": 3898,
+          "url": "https://media.sketchfab.com/avatars/1e0c6525f9a94071b9f6191153fb15e7/7e522f6026ad486fbd6e730abf3396fa.jpeg"
+        }
+      ]
+    },
+    "uri": "https://api.sketchfab.com/v3/users/19582ce57059454484f1d648cc3358b5"
+  },
+  "vertexCount": 4840,
+  "viewCount": 554,
+  "viewerUrl": "https://sketchfab.com/3d-models/prismatic-porcupine-low-poly-3d-model-170affbe949e4bd2adfbc2ce9cbc4c4f",
+  "isDownloadable": true,
+  "isProtected": false,
+  "description": "Prismatic Porcupine 3d model Free\nLow Poly",
+  "price": null,
+  "downloadCount": 80,
+  "editorUrl": "https://sketchfab.com/models/170affbe949e4bd2adfbc2ce9cbc4c4f/edit",
+  "status": {
+    "warning": {},
+    "processing": "SUCCEEDED"
+  },
+  "source": "unknown",
+  "hasCommentsDisabled": false,
+  "updatedAt": "2026-04-10T08:45:57.532869",
+  "pbrType": "metalness",
+  "textureCount": 4,
+  "materialCount": 1
+}

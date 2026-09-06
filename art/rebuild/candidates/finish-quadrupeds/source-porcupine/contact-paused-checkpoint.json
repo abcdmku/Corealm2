@@ -1,0 +1,42 @@
+{
+  "status": "PAUSED_AT_USER_REQUEST",
+  "releaseReady": false,
+  "latestCandidate": {
+    "file": "cdmir-porcupine-contact-stance-v6.glb",
+    "bytes": 11107552,
+    "sha256": "4c3df795a63310aa35eee5f5c6d47e888abed93989e334bd6b14aca3faaa5b09",
+    "sourceProof": "contact-source-stance-v6.json",
+    "sourceMetrics": "contact-source-metrics-stance-v6.json",
+    "uniformReadback": "contact-stance-v6-readback.json",
+    "exportReport": "contact-stance-v6-export.json"
+  },
+  "implemented": [
+    "Separate original-source IK repair for Walk and Run; native poles and measured segment lengths preserved.",
+    "Unchanged torso controls, mesh topology, original skin weights, inverse binds and all 13 native clip identities.",
+    "Original toe support at fixed controller speeds: Walk 0.32 m/s and Run 1 m/s.",
+    "Five-degree hind paw roll and two-degree Run forepaw roll to clear mixed lower-leg heel skin through articulation.",
+    "Continuous airborne vertical landing blend; original evaluated weighted-foot height arcs around Run flight boundaries.",
+    "Direct support-pose transfer through the brief Run forefoot air gap, with longer approach to the first short contact.",
+    "Absolute source limb rebake at 1200 Hz; affected corrective vertices rebaked from species-adapted evaluated source positions.",
+    "Lossless removal of unused replaced animation data and sharing of identical accessors brings the candidate below 12 MB."
+  ],
+  "passingSourceEvidence": {
+    "sourceSolverBoundFailures": 0,
+    "maximumTargetShiftMeters": {"Walk": 0.06810829108803547, "Run": 0.08298988363210093},
+    "maximumSegmentLengthChangeMeters": {"Walk": 0.00000007313781406961626, "Run": 0.0000000958230982220434},
+    "protectedTorsoMatrixDelta": 0
+  },
+  "unresolved": [
+    "Full XYZ near-ground velocity FAILS on independently checked V5: Walk 0.260057 m/s and Run 1.171265 m/s, mostly downward landing velocity inside the 0.501-mm contact band. See contact-independent-stance-v5-xyz.json. Earlier XZ-only passing figures are not canonical acceptance. V6 has no full-XYZ acceptance proof.",
+    "V6 source temporal audit finds Run front-left toe recovery speed up to 8.0736 m/s, versus 2.3408 m/s in the original source. The remaining short post-stance transfer is too fast.",
+    "A proposed 0.10-cycle airborne transfer for all limbs has NOT been implemented or run. No V7 exists.",
+    "No contact candidate has hardware acceptance. Do not promote these files or replace the frozen review candidate."
+  ],
+  "preservedFrozenHashes": {
+    "cdmir-rat-original.blend": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+    "cdmir-rat-native.glb": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047",
+    "cdmir-porcupine-normalized.glb": "3cbfb186bc81e5a6d3070eb032b9e8937f2dedff42de1debd54ba09433a29cf3"
+  },
+  "processes": "No owned Blender or export process remains running.",
+  "resumeEntryPoint": "Read this checkpoint, parent contact-independent reports and contact-source-stance.py. Resolve full-XYZ landing/contact semantics and excessive airborne recovery speed before another candidate or hardware review."
+}

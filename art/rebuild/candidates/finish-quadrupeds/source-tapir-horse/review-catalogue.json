@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "scope": "Static source review only. CPU review is not acceptance. Head/body proportions remain a concern.",
+  "assets": [
+    {
+      "id": "creature_bracken_tapir",
+      "file": "models/creature/creature_bracken_tapir.glb",
+      "pack": "lyndon-source-tapir-adaptation",
+      "category": "character",
+      "is": "tapir source adaptation",
+      "tags": [
+        "tapir",
+        "complete-source",
+        "static",
+        "cc0"
+      ],
+      "bytes": 2645832,
+      "sha256": "4c98b1920aa1dae31d15b2b614d51d34e351308f0594ea4ebf1e245fa57b6f2a",
+      "size": {
+        "x": 0.7463277578353882,
+        "y": 1.1609769801143557,
+        "z": 1.975159764289856
+      },
+      "base": {
+        "x": -0.3731625974178314,
+        "y": 0.0020000000949949026,
+        "z": -0.8339473009109497
+      },
+      "bounds": {
+        "min": [
+          -0.3731625974178314,
+          0.0020000000949949026,
+          -0.8339473009109497
+        ],
+        "max": [
+          0.37316516041755676,
+          1.1629769802093506,
+          1.1412124633789062
+        ]
+      },
+      "groundY": 0.0020000000949949026,
+      "triangles": 29662,
+      "animations": [],
+      "reviewOnly": true,
+      "skinned": false,
+      "sourceProvenance": {
+        "author": "Lyndon Daniels",
+        "rigAuthor": "ChadM",
+        "source": "https://opengameart.org/content/realtime-ranchers-3d-model-pack",
+        "nativeRigSource": "https://opengameart.org/content/rigged-horse",
+        "license": "CC0-1.0",
+        "sourceSha256": "9cca670b93a74d50e89263e50d55ab035a6c46aa7d2b21e354bdac6987037f4a"
+      }
+    }
+  ],
+  "files": {
+    "creature_bracken_tapir": "tapir-source-static.glb"
+  },
+  "pack": {
+    "id": "lyndon-source-tapir-adaptation",
+    "name": "CC0 horse body adapted to tapir",
+    "author": "Lyndon Daniels",
+    "source": "https://opengameart.org/content/realtime-ranchers-3d-model-pack",
+    "license": "CC0-1.0"
+  }
+}

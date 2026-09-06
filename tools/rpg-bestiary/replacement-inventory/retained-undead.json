@@ -1,0 +1,123 @@
+{
+  "status": "proposal_only_no_generator_or_catalog_changes",
+  "direction": "Coherent whole creatures and undead anatomy. No human bodies with animal heads, cow heads, horns, or demonic ornament.",
+  "evidence": {
+    "sourceInventory": "art/rebuild/candidates/finish-bestiary/source-inventory.json",
+    "screenshotsInspected": [
+      "test-results/bestiary-source6-gallery-0/wraith-front.png",
+      "test-results/bestiary-source6-gallery-1/banshee-front.png",
+      "test-results/bestiary-source6-gallery-2/revenant-front.png",
+      "test-results/bestiary-source6-gallery-2/grave_ghoul-front.png"
+    ],
+    "sourcePreviewsInspected": [
+      "Dungeon Skeletons Demo: DungeonSkeletons_pack.png",
+      "Monster_Pack_Animated_by_Quaternius.zip: Preview.jpg",
+      "Easy_Animated_Enemy_Pack_-_Jan_2019.zip: Easy Animated Enemy Pack - Jan 2019/Preview.png"
+    ],
+    "gpuUsed": false,
+    "note": "The ghoul gallery image predates its repaired leg mask. The retained plan assumes the verified continuous source leg fix, not the pictured knee gaps."
+  },
+  "retainedNine": [
+    {
+      "id": "skeleton_soldier",
+      "sourceIdentity": "Polygon Blacksmith / Dungeon Skeletons Demo / models/DungeonSkeleton_demo.FBX",
+      "decision": "retain original whole skeleton; remove helmet horns",
+      "boundedChange": "Remove the two disconnected 26-triangle helmet horn components. Retain the 92-triangle ordinary helmet bowl, original skull, body, skin weights, UVs and existing soldier equipment.",
+      "bodyReplacementRequired": false
+    },
+    {
+      "id": "skeleton_archer",
+      "sourceIdentity": "Same original DungeonSkeleton_demo.FBX body and rig; Corealm bow and quiver",
+      "decision": "retain source archer; remove helmet horns",
+      "boundedChange": "Apply the same 52-triangle horn removal after the existing 88-triangle source sword removal. Preserve accepted source body and bow attack contact.",
+      "bodyReplacementRequired": false
+    },
+    {
+      "id": "skeleton_mage",
+      "sourceIdentity": "Same original DungeonSkeleton_demo.FBX body and rig; Corealm cloth hood and staff",
+      "decision": "retain",
+      "boundedChange": "No horn change needed: the complete source helmet was already removed. Keep the visible original skeleton inside ordinary cloth hood, with no horn or spike additions.",
+      "bodyReplacementRequired": false
+    },
+    {
+      "id": "zombie",
+      "sourceIdentity": "Quaternius Universal Base Characters base_male; peasant outfit; UAL2 Zombie Idle/Walk/Scratch",
+      "decision": "retain coherent corpse anatomy",
+      "boundedChange": "No animal-part replacements. Keep human corpse anatomy, pallor and cloth damage. Keep the accepted slow-pursuit Walk/Run alias.",
+      "bodyReplacementRequired": false
+    },
+    {
+      "id": "plague_zombie",
+      "sourceIdentity": "Same complete Quaternius human source body and zombie clips; coordinated swelling and corpse atlas",
+      "decision": "retain coherent diseased corpse",
+      "boundedChange": "Keep asymmetrical swelling and jaundiced skin without adding spikes, horns, animal features or demonic symbols.",
+      "bodyReplacementRequired": false
+    },
+    {
+      "id": "grave_ghoul",
+      "sourceIdentity": "Same complete Quaternius human source body and zombie clips; gaunt limbs, crouch and nail-like claws",
+      "decision": "retain as gaunt undead, subject to claw styling review",
+      "boundedChange": "Keep the repaired continuous source legs. If the root wants less monstrous styling, shorten added 9 cm claws to desiccated 3–4 cm nails; do not change the coherent source head/body or add animal traits.",
+      "bodyReplacementRequired": false
+    },
+    {
+      "id": "wraith",
+      "sourceIdentity": "Quaternius Wizard body/arms tailoring, Ranger hood, universal humanoid rig",
+      "decision": "retain hooded apparition",
+      "boundedChange": "No horns or animal head present. Keep the continuous cloth silhouette and ordinary human hands; add no demonic face or symbols.",
+      "bodyReplacementRequired": false
+    },
+    {
+      "id": "banshee",
+      "sourceIdentity": "Same Quaternius Wizard cloth and Ranger hood with longer robe/veil tailoring",
+      "decision": "retain veiled apparition",
+      "boundedChange": "Keep cloth-based ghost identity. No horns or animal parts present; avoid introducing a demon mask to distinguish the variant.",
+      "bodyReplacementRequired": false
+    },
+    {
+      "id": "revenant",
+      "sourceIdentity": "Same Quaternius cloth apparition with ordinary source Knight shoulder armor",
+      "decision": "retain armored apparition",
+      "boundedChange": "Keep source shoulder armor without adding spikes or horns. Existing armor is conventional, and the hood has no animal face.",
+      "bodyReplacementRequired": false
+    }
+  ],
+  "skeletonHornRemovalEvidence": {
+    "sourcePackageSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+    "method": "Use disconnected source material-1 components, not clipping planes through the skull. Components were identified by welded source vertex positions and exact world bounds at scale 0.018.",
+    "leftHorn": {"triangles": 26, "minMeters": [-0.182, 1.665, -0.038], "maxMeters": [-0.049, 1.763, 0.107]},
+    "rightHorn": {"triangles": 26, "minMeters": [0.049, 1.665, -0.038], "maxMeters": [0.182, 1.763, 0.107]},
+    "helmetBowl": {"triangles": 92, "minMeters": [-0.104, 1.539, -0.132], "maxMeters": [0.104, 1.814, 0.117]},
+    "preservation": "Compacting retained attributes removes unused horn vertices from bounds while preserving exact retained position/normal/UV/skin attributes. Normal helmet remains intact."
+  },
+  "wholeCreatureAlternatives": [
+    {
+      "archive": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Monster_Pack_Animated_by_Quaternius.zip",
+      "sha256": "c0b73e7d641a25348e46195e1413d050d08cf14302d999e0d40a634c43c47a9b",
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "models": [
+        {"member": "FBX/Skeleton.fbx", "assessment": "Whole original unhorned skeleton. Preview verified. Coherent anatomy, but simpler skull/ribs and flat palette than the retained Dungeon Skeleton; fallback only."},
+        {"member": "FBX/Slime.fbx", "assessment": "Whole original unhorned slime. Preview verified. Strong non-demonic replacement candidate for rejected hybrid families."},
+        {"member": "FBX/Bat.fbx", "assessment": "Whole original bat, no humanoid torso. Preview verified; large natural ears should remain readable as ears, not be extended into horns."}
+      ],
+      "excluded": ["FBX/Dragon.fbx has horn-like head projections in the package preview and is not recommended for this narrowed direction."]
+    },
+    {
+      "archive": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Easy_Animated_Enemy_Pack_-_Jan_2019.zip",
+      "sha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "previewAssessment": "Preview verified coherent natural whole bodies, no humanoid animal-head combinations and no horns.",
+      "members": [
+        "Easy Animated Enemy Pack - Jan 2019/FBX/Frog.fbx",
+        "Easy Animated Enemy Pack - Jan 2019/FBX/Rat.fbx",
+        "Easy Animated Enemy Pack - Jan 2019/FBX/Snake.fbx",
+        "Easy Animated Enemy Pack - Jan 2019/FBX/Snake_angry.fbx",
+        "Easy Animated Enemy Pack - Jan 2019/FBX/Spider.fbx",
+        "Easy Animated Enemy Pack - Jan 2019/FBX/Wasp.fbx"
+      ],
+      "acceptanceLimit": "Archive identities and visual source direction checked. Detailed rig/clip import and production acceptance are not claimed by this inventory."
+    }
+  ]
+}

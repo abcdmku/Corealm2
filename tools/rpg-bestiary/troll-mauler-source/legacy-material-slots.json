@@ -1,0 +1,15 @@
+{
+  "method": "Read original Blender 2.73 SDNA Material/MTex/Tex/Image blocks; all decoded struct byte sizes match stored SDNA lengths.",
+  "sourceSha256": "83fc5e524d31020d8b7c9641517f965cecd65840b3119582b4e984649f708c51",
+  "rawEvidence": "test-results/troll-mauler-source/legacy-slots.json",
+  "constantSources": [
+    "https://raw.githubusercontent.com/blender/blender/v2.73/source/blender/makesdna/DNA_texture_types.h",
+    "https://raw.githubusercontent.com/blender/blender/v2.73/source/blender/makesdna/DNA_material_types.h"
+  ],
+  "layers": [
+    {"materialName":"med","slotIndex":2,"active":true,"septex":0,"textureName":"med occ","imageName":"troll_occlusion.png","mapto":1,"maptoMeaning":"MAP_COL: diffuse color","blendtype":1,"blendMeaning":"MTEX_MUL: multiply","colfac":0.5,"texco":16,"texcoMeaning":"TEXCO_UV","uvname":"","standardAOEquivalent":false},
+    {"materialName":"cloth","slotIndex":2,"active":true,"septex":0,"textureName":"cloth occ","imageName":"cloth uv_OCC.png","mapto":1,"maptoMeaning":"MAP_COL: diffuse color","blendtype":1,"blendMeaning":"MTEX_MUL: multiply","colfac":1.0,"texco":16,"texcoMeaning":"TEXCO_UV","uvname":"","standardAOEquivalent":false}
+  ],
+  "decision": "These packed images were active diffuse-color multiply layers, not ambient-only occlusion bindings. The verified sRGB images are now decoded to linear light and composited into separate runtime base-color textures, using med colfac .5 and cloth1, modulated by layer alpha. Preserve occlusionPath as unbound metadata; do not relabel aoPath/aoStrength/aoTexCoord.",
+  "changesThisAudit": "Original diffuse/normal images remain unchanged. Separate derived base-color PNGs reproduce color multiplication; recipe and input/output hashes are in derived/legacy-color-recipe.json. No geometry, motion or catalogue edits."
+}

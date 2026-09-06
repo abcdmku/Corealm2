@@ -1,4 +1,5 @@
 import { SAVE_VERSION, type GameState } from "../state/store.js";
+import { normalizeHuntContracts } from "../systems/huntContracts.js";
 
 export interface MigrationResult {
   ok: boolean;
@@ -222,6 +223,11 @@ export function migrate(raw: unknown): MigrationResult {
   // Migration rewrites nested stacks and world records. Clone first so validation/import callers
   // can safely retain the raw save for diagnostics or retry it with a newer build.
   const state = structuredClone(candidate) as GameState;
+  try {
+    state.huntContracts = normalizeHuntContracts(candidate.huntContracts, candidate.meta?.seed);
+  } catch {
+    return { ok: false, reason: "Invalid hunt contract save", fromVersion: version };
+  }
   if (version < 2) {
     state.combat = { ...state.combat, preferredSpellId: state.combat?.preferredSpellId ?? null };
   }

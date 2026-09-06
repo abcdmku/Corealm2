@@ -1,0 +1,316 @@
+{
+  "status": "root-reviewed-model-selection",
+  "pack": {
+    "id": "corealm-original-minerals",
+    "name": "Corealm inventory ore fragments and gemstones",
+    "author": "Corealm",
+    "source": "tools/build-corealm-minerals.ts",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "64ce0dc2ad4a6757131519e77f4dcb46ec7dd1b96e03f1bb6b5570a8022305db"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_grithe_ore",
+      "itemId": "grithe_ore",
+      "file": "models/corealm/minerals/corealm_item_grithe_ore.glb",
+      "pack": "corealm-original-minerals",
+      "category": "rock",
+      "is": "inventory ore fragment",
+      "tags": [
+        "corealm",
+        "original",
+        "inventory",
+        "ore",
+        "grithe"
+      ],
+      "bytes": 446944,
+      "size": {
+        "x": 0.33704876331202993,
+        "y": 0.24981250150776674,
+        "z": 0.16266589544248383
+      },
+      "base": {
+        "x": -0.16852438165601497,
+        "y": 0,
+        "z": -0.08133294772124192
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata",
+        "Corealm exposed grithe mineral"
+      ],
+      "sha256": "b8be5d4c1206d04a0d6807fba82fd1cccc48113367a2fe7d152f3266ff8b9106",
+      "triangles": 7120,
+      "construction": "A broad broken ironstone flake with a warm granular mineral lode and exposed fracture edges.",
+      "surfaceTriangles": {
+        "host": 2463,
+        "mineral": 4657
+      },
+      "acceptance": {
+        "labAccepted": false,
+        "iconsAccepted": false
+      }
+    },
+    {
+      "id": "corealm_item_corven_ore",
+      "itemId": "corven_ore",
+      "file": "models/corealm/minerals/corealm_item_corven_ore.glb",
+      "pack": "corealm-original-minerals",
+      "category": "rock",
+      "is": "inventory ore fragment",
+      "tags": [
+        "corealm",
+        "original",
+        "inventory",
+        "ore",
+        "corven"
+      ],
+      "bytes": 382820,
+      "size": {
+        "x": 0.39142991742462185,
+        "y": 0.2147709525840227,
+        "z": 0.15220821449328237
+      },
+      "base": {
+        "x": -0.19571495871231093,
+        "y": 0,
+        "z": -0.07610410724664118
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata",
+        "Corealm exposed corven mineral"
+      ],
+      "sha256": "e9556dc796e75cb5556ce0bf91ba70b2f8ffdda4ac9d3f48bbbeb1bc47dd266b",
+      "triangles": 5964,
+      "construction": "An oblique grey stone wedge carrying stepped silver-grey mineral cleavage blades.",
+      "surfaceTriangles": {
+        "host": 2066,
+        "mineral": 3898
+      },
+      "acceptance": {
+        "labAccepted": false,
+        "iconsAccepted": false
+      }
+    },
+    {
+      "id": "corealm_item_kaldite_ore",
+      "itemId": "kaldite_ore",
+      "file": "models/corealm/minerals/corealm_item_kaldite_ore.glb",
+      "pack": "corealm-original-minerals",
+      "category": "rock",
+      "is": "inventory ore fragment",
+      "tags": [
+        "corealm",
+        "original",
+        "inventory",
+        "ore",
+        "kaldite"
+      ],
+      "bytes": 403280,
+      "size": {
+        "x": 0.21116155456503566,
+        "y": 0.341344417455775,
+        "z": 0.16409475467791107
+      },
+      "base": {
+        "x": -0.10558077728251783,
+        "y": 0,
+        "z": -0.08204737733895553
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata",
+        "Corealm exposed kaldite mineral"
+      ],
+      "sha256": "9d3d195c764699c6f3631761ea23b5a8c53abf884a3b00d255c4628d1cf8c4b4",
+      "triangles": 6516,
+      "construction": "A narrow angular host fragment with short blue-grey lath crystals rooted in its fracture.",
+      "surfaceTriangles": {
+        "host": 1874,
+        "mineral": 4642
+      },
+      "acceptance": {
+        "labAccepted": false,
+        "iconsAccepted": false
+      }
+    },
+    {
+      "id": "corealm_item_emberite_ore",
+      "itemId": "emberite_ore",
+      "file": "models/corealm/minerals/corealm_item_emberite_ore.glb",
+      "pack": "corealm-original-minerals",
+      "category": "rock",
+      "is": "inventory ore fragment",
+      "tags": [
+        "corealm",
+        "original",
+        "inventory",
+        "ore",
+        "emberite"
+      ],
+      "bytes": 463616,
+      "size": {
+        "x": 0.3097394268674995,
+        "y": 0.26754685881116935,
+        "z": 0.1891305050717238
+      },
+      "base": {
+        "x": -0.15486971343374975,
+        "y": 0,
+        "z": -0.0945652525358619
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata",
+        "Corealm exposed emberite mineral"
+      ],
+      "sha256": "2e3ff92e7138bc6387ddea040c7c944094f717526e9b876b337e044cb565d8a4",
+      "triangles": 7756,
+      "construction": "An uneven weathered nodule with copper-brown mineral grains and a dark oxidised rind.",
+      "surfaceTriangles": {
+        "host": 2135,
+        "mineral": 5621
+      },
+      "acceptance": {
+        "labAccepted": false,
+        "iconsAccepted": false
+      }
+    },
+    {
+      "id": "corealm_item_pale_quartz",
+      "itemId": "pale_quartz",
+      "file": "models/corealm/minerals/corealm_item_pale_quartz.glb",
+      "pack": "corealm-original-minerals",
+      "category": "rock",
+      "is": "inventory gemstone",
+      "tags": [
+        "corealm",
+        "original",
+        "inventory",
+        "gem",
+        "quartz"
+      ],
+      "bytes": 285120,
+      "size": {
+        "x": 0.23652825001955244,
+        "y": 0.3157003832025568,
+        "z": 0.17369871686646987
+      },
+      "base": {
+        "x": -0.11826412500977622,
+        "y": 0,
+        "z": -0.08684935843323494
+      },
+      "animations": [],
+      "materials": [
+        "Corealm quartz weathered cortex",
+        "Corealm quartz dielectric",
+        "Corealm quartz internal cloud",
+        "Corealm quartz internal film"
+      ],
+      "sha256": "70d6e032e386d440651580d8f84a3541e777fbb834d86d8943d3b7a7bf9f0284",
+      "triangles": 6444,
+      "construction": "An elongated unequal quartz growth with stepped broken prism faces, three rooted points, a milky growth core and internal healed fractures.",
+      "surfaceTriangles": {
+        "rind": 927,
+        "gem": 4275,
+        "cloud": 1116,
+        "film": 126
+      },
+      "acceptance": {
+        "labAccepted": false,
+        "iconsAccepted": false
+      }
+    },
+    {
+      "id": "corealm_item_vell_amber",
+      "itemId": "vell_amber",
+      "file": "models/corealm/minerals/corealm_item_vell_amber.glb",
+      "pack": "corealm-original-minerals",
+      "category": "rock",
+      "is": "inventory gemstone",
+      "tags": [
+        "corealm",
+        "original",
+        "inventory",
+        "gem",
+        "amber"
+      ],
+      "bytes": 212824,
+      "size": {
+        "x": 0.2519880568194169,
+        "y": 0.3011378701517198,
+        "z": 0.2435083643218071
+      },
+      "base": {
+        "x": -0.12599402840970844,
+        "y": 0,
+        "z": -0.12175418216090356
+      },
+      "animations": [],
+      "materials": [
+        "Corealm amber dielectric",
+        "Corealm amber internal inclusion"
+      ],
+      "sha256": "62e54d611aa942b0bc9a8f20bc1d3a5fe16d314194a70b42279984927f4e7b0e",
+      "triangles": 4844,
+      "construction": "A substantial asymmetrical fossil-resin nugget with a continuous transmitting shell, curved fracture shoulders, a suspended seed inclusion and small separate fines.",
+      "surfaceTriangles": {
+        "gem": 2200,
+        "inclusion": 2644
+      },
+      "acceptance": {
+        "labAccepted": false,
+        "iconsAccepted": false
+      }
+    },
+    {
+      "id": "corealm_item_cairn_garnet",
+      "itemId": "cairn_garnet",
+      "file": "models/corealm/minerals/corealm_item_cairn_garnet.glb",
+      "pack": "corealm-original-minerals",
+      "category": "rock",
+      "is": "inventory gemstone",
+      "tags": [
+        "corealm",
+        "original",
+        "inventory",
+        "gem",
+        "garnet"
+      ],
+      "bytes": 751928,
+      "size": {
+        "x": 0.2750926674823264,
+        "y": 0.23662735620299197,
+        "z": 0.24864984216728298
+      },
+      "base": {
+        "x": -0.1375463337411632,
+        "y": 0,
+        "z": -0.12432492108364149
+      },
+      "animations": [],
+      "materials": [
+        "Corealm weathered strata",
+        "Corealm garnet dielectric"
+      ],
+      "sha256": "06b0559344d4fdc80b059755a5902fd79e3a48fa1a959a7d24c6f165ae17026e",
+      "triangles": 17984,
+      "construction": "Five unequal overlapping garnet crystals with rhombic and trapezohedral growth faces, absorbing transmitted depth and a small irregular stone fracture root.",
+      "surfaceTriangles": {
+        "host": 1272,
+        "gem": 16712
+      },
+      "acceptance": {
+        "labAccepted": false,
+        "iconsAccepted": false
+      }
+    }
+  ],
+  "acceptance": "Root accepted these model selections; icons and full animation acceptance remain separate.",
+  "evidence": [
+    "test-results/mineral-v6-review/report.json",
+    "test-results/mineral-v7-review/report.json"
+  ]
+}

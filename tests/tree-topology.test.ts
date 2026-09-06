@@ -14,6 +14,8 @@ interface Tree {
   id: string; kind: "oak" | "pine"; axes: Axis[]; parts: number; triangles: number; laminae: number;
   rootHash: string; boleHash: string; min: V; max: V; target: { min: V; max: V };
   crownCells: number;
+  leafAttachmentError: number;
+  firstLeafWidths: number[];
 }
 
 // The generator is a CLI with live writes at its entry point. Execute its production geometry
@@ -34,10 +36,32 @@ function geometryBuilder() {
       joint: treeJoint,
       generate(spec) {
         const plant = new Plant(spec), parts = [], original = plant.branch;
+        let currentRings, leafIndex = 0, leafAttachmentError = 0, firstLeafWidths;
         plant.branch = function(...args) {
+          currentRings = args[0]; leafIndex = 0;
           const start = this.skins.bark.positions.length;
           const result = original.apply(this, args);
           parts.push([start, this.skins.bark.positions.length]);
+          return result;
+        };
+        const originalBlade = plant.blade;
+        plant.blade = function(...args) {
+          const q = spec.kind === 'oak' ? .05 + leafIndex * .128 : .03 + Math.floor(leafIndex / 3) * .15;
+          const segments = currentRings.length - 1, segment = Math.min(segments - 1, Math.floor(q * segments));
+          const expected = treeJoint({ rings: currentRings }, segment, q * segments - segment).p;
+          leafAttachmentError = Math.max(leafAttachmentError, Math.hypot(...sub(args[0], expected)));
+          leafIndex++;
+          const start = this.skins.leaves.positions.length / 3;
+          const result = originalBlade.apply(this, args);
+          if (!firstLeafWidths) {
+            const skin = this.skins.leaves, edges = new Map();
+            for (let i = start; i < skin.positions.length / 3; i++) {
+              const u = skin.uvs[i * 2], v = skin.uvs[i * 2 + 1];
+              if (u !== 0 && u !== 1) continue;
+              const pair = edges.get(v) || []; pair[u] = skin.positions.slice(i * 3, i * 3 + 3); edges.set(v, pair);
+            }
+            firstLeafWidths = [...edges].sort((a, b) => a[0] - b[0]).map(([, pair]) => Math.hypot(...sub(pair[0], pair[1])));
+          }
           return result;
         };
         const axes = ({oak, pine})[spec.kind](plant);
@@ -59,7 +83,7 @@ function geometryBuilder() {
         const bark = plant.skins.bark.positions, bole = parts[spec.kind === 'oak' ? 6 : 5];
         return { id: spec.id, kind: spec.kind, axes, parts: parts.length, triangles,
           laminae: plant.leafSprays.length, min, max, target: productionBounds[spec.id],
-          crownCells: [...crown.values()].filter(area => area > .02).length,
+          crownCells: [...crown.values()].filter(area => area > .02).length, leafAttachmentError, firstLeafWidths,
           rootHash: positionHash(bark, 0, bark.length, .35), boleHash: positionHash(bark, bole[0], bole[1], 1.8) };
       }
     };`);
@@ -130,6 +154,23 @@ describe("native tree branch topology", () => {
         expect(axis.rings[0]!.radius / axis.rings[1]!.radius, `${tree.id} branch collar`).toBeGreaterThan(1.1);
         expect(axis.rings.at(-1)!.radius / axis.rings[0]!.radius, `${tree.id} branch tip`).toBeLessThan(0.12);
       }
+    }
+  });
+
+  it("seats every oak leaf and pine needle on its curved wood shoot", () => {
+    // Linear interpolation through the authored control polygon floated lamina bases away
+    // from the Hermite centreline used by the real swept bark geometry.
+    for (const tree of trees) expect(tree.leafAttachmentError, tree.id).toBeLessThan(1e-10);
+  });
+
+  it("retains oak margin lobes in the emitted mesh rather than sampling them away", () => {
+    for (const tree of trees.filter(tree => tree.kind === "oak")) {
+      const widths = tree.firstLeafWidths;
+      expect(widths).toHaveLength(5);
+      expect(widths[0]!, tree.id).toBeGreaterThan(widths[1]!);
+      expect(widths[2]!, tree.id).toBeGreaterThan(widths[1]!);
+      expect(widths[2]!, tree.id).toBeGreaterThan(widths[3]!);
+      expect(widths[4]!, tree.id).toBeGreaterThan(widths[3]!);
     }
   });
 

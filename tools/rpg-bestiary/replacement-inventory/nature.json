@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "scope": "Read-only replacement inventory. Rejected source7 frozen. No GPU, model generation, or source7 edits.",
+  "sources": [
+    {
+      "id": "spider",
+      "wholeBody": true,
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "licenseEvidence": "https://quaternius.itch.io/animated-easy-enemies",
+      "archivePath": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Easy_Animated_Enemy_Pack_-_Jan_2019.zip",
+      "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+      "archiveMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Spider.fbx",
+      "memberSha256": "4337f167f59ad5cf590e38c76176210f96a2c7eab62f743110f783694ee0d2c0",
+      "rig": {
+        "skins": 1,
+        "jointCount": 59,
+        "jointCountMethod": "FBX LimbNode count"
+      },
+      "sourceClips": [
+        "HumanArmature|Spider_Attack",
+        "HumanArmature|Spider_Death",
+        "HumanArmature|Spider_Idle",
+        "HumanArmature|Spider_Jump",
+        "HumanArmature|Spider_Walk"
+      ],
+      "inspection": "CPU archive bytes only; no model build or visual acceptance",
+      "limitations": [
+        "Complete source geometry and authored source rig. Reuse full source body; never graft onto humanoid.",
+        "Not all eight runtime clips exist. Missing reactions or locomotion speeds need explicit adaptation and proof.",
+        "Low-poly cartoon source style; screenshot review must confirm suitability."
+      ]
+    },
+    {
+      "id": "wasp",
+      "wholeBody": true,
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "licenseEvidence": "https://quaternius.itch.io/animated-easy-enemies",
+      "archivePath": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Easy_Animated_Enemy_Pack_-_Jan_2019.zip",
+      "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+      "archiveMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Wasp.fbx",
+      "memberSha256": "ba312b82400745237d5cb638cc265214f87a7b2cf05eb03190ced7118d95847a",
+      "rig": {
+        "skins": 1,
+        "jointCount": 39,
+        "jointCountMethod": "FBX LimbNode count"
+      },
+      "sourceClips": [
+        "Armature|Wasp_Attack",
+        "Armature|Wasp_Death",
+        "Armature|Wasp_Flying"
+      ],
+      "inspection": "CPU archive bytes only; no model build or visual acceptance",
+      "limitations": [
+        "Complete source geometry and authored source rig. Reuse full source body; never graft onto humanoid.",
+        "Not all eight runtime clips exist. Missing reactions or locomotion speeds need explicit adaptation and proof.",
+        "Low-poly cartoon source style; screenshot review must confirm suitability."
+      ]
+    },
+    {
+      "id": "crab",
+      "wholeBody": true,
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "licenseEvidence": "game/public/assets/manifest.json packs[id=ultimate-platformer-pack]",
+      "archivePath": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Ultimate_Platformer_Pack_by_Quaternius.zip",
+      "archiveSha256": "2d0cac0f3cb58f6845f779a4c6b4a92be6fa27d118ee0b976ead55c6834a53d4",
+      "archiveMember": "Ultimate Platformer Pack - Dec 2021/Enemies/glTF/Crab.gltf",
+      "memberSha256": "e88cd87ccb578d64871b488941d51050f8d5355e6146dd9403025bd95c6218a7",
+      "rig": {
+        "skins": 1,
+        "jointCount": 7,
+        "jointCountMethod": "glTF skin.joints count"
+      },
+      "sourceClips": [
+        "Bite_Front",
+        "Bite_InPlace",
+        "Dance",
+        "Death",
+        "HitRecieve",
+        "Idle",
+        "Jump",
+        "No",
+        "Walk",
+        "Yes"
+      ],
+      "inspection": "CPU archive bytes only; no model build or visual acceptance",
+      "limitations": [
+        "Complete source geometry and authored source rig. Reuse full source body; never graft onto humanoid.",
+        "Not all eight runtime clips exist. Missing reactions or locomotion speeds need explicit adaptation and proof.",
+        "Low-poly cartoon source style; screenshot review must confirm suitability."
+      ]
+    },
+    {
+      "id": "bee",
+      "wholeBody": true,
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "licenseEvidence": "game/public/assets/manifest.json packs[id=ultimate-platformer-pack]",
+      "archivePath": "C:/Users/Borg/Documents/GitHub/Corealm/.asset-cache/Ultimate_Platformer_Pack_by_Quaternius.zip",
+      "archiveSha256": "2d0cac0f3cb58f6845f779a4c6b4a92be6fa27d118ee0b976ead55c6834a53d4",
+      "archiveMember": "Ultimate Platformer Pack - Dec 2021/Enemies/glTF/Bee.gltf",
+      "memberSha256": "87cd6344076ec58cc51015ce7cd08136d796c6990201997c70aed8f6cb902b3d",
+      "rig": {
+        "skins": 1,
+        "jointCount": 9,
+        "jointCountMethod": "glTF skin.joints count"
+      },
+      "sourceClips": [
+        "Bite_Front",
+        "Death",
+        "Flying",
+        "HitRecieve"
+      ],
+      "inspection": "CPU archive bytes only; no model build or visual acceptance",
+      "limitations": [
+        "Complete source geometry and authored source rig. Reuse full source body; never graft onto humanoid.",
+        "Not all eight runtime clips exist. Missing reactions or locomotion speeds need explicit adaptation and proof.",
+        "Low-poly cartoon source style; screenshot review must confirm suitability."
+      ]
+    }
+  ],
+  "proposedNineAcrossThreeFamilies": [
+    {
+      "id": "spider_web_hunter",
+      "family": "spider",
+      "sourceId": "spider",
+      "status": "proposed derivative, not existing distinct source mesh",
+      "direction": "Preserve complete source body and rig; author species-coherent shell markings and modest whole-body proportion changes. Distinct silhouette/equipment must be reviewed; palette swap alone is not acceptance."
+    },
+    {
+      "id": "spider_cave_stalker",
+      "family": "spider",
+      "sourceId": "spider",
+      "status": "proposed derivative, not existing distinct source mesh",
+      "direction": "Preserve complete source body and rig; author species-coherent shell markings and modest whole-body proportion changes. Distinct silhouette/equipment must be reviewed; palette swap alone is not acceptance."
+    },
+    {
+      "id": "spider_brood_guard",
+      "family": "spider",
+      "sourceId": "spider",
+      "status": "proposed derivative, not existing distinct source mesh",
+      "direction": "Preserve complete source body and rig; author species-coherent shell markings and modest whole-body proportion changes. Distinct silhouette/equipment must be reviewed; palette swap alone is not acceptance."
+    },
+    {
+      "id": "wasp_reed_darter",
+      "family": "wasp",
+      "sourceId": "wasp",
+      "status": "proposed derivative, not existing distinct source mesh",
+      "direction": "Preserve complete source body and rig; author species-coherent shell markings and modest whole-body proportion changes. Distinct silhouette/equipment must be reviewed; palette swap alone is not acceptance."
+    },
+    {
+      "id": "wasp_hive_sentinel",
+      "family": "wasp",
+      "sourceId": "wasp",
+      "status": "proposed derivative, not existing distinct source mesh",
+      "direction": "Preserve complete source body and rig; author species-coherent shell markings and modest whole-body proportion changes. Distinct silhouette/equipment must be reviewed; palette swap alone is not acceptance."
+    },
+    {
+      "id": "wasp_amber_queen",
+      "family": "wasp",
+      "sourceId": "wasp",
+      "status": "proposed derivative, not existing distinct source mesh",
+      "direction": "Preserve complete source body and rig; author species-coherent shell markings and modest whole-body proportion changes. Distinct silhouette/equipment must be reviewed; palette swap alone is not acceptance."
+    },
+    {
+      "id": "crab_shore_scuttler",
+      "family": "crab",
+      "sourceId": "crab",
+      "status": "proposed derivative, not existing distinct source mesh",
+      "direction": "Preserve complete source body and rig; author species-coherent shell markings and modest whole-body proportion changes. Distinct silhouette/equipment must be reviewed; palette swap alone is not acceptance."
+    },
+    {
+      "id": "crab_marsh_pincer",
+      "family": "crab",
+      "sourceId": "crab",
+      "status": "proposed derivative, not existing distinct source mesh",
+      "direction": "Preserve complete source body and rig; author species-coherent shell markings and modest whole-body proportion changes. Distinct silhouette/equipment must be reviewed; palette swap alone is not acceptance."
+    },
+    {
+      "id": "crab_reef_guardian",
+      "family": "crab",
+      "sourceId": "crab",
+      "status": "proposed derivative, not existing distinct source mesh",
+      "direction": "Preserve complete source body and rig; author species-coherent shell markings and modest whole-body proportion changes. Distinct silhouette/equipment must be reviewed; palette swap alone is not acceptance."
+    }
+  ],
+  "recommendation": "Spider, wasp, and crab provide three distinct whole-body arthropod families. Bee is a separate alternate flight silhouette. Nine proposals are derivatives of three actual source bodies, not nine independently authored source assets.",
+  "unavailable": [
+    {
+      "category": "animated plants/fungi",
+      "finding": "Platformer Plant_Large.gltf and Plant_Small.gltf have zero skins and zero animations; static scenery is not a ready creature. No cached complete animated fungus source found."
+    },
+    {
+      "category": "animated armor",
+      "finding": "No complete animated empty-armor creature located. Existing modular humanoid outfit parts would require assembly, which is excluded by this source-only request."
+    }
+  ],
+  "searchCoverage": [
+    "Top-level Corealm/.asset-cache archives, relevant archive member inventory, and all 18 Unity Asset Store cached package filenames. Unity package contents were not exhaustively inspected."
+  ],
+  "evidenceNotes": [
+    "FBX binary node metadata parsed directly to identify original AnimationStack names, LimbNode counts, and Skin deformers.",
+    "glTF JSON inspected directly in ZIP; skins and animation channels present.",
+    "Spider rig has historical name HumanArmature but contains original spider body, not the rejected humanoid derivative."
+  ]
+}

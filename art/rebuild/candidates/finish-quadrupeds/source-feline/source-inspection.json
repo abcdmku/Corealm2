@@ -1,0 +1,42 @@
+{
+  "sourceSha256": "4e156a3b81638d07a78278889d2184c9a106fd81c2de84bd212c1bd12ea03428",
+  "loader": "Three FBXLoader CPU parse; texture decoding skipped",
+  "requestedTextures": [],
+  "meshes": [
+    {
+      "name": "Cat",
+      "vertices": 135870,
+      "triangles": 45290,
+      "skinned": false,
+      "invalidWeights": 0,
+      "materials": [
+        "skin",
+        "hair",
+        "Material.002"
+      ]
+    }
+  ],
+  "bones": [],
+  "bounds": {
+    "min": [
+      -142.44790077209473,
+      -288.00865025599154,
+      -433.65766729852595
+    ],
+    "max": [
+      142.44790077209473,
+      640.0655567004792,
+      487.33733941842206
+    ],
+    "size": [
+      284.89580154418945,
+      928.0742069564708,
+      920.995006716948
+    ],
+    "units": "FBX loader units, not yet normalized"
+  },
+  "animations": [],
+  "converted": false,
+  "previewInspected": "Creator full-body preview and redistributor screenshot inspected before conversion",
+  "accepted": false
+}

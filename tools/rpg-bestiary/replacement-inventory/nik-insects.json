@@ -1,0 +1,45 @@
+{
+  "status": "Stopped on parent steering: current spider accepted; current wasp revision owned by parent. No Nik source files downloaded or converted.",
+  "author": "Nik Kottmann",
+  "sources": [
+    {
+      "id": "2e1251be-bab9-4a85-ae56-fe626a59af93",
+      "name": "Wasp (Rigged, Animated & Fur Particles)",
+      "url": "https://www.blendkit.com/asset-gallery-detail/2e1251be-bab9-4a85-ae56-fe626a59af93/",
+      "accessibility": "Official gallery labels Free; model download not attempted before task stopped."
+    },
+    {
+      "id": "72f27245-d3fc-447b-b556-76b762a7e858",
+      "name": "Spider (Rigged, Animated & Fur)",
+      "url": "https://www.blenderkit.com/asset-gallery-detail/72f27245-d3fc-447b-b556-76b762a7e858/",
+      "sourceClaims": {
+        "species": "Argiope trifasciata, banded garden spider",
+        "rig": "Rig and animated walk cycle",
+        "fur": "Hair particles, author recommends Cycles; disable particles for Eevee",
+        "polygons": 872,
+        "fileSizeMiB": 16.7,
+        "scale": "Real world scale"
+      },
+      "accessibility": "Official gallery labels Free; actual original Blend download untested."
+    }
+  ],
+  "license": {
+    "parentReported": "Author site nikkottmann.ch confirms all author assets CC0",
+    "independentVerification": "Author site returned web-tool internal error; per-asset API license not fetched before stop. Do not treat this research as complete license proof."
+  },
+  "anonymousRouteEvidence": {
+    "officialReadme": "https://github.com/BlenderKit/BlenderKit/blob/main/README.md",
+    "finding": "Current official add-on README explicitly says free assets are available with no login required. Therefore free-account requirement is not established.",
+    "officialClientSource": "https://github.com/BlenderKit/bk_client/blob/main/client/download.go",
+    "observedFlow": "GetDownloadURL selects an AssetFile, then GetSignedURL sends GET to its supplied DownloadURL with scene_uuid query and client headers. Server response supplies signed CDN URL. No actual asset API request made."
+  },
+  "safetyAndScope": {
+    "accountCreated": false,
+    "purchase": false,
+    "loginBypass": false,
+    "modelDownloaded": false,
+    "previewDownloaded": false,
+    "browserOrGPU": false
+  },
+  "nextStepIfResumed": "Read public asset metadata for both IDs and confirm exact asset license/free access. Follow published client download flow anonymously only if server authorizes; stop if login or payment required."
+}

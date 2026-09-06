@@ -1,0 +1,178 @@
+{
+  "publicModels": true,
+  "assets": [
+    {
+      "id": "corealm_deadwood_1",
+      "name": "Deadwood 1",
+      "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\corealm\\nature\\corealm_deadwood_1.glb",
+      "sha256": "4a3cc5d4bf27079ac3af8123755d62a50e1d21e253bee80ed65aef2b105b490b",
+      "triangles": 7135,
+      "size": {
+        "x": 2.7485,
+        "y": 6.3722,
+        "z": 2.6919
+      },
+      "materials": [
+        "Bark_Corealm"
+      ]
+    },
+    {
+      "id": "corealm_deadwood_2",
+      "name": "Deadwood 2",
+      "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\corealm\\nature\\corealm_deadwood_2.glb",
+      "sha256": "17babf5f313a3bbfcc735e4d8fb09f1f5b379589dbece42c49b7622dd3fbabb9",
+      "triangles": 4716,
+      "size": {
+        "x": 1.9363,
+        "y": 5.7264,
+        "z": 1.9221
+      },
+      "materials": [
+        "Bark_Corealm"
+      ]
+    },
+    {
+      "id": "corealm_stump_oak",
+      "name": "Stump Oak",
+      "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\corealm\\nature\\corealm_stump_oak.glb",
+      "sha256": "ac1f26c2ec12a887b4be78e7d9eff1c8cfc4b26e8789d27b607dcce09a4908b9",
+      "triangles": 2100,
+      "size": {
+        "x": 2.0886,
+        "y": 0.8818,
+        "z": 1.8799
+      },
+      "materials": [
+        "Bark_Corealm",
+        "Cutwood_Corealm"
+      ]
+    },
+    {
+      "id": "corealm_stump_pine",
+      "name": "Stump Pine",
+      "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\corealm\\nature\\corealm_stump_pine.glb",
+      "sha256": "e46faa8588a9c8dda4da18ab4bec380823b41e7ead59fa80f22fee4afea41e93",
+      "triangles": 1078,
+      "size": {
+        "x": 1.3771,
+        "y": 0.6318,
+        "z": 1.3717
+      },
+      "materials": [
+        "Bark_Corealm",
+        "Cutwood_Corealm"
+      ]
+    },
+    {
+      "id": "corealm_fern_1",
+      "name": "Fern 1",
+      "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\corealm\\nature\\corealm_fern_1.glb",
+      "sha256": "0979ecd4e80f9fdb58791ae55a9375d6ffc4ae60a391b154cac795d9ee43d75e",
+      "triangles": 20968,
+      "size": {
+        "x": 1.9204,
+        "y": 0.6294,
+        "z": 1.7659
+      },
+      "materials": [
+        "Leaves_Corealm_fern",
+        "Stem_Corealm"
+      ]
+    },
+    {
+      "id": "corealm_fern_2",
+      "name": "Fern 2",
+      "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\corealm\\nature\\corealm_fern_2.glb",
+      "sha256": "2f9d22bfc559d93964d892cfe1e130de121dec8be1caa3c6733a04fb81e4c369",
+      "triangles": 10976,
+      "size": {
+        "x": 0.9999,
+        "y": 0.7567,
+        "z": 0.9837
+      },
+      "materials": [
+        "Leaves_Corealm_fern",
+        "Stem_Corealm"
+      ]
+    },
+    {
+      "id": "corealm_grass_1",
+      "name": "Grass 1",
+      "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\corealm\\nature\\corealm_grass_1.glb",
+      "sha256": "2fc8e3ca25f9de812223431b6096b24e7a3663f3220f3141103f6c1f1ad24e70",
+      "triangles": 72,
+      "size": {
+        "x": 0.5627,
+        "y": 0.4007,
+        "z": 0.4954
+      },
+      "materials": [
+        "Leaves_Corealm_grass"
+      ]
+    },
+    {
+      "id": "corealm_grass_2",
+      "name": "Grass 2",
+      "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\corealm\\nature\\corealm_grass_2.glb",
+      "sha256": "2caf80f6753abd7666ac989b4500a190cb6a9ced1a11701869737eb8a10cd812",
+      "triangles": 72,
+      "size": {
+        "x": 1.0249,
+        "y": 0.6396,
+        "z": 0.7389
+      },
+      "materials": [
+        "Leaves_Corealm_grass"
+      ]
+    },
+    {
+      "id": "corealm_shrub_1",
+      "name": "Shrub 1",
+      "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\corealm\\nature\\corealm_shrub_1.glb",
+      "sha256": "df5e1dcd33bc39516dc716482c3d8f23a958ffe8b3cbdde64c5d81b3cf608d31",
+      "triangles": 17129,
+      "size": {
+        "x": 1.5777,
+        "y": 1.2026,
+        "z": 1.4938
+      },
+      "materials": [
+        "Bark_Corealm",
+        "Leaves_Corealm_broadleaf"
+      ]
+    },
+    {
+      "id": "corealm_shrub_2",
+      "name": "Shrub 2",
+      "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\corealm\\nature\\corealm_shrub_2.glb",
+      "sha256": "a3430dc7c8859891ce9a7723c15f9ce43578b66fb6d99d6e4684838c5b6d21c1",
+      "triangles": 16933,
+      "size": {
+        "x": 1.0353,
+        "y": 0.7257,
+        "z": 0.9821
+      },
+      "materials": [
+        "Bark_Corealm",
+        "Leaves_Corealm_broadleaf"
+      ]
+    },
+    {
+      "id": "corealm_flower_1",
+      "name": "Flower 1",
+      "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\corealm\\nature\\corealm_flower_1.glb",
+      "sha256": "74d79a561e69fcec0e3283b46f3214a438123ff445b8d698503c830f510f3ae1",
+      "triangles": 1500,
+      "size": {
+        "x": 0.5459,
+        "y": 0.5103,
+        "z": 0.5712
+      },
+      "materials": [
+        "Leaves_Corealm_broadleaf",
+        "Stem_Corealm",
+        "Flowers_Corealm"
+      ]
+    }
+  ]
+}

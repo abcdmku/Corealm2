@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 import {MarchingCubes} from '../../../node_modules/three/examples/jsm/objects/MarchingCubes.js';
+import {buildFoxFields,FOX_ANATOMY} from './fox-anatomy.mjs';
+import {buildBadgerFields,BADGER_ANATOMY} from './badger-anatomy.mjs';
+import {buildPorcupineFields,PORCUPINE_ANATOMY} from './porcupine-anatomy.mjs';
 
 const clamp=THREE.MathUtils.clamp,lerp=THREE.MathUtils.lerp;
 const smax=(a,b,k)=>{const t=clamp(.5+.5*(b-a)/k,0,1);return lerp(a,b,t)+k*t*(1-t);};
@@ -17,25 +20,48 @@ export function joinedMammal(s,r,out,coat,profileAt,bodyWeights,pawDesign,pawCoa
   const capsule=(a,b,r0,r1,bone,blend=.022,weights=null)=>{
     const direction=V(b).sub(V(a));const shape={type:'capsule',a,b,r0,r1,direction,lengthSq:direction.lengthSq(),blend,weights:weights??[[r.index(bone),1]],leg:true};shapes.push(shape);return shape;
   };
-  const rows=s.kind==='fox'?s.body.filter(p=>p[0]<=.39).concat([[.48,.72,.099,.154],[.54,.75,.033,.073],[.555,.75,.001,.006]]):s.kind==='lynx'?s.body.filter(p=>p[0]<=.43).concat([[.50,.84,.12,.18],[.59,.92,.001,.04]]):s.body;
-  const body={type:'profile',rows,blend:.038,weights:p=>bodyWeights(r,s,p[2]),leg:false};shapes.push(body);
+  const rows=s.kind==='lynx'?s.body.filter(p=>p[0]<=.47).concat([[.54,.878,.090,.132],[.61,.91,.001,.025]]):s.body;
+  const body={type:'profile',rows,blend:.038,weights:p=>bodyWeights(r,s,p[2]),leg:false};if(s.kind!=='fox'&&s.kind!=='badger'&&s.kind!=='porc')shapes.push(body);
   if(s.kind==='fox'){
-    ell([0,.764,.52],[.105,.143,.144],'Neck',.034,[[r.index('Chest'),.18],[r.index('Neck'),.82]],-.30);
-    ell([0,.831,.714],[.136,.126,.156],'Head',.030);
-    ell([0,.815,.784],[.112,.098,.105],'Head',.022);
-    const muzzle=capsule([0,.796,.802],[0,.773,1.034],.070,.023,'Head',.022);muzzle.leg=false;
-    for(const sign of [-1,1])ell([sign*.075,.800,.771],[.061,.068,.106],'Head',.024);
+    shapes.push(...buildFoxFields({s,r,bodyWeights}));
+  }else if(s.kind==='badger'){
+    shapes.push(...buildBadgerFields({s,r,bodyWeights}));
+  }else if(s.kind==='porc'){
+    shapes.push(...buildPorcupineFields({s,r,bodyWeights}));
   }else if(s.kind==='lynx'){
-    ell([0,.89,.50],[.143,.18,.16],'Neck',.034,[[r.index('Chest'),.20],[r.index('Neck'),.80]],-.18);
-    ell([0,.979,.713],[.180,.160,.187],'Head',.032);
-    ell([0,.906,.840],[.128,.082,.070],'Head',.025);
-    for(const sign of [-1,1])ell([sign*.066,.908,.813],[.078,.070,.090],'Head',.026);
+    ell([0,.881,.506],[.116,.153,.161],'Neck',.024,[[r.index('Chest'),.20],[r.index('Neck'),.80]],-.18);
+    // A single longitudinal skull profile replaces accumulated cheek balls.
+    // Its lower planes narrow toward the mandible; rear ruff width breaks
+    // behind the zygomatic arch and tapers continuously into the short muzzle.
+    shapes.push({type:'profile',rows:[
+      [.554,.950,.006,.009],[.60,.955,.115,.101],
+      [.65,.956,.177,.115],[.691,.954,.184,.116],
+      [.733,.952,.167,.112],[.775,.949,.154,.100],
+      [.81,.943,.141,.084],[.85,.930,.108,.064],
+      [.891,.915,.079,.043],[.937,.916,.038,.024],
+      [.959,.916,.002,.005]],
+      felinePlanes:true,blend:.015,weights:[[r.index('Head'),1]],leg:false});
   }
   const short=s.kind==='badger'||s.kind==='porc';
   for(const leg of r.legs){
+    if(s.kind==='fox'||s.kind==='badger'||s.kind==='porc')continue;
     const {name,front,hip,knee,hock,paw}=leg;
+    if(s.kind==='lynx'){
+      // Front elbow sits under the scapula and flows into a straight forearm.
+      // The rear stifle is enclosed by the thigh; the hock remains distinct.
+      // Avoid separate enlarged joint spheres, which made every joint a knot.
+      const torso=front?'Chest':'Pelvis',start=hip.clone();start.x*=.62;start.y+=.040;
+      const upperRadius=front?.072:.103,lowerRadius=front?.043:.042;
+      capsule(start.toArray(),knee.toArray(),upperRadius,lowerRadius,name+'_Upper',.032,[[r.index(torso),.24],[r.index(name+'_Upper'),.76]]);
+      capsule(knee.toArray(),hock.toArray(),lowerRadius,.029,name+'_Lower',.007);
+      capsule(hock.toArray(),paw.toArray(),.029,.032,name+'_Ankle',.007);
+      const pad=pawDesign(s,leg);
+      ell([paw.x,pad.height,paw.z+pad.forward],[pad.halfWidth,pad.height,pad.halfLength],name+'_Paw',.008);shapes.at(-1).leg=true;shapes.at(-1).paw=true;shapes.at(-1).toeGrooves=true;
+      capsule([paw.x,paw.y+.019,paw.z-.010],[paw.x,pad.height+.010,paw.z+.008],.027,.043,name+'_Paw',.008,[[r.index(name+'_Ankle'),.26],[r.index(name+'_Paw'),.74]]);shapes.at(-1).paw=true;
+      continue;
+    }
     const muscle=hip.clone().lerp(knee,.32),origin=hip.clone();origin.x*=.63;origin.y+=.035;
-    const upper=short?(front?.082:.105):s.kind==='lynx'?(front?.068:.102):(front?.059:.085),joint=short?.034:s.kind==='lynx'?.038:.029;
+    const upper=short?(front?.082:.105):s.kind==='lynx'?(front?.068:.102):(front?.059:.085),joint=short?.034:s.kind==='lynx'?.045:.029;
     const torso=front?'Chest':'Pelvis';
     capsule(origin.toArray(),muscle.toArray(),upper*.79,upper,name+'_Upper',.036,[[r.index(torso),.34],[r.index(name+'_Upper'),.66]]);
     capsule(muscle.toArray(),knee.toArray(),upper*.90,joint,name+'_Upper',.025);
@@ -53,7 +79,15 @@ export function joinedMammal(s,r,out,coat,profileAt,bodyWeights,pawDesign,pawCoa
     if(f.type==='profile'){
       if(z<f.rows[0][0]||z>f.rows.at(-1)[0])return 1;
       const q=profileAt(f.rows,z),px=x/q[2],py=(y-q[1])/q[3],k0=Math.hypot(px,py),k1=Math.hypot(px/q[2],py/q[3]);
-      return k1<1e-8?-Math.min(q[2],q[3]):k0*(k0-1)/k1;
+      const oval=k1<1e-8?-Math.min(q[2],q[3]):k0*(k0-1)/k1;
+      if(f.felinePlanes){
+        const floor=.857+.10*(z-.65);
+        // Two oblique cheek planes meet a shallow mandibular underside.
+        // The gently irregular rear edge is measured in millimetres.
+        const fur=z<.75?.0025*Math.sin(z*113)*Math.sin(y*89):0;
+        return Math.max(oval,floor-y,(Math.abs(x)-q[2]*.64-(y-floor)*.78-fur)*.79);
+      }
+      return oval;
     }
     if(f.type==='capsule'){
       const dx=x-f.a[0],dy=y-f.a[1],dz=z-f.a[2],t=clamp((dx*f.direction.x+dy*f.direction.y+dz*f.direction.z)/f.lengthSq,0,1);
@@ -61,9 +95,14 @@ export function joinedMammal(s,r,out,coat,profileAt,bodyWeights,pawDesign,pawCoa
     }
     const d=new THREE.Vector3(x-f.centre[0],y-f.centre[1],z-f.centre[2]).applyQuaternion(f.inv),q=f.scale;
     const k0=Math.hypot(d.x/q[0],d.y/q[1],d.z/q[2]),k1=Math.hypot(d.x/(q[0]*q[0]),d.y/(q[1]*q[1]),d.z/(q[2]*q[2]));
-    return k1<1e-8?-Math.min(...q):k0*(k0-1)/k1;
+    let distance=k1<1e-8?-Math.min(...q):k0*(k0-1)/k1;
+    if(f.toeGrooves&&d.z>q[2]*.46&&y>.018){
+      const gap=Math.min(...(f.toeGrooveOffsets??[-.038,0,.038]).map(offset=>Math.abs(d.x-offset)));
+      distance+=(f.toeGrooveDepth??.004)*Math.exp(-gap*gap/.000025)*clamp((d.z/q[2]-.46)/.28,0,1);
+    }
+    return distance;
   }
-  const centre=[0,.57,.21],span=2.05,resolution=s.kind==='fox'?112:s.kind==='porc'?94:s.kind==='lynx'?100:104,half=span*.5,step=span/resolution,origin=centre.map(x=>x-half);
+  const centre=[0,.57,.21],span=2.05,resolution=s.kind==='fox'?FOX_ANATOMY.resolution:s.kind==='badger'?BADGER_ANATOMY.resolution:s.kind==='porc'?PORCUPINE_ANATOMY.resolution:s.kind==='lynx'?144:104,half=span*.5,step=span/resolution,origin=centre.map(x=>x-half);
   const mc=new MarchingCubes(resolution,new THREE.MeshBasicMaterial(),false,false,120000);mc.isolation=0;mc.field.fill(-10);
   for(const f of shapes){
     let lo,hi;

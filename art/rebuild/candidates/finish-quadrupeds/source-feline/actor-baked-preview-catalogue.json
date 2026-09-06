@@ -1,0 +1,120 @@
+{
+  "schema": 1,
+  "scope": "Lynx actor motion candidate: genuine Idle and source-derived contact-repaired periodic Walk/Run. Numerical rig/contact/loop reports accompany candidate; hardware acceptance remains pending. Combat/death clips remain absent.",
+  "pack": {
+    "id": "jonasdichelle-cat-source-review",
+    "name": "JonasDichelle complete Cat source review",
+    "author": "JonasDichelle; FBX redistribution by nrz/Ylikuutio",
+    "source": "https://blendswap.com/blend/18519",
+    "license": "CC-BY-3.0",
+    "archiveSha256": "b12adb6b0a0d061b1909a4095d3f75ad1f919d1eb01b10ecbf0edfd5f6311488"
+  },
+  "assets": [
+    {
+      "id": "creature_duskoak_lynx",
+      "file": "models/creature/creature_duskoak_lynx.glb",
+      "pack": "jonasdichelle-cat-source-review",
+      "category": "character",
+      "is": "lynx",
+      "tags": [
+        "animal",
+        "lynx",
+        "source-adapted-baked-rig",
+        "inspection"
+      ],
+      "bytes": 19464836,
+      "sha256": "fcc4296906bfeec04b9b2c650639a150238d2bccf14b2ec45b427ade1453b2d5",
+      "size": {
+        "x": 0.2848959772872047,
+        "y": 0.7501131424628255,
+        "z": 0.9188465059125126
+      },
+      "base": {
+        "x": -0.1424479387887059,
+        "y": -7.009078323403321e-8,
+        "z": -0.431509140354707
+      },
+      "groundY": -7.009078323403321e-8,
+      "bounds": {
+        "min": [
+          -0.1424479387887059,
+          -7.009078323403321e-8,
+          -0.431509140354707
+        ],
+        "max": [
+          0.14244803849849885,
+          0.7501130723720422,
+          0.48733736555780555
+        ]
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run"
+      ],
+      "materials": [
+        "skin"
+      ],
+      "triangles": 50372,
+      "sourceProvenance": {
+        "title": "Rigged and animated Cat",
+        "author": "JonasDichelle",
+        "creatorUrl": "https://blendswap.com/blend/18519",
+        "license": "CC-BY-3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+        "mirror": "https://github.com/nrz/ylikuutio",
+        "mirrorChanges": "Original cat.blend exported to FBX by Ylikuutio project. Complete FBX staged unchanged. Mirror README explicitly credits author and license.",
+        "localModifications": "None",
+        "mirrorCommit": "864ea1982524367ed416803db425f1895e4a0717",
+        "sourceSha256": "b12adb6b0a0d061b1909a4095d3f75ad1f919d1eb01b10ecbf0edfd5f6311488",
+        "modifications": "Historical full source rig baked at 192 Hz into flat standard joints with 76 shared corrective pairs and four native shear frames. Four fitted normalized influences; native hierarchy and channels replaced. Complete original body topology/UVs, reduced original eyes, neutral material. Walk/Run durations retained; no Idle/Attack/Hit/Death aliases. Source placement removed and .1 display scaling baked into skin transforms. Species adaptation: connected closed stub tail about13.5 cm, broadened paws, connected cheek ruff, narrowed dark-tipped ears, grey-buff dapple vertex coat. Tail/ear rest chains adapted and all evaluated matrices rebaked/refitted against full-weight adapted rig. This intentionally changes source anatomy and deformation. New3s calm Idle authored from adapted rest pose with independent breathing, head and ear motion; four planted feet. Walk/Run contact timing, paw orientation and leg IK explicitly modified using measured actual sole vertices, with bounded body-lowering for leg reach. Inconsistent native endpoint poses replaced with periodic cubic closure at unchanged clip durations. Four-weight fit reoptimized against all three motions. Ground reference is adapted rest sole floor. Source-space stance speeds0.65/2.2m/s measured on final weighted sole vertices; game movement stats and cadence caps unchanged.",
+        "historicalMirrorCommit": "864ea1982524367ed416803db425f1895e4a0717",
+        "limits": {
+          "train": {
+            "frames": 116,
+            "rmsMm": 0.23789471051624553,
+            "p95Mm": 0.24380637755529488,
+            "p99Mm": 1.207589430565785,
+            "maxMm": 9.759153166555468,
+            "samples": 2627400
+          },
+          "heldout": {
+            "frames": 113,
+            "rmsMm": 0.23297117608914295,
+            "p95Mm": 0.23147381752893473,
+            "p99Mm": 1.1808999697687113,
+            "maxMm": 9.560265810985102,
+            "samples": 2559450
+          },
+          "random": {
+            "frames": 69,
+            "rmsMm": 0.4617017202978334,
+            "p95Mm": 0.787048317253251,
+            "p99Mm": 2.323413800761536,
+            "maxMm": 9.876662801496263,
+            "samples": 1562850
+          }
+        }
+      },
+      "animationMetadata": [
+        {
+          "name": "Idle",
+          "duration": 3
+        },
+        {
+          "name": "Walk",
+          "duration": 1.125
+        },
+        {
+          "name": "Run",
+          "duration": 0.5833333134651184
+        }
+      ],
+      "impliedWalkMps": 0.65,
+      "impliedRunMps": 2.2
+    }
+  ],
+  "files": {
+    "creature_duskoak_lynx": "Lynx.actor-baked.glb"
+  }
+}

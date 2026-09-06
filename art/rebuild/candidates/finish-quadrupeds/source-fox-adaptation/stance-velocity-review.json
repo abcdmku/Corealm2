@@ -1,0 +1,68 @@
+{
+  "sourceSha256": "2907e9bd1965ee15a9b9cf9c436e56aa542fd0f5f24f1446ddb94279b5b870e8",
+  "basis": "Physical sole centroid differences at every quarter key; only adjacent samples both classified stance, including stance boundary intervals",
+  "evidence": [
+    {
+      "clip": "Walk",
+      "duration": 0.7083333134651184,
+      "samples": 681,
+      "feet": {
+        "foreRight": {
+          "maxActualXZVelocityMps": 0.583005066979009,
+          "minRearwardVelocityMps": 0.3767911186028204,
+          "maxRearwardVelocityMps": 0.5830048828851006,
+          "maxWorldResidualVelocityMps": 0.20320888391381772
+        },
+        "foreLeft": {
+          "maxActualXZVelocityMps": 0.582860818977617,
+          "minRearwardVelocityMps": 0.2217407615562322,
+          "maxRearwardVelocityMps": 0.582860719229587,
+          "maxWorldResidualVelocityMps": 0.358259239212545
+        },
+        "hindLeft": {
+          "maxActualXZVelocityMps": 0.5813960773179367,
+          "minRearwardVelocityMps": 0.5622859149604276,
+          "maxRearwardVelocityMps": 0.5813959675574534,
+          "maxWorldResidualVelocityMps": 0.0177436019333751
+        },
+        "hindRight": {
+          "maxActualXZVelocityMps": 0.5830213316087988,
+          "minRearwardVelocityMps": 0.2478304760124104,
+          "maxRearwardVelocityMps": 0.5830211746643102,
+          "maxWorldResidualVelocityMps": 0.33216978582338924
+        }
+      }
+    },
+    {
+      "clip": "Run",
+      "duration": 0.550000011920929,
+      "samples": 1057,
+      "feet": {
+        "foreRight": {
+          "maxActualXZVelocityMps": 1.8059295107347373,
+          "minRearwardVelocityMps": 0.5333012650203333,
+          "maxRearwardVelocityMps": 1.8059153767596938,
+          "maxWorldResidualVelocityMps": 1.2666987526089006
+        },
+        "foreLeft": {
+          "maxActualXZVelocityMps": 1.8254460253843154,
+          "minRearwardVelocityMps": 1.7465386173187363,
+          "maxRearwardVelocityMps": 1.825445862259617,
+          "maxWorldResidualVelocityMps": 0.053587570859443705
+        },
+        "hindLeft": {
+          "maxActualXZVelocityMps": 1.838183717235365,
+          "minRearwardVelocityMps": 0.8816276533914803,
+          "maxRearwardVelocityMps": 1.838162826323162,
+          "maxWorldResidualVelocityMps": 0.9184851296352414
+        },
+        "hindRight": {
+          "maxActualXZVelocityMps": 1.8096996139436314,
+          "minRearwardVelocityMps": 0.8995795091110262,
+          "maxRearwardVelocityMps": 1.8096988922925334,
+          "maxWorldResidualVelocityMps": 0.9004205077405932
+        }
+      }
+    }
+  ]
+}

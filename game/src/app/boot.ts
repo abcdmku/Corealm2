@@ -39,6 +39,7 @@ import { registerProceduralGear } from "../render/proceduralGear.js";
 import { WorldScene } from "../render/scene.js";
 import { EntityViews } from "../render/entityViews.js";
 import { buildStructureNavigationSources } from "../render/structureNavigation.js";
+import { buildStructureCameraSources } from "../render/structureCameraSources.js";
 import { STOREY_METRES } from "../render/buildings.js";
 import { isStructureEntity } from "../render/entityActiveSet.js";
 import { StaticCameraQueries } from "../systems/staticCameraQueries.js";
@@ -62,6 +63,7 @@ import { formatBootAssetProgress } from "./bootStatus.js";
 import { InputController } from "../input/mouse.js";
 import { prepareWorldSurface } from "./worldSurface.js";
 import { fishingAccessPositions } from "./fishingAccess.js";
+import { miningAccessPositions } from "./miningAccess.js";
 import { worldSiteHaulRamp } from "../world/siteTerrain.js";
 import { CAMERA } from "./config.js";
 import type { BuildingBox } from "../world/regionBuilder.js";
@@ -77,6 +79,9 @@ import { CAMPFIRE_ENTITY_ID, CampfireSystem, campfireFuelLookup } from "../syste
 import { GatheringSystem } from "../systems/gathering.js";
 import { EssenceSystem } from "../systems/essence.js";
 import { AgilitySystem } from "../systems/agility.js";
+import { TraversalPresentation } from "../render/traversalPresentation.js";
+import { HuntContractsSystem } from "../systems/huntContracts.js";
+import { deriveHuntTargets } from "../content/huntContracts.js";
 import { CombatSystem } from "../systems/combat.js";
 import { EnemyAiSystem } from "../systems/enemyAI.js";
 import { HealthSystem } from "../systems/health.js";
@@ -249,6 +254,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     enemies: packContent ? [...ENEMIES, ...packContent.REGIONAL_PACK_VARIANTS.map((variant) => variant.stats)] : ENEMIES,
     shops: SHOPS,
   });
+  if (profile.kind === "feature-lab") {
+    const { RPG_BESTIARY_STAGED } = await import("../content/rpgBestiary.js");
+    content.register({ enemies: [...content.allEnemies(), ...RPG_BESTIARY_STAGED.map((entry) => entry.stats)] });
+  }
 
   // 3 + 4. Start the manifest beside navigation initialization. These requests are independent; making
   // them serial put an entire network round trip on the critical path before any world work began.
@@ -362,6 +371,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
   }
   if (agilityFixture && gates && gateMaterials) {
+    const { registerTraversalContactAssets } = await import("../render/traversalContactAssets.js");
+    registerTraversalContactAssets(assets, gateMaterials);
     for (const wall of agilityFixture.enclosure) {
       const object = gates.buildDungeonGateMasonryWall(wall, gateMaterials);
       object.position.set(...wall.origin);
@@ -416,7 +427,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const worldPorts = {
     heightAt,
     dungeonGates: worldDoorThresholds.length > 0,
-    ...(profile.kind === "game" ? { accessPositions: fishingAccessPositions(WORLD_SITES, scene.getWaterBodies(), (x, z) => scene.meshHeightAt(x, z)) } : {}),
+    ...(profile.kind === "game" ? { accessPositions: new Map([
+      ...fishingAccessPositions(WORLD_SITES, scene.getWaterBodies(), (x, z) => scene.meshHeightAt(x, z)),
+      ...miningAccessPositions(WORLD_SITES, (x, z) => scene.meshHeightAt(x, z), {
+        assetSize: (id) => assets.assetSize(id), assetCenterXZ: (id) => assets.assetCenterXZ(id),
+      }),
+    ]) } : {}),
     baseY: (assetId: string): number => assets.baseY(assetId),
     assetSize: (assetId: string): { x: number; y: number; z: number } | null => assets.assetSize(assetId),
     assetCenterXZ: (assetId: string): { x: number; z: number } | null => assets.assetCenterXZ(assetId),
@@ -429,10 +445,32 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     ? await import("../featureLab/portal.js") : null;
   const portalFixture = portalLab?.assemblePortalFixture((x, z) => scene.meshHeightAt(x, z), (id) => assets.baseY(id));
   const packLab = packId ? await import("../featureLab/regionalPacks.js") : null;
+  const rpgPackCatalogue = packId && new URLSearchParams(location.search).get("rpg") === "1"
+    ? (await import("../content/rpgRegionalPacks.js")).createRpgRegionalPackCatalogue((id) => {
+      const entry = assets.entry(id);
+      return entry?.base ? { size: entry.size, base: entry.base } : null;
+    }, [packId]) : undefined;
+  if (rpgPackCatalogue) content.register({ enemies: [...content.allEnemies(), ...rpgPackCatalogue.variants.map((variant) => variant.stats)] });
   const packFixture = packLab && packId ? packLab.assembleRegionalPackFixture(packId, {
     heightAt: (x, z) => scene.meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
-  }) : null;
+  }, rpgPackCatalogue) : null;
   const built = profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts);
+  const huntLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("hunt") === "1"
+    ? await import("../featureLab/huntContracts.js") : null;
+  const huntFixture = huntLab?.assembleHuntContractsFixture((x, z) => scene.meshHeightAt(x, z), worldPorts.baseY, worldPorts.assetSize);
+  const motionCohort = new URLSearchParams(location.search).get("motion");
+  const groundMotionLab = profile.kind === "feature-lab" && (motionCohort === "1" || motionCohort === "legacy")
+    ? await import("../featureLab/groundMotion.js") : null;
+  const motionActors = new URLSearchParams(location.search).get("motionActors");
+  const groundMotionFixture = groundMotionLab?.createGroundMotionFixture({ heightAt: (x, z) => scene.meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
+    ...(motionCohort === "legacy" ? { cohort: "legacy" as const } : {}),
+    ...(motionActors === null ? {} : { assetIds: motionActors.split(",").map((id) => id.trim()) }),
+  });
+  if (groundMotionFixture) {
+    built.entities.push(...structuredClone(groundMotionFixture.entities));
+    (window as Window & { __groundMotionLab?: unknown }).__groundMotionLab = { actors: groundMotionFixture.actors, habitats: groundMotionFixture.habitats, spawn: groundMotionFixture.spawn };
+  }
+  if (huntFixture) built.entities.push(...structuredClone(huntFixture.entities));
   if (packFixture) built.entities.push(...structuredClone(packFixture.entities));
   if (portalFixture) {
     built.entities.push(...structuredClone(portalFixture.entities));
@@ -459,6 +497,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const fishingEntities = fishingLab?.createFishingLabEntities(scene, assets) ?? [];
   built.entities.push(...fishingEntities);
   const sitePlacements: ResolvedWorldSiteDressing[] = [];
+  const encounterNavSolids = new Map<string, SolidVolume>();
+  if (packFixture?.habitat.dressing.length) {
+    const { buildRegionalPackDressing } = await import("../world/regionalPackDressing.js");
+    const result = await buildRegionalPackDressing(scene, assets, packFixture.habitat,
+      Math.max(0, ...packFixture.entities.map((entity) => entity.combat?.bodyRadius ?? 0)));
+    sitePlacements.push(...result.placements);
+    built.solids.push(...result.solids);
+    for (const solid of result.navigationSolids) encounterNavSolids.set(solid.id, solid);
+  }
   if (profile.kind === "game") {
     const { buildMineCutFace } = await import("../render/mineCutFace.js");
     // These are authored settings, loaded before navigation so visible rock faces and work
@@ -491,7 +538,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
 
   // The fitted stone recess gives the existing portal visible depth beyond its masonry arch.
-  const portalMouths = portalFixture?.entities ?? built.entities.filter((entity) => entity.id === "gravelmaw_mouth_portal");
+  const portalMouths = portalFixture?.entities ?? built.entities.filter((entity) => entity.id === "gravelmaw_mouth_portal" || entity.id === "gravelmaw_exit_portal");
   for (const portal of portalMouths) {
     const { buildDungeonMouth } = await import("../render/dungeonMouth.js");
     const { applyCorealmSurfaceMaterials } = await import("../render/corealmSurfaceMaterials.js");
@@ -566,10 +613,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // rebuilt entities, or a monster killed just before a refresh comes back as an unattackable
   // ghost for the rest of its respawn timer.
   rehydrateEnemyRuntimes(store.get(), entityStore, clock.elapsedMs);
+  const audioForward = new THREE.Vector3();
   const gameAudio = new CorealmAudioBridge({
     store,
     engine: audioEngine,
     director: audioDirector,
+    listenerForward: () => {
+      renderer.camera.getWorldDirection(audioForward);
+      return [audioForward.x, audioForward.y, audioForward.z];
+    },
     entity: (entityId) => entityStore.get(entityId),
     surfaceAt: (position, regionId) => footstepSurfaceAt(
       regionId,
@@ -584,6 +636,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       const found = entityStore.nearest(position, radius, (candidate) => (
         (candidate.archetype === "enemy" || candidate.archetype === "boss")
         && candidate.state === "alive"
+        && candidate.regionId === store.get().player.regionId
         && typeof candidate.meta?.family === "string"
       ));
       if (!found) return undefined;
@@ -601,7 +654,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   //     navmesh so the chambers are genuinely walkable.
   const caveLabModule = profile.kind === "feature-lab" && (new URLSearchParams(location.search).get("cave") === "1" || portalFixture)
     ? await import("../featureLab/cave.js") : null;
-  const caveFixture = caveLabModule?.createCaveLabFixture({ scene, surfaceTextures }) ?? null;
+  const caveRockSource = caveLabModule && new URLSearchParams(location.search).get("caveSource") === "1"
+    ? await (await import("../render/dungeon.js")).loadCaveRockSource("/assets/models/cave/rock-face-01.glb")
+    : undefined;
+  const caveFixture = caveLabModule?.createCaveLabFixture({ scene, surfaceTextures, rockSource: caveRockSource }) ?? null;
   const dungeonSpec = caveFixture?.spec ?? authoredDungeonSpec;
   const dungeon = caveFixture ?? (dungeonSpec ? buildDungeon(dungeonSpec, scene.materials, { surfaceTextures }) : null);
   if (dungeon && dungeonSpec) {
@@ -638,6 +694,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     cameraQueries.addStaticBox(box.position, box.halfExtents as unknown as Vec3, box.rotationY);
   }
   for (const mesh of structureNavigation.meshes) cameraQueries.addStaticMesh(mesh);
+  const structureCamera = await buildStructureCameraSources(assets, built.entities);
+  for (const mesh of structureCamera.meshes) cameraQueries.addStaticMesh(mesh);
   // Recast reads raw geometry, so the cheapest way to make something block a path is to hand the
   // navmesh an invisible carve for it.
   //
@@ -650,7 +708,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Company Hall ridge and the player could stroll five metres along it, and every teleport in the
   // game — region travel, debug teleport, focusCamera, death respawn — routes through
   // `nav.closestPoint`, so those polygons were reachable. A ring generates no roof polygon at all.
-  let navCarves = solidObstacleMeshes(built.solids);
+  let navCarves = solidObstacleMeshes(built.solids.map((solid) => encounterNavSolids.get(solid.id) ?? solid));
   const navCarveGroup = new THREE.Group();
   navCarveGroup.name = "nav-obstacles";
   navCarveGroup.visible = false;
@@ -688,7 +746,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   // 10. Procedural dressing, kept clear of anything authored.
   setStatus("dressing the world…");
-  const spawnSpec = packFixture ? { ...profile.spawn, x: packFixture.spawn[0], z: packFixture.spawn[2], regionId: "fallowmarch" as const } : profile.spawn;
+  const fixtureSpawn = groundMotionFixture?.spawn ?? packFixture?.spawn;
+  const spawnSpec = fixtureSpawn ? { ...profile.spawn, x: fixtureSpawn[0], z: fixtureSpawn[2], regionId: "fallowmarch" as const } : profile.spawn;
   assets.setActiveRegion(spawnSpec.regionId);
   const scatterStreaming = new ScatterStreamingController(scene, assets, store.get().meta.seed, { onTree: registerForestTree });
   let scatterResults: ScatterResult[] = [];
@@ -761,6 +820,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     // the rotation in `orderAnimationBudget` stays as the safety net rather than the steady state.
     maxAnimatedViews: 16,
   });
+  renderer.transmissionCandidates = () => entityViews.transmissiveMeshes();
+  renderer.transmissionOpaqueOccluders = () => entityViews.staticOccluderMeshes();
   const spawnPosition: Vec3 = [spawnSpec.x, 0, spawnSpec.z];
   forest.update(spawnPosition, new Set());
   const surfaceEntities = entityStore.all().filter((entity) => entity.regionId !== "gravelmaw");
@@ -833,7 +894,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const spawn: Vec3 = nav.closestPoint([spawnSpec.x, groundY + 0.2, spawnSpec.z]) ?? [spawnSpec.x, groundY, spawnSpec.z];
   // Facing convention matches NpcStandDef and debug/shots.ts: 0 looks toward +z.
   // The camera sits behind the player, so its yaw is the player's facing plus pi.
-  const spawnFacing = spawnSpec.facingRad;
+  const spawnFacing = packFixture ? Math.PI : spawnSpec.facingRad;
   if (!resumedFromSave) {
     store.get().player.position = spawn;
     store.get().player.regionId = spawnSpec.regionId;
@@ -845,11 +906,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // reason the capsule stays as the fallback, because a missing player is unrecoverable and an
   // ugly player is not.
   const playerRig = new CharacterRig(assets);
+  const playerBody = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("body") === "female" ? "female" : "male";
   const rigged = await bootTelemetry.measureAsync(
     BOOT_SPANS.PLAYER_CONSTRUCTION,
     () => playerRig.build({
-      bodyAssetId: "base_male",
-      outfitAssetIds: ["outfit_male_peasant_chest", "outfit_male_peasant_legs", "outfit_male_peasant_boots"],
+      bodyAssetId: `base_${playerBody}`,
+      outfitAssetIds: [`outfit_${playerBody}_peasant_chest`, `outfit_${playerBody}_peasant_legs`, `outfit_${playerBody}_peasant_boots`],
       preloadGear: false,
       playerLocomotion: true,
     }),
@@ -886,6 +948,13 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // everything else is placed on, instead of 0.147-0.417 m above it on the navmesh; `entities`
   // pushes out of the things that move, which a navmesh carve cannot follow.
   let solids = new Solids(built.solids);
+  const importedSurfaceBounds = (meshes: readonly THREE.Mesh[]): THREE.Box3[] => meshes.map((mesh) =>
+    new THREE.Box3().setFromObject(mesh).expandByScalar(0.35));
+  let structureMovementBounds = importedSurfaceBounds(structureNavigation.meshes);
+  const preserveNavigationHeight = (point: Vec3): boolean => structureMovementBounds.some((bounds) =>
+    point[0] >= bounds.min.x && point[0] <= bounds.max.x
+    && point[1] >= bounds.min.y && point[1] <= bounds.max.y
+    && point[2] >= bounds.min.z && point[2] <= bounds.max.z);
   const movementSolids = {
     contains: (position: Vec3) => solids.contains(position) || Boolean(dungeonDoors?.contains(position)),
     resolve: (position: Vec3, from: Vec3, radius: number) => {
@@ -893,7 +962,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       return dungeonDoors?.resolve(resolved, from, radius) ?? resolved;
     },
   };
-  movement.setPorts({ solids: movementSolids, heightAt, entities: entityStore, dynamicObstacles: forestObstacles });
+  movement.setPorts({ solids: movementSolids, heightAt, preserveNavigationHeight, entities: entityStore, dynamicObstacles: forestObstacles });
   const api = new CorealmGameApi(store, events, nav, movement, clock);
 
   const interactions = new InteractionDispatcher({
@@ -1045,9 +1114,19 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     syncViews: () => entityViews.sync(entityStore.all()),
     now,
   });
+  const traversalPresentation = new TraversalPresentation(async () => {
+    const player = store.get().player;
+    scene.syncPlayer(player.position, player.facingRad, true);
+    camera.update(...player.position, true);
+    refreshVisualResidency(player.position, player.regionId, true);
+    await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+    renderer.render(performance.now());
+  });
   const agilitySystem = new AgilitySystem({
     store, events, clock, rng, entities: entityStore,
     activity: activitySystem, dispatcher: interactions, nav,
+    presentation: traversalPresentation,
+    isLandingSafe: (position) => distanceXZ(position, solids.resolve(position, position, 0.35)) < 0.01,
   });
   movement.setPorts({ shortcuts: {
     begin: (id, entry, exit) => agilitySystem.beginRoute(id, entry, exit),
@@ -1071,12 +1150,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       const clip = assetId ? assets.clipOf(assetId, "Attack") : undefined;
       const timing = assetId ? CREATURE_MOTION_TIMING[assetId] : undefined;
       const recoveryMs = (timing?.seconds ?? clip?.duration ?? 0.9) * 1000;
-      return { contactMs: recoveryMs * (timing?.contactNormalized ?? 0.45), recoveryMs };
+      const reviewingRhinoContact = profile.kind === "feature-lab"
+        && new URLSearchParams(location.search).get("rhinoTiming") === "1"
+        && assetId?.startsWith("boss_rhino_");
+      return { contactMs: recoveryMs * (reviewingRhinoContact ? 0.33229264631653577 : timing?.contactNormalized ?? 0.45), recoveryMs };
     },
   });
   const enemyAiSystem = new EnemyAiSystem({
     store, events, entities: entityStore, combat: combatSystem, nav,
-    ...(packFixture ? { habitatForEntity: (entity: SemanticEntity) => entity.meta?.groupId === packFixture.habitat.groupId ? packFixture.habitat : null } : {}),
+    ...((packFixture || groundMotionFixture) ? { habitatForEntity: (entity: SemanticEntity) => groundMotionFixture?.habitatForEntity(entity) ?? (packFixture && entity.meta?.groupId === packFixture.habitat.groupId ? packFixture.habitat : null) } : {}),
     // `meshHeightAt`, not `heightAt`: the drawn lattice needs no region id, and a creature's feet
     // should land on the same surface the SpellVfx impact rings chose it for. Without this port,
     // every step kept the navmesh's Y — 0.147-0.417 m above the drawn ground — so any animal that
@@ -1270,6 +1352,31 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     camera.update(snapped[0], snapped[1], snapped[2], true);
     refreshVisualResidency(snapped, regionId, true);
   };
+
+  const hunts = new HuntContractsSystem({
+    state: () => store.get().huntContracts,
+    markDirty: () => store.markDirty(), events,
+    playerId: () => store.get().player.id,
+    targets: () => {
+      const player = store.get().player;
+      return deriveHuntTargets(entityStore.all(), (id) => content.enemy(id),
+        (id) => getRegion(id)?.name ?? "Gravelmaw",
+        (entity) => (!huntFixture || entity.meta?.huntFixture === true)
+          && entity.regionId === player.regionId
+          && nav.pathDistance(player.position, entity.position) !== null);
+    },
+    eligibility: () => ({ regions: [store.get().player.regionId],
+      combatLevel: Math.max(store.get().skills.melee.level, store.get().skills.magic.level) }),
+    entity: (id) => entityStore.get(id),
+    awardXp: questXpPort.award,
+  });
+  if (store.get().huntContracts.offerSerial === 0) hunts.refreshOffers();
+  if (huntFixture) (window as Window & { __huntLab?: unknown }).__huntLab = {
+    snapshot: () => hunts.snapshot(), refreshOffers: () => hunts.refreshOffers(),
+    accept: (id: string) => hunts.accept(id), claim: () => hunts.claim(), abandon: () => hunts.abandon(),
+    attack: (id: string) => api.attack(id),
+    spawn: huntFixture.spawn,
+  };
   let pausedBeforePortal = false;
   const portalTransition = new PortalTransition((locked) => {
     if (locked) pausedBeforePortal = clock.paused;
@@ -1290,6 +1397,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     commit: () => {
       camera.setFreeTarget(null);
       commit();
+      const player = store.get().player;
+      audioDirector.setRegion(player.regionId);
+      scene.syncPlayer(player.position, player.facingRad, true);
+      camera.update(...player.position, true);
+      refreshVisualResidency(player.position, player.regionId, true);
+      discoverySystem?.sweep(clock.elapsedMs);
     },
     settled: async () => {
       await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
@@ -1305,8 +1418,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     traverseObstacle: (context) => agilitySystem.begin(context),
     activity: activitySystem,
     place: teleportPlayer,
-    ...(portalFixture ? { transition: transitionThroughPortal } : {}),
+    transition: transitionThroughPortal,
   });
+  movement.setPorts({ portals: {
+    transition: (position, regionId, commit) => transitionThroughPortal({ position, regionId, name: regionId === "gravelmaw" ? "Gravelmaw" : "Surface" }, commit),
+  } });
   void travelSystem;
 
   api.register("quests", questSystem);
@@ -1553,14 +1669,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     onProduction: (entityId) => ui.openProduction(entityId),
   });
   input.setEntityPickSource((raycaster) => {
-    const entityId = entityViews.pick(raycaster);
-    if (!entityId) return null;
+    const hit = entityViews.pickHit(raycaster);
+    if (!hit) return null;
+    const { entityId } = hit;
     const position = entityViews.positionOf(entityId);
     if (!position) return null;
     return {
       entityId,
       point: [position.x, position.y, position.z] as Vec3,
-      distance: position.distanceTo(renderer.camera.position),
+      distance: hit.distance,
     };
   });
 
@@ -1581,6 +1698,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const structureOrigin: Vec3 = [-8, scene.meshHeightAt(-8, 12), 12];
     let activeStructure: FeatureLabStructureAssembly | null = null;
     let activeStructureNavigation: THREE.Mesh[] = [];
+    let activeStructureCamera: THREE.Mesh[] = [];
     let structureRevision = 0;
     let labFreeCameraEnabled = false;
 
@@ -1606,12 +1724,13 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const replaceLabCollision = (
       structureSolids: readonly SolidVolume[],
       structureMeshes: readonly THREE.Mesh[],
+      cameraMeshes: readonly THREE.Mesh[] = activeStructureCamera,
     ): void => {
       movement.stop(store.get(), clock.elapsedMs, "feature-lab-structure");
 
       const allSolids = [...built.solids, ...structureSolids];
       const previousCarves = navCarves;
-      const candidateCarves = solidObstacleMeshes(allSolids);
+      const candidateCarves = solidObstacleMeshes(allSolids.map((solid) => encounterNavSolids.get(solid.id) ?? solid));
       for (const carve of previousCarves) carve.removeFromParent();
       for (const carve of candidateCarves) navCarveGroup.add(carve);
       navCarveGroup.updateMatrixWorld(true);
@@ -1664,8 +1783,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       for (const mesh of [...structureNavigation.meshes, ...structureMeshes, ...(dungeon?.blockers ?? [])]) {
         cameraQueries.addStaticMesh(mesh);
       }
+      for (const mesh of [...structureCamera.meshes, ...cameraMeshes]) cameraQueries.addStaticMesh(mesh);
       solids = new Solids(allSolids);
-      movement.setPorts({ solids: movementSolids, heightAt, entities: entityStore });
+      structureMovementBounds = importedSurfaceBounds([...structureNavigation.meshes, ...structureMeshes]);
+      movement.setPorts({ solids: movementSolids, heightAt, preserveNavigationHeight, entities: entityStore });
     };
 
     const disposeCarve = (carve: THREE.Mesh): void => {
@@ -1689,6 +1810,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         throw new Error(`Missing production structure assets: ${prepared.missing.join(", ")}`);
       }
       const nextStructureNavigation = await buildStructureNavigationSources(assets, next.entities);
+      const nextStructureCamera = await buildStructureCameraSources(assets, next.entities);
 
       const previousEntities = activeStructure?.entities ?? [];
       const installEntities = (
@@ -1710,13 +1832,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         throw cause;
       }
       try {
-        replaceLabCollision(next.solids, nextStructureNavigation.meshes);
+        replaceLabCollision(next.solids, nextStructureNavigation.meshes, nextStructureCamera.meshes);
       } catch (cause) {
         installEntities(next.entities, previousEntities);
         throw cause;
       }
       activeStructure = next;
       activeStructureNavigation = nextStructureNavigation.meshes;
+      activeStructureCamera = nextStructureCamera.meshes;
       const structureUrl = new URL(window.location.href);
       structureUrl.searchParams.set("kind", next.selection.kind);
       structureUrl.searchParams.set("id", next.selection.id);
@@ -1844,8 +1967,17 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       };
     }
     if (agilityLabModule && agilityFixture) {
-      (window as Window & { __agilityLab?: unknown }).__agilityLab = agilityLabModule.createAgilityWorkbench(agilityFixture, {
+      const agilityWorkbench = agilityLabModule.createAgilityWorkbench(agilityFixture, {
         store, quests: questSystem, navigation: nav, movement, rng: rng.get("misc"),
+        elapsedMs: () => clock.elapsedMs,
+        getEntity: (id) => entityStore.get(id),
+      });
+      (window as Window & { __agilityLab?: unknown }).__agilityLab = agilityWorkbench;
+      const { mountAgilityWorkbench } = await import("../featureLab/agilityWorkbench.js");
+      mountAgilityWorkbench(agilityWorkbench, {
+        interact: (id, verb) => api.interact(id, verb),
+        moveTo: (target) => api.moveTo(target),
+        stop: () => api.stop(),
       });
     }
     const frameLabBounds = (bounds: { min: Vec3; max: Vec3 }, detail = false): void => {
@@ -1878,6 +2010,19 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         },
         groundHeightAt: (x, z) => scene.meshHeightAt(x, z),
         baseY: (assetId) => assets.baseY(assetId),
+      });
+    }
+    if (params.get("gameplay") === "1") {
+      const { createGameplayAcceptanceFixture } = await import("../featureLab/gameplayAcceptance.js");
+      (window as Window & { __gameplayAcceptance?: unknown }).__gameplayAcceptance = createGameplayAcceptanceFixture({
+        store, entities: entityStore,
+        prepareEntities: async (entities) => {
+          const result = await entityViews.prepare([...entities]);
+          if (result.missing.length) throw new Error(`Missing gameplay fixture assets: ${result.missing.join(", ")}`);
+        },
+        groundHeightAt: (x, z) => scene.meshHeightAt(x, z),
+        baseY: (assetId) => assets.baseY(assetId),
+        assetSize: (assetId) => assets.assetSize(assetId),
       });
     }
     if (params.get("creatures") === "1") {
@@ -1969,7 +2114,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
     await featureLab.setStructure(structurePatch);
     if (profile.labMode !== "building") {
-      const initialTarget = featureLab.getCatalog().targets.creature[0];
+      const creatures = featureLab.getCatalog().targets.creature;
+      const requestedCreature = params.get("creature");
+      const initialTarget = (requestedCreature
+        ? creatures.find((entry) => entry.id === requestedCreature || entry.id === `species:${requestedCreature}`)
+        : undefined) ?? creatures[0];
       if (!initialTarget) throw new Error("The production content has no creature for the feature lab");
       await featureLab.spawnTarget("creature", initialTarget.id);
     }
@@ -2154,6 +2303,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (event.type === "dialogue.opened") ui.openDialogue();
     else if (event.type === "dialogue.closed" && !store.get().dialogue) ui.closeDialogue();
     else if (event.type === "player.died") {
+      camera.setFreeTarget(null);
+      camera.update(...store.get().player.position, true);
       const data = event.data as Record<string, unknown>;
       ui.showDeath({
         position: (data["position"] ?? [0, 0, 0]) as [number, number, number],
@@ -2210,7 +2361,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   loop.addSystem(gameAudio);
 
   if (dungeon) loop.addInterior(dungeon.group, () => store.get().player.regionId === "gravelmaw");
-  if (portalFixture) {
+  if (portalFixture || dungeon) {
     loop.addInterior(scene.scatterGroup, () => store.get().player.regionId !== "gravelmaw");
     loop.addInterior(scene.terrainGroup, () => store.get().player.regionId !== "gravelmaw");
     for (const object of scene.root.children) {
@@ -2224,7 +2375,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   loop.setVfx(vfx);
   loop.setSpellVfx(spellVfx);
   loop.setCombatHits(() => combatSystem.consumeHits());
-  loop.setCombatAttackStarts(() => combatSystem.consumeAttackStarts());
+  loop.setCombatAttackStarts(() => combatSystem.consumeAttackStarts(),
+    (id) => combatSystem.isAttackCommitted(id) && entityStore.get(id)?.regionId === store.get().player.regionId);
+  window.addEventListener("pagehide", (event) => { if (event.isTrusted && !event.persisted) loop.dispose(); });
   loop.setCombatPresentationHandler((hit, phase) => gameAudio.handlePlayerCombatMotion(hit, phase));
   loop.setPlayerMotionHandler((event) => {
     if (event.kind === "footstep") {
@@ -2237,15 +2390,21 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   if (rigged) loop.setPlayerRig(playerRig);
   loop.setEntityViews(entityViews, () => {
     if (profile.kind === "feature-lab") return entityStore.all();
+    return entitiesForVisualRegion(store.get().player.regionId);
+  }, () => {
+    if (profile.kind === "feature-lab") return;
     const player = store.get().player;
     refreshVisualResidency(player.position, player.regionId);
-    return entitiesForVisualRegion(player.regionId);
   });
+  ui.setHuntContracts(hunts);
+  loop.setTraversalPresentation(() => traversalPresentation.current());
 
   const rebuildSemanticWorld = (): void => {
     forest.reset();
     forestObstacles.clear();
     const rebuilt = profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts);
+    if (huntFixture) rebuilt.entities.push(...structuredClone(huntFixture.entities));
+    if (groundMotionFixture) rebuilt.entities.push(...structuredClone(groundMotionFixture.entities));
     if (packFixture) rebuilt.entities.push(...structuredClone(packFixture.entities));
     if (portalFixture) {
       rebuilt.entities.push(...structuredClone(portalFixture.entities));
@@ -2281,11 +2440,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     syncCampfireAmbience();
     if (profile.kind === "feature-lab") entityViews.sync(entityStore.all());
     else refreshVisualResidency(store.get().player.position, store.get().player.regionId, true);
+    if (store.get().huntContracts.offerSerial === 0) hunts.refreshOffers();
   };
 
   const resetWorld = (seed?: number, keepSave = false): void => {
     portalTransition.cancel();
     travelSystem.cancel();
+    agilitySystem.cancelTraversal(clock.elapsedMs, "replaced");
+    traversalPresentation.reset();
     if (!keepSave) saves.clear();
     store.reset(seed ?? store.get().meta.seed, Date.now());
     store.get().player.position = spawn;
@@ -2317,6 +2479,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   /** Applies a migrated save to every runtime owner, not just to the JSON store. */
   const replaceWorldFromSave = (next: NonNullable<ReturnType<SaveService["deserialize"]>["state"]>): void => {
+    portalTransition.cancel();
+    travelSystem.cancel();
+    agilitySystem.cancelTraversal(clock.elapsedMs, "replaced");
+    traversalPresentation.reset();
+    movement.stop(store.get(), clock.elapsedMs, "load");
+    movement.setDirectInput({ forward: 0, strafe: 0, cameraYaw: 0 });
     store.replace(next);
     rng.reseed(next.meta.seed);
     events.reset();
@@ -2384,6 +2552,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // The debug and acceptance surface is required before `ready` flips, but none of it participates
   // in world construction or the first render. Load it after those critical paths have completed.
   const { installGameDebug } = await import("../debug/gameDebug.js");
+  if (profile.kind !== "feature-lab" && new URLSearchParams(location.search).get("packAudit") === "1") {
+    const { createRegionalPackWorldProbe } = await import("../world/regionalPackWorldProbe.js");
+    (window as Window & { __packWorldAudit?: unknown }).__packWorldAudit = createRegionalPackWorldProbe({
+      scene, assets, scatterStreaming, forestInstances,
+      playerPosition: () => store.get().player.position,
+      findPath: (from, to) => nav.findPath(from, to),
+      resolveSolid: (desired, from, radius) => movementSolids.resolve(desired, from, radius),
+    });
+  }
   installGameDebug({
     store, events, clock, nav, movement, api, renderer, camera, assets, errors,
     isReady: () => debugReady,
@@ -2406,6 +2583,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     playerMotion: () => playerRig.motionSnapshot(true),
     foliageOcclusion: () => scene.materials.getFoliageOcclusion(),
     setFoliageOcclusionEnabled: (enabled) => scene.materials.setFoliageOcclusionEnabled(enabled),
+    setContainedTroughWater: (enabled) => entityViews.setContainedTroughWater(enabled),
+    setFoliageOcclusionBoundsOptimization: (enabled) => scene.materials.setFoliageOcclusionBoundsOptimization(enabled),
     entityMotion: (entityId: EntityId) => entityViews.motionSnapshot(entityId),
     waterBodies: () => scene.getWaterBodies(),
     worldSample: (x: number, z: number) => scene.sampleWorld(x, z),
@@ -2640,8 +2819,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       return true;
     },
     inspectPose: (target: Vec3, yaw: number, pitch: number, distance: number, detached = false) => {
-      if (featureLab && detached) {
-        featureLab.setFreeCameraEnabled(true);
+      if (detached) {
+        featureLab?.setFreeCameraEnabled(true);
         const focus: Vec3 = [target[0], target[1] - 1.2, target[2]];
         camera.setFreeTarget(focus);
         camera.setPose(yaw, pitch, distance, 1.5);

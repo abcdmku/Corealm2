@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import * as THREE from 'three';
+import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+const load=THREE.TextureLoader.prototype.load;
+THREE.TextureLoader.prototype.load=function(){return new THREE.Texture();};
+globalThis.window??={URL:{createObjectURL:()=>''}};
+const bytes=fs.readFileSync('tools/rpg-bestiary/humanoid-source/derived/Wolf_Rig.fbx');
+const object=new FBXLoader().parse(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'');
+THREE.TextureLoader.prototype.load=load;
+object.updateMatrixWorld(true);
+object.traverse(n=>{if(n.isSkinnedMesh)console.log(JSON.stringify({mesh:n.name,vertices:n.geometry.attributes.position.count,box:new THREE.Box3().setFromObject(n,true),bones:n.skeleton.bones.map(b=>({name:b.name,p:b.getWorldPosition(new THREE.Vector3()).toArray()}))}));});

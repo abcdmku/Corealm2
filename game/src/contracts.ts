@@ -1181,6 +1181,8 @@ export interface FeatureLabApi {
   setMode(mode: FeatureLabMode): FeatureLabState;
   setWalkingEnabled(enabled: boolean): FeatureLabState;
   setPlayerVisible(visible: boolean): FeatureLabState;
+  /** Isolated equipped-rig reaction preview; does not change player health or prove gameplay death. */
+  previewPlayerReaction(pose: "hit" | "death"): FeatureLabState;
   setFreeCameraEnabled(enabled: boolean): FeatureLabState;
   setStructure(patch: Partial<FeatureLabStructureSelection>): Promise<FeatureLabState>;
   fitStructure(): FeatureLabState;

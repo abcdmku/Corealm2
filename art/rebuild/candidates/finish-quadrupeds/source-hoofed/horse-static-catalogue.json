@@ -1,0 +1,38 @@
+{
+  "id": "horse_lyndon_static_source",
+  "status": "static-source-review-only",
+  "file": "horse-source-static.glb",
+  "sha256": "cdf4f716f7bd1a980814c53ed9fa81d28e016e2e316ed3f319982d7e3cbce782",
+  "bytes": 17538080,
+  "geometryModified": false,
+  "normalization": {
+    "uniformScale": 0.2502531187886256,
+    "originalMinimum": [
+      -1.9386520385742188,
+      -8.248298645019531,
+      -5.008283615112305
+    ],
+    "originalMaximum": [
+      1.938660979270935,
+      6.2221832275390625,
+      4.582006454467773
+    ],
+    "heightMeters": 2.4
+  },
+  "meshObjects": 5,
+  "triangles": 14986,
+  "animations": [],
+  "license": "CC0-1.0",
+  "author": "Lyndon Daniels",
+  "source": "https://opengameart.org/content/realtime-ranchers-3d-model-pack",
+  "changes": [
+    "Uniform world transform to 2.4 m total height and ground y=0 in glTF",
+    "Blender 4 node materials rebuilt from original diffuse and normal textures",
+    "Exported whole original OBJ body, mane, tail and eyes without geometry replacement"
+  ],
+  "limitations": [
+    "Static; no production clip set",
+    "Original native derivative rig inventory preserved separately",
+    "Original low-poly hoof silhouette and baked shading still need production visual review"
+  ]
+}

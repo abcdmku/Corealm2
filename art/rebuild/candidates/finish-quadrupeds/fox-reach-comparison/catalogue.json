@@ -1,0 +1,138 @@
+{
+  "packs": [
+    {
+      "id": "khronos-fox-source-review",
+      "name": "Khronos complete Fox source review",
+      "author": "PixelMannen; tomkranis; @AsoboStudio and @scurest",
+      "source": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+      "license": "CC0-1.0 model; CC-BY-4.0 rigging, animation and conversion",
+      "archiveSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7"
+    }
+  ],
+  "assets": [
+    {
+      "id": "creature_redbrush_fox",
+      "file": "models/creature/creature_redbrush_fox.glb",
+      "pack": "khronos-fox-source-review",
+      "category": "character",
+      "is": "fox",
+      "tags": [
+        "animal",
+        "fox",
+        "skinned",
+        "source-review"
+      ],
+      "bytes": 1913752,
+      "sha256": "2907e9bd1965ee15a9b9cf9c436e56aa542fd0f5f24f1446ddb94279b5b870e8",
+      "size": {
+        "x": 0.24451285362256836,
+        "y": 0.7827743114985272,
+        "z": 1.5342869510511183
+      },
+      "base": {
+        "x": -0.12225643787119361,
+        "y": -0.001217441940560946,
+        "z": -0.8681037377774836
+      },
+      "bounds": {
+        "min": [
+          -0.12225643787119361,
+          -0.001217441940560946,
+          -0.8681037377774836
+        ],
+        "max": [
+          0.12225641575137475,
+          0.7815568695579662,
+          0.6661832132736347
+        ]
+      },
+      "groundY": -0.001217441940560946,
+      "animations": [
+        "Survey",
+        "Walk",
+        "Run"
+      ],
+      "materials": [
+        "fox_material"
+      ],
+      "triangles": 37200,
+      "walkClipSeconds": 0.7083333134651184,
+      "runClipSeconds": 0.55,
+      "sourceProvenance": {
+        "repositoryUrl": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+        "commit": "81e8b567643b5166e6ff40024e4ff71ad4b18676",
+        "sourceSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+        "attribution": [
+          {
+            "author": "PixelMannen",
+            "work": "Model",
+            "year": 2014,
+            "license": "CC0-1.0",
+            "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
+          },
+          {
+            "author": "tomkranis",
+            "work": "Rigging & Animation",
+            "year": 2014,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          },
+          {
+            "author": "@AsoboStudio and @scurest",
+            "work": "Conversion to glTF",
+            "year": 2017,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          }
+        ],
+        "modifications": [
+          "Welded face duplicates by position and skin weights; averaged source texture colours at shared vertices without exchanging orange/white/dark coat regions.",
+          "Three controlled Loop-subdivision rounds on the complete original mesh cage. Ear/nose planes and sole elevation receive minimal relaxation.",
+          "Widened existing weighted distal foot vertices and eased pointed forefoot ends.",
+          "Source colour regions converted to linear vertex colours with directional grizzle; smooth normals and rough coat.",
+          "Added two small surface-projected almond eye details on native Head joint.",
+          "Connected distal paw surface reshaped; derivative limb contact animation and reach correction; see motion review."
+        ]
+      },
+      "reviewOnly": {
+        "nativeDataExactlyPreserved": false,
+        "missingProductionBehaviors": [
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "contactAccepted": false,
+        "hardwareAccepted": false
+      },
+      "motionReview": {
+        "candidateFile": "Fox.reach-prototype.glb",
+        "nativeSurveyPreserved": true,
+        "correctedClips": [
+          "Walk",
+          "Run"
+        ],
+        "authoredWalkSpeedMps": 0.58,
+        "authoredRunSpeedMps": 1.8,
+        "speedBasis": "new authored world stance target, not native speed measurement",
+        "hardwareAccepted": false,
+        "report": "reach-prototype-review.json"
+      }
+    }
+  ],
+  "files": {
+    "creature_redbrush_fox": "creature_redbrush_fox.2907e9bd1965.glb"
+  },
+  "origins": [
+    {
+      "slot": "creature_redbrush_fox",
+      "catalogue": "source-fox-adaptation/reach-prototype-catalogue.json",
+      "catalogueSha256": "c2b75a6f995bbec2f7197600ecd386a805f661270409c3523f4922a2971a4134",
+      "sha256": "2907e9bd1965ee15a9b9cf9c436e56aa542fd0f5f24f1446ddb94279b5b870e8",
+      "sourceDescription": "fox",
+      "rightsStatus": "See original source attribution and license records."
+    }
+  ],
+  "scope": "Frozen licensed Fox source adaptation with connected reshaped paws and newly authored source-rig locomotion. Survey is retained; Walk/Run are corrected source-derived motions, with Run intentionally changed to a 0.55 second cycle. Native source motion is preserved separately. CPU contact is measured but hardware shape, cadence and deformation remain unaccepted. Attack, hit and death are absent. No promotion acceptance."
+}

@@ -14,6 +14,8 @@ import type { QuestObjectiveRef, QuestSummary } from "../contracts.js";
 import { content } from "../content/index.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
 import { prettifyId, skillName } from "./panels.js";
+import { mountHuntContractsPanel } from "./huntContracts.js";
+import type { HuntContractsSystem } from "../systems/huntContracts.js";
 
 const REGION_NAMES: Record<string, string> = {
   fallowmarch: "Farmland",
@@ -59,6 +61,10 @@ export class QuestPanel implements ManagedPanel {
   private readonly list: HTMLElement;
   private readonly summaryLine: HTMLElement;
   private signature = "";
+  private hunts: HuntContractsSystem | null = null;
+  private huntBoard: ReturnType<typeof mountHuntContractsPanel> | null = null;
+  private huntSignature = "";
+  private readonly huntHost = document.createElement("div");
 
   constructor(private readonly ctx: UiContext) {
     this.frame = new PanelFrame({
@@ -76,10 +82,22 @@ export class QuestPanel implements ManagedPanel {
     this.summaryLine.className = "u-dim quests__summary";
     this.list = document.createElement("div");
     this.list.className = "quests__list";
-    this.frame.body.append(this.summaryLine, this.list);
+    this.frame.body.append(this.huntHost, this.summaryLine, this.list);
   }
 
   refresh(force = false): void {
+    const hunts = this.ctx.huntContracts?.() ?? null;
+    if (hunts !== this.hunts) {
+      this.huntBoard?.dispose();
+      this.hunts = hunts;
+      this.huntBoard = hunts ? mountHuntContractsPanel(this.huntHost, hunts) : null;
+      this.huntSignature = "";
+    }
+    const huntSignature = hunts ? JSON.stringify(hunts.snapshot()) : "";
+    if (force || huntSignature !== this.huntSignature) {
+      this.huntSignature = huntSignature;
+      this.huntBoard?.refresh();
+    }
     const quests = this.ctx.api.getQuests();
     // The pinned id is part of the signature: pinning from the tracker or another session must
     // repaint the pin toggles even though no quest data changed.
@@ -150,7 +168,7 @@ export class QuestPanel implements ManagedPanel {
     const requires = Object.entries(quest.requirements)
       .map(([skill, level]) => `${skillName(skill as never)} ${level}`)
       .join(", ");
-    place.textContent = REGION_NAMES[quest.regionId] ?? prettifyId(quest.regionId)
+    place.textContent = (REGION_NAMES[quest.regionId] ?? prettifyId(quest.regionId))
       + (requires ? ` · needs ${requires}` : "");
     entry.appendChild(place);
 
@@ -196,6 +214,8 @@ export class QuestPanel implements ManagedPanel {
   }
 
   dispose(): void {
+    this.huntBoard?.dispose();
+    this.huntBoard = null;
     this.frame.dispose();
   }
 }

@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "scope": "Whole native Fox preview, uniform 0.01 root scale only. Original source preserved separately. No production acceptance or promotion.",
+  "pack": {
+    "id": "khronos-fox-source-review",
+    "name": "Khronos complete Fox source review",
+    "author": "PixelMannen; tomkranis; @AsoboStudio and @scurest",
+    "source": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+    "license": "CC0-1.0 model; CC-BY-4.0 rigging, animation and conversion",
+    "archiveSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7"
+  },
+  "assets": [
+    {
+      "id": "creature_redbrush_fox",
+      "file": "models/creature/creature_redbrush_fox.glb",
+      "pack": "khronos-fox-source-review",
+      "category": "character",
+      "is": "fox",
+      "tags": [
+        "animal",
+        "fox",
+        "skinned",
+        "source-review"
+      ],
+      "bytes": 164332,
+      "sha256": "9ecbb6b0cac174d65c4b6c43d5e51e1ab5ae4615e4a9da4cccb5f48217557404",
+      "size": {
+        "x": 0.25185436248779297,
+        "y": 0.7902893318235874,
+        "z": 1.5471986389160157
+      },
+      "base": {
+        "x": -0.12592718124389649,
+        "y": -0.00121744766831398,
+        "z": -0.8809500122070313
+      },
+      "bounds": {
+        "min": [
+          -0.12592718124389649,
+          -0.00121744766831398,
+          -0.8809500122070313
+        ],
+        "max": [
+          0.12592718124389649,
+          0.7890718841552734,
+          0.6662486267089844
+        ]
+      },
+      "groundY": -0.00121744766831398,
+      "animations": [
+        "Survey",
+        "Walk",
+        "Run"
+      ],
+      "materials": [
+        "fox_material"
+      ],
+      "triangles": 576,
+      "walkClipSeconds": 0.7083333134651184,
+      "runClipSeconds": 1.1583333015441895,
+      "sourceProvenance": {
+        "repositoryUrl": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+        "commit": "81e8b567643b5166e6ff40024e4ff71ad4b18676",
+        "sourceSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+        "attribution": [
+          {
+            "author": "PixelMannen",
+            "work": "Model",
+            "year": 2014,
+            "license": "CC0-1.0",
+            "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
+          },
+          {
+            "author": "tomkranis",
+            "work": "Rigging & Animation",
+            "year": 2014,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          },
+          {
+            "author": "@AsoboStudio and @scurest",
+            "work": "Conversion to glTF",
+            "year": 2017,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          }
+        ],
+        "modifications": "Added uniform 0.01 scene-root scale only. Geometry, skin, texture and native animation data preserved; no renaming or new clips."
+      },
+      "reviewOnly": {
+        "sourceUnits": "source units multiplied by 0.01",
+        "scaleApplied": 0.01,
+        "orientationChange": false,
+        "idlePlayback": "Production idle resolver falls back to first own clip Survey; hardware gallery verified actual Survey playback. This is not a static bind pose.",
+        "missingProductionBehaviors": [
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "groundYIsBindBounds": true
+      }
+    }
+  ],
+  "files": {
+    "creature_redbrush_fox": "Fox.preview-scale001.glb"
+  }
+}

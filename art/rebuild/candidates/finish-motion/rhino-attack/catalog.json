@@ -1,0 +1,175 @@
+{
+  "assets": [
+    {
+      "id": "boss_rhino_air",
+      "file": "models/boss/boss_rhino_air.glb",
+      "pack": "fantasy-rhino",
+      "category": "character",
+      "is": "roc",
+      "tags": [
+        "boss",
+        "roc",
+        "tempest",
+        "air",
+        "wind",
+        "elemental",
+        "monster",
+        "territorial"
+      ],
+      "bytes": 1457908,
+      "size": {
+        "x": 1.047,
+        "y": 1.707,
+        "z": 2.633
+      },
+      "base": {
+        "x": -0.524,
+        "y": 0,
+        "z": -1.001
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "boss_rhino_air_mat"
+      ],
+      "sha256": "3350ab7f8300adddd57d661a859e756ed7e4af9f5d9be4031703b40992b9692f",
+      "impliedWalkMps": 0.8409099444326276,
+      "walkClipSeconds": 1.6666666269302368,
+      "impliedRunMps": 2.4628998315130746,
+      "runClipSeconds": 0.6666666865348816,
+      "groundY": 0,
+      "candidateFile": "boss_rhino_air.glb"
+    },
+    {
+      "id": "boss_rhino_earth",
+      "file": "models/boss/boss_rhino_earth.glb",
+      "pack": "fantasy-rhino",
+      "category": "character",
+      "is": "rootheart",
+      "tags": [
+        "boss",
+        "rootheart",
+        "earth",
+        "stone",
+        "elemental",
+        "monster",
+        "territorial"
+      ],
+      "bytes": 1447708,
+      "size": {
+        "x": 1.047,
+        "y": 1.707,
+        "z": 2.633
+      },
+      "base": {
+        "x": -0.524,
+        "y": 0,
+        "z": -1.001
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "boss_rhino_earth_mat"
+      ],
+      "sha256": "b8f8c30ba5d2f917fe9555e92f8852d25ac0d137a221e8ce5744e361087f79ae",
+      "impliedWalkMps": 0.8409099444326276,
+      "walkClipSeconds": 1.6666666269302368,
+      "impliedRunMps": 2.4628998315130746,
+      "runClipSeconds": 0.6666666865348816,
+      "groundY": 0,
+      "candidateFile": "boss_rhino_earth.glb"
+    },
+    {
+      "id": "boss_rhino_water",
+      "file": "models/boss/boss_rhino_water.glb",
+      "pack": "fantasy-rhino",
+      "category": "character",
+      "is": "quarrykeeper",
+      "tags": [
+        "boss",
+        "quarrykeeper",
+        "ordrun",
+        "water",
+        "ice",
+        "elemental",
+        "monster",
+        "territorial"
+      ],
+      "bytes": 1421676,
+      "size": {
+        "x": 1.047,
+        "y": 1.707,
+        "z": 2.633
+      },
+      "base": {
+        "x": -0.524,
+        "y": 0,
+        "z": -1.001
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "boss_rhino_water_mat"
+      ],
+      "sha256": "bec1b97ae9e313e0849d7c219b61c08674f4c2df041b2d4134f8b41ec50e9c71",
+      "impliedWalkMps": 0.8409099444326276,
+      "walkClipSeconds": 1.6666666269302368,
+      "impliedRunMps": 2.4628998315130746,
+      "runClipSeconds": 0.6666666865348816,
+      "groundY": 0,
+      "candidateFile": "boss_rhino_water.glb"
+    }
+  ],
+  "files": {
+    "boss_rhino_air": "boss_rhino_air.glb",
+    "boss_rhino_earth": "boss_rhino_earth.glb",
+    "boss_rhino_water": "boss_rhino_water.glb"
+  },
+  "sourceHashes": {
+    "boss_rhino_air": "0e361fc212a4da00e5a7a04c5fe590dac7214fb8071b9b1b1493753a326c7556",
+    "boss_rhino_earth": "700ff55b402bc3e0a2a69cff5c87f44701cc7e14f818bbb640857e98a6474788",
+    "boss_rhino_water": "f85ea2b8033deda8ff8232d8de709e0da56f81fd2f5dce7b7cb7ca6c9318e43a"
+  },
+  "timingUpdates": {
+    "boss_rhino_air": {
+      "seconds": 1.2333333492279053,
+      "contactNormalized": 0.33229264631653577
+    },
+    "boss_rhino_earth": {
+      "seconds": 1.2333333492279053,
+      "contactNormalized": 0.33229264631653577
+    },
+    "boss_rhino_water": {
+      "seconds": 1.2333333492279053,
+      "contactNormalized": 0.33229264631653577
+    }
+  },
+  "offlinePassed": true,
+  "visualAccepted": false,
+  "promotable": false,
+  "notes": "Attack replaces collapsed source motion, retaining staged repaired recoil. Marker is an offline target-plane crossing; real player contact remains unaccepted."
+}

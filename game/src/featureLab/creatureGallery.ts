@@ -4,7 +4,7 @@ import type { AssetRegistry } from "../render/assets.js";
 import type { EntityViews } from "../render/entityViews.js";
 import type { WorldScene } from "../render/scene.js";
 import type { EntityStore } from "../world/entities.js";
-import { createFeatureLabEntity, FEATURE_LAB_CATALOG } from "./catalog.js";
+import { createFeatureLabEntity, FEATURE_LAB_CATALOG, stagedCreaturePreset } from "./catalog.js";
 
 export type GalleryMotion = "idle" | "walk" | "run" | "attack" | "hit";
 
@@ -56,7 +56,7 @@ export async function createCreatureGallery({ assets, scene, entityStore, entity
     show(presetId, count = 1) {
       const next = queue.catch(() => {}).then(async () => {
         if (disposed) throw new Error("Creature gallery has been disposed");
-        const preset = catalog.find((candidate) => candidate.id === presetId);
+        const preset = catalog.find((candidate) => candidate.id === presetId) ?? stagedCreaturePreset(presetId);
         if (!preset) throw new Error(`Unknown production creature preset: ${presetId}`);
         if (!Number.isInteger(count) || count < 1 || count > 64) throw new Error("Creature count must be a whole number from 1 to 64");
         state.ready = false;

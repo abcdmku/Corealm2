@@ -1,0 +1,180 @@
+{
+  "schema": 1,
+  "scope": "Eight-role actor with corrected stationary idle; generic Survey-to-Run TRS blend contact unresolved; hardware pending",
+  "pack": {
+    "id": "khronos-fox-source-review",
+    "name": "Khronos complete Fox source review",
+    "author": "PixelMannen; tomkranis; @AsoboStudio and @scurest",
+    "source": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+    "license": "CC0-1.0 model; CC-BY-4.0 rigging, animation and conversion",
+    "archiveSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7"
+  },
+  "assets": [
+    {
+      "id": "creature_redbrush_fox",
+      "file": "models/creature/creature_redbrush_fox.glb",
+      "pack": "khronos-fox-source-review",
+      "category": "character",
+      "is": "fox",
+      "tags": [
+        "animal",
+        "fox",
+        "skinned",
+        "source-review"
+      ],
+      "bytes": 2895828,
+      "sha256": "c12dc9521901be07455c8d81049c79511f96e7dc187e357081112849bc0766cb",
+      "size": {
+        "x": 0.24451285362256836,
+        "y": 0.7827743114985272,
+        "z": 1.5342869510511183
+      },
+      "base": {
+        "x": -0.12225643787119361,
+        "y": -0.001217441940560946,
+        "z": -0.8681037377774836
+      },
+      "bounds": {
+        "min": [
+          -0.12225643787119361,
+          -0.001217441940560946,
+          -0.8681037377774836
+        ],
+        "max": [
+          0.12225641575137475,
+          0.7815568695579662,
+          0.6661832132736347
+        ]
+      },
+      "groundY": -0.001217441940560946,
+      "animations": [
+        "Survey",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "fox_material"
+      ],
+      "triangles": 37200,
+      "walkClipSeconds": 0.7083333134651184,
+      "runClipSeconds": 0.4,
+      "sourceProvenance": {
+        "repositoryUrl": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+        "commit": "81e8b567643b5166e6ff40024e4ff71ad4b18676",
+        "sourceSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+        "attribution": [
+          {
+            "author": "PixelMannen",
+            "work": "Model",
+            "year": 2014,
+            "license": "CC0-1.0",
+            "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
+          },
+          {
+            "author": "tomkranis",
+            "work": "Rigging & Animation",
+            "year": 2014,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          },
+          {
+            "author": "@AsoboStudio and @scurest",
+            "work": "Conversion to glTF",
+            "year": 2017,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          }
+        ],
+        "modifications": [
+          "Welded face duplicates by position and skin weights; averaged source texture colours at shared vertices without exchanging orange/white/dark coat regions.",
+          "Three controlled Loop-subdivision rounds on the complete original mesh cage. Ear/nose planes and sole elevation receive minimal relaxation.",
+          "Widened existing weighted distal foot vertices and eased pointed forefoot ends.",
+          "Source colour regions converted to linear vertex colours with directional grizzle; smooth normals and rough coat.",
+          "Added two small surface-projected almond eye details on native Head joint.",
+          "Connected distal paw surface reshaped; derivative limb contact animation and reach correction; see motion review.",
+          "Survey idle placement corrected by one constant 0.0013708967433231965m world-Y hip translation; all native rotations and times preserved. Generic transition boundary contact remains unresolved."
+        ]
+      },
+      "reviewOnly": {
+        "nativeDataExactlyPreserved": false,
+        "missingProductionBehaviors": [],
+        "contactAccepted": false,
+        "hardwareAccepted": false,
+        "transitionBoundaryAccepted": false
+      },
+      "impliedWalkMps": 0.58,
+      "impliedRunMps": 1.8,
+      "motionReview": {
+        "candidateFile": "Fox.completed-actor.glb",
+        "nativeSurveyPreserved": false,
+        "correctedClips": [
+          "Walk",
+          "Run"
+        ],
+        "authoredWalkSpeedMps": 0.58,
+        "authoredRunSpeedMps": 1.8,
+        "speedBasis": "new authored world stance target, not native speed measurement",
+        "hardwareAccepted": false,
+        "report": "completed-actor-review.json"
+      },
+      "gameplayRoleProvenance": [
+        {
+          "name": "Attack",
+          "duration": 1.05,
+          "provenance": "Authored anticipation crouch, short pounce, downward head strike, landing and braced recovery. No jaw animation or bite claim.",
+          "events": {
+            "anticipation": 0.16,
+            "launch": 0.22,
+            "impact": 0.46,
+            "recovery": 0.8
+          }
+        },
+        {
+          "name": "Hit",
+          "duration": 0.72,
+          "provenance": "Authored rearward recoil and four-paw brace with recovery.",
+          "events": {
+            "peak": 0.13,
+            "recovered": 0.65
+          }
+        },
+        {
+          "name": "HitLeft",
+          "duration": 0.72,
+          "provenance": "Authored left-side impact response: rightward trunk displacement, yaw and counter-tail, planted paws.",
+          "events": {
+            "peak": 0.13,
+            "recovered": 0.65
+          }
+        },
+        {
+          "name": "HitRight",
+          "duration": 0.72,
+          "provenance": "Authored right-side impact response: leftward trunk displacement, yaw and counter-tail, planted paws.",
+          "events": {
+            "peak": 0.13,
+            "recovered": 0.65
+          }
+        },
+        {
+          "name": "Death",
+          "duration": 1.4,
+          "provenance": "Authored collapse, limb folding, side roll, head/tail rest and geometry-derived body support. Final .45 seconds held motionless.",
+          "events": {
+            "collapse": 0.1,
+            "sideContact": 0.85,
+            "settled": 0.95
+          }
+        }
+      ]
+    }
+  ],
+  "files": {
+    "creature_redbrush_fox": "Fox.completed-actor.glb"
+  }
+}

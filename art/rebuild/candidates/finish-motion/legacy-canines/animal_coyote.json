@@ -1,0 +1,1429 @@
+{
+  "id": "animal_coyote",
+  "sourceFile": "game/public/assets/models/animal/animal_coyote.glb",
+  "sourceSha256": "460965f62d8d70bae75e035370ee145b5eeb9233dd5e64a6e88e37887adabd9d",
+  "sha256": "ca9a84bcb36f1ff3dbbf03d84688dbf3b0e00ace3a2857f63beb227ed95316cf",
+  "bytes": 2459784,
+  "stagedFile": "art/rebuild/candidates/finish-motion/legacy-canines/animal_coyote.glb",
+  "generator": [
+    {
+      "file": "tools/creature-motion/canine-gait.ts",
+      "sha256": "8c7eb4104f70a2dd54a87779e168d24d581b61e12b18a9851a31e7648adb8e1e"
+    },
+    {
+      "file": "tools/creature-motion/stage-canine-gaits.ts",
+      "sha256": "865d953abf1fefc2d2a5656469985477142ab7f8c20ebe7886a9e58ce7d5d539"
+    },
+    {
+      "file": "tools/creature-motion/pose.ts",
+      "sha256": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795"
+    },
+    {
+      "file": "tools/lib/ground-gait.ts",
+      "sha256": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a"
+    },
+    {
+      "file": "tools/repair-ground-creature-gaits.ts",
+      "sha256": "070b3a2bff61c97e763ecb8f64e59eeee9a36249a1724f9b28118709c961ec2f"
+    }
+  ],
+  "offlinePassed": true,
+  "visualAccepted": false,
+  "promotable": false,
+  "preserved": {
+    "originalBinPrefix": true,
+    "nonlocomotionClips": true,
+    "geometrySkinMaterialsHierarchy": true,
+    "durationsAndNativeSpeeds": true
+  },
+  "diagnostics": [
+    {
+      "samples": 3840,
+      "crouch": -0.14,
+      "feet": [
+        {
+          "name": "l_FrontLeg",
+          "minimumExtensionMargin": 0.02517827486966312,
+          "maximumTargetError": 4.560706458366088e-16
+        },
+        {
+          "name": "r_FrontLeg",
+          "minimumExtensionMargin": 0.025322596401759656,
+          "maximumTargetError": 3.925231146709438e-16
+        },
+        {
+          "name": "l_HindLeg",
+          "minimumExtensionMargin": 0.020745268751868662,
+          "maximumTargetError": 3.815760786470701e-16
+        },
+        {
+          "name": "r_HindLeg",
+          "minimumExtensionMargin": 0.020745235956029395,
+          "maximumTargetError": 4.52041112178401e-16
+        }
+      ]
+    },
+    {
+      "samples": 3840,
+      "crouch": -0.14,
+      "feet": [
+        {
+          "name": "l_FrontLeg",
+          "minimumExtensionMargin": 0.01715287882683897,
+          "maximumTargetError": 5.087681048627601e-16
+        },
+        {
+          "name": "r_FrontLeg",
+          "minimumExtensionMargin": 0.017051262017493463,
+          "maximumTargetError": 4.728641100182568e-16
+        },
+        {
+          "name": "l_HindLeg",
+          "minimumExtensionMargin": 0.0042864279665564275,
+          "maximumTargetError": 4.053169429671442e-16
+        },
+        {
+          "name": "r_HindLeg",
+          "minimumExtensionMargin": 0.004075695621554742,
+          "maximumTargetError": 4.554367738890935e-16
+        }
+      ]
+    }
+  ],
+  "audits": [
+    {
+      "name": "Walk",
+      "seconds": 0.9666666388511658,
+      "nativeMps": 1.0792709897552932,
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "passed": true,
+      "failures": [],
+      "method": "Actual original POSITION/JOINTS_0/WEIGHTS_0 vertices CPU-skinned using serialized animation channels and all imported transforms. Signed velocity includes virtual +Z root travel. Every designated stance interval is retained; no backward/slow-velocity sample filter. Individual primary vertices cannot cancel each other. Additional all-phase contact checks ignore the authored stance schedule.",
+      "contactNearFloorWindowM": 0.002,
+      "physicalContactPlane": "Per-foot intended floorY+clearance, plus1um tolerance. The separate broad2mm all-phase window includes airborne approach/release samples and is reported without treating them as planted.",
+      "floorY": -0.003,
+      "nonFiniteGeometrySamples": 0,
+      "minimumMeshY": -0.0025001262236798117,
+      "maximumMeshPenetrationM": 0,
+      "minimumMeshVertex": 1096,
+      "minimumMeshPhase": 0.3040364583333333,
+      "simultaneousSupportCount": {
+        "count": 15360,
+        "min": 2,
+        "median": 2,
+        "p95": 3,
+        "max": 3
+      },
+      "maximumSimultaneousVelocityDisagreementMps": 0.001202507615110666,
+      "maximumLoopPositionM": 0,
+      "maximumLoopVelocityMps": 0.010175389202870448,
+      "maximumWholeMeshLoopPositionM": 0,
+      "maximumWholeMeshLoopVelocityMps": 0.014376232886538642,
+      "wholeMeshLoopVelocityVertex": 1506,
+      "feet": [
+        {
+          "name": "l_FrontLeg",
+          "vertices": [
+            1140,
+            1141,
+            1153,
+            1154,
+            1210,
+            1211,
+            1214,
+            1215,
+            1216,
+            1218,
+            1220,
+            1222,
+            1224,
+            1227,
+            1229,
+            1232,
+            1233,
+            1235,
+            1243,
+            1244,
+            1245,
+            1246,
+            1247,
+            1248,
+            2592,
+            2594,
+            2596,
+            2617,
+            2619,
+            2621,
+            2642,
+            2644,
+            2646,
+            2667,
+            2669,
+            2671
+          ],
+          "primaryVertices": [
+            1227
+          ],
+          "phaseOffset": 0,
+          "duty": 0.56,
+          "contactPhaseIntervals": [
+            [
+              0,
+              0.5598958333333334
+            ],
+            [
+              0.9998697916666667,
+              1
+            ]
+          ],
+          "nativeBackwardMps": {
+            "count": 8600,
+            "min": 1.0787937623077148,
+            "median": 1.0792693201562757,
+            "p95": 1.079487652866309,
+            "max": 1.0797553375322304
+          },
+          "primarySlipMps": {
+            "count": 8600,
+            "min": 0.00004176137738968779,
+            "median": 0.00031256226471769704,
+            "p95": 0.0005683866933610088,
+            "max": 0.0009547911996175874
+          },
+          "primaryVertexSlipMps": {
+            "count": 8600,
+            "min": 0.00004176137738968779,
+            "median": 0.00031256226471769704,
+            "p95": 0.0005683866933610088,
+            "max": 0.0009547911996175874
+          },
+          "primaryHorizontalSlipMps": {
+            "count": 8600,
+            "min": 8.023881151250036e-7,
+            "median": 0.00009863676840193722,
+            "p95": 0.00027155819417413074,
+            "max": 0.0004845895878502473
+          },
+          "primaryVerticalMps": {
+            "count": 8600,
+            "min": 0.0000036829927203095948,
+            "median": 0.0002918748668637374,
+            "p95": 0.0005241987078675336,
+            "max": 0.0008675697762000485
+          },
+          "physicalNearFloorSoleSlipMps": {
+            "count": 17200,
+            "min": 0.000010476583164538709,
+            "median": 0.0004639447459893817,
+            "p95": 0.0015597834323113238,
+            "max": 0.0022054279848091663
+          },
+          "allPhaseNearFloorSoleSlipMps": {
+            "count": 18378,
+            "min": 0.000010476583164538709,
+            "median": 0.0005081922579498091,
+            "p95": 0.10756441934477827,
+            "max": 1.0812076851939798
+          },
+          "allPhasePhysicalPlaneSlipMps": {
+            "count": 8614,
+            "min": 0.00004176137738968779,
+            "median": 0.0003126595355141882,
+            "p95": 0.0005694547219461226,
+            "max": 0.002816748811533066
+          },
+          "incidentalPhysicalPlaneSlipMps": {
+            "count": 14,
+            "min": 0.00029411264692617275,
+            "median": 0.0015855880435554342,
+            "p95": 0.002816748811533066,
+            "max": 0.002816748811533066
+          },
+          "worstSlips": {
+            "declaredStancePrimary": {
+              "mps": 0.0009547911996175874,
+              "cyclePhase": 0.04993489583333344,
+              "vertex": 1227
+            },
+            "broadNearFloorAllPhases": {
+              "mps": 1.0812076851939798,
+              "cyclePhase": 0.9789713541666667,
+              "vertex": 1227
+            },
+            "intendedContactPlaneAllPhases": {
+              "mps": 0.002816748811533066,
+              "cyclePhase": 0.5603515625,
+              "vertex": 1227
+            },
+            "incidentalContactPlane": {
+              "mps": 0.002816748811533066,
+              "cyclePhase": 0.5603515625,
+              "vertex": 1227
+            }
+          },
+          "primaryClearanceM": {
+            "count": 8603,
+            "min": 0.0004999381830555422,
+            "median": 0.0005000104824041296,
+            "p95": 0.0005000513727921475,
+            "max": 0.0005000836820763573
+          },
+          "allSoleClearanceM": {
+            "count": 309708,
+            "min": 0.0004999381830555422,
+            "median": 0.0036963367168212913,
+            "p95": 0.005130700267133652,
+            "max": 0.005352969508847599
+          },
+          "loopPositionM": 0,
+          "loopVelocityMps": 0.00048750514143142636
+        },
+        {
+          "name": "r_FrontLeg",
+          "vertices": [
+            2201,
+            2202,
+            2215,
+            2216,
+            2270,
+            2273,
+            2274,
+            2277,
+            2279,
+            2280,
+            2283,
+            2285,
+            2288,
+            2290,
+            2293,
+            2294,
+            2296,
+            2299,
+            2305,
+            2306,
+            2307,
+            2308,
+            2309,
+            2310,
+            2342,
+            2343,
+            2345,
+            2367,
+            2368,
+            2370,
+            2392,
+            2393,
+            2395,
+            2417,
+            2418,
+            2420
+          ],
+          "primaryVertices": [
+            2290
+          ],
+          "phaseOffset": 0.5,
+          "duty": 0.56,
+          "contactPhaseIntervals": [
+            [
+              0,
+              0.059895833333333336
+            ],
+            [
+              0.4998697916666667,
+              1
+            ]
+          ],
+          "nativeBackwardMps": {
+            "count": 8600,
+            "min": 1.0788047167868438,
+            "median": 1.0792777909155102,
+            "p95": 1.0795359070158506,
+            "max": 1.0797566758184405
+          },
+          "primarySlipMps": {
+            "count": 8600,
+            "min": 0.000043251860629809,
+            "median": 0.0003322442842757832,
+            "p95": 0.0005780216264399382,
+            "max": 0.0008096925164099091
+          },
+          "primaryVertexSlipMps": {
+            "count": 8600,
+            "min": 0.000043251860629809,
+            "median": 0.0003322442842757832,
+            "p95": 0.0005780216264399382,
+            "max": 0.0008096925164099091
+          },
+          "primaryHorizontalSlipMps": {
+            "count": 8600,
+            "min": 1.8777026985105825e-7,
+            "median": 0.00014066210177654634,
+            "p95": 0.0003168400314647828,
+            "max": 0.0004886735389541454
+          },
+          "primaryVerticalMps": {
+            "count": 8600,
+            "min": 0.000008628767621323701,
+            "median": 0.00029198904437757246,
+            "p95": 0.0005195239039062162,
+            "max": 0.0007919895475823522
+          },
+          "physicalNearFloorSoleSlipMps": {
+            "count": 17200,
+            "min": 0.000043251860629809,
+            "median": 0.0003322532136658295,
+            "p95": 0.0005780419818634062,
+            "max": 0.0008096925164099091
+          },
+          "allPhaseNearFloorSoleSlipMps": {
+            "count": 18350,
+            "min": 0.000043251860629809,
+            "median": 0.0003406064922842325,
+            "p95": 0.08879462912466723,
+            "max": 1.0812949911243033
+          },
+          "allPhasePhysicalPlaneSlipMps": {
+            "count": 8614,
+            "min": 0.000043251860629809,
+            "median": 0.0003324235846525143,
+            "p95": 0.0005787543662901151,
+            "max": 0.002870124865581052
+          },
+          "incidentalPhysicalPlaneSlipMps": {
+            "count": 14,
+            "min": 0.0003203908164980316,
+            "median": 0.001798636661162761,
+            "p95": 0.002870124865581052,
+            "max": 0.002870124865581052
+          },
+          "worstSlips": {
+            "declaredStancePrimary": {
+              "mps": 0.0008096925164099091,
+              "cyclePhase": 0.5041015625,
+              "vertex": 2290
+            },
+            "broadNearFloorAllPhases": {
+              "mps": 1.0812949911243033,
+              "cyclePhase": 0.4789713541666667,
+              "vertex": 2290
+            },
+            "intendedContactPlaneAllPhases": {
+              "mps": 0.002870124865581052,
+              "cyclePhase": 0.060351562499999956,
+              "vertex": 2290
+            },
+            "incidentalContactPlane": {
+              "mps": 0.002870124865581052,
+              "cyclePhase": 0.060351562499999956,
+              "vertex": 2290
+            }
+          },
+          "primaryClearanceM": {
+            "count": 8603,
+            "min": 0.0004999277273777347,
+            "median": 0.0005000106344166745,
+            "p95": 0.0005000510464132505,
+            "max": 0.0005000828273499435
+          },
+          "allSoleClearanceM": {
+            "count": 309708,
+            "min": 0.0004999277273777347,
+            "median": 0.0038208242904215995,
+            "p95": 0.005153709016112826,
+            "max": 0.005275635259470727
+          },
+          "loopPositionM": 0,
+          "loopVelocityMps": 0.0005177546507058573
+        },
+        {
+          "name": "l_HindLeg",
+          "vertices": [
+            1032,
+            1033,
+            1081,
+            1085,
+            1087,
+            1092,
+            1093,
+            1095,
+            1096,
+            1099,
+            1100,
+            1101,
+            1104,
+            1107,
+            1109,
+            1110,
+            1113,
+            1116,
+            1125,
+            1126,
+            1127,
+            1128,
+            1129,
+            1130,
+            2692,
+            2767,
+            2792
+          ],
+          "primaryVertices": [
+            1096,
+            1125
+          ],
+          "phaseOffset": 0.75,
+          "duty": 0.56,
+          "contactPhaseIntervals": [
+            [
+              0,
+              0.3098958333333333
+            ],
+            [
+              0.7498697916666667,
+              1
+            ]
+          ],
+          "nativeBackwardMps": {
+            "count": 8600,
+            "min": 1.0783770953946883,
+            "median": 1.079270360809111,
+            "p95": 1.079625307056251,
+            "max": 1.0801555587273888
+          },
+          "primarySlipMps": {
+            "count": 8600,
+            "min": 0.00015412991695194637,
+            "median": 0.000444314920060167,
+            "p95": 0.0007322535594812124,
+            "max": 0.0011252616379732905
+          },
+          "primaryVertexSlipMps": {
+            "count": 17200,
+            "min": 0.00015366924854463878,
+            "median": 0.00044458775915006164,
+            "p95": 0.0007336828837455004,
+            "max": 0.0011310432690115567
+          },
+          "primaryHorizontalSlipMps": {
+            "count": 8600,
+            "min": 0.0000027005169671249302,
+            "median": 0.00016833640737271368,
+            "p95": 0.0004797708498337617,
+            "max": 0.0009166287972469536
+          },
+          "primaryVerticalMps": {
+            "count": 8600,
+            "min": 0.000057919030219143796,
+            "median": 0.0003884490385406888,
+            "p95": 0.0006307586603153582,
+            "max": 0.0009238668704938143
+          },
+          "physicalNearFloorSoleSlipMps": {
+            "count": 94600,
+            "min": 0.00015123570869415135,
+            "median": 0.00044505207529530643,
+            "p95": 0.0007312766968192513,
+            "max": 0.0011506358503501363
+          },
+          "allPhaseNearFloorSoleSlipMps": {
+            "count": 98712,
+            "min": 0.00015123570869415135,
+            "median": 0.00045068689315687664,
+            "p95": 0.0009451752765990693,
+            "max": 1.0812265507114704
+          },
+          "allPhasePhysicalPlaneSlipMps": {
+            "count": 8614,
+            "min": 0.00015465803356256043,
+            "median": 0.00044411118245275225,
+            "p95": 0.0007395327069427286,
+            "max": 0.0032819934467234607
+          },
+          "incidentalPhysicalPlaneSlipMps": {
+            "count": 14,
+            "min": 0.0006329885106459315,
+            "median": 0.0014275927047757775,
+            "p95": 0.0032819934467234607,
+            "max": 0.0032819934467234607
+          },
+          "worstSlips": {
+            "declaredStancePrimary": {
+              "mps": 0.0011310432690115567,
+              "cyclePhase": 0.3097005208333332,
+              "vertex": 1125
+            },
+            "broadNearFloorAllPhases": {
+              "mps": 1.0812265507114704,
+              "cyclePhase": 0.7289713541666667,
+              "vertex": 1096
+            },
+            "intendedContactPlaneAllPhases": {
+              "mps": 0.0032819934467234607,
+              "cyclePhase": 0.31035156249999996,
+              "vertex": 1096
+            },
+            "incidentalContactPlane": {
+              "mps": 0.0032819934467234607,
+              "cyclePhase": 0.31035156249999996,
+              "vertex": 1096
+            }
+          },
+          "primaryClearanceM": {
+            "count": 8603,
+            "min": 0.0005932869545820824,
+            "median": 0.0005933795601511848,
+            "p95": 0.0005934209554557604,
+            "max": 0.0005934445215265613
+          },
+          "allSoleClearanceM": {
+            "count": 232281,
+            "min": 0.0004998737763201883,
+            "median": 0.003312508867364513,
+            "p95": 0.005187465316951304,
+            "max": 0.005372790187239216
+          },
+          "loopPositionM": 0,
+          "loopVelocityMps": 0.0007529552543928514
+        },
+        {
+          "name": "r_HindLeg",
+          "vertices": [
+            2094,
+            2095,
+            2143,
+            2147,
+            2148,
+            2152,
+            2155,
+            2157,
+            2158,
+            2161,
+            2163,
+            2164,
+            2168,
+            2169,
+            2170,
+            2173,
+            2175,
+            2178,
+            2187,
+            2188,
+            2189,
+            2190,
+            2191,
+            2192,
+            2442,
+            2517,
+            2542
+          ],
+          "primaryVertices": [
+            2158,
+            2189
+          ],
+          "phaseOffset": 0.25,
+          "duty": 0.56,
+          "contactPhaseIntervals": [
+            [
+              0.24986979166666667,
+              0.8098958333333334
+            ]
+          ],
+          "nativeBackwardMps": {
+            "count": 8600,
+            "min": 1.078428245245647,
+            "median": 1.0792697186766762,
+            "p95": 1.0796278413599045,
+            "max": 1.0802072013773771
+          },
+          "primarySlipMps": {
+            "count": 8600,
+            "min": 0.000193177196883762,
+            "median": 0.00044424533579525446,
+            "p95": 0.0007313399596167203,
+            "max": 0.0011461359332776255
+          },
+          "primaryVertexSlipMps": {
+            "count": 17200,
+            "min": 0.0001925417087846967,
+            "median": 0.00044414738877554354,
+            "p95": 0.000732639401061225,
+            "max": 0.0011491576034128733
+          },
+          "primaryHorizontalSlipMps": {
+            "count": 8600,
+            "min": 0.000005084233584511441,
+            "median": 0.00017697901710834202,
+            "p95": 0.0004931634590566678,
+            "max": 0.0009488169356670639
+          },
+          "primaryVerticalMps": {
+            "count": 8600,
+            "min": 0.00005786682782351016,
+            "median": 0.00038994749484632665,
+            "p95": 0.0006366712844138843,
+            "max": 0.0009229016779573652
+          },
+          "physicalNearFloorSoleSlipMps": {
+            "count": 94600,
+            "min": 0.0001905757063471489,
+            "median": 0.000444822497556666,
+            "p95": 0.0007309999591299467,
+            "max": 0.0011603906772304836
+          },
+          "allPhaseNearFloorSoleSlipMps": {
+            "count": 98712,
+            "min": 0.0001905757063471489,
+            "median": 0.00045105774820342287,
+            "p95": 0.0009356818771294805,
+            "max": 1.0812214419123485
+          },
+          "allPhasePhysicalPlaneSlipMps": {
+            "count": 8616,
+            "min": 0.00019382994121232752,
+            "median": 0.00044259242589234164,
+            "p95": 0.0007388546635859202,
+            "max": 0.003826791133755918
+          },
+          "incidentalPhysicalPlaneSlipMps": {
+            "count": 16,
+            "min": 0.0006179023640660515,
+            "median": 0.0015810064523564698,
+            "p95": 0.003826791133755918,
+            "max": 0.003826791133755918
+          },
+          "worstSlips": {
+            "broadNearFloorAllPhases": {
+              "mps": 1.0812214419123485,
+              "cyclePhase": 0.2289713541666667,
+              "vertex": 2158
+            },
+            "intendedContactPlaneAllPhases": {
+              "mps": 0.003826791133755918,
+              "cyclePhase": 0.2495442708333333,
+              "vertex": 2158
+            },
+            "incidentalContactPlane": {
+              "mps": 0.003826791133755918,
+              "cyclePhase": 0.2495442708333333,
+              "vertex": 2158
+            },
+            "declaredStancePrimary": {
+              "mps": 0.0011491576034128733,
+              "cyclePhase": 0.8097005208333332,
+              "vertex": 2189
+            }
+          },
+          "primaryClearanceM": {
+            "count": 8602,
+            "min": 0.000593290108385252,
+            "median": 0.0005933822818338023,
+            "p95": 0.0005934224486147757,
+            "max": 0.0005934438351949782
+          },
+          "allSoleClearanceM": {
+            "count": 232254,
+            "min": 0.0004998751302794338,
+            "median": 0.0033124883837166463,
+            "p95": 0.005187446154888094,
+            "max": 0.005372787255529643
+          },
+          "loopPositionM": 0,
+          "loopVelocityMps": 0.010175389202870448
+        }
+      ],
+      "notes": [
+        "Four-beat walk and paired fore/hind run using physical original weighted soles.",
+        "Source segment lengths, translations, scales, geometry and nonlocomotion samplers preserved. All gait poses authored as complete tracks."
+      ],
+      "authoringDiagnostics": {
+        "samples": 3840,
+        "crouch": -0.14,
+        "feet": [
+          {
+            "name": "l_FrontLeg",
+            "minimumExtensionMargin": 0.02517827486966312,
+            "maximumTargetError": 4.560706458366088e-16
+          },
+          {
+            "name": "r_FrontLeg",
+            "minimumExtensionMargin": 0.025322596401759656,
+            "maximumTargetError": 3.925231146709438e-16
+          },
+          {
+            "name": "l_HindLeg",
+            "minimumExtensionMargin": 0.020745268751868662,
+            "maximumTargetError": 3.815760786470701e-16
+          },
+          {
+            "name": "r_HindLeg",
+            "minimumExtensionMargin": 0.020745235956029395,
+            "maximumTargetError": 4.52041112178401e-16
+          }
+        ]
+      }
+    },
+    {
+      "name": "Run",
+      "seconds": 0.5666666626930237,
+      "nativeMps": 4.307269259126366,
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "passed": true,
+      "failures": [],
+      "method": "Actual original POSITION/JOINTS_0/WEIGHTS_0 vertices CPU-skinned using serialized animation channels and all imported transforms. Signed velocity includes virtual +Z root travel. Every designated stance interval is retained; no backward/slow-velocity sample filter. Individual primary vertices cannot cancel each other. Additional all-phase contact checks ignore the authored stance schedule.",
+      "contactNearFloorWindowM": 0.002,
+      "physicalContactPlane": "Per-foot intended floorY+clearance, plus1um tolerance. The separate broad2mm all-phase window includes airborne approach/release samples and is reported without treating them as planted.",
+      "floorY": -0.003,
+      "nonFiniteGeometrySamples": 0,
+      "minimumMeshY": -0.0025004407855424224,
+      "maximumMeshPenetrationM": 0,
+      "minimumMeshVertex": 2158,
+      "minimumMeshPhase": 0.7798177083333333,
+      "simultaneousSupportCount": {
+        "count": 15360,
+        "min": 0,
+        "median": 1,
+        "p95": 2,
+        "max": 2
+      },
+      "maximumSimultaneousVelocityDisagreementMps": 0.004838837032009287,
+      "maximumLoopPositionM": 0,
+      "maximumLoopVelocityMps": 0.007909653585058109,
+      "maximumWholeMeshLoopPositionM": 0,
+      "maximumWholeMeshLoopVelocityMps": 0.01499137891054767,
+      "wholeMeshLoopVelocityVertex": 565,
+      "feet": [
+        {
+          "name": "l_FrontLeg",
+          "vertices": [
+            1140,
+            1141,
+            1153,
+            1154,
+            1210,
+            1211,
+            1214,
+            1215,
+            1216,
+            1218,
+            1220,
+            1222,
+            1224,
+            1227,
+            1229,
+            1232,
+            1233,
+            1235,
+            1243,
+            1244,
+            1245,
+            1246,
+            1247,
+            1248,
+            2592,
+            2594,
+            2596,
+            2617,
+            2619,
+            2621,
+            2642,
+            2644,
+            2646,
+            2667,
+            2669,
+            2671
+          ],
+          "primaryVertices": [
+            1227
+          ],
+          "phaseOffset": 0,
+          "duty": 0.22,
+          "contactPhaseIntervals": [
+            [
+              0,
+              0.219921875
+            ],
+            [
+              0.9998697916666667,
+              1
+            ]
+          ],
+          "nativeBackwardMps": {
+            "count": 3378,
+            "min": 4.305399550821182,
+            "median": 4.307266861549553,
+            "p95": 4.3082683312116385,
+            "max": 4.309031300671569
+          },
+          "primarySlipMps": {
+            "count": 3378,
+            "min": 0.0018851242665067758,
+            "median": 0.0024533283795692565,
+            "p95": 0.0037866793066763374,
+            "max": 0.004671287271654811
+          },
+          "primaryVertexSlipMps": {
+            "count": 3378,
+            "min": 0.0018851242665067758,
+            "median": 0.0024533283795692565,
+            "p95": 0.0037866793066763374,
+            "max": 0.004671287271654811
+          },
+          "primaryHorizontalSlipMps": {
+            "count": 3378,
+            "min": 0.000054452863184064665,
+            "median": 0.00045068225323270026,
+            "p95": 0.0011151013648623984,
+            "max": 0.0018697094798970505
+          },
+          "primaryVerticalMps": {
+            "count": 3378,
+            "min": 0.00187604196362594,
+            "median": 0.002400914457359703,
+            "p95": 0.0037490218667252536,
+            "max": 0.004654580126017939
+          },
+          "physicalNearFloorSoleSlipMps": {
+            "count": 6756,
+            "min": 0.000884032002978933,
+            "median": 0.002922917863347721,
+            "p95": 0.007038862708083649,
+            "max": 0.00863887263297415
+          },
+          "allPhaseNearFloorSoleSlipMps": {
+            "count": 8634,
+            "min": 0.0007562310129371154,
+            "median": 0.0036991003080978284,
+            "p95": 2.8196319661581097,
+            "max": 4.078344622022361
+          },
+          "allPhasePhysicalPlaneSlipMps": {
+            "count": 3404,
+            "min": 0.0007562310129371154,
+            "median": 0.002457520156887186,
+            "p95": 0.0038055242184788494,
+            "max": 0.008402202511875555
+          },
+          "incidentalPhysicalPlaneSlipMps": {
+            "count": 26,
+            "min": 0.0007562310129371154,
+            "median": 0.0035404094441308523,
+            "p95": 0.008402202508584347,
+            "max": 0.008402202511875555
+          },
+          "worstSlips": {
+            "declaredStancePrimary": {
+              "mps": 0.004671287271654811,
+              "cyclePhase": 0.0001953125000000444,
+              "vertex": 1227
+            },
+            "broadNearFloorAllPhases": {
+              "mps": 4.078344622022361,
+              "cyclePhase": 0.25358072916666674,
+              "vertex": 1227
+            },
+            "intendedContactPlaneAllPhases": {
+              "mps": 0.008402202511875555,
+              "cyclePhase": 0.9992838541666667,
+              "vertex": 1227
+            },
+            "incidentalContactPlane": {
+              "mps": 0.008402202511875555,
+              "cyclePhase": 0.9992838541666667,
+              "vertex": 1227
+            }
+          },
+          "primaryClearanceM": {
+            "count": 3381,
+            "min": 0.0004996951431675513,
+            "median": 0.0004999902798366804,
+            "p95": 0.0005000519968011274,
+            "max": 0.0005000767282227151
+          },
+          "allSoleClearanceM": {
+            "count": 121716,
+            "min": 0.0004996951431675513,
+            "median": 0.0037002610669172,
+            "p95": 0.005121881826943611,
+            "max": 0.00534151763425574
+          },
+          "loopPositionM": 0,
+          "loopVelocityMps": 0.007909653585058109
+        },
+        {
+          "name": "r_FrontLeg",
+          "vertices": [
+            2201,
+            2202,
+            2215,
+            2216,
+            2270,
+            2273,
+            2274,
+            2277,
+            2279,
+            2280,
+            2283,
+            2285,
+            2288,
+            2290,
+            2293,
+            2294,
+            2296,
+            2299,
+            2305,
+            2306,
+            2307,
+            2308,
+            2309,
+            2310,
+            2342,
+            2343,
+            2345,
+            2367,
+            2368,
+            2370,
+            2392,
+            2393,
+            2395,
+            2417,
+            2418,
+            2420
+          ],
+          "primaryVertices": [
+            2290
+          ],
+          "phaseOffset": 0.06,
+          "duty": 0.22,
+          "contactPhaseIntervals": [
+            [
+              0.059895833333333336,
+              0.2799479166666667
+            ]
+          ],
+          "nativeBackwardMps": {
+            "count": 3378,
+            "min": 4.305187339920676,
+            "median": 4.30727307434176,
+            "p95": 4.308364662252588,
+            "max": 4.309166487377829
+          },
+          "primarySlipMps": {
+            "count": 3378,
+            "min": 0.0019433638049412684,
+            "median": 0.0025011575480190203,
+            "p95": 0.003837148945072978,
+            "max": 0.004833146411669047
+          },
+          "primaryVertexSlipMps": {
+            "count": 3378,
+            "min": 0.0019433638049412684,
+            "median": 0.0025011575480190203,
+            "p95": 0.003837148945072978,
+            "max": 0.004833146411669047
+          },
+          "primaryHorizontalSlipMps": {
+            "count": 3378,
+            "min": 0.00002901594630976424,
+            "median": 0.0004865384316531588,
+            "p95": 0.001198202558006482,
+            "max": 0.002093896305979494
+          },
+          "primaryVerticalMps": {
+            "count": 3378,
+            "min": 0.0019201058745023155,
+            "median": 0.0024437054784218286,
+            "p95": 0.003805543688738803,
+            "max": 0.00482812078292767
+          },
+          "physicalNearFloorSoleSlipMps": {
+            "count": 6756,
+            "min": 0.0019433638049412684,
+            "median": 0.002500914370222946,
+            "p95": 0.003837148945072978,
+            "max": 0.00483318946841276
+          },
+          "allPhaseNearFloorSoleSlipMps": {
+            "count": 8588,
+            "min": 0.001258946222795517,
+            "median": 0.0026936098573453453,
+            "p95": 2.6871839388927863,
+            "max": 4.082512558587829
+          },
+          "allPhasePhysicalPlaneSlipMps": {
+            "count": 3404,
+            "min": 0.0012594341528872233,
+            "median": 0.002504039788440028,
+            "p95": 0.0038865851607974185,
+            "max": 0.007747643916236918
+          },
+          "incidentalPhysicalPlaneSlipMps": {
+            "count": 26,
+            "min": 0.0012594341528872233,
+            "median": 0.004562101962870851,
+            "p95": 0.007747643916236918,
+            "max": 0.007747643916236918
+          },
+          "worstSlips": {
+            "broadNearFloorAllPhases": {
+              "mps": 4.082512558587829,
+              "cyclePhase": 0.026497395833333437,
+              "vertex": 2290
+            },
+            "intendedContactPlaneAllPhases": {
+              "mps": 0.007747643916236918,
+              "cyclePhase": 0.2806640625000001,
+              "vertex": 2290
+            },
+            "incidentalContactPlane": {
+              "mps": 0.007747643916236918,
+              "cyclePhase": 0.2806640625000001,
+              "vertex": 2290
+            },
+            "declaredStancePrimary": {
+              "mps": 0.004833146411669047,
+              "cyclePhase": 0.061002604166666696,
+              "vertex": 2290
+            }
+          },
+          "primaryClearanceM": {
+            "count": 3380,
+            "min": 0.0004996789587187111,
+            "median": 0.0004999355351316668,
+            "p95": 0.0005000497080543862,
+            "max": 0.0005000822132040436
+          },
+          "allSoleClearanceM": {
+            "count": 121680,
+            "min": 0.0004996789587187111,
+            "median": 0.0038207455745279313,
+            "p95": 0.005153561440943668,
+            "max": 0.00527563316971523
+          },
+          "loopPositionM": 0,
+          "loopVelocityMps": 0.0013122751802291163
+        },
+        {
+          "name": "l_HindLeg",
+          "vertices": [
+            1032,
+            1033,
+            1081,
+            1085,
+            1087,
+            1092,
+            1093,
+            1095,
+            1096,
+            1099,
+            1100,
+            1101,
+            1104,
+            1107,
+            1109,
+            1110,
+            1113,
+            1116,
+            1125,
+            1126,
+            1127,
+            1128,
+            1129,
+            1130,
+            2692,
+            2767,
+            2792
+          ],
+          "primaryVertices": [
+            1096,
+            1125
+          ],
+          "phaseOffset": 0.5,
+          "duty": 0.22,
+          "contactPhaseIntervals": [
+            [
+              0.4998697916666667,
+              0.719921875
+            ]
+          ],
+          "nativeBackwardMps": {
+            "count": 3378,
+            "min": 4.302715919452468,
+            "median": 4.307288747308041,
+            "p95": 4.309406402566334,
+            "max": 4.31202692767199
+          },
+          "primarySlipMps": {
+            "count": 3378,
+            "min": 0.0024752745936119707,
+            "median": 0.0037508945095218295,
+            "p95": 0.00521052906440236,
+            "max": 0.006143054162874456
+          },
+          "primaryVertexSlipMps": {
+            "count": 6756,
+            "min": 0.0024728593761571198,
+            "median": 0.0037517918324251904,
+            "p95": 0.005210889928169091,
+            "max": 0.00615048370864802
+          },
+          "primaryHorizontalSlipMps": {
+            "count": 3378,
+            "min": 0.000025041928103363805,
+            "median": 0.001077058596217244,
+            "p95": 0.002676853322084057,
+            "max": 0.004944825006633537
+          },
+          "primaryVerticalMps": {
+            "count": 3378,
+            "min": 0.0022873744092406995,
+            "median": 0.003563576721031354,
+            "p95": 0.005027508405668777,
+            "max": 0.0059413068473733515
+          },
+          "physicalNearFloorSoleSlipMps": {
+            "count": 37158,
+            "min": 0.0024523939963277766,
+            "median": 0.003753699025153156,
+            "p95": 0.005198569727131004,
+            "max": 0.0061872923628487324
+          },
+          "allPhaseNearFloorSoleSlipMps": {
+            "count": 43720,
+            "min": 0.0011524431860997593,
+            "median": 0.0039651708892915714,
+            "p95": 1.4244091905962446,
+            "max": 4.078328919914405
+          },
+          "allPhasePhysicalPlaneSlipMps": {
+            "count": 3404,
+            "min": 0.0014780380153299418,
+            "median": 0.003749054062965492,
+            "p95": 0.00524762736620681,
+            "max": 0.011040647412537807
+          },
+          "incidentalPhysicalPlaneSlipMps": {
+            "count": 26,
+            "min": 0.0014780380153299418,
+            "median": 0.004928809713717711,
+            "p95": 0.011040647412537807,
+            "max": 0.011040647412537807
+          },
+          "worstSlips": {
+            "broadNearFloorAllPhases": {
+              "mps": 4.078328919914405,
+              "cyclePhase": 0.7535807291666665,
+              "vertex": 1096
+            },
+            "intendedContactPlaneAllPhases": {
+              "mps": 0.011040647412537807,
+              "cyclePhase": 0.49928385416666665,
+              "vertex": 1096
+            },
+            "incidentalContactPlane": {
+              "mps": 0.011040647412537807,
+              "cyclePhase": 0.49928385416666665,
+              "vertex": 1096
+            },
+            "declaredStancePrimary": {
+              "mps": 0.00615048370864802,
+              "cyclePhase": 0.7189453125,
+              "vertex": 1125
+            }
+          },
+          "primaryClearanceM": {
+            "count": 3380,
+            "min": 0.0005929743942857139,
+            "median": 0.0005933026699572578,
+            "p95": 0.0005934195697213929,
+            "max": 0.0005934396117471962
+          },
+          "allSoleClearanceM": {
+            "count": 91260,
+            "min": 0.0004995609507454733,
+            "median": 0.0033124307059712666,
+            "p95": 0.005187466208401083,
+            "max": 0.0053727857908882366
+          },
+          "loopPositionM": 0,
+          "loopVelocityMps": 0.005321771458809637
+        },
+        {
+          "name": "r_HindLeg",
+          "vertices": [
+            2094,
+            2095,
+            2143,
+            2147,
+            2148,
+            2152,
+            2155,
+            2157,
+            2158,
+            2161,
+            2163,
+            2164,
+            2168,
+            2169,
+            2170,
+            2173,
+            2175,
+            2178,
+            2187,
+            2188,
+            2189,
+            2190,
+            2191,
+            2192,
+            2442,
+            2517,
+            2542
+          ],
+          "primaryVertices": [
+            2158,
+            2189
+          ],
+          "phaseOffset": 0.56,
+          "duty": 0.22,
+          "contactPhaseIntervals": [
+            [
+              0.5598958333333334,
+              0.7799479166666666
+            ]
+          ],
+          "nativeBackwardMps": {
+            "count": 3378,
+            "min": 4.302502951365361,
+            "median": 4.3072704140215885,
+            "p95": 4.309570512539967,
+            "max": 4.312033748419675
+          },
+          "primarySlipMps": {
+            "count": 3378,
+            "min": 0.002372759421838788,
+            "median": 0.003872940194762974,
+            "p95": 0.005239812928854068,
+            "max": 0.00621338169126702
+          },
+          "primaryVertexSlipMps": {
+            "count": 6756,
+            "min": 0.0023722154694251893,
+            "median": 0.003870939722763287,
+            "p95": 0.0052464008197661985,
+            "max": 0.006225657667850537
+          },
+          "primaryHorizontalSlipMps": {
+            "count": 3378,
+            "min": 0.000011496252768019597,
+            "median": 0.0011603819264273606,
+            "p95": 0.002685887299466162,
+            "max": 0.004924186633767911
+          },
+          "primaryVerticalMps": {
+            "count": 3378,
+            "min": 0.0022197807527472705,
+            "median": 0.0036742319184894035,
+            "p95": 0.005086872469338422,
+            "max": 0.005902252600039661
+          },
+          "physicalNearFloorSoleSlipMps": {
+            "count": 37158,
+            "min": 0.002327928614453332,
+            "median": 0.003869033234344851,
+            "p95": 0.005245406711153414,
+            "max": 0.006278449926160939
+          },
+          "allPhaseNearFloorSoleSlipMps": {
+            "count": 43718,
+            "min": 0.0013154198710932702,
+            "median": 0.004112197681544648,
+            "p95": 1.4145562220529635,
+            "max": 4.0825900402519055
+          },
+          "allPhasePhysicalPlaneSlipMps": {
+            "count": 3404,
+            "min": 0.0016467628583353507,
+            "median": 0.003872953658995415,
+            "p95": 0.005290251976464378,
+            "max": 0.009982701270197672
+          },
+          "incidentalPhysicalPlaneSlipMps": {
+            "count": 26,
+            "min": 0.0016467628583353507,
+            "median": 0.005964880761427446,
+            "p95": 0.009982701268178889,
+            "max": 0.009982701270197672
+          },
+          "worstSlips": {
+            "broadNearFloorAllPhases": {
+              "mps": 4.0825900402519055,
+              "cyclePhase": 0.5264973958333332,
+              "vertex": 2158
+            },
+            "intendedContactPlaneAllPhases": {
+              "mps": 0.009982701270197672,
+              "cyclePhase": 0.7806640625000001,
+              "vertex": 2158
+            },
+            "incidentalContactPlane": {
+              "mps": 0.009982701270197672,
+              "cyclePhase": 0.7806640625000001,
+              "vertex": 2158
+            },
+            "declaredStancePrimary": {
+              "mps": 0.006225657667850537,
+              "cyclePhase": 0.7792317708333334,
+              "vertex": 2189
+            }
+          },
+          "primaryClearanceM": {
+            "count": 3380,
+            "min": 0.0005929754609989672,
+            "median": 0.0005933072854165371,
+            "p95": 0.0005934215253157711,
+            "max": 0.0005934411046994788
+          },
+          "allSoleClearanceM": {
+            "count": 91260,
+            "min": 0.0004995592144575777,
+            "median": 0.0033124115771648002,
+            "p95": 0.005187445580706168,
+            "max": 0.0053727833402214065
+          },
+          "loopPositionM": 0,
+          "loopVelocityMps": 0.0036999473134985117
+        }
+      ],
+      "notes": [
+        "Four-beat walk and paired fore/hind run using physical original weighted soles.",
+        "Source segment lengths, translations, scales, geometry and nonlocomotion samplers preserved. All gait poses authored as complete tracks."
+      ],
+      "authoringDiagnostics": {
+        "samples": 3840,
+        "crouch": -0.14,
+        "feet": [
+          {
+            "name": "l_FrontLeg",
+            "minimumExtensionMargin": 0.01715287882683897,
+            "maximumTargetError": 5.087681048627601e-16
+          },
+          {
+            "name": "r_FrontLeg",
+            "minimumExtensionMargin": 0.017051262017493463,
+            "maximumTargetError": 4.728641100182568e-16
+          },
+          {
+            "name": "l_HindLeg",
+            "minimumExtensionMargin": 0.0042864279665564275,
+            "maximumTargetError": 4.053169429671442e-16
+          },
+          {
+            "name": "r_HindLeg",
+            "minimumExtensionMargin": 0.004075695621554742,
+            "maximumTargetError": 4.554367738890935e-16
+          }
+        ]
+      }
+    }
+  ]
+}

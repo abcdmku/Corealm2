@@ -1,0 +1,188 @@
+{
+  "prototype": "76 shared region/patch mixture helpers. Each helper can be represented by two standard TRS joints; animated decomposition is a separate pending proof.",
+  "helperCount": 76,
+  "actualJointIncreaseIfTwoTRS": 152,
+  "trainingFrames": 116,
+  "heldoutFrames": 113,
+  "train": {
+    "rmsMm": 0.23789476941323912,
+    "p95Mm": 0.2437929094343598,
+    "p99Mm": 1.2075836238486943,
+    "maxMm": 9.75914926025065,
+    "samples": 2627400
+  },
+  "heldout": {
+    "rmsMm": 0.2329712012096022,
+    "p95Mm": 0.23147932498802545,
+    "p99Mm": 1.1809104336664737,
+    "maxMm": 9.560275822110851,
+    "samples": 2559450
+  },
+  "regions": {
+    "body": {
+      "vertices": 2800,
+      "train": {
+        "rmsMm": 0.5498711275244466,
+        "p95Mm": 1.2545019586472552,
+        "p99Mm": 2.3414954944348705,
+        "maxMm": 9.75914926025065,
+        "samples": 324800
+      },
+      "heldout": {
+        "rmsMm": 0.5389648890737638,
+        "p95Mm": 1.227812222987298,
+        "p99Mm": 2.2893677335674254,
+        "maxMm": 9.560275822110851,
+        "samples": 316400
+      }
+    },
+    "head": {
+      "vertices": 4311,
+      "train": {
+        "rmsMm": 0.035709634331639,
+        "p95Mm": 0.01195963039931611,
+        "p99Mm": 0.11928376546266586,
+        "maxMm": 2.4174125879809956,
+        "samples": 500076
+      },
+      "heldout": {
+        "rmsMm": 0.035261123473020815,
+        "p95Mm": 0.012048777655606743,
+        "p99Mm": 0.11718395856971159,
+        "maxMm": 2.078338763146195,
+        "samples": 487143
+      }
+    },
+    "limbs": {
+      "vertices": 5113,
+      "train": {
+        "rmsMm": 0.2822445836064101,
+        "p95Mm": 0.47975432838922094,
+        "p99Mm": 1.440028446430333,
+        "maxMm": 7.271252582359415,
+        "samples": 593108
+      },
+      "heldout": {
+        "rmsMm": 0.2760135549943175,
+        "p95Mm": 0.4644324930049589,
+        "p99Mm": 1.408966155781349,
+        "maxMm": 7.2782453194789385,
+        "samples": 577769
+      }
+    },
+    "paws": {
+      "vertices": 6158,
+      "train": {
+        "rmsMm": 2.9515937538239268e-05,
+        "p95Mm": 5.6706573152086124e-05,
+        "p99Mm": 7.954535605486057e-05,
+        "maxMm": 0.0002243763045577341,
+        "samples": 714328
+      },
+      "heldout": {
+        "rmsMm": 2.9116331122908386e-05,
+        "p95Mm": 5.567510376404684e-05,
+        "p99Mm": 7.584856984070369e-05,
+        "maxMm": 0.00019588048015934192,
+        "samples": 695854
+      }
+    },
+    "tail": {
+      "vertices": 4268,
+      "train": {
+        "rmsMm": 0.07251033180414085,
+        "p95Mm": 6.0170693509971104e-05,
+        "p99Mm": 0.34221295448928296,
+        "maxMm": 3.180851670184928,
+        "samples": 495088
+      },
+      "heldout": {
+        "rmsMm": 0.07031668919097316,
+        "p95Mm": 5.906584261126642e-05,
+        "p99Mm": 0.3321169410279111,
+        "maxMm": 3.1514377167266185,
+        "samples": 482284
+      }
+    }
+  },
+  "maxInfluences": 4,
+  "renderableValidated": false,
+  "helperLabels": [
+    "source_shared_patch_0",
+    "source_shared_patch_1",
+    "source_shared_patch_2",
+    "source_shared_patch_3",
+    "source_shared_patch_4",
+    "source_shared_patch_5",
+    "source_shared_patch_6",
+    "source_shared_patch_7",
+    "source_shared_patch_8",
+    "source_shared_patch_9",
+    "source_shared_patch_10",
+    "source_shared_patch_11",
+    "source_shared_patch_12",
+    "source_shared_patch_13",
+    "source_shared_patch_14",
+    "source_shared_patch_15",
+    "source_shared_patch_16",
+    "source_shared_patch_17",
+    "source_shared_patch_18",
+    "source_shared_patch_19",
+    "source_shared_patch_20",
+    "source_shared_patch_21",
+    "source_shared_patch_22",
+    "source_shared_patch_23",
+    "source_shared_patch_24",
+    "source_shared_patch_25",
+    "source_shared_patch_26",
+    "source_shared_patch_27",
+    "source_shared_patch_28",
+    "source_shared_patch_29",
+    "source_shared_patch_30",
+    "source_shared_patch_31",
+    "source_shared_patch_32",
+    "source_shared_patch_33",
+    "source_shared_patch_34",
+    "source_shared_patch_35",
+    "source_shared_patch_36",
+    "source_shared_patch_37",
+    "source_shared_patch_38",
+    "source_shared_patch_39",
+    "source_shared_patch_40",
+    "source_shared_patch_41",
+    "source_shared_patch_42",
+    "source_shared_patch_43",
+    "source_shared_patch_44",
+    "source_shared_patch_45",
+    "source_shared_patch_46",
+    "source_shared_patch_47",
+    "source_shared_patch_48",
+    "source_shared_patch_49",
+    "source_shared_patch_50",
+    "source_shared_patch_51",
+    "source_shared_patch_52",
+    "source_shared_patch_53",
+    "source_shared_patch_54",
+    "source_shared_patch_55",
+    "source_shared_patch_56",
+    "source_shared_patch_57",
+    "source_shared_patch_58",
+    "source_shared_patch_59",
+    "source_shared_patch_60",
+    "source_shared_patch_61",
+    "source_shared_patch_62",
+    "source_shared_patch_63",
+    "source_shared_patch_64",
+    "source_shared_patch_65",
+    "source_shared_patch_66",
+    "source_shared_patch_67",
+    "source_shared_patch_68",
+    "source_shared_patch_69",
+    "source_shared_patch_70",
+    "source_shared_patch_71",
+    "source_shared_patch_72",
+    "source_shared_patch_73",
+    "source_shared_patch_74",
+    "source_shared_patch_75"
+  ]
+}

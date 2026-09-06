@@ -54,6 +54,8 @@ import { npcOutfitParts } from "../render/characterAppearances.js";
 import type { KnownLocation } from "./entities.js";
 import { WATER_FILL_DEPTH } from "./waterBodies.js";
 import { authoredThresholds, createDungeonDoorEntities } from "./dungeonDoors.js";
+import { portalEntrance } from "./portalEntrance.js";
+import { portalMantleSolid } from "./portalMantle.js";
 
 // ------------------------------------------------------------------ formulas
 
@@ -319,6 +321,16 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
   for (const region of REGIONS) {
     const dungeon = region.dungeon;
     if (dungeon) buildDungeonEntities(region, dungeon, rng, ctx);
+  }
+
+  // The approach pad is the surface destination. Keep every graph copy aligned before costs
+  // are derived; the interior arrival remains the safe first-chamber node.
+  const surfacePortal = entities.find((entity) => entity.id === "gravelmaw_mouth_portal");
+  if (surfacePortal?.interactionPosition) {
+    const position = surfacePortal.interactionPosition;
+    nodePositions.set("gravelmaw_entrance", position);
+    for (const location of knownLocations) if (location.id === "gravelmaw_entrance") location.position = position;
+    for (const node of routeNodes) if (node.id === "gravelmaw_entrance") node.position = position;
   }
 
   // -- pass 3: edges.
@@ -1685,7 +1697,7 @@ function buildDungeonEntities(
   const mouthRotation = dungeon.entranceRotationY ?? 0;
   const mouthScale = trueScale(dungeon.entranceScale ?? 4, region.tier);
   const mouthPosition = placeOn(dungeon.entrance, 0, dungeon.entranceAssetId, mouthScale);
-  out.push({
+  const surfaceMouth: SemanticEntity = {
     id: "gravelmaw_mouth_portal",
     archetype: "portal",
     name: dungeon.name,
@@ -1703,7 +1715,13 @@ function buildDungeonEntities(
       labelHeight: 6,
     },
     meta: { toRegionId: dungeon.id, toLocationId: "gravelmaw_chamber1" },
-  });
+  };
+  const surfaceEntrance = portalEntrance(surfaceMouth, (x, z) => ctx.heightAt(region.id, x, z));
+  surfaceMouth.interactionPosition = surfaceEntrance.interactionPosition;
+  out.push(surfaceMouth);
+  ctx.solids.push(surfaceEntrance.solid);
+  const mantleSolid = portalMantleSolid(surfaceMouth);
+  if (mantleSolid) ctx.solids.push(mantleSolid);
   ctx.locationEntity.set("gravelmaw_entrance", "gravelmaw_mouth_portal");
   // The route graph's copy of the same link. `content/regions.ts` declares
   // gravelmaw_entrance -> gravelmaw_chamber1 as a ROAD, which is a walk edge, which no navmesh path
@@ -1712,7 +1730,7 @@ function buildDungeonEntities(
     entityId: "gravelmaw_mouth_portal",
     fromLocationId: "gravelmaw_entrance",
     toLocationId: "gravelmaw_chamber1",
-    position: mouthPosition,
+    position: surfaceEntrance.interactionPosition,
   });
 
   // The way OUT. Measured, live, from `gravelmaw_arena` where the gate check leaves the player:
@@ -1728,22 +1746,23 @@ function buildDungeonEntities(
   // hillside. `systems/travel.ts` already reads `meta.toRegionId` / `meta.toLocationId` off any
   // portal, so this needs no new system.
   //
-  // It stands on the chamber rim on the bearing back toward the mouth, which is where a player who
-  // just walked in would turn round and look.
+  // Leave room for the complete masonry recess inside the opaque chamber shell.
+  // At scale 2.2 its back extends 4.074 m behind the arch; another 1.926 m
+  // accommodates the shell's inward corbel and a readable separation from the wall.
   const firstChamber = dungeon.chambers[0];
   if (firstChamber) {
     const bearing = Math.atan2(
       dungeon.entrance[0] - firstChamber.centre[0],
       dungeon.entrance[1] - firstChamber.centre[1],
     );
-    const rim = firstChamber.radius * 0.78;
+    const rim = Math.max(0, firstChamber.radius - 6);
     const exitSpot: Spot = [
       round2(firstChamber.centre[0] + Math.sin(bearing) * rim),
       round2(firstChamber.centre[1] + Math.cos(bearing) * rim),
     ];
     const exitScale = trueScale(2.2, dungeon.tier);
     const exitPosition = placeOn(exitSpot, firstChamber.floorOffset, "wall_brick_door", exitScale);
-    out.push({
+    const interiorMouth: SemanticEntity = {
       id: "gravelmaw_exit_portal",
       archetype: "portal",
       name: `${dungeon.name} Mouth`,
@@ -1757,15 +1776,19 @@ function buildDungeonEntities(
       view: {
         assetId: "wall_brick_door",
         scale: exitScale,
-        rotationY: bearing,
+        rotationY: bearing + Math.PI,
         labelHeight: 3.2,
       },
       meta: { toRegionId: region.id, toLocationId: "gravelmaw_entrance" },
-    });
+    };
+    const interiorEntrance = portalEntrance(interiorMouth, () => floorBase + firstChamber.floorOffset);
+    interiorMouth.interactionPosition = interiorEntrance.interactionPosition;
+    out.push(interiorMouth);
+    ctx.solids.push(interiorEntrance.solid);
     emitComposition(
       "gravelmaw_exit",
       placeAt(exitSpot, firstChamber.floorOffset),
-      bearing,
+      bearing + Math.PI,
       dungeon.id,
       dungeon.tier,
       region.settlement.kit,
@@ -1779,7 +1802,7 @@ function buildDungeonEntities(
       entityId: "gravelmaw_exit_portal",
       fromLocationId: "gravelmaw_chamber1",
       toLocationId: "gravelmaw_entrance",
-      position: exitPosition,
+      position: interiorEntrance.interactionPosition,
     });
   }
 

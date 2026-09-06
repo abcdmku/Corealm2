@@ -150,7 +150,9 @@ function referenceBody(spec: Spec): { triangles: Array<[Corner, Corner, Corner]>
 /** An isotropic field forms small, scattered flecks, with no seam or band direction. */
 function exposure(point: THREE.Vector3, spec: Spec): number {
   if (point.y < 0.10) return -1;
-  return noise(point, 8.4, spec.seed + 419) * 0.72 + noise(point, 17.6, spec.seed + 463) * 0.28 - 0.43;
+  // Keep only the local peaks. Lower cutoffs join neighbouring iron flecks into a
+  // 0.63 m stripe; this cutoff keeps every family's connected patch below 0.55 m.
+  return noise(point, 8.4, spec.seed + 419) * 0.72 + noise(point, 17.6, spec.seed + 463) * 0.28 - 0.47;
 }
 
 function makeRock(assetId: string): BuiltRock {
@@ -257,8 +259,12 @@ export async function buildGroundOreAsset(assetId: string): Promise<{ glb: Uint8
 }
 
 export function groundOreOutputPaths(out = "test-results/ground-ores"): { models: string; catalog: string } {
-  const staging = path.resolve(ROOT, "test-results"), target = path.resolve(ROOT, out), relative = path.relative(staging, target);
-  if (!out.trim() || path.isAbsolute(relative) || relative === ".." || relative.startsWith(`..${path.sep}`)) throw new Error("Ground ore --out must stay inside test-results");
+  const target = path.resolve(ROOT, out);
+  const allowed = ["test-results", "art/rebuild/candidates/finish-mining"].some(directory => {
+    const relative = path.relative(path.resolve(ROOT, directory), target);
+    return !path.isAbsolute(relative) && relative !== ".." && !relative.startsWith(`..${path.sep}`);
+  });
+  if (!out.trim() || !allowed) throw new Error("Ground ore --out must stay inside test-results or art/rebuild/candidates/finish-mining");
   return { models: path.join(target, DIRECTORY), catalog: path.join(target, "ground-ores.json") };
 }
 
@@ -275,7 +281,7 @@ export async function buildGroundOres(options: { out?: string; only?: readonly s
     reference: { assetId: "rocks_free_essence_node", file: REFERENCE_FILE, pack: "dexsoft-rocks-free", author: "DEXSOFT",
       sha256: createHash("sha256").update(await readFile(path.join(ROOT, REFERENCE_FILE))).digest("hex"),
       license: "Standard Unity Asset Store EULA; existing project asset license retained", changes: "Native rock geometry softened and its deepest clefts partially filled, cut to a broad soil contact, fitted to ore dimensions. Original UVs retained for reduced-strength normal and roughness maps; quieter generated albedo uses a safe interior patch. No runtime essence shader, crystals or emission." },
-    albedo: { file: MUTED_ALBEDO, provenance: "tools/data/ground-ore-muted-albedo.json", sha256: createHash("sha256").update(await readFile(path.join(ROOT, MUTED_ALBEDO))).digest("hex"), normalScale: 0.16, status: "copper candidate pending visual acceptance" },
+    albedo: { file: MUTED_ALBEDO, provenance: "tools/data/ground-ore-muted-albedo.json", sha256: createHash("sha256").update(await readFile(path.join(ROOT, MUTED_ALBEDO))).digest("hex"), normalScale: 0.16, status: "all six families pending visual acceptance" },
     coordinates: "Metres, Y-up, centred XZ, minimum Y=0. Ordinary ground boulders with closed soil-contact bases. Preferred work approach +Z. No wall mounting plane.",
     construction: "Ordinary asymmetric full rocks derived from the local essence-rock reference with less surface activity. Restrained isotropic mineral flecks replace horizontal bands and sculpted shelves. Mineral and depleted stone share the same ground footprint and outer bounds.", assets: entries }, null, 2)}\n`);
   return { entries, paths };

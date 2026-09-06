@@ -1,0 +1,119 @@
+{
+  "generator": "tools/build-bedded-shortcuts.ts",
+  "generatorSha256": "0c9af1171d8a573536a8246e9339ddbcd57b1daa25eea53f445ec485511ec889",
+  "pack": {
+    "id": "corealm-polyhaven-bedded-shortcuts",
+    "name": "Corealm bedded shortcut prototypes",
+    "author": "Corealm; scanned source by Dario Barresi / Poly Haven",
+    "source": "https://polyhaven.com/a/rock_face_01",
+    "license": "CC0-1.0"
+  },
+  "source": {
+    "path": "art/rebuild/candidates/finish-cave-source/models/cave/rock-face-01.glb",
+    "sha256": "80b6994e739dc3ddcb43fd24fdf3d3b25744a1830fc8327e5a14066818fc7b44",
+    "provenance": "art/rebuild/candidates/finish-cave-source/provenance.json"
+  },
+  "method": "Closed ring surface carrying barycentrically sampled scan depth and UVs. The source face mirrors continuously across the rear. Authored taper and rearward crown form a grounded complete mass. Normals recomputed after deformation; embedded original maps retained. This is a sculptural derivative, not unchanged source geometry.",
+  "sampling": {
+    "totalSamples": 49856,
+    "fallbackSamples": 1656,
+    "originalTriangles": 20174,
+    "originalVertices": 11106
+  },
+  "assets": [
+    {
+      "id": "corealm_sunder_ledge",
+      "file": "models/corealm_sunder_ledge.glb",
+      "pack": "corealm-polyhaven-bedded-shortcuts",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "rock",
+        "bedding",
+        "source-derived",
+        "shortcut"
+      ],
+      "size": {
+        "x": 9.319,
+        "y": 4.448,
+        "z": 6.735
+      },
+      "base": {
+        "x": -4.702,
+        "y": -0.19,
+        "z": -2.909
+      },
+      "animations": [],
+      "materials": [
+        "Poly Haven Rock Face 01 sculptural derivative"
+      ],
+      "bytes": 3952072,
+      "sha256": "f856b37d28a6ea4be46e68256ca19283cc84848a3e7888c1b1523917681af724",
+      "triangles": 49152,
+      "placement": {
+        "replacesAssetId": "cliff_step_2"
+      },
+      "closure": {
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "degenerateTriangles": 0,
+        "signedVolume": 136.196236581082,
+        "euler": 2
+      },
+      "frontPeak": 2.784281854450641,
+      "rearPeak": 3.696832042835469,
+      "rearToFrontDrop": 0.9125501883848282
+    },
+    {
+      "id": "corealm_scree_slide",
+      "file": "models/corealm_scree_slide.glb",
+      "pack": "corealm-polyhaven-bedded-shortcuts",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "rock",
+        "bedding",
+        "source-derived",
+        "shortcut"
+      ],
+      "size": {
+        "x": 5.996,
+        "y": 4.382,
+        "z": 5.44
+      },
+      "base": {
+        "x": -2.941,
+        "y": -0.124,
+        "z": -2.318
+      },
+      "animations": [],
+      "materials": [
+        "Poly Haven Rock Face 01 sculptural derivative"
+      ],
+      "bytes": 3952068,
+      "sha256": "2f09473f34834dfedd4136b336ae3b09f89079dcb9d9d4399c4fba03dd12badd",
+      "triangles": 49152,
+      "placement": {
+        "replacesAssetId": "cliff_step_3"
+      },
+      "closure": {
+        "boundaryEdges": 0,
+        "nonmanifoldEdges": 0,
+        "degenerateTriangles": 0,
+        "signedVolume": 47.36964527575764,
+        "euler": 2
+      },
+      "frontPeak": 0.8118722241648497,
+      "rearPeak": 4.258,
+      "rearToFrontDrop": 3.4461277758351505
+    }
+  ],
+  "visualAccepted": false,
+  "browserReviewed": false,
+  "limitations": [
+    "CPU clay views do not establish visual acceptance.",
+    "The underside is capped at the legacy lower bound and must remain buried.",
+    "Six-decimal positional welding proves closed manifold edge incidence and Euler characteristic, not exhaustive triangle self-intersection freedom.",
+    "Barycentric UV resampling and deformation can stretch textures; browser material review remains required."
+  ]
+}

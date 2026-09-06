@@ -1,0 +1,33 @@
+{
+  "meshes": 3,
+  "triangles": 29662,
+  "finiteVertices": true,
+  "armatures": 0,
+  "actions": 0,
+  "externalImagePaths": [],
+  "sourceUnchanged": true,
+  "visualAcceptance": false,
+  "topology": [
+    {
+      "name": "Plane",
+      "positionWeldTolerance": 1e-06,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "zeroAreaFaces": 0
+    },
+    {
+      "name": "Sphere",
+      "positionWeldTolerance": 1e-06,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "zeroAreaFaces": 0
+    },
+    {
+      "name": "Sphere.002",
+      "positionWeldTolerance": 1e-06,
+      "boundaryEdges": 0,
+      "nonManifoldEdges": 0,
+      "zeroAreaFaces": 0
+    }
+  ]
+}

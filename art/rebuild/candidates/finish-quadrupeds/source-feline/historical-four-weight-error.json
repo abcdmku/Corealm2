@@ -1,0 +1,406 @@
+{
+  "method": "Blender evaluated full original weights vs normalized top four. 25 samples per native clip; final display scale .1. In-memory experiment only; no mesh or GLB saved.",
+  "frames": [
+    {
+      "action": "Armature|Armature|run",
+      "frame": 1.0,
+      "maxMetres": 0.08471642072058903,
+      "p95Metres": 0.011677175160433942,
+      "meanMetres": 0.0018300682716872586,
+      "maxVertex": 12805
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 1.5833333333333335,
+      "maxMetres": 0.08261078075867717,
+      "p95Metres": 0.011551894737734611,
+      "meanMetres": 0.0017909972935096562,
+      "maxVertex": 12805
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 2.166666666666667,
+      "maxMetres": 0.07972631907252546,
+      "p95Metres": 0.011455867958132764,
+      "meanMetres": 0.00175654470643668,
+      "maxVertex": 12805
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 2.75,
+      "maxMetres": 0.07499315242387236,
+      "p95Metres": 0.011293730937645616,
+      "meanMetres": 0.0017380721859944872,
+      "maxVertex": 12805
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 3.3333333333333335,
+      "maxMetres": 0.06514325421882693,
+      "p95Metres": 0.010942672037571254,
+      "meanMetres": 0.0016595989640250156,
+      "maxVertex": 12805
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 3.9166666666666665,
+      "maxMetres": 0.07406784550971063,
+      "p95Metres": 0.010337590560792106,
+      "meanMetres": 0.0015915723757944707,
+      "maxVertex": 312
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 4.5,
+      "maxMetres": 0.07739252534764444,
+      "p95Metres": 0.010153583109110515,
+      "meanMetres": 0.001553528018344627,
+      "maxVertex": 312
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 5.083333333333333,
+      "maxMetres": 0.0759354560234983,
+      "p95Metres": 0.010331535817791327,
+      "meanMetres": 0.0015854479650964553,
+      "maxVertex": 312
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 5.666666666666667,
+      "maxMetres": 0.06395212639761277,
+      "p95Metres": 0.010934687499703189,
+      "meanMetres": 0.001681239340918571,
+      "maxVertex": 312
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 6.25,
+      "maxMetres": 0.0581969863890848,
+      "p95Metres": 0.011744096576834647,
+      "meanMetres": 0.0017980066499638857,
+      "maxVertex": 9713
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 6.833333333333333,
+      "maxMetres": 0.0608504050891426,
+      "p95Metres": 0.01268235651966911,
+      "meanMetres": 0.0019236291259641701,
+      "maxVertex": 9713
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 7.416666666666667,
+      "maxMetres": 0.06413805813223301,
+      "p95Metres": 0.013295228348851504,
+      "meanMetres": 0.0020060734604005867,
+      "maxVertex": 9713
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 8.0,
+      "maxMetres": 0.06756764333713079,
+      "p95Metres": 0.01410716341034205,
+      "meanMetres": 0.00206963183188976,
+      "maxVertex": 9713
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 8.583333333333332,
+      "maxMetres": 0.06923532640680383,
+      "p95Metres": 0.014115436402376247,
+      "meanMetres": 0.0020881179310559684,
+      "maxVertex": 9713
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 9.166666666666666,
+      "maxMetres": 0.07534237843070185,
+      "p95Metres": 0.014398398733287212,
+      "meanMetres": 0.0021136549582650836,
+      "maxVertex": 6703
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 9.75,
+      "maxMetres": 0.08617647064036937,
+      "p95Metres": 0.01394954428036092,
+      "meanMetres": 0.002053912330403377,
+      "maxVertex": 6703
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 10.333333333333334,
+      "maxMetres": 0.07592985418452423,
+      "p95Metres": 0.013327977534899262,
+      "meanMetres": 0.001977100219481143,
+      "maxVertex": 6703
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 10.916666666666666,
+      "maxMetres": 0.061810893778003834,
+      "p95Metres": 0.012597726026924808,
+      "meanMetres": 0.001889909740811262,
+      "maxVertex": 441
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 11.5,
+      "maxMetres": 0.0631506642419672,
+      "p95Metres": 0.011732717448285497,
+      "meanMetres": 0.0017698653383493362,
+      "maxVertex": 441
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 12.083333333333334,
+      "maxMetres": 0.06430474963799948,
+      "p95Metres": 0.01104665765232409,
+      "meanMetres": 0.0016714648573105057,
+      "maxVertex": 449
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 12.666666666666666,
+      "maxMetres": 0.06759708297200208,
+      "p95Metres": 0.010321318872670687,
+      "meanMetres": 0.001627621957020233,
+      "maxVertex": 449
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 13.25,
+      "maxMetres": 0.06910370799144532,
+      "p95Metres": 0.010839904302411473,
+      "meanMetres": 0.001705129351309537,
+      "maxVertex": 449
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 13.833333333333334,
+      "maxMetres": 0.0761648942816478,
+      "p95Metres": 0.011413152009274594,
+      "meanMetres": 0.0017819324432439797,
+      "maxVertex": 12805
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 14.416666666666666,
+      "maxMetres": 0.0815824689405495,
+      "p95Metres": 0.011577732169627326,
+      "meanMetres": 0.0018271260953057068,
+      "maxVertex": 12805
+    },
+    {
+      "action": "Armature|Armature|run",
+      "frame": 15.0,
+      "maxMetres": 0.08471665128774492,
+      "p95Metres": 0.011945375856343256,
+      "meanMetres": 0.0018738725996582405,
+      "maxVertex": 12805
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 1.0,
+      "maxMetres": 0.05657682390219641,
+      "p95Metres": 0.006453095251291827,
+      "meanMetres": 0.0010377388008542283,
+      "maxVertex": 6703
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 2.125,
+      "maxMetres": 0.053091349648667276,
+      "p95Metres": 0.006102641466332763,
+      "meanMetres": 0.0009887001237602767,
+      "maxVertex": 6703
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 3.25,
+      "maxMetres": 0.049024459319259577,
+      "p95Metres": 0.00587333075288981,
+      "meanMetres": 0.0009416384338392863,
+      "maxVertex": 6703
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 4.375,
+      "maxMetres": 0.045465540204413464,
+      "p95Metres": 0.00558286656491203,
+      "meanMetres": 0.0009148982907308476,
+      "maxVertex": 441
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 5.5,
+      "maxMetres": 0.04576530171574865,
+      "p95Metres": 0.0055328385287395174,
+      "meanMetres": 0.0009302274966763164,
+      "maxVertex": 441
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 6.625,
+      "maxMetres": 0.04420538587682953,
+      "p95Metres": 0.005508890237147051,
+      "meanMetres": 0.0009586368011871136,
+      "maxVertex": 441
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 7.75,
+      "maxMetres": 0.0493047960912005,
+      "p95Metres": 0.005260419000570497,
+      "meanMetres": 0.0009387500121133933,
+      "maxVertex": 6576
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 8.875,
+      "maxMetres": 0.05306484883543367,
+      "p95Metres": 0.004963392134858082,
+      "meanMetres": 0.000872468181357963,
+      "maxVertex": 6576
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 10.0,
+      "maxMetres": 0.05657119398687315,
+      "p95Metres": 0.005732771133298654,
+      "meanMetres": 0.0009804835382679375,
+      "maxVertex": 6576
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 11.125,
+      "maxMetres": 0.05880678372365002,
+      "p95Metres": 0.006705871658882378,
+      "meanMetres": 0.001129330651089059,
+      "maxVertex": 6576
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 12.25,
+      "maxMetres": 0.05897514963496682,
+      "p95Metres": 0.007166726585232284,
+      "meanMetres": 0.001191583573605097,
+      "maxVertex": 6576
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 13.375,
+      "maxMetres": 0.05684833476287418,
+      "p95Metres": 0.007446485188006317,
+      "meanMetres": 0.0012084957982035154,
+      "maxVertex": 6576
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 14.5,
+      "maxMetres": 0.05757579287101773,
+      "p95Metres": 0.007630241951906974,
+      "meanMetres": 0.001216505417980294,
+      "maxVertex": 441
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 15.625,
+      "maxMetres": 0.05674746375007741,
+      "p95Metres": 0.007555935876854626,
+      "meanMetres": 0.0011884702273682816,
+      "maxVertex": 441
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 16.75,
+      "maxMetres": 0.05324678038609474,
+      "p95Metres": 0.007233703249712452,
+      "meanMetres": 0.0011196755970729673,
+      "maxVertex": 441
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 17.875,
+      "maxMetres": 0.04720419076065813,
+      "p95Metres": 0.006630242839325651,
+      "meanMetres": 0.0010325279467884917,
+      "maxVertex": 6703
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 19.0,
+      "maxMetres": 0.04029596439789464,
+      "p95Metres": 0.00613630999234049,
+      "meanMetres": 0.0009799135103582834,
+      "maxVertex": 6703
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 20.125,
+      "maxMetres": 0.035071701181201065,
+      "p95Metres": 0.005826556184407696,
+      "meanMetres": 0.0009549994818773774,
+      "maxVertex": 6703
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 21.25,
+      "maxMetres": 0.0349516544619009,
+      "p95Metres": 0.006103400473547169,
+      "meanMetres": 0.0010199738090579027,
+      "maxVertex": 17614
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 22.375,
+      "maxMetres": 0.03675393773328575,
+      "p95Metres": 0.006731380972970989,
+      "meanMetres": 0.0011129606992822125,
+      "maxVertex": 312
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 23.5,
+      "maxMetres": 0.03428866711440935,
+      "p95Metres": 0.006612333060485903,
+      "meanMetres": 0.0011006133533377957,
+      "maxVertex": 312
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 24.625,
+      "maxMetres": 0.03236034935993719,
+      "p95Metres": 0.00704391698722193,
+      "meanMetres": 0.001112186770836972,
+      "maxVertex": 6703
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 25.75,
+      "maxMetres": 0.04388512358883967,
+      "p95Metres": 0.006843764177202439,
+      "meanMetres": 0.001076605039177619,
+      "maxVertex": 6703
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 26.875,
+      "maxMetres": 0.05394466265661881,
+      "p95Metres": 0.0065606442370507315,
+      "meanMetres": 0.0010613315653411927,
+      "maxVertex": 6703
+    },
+    {
+      "action": "Armature|Armature|Walk",
+      "frame": 28.0,
+      "maxMetres": 0.05657682390219641,
+      "p95Metres": 0.006453095251291827,
+      "meanMetres": 0.0010370716127904732,
+      "maxVertex": 6703
+    }
+  ],
+  "maxMetres": 0.08617647064036937
+}

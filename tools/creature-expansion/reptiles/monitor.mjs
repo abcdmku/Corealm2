@@ -10,7 +10,7 @@ export async function buildMonitor() {
   const pulse = (t, a, peak, b) => t < peak ? smooth((t - a) / (peak - a)) : 1 - smooth((t - peak) / (b - peak));
   const hash = (a, b = 0) => { const n = Math.sin(a * 127.1 + b * 311.7 + 24.97) * 43758.5453; return n - Math.floor(n); };
   const colors = {
-    ash: new THREE.Color('#66705d'), slate: new THREE.Color('#4d584b'), pale: new THREE.Color('#a0aa80'),
+    ash: new THREE.Color('#4c534a'), slate: new THREE.Color('#353c34'), pale: new THREE.Color('#b3b293'),
     belly: new THREE.Color('#b8b79a'), fold: new THREE.Color('#80866c'), dark: new THREE.Color('#343e33'),
     claw: new THREE.Color('#b9b598'), tip: new THREE.Color('#4b5042'), mouth: new THREE.Color('#543d3b'),
   };
@@ -41,19 +41,19 @@ export async function buildMonitor() {
   const legs = [];
   for (const hind of [false, true]) for (const side of [1, -1]) {
     const label = `${hind ? 'hind' : 'fore'}_${side > 0 ? 'left' : 'right'}`;
-    const hipPos = V(side * (hind ? .27 : .235), hind ? .55 : .645, hind ? -.52 : .49);
-    const kneePos = V(side * (hind ? .62 : .565), hind ? .295 : .325, hind ? -.72 : .26);
-    const footPos = V(side * (hind ? .70 : .635), .085, hind ? -.42 : .78);
+    const hipPos = V(side * (hind ? .27 : .235), hind ? .55 : .615, hind ? -.52 : .49);
+    const kneePos = V(side * (hind ? .66 : .65), hind ? .265 : .275, hind ? -.70 : .24);
+    const footPos = V(side * (hind ? .78 : .75), .085, hind ? -.42 : .76);
     const upper = bone(`${label}_upper`, hind ? pelvis : chest, hipPos);
     const lower = bone(`${label}_lower`, upper, kneePos);
     const foot = bone(`${label}_foot`, lower, footPos);
     const toes = [];
-    const toeLengths = hind ? [.165, .245, .325, .305, .215] : [.125, .205, .26, .228, .148];
+    const toeLengths = hind ? [.120, .195, .285, .310, .185] : [.105, .180, .235, .220, .135];
     for (let digit = 0; digit < 5; digit++) {
-      const spread = (digit - 2) * .037;
+      const spread = [-.048, -.025, 0, .028, .051][digit];
       const toePos = footPos.clone().add(V(side * spread, -.041, .077 - Math.abs(digit - 2) * .014));
       const b = bone(`${label}_toe_${digit + 1}`, foot, toePos);
-      toes.push({ bone: b, start: toePos, length: toeLengths[digit], angle: (digit - 2) * .26 * side });
+      toes.push({ bone: b, start: toePos, length: toeLengths[digit], angle: [-.46, -.17, .055, .23, .60][digit] * side });
     }
     legs.push({ label, side, hind, upper, lower, foot, toes, hipPos, kneePos, footPos,
       a: hipPos.distanceTo(kneePos), b: kneePos.distanceTo(footPos),
@@ -93,8 +93,8 @@ export async function buildMonitor() {
     [-2.27, .123, .070, .052], [-1.9, .190, .106, .083], [-1.5, .290, .150, .119],
     [-1.12, .421, .206, .163], [-.79, .531, .266, .211], [-.54, .58, .319, .252],
     [-.22, .611, .367, .273], [.12, .633, .355, .260], [.41, .650, .317, .237],
-    [.62, .667, .254, .207], [.78, .737, .199, .176], [.96, .892, .159, .141],
-    [1.115, .997, .129, .111], [1.275, 1.043, .114, .094],
+    [.62, .681, .246, .195], [.78, .773, .215, .168], [.96, .902, .181, .143],
+    [1.115, .997, .147, .112], [1.275, 1.043, .114, .094],
   ];
   function interpolate(rows, z, col) {
     let i = 0;
@@ -120,8 +120,8 @@ export async function buildMonitor() {
     c.multiplyScalar(.88 + cell * .18);
     if (Math.cos(angle) > -.38 && z > -.95 && z < .90) {
       const spots = Math.sin(z * 28 + angle * 5.3) * Math.sin(angle * 15 - z * 3);
-      if (spots > .48) c.lerp(colors.pale, .30);
-      else if (spots < -.6) c.lerp(colors.dark, .27);
+      if (spots > .40) c.lerp(colors.pale, .53);
+      else if (spots < -.52) c.lerp(colors.dark, .38);
     }
     return c;
   }
@@ -129,7 +129,7 @@ export async function buildMonitor() {
   const bodyHoles = legs.map(leg => {
     const middle = Math.round((leg.hipPos.z - profile[0][0]) / (profile.at(-1)[0] - profile[0][0]) * nBody);
     const around = leg.side > 0 ? bodySides / 4 : bodySides * 3 / 4;
-    return { leg, i0: middle - 5, i1: middle + 5, j0: around - 3, j1: around + 3, boundary: [] };
+    return { leg, i0: middle - 3, i1: middle + 3, j0: around - 2, j1: around + 2, boundary: [] };
   });
   for (let i = 0; i <= nBody; i++) {
     const z = THREE.MathUtils.lerp(profile[0][0], profile.at(-1)[0], i / nBody), ring = [];
@@ -285,13 +285,13 @@ export async function buildMonitor() {
   tube([V(0, 1.014, 1.58), V(0, 1.012, 1.77), V(0, 1.013, 1.94)], [.016, .011, .007], [.005, .004, .003], { rings: 12, sides: 8, mat: 1, weights: () => rigid(tongue), color: () => tongueColor, grain: 0 });
   for (const s of [-1, 1]) tube([V(s * .004, 1.013, 1.90), V(s * .018, 1.010, 1.99), V(s * .027, 1.013, 2.035)], [.006, .004, .0005], [.003, .002, .0005], { rings: 6, sides: 6, mat: 1, weights: () => rigid(tongue), color: () => tongueColor, grain: 0 });
   // Throat creases are attached to the neck, and curve beneath its stretched skin.
-  for (let i = 0; i < 6; i++) {
-    const z = .756 + i * .050, foldRings = [];
+  for (let i = 0; i < 4; i++) {
+    const z = .774 + i * .064, foldRings = [];
     for (let k = 0; k <= 4; k++) {
       const fz = z + (k / 4 - .5) * .032, row = [];
       for (let j = 0; j <= 20; j++) {
         const theta = 2.02 + j / 20 * 2.24;
-        const height = .0038 * Math.sin(k / 4 * Math.PI) * Math.sin(j / 20 * Math.PI);
+        const height = .0018 * Math.sin(k / 4 * Math.PI) * Math.sin(j / 20 * Math.PI);
         row.push(vertex(skinPoint(fz, theta, height), [theta / TAU * 4, (fz + 3) / .6], colors.fold.clone().lerp(colors.belly, .16), axialWeights(fz)));
       }
       foldRings.push(row);
@@ -304,7 +304,7 @@ export async function buildMonitor() {
     const palmJoin = footPos.clone().add(V(0, -.036, .022));
     const pts = [buriedRoot, hipPos.clone(), hipPos.clone().lerp(kneePos, .46).add(V(0, .022, hind ? .025 : -.006)), kneePos.clone(), kneePos.clone().lerp(footPos, .54), palmJoin];
     const boundary = bodyHoles.find(h => h.leg === leg).boundary;
-    tube(pts, hind ? [.096, .171, .166, .105, .070, .029] : [.078, .144, .125, .086, .053, .026], hind ? [.103, .140, .138, .096, .063, .023] : [.082, .120, .108, .083, .049, .020], {
+    tube(pts, hind ? [.092, .128, .118, .091, .075, .033] : [.078, .107, .098, .078, .064, .031], hind ? [.091, .116, .103, .083, .063, .026] : [.076, .098, .090, .073, .055, .025], {
       rings: 22, sides: boundary.length, caps: false, rootBoundary: boundary, startAt: .25, uvWidth: 2,
       weights: (t) => t < .35 ? mix(upper.parent, upper, smooth((t - .03) / .32)) : t < .70 ? mix(upper, lower, smooth((t - .51) / .19)) : mix(lower, foot, smooth((t - .87) / .13)),
       color: (t, a, p) => {
@@ -318,14 +318,14 @@ export async function buildMonitor() {
       grain: .002,
     });
     const palmBase = footPos.clone().add(V(0, -.031, -.016)), palmFront = footPos.clone().add(V(0, -.031, .099));
-    tube([palmBase, footPos.clone().add(V(side * .004, -.032, .050)), palmFront], [.047, .085, .060], [.042, .054, .032], { rings: 12, sides: 16, weights: () => rigid(foot), floor: true, color: () => colors.ash.clone().lerp(colors.belly, .15), grain: .002 });
+    tube([palmBase, footPos.clone().add(V(side * .004, -.032, .050)), palmFront], [.035, .061, .046], [.034, .048, .029], { rings: 12, sides: 16, weights: () => rigid(foot), floor: true, color: () => colors.ash.clone().lerp(colors.belly, .15), grain: .002 });
     for (const toe of toes) {
       const forward = V(Math.sin(toe.angle), 0, Math.cos(toe.angle));
-      const knuckle = toe.start.clone().addScaledVector(forward, toe.length * .47); knuckle.y = .035;
-      const end = toe.start.clone().addScaledVector(forward, toe.length); end.y = .021;
+      const knuckle = toe.start.clone().addScaledVector(forward, toe.length * .47); knuckle.y = .049 + .006 * Math.cos(toe.angle);
+      const end = toe.start.clone().addScaledVector(forward, toe.length); end.y = .020;
       const tip = end.clone().addScaledVector(forward, .066); tip.y = .007;
-      tube([toe.start, knuckle, end], [.022, .023, .014], [.020, .023, .013], { rings: 9, sides: 8, weights: (t) => mix(foot, toe.bone, smooth(t * 4)), floor: true, color: (t) => colors.ash.clone().lerp(colors.belly, .15 + t * .12), grain: .001 });
-      tube([end.clone().addScaledVector(forward, -.011), end.clone().addScaledVector(forward, .027).add(V(0, .012, 0)), tip], [.014, .010, .0006], [.014, .011, .0006], { rings: 5, sides: 7, mat: 5, weights: () => rigid(toe.bone), floor: true, color: (t) => colors.claw.clone().lerp(colors.tip, t * t), grain: 0 });
+      tube([toe.start, knuckle, end], [.020, .018, .011], [.019, .021, .010], { rings: 9, sides: 8, weights: (t) => mix(foot, toe.bone, smooth(t * 4)), floor: true, color: (t) => colors.ash.clone().lerp(colors.belly, .15 + t * .12), grain: .001 });
+      tube([end.clone().addScaledVector(forward, -.011), end.clone().addScaledVector(forward, .023).add(V(0, .023, 0)), tip], [.014, .010, .0006], [.014, .011, .0006], { rings: 5, sides: 7, mat: 5, weights: () => rigid(toe.bone), floor: true, color: (t) => colors.claw.clone().lerp(colors.tip, t * t), grain: 0 });
       // Transverse digit scales are geometry ridges, with their own UV space.
       for (let k = 1; k <= 2; k++) {
         const centre = toe.start.clone().lerp(end, k / 3); centre.y += .018;

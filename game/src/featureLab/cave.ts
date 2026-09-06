@@ -2,7 +2,7 @@ import * as THREE from "three";
 import type { SolidVolume, Vec3 } from "../contracts.js";
 import type { CorealmSurfaceTextures } from "../render/corealmSurfaceMaterials.js";
 import {
-  addChamberLights, buildDungeon, dungeonFloorHeight, dungeonSolids, type DungeonSpec,
+  addChamberLights, buildDungeon, dungeonFloorHeight, dungeonSolids, type DungeonSpec, type CaveRockSource,
 } from "../render/dungeon.js";
 import type { WorldScene } from "../render/scene.js";
 
@@ -40,6 +40,7 @@ export interface CaveLabFixtureState {
   materialCount: number;
   textured: boolean;
   stoneTileMetres: number;
+  sourceFacing: { wallPanels: number; roofPanels: number; renderedTriangles: number; provenance: string } | null;
   views: CaveLabViewId[];
   probes: { upper: CaveLabProbe | null; join: CaveLabProbe | null; lower: CaveLabProbe | null };
 }
@@ -62,13 +63,14 @@ export interface CaveLabFixture {
 export interface CaveLabFixtureDeps {
   scene: Pick<WorldScene, "root" | "materials">;
   surfaceTextures: CorealmSurfaceTextures;
+  rockSource?: CaveRockSource;
   /** Upper chamber centre and floor datum. Default keeps the entire fixture below the lab yard. */
   origin?: Vec3;
 }
 
 /** Two connected chambers use the production shell, stone maps, contact colors and torch lights. */
 export function createCaveLabFixture({
-  scene, surfaceTextures, origin: requestedOrigin = [-36, -12, -36],
+  scene, surfaceTextures, rockSource, origin: requestedOrigin = [-36, -12, -36],
 }: CaveLabFixtureDeps): CaveLabFixture {
   if (!requestedOrigin.every(Number.isFinite)) throw new Error("Cave fixture origin must be finite");
   const origin: Vec3 = [...requestedOrigin];
@@ -84,7 +86,7 @@ export function createCaveLabFixture({
     corridors: [{ from: [x, z], to: [lower[0], lower[2]], fromY: y, toY: lower[1], width: 3.6 }],
     wallHeight: 8,
   };
-  const built = buildDungeon(spec, scene.materials, { surfaceTextures });
+  const built = buildDungeon(spec, scene.materials, { surfaceTextures, rockSource });
   const group = built.group;
   group.name = "feature-lab-cave";
   addChamberLights(spec, group);
@@ -107,7 +109,7 @@ export function createCaveLabFixture({
     const floorHit = ray.intersectObject(floor, false)[0];
     if (!floorHit?.uv) return null;
     ray.set(new THREE.Vector3(px, floorHit.point.y + 0.05, pz), new THREE.Vector3(0, 1, 0));
-    const ceilingHit = ray.intersectObject(ceiling, false)[0];
+    const ceilingHit = ray.intersectObjects(rockSource ? built.blockers : [ceiling], false)[0];
     if (!ceilingHit?.uv) return null;
     return {
       x: px, z: pz, floorY: floorHit.point.y, ceilingY: ceilingHit.point.y,
@@ -136,8 +138,8 @@ export function createCaveLabFixture({
 
   return {
     group, spec, walkable: built.walkable, blockers: built.blockers,
-    solids: dungeonSolids(spec),
-    navigationSolids: dungeonSolids(spec, { includeCeilings: false }),
+    solids: dungeonSolids(spec, { rockSource }),
+    navigationSolids: dungeonSolids(spec, { includeCeilings: false, rockSource }),
     getViews: () => structuredClone(views),
     getBounds: () => disposed ? null : { min: bounds.min.toArray() as Vec3, max: bounds.max.toArray() as Vec3 },
     getState: () => ({
@@ -145,10 +147,14 @@ export function createCaveLabFixture({
       origin: [...origin], triangles: built.triangles, meshCount: meshes.length, materialCount: materials.size,
       textured: [...materials].every(material => {
         const standard = material as THREE.MeshStandardMaterial;
+        if (material.name === 'dungeon-scanned-rock') return !!standard.map && !!standard.normalMap && !!standard.roughnessMap;
         return standard.map === surfaceTextures.stone.albedo && standard.normalMap === surfaceTextures.stone.normal
           && standard.roughnessMap === surfaceTextures.stone.roughness;
       }),
       stoneTileMetres: surfaceTextures.stone.tileMetres, views: views.map(view => view.id),
+      sourceFacing: rockSource
+        ? (built.group.getObjectByName('dungeon-rock-facing') as THREE.Mesh).geometry.userData as CaveLabFixtureState['sourceFacing']
+        : null,
       probes: { upper: probe(upper[0], upper[2]), join: probe(x + 4.5, z - 1), lower: probe(lower[0], lower[2]) },
     }),
     probe,

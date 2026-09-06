@@ -1,0 +1,47 @@
+[
+  {
+    "file": "cat.original.fbx",
+    "bytes": 1373356,
+    "sha256": "4e156a3b81638d07a78278889d2184c9a106fd81c2de84bd212c1bd12ea03428"
+  },
+  {
+    "file": "cat.historical-2017.original.fbx",
+    "bytes": 7550684,
+    "sha256": "b12adb6b0a0d061b1909a4095d3f75ad1f919d1eb01b10ecbf0edfd5f6311488"
+  },
+  {
+    "file": "Cat.preview.glb",
+    "bytes": 1310444,
+    "sha256": "f3c4649482a24f911bed5904ec5bb242425df3f29f8d17ebf4ff30d3f0bef9a6"
+  },
+  {
+    "file": "Cat.neutral-preview.glb",
+    "bytes": 1310408,
+    "sha256": "d69e3d8617deb102db923b432b976b751e8beddc8b92616e9467e77d41267f6f"
+  },
+  {
+    "file": "Cat.corrected-baked.glb",
+    "bytes": 11858436,
+    "sha256": "c9907113754335f68b9d2bcb504de92818d29487df03ac1589af08a701d6f3e1"
+  },
+  {
+    "file": "Cat.corrected-baked-grounded.glb",
+    "bytes": 11858436,
+    "sha256": "00eb083e2d8686764a1900752d07308906ed9e2117bcb732e449a6fbbabd41c6"
+  },
+  {
+    "file": "Lynx.adapted-baked.glb",
+    "bytes": 14033428,
+    "sha256": "1201df9f34c6d151e81548d1d04a8c862550d9e64bb62ef16c50784d1559efea"
+  },
+  {
+    "file": "Lynx.adapted-baked-grounded.glb",
+    "bytes": 14033428,
+    "sha256": "556f17e082d94c0b2bc64872eefc5d6e655ec9ee0bb61507d1754f44271c414e"
+  },
+  {
+    "file": "Lynx.actor-baked.glb",
+    "bytes": 19464836,
+    "sha256": "fcc4296906bfeec04b9b2c650639a150238d2bccf14b2ec45b427ade1453b2d5"
+  }
+]

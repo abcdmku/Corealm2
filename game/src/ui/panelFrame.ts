@@ -39,7 +39,7 @@ const PANEL_Z_BASE = 20;
 /** How far a raise may climb before it wraps. Keeps panels below `--z-menu` at 30. */
 const PANEL_STACK_DEPTH = 9;
 
-let panelZCounter = 0;
+const panelStack: PanelFrame[] = [];
 
 /** Frames by group, so open() can vacate a shared slot. Module-level: frames register on
  * construction and leave on dispose, and the map never outlives the page. */
@@ -61,6 +61,7 @@ export class PanelFrame {
   private popEscape: Unregister | null = null;
   private restoreFocus: HTMLElement | null = null;
   private opened = false;
+  private cancelDrag: (() => void) | null = null;
 
   constructor(private readonly options: PanelFrameOptions) {
     this.registry = options.registry ?? keybindings;
@@ -128,10 +129,12 @@ export class PanelFrame {
       header.addEventListener("pointerdown", (event) => {
         if (event.button !== 0) return;
         if (event.target instanceof Element && event.target.closest("button")) return;
+        this.cancelDrag?.();
         const rect = root.getBoundingClientRect();
         const grabX = event.clientX - rect.left;
         const grabY = event.clientY - rect.top;
         const onMove = (move: PointerEvent) => {
+          if (move.pointerId !== event.pointerId) return;
           const left = Math.min(Math.max(move.clientX - grabX, 0), Math.max(0, window.innerWidth - rect.width));
           const top = Math.min(Math.max(move.clientY - grabY, 0), Math.max(0, window.innerHeight - 32));
           root.classList.add("is-moved");
@@ -144,9 +147,15 @@ export class PanelFrame {
         const onUp = () => {
           window.removeEventListener("pointermove", onMove);
           window.removeEventListener("pointerup", onUp);
+          window.removeEventListener("pointercancel", onUp);
+          window.removeEventListener("blur", onUp);
+          this.cancelDrag = null;
         };
+        this.cancelDrag = onUp;
         window.addEventListener("pointermove", onMove);
         window.addEventListener("pointerup", onUp);
+        window.addEventListener("pointercancel", onUp);
+        window.addEventListener("blur", onUp);
         event.preventDefault();
       });
     }
@@ -159,6 +168,7 @@ export class PanelFrame {
     this.root = root;
     this.body = body;
     this.subtitleEl = subtitle;
+    root.addEventListener("pointerdown", () => this.raise());
 
     if (options.key) {
       this.disposers.push(this.registry.register({
@@ -202,27 +212,26 @@ export class PanelFrame {
     this.root.hidden = false;
     this.raise();
     this.restoreFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    this.popEscape = this.registry.pushEscapeHandler(() => {
-      if (!this.opened) return false;
-      this.close();
-      return true;
-    });
     this.options.onOpen?.();
     this.focusFirst();
   }
 
   close(): void {
+    this.cancelDrag?.();
     if (!this.opened) return;
     this.opened = false;
     this.root.hidden = true;
     this.popEscape?.();
     this.popEscape = null;
+    const stackIndex = panelStack.indexOf(this);
+    if (stackIndex !== -1) panelStack.splice(stackIndex, 1);
     this.options.onClose?.();
 
     // Focus goes back where it came from, or the next keystroke lands on a hidden element.
     const restore = this.restoreFocus;
     this.restoreFocus = null;
-    if (restore && restore.isConnected && !this.root.contains(restore)) {
+    if (restore && restore.isConnected && !restore.closest("[hidden]") && !this.root.contains(restore)
+      && this.root.contains(document.activeElement)) {
       restore.focus({ preventScroll: true });
     } else if (document.activeElement instanceof HTMLElement && this.root.contains(document.activeElement)) {
       document.activeElement.blur();
@@ -234,22 +243,22 @@ export class PanelFrame {
     else this.open();
   }
 
-  /**
-   * Brings this panel above the others without reordering the DOM.
-   *
-   * The counter is clamped. Unbounded, it climbed past every layer in the stylesheet — the context
-   * menu at 30, the tooltip at 40, the boot screen and the pause menu at 50 — so after enough panel
-   * opens an ordinary panel would cover the menu that opened it. That is not hypothetical: the
-   * settings panel is opened FROM the pause screen and drew underneath it, and the only fix
-   * available from a stylesheet was `!important`, because an inline style outranks a rule.
-   *
-   * Nine steps of ordering is more than any real stack of panels needs, and it keeps every raise
-   * inside the band the tokens reserve for panels.
-   */
+  /** Reorders visible panels below menus and keeps Escape aligned with the front panel. */
   raise(): void {
+    if (!this.opened) return;
     panelInteraction.generation += 1;
-    panelZCounter = (panelZCounter + 1) % PANEL_STACK_DEPTH;
-    this.root.style.zIndex = String(PANEL_Z_BASE + panelZCounter);
+    const previous = panelStack.indexOf(this);
+    if (previous !== -1) panelStack.splice(previous, 1);
+    panelStack.push(this);
+    panelStack.forEach((panel, index) => {
+      panel.root.style.zIndex = String(PANEL_Z_BASE + Math.min(index + 1, PANEL_STACK_DEPTH));
+    });
+    this.popEscape?.();
+    this.popEscape = this.registry.pushEscapeHandler(() => {
+      if (!this.opened) return false;
+      this.close();
+      return true;
+    });
   }
 
   focusFirst(): void {

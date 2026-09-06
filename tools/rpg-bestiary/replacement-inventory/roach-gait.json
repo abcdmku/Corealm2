@@ -1,0 +1,374 @@
+{
+  "catalog": "art\\rebuild\\candidates\\finish-bestiary\\cave-roach-round1\\catalog.json",
+  "catalogSha256": "db25171dc802554fa056c76bc2009436af2c0c91f07b6adcfbc5c1e761763a3b",
+  "forwardAxis": "+Z",
+  "units": "metres and seconds",
+  "method": "600 poses of each exact staged GLB. Referenced vertices with >=50% combined weight on four ClawFrontL/R and ClawBackL/R source chains proven to deform near-ground geometry. Actual lowest 5 mm vertex patch admitted within 20 mm of y=0. Same-vertex central difference negative-Z movement, then per-frame patch median. Central70% of longest contiguous grounded backward interval excludes heel/toe transitions. All four confirmed contacts need >=8% cycle stance, positive speed, <=25% bilateral median difference and pooled p10-p90 spread <65% of median for eligibility. External texture decoding skipped; geometry, skin matrices and animations untouched.",
+  "scope": "CPU metadata evidence only. No catalogue, source, or GLB edits. Root owns production lab acceptance. GroundY0 refers to authored model floor; idle geometry minimum is recorded independently.",
+  "results": [
+    {
+      "id": "creature_cave_roach",
+      "file": "art\\rebuild\\candidates\\finish-bestiary\\cave-roach-round1\\models\\creature\\creature_cave_roach.glb",
+      "sha256": "dd1da7331eff7cb6cad91d0db24201c725cd4e29f70554f7932f9288ab9bd114",
+      "groundY": 0,
+      "idleGeometryMinimumY": 0.005,
+      "nativeWalkMps": 1.684642,
+      "nativeRunMps": 2.812994,
+      "impliedWalkMps": 1.684642,
+      "impliedRunMps": 2.812994,
+      "speedMatchedEligible": false,
+      "bilateralDifferenceFraction": {
+        "walk": {
+          "front": 0.06243686514394745,
+          "back": 0.594172627445643
+        },
+        "run": {
+          "front": 0.11441148201386762,
+          "back": 0.573641679544625
+        }
+      },
+      "contactBones": [
+        {
+          "side": "ClawFrontL",
+          "bones": [
+            "roach_22_ClawFrontL"
+          ]
+        },
+        {
+          "side": "ClawFrontR",
+          "bones": [
+            "roach_26_ClawFrontR"
+          ]
+        },
+        {
+          "side": "ClawBackL",
+          "bones": [
+            "roach_35_ClawBackL"
+          ]
+        },
+        {
+          "side": "ClawBackR",
+          "bones": [
+            "roach_39_ClawBackR"
+          ]
+        }
+      ],
+      "walk": {
+        "cycleSeconds": 1,
+        "nativeMps": 1.684642,
+        "speedMps": {
+          "min": 0.315848,
+          "p10": 0.733352,
+          "median": 1.684642,
+          "p90": 2.812833,
+          "max": 4.013255
+        },
+        "wholeGeometryFloorM": {
+          "min": 0.004307,
+          "p10": 0.004888,
+          "median": 0.004985,
+          "p90": 0.005,
+          "max": 0.007323
+        },
+        "validLegs": 4,
+        "legMedianSpread": {
+          "min": 0.757366,
+          "p10": 0.757366,
+          "median": 1.710624,
+          "p90": 1.866227,
+          "max": 1.866227
+        },
+        "confidence": "needs-contact-review",
+        "legs": [
+          {
+            "name": "ClawFrontL",
+            "candidateVertices": 468,
+            "soleHeightM": {
+              "min": 0.007165,
+              "p10": 0.010703,
+              "median": 0.017337,
+              "p90": 0.615802,
+              "max": 0.689797
+            },
+            "groundedBackwardFraction": 0.501672,
+            "mainStanceSeconds": 0.5,
+            "mainStancePhases": [
+              0.25,
+              0.748333
+            ],
+            "coreSpeedMps": {
+              "min": 0.79266,
+              "p10": 1.250437,
+              "median": 1.710624,
+              "p90": 2.730346,
+              "max": 2.77133
+            },
+            "fullContactSpeedMps": {
+              "min": 0.098214,
+              "p10": 0.315647,
+              "median": 1.599249,
+              "p90": 2.634734,
+              "max": 2.77133
+            }
+          },
+          {
+            "name": "ClawFrontR",
+            "candidateVertices": 498,
+            "soleHeightM": {
+              "min": 0.010209,
+              "p10": 0.011212,
+              "median": 0.018696,
+              "p90": 0.56943,
+              "max": 0.631571
+            },
+            "groundedBackwardFraction": 0.560201,
+            "mainStanceSeconds": 0.558333,
+            "mainStancePhases": [
+              0.688333,
+              0.248333
+            ],
+            "coreSpeedMps": {
+              "min": 0.315848,
+              "p10": 0.993258,
+              "median": 1.603818,
+              "p90": 2.767342,
+              "max": 2.883428
+            },
+            "fullContactSpeedMps": {
+              "min": 0.149819,
+              "p10": 0.217777,
+              "median": 1.356129,
+              "p90": 2.623683,
+              "max": 2.883428
+            }
+          },
+          {
+            "name": "ClawBackL",
+            "candidateVertices": 450,
+            "soleHeightM": {
+              "min": 0.004307,
+              "p10": 0.004965,
+              "median": 0.009806,
+              "p90": 0.228344,
+              "max": 0.252049
+            },
+            "groundedBackwardFraction": 0.479933,
+            "mainStanceSeconds": 0.478333,
+            "mainStancePhases": [
+              0.75,
+              0.23
+            ],
+            "coreSpeedMps": {
+              "min": 0.386989,
+              "p10": 0.481743,
+              "median": 0.757366,
+              "p90": 3.96477,
+              "max": 4.013255
+            },
+            "fullContactSpeedMps": {
+              "min": 0.051552,
+              "p10": 0.286835,
+              "median": 0.752002,
+              "p90": 3.701305,
+              "max": 4.013255
+            }
+          },
+          {
+            "name": "ClawBackR",
+            "candidateVertices": 486,
+            "soleHeightM": {
+              "min": 0.004682,
+              "p10": 0.004939,
+              "median": 0.005,
+              "p90": 0.247721,
+              "max": 0.284979
+            },
+            "groundedBackwardFraction": 0.501672,
+            "mainStanceSeconds": 0.5,
+            "mainStancePhases": [
+              0.25,
+              0.748333
+            ],
+            "coreSpeedMps": {
+              "min": 1.186732,
+              "p10": 1.50362,
+              "median": 1.866227,
+              "p90": 2.066106,
+              "max": 2.110344
+            },
+            "fullContactSpeedMps": {
+              "min": 0.053827,
+              "p10": 0.493716,
+              "median": 1.68808,
+              "p90": 2.035064,
+              "max": 2.110344
+            }
+          }
+        ]
+      },
+      "run": {
+        "cycleSeconds": 0.583333,
+        "nativeMps": 2.812994,
+        "speedMps": {
+          "min": 0.618962,
+          "p10": 1.23961,
+          "median": 2.812994,
+          "p90": 4.704533,
+          "max": 6.899332
+        },
+        "wholeGeometryFloorM": {
+          "min": 0.003836,
+          "p10": 0.004696,
+          "median": 0.004951,
+          "p90": 0.004999,
+          "max": 0.009981
+        },
+        "validLegs": 4,
+        "legMedianSpread": {
+          "min": 1.372586,
+          "p10": 1.372586,
+          "median": 3.149343,
+          "p90": 3.219325,
+          "max": 3.219325
+        },
+        "confidence": "needs-contact-review",
+        "legs": [
+          {
+            "name": "ClawFrontL",
+            "candidateVertices": 468,
+            "soleHeightM": {
+              "min": 0.007394,
+              "p10": 0.011089,
+              "median": 0.017318,
+              "p90": 0.610917,
+              "max": 0.689798
+            },
+            "groundedBackwardFraction": 0.505017,
+            "mainStanceSeconds": 0.291667,
+            "mainStancePhases": [
+              0.25,
+              0.748333
+            ],
+            "coreSpeedMps": {
+              "min": 1.678136,
+              "p10": 2.29535,
+              "median": 3.149343,
+              "p90": 4.621155,
+              "max": 4.706097
+            },
+            "fullContactSpeedMps": {
+              "min": 0.125006,
+              "p10": 0.751816,
+              "median": 2.702533,
+              "p90": 4.559878,
+              "max": 4.706097
+            }
+          },
+          {
+            "name": "ClawFrontR",
+            "candidateVertices": 498,
+            "soleHeightM": {
+              "min": 0.01087,
+              "p10": 0.011199,
+              "median": 0.018612,
+              "p90": 0.565156,
+              "max": 0.631571
+            },
+            "groundedBackwardFraction": 0.541806,
+            "mainStanceSeconds": 0.315,
+            "mainStancePhases": [
+              0.706667,
+              0.248333
+            ],
+            "coreSpeedMps": {
+              "min": 0.930865,
+              "p10": 1.93398,
+              "median": 2.789022,
+              "p90": 4.563434,
+              "max": 5.00019
+            },
+            "fullContactSpeedMps": {
+              "min": 0.362328,
+              "p10": 0.447009,
+              "median": 2.506011,
+              "p90": 4.396217,
+              "max": 5.00019
+            }
+          },
+          {
+            "name": "ClawBackL",
+            "candidateVertices": 450,
+            "soleHeightM": {
+              "min": 0.003836,
+              "p10": 0.004866,
+              "median": 0.009981,
+              "p90": 0.226089,
+              "max": 0.252049
+            },
+            "groundedBackwardFraction": 0.498328,
+            "mainStanceSeconds": 0.289722,
+            "mainStancePhases": [
+              0.75,
+              0.248333
+            ],
+            "coreSpeedMps": {
+              "min": 0.618962,
+              "p10": 0.892823,
+              "median": 1.372586,
+              "p90": 6.389252,
+              "max": 6.899332
+            },
+            "fullContactSpeedMps": {
+              "min": 0.097878,
+              "p10": 0.344212,
+              "median": 1.308213,
+              "p90": 6.132128,
+              "max": 6.899332
+            }
+          },
+          {
+            "name": "ClawBackR",
+            "candidateVertices": 486,
+            "soleHeightM": {
+              "min": 0.004138,
+              "p10": 0.004805,
+              "median": 0.004999,
+              "p90": 0.245679,
+              "max": 0.284979
+            },
+            "groundedBackwardFraction": 0.501672,
+            "mainStanceSeconds": 0.291667,
+            "mainStancePhases": [
+              0.25,
+              0.748333
+            ],
+            "coreSpeedMps": {
+              "min": 2.447891,
+              "p10": 2.610878,
+              "median": 3.219325,
+              "p90": 3.496742,
+              "max": 3.607525
+            },
+            "fullContactSpeedMps": {
+              "min": 0.15953,
+              "p10": 0.514034,
+              "median": 2.805085,
+              "p90": 3.421334,
+              "max": 3.607525
+            }
+          }
+        ]
+      },
+      "confirmedGroundContactCount": 4,
+      "nativeRunSource": "Flee NLA strip using source Walk action at authored faster playback",
+      "contactReview": "Do not opt in to measured speed matching. Four confirmed claw contact patches have sustained near-floor intervals, but backward stance velocity is inconsistent: pooled p10-p90 spans .733-2.813 m/s Walk and1.240-4.705 m/s Flee. Rear left/right central medians differ about59% Walk and57% Flee. Reported native medians are provisional numerical summaries, not accepted calibration speeds. No two extra planted feet are supported by rig/weighted floor geometry evidence.",
+      "groundReview": "Idle geometry minimum is .005 m, consistent with a5mm authored clearance above y=0. Sampled whole geometry remains positive. Recommended authored ground plane0; current catalogue groundY .005 is geometry minimum, not floor-plane coordinate.",
+      "recommendedMetadata": {
+        "groundY": 0,
+        "speedMatchedEligible": false,
+        "impliedWalkMps": null,
+        "impliedRunMps": null
+      }
+    }
+  ]
+}

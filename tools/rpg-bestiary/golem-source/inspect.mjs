@@ -1,0 +1,5 @@
+import {readSourceGlb} from '../humanoid-source/read-glb.mjs';
+import sharp from 'sharp';
+const s=readSourceGlb('game/public/assets/models/miniboss/miniboss_galeskin.glb');const p=s.json.meshes[0].primitives[0],v=s.accessor(p.attributes.POSITION).array,ind=s.accessor(p.indices).array;let faces=[];
+for(let i=0;i<ind.length;i+=3){const vs=[...ind.slice(i,i+3)].map(j=>[v[j*3],v[j*3+1],v[j*3+2]]);const a=vs[1].map((q,k)=>q-vs[0][k]),b=vs[2].map((q,k)=>q-vs[0][k]);let n=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];const len=Math.hypot(...n)||1;let shade=Math.round(100+100*Math.abs((n[0]*-.3+n[1]*.6+n[2]*.7)/len));faces.push({z:vs.reduce((a,v)=>a+v[2],0),svg:`<polygon points="${vs.map(v=>`${300+v[0]*2.3},${520-v[1]*2.3}`).join(' ')}" fill="rgb(${shade},${shade},${shade})"/>`});}
+await sharp(Buffer.from(`<svg width="600" height="560" xmlns="http://www.w3.org/2000/svg"><rect width="600" height="560" fill="#bbc9cf"/>${faces.sort((a,b)=>a.z-b.z).map(f=>f.svg).join('')}</svg>`)).png().toFile('tools/rpg-bestiary/golem-source/source.png');

@@ -1,0 +1,19 @@
+{
+  "createdAt": "2026-09-05T20:07:48.347994+00:00",
+  "generatorSha256": "465464a2c061e11cc7b485e13e93b1a9fd69433887d13821e41fee89ce86ca10",
+  "deterministicRegeneration": "byte-identical GLB hashes",
+  "previousRejectedCandidate": "reviewed-e8200209/",
+  "assets": [
+    {
+      "id": "corealm_sunder_ledge",
+      "sha256": "df888a91a8f25ec98453e13659800caaafeda31f356d8d18cdefc0ae9a34960a",
+      "bytes": 1262752
+    },
+    {
+      "id": "corealm_scree_slide",
+      "sha256": "e329c735f85a76a487790ea186a1a21f5eb89160d2d3bee5903af4500e292f7a",
+      "bytes": 1015668
+    }
+  ],
+  "status": "24 geometry checks pass; new six-view lab review pending; no promotion"
+}

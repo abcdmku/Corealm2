@@ -7,7 +7,7 @@ import { captureTracks, createSkinReader, cyclicFootPath, fract, setWorldQuatern
 const NATIVE_MPS = .31;
 const DUTY = .60;
 const CLEARANCE = .0005;
-const SAMPLE_INTERVALS = 960;
+const SAMPLE_INTERVALS = 1920;
 const LEG_TYPES = ['FrontLeg', 'MidFrontLeg', 'MidBackLeg', 'BackLeg'] as const;
 const INSETS = [.020, .008, .022, .008];
 const SOLE_COUNTS = [6, 7, 4, 4];
@@ -31,13 +31,14 @@ function linearSolve(matrix: number[][], values: number[]): number[] {
   return rows.map(row => row[n]!);
 }
 
-/** Small rotation-only corrections fit the whole original weighted sole, not a toe proxy. */
+/** Damped rotation-only corrections fit the original weighted sole. The damping
+ * prevents almost-dependent skin weights from producing large null-space twists. */
 function fitPhysicalSole(chain: Node[], points: (indices: number[]) => Vector3[], vertices: number[], targets: Vector3[]): { error: number; correction: number } {
   const controls = chain.slice(0, 5), originals = controls.map(node => new Quaternion().fromArray(node.getRotation()));
   const variables = controls.flatMap(node => WORLD_AXES.map(axis => ({ node, axis })));
   const epsilon = 1e-4;
   let error = Infinity;
-  for (let iteration = 0; iteration < 7; iteration++) {
+  for (let iteration = 0; iteration < 12; iteration++) {
     const actual = points(vertices), residual = targets.flatMap((target, i) => target.clone().sub(actual[i]!).toArray());
     error = Math.max(...targets.map((target, i) => target.distanceTo(actual[i]!)));
     if (error < 2e-7) break;
@@ -48,7 +49,7 @@ function fitPhysicalSole(chain: Node[], points: (indices: number[]) => Vector3[]
       node.setRotation(local);
       return shifted.flatMap((point, i) => point.sub(actual[i]!).multiplyScalar(1 / epsilon).toArray());
     });
-    const normal = variables.map((_, i) => variables.map((_, j) => jacobian[i]!.reduce((sum, value, k) => sum + value * jacobian[j]![k]!, 0) + (i === j ? 1e-9 : 0)));
+    const normal = variables.map((_, i) => variables.map((_, j) => jacobian[i]!.reduce((sum, value, k) => sum + value * jacobian[j]![k]!, 0) + (i === j ? 1e-5 : 0)));
     const rhs = jacobian.map(column => column.reduce((sum, value, i) => sum + value * residual[i]!, 0));
     const update = linearSolve(normal, rhs);
     for (let i = 0; i < controls.length; i++) {
@@ -129,7 +130,9 @@ export function authorScorpionRun(doc: Document, seconds: number, floorY: number
       const actualTips: Vector3[] = [];
       for (const leg of legs) {
         const localPhase = fract(phase - leg.phaseOffset), path = cyclicFootPath(localPhase, DUTY, seconds, NATIVE_MPS, .018);
-        const swing = path.contact ? 0 : (localPhase - DUTY) / (1 - DUTY), pitch = (leg.type === 'FrontLeg' || leg.type === 'MidFrontLeg' ? .16 : -.16) * Math.sin(Math.PI * swing) ** 2;
+        // Rear heels are nearly coplanar with their toes in the source bind pose.
+        // A small ankle pitch gives them an actual raised heel during toe contact.
+        const swing = path.contact ? 0 : (localPhase - DUTY) / (1 - DUTY), pitch = (leg.type === 'BackLeg' ? -.06 : 0) + (leg.type === 'FrontLeg' || leg.type === 'MidFrontLeg' ? .16 : -.16) * Math.sin(Math.PI * swing) ** 2;
         const turn = new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), pitch), orientation = turn.clone().multiply(leg.distalQ);
         const target = leg.center.clone().add(new Vector3(0, path.y, path.z));
         const endTarget = target.clone().sub(leg.distalOffset.clone().applyQuaternion(turn));
@@ -148,7 +151,25 @@ export function authorScorpionRun(doc: Document, seconds: number, floorY: number
         }
         if (error > 1e-6) throw new Error(`Scorpion physical pad did not converge: ${leg.side}/${leg.type} ${error}`);
         const soleTargets = leg.vertices.map(index => skin.restPoints[index]!.clone().sub(leg.pad).applyQuaternion(turn).add(target));
+        const beforeFit = leg.chain.slice(0, 5).map(node => new Quaternion().fromArray(node.getRotation()));
         const fitted = fitPhysicalSole(leg.chain, skin.points, leg.vertices, soleTargets);
+        // The weighted multi-point fit is overdetermined. Restore the physical tip
+        // constraint after fitting the heel so residual least-squares error cannot
+        // lower the toe during release or leave it hovering throughout stance.
+        const fittedDistalQ = worldQuaternion(leg.distal);
+        for (let iteration = 0; iteration < 6; iteration++) {
+          const correction = target.clone().sub(skin.point(leg.primary));
+          if (correction.length() < 1e-8) break;
+          const hip = worldPosition(leg.upper);
+          solveTwoBone(leg.upper, leg.lower, leg.distal, worldPosition(leg.distal).add(correction), hip.clone().addScaledVector(leg.pole, .1));
+          setWorldQuaternion(leg.distal, fittedDistalQ);
+        }
+        const totalCorrection = Math.max(...leg.chain.slice(0, 5).map((node, i) => beforeFit[i]!.angleTo(new Quaternion().fromArray(node.getRotation()))));
+        if (totalCorrection > .65) throw new Error(`Scorpion final sole correction exceeds anatomical limit ${totalCorrection}`);
+        fitted.correction = totalCorrection;
+        fitted.error = Math.max(...skin.points(leg.vertices).map((point, index) => point.distanceTo(soleTargets[index]!)));
+        error = skin.point(leg.primary).distanceTo(target);
+        if (error > 1e-6) throw new Error(`Scorpion final physical pad did not converge: ${leg.side}/${leg.type} ${error}`);
         leg.maximumSoleError = Math.max(leg.maximumSoleError, fitted.error);
         leg.maximumSoleCorrection = Math.max(leg.maximumSoleCorrection, fitted.correction);
         leg.maximumTipError = Math.max(leg.maximumTipError, error); actualTips.push(skin.point(leg.primary));
@@ -164,7 +185,7 @@ export function authorScorpionRun(doc: Document, seconds: number, floorY: number
       return track;
     });
     return { name: 'Run', seconds, nativeMps: NATIVE_MPS, tracks, feet: legs.map(leg => ({ name: `${leg.side}_${leg.type}`, vertices: leg.vertices, primaryVertices: [leg.primary], phaseOffset: leg.phaseOffset, duty: DUTY, clearance: CLEARANCE })),
-      notes: ['Eight legs follow a travelling phase wave with at least four supports. Every designated stance pad has identical -Z travel at0.31m/s.', 'Hip/Knee1 solve to Knee2; the distal chain keeps world orientation in stance and flexes in swing. An iterative physical-pad correction includes the original blended weights.', 'Source body, pedipalp, claw and sting motion remains, with a smooth closing tangent. All other animation clips and source geometry are unchanged.', 'Runtime acceleration, root turning and animation blending require production lab review.'],
+      notes: ['Eight legs follow a travelling phase wave with at least four supports. Every designated stance pad has identical -Z travel at 0.31 m/s.', 'Hip/Knee1 solve to Knee2; the distal chain keeps world orientation in stance and flexes in swing. A damped whole-sole rotation fit followed by a physical-tip constraint includes the original blended weights. Rear ankles have 0.06 radians of heel lift.', 'Source body, pedipalp, claw and sting motion remains, with a smooth closing tangent. All other animation clips and source geometry are unchanged.', 'Runtime acceleration, root turning and animation blending require production lab review.'],
       diagnostics: { samples: times.length, minimumTipSeparationM: minimumTipSeparation, feet: legs.map(leg => ({ name: `${leg.side}_${leg.type}`, chain: leg.chain.map(node => node.getName()), primary: leg.primary, center: leg.center.toArray(), plantedSweepM: NATIVE_MPS * seconds * DUTY, minimumExtensionM: leg.minimumExtension, minimumFoldM: leg.minimumFold, maximumPhysicalPadSolveErrorM: leg.maximumTipError, maximumSoleFitErrorM: leg.maximumSoleError, maximumSoleCorrectionRad: leg.maximumSoleCorrection })) } };
   } finally { restorePose(rest); }
 }

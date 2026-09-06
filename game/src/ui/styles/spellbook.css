@@ -69,7 +69,7 @@
  */
 .spellbook__grid {
   display: grid;
-  grid-template-columns: 32px repeat(4, minmax(0, 1fr));
+  grid-template-columns: 48px repeat(4, minmax(0, 1fr));
   gap: 2px;
   align-items: stretch;
 }

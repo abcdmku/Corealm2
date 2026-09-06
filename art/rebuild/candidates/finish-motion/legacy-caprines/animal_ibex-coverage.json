@@ -1,0 +1,50 @@
+{
+  "id": "animal_ibex",
+  "candidateSha256": "c94f7ecf46610ed4fb0140a0a660afe7370848a669ec4d2c53d6744dac33d5f1",
+  "sourceSha256": "ac24a84acd299ada77bd4b2acc70370a382227296cdb4d8251ef811382b8924c",
+  "passed": true,
+  "results": [
+    {
+      "id": "animal_ibex",
+      "name": "Walk",
+      "candidateSha256": "c94f7ecf46610ed4fb0140a0a660afe7370848a669ec4d2c53d6744dac33d5f1",
+      "sourceSha256": "ac24a84acd299ada77bd4b2acc70370a382227296cdb4d8251ef811382b8924c",
+      "clearanceM": 0.0005,
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "velocityIntervalSeconds": 0.00012586805193374553,
+      "maximumMps": 0.004421127480992355,
+      "count": 71344,
+      "worst": {
+        "vertex": 1657,
+        "phase": 0.3302734375,
+        "clearanceM": 0.0005008201803482553,
+        "declared": true
+      },
+      "nonFiniteVertices": 0,
+      "maximumPenetrationM": 0,
+      "passed": true
+    },
+    {
+      "id": "animal_ibex",
+      "name": "Run",
+      "candidateSha256": "c94f7ecf46610ed4fb0140a0a660afe7370848a669ec4d2c53d6744dac33d5f1",
+      "sourceSha256": "ac24a84acd299ada77bd4b2acc70370a382227296cdb4d8251ef811382b8924c",
+      "clearanceM": 0.0005,
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "velocityIntervalSeconds": 0.0000607638891475896,
+      "maximumMps": 0.0069469787384188195,
+      "count": 32080,
+      "worst": {
+        "vertex": 663,
+        "phase": 0.7604817708333333,
+        "clearanceM": 0.0005009412334161336,
+        "declared": true
+      },
+      "nonFiniteVertices": 0,
+      "maximumPenetrationM": 0,
+      "passed": true
+    }
+  ]
+}

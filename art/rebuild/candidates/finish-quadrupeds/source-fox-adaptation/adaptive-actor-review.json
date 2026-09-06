@@ -1,0 +1,204 @@
+{
+  "sourceSha256": "79c6ac3b32435c00ee6f5a80113bfcc9bffb1a050b680d6c1e1e1e0c0bde4c15",
+  "candidateSha256": "07771d082ff31a4a0403fa4c4c3ddbf77c95db5066bf964d8befe8fdff751518",
+  "method": "Synchronized adaptive limb intervals tested against actual same-vertex ground residual8.5mm/s, leaving margin to the unchanged12mm/s limit. Independent head/neck/tail tracks reduced to1e-5rad interpolation error.",
+  "originalTimes": 3073,
+  "retainedLimbTimes": 309,
+  "segmentTests": 1472,
+  "channelRecords": [
+    {
+      "node": "_rootJoint",
+      "path": "rotation",
+      "before": 3073,
+      "after": 2
+    },
+    {
+      "node": "b_Root_00",
+      "path": "rotation",
+      "before": 3073,
+      "after": 2
+    },
+    {
+      "node": "b_Hip_01",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_Spine01_02",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_Spine02_03",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_Neck_04",
+      "path": "rotation",
+      "before": 3073,
+      "after": 42
+    },
+    {
+      "node": "b_Head_05",
+      "path": "rotation",
+      "before": 3073,
+      "after": 37
+    },
+    {
+      "node": "b_RightUpperArm_06",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_RightForeArm_07",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_RightHand_08",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_LeftUpperArm_09",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_LeftForeArm_010",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_LeftHand_011",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_Tail01_012",
+      "path": "rotation",
+      "before": 3073,
+      "after": 38
+    },
+    {
+      "node": "b_Tail02_013",
+      "path": "rotation",
+      "before": 3073,
+      "after": 39
+    },
+    {
+      "node": "b_Tail03_014",
+      "path": "rotation",
+      "before": 3073,
+      "after": 45
+    },
+    {
+      "node": "b_LeftLeg01_015",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_LeftLeg02_016",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_LeftFoot01_017",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_LeftFoot02_018",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_RightLeg01_019",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_RightLeg02_020",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_RightFoot01_021",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_RightFoot02_022",
+      "path": "rotation",
+      "before": 3073,
+      "after": 309
+    },
+    {
+      "node": "b_Hip_01",
+      "path": "translation",
+      "before": 3073,
+      "after": 309
+    }
+  ],
+  "bytes": {
+    "before": 3415588,
+    "after": 2280448
+  },
+  "accessorBytes": {
+    "before": 3336648,
+    "after": 2200540
+  },
+  "hardwareAccepted": false,
+  "validation": {
+    "contactResidualRmsMps": 0.004165048890914363,
+    "contactVertexIntervals": 45859,
+    "randomSeed": 1597463007,
+    "randomSamplesPerInterval": 6,
+    "worstResidual": {
+      "time": 0.3083654986619949,
+      "previousTime": 0.3083333373069763,
+      "dt": 3.2161355018600624e-05,
+      "footVertex": 17,
+      "y": 0.0001607282083551637,
+      "previousY": 0.00016119858445208293,
+      "bones": [
+        {
+          "name": "b_LeftHand_011",
+          "weight": 0.9978658556938171
+        },
+        {
+          "name": "b_LeftForeArm_010",
+          "weight": 0.002134147100150585
+        }
+      ]
+    },
+    "samples": 4929,
+    "wholeMeshMinimumY": -0.00024046223276604943,
+    "sameVertexContactResidualMaxMps": 0.00853959292344196,
+    "allPawPointVelocityMaxMps": 4.610920699785403,
+    "boneAngularVelocityMaxRadiansPerSecond": 27.400593814715027,
+    "contactVelocity12mmPassed": true,
+    "contact1mmPassed": true,
+    "maxSuccessiveContactObservationVelocityJumpMps": 0.01691658519206472,
+    "velocityJumpBasis": "Difference between successive observed contact residual velocities for the same vertex, potentially separated by a non-contact interval."
+  },
+  "cpuSeconds": 12.9894648,
+  "nonRunClipsPreserved": true
+}

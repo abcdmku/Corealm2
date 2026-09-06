@@ -1,0 +1,171 @@
+{
+  "source": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-quadrupeds\\source-caprine-free\\sheepies.blend",
+  "sourceSha256": "bd4cf09e732facd65c2313ff626b1a4a2cddd4d91cbda6c6ab8eb922dc026447",
+  "sourceMesh": "Sheep 2",
+  "sourceVertices": 1470,
+  "retainedBodyVertices": 6050,
+  "retainedBodyPolygons": 6004,
+  "sourceTopologyRetained": false,
+  "topologyChanges": "Interpolating subdivision followed by four narrow distal hoof clefts; source pastern remains continuous; distal foot weights assigned to original corresponding forearm/shin bone",
+  "sourceVertexMapping": "source-vertex-nearest-map.json",
+  "bones": 22,
+  "sourceActions": [
+    "Source_begin_eating",
+    "Source_begin_walking",
+    "Source_eating",
+    "Source_idle",
+    "Source_stop_eating",
+    "Source_stop_walk",
+    "Source_walking"
+  ],
+  "missingProductionRoles": [
+    "Run",
+    "Attack",
+    "Hit",
+    "HitLeft",
+    "HitRight",
+    "Death"
+  ],
+  "motionGroundMeasurements": [
+    {
+      "name": "Source_begin_eating",
+      "frames": [
+        0.0,
+        84.0
+      ],
+      "durationSeconds": 3.5,
+      "sampledFrames": 33,
+      "minimumMeshGroundY": -0.02407175302505493,
+      "nonfiniteVertices": 0,
+      "sourceSoleHeightRange": [
+        -0.02407175302505493,
+        0.3832370638847351
+      ],
+      "nearGroundFootSamples": 104,
+      "maximumNearGroundHorizontalSampleDisplacement": 0.01843739490226882,
+      "contactPassed": false
+    },
+    {
+      "name": "Source_begin_walking",
+      "frames": [
+        0.0,
+        186.0
+      ],
+      "durationSeconds": 7.75,
+      "sampledFrames": 33,
+      "minimumMeshGroundY": -0.42461341619491577,
+      "nonfiniteVertices": 0,
+      "sourceSoleHeightRange": [
+        -0.42461341619491577,
+        0.6567296981811523
+      ],
+      "nearGroundFootSamples": 43,
+      "maximumNearGroundHorizontalSampleDisplacement": 0.049595589504666505,
+      "contactPassed": false
+    },
+    {
+      "name": "Source_eating",
+      "frames": [
+        0.0,
+        262.0
+      ],
+      "durationSeconds": 10.916666666666666,
+      "sampledFrames": 33,
+      "minimumMeshGroundY": 0.006004989147186279,
+      "nonfiniteVertices": 0,
+      "sourceSoleHeightRange": [
+        0.006004989147186279,
+        0.3832370638847351
+      ],
+      "nearGroundFootSamples": 66,
+      "maximumNearGroundHorizontalSampleDisplacement": 0,
+      "contactPassed": false
+    },
+    {
+      "name": "Source_idle",
+      "frames": [
+        0.0,
+        518.0
+      ],
+      "durationSeconds": 21.583333333333332,
+      "sampledFrames": 33,
+      "minimumMeshGroundY": -0.17273098230361938,
+      "nonfiniteVertices": 0,
+      "sourceSoleHeightRange": [
+        -0.17273098230361938,
+        0.44313305616378784
+      ],
+      "nearGroundFootSamples": 54,
+      "maximumNearGroundHorizontalSampleDisplacement": 0.06759871940220555,
+      "contactPassed": false
+    },
+    {
+      "name": "Source_stop_eating",
+      "frames": [
+        0.0,
+        209.0
+      ],
+      "durationSeconds": 8.708333333333334,
+      "sampledFrames": 33,
+      "minimumMeshGroundY": -0.09677916765213013,
+      "nonfiniteVertices": 0,
+      "sourceSoleHeightRange": [
+        -0.09677916765213013,
+        0.7309015393257141
+      ],
+      "nearGroundFootSamples": 80,
+      "maximumNearGroundHorizontalSampleDisplacement": 0.022063049512774928,
+      "contactPassed": false
+    },
+    {
+      "name": "Source_stop_walk",
+      "frames": [
+        0.0,
+        61.0
+      ],
+      "durationSeconds": 2.5416666666666665,
+      "sampledFrames": 33,
+      "minimumMeshGroundY": -0.15923267602920532,
+      "nonfiniteVertices": 0,
+      "sourceSoleHeightRange": [
+        -0.15923267602920532,
+        0.11759066581726074
+      ],
+      "nearGroundFootSamples": 69,
+      "maximumNearGroundHorizontalSampleDisplacement": 0.016332155560855908,
+      "contactPassed": false
+    },
+    {
+      "name": "Source_walking",
+      "frames": [
+        0.0,
+        379.0
+      ],
+      "durationSeconds": 15.791666666666666,
+      "sampledFrames": 33,
+      "minimumMeshGroundY": -0.5595348477363586,
+      "nonfiniteVertices": 0,
+      "sourceSoleHeightRange": [
+        -0.5595348477363586,
+        0.706547737121582
+      ],
+      "nearGroundFootSamples": 19,
+      "maximumNearGroundHorizontalSampleDisplacement": 0.13163891160734967,
+      "contactPassed": false
+    }
+  ],
+  "sourceFootVertexSamples": {
+    "ForeL": 23,
+    "ForeR": 31,
+    "HindL": 32,
+    "HindR": 40
+  },
+  "edgeDeformationRatio": [
+    0.7104509606136701,
+    1.5444503453967098
+  ],
+  "uniformScale": 0.6,
+  "license": "CC-BY-SA-3.0",
+  "accepted": false,
+  "sha256": "03da2ed96c4a9f98fb68519ea83c83453a6ec0b30100628639f41cf065d10c7d"
+}

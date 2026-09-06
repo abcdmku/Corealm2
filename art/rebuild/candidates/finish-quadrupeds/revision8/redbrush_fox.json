@@ -1,0 +1,236 @@
+{
+  "id": "creature_redbrush_fox",
+  "file": "models/creature/creature_redbrush_fox.glb",
+  "pack": "corealm-creature-expansion",
+  "category": "character",
+  "is": "a narrow-chested red fox with long legs, a pointed muzzle, broad listening ears and a white-tipped brush",
+  "tags": [
+    "mammal",
+    "quadruped",
+    "fox",
+    "canid",
+    "woodland"
+  ],
+  "bytes": 1947932,
+  "sha256": "8364117e1380b6e3fe5f537e1211742ea52baab02c9308c33aa3b59b880c175c",
+  "size": {
+    "x": 0.34686979662519984,
+    "y": 1.0459214360117912,
+    "z": 2.4265522575378418
+  },
+  "base": {
+    "x": -0.1731170129776001,
+    "y": 2.98023217215615e-10,
+    "z": -1.3601760721206666
+  },
+  "bounds": {
+    "min": [
+      -0.1731170129776001,
+      2.98023217215615e-10,
+      -1.3601760721206666
+    ],
+    "max": [
+      0.17375278364759975,
+      1.0459214363098144,
+      1.0663761854171754
+    ]
+  },
+  "groundY": 2.98023217215615e-10,
+  "triangles": 41068,
+  "animations": [
+    "Idle",
+    "Walk",
+    "Run",
+    "Attack",
+    "Hit",
+    "HitLeft",
+    "HitRight",
+    "Death"
+  ],
+  "materials": [
+    "redbrush_fox_painted_fur",
+    "redbrush_fox_eyes_claws_whiskers"
+  ],
+  "sourceProvenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+  "impliedWalkMps": 0.53475935828877,
+  "impliedRunMps": 2.0661157024793386,
+  "walkClipSeconds": 1.0199999809265137,
+  "runClipSeconds": 0.6600000262260437,
+  "attackSeconds": 0.8799999952316284,
+  "contactNormalized": 0.49,
+  "measuredGait": {
+    "gait": {
+      "walk": {
+        "seconds": 1.0199999809265137,
+        "sampledFootBones": 4,
+        "stanceSamples": 257,
+        "measuredStanceMps": 0.534782372280458,
+        "feet": [
+          {
+            "bone": "FR_Ankle",
+            "minY": 0.18989884007981378,
+            "maxY": 0.2513688507406897,
+            "strideZ": 0.3561712641306903,
+            "contactSamples": 65,
+            "stanceMedianMps": 0.5350458596134248
+          },
+          {
+            "bone": "FL_Ankle",
+            "minY": 0.18983178499490608,
+            "maxY": 0.2516137651773632,
+            "strideZ": 0.3605839330368614,
+            "contactSamples": 64,
+            "stanceMedianMps": 0.5348026541392941
+          },
+          {
+            "bone": "HR_Ankle",
+            "minY": 0.18978649986619128,
+            "maxY": 0.24016917353584782,
+            "strideZ": 0.3565253945846648,
+            "contactSamples": 64,
+            "stanceMedianMps": 0.5347134849083713
+          },
+          {
+            "bone": "HL_Ankle",
+            "minY": 0.1898155280152941,
+            "maxY": 0.24031704721166258,
+            "strideZ": 0.35762911760285054,
+            "contactSamples": 64,
+            "stanceMedianMps": 0.5347905585621043
+          }
+        ],
+        "rootHorizontalTravel": [
+          {
+            "bone": "Root",
+            "x": 0,
+            "z": 0
+          }
+        ]
+      },
+      "run": {
+        "seconds": 0.6600000262260437,
+        "sampledFootBones": 4,
+        "stanceSamples": 179,
+        "measuredStanceMps": 2.0635777455358064,
+        "feet": [
+          {
+            "bone": "FR_Ankle",
+            "minY": 0.18697080119390358,
+            "maxY": 0.3256853654921224,
+            "strideZ": 0.596590024399604,
+            "contactSamples": 44,
+            "stanceMedianMps": 2.0632626405842505
+          },
+          {
+            "bone": "FL_Ankle",
+            "minY": 0.18846761732587006,
+            "maxY": 0.32715332841166767,
+            "strideZ": 0.5928900527688405,
+            "contactSamples": 45,
+            "stanceMedianMps": 2.063731318694636
+          },
+          {
+            "bone": "HR_Ankle",
+            "minY": 0.18688981804127253,
+            "maxY": 0.3151003059893932,
+            "strideZ": 0.5951875135330662,
+            "contactSamples": 45,
+            "stanceMedianMps": 2.064739255712959
+          },
+          {
+            "bone": "HL_Ankle",
+            "minY": 0.18705704255560748,
+            "maxY": 0.31423844530243866,
+            "strideZ": 0.5961257626442549,
+            "contactSamples": 45,
+            "stanceMedianMps": 2.0635777455358064
+          }
+        ],
+        "rootHorizontalTravel": [
+          {
+            "bone": "Root",
+            "x": 0,
+            "z": 0
+          }
+        ]
+      }
+    },
+    "loops": {
+      "Idle": {
+        "seconds": 3.4000000953674316,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006356162701409191,
+        "maxScaleGap": 0
+      },
+      "Walk": {
+        "seconds": 1.0199999809265137,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006824759111396155,
+        "maxScaleGap": 0
+      },
+      "Run": {
+        "seconds": 0.6600000262260437,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006733270011125278,
+        "maxScaleGap": 0
+      }
+    },
+    "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+  },
+  "metadata": {
+    "is": "a narrow-chested red fox with long legs, a pointed muzzle, broad listening ears and a white-tipped brush",
+    "tags": [
+      "mammal",
+      "quadruped",
+      "fox",
+      "canid",
+      "woodland"
+    ],
+    "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+    "attackSeconds": 0.88,
+    "contactNormalized": 0.49,
+    "impliedWalkMps": 0.53475935828877,
+    "impliedRunMps": 2.0661157024793386,
+    "walkClipSeconds": 1.02,
+    "runClipSeconds": 0.66,
+    "notes": "Feet follow flat-ground stance trajectories at a constant backwards velocity, with smooth lifted swing arcs. Three limb segments use authored knee bend planes and two-link IK to the hock, plus a controlled distal segment; paw orientation cancels the parent rotation during gait. Root does not translate horizontally in locomotion. Contact is an authored flat-plane assumption, not runtime terrain IK. Stride matching requires the stated implied speed. Idle, Walk and Run have identical first/last poses. Death is an authored collapse rather than a physics ragdoll. Coat colour, markings, ears, feet, face and tail are individually shaped for this species.",
+    "boneNames": [
+      "Root",
+      "Pelvis",
+      "Spine",
+      "Chest",
+      "Neck",
+      "Head",
+      "Jaw",
+      "Ear_L",
+      "Ear_R",
+      "FR_Upper",
+      "FR_Lower",
+      "FR_Ankle",
+      "FR_Paw",
+      "FL_Upper",
+      "FL_Lower",
+      "FL_Ankle",
+      "FL_Paw",
+      "Tail_1",
+      "Tail_2",
+      "Tail_3",
+      "Tail_4",
+      "Tail_5",
+      "HR_Upper",
+      "HR_Lower",
+      "HR_Ankle",
+      "HR_Paw",
+      "HL_Upper",
+      "HL_Lower",
+      "HL_Ankle",
+      "HL_Paw"
+    ],
+    "authoringModule": "tools/creature-expansion/mammals.mjs"
+  },
+  "acceptance": {
+    "assetAudit": true,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

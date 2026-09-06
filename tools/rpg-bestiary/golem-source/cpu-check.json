@@ -1,0 +1,145 @@
+{
+  "meta": {
+    "family": "golem",
+    "height": 2.1413415378000566,
+    "dimensions": [
+      3.692075743124171,
+      2.1413415378000566,
+      0.7637172341346741
+    ],
+    "rig": "entitled-universal-base-65-joint",
+    "textureBindings": [
+      {
+        "materialName": "stone_golem_base_male_MI_Superhero_Male",
+        "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+        "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+        "flipY": false
+      },
+      {
+        "materialName": "stone_golem_outfit_male_knight_chest_MI_Knight",
+        "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+        "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+        "flipY": false
+      },
+      {
+        "materialName": "stone_golem_outfit_male_knight_legs_MI_Knight",
+        "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+        "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+        "flipY": false
+      },
+      {
+        "materialName": "stone_golem_outfit_male_knight_boots_MI_Knight",
+        "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+        "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+        "flipY": false
+      },
+      {
+        "materialName": "stone_golem_outfit_male_knight_gloves_MI_Knight",
+        "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+        "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+        "flipY": false
+      },
+      {
+        "materialName": "stone_golem_outfit_male_knight_pauldron_MI_Knight",
+        "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+        "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+        "flipY": false
+      }
+    ],
+    "floorCorrection": {
+      "Idle": {
+        "samples": 221,
+        "maximumLift": 0.023987187406190248
+      },
+      "Walk": {
+        "samples": 149,
+        "maximumLift": 0.12698868320811285
+      },
+      "Run": {
+        "samples": 95,
+        "maximumLift": 0.009140768129146007
+      },
+      "Attack": {
+        "samples": 94,
+        "maximumLift": 0.027977792289892812
+      },
+      "Hit": {
+        "samples": 31,
+        "maximumLift": 0.02558463619276214
+      },
+      "HitLeft": {
+        "samples": 31,
+        "maximumLift": 0.02558463619276214
+      },
+      "HitRight": {
+        "samples": 31,
+        "maximumLift": 0.02558463619276214
+      },
+      "Death": {
+        "samples": 203,
+        "maximumLift": 0.24301742261975595
+      }
+    },
+    "source": "Quaternius Universal Base Characters and Modular Fantasy Knight armor, preserved source topology and skin weights",
+    "license": "CC0-1.0",
+    "provenance": {
+      "sourceAssets": [
+        "base_male",
+        "outfit_male_knight_chest",
+        "outfit_male_knight_legs",
+        "outfit_male_knight_boots",
+        "outfit_male_knight_gloves",
+        "outfit_male_knight_pauldron",
+        "animation_library_1"
+      ],
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "modifications": "Broad coordinated bind-space anatomy and joints; original knight armor converted to weathered guardian statue; authored mineral texture, heavy clip timing"
+    },
+    "attackContact": 0.38,
+    "animationAcceptance": "candidate-needs-production-lab-motion-review",
+    "revision": "golem-source-review-1"
+  },
+  "clips": {
+    "Idle": {
+      "duration": 2.5,
+      "minFloor": 0.002999351076206969,
+      "maxFloor": 0.0030000000114951977
+    },
+    "Walk": {
+      "duration": 1.8000000715255737,
+      "minFloor": 0.0021781989534962634,
+      "maxFloor": 0.005310055786236413
+    },
+    "Run": {
+      "duration": 1.1200000047683716,
+      "minFloor": 0.001029484739786435,
+      "maxFloor": 0.21457240994957436
+    },
+    "Attack": {
+      "duration": 1.1266666650772095,
+      "minFloor": 0.002838349927873778,
+      "maxFloor": 0.003005088971329472
+    },
+    "Hit": {
+      "duration": 0.3333333432674408,
+      "minFloor": 0.0029968008621619265,
+      "maxFloor": 0.0029999997797787387
+    },
+    "HitLeft": {
+      "duration": 0.3333333432674408,
+      "minFloor": 0.0029968008621619265,
+      "maxFloor": 0.0029999997797787387
+    },
+    "HitRight": {
+      "duration": 0.3333333432674408,
+      "minFloor": 0.0029968008621619265,
+      "maxFloor": 0.0029999997797787387
+    },
+    "Death": {
+      "duration": 2.4000000953674316,
+      "minFloor": 0.0029999546695381185,
+      "maxFloor": 0.013380680926363832
+    }
+  }
+}

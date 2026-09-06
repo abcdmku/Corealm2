@@ -1,0 +1,30 @@
+[
+  {
+    "id": "corealm-rpg-earth-elemental-golem",
+    "name": "Earth Elemental / Golem",
+    "author": "piacenti",
+    "source": "https://opengameart.org/content/earth-elemental-golem",
+    "license": "CC-BY-3.0",
+    "sourceArchive": "earth elemental 1.1.zip",
+    "archiveSha256": "a3f76b3961cdf18073b5d2337450c5e9753722f71d9b6e811e42458023a491c8",
+    "upstreamPackId": "earth-elemental-golem",
+    "derivation": "Complete original source body and rig retained; sourceProvenance records conversion and clip adaptations.",
+    "derivativeLicense": "CC-BY-3.0",
+    "attribution": "Earth Elemental / Golem by piacenti. Source: https://opengameart.org/content/earth-elemental-golem. Converted and adapted for Corealm with the complete source body and rig retained; scale, grounded pivot and runtime animation bindings adapted. The adapted asset is distributed under CC BY 3.0.",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+  },
+  {
+    "id": "corealm-rpg-beetle-golem-animated",
+    "name": "Beetle Golem [Animated]",
+    "author": "killyoverdrive; animation by Dm3d",
+    "source": "https://opengameart.org/content/beetle-golem-animated",
+    "license": "CC-BY-SA-3.0",
+    "sourceArchive": "BeetleGolem_v3.blend",
+    "archiveSha256": "cb730dd5dcf0f25835bd276dfd6bf38cb1d55a1d4ccefa7e94391ee0ce412c42",
+    "attribution": "Beetle Golem by killyoverdrive, animated by Dm3d. CC BY-SA 3.0. The adapted creature asset remains CC BY-SA 3.0.",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "upstreamPackId": "beetle-golem-animated",
+    "derivation": "Complete original source body and rig retained; sourceProvenance records conversion and clip adaptations.",
+    "derivativeLicense": "CC-BY-SA-3.0"
+  }
+]

@@ -1,0 +1,3703 @@
+{
+  "sourceSha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+  "segmentMappingMaxDeltaAcrossSamples": 0.0,
+  "recipe": {
+    "helperRestArmatureMatrix": "bone.matrix_local @ poseBone.bbone_segment_matrix(segment, rest=True)",
+    "helperAnimatedArmatureMatrix": "poseBone.matrix @ poseBone.bbone_segment_matrix(segment, rest=False)",
+    "weightSplit": "Original bone weight multiplied by listed segment factor. Apply after original-space optimization. Recheck expanded count against four-weight limit.",
+    "parent": "Armature object; helper local matrices are armature-space, no bone parenting."
+  },
+  "splits": [
+    {
+      "object": "Body",
+      "vertex": 17,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 19,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 20,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 21,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 22,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.9637718982994556
+        ],
+        [
+          1,
+          0.03622810170054436
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 23,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 24,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 25,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.6455494463443756
+        ],
+        [
+          1,
+          0.3544505536556244
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 26,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 27,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.48939067125320435
+        ],
+        [
+          1,
+          0.5106093287467957
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 28,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.5246277451515198
+        ],
+        [
+          1,
+          0.4753722548484802
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 29,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.1542147397994995
+        ],
+        [
+          1,
+          0.8457852602005005
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 30,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.41684234142303467
+        ],
+        [
+          1,
+          0.5831576585769653
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 31,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.24435389041900635
+        ],
+        [
+          1,
+          0.7556461095809937
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 32,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 33,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 34,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 35,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 51,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 52,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 53,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 55,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.9030184894800186
+        ],
+        [
+          1,
+          0.09698151051998138
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 56,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 69,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.6499104499816895
+        ],
+        [
+          1,
+          0.35008955001831055
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 72,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.735325962305069
+        ],
+        [
+          1,
+          0.26467403769493103
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 73,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 74,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.857053205370903
+        ],
+        [
+          1,
+          0.14294679462909698
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 75,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 266,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 268,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 269,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 270,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 271,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.9637718163430691
+        ],
+        [
+          1,
+          0.03622818365693092
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 272,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 273,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 274,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.6455494463443756
+        ],
+        [
+          1,
+          0.3544505536556244
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 275,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 276,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.48939067125320435
+        ],
+        [
+          1,
+          0.5106093287467957
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 277,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.5246278345584869
+        ],
+        [
+          1,
+          0.47537216544151306
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 278,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.15421485900878906
+        ],
+        [
+          1,
+          0.8457851409912109
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 279,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.4168422222137451
+        ],
+        [
+          1,
+          0.5831577777862549
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 280,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.24435389041900635
+        ],
+        [
+          1,
+          0.7556461095809937
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 281,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 282,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 283,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 284,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 300,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 301,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 302,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 304,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.9030184894800186
+        ],
+        [
+          1,
+          0.09698151051998138
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 305,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 318,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.6499104797840118
+        ],
+        [
+          1,
+          0.35008952021598816
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 321,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.735325962305069
+        ],
+        [
+          1,
+          0.26467403769493103
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 322,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 323,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.857053205370903
+        ],
+        [
+          1,
+          0.14294679462909698
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 324,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 538,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 544,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 545,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 547,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.5259729027748108
+        ],
+        [
+          1,
+          0.4740270972251892
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 548,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.8520433008670807
+        ],
+        [
+          1,
+          0.1479566991329193
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 549,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 550,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 551,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.8304037004709244
+        ],
+        [
+          1,
+          0.16959629952907562
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 552,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 553,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 554,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 555,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 556,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.4876098036766052
+        ],
+        [
+          1,
+          0.5123901963233948
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 557,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.628248929977417
+        ],
+        [
+          1,
+          0.371751070022583
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 558,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 559,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 560,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 561,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 562,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.4413396716117859
+        ],
+        [
+          1,
+          0.5586603283882141
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 563,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.5764814019203186
+        ],
+        [
+          1,
+          0.4235185980796814
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 564,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 565,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.5881813764572144
+        ],
+        [
+          2,
+          0.41181862354278564
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 566,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.6278796195983887
+        ],
+        [
+          2,
+          0.37212038040161133
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 567,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.6952743530273438
+        ],
+        [
+          2,
+          0.30472564697265625
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 568,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.7393839359283447
+        ],
+        [
+          2,
+          0.2606160640716553
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 569,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.5241453945636749
+        ],
+        [
+          1,
+          0.4758546054363251
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 570,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.498163640499115
+        ],
+        [
+          1,
+          0.501836359500885
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 571,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.18995022773742676
+        ],
+        [
+          1,
+          0.8100497722625732
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 572,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.1410142183303833
+        ],
+        [
+          1,
+          0.8589857816696167
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 573,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.3193449378013611
+        ],
+        [
+          1,
+          0.6806550621986389
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 578,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 579,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 580,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 581,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 582,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 614,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 615,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 617,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 619,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 620,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.7065199017524719
+        ],
+        [
+          1,
+          0.2934800982475281
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 622,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.8047536909580231
+        ],
+        [
+          1,
+          0.19524630904197693
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 623,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 624,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 626,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.7715892940759659
+        ],
+        [
+          1,
+          0.22841070592403412
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 628,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 659,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 660,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.8690583109855652
+        ],
+        [
+          1,
+          0.13094168901443481
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 662,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.5765218734741211
+        ],
+        [
+          1,
+          0.4234781265258789
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 666,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.7740474492311478
+        ],
+        [
+          1,
+          0.22595255076885223
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 667,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1042,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1047,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1049,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.5259729027748108
+        ],
+        [
+          1,
+          0.4740270972251892
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1050,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.8520432114601135
+        ],
+        [
+          1,
+          0.14795678853988647
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1051,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1052,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1053,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1054,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1055,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1056,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.4876098036766052
+        ],
+        [
+          1,
+          0.5123901963233948
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1057,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.628248929977417
+        ],
+        [
+          1,
+          0.371751070022583
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1058,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1059,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1060,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1061,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1062,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.5764813125133514
+        ],
+        [
+          1,
+          0.42351868748664856
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1063,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.5881813764572144
+        ],
+        [
+          2,
+          0.41181862354278564
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1064,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.6278796195983887
+        ],
+        [
+          2,
+          0.37212038040161133
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1065,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.6952743530273438
+        ],
+        [
+          2,
+          0.30472564697265625
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1066,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.7393839359283447
+        ],
+        [
+          2,
+          0.2606160640716553
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1067,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.498163640499115
+        ],
+        [
+          1,
+          0.501836359500885
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1068,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.18995022773742676
+        ],
+        [
+          1,
+          0.8100497722625732
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1069,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.3193449378013611
+        ],
+        [
+          1,
+          0.6806550621986389
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1074,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1075,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1076,
+      "bone": "Tail",
+      "segments": [
+        [
+          2,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1100,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1101,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1103,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1105,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1106,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.7065198719501495
+        ],
+        [
+          1,
+          0.29348012804985046
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1108,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.8047536909580231
+        ],
+        [
+          1,
+          0.19524630904197693
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1109,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1110,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1112,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.7715892940759659
+        ],
+        [
+          1,
+          0.22841070592403412
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1114,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1145,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1146,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.8690583109855652
+        ],
+        [
+          1,
+          0.13094168901443481
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1148,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.5765218436717987
+        ],
+        [
+          1,
+          0.4234781563282013
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1152,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.7740474492311478
+        ],
+        [
+          1,
+          0.22595255076885223
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1153,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1511,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1514,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.6529366970062256
+        ],
+        [
+          1,
+          0.3470633029937744
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1515,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1516,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1517,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.5496611297130585
+        ],
+        [
+          1,
+          0.45033887028694153
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1518,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.9073813334107399
+        ],
+        [
+          1,
+          0.0926186665892601
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1519,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1520,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.603919506072998
+        ],
+        [
+          2,
+          0.39608049392700195
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1521,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.6587635278701782
+        ],
+        [
+          2,
+          0.3412364721298218
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1522,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.7259635925292969
+        ],
+        [
+          2,
+          0.2740364074707031
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1538,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1541,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.749922126531601
+        ],
+        [
+          1,
+          0.25007787346839905
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1542,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1560,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.748176634311676
+        ],
+        [
+          1,
+          0.251823365688324
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1759,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1760,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1763,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1764,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.44414591789245605
+        ],
+        [
+          1,
+          0.555854082107544
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1765,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.6529366970062256
+        ],
+        [
+          1,
+          0.3470633029937744
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1766,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1767,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1768,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1770,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.5496611297130585
+        ],
+        [
+          1,
+          0.45033887028694153
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1771,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.9073813334107399
+        ],
+        [
+          1,
+          0.0926186665892601
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1772,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1773,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.7417770624160767
+        ],
+        [
+          2,
+          0.25822293758392334
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1774,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.5823675394058228
+        ],
+        [
+          2,
+          0.41763246059417725
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1775,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.603919506072998
+        ],
+        [
+          2,
+          0.39608049392700195
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1776,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.6587635278701782
+        ],
+        [
+          2,
+          0.3412364721298218
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1777,
+      "bone": "Tail",
+      "segments": [
+        [
+          1,
+          0.7259635925292969
+        ],
+        [
+          2,
+          0.2740364074707031
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1802,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1805,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.749922126531601
+        ],
+        [
+          1,
+          0.25007787346839905
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1806,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1824,
+      "bone": "Tail",
+      "segments": [
+        [
+          0,
+          0.7481766045093536
+        ],
+        [
+          1,
+          0.25182339549064636
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 32,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.9122080653905869
+        ],
+        [
+          1,
+          0.08779193460941315
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 33,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.8098891079425812
+        ],
+        [
+          1,
+          0.19011089205741882
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 34,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.9545903690159321
+        ],
+        [
+          1,
+          0.04540963098406792
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 35,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.8522706627845764
+        ],
+        [
+          1,
+          0.14772933721542358
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 36,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.39501428604125977
+        ],
+        [
+          3,
+          0.6049857139587402
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 37,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.423907995223999
+        ],
+        [
+          3,
+          0.576092004776001
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 38,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.4069819450378418
+        ],
+        [
+          3,
+          0.5930180549621582
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 39,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.43587636947631836
+        ],
+        [
+          3,
+          0.5641236305236816
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 281,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.9122080653905869
+        ],
+        [
+          1,
+          0.08779193460941315
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 282,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.8098891079425812
+        ],
+        [
+          1,
+          0.19011089205741882
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 283,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.9545901194214821
+        ],
+        [
+          1,
+          0.045409880578517914
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 284,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.8522706627845764
+        ],
+        [
+          1,
+          0.14772933721542358
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 285,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.39501380920410156
+        ],
+        [
+          3,
+          0.6049861907958984
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 286,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.423907995223999
+        ],
+        [
+          3,
+          0.576092004776001
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 287,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.4069814682006836
+        ],
+        [
+          3,
+          0.5930185317993164
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 288,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.43587636947631836
+        ],
+        [
+          3,
+          0.5641236305236816
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 574,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.7282696962356567
+        ],
+        [
+          2,
+          0.27173030376434326
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 575,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.7041407823562622
+        ],
+        [
+          2,
+          0.2958592176437378
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 576,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.6700179576873779
+        ],
+        [
+          2,
+          0.32998204231262207
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 577,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.645889401435852
+        ],
+        [
+          2,
+          0.35411059856414795
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 578,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.960796982049942
+        ],
+        [
+          1,
+          0.03920301795005798
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 579,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.8822392374277115
+        ],
+        [
+          1,
+          0.11776076257228851
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 580,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.9377879872918129
+        ],
+        [
+          1,
+          0.0622120127081871
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 581,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.8036825060844421
+        ],
+        [
+          1,
+          0.19631749391555786
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 582,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.8266912400722504
+        ],
+        [
+          1,
+          0.17330875992774963
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 587,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.39975905418395996
+        ],
+        [
+          3,
+          0.60024094581604
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 588,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.3932609558105469
+        ],
+        [
+          3,
+          0.6067390441894531
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 589,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.43113136291503906
+        ],
+        [
+          3,
+          0.5688686370849609
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 590,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.41544461250305176
+        ],
+        [
+          3,
+          0.5845553874969482
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 591,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.43762850761413574
+        ],
+        [
+          3,
+          0.5623714923858643
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1070,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.7282696962356567
+        ],
+        [
+          2,
+          0.27173030376434326
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1071,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.7041407823562622
+        ],
+        [
+          2,
+          0.2958592176437378
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1072,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.6700179576873779
+        ],
+        [
+          2,
+          0.32998204231262207
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1073,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.645889401435852
+        ],
+        [
+          2,
+          0.35411059856414795
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1074,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.8822392374277115
+        ],
+        [
+          1,
+          0.11776076257228851
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1075,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.9377879872918129
+        ],
+        [
+          1,
+          0.0622120127081871
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1076,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          0,
+          0.8266912400722504
+        ],
+        [
+          1,
+          0.17330875992774963
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1081,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.39975881576538086
+        ],
+        [
+          3,
+          0.6002411842346191
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1082,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.43113136291503906
+        ],
+        [
+          3,
+          0.5688686370849609
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1083,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          2,
+          0.41544437408447266
+        ],
+        [
+          3,
+          0.5845556259155273
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1523,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.7187035083770752
+        ],
+        [
+          2,
+          0.2812964916229248
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1524,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.6870784759521484
+        ],
+        [
+          2,
+          0.31292152404785156
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1525,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.6554549932479858
+        ],
+        [
+          2,
+          0.34454500675201416
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1778,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.6423557996749878
+        ],
+        [
+          2,
+          0.3576442003250122
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1779,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.7318029403686523
+        ],
+        [
+          2,
+          0.26819705963134766
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1780,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.7187035083770752
+        ],
+        [
+          2,
+          0.2812964916229248
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1781,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.6870784759521484
+        ],
+        [
+          2,
+          0.31292152404785156
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1782,
+      "bone": "Tail.001",
+      "segments": [
+        [
+          1,
+          0.6554549932479858
+        ],
+        [
+          2,
+          0.34454500675201416
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 36,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 37,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 38,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 39,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 40,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.36275219917297363
+        ],
+        [
+          2,
+          0.6372478008270264
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 41,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.3898881673812866
+        ],
+        [
+          2,
+          0.6101118326187134
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 42,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.35151207447052
+        ],
+        [
+          2,
+          0.64848792552948
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 43,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.37864840030670166
+        ],
+        [
+          2,
+          0.6213515996932983
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 285,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 286,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 287,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 288,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 289,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.36275219917297363
+        ],
+        [
+          2,
+          0.6372478008270264
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 290,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.3898881673812866
+        ],
+        [
+          2,
+          0.6101118326187134
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 291,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.35151207447052
+        ],
+        [
+          2,
+          0.64848792552948
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 292,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.37864840030670166
+        ],
+        [
+          2,
+          0.6213515996932983
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 583,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.3379841446876526
+        ],
+        [
+          1,
+          0.6620158553123474
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 584,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.3361518979072571
+        ],
+        [
+          1,
+          0.6638481020927429
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 585,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.3335605263710022
+        ],
+        [
+          1,
+          0.6664394736289978
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 586,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.3317286968231201
+        ],
+        [
+          1,
+          0.6682713031768799
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 587,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 588,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 589,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 590,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 591,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 596,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.3498659133911133
+        ],
+        [
+          2,
+          0.6501340866088867
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 597,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.37069976329803467
+        ],
+        [
+          2,
+          0.6293002367019653
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 598,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.3559688329696655
+        ],
+        [
+          2,
+          0.6440311670303345
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 599,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.391534686088562
+        ],
+        [
+          2,
+          0.608465313911438
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 600,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.3854329586029053
+        ],
+        [
+          2,
+          0.6145670413970947
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1077,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.3379841446876526
+        ],
+        [
+          1,
+          0.6620158553123474
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1078,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.3361518979072571
+        ],
+        [
+          1,
+          0.6638481020927429
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1079,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.3335605263710022
+        ],
+        [
+          1,
+          0.6664394736289978
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1080,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.3317286968231201
+        ],
+        [
+          1,
+          0.6682713031768799
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1081,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1082,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1083,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1088,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.37069976329803467
+        ],
+        [
+          2,
+          0.6293002367019653
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1089,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.3559688329696655
+        ],
+        [
+          2,
+          0.6440311670303345
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1090,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          1,
+          0.3854329586029053
+        ],
+        [
+          2,
+          0.6145670413970947
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1526,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.3372576832771301
+        ],
+        [
+          1,
+          0.6627423167228699
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1527,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.33485597372055054
+        ],
+        [
+          1,
+          0.6651440262794495
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1528,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.33245551586151123
+        ],
+        [
+          1,
+          0.6675444841384888
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1783,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.33146029710769653
+        ],
+        [
+          1,
+          0.6685397028923035
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1784,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.33825206756591797
+        ],
+        [
+          1,
+          0.661747932434082
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1785,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.3372576832771301
+        ],
+        [
+          1,
+          0.6627423167228699
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1786,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.33485597372055054
+        ],
+        [
+          1,
+          0.6651440262794495
+        ]
+      ]
+    },
+    {
+      "object": "Body",
+      "vertex": 1787,
+      "bone": "Tail.002",
+      "segments": [
+        [
+          0,
+          0.33245551586151123
+        ],
+        [
+          1,
+          0.6675444841384888
+        ]
+      ]
+    }
+  ]
+}

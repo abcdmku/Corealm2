@@ -68,6 +68,17 @@ function collisionProblems(owner: string, boxes: readonly {
 }
 
 describe("isolated structure constructors", () => {
+  it("keeps fixed-size stall collision aligned with its measured hero mesh for every footprint", () => {
+    for (const footprint of FOOTPRINTS) {
+      const hero = buildPrefab("stall", footprint, 0).find(part => part.assetId === "market_stall")!;
+      expect(hero.scale).toBe(1);
+      expect([hero.dx, hero.dy, hero.dz]).toEqual([0, 0, 0]);
+      expect(prefabCollision("stall", footprint)).toEqual([
+        { tag: "stall", dx: 0.0005, dz: 0.005, sizeX: 1.845, sizeZ: 0.932, height: 2.622 },
+      ]);
+    }
+  });
+
   it("builds every registered prefab recipe with valid assets and collision", () => {
     const visited = new Set<string>();
     const problems: string[] = [];

@@ -1,0 +1,211 @@
+{
+  "schema": 1,
+  "originalSourceSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+  "previewSourceSha256": "9ecbb6b0cac174d65c4b6c43d5e51e1ab5ae4615e4a9da4cccb5f48217557404",
+  "adaptedSha256": "f9a2d34c69354947d873ce75ea82993360d0492f4d9f1568eed33b85617e2811",
+  "bytes": 1731932,
+  "nativeRigSkinAnimationHashBefore": "87d122ee7508ddcc84e796e52d276d3e1bfcb639b495a11d902431e46fc4700b",
+  "nativeRigSkinAnimationHashAfter": "87d122ee7508ddcc84e796e52d276d3e1bfcb639b495a11d902431e46fc4700b",
+  "nativeDataExactlyPreserved": true,
+  "modifications": [
+    "Welded face duplicates by position and skin weights; averaged source texture colours at shared vertices without exchanging orange/white/dark coat regions.",
+    "Three controlled Loop-subdivision rounds on the complete original mesh cage. Ear/nose planes and sole elevation receive minimal relaxation.",
+    "Widened existing weighted distal foot vertices and eased pointed forefoot ends.",
+    "Source colour regions converted to linear vertex colours with directional grizzle; smooth normals and rough coat.",
+    "Added two small surface-projected almond eye details on native Head joint."
+  ],
+  "topology": {
+    "originalVertices": 1728,
+    "weldedVertices": 290,
+    "reshapedFootVertices": 36,
+    "subdivisionRounds": 3
+  },
+  "eyePositions": [
+    {
+      "side": -1,
+      "centre": [
+        -9.19107382283168,
+        61.4052367106479,
+        50.31020683135543
+      ],
+      "projectionDistance": 0.025,
+      "maximumDome": 0.13,
+      "joint": "b_Head_05"
+    },
+    {
+      "side": 1,
+      "centre": [
+        9.19107382283168,
+        61.4052367106479,
+        50.31020683135543
+      ],
+      "projectionDistance": 0.025,
+      "maximumDome": 0.13,
+      "joint": "b_Head_05"
+    }
+  ],
+  "audit": {
+    "method": "241 CPU samples per native clip; original joint matrices and skinning; same 0.01 wrapper; floor y=0, no hidden contact offset.",
+    "before": {
+      "vertices": 1728,
+      "triangles": 576,
+      "invalidWeights": 0,
+      "bindBounds": {
+        "min": [
+          -0.1259271876220604,
+          -0.0012174418434114692,
+          -0.8809500578699789
+        ],
+        "max": [
+          0.12592717486586835,
+          0.7890719764774783,
+          0.6662485977768968
+        ],
+        "size": [
+          0.25185436248792875,
+          0.7902894183208897,
+          1.5471986556468758
+        ]
+      },
+      "clips": [
+        {
+          "name": "Survey",
+          "duration": 3.4166667461395264,
+          "samples": 241,
+          "minimumY": -0.0013104108134210392,
+          "maximumFrameMinimumY": -0.0012982733884352989,
+          "minimumAt": 0.3986111203829447,
+          "loopMaxVertexDistance": 0
+        },
+        {
+          "name": "Walk",
+          "duration": 0.7083333134651184,
+          "samples": 241,
+          "minimumY": -0.02020430140049234,
+          "maximumFrameMinimumY": 0.013618499518343177,
+          "minimumAt": 0.04722222089767456,
+          "loopMaxVertexDistance": 4.060260211297991e-8
+        },
+        {
+          "name": "Run",
+          "duration": 1.1583333015441895,
+          "samples": 241,
+          "minimumY": -0.03732597949163217,
+          "maximumFrameMinimumY": 0.06350233871819035,
+          "minimumAt": 0.07239583134651184,
+          "loopMaxVertexDistance": 1.028050112622456e-8
+        }
+      ]
+    },
+    "after": {
+      "vertices": 18674,
+      "triangles": 37200,
+      "invalidWeights": 0,
+      "bindBounds": {
+        "min": [
+          -0.12225643787119361,
+          -0.001217441940560946,
+          -0.8681037377774836
+        ],
+        "max": [
+          0.12225641575137475,
+          0.7815568695579662,
+          0.6661832132736347
+        ],
+        "size": [
+          0.24451285362256836,
+          0.7827743114985272,
+          1.5342869510511183
+        ]
+      },
+      "clips": [
+        {
+          "name": "Survey",
+          "duration": 3.4166667461395264,
+          "samples": 241,
+          "minimumY": -0.001316390713837995,
+          "maximumFrameMinimumY": -0.001304188756304688,
+          "minimumAt": 0.3986111203829447,
+          "loopMaxVertexDistance": 0
+        },
+        {
+          "name": "Walk",
+          "duration": 0.7083333134651184,
+          "samples": 241,
+          "minimumY": -0.02403235222155017,
+          "maximumFrameMinimumY": 0.013195657456238788,
+          "minimumAt": 0.05017360970377922,
+          "loopMaxVertexDistance": 4.051764120367096e-8
+        },
+        {
+          "name": "Run",
+          "duration": 1.1583333015441895,
+          "samples": 241,
+          "minimumY": -0.037893091082659994,
+          "maximumFrameMinimumY": 0.06219157880370022,
+          "minimumAt": 0.07239583134651184,
+          "loopMaxVertexDistance": 1.0469627068055884e-8
+        }
+      ]
+    },
+    "penetrationChange": [
+      {
+        "clip": "Survey",
+        "beforeM": 0.0013104108134210392,
+        "afterM": 0.001316390713837995,
+        "increaseM": 0.000005979900416955763
+      },
+      {
+        "clip": "Walk",
+        "beforeM": 0.02020430140049234,
+        "afterM": 0.02403235222155017,
+        "increaseM": 0.003828050821057829
+      },
+      {
+        "clip": "Run",
+        "beforeM": 0.03732597949163217,
+        "afterM": 0.037893091082659994,
+        "increaseM": 0.000567111591027826
+      }
+    ],
+    "interpretation": "Expanded distal source vertices alter the physical sole envelope. Walk penetration grows about 3.83mm; Run grows about 0.57mm. This is a measured regression requiring native-rig contact repair if the adapted mesh is selected."
+  },
+  "missingProductionBehaviors": [
+    "Attack",
+    "Hit",
+    "HitLeft",
+    "HitRight",
+    "Death"
+  ],
+  "nativeGaitContactAccepted": false,
+  "hardwareAccepted": false,
+  "limitations": [
+    "Native Walk/Run already penetrate and float relative to y=0. Geometry adaptation does not repair those original motion targets.",
+    "Survey is a moving native observation clip, not a new idle alias.",
+    "Eye/coat/silhouette refinements have not yet been seen in hardware.",
+    "No combat/death aliases were created."
+  ],
+  "attribution": [
+    {
+      "author": "PixelMannen",
+      "work": "Model",
+      "year": 2014,
+      "license": "CC0-1.0",
+      "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
+    },
+    {
+      "author": "tomkranis",
+      "work": "Rigging & Animation",
+      "year": 2014,
+      "license": "CC-BY-4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+    },
+    {
+      "author": "@AsoboStudio and @scurest",
+      "work": "Conversion to glTF",
+      "year": 2017,
+      "license": "CC-BY-4.0",
+      "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+    }
+  ]
+}

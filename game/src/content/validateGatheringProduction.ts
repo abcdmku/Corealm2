@@ -7,6 +7,7 @@
  */
 import type { ItemDef, ItemId, RecipeId, StationKind } from "../contracts.js";
 import type { GatheringProductionTierDef, RecipeDef, ResourceDef } from "./index.js";
+import { isSupportedCcAttributionLicense, validateCcAssetPack } from "./assetLicenses.js";
 
 export const GATHERING_PRODUCTION_STATION_KINDS = [
   "furnace",
@@ -46,11 +47,13 @@ export interface GatheringProductionManifestPack {
   /** Lowercase SHA-256 of the source archive. */
   archiveSha256?: string;
   generatorSha256?: string;
+  sourceReference?: { assetId: string; file: string; pack: string; sha256: string; license: string; upstreamSource: string; upstreamLicense: string };
 }
 
 export interface GatheringProductionManifestAsset {
   id: string;
   pack: string;
+  file?: string;
 }
 
 export interface GatheringProductionAssetManifest {
@@ -65,6 +68,8 @@ export interface GatheringProductionValidationInput {
   items: readonly ItemDef[];
   knownManifestAssetIds: ReadonlySet<string>;
   assetManifest: GatheringProductionAssetManifest;
+  /** Actual bytes hashed by the build tool, keyed by repository-relative source path. */
+  verifiedSourceHashes: ReadonlyMap<string, string>;
   /** Region resource references, when the world tables are available. */
   clusters?: readonly GatheringProductionClusterRef[];
   /** Authored station recipe allow-lists, when the world tables are available. */
@@ -76,6 +81,48 @@ export interface GatheringProductionValidationInput {
 const VALID_STATIONS = new Set<string>(GATHERING_PRODUCTION_STATION_KINDS);
 const LOWERCASE_SHA256 = /^[0-9a-f]{64}$/;
 const UNITY_ASSET_STORE_LICENSE = "Standard Unity Asset Store EULA";
+
+export function validateGatheringManifestProvenance(
+  manifest: GatheringProductionAssetManifest,
+  verifiedSourceHashes: ReadonlyMap<string, string>,
+): string[] {
+  const problems: string[] = [];
+  for (const pack of manifest.packs) {
+    const hashMatches = LOWERCASE_SHA256.test(pack.generatorSha256 ?? "")
+      && verifiedSourceHashes.get(pack.source) === pack.generatorSha256;
+    const isOriginal = pack.license === "LicenseRef-Corealm-Original"
+      && /^tools\/build-(?:corealm-(?:nature|geology|farm|minerals|equipment)|creature-expansion)\.ts$/.test(pack.source)
+      && hashMatches;
+    const derivativeIdentity = pack.id === "corealm-original-ground-ores" && pack.source === "tools/build-ground-ores.ts"
+      && pack.license.startsWith("Derivative geometry and material maps") && pack.license.includes(UNITY_ASSET_STORE_LICENSE);
+    const reference = pack.sourceReference;
+    const upstream = manifest.packs.find((candidate) => candidate.id === reference?.pack);
+    const sourceAsset = manifest.assets.find((asset) => asset.id === reference?.assetId);
+    const isDerivative = derivativeIdentity && hashMatches && reference !== undefined
+      && reference.pack === "dexsoft-rocks-free" && reference.assetId === "rocks_free_essence_node"
+      && sourceAsset?.pack === reference.pack && sourceAsset.file !== undefined
+      && reference.file === `game/public/assets/${sourceAsset.file}`
+      && LOWERCASE_SHA256.test(reference.sha256) && verifiedSourceHashes.get(reference.file) === reference.sha256
+      && reference.license.includes(UNITY_ASSET_STORE_LICENSE)
+      && upstream !== undefined && isHttpSource(upstream.source) && upstream.license.startsWith(UNITY_ASSET_STORE_LICENSE)
+      && reference.upstreamSource === upstream.source && reference.upstreamLicense === upstream.license;
+    if ((pack.license === "LicenseRef-Corealm-Original" || derivativeIdentity) && !hashMatches) {
+      problems.push(`manifest pack ${pack.id} generator SHA-256 does not match verified source bytes`);
+    }
+    if (derivativeIdentity && !isDerivative) problems.push(`manifest pack ${pack.id} has no verified licensed upstream reference`);
+    if (!isHttpSource(pack.source) && !isOriginal && !isDerivative) problems.push(`manifest pack ${pack.id} has no reproducible HTTP(S) source`);
+    const isCc0 = pack.license === "CC0-1.0";
+    const isCcAttribution = isSupportedCcAttributionLicense(pack.license);
+    if (isCcAttribution) {
+      try { validateCcAssetPack(pack); }
+      catch (error) { problems.push(`manifest pack ${pack.id}: ${error instanceof Error ? error.message : String(error)}`); }
+    }
+    const isUnityStoreAsset = pack.license.startsWith(UNITY_ASSET_STORE_LICENSE);
+    if (!isCc0 && !isCcAttribution && !isUnityStoreAsset && !isOriginal && !isDerivative) problems.push(`manifest pack ${pack.id} has unsupported license "${pack.license}"`);
+    if (isCc0 && !LOWERCASE_SHA256.test(pack.archiveSha256 ?? "")) problems.push(`manifest pack ${pack.id} has no valid lowercase archive SHA-256`);
+  }
+  return problems;
+}
 
 interface CanonicalTierRecipeExpectation {
   family: string;
@@ -342,22 +389,7 @@ export function validateGatheringProduction(
     }
   };
 
-  for (const pack of input.assetManifest.packs) {
-    const isOriginal = pack.license === "LicenseRef-Corealm-Original"
-      && /^tools\/build-(?:corealm-(?:nature|geology|farm|minerals)|creature-expansion)\.ts$/.test(pack.source)
-      && LOWERCASE_SHA256.test(pack.generatorSha256 ?? "");
-    if (!isHttpSource(pack.source) && !isOriginal) {
-      problems.push(`manifest pack ${pack.id} has no reproducible HTTP(S) source`);
-    }
-    const isCc0 = pack.license === "CC0-1.0";
-    const isUnityStoreAsset = pack.license.startsWith(UNITY_ASSET_STORE_LICENSE);
-    if (!isCc0 && !isUnityStoreAsset && !isOriginal) {
-      problems.push(`manifest pack ${pack.id} has unsupported license "${pack.license}"`);
-    }
-    if (isCc0 && (!pack.archiveSha256 || !LOWERCASE_SHA256.test(pack.archiveSha256))) {
-      problems.push(`manifest pack ${pack.id} has no valid lowercase archive SHA-256`);
-    }
-  }
+  problems.push(...validateGatheringManifestProvenance(input.assetManifest, input.verifiedSourceHashes));
   for (const asset of input.assetManifest.assets) {
     if (!packsById.has(asset.pack)) {
       problems.push(`manifest asset ${asset.id} references unknown manifest pack "${asset.pack}"`);

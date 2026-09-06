@@ -1,0 +1,50 @@
+{
+  "candidateSha256": "d6cdf12b04103deede6c807b27d24245af49a0d518953f124b8e560e3977bd54",
+  "id": "animal_rabbit",
+  "passed": true,
+  "results": [
+    {
+      "id": "animal_rabbit",
+      "name": "Walk",
+      "candidateSha256": "d6cdf12b04103deede6c807b27d24245af49a0d518953f124b8e560e3977bd54",
+      "sourceSha256": "105875b9f68e2fba30bd6577d385d896f2d3c2fa42bd26a15d8f4d029e3f08ed",
+      "clearanceM": 0.0005,
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "velocityIntervalSeconds": 8.246527674297492E-05,
+      "maximumMps": 0.004348123244603612,
+      "count": 25918,
+      "worst": {
+        "vertex": 1347,
+        "phase": 0.24889322916666667,
+        "clearanceM": 0.0005007791468068998,
+        "declared": true
+      },
+      "nonFiniteVertices": 0,
+      "maximumPenetrationM": 0,
+      "passed": true
+    },
+    {
+      "id": "animal_rabbit",
+      "name": "Run",
+      "candidateSha256": "d6cdf12b04103deede6c807b27d24245af49a0d518953f124b8e560e3977bd54",
+      "sourceSha256": "105875b9f68e2fba30bd6577d385d896f2d3c2fa42bd26a15d8f4d029e3f08ed",
+      "clearanceM": 0.0005,
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "velocityIntervalSeconds": 5.6423611628512545E-05,
+      "maximumMps": 0.006562445257347226,
+      "count": 12448,
+      "worst": {
+        "vertex": 1347,
+        "phase": 0.7615234375,
+        "clearanceM": 0.0005009295706526716,
+        "declared": true
+      },
+      "nonFiniteVertices": 0,
+      "maximumPenetrationM": 0,
+      "passed": true
+    }
+  ],
+  "sourceSha256": "105875b9f68e2fba30bd6577d385d896f2d3c2fa42bd26a15d8f4d029e3f08ed"
+}

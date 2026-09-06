@@ -1,0 +1,30 @@
+{
+  "source": "sheepies.blend",
+  "source_sha256": "bd4cf09e732facd65c2313ff626b1a4a2cddd4d91cbda6c6ab8eb922dc026447",
+  "output": "p0ss-sheep2-static.glb",
+  "sha256": "65360a465086786d9eb212057782d6c252fae58ed31fa27063ff95ebf772f68b",
+  "source_mesh": "Sheep 2",
+  "vertices": 1470,
+  "polygons": 1522,
+  "uv_layers": [
+    "UVTex"
+  ],
+  "embedded_texture": "untitled",
+  "blender_dimensions": [
+    0.7742860317230225,
+    2.379037380218506,
+    1.8272771835327148
+  ],
+  "rigid_heading_radians": -0.048965342242482945,
+  "translation": [
+    -0.037081316113471985,
+    0.46640485525131226,
+    0.22145679593086243
+  ],
+  "uniform_scale": 1,
+  "static": true,
+  "exported_animation_count": 0,
+  "exported_skin_count": 0,
+  "attribution": "Sheep by p0ss; source boar texture photograph by titus tscharntke; CC-BY-SA 3.0",
+  "changes": "Selected original Sheep 2 body; rest-pose static bake; rigid forward alignment and ground centering; packed diffuse relinked to glTF material. No shape or horn changes."
+}

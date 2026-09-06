@@ -1,0 +1,107 @@
+{
+  "title": "Beetle Golem [Animated]",
+  "sourceUrl": "https://opengameart.org/content/beetle-golem-animated",
+  "originalSourceUrl": "https://opengameart.org/content/beetle-golem-0",
+  "downloadUrl": "https://opengameart.org/sites/default/files/BeetleGolem_v3.blend",
+  "retrievedAt": "2026-09-05T20:33:35.732622+00:00",
+  "author": "killyoverdrive",
+  "animator": "Dm3d",
+  "license": "CC-BY-SA-3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+  "attribution": "Beetle Golem by killyoverdrive, animated by Dm3d. https://opengameart.org/content/beetle-golem-animated. Licensed CC BY-SA 3.0. Conversion and runtime adaptations documented in tools/rpg-bestiary/beetle-golem-source/README.md; the adapted creature asset remains CC BY-SA 3.0.",
+  "sourceFiles": [
+    {
+      "file": "test-results\\beetle-golem-source\\BeetleGolem_v3.blend",
+      "sha256": "cb730dd5dcf0f25835bd276dfd6bf38cb1d55a1d4ccefa7e94391ee0ce412c42"
+    },
+    {
+      "file": "tools/rpg-bestiary/beetle-golem-source/derived/original-map-0.png",
+      "channel": "normal",
+      "sha256": "516f569f7585fbe8e4fc18f3dbcb787099071804f4b278d43b41d6f5834bd61b",
+      "origin": "Exact original packed PNG bytes extracted from BeetleGolem_v3.blend"
+    },
+    {
+      "file": "tools/rpg-bestiary/beetle-golem-source/derived/original-map-1.png",
+      "channel": "baseColor",
+      "sha256": "abbbe89a271914b78ef00e185e675cde11975804cec91b76966fc97bf9153da0",
+      "origin": "Exact original packed PNG bytes extracted from BeetleGolem_v3.blend"
+    }
+  ],
+  "sourceFacts": {
+    "controlVertices": 312,
+    "triangles": 620,
+    "bones": 29,
+    "armaturePreserveVolume": false,
+    "animationNames": [
+      "Attack1",
+      "Attack2",
+      "Death",
+      "Hurt1",
+      "Hurt2",
+      "Idle_Heavy",
+      "Idle_Normal",
+      "OLD_AnimationLine",
+      "Sleep_End",
+      "Sleep_Idle",
+      "Sleep_Start",
+      "Walk"
+    ],
+    "nativeReconstructionCheck": {
+      "source": "Blender evaluated original Armature modifier vs reconstructed full native weights",
+      "maxMeters": 9.812850387658198e-07,
+      "rmsMeters": 2.509723778297731e-07,
+      "samples": 33480
+    }
+  },
+  "weightReduction": {
+    "sourceMaximum": 11,
+    "runtimeMaximum": 4,
+    "maxDiscardedFraction": 0.3299691569392338,
+    "affectedControlVertices": 57,
+    "method": "Select four of native influences and nonnegative refit across 102 poses of six native runtime clips, minimizing maximum positional error plus 0.25 RMS; no new joints",
+    "refitVertices": 57,
+    "measuredError": {
+      "maxMeters": 0.02129224173061006,
+      "rmsMeters": 0.0013836408772174699,
+      "samples": 491040
+    }
+  },
+  "cpuFloorChecks": {
+    "Idle": {
+      "minFloor": 0.0030000000586489772,
+      "maxFloor": 0.0030000000586489772
+    },
+    "Walk": {
+      "minFloor": 0.0029015818334647836,
+      "maxFloor": 0.015830129943309013
+    },
+    "Run": {
+      "minFloor": 0.0028989393134510877,
+      "maxFloor": 0.015830129718220398
+    },
+    "Attack": {
+      "minFloor": 0.0029935060247745504,
+      "maxFloor": 0.0032522094964726467
+    },
+    "Hit": {
+      "minFloor": 0.0029947977984869922,
+      "maxFloor": 0.00300000008848067
+    },
+    "HitLeft": {
+      "minFloor": 0.0029947977984869922,
+      "maxFloor": 0.00300000008848067
+    },
+    "HitRight": {
+      "minFloor": 0.0029591695192134893,
+      "maxFloor": 0.0030000001300607426
+    },
+    "Death": {
+      "minFloor": 0.0027918087321023854,
+      "maxFloor": 0.02377415011044781
+    }
+  },
+  "helper": "tools/rpg-bestiary/beetle-golem-source/beetle.mjs#buildBeetleGolem",
+  "state": "candidate-source-converted-needs-production-browser-review",
+  "browserOrRenderUsed": false,
+  "materialLimitation": "Original color and tangent normal retained; legacy non-node material has no roughness/metallic maps. Runtime roughness0.55 and metalness0 are explicit material conversion defaults."
+}

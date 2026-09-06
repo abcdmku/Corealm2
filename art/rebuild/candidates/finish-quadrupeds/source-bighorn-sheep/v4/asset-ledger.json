@@ -1,0 +1,78 @@
+{
+  "schema": 1,
+  "sourceProvenance": {
+    "author": "p0ss",
+    "texturePhotographer": "titus tscharntke",
+    "adaptationAuthor": "Corealm",
+    "license": "CC-BY-SA-3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://opengameart.org/content/sheep-rigged-textured-and-animated",
+    "textureSource": "https://opengameart.org/content/woodland-animals-texture-pack",
+    "originalSha256": "bd4cf09e732facd65c2313ff626b1a4a2cddd4d91cbda6c6ab8eb922dc026447",
+    "derivativeLicense": "CC-BY-SA-3.0",
+    "attribution": "Sheep by p0ss; source boar texture photograph by titus tscharntke. Bighorn adaptation by Corealm. Licensed CC BY-SA 3.0.",
+    "changes": [
+      "Interpolating subdivision followed by four narrow distal hoof clefts; source pastern remains continuous; distal foot weights assigned to original corresponding forearm/shin bone",
+      "Bone rest landmarks follow whole-body deformation; original 22 bone names retained",
+      "Continuous tapered keratin horns bound to original HEAD bone",
+      "Regional gray-brown, pale-rump/muzzle and dark-hoof coat colors",
+      "One interpolating subdivision; uniform scale and ground/heading alignment"
+    ]
+  },
+  "sourceFiles": [
+    {
+      "path": "../../source-caprine-free/sheepies.blend",
+      "sha256": "bd4cf09e732facd65c2313ff626b1a4a2cddd4d91cbda6c6ab8eb922dc026447",
+      "readOnly": true
+    }
+  ],
+  "derivatives": [
+    {
+      "file": "../adapt-v4.py",
+      "sha256": "8cb79400e58cf660f09db9a4d5dba2e8010098cebbc2604644391641eda6c563",
+      "license": "CC-BY-SA-3.0"
+    },
+    {
+      "file": "bighorn-source-adaptation.blend",
+      "sha256": "f980ae3092c047c70373340ffbf10a9c0d15aeeee26a3d9d2b1f1a8ca190ebfc",
+      "license": "CC-BY-SA-3.0"
+    },
+    {
+      "file": "bighorn-source-adaptation.glb",
+      "sha256": "0b3c5504a01c951b00201fa624045b5f79052ddf3eecb83632d25587dce49d41",
+      "license": "CC-BY-SA-3.0"
+    },
+    {
+      "file": "bighorn-rest-review.glb",
+      "sha256": "e609d9bfcf43727a051688af061089821e12661adde9f06f821050aa2905d578",
+      "license": "CC-BY-SA-3.0"
+    },
+    {
+      "file": "source-diffuse.png",
+      "sha256": "e369b333f4654eadfb2fb78c85c9e7dc1a88db776f193989c02c70f099dd2e7f",
+      "license": "CC-BY-SA-3.0"
+    },
+    {
+      "file": "source-vertex-nearest-map.json",
+      "sha256": "972416c6d0c9e9c6fdce5b4813b5fb6ef162843596c4a05a4f7a3e668827c18b",
+      "license": "CC-BY-SA-3.0"
+    },
+    {
+      "file": "models/creature/creature_cairn_bighorn.glb",
+      "sha256": "5f7d70bd946faf2503e4056bf40a1a21ae08b40738d4281ad0d9d8dbe27e7220",
+      "license": "CC-BY-SA-3.0"
+    }
+  ],
+  "runtimeStatus": {
+    "accepted": false,
+    "missingProductionRoles": [
+      "Run",
+      "Attack",
+      "Hit",
+      "HitLeft",
+      "HitRight",
+      "Death"
+    ],
+    "sourceMotionContactPassed": false
+  }
+}

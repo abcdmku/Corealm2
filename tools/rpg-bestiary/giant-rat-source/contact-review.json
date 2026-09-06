@@ -1,0 +1,831 @@
+{
+  "nativeSha": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047",
+  "scale": 0.240830591906,
+  "bodyHeight": 0.3399999888393904,
+  "method": "240Hz native aliases with floor wrapper channels removed. Fixed initial Idle.001 grounding leaves4mm clearance. Foot mesh patches classified by strongest .002 ankle or .003 toe influence; 14mm threshold includes10mm above that baseline. Flight estimate is threshold-dependent and not visual acceptance.",
+  "patchCounts": {
+    "FrontLeg_L": {
+      "toe": 411,
+      "ankle": 64,
+      "whole": 475
+    },
+    "FrontLeg_R": {
+      "toe": 411,
+      "ankle": 62,
+      "whole": 473
+    },
+    "BackLeg_L": {
+      "toe": 455,
+      "ankle": 121,
+      "whole": 576
+    },
+    "BackLeg_R": {
+      "toe": 455,
+      "ankle": 122,
+      "whole": 577
+    }
+  },
+  "clips": [
+    {
+      "clip": "Idle",
+      "duration": 3.75,
+      "sampleCount": 901,
+      "maximumWrapperWorldLift": 0,
+      "nativeWorst": {
+        "time": 0,
+        "phase": 0,
+        "minimumY": 0.004000000007966015,
+        "minimumMesh": "giant_rat_source_134_Body_mesh0",
+        "minimumDominantBone": "giant_rat_source_10_FrontLeg_L_003",
+        "feet": {
+          "FrontLeg_L": {
+            "toeMinimumY": 0.004000000007966015,
+            "ankleMinimumY": 0.00418613729620135,
+            "wholeMinimumY": 0.004000000007966015,
+            "joint002Y": 0.02315935422454215,
+            "joint002Quaternion": [
+              -0.9911578297615051,
+              -0.08942270278930664,
+              -0.013772268779575825,
+              0.09705734252929688
+            ],
+            "joint003Y": 0.016978411046000216,
+            "joint003Quaternion": [
+              -0.9967072606086731,
+              -0.08108478039503098,
+              8.853433541844424e-8,
+              7.475193797290558e-9
+            ]
+          },
+          "FrontLeg_R": {
+            "toeMinimumY": 0.0040000009837554895,
+            "ankleMinimumY": 0.004176753762961653,
+            "wholeMinimumY": 0.0040000009837554895,
+            "joint002Y": 0.02315936140185309,
+            "joint002Quaternion": [
+              -0.9911578297615051,
+              0.08942269533872604,
+              0.01377226784825325,
+              0.09705734997987747
+            ],
+            "joint003Y": 0.016978415531819557,
+            "joint003Quaternion": [
+              -0.9967072010040283,
+              0.08108477294445038,
+              -8.269434204066783e-8,
+              7.475176921900584e-9
+            ]
+          },
+          "BackLeg_L": {
+            "toeMinimumY": 0.008172696199492013,
+            "ankleMinimumY": 0.00856143657655946,
+            "wholeMinimumY": 0.008172696199492013,
+            "joint002Y": 0.041182292550679275,
+            "joint002Quaternion": [
+              -0.9785907864570618,
+              -0.06395357102155685,
+              0.008028104901313782,
+              0.1954623907804489
+            ],
+            "joint003Y": 0.024597588649053377,
+            "joint003Quaternion": [
+              4.520835616972363e-8,
+              1.4168391260227509e-7,
+              -0.9991325736045837,
+              0.04164253547787666
+            ]
+          },
+          "BackLeg_R": {
+            "toeMinimumY": 0.008173018337232562,
+            "ankleMinimumY": 0.008222223906373042,
+            "wholeMinimumY": 0.008173018337232562,
+            "joint002Y": 0.041182357146477735,
+            "joint002Quaternion": [
+              -0.9785908460617065,
+              0.06395356357097626,
+              -0.008028103038668633,
+              0.19546236097812653
+            ],
+            "joint003Y": 0.024597660422162788,
+            "joint003Quaternion": [
+              4.7305668715580396e-8,
+              -1.4914104440322262e-7,
+              0.9991325736045837,
+              0.041642531752586365
+            ]
+          }
+        }
+      },
+      "flightFractionAt14mm": 0,
+      "feet": {
+        "FrontLeg_L": {
+          "minimumToeY": 0.004000000007966015,
+          "minimumAnklePatchY": 0.004186137296201349,
+          "minimumJoint002Y": 0.02315935422454215,
+          "minimumJoint003Y": 0.016978411046000216,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        },
+        "FrontLeg_R": {
+          "minimumToeY": 0.0040000009837554895,
+          "minimumAnklePatchY": 0.004176753762961651,
+          "minimumJoint002Y": 0.02315936140185309,
+          "minimumJoint003Y": 0.016978415531819557,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        },
+        "BackLeg_L": {
+          "minimumToeY": 0.008172696199492008,
+          "minimumAnklePatchY": 0.008561436576559452,
+          "minimumJoint002Y": 0.04118229255067926,
+          "minimumJoint003Y": 0.024597588649053374,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        },
+        "BackLeg_R": {
+          "minimumToeY": 0.008173018337232558,
+          "minimumAnklePatchY": 0.008222223906373026,
+          "minimumJoint002Y": 0.041182357146477735,
+          "minimumJoint003Y": 0.024597660422162784,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        }
+      }
+    },
+    {
+      "clip": "Walk",
+      "duration": 1.1666666269302368,
+      "sampleCount": 281,
+      "maximumWrapperWorldLift": 0.031860869893396405,
+      "nativeWorst": {
+        "time": 0.47916665034634726,
+        "phase": 0.4107142857142857,
+        "minimumY": -0.027824996806787138,
+        "minimumMesh": "giant_rat_source_134_Body_mesh0",
+        "minimumDominantBone": "giant_rat_source_29_BackLeg_L_003",
+        "feet": {
+          "FrontLeg_L": {
+            "toeMinimumY": -0.0035706990343279885,
+            "ankleMinimumY": -0.003129579283157692,
+            "wholeMinimumY": -0.0035706990343279885,
+            "joint002Y": 0.01571336989257936,
+            "joint002Quaternion": [
+              -0.9911577974116501,
+              -0.0894226924201079,
+              -0.013772266633732811,
+              0.09705734069195629
+            ],
+            "joint003Y": 0.009532424919709693,
+            "joint003Quaternion": [
+              -0.9966947944850031,
+              -0.08121932189465679,
+              0.0006984827386301256,
+              0.001555801829778779
+            ]
+          },
+          "FrontLeg_R": {
+            "toeMinimumY": -0.020121284753988108,
+            "ankleMinimumY": 0.03473411370147519,
+            "wholeMinimumY": -0.020121284753988108,
+            "joint002Y": 0.05368608862248944,
+            "joint002Quaternion": [
+              -0.9750529723624921,
+              0.08743227013554708,
+              0.0232741845354942,
+              0.2026959670614527
+            ],
+            "joint003Y": 0.04095575001758345,
+            "joint003Quaternion": [
+              -0.8721931371856428,
+              0.07095999460092642,
+              0.03919781892492906,
+              0.4823975140592338
+            ]
+          },
+          "BackLeg_L": {
+            "toeMinimumY": -0.027824996806787138,
+            "ankleMinimumY": 0.05412477429855021,
+            "wholeMinimumY": -0.027824996806787138,
+            "joint002Y": 0.09760865995564548,
+            "joint002Quaternion": [
+              -0.7656986653216955,
+              -0.059996009564508505,
+              -0.02355811307547999,
+              0.6399617672041467
+            ],
+            "joint003Y": 0.0553688813433733,
+            "joint003Quaternion": [
+              0.021323796050898534,
+              0.5124349164779375,
+              -0.8577158590321341,
+              0.035766893858100404
+            ]
+          },
+          "BackLeg_R": {
+            "toeMinimumY": 0.0038283779530818773,
+            "ankleMinimumY": 0.007572422250670214,
+            "wholeMinimumY": 0.0038283779530818773,
+            "joint002Y": 0.04086271917278836,
+            "joint002Quaternion": [
+              -0.9702225961579135,
+              0.05819702861995539,
+              0.007806513000302992,
+              0.23498998217212724
+            ],
+            "joint003Y": 0.02118686030741145,
+            "joint003Quaternion": [
+              0.013683695395377938,
+              -0.005687303965006957,
+              0.9992712768109886,
+              0.03517565059060819
+            ]
+          }
+        }
+      },
+      "flightFractionAt14mm": 0,
+      "feet": {
+        "FrontLeg_L": {
+          "minimumToeY": -0.021307090206901858,
+          "minimumAnklePatchY": -0.0061973775024342995,
+          "minimumJoint002Y": 0.01273499625626488,
+          "minimumJoint003Y": 0.006554051283395212,
+          "toeBelowFloorFraction": 0.2313167259786477,
+          "anklePatchBelowFloorFraction": 0.09608540925266904,
+          "contactOrPenetrationAt14mmFraction": 0.7829181494661922
+        },
+        "FrontLeg_R": {
+          "minimumToeY": -0.021359500390617236,
+          "minimumAnklePatchY": -0.006209278504394433,
+          "minimumJoint002Y": 0.012734893087231438,
+          "minimumJoint003Y": 0.006553948126218116,
+          "toeBelowFloorFraction": 0.2313167259786477,
+          "anklePatchBelowFloorFraction": 0.09608540925266904,
+          "contactOrPenetrationAt14mmFraction": 0.7829181494661922
+        },
+        "BackLeg_L": {
+          "minimumToeY": -0.027824996806787138,
+          "minimumAnklePatchY": 0.004592209086914758,
+          "minimumJoint002Y": 0.04054310458481826,
+          "minimumJoint003Y": 0.015901853139733746,
+          "toeBelowFloorFraction": 0.1708185053380783,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 0.6619217081850534
+        },
+        "BackLeg_R": {
+          "minimumToeY": -0.02729861717082548,
+          "minimumAnklePatchY": 0.004592171600954263,
+          "minimumJoint002Y": 0.04054309023019756,
+          "minimumJoint003Y": 0.015902422931376923,
+          "toeBelowFloorFraction": 0.1708185053380783,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 0.6583629893238434
+        }
+      }
+    },
+    {
+      "clip": "Run",
+      "duration": 0.4166666567325592,
+      "sampleCount": 101,
+      "maximumWrapperWorldLift": 0.021806332164239006,
+      "nativeWorst": {
+        "time": 0.03333333253860474,
+        "phase": 0.08,
+        "minimumY": -0.01755805694713114,
+        "minimumMesh": "giant_rat_source_134_Body_mesh0",
+        "minimumDominantBone": "giant_rat_source_33_BackLeg_R_003",
+        "feet": {
+          "FrontLeg_L": {
+            "toeMinimumY": 0.0126806352370251,
+            "ankleMinimumY": 0.023135030877896416,
+            "wholeMinimumY": 0.0126806352370251,
+            "joint002Y": 0.04238702664361313,
+            "joint002Quaternion": [
+              -0.9882021160460577,
+              -0.08902296988618436,
+              -0.016154491382844798,
+              0.123573949855537
+            ],
+            "joint003Y": 0.034532769131527766,
+            "joint003Quaternion": [
+              -0.9919625127443764,
+              -0.08070669662099059,
+              -0.007655449377179218,
+              0.09715038098342055
+            ]
+          },
+          "FrontLeg_R": {
+            "toeMinimumY": 0.004606973978757311,
+            "ankleMinimumY": 0.013277761996805188,
+            "wholeMinimumY": 0.004606973978757311,
+            "joint002Y": 0.03226419423496649,
+            "joint002Quaternion": [
+              -0.9895656057616429,
+              0.08920318476818588,
+              0.015128814354197457,
+              0.11213305800272251
+            ],
+            "joint003Y": 0.02513442518284052,
+            "joint003Quaternion": [
+              -0.9930261174364714,
+              0.08078947263571837,
+              0.006720859517769425,
+              0.08559802128339289
+            ]
+          },
+          "BackLeg_L": {
+            "toeMinimumY": 0.004549181003075298,
+            "ankleMinimumY": 0.008129411213701402,
+            "wholeMinimumY": 0.004549181003075298,
+            "joint002Y": 0.04376698859555854,
+            "joint002Quaternion": [
+              -0.9613291243728372,
+              -0.0643683856412895,
+              0.0032869452591082282,
+              0.26775403181530627
+            ],
+            "joint003Y": 0.0214861137472736,
+            "joint003Quaternion": [
+              0.00013441745280891087,
+              0.0036184528349866543,
+              -0.9991258694139523,
+              0.04164595777315307
+            ]
+          },
+          "BackLeg_R": {
+            "toeMinimumY": -0.01755805694713114,
+            "ankleMinimumY": 0.0070025621533084444,
+            "wholeMinimumY": -0.01755805694713114,
+            "joint002Y": 0.04808660841725232,
+            "joint002Quaternion": [
+              -0.9204918303519672,
+              0.06427498775963161,
+              0.004784501810043769,
+              0.38540968429220096
+            ],
+            "joint003Y": 0.01743722966959629,
+            "joint003Quaternion": [
+              0.005345871698289198,
+              -0.1280208460366911,
+              0.9908969136382462,
+              0.04129638214218269
+            ]
+          }
+        }
+      },
+      "flightFractionAt14mm": 0.13861386138613863,
+      "feet": {
+        "FrontLeg_L": {
+          "minimumToeY": -0.00753207540092754,
+          "minimumAnklePatchY": 0.00006005345538843791,
+          "minimumJoint002Y": 0.018981811487706612,
+          "minimumJoint003Y": 0.012800866963414256,
+          "toeBelowFloorFraction": 0.0891089108910891,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 0.6039603960396039
+        },
+        "FrontLeg_R": {
+          "minimumToeY": -0.001662901083983927,
+          "minimumAnklePatchY": -0.001793214385844795,
+          "minimumJoint002Y": 0.017265829139525738,
+          "minimumJoint003Y": 0.01108487887339572,
+          "toeBelowFloorFraction": 0.12871287128712872,
+          "anklePatchBelowFloorFraction": 0.07920792079207921,
+          "contactOrPenetrationAt14mmFraction": 0.7425742574257426
+        },
+        "BackLeg_L": {
+          "minimumToeY": -0.005104462291904201,
+          "minimumAnklePatchY": -0.006960186675754749,
+          "minimumJoint002Y": 0.02797566419664548,
+          "minimumJoint003Y": 0.011359358592932816,
+          "toeBelowFloorFraction": 0.1782178217821782,
+          "anklePatchBelowFloorFraction": 0.1188118811881188,
+          "contactOrPenetrationAt14mmFraction": 0.5643564356435643
+        },
+        "BackLeg_R": {
+          "minimumToeY": -0.01755805694713114,
+          "minimumAnklePatchY": -0.011246161372573397,
+          "minimumJoint002Y": 0.023733044420568998,
+          "minimumJoint003Y": 0.007115730398613544,
+          "toeBelowFloorFraction": 0.297029702970297,
+          "anklePatchBelowFloorFraction": 0.19801980198019803,
+          "contactOrPenetrationAt14mmFraction": 0.5247524752475248
+        }
+      }
+    },
+    {
+      "clip": "Attack",
+      "duration": 0.875,
+      "sampleCount": 211,
+      "maximumWrapperWorldLift": 0.0036686188374259205,
+      "nativeWorst": {
+        "time": 0.875,
+        "phase": 1,
+        "minimumY": 0.0003313811625740796,
+        "minimumMesh": "giant_rat_source_134_Body_mesh0",
+        "minimumDominantBone": "giant_rat_source_23_Tail_002__segment_1",
+        "feet": {
+          "FrontLeg_L": {
+            "toeMinimumY": 0.003999940731088209,
+            "ankleMinimumY": 0.00419393424254261,
+            "wholeMinimumY": 0.003999940731088209,
+            "joint002Y": 0.023159303983365548,
+            "joint002Quaternion": [
+              -0.9911578297615051,
+              -0.08942269533872604,
+              -0.013772266916930676,
+              0.09705733507871628
+            ],
+            "joint003Y": 0.016978356319004278,
+            "joint003Quaternion": [
+              -0.9967072010040283,
+              -0.08108476549386978,
+              8.643186788503954e-8,
+              7.47518846822004e-9
+            ]
+          },
+          "FrontLeg_R": {
+            "toeMinimumY": 0.003999918161122702,
+            "ankleMinimumY": 0.004204497534226422,
+            "wholeMinimumY": 0.003999918161122702,
+            "joint002Y": 0.02315928245143274,
+            "joint002Quaternion": [
+              -0.9911578297615051,
+              0.08942269533872604,
+              0.013772266916930676,
+              0.09705733507871628
+            ],
+            "joint003Y": 0.01697833658139921,
+            "joint003Quaternion": [
+              -0.9967072010040283,
+              0.08108476549386978,
+              -8.549749708208765e-8,
+              7.475192020933719e-9
+            ]
+          },
+          "BackLeg_L": {
+            "toeMinimumY": 0.008145836593955617,
+            "ankleMinimumY": 0.00821040554097633,
+            "wholeMinimumY": 0.008145836593955617,
+            "joint002Y": 0.041182314082612095,
+            "joint002Quaternion": [
+              -0.9785908460617065,
+              -0.06395356357097626,
+              0.008028103969991207,
+              0.19546236097812653
+            ],
+            "joint003Y": 0.024597611975313936,
+            "joint003Quaternion": [
+              4.4975330126817425e-8,
+              1.4168391260227509e-7,
+              -0.9991325736045837,
+              0.041642528027296066
+            ]
+          },
+          "BackLeg_R": {
+            "toeMinimumY": 0.008174844420588481,
+            "ankleMinimumY": 0.0068662128858471,
+            "wholeMinimumY": 0.0068662128858471,
+            "joint002Y": 0.041184194538078575,
+            "joint002Quaternion": [
+              -0.9785908460617065,
+              0.06395356357097626,
+              -0.008028105832636356,
+              0.19546236097812653
+            ],
+            "joint003Y": 0.024599490636452673,
+            "joint003Quaternion": [
+              4.800477526600844e-8,
+              -1.4168395523483923e-7,
+              0.9991325736045837,
+              0.04164253547787666
+            ]
+          }
+        }
+      },
+      "flightFractionAt14mm": 0,
+      "feet": {
+        "FrontLeg_L": {
+          "minimumToeY": 0.003999940731088209,
+          "minimumAnklePatchY": 0.004176739424654473,
+          "minimumJoint002Y": 0.023159303983365548,
+          "minimumJoint003Y": 0.016978356319004278,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 0.5071090047393365
+        },
+        "FrontLeg_R": {
+          "minimumToeY": 0.003999918161122698,
+          "minimumAnklePatchY": 0.004026429111623438,
+          "minimumJoint002Y": 0.02315928245143274,
+          "minimumJoint003Y": 0.016978336581399207,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        },
+        "BackLeg_L": {
+          "minimumToeY": 0.007196268191676371,
+          "minimumAnklePatchY": 0.00821040554097633,
+          "minimumJoint002Y": 0.041182314082612095,
+          "minimumJoint003Y": 0.024597611975313932,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        },
+        "BackLeg_R": {
+          "minimumToeY": 0.008174844420588481,
+          "minimumAnklePatchY": 0.006564764056160554,
+          "minimumJoint002Y": 0.041184194538078575,
+          "minimumJoint003Y": 0.024599490636452673,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 0.43601895734597157
+        }
+      }
+    },
+    {
+      "clip": "Hit",
+      "duration": 0.4166666567325592,
+      "sampleCount": 101,
+      "maximumWrapperWorldLift": 6.085134108321094e-8,
+      "nativeWorst": {
+        "time": 0,
+        "phase": 0,
+        "minimumY": 0.003999939148658917,
+        "minimumMesh": "giant_rat_source_134_Body_mesh0",
+        "minimumDominantBone": "giant_rat_source_14_FrontLeg_R_003",
+        "feet": {
+          "FrontLeg_L": {
+            "toeMinimumY": 0.0039999599819721616,
+            "ankleMinimumY": 0.00416851144842854,
+            "wholeMinimumY": 0.0039999599819721616,
+            "joint002Y": 0.023159311160676488,
+            "joint002Quaternion": [
+              -0.9911578297615051,
+              -0.08942269533872604,
+              -0.01377226784825325,
+              0.09705734252929688
+            ],
+            "joint003Y": 0.016978367982134555,
+            "joint003Quaternion": [
+              -0.9967072010040283,
+              -0.08108477294445038,
+              8.946871332682349e-8,
+              7.475193797290558e-9
+            ]
+          },
+          "FrontLeg_R": {
+            "toeMinimumY": 0.003999939148658917,
+            "ankleMinimumY": 0.004266683625362557,
+            "wholeMinimumY": 0.003999939148658917,
+            "joint002Y": 0.02315930039471009,
+            "joint002Quaternion": [
+              -0.9911578297615051,
+              0.08942269533872604,
+              0.01377226784825325,
+              0.09705734997987747
+            ],
+            "joint003Y": 0.01697835452467656,
+            "joint003Quaternion": [
+              -0.9967072010040283,
+              0.08108477294445038,
+              -8.432952824932727e-8,
+              7.475182250971102e-9
+            ]
+          },
+          "BackLeg_L": {
+            "toeMinimumY": 0.008172696379024265,
+            "ankleMinimumY": 0.008561438696285064,
+            "wholeMinimumY": 0.008172696379024265,
+            "joint002Y": 0.041182292550679275,
+            "joint002Quaternion": [
+              -0.9785907864570618,
+              -0.06395357102155685,
+              0.008028104901313782,
+              0.1954623907804489
+            ],
+            "joint003Y": 0.024597588649053377,
+            "joint003Quaternion": [
+              4.520835616972363e-8,
+              1.4168391260227509e-7,
+              -0.9991325736045837,
+              0.04164253547787666
+            ]
+          },
+          "BackLeg_R": {
+            "toeMinimumY": 0.008334668463211604,
+            "ankleMinimumY": 0.006846233476629478,
+            "wholeMinimumY": 0.006846233476629478,
+            "joint002Y": 0.04134400454348647,
+            "joint002Quaternion": [
+              -0.9785908460617065,
+              0.06395356357097626,
+              -0.008028103969991207,
+              0.19546236097812653
+            ],
+            "joint003Y": 0.024759307819171513,
+            "joint003Quaternion": [
+              4.7538708969341315e-8,
+              -1.416840120782581e-7,
+              0.9991325736045837,
+              0.041642528027296066
+            ]
+          }
+        }
+      },
+      "flightFractionAt14mm": 0,
+      "feet": {
+        "FrontLeg_L": {
+          "minimumToeY": 0.0039999599819721616,
+          "minimumAnklePatchY": 0.0041685110374832576,
+          "minimumJoint002Y": 0.023159311160676488,
+          "minimumJoint003Y": 0.016978367982134555,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        },
+        "FrontLeg_R": {
+          "minimumToeY": 0.003999939148658917,
+          "minimumAnklePatchY": 0.004216414606051564,
+          "minimumJoint002Y": 0.02315930039471009,
+          "minimumJoint003Y": 0.01697835452467656,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        },
+        "BackLeg_L": {
+          "minimumToeY": 0.008045776086851116,
+          "minimumAnklePatchY": 0.007426857094222028,
+          "minimumJoint002Y": 0.04118229255067926,
+          "minimumJoint003Y": 0.024597588649053374,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        },
+        "BackLeg_R": {
+          "minimumToeY": 0.007450005320691685,
+          "minimumAnklePatchY": 0.006718705698349665,
+          "minimumJoint002Y": 0.04118228843813122,
+          "minimumJoint003Y": 0.024597589919488533,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        }
+      }
+    },
+    {
+      "clip": "Death",
+      "duration": 1.125,
+      "sampleCount": 271,
+      "maximumWrapperWorldLift": 0.03264209749221769,
+      "nativeWorst": {
+        "time": 0.7208333333333333,
+        "phase": 0.6407407407407407,
+        "minimumY": -0.02863804711469423,
+        "minimumMesh": "giant_rat_source_134_Body_mesh0",
+        "minimumDominantBone": "giant_rat_source_14_FrontLeg_R_003",
+        "feet": {
+          "FrontLeg_L": {
+            "toeMinimumY": 0.003999961159851636,
+            "ankleMinimumY": 0.004207873483438353,
+            "wholeMinimumY": 0.003999961159851636,
+            "joint002Y": 0.0231593278313103,
+            "joint002Quaternion": [
+              -0.9911577900974002,
+              -0.08942270475361414,
+              -0.013772263650631784,
+              0.09705740444563471
+            ],
+            "joint003Y": 0.016978378329424514,
+            "joint003Quaternion": [
+              -0.996707208510853,
+              -0.08108477355515047,
+              9.39226498025622e-8,
+              6.495109694759885e-8
+            ]
+          },
+          "FrontLeg_R": {
+            "toeMinimumY": -0.02863804711469423,
+            "ankleMinimumY": 0.0014134854615284872,
+            "wholeMinimumY": -0.02863804711469423,
+            "joint002Y": 0.0231593238405925,
+            "joint002Quaternion": [
+              -0.8998798573854789,
+              0.09779067315166985,
+              0.41294240543977745,
+              0.10065682443850414
+            ],
+            "joint003Y": 0.019892939906756044,
+            "joint003Quaternion": [
+              -0.8322394259071068,
+              0.20793101738043926,
+              0.34565903108576246,
+              0.38034465288219527
+            ]
+          },
+          "BackLeg_L": {
+            "toeMinimumY": 0.006970365879271591,
+            "ankleMinimumY": 0.008556799009583036,
+            "wholeMinimumY": 0.006970365879271591,
+            "joint002Y": 0.04118233393983903,
+            "joint002Quaternion": [
+              -0.9785907983939256,
+              -0.06395356453187914,
+              0.00802810408919435,
+              0.19546237598867808
+            ],
+            "joint003Y": 0.024597632337610902,
+            "joint003Quaternion": [
+              4.834395346287803e-8,
+              1.4646200072701328e-7,
+              -0.9991325734053722,
+              0.041642535469573784
+            ]
+          },
+          "BackLeg_R": {
+            "toeMinimumY": 0.0022780234929658484,
+            "ankleMinimumY": 0.008638135413165327,
+            "wholeMinimumY": 0.0022780234929658484,
+            "joint002Y": 0.04773904500556478,
+            "joint002Quaternion": [
+              -0.8375232843257489,
+              0.23965882104218308,
+              0.3535161769283303,
+              0.3408001032260101
+            ],
+            "joint003Y": 0.030393850495215632,
+            "joint003Quaternion": [
+              0.41184124807348244,
+              0.10583413303206844,
+              0.9048613787769849,
+              0.020293049757012994
+            ]
+          }
+        }
+      },
+      "flightFractionAt14mm": 0,
+      "feet": {
+        "FrontLeg_L": {
+          "minimumToeY": 0.00399995965585487,
+          "minimumAnklePatchY": 0.004195988287692081,
+          "minimumJoint002Y": 0.023159311160676505,
+          "minimumJoint003Y": 0.016978367982134576,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        },
+        "FrontLeg_R": {
+          "minimumToeY": -0.02863804711469423,
+          "minimumAnklePatchY": 0.0014091655841323037,
+          "minimumJoint002Y": 0.02315923221068053,
+          "minimumJoint003Y": 0.01697834107702025,
+          "toeBelowFloorFraction": 0.44280442804428044,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        },
+        "BackLeg_L": {
+          "minimumToeY": 0.006420823563498183,
+          "minimumAnklePatchY": 0.008326148778216276,
+          "minimumJoint002Y": 0.041182292550679275,
+          "minimumJoint003Y": 0.024597588649053377,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        },
+        "BackLeg_R": {
+          "minimumToeY": 0.002079681847942147,
+          "minimumAnklePatchY": 0.005267607373169787,
+          "minimumJoint002Y": 0.0411823141237902,
+          "minimumJoint003Y": 0.024058820231916477,
+          "toeBelowFloorFraction": 0,
+          "anklePatchBelowFloorFraction": 0,
+          "contactOrPenetrationAt14mmFraction": 1
+        }
+      }
+    }
+  ],
+  "sourceUnchanged": true,
+  "runFlightThresholdSweep": {
+    "samples": 1000,
+    "excludesRepeatedLoopEndpoint": true,
+    "thresholds": [
+      {
+        "thresholdMeters": 0.004,
+        "allFourFootPatchesAboveFraction": 0.292
+      },
+      {
+        "thresholdMeters": 0.009,
+        "allFourFootPatchesAboveFraction": 0.201
+      },
+      {
+        "thresholdMeters": 0.014,
+        "allFourFootPatchesAboveFraction": 0.15
+      }
+    ]
+  },
+  "motionEditsApplied": false,
+  "recommendation": "Do not accept whole-body lifting as contact repair. First propose distal .003 toe rotation correction for Walk hind toes and Death front-right toe, since their .002 patches remain above floor. Separately inspect .002/combined foot influences for Walk front feet and Run; negative ankle-patch bounds mean toe-only correction is not established for those. Keep original bytes frozen and preserve genuine Run flight."
+}

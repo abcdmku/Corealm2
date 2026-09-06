@@ -1,0 +1,36 @@
+{
+  "kind": "material-only",
+  "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
+  "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
+  "candidateSha256": "e853b524b0175ac78675fd7d6b1123fa183390c3914705a117bb218538204910",
+  "sourceColor": {
+    "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0.png",
+    "sha256": "7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0"
+  },
+  "sourceNormal": {
+    "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
+    "sha256": "dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31",
+    "bytesUnchanged": true,
+    "materialNormalScale": 0.22
+  },
+  "interpretation": "Existing authored mineral-grain luminance is remapped to restrained cool steel with sparse muted brown oxide in existing dark fissures. Metallic/roughness response is newly authored PBR data, not an original Quaternius map. Geometry, source rig, skin, gait and all eight clips are unchanged.",
+  "channels": {
+    "baseColor": "Low-contrast desaturated steel, source-luminance grain amplitude7/255, restrained brown oxide mix <=0.3375",
+    "metallic": "B channel, clean steel0.97, dark oxide reduces metalness",
+    "roughness": "G channel, clean steel about0.43, oxide increases roughness",
+    "normal": "Original normal PNG unchanged; material strength reduced to0.22"
+  },
+  "statistics": {
+    "roughness": [
+      0.43052376470588233,
+      0.6924999999999999
+    ],
+    "metalness": [
+      0.505,
+      0.97
+    ],
+    "oxidePixelFraction": 0.057331085205078125
+  },
+  "author": "Corealm project material adaptation; underlying geometry/rig/clips Quaternius CC0",
+  "status": "candidate-needs-production-material-review"
+}

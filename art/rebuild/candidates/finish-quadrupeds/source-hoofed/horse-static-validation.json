@@ -1,0 +1,52 @@
+{
+  "meshCount": 5,
+  "vertexCount": 11556,
+  "triangles": 14986,
+  "boundsBlenderZUp": {
+    "min": [
+      -0.4851537048816681,
+      -1.810641884803772,
+      7.583662409160752e-08
+    ],
+    "max": [
+      0.48515594005584717,
+      1.8106417655944824,
+      2.3999996185302734
+    ]
+  },
+  "images": [
+    {
+      "name": "eye_texture",
+      "width": 400,
+      "height": 400,
+      "packed": true
+    },
+    {
+      "name": "Hair12Main2k",
+      "width": 2048,
+      "height": 2048,
+      "packed": true
+    },
+    {
+      "name": "Hair12Main2kNorm",
+      "width": 2048,
+      "height": 2048,
+      "packed": true
+    },
+    {
+      "name": "HorseMain2k00",
+      "width": 2048,
+      "height": 2048,
+      "packed": true
+    },
+    {
+      "name": "HorseMain2k00Norm00",
+      "width": 2048,
+      "height": 2048,
+      "packed": true
+    }
+  ],
+  "armatures": 0,
+  "actions": 0,
+  "sha256": "cdf4f716f7bd1a980814c53ed9fa81d28e016e2e316ed3f319982d7e3cbce782"
+}

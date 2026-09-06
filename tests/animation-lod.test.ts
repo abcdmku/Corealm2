@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { clone as cloneRigged } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { describe, expect, it, vi } from "vitest";
-import { AnimationLod } from "../game/src/render/animationLod.js";
+import { AnimationLod, type LodPose } from "../game/src/render/animationLod.js";
 
 function actor() {
   const root = new THREE.Group();
@@ -86,7 +86,138 @@ function paletteVertex(mesh: THREE.InstancedMesh, row: number, vertex: number): 
   return result.applyMatrix4(placement);
 }
 
+function overlayClip(): THREE.AnimationClip {
+  return new THREE.AnimationClip("masked-recoil", .5, [new THREE.QuaternionKeyframeTrack("head.quaternion", [0, .25, .5],
+    [0, 0, 0, 1, ...new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), .75).toArray(), 0, 0, 0, 1])], THREE.AdditiveAnimationBlendMode);
+}
+
+/** Independent ordinary live mixer reference: local normal blend, then additive local recoil. */
+function overlayReference(root: THREE.Object3D, pose: LodPose, vertex: number): THREE.Vector3 {
+  const copy = cloneRigged(root), mixer = new THREE.AnimationMixer(copy);
+  const blend = pose.previousClip ? pose.blend : 1;
+  const play = (clip: THREE.AnimationClip, time: number, weight: number, mode: THREE.AnimationBlendMode) => {
+    const action = mixer.clipAction(clip, undefined, mode).setLoop(THREE.LoopOnce, 1);
+    action.clampWhenFinished = true; action.setEffectiveWeight(weight).play(); action.time = time;
+  };
+  if (pose.previousClip) play(pose.previousClip === pose.clip ? pose.previousClip.clone() : pose.previousClip, pose.previousTime!, 1 - blend, THREE.NormalAnimationBlendMode);
+  play(pose.clip, pose.time, blend, THREE.NormalAnimationBlendMode);
+  play(pose.overlay!.clip, pose.overlay!.time, pose.overlay!.weight, THREE.AdditiveAnimationBlendMode);
+  mixer.update(0); copy.updateMatrixWorld(true);
+  const mesh = copy.getObjectByName("body") as THREE.SkinnedMesh;
+  const point = new THREE.Vector3().fromBufferAttribute(mesh.geometry.getAttribute("position"), vertex);
+  mesh.applyBoneTransform(vertex, point); point.applyMatrix4(mesh.matrixWorld);
+  mixer.stopAllAction(); mixer.uncacheRoot(copy);
+  mesh.skeleton.dispose();
+  return point;
+}
+
 describe("sampled skeletal animation LOD", () => {
+  it("composes additive masked bones at exact live clocks without replacing moving support bones", () => {
+    const { root, walk, hit } = actor(), overlay = overlayClip(), before = root.toJSON();
+    const parent = new THREE.Group(), lod = new AnimationLod(parent, root, root, [walk, hit], material => material);
+    for (const pose of [
+      { clip: walk, time: .327, blend: 1, overlay: { clip: overlay, time: .191, weight: .8 } },
+      { clip: walk, time: .731, previousClip: hit, previousTime: .113, blend: .37, overlay: { clip: overlay, time: .231, weight: .6 } },
+      { clip: walk, time: .731, previousClip: walk, previousTime: .113, blend: .37, overlay: { clip: overlay, time: .231, weight: .6 } },
+    ]) {
+      lod.set(4, new THREE.Matrix4(), pose);
+      const mesh = parent.children[0] as THREE.InstancedMesh;
+      for (let vertex = 0; vertex < 3; vertex++) {
+        const expected = overlayReference(root, pose, vertex);
+        expect(paletteVertex(mesh, 0, vertex).distanceTo(expected)).toBeLessThan(1e-6);
+        expect(lod.bounds(4, new THREE.Box3())!.containsPoint(expected)).toBe(true);
+      }
+      expect(mesh.geometry.getAttribute("lodFrames").getX(0)).toBeGreaterThanOrEqual(lod.sampleCount);
+      expect(lod.drawCalls).toBe(1);
+    }
+    expect(root.toJSON()).toEqual(before);
+    lod.dispose();
+  });
+
+  it("reuses overlay frames across sparse-slot compaction, instance growth, and overlay completion", () => {
+    const { root, walk } = actor(), overlay = overlayClip(), parent = new THREE.Group();
+    const lod = new AnimationLod(parent, root, root, [walk], material => material);
+    const pose = (index: number): LodPose => ({ clip: walk, time: index / 25, blend: 1, overlay: { clip: overlay, time: index / 60, weight: .8 } });
+    for (let i = 0; i < 19; i++) lod.set(100 + i, new THREE.Matrix4(), pose(i));
+    const mesh = parent.children[0] as THREE.InstancedMesh;
+    const firstFrame = mesh.geometry.getAttribute("lodFrames").getX(0), allocated = lod.textureBytes;
+    lod.hide(100);
+    expect(paletteVertex(mesh, 0, 2).distanceTo(overlayReference(root, pose(18), 2))).toBeLessThan(1e-6);
+    lod.set(999, new THREE.Matrix4(), pose(3));
+    expect(mesh.geometry.getAttribute("lodFrames").getX(18)).toBe(firstFrame);
+    expect(paletteVertex(mesh, 18, 2).distanceTo(overlayReference(root, pose(3), 2))).toBeLessThan(1e-6);
+    lod.set(999, new THREE.Matrix4(), { clip: walk, time: .4, blend: 1 });
+    expect(mesh.geometry.getAttribute("lodFrames").getX(18)).toBeLessThan(lod.sampleCount);
+    expect(paletteVertex(mesh, 18, 2).distanceTo(referenceVertex(root, walk, .4, 2))).toBeLessThan(1e-6);
+    expect(lod.textureBytes).toBe(allocated);
+    expect(lod.drawCalls).toBe(1);
+    expect(parent.children).toHaveLength(1);
+    lod.dispose();
+  });
+
+  it("restores disjoint base and additive bindings between successive actors", () => {
+    const { root, walk, hit } = actor(), headOverlay = overlayClip(), parent = new THREE.Group();
+    const hipOverlay = new THREE.AnimationClip("hip-offset", .5, [
+      new THREE.VectorKeyframeTrack("hip.position", [0, .5], [0, 0, 0, 0, 2, 1]),
+    ], THREE.AdditiveAnimationBlendMode);
+    const headOnly = new THREE.AnimationClip("head-only", 1, [walk.tracks[1]!.clone()]);
+    const lod = new AnimationLod(parent, root, root, [walk, hit, headOnly], material => material);
+    const poses: LodPose[] = [
+      { clip: walk, time: .73, blend: 1, overlay: { clip: headOverlay, time: .24, weight: 1 } },
+      { clip: hit, time: .19, blend: 1, overlay: { clip: hipOverlay, time: .31, weight: .6 } },
+      { clip: headOnly, time: .42, blend: 1, overlay: { clip: headOverlay, time: .11, weight: .8 } },
+    ];
+    poses.forEach((pose, row) => {
+      lod.set(row, new THREE.Matrix4(), pose);
+      for (let vertex = 0; vertex < 3; vertex++) expect(paletteVertex(parent.children[0] as THREE.InstancedMesh, row, vertex)
+        .distanceTo(overlayReference(root, pose, vertex))).toBeLessThan(1e-6);
+    });
+    lod.dispose();
+  });
+
+  it("updates only dynamic texel rows after upload while retaining the baked palette and all shadow uniforms", () => {
+    const { root, walk } = actor(), overlay = overlayClip(), parent = new THREE.Group();
+    const lod = new AnimationLod(parent, root, root, [walk], material => material);
+    lod.set(4, new THREE.Matrix4(), { clip: walk, time: .2, blend: 1, overlay: { clip: overlay, time: .1, weight: 1 } });
+    const mesh = parent.children[0] as THREE.InstancedMesh, shader = compile(mesh.material as THREE.Material);
+    const texture = shader.uniforms["lodPalette"]!.value as THREE.DataTexture;
+    const baked = (texture.image.data as Float32Array).slice(0, lod.sampleCount * 2 * 16);
+    expect(texture.updateRanges).toHaveLength(0); // first upload must include all baked frames
+    texture.onUpdate!(texture);
+    lod.set(4, new THREE.Matrix4(), { clip: walk, time: .4, blend: 1, overlay: { clip: overlay, time: .2, weight: 1 } });
+    expect(texture.updateRanges.length).toBeGreaterThan(0);
+    const queuedRanges = texture.updateRanges.length;
+    for (let i = 0; i < 50; i++) lod.set(4, new THREE.Matrix4(), { clip: walk, time: .4, blend: 1, overlay: { clip: overlay, time: .21, weight: 1 } });
+    expect(texture.updateRanges).toHaveLength(queuedRanges); // culled textures do not accrue duplicate ranges
+    for (const range of texture.updateRanges) {
+      expect(range.start).toBeGreaterThanOrEqual(baked.length);
+      expect(range.start % (texture.image.width * 4) + range.count).toBeLessThanOrEqual(texture.image.width * 4);
+    }
+    expect(Array.from((texture.image.data as Float32Array).slice(0, baked.length))).toEqual(Array.from(baked));
+    expect(compile(mesh.customDepthMaterial!, "depth").uniforms["lodPalette"]!.value).toBe(texture);
+    expect(compile(mesh.customDistanceMaterial!, "distance").uniforms["lodPalette"]!.value).toBe(texture);
+    expect(() => lod.set(5, new THREE.Matrix4(), { clip: walk, time: 0, blend: 1, overlay: { clip: walk, time: 0, weight: 1 } })).toThrow(/additive/);
+    lod.dispose();
+  });
+
+  it("refuses dynamic texture growth beyond the existing 64 MiB budget without corrupting active rows", () => {
+    const { root, mesh, hip } = actor();
+    const bones = [...mesh.skeleton.bones];
+    while (bones.length < 256) { const bone = new THREE.Bone(); bone.name = `support${bones.length}`; hip.add(bone); bones.push(bone); }
+    root.updateMatrixWorld(true); mesh.bind(new THREE.Skeleton(bones));
+    const idle = new THREE.AnimationClip("long-idle", 204.7, []), overlay = overlayClip(), parent = new THREE.Group();
+    const lod = new AnimationLod(parent, root, root, [idle], material => material);
+    const pose: LodPose = { clip: idle, time: 2, blend: 1, overlay: { clip: overlay, time: .2, weight: 1 } };
+    lod.set(1, new THREE.Matrix4(), pose);
+    const allocated = lod.textureBytes;
+    expect(allocated).toBe(64 * 1024 * 1024);
+    expect(() => lod.set(2, new THREE.Matrix4(), pose)).toThrow(/64 MiB/);
+    expect((parent.children[0] as THREE.InstancedMesh).count).toBe(1);
+    expect(lod.textureBytes).toBe(allocated);
+    lod.hide(1); lod.set(3, new THREE.Matrix4(), pose);
+    expect(lod.drawCalls).toBe(1);
+    lod.dispose();
+  }, 20_000);
   it("interpolates real joint deformation and crossfades while preserving nonuniform mesh scales and skin bindings", () => {
     const { root, walk, hit } = actor();
     const parent = new THREE.Group();

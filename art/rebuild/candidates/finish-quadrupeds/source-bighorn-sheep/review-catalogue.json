@@ -1,0 +1,69 @@
+{
+  "schema": 1,
+  "scope": "Rest anatomy review. Source motions fail contact; no production acceptance.",
+  "assets": [
+    {
+      "id": "creature_cairn_bighorn",
+      "file": "models/creature/creature_cairn_bighorn.glb",
+      "pack": "p0ss-sheep2-bighorn-candidate",
+      "category": "character",
+      "is": "Whole Sheep 2 body Bighorn adaptation — rest anatomy review only",
+      "tags": [
+        "bighorn",
+        "whole-source-adaptation",
+        "rest-review"
+      ],
+      "bytes": 2076628,
+      "sha256": "5f006df1ef2b7f71bb5479bee4d4db1c406036fff781a30d31d1763e8f26b776",
+      "triangles": 27416,
+      "vertices": 16287,
+      "animations": [],
+      "bones": 0,
+      "sourceBones": 22,
+      "static": true,
+      "accepted": false,
+      "size": {
+        "x": 0.4906880408525467,
+        "y": 1.2799654603004456,
+        "z": 1.3704036474227905
+      },
+      "base": {
+        "x": -0.24199506640434265,
+        "y": 0,
+        "z": -0.5647210478782654
+      },
+      "bounds": {
+        "min": [
+          -0.24199506640434265,
+          0,
+          -0.5647210478782654
+        ],
+        "max": [
+          0.24869297444820404,
+          1.2799654603004456,
+          0.8056825995445251
+        ]
+      },
+      "groundY": 0,
+      "sourceProvenance": {
+        "author": "p0ss",
+        "texturePhotographer": "titus tscharntke",
+        "adaptationAuthor": "Corealm",
+        "license": "CC-BY-SA-3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "source": "https://opengameart.org/content/sheep-rigged-textured-and-animated",
+        "textureSource": "https://opengameart.org/content/woodland-animals-texture-pack",
+        "originalSha256": "bd4cf09e732facd65c2313ff626b1a4a2cddd4d91cbda6c6ab8eb922dc026447",
+        "derivativeLicense": "CC-BY-SA-3.0",
+        "attribution": "Sheep by p0ss; source boar texture photograph by titus tscharntke. Bighorn adaptation by Corealm. Licensed CC BY-SA 3.0.",
+        "changes": [
+          "Whole original Sheep 2 topology and UV retained; regional body/head/neck proportions changed",
+          "Bone rest landmarks follow whole-body deformation; original 22 bone names retained",
+          "Continuous tapered keratin horns bound to original HEAD bone",
+          "Regional gray-brown, pale-rump/muzzle and dark-hoof coat colors",
+          "One interpolating subdivision; uniform scale and ground/heading alignment"
+        ]
+      }
+    }
+  ]
+}

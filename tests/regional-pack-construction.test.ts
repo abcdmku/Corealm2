@@ -95,7 +95,7 @@ describe("regional pack production construction", () => {
       const authored = assembleRegionalPack(pack.id, ports);
       const fixture = assembleRegionalPackFixture(pack.id, ports);
       const dx = -72 - pack.centre[0], dz = 30 - pack.centre[1];
-      expect(fixture.spawn).toEqual([-72, ports.heightAt(-72, 0), 0]);
+      expect(fixture.spawn).toEqual([-72, ports.heightAt(-72, 60), 60]);
       expect(fixture.habitat.centre).toEqual([-72, 30]);
       expect(fixture.habitat.regionId).toBe("fallowmarch");
       expect(fixture.habitat.radius).toBe(pack.radius);
@@ -166,7 +166,7 @@ describe("regional pack production construction", () => {
     expect(() => assembleRegionalPack(id, ports, { seed: NaN })).toThrow("Invalid regional pack placement");
     expect(() => assembleRegionalPack(id, { ...ports, heightAt: () => NaN })).toThrow("invalid grounding");
     expect(() => assembleRegionalPackFixture(id, {
-      ...ports, heightAt: (x, z) => x === -72 && z === 0 ? NaN : ports.heightAt(x, z),
+      ...ports, heightAt: (x, z) => x === -72 && z === 60 ? NaN : ports.heightAt(x, z),
     })).toThrow("invalid player grounding");
   });
 });

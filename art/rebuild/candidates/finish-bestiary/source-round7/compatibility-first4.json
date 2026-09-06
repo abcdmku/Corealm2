@@ -1,0 +1,222 @@
+[
+  {
+    "id": "grave_ghoul",
+    "glbSha256": "fa480d4b0c717a5470003a26c4cd968d9e594b2e3ec5e81662e836496b572d64",
+    "passed": true,
+    "weightedVertices": 8478,
+    "lowestY": 0.0009618315060570589,
+    "maxBoundsDifference": 1.0450470962769493e-7,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.00099952135446318,
+        "maxBoundsDifference": 3.23988327309373e-8
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0009618315060570589,
+        "maxBoundsDifference": 5.5430129874860917e-8
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.004993660521853279,
+        "maxBoundsDifference": 1.0450470962769493e-7
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0009999666356472793,
+        "maxBoundsDifference": 9.768134237501558e-8
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0009995746409733192,
+        "maxBoundsDifference": 4.291534823342368e-8
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0009995746409733192,
+        "maxBoundsDifference": 5.324173750276993e-8
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0009995746409733192,
+        "maxBoundsDifference": 5.8570505617786775e-8
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0009999964362138944,
+        "maxBoundsDifference": 7.601446315068657e-8
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  },
+  {
+    "id": "zombie",
+    "glbSha256": "4da56ba89a47940d701777b6edda08a3d4e073a0a532e7ea29e5f0ee0d0d4296",
+    "passed": true,
+    "weightedVertices": 10679,
+    "lowestY": 0.0009564729161148451,
+    "maxBoundsDifference": 8.887154648994409e-8,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.003502461168817669,
+        "maxBoundsDifference": 2.6016121611737457e-8
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0009564729161148451,
+        "maxBoundsDifference": 2.8950869884310712e-8
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0009564729161148451,
+        "maxBoundsDifference": 2.8950869884310712e-8
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.000999989647795907,
+        "maxBoundsDifference": 8.887154648994409e-8
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0009994673844900877,
+        "maxBoundsDifference": 2.2953534304930116e-8
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0009994673844900877,
+        "maxBoundsDifference": 2.5442553403320907e-8
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0009994673844900877,
+        "maxBoundsDifference": 2.2834300562606004e-8
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.0009999978676894523,
+        "maxBoundsDifference": 7.018889522160081e-8
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  },
+  {
+    "id": "plague_zombie",
+    "glbSha256": "213778109d6eabe886ac756b0f2cdd578b77a68529bd93063f633623c11c7962",
+    "passed": true,
+    "weightedVertices": 10581,
+    "lowestY": 0.0009565188119127124,
+    "maxBoundsDifference": 9.041687492675683e-8,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.00608966011890563,
+        "maxBoundsDifference": 4.399235341518294e-8
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0009565188119127124,
+        "maxBoundsDifference": 5.260679368232409e-8
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.0009565188119127124,
+        "maxBoundsDifference": 5.260679368232409e-8
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0009999956548758689,
+        "maxBoundsDifference": 9.041687492675683e-8
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0009994635310216042,
+        "maxBoundsDifference": 2.681376812449077e-8
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0009994635310216042,
+        "maxBoundsDifference": 2.2029760890080835e-8
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0009994635310216042,
+        "maxBoundsDifference": 2.1273199445720753e-8
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.000999997601634153,
+        "maxBoundsDifference": 5.7201798060798027e-8
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  },
+  {
+    "id": "labyrinth_guardian",
+    "glbSha256": "34887c7207aa735888ed0173fc40e5e909d043023502c1d1574e5149dfcc07e5",
+    "passed": true,
+    "weightedVertices": 13396,
+    "lowestY": -0.0019482844349048012,
+    "maxBoundsDifference": 7.830250525753257e-8,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.0019993458533709013,
+        "maxBoundsDifference": 3.6639618117284556e-8
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.0075291849290037155,
+        "maxBoundsDifference": 6.890041381879541e-8
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.046721323633313605,
+        "maxBoundsDifference": 7.830250525753257e-8
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.001969189047490494,
+        "maxBoundsDifference": 3.89586956583976e-8
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.0019899136828023523,
+        "maxBoundsDifference": 4.435103651001526e-8
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.0019899136828023523,
+        "maxBoundsDifference": 3.806725734634142e-8
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.0019899136828023523,
+        "maxBoundsDifference": 5.23128760310243e-8
+      },
+      {
+        "clip": "Death",
+        "minimumY": -0.0019482844349048012,
+        "maxBoundsDifference": 5.078404152758509e-8
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  }
+]

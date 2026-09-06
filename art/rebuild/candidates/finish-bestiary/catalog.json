@@ -1,0 +1,3701 @@
+{
+  "pack": {
+    "id": "corealm-rpg-bestiary",
+    "name": "Corealm RPG Bestiary",
+    "license": "Original project asset"
+  },
+  "files": {
+    "creature_goblin_scout": "models/creature_goblin_scout.glb",
+    "creature_goblin_archer": "models/creature_goblin_archer.glb",
+    "creature_goblin_shaman": "models/creature_goblin_shaman.glb",
+    "creature_orc_warrior": "models/creature_orc_warrior.glb",
+    "creature_orc_berserker": "models/creature_orc_berserker.glb",
+    "creature_orc_warlord": "models/creature_orc_warlord.glb",
+    "creature_gnoll_hunter": "models/creature_gnoll_hunter.glb",
+    "creature_gnoll_brute": "models/creature_gnoll_brute.glb",
+    "creature_gnoll_chieftain": "models/creature_gnoll_chieftain.glb",
+    "creature_lizardman_scout": "models/creature_lizardman_scout.glb",
+    "creature_lizardman_guard": "models/creature_lizardman_guard.glb",
+    "creature_lizardman_shaman": "models/creature_lizardman_shaman.glb",
+    "creature_skeleton_soldier": "models/creature_skeleton_soldier.glb",
+    "creature_skeleton_archer": "models/creature_skeleton_archer.glb",
+    "creature_skeleton_mage": "models/creature_skeleton_mage.glb",
+    "creature_zombie": "models/creature_zombie.glb",
+    "creature_plague_zombie": "models/creature_plague_zombie.glb",
+    "creature_grave_ghoul": "models/creature_grave_ghoul.glb",
+    "creature_wraith": "models/creature_wraith.glb",
+    "creature_banshee": "models/creature_banshee.glb",
+    "creature_revenant": "models/creature_revenant.glb",
+    "creature_stone_golem": "models/creature_stone_golem.glb",
+    "creature_iron_golem": "models/creature_iron_golem.glb",
+    "creature_fire_golem": "models/creature_fire_golem.glb",
+    "creature_harpy": "models/creature_harpy.glb",
+    "creature_cliff_harpy": "models/creature_cliff_harpy.glb",
+    "creature_storm_harpy": "models/creature_storm_harpy.glb",
+    "creature_gargoyle": "models/creature_gargoyle.glb",
+    "creature_obsidian_gargoyle": "models/creature_obsidian_gargoyle.glb",
+    "creature_ancient_gargoyle": "models/creature_ancient_gargoyle.glb",
+    "creature_minotaur": "models/creature_minotaur.glb",
+    "creature_labyrinth_guardian": "models/creature_labyrinth_guardian.glb",
+    "creature_elder_minotaur": "models/creature_elder_minotaur.glb",
+    "creature_imp": "models/creature_imp.glb",
+    "creature_horned_demon": "models/creature_horned_demon.glb",
+    "creature_abyssal_demon": "models/creature_abyssal_demon.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_goblin_scout",
+      "file": "models/creature/creature_goblin_scout.glb",
+      "candidateFile": "models/creature_goblin_scout.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "goblin scout",
+      "tags": [
+        "creature",
+        "rpg",
+        "goblin_scout"
+      ],
+      "bytes": 454528,
+      "sha256": "4d972fc829eed9481ed981d95de88adc5ba05e4b374648106373ea68c76fd5de",
+      "size": {
+        "x": 0.7522000074386597,
+        "y": 1.3154000043869019,
+        "z": 0.5665581971406937
+      },
+      "base": {
+        "x": -0.37610000371932983,
+        "y": 5.551115123125783e-17,
+        "z": -0.22715820372104645
+      },
+      "groundY": 5.551115123125783e-17,
+      "triangles": 2826,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "goblin_skin",
+        "wornLeather",
+        "mutedCloth",
+        "goblin_belly",
+        "eyes",
+        "pupils",
+        "darkWood",
+        "hammeredIron"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.15,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "goblin",
+        "height": 1.3154000005126,
+        "dimensions": [
+          0.7522000000000001,
+          1.3154000005126,
+          0.5665582024923808
+        ],
+        "rig": "articulated-humanoid-groups-v1",
+        "attackContact": 0.46,
+        "attackContactSeconds": 0.529,
+        "source": "Original procedural geometry authored for Corealm",
+        "license": "Project-authored",
+        "movementType": "ground",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "weapon": "knife"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_goblin_archer",
+      "file": "models/creature/creature_goblin_archer.glb",
+      "candidateFile": "models/creature_goblin_archer.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "goblin archer",
+      "tags": [
+        "creature",
+        "rpg",
+        "goblin_archer"
+      ],
+      "bytes": 487504,
+      "sha256": "4f85618623592678f45d3b2061adf9eeeca1840dd7e041404b362f828cdd4503",
+      "size": {
+        "x": 0.7522000074386597,
+        "y": 1.3154000043869019,
+        "z": 0.7971581965684891
+      },
+      "base": {
+        "x": -0.37610000371932983,
+        "y": 5.551115123125783e-17,
+        "z": -0.22715820372104645
+      },
+      "groundY": 5.551115123125783e-17,
+      "triangles": 3040,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "goblin_skin",
+        "wornLeather",
+        "mutedCloth",
+        "goblin_belly",
+        "eyes",
+        "pupils",
+        "darkWood",
+        "agedBone",
+        "hammeredIron"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.15,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "goblin",
+        "height": 1.3154000005126,
+        "dimensions": [
+          0.7522000000000001,
+          1.3154000005126,
+          0.7971582015983111
+        ],
+        "rig": "articulated-humanoid-groups-v1",
+        "attackContact": 0.46,
+        "attackContactSeconds": 0.529,
+        "source": "Original procedural geometry authored for Corealm",
+        "license": "Project-authored",
+        "movementType": "ground",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "weapon": "bow"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_goblin_shaman",
+      "file": "models/creature/creature_goblin_shaman.glb",
+      "candidateFile": "models/creature_goblin_shaman.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "goblin shaman",
+      "tags": [
+        "creature",
+        "rpg",
+        "goblin_shaman"
+      ],
+      "bytes": 474200,
+      "sha256": "8284caf360243c44ee59edf7a534955f847ed3eef3c0b1afb070d02cad6a3686",
+      "size": {
+        "x": 0.7670015096664429,
+        "y": 1.5498000383377075,
+        "z": 0.5665581971406937
+      },
+      "base": {
+        "x": -0.37610000371932983,
+        "y": 5.551115123125783e-17,
+        "z": -0.22715820372104645
+      },
+      "groundY": 5.551115123125783e-17,
+      "triangles": 3030,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "goblin_skin",
+        "wornLeather",
+        "mutedCloth",
+        "goblin_belly",
+        "eyes",
+        "pupils",
+        "darkWood",
+        "amber",
+        "agedBone"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.15,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "goblin",
+        "height": 1.5498000014901163,
+        "dimensions": [
+          0.7670014936027036,
+          1.5498000014901163,
+          0.5665582024923808
+        ],
+        "rig": "articulated-humanoid-groups-v1",
+        "attackContact": 0.46,
+        "attackContactSeconds": 0.529,
+        "source": "Original procedural geometry authored for Corealm",
+        "license": "Project-authored",
+        "movementType": "ground",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "weapon": "staff"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_orc_warrior",
+      "file": "models/creature/creature_orc_warrior.glb",
+      "candidateFile": "models/creature_orc_warrior.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "orc warrior",
+      "tags": [
+        "creature",
+        "rpg",
+        "orc_warrior"
+      ],
+      "bytes": 466208,
+      "sha256": "26f62473aeb44826528f45beb6fadfa5d551f303ae3199fd3552b68c971ac3c3",
+      "size": {
+        "x": 1.317799985408783,
+        "y": 1.9982000589370728,
+        "z": 0.6173581928014755
+      },
+      "base": {
+        "x": -0.6413999795913696,
+        "y": -5.551115123125783e-17,
+        "z": -0.22715820372104645
+      },
+      "groundY": -5.551115123125783e-17,
+      "triangles": 2914,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "orc_skin",
+        "wornLeather",
+        "mutedCloth",
+        "orc_belly",
+        "eyes",
+        "pupils",
+        "agedBone",
+        "hammeredIron",
+        "darkWood"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.15,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "orc",
+        "height": 1.9982000043988226,
+        "dimensions": [
+          1.3178000041723252,
+          1.9982000043988226,
+          0.6173582024923807
+        ],
+        "rig": "articulated-humanoid-groups-v1",
+        "attackContact": 0.46,
+        "attackContactSeconds": 0.529,
+        "source": "Original procedural geometry authored for Corealm",
+        "license": "Project-authored",
+        "movementType": "ground",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "weapon": "axe"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_orc_berserker",
+      "file": "models/creature/creature_orc_berserker.glb",
+      "candidateFile": "models/creature_orc_berserker.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "orc berserker",
+      "tags": [
+        "creature",
+        "rpg",
+        "orc_berserker"
+      ],
+      "bytes": 477376,
+      "sha256": "bc9c7f710e960f74df5e77e6158f1cde95a28c1c6399a7af67c4549737d65258",
+      "size": {
+        "x": 1.3528000116348267,
+        "y": 1.9982000589370728,
+        "z": 0.6173581928014755
+      },
+      "base": {
+        "x": -0.6764000058174133,
+        "y": -5.551115123125783e-17,
+        "z": -0.22715820372104645
+      },
+      "groundY": -5.551115123125783e-17,
+      "triangles": 2978,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "orc_skin",
+        "wornLeather",
+        "mutedCloth",
+        "orc_belly",
+        "eyes",
+        "pupils",
+        "agedBone",
+        "darkWood",
+        "hammeredIron"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.15,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "orc",
+        "height": 1.9982000043988226,
+        "dimensions": [
+          1.3528000083446503,
+          1.9982000043988226,
+          0.6173582024923807
+        ],
+        "rig": "articulated-humanoid-groups-v1",
+        "attackContact": 0.46,
+        "attackContactSeconds": 0.529,
+        "source": "Original procedural geometry authored for Corealm",
+        "license": "Project-authored",
+        "movementType": "ground",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "weapon": "dual"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_orc_warlord",
+      "file": "models/creature/creature_orc_warlord.glb",
+      "candidateFile": "models/creature_orc_warlord.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "orc warlord",
+      "tags": [
+        "creature",
+        "rpg",
+        "orc_warlord"
+      ],
+      "bytes": 475796,
+      "sha256": "b732f2763185c5eb5e87693252f742826d333d196a59b5d05ec69079693d8b64",
+      "size": {
+        "x": 1.317799985408783,
+        "y": 1.9982000589370728,
+        "z": 0.6173581928014755
+      },
+      "base": {
+        "x": -0.6413999795913696,
+        "y": -5.551115123125783e-17,
+        "z": -0.22715820372104645
+      },
+      "groundY": -5.551115123125783e-17,
+      "triangles": 2968,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "orc_skin",
+        "wornLeather",
+        "mutedCloth",
+        "orc_belly",
+        "eyes",
+        "pupils",
+        "agedBone",
+        "hammeredIron",
+        "darkWood"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.15,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "orc",
+        "height": 1.9982000043988226,
+        "dimensions": [
+          1.3178000041723252,
+          1.9982000043988226,
+          0.6173582024923807
+        ],
+        "rig": "articulated-humanoid-groups-v1",
+        "attackContact": 0.46,
+        "attackContactSeconds": 0.529,
+        "source": "Original procedural geometry authored for Corealm",
+        "license": "Project-authored",
+        "movementType": "ground",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "weapon": "greatAxe"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_gnoll_hunter",
+      "file": "models/creature/creature_gnoll_hunter.glb",
+      "candidateFile": "models/creature_gnoll_hunter.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "gnoll hunter",
+      "tags": [
+        "creature",
+        "rpg",
+        "gnoll_hunter"
+      ],
+      "bytes": 619036,
+      "sha256": "10b66c08dd2572d452a6a4cc869cf14e0f8ad0069facc72949d07985e7fee7a3",
+      "size": {
+        "x": 0.9567999839782715,
+        "y": 2.078200101852417,
+        "z": 0.7824999988079071
+      },
+      "base": {
+        "x": -0.47839999198913574,
+        "y": 5.551115123125783e-17,
+        "z": -0.28999999165534973
+      },
+      "groundY": 5.551115123125783e-17,
+      "triangles": 3894,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "gnoll_skin",
+        "wornLeather",
+        "mutedCloth",
+        "gnoll_belly",
+        "pupils",
+        "eyes",
+        "agedBone",
+        "darkWood",
+        "hammeredIron"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.15,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "gnoll",
+        "height": 2.078200020563602,
+        "dimensions": [
+          0.9568000000000001,
+          2.078200020563602,
+          0.7825000018274346
+        ],
+        "rig": "articulated-humanoid-groups-v1",
+        "attackContact": 0.46,
+        "attackContactSeconds": 0.529,
+        "source": "Original procedural geometry authored for Corealm",
+        "license": "Project-authored",
+        "movementType": "ground",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "weapon": "spear"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_gnoll_brute",
+      "file": "models/creature/creature_gnoll_brute.glb",
+      "candidateFile": "models/creature_gnoll_brute.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "gnoll brute",
+      "tags": [
+        "creature",
+        "rpg",
+        "gnoll_brute"
+      ],
+      "bytes": 638132,
+      "sha256": "65b088b3e8965658d806f1a32e1ab733a024290cb8d508f0da5fbb14f62e9a85",
+      "size": {
+        "x": 0.9918000102043152,
+        "y": 1.8949999809265137,
+        "z": 0.7824999988079071
+      },
+      "base": {
+        "x": -0.47839999198913574,
+        "y": 5.551115123125783e-17,
+        "z": -0.28999999165534973
+      },
+      "groundY": 5.551115123125783e-17,
+      "triangles": 4014,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "gnoll_skin",
+        "wornLeather",
+        "mutedCloth",
+        "gnoll_belly",
+        "pupils",
+        "eyes",
+        "agedBone",
+        "darkWood",
+        "hammeredIron"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.15,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "gnoll",
+        "height": 1.8949999997019769,
+        "dimensions": [
+          0.9918000033899037,
+          1.8949999997019769,
+          0.7825000018274346
+        ],
+        "rig": "articulated-humanoid-groups-v1",
+        "attackContact": 0.46,
+        "attackContactSeconds": 0.529,
+        "source": "Original procedural geometry authored for Corealm",
+        "license": "Project-authored",
+        "movementType": "ground",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "weapon": "club"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_gnoll_chieftain",
+      "file": "models/creature/creature_gnoll_chieftain.glb",
+      "candidateFile": "models/creature_gnoll_chieftain.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "gnoll chieftain",
+      "tags": [
+        "creature",
+        "rpg",
+        "gnoll_chieftain"
+      ],
+      "bytes": 631716,
+      "sha256": "f42153f868c86cec5ebf9a4e1a829e5badc9b7fa475bb0c51ed68cf0d0268743",
+      "size": {
+        "x": 1.1317999958992004,
+        "y": 1.8949999809265137,
+        "z": 0.7824999988079071
+      },
+      "base": {
+        "x": -0.5483999848365784,
+        "y": 5.551115123125783e-17,
+        "z": -0.28999999165534973
+      },
+      "groundY": 5.551115123125783e-17,
+      "triangles": 3982,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "gnoll_skin",
+        "wornLeather",
+        "mutedCloth",
+        "gnoll_belly",
+        "pupils",
+        "eyes",
+        "agedBone",
+        "hammeredIron",
+        "darkWood"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.15,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "gnoll",
+        "height": 1.8949999997019769,
+        "dimensions": [
+          1.1318000041723253,
+          1.8949999997019769,
+          0.7825000018274346
+        ],
+        "rig": "articulated-humanoid-groups-v1",
+        "attackContact": 0.46,
+        "attackContactSeconds": 0.529,
+        "source": "Original procedural geometry authored for Corealm",
+        "license": "Project-authored",
+        "movementType": "ground",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "weapon": "axe"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_lizardman_scout",
+      "file": "models/creature/creature_lizardman_scout.glb",
+      "candidateFile": "models/creature_lizardman_scout.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "lizardman scout",
+      "tags": [
+        "creature",
+        "rpg",
+        "lizardman_scout"
+      ],
+      "bytes": 552816,
+      "sha256": "c9403343dace634a4f83a6c336f747da35c3e88e249be7cb56c05e75d6031112",
+      "size": {
+        "x": 0.8452000021934509,
+        "y": 2.0820000171661377,
+        "z": 1.4306000173091888
+      },
+      "base": {
+        "x": -0.42260000109672546,
+        "y": 5.551115123125783e-17,
+        "z": -0.9900000095367432
+      },
+      "groundY": 5.551115123125783e-17,
+      "triangles": 3474,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "lizardman_skin",
+        "wornLeather",
+        "mutedCloth",
+        "lizardman_belly",
+        "eyes",
+        "pupils",
+        "darkWood",
+        "hammeredIron"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.15,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "lizardman",
+        "height": 2.0820000205636022,
+        "dimensions": [
+          0.8452000000000001,
+          2.0820000205636022,
+          1.4306000143051147
+        ],
+        "rig": "articulated-humanoid-groups-v1",
+        "attackContact": 0.46,
+        "attackContactSeconds": 0.529,
+        "source": "Original procedural geometry authored for Corealm",
+        "license": "Project-authored",
+        "movementType": "ground",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "weapon": "spear"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_lizardman_guard",
+      "file": "models/creature/creature_lizardman_guard.glb",
+      "candidateFile": "models/creature_lizardman_guard.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "lizardman guard",
+      "tags": [
+        "creature",
+        "rpg",
+        "lizardman_guard"
+      ],
+      "bytes": 581044,
+      "sha256": "3ac74d7b5809186501e54024d3b8ac57f8096da9891cace57dd0e2fc247388ca",
+      "size": {
+        "x": 0.9601999819278717,
+        "y": 1.8891643285751343,
+        "z": 1.4306000173091888
+      },
+      "base": {
+        "x": -0.5375999808311462,
+        "y": 5.551115123125783e-17,
+        "z": -0.9900000095367432
+      },
+      "groundY": 5.551115123125783e-17,
+      "triangles": 3670,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "lizardman_skin",
+        "wornLeather",
+        "mutedCloth",
+        "lizardman_belly",
+        "eyes",
+        "pupils",
+        "hammeredIron",
+        "darkWood"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.15,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "lizardman",
+        "height": 1.8891643708361336,
+        "dimensions": [
+          0.9602000000000002,
+          1.8891643708361336,
+          1.4306000143051147
+        ],
+        "rig": "articulated-humanoid-groups-v1",
+        "attackContact": 0.46,
+        "attackContactSeconds": 0.529,
+        "source": "Original procedural geometry authored for Corealm",
+        "license": "Project-authored",
+        "movementType": "ground",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "weapon": "sword"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_lizardman_shaman",
+      "file": "models/creature/creature_lizardman_shaman.glb",
+      "candidateFile": "models/creature_lizardman_shaman.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "lizardman shaman",
+      "tags": [
+        "creature",
+        "rpg",
+        "lizardman_shaman"
+      ],
+      "bytes": 581604,
+      "sha256": "c4b594c84a5993cc2f26ece4041ac9f80cfef63967dce4597f8fd9671f96a5c4",
+      "size": {
+        "x": 0.8600015044212341,
+        "y": 1.9420000314712524,
+        "z": 1.4306000173091888
+      },
+      "base": {
+        "x": -0.42260000109672546,
+        "y": 5.551115123125783e-17,
+        "z": -0.9900000095367432
+      },
+      "groundY": 5.551115123125783e-17,
+      "triangles": 3714,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "lizardman_skin",
+        "wornLeather",
+        "mutedCloth",
+        "lizardman_belly",
+        "eyes",
+        "pupils",
+        "darkWood",
+        "amber",
+        "agedBone"
+      ],
+      "walkClipSeconds": 1.12,
+      "runClipSeconds": 0.72,
+      "attackSeconds": 1.15,
+      "contactNormalized": 0.46,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "lizardman",
+        "height": 1.9420000014901162,
+        "dimensions": [
+          0.8600014936027036,
+          1.9420000014901162,
+          1.4306000143051147
+        ],
+        "rig": "articulated-humanoid-groups-v1",
+        "attackContact": 0.46,
+        "attackContactSeconds": 0.529,
+        "source": "Original procedural geometry authored for Corealm",
+        "license": "Project-authored",
+        "movementType": "ground",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "weapon": "staff"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_skeleton_soldier",
+      "file": "models/creature/creature_skeleton_soldier.glb",
+      "candidateFile": "models/creature_skeleton_soldier.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "skeleton soldier",
+      "tags": [
+        "creature",
+        "rpg",
+        "skeleton_soldier"
+      ],
+      "bytes": 577868,
+      "sha256": "9c14c7882e2b3314b425cee60e2ac2553f8e857d2d2f68de1724989401f6e5f1",
+      "size": {
+        "x": 0.7900000214576721,
+        "y": 1.822564935311675,
+        "z": 0.31525224447250366
+      },
+      "base": {
+        "x": -0.42500001192092896,
+        "y": 0.004201436415314674,
+        "z": -0.15265344083309174
+      },
+      "groundY": 0.004201436415314674,
+      "triangles": 3747,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.68,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "skeleton",
+        "style": "soldier",
+        "heightM": 1.827,
+        "dimensionsM": {
+          "width": 0.79,
+          "height": 1.827,
+          "depth": 0.317
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": 0,
+        "attackContactPhase": 0.5,
+        "rig": "articulated named transform hierarchy",
+        "clipNames": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "provenance": "Original Corealm geometry and transform animation authored procedurally for this project. No external meshes, textures, or animation data.",
+        "acceptance": "Candidate only; requires browser state and screenshot review."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_skeleton_archer",
+      "file": "models/creature/creature_skeleton_archer.glb",
+      "candidateFile": "models/creature_skeleton_archer.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "skeleton archer",
+      "tags": [
+        "creature",
+        "rpg",
+        "skeleton_archer"
+      ],
+      "bytes": 596012,
+      "sha256": "31e52b063b80699ee1c21ad09b89c32cba813aae5708a282f6963b33a1133696",
+      "size": {
+        "x": 0.6129601299762726,
+        "y": 1.822564935311675,
+        "z": 0.39166001975536346
+      },
+      "base": {
+        "x": -0.29586634039878845,
+        "y": 0.004201436415314674,
+        "z": -0.22906121611595154
+      },
+      "groundY": 0.004201436415314674,
+      "triangles": 3873,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.68,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "skeleton",
+        "style": "archer",
+        "heightM": 1.827,
+        "dimensionsM": {
+          "width": 0.619,
+          "height": 1.827,
+          "depth": 0.411
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": 0,
+        "attackContactPhase": 0.5,
+        "rig": "articulated named transform hierarchy",
+        "clipNames": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "provenance": "Original Corealm geometry and transform animation authored procedurally for this project. No external meshes, textures, or animation data.",
+        "acceptance": "Candidate only; requires browser state and screenshot review."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_skeleton_mage",
+      "file": "models/creature/creature_skeleton_mage.glb",
+      "candidateFile": "models/creature_skeleton_mage.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "skeleton mage",
+      "tags": [
+        "creature",
+        "rpg",
+        "skeleton_mage"
+      ],
+      "bytes": 594640,
+      "sha256": "448df904d08585f132ba15dce49bd2c69253fc7fdf89a3373dd4588335c24cfd",
+      "size": {
+        "x": 0.6685420870780945,
+        "y": 2.102565025910735,
+        "z": 0.44969163835048676
+      },
+      "base": {
+        "x": -0.2992692291736603,
+        "y": 0.004201436415314674,
+        "z": -0.22469164431095123
+      },
+      "groundY": 0.004201436415314674,
+      "triangles": 3872,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.68,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "skeleton",
+        "style": "caster",
+        "heightM": 2.107,
+        "dimensionsM": {
+          "width": 0.669,
+          "height": 2.107,
+          "depth": 0.45
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": 0,
+        "attackContactPhase": 0.5,
+        "rig": "articulated named transform hierarchy",
+        "clipNames": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "provenance": "Original Corealm geometry and transform animation authored procedurally for this project. No external meshes, textures, or animation data.",
+        "acceptance": "Candidate only; requires browser state and screenshot review."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_zombie",
+      "file": "models/creature/creature_zombie.glb",
+      "candidateFile": "models/creature_zombie.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "zombie",
+      "tags": [
+        "creature",
+        "rpg",
+        "zombie"
+      ],
+      "bytes": 232992,
+      "sha256": "aeabea2dc81dcf6225afac04014e3d96f80b5b7dd5e094eec3f918c2a95c98d7",
+      "size": {
+        "x": 0.7226191163063049,
+        "y": 1.6150000095367432,
+        "z": 0.5410957038402557
+      },
+      "base": {
+        "x": -0.36485055088996887,
+        "y": 0,
+        "z": -0.18117636442184448
+      },
+      "groundY": 0,
+      "triangles": 1353,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.68,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "zombie",
+        "style": "shambler",
+        "heightM": 1.615,
+        "dimensionsM": {
+          "width": 0.723,
+          "height": 1.615,
+          "depth": 0.543
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": 0,
+        "attackContactPhase": 0.5,
+        "rig": "articulated named transform hierarchy",
+        "clipNames": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "provenance": "Original Corealm geometry and transform animation authored procedurally for this project. No external meshes, textures, or animation data.",
+        "acceptance": "Candidate only; requires browser state and screenshot review."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_plague_zombie",
+      "file": "models/creature/creature_plague_zombie.glb",
+      "candidateFile": "models/creature_plague_zombie.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "plague zombie",
+      "tags": [
+        "creature",
+        "rpg",
+        "plague_zombie"
+      ],
+      "bytes": 253164,
+      "sha256": "5877a72841b9020a9936769703cfd1f3cc6a1eb5738c7519fe4e8438c15bb60e",
+      "size": {
+        "x": 0.7226191163063049,
+        "y": 1.6150000095367432,
+        "z": 0.5410957038402557
+      },
+      "base": {
+        "x": -0.36485055088996887,
+        "y": 0,
+        "z": -0.18117636442184448
+      },
+      "groundY": 0,
+      "triangles": 1493,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.68,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "zombie",
+        "style": "plague",
+        "heightM": 1.615,
+        "dimensionsM": {
+          "width": 0.723,
+          "height": 1.615,
+          "depth": 0.543
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": 0,
+        "attackContactPhase": 0.5,
+        "rig": "articulated named transform hierarchy",
+        "clipNames": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "provenance": "Original Corealm geometry and transform animation authored procedurally for this project. No external meshes, textures, or animation data.",
+        "acceptance": "Candidate only; requires browser state and screenshot review."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_grave_ghoul",
+      "file": "models/creature/creature_grave_ghoul.glb",
+      "candidateFile": "models/creature_grave_ghoul.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "grave ghoul",
+      "tags": [
+        "creature",
+        "rpg",
+        "grave_ghoul"
+      ],
+      "bytes": 258956,
+      "sha256": "47e849ffd2f6c5df07215aa1a1da3a007364eef38bb8c35df3d43eddd9d5f6a1",
+      "size": {
+        "x": 0.7226191163063049,
+        "y": 1.6150000095367432,
+        "z": 0.5608668327331543
+      },
+      "base": {
+        "x": -0.36485055088996887,
+        "y": 0,
+        "z": -0.20094749331474304
+      },
+      "groundY": 0,
+      "triangles": 1533,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.68,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "zombie",
+        "style": "ghoul",
+        "heightM": 1.615,
+        "dimensionsM": {
+          "width": 0.723,
+          "height": 1.615,
+          "depth": 0.563
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": 0,
+        "attackContactPhase": 0.5,
+        "rig": "articulated named transform hierarchy",
+        "clipNames": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "provenance": "Original Corealm geometry and transform animation authored procedurally for this project. No external meshes, textures, or animation data.",
+        "acceptance": "Candidate only; requires browser state and screenshot review."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_wraith",
+      "file": "models/creature/creature_wraith.glb",
+      "candidateFile": "models/creature_wraith.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "wraith",
+      "tags": [
+        "creature",
+        "rpg",
+        "wraith"
+      ],
+      "bytes": 214112,
+      "sha256": "9a095d45096dc4793442191e22974415786d22134f215777ecf6c3e6750668f4",
+      "size": {
+        "x": 0.8024614751338959,
+        "y": 2.009999990463257,
+        "z": 0.652999997138977
+      },
+      "base": {
+        "x": -0.40222853422164917,
+        "y": 0,
+        "z": -0.36800000071525574
+      },
+      "groundY": 0,
+      "triangles": 1216,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.68,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "wraith",
+        "style": "specter",
+        "heightM": 2.01,
+        "dimensionsM": {
+          "width": 0.802,
+          "height": 2.01,
+          "depth": 0.653
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": 0,
+        "attackContactPhase": 0.5,
+        "rig": "articulated named transform hierarchy",
+        "clipNames": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "provenance": "Original Corealm geometry and transform animation authored procedurally for this project. No external meshes, textures, or animation data.",
+        "acceptance": "Candidate only; requires browser state and screenshot review."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_banshee",
+      "file": "models/creature/creature_banshee.glb",
+      "candidateFile": "models/creature_banshee.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "banshee",
+      "tags": [
+        "creature",
+        "rpg",
+        "banshee"
+      ],
+      "bytes": 352356,
+      "sha256": "ec43659f64eb0c07394c19fa30c8bf90443b8555b73833c4e9d905872dbc3da7",
+      "size": {
+        "x": 0.8024614751338959,
+        "y": 2.009999990463257,
+        "z": 0.652999997138977
+      },
+      "base": {
+        "x": -0.40222853422164917,
+        "y": 0,
+        "z": -0.36800000071525574
+      },
+      "groundY": 0,
+      "triangles": 2176,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.68,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "wraith",
+        "style": "banshee",
+        "heightM": 2.01,
+        "dimensionsM": {
+          "width": 0.802,
+          "height": 2.01,
+          "depth": 0.653
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": 0,
+        "attackContactPhase": 0.5,
+        "rig": "articulated named transform hierarchy",
+        "clipNames": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "provenance": "Original Corealm geometry and transform animation authored procedurally for this project. No external meshes, textures, or animation data.",
+        "acceptance": "Candidate only; requires browser state and screenshot review."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_revenant",
+      "file": "models/creature/creature_revenant.glb",
+      "candidateFile": "models/creature_revenant.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "revenant",
+      "tags": [
+        "creature",
+        "rpg",
+        "revenant"
+      ],
+      "bytes": 173160,
+      "sha256": "ec0e8853714f4110fe1c87b42a05a8f7d5b64f116aabd5c8cb52191140d74759",
+      "size": {
+        "x": 0.8024614751338959,
+        "y": 2.009999990463257,
+        "z": 0.569738507270813
+      },
+      "base": {
+        "x": -0.40222853422164917,
+        "y": 0,
+        "z": -0.2847385108470917
+      },
+      "groundY": 0,
+      "triangles": 944,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.68,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "wraith",
+        "style": "revenant",
+        "heightM": 2.01,
+        "dimensionsM": {
+          "width": 0.802,
+          "height": 2.01,
+          "depth": 0.57
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": 0,
+        "attackContactPhase": 0.5,
+        "rig": "articulated named transform hierarchy",
+        "clipNames": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "provenance": "Original Corealm geometry and transform animation authored procedurally for this project. No external meshes, textures, or animation data.",
+        "acceptance": "Candidate only; requires browser state and screenshot review."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_stone_golem",
+      "file": "models/creature/creature_stone_golem.glb",
+      "candidateFile": "models/creature_stone_golem.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "stone golem",
+      "tags": [
+        "creature",
+        "rpg",
+        "stone_golem"
+      ],
+      "bytes": 168488,
+      "sha256": "de1f14bbb239d6eea3c6a257a44a8e9cc63d26bda1a498cd806c833a5bdd44a7",
+      "size": {
+        "x": 1.4134621620178223,
+        "y": 2.1600000858306885,
+        "z": 0.5954657793045044
+      },
+      "base": {
+        "x": -0.7067310810089111,
+        "y": 5.551115123125783e-17,
+        "z": -0.2674334645271301
+      },
+      "groundY": 5.551115123125783e-17,
+      "triangles": 906,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.4,
+      "runClipSeconds": 0.86,
+      "attackSeconds": 1.45,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "golem",
+        "style": "stone",
+        "heightM": 2.16,
+        "dimensionsM": {
+          "width": 1.413,
+          "height": 2.16,
+          "depth": 0.595
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": 0,
+        "attackContactPhase": 0.5,
+        "rig": "articulated named transform hierarchy",
+        "clipNames": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "provenance": "Original Corealm geometry and transform animation authored procedurally for this project. No external meshes, textures, or animation data.",
+        "acceptance": "Candidate only; requires browser state and screenshot review."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_iron_golem",
+      "file": "models/creature/creature_iron_golem.glb",
+      "candidateFile": "models/creature_iron_golem.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "iron golem",
+      "tags": [
+        "creature",
+        "rpg",
+        "iron_golem"
+      ],
+      "bytes": 185480,
+      "sha256": "a9d7e4b5bbfa60b25b5423a6f9cdae2a02b1bfb941db663cbc1e878c21df9ff6",
+      "size": {
+        "x": 1.4134621620178223,
+        "y": 2.1600000858306885,
+        "z": 0.5954657793045044
+      },
+      "base": {
+        "x": -0.7067310810089111,
+        "y": 5.551115123125783e-17,
+        "z": -0.2674334645271301
+      },
+      "groundY": 5.551115123125783e-17,
+      "triangles": 1024,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.4,
+      "runClipSeconds": 0.86,
+      "attackSeconds": 1.45,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "golem",
+        "style": "forged",
+        "heightM": 2.16,
+        "dimensionsM": {
+          "width": 1.413,
+          "height": 2.16,
+          "depth": 0.595
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": 0,
+        "attackContactPhase": 0.5,
+        "rig": "articulated named transform hierarchy",
+        "clipNames": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "provenance": "Original Corealm geometry and transform animation authored procedurally for this project. No external meshes, textures, or animation data.",
+        "acceptance": "Candidate only; requires browser state and screenshot review."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_fire_golem",
+      "file": "models/creature/creature_fire_golem.glb",
+      "candidateFile": "models/creature_fire_golem.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "fire golem",
+      "tags": [
+        "creature",
+        "rpg",
+        "fire_golem"
+      ],
+      "bytes": 173080,
+      "sha256": "c554897518e1a17a7bcd5994da9bef1531f0dce7360b192ec41d62097cda6df5",
+      "size": {
+        "x": 1.4134621620178223,
+        "y": 2.1600000858306885,
+        "z": 0.6046834588050842
+      },
+      "base": {
+        "x": -0.7067310810089111,
+        "y": 5.551115123125783e-17,
+        "z": -0.2674334645271301
+      },
+      "groundY": 5.551115123125783e-17,
+      "triangles": 938,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.4,
+      "runClipSeconds": 0.86,
+      "attackSeconds": 1.45,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "family": "golem",
+        "style": "ember",
+        "heightM": 2.16,
+        "dimensionsM": {
+          "width": 1.413,
+          "height": 2.16,
+          "depth": 0.605
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": 0,
+        "attackContactPhase": 0.5,
+        "rig": "articulated named transform hierarchy",
+        "clipNames": [
+          "Idle",
+          "Walk",
+          "Run",
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "provenance": "Original Corealm geometry and transform animation authored procedurally for this project. No external meshes, textures, or animation data.",
+        "acceptance": "Candidate only; requires browser state and screenshot review."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_harpy",
+      "file": "models/creature/creature_harpy.glb",
+      "candidateFile": "models/creature_harpy.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "harpy",
+      "tags": [
+        "creature",
+        "rpg",
+        "harpy"
+      ],
+      "bytes": 336352,
+      "sha256": "584fdbc6b909d7ad9792c8dd7a8648068864d4159b64d2828913c8eabd4d8563",
+      "size": {
+        "x": 3.0999999046325684,
+        "y": 1.940000057220459,
+        "z": 0.8806585371494293
+      },
+      "base": {
+        "x": -1.5499999523162842,
+        "y": -5.551115123125783e-17,
+        "z": -0.49000000953674316
+      },
+      "groundY": -5.551115123125783e-17,
+      "triangles": 1956,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.44,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "id": "harpy",
+        "family": "harpy",
+        "tier": 0,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 1.9400000006198883,
+        "width": 3.099999885559082,
+        "depth": 0.8806585323810577,
+        "bounds": {
+          "min": [
+            -1.549999942779541,
+            -5.551115123125783e-17,
+            -0.49000000953674316
+          ],
+          "max": [
+            1.549999942779541,
+            1.9400000006198883,
+            0.39065852284431457
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "WingL",
+          "WingR",
+          "Head"
+        ],
+        "attack": "wing rake",
+        "contactPhase": 0.44,
+        "attackContactPhase": 0.44,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_cliff_harpy",
+      "file": "models/creature/creature_cliff_harpy.glb",
+      "candidateFile": "models/creature_cliff_harpy.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "cliff harpy",
+      "tags": [
+        "creature",
+        "rpg",
+        "cliff_harpy"
+      ],
+      "bytes": 336400,
+      "sha256": "80ee118cd7959d9cb320a886d8495989234a9497dfb7d6fb36bef5b1f4c0959e",
+      "size": {
+        "x": 3.6166000366210933,
+        "y": 2.129299879074096,
+        "z": 1.0172046422958372
+      },
+      "base": {
+        "x": -1.8083000183105467,
+        "y": -5.551115123125782e-17,
+        "z": -0.5992000102996825
+      },
+      "groundY": -5.551115123125782e-17,
+      "triangles": 1956,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.44,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "id": "cliff_harpy",
+        "family": "harpy",
+        "tier": 1,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 2.129299981530189,
+        "width": 3.6166001020431517,
+        "depth": 1.0172046219944955,
+        "bounds": {
+          "min": [
+            -1.8083000510215759,
+            -5.551115123125783e-17,
+            -0.5992000025510789
+          ],
+          "max": [
+            1.8083000510215759,
+            2.129299981530189,
+            0.4180046194434166
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "WingL",
+          "WingR",
+          "Head"
+        ],
+        "attack": "wing rake",
+        "contactPhase": 0.44,
+        "attackContactPhase": 0.44,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_storm_harpy",
+      "file": "models/creature/creature_storm_harpy.glb",
+      "candidateFile": "models/creature_storm_harpy.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "storm harpy",
+      "tags": [
+        "creature",
+        "rpg",
+        "storm_harpy"
+      ],
+      "bytes": 336436,
+      "sha256": "94bea1d615623a3a0b2edc3a2a0ad77e656a345c7879432a8412df375dc03484",
+      "size": {
+        "x": 4.1723999977111825,
+        "y": 2.325599908828736,
+        "z": 1.163550674915314
+      },
+      "base": {
+        "x": -2.0861999988555913,
+        "y": 2.465190328815662e-32,
+        "z": -0.7181999683380128
+      },
+      "groundY": 2.465190328815662e-32,
+      "triangles": 1956,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.44,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "id": "storm_harpy",
+        "family": "harpy",
+        "tier": 2,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 2.3255999599370956,
+        "width": 4.1724000761032105,
+        "depth": 1.1635507106065752,
+        "bounds": {
+          "min": [
+            -2.0862000380516053,
+            1.1102230246251565e-16,
+            -0.7181999945640565
+          ],
+          "max": [
+            2.0862000380516053,
+            2.3255999599370956,
+            0.44535071604251864
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "WingL",
+          "WingR",
+          "Head"
+        ],
+        "attack": "wing rake",
+        "contactPhase": 0.44,
+        "attackContactPhase": 0.44,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_gargoyle",
+      "file": "models/creature/creature_gargoyle.glb",
+      "candidateFile": "models/creature_gargoyle.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "gargoyle",
+      "tags": [
+        "creature",
+        "rpg",
+        "gargoyle"
+      ],
+      "bytes": 536148,
+      "sha256": "e79584bbbe0de09e6d7d0a0f84a6075ae753f709ee250226e44def428924ce30",
+      "size": {
+        "x": 2.2206249237060547,
+        "y": 1.690941572189331,
+        "z": 1.2051976025104523
+      },
+      "base": {
+        "x": -1.1103124618530273,
+        "y": 0,
+        "z": -0.7116870880126953
+      },
+      "groundY": 0,
+      "triangles": 3244,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.47,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "id": "gargoyle",
+        "family": "gargoyle",
+        "tier": 0,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 1.690941534948349,
+        "width": 2.2206249046325683,
+        "depth": 1.2051975882053374,
+        "bounds": {
+          "min": [
+            -1.1103124523162842,
+            0,
+            -0.7116870832443237
+          ],
+          "max": [
+            1.1103124523162842,
+            1.690941534948349,
+            0.4935105049610138
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "ArmL",
+          "ArmLLower",
+          "ArmLFoot",
+          "Hand-1",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "ArmR",
+          "ArmRLower",
+          "ArmRFoot",
+          "Hand1",
+          "WingL",
+          "WingR",
+          "Head",
+          "Tail"
+        ],
+        "attack": "stone claw sweep",
+        "contactPhase": 0.47,
+        "attackContactPhase": 0.47,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_obsidian_gargoyle",
+      "file": "models/creature/creature_obsidian_gargoyle.glb",
+      "candidateFile": "models/creature_obsidian_gargoyle.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "obsidian gargoyle",
+      "tags": [
+        "creature",
+        "rpg",
+        "obsidian_gargoyle"
+      ],
+      "bytes": 545396,
+      "sha256": "12388be0957f2cd937450d1d503274243f5d4b04cc7da45b9ed64dfeee26d417",
+      "size": {
+        "x": 2.8658995628356934,
+        "y": 2.0247318744659424,
+        "z": 1.3859772086143494
+      },
+      "base": {
+        "x": -1.4329497814178467,
+        "y": -1.1102230246251565e-16,
+        "z": -0.8184401392936707
+      },
+      "groundY": -1.1102230246251565e-16,
+      "triangles": 3308,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.47,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "id": "obsidian_gargoyle",
+        "family": "gargoyle",
+        "tier": 1,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 2.024731907634735,
+        "width": 2.8658996243476866,
+        "depth": 1.385977226436138,
+        "bounds": {
+          "min": [
+            -1.4329498121738433,
+            0,
+            -0.8184401457309722
+          ],
+          "max": [
+            1.4329498121738433,
+            2.024731907634735,
+            0.5675370807051658
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "ArmL",
+          "ArmLLower",
+          "ArmLFoot",
+          "Hand-1",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "ArmR",
+          "ArmRLower",
+          "ArmRFoot",
+          "Hand1",
+          "WingL",
+          "WingR",
+          "Head",
+          "Tail"
+        ],
+        "attack": "stone claw sweep",
+        "contactPhase": 0.47,
+        "attackContactPhase": 0.47,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_ancient_gargoyle",
+      "file": "models/creature/creature_ancient_gargoyle.glb",
+      "candidateFile": "models/creature_ancient_gargoyle.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "ancient gargoyle",
+      "tags": [
+        "creature",
+        "rpg",
+        "ancient_gargoyle"
+      ],
+      "bytes": 554596,
+      "sha256": "f12ce53d2fe5c6f25b83596becd04d42ebfbabfe0b8de4ffef79f60f1ed65dbf",
+      "size": {
+        "x": 3.5927953720092773,
+        "y": 2.3796188831329346,
+        "z": 1.5667568445205688
+      },
+      "base": {
+        "x": -1.7963976860046387,
+        "y": 1.1102230246251565e-16,
+        "z": -0.925193190574646
+      },
+      "groundY": 1.1102230246251565e-16,
+      "triangles": 3372,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.47,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "id": "ancient_gargoyle",
+        "family": "gargoyle",
+        "tier": 2,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 2.379618849620819,
+        "width": 3.592795418739319,
+        "depth": 1.5667568646669388,
+        "bounds": {
+          "min": [
+            -1.7963977093696595,
+            0,
+            -0.9251932082176209
+          ],
+          "max": [
+            1.7963977093696595,
+            2.379618849620819,
+            0.6415636564493179
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "ArmL",
+          "ArmLLower",
+          "ArmLFoot",
+          "Hand-1",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "ArmR",
+          "ArmRLower",
+          "ArmRFoot",
+          "Hand1",
+          "WingL",
+          "WingR",
+          "Head",
+          "Tail"
+        ],
+        "attack": "stone claw sweep",
+        "contactPhase": 0.47,
+        "attackContactPhase": 0.47,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_minotaur",
+      "file": "models/creature/creature_minotaur.glb",
+      "candidateFile": "models/creature_minotaur.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "minotaur",
+      "tags": [
+        "creature",
+        "rpg",
+        "minotaur"
+      ],
+      "bytes": 454560,
+      "sha256": "78faeae5c8fc10425b4218f27a581a91424ecddea6cfe5c20c1b8dab82a68380",
+      "size": {
+        "x": 1.5369787216186523,
+        "y": 2.5107343196868896,
+        "z": 0.8974362909793854
+      },
+      "base": {
+        "x": -0.6387305855751038,
+        "y": 0,
+        "z": -0.4324362874031067
+      },
+      "groundY": 0,
+      "triangles": 2678,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.52,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "id": "minotaur",
+        "family": "minotaur",
+        "tier": 0,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 2.5107343363761903,
+        "width": 1.6023457197466833,
+        "depth": 0.8974362906441093,
+        "bounds": {
+          "min": [
+            -0.6832209935406559,
+            0,
+            -0.4324362909793854
+          ],
+          "max": [
+            0.9191247262060274,
+            2.5107343363761903,
+            0.4649999996647239
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "ArmL",
+          "ArmLLower",
+          "ArmLFoot",
+          "Hand-1",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "ArmR",
+          "ArmRLower",
+          "ArmRFoot",
+          "Hand1",
+          "Head",
+          "Tail"
+        ],
+        "attack": "axe cleave",
+        "contactPhase": 0.52,
+        "attackContactPhase": 0.52,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_labyrinth_guardian",
+      "file": "models/creature/creature_labyrinth_guardian.glb",
+      "candidateFile": "models/creature_labyrinth_guardian.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "labyrinth guardian",
+      "tags": [
+        "creature",
+        "rpg",
+        "labyrinth_guardian"
+      ],
+      "bytes": 476180,
+      "sha256": "089e1576a3cac167428baad3072840f99d7e9f6ef5c81cb5de0a01d868e7d1a2",
+      "size": {
+        "x": 1.749520361423492,
+        "y": 2.8991115093231197,
+        "z": 1.0141029953956604
+      },
+      "base": {
+        "x": -0.7344999909400938,
+        "y": 1.1102230246251565e-16,
+        "z": -0.4886530041694641
+      },
+      "groundY": 1.1102230246251565e-16,
+      "triangles": 2822,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.52,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "id": "labyrinth_guardian",
+        "family": "minotaur",
+        "tier": 1,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 2.899111559772491,
+        "width": 1.810650663313752,
+        "depth": 1.0141030084278433,
+        "bounds": {
+          "min": [
+            -0.772039722700941,
+            1.1102230246251565e-16,
+            -0.4886530088067055
+          ],
+          "max": [
+            1.038610940612811,
+            2.899111559772491,
+            0.5254499996211379
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "ArmL",
+          "ArmLLower",
+          "ArmLFoot",
+          "Hand-1",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "ArmR",
+          "ArmRLower",
+          "ArmRFoot",
+          "Hand1",
+          "Head",
+          "Tail"
+        ],
+        "attack": "axe cleave",
+        "contactPhase": 0.52,
+        "attackContactPhase": 0.52,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_elder_minotaur",
+      "file": "models/creature/creature_elder_minotaur.glb",
+      "candidateFile": "models/creature_elder_minotaur.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "elder minotaur",
+      "tags": [
+        "creature",
+        "rpg",
+        "elder_minotaur"
+      ],
+      "bytes": 476160,
+      "sha256": "06bde3c1126608502ead0ac915dd81d90f56ddb5e753e19ae575530e08723017",
+      "size": {
+        "x": 1.9507926702499385,
+        "y": 3.3018112182617188,
+        "z": 1.1307697296142578
+      },
+      "base": {
+        "x": -0.8190000057220456,
+        "y": 0,
+        "z": -0.5448697209358215
+      },
+      "groundY": 0,
+      "triangles": 2822,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.52,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "id": "elder_minotaur",
+        "family": "minotaur",
+        "tier": 2,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 3.301811205911637,
+        "width": 2.018955606880821,
+        "depth": 1.1307697262115777,
+        "bounds": {
+          "min": [
+            -0.8608584518612263,
+            0,
+            -0.5448697266340256
+          ],
+          "max": [
+            1.1580971550195946,
+            3.301811205911637,
+            0.5858999995775521
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "ArmL",
+          "ArmLLower",
+          "ArmLFoot",
+          "Hand-1",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "ArmR",
+          "ArmRLower",
+          "ArmRFoot",
+          "Hand1",
+          "Head",
+          "Tail"
+        ],
+        "attack": "axe cleave",
+        "contactPhase": 0.52,
+        "attackContactPhase": 0.52,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_imp",
+      "file": "models/creature/creature_imp.glb",
+      "candidateFile": "models/creature_imp.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "imp",
+      "tags": [
+        "creature",
+        "rpg",
+        "imp"
+      ],
+      "bytes": 393352,
+      "sha256": "ece1f962609fbd4084c9f243f6d4ce7d3f2d2e1d44e3605889dfe2ef9ce2784b",
+      "size": {
+        "x": 0.7028226554393767,
+        "y": 1.6192562580108645,
+        "z": 0.9513695240020752
+      },
+      "base": {
+        "x": -0.3293226659297942,
+        "y": 0,
+        "z": -0.7106695175170898
+      },
+      "groundY": 0,
+      "triangles": 2308,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.4,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "id": "imp",
+        "family": "demon",
+        "tier": 0,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 1.6192562621998785,
+        "width": 0.7065559724445323,
+        "depth": 0.951369513517618,
+        "bounds": {
+          "min": [
+            -0.3330559823389033,
+            -5.551115123125783e-17,
+            -0.7106695120334624
+          ],
+          "max": [
+            0.37349999010562895,
+            1.6192562621998785,
+            0.24070000148415563
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "ArmL",
+          "ArmLLower",
+          "ArmLFoot",
+          "Hand-1",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "ArmR",
+          "ArmRLower",
+          "ArmRFoot",
+          "Hand1",
+          "Head",
+          "Tail"
+        ],
+        "attack": "claw thrust",
+        "contactPhase": 0.4,
+        "attackContactPhase": 0.4,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_horned_demon",
+      "file": "models/creature/creature_horned_demon.glb",
+      "candidateFile": "models/creature_horned_demon.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "horned demon",
+      "tags": [
+        "creature",
+        "rpg",
+        "horned_demon"
+      ],
+      "bytes": 402552,
+      "sha256": "d48f616ed2931aa9b2bdc10588e67cb486d15742290d600f8f8ce53300ae7a55",
+      "size": {
+        "x": 0.8721775114536285,
+        "y": 2.107135772705078,
+        "z": 1.1806151568889618
+      },
+      "base": {
+        "x": -0.4086775183677673,
+        "y": -5.551115123125783e-17,
+        "z": -0.8819151520729065
+      },
+      "groundY": -5.551115123125783e-17,
+      "triangles": 2372,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.4,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "id": "horned_demon",
+        "family": "demon",
+        "tier": 1,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 2.1071356554913523,
+        "width": 0.8768104236359859,
+        "depth": 1.180615179425478,
+        "bounds": {
+          "min": [
+            -0.41331043591454275,
+            0,
+            -0.8819151775836944
+          ],
+          "max": [
+            0.4634999877214432,
+            2.1071356554913523,
+            0.2987000018417835
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "ArmL",
+          "ArmLLower",
+          "ArmLFoot",
+          "Hand-1",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "ArmR",
+          "ArmRLower",
+          "ArmRFoot",
+          "Hand1",
+          "Head",
+          "Tail"
+        ],
+        "attack": "claw thrust",
+        "contactPhase": 0.4,
+        "attackContactPhase": 0.4,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_abyssal_demon",
+      "file": "models/creature/creature_abyssal_demon.glb",
+      "candidateFile": "models/creature_abyssal_demon.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "abyssal demon",
+      "tags": [
+        "creature",
+        "rpg",
+        "abyssal_demon"
+      ],
+      "bytes": 416068,
+      "sha256": "245f51dbc6a15ff72c8f1df434736b97a80b36f74065e48689364822b57d05cf",
+      "size": {
+        "x": 1.0415360927581787,
+        "y": 2.6329708099365234,
+        "z": 1.4098607897758484
+      },
+      "base": {
+        "x": -0.4880360960960388,
+        "y": 0,
+        "z": -1.0531607866287231
+      },
+      "groundY": 0,
+      "triangles": 2460,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.4,
+      "sourceProvenance": {
+        "author": "Corealm",
+        "license": "Original project asset",
+        "generators": [
+          "tools/rpg-bestiary/"
+        ],
+        "sourceInventory": "source-inventory.json"
+      },
+      "metadata": {
+        "id": "abyssal_demon",
+        "family": "demon",
+        "tier": 2,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 2.632970796625614,
+        "width": 1.0470648748274396,
+        "depth": 1.4098608453333377,
+        "bounds": {
+          "min": [
+            -0.49356488949018207,
+            1.1102230246251565e-16,
+            -1.0531608431339263
+          ],
+          "max": [
+            0.5534999853372574,
+            2.632970796625614,
+            0.35670000219941134
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "ArmL",
+          "ArmLLower",
+          "ArmLFoot",
+          "Hand-1",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "ArmR",
+          "ArmRLower",
+          "ArmRFoot",
+          "Hand1",
+          "Head",
+          "Tail"
+        ],
+        "attack": "claw thrust",
+        "contactPhase": 0.4,
+        "attackContactPhase": 0.4,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

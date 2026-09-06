@@ -1,0 +1,26 @@
+{
+  "file": "Lynx.actor-baked.glb",
+  "sha256": "fcc4296906bfeec04b9b2c650639a150238d2bccf14b2ec45b427ade1453b2d5",
+  "bytes": 19464836,
+  "originalBytes": 7301392,
+  "nativeNamedJointNodes": 120,
+  "nativeShearedJointExtraFrames": 5,
+  "sharedPatchPairs": 76,
+  "addedNodes": 157,
+  "skinJoints": 196,
+  "animationChannelsPerClip": [
+    669,
+    669,
+    669
+  ],
+  "sourceNativeChannelsPerClip": 363,
+  "denseSamplesTotal": 907,
+  "sampleFps": 192,
+  "affineDecompositionMaxAbs": 1.0995707382804865e-15,
+  "nativeTRSOrthogonalityMax": 0.0017421902476000924,
+  "eyeMaxInfluences": 4,
+  "actualInterpolationValidation": "actor-baked-interpolation-report.json:298 poses including69 independent random poses; actor-baked-three-proof.json cross-checks all3clips",
+  "productionAccepted": false,
+  "speciesAdapted": true,
+  "authoredActorMotion": true
+}

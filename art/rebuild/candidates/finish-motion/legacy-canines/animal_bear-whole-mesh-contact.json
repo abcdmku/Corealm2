@@ -1,0 +1,47 @@
+{
+  "id": "animal_bear",
+  "sha256": "c3f1dad82615244bec66f80ee7dbc95078f67b91132c3dbe356a693f2dc3e5f0",
+  "method": "Every original weighted mesh vertex, no foot selection and no schedule, signed native+Z velocity, physical plane floorY+0.0005m+1um. Two cycles at twice authored sample density.",
+  "results": [
+    {
+      "name": "Walk",
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "contacts": 51686,
+      "unselectedContacts": 17228,
+      "unselectedVertices": [
+        587,
+        1353
+      ],
+      "maximumSlipMps": 0.004074997134672701,
+      "minimumY": -0.00550017749444685,
+      "worst": {
+        "vertex": 529,
+        "phase": 0.7495442708333333,
+        "selected": true,
+        "y": -0.005499536836501651,
+        "previousY": -0.005499009207447929
+      }
+    },
+    {
+      "name": "Run",
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "contacts": 20422,
+      "unselectedContacts": 6806,
+      "unselectedVertices": [
+        587,
+        1353
+      ],
+      "maximumSlipMps": 0.00827112776416324,
+      "minimumY": -0.005500308730362306,
+      "worst": {
+        "vertex": 529,
+        "phase": 0.49928385416666665,
+        "selected": true,
+        "y": -0.005499637808100791,
+        "previousY": -0.005499108693465723
+      }
+    }
+  ]
+}

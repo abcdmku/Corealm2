@@ -1,0 +1,80 @@
+{
+  "id": "namaqualand_boulder_04",
+  "source": "https://polyhaven.com/a/namaqualand_boulder_04",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "metadataUrl": "https://api.polyhaven.com/files/namaqualand_boulder_04",
+  "infoUrl": "https://api.polyhaven.com/info/namaqualand_boulder_04",
+  "author": {
+    "Jenelle van Heerden": "All"
+  },
+  "files": [
+    {
+      "file": "namaqualand_boulder_04.gltf",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/namaqualand_boulder_04/namaqualand_boulder_04_1k.gltf",
+      "bytes": 2818,
+      "md5": "7cc9f708bf5792f89af6638465cac3b4",
+      "sha256": "04c858a3bdb22873efa988633e0c0d9d1468055f34c94d47742f75165a192078"
+    },
+    {
+      "file": "namaqualand_boulder_04.bin",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/namaqualand_boulder_04/namaqualand_boulder_04.bin",
+      "bytes": 1319676,
+      "md5": "bd83376dfe39432568dc13a8fb738953",
+      "sha256": "99ba28ddc8da9ba24e1a419e69ed05f14c4b483bf06268a8a77495545985318a"
+    },
+    {
+      "file": "textures/namaqualand_boulder_04_arm_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/namaqualand_boulder_04/namaqualand_boulder_04_arm_1k.jpg",
+      "bytes": 600523,
+      "md5": "03f2b36ad3349fc1768dbd20c9b07403",
+      "sha256": "b9556284b65a603cee0c282f1a13f1642ac64cd586db14caa065e7322ec95db2"
+    },
+    {
+      "file": "textures/namaqualand_boulder_04_diff_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/namaqualand_boulder_04/namaqualand_boulder_04_diff_1k.jpg",
+      "bytes": 886013,
+      "md5": "0ef2c0fe9eaca715efad500c13ce140c",
+      "sha256": "1673e031ebcf5015206fec10bec676e55b049705b01fcef6bb2b2fb79e8de54c"
+    },
+    {
+      "file": "textures/namaqualand_boulder_04_nor_gl_1k.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/namaqualand_boulder_04/namaqualand_boulder_04_nor_gl_1k.jpg",
+      "bytes": 906782,
+      "md5": "e642a0c62a3b33adf953a7832f9231ae",
+      "sha256": "a7042070d6e369c80d818b7e787b977bf84c1f78b0c83e3ecf690ac2fa17d291"
+    }
+  ],
+  "geometry": {
+    "vertices": 30165,
+    "triangles": 59066,
+    "bounds": {
+      "min": [
+        -1.3402929306030273,
+        -0.029385626316070557,
+        -1.0310475826263428
+      ],
+      "max": [
+        1.1818602085113525,
+        1.8710765838623047,
+        1.4653747081756592
+      ],
+      "size": [
+        2.52215313911438,
+        1.9004622101783752,
+        2.496422290802002
+      ]
+    },
+    "weldTolerance": 4.025560498051633e-7,
+    "weldedVertices": 29535,
+    "boundaryEdges": 0,
+    "nonmanifoldEdges": 0,
+    "degenerateTriangles": 0,
+    "components": 1,
+    "euler": 2,
+    "signedVolume": 4.987445125770965
+  },
+  "mapsDownloaded": true,
+  "derivativeCreated": false,
+  "browserReviewed": false
+}

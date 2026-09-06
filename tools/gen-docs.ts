@@ -13,6 +13,8 @@ import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import sharp from "sharp";
 import { argValue, repoRoot } from "./lib/paths.js";
+import { ccAssetCredits } from "./lib/cc-asset-license.js";
+import { isSupportedCcAttributionLicense, validateCcAssetPack } from "../game/src/content/assetLicenses.js";
 
 import {
   burnChance,
@@ -109,7 +111,7 @@ export function resourceGuideLifecycle(resourceId: string): {
 }
 
 const ARCHIVE_SHA256 = /^[a-f0-9]{64}$/;
-const ORIGINAL_GENERATORS = new Set(["tools/build-corealm-nature.ts", "tools/build-corealm-geology.ts", "tools/build-corealm-farm.ts", "tools/build-corealm-minerals.ts", "tools/build-creature-expansion.ts"]);
+const ORIGINAL_GENERATORS = new Set(["tools/build-corealm-nature.ts", "tools/build-corealm-geology.ts", "tools/build-corealm-farm.ts", "tools/build-corealm-minerals.ts", "tools/build-creature-expansion.ts", "tools/build-corealm-equipment.ts"]);
 const FOUNDATION_IMPORT_PACK_IDS = new Set(["ultimate-nature-pack", "animated-fish-pack"]);
 
 const APPROVED_GATHERING_ASSET_CANDIDATES = [
@@ -144,17 +146,47 @@ function code(value: string): string {
   return `\`${value}\``;
 }
 
+function isGroundOreDerivative(pack: AssetPack): boolean {
+  return pack.id === "corealm-original-ground-ores" && pack.source === "tools/build-ground-ores.ts"
+    && pack.license.startsWith("Derivative geometry and material maps") && pack.license.includes("Standard Unity Asset Store EULA");
+}
+
 function packLink(pack: AssetPack): string {
-  const source = pack.license === "LicenseRef-Corealm-Original" ? `../${pack.source}` : pack.source;
+  const source = pack.license === "LicenseRef-Corealm-Original" || isGroundOreDerivative(pack) ? `../${pack.source}` : pack.source;
   return `[${pack.name}](${source})`;
 }
 
 function packIntegrityProof(pack: AssetPack): string {
-  if (pack.license === "LicenseRef-Corealm-Original") return `Generator SHA-256: ${code(pack.generatorSha256!)}`;
+  if (pack.license === "LicenseRef-Corealm-Original" || isGroundOreDerivative(pack)) return `Generator SHA-256: ${code(pack.generatorSha256!)}`;
   return pack.archiveSha256 ? `Archive SHA-256: ${code(pack.archiveSha256)}` : "Per-file SHA-256 audit";
 }
 
-function validateManifestPack(pack: AssetPack): void {
+export function validateManifestPack(pack: AssetPack, manifest: AssetManifest): void {
+  if (isGroundOreDerivative(pack)) {
+    const reference = (pack as AssetPack & { sourceReference?: {
+      assetId: string; file: string; pack: string; sha256: string; license: string; upstreamSource: string; upstreamLicense: string;
+    } }).sourceReference;
+    const upstream = manifest.packs.find((entry) => entry.id === reference?.pack);
+    const asset = manifest.assets.find((entry) => entry.id === reference?.assetId);
+    if (!reference || reference.pack !== "dexsoft-rocks-free" || reference.assetId !== "rocks_free_essence_node"
+      || asset?.pack !== reference.pack || !upstream?.license.startsWith("Standard Unity Asset Store EULA")
+      || !/^https?:\/\//.test(upstream.source) || !reference.license.includes("Standard Unity Asset Store EULA")
+      || reference.upstreamSource !== upstream.source || reference.upstreamLicense !== upstream.license
+      || !ARCHIVE_SHA256.test(reference.sha256)) {
+      throw new Error(`Derivative asset pack ${pack.id} requires the pinned licensed DEXSOFT source reference.`);
+    }
+    const file = path.resolve(repoRoot, "game/public/assets", asset.file);
+    const relative = path.relative(path.resolve(repoRoot, "game/public/assets"), file);
+    if (relative.startsWith("..") || path.isAbsolute(relative) || path.resolve(repoRoot, reference.file) !== file
+      || createHash("sha256").update(readFileSync(file)).digest("hex") !== reference.sha256) {
+      throw new Error(`Derivative asset pack ${pack.id} source asset SHA-256 or path does not match.`);
+    }
+    if (!pack.generatorSha256 || !ARCHIVE_SHA256.test(pack.generatorSha256)
+      || createHash("sha256").update(readFileSync(path.join(repoRoot, pack.source))).digest("hex") !== pack.generatorSha256) {
+      throw new Error(`Derivative asset pack ${pack.id} generator SHA-256 does not match.`);
+    }
+    return;
+  }
   if (pack.license === "LicenseRef-Corealm-Original") {
     if (!ORIGINAL_GENERATORS.has(pack.source)) {
       throw new Error(`Original asset pack ${pack.id} has no recognized repository generator.`);
@@ -173,6 +205,10 @@ function validateManifestPack(pack: AssetPack): void {
     throw new Error(`Asset pack ${pack.id} has no reproducible HTTP(S) source.`);
   }
   const isCc0 = pack.license === "CC0-1.0";
+  if (isSupportedCcAttributionLicense(pack.license)) {
+    validateCcAssetPack(pack);
+    return;
+  }
   const isUnityStoreAsset = pack.license.startsWith("Standard Unity Asset Store EULA");
   if (!isCc0 && !isUnityStoreAsset) {
     throw new Error(`Asset pack ${pack.id} has unsupported license ${pack.license}.`);
@@ -237,7 +273,7 @@ export function gatheringAssetProvenanceDoc(
 
   if (packsById.size !== packs.length) throw new Error("The runtime manifest has duplicate pack IDs.");
   if (assetsById.size !== assets.length) throw new Error("The runtime manifest has duplicate asset IDs.");
-  for (const pack of packs) validateManifestPack(pack);
+  for (const pack of packs) validateManifestPack(pack, manifest);
   for (const asset of assets) {
     if (!packsById.has(asset.pack)) {
       throw new Error(`Runtime manifest asset ${asset.id} references missing pack ${asset.pack}.`);
@@ -352,6 +388,7 @@ export function gatheringAssetProvenanceDoc(
       ["Pack ID", "Pack and source", "Author", "License", "Integrity proof", "Runtime assets", "Foundation assets"],
       packRows,
     ),
+    ...packs.filter((pack) => isSupportedCcAttributionLicense(pack.license)).flatMap((pack) => ["", ccAssetCredits(pack)]),
     "",
     "## Canonical resource presentation",
     "",

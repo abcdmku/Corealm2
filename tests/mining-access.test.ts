@@ -85,14 +85,20 @@ describe("mining working positions", () => {
 
   it("uses measured source depth and off-centre bounds instead of a fixed pivot offset", () => {
     const site = singleMine();
-    const ordinary = miningAccessPositions([site], () => 0, measurements).values().next().value!;
+    const size = { x: 2.6, y: 1.6, z: 1.5 };
+    const ordinary = miningAccessPositions([site], () => 0, {
+      assetSize: () => size, assetCenterXZ: () => ({ x: 0, z: 0 }),
+    }).values().next().value!;
     const moved = miningAccessPositions([site], () => 0, {
-      assetSize: () => ({ x: 2.6, y: 1.6, z: 1.5 }),
+      assetSize: () => size,
       assetCenterXZ: () => ({ x: 0.4, z: 0.2 }),
     }).values().next().value!;
     expect(ordinary[0]).toBeCloseTo(0);
     expect(moved[0]).toBeGreaterThan(0.3);
-    expect(moved[2]).toBeGreaterThan(ordinary[2] + 0.3);
+    expect(moved[2]).toBeGreaterThan(ordinary[2]);
+    // The source centre moves by 0.2 source metres, scaled into world units.
+    // Compare otherwise identical models so public art promotion cannot change this baseline.
+    expect((moved[2] - ordinary[2]) / moved[0]).toBeCloseTo(0.5, 6);
   });
 
   it("requires valid measurements and ground rather than guessing a reachable point", () => {

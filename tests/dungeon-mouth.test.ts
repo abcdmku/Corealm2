@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
 import type { SemanticEntity } from "../game/src/contracts.js";
+import { portalMantleSolid } from "../game/src/world/portalMantle.js";
 import { buildDungeonMouth } from "../game/src/render/dungeonMouth.js";
 
 function portal(): SemanticEntity {
@@ -10,6 +11,36 @@ function portal(): SemanticEntity {
 }
 
 describe("production dungeon mouth", () => {
+  it("surrounds the surface passage with grounded rock mass while keeping interior portals compact", () => {
+    const surface = buildDungeonMouth(portal());
+    surface.updateMatrixWorld(true);
+    const mantle = surface.getObjectByName("dungeon-mouth-rock-mantle") as THREE.Mesh;
+    expect(mantle).toBeDefined();
+    const bounds = new THREE.Box3().setFromObject(mantle);
+    expect(bounds.min.y).toBeCloseTo(-0.05, 6);
+    expect(bounds.min.z).toBeCloseTo(-3.9, 6);
+    const solid = portalMantleSolid(portal())!;
+    expect(solid.kind).toBe("box");
+    if (solid.kind !== "box") throw new Error("Expected mantle box");
+    expect(bounds.min.x).toBeGreaterThanOrEqual(solid.position[0] - solid.size[0] / 2);
+    expect(bounds.max.x).toBeLessThanOrEqual(solid.position[0] + solid.size[0] / 2);
+    expect(bounds.max.y).toBeLessThanOrEqual(solid.position[1] + solid.size[1]);
+    expect(bounds.max.z).toBeLessThan(0);
+
+    for (const z of [-0.5, -1, -1.8, -2.8, -3.8]) {
+      const down = new THREE.Raycaster(new THREE.Vector3(0, 5, z), new THREE.Vector3(0, -1, 0));
+      const top = down.intersectObject(mantle)[0];
+      expect(top, `solid roof above ${z}`).toBeDefined();
+      expect(top!.point.y).toBeGreaterThan(2.5);
+      for (const side of [-1, 1]) {
+        const lateral = new THREE.Raycaster(new THREE.Vector3(side * 3, 0.25, z), new THREE.Vector3(-side, 0, 0));
+        expect(lateral.intersectObject(mantle)[0], `grounded support ${side},${z}`).toBeDefined();
+      }
+    }
+    const interior = portal(); interior.regionId = "gravelmaw";
+    expect(buildDungeonMouth(interior).getObjectByName("dungeon-mouth-rock-mantle")).toBeUndefined();
+  });
+
   it("keeps the measured opening clear, encloses the rear and covers the source timber crown", () => {
     const group = buildDungeonMouth(portal());
     group.updateMatrixWorld(true);
@@ -76,7 +107,7 @@ describe("production dungeon mouth", () => {
           .intersectObject(group, true)[0];
         const label = `${face.name} coverage at native ${point.toArray().join(",")}, scale ${scale}`;
         expect(hit, label).toBeDefined();
-        expect(hit!.object.name, label).toBe("dungeon-mouth-stone-recess");
+        expect(["dungeon-mouth-stone-recess", "dungeon-mouth-rock-mantle"], label).toContain(hit!.object.name);
         expect(hit!.distance, label).toBeLessThan(distanceToTimber - 0.00001);
       }
     }

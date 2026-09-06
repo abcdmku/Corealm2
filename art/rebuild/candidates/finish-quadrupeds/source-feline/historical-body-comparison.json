@@ -1,0 +1,31 @@
+{
+  "historicalVertices": 22650,
+  "currentVertices": 22650,
+  "polygonIndicesIdentical": true,
+  "localPositionMaxDifferenceBlenderUnits": 0.0,
+  "localPositionMeanDifferenceBlenderUnits": 0.0,
+  "historicalLocalBounds": [
+    [
+      -1.4244790077209473,
+      -4.873373508453369,
+      -2.8800864219665527
+    ],
+    [
+      1.4244790077209473,
+      4.336576461791992,
+      6.400655746459961
+    ]
+  ],
+  "currentLocalBounds": [
+    [
+      -1.4244790077209473,
+      -4.873373508453369,
+      -2.8800864219665527
+    ],
+    [
+      1.4244790077209473,
+      4.336576461791992,
+      6.400655746459961
+    ]
+  ]
+}

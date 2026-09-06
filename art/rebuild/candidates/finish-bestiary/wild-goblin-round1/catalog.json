@@ -1,0 +1,367 @@
+{
+  "packs": [
+    {
+      "id": "corealm-rpg-mocap-goblin",
+      "name": "Goblin animated by Motion capture",
+      "author": "Danimal; original body xGhostx7; knife Wind astella",
+      "source": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+      "license": "CC-BY-3.0",
+      "sourceArchive": "Goblin.zip",
+      "archiveSha256": "9dd294e6a509ec9a4036d3694e73e13eeaaf80e800604e4e7e7957088d46cc3f",
+      "attribution": "Goblin animated by Motion capture by Danimal, based on the CC0 goblin by xGhostx7, with CC BY 3.0 knife by Wind astella. Converted for Corealm with source geometry preserved and runtime clip adaptations.",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "upstreamPackId": "mocap-goblin",
+      "derivation": "Complete original source body and rig retained; sourceProvenance records conversion and clip adaptations."
+    }
+  ],
+  "sharedTextures": [
+    {
+      "file": "textures/imported/04ce74da29825490707db56b8af8ab52ed0f17737b243e9ad451acc36040e2d5.png",
+      "bytes": 1044156,
+      "sha256": "04ce74da29825490707db56b8af8ab52ed0f17737b243e9ad451acc36040e2d5",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/346bc123d766d5eb11e908302c7dcf3422e7297dc3c415452084adddfa14e4b0.png",
+      "bytes": 1523719,
+      "sha256": "346bc123d766d5eb11e908302c7dcf3422e7297dc3c415452084adddfa14e4b0",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/32cba2f111c2bd1df1bb721602324d4456ef30ead2a57d84c89756a9f341a177.png",
+      "bytes": 2252805,
+      "sha256": "32cba2f111c2bd1df1bb721602324d4456ef30ead2a57d84c89756a9f341a177",
+      "mimeType": "image/png"
+    }
+  ],
+  "files": {
+    "creature_wild_goblin": "models/creature/creature_wild_goblin.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_wild_goblin",
+      "file": "models/creature/creature_wild_goblin.glb",
+      "candidateFile": "models/creature/creature_wild_goblin.glb",
+      "pack": "corealm-rpg-mocap-goblin",
+      "category": "character",
+      "is": "wild goblin",
+      "tags": [
+        "creature",
+        "rpg",
+        "wild_goblin"
+      ],
+      "bytes": 2252572,
+      "sha256": "c29d05dcded96e1d028bacc0045454d2cd1107d07a285797b97cc851252bf9d2",
+      "size": {
+        "x": 0.9872662060954573,
+        "y": 1.3499999999999994,
+        "z": 0.5126541495836587
+      },
+      "base": {
+        "x": -0.49363310304772867,
+        "y": 0.006000000000000002,
+        "z": -0.25632707479182937
+      },
+      "groundY": 0.006000000000000002,
+      "triangles": 8858,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "AttackSecondary",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "animal_rpg_wild_goblin_mocap_goblin_original_body",
+        "animal_rpg_wild_goblin_mocap_goblin_original_knife"
+      ],
+      "walkClipSeconds": 1.125,
+      "runClipSeconds": 0.7875000238418579,
+      "attackSeconds": 1.375,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "source": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+        "sourceUrl": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+        "attribution": "Goblin animated by Motion capture by Danimal, based on the CC0 goblin by xGhostx7, with knife by Wind astella. Converted for Corealm with source geometry preserved and runtime clip adaptation.",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+        "licenseURLs": [
+          "https://creativecommons.org/licenses/by/3.0/",
+          "https://creativecommons.org/publicdomain/zero/1.0/"
+        ],
+        "contributors": [
+          {
+            "author": "Danimal",
+            "role": "animation and derivative",
+            "source": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+            "license": "CC-BY-3.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+          },
+          {
+            "author": "xGhostx7",
+            "role": "original body",
+            "source": "https://www.blendswap.com/blends/view/72394",
+            "license": "CC0-1.0",
+            "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+          },
+          {
+            "author": "Wind astella",
+            "role": "original knife",
+            "source": "https://opengameart.org/content/wind-weapon-pack-1",
+            "license": "CC-BY-3.0",
+            "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+          }
+        ],
+        "author": "Danimal; body xGhostx7; knife Wind astella",
+        "license": "CC-BY-3.0 derivative; body CC0; knife CC-BY-3.0",
+        "sourcePacks": [
+          {
+            "id": "goblin-animated-by-motion-capture",
+            "sha256": "9dd294e6a509ec9a4036d3694e73e13eeaaf80e800604e4e7e7957088d46cc3f"
+          }
+        ],
+        "sourceFiles": [
+          {
+            "file": "test-results\\fantasy-collection-source\\goblin-animated-by-motion-capture\\Goblin.blend",
+            "sha256": "33069887af50af1053310e4b39861b9fae6925d20520229de705c42f30e809c3"
+          }
+        ],
+        "modifications": "Original whole mesh, knife, normals, material-specific UV layers and all four native influences preserved. Original NLA strips sampled at 48 Hz with native timing. Primary Attack uses native Attack2; clipped Attack1 preserved as AttackSecondary. Run uses Walk at .70 duration because native Flee has confirmed knife/torso intersections; Flee remains in original source data only. Uniform height normalization; locomotion origin held in place; whole-mesh floor correction. Three authored hit reactions added because source has none."
+      },
+      "metadata": {
+        "family": "goblin",
+        "height": 1.35,
+        "rig": "original-mocap-goblin-25-bone",
+        "sourceSkinned": true,
+        "license": "CC-BY-3.0 derivative; CC0 original body",
+        "source": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+        "revision": "mocap-goblin-source-review-2",
+        "runtimeClipMap": {
+          "Idle": "Idle",
+          "Walk": "Walk",
+          "Run": "Walk",
+          "Attack": "Attack2",
+          "AttackSecondary": "Attack1",
+          "Death": "Die"
+        },
+        "sourceClipping": {
+          "report": "test-results/mocap-goblin-source/clipping.json",
+          "method": "Native Blender evaluated knife versus torso/head triangle intersection; 25 samples per clip",
+          "Flee": {
+            "affectedSamples": 3,
+            "maxTrianglePairs": 78,
+            "disposition": "retained in source archive only"
+          },
+          "Attack1": {
+            "affectedSamples": 4,
+            "maxTrianglePairs": 153,
+            "disposition": "preserved as AttackSecondary; do not use without visual review"
+          },
+          "Attack2": {
+            "affectedSamples": 0,
+            "disposition": "primary Attack"
+          },
+          "Walk": {
+            "affectedSamples": 0,
+            "disposition": "Walk plus .70 duration Run alias"
+          }
+        },
+        "attackContact": 0.5,
+        "attackContactSource": "Provisional until native attack screenshot/contact review",
+        "floorCorrection": {
+          "Idle": {
+            "samples": 171,
+            "maximumWorldLift": 2.0643209364124004e-16
+          },
+          "Walk": {
+            "samples": 69,
+            "maximumWorldLift": 0.03344744119245814
+          },
+          "Run": {
+            "samples": 49,
+            "maximumWorldLift": 0.03296654525987945
+          },
+          "Attack": {
+            "samples": 84,
+            "maximumWorldLift": 0.004504490692880286
+          },
+          "AttackSecondary": {
+            "samples": 82,
+            "maximumWorldLift": 0.005036186050763157
+          },
+          "Death": {
+            "samples": 216,
+            "maximumWorldLift": 0.14089803821999702
+          },
+          "Hit": {
+            "samples": 30,
+            "maximumWorldLift": 2.0643209364124004e-16
+          },
+          "HitLeft": {
+            "samples": 30,
+            "maximumWorldLift": 2.0643209364124004e-16
+          },
+          "HitRight": {
+            "samples": 30,
+            "maximumWorldLift": 2.0643209364124004e-16
+          }
+        },
+        "weightReduction": {
+          "sourceMaximum": 4,
+          "runtimeMaximum": 4,
+          "maxDiscardedFraction": 0,
+          "affectedControlVertices": 0
+        },
+        "sourceFacts": {
+          "controlVertices": 4478,
+          "triangles": 8858,
+          "bones": 25,
+          "armaturePreserveVolume": false,
+          "uvLayers": [
+            "UVMap-goblin",
+            "UVMap-Knife"
+          ],
+          "activeUV": "UVMap-goblin",
+          "materials": [
+            "Goblin-body",
+            "Goblin-Knife"
+          ],
+          "animationNames": [
+            "Attack-two handed.002",
+            "Attack-two handedAction",
+            "Attack-two handedAction.001",
+            "cry.001",
+            "Dance-salsa",
+            "Die-jump-ground-face4 test",
+            "Happy.002",
+            "PoseLib.001",
+            "Run-flee",
+            "Walk-fast"
+          ]
+        },
+        "textureBindings": [
+          {
+            "materialName": "mocap_goblin_original_body",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\mocap-goblin-source\\derived\\goblin-texture.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\mocap-goblin-source\\derived\\goblin-normal.png",
+            "flipY": false
+          },
+          {
+            "materialName": "mocap_goblin_original_knife",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\mocap-goblin-source\\derived\\Goblin-Knife-texture.png",
+            "flipY": false
+          }
+        ],
+        "provenance": {
+          "source": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+          "sourceUrl": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+          "attribution": "Goblin animated by Motion capture by Danimal, based on the CC0 goblin by xGhostx7, with knife by Wind astella. Converted for Corealm with source geometry preserved and runtime clip adaptation.",
+          "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+          "licenseURLs": [
+            "https://creativecommons.org/licenses/by/3.0/",
+            "https://creativecommons.org/publicdomain/zero/1.0/"
+          ],
+          "contributors": [
+            {
+              "author": "Danimal",
+              "role": "animation and derivative",
+              "source": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+              "license": "CC-BY-3.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+            },
+            {
+              "author": "xGhostx7",
+              "role": "original body",
+              "source": "https://www.blendswap.com/blends/view/72394",
+              "license": "CC0-1.0",
+              "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/"
+            },
+            {
+              "author": "Wind astella",
+              "role": "original knife",
+              "source": "https://opengameart.org/content/wind-weapon-pack-1",
+              "license": "CC-BY-3.0",
+              "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+            }
+          ],
+          "author": "Danimal; body xGhostx7; knife Wind astella",
+          "license": "CC-BY-3.0 derivative; body CC0; knife CC-BY-3.0",
+          "sourcePacks": [
+            {
+              "id": "goblin-animated-by-motion-capture",
+              "sha256": "9dd294e6a509ec9a4036d3694e73e13eeaaf80e800604e4e7e7957088d46cc3f"
+            }
+          ],
+          "sourceFiles": [
+            {
+              "file": "test-results\\fantasy-collection-source\\goblin-animated-by-motion-capture\\Goblin.blend",
+              "sha256": "33069887af50af1053310e4b39861b9fae6925d20520229de705c42f30e809c3"
+            }
+          ],
+          "modifications": "Original whole mesh, knife, normals, material-specific UV layers and all four native influences preserved. Original NLA strips sampled at 48 Hz with native timing. Primary Attack uses native Attack2; clipped Attack1 preserved as AttackSecondary. Run uses Walk at .70 duration because native Flee has confirmed knife/torso intersections; Flee remains in original source data only. Uniform height normalization; locomotion origin held in place; whole-mesh floor correction. Three authored hit reactions added because source has none."
+        },
+        "sourceClips": [
+          {
+            "name": "Walk",
+            "action": "Walk-fast",
+            "firstFrame": 3,
+            "lastFrame": 30,
+            "timelineStart": 0,
+            "timelineEnd": 27,
+            "fps": 24
+          },
+          {
+            "name": "Attack1",
+            "action": "Attack-two handed.002",
+            "firstFrame": 68,
+            "lastFrame": 133,
+            "timelineStart": 49,
+            "timelineEnd": 81,
+            "fps": 24
+          },
+          {
+            "name": "Attack2",
+            "action": "Attack-two handed.002",
+            "firstFrame": 188,
+            "lastFrame": 255,
+            "timelineStart": 82,
+            "timelineEnd": 115,
+            "fps": 24
+          },
+          {
+            "name": "Idle",
+            "action": "Attack-two handedAction",
+            "firstFrame": 0,
+            "lastFrame": 35,
+            "timelineStart": 116,
+            "timelineEnd": 184,
+            "fps": 24
+          },
+          {
+            "name": "Die",
+            "action": "Die-jump-ground-face4 test",
+            "firstFrame": 120,
+            "lastFrame": 206,
+            "timelineStart": 912,
+            "timelineEnd": 998,
+            "fps": 24
+          }
+        ],
+        "animationAcceptance": "Unapproved source alternative. Original author warns mocap clipping; CPU parity is not combat or visual acceptance.",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

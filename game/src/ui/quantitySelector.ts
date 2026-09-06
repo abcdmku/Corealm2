@@ -30,6 +30,16 @@ export class QuantitySelector {
       button.setAttribute("role", "radio");
       button.setAttribute("aria-checked", mode === this.mode ? "true" : "false");
       button.addEventListener("click", () => this.setMode(mode));
+      button.addEventListener("keydown", (event) => {
+        const offset = event.key === "ArrowRight" || event.key === "ArrowDown" ? 1
+          : event.key === "ArrowLeft" || event.key === "ArrowUp" ? -1 : 0;
+        if (!offset && event.key !== "Home" && event.key !== "End") return;
+        event.preventDefault();
+        const index = event.key === "Home" ? 0 : event.key === "End" ? modes.length - 1
+          : (modes.indexOf(mode) + offset + modes.length) % modes.length;
+        this.setMode(modes[index]!);
+        this.buttons[index]?.focus();
+      });
       this.buttons.push(button);
       group.appendChild(button);
     }
@@ -42,6 +52,8 @@ export class QuantitySelector {
     input.value = "100";
     input.hidden = true;
     input.setAttribute("aria-label", `${label}: custom amount`);
+    input.step = "1";
+    input.addEventListener("input", () => this.onChange?.());
     input.addEventListener("change", () => this.onChange?.());
     root.appendChild(input);
 
@@ -78,6 +90,7 @@ export class QuantitySelector {
       const on = modes[index] === this.mode;
       button.classList.toggle("is-active", on);
       button.setAttribute("aria-checked", on ? "true" : "false");
+      button.tabIndex = on ? 0 : -1;
     });
     this.input.hidden = this.mode !== "custom";
   }

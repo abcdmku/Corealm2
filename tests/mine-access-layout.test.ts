@@ -2,6 +2,10 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { REGIONS } from "../game/src/content/regions.js";
 import { resourceDef } from "../game/src/content/resources.js";
+import { miningAccessPositions } from "../game/src/app/miningAccess.js";
+import { PLAYER_RADIUS } from "../game/src/app/config.js";
+import { tierSilhouetteScale } from "../game/src/core/math.js";
+import { buildWorld } from "../game/src/world/regionBuilder.js";
 import {
   WORLD_SITES, type WorldSite, type WorldSiteDressing, type WorldSiteResourceSlot,
 } from "../game/src/content/worldSites.js";
@@ -9,9 +13,21 @@ import {
 const mines = WORLD_SITES.filter((site) => site.kind === "mine");
 const clusters = new Map(REGIONS.flatMap((region) => region.clusters.map((cluster) => [cluster.id, cluster])));
 const manifest = JSON.parse(readFileSync(new URL("../game/public/assets/manifest.json", import.meta.url), "utf8")) as {
-  assets: { id: string; size: { x: number; y: number; z: number } }[];
+  assets: { id: string; size: { x: number; y: number; z: number }; base: { x: number; y: number; z: number } }[];
 };
 const modelSizes = new Map(manifest.assets.map((asset) => [asset.id, asset.size]));
+const models = new Map(manifest.assets.map(asset => [asset.id, asset]));
+const measurements = {
+  assetSize: (id: string) => models.get(id)?.size ?? null,
+  assetCenterXZ: (id: string) => {
+    const model = models.get(id);
+    return model ? { x: model.base.x + model.size.x / 2, z: model.base.z + model.size.z / 2 } : null;
+  },
+};
+const access = miningAccessPositions(WORLD_SITES, () => 0, measurements);
+const productionEntities = new Map(buildWorld(12345, () => 0, {
+  ...measurements, heightAt: () => 0, baseY: id => models.get(id)?.base.y ?? 0, accessPositions: access,
+}).entities.map(entity => [entity.id, entity]));
 type Point = readonly [number, number];
 interface Footprint { id: string; x: number; z: number; halfX: number; halfZ: number; yaw: number }
 
@@ -50,8 +66,14 @@ function distanceToFootprint([x, z]: Point, box: Footprint): number {
   );
 }
 
-function stance(slot: WorldSiteResourceSlot): Point {
-  return [slot.x + Math.sin(slot.yaw) * 2.1, slot.z + Math.cos(slot.yaw) * 2.1];
+function aislePoint(site: WorldSite, slot: WorldSiteResourceSlot): Point {
+  // This is the broad circulation lane, not the close pickaxe working pose. Ground
+  // boulders are deeper than the old wall slabs, so a fixed 2.1 m pivot offset can
+  // run through their maximum presentation envelope. Reserve the same 0.85 m
+  // minimum aisle with one player radius for bends between neighboring lane points.
+  const depth = Math.max(...oreFootprints(site).map(box => box.halfZ));
+  const forward = Math.max(2.1, depth + 0.85 + PLAYER_RADIUS);
+  return [slot.x + Math.sin(slot.yaw) * forward, slot.z + Math.cos(slot.yaw) * forward];
 }
 
 function corridorClearance(from: Point, to: Point, solids: readonly Footprint[]) {
@@ -93,7 +115,7 @@ describe("authored mining access layout", () => {
     expect(site.centre[1] + halfWorldZ).toBeLessThanOrEqual(terrace.maxZ - 3);
   });
 
-  it.each(mines)("$id has a clear route from its apron to every ore stance", (site) => {
+  it.each(mines)("$id has a clear circulation lane from its apron in front of every ore", (site) => {
     const solids = [
       ...site.dressing.filter((piece) => /^corealm_(rock|cliff)_|^(crate|workbench|barrel)/.test(piece.assetId))
         .map(dressingFootprint),
@@ -101,7 +123,7 @@ describe("authored mining access layout", () => {
     ];
     const apron: Point = [Math.sin(site.terrain.approachAngle) * 2, Math.cos(site.terrain.approachAngle) * 2];
     for (const slot of site.resourceSlots) {
-      const result = corridorClearance(apron, stance(slot), solids);
+      const result = corridorClearance(apron, aislePoint(site, slot), solids);
       // A 1.7 m clear aisle leaves room for the 0.35 m player and the 0.45 m navmesh inset.
       // This checks authored occupancy only. Real terrain, cut collision and navigation need
       // the root's browser proof from the connected road, without focusEntity teleport setup.
@@ -120,9 +142,32 @@ describe("authored mining access layout", () => {
       slot.clusterId === station.clusterId && slot.index === station.index)!);
     for (let index = 1; index < ordered.length; index++) {
       const left = ordered[index - 1]!; const right = ordered[index]!;
-      const result = corridorClearance(stance(left), stance(right), solids);
+      const result = corridorClearance(aislePoint(site, left), aislePoint(site, right), solids);
       expect(result.clearance, `${left.clusterId}_${left.index} to ${right.clusterId}_${right.index}: ${result.blocker}`)
         .toBeGreaterThanOrEqual(0.85);
+    }
+  });
+
+  it.each(mines)("$id connects the broad lane to every measured production working position", site => {
+    const solids = [
+      ...site.dressing.filter(piece => /^corealm_(rock|cliff)_|^(crate|workbench|barrel)/.test(piece.assetId)).map(dressingFootprint),
+      ...site.resourceSlots.map(slot => {
+        const id = `${slot.clusterId}_${slot.index}`, entity = productionEntities.get(id)!;
+        const view = entity.view!, size = modelSizes.get(view.assetId)!;
+        const scale = view.scale! * tierSilhouetteScale(view.materialTier ?? entity.tier);
+        return { id, x: slot.x, z: slot.z, yaw: slot.yaw, halfX: size.x * scale / 2, halfZ: size.z * scale / 2 };
+      }),
+    ];
+    for (const slot of site.resourceSlots) {
+      const id = `${slot.clusterId}_${slot.index}`, point = access.get(id)!;
+      const dx = point[0] - site.centre[0], dz = point[2] - site.centre[1];
+      const cos = Math.cos(site.rotationY), sin = Math.sin(site.rotationY);
+      const work: Point = [dx * cos - dz * sin, dx * sin + dz * cos];
+      expect(productionEntities.get(id)!.interactionPosition).toEqual(point);
+      const result = corridorClearance(aislePoint(site, slot), work, solids);
+      // Actual work positions intentionally come closer than the broad lane. Retain
+      // the production body/nav clearance, measured against the current rendered ore.
+      expect(result.clearance, `${id}: ${result.blocker}`).toBeGreaterThanOrEqual(PLAYER_RADIUS + 0.20);
     }
   });
 

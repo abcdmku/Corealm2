@@ -1,0 +1,414 @@
+{
+  "assets": [
+    {
+      "id": "animal_coyote",
+      "file": "models/animal/animal_coyote.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "coyote",
+      "tags": [
+        "coyote",
+        "wolf",
+        "canine",
+        "pack",
+        "forest",
+        "animal",
+        "aggressive"
+      ],
+      "bytes": 2459784,
+      "size": {
+        "x": 0.364,
+        "y": 1.062,
+        "z": 1.568
+      },
+      "base": {
+        "x": -0.182,
+        "y": -0.003,
+        "z": -0.601
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 0.9666666388511658,
+      "materials": [
+        "animal_coyote_mat"
+      ],
+      "impliedWalkMps": 1.0792709897552932,
+      "impliedRunMps": 4.307269259126366,
+      "runClipSeconds": 0.5666666626930237,
+      "sha256": "ca9a84bcb36f1ff3dbbf03d84688dbf3b0e00ace3a2857f63beb227ed95316cf",
+      "groundY": -0.003,
+      "candidateFile": "legacy-canines/animal_coyote.glb"
+    },
+    {
+      "id": "animal_cattle",
+      "file": "models/animal/animal_cattle.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "cow",
+      "tags": [
+        "cow",
+        "cattle",
+        "ox",
+        "bovine",
+        "farm",
+        "plains",
+        "animal",
+        "territorial"
+      ],
+      "bytes": 2433664,
+      "size": {
+        "x": 0.643,
+        "y": 1.57,
+        "z": 2.533
+      },
+      "base": {
+        "x": -0.322,
+        "y": -0.005,
+        "z": -1.006
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.1333333253860474,
+      "materials": [
+        "animal_cattle_mat"
+      ],
+      "impliedWalkMps": 0.9039947403423454,
+      "impliedRunMps": 3.11442052609775,
+      "runClipSeconds": 0.6666666865348816,
+      "sha256": "ab3c7af0724313091abc60a67e491adc20e808ba09f6342cd6280c3214d9802a",
+      "groundY": -0.005,
+      "candidateFile": "legacy-bovines/animal_cattle.glb"
+    },
+    {
+      "id": "animal_ibex",
+      "file": "models/animal/animal_ibex.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "ibex",
+      "tags": [
+        "ibex",
+        "goat",
+        "horned",
+        "ridge",
+        "rocky",
+        "animal",
+        "territorial"
+      ],
+      "bytes": 2196500,
+      "size": {
+        "x": 0.43,
+        "y": 1.447,
+        "z": 1.622
+      },
+      "base": {
+        "x": -0.212,
+        "y": -0.003,
+        "z": -0.639
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 0.9666666388511658,
+      "materials": [
+        "animal_ibex_mat"
+      ],
+      "impliedWalkMps": 1.0966599135717898,
+      "impliedRunMps": 2.86402643946435,
+      "runClipSeconds": 0.46666666865348816,
+      "sha256": "c94f7ecf46610ed4fb0140a0a660afe7370848a669ec4d2c53d6744dac33d5f1",
+      "groundY": -0.003,
+      "candidateFile": "legacy-caprines/animal_ibex.glb"
+    },
+    {
+      "id": "animal_deer",
+      "file": "models/animal/animal_deer.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "deer",
+      "tags": [
+        "deer",
+        "stag",
+        "hart",
+        "doe",
+        "antler",
+        "forest",
+        "animal",
+        "territorial"
+      ],
+      "bytes": 2145128,
+      "size": {
+        "x": 0.438,
+        "y": 1.874,
+        "z": 1.709
+      },
+      "base": {
+        "x": -0.219,
+        "y": -0.007,
+        "z": -0.643
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 0.9666666388511658,
+      "materials": [
+        "animal_deer_mat"
+      ],
+      "impliedWalkMps": 1.1216721226201816,
+      "impliedRunMps": 3.4474474408533786,
+      "runClipSeconds": 0.6333333253860474,
+      "sha256": "1024912844d00105ffe2b7ba947730a26931ba04282cb57560fef5671de00b7e",
+      "groundY": -0.007,
+      "candidateFile": "legacy-cervines/animal_deer.glb"
+    },
+    {
+      "id": "animal_boar",
+      "file": "models/animal/animal_boar.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "boar",
+      "tags": [
+        "boar",
+        "tusk",
+        "swine",
+        "rocky",
+        "scree",
+        "animal",
+        "aggressive"
+      ],
+      "bytes": 2281336,
+      "size": {
+        "x": 0.474,
+        "y": 0.963,
+        "z": 1.718
+      },
+      "base": {
+        "x": -0.237,
+        "y": -0.001,
+        "z": -0.719
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 0.9666666388511658,
+      "materials": [
+        "animal_boar_mat"
+      ],
+      "impliedWalkMps": 1.4594823863512718,
+      "impliedRunMps": 2.3933659539500596,
+      "runClipSeconds": 0.5,
+      "sha256": "58d6a103dcd547478e05d14fba1aafc3e7a517c94c364af6ef7ad585ec4a765d",
+      "groundY": -0.001,
+      "candidateFile": "legacy-suids/animal_boar.glb"
+    },
+    {
+      "id": "animal_hog",
+      "file": "models/animal/animal_hog.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "hog",
+      "tags": [
+        "hog",
+        "pig",
+        "swine",
+        "forest",
+        "bramble",
+        "animal",
+        "aggressive"
+      ],
+      "bytes": 1525160,
+      "size": {
+        "x": 0.463,
+        "y": 0.929,
+        "z": 1.811
+      },
+      "base": {
+        "x": -0.231,
+        "y": -0.004,
+        "z": -0.759
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.3333332538604736,
+      "materials": [
+        "animal_hog_mat"
+      ],
+      "impliedWalkMps": 0.418258559489884,
+      "sha256": "ff493baf603f94b57ccb2a69721a566f282461e4aae87dd8cb001132f1902a61",
+      "groundY": -0.007839,
+      "candidateFile": "legacy-suids/animal_hog.glb"
+    },
+    {
+      "id": "animal_rat",
+      "file": "models/animal/animal_rat.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "rat",
+      "tags": [
+        "rat",
+        "rodent",
+        "vermin",
+        "cave",
+        "dungeon",
+        "animal",
+        "aggressive"
+      ],
+      "bytes": 1201164,
+      "size": {
+        "x": 0.135,
+        "y": 0.139,
+        "z": 0.6
+      },
+      "base": {
+        "x": -0.068,
+        "y": -0.001,
+        "z": -0.36
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.399999976158142,
+      "materials": [
+        "animal_rat_mat"
+      ],
+      "impliedWalkMps": 0.12231044887073027,
+      "sha256": "ab2ed3175e6cad999f04faaa03327f927b1338ba847bd1ff20ad0498b4bcffac",
+      "groundY": -0.001,
+      "candidateFile": "legacy-small-mammals/animal_rat.glb"
+    },
+    {
+      "id": "animal_rabbit",
+      "file": "models/animal/animal_rabbit.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "rabbit",
+      "tags": [
+        "rabbit",
+        "bunny",
+        "hare",
+        "coney",
+        "plains",
+        "forest",
+        "animal",
+        "passive"
+      ],
+      "bytes": 2100068,
+      "size": {
+        "x": 0.291,
+        "y": 0.44,
+        "z": 0.677
+      },
+      "base": {
+        "x": -0.145,
+        "y": -0.006,
+        "z": -0.268
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 0.6333333253860474,
+      "materials": [
+        "animal_rabbit_mat"
+      ],
+      "impliedWalkMps": 0.7355347668682819,
+      "impliedRunMps": 1.3119361133444458,
+      "runClipSeconds": 0.4333333373069763,
+      "sha256": "d6cdf12b04103deede6c807b27d24245af49a0d518953f124b8e560e3977bd54",
+      "groundY": -0.006,
+      "candidateFile": "legacy-small-mammals/animal_rabbit.glb"
+    }
+  ],
+  "files": {
+    "animal_coyote": "legacy-canines/animal_coyote.glb",
+    "animal_ibex": "legacy-caprines/animal_ibex.glb",
+    "animal_cattle": "legacy-bovines/animal_cattle.glb",
+    "animal_deer": "legacy-cervines/animal_deer.glb",
+    "animal_boar": "legacy-suids/animal_boar.glb",
+    "animal_hog": "legacy-suids/animal_hog.glb",
+    "animal_rat": "legacy-small-mammals/animal_rat.glb",
+    "animal_rabbit": "legacy-small-mammals/animal_rabbit.glb"
+  },
+  "packs": [
+    {
+      "id": "animal-pack-deluxe",
+      "name": "Animal pack deluxe",
+      "author": "janpec",
+      "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+      "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+      "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+      "assetStoreId": "99702",
+      "sourceArchive": "Animal pack deluxe.unitypackage"
+    }
+  ],
+  "sourceHashes": {
+    "animal_coyote": "460965f62d8d70bae75e035370ee145b5eeb9233dd5e64a6e88e37887adabd9d",
+    "animal_ibex": "ac24a84acd299ada77bd4b2acc70370a382227296cdb4d8251ef811382b8924c",
+    "animal_cattle": "8c75982604c2b5d2cb66341a122ccb7bee5ba36e7c0bcfda6c6255d14eb8068d",
+    "animal_deer": "e2bb94f19786805b0fbc6b038a807a3451051102d52d8e9c06540f45ef7abfb3",
+    "animal_boar": "9e1192788411744743042396fd4e958b16c001c49d91aab73e56dc27b1c7383c",
+    "animal_hog": "dc00de3f80c02a168c8fbd4ea1f7e00733b2b47604913e47f841814a729eafc9",
+    "animal_rat": "b86f5636946c6406dc344b39fc056375da7dba4e6389959291542222380a9563",
+    "animal_rabbit": "105875b9f68e2fba30bd6577d385d896f2d3c2fa42bd26a15d8f4d029e3f08ed"
+  },
+  "offlinePassed": true,
+  "visualAccepted": false,
+  "promotable": false,
+  "skipped": [],
+  "notes": "Only offline-passed candidates with matching actual hashes. Public bytes must match the recorded source or this exact promoted candidate. Production identity, speeds, durations and pack provenance are unchanged."
+}

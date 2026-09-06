@@ -1,0 +1,90 @@
+{
+  "downloadedAt": "2026-09-05T20:17:27.009Z",
+  "mirrorCommit": "ea7e8abeb1a1263082f163c8586e1d8c81f74674",
+  "files": [
+    {
+      "file": "cat.original.fbx",
+      "url": "https://raw.githubusercontent.com/nrz/ylikuutio/ea7e8abeb1a1263082f163c8586e1d8c81f74674/res/objects/www.blendswap.com/86110_rigged_and_animated_cat/cat.fbx",
+      "bytes": 1373356,
+      "sha256": "4e156a3b81638d07a78278889d2184c9a106fd81c2de84bd212c1bd12ea03428"
+    },
+    {
+      "file": "LICENSE.original.html",
+      "url": "https://raw.githubusercontent.com/nrz/ylikuutio/ea7e8abeb1a1263082f163c8586e1d8c81f74674/res/objects/www.blendswap.com/86110_rigged_and_animated_cat/86110%20-%20LICENSE.html",
+      "bytes": 2737,
+      "sha256": "cbf84d42693147ea5dc1d7b0ad82c2140bb680262523133c82da84995353e17e"
+    },
+    {
+      "file": "mirror-README.original.md",
+      "url": "https://raw.githubusercontent.com/nrz/ylikuutio/ea7e8abeb1a1263082f163c8586e1d8c81f74674/README.md",
+      "bytes": 26417,
+      "sha256": "c9285ae9834ba29d042cb439a1f704f7da9b1543d3815cf631609339ab64595d"
+    },
+    {
+      "file": "creator-page.original.html",
+      "url": "https://blendswap.com/blend/18519",
+      "bytes": 109201,
+      "sha256": "56e3815a78ecc596de50b71553a0ac908fc5ae4dcc21e73e04b228b7be63665d"
+    },
+    {
+      "file": "creator-preview.original.jpg",
+      "url": "https://blendswap.com/blend_previews/18519/0/500?v=68bdf07e",
+      "bytes": 20834,
+      "sha256": "30c82366851eac754b74a47fe9c5fcf88fe2953197f2ff404785d1a857d15fc2"
+    },
+    {
+      "file": "mirror-preview.original.png",
+      "url": "https://raw.githubusercontent.com/nrz/ylikuutio/ea7e8abeb1a1263082f163c8586e1d8c81f74674/screenshots/cats_2020-10-08.png",
+      "bytes": 248396,
+      "sha256": "47dd5b4dbdc9eebae2994a97eec886d0ab9bf29db5e077987c857d43ed183989"
+    },
+    {
+      "file": "simple-cat.original.zip",
+      "url": "https://opengameart.org/sites/default/files/cat.zip",
+      "bytes": 497695,
+      "sha256": "266e1b999c0507afe54dd10be9720352cb1fec76298b79f442f47f0435e58e1a"
+    },
+    {
+      "file": "simple-cat-free.original.png",
+      "url": "https://opengameart.org/sites/default/files/cat_free.png",
+      "bytes": 312561,
+      "sha256": "d95bce8cf81320c25e413c6530128107c3cd8590548e2c9b818b955be9d7726f"
+    },
+    {
+      "file": "simple-cat-preview.original.png",
+      "url": "https://opengameart.org/sites/default/files/catfree.png",
+      "bytes": 115613,
+      "sha256": "fdb1dba14b9c03e1860e654975c98214ed5d85ed0f0e1986dbe5fae00d2e5c25"
+    },
+    {
+      "file": "simple-cat-page.original.html",
+      "url": "https://opengameart.org/content/simple-cat",
+      "bytes": 33338,
+      "sha256": "e34875e9ef497669f9b64f96f22363deb73cd9b90b4f0a915ce941c85a13060d"
+    }
+  ],
+  "primary": {
+    "title": "Rigged and animated Cat",
+    "author": "JonasDichelle",
+    "creatorUrl": "https://blendswap.com/blend/18519",
+    "license": "CC-BY-3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+    "mirror": "https://github.com/nrz/ylikuutio",
+    "mirrorChanges": "Original cat.blend exported to FBX by Ylikuutio project. Complete FBX staged unchanged. Mirror README explicitly credits author and license.",
+    "localModifications": "None"
+  },
+  "secondary": {
+    "title": "Simple Cat",
+    "author": "drummyfish",
+    "creatorUrl": "https://opengameart.org/content/simple-cat",
+    "license": "CC0-1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "texture": "Use separately supplied cat_free.png, expressly authored from scratch by drummyfish; original archive photo texture not selected.",
+    "localModifications": "None"
+  },
+  "accessNotes": [
+    "BlendSwap direct download requires sign-in; not attempted beyond public download page.",
+    "Public GitHub redistribution includes original license and explicit credit to JonasDichelle.",
+    "No authentication bypass, purchase, GPU render or production conversion."
+  ]
+}

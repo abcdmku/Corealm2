@@ -1,0 +1,59 @@
+{
+  "sourceFbxSha256": "4e156a3b81638d07a78278889d2184c9a106fd81c2de84bd212c1bd12ea03428",
+  "sourceImportGlbSha256": "2077be4f43026d3ceca7629c87039a546a828726cf2ad108093bdc9faa6d7410",
+  "previewGlbSha256": "f3c4649482a24f911bed5904ec5bb242425df3f29f8d17ebf4ff30d3f0bef9a6",
+  "importPrimitiveAudit": [
+    {
+      "vertices": 23570,
+      "triangles": 45296,
+      "attributes": [
+        "POSITION",
+        "NORMAL",
+        "TEXCOORD_0",
+        "COLOR_0",
+        "COLOR_1"
+      ],
+      "material": "skin"
+    }
+  ],
+  "accessorPayloadSha256": "9ab9f0ad0b83fa10518d55b038268f425c435eec267fe02bc00c5863c1279e48",
+  "accessorPayloadUnchanged": true,
+  "additionalScale": 0.1,
+  "rotationAdded": false,
+  "bounds": {
+    "min": [
+      -0.14244790077209474,
+      -0.2880086421966553,
+      -0.4336576461791992
+    ],
+    "max": [
+      0.14244790077209474,
+      0.6400655746459961,
+      0.4873373508453369
+    ]
+  },
+  "materials": [
+    {
+      "name": "skin",
+      "baseColorFactor": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1
+      ],
+      "roughness": 0.5527864098548889,
+      "metallic": 1,
+      "hasBaseTexture": false
+    }
+  ],
+  "textures": 0,
+  "animations": 0,
+  "limits": [
+    "Static neutral-grey anatomy only. No textures were present in FBX or its repository sibling folder.",
+    "Original all-white Col attribute preserved alongside exporter neutral COLOR_0. UVMap and normals exported.",
+    "Only skin has assigned polygons; other two empty material slots are not exported.",
+    "Blender triangulation produces 45296 triangles versus Three FBXLoader 45290; original 22648 polygon surface retained without decimation.",
+    "Preview scale is .1 after automatic Blender FBX unit conversion, not .01. Total upright-tail height .928m is a display choice, not a Lynx anatomy fit.",
+    "Do not request run/attack/hit/death in this zero-animation static preview."
+  ]
+}

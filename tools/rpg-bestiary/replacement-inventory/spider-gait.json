@@ -1,0 +1,575 @@
+{
+  "id": "webweaver_spider",
+  "file": "art/rebuild/candidates/finish-bestiary/whole-source-first2/models/creature/creature_webweaver_spider.glb",
+  "sha256": "8e26f4d37d09f683514b1e6fb9c7f3a1043d31bc69a108c809daa407b3da605f",
+  "forwardAxis": "+Z",
+  "units": "metres and seconds",
+  "groundY": 0,
+  "idleGeometryMinimumY": 0.003,
+  "groundPlaneReason": "Model wrapper targets a 3 mm clearance above y=0. Geometry minimum is clearance, not an additional placement offset.",
+  "method": "600 poses of frozen accepted GLB, referenced vertices with >=50% weight on each of eight source Foot bones proven to deform the leg-tip vertices. Actual lowest 5 mm vertex patch of each leg, admitted within 20 mm of y=0. Same-vertex central difference of backward Z movement, followed by per-frame patch median. Central 70% of longest contiguous grounded backward interval per leg excludes heel/toe transitions. Excludes seam derivatives. Full per-leg evidence and raw phase samples retained.",
+  "nativeWalkMps": 1.092968,
+  "nativeRunMps": 1.803397,
+  "impliedWalkMps": 1.092968,
+  "impliedRunMps": 1.803397,
+  "speedMatchedEligible": true,
+  "walk": {
+    "cycleSeconds": 0.833333,
+    "nativeMps": 1.092968,
+    "speedMps": {
+      "min": 0.435419,
+      "p10": 0.677891,
+      "median": 1.092968,
+      "p90": 1.374772,
+      "max": 1.516929
+    },
+    "wholeGeometryFloorM": {
+      "min": 0.002998,
+      "p10": 0.002999,
+      "median": 0.003,
+      "p90": 0.003003,
+      "max": 0.003398
+    },
+    "validLegs": 8,
+    "legMedianSpread": {
+      "min": 0.987729,
+      "p10": 1.004992,
+      "median": 1.120496,
+      "p90": 1.184388,
+      "max": 1.278212
+    },
+    "confidence": "credible-geometry-estimate",
+    "legs": [
+      {
+        "name": "FrontFootL",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.004486,
+          "p10": 0.006664,
+          "median": 0.011662,
+          "p90": 0.115035,
+          "max": 0.127266
+        },
+        "groundedBackwardFraction": 0.548495,
+        "mainStanceSeconds": 0.455556,
+        "mainStancePhases": [
+          0.95,
+          0.498333
+        ],
+        "coreSpeedMps": {
+          "min": 0.435419,
+          "p10": 0.706429,
+          "median": 1.142235,
+          "p90": 1.309412,
+          "max": 1.309412
+        },
+        "fullContactSpeedMps": {
+          "min": 0.147028,
+          "p10": 0.435419,
+          "median": 0.94565,
+          "p90": 1.269908,
+          "max": 1.309412
+        }
+      },
+      {
+        "name": "FrontFoot2R",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.004486,
+          "p10": 0.005736,
+          "median": 0.008745,
+          "p90": 0.066181,
+          "max": 0.072751
+        },
+        "groundedBackwardFraction": 0.451505,
+        "mainStanceSeconds": 0.375,
+        "mainStancePhases": [
+          0.5,
+          0.948333
+        ],
+        "coreSpeedMps": {
+          "min": 0.621822,
+          "p10": 0.631907,
+          "median": 1.033144,
+          "p90": 1.388054,
+          "max": 1.388054
+        },
+        "fullContactSpeedMps": {
+          "min": 0.058322,
+          "p10": 0.136739,
+          "median": 1.003296,
+          "p90": 1.388054,
+          "max": 1.388054
+        }
+      },
+      {
+        "name": "MidFrontFootL",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.003261,
+          "p10": 0.003599,
+          "median": 0.006836,
+          "p90": 0.122181,
+          "max": 0.135217
+        },
+        "groundedBackwardFraction": 0.449833,
+        "mainStanceSeconds": 0.373611,
+        "mainStancePhases": [
+          0.501667,
+          0.948333
+        ],
+        "coreSpeedMps": {
+          "min": 0.677891,
+          "p10": 0.771087,
+          "median": 1.184388,
+          "p90": 1.516918,
+          "max": 1.516929
+        },
+        "fullContactSpeedMps": {
+          "min": 0.235026,
+          "p10": 0.235026,
+          "median": 1.079267,
+          "p90": 1.516918,
+          "max": 1.516929
+        }
+      },
+      {
+        "name": "MidFrontFootR",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.003793,
+          "p10": 0.005699,
+          "median": 0.010852,
+          "p90": 0.073062,
+          "max": 0.081284
+        },
+        "groundedBackwardFraction": 0.546823,
+        "mainStanceSeconds": 0.454167,
+        "mainStancePhases": [
+          0.951667,
+          0.498333
+        ],
+        "coreSpeedMps": {
+          "min": 0.511881,
+          "p10": 0.826485,
+          "median": 1.278212,
+          "p90": 1.37997,
+          "max": 1.379975
+        },
+        "fullContactSpeedMps": {
+          "min": 0.173024,
+          "p10": 0.415946,
+          "median": 1.092968,
+          "p90": 1.374772,
+          "max": 1.379975
+        }
+      },
+      {
+        "name": "MidBackFootL",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.003,
+          "p10": 0.003,
+          "median": 0.005715,
+          "p90": 0.094659,
+          "max": 0.104263
+        },
+        "groundedBackwardFraction": 0.5,
+        "mainStanceSeconds": 0.415278,
+        "mainStancePhases": [
+          0.001667,
+          0.498333
+        ],
+        "coreSpeedMps": {
+          "min": 0.522274,
+          "p10": 0.658134,
+          "median": 1.120496,
+          "p90": 1.30621,
+          "max": 1.30621
+        },
+        "fullContactSpeedMps": {
+          "min": 0.173357,
+          "p10": 0.330722,
+          "median": 0.957471,
+          "p90": 1.282922,
+          "max": 1.30621
+        }
+      },
+      {
+        "name": "MidBackFootR",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.003,
+          "p10": 0.003673,
+          "median": 0.01173,
+          "p90": 0.069909,
+          "max": 0.076925
+        },
+        "groundedBackwardFraction": 0.451505,
+        "mainStanceSeconds": 0.375,
+        "mainStancePhases": [
+          0.501667,
+          0.95
+        ],
+        "coreSpeedMps": {
+          "min": 0.514348,
+          "p10": 0.668452,
+          "median": 1.065392,
+          "p90": 1.211243,
+          "max": 1.211248
+        },
+        "fullContactSpeedMps": {
+          "min": 0.174416,
+          "p10": 0.174416,
+          "median": 0.829822,
+          "p90": 1.211243,
+          "max": 1.211248
+        }
+      },
+      {
+        "name": "BackFootL",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.002998,
+          "p10": 0.002999,
+          "median": 0.003698,
+          "p90": 0.057807,
+          "max": 0.062923
+        },
+        "groundedBackwardFraction": 0.453177,
+        "mainStanceSeconds": 0.376389,
+        "mainStancePhases": [
+          0.5,
+          0.95
+        ],
+        "coreSpeedMps": {
+          "min": 0.537214,
+          "p10": 0.537225,
+          "median": 1.004992,
+          "p90": 1.147792,
+          "max": 1.147975
+        },
+        "fullContactSpeedMps": {
+          "min": 0.062088,
+          "p10": 0.214984,
+          "median": 0.834661,
+          "p90": 1.147664,
+          "max": 1.147975
+        }
+      },
+      {
+        "name": "BackFootR",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.002999,
+          "p10": 0.003,
+          "median": 0.004613,
+          "p90": 0.052295,
+          "max": 0.057544
+        },
+        "groundedBackwardFraction": 0.5,
+        "mainStanceSeconds": 0.415278,
+        "mainStancePhases": [
+          0.001667,
+          0.498333
+        ],
+        "coreSpeedMps": {
+          "min": 0.463389,
+          "p10": 0.482004,
+          "median": 0.987729,
+          "p90": 1.124285,
+          "max": 1.124328
+        },
+        "fullContactSpeedMps": {
+          "min": 0.153852,
+          "p10": 0.175931,
+          "median": 0.768335,
+          "p90": 1.121228,
+          "max": 1.124328
+        }
+      }
+    ]
+  },
+  "run": {
+    "cycleSeconds": 0.50505,
+    "nativeMps": 1.803397,
+    "speedMps": {
+      "min": 0.718442,
+      "p10": 1.11852,
+      "median": 1.803397,
+      "p90": 2.268373,
+      "max": 2.502932
+    },
+    "wholeGeometryFloorM": {
+      "min": 0.002994,
+      "p10": 0.002997,
+      "median": 0.003,
+      "p90": 0.003044,
+      "max": 0.003318
+    },
+    "validLegs": 8,
+    "legMedianSpread": {
+      "min": 1.62977,
+      "p10": 1.658236,
+      "median": 1.848818,
+      "p90": 1.954241,
+      "max": 2.10905
+    },
+    "confidence": "credible-geometry-estimate",
+    "legs": [
+      {
+        "name": "FrontFootL",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.004486,
+          "p10": 0.006664,
+          "median": 0.01169,
+          "p90": 0.115034,
+          "max": 0.127266
+        },
+        "groundedBackwardFraction": 0.548495,
+        "mainStanceSeconds": 0.276094,
+        "mainStancePhases": [
+          0.95,
+          0.498333
+        ],
+        "coreSpeedMps": {
+          "min": 0.718442,
+          "p10": 1.165609,
+          "median": 1.884688,
+          "p90": 2.160529,
+          "max": 2.160529
+        },
+        "fullContactSpeedMps": {
+          "min": 0.242596,
+          "p10": 0.718442,
+          "median": 1.560323,
+          "p90": 2.095348,
+          "max": 2.160529
+        }
+      },
+      {
+        "name": "FrontFoot2R",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.004486,
+          "p10": 0.005736,
+          "median": 0.008744,
+          "p90": 0.066181,
+          "max": 0.072751
+        },
+        "groundedBackwardFraction": 0.451505,
+        "mainStanceSeconds": 0.227273,
+        "mainStancePhases": [
+          0.5,
+          0.948333
+        ],
+        "coreSpeedMps": {
+          "min": 1.026006,
+          "p10": 1.042647,
+          "median": 1.704688,
+          "p90": 2.290289,
+          "max": 2.290289
+        },
+        "fullContactSpeedMps": {
+          "min": 0.096231,
+          "p10": 0.225619,
+          "median": 1.655439,
+          "p90": 2.290289,
+          "max": 2.290289
+        }
+      },
+      {
+        "name": "MidFrontFootL",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.003261,
+          "p10": 0.003612,
+          "median": 0.006833,
+          "p90": 0.122178,
+          "max": 0.135217
+        },
+        "groundedBackwardFraction": 0.449833,
+        "mainStanceSeconds": 0.226431,
+        "mainStancePhases": [
+          0.501667,
+          0.948333
+        ],
+        "coreSpeedMps": {
+          "min": 1.11852,
+          "p10": 1.272293,
+          "median": 1.954241,
+          "p90": 2.502915,
+          "max": 2.502932
+        },
+        "fullContactSpeedMps": {
+          "min": 0.387793,
+          "p10": 0.387793,
+          "median": 1.780791,
+          "p90": 2.502915,
+          "max": 2.502932
+        }
+      },
+      {
+        "name": "MidFrontFootR",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.003793,
+          "p10": 0.005752,
+          "median": 0.01095,
+          "p90": 0.073059,
+          "max": 0.081284
+        },
+        "groundedBackwardFraction": 0.548495,
+        "mainStanceSeconds": 0.276094,
+        "mainStancePhases": [
+          0.95,
+          0.498333
+        ],
+        "coreSpeedMps": {
+          "min": 0.844603,
+          "p10": 1.363701,
+          "median": 2.10905,
+          "p90": 2.27695,
+          "max": 2.276959
+        },
+        "fullContactSpeedMps": {
+          "min": 0.064968,
+          "p10": 0.686311,
+          "median": 1.803397,
+          "p90": 2.268373,
+          "max": 2.276959
+        }
+      },
+      {
+        "name": "MidBackFootL",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.003,
+          "p10": 0.003,
+          "median": 0.005713,
+          "p90": 0.094659,
+          "max": 0.104263
+        },
+        "groundedBackwardFraction": 0.5,
+        "mainStanceSeconds": 0.251683,
+        "mainStancePhases": [
+          0.001667,
+          0.498333
+        ],
+        "coreSpeedMps": {
+          "min": 0.861753,
+          "p10": 1.085916,
+          "median": 1.848818,
+          "p90": 2.155247,
+          "max": 2.155247
+        },
+        "fullContactSpeedMps": {
+          "min": 0.286038,
+          "p10": 0.545691,
+          "median": 1.579831,
+          "p90": 2.116821,
+          "max": 2.155247
+        }
+      },
+      {
+        "name": "MidBackFootR",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.003,
+          "p10": 0.003673,
+          "median": 0.011731,
+          "p90": 0.069909,
+          "max": 0.076925
+        },
+        "groundedBackwardFraction": 0.451505,
+        "mainStanceSeconds": 0.227273,
+        "mainStancePhases": [
+          0.501667,
+          0.95
+        ],
+        "coreSpeedMps": {
+          "min": 0.848675,
+          "p10": 1.102942,
+          "median": 1.757897,
+          "p90": 1.998551,
+          "max": 1.998559
+        },
+        "fullContactSpeedMps": {
+          "min": 0.287786,
+          "p10": 0.287786,
+          "median": 1.369206,
+          "p90": 1.998551,
+          "max": 1.998559
+        }
+      },
+      {
+        "name": "BackFootL",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.002994,
+          "p10": 0.002997,
+          "median": 0.003658,
+          "p90": 0.057968,
+          "max": 0.062923
+        },
+        "groundedBackwardFraction": 0.453177,
+        "mainStanceSeconds": 0.228114,
+        "mainStancePhases": [
+          0.5,
+          0.95
+        ],
+        "coreSpeedMps": {
+          "min": 0.886404,
+          "p10": 0.886421,
+          "median": 1.658236,
+          "p90": 1.893822,
+          "max": 1.894158
+        },
+        "fullContactSpeedMps": {
+          "min": 0.102445,
+          "p10": 0.354724,
+          "median": 1.37719,
+          "p90": 1.893645,
+          "max": 1.894158
+        }
+      },
+      {
+        "name": "BackFootR",
+        "candidateVertices": 96,
+        "soleHeightM": {
+          "min": 0.002996,
+          "p10": 0.002999,
+          "median": 0.004613,
+          "p90": 0.052293,
+          "max": 0.057544
+        },
+        "groundedBackwardFraction": 0.501672,
+        "mainStanceSeconds": 0.252525,
+        "mainStancePhases": [
+          0.001667,
+          0.5
+        ],
+        "coreSpeedMps": {
+          "min": 0.764592,
+          "p10": 0.795306,
+          "median": 1.62977,
+          "p90": 1.855053,
+          "max": 1.855142
+        },
+        "fullContactSpeedMps": {
+          "min": 0.080016,
+          "p10": 0.290287,
+          "median": 1.267717,
+          "p90": 1.850026,
+          "max": 1.855142
+        }
+      }
+    ]
+  },
+  "runToWalkSpeedRatio": 1.65,
+  "acceptance": "CPU contact evidence for metadata only. Source GLB untouched. Root owns production locomotion acceptance.",
+  "confidenceDetail": "Moderate. All eight feet have long geometry contacts and Run/Walk ratio matches the authored 1.65 retime. Source stance velocity varies; median matching does not remove every local slip.",
+  "contactBoneEvidence": "Foot bones carry 96 >=50%-weighted referenced vertices per foot and reach 3–4.5mm above floor. Leg3 bones carry higher leg segments and must not be used as sole proxies.",
+  "catalogSha256": "38c4f2bebb38f36f2994d623f2c04e70ab5a6ba79fe69381dd73bec8fb6c70cd"
+}

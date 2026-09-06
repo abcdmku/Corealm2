@@ -1,0 +1,240 @@
+{
+  "author": "Quaternius; janpec",
+  "license": "CC0-1.0 humanoid, clothing, axe and animations; Standard Unity Asset Store EULA; project owner must confirm entitlement for animal-pack-deluxe",
+  "sourceAssets": [
+    "base_male",
+    "animal_aurochs",
+    "outfit_male_peasant_legs",
+    "axe",
+    "animation_library_1"
+  ],
+  "sourcePacks": [
+    {
+      "id": "fantasy-props-megakit",
+      "name": "Fantasy Props MegaKit",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/fantasy-props-megakit",
+      "license": "CC0-1.0",
+      "archiveSha256": "8b6f7e806d222e585478f0e1bdc6b271bbc7bc6f84dd6af8ca703a7c64f0cb1e"
+    },
+    {
+      "id": "universal-base-characters",
+      "name": "Universal Base Characters",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/universal-base-characters",
+      "license": "CC0-1.0",
+      "archiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+    },
+    {
+      "id": "modular-character-outfits-fantasy",
+      "name": "Modular Character Outfits - Fantasy",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/modular-character-outfits-fantasy",
+      "license": "CC0-1.0",
+      "archiveSha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+    },
+    {
+      "id": "universal-animation-library",
+      "name": "Universal Animation Library",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/universal-animation-library",
+      "license": "CC0-1.0",
+      "archiveSha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+    },
+    {
+      "id": "animal-pack-deluxe",
+      "name": "Animal pack deluxe",
+      "author": "janpec",
+      "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+      "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+      "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+      "assetStoreId": "99702",
+      "sourceArchive": "Animal pack deluxe.unitypackage"
+    }
+  ],
+  "sourceRecords": [
+    {
+      "id": "base_male",
+      "file": "models/character/base_male.glb",
+      "pack": "universal-base-characters",
+      "category": "character",
+      "is": "character",
+      "tags": [
+        "character",
+        "base",
+        "humanoid",
+        "male",
+        "player",
+        "npc",
+        "rigged"
+      ],
+      "bytes": 622184,
+      "size": {
+        "x": 1.859,
+        "y": 1.82,
+        "z": 0.291
+      },
+      "base": {
+        "x": -0.929,
+        "y": -0.01,
+        "z": -0.163
+      },
+      "animations": [],
+      "materials": [
+        "MI_Hair_1",
+        "MI_Eyes",
+        "MI_Superhero_Male"
+      ]
+    },
+    {
+      "id": "animal_aurochs",
+      "file": "models/animal/animal_aurochs.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "aurochs",
+      "tags": [
+        "aurochs",
+        "cattle",
+        "bull",
+        "bovine",
+        "highland",
+        "animal",
+        "variant"
+      ],
+      "bytes": 717064,
+      "size": {
+        "x": 0.643,
+        "y": 1.57,
+        "z": 2.533
+      },
+      "base": {
+        "x": -0.322,
+        "y": -0.005,
+        "z": -1.006
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.1333333253860474,
+      "materials": [
+        "animal_aurochs_mat"
+      ],
+      "impliedWalkMps": 0.9039947403423454,
+      "impliedRunMps": 3.11442052609775,
+      "runClipSeconds": 0.6666666865348816,
+      "sha256": "c1e4363275d2c708235cbf3b1bf3b0d16398da4b570d7118b483f10c688da7e5",
+      "groundY": -0.005
+    },
+    {
+      "id": "outfit_male_peasant_legs",
+      "file": "models/outfit/outfit_male_peasant_legs.glb",
+      "pack": "modular-character-outfits-fantasy",
+      "category": "outfit",
+      "is": "outfit",
+      "tags": [
+        "outfit",
+        "modular",
+        "equip",
+        "legs",
+        "peasant",
+        "male"
+      ],
+      "bytes": 70340,
+      "size": {
+        "x": 0.423,
+        "y": 0.651,
+        "z": 0.229
+      },
+      "base": {
+        "x": -0.211,
+        "y": 0.403,
+        "z": -0.152
+      },
+      "animations": [],
+      "materials": [
+        "MI_Peasant"
+      ]
+    },
+    {
+      "id": "axe",
+      "file": "models/weapon/axe.glb",
+      "pack": "fantasy-props-megakit",
+      "category": "weapon",
+      "is": "axe",
+      "tags": [
+        "axe",
+        "melee",
+        "woodcutting",
+        "tool",
+        "equip",
+        "recolour"
+      ],
+      "bytes": 33228,
+      "size": {
+        "x": 0.294,
+        "y": 0.827,
+        "z": 0.046
+      },
+      "base": {
+        "x": -0.196,
+        "y": -0.381,
+        "z": -0.023
+      },
+      "animations": [],
+      "materials": [
+        "MI_Trim_Props_Vertex"
+      ]
+    },
+    {
+      "id": "animation_library_1",
+      "file": "models/animation/animation_library_1.glb",
+      "pack": "universal-animation-library",
+      "category": "animation",
+      "is": "animation",
+      "tags": [
+        "animation",
+        "clips",
+        "humanoid",
+        "locomotion",
+        "combat",
+        "library",
+        "in-place"
+      ],
+      "bytes": 789416,
+      "size": {
+        "x": 1.944,
+        "y": 1.829,
+        "z": 0.37
+      },
+      "base": {
+        "x": -0.972,
+        "y": 0,
+        "z": -0.164
+      },
+      "animations": [
+        "Death01",
+        "Fixing_Kneeling",
+        "Hit_Chest",
+        "Idle_Loop",
+        "Idle_Talking_Loop",
+        "Interact",
+        "Jog_Fwd_Loop",
+        "Punch_Jab",
+        "Spell_Simple_Idle_Loop",
+        "Spell_Simple_Shoot",
+        "Sprint_Loop",
+        "Sword_Attack",
+        "Walk_Loop"
+      ],
+      "materials": []
+    }
+  ],
+  "modifications": "Coordinated humanoid bind-space vertex and joint proportions; human face reshaped into a sealed internal neck connector and toes removed; preserved shoulder peaks and continuous thighs; authored animal_aurochs head with closed rear crop and hoof topology aligned to exact foot bind centers, retaining original UVs and atlas; cropped source peasant waist cloth; source axe held at lower haft with broad blade facing outward; eight retargeted source clips and whole-mesh floor corrections"
+}

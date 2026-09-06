@@ -17,8 +17,8 @@ const FACE_CLEARANCE = 0.70;
 const COLLISION_CLEARANCE = PLAYER_RADIUS + 0.20;
 
 /**
- * Native ore slabs expose their local +Z face. Keep the resource at its authored pivot and give
- * navigation a nearby working position outside both the visible slab and its resource cylinder.
+ * Native ore boulders use a local +Z approach. Keep the resource at its authored pivot and give
+ * navigation a nearby working position outside both the visible rock and its resource cylinder.
  * Dressing clearance and the route to this point still require the production navigation proof.
  */
 export function miningAccessPositions(
@@ -49,7 +49,7 @@ export function miningAccessPositions(
       const variants = definition.presentation.availableAssetIds;
       const assetId = hero ? cluster.heroAssetId! : variants[variantSeed(id) % variants.length];
       if (!assetId?.startsWith("corealm_ore_")) {
-        throw new Error(`Mine ${site.id}/${id} has no native mineral face with an authored +Z approach`);
+        throw new Error(`Mine ${site.id}/${id} has no native mineral rock with an authored +Z approach`);
       }
       const size = measurements.assetSize(assetId);
       const centre = measurements.assetCenterXZ?.(assetId) ?? { x: 0, z: 0 };

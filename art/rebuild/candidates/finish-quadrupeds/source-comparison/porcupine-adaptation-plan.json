@@ -1,0 +1,5 @@
+{
+  "output": "porcupine-adaptation-comparison",
+  "inputs": [["source-porcupine/porcupine-candidate-catalogue.json", "creature_quillback_porcupine"]],
+  "scope": "Frozen complete CC0 Rat-derived Porcupine anatomy review with 970 attached quills and 13 real source-derived clips. Original 14-action Rat archive remains preserved; broken long Idle.000 is explicitly omitted. Fixed rest wrapper only, no per-frame body lift. Native source foot penetration remains measured and unaccepted, including Walk, Run and Die. This is not finished-species, contact, lifecycle or promotion acceptance."
+}

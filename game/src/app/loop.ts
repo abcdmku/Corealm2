@@ -23,6 +23,8 @@ import type { OrbitCamera } from "../render/camera.js";
 import type { WorldScene } from "../render/scene.js";
 import type { Navigation } from "../systems/navigation.js";
 import type { Movement } from "../systems/movement.js";
+import type { TraversalSample } from "../systems/traversalMotion.js";
+import { EnemyProjectiles } from "../render/enemyProjectiles.js";
 import type { CombatAttackStart, CombatHit } from "../systems/combat.js";
 import type { CorealmGameApi } from "../api/gameApi.js";
 import type { SaveService } from "../persistence/storage.js";
@@ -167,12 +169,18 @@ export class GameLoop {
   private systems: TickSystem[] = [];
   private entityViews: EntityViews | null = null;
   private entitySource: (() => SemanticEntity[]) | null = null;
+  private refreshEntityResidency: (() => void) | null = null;
+  private traversalPresentation: (() => TraversalSample | null) | null = null;
+  private traversalWasVisible = false;
   private viewSyncAccumulatorMs = 0;
   private overlays: OverlayTicker | null = null;
   private playerRig: CharacterRig | null = null;
   private vfx: Vfx | null = null;
   private drainHits: (() => readonly CombatHit[]) | null = null;
   private drainAttackStarts: (() => readonly CombatAttackStart[]) | null = null;
+  private attackStillCommitted: ((id: EntityId) => boolean) | null = null;
+  private enemyProjectiles: EnemyProjectiles | null = null;
+  private projectileRegion: string | null = null;
   private playerMotionHandler: ((event: CharacterMotionEvent) => void) | null = null;
   private combatPresentationHandler: ((hit: CombatHit, phase: "swing" | "impact" | "combined") => void) | null = null;
   private spellVfx: SpellVfx | null = null;
@@ -240,9 +248,15 @@ export class GameLoop {
    * constructible before them. Views resync on a slow cadence rather than every frame: entity state
    * changes at gameplay speed, not at 240 Hz, and a full diff every frame is pure waste.
    */
-  setEntityViews(views: EntityViews, entities: () => SemanticEntity[]): void {
+  setEntityViews(views: EntityViews, entities: () => SemanticEntity[], refreshResidency?: () => void): void {
     this.entityViews = views;
     this.entitySource = entities;
+    this.refreshEntityResidency = refreshResidency ?? null;
+  }
+
+  /** Samples presentation without moving the authoritative player before traversal resolves. */
+  setTraversalPresentation(sample: () => TraversalSample | null): void {
+    this.traversalPresentation = sample;
   }
 
   /**
@@ -310,8 +324,9 @@ export class GameLoop {
     this.drainHits = drain;
   }
 
-  setCombatAttackStarts(drain: () => readonly CombatAttackStart[]): void {
+  setCombatAttackStarts(drain: () => readonly CombatAttackStart[], committed?: (id: EntityId) => boolean): void {
     this.drainAttackStarts = drain;
+    this.attackStillCommitted = committed ?? null;
   }
 
   /** Sound and other presentation systems consume the rig's measured contact frames here. */
@@ -352,6 +367,7 @@ export class GameLoop {
     if (this.running) return;
     this.running = true;
     this.lastFrameAt = performance.now();
+    this.deps.renderer.resetFrameTiming?.();
     this.frameHandle = requestAnimationFrame(this.frame);
   }
 
@@ -365,8 +381,16 @@ export class GameLoop {
     this.frameHandle = 0;
   }
 
+  /** Releases loop-owned presentation resources when the game is torn down. */
+  dispose(): void {
+    this.stop();
+    this.enemyProjectiles?.dispose();
+    this.enemyProjectiles = null;
+  }
+
   /** Clears render-only work when debug or save loading replaces the canonical world. */
   resetPresentation(): void {
+    this.enemyProjectiles?.clear();
     this.pendingRigPose = null;
     this.pendingRigPoseTimeScale = null;
     this.gatheringRigKey = null;
@@ -480,20 +504,32 @@ export class GameLoop {
     const { store, scene, camera, renderer, input } = this.deps;
     const state = store.get();
 
+    const traversal = this.traversalPresentation?.() ?? null;
+    // Completion and recovery already reach their landing. Reusing the preceding simulation
+    // interpolation span here would pull the rendered player back toward the entry for a tick.
+    if (!traversal && this.traversalWasVisible) this.havePrevPose = false;
     this.updateRenderPose(this.renderAlpha);
+    if (traversal) {
+      this.renderPos[0] = traversal.position[0];
+      this.renderPos[1] = traversal.position[1];
+      this.renderPos[2] = traversal.position[2];
+      this.renderFacingRad = traversal.facingRad;
+    }
+    this.traversalWasVisible = traversal !== null;
     const position: Vec3 = this.renderPos;
     const facingRad = this.renderFacingRad;
 
     input.update();
     for (const interior of this.interiors) interior.group.visible = interior.visible();
+    // Residency follows the player every frame, including frames without a structural diff.
+    // Keep this separate from collecting the complete semantic snapshot.
+    this.refreshEntityResidency?.();
     this.syncEntityViews(realDeltaMs);
     // Structure at 4 Hz, motion every frame. `sync` is throttled because rebuilding instance groups
     // is expensive, but `EnemyAiSystem.stepToward` writes a new position every 100 ms sim tick, so
     // at 4 Hz three of every four movement steps were invisible and the fourth was a 40 cm jump.
-    // `syncMotion` only moves records that already exist and never allocates a group.
-    if (this.entityViews && this.entitySource) {
-      this.entityViews.syncMotion(this.entitySource(), this.renderAlpha);
-    }
+    // The resident references are refreshed by structural sync and active-area changes.
+    this.entityViews?.syncResidentMotion(this.renderAlpha);
     // Animation advances on real time, not sim time: a paused sim should still idle, and a
     // time-scaled test run should not play idles at 100x.
     //
@@ -503,14 +539,21 @@ export class GameLoop {
     // wildly wrong one.
     this.entityViews?.update(realDeltaMs / 1000, renderer.camera.position, this.deps.clock.elapsedMs);
     this.overlays?.update(this.deps.clock.elapsedMs, position);
+    if (this.projectileRegion !== state.player.regionId) this.enemyProjectiles?.clear();
+    this.projectileRegion = state.player.regionId;
     this.presentAttackStarts();
+    if (this.enemyProjectiles) {
+      this.enemyProjectiles.update(this.deps.clock.elapsedMs,
+        (id) => this.attackStillCommitted?.(id) ?? false,
+        (id) => id === state.player.id ? position : this.entityViews?.motionSnapshot(id)?.drawnPosition);
+    }
     this.paintCombatHits(nowMs);
     this.vfx?.update(nowMs);
     // After `vfx`, so a spell burst draws over the floating numbers rather than under them.
     this.spellVfx?.update(nowMs);
     this.ui?.update();
     this.syncPlayerEquipment();
-    this.syncPlayerRig(position, facingRad, realDeltaMs, nowMs);
+    this.syncPlayerRig(position, facingRad, realDeltaMs, nowMs, traversal);
     scene.syncPlayer(position, facingRad);
     camera.update(position[0], position[1], position[2]);
     renderer.followShadow(renderer.camera.position.clone().setY(position[1]));
@@ -528,7 +571,8 @@ export class GameLoop {
    * render frame — speed, differenced between drawn positions — is exactly what froze the run
    * animation; see `PlayerMovementView`.
    */
-  private syncPlayerRig(position: Vec3, facingRad: number, realDeltaMs: number, nowMs: number): void {
+  private syncPlayerRig(position: Vec3, facingRad: number, realDeltaMs: number, nowMs: number,
+    traversal: TraversalSample | null = null): void {
     const rig = this.playerRig;
     if (!rig) return;
 
@@ -546,10 +590,11 @@ export class GameLoop {
     const forcedTimeScale = this.pendingRigPoseTimeScale;
     this.pendingRigPose = null;
     this.pendingRigPoseTimeScale = null;
-    if (forced && state.player.health > 0) {
+    const activeTraversal = state.player.health > 0 ? traversal : null;
+    if (forced && state.player.health > 0 && !activeTraversal) {
       rig.play(forced, true, forcedTimeScale ?? undefined);
     } else {
-      rig.play(rig.poseFor({
+      const pose = rig.poseFor({
         moving,
         speed,
         dead: state.player.health <= 0,
@@ -560,7 +605,8 @@ export class GameLoop {
         activityToolItemId: activity?.kind === "gathering"
           ? bestCarriedGatheringTool(state, activity.skill)
           : null,
-      }));
+      });
+      if (!activeTraversal) rig.play(pose);
     }
     rig.setLocomotionSpeed(speed);
 
@@ -583,6 +629,7 @@ export class GameLoop {
       this.gatheringRigKey = null;
     }
 
+    rig.syncTraversalPose(activeTraversal);
     rig.update(realDeltaMs / 1000);
     for (const event of rig.drainMotionEvents()) {
       this.playerMotionHandler?.(event);
@@ -650,6 +697,15 @@ export class GameLoop {
         this.pendingRigPoseTimeScale = (this.playerRig?.meleeTiming().clipSeconds ?? 1.533333) / durationSeconds;
       } else {
         this.entityViews?.playAction(start.sourceId, "attack", { durationSeconds });
+        if (start.kind !== "melee" && this.attackStillCommitted?.(start.sourceId)) {
+          const source = this.entityViews?.motionSnapshot(start.sourceId)?.drawnPosition;
+          const player = this.deps.store.get().player;
+          if (source && start.targetId === player.id) {
+            this.enemyProjectiles ??= new EnemyProjectiles(this.deps.scene.overlayGroup);
+            this.projectileRegion = player.regionId;
+            this.enemyProjectiles.start(start, source, this.renderPos);
+          }
+        }
       }
     }
   }
@@ -667,7 +723,21 @@ export class GameLoop {
         }
       } else {
         this.vfx?.damage(hit.targetId, hit.damage, hit.kind === "magic" ? "magic" : "melee", nowMs);
-        if (hit.hit) this.entityViews?.playAction(hit.targetId, "hit");
+        if (hit.hit) {
+          const target = this.entityViews?.motionSnapshot(hit.targetId);
+          const source = this.deps.store.get().player.position;
+          // Positive local X is the target's right. Use its semantic contact-facing pose,
+          // independent of render interpolation and camera orbit.
+          const lateral = target ? (source[0] - target.semanticPosition[0]) * Math.cos(target.semanticRotationY)
+            - (source[2] - target.semanticPosition[2]) * Math.sin(target.semanticRotationY) : 0;
+          const impactSide = Math.abs(lateral) < 0.1 ? "front" : lateral < 0 ? "left" : "right";
+          const authoredSeconds = this.entityViews?.actionDurationSeconds(hit.targetId, "hit", impactSide);
+          this.entityViews?.playAction(hit.targetId, "hit", {
+            impactSide, ...(!authoredSeconds || !Number.isFinite(authoredSeconds) ? {} : {
+              durationSeconds: authoredSeconds / (this.deps.clock.timeScale || 1),
+            }),
+          });
+        }
       }
     }
   }

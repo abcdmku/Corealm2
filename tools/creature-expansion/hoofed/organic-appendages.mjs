@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { mooseAntlerRootPoint } from './moose-anatomy.mjs';
 
 const clamp = THREE.MathUtils.clamp;
 const lerp = THREE.MathUtils.lerp;
@@ -330,6 +331,6 @@ export function mooseAntlers(s, _p) {
       if (side > 0) indices.push(front[a], front[b], front[c], back[c], back[b], back[a]);
       else indices.push(front[c], front[b], front[a], back[a], back[b], back[c]);
     }
-    s.add(positions, indices, 'Head', (_point, index) => colors[index], 2, undefined, uv);
+    s.add(positions.map(mooseAntlerRootPoint), indices, 'Head', (_point, index) => colors[index], 2, undefined, uv);
   }
 }

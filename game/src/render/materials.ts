@@ -14,6 +14,7 @@
  * A cache miss that clones a material silently doubles a draw call somewhere downstream.
  */
 import * as THREE from "three";
+import { createContainedTroughWater } from "./containedTroughWater.js";
 import type { RegionId } from "../contracts.js";
 import { oceanDepthGridBounds, type OceanDepthGrid } from "../world/coastDepth.js";
 import { createArtDirectedMaterial, type ArtSurfaceRole } from "./artDirection.js";
@@ -1031,6 +1032,14 @@ const WATER_NORMAL_BODY = /* glsl */ `
  * silently fragments and the draw-call budget is gone.
  */
 export class MaterialLibrary {
+  /** Lab candidate cache; normal library disposal owns these clones, never their borrowed maps. */
+  containedTroughWater(source: THREE.MeshPhysicalMaterial): THREE.MeshPhysicalMaterial {
+    const key = `contained-trough-water:${source.uuid}`;
+    let material = this.cache.get(key) as THREE.MeshPhysicalMaterial | undefined;
+    if (!material) { material = createContainedTroughWater(source); this.cache.set(key, material); }
+    return material;
+  }
+
   private cache = new Map<string, THREE.Material>();
   /** Variants are keyed off the source material so a shared base texture stays shared. */
   private variantKeys = new WeakMap<THREE.Material, string>();
@@ -1102,6 +1111,10 @@ export class MaterialLibrary {
   setFoliageOcclusionEnabled(enabled: boolean): void {
     this.foliageOcclusionEnabled = enabled;
     if (!enabled) this.foliageOcclusion.setEnabled(false);
+  }
+
+  setFoliageOcclusionBoundsOptimization(enabled: boolean): void {
+    this.foliageOcclusion.setBoundsOptimization(enabled);
   }
 
   updatePlayerOcclusion(

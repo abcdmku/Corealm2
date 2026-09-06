@@ -146,10 +146,10 @@ function expectDirect(h: ReturnType<typeof runtime>, target: MoveTarget = { posi
   const preview = value(h.api.planPath(target));
   expect(preview.legs).toEqual([]);
   expect(preview.pathLength).toBeCloseTo(42, 6);
-  expect(preview.etaMs).toBeCloseTo(10_000, 6);
+  expect(preview.etaMs).toBe(Math.round(42 / PLAYER_SPEED * 1000));
   const started = value(h.api.moveTo(target));
   expect(started.pathLength).toBeCloseTo(preview.pathLength, 6);
-  expect(started.etaMs).toBeCloseTo(preview.etaMs, 6);
+  expect(started.etaMs).toBeCloseTo(42 / PLAYER_SPEED * 1000, 6);
   expect(h.movement.getRouteProgress().active).toBe(false);
   expect(h.store.get().player.movement.destination).toEqual(GOAL);
   h.events.flush();
@@ -158,12 +158,12 @@ function expectDirect(h: ReturnType<typeof runtime>, target: MoveTarget = { posi
 }
 
 describe("API route cost selection", () => {
-  it("uses a 3-second shortcut at Agility 8 even when a 10-second direct walk succeeds", () => {
+  it("uses the faster shortcut at Agility 8 even when the direct walk succeeds", () => {
     const h = runtime();
     const preview = value(h.api.planPath({ position: GOAL }));
     expect(preview.legs.map((leg) => leg.kind)).toEqual(["walk", "shortcut", "walk"]);
     expect(preview.pathLength).toBeCloseTo(8.4, 6);
-    expect(preview.etaMs).toBeCloseTo(3000, 6);
+    expect(preview.etaMs).toBe(Math.round(1000 + 8.4 / PLAYER_SPEED * 1000));
     expect(preview.points.at(-1)).toEqual(GOAL);
     const started = value(h.api.moveTo({ position: GOAL }));
     expect(started.pathLength).toBeCloseTo(preview.pathLength, 6);
@@ -172,7 +172,7 @@ describe("API route cost selection", () => {
     expect(h.store.get().player.movement.destination).toEqual(ENTRY);
     h.events.flush();
     expect(h.events.since(0, ["navigation.started"]).events).toEqual([
-      expect.objectContaining({ data: expect.objectContaining({ route: true, etaMs: 3000 }) }),
+      expect.objectContaining({ data: expect.objectContaining({ route: true, etaMs: Math.round(1000 + 8.4 / PLAYER_SPEED * 1000) }) }),
     ]);
     h.step(60);
     expect(distanceXZ(h.store.get().player.position, GOAL)).toBeLessThanOrEqual(0.35);
@@ -193,10 +193,10 @@ describe("API route cost selection", () => {
     h.store.get().player.position = [...GOAL];
     const preview = value(h.api.planPath({ position: START }));
     expect(preview.legs.map((leg) => leg.kind)).toEqual(["walk", "shortcut", "walk"]);
-    expect(preview.etaMs).toBeCloseTo(3000, 6);
+    expect(preview.etaMs).toBe(Math.round(1000 + 8.4 / PLAYER_SPEED * 1000));
     expect(preview.pathLength).toBeCloseTo(8.4, 6);
     expect(preview.points.at(-1)).toEqual(START);
-    expect(value(h.api.moveTo({ position: START })).etaMs).toBeCloseTo(3000, 6);
+    expect(value(h.api.moveTo({ position: START })).etaMs).toBe(Math.round(1000 + 8.4 / PLAYER_SPEED * 1000));
     expect(h.store.get().player.movement.destination).toEqual(EXIT);
     h.step(15);
     expect(h.store.get().activity).toMatchObject({ kind: "traversing", exitPosition: ENTRY });
@@ -238,8 +238,8 @@ describe("API route cost selection", () => {
     h.store.get().player.position = [ENTRY[0] - 2.3, 0, 0];
     const preview = value(h.api.planPath({ position: GOAL }));
     expect(preview.legs.map((leg) => leg.kind)).toEqual(["shortcut", "walk"]);
-    expect(preview.etaMs).toBe(2000);
-    expect(value(h.api.moveTo({ position: GOAL })).etaMs).toBe(2000);
+    expect(preview.etaMs).toBe(Math.round(1000 + 4.2 / PLAYER_SPEED * 1000));
+    expect(value(h.api.moveTo({ position: GOAL })).etaMs).toBe(Math.round(1000 + 4.2 / PLAYER_SPEED * 1000));
     expect(h.store.get().activity).toMatchObject({ kind: "traversing", obstacleId: h.obstacle.id });
     h.step(60);
     expect(h.store.get().world.obstaclesUsed[h.obstacle.id]).toBe(1);
@@ -307,7 +307,7 @@ describe("API route cost selection", () => {
     expectDirect(h);
   });
 
-  it.each([8000, 9000])("keeps direct when the shortcut duration is %i ms, tying or exceeding its total", (duration) => {
+  it.each([33.6 / PLAYER_SPEED * 1000, 33.6 / PLAYER_SPEED * 1000 + 1000])("keeps direct when the shortcut duration is %s ms, tying or exceeding its total", (duration) => {
     const h = runtime();
     h.obstacle.obstacle!.durationMs = duration;
     expectDirect(h);
@@ -320,8 +320,8 @@ describe("API route cost selection", () => {
     const preview = value(h.api.planPath({ position: GOAL }));
     expect(preview.legs.some((leg) => leg.kind === "shortcut")).toBe(true);
     expect(preview.pathLength).toBeCloseTo(8.4, 6);
-    expect(preview.etaMs).toBeCloseTo(3000, 6);
-    expect(value(h.api.moveTo({ position: GOAL })).etaMs).toBeCloseTo(3000, 6);
+    expect(preview.etaMs).toBe(Math.round(1000 + 8.4 / PLAYER_SPEED * 1000));
+    expect(value(h.api.moveTo({ position: GOAL })).etaMs).toBe(Math.round(1000 + 8.4 / PLAYER_SPEED * 1000));
   });
 
   it("rejects an apparently cheap graph route when its actual approach is a long detour", () => {
@@ -339,8 +339,8 @@ describe("API route cost selection", () => {
     h.controls.authoredDurationMs = 9000;
     h.controls.authoredCost = 11;
     const preview = value(h.api.planPath({ position: GOAL }));
-    expect(preview.etaMs).toBeCloseTo(3000, 6);
-    expect(value(h.api.moveTo({ position: GOAL })).etaMs).toBeCloseTo(3000, 6);
+    expect(preview.etaMs).toBe(Math.round(1000 + 8.4 / PLAYER_SPEED * 1000));
+    expect(value(h.api.moveTo({ position: GOAL })).etaMs).toBe(Math.round(1000 + 8.4 / PLAYER_SPEED * 1000));
     h.step(30);
     expect(h.events.since(0, ["activity.started"]).events).toEqual([
       expect.objectContaining({ entityId: h.obstacle.id, data: expect.objectContaining({ durationMs: 1000 }) }),
@@ -353,8 +353,8 @@ describe("API route cost selection", () => {
   it("uses a three-second traversal fallback when live obstacle duration is absent", () => {
     const h = runtime();
     delete (h.obstacle.obstacle as Partial<NonNullable<SemanticEntity["obstacle"]>>).durationMs;
-    expect(value(h.api.planPath({ position: GOAL })).etaMs).toBeCloseTo(5000, 6);
-    expect(value(h.api.moveTo({ position: GOAL })).etaMs).toBeCloseTo(5000, 6);
+    expect(value(h.api.planPath({ position: GOAL })).etaMs).toBe(Math.round(3000 + 8.4 / PLAYER_SPEED * 1000));
+    expect(value(h.api.moveTo({ position: GOAL })).etaMs).toBe(Math.round(3000 + 8.4 / PLAYER_SPEED * 1000));
     h.step(20);
     expect(h.events.since(0, ["activity.started"]).events).toEqual([
       expect.objectContaining({ data: expect.objectContaining({ durationMs: 3000 }) }),
@@ -476,7 +476,7 @@ describe("API route cost selection", () => {
     const preview = value(h.api.planPath(target));
     expect(preview.legs.map((leg) => leg.kind)).toEqual(["walk", "shortcut", "walk"]);
     expect(preview.points.at(-1)).toEqual(GOAL);
-    expect(preview.etaMs).toBeCloseTo(3000, 6);
+    expect(preview.etaMs).toBe(Math.round(1000 + 8.4 / PLAYER_SPEED * 1000));
     expect(value(h.api.moveTo(target)).etaMs).toBeCloseTo(preview.etaMs, 6);
     expect(h.pathQueries.some((query) => query.to[0] === 50)).toBe(false);
     h.step(60);
@@ -490,8 +490,8 @@ describe("API route cost selection", () => {
     h.controls.authoredCost = 100;
     const preview = value(h.api.planPath({ position: GOAL }));
     expect(preview.legs.map((leg) => leg.kind)).toEqual(["walk", "portal", "walk"]);
-    expect(preview.etaMs).toBeCloseTo(4000, 6);
-    expect(value(h.api.moveTo({ position: GOAL })).etaMs).toBeCloseTo(4000, 6);
+    expect(preview.etaMs).toBe(Math.round(2000 + 8.4 / PLAYER_SPEED * 1000));
+    expect(value(h.api.moveTo({ position: GOAL })).etaMs).toBe(Math.round(2000 + 8.4 / PLAYER_SPEED * 1000));
     h.step(70);
     expect(h.store.get().player.regionId).toBe("gravelmaw");
     expect(distanceXZ(h.store.get().player.position, GOAL)).toBeLessThanOrEqual(0.35);
@@ -501,8 +501,8 @@ describe("API route cost selection", () => {
     const h = runtime();
     h.controls.pathOverride = (from, to) => distanceXZ(from, START) < 0.001 && distanceXZ(to, GOAL) < 0.001
       ? null : undefined;
-    expect(value(h.api.planPath({ position: GOAL })).etaMs).toBeCloseTo(3000, 6);
-    expect(value(h.api.moveTo({ position: GOAL })).etaMs).toBeCloseTo(3000, 6);
+    expect(value(h.api.planPath({ position: GOAL })).etaMs).toBe(Math.round(1000 + 8.4 / PLAYER_SPEED * 1000));
+    expect(value(h.api.moveTo({ position: GOAL })).etaMs).toBe(Math.round(1000 + 8.4 / PLAYER_SPEED * 1000));
     h.events.flush();
     expect(h.events.since(0, ["navigation.started"]).events).toHaveLength(1);
     expect(h.events.since(0, ["navigation.failed"]).events).toEqual([]);

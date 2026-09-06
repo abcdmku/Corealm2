@@ -1,0 +1,411 @@
+{
+  "packs": [
+    {
+      "id": "corealm-rpg-quaternius-easy-enemies",
+      "name": "Corealm RPG derivatives — Easy Animated Enemy Pack",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/animated-easy-enemies",
+      "license": "CC0-1.0",
+      "sourceArchive": "Easy_Animated_Enemy_Pack_-_Jan_2019.zip",
+      "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+      "upstreamPackId": "quaternius-easy-enemies",
+      "derivation": "Corealm geometry, proportion, equipment and animation edits. Source rights retained; per-asset sourceProvenance lists all combined sources and modifications."
+    }
+  ],
+  "sharedTextures": [],
+  "files": {
+    "creature_webweaver_spider": "models/creature/creature_webweaver_spider.glb",
+    "creature_marsh_wasp": "models/creature/creature_marsh_wasp.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_webweaver_spider",
+      "file": "models/creature/creature_webweaver_spider.glb",
+      "candidateFile": "models/creature/creature_webweaver_spider.glb",
+      "pack": "corealm-rpg-quaternius-easy-enemies",
+      "category": "character",
+      "is": "webweaver spider",
+      "tags": [
+        "creature",
+        "rpg",
+        "webweaver_spider"
+      ],
+      "bytes": 697696,
+      "sha256": "8e26f4d37d09f683514b1e6fb9c7f3a1043d31bc69a108c809daa407b3da605f",
+      "size": {
+        "x": 1.5999999999999999,
+        "y": 0.5201364126930991,
+        "z": 1.353785222933685
+      },
+      "base": {
+        "x": -0.8000000298804403,
+        "y": 0.00300000005077694,
+        "z": -0.6255346581781183
+      },
+      "groundY": 0.00300000005077694,
+      "triangles": 2712,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_webweaver_spider_Material",
+        "animal_rpg_webweaver_spider_Material.001"
+      ],
+      "walkClipSeconds": 0.8333333134651184,
+      "runClipSeconds": 0.5050504930091627,
+      "attackSeconds": 0.75,
+      "contactNormalized": 0.5555555555555556,
+      "sourceProvenance": {
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "source": "https://quaternius.itch.io/animated-easy-enemies",
+        "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+        "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Spider.fbx",
+        "sourceSha256": "4337f167f59ad5cf590e38c76176210f96a2c7eab62f743110f783694ee0d2c0",
+        "modifications": "Complete source geometry and UVs retained; uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
+        "materialTranslation": {
+          "from": "MeshPhongMaterial",
+          "to": "MeshStandardMaterial",
+          "preserved": [
+            "color",
+            "opacity",
+            "transparent",
+            "side",
+            "alphaTest",
+            "depthWrite",
+            "vertexColors",
+            "map"
+          ],
+          "roughness": 0.85,
+          "metalness": 0,
+          "transmission": false
+        },
+        "floorLift": {
+          "track": "insect_floor.position",
+          "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
+          "clearanceMeters": 0.003,
+          "changesSourceGeometry": false
+        }
+      },
+      "metadata": {
+        "family": "spider",
+        "height": 0.5201364125984661,
+        "dimensions": [
+          1.5999999999999999,
+          0.5201364125984661,
+          1.353785222933685
+        ],
+        "rig": "whole-source-59-joint",
+        "attackContact": 0.5555555555555556,
+        "attackContactSource": "Measured maximum forward world-z of original Head_end bone over 181 original Attack samples",
+        "source": "Quaternius Easy Enemy Pack complete body and original skeletal animation",
+        "license": "CC0-1.0",
+        "provenance": {
+          "author": "Quaternius",
+          "license": "CC0-1.0",
+          "source": "https://quaternius.itch.io/animated-easy-enemies",
+          "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+          "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Spider.fbx",
+          "sourceSha256": "4337f167f59ad5cf590e38c76176210f96a2c7eab62f743110f783694ee0d2c0",
+          "modifications": "Complete source geometry and UVs retained; uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
+          "materialTranslation": {
+            "from": "MeshPhongMaterial",
+            "to": "MeshStandardMaterial",
+            "preserved": [
+              "color",
+              "opacity",
+              "transparent",
+              "side",
+              "alphaTest",
+              "depthWrite",
+              "vertexColors",
+              "map"
+            ],
+            "roughness": 0.85,
+            "metalness": 0,
+            "transmission": false
+          },
+          "floorLift": {
+            "track": "insect_floor.position",
+            "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
+            "clearanceMeters": 0.003,
+            "changesSourceGeometry": false
+          }
+        },
+        "floorCorrection": {
+          "Idle": {
+            "samples": 334,
+            "maximumLift": 0.0033412944061593608
+          },
+          "Walk": {
+            "samples": 67,
+            "maximumLift": 0.013305300413305084
+          },
+          "Run": {
+            "samples": 52,
+            "maximumLift": 0.013305300413305084
+          },
+          "Attack": {
+            "samples": 61,
+            "maximumLift": 0.005547775832663601
+          },
+          "Hit": {
+            "samples": 130,
+            "maximumLift": 0.06983342903180083
+          },
+          "HitLeft": {
+            "samples": 130,
+            "maximumLift": 0.15439570282454376
+          },
+          "HitRight": {
+            "samples": 130,
+            "maximumLift": 0.15370656574307037
+          },
+          "Death": {
+            "samples": 81,
+            "maximumLift": 0.013195637573786438
+          }
+        },
+        "nativeMotion": {
+          "sourceClips": [
+            {
+              "name": "HumanArmature|Spider_Walk",
+              "duration": 0.8333333134651184
+            },
+            {
+              "name": "HumanArmature|Spider_Idle",
+              "duration": 4.166666507720947
+            },
+            {
+              "name": "HumanArmature|Spider_Attack",
+              "duration": 0.75
+            },
+            {
+              "name": "HumanArmature|Spider_Death",
+              "duration": 1.0416666269302368
+            },
+            {
+              "name": "HumanArmature|Spider_Jump",
+              "duration": 0.7083333134651184
+            }
+          ],
+          "locomotion": "HumanArmature|Spider_Walk",
+          "runTimeScale": 1.65,
+          "mode": "ground",
+          "uniformSourceScale": 0.002695061092636911,
+          "vertexCount": 8136
+        },
+        "animationAcceptance": "CPU candidate; production visual and contact review required",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_marsh_wasp",
+      "file": "models/creature/creature_marsh_wasp.glb",
+      "candidateFile": "models/creature/creature_marsh_wasp.glb",
+      "pack": "corealm-rpg-quaternius-easy-enemies",
+      "category": "character",
+      "is": "marsh wasp",
+      "tags": [
+        "creature",
+        "rpg",
+        "marsh_wasp"
+      ],
+      "bytes": 764240,
+      "sha256": "65adc5cbabc5e9e4b855926732803c870e22488ee240fdb83192a19790bc7e15",
+      "size": {
+        "x": 1.2000000000000006,
+        "y": 1.883244166961095,
+        "z": 2.4668584475458712
+      },
+      "base": {
+        "x": -0.5765025075461702,
+        "y": 0.37899075158209433,
+        "z": -0.7343782901059993
+      },
+      "groundY": 0,
+      "triangles": 3736,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_marsh_wasp_Black",
+        "animal_rpg_marsh_wasp_Orange",
+        "animal_rpg_marsh_wasp_Yellow",
+        "animal_rpg_marsh_wasp_LightBlue"
+      ],
+      "walkClipSeconds": 1.5,
+      "runClipSeconds": 0.9090909090909092,
+      "attackSeconds": 0.75,
+      "contactNormalized": 0.4444444444444444,
+      "sourceProvenance": {
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "source": "https://quaternius.itch.io/animated-easy-enemies",
+        "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+        "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Wasp.fbx",
+        "sourceSha256": "ba312b82400745237d5cb638cc265214f87a7b2cf05eb03190ced7118d95847a",
+        "modifications": "Complete source geometry and UVs retained; uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
+        "materialTranslation": {
+          "from": "MeshPhongMaterial",
+          "to": "MeshStandardMaterial",
+          "preserved": [
+            "color",
+            "opacity",
+            "transparent",
+            "side",
+            "alphaTest",
+            "depthWrite",
+            "vertexColors",
+            "map"
+          ],
+          "roughness": 0.85,
+          "metalness": 0,
+          "transmission": false
+        },
+        "floorLift": {
+          "track": "insect_floor.position",
+          "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
+          "clearanceMeters": 0.003,
+          "changesSourceGeometry": false
+        }
+      },
+      "metadata": {
+        "family": "wasp",
+        "height": 1.883244166961095,
+        "dimensions": [
+          1.2000000000000006,
+          1.883244166961095,
+          2.4668584475458712
+        ],
+        "rig": "whole-source-39-joint",
+        "attackContact": 0.4444444444444444,
+        "attackContactSource": "Measured maximum forward world-z of original Sting_end bone over 181 original Attack samples",
+        "source": "Quaternius Easy Enemy Pack complete body and original skeletal animation",
+        "license": "CC0-1.0",
+        "provenance": {
+          "author": "Quaternius",
+          "license": "CC0-1.0",
+          "source": "https://quaternius.itch.io/animated-easy-enemies",
+          "archiveSha256": "a97f38b981fec2f42b263fe92828a7bf73f9da1228d5aac906fe354cd2b21004",
+          "sourceMember": "Easy Animated Enemy Pack - Jan 2019/FBX/Wasp.fbx",
+          "sourceSha256": "ba312b82400745237d5cb638cc265214f87a7b2cf05eb03190ced7118d95847a",
+          "modifications": "Complete source geometry and UVs retained; uniform scale and forward-axis rotation applied. FBXLoader converts source weights to normalized strongest four influences. Native locomotion preserved; Run is source locomotion at 1.65x; three hit clips add authored whole-body recoil to source idle/flying. No humanoid or animal-head grafting.",
+          "materialTranslation": {
+            "from": "MeshPhongMaterial",
+            "to": "MeshStandardMaterial",
+            "preserved": [
+              "color",
+              "opacity",
+              "transparent",
+              "side",
+              "alphaTest",
+              "depthWrite",
+              "vertexColors",
+              "map"
+            ],
+            "roughness": 0.85,
+            "metalness": 0,
+            "transmission": false
+          },
+          "floorLift": {
+            "track": "insect_floor.position",
+            "method": "Per-clip wrapper translation from complete deformed geometry floor; source key times plus 60 Hz samples",
+            "clearanceMeters": 0.003,
+            "changesSourceGeometry": false
+          }
+        },
+        "floorCorrection": {
+          "Idle": {
+            "samples": 121,
+            "maximumLift": 0
+          },
+          "Walk": {
+            "samples": 121,
+            "maximumLift": 0
+          },
+          "Run": {
+            "samples": 91,
+            "maximumLift": 0
+          },
+          "Attack": {
+            "samples": 61,
+            "maximumLift": 0
+          },
+          "Hit": {
+            "samples": 65,
+            "maximumLift": 0
+          },
+          "HitLeft": {
+            "samples": 65,
+            "maximumLift": 0
+          },
+          "HitRight": {
+            "samples": 65,
+            "maximumLift": 0
+          },
+          "Death": {
+            "samples": 61,
+            "maximumLift": 0.25654592500878004
+          }
+        },
+        "nativeMotion": {
+          "sourceClips": [
+            {
+              "name": "Armature|Wasp_Flying",
+              "duration": 1.5
+            },
+            {
+              "name": "Armature|Wasp_Death",
+              "duration": 0.75
+            },
+            {
+              "name": "Armature|Wasp_Attack",
+              "duration": 0.75
+            }
+          ],
+          "locomotion": "Armature|Wasp_Flying",
+          "runTimeScale": 1.65,
+          "mode": "airborne",
+          "uniformSourceScale": 0.006654804971004955,
+          "vertexCount": 11208
+        },
+        "animationAcceptance": "CPU candidate; production visual and contact review required",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "grounding": "Preserve the original complete wasp flight altitude."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

@@ -11,13 +11,18 @@ uniform float uCorealmFoliageRevealEnabled;
 uniform vec4 uCorealmFoliageRevealFoot;
 uniform vec4 uCorealmFoliageRevealHead;
 uniform vec3 uCorealmFoliageRevealCamera;
+uniform float uCorealmFoliageRevealBoundsEnabled;
+uniform vec4 uCorealmFoliageRevealBounds;
 `;
 
 const FRAGMENT_BODY = `
 // A small opening around the player only removes foliage in front of the body.
 // Pixel coordinates keep this independent of InstancedMesh/BatchedMesh transforms and wind.
 if ( uCorealmFoliageRevealEnabled > 0.5
-  && distance( cameraPosition, uCorealmFoliageRevealCamera ) < 0.01 ) {
+  && distance( cameraPosition, uCorealmFoliageRevealCamera ) < 0.01
+  && ( uCorealmFoliageRevealBoundsEnabled < 0.5
+    || ( all( greaterThanEqual( gl_FragCoord.xy, uCorealmFoliageRevealBounds.xy ) )
+      && all( lessThanEqual( gl_FragCoord.xy, uCorealmFoliageRevealBounds.zw ) ) ) ) ) {
   vec2 revealAxis = uCorealmFoliageRevealHead.xy - uCorealmFoliageRevealFoot.xy;
   float revealT = clamp( dot( gl_FragCoord.xy - uCorealmFoliageRevealFoot.xy, revealAxis )
     / max( dot( revealAxis, revealAxis ), 0.0001 ), 0.0, 1.0 );
@@ -35,6 +40,14 @@ if ( uCorealmFoliageRevealEnabled > 0.5
 }
 `;
 
+/** A superset of every interpolated reveal circle, including float32 upload rounding. */
+export function foliageRevealBounds(foot: THREE.Vector4, head: THREE.Vector4, output: THREE.Vector4): THREE.Vector4 {
+  const radius = Math.max(foot.w, head.w);
+  const padding = 1 + Math.max(Math.abs(foot.x), Math.abs(foot.y), Math.abs(head.x), Math.abs(head.y), radius) * 1e-6;
+  return output.set(Math.min(foot.x, head.x) - radius - padding, Math.min(foot.y, head.y) - radius - padding,
+    Math.max(foot.x, head.x) + radius + padding, Math.max(foot.y, head.y) + radius + padding);
+}
+
 /** One uniform set per material library. Updating it never walks meshes or changes material keys. */
 export class FoliageOcclusion {
   readonly uniforms = {
@@ -43,6 +56,8 @@ export class FoliageOcclusion {
     uCorealmFoliageRevealFoot: { value: new THREE.Vector4() },
     uCorealmFoliageRevealHead: { value: new THREE.Vector4() },
     uCorealmFoliageRevealCamera: { value: new THREE.Vector3() },
+    uCorealmFoliageRevealBoundsEnabled: { value: 0 },
+    uCorealmFoliageRevealBounds: { value: new THREE.Vector4() },
   };
 
   private readonly point = new THREE.Vector3();
@@ -65,6 +80,8 @@ export class FoliageOcclusion {
         this.uniforms.uCorealmFoliageRevealFoot.value)
         && this.project(camera, feet, HEAD_HEIGHT, drawingBufferSize,
           this.uniforms.uCorealmFoliageRevealHead.value);
+      if (this.valid) foliageRevealBounds(this.uniforms.uCorealmFoliageRevealFoot.value,
+        this.uniforms.uCorealmFoliageRevealHead.value, this.uniforms.uCorealmFoliageRevealBounds.value);
     }
     this.setEnabled(enabled);
   }
@@ -78,12 +95,19 @@ export class FoliageOcclusion {
     return this.uniforms.uCorealmFoliageRevealEnabled.value > 0;
   }
 
+  /** Default-off diagnostic candidate; the existing capsule and dither remain unchanged. */
+  setBoundsOptimization(enabled: boolean): void {
+    this.uniforms.uCorealmFoliageRevealBoundsEnabled.value = enabled ? 1 : 0;
+  }
+
   /** Read-only presentation evidence. This does not claim a tree actually overlaps these pixels. */
-  snapshot(): { enabled: boolean; foot: number[]; head: number[] } {
+  snapshot(): { enabled: boolean; foot: number[]; head: number[]; boundsOptimization: boolean; bounds: number[] } {
     return {
       enabled: this.enabled,
       foot: this.uniforms.uCorealmFoliageRevealFoot.value.toArray(),
       head: this.uniforms.uCorealmFoliageRevealHead.value.toArray(),
+      boundsOptimization: this.uniforms.uCorealmFoliageRevealBoundsEnabled.value > 0.5,
+      bounds: this.uniforms.uCorealmFoliageRevealBounds.value.toArray(),
     };
   }
 
@@ -138,6 +162,6 @@ export function createFoliageOcclusionMaterial(
       `${FRAGMENT_ANCHOR}\n${FRAGMENT_BODY}`,
     );
   };
-  derived.customProgramCacheKey = () => `${inheritedProgramKey()}|corealm-foliage-reveal-v1`;
+  derived.customProgramCacheKey = () => `${inheritedProgramKey()}|corealm-foliage-reveal-v2`;
   return derived;
 }

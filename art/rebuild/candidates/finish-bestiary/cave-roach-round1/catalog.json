@@ -1,0 +1,400 @@
+{
+  "packs": [
+    {
+      "id": "corealm-rpg-danimal-roach",
+      "name": "Roach — game ready and animated",
+      "author": "Atmostatic; rig, animation and textures by Danimal",
+      "source": "https://opengameart.org/content/roach-game-ready-and-animated",
+      "license": "CC-BY-SA-3.0",
+      "sourceArchive": "Roach.zip",
+      "archiveSha256": "038d01360b353a4d4ebaf1e67293f8554e67ebdb06f34627cbc9538489487594",
+      "attribution": "Credit Danimal https://opengameart.org/users/danimal and Atmostatic https://opengameart.org/users/atmostatic, CC-BY-SA 3.0, OGA https://opengameart.org. Adapted creature asset remains CC-BY-SA 3.0.",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+      "upstreamPackId": "danimal-roach",
+      "derivation": "Complete original source body and rig retained; sourceProvenance records conversion and clip adaptations."
+    }
+  ],
+  "sharedTextures": [
+    {
+      "file": "textures/imported/1c88805c04c22be29458402aae9272df52e32bd9a98cc4691e6e5c190b17ca9b.png",
+      "bytes": 1500607,
+      "sha256": "1c88805c04c22be29458402aae9272df52e32bd9a98cc4691e6e5c190b17ca9b",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/ce095d533fb7bacc640ceb52d97c88884b142efeca18bf1227edb91116dda7ff.png",
+      "bytes": 847655,
+      "sha256": "ce095d533fb7bacc640ceb52d97c88884b142efeca18bf1227edb91116dda7ff",
+      "mimeType": "image/png"
+    }
+  ],
+  "files": {
+    "creature_cave_roach": "models/creature/creature_cave_roach.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_cave_roach",
+      "file": "models/creature/creature_cave_roach.glb",
+      "candidateFile": "models/creature/creature_cave_roach.glb",
+      "pack": "corealm-rpg-danimal-roach",
+      "category": "character",
+      "is": "cave roach",
+      "tags": [
+        "creature",
+        "rpg",
+        "cave_roach"
+      ],
+      "bytes": 1667500,
+      "sha256": "dd1da7331eff7cb6cad91d0db24201c725cd4e29f70554f7932f9288ab9bd114",
+      "size": {
+        "x": 1.184503630193351,
+        "y": 1.1499999999999997,
+        "z": 1.6263280940551208
+      },
+      "base": {
+        "x": -0.5922519101307477,
+        "y": 0.00500000010916512,
+        "z": -0.9247917328463533
+      },
+      "groundY": 0.00500000010916512,
+      "triangles": 3004,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "AttackSecondary",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_cave_roach_roach_original_rock"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.5833333333333334,
+      "attackSeconds": 1.833333333333333,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "url": "https://opengameart.org/content/roach-game-ready-and-animated",
+        "author": "Atmostatic",
+        "animator": "Danimal",
+        "license": "CC-BY-SA-3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "attribution": "Roach, original model by Atmostatic https://opengameart.org/users/atmostatic; rig, animation and retexture by Danimal https://opengameart.org/users/danimal. CC BY-SA 3.0, OGA https://opengameart.org/content/roach-game-ready-and-animated. Converted asset and its documented adaptations retain CC BY-SA 3.0.",
+        "sourceFiles": [
+          {
+            "file": "test-results\\fantasy-collection-source\\roach-game-ready-and-animated\\Roach.blend",
+            "sha256": "abe2385da3a4b52e25bb1a417fc48535da178abe8f1fe0b5b869dd85d4f4c2d4"
+          },
+          {
+            "file": "tools/rpg-bestiary/roach-source/derived/Roach.png",
+            "channel": "baseColor",
+            "sha256": "9d3f8bdb9aef0e3d3e4f823cf757a4107f72bcd8e2e9af05d1c2083618841712",
+            "origin": "Exact original packed PNG bytes extracted from Roach.blend"
+          },
+          {
+            "file": "tools/rpg-bestiary/roach-source/derived/RoachNormal.png",
+            "channel": "normal",
+            "sha256": "f21b368ed06b69c67ac9c4f62c2c482dc708f97f6d3d60a86322ba99a62da3a7",
+            "origin": "Exact original packed PNG bytes extracted from Roach.blend"
+          },
+          {
+            "file": "tools/rpg-bestiary/roach-source/derived/Roach-Spec.png",
+            "channel": "specularIntensity",
+            "sha256": "5466e4613cbf6b58139fd12e5528f340f908b68aed0b0241c97cca2717cd6832",
+            "origin": "Exact original packed PNG bytes extracted from Roach.blend"
+          },
+          {
+            "file": "test-results\\fantasy-collection-source\\roach-game-ready-and-animated-Roach.zip",
+            "sha256": "038d01360b353a4d4ebaf1e67293f8554e67ebdb06f34627cbc9538489487594",
+            "downloadUrl": "https://opengameart.org/sites/default/files/Roach.zip"
+          }
+        ],
+        "modifications": "Original body and all54bones preserved without weight reduction. Native NLA timings sampled at48Hz; Blender Z-up to glTF Y-up, 1.15m normalization, floor correction. Missing Hit reactions derive from native Idle with an authored SpineHigh recoil. No grafts or body edits.",
+        "weightReduction": {
+          "sourceMaximum": 2,
+          "runtimeMaximum": 4,
+          "maxDiscardedFraction": 0,
+          "affectedControlVertices": 0,
+          "measuredError": {
+            "maxMeters": 5.784679582912413e-8,
+            "rmsMeters": 6.097555500535855e-9,
+            "samples": 2676564
+          }
+        },
+        "materialConversion": {
+          "sourceNormalStrength": 0.125,
+          "sourceSpecularIntensity": 0.02127659320831299,
+          "sourceHardness": 50,
+          "sourceSpecularPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\roach-source\\derived\\Roach-Spec.png",
+          "roughness": 0.65,
+          "roughnessMeaning": "Constant preview roughness, not derived from specular intensity; original specular map retained for future explicit channel support",
+          "normalMeaning": "Original tangent normal image with original normal strength0.125 baked into XY and renormalized; image rows adapted to glTF",
+          "evidence": "test-results/roach-source/legacy-material-slots.json"
+        }
+      },
+      "metadata": {
+        "family": "roach",
+        "height": 1.15,
+        "rig": "original-roach-54-bone",
+        "source": "Roach by Atmostatic; rig, animation and retexture by Danimal",
+        "license": "CC-BY-SA-3.0",
+        "floorCorrection": {
+          "Idle": {
+            "samples": 452,
+            "maximumLift": 0.005599857626532113
+          },
+          "Walk": {
+            "samples": 108,
+            "maximumLift": 0.010823691219694561
+          },
+          "Run": {
+            "samples": 64,
+            "maximumLift": 0.01183256062823251
+          },
+          "Attack": {
+            "samples": 200,
+            "maximumLift": 0.08911477443807879
+          },
+          "AttackSecondary": {
+            "samples": 132,
+            "maximumLift": 0.009685991384219408
+          },
+          "Hit": {
+            "samples": 47,
+            "maximumLift": 0.0050908929984169625
+          },
+          "HitLeft": {
+            "samples": 47,
+            "maximumLift": 0.0050908929984169625
+          },
+          "HitRight": {
+            "samples": 47,
+            "maximumLift": 0.0050908929984169625
+          },
+          "Death": {
+            "samples": 200,
+            "maximumLift": 0.20140300711383857
+          }
+        },
+        "sourceFacts": {
+          "controlVertices": 1695,
+          "triangles": 3004,
+          "bones": 54,
+          "armaturePreserveVolume": false,
+          "animationNames": [
+            "ArmatureAction",
+            "ArmatureAction.001",
+            "ArmatureAction.002",
+            "ArmatureAction.003",
+            "ArmatureAction.004",
+            "ArmatureAction.005",
+            "ArmatureAction.006",
+            "ArmatureAction.009",
+            "PoseLib",
+            "Walk"
+          ],
+          "nativeReconstructionCheck": {
+            "source": "Blender evaluated original Armature modifier vs reconstructed full native weights",
+            "maxMeters": 9.35738436411421e-7,
+            "rmsMeters": 2.0375309306795783e-7,
+            "samples": 162216
+          }
+        },
+        "provenance": {
+          "url": "https://opengameart.org/content/roach-game-ready-and-animated",
+          "author": "Atmostatic",
+          "animator": "Danimal",
+          "license": "CC-BY-SA-3.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+          "attribution": "Roach, original model by Atmostatic https://opengameart.org/users/atmostatic; rig, animation and retexture by Danimal https://opengameart.org/users/danimal. CC BY-SA 3.0, OGA https://opengameart.org/content/roach-game-ready-and-animated. Converted asset and its documented adaptations retain CC BY-SA 3.0.",
+          "sourceFiles": [
+            {
+              "file": "test-results\\fantasy-collection-source\\roach-game-ready-and-animated\\Roach.blend",
+              "sha256": "abe2385da3a4b52e25bb1a417fc48535da178abe8f1fe0b5b869dd85d4f4c2d4"
+            },
+            {
+              "file": "tools/rpg-bestiary/roach-source/derived/Roach.png",
+              "channel": "baseColor",
+              "sha256": "9d3f8bdb9aef0e3d3e4f823cf757a4107f72bcd8e2e9af05d1c2083618841712",
+              "origin": "Exact original packed PNG bytes extracted from Roach.blend"
+            },
+            {
+              "file": "tools/rpg-bestiary/roach-source/derived/RoachNormal.png",
+              "channel": "normal",
+              "sha256": "f21b368ed06b69c67ac9c4f62c2c482dc708f97f6d3d60a86322ba99a62da3a7",
+              "origin": "Exact original packed PNG bytes extracted from Roach.blend"
+            },
+            {
+              "file": "tools/rpg-bestiary/roach-source/derived/Roach-Spec.png",
+              "channel": "specularIntensity",
+              "sha256": "5466e4613cbf6b58139fd12e5528f340f908b68aed0b0241c97cca2717cd6832",
+              "origin": "Exact original packed PNG bytes extracted from Roach.blend"
+            },
+            {
+              "file": "test-results\\fantasy-collection-source\\roach-game-ready-and-animated-Roach.zip",
+              "sha256": "038d01360b353a4d4ebaf1e67293f8554e67ebdb06f34627cbc9538489487594",
+              "downloadUrl": "https://opengameart.org/sites/default/files/Roach.zip"
+            }
+          ],
+          "modifications": "Original body and all54bones preserved without weight reduction. Native NLA timings sampled at48Hz; Blender Z-up to glTF Y-up, 1.15m normalization, floor correction. Missing Hit reactions derive from native Idle with an authored SpineHigh recoil. No grafts or body edits.",
+          "weightReduction": {
+            "sourceMaximum": 2,
+            "runtimeMaximum": 4,
+            "maxDiscardedFraction": 0,
+            "affectedControlVertices": 0,
+            "measuredError": {
+              "maxMeters": 5.784679582912413e-8,
+              "rmsMeters": 6.097555500535855e-9,
+              "samples": 2676564
+            }
+          },
+          "materialConversion": {
+            "sourceNormalStrength": 0.125,
+            "sourceSpecularIntensity": 0.02127659320831299,
+            "sourceHardness": 50,
+            "sourceSpecularPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\roach-source\\derived\\Roach-Spec.png",
+            "roughness": 0.65,
+            "roughnessMeaning": "Constant preview roughness, not derived from specular intensity; original specular map retained for future explicit channel support",
+            "normalMeaning": "Original tangent normal image with original normal strength0.125 baked into XY and renormalized; image rows adapted to glTF",
+            "evidence": "test-results/roach-source/legacy-material-slots.json"
+          }
+        },
+        "textureBindings": [
+          {
+            "materialName": "roach_original_rock",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\roach-source\\derived\\source-color-gltf.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\roach-source\\derived\\source-normal-gltf.png",
+            "flipY": false
+          }
+        ],
+        "clipProvenance": [
+          {
+            "name": "Idle",
+            "source": "Idle",
+            "action": "ArmatureAction.002",
+            "firstFrame": 0,
+            "lastFrame": 100,
+            "timelineStart": 119,
+            "timelineEnd": 219,
+            "fps": 24,
+            "sampleFps": 48,
+            "derivation": "Native source NLA strip"
+          },
+          {
+            "name": "Walk",
+            "source": "Walk",
+            "action": "Walk",
+            "firstFrame": 10,
+            "lastFrame": 50,
+            "timelineStart": 0,
+            "timelineEnd": 24,
+            "fps": 24,
+            "sampleFps": 48,
+            "derivation": "Native source NLA strip"
+          },
+          {
+            "name": "Run",
+            "source": "Flee",
+            "action": "Walk",
+            "firstFrame": 10,
+            "lastFrame": 50,
+            "timelineStart": 26,
+            "timelineEnd": 40,
+            "fps": 24,
+            "sampleFps": 48,
+            "derivation": "Original source Flee NLA timing, using source Walk action at its authored faster playback"
+          },
+          {
+            "name": "Attack",
+            "source": "Attack1",
+            "action": "ArmatureAction",
+            "firstFrame": 0,
+            "lastFrame": 44,
+            "timelineStart": 42,
+            "timelineEnd": 86,
+            "fps": 24,
+            "sampleFps": 48,
+            "derivation": "Native source NLA strip"
+          },
+          {
+            "name": "AttackSecondary",
+            "source": "Attack2",
+            "action": "ArmatureAction.001",
+            "firstFrame": 0,
+            "lastFrame": 29,
+            "timelineStart": 88,
+            "timelineEnd": 117,
+            "fps": 24,
+            "sampleFps": 48,
+            "derivation": "Native source NLA strip"
+          },
+          {
+            "name": "Hit",
+            "source": "Idle",
+            "action": "ArmatureAction.002",
+            "firstFrame": 0,
+            "lastFrame": 100,
+            "timelineStart": 119,
+            "timelineEnd": 219,
+            "fps": 24,
+            "sampleFps": 48,
+            "derivation": "Native Idle first0.4167s plus authored SpineHigh pitch recoil; directional yaw for HitLeft/HitRight. No native Hit exists"
+          },
+          {
+            "name": "HitLeft",
+            "source": "Idle",
+            "action": "ArmatureAction.002",
+            "firstFrame": 0,
+            "lastFrame": 100,
+            "timelineStart": 119,
+            "timelineEnd": 219,
+            "fps": 24,
+            "sampleFps": 48,
+            "derivation": "Native Idle first0.4167s plus authored SpineHigh pitch recoil; directional yaw for HitLeft/HitRight. No native Hit exists"
+          },
+          {
+            "name": "HitRight",
+            "source": "Idle",
+            "action": "ArmatureAction.002",
+            "firstFrame": 0,
+            "lastFrame": 100,
+            "timelineStart": 119,
+            "timelineEnd": 219,
+            "fps": 24,
+            "sampleFps": 48,
+            "derivation": "Native Idle first0.4167s plus authored SpineHigh pitch recoil; directional yaw for HitLeft/HitRight. No native Hit exists"
+          },
+          {
+            "name": "Death",
+            "source": "Die",
+            "action": "ArmatureAction.009",
+            "firstFrame": 0,
+            "lastFrame": 44,
+            "timelineStart": 475,
+            "timelineEnd": 519,
+            "fps": 24,
+            "sampleFps": 48,
+            "derivation": "Native source NLA strip"
+          }
+        ],
+        "sourceAnimationCount": 10,
+        "attackContact": 0.5,
+        "animationAcceptance": "candidate-needs-production-browser-review",
+        "revision": "roach-source-1",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

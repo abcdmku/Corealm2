@@ -773,6 +773,9 @@ html, body {
 .panel__subtitle:empty { display: none; }
 .panel__subtitle { max-width: 100%; }
 .panel__body { display: flex; flex-direction: column; gap: var(--space-2); }
+.equip-sets { font-size: var(--size-sm); }
+.equip-sets ul { list-style: none; margin: 4px 0 8px; padding: 0; }
+.equip-sets li { margin: 3px 0; }
 
 /*
  * The two panel slots. `group: "side"` panels share the tab slot above the dock — one at a time,

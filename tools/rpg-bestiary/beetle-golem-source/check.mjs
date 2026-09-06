@@ -1,0 +1,8 @@
+import{buildBeetleGolem}from'./beetle.mjs';import * as THREE from 'three';import fs from'node:fs';import sharp from'sharp';
+const g=buildBeetleGolem(),mix=new THREE.AnimationMixer(g.object),mesh=g.object.getObjectByName('beetle_golem_original_body'),p=mesh.geometry.attributes.position,report={};let maxError=0,sumError2=0,num=0;
+for(const clip of g.clips){const a=mix.clipAction(clip);a.setLoop(THREE.LoopOnce,1);a.clampWhenFinished=true;a.play();let min=Infinity,max=-Infinity;
+ for(let frame=0;frame<=32;frame++){mix.setTime(clip.duration*frame/32);g.object.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(g.object,true);min=Math.min(min,box.min.y);max=Math.max(max,box.min.y);const mats=mesh.skeleton.bones.map((b,i)=>new THREE.Matrix4().multiplyMatrices(b.matrixWorld,mesh.skeleton.boneInverses[i]));
+  for(let i=0;i<p.count;i++){const base=new THREE.Vector3().fromBufferAttribute(p,i).applyMatrix4(mesh.bindMatrix),full=new THREE.Vector3();for(const [bone,w]of mesh._sourceFullWeights[i])full.addScaledVector(base.clone().applyMatrix4(mats[bone]),w);full.applyMatrix4(mesh.bindMatrixInverse).applyMatrix4(mesh.matrixWorld);const actual=mesh.getVertexPosition(i,new THREE.Vector3()).applyMatrix4(mesh.matrixWorld);const err=full.distanceTo(actual);maxError=Math.max(maxError,err);sumError2+=err*err;num++;}
+ }if(min<-.002||!Number.isFinite(min))throw new Error(`${clip.name} floor ${min}`);report[clip.name]={minFloor:min,maxFloor:max};a.stop();}
+report.weightError={maxMeters:maxError,rmsMeters:Math.sqrt(sumError2/num),samples:num};
+fs.writeFileSync('test-results/beetle-golem-source/cpu-check.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));

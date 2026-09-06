@@ -1,0 +1,19 @@
+{
+  "sourceSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+  "previewSha256": "9ecbb6b0cac174d65c4b6c43d5e51e1ab5ae4615e4a9da4cccb5f48217557404",
+  "uniformScale": 0.01,
+  "rotationY": 0,
+  "accessorAndTexturePayloadSha256": "e1f40a8f786472c535bdd75f7529a7e95a63aed9bf927d20772fc441ac9b6ff8",
+  "payloadUnchanged": true,
+  "clipNamesUnchanged": [
+    "Survey",
+    "Walk",
+    "Run"
+  ],
+  "productionLoaderReferences": [
+    "game/src/render/assets.ts:598 loads scene unchanged",
+    "game/src/featureLab/catalog.ts:276 viewScale comes from content, not asset height",
+    "game/src/render/entityViews.ts:2248 applies view scale and tier silhouette only"
+  ],
+  "note": "Manifest size records bounds and collision dimensions; it cannot rescale GLB geometry. The scale-only preview wrapper is necessary for a metre-sized animal in the existing gallery."
+}

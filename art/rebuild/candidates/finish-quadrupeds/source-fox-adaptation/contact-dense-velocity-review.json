@@ -1,0 +1,84 @@
+{
+  "sourceSha256": "db4d0128bf21513491cc05d22069bfefaeeaed2a6325ce5515002b31054432e4",
+  "basis": "Physical sole centroid differences at every quarter key; adjacent samples both physical sole minima <= floor+0.5mm, without stance-label filtering",
+  "evidence": [
+    {
+      "clip": "Walk",
+      "duration": 0.7083333134651184,
+      "samples": 681,
+      "feet": {
+        "foreRight": {
+          "maxContactVertexResidualMps": 0.0022332352699566582,
+          "contactVertexIntervals": 892,
+          "maxActualXZVelocityMps": 0.5828781173988568,
+          "minRearwardVelocityMps": 0.577979653920575,
+          "maxRearwardVelocityMps": 0.5828781114592029,
+          "maxWorldResidualVelocityMps": 0.0028793141127829193
+        },
+        "foreLeft": {
+          "maxContactVertexResidualMps": 0.004160283920141057,
+          "contactVertexIntervals": 891,
+          "maxActualXZVelocityMps": 0.5830637161284165,
+          "minRearwardVelocityMps": 0.5751419871964675,
+          "maxRearwardVelocityMps": 0.5830636540607033,
+          "maxWorldResidualVelocityMps": 0.004864029296884941
+        },
+        "hindLeft": {
+          "maxContactVertexResidualMps": 0.004346065225925643,
+          "contactVertexIntervals": 4922,
+          "maxActualXZVelocityMps": 0.583600212700919,
+          "minRearwardVelocityMps": 0.5761780046999232,
+          "maxRearwardVelocityMps": 0.5835999197464792,
+          "maxWorldResidualVelocityMps": 0.0038731963503953
+        },
+        "hindRight": {
+          "maxContactVertexResidualMps": 0.004179691294371926,
+          "contactVertexIntervals": 4920,
+          "maxActualXZVelocityMps": 0.5842661885394923,
+          "minRearwardVelocityMps": 0.5772469834745233,
+          "maxRearwardVelocityMps": 0.584266173505041,
+          "maxWorldResidualVelocityMps": 0.004268232024857197
+        }
+      }
+    },
+    {
+      "clip": "Run",
+      "duration": 0.4000000059604645,
+      "samples": 6145,
+      "feet": {
+        "foreRight": {
+          "maxContactVertexResidualMps": 0.0020690604400356873,
+          "contactVertexIntervals": 4327,
+          "maxActualXZVelocityMps": 1.802632002188287,
+          "minRearwardVelocityMps": 1.7989077780869491,
+          "maxRearwardVelocityMps": 1.8026320021712825,
+          "maxWorldResidualVelocityMps": 0.0027634052339250673
+        },
+        "foreLeft": {
+          "maxContactVertexResidualMps": 0.0021661206470139946,
+          "contactVertexIntervals": 4324,
+          "maxActualXZVelocityMps": 1.804706732295358,
+          "minRearwardVelocityMps": 1.7986400182572206,
+          "maxRearwardVelocityMps": 1.804706731646475,
+          "maxWorldResidualVelocityMps": 0.004706980441847498
+        },
+        "hindLeft": {
+          "maxContactVertexResidualMps": 0.010335349084602848,
+          "contactVertexIntervals": 24373,
+          "maxActualXZVelocityMps": 1.8137634810377665,
+          "minRearwardVelocityMps": 1.7941595095121454,
+          "maxRearwardVelocityMps": 1.8137624705418671,
+          "maxWorldResidualVelocityMps": 0.013895006135842883
+        },
+        "hindRight": {
+          "maxContactVertexResidualMps": 0.003673786360693272,
+          "contactVertexIntervals": 24438,
+          "maxActualXZVelocityMps": 1.8021929248664539,
+          "minRearwardVelocityMps": 1.7978735611526269,
+          "maxRearwardVelocityMps": 1.802192915632656,
+          "maxWorldResidualVelocityMps": 0.002205126499718165
+        }
+      }
+    }
+  ]
+}

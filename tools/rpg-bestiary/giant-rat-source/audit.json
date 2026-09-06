@@ -1,0 +1,63 @@
+{
+  "sha256": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047",
+  "joints": 133,
+  "upstreamCorrectives": 100,
+  "rows": [
+    {
+      "clip": "Idle",
+      "nativeName": "Idle.001",
+      "samples": 5,
+      "maxNormalizedErrorMeters": 2.2086238009675138e-8,
+      "minFloor": 0.004000000007966015
+    },
+    {
+      "clip": "Walk",
+      "nativeName": "Walk",
+      "samples": 5,
+      "maxNormalizedErrorMeters": 2.208625141426825e-8,
+      "minFloor": 0.00275344979767968
+    },
+    {
+      "clip": "Run",
+      "nativeName": "Run",
+      "samples": 5,
+      "maxNormalizedErrorMeters": 4.0241057784281634e-8,
+      "minFloor": -0.009511828695750325
+    },
+    {
+      "clip": "Attack",
+      "nativeName": "Attack.000",
+      "samples": 5,
+      "maxNormalizedErrorMeters": 2.4699516657580748e-8,
+      "minFloor": 0.0003313811625740796
+    },
+    {
+      "clip": "Hit",
+      "nativeName": "Hit",
+      "samples": 5,
+      "maxNormalizedErrorMeters": 2.7395871375406932e-8,
+      "minFloor": 0.003999939148658917
+    },
+    {
+      "clip": "HitLeft",
+      "nativeName": "Hit",
+      "samples": 5,
+      "maxNormalizedErrorMeters": 2.7395871375406932e-8,
+      "minFloor": 0.003999939148658917
+    },
+    {
+      "clip": "HitRight",
+      "nativeName": "Hit",
+      "samples": 5,
+      "maxNormalizedErrorMeters": 2.7395871375406932e-8,
+      "minFloor": 0.003999939148658917
+    },
+    {
+      "clip": "Death",
+      "nativeName": "Die",
+      "samples": 5,
+      "maxNormalizedErrorMeters": 2.7395871380355378e-8,
+      "minFloor": -0.01183447180711793
+    }
+  ]
+}

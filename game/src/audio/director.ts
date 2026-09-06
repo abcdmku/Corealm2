@@ -8,7 +8,7 @@ export interface CombatAudioObservation {
   attacker: "player" | "enemy";
   damage: number;
   hit: boolean;
-  kind: "melee" | "magic" | "special";
+  kind: "melee" | "ranged" | "magic" | "special";
   killed: boolean;
 }
 
@@ -265,27 +265,30 @@ export class AudioDirector {
     if (this.disposed) return;
     this.regionVisits.clear();
     this.region = null;
-    this.regionLoops = { music: null, ambient: null };
     this.setRegion(regionId);
     this.resetMovement();
   }
 
   observeGameEvent(event: GameEvent): void {
+    if (this.disposed) return;
     const cue = cueForGameEvent(event);
     if (cue) void this.engine.playCue(cue);
   }
 
   observeActivity(observation: ActivityAudioObservation): void {
+    if (this.disposed) return;
     const cue = cueForActivity(observation);
     if (cue) void this.engine.playCue(cue);
   }
 
   observeCombatHit(observation: CombatAudioObservation): void {
+    if (this.disposed) return;
     for (const cue of cuesForCombatHit(observation)) void this.engine.playCue(cue);
   }
 
   /** Emits by distance when positions are supplied, with a cadence fallback for speed-only callers. */
   observeMovement(observation: MovementAudioObservation): void {
+    if (this.disposed) return;
     if (!observation.moving || (observation.speedMps !== undefined && observation.speedMps <= 0.05)) {
       this.previousPosition = observation.position ?? null;
       this.distanceSinceStep = this.stepDistance;

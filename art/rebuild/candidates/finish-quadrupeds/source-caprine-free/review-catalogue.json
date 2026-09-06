@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "scope": "Static Sheep 2 body selection only. No horns, adaptation, rig or production acceptance claimed.",
+  "pack": {
+    "id": "p0ss-sheep2-static-review",
+    "name": "p0ss Sheep 2 complete static base review",
+    "author": "p0ss",
+    "source": "https://opengameart.org/content/sheep-rigged-textured-and-animated",
+    "license": "CC-BY-SA-3.0"
+  },
+  "assets": [
+    {
+      "id": "creature_cairn_bighorn",
+      "file": "models/creature/creature_cairn_bighorn.glb",
+      "pack": "p0ss-sheep2-static-review",
+      "category": "character",
+      "is": "Sheep 2 complete body base; possible Bighorn adaptation",
+      "tags": [
+        "animal",
+        "sheep",
+        "complete-source-body",
+        "static-source-review"
+      ],
+      "bytes": 1482428,
+      "sha256": "0eea803627badc84f642bbd3a5508b06604d9ba9bbd3f80e93f0ee85db79b9b1",
+      "size": {
+        "x": 0.40255071138948634,
+        "y": 0.9500000000000001,
+        "z": 1.236859701185623
+      },
+      "base": {
+        "x": -0.20127535569474317,
+        "y": 0,
+        "z": -0.6184298505928115
+      },
+      "bounds": {
+        "min": [
+          -0.20127535569474317,
+          0,
+          -0.6184298505928115
+        ],
+        "max": [
+          0.20127535569474317,
+          0.9500000000000001,
+          0.6184298505928115
+        ]
+      },
+      "groundY": 0,
+      "animations": [],
+      "triangles": 2940,
+      "static": true,
+      "accepted": false,
+      "sourceProvenance": {
+        "source": "https://opengameart.org/content/sheep-rigged-textured-and-animated",
+        "author": "p0ss",
+        "license": "CC-BY-SA-3.0",
+        "attribution": "Sheep by p0ss; source boar texture photograph by titus tscharntke.",
+        "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+        "rawStaticFile": "p0ss-sheep2-static.glb",
+        "rawStaticSha256": "65360a465086786d9eb212057782d6c252fae58ed31fa27063ff95ebf772f68b",
+        "uniformWrapperScale": 0.5198992296085831,
+        "geometryShapeModified": false,
+        "changes": [
+          "Rest-pose static bake of original Sheep 2",
+          "Original packed diffuse relinked",
+          "Rigid heading/ground alignment",
+          "Uniform root wrapper to 0.95 m height"
+        ]
+      }
+    }
+  ]
+}

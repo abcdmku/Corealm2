@@ -1,0 +1,57 @@
+[
+  {
+    "id": "giant_rat",
+    "glbSha256": "90b3ae2e20c900efe6213d6a3924278b3a7171f7087e1bfd578888d2c398c7bb",
+    "passed": true,
+    "weightedVertices": 4440,
+    "lowestY": 0.003948629660630308,
+    "maxBoundsDifference": 0,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.004000000007966015,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.00399341862198517,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.003948629660630308,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.003999999942830549,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.004000000000000246,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.004000000000000246,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.004000000000000246,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.003999999238649188,
+        "maxBoundsDifference": 0
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  }
+]

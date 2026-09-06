@@ -1,0 +1,17 @@
+{
+  "geometricEdgePrecisionMeters": 0.000001,
+  "distalEdges": 1714,
+  "distalOpenOrNonManifoldEdges": 0,
+  "bad": [],
+  "ears": {
+    "Moose_broad_ear_-1": {
+      "openEdges": 0,
+      "nonManifoldEdges": 0
+    },
+    "Moose_broad_ear_1": {
+      "openEdges": 0,
+      "nonManifoldEdges": 0
+    }
+  },
+  "note": "Material seams use coincident glTF vertices; positional edge topology tested after 1 micrometre welding. This checks distal mesh closure, not entire source-body manifoldness."
+}

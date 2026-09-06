@@ -200,17 +200,15 @@ interface ExitVariant {
  *
  * `gravelmaw_exit_portal` is another `wall_brick_door` hero, facing local +Z back toward the surface
  * mouth. The chamber floor is level at this point, so these rocks use only a shallow burial and
- * the torch pivots use the same measured `base.y = -0.278` correction as the surface mouth. Four
- * rocks, two brick piers, a floor-brick threshold and two torches are enough to make the exit read
+ * the torch pivots use the same measured `base.y = -0.278` correction as the surface mouth. Two
+ * grounded outcrops, two brick piers, a floor-brick threshold and two torches are enough to make the exit read
  * as a cut stone opening without narrowing the three-metre approach from the chamber centre.
  */
 const EXIT_VARIANTS: readonly ExitVariant[] = [
   {
     rocks: [
-      { tag: "exit_jaw_l", assetId: "rock_medium_1", dx: -3.1, dy: -0.46, dz: -0.12, rotationY: 0.25, scale: 0.68 },
-      { tag: "exit_jaw_r", assetId: "rock_medium_2", dx: 3.1, dy: -0.5, dz: -0.08, rotationY: -0.35, scale: 0.7 },
-      { tag: "exit_cap_l", assetId: "rock_medium_3", dx: -3.1, dy: 2.02, dz: -0.82, rotationY: 0.2, scale: 0.65 },
-      { tag: "exit_cap_r", assetId: "rock_medium_1", dx: 3.1, dy: 2.14, dz: -0.94, rotationY: -0.25, scale: 0.68 },
+      { tag: "exit_jaw_l", assetId: "corealm_rock_strata_1", dx: -3.5, dy: -0.12, dz: -0.2, rotationY: 0.12, scale: 0.42 },
+      { tag: "exit_jaw_r", assetId: "corealm_rock_strata_2", dx: 3.5, dy: -0.14, dz: -0.18, rotationY: -0.1, scale: 0.5 },
     ],
     torchScale: 1.62,
     torchY: 0.4,
@@ -221,10 +219,8 @@ const EXIT_VARIANTS: readonly ExitVariant[] = [
   },
   {
     rocks: [
-      { tag: "exit_jaw_l", assetId: "rock_medium_2", dx: -3.1, dy: -0.5, dz: -0.18, rotationY: -0.2, scale: 0.7 },
-      { tag: "exit_jaw_r", assetId: "rock_medium_3", dx: 3.1, dy: -0.48, dz: -0.02, rotationY: 0.4, scale: 0.62 },
-      { tag: "exit_cap_l", assetId: "rock_medium_1", dx: -3.1, dy: 2.12, dz: -0.72, rotationY: -0.35, scale: 0.68 },
-      { tag: "exit_cap_r", assetId: "rock_medium_2", dx: 3.1, dy: 1.98, dz: -1.02, rotationY: 0.25, scale: 0.66 },
+      { tag: "exit_jaw_l", assetId: "corealm_rock_strata_1", dx: -3.5, dy: -0.12, dz: -0.2, rotationY: 0.12, scale: 0.42 },
+      { tag: "exit_jaw_r", assetId: "corealm_rock_strata_2", dx: 3.5, dy: -0.14, dz: -0.18, rotationY: -0.1, scale: 0.5 },
     ],
     torchScale: 1.68,
     torchY: 0.42,
@@ -235,10 +231,8 @@ const EXIT_VARIANTS: readonly ExitVariant[] = [
   },
   {
     rocks: [
-      { tag: "exit_jaw_l", assetId: "rock_medium_3", dx: -3.1, dy: -0.44, dz: -0.08, rotationY: 0.45, scale: 0.6 },
-      { tag: "exit_jaw_r", assetId: "rock_medium_1", dx: 3.1, dy: -0.52, dz: -0.14, rotationY: -0.3, scale: 0.68 },
-      { tag: "exit_cap_l", assetId: "rock_medium_2", dx: -3.1, dy: 2.06, dz: -0.9, rotationY: 0.35, scale: 0.7 },
-      { tag: "exit_cap_r", assetId: "rock_medium_3", dx: 3.1, dy: 2.0, dz: -0.98, rotationY: -0.3, scale: 0.64 },
+      { tag: "exit_jaw_l", assetId: "corealm_rock_strata_1", dx: -3.5, dy: -0.12, dz: -0.2, rotationY: 0.12, scale: 0.42 },
+      { tag: "exit_jaw_r", assetId: "corealm_rock_strata_2", dx: 3.5, dy: -0.14, dz: -0.18, rotationY: -0.1, scale: 0.5 },
     ],
     torchScale: 1.64,
     torchY: 0.39,

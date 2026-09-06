@@ -1,0 +1,431 @@
+{
+  "createdAt": "2026-09-05T19:49:51.354Z",
+  "source": "tools/creature-expansion/reptiles/monitor.mjs",
+  "edits": 19,
+  "status": "source integrated; no GLB export or browser acceptance",
+  "review": {
+    "status": "CPU proposal; requires rebuilt skin, clip audit and hardware lab review",
+    "inspectedViews": [
+      "front",
+      "side",
+      "rear",
+      "gameplay",
+      "run"
+    ],
+    "evidenceDirectory": "test-results/finish-quadrupeds-catalogue/shard3",
+    "source": "tools/creature-expansion/reptiles/monitor.mjs",
+    "references": [
+      {
+        "url": "https://fieldofmar-e.schools.nsw.gov.au/fact-sheets/reptiles/lace-monitor-fact-sheet",
+        "basis": "Long neck, muscular tail, strong curved claws and contrasting cream markings on dark skin."
+      },
+      {
+        "url": "https://animals.sandiegozoo.org/animals/komodo-dragon",
+        "basis": "Monitor family reference for muscular tail and long powerful claws."
+      }
+    ],
+    "findings": [
+      "Front and rear show inflated proximal limbs tapering into nearly vertical narrow shins.",
+      "Side shows a sudden neck waist and an elbow bulge that reads as an upper arm.",
+      "Gameplay view exposes five evenly fanned digits and broad flat palms.",
+      "Run retains the same shoulder and thigh balloons; a sampled run image cannot prove contact."
+    ],
+    "acceptance": [
+      "Continuous shoulder transition without a projecting round cap in front, side and rear views.",
+      "Elbows extend outward with substantial tapering forearms; wrists and digits remain readable.",
+      "Asymmetric digit lengths and angles, arched knuckles and hooked claws replace flat star hands.",
+      "Regenerate all clips from the changed rest joints. Audit every weighted vertex and stance foot.",
+      "Inspect idle, walk, run, bite, hit and settled death in the hardware production lab before promotion."
+    ]
+  },
+  "before": {
+    "sourceSha256": "e8daafc80fd026efb78df381100e8b6de333e23d7992d0da70feb2ac4cc85487",
+    "geometry": {
+      "vertices": 20664,
+      "triangles": 34374,
+      "bones": 47
+    },
+    "meta": {
+      "id": "ashscale_monitor",
+      "is": "ashscale monitor",
+      "tags": [
+        "reptile",
+        "monitor",
+        "original",
+        "skinned",
+        "modeled-scales",
+        "five-toed",
+        "long-tail"
+      ],
+      "provenance": "Original Corealm authored continuous anatomical lofts, custom scale topology, weighted rig and analytical IK animation. No third-party meshes or textures.",
+      "attackSeconds": 1.1,
+      "contactNormalized": 0.48,
+      "impliedWalkMps": 0.4769475357710652,
+      "impliedRunMps": 1.6865079365079365,
+      "walkClipSeconds": 1.36,
+      "runClipSeconds": 0.72,
+      "gaitFootBones": [
+        "monitor_fore_left_foot",
+        "monitor_fore_right_foot",
+        "monitor_hind_left_foot",
+        "monitor_hind_right_foot"
+      ],
+      "notes": [
+        "+Z forward, Y up, metre units, contact pads at Y=0.",
+        "Continuous ribcage, muscular tapered tail, long raised neck and shallow wedge skull.",
+        "341 irregular modeled dorsal scutes, continuous fine scale colour/normal/roughness maps, flush throat folds, 20 unequal articulated clawed digits, recessed eyes, teeth and forked tongue.",
+        "Walk stance 74%, run stance 56%; contact feet translate backward linearly, paired with the recorded implied travel speeds. No root translation.",
+        "Idle/Walk/Run have matching endpoints. Attack and all three hit reactions return to their initial pose; Death holds its collapsed pose."
+      ]
+    },
+    "animationAudit": {
+      "id": "ashscale_monitor",
+      "ok": true,
+      "maxPenetration": 0.025,
+      "groundPlaneY": 0,
+      "sampling": "all track key times and interval midpoints; all skinned vertices",
+      "clips": [
+        {
+          "clip": "Idle",
+          "seconds": 4.2,
+          "tracks": 95,
+          "loopEndpointDelta": 0,
+          "rootHorizontalDelta": 0,
+          "samples": 203,
+          "errors": [],
+          "minimumY": 0,
+          "maximumPenetration": 0,
+          "worstPose": {
+            "time": 0.861,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 17483
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "Walk",
+          "seconds": 1.36,
+          "tracks": 95,
+          "loopEndpointDelta": 0,
+          "rootHorizontalDelta": 0,
+          "samples": 145,
+          "errors": [],
+          "minimumY": -0.00003,
+          "maximumPenetration": 0.00003,
+          "worstPose": {
+            "time": 0.651667,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 19501
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "Run",
+          "seconds": 0.72,
+          "tracks": 95,
+          "loopEndpointDelta": 0,
+          "rootHorizontalDelta": 0,
+          "samples": 145,
+          "errors": [],
+          "minimumY": -0.000113,
+          "maximumPenetration": 0.000113,
+          "worstPose": {
+            "time": 0.015,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 17483
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "Attack",
+          "seconds": 1.1,
+          "tracks": 95,
+          "loopEndpointDelta": null,
+          "rootHorizontalDelta": null,
+          "samples": 145,
+          "errors": [],
+          "minimumY": -0.000024,
+          "maximumPenetration": 0.000024,
+          "worstPose": {
+            "time": 0.389583,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 15465
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "Hit",
+          "seconds": 0.62,
+          "tracks": 95,
+          "loopEndpointDelta": null,
+          "rootHorizontalDelta": null,
+          "samples": 93,
+          "errors": [],
+          "minimumY": -0.000019,
+          "maximumPenetration": 0.000019,
+          "worstPose": {
+            "time": 0.047174,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 17500
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "HitLeft",
+          "seconds": 0.66,
+          "tracks": 95,
+          "loopEndpointDelta": null,
+          "rootHorizontalDelta": null,
+          "samples": 93,
+          "errors": [],
+          "minimumY": -0.000095,
+          "maximumPenetration": 0.000095,
+          "worstPose": {
+            "time": 0.050217,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 13464
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "HitRight",
+          "seconds": 0.66,
+          "tracks": 95,
+          "loopEndpointDelta": null,
+          "rootHorizontalDelta": null,
+          "samples": 93,
+          "errors": [],
+          "minimumY": -0.000095,
+          "maximumPenetration": 0.000095,
+          "worstPose": {
+            "time": 0.050217,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 15482
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "Death",
+          "seconds": 1.7,
+          "tracks": 95,
+          "loopEndpointDelta": null,
+          "rootHorizontalDelta": null,
+          "samples": 161,
+          "errors": [],
+          "minimumY": 0,
+          "maximumPenetration": 0,
+          "worstPose": {
+            "time": 0,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 17500
+          },
+          "peakVerticesBelowThreshold": 0
+        }
+      ],
+      "errors": []
+    }
+  },
+  "after": {
+    "sourceSha256": "c2d17c55a396395f40b04eef8d4a3e17e540d79ecaab41733284b3c74c32eda1",
+    "geometry": {
+      "vertices": 19350,
+      "triangles": 32230,
+      "bones": 47
+    },
+    "meta": {
+      "id": "ashscale_monitor",
+      "is": "ashscale monitor",
+      "tags": [
+        "reptile",
+        "monitor",
+        "original",
+        "skinned",
+        "modeled-scales",
+        "five-toed",
+        "long-tail"
+      ],
+      "provenance": "Original Corealm authored continuous anatomical lofts, custom scale topology, weighted rig and analytical IK animation. No third-party meshes or textures.",
+      "attackSeconds": 1.1,
+      "contactNormalized": 0.48,
+      "impliedWalkMps": 0.4769475357710652,
+      "impliedRunMps": 1.6865079365079365,
+      "walkClipSeconds": 1.36,
+      "runClipSeconds": 0.72,
+      "gaitFootBones": [
+        "monitor_fore_left_foot",
+        "monitor_fore_right_foot",
+        "monitor_hind_left_foot",
+        "monitor_hind_right_foot"
+      ],
+      "notes": [
+        "+Z forward, Y up, metre units, contact pads at Y=0.",
+        "Continuous ribcage, muscular tapered tail, long raised neck and shallow wedge skull.",
+        "341 irregular modeled dorsal scutes, continuous fine scale colour/normal/roughness maps, flush throat folds, 20 unequal articulated clawed digits, recessed eyes, teeth and forked tongue.",
+        "Walk stance 74%, run stance 56%; contact feet translate backward linearly, paired with the recorded implied travel speeds. No root translation.",
+        "Idle/Walk/Run have matching endpoints. Attack and all three hit reactions return to their initial pose; Death holds its collapsed pose."
+      ]
+    },
+    "animationAudit": {
+      "id": "ashscale_monitor",
+      "ok": true,
+      "maxPenetration": 0.025,
+      "groundPlaneY": 0,
+      "sampling": "all track key times and interval midpoints; all skinned vertices",
+      "clips": [
+        {
+          "clip": "Idle",
+          "seconds": 4.2,
+          "tracks": 95,
+          "loopEndpointDelta": 0,
+          "rootHorizontalDelta": 0,
+          "samples": 203,
+          "errors": [],
+          "minimumY": 0.005,
+          "maximumPenetration": 0,
+          "worstPose": {
+            "time": 3.717,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 14720
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "Walk",
+          "seconds": 1.36,
+          "tracks": 95,
+          "loopEndpointDelta": 0,
+          "rootHorizontalDelta": 0,
+          "samples": 145,
+          "errors": [],
+          "minimumY": 0.004973,
+          "maximumPenetration": 0,
+          "worstPose": {
+            "time": 0.651667,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 18204
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "Run",
+          "seconds": 0.72,
+          "tracks": 95,
+          "loopEndpointDelta": 0,
+          "rootHorizontalDelta": 0,
+          "samples": 145,
+          "errors": [],
+          "minimumY": 0.004887,
+          "maximumPenetration": 0,
+          "worstPose": {
+            "time": 0.025,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 16462
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "Attack",
+          "seconds": 1.1,
+          "tracks": 95,
+          "loopEndpointDelta": null,
+          "rootHorizontalDelta": null,
+          "samples": 145,
+          "errors": [],
+          "minimumY": 0.004976,
+          "maximumPenetration": 0,
+          "worstPose": {
+            "time": 0.389583,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 14720
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "Hit",
+          "seconds": 0.62,
+          "tracks": 95,
+          "loopEndpointDelta": null,
+          "rootHorizontalDelta": null,
+          "samples": 93,
+          "errors": [],
+          "minimumY": 0.004984,
+          "maximumPenetration": 0,
+          "worstPose": {
+            "time": 0.047174,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 16462
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "HitLeft",
+          "seconds": 0.66,
+          "tracks": 95,
+          "loopEndpointDelta": null,
+          "rootHorizontalDelta": null,
+          "samples": 93,
+          "errors": [],
+          "minimumY": 0.004911,
+          "maximumPenetration": 0,
+          "worstPose": {
+            "time": 0.050217,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 12978
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "HitRight",
+          "seconds": 0.66,
+          "tracks": 95,
+          "loopEndpointDelta": null,
+          "rootHorizontalDelta": null,
+          "samples": 93,
+          "errors": [],
+          "minimumY": 0.004911,
+          "maximumPenetration": 0,
+          "worstPose": {
+            "time": 0.050217,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 14720
+          },
+          "peakVerticesBelowThreshold": 0
+        },
+        {
+          "clip": "Death",
+          "seconds": 1.7,
+          "tracks": 95,
+          "loopEndpointDelta": null,
+          "rootHorizontalDelta": null,
+          "samples": 161,
+          "errors": [],
+          "minimumY": 0.005,
+          "maximumPenetration": 0,
+          "worstPose": {
+            "time": 0,
+            "mesh": "ashscale_monitor_anatomical_skin",
+            "vertex": 16462
+          },
+          "peakVerticesBelowThreshold": 0
+        }
+      ],
+      "errors": []
+    }
+  },
+  "method": {
+    "helper": "tools/creature-expansion/mammals/animation-audit.mjs",
+    "adaptations": [
+      "Loaded helper in memory without CLI entry point",
+      "Supplied already-built monitor instead of mammal buildSpecies",
+      "Matched monitor_root.position rather than mammal Root.position"
+    ],
+    "sampling": "Every key and midpoint, every skinned vertex; skin weights, bindings, finite values, loop endpoints and penetration",
+    "thresholdMetres": 0.025,
+    "limits": [
+      "No horizontal stance velocity or slip measurement",
+      "No runtime blending, navigation or lifecycle proof",
+      "No hardware screenshots of revised mesh",
+      "Passing penetration alone is not acceptance"
+    ]
+  }
+}

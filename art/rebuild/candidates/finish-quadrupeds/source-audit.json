@@ -1,0 +1,3891 @@
+{
+  "schema": 1,
+  "scope": "CPU audit of shipped quadruped and imported reptile sources. Keep means retain the source while required visual review remains pending. Rebuild can identify motion repair without discarding the mesh. No replacement is justified solely by these source metrics.",
+  "assets": [
+    {
+      "id": "animal_cattle",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/animal/animal_cattle.glb",
+      "bytes": 733184,
+      "sha256": "8c75982604c2b5d2cb66341a122ccb7bee5ba36e7c0bcfda6c6255d14eb8068d",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "Cattle_Rig.fbx",
+        "texture": "iron_age_cattle_col_unity.png",
+        "provenance": null,
+        "sourceClips": [
+          [
+            "Cattle_Idle",
+            "Idle"
+          ],
+          [
+            "Cattle_Walk",
+            "Walk"
+          ],
+          [
+            "Cattle_Run",
+            "Run"
+          ],
+          [
+            "Cattle_Attack",
+            "Attack"
+          ],
+          [
+            "Cattle_Die",
+            "Death"
+          ]
+        ]
+      },
+      "geometry": {
+        "vertices": 2333,
+        "triangles": 3900,
+        "skinnedVertices": 2333,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "685923f59a040e00dd06d09cc3ace635864fbf9a845053d6f6bb5aa9f8056091"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Cow_MAINSHJnt",
+          "Cow_ROOTSHJnt",
+          "Cow_Spine_01SHJnt",
+          "Cow_Spine_02SHJnt",
+          "Cow_Spine_03SHJnt",
+          "Cow_Spine_04SHJnt",
+          "Cow_Spine_TopSHJnt",
+          "Cow_l_Clavicle_01_01SHJnt",
+          "Cow_l_FrontLeg_HipSHJnt",
+          "Cow_l_FrontLeg_Knee1SHJnt",
+          "Cow_l_FrontLeg_Knee2SHJnt",
+          "Cow_l_FrontLeg_AnkleSHJnt",
+          "Cow_l_FrontLeg_BallSHJnt",
+          "Cow_r_Clavicle_01_01SHJnt",
+          "Cow_r_FrontLeg_HipSHJnt",
+          "Cow_r_FrontLeg_Knee1SHJnt",
+          "Cow_r_FrontLeg_Knee2SHJnt",
+          "Cow_r_FrontLeg_AnkleSHJnt",
+          "Cow_r_FrontLeg_BallSHJnt",
+          "Cow_Neck_01SHJnt",
+          "Cow_Neck_02SHJnt",
+          "Cow_Neck_TopSHJnt",
+          "Cow_Head_JawSHJnt",
+          "Cow_Head_TopSHJnt",
+          "Cow_l_Ear_01_01SHJnt",
+          "Cow_l_Ear_01_02SHJnt",
+          "Cow_l_Ear_01_03SHJnt",
+          "Cow_r_Ear_01_01SHJnt",
+          "Cow_r_Ear_01_02SHJnt",
+          "Cow_r_Ear_01_03SHJnt",
+          "Cow_NeckSkin_01_01SHJnt",
+          "Cow_NeckSkin_01_02SHJnt",
+          "Cow_l_HindLeg_HipSHJnt",
+          "Cow_l_HindLeg_Knee1SHJnt",
+          "Cow_l_HindLeg_Knee2SHJnt",
+          "Cow_l_HindLeg_AnkleSHJnt",
+          "Cow_l_HindLeg_BallSHJnt",
+          "Cow_l_HindLeg_ToeSHJnt",
+          "Cow_r_HindLeg_HipSHJnt",
+          "Cow_r_HindLeg_Knee1SHJnt",
+          "Cow_r_HindLeg_Knee2SHJnt",
+          "Cow_r_HindLeg_AnkleSHJnt",
+          "Cow_r_HindLeg_BallSHJnt",
+          "Cow_r_HindLeg_ToeSHJnt",
+          "Cow_Tail_01_01SHJnt",
+          "Cow_Tail_01_02SHJnt",
+          "Cow_Tail_01_03SHJnt",
+          "Cow_Tail_01_04SHJnt",
+          "Cow_Tail_01_05SHJnt",
+          "Cow_Tail_01_06SHJnt",
+          "Cow_Tail_01_07SHJnt",
+          "Cow_Udder_01_01SHJnt"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.643,
+        "y": 1.57,
+        "z": 2.533
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/animal_cattle.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.1992951613254599,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              1.5009864116464593,
+              0.845892094739582,
+              1.4346506691228027,
+              1.1333098930556122
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.4155136550815066,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.9581764591855777,
+              0.3962621455659229,
+              1.1115497253597715,
+              0.6742859487635807
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "animal_aurochs",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/animal/animal_aurochs.glb",
+      "bytes": 717064,
+      "sha256": "c1e4363275d2c708235cbf3b1bf3b0d16398da4b570d7118b483f10c688da7e5",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "Cattle_Rig.fbx",
+        "texture": "iron_age_cattle_v2_col3_unity.png",
+        "provenance": null,
+        "sourceClips": [
+          [
+            "Cattle_Idle",
+            "Idle"
+          ],
+          [
+            "Cattle_Walk",
+            "Walk"
+          ],
+          [
+            "Cattle_Run",
+            "Run"
+          ],
+          [
+            "Cattle_Attack",
+            "Attack"
+          ],
+          [
+            "Cattle_Die",
+            "Death"
+          ]
+        ]
+      },
+      "geometry": {
+        "vertices": 2333,
+        "triangles": 3900,
+        "skinnedVertices": 2333,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "685923f59a040e00dd06d09cc3ace635864fbf9a845053d6f6bb5aa9f8056091"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Cow_MAINSHJnt",
+          "Cow_ROOTSHJnt",
+          "Cow_Spine_01SHJnt",
+          "Cow_Spine_02SHJnt",
+          "Cow_Spine_03SHJnt",
+          "Cow_Spine_04SHJnt",
+          "Cow_Spine_TopSHJnt",
+          "Cow_l_Clavicle_01_01SHJnt",
+          "Cow_l_FrontLeg_HipSHJnt",
+          "Cow_l_FrontLeg_Knee1SHJnt",
+          "Cow_l_FrontLeg_Knee2SHJnt",
+          "Cow_l_FrontLeg_AnkleSHJnt",
+          "Cow_l_FrontLeg_BallSHJnt",
+          "Cow_r_Clavicle_01_01SHJnt",
+          "Cow_r_FrontLeg_HipSHJnt",
+          "Cow_r_FrontLeg_Knee1SHJnt",
+          "Cow_r_FrontLeg_Knee2SHJnt",
+          "Cow_r_FrontLeg_AnkleSHJnt",
+          "Cow_r_FrontLeg_BallSHJnt",
+          "Cow_Neck_01SHJnt",
+          "Cow_Neck_02SHJnt",
+          "Cow_Neck_TopSHJnt",
+          "Cow_Head_JawSHJnt",
+          "Cow_Head_TopSHJnt",
+          "Cow_l_Ear_01_01SHJnt",
+          "Cow_l_Ear_01_02SHJnt",
+          "Cow_l_Ear_01_03SHJnt",
+          "Cow_r_Ear_01_01SHJnt",
+          "Cow_r_Ear_01_02SHJnt",
+          "Cow_r_Ear_01_03SHJnt",
+          "Cow_NeckSkin_01_01SHJnt",
+          "Cow_NeckSkin_01_02SHJnt",
+          "Cow_l_HindLeg_HipSHJnt",
+          "Cow_l_HindLeg_Knee1SHJnt",
+          "Cow_l_HindLeg_Knee2SHJnt",
+          "Cow_l_HindLeg_AnkleSHJnt",
+          "Cow_l_HindLeg_BallSHJnt",
+          "Cow_l_HindLeg_ToeSHJnt",
+          "Cow_r_HindLeg_HipSHJnt",
+          "Cow_r_HindLeg_Knee1SHJnt",
+          "Cow_r_HindLeg_Knee2SHJnt",
+          "Cow_r_HindLeg_AnkleSHJnt",
+          "Cow_r_HindLeg_BallSHJnt",
+          "Cow_r_HindLeg_ToeSHJnt",
+          "Cow_Tail_01_01SHJnt",
+          "Cow_Tail_01_02SHJnt",
+          "Cow_Tail_01_03SHJnt",
+          "Cow_Tail_01_04SHJnt",
+          "Cow_Tail_01_05SHJnt",
+          "Cow_Tail_01_06SHJnt",
+          "Cow_Tail_01_07SHJnt",
+          "Cow_Udder_01_01SHJnt"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.643,
+        "y": 1.57,
+        "z": 2.533
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/animal_aurochs.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.1992951613254599,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              1.5009864116464593,
+              0.845892094739582,
+              1.4346506691228027,
+              1.1333098930556122
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.4155136550815066,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.9581764591855777,
+              0.3962621455659229,
+              1.1115497253597715,
+              0.6742859487635807
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "animal_goat",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/animal/animal_goat.glb",
+      "bytes": 557300,
+      "sha256": "f8283c572e27d1ffe9b641c727db9ae4df7cee8a773986610e35f922fcd1d9b0",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "Goat_Rig.fbx",
+        "texture": "goat_col_v5_unity.png",
+        "provenance": null,
+        "sourceClips": [
+          [
+            "Goat_Idle",
+            "Idle"
+          ],
+          [
+            "Goat_Walk",
+            "Walk"
+          ],
+          [
+            "Goat_Run",
+            "Run"
+          ],
+          [
+            "Goat_Attack",
+            "Attack"
+          ],
+          [
+            "Goat_Die",
+            "Death"
+          ]
+        ]
+      },
+      "geometry": {
+        "vertices": 2228,
+        "triangles": 3712,
+        "skinnedVertices": 2228,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "1c273aac3fca709c5f744ad8481ba7fd83d397e993712221d11d5a2cd39cb471"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Goat_MAINSHJnt",
+          "Goat_ROOTSHJnt",
+          "Goat_Spine_01SHJnt",
+          "Goat_Spine_02SHJnt",
+          "Goat_Spine_03SHJnt",
+          "Goat_Spine_04SHJnt",
+          "Goat_Spine_TopSHJnt",
+          "Goat_l_Clavicle_01_01SHJnt",
+          "Goat_l_FrontLeg_HipSHJnt",
+          "Goat_l_FrontLeg_Knee1SHJnt",
+          "Goat_l_FrontLeg_Knee2SHJnt",
+          "Goat_l_FrontLeg_AnkleSHJnt",
+          "Goat_l_FrontLeg_BallSHJnt",
+          "Goat_l_FrontLeg_ToeSHJnt",
+          "Goat_r_Clavicle_01_01SHJnt",
+          "Goat_r_FrontLeg_HipSHJnt",
+          "Goat_r_FrontLeg_Knee1SHJnt",
+          "Goat_r_FrontLeg_Knee2SHJnt",
+          "Goat_r_FrontLeg_AnkleSHJnt",
+          "Goat_r_FrontLeg_BallSHJnt",
+          "Goat_r_FrontLeg_ToeSHJnt",
+          "Goat_Neck_01SHJnt",
+          "Goat_Neck_02SHJnt",
+          "Goat_Neck_TopSHJnt",
+          "Goat_Head_JawSHJnt",
+          "Goat_Head_JawEndSHJnt",
+          "Goat_Head_TopSHJnt",
+          "Goat_l_Ear_01_01SHJnt",
+          "Goat_l_Ear_01_02SHJnt",
+          "Goat_l_Ear_01_03SHJnt",
+          "Goat_r_Ear_01_01SHJnt",
+          "Goat_r_Ear_01_02SHJnt",
+          "Goat_r_Ear_01_03SHJnt",
+          "Goat_l_HindLeg_HipSHJnt",
+          "Goat_l_HindLeg_Knee1SHJnt",
+          "Goat_l_HindLeg_Knee2SHJnt",
+          "Goat_l_HindLeg_AnkleSHJnt",
+          "Goat_l_HindLeg_BallSHJnt",
+          "Goat_l_HindLeg_ToeSHJnt",
+          "Goat_r_HindLeg_HipSHJnt",
+          "Goat_r_HindLeg_Knee1SHJnt",
+          "Goat_r_HindLeg_Knee2SHJnt",
+          "Goat_r_HindLeg_AnkleSHJnt",
+          "Goat_r_HindLeg_BallSHJnt",
+          "Goat_r_HindLeg_ToeSHJnt",
+          "Goat_Tail_01_01SHJnt",
+          "Goat_Tail_01_02SHJnt",
+          "Goat_Tail_01_03SHJnt"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.434,
+        "y": 1.289,
+        "z": 1.514
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/animal_goat.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.2816678695095292,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              1.4554918785707702,
+              1.1579037993156225,
+              1.3753023481996969,
+              0.8373227218555537
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.5789403564746713,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              1.0970088960558724,
+              0.07249882517357101,
+              0.8650106655175351,
+              0.14304842596271616
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "animal_deer",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/animal/animal_deer.glb",
+      "bytes": 479352,
+      "sha256": "e2bb94f19786805b0fbc6b038a807a3451051102d52d8e9c06540f45ef7abfb3",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "Deer_Rig.fbx",
+        "texture": "deer_col6_unity.png",
+        "provenance": null,
+        "sourceClips": [
+          [
+            "Deer_Idle",
+            "Idle"
+          ],
+          [
+            "Deer_Walk",
+            "Walk"
+          ],
+          [
+            "Deer_Run",
+            "Run"
+          ],
+          [
+            "Deer_Eat",
+            "Attack",
+            [
+              1,
+              34
+            ]
+          ],
+          [
+            "Deer_Die",
+            "Death"
+          ]
+        ]
+      },
+      "geometry": {
+        "vertices": 2277,
+        "triangles": 3728,
+        "skinnedVertices": 2277,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "ac2e7cc103a8f56d79ff151a00f5d2590f291f51f24af63541064bb725859b5e"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Deer_MAINSHJnt",
+          "Deer_ROOTSHJnt",
+          "Deer_Spine_01SHJnt",
+          "Deer_Spine_02SHJnt",
+          "Deer_Spine_03SHJnt",
+          "Deer_Spine_04SHJnt",
+          "Deer_Spine_TopSHJnt",
+          "Deer_l_Clavicle_01_01SHJnt",
+          "Deer_l_FrontLeg_HipSHJnt",
+          "Deer_l_FrontLeg_Knee1SHJnt",
+          "Deer_l_FrontLeg_Knee2SHJnt",
+          "Deer_l_FrontLeg_AnkleSHJnt",
+          "Deer_l_FrontLeg_BallSHJnt",
+          "Deer_l_FrontLeg_ToeSHJnt",
+          "Deer_r_Clavicle_01_01SHJnt",
+          "Deer_r_FrontLeg_HipSHJnt",
+          "Deer_r_FrontLeg_Knee1SHJnt",
+          "Deer_r_FrontLeg_Knee2SHJnt",
+          "Deer_r_FrontLeg_AnkleSHJnt",
+          "Deer_r_FrontLeg_BallSHJnt",
+          "Deer_r_FrontLeg_ToeSHJnt",
+          "Deer_Neck_01SHJnt",
+          "Deer_Neck_02SHJnt",
+          "Deer_Neck_TopSHJnt",
+          "Deer_Head_JawSHJnt",
+          "Deer_Head_JawEndSHJnt",
+          "Deer_Head_TopSHJnt",
+          "Deer_l_Ear_01_01SHJnt",
+          "Deer_l_Ear_01_02SHJnt",
+          "Deer_l_Ear_01_03SHJnt",
+          "Deer_r_Ear_01_01SHJnt",
+          "Deer_r_Ear_01_02SHJnt",
+          "Deer_r_Ear_01_03SHJnt",
+          "Deer_l_HindLeg_HipSHJnt",
+          "Deer_l_HindLeg_Knee1SHJnt",
+          "Deer_l_HindLeg_Knee2SHJnt",
+          "Deer_l_HindLeg_AnkleSHJnt",
+          "Deer_l_HindLeg_BallSHJnt",
+          "Deer_l_HindLeg_ToeSHJnt",
+          "Deer_r_HindLeg_HipSHJnt",
+          "Deer_r_HindLeg_Knee1SHJnt",
+          "Deer_r_HindLeg_Knee2SHJnt",
+          "Deer_r_HindLeg_AnkleSHJnt",
+          "Deer_r_HindLeg_BallSHJnt",
+          "Deer_r_HindLeg_ToeSHJnt",
+          "Deer_Tail_01_01SHJnt",
+          "Deer_Tail_01_02SHJnt",
+          "Deer_Tail_01_03SHJnt"
+        ],
+        [
+          "Deer_Neck_TopSHJnt",
+          "Deer_Head_TopSHJnt",
+          "Deer_l_Ear_01_01SHJnt",
+          "Deer_l_Ear_01_02SHJnt",
+          "Deer_l_Ear_01_03SHJnt",
+          "Deer_r_Ear_01_01SHJnt",
+          "Deer_r_Ear_01_02SHJnt",
+          "Deer_r_Ear_01_03SHJnt"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.438,
+        "y": 1.874,
+        "z": 1.709
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/animal_deer.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.1668762995823705,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              1.3264863679961283,
+              1.178087898053448,
+              1.3590966454378854,
+              0.25032073576131236
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.7871277563434218,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.27937359016124497,
+              0.8523476695791576,
+              0.505725822611334,
+              0.47056359269944803
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "animal_coyote",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/animal/animal_coyote.glb",
+      "bytes": 767868,
+      "sha256": "460965f62d8d70bae75e035370ee145b5eeb9233dd5e64a6e88e37887adabd9d",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "Wolf_Rig.fbx",
+        "texture": "common_wolf_col2_unity.png",
+        "provenance": null,
+        "sourceClips": [
+          [
+            "Wolf_IdleA",
+            "Idle"
+          ],
+          [
+            "Wolf_Walk",
+            "Walk"
+          ],
+          [
+            "Wolf_Run",
+            "Run"
+          ],
+          [
+            "Wolf_Attack",
+            "Attack"
+          ],
+          [
+            "Wolf_Die",
+            "Death"
+          ]
+        ]
+      },
+      "geometry": {
+        "vertices": 3523,
+        "triangles": 5612,
+        "skinnedVertices": 3523,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "e813a55338dde1dd4582745cccdd265e6adf66d29d407e7639e0c5bae443ccde"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Wolf_MAINSHJnt",
+          "Wolf_ROOTSHJnt",
+          "Wolf_Spine_01SHJnt",
+          "Wolf_Spine_02SHJnt",
+          "Wolf_Spine_03SHJnt",
+          "Wolf_Spine_04SHJnt",
+          "Wolf_Spine_TopSHJnt",
+          "Wolf_l_Clavicle_01_01SHJnt",
+          "Wolf_l_FrontLeg_HipSHJnt",
+          "Wolf_l_FrontLeg_KneeSHJnt",
+          "Wolf_l_FrontLeg_AnkleSHJnt",
+          "Wolf_l_FrontLeg_BallSHJnt",
+          "Wolf_r_Clavicle_01_01SHJnt",
+          "Wolf_r_FrontLeg_HipSHJnt",
+          "Wolf_r_FrontLeg_KneeSHJnt",
+          "Wolf_r_FrontLeg_AnkleSHJnt",
+          "Wolf_r_FrontLeg_BallSHJnt",
+          "Wolf_Neck_01SHJnt",
+          "Wolf_Neck_02SHJnt",
+          "Wolf_Neck_TopSHJnt",
+          "Wolf_Head_JawSHJnt",
+          "Wolf_Head_JawEndSHJnt",
+          "Wolf_Tongue_01_01SHJnt",
+          "Wolf_Tongue_01_02SHJnt",
+          "Wolf_Tongue_01_03SHJnt",
+          "Wolf_Tongue_01_04SHJnt",
+          "Wolf_Head_TopSHJnt",
+          "Wolf_l_Ear_01_01SHJnt",
+          "Wolf_l_Ear_01_02SHJnt",
+          "Wolf_l_Ear_01_03SHJnt",
+          "Wolf_r_Ear_01_01SHJnt",
+          "Wolf_r_Ear_01_02SHJnt",
+          "Wolf_r_Ear_01_03SHJnt",
+          "Wolf_l_HindLeg_HipSHJnt",
+          "Wolf_l_HindLeg_Knee1SHJnt",
+          "Wolf_l_HindLeg_Knee2SHJnt",
+          "Wolf_l_HindLeg_AnkleSHJnt",
+          "Wolf_l_HindLeg_BallSHJnt",
+          "Wolf_l_HindLeg_ToeSHJnt",
+          "Wolf_r_HindLeg_HipSHJnt",
+          "Wolf_r_HindLeg_Knee1SHJnt",
+          "Wolf_r_HindLeg_Knee2SHJnt",
+          "Wolf_r_HindLeg_AnkleSHJnt",
+          "Wolf_r_HindLeg_BallSHJnt",
+          "Wolf_r_HindLeg_ToeSHJnt",
+          "Wolf_Tail_01_01SHJnt",
+          "Wolf_Tail_01_02SHJnt",
+          "Wolf_Tail_01_03SHJnt",
+          "Wolf_Tail_01_04SHJnt",
+          "Wolf_Tail_01_05SHJnt"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.364,
+        "y": 1.062,
+        "z": 1.568
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/animal_coyote.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.2399309133892953,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              1.5989411448026445,
+              1.1432333093475362,
+              0.9371581245500644,
+              0.9372334983722358
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.0484791902166244,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.38200925927691565,
+              1.3962092800142902,
+              0.7570729417536577,
+              0.8673798089943261
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "animal_bear",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/animal/animal_bear.glb",
+      "bytes": 665248,
+      "sha256": "fb65eb1e00b44f46156516a279a53688cbde72ab80afea8cb1f8c0078d5af97d",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "Bear_Rig.fbx",
+        "texture": "brown_bear_col_v2_unity.png",
+        "provenance": null,
+        "sourceClips": [
+          [
+            "Bear_Idle",
+            "Idle"
+          ],
+          [
+            "Bear_Walk",
+            "Walk"
+          ],
+          [
+            "Bear_Run",
+            "Run"
+          ],
+          [
+            "Bear_Attack",
+            "Attack"
+          ],
+          [
+            "Bear_Die",
+            "Death"
+          ]
+        ]
+      },
+      "geometry": {
+        "vertices": 2701,
+        "triangles": 4412,
+        "skinnedVertices": 2701,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "0c0d936b51dd18a09bead7a41fc6f25e0a3969c29823a0fb985521e718912cb9"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Bear_MAINSHJnt",
+          "Bear_ROOTSHJnt",
+          "Bear_Spine_01SHJnt",
+          "Bear_Spine_02SHJnt",
+          "Bear_Spine_03SHJnt",
+          "Bear_Spine_04SHJnt",
+          "Bear_Spine_TopSHJnt",
+          "Bear_l_Clavicle_01_01SHJnt",
+          "Bear_l_FrontLeg_HipSHJnt",
+          "Bear_l_FrontLeg_KneeSHJnt",
+          "Bear_l_FrontLeg_AnkleSHJnt",
+          "Bear_l_FrontLeg_BallSHJnt",
+          "Bear_l_FrontLeg_ToeSHJnt",
+          "Bear_r_Clavicle_01_01SHJnt",
+          "Bear_r_FrontLeg_HipSHJnt",
+          "Bear_r_FrontLeg_KneeSHJnt",
+          "Bear_r_FrontLeg_AnkleSHJnt",
+          "Bear_r_FrontLeg_BallSHJnt",
+          "Bear_r_FrontLeg_ToeSHJnt",
+          "Bear_Neck_01SHJnt",
+          "Bear_Neck_02SHJnt",
+          "Bear_Neck_TopSHJnt",
+          "Bear_Head_JawSHJnt",
+          "Bear_Head_JawEndSHJnt",
+          "Bear_Head_TopSHJnt",
+          "Bear_l_Ear_01_01SHJnt",
+          "Bear_l_Ear_01_02SHJnt",
+          "Bear_r_Ear_01_01SHJnt",
+          "Bear_r_Ear_01_02SHJnt",
+          "Bear_l_HindLeg_HipSHJnt",
+          "Bear_l_HindLeg_KneeSHJnt",
+          "Bear_l_HindLeg_AnkleSHJnt",
+          "Bear_l_HindLeg_BallSHJnt",
+          "Bear_l_HindLeg_ToeSHJnt",
+          "Bear_r_HindLeg_HipSHJnt",
+          "Bear_r_HindLeg_KneeSHJnt",
+          "Bear_r_HindLeg_AnkleSHJnt",
+          "Bear_r_HindLeg_BallSHJnt",
+          "Bear_r_HindLeg_ToeSHJnt",
+          "Bear_Tail_01_01SHJnt",
+          "Bear_Tail_01_02SHJnt"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.707,
+        "y": 1.408,
+        "z": 2.458
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/animal_bear.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.5724773874354794,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.7756419088896604,
+              1.2631998036998098,
+              0.4531018980316404,
+              1.2717432658812786
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.2708582222310143,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.85910070363441,
+              1.4427239757663977,
+              1.1857525903127504,
+              0.6127108391925162
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "animal_boar",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/animal/animal_boar.glb",
+      "bytes": 596064,
+      "sha256": "9e1192788411744743042396fd4e958b16c001c49d91aab73e56dc27b1c7383c",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "WildBoar_Rig.fbx",
+        "texture": "wild_boar_col9_unity.png",
+        "provenance": null,
+        "sourceClips": [
+          [
+            "WildBoar_Idle",
+            "Idle"
+          ],
+          [
+            "WildBoar_Walk",
+            "Walk"
+          ],
+          [
+            "WildBoar_Run",
+            "Run"
+          ],
+          [
+            "WildBoar_Attack",
+            "Attack"
+          ],
+          [
+            "WildBoar_Die",
+            "Death"
+          ]
+        ]
+      },
+      "geometry": {
+        "vertices": 1792,
+        "triangles": 2968,
+        "skinnedVertices": 1792,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "279f033b21bccd1fedc4702f5601cd3d0da109344a39b02d64d38c20417fba07"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "WildBoar_MAINSHJnt",
+          "WildBoar_ROOTSHJnt",
+          "WildBoar_Spine_01SHJnt",
+          "WildBoar_Spine_02SHJnt",
+          "WildBoar_Spine_03SHJnt",
+          "WildBoar_Spine_04SHJnt",
+          "WildBoar_Spine_TopSHJnt",
+          "WildBoar_l_Clavicle_01_01SHJnt",
+          "WildBoar_l_FrontLeg_HipSHJnt",
+          "WildBoar_l_FrontLeg_Knee1SHJnt",
+          "WildBoar_l_FrontLeg_Knee2SHJnt",
+          "WildBoar_l_FrontLeg_AnkleSHJnt",
+          "WildBoar_l_FrontLeg_BallSHJnt",
+          "WildBoar_l_FrontLeg_ToeSHJnt",
+          "WildBoar_r_Clavicle_01_01SHJnt",
+          "WildBoar_r_FrontLeg_HipSHJnt",
+          "WildBoar_r_FrontLeg_Knee1SHJnt",
+          "WildBoar_r_FrontLeg_Knee2SHJnt",
+          "WildBoar_r_FrontLeg_AnkleSHJnt",
+          "WildBoar_r_FrontLeg_BallSHJnt",
+          "WildBoar_r_FrontLeg_ToeSHJnt",
+          "WildBoar_Neck_01SHJnt",
+          "WildBoar_Neck_02SHJnt",
+          "WildBoar_Neck_TopSHJnt",
+          "WildBoar_Head_JawSHJnt",
+          "WildBoar_Head_JawEndSHJnt",
+          "WildBoar_Head_TopSHJnt",
+          "WildBoar_l_Ear_01_01SHJnt",
+          "WildBoar_l_Ear_01_02SHJnt",
+          "WildBoar_l_Ear_01_03SHJnt",
+          "WildBoar_r_Ear_01_01SHJnt",
+          "WildBoar_r_Ear_01_02SHJnt",
+          "WildBoar_r_Ear_01_03SHJnt",
+          "WildBoar_Nose_01_01SHJnt",
+          "WildBoar_Nose_01_02SHJnt",
+          "WildBoar_l_HindLeg_HipSHJnt",
+          "WildBoar_l_HindLeg_Knee1SHJnt",
+          "WildBoar_l_HindLeg_Knee2SHJnt",
+          "WildBoar_l_HindLeg_AnkleSHJnt",
+          "WildBoar_l_HindLeg_BallSHJnt",
+          "WildBoar_l_HindLeg_ToeSHJnt",
+          "WildBoar_r_HindLeg_HipSHJnt",
+          "WildBoar_r_HindLeg_Knee1SHJnt",
+          "WildBoar_r_HindLeg_Knee2SHJnt",
+          "WildBoar_r_HindLeg_AnkleSHJnt",
+          "WildBoar_r_HindLeg_BallSHJnt",
+          "WildBoar_Tail_01_01SHJnt",
+          "WildBoar_Tail_01_02SHJnt",
+          "WildBoar_Tail_01_03SHJnt"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.474,
+        "y": 0.963,
+        "z": 1.718
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/animal_boar.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.2671630718883131,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.6379474759908356,
+              1.4391009044306677,
+              0.7682926810796815,
+              0.5898547049403937
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.2886105937747026,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.9142736297649382,
+              0.6538010682182904,
+              0.7887828846882462,
+              0.5155772416275834
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "animal_ibex",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/animal/animal_ibex.glb",
+      "bytes": 513308,
+      "sha256": "ac24a84acd299ada77bd4b2acc70370a382227296cdb4d8251ef811382b8924c",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "Ibex_Rig.fbx",
+        "texture": "ibex_col16_unity.png",
+        "provenance": null,
+        "sourceClips": [
+          [
+            "Ibex_Idle",
+            "Idle"
+          ],
+          [
+            "Ibex_Walk",
+            "Walk"
+          ],
+          [
+            "Ibex_Run",
+            "Run"
+          ],
+          [
+            "Ibex_Attack",
+            "Attack"
+          ],
+          [
+            "Ibex_Die",
+            "Death"
+          ]
+        ]
+      },
+      "geometry": {
+        "vertices": 1912,
+        "triangles": 3101,
+        "skinnedVertices": 1912,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "6739bb1b6e2968a9c0f7831ad830d71a1d4369fa757e849d7c90b486ccca4bf5"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Ibex_MAINSHJnt",
+          "Ibex_ROOTSHJnt",
+          "Ibex_Spine_01SHJnt",
+          "Ibex_Spine_02SHJnt",
+          "Ibex_Spine_03SHJnt",
+          "Ibex_Spine_04SHJnt",
+          "Ibex_Spine_TopSHJnt",
+          "Ibex_l_Clavicle_01_01SHJnt",
+          "Ibex_l_FrontLeg_HipSHJnt",
+          "Ibex_l_FrontLeg_Knee1SHJnt",
+          "Ibex_l_FrontLeg_Knee2SHJnt",
+          "Ibex_l_FrontLeg_AnkleSHJnt",
+          "Ibex_l_FrontLeg_BallSHJnt",
+          "Ibex_l_FrontLeg_ToeSHJnt",
+          "Ibex_r_Clavicle_01_01SHJnt",
+          "Ibex_r_FrontLeg_HipSHJnt",
+          "Ibex_r_FrontLeg_Knee1SHJnt",
+          "Ibex_r_FrontLeg_Knee2SHJnt",
+          "Ibex_r_FrontLeg_AnkleSHJnt",
+          "Ibex_r_FrontLeg_BallSHJnt",
+          "Ibex_r_FrontLeg_ToeSHJnt",
+          "Ibex_Neck_01SHJnt",
+          "Ibex_Neck_02SHJnt",
+          "Ibex_Neck_TopSHJnt",
+          "Ibex_Head_JawSHJnt",
+          "Ibex_Head_JawEndSHJnt",
+          "Ibex_Head_TopSHJnt",
+          "Ibex_l_Ear_01_01SHJnt",
+          "Ibex_l_Ear_01_02SHJnt",
+          "Ibex_l_Ear_01_03SHJnt",
+          "Ibex_r_Ear_01_01SHJnt",
+          "Ibex_r_Ear_01_02SHJnt",
+          "Ibex_r_Ear_01_03SHJnt",
+          "Ibex_l_HindLeg_HipSHJnt",
+          "Ibex_l_HindLeg_Knee1SHJnt",
+          "Ibex_l_HindLeg_Knee2SHJnt",
+          "Ibex_l_HindLeg_AnkleSHJnt",
+          "Ibex_l_HindLeg_BallSHJnt",
+          "Ibex_l_HindLeg_ToeSHJnt",
+          "Ibex_r_HindLeg_HipSHJnt",
+          "Ibex_r_HindLeg_Knee1SHJnt",
+          "Ibex_r_HindLeg_Knee2SHJnt",
+          "Ibex_r_HindLeg_AnkleSHJnt",
+          "Ibex_r_HindLeg_BallSHJnt",
+          "Ibex_r_HindLeg_ToeSHJnt",
+          "Ibex_Tail_01_01SHJnt",
+          "Ibex_Tail_01_02SHJnt",
+          "Ibex_Tail_01_03SHJnt"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.43,
+        "y": 1.447,
+        "z": 1.622
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/animal_ibex.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.1037998453410736,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.8511147740124875,
+              1.3479773708232656,
+              1.213321790901997,
+              1.320421863020924
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.5744880732734436,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.13061624909629269,
+              1.1209681695106941,
+              0.11936155625440681,
+              2.4784013959207964
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "animal_hog",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/animal/animal_hog.glb",
+      "bytes": 414920,
+      "sha256": "dc00de3f80c02a168c8fbd4ea1f7e00733b2b47604913e47f841814a729eafc9",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "iron_age_pig_rig_exp.FBX",
+        "texture": "iron_age_pig_col_unity.png",
+        "provenance": null,
+        "sourceClips": [
+          [
+            "iron_age_pig_idle_anim",
+            "Idle"
+          ],
+          [
+            "iron_age_pig_walk_anim",
+            "Walk"
+          ],
+          [
+            "iron_age_pig_eat_anim",
+            "Attack",
+            [
+              150,
+              186
+            ]
+          ],
+          [
+            "iron_age_pig_die_anim",
+            "Death"
+          ]
+        ]
+      },
+      "geometry": {
+        "vertices": 2176,
+        "triangles": 3718,
+        "skinnedVertices": 2176,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "32b5cc54bdb1c2431eefad75da984c460305b0225b82063e653de5e3b8b95ea4"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [
+        "Run"
+      ],
+      "joints": [
+        [
+          "Bone022(mirrored)",
+          "Bone003",
+          "Bone001",
+          "Bone004",
+          "Bone005",
+          "Bone028(mirrored)",
+          "Bone006",
+          "Bone029(mirrored)",
+          "Bone023(mirrored)",
+          "Bone012",
+          "Bone013",
+          "Bone014",
+          "Bone019(mirrored)",
+          "Bone019",
+          "Bone020(mirrored)",
+          "Bone021(mirrored)",
+          "Bone034",
+          "Bone040",
+          "Bone041",
+          "Bone039",
+          "Bone038",
+          "Bone037",
+          "Bone042",
+          "Bone024(mirrored)",
+          "Bone025(mirrored)",
+          "Bone026(mirrored)",
+          "Bone027(mirrored)",
+          "Bone035",
+          "Bone036",
+          "Bone017",
+          "Bone030(mirrored)",
+          "Bone031(mirrored)",
+          "Bone032(mirrored)",
+          "Bone033(mirrored)",
+          "Bone029",
+          "Bone018",
+          "Bone022",
+          "Bone023",
+          "Bone028",
+          "Bone020",
+          "Bone021",
+          "Bone024",
+          "Bone025",
+          "Bone026",
+          "Bone027",
+          "Bone030",
+          "Bone031",
+          "Bone033",
+          "Bone032"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.463,
+        "y": 0.929,
+        "z": 1.811
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/animal_hog.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 3.0986395140320484,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              1.7106829978943923,
+              0.6053086897250356,
+              3.136167060673222,
+              0.9320724237677263
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Missing clips: Run",
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "animal_rat",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/animal/animal_rat.glb",
+      "bytes": 388672,
+      "sha256": "b86f5636946c6406dc344b39fc056375da7dba4e6389959291542222380a9563",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "rat_rig_exp.FBX",
+        "texture": "rat_col13_unity.png",
+        "provenance": null,
+        "sourceClips": [
+          [
+            "rat_idle_anim",
+            "Idle"
+          ],
+          [
+            "rat_walk_anim",
+            "Walk"
+          ],
+          [
+            "rat_walk_anim",
+            "Attack",
+            [
+              10,
+              30
+            ]
+          ],
+          [
+            "rat_die_anim",
+            "Death"
+          ]
+        ]
+      },
+      "geometry": {
+        "vertices": 1606,
+        "triangles": 2544,
+        "skinnedVertices": 1606,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "620d96c7c98f058cd0da106cb29a61caf471127e02b47194a479badf1195566a"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [
+        "Run"
+      ],
+      "joints": [
+        [
+          "Bone002",
+          "Bone003",
+          "Bone004",
+          "Bone031",
+          "Bone030",
+          "Bone005",
+          "Bone026",
+          "Bone001",
+          "Bone025",
+          "Bone013",
+          "Bone014",
+          "Bone015",
+          "Bone016",
+          "Bone017",
+          "Bone018",
+          "Bone019",
+          "Bone020",
+          "Bone012",
+          "Bone006",
+          "Bone007",
+          "Bone021",
+          "Bone022",
+          "Bone008",
+          "Bone010",
+          "Bone009",
+          "Bone023",
+          "Bone011",
+          "Bone027",
+          "Bone032",
+          "Bone028",
+          "Bone029",
+          "Bone033",
+          "Bone034",
+          "Bone031(mirrored)",
+          "Bone030(mirrored)",
+          "Bone032(mirrored)",
+          "Bone026(mirrored)",
+          "Bone025(mirrored)",
+          "Bone024",
+          "Bone027(mirrored)",
+          "Bone028(mirrored)",
+          "Bone029(mirrored)",
+          "Bone033(mirrored)",
+          "Bone034(mirrored)"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.135,
+        "y": 0.139,
+        "z": 0.6
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/animal_rat.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 2.420636013506238,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              1.5483534564046901,
+              1.5198018345261513,
+              0.8643633843593855,
+              3.266018116920308
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Missing clips: Run",
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "animal_rabbit",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/animal/animal_rabbit.glb",
+      "bytes": 514312,
+      "sha256": "105875b9f68e2fba30bd6577d385d896f2d3c2fa42bd26a15d8f4d029e3f08ed",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "WildRabbit_Rig.fbx",
+        "texture": "wild_rabbit_col5_unity.png",
+        "provenance": null,
+        "sourceClips": [
+          [
+            "WildRabbit_Idle",
+            "Idle"
+          ],
+          [
+            "WildRabbit_Walk",
+            "Walk"
+          ],
+          [
+            "WildRabbit_Run",
+            "Run"
+          ],
+          [
+            "WildRabbit_Eat",
+            "Attack",
+            [
+              1,
+              26
+            ]
+          ],
+          [
+            "WildRabbit_Die",
+            "Death"
+          ]
+        ]
+      },
+      "geometry": {
+        "vertices": 1557,
+        "triangles": 2446,
+        "skinnedVertices": 1557,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "9bc76c904561069655d3fb3c3d6dfde3e7a4561d45c001341213819f8893ee6e"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "WildRabbit_MAINSHJnt",
+          "WildRabbit_ROOTSHJnt",
+          "WildRabbit_Spine_01SHJnt",
+          "WildRabbit_Spine_02SHJnt",
+          "WildRabbit_Spine_03SHJnt",
+          "WildRabbit_Spine_04SHJnt",
+          "WildRabbit_Spine_TopSHJnt",
+          "WildRabbit_l_Clavicle_01_01SHJnt",
+          "WildRabbit_l_FrontLeg_HipSHJnt",
+          "WildRabbit_l_FrontLeg_KneeSHJnt",
+          "WildRabbit_l_FrontLeg_AnkleSHJnt",
+          "WildRabbit_l_FrontLeg_BallSHJnt",
+          "WildRabbit_l_FrontLeg_ToeSHJnt",
+          "WildRabbit_r_Clavicle_01_01SHJnt",
+          "WildRabbit_r_FrontLeg_HipSHJnt",
+          "WildRabbit_r_FrontLeg_KneeSHJnt",
+          "WildRabbit_r_FrontLeg_AnkleSHJnt",
+          "WildRabbit_r_FrontLeg_BallSHJnt",
+          "WildRabbit_r_FrontLeg_ToeSHJnt",
+          "WildRabbit_Neck_01SHJnt",
+          "WildRabbit_Neck_02SHJnt",
+          "WildRabbit_Neck_TopSHJnt",
+          "WildRabbit_Head_JawSHJnt",
+          "WildRabbit_Head_JawEndSHJnt",
+          "WildRabbit_Head_TopSHJnt",
+          "WildRabbit_Nose_01_01SHJnt",
+          "WildRabbit_Nose_01_02SHJnt",
+          "WildRabbit_l_Ears_01_01SHJnt",
+          "WildRabbit_l_Ears_01_02SHJnt",
+          "WildRabbit_l_Ears_01_03SHJnt",
+          "WildRabbit_r_Ears_01_01SHJnt",
+          "WildRabbit_r_Ears_01_02SHJnt",
+          "WildRabbit_r_Ears_01_03SHJnt",
+          "WildRabbit_l_HindLeg_HipSHJnt",
+          "WildRabbit_l_HindLeg_KneeSHJnt",
+          "WildRabbit_l_HindLeg_AnkleSHJnt",
+          "WildRabbit_l_HindLeg_BallSHJnt",
+          "WildRabbit_l_HindLeg_ToeSHJnt",
+          "WildRabbit_r_HindLeg_HipSHJnt",
+          "WildRabbit_r_HindLeg_KneeSHJnt",
+          "WildRabbit_r_HindLeg_AnkleSHJnt",
+          "WildRabbit_r_HindLeg_BallSHJnt",
+          "WildRabbit_r_HindLeg_ToeSHJnt",
+          "WildRabbit_Tail_01_01SHJnt",
+          "WildRabbit_Tail_01_02SHJnt"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.291,
+        "y": 0.44,
+        "z": 0.677
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/animal_rabbit.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.6181420884197628,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.908843013893144,
+              1.0471928195649554,
+              0.9086325233799645,
+              0.975457652515887
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.98958593451529,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.7143956521159764,
+              1.377185512434558,
+              0.8067821868040389,
+              1.3397377564820696
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "animal_rabbit_dark",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/animal/animal_rabbit_dark.glb",
+      "bytes": 523060,
+      "sha256": "7f69e6d38c07efff7de76578fe61987eaf31b17db869d8a1884d52247139653b",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "WildRabbit_Rig.fbx",
+        "texture": "wild_rabbit_col_v3_unity.png",
+        "provenance": null,
+        "sourceClips": [
+          [
+            "WildRabbit_Idle",
+            "Idle"
+          ],
+          [
+            "WildRabbit_Walk",
+            "Walk"
+          ],
+          [
+            "WildRabbit_Run",
+            "Run"
+          ],
+          [
+            "WildRabbit_Eat",
+            "Attack",
+            [
+              1,
+              26
+            ]
+          ],
+          [
+            "WildRabbit_Die",
+            "Death"
+          ]
+        ]
+      },
+      "geometry": {
+        "vertices": 1557,
+        "triangles": 2446,
+        "skinnedVertices": 1557,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "9bc76c904561069655d3fb3c3d6dfde3e7a4561d45c001341213819f8893ee6e"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "WildRabbit_MAINSHJnt",
+          "WildRabbit_ROOTSHJnt",
+          "WildRabbit_Spine_01SHJnt",
+          "WildRabbit_Spine_02SHJnt",
+          "WildRabbit_Spine_03SHJnt",
+          "WildRabbit_Spine_04SHJnt",
+          "WildRabbit_Spine_TopSHJnt",
+          "WildRabbit_l_Clavicle_01_01SHJnt",
+          "WildRabbit_l_FrontLeg_HipSHJnt",
+          "WildRabbit_l_FrontLeg_KneeSHJnt",
+          "WildRabbit_l_FrontLeg_AnkleSHJnt",
+          "WildRabbit_l_FrontLeg_BallSHJnt",
+          "WildRabbit_l_FrontLeg_ToeSHJnt",
+          "WildRabbit_r_Clavicle_01_01SHJnt",
+          "WildRabbit_r_FrontLeg_HipSHJnt",
+          "WildRabbit_r_FrontLeg_KneeSHJnt",
+          "WildRabbit_r_FrontLeg_AnkleSHJnt",
+          "WildRabbit_r_FrontLeg_BallSHJnt",
+          "WildRabbit_r_FrontLeg_ToeSHJnt",
+          "WildRabbit_Neck_01SHJnt",
+          "WildRabbit_Neck_02SHJnt",
+          "WildRabbit_Neck_TopSHJnt",
+          "WildRabbit_Head_JawSHJnt",
+          "WildRabbit_Head_JawEndSHJnt",
+          "WildRabbit_Head_TopSHJnt",
+          "WildRabbit_Nose_01_01SHJnt",
+          "WildRabbit_Nose_01_02SHJnt",
+          "WildRabbit_l_Ears_01_01SHJnt",
+          "WildRabbit_l_Ears_01_02SHJnt",
+          "WildRabbit_l_Ears_01_03SHJnt",
+          "WildRabbit_r_Ears_01_01SHJnt",
+          "WildRabbit_r_Ears_01_02SHJnt",
+          "WildRabbit_r_Ears_01_03SHJnt",
+          "WildRabbit_l_HindLeg_HipSHJnt",
+          "WildRabbit_l_HindLeg_KneeSHJnt",
+          "WildRabbit_l_HindLeg_AnkleSHJnt",
+          "WildRabbit_l_HindLeg_BallSHJnt",
+          "WildRabbit_l_HindLeg_ToeSHJnt",
+          "WildRabbit_r_HindLeg_HipSHJnt",
+          "WildRabbit_r_HindLeg_KneeSHJnt",
+          "WildRabbit_r_HindLeg_AnkleSHJnt",
+          "WildRabbit_r_HindLeg_BallSHJnt",
+          "WildRabbit_r_HindLeg_ToeSHJnt",
+          "WildRabbit_Tail_01_01SHJnt",
+          "WildRabbit_Tail_01_02SHJnt"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.291,
+        "y": 0.44,
+        "z": 0.677
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/animal_rabbit_dark.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.6181420884197628,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.908843013893144,
+              1.0471928195649554,
+              0.9086325233799645,
+              0.975457652515887
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.98958593451529,
+            "physicalContact": true,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.7143956521159764,
+              1.377185512434558,
+              0.8067821868040389,
+              1.3397377564820696
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "boss_rhino_air",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/boss/boss_rhino_air.glb",
+      "bytes": 1021816,
+      "sha256": "0e361fc212a4da00e5a7a04c5fe590dac7214fb8071b9b1b1493753a326c7556",
+      "source": {
+        "pack": {
+          "id": "fantasy-rhino",
+          "name": "Fantasy Rhino",
+          "author": "Maksim Bugrimov",
+          "source": "https://assetstore.unity.com/?q=Fantasy%20Rhino",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": null,
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 2643,
+        "triangles": 4303,
+        "skinnedVertices": 2146,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "56cfbecaaa767162f6490a1014dcdef73aec007f362fbf492536e756ed210880"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "CATRigHub003",
+          "CATRigHub003Bone002",
+          "CATRigHub003Bone001",
+          "CATRigHub003Bone004",
+          "CATRigHub003Bone004Bone001",
+          "CATRigSpine2",
+          "CATRigSpine1",
+          "CATRigHub002",
+          "CATRigLArm1",
+          "CATRigLArmCollarbone",
+          "CATRigLArm2",
+          "CATRigSpine1",
+          "CATRigSpine2",
+          "CATRigRArm1",
+          "CATRigLArmPalm",
+          "CATRigHub001",
+          "CATRigLLeg1",
+          "CATRigRLeg1",
+          "CATRigLLeg2",
+          "CATRigHub001Bone001",
+          "CATRigHub001Bone001Bone001",
+          "CATRigLLegAnkle",
+          "CATRigLLegDigit11",
+          "CATRigHub003Bone003",
+          "CATRigRArmCollarbone",
+          "CATRigRArm2",
+          "CATRigRArmPalm",
+          "CATRigRLeg2",
+          "CATRigRLegAnkle",
+          "CATRigRLegDigit11"
+        ],
+        [
+          "CATRigHub003",
+          "CATRigHub003Bone004Bone001",
+          "CATRigHub003Bone004",
+          "CATRigHub003Bone001"
+        ]
+      ],
+      "registeredSize": {
+        "x": 1.047,
+        "y": 1.707,
+        "z": 2.633
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/boss_rhino_air.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.184167221520099,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              1.0071467306366588,
+              0.9990998697199844,
+              0.8823104727832272,
+              0.8987302993374777
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 2.0675517301046415,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.2707467483916446,
+              1.0929046518253978,
+              0.7193162366570443,
+              0.33222315204235503
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "boss_rhino_earth",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/boss/boss_rhino_earth.glb",
+      "bytes": 1011616,
+      "sha256": "700ff55b402bc3e0a2a69cff5c87f44701cc7e14f818bbb640857e98a6474788",
+      "source": {
+        "pack": {
+          "id": "fantasy-rhino",
+          "name": "Fantasy Rhino",
+          "author": "Maksim Bugrimov",
+          "source": "https://assetstore.unity.com/?q=Fantasy%20Rhino",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": null,
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 2643,
+        "triangles": 4303,
+        "skinnedVertices": 2146,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "56cfbecaaa767162f6490a1014dcdef73aec007f362fbf492536e756ed210880"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "CATRigHub003",
+          "CATRigHub003Bone002",
+          "CATRigHub003Bone001",
+          "CATRigHub003Bone004",
+          "CATRigHub003Bone004Bone001",
+          "CATRigSpine2",
+          "CATRigSpine1",
+          "CATRigHub002",
+          "CATRigLArm1",
+          "CATRigLArmCollarbone",
+          "CATRigLArm2",
+          "CATRigSpine1",
+          "CATRigSpine2",
+          "CATRigRArm1",
+          "CATRigLArmPalm",
+          "CATRigHub001",
+          "CATRigLLeg1",
+          "CATRigRLeg1",
+          "CATRigLLeg2",
+          "CATRigHub001Bone001",
+          "CATRigHub001Bone001Bone001",
+          "CATRigLLegAnkle",
+          "CATRigLLegDigit11",
+          "CATRigHub003Bone003",
+          "CATRigRArmCollarbone",
+          "CATRigRArm2",
+          "CATRigRArmPalm",
+          "CATRigRLeg2",
+          "CATRigRLegAnkle",
+          "CATRigRLegDigit11"
+        ],
+        [
+          "CATRigHub003",
+          "CATRigHub003Bone004Bone001",
+          "CATRigHub003Bone004",
+          "CATRigHub003Bone001"
+        ]
+      ],
+      "registeredSize": {
+        "x": 1.047,
+        "y": 1.707,
+        "z": 2.633
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/boss_rhino_earth.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.184167221520099,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              1.0071467306366588,
+              0.9990998697199844,
+              0.8823104727832272,
+              0.8987302993374777
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 2.0675517301046415,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.2707467483916446,
+              1.0929046518253978,
+              0.7193162366570443,
+              0.33222315204235503
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "boss_rhino_water",
+      "decision": "rebuild",
+      "decisionScope": "rebuild motion; retain mesh provisionally for required visual audit",
+      "reason": "Hash-matched physical contact evidence fails planted travel expectations.",
+      "file": "models/boss/boss_rhino_water.glb",
+      "bytes": 985584,
+      "sha256": "f85ea2b8033deda8ff8232d8de709e0da56f81fd2f5dce7b7cb7ca6c9318e43a",
+      "source": {
+        "pack": {
+          "id": "fantasy-rhino",
+          "name": "Fantasy Rhino",
+          "author": "Maksim Bugrimov",
+          "source": "https://assetstore.unity.com/?q=Fantasy%20Rhino",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": null,
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 2643,
+        "triangles": 4303,
+        "skinnedVertices": 2146,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "56cfbecaaa767162f6490a1014dcdef73aec007f362fbf492536e756ed210880"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "CATRigHub003",
+          "CATRigHub003Bone002",
+          "CATRigHub003Bone001",
+          "CATRigHub003Bone004",
+          "CATRigHub003Bone004Bone001",
+          "CATRigSpine2",
+          "CATRigSpine1",
+          "CATRigHub002",
+          "CATRigLArm1",
+          "CATRigLArmCollarbone",
+          "CATRigLArm2",
+          "CATRigSpine1",
+          "CATRigSpine2",
+          "CATRigRArm1",
+          "CATRigLArmPalm",
+          "CATRigHub001",
+          "CATRigLLeg1",
+          "CATRigRLeg1",
+          "CATRigLLeg2",
+          "CATRigHub001Bone001",
+          "CATRigHub001Bone001Bone001",
+          "CATRigLLegAnkle",
+          "CATRigLLegDigit11",
+          "CATRigHub003Bone003",
+          "CATRigRArmCollarbone",
+          "CATRigRArm2",
+          "CATRigRArmPalm",
+          "CATRigRLeg2",
+          "CATRigRLegAnkle",
+          "CATRigRLegDigit11"
+        ],
+        [
+          "CATRigHub003",
+          "CATRigHub003Bone004Bone001",
+          "CATRigHub003Bone004",
+          "CATRigHub003Bone001"
+        ]
+      ],
+      "registeredSize": {
+        "x": 1.047,
+        "y": 1.707,
+        "z": 2.633
+      },
+      "priorContactAudit": {
+        "path": "test-results/legacy-gait/boss_rhino_water.json",
+        "sha256MatchesCurrent": true,
+        "gaits": [
+          {
+            "clip": "Walk",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 1.184167221520099,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              1.0071467306366588,
+              0.9990998697199844,
+              0.8823104727832272,
+              0.8987302993374777
+            ]
+          },
+          {
+            "clip": "Run",
+            "quality": "source-contact-inconsistent",
+            "crossFootRatio": 2.0675517301046415,
+            "sampleCount": 1920,
+            "relativeP10P90Widths": [
+              0.2707467483916446,
+              1.0929046518253978,
+              0.7193162366570443,
+              0.33222315204235503
+            ]
+          }
+        ]
+      },
+      "issues": [
+        "Current GLB is byte-identical to a physical-sole audit with inconsistent contact velocity. Playback metadata does not repair this motion."
+      ],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_marchwild_horse",
+      "decision": "keep",
+      "decisionScope": "retain current source for visual review; no visual acceptance implied",
+      "reason": "No source integrity defect found in this audit. Source retention avoids replacing an unreviewed asset without visual evidence.",
+      "file": "models/creature/creature_marchwild_horse.glb",
+      "bytes": 2614564,
+      "sha256": "7c22d6e71dccf631dfad298c59126a28e50cb26a24b420833d4bf7b169f52a99",
+      "source": {
+        "pack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original authored anatomical surface lofts and IK animation",
+          "license": "Project-owned original"
+        },
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 140885,
+        "triangles": 55852,
+        "skinnedVertices": 140885,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "ef73d33d15bb5d31ebded177584d23ff2ebc90f1748e6deff42eac3fdefca5a7"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "marchwild_horse_Root",
+          "marchwild_horse_Body",
+          "marchwild_horse_Neck",
+          "marchwild_horse_Head",
+          "marchwild_horse_Jaw",
+          "marchwild_horse_Nose",
+          "marchwild_horse_Tail",
+          "marchwild_horse_TailTip",
+          "marchwild_horse_EarL",
+          "marchwild_horse_EarR",
+          "marchwild_horse_ForeLHip",
+          "marchwild_horse_ForeLKnee",
+          "marchwild_horse_ForeLAnkle",
+          "marchwild_horse_ForeLFoot",
+          "marchwild_horse_ForeRHip",
+          "marchwild_horse_ForeRKnee",
+          "marchwild_horse_ForeRAnkle",
+          "marchwild_horse_ForeRFoot",
+          "marchwild_horse_HindLHip",
+          "marchwild_horse_HindLKnee",
+          "marchwild_horse_HindLAnkle",
+          "marchwild_horse_HindLFoot",
+          "marchwild_horse_HindRHip",
+          "marchwild_horse_HindRKnee",
+          "marchwild_horse_HindRAnkle",
+          "marchwild_horse_HindRFoot"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.9336281397744974,
+        "y": 2.470838681580499,
+        "z": 3.325599197938171
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_redbrush_fox",
+      "decision": "keep",
+      "decisionScope": "retain current source for visual review; no visual acceptance implied",
+      "reason": "No source integrity defect found in this audit. Source retention avoids replacing an unreviewed asset without visual evidence.",
+      "file": "models/creature/creature_redbrush_fox.glb",
+      "bytes": 1703828,
+      "sha256": "4cea19d183bce605de42fea91f6f30ae477692c306b9464b476ad2ebc31ae765",
+      "source": {
+        "pack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 18909,
+        "triangles": 34500,
+        "skinnedVertices": 18909,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "07994c992f0b85a398b51ac4a0fd399a414134d4a3d14881298e470e0d5d689d"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Ear_L",
+          "Ear_R",
+          "Tail_1",
+          "Tail_2",
+          "Tail_3",
+          "Tail_4",
+          "Tail_5",
+          "FR_Upper",
+          "FR_Lower",
+          "FR_Ankle",
+          "FR_Paw",
+          "FL_Upper",
+          "FL_Lower",
+          "FL_Ankle",
+          "FL_Paw",
+          "HR_Upper",
+          "HR_Lower",
+          "HR_Ankle",
+          "HR_Paw",
+          "HL_Upper",
+          "HL_Lower",
+          "HL_Ankle",
+          "HL_Paw"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.41873881004274843,
+        "y": 1.064994445502758,
+        "z": 2.4265522575378418
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_duskoak_lynx",
+      "decision": "rebuild",
+      "decisionScope": "anatomy/material candidate rebuilding; public asset remains rejected",
+      "reason": "Production captures rejected anatomy; revision3 candidate is staged outside public.",
+      "file": "models/creature/creature_duskoak_lynx.glb",
+      "bytes": 1692504,
+      "sha256": "95f983b1964f4f67427555b007b642285eb7119e2dfaf407ca615ce25c213fb5",
+      "source": {
+        "pack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 18759,
+        "triangles": 34540,
+        "skinnedVertices": 18759,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "703efe515235fa9d23abae5a83f91e172e7065f8c4dd1c83789850aca97c30f3"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Ear_L",
+          "Ear_R",
+          "Tail_1",
+          "Tail_2",
+          "Tail_3",
+          "Tail_4",
+          "FR_Upper",
+          "FR_Lower",
+          "FR_Ankle",
+          "FR_Paw",
+          "FL_Upper",
+          "FL_Lower",
+          "FL_Ankle",
+          "FL_Paw",
+          "HR_Upper",
+          "HR_Lower",
+          "HR_Ankle",
+          "HR_Paw",
+          "HL_Upper",
+          "HL_Lower",
+          "HL_Ankle",
+          "HL_Paw"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.5108626406923624,
+        "y": 1.2410553807020188,
+        "z": 1.8274259090423586
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_rootdelve_badger",
+      "decision": "keep",
+      "decisionScope": "retain current source for visual review; no visual acceptance implied",
+      "reason": "No source integrity defect found in this audit. Source retention avoids replacing an unreviewed asset without visual evidence.",
+      "file": "models/creature/creature_rootdelve_badger.glb",
+      "bytes": 1544448,
+      "sha256": "80532daf085c3d3c3145083eba289e68ff25f91b4b7e2ba40297ebf06d3c1f1d",
+      "source": {
+        "pack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 16923,
+        "triangles": 31088,
+        "skinnedVertices": 16923,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "35f02d686f793089d25251e29a8e7c85bab16465e591a0a7d9ea4f43aecebf38"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Ear_L",
+          "Ear_R",
+          "Tail_1",
+          "Tail_2",
+          "Tail_3",
+          "FR_Upper",
+          "FR_Lower",
+          "FR_Ankle",
+          "FR_Paw",
+          "FL_Upper",
+          "FL_Lower",
+          "FL_Ankle",
+          "FL_Paw",
+          "HR_Upper",
+          "HR_Lower",
+          "HR_Ankle",
+          "HR_Paw",
+          "HL_Upper",
+          "HL_Lower",
+          "HL_Ankle",
+          "HL_Paw"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.5990828742393419,
+        "y": 0.6667274226546287,
+        "z": 1.8915685868263243
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_quillback_porcupine",
+      "decision": "keep",
+      "decisionScope": "retain current source for visual review; no visual acceptance implied",
+      "reason": "No source integrity defect found in this audit. Source retention avoids replacing an unreviewed asset without visual evidence.",
+      "file": "models/creature/creature_quillback_porcupine.glb",
+      "bytes": 1799040,
+      "sha256": "8164845978ec33ad12665854849cb88577a1ac50fcfd7c96ecb2195cd0594471",
+      "source": {
+        "pack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 20261,
+        "triangles": 33960,
+        "skinnedVertices": 20261,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "15cdbfd694610a6209eefd19981048ba76387ebae630e84a571dae7973203b0b"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Root",
+          "Pelvis",
+          "Spine",
+          "Chest",
+          "Neck",
+          "Head",
+          "Jaw",
+          "Ear_L",
+          "Ear_R",
+          "Tail_1",
+          "Tail_2",
+          "Tail_3",
+          "Tail_4",
+          "FR_Upper",
+          "FR_Lower",
+          "FR_Ankle",
+          "FR_Paw",
+          "FL_Upper",
+          "FL_Lower",
+          "FL_Ankle",
+          "FL_Paw",
+          "HR_Upper",
+          "HR_Lower",
+          "HR_Ankle",
+          "HR_Paw",
+          "HL_Upper",
+          "HL_Lower",
+          "HL_Ankle",
+          "HL_Paw"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.9247332811355591,
+        "y": 0.9414220529794692,
+        "z": 1.7005261945724488
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_cairn_bighorn",
+      "decision": "rebuild",
+      "decisionScope": "anatomy/material candidate rebuilding; public asset remains rejected",
+      "reason": "Production captures rejected anatomy; revision3 candidate is staged outside public.",
+      "file": "models/creature/creature_cairn_bighorn.glb",
+      "bytes": 2360220,
+      "sha256": "ca7005ff331d6610065c8742addc758841e21b13df4318ff8660e05d719efa0d",
+      "source": {
+        "pack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 149304,
+        "triangles": 49032,
+        "skinnedVertices": 149304,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "094265098d46446071e251b84b944042b6526f46fc98dc71f17924c24bc2ce81"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "cairn_bighorn_Root",
+          "cairn_bighorn_Body",
+          "cairn_bighorn_Neck",
+          "cairn_bighorn_Head",
+          "cairn_bighorn_Jaw",
+          "cairn_bighorn_Nose",
+          "cairn_bighorn_Tail",
+          "cairn_bighorn_TailTip",
+          "cairn_bighorn_EarL",
+          "cairn_bighorn_EarR",
+          "cairn_bighorn_ForeLHip",
+          "cairn_bighorn_ForeLKnee",
+          "cairn_bighorn_ForeLAnkle",
+          "cairn_bighorn_ForeLFoot",
+          "cairn_bighorn_ForeRHip",
+          "cairn_bighorn_ForeRKnee",
+          "cairn_bighorn_ForeRAnkle",
+          "cairn_bighorn_ForeRFoot",
+          "cairn_bighorn_HindLHip",
+          "cairn_bighorn_HindLKnee",
+          "cairn_bighorn_HindLAnkle",
+          "cairn_bighorn_HindLFoot",
+          "cairn_bighorn_HindRHip",
+          "cairn_bighorn_HindRKnee",
+          "cairn_bighorn_HindRAnkle",
+          "cairn_bighorn_HindRFoot"
+        ]
+      ],
+      "registeredSize": {
+        "x": 1.061620831489563,
+        "y": 1.8497002376336604,
+        "z": 2.375941348075867
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_marsh_moose",
+      "decision": "keep",
+      "decisionScope": "retain current source for visual review; no visual acceptance implied",
+      "reason": "No source integrity defect found in this audit. Source retention avoids replacing an unreviewed asset without visual evidence.",
+      "file": "models/creature/creature_marsh_moose.glb",
+      "bytes": 2641056,
+      "sha256": "b622388373aaec3771e4a4e67fd3fb8a256325ed62a057008bd9c982564df6d9",
+      "source": {
+        "pack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 171390,
+        "triangles": 56432,
+        "skinnedVertices": 171390,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "d7717272ce8c6d1e03c99d875270e5923e6bec1e1b7c1cd37902a1e8681f6956"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "marsh_moose_Root",
+          "marsh_moose_Body",
+          "marsh_moose_Neck",
+          "marsh_moose_Head",
+          "marsh_moose_Jaw",
+          "marsh_moose_Nose",
+          "marsh_moose_Tail",
+          "marsh_moose_TailTip",
+          "marsh_moose_EarL",
+          "marsh_moose_EarR",
+          "marsh_moose_ForeLHip",
+          "marsh_moose_ForeLKnee",
+          "marsh_moose_ForeLAnkle",
+          "marsh_moose_ForeLFoot",
+          "marsh_moose_ForeRHip",
+          "marsh_moose_ForeRKnee",
+          "marsh_moose_ForeRAnkle",
+          "marsh_moose_ForeRFoot",
+          "marsh_moose_HindLHip",
+          "marsh_moose_HindLKnee",
+          "marsh_moose_HindLAnkle",
+          "marsh_moose_HindLFoot",
+          "marsh_moose_HindRHip",
+          "marsh_moose_HindRKnee",
+          "marsh_moose_HindRAnkle",
+          "marsh_moose_HindRFoot"
+        ]
+      ],
+      "registeredSize": {
+        "x": 2.4092817306518555,
+        "y": 2.8990251840371637,
+        "z": 3.0240739011764526
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_bracken_tapir",
+      "decision": "rebuild",
+      "decisionScope": "anatomy/material candidate rebuilding; public asset remains rejected",
+      "reason": "Production captures rejected anatomy; revision3 candidate is staged outside public.",
+      "file": "models/creature/creature_bracken_tapir.glb",
+      "bytes": 3092188,
+      "sha256": "2c16dd090f8558de658562a83409d67610afd72e0b16687a172e60313e16585f",
+      "source": {
+        "pack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 171635,
+        "triangles": 65094,
+        "skinnedVertices": 171635,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "63608b1ab3c2fc36ae0b1753126f12d14ded9f8e029ea014e1de222b8b613437"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "bracken_tapir_Root",
+          "bracken_tapir_Body",
+          "bracken_tapir_Neck",
+          "bracken_tapir_Head",
+          "bracken_tapir_Jaw",
+          "bracken_tapir_Nose",
+          "bracken_tapir_Tail",
+          "bracken_tapir_TailTip",
+          "bracken_tapir_EarL",
+          "bracken_tapir_EarR",
+          "bracken_tapir_ForeLHip",
+          "bracken_tapir_ForeLKnee",
+          "bracken_tapir_ForeLAnkle",
+          "bracken_tapir_ForeLFoot",
+          "bracken_tapir_ForeRHip",
+          "bracken_tapir_ForeRKnee",
+          "bracken_tapir_ForeRAnkle",
+          "bracken_tapir_ForeRFoot",
+          "bracken_tapir_HindLHip",
+          "bracken_tapir_HindLKnee",
+          "bracken_tapir_HindLAnkle",
+          "bracken_tapir_HindLFoot",
+          "bracken_tapir_HindRHip",
+          "bracken_tapir_HindRKnee",
+          "bracken_tapir_HindRAnkle",
+          "bracken_tapir_HindRFoot"
+        ]
+      ],
+      "registeredSize": {
+        "x": 1.0054474070134818,
+        "y": 1.4866178383352238,
+        "z": 2.646225631434598
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_reedjaw_crocodile",
+      "decision": "keep",
+      "decisionScope": "retain current source for visual review; no visual acceptance implied",
+      "reason": "No source integrity defect found in this audit. Source retention avoids replacing an unreviewed asset without visual evidence.",
+      "file": "models/creature/creature_reedjaw_crocodile.glb",
+      "bytes": 5820000,
+      "sha256": "93898e69d5c0f968bc7a93e3fdb3bc2d92de801228741b8bc05bf61affdf39bc",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "Crocodile_Rig.fbx",
+        "texture": null,
+        "provenance": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "sourceRig": "Crocodile_Rig.fbx",
+          "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+        },
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 19170,
+        "triangles": 6390,
+        "skinnedVertices": 19170,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "da96ff135e998a0fc3b0f24f034b35babcdfde90aba0604d2e60c8ea9bb09394"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Crocodile_MAINSHJnt",
+          "Crocodile_ROOTSHJnt",
+          "Crocodile_Spine_01SHJnt",
+          "Crocodile_Spine_02SHJnt",
+          "Crocodile_Spine_03SHJnt",
+          "Crocodile_Spine_04SHJnt",
+          "Crocodile_Spine_TopSHJnt",
+          "Crocodile_l_Clavicle_01_01SHJnt",
+          "Crocodile_l_FrontLeg_HipSHJnt",
+          "Crocodile_l_FrontLeg_KneeSHJnt",
+          "Crocodile_l_FrontLeg_AnkleSHJnt",
+          "Crocodile_l_FrontLeg_BallSHJnt",
+          "Crocodile_l_FrontLeg_ToeSHJnt",
+          "Crocodile_r_Clavicle_01_01SHJnt",
+          "Crocodile_r_FrontLeg_HipSHJnt",
+          "Crocodile_r_FrontLeg_KneeSHJnt",
+          "Crocodile_r_FrontLeg_AnkleSHJnt",
+          "Crocodile_r_FrontLeg_BallSHJnt",
+          "Crocodile_r_FrontLeg_ToeSHJnt",
+          "Crocodile_Neck_01SHJnt",
+          "Crocodile_Neck_02SHJnt",
+          "Crocodile_Neck_TopSHJnt",
+          "Crocodile_Head_JawSHJnt",
+          "Crocodile_Head_JawEndSHJnt",
+          "Crocodile_Head_TopSHJnt",
+          "Crocodile_l_HindLeg_HipSHJnt",
+          "Crocodile_l_HindLeg_KneeSHJnt",
+          "Crocodile_l_HindLeg_AnkleSHJnt",
+          "Crocodile_l_HindLeg_BallSHJnt",
+          "Crocodile_r_HindLeg_HipSHJnt",
+          "Crocodile_r_HindLeg_KneeSHJnt",
+          "Crocodile_r_HindLeg_AnkleSHJnt",
+          "Crocodile_r_HindLeg_BallSHJnt",
+          "Crocodile_Tail_01_01SHJnt",
+          "Crocodile_Tail_01_02SHJnt",
+          "Crocodile_Tail_01_03SHJnt",
+          "Crocodile_Tail_01_04SHJnt",
+          "Crocodile_Tail_01_05SHJnt",
+          "Crocodile_Tail_01_06SHJnt",
+          "Crocodile_Tail_01_07SHJnt",
+          "Crocodile_Tail_01_08SHJnt"
+        ]
+      ],
+      "registeredSize": {
+        "x": 1.2803505856491546,
+        "y": 0.5257774696753599,
+        "z": 4.802144371617658
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_kiln_salamander",
+      "decision": "keep",
+      "decisionScope": "retain current source for visual review; no visual acceptance implied",
+      "reason": "No source integrity defect found in this audit. Source retention avoids replacing an unreviewed asset without visual evidence.",
+      "file": "models/creature/creature_kiln_salamander.glb",
+      "bytes": 3569736,
+      "sha256": "342cc93490966705e1100a185be68d6ff060067ef8170169cb7d69eb5cede5ad",
+      "source": {
+        "pack": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+          "assetStoreId": "99702",
+          "sourceArchive": "Animal pack deluxe.unitypackage"
+        },
+        "rig": "FireSalamander_Rig.fbx",
+        "texture": null,
+        "provenance": {
+          "id": "animal-pack-deluxe",
+          "name": "Animal pack deluxe",
+          "author": "janpec",
+          "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+          "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+          "sourceRig": "FireSalamander_Rig.fbx",
+          "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+        },
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 6480,
+        "triangles": 2160,
+        "skinnedVertices": 6480,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "558cff5809759b6699635370cd18bf3cd2e9b46aa49beaefe49255a23d8e4318"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Death",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "FireSalamander_MAINSHJnt",
+          "FireSalamander_ROOTSHJnt",
+          "FireSalamander_Spine_01SHJnt",
+          "FireSalamander_Spine_02SHJnt",
+          "FireSalamander_Spine_03SHJnt",
+          "FireSalamander_Spine_04SHJnt",
+          "FireSalamander_Spine_TopSHJnt",
+          "FireSalamander_l_Clavicle_01_01SHJnt",
+          "FireSalamander_l_FrontLeg_HipSHJnt",
+          "FireSalamander_l_FrontLeg_KneeSHJnt",
+          "FireSalamander_l_FrontLeg_AnkleSHJnt",
+          "FireSalamander_l_FrontLeg_BallSHJnt",
+          "FireSalamander_l_FrontLeg_ToeSHJnt",
+          "FireSalamander_r_Clavicle_01_01SHJnt",
+          "FireSalamander_r_FrontLeg_HipSHJnt",
+          "FireSalamander_r_FrontLeg_KneeSHJnt",
+          "FireSalamander_r_FrontLeg_AnkleSHJnt",
+          "FireSalamander_r_FrontLeg_BallSHJnt",
+          "FireSalamander_r_FrontLeg_ToeSHJnt",
+          "FireSalamander_Neck_01SHJnt",
+          "FireSalamander_Neck_02SHJnt",
+          "FireSalamander_Neck_TopSHJnt",
+          "FireSalamander_Head_TopSHJnt",
+          "FireSalamander_l_HindLeg_HipSHJnt",
+          "FireSalamander_l_HindLeg_KneeSHJnt",
+          "FireSalamander_l_HindLeg_AnkleSHJnt",
+          "FireSalamander_l_HindLeg_BallSHJnt",
+          "FireSalamander_l_HindLeg_ToeSHJnt",
+          "FireSalamander_r_HindLeg_HipSHJnt",
+          "FireSalamander_r_HindLeg_KneeSHJnt",
+          "FireSalamander_r_HindLeg_AnkleSHJnt",
+          "FireSalamander_r_HindLeg_BallSHJnt",
+          "FireSalamander_r_HindLeg_ToeSHJnt",
+          "FireSalamander_Tail_01_01SHJnt",
+          "FireSalamander_Tail_01_02SHJnt",
+          "FireSalamander_Tail_01_03SHJnt",
+          "FireSalamander_Tail_01_04SHJnt",
+          "FireSalamander_Tail_01_05SHJnt",
+          "FireSalamander_Tail_01_06SHJnt",
+          "FireSalamander_Tail_01_07SHJnt",
+          "FireSalamander_Tail_01_08SHJnt",
+          "Salamander_LowerJaw"
+        ]
+      ],
+      "registeredSize": {
+        "x": 0.32350622529277795,
+        "y": 0.1586890940591499,
+        "z": 1.1433032684092854
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_slateback_tortoise",
+      "decision": "keep",
+      "decisionScope": "retain current source for visual review; no visual acceptance implied",
+      "reason": "No source integrity defect found in this audit. Source retention avoids replacing an unreviewed asset without visual evidence.",
+      "file": "models/creature/creature_slateback_tortoise.glb",
+      "bytes": 2588512,
+      "sha256": "455a10534e2acbde916d6d57c01b8a7305702c1f08263bad3db77e37e191e80a",
+      "source": {
+        "pack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": "Original procedural anatomical surface modeling, scute tessellation, authored skeleton and IK clips. No external model or source creature reused.",
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 21089,
+        "triangles": 34916,
+        "skinnedVertices": 21089,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "12d1aca792ca95f88266c6a8649ba864c62cfa149dc32dd5ee0d46063878dd7f"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "tortoise_root",
+          "tortoise_body",
+          "tortoise_neck_base",
+          "tortoise_neck_extend",
+          "tortoise_head",
+          "tortoise_jaw",
+          "tortoise_tail_base",
+          "tortoise_tail_tip",
+          "tortoise_front_left_upper",
+          "tortoise_front_left_lower",
+          "tortoise_front_left_foot",
+          "tortoise_front_right_upper",
+          "tortoise_front_right_lower",
+          "tortoise_front_right_foot",
+          "tortoise_rear_left_upper",
+          "tortoise_rear_left_lower",
+          "tortoise_rear_left_foot",
+          "tortoise_rear_right_upper",
+          "tortoise_rear_right_lower",
+          "tortoise_rear_right_foot"
+        ]
+      ],
+      "registeredSize": {
+        "x": 1.8563157545498297,
+        "y": 1.2889853683114052,
+        "z": 2.9349549293518065
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_ashscale_monitor",
+      "decision": "keep",
+      "decisionScope": "retain current source for visual review; no visual acceptance implied",
+      "reason": "No source integrity defect found in this audit. Source retention avoids replacing an unreviewed asset without visual evidence.",
+      "file": "models/creature/creature_ashscale_monitor.glb",
+      "bytes": 3137032,
+      "sha256": "7177dba27d5453b40d5dad3ab184b024bb024cc15c7dccc8a32db0fc42ed6483",
+      "source": {
+        "pack": {
+          "id": "corealm-creature-expansion",
+          "name": "Corealm original creature expansion",
+          "author": "Corealm",
+          "source": "tools/build-creature-expansion.ts",
+          "license": "LicenseRef-Corealm-Original",
+          "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": "Original Corealm authored continuous anatomical lofts, custom scale topology, weighted rig and analytical IK animation. No third-party meshes or textures.",
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 123984,
+        "triangles": 34374,
+        "skinnedVertices": 123984,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "56e7f0e861a651ad950c04a959702204b6b7f4b5dfc96d191fba0519bd4a270a"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "monitor_root",
+          "monitor_pelvis",
+          "monitor_spine",
+          "monitor_chest",
+          "monitor_neck_base",
+          "monitor_neck_upper",
+          "monitor_head",
+          "monitor_jaw",
+          "monitor_tongue",
+          "monitor_tail_1",
+          "monitor_tail_2",
+          "monitor_tail_3",
+          "monitor_tail_4",
+          "monitor_tail_5",
+          "monitor_tail_6",
+          "monitor_fore_left_upper",
+          "monitor_fore_left_lower",
+          "monitor_fore_left_foot",
+          "monitor_fore_left_toe_1",
+          "monitor_fore_left_toe_2",
+          "monitor_fore_left_toe_3",
+          "monitor_fore_left_toe_4",
+          "monitor_fore_left_toe_5",
+          "monitor_fore_right_upper",
+          "monitor_fore_right_lower",
+          "monitor_fore_right_foot",
+          "monitor_fore_right_toe_1",
+          "monitor_fore_right_toe_2",
+          "monitor_fore_right_toe_3",
+          "monitor_fore_right_toe_4",
+          "monitor_fore_right_toe_5",
+          "monitor_hind_left_upper",
+          "monitor_hind_left_lower",
+          "monitor_hind_left_foot",
+          "monitor_hind_left_toe_1",
+          "monitor_hind_left_toe_2",
+          "monitor_hind_left_toe_3",
+          "monitor_hind_left_toe_4",
+          "monitor_hind_left_toe_5",
+          "monitor_hind_right_upper",
+          "monitor_hind_right_lower",
+          "monitor_hind_right_foot",
+          "monitor_hind_right_toe_1",
+          "monitor_hind_right_toe_2",
+          "monitor_hind_right_toe_3",
+          "monitor_hind_right_toe_4",
+          "monitor_hind_right_toe_5"
+        ]
+      ],
+      "registeredSize": {
+        "x": 1.8283082466125486,
+        "y": 1.1981679896712303,
+        "z": 4.768128638267517
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_basalt_drake",
+      "decision": "keep",
+      "decisionScope": "retain current source for visual review; no visual acceptance implied",
+      "reason": "No source integrity defect found in this audit. Source retention avoids replacing an unreviewed asset without visual evidence.",
+      "file": "models/creature/creature_basalt_drake.glb",
+      "bytes": 6511488,
+      "sha256": "2c0dc6807f07e5a87e02f883d37a0c30d73c85deb2986a088394317e04bf2ce9",
+      "source": {
+        "pack": {
+          "id": "dungeon-mason-dragon-boar",
+          "name": "Dragon the Soul Eater and Dragon Boar",
+          "author": "Dungeon Mason",
+          "source": "https://assetstore.unity.com/packages/3d/characters/creatures/dragon-the-soul-eater-and-dragon-boar-77121",
+          "license": "Standard Unity Asset Store EULA",
+          "archiveSha256": "0651f4f428799d1dd9d7d37d3c524395c35bffa9f5560fe2a489a3f34907af42",
+          "assetStoreId": "77121",
+          "sourceArchive": "Dragon the Soul Eater and Dragon Boar.unitypackage",
+          "archiveTitle": "Dragon the Terror Bringer and Dragon Boar"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": {
+          "author": "Dungeon Mason",
+          "pack": "Dragon the Soul Eater and Dragon Boar",
+          "license": "Standard Unity Asset Store EULA",
+          "source": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+          "texture": "DragonBoarPBR/Blue",
+          "modifications": "Proportional .65 scale, stationary horizontal root, native albedo and normal maps, Unity metallic/smoothness and AO packed into glTF ORM, directional upper-body recoil over authored hit, upward-only root height corrections from actual skinned minima at 240 Hz."
+        },
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 9690,
+        "triangles": 3230,
+        "skinnedVertices": 9690,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "cab32fce7369ad6259753ebcfc796ef246bd156053f4472580f4c64a958fc4b7"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Root",
+          "Spine1",
+          "Chest",
+          "Head",
+          "UpperMouth1",
+          "UpperMouth2",
+          "L_UpperEye",
+          "L_LowerEye",
+          "R_UpperEye",
+          "R_LowerEye",
+          "Jaw1",
+          "Jaw2",
+          "Jaw3",
+          "L_Horn1",
+          "L_Horn2",
+          "Tongue1",
+          "Tongue2",
+          "Tongue3",
+          "R_Horn1",
+          "R_Horn2",
+          "L_UpperArm",
+          "L_LowerArm",
+          "L_Hand",
+          "L_Fingers",
+          "R_UpperArm",
+          "R_RowerArm",
+          "R_Hand",
+          "R_Fingers",
+          "joint5",
+          "joint6",
+          "joint7",
+          "joint8",
+          "L_UpperLeg",
+          "L_LowerLeg",
+          "L_Feet",
+          "L_Toes",
+          "R_UpperReg",
+          "R_RowerReg",
+          "R_Feet",
+          "R_Toes"
+        ]
+      ],
+      "registeredSize": {
+        "x": 1.7450177392857733,
+        "y": 2.1080696907148737,
+        "z": 4.735762694542039
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    },
+    {
+      "id": "creature_quarry_nightmare",
+      "decision": "keep",
+      "decisionScope": "retain current source for visual review; no visual acceptance implied",
+      "reason": "No source integrity defect found in this audit. Source retention avoids replacing an unreviewed asset without visual evidence.",
+      "file": "models/creature/creature_quarry_nightmare.glb",
+      "bytes": 7066308,
+      "sha256": "6f91b9e2870d6342fb4e116dc42a2f350599792ce5cb8cbcb1f91a19d4ce4c14",
+      "source": {
+        "pack": {
+          "id": "dungeon-mason-four-evil-dragons-pbr",
+          "name": "Dragon for Boss Monster: PBR",
+          "author": "Dungeon Mason",
+          "source": "https://assetstore.unity.com/packages/3d/characters/creatures/dragon-for-boss-monster-pbr-78923",
+          "license": "Standard Unity Asset Store EULA",
+          "archiveSha256": "01b15c6e6ac1339acc40e653924691583cbf44303397878ae7f79a59112b7383",
+          "assetStoreId": "78923",
+          "sourceArchive": "Dragon for Boss Monster PBR.unitypackage",
+          "archiveTitle": "Four Evil Dragons Pack PBR"
+        },
+        "rig": null,
+        "texture": null,
+        "provenance": {
+          "publisher": "Dungeon Mason",
+          "package": "Dragon for Boss Monster PBR",
+          "sourceFolder": "FourEvilDragonsPBR",
+          "mesh": "Assets/FourEvilDragonsPBR/Mesh/DragonTheNightmareMesh.fbx",
+          "material": "DragonNightmare/AlbinoPBR",
+          "textureResolution": 2048,
+          "scale": 0.45,
+          "facing": "+Z",
+          "clips": {
+            "Idle": {
+              "file": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/idle01.fbx",
+              "take": "Take 001",
+              "frames": [
+                0,
+                40
+              ],
+              "fps": 30
+            },
+            "Walk": {
+              "file": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/walk.fbx",
+              "take": "Take 001",
+              "frames": [
+                0,
+                40
+              ],
+              "fps": 30
+            },
+            "Run": {
+              "file": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/run.fbx",
+              "take": "Take 001",
+              "frames": [
+                0,
+                30
+              ],
+              "fps": 30
+            },
+            "Attack": {
+              "file": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/Basic Attack.fbx",
+              "take": "Take 001",
+              "frames": [
+                0,
+                36
+              ],
+              "fps": 30
+            },
+            "Hit": {
+              "file": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/getHit.fbx",
+              "take": "Take 001",
+              "frames": [
+                0,
+                42
+              ],
+              "fps": 30
+            },
+            "Death": {
+              "file": "Assets/FourEvilDragonsPBR/Animations/DragonNightMare/die.fbx",
+              "take": "Take 001",
+              "frames": [
+                0,
+                57
+              ],
+              "fps": 30
+            }
+          },
+          "directionalHits": "Source getHit plus signed chest and neck recoil; forelimb world transforms compensated at every 30 Hz source sample",
+          "rootMotion": "Root X/Z fixed to mesh rest translation, source Y compression preserved",
+          "grounding": {
+            "method": "Actual skinned minimum sampled at 120 Hz; upward-only Root Y correction with 2 mm clearance",
+            "clips": {
+              "Idle": {
+                "minimumBeforeM": -0.000018286767841282914,
+                "maximumCorrectionM": 0.002018286767841283,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "Walk": {
+                "minimumBeforeM": -0.09374020204473738,
+                "maximumCorrectionM": 0.09574020204473738,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "Run": {
+                "minimumBeforeM": -0.05533773401568225,
+                "maximumCorrectionM": 0.05733773401568225,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "Attack": {
+                "minimumBeforeM": -0.061453092842534446,
+                "maximumCorrectionM": 0.06345309284253445,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "Hit": {
+                "minimumBeforeM": -0.16465195162925517,
+                "maximumCorrectionM": 0.16665195162925517,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "HitLeft": {
+                "minimumBeforeM": -0.1646517234576912,
+                "maximumCorrectionM": 0.1666517234576912,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "HitRight": {
+                "minimumBeforeM": -0.16465161281599422,
+                "maximumCorrectionM": 0.16665161281599422,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              },
+              "Death": {
+                "minimumBeforeM": -0.0723864257667371,
+                "maximumCorrectionM": 0.0743864257667371,
+                "samplesPerSecond": 120,
+                "clearanceM": 0.002
+              }
+            }
+          },
+          "gaitMeasurement": "Median backward hind-foot velocity in lowest 35% of each foot height range, 120 samples per clip, final .45 scale",
+          "license": "Standard Unity Asset Store EULA"
+        },
+        "sourceClips": null
+      },
+      "geometry": {
+        "vertices": 13146,
+        "triangles": 4382,
+        "skinnedVertices": 13146,
+        "invalidWeights": 0,
+        "nonfinite": 0,
+        "geometryAndWeightsSha256": "50a4962c331e12f0ae7c226d83d97b5f7fde670557764b51ea7d53731faf6a24"
+      },
+      "clips": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "missingClips": [],
+      "joints": [
+        [
+          "Root",
+          "Spine01",
+          "Spine02",
+          "Chest",
+          "Neck01",
+          "Neck02",
+          "Head",
+          "UpperHead01",
+          "UpperHead02",
+          "Tongue01",
+          "Tongue02",
+          "Tongue03",
+          "Tongue04",
+          "Jaw01",
+          "Jaw02",
+          "Jaw03",
+          "L_Shoulder01",
+          "L_Shoulder02",
+          "R_Shoulder01",
+          "R_Shoulder02",
+          "R_UpperArm",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Index01",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Index01__R_Index02",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Index01__R_Index02__R_Index03",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Middle01",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Middle01__R_Middle02",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Middle01__R_Middle02__R_Middle03",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Pinky01",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Pinky01__R_Pinky02",
+          "Root__Spine01__Spine02__Chest__R_UpperArm__R_RowerArm__R_Wrist__R_Hand__R_Pinky01__R_Pinky02__R_Pinky03",
+          "R_UpperArm1",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Index01",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Index01__R_Index02",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Index01__R_Index02__R_Index03",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Middle01",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Middle01__R_Middle02",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Middle01__R_Middle02__R_Middle03",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Pinky01",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Pinky01__R_Pinky02",
+          "Root__Spine01__Spine02__Chest__R_UpperArm1__R_RowerArm__R_Wrist__R_Hand__R_Pinky01__R_Pinky02__R_Pinky03",
+          "Tail01",
+          "Tail02",
+          "Tail03",
+          "Tail04",
+          "L_UpperLeg",
+          "L_Lowerleg01",
+          "L_LowerLeg02",
+          "L_feet",
+          "L_Toe_Middle01",
+          "L_Toe_Middle02",
+          "L_Toe_Pinky01",
+          "L_Toe_Pinky02",
+          "L_Toe_Index01",
+          "L_Toe_Index02",
+          "R_UpperReg",
+          "R_Rowerleg01",
+          "R_RowerReg02",
+          "R_feet",
+          "R_Toe_Middle01",
+          "R_Toe_Middle02",
+          "R_Toe_Pinky01",
+          "R_Toe_Pinky02",
+          "R_Toe_Index01",
+          "R_Toe_Index02"
+        ]
+      ],
+      "registeredSize": {
+        "x": 3.058012635264145,
+        "y": 1.973006547092905,
+        "z": 4.941039662941751
+      },
+      "priorContactAudit": null,
+      "issues": [],
+      "visualAcceptance": {
+        "front": false,
+        "side": false,
+        "rear": false,
+        "gameplayDistance": false,
+        "movingProduction": false,
+        "accepted": false
+      }
+    }
+  ],
+  "sharedGeometry": [
+    [
+      "animal_cattle",
+      "animal_aurochs"
+    ],
+    [
+      "animal_rabbit",
+      "animal_rabbit_dark"
+    ],
+    [
+      "boss_rhino_air",
+      "boss_rhino_earth",
+      "boss_rhino_water"
+    ]
+  ],
+  "summary": {
+    "assets": 29,
+    "keep": 11,
+    "rebuild": 18,
+    "replace": 0,
+    "hashMatchedContactFailures": 15,
+    "invalidWeights": 0,
+    "nonfinite": 0
+  }
+}

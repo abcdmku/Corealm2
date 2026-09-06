@@ -1,0 +1,8 @@
+{
+  "package": "ufbx",
+  "version": "0.0.5",
+  "wheel": "ufbx-0.0.5-cp313-cp313-win_amd64.whl",
+  "sha256": "25231bf56e92c694b1fb671cf950219139814db29eb2348b423a38a3b1c64122",
+  "source": "https://pypi.org/project/ufbx/0.0.5/",
+  "runtime": "isolated extraction under test-results/earth-elemental-source/python-runtime; no global dependency changes"
+}

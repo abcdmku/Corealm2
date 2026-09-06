@@ -1,0 +1,70 @@
+{
+  "counts": {
+    "base_male": 9040,
+    "outfit_male_peasant_legs": 488,
+    "outfit_male_knight_chest": 6042,
+    "outfit_male_knight_pauldron": 2976,
+    "minotaur_authored_bull_head": 2078,
+    "closedRearHeadCuts": 1,
+    "minotaur_authored_hoof_-1": 73,
+    "minotaur_authored_hoof_1": 73
+  },
+  "clips": [
+    {
+      "clip": "Idle",
+      "beforeCorrectionMinFloor": -0.006488858761636171,
+      "beforeCorrectionMaxFloor": -0.0021172923265910526,
+      "minFloor": 0.001999331715784855,
+      "maxFloor": 0.0020000003820362933
+    },
+    {
+      "clip": "Walk",
+      "beforeCorrectionMinFloor": 0.005505280892384529,
+      "beforeCorrectionMaxFloor": 0.03654749922044884,
+      "minFloor": 0.007655347673551832,
+      "maxFloor": 0.036641795897098595
+    },
+    {
+      "clip": "Run",
+      "beforeCorrectionMinFloor": 0.042547078278678624,
+      "beforeCorrectionMaxFloor": 0.4104898086654547,
+      "minFloor": 0.04532839539205316,
+      "maxFloor": 0.40335822567477286
+    },
+    {
+      "clip": "Attack",
+      "beforeCorrectionMinFloor": -0.013069182114573558,
+      "beforeCorrectionMaxFloor": 0.04467027435048962,
+      "minFloor": 0.0019707397829526185,
+      "maxFloor": 0.04656558581622469
+    },
+    {
+      "clip": "Hit",
+      "beforeCorrectionMinFloor": -0.011353418955732247,
+      "beforeCorrectionMaxFloor": -0.005976078743112789,
+      "minFloor": 0.0019913944518222815,
+      "maxFloor": 0.0020217756845491014
+    },
+    {
+      "clip": "HitLeft",
+      "beforeCorrectionMinFloor": -0.011353418955732247,
+      "beforeCorrectionMaxFloor": -0.005976078743112789,
+      "minFloor": 0.0019913944518222815,
+      "maxFloor": 0.0020217756845491014
+    },
+    {
+      "clip": "HitRight",
+      "beforeCorrectionMinFloor": -0.011353418955732247,
+      "beforeCorrectionMaxFloor": -0.005976078743112789,
+      "minFloor": 0.0019913944518222815,
+      "maxFloor": 0.0020217756845491014
+    },
+    {
+      "clip": "Death",
+      "beforeCorrectionMinFloor": -0.3306675119402329,
+      "beforeCorrectionMaxFloor": 0.020901739600221042,
+      "minFloor": -0.0019482844349048012,
+      "maxFloor": 0.02281815728576972
+    }
+  ]
+}

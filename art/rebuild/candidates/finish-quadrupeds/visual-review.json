@@ -1,0 +1,98 @@
+{
+  "revision": 6,
+  "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+  "pageErrors": [],
+  "scope": "All 145 catalogue screenshots inspected on hardware. Fresh independent critic inspected all 26 Bighorn/Tapir static and lifecycle images and rejects both final visual quality; root retained direction but owns unresolved promotion decision. Lynx revision 6 body remains rejected; source revision 7 awaits export and hardware review.",
+  "assets": [
+    {
+      "id": "creature_cairn_bighorn",
+      "sha256": "6f1e5349279e348087d62533a0589ae0e48342328d6c1d0c3bc535e2bec1e9d1",
+      "assetAuditPassed": true,
+      "productionGalleryLoaded": true,
+      "hardwareRenderPassed": true,
+      "rootDirectionAccepted": true,
+      "staticVisualAccepted": false,
+      "labAccepted": false,
+      "worldIntegrated": false,
+      "inspectedScreenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_cairn_bighorn-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_cairn_bighorn-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_cairn_bighorn-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_cairn_bighorn-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_cairn_bighorn-run.png"
+      ],
+      "findings": [
+        "Horn now has visible taper and growth ridges instead of a smooth torus.",
+        "Hooves are narrower, split and free of the large cuff silhouette.",
+        "Retain this direction for full-pose and natural runtime proof; no sampled-run mesh tearing observed.",
+        "Independent critic inspected five catalogue views and eight natural lifecycle images. Trace supports real gameplay transitions; final visual acceptance is rejected pending root decision."
+      ],
+      "stagedSha256": "6f1e5349279e348087d62533a0589ae0e48342328d6c1d0c3bc535e2bec1e9d1",
+      "stagedBytesMatchInspectedRevision": true,
+      "workerRecommendedDirection": true,
+      "lifecycleReport": "test-results/quadruped-lifecycle/cairn_bighorn-settled/report.json",
+      "independentCriticDisposition": "rebuild",
+      "independentCriticFindings": "Uniform tan finish, bead eyes, segmented inflated horns and thin lower legs ending in separate hoof blocks remain toy-like."
+    },
+    {
+      "id": "creature_bracken_tapir",
+      "sha256": "88b1fe8f89a84125105c401d109915b304890ac150f923adf4df9a00968fd462",
+      "assetAuditPassed": true,
+      "productionGalleryLoaded": true,
+      "hardwareRenderPassed": true,
+      "rootDirectionAccepted": true,
+      "staticVisualAccepted": false,
+      "labAccepted": false,
+      "worldIntegrated": false,
+      "inspectedScreenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_bracken_tapir-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_bracken_tapir-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_bracken_tapir-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_bracken_tapir-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard3/creature_bracken_tapir-run.png"
+      ],
+      "findings": [
+        "Retained revision 4 silhouette and rounded ears remain coherent in all three views.",
+        "Root-approved direction, pending additional poses and natural motion.",
+        "Independent critic inspected five catalogue views and eight natural lifecycle images. Trace supports real gameplay transitions; final visual acceptance is rejected pending root decision."
+      ],
+      "stagedSha256": "88b1fe8f89a84125105c401d109915b304890ac150f923adf4df9a00968fd462",
+      "stagedBytesMatchInspectedRevision": true,
+      "workerRecommendedDirection": true,
+      "lifecycleReport": "test-results/quadruped-lifecycle/bracken_tapir-settled/report.json",
+      "lifecycleReanalysis": "test-results/quadruped-lifecycle/bracken_tapir-settled/trace-reanalysis.json",
+      "independentCriticDisposition": "rebuild",
+      "independentCriticFindings": "Capsule torso, narrow elongated head, bulbous toe knobs, circular ear rims and projecting eyes remain toy-like."
+    },
+    {
+      "id": "creature_duskoak_lynx",
+      "sha256": "bd21ba94ab5d71753597ba7eaed2eeeef6800ac1b0ae76316f4aa3beb1fb8ae7",
+      "assetAuditPassed": true,
+      "productionGalleryLoaded": true,
+      "hardwareRenderPassed": true,
+      "rootDirectionAccepted": false,
+      "staticVisualAccepted": false,
+      "labAccepted": false,
+      "worldIntegrated": false,
+      "inspectedScreenshots": [
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_duskoak_lynx-front.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_duskoak_lynx-side.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_duskoak_lynx-rear.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_duskoak_lynx-gameplay.png",
+        "test-results/finish-quadrupeds-catalogue/shard2/creature_duskoak_lynx-run.png"
+      ],
+      "findings": [
+        "Head planes improved in revision 6. Root and independent critic still reject corrugated lower legs, inflated separate toes and smudged coat.",
+        "Source revision 7 replaces separate toes with unified grooved paws, tapers wrists/hocks, raises field resolution and revises fur/dappling. No revision 7 visual acceptance yet."
+      ],
+      "stagedSha256": "bd21ba94ab5d71753597ba7eaed2eeeef6800ac1b0ae76316f4aa3beb1fb8ae7",
+      "stagedBytesMatchInspectedRevision": true,
+      "workerRecommendedDirection": false
+    }
+  ],
+  "stagedRevision": 6,
+  "pendingHardwareReview": [
+    "lynx source revision 7 (not yet exported)"
+  ],
+  "sourceRevision": 7
+}

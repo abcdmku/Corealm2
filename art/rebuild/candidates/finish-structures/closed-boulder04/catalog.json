@@ -1,0 +1,351 @@
+{
+  "generator": "tools/build-boulder04-shortcuts.ts",
+  "generatorSha256": "d2688253869e1a9dc3ec18440fb0b57b958f21cdb3670d6113d1992eea9d5c64",
+  "pack": {
+    "id": "corealm-polyhaven-boulder04-shortcuts",
+    "name": "Corealm Namaqualand Boulder 04 shortcut derivatives",
+    "author": "Corealm placement; original Namaqualand Boulder 04 by Jenelle van Heerden / Poly Haven",
+    "source": "https://polyhaven.com/a/namaqualand_boulder_04",
+    "license": "CC0-1.0"
+  },
+  "source": {
+    "file": "art/rebuild/candidates/finish-structures/source-bedding/closed-source/namaqualand_boulder_04/namaqualand_boulder_04.gltf",
+    "inspection": "art/rebuild/candidates/finish-structures/source-bedding/closed-source/namaqualand_boulder_04/inspection.json",
+    "files": [
+      {
+        "file": "namaqualand_boulder_04.gltf",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/namaqualand_boulder_04/namaqualand_boulder_04_1k.gltf",
+        "bytes": 2818,
+        "md5": "7cc9f708bf5792f89af6638465cac3b4",
+        "sha256": "04c858a3bdb22873efa988633e0c0d9d1468055f34c94d47742f75165a192078"
+      },
+      {
+        "file": "namaqualand_boulder_04.bin",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/namaqualand_boulder_04/namaqualand_boulder_04.bin",
+        "bytes": 1319676,
+        "md5": "bd83376dfe39432568dc13a8fb738953",
+        "sha256": "99ba28ddc8da9ba24e1a419e69ed05f14c4b483bf06268a8a77495545985318a"
+      },
+      {
+        "file": "textures/namaqualand_boulder_04_arm_1k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/namaqualand_boulder_04/namaqualand_boulder_04_arm_1k.jpg",
+        "bytes": 600523,
+        "md5": "03f2b36ad3349fc1768dbd20c9b07403",
+        "sha256": "b9556284b65a603cee0c282f1a13f1642ac64cd586db14caa065e7322ec95db2"
+      },
+      {
+        "file": "textures/namaqualand_boulder_04_diff_1k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/namaqualand_boulder_04/namaqualand_boulder_04_diff_1k.jpg",
+        "bytes": 886013,
+        "md5": "0ef2c0fe9eaca715efad500c13ce140c",
+        "sha256": "1673e031ebcf5015206fec10bec676e55b049705b01fcef6bb2b2fb79e8de54c"
+      },
+      {
+        "file": "textures/namaqualand_boulder_04_nor_gl_1k.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/namaqualand_boulder_04/namaqualand_boulder_04_nor_gl_1k.jpg",
+        "bytes": 906782,
+        "md5": "e642a0c62a3b33adf953a7832f9231ae",
+        "sha256": "a7042070d6e369c80d818b7e787b977bf84c1f78b0c83e3ecf690ac2fa17d291"
+      }
+    ],
+    "topology": {
+      "vertices": 30165,
+      "triangles": 59066,
+      "bounds": {
+        "min": [
+          -1.3402929306030273,
+          -0.029385626316070557,
+          -1.0310475826263428
+        ],
+        "max": [
+          1.1818602085113525,
+          1.8710765838623047,
+          1.4653747081756592
+        ],
+        "size": [
+          2.52215313911438,
+          1.9004622101783752,
+          2.496422290802002
+        ]
+      },
+      "weldTolerance": 4.025560498051633e-7,
+      "weldedVertices": 29535,
+      "boundaryEdges": 0,
+      "nonmanifoldEdges": 0,
+      "degenerateTriangles": 0,
+      "components": 1,
+      "euler": 2,
+      "signedVolume": 4.987445125770965
+    }
+  },
+  "yawSelections": {
+    "cliff_step_2": {
+      "selected": {
+        "yaw": 30,
+        "pitch": 0,
+        "drop": 0.19303960345578952,
+        "axisRatio": 1.3961072971142663
+      },
+      "bestYawSamples": [
+        {
+          "yaw": 30,
+          "pitch": 0,
+          "drop": 0.19303960345578952,
+          "axisRatio": 1.3961072971142663
+        },
+        {
+          "yaw": 210,
+          "pitch": 0,
+          "drop": -0.19303960345578952,
+          "axisRatio": 1.3961072971142667
+        },
+        {
+          "yaw": 35,
+          "pitch": 0,
+          "drop": 0.24326232100805206,
+          "axisRatio": 1.3991957955761474
+        },
+        {
+          "yaw": 215,
+          "pitch": 0,
+          "drop": -0.24326232100805206,
+          "axisRatio": 1.3991957955761474
+        },
+        {
+          "yaw": 25,
+          "pitch": 0,
+          "drop": 0.16171879666163444,
+          "axisRatio": 1.4021845382589637
+        },
+        {
+          "yaw": 205,
+          "pitch": 0,
+          "drop": -0.16171879666163444,
+          "axisRatio": 1.4021845382589637
+        }
+      ],
+      "pitchRestrictedToZero": true
+    },
+    "cliff_step_3": {
+      "selected": {
+        "yaw": 110,
+        "pitch": 0,
+        "drop": 1.3224783181401978,
+        "axisRatio": 1.2817838190738038
+      },
+      "bestYawSamples": [
+        {
+          "yaw": 110,
+          "pitch": 0,
+          "drop": 1.3224783181401978,
+          "axisRatio": 1.2817838190738038
+        },
+        {
+          "yaw": 115,
+          "pitch": 0,
+          "drop": 1.2967490802809456,
+          "axisRatio": 1.3279850541204226
+        },
+        {
+          "yaw": 120,
+          "pitch": 0,
+          "drop": 1.2547861737683226,
+          "axisRatio": 1.3788020733942112
+        },
+        {
+          "yaw": 125,
+          "pitch": 0,
+          "drop": 1.231205849243511,
+          "axisRatio": 1.4190949924272207
+        },
+        {
+          "yaw": 105,
+          "pitch": 0,
+          "drop": 1.2307861267234685,
+          "axisRatio": 1.235805305304205
+        },
+        {
+          "yaw": 130,
+          "pitch": 0,
+          "drop": 1.1683090415348039,
+          "axisRatio": 1.4489834283045606
+        }
+      ],
+      "pitchRestrictedToZero": true
+    }
+  },
+  "method": "One entire original Namaqualand Boulder 04 mesh per asset. Original geometry channels, indices and materials unchanged. Yaw-only rotation and declared axis fit preserve the native base orientation. No extra support, open panels, terrain or procedural deformation.",
+  "assets": [
+    {
+      "id": "corealm_sunder_ledge",
+      "file": "models/corealm_sunder_ledge.glb",
+      "pack": "corealm-polyhaven-boulder04-shortcuts",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "rock",
+        "fractured",
+        "source-derived",
+        "shortcut"
+      ],
+      "size": {
+        "x": 9.319,
+        "y": 4.448,
+        "z": 6.735
+      },
+      "base": {
+        "x": -4.702,
+        "y": -0.19,
+        "z": -2.909
+      },
+      "animations": [],
+      "materials": [
+        "boulder_04"
+      ],
+      "bytes": 3715020,
+      "sha256": "ed87d1e30ca6c675bf886127c430ba9f180cf48329095876eafa2aa30074507f",
+      "triangles": 59066,
+      "placement": {
+        "replacesAssetId": "cliff_step_2"
+      },
+      "transform": {
+        "yawDegrees": 30,
+        "pitchDegrees": 0,
+        "order": "source X pitch then world Y yaw, then axis fit and legacy-base translation",
+        "rigidBounds": {
+          "min": [
+            -1.459429179135054,
+            -0.029385626316070557,
+            -0.9189782273161655
+          ],
+          "max": [
+            1.392540962354959,
+            1.8710765838623047,
+            1.3608691321434545
+          ],
+          "size": [
+            2.851970141490013,
+            1.9004622101783752,
+            2.27984735945962
+          ]
+        },
+        "axisScale": [
+          3.2675657660045783,
+          2.340483265690674,
+          2.9541451413643594
+        ],
+        "translation": [
+          0.06678082364986526,
+          -0.12122343335539737,
+          -0.19420493475431755
+        ]
+      },
+      "rearToFrontQuarterDrop": 0.19303960345578952,
+      "support": {
+        "method": "96×96 vertical-ray grid over exact transformed GLB triangle footprint; ground plane Y=0, pivot held at legacy base",
+        "sampledFootprintColumns": 6064,
+        "groundIntersectingColumns": 1490,
+        "groundIntersectingFootprintFraction": 0.24571240105540898,
+        "minimumUndersideY": -0.18720485155766795,
+        "medianUndersideY": 0.06495289728724506,
+        "maximumUndersideY": 3.148747591806512,
+        "additionalDownwardBurialForUndersideQuantile": {
+          "25percent": 0.0018567107310299975,
+          "50percent": 0.0649207251432184,
+          "75percent": 0.14854227992220065,
+          "90percent": 0.9637773209271606
+        },
+        "pivotChangedBeyondLegacyFit": false,
+        "terrainChanged": false,
+        "caveat": "Underside quantiles report how far a flat ground plane would need to rise relative to this held pivot. This is an embedding diagnostic, not an instruction to change terrain or an approved stability threshold."
+      }
+    },
+    {
+      "id": "corealm_scree_slide",
+      "file": "models/corealm_scree_slide.glb",
+      "pack": "corealm-polyhaven-boulder04-shortcuts",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "rock",
+        "fractured",
+        "source-derived",
+        "shortcut"
+      ],
+      "size": {
+        "x": 5.996,
+        "y": 4.382,
+        "z": 5.44
+      },
+      "base": {
+        "x": -2.941,
+        "y": -0.124,
+        "z": -2.318
+      },
+      "animations": [],
+      "materials": [
+        "boulder_04"
+      ],
+      "bytes": 3715016,
+      "sha256": "34c3b901776721f55fd9274e5dd2cfa6f94037809a9e4ad07e6cc7b37cbf7f00",
+      "triangles": 59066,
+      "placement": {
+        "replacesAssetId": "cliff_step_3"
+      },
+      "transform": {
+        "yawDegrees": 110,
+        "pitchDegrees": 0,
+        "order": "source X pitch then world Y yaw, then axis fit and legacy-base translation",
+        "rigidBounds": {
+          "min": [
+            -0.9760658058523152,
+            -0.029385626316070557,
+            -1.3608210597389574
+          ],
+          "max": [
+            1.4398086065941915,
+            1.8710765838623047,
+            1.4486619782011203
+          ],
+          "size": [
+            2.415874412446507,
+            1.9004622101783752,
+            2.809483037940078
+          ]
+        },
+        "axisScale": [
+          2.481917093499895,
+          2.305754871910192,
+          1.9362992858603005
+        ],
+        "translation": [
+          -0.5184855920743887,
+          -0.05624394895758797,
+          0.31695684615620046
+        ]
+      },
+      "rearToFrontQuarterDrop": 1.3224783181401976,
+      "support": {
+        "method": "96×96 vertical-ray grid over exact transformed GLB triangle footprint; ground plane Y=0, pivot held at legacy base",
+        "sampledFootprintColumns": 5811,
+        "groundIntersectingColumns": 653,
+        "groundIntersectingFootprintFraction": 0.11237308552744794,
+        "minimumUndersideY": -0.12315310840121935,
+        "medianUndersideY": 0.12671569618120931,
+        "maximumUndersideY": 3.2866407313074872,
+        "additionalDownwardBurialForUndersideQuantile": {
+          "25percent": 0.06462117005341353,
+          "50percent": 0.12671569618120931,
+          "75percent": 0.20917005855461768,
+          "90percent": 1.0122328111293948
+        },
+        "pivotChangedBeyondLegacyFit": false,
+        "terrainChanged": false,
+        "caveat": "Underside quantiles report how far a flat ground plane would need to rise relative to this held pivot. This is an embedding diagnostic, not an instruction to change terrain or an approved stability threshold."
+      }
+    }
+  ],
+  "visualAccepted": false,
+  "browserReviewed": false,
+  "screeTwoMetreDescentMet": false
+}

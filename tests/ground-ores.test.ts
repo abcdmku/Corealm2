@@ -130,11 +130,12 @@ describe("ordinary ground ore boulders", () => {
     const textureHashes = new Set(source.getRoot().listTextures().map(texture => createHash("sha256").update(texture.getImage()!).digest("hex")));
     const mutedHash = createHash("sha256").update(await readFile("tools/data/ground-ore-muted-albedo.png")).digest("hex");
     textureHashes.add(mutedHash);
-    for (const id of ["corealm_ore_grithe", "corealm_ore_grithe_spent"]) {
+    for (const id of IDS) {
       const { glb, entry } = await buildGroundOreAsset(id), doc = await new NodeIO().readBinary(glb), spent = id.endsWith("_spent");
+      const family = id.slice("corealm_ore_".length).replace(/_spent$/, "");
       expect(entry.sha256).toBe(createHash("sha256").update(glb).digest("hex"));
       expect(entry.pack).toBe("corealm-original-ground-ores");
-      expect(entry.materials).toEqual(spent ? ["Corealm ground host stone"] : ["Corealm ground host stone", "Corealm exposed grithe mineral"]);
+      expect(entry.materials).toEqual(spent ? ["Corealm ground host stone"] : ["Corealm ground host stone", `Corealm exposed ${family} mineral`]);
       for (const material of doc.getRoot().listMaterials()) { expect(material.getName()).not.toMatch(/essence|seam|weathered strata/); expect(material.getEmissiveFactor()).toEqual([0, 0, 0]);
         expect(material.getBaseColorTexture()).not.toBeNull(); expect(material.getRoughnessFactor()).toBeGreaterThanOrEqual(0.70); expect(material.getMetallicFactor()).toBeLessThanOrEqual(0.20);
         expect(createHash("sha256").update(material.getBaseColorTexture()!.getImage()!).digest("hex")).toBe(mutedHash);
@@ -146,8 +147,9 @@ describe("ordinary ground ore boulders", () => {
     }
   });
 
-  it("cannot write assets into public or outside test-results", () => {
+  it("restricts output to disposable results or this package's unpromoted candidate directory", () => {
     expect(groundOreOutputPaths().models).toMatch(/test-results[\\/]ground-ores[\\/]models[\\/]corealm[\\/]geology$/);
-    for (const out of ["game/public/assets", "test-results/../../game/public/assets", "", "../ground-ores"]) expect(() => groundOreOutputPaths(out)).toThrow(/inside test-results/);
+    expect(groundOreOutputPaths("art/rebuild/candidates/finish-mining").catalog).toMatch(/finish-mining[\\/]ground-ores.json$/);
+    for (const out of ["game/public/assets", "test-results/../../game/public/assets", "", "../ground-ores", "art/rebuild/candidates/finish-mining/../other", "art/rebuild/candidates/finish-mining-sibling"]) expect(() => groundOreOutputPaths(out)).toThrow(/inside test-results/);
   });
 });

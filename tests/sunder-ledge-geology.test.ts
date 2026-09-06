@@ -15,6 +15,7 @@ import {
   type GeologyAssetEntry,
 } from "../tools/build-corealm-geology.js";
 import { repoRoot } from "../tools/lib/paths.js";
+import { buildGroundOreAsset, GROUND_ORE_ASSET_IDS } from "../tools/build-ground-ores.js";
 
 const SOURCE_ID = "corealm_cliff_strata_1";
 const SUNDER_ID = "corealm_sunder_ledge";
@@ -33,7 +34,7 @@ const REPLACEMENTS = [
     base: { x: -2.941, y: -0.124, z: -2.318 }, size: { x: 5.996, y: 4.382, z: 5.44 },
     translation: [0.057, -0.124, 0.402],
     entrance: [96, 0.16, -170], exit: [108, 0, -24], scale: 1.3, rotationY: 0,
-    reqLevel: 12, durationMs: 3_200, savesMeters: 168, oneWay: true,
+    reqLevel: 12, durationMs: 3_200, savesMeters: 136, oneWay: true,
     from: "great_cairn", to: "karrowmoor_terraces",
     approach: [140, -176],
   },
@@ -226,25 +227,41 @@ function bodyContinuity(corners: number[][], entry: Pick<GeologyAssetEntry, "bas
 describe("authored agility geology source generation", () => {
   let generatedAssets: Map<string, GeneratedAsset>;
   let generatedDocuments: Map<string, Document>;
-  let existingAssets: GeneratedAsset[];
   let sourceDocument: Document;
 
   beforeAll(async () => {
     const generated = await Promise.all(GEOLOGY_ASSET_IDS.map((id) => buildGeologyAsset(id)));
     generatedAssets = new Map(generated.map((asset) => [asset.entry.id, asset]));
-    existingAssets = generated.filter((asset) => !REPLACEMENTS.some((replacement) => replacement.id === asset.entry.id));
     sourceDocument = await new NodeIO().readBinary(generatedAssets.get(SOURCE_ID)!.glb);
     generatedDocuments = new Map(await Promise.all(REPLACEMENTS.map(async ({ id }) =>
       [id, await new NodeIO().readBinary(generatedAssets.get(id)!.glb)] as const)));
   });
 
-  it("regenerates all 19 accepted geology assets byte for byte from their recipes", async () => {
-    expect(existingAssets).toHaveLength(19);
-    for (const generated of existingAssets) {
-      const shipped = await readFile(path.join(repoRoot, "game/public/assets", generated.entry.file));
-      expect(digest(generated.glb), generated.entry.id).toBe(digest(shipped));
-      expect(generated.entry.sha256).toBe(digest(generated.glb));
-      expect(generated.entry.bytes).toBe(generated.glb.byteLength);
+  it("regenerates every served geology and ground-ore asset byte for byte from its owning generator", async () => {
+    const manifest = JSON.parse(await readFile(path.join(repoRoot, "game/public/assets/manifest.json"), "utf8")) as {
+      assets: Array<AssetEntry & { sha256: string }>;
+    };
+    const served = manifest.assets.filter((asset) => asset.pack === "corealm-original-geology" || asset.pack === "corealm-original-ground-ores");
+    // Keep complete coverage of the original nineteen plus both authored agility replacements.
+    // An ownership change cannot silently remove an ID from reproduction coverage.
+    expect(served.map((asset) => asset.id).sort()).toEqual([...GEOLOGY_ASSET_IDS].sort());
+    expect(served.filter((asset) => asset.pack === "corealm-original-ground-ores").map((asset) => asset.id).sort())
+      .toEqual([...GROUND_ORE_ASSET_IDS].sort());
+    for (const asset of served) {
+      const generated = asset.pack === "corealm-original-ground-ores"
+        ? await buildGroundOreAsset(asset.id)
+        : generatedAssets.get(asset.id);
+      expect(generated, `missing ${asset.pack} recipe for ${asset.id}`).toBeDefined();
+      expect(generated!.entry.id).toBe(asset.id);
+      expect(generated!.entry.pack).toBe(asset.pack);
+      expect(generated!.entry.file).toBe(asset.file);
+      const shipped = await readFile(path.join(repoRoot, "game/public/assets", asset.file));
+      const actualHash = digest(shipped);
+      expect(digest(generated!.glb), asset.id).toBe(actualHash);
+      expect(asset.sha256, `${asset.id} manifest hash`).toBe(actualHash);
+      expect(generated!.entry.sha256).toBe(actualHash);
+      expect(generated!.entry.bytes).toBe(generated!.glb.byteLength);
+      expect(asset.bytes).toBe(shipped.byteLength);
     }
   });
 
@@ -545,6 +562,12 @@ describe("geology generation staging options", () => {
       catalogFile: path.join(repoRoot, "test-results/sunder-ledge/source/corealm-geology.json"),
     });
     expect(args).toEqual(["--only", SUNDER_ID, "--out", "test-results/sunder-ledge/source"]);
+    expect(geologyOutputPaths("art/rebuild/candidates/finish-structures")).toEqual({
+      modelsDirectory: path.join(repoRoot, "art/rebuild/candidates/finish-structures/models/corealm/geology"),
+      catalogFile: path.join(repoRoot, "art/rebuild/candidates/finish-structures/corealm-geology.json"),
+    });
+    expect(() => geologyOutputPaths("art/rebuild/candidates/../../../game/public/assets")).toThrow();
+
   });
 
   it("keeps legacy default destinations and subset switches", () => {

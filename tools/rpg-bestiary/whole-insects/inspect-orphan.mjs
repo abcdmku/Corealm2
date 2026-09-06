@@ -1,0 +1,5 @@
+import fs from 'node:fs';import * as T from 'three';import {FBXLoader}from'three/addons/loaders/FBXLoader.js';
+const b=fs.readFileSync(new URL('./derived/Wasp.fbx',import.meta.url));const s=new FBXLoader().parse(b.buffer.slice(b.byteOffset,b.byteOffset+b.byteLength),'');const m=s.getObjectByName('Wasp'),g=m.geometry;
+const root=m.skeleton.bones.findIndex(n=>n.name==='Root'),orphans=[];for(let i=0;i<g.attributes.position.count;i++)if(g.attributes.skinIndex.getX(i)===root&&g.attributes.skinWeight.getX(i)===1)orphans.push(i);
+console.log('orphan count',orphans.length);
+for(const i of orphans){const p=new T.Vector3().fromBufferAttribute(g.attributes.position,i),near=[];for(let j=0;j<g.attributes.position.count;j++){if(orphans.includes(j))continue;const distance=p.distanceTo(new T.Vector3().fromBufferAttribute(g.attributes.position,j));near.push({j,distance,bones:Array.from({length:4},(_,k)=>[m.skeleton.bones[g.attributes.skinIndex.array[j*4+k]].name,g.attributes.skinWeight.array[j*4+k]])});}near.sort((a,b)=>a.distance-b.distance);console.log(JSON.stringify({i,p:p.toArray(),near:near.slice(0,5)}));}

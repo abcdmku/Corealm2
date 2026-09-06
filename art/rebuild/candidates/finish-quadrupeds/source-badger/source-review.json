@@ -1,0 +1,117 @@
+{
+  "checkedAt": "2026-09-05T20:08:54.8497918Z",
+  "status": "bounded-search-complete-no-accessible-qualified-model",
+  "models": [
+    {
+      "uid": "dbd716aed8e24091a32c171fd7a17cf7",
+      "name": "Badger taxidermy",
+      "modelUrl": "https://sketchfab.com/3d-models/badger-taxidermy-dbd716aed8e24091a32c171fd7a17cf7",
+      "apiUrl": "https://api.sketchfab.com/v3/models/dbd716aed8e24091a32c171fd7a17cf7",
+      "author": "axonite",
+      "username": "axonite",
+      "description": "Badger  back and white gray fur animal taxidermy antique museum item free downlaod 3D model\n\nPhotogrammetry scan 240x24MP, 8K textures + HD Normals",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "downloadable": true,
+      "animationCount": 0,
+      "faceCount": 410286,
+      "vertexCount": 205182,
+      "thumbnail": "https://media.sketchfab.com/models/dbd716aed8e24091a32c171fd7a17cf7/thumbnails/a202cca87245438db8809f88bb1c1a09/f0e5dcc912fb43ce8f1a26b3d48ed218.jpeg",
+      "anonymousDownloadStatus": 401,
+      "access": "Official download endpoint requires authenticated access; no credentials supplied or bypass attempted.",
+      "previewReview": "Whole European badger with realistic grizzled fur, short limbs and facial stripes, mounted on a support plinth. Taxidermy face and scan-clumped paws need reshaping; support removal, ventral closure, retopology, fur rebake, rig and eight clips required.",
+      "alternativeOfficialSource": "https://www.fab.com/listings/dd0ac4bd-9c90-4ba6-8765-ab8328b2fa82"
+    },
+    {
+      "uid": "ff818ff55b454e11801f94426ff89c92",
+      "name": "Stout Badger Standing Realistic",
+      "modelUrl": "https://sketchfab.com/3d-models/stout-badger-standing-realistic-ff818ff55b454e11801f94426ff89c92",
+      "apiUrl": "https://api.sketchfab.com/v3/models/ff818ff55b454e11801f94426ff89c92",
+      "author": "Pigcraft",
+      "username": "s8819296",
+      "description": "A realistic 3D model of a stout, compact badger. It has short gray-brown fur with distinct black facial stripes, strong paws, and a short, bushy tail. The badger stands on all fours, with its head slightly tilted forward and broad, sturdy shoulders. Its compact build and detailed anatomy make it perfect for wildlife, nature, or character projects.",
+      "license": {
+        "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+        "label": "CC Attribution",
+        "fullName": "Creative Commons Attribution",
+        "requirements": "Author must be credited. Commercial use is allowed.",
+        "url": "http://creativecommons.org/licenses/by/4.0/",
+        "slug": "by"
+      },
+      "downloadable": true,
+      "animationCount": 0,
+      "faceCount": 887543,
+      "vertexCount": 443772,
+      "thumbnail": "https://media.sketchfab.com/models/ff818ff55b454e11801f94426ff89c92/thumbnails/38096de35c1840e69e7a3a5e60f63411/b504c16c55c243b5bd8a243968b801ff.jpeg",
+      "anonymousDownloadStatus": 401,
+      "access": "Official download endpoint requires authenticated access; no credentials supplied or bypass attempted.",
+      "previewReview": "REJECT. Raccoon-like proportions, long ringed tail, short broad muzzle, large round ears and severe terraced cheek/body fur. Poor species fidelity; not a suitable badger base."
+    }
+  ],
+  "limits": [
+    "No model files downloaded. Public anonymous official endpoints checked without credentials or bypass.",
+    "Public metadata validates license declaration, not independent chain of title.",
+    "Official full-body thumbnail previews inspected for Axonite, Pigcraft and BlendSwap Verbeger ferret. Other angles and topology remain unverified.",
+    "Only Axonite remains a plausible exact-species adaptation candidate; its official Sketchfab file download requires authentication.",
+    "No browser or GPU used. No conversion, rigging or gameplay proof."
+  ],
+  "excludedWildMesh": {
+    "uid": "8669f471b44f49caad30ee1f5fa83966",
+    "apiResult": "404 Not found on current public API",
+    "searchIndex": "CC Attribution demo, 15k triangles; may be stale",
+    "olderModel": "https://sketchfab.com/3d-models/realistic-honey-badger-3d-model-09751ed5383c4afb924cfb6485d313f1",
+    "olderRestriction": "Personal use only unless purchased on Fab or Patreon",
+    "conclusion": "Do not use; current availability and provenance unverified"
+  },
+  "furtherSearch": [
+    {
+      "url": "https://blendswap.com/blend/27397",
+      "author": "Verbeger",
+      "license": "CC0",
+      "result": "Official full-body preview inspected: upright anthropomorphic cartoon ferret. Reject. Official /blend/27397/download says Sign in to download."
+    },
+    {
+      "url": "https://free3d.com/3d-model/-ferret--346810.html",
+      "result": "Personal Use License. Reject commercial project."
+    },
+    {
+      "url": "https://www.cadnav.com/3d-models/model-54523.html",
+      "result": "Wolverine: non-commercial license and rehost. Reject."
+    },
+    {
+      "url": "https://www.meshy.ai/tags/badger",
+      "result": "CC0 gallery but official text requires account for file access. No specific qualified accessible source selected."
+    },
+    {
+      "url": "https://www.turbosquid.com/3d-model/free/badger",
+      "result": "Free badger_01 catalogue lead; individual original/source license not verified. Not selected."
+    },
+    {
+      "url": "https://opengameart.org/content/aac-honey-badger-lowpoly",
+      "result": "Search results refer to rifle, not animal. Reject."
+    }
+  ],
+  "previewFiles": [
+    {
+      "file": "dbd716aed8e24091a32c171fd7a17cf7-official-preview.jpg",
+      "sha256": "daf31e38a198f315115186b78af4c62d3bc138291d04cf258345803d8ce21c18",
+      "bytes": 481776
+    },
+    {
+      "file": "ferret-official-preview.jpg",
+      "sha256": "dad133957475192820eec6015d612bccf10e22c5fa6513240f5ed774fd566800",
+      "bytes": 4069014
+    },
+    {
+      "file": "ff818ff55b454e11801f94426ff89c92-official-preview.jpg",
+      "sha256": "accbcf9d022619b501c57c4b7f959111716e5d7243718dfb0b0a989bdd940eb1",
+      "bytes": 167723
+    }
+  ]
+}

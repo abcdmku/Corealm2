@@ -1,0 +1,16 @@
+# Reproducible local source extraction, texture renditions and CPU previews.
+# Keep generators, provenance and measured metadata in source control.
+**/derived/
+**/source/
+*.glb
+*.gltf
+*.bin
+*.fbx
+*.FBX
+*.tga
+*.TGA
+*.png
+*.jpg
+*.jpeg
+*.zip
+*.unitypackage

@@ -1,0 +1,284 @@
+{
+  "source": {
+    "file": "art/rebuild/candidates/finish-quadrupeds/source-hoofed/horse-source-static.glb",
+    "sha256": "cdf4f716f7bd1a980814c53ed9fa81d28e016e2e316ed3f319982d7e3cbce782",
+    "author": "Lyndon Daniels",
+    "license": "CC0-1.0",
+    "url": "https://opengameart.org/content/realtime-ranchers-3d-model-pack"
+  },
+  "candidate": {
+    "file": "art/rebuild/candidates/finish-quadrupeds/source-moose-horse/moose-from-horse-static.glb",
+    "sha256": "29fed85c52a9447d00101fc344a3bfc7fd31e55e1aec23a3f1a85aa80cf50545",
+    "bytes": 17899372,
+    "skins": 0,
+    "animations": 0
+  },
+  "anatomy": {
+    "source": "Complete Lyndon Daniels CC0 horse body; coherent positional deformation, source topology and UVs retained",
+    "heightMap": [
+      [
+        0,
+        0.002
+      ],
+      [
+        0.15,
+        0.17
+      ],
+      [
+        0.6,
+        0.78
+      ],
+      [
+        1.05,
+        1.35
+      ],
+      [
+        1.4,
+        1.68
+      ],
+      [
+        1.75,
+        1.93
+      ],
+      [
+        2.1,
+        2.13
+      ],
+      [
+        2.4,
+        2.38
+      ]
+    ],
+    "skullDepthMap": [
+      [
+        0.85,
+        0.83
+      ],
+      [
+        1.1,
+        0.96
+      ],
+      [
+        1.35,
+        1.09
+      ],
+      [
+        1.55,
+        1.32
+      ],
+      [
+        1.72,
+        1.71
+      ],
+      [
+        1.82,
+        1.9
+      ]
+    ],
+    "shoulderHump": {
+      "centerZ": 0.34,
+      "widthZ": 0.46,
+      "addedHeight": 0.2
+    },
+    "bodyWidthScale": 0.8,
+    "foreFootSource": [
+      0.32828,
+      0.1813
+    ],
+    "hindFootSource": [
+      0.23651,
+      -0.84351
+    ],
+    "targetForeFoot": [
+      0.29,
+      0.52
+    ],
+    "targetHindFoot": [
+      0.26,
+      -0.67
+    ],
+    "antlerSpanTarget": 1.735,
+    "neckBellLength": 0.41
+  },
+  "originalBounds": {
+    "min": [
+      -0.4851537040401581,
+      4.605924419642804e-8,
+      -1.8106417863700888
+    ],
+    "max": [
+      0.485155941477327,
+      2.399999733645869,
+      1.810641882482504
+    ]
+  },
+  "adaptedBounds": {
+    "min": [
+      -0.8673414110585512,
+      0.002,
+      -1.1997704465925223
+    ],
+    "max": [
+      0.8673414110585512,
+      2.92102,
+      1.8805220541397925
+    ]
+  },
+  "landmarks": {
+    "foreHoofMedial": {
+      "original": [
+        0.32828,
+        0,
+        0.1813
+      ],
+      "adapted": [
+        0.29,
+        0.02823906705539357,
+        0.520918
+      ]
+    },
+    "hindHoofMedial": {
+      "original": [
+        0.23651,
+        0,
+        -0.84351
+      ],
+      "adapted": [
+        0.26,
+        0.028239067055393585,
+        -0.6704186
+      ]
+    },
+    "pelvisTop": {
+      "original": [
+        0,
+        2.07,
+        -0.93
+      ],
+      "adapted": [
+        0,
+        2.061287297516865,
+        -0.6398
+      ]
+    },
+    "shoulderTop": {
+      "original": [
+        0,
+        2.09,
+        0.34
+      ],
+      "adapted": [
+        0,
+        2.324285271883815,
+        0.4524
+      ]
+    },
+    "eye": {
+      "original": [
+        0.10936,
+        2.0347,
+        1.54194
+      ],
+      "adapted": [
+        0.153424,
+        2.075448,
+        1.310731
+      ]
+    },
+    "belly": {
+      "original": [
+        0,
+        1,
+        -0.2
+      ],
+      "adapted": [
+        0,
+        1.2866666666666666,
+        -0.01200000000000001
+      ]
+    },
+    "nose": {
+      "original": [
+        0,
+        1.57,
+        1.8
+      ],
+      "adapted": [
+        0,
+        1.6473734637500002,
+        1.8334666874999999
+      ]
+    },
+    "earTip": {
+      "original": [
+        0.16,
+        2.4,
+        1.56
+      ],
+      "adapted": [
+        0.28400000000000003,
+        2.4292400000000005,
+        1.1929411764705884
+      ]
+    }
+  },
+  "ratios": {
+    "shoulderToPelvisHeight": 1.127589188893645,
+    "sourceShoulderToPelvisHeight": 1.0096618357487923,
+    "bellyClearanceToShoulder": 0.5535751924391937,
+    "sourceBellyClearanceToShoulder": 0.47846889952153115
+  },
+  "meshes": [
+    {
+      "node": "BezierCurve.005_Mesh.005",
+      "vertices": 969,
+      "indexCount": 5268,
+      "topologyPreserved": true,
+      "uvPreserved": true,
+      "deformation": "shortened original tail"
+    },
+    {
+      "node": "BezierCurve_Mesh",
+      "vertices": 2306,
+      "indexCount": 11760,
+      "topologyPreserved": true,
+      "uvPreserved": true,
+      "deformation": "compressed original mane into shoulder scruff"
+    },
+    {
+      "node": "Plane",
+      "vertices": 4313,
+      "indexCount": 22170,
+      "topologyPreserved": true,
+      "uvPreserved": true,
+      "deformation": "whole-body anatomical transform"
+    },
+    {
+      "node": "Sphere",
+      "vertices": 1984,
+      "indexCount": 2880,
+      "topologyPreserved": true,
+      "uvPreserved": true,
+      "deformation": "whole-body anatomical transform"
+    },
+    {
+      "node": "Sphere.002_Sphere.004",
+      "vertices": 1984,
+      "indexCount": 2880,
+      "topologyPreserved": true,
+      "uvPreserved": true,
+      "deformation": "whole-body anatomical transform"
+    }
+  ],
+  "addedAppendages": [
+    "two Corealm palmate antlers",
+    "Corealm compact throat bell"
+  ],
+  "limitations": [
+    "Static candidate, no skin or actions. Original native rig has 19 bones and no actions; absent Bone.005 group must be repaired before any rig reuse.",
+    "Source horse topology and UVs preserved, geometry reshaped throughout body.",
+    "Native horse texture retained with dark material multiplier; visual proof must check residual equine markings.",
+    "No production browser or GPU acceptance performed.",
+    "Ratios are authored coordinates informed by NPS photographs, not measured zoological measurements."
+  ]
+}

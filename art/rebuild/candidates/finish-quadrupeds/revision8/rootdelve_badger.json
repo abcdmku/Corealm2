@@ -1,0 +1,234 @@
+{
+  "id": "creature_rootdelve_badger",
+  "file": "models/creature/creature_rootdelve_badger.glb",
+  "pack": "corealm-creature-expansion",
+  "category": "character",
+  "is": "a low, broad badger with a sloping wedge-shaped muzzle, black eye stripes and long digging claws",
+  "tags": [
+    "mammal",
+    "quadruped",
+    "badger",
+    "mustelid",
+    "burrow"
+  ],
+  "bytes": 1932020,
+  "sha256": "b692d4897dc12e9389cd445a49f7753ac7a8f4e91a9c8e908df2ac0b529e5b55",
+  "size": {
+    "x": 0.5241239824665223,
+    "y": 0.6010538329482078,
+    "z": 1.7939621663093566
+  },
+  "base": {
+    "x": -0.2620619912332611,
+    "y": -1.1324882420726823e-9,
+    "z": -0.9111107325553894
+  },
+  "bounds": {
+    "min": [
+      -0.2620619912332611,
+      -1.1324882420726823e-9,
+      -0.9111107325553894
+    ],
+    "max": [
+      0.2620619912332611,
+      0.6010538318157196,
+      0.8828514337539672
+    ]
+  },
+  "groundY": -1.1324882420726823e-9,
+  "triangles": 41464,
+  "animations": [
+    "Idle",
+    "Walk",
+    "Run",
+    "Attack",
+    "Hit",
+    "HitLeft",
+    "HitRight",
+    "Death"
+  ],
+  "materials": [
+    "rootdelve_badger_painted_fur",
+    "rootdelve_badger_eyes_claws_whiskers"
+  ],
+  "sourceProvenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+  "impliedWalkMps": 0.3557312252964427,
+  "impliedRunMps": 1.3075965130759652,
+  "walkClipSeconds": 1.149999976158142,
+  "runClipSeconds": 0.7300000190734863,
+  "attackSeconds": 1.100000023841858,
+  "contactNormalized": 0.46,
+  "measuredGait": {
+    "gait": {
+      "walk": {
+        "seconds": 1.149999976158142,
+        "sampledFootBones": 4,
+        "stanceSamples": 260,
+        "measuredStanceMps": 0.35570151374379405,
+        "feet": [
+          {
+            "bone": "FR_Ankle",
+            "minY": 0.11983533255780679,
+            "maxY": 0.14605231894328236,
+            "strideZ": 0.27001703649774533,
+            "contactSamples": 65,
+            "stanceMedianMps": 0.3554590298357069
+          },
+          {
+            "bone": "FL_Ankle",
+            "minY": 0.1198087416795941,
+            "maxY": 0.14594616776084385,
+            "strideZ": 0.27010850971361167,
+            "contactSamples": 65,
+            "stanceMedianMps": 0.355727785149879
+          },
+          {
+            "bone": "HR_Ankle",
+            "minY": 0.11986990370312803,
+            "maxY": 0.13436597760676464,
+            "strideZ": 0.26780872715339604,
+            "contactSamples": 65,
+            "stanceMedianMps": 0.3557120957291984
+          },
+          {
+            "bone": "HL_Ankle",
+            "minY": 0.11986990217035631,
+            "maxY": 0.13436597456930682,
+            "strideZ": 0.2678087241879257,
+            "contactSamples": 65,
+            "stanceMedianMps": 0.3557118936217527
+          }
+        ],
+        "rootHorizontalTravel": [
+          {
+            "bone": "Root",
+            "x": 0,
+            "z": 0
+          }
+        ]
+      },
+      "run": {
+        "seconds": 0.7300000190734863,
+        "sampledFootBones": 4,
+        "stanceSamples": 172,
+        "measuredStanceMps": 1.3084900729703068,
+        "feet": [
+          {
+            "bone": "FR_Ankle",
+            "minY": 0.11908821625284521,
+            "maxY": 0.19248745308488127,
+            "strideZ": 0.41909568164663424,
+            "contactSamples": 43,
+            "stanceMedianMps": 1.3078909741108224
+          },
+          {
+            "bone": "FL_Ankle",
+            "minY": 0.11889754303211933,
+            "maxY": 0.19259300718204414,
+            "strideZ": 0.4191268644608739,
+            "contactSamples": 43,
+            "stanceMedianMps": 1.307859740440588
+          },
+          {
+            "bone": "HR_Ankle",
+            "minY": 0.11795773447766085,
+            "maxY": 0.18083170321947528,
+            "strideZ": 0.41923199846510334,
+            "contactSamples": 43,
+            "stanceMedianMps": 1.309846455951073
+          },
+          {
+            "bone": "HL_Ankle",
+            "minY": 0.1179577343964998,
+            "maxY": 0.18083170047901392,
+            "strideZ": 0.4192319909643004,
+            "contactSamples": 43,
+            "stanceMedianMps": 1.3098456573893218
+          }
+        ],
+        "rootHorizontalTravel": [
+          {
+            "bone": "Root",
+            "x": 0,
+            "z": 0
+          }
+        ]
+      }
+    },
+    "loops": {
+      "Idle": {
+        "seconds": 3.4000000953674316,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006356162701409191,
+        "maxScaleGap": 0
+      },
+      "Walk": {
+        "seconds": 1.149999976158142,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006725887228784462,
+        "maxScaleGap": 0
+      },
+      "Run": {
+        "seconds": 0.7300000190734863,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006459606883570087,
+        "maxScaleGap": 0
+      }
+    },
+    "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+  },
+  "metadata": {
+    "is": "a low, broad badger with a sloping wedge-shaped muzzle, black eye stripes and long digging claws",
+    "tags": [
+      "mammal",
+      "quadruped",
+      "badger",
+      "mustelid",
+      "burrow"
+    ],
+    "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+    "attackSeconds": 1.1,
+    "contactNormalized": 0.46,
+    "impliedWalkMps": 0.3557312252964427,
+    "impliedRunMps": 1.3075965130759652,
+    "walkClipSeconds": 1.15,
+    "runClipSeconds": 0.73,
+    "notes": "Feet follow flat-ground stance trajectories at a constant backwards velocity, with smooth lifted swing arcs. Three limb segments use authored knee bend planes and two-link IK to the hock, plus a controlled distal segment; paw orientation cancels the parent rotation during gait. Root does not translate horizontally in locomotion. Contact is an authored flat-plane assumption, not runtime terrain IK. Stride matching requires the stated implied speed. Idle, Walk and Run have identical first/last poses. Death is an authored collapse rather than a physics ragdoll. Coat colour, markings, ears, feet, face and tail are individually shaped for this species.",
+    "boneNames": [
+      "Root",
+      "Pelvis",
+      "Spine",
+      "Chest",
+      "Neck",
+      "Head",
+      "Jaw",
+      "Ear_L",
+      "Ear_R",
+      "FR_Upper",
+      "FR_Lower",
+      "FR_Ankle",
+      "FR_Paw",
+      "FL_Upper",
+      "FL_Lower",
+      "FL_Ankle",
+      "FL_Paw",
+      "Tail_1",
+      "Tail_2",
+      "Tail_3",
+      "HR_Upper",
+      "HR_Lower",
+      "HR_Ankle",
+      "HR_Paw",
+      "HL_Upper",
+      "HL_Lower",
+      "HL_Ankle",
+      "HL_Paw"
+    ],
+    "authoringModule": "tools/creature-expansion/mammals.mjs"
+  },
+  "acceptance": {
+    "assetAudit": true,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

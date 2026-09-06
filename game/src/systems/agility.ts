@@ -5,8 +5,11 @@
  * gameplay step, and it is exactly three things:
  *
  *   1. be at the entrance (the dispatcher already enforced range),
- *   2. play out `obstacle.durationMs` as a `traversing` activity,
- *   3. get placed at `obstacle.exitPosition`, snapped back onto the navmesh.
+ *   2. play the traversal presentation without predicting its success roll,
+ *   3. validate the current landing and resolve the outcome after the authored duration.
+ *
+ * Compact crossings move the rendered rig while gameplay stays at the safe entrance. Distant
+ * passages cover placement with an opaque painted frame and reveal after destination rendering.
  *
  *   agilityXp(tier)   = round(10 * tier ^ 0.55 * 1.8)
  *   successChance     = clamp(0.60 + 0.02 * (agilityLevel - obstacle.reqLevel), 0.50, 1.00)
@@ -32,6 +35,7 @@ import { CONTINUE, awardXp, progressToward, stopWith } from "./activity.js";
 import type { TickSystem } from "../app/loop.js";
 import { agilitySuccessChance, agilityXp } from "../content/index.js";
 import { distanceXZ } from "../core/math.js";
+import { sampleTraversal, type TraversalPresentationPort } from "./traversalMotion.js";
 
 /** PRD 2.8: a botched climb costs 2 to 6 health. */
 const FAIL_DAMAGE_RANGE: readonly [number, number] = [2, 6];
@@ -61,7 +65,7 @@ export function resolveShortcutEndpoints(
   if (matches(entry, first, firstSnap) && matches(exit, second, secondSnap)) {
     return { entryPosition: first, exitPosition: second };
   }
-  if (matches(entry, second, secondSnap) && matches(exit, first, firstSnap)) {
+  if (entity.meta?.oneWay !== true && matches(entry, second, secondSnap) && matches(exit, first, firstSnap)) {
     return { entryPosition: second, exitPosition: first };
   }
   return null;
@@ -80,6 +84,8 @@ export interface AgilityDeps {
   activity: ActivitySystem;
   dispatcher: InteractionDispatcher;
   nav: NavSnap;
+  presentation?: TraversalPresentationPort;
+  isLandingSafe?(point: Vec3): boolean;
 }
 
 export class AgilitySystem implements TickSystem {
@@ -107,6 +113,7 @@ export class AgilitySystem implements TickSystem {
       kind: "traversing",
       tick: (activity, state, deltaMs, atMs) => this.advance(activity, state, deltaMs, atMs),
       summary: (activity, state, atMs) => this.summarise(activity, state, atMs),
+      onStop: (_activity, state, reason) => deps.presentation?.end(reason, state.player.position),
     };
     deps.activity.register(this.driver);
 
@@ -176,7 +183,7 @@ export class AgilitySystem implements TickSystem {
         return err("REQUIREMENTS_NOT_MET", `${entity.name} needs ${skill} ${level}.`, entity.id);
       }
     }
-    const range = this.deps.dispatcher.rangeFor(interaction);
+    const range = this.deps.dispatcher.rangeFor(interaction, entity.id);
     if (distanceXZ(state.player.position, entry) > range) {
       return err("OUT_OF_RANGE", `Move within ${range} m of ${entity.name}'s entrance.`, entity.id);
     }
@@ -192,6 +199,10 @@ export class AgilitySystem implements TickSystem {
         : err("BUSY", "You are already on an obstacle.", entity.id);
     }
 
+    const landing = this.validLanding(exitPosition ?? obstacle.exitPosition);
+    if (!landing) {
+      return err("INVALID_ARGUMENT", "The shortcut landing is blocked or outside navigation.", entity.id);
+    }
     const durationMs = agilityDurationOf(entity);
     const chance = agilitySuccessChance(state.skills.agility.level, obstacle.reqLevel);
 
@@ -209,6 +220,7 @@ export class AgilitySystem implements TickSystem {
       },
     );
 
+    this.deps.presentation?.begin(sampleTraversal(entity, state.player.position, landing, 0));
     return ok({ started: `${interaction} ${entity.name}` });
   }
 
@@ -221,12 +233,20 @@ export class AgilitySystem implements TickSystem {
     atMs: number,
   ): ActivityTickResult {
     if (activity.kind !== "traversing") return stopWith("cancelled");
-    if (atMs < activity.endsAtMs) return CONTINUE;
 
     const entity = this.deps.entities.get(activity.obstacleId);
     const obstacle = entity?.obstacle;
     if (!entity || !obstacle) return stopWith("gone");
 
+    const exit = activity.exitPosition ?? obstacle.exitPosition;
+    const landing = this.validLanding(exit);
+    if (!landing) {
+      this.deps.activity.noteStopData({ damage: 0, xp: 0, landingBlocked: true });
+      return stopWith("failed");
+    }
+    this.deps.presentation?.update(sampleTraversal(entity, state.player.position, landing,
+      progressToward(atMs, activity.endsAtMs, agilityDurationOf(entity))));
+    if (atMs < activity.endsAtMs || this.deps.presentation?.readyToCommit?.() === false) return CONTINUE;
     const chance = agilitySuccessChance(state.skills.agility.level, obstacle.reqLevel);
     const succeeded = this.rng.chance(chance);
 
@@ -240,8 +260,6 @@ export class AgilitySystem implements TickSystem {
       return stopWith("failed");
     }
 
-    const exit = activity.exitPosition ?? obstacle.exitPosition;
-    const landing = this.deps.nav.closestPoint(exit) ?? exit;
     state.player.position = [landing[0], landing[1], landing[2]];
     state.player.movement.mode = "idle";
     state.player.movement.path = null;
@@ -256,6 +274,15 @@ export class AgilitySystem implements TickSystem {
 
     this.deps.activity.noteStopData({ xp, damage: 0, exitPosition: state.player.position });
     return stopWith("completed");
+  }
+
+  private validLanding(exit: Vec3): Vec3 | null {
+    if (!exit.every(Number.isFinite)) return null;
+    const landing = this.deps.nav.closestPoint(exit);
+    if (!landing || !landing.every(Number.isFinite)
+      || Math.hypot(...landing.map((v, i) => v - exit[i]!)) > 2
+      || this.deps.isLandingSafe?.(landing) === false) return null;
+    return landing;
   }
 
   private summarise(activity: ActivityState, state: GameState, atMs: number): ActivitySummary {

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "wild_goblin",
+    "glbSha256": "c29d05dcded96e1d028bacc0045454d2cd1107d07a285797b97cc851252bf9d2",
+    "passed": true,
+    "weightedVertices": 26574,
+    "lowestY": 0.003374474892091056,
+    "maxBoundsDifference": 0,
+    "samples": [
+      {
+        "clip": "Idle",
+        "minimumY": 0.005999999999999993,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Walk",
+        "minimumY": 0.005171383532555529,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Run",
+        "minimumY": 0.005999985810406571,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Attack",
+        "minimumY": 0.0059683330515170885,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "AttackSecondary",
+        "minimumY": 0.005917125564266906,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Death",
+        "minimumY": 0.003374474892091056,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "Hit",
+        "minimumY": 0.005999999999999794,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitLeft",
+        "minimumY": 0.005999999999999794,
+        "maxBoundsDifference": 0
+      },
+      {
+        "clip": "HitRight",
+        "minimumY": 0.005999999999999794,
+        "maxBoundsDifference": 0
+      }
+    ],
+    "errors": [],
+    "acceptance": {
+      "labAccepted": false,
+      "gaitAccepted": false
+    }
+  }
+]

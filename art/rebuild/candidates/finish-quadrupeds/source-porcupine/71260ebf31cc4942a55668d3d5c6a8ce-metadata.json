@@ -1,0 +1,147 @@
+{
+  "animationCount": 0,
+  "categories": [],
+  "commentCount": 0,
+  "createdAt": "2022-06-16T01:49:17.053119",
+  "embedUrl": "https://sketchfab.com/models/71260ebf31cc4942a55668d3d5c6a8ce/embed",
+  "faceCount": 828,
+  "isAgeRestricted": false,
+  "license": {
+    "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+    "label": "CC Attribution",
+    "fullName": "Creative Commons Attribution",
+    "requirements": "Author must be credited. Commercial use is allowed.",
+    "url": "http://creativecommons.org/licenses/by/4.0/",
+    "slug": "by"
+  },
+  "likeCount": 11,
+  "name": "Javanese porcupine",
+  "publishedAt": "2022-06-16T01:53:27.91979",
+  "soundCount": 0,
+  "staffpickedAt": null,
+  "tags": [
+    {
+      "name": "indonesia",
+      "slug": "indonesia",
+      "uri": "https://api.sketchfab.com/v3/tags/indonesia"
+    },
+    {
+      "name": "pixel-art",
+      "slug": "pixel-art",
+      "uri": "https://api.sketchfab.com/v3/tags/pixel-art"
+    },
+    {
+      "name": "blockbench",
+      "slug": "blockbench",
+      "uri": "https://api.sketchfab.com/v3/tags/blockbench"
+    },
+    {
+      "name": "minecraft",
+      "slug": "minecraft",
+      "uri": "https://api.sketchfab.com/v3/tags/minecraft"
+    },
+    {
+      "name": "animal",
+      "slug": "animal",
+      "uri": "https://api.sketchfab.com/v3/tags/animal"
+    }
+  ],
+  "thumbnails": {
+    "images": [
+      {
+        "uid": "7807b3cbb35a422386c95137de5bc030",
+        "width": 1920,
+        "height": 1080,
+        "size": 65545,
+        "url": "https://media.sketchfab.com/models/71260ebf31cc4942a55668d3d5c6a8ce/thumbnails/bd66a3322a734f189c143bb826617158/748b7b8d486e4c23a6b78804a98a1a9c.jpeg"
+      },
+      {
+        "uid": "72d717cc999e41028ac3fdbbb0688077",
+        "width": 1024,
+        "height": 576,
+        "size": 23248,
+        "url": "https://media.sketchfab.com/models/71260ebf31cc4942a55668d3d5c6a8ce/thumbnails/bd66a3322a734f189c143bb826617158/ec25c3f62d464de7ae24f59d13937eba.jpeg"
+      },
+      {
+        "uid": "3b4612f3759d4771aa03cadf16acc6f4",
+        "width": 720,
+        "height": 405,
+        "size": 13726,
+        "url": "https://media.sketchfab.com/models/71260ebf31cc4942a55668d3d5c6a8ce/thumbnails/bd66a3322a734f189c143bb826617158/6ce14aa2aafa41688038496a5d76fcac.jpeg"
+      },
+      {
+        "uid": "4783eeb87d244269bbee2028af928cac",
+        "width": 256,
+        "height": 144,
+        "size": 3184,
+        "url": "https://media.sketchfab.com/models/71260ebf31cc4942a55668d3d5c6a8ce/thumbnails/bd66a3322a734f189c143bb826617158/03cd5fe696b1421d801bedef649fe98f.jpeg"
+      },
+      {
+        "uid": "8d0634a3f23249a78d71ec28e2424c9f",
+        "width": 64,
+        "height": 36,
+        "size": 974,
+        "url": "https://media.sketchfab.com/models/71260ebf31cc4942a55668d3d5c6a8ce/thumbnails/bd66a3322a734f189c143bb826617158/1bede67055af42e8a54648c961b4b2f8.jpeg"
+      }
+    ]
+  },
+  "uid": "71260ebf31cc4942a55668d3d5c6a8ce",
+  "uri": "https://api.sketchfab.com/v3/models/71260ebf31cc4942a55668d3d5c6a8ce",
+  "user": {
+    "uid": "613f2de69b99431685687df32b5fd21e",
+    "username": "nf50",
+    "displayName": "nf50",
+    "account": "basic",
+    "profileUrl": "https://sketchfab.com/nf50",
+    "avatar": {
+      "uid": "51af6a870cce449eb75b0345feebaebb",
+      "uri": "https://api.sketchfab.com/v3/avatars/51af6a870cce449eb75b0345feebaebb",
+      "images": [
+        {
+          "width": 90,
+          "height": 90,
+          "size": 5719,
+          "url": "https://media.sketchfab.com/avatars/51af6a870cce449eb75b0345feebaebb/2ef0f894055b4bb69123b2a27fa2d379.jpeg"
+        },
+        {
+          "width": 100,
+          "height": 100,
+          "size": 6496,
+          "url": "https://media.sketchfab.com/avatars/51af6a870cce449eb75b0345feebaebb/ab11eedf96374486acb544f71a23b165.jpeg"
+        },
+        {
+          "width": 32,
+          "height": 32,
+          "size": 1359,
+          "url": "https://media.sketchfab.com/avatars/51af6a870cce449eb75b0345feebaebb/35f6f9b6c9a14a548ce472582d8a9bb5.jpeg"
+        },
+        {
+          "width": 48,
+          "height": 48,
+          "size": 2584,
+          "url": "https://media.sketchfab.com/avatars/51af6a870cce449eb75b0345feebaebb/a8072a51447c4d41ab177b357111b420.jpeg"
+        }
+      ]
+    },
+    "uri": "https://api.sketchfab.com/v3/users/613f2de69b99431685687df32b5fd21e"
+  },
+  "vertexCount": 552,
+  "viewCount": 436,
+  "viewerUrl": "https://sketchfab.com/3d-models/javanese-porcupine-71260ebf31cc4942a55668d3d5c6a8ce",
+  "isDownloadable": true,
+  "isProtected": false,
+  "description": "",
+  "price": null,
+  "downloadCount": 115,
+  "editorUrl": "https://sketchfab.com/models/71260ebf31cc4942a55668d3d5c6a8ce/edit",
+  "status": {
+    "warning": {},
+    "processing": "SUCCEEDED"
+  },
+  "source": "blockbench",
+  "hasCommentsDisabled": false,
+  "updatedAt": "2022-07-07T06:34:59.665747",
+  "pbrType": null,
+  "textureCount": 1,
+  "materialCount": 1
+}

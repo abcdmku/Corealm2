@@ -1,0 +1,245 @@
+{
+  "id": "creature_bracken_tapir",
+  "file": "models/creature/creature_bracken_tapir.glb",
+  "pack": "corealm-creature-expansion",
+  "category": "character",
+  "is": "tapir",
+  "tags": [
+    "animal",
+    "hoofed",
+    "forest",
+    "original",
+    "skinned"
+  ],
+  "bytes": 2618316,
+  "sha256": "88b1fe8f89a84125105c401d109915b304890ac150f923adf4df9a00968fd462",
+  "size": {
+    "x": 0.7772055554389954,
+    "y": 1.1479999937536194,
+    "z": 2.4400417912161743
+  },
+  "base": {
+    "x": -0.3886175894737244,
+    "y": 0.0010000024316832445,
+    "z": -1.0297929072380065
+  },
+  "bounds": {
+    "min": [
+      -0.3886175894737244,
+      0.0010000024316832445,
+      -1.0297929072380065
+    ],
+    "max": [
+      0.388587965965271,
+      1.1489999961853026,
+      1.410248883978168
+    ]
+  },
+  "groundY": 0.0010000024316832445,
+  "triangles": 51986,
+  "animations": [
+    "Idle",
+    "Walk",
+    "Run",
+    "Attack",
+    "Hit",
+    "HitLeft",
+    "HitRight",
+    "Death"
+  ],
+  "materials": [
+    "Sculpted_coat",
+    "Hoof_keratin",
+    "Wet_eye",
+    "Inner_ear",
+    "Muzzle_skin"
+  ],
+  "sourceProvenance": {
+    "author": "Corealm",
+    "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+    "license": "Project-owned original"
+  },
+  "impliedWalkMps": 0.504032258064516,
+  "impliedRunMps": 1.6622340425531914,
+  "walkClipSeconds": 0.9300000071525574,
+  "runClipSeconds": 0.6399999856948853,
+  "attackSeconds": 0.8999999761581421,
+  "contactNormalized": 0.48,
+  "measuredGait": {
+    "gait": {
+      "walk": {
+        "seconds": 0.9300000071525574,
+        "sampledFootBones": 4,
+        "stanceSamples": 248,
+        "measuredStanceMps": 0.5039758564541207,
+        "feet": [
+          {
+            "bone": "bracken_tapir_ForeLFoot",
+            "minY": 0.06487297710012367,
+            "maxY": 0.19444393494895798,
+            "strideZ": 0.2993467236035115,
+            "contactSamples": 62,
+            "stanceMedianMps": 0.5039670655221287
+          },
+          {
+            "bone": "bracken_tapir_ForeRFoot",
+            "minY": 0.0648729773531303,
+            "maxY": 0.19444393494895784,
+            "strideZ": 0.2993467219022601,
+            "contactSamples": 62,
+            "stanceMedianMps": 0.5039668785368727
+          },
+          {
+            "bone": "bracken_tapir_HindLFoot",
+            "minY": 0.06486610115939302,
+            "maxY": 0.1944439179636057,
+            "strideZ": 0.2994720117351623,
+            "contactSamples": 62,
+            "stanceMedianMps": 0.5040260064785819
+          },
+          {
+            "bone": "bracken_tapir_HindRFoot",
+            "minY": 0.06486610096427933,
+            "maxY": 0.19444391748209794,
+            "strideZ": 0.29947200814953484,
+            "contactSamples": 62,
+            "stanceMedianMps": 0.5040262496338623
+          }
+        ],
+        "rootHorizontalTravel": [
+          {
+            "bone": "bracken_tapir_Root",
+            "x": 0,
+            "z": 0
+          }
+        ]
+      },
+      "run": {
+        "seconds": 0.6399999856948853,
+        "sampledFootBones": 4,
+        "stanceSamples": 184,
+        "measuredStanceMps": 1.6618649063416255,
+        "feet": [
+          {
+            "bone": "bracken_tapir_ForeLFoot",
+            "minY": 0.06487034298902558,
+            "maxY": 0.3041656943236847,
+            "strideZ": 0.4993477268813931,
+            "contactSamples": 46,
+            "stanceMedianMps": 1.6621030413301308
+          },
+          {
+            "bone": "bracken_tapir_ForeRFoot",
+            "minY": 0.0648853658690445,
+            "maxY": 0.3041656943236846,
+            "strideZ": 0.49938078517944723,
+            "contactSamples": 46,
+            "stanceMedianMps": 1.6621042761390052
+          },
+          {
+            "bone": "bracken_tapir_HindLFoot",
+            "minY": 0.06489652855275646,
+            "maxY": 0.3041900574848261,
+            "strideZ": 0.4993783545683033,
+            "contactSamples": 46,
+            "stanceMedianMps": 1.6618688954245953
+          },
+          {
+            "bone": "bracken_tapir_HindRFoot",
+            "minY": 0.06490399698915533,
+            "maxY": 0.30419005748482597,
+            "strideZ": 0.49934529434117286,
+            "contactSamples": 46,
+            "stanceMedianMps": 1.6615829130900344
+          }
+        ],
+        "rootHorizontalTravel": [
+          {
+            "bone": "bracken_tapir_Root",
+            "x": 0,
+            "z": 0
+          }
+        ]
+      }
+    },
+    "loops": {
+      "Idle": {
+        "seconds": 3.200000047683716,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0,
+        "maxScaleGap": 0
+      },
+      "Walk": {
+        "seconds": 0.9300000071525574,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006783501559213511,
+        "maxScaleGap": 0
+      },
+      "Run": {
+        "seconds": 0.6399999856948853,
+        "maxTranslationGap": 0,
+        "maxRotationGapRadians": 0.0006415758880627768,
+        "maxScaleGap": 0
+      }
+    },
+    "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+  },
+  "metadata": {
+    "id": "bracken_tapir",
+    "is": "tapir",
+    "tags": [
+      "animal",
+      "hoofed",
+      "forest",
+      "original",
+      "skinned"
+    ],
+    "provenance": {
+      "author": "Corealm",
+      "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+      "license": "Project-owned original"
+    },
+    "attackSeconds": 0.9,
+    "contactNormalized": 0.48,
+    "impliedWalkMps": 0.504032258064516,
+    "impliedRunMps": 1.6622340425531914,
+    "walkClipSeconds": 0.93,
+    "runClipSeconds": 0.64,
+    "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
+    "triangles": 51986,
+    "boneNames": [
+      "bracken_tapir_Root",
+      "bracken_tapir_Body",
+      "bracken_tapir_Neck",
+      "bracken_tapir_Head",
+      "bracken_tapir_Jaw",
+      "bracken_tapir_Nose",
+      "bracken_tapir_EarL",
+      "bracken_tapir_EarR",
+      "bracken_tapir_Tail",
+      "bracken_tapir_TailTip",
+      "bracken_tapir_ForeLHip",
+      "bracken_tapir_ForeLKnee",
+      "bracken_tapir_ForeLAnkle",
+      "bracken_tapir_ForeLFoot",
+      "bracken_tapir_ForeRHip",
+      "bracken_tapir_ForeRKnee",
+      "bracken_tapir_ForeRAnkle",
+      "bracken_tapir_ForeRFoot",
+      "bracken_tapir_HindLHip",
+      "bracken_tapir_HindLKnee",
+      "bracken_tapir_HindLAnkle",
+      "bracken_tapir_HindLFoot",
+      "bracken_tapir_HindRHip",
+      "bracken_tapir_HindRKnee",
+      "bracken_tapir_HindRAnkle",
+      "bracken_tapir_HindRFoot"
+    ],
+    "authoringModule": "tools/creature-expansion/hoofed.mjs"
+  },
+  "acceptance": {
+    "assetAudit": true,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

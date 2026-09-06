@@ -1,0 +1,23 @@
+{
+  "scope": "Suggested runtime selection of existing native clips, not renamed or duplicate animations.",
+  "roles": {
+    "idle": "Idle.001",
+    "walk": "Walk",
+    "run": "Run",
+    "attack": "Attack.000",
+    "hit": "Hit",
+    "die": "Die"
+  },
+  "alternates": {
+    "idle": ["Idle.002"],
+    "attack": ["Attack.001", "Attack.002", "Attack.003", "Attack.Begin", "Attack.End"],
+    "staticPose": ["Stand"]
+  },
+  "omittedFromConversion": [{
+    "name": "Idle.000",
+    "reason": "Confirmed source B-bone orientation discontinuities in the original 64.708-second animation.",
+    "evidence": "weight-audit-tail-discontinuity.json",
+    "preservedInOriginalBlend": true
+  }],
+  "acceptance": "Root must verify loop transitions, contact and actual gameplay controls with these exact clips. No GPU acceptance is implied."
+}

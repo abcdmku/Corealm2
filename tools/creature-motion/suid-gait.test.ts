@@ -1,0 +1,75 @@
+import { readFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { NodeIO } from '@gltf-transform/core';
+import { KHRONOS_EXTENSIONS } from '@gltf-transform/extensions';
+import { Vector3 } from 'three';
+import { describe, expect, it } from 'vitest';
+import { assertSourcePreserved } from '../repair-ground-creature-gaits.js';
+import { contactAt, createSkinReader, type ContactFoot } from '../lib/ground-gait.js';
+import { applyClip, duration, restorePose, storedPose } from './pose.js';
+
+const out = 'art/rebuild/candidates/finish-motion/legacy-suids';
+describe('boar and hog serialized physical hooves', () => {
+  for (const id of ['animal_boar', 'animal_hog']) {
+    it(`${id} retains original source and original native gait speeds`, async () => {
+      const report = JSON.parse(await readFile(`${out}/${id}.json`, 'utf8'));
+      const bytes = await readFile(`${out}/${id}.glb`), source = await readFile(`game/public/assets/models/animal/${id}.glb`);
+      expect(createHash('sha256').update(bytes).digest('hex')).toBe(report.sha256);
+      expect(createHash('sha256').update(source).digest('hex')).toBe(report.sourceSha256);
+      for (const [file, expected] of Object.entries(report.generatorSha256)) expect(createHash('sha256').update(await readFile(file)).digest('hex')).toBe(expected);
+      expect(() => assertSourcePreserved(source, bytes)).not.toThrow();
+      expect(report.offlinePassed).toBe(true);
+      const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8')).assets.find((a: any) => a.id === id);
+      expect(report.audit.map((a: any) => a.nativeMps)).toEqual([manifest.impliedWalkMps, ...(manifest.impliedRunMps ? [manifest.impliedRunMps] : [])]);
+      expect(report.audit.map((a: any) => a.seconds)).toEqual([manifest.walkClipSeconds, ...(manifest.runClipSeconds ? [manifest.runClipSeconds] : [])]);
+      expect(report.audit.every((a: any) => a.samplesPerCycle === 7680 && a.cycles === 2)).toBe(true);
+      if (id === 'animal_hog') {
+        const selected = report.audit[0].feet.flatMap((foot: any) => foot.vertices);
+        expect(selected).toContain(1800);
+        expect(selected).toContain(1804);
+      }
+      const doc = await new NodeIO().registerExtensions(KHRONOS_EXTENSIONS).readBinary(bytes);
+      const rootName = id === 'animal_boar' ? 'WildBoar_ROOTSHJnt' : 'Bone001';
+      for (const clip of doc.getRoot().listAnimations().filter(c => ['Walk', 'Run'].includes(c.getName()))) {
+        for (const channel of clip.listChannels()) {
+          const path = channel.getTargetPath(), node = channel.getTargetNode()!;
+          if (path !== 'scale' && (path !== 'translation' || node.getName() === rootName)) continue;
+          const expected = path === 'scale' ? node.getScale() : node.getTranslation();
+          const output = channel.getSampler()!.getOutput()!;
+          for (let i = 0; i < output.getCount(); i++) output.getElement(i, []).forEach((v, k) => expect(v).toBeCloseTo(expected[k]!, 4));
+        }
+      }
+      const io = new NodeIO().registerExtensions(KHRONOS_EXTENSIONS), original = await io.readBinary(source), staged = await io.readBinary(bytes);
+      for (const clip of original.getRoot().listAnimations().filter(c => ['Walk', 'Run'].includes(c.getName()))) expect(duration(staged.getRoot().listAnimations().find(c => c.getName() === clip.getName())!)).toBe(duration(clip));
+    });
+    it(`${id} keeps original weighted soles planted across serialized stance`, async () => {
+      const report = JSON.parse(await readFile(`${out}/${id}.json`, 'utf8'));
+      const doc = await new NodeIO().registerExtensions(KHRONOS_EXTENSIONS).read(`${out}/${id}.glb`), rest = storedPose(doc);
+      const skin = createSkinReader(doc, id === 'animal_boar' ? 'WildBoar_mesh' : 'miko34');
+      for (const audit of report.audit) {
+        const clip = doc.getRoot().listAnimations().find(c => c.getName() === audit.name)!, seconds = duration(clip), step = 1 / 7680;
+        const feet: ContactFoot[] = audit.feet;
+        for (let i = 1; i < 96; i++) {
+          const phase = i / 96, active = feet.filter(f => contactAt(f, phase - step / 2) && contactAt(f, phase + step / 2));
+          restorePose(rest); applyClip(clip, (phase - step / 2) * seconds); const before = active.map(f => skin.points(f.vertices));
+          restorePose(rest); applyClip(clip, (phase + step / 2) * seconds);
+          active.forEach((f, j) => skin.points(f.vertices).forEach((p, k) => {
+            const prev = before[j]![k]!, primary = f.primaryVertices.includes(f.vertices[k]!);
+            expect(p.y).toBeGreaterThanOrEqual(audit.floorY - .001);
+            if (primary) {
+              expect(p.y).toBeLessThanOrEqual(audit.floorY + .006);
+              expect(prev.y).toBeLessThanOrEqual(audit.floorY + .006);
+              expect(prev.y).toBeGreaterThanOrEqual(audit.floorY - .00025);
+              expect(p.y).toBeGreaterThanOrEqual(audit.floorY - .00025);
+            }
+            if (!primary && Math.max(p.y, prev.y) > audit.floorY + .002) return;
+            const slip = p.clone().sub(prev).multiplyScalar(1 / (step * seconds)).add(new Vector3(0, 0, audit.nativeMps)).length();
+            expect(slip, `${id}/${audit.name}/${f.name}/${phase}`).toBeLessThan(primary ? .008 : .012);
+          }));
+        }
+      }
+    });
+  }
+});
+
+

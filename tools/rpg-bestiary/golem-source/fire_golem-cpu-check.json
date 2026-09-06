@@ -1,0 +1,190 @@
+{
+  "meta": {
+    "family": "golem",
+    "height": 2.251711458530648,
+    "dimensions": [
+      3.692075743124171,
+      2.251711458530648,
+      0.8027499914169312
+    ],
+    "rig": "entitled-universal-base-65-joint",
+    "textureBindings": [
+      {
+        "materialName": "fire_golem_base_male_MI_Superhero_Male",
+        "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+        "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+        "flipY": false
+      },
+      {
+        "materialName": "fire_golem_outfit_male_knight_chest_MI_Knight",
+        "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+        "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+        "flipY": false
+      },
+      {
+        "materialName": "fire_golem_outfit_male_knight_legs_MI_Knight",
+        "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+        "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+        "flipY": false
+      },
+      {
+        "materialName": "fire_golem_outfit_male_knight_boots_MI_Knight",
+        "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+        "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+        "flipY": false
+      },
+      {
+        "materialName": "fire_golem_outfit_male_knight_gloves_MI_Knight",
+        "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+        "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+        "flipY": false
+      },
+      {
+        "materialName": "fire_golem_outfit_male_knight_pauldron_MI_Knight",
+        "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+        "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+        "flipY": false
+      }
+    ],
+    "floorCorrection": {
+      "Idle": {
+        "samples": 221,
+        "maximumLift": 0.023987187406190248
+      },
+      "Walk": {
+        "samples": 149,
+        "maximumLift": 0.12698868320811285
+      },
+      "Run": {
+        "samples": 95,
+        "maximumLift": 0.009140768129146007
+      },
+      "Attack": {
+        "samples": 94,
+        "maximumLift": 0.027977792289892812
+      },
+      "Hit": {
+        "samples": 31,
+        "maximumLift": 0.02558463619276214
+      },
+      "HitLeft": {
+        "samples": 31,
+        "maximumLift": 0.02558463619276214
+      },
+      "HitRight": {
+        "samples": 31,
+        "maximumLift": 0.02558463619276214
+      },
+      "Death": {
+        "samples": 203,
+        "maximumLift": 0.2696686782248515
+      }
+    },
+    "source": "Quaternius Universal Base Characters and Modular Fantasy Knight armor, preserved source topology and skin weights",
+    "license": "CC0-1.0",
+    "provenance": {
+      "sourceAssets": [
+        "base_male",
+        "outfit_male_knight_chest",
+        "outfit_male_knight_legs",
+        "outfit_male_knight_boots",
+        "outfit_male_knight_gloves",
+        "outfit_male_knight_pauldron",
+        "animation_library_1"
+      ],
+      "sourceFiles": [
+        {
+          "file": "game/public/assets/models/character/base_male.glb",
+          "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+        },
+        {
+          "file": "game/public/assets/models/outfit/outfit_male_knight_chest.glb",
+          "sha256": "9da7187fb41bb4033aa2a9c95b9804f6cd43c626d0fa0ce3a960a9cc69e7bcc0"
+        },
+        {
+          "file": "game/public/assets/models/outfit/outfit_male_knight_legs.glb",
+          "sha256": "1b6a81600aea0038e93b40cc0010dce5efa8e6628a5e8d1b361473ff9cbdf13c"
+        },
+        {
+          "file": "game/public/assets/models/outfit/outfit_male_knight_boots.glb",
+          "sha256": "c72ebde664b9b7b52c05645083aeff557f02865219f93b527cc3bf2fb76a245c"
+        },
+        {
+          "file": "game/public/assets/models/outfit/outfit_male_knight_gloves.glb",
+          "sha256": "8834f57374c9972c28f00bf23a7f886c1c28106f1cd40a83c524ca0ab914e23a"
+        },
+        {
+          "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
+          "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
+        },
+        {
+          "file": "game/public/assets/models/animation/animation_library_1.glb",
+          "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        }
+      ],
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "sourcePacks": [
+        {
+          "id": "universal-base-characters",
+          "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+        },
+        {
+          "id": "modular-character-outfits-fantasy",
+          "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+        },
+        {
+          "id": "universal-animation-library",
+          "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+        }
+      ],
+      "modifications": "Broad coordinated bind-space anatomy and joints; original knight armor converted to weathered guardian statue; authored mineral texture, heavy clip timing"
+    },
+    "attackContact": 0.38,
+    "animationAcceptance": "candidate-needs-production-lab-motion-review",
+    "variantDesign": "Asymmetric single tall volcanic shoulder, enlarged right gauntlet and recessed dark chest with warm inner anatomy",
+    "revision": "golem-source-review-2"
+  },
+  "clips": {
+    "Idle": {
+      "duration": 2.5,
+      "minFloor": 0.002999351076206969,
+      "maxFloor": 0.0030000000114951977
+    },
+    "Walk": {
+      "duration": 1.8000000715255737,
+      "minFloor": 0.0021781989534962634,
+      "maxFloor": 0.005310055786236413
+    },
+    "Run": {
+      "duration": 1.1200000047683716,
+      "minFloor": 0.001029484739786435,
+      "maxFloor": 0.21457240994957436
+    },
+    "Attack": {
+      "duration": 1.1266666650772095,
+      "minFloor": 0.002838349927873778,
+      "maxFloor": 0.003005088971329472
+    },
+    "Hit": {
+      "duration": 0.3333333432674408,
+      "minFloor": 0.0029968008621619265,
+      "maxFloor": 0.0029999997797787387
+    },
+    "HitLeft": {
+      "duration": 0.3333333432674408,
+      "minFloor": 0.0029968008621619265,
+      "maxFloor": 0.0029999997797787387
+    },
+    "HitRight": {
+      "duration": 0.3333333432674408,
+      "minFloor": 0.0029968008621619265,
+      "maxFloor": 0.0029999997797787387
+    },
+    "Death": {
+      "duration": 2.4000000953674316,
+      "minFloor": 0.0029998992613282146,
+      "maxFloor": 0.013380680926363832
+    }
+  }
+}

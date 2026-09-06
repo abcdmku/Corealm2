@@ -1,0 +1,551 @@
+{
+  "boneNames": [
+    "Foot_front_IK_L",
+    "Foot_front_IK_L_end",
+    "Knee_back_IK_L",
+    "Knee_back_IK_L_end",
+    "Foot_Back_IK_L",
+    "Foot_Back_IK_L_end",
+    "Knee_front_IK_L",
+    "Knee_front_IK_L_end",
+    "Tail_controller",
+    "Tail_controller_end",
+    "Foot_front_IK_R",
+    "Foot_front_IK_R_end",
+    "Knee_back_IK_R",
+    "Knee_back_IK_R_end",
+    "Foot_Back_IK_R",
+    "Foot_Back_IK_R_end",
+    "Knee_front_IK_R",
+    "Knee_front_IK_R_end",
+    "Spine",
+    "Spine.001",
+    "Spine.002",
+    "Spine.003",
+    "Spine.004",
+    "Spine.004_end",
+    "Neck",
+    "Neck.001",
+    "Neck.002",
+    "Head",
+    "Mouth",
+    "Mouth_end",
+    "Nose",
+    "Nose_end",
+    "Ear_connector",
+    "Ear",
+    "Ear.001",
+    "Ear.002",
+    "Ear.002_end",
+    "Ear_connector.001",
+    "Ear.006",
+    "Ear.003",
+    "Ear.004",
+    "Ear.004_end",
+    "Head_controller",
+    "Head_controller_end",
+    "Shoulder_front_L",
+    "Shoulder_front_L_end",
+    "Thigh_front_L",
+    "Calf_Front_L",
+    "Foot_front_L2",
+    "Foot_front_L",
+    "toe_connector_L.001",
+    "toe_connector_L",
+    "Toe_pinky_L_front",
+    "Toe_pinky_L_front_end",
+    "Toe_ring_L_front",
+    "Toe_ring_L_front_end",
+    "toe_connector_L.002",
+    "Toe_thumb_L_front",
+    "Toe_thumb_L_front_end",
+    "Toe_Pointer_L_front",
+    "Toe_Pointer_L_front_end",
+    "Thigh_front_R",
+    "Calf_Front_R",
+    "Foot_front_L2.002",
+    "Foot_front_R",
+    "toe_connector_R",
+    "toe_connector_R.001",
+    "Toe_pinky_L_front.002",
+    "Toe_pinky_L_front.002_end",
+    "Toe_ring_L_front.002",
+    "Toe_ring_L_front.002_end",
+    "toe_connector_R.002",
+    "Toe_thumb_L_front.002",
+    "Toe_thumb_L_front.002_end",
+    "Toe_Pointer_L_front.002",
+    "Toe_Pointer_L_front.002_end",
+    "Hip",
+    "Thigh_Back_L",
+    "Calf_back_L",
+    "Foot_Back_L",
+    "Foot_Back_L2",
+    "toe_connector_L_back.002",
+    "Toe_back_L_Thumb",
+    "Toe_back_L_Thumb_end",
+    "toe_connector_L_back.001",
+    "toe_connector_L_back",
+    "Toe_back_L_pinky",
+    "Toe_back_L_pinky_end",
+    "Toe_back_L_Ring",
+    "Toe_back_L_Ring_end",
+    "Toe_back_L_Pointer",
+    "Toe_back_L_Pointer_end",
+    "Thigh_Back_R",
+    "Calf_back_R",
+    "Foot_Back_R",
+    "Foot_Back_L2.002",
+    "toe_connector_L_back.006",
+    "Toe_back_L_Thumb.002",
+    "Toe_back_L_Thumb.002_end",
+    "toe_connector_L_back.003",
+    "toe_connector_L_back.004",
+    "Toe_back_L_pinky.002",
+    "Toe_back_L_pinky.002_end",
+    "Toe_back_L_Ring.002",
+    "Toe_back_L_Ring.002_end",
+    "Toe_back_L_Pointer.002",
+    "Toe_back_L_Pointer.002_end",
+    "Tail",
+    "Tail.001",
+    "Tail.002",
+    "Tail.003",
+    "Tail.004",
+    "Tail.005",
+    "Tail.006",
+    "Tail.007",
+    "Tail.007_end",
+    "Spine_controller_1",
+    "Spine_controller_1_end",
+    "Spine_controller_2",
+    "Spine_controller_2_end"
+  ],
+  "samples": [
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 1.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 2.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 3.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 4.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 5.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 6.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 7.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 8.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 9.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 10.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 11.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 12.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 13.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 14.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 15.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 1.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 2.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 3.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 4.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 5.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 6.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 7.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 8.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 9.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 10.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 11.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 12.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 13.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|run",
+      "frame": 14.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 1.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 2.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 3.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 4.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 5.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 6.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 7.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 8.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 9.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 10.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 11.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 12.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 13.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 14.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 15.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 16.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 17.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 18.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 19.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 20.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 21.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 22.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 23.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 24.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 25.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 26.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 27.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 28.0,
+      "split": "train"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 1.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 2.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 3.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 4.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 5.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 6.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 7.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 8.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 9.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 10.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 11.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 12.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 13.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 14.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 15.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 16.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 17.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 18.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 19.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 20.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 21.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 22.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 23.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 24.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 25.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 26.5,
+      "split": "heldout"
+    },
+    {
+      "clip": "Armature|Armature|Walk",
+      "frame": 27.5,
+      "split": "heldout"
+    }
+  ],
+  "vertexCount": 22650,
+  "scale": 0.1,
+  "sourceReconstructionMaxMetres": 2.1042325143468343e-07,
+  "sourceReconstructionMeanMetres": 2.9508396594137668e-08,
+  "armaturePreserveVolume": false
+}

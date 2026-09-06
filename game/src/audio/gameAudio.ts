@@ -4,6 +4,7 @@ import type {
 import type { TickSystem } from "../app/loop.js";
 import type { Store } from "../state/store.js";
 import type { CombatHit } from "../systems/combat.js";
+import { sameCombatRealm } from "../systems/combat.js";
 import { content } from "../content/index.js";
 import {
   cueForActivity, cueForCreature, cueForMovement,
@@ -14,6 +15,7 @@ import { spellCastSound, spellImpactSound } from "./spellSound.js";
 import type { SpellElement, SpellRung } from "../contracts.js";
 
 interface CorealmAudioBridgeDeps {
+  listenerForward?: () => Vec3;
   store: Store;
   engine: AudioEngine;
   director: AudioDirector;
@@ -63,14 +65,24 @@ export class CorealmAudioBridge implements TickSystem {
   private nextCreatureCallMs = 0;
   private activityDeadline: number | null = null;
   private readonly suppressedStarts = new Map<AudioCueId, number>();
+  private lastRegion: RegionId | null = null;
 
   constructor(private readonly deps: CorealmAudioBridgeDeps) {}
 
   tick(_deltaMs: number, atMs: number): void {
     const state = this.deps.store.get();
     const player = state.player;
+    if (this.lastRegion !== null && this.lastRegion !== player.regionId) {
+      this.deps.engine.resetOneShots();
+      this.nextCreatureCallMs = atMs;
+      this.suppressedStarts.clear();
+      this.activityKey = null;
+      this.activityDeadline = null;
+    }
+    this.lastRegion = player.regionId;
+    this.deps.engine.setListenerPose(player.position as Vec3, this.deps.listenerForward?.());
     this.deps.director.setRegion(player.regionId);
-    this.tickCreatureAmbience(player.position as Vec3, atMs);
+    if (player.health > 0) this.tickCreatureAmbience(player.position as Vec3, atMs);
 
     const activity = state.activity;
     const key = activityIdentity(activity);
@@ -144,10 +156,8 @@ export class CorealmAudioBridge implements TickSystem {
       case "resource.depleted": {
         const entity = event.entityId ? this.deps.entity(event.entityId) : undefined;
         if (entity?.archetype === "ore") {
-          this.deps.director.observeActivity({ kind: "gathering", skill: "mining", phase: "impact" });
           this.deps.director.observeActivity({ kind: "gathering", skill: "mining", depleted: true, phase: "completed" });
         } else if (entity?.archetype === "tree") {
-          this.deps.director.observeActivity({ kind: "gathering", skill: "woodcutting", phase: "impact" });
           this.deps.director.observeActivity({ kind: "gathering", skill: "woodcutting", depleted: true, phase: "completed" });
         }
         return;
@@ -161,6 +171,8 @@ export class CorealmAudioBridge implements TickSystem {
         if (stringField(data, "event") === "boss.slam") this.play("combat.special");
         return;
       case "player.died":
+        this.deps.engine.resetOneShots();
+        this.nextCreatureCallMs = 0;
         this.play("combat.player_death");
         return;
       case "level.gained":
@@ -272,9 +284,7 @@ export class CorealmAudioBridge implements TickSystem {
    * most of it away anyway. One voice at a time, from whichever animal is closest, is what a field
    * actually sounds like from a hundred paces.
    *
-   * Gain falls off linearly with distance because `AudioEngine` is a bus mixer with no panner in
-   * it: there is no 3D falloff to lean on, so distance has to be applied here or a bear 34 m away
-   * is exactly as loud as one standing on the player.
+   * HRTF panning follows the camera listener. A gentle source trim and linear distance falloff keep distant calls quiet.
    *
    * The interval is deterministic. `Math.random()` is banned in world generation and the audio
    * engine already resolves its rate ranges to a fixed midpoint, so this follows the same rule and
@@ -289,16 +299,17 @@ export class CorealmAudioBridge implements TickSystem {
       this.nextCreatureCallMs = atMs + CREATURE_CALL_IDLE_MS;
       return;
     }
+    const source = this.deps.entity(near.entityId);
+    if (!source || !sameCombatRealm(source.regionId, this.deps.store.get().player.regionId)) {
+      this.nextCreatureCallMs = atMs + CREATURE_CALL_IDLE_MS;
+      return;
+    }
     const cue = cueForCreature(near.family);
     if (cue) {
       const falloff = Math.max(0, 1 - near.distance / CREATURE_CALL_RADIUS_M);
-      // Squared, not linear: linear falloff keeps a distant animal audible for far too long, and
-      // the thing a player should hear is what is close enough to matter.
-      //
-      // The distance floor is 0.12 rather than the 0.25 it was: at 0.25 an animal at the very edge
-      // of its radius still came through at a quarter of full voice, which is most of why the layer
-      // read as loud even after the master trim.
-      this.play(cue, { gain: CREATURE_CALL_GAIN * (0.12 + 0.88 * falloff * falloff) });
+      // Source trim combines with the panner attenuation without a loud distance floor.
+      this.play(cue, { gain: CREATURE_CALL_GAIN * (0.12 + 0.88 * falloff),
+        position: source.position, maxDistance: CREATURE_CALL_RADIUS_M });
     }
     this.nextCreatureCallMs = atMs + CREATURE_CALL_BASE_MS
       + (hashToUnit(near.entityId) * CREATURE_CALL_JITTER_MS);
@@ -346,6 +357,8 @@ export class CorealmAudioBridge implements TickSystem {
     this.activityKey = null;
     this.activityDeadline = null;
     this.suppressedStarts.clear();
+    this.nextCreatureCallMs = 0;
+    this.lastRegion = this.deps.store.get().player.regionId;
     this.deps.director.reset(this.deps.store.get().player.regionId);
   }
 
@@ -360,13 +373,7 @@ export class CorealmAudioBridge implements TickSystem {
     this.play(cue);
   }
 
-  /**
-   * `options` is omitted by every caller but two: the spell voices, and the idle animal voices,
-   * which apply their own distance falloff. `AudioEngine` is a bus mixer with no panner node, so
-   * there is no built-in 3D attenuation and a per-play gain is the only place distance can be
-   * expressed. `playCue` defaults it to `{}`, so passing `undefined` is the same call the other
-   * twenty-odd sites were already making.
-   */
+  /** Sends semantic cues through the shared mixer. */
   private play(cue: AudioCueId, options?: PlayCueOptions): void {
     void this.deps.engine.playCue(cue, options);
   }

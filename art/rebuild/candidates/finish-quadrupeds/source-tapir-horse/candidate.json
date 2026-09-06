@@ -1,0 +1,336 @@
+{
+  "status": "source-derived-static-proposal-not-visually-accepted",
+  "file": "tapir-source-static.glb",
+  "sha256": "4c98b1920aa1dae31d15b2b614d51d34e351308f0594ea4ebf1e245fa57b6f2a",
+  "bytes": 2645832,
+  "sourceSha256": "9cca670b93a74d50e89263e50d55ab035a6c46aa7d2b21e354bdac6987037f4a",
+  "sourceAuthor": "Lyndon Daniels",
+  "rigAuthor": "ChadM",
+  "license": "CC0-1.0",
+  "source": "https://opengameart.org/content/realtime-ranchers-3d-model-pack",
+  "nativeRigSource": "https://opengameart.org/content/rigged-horse",
+  "anatomyReference": "https://animals.sandiegozoo.org/animals/tapir",
+  "sourceBodyBoundsBlender": {
+    "min": [
+      -1.9386522769927979,
+      -8.248298645019531,
+      -5.0082831382751465
+    ],
+    "max": [
+      1.938660740852356,
+      5.058324813842773,
+      4.582006454467773
+    ]
+  },
+  "adaptedBoundsBlender": {
+    "min": [
+      -0.3731625974178314,
+      -1.1412124633789062,
+      0.0020000000949949026
+    ],
+    "max": [
+      0.37316516041755676,
+      0.8339473009109497,
+      1.1629769802093506
+    ]
+  },
+  "adaptedBoundsGltf": {
+    "min": [
+      -0.3731625974178314,
+      0.0020000000949949026,
+      -0.8339473009109497
+    ],
+    "max": [
+      0.37316516041755676,
+      1.1629769802093506,
+      1.1412124633789062
+    ]
+  },
+  "bodyOriginalVertices": 3697,
+  "bodyFinalVertices": 13883,
+  "triangles": 29662,
+  "sourceVertexMap": "vertex-source-map.json",
+  "proportionMeasurements": {
+    "sourceNormalizationMetersPerUnit": 0.2502531187886256,
+    "sourceBodyDimensionsMeters": [
+      0.9703096752354877,
+      3.3300240211261807,
+      2.399999880670014
+    ],
+    "adaptedDimensionsMeters": [
+      0.7463277578353882,
+      1.975159764289856,
+      1.1609769801143557
+    ],
+    "boneLengths": [
+      {
+        "name": "Bone",
+        "sourceMeters": 1.393561832159655,
+        "adaptedMeters": 1.0702750986666036
+      },
+      {
+        "name": "Bone.001",
+        "sourceMeters": 1.2481069644774783,
+        "adaptedMeters": 0.5341560066835559
+      },
+      {
+        "name": "Bone.002",
+        "sourceMeters": 0.6960607760879408,
+        "adaptedMeters": 0.5653682151956648
+      },
+      {
+        "name": "Bone.001_L",
+        "sourceMeters": 0.2828004526245582,
+        "adaptedMeters": 0.2287214391086647
+      },
+      {
+        "name": "Bone.001_R",
+        "sourceMeters": 0.27525610549485857,
+        "adaptedMeters": 0.22245966735750206
+      },
+      {
+        "name": "Bone_L",
+        "sourceMeters": 0.46770985180277236,
+        "adaptedMeters": 0.3126563148779065
+      },
+      {
+        "name": "Bone_L.001",
+        "sourceMeters": 0.5476351849446851,
+        "adaptedMeters": 0.2686487189311485
+      },
+      {
+        "name": "Bone_L.002",
+        "sourceMeters": 0.6870515571877017,
+        "adaptedMeters": 0.29727150366572175
+      },
+      {
+        "name": "Bone_R",
+        "sourceMeters": 0.46770985180277236,
+        "adaptedMeters": 0.3126563148779065
+      },
+      {
+        "name": "Bone_R.001",
+        "sourceMeters": 0.5476351832406138,
+        "adaptedMeters": 0.2686487154644557
+      },
+      {
+        "name": "Bone_R.002",
+        "sourceMeters": 0.6870515571877017,
+        "adaptedMeters": 0.29727150366572175
+      },
+      {
+        "name": "Bone_L.003",
+        "sourceMeters": 0.4191892513703941,
+        "adaptedMeters": 0.3416638890478856
+      },
+      {
+        "name": "Bone_L.004",
+        "sourceMeters": 0.7389794900391327,
+        "adaptedMeters": 0.3753974806934112
+      },
+      {
+        "name": "Bone_L.005",
+        "sourceMeters": 0.6755387130091676,
+        "adaptedMeters": 0.3299473515007351
+      },
+      {
+        "name": "Bone_R.003",
+        "sourceMeters": 0.41918924246549577,
+        "adaptedMeters": 0.3416638890478856
+      },
+      {
+        "name": "Bone_R.004",
+        "sourceMeters": 0.7389794900391327,
+        "adaptedMeters": 0.3753974785226261
+      },
+      {
+        "name": "Bone_R.005",
+        "sourceMeters": 0.6755387148222943,
+        "adaptedMeters": 0.32989395937189064
+      },
+      {
+        "name": "Bone.003",
+        "sourceMeters": 0.40656878128009144,
+        "adaptedMeters": 0.32551544283585915
+      },
+      {
+        "name": "Bone.004",
+        "sourceMeters": 1.112039228933711,
+        "adaptedMeters": 0.6337364426164066
+      }
+    ],
+    "boneLengthPhase": "Primary spatial warp only, before cranial shortening, nasal refinement, neck sculpt and local ear/foot retopology; not final fitted rig measurements."
+  },
+  "nativeRigBoneCount": 19,
+  "animations": [],
+  "skinsExported": false,
+  "footForms": [
+    {
+      "name": "hind_right",
+      "boundaryVerticesPreserved": 20,
+      "newFootVertices": 241,
+      "center": [
+        0.23372657597064972,
+        0.5020380616188049,
+        0.12800000607967377
+      ],
+      "intendedDigits": 3,
+      "construction": "locally retopologized source pastern into one contiguous foot, lobed front contour with physical clefts, smaller outer fourth fore toe, flat sole",
+      "sourceMapping": "source cut boundary retained; newly authored vertices have no original vertex index"
+    },
+    {
+      "name": "hind_left",
+      "boundaryVerticesPreserved": 18,
+      "newFootVertices": 217,
+      "center": [
+        -0.22716917097568512,
+        0.50267493724823,
+        0.12800000607967377
+      ],
+      "intendedDigits": 3,
+      "construction": "locally retopologized source pastern into one contiguous foot, lobed front contour with physical clefts, smaller outer fourth fore toe, flat sole",
+      "sourceMapping": "source cut boundary retained; newly authored vertices have no original vertex index"
+    },
+    {
+      "name": "fore_right",
+      "boundaryVerticesPreserved": 16,
+      "newFootVertices": 193,
+      "center": [
+        0.25293442606925964,
+        -0.3525695502758026,
+        0.12800000607967377
+      ],
+      "intendedDigits": 4,
+      "construction": "locally retopologized source pastern into one contiguous foot, lobed front contour with physical clefts, smaller outer fourth fore toe, flat sole",
+      "sourceMapping": "source cut boundary retained; newly authored vertices have no original vertex index"
+    },
+    {
+      "name": "fore_left",
+      "boundaryVerticesPreserved": 16,
+      "newFootVertices": 193,
+      "center": [
+        -0.2529318630695343,
+        -0.3525662422180176,
+        0.12800000607967377
+      ],
+      "intendedDigits": 4,
+      "construction": "locally retopologized source pastern into one contiguous foot, lobed front contour with physical clefts, smaller outer fourth fore toe, flat sole",
+      "sourceMapping": "source cut boundary retained; newly authored vertices have no original vertex index"
+    }
+  ],
+  "earForms": [
+    {
+      "side": -1,
+      "sourceRootBoundaryVertices": 19,
+      "center": [
+        -0.11885299533605576,
+        -0.8158369064331055,
+        1.0563669204711914
+      ],
+      "newTopology": "six crown rings with cupped front and rounded terminal cap"
+    },
+    {
+      "side": 1,
+      "sourceRootBoundaryVertices": 21,
+      "center": [
+        0.1210450604557991,
+        -0.8146513104438782,
+        1.0511481761932373
+      ],
+      "newTopology": "six crown rings with cupped front and rounded terminal cap"
+    }
+  ],
+  "longitudinalMap": [
+    [
+      -8.3,
+      1.3
+    ],
+    [
+      -7.88,
+      1.255
+    ],
+    [
+      -7.17,
+      1.06
+    ],
+    [
+      -6.75,
+      0.93
+    ],
+    [
+      -5,
+      0.77
+    ],
+    [
+      -3,
+      0.57
+    ],
+    [
+      -2.27,
+      0.46
+    ],
+    [
+      0,
+      0.0
+    ],
+    [
+      3.27,
+      -0.6
+    ],
+    [
+      5.06,
+      -0.95
+    ],
+    [
+      6.3,
+      -1.07
+    ]
+  ],
+  "heightMap": [
+    [
+      -5.0083,
+      0.002
+    ],
+    [
+      -4.4,
+      0.07
+    ],
+    [
+      -2.2,
+      0.3
+    ],
+    [
+      0,
+      0.56
+    ],
+    [
+      1.5,
+      0.8
+    ],
+    [
+      3,
+      1.085
+    ],
+    [
+      4.58,
+      1.17
+    ]
+  ],
+  "limitations": [
+    "CPU source proposal only; no production or art acceptance",
+    "Native rig retains missing Bone.005 group issue; no actions present",
+    "Mapped rig and preserved weights are authoring data, not a usable production rig",
+    "Digit clefts need close front/rear production views",
+    "Horse-origin body must prove tapir species identity before further rigging"
+  ],
+  "revision": "Shorter broader nasal bridge, upper nasal overhang, reduced eye radius and flattened primary nail fronts; preceding static revision preserved in revision-before-nasal-nails.",
+  "regionalChanges": {
+    "cranialReachScale": 0.81,
+    "nasalBridgeReachScaleBeyond094m": 0.62,
+    "nasalBridgeWidthScale": 1.42,
+    "nasalDepthScale": 0.53,
+    "eyeScaleRelativeToFirstWarp": 0.34,
+    "newEarTopology": true,
+    "newFootTopology": true
+  }
+}

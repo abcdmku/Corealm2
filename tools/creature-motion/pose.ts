@@ -23,8 +23,14 @@ export function sample(sampler: ReturnType<Animation["listSamplers"]>[number], s
   const output = sampler.getOutput()!;
   const values = output.getArray()!;
   const width = output.getElementSize();
-  let right = 1;
-  while (right < times.length && Number(times[right]) < seconds) right++;
+  // Dense contact bakes contain thousands of keys. A linear scan for every
+  // joint/vertex audit sample made this offline gate quadratic in key count.
+  let right = 1, high = times.length;
+  while (right < high) {
+    const middle = (right + high) >>> 1;
+    if (Number(times[middle]) < seconds) right = middle + 1;
+    else high = middle;
+  }
   right = Math.min(right, times.length - 1);
   const left = Math.max(0, right - 1);
   const a = Array.from(values.slice(left * width, (left + 1) * width), Number);

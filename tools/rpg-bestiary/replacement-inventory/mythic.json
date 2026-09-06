@@ -1,0 +1,573 @@
+{
+  "scope": "Replacement source investigation only. No model generation, runtime or catalogue edits. User rejected humanoid animal-head grafts, cow heads/horns and demonic direction.",
+  "sourcePacks": [
+    {
+      "id": "animal-pack-deluxe",
+      "name": "Animal pack deluxe",
+      "author": "janpec",
+      "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+      "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+      "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+      "assetStoreId": "99702",
+      "sourceArchive": "Animal pack deluxe.unitypackage",
+      "localArchive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\janpec\\3D ModelsCharactersAnimals\\Animal pack deluxe.unitypackage",
+      "actualArchiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1"
+    },
+    {
+      "id": "ultimate-platformer-pack",
+      "name": "Ultimate Platformer Pack",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/ultimate-platformer-pack",
+      "license": "CC0-1.0",
+      "archiveSha256": "2d0cac0f3cb58f6845f779a4c6b4a92be6fa27d118ee0b976ead55c6834a53d4"
+    }
+  ],
+  "priorityOrder": [
+    "enemy_blob",
+    "shore_crab",
+    "sand_scorpion",
+    "bog_frog",
+    "fire_salamander",
+    "marsh_crocodile",
+    "stone_snail",
+    "enemy_bee",
+    "reef_octopus"
+  ],
+  "candidateCount": 9,
+  "candidates": [
+    {
+      "proposedName": "Marsh Crocodile",
+      "candidateId": "marsh_crocodile",
+      "family": "wetland reptiles",
+      "wholeBody": true,
+      "humanGraft": false,
+      "cranialHorns": false,
+      "demonic": false,
+      "sourcePublisher": "janpec",
+      "sourcePackId": "animal-pack-deluxe",
+      "sourceModel": {
+        "pathInArchive": "Assets/Animal pack deluxe/Models/Crocodile_Rig.fbx",
+        "sha256": "8eebbe2787e86da1d03e46f59c2ceba00ec2a50542e9eaa4f114751c3cf3fb40",
+        "bytes": 959008
+      },
+      "nativeAnimationFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/Crocodile_Run.fbx",
+          "sha256": "5bbba45db55181bc012309159897711f7ddc648f40f7557acfc58e18a729f32f",
+          "bytes": 410064
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/Crocodile_Walk.fbx",
+          "sha256": "aa322bb2bcc424dfd648e8e02e078fb4198ff6c7f7ebbd4d8e18e4662d639b59",
+          "bytes": 550624
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/Crocodile_Idle.fbx",
+          "sha256": "ba93796bfebd7a5d2292db4bbf3d07c044f212f6beb21d770f43eaca5895eefe",
+          "bytes": 1336096
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/Crocodile_Bite.fbx",
+          "sha256": "1e55ea9112349ade328903288192626f689a009af2dcf4edcb01e4d83d239a58",
+          "bytes": 455488
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/Crocodile_Die.fbx",
+          "sha256": "5fd86147f53aff6b7391dd3ead18f3f9e9f9fb4aecd4bc8af944f932c1a82625",
+          "bytes": 578816
+        }
+      ],
+      "sourceTextureFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/crocodile_AO2.tga",
+          "sha256": "97032d289a70233daecbc889c74469557ccc9cbaf683bc7d8592ae9059d5d340",
+          "bytes": 16777234
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/crocodile_nrml3.tga",
+          "sha256": "68e9a1c1066d71366c52a70e6ac0b7e934840dfc1872dd7a34f242c22c5c5e8d",
+          "bytes": 16777260
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/crocodile_col7_unity.tga",
+          "sha256": "4bef85f636519876321e213e9d02985b4f6e0182f04e893e1c1a32b745f3ab21",
+          "bytes": 16777260
+        }
+      ],
+      "existingProductionAsset": "creature_reedjaw_crocodile",
+      "existingDerivedFile": "models/creature/creature_reedjaw_crocodile.glb",
+      "existingDerivedSha256": "93898e69d5c0f968bc7a93e3fdb3bc2d92de801228741b8bc05bf61affdf39bc",
+      "proposal": "Whole crocodilian body. Keep quadruped anatomy and source skin. Native Idle, Walk, Run, Bite and Die files verified; directional hits still require authored derivative work.",
+      "acceptance": "source inventory only; not visually accepted",
+      "countsAsNewDistinctFamily": false
+    },
+    {
+      "proposedName": "Fire Salamander",
+      "candidateId": "fire_salamander",
+      "family": "wetland reptiles",
+      "wholeBody": true,
+      "humanGraft": false,
+      "cranialHorns": false,
+      "demonic": false,
+      "sourcePublisher": "janpec",
+      "sourcePackId": "animal-pack-deluxe",
+      "sourceModel": {
+        "pathInArchive": "Assets/Animal pack deluxe/Models/FireSalamander_Rig.fbx",
+        "sha256": "ffcfe72793af3c33836495196961afc03f1a340ea88e740b8156f721eebce9e1",
+        "bytes": 628000
+      },
+      "nativeAnimationFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/FireSalamander_Run.fbx",
+          "sha256": "0305bcd2c1a2fe9f44a30b4d233610841e1fc70e3051bbc380fa2f735a6a06a5",
+          "bytes": 435312
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/FireSalamander_Idle.fbx",
+          "sha256": "3e8fe366b6b25f6dccee8ab3e05bf0147a15fdaaadf28552d2001d0052aaaa65",
+          "bytes": 971536
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/FireSalamander_Walk.fbx",
+          "sha256": "4a265d899f500d272fcffa8920ebb014c471099ce5d6dbea2ab105dafb23e276",
+          "bytes": 508624
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/FireSalamander_Die.fbx",
+          "sha256": "a85932a9bf79db3f378051e03fe1e67dca73d41b002cd65ddf1df03bab903538",
+          "bytes": 729296
+        }
+      ],
+      "sourceTextureFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/fire_salamander_nrml3.tga",
+          "sha256": "0b949897d82815fcb28cf55624382f1660b95d4c2601648cf576dad2063fa1ce",
+          "bytes": 4194348
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/fire_salamander_AO2.tga",
+          "sha256": "9f41a7ff0d68b500acc77bb8374edca54db31428e9a4df333f63f56fd2a93f64",
+          "bytes": 4194322
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/fire_salamander_col3_unity.tga",
+          "sha256": "c77c9cd0788a58756a0673d6e83e6cb1159cda159d270dc8a9a4a759d75cf5cc",
+          "bytes": 4194348
+        }
+      ],
+      "existingProductionAsset": "creature_kiln_salamander",
+      "existingDerivedFile": "models/creature/creature_kiln_salamander.glb",
+      "existingDerivedSha256": "342cc93490966705e1100a185be68d6ff060067ef8170169cb7d69eb5cede5ad",
+      "proposal": "Whole low amphibian body. Native named Idle/Walk/Run/Die. No horns and no graft; the name denotes the real fire salamander, not demonic additions.",
+      "acceptance": "source inventory only; not visually accepted",
+      "countsAsNewDistinctFamily": false
+    },
+    {
+      "proposedName": "Bog Frog",
+      "candidateId": "bog_frog",
+      "family": "wetland amphibians",
+      "wholeBody": true,
+      "humanGraft": false,
+      "cranialHorns": false,
+      "demonic": false,
+      "sourcePublisher": "janpec",
+      "sourcePackId": "animal-pack-deluxe",
+      "sourceModel": {
+        "pathInArchive": "Assets/Animal pack deluxe/Models/common_frog_rig_exp.FBX",
+        "sha256": "d802619304cedc373993ace36ec1042ebabdd6a3ad06559b6dfd5364de1d8c52",
+        "bytes": 625968
+      },
+      "nativeAnimationFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/common_frog_idle_anim.FBX",
+          "sha256": "7d7754bf82b655d2568e9f881aee58c318f27c2629393ddcbfce3c05be630683",
+          "bytes": 1254832
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/common_frog_run_anim.FBX",
+          "sha256": "08ab079fe87d4b730096ff501c892f2b4d2759ed0a3586eb23818e1e282c4a6c",
+          "bytes": 850864
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/common_frog_walk_anim.FBX",
+          "sha256": "d70742708c436b49d1b1317bfe2e5ea7711d2f4c6a1e8deba19e79b94c291c2d",
+          "bytes": 905312
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/common_frog_die_anim.FBX",
+          "sha256": "fac1eb84182cda91167e7c84d9d4b723a874c5d88ac7d3686a2142104f8a31b4",
+          "bytes": 871504
+        }
+      ],
+      "sourceTextureFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/common_frog_col_v3_unity.tga",
+          "sha256": "91838aaab5dddad735e954e54be29974e179fa1b62d1c7ae1e3a74ffaf9a3dbc",
+          "bytes": 4194348
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/common_frog_nrml2_u1_v1.tga",
+          "sha256": "95b72b0c760c64f34d12d1ab270bb63452314572642cddc9d326bca36184d6a3",
+          "bytes": 4194322
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/common_frog_col_v2_unity.tga",
+          "sha256": "d506ce9d2728253d90f44f7aa03bc7987955522667c7b9aa91aeed7671dc2caf",
+          "bytes": 4194348
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/common_frog_col_unity.tga",
+          "sha256": "d4ba72cf0d759827a2d01a9a9e877b365f0a5d00b694190761416958d2c9b101",
+          "bytes": 4194348
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/common_frog_AO.tga",
+          "sha256": "b9d47c30a937bf0fcae7fdd020067437a4b56d61caf3668fc96c6fef8e5831a4",
+          "bytes": 16777234
+        }
+      ],
+      "existingProductionAsset": "animal_frog",
+      "existingDerivedFile": "models/animal/animal_frog.glb",
+      "existingDerivedSha256": "0d0c9c63ca299fce2c5e15fd781ef1285175945be9af9da8e19940674a9b2daa",
+      "proposal": "Whole frog with squat torso and jumping hind limbs. Source attack is not present as a distinct authored bite; requires honest new local interaction work.",
+      "acceptance": "source inventory only; not visually accepted",
+      "countsAsNewDistinctFamily": false
+    },
+    {
+      "proposedName": "Shore Crab",
+      "candidateId": "shore_crab",
+      "family": "armored invertebrates",
+      "wholeBody": true,
+      "humanGraft": false,
+      "cranialHorns": false,
+      "demonic": false,
+      "sourcePublisher": "janpec",
+      "sourcePackId": "animal-pack-deluxe",
+      "sourceModel": {
+        "pathInArchive": "Assets/Animal pack deluxe/Models/crab_rig.FBX",
+        "sha256": "51482899c07fc811dd3ef2f929f42b0e4e620f98c13eb09ae5c19a0648219faa",
+        "bytes": 634928
+      },
+      "nativeAnimationFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/crab_run_anim.FBX",
+          "sha256": "0e8bea7f5e0ca785f5f90fad5cb4a7218b75d017a25f19751517e9aed9766cb6",
+          "bytes": 1096576
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/crab_die_anim.FBX",
+          "sha256": "0893123e77659cfce5ce99acc6aebf1c44cd90ec31f13f7776090987abae763b",
+          "bytes": 982624
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/crab_walk_anim.FBX",
+          "sha256": "06271d0f45d20ccb6ed6aee62b6e20ddc211192df43903aa117edbd86e3d4fe3",
+          "bytes": 1026256
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/crab_idle_anim.FBX",
+          "sha256": "8d9bca6c455bbf72b83dd2640e6a150a91979e0cef01a8202f5b4568e7fff9ef",
+          "bytes": 1217184
+        }
+      ],
+      "sourceTextureFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/crab_nrml8.tga",
+          "sha256": "9fc3723d528a6310a44edf8c4cd12ad095b1663f46c4d3b6eaea6e091af73e36",
+          "bytes": 4194322
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/crab_col12_unity.tga",
+          "sha256": "198fbff8dc30b01ab4a79e998b438ccd951522f3c507129be6e918a6163f9da8",
+          "bytes": 4194348
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/crab_AO8.tga",
+          "sha256": "c774d43112b947a32a60f97a8ee32b3b64424ff71e6b1f904b94b25c8b21404a",
+          "bytes": 4194322
+        }
+      ],
+      "existingProductionAsset": "animal_crab",
+      "existingDerivedFile": "models/animal/animal_crab.glb",
+      "existingDerivedSha256": "67e7cede7699c2c3b7d08ac9490bcb2817be4b32051e4e1d50d31d4326d74b4d",
+      "proposal": "Whole multi-legged crab. Prefer this anatomical source over the separate platformer crab. Source locomotion and death need original inspection; avoid claiming complete eight-clip support.",
+      "acceptance": "source inventory only; not visually accepted",
+      "countsAsNewDistinctFamily": false
+    },
+    {
+      "proposedName": "Sand Scorpion",
+      "candidateId": "sand_scorpion",
+      "family": "armored invertebrates",
+      "wholeBody": true,
+      "humanGraft": false,
+      "cranialHorns": false,
+      "demonic": false,
+      "sourcePublisher": "janpec",
+      "sourcePackId": "animal-pack-deluxe",
+      "sourceModel": {
+        "pathInArchive": "Assets/Animal pack deluxe/Models/Scorpion_Rig.fbx",
+        "sha256": "6c873932dc06c9c7c39ad2f591e99f9636f630b4b1b970c98074c945e312fb62",
+        "bytes": 491648
+      },
+      "nativeAnimationFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/Scorpion_Walk.fbx",
+          "sha256": "ff4d6f8e47a92adcb3b602a53a6216a2c3915e18dab68797f60497b7e226b4b0",
+          "bytes": 857520
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/Scorpion_Run.fbx",
+          "sha256": "57e0ead5fa7b46a11e5e59ec98ff1bbc2cbfb094f7ff904eb53180fc9e254e45",
+          "bytes": 750208
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/Scorpion_Die.fbx",
+          "sha256": "3cadbd928fb418b30159c6ff2c3a23f6e563bf82ac2845a1fe9b3373f015fed8",
+          "bytes": 803216
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/Scorpion_Idle.fbx",
+          "sha256": "c09e39bbcd2a0c4d8d9c0b5bf34576e7f5d2b9dd2f7498228ab050bdf3373bed",
+          "bytes": 1445248
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/Scorpion_Attack.fbx",
+          "sha256": "2bba6c2a54ce2c32a84aed06af6b67f907e0a7571ee297688df2fe8f8784be22",
+          "bytes": 797776
+        }
+      ],
+      "sourceTextureFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/yellow_fattail_scorpion_col14_unity.tga",
+          "sha256": "49f690da1b9f2ab7e0e4ad962d4c8586140898bc245bd671ea120fa99c859c27",
+          "bytes": 4194348
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/scorpion_nrml.tga",
+          "sha256": "b1e4683769d5a774bb8497acf9655c5e951e100d264d25200623a5bb7d35e36c",
+          "bytes": 786450
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/scorpion_AO4.tga",
+          "sha256": "cab28979f97500712f336bfd09915d9cf203df0f86c7190ee690179deea1ab17",
+          "bytes": 1048594
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/scorpion_col15_unity.tga",
+          "sha256": "61a8e8838f3250e193c956dda9cfcbca71d0f78be8721ef7bac3f0ddb2125e81",
+          "bytes": 4194348
+        }
+      ],
+      "existingProductionAsset": "animal_scorpion",
+      "existingDerivedFile": "models/animal/animal_scorpion.glb",
+      "existingDerivedSha256": "97bee26c1e512bb91937f181e276b9ca58922277f4ca1fe8e6180173d26ba7d4",
+      "proposal": "Whole arthropod, pincers and articulated sting. Stinger is animal anatomy rather than a cranial horn. Source includes real Attack take.",
+      "acceptance": "source inventory only; not visually accepted",
+      "countsAsNewDistinctFamily": false
+    },
+    {
+      "proposedName": "Stone Snail",
+      "candidateId": "stone_snail",
+      "family": "armored invertebrates",
+      "wholeBody": true,
+      "humanGraft": false,
+      "cranialHorns": false,
+      "demonic": false,
+      "sourcePublisher": "janpec",
+      "sourcePackId": "animal-pack-deluxe",
+      "sourceModel": {
+        "pathInArchive": "Assets/Animal pack deluxe/Models/snail_rig_exp.FBX",
+        "sha256": "5a3a5d2f0eb5bcc39ee18c8f5ccb5f024d0b175045fc489affed95f4961a7900",
+        "bytes": 140704
+      },
+      "nativeAnimationFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/snail_die_anim.FBX",
+          "sha256": "adf5945fdbd564aa9126a53204b28d5cc4d5ecf96aeef485a292b1034ba120f2",
+          "bytes": 319648
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/snail_walk_anim.FBX",
+          "sha256": "abb2a5ec0b8fc979171e4a2f09974b0eda2d58d6640a8a5bb190096ad509de32",
+          "bytes": 353456
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/snail_idle_anim.FBX",
+          "sha256": "d2824e4ea37fec389336928e22bc9fbcfd24b02c612e849a284ebfe6a035294f",
+          "bytes": 390592
+        }
+      ],
+      "sourceTextureFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/snail_AO.tga",
+          "sha256": "fb71238b8468fc795269ddc136b77292bc5afa25fdecd8f9a0278d69b83195f7",
+          "bytes": 4194348
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/snail_col4_unity.tga",
+          "sha256": "4d3539d17ab5179926dd141707ed7ce0e468a8d03fee7f79a2b8d96501221785",
+          "bytes": 4194348
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/snail_nrml3.tga",
+          "sha256": "1a4bcff556140d020e3bab2a18ef4cf516984189170d7610e554ba431a964254",
+          "bytes": 4194322
+        }
+      ],
+      "existingProductionAsset": "creature_quarry_snail",
+      "existingDerivedFile": "models/creature/creature_quarry_snail.glb",
+      "existingDerivedSha256": "cfb1fc736f99631e07b6ca0b02a05391ee28fb0a34339d0c868ebe6d5ccfa298",
+      "proposal": "Whole gastropod shell and foot, no humanoid body. Native Idle, Walk and Die files verified; do not invent native run or attack support.",
+      "acceptance": "source inventory only; not visually accepted",
+      "countsAsNewDistinctFamily": false
+    },
+    {
+      "proposedName": "Reef Octopus",
+      "candidateId": "reef_octopus",
+      "family": "aquatic invertebrates",
+      "wholeBody": true,
+      "humanGraft": false,
+      "cranialHorns": false,
+      "demonic": false,
+      "sourcePublisher": "janpec",
+      "sourcePackId": "animal-pack-deluxe",
+      "sourceModel": {
+        "pathInArchive": "Assets/Animal pack deluxe/Models/octopus_rig_exp.FBX",
+        "sha256": "d42bfe622ca67435a93031c91be2d4086ef9ecb5945f750548a7819d2352201d",
+        "bytes": 779904
+      },
+      "nativeAnimationFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/octopus_walk_anim.FBX",
+          "sha256": "6adcdd61f9dfd53f8b55e9b24a5e8c4125e59f21fe9e0419ed772a81fbb78c4a",
+          "bytes": 2300560
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Animations/octopus_run_anim.FBX",
+          "sha256": "651fca2d9ef89add23b62c3dea7a317225b9a238132c851878f466076931dbaa",
+          "bytes": 2021920
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Models/octopus_die_anim.FBX",
+          "sha256": "f3f158e0b74daf0653a15ae88453f2e74a9f85360f814ffd8e4b6e37ef8580a5",
+          "bytes": 2391920
+        }
+      ],
+      "sourceTextureFiles": [
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/octopus_col_v2_unity.tga",
+          "sha256": "33da2240df74f25da97d15d5c3cb7eb3accaca96b92ec9ca13e5618ac5d70ef9",
+          "bytes": 16777260
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/octopus_nrml2.tga",
+          "sha256": "150d2e2238ebe654a851c65ed0ecf515c5d5d9f0672b63e711270a1e2ff89c5b",
+          "bytes": 16777234
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/octopus_col3_unity.tga",
+          "sha256": "f60803b7c9bd9fc2569b3890b9c02b26bd5296014f9906e26e47f27d0ebd66da",
+          "bytes": 16777260
+        },
+        {
+          "pathInArchive": "Assets/Animal pack deluxe/Textures/octopus_AO2.tga",
+          "sha256": "3ac5994a5d1886dcc6ccc3ed24d2ea56650832f7a53ef6630e7183b70f200236",
+          "bytes": 16777234
+        }
+      ],
+      "existingProductionAsset": null,
+      "existingDerivedFile": null,
+      "existingDerivedSha256": null,
+      "proposal": "Whole eight-armed octopus. Conditional reserve for authored shallow-water/coastal habitat; not a drop-in land predator. Source walk/run/death files are present.",
+      "acceptance": "source inventory only; not visually accepted",
+      "countsAsNewDistinctFamily": "not yet assessed"
+    },
+    {
+      "candidateId": "enemy_blob",
+      "proposedName": "Slime",
+      "family": "slimes",
+      "wholeBody": true,
+      "humanGraft": false,
+      "cranialHorns": false,
+      "demonic": false,
+      "sourcePublisher": "Quaternius",
+      "sourcePackId": "ultimate-platformer-pack",
+      "sourceModel": {
+        "localPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\character\\enemy_blob.glb",
+        "sha256": "c00288476f5682179c18309c7dad70a7a368563ed4548a17889d9ef6ff270ae8",
+        "bytes": 120752
+      },
+      "nativeClipNames": [
+        "Bite_Front",
+        "Bite_InPlace",
+        "Dance",
+        "Death",
+        "HitRecieve",
+        "Idle",
+        "Jump",
+        "No",
+        "Walk",
+        "Yes"
+      ],
+      "sourceSkinJoints": [
+        7
+      ],
+      "proposal": "Complete CC0 seven-joint body with native Idle, Walk, two Bite takes, Death and HitRecieve. Most direct available slime source; large cartoon eyes/face may conflict with requested tone and need one source-only visual checkpoint. No native Run or directional hit clips.",
+      "acceptance": "source inventory only; needs visual review",
+      "countsAsNewDistinctFamily": false
+    },
+    {
+      "candidateId": "enemy_bee",
+      "proposedName": "Giant bee",
+      "family": "flying insects",
+      "wholeBody": true,
+      "humanGraft": false,
+      "cranialHorns": false,
+      "demonic": false,
+      "sourcePublisher": "Quaternius",
+      "sourcePackId": "ultimate-platformer-pack",
+      "sourceModel": {
+        "localPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\character\\enemy_bee.glb",
+        "sha256": "85ec4fafb0238a043ed3d3f5ae799c2775452f20250fc32032c96fffebc08268",
+        "bytes": 152904
+      },
+      "nativeClipNames": [
+        "Bite_Front",
+        "Death",
+        "Flying",
+        "HitRecieve"
+      ],
+      "sourceSkinJoints": [
+        9
+      ],
+      "proposal": "Complete CC0 nine-joint flying creature with four wing joints. Native Flying, Bite_Front, Death and HitRecieve only. Flying source is not proof of a ground gait; keep it a flying insect. Visual style needs review.",
+      "acceptance": "source inventory only; needs visual review",
+      "countsAsNewDistinctFamily": false
+    }
+  ],
+  "excluded": [
+    {
+      "source": "PixeliusVita Monster02/Monster04/Monster09",
+      "reason": "Humanoid/insectoid bodies and hornlike cranial silhouettes do not meet new non-demonic complete-beast direction."
+    },
+    {
+      "source": "Dungeon Mason DragonNightmare/DragonSoulEater/DragonTerrorBringer/DragonUsurper/DragonBoar",
+      "reason": "Horned dragon heads, spikes and menacing demonic presentation; no relabeling as gargoyles."
+    },
+    {
+      "source": "Fantasy Rhino and cattle/aurochs/goat/ibex",
+      "reason": "Explicit horn rejection."
+    },
+    {
+      "source": "Procedural gargoyle/minotaur/harpy and source humanoid graft derivatives",
+      "reason": "Explicit user rejection; not candidates for refinement."
+    }
+  ],
+  "limits": [
+    "No whole-body elemental source verified in local archives or manifest. A rock prop is not an animated elemental.",
+    "Nine listed choices contain eight terrestrial/flying candidates and one aquatic reserve. They are not nine newly created or accepted families.",
+    "Many nonhorned animal bodies already exist in the production catalogue. Reuse does not satisfy additional distinct-family count by itself.",
+    "Archive presence and inherited project license metadata are recorded; no external license terms were invented.",
+    "Native animation gaps are explicit. No assumed eight-clip compatibility or visual acceptance."
+  ]
+}

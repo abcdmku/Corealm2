@@ -1,0 +1,23 @@
+{
+  "file": "Cat.corrected-baked.glb",
+  "sha256": "c9907113754335f68b9d2bcb504de92818d29487df03ac1589af08a701d6f3e1",
+  "bytes": 11858436,
+  "originalBytes": 7301392,
+  "nativeNamedJointNodes": 120,
+  "nativeShearedJointExtraFrames": 4,
+  "sharedPatchPairs": 76,
+  "addedNodes": 156,
+  "skinJoints": 196,
+  "animationChannelsPerClip": [
+    668,
+    668
+  ],
+  "sourceNativeChannelsPerClip": 363,
+  "denseSamplesTotal": 330,
+  "sampleFps": 192,
+  "affineDecompositionMaxAbs": 1.0755285551056204e-15,
+  "nativeTRSOrthogonalityMax": 3.674867810954385e-05,
+  "eyeMaxInfluences": 4,
+  "actualInterpolationValidation": "baked-interpolation-report.json; 130 poses, including 46 independent random samples; Three cross-check in baked-three-proof.json",
+  "productionAccepted": false
+}

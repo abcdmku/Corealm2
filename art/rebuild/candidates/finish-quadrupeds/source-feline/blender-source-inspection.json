@@ -1,0 +1,162 @@
+{
+  "blender": "4.5.11 LTS",
+  "meshes": [
+    {
+      "name": "Cat",
+      "vertices": 22650,
+      "polygons": 22648,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "color_attributes": [
+        {
+          "name": "Col",
+          "domain": "CORNER",
+          "count": 90592,
+          "min": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ],
+          "max": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ],
+      "matrix_world": [
+        [
+          1.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          4.371138828673793e-08,
+          0.0
+        ],
+        [
+          0.0,
+          -4.371138828673793e-08,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  ],
+  "images": [],
+  "materials": [
+    {
+      "name": "hair",
+      "diffuse_color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "use_nodes": true,
+      "nodes": [
+        {
+          "type": "BSDF_PRINCIPLED",
+          "name": "Principled BSDF",
+          "image": null
+        },
+        {
+          "type": "OUTPUT_MATERIAL",
+          "name": "Material Output",
+          "image": null
+        },
+        {
+          "type": "NORMAL_MAP",
+          "name": "Normal Map",
+          "image": null
+        }
+      ]
+    },
+    {
+      "name": "Material.002",
+      "diffuse_color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "use_nodes": true,
+      "nodes": [
+        {
+          "type": "BSDF_PRINCIPLED",
+          "name": "Principled BSDF",
+          "image": null
+        },
+        {
+          "type": "OUTPUT_MATERIAL",
+          "name": "Material Output",
+          "image": null
+        },
+        {
+          "type": "NORMAL_MAP",
+          "name": "Normal Map",
+          "image": null
+        }
+      ]
+    },
+    {
+      "name": "skin",
+      "diffuse_color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "use_nodes": true,
+      "nodes": [
+        {
+          "type": "BSDF_PRINCIPLED",
+          "name": "Principled BSDF",
+          "image": null
+        },
+        {
+          "type": "OUTPUT_MATERIAL",
+          "name": "Material Output",
+          "image": null
+        },
+        {
+          "type": "NORMAL_MAP",
+          "name": "Normal Map",
+          "image": null
+        }
+      ]
+    }
+  ],
+  "boundsBlenderZUp": {
+    "min": [
+      -1.4244790077209473,
+      -4.873373508453369,
+      -2.8800864219665527
+    ],
+    "max": [
+      1.4244790077209473,
+      4.336576461791992,
+      6.400655746459961
+    ],
+    "size": [
+      2.8489580154418945,
+      9.209949970245361,
+      9.280742168426514
+    ]
+  },
+  "sceneUnitScale": 1.0,
+  "armatures": [],
+  "actions": []
+}

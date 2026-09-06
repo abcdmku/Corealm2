@@ -1,0 +1,41 @@
+{
+  "pack": {
+    "id": "polyhaven-rock-face-01",
+    "name": "Rock Face 01",
+    "author": "Dario Barresi / Poly Haven",
+    "source": "https://polyhaven.com/a/rock_face_01",
+    "license": "CC0-1.0"
+  },
+  "assets": [
+    {
+      "id": "cave_rock_face_01",
+      "file": "models/cave/rock-face-01.glb",
+      "pack": "polyhaven-rock-face-01",
+      "category": "rock",
+      "is": "cave-facing",
+      "tags": [
+        "cave",
+        "rock",
+        "scan",
+        "strata"
+      ],
+      "bytes": 2734092,
+      "sha256": "a97b33b7bd0769e9573fc12d0d7acbee23673df730588e68636f9692005b2591",
+      "size": {
+        "x": 3,
+        "y": 2.5999999046325684,
+        "z": 0.44936636090278625
+      },
+      "base": {
+        "x": -1.5,
+        "y": 0,
+        "z": 0
+      },
+      "triangles": 7168,
+      "animations": [],
+      "materials": [
+        "Poly Haven Rock Face 01 — cropped bedding"
+      ]
+    }
+  ]
+}

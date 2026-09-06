@@ -1,0 +1,393 @@
+{
+  "assets": [
+    {
+      "id": "animal_frog",
+      "file": "models/animal/animal_frog.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "frog",
+      "tags": [
+        "frog",
+        "toad",
+        "amphibian",
+        "water",
+        "marsh",
+        "pond",
+        "animal",
+        "passive"
+      ],
+      "bytes": 1380328,
+      "size": {
+        "x": 0.318,
+        "y": 0.123,
+        "z": 0.291
+      },
+      "base": {
+        "x": -0.159,
+        "y": -0.001,
+        "z": -0.157
+      },
+      "animations": [
+        "Idle",
+        "Death",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "materials": [
+        "animal_frog_mat"
+      ],
+      "impliedWalkMps": 0.08,
+      "impliedRunMps": 0.3,
+      "runClipSeconds": 0.7666667103767395,
+      "sha256": "0d0c9c63ca299fce2c5e15fd781ef1285175945be9af9da8e19940674a9b2daa",
+      "groundY": 0.002758,
+      "candidateFile": "ground-creature-gaits/animal_frog.glb"
+    },
+    {
+      "id": "animal_frog_green",
+      "file": "models/animal/animal_frog_green.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "frog",
+      "tags": [
+        "frog",
+        "toad",
+        "amphibian",
+        "water",
+        "marsh",
+        "pool",
+        "animal",
+        "variant"
+      ],
+      "bytes": 1378056,
+      "size": {
+        "x": 0.318,
+        "y": 0.123,
+        "z": 0.291
+      },
+      "base": {
+        "x": -0.159,
+        "y": -0.001,
+        "z": -0.157
+      },
+      "animations": [
+        "Idle",
+        "Death",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "materials": [
+        "animal_frog_green_mat"
+      ],
+      "impliedWalkMps": 0.08,
+      "impliedRunMps": 0.3,
+      "runClipSeconds": 0.7666667103767395,
+      "sha256": "31ce3e3360e08edcdd7beeedcdc1844b287cec6ea5f00dc8b6cd1f221cae098b",
+      "groundY": 0.002758,
+      "candidateFile": "ground-creature-gaits/animal_frog_green.glb"
+    },
+    {
+      "id": "animal_crab",
+      "file": "models/animal/animal_crab.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "crab",
+      "tags": [
+        "crab",
+        "shell",
+        "claw",
+        "sump",
+        "cave",
+        "water",
+        "animal",
+        "territorial"
+      ],
+      "bytes": 1050992,
+      "size": {
+        "x": 0.323,
+        "y": 0.082,
+        "z": 0.251
+      },
+      "base": {
+        "x": -0.162,
+        "y": -0.002,
+        "z": -0.109
+      },
+      "animations": [
+        "Walk",
+        "Run",
+        "Death",
+        "Idle",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1.066666603088379,
+      "materials": [
+        "animal_crab_mat"
+      ],
+      "runClipSeconds": 0.46666669845581055,
+      "sha256": "67e7cede7699c2c3b7d08ac9490bcb2817be4b32051e4e1d50d31d4326d74b4d",
+      "groundY": -0.002,
+      "impliedWalkMps": 0.10869565217391305,
+      "impliedRunMps": 0.28260869565217395,
+      "candidateFile": "ground-creature-gaits/animal_crab.glb"
+    },
+    {
+      "id": "animal_scorpion",
+      "file": "models/animal/animal_scorpion.glb",
+      "pack": "animal-pack-deluxe",
+      "category": "character",
+      "is": "scorpion",
+      "tags": [
+        "scorpion",
+        "sting",
+        "arachnid",
+        "cave",
+        "dungeon",
+        "animal",
+        "aggressive"
+      ],
+      "bytes": 2567740,
+      "size": {
+        "x": 0.316,
+        "y": 0.24,
+        "z": 0.428
+      },
+      "base": {
+        "x": -0.158,
+        "y": -0.002,
+        "z": -0.215
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Death",
+        "Hit",
+        "HitLeft",
+        "HitRight"
+      ],
+      "walkClipSeconds": 1,
+      "materials": [
+        "animal_scorpion_mat"
+      ],
+      "impliedWalkMps": 0.10490138694330797,
+      "impliedRunMps": 0.31,
+      "runClipSeconds": 0.6333333253860474,
+      "sha256": "97bee26c1e512bb91937f181e276b9ca58922277f4ca1fe8e6180173d26ba7d4",
+      "groundY": -0.002,
+      "candidateFile": "scorpion-ground-gait/animal_scorpion.glb"
+    },
+    {
+      "id": "boss_rhino_air",
+      "file": "models/boss/boss_rhino_air.glb",
+      "pack": "fantasy-rhino",
+      "category": "character",
+      "is": "roc",
+      "tags": [
+        "boss",
+        "roc",
+        "tempest",
+        "air",
+        "wind",
+        "elemental",
+        "monster",
+        "territorial"
+      ],
+      "bytes": 1329904,
+      "size": {
+        "x": 1.047,
+        "y": 1.707,
+        "z": 2.633
+      },
+      "base": {
+        "x": -0.524,
+        "y": 0,
+        "z": -1.001
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "boss_rhino_air_mat"
+      ],
+      "sha256": "9c275983d1fb913c51b48fc22adf9daee616bf0e16fb7852aa34fea87e190daa",
+      "impliedWalkMps": 0.8409099444326276,
+      "walkClipSeconds": 1.6666666269302368,
+      "impliedRunMps": 2.4628998315130746,
+      "runClipSeconds": 0.6666666865348816,
+      "groundY": 0,
+      "candidateFile": "rhino-contact/boss_rhino_air.glb"
+    },
+    {
+      "id": "boss_rhino_earth",
+      "file": "models/boss/boss_rhino_earth.glb",
+      "pack": "fantasy-rhino",
+      "category": "character",
+      "is": "rootheart",
+      "tags": [
+        "boss",
+        "rootheart",
+        "earth",
+        "stone",
+        "elemental",
+        "monster",
+        "territorial"
+      ],
+      "bytes": 1319704,
+      "size": {
+        "x": 1.047,
+        "y": 1.707,
+        "z": 2.633
+      },
+      "base": {
+        "x": -0.524,
+        "y": 0,
+        "z": -1.001
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "boss_rhino_earth_mat"
+      ],
+      "sha256": "564312c745bf052fa0f4884a9e4b0400cfed7e9edb67eae32ece48c17ef0a17c",
+      "impliedWalkMps": 0.8409099444326276,
+      "walkClipSeconds": 1.6666666269302368,
+      "impliedRunMps": 2.4628998315130746,
+      "runClipSeconds": 0.6666666865348816,
+      "groundY": 0,
+      "candidateFile": "rhino-contact/boss_rhino_earth.glb"
+    },
+    {
+      "id": "boss_rhino_water",
+      "file": "models/boss/boss_rhino_water.glb",
+      "pack": "fantasy-rhino",
+      "category": "character",
+      "is": "quarrykeeper",
+      "tags": [
+        "boss",
+        "quarrykeeper",
+        "ordrun",
+        "water",
+        "ice",
+        "elemental",
+        "monster",
+        "territorial"
+      ],
+      "bytes": 1293672,
+      "size": {
+        "x": 1.047,
+        "y": 1.707,
+        "z": 2.633
+      },
+      "base": {
+        "x": -0.524,
+        "y": 0,
+        "z": -1.001
+      },
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "Death",
+        "HitLeft",
+        "HitRight"
+      ],
+      "materials": [
+        "boss_rhino_water_mat"
+      ],
+      "sha256": "b9efdfeecb24b40be03cf5a611fa64e8140e21f4ab8135ae41c631ee9e17523e",
+      "impliedWalkMps": 0.8409099444326276,
+      "walkClipSeconds": 1.6666666269302368,
+      "impliedRunMps": 2.4628998315130746,
+      "runClipSeconds": 0.6666666865348816,
+      "groundY": 0,
+      "candidateFile": "rhino-contact/boss_rhino_water.glb"
+    }
+  ],
+  "files": {
+    "animal_frog": "ground-creature-gaits/animal_frog.glb",
+    "animal_frog_green": "ground-creature-gaits/animal_frog_green.glb",
+    "animal_crab": "ground-creature-gaits/animal_crab.glb",
+    "animal_scorpion": "scorpion-ground-gait/animal_scorpion.glb",
+    "boss_rhino_air": "rhino-contact/boss_rhino_air.glb",
+    "boss_rhino_earth": "rhino-contact/boss_rhino_earth.glb",
+    "boss_rhino_water": "rhino-contact/boss_rhino_water.glb"
+  },
+  "packs": [
+    {
+      "id": "fantasy-rhino",
+      "name": "Fantasy Rhino",
+      "author": "Maksim Bugrimov",
+      "source": "https://assetstore.unity.com/?q=Fantasy%20Rhino",
+      "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement"
+    },
+    {
+      "id": "animal-pack-deluxe",
+      "name": "Animal pack deluxe",
+      "author": "janpec",
+      "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+      "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+      "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+      "assetStoreId": "99702",
+      "sourceArchive": "Animal pack deluxe.unitypackage"
+    }
+  ],
+  "sourceHashes": {
+    "animal_frog": "3219cea576cebf825faf325f78d5f825fd8edf31e3c3ed42701cca2f412feeb1",
+    "animal_frog_green": "5932c0a21ae41480b5208fe069de48b98faa0922e638b5e4f877e11e60736baa",
+    "animal_crab": "0a3fa8f0d6bd5f8b47d706728f67b4266b04295670f2ec18d24e4b484b0ac4d8",
+    "animal_scorpion": "69997972b3cd201feb1e20dc123fa0de64981b384be50de94b192446b42bc704",
+    "boss_rhino_air": "0e361fc212a4da00e5a7a04c5fe590dac7214fb8071b9b1b1493753a326c7556",
+    "boss_rhino_earth": "700ff55b402bc3e0a2a69cff5c87f44701cc7e14f818bbb640857e98a6474788",
+    "boss_rhino_water": "f85ea2b8033deda8ff8232d8de709e0da56f81fd2f5dce7b7cb7ca6c9318e43a"
+  },
+  "timingUpdates": {
+    "boss_rhino_air": {
+      "seconds": 1.2333333492279053,
+      "contactNormalized": 0.3620833333333333
+    },
+    "boss_rhino_earth": {
+      "seconds": 1.2333333492279053,
+      "contactNormalized": 0.3620833333333333
+    },
+    "boss_rhino_water": {
+      "seconds": 1.2333333492279053,
+      "contactNormalized": 0.3620833333333333
+    }
+  },
+  "offlinePassed": true,
+  "visualAccepted": false,
+  "promotable": false,
+  "notes": "Existing public entries and pack provenance are retained. Only candidate bytes/hash and measured gait fields change. Rhino timingUpdates require separate root integration after actual target-contact review."
+}

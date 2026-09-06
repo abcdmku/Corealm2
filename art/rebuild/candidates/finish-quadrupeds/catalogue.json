@@ -1,0 +1,1176 @@
+{
+  "schema": 1,
+  "assets": [
+    {
+      "id": "creature_marchwild_horse",
+      "generator": "tools/creature-expansion/hoofed.mjs",
+      "status": "existing-candidate-awaiting-visual-audit",
+      "bounds": {
+        "min": [
+          -0.4668140778960894,
+          0.0019948731642216444,
+          -1.5375499725341797
+        ],
+        "max": [
+          0.466814063983946,
+          2.4728336334228516,
+          1.7880492301976967
+        ]
+      },
+      "size": [
+        0.9336281418800354,
+        2.47083876025863,
+        3.325599202731876
+      ],
+      "vertices": 27877,
+      "triangles": 55048,
+      "footPivots": [
+        {
+          "name": "marchwild_horse_ForeLFoot",
+          "position": [
+            -0.28,
+            0.06500000000000003,
+            0.785
+          ]
+        },
+        {
+          "name": "marchwild_horse_ForeRFoot",
+          "position": [
+            0.28,
+            0.06500000000000003,
+            0.785
+          ]
+        },
+        {
+          "name": "marchwild_horse_HindLFoot",
+          "position": [
+            -0.28,
+            0.06500000000000003,
+            -0.845
+          ]
+        },
+        {
+          "name": "marchwild_horse_HindRFoot",
+          "position": [
+            0.28,
+            0.06500000000000003,
+            -0.845
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.2
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.1
+        },
+        {
+          "name": "Run",
+          "seconds": 0.7
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.18
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.76
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.8
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.8
+        },
+        {
+          "name": "Death",
+          "seconds": 1.55
+        }
+      ],
+      "metadata": {
+        "id": "marchwild_horse",
+        "is": "wild horse",
+        "tags": [
+          "animal",
+          "hoofed",
+          "grassland",
+          "original",
+          "skinned"
+        ],
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "attackSeconds": 1.18,
+        "contactNormalized": 0.46,
+        "impliedWalkMps": 1.1079545454545454,
+        "impliedRunMps": 3.3434650455927057,
+        "walkClipSeconds": 1.1,
+        "runClipSeconds": 0.7,
+        "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
+        "triangles": 55048
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_cairn_bighorn",
+      "generator": "tools/creature-expansion/hoofed.mjs",
+      "status": "rebuilt-candidate-awaiting-visual-review",
+      "bounds": {
+        "min": [
+          -0.36870765686035156,
+          0.0020000000949949026,
+          -1.0114468336105347
+        ],
+        "max": [
+          0.3737585246562958,
+          1.7075086832046509,
+          1.3036141784076136
+        ]
+      },
+      "size": [
+        0.7424661815166473,
+        1.705508683109656,
+        2.3150610120181483
+      ],
+      "vertices": 26065,
+      "triangles": 51532,
+      "footPivots": [
+        {
+          "name": "cairn_bighorn_ForeLFoot",
+          "position": [
+            -0.22,
+            0.065,
+            0.47500000000000003
+          ]
+        },
+        {
+          "name": "cairn_bighorn_ForeRFoot",
+          "position": [
+            0.22,
+            0.065,
+            0.47500000000000003
+          ]
+        },
+        {
+          "name": "cairn_bighorn_HindLFoot",
+          "position": [
+            -0.225,
+            0.065,
+            -0.57
+          ]
+        },
+        {
+          "name": "cairn_bighorn_HindRFoot",
+          "position": [
+            0.225,
+            0.065,
+            -0.57
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.2
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.95
+        },
+        {
+          "name": "Run",
+          "seconds": 0.64
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.05
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.76
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.8
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.8
+        },
+        {
+          "name": "Death",
+          "seconds": 1.55
+        }
+      ],
+      "metadata": {
+        "id": "cairn_bighorn",
+        "is": "bighorn sheep",
+        "tags": [
+          "animal",
+          "hoofed",
+          "mountain",
+          "original",
+          "skinned"
+        ],
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "attackSeconds": 1.05,
+        "contactNormalized": 0.46,
+        "impliedWalkMps": 0.7894736842105263,
+        "impliedRunMps": 2.327127659574468,
+        "walkClipSeconds": 0.95,
+        "runClipSeconds": 0.64,
+        "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
+        "triangles": 51532
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_marsh_moose",
+      "generator": "tools/creature-expansion/hoofed.mjs",
+      "status": "existing-candidate-awaiting-visual-audit",
+      "bounds": {
+        "min": [
+          -1.2046408653259277,
+          0.0019948731642216444,
+          -1.2121323347091675
+        ],
+        "max": [
+          1.2046408653259277,
+          2.901020050048828,
+          1.8119415044784546
+        ]
+      },
+      "size": [
+        2.4092817306518555,
+        2.8990251768846065,
+        3.024073839187622
+      ],
+      "vertices": 28565,
+      "triangles": 56432,
+      "footPivots": [
+        {
+          "name": "marsh_moose_ForeLFoot",
+          "position": [
+            -0.32,
+            0.06500000000000003,
+            0.795
+          ]
+        },
+        {
+          "name": "marsh_moose_ForeRFoot",
+          "position": [
+            0.32,
+            0.06500000000000003,
+            0.795
+          ]
+        },
+        {
+          "name": "marsh_moose_HindLFoot",
+          "position": [
+            -0.32,
+            0.06500000000000003,
+            -0.855
+          ]
+        },
+        {
+          "name": "marsh_moose_HindRFoot",
+          "position": [
+            0.32,
+            0.06500000000000003,
+            -0.855
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.2
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.22
+        },
+        {
+          "name": "Run",
+          "seconds": 0.78
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.23
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.76
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.8
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.8
+        },
+        {
+          "name": "Death",
+          "seconds": 1.55
+        }
+      ],
+      "metadata": {
+        "id": "marsh_moose",
+        "is": "moose",
+        "tags": [
+          "animal",
+          "hoofed",
+          "wetland",
+          "original",
+          "skinned"
+        ],
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "attackSeconds": 1.23,
+        "contactNormalized": 0.47,
+        "impliedWalkMps": 1.2295081967213113,
+        "impliedRunMps": 3.4097108565193675,
+        "walkClipSeconds": 1.22,
+        "runClipSeconds": 0.78,
+        "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
+        "triangles": 56432
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_bracken_tapir",
+      "generator": "tools/creature-expansion/hoofed.mjs",
+      "status": "rebuilt-candidate-awaiting-visual-review",
+      "bounds": {
+        "min": [
+          -0.3886175751686096,
+          0.0010000000474974513,
+          -1.0297929048538208
+        ],
+        "max": [
+          0.38858795166015625,
+          1.1490000486373901,
+          1.410248865110808
+        ]
+      },
+      "size": [
+        0.7772055268287659,
+        1.1480000485898927,
+        2.440041769964629
+      ],
+      "vertices": 27557,
+      "triangles": 51986,
+      "footPivots": [
+        {
+          "name": "bracken_tapir_ForeLFoot",
+          "position": [
+            -0.265,
+            0.065,
+            0.5850000000000001
+          ]
+        },
+        {
+          "name": "bracken_tapir_ForeRFoot",
+          "position": [
+            0.265,
+            0.065,
+            0.5850000000000001
+          ]
+        },
+        {
+          "name": "bracken_tapir_HindLFoot",
+          "position": [
+            -0.265,
+            0.065,
+            -0.585
+          ]
+        },
+        {
+          "name": "bracken_tapir_HindRFoot",
+          "position": [
+            0.265,
+            0.065,
+            -0.585
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.2
+        },
+        {
+          "name": "Walk",
+          "seconds": 0.93
+        },
+        {
+          "name": "Run",
+          "seconds": 0.64
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.9
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.76
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.8
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.8
+        },
+        {
+          "name": "Death",
+          "seconds": 1.55
+        }
+      ],
+      "metadata": {
+        "id": "bracken_tapir",
+        "is": "tapir",
+        "tags": [
+          "animal",
+          "hoofed",
+          "forest",
+          "original",
+          "skinned"
+        ],
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "attackSeconds": 0.9,
+        "contactNormalized": 0.48,
+        "impliedWalkMps": 0.504032258064516,
+        "impliedRunMps": 1.6622340425531914,
+        "walkClipSeconds": 0.93,
+        "runClipSeconds": 0.64,
+        "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
+        "triangles": 51986
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_redbrush_fox",
+      "generator": "tools/creature-expansion/mammals.mjs",
+      "status": "existing-candidate-awaiting-visual-audit",
+      "bounds": {
+        "min": [
+          -0.20936940610408783,
+          0,
+          -1.3601760864257812
+        ],
+        "max": [
+          0.20936940610408783,
+          1.06499445438385,
+          1.0663762092590332
+        ]
+      },
+      "size": [
+        0.41873881220817566,
+        1.06499445438385,
+        2.4265522956848145
+      ],
+      "vertices": 18909,
+      "triangles": 34500,
+      "footPivots": [
+        {
+          "name": "FR_Paw",
+          "position": [
+            -0.122,
+            0.05499999999999999,
+            0.406
+          ]
+        },
+        {
+          "name": "FL_Paw",
+          "position": [
+            0.122,
+            0.05499999999999999,
+            0.406
+          ]
+        },
+        {
+          "name": "HR_Paw",
+          "position": [
+            -0.122,
+            0.05499999999999999,
+            -0.32499999999999996
+          ]
+        },
+        {
+          "name": "HL_Paw",
+          "position": [
+            0.122,
+            0.05499999999999999,
+            -0.32499999999999996
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.4
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.02
+        },
+        {
+          "name": "Run",
+          "seconds": 0.66
+        },
+        {
+          "name": "Attack",
+          "seconds": 0.88
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.7
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.7
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.7
+        },
+        {
+          "name": "Death",
+          "seconds": 1.5
+        }
+      ],
+      "metadata": {
+        "is": "a narrow-chested red fox with long legs, a pointed muzzle, broad listening ears and a white-tipped brush",
+        "tags": [
+          "mammal",
+          "quadruped",
+          "fox",
+          "canid",
+          "woodland"
+        ],
+        "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+        "attackSeconds": 0.88,
+        "contactNormalized": 0.49,
+        "impliedWalkMps": 0.53475935828877,
+        "impliedRunMps": 2.0661157024793386,
+        "walkClipSeconds": 1.02,
+        "runClipSeconds": 0.66,
+        "notes": "Feet follow flat-ground stance trajectories at a constant backwards velocity, with smooth lifted swing arcs. Three limb segments use authored knee bend planes and two-link IK to the hock, plus a controlled distal segment; paw orientation cancels the parent rotation during gait. Root does not translate horizontally in locomotion. Contact is an authored flat-plane assumption, not runtime terrain IK. Stride matching requires the stated implied speed. Idle, Walk and Run have identical first/last poses. Death is an authored collapse rather than a physics ragdoll. Coat colour, markings, ears, feet, face and tail are individually shaped for this species."
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_duskoak_lynx",
+      "generator": "tools/creature-expansion/mammals.mjs",
+      "status": "rebuilt-candidate-awaiting-visual-review",
+      "bounds": {
+        "min": [
+          -0.25238752094799977,
+          0,
+          -0.7511616349220276
+        ],
+        "max": [
+          0.2524662288805827,
+          1.1330645084381104,
+          0.9646385908126831
+        ]
+      },
+      "size": [
+        0.5048537498285824,
+        1.1330645084381104,
+        1.7158002257347107
+      ],
+      "vertices": 18011,
+      "triangles": 33412,
+      "footPivots": [
+        {
+          "name": "FR_Paw",
+          "position": [
+            -0.159,
+            0.07299999999999997,
+            0.376
+          ]
+        },
+        {
+          "name": "FL_Paw",
+          "position": [
+            0.159,
+            0.07299999999999997,
+            0.376
+          ]
+        },
+        {
+          "name": "HR_Paw",
+          "position": [
+            -0.159,
+            0.07299999999999998,
+            -0.365
+          ]
+        },
+        {
+          "name": "HL_Paw",
+          "position": [
+            0.159,
+            0.07299999999999998,
+            -0.365
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.4
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.16
+        },
+        {
+          "name": "Run",
+          "seconds": 0.67
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.02
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.7
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.7
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.7
+        },
+        {
+          "name": "Death",
+          "seconds": 1.5
+        }
+      ],
+      "metadata": {
+        "is": "a tall woodland lynx with a deep feline chest, high haunches, cheek ruffs, broad paws and a short black-tipped tail",
+        "tags": [
+          "mammal",
+          "quadruped",
+          "lynx",
+          "feline",
+          "woodland"
+        ],
+        "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+        "attackSeconds": 1.02,
+        "contactNormalized": 0.43,
+        "impliedWalkMps": 0.5616509926854755,
+        "impliedRunMps": 2.5101763907734056,
+        "walkClipSeconds": 1.16,
+        "runClipSeconds": 0.67,
+        "notes": "Feet follow flat-ground stance trajectories at a constant backwards velocity, with smooth lifted swing arcs. Three limb segments use authored knee bend planes and two-link IK to the hock, plus a controlled distal segment; paw orientation cancels the parent rotation during gait. Root does not translate horizontally in locomotion. Contact is an authored flat-plane assumption, not runtime terrain IK. Stride matching requires the stated implied speed. Idle, Walk and Run have identical first/last poses. Death is an authored collapse rather than a physics ragdoll. Coat colour, markings, ears, feet, face and tail are individually shaped for this species."
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_rootdelve_badger",
+      "generator": "tools/creature-expansion/mammals.mjs",
+      "status": "existing-candidate-awaiting-visual-audit",
+      "bounds": {
+        "min": [
+          -0.2995414368910765,
+          0,
+          -0.9111107587814331
+        ],
+        "max": [
+          0.2995414368910765,
+          0.6667274236679077,
+          0.9804578423500061
+        ]
+      },
+      "size": [
+        0.599082873782153,
+        0.6667274236679077,
+        1.8915686011314392
+      ],
+      "vertices": 16923,
+      "triangles": 31088,
+      "footPivots": [
+        {
+          "name": "FR_Paw",
+          "position": [
+            -0.19,
+            0.04100000000000001,
+            0.361
+          ]
+        },
+        {
+          "name": "FL_Paw",
+          "position": [
+            0.19,
+            0.04100000000000001,
+            0.361
+          ]
+        },
+        {
+          "name": "HR_Paw",
+          "position": [
+            -0.19,
+            0.04100000000000001,
+            -0.395
+          ]
+        },
+        {
+          "name": "HL_Paw",
+          "position": [
+            0.19,
+            0.04100000000000001,
+            -0.395
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.4
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.15
+        },
+        {
+          "name": "Run",
+          "seconds": 0.73
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.1
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.7
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.7
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.7
+        },
+        {
+          "name": "Death",
+          "seconds": 1.5
+        }
+      ],
+      "metadata": {
+        "is": "a low, broad badger with a sloping wedge-shaped muzzle, black eye stripes and long digging claws",
+        "tags": [
+          "mammal",
+          "quadruped",
+          "badger",
+          "mustelid",
+          "burrow"
+        ],
+        "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+        "attackSeconds": 1.1,
+        "contactNormalized": 0.46,
+        "impliedWalkMps": 0.3557312252964427,
+        "impliedRunMps": 1.3075965130759652,
+        "walkClipSeconds": 1.15,
+        "runClipSeconds": 0.73,
+        "notes": "Feet follow flat-ground stance trajectories at a constant backwards velocity, with smooth lifted swing arcs. Three limb segments use authored knee bend planes and two-link IK to the hock, plus a controlled distal segment; paw orientation cancels the parent rotation during gait. Root does not translate horizontally in locomotion. Contact is an authored flat-plane assumption, not runtime terrain IK. Stride matching requires the stated implied speed. Idle, Walk and Run have identical first/last poses. Death is an authored collapse rather than a physics ragdoll. Coat colour, markings, ears, feet, face and tail are individually shaped for this species."
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_quillback_porcupine",
+      "generator": "tools/creature-expansion/mammals.mjs",
+      "status": "existing-candidate-awaiting-visual-audit",
+      "bounds": {
+        "min": [
+          -0.4624526798725128,
+          0,
+          -0.9415435194969177
+        ],
+        "max": [
+          0.46228060126304626,
+          0.9414220452308655,
+          0.7589826583862305
+        ]
+      },
+      "size": [
+        0.9247332811355591,
+        0.9414220452308655,
+        1.7005261778831482
+      ],
+      "vertices": 20261,
+      "triangles": 33960,
+      "footPivots": [
+        {
+          "name": "FR_Paw",
+          "position": [
+            -0.164,
+            0.045,
+            0.316
+          ]
+        },
+        {
+          "name": "FL_Paw",
+          "position": [
+            0.164,
+            0.045,
+            0.316
+          ]
+        },
+        {
+          "name": "HR_Paw",
+          "position": [
+            -0.164,
+            0.045,
+            -0.28500000000000003
+          ]
+        },
+        {
+          "name": "HL_Paw",
+          "position": [
+            0.164,
+            0.045,
+            -0.28500000000000003
+          ]
+        }
+      ],
+      "clips": [
+        {
+          "name": "Idle",
+          "seconds": 3.4
+        },
+        {
+          "name": "Walk",
+          "seconds": 1.25
+        },
+        {
+          "name": "Run",
+          "seconds": 0.76
+        },
+        {
+          "name": "Attack",
+          "seconds": 1.16
+        },
+        {
+          "name": "Hit",
+          "seconds": 0.7
+        },
+        {
+          "name": "HitLeft",
+          "seconds": 0.7
+        },
+        {
+          "name": "HitRight",
+          "seconds": 0.7
+        },
+        {
+          "name": "Death",
+          "seconds": 1.5
+        }
+      ],
+      "metadata": {
+        "is": "a heavy-rumped porcupine with individually curved banded quills, a blunt face and short grasping feet",
+        "tags": [
+          "mammal",
+          "quadruped",
+          "porcupine",
+          "rodent",
+          "quills"
+        ],
+        "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
+        "attackSeconds": 1.16,
+        "contactNormalized": 0.54,
+        "impliedWalkMps": 0.2909090909090909,
+        "impliedRunMps": 1.166267942583732,
+        "walkClipSeconds": 1.25,
+        "runClipSeconds": 0.76,
+        "notes": "Feet follow flat-ground stance trajectories at a constant backwards velocity, with smooth lifted swing arcs. Three limb segments use authored knee bend planes and two-link IK to the hock, plus a controlled distal segment; paw orientation cancels the parent rotation during gait. Root does not translate horizontally in locomotion. Contact is an authored flat-plane assumption, not runtime terrain IK. Stride matching requires the stated implied speed. Idle, Walk and Run have identical first/last poses. Death is an authored collapse rather than a physics ragdoll. Coat colour, markings, ears, feet, face and tail are individually shaped for this species."
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "catalogueAudit": [
+    {
+      "id": "animal_cattle",
+      "file": "models/animal/animal_cattle.glb",
+      "pack": "animal-pack-deluxe",
+      "provenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "assetStoreId": "99702",
+        "sourceArchive": "Animal pack deluxe.unitypackage"
+      },
+      "sourceProvenance": null,
+      "decision": "review-required",
+      "reason": "No new front, side, rear, gameplay-distance or moving production-light review has been performed this round. Existing source-pack provenance does not establish quality."
+    },
+    {
+      "id": "animal_aurochs",
+      "file": "models/animal/animal_aurochs.glb",
+      "pack": "animal-pack-deluxe",
+      "provenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "assetStoreId": "99702",
+        "sourceArchive": "Animal pack deluxe.unitypackage"
+      },
+      "sourceProvenance": null,
+      "decision": "review-required",
+      "reason": "No new front, side, rear, gameplay-distance or moving production-light review has been performed this round. Existing source-pack provenance does not establish quality."
+    },
+    {
+      "id": "animal_goat",
+      "file": "models/animal/animal_goat.glb",
+      "pack": "animal-pack-deluxe",
+      "provenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "assetStoreId": "99702",
+        "sourceArchive": "Animal pack deluxe.unitypackage"
+      },
+      "sourceProvenance": null,
+      "decision": "review-required",
+      "reason": "No new front, side, rear, gameplay-distance or moving production-light review has been performed this round. Existing source-pack provenance does not establish quality."
+    },
+    {
+      "id": "animal_deer",
+      "file": "models/animal/animal_deer.glb",
+      "pack": "animal-pack-deluxe",
+      "provenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "assetStoreId": "99702",
+        "sourceArchive": "Animal pack deluxe.unitypackage"
+      },
+      "sourceProvenance": null,
+      "decision": "review-required",
+      "reason": "No new front, side, rear, gameplay-distance or moving production-light review has been performed this round. Existing source-pack provenance does not establish quality."
+    },
+    {
+      "id": "animal_coyote",
+      "file": "models/animal/animal_coyote.glb",
+      "pack": "animal-pack-deluxe",
+      "provenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "assetStoreId": "99702",
+        "sourceArchive": "Animal pack deluxe.unitypackage"
+      },
+      "sourceProvenance": null,
+      "decision": "review-required",
+      "reason": "No new front, side, rear, gameplay-distance or moving production-light review has been performed this round. Existing source-pack provenance does not establish quality."
+    },
+    {
+      "id": "animal_bear",
+      "file": "models/animal/animal_bear.glb",
+      "pack": "animal-pack-deluxe",
+      "provenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "assetStoreId": "99702",
+        "sourceArchive": "Animal pack deluxe.unitypackage"
+      },
+      "sourceProvenance": null,
+      "decision": "review-required",
+      "reason": "No new front, side, rear, gameplay-distance or moving production-light review has been performed this round. Existing source-pack provenance does not establish quality."
+    },
+    {
+      "id": "animal_boar",
+      "file": "models/animal/animal_boar.glb",
+      "pack": "animal-pack-deluxe",
+      "provenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "assetStoreId": "99702",
+        "sourceArchive": "Animal pack deluxe.unitypackage"
+      },
+      "sourceProvenance": null,
+      "decision": "review-required",
+      "reason": "No new front, side, rear, gameplay-distance or moving production-light review has been performed this round. Existing source-pack provenance does not establish quality."
+    },
+    {
+      "id": "animal_ibex",
+      "file": "models/animal/animal_ibex.glb",
+      "pack": "animal-pack-deluxe",
+      "provenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "assetStoreId": "99702",
+        "sourceArchive": "Animal pack deluxe.unitypackage"
+      },
+      "sourceProvenance": null,
+      "decision": "review-required",
+      "reason": "No new front, side, rear, gameplay-distance or moving production-light review has been performed this round. Existing source-pack provenance does not establish quality."
+    },
+    {
+      "id": "creature_reedjaw_crocodile",
+      "file": "models/creature/creature_reedjaw_crocodile.glb",
+      "pack": "animal-pack-deluxe",
+      "provenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "assetStoreId": "99702",
+        "sourceArchive": "Animal pack deluxe.unitypackage"
+      },
+      "sourceProvenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "sourceRig": "Crocodile_Rig.fbx",
+        "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+      },
+      "decision": "review-required",
+      "reason": "No new front, side, rear, gameplay-distance or moving production-light review has been performed this round. Existing source-pack provenance does not establish quality."
+    },
+    {
+      "id": "creature_kiln_salamander",
+      "file": "models/creature/creature_kiln_salamander.glb",
+      "pack": "animal-pack-deluxe",
+      "provenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/packages/3d/characters/animals/animal-pack-deluxe-99702",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "archiveSha256": "0809f4ff5aebfdf93bc7915ed9295deb79b5c11f26075edb130b4d298bc4acc1",
+        "assetStoreId": "99702",
+        "sourceArchive": "Animal pack deluxe.unitypackage"
+      },
+      "sourceProvenance": {
+        "id": "animal-pack-deluxe",
+        "name": "Animal pack deluxe",
+        "author": "janpec",
+        "source": "https://assetstore.unity.com/?q=Animal%20pack%20deluxe",
+        "license": "Standard Unity Asset Store EULA; project owner must confirm entitlement",
+        "sourceRig": "FireSalamander_Rig.fbx",
+        "sourceManifest": "test-results/creature-expansion/sources/animals/source-provenance.json"
+      },
+      "decision": "review-required",
+      "reason": "No new front, side, rear, gameplay-distance or moving production-light review has been performed this round. Existing source-pack provenance does not establish quality."
+    },
+    {
+      "id": "creature_basalt_drake",
+      "file": "models/creature/creature_basalt_drake.glb",
+      "pack": "dungeon-mason-dragon-boar",
+      "provenance": {
+        "id": "dungeon-mason-dragon-boar",
+        "name": "Dragon the Soul Eater and Dragon Boar",
+        "author": "Dungeon Mason",
+        "source": "https://assetstore.unity.com/packages/3d/characters/creatures/dragon-the-soul-eater-and-dragon-boar-77121",
+        "license": "Standard Unity Asset Store EULA",
+        "archiveSha256": "0651f4f428799d1dd9d7d37d3c524395c35bffa9f5560fe2a489a3f34907af42",
+        "assetStoreId": "77121",
+        "sourceArchive": "Dragon the Soul Eater and Dragon Boar.unitypackage",
+        "archiveTitle": "Dragon the Terror Bringer and Dragon Boar"
+      },
+      "sourceProvenance": {
+        "author": "Dungeon Mason",
+        "pack": "Dragon the Soul Eater and Dragon Boar",
+        "license": "Standard Unity Asset Store EULA",
+        "source": "Assets/FreeDragons/Mesh/DragonBoarMesh.fbx",
+        "texture": "DragonBoarPBR/Blue",
+        "modifications": "Proportional .65 scale, stationary horizontal root, native albedo and normal maps, Unity metallic/smoothness and AO packed into glTF ORM, directional upper-body recoil over authored hit, upward-only root height corrections from actual skinned minima at 240 Hz."
+      },
+      "decision": "review-required",
+      "reason": "No new front, side, rear, gameplay-distance or moving production-light review has been performed this round. Existing source-pack provenance does not establish quality."
+    }
+  ],
+  "compiler": "node --import tsx tools/build-creature-expansion.ts --only cairn_bighorn,bracken_tapir,duskoak_lynx",
+  "compilerOutput": "test-results/creature-expansion",
+  "promotion": "Root must copy reviewed models and their matching exported metadata into this candidate folder, then run production lab visual acceptance before public promotion. Preserve existing asset IDs."
+}

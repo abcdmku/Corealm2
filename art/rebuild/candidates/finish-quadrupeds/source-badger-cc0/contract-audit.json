@@ -1,0 +1,121 @@
+{
+  "sourceTopologyUVWeightsIntact": true,
+  "primitives": 4,
+  "nativeTimingRotationScaleIntact": true,
+  "channels": 3887,
+  "rotationAndScaleChannels": 2158,
+  "clips": [
+    {
+      "name": "Attack.000",
+      "duration": 0.875
+    },
+    {
+      "name": "Attack.001",
+      "duration": 0.875
+    },
+    {
+      "name": "Attack.002",
+      "duration": 0.8333333134651184
+    },
+    {
+      "name": "Attack.003",
+      "duration": 0.8333333134651184
+    },
+    {
+      "name": "Attack.Begin",
+      "duration": 0.8333333134651184
+    },
+    {
+      "name": "Attack.End",
+      "duration": 0.8333333134651184
+    },
+    {
+      "name": "Die",
+      "duration": 1.125
+    },
+    {
+      "name": "Hit",
+      "duration": 0.4166666567325592
+    },
+    {
+      "name": "Idle.001",
+      "duration": 3.75
+    },
+    {
+      "name": "Idle.002",
+      "duration": 3.75
+    },
+    {
+      "name": "Run",
+      "duration": 0.4166666567325592
+    },
+    {
+      "name": "Stand",
+      "duration": 0
+    },
+    {
+      "name": "Walk",
+      "duration": 1.1666666269302368
+    }
+  ],
+  "finalByteSamples": 410,
+  "motionFloors": [
+    {
+      "name": "Attack.000",
+      "minimumY": -0.007195508581406798
+    },
+    {
+      "name": "Attack.001",
+      "minimumY": -0.008173659096183774
+    },
+    {
+      "name": "Attack.002",
+      "minimumY": -0.011407526355609265
+    },
+    {
+      "name": "Attack.003",
+      "minimumY": -0.009692220791580664
+    },
+    {
+      "name": "Attack.Begin",
+      "minimumY": -4.4412012868426423e-8
+    },
+    {
+      "name": "Attack.End",
+      "minimumY": -4.4412012868426423e-8
+    },
+    {
+      "name": "Die",
+      "minimumY": -0.06001990164040247
+    },
+    {
+      "name": "Hit",
+      "minimumY": -0.0065328426893743454
+    },
+    {
+      "name": "Idle.001",
+      "minimumY": 4.6506179873377386e-8
+    },
+    {
+      "name": "Idle.002",
+      "minimumY": 4.6506179873377386e-8
+    },
+    {
+      "name": "Run",
+      "minimumY": -0.016667787538268426
+    },
+    {
+      "name": "Stand",
+      "minimumY": 4.6506179873377386e-8
+    },
+    {
+      "name": "Walk",
+      "minimumY": -0.05236271199383841
+    }
+  ],
+  "limits": [
+    "Walk dips up to 52.4mm and Die to60.1mm below rest floor in sampled motion. Not foot-contact acceptance.",
+    "16 head triangle normals turn more than90 degrees relative to source during rest jaw closure. Hardware mouth review required; no zero-area triangles.",
+    "Species visual review and runtime integration remain pending."
+  ]
+}

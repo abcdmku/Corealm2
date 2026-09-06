@@ -1,0 +1,266 @@
+{
+  "status": "Frozen anatomy and native motion candidate for root hardware review; contact repair separate.",
+  "hashes": {
+    "cdmir-rat-original.blend": {
+      "bytes": 6833728,
+      "sha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2"
+    },
+    "cdmir-rat-native.glb": {
+      "bytes": 8374124,
+      "sha256": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047"
+    },
+    "cdmir-porcupine-adapted.glb": {
+      "bytes": 10645764,
+      "sha256": "304f3ccdcc6d355304a2705038356a5704d95bbc4370ebadc385d516b003e4da"
+    },
+    "cdmir-porcupine-normalized.glb": {
+      "bytes": 10645964,
+      "sha256": "3cbfb186bc81e5a6d3070eb032b9e8937f2dedff42de1debd54ba09433a29cf3"
+    },
+    "porcupine-candidate-catalogue.json": {
+      "bytes": 5249,
+      "sha256": "367f577af7025e1224e6ec7305df35e87e305e1c37120689894adb3d27628b75"
+    }
+  },
+  "author": "CDmir; TinyWorlds",
+  "license": "CC0-1.0",
+  "source": "https://opengameart.org/content/evil-giant-rat",
+  "anatomyAdaptation": "Original full mesh topology reshaped, monotonic short tail, smaller ears and muzzle, neutral jaw closure from native groups, dark feet/eyes, 970 banded quills with intact root skin weights.",
+  "sourceMotion": {
+    "exportedClips": 13,
+    "originalPreservedClips": 14,
+    "omitted": "Idle.000: original Blender B-bone discontinuities, measured source jumps; evidence weight-audit-tail-discontinuity.json.",
+    "nativeFinalByteMaxNormalizedMm": 0.9643288760306397,
+    "readbackSamples": 961
+  },
+  "adaptedReadback": {
+    "file": "cdmir-porcupine-adapted-motion-readback.json",
+    "sha256": "304f3ccdcc6d355304a2705038356a5704d95bbc4370ebadc385d516b003e4da",
+    "samples": 410,
+    "allPositionsFinite": true
+  },
+  "fixedPreviewTransform": {
+    "scale": 0.21979540891439808,
+    "translation": [
+      -0.0030862863382309343,
+      0.004155763669406548,
+      -0.10733404364116811
+    ],
+    "units": "Authored .46 m total rest height including quills; source dimensions were unspecified."
+  },
+  "footPenetrationByClip": [
+    {
+      "name": "Attack.000",
+      "maximumSampledPenetrationMm": 0.00004114387291368621,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 971,
+        "sourceVertex": 181,
+        "position": [
+          -0.46844922814804807,
+          -0.018907605185229274,
+          1.4732645382466942
+        ]
+      }
+    },
+    {
+      "name": "Attack.001",
+      "maximumSampledPenetrationMm": 0.00004114387291368621,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 971,
+        "sourceVertex": 181,
+        "position": [
+          -0.46844922814804807,
+          -0.018907605185229274,
+          1.4732645382466942
+        ]
+      }
+    },
+    {
+      "name": "Attack.002",
+      "maximumSampledPenetrationMm": 2.7331727915310435,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 2720,
+        "sourceVertex": 2050,
+        "position": [
+          0.03402952805489477,
+          -0.0313424947998826,
+          2.05593902338393
+        ]
+      }
+    },
+    {
+      "name": "Attack.003",
+      "maximumSampledPenetrationMm": 1.7378614908662307,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 2828,
+        "sourceVertex": 2086,
+        "position": [
+          -0.002239570253026818,
+          -0.026814141338903585,
+          1.9120010080255259
+        ]
+      }
+    },
+    {
+      "name": "Attack.Begin",
+      "maximumSampledPenetrationMm": 0.000021960253917402417,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 971,
+        "sourceVertex": 181,
+        "position": [
+          -0.4684491191034095,
+          -0.01890751790579477,
+          1.4732649133310491
+        ]
+      }
+    },
+    {
+      "name": "Attack.End",
+      "maximumSampledPenetrationMm": 0.000021960253917402417,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 971,
+        "sourceVertex": 181,
+        "position": [
+          -0.4684491191034095,
+          -0.01890751790579477,
+          1.4732649133310491
+        ]
+      }
+    },
+    {
+      "name": "Die",
+      "maximumSampledPenetrationMm": 28.278126995065424,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 2801,
+        "sourceVertex": 2077,
+        "position": [
+          -0.6478192918169962,
+          -0.14756400429229954,
+          1.4289551360482164
+        ]
+      }
+    },
+    {
+      "name": "Hit",
+      "maximumSampledPenetrationMm": 0.000021960253917402417,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 971,
+        "sourceVertex": 181,
+        "position": [
+          -0.4684491191034095,
+          -0.01890751790579477,
+          1.4732649133310491
+        ]
+      }
+    },
+    {
+      "name": "Idle.001",
+      "maximumSampledPenetrationMm": 0,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 971,
+        "sourceVertex": 181,
+        "position": [
+          -0.4684490732602579,
+          -0.018907261148145733,
+          1.4732649159805946
+        ]
+      }
+    },
+    {
+      "name": "Idle.002",
+      "maximumSampledPenetrationMm": 0,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 971,
+        "sourceVertex": 181,
+        "position": [
+          -0.4684490732602579,
+          -0.018907261148145733,
+          1.4732649159805946
+        ]
+      }
+    },
+    {
+      "name": "Run",
+      "maximumSampledPenetrationMm": 11.79356363164219,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 479,
+        "sourceVertex": 89,
+        "position": [
+          -0.4089542760379396,
+          -0.07256442425173854,
+          0.34601098371608885
+        ]
+      }
+    },
+    {
+      "name": "Stand",
+      "maximumSampledPenetrationMm": 0,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 971,
+        "sourceVertex": 181,
+        "position": [
+          -0.4684490732602579,
+          -0.018907261148145733,
+          1.4732649159805946
+        ]
+      }
+    },
+    {
+      "name": "Walk",
+      "maximumSampledPenetrationMm": 28.925179128954888,
+      "lowest": {
+        "mesh": "Body",
+        "primitive": 0,
+        "vertex": 2639,
+        "sourceVertex": 2023,
+        "position": [
+          0.4512444981492729,
+          -0.15050788804804016,
+          -0.5050112100428704
+        ]
+      }
+    }
+  ],
+  "hardwareReviewRequired": [
+    "Front/side/rear/gameplay neutral mouth, ears, barrel silhouette and dense quill coverage.",
+    "Walk and Run paws, stride transitions, torso stability and source foot dips.",
+    "Normal-map lighting: source conversion body/head P95 normal error roughly 17–18 degrees; finite unit normals, stable corrective orientation, but lighting approximation.",
+    "Four head triangles near the closing mouth turn normals past 90 degrees in the rest warp. No degenerate source or adapted mesh triangles; inspect mouth lining and lip overlap visually."
+  ],
+  "contactPolicy": "No whole-body per-frame lift in frozen candidate. Per-limb stance/contact repair has separate ownership and output names.",
+  "gpuUsedByThisWorker": false,
+  "labAccepted": false,
+  "worldIntegrated": false,
+  "contactAudit": {
+    "file": "contact-audit.json",
+    "scope": "Separate denser 241-sample Walk/Run sole-set audit. Use its penetration maxima over the earlier sparse whole-body bounds below.",
+    "walkMaximumPenetrationMm": 29.1,
+    "runMaximumPenetrationMm": 19.9,
+    "stanceClassification": "Provisional, based on low foot height, backward motion and vertical velocity.",
+    "frozenCandidateChanged": false
+  }
+}

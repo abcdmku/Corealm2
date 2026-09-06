@@ -1,0 +1,83 @@
+{
+  "sourceOriginalSha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+  "nativeSha256": "ed0f9a8df62321d9aebcde6c9384a97464f67d9cdabf7f21b1ec2e7e6c3c3047",
+  "normalizedSha256": "7e2b87920ac035d6a9886ad3c35a050fee7e6097fd5a1bb75e76702e2bd59bf0",
+  "rawAdaptedSha256": "ed9ca3625baf91807765558609258031fb039ae9ced97861e2eef3a799c7494f",
+  "bytes": 10779584,
+  "reference": {
+    "source": "https://opengameart.org/content/evil-giant-rat",
+    "author": "CDmir; TinyWorlds",
+    "license": "CC0-1.0",
+    "originalSpecies": "rat",
+    "anatomy": [
+      "https://science.rspca.org.uk/en/web/rspca/adviceandwelfare/wildlife/badgers",
+      "https://britishwildlifecentre.co.uk/planyourvisit/animals/badger/"
+    ],
+    "scope": "Complete-source Badger adaptation; no unverified badger mesh or texture used."
+  },
+  "nativeClipNames": [
+    "Attack.000",
+    "Attack.001",
+    "Attack.002",
+    "Attack.003",
+    "Attack.Begin",
+    "Attack.End",
+    "Die",
+    "Hit",
+    "Idle.001",
+    "Idle.002",
+    "Run",
+    "Stand",
+    "Walk"
+  ],
+  "sourceAuditMaximumNormalizedMm": 0.9643288760306397,
+  "topology": [
+    {
+      "mesh": "Body",
+      "primitive": 0,
+      "triangles": 4210,
+      "degenerate": 0,
+      "normalDirectionReversals": 0,
+      "minAreaRatio": 0.051535408726919626
+    },
+    {
+      "mesh": "Head",
+      "primitive": 1,
+      "triangles": 1484,
+      "degenerate": 0,
+      "normalDirectionReversals": 16,
+      "minAreaRatio": 0.06394665951757428
+    },
+    {
+      "mesh": "Eyes",
+      "primitive": 2,
+      "triangles": 36,
+      "degenerate": 0,
+      "normalDirectionReversals": 0,
+      "minAreaRatio": 0.32847459927559564
+    },
+    {
+      "mesh": "Teeth",
+      "primitive": 3,
+      "triangles": 200,
+      "degenerate": 0,
+      "normalDirectionReversals": 0,
+      "minAreaRatio": 0.19186362132685414
+    }
+  ],
+  "previewTransform": {
+    "scale": 0.30516588034082454,
+    "translation": [
+      -5.280903229667912e-9,
+      0.004500523242515621,
+      -0.18500950803406002
+    ]
+  },
+  "scope": "Whole original rat mesh resculpt into Badger, with new authored coat. Original topology, skin weights, native clip names/timing retained; all joint pivots/translations retargeted. No unverified Badger source used.",
+  "limits": [
+    "CPU candidate; species silhouette, facial seams, paws, tail and motion contact require hardware review.",
+    "Source digit counts retained; no claim of anatomically verified five-toe Badger paws.",
+    "Rat source Idle.000 remains excluded for original B-bone discontinuities; original blend preserves all14 actions.",
+    "New coat is position-baked using original UVs, with smooth normals recomputed; no borrowed or generated-image textures."
+  ]
+}

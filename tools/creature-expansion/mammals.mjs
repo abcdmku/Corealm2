@@ -1,4 +1,7 @@
 import * as THREE from 'three';
+import {FOX_ANATOMY,foxAnatomyConfig,foxPawDesign} from './mammals/fox-anatomy.mjs';
+import {BADGER_ANATOMY,badgerAnatomyConfig,badgerPawDesign,badgerCoat,badgerEarWidth,badgerEarColour} from './mammals/badger-anatomy.mjs';
+import {porcupineAnatomyConfig,porcupinePawDesign,emitPorcupineQuills,emitPorcupineTail} from './mammals/porcupine-anatomy.mjs';
 
 /** Original Corealm mammal meshes. All coordinates are metres, +Z is forward. */
 export const SPECIES = ['redbrush_fox', 'duskoak_lynx', 'rootdelve_badger', 'quillback_porcupine'];
@@ -13,7 +16,7 @@ const noise = (x, y, z) => fract(Math.sin(x * 137.1 + y * 283.7 + z * 93.3) * 43
 const c = hex => new THREE.Color(hex);
 const C = {
   fox: [c('#ba5526'), c('#6c2916'), c('#e4b07a'), c('#ebe0c2')],
-  lynx: [c('#8b7b62'), c('#443b33'), c('#bbaa88'), c('#d3c8ad')],
+  lynx: [c('#998d77'), c('#403d35'), c('#b9af96'), c('#d3c8ad')],
   badger: [c('#77776c'), c('#30352f'), c('#a8a99c'), c('#dfdec6')],
   porc: [c('#5c4b38'), c('#2e2923'), c('#a28a65'), c('#d2c4a0')],
   nose: c('#25201c'), pad: c('#3e322a'), pink: c('#ad7467'), claw: c('#c5b596'), ivory: c('#ece2c5'), black: c('#121513'), amber: c('#bd8630'), olive: c('#9aab6a')
@@ -39,13 +42,16 @@ const SHAPES = {
   duskoak_lynx: {
     kind: 'lynx', is: 'a tall woodland lynx with a deep feline chest, high haunches, cheek ruffs, broad paws and a short black-tipped tail',
     tags: ['mammal', 'quadruped', 'lynx', 'feline', 'woodland'],
-    body: [[-.64,.725,.01,.012],[-.58,.734,.12,.16],[-.43,.735,.21,.205],[-.20,.725,.168,.185],[.03,.727,.184,.219],[.27,.745,.205,.25],[.43,.805,.176,.213],[.54,.912,.174,.185],[.665,.96,.193,.17],[.765,.964,.184,.152],[.815,.947,.160,.119],[.858,.899,.121,.077],[.912,.885,.005,.01]],
-    hipY:.745,rearZ:-.40,frontZ:.31,stance:.152,kneeZ:.13,hockY:.23,pawY:.073,pawWidth:.123,pawLength:.172,
-    headPivot:[0,.881,.55],jawPivot:[0,.841,.752],
-    ears:{root:[.137,1.038,.605],length:.134,width:.132,lean:-.025,inward:.010},
-    eyes:[.116,.985,.845],eyeScale:[.034,.026,.023],
-    nose:[0,.905,.910],noseScale:[.043,.026,.019],
-    tail:[[0,.765,-.563],[.01,.734,-.73],[.015,.741,-.84],[.026,.77,-.90]],tailR:[.08,.074,.054,.002],
+    // NPS Canada lynx reference: high haunch, level lumbar bridge, deep chest,
+    // broad facial ruff, short muzzle and wide furred feet. Dimensions are
+    // authored proportions, not measurements of the photographed animal.
+    body: [[-.64,.770,.01,.012],[-.58,.774,.118,.15],[-.43,.775,.183,.207],[-.23,.754,.162,.184],[-.03,.733,.170,.202],[.20,.735,.180,.220],[.36,.769,.164,.202],[.47,.836,.133,.181],[.55,.898,.128,.166],[.665,.948,.194,.165],[.78,.948,.185,.143],[.865,.916,.129,.082],[.962,.907,.005,.01]],
+    hipY:.745,rearZ:-.40,frontZ:.31,stance:.159,kneeZ:.10,hockY:.23,pawY:.073,pawWidth:.139,pawLength:.188,
+    headPivot:[0,.881,.55],jawPivot:[0,.852,.780],
+    ears:{root:[.139,1.025,.648],length:.075,width:.120,lean:-.025,inward:.028},
+    eyes:[.112,.981,.824],eyeScale:[.032,.023,.019],
+    nose:[0,.918,.949],noseScale:[.042,.025,.018],
+    tail:[[0,.765,-.563],[.006,.750,-.651],[.010,.739,-.712],[.013,.738,-.751]],tailR:[.051,.048,.037,.002],
     gait:{walk:1.16,run:.67,stride:.43,runStride:.74,lift:.092,runLift:.21},attack:1.02,contact:.43,
   },
   rootdelve_badger: {
@@ -93,6 +99,7 @@ function profileAt(rows,z){
 }
 
 function coat(s,p,theta=0,part='body'){
+  if(s.kind==='badger')return badgerCoat(s,p,theta,part);
   const pal=C[s.kind], col=pal[0].clone();
   const belly=smooth(.10,-.65,Math.cos(theta));
   col.lerp(pal[2],belly*.52);
@@ -105,11 +112,13 @@ function coat(s,p,theta=0,part='body'){
     if(p.z>.82 && p.y<.80)col.lerp(pal[3],.88);
     if(part==='leg'){col.copy(pal[0]).lerp(c('#252420'),1-smooth(.19,.41,p.y));col.multiplyScalar(.93);}
   } else if(s.kind==='lynx') {
-    const spot=Math.pow(Math.max(0,Math.sin(p.z*36+Math.sin(p.y*27)*1.8)*Math.sin(Math.abs(p.x)*58+p.y*19)),10);
-    col.lerp(pal[1],spot*.74);
-    if(p.z>.70 && p.y<.91)col.lerp(pal[3],.64);
+    const dapple=Math.sin(p.z*38+Math.sin(p.y*23)*1.2)*Math.sin(Math.abs(p.x)*47+p.y*31);
+    const spot=smooth(.48,.83,dapple);
+    col.lerp(pal[1],spot*(part==='leg'?.44:.65));
+    // Keep buff on the small muzzle and chin, not a pale band over the ruff.
+    if(p.z>.85 && p.y<.904)col.lerp(pal[3],.43);
     if(p.z>.60 && p.y>.94)col.lerp(pal[1],.20*(.5+.5*Math.cos(p.x*84)));
-    if(part==='leg')col.lerp(pal[1],Math.pow(Math.max(0,Math.sin(p.y*78+p.z*19)),10)*.48);
+    // Broken dapples continue onto the limbs; horizontal rings read as joints.
   } else if(s.kind==='badger') {
     if(p.z>.46){
       col.copy(pal[3]);
@@ -136,8 +145,8 @@ function addRig(s,group){
   for(const front of [true,false])for(const sign of [-1,1]){
     const name=(front?'F':'H')+(sign<0?'R':'L'), x=sign*s.stance,z=front?s.frontZ:s.rearZ;
     const hip=v(x,s.hipY+(front?.018:0),z),
-      knee=v(x,front?s.hipY*.55:s.hipY*.64,z+(front?-s.kneeZ:s.kneeZ)),
-      hock=v(x,s.hockY,z+(front?.015:-.075)),
+      knee=v(x,front?s.hipY*.55:s.hipY*.64,z+(front?(s.kind==='lynx'?-.035:-s.kneeZ):s.kneeZ)),
+      hock=v(x,s.kind==='lynx'&&front?.15:s.hockY,z+(front?(s.kind==='lynx'?.037:.015):-.075)),
       paw=v(x,s.pawY,z+(front?.066:.035));
     add(name+'_Upper',front?'Chest':'Pelvis',hip.toArray());add(name+'_Lower',name+'_Upper',knee.toArray());add(name+'_Ankle',name+'_Lower',hock.toArray());add(name+'_Paw',name+'_Ankle',paw.toArray());
     legs.push({name,front,sign,hip,knee,hock,paw,l1:hip.distanceTo(knee),l2:knee.distanceTo(hock),distal:paw.clone().sub(hock)});
@@ -180,12 +189,15 @@ function ellipsoid(out,center,scale,color,weights,segments=20,rings=12,rotation=
 }
 
 function pawDesign(s,leg){
+  if(s.kind==='fox')return foxPawDesign(s,leg);
+  if(s.kind==='badger')return badgerPawDesign(s,leg);
+  if(s.kind==='porc')return porcupinePawDesign(s,leg);
   const fox=s.kind==='fox',cat=s.kind==='lynx',badger=s.kind==='badger';
   return {
-    height:s.pawY*(fox?.91:cat?.90:badger?1.05:.95),
+    height:s.pawY*(fox?.91:cat?.64:badger?1.05:.95),
     halfWidth:s.pawWidth*(badger&&leg.front?.74:cat?.68:fox?.66:.65),
-    halfLength:s.pawLength*(badger&&leg.front?.44:cat?.43:fox?.44:.42),
-    forward:badger?.018:cat?.014:fox?.010:.012,
+    halfLength:s.pawLength*(badger&&leg.front?.44:cat?.53:fox?.44:.42),
+    forward:badger?.018:cat?.025:fox?.010:.012,
     toeCount:badger?5:s.kind==='porc'&&!leg.front?5:4,
     toeForward:s.pawLength*(badger?.47:cat?.48:fox?.43:.44),
     toeLength:s.pawLength*(badger?.22:cat?.21:fox?.22:.25),
@@ -202,14 +214,15 @@ function pawsAndClaws(s,r,out,detail){
   for(const leg of r.legs){
     const {name,paw,front}=leg;
     const w=[[r.index(name+'_Paw'),1]],design=pawDesign(s,leg),digits=design.toeCount;
+    if(s.kind==='lynx')continue; // Toe divisions are cut into the single paw field.
     for(let digit=0;digit<digits;digit++){
       const dx=(digit-(digits-1)/2)*s.pawWidth*(digits===5?.205:.26);
-      const toe=v(paw.x+dx,s.pawY*.56,paw.z+design.toeForward-(Math.abs(dx)/s.pawWidth)*.028);
-      ellipsoid(out,toe,[s.pawWidth*(digits===5?.168:.195),s.pawY*.53,design.toeLength],p=>pawCoat(s,p),w,10,6);
+      const toe=v(paw.x+dx,s.pawY*(s.kind==='lynx'?.43:.56),paw.z+design.toeForward-(Math.abs(dx)/s.pawWidth)*.028);
+      if(s.kind!=='fox'&&s.kind!=='badger'&&s.kind!=='porc')ellipsoid(out,toe,[s.pawWidth*(digits===5?.168:.195),s.pawY*(s.kind==='lynx'?.40:.53),design.toeLength],p=>pawCoat(s,p),w,10,6);
       if(s.kind!=='lynx'){
         const len=s.kind==='badger'&&front?.058:s.kind==='porc'?.020:s.kind==='fox'?.014:.025;
-        const root=toe.clone().add(v(0,s.pawY*.20,design.toeLength*.80));
-        tube(detail,[root,root.clone().add(v(0,-.006,len*.55)),root.clone().add(v(0,-.014,len))],[.0068,.005,.0008],()=>w,s.kind==='fox'?c('#998e75'):C.claw,{rings:6,sides:7});
+        const root=s.kind==='fox'||s.kind==='badger'||s.kind==='porc'?v(paw.x+dx,design.height*.65,paw.z+design.forward+design.halfLength*Math.sqrt(Math.max(.1,1-(dx/design.halfWidth)**2))-.007):toe.clone().add(v(0,s.pawY*.20,design.toeLength*.80));
+        tube(detail,[root,root.clone().add(v(0,-.006,len*.55)),root.clone().add(v(0,-.014,len))],s.kind==='fox'?[.004,.0026,.0005]:[.0068,.005,.0008],()=>w,s.kind==='fox'?c('#998e75'):C.claw,{rings:6,sides:7});
       }
     }
   }
@@ -220,40 +233,42 @@ function ears(s,r,out,detail){
     const b=r.index(sign>0?'Ear_L':'Ear_R'),w=[[b,1]],root=v(sign*s.ears.root[0],s.ears.root[1],s.ears.root[2]);
     const round=s.kind==='badger'||s.kind==='porc',N=round?14:18,M=round?12:16;
     const shellBases=[];
-    const earPoint=(x,y,z)=>{const p=v(x,y,z);if(s.kind==='fox')p.applyAxisAngle(v(0,1,0),sign*.38);return p.add(root);};
+    const earPoint=(x,y,z)=>{const p=v(x,y,z);if(s.kind==='fox'||s.kind==='lynx')p.applyAxisAngle(v(0,1,0),sign*(s.kind==='lynx'?.52:.38));return p.add(root);};
     for(const back of [false,true]){
       const base=out.p.length/3;
       shellBases.push(base);
       for(let i=0;i<=N;i++){
-        const t=i/N,width=s.ears.width*(round?Math.sin(Math.PI*(.13+.87*t))*.52:s.kind==='lynx'?Math.pow(1-t,.48)*.55:Math.pow(1-t,.86)*.54);
+        const t=i/N,width=s.kind==='badger'?badgerEarWidth(s,t):s.ears.width*(round?Math.sin(Math.PI*(.13+.87*t))*.52:s.kind==='lynx'?Math.pow(1-t,.79)*.55:Math.pow(1-t,.86)*.54);
         for(let j=0;j<=M;j++){
           const u=j/M*2-1;
-          const p=earPoint(sign*(u*width+s.ears.inward*t),s.ears.length*t,s.ears.lean*t+(back?-.014:.004)+(.026*Math.sin(Math.PI*t)*(1-u*u)));
+          const shell=s.kind==='fox'?(back?.004-FOX_ANATOMY.earShellThickness:.004):s.kind==='badger'?(back?-BADGER_ANATOMY.earShellThickness:.002):(back?-.014:.004);
+          const p=earPoint(sign*(u*width+s.ears.inward*t),s.ears.length*t,s.ears.lean*t+shell+((s.kind==='fox'?.016:.026)*Math.sin(Math.PI*t)*(1-u*u)));
           const edge=s.kind==='fox'?smooth(.45,.90,Math.abs(u)):smooth(.68,.98,Math.abs(u));
-          const color=back?(s.kind==='fox'?c('#26211c'):C[s.kind][1].clone().lerp(C[s.kind][0],round?.4:.72)):C.pink.clone().lerp(C[s.kind][3],Math.max(edge*.94,s.kind==='lynx'?.53:0)).multiplyScalar(round?.68:1);
+          const color=s.kind==='badger'?badgerEarColour(u,t,back):back?(s.kind==='fox'?c('#26211c'):C[s.kind][1].clone().lerp(C[s.kind][0],round?.4:.72)):C.pink.clone().lerp(C[s.kind][3],Math.max(edge*.94,s.kind==='lynx'?.53:0)).multiplyScalar(round?.68:1);
+          if(s.kind==='fox'&&!back)color.multiplyScalar(.73);
           out.vertex(p,color,w,[j/M,i/N]);
         }
       }
       for(let i=0;i<N;i++)for(let j=0;j<M;j++){const a=base+i*(M+1)+j;if(back)out.quad(a+1,a,a+M+2,a+M+1);else out.quad(a,a+1,a+M+1,a+M+2);}
     }
-    if(s.kind==='fox')for(let i=0;i<N;i++)for(const j of [0,M]){
+    if(s.kind==='fox'||s.kind==='lynx'||s.kind==='badger')for(let i=0;i<N;i++)for(const j of [0,M]){
       const a=shellBases[0]+i*(M+1)+j,b=shellBases[1]+i*(M+1)+j;
       out.quad(a,b,a+M+1,b+M+1);
     }
     if(s.kind==='lynx'){
       for(let k=0;k<5;k++){
-        const a=root.clone().add(v(sign*s.ears.inward,s.ears.length-.012,s.ears.lean));
-        const b=a.clone().add(v(sign*(.007+k*.004),.081-k*.007,-.003+k*.002));
-        tube(detail,[a,a.clone().lerp(b,.55).add(v(sign*.01,0,0)),b],[.008-k*.001,.003,.0003],()=>w,C[s.kind][1],{rings:5,sides:5});
+        const a=earPoint(sign*s.ears.inward,s.ears.length-.010,s.ears.lean);
+        const b=a.clone().add(v(sign*(.013+k*.003),.043-k*.004,-.007+k*.002));
+        tube(detail,[a,a.clone().lerp(b,.55),b],[.0048-k*.0006,.002,.0002],()=>w,C[s.kind][1],{rings:5,sides:5});
       }
     }
     if(s.kind==='fox'||s.kind==='lynx'){
       const rim=[];
       for(let i=0;i<=24;i++){
-        const left=i<=12,t=left?i/12:(24-i)/12,u=left?-1:1,width=s.ears.width*(s.kind==='lynx'?Math.pow(1-t,.48)*.55:Math.pow(1-t,.86)*.54);
+        const left=i<=12,t=left?i/12:(24-i)/12,u=left?-1:1,width=s.ears.width*(s.kind==='lynx'?Math.pow(1-t,.79)*.55:Math.pow(1-t,.86)*.54);
         rim.push(earPoint(sign*(u*width+s.ears.inward*t),s.ears.length*t,s.ears.lean*t+.006));
       }
-      tube(out,rim,[.008,.0065,.004,.0065,.008],()=>w,C[s.kind][3].clone().lerp(C[s.kind][0],.42),{rings:30,sides:8,elliptic:.75});
+      tube(out,rim,s.kind==='fox'?[1,.8,.55,.8,1].map(x=>x*FOX_ANATOMY.earRimRadius):[.008,.0065,.004,.0065,.008],()=>w,C[s.kind][3].clone().lerp(C[s.kind][0],.42),{rings:30,sides:8,elliptic:.75});
     }
   }
 }
@@ -265,11 +280,11 @@ function face(s,r,out,detail){
     tube(out,[v(0,.750,.821),v(0,.750,.868),v(0,.755,.949),v(0,.758,1.034),v(0,.759,1.045)],[.044,.047,.035,.016,.0005],()=>jw,(p,t,a)=>C.fox[3].clone().multiplyScalar(.88).lerp(C.nose.clone().lerp(C.pink,.24),smooth(.10,.80,Math.sin(a))),{rings:18,sides:16,elliptic:.26});
   }else ellipsoid(out,v(0,s.jawPivot[1]+(s.kind==='lynx'?.010:-.002),s.jawPivot[2]+snout*.47),[s.noseScale[0]*(s.kind==='lynx'?1.55:1.12),s.kind==='lynx'?.019:.025,snout*(s.kind==='lynx'?.47:.51)],p=>{
     const underside=C[s.kind][s.kind==='porc'?0:3].clone().multiplyScalar(s.kind==='fox'?.92:.78);
-    return underside.lerp(C.nose.clone().lerp(C.pink,.25),smooth(s.jawPivot[1]+.003,s.jawPivot[1]+.018,p.y));
+    return s.kind==='lynx'?underside:underside.lerp(C.nose.clone().lerp(C.pink,.25),smooth(s.jawPivot[1]+.003,s.jawPivot[1]+.018,p.y));
   },jw,24,12);
   ellipsoid(detail,v(...s.nose),s.noseScale,C.nose,hw,24,14,null,p=>{const y=p.y/s.noseScale[1]*.5+.5;p.x*=.62+.38*y;p.z*=.72+.28*y;});
   for(const sign of [-1,1]){
-    if(s.kind==='lynx')ellipsoid(out,v(sign*.048,.883,.861),[.062,.034,.039],C.lynx[3].clone().multiplyScalar(.87),hw,24,14);
+    if(s.kind==='lynx')ellipsoid(out,v(sign*.037,.892,.907),[.041,.021,.034],C.lynx[3].clone().lerp(C.lynx[0],.43).multiplyScalar(.87),hw,24,14);
     const toward=v(sign*.53,.035,.85).normalize(),q=new THREE.Quaternion().setFromUnitVectors(v(0,0,1),toward);
     const eye=v(sign*s.eyes[0],s.eyes[1],s.eyes[2]).addScaledVector(toward,-.005);
     ellipsoid(out,eye.clone().addScaledVector(toward,-.006),s.eyeScale.map((x,i)=>x*(i===2?.40:1.05)),C[s.kind][0].clone().multiplyScalar(.76),hw,20,12);
@@ -289,20 +304,10 @@ function face(s,r,out,detail){
       const length=s.kind==='lynx'?.16:s.kind==='badger'?.093:.10;
       tube(detail,[p,p.clone().add(v(sign*length*.55,.012-k*.006,-.018)),p.clone().add(v(sign*length,.017-k*.009,-.038))],[.0012,.0008,.00015],()=>hw,C.ivory.clone().multiplyScalar(.76),{rings:5,sides:4});
     }
-    if(s.kind==='lynx'){
-      // A single sculpted cheek fan avoids overlapping fur sheets.
-      for(const back of [false,true]){
-        const base=out.p.length/3,N=16,M=12;
-        for(let i=0;i<=N;i++)for(let j=0;j<=M;j++){
-          const t=i/N,u=j/M*2-1,width=.068*(1-.62*t);
-          const p=v(sign*(.162+.034*Math.sin(Math.PI*.7*t)+(back?-.012:.012)*Math.sin(Math.PI*t)*(1-u*u)),s.headPivot[1]+.066-.12*t+.014*Math.cos(u*Math.PI*3)*Math.pow(t,4),s.headPivot[2]+.13+u*width-.017*t);
-          out.vertex(p,C.lynx[0].clone().lerp(C.lynx[3],mix(.08,.43,t)).lerp(C.lynx[1],smooth(.94,1,t)*.20),hw,[j/M,i/N]);
-        }
-        for(let i=0;i<N;i++)for(let j=0;j<M;j++){const a=base+i*(M+1)+j;if(back)out.quad(a+1,a,a+M+2,a+M+1);else out.quad(a,a+1,a+M+1,a+M+2);}
-      }
-    }
+    // Lynx cheek fur is part of the continuous field. Separate repeating
+    // tapered locks produced a tooth-like comb in the production side view.
     // Thin lip curves follow the authored tapered muzzle, and the mandible opens separately.
-    const p0=v(sign*s.noseScale[0]*.7,s.nose[1]-.028,s.nose[2]-.012),p1=v(sign*s.noseScale[0]*1.1,s.jawPivot[1]+.015,s.jawPivot[2]+.05);
+    const p0=v(sign*s.noseScale[0]*.7,s.nose[1]-.028,s.nose[2]-.012),p1=s.kind==='lynx'?v(sign*.064,.883,.892):v(sign*s.noseScale[0]*1.1,s.jawPivot[1]+.015,s.jawPivot[2]+.05);
     tube(detail,[p0,p0.clone().lerp(p1,.5).add(v(0,-.004,0)),p1],[.0024,.0023,.0015],()=>jw,C.nose,{rings:10,sides:5});
     if(s.kind==='fox'||s.kind==='lynx'){
       const fang=v(sign*s.noseScale[0]*.8,s.jawPivot[1]+.025,s.jawPivot[2]+snout*.60);
@@ -312,6 +317,7 @@ function face(s,r,out,detail){
 }
 
 function tail(s,r,out){
+  if(s.kind==='porc')return emitPorcupineTail({s,r,out,tube,palette:C.porc});
   const weights=t=>{
     const a=t*(s.tail.length-1),i=Math.min(s.tail.length-2,Math.floor(a)),u=smooth(0,1,a-i);return [[r.index('Tail_'+(i+1)),1-u],[r.index('Tail_'+(i+2)),u]];
   };
@@ -334,6 +340,7 @@ function tail(s,r,out){
 }
 
 function quills(s,r,out){
+  if(s.kind==='porc')return emitPorcupineQuills({s,r,out,tube,profileAt,bodyWeights,palette:C.porc});
   if(s.kind!=='porc')return;
   for(let row=0;row<12;row++)for(let j=0;j<14;j++){
     const z=mix(-.50,.30,row/11),a=mix(-1.40,1.40,(j+.24*(row%2))/13.24),q=profileAt(s.body,z);
@@ -374,7 +381,11 @@ function buildClips(s,r,group){
   const clips=[];
   const reset=()=>{for(const b of r.bones){b.quaternion.identity();const world=r.rest[b.name],parent=r.rest[b.parent?.name];b.position.copy(world);if(parent)b.position.sub(parent);}};
   const make=(name,duration,pose,cyclic=false)=>{
-    const frames=Math.ceil(duration*40),times=[],values=new Map(r.bones.map(b=>[b.name,{p:[],q:[]} ]));
+    // Joint interpolation does not preserve the planted IK target between
+    // keys. At 40Hz it buried rigid soles by 7.7mm despite exact key contacts.
+    // Densely bake contact-bearing motion; preserve durations and trajectories.
+    const sampleHz=name==='Run'&&s.kind==='lynx'?320:['Walk','Run','Attack'].includes(name)?160:40;
+    const frames=Math.ceil(duration*sampleHz),times=[],values=new Map(r.bones.map(b=>[b.name,{p:[],q:[]} ]));
     for(let i=0;i<=frames;i++){
       const t=i/frames;reset();pose(cyclic&&i===frames?0:t,duration);group.updateMatrixWorld(true);
       if(name==='Death'){
@@ -451,7 +462,8 @@ function buildClips(s,r,group){
 }
 
 export async function buildSpecies(id){
-  const s=SHAPES[id];if(!s)throw new Error('Unknown mammal species '+id);
+  const base=SHAPES[id];if(!base)throw new Error('Unknown mammal species '+id);
+  const s=base.kind==='fox'?foxAnatomyConfig(base):base.kind==='badger'?badgerAnatomyConfig(base):base.kind==='porc'?porcupineAnatomyConfig(base):base;
   const object=new THREE.Group();object.name=id;
   const r=addRig(s,object),coatSurface=new Surface(),detailSurface=new Surface();
   const {joinedMammal}=await import('./mammals/implicit.mjs');joinedMammal(s,r,coatSurface,coat,profileAt,bodyWeights,pawDesign,pawCoat);
@@ -460,9 +472,10 @@ export async function buildSpecies(id){
   const texels=new Uint8Array(256*256*4);
   for(let y=0;y<256;y++)for(let x=0;x<256;x++){
     const longGrain=noise(x,Math.floor((y+Math.floor(noise(x,1,9)*5))/6),4),fine=noise(x,y,7);
-    const shade=Math.round(226+longGrain*22+fine*7),i=(y*256+x)*4;texels[i]=shade;texels[i+1]=shade;texels[i+2]=shade;texels[i+3]=255;
+    const shade=Math.round(s.kind==='lynx'?211+longGrain*30+fine*14:226+longGrain*22+fine*7),i=(y*256+x)*4;texels[i]=shade;texels[i+1]=shade;texels[i+2]=shade;texels[i+3]=255;
   }
   const furTexture=new THREE.DataTexture(texels,256,256,THREE.RGBAFormat);furTexture.name=id+'_original_fur_grain';furTexture.colorSpace=THREE.SRGBColorSpace;furTexture.wrapS=furTexture.wrapT=THREE.RepeatWrapping;furTexture.magFilter=THREE.LinearFilter;furTexture.minFilter=THREE.LinearMipmapLinearFilter;furTexture.generateMipmaps=true;furTexture.needsUpdate=true;
+  if(s.kind==='lynx')furTexture.repeat.set(3,3);
   const coatMaterial=new THREE.MeshStandardMaterial({name:id+'_painted_fur',map:furTexture,vertexColors:true,roughness:.90,metalness:0,side:THREE.DoubleSide});
   const detailMaterial=new THREE.MeshStandardMaterial({name:id+'_eyes_claws_whiskers',vertexColors:true,roughness:.48,metalness:0,side:THREE.DoubleSide});
   for(const [name,surface,material] of [['Anatomy',coatSurface,coatMaterial],['Face_Claws',detailSurface,detailMaterial]]){

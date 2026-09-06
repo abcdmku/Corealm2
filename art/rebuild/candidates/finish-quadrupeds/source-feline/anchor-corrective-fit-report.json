@@ -1,0 +1,188 @@
+{
+  "prototype": "28 region mixture helpers. Each helper can be represented by two standard TRS joints; animated decomposition is a separate pending proof.",
+  "helperCount": 76,
+  "actualJointIncreaseIfTwoTRS": 152,
+  "trainingFrames": 43,
+  "heldoutFrames": 41,
+  "train": {
+    "rmsMm": 0.385408157136404,
+    "p95Mm": 0.8009820164670484,
+    "p99Mm": 1.8251566069314191,
+    "maxMm": 8.963233560716912,
+    "samples": 973950
+  },
+  "heldout": {
+    "rmsMm": 0.3738538371825548,
+    "p95Mm": 0.784162964311294,
+    "p99Mm": 1.7708745178153882,
+    "maxMm": 8.979953075188037,
+    "samples": 928650
+  },
+  "regions": {
+    "body": {
+      "vertices": 2800,
+      "train": {
+        "rmsMm": 0.8968889660291525,
+        "p95Mm": 1.9176093531457135,
+        "p99Mm": 3.053376738463951,
+        "maxMm": 8.876077732488618,
+        "samples": 120400
+      },
+      "heldout": {
+        "rmsMm": 0.8711846314060893,
+        "p95Mm": 1.8584399149076696,
+        "p99Mm": 2.953433054237201,
+        "maxMm": 8.979953075188037,
+        "samples": 114800
+      }
+    },
+    "head": {
+      "vertices": 4311,
+      "train": {
+        "rmsMm": 0.056641988452542764,
+        "p95Mm": 0.02783720768289133,
+        "p99Mm": 0.26566683268377517,
+        "maxMm": 2.185082020320106,
+        "samples": 185373
+      },
+      "heldout": {
+        "rmsMm": 0.05551068364603727,
+        "p95Mm": 0.028960880964330697,
+        "p99Mm": 0.2650241448721755,
+        "maxMm": 1.7630496144780352,
+        "samples": 176751
+      }
+    },
+    "limbs": {
+      "vertices": 5113,
+      "train": {
+        "rmsMm": 0.4449996144010606,
+        "p95Mm": 0.9947416547856722,
+        "p99Mm": 1.9676847302440188,
+        "maxMm": 8.963233560716912,
+        "samples": 219859
+      },
+      "heldout": {
+        "rmsMm": 0.43038363188904993,
+        "p95Mm": 0.9695524422940563,
+        "p99Mm": 1.8890701853234317,
+        "maxMm": 6.144448761095479,
+        "samples": 209633
+      }
+    },
+    "paws": {
+      "vertices": 6158,
+      "train": {
+        "rmsMm": 3.684924737484365e-05,
+        "p95Mm": 6.719410751584205e-05,
+        "p99Mm": 9.291311391235787e-05,
+        "maxMm": 0.00021042325143468343,
+        "samples": 264794
+      },
+      "heldout": {
+        "rmsMm": 3.6674789542499666e-05,
+        "p95Mm": 6.623170551390752e-05,
+        "p99Mm": 9.087628633983584e-05,
+        "maxMm": 0.00020859745452281143,
+        "samples": 252478
+      }
+    },
+    "tail": {
+      "vertices": 4268,
+      "train": {
+        "rmsMm": 0.1417356886150115,
+        "p95Mm": 0.2075504045540196,
+        "p99Mm": 0.717048731917067,
+        "maxMm": 3.3505529459399943,
+        "samples": 183524
+      },
+      "heldout": {
+        "rmsMm": 0.13712700176013784,
+        "p95Mm": 0.20614324711183987,
+        "p99Mm": 0.7001532390858806,
+        "maxMm": 3.2883037667798227,
+        "samples": 174988
+      }
+    }
+  },
+  "maxInfluences": 4,
+  "renderableValidated": false,
+  "helperLabels": [
+    "shared_patch_0",
+    "shared_patch_1",
+    "shared_patch_2",
+    "shared_patch_3",
+    "shared_patch_4",
+    "shared_patch_5",
+    "shared_patch_6",
+    "shared_patch_7",
+    "shared_patch_8",
+    "shared_patch_9",
+    "shared_patch_10",
+    "shared_patch_11",
+    "shared_patch_12",
+    "shared_patch_13",
+    "shared_patch_14",
+    "shared_patch_15",
+    "shared_patch_16",
+    "shared_patch_17",
+    "shared_patch_18",
+    "shared_patch_19",
+    "shared_patch_20",
+    "shared_patch_21",
+    "shared_patch_22",
+    "shared_patch_23",
+    "shared_patch_24",
+    "shared_patch_25",
+    "shared_patch_26",
+    "shared_patch_27",
+    "shared_patch_28",
+    "shared_patch_29",
+    "shared_patch_30",
+    "shared_patch_31",
+    "shared_patch_32",
+    "shared_patch_33",
+    "shared_patch_34",
+    "shared_patch_35",
+    "shared_patch_36",
+    "shared_patch_37",
+    "shared_patch_38",
+    "shared_patch_39",
+    "shared_patch_40",
+    "shared_patch_41",
+    "shared_patch_42",
+    "shared_patch_43",
+    "shared_patch_44",
+    "shared_patch_45",
+    "shared_patch_46",
+    "shared_patch_47",
+    "shared_patch_48",
+    "shared_patch_49",
+    "shared_patch_50",
+    "shared_patch_51",
+    "anchor_7905",
+    "anchor_1648",
+    "anchor_18760",
+    "anchor_13812",
+    "anchor_14441",
+    "anchor_7997",
+    "anchor_1581",
+    "anchor_14060",
+    "anchor_14592",
+    "anchor_1590",
+    "anchor_13103",
+    "anchor_13656",
+    "anchor_13437",
+    "anchor_18846",
+    "anchor_1737",
+    "anchor_14075",
+    "anchor_1631",
+    "anchor_7908",
+    "anchor_14087",
+    "anchor_18254",
+    "anchor_7842",
+    "anchor_1626",
+    "anchor_110",
+    "anchor_1582"
+  ]
+}

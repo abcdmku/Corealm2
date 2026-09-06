@@ -1,0 +1,178 @@
+{
+  "generator": "tools/build-shortcut-outcrops.ts",
+  "generatorSha256": "c828e640c67b55dc6fdc990e30246fcbd40fe1ddd9767b23472e472fe80a7698",
+  "pack": {
+    "id": "corealm-dexsoft-shortcut-outcrops",
+    "name": "Corealm shortcut rock arrangements",
+    "author": "Corealm; source rock geometry and maps by DEXSOFT",
+    "source": "tools/build-shortcut-outcrops.ts",
+    "license": "Derivative arrangement of the project’s DEXSOFT Rocks FREE pack geometry and material maps, under the existing Standard Unity Asset Store EULA. Corealm authored the placement, scale and composition."
+  },
+  "source": {
+    "path": "game/public/assets/models/magic/rocks_free_essence_node.glb",
+    "sha256": "c1c3c2af9eaed4027d80c84ed64422c9fb261eabc8bc275334a6a834fb541a1d"
+  },
+  "material": {
+    "kind": "source"
+  },
+  "assets": [
+    {
+      "id": "corealm_sunder_ledge",
+      "file": "models/corealm_sunder_ledge.glb",
+      "pack": "corealm-dexsoft-shortcut-outcrops",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "cliff",
+        "rock",
+        "source-derived",
+        "shortcut"
+      ],
+      "size": {
+        "x": 9.319,
+        "y": 4.448,
+        "z": 6.735
+      },
+      "base": {
+        "x": -4.702,
+        "y": -0.19,
+        "z": -2.909
+      },
+      "animations": [],
+      "materials": [
+        "rocks_free_essence_node_material"
+      ],
+      "bytes": 1979864,
+      "sha256": "d0d35dde3428c849a39f1005029e89248b5c0d3dcec04993db6f20fa092a569d",
+      "triangles": 3120,
+      "placement": {
+        "replacesAssetId": "cliff_step_2",
+        "translation": [
+          -0.04249999999999954,
+          -0.19,
+          0.45850000000000035
+        ]
+      },
+      "source": {
+        "assetId": "rocks_free_essence_node",
+        "file": "game/public/assets/models/magic/rocks_free_essence_node.glb",
+        "sha256": "c1c3c2af9eaed4027d80c84ed64422c9fb261eabc8bc275334a6a834fb541a1d",
+        "pack": "dexsoft-rocks-free"
+      },
+      "parts": [
+        {
+          "position": [
+            -1.75,
+            0,
+            0.05
+          ],
+          "scale": [
+            1,
+            0.9,
+            1.1
+          ],
+          "yaw": 0.25
+        },
+        {
+          "position": [
+            1.8,
+            0,
+            -0.35
+          ],
+          "scale": [
+            0.83,
+            0.74,
+            1.03
+          ],
+          "yaw": 2.65
+        }
+      ]
+    },
+    {
+      "id": "corealm_scree_slide",
+      "file": "models/corealm_scree_slide.glb",
+      "pack": "corealm-dexsoft-shortcut-outcrops",
+      "category": "rock",
+      "is": "cliff",
+      "tags": [
+        "cliff",
+        "rock",
+        "source-derived",
+        "shortcut"
+      ],
+      "size": {
+        "x": 5.996,
+        "y": 4.382,
+        "z": 5.44
+      },
+      "base": {
+        "x": -2.941,
+        "y": -0.124,
+        "z": -2.318
+      },
+      "animations": [],
+      "materials": [
+        "rocks_free_essence_node_material"
+      ],
+      "bytes": 1980088,
+      "sha256": "f976aedc43a04cf95a43017c39abc5974ab9dd3cf43541b66190320193d32c3d",
+      "triangles": 4680,
+      "placement": {
+        "replacesAssetId": "cliff_step_3",
+        "translation": [
+          0.057000000000000384,
+          -0.124,
+          0.40200000000000014
+        ]
+      },
+      "source": {
+        "assetId": "rocks_free_essence_node",
+        "file": "game/public/assets/models/magic/rocks_free_essence_node.glb",
+        "sha256": "c1c3c2af9eaed4027d80c84ed64422c9fb261eabc8bc275334a6a834fb541a1d",
+        "pack": "dexsoft-rocks-free"
+      },
+      "parts": [
+        {
+          "position": [
+            -0.3,
+            0,
+            -1.55
+          ],
+          "scale": [
+            0.77,
+            1,
+            0.7
+          ],
+          "yaw": 0.1
+        },
+        {
+          "position": [
+            0.18,
+            0,
+            0.15
+          ],
+          "scale": [
+            0.95,
+            0.64,
+            0.75
+          ],
+          "yaw": 2.3
+        },
+        {
+          "position": [
+            -0.22,
+            0,
+            1.8
+          ],
+          "scale": [
+            1,
+            0.3,
+            0.62
+          ],
+          "yaw": -0.8
+        }
+      ]
+    }
+  ],
+  "visualAccepted": false
+}

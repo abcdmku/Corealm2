@@ -1,0 +1,51 @@
+{
+  "sha256": "8d3371eb6f828555a31d93e871812ceac5193eab9d926acd810e093d753cc2fb",
+  "bytes": 3111116,
+  "worldBounds": {
+    "min": [
+      -0.2685289978981018,
+      0.10162299223485696,
+      -0.27942999526355317
+    ],
+    "max": [
+      0.19357900321483612,
+      0.5081221047963275,
+      0.493685120709992
+    ],
+    "size": [
+      0.4621080011129379,
+      0.40649911256147053,
+      0.7731151159735452
+    ]
+  },
+  "positionCountAfterUVNormalSplit": 25968,
+  "triangles": 49976,
+  "material": {
+    "name": "Source_Unity_Standard_translated",
+    "normalTexture": {
+      "index": 0
+    },
+    "occlusionTexture": {
+      "index": 1
+    },
+    "pbrMetallicRoughness": {
+      "baseColorTexture": {
+        "index": 2
+      },
+      "metallicFactor": 0,
+      "metallicRoughnessTexture": {
+        "index": 1
+      },
+      "baseColorFactor": [
+        0.906331718,
+        0.906331718,
+        0.906331718,
+        1
+      ]
+    },
+    "doubleSided": false
+  },
+  "animations": 0,
+  "skins": 0,
+  "validated": "GLB chunk sizes, finite vertices, node rotation in world bounds, source tint and backface culling, absence of invented rigs/clips. Does not prove visual quality."
+}

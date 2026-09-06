@@ -15,7 +15,7 @@ import { Vector3 } from 'three';
 import { applyClip, duration, restorePose, storedPose } from './creature-motion/pose.js';
 import { contactAt, createSkinReader, fract, type BakedGait } from './lib/ground-gait.js';
 
-const OUT = resolve('test-results/ground-creature-gaits');
+const OUT = resolve('art/rebuild/candidates/finish-motion/ground-creature-gaits');
 const IDS = ['animal_frog', 'animal_frog_green', 'animal_crab'] as const;
 // Frog Run has 1920 authored intervals; twice that density also checks every key midpoint.
 const SAMPLES = 3840;
@@ -270,13 +270,13 @@ async function main() {
   const generator = await Promise.all(generatorFiles.map(async file => ({ file, sha256: sha(await readFile(file)) })));
   const report = { generatedAt: new Date().toISOString(), generator, visualAccepted: false, publicAssetsWritten: false, limitations: 'Straight steady-cycle bake. Runtime acceleration, arbitrary root turning and crossfade contacts still require production lab review. No camera or browser test runs in this tool.', assets: results };
   await writeFile(resolve(OUT, 'report.json'), JSON.stringify(report, null, 2));
-  await writeFile(resolve(OUT, 'manifest-updates.json'), JSON.stringify(results.map(({ id, sourceSha256, sha256, bytes, set, passed }) => ({ id, sourceSha256, sha256, bytes, set, promotable: passed })), null, 2));
+  await writeFile(resolve(OUT, 'manifest-updates.json'), JSON.stringify(results.map(({ id, sourceSha256, sha256, bytes, set, passed }) => ({ id, sourceSha256, sha256, bytes, set, offlinePassed: passed, visualAccepted: false, promotable: false })), null, 2));
   if (results.some(row => !row.passed)) process.exitCode = 1;
 }
 
 /** Separate Run-only output. Never writes the frozen frog/crab staging directory. */
 async function stageScorpionRun(): Promise<void> {
-  const out = resolve('test-results/scorpion-ground-gait'), id = 'animal_scorpion';
+  const out = resolve('art/rebuild/candidates/finish-motion/scorpion-ground-gait'), id = 'animal_scorpion';
   await mkdir(out, { recursive: true });
   const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8'));
   const asset = manifest.assets.find((asset: any) => asset.id === id), sourceFile = resolve('game/public/assets', asset.file);
@@ -297,7 +297,7 @@ async function stageScorpionRun(): Promise<void> {
     set: { impliedRunMps: gait.nativeMps, runClipSeconds: gait.seconds }, generator, audit };
   await writeFile(stagedFile, output);
   await writeFile(resolve(out, 'report.json'), JSON.stringify(row, null, 2));
-  await writeFile(resolve(out, 'manifest-updates.json'), JSON.stringify([{ id, sourceSha256, sha256: row.sha256, bytes: row.bytes, set: row.set, promotable: row.passed }], null, 2));
+  await writeFile(resolve(out, 'manifest-updates.json'), JSON.stringify([{ id, sourceSha256, sha256: row.sha256, bytes: row.bytes, set: row.set, offlinePassed: row.passed, visualAccepted: false, promotable: false }], null, 2));
   console.log(JSON.stringify({ id, passed: row.passed, bytes: output.length, failures: audit.failures, nativeMps: gait.nativeMps, maxIndividualSlip: Math.max(...audit.feet.map(foot => foot.primaryVertexSlipMps.max ?? Infinity)), maxContactPlaneSlip: Math.max(...audit.feet.map(foot => foot.allPhasePhysicalPlaneSlipMps.max ?? Infinity)), maxPenetration: audit.maximumMeshPenetrationM, loop: audit.maximumWholeMeshLoopPositionM }));
   if (!row.passed) process.exitCode = 1;
 }

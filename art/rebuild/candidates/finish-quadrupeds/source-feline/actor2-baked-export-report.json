@@ -1,0 +1,27 @@
+{
+  "file": "Lynx.actor-contact-v2.glb",
+  "sha256": "a78c815d15292dfd2d1cd0368396a6f13989b8c1f09655e0e0c9c35ef506b008",
+  "bytes": 20243976,
+  "originalBytes": 7301392,
+  "nativeNamedJointNodes": 120,
+  "nativeShearedJointExtraFrames": 4,
+  "sharedPatchPairs": 76,
+  "addedNodes": 156,
+  "skinJoints": 196,
+  "animationChannelsPerClip": [
+    668,
+    668,
+    668
+  ],
+  "sourceNativeChannelsPerClip": 363,
+  "denseSamplesTotal": 994,
+  "sampleFps": 192,
+  "affineDecompositionMaxAbs": 1.0875631992202095e-15,
+  "nativeTRSOrthogonalityMax": 0.0018977409166103937,
+  "eyeMaxInfluences": 4,
+  "actualInterpolationValidation": "pending",
+  "productionAccepted": false,
+  "speciesAdapted": true,
+  "authoredActorMotion": true,
+  "anatomicalBindPivots": true
+}

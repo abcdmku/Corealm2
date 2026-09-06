@@ -1,0 +1,1588 @@
+{
+  "collection": "https://opengameart.org/content/fantasy-1",
+  "collectionAuthor": "ElijahRain",
+  "status": "Read-only source shortlist; originals downloaded and inspected in background Blender with autoexec disabled. No rendering/conversion/content edits.",
+  "shortlist": [
+    {
+      "slug": "evil-giant-rat",
+      "source": "https://opengameart.org/content/evil-giant-rat",
+      "previews": [
+        "https://opengameart.org/sites/default/files/ratpng.png"
+      ],
+      "downloads": [
+        {
+          "url": "https://opengameart.org/sites/default/files/rat_2.blend",
+          "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\evil-giant-rat-rat_2.blend",
+          "sha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+          "bytes": 6833728
+        }
+      ],
+      "rank": 1,
+      "author": "CDmir; collaborator TinyWorlds",
+      "license": "CC0-1.0",
+      "recommendation": "First choice. Complete quadruped with body/head textures, original rig and a broad authored motion library.",
+      "role": "Giant vermin predator",
+      "limitations": [
+        "Author acknowledges source tail drags on ground. Review tail motion before acceptance.",
+        "Idle.000 has1553frame span; inspect before choosing as default idle."
+      ],
+      "cpuInspection": {
+        "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\evil-giant-rat-rat_2.blend",
+        "meshes": [
+          {
+            "name": "Body",
+            "vertices": 2159,
+            "faces": 2114,
+            "uvLayers": 1,
+            "vertexGroups": 26
+          },
+          {
+            "name": "Eyes",
+            "vertices": 26,
+            "faces": 24,
+            "uvLayers": 1,
+            "vertexGroups": 26
+          },
+          {
+            "name": "Hair",
+            "vertices": 336,
+            "faces": 130,
+            "uvLayers": 1,
+            "vertexGroups": 26
+          },
+          {
+            "name": "Head",
+            "vertices": 795,
+            "faces": 748,
+            "uvLayers": 1,
+            "vertexGroups": 26
+          },
+          {
+            "name": "Plane",
+            "vertices": 4,
+            "faces": 1,
+            "uvLayers": 0,
+            "vertexGroups": 0
+          },
+          {
+            "name": "Plane.001",
+            "vertices": 4,
+            "faces": 1,
+            "uvLayers": 1,
+            "vertexGroups": 0
+          },
+          {
+            "name": "Teeth",
+            "vertices": 157,
+            "faces": 100,
+            "uvLayers": 1,
+            "vertexGroups": 26
+          }
+        ],
+        "armatures": [
+          {
+            "name": "Armature",
+            "bones": 39
+          }
+        ],
+        "actions": [
+          {
+            "name": "Attack.000",
+            "range": [
+              0.0,
+              21.0
+            ]
+          },
+          {
+            "name": "Attack.001",
+            "range": [
+              0.0,
+              21.0
+            ]
+          },
+          {
+            "name": "Attack.002",
+            "range": [
+              0.0,
+              20.0
+            ]
+          },
+          {
+            "name": "Attack.003",
+            "range": [
+              0.0,
+              20.0
+            ]
+          },
+          {
+            "name": "Attack.Begin",
+            "range": [
+              0.0,
+              20.0
+            ]
+          },
+          {
+            "name": "Attack.End",
+            "range": [
+              0.0,
+              20.0
+            ]
+          },
+          {
+            "name": "Die",
+            "range": [
+              0.0,
+              27.0
+            ]
+          },
+          {
+            "name": "Hit",
+            "range": [
+              0.0,
+              10.0
+            ]
+          },
+          {
+            "name": "Idle.000",
+            "range": [
+              0.0,
+              1553.0
+            ]
+          },
+          {
+            "name": "Idle.001",
+            "range": [
+              0.0,
+              90.0
+            ]
+          },
+          {
+            "name": "Idle.002",
+            "range": [
+              0.0,
+              90.0
+            ]
+          },
+          {
+            "name": "Run",
+            "range": [
+              0.0,
+              10.0
+            ]
+          },
+          {
+            "name": "Stand",
+            "range": [
+              0.0,
+              0.0
+            ]
+          },
+          {
+            "name": "Walk",
+            "range": [
+              0.0,
+              28.0
+            ]
+          }
+        ],
+        "images": [
+          {
+            "name": "hair",
+            "size": [
+              512,
+              512
+            ],
+            "packed": true
+          },
+          {
+            "name": "rat-body",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true
+          },
+          {
+            "name": "rat-body-AO.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true
+          },
+          {
+            "name": "rat-body-Normalmap.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true
+          },
+          {
+            "name": "rat-head",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true
+          },
+          {
+            "name": "rat-head-AO.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true
+          },
+          {
+            "name": "rat-head-Normalmap.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true
+          },
+          {
+            "name": "Render Result",
+            "size": [
+              0,
+              0
+            ],
+            "packed": false
+          }
+        ]
+      },
+      "previewReview": "Exact original preview URLs identified. Web image fetch did not produce an inspectable image payload; no screenshot/art acceptance claimed. Root should review original previews before selection."
+    },
+    {
+      "slug": "skinny-troll",
+      "source": "https://opengameart.org/content/skinny-troll",
+      "previews": [
+        "https://opengameart.org/sites/default/files/prev_12.png",
+        "https://opengameart.org/sites/default/files/prev2_3.png",
+        "https://opengameart.org/sites/default/files/prev3_3.png",
+        "https://opengameart.org/sites/default/files/prev4_1.png"
+      ],
+      "downloads": [
+        {
+          "url": "https://opengameart.org/sites/default/files/troll%20game.zip",
+          "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\skinny-troll-troll game.zip",
+          "sha256": "41d7e379d1b9dc75731b1f0dba18904f79a2ca08e6d497db09a0824bd89f3389",
+          "bytes": 40777781,
+          "members": [
+            "troll game.blend"
+          ]
+        }
+      ],
+      "rank": 2,
+      "author": "piacenti",
+      "license": "CC-BY-3.0",
+      "recommendation": "Strong distinct tall melee creature. Complete authored textured anatomy, skirt and club plus68bone source rig.",
+      "role": "Gaunt club-wielding troll",
+      "limitations": [
+        "No source actions. New full-rig gait/combat animation or demonstrated compatible retarget required.",
+        "Club/skirt objects need attachment/weight audit."
+      ],
+      "cpuInspection": {
+        "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\skinny-troll\\troll game.blend",
+        "meshes": [
+          {
+            "name": "club_high.002_club_high.003",
+            "vertices": 2375,
+            "faces": 4957,
+            "uvLayers": 1,
+            "vertexGroups": 0
+          },
+          {
+            "name": "Group58010",
+            "vertices": 11095,
+            "faces": 11154,
+            "uvLayers": 1,
+            "vertexGroups": 71
+          },
+          {
+            "name": "Volume97",
+            "vertices": 1355,
+            "faces": 2282,
+            "uvLayers": 1,
+            "vertexGroups": 0
+          }
+        ],
+        "armatures": [
+          {
+            "name": "Armature",
+            "bones": 68
+          }
+        ],
+        "actions": [],
+        "images": [
+          {
+            "name": "club test_material_0.001_color.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "club test_material_0.001_gloss.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "club test_material_0.001_nmap.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "Penguins.jpg",
+            "size": [
+              1024,
+              768
+            ],
+            "packed": true
+          },
+          {
+            "name": "Render Result",
+            "size": [
+              0,
+              0
+            ],
+            "packed": false
+          },
+          {
+            "name": "skirt test_Volume97_color.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "skirt test_Volume97_gloss.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "skirt test_Volume97_nmap.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "test_None_color.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "test_None_gloss.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "test_None_nmap.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          }
+        ]
+      },
+      "previewReview": "Exact original preview URLs identified. Web image fetch did not produce an inspectable image payload; no screenshot/art acceptance claimed. Root should review original previews before selection."
+    },
+    {
+      "slug": "goblin-model-free-monsters",
+      "source": "https://opengameart.org/content/goblin-model-free-monsters",
+      "previews": [
+        "https://opengameart.org/sites/default/files/gob_preview.png"
+      ],
+      "downloads": [
+        {
+          "url": "https://opengameart.org/sites/default/files/goblin_export.blend",
+          "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\goblin-model-free-monsters-goblin_export.blend",
+          "sha256": "e487b2ca0168a56b2f1c36068ce3f5f4d7adf4d71b0549a589049e1df4908d99",
+          "bytes": 11057288
+        }
+      ],
+      "rank": 3,
+      "author": "Jonathan Williamson and Justin Nichol",
+      "license": "CC-BY-SA-3.0; GPL-3.0 and GPL-2.0 alternatives listed",
+      "recommendation": "Conditional third creature: complete original goblin anatomy and4K normal map, preferable to head grafting but not ready to integrate.",
+      "role": "Small humanoid monster",
+      "limitations": [
+        "No source rig or actions. No diffuse texture supplied; author explicitly says not fully textured.",
+        "Only consider if root accepts the original preview and scope for rigging/texturing; not a quota requirement."
+      ],
+      "cpuInspection": {
+        "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\goblin-model-free-monsters-goblin_export.blend",
+        "meshes": [
+          {
+            "name": "goblin_lo_arms",
+            "vertices": 862,
+            "faces": 868,
+            "uvLayers": 2,
+            "vertexGroups": 4
+          },
+          {
+            "name": "goblin_lo_bandoleer",
+            "vertices": 174,
+            "faces": 174,
+            "uvLayers": 2,
+            "vertexGroups": 4
+          },
+          {
+            "name": "goblin_lo_chest",
+            "vertices": 299,
+            "faces": 292,
+            "uvLayers": 2,
+            "vertexGroups": 4
+          },
+          {
+            "name": "goblin_lo_eyes",
+            "vertices": 49,
+            "faces": 48,
+            "uvLayers": 0,
+            "vertexGroups": 0
+          },
+          {
+            "name": "goblin_lo_head",
+            "vertices": 794,
+            "faces": 818,
+            "uvLayers": 2,
+            "vertexGroups": 4
+          },
+          {
+            "name": "goblin_lo_hips",
+            "vertices": 40,
+            "faces": 24,
+            "uvLayers": 2,
+            "vertexGroups": 4
+          },
+          {
+            "name": "goblin_lo_legs",
+            "vertices": 636,
+            "faces": 634,
+            "uvLayers": 2,
+            "vertexGroups": 4
+          },
+          {
+            "name": "goblin_lo_loincloth",
+            "vertices": 152,
+            "faces": 112,
+            "uvLayers": 2,
+            "vertexGroups": 4
+          },
+          {
+            "name": "goblin_lo_shoulder",
+            "vertices": 123,
+            "faces": 94,
+            "uvLayers": 2,
+            "vertexGroups": 4
+          }
+        ],
+        "armatures": [],
+        "actions": [],
+        "images": [
+          {
+            "name": "goblin_normal",
+            "size": [
+              4096,
+              4096
+            ],
+            "packed": true
+          }
+        ]
+      },
+      "previewReview": "Exact original preview URLs identified. Web image fetch did not produce an inspectable image payload; no screenshot/art acceptance claimed. Root should review original previews before selection."
+    },
+    {
+      "slug": "knight-2",
+      "source": "https://opengameart.org/content/knight-2",
+      "previews": [
+        "https://opengameart.org/sites/default/files/prev_16.png",
+        "https://opengameart.org/sites/default/files/prev2_6.png",
+        "https://opengameart.org/sites/default/files/prev3_4.png"
+      ],
+      "downloads": [
+        {
+          "url": "https://opengameart.org/sites/default/files/armored%20knight.zip",
+          "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\knight-2-armored knight.zip",
+          "sha256": "edea99305ea1dfffbe56434498693e325d909cf638845f1a473c6d0993aca100",
+          "bytes": 17908633,
+          "members": [
+            "armor.blend",
+            "armor.blend1"
+          ]
+        }
+      ],
+      "rank": 4,
+      "author": "piacenti",
+      "license": "CC-BY-3.0",
+      "recommendation": "Optional armored sentinel direction, not a new monster family. Complete detailed source suit with2K PBR maps.",
+      "role": "Armored sentinel",
+      "limitations": [
+        "No rig or actions. Source is a knight, not an already animated empty-armor creature.",
+        "Exclude unrelated packed Penguins.jpg from conversion."
+      ],
+      "cpuInspection": {
+        "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\knight-2\\armor.blend",
+        "meshes": [
+          {
+            "name": "Group61487",
+            "vertices": 9542,
+            "faces": 18543,
+            "uvLayers": 1,
+            "vertexGroups": 0
+          },
+          {
+            "name": "Group61487.001",
+            "vertices": 339,
+            "faces": 674,
+            "uvLayers": 1,
+            "vertexGroups": 0
+          }
+        ],
+        "armatures": [],
+        "actions": [],
+        "images": [
+          {
+            "name": "armor_default_color.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "armor_default_metalness.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "armor_default_nmap.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "armor_default_rough.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "Penguins.jpg",
+            "size": [
+              1024,
+              768
+            ],
+            "packed": true
+          },
+          {
+            "name": "Render Result",
+            "size": [
+              0,
+              0
+            ],
+            "packed": false
+          }
+        ]
+      },
+      "previewReview": "Exact original preview URLs identified. Web image fetch did not produce an inspectable image payload; no screenshot/art acceptance claimed. Root should review original previews before selection."
+    }
+  ],
+  "selectionNotes": "Next candidates beyond assigned Forest/Earth/Beetle/Lava/Rat: Roach, separate xGhostx7 mocap Goblin, then conditional Sinbad Ogre or Skinny Troll. Roach/Goblin have direct verified native NLA; Sinbad lacks key lifecycle clips and requires preview approval; Skinny Troll requires all motion. Only count each original body once; no repeated/recolored/lifecycle variants counted.",
+  "excluded": [
+    {
+      "name": "Earth Elemental / Golem; lava golem; Forest Monster; Beetle Golem",
+      "reason": "Already assigned/ready in parent team; no duplicate work."
+    },
+    {
+      "name": "Night Demon; WarWolf; Lizardman; Rigged textured Reptile",
+      "reason": "Not shortlisted under current no-demonic and no-animal-headed-humanoid direction, even where original whole-body sources exist."
+    },
+    {
+      "name": "Ogre lowpoly",
+      "reason": "Author describes coarse old mesh, no rig. Three small TGA maps do not establish required fidelity."
+    },
+    {
+      "name": "Dark Elf",
+      "reason": "Complete animated source but conventional humanoid archer rather than a distinct creature; not preferred over current shortlist."
+    },
+    {
+      "name": "Cyborg Wheeler; ruins; Old Lady; Elven Archer",
+      "reason": "Not target creature direction."
+    }
+  ],
+  "requiredNextGate": "Root preview selection, then scoped conversion and production motion/material screenshots. Source counts and packed texture sizes do not establish visual acceptance.",
+  "nextDistinctBodyShortlist": [
+    {
+      "slug": "roach-game-ready-and-animated",
+      "source": "https://opengameart.org/content/roach-game-ready-and-animated",
+      "previews": [
+        "https://opengameart.org/sites/default/files/Roach3.png",
+        "https://opengameart.org/sites/default/files/Roach2.png",
+        "https://opengameart.org/sites/default/files/Roach1.png"
+      ],
+      "downloads": [
+        {
+          "url": "https://opengameart.org/sites/default/files/Roach.zip",
+          "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\roach-game-ready-and-animated-Roach.zip",
+          "sha256": "038d01360b353a4d4ebaf1e67293f8554e67ebdb06f34627cbc9538489487594",
+          "members": [
+            "Roach.blend"
+          ]
+        }
+      ],
+      "author": "Danimal; original body Atmostatic",
+      "license": "CC-BY-SA-3.0",
+      "adaptation": "Original NLA Walk/Flee/2Attacks/Idle/Die ready to bake. Flee is original Walk at faster strip rate. Three hit reactions missing and must be authored/truthfully labelled.",
+      "completeOriginalBody": true,
+      "grafting": false,
+      "visualAcceptance": "pending original preview review; CPU inventory is not visual approval",
+      "cpuInspection": {
+        "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\roach-game-ready-and-animated\\Roach.blend",
+        "meshes": [
+          {
+            "name": "Roach",
+            "vertices": 1695,
+            "faces": 1682,
+            "uvLayers": 1,
+            "vertexGroups": 36
+          }
+        ],
+        "armatures": [
+          {
+            "name": "Armature",
+            "bones": 54
+          }
+        ],
+        "actions": [
+          {
+            "name": "ArmatureAction",
+            "range": [
+              0.0,
+              44.0
+            ]
+          },
+          {
+            "name": "ArmatureAction.001",
+            "range": [
+              0.0,
+              29.0
+            ]
+          },
+          {
+            "name": "ArmatureAction.002",
+            "range": [
+              0.0,
+              100.0
+            ]
+          },
+          {
+            "name": "ArmatureAction.003",
+            "range": [
+              0.0,
+              25.0
+            ]
+          },
+          {
+            "name": "ArmatureAction.004",
+            "range": [
+              0.0,
+              167.0
+            ]
+          },
+          {
+            "name": "ArmatureAction.005",
+            "range": [
+              0.0,
+              45.0
+            ]
+          },
+          {
+            "name": "ArmatureAction.006",
+            "range": [
+              0.0,
+              24.0
+            ]
+          },
+          {
+            "name": "ArmatureAction.009",
+            "range": [
+              0.0,
+              44.0
+            ]
+          },
+          {
+            "name": "PoseLib",
+            "range": [
+              1.0,
+              2.0
+            ]
+          },
+          {
+            "name": "Walk",
+            "range": [
+              0.0,
+              50.0
+            ]
+          }
+        ],
+        "images": [
+          {
+            "name": "Render Result",
+            "size": [
+              0,
+              0
+            ],
+            "packed": false
+          },
+          {
+            "name": "Roach-Spec.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true
+          },
+          {
+            "name": "Roach.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true
+          },
+          {
+            "name": "RoachNormal.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true
+          }
+        ]
+      },
+      "nativeNla": {
+        "file": "roach-game-ready-and-animated/Roach.blend",
+        "nla": [
+          {
+            "object": "Armature",
+            "tracks": [
+              {
+                "name": "NlaTrack",
+                "strips": [
+                  {
+                    "name": "Walk",
+                    "action": "Walk",
+                    "actionFrameRange": [
+                      10.0,
+                      50.0
+                    ],
+                    "frameRange": [
+                      0.0,
+                      24.0
+                    ]
+                  },
+                  {
+                    "name": "Flee",
+                    "action": "Walk",
+                    "actionFrameRange": [
+                      10.0,
+                      50.0
+                    ],
+                    "frameRange": [
+                      26.0,
+                      40.0
+                    ]
+                  },
+                  {
+                    "name": "Attack1",
+                    "action": "ArmatureAction",
+                    "actionFrameRange": [
+                      0.0,
+                      44.0
+                    ],
+                    "frameRange": [
+                      42.0,
+                      86.0
+                    ]
+                  },
+                  {
+                    "name": "Attack2",
+                    "action": "ArmatureAction.001",
+                    "actionFrameRange": [
+                      0.0,
+                      29.0
+                    ],
+                    "frameRange": [
+                      88.0,
+                      117.0
+                    ]
+                  },
+                  {
+                    "name": "Idle",
+                    "action": "ArmatureAction.002",
+                    "actionFrameRange": [
+                      0.0,
+                      100.0
+                    ],
+                    "frameRange": [
+                      119.0,
+                      219.0
+                    ]
+                  },
+                  {
+                    "name": "Sleep",
+                    "action": "ArmatureAction.003",
+                    "actionFrameRange": [
+                      0.0,
+                      25.0
+                    ],
+                    "frameRange": [
+                      221.0,
+                      246.0
+                    ]
+                  },
+                  {
+                    "name": "Dance",
+                    "action": "ArmatureAction.004",
+                    "actionFrameRange": [
+                      0.0,
+                      167.0
+                    ],
+                    "frameRange": [
+                      249.0,
+                      416.0
+                    ]
+                  },
+                  {
+                    "name": "Happy",
+                    "action": "ArmatureAction.005",
+                    "actionFrameRange": [
+                      0.0,
+                      45.0
+                    ],
+                    "frameRange": [
+                      418.0,
+                      463.0
+                    ]
+                  },
+                  {
+                    "name": "Sad",
+                    "action": "ArmatureAction.006",
+                    "actionFrameRange": [
+                      16.0,
+                      24.0
+                    ],
+                    "frameRange": [
+                      465.0,
+                      473.0
+                    ]
+                  },
+                  {
+                    "name": "Die",
+                    "action": "ArmatureAction.009",
+                    "actionFrameRange": [
+                      0.0,
+                      44.0
+                    ],
+                    "frameRange": [
+                      475.0,
+                      519.0
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "markers": []
+      }
+    },
+    {
+      "slug": "goblin-animated-by-motion-capture",
+      "source": "https://opengameart.org/content/goblin-animated-by-motion-capture",
+      "previews": [
+        "https://opengameart.org/sites/default/files/Goblin1.png",
+        "https://opengameart.org/sites/default/files/Goblin2png.png",
+        "https://opengameart.org/sites/default/files/Goblin3png.png"
+      ],
+      "downloads": [
+        {
+          "url": "https://opengameart.org/sites/default/files/Goblin_0.zip",
+          "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\goblin-animated-by-motion-capture-Goblin_0.zip",
+          "sha256": "9dd294e6a509ec9a4036d3694e73e13eeaaf80e800604e4e7e7957088d46cc3f",
+          "members": [
+            "Goblin.blend"
+          ]
+        }
+      ],
+      "author": "Danimal; original body xGhostx7; knife Wind astella",
+      "license": "CC-BY-3.0 derivative; original xGhostx7 body CC0",
+      "adaptation": "Original NLA Walk/Flee/2Attacks/Idle/Die ready to bake. Preserve original action-frame ranges and NLA strip timing. Three hit reactions missing. Author warns mocap clipping, which needs actual production review.",
+      "completeOriginalBody": true,
+      "grafting": false,
+      "visualAcceptance": "pending original preview review; CPU inventory is not visual approval",
+      "cpuInspection": {
+        "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\goblin-animated-by-motion-capture\\Goblin.blend",
+        "meshes": [
+          {
+            "name": "Goblin",
+            "vertices": 4478,
+            "faces": 4476,
+            "uvLayers": 2,
+            "vertexGroups": 98
+          }
+        ],
+        "armatures": [
+          {
+            "name": "GoblinArmature",
+            "bones": 25
+          }
+        ],
+        "actions": [
+          {
+            "name": "Attack-two handed.002",
+            "range": [
+              1.0,
+              564.0
+            ]
+          },
+          {
+            "name": "Attack-two handedAction",
+            "range": [
+              0.0,
+              35.0
+            ]
+          },
+          {
+            "name": "Attack-two handedAction.001",
+            "range": [
+              248.0,
+              250.0
+            ]
+          },
+          {
+            "name": "cry.001",
+            "range": [
+              1.0,
+              238.0
+            ]
+          },
+          {
+            "name": "Dance-salsa",
+            "range": [
+              1.0,
+              561.0
+            ]
+          },
+          {
+            "name": "Die-jump-ground-face4 test",
+            "range": [
+              1.0,
+              206.0
+            ]
+          },
+          {
+            "name": "Happy.002",
+            "range": [
+              1.0,
+              205.0
+            ]
+          },
+          {
+            "name": "PoseLib.001",
+            "range": [
+              1.0,
+              1.0
+            ]
+          },
+          {
+            "name": "Run-flee",
+            "range": [
+              1.0,
+              22.0
+            ]
+          },
+          {
+            "name": "Walk-fast",
+            "range": [
+              1.0,
+              67.0
+            ]
+          }
+        ],
+        "images": [
+          {
+            "name": "Goblin-Knife-texture.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "goblin-normal.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true
+          },
+          {
+            "name": "goblin-texture.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true
+          },
+          {
+            "name": "Goblin.png",
+            "size": [
+              1024,
+              1024
+            ],
+            "packed": true
+          },
+          {
+            "name": "Render Result",
+            "size": [
+              0,
+              0
+            ],
+            "packed": false
+          }
+        ]
+      },
+      "nativeNla": {
+        "file": "goblin-animated-by-motion-capture/Goblin.blend",
+        "nla": [
+          {
+            "object": "Goblin",
+            "tracks": []
+          },
+          {
+            "object": "GoblinArmature",
+            "tracks": [
+              {
+                "name": "Animations",
+                "strips": [
+                  {
+                    "name": "Walk",
+                    "action": "Walk-fast",
+                    "actionFrameRange": [
+                      3.0,
+                      30.0
+                    ],
+                    "frameRange": [
+                      0.0,
+                      27.0
+                    ]
+                  },
+                  {
+                    "name": "Flee",
+                    "action": "Run-flee",
+                    "actionFrameRange": [
+                      1.0,
+                      22.0
+                    ],
+                    "frameRange": [
+                      28.0,
+                      48.0
+                    ]
+                  },
+                  {
+                    "name": "Attack1",
+                    "action": "Attack-two handed.002",
+                    "actionFrameRange": [
+                      68.0,
+                      133.0
+                    ],
+                    "frameRange": [
+                      49.0,
+                      81.0
+                    ]
+                  },
+                  {
+                    "name": "Attack2",
+                    "action": "Attack-two handed.002",
+                    "actionFrameRange": [
+                      188.0,
+                      255.0
+                    ],
+                    "frameRange": [
+                      82.0,
+                      115.0
+                    ]
+                  },
+                  {
+                    "name": "Idle",
+                    "action": "Attack-two handedAction",
+                    "actionFrameRange": [
+                      0.0,
+                      35.0
+                    ],
+                    "frameRange": [
+                      116.0,
+                      184.0
+                    ]
+                  },
+                  {
+                    "name": "Sleep",
+                    "action": "Attack-two handedAction.001",
+                    "actionFrameRange": [
+                      248.0,
+                      250.0
+                    ],
+                    "frameRange": [
+                      185.0,
+                      187.0
+                    ]
+                  },
+                  {
+                    "name": "Dance",
+                    "action": "Dance-salsa",
+                    "actionFrameRange": [
+                      280.0,
+                      561.0
+                    ],
+                    "frameRange": [
+                      188.0,
+                      469.0
+                    ]
+                  },
+                  {
+                    "name": "Happy",
+                    "action": "Happy.002",
+                    "actionFrameRange": [
+                      3.0,
+                      205.0
+                    ],
+                    "frameRange": [
+                      470.0,
+                      672.0
+                    ]
+                  },
+                  {
+                    "name": "Sad",
+                    "action": "cry.001",
+                    "actionFrameRange": [
+                      2.0,
+                      238.0
+                    ],
+                    "frameRange": [
+                      674.0,
+                      910.0
+                    ]
+                  },
+                  {
+                    "name": "Die",
+                    "action": "Die-jump-ground-face4 test",
+                    "actionFrameRange": [
+                      120.0,
+                      206.0
+                    ],
+                    "frameRange": [
+                      912.0,
+                      998.0
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "NlaTrack",
+                "strips": []
+              }
+            ]
+          }
+        ],
+        "markers": []
+      }
+    },
+    {
+      "slug": "sinbad-the-ogre",
+      "source": "https://opengameart.org/content/sinbad-the-ogre",
+      "previews": [
+        "https://opengameart.org/sites/default/files/sinbad_preview3.jpg",
+        "https://opengameart.org/sites/default/files/sinbad_preview1.jpg",
+        "https://opengameart.org/sites/default/files/sinbad_preview2.jpg"
+      ],
+      "downloads": [
+        {
+          "url": "https://opengameart.org/sites/default/files/sinbad_blender.zip",
+          "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\sinbad-the-ogre-sinbad_blender.zip",
+          "sha256": "36092d69db66ecc9c4124de280c59253aadb9f10818fc6bd9b1adfc328ff34a4",
+          "bytes": 1847426,
+          "members": [
+            "README.txt",
+            "Sinbad.material",
+            "Sinbad.mesh",
+            "Sinbad.skeleton",
+            "sinbad_body.tga",
+            "sinbad_clothes.tga",
+            "sinbad_sword.tga",
+            "Sword.mesh",
+            "Sinbad.blend"
+          ]
+        }
+      ],
+      "author": "Zi Ye",
+      "license": "CC-BY-SA-3.0",
+      "adaptation": "Original IdleBase+IdleTop and RunBase+RunTop need composed layered actions. SliceHorizontal/SliceVertical available; no source Walk, Hit, or Death. Do not rename JumpEnd as Death. Original anatomy/style must be preview-approved; no horn-free visual assertion made.",
+      "completeOriginalBody": true,
+      "grafting": false,
+      "visualAcceptance": "pending original preview review; CPU inventory is not visual approval",
+      "cpuInspection": {
+        "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\sinbad-the-ogre\\Sinbad.blend",
+        "meshes": [
+          {
+            "name": "Cone.001",
+            "vertices": 336,
+            "faces": 232,
+            "uvLayers": 1,
+            "vertexGroups": 1
+          },
+          {
+            "name": "Sinbad",
+            "vertices": 4951,
+            "faces": 4331,
+            "uvLayers": 1,
+            "vertexGroups": 67
+          },
+          {
+            "name": "Sword",
+            "vertices": 322,
+            "faces": 188,
+            "uvLayers": 1,
+            "vertexGroups": 0
+          }
+        ],
+        "armatures": [
+          {
+            "name": "Armature",
+            "bones": 69
+          }
+        ],
+        "actions": [
+          {
+            "name": "Dance",
+            "range": [
+              1.0,
+              71.0
+            ]
+          },
+          {
+            "name": "DrawSwords",
+            "range": [
+              1.0,
+              11.0
+            ]
+          },
+          {
+            "name": "HandsClosed",
+            "range": [
+              1.0,
+              10.0
+            ]
+          },
+          {
+            "name": "HandsRelaxed",
+            "range": [
+              1.0,
+              10.0
+            ]
+          },
+          {
+            "name": "IdleBase",
+            "range": [
+              1.0,
+              221.0
+            ]
+          },
+          {
+            "name": "IdleTop",
+            "range": [
+              1.0,
+              301.0
+            ]
+          },
+          {
+            "name": "JumpEnd",
+            "range": [
+              1.0,
+              6.0
+            ]
+          },
+          {
+            "name": "JumpLoop",
+            "range": [
+              1.0,
+              31.0
+            ]
+          },
+          {
+            "name": "JumpStart",
+            "range": [
+              1.0,
+              6.0
+            ]
+          },
+          {
+            "name": "RunBase",
+            "range": [
+              1.0,
+              21.0
+            ]
+          },
+          {
+            "name": "RunTop",
+            "range": [
+              1.0,
+              21.0
+            ]
+          },
+          {
+            "name": "SliceHorizontal",
+            "range": [
+              1.0,
+              16.0
+            ]
+          },
+          {
+            "name": "SliceVertical",
+            "range": [
+              1.0,
+              16.0
+            ]
+          }
+        ],
+        "images": [
+          {
+            "name": "sinbad_body.tga",
+            "size": [
+              512,
+              512
+            ],
+            "packed": false
+          },
+          {
+            "name": "sinbad_clothes.tga",
+            "size": [
+              512,
+              512
+            ],
+            "packed": false
+          },
+          {
+            "name": "sinbad_sword.tga",
+            "size": [
+              256,
+              256
+            ],
+            "packed": false
+          }
+        ]
+      }
+    },
+    {
+      "slug": "skinny-troll",
+      "source": "https://opengameart.org/content/skinny-troll",
+      "previews": [
+        "https://opengameart.org/sites/default/files/prev_12.png",
+        "https://opengameart.org/sites/default/files/prev2_3.png",
+        "https://opengameart.org/sites/default/files/prev3_3.png",
+        "https://opengameart.org/sites/default/files/prev4_1.png"
+      ],
+      "downloads": [
+        {
+          "url": "https://opengameart.org/sites/default/files/troll%20game.zip",
+          "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\skinny-troll-troll game.zip",
+          "sha256": "41d7e379d1b9dc75731b1f0dba18904f79a2ca08e6d497db09a0824bd89f3389",
+          "bytes": 40777781,
+          "members": [
+            "troll game.blend"
+          ]
+        }
+      ],
+      "rank": 2,
+      "author": "piacenti",
+      "license": "CC-BY-3.0",
+      "recommendation": "Strong distinct tall melee creature. Complete authored textured anatomy, skirt and club plus68bone source rig.",
+      "role": "Gaunt club-wielding troll",
+      "limitations": [
+        "No source actions. New full-rig gait/combat animation or demonstrated compatible retarget required.",
+        "Club/skirt objects need attachment/weight audit."
+      ],
+      "cpuInspection": {
+        "file": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\fantasy-collection-source\\skinny-troll\\troll game.blend",
+        "meshes": [
+          {
+            "name": "club_high.002_club_high.003",
+            "vertices": 2375,
+            "faces": 4957,
+            "uvLayers": 1,
+            "vertexGroups": 0
+          },
+          {
+            "name": "Group58010",
+            "vertices": 11095,
+            "faces": 11154,
+            "uvLayers": 1,
+            "vertexGroups": 71
+          },
+          {
+            "name": "Volume97",
+            "vertices": 1355,
+            "faces": 2282,
+            "uvLayers": 1,
+            "vertexGroups": 0
+          }
+        ],
+        "armatures": [
+          {
+            "name": "Armature",
+            "bones": 68
+          }
+        ],
+        "actions": [],
+        "images": [
+          {
+            "name": "club test_material_0.001_color.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "club test_material_0.001_gloss.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "club test_material_0.001_nmap.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "Penguins.jpg",
+            "size": [
+              1024,
+              768
+            ],
+            "packed": true
+          },
+          {
+            "name": "Render Result",
+            "size": [
+              0,
+              0
+            ],
+            "packed": false
+          },
+          {
+            "name": "skirt test_Volume97_color.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "skirt test_Volume97_gloss.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "skirt test_Volume97_nmap.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "test_None_color.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "test_None_gloss.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          },
+          {
+            "name": "test_None_nmap.png",
+            "size": [
+              2048,
+              2048
+            ],
+            "packed": true
+          }
+        ]
+      },
+      "previewReview": "Exact original preview URLs identified. Web image fetch did not produce an inspectable image payload; no screenshot/art acceptance claimed. Root should review original previews before selection."
+    }
+  ],
+  "round2Deferred": [
+    {
+      "slug": "dark-elf-game-ready-and-animated",
+      "reason": "Actual Blend contains DarkElfHorns diffuse/normal/spec textures. Excluded under current no-horns direction despite32bone/9action rig."
+    },
+    {
+      "slug": "dark-priest",
+      "reason": "77bone full-source character with native walk/run/attack, but cultist/sacrifice/occult direction makes it unsuitable for current no-demonic selection without explicit root approval."
+    },
+    {
+      "slug": "jerry-the-ogre",
+      "reason": "Head and blendshapes only; no whole body. Excluded rather than grafting."
+    },
+    {
+      "slug": "mimic",
+      "reason": "Very coarse176vertex creature with emerge/idle only; not added to fill quota."
+    }
+  ]
+}

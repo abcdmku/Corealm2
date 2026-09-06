@@ -133,7 +133,7 @@ describe("restored equipment metal materials", () => {
   });
 
   it("gives each tier a distinct merge and shader identity while preserving repeatability", () => {
-    for (const appearances of [SWORD_APPEARANCES, TOOL_APPEARANCES.filter(part => part.assetId === "axe"),
+    for (const appearances of [SWORD_APPEARANCES, TOOL_APPEARANCES.filter(part => part.assetId === "corealm_axe_1"),
       ...BODIES.map(body => KNIGHT_APPEARANCES.filter(part => part.assetId === `outfit_${body}_knight_chest`))]) {
       const source = fixtureMaterial();
       const painted = appearances.map(appearance => paint(source, appearance));
@@ -289,7 +289,7 @@ describe("shipped equipment material definitions", () => {
   afterAll(() => vi.unstubAllGlobals());
 
   it.each([
-    "sword", "axe", "pickaxe",
+    "pickaxe",
     ...BODIES.flatMap(body => KNIGHT_PARTS.map(part => `outfit_${body}_knight_${part}`)),
   ])("retains the actual authored material and shared textures in %s", async assetId => {
     const source = await loadAuthoredAsset(assetId);

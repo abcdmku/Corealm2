@@ -1,0 +1,25 @@
+{
+  "status": "Paused at user-requested smaller slice; no contact candidate accepted",
+  "date": "2026-09-05",
+  "correctedAudit": "contact-independent-stance-v5-xyz.json",
+  "metric": "Full XYZ velocity norm; +0.32 Walk / +1.0 Run m/s on Z. Same physical original vertex <=floor+0.000501 m at both adjacent samples. Burial is never filtered out.",
+  "correction": "Earlier independent reports through stance-v3 measured XZ only and cannot establish canonical contact acceptance.",
+  "v5": {
+    "accepted": false,
+    "walkMaxXYZMps": 0.260057147102537,
+    "runMaxXYZMps": 1.1712648970958386,
+    "maximumBurialMeters": 0,
+    "runFlightTimeFraction": 0.19324996336102399,
+    "reason": "Vertical landing motion fails 0.012 m/s gate despite low horizontal slip."
+  },
+  "latestArtifact": {
+    "file": "cdmir-porcupine-contact-stance-v6.glb",
+    "sha256": "4c3df795a63310aa35eee5f5c6d47e888abed93989e334bd6b14aca3faaa5b09",
+    "bytes": 11107552,
+    "accepted": false,
+    "fullXYZAudit": "Not run; user requested pause",
+    "temporalIssue": "Child source audit measured Run fore-left toe recovery 8.07 m/s",
+    "nextProposal": "Wider airborne transfers and gentler landing/liftoff envelope require future work; not implemented."
+  },
+  "frozenArtifacts": "Original Rat native release and frozen Porcupine anatomy catalogue preserved; no new contact catalogue promoted."
+}

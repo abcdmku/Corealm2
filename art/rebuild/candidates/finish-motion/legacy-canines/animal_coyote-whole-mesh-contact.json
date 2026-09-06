@@ -1,0 +1,41 @@
+{
+  "id": "animal_coyote",
+  "sha256": "ca9a84bcb36f1ff3dbbf03d84688dbf3b0e00ace3a2857f63beb227ed95316cf",
+  "method": "Every original weighted mesh vertex, no foot selection and no schedule, signed native+Z velocity, physical plane floorY+0.0005m+1um. Two cycles at twice authored sample density.",
+  "results": [
+    {
+      "name": "Walk",
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "contacts": 34458,
+      "unselectedContacts": 0,
+      "unselectedVertices": [],
+      "maximumSlipMps": 0.0038267911299586033,
+      "minimumY": -0.002500126223679719,
+      "worst": {
+        "vertex": 2158,
+        "phase": 0.24954427083333333,
+        "selected": true,
+        "y": -0.002499437547904413,
+        "previousY": -0.002499003667949028
+      }
+    },
+    {
+      "name": "Run",
+      "samplesPerCycle": 7680,
+      "cycles": 2,
+      "contacts": 13616,
+      "unselectedContacts": 0,
+      "unselectedVertices": [],
+      "maximumSlipMps": 0.011040647412537807,
+      "minimumY": -0.0025004407855424224,
+      "worst": {
+        "vertex": 1096,
+        "phase": 0.49928385416666665,
+        "selected": true,
+        "y": -0.0024996551656328754,
+        "previousY": -0.0024991227050789244
+      }
+    }
+  ]
+}

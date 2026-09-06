@@ -1,0 +1,150 @@
+{
+  "pack": {
+    "id": "corealm-rpg-bestiary",
+    "name": "Corealm RPG Bestiary",
+    "license": "Mixed original and entitled source assets; see each sourceProvenance"
+  },
+  "sharedTextures": [
+    {
+      "file": "textures/imported/ecff81f93c56b8e8a7870bfb951837eb6bc0dbdbf39bb2af35641a34cd4cc25a.png",
+      "bytes": 388353,
+      "sha256": "ecff81f93c56b8e8a7870bfb951837eb6bc0dbdbf39bb2af35641a34cd4cc25a",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/58877905688f31a998f54fdd93de2c57e06e5cd3e8646ef7a04125fcb19e4f74.png",
+      "bytes": 46055,
+      "sha256": "58877905688f31a998f54fdd93de2c57e06e5cd3e8646ef7a04125fcb19e4f74",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/c5e28c1417e6dc596f7d00ea9dcf687eef17bd5b9cfeb89eac0f9daa6759c594.png",
+      "bytes": 221936,
+      "sha256": "c5e28c1417e6dc596f7d00ea9dcf687eef17bd5b9cfeb89eac0f9daa6759c594",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/ecf61464feba3406cb8314510a07cb868ca5e7fa2c7aa5b0879c0789cbbdfe4a.png",
+      "bytes": 1377257,
+      "sha256": "ecf61464feba3406cb8314510a07cb868ca5e7fa2c7aa5b0879c0789cbbdfe4a",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/13f4517a5e6d17ce49bc52edd7adac05a895facc4af84942cb16143b96fd17d7.png",
+      "bytes": 1274907,
+      "sha256": "13f4517a5e6d17ce49bc52edd7adac05a895facc4af84942cb16143b96fd17d7",
+      "mimeType": "image/png"
+    }
+  ],
+  "files": {
+    "creature_harpy": "models/creature/creature_harpy.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_harpy",
+      "file": "models/creature/creature_harpy.glb",
+      "candidateFile": "models/creature/creature_harpy.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "harpy",
+      "tags": [
+        "creature",
+        "rpg",
+        "harpy"
+      ],
+      "bytes": 1460540,
+      "sha256": "c61370f8dacdd71161915c1ac44144fb803bb93abc830c7bf6f31309f784e066",
+      "size": {
+        "x": 0.9439394422100951,
+        "y": 1.7157544827773952,
+        "z": 0.7417728446161034
+      },
+      "base": {
+        "x": -0.4658341469585906,
+        "y": 0.0020000000949949165,
+        "z": -0.34873921979104283
+      },
+      "groundY": 0.0020000000949949165,
+      "triangles": 47904,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_harpy_harpy_plumage_1",
+        "animal_rpg_harpy_harpy_plumage_2",
+        "animal_rpg_harpy_harpy_plumage_0",
+        "animal_rpg_harpy_harpy_plumage_3",
+        "animal_rpg_harpy_harpy_plumage_4",
+        "animal_rpg_harpy_harpy_base_female_0",
+        "animal_rpg_harpy_harpy_base_female_1",
+        "animal_rpg_harpy_harpy_base_female_2",
+        "animal_rpg_harpy_harpy_outfit_female_ranger_chest_0",
+        "animal_rpg_harpy_harpy_outfit_female_ranger_chest_0"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.8666666746139526,
+      "contactNormalized": 0.45,
+      "sourceProvenance": {
+        "author": "Quaternius and Corealm",
+        "source": "Quaternius Universal Base Characters base_female; Modular Character Outfits Fantasy female ranger chest; Universal Animation Library. Corealm original closed feather geometry and talons.",
+        "license": "CC0-1.0 source packs; Corealm additions project-owned"
+      },
+      "metadata": {
+        "family": "harpy",
+        "groundY": 0,
+        "textureBindings": [
+          {
+            "materialName": "harpy_base_female_0",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\harpy-source\\base_female-0-baseColorPath.png"
+          },
+          {
+            "materialName": "harpy_base_female_1",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\harpy-source\\base_female-1-baseColorPath.png"
+          },
+          {
+            "materialName": "harpy_base_female_2",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\harpy-source\\base_female-2-baseColorPath.png"
+          },
+          {
+            "materialName": "harpy_outfit_female_ranger_chest_0",
+            "flipY": false,
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\harpy-source\\outfit_female_ranger_chest-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\harpy-source\\outfit_female_ranger_chest-0-normalPath.png"
+          }
+        ],
+        "provenance": {
+          "author": "Quaternius and Corealm",
+          "source": "Quaternius Universal Base Characters base_female; Modular Character Outfits Fantasy female ranger chest; Universal Animation Library. Corealm original closed feather geometry and talons.",
+          "license": "CC0-1.0 source packs; Corealm additions project-owned"
+        },
+        "status": "Candidate awaiting root browser and screenshot acceptance",
+        "sourceFiles": [
+          "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\character\\base_female.glb",
+          "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\outfit\\outfit_female_ranger_chest.glb",
+          "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\game\\public\\assets\\models\\animation\\animation_library_1.glb"
+        ],
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
+  "candidateSha256": "e853b524b0175ac78675fd7d6b1123fa183390c3914705a117bb218538204910",
+  "bin": {
+    "bytes": 1797484,
+    "sha256": "342d85a2d456c2bc00e4efec167f373f201e25c84ece1980c5fad61533f5c17a",
+    "byteIdentical": true
+  },
+  "nonMaterialJson": {
+    "sha256": "fa136a666f1e0badc49ce477c0b5e8e1ce9205d375bdf34e467179715a074eb9",
+    "identical": true
+  },
+  "preserved": {
+    "accessors": {
+      "unchanged": true,
+      "sha256": "9e73178bc44f01b12d3a231358e6cff215762aac6f6f29e7ea7d330b54710b54"
+    },
+    "bufferViews": {
+      "unchanged": true,
+      "sha256": "abd5849dca20125cdd0d7c05156de491ce740c69412edec0bf366645715eea45"
+    },
+    "buffers": {
+      "unchanged": true,
+      "sha256": "d2c247a60dc8e4641eda841f927f68d5b8a29b910d412aae13e2ada30b0dfc8b"
+    },
+    "meshes": {
+      "unchanged": true,
+      "sha256": "ee3d1805157dd864c805df2dac1111d7bd3a4b5719e43a863524641d88415e32"
+    },
+    "nodes": {
+      "unchanged": true,
+      "sha256": "620c33546bf73b45e24152c2d68a26121805c4674e6053c77488059899099209"
+    },
+    "skins": {
+      "unchanged": true,
+      "sha256": "e2e8115bb5eb65126dd1b30575cb5f9decbcb1f0ad1160281a8ddb5ef44783f2"
+    },
+    "animations": {
+      "unchanged": true,
+      "sha256": "b83605ee41fea747e813e145b8e958079a924ea536b9d5e5c895abf8296667ce"
+    },
+    "scenes": {
+      "unchanged": true,
+      "sha256": "9f3b817cae7d96063592a45b9dd67f0c7bf4cabb14d59d222307faa9ed6c70fd"
+    }
+  },
+  "changedTopLevelKeys": [
+    "images",
+    "materials",
+    "textures"
+  ],
+  "sourceBaselineNotModified": true,
+  "noGpuUsed": true
+}

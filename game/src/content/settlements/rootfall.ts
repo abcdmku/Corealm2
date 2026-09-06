@@ -332,9 +332,9 @@ export const ROOTFALL: SettlementDef = {
     { id: "rootfall_prop_counter_rope", assetId: "rope_coil", position: [61.6, 127.8], rotationY: 0.9 },
 
     // ---- the green ---------------------------------------------------------------------------
-    { id: "rootfall_prop_bench_1", assetId: "bench", position: [57.0, 118.0], rotationY: 0.35, solid: true },
-    { id: "rootfall_prop_bench_2", assetId: "bench", position: [63.4, 122.4], rotationY: -0.35, solid: true },
-    { id: "rootfall_prop_green_barrel", assetId: "barrel", position: [65.8, 126.4], rotationY: 0.4, solid: true },
+    { id: "rootfall_prop_bench_1", assetId: "bench", position: [54.4, 122.0], rotationY: 0.35, solid: true },
+    { id: "rootfall_prop_bench_2", assetId: "bench", position: [66.8, 119.8], rotationY: -0.35, solid: true },
+    { id: "rootfall_prop_green_barrel", assetId: "barrel", position: [54.8, 127.8], rotationY: 0.4, solid: true },
     { id: "rootfall_prop_green_crate", assetId: "crate_village", position: [54.8, 126.6], rotationY: 1.3, solid: true },
 
     // ---- the cook shelter --------------------------------------------------------------------

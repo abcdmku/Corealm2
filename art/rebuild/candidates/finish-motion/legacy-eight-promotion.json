@@ -1,0 +1,389 @@
+{
+  "catalog": "art/rebuild/candidates/finish-motion/legacy-eight-catalog.json",
+  "catalogSha256": "d9776f8a9859d9a018f72af866c6a6275e231c1f79d7e613e8a89ce82b878cef",
+  "status": "root-accepted-awaiting-root-public-promotion",
+  "rootAccepted": true,
+  "publicWrites": false,
+  "historicalByteBinding": {
+    "method": "motion worker attestation of unchanged frozen candidates during the listed browser sessions",
+    "frozenCatalogSha256": "27af1bc843c941376fa37278ac2e97df0917281af6f91127dcdda2b12f5d2f5c",
+    "rootAcceptedAttestation": true,
+    "limitation": "Those browser reports record served URLs, not served-byte digests. Current matching hashes do not independently establish historical served-byte identity. Root must accept the run-time freeze attestation or obtain fresh digest-bound evidence."
+  },
+  "models": [
+    {
+      "id": "animal_coyote",
+      "candidateFile": "legacy-canines/animal_coyote.glb",
+      "candidateSha256": "ca9a84bcb36f1ff3dbbf03d84688dbf3b0e00ace3a2857f63beb227ed95316cf",
+      "bytes": 2459784,
+      "sourceSha256": "460965f62d8d70bae75e035370ee145b5eeb9233dd5e64a6e88e37887adabd9d",
+      "currentPublicSha256": "460965f62d8d70bae75e035370ee145b5eeb9233dd5e64a6e88e37887adabd9d",
+      "stateReport": "test-results/legacy-visual-coyote/report.json",
+      "stateReportSha256": "bcbb1241da4e47b44a6bb1ba474ea3f4c486df324c4136e76f9ac8d06ac699a0",
+      "hardware": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "noSwiftShader": true
+      },
+      "sessionElapsedMs": 34337,
+      "stateChecks": {
+        "translatedMetres": 11.214754294822525,
+        "turnRadians": 5.015428430663725,
+        "transitions": 14,
+        "advancingWhileTranslating": [
+          "walk",
+          "run"
+        ],
+        "requiredMotions": [
+          "walk",
+          "run"
+        ],
+        "checks": {
+          "translation": true,
+          "walk": true,
+          "run": true,
+          "turn": true,
+          "transition": true
+        }
+      },
+      "images": [
+        "test-results/legacy-visual-coyote/animal_coyote-walk.png",
+        "test-results/legacy-visual-coyote/animal_coyote-run.png"
+      ],
+      "extractedTurnEvidence": {
+        "report": "test-results/legacy-turn-video/coyote/report.json",
+        "reportSha256": "870349d844fbf590f7b4529e30fa27668c38ef9346de86f9943bf9a9201d8e0d",
+        "contactSheet": "test-results/legacy-turn-video/coyote/contact-sheet.png",
+        "fullFrame": "test-results/legacy-turn-video/coyote/frame-06.png",
+        "inspected": true,
+        "rootAccepted": true,
+        "acceptance": "Root inspected both exact video-derived contact sheets and accepted readable natural orientation transitions with intact bodies, combined with earlier actual moving state and unobscured Walk/Run stills. Historical frameChecks.turn=false remains unchanged.",
+        "limitation": "Natural turning silhouette includes Attack/Idle transition. This is not continuous moving-gait contact proof. See timing uncertainty in extraction report."
+      },
+      "visualInspected": true,
+      "rootVisualAccepted": true,
+      "remaining": [],
+      "notes": "Walk/Run screenshots verify advancing exact clip and translation across screenshot."
+    },
+    {
+      "id": "animal_ibex",
+      "candidateFile": "legacy-caprines/animal_ibex.glb",
+      "candidateSha256": "c94f7ecf46610ed4fb0140a0a660afe7370848a669ec4d2c53d6744dac33d5f1",
+      "bytes": 2196500,
+      "sourceSha256": "ac24a84acd299ada77bd4b2acc70370a382227296cdb4d8251ef811382b8924c",
+      "currentPublicSha256": "ac24a84acd299ada77bd4b2acc70370a382227296cdb4d8251ef811382b8924c",
+      "stateReport": "test-results/legacy-visual-ibex/report.json",
+      "stateReportSha256": "eb910c9d2d5388b627698c6ff0b61911653013bfdc42f5eee147af6d478f2a64",
+      "hardware": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "noSwiftShader": true
+      },
+      "sessionElapsedMs": 36689,
+      "stateChecks": {
+        "translatedMetres": 7.250701462043563,
+        "turnRadians": 3.964266867496907,
+        "transitions": 16,
+        "advancingWhileTranslating": [
+          "walk",
+          "run"
+        ],
+        "requiredMotions": [
+          "walk",
+          "run"
+        ],
+        "checks": {
+          "translation": true,
+          "walk": true,
+          "run": true,
+          "turn": true,
+          "transition": true
+        }
+      },
+      "images": [
+        "test-results/legacy-visual-ibex/animal_ibex-walk.png",
+        "test-results/legacy-visual-ibex/animal_ibex-run.png"
+      ],
+      "extractedTurnEvidence": {
+        "report": "test-results/legacy-turn-video/ibex/report.json",
+        "reportSha256": "f81f2fd64d00e284ce0d32a962bc41fa82bd1289a598e9b6a6f860bd6de12f31",
+        "contactSheet": "test-results/legacy-turn-video/ibex/contact-sheet.png",
+        "fullFrame": "test-results/legacy-turn-video/ibex/frame-06.png",
+        "inspected": true,
+        "rootAccepted": true,
+        "acceptance": "Root inspected both exact video-derived contact sheets and accepted readable natural orientation transitions with intact bodies, combined with earlier actual moving state and unobscured Walk/Run stills. Historical frameChecks.turn=false remains unchanged.",
+        "limitation": "Natural turning silhouette includes Attack/Idle transition. This is not continuous moving-gait contact proof. See timing uncertainty in extraction report."
+      },
+      "visualInspected": true,
+      "rootVisualAccepted": true,
+      "remaining": [],
+      "notes": "Walk/Run screenshots verify advancing exact clip and translation across screenshot."
+    },
+    {
+      "id": "animal_cattle",
+      "candidateFile": "legacy-bovines/animal_cattle.glb",
+      "candidateSha256": "ab3c7af0724313091abc60a67e491adc20e808ba09f6342cd6280c3214d9802a",
+      "bytes": 2433664,
+      "sourceSha256": "8c75982604c2b5d2cb66341a122ccb7bee5ba36e7c0bcfda6c6255d14eb8068d",
+      "currentPublicSha256": "8c75982604c2b5d2cb66341a122ccb7bee5ba36e7c0bcfda6c6255d14eb8068d",
+      "stateReport": "test-results/legacy-final-hooves/report.json",
+      "stateReportSha256": "961149594e5dd397d99c2e6e9f2ed04d09f0eea8fa625483ffc49678bd44b68d",
+      "hardware": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "noSwiftShader": true
+      },
+      "sessionElapsedMs": 56672,
+      "stateChecks": {
+        "translatedMetres": 9.09046377123869,
+        "turnRadians": 5.701407999081532,
+        "transitions": 15,
+        "advancingWhileTranslating": [
+          "walk",
+          "hit",
+          "run"
+        ],
+        "requiredMotions": [
+          "walk",
+          "run"
+        ],
+        "checks": {
+          "translation": true,
+          "walk": true,
+          "run": true,
+          "turn": true,
+          "transition": true
+        }
+      },
+      "images": [
+        "test-results/legacy-final-hooves/animal_cattle-patrol.png",
+        "test-results/legacy-final-hooves/animal_cattle-pursuit.png",
+        "test-results/legacy-final-hooves/animal_cattle-turn.png"
+      ],
+      "extractedTurnEvidence": null,
+      "visualInspected": true,
+      "rootVisualAccepted": true,
+      "remaining": [],
+      "notes": "Live end-of-stage screenshots support shape review; actual locomotion coverage comes from sampled trace."
+    },
+    {
+      "id": "animal_deer",
+      "candidateFile": "legacy-cervines/animal_deer.glb",
+      "candidateSha256": "1024912844d00105ffe2b7ba947730a26931ba04282cb57560fef5671de00b7e",
+      "bytes": 2145128,
+      "sourceSha256": "e2bb94f19786805b0fbc6b038a807a3451051102d52d8e9c06540f45ef7abfb3",
+      "currentPublicSha256": "e2bb94f19786805b0fbc6b038a807a3451051102d52d8e9c06540f45ef7abfb3",
+      "stateReport": "test-results/legacy-final-hooves/report.json",
+      "stateReportSha256": "961149594e5dd397d99c2e6e9f2ed04d09f0eea8fa625483ffc49678bd44b68d",
+      "hardware": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "noSwiftShader": true
+      },
+      "sessionElapsedMs": 56672,
+      "stateChecks": {
+        "translatedMetres": 10.01171991309935,
+        "turnRadians": 3.775485065416869,
+        "transitions": 14,
+        "advancingWhileTranslating": [
+          "walk",
+          "run"
+        ],
+        "requiredMotions": [
+          "walk",
+          "run"
+        ],
+        "checks": {
+          "translation": true,
+          "walk": true,
+          "run": true,
+          "turn": true,
+          "transition": true
+        }
+      },
+      "images": [
+        "test-results/legacy-final-hooves/animal_deer-patrol.png",
+        "test-results/legacy-final-hooves/animal_deer-pursuit.png",
+        "test-results/legacy-final-hooves/animal_deer-turn.png"
+      ],
+      "extractedTurnEvidence": null,
+      "visualInspected": true,
+      "rootVisualAccepted": true,
+      "remaining": [],
+      "notes": "Live end-of-stage screenshots support shape review; actual locomotion coverage comes from sampled trace."
+    },
+    {
+      "id": "animal_boar",
+      "candidateFile": "legacy-suids/animal_boar.glb",
+      "candidateSha256": "58d6a103dcd547478e05d14fba1aafc3e7a517c94c364af6ef7ad585ec4a765d",
+      "bytes": 2281336,
+      "sourceSha256": "9e1192788411744743042396fd4e958b16c001c49d91aab73e56dc27b1c7383c",
+      "currentPublicSha256": "9e1192788411744743042396fd4e958b16c001c49d91aab73e56dc27b1c7383c",
+      "stateReport": "test-results/legacy-visual-boar/report.json",
+      "stateReportSha256": "b309f76290f5e947dfeb7179843f6778c5b22a7c17aab2c84c5fe6152c42a4d1",
+      "hardware": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "noSwiftShader": true
+      },
+      "sessionElapsedMs": 32580,
+      "stateChecks": {
+        "translatedMetres": 8.300376333303396,
+        "turnRadians": 4.313413515886498,
+        "transitions": 16,
+        "advancingWhileTranslating": [
+          "walk",
+          "run"
+        ],
+        "requiredMotions": [
+          "walk",
+          "run"
+        ],
+        "checks": {
+          "translation": true,
+          "walk": true,
+          "run": true,
+          "turn": true,
+          "transition": true
+        }
+      },
+      "images": [
+        "test-results/legacy-visual-boar/animal_boar-walk.png",
+        "test-results/legacy-visual-boar/animal_boar-run.png",
+        "test-results/legacy-visual-boar/animal_boar-turn.png"
+      ],
+      "extractedTurnEvidence": null,
+      "visualInspected": true,
+      "rootVisualAccepted": true,
+      "remaining": [],
+      "notes": "Walk/Run screenshots verify advancing exact clip and translation across screenshot."
+    },
+    {
+      "id": "animal_hog",
+      "candidateFile": "legacy-suids/animal_hog.glb",
+      "candidateSha256": "ff493baf603f94b57ccb2a69721a566f282461e4aae87dd8cb001132f1902a61",
+      "bytes": 1525160,
+      "sourceSha256": "dc00de3f80c02a168c8fbd4ea1f7e00733b2b47604913e47f841814a729eafc9",
+      "currentPublicSha256": "dc00de3f80c02a168c8fbd4ea1f7e00733b2b47604913e47f841814a729eafc9",
+      "stateReport": "test-results/legacy-final-small/report.json",
+      "stateReportSha256": "b22bd7bb5e60bcfe15f145d879484344e6e0079e58eeef7463dcff2ca6457c23",
+      "hardware": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "noSwiftShader": true
+      },
+      "sessionElapsedMs": 58468,
+      "stateChecks": {
+        "translatedMetres": 7.67319522871406,
+        "turnRadians": 3.582290741822213,
+        "transitions": 9,
+        "advancingWhileTranslating": [
+          "walk",
+          "run"
+        ],
+        "requiredMotions": [
+          "walk"
+        ],
+        "checks": {
+          "translation": true,
+          "walk": true,
+          "turn": true,
+          "transition": true
+        }
+      },
+      "images": [
+        "test-results/legacy-final-small/animal_hog-patrol.png",
+        "test-results/legacy-final-small/animal_hog-pursuit.png",
+        "test-results/legacy-final-small/animal_hog-turn.png"
+      ],
+      "extractedTurnEvidence": null,
+      "visualInspected": true,
+      "rootVisualAccepted": true,
+      "remaining": [],
+      "notes": "Source has Walk only. Semantic run uses fallback, not a separate authored Run."
+    },
+    {
+      "id": "animal_rat",
+      "candidateFile": "legacy-small-mammals/animal_rat.glb",
+      "candidateSha256": "ab2ed3175e6cad999f04faaa03327f927b1338ba847bd1ff20ad0498b4bcffac",
+      "bytes": 1201164,
+      "sourceSha256": "b86f5636946c6406dc344b39fc056375da7dba4e6389959291542222380a9563",
+      "currentPublicSha256": "b86f5636946c6406dc344b39fc056375da7dba4e6389959291542222380a9563",
+      "stateReport": "test-results/legacy-final-small/report.json",
+      "stateReportSha256": "b22bd7bb5e60bcfe15f145d879484344e6e0079e58eeef7463dcff2ca6457c23",
+      "hardware": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "noSwiftShader": true
+      },
+      "sessionElapsedMs": 58468,
+      "stateChecks": {
+        "translatedMetres": 6.8918039836411324,
+        "turnRadians": 3.5566194268268876,
+        "transitions": 16,
+        "advancingWhileTranslating": [
+          "walk",
+          "run"
+        ],
+        "requiredMotions": [
+          "walk"
+        ],
+        "checks": {
+          "translation": true,
+          "walk": true,
+          "turn": true,
+          "transition": true
+        }
+      },
+      "images": [
+        "test-results/legacy-final-small/animal_rat-patrol.png",
+        "test-results/legacy-final-small/animal_rat-pursuit.png",
+        "test-results/legacy-final-small/animal_rat-turn.png"
+      ],
+      "extractedTurnEvidence": null,
+      "visualInspected": true,
+      "rootVisualAccepted": true,
+      "remaining": [],
+      "notes": "Source has Walk only. Semantic run uses fallback, not a separate authored Run."
+    },
+    {
+      "id": "animal_rabbit",
+      "candidateFile": "legacy-small-mammals/animal_rabbit.glb",
+      "candidateSha256": "d6cdf12b04103deede6c807b27d24245af49a0d518953f124b8e560e3977bd54",
+      "bytes": 2100068,
+      "sourceSha256": "105875b9f68e2fba30bd6577d385d896f2d3c2fa42bd26a15d8f4d029e3f08ed",
+      "currentPublicSha256": "105875b9f68e2fba30bd6577d385d896f2d3c2fa42bd26a15d8f4d029e3f08ed",
+      "stateReport": "test-results/legacy-visual-rabbit/report.json",
+      "stateReportSha256": "dbc253e9a56dbb239f6f63efcc0387f493da9c92b220400a440c24e70a94ef9a",
+      "hardware": {
+        "renderer": "ANGLE (NVIDIA, NVIDIA GeForce RTX 5080 (0x00002C02) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+        "noSwiftShader": true
+      },
+      "sessionElapsedMs": 30720,
+      "stateChecks": {
+        "translatedMetres": 7.5935994579445465,
+        "turnRadians": 3.5944770051116186,
+        "transitions": 11,
+        "advancingWhileTranslating": [
+          "walk",
+          "hit",
+          "run"
+        ],
+        "requiredMotions": [
+          "walk",
+          "run"
+        ],
+        "checks": {
+          "translation": true,
+          "walk": true,
+          "run": true,
+          "turn": true,
+          "transition": true
+        }
+      },
+      "images": [
+        "test-results/legacy-visual-rabbit/animal_rabbit-walk.png",
+        "test-results/legacy-visual-rabbit/animal_rabbit-run.png",
+        "test-results/legacy-visual-rabbit/animal_rabbit-turn.png"
+      ],
+      "extractedTurnEvidence": null,
+      "visualInspected": true,
+      "rootVisualAccepted": true,
+      "remaining": [],
+      "notes": "Walk/Run screenshots verify advancing exact clip and translation across screenshot."
+    }
+  ]
+}

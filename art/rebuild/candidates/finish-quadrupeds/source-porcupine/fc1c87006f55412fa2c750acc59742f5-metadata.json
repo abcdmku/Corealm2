@@ -1,0 +1,121 @@
+{
+  "animationCount": 0,
+  "categories": [],
+  "commentCount": 0,
+  "createdAt": "2018-03-03T07:39:27.368689",
+  "embedUrl": "https://sketchfab.com/models/fc1c87006f55412fa2c750acc59742f5/embed",
+  "faceCount": 145390,
+  "isAgeRestricted": false,
+  "license": {
+    "uri": "https://api.sketchfab.com/v3/licenses/322a749bcfa841b29dff1e8a1bb74b0b",
+    "label": "CC Attribution",
+    "fullName": "Creative Commons Attribution",
+    "requirements": "Author must be credited. Commercial use is allowed.",
+    "url": "http://creativecommons.org/licenses/by/4.0/",
+    "slug": "by"
+  },
+  "likeCount": 0,
+  "name": "6F-Porcupine-BC1840",
+  "publishedAt": "2018-07-03T17:48:33.738229",
+  "soundCount": 0,
+  "staffpickedAt": null,
+  "tags": [],
+  "thumbnails": {
+    "images": [
+      {
+        "uid": "e7144dcb0e4146a399effadb3a948389",
+        "width": 1920,
+        "height": 1080,
+        "size": 385814,
+        "url": "https://media.sketchfab.com/models/fc1c87006f55412fa2c750acc59742f5/thumbnails/be4a8450f2e64e0b8a0b2dcfe0f78a1a/204a4e02f3bc4f748c06c17da8757e78.jpeg"
+      },
+      {
+        "uid": "aa7c2d9ea57940ca895f2f22f0800fe2",
+        "width": 1024,
+        "height": 576,
+        "size": 29403,
+        "url": "https://media.sketchfab.com/models/fc1c87006f55412fa2c750acc59742f5/thumbnails/be4a8450f2e64e0b8a0b2dcfe0f78a1a/185b58cc4f4e41478b93bb4dd46844cf.jpeg"
+      },
+      {
+        "uid": "7700ab0dabea4f97ab4e3a84aa62c8fa",
+        "width": 720,
+        "height": 405,
+        "size": 14536,
+        "url": "https://media.sketchfab.com/models/fc1c87006f55412fa2c750acc59742f5/thumbnails/be4a8450f2e64e0b8a0b2dcfe0f78a1a/9d497e221fc446d190e844fab621b0fc.jpeg"
+      },
+      {
+        "uid": "48c0aa554c0346fbb84290b55dc511c7",
+        "width": 256,
+        "height": 144,
+        "size": 3112,
+        "url": "https://media.sketchfab.com/models/fc1c87006f55412fa2c750acc59742f5/thumbnails/be4a8450f2e64e0b8a0b2dcfe0f78a1a/bdbbe120081d403a98ce6294c7c93ad8.jpeg"
+      },
+      {
+        "uid": "7f621e1805bf4856b91bba20ce547669",
+        "width": 64,
+        "height": 36,
+        "size": 696,
+        "url": "https://media.sketchfab.com/models/fc1c87006f55412fa2c750acc59742f5/thumbnails/be4a8450f2e64e0b8a0b2dcfe0f78a1a/16d1d98bffff4181a66d1be5f2dc593f.jpeg"
+      }
+    ]
+  },
+  "uid": "fc1c87006f55412fa2c750acc59742f5",
+  "uri": "https://api.sketchfab.com/v3/models/fc1c87006f55412fa2c750acc59742f5",
+  "user": {
+    "uid": "0961cbe289424724b624a299c1249426",
+    "username": "SJSUSERC",
+    "displayName": "SJSUSERC",
+    "account": "basic",
+    "profileUrl": "https://sketchfab.com/SJSUSERC",
+    "avatar": {
+      "uid": "4a6b505f3999417da1d3275324bcd65a",
+      "uri": "https://api.sketchfab.com/v3/avatars/4a6b505f3999417da1d3275324bcd65a",
+      "images": [
+        {
+          "width": 32,
+          "height": 32,
+          "size": 709,
+          "url": "https://media.sketchfab.com/avatars/4a6b505f3999417da1d3275324bcd65a/5a91be3bcd5649988cccbe547d1fa482.jpeg"
+        },
+        {
+          "width": 48,
+          "height": 48,
+          "size": 1132,
+          "url": "https://media.sketchfab.com/avatars/4a6b505f3999417da1d3275324bcd65a/b2540c66198842e5880d65f38707e45e.jpeg"
+        },
+        {
+          "width": 90,
+          "height": 90,
+          "size": 3040,
+          "url": "https://media.sketchfab.com/avatars/4a6b505f3999417da1d3275324bcd65a/135bbaec934c457d8f6c92f895442bfa.jpeg"
+        },
+        {
+          "width": 100,
+          "height": 100,
+          "size": 3582,
+          "url": "https://media.sketchfab.com/avatars/4a6b505f3999417da1d3275324bcd65a/59af61ee36574e87b95c9231e3680ea0.jpeg"
+        }
+      ]
+    },
+    "uri": "https://api.sketchfab.com/v3/users/0961cbe289424724b624a299c1249426"
+  },
+  "vertexCount": 72685,
+  "viewCount": 22,
+  "viewerUrl": "https://sketchfab.com/3d-models/6f-porcupine-bc1840-fc1c87006f55412fa2c750acc59742f5",
+  "isDownloadable": true,
+  "isProtected": false,
+  "description": "",
+  "price": null,
+  "downloadCount": 14,
+  "editorUrl": "https://sketchfab.com/models/fc1c87006f55412fa2c750acc59742f5/edit",
+  "status": {
+    "warning": {},
+    "processing": "SUCCEEDED"
+  },
+  "source": "website-archived",
+  "hasCommentsDisabled": false,
+  "updatedAt": "2022-03-13T19:15:09.107674",
+  "pbrType": null,
+  "textureCount": 1,
+  "materialCount": 1
+}

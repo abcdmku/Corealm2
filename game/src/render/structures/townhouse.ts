@@ -188,14 +188,18 @@ function lamp(
   tag: string,
   x: number,
 ): PartPlacement {
+  // The native bracket and hanging lantern span local Y .082..1.419. Fit the entire
+  // assembly above walking headroom and below the 3.123 m balcony, including its chain.
+  const scale = 0.72;
+  const bottomY = 2.1;
   return variantPart(
     tag,
     "lamp_wall",
     inset(x, context.width / 2, 0.3),
-    1.22,
+    bottomY - 0.082 * scale,
     -context.depth / 2 - 0.14,
     FRONT_YAW,
-    1.05,
+    scale,
   );
 }
 

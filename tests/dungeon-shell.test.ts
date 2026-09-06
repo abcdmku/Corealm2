@@ -118,7 +118,13 @@ function hit(mesh: THREE.Object3D, origin: THREE.Vector3, direction: THREE.Vecto
   return new THREE.Raycaster(origin, direction.clone().normalize(), 0.00001, far).intersectObject(mesh, true)[0];
 }
 function verticalProbe(fixture: Fixture, x: number, z: number) {
-  const floor = hit(fixture.floor, new THREE.Vector3(x, 100, z), new THREE.Vector3(0, -1, 0), 250);
+  const origin = new THREE.Vector3(x, 100, z), down = new THREE.Vector3(0, -1, 0);
+  // The primary navigation floor stays byte-identical. Authored outward bays have an opaque
+  // dressing apron in the rock mesh, after its vertical wall triangles.
+  const apronStart = fixture.wall.geometry.userData.wallVertexCount / 3;
+  const apron = new THREE.Raycaster(origin, down, 0.00001, 250).intersectObject(fixture.wall)
+    .find(intersection => (intersection.faceIndex ?? -1) >= apronStart);
+  const floor = hit(fixture.floor, origin, down, 250) ?? apron;
   expect(floor, `floor at ${x},${z}`).toBeDefined();
   const roof = hit(fixture.roof, new THREE.Vector3(x, floor!.point.y + 0.05, z), new THREE.Vector3(0, 1, 0));
   expect(roof, `roof above ${x},${floor!.point.y},${z}`).toBeDefined();
@@ -142,21 +148,24 @@ function interiorPoints(spec: DungeonSpec): THREE.Vector2[] {
   }
   return points;
 }
-function nominalInside(spec: DungeonSpec, x: number, z: number): boolean {
-  return spec.chambers.some(chamber => Math.hypot(x - chamber.centre[0], z - chamber.centre[1]) <= chamber.radius + 1.2)
-    || spec.corridors.some(corridor => {
-      const dx = corridor.to[0] - corridor.from[0], dz = corridor.to[1] - corridor.from[1];
-      const t = THREE.MathUtils.clamp(((x - corridor.from[0]) * dx + (z - corridor.from[1]) * dz) / (dx * dx + dz * dz), 0, 1);
-      return Math.hypot(x - corridor.from[0] - dx * t, z - corridor.from[1] - dz * t) <= corridor.width / 2 + 0.5;
-    });
-}
-function firstNominalExit(spec: DungeonSpec, point: THREE.Vector2, direction: THREE.Vector3): number {
-  // Independent footprint oracle: these authored circles/capsules enclose the jittered outline.
-  // Stop at the FIRST exit so a distant wall behind another chamber cannot mask an earlier crack.
-  for (let distance = 0.05; distance < 150; distance += 0.05) {
-    if (!nominalInside(spec, point.x + direction.x * distance, point.y + direction.z * distance)) return distance;
+function firstContourExit(fixture: Fixture, point: THREE.Vector2, direction: THREE.Vector3): number {
+  // V6 authors explicit asymmetric bay contours outside the old circular rooms. Intersect that
+  // measured contour independently in 2D; a distant wall cannot hide a missing nearer face.
+  // This replaces old-circle exit + 1.5 m with actual-contour exit + 2.5 cm.
+  const contours = fixture.wall.geometry.userData.outerContours as [number, number][][];
+  let nearest = Infinity;
+  for (const contour of contours) for (let i = 0; i < contour.length; i++) {
+    const a = contour[i]!, b = contour[(i + 1) % contour.length]!;
+    const ex = b[0] - a[0], ez = b[1] - a[1];
+    const cross = direction.x * ez - direction.z * ex;
+    if (Math.abs(cross) < 1e-9) continue;
+    const px = a[0] - point.x, pz = a[1] - point.y;
+    const distance = (px * ez - pz * ex) / cross;
+    const along = (px * direction.z - pz * direction.x) / cross;
+    if (distance > 0 && along >= 0 && along <= 1) nearest = Math.min(nearest, distance);
   }
-  return 150;
+  expect(Number.isFinite(nearest)).toBe(true);
+  return nearest + 0.025;
 }
 function note(origin: THREE.Vector3, direction: THREE.Vector3): string {
   const numbers = (p: THREE.Vector3) => p.toArray().map(value => Number(value.toFixed(6))).join(",");
@@ -226,7 +235,7 @@ describe("continuous production dungeon shell", () => {
     const point = (index: number) => new THREE.Vector3().fromBufferAttribute(position, index);
     const key = (index: number) => point(index).toArray().map(value => Math.round(value * 100000)).join(",");
     const edges = new Map<string, { count: number; a: number; b: number }>();
-    for (let index = 0; index < position.count; index += 3) {
+    for (let index = 0; index < fixture.wall.geometry.userData.wallVertexCount; index += 3) {
       for (const [a, b] of [[index, index + 1], [index + 1, index + 2], [index + 2, index]]) {
         const edgeKey = [key(a!), key(b!)].sort().join("|");
         const edge = edges.get(edgeKey) ?? { count: 0, a: a!, b: b! };
@@ -283,7 +292,7 @@ describe("continuous production dungeon shell", () => {
           const angle = angleIndex * Math.PI * 2 / 128;
           const direction = new THREE.Vector3(Math.cos(angle), 0, Math.sin(angle));
           const first = hit(fixture.group, origin, direction);
-          const far = firstNominalExit(fixture.spec, point, direction) + 1.5;
+          const far = firstContourExit(fixture, point, direction);
           if (!first || first.distance > far) misses.push(`horizontal ${note(origin, direction)} hit=${first?.object.name ?? "none"} distance=${first?.distance ?? "none"} limit=${far}`);
           else if (first.face!.normal.dot(direction) >= 0) misses.push(`wrong winding ${note(origin, direction)}`);
         }
@@ -311,7 +320,7 @@ describe("continuous production dungeon shell", () => {
             const origin = new THREE.Vector3(x, height, z);
             const direction = new THREE.Vector3(Math.cos(bearing + offset), 0, Math.sin(bearing + offset));
             const first = hit(fixture.group, origin, direction);
-            const far = firstNominalExit(fixture.spec, new THREE.Vector2(x, z), direction) + 1.5;
+            const far = firstContourExit(fixture, new THREE.Vector2(x, z), direction);
             if (!first || first.distance > far) misses.push(`join ${note(origin, direction)} target=[${target.toArray()}]`);
           }
           const origin = new THREE.Vector3(x, floorY + 1.7, z);

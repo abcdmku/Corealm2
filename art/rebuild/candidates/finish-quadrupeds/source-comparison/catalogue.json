@@ -1,0 +1,291 @@
+{
+  "packs": [
+    {
+      "id": "khronos-fox-source-review",
+      "name": "Khronos complete Fox source review",
+      "author": "PixelMannen; tomkranis; @AsoboStudio and @scurest",
+      "source": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+      "license": "CC0-1.0 model; CC-BY-4.0 rigging, animation and conversion",
+      "archiveSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7"
+    },
+    {
+      "id": "jonasdichelle-cat-source-review",
+      "name": "JonasDichelle complete Cat source review",
+      "author": "JonasDichelle; FBX redistribution by nrz/Ylikuutio",
+      "source": "https://blendswap.com/blend/18519",
+      "license": "CC-BY-3.0",
+      "archiveSha256": "4e156a3b81638d07a78278889d2184c9a106fd81c2de84bd212c1bd12ea03428"
+    },
+    {
+      "id": "cdmir-cc0-rat-source-evaluation",
+      "name": "CDmir and TinyWorlds original rat source evaluation",
+      "author": "CDmir; TinyWorlds",
+      "source": "https://opengameart.org/content/evil-giant-rat",
+      "license": "CC0-1.0"
+    }
+  ],
+  "assets": [
+    {
+      "id": "creature_redbrush_fox",
+      "file": "models/creature/creature_redbrush_fox.glb",
+      "pack": "khronos-fox-source-review",
+      "category": "character",
+      "is": "fox",
+      "tags": [
+        "animal",
+        "fox",
+        "skinned",
+        "source-review"
+      ],
+      "bytes": 164332,
+      "sha256": "9ecbb6b0cac174d65c4b6c43d5e51e1ab5ae4615e4a9da4cccb5f48217557404",
+      "size": {
+        "x": 0.25185436248779297,
+        "y": 0.7902893318235874,
+        "z": 1.5471986389160157
+      },
+      "base": {
+        "x": -0.12592718124389649,
+        "y": -0.00121744766831398,
+        "z": -0.8809500122070313
+      },
+      "bounds": {
+        "min": [
+          -0.12592718124389649,
+          -0.00121744766831398,
+          -0.8809500122070313
+        ],
+        "max": [
+          0.12592718124389649,
+          0.7890718841552734,
+          0.6662486267089844
+        ]
+      },
+      "groundY": -0.00121744766831398,
+      "animations": [
+        "Survey",
+        "Walk",
+        "Run"
+      ],
+      "materials": [
+        "fox_material"
+      ],
+      "triangles": 576,
+      "walkClipSeconds": 0.7083333134651184,
+      "runClipSeconds": 1.1583333015441895,
+      "sourceProvenance": {
+        "repositoryUrl": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+        "commit": "81e8b567643b5166e6ff40024e4ff71ad4b18676",
+        "sourceSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+        "attribution": [
+          {
+            "author": "PixelMannen",
+            "work": "Model",
+            "year": 2014,
+            "license": "CC0-1.0",
+            "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
+          },
+          {
+            "author": "tomkranis",
+            "work": "Rigging & Animation",
+            "year": 2014,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          },
+          {
+            "author": "@AsoboStudio and @scurest",
+            "work": "Conversion to glTF",
+            "year": 2017,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          }
+        ],
+        "modifications": "Added uniform 0.01 scene-root scale only. Geometry, skin, texture and native animation data preserved; no renaming or new clips."
+      },
+      "reviewOnly": {
+        "sourceUnits": "source units multiplied by 0.01",
+        "scaleApplied": 0.01,
+        "orientationChange": false,
+        "staticPose": "Bind pose because native Survey has no current idle resolver mapping",
+        "missingProductionBehaviors": [
+          "Attack",
+          "Hit",
+          "HitLeft",
+          "HitRight",
+          "Death"
+        ],
+        "groundYIsBindBounds": true
+      }
+    },
+    {
+      "id": "creature_duskoak_lynx",
+      "file": "models/creature/creature_duskoak_lynx.glb",
+      "pack": "jonasdichelle-cat-source-review",
+      "category": "character",
+      "is": "cat",
+      "tags": [
+        "animal",
+        "cat",
+        "source-review",
+        "static"
+      ],
+      "bytes": 1310408,
+      "sha256": "d69e3d8617deb102db923b432b976b751e8beddc8b92616e9467e77d41267f6f",
+      "size": {
+        "x": 0.2848958015441895,
+        "y": 0.9280742168426515,
+        "z": 0.9209949970245361
+      },
+      "base": {
+        "x": -0.14244790077209474,
+        "y": -0.2880086421966553,
+        "z": -0.4336576461791992
+      },
+      "groundY": -0.2880086421966553,
+      "bounds": {
+        "min": [
+          -0.14244790077209474,
+          -0.2880086421966553,
+          -0.4336576461791992
+        ],
+        "max": [
+          0.14244790077209474,
+          0.6400655746459961,
+          0.4873373508453369
+        ]
+      },
+      "animations": [],
+      "materials": [
+        "skin"
+      ],
+      "triangles": 45296,
+      "sourceProvenance": {
+        "title": "Rigged and animated Cat",
+        "author": "JonasDichelle",
+        "creatorUrl": "https://blendswap.com/blend/18519",
+        "license": "CC-BY-3.0",
+        "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+        "mirror": "https://github.com/nrz/ylikuutio",
+        "mirrorChanges": "Original cat.blend exported to FBX by Ylikuutio project. Complete FBX staged unchanged. Mirror README explicitly credits author and license.",
+        "localModifications": "None",
+        "mirrorCommit": "ea7e8abeb1a1263082f163c8586e1d8c81f74674",
+        "sourceSha256": "4e156a3b81638d07a78278889d2184c9a106fd81c2de84bd212c1bd12ea03428",
+        "modifications": "Blender 4.5.11 CPU FBX import and glTF export with UVs/normals/all vertex colours; uniform .1 preview root scale after automatic FBX centimetre conversion; source body, materials and pose otherwise unchanged. No Lynx adaptation, rig or animations. Inspection material only: neutral grey0.8, metallic0, roughness0.85. No final coat acceptance."
+      }
+    },
+    {
+      "id": "creature_quillback_porcupine",
+      "file": "models/creature/creature_quillback_porcupine.glb",
+      "pack": "cdmir-cc0-rat-source-evaluation",
+      "category": "character",
+      "is": "original complete rat body by CDmir and TinyWorlds, source evaluation only; NOT a porcupine",
+      "tags": [
+        "rat",
+        "rodent",
+        "original-source",
+        "whole-body-evaluation",
+        "not-porcupine",
+        "static-preview"
+      ],
+      "bytes": 2852220,
+      "sha256": "ae3cb18c2590b34b5bacca459df0ac1318a532f171eccc5276aca7252c199ddb",
+      "size": {
+        "x": 0.28257939502814233,
+        "y": 0.34000000000424085,
+        "z": 1.23003600850538
+      },
+      "base": {
+        "x": -0.14128969751407133,
+        "y": -4.240863076518795e-12,
+        "z": -0.6150180042526902
+      },
+      "bounds": {
+        "min": [
+          -0.14128969751407133,
+          -4.240863076518795e-12,
+          -0.6150180042526902
+        ],
+        "max": [
+          0.14128969751407103,
+          0.33999999999999997,
+          0.61501800425269
+        ]
+      },
+      "groundY": -4.240863076518795e-12,
+      "triangles": 5930,
+      "animations": [],
+      "materials": [
+        "body",
+        "head.001",
+        "head",
+        "Teeth"
+      ],
+      "sourceProvenance": {
+        "author": "CDmir; TinyWorlds",
+        "source": "https://opengameart.org/content/evil-giant-rat",
+        "download": "https://opengameart.org/sites/default/files/rat_2.blend",
+        "license": "CC0-1.0",
+        "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "originalSpecies": "rat",
+        "sourceFile": "cdmir-rat-original.blend",
+        "sourceSha256": "52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2",
+        "rawPreviewSha256": "3bf380281a98800107167a3e55beff9e46377a2f0b020cbab793ab7624db6057",
+        "sourceNativeActions": [
+          "Attack.000",
+          "Attack.001",
+          "Attack.002",
+          "Attack.003",
+          "Attack.Begin",
+          "Attack.End",
+          "Die",
+          "Hit",
+          "Idle.000",
+          "Idle.001",
+          "Idle.002",
+          "Run",
+          "Stand",
+          "Walk"
+        ],
+        "adaptationPerformed": false
+      },
+      "acceptance": {
+        "sourceMeasured": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "files": {
+    "creature_redbrush_fox": "../source-fox/Fox.preview-scale001.glb",
+    "creature_duskoak_lynx": "../source-feline/Cat.neutral-preview.glb",
+    "creature_quillback_porcupine": "../source-porcupine/cdmir-rat-preview-normalized.glb"
+  },
+  "scope": "Complete free source comparison only. Gallery slots retain production species labels; actual source bodies are Fox, neutral domestic Cat, and original Rat. Cat/Rat have zero exported clips. No species adaptation or gameplay acceptance is claimed.",
+  "origins": [
+    {
+      "slot": "creature_redbrush_fox",
+      "catalogue": "source-fox/scaled-catalogue.json",
+      "sourceDescription": "fox",
+      "sha256": "9ecbb6b0cac174d65c4b6c43d5e51e1ab5ae4615e4a9da4cccb5f48217557404",
+      "animations": [
+        "Survey",
+        "Walk",
+        "Run"
+      ]
+    },
+    {
+      "slot": "creature_duskoak_lynx",
+      "catalogue": "source-feline/neutral-preview-catalogue.json",
+      "sourceDescription": "cat",
+      "sha256": "d69e3d8617deb102db923b432b976b751e8beddc8b92616e9467e77d41267f6f",
+      "animations": []
+    },
+    {
+      "slot": "creature_quillback_porcupine",
+      "catalogue": "source-porcupine/candidate-catalogue.json",
+      "sourceDescription": "original complete rat body by CDmir and TinyWorlds, source evaluation only; NOT a porcupine",
+      "sha256": "ae3cb18c2590b34b5bacca459df0ac1318a532f171eccc5276aca7252c199ddb",
+      "animations": []
+    }
+  ]
+}

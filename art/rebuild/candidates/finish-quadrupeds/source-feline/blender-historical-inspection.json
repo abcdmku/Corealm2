@@ -1,0 +1,475 @@
+{
+  "blender": "4.5.11 LTS",
+  "meshes": [
+    {
+      "name": "Plane",
+      "vertices": 325,
+      "polygons": 256,
+      "uv_layers": [],
+      "color_attributes": [],
+      "matrix_world": [
+        [
+          -1.3891220092773438,
+          -16.711406707763672,
+          94.15218353271484,
+          29.825624465942383
+        ],
+        [
+          95.6237564086914,
+          -0.247505784034729,
+          1.3669031858444214,
+          2.4684038162231445
+        ],
+        [
+          0.004813494626432657,
+          94.16209411621094,
+          16.713239669799805,
+          6.533982276916504
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "Cat",
+      "vertices": 22650,
+      "polygons": 22648,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "color_attributes": [
+        {
+          "name": "Col",
+          "domain": "CORNER",
+          "count": 90592,
+          "min": [
+            0.9911022186279297,
+            0.9911022186279297,
+            0.9911022186279297,
+            1.0
+          ],
+          "max": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ],
+      "matrix_world": [
+        [
+          -0.014525421895086765,
+          -0.17474351823329926,
+          0.9845068454742432,
+          29.825624465942383
+        ],
+        [
+          0.9998944401741028,
+          -0.002587969182059169,
+          0.014293105341494083,
+          2.4684038162231445
+        ],
+        [
+          5.024593338021077e-05,
+          0.9846104383468628,
+          0.17476268112659454,
+          6.533982276916504
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "Sphere.001",
+      "vertices": 31746,
+      "polygons": 31744,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "color_attributes": [],
+      "matrix_world": [
+        [
+          0.0022301904391497374,
+          0.16961003839969635,
+          0.011223593726754189,
+          33.55868148803711
+        ],
+        [
+          0.16714493930339813,
+          -0.0001484905369579792,
+          -0.03096776455640793,
+          2.155013084411621
+        ],
+        [
+          -0.03088821843266487,
+          0.011442650109529495,
+          -0.16676495969295502,
+          3.0217113494873047
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "Sphere",
+      "vertices": 31746,
+      "polygons": 31744,
+      "uv_layers": [
+        "UVMap"
+      ],
+      "color_attributes": [],
+      "matrix_world": [
+        [
+          -0.008886472322046757,
+          0.1610262542963028,
+          0.053756795823574066,
+          33.54779052734375
+        ],
+        [
+          0.16869527101516724,
+          0.0023646526969969273,
+          0.0208034198731184,
+          2.904580593109131
+        ],
+        [
+          0.018958324566483498,
+          0.054437801241874695,
+          -0.159915491938591,
+          3.021749496459961
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    {
+      "name": "eye",
+      "vertices": 0,
+      "polygons": 0,
+      "uv_layers": [],
+      "color_attributes": [],
+      "matrix_world": [
+        [
+          1.0,
+          3.821371353845884e-15,
+          8.742277657347586e-08,
+          0.0
+        ],
+        [
+          -2.109689720115706e-22,
+          1.0,
+          -4.371138828673793e-08,
+          0.0
+        ],
+        [
+          -8.742277657347586e-08,
+          4.371138828673793e-08,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      ]
+    }
+  ],
+  "images": [],
+  "materials": [
+    {
+      "name": "Cornea",
+      "diffuse_color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "use_nodes": true,
+      "nodes": [
+        {
+          "type": "BSDF_PRINCIPLED",
+          "name": "Principled BSDF",
+          "image": null
+        },
+        {
+          "type": "OUTPUT_MATERIAL",
+          "name": "Material Output",
+          "image": null
+        },
+        {
+          "type": "NORMAL_MAP",
+          "name": "Normal Map",
+          "image": null
+        }
+      ]
+    },
+    {
+      "name": "hair",
+      "diffuse_color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "use_nodes": true,
+      "nodes": [
+        {
+          "type": "BSDF_PRINCIPLED",
+          "name": "Principled BSDF",
+          "image": null
+        },
+        {
+          "type": "OUTPUT_MATERIAL",
+          "name": "Material Output",
+          "image": null
+        },
+        {
+          "type": "NORMAL_MAP",
+          "name": "Normal Map",
+          "image": null
+        }
+      ]
+    },
+    {
+      "name": "Material",
+      "diffuse_color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "use_nodes": true,
+      "nodes": [
+        {
+          "type": "BSDF_PRINCIPLED",
+          "name": "Principled BSDF",
+          "image": null
+        },
+        {
+          "type": "OUTPUT_MATERIAL",
+          "name": "Material Output",
+          "image": null
+        },
+        {
+          "type": "NORMAL_MAP",
+          "name": "Normal Map",
+          "image": null
+        }
+      ]
+    },
+    {
+      "name": "Material.002",
+      "diffuse_color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "use_nodes": true,
+      "nodes": [
+        {
+          "type": "BSDF_PRINCIPLED",
+          "name": "Principled BSDF",
+          "image": null
+        },
+        {
+          "type": "OUTPUT_MATERIAL",
+          "name": "Material Output",
+          "image": null
+        },
+        {
+          "type": "NORMAL_MAP",
+          "name": "Normal Map",
+          "image": null
+        }
+      ]
+    },
+    {
+      "name": "PBR Dielectric",
+      "diffuse_color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "use_nodes": true,
+      "nodes": [
+        {
+          "type": "BSDF_PRINCIPLED",
+          "name": "Principled BSDF",
+          "image": null
+        },
+        {
+          "type": "OUTPUT_MATERIAL",
+          "name": "Material Output",
+          "image": null
+        },
+        {
+          "type": "NORMAL_MAP",
+          "name": "Normal Map",
+          "image": null
+        }
+      ]
+    },
+    {
+      "name": "Pupil",
+      "diffuse_color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "use_nodes": true,
+      "nodes": [
+        {
+          "type": "BSDF_PRINCIPLED",
+          "name": "Principled BSDF",
+          "image": null
+        },
+        {
+          "type": "OUTPUT_MATERIAL",
+          "name": "Material Output",
+          "image": null
+        },
+        {
+          "type": "NORMAL_MAP",
+          "name": "Normal Map",
+          "image": null
+        }
+      ]
+    },
+    {
+      "name": "Sclera_and_Iris",
+      "diffuse_color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "use_nodes": true,
+      "nodes": [
+        {
+          "type": "BSDF_PRINCIPLED",
+          "name": "Principled BSDF",
+          "image": null
+        },
+        {
+          "type": "OUTPUT_MATERIAL",
+          "name": "Material Output",
+          "image": null
+        },
+        {
+          "type": "NORMAL_MAP",
+          "name": "Normal Map",
+          "image": null
+        }
+      ]
+    },
+    {
+      "name": "skin",
+      "diffuse_color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "use_nodes": true,
+      "nodes": [
+        {
+          "type": "BSDF_PRINCIPLED",
+          "name": "Principled BSDF",
+          "image": null
+        },
+        {
+          "type": "OUTPUT_MATERIAL",
+          "name": "Material Output",
+          "image": null
+        },
+        {
+          "type": "NORMAL_MAP",
+          "name": "Normal Map",
+          "image": null
+        }
+      ]
+    }
+  ],
+  "boundsBlenderZUp": {
+    "min": [
+      20.575397491455078,
+      -67.32424926757812,
+      -71.37721252441406
+    ],
+    "max": [
+      70.50373840332031,
+      81.57872772216797,
+      90.98749542236328
+    ],
+    "size": [
+      49.928340911865234,
+      148.9029769897461,
+      162.36470794677734
+    ]
+  },
+  "sceneUnitScale": 1.0,
+  "armatures": [
+    {
+      "name": "Armature",
+      "bones": 120,
+      "deform_bones": 120
+    }
+  ],
+  "actions": [
+    {
+      "name": "Armature|Armature|CameraAction",
+      "frame_range": [
+        1.0,
+        2.0
+      ]
+    },
+    {
+      "name": "Armature|Armature|run",
+      "frame_range": [
+        1.0,
+        15.0
+      ]
+    },
+    {
+      "name": "Armature|Armature|Walk",
+      "frame_range": [
+        1.0,
+        28.0
+      ]
+    },
+    {
+      "name": "Camera|Camera|CameraAction",
+      "frame_range": [
+        1.0,
+        2.0
+      ]
+    },
+    {
+      "name": "Plane|Plane|CameraAction",
+      "frame_range": [
+        1.0,
+        2.0
+      ]
+    }
+  ]
+}

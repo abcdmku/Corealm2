@@ -475,15 +475,17 @@ class Geology {
     // Every face cuts through the body at its own inclination. Three intersecting roof
     // planes make one eroded crown and a lower connected shoulder, not flat-topped posts.
     const body = slide ? convex([
-      [0, -1, 0, 0], [0, 1, .76, 2.18], [-.38, 1, .24, 3.68], [.24, 1, -.20, 4.21],
+      [0, -1, 0, 0], [0, 1, .86, 2.18], [-.38, 1, .24, 3.68], [.24, 1, -.20, 4.21],
       [.78, 1, -.11, 2.12],
-      [-1, .09, -.32, 1.47], [1, .10, -.32, 1.72],
-      [.13, .32, -1, 2.49], [-.37, .24, -1, 2.72],
+      [-1, .18, -.32, 1.67], [1, .24, -.32, 1.92],
+      [.13, .36, -1, 2.79], [-.37, .31, -1, 2.96],
+      [.61, .38, -.74, 2.43], [-.72, .34, -.61, 2.33],
       [.20, .30, 1, 2.85], [-.23, .34, 1, 2.82],
     ]) : convex([
       [0, -1, 0, 0], [.33, 1, .18, 3.13], [-.39, 1, .27, 4.42], [.08, 1, -.36, 3.79],
-      [-1, .13, .11, 4.16], [1, .20, -.17, 4.25],
-      [-.32, .18, -1, 2.66], [.29, .12, -1, 2.58],
+      [-1, .50, .11, 4.36], [1, .61, -.17, 4.45],
+      [-.32, .82, -1, 2.96], [.29, .68, -1, 2.88],
+      [-.65, .57, -.76, 3.48], [.71, .76, -.63, 3.62],
       [.18, .44, 1, 2.85], [-.36, .25, 1, 2.81],
     ]);
     const toe = slide ? convex([
@@ -518,8 +520,16 @@ class Geology {
     const approach: Field = slide
       ? convex([[-1, 0, 0, -.85], [0, 0, 1, -.05], [0, 0, -1, 1.16], [0, 1, 0, 1.88], [0, -1, 0, -.04]])
       : convex([[1, 0, 0, -.62], [-.20, 0, 1, .23], [.20, 0, -1, 1.04], [0, 1, 0, 2.08], [0, -1, 0, -.04]]);
+    // Back and flank faces remain exposed in the authored shortcut placements. Broad tapered
+    // planes meet a low foot, while oblique rock folds break their silhouettes without cards.
+    const fold = (t: number): number => Math.abs(((t % 2) + 2) % 2 - 1) - .5;
     const mainField: Field = (x, y, z) => {
-      let distance = Math.min(body(x, y, z), toe(x, y, z));
+      const back = Math.max(0, Math.min(1, (-z + .1) / 1.4));
+      const rise = Math.max(0, Math.min(1, y / .65));
+      const rearRelief = back * rise * (.43 * fold(x * .91 + y * .73) + .23 * fold(x * .43 - y * 1.13));
+      const sideRelief = rise * (.18 * fold(z * 1.11 + y * .61) + .12 * fold(z * .47 - y * .89));
+      const outwardX = x + Math.sign(x) * sideRelief;
+      let distance = Math.min(body(outwardX, y, z + rearRelief), toe(x, y, z));
       for (const cut of fractureCuts) distance = Math.max(distance, -cut(x, y, z));
       for (const cut of crownCuts) distance = Math.max(distance, -cut(x, y, z));
       return Math.max(distance, -approach(x, y, z));
@@ -842,11 +852,14 @@ export async function buildGeologyAsset(assetId: string): Promise<{ glb: Uint8Ar
 /** Staging never reads or overwrites the production catalogue or any public GLB. */
 export function geologyOutputPaths(out?: string): GeologyOutputPaths {
   if (out === undefined) return { modelsDirectory: OUTPUT, catalogFile: path.join(ROOT, "tools/data/corealm-geology.json") };
-  const staging = path.resolve(ROOT, "test-results");
+  const stagingRoots = [path.resolve(ROOT, "test-results"), path.resolve(ROOT, "art/rebuild/candidates")];
   const outputRoot = path.resolve(ROOT, out);
-  const relative = path.relative(staging, outputRoot);
-  if (!out.trim() || path.isAbsolute(relative) || relative === ".." || relative.startsWith(`..${path.sep}`)) {
-    throw new Error("Geology --out must stay inside test-results");
+  const contained = stagingRoots.some(staging => {
+    const relative = path.relative(staging, outputRoot);
+    return !path.isAbsolute(relative) && relative !== ".." && !relative.startsWith(`..${path.sep}`);
+  });
+  if (!out.trim() || !contained) {
+    throw new Error("Geology --out must stay inside test-results or art/rebuild/candidates");
   }
   return { modelsDirectory: path.join(outputRoot, DIRECTORY), catalogFile: path.join(outputRoot, "corealm-geology.json") };
 }

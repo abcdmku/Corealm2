@@ -159,6 +159,33 @@ describe("authored mine terrain", () => {
     expect(lookup.mock.calls).toEqual([[0, 0]]);
   });
 
+  it("anchors a mine beside a raised settlement to pre-site support without moving the haul endpoint", () => {
+    const site = WORLD_SITES.find((candidate) => candidate.id === "hollowcut_workings")!;
+    const sites = [site];
+    // Retained production centre and approach heights from Hollowcut's failed world route.
+    // The settlement blends uphill while the geological reference stays much lower.
+    const raw = () => 2.0189841037;
+    const support = (x: number, z: number) => {
+      const along = (x - site.centre[0]) * Math.sin(site.rotationY)
+        + (z - site.centre[1]) * Math.cos(site.rotationY);
+      const t = Math.max(0, Math.min(1, along / 13.5));
+      return 5.514058817 + (8.287293610 - 5.514058817) * (2 * t - t * t);
+    };
+    const sample = (along: number, fitted: boolean) => {
+      const [x, z] = worldSitePoint(site, 0, along);
+      return applyWorldSiteTerrain(x, z, support(x, z), sites, raw, fitted ? support : raw);
+    };
+    expect(sample(13.5, true)).toBeCloseTo(sample(13.5, false), 10);
+    expect(sample(2, true)).toBeCloseTo(3.969058817, 8);
+    let oldGrade = 0; let fittedGrade = 0;
+    for (let along = 2.25; along <= 13.5; along += 0.25) {
+      oldGrade = Math.max(oldGrade, Math.abs(sample(along, false) - sample(along - 0.25, false)) / 0.25);
+      fittedGrade = Math.max(fittedGrade, Math.abs(sample(along, true) - sample(along - 0.25, true)) / 0.25);
+    }
+    expect(oldGrade).toBeGreaterThan(1);
+    expect(fittedGrade).toBeLessThan(0.65);
+  });
+
   it("makes overlapping cuts independent of site order and never excavates the same shape twice", () => {
     const shifted = { ...mine, id: "shifted", centre: [3, -2] as const,
       terrain: { ...mine.terrain, backRise: 5 } };

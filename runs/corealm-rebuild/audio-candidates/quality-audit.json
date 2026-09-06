@@ -1,0 +1,133 @@
+{
+  "scope": "Decoded-sample integrity and envelope measures; not subjective listening or species recognition.",
+  "rows": [
+    {
+      "file": "hen-cluck-01.ogg",
+      "path": "game/public/audio/sfx/animals/hen-cluck-01.ogg",
+      "kind": "Current shipped source",
+      "metrics": {
+        "duration": 0.39025,
+        "peakDbfs": -5.973397464100673,
+        "meanDbfs": -19.358568567096718,
+        "clippedSamples": 0,
+        "framesAboveMinus45Dbfs": 16,
+        "frameCount": 20,
+        "activeFraction": 0.8,
+        "leadingQuietMs": 0,
+        "crestDb": 13.385171102996045
+      }
+    },
+    {
+      "file": "hen-cluck-02.ogg",
+      "path": "game/public/audio/sfx/animals/hen-cluck-02.ogg",
+      "kind": "Current shipped source",
+      "metrics": {
+        "duration": 0.5073125,
+        "peakDbfs": -5.078186138672045,
+        "meanDbfs": -18.699237618912477,
+        "clippedSamples": 0,
+        "framesAboveMinus45Dbfs": 22,
+        "frameCount": 26,
+        "activeFraction": 0.8461538461538461,
+        "leadingQuietMs": 20,
+        "crestDb": 13.621051480240432
+      }
+    },
+    {
+      "file": "rodent-squeak-01.ogg",
+      "path": "game/public/audio/sfx/animals/rodent-squeak-01.ogg",
+      "kind": "Current shipped source",
+      "metrics": {
+        "duration": 0.611375,
+        "peakDbfs": -8.79441141687655,
+        "meanDbfs": -25.84248709873863,
+        "clippedSamples": 0,
+        "framesAboveMinus45Dbfs": 28,
+        "frameCount": 31,
+        "activeFraction": 0.9032258064516129,
+        "leadingQuietMs": 20,
+        "crestDb": 17.04807568186208
+      }
+    },
+    {
+      "file": "rodent-squeak-02.ogg",
+      "path": "game/public/audio/sfx/animals/rodent-squeak-02.ogg",
+      "kind": "Current shipped source",
+      "metrics": {
+        "duration": 0.2926875,
+        "peakDbfs": -7.311190481351668,
+        "meanDbfs": -20.507453404009695,
+        "clippedSamples": 0,
+        "framesAboveMinus45Dbfs": 12,
+        "frameCount": 15,
+        "activeFraction": 0.8,
+        "leadingQuietMs": 20,
+        "crestDb": 13.196262922658027
+      }
+    },
+    {
+      "file": "chicken-candidate-1.ogg",
+      "path": "runs/corealm-rebuild/audio-candidates/chicken-candidate-1.ogg",
+      "kind": "CC0 preview crop candidate",
+      "metrics": {
+        "duration": 0.634,
+        "peakDbfs": -14.739744958830945,
+        "meanDbfs": -23.76780774454559,
+        "clippedSamples": 0,
+        "framesAboveMinus45Dbfs": 27,
+        "frameCount": 32,
+        "activeFraction": 0.84375,
+        "leadingQuietMs": 40,
+        "crestDb": 9.028062785714644
+      }
+    },
+    {
+      "file": "chicken-candidate-2.ogg",
+      "path": "runs/corealm-rebuild/audio-candidates/chicken-candidate-2.ogg",
+      "kind": "CC0 preview crop candidate",
+      "metrics": {
+        "duration": 1.6,
+        "peakDbfs": -10.940919588777403,
+        "meanDbfs": -25.13495379271644,
+        "clippedSamples": 0,
+        "framesAboveMinus45Dbfs": 64,
+        "frameCount": 80,
+        "activeFraction": 0.8,
+        "leadingQuietMs": 60,
+        "crestDb": 14.194034203939038
+      }
+    },
+    {
+      "file": "rabbit-candidate-1.ogg",
+      "path": "runs/corealm-rebuild/audio-candidates/rabbit-candidate-1.ogg",
+      "kind": "CC0 preview crop candidate",
+      "metrics": {
+        "duration": 0.537125,
+        "peakDbfs": -19.11438718921365,
+        "meanDbfs": -37.47634154696782,
+        "clippedSamples": 0,
+        "framesAboveMinus45Dbfs": 14,
+        "frameCount": 27,
+        "activeFraction": 0.5185185185185185,
+        "leadingQuietMs": 60,
+        "crestDb": 18.361954357754165
+      }
+    },
+    {
+      "file": "rabbit-candidate-2.ogg",
+      "path": "runs/corealm-rebuild/audio-candidates/rabbit-candidate-2.ogg",
+      "kind": "CC0 preview crop candidate",
+      "metrics": {
+        "duration": 0.4629375,
+        "peakDbfs": -25.26120722701134,
+        "meanDbfs": -49.295156649585735,
+        "clippedSamples": 0,
+        "framesAboveMinus45Dbfs": 3,
+        "frameCount": 24,
+        "activeFraction": 0.125,
+        "leadingQuietMs": 220,
+        "crestDb": 24.033949422574395
+      }
+    }
+  ]
+}

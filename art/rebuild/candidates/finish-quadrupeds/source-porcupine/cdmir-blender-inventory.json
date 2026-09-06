@@ -1,0 +1,1485 @@
+{
+  "source": "cdmir-rat-original.blend",
+  "blenderVersion": "4.5.11 LTS",
+  "sceneFrame": 0,
+  "fps": 24,
+  "unitSystem": "NONE",
+  "unitScale": 1.0,
+  "objects": [
+    {
+      "name": "Armature",
+      "type": "ARMATURE",
+      "parent": null,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        1.2649986743927002,
+        4.81304407119751,
+        1.1568424701690674
+      ],
+      "hideRender": false,
+      "hideViewport": false,
+      "modifiers": [],
+      "bones": [
+        {
+          "name": "Main",
+          "parent": null,
+          "head": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "tail": [
+            0.0,
+            0.0,
+            0.16081368923187256
+          ],
+          "deform": false
+        },
+        {
+          "name": "Hip",
+          "parent": "Main",
+          "head": [
+            1.3438042712313506e-16,
+            0.14212307333946228,
+            1.0041543245315552
+          ],
+          "tail": [
+            2.631772130579698e-16,
+            -0.3578192889690399,
+            1.1568423509597778
+          ],
+          "deform": true
+        },
+        {
+          "name": "Backbone",
+          "parent": "Hip",
+          "head": [
+            2.631772130579698e-16,
+            -0.3578192889690399,
+            1.1568423509597778
+          ],
+          "tail": [
+            3.5717060633020737e-16,
+            -0.8114482164382935,
+            0.9373336434364319
+          ],
+          "deform": true
+        },
+        {
+          "name": "Backbone.001",
+          "parent": "Backbone",
+          "head": [
+            3.5717060633020737e-16,
+            -0.8114482164382935,
+            0.9373336434364319
+          ],
+          "tail": [
+            3.970060893835443e-16,
+            -1.1861488819122314,
+            0.6809475421905518
+          ],
+          "deform": true
+        },
+        {
+          "name": "Backbone.002",
+          "parent": "Backbone.001",
+          "head": [
+            3.970060893835443e-16,
+            -1.1861488819122314,
+            0.6809475421905518
+          ],
+          "tail": [
+            4.1679312313853956e-16,
+            -1.4276865720748901,
+            0.6422418355941772
+          ],
+          "deform": true
+        },
+        {
+          "name": "Head",
+          "parent": "Backbone.002",
+          "head": [
+            4.1679312313853956e-16,
+            -1.4276865720748901,
+            0.6422418355941772
+          ],
+          "tail": [
+            4.24006402777798e-16,
+            -2.1122429370880127,
+            0.7941665053367615
+          ],
+          "deform": true
+        },
+        {
+          "name": "Backbone.003",
+          "parent": "Head",
+          "head": [
+            4.1679312313853956e-16,
+            -1.463768720626831,
+            0.5792034864425659
+          ],
+          "tail": [
+            4.623353053855451e-16,
+            -1.9927380084991455,
+            0.3020854890346527
+          ],
+          "deform": true
+        },
+        {
+          "name": "FrontLeg_L",
+          "parent": "Backbone.001",
+          "head": [
+            0.222855344414711,
+            -1.042069911956787,
+            0.6407281756401062
+          ],
+          "tail": [
+            0.28366944193840027,
+            -0.8343267440795898,
+            0.2589988708496094
+          ],
+          "deform": true
+        },
+        {
+          "name": "FrontLeg_L.001",
+          "parent": "FrontLeg_L",
+          "head": [
+            0.28366944193840027,
+            -0.8343267440795898,
+            0.2589988708496094
+          ],
+          "tail": [
+            0.3536522686481476,
+            -1.217159628868103,
+            0.060648005455732346
+          ],
+          "deform": true
+        },
+        {
+          "name": "FrontLeg_L.002",
+          "parent": "FrontLeg_L.001",
+          "head": [
+            0.3536522686481476,
+            -1.217159628868103,
+            0.060648005455732346
+          ],
+          "tail": [
+            0.37796643376350403,
+            -1.3475784063339233,
+            0.03498290479183197
+          ],
+          "deform": true
+        },
+        {
+          "name": "FrontLeg_L.003",
+          "parent": "FrontLeg_L.002",
+          "head": [
+            0.37796643376350403,
+            -1.3475784063339233,
+            0.03498290479183197
+          ],
+          "tail": [
+            0.4090844690799713,
+            -1.5375666618347168,
+            0.03498290479183197
+          ],
+          "deform": true
+        },
+        {
+          "name": "FrontLeg_R",
+          "parent": "Backbone.001",
+          "head": [
+            -0.222855344414711,
+            -1.042069911956787,
+            0.6407281756401062
+          ],
+          "tail": [
+            -0.28366944193840027,
+            -0.8343267440795898,
+            0.2589988708496094
+          ],
+          "deform": true
+        },
+        {
+          "name": "FrontLeg_R.001",
+          "parent": "FrontLeg_R",
+          "head": [
+            -0.28366944193840027,
+            -0.8343267440795898,
+            0.2589988708496094
+          ],
+          "tail": [
+            -0.3536522686481476,
+            -1.217159628868103,
+            0.060648005455732346
+          ],
+          "deform": true
+        },
+        {
+          "name": "FrontLeg_R.002",
+          "parent": "FrontLeg_R.001",
+          "head": [
+            -0.3536522686481476,
+            -1.217159628868103,
+            0.060648005455732346
+          ],
+          "tail": [
+            -0.37796643376350403,
+            -1.3475784063339233,
+            0.03498290479183197
+          ],
+          "deform": true
+        },
+        {
+          "name": "FrontLeg_R.003",
+          "parent": "FrontLeg_R.002",
+          "head": [
+            -0.37796643376350403,
+            -1.3475784063339233,
+            0.03498290479183197
+          ],
+          "tail": [
+            -0.4090844690799713,
+            -1.5375666618347168,
+            0.03498290479183197
+          ],
+          "deform": true
+        },
+        {
+          "name": "Tail",
+          "parent": "Hip",
+          "head": [
+            1.3438042712313506e-16,
+            0.3420731723308563,
+            0.8988058567047119
+          ],
+          "tail": [
+            1.7706215263748324e-16,
+            0.912519097328186,
+            0.4538201093673706
+          ],
+          "deform": true
+        },
+        {
+          "name": "Tail.001",
+          "parent": "Tail",
+          "head": [
+            1.7706215263748324e-16,
+            0.912519097328186,
+            0.4538201093673706
+          ],
+          "tail": [
+            1.9848345705486688e-16,
+            1.5643041133880615,
+            0.1793842911720276
+          ],
+          "deform": true
+        },
+        {
+          "name": "Tail.002",
+          "parent": "Tail.001",
+          "head": [
+            1.9848345705486688e-16,
+            1.5643041133880615,
+            0.1793842911720276
+          ],
+          "tail": [
+            1.9185486837723035e-16,
+            2.15238094329834,
+            0.07647086679935455
+          ],
+          "deform": true
+        },
+        {
+          "name": "Tail.003",
+          "parent": "Tail.002",
+          "head": [
+            1.9185486837723035e-16,
+            2.15238094329834,
+            0.07647086679935455
+          ],
+          "tail": [
+            1.694883413651599e-16,
+            2.779662847518921,
+            0.051967669278383255
+          ],
+          "deform": true
+        },
+        {
+          "name": "BackLeg_L",
+          "parent": "Hip",
+          "head": [
+            0.2782362401485443,
+            -0.1504649519920349,
+            0.981406569480896
+          ],
+          "tail": [
+            0.43313148617744446,
+            -0.19807060062885284,
+            0.48619508743286133
+          ],
+          "deform": true
+        },
+        {
+          "name": "BackLeg_L.001",
+          "parent": "BackLeg_L",
+          "head": [
+            0.43313148617744446,
+            -0.19807060062885284,
+            0.48619508743286133
+          ],
+          "tail": [
+            0.4112233519554138,
+            0.38593220710754395,
+            0.13548487424850464
+          ],
+          "deform": true
+        },
+        {
+          "name": "BackLeg_L.002",
+          "parent": "BackLeg_L.001",
+          "head": [
+            0.4112233519554138,
+            0.38593220710754395,
+            0.13548487424850464
+          ],
+          "tail": [
+            0.43313148617744446,
+            0.2215886414051056,
+            0.06662029772996902
+          ],
+          "deform": true
+        },
+        {
+          "name": "BackLeg_L.003",
+          "parent": "BackLeg_L.002",
+          "head": [
+            0.43313148617744446,
+            0.2215886414051056,
+            0.06662029772996902
+          ],
+          "tail": [
+            0.4538865089416504,
+            -0.026967257261276245,
+            0.06662029772996902
+          ],
+          "deform": true
+        },
+        {
+          "name": "BackLeg_R",
+          "parent": "Hip",
+          "head": [
+            -0.2782362401485443,
+            -0.1504649519920349,
+            0.981406569480896
+          ],
+          "tail": [
+            -0.43313148617744446,
+            -0.19807060062885284,
+            0.48619508743286133
+          ],
+          "deform": true
+        },
+        {
+          "name": "BackLeg_R.001",
+          "parent": "BackLeg_R",
+          "head": [
+            -0.43313148617744446,
+            -0.19807060062885284,
+            0.48619508743286133
+          ],
+          "tail": [
+            -0.4112233519554138,
+            0.38593220710754395,
+            0.13548487424850464
+          ],
+          "deform": true
+        },
+        {
+          "name": "BackLeg_R.002",
+          "parent": "BackLeg_R.001",
+          "head": [
+            -0.4112233519554138,
+            0.38593220710754395,
+            0.13548487424850464
+          ],
+          "tail": [
+            -0.43313148617744446,
+            0.2215886414051056,
+            0.06662029772996902
+          ],
+          "deform": true
+        },
+        {
+          "name": "BackLeg_R.003",
+          "parent": "BackLeg_R.002",
+          "head": [
+            -0.43313148617744446,
+            0.2215886414051056,
+            0.06662029772996902
+          ],
+          "tail": [
+            -0.4538865089416504,
+            -0.026967257261276245,
+            0.06662029772996902
+          ],
+          "deform": true
+        },
+        {
+          "name": "IK-Hip",
+          "parent": "Main",
+          "head": [
+            1.3438042712313506e-16,
+            0.14212307333946228,
+            1.0041543245315552
+          ],
+          "tail": [
+            2.631772130579698e-16,
+            -0.3578192889690399,
+            1.1568423509597778
+          ],
+          "deform": false
+        },
+        {
+          "name": "IK-Backbone",
+          "parent": "Main",
+          "head": [
+            3.5717060633020737e-16,
+            -0.8114482164382935,
+            0.9373336434364319
+          ],
+          "tail": [
+            3.970060893835443e-16,
+            -1.1861488819122314,
+            0.6809475421905518
+          ],
+          "deform": false
+        },
+        {
+          "name": "IK-BackLeg_L",
+          "parent": "Main",
+          "head": [
+            0.4112233519554138,
+            0.38593220710754395,
+            0.13548487424850464
+          ],
+          "tail": [
+            0.43313148617744446,
+            0.2215886414051056,
+            0.06662029772996902
+          ],
+          "deform": false
+        },
+        {
+          "name": "IK-BackLeg_R",
+          "parent": "Main",
+          "head": [
+            -0.4112233519554138,
+            0.38593220710754395,
+            0.13548487424850464
+          ],
+          "tail": [
+            -0.43313148617744446,
+            0.2215886414051056,
+            0.06662029772996902
+          ],
+          "deform": false
+        },
+        {
+          "name": "IK-Head",
+          "parent": "Main",
+          "head": [
+            4.1679312313853956e-16,
+            -1.4276865720748901,
+            0.6422418355941772
+          ],
+          "tail": [
+            4.24006402777798e-16,
+            -2.1122429370880127,
+            0.7941665053367615
+          ],
+          "deform": false
+        },
+        {
+          "name": "IK-Tail",
+          "parent": "Main",
+          "head": [
+            1.9185486837723035e-16,
+            2.15238094329834,
+            0.07647086679935455
+          ],
+          "tail": [
+            1.694883413651599e-16,
+            2.779662847518921,
+            0.051967669278383255
+          ],
+          "deform": false
+        },
+        {
+          "name": "IK-FrontLegT_L",
+          "parent": "Main",
+          "head": [
+            0.20680545270442963,
+            -0.16293269395828247,
+            0.3310563266277313
+          ],
+          "tail": [
+            0.20680545270442963,
+            -0.10510522127151489,
+            0.3310563266277313
+          ],
+          "deform": false
+        },
+        {
+          "name": "IK-FrontLegT_R",
+          "parent": "Main",
+          "head": [
+            -0.20680545270442963,
+            -0.16293269395828247,
+            0.3310563266277313
+          ],
+          "tail": [
+            -0.20680545270442963,
+            -0.10510522127151489,
+            0.3310563266277313
+          ],
+          "deform": false
+        },
+        {
+          "name": "IK-BackLegT_L",
+          "parent": "Main",
+          "head": [
+            0.5193187594413757,
+            -0.595950722694397,
+            0.48619508743286133
+          ],
+          "tail": [
+            0.5193187594413757,
+            -0.6689528226852417,
+            0.48619508743286133
+          ],
+          "deform": false
+        },
+        {
+          "name": "IK-BackLegT_R",
+          "parent": "Main",
+          "head": [
+            -0.5193187594413757,
+            -0.595950722694397,
+            0.48619508743286133
+          ],
+          "tail": [
+            -0.5193187594413757,
+            -0.6689528226852417,
+            0.48619508743286133
+          ],
+          "deform": false
+        },
+        {
+          "name": "IK-FrontLeg_L",
+          "parent": null,
+          "head": [
+            0.3536522686481476,
+            -1.217159628868103,
+            0.060648005455732346
+          ],
+          "tail": [
+            0.37796643376350403,
+            -1.3475784063339233,
+            0.03498290479183197
+          ],
+          "deform": false
+        },
+        {
+          "name": "IK-FrontLeg_R",
+          "parent": null,
+          "head": [
+            -0.3536522686481476,
+            -1.217159628868103,
+            0.060648005455732346
+          ],
+          "tail": [
+            -0.37796643376350403,
+            -1.3475784063339233,
+            0.03498290479183197
+          ],
+          "deform": false
+        }
+      ],
+      "animation": {
+        "activeAction": "Attack.000",
+        "nla": []
+      }
+    },
+    {
+      "name": "Body",
+      "type": "MESH",
+      "parent": "Armature",
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        1.180443286895752,
+        4.402578830718994,
+        1.4267123937606812
+      ],
+      "hideRender": false,
+      "hideViewport": false,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "showRender": true,
+          "showViewport": true
+        }
+      ],
+      "vertices": 2159,
+      "triangles": 4210,
+      "materials": [
+        "body",
+        "head",
+        "Material.002",
+        "Teeth",
+        "head.001"
+      ],
+      "vertexGroups": [
+        "Hip",
+        "Backbone",
+        "Backbone.001",
+        "Backbone.002",
+        "Head",
+        "Backbone.003",
+        "FrontLeg_L",
+        "FrontLeg_L.001",
+        "FrontLeg_L.002",
+        "FrontLeg_L.003",
+        "FrontLeg_R",
+        "FrontLeg_R.001",
+        "FrontLeg_R.002",
+        "FrontLeg_R.003",
+        "Tail",
+        "Tail.001",
+        "Tail.002",
+        "Tail.003",
+        "BackLeg_L",
+        "BackLeg_L.001",
+        "BackLeg_L.002",
+        "BackLeg_L.003",
+        "BackLeg_R",
+        "BackLeg_R.001",
+        "BackLeg_R.002",
+        "BackLeg_R.003"
+      ],
+      "uvLayers": [
+        "UVMap"
+      ],
+      "worldBounds": [
+        [
+          -0.5920083522796631,
+          -1.623852252960205,
+          -0.034140489995479584
+        ],
+        [
+          0.5884348750114441,
+          2.778726577758789,
+          1.3925719261169434
+        ]
+      ],
+      "animation": {
+        "activeAction": "Idle.000",
+        "nla": []
+      }
+    },
+    {
+      "name": "Camera",
+      "type": "CAMERA",
+      "parent": null,
+      "location": [
+        7.481131553649902,
+        -6.5076398849487305,
+        5.34366512298584
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hideRender": false,
+      "hideViewport": false,
+      "modifiers": []
+    },
+    {
+      "name": "Eyes",
+      "type": "MESH",
+      "parent": "Armature",
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.3437473475933075,
+        0.0889512300491333,
+        0.11707174777984619
+      ],
+      "hideRender": false,
+      "hideViewport": false,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "showRender": true,
+          "showViewport": true
+        }
+      ],
+      "vertices": 26,
+      "triangles": 36,
+      "materials": [
+        "body",
+        "head",
+        "Material.002",
+        "Teeth",
+        "head.001"
+      ],
+      "vertexGroups": [
+        "Hip",
+        "Backbone",
+        "Backbone.001",
+        "Backbone.002",
+        "Head",
+        "Backbone.003",
+        "FrontLeg_L",
+        "FrontLeg_L.001",
+        "FrontLeg_L.002",
+        "FrontLeg_L.003",
+        "FrontLeg_R",
+        "FrontLeg_R.001",
+        "FrontLeg_R.002",
+        "FrontLeg_R.003",
+        "Tail",
+        "Tail.001",
+        "Tail.002",
+        "Tail.003",
+        "BackLeg_L",
+        "BackLeg_L.001",
+        "BackLeg_L.002",
+        "BackLeg_L.003",
+        "BackLeg_R",
+        "BackLeg_R.001",
+        "BackLeg_R.002",
+        "BackLeg_R.003"
+      ],
+      "uvLayers": [
+        "UVMap"
+      ],
+      "worldBounds": [
+        [
+          -0.13644197583198547,
+          -1.7575795650482178,
+          0.5926753282546997
+        ],
+        [
+          0.20730537176132202,
+          -1.6686283349990845,
+          0.7097470760345459
+        ]
+      ],
+      "animation": {
+        "activeAction": "Stand",
+        "nla": []
+      }
+    },
+    {
+      "name": "Hair",
+      "type": "MESH",
+      "parent": "Armature",
+      "location": [
+        0.31653842329978943,
+        -1.0067362785339355,
+        0.2138107866048813
+      ],
+      "scale": [
+        0.08529410511255264,
+        0.08529412001371384,
+        0.08529412001371384
+      ],
+      "dimensions": [
+        15.022140502929688,
+        25.615692138671875,
+        17.057615280151367
+      ],
+      "hideRender": false,
+      "hideViewport": false,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "showRender": true,
+          "showViewport": true
+        }
+      ],
+      "vertices": 336,
+      "triangles": 256,
+      "materials": [
+        "Material.001"
+      ],
+      "vertexGroups": [
+        "Hip",
+        "Backbone",
+        "Backbone.001",
+        "Backbone.002",
+        "Head",
+        "Backbone.003",
+        "FrontLeg_L",
+        "FrontLeg_L.001",
+        "FrontLeg_L.002",
+        "FrontLeg_L.003",
+        "FrontLeg_R",
+        "FrontLeg_R.001",
+        "FrontLeg_R.002",
+        "FrontLeg_R.003",
+        "Tail",
+        "Tail.001",
+        "Tail.002",
+        "Tail.003",
+        "BackLeg_L",
+        "BackLeg_L.001",
+        "BackLeg_L.002",
+        "BackLeg_L.003",
+        "BackLeg_R",
+        "BackLeg_R.001",
+        "BackLeg_R.002",
+        "BackLeg_R.003"
+      ],
+      "uvLayers": [
+        "UVMap"
+      ],
+      "worldBounds": [
+        [
+          -6.38042688369751,
+          -20.28844451904297,
+          -7.1105194091796875
+        ],
+        [
+          8.64171314239502,
+          5.327248573303223,
+          9.94709587097168
+        ]
+      ]
+    },
+    {
+      "name": "Head",
+      "type": "MESH",
+      "parent": "Armature",
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.9751546382904053,
+        0.9055280685424805,
+        0.7318437099456787
+      ],
+      "hideRender": false,
+      "hideViewport": false,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "showRender": true,
+          "showViewport": true
+        }
+      ],
+      "vertices": 795,
+      "triangles": 1484,
+      "materials": [
+        "body",
+        "head",
+        "Material.002",
+        "Teeth",
+        "head.001"
+      ],
+      "vertexGroups": [
+        "Hip",
+        "Backbone",
+        "Backbone.001",
+        "Backbone.002",
+        "Head",
+        "Backbone.003",
+        "FrontLeg_L",
+        "FrontLeg_L.001",
+        "FrontLeg_L.002",
+        "FrontLeg_L.003",
+        "FrontLeg_R",
+        "FrontLeg_R.001",
+        "FrontLeg_R.002",
+        "FrontLeg_R.003",
+        "Tail",
+        "Tail.001",
+        "Tail.002",
+        "Tail.003",
+        "BackLeg_L",
+        "BackLeg_L.001",
+        "BackLeg_L.002",
+        "BackLeg_L.003",
+        "BackLeg_R",
+        "BackLeg_R.001",
+        "BackLeg_R.002",
+        "BackLeg_R.003"
+      ],
+      "uvLayers": [
+        "UVMap"
+      ],
+      "worldBounds": [
+        [
+          -0.4521457254886627,
+          -2.232048988342285,
+          0.25788414478302
+        ],
+        [
+          0.5230089426040649,
+          -1.3265209197998047,
+          0.9897278547286987
+        ]
+      ],
+      "animation": {
+        "activeAction": "Stand",
+        "nla": []
+      }
+    },
+    {
+      "name": "Hemi",
+      "type": "LIGHT",
+      "parent": null,
+      "location": [
+        0.0,
+        0.0,
+        6.827513694763184
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hideRender": false,
+      "hideViewport": true,
+      "modifiers": []
+    },
+    {
+      "name": "Lamp",
+      "type": "LIGHT",
+      "parent": null,
+      "location": [
+        4.076245307922363,
+        0.8248286247253418,
+        5.903861999511719
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hideRender": false,
+      "hideViewport": true,
+      "modifiers": []
+    },
+    {
+      "name": "Plane",
+      "type": "MESH",
+      "parent": null,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        9.180716514587402,
+        9.180716514587402,
+        9.180716514587402
+      ],
+      "dimensions": [
+        2.0,
+        2.0,
+        0.0
+      ],
+      "hideRender": false,
+      "hideViewport": false,
+      "modifiers": [],
+      "vertices": 4,
+      "triangles": 2,
+      "materials": [
+        "Material"
+      ],
+      "vertexGroups": [],
+      "uvLayers": [],
+      "worldBounds": [
+        [
+          -1.0,
+          -1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "name": "Plane.001",
+      "type": "MESH",
+      "parent": null,
+      "location": [
+        0.9242901802062988,
+        -1.4686779975891113,
+        0.6822572946548462
+      ],
+      "scale": [
+        0.11212021112442017,
+        0.11212021112442017,
+        0.11212021112442017
+      ],
+      "dimensions": [
+        2.0,
+        2.0,
+        0.0
+      ],
+      "hideRender": false,
+      "hideViewport": false,
+      "modifiers": [],
+      "vertices": 4,
+      "triangles": 2,
+      "materials": [
+        "Material.001"
+      ],
+      "vertexGroups": [],
+      "uvLayers": [
+        "UVMap"
+      ],
+      "worldBounds": [
+        [
+          -1.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          2.0,
+          0.0
+        ]
+      ]
+    },
+    {
+      "name": "Sun",
+      "type": "LIGHT",
+      "parent": null,
+      "location": [
+        -0.4551689624786377,
+        -0.15974320471286774,
+        -2.74461030960083
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "hideRender": false,
+      "hideViewport": true,
+      "modifiers": []
+    },
+    {
+      "name": "Teeth",
+      "type": "MESH",
+      "parent": "Armature",
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "dimensions": [
+        0.21921810507774353,
+        0.3611382246017456,
+        0.2392248511314392
+      ],
+      "hideRender": false,
+      "hideViewport": false,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE",
+          "showRender": true,
+          "showViewport": true
+        }
+      ],
+      "vertices": 157,
+      "triangles": 200,
+      "materials": [
+        "body",
+        "head",
+        "Material.002",
+        "Teeth",
+        "head.001"
+      ],
+      "vertexGroups": [
+        "Hip",
+        "Backbone",
+        "Backbone.001",
+        "Backbone.002",
+        "Head",
+        "Backbone.003",
+        "FrontLeg_L",
+        "FrontLeg_L.001",
+        "FrontLeg_L.002",
+        "FrontLeg_L.003",
+        "FrontLeg_R",
+        "FrontLeg_R.001",
+        "FrontLeg_R.002",
+        "FrontLeg_R.003",
+        "Tail",
+        "Tail.001",
+        "Tail.002",
+        "Tail.003",
+        "BackLeg_L",
+        "BackLeg_L.001",
+        "BackLeg_L.002",
+        "BackLeg_L.003",
+        "BackLeg_R",
+        "BackLeg_R.001",
+        "BackLeg_R.002",
+        "BackLeg_R.003"
+      ],
+      "uvLayers": [
+        "UVMap"
+      ],
+      "worldBounds": [
+        [
+          -0.07417730242013931,
+          -2.072019100189209,
+          0.26830071210861206
+        ],
+        [
+          0.14504079520702362,
+          -1.7108808755874634,
+          0.5075255632400513
+        ]
+      ],
+      "animation": {
+        "activeAction": "Idle.000",
+        "nla": []
+      }
+    }
+  ],
+  "actions": [
+    {
+      "name": "Attack.000",
+      "frameRange": [
+        0.0,
+        21.0
+      ]
+    },
+    {
+      "name": "Attack.001",
+      "frameRange": [
+        0.0,
+        21.0
+      ]
+    },
+    {
+      "name": "Attack.002",
+      "frameRange": [
+        0.0,
+        20.0
+      ]
+    },
+    {
+      "name": "Attack.003",
+      "frameRange": [
+        0.0,
+        20.0
+      ]
+    },
+    {
+      "name": "Attack.Begin",
+      "frameRange": [
+        0.0,
+        20.0
+      ]
+    },
+    {
+      "name": "Attack.End",
+      "frameRange": [
+        0.0,
+        20.0
+      ]
+    },
+    {
+      "name": "Die",
+      "frameRange": [
+        0.0,
+        27.0
+      ]
+    },
+    {
+      "name": "Hit",
+      "frameRange": [
+        0.0,
+        10.0
+      ]
+    },
+    {
+      "name": "Idle.000",
+      "frameRange": [
+        0.0,
+        1553.0
+      ]
+    },
+    {
+      "name": "Idle.001",
+      "frameRange": [
+        0.0,
+        90.0
+      ]
+    },
+    {
+      "name": "Idle.002",
+      "frameRange": [
+        0.0,
+        90.0
+      ]
+    },
+    {
+      "name": "Run",
+      "frameRange": [
+        0.0,
+        10.0
+      ]
+    },
+    {
+      "name": "Stand",
+      "frameRange": [
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "Walk",
+      "frameRange": [
+        0.0,
+        28.0
+      ]
+    }
+  ],
+  "images": [
+    {
+      "name": "hair",
+      "filepath": "//..\\textures\\rat-hair.png",
+      "size": [
+        512,
+        512
+      ],
+      "packed": true,
+      "packedBytes": 78572
+    },
+    {
+      "name": "rat-body",
+      "filepath": "//rat-body.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "packed": true,
+      "packedBytes": 1062279
+    },
+    {
+      "name": "rat-body-AO.png",
+      "filepath": "//rat-body-AO.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "packed": true,
+      "packedBytes": 671103
+    },
+    {
+      "name": "rat-body-Normalmap.png",
+      "filepath": "//rat-body-Normalmap.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "packed": true,
+      "packedBytes": 543985
+    },
+    {
+      "name": "rat-head",
+      "filepath": "//rat-head.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "packed": true,
+      "packedBytes": 596919
+    },
+    {
+      "name": "rat-head-AO.png",
+      "filepath": "//rat-head-AO.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "packed": true,
+      "packedBytes": 521060
+    },
+    {
+      "name": "rat-head-Normalmap.png",
+      "filepath": "//rat-head-Normalmap.png",
+      "size": [
+        1024,
+        1024
+      ],
+      "packed": true,
+      "packedBytes": 312411
+    },
+    {
+      "name": "Render Result",
+      "filepath": "",
+      "size": [
+        0,
+        0
+      ],
+      "packed": false,
+      "packedBytes": 0
+    }
+  ],
+  "materials": [
+    {
+      "name": "body",
+      "useNodes": false,
+      "diffuseColor": [
+        0.10653455555438995,
+        0.10653455555438995,
+        0.10653455555438995,
+        1.0
+      ],
+      "nodes": []
+    },
+    {
+      "name": "head",
+      "useNodes": false,
+      "diffuseColor": [
+        0.10247320681810379,
+        0.10247320681810379,
+        0.10247320681810379,
+        1.0
+      ],
+      "nodes": []
+    },
+    {
+      "name": "head.001",
+      "useNodes": false,
+      "diffuseColor": [
+        0.10247320681810379,
+        0.10247320681810379,
+        0.10247320681810379,
+        1.0
+      ],
+      "nodes": []
+    },
+    {
+      "name": "Material",
+      "useNodes": false,
+      "diffuseColor": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": []
+    },
+    {
+      "name": "Material.001",
+      "useNodes": false,
+      "diffuseColor": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1.0
+      ],
+      "nodes": []
+    },
+    {
+      "name": "Material.002",
+      "useNodes": false,
+      "diffuseColor": [
+        0.44999992847442627,
+        0.059953827410936356,
+        0.0656837597489357,
+        1.0
+      ],
+      "nodes": []
+    },
+    {
+      "name": "Teeth",
+      "useNodes": false,
+      "diffuseColor": [
+        0.6981909275054932,
+        0.6129736304283142,
+        0.15585441887378693,
+        1.0
+      ],
+      "nodes": []
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "scope": "Read-only original rest topology versus species rest warp, before quills. Normal reversal can indicate local folding; animated deformations require separate proof.",
+  "meshes": {
+    "Body": {
+      "triangles": 4210,
+      "sourceDegenerate": 0,
+      "adaptedDegenerate": 0,
+      "normalReversal": 0,
+      "reversals": [],
+      "minimumAreaRatio": 0.1334468307708078
+    },
+    "Head": {
+      "triangles": 1484,
+      "sourceDegenerate": 0,
+      "adaptedDegenerate": 0,
+      "normalReversal": 4,
+      "reversals": [
+        {
+          "triangle": 499,
+          "centre": [
+            -0.13678765793641406,
+            -1.784944693247477,
+            0.5285388628641764
+          ]
+        },
+        {
+          "triangle": 1082,
+          "centre": [
+            0.13678765793641406,
+            -1.784944693247477,
+            0.5285388827323914
+          ]
+        },
+        {
+          "triangle": 1176,
+          "centre": [
+            -0.13678765793641406,
+            -1.7809489170710244,
+            0.5053252776463826
+          ]
+        },
+        {
+          "triangle": 1209,
+          "centre": [
+            0.13678765793641406,
+            -1.7809489568074544,
+            0.5053252975145975
+          ]
+        }
+      ],
+      "minimumAreaRatio": 0.1416480904309001
+    },
+    "Eyes": {
+      "triangles": 36,
+      "sourceDegenerate": 0,
+      "adaptedDegenerate": 0,
+      "normalReversal": 0,
+      "reversals": [],
+      "minimumAreaRatio": 0.760839095576613
+    },
+    "Teeth": {
+      "triangles": 200,
+      "sourceDegenerate": 0,
+      "adaptedDegenerate": 0,
+      "normalReversal": 0,
+      "reversals": [],
+      "minimumAreaRatio": 0.7562588477317148
+    }
+  }
+}

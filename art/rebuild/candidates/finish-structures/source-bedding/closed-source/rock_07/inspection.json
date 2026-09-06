@@ -1,0 +1,59 @@
+{
+  "id": "rock_07",
+  "source": "https://polyhaven.com/a/rock_07",
+  "license": "CC0-1.0",
+  "licenseUrl": "https://polyhaven.com/license",
+  "metadataUrl": "https://api.polyhaven.com/files/rock_07",
+  "infoUrl": "https://api.polyhaven.com/info/rock_07",
+  "author": {
+    "Jenelle van Heerden": "All"
+  },
+  "files": [
+    {
+      "file": "rock_07.gltf",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/rock_07/rock_07_1k.gltf",
+      "bytes": 2979,
+      "md5": "2bdb563c126a9d284e60e94951759e2f",
+      "sha256": "efcc2dcaa133ff8ad5c865dc2135772e8f5dbc83fa38db2ee2cf25382436b6e6"
+    },
+    {
+      "file": "rock_07.bin",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/rock_07/rock_07.bin",
+      "bytes": 468936,
+      "md5": "817b2cfd1626cb06f18a825f87f58ec3",
+      "sha256": "e4a532a6d6cf4a08c288f501b790f32cba0528136a29959ce774c3cd39369e7e"
+    }
+  ],
+  "geometry": {
+    "vertices": 7914,
+    "triangles": 14844,
+    "bounds": {
+      "min": [
+        -0.0875801146030426,
+        -0.00190715491771698,
+        -0.17797498404979706
+      ],
+      "max": [
+        0.08130179345607758,
+        0.1418129950761795,
+        0.14230197668075562
+      ],
+      "size": [
+        0.16888190805912018,
+        0.14372014999389648,
+        0.3202769607305527
+      ]
+    },
+    "weldTolerance": 3.89556044695442e-8,
+    "weldedVertices": 7424,
+    "boundaryEdges": 0,
+    "nonmanifoldEdges": 0,
+    "degenerateTriangles": 0,
+    "components": 1,
+    "euler": 2,
+    "signedVolume": 0.00400874830832397
+  },
+  "mapsDownloaded": false,
+  "derivativeCreated": false,
+  "browserReviewed": false
+}

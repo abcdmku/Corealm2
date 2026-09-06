@@ -108,25 +108,21 @@ describe("production composition collision", () => {
         expect(collider.size[0]).toBeCloseTo(asset.size.x * post.scale, 2);
         expect(collider.size[2]).toBeCloseTo(asset.size.z * post.scale, 2);
       }
-      if (kit !== "stone") {
-        const backWalls = solids.filter((solid) => /bank#b\d_o$/.test(solid.id));
-        expect(backWalls).toHaveLength(2);
-        for (const wall of backWalls) expect(wall.size[2]).toBe(0.2);
-        expect(backWalls.some((wall) => obstructs(wall,
-          worldPoint(0.8, -1.3, origin, rotationY)))).toBe(true);
-        expect(solids.some((solid) => obstructs(solid,
-          worldPoint(0.5, -1.05, origin, rotationY)))).toBe(false);
-        const studs = solids.filter((solid) => /#b\d_o#stud$/.test(solid.id));
-        expect(studs).toHaveLength(2);
-        expect(studs.some((solid) => obstructs(solid,
-          worldPoint(1, -1.05, origin, rotationY)))).toBe(true);
-        const rails = solids.filter((solid) => /#b\d_o#rail$/.test(solid.id));
-        expect(rails).toHaveLength(2);
-        for (const rail of rails) {
-          expect(rail.position[1]).toBeCloseTo(origin[1] + 0.6495, 2);
-          expect(rail.size[1]).toBeCloseTo(0.23366, 2);
-        }
+      const backWalls = solids.filter((solid) => /bank#b\d_w$/.test(solid.id));
+      expect(backWalls).toHaveLength(2);
+      for (const wall of backWalls) {
+        const part = parts.find(part => `bank#${part.tag}` === wall.id)!;
+        const native = assets.get(part.assetId)!;
+        expect(wall.size[2]).toBeCloseTo(native.size.z * part.scale, 2);
+        expect(wall.size[0]).toBeCloseTo(native.size.x * part.scale, 2);
       }
+      expect(backWalls.some((wall) => obstructs(wall,
+        worldPoint(0.8, -1.3, origin, rotationY)))).toBe(true);
+      expect(solids.some((solid) => obstructs(solid,
+        worldPoint(0.5, -1.05, origin, rotationY)))).toBe(false);
+      // The new full native walls replace the integral plaster panel's separate studs/rails;
+      // elevated canopy slabs must not acquire a ground-level obstruction.
+      expect(solids.filter(solid => /bank#b\d_o(?:#|$)/.test(solid.id))).toEqual([]);
     }
   });
 

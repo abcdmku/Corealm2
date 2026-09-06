@@ -1,0 +1,30 @@
+{
+  "license": "CC-BY-SA-3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+  "attribution": "Sheep by p0ss; source texture photograph by titus tscharntke; Bighorn and calm idle adaptation by Corealm.",
+  "source": "https://opengameart.org/content/sheep-rigged-textured-and-animated",
+  "sourceSha256": "bd4cf09e732facd65c2313ff626b1a4a2cddd4d91cbda6c6ab8eb922dc026447",
+  "changes": [
+    "Corrected mirrored edit-bone conversion",
+    "Authored new calm idle, not source action alias"
+  ],
+  "assets": [
+    {
+      "file": "calm-idle-proof.blend",
+      "sha256": "3446487bfbe0d433e0af57523f717e5d61b24c8d0ec367cb7ce6a3e131d98f8e"
+    },
+    {
+      "file": "calm-idle-proof.glb",
+      "sha256": "5a6ceb7a024b336157176a6ab95fafa1370987a724cd8ac320edab89ceed7bf4"
+    },
+    {
+      "file": "calm-idle-report.json",
+      "sha256": "699d9b71de1a285c9cbb7eb43c6f65cd2ec12ecb3bcbed662306dd94413c2f9f"
+    },
+    {
+      "file": "original-vs-adapted.json",
+      "sha256": "1f1a5423320eacfdeb50cf28193712a204f90f60ea04fdef6c480b36a7223e26"
+    }
+  ],
+  "accepted": false
+}

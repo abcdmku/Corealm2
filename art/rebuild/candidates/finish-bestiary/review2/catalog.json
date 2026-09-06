@@ -1,0 +1,436 @@
+{
+  "pack": {
+    "id": "corealm-rpg-bestiary",
+    "name": "Corealm RPG Bestiary",
+    "license": "Mixed original and entitled source assets; see each sourceProvenance"
+  },
+  "files": {
+    "creature_goblin_scout": "models/creature_goblin_scout.glb",
+    "creature_skeleton_soldier": "models/creature_skeleton_soldier.glb",
+    "creature_gargoyle": "models/creature_gargoyle.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_goblin_scout",
+      "file": "models/creature/creature_goblin_scout.glb",
+      "candidateFile": "models/creature_goblin_scout.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "goblin scout",
+      "tags": [
+        "creature",
+        "rpg",
+        "goblin_scout"
+      ],
+      "bytes": 4108108,
+      "sha256": "b5a07f79d5e7977587597bf86f7c7f8579c6cc9789d652e30bd266cbe77123a0",
+      "size": {
+        "x": 0.5464111847245685,
+        "y": 1.32760673537952,
+        "z": 0.5128353694893358
+      },
+      "base": {
+        "x": -0.25883245005292954,
+        "y": 0.0019999999298345554,
+        "z": -0.2717843086576549
+      },
+      "groundY": 0.0019999999298345554,
+      "triangles": 16826,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_goblin_scout_goblin_source_knife_leather",
+        "animal_rpg_goblin_scout_goblin_source_knife_steel",
+        "animal_rpg_goblin_scout_goblin_source_base_male_MI_Hair_1",
+        "animal_rpg_goblin_scout_goblin_source_base_male_MI_Eyes",
+        "animal_rpg_goblin_scout_goblin_source_base_male_MI_Superhero_Male",
+        "animal_rpg_goblin_scout_goblin_source_outfit_male_peasant_chest_MI_Peasant"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 1.5333333015441895,
+      "contactNormalized": 0.3,
+      "sourceProvenance": {
+        "sourceAssets": [
+          "base_male",
+          "outfit_male_peasant_chest",
+          "outfit_male_peasant_legs",
+          "outfit_male_peasant_boots",
+          "animation_library_1"
+        ],
+        "license": "CC0-1.0",
+        "author": "Quaternius",
+        "sourcePacks": [
+          {
+            "id": "universal-base-characters",
+            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+          },
+          {
+            "id": "modular-character-outfits-fantasy",
+            "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+          },
+          {
+            "id": "universal-animation-library",
+            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+          }
+        ],
+        "modifications": "Coordinated nonlinear bind-space vertex and joint proportions, pointed ear and nose/jaw deformation, olive skin material, retained source texture/UV and weighted anatomy"
+      },
+      "metadata": {
+        "family": "goblin",
+        "height": 1.327606735290113,
+        "dimensions": [
+          0.5464111847245685,
+          1.327606735290113,
+          0.5128353694893358
+        ],
+        "rig": "entitled-universal-base-65-joint",
+        "attackContact": 0.3,
+        "attackContactSource": "Production characterRig.ts CLIP_MOTION_MARKERS Sword_Attack source clip, recheck derivative blade reach in lab",
+        "source": "Universal Base Characters Superhero Male and Peasant modular outfit, existing entitled game assets; proportional and facial vertex edits for goblin",
+        "license": "CC0-1.0",
+        "provenance": {
+          "sourceAssets": [
+            "base_male",
+            "outfit_male_peasant_chest",
+            "outfit_male_peasant_legs",
+            "outfit_male_peasant_boots",
+            "animation_library_1"
+          ],
+          "license": "CC0-1.0",
+          "author": "Quaternius",
+          "sourcePacks": [
+            {
+              "id": "universal-base-characters",
+              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+            },
+            {
+              "id": "modular-character-outfits-fantasy",
+              "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+            },
+            {
+              "id": "universal-animation-library",
+              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+            }
+          ],
+          "modifications": "Coordinated nonlinear bind-space vertex and joint proportions, pointed ear and nose/jaw deformation, olive skin material, retained source texture/UV and weighted anatomy"
+        },
+        "textureBindings": [
+          {
+            "materialName": "goblin_source_base_male_MI_Hair_1",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\base_male-0-baseColorPath.png"
+          },
+          {
+            "materialName": "goblin_source_base_male_MI_Eyes",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\base_male-1-baseColorPath.png"
+          },
+          {
+            "materialName": "goblin_source_base_male_MI_Superhero_Male",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\base_male-2-baseColorPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_peasant_chest_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_chest-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_chest-0-normalPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_peasant_legs_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_legs-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_legs-0-normalPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_peasant_boots_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_boots-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_boots-0-normalPath.png"
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 221,
+            "maximumLift": 0.002314975626703823
+          },
+          "Walk": {
+            "samples": 121,
+            "maximumLift": 0.01560671368252614
+          },
+          "Run": {
+            "samples": 85,
+            "maximumLift": 0.00037068180445745495
+          },
+          "Attack": {
+            "samples": 137,
+            "maximumLift": 0.012145965878347048
+          },
+          "Hit": {
+            "samples": 31,
+            "maximumLift": 0.005760697220108921
+          },
+          "HitLeft": {
+            "samples": 31,
+            "maximumLift": 0.005760697220108921
+          },
+          "HitRight": {
+            "samples": 31,
+            "maximumLift": 0.005760697220108921
+          },
+          "Death": {
+            "samples": 207,
+            "maximumLift": 0.09713214834196583
+          }
+        },
+        "textureOrientation": "Original glTF TEXCOORD_0 and decoded image rows preserved; no flipY",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "revision": "goblin-source-review-3"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_skeleton_soldier",
+      "file": "models/creature/creature_skeleton_soldier.glb",
+      "candidateFile": "models/creature_skeleton_soldier.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "skeleton soldier",
+      "tags": [
+        "creature",
+        "rpg",
+        "skeleton_soldier"
+      ],
+      "bytes": 846808,
+      "sha256": "5e4b03b2cad76d97df096534a1ef2bdd874cf600d14da956f63bf1fe424751b9",
+      "size": {
+        "x": 1.2294581210833742,
+        "y": 1.5959422176642555,
+        "z": 0.8351349091732603
+      },
+      "base": {
+        "x": -0.872976577198899,
+        "y": 0.0032741110492161326,
+        "z": -0.387269709140566
+      },
+      "groundY": 0.0032741110492161326,
+      "triangles": 1202,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_soldier_DS_Skeleton_standard",
+        "animal_rpg_skeleton_soldier_DS_equipment_standard"
+      ],
+      "walkClipSeconds": 1.1666666269302368,
+      "runClipSeconds": 0.7933332920074463,
+      "attackSeconds": 1.5,
+      "contactNormalized": 0.4,
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "mesh": "models/DungeonSkeleton_demo.FBX",
+        "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0."
+      },
+      "metadata": {
+        "family": "skeleton",
+        "style": "source-onehand-soldier",
+        "heightM": 1.8143914708695248,
+        "dimensionsM": {
+          "width": 0.6257249590048719,
+          "height": 1.8143914708695248,
+          "depth": 0.7927388546838348
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": -1.4268100589909238e-16,
+        "rig": "Original Dungeon Skeletons biped skin, bind matrices and weights",
+        "sourceSkinned": true,
+        "boneCount": 30,
+        "sourceVertices": 3606,
+        "attackContactPhase": 0.4,
+        "attackContactStatus": "Provisional contact phase pending production review of original Attack take",
+        "textureBindings": [
+          {
+            "materialName": "DS_Skeleton_standard",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoSkeleton.png",
+            "flipY": true
+          },
+          {
+            "materialName": "DS_equipment_standard",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoEquipment.png",
+            "flipY": true
+          }
+        ],
+        "provenance": {
+          "publisher": "Polygon Blacksmith",
+          "package": "Dungeon Skeletons Demo.unitypackage",
+          "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "mesh": "models/DungeonSkeleton_demo.FBX",
+          "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0."
+        },
+        "animationProvenance": {
+          "Idle": "Original DS_onehand_idle_A.FBX take",
+          "Walk": "Original DS_onehand_walk.FBX take",
+          "Attack": "Original DS_onehand_attack_A.FBX take",
+          "Run": "PROPOSAL: original Walk retimed to 68% duration; no authored run in demo",
+          "Hit": "PROPOSAL: authored root recoil over source idle pose",
+          "HitLeft": "PROPOSAL: authored directional root recoil over source idle pose",
+          "HitRight": "PROPOSAL: authored directional root recoil over source idle pose",
+          "Death": "PROPOSAL: authored backward root collapse over source idle pose; no authored death in demo"
+        },
+        "acceptance": "Source candidate. Original mesh/material/rig preserved; derived motions need production review. Not accepted."
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_gargoyle",
+      "file": "models/creature/creature_gargoyle.glb",
+      "candidateFile": "models/creature_gargoyle.glb",
+      "pack": "corealm-rpg-bestiary",
+      "category": "character",
+      "is": "gargoyle",
+      "tags": [
+        "creature",
+        "rpg",
+        "gargoyle"
+      ],
+      "bytes": 18911832,
+      "sha256": "25e7a8a5b3974a495b675b313189b22e31c52fe2463aa5acf502e6bdd4d805d1",
+      "size": {
+        "x": 2.4519364833831787,
+        "y": 1.607298493385315,
+        "z": 1.2882792949676514
+      },
+      "base": {
+        "x": -1.2259682416915894,
+        "y": 0.002000000476837127,
+        "z": -0.5681827068328857
+      },
+      "groundY": 0.002000000476837127,
+      "triangles": 105584,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_gargoyle_",
+        "animal_rpg_gargoyle_",
+        "animal_rpg_gargoyle_",
+        "animal_rpg_gargoyle_"
+      ],
+      "walkClipSeconds": 1.1,
+      "runClipSeconds": 0.65,
+      "attackSeconds": 1.05,
+      "contactNormalized": 0.47,
+      "sourceProvenance": "Original Corealm procedural geometry; no external assets or textures",
+      "metadata": {
+        "id": "gargoyle",
+        "family": "gargoyle",
+        "tier": 0,
+        "provenance": "Original Corealm procedural geometry; no external assets or textures",
+        "units": "metres",
+        "forward": "+Z",
+        "groundY": 0,
+        "height": 1.607298481464386,
+        "width": 2.4519364261627197,
+        "depth": 1.288279275894165,
+        "bounds": {
+          "min": [
+            -1.2259682130813598,
+            0,
+            -0.5681826806068421
+          ],
+          "max": [
+            1.2259682130813598,
+            1.607298481464386,
+            0.7200965952873231
+          ]
+        },
+        "rig": "articulated named Object3D transforms",
+        "rigNodes": [
+          "Rig",
+          "LegL",
+          "LegLLower",
+          "LegLFoot",
+          "ArmL",
+          "ArmLLower",
+          "Hand-1",
+          "LegR",
+          "LegRLower",
+          "LegRFoot",
+          "ArmR",
+          "ArmRLower",
+          "Hand1",
+          "Head",
+          "WingL",
+          "WingR",
+          "Tail"
+        ],
+        "attack": "stone claw sweep",
+        "contactPhase": 0.47,
+        "attackContactPhase": 0.47,
+        "floorCorrection": {
+          "samplesPerClip": 241,
+          "clearanceMetres": 0.002,
+          "method": "whole-geometry root-height correction"
+        },
+        "footContactPhases": {
+          "Walk": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          },
+          "Run": {
+            "left": [
+              0,
+              0.5
+            ],
+            "right": [
+              0.5,
+              1
+            ]
+          }
+        },
+        "acceptance": "candidate; requires production lab browser state, contact and screenshot review"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

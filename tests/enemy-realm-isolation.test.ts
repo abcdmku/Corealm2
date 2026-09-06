@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { CREATURE_RUN_SPEED } from "../game/src/app/config.js";
 import { SKILL_IDS, ok, type EquipmentBonuses, type RegionId, type SemanticEntity, type SkillId, type Vec3 } from "../game/src/contracts.js";
 import { content } from "../game/src/content/index.js";
 import { ENEMIES } from "../game/src/content/enemies.js";
@@ -77,7 +78,7 @@ describe("enemy dungeon and surface isolation", () => {
     sim.ai.tick(100, 0);
     expect(sim.combat.isEngaged(attacker.id)).toBe(true);
     expect(sim.ai.modeOf(attacker.id)).toBe("aggro");
-    expect(attacker.position[0]).toBeCloseTo(4.69);
+    expect(attacker.position[0]).toBeCloseTo(5 - CREATURE_RUN_SPEED * .1);
   });
 
   it("still separates overlapping enemies from different surface regions", () => {
@@ -116,7 +117,7 @@ describe("enemy dungeon and surface isolation", () => {
     sim.ai.tick(100, 100);
     expect(sim.combat.isEngaged(surface.id)).toBe(false);
     expect(sim.ai.modeOf(surface.id)).toBe("returning");
-    expect(surface.position[0]).toBeCloseTo(3.36);
+    expect(surface.position[0]).toBeCloseTo(3 + CREATURE_RUN_SPEED * .1);
     expect(surface.position[1]).toBe(0);
     expect(cave.position).toEqual([3, -25, 0]);
     for (let atMs = 200; atMs <= 2_000; atMs += 100) sim.ai.tick(100, atMs);

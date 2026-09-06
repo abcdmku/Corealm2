@@ -228,6 +228,8 @@ export interface MovementPorts {
    * authoritative for XZ and Y comes from the ground everything else is placed on.
    */
   heightAt?: (regionId: RegionId, x: number, z: number) => number;
+  /** Imported walk-surface footprints whose navmesh height must survive terrain grounding. */
+  preserveNavigationHeight?: (point: Vec3) => boolean;
   /**
    * Resolves the semantic region at a snapped world position.
    *
@@ -769,6 +771,8 @@ export class Movement {
   private desiredNavPoint(state: GameState, from: Vec3, stepX: number, stepZ: number): Vec3 {
     const x = from[0] + stepX;
     const z = from[2] + stepZ;
+    const preserveHeight = this.ports.preserveNavigationHeight;
+    if (preserveHeight?.(from) || preserveHeight?.([x, from[1], z])) return [x, from[1], z];
     const heightAt = this.ports.heightAt;
     if (!heightAt) return [x, from[1], z];
 
@@ -1024,6 +1028,7 @@ export class Movement {
     const regionAt = this.ports.regionAt;
     if (regionAt) state.player.regionId = regionAt(point, state.player.regionId);
 
+    if (this.ports.preserveNavigationHeight?.(point)) return point;
     const heightAt = this.ports.heightAt;
     if (!heightAt) return point;
     const groundY = heightAt(state.player.regionId, point[0], point[2]);

@@ -91,6 +91,8 @@ export class InputController {
   private cursorY = 0;
   private cursorOverCanvas = false;
   private hoverLabel: HTMLElement | null = null;
+  private hoverLabelSignature = "";
+  private nextHoverLabelRefreshAt = 0;
   private labelAtX = Number.NaN;
   private labelAtY = Number.NaN;
   private readonly hoverThrottleMs: number;
@@ -448,7 +450,13 @@ export class InputController {
   }
 
   private setHovered(entityId: EntityId | null): void {
-    if (entityId === this.hoveredEntityId) return;
+    if (entityId === this.hoveredEntityId) {
+      if (entityId && performance.now() >= this.nextHoverLabelRefreshAt) {
+        this.nextHoverLabelRefreshAt = performance.now() + this.hoverThrottleMs;
+        this.renderHoverLabel(entityId);
+      }
+      return;
+    }
     this.hoveredEntityId = entityId;
     this.canvas.classList.toggle("is-hovering-entity", entityId !== null);
     this.renderHoverLabel(entityId);
@@ -467,6 +475,7 @@ export class InputController {
    */
   private renderHoverLabel(entityId: EntityId | null): void {
     if (!entityId) {
+      this.hoverLabelSignature = "";
       this.hoverLabel?.remove();
       this.hoverLabel = null;
       return;
@@ -474,6 +483,7 @@ export class InputController {
 
     const inspected = this.api.inspect(entityId);
     if (!inspected.ok) {
+      this.hoverLabelSignature = "";
       this.hoverLabel?.remove();
       this.hoverLabel = null;
       return;
@@ -481,14 +491,18 @@ export class InputController {
 
     const entity = inspected.value;
     const interaction = primaryInteraction(entity.interactions);
-    const label = this.hoverLabel ?? this.createHoverLabel();
-    if (!label) return;
-
-    label.textContent = entity.state === "depleted"
+    const text = entity.state === "depleted"
       ? `${entity.name} · Depleted`
       : interaction ? `${interactionLabel(entity, interaction)} ${entity.name}` : entity.name;
-
     const levelText = entityLevelLabel(entity);
+    const signature = JSON.stringify([entityId, text, levelText]);
+    if (signature === this.hoverLabelSignature && this.hoverLabel) return;
+    const label = this.hoverLabel ?? this.createHoverLabel();
+    if (!label) return;
+    this.hoverLabelSignature = signature;
+
+    label.textContent = text;
+
     if (levelText) {
       const level = document.createElement("span");
       level.className = "hover-label__tier";

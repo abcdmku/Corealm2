@@ -1,0 +1,29 @@
+# Badger source fallback assessment
+
+Axonite's actual European badger remains the preferred base. Its official full-body preview was inspected: it has the correct animal, natural grizzled coat and short legs. Remove the mount, repair the feet and underside, retopologize, bake the scan and rig it. The free official routes are [Sketchfab](https://sketchfab.com/3d-models/badger-taxidermy-dbd716aed8e24091a32c171fd7a17cf7) and [Fab](https://www.fab.com/listings/dd0ac4bd-9c90-4ba6-8765-ab8328b2fa82). Sketchfab declares CC-BY 4.0 and permits commercial use; its anonymous download endpoint returns 401. No model bytes have been acquired through that route.
+
+## Acquired rat alternative
+
+[Evil Giant Rat](https://opengameart.org/content/evil-giant-rat) by CDmir and TinyWorlds is a rat, not a badger or another mustelid. Its original CC0 Blender file has already been acquired in the sibling `source-porcupine` directory. SHA-256 is `52530520c71787da6c9ced7130cca02ddaf2b0af567bc38221b746d2297b5be2`.
+
+This is a technically plausible whole-animal resculpt starting point, but not a cheap species conversion. Preserve the source body, head, paws, jaw and their anatomical connections together. Do not attach a new badger head to the unmodified rat body. Fork the immutable original into a badger-owned working file; do not branch from the evolving porcupine adaptation.
+
+Evidence reviewed was the original embedded 128 px preview, native inventory, Blender inventory and preview export report. The preview shows a complete low quadruped with a high arched rump and a long thin tail. It is too small to certify facial topology or materials. The source body has 2,159 vertices, head 795, eyes 26 and teeth 157, plus a 336-vertex hair object. The rig includes spine, head/jaw, four articulated limbs and four tail segments. Fourteen named actions exist. Their existence does not prove that they export or play correctly.
+
+## Concrete adaptation sequence
+
+1. Correct source import and establish a faithful full-size source view before resculpting. The current preview report gives Hair bounds around 15 by 26 by 17 source units, while the body is approximately 1.18 by 4.40 by 1.43 including the long tail. Investigate this transform/weight anomaly; do not silently accept or hide broken source geometry as if the import were faithful. The current preview GLB contains no exported animations and translates legacy materials approximately.
+2. Shape the full torso into a low, broad badger. Reduce the rat's steep rump-to-shoulder height difference, broaden the rib cage and especially the shoulders, thicken the neck into the shoulder, and retain a rising belly behind the forelegs. Avoid a global uniform enlargement, which preserves the rat silhouette. Make the same spatial changes to the spine, shoulder and hip rest pivots.
+3. Rework the existing skull with the neck. Broaden the cheek and temporal region, turn the narrow rodent tip into a sturdy tapered badger muzzle, reduce rounded exposed ear area and seat the ears close to the crown. Do not indiscriminately shorten the entire head: a European badger still needs an elongated wedge-shaped face. Eye and jaw landmarks must follow the reshaped skull. Rat incisors need removal or conversion into a carnivore dental layout.
+4. Broaden and shorten the existing paws, thicken the forearms and preserve plantigrade contact. Author five coherent digits and long digging claws at the front. Check actual source digit topology before changing vertex counts. Move limb and toe pivots with the paw edits, then fix weights locally around the new shoulder and ankle shapes.
+5. Replace the long naked tail using the source tail region. Shorten the four-segment chain to a small furred taper, collapse surplus length smoothly and update bind transforms and tail tracks together. Do not leave the source's long whip action on a tiny stub.
+6. Repaint both source body and head UV sets as one coat. Use a gray grizzled body, black underside/limbs and white face with dark eye-to-ear stripes. The native rat albedo and hair cards are not a badger coat. Re-bake normals after silhouette edits rather than preserving rat muzzle and skin detail. Keep fur direction consistent through the head/neck material seam.
+7. Preserve and evaluate the source actions after the rest-shape conversion. `Run` spans 0–10 frames at 24 fps, `Walk` 0–28, `Hit` 0–10 and `Die` 0–27. Several attack takes are available. Select a suitable idle after inspection; `Idle.000` spans 1,553 frames and should not be adopted blindly. Re-bake constraints to deform bones and check actual posed vertices, contact, translation, jaw motion and collapse. Timing and movement speed need to agree with the heavier body.
+
+All shape targets above are design directions, not measurements from the tiny source preview. Exact displacement strengths should be set from a larger faithful source view and badger references. The practical cost is a whole-body art pass, a full coat repaint and a rig/action adaptation pass. The benefit over starting from fields is existing authored topology, limb articulation and animation material to revise.
+
+## Decision
+
+If authenticated Axonite access is unavailable, authorize a bounded first badger resculpt from the rat's complete source mesh. The first acceptance checkpoint should be front/side/rear silhouettes of the entire animal with paws, tail and ears already adapted. Reject the attempt if it still reads as a giant rat. Do not spend time polishing its face or adding fur until that whole-body checkpoint passes. Runtime integration remains later work after production-lab art and motion proof.
+
+This assessment made no source, rig, texture, animation or central-code changes, and used no GPU or renders. Only this note was written for the fallback evaluation.

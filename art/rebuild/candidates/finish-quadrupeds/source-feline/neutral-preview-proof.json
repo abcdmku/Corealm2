@@ -1,0 +1,34 @@
+{
+  "originalPreviewSha256": "f3c4649482a24f911bed5904ec5bb242425df3f29f8d17ebf4ff30d3f0bef9a6",
+  "neutralPreviewSha256": "d69e3d8617deb102db923b432b976b751e8beddc8b92616e9467e77d41267f6f",
+  "originalMaterials": [
+    {
+      "name": "skin",
+      "color": [
+        0.800000011920929,
+        0.800000011920929,
+        0.800000011920929,
+        1
+      ],
+      "metallic": 1,
+      "roughness": 0.5527864098548889
+    }
+  ],
+  "neutralMaterials": [
+    {
+      "color": [
+        0.8,
+        0.8,
+        0.8,
+        1
+      ],
+      "metallic": 0,
+      "roughness": 0.85
+    }
+  ],
+  "geometryAccessorPayloadSha256": "9ab9f0ad0b83fa10518d55b038268f425c435eec267fe02bc00c5863c1279e48",
+  "parsedAccessorPayloadUnchanged": true,
+  "originalFileAndCatalogueUnchanged": true,
+  "animationCount": 0,
+  "scope": "Anatomy inspection material only; no final coat acceptance or geometry edits."
+}

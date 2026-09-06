@@ -1,5 +1,6 @@
 /** Authoring checks run before packaging, so players do not download or repeat the build audit. */
 import path from "node:path";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import { content, type ContentTables } from "../game/src/content/index.js";
@@ -109,6 +110,19 @@ function validateQuestRefTargets(entityIds: ReadonlySet<string>, locationIds: Re
 /** Throws before Vite packages a release if its canonical content has unresolved references. */
 export async function validateGameContent(): Promise<GameContentValidation> {
   const manifest = JSON.parse(await readFile(path.join(gameRoot, "public/assets/manifest.json"), "utf8")) as AssetManifest;
+  const verifiedSourceHashes = new Map<string, string>();
+  const sourcePaths = new Set(manifest.packs.flatMap((pack) => {
+    const reference = (pack as typeof pack & { sourceReference?: { file: string } }).sourceReference;
+    return [pack.generatorSha256 ? pack.source : undefined, reference?.file].filter((file): file is string => file !== undefined);
+  }));
+  const repositoryRoot = path.resolve(gameRoot, "..");
+  for (const source of sourcePaths) {
+    const absolute = path.resolve(repositoryRoot, source);
+    const relative = path.relative(repositoryRoot, absolute);
+    if (relative.startsWith("..") || path.isAbsolute(relative)) continue;
+    try { verifiedSourceHashes.set(source, createHash("sha256").update(await readFile(absolute)).digest("hex")); }
+    catch (error) { if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error; }
+  }
   const assets = new Map(manifest.assets.map((asset) => [asset.id, asset]));
   const knownAssetIds = new Set([...assets.keys(), ...ALL_PROCEDURAL_GEAR_ASSETS.map((asset) => asset.assetId)]);
   const tables: ContentTables = {
@@ -122,6 +136,7 @@ export async function validateGameContent(): Promise<GameContentValidation> {
       tiers: GATHERING_PRODUCTION_TIERS, resources: RESOURCES,
       recipes: RECIPES.filter((recipe) => !CREATURE_LOOT_RECIPES.includes(recipe)), items: ALL_ITEMS,
       knownManifestAssetIds: knownAssetIds, assetManifest: manifest,
+      verifiedSourceHashes,
       clusters: REGIONS.flatMap((region) => region.clusters),
       stations: REGIONS.flatMap((region) => [...region.settlement.stations, ...region.stations]),
       itemAppearances: ITEM_ICON_APPEARANCE_IDS.map((id) => itemIconAppearance(id)),
