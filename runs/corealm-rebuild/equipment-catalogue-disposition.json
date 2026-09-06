@@ -1424,7 +1424,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "The coin master renders nearly edge-on and very dark, so at 48 px it is a brown smear rather than a coin. Re-render close to face-on with the lit side toward the camera.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/currency.png"
+      ]
     },
     {
       "id": "grithe_ore",
@@ -1498,6 +1503,13 @@
           "sha256": "b8be5d4c1206d04a0d6807fba82fd1cccc48113367a2fe7d152f3266ff8b9106",
           "manifestSha256": "b8be5d4c1206d04a0d6807fba82fd1cccc48113367a2fe7d152f3266ff8b9106"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "The specimen models were reviewed and promoted, and tests/mineral-items.test.ts reproduces the accepted bytes. Their published icons still showed the pre-specimen faceted primitives, a plain bipyramid for an ore that is drawn as ore in matrix rock, so the icons were regenerated this slice and re-reviewed as a contact sheet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/minerals.png",
+        "test-results/icon-sheets/minerals-new.png",
+        "tests/mineral-items.test.ts"
       ]
     },
     {
@@ -1548,7 +1560,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Both read as broken host rock and are distinguishable from each other and from every ore.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/minerals.png"
+      ]
     },
     {
       "id": "corven_ore",
@@ -1622,6 +1639,13 @@
           "sha256": "e9556dc796e75cb5556ce0bf91ba70b2f8ffdda4ac9d3f48bbbeb1bc47dd266b",
           "manifestSha256": "e9556dc796e75cb5556ce0bf91ba70b2f8ffdda4ac9d3f48bbbeb1bc47dd266b"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "The specimen models were reviewed and promoted, and tests/mineral-items.test.ts reproduces the accepted bytes. Their published icons still showed the pre-specimen faceted primitives, a plain bipyramid for an ore that is drawn as ore in matrix rock, so the icons were regenerated this slice and re-reviewed as a contact sheet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/minerals.png",
+        "test-results/icon-sheets/minerals-new.png",
+        "tests/mineral-items.test.ts"
       ]
     },
     {
@@ -1696,6 +1720,13 @@
           "sha256": "9d3d195c764699c6f3631761ea23b5a8c53abf884a3b00d255c4628d1cf8c4b4",
           "manifestSha256": "9d3d195c764699c6f3631761ea23b5a8c53abf884a3b00d255c4628d1cf8c4b4"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "The specimen models were reviewed and promoted, and tests/mineral-items.test.ts reproduces the accepted bytes. Their published icons still showed the pre-specimen faceted primitives, a plain bipyramid for an ore that is drawn as ore in matrix rock, so the icons were regenerated this slice and re-reviewed as a contact sheet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/minerals.png",
+        "test-results/icon-sheets/minerals-new.png",
+        "tests/mineral-items.test.ts"
       ]
     },
     {
@@ -1770,6 +1801,13 @@
           "sha256": "2e3ff92e7138bc6387ddea040c7c944094f717526e9b876b337e044cb565d8a4",
           "manifestSha256": "2e3ff92e7138bc6387ddea040c7c944094f717526e9b876b337e044cb565d8a4"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "The specimen models were reviewed and promoted, and tests/mineral-items.test.ts reproduces the accepted bytes. Their published icons still showed the pre-specimen faceted primitives, a plain bipyramid for an ore that is drawn as ore in matrix rock, so the icons were regenerated this slice and re-reviewed as a contact sheet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/minerals.png",
+        "test-results/icon-sheets/minerals-new.png",
+        "tests/mineral-items.test.ts"
       ]
     },
     {
@@ -1820,7 +1858,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Both read as broken host rock and are distinguishable from each other and from every ore.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/minerals.png"
+      ]
     },
     {
       "id": "palewood_log",
@@ -1876,7 +1919,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Three genuinely different forms (round log, turned shaft, ferruled handle) and four wood tiers that separate by hue and value at 48 px. Nothing here is a bare recolour of another form.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/timber.png"
+      ]
     },
     {
       "id": "duskoak_log",
@@ -1932,7 +1980,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Three genuinely different forms (round log, turned shaft, ferruled handle) and four wood tiers that separate by hue and value at 48 px. Nothing here is a bare recolour of another form.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/timber.png"
+      ]
     },
     {
       "id": "cairnpine_log",
@@ -1988,7 +2041,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Three genuinely different forms (round log, turned shaft, ferruled handle) and four wood tiers that separate by hue and value at 48 px. Nothing here is a bare recolour of another form.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/timber.png"
+      ]
     },
     {
       "id": "cinderpine_log",
@@ -2044,7 +2102,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Three genuinely different forms (round log, turned shaft, ferruled handle) and four wood tiers that separate by hue and value at 48 px. Nothing here is a bare recolour of another form.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/timber.png"
+      ]
     },
     {
       "id": "silt_minnow",
@@ -2095,7 +2158,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The fish form reads at 48 px, the four species separate by body and fin colour, and raw, seared and burnt is carried by value, which is the right signal for a preparation state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "bramble_trout",
@@ -2146,7 +2214,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The fish form reads at 48 px, the four species separate by body and fin colour, and raw, seared and burnt is carried by value, which is the right signal for a preparation state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "cragfin",
@@ -2197,7 +2270,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The fish form reads at 48 px, the four species separate by body and fin colour, and raw, seared and burnt is carried by value, which is the right signal for a preparation state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "ashfin",
@@ -2248,7 +2326,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The fish form reads at 48 px, the four species separate by body and fin colour, and raw, seared and burnt is carried by value, which is the right signal for a preparation state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "grithe_bar",
@@ -2299,7 +2382,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "One correct ingot form; the four tiers separate by metal hue. A bar has no construction to vary.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/bars.png"
+      ]
     },
     {
       "id": "corven_bar",
@@ -2350,7 +2438,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "One correct ingot form; the four tiers separate by metal hue. A bar has no construction to vary.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/bars.png"
+      ]
     },
     {
       "id": "kaldite_bar",
@@ -2401,7 +2494,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "One correct ingot form; the four tiers separate by metal hue. A bar has no construction to vary.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/bars.png"
+      ]
     },
     {
       "id": "emberite_bar",
@@ -2452,7 +2550,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "One correct ingot form; the four tiers separate by metal hue. A bar has no construction to vary.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/bars.png"
+      ]
     },
     {
       "id": "pale_quartz",
@@ -2526,6 +2629,13 @@
           "sha256": "70d6e032e386d440651580d8f84a3541e777fbb834d86d8943d3b7a7bf9f0284",
           "manifestSha256": "70d6e032e386d440651580d8f84a3541e777fbb834d86d8943d3b7a7bf9f0284"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "The specimen models were reviewed and promoted, and tests/mineral-items.test.ts reproduces the accepted bytes. Their published icons still showed the pre-specimen faceted primitives, a plain bipyramid for an ore that is drawn as ore in matrix rock, so the icons were regenerated this slice and re-reviewed as a contact sheet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/minerals.png",
+        "test-results/icon-sheets/minerals-new.png",
+        "tests/mineral-items.test.ts"
       ]
     },
     {
@@ -2600,6 +2710,13 @@
           "sha256": "62e54d611aa942b0bc9a8f20bc1d3a5fe16d314194a70b42279984927f4e7b0e",
           "manifestSha256": "62e54d611aa942b0bc9a8f20bc1d3a5fe16d314194a70b42279984927f4e7b0e"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "The specimen models were reviewed and promoted, and tests/mineral-items.test.ts reproduces the accepted bytes. Their published icons still showed the pre-specimen faceted primitives, a plain bipyramid for an ore that is drawn as ore in matrix rock, so the icons were regenerated this slice and re-reviewed as a contact sheet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/minerals.png",
+        "test-results/icon-sheets/minerals-new.png",
+        "tests/mineral-items.test.ts"
       ]
     },
     {
@@ -2674,6 +2791,13 @@
           "sha256": "06b0559344d4fdc80b059755a5902fd79e3a48fa1a959a7d24c6f165ae17026e",
           "manifestSha256": "06b0559344d4fdc80b059755a5902fd79e3a48fa1a959a7d24c6f165ae17026e"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "The specimen models were reviewed and promoted, and tests/mineral-items.test.ts reproduces the accepted bytes. Their published icons still showed the pre-specimen faceted primitives, a plain bipyramid for an ore that is drawn as ore in matrix rock, so the icons were regenerated this slice and re-reviewed as a contact sheet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/minerals.png",
+        "test-results/icon-sheets/minerals-new.png",
+        "tests/mineral-items.test.ts"
       ]
     },
     {
@@ -2762,7 +2886,16 @@
         "publicHashMatchesReceipt": true,
         "finalIcons": "pending",
         "postBindingCheck": "public-manifest-and-file-hashes-verified"
-      }
+      },
+      "resolution": "accept",
+      "resolutionReason": "Held for a candy-like regular oval under broad colour bands. Two revision rounds, each reviewed across a 24-yaw, three-pitch gallery orbit plus a top-down. Round one broke the outline into a real seam with rock tongues cutting into the lens, but painted the fire into the albedo as flat saturated tiles that did not move through a full turn. Round two keeps that outline, makes the base colour the warm body, 2.5 per cent of its pixels outside the 10-60 degree warm band, and moves the fire into the thin film at 180-1100 nm, piecewise constant per flash cell. The flash pattern visibly differs between yaw 0 and yaw 5.76 at the same pitch. Promoted, and its bytes are now pinned by the specimen test alongside the other seven.",
+      "resolutionEvidence": [
+        "test-results/opal-current-montage.png",
+        "test-results/opal-r9-montage.png",
+        "test-results/opal-r10-montage.png",
+        "test-results/icon-sheets/minerals-new.png",
+        "tests/mineral-items.test.ts"
+      ]
     },
     {
       "id": "palewood_shaft",
@@ -2818,7 +2951,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Three genuinely different forms (round log, turned shaft, ferruled handle) and four wood tiers that separate by hue and value at 48 px. Nothing here is a bare recolour of another form.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/timber.png"
+      ]
     },
     {
       "id": "duskoak_shaft",
@@ -2874,7 +3012,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Three genuinely different forms (round log, turned shaft, ferruled handle) and four wood tiers that separate by hue and value at 48 px. Nothing here is a bare recolour of another form.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/timber.png"
+      ]
     },
     {
       "id": "cairnpine_shaft",
@@ -2930,7 +3073,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Three genuinely different forms (round log, turned shaft, ferruled handle) and four wood tiers that separate by hue and value at 48 px. Nothing here is a bare recolour of another form.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/timber.png"
+      ]
     },
     {
       "id": "cinderpine_shaft",
@@ -2986,7 +3134,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Three genuinely different forms (round log, turned shaft, ferruled handle) and four wood tiers that separate by hue and value at 48 px. Nothing here is a bare recolour of another form.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/timber.png"
+      ]
     },
     {
       "id": "palewood_handle",
@@ -3043,7 +3196,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Three genuinely different forms (round log, turned shaft, ferruled handle) and four wood tiers that separate by hue and value at 48 px. Nothing here is a bare recolour of another form.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/timber.png"
+      ]
     },
     {
       "id": "duskoak_handle",
@@ -3100,7 +3258,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Three genuinely different forms (round log, turned shaft, ferruled handle) and four wood tiers that separate by hue and value at 48 px. Nothing here is a bare recolour of another form.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/timber.png"
+      ]
     },
     {
       "id": "cairnpine_handle",
@@ -3157,7 +3320,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Three genuinely different forms (round log, turned shaft, ferruled handle) and four wood tiers that separate by hue and value at 48 px. Nothing here is a bare recolour of another form.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/timber.png"
+      ]
     },
     {
       "id": "cinderpine_handle",
@@ -3214,7 +3382,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Three genuinely different forms (round log, turned shaft, ferruled handle) and four wood tiers that separate by hue and value at 48 px. Nothing here is a bare recolour of another form.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/timber.png"
+      ]
     },
     {
       "id": "coarse_hide",
@@ -3265,7 +3438,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "All six use the same folded-pentagon hide shape recoloured. It does not read as a hide, and boar_bristle is bristles drawn as a hide. tapir_leather and badger_bristle in the expansion set show what these should look like.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "bramble_hide",
@@ -3316,7 +3495,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "All six use the same folded-pentagon hide shape recoloured. It does not read as a hide, and boar_bristle is bristles drawn as a hide. tapir_leather and badger_bristle in the expansion set show what these should look like.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "cairn_pelt",
@@ -3367,7 +3552,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "All six use the same folded-pentagon hide shape recoloured. It does not read as a hide, and boar_bristle is bristles drawn as a hide. tapir_leather and badger_bristle in the expansion set show what these should look like.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "charhide",
@@ -3418,7 +3609,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "All six use the same folded-pentagon hide shape recoloured. It does not read as a hide, and boar_bristle is bristles drawn as a hide. tapir_leather and badger_bristle in the expansion set show what these should look like.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "air_essence",
@@ -3470,7 +3667,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Essence and orb are two clearly different forms, and element is carried by colour, which is the right encoding for a four-way elemental split. No construction difference is called for.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/elemental.png"
+      ]
     },
     {
       "id": "earth_essence",
@@ -3522,7 +3724,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Essence and orb are two clearly different forms, and element is carried by colour, which is the right encoding for a four-way elemental split. No construction difference is called for.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/elemental.png"
+      ]
     },
     {
       "id": "water_essence",
@@ -3574,7 +3781,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Essence and orb are two clearly different forms, and element is carried by colour, which is the right encoding for a four-way elemental split. No construction difference is called for.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/elemental.png"
+      ]
     },
     {
       "id": "fire_essence",
@@ -3626,7 +3838,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Essence and orb are two clearly different forms, and element is carried by colour, which is the right encoding for a four-way elemental split. No construction difference is called for.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/elemental.png"
+      ]
     },
     {
       "id": "hen_feather",
@@ -3677,7 +3894,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Drawn as a veined leaf on a stem. heron_quill, bustard_plume and turkey_tailfeather in the expansion set are all recognisably feathers; this one is not.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "hen_egg",
@@ -3728,7 +3951,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Both read correctly and neither shares its form with another drop.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png"
+      ]
     },
     {
       "id": "curl_horn",
@@ -3779,7 +4007,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "ox_horn",
@@ -3830,7 +4064,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "coney_foot",
@@ -3881,7 +4121,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "marsh_gland",
@@ -3932,7 +4178,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Both are the same stoppered flask recoloured, so they read as potions rather than harvested glands, and they are indistinguishable from each other except by hue.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png"
+      ]
     },
     {
       "id": "viper_skin",
@@ -3983,7 +4234,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "All six use the same folded-pentagon hide shape recoloured. It does not read as a hide, and boar_bristle is bristles drawn as a hide. tapir_leather and badger_bristle in the expansion set show what these should look like.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "venom_gland",
@@ -4034,7 +4291,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Both are the same stoppered flask recoloured, so they read as potions rather than harvested glands, and they are indistinguishable from each other except by hue.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png"
+      ]
     },
     {
       "id": "stag_antler",
@@ -4085,7 +4347,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Both read correctly and neither shares its form with another drop.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png"
+      ]
     },
     {
       "id": "curved_tusk",
@@ -4136,7 +4403,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "coyote_fang",
@@ -4187,7 +4460,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "bear_claw",
@@ -4238,7 +4517,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "boar_bristle",
@@ -4289,7 +4574,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "All six use the same folded-pentagon hide shape recoloured. It does not read as a hide, and boar_bristle is bristles drawn as a hide. tapir_leather and badger_bristle in the expansion set show what these should look like.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "ibex_horn",
@@ -4340,7 +4631,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "aurochs_horn",
@@ -4391,7 +4688,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "rat_tail",
@@ -4442,7 +4745,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "scorpion_stinger",
@@ -4493,7 +4802,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "crab_claw",
@@ -4544,7 +4859,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "ashback_claw",
@@ -4595,7 +4916,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "cinder_tusk",
@@ -4646,7 +4973,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "emberhorn",
@@ -4697,7 +5030,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "kiln_fang",
@@ -4748,7 +5087,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "One curved tapered tusk recoloured fifteen ways. A rabbit foot, a rat tail, a crab claw and a scorpion sting are not the same object, and none of them is a tusk. The expansion drops on page two set the standard this group has to meet.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-1.png",
+        "test-results/icon-sheets/drops-2.png"
+      ]
     },
     {
       "id": "raw_game_meat",
@@ -4799,7 +5144,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Twelve meats collapse into three icons: one sphere-on-a-bone in pink, orange and near-black. Game, venison, haunch and ember haunch are four different cuts and have to differ in form, not only in cooked state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "roast_game",
@@ -4850,7 +5200,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Twelve meats collapse into three icons: one sphere-on-a-bone in pink, orange and near-black. Game, venison, haunch and ember haunch are four different cuts and have to differ in form, not only in cooked state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "burnt_game",
@@ -4901,7 +5256,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Twelve meats collapse into three icons: one sphere-on-a-bone in pink, orange and near-black. Game, venison, haunch and ember haunch are four different cuts and have to differ in form, not only in cooked state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "raw_venison",
@@ -4952,7 +5312,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Twelve meats collapse into three icons: one sphere-on-a-bone in pink, orange and near-black. Game, venison, haunch and ember haunch are four different cuts and have to differ in form, not only in cooked state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "roast_venison",
@@ -5003,7 +5368,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Twelve meats collapse into three icons: one sphere-on-a-bone in pink, orange and near-black. Game, venison, haunch and ember haunch are four different cuts and have to differ in form, not only in cooked state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "burnt_venison",
@@ -5054,7 +5424,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Twelve meats collapse into three icons: one sphere-on-a-bone in pink, orange and near-black. Game, venison, haunch and ember haunch are four different cuts and have to differ in form, not only in cooked state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "raw_haunch",
@@ -5105,7 +5480,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Twelve meats collapse into three icons: one sphere-on-a-bone in pink, orange and near-black. Game, venison, haunch and ember haunch are four different cuts and have to differ in form, not only in cooked state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "roast_haunch",
@@ -5156,7 +5536,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Twelve meats collapse into three icons: one sphere-on-a-bone in pink, orange and near-black. Game, venison, haunch and ember haunch are four different cuts and have to differ in form, not only in cooked state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "burnt_haunch",
@@ -5207,7 +5592,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Twelve meats collapse into three icons: one sphere-on-a-bone in pink, orange and near-black. Game, venison, haunch and ember haunch are four different cuts and have to differ in form, not only in cooked state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "raw_ember_haunch",
@@ -5258,7 +5648,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Twelve meats collapse into three icons: one sphere-on-a-bone in pink, orange and near-black. Game, venison, haunch and ember haunch are four different cuts and have to differ in form, not only in cooked state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "roast_ember_haunch",
@@ -5309,7 +5704,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Twelve meats collapse into three icons: one sphere-on-a-bone in pink, orange and near-black. Game, venison, haunch and ember haunch are four different cuts and have to differ in form, not only in cooked state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "burnt_ember_haunch",
@@ -5360,7 +5760,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Twelve meats collapse into three icons: one sphere-on-a-bone in pink, orange and near-black. Game, venison, haunch and ember haunch are four different cuts and have to differ in form, not only in cooked state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "seared_minnow",
@@ -5411,7 +5816,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The fish form reads at 48 px, the four species separate by body and fin colour, and raw, seared and burnt is carried by value, which is the right signal for a preparation state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "burnt_minnow",
@@ -5462,7 +5872,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The fish form reads at 48 px, the four species separate by body and fin colour, and raw, seared and burnt is carried by value, which is the right signal for a preparation state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "seared_trout",
@@ -5513,7 +5928,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The fish form reads at 48 px, the four species separate by body and fin colour, and raw, seared and burnt is carried by value, which is the right signal for a preparation state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "burnt_trout",
@@ -5564,7 +5984,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The fish form reads at 48 px, the four species separate by body and fin colour, and raw, seared and burnt is carried by value, which is the right signal for a preparation state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "seared_cragfin",
@@ -5615,7 +6040,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The fish form reads at 48 px, the four species separate by body and fin colour, and raw, seared and burnt is carried by value, which is the right signal for a preparation state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "burnt_cragfin",
@@ -5666,7 +6096,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The fish form reads at 48 px, the four species separate by body and fin colour, and raw, seared and burnt is carried by value, which is the right signal for a preparation state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "seared_ashfin",
@@ -5717,7 +6152,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The fish form reads at 48 px, the four species separate by body and fin colour, and raw, seared and burnt is carried by value, which is the right signal for a preparation state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "burnt_ashfin",
@@ -5768,7 +6208,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The fish form reads at 48 px, the four species separate by body and fin colour, and raw, seared and burnt is carried by value, which is the right signal for a preparation state.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/food.png"
+      ]
     },
     {
       "id": "worn_pickaxe",
@@ -5836,7 +6281,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "worn_hatchet",
@@ -5933,6 +6386,14 @@
           "sha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573",
           "manifestSha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
       ]
     },
     {
@@ -5987,7 +6448,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "grithe_pickaxe",
@@ -6055,7 +6524,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "corven_pickaxe",
@@ -6123,7 +6600,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "kaldite_pickaxe",
@@ -6193,7 +6678,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "grithe_hatchet",
@@ -6330,6 +6823,14 @@
           "sha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573",
           "manifestSha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
       ]
     },
     {
@@ -6427,6 +6928,14 @@
           "sha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573",
           "manifestSha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
       ]
     },
     {
@@ -6526,6 +7035,14 @@
           "sha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573",
           "manifestSha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
       ]
     },
     {
@@ -6580,7 +7097,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "duskoak_rod",
@@ -6634,7 +7159,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "cairnpine_rod",
@@ -6688,7 +7221,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "emberite_pickaxe",
@@ -6758,7 +7299,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "emberite_hatchet",
@@ -6857,6 +7406,14 @@
           "sha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573",
           "manifestSha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
       ]
     },
     {
@@ -6911,7 +7468,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Pickaxe, hatchet and rod are three different tools with separated wood, metal and binding zones, and the rods grow and change float colour with tier. Held in the production lab the pickaxe was the one defect, a 0.94-1.00 m head at tiers 10 and 20 against a 0.424 m shoulder span, and it is fitted in slice 13. Every generated rod also gained an explicit grip socket.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/tools.png",
+        "test-results/matrix-montage/forest-male-knight.png",
+        "test-results/matrix-montage/fishing-male-mixed-a.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "air_orb",
@@ -6963,7 +7528,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Essence and orb are two clearly different forms, and element is carried by colour, which is the right encoding for a four-way elemental split. No construction difference is called for.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/elemental.png"
+      ]
     },
     {
       "id": "earth_orb",
@@ -7015,7 +7585,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Essence and orb are two clearly different forms, and element is carried by colour, which is the right encoding for a four-way elemental split. No construction difference is called for.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/elemental.png"
+      ]
     },
     {
       "id": "water_orb",
@@ -7067,7 +7642,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Essence and orb are two clearly different forms, and element is carried by colour, which is the right encoding for a four-way elemental split. No construction difference is called for.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/elemental.png"
+      ]
     },
     {
       "id": "fire_orb",
@@ -7119,7 +7699,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Essence and orb are two clearly different forms, and element is carried by colour, which is the right encoding for a four-way elemental split. No construction difference is called for.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/elemental.png"
+      ]
     },
     {
       "id": "worn_sword",
@@ -7229,6 +7814,13 @@
           "sha256": "5f0a55210edfe713e051873c1e6ca548fbad2371891c3585ebe008118a49e8dd",
           "manifestSha256": "5f0a55210edfe713e051873c1e6ca548fbad2371891c3585ebe008118a49e8dd"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "The four promoted corealm_sword_1..4 grades carry real blade-profile, width, guard-span and pommel differences rather than one recoloured mesh, and the grip stays in the fist through run, melee, hit and death on both bodies.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
       ]
     },
     {
@@ -7310,7 +7902,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported hooked twig, 0.79 m long in hand, with no metal or crystal to separate from the wood. Now four authored constructions, a lashed whittled stick, a turned handle with a flared ferrule and ring socket, a faceted shaft with a three-prong setting, and a ribbed shaft with a closed four-claw setting, at 0.41-0.44 m worn at a 1.22 fit. Promoted and reviewed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/wands-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-wand.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "basic_wooden_staff",
@@ -7391,7 +7991,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported mesh whose head is a broad spear point, so a staff read as a spear, no tier had its own construction, and the dark tiers lost the wood entirely. Now four authored constructions, a bound bent branch, a turned shaft with ferrules and a two-prong crown, a segmented shaft with joint collars and a four-prong cage, and a tapered shaft with a spiral iron vine and a closed cage, with wood, leather, metal and crystal in separate materials. Promoted and reviewed in the gallery and in hand. basic_wooden shares the tier-1 construction by design and is separated by its fittings colour.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/staves-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "grithe_dagger",
@@ -7472,7 +8080,14 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: one shared mesh 0.778 m end to end with a 0.53 m blade against a 1.81 m rig, next to a 1.03 m Cobalt sword. That is a short sword, and all four tiers were the same mesh recoloured. Now four constructions at 0.448-0.475 m with 0.26-0.29 m blades, a bar guard with a disc pommel, a fullered leaf with a down-swept guard, a ring-and-quillon stiletto and a winged-guard recurve, each keeping its grip centre at asset y = -0.100 so the reviewed hand socket did not move. The four are separable at 48 px.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/daggers-new.png",
+        "test-results/dagger-grades-montage.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "grithe_sword",
@@ -7634,6 +8249,13 @@
           "sha256": "5f0a55210edfe713e051873c1e6ca548fbad2371891c3585ebe008118a49e8dd",
           "manifestSha256": "5f0a55210edfe713e051873c1e6ca548fbad2371891c3585ebe008118a49e8dd"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "The four promoted corealm_sword_1..4 grades carry real blade-profile, width, guard-span and pommel differences rather than one recoloured mesh, and the grip stays in the fist through run, melee, hit and death on both bodies.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
       ]
     },
     {
@@ -7710,7 +8332,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: four ids sharing one imported round board, dangled from the fist with the forearm coming out through its face, and one shared trim material that turned the Cobalt rim pink and its grip near-black. Now four authored boards, an oval plank buckler, a heater, a kite and a tower, strapped to the forearm, with the tier tint reaching only the iron rim and boss while the planks and the rear handgrip keep their authored wood and leather. Promoted and reviewed in the gallery, in hand at four tiers, and across all eight motion shards.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/shields-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-shield.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "grithe_helm",
@@ -7849,7 +8479,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Copper, Iron, Cobalt and Titanium were one imported Knight mesh per slot with four tint values, so no tier had a construction of its own. Each metal tier above Copper now carries an authored neck piece on the spine, a riveted mail aventail at Iron, that aventail under a stepped gorget at Cobalt, and a three-lame fluted gorget with a standing collar at Titanium, with Copper deliberately the plain-plate baseline. The shoulder-to-forearm run is still the base body sleeve; that needs a skinned arm mesh and is recorded as remaining work.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "grithe_cuirass",
@@ -8011,7 +8649,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Copper, Iron, Cobalt and Titanium were one imported Knight mesh per slot with four tint values, so no tier had a construction of its own. Each metal tier above Copper now carries an authored neck piece on the spine, a riveted mail aventail at Iron, that aventail under a stepped gorget at Cobalt, and a three-lame fluted gorget with a standing collar at Titanium, with Copper deliberately the plain-plate baseline. The shoulder-to-forearm run is still the base body sleeve; that needs a skinned arm mesh and is recorded as remaining work.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "grithe_greaves",
@@ -8129,7 +8775,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: the plate covered shin and thigh but left the base body brown hip and upper thigh bare between the cuirass skirt and the greaves, visible in every close lower view and in the icon at all four metal tiers. Each metal tier now carries its own fauld on the pelvis, one leather-faced belt lame at Copper up to four lames with hip tassets at Titanium, which gives the tier its construction and covers the gap from every normal angle. A little of the inner upper thigh can still show in a close low view, which is recorded rather than claimed fixed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "grithe_boots",
@@ -8247,7 +8901,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Copper, Iron, Cobalt and Titanium were one imported Knight mesh per slot with four tint values, so no tier had a construction of its own. Each metal tier above Copper now carries an authored neck piece on the spine, a riveted mail aventail at Iron, that aventail under a stepped gorget at Cobalt, and a three-lame fluted gorget with a standing collar at Titanium, with Copper deliberately the plain-plate baseline. The shoulder-to-forearm run is still the base body sleeve; that needs a skinned arm mesh and is recorded as remaining work.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "grithe_gloves",
@@ -8366,7 +9028,16 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "rework",
+      "resolutionReason": "The hands slot renders a wrist cuff and leaves the hand itself bare skin, on both bodies, at every tier of both lines, in every close grip view and in the published icon. An item called Gauntlets or Wraps has to cover the hand. This needs a new skinned hand mesh per body, which a bone-parented tier piece cannot substitute for, so it is not fixed in this slice.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/grips-shield.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "grithe_ring",
@@ -8417,7 +9088,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "A band is a band; tier and element read from the metal colour and there is no construction difference to author at this size.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "grithe_pendant",
@@ -8468,7 +9144,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Every pendant and charm is drawn as the ring torus with a bipyramid stuck on it, so a pendant is indistinguishable from a ring of the same tier. A pendant needs a cord or chain and a hanging setting, as heron_quill_charm and antler_palm_charm already manage.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "corven_dagger",
@@ -8549,7 +9230,14 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: one shared mesh 0.778 m end to end with a 0.53 m blade against a 1.81 m rig, next to a 1.03 m Cobalt sword. That is a short sword, and all four tiers were the same mesh recoloured. Now four constructions at 0.448-0.475 m with 0.26-0.29 m blades, a bar guard with a disc pommel, a fullered leaf with a down-swept guard, a ring-and-quillon stiletto and a winged-guard recurve, each keeping its grip centre at asset y = -0.100 so the reviewed hand socket did not move. The four are separable at 48 px.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/daggers-new.png",
+        "test-results/dagger-grades-montage.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "corven_sword",
@@ -8697,6 +9385,13 @@
           "sha256": "e68c3e2fe7988dcdeed962233abf75c873774b81461ffc035104fcd95774edc1",
           "manifestSha256": "e68c3e2fe7988dcdeed962233abf75c873774b81461ffc035104fcd95774edc1"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "The four promoted corealm_sword_1..4 grades carry real blade-profile, width, guard-span and pommel differences rather than one recoloured mesh, and the grip stays in the fist through run, melee, hit and death on both bodies.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
       ]
     },
     {
@@ -8773,7 +9468,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: four ids sharing one imported round board, dangled from the fist with the forearm coming out through its face, and one shared trim material that turned the Cobalt rim pink and its grip near-black. Now four authored boards, an oval plank buckler, a heater, a kite and a tower, strapped to the forearm, with the tier tint reaching only the iron rim and boss while the planks and the rear handgrip keep their authored wood and leather. Promoted and reviewed in the gallery, in hand at four tiers, and across all eight motion shards.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/shields-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-shield.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "corven_helm",
@@ -8891,7 +9594,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Copper, Iron, Cobalt and Titanium were one imported Knight mesh per slot with four tint values, so no tier had a construction of its own. Each metal tier above Copper now carries an authored neck piece on the spine, a riveted mail aventail at Iron, that aventail under a stepped gorget at Cobalt, and a three-lame fluted gorget with a standing collar at Titanium, with Copper deliberately the plain-plate baseline. The shoulder-to-forearm run is still the base body sleeve; that needs a skinned arm mesh and is recorded as remaining work.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "corven_plate",
@@ -9053,7 +9764,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Copper, Iron, Cobalt and Titanium were one imported Knight mesh per slot with four tint values, so no tier had a construction of its own. Each metal tier above Copper now carries an authored neck piece on the spine, a riveted mail aventail at Iron, that aventail under a stepped gorget at Cobalt, and a three-lame fluted gorget with a standing collar at Titanium, with Copper deliberately the plain-plate baseline. The shoulder-to-forearm run is still the base body sleeve; that needs a skinned arm mesh and is recorded as remaining work.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "corven_greaves",
@@ -9171,7 +9890,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: the plate covered shin and thigh but left the base body brown hip and upper thigh bare between the cuirass skirt and the greaves, visible in every close lower view and in the icon at all four metal tiers. Each metal tier now carries its own fauld on the pelvis, one leather-faced belt lame at Copper up to four lames with hip tassets at Titanium, which gives the tier its construction and covers the gap from every normal angle. A little of the inner upper thigh can still show in a close low view, which is recorded rather than claimed fixed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "corven_boots",
@@ -9289,7 +10016,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Copper, Iron, Cobalt and Titanium were one imported Knight mesh per slot with four tint values, so no tier had a construction of its own. Each metal tier above Copper now carries an authored neck piece on the spine, a riveted mail aventail at Iron, that aventail under a stepped gorget at Cobalt, and a three-lame fluted gorget with a standing collar at Titanium, with Copper deliberately the plain-plate baseline. The shoulder-to-forearm run is still the base body sleeve; that needs a skinned arm mesh and is recorded as remaining work.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "corven_gauntlets",
@@ -9408,7 +10143,16 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "rework",
+      "resolutionReason": "The hands slot renders a wrist cuff and leaves the hand itself bare skin, on both bodies, at every tier of both lines, in every close grip view and in the published icon. An item called Gauntlets or Wraps has to cover the hand. This needs a new skinned hand mesh per body, which a bone-parented tier piece cannot substitute for, so it is not fixed in this slice.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/grips-shield.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "corven_ring",
@@ -9459,7 +10203,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "A band is a band; tier and element read from the metal colour and there is no construction difference to author at this size.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "corven_pendant",
@@ -9510,7 +10259,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Every pendant and charm is drawn as the ring torus with a bipyramid stuck on it, so a pendant is indistinguishable from a ring of the same tier. A pendant needs a cord or chain and a hanging setting, as heron_quill_charm and antler_palm_charm already manage.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "kaldite_dagger",
@@ -9594,7 +10348,14 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: one shared mesh 0.778 m end to end with a 0.53 m blade against a 1.81 m rig, next to a 1.03 m Cobalt sword. That is a short sword, and all four tiers were the same mesh recoloured. Now four constructions at 0.448-0.475 m with 0.26-0.29 m blades, a bar guard with a disc pommel, a fullered leaf with a down-swept guard, a ring-and-quillon stiletto and a winged-guard recurve, each keeping its grip centre at asset y = -0.100 so the reviewed hand socket did not move. The four are separable at 48 px.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/daggers-new.png",
+        "test-results/dagger-grades-montage.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "kaldite_sword",
@@ -9745,6 +10506,13 @@
           "sha256": "dc540db7697bfa2276dac22af98797233d53dc2d77cddfe4b4a0ea28537d2bad",
           "manifestSha256": "dc540db7697bfa2276dac22af98797233d53dc2d77cddfe4b4a0ea28537d2bad"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "The four promoted corealm_sword_1..4 grades carry real blade-profile, width, guard-span and pommel differences rather than one recoloured mesh, and the grip stays in the fist through run, melee, hit and death on both bodies.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
       ]
     },
     {
@@ -9821,7 +10589,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: four ids sharing one imported round board, dangled from the fist with the forearm coming out through its face, and one shared trim material that turned the Cobalt rim pink and its grip near-black. Now four authored boards, an oval plank buckler, a heater, a kite and a tower, strapped to the forearm, with the tier tint reaching only the iron rim and boss while the planks and the rear handgrip keep their authored wood and leather. Promoted and reviewed in the gallery, in hand at four tiers, and across all eight motion shards.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/shields-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-shield.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "kaldite_helm",
@@ -9939,7 +10715,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Copper, Iron, Cobalt and Titanium were one imported Knight mesh per slot with four tint values, so no tier had a construction of its own. Each metal tier above Copper now carries an authored neck piece on the spine, a riveted mail aventail at Iron, that aventail under a stepped gorget at Cobalt, and a three-lame fluted gorget with a standing collar at Titanium, with Copper deliberately the plain-plate baseline. The shoulder-to-forearm run is still the base body sleeve; that needs a skinned arm mesh and is recorded as remaining work.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "kaldite_plate",
@@ -10101,7 +10885,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Copper, Iron, Cobalt and Titanium were one imported Knight mesh per slot with four tint values, so no tier had a construction of its own. Each metal tier above Copper now carries an authored neck piece on the spine, a riveted mail aventail at Iron, that aventail under a stepped gorget at Cobalt, and a three-lame fluted gorget with a standing collar at Titanium, with Copper deliberately the plain-plate baseline. The shoulder-to-forearm run is still the base body sleeve; that needs a skinned arm mesh and is recorded as remaining work.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "kaldite_greaves",
@@ -10219,7 +11011,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: the plate covered shin and thigh but left the base body brown hip and upper thigh bare between the cuirass skirt and the greaves, visible in every close lower view and in the icon at all four metal tiers. Each metal tier now carries its own fauld on the pelvis, one leather-faced belt lame at Copper up to four lames with hip tassets at Titanium, which gives the tier its construction and covers the gap from every normal angle. A little of the inner upper thigh can still show in a close low view, which is recorded rather than claimed fixed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "kaldite_boots",
@@ -10337,7 +11137,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Copper, Iron, Cobalt and Titanium were one imported Knight mesh per slot with four tint values, so no tier had a construction of its own. Each metal tier above Copper now carries an authored neck piece on the spine, a riveted mail aventail at Iron, that aventail under a stepped gorget at Cobalt, and a three-lame fluted gorget with a standing collar at Titanium, with Copper deliberately the plain-plate baseline. The shoulder-to-forearm run is still the base body sleeve; that needs a skinned arm mesh and is recorded as remaining work.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "kaldite_gauntlets",
@@ -10456,7 +11264,16 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "rework",
+      "resolutionReason": "The hands slot renders a wrist cuff and leaves the hand itself bare skin, on both bodies, at every tier of both lines, in every close grip view and in the published icon. An item called Gauntlets or Wraps has to cover the hand. This needs a new skinned hand mesh per body, which a bone-parented tier piece cannot substitute for, so it is not fixed in this slice.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/grips-shield.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "kaldite_ring",
@@ -10507,7 +11324,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "A band is a band; tier and element read from the metal colour and there is no construction difference to author at this size.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "kaldite_pendant",
@@ -10558,7 +11380,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Every pendant and charm is drawn as the ring torus with a bipyramid stuck on it, so a pendant is indistinguishable from a ring of the same tier. A pendant needs a cord or chain and a hanging setting, as heron_quill_charm and antler_palm_charm already manage.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "emberite_dagger",
@@ -10642,7 +11469,14 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: one shared mesh 0.778 m end to end with a 0.53 m blade against a 1.81 m rig, next to a 1.03 m Cobalt sword. That is a short sword, and all four tiers were the same mesh recoloured. Now four constructions at 0.448-0.475 m with 0.26-0.29 m blades, a bar guard with a disc pommel, a fullered leaf with a down-swept guard, a ring-and-quillon stiletto and a winged-guard recurve, each keeping its grip centre at asset y = -0.100 so the reviewed hand socket did not move. The four are separable at 48 px.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/daggers-new.png",
+        "test-results/dagger-grades-montage.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "emberite_sword",
@@ -10793,6 +11627,13 @@
           "sha256": "b5fe6b28706191c570f7272ca25b701925ad61c8f0032be9dd6043ff9bd423f6",
           "manifestSha256": "b5fe6b28706191c570f7272ca25b701925ad61c8f0032be9dd6043ff9bd423f6"
         }
+      ],
+      "resolution": "accept",
+      "resolutionReason": "The four promoted corealm_sword_1..4 grades carry real blade-profile, width, guard-span and pommel differences rather than one recoloured mesh, and the grip stays in the fist through run, melee, hit and death on both bodies.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
       ]
     },
     {
@@ -10869,7 +11710,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: four ids sharing one imported round board, dangled from the fist with the forearm coming out through its face, and one shared trim material that turned the Cobalt rim pink and its grip near-black. Now four authored boards, an oval plank buckler, a heater, a kite and a tower, strapped to the forearm, with the tier tint reaching only the iron rim and boss while the planks and the rear handgrip keep their authored wood and leather. Promoted and reviewed in the gallery, in hand at four tiers, and across all eight motion shards.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/shields-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-shield.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "emberite_helm",
@@ -10987,7 +11836,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Copper, Iron, Cobalt and Titanium were one imported Knight mesh per slot with four tint values, so no tier had a construction of its own. Each metal tier above Copper now carries an authored neck piece on the spine, a riveted mail aventail at Iron, that aventail under a stepped gorget at Cobalt, and a three-lame fluted gorget with a standing collar at Titanium, with Copper deliberately the plain-plate baseline. The shoulder-to-forearm run is still the base body sleeve; that needs a skinned arm mesh and is recorded as remaining work.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "emberite_plate",
@@ -11149,7 +12006,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Copper, Iron, Cobalt and Titanium were one imported Knight mesh per slot with four tint values, so no tier had a construction of its own. Each metal tier above Copper now carries an authored neck piece on the spine, a riveted mail aventail at Iron, that aventail under a stepped gorget at Cobalt, and a three-lame fluted gorget with a standing collar at Titanium, with Copper deliberately the plain-plate baseline. The shoulder-to-forearm run is still the base body sleeve; that needs a skinned arm mesh and is recorded as remaining work.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "emberite_greaves",
@@ -11267,7 +12132,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: the plate covered shin and thigh but left the base body brown hip and upper thigh bare between the cuirass skirt and the greaves, visible in every close lower view and in the icon at all four metal tiers. Each metal tier now carries its own fauld on the pelvis, one leather-faced belt lame at Copper up to four lames with hip tassets at Titanium, which gives the tier its construction and covers the gap from every normal angle. A little of the inner upper thigh can still show in a close low view, which is recorded rather than claimed fixed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "emberite_boots",
@@ -11385,7 +12258,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Copper, Iron, Cobalt and Titanium were one imported Knight mesh per slot with four tint values, so no tier had a construction of its own. Each metal tier above Copper now carries an authored neck piece on the spine, a riveted mail aventail at Iron, that aventail under a stepped gorget at Cobalt, and a three-lame fluted gorget with a standing collar at Titanium, with Copper deliberately the plain-plate baseline. The shoulder-to-forearm run is still the base body sleeve; that needs a skinned arm mesh and is recorded as remaining work.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "emberite_gauntlets",
@@ -11504,7 +12385,16 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "rework",
+      "resolutionReason": "The hands slot renders a wrist cuff and leaves the hand itself bare skin, on both bodies, at every tier of both lines, in every close grip view and in the published icon. An item called Gauntlets or Wraps has to cover the hand. This needs a new skinned hand mesh per body, which a bone-parented tier piece cannot substitute for, so it is not fixed in this slice.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/grips-shield.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "emberite_ring",
@@ -11555,7 +12445,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "A band is a band; tier and element read from the metal colour and there is no construction difference to author at this size.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "emberite_pendant",
@@ -11606,7 +12501,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Every pendant and charm is drawn as the ring torus with a bipyramid stuck on it, so a pendant is indistinguishable from a ring of the same tier. A pendant needs a cord or chain and a hanging setting, as heron_quill_charm and antler_palm_charm already manage.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "palewood_wand",
@@ -11687,7 +12587,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported hooked twig, 0.79 m long in hand, with no metal or crystal to separate from the wood. Now four authored constructions, a lashed whittled stick, a turned handle with a flared ferrule and ring socket, a faceted shaft with a three-prong setting, and a ribbed shaft with a closed four-claw setting, at 0.41-0.44 m worn at a 1.22 fit. Promoted and reviewed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/wands-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-wand.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "palewood_staff",
@@ -11768,7 +12676,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported mesh whose head is a broad spear point, so a staff read as a spear, no tier had its own construction, and the dark tiers lost the wood entirely. Now four authored constructions, a bound bent branch, a turned shaft with ferrules and a two-prong crown, a segmented shaft with joint collars and a four-prong cage, and a tapered shaft with a spiral iron vine and a closed cage, with wood, leather, metal and crystal in separate materials. Promoted and reviewed in the gallery and in hand. basic_wooden shares the tier-1 construction by design and is separated by its fittings colour.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/staves-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "marchhide_hood",
@@ -11907,7 +12823,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Hide, Thick Hide, Fur and Heavy Hide were one imported Ranger mesh per slot, and worse, the hood, the pauldron and the boots did not take the tier colour at all, so Thick Hide and Heavy Hide were indistinguishable above the waist. The tier treatment now reaches them, and each tier above Hide carries an authored neck piece, a studded leather yoke at Thick Hide, a fur mantle at Fur, and a heavier mantle with horn toggles at Heavy Hide, which is the fur trim those tier names promise.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "marchhide_robe",
@@ -12047,7 +12971,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Hide, Thick Hide, Fur and Heavy Hide were one imported Ranger mesh per slot, and worse, the hood, the pauldron and the boots did not take the tier colour at all, so Thick Hide and Heavy Hide were indistinguishable above the waist. The tier treatment now reaches them, and each tier above Hide carries an authored neck piece, a studded leather yoke at Thick Hide, a fur mantle at Fur, and a heavier mantle with horn toggles at Heavy Hide, which is the fur trim those tier names promise.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "marchhide_leggings",
@@ -12165,7 +13097,14 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "The trousers themselves read and take the tier colour. Each hide tier now also carries its own belt skirt, plain hide at Hide through a heavy layered skirt with hanging straps at Heavy Hide.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "marchhide_boots",
@@ -12283,7 +13222,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Hide, Thick Hide, Fur and Heavy Hide were one imported Ranger mesh per slot, and worse, the hood, the pauldron and the boots did not take the tier colour at all, so Thick Hide and Heavy Hide were indistinguishable above the waist. The tier treatment now reaches them, and each tier above Hide carries an authored neck piece, a studded leather yoke at Thick Hide, a fur mantle at Fur, and a heavier mantle with horn toggles at Heavy Hide, which is the fur trim those tier names promise.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "marchhide_wraps",
@@ -12402,7 +13349,16 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "rework",
+      "resolutionReason": "The hands slot renders a wrist cuff and leaves the hand itself bare skin, on both bodies, at every tier of both lines, in every close grip view and in the published icon. An item called Gauntlets or Wraps has to cover the hand. This needs a new skinned hand mesh per body, which a bone-parented tier piece cannot substitute for, so it is not fixed in this slice.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/grips-shield.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "ember_ring",
@@ -12453,7 +13409,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "A band is a band; tier and element read from the metal colour and there is no construction difference to author at this size.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "ember_charm",
@@ -12504,7 +13465,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Every pendant and charm is drawn as the ring torus with a bipyramid stuck on it, so a pendant is indistinguishable from a ring of the same tier. A pendant needs a cord or chain and a hanging setting, as heron_quill_charm and antler_palm_charm already manage.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "duskoak_wand",
@@ -12585,7 +13551,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported hooked twig, 0.79 m long in hand, with no metal or crystal to separate from the wood. Now four authored constructions, a lashed whittled stick, a turned handle with a flared ferrule and ring socket, a faceted shaft with a three-prong setting, and a ribbed shaft with a closed four-claw setting, at 0.41-0.44 m worn at a 1.22 fit. Promoted and reviewed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/wands-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-wand.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "duskoak_staff",
@@ -12666,7 +13640,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported mesh whose head is a broad spear point, so a staff read as a spear, no tier had its own construction, and the dark tiers lost the wood entirely. Now four authored constructions, a bound bent branch, a turned shaft with ferrules and a two-prong crown, a segmented shaft with joint collars and a four-prong cage, and a tapered shaft with a spiral iron vine and a closed cage, with wood, leather, metal and crystal in separate materials. Promoted and reviewed in the gallery and in hand. basic_wooden shares the tier-1 construction by design and is separated by its fittings colour.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/staves-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "bramblehide_hood",
@@ -12784,7 +13766,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Hide, Thick Hide, Fur and Heavy Hide were one imported Ranger mesh per slot, and worse, the hood, the pauldron and the boots did not take the tier colour at all, so Thick Hide and Heavy Hide were indistinguishable above the waist. The tier treatment now reaches them, and each tier above Hide carries an authored neck piece, a studded leather yoke at Thick Hide, a fur mantle at Fur, and a heavier mantle with horn toggles at Heavy Hide, which is the fur trim those tier names promise.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "bramblehide_robe",
@@ -12924,7 +13914,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Hide, Thick Hide, Fur and Heavy Hide were one imported Ranger mesh per slot, and worse, the hood, the pauldron and the boots did not take the tier colour at all, so Thick Hide and Heavy Hide were indistinguishable above the waist. The tier treatment now reaches them, and each tier above Hide carries an authored neck piece, a studded leather yoke at Thick Hide, a fur mantle at Fur, and a heavier mantle with horn toggles at Heavy Hide, which is the fur trim those tier names promise.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "bramblehide_leggings",
@@ -13042,7 +14040,14 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "The trousers themselves read and take the tier colour. Each hide tier now also carries its own belt skirt, plain hide at Hide through a heavy layered skirt with hanging straps at Heavy Hide.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "bramblehide_boots",
@@ -13160,7 +14165,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Hide, Thick Hide, Fur and Heavy Hide were one imported Ranger mesh per slot, and worse, the hood, the pauldron and the boots did not take the tier colour at all, so Thick Hide and Heavy Hide were indistinguishable above the waist. The tier treatment now reaches them, and each tier above Hide carries an authored neck piece, a studded leather yoke at Thick Hide, a fur mantle at Fur, and a heavier mantle with horn toggles at Heavy Hide, which is the fur trim those tier names promise.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "bramblehide_wraps",
@@ -13279,7 +14292,16 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "rework",
+      "resolutionReason": "The hands slot renders a wrist cuff and leaves the hand itself bare skin, on both bodies, at every tier of both lines, in every close grip view and in the published icon. An item called Gauntlets or Wraps has to cover the hand. This needs a new skinned hand mesh per body, which a bone-parented tier piece cannot substitute for, so it is not fixed in this slice.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/grips-shield.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "stone_ring",
@@ -13330,7 +14352,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "A band is a band; tier and element read from the metal colour and there is no construction difference to author at this size.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "stone_charm",
@@ -13381,7 +14408,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Every pendant and charm is drawn as the ring torus with a bipyramid stuck on it, so a pendant is indistinguishable from a ring of the same tier. A pendant needs a cord or chain and a hanging setting, as heron_quill_charm and antler_palm_charm already manage.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "cairnpine_wand",
@@ -13462,7 +14494,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported hooked twig, 0.79 m long in hand, with no metal or crystal to separate from the wood. Now four authored constructions, a lashed whittled stick, a turned handle with a flared ferrule and ring socket, a faceted shaft with a three-prong setting, and a ribbed shaft with a closed four-claw setting, at 0.41-0.44 m worn at a 1.22 fit. Promoted and reviewed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/wands-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-wand.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "cairnpine_staff",
@@ -13543,7 +14583,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported mesh whose head is a broad spear point, so a staff read as a spear, no tier had its own construction, and the dark tiers lost the wood entirely. Now four authored constructions, a bound bent branch, a turned shaft with ferrules and a two-prong crown, a segmented shaft with joint collars and a four-prong cage, and a tapered shaft with a spiral iron vine and a closed cage, with wood, leather, metal and crystal in separate materials. Promoted and reviewed in the gallery and in hand. basic_wooden shares the tier-1 construction by design and is separated by its fittings colour.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/staves-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "cairnpelt_hood",
@@ -13661,7 +14709,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Hide, Thick Hide, Fur and Heavy Hide were one imported Ranger mesh per slot, and worse, the hood, the pauldron and the boots did not take the tier colour at all, so Thick Hide and Heavy Hide were indistinguishable above the waist. The tier treatment now reaches them, and each tier above Hide carries an authored neck piece, a studded leather yoke at Thick Hide, a fur mantle at Fur, and a heavier mantle with horn toggles at Heavy Hide, which is the fur trim those tier names promise.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "cairnpelt_robe",
@@ -13801,7 +14857,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Hide, Thick Hide, Fur and Heavy Hide were one imported Ranger mesh per slot, and worse, the hood, the pauldron and the boots did not take the tier colour at all, so Thick Hide and Heavy Hide were indistinguishable above the waist. The tier treatment now reaches them, and each tier above Hide carries an authored neck piece, a studded leather yoke at Thick Hide, a fur mantle at Fur, and a heavier mantle with horn toggles at Heavy Hide, which is the fur trim those tier names promise.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "cairnpelt_leggings",
@@ -13919,7 +14983,14 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "The trousers themselves read and take the tier colour. Each hide tier now also carries its own belt skirt, plain hide at Hide through a heavy layered skirt with hanging straps at Heavy Hide.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "cairnpelt_boots",
@@ -14037,7 +15108,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Hide, Thick Hide, Fur and Heavy Hide were one imported Ranger mesh per slot, and worse, the hood, the pauldron and the boots did not take the tier colour at all, so Thick Hide and Heavy Hide were indistinguishable above the waist. The tier treatment now reaches them, and each tier above Hide carries an authored neck piece, a studded leather yoke at Thick Hide, a fur mantle at Fur, and a heavier mantle with horn toggles at Heavy Hide, which is the fur trim those tier names promise.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "cairnpelt_wraps",
@@ -14156,7 +15235,16 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "rework",
+      "resolutionReason": "The hands slot renders a wrist cuff and leaves the hand itself bare skin, on both bodies, at every tier of both lines, in every close grip view and in the published icon. An item called Gauntlets or Wraps has to cover the hand. This needs a new skinned hand mesh per body, which a bone-parented tier piece cannot substitute for, so it is not fixed in this slice.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/grips-shield.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "storm_ring",
@@ -14207,7 +15295,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "A band is a band; tier and element read from the metal colour and there is no construction difference to author at this size.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "storm_charm",
@@ -14258,7 +15351,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Every pendant and charm is drawn as the ring torus with a bipyramid stuck on it, so a pendant is indistinguishable from a ring of the same tier. A pendant needs a cord or chain and a hanging setting, as heron_quill_charm and antler_palm_charm already manage.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "cinderpine_wand",
@@ -14339,7 +15437,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported hooked twig, 0.79 m long in hand, with no metal or crystal to separate from the wood. Now four authored constructions, a lashed whittled stick, a turned handle with a flared ferrule and ring socket, a faceted shaft with a three-prong setting, and a ribbed shaft with a closed four-claw setting, at 0.41-0.44 m worn at a 1.22 fit. Promoted and reviewed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/wands-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-wand.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "cinderpine_staff",
@@ -14420,7 +15526,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported mesh whose head is a broad spear point, so a staff read as a spear, no tier had its own construction, and the dark tiers lost the wood entirely. Now four authored constructions, a bound bent branch, a turned shaft with ferrules and a two-prong crown, a segmented shaft with joint collars and a four-prong cage, and a tapered shaft with a spiral iron vine and a closed cage, with wood, leather, metal and crystal in separate materials. Promoted and reviewed in the gallery and in hand. basic_wooden shares the tier-1 construction by design and is separated by its fittings colour.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/staves-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "charhide_hood",
@@ -14538,7 +15652,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Hide, Thick Hide, Fur and Heavy Hide were one imported Ranger mesh per slot, and worse, the hood, the pauldron and the boots did not take the tier colour at all, so Thick Hide and Heavy Hide were indistinguishable above the waist. The tier treatment now reaches them, and each tier above Hide carries an authored neck piece, a studded leather yoke at Thick Hide, a fur mantle at Fur, and a heavier mantle with horn toggles at Heavy Hide, which is the fur trim those tier names promise.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "charhide_robe",
@@ -14678,7 +15800,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Hide, Thick Hide, Fur and Heavy Hide were one imported Ranger mesh per slot, and worse, the hood, the pauldron and the boots did not take the tier colour at all, so Thick Hide and Heavy Hide were indistinguishable above the waist. The tier treatment now reaches them, and each tier above Hide carries an authored neck piece, a studded leather yoke at Thick Hide, a fur mantle at Fur, and a heavier mantle with horn toggles at Heavy Hide, which is the fur trim those tier names promise.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "charhide_leggings",
@@ -14796,7 +15926,14 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "The trousers themselves read and take the tier colour. Each hide tier now also carries its own belt skirt, plain hide at Hide through a heavy layered skirt with hanging straps at Heavy Hide.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "charhide_boots",
@@ -14914,7 +16051,15 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "accept",
+      "resolutionReason": "Was: Hide, Thick Hide, Fur and Heavy Hide were one imported Ranger mesh per slot, and worse, the hood, the pauldron and the boots did not take the tier colour at all, so Thick Hide and Heavy Hide were indistinguishable above the waist. The tier treatment now reaches them, and each tier above Hide carries an authored neck piece, a studded leather yoke at Thick Hide, a fur mantle at Fur, and a heavier mantle with horn toggles at Heavy Hide, which is the fur trim those tier names promise.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/tiers-parts-montage.png",
+        "runs/corealm-rebuild/SLICE-14-EQUIPMENT-VARIETY.md#tier-construction"
+      ]
     },
     {
       "id": "charhide_wraps",
@@ -15033,7 +16178,16 @@
         }
       ],
       "promotedPublicAssetHashes": [],
-      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending"
+      "currentWardrobeProof": "completed-functional-and-parent-static-review-root-decision-pending",
+      "resolution": "rework",
+      "resolutionReason": "The hands slot renders a wrist cuff and leaves the hand itself bare skin, on both bodies, at every tier of both lines, in every close grip view and in the published icon. An item called Gauntlets or Wraps has to cover the hand. This needs a new skinned hand mesh per body, which a bone-parented tier piece cannot substitute for, so it is not fixed in this slice.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/armor-1.png",
+        "test-results/icon-sheets/armor-2.png",
+        "test-results/tiers-male-montage.png",
+        "test-results/grips-shield.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "cinder_ring",
@@ -15084,7 +16238,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "A band is a band; tier and element read from the metal colour and there is no construction difference to author at this size.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "cinder_charm",
@@ -15135,7 +16294,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "rework",
+      "resolutionReason": "Every pendant and charm is drawn as the ring torus with a bipyramid stuck on it, so a pendant is indistinguishable from a ring of the same tier. A pendant needs a cord or chain and a hanging setting, as heron_quill_charm and antler_palm_charm already manage.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "air_wand",
@@ -15228,7 +16392,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported hooked twig, 0.79 m long in hand, with no metal or crystal to separate from the wood. Now four authored constructions, a lashed whittled stick, a turned handle with a flared ferrule and ring socket, a faceted shaft with a three-prong setting, and a ribbed shaft with a closed four-claw setting, at 0.41-0.44 m worn at a 1.22 fit. Promoted and reviewed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/wands-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-wand.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "air_staff",
@@ -15321,7 +16493,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported mesh whose head is a broad spear point, so a staff read as a spear, no tier had its own construction, and the dark tiers lost the wood entirely. Now four authored constructions, a bound bent branch, a turned shaft with ferrules and a two-prong crown, a segmented shaft with joint collars and a four-prong cage, and a tapered shaft with a spiral iron vine and a closed cage, with wood, leather, metal and crystal in separate materials. Promoted and reviewed in the gallery and in hand. basic_wooden shares the tier-1 construction by design and is separated by its fittings colour.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/staves-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "earth_wand",
@@ -15414,7 +16594,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported hooked twig, 0.79 m long in hand, with no metal or crystal to separate from the wood. Now four authored constructions, a lashed whittled stick, a turned handle with a flared ferrule and ring socket, a faceted shaft with a three-prong setting, and a ribbed shaft with a closed four-claw setting, at 0.41-0.44 m worn at a 1.22 fit. Promoted and reviewed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/wands-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-wand.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "earth_staff",
@@ -15507,7 +16695,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported mesh whose head is a broad spear point, so a staff read as a spear, no tier had its own construction, and the dark tiers lost the wood entirely. Now four authored constructions, a bound bent branch, a turned shaft with ferrules and a two-prong crown, a segmented shaft with joint collars and a four-prong cage, and a tapered shaft with a spiral iron vine and a closed cage, with wood, leather, metal and crystal in separate materials. Promoted and reviewed in the gallery and in hand. basic_wooden shares the tier-1 construction by design and is separated by its fittings colour.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/staves-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "water_wand",
@@ -15600,7 +16796,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported hooked twig, 0.79 m long in hand, with no metal or crystal to separate from the wood. Now four authored constructions, a lashed whittled stick, a turned handle with a flared ferrule and ring socket, a faceted shaft with a three-prong setting, and a ribbed shaft with a closed four-claw setting, at 0.41-0.44 m worn at a 1.22 fit. Promoted and reviewed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/wands-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-wand.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "water_staff",
@@ -15693,7 +16897,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported mesh whose head is a broad spear point, so a staff read as a spear, no tier had its own construction, and the dark tiers lost the wood entirely. Now four authored constructions, a bound bent branch, a turned shaft with ferrules and a two-prong crown, a segmented shaft with joint collars and a four-prong cage, and a tapered shaft with a spiral iron vine and a closed cage, with wood, leather, metal and crystal in separate materials. Promoted and reviewed in the gallery and in hand. basic_wooden shares the tier-1 construction by design and is separated by its fittings colour.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/staves-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "fire_wand",
@@ -15786,7 +16998,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported hooked twig, 0.79 m long in hand, with no metal or crystal to separate from the wood. Now four authored constructions, a lashed whittled stick, a turned handle with a flared ferrule and ring socket, a faceted shaft with a three-prong setting, and a ribbed shaft with a closed four-claw setting, at 0.41-0.44 m worn at a 1.22 fit. Promoted and reviewed.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/wands-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-wand.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "fire_staff",
@@ -15879,7 +17099,15 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Was: nine ids sharing one imported mesh whose head is a broad spear point, so a staff read as a spear, no tier had its own construction, and the dark tiers lost the wood entirely. Now four authored constructions, a bound bent branch, a turned shaft with ferrules and a two-prong crown, a segmented shaft with joint collars and a four-prong cage, and a tapered shaft with a spiral iron vine and a closed cage, with wood, leather, metal and crystal in separate materials. Promoted and reviewed in the gallery and in hand. basic_wooden shares the tier-1 construction by design and is separated by its fittings colour.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/staves-new.png",
+        "test-results/held-r3-montage.png",
+        "test-results/grips-staff.png",
+        "runs/corealm-rebuild/SLICE-13-EQUIPMENT-IN-MOTION.md#body-x-outfit-x-action-matrix"
+      ]
     },
     {
       "id": "galeskin_sword",
@@ -15963,7 +17191,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The imported miniboss meshes are a separate, richer construction from the ladder weapons and their four regional tints read without flattening the authored edge and rune detail.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/icon-sheets/staves.png"
+      ]
     },
     {
       "id": "galeskin_staff",
@@ -16047,7 +17281,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The imported miniboss meshes are a separate, richer construction from the ladder weapons and their four regional tints read without flattening the authored edge and rune detail.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/icon-sheets/staves.png"
+      ]
     },
     {
       "id": "mossbound_sword",
@@ -16131,7 +17371,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The imported miniboss meshes are a separate, richer construction from the ladder weapons and their four regional tints read without flattening the authored edge and rune detail.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/icon-sheets/staves.png"
+      ]
     },
     {
       "id": "mossbound_staff",
@@ -16215,7 +17461,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The imported miniboss meshes are a separate, richer construction from the ladder weapons and their four regional tints read without flattening the authored edge and rune detail.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/icon-sheets/staves.png"
+      ]
     },
     {
       "id": "tideworn_sword",
@@ -16299,7 +17551,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The imported miniboss meshes are a separate, richer construction from the ladder weapons and their four regional tints read without flattening the authored edge and rune detail.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/icon-sheets/staves.png"
+      ]
     },
     {
       "id": "tideworn_staff",
@@ -16383,7 +17641,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The imported miniboss meshes are a separate, richer construction from the ladder weapons and their four regional tints read without flattening the authored edge and rune detail.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/icon-sheets/staves.png"
+      ]
     },
     {
       "id": "cinderwake_sword",
@@ -16467,7 +17731,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The imported miniboss meshes are a separate, richer construction from the ladder weapons and their four regional tints read without flattening the authored edge and rune detail.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/icon-sheets/staves.png"
+      ]
     },
     {
       "id": "cinderwake_staff",
@@ -16551,7 +17821,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "The imported miniboss meshes are a separate, richer construction from the ladder weapons and their four regional tints read without flattening the authored edge and rune detail.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/swords.png",
+        "test-results/icon-sheets/staves.png"
+      ]
     },
     {
       "id": "fox_guardhair",
@@ -16603,7 +17879,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "lynx_sinew",
@@ -16655,7 +17937,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "badger_bristle",
@@ -16707,7 +17995,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "porcupine_quill",
@@ -16759,7 +18053,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "horse_tailhair",
@@ -16811,7 +18111,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "bighorn_fleece",
@@ -16863,7 +18169,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "moose_antler_palm",
@@ -16915,7 +18227,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "tapir_leather",
@@ -16967,7 +18285,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "crocodile_scute",
@@ -17019,7 +18343,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "salamander_secretion",
@@ -17071,7 +18401,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "tortoise_shell_plate",
@@ -17123,7 +18459,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "monitor_sinew",
@@ -17175,7 +18517,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "goose_down",
@@ -17227,7 +18575,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "heron_quill",
@@ -17279,7 +18633,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "bustard_plume",
@@ -17331,7 +18691,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "turkey_tailfeather",
@@ -17383,7 +18749,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "snail_mucus",
@@ -17435,7 +18807,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "beetle_mandible",
@@ -17487,7 +18865,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "centipede_chitin",
@@ -17539,7 +18923,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "spider_thread",
@@ -17591,7 +18981,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "ravager_talon",
@@ -17643,7 +19039,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "drake_scale",
@@ -17695,7 +19097,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "mantis_scythe",
@@ -17747,7 +19155,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "nightmare_plate",
@@ -17799,7 +19213,13 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each is an independently authored form and is recognisable as the named body part at icon size. This is the bar the original drop set has to reach.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/drops-2.png",
+        "test-results/icon-sheets/drops-3.png"
+      ]
     },
     {
       "id": "foxhair_ring",
@@ -17851,7 +19271,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each carries the creature material into the form itself, fur tufts, sinew binding, quills, chitin plates, a plume, an antler palm, a hooked edge, so it is not a recolour of the metal band.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "turkey_plume_charm",
@@ -17903,7 +19328,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each carries the creature material into the form itself, fur tufts, sinew binding, quills, chitin plates, a plume, an antler palm, a hooked edge, so it is not a recolour of the metal band.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "lynx_sinew_ring",
@@ -17955,7 +19385,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each carries the creature material into the form itself, fur tufts, sinew binding, quills, chitin plates, a plume, an antler palm, a hooked edge, so it is not a recolour of the metal band.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "heron_quill_charm",
@@ -18007,7 +19442,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each carries the creature material into the form itself, fur tufts, sinew binding, quills, chitin plates, a plume, an antler palm, a hooked edge, so it is not a recolour of the metal band.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "quillguard_ring",
@@ -18059,7 +19499,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each carries the creature material into the form itself, fur tufts, sinew binding, quills, chitin plates, a plume, an antler palm, a hooked edge, so it is not a recolour of the metal band.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "antler_palm_charm",
@@ -18111,7 +19556,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each carries the creature material into the form itself, fur tufts, sinew binding, quills, chitin plates, a plume, an antler palm, a hooked edge, so it is not a recolour of the metal band.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "chitin_ring",
@@ -18163,7 +19613,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each carries the creature material into the form itself, fur tufts, sinew binding, quills, chitin plates, a plume, an antler palm, a hooked edge, so it is not a recolour of the metal band.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     },
     {
       "id": "mantis_edge_charm",
@@ -18215,7 +19670,12 @@
           ]
         }
       ],
-      "promotedPublicAssetHashes": []
+      "promotedPublicAssetHashes": [],
+      "resolution": "accept",
+      "resolutionReason": "Each carries the creature material into the form itself, fur tufts, sinew binding, quills, chitin plates, a plume, an antler palm, a hooked edge, so it is not a recolour of the metal band.",
+      "resolutionEvidence": [
+        "test-results/icon-sheets/accessories.png"
+      ]
     }
   ],
   "reviewUpdatedAt": "2026-09-05T20:09:34.779Z",
@@ -18362,6 +19822,43 @@
         "sha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573",
         "manifestSha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573"
       }
+    ]
+  },
+  "resolution": {
+    "at": "2026-09-06",
+    "slice": "SLICE-14-EQUIPMENT-VARIETY",
+    "authority": "Equipment owner. Held gear, worn armour and the pickaxe were reviewed in the production forest, mining and fishing labs and the environment gallery on the D3D11 hardware renderer; every other group was reviewed from its published 256 px masters in the labelled per-group contact sheets listed as evidence.",
+    "counts": {
+      "rework": 53,
+      "accept": 174
+    },
+    "retired": "None. No catalogue id is redundant in gameplay terms. Every failure found is a presentation failure on an item that still has to exist, so the honest verdict is rework rather than retire.",
+    "limits": [
+      "Icon-only groups were judged from the published master, not from a fresh render, so a reworked icon has to be reviewed again after regeneration.",
+      "The armour verdicts cover construction and coverage. Set-bonus inference and save ids are untouched by them.",
+      "An accept that begins \"Was:\" records the state after this slice reworked the item. The text before the change is kept so the verdict can be re-checked."
+    ],
+    "sheets": [
+      "test-results/icon-sheets/accessories.png",
+      "test-results/icon-sheets/armor-1.png",
+      "test-results/icon-sheets/armor-2.png",
+      "test-results/icon-sheets/bars.png",
+      "test-results/icon-sheets/currency.png",
+      "test-results/icon-sheets/daggers-new.png",
+      "test-results/icon-sheets/drops-1.png",
+      "test-results/icon-sheets/drops-2.png",
+      "test-results/icon-sheets/drops-3.png",
+      "test-results/icon-sheets/elemental.png",
+      "test-results/icon-sheets/food.png",
+      "test-results/icon-sheets/minerals-new.png",
+      "test-results/icon-sheets/minerals.png",
+      "test-results/icon-sheets/shields-new.png",
+      "test-results/icon-sheets/staves-new.png",
+      "test-results/icon-sheets/staves.png",
+      "test-results/icon-sheets/swords.png",
+      "test-results/icon-sheets/timber.png",
+      "test-results/icon-sheets/tools.png",
+      "test-results/icon-sheets/wands-new.png"
     ]
   }
 }
