@@ -223,6 +223,12 @@ camera round shows the follow camera sitting inside a cut face, that is the mome
 
 ## Limits
 
+- The branch was rebased onto main twice: first for the `walkableClimb` 10 → 8 change and the regenerated
+  navmesh, which every measurement here already reflects, and again onto slice 05 afterwards. That second
+  rebase brought only creature content — `assetLicenses.ts`, `creatureMotionTiming.ts`, `regionalPacks.ts`
+  and creature GLBs — and touched nothing in the navmesh fingerprint groups, terrain, world sites or the
+  cut face. The audit reproduces byte for byte on top of it and all 123 focused tests pass, so the browser
+  evidence, captured just before it, still describes this tree.
 - No release gate, no navmesh regeneration, no performance claim.
 - The depleted state is reached with `depleteNode` rather than 8-15 real yields, and the pack is filled with
   `giveItem` for the inventory-full case. Both are recorded per mine in the report's `shortcuts` list. Every
