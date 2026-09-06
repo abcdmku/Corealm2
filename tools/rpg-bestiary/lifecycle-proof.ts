@@ -22,19 +22,38 @@ try{
  const call=(name:string,a:any)=>page.evaluate(async({name,a})=>{const r=await(window as any).__gameDebug.callTool(name,a);if(r?.error)throw Error(JSON.stringify(r));return r;},{name,a});
  await page.evaluate(async preset=>{const l=(window as any).__featureLab;await l.spawnTarget('creature',preset,{distance:7});l.setLevel('melee',1);await l.equipPlayer('mainHand',null);},preset);
  await page.waitForFunction(p=>(window as any).__featureLab.getState()?.target?.presetId===p,preset);
- const sample=async(stage:string)=>{const s=await page.evaluate(()=>{const l=(window as any).__featureLab.getState(),d=(window as any).__gameDebug;return {lab:l,motion:d.getEntityMotion(l.target.entityId),entity:d.getEntity(l.target.entityId),drawn:d.getDrawnBounds(l.target.entityId),game:d.getState()};});assert.equal(s.lab.target.presetId,preset);const row={at:Date.now(),stage,...s};report.trace.push(row);return row;};
+ const sample=async(stage:string)=>{const s=await page.evaluate(()=>{const l=(window as any).__featureLab.getState(),d=(window as any).__gameDebug;return {lab:l,motion:d.getEntityMotion(l.target.entityId),entity:d.getEntity(l.target.entityId),drawn:d.getDrawnBounds(l.target.entityId),game:d.getState()};});assert.equal(s.lab.target.presetId,preset);const row={at:Date.now(),stage,...s};report.trace.push(row);
+  const overlay=s.motion?.hitOverlay;if(overlay?.active&&!report.hitOverlay)report.hitOverlay={clip:overlay.clip,duration:overlay.duration,maskStatus:overlay.maskStatus,bones:overlay.bones};
+  return row;};
+ // Since the running-hit overlay (Slice 03), Hit is an additive masked reaction over the base motion
+ // rather than a `hit` base state. A hit is observed through that overlay; the legacy state still counts.
+ const hitPhase=(s:any):number|null=>{const o=s.motion?.hitOverlay;if(o?.active&&o.duration>0)return o.time/o.duration;return s.motion?.motion==='hit'&&s.motion.duration>0?s.motion.time/s.motion.duration:null;};
+ const actionState=(s:any,expected:string)=>expected==='hit'?(hitPhase(s)===null?null:{motion:'hit',clip:s.motion.hitOverlay?.clip??s.motion.clip}):s.motion?{motion:s.motion.motion,clip:s.motion.clip}:null;
+ // The camera sits at target + distance * (sin yaw, cos yaw). Looking across the player-target axis
+ // keeps the player from standing between the camera and the actor or corpse.
+ const frame=async(label:string,factor:number,waitMs:number)=>{await page.evaluate(({label,factor})=>{const d=(window as any).__gameDebug,l=(window as any).__featureLab.getState(),b=d.getDrawnBounds(l.target.entityId);if(!b)return;
+   const size=Math.max(b.max.x-b.min.x,b.max.y-b.min.y,b.max.z-b.min.z),c={x:(b.min.x+b.max.x)/2,y:(b.min.y+b.max.y)/2,z:(b.min.z+b.max.z)/2},p=l.player.position;
+   const yaw=label==='corpse-front'?0:label==='corpse-side'?Math.PI/2:Math.atan2(p[0]-c.x,p[2]-c.z)+Math.PI/2;
+   d.inspectPose({x:c.x,y:c.y,z:c.z,yaw,pitch:.20,distance:Math.max(label.includes('corpse')?4.5:3,size*factor),detached:true});},{label,factor});await driver.wait(waitMs);};
  const capture=async(label:string,expectedMotion?:string)=>{
-  if(!expectedMotion){await page.evaluate(label=>{const d=(window as any).__gameDebug,l=(window as any).__featureLab.getState(),b=d.getDrawnBounds(l.target.entityId);if(b){const size=Math.max(b.max.x-b.min.x,b.max.y-b.min.y,b.max.z-b.min.z);d.inspectPose({x:(b.min.x+b.max.x)/2,y:(b.min.y+b.max.y)/2,z:(b.min.z+b.max.z)/2,yaw:label==='corpse-front'?0:Math.PI/2,pitch:.20,distance:Math.max(4.5,size*(label.includes('corpse')?2.6:1.8)),detached:true});}},label);await driver.wait(corpseOnly&&label.startsWith('corpse-')?16:180);}
+  // A 0.33 s reaction leaves no time for a settle wait; the screenshot itself forces the next rendered frame.
+  await frame(label,expectedMotion?1.6:label.includes('corpse')?2.6:1.8,expectedMotion==='hit'?0:expectedMotion?30:corpseOnly&&label.startsWith('corpse-')?16:180);
   const before=await sample(`capture-${label}-before`);if(label.startsWith('corpse-'))assert(before.drawn&&before.drawn.fade===0,'Corpse already fading before capture');
   const attempts=(report.captureStates??=[]).filter((s:any)=>s.label===label).length;
   const file=attempts?`${label}-${attempts+1}`:label;
   await driver.screenshot(out,file);const after=await sample(`capture-${label}-after`);
-  const matched=!expectedMotion||(before.motion?.motion===expectedMotion&&after.motion?.motion===expectedMotion&&before.motion?.clip===after.motion?.clip);
-  report.captureStates.push({label,file,expectedMotion,matched,before:{at:before.at,motion:before.motion,drawn:before.drawn},after:{at:after.at,motion:after.motion,drawn:after.drawn}});
+  const a=expectedMotion?actionState(before,expectedMotion):null,b=expectedMotion?actionState(after,expectedMotion):null;
+  const matched=!expectedMotion||(!!a&&!!b&&a.motion===expectedMotion&&b.motion===expectedMotion&&a.clip===b.clip);
+  report.captureStates.push({label,file,expectedMotion,matched,hitPhase:{before:hitPhase(before),after:hitPhase(after)},before:{at:before.at,motion:before.motion,drawn:before.drawn},after:{at:after.at,motion:after.motion,drawn:after.drawn}});
   if(label.startsWith('corpse-'))assert(after.drawn&&after.drawn.fade===0,'Corpse began fading during capture');
   if(matched)report.captures.push(label);
  };
- const observe=async(stage:string,ms:number)=>{const until=Date.now()+ms;while(Date.now()<until){const s=await sample(stage);for(const motion of ['attack','hit'])if(s.lab.target.motion?.motion===motion&&s.motion.time>=s.motion.duration*(motion==='hit'?.2:.1)&&s.motion.time<s.motion.duration*.6&&!report.captures.includes(motion))await capture(motion,motion);await driver.wait(100);}};
+ // Capture inside the action itself: Attack between 10% and 60% of its clip, the hit overlay while its weight is rising.
+ const captureActions=async(s:any)=>{
+  if(s.lab.target.motion?.motion==='attack'&&s.motion.time>=s.motion.duration*.1&&s.motion.time<s.motion.duration*.6&&!report.captures.includes('attack'))await capture('attack','attack');
+  const phase=hitPhase(s);if(phase!==null&&phase>=.03&&phase<.36&&!report.captures.includes('hit'))await capture('hit','hit');
+ };
+ const observe=async(stage:string,ms:number)=>{const until=Date.now()+ms;while(Date.now()<until){const s=await sample(stage);await captureActions(s);await driver.wait(60);}};
  report.before=await sample('setup');assert.equal(report.before.game.clock.timeScale,1);await capture('idle');
  if(!await page.locator('#lab-attack').isVisible())await page.keyboard.press('l');await page.locator('#lab-attack').click();await observe('approach-provocation',4500);await capture('approach');
  const origin=report.before.lab.target.position,p=report.before.lab.player.position;
@@ -46,7 +65,9 @@ try{
  // A fast actor may finish turning during its stationary attack recovery.
  // Change the player's destination only after natural pursuit is already moving.
  if(lifecycleMetrics(report.trace).movingTurnRadians<.15){
-  const end=Date.now()+2000;let pursuing:any;
+  // A slow-attacking actor may already stand in reach again; retreat once more so it has to run.
+  await call('corealm_move_to',{position:[origin[0]-3,p[1],origin[2]+retreat+3]});
+  const end=Date.now()+4000;let pursuing:any;
   while(Date.now()<end){const s=await sample('turn-pursuit-ready');if(s.motion?.motion==='run'&&s.lab.target.ai.distanceFromPlayer>reach+.25){pursuing=s;break;}await driver.wait(100);}
   if(pursuing){
    const a=pursuing.lab.target.position,b=pursuing.lab.player.position;
@@ -61,7 +82,7 @@ try{
  await call('corealm_stop',{});await page.evaluate(async()=>{const l=(window as any).__featureLab;l.setLevel('melee',35);await l.equipPlayer('mainHand','kaldite_sword');});
  report.beforeKill=await sample('kill-setup');
  if(corpseOnly){await page.keyboard.press('l');await page.evaluate(()=>(window as any).__featureLab.perform('attack'));}else await page.locator('#lab-attack').click();const end=Date.now()+35000;let dead:any;
- while(Date.now()<end){const s=await sample('natural-combat');for(const motion of ['attack','hit'])if(s.lab.target.motion?.motion===motion&&s.motion.time>=s.motion.duration*(motion==='hit'?.2:.1)&&s.motion.time<s.motion.duration*.6&&!report.captures.includes(motion))await capture(motion,motion);if(s.lab.target.state==='dead'&&s.lab.target.health===0){dead=s;break;}await driver.wait(100);}
+ while(Date.now()<end){const s=await sample('natural-combat');await captureActions(s);if(s.lab.target.state==='dead'&&s.lab.target.health===0){dead=s;break;}await driver.wait(60);}
  assert(dead,'No natural death within35s');assert(dead.lab.target.ai.respawnInMs>0);report.dead=dead;
  if(corpseOnly){
   const a=dead.lab.target.position,b=dead.lab.player.position,length=Math.hypot(b[0]-a[0],b[2]-a[2]);
@@ -91,9 +112,9 @@ try{
  if(!supplement){
  const until=Date.now()+35000;let respawn:any;while(Date.now()<until){const s=await sample('respawn-wait');if(s.lab.target.state!=='dead'&&s.lab.target.health===s.lab.target.maxHealth&&s.lab.target.ai.respawnInMs===null){respawn=s;break;}await driver.wait(300);}
  assert(respawn,'No normal respawn within35real seconds');report.respawn=respawn;await page.waitForFunction(()=>{const l=(window as any).__featureLab.getState(),m=(window as any).__gameDebug.getEntityMotion(l.target.entityId);return l.target.state!=='dead'&&l.target.health===l.target.maxHealth&&l.target.ai.respawnInMs===null&&m&&['live-rig','sampled-rig'].includes(m.path)&&m.motion!=='death'&&m.clip!=='Death'&&Number.isFinite(m.time)&&m.duration>0&&m.drawnPosition?.every(Number.isFinite);},undefined,{timeout:4000});await driver.wait(250);report.respawnRendered=await sample('respawn-rendered');await capture('respawn');
- report.coverage=lifecycleMetrics(report.trace);const moved=report.coverage.movedMetres,turn=report.coverage.movingTurnRadians,advancing=new Set(report.coverage.advancing);assert(moved>.5,'Insufficient natural actor travel');assert(turn>.15,'No meaningful living actor turn while moving');assert(advancing.has('walk')||advancing.has('run'),'No advancing locomotion while moving');assert(report.captures.includes('attack'),'Enemy attack was not observed');assert(report.captures.includes('hit'),'Hit motion was not observed');
+ report.coverage=lifecycleMetrics(report.trace);const moved=report.coverage.movedMetres,turn=report.coverage.movingTurnRadians,advancing=new Set(report.coverage.advancing);assert(moved>.5,'Insufficient natural actor travel');assert(turn>.15,'No meaningful living actor turn while moving');assert(advancing.has('walk')||advancing.has('run'),'No advancing locomotion while moving');assert(report.captures.includes('attack'),'Enemy attack was not observed');assert(report.captures.includes('hit'),'Hit reaction (overlay or legacy state) was not observed');
  }
- if(!corpseOnly){assert(report.captures.includes('attack'),'No screenshot remained in actual Attack throughout capture');assert(report.captures.includes('hit'),'No screenshot remained in actual Hit throughout capture');}
+ if(!corpseOnly){assert(report.captures.includes('attack'),'No screenshot remained in actual Attack throughout capture');assert(report.captures.includes('hit'),'No screenshot remained inside the hit reaction throughout capture');}
  assert(dead.game.skills.melee.xp>report.beforeKill.game.skills.melee.xp,'No kill XP after fixture level setup');assert(dead.game.currency>report.beforeKill.game.currency,'No kill marks');
  report.errors=await driver.callDebug('getErrors');report.pageErrors=driver.pageErrors;assert.deepEqual(report.errors,[]);assert.deepEqual(report.pageErrors,[]);report.passed=true;
 }catch(error){report.error=String(error);process.exitCode=1;}finally{await driver.close();clearDeadline();await writeFile(`${out}/report.json`,JSON.stringify(report,null,2));console.log(JSON.stringify({passed:report.passed,error:report.error,out}));}

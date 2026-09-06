@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import {FBXLoader} from 'three/addons/loaders/FBXLoader.js';
 import {buildSkeletonVariant} from './variants.mjs';
 import {removeHelmetHorns} from './unhorned.mjs';
+import {jointRecoil,HIT_PROVENANCE} from './joint-recoil.mjs';
 
 const HERE=path.dirname(fileURLToPath(import.meta.url));
 const SOURCE=path.resolve(HERE,'../../../test-results/rpg-bestiary-skeleton/Assets/DungeonCharacters/Skeletons_demo');
@@ -30,7 +31,7 @@ function staticPoseClip(idle,name,duration) {
   }));
 }
 function replaceTrack(clip,track) {clip.tracks=clip.tracks.filter(candidate=>candidate.name!==track.name);clip.tracks.push(track);}
-function deriveMissing(idle,walk) {
+function deriveMissing(object,idle,walk,roleBaseline=false) {
   // The demo has no authored run, reaction or death. These remain explicit proposals.
   const run=walk.clone();run.name='Run';for(const track of run.tracks)track.scale(.68);run.resetDuration();
   const rootQ=idle.tracks.find(track=>track.name==='Bip001.quaternion').createInterpolant().evaluate(0);
@@ -39,7 +40,10 @@ function deriveMissing(idle,walk) {
   const clips=[run];
   for(const [name,side] of [['Hit',0],['HitLeft',1],['HitRight',-1]]) {
     const duration=.58,clip=staticPoseClip(idle,name,duration),times=[0,.1,.27,.58],envelope=[0,1,.45,0];
-    replaceTrack(clip,new THREE.QuaternionKeyframeTrack('Bip001.quaternion',times,envelope.flatMap(value=>new THREE.Quaternion().setFromEuler(new THREE.Euler(-.16*value,side*.09*value,side*.2*value)).multiply(baseQ).toArray())));
+    // Only the temporary role IK input retains the old lean. Its arm curves
+    // must be solved against the same pose as the frozen role candidates.
+    if(roleBaseline)replaceTrack(clip,new THREE.QuaternionKeyframeTrack('Bip001.quaternion',times,envelope.flatMap(value=>new THREE.Quaternion().setFromEuler(new THREE.Euler(-.16*value,side*.09*value,side*.2*value)).multiply(baseQ).toArray())));
+    else for(const track of jointRecoil(object,idle,side,clip))replaceTrack(clip,track);
     clips.push(clip);
   }
   const death=staticPoseClip(idle,'Death',1.6),times=[0,.25,.65,1.15,1.6],fall=[0,.05,.42,.94,1];
@@ -85,10 +89,15 @@ export function buildSkeletonSource(id='skeleton_soldier') {
     for(const track of clip.tracks){const nodeName=track.name.slice(0,track.name.lastIndexOf('.'));if(!source.getObjectByName(nodeName))throw new Error(`Unmatched source joint ${nodeName}`);}
     return clip;
   });
-  const [idle,walk,attack]=sourceClips,derived=deriveMissing(idle,walk);
+  const [idle,walk,attack]=sourceClips,derived=deriveMissing(object,idle,walk,id!=='skeleton_soldier');
   let clips=[idle,walk,derived[0],attack,...derived.slice(1)],variantMeta={};
   if(id!=='skeleton_soldier'){
     const variant=buildSkeletonVariant(object,source,id==='skeleton_archer'?'archer':'mage',clips);clips=variant.clips;variantMeta=variant.meta;
+    const roleIdle=clips.find(clip=>clip.name==='Idle');
+    for(const [name,side] of [['Hit',0],['HitLeft',1],['HitRight',-1]]) {
+      const clip=clips.find(clip=>clip.name===name);
+      for(const track of jointRecoil(object,roleIdle,side,clip))replaceTrack(clip,track);
+    }
   }
   floorCorrect(object,ground,clips);object.animations=clips;
   // Keep accepted clip curves and their conservative grounding exactly unchanged.
@@ -101,10 +110,10 @@ export function buildSkeletonSource(id='skeleton_soldier') {
     attackContactStatus:'Provisional contact phase pending production review of original Attack take',
     textureBindings:[{materialName:'DS_Skeleton_standard',baseColorPath:path.join(materials,'DemoSkeleton.png'),flipY:true},{materialName:'DS_equipment_standard',baseColorPath:path.join(materials,'DemoEquipment.png'),flipY:true}],
     provenance:{publisher:'Polygon Blacksmith',package:'Dungeon Skeletons Demo.unitypackage',sha256:PACKAGE_HASH,license:'Standard Unity Asset Store EULA; local entitlement cache',mesh:'models/DungeonSkeleton_demo.FBX',textureNotes:'Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0.'},
-    animationProvenance:{Idle:'Original DS_onehand_idle_A.FBX take',Walk:'Original DS_onehand_walk.FBX take',Attack:'Original DS_onehand_attack_A.FBX take',Run:'PROPOSAL: original Walk retimed to 68% duration; no authored run in demo',Hit:'PROPOSAL: authored root recoil over source idle pose',HitLeft:'PROPOSAL: authored directional root recoil over source idle pose',HitRight:'PROPOSAL: authored directional root recoil over source idle pose',Death:'PROPOSAL: authored backward root collapse over source idle pose; no authored death in demo'},
+    animationProvenance:{Idle:'Original DS_onehand_idle_A.FBX take',Walk:'Original DS_onehand_walk.FBX take',Attack:'Original DS_onehand_attack_A.FBX take',Run:'PROPOSAL: original Walk retimed to 68% duration; no authored run in demo',Hit:HIT_PROVENANCE,HitLeft:HIT_PROVENANCE,HitRight:HIT_PROVENANCE,Death:'PROPOSAL: authored backward root collapse over source idle pose; no authored death in demo'},
     acceptance:'Source candidate. Original mesh/material/rig preserved; derived motions need production review. Not accepted.',...variantMeta,...(unhorned?{helmetModification:unhorned}:{})};
   if(id!=='skeleton_soldier'){
-    for(const name of ['Idle','Walk','Run','Hit','HitLeft','HitRight'])meta.animationProvenance[name]+='; Corealm-derived role arm poses over source rig.';
+    for(const name of ['Idle','Walk','Run'])meta.animationProvenance[name]+='; Corealm-derived role arm poses over source rig.';
     meta.animationProvenance.Attack=variantMeta.roleAnimationProvenance;
     source.traverse(node=>{if(node.isSkinnedMesh)meta.retainedSourceVertices=node.geometry.attributes.position.count;});
   }

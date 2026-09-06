@@ -1,0 +1,1593 @@
+{
+  "revision": "retained-skeleton-hit-round1",
+  "method": "Append-only BIN rewrite; original accessor bytes and indices retained",
+  "visualAccepted": false,
+  "models": {
+    "soldier": {
+      "source": {
+        "sha256": "b322df501fd9e916fba28eb1e6b067beb7783b142f586c1a85e973d9cd530426",
+        "bytes": 561416
+      },
+      "candidate": {
+        "sha256": "858e5d64f151e7f4bd1a0d440f20d5e24c0a3a53c43b94851236bfb9579218fe",
+        "bytes": 584320
+      },
+      "identicalSectionHashes": {
+        "originalBin": "87c329f44d3160d7962bae7387616955616f724198752765ab7b2226dd611b0e",
+        "originalAccessors": "f0544cfb0d56d1f85ec1b6db4634439eff8e1fc214c3b836d54d871828268cbe",
+        "asset": "a2f0820382bacdceefd8b10ddefc8e159356c448d1a8162f71360359cdb31ebd",
+        "samplers": "484e45893bda402c3abe0bc819a96b5f25da2aa32789cdb9795ea5d0c3afb4ba",
+        "textures": "eec450558c285d00a265747a976f28df5b3e372f50e4daf83084fa8794e2e28e",
+        "images": "aba54d3c0d83445a1bff5c1bc2397f22aadd4cdb2fc0558313e033a87c5b5fef",
+        "materials": "9462d11ac4c299642617c8b93fe43f8e4e5491b75d9f67ed7bfeab25738d9f7b",
+        "meshes": "f2c8263fdfc8e581130a83daa0ab14df8ac3d22f69b9ed57cde933afd0aafdc2",
+        "nodes": "2aa0a7c705de91a347c6f7cd6b86ac985aaac5dc9b2f7babfd1cec12c58fc1c4",
+        "skins": "7a510ee3f526140365805e3e676d7591497b845717ec854fc581fc0e485fa5b2",
+        "scenes": "9f3b817cae7d96063592a45b9dd67f0c7bf4cabb14d59d222307faa9ed6c70fd",
+        "scene": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "Idle": "e96e50de677a173cda418b0e84074a9758be9b8cf6e965aa8057ab5d1861c7cb",
+        "Walk": "b05329040e8b36c820966f345c5ec14d323f4aaba633ac6d2f9c845e5ad8da55",
+        "Run": "577e808d18f8af6d54eb824d3a03565bcc1604e39c8328c65bc1caf8e4748274",
+        "Attack": "05487b9e5ce55e2b8bdde7013080772e7bbb5728933d240bef26c72b5d5ab50e",
+        "Death": "cd5b591463b2f9e2fc4c2ded7a839096f75aae371b2f075cb852917d5ed116f1"
+      },
+      "changedChannels": [
+        {
+          "clip": "Hit",
+          "node": "Bip001",
+          "path": "rotation",
+          "sampler": 71,
+          "previousInput": 302,
+          "previousOutput": 303,
+          "input": 316,
+          "output": 317,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_Spine1",
+          "path": "rotation",
+          "sampler": 9,
+          "previousInput": 237,
+          "previousOutput": 247,
+          "input": 318,
+          "output": 319,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_Neck",
+          "path": "rotation",
+          "sampler": 12,
+          "previousInput": 237,
+          "previousOutput": 250,
+          "input": 320,
+          "output": 321,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_Head",
+          "path": "rotation",
+          "sampler": 45,
+          "previousInput": 237,
+          "previousOutput": 280,
+          "input": 322,
+          "output": 323,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_L_Clavicle",
+          "path": "rotation",
+          "sampler": 15,
+          "previousInput": 237,
+          "previousOutput": 252,
+          "input": 324,
+          "output": 325,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_L_UpperArm",
+          "path": "rotation",
+          "sampler": 18,
+          "previousInput": 237,
+          "previousOutput": 255,
+          "input": 326,
+          "output": 327,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_L_Forearm",
+          "path": "rotation",
+          "sampler": 21,
+          "previousInput": 237,
+          "previousOutput": 258,
+          "input": 328,
+          "output": 329,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_R_Clavicle",
+          "path": "rotation",
+          "sampler": 30,
+          "previousInput": 237,
+          "previousOutput": 266,
+          "input": 330,
+          "output": 331,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_R_UpperArm",
+          "path": "rotation",
+          "sampler": 33,
+          "previousInput": 237,
+          "previousOutput": 269,
+          "input": 332,
+          "output": 333,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_R_Forearm",
+          "path": "rotation",
+          "sampler": 36,
+          "previousInput": 237,
+          "previousOutput": 271,
+          "input": 334,
+          "output": 335,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "SkeletonGround",
+          "path": "translation",
+          "sampler": 72,
+          "previousInput": 304,
+          "previousOutput": 305,
+          "input": 336,
+          "output": 337,
+          "keys": 134
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001",
+          "path": "rotation",
+          "sampler": 71,
+          "previousInput": 302,
+          "previousOutput": 306,
+          "input": 338,
+          "output": 339,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_Spine1",
+          "path": "rotation",
+          "sampler": 9,
+          "previousInput": 237,
+          "previousOutput": 247,
+          "input": 340,
+          "output": 341,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_Neck",
+          "path": "rotation",
+          "sampler": 12,
+          "previousInput": 237,
+          "previousOutput": 250,
+          "input": 342,
+          "output": 343,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_Head",
+          "path": "rotation",
+          "sampler": 45,
+          "previousInput": 237,
+          "previousOutput": 280,
+          "input": 344,
+          "output": 345,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_L_Clavicle",
+          "path": "rotation",
+          "sampler": 15,
+          "previousInput": 237,
+          "previousOutput": 252,
+          "input": 346,
+          "output": 347,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_L_UpperArm",
+          "path": "rotation",
+          "sampler": 18,
+          "previousInput": 237,
+          "previousOutput": 255,
+          "input": 348,
+          "output": 349,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_L_Forearm",
+          "path": "rotation",
+          "sampler": 21,
+          "previousInput": 237,
+          "previousOutput": 258,
+          "input": 350,
+          "output": 351,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_R_Clavicle",
+          "path": "rotation",
+          "sampler": 30,
+          "previousInput": 237,
+          "previousOutput": 266,
+          "input": 352,
+          "output": 353,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_R_UpperArm",
+          "path": "rotation",
+          "sampler": 33,
+          "previousInput": 237,
+          "previousOutput": 269,
+          "input": 354,
+          "output": 355,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_R_Forearm",
+          "path": "rotation",
+          "sampler": 36,
+          "previousInput": 237,
+          "previousOutput": 271,
+          "input": 356,
+          "output": 357,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "SkeletonGround",
+          "path": "translation",
+          "sampler": 72,
+          "previousInput": 304,
+          "previousOutput": 307,
+          "input": 358,
+          "output": 359,
+          "keys": 134
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001",
+          "path": "rotation",
+          "sampler": 71,
+          "previousInput": 302,
+          "previousOutput": 308,
+          "input": 360,
+          "output": 361,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_Spine1",
+          "path": "rotation",
+          "sampler": 9,
+          "previousInput": 237,
+          "previousOutput": 247,
+          "input": 362,
+          "output": 363,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_Neck",
+          "path": "rotation",
+          "sampler": 12,
+          "previousInput": 237,
+          "previousOutput": 250,
+          "input": 364,
+          "output": 365,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_Head",
+          "path": "rotation",
+          "sampler": 45,
+          "previousInput": 237,
+          "previousOutput": 280,
+          "input": 366,
+          "output": 367,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_L_Clavicle",
+          "path": "rotation",
+          "sampler": 15,
+          "previousInput": 237,
+          "previousOutput": 252,
+          "input": 368,
+          "output": 369,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_L_UpperArm",
+          "path": "rotation",
+          "sampler": 18,
+          "previousInput": 237,
+          "previousOutput": 255,
+          "input": 370,
+          "output": 371,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_L_Forearm",
+          "path": "rotation",
+          "sampler": 21,
+          "previousInput": 237,
+          "previousOutput": 258,
+          "input": 372,
+          "output": 373,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_R_Clavicle",
+          "path": "rotation",
+          "sampler": 30,
+          "previousInput": 237,
+          "previousOutput": 266,
+          "input": 374,
+          "output": 375,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_R_UpperArm",
+          "path": "rotation",
+          "sampler": 33,
+          "previousInput": 237,
+          "previousOutput": 269,
+          "input": 376,
+          "output": 377,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_R_Forearm",
+          "path": "rotation",
+          "sampler": 36,
+          "previousInput": 237,
+          "previousOutput": 271,
+          "input": 378,
+          "output": 379,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "SkeletonGround",
+          "path": "translation",
+          "sampler": 72,
+          "previousInput": 304,
+          "previousOutput": 309,
+          "input": 380,
+          "output": 381,
+          "keys": 134
+        }
+      ],
+      "clips": {
+        "Hit": {
+          "peakDeltaRad": {
+            "Bip001_R_Forearm": 0.14999999670048225,
+            "Bip001_R_UpperArm": 0.1999999807343988,
+            "Bip001_Spine1": 0.14000000123822734,
+            "Bip001_Pelvis": 2.9802322387695312e-8,
+            "Bip001_Spine": 2.9802322387695312e-8,
+            "Bip001_R_Clavicle": 0.05000001850082961,
+            "Bip001_Head": 0.179999991572648,
+            "Bip001_R_Hand": 0,
+            "Bip001_R_Thigh": 0,
+            "Bip001_R_Finger0": 0,
+            "Bip001_R_Calf": 0,
+            "Bip001_L_Foot": 2.9802322387695312e-8,
+            "Bip001_R_Foot": 0,
+            "Bip001_R_Toe0": 0,
+            "Bip001_L_Forearm": 0.150000012135241,
+            "Bip001_L_UpperArm": 0.1999999893452583,
+            "Bip001_L_Clavicle": 0.049999929512574266,
+            "Bip001_L_Hand": 0,
+            "Bip001_L_Thigh": 0,
+            "Bip001_L_Finger0": 0,
+            "Bip001_L_Calf": 0,
+            "Bip001_L_Toe0": 0,
+            "Bip001_Neck": 0.10000000276231841,
+            "Bone_jaw": 0
+          },
+          "headBackwardM": 0.05363037861949588,
+          "maxSupportMatrixDifference": 0,
+          "maxEndpointDifference": 0,
+          "skeletonGround": {
+            "min": 0.0038873141165822744,
+            "max": 0.0038873141165822744
+          },
+          "skinnedMinY": {
+            "min": 0.0032741575103958694,
+            "max": 0.0032741575103958694
+          },
+          "skinnedMinYRelativeToGround": {
+            "min": -0.000613156606186405,
+            "max": -0.000613156606186405
+          },
+          "samples": 155
+        },
+        "HitLeft": {
+          "peakDeltaRad": {
+            "Bip001_R_Forearm": 0.14999999670048225,
+            "Bip001_R_UpperArm": 0.1999999807343988,
+            "Bip001_Spine1": 0.17204651046650773,
+            "Bip001_Pelvis": 2.9802322387695312e-8,
+            "Bip001_Spine": 2.9802322387695312e-8,
+            "Bip001_R_Clavicle": 0.05000001850082961,
+            "Bip001_Head": 0.179999991572648,
+            "Bip001_R_Hand": 0,
+            "Bip001_R_Thigh": 0,
+            "Bip001_R_Finger0": 0,
+            "Bip001_R_Calf": 0,
+            "Bip001_L_Foot": 2.9802322387695312e-8,
+            "Bip001_R_Foot": 0,
+            "Bip001_R_Toe0": 0,
+            "Bip001_L_Forearm": 0.150000012135241,
+            "Bip001_L_UpperArm": 0.1999999893452583,
+            "Bip001_L_Clavicle": 0.049999929512574266,
+            "Bip001_L_Hand": 0,
+            "Bip001_L_Thigh": 0,
+            "Bip001_L_Finger0": 0,
+            "Bip001_L_Calf": 0,
+            "Bip001_L_Toe0": 0,
+            "Bip001_Neck": 0.12806248775611168,
+            "Bone_jaw": 0
+          },
+          "headBackwardM": 0.052898555190683344,
+          "maxSupportMatrixDifference": 0,
+          "maxEndpointDifference": 0,
+          "skeletonGround": {
+            "min": 0.0038873141165822744,
+            "max": 0.0038873141165822744
+          },
+          "skinnedMinY": {
+            "min": 0.0032741575103958694,
+            "max": 0.0032741575103958694
+          },
+          "skinnedMinYRelativeToGround": {
+            "min": -0.000613156606186405,
+            "max": -0.000613156606186405
+          },
+          "samples": 155
+        },
+        "HitRight": {
+          "peakDeltaRad": {
+            "Bip001_R_Forearm": 0.14999999670048225,
+            "Bip001_R_UpperArm": 0.1999999807343988,
+            "Bip001_Spine1": 0.1720465072278459,
+            "Bip001_Pelvis": 2.9802322387695312e-8,
+            "Bip001_Spine": 2.9802322387695312e-8,
+            "Bip001_R_Clavicle": 0.05000001850082961,
+            "Bip001_Head": 0.179999991572648,
+            "Bip001_R_Hand": 0,
+            "Bip001_R_Thigh": 0,
+            "Bip001_R_Finger0": 0,
+            "Bip001_R_Calf": 0,
+            "Bip001_L_Foot": 2.9802322387695312e-8,
+            "Bip001_R_Foot": 0,
+            "Bip001_R_Toe0": 0,
+            "Bip001_L_Forearm": 0.150000012135241,
+            "Bip001_L_UpperArm": 0.1999999893452583,
+            "Bip001_L_Clavicle": 0.049999929512574266,
+            "Bip001_L_Hand": 0,
+            "Bip001_L_Thigh": 0,
+            "Bip001_L_Finger0": 0,
+            "Bip001_L_Calf": 0,
+            "Bip001_L_Toe0": 0,
+            "Bip001_Neck": 0.12806247583875172,
+            "Bone_jaw": 0
+          },
+          "headBackwardM": 0.05404821717377027,
+          "maxSupportMatrixDifference": 0,
+          "maxEndpointDifference": 0,
+          "skeletonGround": {
+            "min": 0.0038873141165822744,
+            "max": 0.0038873141165822744
+          },
+          "skinnedMinY": {
+            "min": 0.0032741575103958694,
+            "max": 0.0032741575103958694
+          },
+          "skinnedMinYRelativeToGround": {
+            "min": -0.000613156606186405,
+            "max": -0.000613156606186405
+          },
+          "samples": 155
+        }
+      }
+    },
+    "archer": {
+      "source": {
+        "sha256": "490c761d848958e18bec8350949b990371e2782702a17a99ed9983700622f524",
+        "bytes": 649832
+      },
+      "candidate": {
+        "sha256": "3ed625f29179d7328a468d43cd5b55ee5db9e16c6d09236e17b1545b6db3a006",
+        "bytes": 681044
+      },
+      "identicalSectionHashes": {
+        "originalBin": "bb518ec0b4980e92f530ea319b913745f5bb884c7a9267cb490f369f5f19a310",
+        "originalAccessors": "9cb99a726c75d96ba706aa7db7bf54e44fb6f514cfe1e41e193713025757f8f9",
+        "asset": "a2f0820382bacdceefd8b10ddefc8e159356c448d1a8162f71360359cdb31ebd",
+        "samplers": "484e45893bda402c3abe0bc819a96b5f25da2aa32789cdb9795ea5d0c3afb4ba",
+        "textures": "eec450558c285d00a265747a976f28df5b3e372f50e4daf83084fa8794e2e28e",
+        "images": "0aeacff306dc2847b6b43e1efbc81aed53088675cbd2e1429c4bd696a0e7dec3",
+        "materials": "8c1d1bde49f0b5f38acad0f8b0878cacdf44f7c4a0d7d4790e213b7e35d6dc67",
+        "meshes": "d870ef096d09cd79145738593905233f3f8090f524a5a69da5c0e44f24f948a6",
+        "nodes": "c39639b193b87653c3a34e9af6984c0acea01ad0e84c495bdf674f488bcf0762",
+        "skins": "6045205310ae6b24199b1d4554d404f8a285cf4d9df8b4dde214c08d627b9dae",
+        "scenes": "9f3b817cae7d96063592a45b9dd67f0c7bf4cabb14d59d222307faa9ed6c70fd",
+        "scene": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "extensionsUsed": "c730d8521f1f19ca2240834ec07682fe44ed791b67d068734e4535c33c5659ce",
+        "Idle": "31fcc36cf5baa022aad207e50306e315629a86803e51b8c9014239697f049326",
+        "Walk": "9d22ac203f7e8566c15392eacf1d527e63235419448816e745d2dbdde3ba2f41",
+        "Run": "63744f8a24317387eee87ec8e33d9f6c6222bcc25cb2efc414e6900dc90fccfd",
+        "Attack": "9ae1c2781b2045478ec1a782087e57119aaab60ba4135d4093b6481136e14ca5",
+        "Death": "435d3a48b92b5a9c48428d87d79a769f9fbf9435390c39f25a3959b7493f6f0e"
+      },
+      "changedChannels": [
+        {
+          "clip": "Hit",
+          "node": "Bip001",
+          "path": "rotation",
+          "sampler": 65,
+          "previousInput": 316,
+          "previousOutput": 317,
+          "input": 369,
+          "output": 370,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_Spine1",
+          "path": "rotation",
+          "sampler": 9,
+          "previousInput": 315,
+          "previousOutput": 250,
+          "input": 371,
+          "output": 372,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_Neck",
+          "path": "rotation",
+          "sampler": 12,
+          "previousInput": 315,
+          "previousOutput": 253,
+          "input": 373,
+          "output": 374,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_Head",
+          "path": "rotation",
+          "sampler": 39,
+          "previousInput": 315,
+          "previousOutput": 277,
+          "input": 375,
+          "output": 376,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_L_Clavicle",
+          "path": "rotation",
+          "sampler": 15,
+          "previousInput": 315,
+          "previousOutput": 255,
+          "input": 377,
+          "output": 378,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_L_UpperArm",
+          "path": "rotation",
+          "sampler": 66,
+          "previousInput": 318,
+          "previousOutput": 319,
+          "input": 379,
+          "output": 380,
+          "keys": 38
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_L_Forearm",
+          "path": "rotation",
+          "sampler": 67,
+          "previousInput": 318,
+          "previousOutput": 320,
+          "input": 381,
+          "output": 382,
+          "keys": 38
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_R_Clavicle",
+          "path": "rotation",
+          "sampler": 27,
+          "previousInput": 315,
+          "previousOutput": 266,
+          "input": 383,
+          "output": 384,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_R_UpperArm",
+          "path": "rotation",
+          "sampler": 69,
+          "previousInput": 318,
+          "previousOutput": 322,
+          "input": 385,
+          "output": 386,
+          "keys": 38
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_R_Forearm",
+          "path": "rotation",
+          "sampler": 70,
+          "previousInput": 318,
+          "previousOutput": 323,
+          "input": 387,
+          "output": 388,
+          "keys": 38
+        },
+        {
+          "clip": "Hit",
+          "node": "SkeletonGround",
+          "path": "translation",
+          "sampler": 81,
+          "previousInput": 331,
+          "previousOutput": 332,
+          "input": 389,
+          "output": 390,
+          "keys": 134
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001",
+          "path": "rotation",
+          "sampler": 65,
+          "previousInput": 316,
+          "previousOutput": 333,
+          "input": 391,
+          "output": 392,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_Spine1",
+          "path": "rotation",
+          "sampler": 9,
+          "previousInput": 315,
+          "previousOutput": 250,
+          "input": 393,
+          "output": 394,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_Neck",
+          "path": "rotation",
+          "sampler": 12,
+          "previousInput": 315,
+          "previousOutput": 253,
+          "input": 395,
+          "output": 396,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_Head",
+          "path": "rotation",
+          "sampler": 39,
+          "previousInput": 315,
+          "previousOutput": 277,
+          "input": 397,
+          "output": 398,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_L_Clavicle",
+          "path": "rotation",
+          "sampler": 15,
+          "previousInput": 315,
+          "previousOutput": 255,
+          "input": 399,
+          "output": 400,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_L_UpperArm",
+          "path": "rotation",
+          "sampler": 66,
+          "previousInput": 318,
+          "previousOutput": 334,
+          "input": 401,
+          "output": 402,
+          "keys": 38
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_L_Forearm",
+          "path": "rotation",
+          "sampler": 67,
+          "previousInput": 318,
+          "previousOutput": 335,
+          "input": 403,
+          "output": 404,
+          "keys": 38
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_R_Clavicle",
+          "path": "rotation",
+          "sampler": 27,
+          "previousInput": 315,
+          "previousOutput": 266,
+          "input": 405,
+          "output": 406,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_R_UpperArm",
+          "path": "rotation",
+          "sampler": 69,
+          "previousInput": 318,
+          "previousOutput": 337,
+          "input": 407,
+          "output": 408,
+          "keys": 38
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_R_Forearm",
+          "path": "rotation",
+          "sampler": 70,
+          "previousInput": 318,
+          "previousOutput": 338,
+          "input": 409,
+          "output": 410,
+          "keys": 38
+        },
+        {
+          "clip": "HitLeft",
+          "node": "SkeletonGround",
+          "path": "translation",
+          "sampler": 81,
+          "previousInput": 331,
+          "previousOutput": 340,
+          "input": 411,
+          "output": 412,
+          "keys": 134
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001",
+          "path": "rotation",
+          "sampler": 65,
+          "previousInput": 316,
+          "previousOutput": 341,
+          "input": 413,
+          "output": 414,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_Spine1",
+          "path": "rotation",
+          "sampler": 9,
+          "previousInput": 315,
+          "previousOutput": 250,
+          "input": 415,
+          "output": 416,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_Neck",
+          "path": "rotation",
+          "sampler": 12,
+          "previousInput": 315,
+          "previousOutput": 253,
+          "input": 417,
+          "output": 418,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_Head",
+          "path": "rotation",
+          "sampler": 39,
+          "previousInput": 315,
+          "previousOutput": 277,
+          "input": 419,
+          "output": 420,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_L_Clavicle",
+          "path": "rotation",
+          "sampler": 15,
+          "previousInput": 315,
+          "previousOutput": 255,
+          "input": 421,
+          "output": 422,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_L_UpperArm",
+          "path": "rotation",
+          "sampler": 66,
+          "previousInput": 318,
+          "previousOutput": 342,
+          "input": 423,
+          "output": 424,
+          "keys": 38
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_L_Forearm",
+          "path": "rotation",
+          "sampler": 67,
+          "previousInput": 318,
+          "previousOutput": 343,
+          "input": 425,
+          "output": 426,
+          "keys": 38
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_R_Clavicle",
+          "path": "rotation",
+          "sampler": 27,
+          "previousInput": 315,
+          "previousOutput": 266,
+          "input": 427,
+          "output": 428,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_R_UpperArm",
+          "path": "rotation",
+          "sampler": 69,
+          "previousInput": 318,
+          "previousOutput": 345,
+          "input": 429,
+          "output": 430,
+          "keys": 38
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_R_Forearm",
+          "path": "rotation",
+          "sampler": 70,
+          "previousInput": 318,
+          "previousOutput": 346,
+          "input": 431,
+          "output": 432,
+          "keys": 38
+        },
+        {
+          "clip": "HitRight",
+          "node": "SkeletonGround",
+          "path": "translation",
+          "sampler": 81,
+          "previousInput": 331,
+          "previousOutput": 348,
+          "input": 433,
+          "output": 434,
+          "keys": 134
+        }
+      ],
+      "clips": {
+        "Hit": {
+          "peakDeltaRad": {
+            "Bip001_R_Forearm": 0.15000004004217665,
+            "Bip001_R_UpperArm": 0.20000002132945796,
+            "Bip001_Spine1": 0.14000000123822734,
+            "Bip001_Pelvis": 2.9802322387695312e-8,
+            "Bip001_Spine": 2.9802322387695312e-8,
+            "Bip001_R_Clavicle": 0.05000001850082961,
+            "Bip001_Head": 0.179999991572648,
+            "Bip001_R_Hand": 5.16191365590357e-8,
+            "Bip001_R_Thigh": 0,
+            "Bip001_R_Finger0": 0,
+            "Bip001_R_Calf": 0,
+            "Bip001_L_Foot": 2.9802322387695312e-8,
+            "Bip001_R_Foot": 0,
+            "Bip001_R_Toe0": 0,
+            "Bip001_L_Forearm": 0.15000000902696023,
+            "Bip001_L_UpperArm": 0.19999998468408672,
+            "Bip001_L_Clavicle": 0.049999929512574266,
+            "Bip001_L_Hand": 5.960464477539063e-8,
+            "Bip001_L_Thigh": 0,
+            "Bip001_L_Finger0": 0,
+            "Bip001_L_Calf": 0,
+            "Bip001_L_Toe0": 0,
+            "Bip001_Neck": 0.10000000276231841,
+            "Bone_jaw": 0
+          },
+          "headBackwardM": 0.05363037861949588,
+          "maxSupportMatrixDifference": 0,
+          "maxEndpointDifference": 0,
+          "skeletonGround": {
+            "min": 0.0038873141165822744,
+            "max": 0.0038873141165822744
+          },
+          "skinnedMinY": {
+            "min": 0.0032741575103958694,
+            "max": 0.0032741575103958694
+          },
+          "skinnedMinYRelativeToGround": {
+            "min": -0.000613156606186405,
+            "max": -0.000613156606186405
+          },
+          "samples": 155
+        },
+        "HitLeft": {
+          "peakDeltaRad": {
+            "Bip001_R_Forearm": 0.15000000973797686,
+            "Bip001_R_UpperArm": 0.19999998891139537,
+            "Bip001_Spine1": 0.17204651046650773,
+            "Bip001_Pelvis": 2.9802322387695312e-8,
+            "Bip001_Spine": 2.9802322387695312e-8,
+            "Bip001_R_Clavicle": 0.05000001850082961,
+            "Bip001_Head": 0.179999991572648,
+            "Bip001_R_Hand": 5.16191365590357e-8,
+            "Bip001_R_Thigh": 0,
+            "Bip001_R_Finger0": 0,
+            "Bip001_R_Calf": 0,
+            "Bip001_L_Foot": 2.9802322387695312e-8,
+            "Bip001_R_Foot": 0,
+            "Bip001_R_Toe0": 0,
+            "Bip001_L_Forearm": 0.15000000971514704,
+            "Bip001_L_UpperArm": 0.20000000012712027,
+            "Bip001_L_Clavicle": 0.049999929512574266,
+            "Bip001_L_Hand": 5.960464477539063e-8,
+            "Bip001_L_Thigh": 0,
+            "Bip001_L_Finger0": 0,
+            "Bip001_L_Calf": 0,
+            "Bip001_L_Toe0": 0,
+            "Bip001_Neck": 0.12806248775611168,
+            "Bone_jaw": 0
+          },
+          "headBackwardM": 0.052898555190683344,
+          "maxSupportMatrixDifference": 0,
+          "maxEndpointDifference": 0,
+          "skeletonGround": {
+            "min": 0.0038873141165822744,
+            "max": 0.0038873141165822744
+          },
+          "skinnedMinY": {
+            "min": 0.0032741575103958694,
+            "max": 0.0032741575103958694
+          },
+          "skinnedMinYRelativeToGround": {
+            "min": -0.000613156606186405,
+            "max": -0.000613156606186405
+          },
+          "samples": 155
+        },
+        "HitRight": {
+          "peakDeltaRad": {
+            "Bip001_R_Forearm": 0.1500000268660048,
+            "Bip001_R_UpperArm": 0.2000000006750977,
+            "Bip001_Spine1": 0.1720465072278459,
+            "Bip001_Pelvis": 2.9802322387695312e-8,
+            "Bip001_Spine": 2.9802322387695312e-8,
+            "Bip001_R_Clavicle": 0.05000001850082961,
+            "Bip001_Head": 0.179999991572648,
+            "Bip001_R_Hand": 5.16191365590357e-8,
+            "Bip001_R_Thigh": 0,
+            "Bip001_R_Finger0": 0,
+            "Bip001_R_Calf": 0,
+            "Bip001_L_Foot": 2.9802322387695312e-8,
+            "Bip001_R_Foot": 0,
+            "Bip001_R_Toe0": 0,
+            "Bip001_L_Forearm": 0.15000000784120843,
+            "Bip001_L_UpperArm": 0.19999998426430932,
+            "Bip001_L_Clavicle": 0.049999929512574266,
+            "Bip001_L_Hand": 5.16191365590357e-8,
+            "Bip001_L_Thigh": 0,
+            "Bip001_L_Finger0": 0,
+            "Bip001_L_Calf": 0,
+            "Bip001_L_Toe0": 0,
+            "Bip001_Neck": 0.12806247583875172,
+            "Bone_jaw": 0
+          },
+          "headBackwardM": 0.05404821717377027,
+          "maxSupportMatrixDifference": 0,
+          "maxEndpointDifference": 0,
+          "skeletonGround": {
+            "min": 0.0038873141165822744,
+            "max": 0.0038873141165822744
+          },
+          "skinnedMinY": {
+            "min": 0.0032741575103958694,
+            "max": 0.0032741575103958694
+          },
+          "skinnedMinYRelativeToGround": {
+            "min": -0.000613156606186405,
+            "max": -0.000613156606186405
+          },
+          "samples": 155
+        }
+      }
+    },
+    "mage": {
+      "source": {
+        "sha256": "68d88c7916a4892cf260f591e161100d12e72d909c0b1f04bbf74ca040658792",
+        "bytes": 583684
+      },
+      "candidate": {
+        "sha256": "05f2a5f336da3d06531b5ad10f809f54564cd2057d9a7ba56b16ea992498ae7b",
+        "bytes": 614884
+      },
+      "identicalSectionHashes": {
+        "originalBin": "c78bda94a4d50e738ac57078b215ba2ce67a8e166b1dcff379732681b80222e4",
+        "originalAccessors": "cb2a59137cf68675016ed83eac8e9b3249aad80d96b917cbfa274f1d8e76c5c2",
+        "asset": "a2f0820382bacdceefd8b10ddefc8e159356c448d1a8162f71360359cdb31ebd",
+        "samplers": "484e45893bda402c3abe0bc819a96b5f25da2aa32789cdb9795ea5d0c3afb4ba",
+        "textures": "eec450558c285d00a265747a976f28df5b3e372f50e4daf83084fa8794e2e28e",
+        "images": "62a063c84a9f073cffba4d8e30d0ab845573fe13920341807e7b26ec787f476d",
+        "materials": "691f2f2f3be9f914ef1ab713f5db677429050df62bc3eb987e8ab7cbd22ec61e",
+        "meshes": "2b32ce9d73d5a8cfa94641c00bd2f04f387b378d435f23c1bad84965bcfbc0b6",
+        "nodes": "7e82bd206a798bc32d41cc1f5cfd74190a3313a418854493c42e123cf1d51fa8",
+        "skins": "ca9397ae2a70f6fa887983e47e5ea18a4c31612b9569a90df60a4fa810cd8932",
+        "scenes": "9f3b817cae7d96063592a45b9dd67f0c7bf4cabb14d59d222307faa9ed6c70fd",
+        "scene": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
+        "extensionsUsed": "c730d8521f1f19ca2240834ec07682fe44ed791b67d068734e4535c33c5659ce",
+        "Idle": "f6c85b2b9cbb7eedfa73260da75b04e8d5812cc1c5286e94bd44472c86d31560",
+        "Walk": "69a0971dc9bd7feada4f882ca964175ef85400d6862969d8cbec64e23510cc4f",
+        "Run": "790655919e3bf2150f1116cd8aac1bfbb8cdf94c5de784eae5a31f81c925ee20",
+        "Attack": "1684f4836ca4efd7a66a64439be636cbefba541dc5ce71661b92fddef14e9ee5",
+        "Death": "2461e8c1394b27d544263f45c6688f2d5c43f517553eafbffbbcd2e96f5dd53d"
+      },
+      "changedChannels": [
+        {
+          "clip": "Hit",
+          "node": "Bip001",
+          "path": "rotation",
+          "sampler": 65,
+          "previousInput": 274,
+          "previousOutput": 275,
+          "input": 316,
+          "output": 317,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_Spine1",
+          "path": "rotation",
+          "sampler": 9,
+          "previousInput": 273,
+          "previousOutput": 214,
+          "input": 318,
+          "output": 319,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_Neck",
+          "path": "rotation",
+          "sampler": 12,
+          "previousInput": 273,
+          "previousOutput": 217,
+          "input": 320,
+          "output": 321,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_Head",
+          "path": "rotation",
+          "sampler": 39,
+          "previousInput": 273,
+          "previousOutput": 241,
+          "input": 322,
+          "output": 323,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_L_Clavicle",
+          "path": "rotation",
+          "sampler": 15,
+          "previousInput": 273,
+          "previousOutput": 219,
+          "input": 324,
+          "output": 325,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_L_UpperArm",
+          "path": "rotation",
+          "sampler": 66,
+          "previousInput": 276,
+          "previousOutput": 277,
+          "input": 326,
+          "output": 327,
+          "keys": 38
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_L_Forearm",
+          "path": "rotation",
+          "sampler": 67,
+          "previousInput": 276,
+          "previousOutput": 278,
+          "input": 328,
+          "output": 329,
+          "keys": 38
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_R_Clavicle",
+          "path": "rotation",
+          "sampler": 27,
+          "previousInput": 273,
+          "previousOutput": 230,
+          "input": 330,
+          "output": 331,
+          "keys": 4
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_R_UpperArm",
+          "path": "rotation",
+          "sampler": 69,
+          "previousInput": 276,
+          "previousOutput": 280,
+          "input": 332,
+          "output": 333,
+          "keys": 38
+        },
+        {
+          "clip": "Hit",
+          "node": "Bip001_R_Forearm",
+          "path": "rotation",
+          "sampler": 70,
+          "previousInput": 276,
+          "previousOutput": 281,
+          "input": 334,
+          "output": 335,
+          "keys": 38
+        },
+        {
+          "clip": "Hit",
+          "node": "SkeletonGround",
+          "path": "translation",
+          "sampler": 73,
+          "previousInput": 284,
+          "previousOutput": 285,
+          "input": 336,
+          "output": 337,
+          "keys": 134
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001",
+          "path": "rotation",
+          "sampler": 65,
+          "previousInput": 274,
+          "previousOutput": 286,
+          "input": 338,
+          "output": 339,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_Spine1",
+          "path": "rotation",
+          "sampler": 9,
+          "previousInput": 273,
+          "previousOutput": 214,
+          "input": 340,
+          "output": 341,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_Neck",
+          "path": "rotation",
+          "sampler": 12,
+          "previousInput": 273,
+          "previousOutput": 217,
+          "input": 342,
+          "output": 343,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_Head",
+          "path": "rotation",
+          "sampler": 39,
+          "previousInput": 273,
+          "previousOutput": 241,
+          "input": 344,
+          "output": 345,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_L_Clavicle",
+          "path": "rotation",
+          "sampler": 15,
+          "previousInput": 273,
+          "previousOutput": 219,
+          "input": 346,
+          "output": 347,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_L_UpperArm",
+          "path": "rotation",
+          "sampler": 66,
+          "previousInput": 276,
+          "previousOutput": 287,
+          "input": 348,
+          "output": 349,
+          "keys": 38
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_L_Forearm",
+          "path": "rotation",
+          "sampler": 67,
+          "previousInput": 276,
+          "previousOutput": 288,
+          "input": 350,
+          "output": 351,
+          "keys": 38
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_R_Clavicle",
+          "path": "rotation",
+          "sampler": 27,
+          "previousInput": 273,
+          "previousOutput": 230,
+          "input": 352,
+          "output": 353,
+          "keys": 4
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_R_UpperArm",
+          "path": "rotation",
+          "sampler": 69,
+          "previousInput": 276,
+          "previousOutput": 290,
+          "input": 354,
+          "output": 355,
+          "keys": 38
+        },
+        {
+          "clip": "HitLeft",
+          "node": "Bip001_R_Forearm",
+          "path": "rotation",
+          "sampler": 70,
+          "previousInput": 276,
+          "previousOutput": 291,
+          "input": 356,
+          "output": 357,
+          "keys": 38
+        },
+        {
+          "clip": "HitLeft",
+          "node": "SkeletonGround",
+          "path": "translation",
+          "sampler": 73,
+          "previousInput": 284,
+          "previousOutput": 293,
+          "input": 358,
+          "output": 359,
+          "keys": 134
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001",
+          "path": "rotation",
+          "sampler": 65,
+          "previousInput": 274,
+          "previousOutput": 294,
+          "input": 360,
+          "output": 361,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_Spine1",
+          "path": "rotation",
+          "sampler": 9,
+          "previousInput": 273,
+          "previousOutput": 214,
+          "input": 362,
+          "output": 363,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_Neck",
+          "path": "rotation",
+          "sampler": 12,
+          "previousInput": 273,
+          "previousOutput": 217,
+          "input": 364,
+          "output": 365,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_Head",
+          "path": "rotation",
+          "sampler": 39,
+          "previousInput": 273,
+          "previousOutput": 241,
+          "input": 366,
+          "output": 367,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_L_Clavicle",
+          "path": "rotation",
+          "sampler": 15,
+          "previousInput": 273,
+          "previousOutput": 219,
+          "input": 368,
+          "output": 369,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_L_UpperArm",
+          "path": "rotation",
+          "sampler": 66,
+          "previousInput": 276,
+          "previousOutput": 295,
+          "input": 370,
+          "output": 371,
+          "keys": 38
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_L_Forearm",
+          "path": "rotation",
+          "sampler": 67,
+          "previousInput": 276,
+          "previousOutput": 296,
+          "input": 372,
+          "output": 373,
+          "keys": 38
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_R_Clavicle",
+          "path": "rotation",
+          "sampler": 27,
+          "previousInput": 273,
+          "previousOutput": 230,
+          "input": 374,
+          "output": 375,
+          "keys": 4
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_R_UpperArm",
+          "path": "rotation",
+          "sampler": 69,
+          "previousInput": 276,
+          "previousOutput": 298,
+          "input": 376,
+          "output": 377,
+          "keys": 38
+        },
+        {
+          "clip": "HitRight",
+          "node": "Bip001_R_Forearm",
+          "path": "rotation",
+          "sampler": 70,
+          "previousInput": 276,
+          "previousOutput": 299,
+          "input": 378,
+          "output": 379,
+          "keys": 38
+        },
+        {
+          "clip": "HitRight",
+          "node": "SkeletonGround",
+          "path": "translation",
+          "sampler": 73,
+          "previousInput": 284,
+          "previousOutput": 301,
+          "input": 380,
+          "output": 381,
+          "keys": 134
+        }
+      ],
+      "clips": {
+        "Hit": {
+          "peakDeltaRad": {
+            "Bip001_R_Forearm": 0.15000008899067688,
+            "Bip001_R_UpperArm": 0.2000000108803368,
+            "Bip001_Spine1": 0.14000000123822734,
+            "Bip001_Pelvis": 2.9802322387695312e-8,
+            "Bip001_Spine": 2.9802322387695312e-8,
+            "Bip001_R_Clavicle": 0.05000001850082961,
+            "Bip001_Head": 0.179999991572648,
+            "Bip001_R_Hand": 4.2146848510894035e-8,
+            "Bip001_R_Thigh": 0,
+            "Bip001_R_Finger0": 0,
+            "Bip001_R_Calf": 0,
+            "Bip001_L_Foot": 2.9802322387695312e-8,
+            "Bip001_R_Foot": 0,
+            "Bip001_R_Toe0": 0,
+            "Bip001_L_Forearm": 0.15000001982733926,
+            "Bip001_L_UpperArm": 0.2000000068906169,
+            "Bip001_L_Clavicle": 0.049999929512574266,
+            "Bip001_L_Hand": 5.960464477539063e-8,
+            "Bip001_L_Thigh": 0,
+            "Bip001_L_Finger0": 0,
+            "Bip001_L_Calf": 0,
+            "Bip001_L_Toe0": 0,
+            "Bip001_Neck": 0.10000000276231841,
+            "Bone_jaw": 0
+          },
+          "headBackwardM": 0.05363037861949588,
+          "maxSupportMatrixDifference": 0,
+          "maxEndpointDifference": 0,
+          "skeletonGround": {
+            "min": 0.0038873141165822744,
+            "max": 0.0038873141165822744
+          },
+          "skinnedMinY": {
+            "min": 0.0032741575103958694,
+            "max": 0.0032741575103958694
+          },
+          "skinnedMinYRelativeToGround": {
+            "min": -0.000613156606186405,
+            "max": -0.000613156606186405
+          },
+          "samples": 155
+        },
+        "HitLeft": {
+          "peakDeltaRad": {
+            "Bip001_R_Forearm": 0.14999998755203348,
+            "Bip001_R_UpperArm": 0.19999993940703836,
+            "Bip001_Spine1": 0.17204651046650773,
+            "Bip001_Pelvis": 2.9802322387695312e-8,
+            "Bip001_Spine": 2.9802322387695312e-8,
+            "Bip001_R_Clavicle": 0.05000001850082961,
+            "Bip001_Head": 0.179999991572648,
+            "Bip001_R_Hand": 5.16191365590357e-8,
+            "Bip001_R_Thigh": 0,
+            "Bip001_R_Finger0": 0,
+            "Bip001_R_Calf": 0,
+            "Bip001_L_Foot": 2.9802322387695312e-8,
+            "Bip001_R_Foot": 0,
+            "Bip001_R_Toe0": 0,
+            "Bip001_L_Forearm": 0.15000000786447384,
+            "Bip001_L_UpperArm": 0.20000002233659128,
+            "Bip001_L_Clavicle": 0.049999929512574266,
+            "Bip001_L_Hand": 5.960464477539063e-8,
+            "Bip001_L_Thigh": 0,
+            "Bip001_L_Finger0": 0,
+            "Bip001_L_Calf": 0,
+            "Bip001_L_Toe0": 0,
+            "Bip001_Neck": 0.12806248775611168,
+            "Bone_jaw": 0
+          },
+          "headBackwardM": 0.052898555190683344,
+          "maxSupportMatrixDifference": 0,
+          "maxEndpointDifference": 0,
+          "skeletonGround": {
+            "min": 0.0038873141165822744,
+            "max": 0.0038873141165822744
+          },
+          "skinnedMinY": {
+            "min": 0.0032741575103958694,
+            "max": 0.0032741575103958694
+          },
+          "skinnedMinYRelativeToGround": {
+            "min": -0.000613156606186405,
+            "max": -0.000613156606186405
+          },
+          "samples": 155
+        },
+        "HitRight": {
+          "peakDeltaRad": {
+            "Bip001_R_Forearm": 0.1499999542381326,
+            "Bip001_R_UpperArm": 0.19999997766157804,
+            "Bip001_Spine1": 0.1720465072278459,
+            "Bip001_Pelvis": 2.9802322387695312e-8,
+            "Bip001_Spine": 2.9802322387695312e-8,
+            "Bip001_R_Clavicle": 0.05000001850082961,
+            "Bip001_Head": 0.179999991572648,
+            "Bip001_R_Hand": 5.16191365590357e-8,
+            "Bip001_R_Thigh": 0,
+            "Bip001_R_Finger0": 0,
+            "Bip001_R_Calf": 0,
+            "Bip001_L_Foot": 2.9802322387695312e-8,
+            "Bip001_R_Foot": 0,
+            "Bip001_R_Toe0": 0,
+            "Bip001_L_Forearm": 0.15000000927571158,
+            "Bip001_L_UpperArm": 0.2000000077881419,
+            "Bip001_L_Clavicle": 0.049999929512574266,
+            "Bip001_L_Hand": 5.960464477539063e-8,
+            "Bip001_L_Thigh": 0,
+            "Bip001_L_Finger0": 0,
+            "Bip001_L_Calf": 0,
+            "Bip001_L_Toe0": 0,
+            "Bip001_Neck": 0.12806247583875172,
+            "Bone_jaw": 0
+          },
+          "headBackwardM": 0.05404821717377027,
+          "maxSupportMatrixDifference": 0,
+          "maxEndpointDifference": 0,
+          "skeletonGround": {
+            "min": 0.0038873141165822744,
+            "max": 0.0038873141165822744
+          },
+          "skinnedMinY": {
+            "min": 0.0032741575103958694,
+            "max": 0.0032741575103958694
+          },
+          "skinnedMinYRelativeToGround": {
+            "min": -0.000613156606186405,
+            "max": -0.000613156606186405
+          },
+          "samples": 155
+        }
+      }
+    }
+  }
+}
