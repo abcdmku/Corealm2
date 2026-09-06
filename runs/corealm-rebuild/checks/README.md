@@ -2,7 +2,7 @@
 
 These scripts were previously local files under ignored `test-results`. They are retained as source so a new worktree can repeat the corresponding checks. Evidence output remains ignored. Run them from the repository root with `npx tsx runs/corealm-rebuild/checks/<script>.ts`.
 
-Most scripts default to the stable server at port 4175. Start it with `node runs/corealm-rebuild/checks/stable-server.mjs` if no server is already there. It uses the real Vite game with HMR disabled. Do not start a competing server on that port. Parameterize separate ports before running across worktrees.
+Most scripts default to the stable server at port 4175 and accept `EQUIPMENT_REVIEW_URL` (equipment scripts) or `--url`. Start the stable server with `node runs/corealm-rebuild/checks/stable-server.mjs` (set `PORT` for another worktree) if no server is already there. It uses the real Vite game with HMR disabled. Do not start a competing server on that port. Parameterize separate ports before running across worktrees.
 
 | Script | Scope / arguments |
 | --- | --- |
