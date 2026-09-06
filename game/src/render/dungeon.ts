@@ -373,7 +373,10 @@ function buildSourceRockFacing(spec: DungeonSpec, grid: FloorGrid, source: CaveR
         if (!inside(px, pz)) return null;
         const floor = sampleGridHeight(grid, px, pz), roof = sampleGridHeight(grid, px, pz, spec.wallHeight, options);
         const inset = Math.min(0.035, Math.max(0, roof - floor - MIN_HEADROOM));
-        const depth = Math.min(0.88, Math.max(0, roof - floor - MIN_HEADROOM - inset));
+        // The roof carries the scan at the same physical amplitude as the walls. The earlier 0.88 m
+        // budget stretched its relief almost twofold, which turned narrow scan fissures into
+        // hard-edged black slots and made the rim motifs large enough to read as repeats.
+        const depth = Math.min(size.z * scale, Math.max(0, roof - floor - MIN_HEADROOM - inset));
         const step = 0.01;
         const derivativeX = sampleGridHeight(grid, px + step, pz, spec.wallHeight, options) - sampleGridHeight(grid, px - step, pz, spec.wallHeight, options);
         const derivativeZ = sampleGridHeight(grid, px, pz + step, spec.wallHeight, options) - sampleGridHeight(grid, px, pz - step, spec.wallHeight, options);

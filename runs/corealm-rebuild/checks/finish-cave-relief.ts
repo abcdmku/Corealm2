@@ -5,7 +5,7 @@ import {GameDriver} from '../../../tools/lib/driver.js';
 import {installTestDeadline} from '../../../tools/lib/deadline.js';
 const out='test-results/finish-cave-relief-v3';await mkdir(out,{recursive:true});
 const clearDeadline=installTestDeadline('Cave material review',45000);
-const driver=new GameDriver({url:'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
+const driver=new GameDriver({url:process.env.CAVE_LAB_URL??`http://127.0.0.1:${process.env.PORT??'4175'}`,close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
 const sourcePaths=['game/src/render/dungeon.ts','game/src/featureLab/cave.ts','game/src/render/corealmSurfaceMaterials.ts'];
 const sources=await Promise.all(sourcePaths.map(async path=>({path,sha256:createHash('sha256').update(await readFile(path)).digest('hex')})));
 const report:any={passed:false,visualAccepted:false,createdAt:new Date().toISOString(),sources,shots:[]};

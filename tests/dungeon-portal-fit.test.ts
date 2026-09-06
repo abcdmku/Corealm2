@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
+import { NodeIO } from "@gltf-transform/core";
 import * as THREE from "three";
 import { REGIONS } from "../game/src/content/regions.js";
-import { buildDungeon, dungeonFloorHeight, type DungeonSpec } from "../game/src/render/dungeon.js";
+import { buildDungeon, dungeonFloorHeight, type CaveRockSource, type DungeonSpec } from "../game/src/render/dungeon.js";
 import { MaterialLibrary } from "../game/src/render/materials.js";
 import { createCaveLabFixture } from "../game/src/featureLab/cave.js";
 import { assemblePortalFixture } from "../game/src/featureLab/portal.js";
@@ -20,14 +21,30 @@ const worldSpec: DungeonSpec = {
 };
 const labPortal = assemblePortalFixture(() => 0, () => 0).entities[1]!;
 const cases = [
-  { name: "authored first chamber", spec: worldSpec,
+  { name: "authored first chamber", spec: worldSpec, scanned: false,
     x: first.centre[0] + Math.sin(bearing) * inset, z: first.centre[1] + Math.cos(bearing) * inset,
     yaw: bearing + Math.PI, scale: 2.2 },
-  { name: "compact portal cave", spec: null, x: labPortal.position[0], z: labPortal.position[2], yaw: 0, scale: 1.2 },
+  { name: "authored first chamber with the scanned V7 facing", spec: worldSpec, scanned: true,
+    x: first.centre[0] + Math.sin(bearing) * inset, z: first.centre[1] + Math.cos(bearing) * inset,
+    yaw: bearing + Math.PI, scale: 2.2 },
+  { name: "compact portal cave", spec: null, scanned: false, x: labPortal.position[0], z: labPortal.position[2], yaw: 0, scale: 1.2 },
 ];
 
+/** The staged V7 scan envelope, loaded the way the browser does but without a renderer. */
+async function loadScannedSource(): Promise<CaveRockSource> {
+  const document = await new NodeIO().read("art/rebuild/candidates/finish-cave-source/v7/models/cave/rock-face-01.glb");
+  const extras = document.getRoot().listScenes()[0]!.getExtras() as { caveContinuousEnvelope?: boolean; caveDomainWarp?: { columns: number; rows: number } };
+  const primitive = document.getRoot().listMeshes()[0]!.listPrimitives()[0]!, geometry = new THREE.BufferGeometry();
+  for (const [semantic, name, size] of [["POSITION", "position", 3], ["NORMAL", "normal", 3], ["TEXCOORD_0", "uv", 2]] as const) {
+    geometry.setAttribute(name, new THREE.Float32BufferAttribute(primitive.getAttribute(semantic)!.getArray()!, size));
+  }
+  geometry.setIndex(new THREE.BufferAttribute(primitive.getIndices()!.getArray()! as Uint16Array, 1));
+  return { geometry, material: new THREE.MeshStandardMaterial(), provenance: "Poly Haven Rock Face 01, Dario Barresi, CC0-1.0",
+    continuousEnvelope: extras.caveContinuousEnvelope === true, domainWarp: extras.caveDomainWarp };
+}
+
 describe("sealed portal recess fits the production cave shell", () => {
-  it.each(cases)("keeps masonry and dark rear in front of rock in $name", ({ spec, x, z, yaw, scale }) => {
+  it.each(cases)("keeps masonry and dark rear in front of rock in $name", async ({ spec, scanned, x, z, yaw, scale }) => {
     const texture = new THREE.Texture();
     const family = { albedo: texture, normal: texture, roughness: texture,
       meanLinearRgb: [1, 1, 1] as const, tileMetres: 2.5 };
@@ -35,7 +52,14 @@ describe("sealed portal recess fits the production cave shell", () => {
       scene: { root: new THREE.Group(), materials: new MaterialLibrary() },
       surfaceTextures: { bark: family, stone: family, leaf: family },
     }) : null;
-    const built = fixture ?? buildDungeon(spec!, new MaterialLibrary());
+    const rockSource = scanned ? await loadScannedSource() : undefined;
+    const built = fixture ?? buildDungeon(spec!, new MaterialLibrary(), rockSource ? { rockSource } : undefined);
+    built.group.updateMatrixWorld(true);
+    if (rockSource) {
+      const facing = built.blockers.find(mesh => mesh.name === "dungeon-rock-facing")!;
+      expect(facing).toBeDefined();
+      console.log("authored Gravelmaw scanned facing", facing.geometry.userData);
+    }
     const floorY = dungeonFloorHeight(fixture?.spec ?? spec!, x, z);
     const inward = new THREE.Vector3(-Math.sin(yaw), 0, -Math.cos(yaw));
     const right = new THREE.Vector3(Math.cos(yaw), 0, -Math.sin(yaw));
@@ -51,6 +75,8 @@ describe("sealed portal recess fits the production cave shell", () => {
         const wall = ray.intersectObjects(built.blockers)[0];
         expect(wall, `${across},${height} needs closed shell behind recess`).toBeDefined();
         expect(wall!.distance, `${across},${height} shell intersects real recess`).toBeGreaterThan(depth);
+        // The scanned facing is the visible rock; the recess must end in front of it as well.
+        if (rockSource) expect(wall!.object.name, `${across},${height} first rock behind the recess`).toBe("dungeon-rock-facing");
         const rear = eye.clone().addScaledVector(inward, depth);
         ray.set(rear, new THREE.Vector3(0, 1, 0));
         const roof = ray.intersectObjects(built.blockers)[0];
@@ -59,6 +85,7 @@ describe("sealed portal recess fits the production cave shell", () => {
       }
     } finally {
       texture.dispose();
+      rockSource?.geometry.dispose(); rockSource?.material.dispose();
       built.group.traverse(object => {
         if (object instanceof THREE.Mesh) {
           object.geometry.dispose();
@@ -66,5 +93,5 @@ describe("sealed portal recess fits the production cave shell", () => {
         }
       });
     }
-  });
+  }, 60000);
 });

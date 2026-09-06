@@ -4,7 +4,7 @@ import {GameDriver} from '../../../tools/lib/driver.js';
 import {installTestDeadline} from '../../../tools/lib/deadline.js';
 const out='test-results/cave-material-review';await mkdir(out,{recursive:true});
 const clearDeadline=installTestDeadline('Cave material review',45000);
-const driver=new GameDriver({url:'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
+const driver=new GameDriver({url:process.env.CAVE_LAB_URL??`http://127.0.0.1:${process.env.PORT??'4175'}`,close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
 const report:any={passed:false,visualAccepted:false,shots:[]};
 try{
  await driver.launch();await driver.open(25000,'/index.html?mode=combat&cave=1');const page=driver.page!;
