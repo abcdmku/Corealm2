@@ -107,8 +107,8 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_basalt_drake": 8.8191,
   "creature_beetle_golem": 6.5016,
   "creature_blackwater_heron": 2.262,
-  "creature_bracken_tapir": 4.5957,
-  "creature_cairn_bighorn": 4.9787,
+  "creature_bracken_tapir": 3.1915,
+  "creature_cairn_bighorn": 4.4681,
   "creature_cinder_ravager": 6,
   "creature_duskoak_lynx": 5.0455,
   "creature_goblin_archer": 11.2765,
@@ -122,14 +122,14 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   "creature_lava_golem": 9.1254,
   "creature_marchfield_turkey": 1.8285,
   "creature_marchwild_horse": 7.0213,
-  "creature_marsh_moose": 7.9787,
+  "creature_marsh_moose": 7.0213,
   // creature_marsh_wasp: no measured stride
   "creature_mossback_sentinel": 3.8976,
   "creature_plague_zombie": 4.0891,
   "creature_quarry_nightmare": 7.6323,
   // creature_quarry_snail: stride 0.054 m/s is below the artefact floor
   "creature_quillback_porcupine": 2.6591,
-  "creature_redbrush_fox": 4.0909,
+  "creature_redbrush_fox": 2.16,
   "creature_reedbank_goose": 0.6933,
   "creature_reedjaw_crocodile": 2.9833,
   // creature_revenant: no measured stride
