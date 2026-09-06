@@ -397,8 +397,19 @@ export class Movement {
     atMs: number,
     options: PathOptions = {},
   ): { pathLength: number; etaMs: number } | null {
-    this.replaceIntent(state, atMs);
-    return this.setPath(state, to, entityId, atMs, options);
+    // A ground click replaces the route, not the player's stride. Keeping the current velocity lets
+    // the renderer stay on the run clip while the next path is installed. Explicit stops and route
+    // changes still use the ordinary clearing path below.
+    const preserveMotion = this.canPreservePathMotion(state);
+    this.replaceIntent(state, atMs, preserveMotion);
+    const started = this.setPath(state, to, entityId, atMs, options);
+    if (!started && preserveMotion) {
+      // A failed replacement must not leave an idle movement mode carrying the old speed into the
+      // next render frame.
+      this.halt();
+      this.publishSpeed(state.player.movement);
+    }
+    return started;
   }
 
   /** Assigns a path within the current journey, including route legs and stuck recovery. */
@@ -511,8 +522,8 @@ export class Movement {
   }
 
   /** Cancels old movement before a replacement action, without failing the new intent. */
-  replaceIntent(state: GameState, atMs: number): boolean {
-    return this.clearNavigation(state, atMs, "replaced");
+  replaceIntent(state: GameState, atMs: number, preserveMotion = false): boolean {
+    return this.clearNavigation(state, atMs, "replaced", preserveMotion);
   }
 
   stop(state: GameState, atMs: number, reason = "cancelled"): boolean {
@@ -524,7 +535,7 @@ export class Movement {
   }
 
   /** Replacement must not emit a failure that could cancel the next interaction on event flush. */
-  private clearNavigation(state: GameState, atMs: number, reason: string): boolean {
+  private clearNavigation(state: GameState, atMs: number, reason: string, preserveMotion = false): boolean {
     const movement = state.player.movement;
     const wasMoving = movement.mode !== "idle" || this.route !== null || this.traversal !== null || this.shortcut !== null;
     // Direct and routed Agility both live in ActivitySystem. Replacing movement cancels only
@@ -544,10 +555,24 @@ export class Movement {
     movement.destinationEntityId = null;
     // Cancellation can precede a paused simulation (for example portal loading). Publish the
     // stop now so both semantic speed and the rig's gait agree before another tick is possible.
-    this.halt();
+    if (!preserveMotion) this.halt();
     this.publishSpeed(movement);
     this.resetStuck(state);
     return wasMoving;
+  }
+
+  /**
+   * A normal path replacement is steering, not stopping. Preserve the current horizontal velocity
+   * only while a plain navmesh path is active. Routes, portals and shortcuts own their transition
+   * state and must still clear it completely.
+   */
+  private canPreservePathMotion(state: GameState): boolean {
+    const movement = state.player.movement;
+    return (movement.mode === "direct" || (movement.mode === "path" && movement.path !== null))
+      && this.route === null
+      && this.traversal === null
+      && this.shortcut === null
+      && this.speedMps >= IDLE_SPEED;
   }
 
   // --------------------------------------------------------------- tick
@@ -559,7 +584,9 @@ export class Movement {
 
     // Direct input always wins. Pressing a key mid-path cancels the path, as a player expects.
     if (this.hasDirectInput()) {
-      if (movement.mode === "path" || this.route) this.stop(state, atMs, "interrupted-by-input");
+      if (movement.mode === "path" || this.route) {
+        this.clearNavigation(state, atMs, "interrupted-by-input", this.canPreservePathMotion(state));
+      }
       this.ports.shortcuts?.cancel(atMs, "cancelled");
       this.applyDirect(state, deltaSeconds, deltaMs);
       movement.mode = "direct";

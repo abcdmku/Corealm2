@@ -44,12 +44,15 @@ describe("explicit movement cancellation", () => {
     expect(h.state.player.position).toEqual(position);
   });
 
-  it("resets the old velocity before a replacement path begins", () => {
+  it("keeps the old velocity while a replacement path begins", () => {
     const h = running();
+    const speedBefore = h.movement.getSpeedMps();
     expect(h.movement.startPath(h.state, [0, 0, 20], null, 400)).not.toBeNull();
-    expectHalted(h);
+    expect(h.movement.getSpeedMps()).toBeCloseTo(speedBefore, 8);
+    expect(h.movement.getGait()).toBe("run");
+    expect(h.state.player.movement.mode).toBe("path");
     h.movement.update(h.state, 100, 500);
-    expect(h.movement.getSpeedMps()).toBeLessThanOrEqual(MOVEMENT.accelMps2 * 0.1 + 1e-6);
+    expect(h.movement.getSpeedMps()).toBeGreaterThan(MOVEMENT.walkPoseThreshold);
     h.events.flush();
     expect(h.events.since(0, ["navigation.failed"]).events).toEqual([]);
   });

@@ -84,6 +84,20 @@ function route(): RouteLeg[] {
 }
 
 describe("movement intent replacement", () => {
+  it("keeps the current gait and speed when a live path is retargeted", () => {
+    const h = runtime();
+    expect(h.api.moveTo({ position: [30, 0, 0] }).ok).toBe(true);
+    h.step(4);
+
+    expect(h.movement.getGait()).toBe("run");
+    const speedBeforeRetarget = h.movement.getSpeedMps();
+
+    expect(h.api.moveTo({ position: [0, 0, 30] }).ok).toBe(true);
+    expect(h.store.get().player.movement.mode).toBe("path");
+    expect(h.movement.getGait()).toBe("run");
+    expect(h.movement.getSpeedMps()).toBeCloseTo(speedBeforeRetarget, 8);
+  });
+
   it("retains the final destination allowance supplied with a route", () => {
     const leg: RouteLeg = {
       kind: "walk", from: [0, 0, 0], to: [3, 0, 0], fromId: "start", toId: "goal", cost: 3 / PLAYER_SPEED,

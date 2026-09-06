@@ -31,6 +31,7 @@ const ORBIT_PITCH_PER_PX = 0.004;
 /** Fraction of the zoom range per wheel notch. */
 const ZOOM_STEP_FRACTION = 0.06;
 
+
 export interface RendererLike {
   camera: THREE.Camera;
   scene: THREE.Object3D;
@@ -78,6 +79,11 @@ export class InputController {
   selectedEntityId: EntityId | null = null;
 
   private pointerDown = false;
+  private heldButtons = 0;
+  private leftDragging = false;
+  private orbitDragging = false;
+  private leftDownX = 0;
+  private leftDownY = 0;
   private dragging = false;
   private dragButton = 0;
   private activePointerId: number | null = null;
@@ -85,6 +91,8 @@ export class InputController {
   private downY = 0;
   private lastX = 0;
   private lastY = 0;
+  private heldMoveX = Number.NaN;
+  private heldMoveY = Number.NaN;
 
   /** Latest cursor position, in client coordinates. Hover is resolved from the frame loop. */
   private cursorX = 0;
@@ -193,78 +201,103 @@ export class InputController {
     event.preventDefault();
   };
 
+  // Additional mouse buttons produce pointermove, so track the buttons mask independently.
+  private syncButtons(event: PointerEvent): void {
+    const previous = this.heldButtons;
+    const next = event.buttons;
+    const pressed = next & ~previous;
+    const released = previous & ~next;
+    this.heldButtons = next;
+    this.pointerDown = next !== 0;
+    if (pressed & 1) {
+      this.leftDownX = event.clientX;
+      this.leftDownY = event.clientY;
+      this.leftDragging = false;
+      this.handleLeftClick(event.clientX, event.clientY);
+    }
+    if (pressed & 6) {
+      this.dragButton = next & 2 ? 2 : 1;
+      this.downX = this.lastX = event.clientX;
+      this.downY = this.lastY = event.clientY;
+      this.orbitDragging = false;
+      this.contextMenu.close();
+      try { this.canvas.setPointerCapture(event.pointerId); } catch { /* Capture may be unavailable. */ }
+    }
+    if (released & 1) {
+      this.movement.setDirectInput({ forward: 0, strafe: 0, cameraYaw: this.camera.yaw });
+      if (this.leftDragging && this.movementEnabled && this.picker.containsPoint(event.clientX, event.clientY)) {
+        const pick = this.picker.pickGroundAt(event.clientX, event.clientY);
+        if (pick && reportResult(this.api.moveTo({ position: pick.point }))) {
+          this.options.onWalkDestination?.(pick.point);
+        }
+      }
+      this.leftDragging = false;
+    }
+    if ((released & 2) && !this.orbitDragging && !(previous & 1)
+      && this.picker.containsPoint(event.clientX, event.clientY)) {
+      this.handleRightClick(event.clientX, event.clientY);
+    }
+    if (!(next & 6)) this.orbitDragging = false;
+    this.dragging = this.leftDragging || this.orbitDragging;
+    if (!next) {
+      this.releaseCapture(event.pointerId);
+      this.activePointerId = null;
+    }
+  }
+
   private onPointerDown = (event: PointerEvent): void => {
     if (event.target !== this.canvas) return;
-
-    this.pointerDown = true;
-    this.dragging = false;
-    this.dragButton = event.button;
     this.activePointerId = event.pointerId;
-    this.downX = this.lastX = this.cursorX = event.clientX;
-    this.downY = this.lastY = this.cursorY = event.clientY;
-
-    // Capture keeps orbit alive at the edge of the screen instead of dropping the drag there.
-    if (event.button === 1 || event.button === 2) {
-      try {
-        this.canvas.setPointerCapture(event.pointerId);
-      } catch {
-        // Capture is a nicety. Losing it only costs edge-of-screen comfort.
-      }
-    }
-    // Middle click otherwise scrolls the page.
-    if (event.button === 1) event.preventDefault();
-
-    // Left-button world actions happen at press time. Pointer travel can still switch the gesture
-    // into a camera drag, but it must not delay or cancel the action that began on this press.
-    if (event.button === 0) this.handleLeftClick(event.clientX, event.clientY);
+    this.cursorX = this.heldMoveX = event.clientX;
+    this.cursorY = this.heldMoveY = event.clientY;
+    this.syncButtons(event);
+    if (event.buttons & 4) event.preventDefault();
   };
 
   private onPointerMove = (event: PointerEvent): void => {
     this.cursorX = event.clientX;
     this.cursorY = event.clientY;
     this.cursorOverCanvas = event.target === this.canvas;
-
-    if (!this.pointerDown) return;
-    if (!this.dragging && Math.hypot(event.clientX - this.downX, event.clientY - this.downY) > DRAG_THRESHOLD_PX) {
-      this.dragging = true;
-      this.setHovered(null);
-    }
-    if (!this.dragging) return;
-
-    // Right-drag or middle-drag orbits. Left-drag is reserved for a future selection box, and in
-    // particular must never nudge the camera — that is what "does not fight the camera" means.
-    if (this.dragButton === 2 || this.dragButton === 1) {
-      const deltaX = event.clientX - this.lastX;
-      const deltaY = event.clientY - this.lastY;
-      if (this.freeCameraEnabled && this.dragButton === 1) {
-        this.camera.panPixels(deltaX, deltaY, this.canvas.clientHeight);
-      } else {
-        this.camera.rotate(-deltaX * ORBIT_YAW_PER_PX, -deltaY * ORBIT_PITCH_PER_PX);
+    if (!this.pointerDown || event.pointerId !== this.activePointerId) return;
+    this.syncButtons(event);
+    if (this.heldButtons & 1) {
+      this.heldMoveX = event.clientX;
+      this.heldMoveY = event.clientY;
+      if (Math.hypot(event.clientX - this.leftDownX, event.clientY - this.leftDownY) > DRAG_THRESHOLD_PX) {
+        this.leftDragging = true;
       }
-      // The world moved under a stationary cursor; the cached hover pick is stale.
-      this.picker.invalidate();
+    }
+    if (this.heldButtons & 6) {
+      if (Math.hypot(event.clientX - this.downX, event.clientY - this.downY) > DRAG_THRESHOLD_PX) {
+        this.orbitDragging = true;
+      }
+      if (this.orbitDragging) {
+        const dx = event.clientX - this.lastX;
+        const dy = event.clientY - this.lastY;
+        if (this.freeCameraEnabled && this.dragButton === 1) {
+          this.camera.panPixels(dx, dy, this.canvas.clientHeight);
+        } else {
+          this.camera.rotate(-dx * ORBIT_YAW_PER_PX, -dy * ORBIT_PITCH_PER_PX);
+        }
+        this.picker.invalidate();
+      }
     }
     this.lastX = event.clientX;
     this.lastY = event.clientY;
+    this.dragging = this.leftDragging || this.orbitDragging;
+    if (this.dragging) this.setHovered(null);
   };
 
   private onPointerUp = (event: PointerEvent): void => {
-    if (!this.pointerDown) return;
-    this.releaseCapture(event.pointerId);
-    this.pointerDown = false;
-    const wasDragging = this.dragging;
-    this.dragging = false;
-    this.activePointerId = null;
-
-    // Right click opens its menu on release. A right drag only orbits the camera.
-    if (event.button !== 2 || wasDragging) return;
-    if (!this.picker.containsPoint(event.clientX, event.clientY)) return;
-    this.handleRightClick(event.clientX, event.clientY);
+    if (!this.pointerDown || event.pointerId !== this.activePointerId) return;
+    this.syncButtons(event);
   };
 
   private onPointerCancel = (event: PointerEvent): void => {
     this.releaseCapture(event.pointerId);
     this.pointerDown = false;
+    this.heldButtons = 0;
+    this.leftDragging = this.orbitDragging = false;
     this.dragging = false;
     this.activePointerId = null;
   };
@@ -276,6 +309,8 @@ export class InputController {
 
   private onWindowBlur = (): void => {
     this.pointerDown = false;
+    this.heldButtons = 0;
+    this.leftDragging = this.orbitDragging = false;
     this.dragging = false;
     this.cursorOverCanvas = false;
     this.setHovered(null);
@@ -413,7 +448,27 @@ export class InputController {
       ? this.keyboard.axes()
       : { forward: 0, strafe: 0 };
     this.movement.setDirectInput({ forward, strafe, cameraYaw: this.camera.yaw });
+    if (forward === 0 && strafe === 0) this.updateHeldMove();
     this.updateHover();
+  }
+
+  /** Steer through the same acceleration and collision handling as keyboard movement. */
+  private updateHeldMove(): void {
+    if (!(this.heldButtons & 1) || !this.leftDragging || !this.movementEnabled) return;
+
+    const x = this.heldMoveX;
+    const y = this.heldMoveY;
+    if (!Number.isFinite(x) || !Number.isFinite(y) || !this.picker.containsPoint(x, y)) return;
+
+    const pick = this.picker.pickGroundAt(x, y);
+    if (!pick) return;
+    const player = this.api.getPlayer().position;
+    const dx = pick.point[0] - player[0];
+    const dz = pick.point[2] - player[2];
+    // Ease down within a metre of the cursor. Zero yaw makes these world-space axes.
+    const scale = Math.max(1, Math.hypot(dx, dz));
+    this.movement.setDirectInput({ forward: -dz / scale, strafe: dx / scale, cameraYaw: 0 });
+    this.options.onWalkDestination?.(pick.point);
   }
 
   private updateHover(): void {
@@ -548,6 +603,8 @@ export class InputController {
   clear(): void {
     this.keyboard.clear();
     this.pointerDown = false;
+    this.heldButtons = 0;
+    this.leftDragging = this.orbitDragging = false;
     this.dragging = false;
     this.contextMenu.close();
     this.setHovered(null);

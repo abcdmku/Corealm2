@@ -133,6 +133,12 @@ export class Overlays {
 
   /** A compact ground decal for human click-to-walk feedback. */
   setWalkDestination(id: string, position: Vec3, nowMs: number, colour = "#d2c07a"): number {
+    const existing = this.live.get(id);
+    if (existing?.style === "walkDestination" && existing.spec.colour === colour) {
+      existing.spec.position = position;
+      existing.object.position.set(position[0], position[1], position[2]);
+      return this.live.size;
+    }
     return this.setStyled({ id, kind: "highlight", position, colour }, nowMs, "walkDestination");
   }
 
