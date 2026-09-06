@@ -32,7 +32,9 @@ const cases = Object.entries(settings).map(([setting, packId]) => {
 const args = process.argv.slice(2);
 const cataloguePath = path.join(repoRoot, "art/rebuild/candidates/finish-bestiary/retained-unhorned15/catalog.json");
 const catalogueText = await readFile(cataloguePath, "utf8");
-const catalogueSha256 = createHash("sha256").update(catalogueText).digest("hex");
+// The pin is the committed LF blob; an autocrlf checkout changes only line endings. GLB/texture
+// bytes are hashed separately by the installer.
+const catalogueSha256 = createHash("sha256").update(catalogueText.split("\r\n").join("\n")).digest("hex");
 if (catalogueSha256 !== "3272d559169c9072ae3b8f3a592dcc3d92162fc9069b7b2926bc13a12bb5de63")
   throw new Error("Retained catalogue changed; root must review the new bytes before updating the visual fixture");
 const staged = JSON.parse(catalogueText) as { assets: { id: string; file: string }[]; packs?: { id: string }[] };
@@ -59,7 +61,7 @@ async function installDressingCandidates(page: Page): Promise<string[]> {
     contentType: "application/json", body: JSON.stringify(manifest) }));
   return [...selectedIds];
 }
-const url = argValue(args, "--url") ?? "http://127.0.0.1:4175";
+const url = argValue(args, "--url") ?? process.env["COREALM_URL"] ?? "http://127.0.0.1:4175";
 if (args.includes("--check-only")) {
   // A route collector verifies the installer hashes every GLB/texture without creating a browser.
   const routes: string[] = [];
