@@ -7,6 +7,7 @@ it("excludes an explicitly stopped interval from resumed frame-rate measurements
     transmissionOcclusion: { active: false },
     playerSilhouette: { render() {} },
     biomeAtmosphere: { render() {}, updateEnvironment() {} },
+    screenAntialiasing: { render() {} },
     camera: { updateMatrixWorld() {} },
     renderer: { getContext: () => ({}), render() {}, info: { render: { calls: 2, triangles: 100 }, programs: [] } },
   }) as Renderer;
