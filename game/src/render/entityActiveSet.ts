@@ -23,6 +23,7 @@ export interface EntityActiveSetStats {
   radius: number;
   /** Radius for static architecture. */
   structureRadius: number;
+  actorRadius: number;
   fullResidency: boolean;
   pinnedEntityId: EntityId | null;
 }
@@ -38,6 +39,7 @@ export class EntityActiveSet {
   private readonly cellSize: number;
   private radius: number;
   private structureRadius: number;
+  private actorRadius: number | null = null;
   private position: Vec3 = [0, 0, 0];
   private fullResidency = true;
   private pinnedEntityId: EntityId | null = null;
@@ -118,6 +120,13 @@ export class EntityActiveSet {
     this.selectedCache = null;
   }
 
+  /** Actors remain visible beyond the resource interaction working set. */
+  setActorRadius(radius: number): void {
+    this.actorRadius = nonNegativeFinite(radius, "actorRadius");
+    this.fullResidency = false;
+    this.selectedCache = null;
+  }
+
   /** Full residency is reserved for deterministic full-island capture and explicit diagnostics. */
   setFullResidency(enabled: boolean): void {
     if (this.fullResidency === enabled) return;
@@ -179,6 +188,7 @@ export class EntityActiveSet {
       selected: this.selected().length,
       radius: this.radius,
       structureRadius: this.structureRadius,
+      actorRadius: this.actorRadius ?? this.radius,
       fullResidency: this.fullResidency,
       pinnedEntityId: this.pinnedEntityId,
     };
@@ -192,7 +202,7 @@ export class EntityActiveSet {
 
   private idsInsideArea(): Set<EntityId> {
     const ids = new Set<EntityId>();
-    const queryRadius = Math.max(this.radius, this.structureRadius);
+    const queryRadius = Math.max(this.radius, this.structureRadius, this.actorRadius ?? this.radius);
     const minX = Math.floor((this.position[0] - queryRadius) / this.cellSize);
     const maxX = Math.floor((this.position[0] + queryRadius) / this.cellSize);
     const minZ = Math.floor((this.position[2] - queryRadius) / this.cellSize);
@@ -208,7 +218,8 @@ export class EntityActiveSet {
           if (!entity?.view || !position) continue;
           const dx = position[0] - this.position[0];
           const dz = position[2] - this.position[2];
-          const radius = isStructureEntity(entity) ? this.structureRadius : this.radius;
+          const radius = isStructureEntity(entity) ? this.structureRadius
+            : isActorEntity(entity) ? this.actorRadius ?? this.radius : this.radius;
           if (dx * dx + dz * dz <= radius * radius) ids.add(entityId);
         }
       }
@@ -230,6 +241,10 @@ const STRUCTURE_ARCHETYPES: ReadonlySet<Archetype> = new Set<Archetype>([
 /** Static world geometry that must already exist before it crosses the camera's far clip. */
 export function isStructureEntity(entity: SemanticEntity): boolean {
   return entity.meta?.["scenery"] === true || STRUCTURE_ARCHETYPES.has(entity.archetype);
+}
+
+export function isActorEntity(entity: SemanticEntity): boolean {
+  return entity.archetype === "enemy" || entity.archetype === "boss" || entity.archetype === "npc";
 }
 
 function cellKey(position: Vec3, cellSize: number): string {

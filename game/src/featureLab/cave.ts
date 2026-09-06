@@ -2,7 +2,7 @@ import * as THREE from "three";
 import type { SolidVolume, Vec3 } from "../contracts.js";
 import type { CorealmSurfaceTextures } from "../render/corealmSurfaceMaterials.js";
 import {
-  addChamberLights, buildDungeon, dungeonFloorHeight, dungeonSolids, type DungeonSpec, type CaveRockSource,
+  addChamberLights, buildDungeon, dungeonFloorHeight, dungeonSolids, type DungeonSpec, type CaveRockSource, type BuiltDungeon,
 } from "../render/dungeon.js";
 import type { WorldScene } from "../render/scene.js";
 
@@ -46,6 +46,8 @@ export interface CaveLabFixtureState {
 }
 
 export interface CaveLabFixture {
+  built: BuiltDungeon;
+  facingAttached(source: CaveRockSource): void;
   group: THREE.Group;
   spec: DungeonSpec;
   walkable: THREE.Mesh[];
@@ -64,13 +66,14 @@ export interface CaveLabFixtureDeps {
   scene: Pick<WorldScene, "root" | "materials">;
   surfaceTextures: CorealmSurfaceTextures;
   rockSource?: CaveRockSource;
+  rockEnvelope?: boolean;
   /** Upper chamber centre and floor datum. Default keeps the entire fixture below the lab yard. */
   origin?: Vec3;
 }
 
 /** Two connected chambers use the production shell, stone maps, contact colors and torch lights. */
 export function createCaveLabFixture({
-  scene, surfaceTextures, rockSource, origin: requestedOrigin = [-36, -12, -36],
+  scene, surfaceTextures, rockSource, rockEnvelope, origin: requestedOrigin = [-36, -12, -36],
 }: CaveLabFixtureDeps): CaveLabFixture {
   if (!requestedOrigin.every(Number.isFinite)) throw new Error("Cave fixture origin must be finite");
   const origin: Vec3 = [...requestedOrigin];
@@ -86,7 +89,7 @@ export function createCaveLabFixture({
     corridors: [{ from: [x, z], to: [lower[0], lower[2]], fromY: y, toY: lower[1], width: 3.6 }],
     wallHeight: 8,
   };
-  const built = buildDungeon(spec, scene.materials, { surfaceTextures, rockSource });
+  const built = buildDungeon(spec, scene.materials, { surfaceTextures, rockSource, rockEnvelope });
   const group = built.group;
   group.name = "feature-lab-cave";
   addChamberLights(spec, group);
@@ -137,6 +140,16 @@ export function createCaveLabFixture({
   scene.root.add(group);
 
   return {
+    built,
+    facingAttached(source) {
+      rockSource = source;
+      for (const mesh of built.blockers) {
+        if (!meshes.includes(mesh)) meshes.push(mesh);
+        geometries.add(mesh.geometry);
+        for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) materials.add(material);
+      }
+      bounds.setFromObject(group);
+    },
     group, spec, walkable: built.walkable, blockers: built.blockers,
     solids: dungeonSolids(spec, { rockSource }),
     navigationSolids: dungeonSolids(spec, { includeCeilings: false, rockSource }),

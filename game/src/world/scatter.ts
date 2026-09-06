@@ -1850,7 +1850,8 @@ async function scatterRegionTile(
 
     competition?.assertCurrent();
     const castShadow = layer.castShadow ?? false;
-    for (const candidate of candidates) {
+    for (const [candidateIndex, candidate] of candidates.entries()) {
+      if (candidateIndex % 64 === 0) await loadOptions.yieldToMain?.();
       const entry = candidate.species;
       const assetId = entry.assetId;
       if (isGrassSprite(assetId)) {
@@ -1920,6 +1921,7 @@ async function scatterRegionTile(
   for (const bucket of buckets.values()) {
     if (bucket.kind === "grass") {
       for (const shard of shardByTile(bucket)) {
+        await loadOptions.yieldToMain?.();
         result.tiles += 1;
         const meshes = scene.scatterGrassSprites(
           shard.placements,
@@ -1940,6 +1942,7 @@ async function scatterRegionTile(
     const renderTile = /^corealm_(oak|pine)_\d+$/.test(bucket.assetId) ? FOLIAGE_RENDER_TILE_METRES.trees
       : /^corealm_(fern|shrub)_\d+$/.test(bucket.assetId) ? FOLIAGE_RENDER_TILE_METRES.understory : undefined;
     for (const shard of shardByTile(bucket, renderTile)) {
+      await loadOptions.yieldToMain?.();
       result.tiles += 1;
       const meshes = scene.scatterInstanced(
         assets.instance(bucket.assetId),

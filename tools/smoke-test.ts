@@ -35,7 +35,7 @@ const REQUIRED_METHODS = [
   "reset",
 ] as const;
 
-export async function runSmokeTest(runCandidate: string, options: { url?: string } = {}): Promise<SmokeReport> {
+export async function runSmokeTest(runCandidate: string, options: { url?: string; hardware?: boolean } = {}): Promise<SmokeReport> {
   const started = Date.now();
   const runDir = await prepareRun(runCandidate);
   const server = options.url ? { url: options.url, close: async () => {} } : await startGameServer();
@@ -43,6 +43,10 @@ export async function runSmokeTest(runCandidate: string, options: { url?: string
     // The smoke gate proves renderer startup and gameplay state transitions, not visual quality.
     // Keep software-rendered CI fast enough to remain a useful per-change check.
     settings: FAST_TEST_SETTINGS,
+    ...(options.hardware ? { browserArgs: [
+      "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio",
+      ...(process.platform === "win32" ? ["--use-angle=d3d11"] : []),
+    ] } : {}),
   });
   const report: SmokeReport = {
     passed: false,
@@ -59,6 +63,7 @@ export async function runSmokeTest(runCandidate: string, options: { url?: string
     await driver.launch();
     // Cold SwiftShader boots vary substantially across hosted and local runners.
     await driver.open(120_000);
+    await waitForSimulationTick(driver);
     report.initial = await driver.snapshot();
 
     const browserFacts = await driver.page!.evaluate((methods) => {
@@ -89,7 +94,7 @@ export async function runSmokeTest(runCandidate: string, options: { url?: string
     // test item; opening and moving it both go through the same public agent tools used in play.
     const bankEntity = await driver.callDebug("getEntity", ["coldbrace_bank"]);
     const teleported = await driver.callDebug("teleport", [{ entityId: "coldbrace_bank" }]);
-    const before = await driver.callDebug("callTool", ["corealm_bank", { op: "list", filter: "grithe" }]);
+    const before = await driver.callDebug("callTool", ["corealm_bank", { op: "list", filter: "copper" }]);
     await driver.callDebug("giveItem", ["grithe_ore", 5, "inventory"]);
     const interaction = await driver.callDebug("callTool", [
       "corealm_interact",
@@ -105,7 +110,7 @@ export async function runSmokeTest(runCandidate: string, options: { url?: string
       "corealm_bank",
       { op: "deposit", itemId: "grithe_ore", quantity: -1 },
     ]);
-    const after = await driver.callDebug("callTool", ["corealm_bank", { op: "list", filter: "grithe" }]);
+    const after = await driver.callDebug("callTool", ["corealm_bank", { op: "list", filter: "copper" }]);
     const beforeQuantity = bankQuantity(before, "grithe_ore");
     const afterQuantity = bankQuantity(after, "grithe_ore");
     report.bank = { entity: bankEntity, interaction, beforeQuantity, afterQuantity, panelOpen };
@@ -120,6 +125,9 @@ export async function runSmokeTest(runCandidate: string, options: { url?: string
     report.checks.finalWorldBankMovesAgentQuantity = afterQuantity - beforeQuantity === 5;
 
     await driver.reset();
+    // Reset restores the navigation landing. Movement grounds it on the first simulation tick;
+    // a fixed 150 ms sleep can sample before that tick while a frame is still rendering.
+    await waitForSimulationTick(driver);
     report.afterReset = await driver.snapshot();
     report.checks.resetWorks = samePosition(report.initial.playerPosition, report.afterReset.playerPosition)
       && JSON.stringify(report.initial.objectives) === JSON.stringify(report.afterReset.objectives);
@@ -137,6 +145,13 @@ export async function runSmokeTest(runCandidate: string, options: { url?: string
 
   await writeFile(path.join(runDir, "test-results", "smoke.json"), `${JSON.stringify(report, null, 2)}\n`, "utf8");
   return report;
+}
+
+async function waitForSimulationTick(driver: GameDriver): Promise<void> {
+  await driver.page!.waitForFunction(() => {
+    const state = window.__gameDebug?.getState() as { clock?: { tick?: number } } | undefined;
+    return (state?.clock?.tick ?? 0) > 0;
+  }, undefined, { timeout: 8_000 });
 }
 
 function finiteValue(value: unknown): boolean {
@@ -186,8 +201,8 @@ function bankQuantity(value: unknown, itemId: string): number {
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
   const runCandidate = argValue(args, "--run");
-  if (!runCandidate) throw new Error("Usage: npm run smoke -- --run runs/<id> [--url http://127.0.0.1:4174]");
-  const report = await runSmokeTest(runCandidate, { url: argValue(args, "--url") });
+  if (!runCandidate) throw new Error("Usage: npm run smoke -- --run runs/<id> [--url http://127.0.0.1:4174] [--hardware]");
+  const report = await runSmokeTest(runCandidate, { url: argValue(args, "--url"), hardware: args.includes("--hardware") });
   console.log(JSON.stringify({ passed: report.passed, checks: report.checks, errors: report.errors }, null, 2));
   if (!report.passed) process.exitCode = 1;
 }

@@ -238,4 +238,20 @@ describe("scatter tile streaming", () => {
     const emptyStats = mergeScatterResults([], { fallowmarch: spec });
     expect(emptyStats[0]?.byLayer).toEqual({ "ground-cover": 0, flowers: 0 });
   });
+
+  it("only generates nearby chunks, reuses visited chunks, and expands for travel", async () => {
+    const bounds = { minX: 0, maxX: 960, minZ: 0, maxZ: 192 };
+    const harness = scatterHarness({ bounds });
+    const spec = recipe(bounds, new ExclusionZones(), ["ground-cover"], 20);
+    const controller = new ScatterStreamingController(harness.scene as never, harness.assets as never, 808,
+      { specs: { fallowmarch: spec }, yieldToMain: async () => undefined });
+    await controller.streamNearby(48, 48, 20);
+    expect(controller.getResidency().resident).toEqual(["0:0"]);
+    const original = [...harness.placements.entries()];
+    await controller.streamNearby(912, 48, 20);
+    expect(controller.getResidency().resident).toEqual(["0:0", "9:0"]);
+    await controller.streamNearby(48, 48, 20);
+    expect([...harness.placements.entries()].slice(0, original.length)).toEqual(original);
+    expect(controller.getResidency().complete).toBe(false);
+  });
 });

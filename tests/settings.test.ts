@@ -61,4 +61,12 @@ describe("graphics settings", () => {
       damageNumbers: false,
     });
   });
+
+  it("keeps legacy distance choices manual and persists an explicit switch to Auto", () => {
+    storage.setItem(STORAGE_KEY, JSON.stringify({ drawDistance: "medium" }));
+    const store = new SettingsStore();
+    expect(store.get().autoDrawDistance).toBe(false);
+    store.set({ autoDrawDistance: true });
+    expect(new SettingsStore().get()).toMatchObject({ drawDistance: "medium", autoDrawDistance: true });
+  });
 });

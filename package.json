@@ -46,6 +46,7 @@
     "inspect-glb": "tsx tools/inspect-glb.ts",
     "game-agent": "tsx tools/game-agent.ts",
     "perf": "tsx tools/perf-test.ts",
+    "navmesh:build": "tsx tools/build-navmesh.ts",
     "fetch-assets": "tsx tools/fetch-assets.ts",
     "build-assets": "tsx tools/build-assets.ts",
     "build-animals": "tsx tools/build-animals.ts",

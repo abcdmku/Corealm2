@@ -3,7 +3,8 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import * as THREE from 'three';
 import { expect, it } from 'vitest';
 import { createCaveLabFixture } from '../game/src/featureLab/cave.js';
-import { buildDungeon, dungeonSolids, type CaveRockSource } from '../game/src/render/dungeon.js';
+import { buildDungeon, dungeonSolids, dungeonNavigationBlockers, type CaveRockSource } from '../game/src/render/dungeon.js';
+import { DeferredDungeonFacing } from '../game/src/render/deferredDungeonFacing.js';
 import { MaterialLibrary } from '../game/src/render/materials.js';
 
 /**
@@ -38,6 +39,41 @@ it('fits the accepted licensed scan outside the walking footprint with covered r
     surfaceTextures: { bark: maps, leaf: maps, stone: maps }, rockSource });
   fixture.group.updateMatrixWorld(true);
   const state = fixture.getState(), facing = fixture.group.getObjectByName('dungeon-rock-facing') as THREE.Mesh;
+  const deferred = buildDungeon(fixture.spec, new MaterialLibrary(), { surfaceTextures: { bark: maps, leaf: maps, stone: maps }, rockEnvelope: true });
+  const navBefore = dungeonNavigationBlockers(deferred.blockers);
+  let loads = 0, attachments = 0;
+  const loader = new DeferredDungeonFacing(deferred, fixture.spec, { surfaceTextures: { bark: maps, leaf: maps, stone: maps } },
+    async () => { loads++; return rockSource; }, () => { attachments++; });
+  expect(loader.getState().ready).toBe(false);
+  const first = loader.ensure();
+  expect(loader.ensure()).toBe(first);
+  await first;
+  await loader.ensure();
+  expect(loads).toBe(1);
+  expect(attachments).toBe(1);
+  expect(deferred.triangles).toBe(fixture.built.triangles);
+  expect(dungeonNavigationBlockers(deferred.blockers)).toEqual(navBefore);
+  for (const eagerMesh of [...fixture.walkable, ...fixture.blockers]) {
+    const lazyMesh = deferred.group.getObjectByName(eagerMesh.name) as THREE.Mesh;
+    for (const name of Object.keys(eagerMesh.geometry.attributes)) {
+      const actual = lazyMesh.geometry.getAttribute(name).array, expected = eagerMesh.geometry.getAttribute(name).array;
+      expect(Buffer.from(actual.buffer, actual.byteOffset, actual.byteLength).equals(
+        Buffer.from(expected.buffer, expected.byteOffset, expected.byteLength)), `${eagerMesh.name}:${name}`).toBe(true);
+    }
+    const actual = lazyMesh.geometry.index?.array, expected = eagerMesh.geometry.index?.array;
+    expect(actual?.length).toBe(expected?.length);
+    if (actual && expected) expect(Buffer.from(actual.buffer, actual.byteOffset, actual.byteLength).equals(
+      Buffer.from(expected.buffer, expected.byteOffset, expected.byteLength)), `${eagerMesh.name}:index`).toBe(true);
+  }
+  let attempts = 0;
+  const retry = new DeferredDungeonFacing(deferred, fixture.spec, {}, () => {
+    if (++attempts === 1) throw new Error('temporary asset failure');
+    return Promise.resolve(rockSource);
+  }, () => {});
+  await expect(retry.ensure()).rejects.toThrow('temporary asset failure');
+  expect(retry.getState()).toEqual({ ready: false, loading: false, error: 'temporary asset failure' });
+  await retry.ensure();
+  expect(retry.getState().ready).toBe(true);
   const shader = { vertexShader: THREE.ShaderLib.standard.vertexShader, fragmentShader: THREE.ShaderLib.standard.fragmentShader, uniforms: {} };
   (facing.material as THREE.MeshStandardMaterial).onBeforeCompile(shader as THREE.WebGLProgramParametersWithUniforms, {} as THREE.WebGLRenderer);
   // Continuous world stone owns the colour, so no source atlas sample can reintroduce a join.
@@ -95,7 +131,7 @@ it('fits the accepted licensed scan outside the walking footprint with covered r
   const sourceCeilings = dungeonSolids(fixture.spec, { rockSource }).filter(solid => solid.id.startsWith('dungeon-source-ceiling'));
   expect(sourceCeilings.length).toBeGreaterThan(10);
   expect(sourceCeilings.every(solid => solid.position[1] >= fixture.spec.chambers[0]!.floorY + 4)).toBe(true);
-  for (const built of [fallback, capped]) built.group.traverse(object => {
+  for (const built of [fallback, capped, deferred]) built.group.traverse(object => {
     if (object instanceof THREE.Mesh) { object.geometry.dispose(); (object.material as THREE.Material).dispose(); }
   });
   fixture.dispose(); geometry.dispose(); material.dispose(); textures.forEach(texture => texture.dispose());

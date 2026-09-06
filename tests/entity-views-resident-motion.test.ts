@@ -78,6 +78,24 @@ function rejectFurtherMotionReads(entity: SemanticEntity): void {
 }
 
 describe("EntityViews resident motion", () => {
+  it("keeps nearby live rigs drawable when pose changes invalidate cached bounds", async () => {
+    const entity = actor("animated-bounds");
+    const f = await fixture([entity]);
+    try {
+      f.views.update(0, new THREE.Vector3());
+      const meshes: THREE.SkinnedMesh[] = [];
+      f.scene.entityGroup.traverse(object => {
+        if ((object as THREE.SkinnedMesh).isSkinnedMesh) meshes.push(object as THREE.SkinnedMesh);
+      });
+      expect(meshes.length).toBeGreaterThan(0);
+      // A previous pose can leave a sphere far from the currently animated body.
+      for (const mesh of meshes) mesh.boundingSphere = new THREE.Sphere(new THREE.Vector3(1000, 0, 0), 0.1);
+      f.views.playAction(entity.id, "attack");f.views.update(0.25, new THREE.Vector3());
+      expect(meshes.every(mesh => !mesh.frustumCulled && mesh.visible)).toBe(true);
+      f.views.update(0, new THREE.Vector3(100, 0, 0));
+      expect(f.views.motionSnapshot(entity.id)?.path).toBe("sampled-rig");
+    } finally { f.dispose(); }
+  });
   it('keeps running phase and translation while overlaying Hit, without touching support bones', async () => {
     for (const viewer of [new THREE.Vector3(), new THREE.Vector3(100, 0, 0)]) {
       const entity = actor('moving-hit'); entity.state='aggro';

@@ -216,6 +216,17 @@ describe("static camera queries", () => {
     }
   });
 
+  it("keeps nearest hits with coincident centres and a dense cluster beside a distant outlier", () => {
+    const queries = new StaticCameraQueries();
+    for (let index = 1; index <= 40; index++) {
+      queries.addStaticBox([0, 0, 0], [index / 10, 1, 1]);
+    }
+    queries.addStaticBox([100000, 0, 0], [1, 1, 1]);
+    expect(queries.raycast([-10, 0, 0], [1, 0, 0], 200000)).toBe(6);
+    expect(queries.raycast([100010, 0, 0], [-1, 0, 0], 200000)).toBe(9);
+    expect(queries.raycast([-10, 2, 0], [1, 0, 0], 200000)).toBeNull();
+  });
+
   it("rejects malformed registrations and nonfinite rays without corrupting later queries", () => {
     const queries = new StaticCameraQueries();
     expect(queries.addStaticBox([0, 0, 0], [-1, 1, 1])).toBe(false);

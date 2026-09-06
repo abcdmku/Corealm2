@@ -203,6 +203,7 @@ export class GameLoop {
   private gatheringRigKey: string | null = null;
   private ui: Ui | null = null;
   private interiors: { group: { visible: boolean }; visible: () => boolean }[] = [];
+  private frameObserver: ((frameMs: number) => void) | null = null;
 
   /**
    * The sim pose before the most recent tick. How far through the next one we are now comes from
@@ -372,6 +373,10 @@ export class GameLoop {
     this.interiors.push({ group, visible });
   }
 
+  setFrameObserver(observer: (frameMs: number) => void): void {
+    this.frameObserver = observer;
+  }
+
   /** Later rounds register their systems here. Kept sorted by declared order. */
   addSystem(system: TickSystem): void {
     this.systems.push(system);
@@ -419,7 +424,8 @@ export class GameLoop {
     if (!this.running) return;
     this.frameHandle = requestAnimationFrame(this.frame);
 
-    const realDelta = Math.min(nowMs - this.lastFrameAt, 250);
+    const frameMs = nowMs - this.lastFrameAt;
+    const realDelta = Math.min(frameMs, 250);
     this.lastFrameAt = nowMs;
 
     const clock = this.deps.clock;
@@ -438,6 +444,7 @@ export class GameLoop {
 
     this.renderFrame(nowMs, realDelta);
     this.maybeAutosave(nowMs);
+    this.frameObserver?.(frameMs);
   };
 
   /** One 100 ms simulation step. */

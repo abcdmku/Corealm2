@@ -123,8 +123,10 @@ import { SettingsStore, type UiSettings } from "../ui/settings.js";
 import { keybindings } from "../input/keyboard.js";
 import { CharacterRig } from "../render/characterRig.js";
 import {
-  addChamberLights, buildDungeon, chamberFloorAt, dungeonFloorHeight, type DungeonSpec,
+  addChamberLights, buildDungeon, chamberFloorAt, dungeonFloorHeight, dungeonNavigationBlockers, loadCaveRockSource, type DungeonSpec, type BuiltDungeon,
 } from "../render/dungeon.js";
+import { DeferredDungeonFacing } from "../render/deferredDungeonFacing.js";
+import { isActorEntity } from "../render/entityActiveSet.js";
 import { Ambience, Vfx, type AmbienceEmitter, type AmbienceKind } from "../render/vfx.js";
 import { SpellVfx } from "../render/spellVfx.js";
 import {
@@ -134,6 +136,7 @@ import {
 import { GAME_BOOT_PROFILE, type BootProfile } from "./bootProfile.js";
 import type { FeatureLabStructureAssembly } from "../featureLab/structures.js";
 import { BOOT_MILESTONES, BOOT_SPANS, bootTelemetry } from "../perf/bootTelemetry.js";
+import { AdaptiveDrawDistance } from "../render/adaptiveDrawDistance.js";
 
 export interface BootResult {
   loop: GameLoop;
@@ -162,6 +165,8 @@ export interface BootOptions {
 
 export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {}): Promise<BootResult> {
   const profile = options.profile ?? GAME_BOOT_PROFILE;
+  const performanceLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("performance") === "1";
+  const runtimePerformanceEnabled = profile.kind === "game" || performanceLab;
   // The lab workbench is the primary interface for this profile, so fetch its deferred chunk while
   // terrain, assets, and WASM initialize. Normal game boot never requests it.
   if (profile.kind === "feature-lab") preloadFeatureLabPanel();
@@ -226,6 +231,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const rng = new RngStreams(store.get().meta.seed);
   const clientSettings = new SettingsStore();
   const initialSettings = clientSettings.get();
+  const adaptiveDistance = new AdaptiveDrawDistance(initialSettings.drawDistance);
   const audioDiagnostics: AudioDiagnostic[] = [];
   const audioEngine = new AudioEngine(COREALM_AUDIO_CATALOG, {
     initialVolumes: {
@@ -718,14 +724,25 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // walkable floor is unchanged, so navigation is not affected.
   const wantsCaveRock = (caveLabModule && new URLSearchParams(location.search).get("caveSource") === "1")
     || (profile.kind === "game" && authoredDungeonSpec !== null);
-  const caveRockSource = wantsCaveRock
+  const deferCaveRock = wantsCaveRock && runtimePerformanceEnabled;
+  const caveRockSource = wantsCaveRock && !deferCaveRock
     ? await (await import("../render/dungeon.js")).loadCaveRockSource("/assets/models/cave/rock-face-01.glb")
     : undefined;
-  const caveFixture = caveLabModule?.createCaveLabFixture({ scene, surfaceTextures, rockSource: caveRockSource }) ?? null;
-  const dungeonSpec = caveFixture?.spec ?? authoredDungeonSpec;
-  const dungeon = caveFixture ?? (dungeonSpec
-    ? buildDungeon(dungeonSpec, scene.materials, { surfaceTextures, ...(caveRockSource ? { rockSource: caveRockSource } : {}) })
-    : null);
+  const { caveFixture, dungeonSpec, dungeon } = bootTelemetry.measureSync(BOOT_SPANS.DUNGEON_BUILD, () => {
+    const caveFixture = caveLabModule?.createCaveLabFixture({ scene, surfaceTextures, rockSource: caveRockSource, rockEnvelope: !!wantsCaveRock }) ?? null;
+    const dungeonSpec = caveFixture?.spec ?? authoredDungeonSpec;
+    const dungeon = caveFixture ?? (dungeonSpec
+      ? buildDungeon(dungeonSpec, scene.materials, { surfaceTextures, rockEnvelope: !!wantsCaveRock, ...(caveRockSource ? { rockSource: caveRockSource } : {}) })
+      : null);
+    return { caveFixture, dungeonSpec, dungeon };
+  });
+  const deferredCave = deferCaveRock && dungeon && dungeonSpec
+    ? new DeferredDungeonFacing(caveFixture?.built ?? dungeon as BuiltDungeon, dungeonSpec, { surfaceTextures },
+      () => loadCaveRockSource("/assets/models/cave/rock-face-01.glb"), (mesh, source) => {
+        mesh.userData["cameraHardBlocker"] = true;
+        cameraQueries.addStaticMesh(mesh);
+        caveFixture?.facingAttached(source);
+      }) : null;
   if (dungeon && dungeonSpec) {
     if (gates && gateMaterials) {
       for (const threshold of worldDoorThresholds) {
@@ -742,10 +759,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     // Camera collision uses the rendered shell, including the roof, without adding roof
     // volumes to navigation and deleting the walkable chamber underneath them. The shell is also
     // a hard blocker: no cutaway opens it, so fixed follow has to pull in rather than sit outside.
-    for (const mesh of dungeon.blockers) {
-      mesh.userData["cameraHardBlocker"] = true;
-      cameraQueries.addStaticMesh(mesh);
-    }
+    bootTelemetry.measureSync(BOOT_SPANS.CAMERA_DUNGEON, () => {
+      for (const mesh of dungeon.blockers) {
+        mesh.userData["cameraHardBlocker"] = true;
+        cameraQueries.addStaticMesh(mesh);
+      }
+    });
   }
 
   // Imported altar ruins are not one solid box. Their authored triangles preserve the walkable
@@ -764,10 +783,13 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     cameraQueries.addStaticBox(box.position, box.halfExtents as unknown as Vec3, box.rotationY, box.buildingId);
   }
   for (const mesh of structureNavigation.meshes) cameraQueries.addStaticMesh(mesh);
-  const structureCamera = await buildStructureCameraSources(assets, built.entities);
+  const structureCamera = await bootTelemetry.measureAsync(BOOT_SPANS.CAMERA_STRUCTURES, async () => {
+    const sources = await buildStructureCameraSources(assets, built.entities);
+    for (const mesh of sources.meshes) cameraQueries.addStaticMesh(mesh);
+    return sources;
+  });
   const roofVisibility = new RoofVisibility();
   roofVisibility.setSources(structureCamera.meshes);
-  for (const mesh of structureCamera.meshes) cameraQueries.addStaticMesh(mesh);
   // Recast reads raw geometry, so the cheapest way to make something block a path is to hand the
   // navmesh an invisible carve for it.
   //
@@ -796,7 +818,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const navigationInput = [
     ...navigationTerrain,
     ...(dungeon?.walkable ?? []),
-    ...(dungeon?.blockers ?? []),
+    ...dungeonNavigationBlockers(dungeon?.blockers ?? []),
     ...structureNavigation.meshes,
     ...navCarves,
   ];
@@ -1414,17 +1436,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     activeVisualCentre = [...position];
     activeVisualRegion = regionId;
 
-    if (regionChanged || force) {
-      void entityViews.preloadRegion(regionId).catch((cause) => {
-        errors.push({ atMs: atMs(), source: "entityStreaming", message: describeError(cause) });
+    if (regionId === "gravelmaw") scatterStreaming.suspend();
+    if (profile.scatter && regionId !== "gravelmaw") {
+      void scatterStreaming.streamNearby(position[0], position[2],
+        fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + 48).then(() => {
+        scatterResults = scatterStreaming.getStats();
+      }).catch((cause) => {
+        errors.push({ atMs: atMs(), source: "scatterStreaming", message: describeError(cause) });
       });
-      if (profile.scatter) {
-        void scatterStreaming.loadSpawn(position[0], position[2]).then((results) => {
-          scatterResults = results;
-        }).catch((cause) => {
-          errors.push({ atMs: atMs(), source: "scatterStreaming", message: describeError(cause) });
-        });
-      }
     }
   };
 
@@ -1472,8 +1491,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const transitionThroughPortal = (destination: { position: Vec3; regionId: RegionId; name: string }, commit: () => void): Promise<void> => portalTransition.run({
     name: destination.name,
     prepare: async () => {
+      if (destination.regionId === "gravelmaw") await deferredCave?.ensure();
       const destinationEntities = entitiesForVisualRegion(destination.regionId).filter((entity) =>
-        distanceXZ(entity.position, destination.position) <= (profile.kind === "feature-lab" ? 220 : ENTITY_ACTIVE_RADIUS + STRUCTURE_RESIDENCY_MARGIN));
+        distanceXZ(entity.position, destination.position) <= (profile.kind === "feature-lab" ? 220
+          : isActorEntity(entity) || isStructureEntity(entity)
+            ? structureResidencyRadius(clientSettings.get().drawDistance) : ENTITY_ACTIVE_RADIUS));
       const prepared = await entityViews.prepare(destinationEntities);
       if (prepared.missing.length) throw new Error(`Could not load the passage: ${prepared.missing.join(", ")}`);
       if (profile.scatter && destination.regionId !== "gravelmaw") {
@@ -1823,7 +1845,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       if (!nav.build([
           ...navigationTerrain,
           ...(dungeon?.walkable ?? []),
-          ...(dungeon?.blockers ?? []),
+          ...dungeonNavigationBlockers(dungeon?.blockers ?? []),
           ...structureNavigation.meshes,
         ...structureMeshes,
         ...candidateCarves,
@@ -1835,7 +1857,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         const restored = nav.build([
           ...navigationTerrain,
           ...(dungeon?.walkable ?? []),
-          ...(dungeon?.blockers ?? []),
+          ...dungeonNavigationBlockers(dungeon?.blockers ?? []),
           ...structureNavigation.meshes,
           ...activeStructureNavigation,
           ...previousCarves,
@@ -2256,10 +2278,18 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const ui = createUi(api, {
     saveRecovery: {
       getRecovery: () => saves.getRecovery(),
-      recoverSave: (json) => {
-        const result = saves.recoverSerialized(json);
+      recoverSave: async (json) => {
+        const recovery = JSON.stringify(saves.getRecovery());
+        const result = saves.loadSerialized(json);
         if (result.status !== "loaded" || !result.state) return { ok: false, reason: result.reason ?? "Save recovery failed" };
-        replaceWorldFromSave(result.state);
+        if (result.state.player.regionId === "gravelmaw") {
+          try { await deferredCave?.ensure(); }
+          catch (cause) { return { ok: false, reason: describeError(cause) }; }
+        }
+        if (JSON.stringify(saves.getRecovery()) !== recovery) return { ok: false, reason: "Save recovery was cancelled" };
+        const recovered = saves.recoverSerialized(json);
+        if (recovered.status !== "loaded" || !recovered.state) return { ok: false, reason: recovered.reason ?? "Save recovery failed" };
+        await replaceWorldFromSave(recovered.state);
         ui.update();
         return { ok: true };
       },
@@ -2348,6 +2378,13 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (!previous || previous.drawDistance !== preferences.drawDistance) {
       renderer.setDrawDistance(preferences.drawDistance);
       entityViews.updateStructureRadius(structureResidencyRadius(preferences.drawDistance));
+      if (runtimePerformanceEnabled) entityViews.updateActorRadius(structureResidencyRadius(preferences.drawDistance));
+      scene.setStreamingRadius(fogOpaqueMetres(preferences.drawDistance) + CAMERA.maxDistance);
+      if (debugReady) refreshVisualResidency(store.get().player.position, store.get().player.regionId, true);
+    }
+    if (!previous || previous.autoDrawDistance !== preferences.autoDrawDistance
+      || previous.renderScale !== preferences.renderScale || previous.shadowQuality !== preferences.shadowQuality) {
+      adaptiveDistance.reset(preferences.drawDistance);
     }
     if (!previous || previous.invertCameraY !== preferences.invertCameraY) {
       camera.invertPitch = preferences.invertCameraY;
@@ -2360,6 +2397,36 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
     appliedPreferences = preferences;
   });
+  if (runtimePerformanceEnabled) {
+    (window as Window & { __renderDistanceLab?: unknown }).__renderDistanceLab = {
+      getState: () => ({ settings: clientSettings.get(), residency: entityViews.residencyStats(), scatter: scatterStreaming.getResidency() }),
+      set: (patch: Partial<UiSettings>) => clientSettings.set(patch),
+      caveState: () => deferredCave?.getState() ?? null,
+      loadCave: () => deferredCave?.ensure(),
+      shaders: () => renderer.streamingShaderState(),
+      ...(performanceLab ? {
+        watchCreatureVisibility: async (entityId: string) =>
+          (await import("../featureLab/actorVisibilityProbe.js")).watchActorVisibility(renderer.scene, entityId),
+        addRefractionFixture: async (useBiomeSky = false, reflective = false) => {
+          if (useBiomeSky) renderer.biomeAtmosphere.setPreview("fallowmarch");
+          await assets.load("corealm_water_trough");
+          const trough = assets.instance("corealm_water_trough");
+          if (reflective) trough.traverse(object => {
+            const mesh = object as THREE.Mesh;
+            if (!mesh.isMesh) return;
+            mesh.material = Array.isArray(mesh.material)
+              ? mesh.material.map(material => scene.materials.forContainedTrough("corealm_water_trough", material))
+              : scene.materials.forContainedTrough("corealm_water_trough", mesh.material);
+          });
+          trough.position.set(-3, 0, 3);
+          scene.root.add(trough);
+          trough.visible = false;
+          renderer.warmup({ temporarilyVisible: [trough] });
+          return { reveal: () => { trough.visible = true; }, hide: () => { trough.visible = false; } };
+        },
+      } : {}),
+    };
+  }
 
   // A killed enemy stops being something the player has selected.
   //
@@ -2481,6 +2548,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
   });
   loop.setUi(ui);
+  loop.setFrameObserver((frameMs) => {
+    const next = adaptiveDistance.sample(frameMs, runtimePerformanceEnabled && debugReady
+      && clientSettings.get().autoDrawDistance && !document.hidden && !clock.paused
+      && store.get().player.regionId !== "gravelmaw");
+    if (next) clientSettings.set({ drawDistance: next });
+  });
   if (rigged) loop.setPlayerRig(playerRig);
   loop.setEntityViews(entityViews, () => {
     if (profile.kind === "feature-lab") return entityStore.all();
@@ -2573,8 +2646,16 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   };
 
   /** Applies a migrated save to every runtime owner, not just to the JSON store. */
-  const replaceWorldFromSave = (next: NonNullable<ReturnType<SaveService["deserialize"]>["state"]>): void => {
+  const replaceWorldFromSave = async (next: NonNullable<ReturnType<SaveService["deserialize"]>["state"]>): Promise<void> => {
     portalTransition.cancel();
+    if (next.player.regionId === "gravelmaw" && deferredCave && !deferredCave.getState().ready) {
+      await transitionThroughPortal({ position: next.player.position, regionId: next.player.regionId, name: "Gravelmaw" },
+        () => applyWorldFromSave(next));
+      return;
+    }
+    applyWorldFromSave(next);
+  };
+  const applyWorldFromSave = (next: NonNullable<ReturnType<SaveService["deserialize"]>["state"]>): void => {
     travelSystem.cancel();
     agilitySystem.cancelTraversal(clock.elapsedMs, "replaced");
     traversalPresentation.reset();
@@ -2723,7 +2804,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     },
     saveNow: () => { saves.save(store.get(), Date.now()); },
     getSaveBlob: () => saves.serialize(store.get()),
-    loadSaveBlob: (json: string) => {
+    loadSaveBlob: async (json: string) => {
       const loadedBlob = saves.loadSerialized(json);
       if (loadedBlob.status !== "loaded" || !loadedBlob.state) {
         errors.push({
@@ -2733,7 +2814,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         });
         return;
       }
-      replaceWorldFromSave(loadedBlob.state);
+      await replaceWorldFromSave(loadedBlob.state);
       ui.update();
     },
     advanceWorldTime: (seconds) => gatheringSystem.fastForwardRespawns(seconds),
@@ -3039,11 +3120,16 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // skips by default — a material only compiles its transparent form when something is actually
   // transparent, and three skips everything under an invisible ancestor, which is the whole dungeon
   // and the +3-point-light variant of every material in it.
+  if (store.get().player.regionId === "gravelmaw") await deferredCave?.ensure();
+  // Match the first gameplay frame before compiling. Hidden cave lights otherwise produce
+  // a different cache key, including for Three's internal sky shader on the first water draw.
+  if (dungeon && !caveFixture) dungeon.group.visible = store.get().player.regionId === "gravelmaw";
   if (profile.fullWarmup) {
     setStatus("warming the shaders…");
     bootTelemetry.measureSync(BOOT_SPANS.SHADER_COMPILE, () => renderer.warmup());
   }
   bootTelemetry.milestone(BOOT_MILESTONES.SHADERS_READY);
+  if (runtimePerformanceEnabled) renderer.startStreamingWarmup();
 
   if (worldMapCapture) {
     // Build-time capture is deterministic: no animation/motion frame may land between two tiles.
@@ -3100,13 +3186,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
               bootTelemetry.measureSync("boot.shaders.deferred", () => {
                 renderer.warmup({
                   transparentVariants: [scene.root],
-                  temporarilyVisible: dungeon ? [dungeon.group] : [],
+                  temporarilyVisible: dungeon && !deferredCave ? [dungeon.group] : [],
                 });
               });
             }, { timeout: 2_000 });
           }
-          if (profile.scatter) {
-            void scatterStreaming.streamRemaining().then(() => {
+          if (profile.scatter && store.get().player.regionId !== "gravelmaw") {
+            const player = store.get().player;
+            void scatterStreaming.streamNearby(player.position[0], player.position[2],
+              player.regionId === "gravelmaw" ? 0 : fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + 48).then(() => {
               scatterResults = scatterStreaming.getStats();
             }).catch((cause) => {
               errors.push({ atMs: atMs(), source: "scatterStreaming", message: describeError(cause) });

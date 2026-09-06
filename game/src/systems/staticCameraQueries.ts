@@ -60,9 +60,20 @@ function buildTree<T extends Bounded>(items: T[]): Tree<T> {
       axis = candidate;
     }
   }
-  items.sort((a, b) =>
-    a.bounds.min[axis]! + a.bounds.max[axis]! - b.bounds.min[axis]! - b.bounds.max[axis]!);
-  const middle = Math.floor(items.length / 2);
+  // Partition around the spatial midpoint in one pass. Sorting every subtree spent seconds
+  // comparing the cave's triangles during boot; queries only require disjoint item ownership
+  // and enclosing bounds, not sorted leaves.
+  const split = (centres.min[axis]! + centres.max[axis]!) / 2;
+  let middle = 0;
+  for (let index = 0; index < items.length; index += 1) {
+    const item = items[index]!;
+    if (item.bounds.min[axis]! + item.bounds.max[axis]! < split) {
+      items[index] = items[middle]!;
+      items[middle++] = item;
+    }
+  }
+  // Coincident centres and extremely skewed distributions must still produce a bounded tree.
+  if (middle < items.length / 8 || middle > items.length * 7 / 8) middle = Math.floor(items.length / 2);
   return { bounds, left: buildTree(items.slice(0, middle)), right: buildTree(items.slice(middle)) };
 }
 

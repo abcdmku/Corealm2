@@ -1,17 +1,17 @@
 {
   "categories": {
-    "dungeon": 4,
+    "dungeon": 3,
     "other": 126,
     "road": 0,
-    "solid-carve": 796,
+    "solid-carve": 808,
     "terrain": 50,
     "water": 0
   },
-  "fingerprint": "eaf7c7a8bb7a304d817ac7bc82cf5407771d75227fb302d4754fd276ff6892c0",
+  "fingerprint": "c1f7024ecf81550547fc9ae3a4ee1b2f87e461d1be41a37622e75fed86c80406",
   "format": "corealm-navmesh",
   "formatVersion": 1,
-  "navDataSha256": "878a9af1ba6c9c1b5697fea6fe97c2fb35b9d9bd24a857decd2a869a9d637c95",
-  "polyCount": 3544,
+  "navDataSha256": "41d02826bdab6fc10885451549b3e2995ff0d7c6d01d99aafe9401281ad63b8a",
+  "polyCount": 3575,
   "recastVersion": "0.43.1",
   "settings": {
     "ch": 0.2,
@@ -24,19 +24,19 @@
     "walkableRadius": 1,
     "walkableSlopeAngle": 60
   },
-  "sourceMeshes": 976,
-  "sourceTriangles": 3420416,
+  "sourceMeshes": 987,
+  "sourceTriangles": 459731,
   "tileCount": 1,
   "path": "generated/corealm-navmesh.bin",
-  "bytes": 995898,
+  "bytes": 1019029,
   "worldSeed": "1337",
   "authoredInputs": {
-    "terrainGeometry": "25f85d2a0cc392f58c2364039941e10c3c10c4a0d7a0fd90c9424542f4d1fc4e",
-    "roads": "cfe82d2e1f9b4a643855b679180769f65ce50b52593f2711df82ef6530a722e2",
+    "terrainGeometry": "ee0666f3264372b1e225c558e476ff3ffb229e135311d9df2912ab4a50906140",
+    "roads": "eec45ce476f209ea4345f96d8bc46acc133fbe9d961328f2cb6880ba39e796f0",
     "water": "e3891950e36260d76dde276e71264e110002cc34b16967ca4e7aad2f4c1b8306",
-    "solidCarves": "ae06cc46183335764640891162fff1006fcc699ef8c66f7970614e097ddecaae",
-    "dungeonGeometry": "bb04285bb2c3a1318dbddaac00c81b35037623acea89b6055757a1dfd36de739",
-    "seedDependentInputs": "164856110c7e64a61d4ce42c55343b68796d3a154ffcaa5035165270d53c86be",
+    "solidCarves": "9c905d4740cc81deb9cbefb9a412db1303bad98d54c53c7a1ca117ac1704aae6",
+    "dungeonGeometry": "00bb4019b86e96455c457decadb5055b956ecc0ed6d52b9d3830c64f18e886e2",
+    "seedDependentInputs": "c71b1cc75aeb98e912593cee8ba323129a4e8358b72fd1215d0737a2a1226e96",
     "navigationSettings": "f9ccc1c26e66669a8c1a79f270583be5298b86478605c47238d255bafec5a665"
   }
 }

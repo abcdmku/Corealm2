@@ -30,6 +30,20 @@ function ids(entities: readonly SemanticEntity[]): string[] {
   return entities.map((candidate) => candidate.id);
 }
 
+it("keeps distant creatures visible without widening the resource working set", () => {
+  const actors = new EntityActiveSet();
+  const cow = { ...entity("cow", "fallowmarch", [150, 0, 0]), archetype: "enemy" as const };
+  const tree = { ...entity("tree", "fallowmarch", [150, 0, 0]), archetype: "tree" as const };
+  actors.replace([cow, tree]);
+  actors.setArea([0, 0, 0], 64, 240);
+  actors.setActorRadius(240);
+  expect(ids(actors.selected())).toEqual(["cow"]);
+  actors.setActorRadius(130);
+  expect(ids(actors.selected())).toEqual([]);
+  actors.setPosition([60, 0, 0]);
+  expect(ids(actors.selected())).toEqual(["cow"]);
+});
+
 class FakeEntityAssets {
   private readonly entries = new Map<string, AssetEntry>();
   private readonly sources = new Map<string, THREE.Group>();

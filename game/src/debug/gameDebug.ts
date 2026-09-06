@@ -83,7 +83,7 @@ export interface DebugDeps {
   teleport(to: Vec3): void;
   saveNow(): void;
   getSaveBlob(): string;
-  loadSaveBlob(json: string): void;
+  loadSaveBlob(json: string): void | Promise<void>;
   /** Fast-forwards world timers that deliberately do not use the session SimClock. */
   advanceWorldTime?(seconds: number): void;
   focusCamera(shotId: string): boolean;
@@ -919,8 +919,8 @@ export function installGameDebug(deps: DebugDeps): void {
       return deps.getSaveBlob();
     },
 
-    loadSaveBlob(json: string): void {
-      deps.loadSaveBlob(json);
+    async loadSaveBlob(json: string): Promise<void> {
+      await deps.loadSaveBlob(json);
     },
 
     /** Invokes an agent tool in-page. This is how parity between a click and a tool call is proven. */

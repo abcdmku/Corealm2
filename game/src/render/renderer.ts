@@ -11,6 +11,7 @@ import { CAMERA, RENDER_BUDGET } from "../app/config.js";
 import { GpuTimer } from "./gpuTimer.js";
 import { ScreenAntialiasing } from "./screenAntialiasing.js";
 import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transmissionOcclusion.js";
+import { StreamedShaderWarmup } from "./streamedShaderWarmup.js";
 
 export interface RenderStats {
   fps: number;
@@ -287,6 +288,13 @@ export class Renderer {
    * the program cache for the life of the session.
    */
   private readonly warmupMaterials: THREE.Material[] = [];
+  private streamedShaders: StreamedShaderWarmup | null = null;
+
+  startStreamingWarmup(): void {
+    this.streamedShaders ??= new StreamedShaderWarmup(this.renderer, this.scene, this.camera);
+  }
+
+  streamingShaderState() { return this.streamedShaders?.getState() ?? null; }
 
   private renderScale = 1;
   private stableShadows = true;
@@ -526,6 +534,8 @@ export class Renderer {
           if (seen.has(material)) continue;
           seen.add(material);
           const clone = material.clone();
+          clone.onBeforeCompile = material.onBeforeCompile.bind(material);
+          clone.customProgramCacheKey = material.customProgramCacheKey.bind(material);
           clone.transparent = true;
           clone.depthWrite = false;
           this.warmupMaterials.push(clone);
@@ -543,19 +553,33 @@ export class Renderer {
     }
 
     if (holder.children.length > 0) this.scene.add(holder);
-    this.renderer.compile(this.scene, this.camera);
+    this.compileColourPasses();
 
     // Second pass with the interiors revealed. Both variants end up in the program cache, and
     // neither entering nor leaving the dungeon compiles anything afterwards.
     const hidden = (options?.temporarilyVisible ?? []).filter((root) => root.visible === false);
     if (hidden.length > 0) {
       for (const root of hidden) root.visible = true;
-      this.renderer.compile(this.scene, this.camera);
+      this.compileColourPasses();
       for (const root of hidden) root.visible = false;
     }
 
     if (holder.children.length > 0) this.scene.remove(holder);
     holder.clear();
+  }
+
+  /** Refraction redraws opaque objects into a linear target with tone mapping disabled. */
+  private compileColourPasses(): void {
+    this.renderer.compile(this.scene, this.camera);
+    const previous = this.renderer.getRenderTarget();
+    const target = new THREE.WebGLRenderTarget(1, 1);
+    try {
+      this.renderer.setRenderTarget(target);
+      this.renderer.compile(this.scene, this.camera);
+    } finally {
+      this.renderer.setRenderTarget(previous);
+      target.dispose();
+    }
   }
 
   render(nowMs: number): void {
@@ -583,6 +607,7 @@ export class Renderer {
     const prepareStart = performance.now();
     this.camera.updateMatrixWorld();
     this.prepareScene?.(this.camera);
+    this.streamedShaders?.prepare();
     this.cpuPrepareMs = performance.now() - prepareStart;
     this.gpuTimer?.begin();
     const submitStart = performance.now();
@@ -594,6 +619,7 @@ export class Renderer {
       this.drawFrame(this.lastFrameAt > 0 ? (nowMs - this.lastFrameAt) / 1000 : 1 / 60);
     } finally {
       this.timingRender = false;
+      this.streamedShaders?.restore();
       this.cpuSubmitMs = performance.now() - submitStart;
       this.gpuTimer?.end();
     }
@@ -622,10 +648,20 @@ export class Renderer {
 
   /** Draw the scene and final display treatment without advancing simulation or camera state. */
   drawFrame(deltaSeconds = 0): void {
-    this.renderer.render(this.scene, this.camera);
+    this.drawWorld();
     this.playerSilhouette.render(this.renderer, this.camera);
     this.biomeAtmosphere.render(this.renderer, deltaSeconds);
     this.screenAntialiasing.render(this.renderer);
+  }
+
+  private drawWorld(): void {
+    const background = this.scene.background;
+    const sky = this.biomeAtmosphere.sky;
+    // The procedural sky is an opaque full-screen triangle. The underlying cube is fully covered,
+    // but still triggers its own shader variants whenever refraction first appears.
+    if (sky?.enabled && sky.mesh.visible && sky.mesh.parent === this.scene) this.scene.background = null;
+    try { this.renderer.render(this.scene, this.camera); }
+    finally { this.scene.background = background; }
   }
 
   /** Renders and reads one gameplay frame synchronously for generated documentation. */
@@ -791,6 +827,7 @@ export class Renderer {
     this.gpuTimer?.dispose();
     this.shadowGpuTimer?.dispose();
     this.restoreShadowTiming?.();
+    this.streamedShaders?.dispose();
     for (const material of this.warmupMaterials) material.dispose();
     this.warmupMaterials.length = 0;
     for (const target of this.prefiltered) target.dispose();

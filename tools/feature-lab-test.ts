@@ -590,7 +590,7 @@ async function testCombat(
     && stackQuantity(state.bank?.inventory, "grithe_ore") === 8
   ));
   remember(bankWithdrawn);
-  await bankPanel.getByRole("searchbox", { name: "Filter bank by name" }).fill("grithe");
+  await bankPanel.getByRole("searchbox", { name: "Filter bank by name" }).fill("copper");
   const filteredItems = await bankPanel.locator(".bank-grid .slot:not(.is-empty)").evaluateAll((cells) => (
     cells.map((cell) => (cell as HTMLElement).dataset["item"] ?? "")
   ));

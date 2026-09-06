@@ -2977,6 +2977,7 @@ export class WorldScene {
 
   /** The centre and radius of the last streaming cull, applied to late-arriving shards. */
   private lastScatterCull: { x: number; z: number; radius: number } | null = null;
+  private streamingRadius = 195;
 
   /** Registers legacy region scatter and organic biome recipe shards under their recipe id. */
   registerScatter(regionId: RegionId, object: THREE.Object3D): void {
@@ -3042,7 +3043,12 @@ export class WorldScene {
    * preset's fog is fully opaque at 210 m, so hiding a shard whose nearest edge sits past the
    * 240 m default is visually lossless and pays for the whole northern band.
    */
-  updateStreaming(x: number, z: number, radius = 195): void {
+  setStreamingRadius(radius: number): void {
+    this.streamingRadius = radius;
+    if (this.lastScatterCull) this.updateStreaming(this.lastScatterCull.x, this.lastScatterCull.z);
+  }
+
+  updateStreaming(x: number, z: number, radius = this.streamingRadius): void {
     const organicBiomes = this.world?.biomes !== undefined;
     this.lastScatterCull = { x, z, radius };
     for (const [regionId, objects] of this.scatterByRegion) {

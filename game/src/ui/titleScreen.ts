@@ -32,7 +32,7 @@ import type { Unregister } from "../input/keyboard.js";
 /** Root-owned persistence actions. These controls never read or write browser storage. */
 export interface SaveRecoveryControls {
   getRecovery(): { reason: string; raw: string | null } | null;
-  recoverSave(json: string): { ok: boolean; reason?: string };
+  recoverSave(json: string): { ok: boolean; reason?: string } | Promise<{ ok: boolean; reason?: string }>;
 }
 
 export interface TitleScreenOptions {

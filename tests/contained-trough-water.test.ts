@@ -10,6 +10,10 @@ it("preserves authored source/detail, caches the candidate, and restores exact m
   source.normalMap = new THREE.Texture();
   const sourceDispose = vi.spyOn(source, "dispose");
   const candidate = library.containedTroughWater(source);
+  expect(library.forContainedTrough("corealm_water_trough", source)).toBe(candidate);
+  expect(library.forContainedTrough("world_water", source)).toBe(source);
+  const timber = new THREE.MeshPhysicalMaterial();timber.name = "Corealm farm timber";
+  expect(library.forContainedTrough("corealm_water_trough", timber)).toBe(timber);
   expect(library.containedTroughWater(source)).toBe(candidate);
   expect(candidate.normalMap).toBe(source.normalMap);
   expect(candidate.vertexColors).toBe(source.vertexColors);
@@ -30,5 +34,5 @@ it("preserves authored source/detail, caches the candidate, and restores exact m
   expect(views.setContainedTroughWater(true).meshes).toHaveLength(0);
   expect(mesh.material).toBe(source);
   library.dispose(); expect(sourceDispose).not.toHaveBeenCalled();
-  source.normalMap.dispose(); source.dispose(); geometry.dispose();
+  source.normalMap.dispose(); source.dispose(); timber.dispose(); geometry.dispose();
 });

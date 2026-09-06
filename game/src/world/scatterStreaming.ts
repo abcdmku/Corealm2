@@ -40,6 +40,7 @@ export class ScatterStreamingController {
   private readonly specs: Partial<Record<RegionId, RegionScatterSpec>>;
   private readonly nearRing: number;
   private readonly yieldToMain: () => Promise<void>;
+  private readonly yieldBackground: () => Promise<void>;
   private readonly onTree: ScatterTileLoadOptions["onTree"];
   private readonly tiles: ScatterTile[];
   private readonly tilesById: Map<string, ScatterTile>;
@@ -49,6 +50,7 @@ export class ScatterStreamingController {
   private activeX = 0;
   private activeZ = 0;
   private background: Promise<void> | null = null;
+  private wantedRadius = Infinity;
 
   constructor(
     private readonly scene: WorldScene,
@@ -66,6 +68,14 @@ export class ScatterStreamingController {
       if (performance.now() - sliceStarted < 4) return;
       await yieldToMainThread();
       sliceStarted = performance.now();
+    });
+    let backgroundStarted = performance.now();
+    this.yieldBackground = options.yieldToMain ?? (async () => {
+      if (performance.now() - backgroundStarted < 3) return;
+      if (typeof requestAnimationFrame === "function" && !document.hidden) {
+        await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      } else await yieldToMainThread();
+      backgroundStarted = performance.now();
     });
     this.tiles = scatterTilesForBounds(scene.getScatterBounds(Infinity));
     this.tilesById = new Map(this.tiles.map((tile) => [tile.id, tile]));
@@ -120,6 +130,22 @@ export class ScatterStreamingController {
    * reprioritize the next pick without changing any tile's seed or contents.
    */
   streamRemaining(): Promise<void> {
+    this.wantedRadius = Infinity;
+    return this.startBackground();
+  }
+
+  /** Generate only chunks intersecting the view/prefetch circle. Visited chunks remain cached. */
+  streamNearby(x: number, z: number, radius: number): Promise<void> {
+    if (!Number.isFinite(radius) || radius < 0) throw new Error("Scatter radius must be finite and nonnegative");
+    this.setActivePosition(x, z);
+    this.wantedRadius = radius;
+    return this.startBackground();
+  }
+
+  /** Let an in-flight chunk finish, but do not start surface work inside an interior. */
+  suspend(): void { this.wantedRadius = -1; }
+
+  private startBackground(): Promise<void> {
     if (this.background) return this.background;
     this.background = this.runBackground().finally(() => {
       this.background = null;
@@ -151,15 +177,23 @@ export class ScatterStreamingController {
   private async runBackground(): Promise<void> {
     while (this.resident.size < this.tiles.length) {
       const next = this.sortByActiveDistance(
-        this.tiles.filter((tile) => !this.resident.has(tile.id) && !this.inFlight.has(tile.id)),
+        this.tiles.filter((tile) => this.isWanted(tile) && !this.resident.has(tile.id) && !this.inFlight.has(tile.id)),
       )[0];
       if (!next) {
+        if (this.inFlight.size === 0) break;
         await Promise.all(this.inFlight.values());
         continue;
       }
       await this.ensureTile(next, "background", false);
-      await this.yieldToMain();
+      await this.yieldBackground();
     }
+  }
+
+  private isWanted(tile: ScatterTile): boolean {
+    if (this.wantedRadius < 0) return false;
+    const dx = Math.max(tile.bounds.minX - this.activeX, 0, this.activeX - tile.bounds.maxX);
+    const dz = Math.max(tile.bounds.minZ - this.activeZ, 0, this.activeZ - tile.bounds.maxZ);
+    return dx * dx + dz * dz <= this.wantedRadius * this.wantedRadius;
   }
 
   private async ensureTile(tile: ScatterTile, priority: AssetPriority, primary: boolean): Promise<void> {
@@ -179,7 +213,7 @@ export class ScatterStreamingController {
         // Spawn-visible work stays unscoped so an organic biome lobe crossing a semantic border
         // cannot be demoted. Deferred work follows the tile's semantic owner.
         regionId: priority === "visible-spawn" ? undefined : this.semanticRegionForTile(tile),
-        yieldToMain: this.yieldToMain,
+        yieldToMain: primary ? this.yieldToMain : this.yieldBackground,
         onTree: this.onTree,
       },
     )

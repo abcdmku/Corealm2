@@ -59,7 +59,8 @@ const SHADOW_QUALITIES: readonly { value: ShadowQuality; label: string }[] = [
   { value: "high", label: "High" },
 ];
 
-const DRAW_DISTANCES: readonly { value: DrawDistance; label: string }[] = [
+const DRAW_DISTANCES: readonly { value: DrawDistance | "auto"; label: string }[] = [
+  { value: "auto", label: "Auto" },
   { value: "near", label: "Near" },
   { value: "medium", label: "Medium" },
   { value: "far", label: "Far" },
@@ -99,7 +100,7 @@ export class SettingsPanel implements ManagedPanel {
   private readonly stateLabels = new Map<ToggleSpec["key"], HTMLElement>();
   private readonly renderScaleButtons = new Map<RenderScale, HTMLButtonElement>();
   private readonly shadowQualityButtons = new Map<ShadowQuality, HTMLButtonElement>();
-  private readonly drawDistanceButtons = new Map<DrawDistance, HTMLButtonElement>();
+  private readonly drawDistanceButtons = new Map<DrawDistance | "auto", HTMLButtonElement>();
   private readonly densityButtons = new Map<UiSettings["uiScale"], HTMLButtonElement>();
   private readonly audioInputs = new Map<AudioBus, HTMLInputElement>();
   private readonly audioOutputs = new Map<AudioBus, HTMLOutputElement>();
@@ -210,11 +211,12 @@ export class SettingsPanel implements ManagedPanel {
       ),
       this.choiceRow(
         "Draw distance",
-        "Near hides distant terrain and buildings sooner. Far keeps the full 280 metre view.",
+        "Auto adjusts distance to keep play smooth. Creatures and scenery share the visible range. Choose a distance to keep it fixed.",
         "Draw distance",
         DRAW_DISTANCES,
         this.drawDistanceButtons,
-        (value) => { this.settings.set({ drawDistance: value }); },
+        (value) => { this.settings.set(value === "auto" ? { autoDrawDistance: true }
+          : { drawDistance: value, autoDrawDistance: false }); },
       ),
     );
 
@@ -344,7 +346,7 @@ export class SettingsPanel implements ManagedPanel {
       const json = await file.text();
       // A disposed panel or an explicit New Game during the read cancels this pending import.
       if (this.disposed || !this.saveRecovery.getRecovery()) return;
-      const result = this.saveRecovery.recoverSave(json);
+      const result = await this.saveRecovery.recoverSave(json);
       this.recoverySucceeded = result.ok;
       this.recoveryMessage = result.ok
         ? "Save recovered. Your character is loaded and saving is active."
@@ -614,7 +616,8 @@ export class SettingsPanel implements ManagedPanel {
     }
 
     for (const [value, button] of this.drawDistanceButtons) {
-      const on = current.drawDistance === value;
+      const on = current.autoDrawDistance ? value === "auto" : current.drawDistance === value;
+      if (value === "auto") button.textContent = current.autoDrawDistance ? `Auto (${current.drawDistance})` : "Auto";
       button.classList.toggle("is-active", on);
       button.setAttribute("aria-checked", on ? "true" : "false");
       button.tabIndex = on ? 0 : -1;

@@ -1032,7 +1032,13 @@ const WATER_NORMAL_BODY = /* glsl */ `
  * silently fragments and the draw-call budget is gone.
  */
 export class MaterialLibrary {
-  /** Lab candidate cache; normal library disposal owns these clones, never their borrowed maps. */
+  forContainedTrough(assetId: string, source: THREE.Material): THREE.Material {
+    return assetId === "corealm_water_trough" && (source as THREE.MeshPhysicalMaterial).isMeshPhysicalMaterial
+      && source.name.startsWith("Corealm farm water")
+      ? this.containedTroughWater(source as THREE.MeshPhysicalMaterial) : source;
+  }
+
+  /** Normal library disposal owns these clones, never their borrowed maps. */
   containedTroughWater(source: THREE.MeshPhysicalMaterial): THREE.MeshPhysicalMaterial {
     const key = `contained-trough-water:${source.uuid}`;
     let material = this.cache.get(key) as THREE.MeshPhysicalMaterial | undefined;

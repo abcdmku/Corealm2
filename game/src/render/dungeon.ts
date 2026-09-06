@@ -128,6 +128,8 @@ export interface DungeonOptions {
   surfaceTextures?: CorealmSurfaceTextures;
   /** Prepared licensed source geometry. Omit for the structural-shell fallback. */
   rockSource?: CaveRockSource;
+  /** Use the authored scanned-rock envelope while its detailed facing is still unloaded. */
+  rockEnvelope?: boolean;
 }
 
 export interface CaveRockSource {
@@ -278,6 +280,25 @@ export function buildDungeon(
   }
 
   return { group, walkable, blockers, triangles };
+}
+
+/** The original detailed facing, attached once after the structural shell is ready. */
+export function attachDungeonRockFacing(
+  dungeon: BuiltDungeon, spec: DungeonSpec, source: CaveRockSource, options: DungeonOptions,
+): THREE.Mesh {
+  const existing = dungeon.group.getObjectByName("dungeon-rock-facing") as THREE.Mesh | undefined;
+  if (existing) return existing;
+  const facing = buildSourceRockFacing(spec, expandedShellGrid(spec, buildFloorGrid(spec)), source,
+    { ...options, rockSource: source });
+  dungeon.group.add(facing);
+  dungeon.blockers.push(facing);
+  dungeon.triangles += triangleCount(facing.geometry);
+  return facing;
+}
+
+/** The scan decorates the closed rock shell outside the authored walking footprint. */
+export function dungeonNavigationBlockers(blockers: readonly THREE.Mesh[]): THREE.Mesh[] {
+  return blockers.filter(mesh => mesh.name !== "dungeon-rock-facing");
 }
 
 /** Fit the licensed scan as connected facing strips, retaining its triangles and authored UVs. */
@@ -844,7 +865,7 @@ function buildFloorGeometry(
       const z = grid.minZ + row * FLOOR_CELL_METRES;
       const base = grid.height[corner] ?? 0;
       const limit = options?.ceilingAt?.(x, z) ?? Number.POSITIVE_INFINITY;
-      const y = lift === 0 ? base : roofCornerHeight(base, x, z, lift, limit, !!options?.rockSource);
+      const y = lift === 0 ? base : roofCornerHeight(base, x, z, lift, limit, !!(options?.rockSource || options?.rockEnvelope));
       positions[corner * 3] = x;
       positions[corner * 3 + 1] = y;
       positions[corner * 3 + 2] = z;
@@ -1032,6 +1053,10 @@ function cavernBoundary(spec: DungeonSpec): BoundaryPoint[][] {
 }
 
 function onBoundarySegment(point: BoundaryPoint, a: BoundaryPoint, b: BoundaryPoint): boolean {
+  // The exact test admits 1e-6 both along and across the segment. Its axis-aligned envelope
+  // fits inside this 2e-6 padding, so distant roof vertices can skip the square root and divides.
+  if (point[0] < Math.min(a[0], b[0]) - 2e-6 || point[0] > Math.max(a[0], b[0]) + 2e-6
+    || point[1] < Math.min(a[1], b[1]) - 2e-6 || point[1] > Math.max(a[1], b[1]) + 2e-6) return false;
   const dx = b[0] - a[0], dz = b[1] - a[1];
   const length = Math.hypot(dx, dz);
   if (length < 1e-8) return false;
@@ -1103,7 +1128,7 @@ function buildWallGeometry(spec: DungeonSpec, grid: FloorGrid, baseColour: numbe
         const mass = clamp01(bedding * 0.78 + crossJoint * 0.48 - 0.12);
         // Each foot uses only the spare wall margin beyond the authored walking footprint.
         // The same inclined mass continues through the middle face into the upper vault.
-        const offset = options?.rockSource ? 0 : Math.min(shoulderInsetLimit, standingInset * (0.12 + mass * 0.78) + reliefWeight * (1.15 * crown
+        const offset = options?.rockSource || options?.rockEnvelope ? 0 : Math.min(shoulderInsetLimit, standingInset * (0.12 + mass * 0.78) + reliefWeight * (1.15 * crown
           + body * (0.55 + mass * 0.55 + (buttress - 0.5) * 0.15)));
         const px = point[0] + nx * offset, pz = point[1] + nz * offset;
         const roof = sampleGridHeight(grid, px, pz, spec.wallHeight, options) + WALL_OVERLAP;
@@ -1267,7 +1292,7 @@ function sampleGridHeight(grid: FloorGrid, x: number, z: number, lift = 0, optio
     const base = grid.height[cz * (grid.columns + 1) + cx] ?? 0;
     if (lift === 0) return base;
     const px = grid.minX + cx * FLOOR_CELL_METRES, pz = grid.minZ + cz * FLOOR_CELL_METRES;
-    return Math.fround(roofCornerHeight(base, px, pz, lift, options?.ceilingAt?.(px, pz) ?? Infinity, !!options?.rockSource));
+    return Math.fround(roofCornerHeight(base, px, pz, lift, options?.ceilingAt?.(px, pz) ?? Infinity, !!(options?.rockSource || options?.rockEnvelope)));
   };
   const a = height(column, row), b = height(column + 1, row);
   const c = height(column, row + 1), d = height(column + 1, row + 1);

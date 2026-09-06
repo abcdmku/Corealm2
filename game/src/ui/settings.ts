@@ -28,6 +28,8 @@ export interface UiSettings extends AudioVolumes {
   shadowQuality: ShadowQuality;
   /** Camera and fog range preset. */
   drawDistance: DrawDistance;
+  /** Adapt view distance to sustained frame performance; other graphics settings stay manual. */
+  autoDrawDistance: boolean;
   /** Floating damage numbers over combat. */
   damageNumbers: boolean;
   /** Invert the vertical axis while orbiting the camera. */
@@ -43,6 +45,7 @@ export const DEFAULT_SETTINGS: UiSettings = {
   renderScale: 1,
   shadowQuality: "high",
   drawDistance: "far",
+  autoDrawDistance: true,
   damageNumbers: true,
   invertCameraY: true,
   uiScale: "normal",
@@ -131,7 +134,10 @@ function readStored(): Partial<UiSettings> {
   }
   if (source["drawDistance"] === "near" || source["drawDistance"] === "medium" || source["drawDistance"] === "far") {
     out.drawDistance = source["drawDistance"];
+    // Existing explicit preferences remain manual until the player selects Auto.
+    out.autoDrawDistance = false;
   }
+  if (typeof source["autoDrawDistance"] === "boolean") out.autoDrawDistance = source["autoDrawDistance"];
   if (typeof source["damageNumbers"] === "boolean") out.damageNumbers = source["damageNumbers"];
   if (typeof source["invertCameraY"] === "boolean") out.invertCameraY = source["invertCameraY"];
   if (source["uiScale"] === "compact" || source["uiScale"] === "normal") out.uiScale = source["uiScale"];

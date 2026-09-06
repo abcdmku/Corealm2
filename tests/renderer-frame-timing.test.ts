@@ -3,7 +3,7 @@ import { Renderer } from "../game/src/render/renderer.js";
 
 it("excludes an explicitly stopped interval from resumed frame-rate measurements", () => {
   const renderer = Object.assign(Object.create(Renderer.prototype), {
-    frameTimes: [], lastFrameAt: 0, gpuTimer: null,
+    scene: { background: null }, frameTimes: [], lastFrameAt: 0, gpuTimer: null,
     transmissionOcclusion: { active: false },
     playerSilhouette: { render() {} },
     biomeAtmosphere: { render() {}, updateEnvironment() {} },

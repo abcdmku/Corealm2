@@ -1509,6 +1509,7 @@ export interface EntityResidencyStats {
   failed: number;
   radius: number;
   structureRadius: number;
+  actorRadius: number;
   fullResidency: boolean;
   residentIds: EntityId[];
   pendingIds: EntityId[];
@@ -1850,6 +1851,12 @@ export class EntityViews {
     return this.residencyStats();
   }
 
+  updateActorRadius(radius: number): EntityResidencyStats {
+    this.activeSet.setActorRadius(radius);
+    this.reconcileActiveSet();
+    return this.residencyStats();
+  }
+
   /**
    * Loads a semantic region's visual assets without selecting its entities or allocating meshes.
    * Region rectangles remain gameplay ownership only; normal residency is still an XZ radius.
@@ -1925,6 +1932,7 @@ export class EntityViews {
       failed: failedIds.length,
       radius: activeStats.radius,
       structureRadius: activeStats.structureRadius,
+      actorRadius: activeStats.actorRadius,
       fullResidency: activeStats.fullResidency,
       residentIds,
       pendingIds,
@@ -2534,6 +2542,10 @@ export class EntityViews {
       child.userData.entityId = entityId;
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh) return;
+      // The bounded nearby rig pool changes pose every frame. Three's cached skinned sphere
+      // can describe an old pose and reject a creature that is still in view.
+      // Distance residency and the conservative sampled-animation bounds handle distant actors.
+      if ((mesh as THREE.SkinnedMesh).isSkinnedMesh) mesh.frustumCulled = false;
       // Characters ground themselves with their own shadow. It is the second draw the budget is
       // counting, and a floating shadowless NPC reads as unfinished on its own.
       mesh.castShadow = true;
@@ -3416,6 +3428,10 @@ export class EntityViews {
     spent: boolean,
     essenceElement: EssenceElement | null = null,
   ): THREE.Material {
+    if (assetId === "corealm_water_trough") {
+      const water = this.materials.forContainedTrough(assetId, base);
+      if (water !== base) return water;
+    }
     // Native seams and their spent companions carry authored mineral colors and stone layers.
     if (assetId.startsWith("corealm_ore_")) return base;
     if (NATIVE_TREE_ASSET.test(assetId)) {

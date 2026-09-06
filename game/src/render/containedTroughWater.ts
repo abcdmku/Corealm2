@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-/** Opt-in art candidate for contained trough water; the authored source is never changed. */
+/** Reflective contained water avoids a second world render; the authored source stays unchanged. */
 export function createContainedTroughWater(source: THREE.MeshPhysicalMaterial): THREE.MeshPhysicalMaterial {
   const material = source.clone();
   material.name = `${source.name}@contained-opaque-v2`;
