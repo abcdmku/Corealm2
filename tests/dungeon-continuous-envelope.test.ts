@@ -7,9 +7,11 @@ import { MaterialLibrary } from '../game/src/render/materials.js';
 import { buildDungeon } from '../game/src/render/dungeon.js';
 import { caveEnvelopeSampler, caveSourceCoordinates } from '../game/src/render/caveSourceDomain.js';
 
-it.each([6, 7])('retains scan relief in a welded continuous envelope v%s with bounded transition curvature', async (version) => {
+// V6 was rejected for repeated relief and its candidate directory was deleted on acceptance; V7 keeps
+// its identical envelope geometry and carries the measured V6 derivation metrics in `derivedFrom`.
+it.each([7])('retains scan relief in a welded continuous envelope v%s with bounded transition curvature', async (version) => {
   const root = 'art/rebuild/candidates/finish-cave-source/v' + version;
-  const provenance = JSON.parse(await readFile('art/rebuild/candidates/finish-cave-source/v6/provenance.json', 'utf8'));
+  const provenance = JSON.parse(await readFile(`${root}/provenance.json`, 'utf8')).derivedFrom;
   expect(provenance.metrics.interiorMaximumError).toBeLessThan(1e-6);
   expect(provenance.metrics.blendedBandErrorMetres.p95).toBeLessThan(0.1);
   expect(provenance.metrics.blendedBandErrorMetres.maximum).toBeLessThan(0.21);
