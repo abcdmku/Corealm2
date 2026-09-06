@@ -110,8 +110,14 @@ visibly its own.
 
 ### Found and not fixed here
 
-These are real defects in the current build. They are worn-armour construction problems, which is
-Slice 14's subject, and they are carried into that record with per-item dispositions.
+These are what the slice 13 captures showed. They are worn-armour construction problems, which is
+slice 14's subject, and they are carried into that record with per-item dispositions.
+
+Slice 14 then closed two of them with additive tier pieces: the bare hip is covered by a per-tier
+fauld or belt skirt, and every tier above each line's baseline gained a neck piece, so the eight
+sets differ in construction and not only in tint. The bare hands and the bare upper arm are still
+open, because both need a new skinned mesh per body rather than a bone-parented piece. The matrix
+montages cited under Evidence were recaptured after those pieces landed.
 
 **The hands slot leaves the hand bare.** Copper/Iron/Cobalt/Titanium gauntlets and all four hide
 wraps render a wrist cuff with bare skin below it, on both bodies, in every close grip view, and in

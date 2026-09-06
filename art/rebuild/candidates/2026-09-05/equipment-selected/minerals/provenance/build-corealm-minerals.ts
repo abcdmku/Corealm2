@@ -467,7 +467,7 @@ class MineralShape {
     const centre=new Vector2(-0.12,0.12),tau=Math.PI*2;
     // Both materials share this authored contour. Rays are clipped to the host polygon, including
     // its exact corners, so neither the lens edge nor outer rock edge follows selected triangles.
-    const angles=[...Array.from({length:128},(_,i)=>i/128*tau),...outline.map(p=>(Math.atan2(p.y-centre.y,p.x-centre.x)+tau)%tau)]
+    const angles=[...Array.from({length:256},(_,i)=>i/256*tau),...outline.map(p=>(Math.atan2(p.y-centre.y,p.x-centre.x)+tau)%tau)]
       .sort((a,b)=>a-b).filter((a,i,all)=>i===0||Math.abs(a-all[i-1]!)>1e-8);
     const contour=angles.map(angle=> {
       const direction=new Vector2(Math.cos(angle),Math.sin(angle));
@@ -480,7 +480,13 @@ class MineralShape {
         reach=Math.min(reach,distance);
       }
       // Unequal lobes and inward host tongues follow the broken exposure, not a cabochon oval.
-      const radius=(1+0.15*Math.sin(angle*3+0.4)+0.075*Math.cos(angle*5)+0.045*Math.sin(angle*2-0.8))
+      // Rounded, unequal bites keep one positive radial contour. Extra samples resolve
+      // the deep tongues without turning neighbouring edges into sawteeth.
+      const tongue=(direction:number,width:number,depth:number):number=>
+        depth*Math.exp((Math.cos(angle-direction)-1)/(width*width));
+      const radius=(1+0.15*Math.sin(angle*3+0.4)+0.075*Math.cos(angle*5)+0.045*Math.sin(angle*2-0.8)
+        +0.025*Math.sin(angle*7+0.6)+0.018*Math.cos(angle*9-0.3)
+        -tongue(0.62,0.24,0.34)-tongue(2.58,0.29,0.43)-tongue(4.52,0.22,0.28))
         /Math.hypot(direction.x/0.59,direction.y/0.63);
       return {inner:centre.clone().addScaledVector(direction,radius),outer:centre.clone().addScaledVector(direction,reach)};
     });
@@ -562,37 +568,61 @@ async function fractureMaps(kind: GemKind | OreKind): Promise<{ normal: Uint8Arr
   return { normal: n, roughness: r };
 }
 
-/** Optical domains vary thin-film thickness, never emission or painted rainbow albedo. */
+type OpalCell = { x: number; y: number; colour: number; thickness: number; active: boolean };
+
+/** Both maps evaluate the same unwarped, angular Voronoi mosaic. */
+function opalFlashLayout(): (u: number, v: number) => { colour: number; thickness: number; flash: number; body: number } {
+  const rng = random(10273);
+  const palette = [0xd97836, 0xe79a50, 0xc46030, 0xf1d5b2, 0xb56837, 0xdf8a42, 0xeab77c, 0xce713c, 0xa3abb0];
+  const cells = (count: number, coverage: number): OpalCell[] => Array.from({ length: count }, (_, i) => ({
+    x: rng(), y: rng(), colour: palette[i % palette.length]!,
+    thickness: clamp((rng() - 0.5) * 1.12 + 0.5), active: rng() < coverage,
+  }));
+  const coarse = cells(56, 0.38), fine = cells(560, 0.10);
+  const nearest = (layer: OpalCell[], u: number, v: number): { cell: OpalCell; edge: number } => {
+    let first = Infinity, second = Infinity, cell = layer[0]!;
+    for (const candidate of layer) {
+      const distance = (u - candidate.x) ** 2 + ((v - candidate.y) * 1.3) ** 2;
+      if (distance < first) { second = first; first = distance; cell = candidate; }
+      else if (distance < second) second = distance;
+    }
+    return { cell, edge: Math.sqrt(second) - Math.sqrt(first) };
+  };
+  return (u, v) => {
+    const large = nearest(coarse, u, v), small = nearest(fine, u, v);
+    // Sparse pinfire interrupts the larger optical domains.
+    const domain = small.cell.active ? small : large;
+    // Film boundaries stay narrow; the absorbing body has softer, darker seams.
+    const flash = domain.cell.active ? clamp((domain.edge - 0.0012) / 0.0012) : 0;
+    const variation = 0.004 * Math.sin(u * 113 + v * 71);
+    const interior = clamp(domain.edge / 0.018);
+    return { colour: domain.cell.colour, thickness: clamp(domain.cell.thickness + variation), flash,
+      body: interior * interior * (3 - 2 * interior) };
+  };
+}
+
+/** Green stores cell-constant film thickness; red masks iridescence to those flashes. */
 async function opalThicknessMap(): Promise<Uint8Array> {
-  const size = 128, pixels = Buffer.alloc(size * size * 3);
+  const size = 256, pixels = Buffer.alloc(size * size * 3), sample = opalFlashLayout();
   for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-    const p = vec(x / (size - 1), y / (size - 1), 0.37);
-    const broad = noise(p, 5.7, 10273), detail = noise(p, 17, 10291);
-    const domain = clamp((broad - 0.22) * 1.85 + (detail - 0.5) * 0.18);
+    const domain = sample(x / (size - 1), y / (size - 1));
     const offset = (y * size + x) * 3;
-    pixels[offset] = 255; pixels[offset + 1] = Math.round(domain * 255); pixels[offset + 2] = 255;
+    pixels[offset] = Math.round(domain.flash * 255);
+    pixels[offset + 1] = Math.round(domain.thickness * 255); pixels[offset + 2] = 255;
   }
   return sharp(pixels, { raw: { width: size, height: size, channels: 3 } }).png().toBuffer();
 }
 
-/** Warm optical domains stay readable when the matrix blocks transmitted background light. */
+/** Warm absorbing body with soft cloudy domains. Spectral colour belongs to the film. */
 async function opalColourMap(): Promise<Uint8Array> {
-  const size = 256, pixels = Buffer.alloc(size * size * 3), rng = random(10273);
-  const palette = [0xde8e46, 0xefa252, 0xd66d37, 0xf5ba66, 0xd99043, 0xe3a35a, 0xef9650, 0xd98541,
-    0xefb26a, 0xe59947, 0xda793d, 0xeab777, 0xe89b56, 0xd98b43, 0xf0ae60, 0xda994d, 0x91ad91];
-  const cells = Array.from({ length: 170 }, (_, i) => ({ x: rng(), y: rng(), colour: palette[i % palette.length]! }));
-  const channel = (hex: number, shift: number): number => hex >> shift & 255;
+  const size = 256, pixels = Buffer.alloc(size * size * 3), sample = opalFlashLayout();
+  const seam = 0x71391d;
   for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
-    const p = vec(x / (size - 1), y / (size - 1), 0.21);
-    const u = p.x + (noise(p, 7.3, 19) - 0.5) * 0.07;
-    const v = p.y + (noise(p, 6.9, 29) - 0.5) * 0.07;
-    const nearest = cells.map(cell => ({ ...cell, d: Math.hypot(u - cell.x, (v - cell.y) * 1.3) }))
-      .sort((a, b) => a.d - b.d).slice(0, 2);
-    const blend = clamp(0.5 - (nearest[1]!.d - nearest[0]!.d) / 0.013);
-    const shade = 0.91 + noise(p, 23, 10301) * 0.09;
+    const u = x / (size - 1), v = y / (size - 1), domain = sample(u, v);
+    const variation = 0.96 + 0.04 * Math.sin(u * 19 + Math.sin(v * 13));
     for (let c = 0; c < 3; c++) {
-      const a = channel(nearest[0]!.colour, 16 - c * 8), b = channel(nearest[1]!.colour, 16 - c * 8);
-      pixels[(y * size + x) * 3 + c] = Math.round((a + (b - a) * blend) * shade);
+      const shift = 16 - c * 8, dark = seam >> shift & 255, body = domain.colour >> shift & 255;
+      pixels[(y * size + x) * 3 + c] = Math.round((dark + (body - dark) * domain.body) * variation);
     }
   }
   return sharp(pixels, { raw: { width: size, height: size, channels: 3 } }).png().toBuffer();
@@ -636,14 +666,16 @@ export async function buildMineralItemAsset(assetId: string): Promise<{ glb: Uin
         .setAttenuationDistance(gem.distance).setAttenuationColor(rgb(gem.attenuation)));
     }
     if (surface === "gem" && spec.kind === "opal") {
-      material.setBaseColorTexture(document.createTexture("opal warm colour domains")
+      material.setBaseColorTexture(document.createTexture("opal warm cloudy body")
         .setImage(await opalColourMap()).setMimeType("image/png"));
       material.getBaseColorTextureInfo()!.setTexCoord(1);
       const thickness = document.createTexture("opal optical thickness domains").setImage(await opalThicknessMap()).setMimeType("image/png");
       const iridescence = document.createExtension(KHRMaterialsIridescence).createIridescence()
-        .setIridescenceFactor(0.92).setIridescenceIOR(1.46).setIridescenceThicknessMinimum(120).setIridescenceThicknessMaximum(620)
+        .setIridescenceFactor(0.75).setIridescenceIOR(1.8).setIridescenceThicknessMinimum(180).setIridescenceThicknessMaximum(1100)
+        .setIridescenceTexture(thickness)
         .setIridescenceThicknessTexture(thickness);
       iridescence.getIridescenceThicknessTextureInfo()!.setTexCoord(1);
+      iridescence.getIridescenceTextureInfo()!.setTexCoord(1);
       material.setExtension("KHR_materials_iridescence", iridescence);
     }
     const positions: number[] = [], normals: number[] = [], colours: number[] = [], uv: number[] = [], opticalUv: number[] = [];
@@ -718,6 +750,10 @@ export async function buildCorealmMinerals(out?: string, itemIds?: readonly stri
   }
   const generatorSha256 = digest(await readFile(fileURLToPath(import.meta.url)));
   await writeFile(paths.catalogFile, `${JSON.stringify({
+    // Also at the top level: `promote-finish-assets.ts` prefers the pack already in the manifest
+    // and only takes a fresh generator hash from this field, so a catalogue built after the
+    // generator moved could not be promoted without it.
+    generatorSha256,
     pack: { ...PACK, generatorSha256 }, generator: `npx tsx tools/build-corealm-minerals.ts${itemIds ? ` --items ${itemIds.join(",")}` : ""}`,
     preservedAssetIds: selected ? MINERAL_ITEM_ASSET_IDS.filter(id => !selected.has(id)) : [],
     coordinates: "Metres, Y-up; centered XZ, lowest triangle vertex at Y=0. Mineral-bearing fracture faces point generally +Z.",

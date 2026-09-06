@@ -1,11 +1,13 @@
 {
   "source": "game/src/render/equipmentVisuals.ts",
-  "sourceSha256": "903b1d07228e13d8a9a790897a623192e83fef3107efdbcc0e47a27c94ef1d25",
-  "scalePolicy": "Sword geometry carries grade length; common reviewed fit scale0.9. Worn sword remains0.774. One accepted axe construction intentionally retains previous per-tier tint/scale.",
-  "materialPolicy": "Replace metal tint once; source wood/leather retain their authored colours/maps. Original candidate metal has no metalness map, so imported metal shader treatment does not apply twice.",
+  "sourceSha256": "a3314fb93f1b188946989abe6bd50b6561c93f053e0779d12ad5a89631267c31",
+  "scalePolicy": "Every promoted grade carries its own size progression, so nothing is scaled at bind time except the sword's reviewed 0.9 fit, the worn sword's 0.774, the wand's 1.22 readability fit and the pickaxe's 0.68 asset fit. The axe keeps its previous per-tier tint and scale.",
+  "materialPolicy": "The tier tint reaches the metal and blade roles only. Wood, leather and gem keep their authored colours and maps. Original candidate metal has no metalness map, so the imported metal shader treatment does not apply twice.",
+  "socketPolicy": "Held grips are on hand_r, shields strap to lowerarm_l, and the additive armour tier pieces ride spine_03 and pelvis. Every transform below is what CharacterRig.socketFor will use.",
   "bindings": [
     {
       "itemId": "worn_sword",
+      "kind": "equipped",
       "appearance": {
         "assetId": "corealm_sword_1",
         "slot": "mainHand",
@@ -29,31 +31,8 @@
       }
     },
     {
-      "itemId": "worn_hatchet",
-      "appearance": {
-        "assetId": "corealm_axe_1",
-        "slot": "mainHand",
-        "attach": "bone",
-        "tint": 7299671,
-        "scale": 0.84
-      },
-      "attachment": {
-        "bone": "hand_r",
-        "position": [
-          -0.01,
-          0.085,
-          0.21
-        ],
-        "rotation": [
-          1.5707963267948966,
-          0,
-          0
-        ],
-        "scale": 0.84
-      }
-    },
-    {
       "itemId": "grithe_sword",
+      "kind": "equipped",
       "appearance": {
         "assetId": "corealm_sword_1",
         "slot": "mainHand",
@@ -77,31 +56,33 @@
       }
     },
     {
-      "itemId": "grithe_hatchet",
+      "itemId": "grithe_dagger",
+      "kind": "equipped",
       "appearance": {
-        "assetId": "corealm_axe_1",
+        "assetId": "corealm_dagger_1",
         "slot": "mainHand",
         "attach": "bone",
         "tint": 12024383,
-        "scale": 0.9
+        "scale": 1
       },
       "attachment": {
         "bone": "hand_r",
         "position": [
           -0.01,
           0.085,
-          0.225
+          0.1
         ],
         "rotation": [
           1.5707963267948966,
           0,
           0
         ],
-        "scale": 0.9
+        "scale": 1
       }
     },
     {
       "itemId": "corven_sword",
+      "kind": "equipped",
       "appearance": {
         "assetId": "corealm_sword_2",
         "slot": "mainHand",
@@ -125,31 +106,33 @@
       }
     },
     {
-      "itemId": "corven_hatchet",
+      "itemId": "corven_dagger",
+      "kind": "equipped",
       "appearance": {
-        "assetId": "corealm_axe_1",
+        "assetId": "corealm_dagger_2",
         "slot": "mainHand",
         "attach": "bone",
         "tint": 8357257,
-        "scale": 1.075124693688562
+        "scale": 1
       },
       "attachment": {
         "bone": "hand_r",
         "position": [
           -0.01,
           0.085,
-          0.269
+          0.1
         ],
         "rotation": [
           1.5707963267948966,
           0,
           0
         ],
-        "scale": 1.075
+        "scale": 1
       }
     },
     {
       "itemId": "kaldite_sword",
+      "kind": "equipped",
       "appearance": {
         "assetId": "corealm_sword_3",
         "slot": "mainHand",
@@ -174,13 +157,14 @@
       }
     },
     {
-      "itemId": "kaldite_hatchet",
+      "itemId": "kaldite_dagger",
+      "kind": "equipped",
       "appearance": {
-        "assetId": "corealm_axe_1",
+        "assetId": "corealm_dagger_3",
         "slot": "mainHand",
         "attach": "bone",
         "tint": 16777215,
-        "scale": 1.150546794000009,
+        "scale": 1,
         "accent": 6034722
       },
       "attachment": {
@@ -188,18 +172,19 @@
         "position": [
           -0.01,
           0.085,
-          0.288
+          0.1
         ],
         "rotation": [
           1.5707963267948966,
           0,
           0
         ],
-        "scale": 1.151
+        "scale": 1
       }
     },
     {
       "itemId": "emberite_sword",
+      "kind": "equipped",
       "appearance": {
         "assetId": "corealm_sword_4",
         "slot": "mainHand",
@@ -224,7 +209,1020 @@
       }
     },
     {
+      "itemId": "emberite_dagger",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_dagger_4",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 16763296,
+        "scale": 1,
+        "accent": 12077086
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.1
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "palewood_shield",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_shield_1",
+        "slot": "offHand",
+        "attach": "bone",
+        "tint": 12024383,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "lowerarm_l",
+        "position": [
+          -0.075,
+          0.1,
+          0
+        ],
+        "rotation": [
+          0,
+          -1.5707963267948966,
+          3.141592653589793
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "duskoak_shield",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_shield_2",
+        "slot": "offHand",
+        "attach": "bone",
+        "tint": 8357257,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "lowerarm_l",
+        "position": [
+          -0.075,
+          0.1,
+          0
+        ],
+        "rotation": [
+          0,
+          -1.5707963267948966,
+          3.141592653589793
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "cairnpine_shield",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_shield_3",
+        "slot": "offHand",
+        "attach": "bone",
+        "tint": 16777215,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "lowerarm_l",
+        "position": [
+          -0.075,
+          0.1,
+          0
+        ],
+        "rotation": [
+          0,
+          -1.5707963267948966,
+          3.141592653589793
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "cinderpine_shield",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_shield_4",
+        "slot": "offHand",
+        "attach": "bone",
+        "tint": 16763296,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "lowerarm_l",
+        "position": [
+          -0.075,
+          0.1,
+          0
+        ],
+        "rotation": [
+          0,
+          -1.5707963267948966,
+          3.141592653589793
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "basic_wooden_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_staff_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 7299671,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "basic_wooden_wand",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_wand_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 7299671,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.22
+      }
+    },
+    {
+      "itemId": "palewood_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_staff_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 13215850,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "palewood_wand",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_wand_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 13215850,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.22
+      }
+    },
+    {
+      "itemId": "duskoak_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_staff_2",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 9271900,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "duskoak_wand",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_wand_2",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 9271900,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.22
+      }
+    },
+    {
+      "itemId": "cairnpine_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_staff_3",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 11121334,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "cairnpine_wand",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_wand_3",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 11121334,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.22
+      }
+    },
+    {
+      "itemId": "cinderpine_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_staff_4",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 12618330,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "cinderpine_wand",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_wand_4",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 12618330,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.22
+      }
+    },
+    {
+      "itemId": "air_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_staff_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 13215850,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "air_wand",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_wand_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 13215850,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.22
+      }
+    },
+    {
+      "itemId": "earth_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_staff_2",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 9271900,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "earth_wand",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_wand_2",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 9271900,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.22
+      }
+    },
+    {
+      "itemId": "water_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_staff_3",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 11121334,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "water_wand",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_wand_3",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 11121334,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.22
+      }
+    },
+    {
+      "itemId": "fire_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_staff_4",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 12618330,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "fire_wand",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "corealm_wand_4",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 12618330,
+        "scale": 1
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.22
+      }
+    },
+    {
+      "itemId": "galeskin_sword",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "miniboss_sword",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 11198436,
+        "scale": 0.9,
+        "accent": 11198436
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.09
+        ],
+        "rotation": [
+          -1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 0.9
+      }
+    },
+    {
+      "itemId": "galeskin_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "miniboss_staff",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 11198436,
+        "scale": 1,
+        "accent": 11198436
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0.55
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "mossbound_sword",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "miniboss_sword",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 7311178,
+        "scale": 1.075,
+        "accent": 12622410
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.108
+        ],
+        "rotation": [
+          -1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.075
+      }
+    },
+    {
+      "itemId": "mossbound_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "miniboss_staff",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 7311178,
+        "scale": 1,
+        "accent": 12622410
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0.55
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "tideworn_sword",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "miniboss_sword",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 3495600,
+        "scale": 1.151,
+        "accent": 3120032
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.115
+        ],
+        "rotation": [
+          -1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.151
+      }
+    },
+    {
+      "itemId": "tideworn_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "miniboss_staff",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 3495600,
+        "scale": 1,
+        "accent": 3120032
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0.55
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "cinderwake_sword",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "miniboss_sword",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 14182958,
+        "scale": 1.226,
+        "accent": 10232864
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.123
+        ],
+        "rotation": [
+          -1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.226
+      }
+    },
+    {
+      "itemId": "cinderwake_staff",
+      "kind": "equipped",
+      "appearance": {
+        "assetId": "miniboss_staff",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 14182958,
+        "scale": 1,
+        "accent": 10232864
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          0.033,
+          0.064,
+          0.55
+        ],
+        "rotation": [
+          1.6650441064025905,
+          0,
+          -0.18849555921538758
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "itemId": "worn_pickaxe",
+      "kind": "activity",
+      "appearance": {
+        "assetId": "pickaxe",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 7299671,
+        "scale": 0.84
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.086
+        ],
+        "rotation": [
+          1.5707963267948966,
+          1.5707963267948966,
+          0
+        ],
+        "scale": 0.571
+      }
+    },
+    {
+      "itemId": "worn_hatchet",
+      "kind": "activity",
+      "appearance": {
+        "assetId": "corealm_axe_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 7299671,
+        "scale": 0.84
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.21
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 0.84
+      }
+    },
+    {
+      "itemId": "grithe_pickaxe",
+      "kind": "activity",
+      "appearance": {
+        "assetId": "pickaxe",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 12024383,
+        "scale": 0.9
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.092
+        ],
+        "rotation": [
+          1.5707963267948966,
+          1.5707963267948966,
+          0
+        ],
+        "scale": 0.612
+      }
+    },
+    {
+      "itemId": "grithe_hatchet",
+      "kind": "activity",
+      "appearance": {
+        "assetId": "corealm_axe_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 12024383,
+        "scale": 0.9
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.225
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 0.9
+      }
+    },
+    {
+      "itemId": "corven_pickaxe",
+      "kind": "activity",
+      "appearance": {
+        "assetId": "pickaxe",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 8357257,
+        "scale": 1.075124693688562
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.11
+        ],
+        "rotation": [
+          1.5707963267948966,
+          1.5707963267948966,
+          0
+        ],
+        "scale": 0.731
+      }
+    },
+    {
+      "itemId": "corven_hatchet",
+      "kind": "activity",
+      "appearance": {
+        "assetId": "corealm_axe_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 8357257,
+        "scale": 1.075124693688562
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.269
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.075
+      }
+    },
+    {
+      "itemId": "kaldite_pickaxe",
+      "kind": "activity",
+      "appearance": {
+        "assetId": "pickaxe",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 16777215,
+        "scale": 1.150546794000009,
+        "accent": 6034722
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.117
+        ],
+        "rotation": [
+          1.5707963267948966,
+          1.5707963267948966,
+          0
+        ],
+        "scale": 0.782
+      }
+    },
+    {
+      "itemId": "kaldite_hatchet",
+      "kind": "activity",
+      "appearance": {
+        "assetId": "corealm_axe_1",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 16777215,
+        "scale": 1.150546794000009,
+        "accent": 6034722
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.288
+        ],
+        "rotation": [
+          1.5707963267948966,
+          0,
+          0
+        ],
+        "scale": 1.151
+      }
+    },
+    {
+      "itemId": "emberite_pickaxe",
+      "kind": "activity",
+      "appearance": {
+        "assetId": "pickaxe",
+        "slot": "mainHand",
+        "attach": "bone",
+        "tint": 16763296,
+        "scale": 1.225968894311456,
+        "accent": 12077086
+      },
+      "attachment": {
+        "bone": "hand_r",
+        "position": [
+          -0.01,
+          0.085,
+          0.125
+        ],
+        "rotation": [
+          1.5707963267948966,
+          1.5707963267948966,
+          0
+        ],
+        "scale": 0.834
+      }
+    },
+    {
       "itemId": "emberite_hatchet",
+      "kind": "activity",
       "appearance": {
         "assetId": "corealm_axe_1",
         "slot": "mainHand",
