@@ -2,7 +2,7 @@
 
 These scripts were previously local files under ignored `test-results`. They are retained as source so a new worktree can repeat the corresponding checks. Evidence output remains ignored. Run them from the repository root with `npx tsx runs/corealm-rebuild/checks/<script>.ts`.
 
-Most scripts default to the stable server at port 4175. Start it with `node runs/corealm-rebuild/checks/stable-server.mjs` if no server is already there. It uses the real Vite game with HMR disabled. Do not start a competing server on that port. Parameterize separate ports before running across worktrees.
+Most scripts default to the stable server at port 4175 and take `COREALM_URL` (a few take `--url` or their own variable) to point somewhere else. `stable-server.mjs` reads `PORT`, so a worktree runs its own: `PORT=4189 node runs/corealm-rebuild/checks/stable-server.mjs`. It uses the real Vite game with HMR disabled. Do not start a competing server on a port another worktree already owns.
 
 | Script | Scope / arguments |
 | --- | --- |
@@ -11,7 +11,7 @@ Most scripts default to the stable server at port 4175. Start it with `node runs
 | `portal-transition-browser.ts` | Real click/walk/curtain entry and return in the portal fixture. Does not prove final-world integration. |
 | `portal-recovery-browser.ts` | Curtain failure, cancellation, stale completion and input release. |
 | `cave-material-review.ts` | Four production cave views and shell/headroom checks. Human screenshot review still required. |
-| `settlement-walk-browser.ts` | `--region <internal region ID>`, optional `--url` and `--trace-movement`. Normal interaction routes. |
+| `settlement-walk-browser.ts` | `--region <internal region ID>`, optional `--url` and `--trace-movement`. Normal interaction routes. Its 60 s budget allows 20 s for boot, which is not enough when the shipped navmesh artifact's fingerprint is stale and the runtime has to generate the mesh. |
 | `shop-respawn-browser.ts` | `--scenario shop` or `respawn`. Quotes/receipts or settlement/death/save lifecycle. |
 | `creature-review.ts` | Optional expansion species IDs. Gallery poses are visual diagnostics, not natural combat or translated gait proof. This older diagnostic needs a hard deadline before becoming an acceptance gate. |
 | `stage-trees.ts` | Stages current oak/pine generator output under `test-results/tree-refinement/candidate` without public writes. |

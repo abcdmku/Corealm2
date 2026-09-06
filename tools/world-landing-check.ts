@@ -134,7 +134,13 @@ try {
       if ((entry.activity as any)?.kind !== "gathering") findings.push(`${site.id}/${school.id}: cast did not start a gathering activity`);
       entry.silhouette = await driver.callDebug("getPlayerSilhouette");
       await driver.callDebug("callTool", ["corealm_stop", {}]);
-      if ((entry.reach as number) > INTERACT_RANGE + 0.5) findings.push(`${site.id}/${school.id}: stance is ${(entry.reach as number).toFixed(2)} m from the school`);
+      // The dispatcher measures the school's authored stance, not the fish. `reach` is the cast
+      // distance across the water and is recorded for review, not asserted.
+      if ((entry.stanceGap as number) > INTERACT_RANGE) findings.push(`${site.id}/${school.id}: routed arrival is ${(entry.stanceGap as number).toFixed(2)} m from the authored stance`);
+      const level = waterBodies.find((water) => Math.abs(water.level - (school.position[1] as number)) < 8)?.level;
+      if (level !== undefined && school.position[1] > level - 0.1) {
+        findings.push(`${site.id}/${school.id}: fish sit at ${school.position[1].toFixed(2)} m against a ${level.toFixed(2)} m water surface`);
+      }
     }
     (row.schools as unknown[]).length > 0 && ((row as any).castShot = await driver.screenshot(out, `${site.id}-cast`));
   }

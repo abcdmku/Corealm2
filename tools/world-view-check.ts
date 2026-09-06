@@ -61,8 +61,11 @@ try {
     view.snap = Math.hypot(navPoint.x - point[0], navPoint.z - point[2]);
     await driver.callDebug("teleport", [navPoint]);
     // Turn on the spot with real input so the follow camera settles behind the player.
-    await driver.callDebug("inspectPose", [{ ...navPoint, yaw, pitch: 0.42, distance: 12, detached: false }]);
-    await driver.wait(700);
+    await driver.callDebug("inspectPose", [{ ...navPoint, yaw, pitch: 0.52, distance: 16, detached: false }]);
+    // Procedural scatter generates per tile after the player arrives, so a short settle photographs
+    // ground that has not been dressed yet. Wait for it and record what the generator reports.
+    await driver.wait(2_500);
+    view.scatterResidency = await driver.callDebug("getScatterResidency").catch(() => null);
     view.sample = await driver.callDebug("sampleWorld", [navPoint.x, navPoint.z]);
     view.ground = await driver.callDebug("groundHeight", [navPoint.x, navPoint.z]);
     view.camera = await driver.callDebug("getCamera");
@@ -90,7 +93,8 @@ try {
       x += cardinal.step[0]; z += cardinal.step[1];
     }
     if (!lastDry) { findings.push(`${cardinal.name}: no playable ground found walking outward`); continue; }
-    const inlandX = lastDry[0] - cardinal.step[0] * 2, inlandZ = lastDry[1] - cardinal.step[1] * 2;
+    // Stand on the last dry metre itself, looking out, so the shoreline is in the frame.
+    const inlandX = lastDry[0], inlandZ = lastDry[1];
     const inlandY = await driver.callDebug("groundHeight", [inlandX, inlandZ]) as number;
     await capture(cardinal.name, [inlandX, inlandY, inlandZ], cardinal.yaw);
     (report.views as any[]).at(-1).shorelineReach = Math.hypot(lastDry[0], lastDry[1]);
@@ -116,6 +120,7 @@ try {
     await capture(relief.name, [relief.x, y, relief.z], relief.yaw);
   }
 
+  report.navigation = await driver.callDebug("getNavigationState");
   report.errors = await driver.callDebug("getErrors");
   report.console = driver.consoleErrors; report.pageErrors = driver.pageErrors;
   report.passed = driver.pageErrors.length === 0 && driver.consoleErrors.length === 0
