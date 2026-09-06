@@ -106,7 +106,7 @@ describe("scatter forest resource bridge", () => {
       expect(f.batches.flatMap((batch) => batch.placements).some((placement) => placement.position[0] > 1144)).toBe(true);
       for (const { descriptor: tree } of f.registered) {
         expect(tree.position[0]).toBeLessThanOrEqual(1144);
-        expect(tree.resourceId).toBe(tree.regionId === "fallowmarch" ? "tree_palewood" : "tree_duskoak");
+        expect(tree.resourceId).toBe("tree_cairnpine");
         expect(tree.position[1] - tree.scale * 0.2).toBeCloseTo(f.scene.meshHeightAt(tree.position[0]));
         const placement = f.batches.flatMap((batch) => batch.placements).find((entry) => entry.position === tree.position)!;
         expect(placement.scale).toBe(tree.scale);
@@ -152,7 +152,7 @@ describe("scatter forest resource bridge", () => {
       await controller.forceFullResidency();
       expect(living.registered).toHaveLength(count);
       expect(count).toBeGreaterThan(30);
-      expect(living.registered.every(({ descriptor }) => descriptor.resourceId === "tree_cairnpine")).toBe(true);
+      expect(living.registered.every(({ descriptor }) => descriptor.resourceId === "tree_palewood")).toBe(true);
       await populate(deadwood);
       expect(deadwood.registered).toEqual([]);
       expect(deadwood.batches.length).toBeGreaterThan(0);

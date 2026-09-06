@@ -715,28 +715,28 @@ const ANSEL: DialogueNodeDef[] = [
     options: [
       {
         id: "ansel_root#offer",
-        text: "I want to fell Maple.",
+        text: "I want to fell Ash.",
         showIf: [{ kind: "questStatus", questId: "crooked_grain", status: "unstarted", reason: "" }],
         requires: [
           {
             kind: "skill", skill: "woodcutting", level: 5,
-            reason: "Ansel will not put a Maple in front of anyone under Woodcutting 5. He says the tree deserves better.",
+            reason: "Ansel will not put a Ash in front of anyone under Woodcutting 5. He says the tree deserves better.",
           },
         ],
         next: "ansel_grain_offer",
       },
       {
         id: "ansel_root#deliver",
-        text: "Eight Maple logs, and I went and saw the split one.",
+        text: "Eight Ash logs, and I went and saw the split one.",
         showIf: [{ kind: "questStatus", questId: "crooked_grain", status: "active", reason: "" }],
         requires: [
           {
             kind: "questStage", questId: "crooked_grain", min: 2,
-            reason: "Fell the eight first, then go and stand at the Split Maple east of the pools.",
+            reason: "Fell the eight first, then go and stand at the Split Ash east of the pools.",
           },
           {
             kind: "item", itemId: "duskoak_log", quantity: 8,
-            reason: "You need 8 Maple logs in your bag. Logs do not stack, so that is 8 slots.",
+            reason: "You need 8 Ash logs in your bag. Logs do not stack, so that is 8 slots.",
           },
         ],
         effects: [{ kind: "takeItem", itemId: "duskoak_log", quantity: 8 }],
@@ -750,9 +750,9 @@ const ANSEL: DialogueNodeDef[] = [
   {
     id: "ansel_grain_offer",
     text:
-      "Eight. You may have eight. Maple Grove, north-west of Oakwood, ten trees there "
+      "Eight. You may have eight. Ash Grove, north-west of Oakwood, ten trees there "
       + "and eight is what the stand can spare this season. ... And before you bring them to me, "
-      + "you will go east and stand under the Split Maple, out past the "
+      + "you will go east and stand under the Split Ash, out past the "
       + "pools at one-seventy, one-twelve. I want you to have seen it. That is the whole of the "
       + "price.",
     options: [
@@ -777,7 +777,7 @@ const ANSEL: DialogueNodeDef[] = [
     id: "ansel_grain_accepted",
     text:
       "Eight. And bring them here, do not bank them, I want to count them out of your hands. ... "
-      + "The pools are the safe way east. The Fallen Maple is the fast "
+      + "The pools are the safe way east. The Fallen Ash is the fast "
       + "way and it wants Agility five in you.",
     options: [
       { id: "ansel_grain_accepted#back", text: "Understood.", next: "ansel_root" },
@@ -799,7 +799,7 @@ const ANSEL: DialogueNodeDef[] = [
   {
     id: "ansel_stand",
     text:
-      "Ten maple trees at the stand north-west of Oakwood. The canopy "
+      "Ten ash trees at the stand north-west of Oakwood. The canopy "
       + "closes over it, so the walking is the hard part, not the cutting. The Canopy Walk "
       + "goes over the top of the wet ground and wants Agility six. It saves near "
       + "eighty metres. I do not use it. I am old and I like the ground.",
@@ -861,7 +861,7 @@ const JUNO: DialogueNodeDef[] = [
           },
           {
             kind: "item", itemId: "palewood_shaft", quantity: 4,
-            reason: "You need 4 Oak shafts. Fletch them from Oak logs at the bench on the west side of Millfield square.",
+            reason: "You need 4 Pine shafts. Fletch them from Pine logs at the bench on the west side of Millfield square.",
           },
           {
             kind: "item", itemId: "air_essence", quantity: 5,
@@ -883,7 +883,7 @@ const JUNO: DialogueNodeDef[] = [
     id: "juno_parts_offer",
     text:
       "Parts trades, both of them, one afternoon. Fletching first: shafts, which is a straight "
-      + "length of split log, which is to say, sticks, but good ones. Four Oak shafts. Then "
+      + "length of split log, which is to say, sticks, but good ones. Four Pine shafts. Then "
       + "mining next: five measures of Air Essence from the southern cache. Here, take three "
       + "Quartz as well; I have a drawer of them and no patience.",
     options: [
@@ -900,7 +900,7 @@ const JUNO: DialogueNodeDef[] = [
     id: "juno_parts_accepted",
     text:
       "The fletching bench is in the workshed on the west side of Millfield square. "
-      + "Oak logs come out of Oak Grove, west of town along West Track. Follow "
+      + "Pine logs come out of Pine Grove, west of town along West Track. Follow "
       + "West Track, then head south for the Air Essence Cache. Bring your pickaxe.",
     options: [
       { id: "juno_parts_accepted#back", text: "Back soon.", next: "juno_root" },
@@ -1067,7 +1067,7 @@ const MOTT: DialogueNodeDef[] = [
     id: "mott_luck",
     text:
       "Once. One good week, four years ago. I caught nine in six days and I bought a coat with "
-      + "the money. ... Then the coat caught on a Maple and tore across the back, and I have "
+      + "the money. ... Then the coat caught on a Ash and tore across the back, and I have "
       + "not had a week since. I still have the coat. I keep it as a record.",
     options: [
       { id: "mott_luck#back", text: "Something else.", next: "mott_root" },
@@ -1238,7 +1238,7 @@ const VESS: DialogueNodeDef[] = [
         ],
         text:
           "Take the Air Orb to the ruined altar at the Air Essence Cache and wake it. Then fletch "
-          + "the oak into shafts and a staff, use the awakened altar to make the Air Staff, "
+          + "the pine into shafts and a staff, use the awakened altar to make the Air Staff, "
           + "and put it in your main hand.",
       },
       {
@@ -1305,7 +1305,7 @@ const VESS: DialogueNodeDef[] = [
     text:
       "It holds. Whatever you put in it, it holds it, and it gives it back later when nobody is "
       + "looking. I want somebody to put something in it on purpose so I can stop imagining what "
-      + "it is holding. Here. Oak from my brother's stock and 100 Air Essence. The Air Orb is "
+      + "it is holding. Here. Pine from my brother's stock and 100 Air Essence. The Air Orb is "
       + "not mine to give. Go back to Farmland, kill the Storm Rhino west of the Air Essence Cache, and "
       + "take its orb. Use it on the ruined altar at the cache, then fletch the wood into a staff "
       + "and make an Air Staff at the awakened altar. "
@@ -1334,9 +1334,9 @@ const VESS: DialogueNodeDef[] = [
       "Go south through Woodlands to Millfield. Follow West Track out of town, then head south "
       + "to the Air Essence Cache. The Storm Rhino roams about 42 metres west of the cache. "
       + "Kill it, then loot the Air Orb from the pile it leaves. It will be there, but it will "
-      + "not jump into your bag. At a fletching bench, make Oak Shafts from an Oak log, "
-      + "then use three shafts to make an Oak Staff. Use the Air Orb on the Air Essence Altar "
-      + "at the cache to awaken it, then turn the Oak Staff into an Air Staff there. Equip "
+      + "not jump into your bag. At a fletching bench, make Pine Shafts from an Pine log, "
+      + "then use three shafts to make an Pine Staff. Use the Air Orb on the Air Essence Altar "
+      + "at the cache to awaken it, then turn the Pine Staff into an Air Staff there. Equip "
       + "the Air Staff. It starts with 1000 charges and spends those before carried Air Essence. "
       + "The same altar fills it back to 1000 for 100 Air Essence. Then use Voltrend on "
       + "Frogs at River Shallows. Do not practise on bears.",

@@ -93,6 +93,23 @@ describe("shared organic art treatment", () => {
     }
   });
 
+  it("uses the same branch-spray lighting on both visible sides without changing grass", () => {
+    for (const name of ["Leaves_Corealm_needle_cutout", "Leaves_Corealm_broadleaf_ash_cutout", "Grass"]) {
+      const source = new THREE.MeshStandardMaterial({ name, side: THREE.DoubleSide });
+      const shader = shaderInput();
+      const material = createArtDirectedMaterial(source, "foliage");
+      material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
+      const correction = shader.fragmentShader.indexOf("normal *= faceDirection;");
+      if (name === "Grass") expect(correction).toBe(-1);
+      else {
+        expect(correction).toBeGreaterThan(shader.fragmentShader.indexOf("#include <normal_fragment_maps>"));
+        expect(correction).toBeLessThan(shader.fragmentShader.indexOf("#include <lights_physical_fragment>"));
+        expect(material.side).toBe(THREE.DoubleSide);
+      }
+      material.dispose(); source.dispose();
+    }
+  });
+
   it("reduces elemental rhino glow while retaining its emission texture and ordinary hide response", () => {
     const source = new THREE.MeshStandardMaterial({
       color: 0xffffff, map: new THREE.Texture(), emissiveMap: new THREE.Texture(),

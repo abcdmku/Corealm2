@@ -42,6 +42,8 @@ export interface EnvironmentWorkbench {
   showCutFace(): Promise<void>;
   showPortal(): Promise<void>;
   setVisibilityOptimization(enabled: boolean): void;
+  /** Sample a repeatable animation pose for the next synchronous draw. The live loop resumes it. */
+  sampleSurfaceTime(seconds: number): void;
   dispose(): void;
 }
 
@@ -56,6 +58,8 @@ export interface EnvironmentGalleryOptions {
 }
 
 export interface EnvironmentFoliageOptions {
+  /** Compare a grove of source silhouettes through production scatter instancing. */
+  variants?: readonly string[];
   /** A row for silhouette/distance sweeps, or one production-sized scatter tile for density. */
   layout?: "lane" | "grid";
   count?: number;
@@ -204,6 +208,10 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
 
   const workbench: EnvironmentWorkbench = {
     setVisibilityOptimization: (enabled) => scene.scatterVisibility.setEnabled(enabled),
+    sampleSurfaceTime(seconds) {
+      if (!Number.isFinite(seconds)) throw new Error("Surface sample time must be finite");
+      scene.updateTime(seconds);
+    },
     getState: () => ({ ...state, entityIds: [...state.entityIds], assets: [...state.assets] }),
     getCatalog: () => structuredClone(catalog),
     getBounds() {
@@ -259,7 +267,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
     },
     showFoliage(assetId, options = {}) {
       return enqueue(async () => {
-        const tree = /^corealm_(?:oak|pine)_\d+$/.test(assetId);
+        const tree = /^corealm_(?:oak|pine|ash|walnut|willow|maple|teak|yew|magic)_\d+$/.test(assetId);
         const understory = /^corealm_(?:fern|shrub)_\d+$/.test(assetId);
         if (!tree && !understory) throw new Error(`No production foliage family for ${assetId}`);
         if (!assets.entry(assetId)) throw new Error(`Foliage fixture requires ${assetId}`);
@@ -272,28 +280,39 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
         if (!Number.isFinite(span) || span <= 0 || !Number.isFinite(scale) || scale <= 0) {
           throw new Error("Foliage span and scale must be finite and positive");
         }
-        await assets.loadMany([assetId], { priority: "visible-spawn", regionId: "fallowmarch" });
+        const variants = [...new Set(options.variants?.length ? options.variants : [assetId])];
+        if (variants.some(id => !assets.entry(id) || !/^corealm_(?:oak|pine|ash|walnut|willow|maple|teak|yew|magic|fern|shrub)_\d+$/.test(id))) {
+          throw new Error("Every grove variant must be a production foliage asset");
+        }
+        await assets.loadMany(variants, { priority: "visible-spawn", regionId: "fallowmarch" });
         if (disposed) return;
         const columns = Math.ceil(Math.sqrt(count));
         const rows = Math.ceil(count / columns);
-        const placements: ScatterPlacement[] = Array.from({ length: count }, (_, index) => {
+        const byVariant = new Map<string, ScatterPlacement[]>();
+        for (let index = 0; index < count; index++) {
+          const sourceId = variants[index % variants.length]!;
           const x = layout === "lane"
             ? count === 1 ? 0 : -span * 0.5 + index * span / (count - 1)
             : -span * 0.5 + ((index % columns) + 0.5) * span / columns;
           const z = layout === "lane" ? 25 : 25 - span * 0.5 + (Math.floor(index / columns) + 0.5) * span / rows;
           const rotationY = (index * 2.399963229728653) % (Math.PI * 2);
-          return { position: grounded(assetId, x, z, scale, rotationY), rotationY, scale };
-        });
+          const nativeScale = variants.length > 1 ? scale * (.85 + ((index * 37) % 101) * .003) : scale;
+          const placements = byVariant.get(sourceId) ?? [];
+          placements.push({ position: grounded(sourceId, x, z, nativeScale, rotationY), rotationY, scale: nativeScale });
+          byVariant.set(sourceId, placements);
+        }
         const castShadow = options.castShadow ?? tree;
-        const source = assets.instance(assetId);
-        const foliage = shardByTile({ castShadow, placements }, tree ? FOLIAGE_RENDER_TILE_METRES.trees : FOLIAGE_RENDER_TILE_METRES.understory)
-          .flatMap((shard) => scene.scatterInstanced(source, shard.placements, `lab-foliage-${assetId}-${layout}-t${shard.tile >>> 0}`, {
+        const foliage = [...byVariant].flatMap(([sourceId, placements]) => {
+          const source = assets.instance(sourceId);
+          return shardByTile({ castShadow, placements }, tree ? FOLIAGE_RENDER_TILE_METRES.trees : FOLIAGE_RENDER_TILE_METRES.understory)
+          .flatMap((shard) => scene.scatterInstanced(source, shard.placements, `lab-foliage-${sourceId}-${layout}-t${shard.tile >>> 0}`, {
             regionId: "fallowmarch", castShadow, windStrength: tree ? 0.035 : 0.075,
             compactVisibility: !castShadow && /^corealm_(fern|shrub)_\d+$/.test(assetId),
           }));
+        });
         clear();
         objects = foliage;
-        state = { ready: false, mode: "foliage", selection: assetId, entityIds: [], assets: [assetId], foliage: { layout, count, span } };
+        state = { ready: false, mode: "foliage", selection: assetId, entityIds: [], assets: [...byVariant.keys()], foliage: { layout, count, span } };
       });
     },
     showSite(siteId) {

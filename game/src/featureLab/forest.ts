@@ -1,3 +1,4 @@
+import { treeSpeciesForAsset } from "../content/treeSpecies.js";
 import { Matrix4, Vector3, type Object3D } from "three";
 import type { Vec3 } from "../contracts.js";
 import type { AssetRegistry } from "../render/assets.js";
@@ -14,6 +15,7 @@ interface ForestFixtureDeps {
 export async function createForestFixture({ assets, scene, registerTree }: ForestFixtureDeps): Promise<{
   entityIds: string[];
   trees: ForestTreeDescriptor[];
+  getScatterVisibility: () => Record<string, boolean>;
   objects: Object3D[];
 }> {
   // The cottage is west of the combat lane, centred at (-8,12). These canopy centres leave
@@ -53,18 +55,19 @@ export async function createForestFixture({ assets, scene, registerTree }: Fores
     const position: Vec3 = [x, scene.meshHeightAt(x, z) - assets.baseY(assetId) * row.scale, z];
     return {
       id: `feature-lab:forest:${row.species}:${++counts[row.species]}`,
-      resourceId: row.species === "pine" ? "tree_cairnpine" : "tree_palewood",
+      resourceId: treeSpeciesForAsset(assetId)!.resourceId,
       regionId: "fallowmarch",
       position,
       assetId,
       scale: row.scale,
       rotationY: row.yaw,
       // Authored native trunk dimensions, matching the production scatter species table.
-      trunkRadius: row.radius * row.scale,
+      trunkRadius: (assets.entry(assetId)!.trunkRadius ?? treeSpeciesForAsset(assetId)!.trunkRadius) * row.scale,
     };
   });
 
   const objects: Object3D[] = [];
+  const scatterSlots = new Map<string, () => boolean>();
   for (const assetId of assetIds) {
     const group = trees.filter((tree) => tree.assetId === assetId);
     const meshes = scene.scatterInstanced(assets.instance(assetId), group.map((tree) => ({
@@ -73,6 +76,13 @@ export async function createForestFixture({ assets, scene, registerTree }: Fores
     if (!meshes.length) throw new Error(`Forest fixture model has no renderable primitives: ${assetId}`);
     objects.push(...meshes);
     for (const [slot, tree] of group.entries()) {
+      scatterSlots.set(tree.id, () => {
+        const matrix = new Matrix4();
+        return meshes.every(mesh => {
+          mesh.getMatrixAt(slot, matrix);
+          return Math.abs(matrix.determinant()) > 1e-8;
+        });
+      });
       const originals = meshes.map((mesh) => {
         const matrix = new Matrix4();
         mesh.getMatrixAt(slot, matrix);
@@ -90,5 +100,6 @@ export async function createForestFixture({ assets, scene, registerTree }: Fores
       });
     }
   }
-  return { entityIds: trees.map((tree) => tree.id), trees, objects };
+  return { entityIds: trees.map((tree) => tree.id), trees, objects,
+    getScatterVisibility: () => Object.fromEntries([...scatterSlots].map(([id, visible]) => [id, visible()])) };
 }

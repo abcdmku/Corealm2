@@ -29,6 +29,8 @@ export type AssetCategory =
   | "dungeon" | "character" | "outfit" | "weapon" | "animation" | "water";
 
 export interface AssetEntry {
+  /** Grounded bole radius measured by the tree generator at walking height. */
+  trunkRadius?: number;
   id: string;
   file: string;
   pack: string;

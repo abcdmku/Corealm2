@@ -28,6 +28,7 @@ import type { Navigation } from "../systems/navigation.js";
 import type { Movement } from "../systems/movement.js";
 import type { CorealmGameApi } from "../api/gameApi.js";
 import type { Renderer } from "../render/renderer.js";
+import { SCREEN_AA_MATERIAL } from "../render/screenAntialiasing.js";
 import type { OrbitCamera } from "../render/camera.js";
 import type { AssetRegistry } from "../render/assets.js";
 import { addSkillXp, setSkillLevel as applySkillLevel } from "../state/store.js";
@@ -349,6 +350,12 @@ export function installGameDebug(deps: DebugDeps): void {
     getPerformanceTimings(): Record<string, unknown> {
       return renderer.getPerformanceTimings();
     },
+    setScreenAntialiasingEnabled(enabled: boolean): void {
+      renderer.setScreenAntialiasingEnabled(Boolean(enabled));
+    },
+    setShadowStabilizationEnabled(enabled: boolean): void {
+      renderer.setShadowStabilizationEnabled(Boolean(enabled));
+    },
     setTransmissionOcclusionEnabled(enabled: boolean): void {
       renderer.setTransmissionOcclusionEnabled(Boolean(enabled));
     },
@@ -536,8 +543,11 @@ export function installGameDebug(deps: DebugDeps): void {
     getRenderProfile(namePrefix?: string): unknown {
       const gpu = renderer.renderer;
       const original = gpu.renderBufferDirect;
+      const gl = gpu.getContext();
       const rows = new Map<string, { name: string; pass: string; calls: number; triangles: number;
-        objects: number[]; targets: string[]; materials: { name: string; uuid: string; transparent: boolean; opacity: number; side: number; forceSinglePass: boolean; transmission: number }[] }>();
+        objects: number[]; targets: string[]; materials: { name: string; uuid: string; transparent: boolean; opacity: number; side: number; forceSinglePass: boolean; transmission: number;
+          alphaTest: number; alphaToCoverage: boolean; coverageSamples: number; mapMinFilter: number | null; mapAnisotropy: number | null;
+          leafAssociatedColour: boolean; mapUuid: string | null }[] }>();
       gpu.renderBufferDirect = function (camera, scene, geometry, material, object, group) {
         const calls = gpu.info.render.calls;
         const triangles = gpu.info.render.triangles;
@@ -546,7 +556,9 @@ export function installGameDebug(deps: DebugDeps): void {
         if (!submitted) return;
         const name = object.name || object.parent?.name || object.type;
         const target = gpu.getRenderTarget();
-        const pass = camera === renderer.camera ? target ? "colour-offscreen" : "colour" : "shadow";
+        const pass = material.name === SCREEN_AA_MATERIAL ? "postprocess"
+          : !material.colorWrite ? "depth-only"
+          : camera === renderer.camera ? target ? "colour-offscreen" : "colour" : "shadow";
         const key = `${pass}:${name}`;
         const row = rows.get(key) ?? { name, pass, calls: 0, triangles: 0, objects: [], targets: [], materials: [] };
         row.calls += submitted;
@@ -558,13 +570,19 @@ export function installGameDebug(deps: DebugDeps): void {
           name: material.name, uuid: material.uuid, transparent: material.transparent,
           opacity: material.opacity, side: material.side, forceSinglePass: material.forceSinglePass,
           transmission: (material as THREE.MeshPhysicalMaterial).transmission ?? 0,
+          alphaTest: material.alphaTest, alphaToCoverage: material.alphaToCoverage,
+          coverageSamples: gl.isEnabled(gl.SAMPLE_ALPHA_TO_COVERAGE) ? Number(gl.getParameter(gl.SAMPLES)) : 0,
+          mapMinFilter: (material as THREE.MeshStandardMaterial).map?.minFilter ?? null,
+          mapAnisotropy: (material as THREE.MeshStandardMaterial).map?.anisotropy ?? null,
+          leafAssociatedColour: (material as THREE.MeshStandardMaterial).map?.userData.leafAssociatedColour === true,
+          mapUuid: (material as THREE.MeshStandardMaterial).map?.uuid ?? null,
         });
         rows.set(key, row);
       };
       try {
         renderer.camera.updateMatrixWorld();
         renderer.prepareScene?.(renderer.camera);
-        gpu.render(renderer.scene, renderer.camera);
+        renderer.drawFrame();
       } finally {
         gpu.renderBufferDirect = original;
       }
@@ -597,11 +615,12 @@ export function installGameDebug(deps: DebugDeps): void {
       return {
         calls: draws.reduce((sum, row) => sum + row.calls, 0),
         triangles: draws.reduce((sum, row) => sum + row.triangles, 0),
-        passes: Object.fromEntries(["colour", "colour-offscreen", "shadow"].map((pass) => {
+        passes: Object.fromEntries(["colour", "colour-offscreen", "shadow", "postprocess", "depth-only"].map((pass) => {
           const submitted = draws.filter((row) => row.pass === pass);
           return [pass, { calls: submitted.reduce((sum, row) => sum + row.calls, 0), triangles: submitted.reduce((sum, row) => sum + row.triangles, 0) }];
         })),
         textures: gpu.info.memory.textures,
+        shadowMap: { size: renderer.sun.shadow.mapSize.toArray(), matrix: renderer.sun.shadow.matrix.elements.slice() },
         transmissiveDraws: draws.filter(row => row.materials.some(material => material.transmission > 0)),
         transmissiveCandidates,
         draws: namePrefix ? draws.filter((row) => row.name.startsWith(namePrefix)) : draws.slice(0, 40),

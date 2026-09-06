@@ -4,8 +4,9 @@
 import assert from "node:assert/strict";
 import path from "node:path";
 import { mkdir, writeFile } from "node:fs/promises";
-import { PerspectiveCamera, Vector3 } from "three";
+import { PerspectiveCamera, Vector3, LinearMipmapLinearFilter } from "three";
 import { CAMERA } from "../game/src/app/config.js";
+import { TREE_SPECIES, treeAssetIds, treeSpeciesForAsset } from "../game/src/content/treeSpecies.js";
 import type { Vec3 } from "../game/src/contracts.js";
 import type { EnvironmentWorkbench, EnvironmentWorkbenchState } from "../game/src/featureLab/environment.js";
 import { GameDriver } from "./lib/driver.js";
@@ -14,7 +15,8 @@ import { argValue, repoRoot } from "./lib/paths.js";
 
 type Point = { x: number; y: number; z: number };
 type Bounds = { min: Vec3; max: Vec3 };
-type Draw = { name: string; pass: string; calls: number; triangles: number };
+type Draw = { name: string; pass: string; calls: number; triangles: number;
+  materials: { name: string; alphaToCoverage: boolean; coverageSamples: number; mapMinFilter: number | null; mapAnisotropy: number | null; transparent: boolean; leafAssociatedColour: boolean }[] };
 interface Debug {
   getState(): { ready: boolean };
   getCamera(): { position: Point; target: Point; occluded: boolean };
@@ -38,8 +40,7 @@ interface Observation {
   timeOrigin: number;
 }
 const ASSETS = [
-  "corealm_oak_1", "corealm_oak_2", "corealm_oak_3",
-  "corealm_pine_1", "corealm_pine_2", "corealm_pine_3",
+  ...TREE_SPECIES.flatMap(treeAssetIds),
   "corealm_fern_1", "corealm_fern_2", "corealm_shrub_1", "corealm_shrub_2",
 ];
 const CAPTURE = new Set(["corealm_oak_1", "corealm_pine_1", "corealm_fern_1", "corealm_shrub_2"]);
@@ -124,11 +125,22 @@ async function main(): Promise<void> {
       "Some source shard meshes disappeared or were omitted from the render profile");
     const triangles = colour.reduce((sum, draw) => sum + draw.triangles, 0);
     assert.equal(triangles, source.triangles, "Actual colour triangles differ from the served native source");
+    if (treeSpeciesForAsset(source.id)) {
+      const leaves = colour.flatMap(draw => draw.materials.filter(material => material.name.includes("_cutout")));
+      assert(leaves.length > 0, "The tree has no submitted leaf cutout material");
+      for (const leaf of leaves) {
+        assert(leaf.alphaToCoverage && leaf.coverageSamples >= 2, "Leaf edges are not using actual multisample coverage");
+        assert(!leaf.transparent, "Leaves must keep opaque depth writing and instance batching");
+        assert.equal(leaf.mapMinFilter, LinearMipmapLinearFilter);
+        assert.equal(leaf.mapAnisotropy, 8);
+        assert(leaf.leafAssociatedColour, "Leaf colour must be filtered with coverage before shading");
+      }
+    }
 
     const centre = new Vector3(...bounds.min).add(new Vector3(...bounds.max)).multiplyScalar(0.5);
     const distance = centre.distanceTo(new Vector3(camera.position.x, camera.position.y, camera.position.z));
     const baseDistance = Math.hypot(camera.position.x - centre.x, camera.position.y - bounds.min[1], camera.position.z - centre.z);
-    const threshold = /^corealm_(oak|pine)_/.test(source.id) ? 70 : 34;
+    const threshold = treeSpeciesForAsset(source.id) ? 70 : 34;
     assert(far ? distance > threshold + 5 : distance < threshold - 5,
       `Actual camera distance ${distance.toFixed(2)} m did not cross the old ${threshold} m threshold`);
     assert(!camera.occluded, "A camera blocker changed the intended foliage view");
@@ -174,8 +186,12 @@ async function main(): Promise<void> {
   }
 
   async function pose(tree: boolean, far: boolean): Promise<void> {
+    const bounds = tree ? await driver.page!.evaluate(() =>
+      (window as unknown as { __environmentLab: EnvironmentWorkbench }).__environmentLab.getBounds()) : null;
+    const side = bounds ? Math.max(6, bounds.max[0] + 2) : 6;
+    const nearDistance = bounds ? Math.max(24, (bounds.max[1] - bounds.min[1]) * 2.5) : 24;
     const position = tree
-      ? far ? { x: 6, z: -28, yaw: Math.PI, pitch: 0.18, distance: 34 } : { x: 6, z: 18, yaw: Math.PI, pitch: 0.35, distance: 24 }
+      ? far ? { x: side, z: -28, yaw: Math.PI, pitch: 0.18, distance: 34 } : { x: side, z: 18, yaw: Math.PI, pitch: 0.35, distance: nearDistance }
       : far ? { x: -3, z: 8, yaw: Math.PI, pitch: 0.18, distance: 28 } : { x: -3, z: 25, yaw: 0, pitch: 0.48, distance: 7 };
     const y = await driver.callDebug("groundHeight", [position.x, position.z]) as number;
     assert.equal(await driver.callDebug("inspectPose", [{ ...position, y }]), true);
@@ -248,7 +264,7 @@ async function main(): Promise<void> {
       for (const phase of ["near", "far", "return"] as const) {
         remaining(1);
         stage = `${id}: ${phase}`;
-        await pose(/^corealm_(oak|pine)_/.test(id), phase === "far");
+        await pose(Boolean(treeSpeciesForAsset(id)), phase === "far");
         const observation = await observe();
         const sample: Record<string, unknown> = { phase, observation };
         stages.push(sample);

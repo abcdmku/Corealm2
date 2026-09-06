@@ -408,7 +408,7 @@ const CROOKED_GRAIN: QuestDef = {
   regionId: "vellenwood",
   kind: "skill",
   summary:
-    "Woodward Ansel will let you take eight maple logs out of his stand. He would like you to "
+    "Woodward Ansel will let you take eight ash logs out of his stand. He would like you to "
     + "understand, first, which one you are not taking.",
   giverNpcId: "npc_woodward_ansel",
   requirements: { woodcutting: 5 },
@@ -417,7 +417,7 @@ const CROOKED_GRAIN: QuestDef = {
     {
       index: 0,
       objective:
-        "Fell Maple at the Maple Grove until you hold 8 Maple logs.",
+        "Fell Ash at the Ash Grove until you hold 8 Ash logs.",
       refs: [{ kind: "location", id: "vellenwood_canopy" }, { kind: "item", id: "duskoak_log" }],
       hint:
         "Ten trees stand there and Woodcutting 5 is the gate. Logs do not stack, so eight logs is "
@@ -428,7 +428,7 @@ const CROOKED_GRAIN: QuestDef = {
     {
       index: 1,
       objective:
-        "Go and stand at the Split Maple, the one tree Ansel will not let anybody cut.",
+        "Go and stand at the Split Ash, the one tree Ansel will not let anybody cut.",
       refs: [
         { kind: "entity", id: "split_duskoak" },
         { kind: "location", id: "blackwater_pools" },
@@ -443,7 +443,7 @@ const CROOKED_GRAIN: QuestDef = {
     {
       index: 2,
       objective:
-        "Bring the 8 Maple logs back to Woodward Ansel in Oakwood and tell him what you saw.",
+        "Bring the 8 Ash logs back to Woodward Ansel in Oakwood and tell him what you saw.",
       refs: [
         { kind: "entity", id: "npc_woodward_ansel" },
         { kind: "item", id: "duskoak_log" },
@@ -483,7 +483,7 @@ const KNOTS_AND_NAMES: QuestDef = {
     {
       index: 0,
       objective:
-        "Fletch 4 Oak shafts at a fletching bench.",
+        "Fletch 4 Pine shafts at a fletching bench.",
       refs: [
         { kind: "item", id: "palewood_shaft" },
         { kind: "entity", id: "coldbrace_fletching" },
@@ -491,7 +491,7 @@ const KNOTS_AND_NAMES: QuestDef = {
         { kind: "location", id: "town_center" },
       ],
       hint:
-        "Shafts come from Oak logs, cut at the Oak Grove in Farmland (locationId "
+        "Shafts come from Pine logs, cut at the Pine Grove in Farmland (locationId "
         + "`palewood_copse`). Millfield has the only fletching bench in Phase 1.",
       completion: { kind: "have", itemId: "palewood_shaft", quantity: 4 },
       grants: { xp: { fletching: 60 } },
@@ -717,7 +717,7 @@ const SPARKING_STONE: QuestDef = {
       { itemId: "palewood_log", quantity: 1 },
       { itemId: "air_essence", quantity: 100 },
     ],
-    unlocks: ["Vess gives you one oak log and 100 measures of Air Essence."],
+    unlocks: ["Vess gives you one pine log and 100 measures of Air Essence."],
   },
   stages: [
     {
@@ -764,7 +764,7 @@ const SPARKING_STONE: QuestDef = {
       ],
       hint:
         "If the Air Altar is dormant, awaken it with the Air Orb first. At a "
-        + "fletching bench, make an Oak Shaft, then an Oak Staff. Make "
+        + "fletching bench, make an Pine Shaft, then an Pine Staff. Make "
         + "an Air Staff at the awakened altar and equip it. Once partly spent, the same altar "
         + "restores it to 1000 for exactly 100 Air Essence.",
       completion: { kind: "equipped", itemId: "air_staff" },

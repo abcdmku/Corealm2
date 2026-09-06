@@ -8,6 +8,7 @@
  */
 import type { ItemDef, ItemId } from "../contracts.js";
 import { ALL_ITEMS } from "../content/items.js";
+import { TREE_SPECIES } from "../content/treeSpecies.js";
 import {
   gatheringToolAppearance, gearAppearanceParts, gearAppearancePartsWithCharge,
   type GearAppearance,
@@ -142,6 +143,7 @@ const WOOD: Readonly<Record<number, number>> = {
   5: 0x51372a,
   10: 0x765238,
   20: 0x4a3a30,
+  30: 0x79734e, 40: 0x805638, 50: 0x79513b, 60: 0x68422f, 70: 0x625276,
 };
 
 /** Fresh end grain stays lighter than bark, including the scorched Cinderpine tier. */
@@ -150,6 +152,7 @@ const LOG_END_GRAIN: Readonly<Record<number, number>> = {
   5: 0xb99a74,
   10: 0xcab18a,
   20: 0xa18a70,
+  30: 0xd6bc85, 40: 0xe0bd86, 50: 0xcba56d, 60: 0xca9a65, 70: 0xc9b2e0,
 };
 
 function wood(id: ItemId): number {
@@ -165,7 +168,7 @@ put("kaldite_ore", [asset("corealm_item_kaldite_ore")]);
 put("emberite_ore", [asset("corealm_item_emberite_ore")]);
 put("kilnstone", [asset("rock_small_1", 0x4a443c)]);
 
-for (const id of ["palewood_log", "duskoak_log", "cairnpine_log", "cinderpine_log"] as const) {
+for (const id of TREE_SPECIES.map(species => species.logId)) {
   put(id, [primitive("log", wood(id), LOG_END_GRAIN[def(id).tier])], { rotation: [0, 0, -0.2] });
 }
 

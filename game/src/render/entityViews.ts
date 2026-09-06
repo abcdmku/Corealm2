@@ -1936,6 +1936,11 @@ export class EntityViews {
     };
   }
 
+  /** Resource/scatter handoffs need record readiness, independent of camera visibility. */
+  hasView(entityId: EntityId): boolean {
+    return this.records.has(entityId);
+  }
+
   // ---------------------------------------------------------------- sync
 
   /**

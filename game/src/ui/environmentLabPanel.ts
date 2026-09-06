@@ -14,6 +14,7 @@ export class EnvironmentLabPanel {
   private readonly layout = document.createElement("select");
   private readonly count = document.createElement("input");
   private readonly span = document.createElement("input");
+  private readonly variants = document.createElement("input");
   private readonly load = document.createElement("button");
   private readonly frame = document.createElement("button");
   private readonly detail = document.createElement("button");
@@ -58,7 +59,9 @@ export class EnvironmentLabPanel {
     const dimensions = document.createElement("div");
     dimensions.style.cssText = "display:grid;grid-template-columns:1fr 1fr;gap:8px;";
     dimensions.append(label("Instance count", this.count), label("Span (m)", this.span));
-    this.foliageControls.append(label("Layout", this.layout), dimensions);
+    this.variants.type = "checkbox";
+    this.variants.id = "environment-lab-variants";
+    this.foliageControls.append(label("Layout", this.layout), dimensions, label("Mix species variants", this.variants));
     this.mode.addEventListener("change", () => { this.populate(); this.describe(); });
     this.selection.addEventListener("change", () => this.describe());
     this.load.type = "button";
@@ -113,6 +116,7 @@ export class EnvironmentLabPanel {
       this.layout.value = state.foliage.layout;
       this.count.value = String(state.foliage.count);
       this.span.value = String(state.foliage.span);
+      this.variants.checked = state.assets.length > 1;
     }
     this.describe();
     this.status.textContent = state.ready
@@ -135,7 +139,7 @@ export class EnvironmentLabPanel {
       for (const asset of this.catalog.assets) this.selection.append(option(asset.id, asset.label));
     } else if (this.mode.value === "foliage") {
       for (const asset of this.catalog.assets) {
-        if (/^corealm_(?:oak|pine|fern|shrub)_\d+$/.test(asset.id)) {
+        if (/^corealm_(?:oak|pine|ash|walnut|willow|maple|teak|yew|magic|fern|shrub)_\d+$/.test(asset.id)) {
           this.selection.append(option(asset.id, asset.label));
         }
       }
@@ -176,13 +180,15 @@ export class EnvironmentLabPanel {
     if (this.mode.value === "foliage" && (!this.count.reportValidity() || !this.span.reportValidity())) return;
     this.busy = true;
     this.error.hidden = true;
-    for (const control of [this.mode, this.selection, this.layout, this.count, this.span, this.load, this.frame, this.detail]) control.disabled = true;
+    for (const control of [this.mode, this.selection, this.layout, this.count, this.span, this.variants, this.load, this.frame, this.detail]) control.disabled = true;
     this.status.textContent = "Loading production models…";
     try {
       if (this.mode.value === "site") await this.workbench.showSite(this.selection.value);
       else if (this.mode.value === "cut-face") await this.workbench.showCutFace();
       else if (this.mode.value === "portal") await this.workbench.showPortal();
       else if (this.mode.value === "foliage") await this.workbench.showFoliage(this.selection.value, {
+        variants: this.variants.checked ? this.catalog.assets.filter(asset =>
+          asset.id.replace(/_\d+$/, "") === this.selection.value.replace(/_\d+$/, "")).map(asset => asset.id) : undefined,
         layout: this.layout.value as "lane" | "grid",
         count: this.count.valueAsNumber,
         span: this.span.valueAsNumber,
@@ -197,7 +203,7 @@ export class EnvironmentLabPanel {
     } finally {
       this.busy = false;
       if (!this.disposed) {
-        for (const control of [this.mode, this.selection, this.layout, this.count, this.span, this.load, this.frame, this.detail]) control.disabled = false;
+        for (const control of [this.mode, this.selection, this.layout, this.count, this.span, this.variants, this.load, this.frame, this.detail]) control.disabled = false;
         this.signature = "";
         this.refresh();
       }

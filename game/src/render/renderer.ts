@@ -9,6 +9,7 @@ import { BiomeAtmosphere, type BiomeWeights } from "./biomeAtmosphere.js";
 import * as THREE from "three";
 import { CAMERA, RENDER_BUDGET } from "../app/config.js";
 import { GpuTimer } from "./gpuTimer.js";
+import { ScreenAntialiasing } from "./screenAntialiasing.js";
 import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transmissionOcclusion.js";
 
 export interface RenderStats {
@@ -267,6 +268,7 @@ export class Renderer {
   transmissionCandidates?: () => readonly THREE.Mesh[];
   transmissionOpaqueOccluders?: () => readonly TransmissionOpaqueOccluder[];
   private readonly transmissionOcclusion = new TransmissionOcclusion();
+  private readonly screenAntialiasing = new ScreenAntialiasing();
   private gpuTimer: GpuTimer | null = null;
   private shadowGpuTimer: GpuTimer | null = null;
   private restoreShadowTiming: (() => void) | null = null;
@@ -287,6 +289,7 @@ export class Renderer {
   private readonly warmupMaterials: THREE.Material[] = [];
 
   private renderScale = 1;
+  private stableShadows = true;
   private frameTimes: number[] = [];
   private lastFrameAt = 0;
   private stats: RenderStats = { fps: 0, frameMs: 0, drawCalls: 0, triangles: 0, programs: 0, overBudget: false };
@@ -477,10 +480,12 @@ export class Renderer {
     }
   }
 
-  /** Keeps the shadow frustum tight around the player so 2048px of shadow map stays sharp. */
+  /** Follow the view on a world-anchored texel grid so stationary leaves do not relight on every camera nudge. */
   followShadow(target: THREE.Vector3): void {
-    this.sun.position.set(target.x + SUN_OFFSET.x, target.y + SUN_OFFSET.y, target.z + SUN_OFFSET.z);
-    this.sun.target.position.copy(target);
+    const anchor = this.stableShadows ? snapShadowTargetToTexels(target, new THREE.Vector3(SUN_OFFSET.x, SUN_OFFSET.y, SUN_OFFSET.z),
+      this.sun.shadow.camera, this.sun.shadow.mapSize) : target;
+    this.sun.position.set(anchor.x + SUN_OFFSET.x, anchor.y + SUN_OFFSET.y, anchor.z + SUN_OFFSET.z);
+    this.sun.target.position.copy(anchor);
     this.sun.target.updateMatrixWorld();
   }
 
@@ -564,7 +569,7 @@ export class Renderer {
       const shadowMap = this.renderer.shadowMap;
       const original = shadowMap.render;
       shadowMap.render = (...args) => {
-        if (!this.timingRender) return original.apply(shadowMap, args);
+        if (!this.timingRender || args[0].length === 0) return original.apply(shadowMap, args);
         this.shadowGpuTimer?.begin();
         const started = performance.now();
         try { return original.apply(shadowMap, args); }
@@ -586,9 +591,7 @@ export class Renderer {
       if (this.transmissionOcclusion.active) this.transmissionOcclusion.update(this.renderer, this.camera,
         this.scene.getObjectByName("terrain"), this.transmissionCandidates?.() ?? [], this.transmissionOpaqueOccluders?.() ?? []);
       this.timingRender = true;
-      this.renderer.render(this.scene, this.camera);
-      this.playerSilhouette.render(this.renderer, this.camera);
-      this.biomeAtmosphere.render(this.renderer, this.lastFrameAt > 0 ? (nowMs - this.lastFrameAt) / 1000 : 1 / 60);
+      this.drawFrame(this.lastFrameAt > 0 ? (nowMs - this.lastFrameAt) / 1000 : 1 / 60);
     } finally {
       this.timingRender = false;
       this.cpuSubmitMs = performance.now() - submitStart;
@@ -617,14 +620,20 @@ export class Renderer {
     };
   }
 
+  /** Draw the scene and final display treatment without advancing simulation or camera state. */
+  drawFrame(deltaSeconds = 0): void {
+    this.renderer.render(this.scene, this.camera);
+    this.playerSilhouette.render(this.renderer, this.camera);
+    this.biomeAtmosphere.render(this.renderer, deltaSeconds);
+    this.screenAntialiasing.render(this.renderer);
+  }
+
   /** Renders and reads one gameplay frame synchronously for generated documentation. */
   captureFrame(): string {
     this.transmissionOcclusion.restore();
     this.camera.updateMatrixWorld();
     this.prepareScene?.(this.camera);
-    this.renderer.render(this.scene, this.camera);
-    this.playerSilhouette.render(this.renderer, this.camera);
-    this.biomeAtmosphere.render(this.renderer, 0);
+    this.drawFrame();
     return this.renderer.domElement.toDataURL("image/png");
   }
 
@@ -748,7 +757,9 @@ export class Renderer {
       cpuPrepareMs: this.cpuPrepareMs, cpuSubmitMs: this.cpuSubmitMs, cpuShadowMs: this.cpuShadowMs,
       gpu: this.gpuTimer?.snapshot() ?? { supported: false, milliseconds: null, completed: 0, pending: 0 },
       gpuShadow: this.shadowGpuTimer?.snapshot() ?? { supported: false, milliseconds: null, completed: 0, pending: 0 },
+      gpuAntialiasing: this.screenAntialiasing.getTiming(),
       drawingBuffer: [gl.drawingBufferWidth, gl.drawingBufferHeight],
+      antialiasing: { samples: Number(gl.getParameter(gl.SAMPLES)), finalPass: this.screenAntialiasing.enabled ? "FXAA" : null },
       renderer: info ? String(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)) : null,
       transmissionOcclusion: this.transmissionOcclusion.snapshot(),
     };
@@ -758,6 +769,16 @@ export class Renderer {
     this.transmissionOcclusion.setEnabled(enabled);
   }
 
+  /** Lab comparison: the normal game always starts with the final smoothing pass enabled. */
+  setScreenAntialiasingEnabled(enabled: boolean): void {
+    this.screenAntialiasing.enabled = enabled;
+  }
+
+  /** Lab regression comparison for camera-dependent shadow shimmer. */
+  setShadowStabilizationEnabled(enabled: boolean): void {
+    this.stableShadows = enabled;
+  }
+
   setTransmissionProbeMode(mode: "bounds" | "exact-diagnostic"): void {
     this.transmissionOcclusion.setProbeMode(mode);
   }
@@ -765,6 +786,7 @@ export class Renderer {
   dispose(): void {
     this.biomeAtmosphere.dispose();
     this.playerSilhouette.dispose();
+    this.screenAntialiasing.dispose();
     this.transmissionOcclusion.dispose();
     this.gpuTimer?.dispose();
     this.shadowGpuTimer?.dispose();
@@ -786,7 +808,7 @@ export class Renderer {
  * Snapping the two camera-plane components makes overlapping map tiles differ by whole texels, so
  * PCF samples the same shadow edge on both sides of a stitched join.
  */
-function snapShadowTargetToTexels(
+export function snapShadowTargetToTexels(
   target: THREE.Vector3,
   lightOffset: THREE.Vector3,
   camera: THREE.OrthographicCamera,

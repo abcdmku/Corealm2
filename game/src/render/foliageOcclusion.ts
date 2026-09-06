@@ -1,7 +1,8 @@
 import * as THREE from "three";
 
 const MARKER = "corealmFoliageOcclusion";
-const FRAGMENT_ANCHOR = "#include <alphatest_fragment>";
+// Runs after every alpha-test implementation, including the tree coverage shader.
+const FRAGMENT_ANCHOR = "#include <alphahash_fragment>";
 const FOOT_HEIGHT = 0.28;
 const HEAD_HEIGHT = 1.58;
 const BODY_RADIUS = 0.58;
@@ -162,6 +163,6 @@ export function createFoliageOcclusionMaterial(
       `${FRAGMENT_ANCHOR}\n${FRAGMENT_BODY}`,
     );
   };
-  derived.customProgramCacheKey = () => `${inheritedProgramKey()}|corealm-foliage-reveal-v2`;
+  derived.customProgramCacheKey = () => `${inheritedProgramKey()}|corealm-foliage-reveal-v3`;
   return derived;
 }

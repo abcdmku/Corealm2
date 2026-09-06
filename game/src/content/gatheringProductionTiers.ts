@@ -1,3 +1,4 @@
+import { TREE_SPECIES, treeResource } from "./treeSpecies.js";
 /**
  * Canonical gathering and production unlocks for the current regions.
  *
@@ -59,7 +60,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
     tier: 1,
     reqLevel: 1,
     metalName: "Copper",
-    woodName: "Oak",
+    woodName: "Pine",
     items: {
       ore: "grithe_ore", flux: "march_stone", gem: "pale_quartz", bar: "grithe_bar",
       log: "palewood_log", shaft: "palewood_shaft", handle: "palewood_handle", hide: "coarse_hide",
@@ -97,15 +98,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
           variantScale: [0.94, 1.06], materialTier: 1,
         },
       },
-      {
-        id: "tree_palewood", name: "Oak", archetype: "tree", skill: "woodcutting",
-        itemId: "palewood_log",
-        presentation: {
-          availableAssetIds: ["corealm_oak_1", "corealm_oak_2", "corealm_oak_3"],
-          depletedAssetId: "corealm_stump_oak", targetWorldSize: 8,
-          variantScale: [0.92, 1.08], materialTier: 1,
-        },
-      },
+      treeResource(TREE_SPECIES.find(species => species.id === "pine")!),
       {
         id: "fish_silt_minnow", name: "River Shallow", archetype: "fishing_spot", skill: "fishing",
         itemId: "silt_minnow",
@@ -122,7 +115,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
     tier: 5,
     reqLevel: 5,
     metalName: "Iron",
-    woodName: "Maple",
+    woodName: "Ash",
     items: {
       ore: "corven_ore", flux: "march_stone", gem: "vell_amber", bar: "corven_bar",
       log: "duskoak_log", shaft: "duskoak_shaft", handle: "duskoak_handle", hide: "bramble_hide",
@@ -151,15 +144,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
           variantScale: [0.92, 1.08], materialTier: 5,
         },
       },
-      {
-        id: "tree_duskoak", name: "Maple", archetype: "tree", skill: "woodcutting",
-        itemId: "duskoak_log",
-        presentation: {
-          availableAssetIds: ["corealm_oak_2", "corealm_oak_1", "corealm_oak_3"],
-          depletedAssetId: "corealm_stump_oak", targetWorldSize: 10,
-          variantScale: [0.94, 1.1], materialTier: 5,
-        },
-      },
+      treeResource(TREE_SPECIES.find(species => species.id === "ash")!),
       {
         id: "fish_bramble_trout", name: "Blackwater Pool", archetype: "fishing_spot", skill: "fishing",
         itemId: "bramble_trout",
@@ -177,7 +162,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
     tier: 10,
     reqLevel: 10,
     metalName: "Cobalt",
-    woodName: "Pine",
+    woodName: "Oak",
     items: {
       ore: "kaldite_ore", flux: "march_stone", gem: "cairn_garnet", bar: "kaldite_bar",
       log: "cairnpine_log", shaft: "cairnpine_shaft", handle: "cairnpine_handle", hide: "cairn_pelt",
@@ -206,15 +191,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
           variantScale: [0.92, 1.08], materialTier: 10,
         },
       },
-      {
-        id: "tree_cairnpine", name: "Pine", archetype: "tree", skill: "woodcutting",
-        itemId: "cairnpine_log",
-        presentation: {
-          availableAssetIds: ["corealm_pine_2", "corealm_pine_1", "corealm_pine_3"],
-          depletedAssetId: "corealm_stump_pine", targetWorldSize: 9,
-          variantScale: [0.92, 1.08], materialTier: 10,
-        },
-      },
+      treeResource(TREE_SPECIES.find(species => species.id === "oak")!),
       {
         id: "fish_cragfin", name: "Mountain Lake", archetype: "fishing_spot", skill: "fishing",
         itemId: "cragfin",
@@ -232,7 +209,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
     tier: 20,
     reqLevel: 20,
     metalName: "Titanium",
-    woodName: "Cedar",
+    woodName: "Walnut",
     items: {
       ore: "emberite_ore", flux: "kilnstone", gem: "fire_opal", bar: "emberite_bar",
       log: "cinderpine_log", shaft: "cinderpine_shaft", handle: "cinderpine_handle", hide: "charhide",
@@ -271,17 +248,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
           variantScale: [0.94, 1.06], materialTier: 20,
         },
       },
-      {
-        id: "tree_cinderpine", name: "Cedar", archetype: "tree", skill: "woodcutting",
-        itemId: "cinderpine_log",
-        presentation: {
-          // The twisted silhouettes read as fire-shaped survivors; tier-20 material treatment
-          // carries the char. The regular stump reads best against dark soil.
-          availableAssetIds: ["corealm_pine_3", "corealm_pine_1"],
-          depletedAssetId: "corealm_stump_pine", targetWorldSize: 9,
-          variantScale: [0.92, 1.08], materialTier: 20,
-        },
-      },
+      treeResource(TREE_SPECIES.find(species => species.id === "walnut")!),
       {
         id: "fish_ashfin", name: "Hot Spring", archetype: "fishing_spot", skill: "fishing",
         itemId: "ashfin",
@@ -301,7 +268,8 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
 ];
 
 export const CAMPFIRE_FUELS: readonly CampfireFuelDef[] =
-  GATHERING_PRODUCTION_TIERS.map((definition) => definition.campfire);
+  [...GATHERING_PRODUCTION_TIERS.map((definition) => definition.campfire),
+    ...TREE_SPECIES.filter(species => species.level > 20).map(species => campfireFuel(species.logId, species.level, "nature_wood_log"))];
 
 export function gatheringProductionTier(tier: number): GatheringProductionTierDef | undefined {
   return GATHERING_PRODUCTION_TIERS.find((definition) => definition.tier === tier);

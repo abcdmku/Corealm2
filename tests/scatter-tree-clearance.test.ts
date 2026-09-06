@@ -82,7 +82,7 @@ describe("tree clearance footprints", () => {
 
 const BOUNDS: Rect = { minX: 1000, maxX: 1036, minZ: 1000, maxZ: 1036 };
 const NATIVE_TREE = /^corealm_(oak|pine)_\d+$/;
-const TRUNK_RADIUS: Readonly<Record<string, number>> = { corealm_oak_1: 0.48, corealm_pine_2: 0.32 };
+const TRUNK_RADIUS: Readonly<Record<string, number>> = { corealm_oak_1: 0.28, corealm_pine_2: 0.23 };
 type TreePlacement = ScatterPlacement & { forestTree?: ForestTreeDescriptor };
 interface MeshRow { assetId: string; placement: TreePlacement; matrix: number[] }
 

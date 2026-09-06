@@ -1,3 +1,4 @@
+import { HIGH_TIER_LOG_ITEMS } from "./treeSpecies.js";
 /**
  * Every non-equipment item in Corealm, plus `ALL_ITEMS`, the single table the root registers.
  *
@@ -71,23 +72,23 @@ const RESOURCE_ITEMS: readonly ItemDef[] = [
   },
   // woodcutting
   {
-    id: "palewood_log", name: "Oak Log", tier: 1,
+    id: "palewood_log", name: "Pine Log", tier: 1,
     description: "Pale, straight-grained, and dries in a day. The march is short of everything except this.",
     stackable: false, value: 10, category: "resource",
   },
   {
-    id: "duskoak_log", name: "Maple Log", tier: 5,
-    description: "Close-grained maple from the Woodlands canopy. Seasoned for strong handles and shields.",
+    id: "duskoak_log", name: "Ash Log", tier: 5,
+    description: "Close-grained ash from the Woodlands canopy. Seasoned for strong handles and shields.",
     stackable: false, value: 38, category: "resource",
   },
   {
-    id: "cairnpine_log", name: "Pine Log", tier: 10,
-    description: "Ridge pine, resin-heavy and stubborn. It holds a Cobalt ferrule without splitting.",
+    id: "cairnpine_log", name: "Oak Log", tier: 10,
+    description: "Dense oak with a coarse, durable grain. It holds a Cobalt ferrule without splitting.",
     stackable: false, value: 88, category: "resource",
   },
   {
-    id: "cinderpine_log", name: "Cedar Log", tier: 20,
-    description: "Aromatic cedar from the foothills. Its straight grain splits cleanly into shafts and kindling.",
+    id: "cinderpine_log", name: "Walnut Log", tier: 20,
+    description: "Dark walnut heartwood from broad, spreading crowns. It cuts cleanly and takes a smooth finish.",
     stackable: false, value: 195, category: "resource",
   },
   // fishing (raw, inedible until cooked)
@@ -165,44 +166,44 @@ const COMPONENTS: readonly ItemDef[] = [
   },
   // shafts, the fletching intermediate
   {
-    id: "palewood_shaft", name: "Oak Shaft", tier: 1,
-    description: "A shaved length of oak. Handle, haft, or half a staff.",
+    id: "palewood_shaft", name: "Pine Shaft", tier: 1,
+    description: "A shaved length of pine. Handle, haft, or half a staff.",
     stackable: true, value: 4, category: "component",
   },
   {
-    id: "duskoak_shaft", name: "Maple Shaft", tier: 5,
-    description: "Maple, turned down and oiled. Will not warp in Woodlands damp.",
+    id: "duskoak_shaft", name: "Ash Shaft", tier: 5,
+    description: "Ash, turned down and oiled. Will not warp in Woodlands damp.",
     stackable: true, value: 14, category: "component",
   },
   {
-    id: "cairnpine_shaft", name: "Pine Shaft", tier: 10,
+    id: "cairnpine_shaft", name: "Oak Shaft", tier: 10,
     description: "Resinous, springy, and heavy. Takes a Cobalt ferrule without splitting.",
     stackable: true, value: 32, category: "component",
   },
   {
-    id: "cinderpine_shaft", name: "Cedar Shaft", tier: 20,
-    description: "A straight cedar shaft, shaped and seasoned for rods and staves.",
+    id: "cinderpine_shaft", name: "Walnut Shaft", tier: 20,
+    description: "A straight walnut shaft, shaped and seasoned for rods and staves.",
     stackable: true, value: 70, category: "component",
   },
   // handles, the shared fletching input for metal weapons and gathering tools
   {
-    id: "palewood_handle", name: "Oak Handle", tier: 1,
-    description: "A short oak grip, shaped for a Copper tang or tool head.",
+    id: "palewood_handle", name: "Pine Handle", tier: 1,
+    description: "A short pine grip, shaped for a Copper tang or tool head.",
     stackable: true, value: 6, category: "component",
   },
   {
-    id: "duskoak_handle", name: "Maple Handle", tier: 5,
-    description: "Oiled maple with enough weight to balance an Iron head.",
+    id: "duskoak_handle", name: "Ash Handle", tier: 5,
+    description: "Oiled ash with enough weight to balance an Iron head.",
     stackable: true, value: 23, category: "component",
   },
   {
-    id: "cairnpine_handle", name: "Pine Handle", tier: 10,
-    description: "Pine shaped around the grain so a Cobalt tang will not split it.",
+    id: "cairnpine_handle", name: "Oak Handle", tier: 10,
+    description: "Oak shaped around the grain so a Cobalt tang will not split it.",
     stackable: true, value: 53, category: "component",
   },
   {
-    id: "cinderpine_handle", name: "Cedar Handle", tier: 20,
-    description: "An oiled cedar grip shaped to hold a Titanium tang securely.",
+    id: "cinderpine_handle", name: "Walnut Handle", tier: 20,
+    description: "An oiled walnut grip shaped to hold a Titanium tang securely.",
     stackable: true, value: 117, category: "component",
   },
   // Hides, the crafting input for the whole magic line and every fishing rod.
@@ -460,7 +461,7 @@ const GAME_MEAT: readonly ItemDef[] = [
   },
   {
     id: "roast_ember_haunch", name: "Roast Prime Haunch", tier: 20,
-    description: "Cooked slow over cedar coals. Ashford calls it a wage, not a meal.",
+    description: "Cooked slow over walnut coals. Ashford calls it a wage, not a meal.",
     stackable: false, value: 255, category: "food", food: { healAmount: healAmount(20) },
   },
   {
@@ -538,7 +539,7 @@ const TOOLS: readonly ItemDef[] = [
   },
   {
     id: "worn_hatchet", name: "Worn Hatchet", tier: 0,
-    description: "More wedge than edge. It will get through oak if you are patient.",
+    description: "More wedge than edge. It will get through pine if you are patient.",
     stackable: false, value: 8, category: "tool", tool: { skill: "woodcutting", gatherBonus: 1 },
   },
   {
@@ -548,22 +549,22 @@ const TOOLS: readonly ItemDef[] = [
   },
   {
     id: "grithe_pickaxe", name: "Copper Pickaxe", tier: 1,
-    description: "A bar of Copper on an oak haft. Adds two effective Mining levels.",
+    description: "A bar of Copper on an pine haft. Adds two effective Mining levels.",
     stackable: false, value: 60, category: "tool", tool: { skill: "mining", gatherBonus: toolBonus(1) },
   },
   {
     id: "corven_pickaxe", name: "Iron Pickaxe", tier: 5,
-    description: "Iron head, maple haft. Five effective Mining levels.",
+    description: "Iron head, ash haft. Five effective Mining levels.",
     stackable: false, value: 240, category: "tool", tool: { skill: "mining", gatherBonus: toolBonus(5) },
   },
   {
     id: "kaldite_pickaxe", name: "Cobalt Pickaxe", tier: 10,
-    description: "Cobalt on pine. Nine effective Mining levels, and it will outlive you.",
+    description: "Cobalt on oak. Nine effective Mining levels, and it will outlive you.",
     stackable: false, value: 620, category: "tool", tool: { skill: "mining", gatherBonus: toolBonus(10) },
   },
   {
     id: "grithe_hatchet", name: "Copper Hatchet", tier: 1,
-    description: "Light, blunt-ish, and enough for oak. Two effective Woodcutting levels.",
+    description: "Light, blunt-ish, and enough for pine. Two effective Woodcutting levels.",
     stackable: false, value: 55, category: "tool", tool: { skill: "woodcutting", gatherBonus: toolBonus(1) },
   },
   {
@@ -573,27 +574,27 @@ const TOOLS: readonly ItemDef[] = [
   },
   {
     id: "kaldite_hatchet", name: "Cobalt Hatchet", tier: 10,
-    description: "Goes through pine resin without gumming. Nine effective Woodcutting levels.",
+    description: "Goes through oak resin without gumming. Nine effective Woodcutting levels.",
     stackable: false, value: 600, category: "tool", tool: { skill: "woodcutting", gatherBonus: toolBonus(10) },
   },
   {
-    id: "palewood_rod", name: "Oak Rod", tier: 1,
+    id: "palewood_rod", name: "Pine Rod", tier: 1,
     description: "A shaft, a hide line, and a bent pin. Two effective Fishing levels.",
     stackable: false, value: 45, category: "tool", tool: { skill: "fishing", gatherBonus: toolBonus(1) },
   },
   {
-    id: "duskoak_rod", name: "Maple Rod", tier: 5,
+    id: "duskoak_rod", name: "Ash Rod", tier: 5,
     description: "Springy enough for a trout. Five effective Fishing levels.",
     stackable: false, value: 190, category: "tool", tool: { skill: "fishing", gatherBonus: toolBonus(5) },
   },
   {
-    id: "cairnpine_rod", name: "Pine Rod", tier: 10,
+    id: "cairnpine_rod", name: "Oak Rod", tier: 10,
     description: "Built for perch, which fight like something with a grudge. Nine effective Fishing levels.",
     stackable: false, value: 480, category: "tool", tool: { skill: "fishing", gatherBonus: toolBonus(10) },
   },
   {
     id: "emberite_pickaxe", name: "Titanium Pickaxe", tier: 20,
-    description: "An Titanium head on cedar. Seventeen effective Mining levels.",
+    description: "An Titanium head on walnut. Seventeen effective Mining levels.",
     stackable: false, value: 1400, category: "tool", tool: { skill: "mining", gatherBonus: toolBonus(20) },
   },
   {
@@ -602,8 +603,8 @@ const TOOLS: readonly ItemDef[] = [
     stackable: false, value: 1350, category: "tool", tool: { skill: "woodcutting", gatherBonus: toolBonus(20) },
   },
   {
-    id: "cinderpine_rod", name: "Cedar Rod", tier: 20,
-    description: "A flexible cedar rod built for heavy bass. Seventeen effective Fishing levels.",
+    id: "cinderpine_rod", name: "Walnut Rod", tier: 20,
+    description: "A flexible walnut rod built for heavy bass. Seventeen effective Fishing levels.",
     stackable: false, value: 1100, category: "tool", tool: { skill: "fishing", gatherBonus: toolBonus(20) },
   },
 ];
@@ -622,7 +623,7 @@ export const ITEMS: readonly ItemDef[] = [
 ];
 
 /** The table the root registers as `items`. */
-export const ALL_ITEMS: readonly ItemDef[] = [...ITEMS, ...MAGIC_ORBS, ...EQUIPMENT, ...CREATURE_LOOT_ITEMS];
+export const ALL_ITEMS: readonly ItemDef[] = [...ITEMS, ...HIGH_TIER_LOG_ITEMS, ...MAGIC_ORBS, ...EQUIPMENT, ...CREATURE_LOOT_ITEMS];
 
 /** The currency item id, so nothing else has to spell it. PRD 2.10: currency is marks. */
 export const CURRENCY_ITEM_ID = "marks";

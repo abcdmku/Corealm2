@@ -44,6 +44,19 @@ function fixture() {
 }
 
 describe("frame loop resident motion", () => {
+  it("reconciles resource handoffs after structural sync and before drawing every frame", () => {
+    const f = fixture();
+    const reconcile = vi.fn(() => { f.order.push("handoff"); });
+    f.loop.setEntityViews(f.views as unknown as EntityViews, f.source, f.refresh, reconcile);
+    try {
+      f.render(16);
+      expect(f.order).toEqual(["residency", "handoff", "motion", "animation"]);
+      f.order.length = 0;
+      f.render(300);
+      expect(f.order).toEqual(["residency", "source", "structure", "handoff", "motion", "animation"]);
+      expect(reconcile).toHaveBeenCalledTimes(2);
+    } finally { f.loop.dispose(); }
+  });
   it("retimes the independent hit layer without a simulation movement hold", () => {
     const f = fixture();
     f.views.actionDurationSeconds.mockReturnValue(1.034);

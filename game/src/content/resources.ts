@@ -1,3 +1,4 @@
+import { HIGH_TIER_TREE_RESOURCES } from "./treeSpecies.js";
 /**
  * Gatherable resource catalog.
  *
@@ -33,6 +34,7 @@ const ESSENCE_RESOURCES: readonly ResourceDef[] = GATHERING_PRODUCTION_TIERS.map
 export const RESOURCES: readonly ResourceDef[] = [
   ...GATHERING_PRODUCTION_TIERS.flatMap((definition) => definition.resourceDefs),
   ...ESSENCE_RESOURCES,
+  ...HIGH_TIER_TREE_RESOURCES,
 ];
 
 const RESOURCE_BY_ID = new Map(RESOURCES.map((resource) => [resource.id, resource] as const));

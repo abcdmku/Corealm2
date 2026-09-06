@@ -51,6 +51,7 @@ async function main(): Promise<void> {
   const started = Date.now();
   const clearDeadline = installTestDeadline("World resource integration", 90_000);
   const args = process.argv.slice(2);
+  const forestOnly = args.includes("--forest-only");
   const externalUrl = argValue(args, "--url");
   const server = externalUrl ? { url: externalUrl, close: async () => {} } : await startGameServer();
   const output = path.join(repoRoot, "test-results", "world-resources");
@@ -61,11 +62,12 @@ async function main(): Promise<void> {
   });
   const report: Record<string, unknown> = {
     status: "failed", passed: false, url: server.url, route: "/index.html",
-    scope: "Final-world placement and wiring after accepted production forest/fishing labs. No whole-world entity census.",
+    scope: forestOnly ? "Final-world tree placement and wiring after accepted production forest lab. No whole-world entity census."
+      : "Final-world placement and wiring after accepted production forest/fishing labs. No whole-world entity census.",
     setup: "Fresh browser context; inventory cleared by save import; real hatchet/rod grants and skill 99; camera framing followed by nav-point teleport.",
-    actionProof: "Two verified canvas clicks. Natural timeScale 1 gathering pays every yield and naturally depletes the forest tree.",
+    actionProof: `${forestOnly ? "One verified tree click" : "Two verified canvas clicks"}. Natural timeScale 1 gathering pays every yield and naturally depletes the forest tree.`,
     persistenceProof: "Import authentic pre-harvest save to restore standing tree, then authentic depleted save to restore stump; inspect after a distant excursion and return.",
-    visualAcceptance: "Root must inspect stump and casting screenshots; semantic assertions do not grade the artwork.",
+    visualAcceptance: `Root must inspect ${forestOnly ? "tree and stump" : "stump and casting"} screenshots; semantic assertions do not grade the artwork.`,
     screenshots: [] as string[],
   };
   const screenshots = report.screenshots as string[];
@@ -85,10 +87,13 @@ async function main(): Promise<void> {
       const debug = window.__gameDebug as unknown as Debug;
       const player = debug.getPlayerPosition();
       const trees = debug.listEntities({ archetype: "tree", regionId: debug.getState().regionId });
+      const isolation = (entity: SemanticEntity): number => Math.min(35, ...trees
+        .filter(other => other.id !== entity.id && other.state !== "depleted")
+        .map(other => Math.hypot(other.position[0] - entity.position[0], other.position[2] - entity.position[2])));
       const candidates = id ? [debug.getEntity(id)].filter((entity): entity is SemanticEntity => entity !== null)
         : trees.filter((entity) => entity.meta?.forestTree === true && entity.state === "available" && (entity.resource?.remaining ?? 0) > 0
           && Math.hypot(entity.position[0] - player.x, entity.position[2] - player.z) <= 35)
-          .sort((a, b) => (a.resource!.remaining - b.resource!.remaining)
+          .sort((a, b) => isolation(b) - isolation(a) || (a.resource!.remaining - b.resource!.remaining)
             || Math.hypot(a.position[0] - player.x, a.position[2] - player.z) - Math.hypot(b.position[0] - player.x, b.position[2] - player.z)).slice(0, 12);
       for (const entity of candidates) {
         const anchor = entity.interactionPosition ?? entity.position;
@@ -192,7 +197,14 @@ async function main(): Promise<void> {
     const bounds = initial.bounds;
     const origin = initial.entity.position;
     const candidates = initial.entity.archetype === "tree"
-      ? [0.9, 1.3, 1.7, 0.5, 2.1].flatMap((height) => [-0.15, 0, 0.15].map((offset) => project(origin[0] + offset, origin[1] + height, origin[2])))
+      ? [
+        ...[0.9, 1.3, 1.7, 0.5, 2.1].flatMap((height) => [-0.15, 0, 0.15].map((offset) => project(origin[0] + offset, origin[1] + height, origin[2]))),
+        // Curved narrow trunks may be behind another tree. A visible crown is also a normal
+        // clickable part of the production tree; every candidate still requires a real hover.
+        ...[.6, .8, .4].flatMap(height => [.5, .35, .65].map(x => project(
+          bounds.min.x + (bounds.max.x - bounds.min.x) * x,
+          bounds.min.y + bounds.height * height, (bounds.min.z + bounds.max.z) / 2))),
+      ]
       : [project(...origin), ...[0.5, 0.25, 0.75].flatMap((x) => [0.5, 0.25, 0.75].map((z) => project(
         bounds.min.x + (bounds.max.x - bounds.min.x) * x, (bounds.min.y + bounds.max.y) / 2, bounds.min.z + (bounds.max.z - bounds.min.z) * z)))];
 
@@ -416,19 +428,21 @@ async function main(): Promise<void> {
     screenshots.push(await driver.screenshot(output, "02-restored-stump-after-distant-return"));
     await writeFile(path.join(output, "naturally-depleted-save.json"), tree.savedBlob);
     report.forestPersistence = { restored, distant, farTreeState: farTree?.state, returned, received: tree.received };
-    stage = "Cairn fishing selection";
-    const fishId = argValue(args, "--fish-id") ?? "cairn_tarn_spots_2";
-    currentId = fishId;
-    assert(fishId.startsWith("cairn_tarn_spots_"), "This integration check requires a Cairn Tarn school");
-    const fishing = await approachFor(fishId);
-    assert(fishing?.entity.interactionPosition, "Cairn Tarn has no dry, nav-valid casting approach");
-    const fishWater = await page.evaluate((entity) => (window.__gameDebug as unknown as Debug).sampleWorld(entity.position[0], entity.position[2]), fishing.entity);
-    assert.equal(fishWater.waterBodyId, "cairn_tarn_spots", "The authored Cairn school is not underwater");
-    report.fishingSelection = fishing;
-    stage = "Cairn fishing receipt";
-    const fish = await gather(fishing, false);
-    screenshots.push(await driver.screenshot(output, "03-casting-from-Cairn-dry-bank"));
-    report.fishReceived = fish.received;
+    if (!forestOnly) {
+      stage = "Cairn fishing selection";
+      const fishId = argValue(args, "--fish-id") ?? "cairn_tarn_spots_2";
+      currentId = fishId;
+      assert(fishId.startsWith("cairn_tarn_spots_"), "This integration check requires a Cairn Tarn school");
+      const fishing = await approachFor(fishId);
+      assert(fishing?.entity.interactionPosition, "Cairn Tarn has no dry, nav-valid casting approach");
+      const fishWater = await page.evaluate((entity) => (window.__gameDebug as unknown as Debug).sampleWorld(entity.position[0], entity.position[2]), fishing.entity);
+      assert.equal(fishWater.waterBodyId, "cairn_tarn_spots", "The authored Cairn school is not underwater");
+      report.fishingSelection = fishing;
+      stage = "Cairn fishing receipt";
+      const fish = await gather(fishing, false);
+      screenshots.push(await driver.screenshot(output, "03-casting-from-Cairn-dry-bank"));
+      report.fishReceived = fish.received;
+    }
     assert.equal(await page.evaluate(() => performance.timeOrigin), timeOrigin, "The document reloaded during the check; use a server without HMR");
     assert.equal(driver.consoleErrors.length + driver.pageErrors.length + driver.requestErrors.length, 0, "Chromium reported runtime or request errors");
     report.status = "passed";

@@ -214,7 +214,7 @@ const MELEE_TIER_1: readonly ItemDef[] = [
     bonuses: { accuracy: 7, power: 8 },
   }),
   gear({
-    id: "palewood_shield", name: "Oak Shield", tier: 1, slot: "offHand", value: 70,
+    id: "palewood_shield", name: "Pine Shield", tier: 1, slot: "offHand", value: 70,
     description: "Planks of pale march wood banded at the rim. It stops a claw once.",
     requires: { melee: 1 },
     bonuses: { accuracy: 1, armour: 4, magicArmour: 2 },
@@ -282,8 +282,8 @@ const MELEE_TIER_5: readonly ItemDef[] = [
     bonuses: { accuracy: 14, power: 14 },
   }),
   gear({
-    id: "duskoak_shield", name: "Maple Shield", tier: 5, slot: "offHand", value: 240,
-    description: "Laminated maple over an Iron boss. Heavy enough to lean on.",
+    id: "duskoak_shield", name: "Ash Shield", tier: 5, slot: "offHand", value: 240,
+    description: "Laminated ash over an Iron boss. Heavy enough to lean on.",
     requires: { melee: 5 },
     bonuses: { accuracy: 1, armour: 8, magicArmour: 4, vitality: 1 },
   }),
@@ -349,8 +349,8 @@ const MELEE_TIER_10: readonly ItemDef[] = [
     bonuses: { accuracy: 28, power: 26 },
   }),
   gear({
-    id: "cairnpine_shield", name: "Pine Shield", tier: 10, slot: "offHand", value: 560,
-    description: "Pine faced in Cobalt. It rings when a bear hits it, and the bear stops.",
+    id: "cairnpine_shield", name: "Oak Shield", tier: 10, slot: "offHand", value: 560,
+    description: "Oak faced in Cobalt. It rings when a bear hits it, and the bear stops.",
     requires: { melee: 10 },
     bonuses: { accuracy: 2, armour: 14, magicArmour: 6, vitality: 1 },
   }),
@@ -420,8 +420,8 @@ const MELEE_TIER_20: readonly ItemDef[] = [
     bonuses: { accuracy: 48, power: 45 },
   }),
   gear({
-    id: "cinderpine_shield", name: "Cedar Shield", tier: 20, slot: "offHand", value: 1250,
-    description: "Layered cedar faced in Titanium. Built to withstand heavy blows.",
+    id: "cinderpine_shield", name: "Walnut Shield", tier: 20, slot: "offHand", value: 1250,
+    description: "Layered walnut faced in Titanium. Built to withstand heavy blows.",
     requires: { melee: 20 },
     bonuses: { accuracy: 3, armour: 22, magicArmour: 9, vitality: 2 },
   }),
@@ -478,15 +478,15 @@ const MELEE_TIER_20: readonly ItemDef[] = [
 
 const MAGIC_TIER_20: readonly ItemDef[] = [
   gear({
-    id: "cinderpine_wand", name: "Cedar Wand", tier: 20, slot: "mainHand", value: 1900,
-    description: "Polished cedar with an empty Titanium socket. It stays unlit until the altar takes it.",
+    id: "cinderpine_wand", name: "Walnut Wand", tier: 20, slot: "mainHand", value: 1900,
+    description: "Polished walnut with an empty Titanium socket. It stays unlit until the altar takes it.",
     requires: { magic: 20 }, attackSpeedMs: WAND_CAST_SPEED_MS,
     magicWeapon: { kind: "wand", hands: 1 },
     bonuses: { magicAccuracy: 27, magicPower: 23, magicArmour: 5 },
   }),
   gear({
-    id: "cinderpine_staff", name: "Cedar Staff", tier: 20, slot: "mainHand", value: 2700,
-    description: "A two-handed cedar shaft crowned with an empty Titanium cage, dark until charged.",
+    id: "cinderpine_staff", name: "Walnut Staff", tier: 20, slot: "mainHand", value: 2700,
+    description: "A two-handed walnut shaft crowned with an empty Titanium cage, dark until charged.",
     requires: { magic: 20 }, attackSpeedMs: STAFF_CAST_SPEED_MS,
     magicWeapon: { kind: "staff", hands: 2 },
     bonuses: { power: 7, magicAccuracy: 40, magicPower: 34, magicArmour: 7 },
@@ -551,14 +551,14 @@ const MAGIC_TIER_20: readonly ItemDef[] = [
 
 const MAGIC_TIER_1: readonly ItemDef[] = [
   gear({
-    id: "palewood_wand", name: "Oak Wand", tier: 1, slot: "mainHand", value: 95,
+    id: "palewood_wand", name: "Pine Wand", tier: 1, slot: "mainHand", value: 95,
     description: "Pale wood with an empty socket at the tip. It stays unlit until upgraded.",
     requires: { magic: 1 }, attackSpeedMs: WAND_CAST_SPEED_MS,
     magicWeapon: { kind: "wand", hands: 1 },
     bonuses: { magicAccuracy: 4, magicPower: 3 },
   }),
   gear({
-    id: "palewood_staff", name: "Oak Staff", tier: 1, slot: "mainHand", value: 140,
+    id: "palewood_staff", name: "Pine Staff", tier: 1, slot: "mainHand", value: 140,
     description: "A pale two-handed shaft with an empty socket. The wood itself gives off no light.",
     requires: { magic: 1 }, attackSpeedMs: STAFF_CAST_SPEED_MS,
     magicWeapon: { kind: "staff", hands: 2 },
@@ -614,15 +614,15 @@ const MAGIC_TIER_1: readonly ItemDef[] = [
 
 const MAGIC_TIER_5: readonly ItemDef[] = [
   gear({
-    id: "duskoak_wand", name: "Maple Wand", tier: 5, slot: "mainHand", value: 340,
-    description: "Dark maple with an empty crown. Its polished wood remains unlit on its own.",
+    id: "duskoak_wand", name: "Ash Wand", tier: 5, slot: "mainHand", value: 340,
+    description: "Dark ash with an empty crown. Its polished wood remains unlit on its own.",
     requires: { magic: 5 }, attackSpeedMs: WAND_CAST_SPEED_MS,
     magicWeapon: { kind: "wand", hands: 1 },
     bonuses: { magicAccuracy: 9, magicPower: 6, magicArmour: 1 },
   }),
   gear({
-    id: "duskoak_staff", name: "Maple Staff", tier: 5, slot: "mainHand", value: 500,
-    description: "Dark maple banded in Iron around an empty, unlit crown.",
+    id: "duskoak_staff", name: "Ash Staff", tier: 5, slot: "mainHand", value: 500,
+    description: "Dark ash banded in Iron around an empty, unlit crown.",
     requires: { magic: 5 }, attackSpeedMs: STAFF_CAST_SPEED_MS,
     magicWeapon: { kind: "staff", hands: 2 },
     bonuses: { power: 2, magicAccuracy: 12, magicPower: 11, magicArmour: 2 },
@@ -677,15 +677,15 @@ const MAGIC_TIER_5: readonly ItemDef[] = [
 
 const MAGIC_TIER_10: readonly ItemDef[] = [
   gear({
-    id: "cairnpine_wand", name: "Pine Wand", tier: 10, slot: "mainHand", value: 820,
-    description: "Resin-dark pine with an empty Cobalt socket and no light of its own.",
+    id: "cairnpine_wand", name: "Oak Wand", tier: 10, slot: "mainHand", value: 820,
+    description: "Resin-dark oak with an empty Cobalt socket and no light of its own.",
     requires: { magic: 10 }, attackSpeedMs: WAND_CAST_SPEED_MS,
     magicWeapon: { kind: "wand", hands: 1 },
     bonuses: { magicAccuracy: 18, magicPower: 14, magicArmour: 3 },
   }),
   gear({
-    id: "cairnpine_staff", name: "Pine Staff", tier: 10, slot: "mainHand", value: 1180,
-    description: "A two-handed pine shaft with an empty Cobalt cage. It stays dark until upgraded.",
+    id: "cairnpine_staff", name: "Oak Staff", tier: 10, slot: "mainHand", value: 1180,
+    description: "A two-handed oak shaft with an empty Cobalt cage. It stays dark until upgraded.",
     requires: { magic: 10 }, attackSpeedMs: STAFF_CAST_SPEED_MS,
     magicWeapon: { kind: "staff", hands: 2 },
     bonuses: { power: 4, magicAccuracy: 24, magicPower: 20, magicArmour: 4 },
@@ -855,20 +855,20 @@ export const RARE_MINIBOSS_WEAPONS: readonly ItemDef[] = [
     "Copper pattern, but the edge whistles on the backswing. Plains Ogre carried it point-down.",
     RARE_SWORD_STATS),
   rare(magicBase("palewood_staff"), "galeskin_staff", "Plains Ogre Staff",
-    "Oak scoured silver by wind. The empty socket hums in weather.", RARE_STAFF_STATS),
+    "Pine scoured silver by wind. The empty socket hums in weather.", RARE_STAFF_STATS),
   rare(meleeBase("corven_sword"), "mossbound_sword", "Forest Ogre Sword",
     "A Iron blade grown through with moss that will not die. It never rusts.", RARE_SWORD_STATS),
   rare(magicBase("duskoak_staff"), "mossbound_staff", "Forest Ogre Staff",
-    "Maple with a living green seam. Warm at the grip like a root in summer.", RARE_STAFF_STATS),
+    "Ash with a living green seam. Warm at the grip like a root in summer.", RARE_STAFF_STATS),
   rare(meleeBase("kaldite_sword"), "tideworn_sword", "Cave Ogre Sword",
     "Cobalt worked smooth as sea glass. It swings like it remembers the water.", RARE_SWORD_STATS),
   rare(magicBase("cairnpine_staff"), "tideworn_staff", "Cave Ogre Staff",
-    "Pine bleached and salt-cured. The cage weeps a little in the cold.", RARE_STAFF_STATS),
+    "Oak bleached and salt-cured. The cage weeps a little in the cold.", RARE_STAFF_STATS),
   rare(meleeBase("emberite_sword"), "cinderwake_sword", "Fire Ogre Sword",
     "Titanium quenched in the arena's own spring. The orange line down the edge never fades.",
     RARE_SWORD_STATS),
   rare(magicBase("cinderpine_staff"), "cinderwake_staff", "Fire Ogre Staff",
-    "Cedar the fire chose not to eat. The empty cage sheds a slow drift of sparks.",
+    "Walnut the fire chose not to eat. The empty cage sheds a slow drift of sparks.",
     RARE_STAFF_STATS),
 ];
 

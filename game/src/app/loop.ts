@@ -171,6 +171,7 @@ export class GameLoop {
   private entityViews: EntityViews | null = null;
   private entitySource: (() => SemanticEntity[]) | null = null;
   private refreshEntityResidency: (() => void) | null = null;
+  private reconcileEntityPresentation: (() => void) | null = null;
   private traversalPresentation: (() => TraversalSample | null) | null = null;
   private traversalWasVisible = false;
   private viewSyncAccumulatorMs = 0;
@@ -249,10 +250,11 @@ export class GameLoop {
    * constructible before them. Views resync on a slow cadence rather than every frame: entity state
    * changes at gameplay speed, not at 240 Hz, and a full diff every frame is pure waste.
    */
-  setEntityViews(views: EntityViews, entities: () => SemanticEntity[], refreshResidency?: () => void): void {
+  setEntityViews(views: EntityViews, entities: () => SemanticEntity[], refreshResidency?: () => void, reconcilePresentation?: () => void): void {
     this.entityViews = views;
     this.entitySource = entities;
     this.refreshEntityResidency = refreshResidency ?? null;
+    this.reconcileEntityPresentation = reconcilePresentation ?? null;
   }
 
   /** Samples presentation without moving the authoritative player before traversal resolves. */
@@ -526,6 +528,7 @@ export class GameLoop {
     // Keep this separate from collecting the complete semantic snapshot.
     this.refreshEntityResidency?.();
     this.syncEntityViews(realDeltaMs);
+    this.reconcileEntityPresentation?.();
     // Structure at 4 Hz, motion every frame. `sync` is throttled because rebuilding instance groups
     // is expensive, but `EnemyAiSystem.stepToward` writes a new position every 100 ms sim tick, so
     // at 4 Hz three of every four movement steps were invisible and the fourth was a 40 cm jump.

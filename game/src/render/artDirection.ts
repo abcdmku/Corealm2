@@ -42,8 +42,8 @@ export function artSurfaceRoleForMaterial(materialName: string): ArtSurfaceRole 
   return null;
 }
 
-function fragmentTreatment(role: ArtSurfaceRole, understory: boolean): string {
-  const treatment = TREATMENTS[role];
+function fragmentTreatment(role: ArtSurfaceRole, understory: boolean, cutout = false): string {
+  const treatment = cutout ? { ...TREATMENTS[role], saturation: 1, value: 1, warmth: [1, 1.04, 1] } : TREATMENTS[role];
   const warmth = treatment.warmth.map((channel) => channel.toFixed(3)).join(", ");
   return `
 // Corealm organic surface: ${role}. Uses the existing sampled albedo, never another texture read.
@@ -69,11 +69,17 @@ function fragmentTreatment(role: ArtSurfaceRole, understory: boolean): string {
 `;
 }
 
-const LEAF_NORMAL_TREATMENT = `
+const leafNormalTreatment = (upwardBias = LEAF_UPWARD_NORMAL_BIAS, branchSpray = false): string => `
 // Soften the lighting contrast between flat foliage cards without changing their shadows.
 {
   vec3 organicWorldUp = normalize( mat3( viewMatrix ) * vec3( 0.0, 1.0, 0.0 ) );
-  normal = normalize( normal + organicWorldUp * ${LEAF_UPWARD_NORMAL_BIAS.toFixed(3)} );
+  ${branchSpray ? `// A spray represents leaves on both sides. Its diffuse lighting must not flip
+  // with gl_FrontFacing when the camera or wind crosses the card's plane.
+  #ifdef DOUBLE_SIDED
+    normal *= faceDirection;
+  #endif
+  normal *= dot( normal, organicWorldUp ) < 0.0 ? -1.0 : 1.0;` : ""}
+  normal = normalize( normal + organicWorldUp * ${upwardBias.toFixed(3)} );
 }
 `;
 
@@ -94,6 +100,8 @@ export function createArtDirectedMaterial(source: THREE.Material, role: ArtSurfa
   const treatment = TREATMENTS[role];
   const sourceName = source.name.split("@", 1)[0]!;
   const understory = role === "foliage" && /^Leaves$/i.test(sourceName);
+  const cutout = role === "foliage" && /_(needle|broadleaf_oak|broadleaf_yew)_cutout$/.test(sourceName);
+  const branchSpray = role === "foliage" && sourceName.endsWith("_cutout");
   const leafNormals = role === "foliage" && !/^(?:Grass|grass-sprite)$/i.test(sourceName);
   const inheritedCompile = source.onBeforeCompile;
   const inheritedProgramKey = source.customProgramCacheKey.bind(source);
@@ -113,7 +121,7 @@ export function createArtDirectedMaterial(source: THREE.Material, role: ArtSurfa
     }
     shader.fragmentShader = shader.fragmentShader.replace(
       FRAGMENT_ANCHOR,
-      `${fragmentTreatment(role, understory)}\n${FRAGMENT_ANCHOR}`,
+      `${fragmentTreatment(role, understory, cutout)}\n${FRAGMENT_ANCHOR}`,
     );
     if (leafNormals) {
       if (!shader.fragmentShader.includes(LIGHTING_ANCHOR)) {
@@ -121,10 +129,12 @@ export function createArtDirectedMaterial(source: THREE.Material, role: ArtSurfa
       }
       shader.fragmentShader = shader.fragmentShader.replace(
         LIGHTING_ANCHOR,
-        `${LEAF_NORMAL_TREATMENT}\n${LIGHTING_ANCHOR}`,
+        // A branch card represents many leaves facing different directions. Stronger sky
+        // response stops its two flat sides from reading as alternating black/bright sheets.
+        `${leafNormalTreatment(branchSpray ? 2 : LEAF_UPWARD_NORMAL_BIAS, branchSpray)}\n${LIGHTING_ANCHOR}`,
       );
     }
   };
-  derived.customProgramCacheKey = () => `${inheritedProgramKey()}|corealm-organic-v3:${role}:${Number(understory)}:${Number(leafNormals)}`;
+  derived.customProgramCacheKey = () => `${inheritedProgramKey()}|corealm-organic-v5:${role}:${Number(understory)}:${Number(leafNormals)}:${Number(cutout)}:${Number(branchSpray)}`;
   return derived;
 }

@@ -781,8 +781,8 @@ const FALLOWMARCH: RegionDef = {
       blurb: "A shallow Copper pit 160 m north of Millfield. Six seams and two stone faces." },
     { id: "fallowmarch_kiln_road", name: "Kiln Road South", position: [-160, 192], kind: "junction", routeNode: true,
       blurb: "Where the pit track runs on toward the ember foothills. No gate; the border is open ground." },
-    { id: "palewood_copse", name: "Oak Grove", position: [-334, -64], kind: "grove", routeNode: true,
-      blurb: "Eight oak trees on the western track. The only shade on the plain." },
+    { id: "palewood_copse", name: "Pine Grove", position: [-334, -64], kind: "grove", routeNode: true,
+      blurb: "Eight pine trees on the western track. The only shade on the plain." },
     { id: "redsill_shallows", name: "River Shallows", position: [-40, -60], kind: "water", routeNode: true,
       blurb: "Where Iron Brook runs thin over red silt. Minnow water." },
     { id: "corven_ford", name: "River Crossing", position: [-72, -146], kind: "junction", routeNode: true,
@@ -1021,12 +1021,12 @@ const FALLOWMARCH: RegionDef = {
       id: "west_track", name: "West Track Waypost", position: [-233, -64],
       assetId: "corner_wood", scale: 0.9, rotationY: 1.8,
       composition: "path_waypoint",
-      blurb: "Three weathered arms: Millfield, Oak, and Open Meadow.",
+      blurb: "Three weathered arms: Millfield, Pine, and Open Meadow.",
     },
     {
-      id: "lone_dead_palewood", name: "The Lone Oak", position: [-196, 24],
+      id: "lone_dead_palewood", name: "The Lone Pine", position: [-196, 24],
       assetId: "tree_dead_3", scale: 0.85,
-      blurb: "One dead Oak at the top of the rise. Every direction from here looks the same.",
+      blurb: "One dead Pine at the top of the rise. Every direction from here looks the same.",
     },
     {
       // Farming gameplay stays retired. The old composition is useful scenery on its own: a
@@ -1069,7 +1069,7 @@ const VELLENWOOD: RegionDef = {
   name: "Woodlands",
   tier: 5,
   lore:
-    "Within two hundred metres of the gate the sky closes. The Maple here are old enough that " +
+    "Within two hundred metres of the gate the sky closes. The Ash here are old enough that " +
     "the Trade Company surveyors marked them as terrain rather than trees. Oakwood is the only " +
     "settlement: nine buildings and a bank chest built on and around a stump so large the stump " +
     "is the town square. The people there will tell you which paths are safe. They will not tell " +
@@ -1090,13 +1090,13 @@ const VELLENWOOD: RegionDef = {
     { id: "vellenwood_marchgate", name: "Forest Gate", position: [-12, 122], kind: "gate", routeNode: true,
       blurb: "Woodlands's gate onto the Farm Road. Named for the direction, not the compass." },
     { id: "rootfall_hamlet", name: "Oakwood", position: [64, 127], kind: "settlement", routeNode: true,
-      blurb: "Nine buildings around a Maple stump the size of a square." },
+      blurb: "Nine buildings around a Ash stump the size of a square." },
     { id: "rootfall_bank", name: "Oakwood Bank Chest", position: [60, 128], kind: "bank", routeNode: true,
       blurb: "One chest, set into the stump. Thirty-eight metres from the Forest Quarry." },
     { id: "hollowcut_seam", name: "Forest Quarry", position: [94, 145], kind: "seam", routeNode: true,
       blurb: "Five Iron seams, 38 m from the bank chest. The best XP in the game until Agility 10." },
-    { id: "vellenwood_canopy", name: "Maple Grove", position: [14, 166], kind: "grove", routeNode: true,
-      blurb: "Ten maple trees. The canopy closes hard enough here that pathing is the puzzle." },
+    { id: "vellenwood_canopy", name: "Ash Grove", position: [14, 166], kind: "grove", routeNode: true,
+      blurb: "Ten ash trees. The canopy closes hard enough here that pathing is the puzzle." },
     { id: "mire_skirt", name: "Marsh Edge", position: [-6, 120], kind: "junction", routeNode: true,
       blurb: "The long dry way around the standing water below the stand." },
     { id: "blackwater_pools", name: "Blackwater Pools", position: [128, 84], kind: "water", routeNode: true,
@@ -1188,7 +1188,7 @@ const VELLENWOOD: RegionDef = {
       // Blackwater Pools -> Thornline on foot goes right round to the ford: 109.6 + 113.2 =
       // 222.8 m. Over the fallen tree: 52.0 + 56.1 = 108.1 m + 3.0 s. Saves 114.7 m.
       // PRD quoted 85 m; that assumed a 380 m region. Measured value used.
-      id: "fallen_duskoak", name: "The Fallen Maple", reqLevel: 5,
+      id: "fallen_duskoak", name: "The Fallen Ash", reqLevel: 5,
       position: [176, 104], exitPosition: [200, 96],
       durationMs: 3000, savesMeters: 115,
       // `roof_log` is a 10.7 m timber beam - the only asset in the library shaped like a felled
@@ -1302,7 +1302,7 @@ const VELLENWOOD: RegionDef = {
       blurb: "The stump is the square. Stone steps climb its southeast face.",
     },
     {
-      id: "split_duskoak", name: "The Split Maple", position: [170, 112],
+      id: "split_duskoak", name: "The Split Ash", position: [170, 112],
       assetId: "tree_twisted_2", scale: 0.8, rotationY: 1.1,
       blurb: "Split top to root by something, a long time ago. It is still alive on one side.",
     },
@@ -1399,8 +1399,8 @@ const KARROWMOOR: RegionDef = {
       blurb: "The largest cairn on the moor. Nobody will say who is under it." },
     { id: "cairn_tarns", name: "Mountain Lakes", position: [206, -88], kind: "water", routeNode: true,
       blurb: "Two black tarns on the terrace two lip. Perch in both." },
-    { id: "ridge_pines", name: "Ridge Pines", position: [250, -96], kind: "grove", routeNode: true,
-      blurb: "Eight pine trees on terrace three, all bent the same way." },
+    { id: "ridge_pines", name: "Ridge Oaks", position: [250, -96], kind: "grove", routeNode: true,
+      blurb: "Eight oak trees on terrace three, all bent the same way." },
     { id: "far_tarn", name: "Far Lake", position: [284, -110], kind: "water", routeNode: true,
       blurb: "Across the terrace three gap. Two more tarns, and nobody fishing them." },
     { id: "tarn_track", name: "Lake Trail", position: [300, -80], kind: "junction", routeNode: true,
@@ -1785,7 +1785,7 @@ const KILNHALT: RegionDef = {
     { id: "emberfast_south_bend", name: "South Bend", position: [40, 300], kind: "junction", routeNode: true,
       blurb: "The road swings east around Ashford's rampart to reach the gate." },
     { id: "emberfast_town", name: "Ashford", position: [2, 325], kind: "settlement", routeNode: true,
-      blurb: "A walled kiln camp with a bank, market, and workshops for titanium and cedar." },
+      blurb: "A walled kiln camp with a bank, market, and workshops for titanium and walnut." },
     { id: "emberfast_bank", name: "Ashford Bank", position: [8, 321], kind: "bank", routeNode: true,
       blurb: "One chest under a porch. The vault ledger smells faintly of smoke." },
     { id: "emberfast_east_gate", name: "Ashford Gate", position: [24, 333], kind: "gate", routeNode: true,
@@ -1796,8 +1796,8 @@ const KILNHALT: RegionDef = {
       blurb: "Six Titanium seams and two Flux Stone faces, still warm at the break." },
     { id: "ashfin_springs", name: "Hot Springs", position: [210, 250], kind: "water", routeNode: true,
       blurb: "Four warm pools where the bass run heavy. The water steams at dawn." },
-    { id: "cinderpine_stand", name: "Cedar Grove", position: [240, 340], kind: "grove", routeNode: true,
-      blurb: "Eight cedar trees with weathered bark and sound heartwood." },
+    { id: "cinderpine_stand", name: "Walnut Grove", position: [240, 340], kind: "grove", routeNode: true,
+      blurb: "Eight walnut trees with weathered bark and sound heartwood." },
     { id: "kilnhalt_fire_cache", name: "Fire Essence Cache", position: [290, 400], kind: "landmark", routeNode: true,
       blurb: "A ruined stone court where fire essence beads out of the warm rock. The altar is dark." },
     { id: "cinderwake_arena", name: "Fire Ogre Arena", position: [286, 420], kind: "landmark", routeNode: true,

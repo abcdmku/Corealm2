@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { prepareLeafTexture } from "./leafTexture.js";
 
 interface CorealmSurfaceMapSet {
   albedo: THREE.Texture;
@@ -97,6 +98,57 @@ export function applyCorealmSurfaceMaterials(root: THREE.Object3D, textures: Cor
   const apply = (source: THREE.Material): THREE.Material => {
     if (source.userData[SURFACE_MARKER]) return source;
     const name = source.name.split("@", 1)[0];
+    // Keep the embedded species texture and UVs. Alpha-to-coverage uses the existing MSAA
+    // samples to soften leaf edges without sorting transparent cards or adding geometry.
+    if (name?.endsWith("_cutout") && (source as THREE.MeshStandardMaterial).isMeshStandardMaterial) {
+      const existing = cache.get(source);
+      if (existing) return existing;
+      const derived = (source as THREE.MeshStandardMaterial).clone();
+      if (derived.map) derived.map = prepareLeafTexture(derived.map);
+      const associatedColour = derived.map?.userData.leafAssociatedColour === true;
+      derived.alphaToCoverage = true;
+      derived.userData[SURFACE_MARKER] = "leaf-cutout";
+      const inheritedCompile = source.onBeforeCompile;
+      const inheritedProgramKey = source.customProgramCacheKey.bind(source);
+      derived.onBeforeCompile = (shader, renderer) => {
+        inheritedCompile.call(source, shader, renderer);
+        if (associatedColour) {
+          // Filter associated RGB and alpha together, then recover the leaf's colour. Empty
+          // texels cannot turn green leaves black as their footprint moves between mip levels.
+          shader.fragmentShader = shader.fragmentShader.replace("#include <map_fragment>", `
+#ifdef USE_MAP
+  vec4 leafSample = texture2D( map, vMapUv );
+  // Shade fine leaf colour from a slightly wider footprint. Coverage keeps the original
+  // footprint so this cannot erase leaves or change the canopy silhouette.
+  vec4 leafColourSample = texture2D( map, vMapUv, 1.0 );
+  leafSample.rgb = leafColourSample.rgb / max( leafColourSample.a, 0.0001 );
+  diffuseColor *= leafSample;
+#endif`);
+        }
+        // Centre the one-pixel coverage ramp on the authored cutoff. Three's one-sided
+        // ramp erodes tiny needles as their texture footprint grows at distance.
+        shader.fragmentShader = shader.fragmentShader.replace("#include <alphatest_fragment>", `
+#if defined( USE_ALPHATEST ) && defined( ALPHA_TO_COVERAGE )
+  float leafEdgeWidth = max( fwidth( diffuseColor.a ), 0.0001 );
+  diffuseColor.a = smoothstep( alphaTest - 0.5 * leafEdgeWidth, alphaTest + 0.5 * leafEdgeWidth, diffuseColor.a );
+  if ( diffuseColor.a == 0.0 ) discard;
+#else
+  #include <alphatest_fragment>
+#endif`);
+      };
+      derived.customProgramCacheKey = () => `${inheritedProgramKey()}|corealm-leaf-coverage-v4:${Number(associatedColour)}`;
+      if (derived.map) {
+        const changed = derived.map.minFilter !== THREE.LinearMipmapLinearFilter || derived.map.magFilter !== THREE.LinearFilter
+          || !derived.map.generateMipmaps || derived.map.anisotropy !== 8;
+        derived.map.minFilter = THREE.LinearMipmapLinearFilter;
+        derived.map.magFilter = THREE.LinearFilter;
+        derived.map.generateMipmaps = true;
+        derived.map.anisotropy = 8;
+        if (changed) derived.map.needsUpdate = true;
+      }
+      cache.set(source, derived);
+      return derived;
+    }
     const bark = name === "Bark_Corealm";
     const mineral = name === "Corealm mineral seam";
     const leaf = /^Leaves_Corealm(?:_|$)/.test(name ?? "");

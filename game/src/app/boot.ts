@@ -10,6 +10,7 @@
 import * as THREE from "three";
 import { CREATURE_MOTION_TIMING } from "../content/creatureMotionTiming.js";
 import { ForestResources, type ForestTreeDescriptor } from "../world/forestResources.js";
+import { ForestPresentation } from "../render/forestPresentation.js";
 import { ForestObstacles } from "../world/forestObstacles.js";
 import { WORLD_SITES, worldSitePoint, type WorldSite } from "../content/worldSites.js";
 import { WORLD_HABITATS } from "../content/worldHabitats.js";
@@ -592,20 +593,22 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   entityStore.registerLocations(built.knownLocations);
   const forestObstacles = new ForestObstacles();
   const forestInstances = new Map<string, { descriptor: ForestTreeDescriptor; setVisible: (visible: boolean) => void }>();
+  const forestPresentation = new ForestPresentation();
   const forest = new ForestResources({
     entities: entityStore,
     getNodeState: (id) => store.get().world.nodes[id],
     onActivate: (tree) => {
-      forestInstances.get(tree.id)?.setVisible(false);
+      forestPresentation.activate(tree.id, store.get().world.nodes[tree.id]?.state === "depleted");
       if (store.get().world.nodes[tree.id]?.state !== "depleted") forestObstacles.upsert(tree);
     },
     onDeactivate: (tree) => {
-      forestInstances.get(tree.id)?.setVisible(true);
+      forestPresentation.deactivate(tree.id);
       forestObstacles.remove(tree.id);
     },
   });
   const registerForestTree = (descriptor: ForestTreeDescriptor, setVisible: (visible: boolean) => void): void => {
     forestInstances.set(descriptor.id, { descriptor, setVisible });
+    forestPresentation.register(descriptor.id, setVisible);
     forest.register(descriptor);
   };
   const updateForest = (): void => {
@@ -615,6 +618,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (state.activity?.kind === "gathering") pins.add(state.activity.entityId);
     forest.update(state.player.position, pins);
     forest.forEachResident((entity, tree) => {
+      forestPresentation.activate(tree.id, entity.state === "depleted");
       if (entity.state === "depleted") forestObstacles.remove(tree.id);
       else forestObstacles.upsert(tree);
     });
@@ -2419,7 +2423,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (profile.kind === "feature-lab") return;
     const player = store.get().player;
     refreshVisualResidency(player.position, player.regionId);
-  });
+  }, () => forestPresentation.reconcile((id) => entityViews.hasView(id)));
   ui.setHuntContracts(hunts);
   loop.setTraversalPresentation(() => traversalPresentation.current());
 
@@ -2992,7 +2996,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (featureLab) window.__featureLab = featureLab;
     if (environmentLab) (window as Window & { __environmentLab?: typeof environmentLab }).__environmentLab = environmentLab;
     if (creatureGallery) (window as Window & { __creatureGallery?: typeof creatureGallery }).__creatureGallery = creatureGallery;
-    if (forestFixture) (window as Window & { __forestLab?: unknown }).__forestLab = { getState: () => ({ ...forest.stats(), entityIds: forestFixture!.entityIds, obstacles: forestObstacles.size }), getTrees: () => forestFixture!.trees };
+    if (forestFixture) (window as Window & { __forestLab?: unknown }).__forestLab = { getState: () => ({ ...forest.stats(), entityIds: forestFixture!.entityIds, obstacles: forestObstacles.size }), getTrees: () => forestFixture!.trees, getScatterVisibility: () => forestFixture!.getScatterVisibility() };
   } else {
     const firstFrameSpan = bootTelemetry.startSpan(BOOT_SPANS.FIRST_RENDERED_FRAME);
     loop.start();
@@ -3015,7 +3019,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       if (featureLab) window.__featureLab = featureLab;
       if (environmentLab) (window as Window & { __environmentLab?: typeof environmentLab }).__environmentLab = environmentLab;
     if (creatureGallery) (window as Window & { __creatureGallery?: typeof creatureGallery }).__creatureGallery = creatureGallery;
-      if (forestFixture) (window as Window & { __forestLab?: unknown }).__forestLab = { getState: () => ({ ...forest.stats(), entityIds: forestFixture!.entityIds, obstacles: forestObstacles.size }), getTrees: () => forestFixture!.trees };
+      if (forestFixture) (window as Window & { __forestLab?: unknown }).__forestLab = { getState: () => ({ ...forest.stats(), entityIds: forestFixture!.entityIds, obstacles: forestObstacles.size }), getTrees: () => forestFixture!.trees, getScatterVisibility: () => forestFixture!.getScatterVisibility() };
       window.setTimeout(() => {
         audioDirector.setRegion(store.get().player.regionId);
         const expandEntityResidency = (): void => {

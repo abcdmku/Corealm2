@@ -1,3 +1,4 @@
+import { TREE_SPECIES, treeAssetIds, treeSpeciesForAsset, treeEncounterWeight, type TreeSpeciesId } from "../content/treeSpecies.js";
 /**
  * Deterministic ecological dressing around authored sites. Generate stable candidates on the
  * 96 m world grid. Native understory reserves growing space within those original patches;
@@ -715,6 +716,8 @@ export interface ScatterResult {
   tiles: number;
   byLayer: Record<string, number>;
   bySource: Record<string, number>;
+  /** Accepted instance counts, including rare tree species, independent of camera culling. */
+  byAsset: Record<string, number>;
   missingAssets: string[];
 }
 
@@ -730,6 +733,7 @@ function createScatterResult(regionId: RegionId, spec?: RegionScatterSpec): Scat
     tiles: 0,
     byLayer: Object.fromEntries((spec?.layers ?? []).map((layer) => [layer.id, 0])),
     bySource: {},
+    byAsset: {},
     missingAssets: [],
   };
 }
@@ -747,6 +751,9 @@ function addScatterResult(target: ScatterResult, source: ScatterResult): void {
   }
   for (const [sourceId, count] of Object.entries(source.bySource)) {
     target.bySource[sourceId] = (target.bySource[sourceId] ?? 0) + count;
+  }
+  for (const [assetId, count] of Object.entries(source.byAsset)) {
+    target.byAsset[assetId] = (target.byAsset[assetId] ?? 0) + count;
   }
   for (const missing of source.missingAssets) {
     if (!target.missingAssets.includes(missing)) target.missingAssets.push(missing);
@@ -1150,7 +1157,7 @@ interface ResolvedSpecies {
   assetId: string;
   sourceAssetId: string;
   sizeRatio: number;
-  treeSpecies: "oak" | "pine" | null;
+  treeSpecies: TreeSpeciesId | null;
   weight: number;
   scale: [number, number];
   tilt: number;
@@ -1171,10 +1178,9 @@ const COREALM_SCATTER_ALIASES: Readonly<Record<string, string>> = {
   rock_medium_1: "corealm_rock_strata_1", rock_medium_2: "corealm_rock_strata_2", rock_medium_3: "corealm_rock_strata_3",
 };
 
-const TREE_TRUNK_RADII: Readonly<Record<string, number>> = {
-  corealm_oak_1: 0.48, corealm_oak_2: 0.44, corealm_oak_3: 0.30,
-  corealm_pine_1: 0.34, corealm_pine_2: 0.32, corealm_pine_3: 0.23,
-};
+const TREE_TRUNK_RADII: Readonly<Record<string, number>> = Object.fromEntries(
+  TREE_SPECIES.flatMap(species => treeAssetIds(species).map(id => [id, species.trunkRadius])),
+);
 
 /**
  * Resolves the species pool a layer will actually use.
@@ -1203,8 +1209,7 @@ function resolveSpecies(
     const assetId = COREALM_SCATTER_ALIASES[entry.assetId] ?? entry.assetId;
     const replacement = assets.entry(assetId);
     if (!replacement) { unknown.push(assetId); continue; }
-    const treeSpecies = assetId.startsWith("corealm_oak_") ? "oak"
-      : assetId.startsWith("corealm_pine_") ? "pine" : null;
+    const treeSpecies = treeSpeciesForAsset(assetId)?.id ?? null;
     let sizeRatio = 1;
     if (assetId !== entry.assetId) {
       const originalWidth = Math.max(source.size.x, source.size.z);
@@ -1867,6 +1872,7 @@ async function scatterRegionTile(
         result.placed += 1;
         result.byLayer[layer.id] = (result.byLayer[layer.id] ?? 0) + 1;
         result.bySource[candidate.source] = (result.bySource[candidate.source] ?? 0) + 1;
+        result.byAsset[assetId] = (result.byAsset[assetId] ?? 0) + 1;
         continue;
       }
       // Keyed on shadow as well as asset, because the shadow flag is a property of the
@@ -1884,7 +1890,7 @@ async function scatterRegionTile(
       // trunk width. Keeping this after every transform draw preserves all surviving placements.
       if (entry.treeSpecies && exclusions.blocksTreeClearance(
         placement.position[0], placement.position[2],
-        placement.forestTree?.trunkRadius ?? TREE_TRUNK_RADII[assetId]! * (placement.scale as number),
+        placement.forestTree?.trunkRadius ?? (assets.entry(assetId)?.trunkRadius ?? TREE_TRUNK_RADII[assetId]!) * (placement.scale as number),
       )) {
         result.rejected += 1;
         continue;
@@ -1899,6 +1905,7 @@ async function scatterRegionTile(
       result.placed += 1;
       result.byLayer[layer.id] = (result.byLayer[layer.id] ?? 0) + 1;
       result.bySource[candidate.source] = (result.bySource[candidate.source] ?? 0) + 1;
+      result.byAsset[assetId] = (result.byAsset[assetId] ?? 0) + 1;
     }
 
     // A dense organic layer can be meaningful work even though it owns only one deterministic
@@ -2243,10 +2250,8 @@ function composePlacement(
       const rect = ctx.scene.getRegionRect(layout.regionId);
       return rect && x >= rect.minX && x <= rect.maxX && z >= rect.minZ && z <= rect.maxZ;
     });
-    const resourceId = entry.treeSpecies === "oak"
-      ? semantic?.regionId === "fallowmarch" ? "tree_palewood" : "tree_duskoak"
-      : semantic?.regionId === "kilnhalt" ? "tree_cinderpine" : "tree_cairnpine";
-    const nativeTrunkRadius = TREE_TRUNK_RADII[entry.assetId];
+    const resourceId = treeSpeciesForAsset(entry.assetId)!.resourceId;
+    const nativeTrunkRadius = next.trunkRadius ?? TREE_TRUNK_RADII[entry.assetId];
     if (nativeTrunkRadius === undefined) throw new Error(`Missing trunk dimensions for ${entry.assetId}.`);
     return {
       position, rotationY, scale, tilt: 0,
@@ -3044,3 +3049,21 @@ export const DEFAULT_SCATTER: Record<RegionId, RegionScatterSpec> = {
   // corridor produces nonsense.
   gravelmaw: { regionId: "gravelmaw", layers: [] },
 };
+
+// World composition follows the area's woodcutting level. All future species stay in the pool,
+// with exponentially smaller encounter weights; no player's changing skill changes the forest.
+for (const [regionId, areaLevel] of [["fallowmarch", 1], ["vellenwood", 5], ["karrowmoor", 10], ["kilnhalt", 20]] as const) {
+  for (const layer of DEFAULT_SCATTER[regionId].layers) {
+    const ids = layer.species?.map(entry => entry.assetId) ?? layer.assetIds ?? [];
+    const living = (id: string) => /^tree_(common|pine|twisted)_/.test(id);
+    if (!ids.some(living)) continue;
+    const original = layer.species ?? ids.map(assetId => ({ assetId, weight: 1 }));
+    const livingWeight = original.filter(entry => living(entry.assetId)).reduce((sum, entry) => sum + (entry.weight ?? 1), 0);
+    const total = TREE_SPECIES.reduce((sum, species) => sum + treeEncounterWeight(species, areaLevel), 0);
+    layer.species = [...original.filter(entry => !living(entry.assetId)), ...TREE_SPECIES.flatMap(species => treeAssetIds(species).map(assetId => ({
+      assetId, weight: livingWeight * treeEncounterWeight(species, areaLevel) / (total * species.variants),
+      scale: [.64, 1.08] as [number, number], tilt: 0,
+    })))];
+    delete layer.assetIds;
+  }
+}
