@@ -120,4 +120,34 @@ describe("melee swing and contact presentation", () => {
     ]);
     expect(director.observeCombatHit).not.toHaveBeenCalled();
   });
+
+  it("routes the enemy's blows through the director and drops its death cue for the canonical one", () => {
+    // `paintCombatHits` hands EVERY resolved hit to this handler, the enemy's included, and an
+    // enemy hit is always "combined" because only the player's rig has a swing marker. There is no
+    // second entry point: `handleCombatHits` used to exist alongside this, with no caller anywhere
+    // in the repo and a comment claiming a de-duplication that this path gets from `resetOneShots`
+    // instead. It is gone, and this pins what the live path actually does.
+    const store = new Store(1, 0);
+    const engine = { playCue: vi.fn(), resetOneShots: vi.fn(), setListenerPose: vi.fn() };
+    const director = { observeCombatHit: vi.fn(), setRegion: vi.fn(), reset: vi.fn(), observeGameEvent: vi.fn() };
+    const bridge = new CorealmAudioBridge({ store, engine: engine as unknown as AudioEngine,
+      director: director as unknown as AudioDirector, entity: () => undefined, surfaceAt: () => "grass" });
+
+    const incoming: CombatHit = { atMs: 0, attacker: "enemy", sourceId: "bear", targetId: "player",
+      damage: 7, hit: true, maxHit: 9, kind: "melee", killed: false, spellId: null };
+    bridge.handlePlayerCombatMotion(incoming, "combined");
+    bridge.handlePlayerCombatMotion({ ...incoming, hit: false, damage: 0 }, "combined");
+    bridge.handlePlayerCombatMotion({ ...incoming, killed: true }, "combined");
+    expect(director.observeCombatHit).toHaveBeenCalledTimes(3);
+    // The bridge itself sounds nothing for an incoming blow; cue selection is the director's.
+    expect(engine.playCue).not.toHaveBeenCalled();
+
+    // Events flush after presentation, so the director's two pending cues for the lethal hit are
+    // still waiting on their buffers when this lands and invalidates them.
+    bridge.handleEvent({ seq: 1, type: "player.died", atMs: 0, entityId: "player", data: {} });
+    expect(engine.resetOneShots).toHaveBeenCalledTimes(1);
+    expect(engine.playCue.mock.calls.map(([cue]) => cue)).toEqual(["combat.player_death"]);
+    expect(engine.resetOneShots.mock.invocationCallOrder[0]!)
+      .toBeLessThan(engine.playCue.mock.invocationCallOrder[0]!);
+  });
 });

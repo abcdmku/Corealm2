@@ -174,14 +174,14 @@ Stated targets, chosen before the run rather than fitted to it: every family's t
 
 | | before | after 5 kills |
 | --- | --- | --- |
-| buffer sources constructed | 4 | 23 |
-| gain nodes constructed | 7 | 26 |
-| panner nodes constructed | 1 | 1 |
-| `disconnect` calls | 0 | 43 |
+| buffer sources constructed | 4 | 24 |
+| gain nodes constructed | 7 | 27 |
+| panner nodes constructed | 1 | 2 |
+| `disconnect` calls | 0 | 46 |
 | live sources | 4 | 2 |
 | live loop sources | 2 | 2 |
 
-Live sources return to exactly the two region beds after every round — flat across all five, never climbing. 19 buffer sources for 5 kills is 3–4 voices each, and each finished voice disconnects its source and gain. No leak. `activeOneShots` and `pendingOneShots` are both 0 when it settles.
+Live sources return to exactly the two region beds after every round — flat across all five, never climbing. 20 buffer sources for 5 kills is 3–4 voices each, and each finished voice disconnects its source, its gain and its panner if it had one. No leak. `activeOneShots` and `pendingOneShots` are both 0 when it settles.
 
 **Travel disposal** is covered in section 3: running loop nodes equal active beds after each crossing and after a reload.
 
@@ -271,6 +271,7 @@ Recorded production mixes, for the mix rather than the files:
 Deleted:
 
 - `runs/corealm-rebuild/checks/audio-gameplay-browser.ts` — gave `copper_hatchet` to the player, an item id that does not exist in `content/`, so it could not have run. `audio-timing-browser.ts --case chop` covers the same scenario with measured offsets and an MP3 copy.
+- `CorealmAudioBridge.handleCombatHits` — no caller anywhere in the repo, including tests, and its comment claimed "`player.died` is the one canonical death edge, so a lethal hit never sounds twice", which is true of the live path but by a completely different mechanism. Everything routes through `handlePlayerCombatMotion`, and the de-duplication comes from `resetOneShots` invalidating the director's still-pending cues when the event flushes. That is now documented where it happens and pinned by a test.
 
 Kept, with reasons:
 

@@ -172,6 +172,15 @@ export class CorealmAudioBridge implements TickSystem {
         if (stringField(data, "event") === "boss.slam") this.play("combat.special");
         return;
       case "player.died":
+        // The one canonical death edge, and the reason a lethal blow does not sound twice.
+        //
+        // The killing hit reaches `handlePlayerCombatMotion` first, as "combined", and the
+        // director's `cuesForCombatHit` selects `combat.player_hit` AND `combat.player_death` for
+        // it. Events flush last in the frame, so by the time this runs those two are still awaiting
+        // their buffers; `resetOneShots` bumps the generation and both are dropped before they
+        // start. One death voice, measured on hardware in
+        // `audio-actions-browser.ts --case death`. Reordering the flush, or removing this reset,
+        // would double it.
         this.deps.engine.resetOneShots();
         this.nextCreatureCallMs = 0;
         this.play("combat.player_death");
@@ -187,17 +196,6 @@ export class CorealmAudioBridge implements TickSystem {
         return;
       default:
         return;
-    }
-  }
-
-  handleCombatHits(hits: readonly CombatHit[]): void {
-    for (const hit of hits) {
-      if (hit.attacker === "enemy") {
-        // `player.died` is the one canonical death edge, so a lethal hit never sounds twice.
-        if (hit.hit && hit.damage > 0) this.play("combat.player_hit");
-        continue;
-      }
-      this.deps.director.observeCombatHit(hit);
     }
   }
 
