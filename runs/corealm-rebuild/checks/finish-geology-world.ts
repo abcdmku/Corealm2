@@ -9,14 +9,15 @@ import {assertGameplayHardware} from './finish-gameplay-renderer.js';
 const id=process.argv[2]??'sunder_ledge';assert(['sunder_ledge','scree_slide'].includes(id));
 const catalogue=process.argv.includes('--catalog')?process.argv[process.argv.indexOf('--catalog')+1]!:'art/rebuild/candidates/finish-structures/world-geology-aliases.json';
 const catalog=JSON.parse(await readFile(catalogue,'utf8'));
+const url=process.argv.includes('--url')?process.argv[process.argv.indexOf('--url')+1]!:(process.env.LAB_URL??'http://127.0.0.1:4175');
 const hash=async(path:string)=>createHash('sha256').update(await readFile(path)).digest('hex');
-const generator=catalog.generator??'tools/build-corealm-geology.ts';
+const generator=String(catalog.pack?.source??catalog.generator??'tools/build-corealm-geology.ts').replace(/^npx tsx /,'');
 assert.equal(await hash(generator),catalog.generatorSha256);
 const paths=[generator,'game/src/content/regions.ts','game/src/world/regionBuilder.ts','game/src/render/corealmSurfaceMaterials.ts','game/src/app/worldSpec.ts','game/src/app/worldSurface.ts','game/src/render/scene.ts','game/src/systems/movement.ts','runs/corealm-rebuild/checks/finish-geology-world.ts',catalogue];
 const sources=await Promise.all(paths.map(async path=>({path,sha256:await hash(path)})));
 const out=`test-results/finish-geology-world/${id}/${new Date().toISOString().replace(/[:.]/g,'-')}`;await mkdir(out,{recursive:true});
 const clear=installTestDeadline(`Candidate ${id} world landing`,60000);
-const driver=new GameDriver({url:'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
+const driver=new GameDriver({url,close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
 const report:any={passed:false,visualAccepted:false,id,sources,candidateAliases:catalog.candidateAliases,shots:[],scope:'World terrain embedding/landing exception after compact native gallery review. Legacy semantic asset IDs are browser-only aliases for the exact candidate GLBs.'};
 try{
  await driver.launch();await installAssetCandidates(driver.page!,catalogue);await driver.open(30000,'/index.html');const page=driver.page!;
