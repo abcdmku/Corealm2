@@ -41,7 +41,10 @@ describe("traversable ground", () => {
       expect(sample.visualBiome).toBe(site.biomeId);
     }
     scene.clear();
-  });
+    // Builds the whole authored world twice over: terrain lattice, road grading, water and 100+
+    // coastal spawn samples. 2.9 s alone, 5.8 s in a full parallel suite run, which times out at
+    // the 5 s default and made this look order-dependent. The assertions are unchanged.
+  }, 30000);
   it.each([40, 50, 58])("bakes a complete route up and down a %i degree slope", (angle) => {
     const geometry = new THREE.PlaneGeometry(20, 12, 20, 12);
     geometry.rotateX(-Math.PI / 2);
@@ -58,6 +61,14 @@ describe("traversable ground", () => {
       expect(route?.partial).toBe(false);
     }
     expect(PLAYER_SLOPES.maxAscentAngle).toBe(NAV_CONFIG.walkableSlopeAngle);
+    // Recast's ledge filter drops a span when the SPREAD between its lowest and highest
+    // 4-neighbour exceeds walkableClimb, and a continuous face rises once on each side, so the
+    // climb allowance has to cover twice the per-cell rise at the declared slope limit. The world
+    // uses navigation.ts's LARGE_WORLD_CELL_SIZE of 0.45 m. Raising the climb far beyond this
+    // instead merges short stair flights into the ground span, which is the Rootfall regression.
+    const perCell = 0.45 * Math.tan(NAV_CONFIG.walkableSlopeAngle * Math.PI / 180);
+    expect(NAV_CONFIG.walkableClimb * NAV_CONFIG.ch).toBeGreaterThanOrEqual(2 * perCell);
+    expect(NAV_CONFIG.walkableClimb * NAV_CONFIG.ch).toBeLessThan(2 * perCell + 0.4);
     geometry.dispose();
   });
 

@@ -53,6 +53,36 @@ describe("traversal presentation paths", () => {
       expect(sampleTraversal(obstacle, [0, 0, 0], [metres, 3, 0], 1).curtainOpacity).toBe(1);
     }
   });
+  it("covers a concealed crossing in the same half second whatever its authored duration", () => {
+    for (const durationMs of [2000, 3000, 3500, 6000]) {
+      const long: SemanticEntity = { ...obstacle,
+        obstacle: { ...obstacle.obstacle!, exitPosition: [140, 3, 0], durationMs } };
+      const opaqueAt = (() => {
+        for (let step = 0; step <= 1000; step++) {
+          if (sampleTraversal(long, [0, 0, 0], [140, 3, 0], step / 1000).curtainOpacity >= 1) return step / 1000;
+        }
+        return 1;
+      })();
+      expect(opaqueAt * durationMs).toBeGreaterThan(400);
+      expect(opaqueAt * durationMs).toBeLessThan(600);
+    }
+  });
+
+  it("steps a concealed crossing onto its authored entrance before the cover closes", () => {
+    const distant: SemanticEntity = { ...obstacle, interactionPosition: [1.5, -5.77, 0],
+      obstacle: { ...obstacle.obstacle!, exitPosition: [140, 3, 0], durationMs: 6000 } };
+    const at = (p: number) => sampleTraversal(distant, [0, 0, 0], [140, 3, 0], p);
+    expect(at(0).position).toEqual([0, 0, 0]);
+    // A buried entity origin must not drag the visible actor under the ground it stands on.
+    expect(at(0.02).position[1]).toBe(0);
+    expect(at(1).position[1]).toBe(0);
+    expect(at(0.02).position[0]).toBeGreaterThan(0);
+    expect(at(0.02).position[0]).toBeLessThan(1.5);
+    // The authored entrance is reached by the time the cover is opaque, and never overshot.
+    expect(at(at(0.5).curtainOpacity >= 1 ? 0.5 : 1).position[0]).toBeCloseTo(1.5, 6);
+    expect(at(1).position[0]).toBeCloseTo(1.5, 6);
+  });
+
   it("reverses facing and landing for a reverse crossing", () => {
     const sample = sampleTraversal(obstacle, [2, 0, 0], [0, 0, 0], 1);
     expect(sample.position[0]).toBe(0);

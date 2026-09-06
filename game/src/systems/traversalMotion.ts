@@ -34,9 +34,25 @@ export function sampleTraversal(entity: SemanticEntity, entry: Vec3, exit: Vec3,
   const authoredExit = reverse ? first : second;
   // A distant landing is a passage transition until an actual continuous obstacle is authored.
   const concealed = kind === "passage" || distance > Math.min(6, seconds * 2) || gap(exit, authoredExit) > 0.25;
+  // The cover is a fixed 0.15 s beat plus a 0.4 s fade, expressed as a fraction of this
+  // obstacle's own duration. As a fixed progress span it was 0.18 of the activity, which is
+  // 0.36 s on the 2 s Brook Planks but 1.08 s on the 6 s Broken Ledge - over a second of a
+  // motionless actor in plain view before the screen covered the crossing.
+  const coverHold = Math.min(0.3, 0.15 / seconds);
+  const coverFade = Math.min(0.4, 0.4 / seconds);
+  const covered = coverHold + coverFade;
   const travel = smooth((p - 0.16) / 0.70);
   const approach = smooth(p / 0.16);
-  const position: [number, number, number] = concealed ? [...entry] : [
+  // A concealed crossing still steps onto its authored entrance before the cover closes, so the
+  // visible beat is the start of a real move rather than an idle stand followed by a fade. Only
+  // in XZ: an authored obstacle's entity origin is not always a stance — the Fallen Ash is a
+  // 10.7 m beam whose origin sits 5.77 m under the ground its drawn end rests on — and the
+  // player is already standing on the surface this beat is drawn against.
+  const position: [number, number, number] = concealed ? [
+    entry[0] + (contactEntry[0] - entry[0]) * smooth(p / covered),
+    entry[1],
+    entry[2] + (contactEntry[2] - entry[2]) * smooth(p / covered),
+  ] : [
     p < 0.16 ? entry[0] + (contactEntry[0] - entry[0]) * approach : contactEntry[0] + (exit[0] - contactEntry[0]) * travel,
     p < 0.16 ? entry[1] + (contactEntry[1] - entry[1]) * approach : contactEntry[1] + (exit[1] - contactEntry[1]) * travel,
     p < 0.16 ? entry[2] + (contactEntry[2] - entry[2]) * approach : contactEntry[2] + (exit[2] - contactEntry[2]) * travel,
@@ -60,7 +76,7 @@ export function sampleTraversal(entity: SemanticEntity, entry: Vec3, exit: Vec3,
   }
   return { position, facingRad: Math.atan2(exit[0] - entry[0], exit[2] - entry[2]), kind,
     phase: p < 0.12 ? "entry" : p < 0.22 ? "contact" : p < 0.86 ? "travel" : "recovery",
-    progress: p, concealed, curtainOpacity: concealed ? smooth((p - 0.04) / 0.14) : 0,
+    progress: p, concealed, curtainOpacity: concealed ? smooth((p - coverHold) / coverFade) : 0,
     ...(support ? { support } : {}) };
 }
 

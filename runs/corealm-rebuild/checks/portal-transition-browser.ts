@@ -6,7 +6,7 @@ import {installTestDeadline} from '../../../tools/lib/deadline.js';
 import {CAMERA} from '../../../game/src/app/config.js';
 const out='test-results/portal-transition-browser';await mkdir(out,{recursive:true});
 const deadline=installTestDeadline('Portal transition browser',55000);
-const driver=new GameDriver({url:'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
+const driver=new GameDriver({url:process.env.COREALM_URL ?? 'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
 const report:any={passed:false,shots:[]};
 try{
  await driver.launch();await driver.open(24000,'/index.html?mode=combat&portal=1');const page=driver.page!;

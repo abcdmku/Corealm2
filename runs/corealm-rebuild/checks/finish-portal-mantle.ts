@@ -7,7 +7,7 @@ import { portalMantleSolid } from "../../../game/src/world/portalMantle.js";
 const out = "test-results/finish-portal-mantle";
 await mkdir(out, { recursive: true });
 const clear = installTestDeadline("Production portal mantle", 55_000);
-const driver = new GameDriver({ url: "http://127.0.0.1:4175", close: async () => {} }, {
+const driver = new GameDriver({ url: process.env.COREALM_URL ?? "http://127.0.0.1:4175", close: async () => {} }, {
   headless: true, viewport: { width: 1440, height: 900 },
   browserArgs: ["--use-angle=d3d11", "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"],
 });

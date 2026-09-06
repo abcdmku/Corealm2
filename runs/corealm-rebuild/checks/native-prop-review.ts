@@ -8,7 +8,7 @@ const args=process.argv.slice(2);
 let out='test-results/native-prop-review';
 let catalog:string|undefined;
 const selections:string[]=[];
-let url=process.env.LAB_URL??'http://127.0.0.1:4175';
+let url=process.env.LAB_URL??process.env.COREALM_URL??'http://127.0.0.1:4175';
 for(let index=0;index<args.length;index+=1){
  const arg=args[index]!;
  if(arg==='--url'){

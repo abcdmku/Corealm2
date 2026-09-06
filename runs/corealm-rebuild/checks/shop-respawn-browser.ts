@@ -42,7 +42,7 @@ let requestsAtReload = new Set<Request>();
 const intentionalReloadAborts: string[] = [];
 const unexpectedRequestErrors: string[] = [];
 mkdirSync(out, { recursive: true });
-const driver = new GameDriver({ url: "http://127.0.0.1:4175", close: async () => {} }, {
+const driver = new GameDriver({ url: process.env.COREALM_URL ?? "http://127.0.0.1:4175", close: async () => {} }, {
   headless: true,
   viewport: { width: 1440, height: 900 },
   browserArgs: ["--use-angle=d3d11", "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"],
@@ -383,7 +383,7 @@ try {
   page.setDefaultTimeout(4_000);
   page.setDefaultNavigationTimeout(4_000);
   const route = scenario === "shop" ? "/index.html?mode=combat&shop=1" : "/index.html";
-  await bounded("open game", () => page.goto(`http://127.0.0.1:4175${route}`, { waitUntil: "domcontentloaded", timeout: 4_000 }));
+  await bounded("open game", () => page.goto(`${process.env.COREALM_URL ?? "http://127.0.0.1:4175"}${route}`, { waitUntil: "domcontentloaded", timeout: 4_000 }));
   await waitUntil("game ready", () => page.evaluate(() => window.__gameDebug?.getState().ready === true), scenario === "shop" ? 20_000 : 30_000);
   report.renderer = await bounded("hardware renderer", () => page.evaluate(() => {
     const gl = document.querySelector("canvas")?.getContext("webgl2");
