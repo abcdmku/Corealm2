@@ -23,7 +23,7 @@ assert(site, "--site requires one exact mine ID");
 const out = options["--out"] ?? `test-results/finish-mining/views/${site.id}`;
 await mkdir(out, { recursive: true });
 const deadline = installTestDeadline("Mine composition review", 59_500);
-const driver = new GameDriver({ url: options["--url"] ?? "http://127.0.0.1:4175", close: async () => {} }, {
+const driver = new GameDriver({ url: options["--url"] ?? `http://127.0.0.1:${process.env.PORT ?? 4175}`, close: async () => {} }, {
   headless: true, viewport: { width: 1440, height: 900 },
   browserArgs: ["--use-angle=d3d11", "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"],
 });
