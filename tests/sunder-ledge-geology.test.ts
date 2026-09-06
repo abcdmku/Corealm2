@@ -235,7 +235,11 @@ describe("authored agility geology source generation", () => {
     sourceDocument = await new NodeIO().readBinary(generatedAssets.get(SOURCE_ID)!.glb);
     generatedDocuments = new Map(await Promise.all(REPLACEMENTS.map(async ({ id }) =>
       [id, await new NodeIO().readBinary(generatedAssets.get(id)!.glb)] as const)));
-  });
+    // Regenerating every geology asset takes about 11 s alone and roughly twice that when the whole
+    // suite is competing for cores. On the default hook timeout that contention marked this setup
+    // failed and reported the 21 assertions below as SKIPPED — a run could look green while none of
+    // the provenance checks had executed. The budget is for scheduling noise, not for slow geometry.
+  }, 180_000);
 
   it("regenerates every served geology and ground-ore asset byte for byte from its owning generator", async () => {
     const manifest = JSON.parse(await readFile(path.join(repoRoot, "game/public/assets/manifest.json"), "utf8")) as {
