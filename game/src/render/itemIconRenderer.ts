@@ -834,6 +834,12 @@ export function prepareItemIconAsset(
   }
   if (presentation === "paired-hands") object = stagePairedHands(object, part.assetId);
   if (part.scale !== undefined) object.scale.multiplyScalar(part.scale);
+  if (part.wornRest) {
+    // A skinned outfit part already carries its bind pose, so it lands on the body at the origin.
+    // An additive tier piece is authored around its carrier joint and has to be put back there.
+    object.position.set(...part.wornRest.position);
+    object.rotation.set(...part.wornRest.rotation);
+  }
   object.traverse((child) => {
     const mesh = child as THREE.Mesh;
     if (!mesh.isMesh) return;

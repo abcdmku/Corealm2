@@ -768,6 +768,39 @@ function socketAt(assetId: string, requested: number): WeaponSocket | null {
   };
 }
 
+/**
+ * Where a worn trim piece sits in the character's own space, for a caller that has no skeleton.
+ *
+ * The rig parents these to a bone, so `socketFor` is all it needs. The inventory icon renderer
+ * draws parts at the origin instead, which is right for a skinned outfit piece in its bind pose but
+ * puts a neck piece and a hip piece on top of each other on the floor. These are the rest
+ * transforms of the two carrier bones on base_male.glb, composed with the socket that cancels
+ * their tilt, so the same piece lands where it is worn.
+ */
+const TRIM_BONE_REST: Readonly<Record<string, { position: readonly [number, number, number] }>> = {
+  spine_03: { position: [0, 1.311, 0.007] },
+  pelvis: { position: [0, 0.949, -0.043] },
+};
+
+/** The body-space transform of a worn trim piece, or null for anything held in a hand. */
+export function wornTrimRestTransform(assetId: string): {
+  position: readonly [number, number, number];
+  rotation: readonly [number, number, number];
+} | null {
+  const parts = socketPartsFor(assetId);
+  const rest = parts && TRIM_BONE_REST[parts.bone];
+  if (!parts || !rest) return null;
+  return {
+    position: [
+      round3(rest.position[0] + parts.fist[0]),
+      round3(rest.position[1] + parts.fist[1]),
+      round3(rest.position[2] + parts.fist[2]),
+    ],
+    // The socket already cancels the bone's rest tilt, so an upright piece stays upright.
+    rotation: [0, 0, 0],
+  };
+}
+
 /** The socket at the asset's own fit scale. Prefer `weaponAttachment` when the part is scaled. */
 export function weaponSocket(assetId: string): WeaponSocket | null {
   return socketAt(assetId, 1);

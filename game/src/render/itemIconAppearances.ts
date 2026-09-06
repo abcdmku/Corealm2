@@ -11,7 +11,7 @@ import { ALL_ITEMS } from "../content/items.js";
 import { TREE_SPECIES } from "../content/treeSpecies.js";
 import {
   gatheringToolAppearance, gearAppearanceParts, gearAppearancePartsWithCharge,
-  type GearAppearance,
+  wornTrimRestTransform, type GearAppearance,
 } from "./equipmentVisuals.js";
 import { paletteForTier } from "./materials.js";
 import { fishingRodAssetId } from "./proceduralGear.js";
@@ -53,6 +53,12 @@ export interface ItemIconAssetPart {
   scale?: number;
   /** Exact production equipment treatment, including its charged or depleted crystal. */
   gearAppearance?: GearAppearance;
+  /**
+   * Where a worn piece sits in the character's own space. Set for the additive armour tier pieces,
+   * which are authored around a torso or hip joint rather than in the bind pose the skinned outfit
+   * parts already carry, so without it a neck piece and a hip piece stack up at the origin.
+   */
+  wornRest?: { position: readonly [number, number, number]; rotation: readonly [number, number, number] };
 }
 
 export interface ItemIconPrimitivePart {
@@ -119,9 +125,11 @@ function primitive(
 }
 
 function equipmentPart(appearance: GearAppearance): ItemIconAssetPart {
+  const wornRest = wornTrimRestTransform(appearance.assetId);
   return {
     kind: "asset", assetId: appearance.assetId, gearAppearance: appearance,
     ...(appearance.scale === undefined ? {} : { scale: appearance.scale }),
+    ...(wornRest === null ? {} : { wornRest }),
   };
 }
 
