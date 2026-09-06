@@ -1,0 +1,509 @@
+{
+  "packs": [
+    {
+      "id": "corealm-rpg-dungeon-skeletons-demo",
+      "name": "Corealm RPG derivatives — Dungeon Skeletons Demo",
+      "author": "Polygon Blacksmith",
+      "source": "https://assetstore.unity.com/packages/3d/characters/creatures/dungeon-skeletons-demo-71087",
+      "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+      "archiveSha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+      "assetStoreId": "71087",
+      "sourceArchive": "Dungeon Skeletons Demo.unitypackage",
+      "upstreamPackId": "dungeon-skeletons-demo",
+      "derivation": "Corealm geometry, proportion, equipment and animation edits. Source rights retained; per-asset sourceProvenance lists all combined sources and modifications."
+    }
+  ],
+  "sharedTextures": [
+    {
+      "file": "textures/imported/326da2b402552fe019aa519436c76d2260aee56678c863bd36a2cf39dd4ecc60.png",
+      "bytes": 139348,
+      "sha256": "326da2b402552fe019aa519436c76d2260aee56678c863bd36a2cf39dd4ecc60",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b.png",
+      "bytes": 135177,
+      "sha256": "40dca59b0cc5d2b08ee76d5b07b4e08c5603395c21b1469bfc0b581c1583122b",
+      "mimeType": "image/png"
+    }
+  ],
+  "files": {
+    "creature_skeleton_soldier": "models/creature/creature_skeleton_soldier.glb",
+    "creature_skeleton_archer": "models/creature/creature_skeleton_archer.glb",
+    "creature_skeleton_mage": "models/creature/creature_skeleton_mage.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_skeleton_soldier",
+      "file": "models/creature/creature_skeleton_soldier.glb",
+      "candidateFile": "models/creature/creature_skeleton_soldier.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "skeleton soldier",
+      "tags": [
+        "creature",
+        "rpg",
+        "skeleton_soldier"
+      ],
+      "bytes": 584320,
+      "sha256": "858e5d64f151e7f4bd1a0d440f20d5e24c0a3a53c43b94851236bfb9579218fe",
+      "size": {
+        "x": 1.2294581210833742,
+        "y": 1.5959422176642555,
+        "z": 0.8351349091732603
+      },
+      "base": {
+        "x": -0.872976577198899,
+        "y": 0.0032741110492161326,
+        "z": -0.387269709140566
+      },
+      "groundY": 0.0032741110492161326,
+      "triangles": 1150,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_soldier_DS_Skeleton_standard",
+        "animal_rpg_skeleton_soldier_DS_equipment_standard"
+      ],
+      "walkClipSeconds": 1.1666666269302368,
+      "runClipSeconds": 0.7933332920074463,
+      "attackSeconds": 1.5,
+      "contactNormalized": 0.4,
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "mesh": "models/DungeonSkeleton_demo.FBX",
+        "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0.",
+        "hitRevision": {
+          "kind": "clip-only",
+          "baselineSha256": "b322df501fd9e916fba28eb1e6b067beb7783b142f586c1a85e973d9cd530426",
+          "candidateSha256": "858e5d64f151e7f4bd1a0d440f20d5e24c0a3a53c43b94851236bfb9579218fe",
+          "description": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal"
+        }
+      },
+      "metadata": {
+        "family": "skeleton",
+        "style": "source-onehand-soldier",
+        "heightM": 1.8143914708695248,
+        "dimensionsM": {
+          "width": 0.6257249590048719,
+          "height": 1.8143914708695248,
+          "depth": 0.7927388546838348
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": -1.4268100589909238e-16,
+        "rig": "Original Dungeon Skeletons biped skin, bind matrices and weights",
+        "sourceSkinned": true,
+        "boneCount": 30,
+        "sourceVertices": 3606,
+        "attackContactPhase": 0.4,
+        "attackContactStatus": "Provisional contact phase pending production review of original Attack take",
+        "textureBindings": [
+          {
+            "materialName": "DS_Skeleton_standard",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoSkeleton.png",
+            "flipY": true
+          },
+          {
+            "materialName": "DS_equipment_standard",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoEquipment.png",
+            "flipY": true
+          }
+        ],
+        "provenance": {
+          "publisher": "Polygon Blacksmith",
+          "package": "Dungeon Skeletons Demo.unitypackage",
+          "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "mesh": "models/DungeonSkeleton_demo.FBX",
+          "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0."
+        },
+        "animationProvenance": {
+          "Idle": "Original DS_onehand_idle_A.FBX take",
+          "Walk": "Original DS_onehand_walk.FBX take",
+          "Attack": "Original DS_onehand_attack_A.FBX take",
+          "Run": "PROPOSAL: original Walk retimed to 68% duration; no authored run in demo",
+          "Hit": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "HitLeft": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "HitRight": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "Death": "PROPOSAL: authored backward root collapse over source idle pose; no authored death in demo"
+        },
+        "acceptance": "Source candidate. Original mesh/material/rig preserved; derived motions need production review. Not accepted.",
+        "helmetModification": {
+          "removedHornTriangles": 52,
+          "removedHornComponents": [
+            {
+              "triangles": 26,
+              "min": [
+                -0.1815052598784736,
+                1.6647911761140672,
+                -0.03819738445343579
+              ],
+              "max": [
+                -0.049025541320902345,
+                1.7632333311028443,
+                0.10698005429677825
+              ]
+            },
+            {
+              "triangles": 26,
+              "min": [
+                0.04902742550705219,
+                1.664791171827675,
+                -0.03819736299599851
+              ],
+              "max": [
+                0.18150714802322265,
+                1.7632333167036884,
+                0.10698010579455214
+              ]
+            }
+          ],
+          "retainedHelmetBowlTriangles": 92,
+          "method": "Only the two reviewed disconnected 26-triangle source helmet horns removed. Retained source attributes and all rig/clip data unchanged."
+        },
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-joint-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        },
+        "revision": "retained-skeleton-hit-round1"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 1.48327,
+      "impliedRunMps": 2.18128,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_skeleton_archer",
+      "file": "models/creature/creature_skeleton_archer.glb",
+      "candidateFile": "models/creature/creature_skeleton_archer.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "skeleton archer",
+      "tags": [
+        "creature",
+        "rpg",
+        "skeleton_archer"
+      ],
+      "bytes": 681044,
+      "sha256": "3ed625f29179d7328a468d43cd5b55ee5db9e16c6d09236e17b1545b6db3a006",
+      "size": {
+        "x": 0.8372029468515483,
+        "y": 1.6491435861654662,
+        "z": 0.8129906793584354
+      },
+      "base": {
+        "x": -0.45772806064275917,
+        "y": 0.0032741110492161326,
+        "z": -0.387269709140566
+      },
+      "groundY": 0.0032741110492161326,
+      "triangles": 1844,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_archer_DS_Skeleton_standard",
+        "animal_rpg_skeleton_archer_DS_equipment_standard",
+        "animal_rpg_skeleton_archer_Variant_oiled_yew",
+        "animal_rpg_skeleton_archer_Variant_aged_brass",
+        "animal_rpg_skeleton_archer_Variant_worn_leather",
+        "animal_rpg_skeleton_archer_Variant_bowstring",
+        "animal_rpg_skeleton_archer_Variant_arrowhead"
+      ],
+      "walkClipSeconds": 1.1666666269302368,
+      "runClipSeconds": 0.7933332920074463,
+      "attackSeconds": 1.55,
+      "contactNormalized": 0.5,
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "mesh": "models/DungeonSkeleton_demo.FBX",
+        "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0.",
+        "hitRevision": {
+          "kind": "clip-only",
+          "baselineSha256": "490c761d848958e18bec8350949b990371e2782702a17a99ed9983700622f524",
+          "candidateSha256": "3ed625f29179d7328a468d43cd5b55ee5db9e16c6d09236e17b1545b6db3a006",
+          "description": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal"
+        }
+      },
+      "metadata": {
+        "family": "skeleton",
+        "style": "source-archer",
+        "heightM": 1.8143914708695248,
+        "dimensionsM": {
+          "width": 0.5951306069202851,
+          "height": 1.8143914708695248,
+          "depth": 0.4436490436519936
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": -1.4268100589909238e-16,
+        "rig": "Original Dungeon Skeletons biped skin, bind matrices and weights",
+        "sourceSkinned": true,
+        "boneCount": 30,
+        "sourceVertices": 3606,
+        "attackContactPhase": 0.5,
+        "attackContactStatus": "Authored nocked arrow release and string snap at phase .5; projectile belongs to gameplay.",
+        "textureBindings": [
+          {
+            "materialName": "DS_Skeleton_standard",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoSkeleton.png",
+            "flipY": true
+          },
+          {
+            "materialName": "DS_equipment_standard",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoEquipment.png",
+            "flipY": true
+          }
+        ],
+        "provenance": {
+          "publisher": "Polygon Blacksmith",
+          "package": "Dungeon Skeletons Demo.unitypackage",
+          "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "mesh": "models/DungeonSkeleton_demo.FBX",
+          "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0."
+        },
+        "animationProvenance": {
+          "Idle": "Original DS_onehand_idle_A.FBX take; Corealm-derived role arm poses over source rig.",
+          "Walk": "Original DS_onehand_walk.FBX take; Corealm-derived role arm poses over source rig.",
+          "Attack": "Corealm-derived arm IK over original source locomotion. Role Attack is authored on source idle rig pose. Original melee attack is replaced, not renamed.",
+          "Run": "PROPOSAL: original Walk retimed to 68% duration; no authored run in demo; Corealm-derived role arm poses over source rig.",
+          "Hit": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "HitLeft": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "HitRight": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "Death": "PROPOSAL: authored backward root collapse over source idle pose; no authored death in demo"
+        },
+        "acceptance": "Source candidate. Original mesh/material/rig preserved; derived motions need production review. Not accepted.",
+        "role": "archer",
+        "removedSourceEquipmentTriangles": 88,
+        "attackContactNode": "ArcherRelease",
+        "equipmentProvenance": "Corealm-authored bone-attached equipment over original Dungeon Skeleton body, skin and UVs.",
+        "roleAnimationProvenance": "Corealm-derived arm IK over original source locomotion. Role Attack is authored on source idle rig pose. Original melee attack is replaced, not renamed.",
+        "helmetModification": {
+          "removedHornTriangles": 52,
+          "removedHornComponents": [
+            {
+              "triangles": 26,
+              "min": [
+                -0.1815052598784736,
+                1.6647911761140672,
+                -0.03819738445343579
+              ],
+              "max": [
+                -0.049025541320902345,
+                1.7632333311028443,
+                0.10698005429677825
+              ]
+            },
+            {
+              "triangles": 26,
+              "min": [
+                0.04902742550705219,
+                1.664791171827675,
+                -0.03819736299599851
+              ],
+              "max": [
+                0.18150714802322265,
+                1.7632333167036884,
+                0.10698010579455214
+              ]
+            }
+          ],
+          "retainedHelmetBowlTriangles": 92,
+          "method": "Only the two reviewed disconnected 26-triangle source helmet horns removed. Retained source attributes and all rig/clip data unchanged."
+        },
+        "retainedSourceVertices": 3186,
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-joint-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        },
+        "revision": "retained-skeleton-hit-round1"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 1.48327,
+      "impliedRunMps": 2.18128,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_skeleton_mage",
+      "file": "models/creature/creature_skeleton_mage.glb",
+      "candidateFile": "models/creature/creature_skeleton_mage.glb",
+      "pack": "corealm-rpg-dungeon-skeletons-demo",
+      "category": "character",
+      "is": "skeleton mage",
+      "tags": [
+        "creature",
+        "rpg",
+        "skeleton_mage"
+      ],
+      "bytes": 614884,
+      "sha256": "05f2a5f336da3d06531b5ad10f809f54564cd2057d9a7ba56b16ea992498ae7b",
+      "size": {
+        "x": 0.8587404611245357,
+        "y": 1.944003111105155,
+        "z": 0.8129906793584354
+      },
+      "base": {
+        "x": -0.46579720188976476,
+        "y": 0.0032741110492161326,
+        "z": -0.387269709140566
+      },
+      "groundY": 0.0032741110492161326,
+      "triangles": 2878,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_skeleton_mage_DS_Skeleton_standard",
+        "animal_rpg_skeleton_mage_DS_equipment_standard",
+        "animal_rpg_skeleton_mage_Variant_indigo_wool",
+        "animal_rpg_skeleton_mage_Variant_cloth_seams",
+        "animal_rpg_skeleton_mage_Variant_oiled_yew",
+        "animal_rpg_skeleton_mage_Variant_aged_brass",
+        "animal_rpg_skeleton_mage_Variant_amethyst"
+      ],
+      "walkClipSeconds": 1.1666666269302368,
+      "runClipSeconds": 0.7933332920074463,
+      "attackSeconds": 1.55,
+      "contactNormalized": 0.56,
+      "sourceProvenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "mesh": "models/DungeonSkeleton_demo.FBX",
+        "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0.",
+        "hitRevision": {
+          "kind": "clip-only",
+          "baselineSha256": "68d88c7916a4892cf260f591e161100d12e72d909c0b1f04bbf74ca040658792",
+          "candidateSha256": "05f2a5f336da3d06531b5ad10f809f54564cd2057d9a7ba56b16ea992498ae7b",
+          "description": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal"
+        }
+      },
+      "metadata": {
+        "family": "skeleton",
+        "style": "source-mage",
+        "heightM": 1.8887707137955683,
+        "dimensionsM": {
+          "width": 0.6666243666917456,
+          "height": 1.8887707137955683,
+          "depth": 0.388803634399952
+        },
+        "forwardAxis": "+Z",
+        "upAxis": "+Y",
+        "groundY": -1.4268100589909238e-16,
+        "rig": "Original Dungeon Skeletons biped skin, bind matrices and weights",
+        "sourceSkinned": true,
+        "boneCount": 30,
+        "sourceVertices": 3606,
+        "attackContactPhase": 0.56,
+        "attackContactStatus": "Authored forward casting hand extension at phase .56; spell belongs to gameplay.",
+        "textureBindings": [
+          {
+            "materialName": "DS_Skeleton_standard",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoSkeleton.png",
+            "flipY": true
+          },
+          {
+            "materialName": "DS_equipment_standard",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoEquipment.png",
+            "flipY": true
+          }
+        ],
+        "provenance": {
+          "publisher": "Polygon Blacksmith",
+          "package": "Dungeon Skeletons Demo.unitypackage",
+          "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+          "license": "Standard Unity Asset Store EULA; local entitlement cache",
+          "mesh": "models/DungeonSkeleton_demo.FBX",
+          "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0."
+        },
+        "animationProvenance": {
+          "Idle": "Original DS_onehand_idle_A.FBX take; Corealm-derived role arm poses over source rig.",
+          "Walk": "Original DS_onehand_walk.FBX take; Corealm-derived role arm poses over source rig.",
+          "Attack": "Corealm-derived arm IK over original source locomotion. Role Attack is authored on source idle rig pose. Original melee attack is replaced, not renamed.",
+          "Run": "PROPOSAL: original Walk retimed to 68% duration; no authored run in demo; Corealm-derived role arm poses over source rig.",
+          "Hit": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "HitLeft": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "HitRight": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+          "Death": "PROPOSAL: authored backward root collapse over source idle pose; no authored death in demo"
+        },
+        "acceptance": "Source candidate. Original mesh/material/rig preserved; derived motions need production review. Not accepted.",
+        "role": "mage",
+        "removedSourceEquipmentTriangles": 232,
+        "attackContactNode": "MageCast",
+        "equipmentProvenance": "Corealm-authored bone-attached equipment over original Dungeon Skeleton body, skin and UVs.",
+        "roleAnimationProvenance": "Corealm-derived arm IK over original source locomotion. Role Attack is authored on source idle rig pose. Original melee attack is replaced, not renamed.",
+        "retainedSourceVertices": 2910,
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-joint-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        },
+        "revision": "retained-skeleton-hit-round1"
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 1.48327,
+      "impliedRunMps": 2.18128,
+      "locomotionPolicy": "speed-matched"
+    }
+  ]
+}
