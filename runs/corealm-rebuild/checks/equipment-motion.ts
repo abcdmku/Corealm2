@@ -10,7 +10,7 @@ assert(["male", "female"].includes(body));
 assert(["knight", "ranger", "mixed"].includes(kit));
 const out = `test-results/equipment-motion/${body}-${kit}`;
 await mkdir(out, { recursive: true });
-const driver = new GameDriver({ url: process.env.COREALM_URL ?? "http://127.0.0.1:4175", close: async () => {} }, {
+const driver = new GameDriver({ url: process.env.COREALM_URL ?? process.env.EQUIPMENT_REVIEW_URL ?? "http://127.0.0.1:4175", close: async () => {} }, {
   headless: true, viewport: { width: 1440, height: 900 },
   browserArgs: ["--use-angle=d3d11", "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"],
 });

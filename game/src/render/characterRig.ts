@@ -325,19 +325,23 @@ export interface WeaponSocketLike {
   scale: number;
 }
 
+/** Which base body an outfit part is resolved against. Every slot has a per-body mesh. */
+export type RigCharacterBody = "male" | "female";
+
 export interface GearVisualsPort {
-  gearAppearance(itemId: ItemId): GearAppearanceLike | null;
+  gearAppearance(itemId: ItemId, body?: RigCharacterBody): GearAppearanceLike | null;
   weaponSocket(assetId: string): WeaponSocketLike | null;
   readonly VISIBLE_EQUIP_SLOTS: readonly EquipSlot[];
   /**
    * Every part an item contributes. Tier 5 and 10 body pieces carry a pauldron as well as a chest,
    * so the silhouette grows with tier; `gearAppearance` returns only the first of them.
    */
-  gearAppearanceParts?(itemId: ItemId): readonly GearAppearanceLike[];
+  gearAppearanceParts?(itemId: ItemId, body?: RigCharacterBody): readonly GearAppearanceLike[];
   /** Resolves the current magic weapon and its built-in elemental socket state. */
   gearAppearancePartsWithCharge?(
     itemId: ItemId,
     charge: GearWeaponChargePresentationLike,
+    body?: RigCharacterBody,
   ): readonly GearAppearanceLike[];
   /** `weaponSocket` with the grip offset corrected for `appearance.scale`. Prefer it when present. */
   weaponAttachment?(appearance: GearAppearanceLike): WeaponSocketLike | null;
@@ -591,7 +595,7 @@ export class CharacterRig {
    * no duplicate transfer.
    */
   preloadGear(): void {
-    const ids = this.gear?.gearAssetIds?.(this.bodyAssetId.includes("female") ? "female" : "male");
+    const ids = this.gear?.gearAssetIds?.(this.characterBody());
     if (!ids || ids.length === 0) return;
     for (const assetId of ids) {
       // Individually, not `loadMany`: one missing id must not refuse the other seven.
@@ -942,12 +946,22 @@ export class CharacterRig {
   ): readonly GearAppearanceLike[] {
     const port = this.gear;
     if (!port) return [];
-    const charged = port.gearAppearancePartsWithCharge?.(itemId, charge);
+    // Every outfit slot has both a male and a female mesh, and `gearAssetIds` was already being
+    // warmed per body. Without passing the body here the resolver fell back to its male default,
+    // so a female player wore male-cut plate and hide: seen in the lab as identical female and
+    // male Cobalt captures, with `outfit_male_knight_*` in the female shard's layer list.
+    const body = this.characterBody();
+    const charged = port.gearAppearancePartsWithCharge?.(itemId, charge, body);
     if (charged) return charged;
-    const parts = port.gearAppearanceParts?.(itemId);
+    const parts = port.gearAppearanceParts?.(itemId, body);
     if (parts) return parts;
-    const single = port.gearAppearance(itemId);
+    const single = port.gearAppearance(itemId, body);
     return single ? [single] : [];
+  }
+
+  /** The body the rig was built with, which decides which outfit variant its slots resolve to. */
+  private characterBody(): RigCharacterBody {
+    return this.bodyAssetId.includes("female") ? "female" : "male";
   }
 
   /**

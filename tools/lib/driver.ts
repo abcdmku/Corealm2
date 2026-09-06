@@ -177,11 +177,20 @@ export class GameDriver {
     }, profile === "full");
   }
 
-  /** A stalled capture must fail within the lab feedback budget. */
+  /**
+   * A stalled capture must fail within the lab feedback budget.
+   *
+   * The budget stays 5 s. `COREALM_SCREENSHOT_TIMEOUT_MS` raises it for a run that shares the
+   * machine with other browser sessions: measured on this box with 35 Chromium processes and 73%
+   * CPU, one full-game capture took 26.6 s and still produced a correct image, so the 5 s ceiling
+   * was reporting contention rather than a stall. Nothing sets this by default.
+   */
   async screenshot(directory: string, name: string): Promise<string> {
     const file = path.join(directory, `${safeName(name)}.png`);
+    const budget = Number(process.env.COREALM_SCREENSHOT_TIMEOUT_MS ?? 5_000);
     await this.requirePage().screenshot({
-      path: file, type: "png", timeout: 5_000, animations: "disabled",
+      path: file, type: "png", timeout: Number.isFinite(budget) && budget > 0 ? budget : 5_000,
+      animations: "disabled",
     });
     return file;
   }

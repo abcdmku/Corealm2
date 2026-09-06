@@ -2,7 +2,7 @@
 
 These scripts were previously local files under ignored `test-results`. They are retained as source so a new worktree can repeat the corresponding checks. Evidence output remains ignored. Run them from the repository root with `npx tsx runs/corealm-rebuild/checks/<script>.ts`.
 
-Most scripts default to the stable server at port 4175 and take `COREALM_URL` (a few take `--url` or their own variable) to point somewhere else. `stable-server.mjs` reads `PORT`, so a worktree runs its own: `PORT=4189 node runs/corealm-rebuild/checks/stable-server.mjs`. It uses the real Vite game with HMR disabled. Do not start a competing server on a port another worktree already owns.
+Most scripts default to the stable server at port 4175 and take `COREALM_URL` to point somewhere else; a few take `--url` or their own variable, and the equipment scripts also still accept `EQUIPMENT_REVIEW_URL`. `stable-server.mjs` reads `PORT`, so a worktree runs its own: `PORT=4189 node runs/corealm-rebuild/checks/stable-server.mjs`. It uses the real Vite game with HMR disabled. Do not start a competing server on a port another worktree already owns.
 
 | Script | Scope / arguments |
 | --- | --- |
@@ -14,6 +14,11 @@ Most scripts default to the stable server at port 4175 and take `COREALM_URL` (a
 | `settlement-walk-browser.ts` | `--region <internal region ID>`, optional `--url` and `--trace-movement`. Normal interaction routes. Its 60 s budget allows 20 s for boot, which is not enough when the shipped navmesh artifact's fingerprint is stale and the runtime has to generate the mesh. |
 | `shop-respawn-browser.ts` | `--scenario shop` or `respawn`. Quotes/receipts or settlement/death/save lifecycle. |
 | `creature-review.ts` | Optional expansion species IDs. Gallery poses are visual diagnostics, not natural combat or translated gait proof. This older diagnostic needs a hard deadline before becoming an acceptance gate. |
+| `equipment-motion-matrix.ts` | One equipment-in-motion shard. `--body male|female --kit knight|ranger|mixed-a|mixed-b [--scene fishing] --url`. Real keyboard run, a real melee open, staff and wand casts, a real tree and ore click, hit and death previews, and a production save import that must restore the worn layers and both hands. |
+| `equipment-grips.ts` | Three tight views around the holding hand plus a figure, for each held item. `--body`, `--kit`, `--only`, `--out`, `--url`. |
+| `equipment-tiers.ts` | Front, back, close upper and close lower for each of the eight armour sets, weapons cleared. `--body`, `--only <set id>`, `--url`. |
+| `mineral-orbit-review.ts` | A specimen through N yaws at three pitches plus a top-down, in the production gallery. `--views`, `--catalog` to serve staged candidates, `--out`, `--url`. |
+| `icon-panel-audit.ts` | The DOM half of `npm run icons:verify` with no captures: the inventory, bank, equipment and shop panels must load only 48 px rasters with no SVG fallbacks, and the runtime must request nothing but game icons. The gate itself stays the gate; this exists because its 5 s capture budget reports contention on a shared machine. |
 | `stage-trees.ts` | Stages current oak/pine generator output under `test-results/tree-refinement/candidate` without public writes. |
 | `tree-browser-catalog.mjs` | Builds the browser candidate catalogue from the staged tree catalogue. Run with Node after staging. |
 

@@ -10,7 +10,7 @@ const report: any = { passed: false, visualAccepted: false, cases: [], setup: "L
 try {
   await driver.launch();
   const page = driver.page!;
-  await installAssetCandidates(page, "art/rebuild/candidates/2026-09-05/equipment-v1/held-catalogue.json");
+  await installAssetCandidates(page, "art/rebuild/candidates/2026-09-06/equipment-held-r3/held-catalogue.json");
   for (const body of ["male", "female"]) {
     await driver.open(25_000, `/index.html?mode=combat&forest=1&body=${body}`);
     await page.evaluate(async () => { const lab = (window as any).__featureLab; await lab.equipPlayer("offHand", null); await lab.equipPlayer("mainHand", "grithe_sword"); });

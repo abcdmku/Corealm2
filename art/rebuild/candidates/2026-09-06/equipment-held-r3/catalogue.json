@@ -1,0 +1,892 @@
+{
+  "status": "unreviewed-candidate",
+  "generatorSha256": "eca19637dc158d8256cc54b535eb7c92ca8bfa1e5571f1b810c6dccf3169f3fc",
+  "geometrySha256": "95b800e7e3e376b90dd02734233887775aaa54a405349c9fc995bdc47991439a",
+  "generator": "npx tsx tools/build-corealm-equipment.ts art/rebuild/candidates/2026-09-06/equipment-held-r3",
+  "pack": {
+    "id": "corealm-original-equipment",
+    "name": "Corealm original equipment",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/build-corealm-equipment.ts",
+    "generatorSha256": "eca19637dc158d8256cc54b535eb7c92ca8bfa1e5571f1b810c6dccf3169f3fc"
+  },
+  "assets": [
+    {
+      "id": "corealm_sword_1",
+      "file": "models/corealm/equipment/corealm_sword_1.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "sword",
+      "tags": [
+        "sword",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 146060,
+      "size": {
+        "x": 0.2769061326980591,
+        "y": 0.999999981790781,
+        "z": 0.0560000017285347
+      },
+      "base": {
+        "x": -0.13845306634902954,
+        "y": -0.23000000086426736,
+        "z": -0.02800000086426735
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "5f0a55210edfe713e051873c1e6ca548fbad2371891c3585ebe008118a49e8dd",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "corealm_sword_2",
+      "file": "models/corealm/equipment/corealm_sword_2.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "sword",
+      "tags": [
+        "sword",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 148196,
+      "size": {
+        "x": 0.3010334372520447,
+        "y": 1.090000015169382,
+        "z": 0.0560000017285347
+      },
+      "base": {
+        "x": -0.15051671862602234,
+        "y": -0.23000000086426736,
+        "z": -0.02800000086426735
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "e68c3e2fe7988dcdeed962233abf75c873774b81461ffc035104fcd95774edc1",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "corealm_sword_3",
+      "file": "models/corealm/equipment/corealm_sword_3.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "sword",
+      "tags": [
+        "sword",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 148384,
+      "size": {
+        "x": 0.32513636350631714,
+        "y": 1.1500000175535678,
+        "z": 0.0560000017285347
+      },
+      "base": {
+        "x": -0.16256818175315857,
+        "y": -0.23000000086426736,
+        "z": -0.02800000086426735
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "dc540db7697bfa2276dac22af98797233d53dc2d77cddfe4b4a0ea28537d2bad",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "corealm_sword_4",
+      "file": "models/corealm/equipment/corealm_sword_4.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "sword",
+      "tags": [
+        "sword",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 148100,
+      "size": {
+        "x": 0.3490915596485138,
+        "y": 1.1899999794065952,
+        "z": 0.0560000017285347
+      },
+      "base": {
+        "x": -0.1745457798242569,
+        "y": -0.23000000086426736,
+        "z": -0.02800000086426735
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "b5fe6b28706191c570f7272ca25b701925ad61c8f0032be9dd6043ff9bd423f6",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "corealm_dagger_1",
+      "file": "models/corealm/equipment/corealm_dagger_1.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "dagger",
+      "tags": [
+        "dagger",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 117668,
+      "size": {
+        "x": 0.10199999809265137,
+        "y": 0.4479999840259552,
+        "z": 0.04600000008940697
+      },
+      "base": {
+        "x": -0.050999999046325684,
+        "y": -0.18799999356269836,
+        "z": -0.023000000044703484
+      },
+      "animations": [],
+      "materials": [
+        "equipment-dagger-blade",
+        "equipment-dagger-metal",
+        "equipment-dagger-leather"
+      ],
+      "sha256": "1e027b8e776ba36fa14a72ce13271c428433377d0e4141c3d95d854469854f15",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "corealm_dagger_2",
+      "file": "models/corealm/equipment/corealm_dagger_2.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "dagger",
+      "tags": [
+        "dagger",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 125164,
+      "size": {
+        "x": 0.12999999523162842,
+        "y": 0.4699999988079071,
+        "z": 0.044569436460733414
+      },
+      "base": {
+        "x": -0.06499999761581421,
+        "y": -0.1899999976158142,
+        "z": -0.022284718230366707
+      },
+      "animations": [],
+      "materials": [
+        "equipment-dagger-blade",
+        "equipment-dagger-metal",
+        "equipment-dagger-leather"
+      ],
+      "sha256": "5fe91931cf0afe3eae367d794975d436e7f09d03282a881361eb8ce08b5bfe1b",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "corealm_dagger_3",
+      "file": "models/corealm/equipment/corealm_dagger_3.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "dagger",
+      "tags": [
+        "dagger",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 164292,
+      "size": {
+        "x": 0.12000000476837158,
+        "y": 0.4749999940395355,
+        "z": 0.050994934514164925
+      },
+      "base": {
+        "x": -0.04800000041723251,
+        "y": -0.1850000023841858,
+        "z": -0.024000000208616257
+      },
+      "animations": [],
+      "materials": [
+        "equipment-dagger-blade",
+        "equipment-dagger-metal",
+        "equipment-dagger-leather",
+        "equipment-dagger-gem"
+      ],
+      "sha256": "ebdef079901f3208ff8ed6a36e642d572e332217a4df0940fb4ebee32f301593",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "corealm_dagger_4",
+      "file": "models/corealm/equipment/corealm_dagger_4.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "dagger",
+      "tags": [
+        "dagger",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 180632,
+      "size": {
+        "x": 0.15800000727176666,
+        "y": 0.4749999940395355,
+        "z": 0.052000001072883606
+      },
+      "base": {
+        "x": -0.07900000363588333,
+        "y": -0.1899999976158142,
+        "z": -0.026000000536441803
+      },
+      "animations": [],
+      "materials": [
+        "equipment-dagger-blade",
+        "equipment-dagger-metal",
+        "equipment-dagger-leather",
+        "equipment-dagger-gem"
+      ],
+      "sha256": "c0e80b811b4f32a87af5f9b8202d1f6f078bee656ce3759644b1788e649b85e1",
+      "gripCenter": [
+        0,
+        -0.1,
+        0
+      ]
+    },
+    {
+      "id": "corealm_axe_1",
+      "file": "models/corealm/equipment/corealm_axe_1.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "axe",
+      "tags": [
+        "axe",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 175368,
+      "size": {
+        "x": 0.34074999392032623,
+        "y": 0.8380012655258179,
+        "z": 0.07400000095367432
+      },
+      "base": {
+        "x": -0.052000001072883606,
+        "y": -0.39,
+        "z": -0.03700000047683716
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "9469469fe636ced4a5eb3b4eaae94c3b6b1ea550b31d7f0d9e3d04a6e262d573",
+      "gripCenter": [
+        0,
+        -0.25,
+        0
+      ]
+    },
+    {
+      "id": "corealm_axe_2",
+      "file": "models/corealm/equipment/corealm_axe_2.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "axe",
+      "tags": [
+        "axe",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 175244,
+      "size": {
+        "x": 0.35875000059604645,
+        "y": 0.8380009377002716,
+        "z": 0.07400000095367432
+      },
+      "base": {
+        "x": -0.052000001072883606,
+        "y": -0.39,
+        "z": -0.03700000047683716
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "255613451253da3f22970027ff21039268ffc2813e6260159fd6d11a127260b7",
+      "gripCenter": [
+        0,
+        -0.25,
+        0
+      ]
+    },
+    {
+      "id": "corealm_axe_3",
+      "file": "models/corealm/equipment/corealm_axe_3.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "axe",
+      "tags": [
+        "axe",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 175524,
+      "size": {
+        "x": 0.37675000727176666,
+        "y": 0.8380007290840149,
+        "z": 0.07400000095367432
+      },
+      "base": {
+        "x": -0.052000001072883606,
+        "y": -0.39,
+        "z": -0.03700000047683716
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "8d116a1df5efc3723db052466e2e8995c8695dd2acfad3d8cb69e0159b1edcf9",
+      "gripCenter": [
+        0,
+        -0.25,
+        0
+      ]
+    },
+    {
+      "id": "corealm_axe_4",
+      "file": "models/corealm/equipment/corealm_axe_4.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "axe",
+      "tags": [
+        "axe",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 176008,
+      "size": {
+        "x": 0.3947500139474869,
+        "y": 0.838000580072403,
+        "z": 0.07400000095367432
+      },
+      "base": {
+        "x": -0.052000001072883606,
+        "y": -0.39,
+        "z": -0.03700000047683716
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-blade"
+      ],
+      "sha256": "7f3828c63459cb4b295f585e90657abd0f7768ace1df3409dd9eb3cd4c65d209",
+      "gripCenter": [
+        0,
+        -0.25,
+        0
+      ]
+    },
+    {
+      "id": "corealm_shield_1",
+      "file": "models/corealm/equipment/corealm_shield_1.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "shield",
+      "tags": [
+        "shield",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 111712,
+      "size": {
+        "x": 0.6060000061988831,
+        "y": 0.7400000095367432,
+        "z": 0.14099999800324442
+      },
+      "base": {
+        "x": -0.30300000309944153,
+        "y": -0.3700000047683716,
+        "z": -0.08299999922513962
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-metal",
+        "corealm-weapon-leather"
+      ],
+      "sha256": "d0ae6efaacc1991f76eb56f268d50f2fb3f507c1cd8fde631761cec5050e3f9f",
+      "gripCenter": [
+        0,
+        0,
+        -0.065
+      ]
+    },
+    {
+      "id": "corealm_shield_2",
+      "file": "models/corealm/equipment/corealm_shield_2.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "shield",
+      "tags": [
+        "shield",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 88736,
+      "size": {
+        "x": 0.6062150597572327,
+        "y": 0.776552754715085,
+        "z": 0.13449999929964543
+      },
+      "base": {
+        "x": -0.30310752987861633,
+        "y": -0.4140527546405792,
+        "z": -0.08299999922513962
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-metal",
+        "corealm-weapon-leather"
+      ],
+      "sha256": "a60e9fb4a1fb6defc81ecf9411992f217da3e6bd444cb1c7949553555768bfff",
+      "gripCenter": [
+        0,
+        0,
+        -0.065
+      ]
+    },
+    {
+      "id": "corealm_shield_3",
+      "file": "models/corealm/equipment/corealm_shield_3.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "shield",
+      "tags": [
+        "shield",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 183308,
+      "size": {
+        "x": 0.6261781454086304,
+        "y": 0.863999992609024,
+        "z": 0.19099999606609344
+      },
+      "base": {
+        "x": -0.3130890727043152,
+        "y": -0.44200000166893005,
+        "z": -0.08299999922513962
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-metal",
+        "corealm-weapon-leather"
+      ],
+      "sha256": "01477fbd3041dab76b64af5ad826991974f0837a5f4c8d0e7ce6f849738e8889",
+      "gripCenter": [
+        0,
+        0,
+        -0.065
+      ]
+    },
+    {
+      "id": "corealm_shield_4",
+      "file": "models/corealm/equipment/corealm_shield_4.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "shield",
+      "tags": [
+        "shield",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 91504,
+      "size": {
+        "x": 0.6259999871253967,
+        "y": 0.8859999775886536,
+        "z": 0.18799999932944775
+      },
+      "base": {
+        "x": -0.31299999356269836,
+        "y": -0.4429999887943268,
+        "z": -0.08299999922513962
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-metal",
+        "corealm-weapon-leather"
+      ],
+      "sha256": "df13f8d190115a294500fdd2d9e00b7fdedf3de349b0eec802e8b1eb17250e8a",
+      "gripCenter": [
+        0,
+        0,
+        -0.065
+      ]
+    },
+    {
+      "id": "corealm_staff_1",
+      "file": "models/corealm/equipment/corealm_staff_1.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "staff",
+      "tags": [
+        "staff",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 1258840,
+      "size": {
+        "x": 0.14068567752838135,
+        "y": 1.6550000295042993,
+        "z": 0.0928674228489399
+      },
+      "base": {
+        "x": -0.07034283876419067,
+        "y": -0.7200000286102295,
+        "z": -0.046388816088438034
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-leather",
+        "corealm-weapon-gem"
+      ],
+      "sha256": "cacdb7599400301628a45d4071add75520d8b4ef1edc52462b2b5cec76f50401",
+      "gripCenter": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "corealm_staff_2",
+      "file": "models/corealm/equipment/corealm_staff_2.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "staff",
+      "tags": [
+        "staff",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 140508,
+      "size": {
+        "x": 0.1842360645532608,
+        "y": 1.6553629636764526,
+        "z": 0.08799999952316284
+      },
+      "base": {
+        "x": -0.0921180322766304,
+        "y": -0.7200000286102295,
+        "z": -0.04399999976158142
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-gem"
+      ],
+      "sha256": "02f788039a2428cfd780cdbc46149f417817f8258a1eb757e3edeb6512fdfc5c",
+      "gripCenter": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "corealm_staff_3",
+      "file": "models/corealm/equipment/corealm_staff_3.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "staff",
+      "tags": [
+        "staff",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 175324,
+      "size": {
+        "x": 0.16219840943813324,
+        "y": 1.6690000013262032,
+        "z": 0.16219840943813324
+      },
+      "base": {
+        "x": -0.08109920471906662,
+        "y": -0.7340000004321336,
+        "z": -0.08109920471906662
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-metal",
+        "corealm-weapon-leather",
+        "corealm-weapon-gem"
+      ],
+      "sha256": "0d2629a0260172e97ce9566722c6d8591a88cf4708b00ff09adc4db41410feeb",
+      "gripCenter": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "corealm_staff_4",
+      "file": "models/corealm/equipment/corealm_staff_4.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "staff",
+      "tags": [
+        "staff",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 758848,
+      "size": {
+        "x": 0.18463701009750366,
+        "y": 1.717000029310584,
+        "z": 0.18463701009750366
+      },
+      "base": {
+        "x": -0.09231850504875183,
+        "y": -0.7200000286102295,
+        "z": -0.09231850504875183
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-gem"
+      ],
+      "sha256": "310d607303d936707d2bc133956a8dd6ba7cc1e2f02ee30a2333383c8a527d07",
+      "gripCenter": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "corealm_wand_1",
+      "file": "models/corealm/equipment/corealm_wand_1.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "wand",
+      "tags": [
+        "wand",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 963928,
+      "size": {
+        "x": 0.06551975756883621,
+        "y": 0.4070000030100346,
+        "z": 0.04793427139520645
+      },
+      "base": {
+        "x": -0.032759878784418106,
+        "y": -0.1000000035762787,
+        "z": -0.023999109864234924
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-leather",
+        "corealm-weapon-gem"
+      ],
+      "sha256": "eae74a9e34bbdcdf7194a515a60b582fb697cb8a3bb52aaee5806cf8d72793be",
+      "gripCenter": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "corealm_wand_2",
+      "file": "models/corealm/equipment/corealm_wand_2.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "wand",
+      "tags": [
+        "wand",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 96588,
+      "size": {
+        "x": 0.05999999865889549,
+        "y": 0.4070000030100346,
+        "z": 0.05999999865889549
+      },
+      "base": {
+        "x": -0.029999999329447746,
+        "y": -0.1000000035762787,
+        "z": -0.029999999329447746
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-gem"
+      ],
+      "sha256": "18ae6aa6f78cd0ffdeec9968a6319c2873f68a54b185ab3129cc5cb3cf4f6e6b",
+      "gripCenter": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "corealm_wand_3",
+      "file": "models/corealm/equipment/corealm_wand_3.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "wand",
+      "tags": [
+        "wand",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 130096,
+      "size": {
+        "x": 0.07378871738910675,
+        "y": 0.42099999986588954,
+        "z": 0.06791458651423454
+      },
+      "base": {
+        "x": -0.036894358694553375,
+        "y": -0.11400000043213368,
+        "z": -0.04191458597779274
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-metal",
+        "corealm-weapon-leather",
+        "corealm-weapon-gem"
+      ],
+      "sha256": "b5488ee7db667fe8cada0d9e43ac63d70d21dd77223ca985967fe82803644748",
+      "gripCenter": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "corealm_wand_4",
+      "file": "models/corealm/equipment/corealm_wand_4.glb",
+      "pack": "corealm-original-equipment",
+      "category": "weapon",
+      "is": "wand",
+      "tags": [
+        "wand",
+        "equipment",
+        "original",
+        "candidate"
+      ],
+      "bytes": 156208,
+      "size": {
+        "x": 0.083979532122612,
+        "y": 0.437000003516674,
+        "z": 0.083979532122612
+      },
+      "base": {
+        "x": -0.041989766061306,
+        "y": -0.1000000035762787,
+        "z": -0.041989766061306
+      },
+      "animations": [],
+      "materials": [
+        "corealm-weapon-wood",
+        "corealm-weapon-leather",
+        "corealm-weapon-metal",
+        "corealm-weapon-gem"
+      ],
+      "sha256": "f044b581d28d54210da1eec0ff0da7fc046c9f76bacf947e981091255bb3b91b",
+      "gripCenter": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

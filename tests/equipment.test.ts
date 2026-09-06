@@ -7,11 +7,11 @@ import { EQUIPMENT, KITS, MAGIC_ORBS } from "../game/src/content/equipment.js";
 import { computeMaxHealth, createInitialState, setSkillLevel } from "../game/src/state/store.js";
 import {
   GEAR_APPEARANCE_IDS, GEAR_ASSET_GAPS, VISIBLE_EQUIP_SLOTS,
-  applyGearAppearance, gearAppearance, gearAppearanceParts, gearAppearancePartsWithCharge,
-  weaponAttachment, weaponSocket,
+  applyGearAppearance, gatheringToolAppearance, gearAppearance, gearAppearanceParts,
+  gearAppearancePartsWithCharge, weaponAttachment, weaponSocket,
 } from "../game/src/render/equipmentVisuals.js";
 import { iconShapeFor } from "../game/src/ui/itemIcons.js";
-import { isProceduralGearAsset } from "../game/src/render/proceduralGear.js";
+import { fishingRodAssetId, isProceduralGearAsset } from "../game/src/render/proceduralGear.js";
 
 /**
  * The equipment ladder, frozen as tests.
@@ -208,20 +208,34 @@ describe("gear appearance", () => {
     }
   });
 
-  it("uses the pack wand and staff silhouettes while the wood tier changes only base colour", () => {
+  it("gives every magic tier its own authored wand and staff construction", () => {
     for (const kind of ["wand", "staff"] as const) {
-      const ids = ["basic_wooden", "palewood", "duskoak", "cairnpine"].map((wood) => `${wood}_${kind}`);
+      // basic_wooden shares the tier-1 construction and is separated by its fittings colour only.
+      const ids = ["basic_wooden", "palewood", "duskoak", "cairnpine", "cinderpine"].map((wood) => `${wood}_${kind}`);
       const parts = ids.map((id) => gearAppearanceParts(id)[0]);
       for (const [index, part] of parts.entries()) {
         expect(part, `${ids[index]} draws nothing`).toBeDefined();
-        expect(part?.assetId, ids[index]).toBe(`rpg_weapon_${kind}`);
+        expect(part?.assetId, ids[index]).toMatch(new RegExp(`^corealm_${kind}_[1-4]$`));
         expect(part?.accent, `${ids[index]} should be unlit`).toBeUndefined();
         expect(part?.orb, `${ids[index]} should have an empty socket by itself`).toBeUndefined();
         expect(weaponSocket(part?.assetId ?? ""), `${ids[index]} has no hand socket`).not.toBeNull();
       }
-      expect(new Set(parts.map((part) => part?.tint)).size, `${kind} wood colours`).toBe(4);
-      expect(new Set(parts.map((part) => part?.scale)).size, `${kind} silhouette scales`).toBe(1);
+      // Four separate meshes across the four wood tiers, not one mesh with four colours.
+      expect(new Set(parts.slice(1).map((part) => part?.assetId)).size, `${kind} constructions`).toBe(4);
+      expect(new Set(parts.map((part) => part?.tint)).size, `${kind} fitting colours`).toBe(5);
+      // The grades carry their own size progression, so nothing is scaled at bind time.
+      expect(new Set(parts.map((part) => part?.scale))).toEqual(new Set([1]));
     }
+  });
+
+  it("gives every shield tier its own authored board", () => {
+    const ids = ["palewood_shield", "duskoak_shield", "cairnpine_shield", "cinderpine_shield"];
+    const parts = ids.map((id) => gearAppearanceParts(id)[0]);
+    for (const [index, part] of parts.entries()) {
+      expect(part?.assetId, ids[index]).toMatch(/^corealm_shield_[1-4]$/);
+      expect(part?.scale, ids[index]).toBe(1);
+    }
+    expect(new Set(parts.map((part) => part?.assetId)).size).toBe(4);
   });
 
   it("renders the crafted elemental core on the weapon", () => {
@@ -273,6 +287,7 @@ describe("gear appearance", () => {
     expect(gearAppearanceParts("cairnpelt_robe", "male").map((part) => part.assetId)).toEqual([
       "outfit_male_ranger_chest",
       "outfit_male_ranger_pauldron",
+      "proc_hide_yoke_10",
     ]);
     expect(gearAppearance("marchhide_hood", "female")?.assetId).toBe("outfit_female_ranger_hood");
     expect(gearAppearance("grithe_helm", "male")?.assetId).toBe("outfit_male_knight_helmet");
@@ -289,13 +304,41 @@ describe("gear appearance", () => {
 
   it("attaches weapons to bones and armour to skin, and never scales a skinned part", () => {
     for (const def of EQUIPMENT) {
+      const held = def.equip?.slot === "mainHand" || def.equip?.slot === "offHand";
       for (const part of gearAppearanceParts(def.id)) {
-        const expected = def.equip?.slot === "mainHand" || def.equip?.slot === "offHand" ? "bone" : "skin";
-        expect(part.attach, def.id).toBe(expected);
+        // Worn armour is skinned, except for the additive tier pieces, which are rigid because they
+        // ride one torso or hip bone over the outfit rather than deforming with it.
+        const expected = held || part.assetId.startsWith("proc_") ? "bone" : "skin";
+        expect(part.attach, `${def.id} -> ${part.assetId}`).toBe(expected);
         if (part.attach === "skin") expect(part.scale, def.id).toBeUndefined();
         else expect(weaponSocket(part.assetId), `${def.id} has no socket`).not.toBeNull();
       }
     }
+  });
+
+  it("gives each armour tier above the baseline its own construction, not just a tint", () => {
+    const trims = (itemId: string) => gearAppearanceParts(itemId)
+      .filter(part => part.assetId.startsWith("proc_")).map(part => part.assetId);
+    // Copper and Hide are the plain baselines and carry no neck piece; every tier carries a hip
+    // piece, which is also what closes the bare hip the imported metal sets leave.
+    expect(trims("grithe_cuirass")).toEqual([]);
+    expect(trims("marchhide_robe")).toEqual([]);
+    for (const [body, legs] of [
+      ["corven_plate", "corven_greaves"], ["kaldite_plate", "kaldite_greaves"],
+      ["emberite_plate", "emberite_greaves"], ["bramblehide_robe", "bramblehide_leggings"],
+      ["cairnpelt_robe", "cairnpelt_leggings"], ["charhide_robe", "charhide_leggings"],
+    ] as const) {
+      expect(trims(body), body).toHaveLength(1);
+      expect(trims(legs), legs).toHaveLength(1);
+    }
+    for (const legs of ["grithe_greaves", "marchhide_leggings"]) {
+      expect(trims(legs), legs).toHaveLength(1);
+    }
+    // No two tiers of a line share a piece.
+    const all = ["grithe", "corven", "kaldite", "emberite"].flatMap(t => trims(`${t}_greaves`))
+      .concat(["marchhide", "bramblehide", "cairnpelt", "charhide"].flatMap(t => trims(`${t}_leggings`)));
+    expect(new Set(all).size).toBe(all.length);
+    expect(all).toHaveLength(8);
   });
 });
 
@@ -306,16 +349,57 @@ describe("weapon sockets", () => {
     expect(weaponSocket("sword")).toEqual({
       bone: "hand_r", position: [-0.01, 0.085, 0.1], rotation: [Math.PI / 2, 0, 0], scale: 1,
     });
-    expect(weaponSocket("shield")?.bone).toBe("hand_l");
     expect(weaponSocket("pickaxe")?.rotation[1]).toBeCloseTo(Math.PI / 2, 10);
-    expect(weaponSocket("rpg_weapon_staff")?.bone).toBe("hand_r");
-    expect(weaponSocket("rpg_weapon_wand")?.bone).toBe("hand_r");
+    expect(weaponSocket("corealm_staff_1")?.bone).toBe("hand_r");
+    expect(weaponSocket("corealm_wand_4")?.bone).toBe("hand_r");
+  });
+
+  it("straps the shield to the left forearm clear of the arm instead of dangling it from the fist", () => {
+    const socket = weaponSocket("shield")!;
+    // lowerarm_l local +Y runs elbow (0) to wrist (0.244) on base_male.glb, and the forearm has a
+    // radius of about 0.045 m about that axis.
+    expect(socket.bone).toBe("lowerarm_l");
+    expect(socket.position[1]).toBeGreaterThan(0.05);
+    expect(socket.position[1]).toBeLessThan(0.20);
+    // The boss leaves along asset +Z; the rotation must send it to local -X, the back-of-hand side.
+    const boss = new THREE.Vector3(0, 0, 1).applyEuler(new THREE.Euler(...socket.rotation));
+    expect(boss.x).toBeCloseTo(-1, 6);
+    // Every worn tier's inner face must sit outside the forearm, on the opposite side to the boss.
+    for (const id of ["palewood_shield", "duskoak_shield", "cairnpine_shield", "cinderpine_shield"]) {
+      const appearance = gearAppearance(id)!;
+      const worn = weaponAttachment(appearance)!;
+      expect(worn.bone).toBe("lowerarm_l");
+      expect(worn.position[0], `${id} inner face`).toBeLessThan(-0.05);
+    }
+  });
+
+  it("pins an explicit grip for every generated fishing rod instead of the rig fallback", () => {
+    for (const itemId of ["worn_rod", "palewood_rod", "duskoak_rod", "cairnpine_rod", "cinderpine_rod"]) {
+      const socket = weaponSocket(fishingRodAssetId(itemId));
+      expect(socket, itemId).not.toBeNull();
+      // The rod models put their grip at the origin, so the socket is the bare fist centre.
+      expect(socket!.bone).toBe("hand_r");
+      expect(socket!.position).toEqual([-0.01, 0.085, 0]);
+      expect(socket!.rotation).toEqual([Math.PI / 2, 0, 0]);
+    }
+  });
+
+  it("fits the pickaxe head inside a believable one-handed swing at every tier", () => {
+    // pickaxe.glb spans 0.813 m across the head and 1.198 m end to end at scale 1, against a
+    // 1.81 m rig with a 0.424 m shoulder span. Unfitted, the tier-20 row drew a 1.00 m head.
+    for (const itemId of ["worn_pickaxe", "grithe_pickaxe", "corven_pickaxe", "kaldite_pickaxe", "emberite_pickaxe"]) {
+      const appearance = gatheringToolAppearance(itemId)!;
+      const socket = weaponAttachment(appearance)!;
+      expect(socket.scale * 0.813, `${itemId} head width`).toBeLessThan(0.70);
+      expect(socket.scale * 1.198, `${itemId} length`).toBeLessThan(1.05);
+      expect(socket.scale * 1.198, `${itemId} length`).toBeGreaterThan(0.60);
+    }
   });
 
   it("keeps the dagger's full grip seated in the fist at every tier", () => {
     for (const tier of ["grithe", "corven", "kaldite", "emberite"]) {
       const dagger = gearAppearance(`${tier}_dagger`);
-      expect(dagger?.assetId).toBe("corealm_dagger");
+      expect(dagger?.assetId).toBe(`corealm_dagger_${["grithe", "corven", "kaldite", "emberite"].indexOf(tier) + 1}`);
       const socket = dagger ? weaponAttachment(dagger) : null;
       expect(socket?.scale).toBe(1);
       const grip = new THREE.Vector3(0, -0.1, 0);
@@ -411,8 +495,9 @@ describe("tinting", () => {
       }
       expect(source.color.getHex()).toBe(0xffffff);
       if (itemId.includes("wooden") || itemId === "cinderpine_wand") {
+        // Unlit means no emissive colour. Intensity is left at the material default because a
+        // black emissive contributes nothing whatever it is multiplied by.
         expect(mesh.material.emissive.getHex()).toBe(0);
-        expect(mesh.material.emissiveIntensity).toBe(0);
       }
     }
     expect(gearAppearancePartsWithCharge("basic_wooden_wand", { itemId: "fire_wand", charged: true })[0]?.orb).toBeUndefined();
