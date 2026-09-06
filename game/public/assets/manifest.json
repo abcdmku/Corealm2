@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-05T21:57:54.718Z",
+  "generatedAt": "2026-09-06T00:46:21.653Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -321,6 +321,25 @@
       "derivativeLicense": "CC-BY-3.0",
       "attribution": "Earth Elemental / Golem by piacenti. Source: https://opengameart.org/content/earth-elemental-golem. Converted and adapted for Corealm with the complete source body and rig retained; scale, grounded pivot and runtime animation bindings adapted. The adapted asset is distributed under CC BY 3.0.",
       "licenseUrl": "https://creativecommons.org/licenses/by/3.0/"
+    },
+    {
+      "id": "corealm-rpg-universal-base-characters",
+      "name": "Corealm RPG derivatives — Universal Base Characters",
+      "author": "Quaternius",
+      "source": "https://quaternius.itch.io/universal-base-characters",
+      "license": "CC0-1.0",
+      "archiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40",
+      "upstreamPackId": "universal-base-characters",
+      "derivation": "Corealm geometry, proportion, equipment and animation edits. Source rights retained; per-asset sourceProvenance lists all combined sources and modifications."
+    },
+    {
+      "id": "corealm-rpg-blink-free-rpg-weapons",
+      "name": "Corealm RPG derivatives — FREE - RPG Weapons",
+      "author": "Blink",
+      "source": "https://assetstore.unity.com/packages/3d/props/weapons/free-rpg-weapons-199738",
+      "license": "Standard Unity Asset Store EULA; additional components retain their per-asset source licenses; Corealm additions project-owned",
+      "upstreamPackId": "blink-free-rpg-weapons",
+      "derivation": "Corealm geometry, proportion, equipment and animation edits. Source rights retained; per-asset sourceProvenance lists all combined sources and modifications."
     }
   ],
   "assets": [
@@ -27581,6 +27600,848 @@
       "trunkRadius": 0.2826,
       "laminae": 434,
       "botanicalSprays": 434
+    },
+    {
+      "id": "creature_goblin_scout",
+      "file": "models/creature/creature_goblin_scout.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "goblin scout",
+      "tags": [
+        "creature",
+        "rpg",
+        "goblin_scout"
+      ],
+      "bytes": 1142112,
+      "sha256": "c6dd78d3518658a3347b592f69570c3df479cb0756ca506208c7a50bc39dbfa6",
+      "size": {
+        "x": 0.541855104084803,
+        "y": 1.32760673537952,
+        "z": 0.5128353694893358
+      },
+      "base": {
+        "x": -0.2542763694131639,
+        "y": 0.0019999999298345554,
+        "z": -0.2717843086576549
+      },
+      "groundY": 0.0019999999298345554,
+      "triangles": 16826,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_goblin_scout_goblin_source_knife_leather",
+        "animal_rpg_goblin_scout_goblin_source_knife_steel",
+        "animal_rpg_goblin_scout_goblin_source_base_male_MI_Hair_1",
+        "animal_rpg_goblin_scout_goblin_source_base_male_MI_Eyes",
+        "animal_rpg_goblin_scout_goblin_source_base_male_MI_Superhero_Male",
+        "animal_rpg_goblin_scout_goblin_source_outfit_male_peasant_chest_MI_Peasant"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 1.5333333015441895,
+      "contactNormalized": 0.3,
+      "sourceProvenance": {
+        "sourceAssets": [
+          "base_male",
+          "outfit_male_peasant_chest",
+          "outfit_male_peasant_legs",
+          "outfit_male_peasant_boots",
+          "animation_library_1"
+        ],
+        "license": "CC0-1.0",
+        "author": "Quaternius",
+        "animalHeadSource": null,
+        "weaponSource": null,
+        "sourcePacks": [
+          {
+            "id": "universal-base-characters",
+            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+          },
+          {
+            "id": "modular-character-outfits-fantasy",
+            "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+          },
+          {
+            "id": "universal-animation-library",
+            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+          }
+        ],
+        "modifications": "Coordinated nonlinear bind-space vertex and joint proportions, pointed ear and nose/jaw deformation, olive skin material, retained source texture/UV and weighted anatomy"
+      },
+      "metadata": {
+        "family": "goblin",
+        "height": 1.327606735290113,
+        "dimensions": [
+          0.541855104084803,
+          1.327606735290113,
+          0.5128353694893358
+        ],
+        "rig": "entitled-universal-base-65-joint",
+        "attackContact": 0.3,
+        "attackContactSource": "Production characterRig.ts CLIP_MOTION_MARKERS Sword_Attack0.30",
+        "source": "Quaternius Universal Base Characters with modular source outfit, weighted source animations, species-specific vertex and joint deformation",
+        "license": "CC0-1.0",
+        "provenance": {
+          "sourceAssets": [
+            "base_male",
+            "outfit_male_peasant_chest",
+            "outfit_male_peasant_legs",
+            "outfit_male_peasant_boots",
+            "animation_library_1"
+          ],
+          "license": "CC0-1.0",
+          "author": "Quaternius",
+          "animalHeadSource": null,
+          "weaponSource": null,
+          "sourcePacks": [
+            {
+              "id": "universal-base-characters",
+              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+            },
+            {
+              "id": "modular-character-outfits-fantasy",
+              "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+            },
+            {
+              "id": "universal-animation-library",
+              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+            }
+          ],
+          "modifications": "Coordinated nonlinear bind-space vertex and joint proportions, pointed ear and nose/jaw deformation, olive skin material, retained source texture/UV and weighted anatomy"
+        },
+        "textureBindings": [
+          {
+            "materialName": "goblin_source_base_male_MI_Hair_1",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\base_male-0-baseColorPath.png"
+          },
+          {
+            "materialName": "goblin_source_base_male_MI_Eyes",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\base_male-1-baseColorPath.png"
+          },
+          {
+            "materialName": "goblin_source_base_male_MI_Superhero_Male",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\base_male-2-baseColorPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_peasant_chest_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_chest-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_chest-0-normalPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_peasant_legs_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_legs-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_legs-0-normalPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_peasant_boots_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_boots-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_boots-0-normalPath.png"
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 221,
+            "maximumLift": 0.002314975626703823
+          },
+          "Walk": {
+            "samples": 121,
+            "maximumLift": 0.01560671368252614
+          },
+          "Run": {
+            "samples": 85,
+            "maximumLift": 0.00037068180445745495
+          },
+          "Attack": {
+            "samples": 137,
+            "maximumLift": 0.012145965878347048
+          },
+          "Hit": {
+            "samples": 31,
+            "maximumLift": 0.005760697220108921
+          },
+          "HitLeft": {
+            "samples": 31,
+            "maximumLift": 0.005760697220108921
+          },
+          "HitRight": {
+            "samples": 31,
+            "maximumLift": 0.005760697220108921
+          },
+          "Death": {
+            "samples": 207,
+            "maximumLift": 0.09713214834196583
+          }
+        },
+        "textureOrientation": "Original glTF TEXCOORD_0 and decoded image rows preserved; no flipY",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "revision": "goblin-source-review-3",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-joint-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 0.6659,
+      "impliedRunMps": 4.02812,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_goblin_archer",
+      "file": "models/creature/creature_goblin_archer.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "goblin archer",
+      "tags": [
+        "creature",
+        "rpg",
+        "goblin_archer"
+      ],
+      "bytes": 1754628,
+      "sha256": "33c116cc78f4e378ec413b7741ae5af22ce510605859179a23e920deca870379",
+      "size": {
+        "x": 0.5150139509415963,
+        "y": 1.32760673537952,
+        "z": 0.5775287672252295
+      },
+      "base": {
+        "x": -0.254276368653995,
+        "y": 0.0019999999298345554,
+        "z": -0.2717843086576549
+      },
+      "groundY": 0.0019999999298345554,
+      "triangles": 25534,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_goblin_archer_goblin_source_bow_DarkWood",
+        "animal_rpg_goblin_archer_goblin_source_bow_LightWood",
+        "animal_rpg_goblin_archer_goblin_source_bow_White",
+        "animal_rpg_goblin_archer_goblin_source_arrow_Steel",
+        "animal_rpg_goblin_archer_goblin_source_arrow_LightSteel",
+        "animal_rpg_goblin_archer_goblin_source_arrow_Red",
+        "animal_rpg_goblin_archer_goblin_source_base_male_MI_Hair_1",
+        "animal_rpg_goblin_archer_goblin_source_base_male_MI_Eyes",
+        "animal_rpg_goblin_archer_goblin_source_base_male_MI_Superhero_Male",
+        "animal_rpg_goblin_archer_goblin_source_outfit_male_ranger_chest_MI_Ranger"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 1.45,
+      "contactNormalized": 0.48,
+      "sourceProvenance": {
+        "sourceAssets": [
+          "base_male",
+          "outfit_male_ranger_chest",
+          "outfit_male_ranger_legs",
+          "outfit_male_ranger_boots",
+          "animation_library_1",
+          "Bow_Wooden",
+          "Arrow"
+        ],
+        "license": "CC0-1.0",
+        "author": "Quaternius",
+        "animalHeadSource": null,
+        "weaponSource": {
+          "id": "Medieval_Weapons_Pack_by_Quaternius",
+          "license": "CC0-1.0",
+          "sha256": "546d6e168d71cc3ea0c5d388a7834658619ac2ace8be960050e5fb1dbd344a2a"
+        },
+        "sourcePacks": [
+          {
+            "id": "universal-base-characters",
+            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+          },
+          {
+            "id": "modular-character-outfits-fantasy",
+            "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+          },
+          {
+            "id": "universal-animation-library",
+            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+          }
+        ],
+        "modifications": "Coordinated nonlinear bind-space vertex and joint proportions, pointed ear and nose/jaw deformation, olive skin material, retained source texture/UV and weighted anatomy"
+      },
+      "metadata": {
+        "family": "goblin",
+        "height": 1.327606735290113,
+        "dimensions": [
+          0.5150139509415963,
+          1.327606735290113,
+          0.5775287672252295
+        ],
+        "rig": "entitled-universal-base-65-joint",
+        "attackContact": 0.48,
+        "attackContactSource": "Authored65bone two-arm IK bow release at0.48; no source archery clip exists in entitled Standard libraries",
+        "source": "Quaternius Universal Base Characters with modular source outfit, weighted source animations, species-specific vertex and joint deformation",
+        "license": "CC0-1.0",
+        "provenance": {
+          "sourceAssets": [
+            "base_male",
+            "outfit_male_ranger_chest",
+            "outfit_male_ranger_legs",
+            "outfit_male_ranger_boots",
+            "animation_library_1",
+            "Bow_Wooden",
+            "Arrow"
+          ],
+          "license": "CC0-1.0",
+          "author": "Quaternius",
+          "animalHeadSource": null,
+          "weaponSource": {
+            "id": "Medieval_Weapons_Pack_by_Quaternius",
+            "license": "CC0-1.0",
+            "sha256": "546d6e168d71cc3ea0c5d388a7834658619ac2ace8be960050e5fb1dbd344a2a"
+          },
+          "sourcePacks": [
+            {
+              "id": "universal-base-characters",
+              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+            },
+            {
+              "id": "modular-character-outfits-fantasy",
+              "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+            },
+            {
+              "id": "universal-animation-library",
+              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+            }
+          ],
+          "modifications": "Coordinated nonlinear bind-space vertex and joint proportions, pointed ear and nose/jaw deformation, olive skin material, retained source texture/UV and weighted anatomy"
+        },
+        "textureBindings": [
+          {
+            "materialName": "goblin_source_base_male_MI_Hair_1",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\base_male-0-baseColorPath.png"
+          },
+          {
+            "materialName": "goblin_source_base_male_MI_Eyes",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\base_male-1-baseColorPath.png"
+          },
+          {
+            "materialName": "goblin_source_base_male_MI_Superhero_Male",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\base_male-2-baseColorPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_ranger_chest_MI_Ranger",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_ranger_chest-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_ranger_chest-0-normalPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_ranger_legs_MI_Ranger",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_ranger_legs-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_ranger_legs-0-normalPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_ranger_boots_MI_Ranger",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_ranger_boots-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_ranger_boots-0-normalPath.png"
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 221,
+            "maximumLift": 0.002314975626703823
+          },
+          "Walk": {
+            "samples": 161,
+            "maximumLift": 0.015606710652241158
+          },
+          "Run": {
+            "samples": 113,
+            "maximumLift": 0
+          },
+          "Attack": {
+            "samples": 245,
+            "maximumLift": 0.0023149756267041473
+          },
+          "Hit": {
+            "samples": 41,
+            "maximumLift": 0.005760697220108921
+          },
+          "HitLeft": {
+            "samples": 41,
+            "maximumLift": 0.005760697220108921
+          },
+          "HitRight": {
+            "samples": 41,
+            "maximumLift": 0.005760697220108921
+          },
+          "Death": {
+            "samples": 207,
+            "maximumLift": 0.26924203888281284
+          }
+        },
+        "textureOrientation": "Original glTF TEXCOORD_0 and decoded image rows preserved; no flipY",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "revision": "goblin-archer-source-review-1",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-joint-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 0.6659,
+      "impliedRunMps": 4.02732,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_goblin_shaman",
+      "file": "models/creature/creature_goblin_shaman.glb",
+      "pack": "corealm-rpg-blink-free-rpg-weapons",
+      "category": "character",
+      "is": "goblin shaman",
+      "tags": [
+        "creature",
+        "rpg",
+        "goblin_shaman"
+      ],
+      "bytes": 1254956,
+      "sha256": "3cca8fe953e3b1dc59c948bd65d865497625b4567ba12f66a8d8a3d53069d421",
+      "size": {
+        "x": 0.4744402886657466,
+        "y": 1.3284037385110423,
+        "z": 1.5031728398789888
+      },
+      "base": {
+        "x": -0.2677935641638479,
+        "y": 0.0019999998256083357,
+        "z": -0.9035843240991352
+      },
+      "groundY": 0.0019999998256083357,
+      "triangles": 19861,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_goblin_shaman_goblin_source_rpg_weapon_staff_rpg_weapon_staff_material",
+        "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Hair_1",
+        "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Eyes",
+        "animal_rpg_goblin_shaman_goblin_source_base_male_MI_Superhero_Male",
+        "animal_rpg_goblin_shaman_goblin_source_outfit_male_peasant_chest_MI_Peasant",
+        "animal_rpg_goblin_shaman_goblin_source_outfit_male_knight_scarf_MI_Knight"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 0.9333333373069763,
+      "attackSeconds": 0.5,
+      "contactNormalized": 0.42,
+      "sourceProvenance": {
+        "sourceAssets": [
+          "base_male",
+          "outfit_male_peasant_chest",
+          "outfit_male_peasant_legs",
+          "outfit_male_peasant_boots",
+          "outfit_male_knight_scarf",
+          "animation_library_1",
+          "rpg_weapon_staff"
+        ],
+        "license": "CC0-1.0 plus Blink weapon Standard Unity Asset Store EULA",
+        "author": "Quaternius; Blink staff",
+        "animalHeadSource": null,
+        "weaponSource": {
+          "id": "blink-free-rpg-weapons",
+          "author": "Blink",
+          "license": "Standard Unity Asset Store EULA",
+          "source": "https://assetstore.unity.com/packages/3d/props/weapons/free-rpg-weapons-199738"
+        },
+        "sourcePacks": [
+          {
+            "id": "universal-base-characters",
+            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+          },
+          {
+            "id": "modular-character-outfits-fantasy",
+            "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+          },
+          {
+            "id": "universal-animation-library",
+            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+          }
+        ],
+        "modifications": "Coordinated nonlinear bind-space vertex and joint proportions, pointed ear and nose/jaw deformation, olive skin material, retained source texture/UV and weighted anatomy"
+      },
+      "metadata": {
+        "family": "goblin",
+        "height": 1.3284037384216354,
+        "dimensions": [
+          0.4744402886657466,
+          1.3284037384216354,
+          1.5031728398789888
+        ],
+        "rig": "entitled-universal-base-65-joint",
+        "attackContact": 0.42,
+        "attackContactSource": "Production characterRig.ts CLIP_MOTION_MARKERS Spell_Simple_Shoot0.42",
+        "source": "Quaternius Universal Base Characters with modular source outfit, weighted source animations, species-specific vertex and joint deformation",
+        "license": "CC0-1.0 body/clothing/animations; Blink staff Standard Unity Asset Store EULA",
+        "provenance": {
+          "sourceAssets": [
+            "base_male",
+            "outfit_male_peasant_chest",
+            "outfit_male_peasant_legs",
+            "outfit_male_peasant_boots",
+            "outfit_male_knight_scarf",
+            "animation_library_1",
+            "rpg_weapon_staff"
+          ],
+          "license": "CC0-1.0 plus Blink weapon Standard Unity Asset Store EULA",
+          "author": "Quaternius; Blink staff",
+          "animalHeadSource": null,
+          "weaponSource": {
+            "id": "blink-free-rpg-weapons",
+            "author": "Blink",
+            "license": "Standard Unity Asset Store EULA",
+            "source": "https://assetstore.unity.com/packages/3d/props/weapons/free-rpg-weapons-199738"
+          },
+          "sourcePacks": [
+            {
+              "id": "universal-base-characters",
+              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+            },
+            {
+              "id": "modular-character-outfits-fantasy",
+              "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+            },
+            {
+              "id": "universal-animation-library",
+              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+            }
+          ],
+          "modifications": "Coordinated nonlinear bind-space vertex and joint proportions, pointed ear and nose/jaw deformation, olive skin material, retained source texture/UV and weighted anatomy"
+        },
+        "textureBindings": [
+          {
+            "materialName": "goblin_source_base_male_MI_Hair_1",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\base_male-0-baseColorPath.png"
+          },
+          {
+            "materialName": "goblin_source_base_male_MI_Eyes",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\base_male-1-baseColorPath.png"
+          },
+          {
+            "materialName": "goblin_source_base_male_MI_Superhero_Male",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\base_male-2-baseColorPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_peasant_chest_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_chest-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_chest-0-normalPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_peasant_legs_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_legs-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_legs-0-normalPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_peasant_boots_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_boots-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_peasant_boots-0-normalPath.png"
+          },
+          {
+            "materialName": "goblin_source_outfit_male_knight_scarf_MI_Knight",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_knight_scarf-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\outfit_male_knight_scarf-0-normalPath.png"
+          },
+          {
+            "materialName": "goblin_source_rpg_weapon_staff_rpg_weapon_staff_material",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\rpg_weapon_staff-0-baseColorPath.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\humanoid-source\\derived\\rpg_weapon_staff-0-normalPath.png"
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 189,
+            "maximumLift": 0.00248493357082028
+          },
+          "Walk": {
+            "samples": 121,
+            "maximumLift": 0.022118152572126903
+          },
+          "Run": {
+            "samples": 85,
+            "maximumLift": 0.06288275988681297
+          },
+          "Attack": {
+            "samples": 45,
+            "maximumLift": 0.0023850885513085566
+          },
+          "Hit": {
+            "samples": 31,
+            "maximumLift": 0.06306274518894972
+          },
+          "HitLeft": {
+            "samples": 31,
+            "maximumLift": 0.060858346149734066
+          },
+          "HitRight": {
+            "samples": 31,
+            "maximumLift": 0.06653611237653567
+          },
+          "Death": {
+            "samples": 207,
+            "maximumLift": 0.22496842208193346
+          }
+        },
+        "textureOrientation": "Original glTF TEXCOORD_0 and decoded image rows preserved; no flipY",
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "revision": "goblin-shaman-source-review-1",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-joint-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 0.66598,
+      "impliedRunMps": 4.02264,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_zombie",
+      "file": "models/creature/creature_zombie.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "zombie",
+      "tags": [
+        "creature",
+        "rpg",
+        "zombie"
+      ],
+      "bytes": 1422428,
+      "sha256": "4da56ba89a47940d701777b6edda08a3d4e073a0a532e7ea29e5f0ee0d0d4296",
+      "size": {
+        "x": 0.7068153073102688,
+        "y": 1.355348868967401,
+        "z": 0.7322741213851418
+      },
+      "base": {
+        "x": -0.3664573356750636,
+        "y": 0.010608198623287204,
+        "z": -0.29469200026839243
+      },
+      "groundY": 0.010608198623287204,
+      "triangles": 16493,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_zombie_zombie_desiccated_mouth",
+        "animal_rpg_zombie_zombie_exposed_teeth",
+        "animal_rpg_zombie_zombie_source_base_male_MI_Hair_1",
+        "animal_rpg_zombie_zombie_source_base_male_MI_Eyes",
+        "animal_rpg_zombie_zombie_source_base_male_MI_Superhero_Male",
+        "animal_rpg_zombie_zombie_source_outfit_male_peasant_chest_MI_Peasant"
+      ],
+      "walkClipSeconds": 1.3333333730697632,
+      "runClipSeconds": 1.3333333730697632,
+      "attackSeconds": 1.7999999523162842,
+      "contactNormalized": 0.34,
+      "sourceProvenance": {
+        "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
+        "license": "CC0-1.0",
+        "sourceAssets": [
+          "base_male",
+          "outfit_male_peasant_chest",
+          "outfit_male_peasant_legs",
+          "outfit_male_peasant_boots",
+          "animation_library_1",
+          "UAL2_Standard"
+        ],
+        "modifications": "Source UV layout, anatomical albedo luminance and 65-joint weights retained. Albedo repainted to corpse pallor with verified socket, cheek-necrosis and mouth masks; source eyes clouded and burial cloth weathered. Coherent vertex/joint gaunt proportions, recessed cheeks, narrowed arms, torn left sleeve, removed lip triangles and recessed mouth/teeth. Ghoul has elongated forearms/fingers, shortened legs, deeper crouch, bare torso and bone-attached tapered claws."
+      },
+      "metadata": {
+        "family": "zombie",
+        "style": "gaunt-undead-peasant",
+        "heightM": 1.355348868967401,
+        "dimensionsM": {
+          "width": 0.7068153073102688,
+          "height": 1.355348868967401,
+          "depth": 0.7322741213851418
+        },
+        "sourceSkinned": true,
+        "boneCount": 65,
+        "retainedVertices": 10679,
+        "removedClothingAndHiddenBodyTriangles": 5513,
+        "attackContactPhase": 0.34,
+        "attackContactNode": "ZombieScratchContact",
+        "attackContactStatus": "Measured maximum forward right-hand extension in source Zombie_Scratch between phases .10 and .85; gameplay contact pending production review.",
+        "textureBindings": [
+          {
+            "materialName": "zombie_source_base_male_MI_Hair_1",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\base_male-0-baseColorPath.png"
+          },
+          {
+            "materialName": "zombie_source_base_male_MI_Eyes",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\zombie-clouded-eyes.png"
+          },
+          {
+            "materialName": "zombie_source_base_male_MI_Superhero_Male",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\zombie-corpse-albedo.png"
+          },
+          {
+            "materialName": "zombie_source_outfit_male_peasant_chest_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\zombie-burial-cloth.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_chest-0-normalPath.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_chest-0-metallicRoughnessPath.png"
+          },
+          {
+            "materialName": "zombie_source_outfit_male_peasant_legs_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\zombie-burial-cloth.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_legs-0-normalPath.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_legs-0-metallicRoughnessPath.png"
+          },
+          {
+            "materialName": "zombie_source_outfit_male_peasant_boots_MI_Peasant",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\zombie-burial-cloth.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_boots-0-normalPath.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\zombie-source\\derived\\outfit_male_peasant_boots-0-metallicRoughnessPath.png"
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 201,
+            "maximumLift": 0.001
+          },
+          "Walk": {
+            "samples": 201,
+            "maximumLift": 0.009284998475531107
+          },
+          "Run": {
+            "samples": 201,
+            "maximumLift": 0.009284998475531107
+          },
+          "Attack": {
+            "samples": 269,
+            "maximumLift": 0.009792601882751086
+          },
+          "Hit": {
+            "samples": 51,
+            "maximumLift": 0.014473530304035205
+          },
+          "HitLeft": {
+            "samples": 51,
+            "maximumLift": 0.014473530304035205
+          },
+          "HitRight": {
+            "samples": 51,
+            "maximumLift": 0.014473530304035205
+          },
+          "Death": {
+            "samples": 351,
+            "maximumLift": 0.03732861562307727
+          }
+        },
+        "textureOrientation": "Original glTF UV and image rows, no flipY",
+        "corpseTextureRevision": "UV-authored-pallor-socket-cheek-decay-v2",
+        "gaitClipAliases": {
+          "Run": "Walk"
+        },
+        "gaitMeasuredSpeedMps": {
+          "Walk": 1.02122,
+          "Run": 1.02122
+        },
+        "gaitPolicy": "Zombie and plague slow pursuit uses source Zombie_Walk_Fwd_Loop for both Walk and Run requests; intended gameplay pursuit 1.2–1.6 m/s.",
+        "animationProvenance": {
+          "Idle": "UAL2_Standard:Zombie_Idle_Loop",
+          "Walk": "UAL2_Standard:Zombie_Walk_Fwd_Loop",
+          "Run": "UAL2_Standard:Zombie_Walk_Fwd_Loop; explicit Run alias of Walk for slow pursuit",
+          "Attack": "UAL2_Standard:Zombie_Scratch",
+          "Hit": "animation/animation_library_1:Hit_Chest",
+          "HitLeft": "animation/animation_library_1:Hit_Chest; Corealm directional recoil added",
+          "HitRight": "animation/animation_library_1:Hit_Chest; Corealm directional recoil added",
+          "Death": "animation/animation_library_1:Death01"
+        },
+        "provenance": {
+          "author": "Quaternius; Corealm corpse proportion, damage and clothing edits",
+          "license": "CC0-1.0",
+          "sourceAssets": [
+            "base_male",
+            "outfit_male_peasant_chest",
+            "outfit_male_peasant_legs",
+            "outfit_male_peasant_boots",
+            "animation_library_1",
+            "UAL2_Standard"
+          ],
+          "modifications": "Source UV layout, anatomical albedo luminance and 65-joint weights retained. Albedo repainted to corpse pallor with verified socket, cheek-necrosis and mouth masks; source eyes clouded and burial cloth weathered. Coherent vertex/joint gaunt proportions, recessed cheeks, narrowed arms, torn left sleeve, removed lip triangles and recessed mouth/teeth. Ghoul has elongated forearms/fingers, shortened legs, deeper crouch, bare torso and bone-attached tapered claws."
+        },
+        "acceptance": "Source candidate; requires production browser motion and visual review. No source review is treated as gameplay acceptance.",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-geometry-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 1.02122,
+      "impliedRunMps": 1.02122,
+      "locomotionPolicy": "speed-matched"
     }
   ]
 }

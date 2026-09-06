@@ -21,6 +21,24 @@ function hasArmAncestor(bone:THREE.Object3D):boolean {
   return false;
 }
 
+/**
+ * Upright bipeds with complete UE4-mannequin or 3ds Max Biped joint naming. Both hang the thighs
+ * from the pelvis beside the spine, so the spine, clavicles and arms carry no support chain and the
+ * native Hit recoil on them can be kept. Partial name matches never qualify.
+ */
+function isNamedUprightBiped(bones:THREE.Bone[]):boolean {
+  const names=new Set(bones.map(bone=>bone.name));
+  const has=(...required:string[])=>required.every(name=>names.has(name));
+  const parentOf=(child:string)=>bones.find(bone=>bone.name===child)?.parent?.name;
+  if(has('pelvis','spine_01','clavicle_l','clavicle_r','thigh_l','thigh_r'))
+    return parentOf('thigh_l')==='pelvis' && parentOf('thigh_r')==='pelvis' && parentOf('spine_01')==='pelvis';
+  // Biped exports hang the thighs from the pelvis or from the first spine link; either way the
+  // support-ancestor rule above already protects that link, so only Spine1 and above stay eligible.
+  if(has('Bip001_Pelvis','Bip001_Spine','Bip001_Spine1','Bip001_L_Clavicle','Bip001_R_Clavicle','Bip001_L_Thigh','Bip001_R_Thigh'))
+    return ['Bip001_Pelvis','Bip001_Spine'].includes(parentOf('Bip001_L_Thigh')??'') && parentOf('Bip001_L_Thigh')===parentOf('Bip001_R_Thigh') && parentOf('Bip001_Spine')==='Bip001_Pelvis';
+  return false;
+}
+
 /** Numbered imported rigs are recognized by their branch topology, never Bone### alone. */
 function explicitExpressiveBranches(bones:THREE.Bone[]):Set<THREE.Bone>|null {
   const named=(name:string)=>bones.find(b=>b.name===name);
@@ -87,7 +105,7 @@ export function createMaskedHitOverlay(
     for (let node: THREE.Object3D | null = support; node; node = node.parent) blocked.add(node);
   }
   for(const bone of bones)if((/root|main|hips|pelvis/i.test(bone.name) && !/tree/i.test(bone.name)) || bone.name==='beetle_1_Bone')blocked.add(bone);
-  const knownUpright = bones.some(bone => /^(lava_src_|earth_|forest_src_)/.test(bone.name));
+  const knownUpright = bones.some(bone => /^(lava_src_|earth_|forest_src_)/.test(bone.name)) || isNamedUprightBiped(bones);
   const safe = new Set(bones.filter(bone => !blocked.has(bone)
     && !/IK|target/i.test(bone.name)
     && (headName.test(bone.name) || beetleUpper.test(bone.name) || (knownUpright && (upperName.test(bone.name) || hasArmAncestor(bone))))));
