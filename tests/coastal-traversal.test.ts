@@ -41,7 +41,10 @@ describe("traversable ground", () => {
       expect(sample.visualBiome).toBe(site.biomeId);
     }
     scene.clear();
-  });
+    // Builds the whole authored world twice over: terrain lattice, road grading, water and 100+
+    // coastal spawn samples. 2.9 s alone, 5.8 s in a full parallel suite run, which times out at
+    // the 5 s default and made this look order-dependent. The assertions are unchanged.
+  }, 30000);
   it.each([40, 50, 58])("bakes a complete route up and down a %i degree slope", (angle) => {
     const geometry = new THREE.PlaneGeometry(20, 12, 20, 12);
     geometry.rotateX(-Math.PI / 2);
