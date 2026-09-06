@@ -7,7 +7,7 @@
     "license": "Original project artwork; no third-party assets"
   },
   "generator": "npx tsx tools/build-corealm-geology.ts",
-  "generatorSha256": "465464a2c061e11cc7b485e13e93b1a9fd69433887d13821e41fee89ce86ca10",
+  "generatorSha256": "5308dd9c3610b85911c4f2d95feea27604fb561e1d6ec49256c2caa75e505919",
   "coordinates": "Metres, Y-up. Native formations are centred XZ with minimum Y=0; fitted variants retain their declared legacy base and pivot. Ore worked faces point +Z; back geology toward -Z.",
   "oreMount": {
     "matingPlaneZ": 0.12,
