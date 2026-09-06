@@ -438,3 +438,41 @@ export function enemyCombatLevel(def: {
   const health = def.maxHealth / PLAYER_HEALTH_PER_LEVEL;
   return Math.max(1, Math.round(0.5 * offence + 0.25 * defence + 0.25 * health));
 }
+
+/**
+ * Families whose enemies wear the PLAYER's rig rather than one of their own.
+ *
+ * The reaver blocks spawn on `outfit_*` assets, which ship no animations: `render/entityViews.ts`
+ * plays them the shared `Jog_Fwd_Loop` at `runPresentationScale` — a cadence chosen to read as a
+ * run next to the player's, deliberately NOT retimed to a measured stride. Nothing in a humanoid's
+ * presentation improves when it pursues more slowly; below `MOVEMENT.runMinPlaybackRate` the jog
+ * clamps and the feet start skating instead.
+ */
+const SHARED_RIG_FAMILIES: ReadonlySet<string> = new Set(["reaver"]);
+
+/**
+ * How fast this enemy actually chases, in metres per second.
+ *
+ * `moveSpeedMps` above states the hard rule: an animal's pursuit speed is SOLVED from its own walk
+ * cycle, `moveSpeedMps <= MAX_WALK_CADENCE_HZ * impliedWalkMps * walkClipSeconds`, so its legs
+ * never cycle past the ceiling. That solution is only worth anything if the simulation then moves
+ * the creature at the speed it solved for. Stepping every creature at one shared run speed throws
+ * it away: measured against the shipped stride metadata (`tests/creature-gait.test.ts`) a goose
+ * pursuing at 4.68 m/s cycles its legs at 20.3 Hz, a tortoise at 15.4 and a coney at 9.2 — three
+ * times over the roster that was already re-tuned once because a coney at 3.94 Hz, a frog at 3.62
+ * and a goat at 3.35 were reported from play as feet moving rapidly and jittering.
+ *
+ * The shared speed stays the ceiling and the default, for the rigs with no stride to solve from.
+ */
+export function enemyPursuitSpeedMps(
+  def: EnemyDef,
+  /** The spawned entity's own `combat.moveSpeedMps`, which wins over the block the way
+   * `enemyAI.wanderSpeed` already lets it win for the pottering speed. */
+  spawnedMps: number | undefined,
+  sharedRunSpeedMps: number,
+): number {
+  if (SHARED_RIG_FAMILIES.has(def.family)) return sharedRunSpeedMps;
+  const authored = spawnedMps ?? def.moveSpeedMps;
+  if (authored === undefined || !Number.isFinite(authored) || authored <= 0) return sharedRunSpeedMps;
+  return Math.min(sharedRunSpeedMps, authored);
+}

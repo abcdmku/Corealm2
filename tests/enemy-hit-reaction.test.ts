@@ -28,14 +28,21 @@ function fixture(neighbour=false, walkSpeedMps: number|undefined=.6) {
 const displacement=(a:Vec3,b:Vec3)=>Math.hypot(a[0]-b[0],a[1]-b[1],a[2]-b[2]);
 
 describe("enemy movement during nonlethal hit reactions",()=>{
-  it("continues pursuit at the shared run speed through repeated damage",()=>{
+  // The actor's OWN authored pursuit speed, not the shared ceiling: `content/index.ts` solves an
+  // animal's `moveSpeedMps` from its walk cycle so its legs stay under the cadence ceiling, and
+  // `enemyPursuitSpeedMps` keeps that solution, capping it at CREATURE_RUN_SPEED. This fixture
+  // authors 1.8, well under the 4.68 ceiling, so 1.8 is what it must actually travel at.
+  const PURSUIT=1.8;
+  it("continues pursuit at its own authored run speed through repeated damage",()=>{
     const {ai,actor,combat}=fixture();ai.provoke(actor.id,0);
+    expect(PURSUIT).toBeLessThan(CREATURE_RUN_SPEED);
+    expect(actor.combat!.moveSpeedMps).toBe(PURSUIT);
     for(let t=100;t<=700;t+=100){
       const before:Vec3=[...actor.position];
       expect(combat.damageEnemy(actor.id,1,t)).toBe(false);
       ai.tick(100,t);
-      expect(displacement(before,actor.position)).toBeCloseTo(CREATURE_RUN_SPEED*.1,8);
-      expect(actor.view?.gaitSpeedMps).toBeCloseTo(CREATURE_RUN_SPEED,8);
+      expect(displacement(before,actor.position)).toBeCloseTo(PURSUIT*.1,8);
+      expect(actor.view?.gaitSpeedMps).toBeCloseTo(PURSUIT,8);
       expect(ai.modeOf(actor.id)).toBe("aggro");
     }
     expect(actor.combat!.health).toBe(93);
@@ -45,7 +52,8 @@ describe("enemy movement during nonlethal hit reactions",()=>{
     actor.position=[0,0,35];actor.view!.rotationY=Math.PI;state.player.position=[0,0,34];
     combat.damageEnemy(actor.id,1,100);ai.tick(100,100);
     expect(ai.modeOf(actor.id)).toBe("returning");
-    expect(35-actor.position[2]).toBeCloseTo(CREATURE_RUN_SPEED*.1,8);
+    // Home at the speed it chased at, not faster.
+    expect(35-actor.position[2]).toBeCloseTo(PURSUIT*.1,8);
   });
   it("preserves the slower explicit idle wandering speed",()=>{
     const {ai,actor}=fixture();let moved=0;

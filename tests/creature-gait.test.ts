@@ -1,9 +1,11 @@
 import * as THREE from "three";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { SemanticEntity } from "../game/src/contracts.js";
+import type { EnemyDef } from "../game/src/content/index.js";
 import { ENEMY_BLOCKS, enemyBlockFor } from "../game/src/content/enemies.js";
 import { REGIONS } from "../game/src/content/regions.js";
-import { ENEMY_RETURN_SPEED_MPS, ENEMY_SPEED_MPS } from "../game/src/systems/enemyAI.js";
+import { ENEMY_SPEED_MPS } from "../game/src/systems/enemyAI.js";
+import { enemyPursuitSpeedMps } from "../game/src/content/index.js";
 import { CREATURE_RUN_SPEED } from "../game/src/app/config.js";
 import { EntityViews, MOVING_EPSILON } from "../game/src/render/entityViews.js";
 import { MaterialLibrary } from "../game/src/render/materials.js";
@@ -70,12 +72,16 @@ async function fixture(entities: SemanticEntity[]) {
 }
 
 const gaits: Gait[] = [];
+/** Each spawned entity's content block, so the resolved pursuit speed can be re-derived per gait. */
+const BLOCK = new Map<string, EnemyDef>();
 beforeAll(async () => {
   const entities: SemanticEntity[] = GROUPS.filter((group) => ASSET_BY_ID.get(group.assetId)?.impliedWalkMps)
     .flatMap((group) => Array.from({ length: group.count }, (_, index): SemanticEntity => {
       const block = enemyBlockFor(group.id, group.family, group.tier)!;
+      const id = group.count === 1 ? group.id : `${group.id}_${index + 1}`;
+      BLOCK.set(id, block);
       return {
-        id: group.count === 1 ? group.id : `${group.id}_${index + 1}`, name: group.name,
+        id, name: group.name,
         archetype: group.boss || group.miniBoss ? "boss" : "enemy", tier: group.tier,
         regionId: "fallowmarch", position: [0, 0, 0], state: "alive", interactions: ["inspect", "attack"],
         combat: {
@@ -91,11 +97,12 @@ beforeAll(async () => {
   try {
     for (const gait of ["walk", "run", "return"] as const) {
       for (const entity of entities) {
-        // `systems/enemyAI.ts` steps every pursuit at CREATURE_RUN_SPEED and every return at
-        // ENEMY_RETURN_SPEED_MPS; authored `moveSpeedMps` only seeds the unauthored walk fallback.
-        const pursuit = entity.combat!.moveSpeedMps ?? CREATURE_RUN_SPEED;
-        const speed = gait === "walk" ? entity.combat!.walkSpeedMps ?? pursuit / 3
-          : gait === "return" ? ENEMY_RETURN_SPEED_MPS : CREATURE_RUN_SPEED;
+        // Not the authored number on its own: `systems/enemyAI.ts` steps both the chase and the
+        // walk home through `enemyPursuitSpeedMps`, which caps the authored speed at the shared
+        // CREATURE_RUN_SPEED and substitutes it outright for the rigs with no stride of their own.
+        // This has to be the resolved speed, or the file measures a cadence nothing ever plays.
+        const pursuit = enemyPursuitSpeedMps(BLOCK.get(entity.id)!, entity.combat!.moveSpeedMps, CREATURE_RUN_SPEED);
+        const speed = gait === "walk" ? entity.combat!.walkSpeedMps ?? pursuit / 3 : pursuit;
         entity.state = gait === "walk" ? "alive" : gait === "run" ? "aggro" : "returning";
         entity.view!.gaitSpeedMps = speed;
         entity.position = [0, 0, entity.position[2] + speed * TICK_SECONDS];
