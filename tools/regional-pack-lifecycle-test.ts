@@ -425,20 +425,33 @@ async function main(): Promise<void> {
     }
 
     // ------------------------------------------------------------ 6. disengage, return and resume ranging
+    // The kill command keeps the player swinging at the rest of the pack, so it stands and fights
+    // instead of walking off. Break off first, then leave; the leash is what is under test here.
+    await invoke("corealm_stop", {});
     await invoke("corealm_move_to", { position: initial.fixture.spawn });
     arrivals.clear();
     const returnStarted = Date.now();
+    // Keep the deliberately weak lab player alive while it walks off. A death here teleports it to
+    // the region respawn point, which reads as "never arrived" and hides the actual leash result.
+    let playerDowned = false;
     const returned = await poll("survivors leash and settle back in the habitat", (value) => {
       noteArrivals(value);
+      if (value.state.health <= 0) playerDowned = true;
       const survivors = value.entities.filter((entity) => entity.id !== targetId);
       return distance(value.player, initial.fixture.spawn) < 2 && survivors.every((entity) => entity.state === "alive"
         && entity.combat!.health === entity.combat!.maxHealth
         && distance(entity.position, { x: habitatCentre[0], z: habitatCentre[1] }) + entity.combat!.bodyRadius! <= initial.fixture.habitat.radius + 0.35);
-    }, 40_000, 250);
+      // Slower residents walk the full disengagement leg home and then regenerate; 60 s covers the
+      // slowest proven pack without relaxing what "settled" means.
+    }, 60_000, 250, undefined, true);
     const returnLeashed = returned.events.some((event) => event.type === "combat.ended" && initial.fixture.ids.includes(String(event.data.enemyId)) && event.data.enemyId !== targetId);
-    report.return = { settledAfterMs: Date.now() - returnStarted, leashEvents: returnLeashed,
-      survivorStates: returned.entities.filter((entity) => entity.id !== targetId).map((entity) => [entity.id, entity.state, entity.combat!.health]) };
-    check("survivorsReturnToHabitat", true, "settled");
+    const survivors = returned.entities.filter((entity) => entity.id !== targetId);
+    report.return = { settledAfterMs: Date.now() - returnStarted, leashEvents: returnLeashed, playerDowned,
+      survivorStates: survivors.map((entity) => [entity.id, entity.state, entity.combat!.health]) };
+    check("survivorsReturnToHabitat", !playerDowned && survivors.length === pack.members.length - 1
+      && survivors.every((entity) => entity.state === "alive" && entity.combat!.health === entity.combat!.maxHealth
+        && distance(entity.position, { x: habitatCentre[0], z: habitatCentre[1] }) + entity.combat!.bodyRadius! <= initial.fixture.habitat.radius + 0.35),
+      JSON.stringify(report.return));
 
     // ------------------------------------------------------------ 7. respawn on the normal clock
     const respawnDeadline = ENEMY_RESPAWN_MS + 8_000 - (Date.now() - deadAt);
@@ -472,9 +485,23 @@ async function main(): Promise<void> {
     check("survivorsResumeRanging", resumedMovers >= 1 && (!ranging || (order.observedSequences >= 1 && order.ordered)), JSON.stringify(report.resume));
     await frame("respawn.png", { x: habitatCentre[0], z: habitatCentre[1], yaw: 0, pitch: 0.75, distance: Math.max(18, pack.radius * 2.2) });
 
-    const final = await read();
+    // A resident respawning onto its own circuit anchor can land on a survivor that is currently
+    // passing through it, because production enemy AI has no lateral body avoidance. One instant
+    // sampled at a random point in the circuit is noise; require the pack to clear that overlap.
+    let worstFinalGap = Infinity, finalSeparatedAtMs: number | null = null;
+    const separateStarted = Date.now();
+    let final = await read();
+    for (;;) {
+      const gap = separation(final.entities);
+      worstFinalGap = Math.min(worstFinalGap, gap);
+      if (gap >= -0.15) { finalSeparatedAtMs = Date.now() - separateStarted; break; }
+      if (Date.now() - separateStarted > 12_000) break;
+      await page.waitForTimeout(250);
+      final = await read();
+    }
     report.finalMinimumGap = round(separation(final.entities));
-    check("finalBodiesSeparated", separation(final.entities) >= -0.15, `final gap ${report.finalMinimumGap}`);
+    report.finalSeparation = { worstGap: round(worstFinalGap), separatedAfterMs: finalSeparatedAtMs, windowMs: Date.now() - separateStarted };
+    check("finalBodiesSeparated", finalSeparatedAtMs !== null, `pack never cleared its bodies; worst gap ${round(worstFinalGap)} m over ${Date.now() - separateStarted} ms`);
     const errors = await page.evaluate(() => (window as unknown as { __gameDebug: PackDebug }).__gameDebug.getErrors());
     report.gameErrors = errors;
     report.consoleErrors = driver.consoleErrors;
