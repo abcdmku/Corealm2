@@ -39,12 +39,13 @@ const CREATURE_CALL_IDLE_MS = 1200;
 /**
  * Master trim on animal idle voices, on top of each cue's own gain in `corealmCatalog.ts`.
  *
- * One number rather than sixteen edits, because the per-cue gains carry a deliberate balance
- * between the animals - a bear at 0.46 against a coney at 0.24 - and that balance is right. What
- * was wrong was the whole layer sitting too far forward against the music and ambience beds, so it
- * is scaled rather than rewritten.
+ * One number rather than sixteen edits, because the per-cue gains carry the balance between the
+ * animals. That balance used to be nominal only: the source packs were never level-matched, so a
+ * cow at cue gain 0.36 played 19 dB over a coney at 0.24, and the whole layer was trimmed to 0.45
+ * to tame the loud ones. The catalogue now measures each variant, so the trim can sit at 0.7: a
+ * bear beside the player lands near -27 dBFS before the bus and fades under the footsteps by 20 m.
  */
-const CREATURE_CALL_GAIN = 0.45;
+const CREATURE_CALL_GAIN = 0.7;
 
 /** Stable 0..1 from an entity id, so per-animal call timing is deterministic across runs. */
 function hashToUnit(value: string): number {

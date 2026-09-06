@@ -39,13 +39,14 @@ class FakeSource {
   readonly playbackRate = new FakeParam();
   onended: (() => void) | null = null;
   started = false;
+  startArgs: number[] = [];
   stopCalls = 0;
   stopAt: number | undefined;
   disconnected = false;
 
   connect(): void {}
   disconnect(): void { this.disconnected = true; }
-  start(): void { this.started = true; }
+  start(...args: number[]): void { this.started = true; this.startArgs = args; }
   stop(when?: number): void { this.stopCalls += 1; this.stopAt = when; }
   end(): void { this.onended?.(); }
 }
@@ -79,8 +80,9 @@ class FakeContext {
   }
   async decodeAudioData(): Promise<AudioBuffer> {
     this.decodeCalls += 1;
-    return { duration: 1 } as AudioBuffer;
+    return { duration: this.decodedDuration } as AudioBuffer;
   }
+  decodedDuration = 1;
   async resume(): Promise<void> {
     this.resumeCalls += 1;
     if (this.allowResume) this.state = "running";
@@ -380,6 +382,25 @@ describe("AudioEngine one-shots", () => {
     expect(engine.snapshot()).toMatchObject({ activeOneShots: 0, pendingOneShots: 0 });
     expect(context.sources[0]?.stopCalls).toBe(1);
     expect(context.sources[0]?.disconnected).toBe(true);
+  });
+});
+
+describe("AudioEngine variant pre-roll", () => {
+  it("starts a variant at its measured onset and never past the end of the recording", async () => {
+    const context = new FakeContext();
+    const trimmed = defineAudioCatalog({
+      cues: {
+        "combat.player_hit": { variants: [{ url: "test:thud", startOffsetS: 0.135 }, { url: "test:short", startOffsetS: 5 }, "test:plain"], minIntervalMs: 0, maxConcurrent: 8 },
+      },
+    });
+    const engine = new AudioEngine(trimmed, { contextFactory: () => context as unknown as AudioContext, fetcher: okFetcher() });
+    context.decodedDuration = 0.57;
+    expect(await engine.playCue("combat.player_hit")).toBe(true);
+    expect(context.sources[0]!.startArgs).toEqual([0, 0.135]);
+    expect(await engine.playCue("combat.player_hit")).toBe(true);
+    expect(context.sources[1]!.startArgs[1]).toBeCloseTo(0.56, 5);
+    expect(await engine.playCue("combat.player_hit")).toBe(true);
+    expect(context.sources[2]!.startArgs).toEqual([0, 0]);
   });
 });
 

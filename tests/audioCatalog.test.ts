@@ -113,27 +113,42 @@ describe("Corealm audio catalog", () => {
     })).toBe("movement.footstep_cave");
   });
 
-  it("keeps grass, dirt, and stone footsteps balanced and dirt free of the sharp source", () => {
+  it("keeps footsteps level-matched from measured file loudness and dirt free of the sharp source", () => {
+    // Values come from runs/corealm-rebuild/checks/audio-file-review.ts: each surface's variants are
+    // brought to their quietest file (active RMS) and the cue gain places that at -39 dBFS.
     const grass = COREALM_AUDIO_CATALOG.cues["movement.footstep_grass"];
     const dirt = COREALM_AUDIO_CATALOG.cues["movement.footstep_dirt"];
     const stone = COREALM_AUDIO_CATALOG.cues["movement.footstep_stone"];
+    const wood = COREALM_AUDIO_CATALOG.cues["movement.footstep_wood"];
 
-    expect(grass.gain).toBe(0.5);
-    expect(dirt).toMatchObject({ gain: 0.23, playbackRate: 0.82 });
-    expect(stone.gain).toBe(0.22);
+    expect(grass.gain).toBe(1);
+    expect(dirt).toMatchObject({ gain: 0.3, playbackRate: 0.82 });
+    expect(stone.gain).toBe(0.47);
     expect(dirt.variants.map((variant) => typeof variant === "string" ? variant : variant.url))
       .toEqual([
         "/audio/sfx/oga/footstep-ground-01.ogg",
         "/audio/sfx/oga/footstep-ground-02.ogg",
       ]);
-    expect(dirt.variants[1]).toEqual({
-      url: "/audio/sfx/oga/footstep-ground-02.ogg",
-      gain: 0.57,
-    });
-    expect(stone.variants[0]).toEqual({
-      url: "/audio/sfx/nox/footstep-stone-01.ogg",
-      gain: 0.57,
-    });
+    expect(dirt.variants[1]).toMatchObject({ url: "/audio/sfx/oga/footstep-ground-02.ogg", gain: 0.57 });
+    // The second wood step is 7.5 dB hotter than the first in the file; the variant gain closes that.
+    expect(wood.variants[1]).toMatchObject({ url: "/audio/sfx/nox/footstep-wood-02.ogg", gain: 0.42 });
+  });
+
+  it("trims contact pre-roll only where the recording has it, never on an animal voice", () => {
+    const offsets: Array<[string, number]> = [];
+    for (const [cue, definition] of Object.entries(COREALM_AUDIO_CATALOG.cues)) {
+      for (const variant of definition.variants as readonly (string | AudioVariant)[]) {
+        if (typeof variant !== "string" && variant.startOffsetS) offsets.push([cue, variant.startOffsetS]);
+      }
+    }
+    expect(offsets.length).toBeGreaterThan(20);
+    for (const [cue, offset] of offsets) {
+      expect(cue).not.toMatch(/^creature\./);
+      expect(offset).toBeGreaterThan(0.03);
+      expect(offset).toBeLessThan(0.25);
+    }
+    const playerHit = COREALM_AUDIO_CATALOG.cues["combat.player_hit"].variants[0];
+    expect(playerHit).toMatchObject({ startOffsetS: 0.139 });
   });
 });
 

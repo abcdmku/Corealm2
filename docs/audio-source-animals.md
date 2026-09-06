@@ -95,6 +95,28 @@ because `tests/audioCatalog.test.ts` asserts every sfx URL ends in `.ogg`.
 
 Total: 27 files.
 
+### Level correction, 2026-09-05
+
+The four frog files shipped 15-23 dB quieter than every other animal voice: decoded peaks of
+-34 to -41 dBFS and active RMS of -45 to -53 dBFS, which put them under the plains wind bed even
+at full cue gain. They were re-encoded from the shipped Ogg files with a plain gain stage
+(`ffmpeg -i <in> -map_metadata -1 -af volume=<gain>dB -c:a libvorbis -q:a 5`), bringing each
+active RMS to about -26 dBFS. No trim, EQ, pitch or other change; this is a second lossy
+generation on top of the original mp3-to-Vorbis transcode, accepted because the original mp3
+attachments are not kept in the repository.
+
+| File | Gain | Bytes | SHA-256 after |
+| --- | ---: | ---: | --- |
+| `frog-croak-01.ogg` | +18.7 dB | 15,515 | `5f116350d39b2eb6dae2d51bf6241f2cd386157a31bbbef850e3cb6ab35f692b` |
+| `frog-croak-02.ogg` | +19.2 dB | 7,010 | `adcc9f4ddf13cfae743dd2f63f866d5c5f3474edd562979f02c6bb20af7d2a52` |
+| `frog-croak-03.ogg` | +23.6 dB | 18,871 | `43d149bfb0614af0f131f0b015d11af583e479c04482a7b7f788747c50d62eb1` |
+| `frog-ribbit-01.ogg` | +26.6 dB | 18,258 | `732724bf5a5dfc727b9b7aeda95c59391774cf805db885736224685d4733364c` |
+
+Every other animal file is byte-identical to its staged version. Level differences between the
+remaining variants (the third boar grunt was 10 dB over the other two, the second serpent breath
+14 dB over the first) are corrected by per-variant gains in `game/src/audio/corealmCatalog.ts`,
+measured by `runs/corealm-rebuild/checks/audio-file-review.ts`, not by touching the files.
+
 `beast-hurt-01/02.ogg` and `beast-die-01/02.ogg` were here and have been removed, along with the
 `creature.beast_hurt` and `creature.beast_death` cues they backed. They were picked out of a generic
 creature pack by filename rather than by ear, and what actually played under a cow being hit was a

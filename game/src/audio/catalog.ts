@@ -5,6 +5,15 @@ export interface AudioVariant {
   url: string;
   /** Multiplier applied before the SFX bus gain. Defaults to 1. */
   gain?: number;
+  /**
+   * Seconds of the recording to skip so its transient lands on the frame that asked for it.
+   *
+   * Several contact recordings carry 50-140 ms of room tone before the hit. Played from zero on a
+   * rig contact marker, the thud arrives that much after the frame. Measured by
+   * `runs/corealm-rebuild/checks/audio-file-review.ts` (first millisecond within 30 dB of the peak,
+   * minus a 5 ms guard); the source files stay byte-identical to their ledgers.
+   */
+  startOffsetS?: number;
 }
 
 export interface AudioCueDefinition {

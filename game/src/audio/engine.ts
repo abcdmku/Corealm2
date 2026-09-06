@@ -318,7 +318,7 @@ export class AudioEngine {
       this.pendingOneShots -= 1;
       pending = false;
       this.activeVoices.add(voice);
-      source.start();
+      source.start(0, startOffsetSeconds(variant, buffer));
       this.record({ kind: "cue", cue, url: variant.url });
       return true;
     } catch (cause) {
@@ -735,6 +735,13 @@ function playbackRate(definition: AudioCueDefinition, override: number | undefin
   const low = positiveFinite(Math.min(configured[0], configured[1]), 1);
   const high = positiveFinite(Math.max(configured[0], configured[1]), low);
   return (low + high) / 2;
+}
+
+/** Skips a recording's pre-roll, never past its end. */
+function startOffsetSeconds(variant: AudioVariant, buffer: AudioBuffer): number {
+  const offset = variant.startOffsetS;
+  if (offset === undefined || !Number.isFinite(offset) || offset <= 0) return 0;
+  return Math.min(offset, Math.max(0, buffer.duration - 0.01));
 }
 
 function catalogUrls(catalog: AudioCatalog): string[] {

@@ -185,6 +185,18 @@ export class GameLoop {
   private projectileRegion: string | null = null;
   private playerMotionHandler: ((event: CharacterMotionEvent) => void) | null = null;
   private combatPresentationHandler: ((hit: CombatHit, phase: "swing" | "impact" | "combined") => void) | null = null;
+  /**
+   * The player's current melee wind-up, so the rig's measured swing frame can sound the whoosh.
+   *
+   * The hit log only exists at contact, and the presentation handler used to receive every melee
+   * hit as `"combined"` at that instant: measured on hardware, `combat.melee_swing` and
+   * `combat.melee_hit` started 1.4 ms apart, both at contact, so the swing never led the blow. The
+   * swing marker on `Sword_Attack` (phase 0.18) fires here first; contact then presents as
+   * `"impact"` only. If no swing marker fired, because the rig is absent or a flinch replaced the
+   * attack pose, contact still falls back to `"combined"` and nothing is lost.
+   */
+  private pendingPlayerSwing: CombatAttackStart | null = null;
+  private playerSwingSounded = false;
   private spellVfx: SpellVfx | null = null;
   /** Scratch for the cast origin, so a cast allocates nothing. */
   private readonly spellOriginTuple: [number, number, number] = [0, 0, 0];
@@ -397,6 +409,8 @@ export class GameLoop {
     this.pendingRigPose = null;
     this.pendingRigPoseTimeScale = null;
     this.gatheringRigKey = null;
+    this.pendingPlayerSwing = null;
+    this.playerSwingSounded = false;
     this.playerRig?.drainMotionEvents();
     this.playerRig?.play("idle", true);
   }
@@ -637,8 +651,20 @@ export class GameLoop {
     rig.syncTraversalPose(activeTraversal);
     rig.update(realDeltaMs / 1000);
     for (const event of rig.drainMotionEvents()) {
+      if (event.kind === "swing" && event.pose === "attack_melee") this.presentPlayerSwing();
       this.playerMotionHandler?.(event);
     }
+  }
+
+  /** Sounds the wind-up once per attack, on the clip's swing marker rather than at contact. */
+  private presentPlayerSwing(): void {
+    const start = this.pendingPlayerSwing;
+    if (!start || this.playerSwingSounded) return;
+    this.playerSwingSounded = true;
+    this.combatPresentationHandler?.({
+      atMs: start.atMs, attacker: "player", sourceId: start.sourceId, targetId: start.targetId,
+      damage: 0, hit: false, maxHit: 0, kind: start.kind, killed: false, spellId: null,
+    }, "swing");
   }
 
   /**
@@ -700,6 +726,8 @@ export class GameLoop {
       if (start.attacker === "player") {
         this.pendingRigPose = "attack_melee";
         this.pendingRigPoseTimeScale = (this.playerRig?.meleeTiming().clipSeconds ?? 1.533333) / durationSeconds;
+        this.pendingPlayerSwing = start;
+        this.playerSwingSounded = false;
       } else {
         this.entityViews?.playAction(start.sourceId, "attack", { durationSeconds });
         if (start.kind !== "melee" && this.attackStillCommitted?.(start.sourceId)) {
@@ -719,7 +747,13 @@ export class GameLoop {
     const playerId = this.deps.store.get().player.id;
     for (const hit of this.drainHits?.() ?? []) {
       // Simulation has reached the contact frame. Health, recoil, sound and numbers agree here.
-      this.combatPresentationHandler?.(hit, hit.kind === "magic" ? "impact" : "combined");
+      // A melee blow whose swing already sounded on the rig marker presents as the impact alone.
+      const swung = hit.attacker === "player" && hit.kind === "melee" && this.playerSwingSounded;
+      if (hit.attacker === "player" && hit.kind === "melee") {
+        this.pendingPlayerSwing = null;
+        this.playerSwingSounded = false;
+      }
+      this.combatPresentationHandler?.(hit, hit.kind === "magic" || swung ? "impact" : "combined");
       if (hit.attacker === "enemy") {
         this.vfx?.damage(null, hit.damage, "incoming", nowMs);
         if (hit.hit && hit.targetId === playerId) {
