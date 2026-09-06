@@ -10,15 +10,13 @@
  *
  *   npx tsx tools/regional-pack-lifecycle-test.ts --url http://127.0.0.1:4183 --pack pack_fallowmarch_kiln_track_west_patrol
  *
- * Retained goblin/skeleton/zombie/wraith/golem bodies are not public. When the pack's asset is
- * missing from `game/public/assets/manifest.json`, the pinned retained catalogue is served into
- * this browser context only, and only that pack's model route is installed.
+ * Every pack body is now promoted, so the fixture resolves models and measurements from
+ * `game/public/assets/manifest.json` -- the same bytes the final world loads. A pack whose asset is
+ * missing from that manifest fails here rather than being propped up by a staged candidate.
  */
 import assert from "node:assert/strict";
 import path from "node:path";
-import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
-import type { Page } from "playwright";
 import type { GameEvent, SemanticEntity, Vec3 } from "../game/src/contracts.js";
 import { enemyCombatLevel } from "../game/src/content/index.js";
 import { RPG_BESTIARY_BY_ID } from "../game/src/content/rpgBestiary.js";
@@ -27,7 +25,6 @@ import { REGIONAL_PACKS } from "../game/src/content/regionalPacks.js";
 import { createRpgRegionalPackCatalogue, RPG_REGIONAL_PACK_PLAN } from "../game/src/content/rpgRegionalPacks.js";
 import { CREATURE_MOTION_TIMING } from "../game/src/content/creatureMotionTiming.js";
 import { ENEMY_RESPAWN_MS } from "../game/src/systems/combat.js";
-import { installAssetCandidates } from "./lib/assetCandidates.js";
 import { GameDriver } from "./lib/driver.js";
 import { installTestDeadline } from "./lib/deadline.js";
 import { argValue, repoRoot } from "./lib/paths.js";
@@ -59,12 +56,9 @@ const CASES: Record<string, string> = {
   ranged: "pack_fallowmarch_palewood_northwest_watch",
   magic: "pack_fallowmarch_kiln_track_east_watch",
 };
-/** Held species never enter the browser through this helper. */
-const HELD_SPECIES: Readonly<Record<string, string>> = {
-  iron_golem: "Iron Golem material is unresolved (reads as brown rock); FINISH-INTEGRATION.md",
-};
-const RETAINED_CATALOGUE = "art/rebuild/candidates/finish-bestiary/retained-unhorned15/catalog.json";
-const RETAINED_SHA256 = "3272d559169c9072ae3b8f3a592dcc3d92162fc9069b7b2926bc13a12bb5de63";
+/** Held species never enter the browser through this helper. Empty since slice 04 promoted the
+ * retained fourteen, including the cast-iron round 2 Iron Golem. */
+const HELD_SPECIES: Readonly<Record<string, string>> = {};
 const ATTACK_CLIP = /attack|bite|sting|slam|punch|strike|shoot|cast|swing|smash/i;
 const ARRIVAL_METRES = 0.8;
 
@@ -105,23 +99,14 @@ async function main(): Promise<void> {
 
   // Resolve the pack exactly as the fixture will, from real measurements, before any browser starts.
   const publicManifest = JSON.parse(await readFile(path.join(repoRoot, "game/public/assets/manifest.json"), "utf8")) as { assets: Measured[] };
-  const cataloguePath = path.resolve(repoRoot, argValue(args, "--catalogue") ?? RETAINED_CATALOGUE);
-  const catalogueText = await readFile(cataloguePath, "utf8");
-  // The pin is the committed LF blob. An autocrlf checkout rewrites only line endings; the GLB
-  // and texture bytes are hashed separately by the installer.
-  const catalogueSha256 = createHash("sha256").update(catalogueText.split("\r\n").join("\n")).digest("hex");
-  if (path.resolve(repoRoot, RETAINED_CATALOGUE) === cataloguePath && catalogueSha256 !== RETAINED_SHA256)
-    throw new Error("Retained catalogue changed; root must review the new bytes before this helper serves them");
-  const staged = JSON.parse(catalogueText) as { assets: Measured[] };
-  const measurements = new Map([...publicManifest.assets, ...staged.assets].map((row) => [row.id, row]));
+  const measurements = new Map(publicManifest.assets.map((row) => [row.id, row]));
   const catalogue = createRpgRegionalPackCatalogue((id) => measurements.get(id) ?? null, [packId]);
   const pack = catalogue.packs[0]!;
   const variants = new Map(catalogue.variants.map((row) => [row.id, row]));
   const baseStats = variants.get(pack.members[0]!.variantId)!.stats;
   const species = plan.speciesId ? RPG_BESTIARY_BY_ID.get(plan.speciesId) : undefined;
-  const assetPublic = publicManifest.assets.some((row) => row.id === pack.assetId);
-  const stagedAsset = staged.assets.find((row) => row.id === pack.assetId);
-  if (!assetPublic && !stagedAsset) throw new Error(`No public or pinned model for ${pack.assetId}`);
+  if (!measurements.has(pack.assetId))
+    throw new Error(`${pack.assetId} is not in the public manifest; the final world cannot load this pack`);
   const expectedLevels = new Map(pack.members.map((member) => [member.id, enemyCombatLevel(variants.get(member.variantId)!.stats)]));
   const dressing = REGIONAL_PACK_LAYOUT[packId]!.dressing;
   const settingKind = !dressing.length ? "undressed"
@@ -144,7 +129,7 @@ async function main(): Promise<void> {
   await mkdir(directory, { recursive: true });
   const report: Record<string, unknown> = {
     passed: false, packId, speciesId: plan.speciesId, family: species?.bodyFamily ?? "wildlife", assetId: pack.assetId,
-    assetSource: assetPublic ? "public manifest" : `pinned catalogue ${path.relative(repoRoot, cataloguePath)} sha256 ${catalogueSha256}`,
+    assetSource: "public manifest",
     settingKind, activity: pack.activity, behaviour: baseStats.behaviour, attackStyle: baseStats.attackStyle ?? "melee",
     residents: pack.members.length, habitatRadius: pack.radius, levelRange: pack.levelRange,
     naturalTime: true, budgetMs, hardware: "ANGLE D3D11", visualAcceptance: "Root must inspect screenshots.",
@@ -158,16 +143,6 @@ async function main(): Promise<void> {
   try {
     await driver.launch();
     const page = driver.page!;
-    if (!assetPublic) {
-      // Install only this pack's model route. The catalogue's other bodies (including the rejected
-      // Fire model) contribute manifest metadata only and are never requested.
-      const selected = `**/assets/${stagedAsset!.file}*`;
-      const adapter = { route: async (pattern: string, handler: Parameters<Page["route"]>[1]) => {
-        if (pattern.includes("/models/") && pattern !== selected) return;
-        await page.route(pattern, handler);
-      } };
-      await installAssetCandidates(adapter as unknown as Page, cataloguePath);
-    }
     await driver.open(30000, `/index.html?mode=combat&rpg=1&pack=${packId}`);
     const read = (): Promise<Sample> => page.evaluate(() => {
       const w = window as unknown as { __packLab: PackFixture; __gameDebug: PackDebug };
