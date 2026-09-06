@@ -1,19 +1,29 @@
 {
-  "createdAt": "2026-09-05T20:07:48.347994+00:00",
-  "generatorSha256": "465464a2c061e11cc7b485e13e93b1a9fd69433887d13821e41fee89ce86ca10",
+  "createdAt": "2026-09-06T06:12:58.716Z",
+  "generator": "npx tsx tools/build-corealm-geology.ts",
+  "generatorSha256": "c5c3fe81b70f7be73dc62332e8ec700ff0d862966df25aa0714a267134552fda",
   "deterministicRegeneration": "byte-identical GLB hashes",
-  "previousRejectedCandidate": "reviewed-e8200209/",
+  "previousRejectedCandidates": [
+    "reviewed-e8200209 (deleted after promotion; rejected for exposed rectangular backs and an unsupported world lip)",
+    "source-outcrops",
+    "source-outcrops-quiet",
+    "source-bedding",
+    "closed-boulder04",
+    "closed-rock09"
+  ],
   "assets": [
     {
       "id": "corealm_sunder_ledge",
-      "sha256": "df888a91a8f25ec98453e13659800caaafeda31f356d8d18cdefc0ae9a34960a",
-      "bytes": 1262752
+      "sha256": "406f4e5f0896f1ebb0f33e9cb462381b183869fe58330a4f725ef5347d5cded1",
+      "bytes": 1501504,
+      "triangles": 35424
     },
     {
       "id": "corealm_scree_slide",
-      "sha256": "e329c735f85a76a487790ea186a1a21f5eb89160d2d3bee5903af4500e292f7a",
-      "bytes": 1015668
+      "sha256": "f72e4863d121b71d2b9c4f6aeff1c4e6638e464359886cb4631f2e86f82a1e12",
+      "bytes": 1050468,
+      "triangles": 23524
     }
   ],
-  "status": "24 geometry checks pass; new six-view lab review pending; no promotion"
+  "status": "Promoted to game/public/assets after lab, world landing and CPU grounding review. See runs/corealm-rebuild/SLICE-10-EXTERIOR-GEOLOGY.md."
 }
