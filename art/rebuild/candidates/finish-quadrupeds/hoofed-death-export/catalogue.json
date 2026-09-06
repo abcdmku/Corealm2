@@ -1,0 +1,1050 @@
+{
+  "schema": "corealm-asset-candidates/1",
+  "scope": "Slice 05: the four hoofed species re-exported from the current sources, which carry integrated whole-body helpers and corrected Death clips that had never been exported. Frozen for hardware gallery views and natural lifecycle proof on port 4181. No promotion acceptance.",
+  "packs": [
+    {
+      "id": "corealm-creature-expansion",
+      "name": "Corealm original creature expansion",
+      "author": "Corealm",
+      "source": "tools/build-creature-expansion.ts",
+      "license": "LicenseRef-Corealm-Original",
+      "generatorSha256": "eb76f57507ff84e5ec1694cb5c68839bd8076b75342445ba18c1b78999974141"
+    }
+  ],
+  "files": {
+    "creature_cairn_bighorn": "models/creature_cairn_bighorn.7e4c24863118.glb",
+    "creature_marchwild_horse": "models/creature_marchwild_horse.0ff81ac1078f.glb",
+    "creature_marsh_moose": "models/creature_marsh_moose.e89ba95d25ea.glb",
+    "creature_bracken_tapir": "models/creature_bracken_tapir.b46eb134d46d.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_cairn_bighorn",
+      "file": "models/creature/creature_cairn_bighorn.glb",
+      "pack": "corealm-creature-expansion",
+      "category": "character",
+      "is": "bighorn sheep",
+      "tags": [
+        "animal",
+        "hoofed",
+        "mountain",
+        "original",
+        "skinned"
+      ],
+      "bytes": 2296312,
+      "sha256": "7e4c24863118769f6ec335a4d5a4ec71a898df5fb318b4d4e1370395e50e365e",
+      "size": {
+        "x": 0.7413877019882202,
+        "y": 1.7042760280612856,
+        "z": 2.333097236341173
+      },
+      "base": {
+        "x": -0.3687076637744904,
+        "y": 0.002000002479180696,
+        "z": -1.0114468121528626
+      },
+      "bounds": {
+        "min": [
+          -0.3687076637744904,
+          0.002000002479180696,
+          -1.0114468121528626
+        ],
+        "max": [
+          0.37268003821372986,
+          1.7062760305404663,
+          1.32165042418831
+        ]
+      },
+      "groundY": 0.002000002479180696,
+      "triangles": 47900,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Sculpted_coat",
+        "Hoof_keratin",
+        "Horn_ivory",
+        "Wet_eye",
+        "Inner_ear",
+        "Muzzle_skin"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm",
+        "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+        "license": "Project-owned original"
+      },
+      "impliedWalkMps": 0.7894736842105263,
+      "impliedRunMps": 2.327127659574468,
+      "walkClipSeconds": 0.949999988079071,
+      "runClipSeconds": 0.6399999856948853,
+      "attackSeconds": 1.0499999523162842,
+      "contactNormalized": 0.46,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 0.949999988079071,
+            "sampledFootBones": 4,
+            "stanceSamples": 248,
+            "measuredStanceMps": 0.7894083170479104,
+            "feet": [
+              {
+                "bone": "cairn_bighorn_ForeLFoot",
+                "minY": 0.06488738452953119,
+                "maxY": 0.1944438873529059,
+                "strideZ": 0.47897280988142377,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.7894122840275863
+              },
+              {
+                "bone": "cairn_bighorn_ForeRFoot",
+                "minY": 0.06488738426205251,
+                "maxY": 0.19444389827045153,
+                "strideZ": 0.4789728072410091,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.7894114162088771
+              },
+              {
+                "bone": "cairn_bighorn_HindLFoot",
+                "minY": 0.0648538304026271,
+                "maxY": 0.19444393249921535,
+                "strideZ": 0.4791280204798408,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.7894091855804738
+              },
+              {
+                "bone": "cairn_bighorn_HindRFoot",
+                "minY": 0.06485383038519668,
+                "maxY": 0.1944439256346519,
+                "strideZ": 0.47912800414709245,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.7894083170479104
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "cairn_bighorn_Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.6399999856948853,
+            "sampledFootBones": 4,
+            "stanceSamples": 184,
+            "measuredStanceMps": 2.326781056799565,
+            "feet": [
+              {
+                "bone": "cairn_bighorn_ForeLFoot",
+                "minY": 0.06487591836327912,
+                "maxY": 0.3041612429060837,
+                "strideZ": 0.6990819671190162,
+                "contactSamples": 46,
+                "stanceMedianMps": 2.326829360910465
+              },
+              {
+                "bone": "cairn_bighorn_ForeRFoot",
+                "minY": 0.06488214497435818,
+                "maxY": 0.3041612429060834,
+                "strideZ": 0.6991253634793295,
+                "contactSamples": 46,
+                "stanceMedianMps": 2.326831092278586
+              },
+              {
+                "bone": "cairn_bighorn_HindLFoot",
+                "minY": 0.06488729256551601,
+                "maxY": 0.3041875249785587,
+                "strideZ": 0.6991204192378545,
+                "contactSamples": 46,
+                "stanceMedianMps": 2.3269445448465893
+              },
+              {
+                "bone": "cairn_bighorn_HindRFoot",
+                "minY": 0.06489519546488864,
+                "maxY": 0.3041875249785589,
+                "strideZ": 0.6990770101411509,
+                "contactSamples": 46,
+                "stanceMedianMps": 2.326481534012875
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "cairn_bighorn_Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 3.200000047683716,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006488404740159055,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 0.949999988079071,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0004659832052494485,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.6399999856948853,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006867416583365588,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "id": "cairn_bighorn",
+        "is": "bighorn sheep",
+        "tags": [
+          "animal",
+          "hoofed",
+          "mountain",
+          "original",
+          "skinned"
+        ],
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "attackSeconds": 1.05,
+        "contactNormalized": 0.46,
+        "impliedWalkMps": 0.7894736842105263,
+        "impliedRunMps": 2.327127659574468,
+        "walkClipSeconds": 0.95,
+        "runClipSeconds": 0.64,
+        "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
+        "triangles": 47900,
+        "boneNames": [
+          "cairn_bighorn_Root",
+          "cairn_bighorn_Body",
+          "cairn_bighorn_Neck",
+          "cairn_bighorn_Head",
+          "cairn_bighorn_Jaw",
+          "cairn_bighorn_Nose",
+          "cairn_bighorn_EarL",
+          "cairn_bighorn_EarR",
+          "cairn_bighorn_Tail",
+          "cairn_bighorn_TailTip",
+          "cairn_bighorn_ForeLHip",
+          "cairn_bighorn_ForeLKnee",
+          "cairn_bighorn_ForeLAnkle",
+          "cairn_bighorn_ForeLFoot",
+          "cairn_bighorn_ForeRHip",
+          "cairn_bighorn_ForeRKnee",
+          "cairn_bighorn_ForeRAnkle",
+          "cairn_bighorn_ForeRFoot",
+          "cairn_bighorn_HindLHip",
+          "cairn_bighorn_HindLKnee",
+          "cairn_bighorn_HindLAnkle",
+          "cairn_bighorn_HindLFoot",
+          "cairn_bighorn_HindRHip",
+          "cairn_bighorn_HindRKnee",
+          "cairn_bighorn_HindRAnkle",
+          "cairn_bighorn_HindRFoot"
+        ],
+        "authoringModule": "tools/creature-expansion/hoofed.mjs"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_marchwild_horse",
+      "file": "models/creature/creature_marchwild_horse.glb",
+      "pack": "corealm-creature-expansion",
+      "category": "character",
+      "is": "wild horse",
+      "tags": [
+        "animal",
+        "hoofed",
+        "grassland",
+        "original",
+        "skinned"
+      ],
+      "bytes": 2688596,
+      "sha256": "0ff81ac1078f47cc7a8542829ce762ef8a0398f9fa36d019147c045ce2bdaab3",
+      "size": {
+        "x": 0.7250372844434754,
+        "y": 2.429229989433661,
+        "z": 3.101346580434922
+      },
+      "base": {
+        "x": -0.36251864222148217,
+        "y": 0.0020000024791807236,
+        "z": -1.3592477655410766
+      },
+      "bounds": {
+        "min": [
+          -0.36251864222148217,
+          0.0020000024791807236,
+          -1.3592477655410766
+        ],
+        "max": [
+          0.36251864222199315,
+          2.4312299919128417,
+          1.7420988148938452
+        ]
+      },
+      "groundY": 0.0020000024791807236,
+      "triangles": 57050,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Sculpted_coat",
+        "Hoof_keratin",
+        "Wet_eye",
+        "Inner_ear"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm",
+        "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+        "license": "Project-owned original"
+      },
+      "impliedWalkMps": 1.1079545454545454,
+      "impliedRunMps": 3.3434650455927057,
+      "walkClipSeconds": 1.100000023841858,
+      "runClipSeconds": 0.699999988079071,
+      "attackSeconds": 1.1799999475479126,
+      "contactNormalized": 0.46,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 1.100000023841858,
+            "sampledFootBones": 4,
+            "stanceSamples": 248,
+            "measuredStanceMps": 1.1078932750268584,
+            "feet": [
+              {
+                "bone": "marchwild_horse_ForeLFoot",
+                "minY": 0.06481134574092298,
+                "maxY": 0.1944439184170767,
+                "strideZ": 0.7783443062317699,
+                "contactSamples": 62,
+                "stanceMedianMps": 1.1072154392251963
+              },
+              {
+                "bone": "marchwild_horse_ForeRFoot",
+                "minY": 0.06481134837027323,
+                "maxY": 0.19444391841707792,
+                "strideZ": 0.7783443048931589,
+                "contactSamples": 62,
+                "stanceMedianMps": 1.1072149351459077
+              },
+              {
+                "bone": "marchwild_horse_HindLFoot",
+                "minY": 0.06480278340359051,
+                "maxY": 0.19444392868196936,
+                "strideZ": 0.7785978778761065,
+                "contactSamples": 62,
+                "stanceMedianMps": 1.108036189847949
+              },
+              {
+                "bone": "marchwild_horse_HindRFoot",
+                "minY": 0.06480278211152982,
+                "maxY": 0.1944439256050211,
+                "strideZ": 0.7785978436930152,
+                "contactSamples": 62,
+                "stanceMedianMps": 1.1080362172455913
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "marchwild_horse_Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.699999988079071,
+            "sampledFootBones": 4,
+            "stanceSamples": 184,
+            "measuredStanceMps": 3.343461832287375,
+            "feet": [
+              {
+                "bone": "marchwild_horse_ForeLFoot",
+                "minY": 0.06470211604025816,
+                "maxY": 0.3040324801816335,
+                "strideZ": 1.0985555717638378,
+                "contactSamples": 46,
+                "stanceMedianMps": 3.344241453778001
+              },
+              {
+                "bone": "marchwild_horse_ForeRFoot",
+                "minY": 0.06430346672226323,
+                "maxY": 0.3042008879591232,
+                "strideZ": 1.0991199496361228,
+                "contactSamples": 46,
+                "stanceMedianMps": 3.3427087810300877
+              },
+              {
+                "bone": "marchwild_horse_HindLFoot",
+                "minY": 0.06472903475656465,
+                "maxY": 0.3041937717842579,
+                "strideZ": 1.098958480120782,
+                "contactSamples": 46,
+                "stanceMedianMps": 3.343237987488018
+              },
+              {
+                "bone": "marchwild_horse_HindRFoot",
+                "minY": 0.06465561996505916,
+                "maxY": 0.3041805171554233,
+                "strideZ": 1.0989790192747335,
+                "contactSamples": 46,
+                "stanceMedianMps": 3.344413258789151
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "marchwild_horse_Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 3.200000047683716,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 1.100000023841858,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.000600562229292037,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.699999988079071,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006717949562863838,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "id": "marchwild_horse",
+        "is": "wild horse",
+        "tags": [
+          "animal",
+          "hoofed",
+          "grassland",
+          "original",
+          "skinned"
+        ],
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "attackSeconds": 1.18,
+        "contactNormalized": 0.46,
+        "impliedWalkMps": 1.1079545454545454,
+        "impliedRunMps": 3.3434650455927057,
+        "walkClipSeconds": 1.1,
+        "runClipSeconds": 0.7,
+        "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
+        "triangles": 57050,
+        "boneNames": [
+          "marchwild_horse_Root",
+          "marchwild_horse_Body",
+          "marchwild_horse_Neck",
+          "marchwild_horse_Head",
+          "marchwild_horse_Jaw",
+          "marchwild_horse_Nose",
+          "marchwild_horse_EarL",
+          "marchwild_horse_EarR",
+          "marchwild_horse_Tail",
+          "marchwild_horse_TailTip",
+          "marchwild_horse_ForeLHip",
+          "marchwild_horse_ForeLKnee",
+          "marchwild_horse_ForeLAnkle",
+          "marchwild_horse_ForeLFoot",
+          "marchwild_horse_ForeRHip",
+          "marchwild_horse_ForeRKnee",
+          "marchwild_horse_ForeRAnkle",
+          "marchwild_horse_ForeRFoot",
+          "marchwild_horse_HindLHip",
+          "marchwild_horse_HindLKnee",
+          "marchwild_horse_HindLAnkle",
+          "marchwild_horse_HindLFoot",
+          "marchwild_horse_HindRHip",
+          "marchwild_horse_HindRKnee",
+          "marchwild_horse_HindRAnkle",
+          "marchwild_horse_HindRFoot"
+        ],
+        "authoringModule": "tools/creature-expansion/hoofed.mjs"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_marsh_moose",
+      "file": "models/creature/creature_marsh_moose.glb",
+      "pack": "corealm-creature-expansion",
+      "category": "character",
+      "is": "moose",
+      "tags": [
+        "animal",
+        "hoofed",
+        "wetland",
+        "original",
+        "skinned"
+      ],
+      "bytes": 2109608,
+      "sha256": "e89ba95d25ea1b751476b38276772bb3c524c19686772cadc361a5754fd085ab",
+      "size": {
+        "x": 2.4092817306518555,
+        "y": 2.8990200571063904,
+        "z": 3.023226335241173
+      },
+      "base": {
+        "x": -1.2046408653259277,
+        "y": 0.0020000024791807236,
+        "z": -1.2121323442459107
+      },
+      "bounds": {
+        "min": [
+          -1.2046408653259277,
+          0.0020000024791807236,
+          -1.2121323442459107
+        ],
+        "max": [
+          1.2046408653259277,
+          2.901020059585571,
+          1.8110939909952624
+        ]
+      },
+      "groundY": 0.0020000024791807236,
+      "triangles": 43168,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Sculpted_coat",
+        "Hoof_keratin",
+        "Horn_ivory",
+        "Wet_eye",
+        "Inner_ear"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm",
+        "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+        "license": "Project-owned original"
+      },
+      "impliedWalkMps": 0.9989754098360656,
+      "impliedRunMps": 3.0005455537370436,
+      "walkClipSeconds": 1.2200000286102295,
+      "runClipSeconds": 0.7799999713897705,
+      "attackSeconds": 1.2300000190734863,
+      "contactNormalized": 0.47,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 1.2200000286102295,
+            "sampledFootBones": 4,
+            "stanceSamples": 248,
+            "measuredStanceMps": 0.9988606333598813,
+            "feet": [
+              {
+                "bone": "marsh_moose_ForeLFoot",
+                "minY": 0.06483434687669992,
+                "maxY": 0.194443917798452,
+                "strideZ": 0.7783209757848828,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9989003043712185
+              },
+              {
+                "bone": "marsh_moose_ForeRFoot",
+                "minY": 0.06483434623343907,
+                "maxY": 0.19444391958333132,
+                "strideZ": 0.778320971846126,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9989026925014156
+              },
+              {
+                "bone": "marsh_moose_HindLFoot",
+                "minY": 0.06476615728275328,
+                "maxY": 0.19444391657013885,
+                "strideZ": 0.7785895118284847,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9988606333598813
+              },
+              {
+                "bone": "marsh_moose_HindRFoot",
+                "minY": 0.06476616018319985,
+                "maxY": 0.19444391385275867,
+                "strideZ": 0.7785895115254415,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.9988630212020989
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "marsh_moose_Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.7799999713897705,
+            "sampledFootBones": 4,
+            "stanceSamples": 184,
+            "measuredStanceMps": 3.0001146809184074,
+            "feet": [
+              {
+                "bone": "marsh_moose_ForeLFoot",
+                "minY": 0.06478630140034163,
+                "maxY": 0.3041149896201095,
+                "strideZ": 1.0985680400432625,
+                "contactSamples": 46,
+                "stanceMedianMps": 3.0001110190731963
+              },
+              {
+                "bone": "marsh_moose_ForeRFoot",
+                "minY": 0.06481417574962227,
+                "maxY": 0.30411498894492356,
+                "strideZ": 1.098647958726845,
+                "contactSamples": 46,
+                "stanceMedianMps": 3.0001146809184074
+              },
+              {
+                "bone": "marsh_moose_HindLFoot",
+                "minY": 0.06483926002939452,
+                "maxY": 0.30414920213802793,
+                "strideZ": 1.0986400197270927,
+                "contactSamples": 46,
+                "stanceMedianMps": 3.0003526523693393
+              },
+              {
+                "bone": "marsh_moose_HindRFoot",
+                "minY": 0.06483926042235072,
+                "maxY": 0.30414920515764654,
+                "strideZ": 1.098560098899802,
+                "contactSamples": 46,
+                "stanceMedianMps": 3.0001768914850473
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "marsh_moose_Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 3.200000047683716,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0005156243919438794,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 1.2200000286102295,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006488480650415864,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.7799999713897705,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.000659676401021626,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "id": "marsh_moose",
+        "is": "moose",
+        "tags": [
+          "animal",
+          "hoofed",
+          "wetland",
+          "original",
+          "skinned"
+        ],
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "attackSeconds": 1.23,
+        "contactNormalized": 0.47,
+        "impliedWalkMps": 0.9989754098360656,
+        "impliedRunMps": 3.0005455537370436,
+        "walkClipSeconds": 1.22,
+        "runClipSeconds": 0.78,
+        "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
+        "triangles": 43168,
+        "boneNames": [
+          "marsh_moose_Root",
+          "marsh_moose_Body",
+          "marsh_moose_Neck",
+          "marsh_moose_Head",
+          "marsh_moose_Jaw",
+          "marsh_moose_Nose",
+          "marsh_moose_EarL",
+          "marsh_moose_EarR",
+          "marsh_moose_Tail",
+          "marsh_moose_TailTip",
+          "marsh_moose_ForeLHip",
+          "marsh_moose_ForeLKnee",
+          "marsh_moose_ForeLAnkle",
+          "marsh_moose_ForeLFoot",
+          "marsh_moose_ForeRHip",
+          "marsh_moose_ForeRKnee",
+          "marsh_moose_ForeRAnkle",
+          "marsh_moose_ForeRFoot",
+          "marsh_moose_HindLHip",
+          "marsh_moose_HindLKnee",
+          "marsh_moose_HindLAnkle",
+          "marsh_moose_HindLFoot",
+          "marsh_moose_HindRHip",
+          "marsh_moose_HindRKnee",
+          "marsh_moose_HindRAnkle",
+          "marsh_moose_HindRFoot"
+        ],
+        "authoringModule": "tools/creature-expansion/hoofed.mjs"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "creature_bracken_tapir",
+      "file": "models/creature/creature_bracken_tapir.glb",
+      "pack": "corealm-creature-expansion",
+      "category": "character",
+      "is": "tapir",
+      "tags": [
+        "animal",
+        "hoofed",
+        "forest",
+        "original",
+        "skinned"
+      ],
+      "bytes": 2344236,
+      "sha256": "b46eb134d46db8625f04d9f9f036e7639ab5c3694c66b3f1b50fd97e50a70342",
+      "size": {
+        "x": 0.7259547698497772,
+        "y": 1.1229998983861877,
+        "z": 2.3407573752467847
+      },
+      "base": {
+        "x": -0.36298002243041994,
+        "y": 0.0010000024316832445,
+        "z": -1.0297929072380065
+      },
+      "bounds": {
+        "min": [
+          -0.36298002243041994,
+          0.0010000024316832445,
+          -1.0297929072380065
+        ],
+        "max": [
+          0.3629747474193573,
+          1.123999900817871,
+          1.3109644680087784
+        ]
+      },
+      "groundY": 0.0010000024316832445,
+      "triangles": 47406,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Sculpted_coat",
+        "Hoof_keratin",
+        "Wet_eye",
+        "Inner_ear",
+        "Muzzle_skin"
+      ],
+      "sourceProvenance": {
+        "author": "Corealm",
+        "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+        "license": "Project-owned original"
+      },
+      "impliedWalkMps": 0.504032258064516,
+      "impliedRunMps": 1.6622340425531914,
+      "walkClipSeconds": 0.9300000071525574,
+      "runClipSeconds": 0.6399999856948853,
+      "attackSeconds": 0.8999999761581421,
+      "contactNormalized": 0.48,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 0.9300000071525574,
+            "sampledFootBones": 4,
+            "stanceSamples": 248,
+            "measuredStanceMps": 0.5039758564541207,
+            "feet": [
+              {
+                "bone": "bracken_tapir_ForeLFoot",
+                "minY": 0.06487297710012367,
+                "maxY": 0.19444393494895798,
+                "strideZ": 0.2993467236035115,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.5039670655221287
+              },
+              {
+                "bone": "bracken_tapir_ForeRFoot",
+                "minY": 0.0648729773531303,
+                "maxY": 0.19444393494895784,
+                "strideZ": 0.2993467219022601,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.5039668785368727
+              },
+              {
+                "bone": "bracken_tapir_HindLFoot",
+                "minY": 0.06486610115939302,
+                "maxY": 0.1944439179636057,
+                "strideZ": 0.2994720117351623,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.5040260064785819
+              },
+              {
+                "bone": "bracken_tapir_HindRFoot",
+                "minY": 0.06486610096427933,
+                "maxY": 0.19444391748209794,
+                "strideZ": 0.29947200814953484,
+                "contactSamples": 62,
+                "stanceMedianMps": 0.5040262496338623
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "bracken_tapir_Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          },
+          "run": {
+            "seconds": 0.6399999856948853,
+            "sampledFootBones": 4,
+            "stanceSamples": 184,
+            "measuredStanceMps": 1.6618649063416255,
+            "feet": [
+              {
+                "bone": "bracken_tapir_ForeLFoot",
+                "minY": 0.06487034298902558,
+                "maxY": 0.3041656943236847,
+                "strideZ": 0.4993477268813931,
+                "contactSamples": 46,
+                "stanceMedianMps": 1.6621030413301308
+              },
+              {
+                "bone": "bracken_tapir_ForeRFoot",
+                "minY": 0.0648853658690445,
+                "maxY": 0.3041656943236846,
+                "strideZ": 0.49938078517944723,
+                "contactSamples": 46,
+                "stanceMedianMps": 1.6621042761390052
+              },
+              {
+                "bone": "bracken_tapir_HindLFoot",
+                "minY": 0.06489652855275646,
+                "maxY": 0.3041900574848261,
+                "strideZ": 0.4993783545683033,
+                "contactSamples": 46,
+                "stanceMedianMps": 1.6618688954245953
+              },
+              {
+                "bone": "bracken_tapir_HindRFoot",
+                "minY": 0.06490399698915533,
+                "maxY": 0.30419005748482597,
+                "strideZ": 0.49934529434117286,
+                "contactSamples": 46,
+                "stanceMedianMps": 1.6615829130900344
+              }
+            ],
+            "rootHorizontalTravel": [
+              {
+                "bone": "bracken_tapir_Root",
+                "x": 0,
+                "z": 0
+              }
+            ]
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 3.200000047683716,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0,
+            "maxScaleGap": 0
+          },
+          "Walk": {
+            "seconds": 0.9300000071525574,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006783501559213511,
+            "maxScaleGap": 0
+          },
+          "Run": {
+            "seconds": 0.6399999856948853,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006415758880627768,
+            "maxScaleGap": 0
+          }
+        },
+        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+      },
+      "metadata": {
+        "id": "bracken_tapir",
+        "is": "tapir",
+        "tags": [
+          "animal",
+          "hoofed",
+          "forest",
+          "original",
+          "skinned"
+        ],
+        "provenance": {
+          "author": "Corealm",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
+          "license": "Project-owned original"
+        },
+        "attackSeconds": 0.9,
+        "contactNormalized": 0.48,
+        "impliedWalkMps": 0.504032258064516,
+        "impliedRunMps": 1.6622340425531914,
+        "walkClipSeconds": 0.93,
+        "runClipSeconds": 0.64,
+        "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
+        "triangles": 47406,
+        "boneNames": [
+          "bracken_tapir_Root",
+          "bracken_tapir_Body",
+          "bracken_tapir_Neck",
+          "bracken_tapir_Head",
+          "bracken_tapir_Jaw",
+          "bracken_tapir_Nose",
+          "bracken_tapir_EarL",
+          "bracken_tapir_EarR",
+          "bracken_tapir_Tail",
+          "bracken_tapir_TailTip",
+          "bracken_tapir_ForeLHip",
+          "bracken_tapir_ForeLKnee",
+          "bracken_tapir_ForeLAnkle",
+          "bracken_tapir_ForeLFoot",
+          "bracken_tapir_ForeRHip",
+          "bracken_tapir_ForeRKnee",
+          "bracken_tapir_ForeRAnkle",
+          "bracken_tapir_ForeRFoot",
+          "bracken_tapir_HindLHip",
+          "bracken_tapir_HindLKnee",
+          "bracken_tapir_HindLAnkle",
+          "bracken_tapir_HindLFoot",
+          "bracken_tapir_HindRHip",
+          "bracken_tapir_HindRKnee",
+          "bracken_tapir_HindRAnkle",
+          "bracken_tapir_HindRFoot"
+        ],
+        "authoringModule": "tools/creature-expansion/hoofed.mjs"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "origins": [
+    {
+      "slot": "creature_cairn_bighorn",
+      "sha256": "7e4c24863118769f6ec335a4d5a4ec71a898df5fb318b4d4e1370395e50e365e",
+      "bytes": 2296312,
+      "priorProductionSha256": "ca7005ff331d6610065c8742addc758841e21b13df4318ff8660e05d719efa0d",
+      "priorProductionBytes": 2360220
+    },
+    {
+      "slot": "creature_marchwild_horse",
+      "sha256": "0ff81ac1078f47cc7a8542829ce762ef8a0398f9fa36d019147c045ce2bdaab3",
+      "bytes": 2688596,
+      "priorProductionSha256": "7c22d6e71dccf631dfad298c59126a28e50cb26a24b420833d4bf7b169f52a99",
+      "priorProductionBytes": 2614564
+    },
+    {
+      "slot": "creature_marsh_moose",
+      "sha256": "e89ba95d25ea1b751476b38276772bb3c524c19686772cadc361a5754fd085ab",
+      "bytes": 2109608,
+      "priorProductionSha256": "b622388373aaec3771e4a4e67fd3fb8a256325ed62a057008bd9c982564df6d9",
+      "priorProductionBytes": 2641056
+    },
+    {
+      "slot": "creature_bracken_tapir",
+      "sha256": "b46eb134d46db8625f04d9f9f036e7639ab5c3694c66b3f1b50fd97e50a70342",
+      "bytes": 2344236,
+      "priorProductionSha256": "2c16dd090f8558de658562a83409d67610afd72e0b16687a172e60313e16585f",
+      "priorProductionBytes": 3092188
+    }
+  ],
+  "sourceHashes": {
+    "tools/creature-expansion/hoofed.mjs": "8645380304f5ece7cfe5f4423e154ade9a1f54517d9fe49b090b8e41f2ddbf63",
+    "tools/creature-expansion/hoofed/horse-anatomy.mjs": "20d6f71281e6bc18df07c6548a44418e156b34a7b3eed970e51714e450cbe3d0",
+    "tools/creature-expansion/hoofed/moose-anatomy.mjs": "566cb62ac74c6cfd764d8df7499097a9fff8fb4b569442f13070e688342c13c1",
+    "tools/creature-expansion/hoofed/bighorn-anatomy.mjs": "c1fdb6b9d8146b1771b1dd40aef5ef51e692b6e83fd78dcb05fdd643317e2f3b",
+    "tools/creature-expansion/hoofed/bighorn-refinement.mjs": "e3dd5c98f3fed8d25bff0c95af1baeb68554e7c8cba66cff24b7f432f04c32c1",
+    "tools/creature-expansion/hoofed/tapir-refinement.mjs": "bc30720fcccf2a0a53b72c492c8ba77ea014d942b4bb95c0fae49b6a9604d76f",
+    "tools/creature-expansion/hoofed/tapir-sections.mjs": "cb046e66f352e819b09434b2c13dd059699c2060cc1118ae74d903ce8587e0c8",
+    "tools/creature-expansion/hoofed/tapir-ears.mjs": "ffa214bfb588e41c64abeb3b70a54770340314d45b7630c39084467a6459d771",
+    "tools/creature-expansion/hoofed/refine-tapir-toes.mjs": "0e653351dae909b75507a130627ad3f2012b2416532f86803ef83362fa675a7b",
+    "tools/creature-expansion/hoofed/ram-horns.mjs": "b9fcf31bde57ae1f5352e1de355b459279d5219389d7b8847811143128f72a85",
+    "tools/creature-expansion/hoofed/implicit-anatomy.mjs": "faaebd1cdb743d6f74fb5a0f6412cd16fd814b302d7875911663e9bd863e62c4",
+    "tools/creature-expansion/hoofed/organic-appendages.mjs": "57520b0e0aa17197efcfdcbebf72e5ff030304fde403b86677976fa7a0058d7b",
+    "tools/creature-expansion/hoofed/coat-textures.mjs": "5f374f33140915e48499d10d8864bde0da0bc84efb0a7945ca946612ea702e8c",
+    "package-lock.json": "a969659110542094ceb184167a2bada44b987eee9f61a99cfe4fa1060b85b146",
+    "tools/build-creature-expansion.ts": "eb76f57507ff84e5ec1694cb5c68839bd8076b75342445ba18c1b78999974141",
+    "tools/creature-expansion/packs.ts": "80d12689029c7e1bf06e8ae9d648b568e897bf16a04d6e89e692211eba627f8e"
+  }
+}

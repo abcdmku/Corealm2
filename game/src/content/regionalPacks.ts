@@ -151,8 +151,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "redbrush_fox_t1",
     "activity": "forage",
-    "nativeBodyRadius": 1.2132761287689209,
-    "nativeVisualRadius": 1.37619566011836
+    "nativeBodyRadius": 0.7671434755255592,
+    "nativeVisualRadius": 0.8766702550812312
   },
   {
     "id": "rootdelve_badger_residents",
@@ -178,8 +178,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "marchwild_horse_t5",
     "activity": "graze",
-    "nativeBodyRadius": 1.6627995989690856,
-    "nativeVisualRadius": 1.8479814802167864
+    "nativeBodyRadius": 1.550673290217461,
+    "nativeVisualRadius": 1.7794178954964508
   },
   {
     "id": "cairn_bighorn_residents",
@@ -187,8 +187,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "cairn_bighorn_t10",
     "activity": "graze",
-    "nativeBodyRadius": 1.1879706740379334,
-    "nativeVisualRadius": 1.4651450990704056
+    "nativeBodyRadius": 1.1665486181705864,
+    "nativeVisualRadius": 1.3731898101282751
   },
   {
     "id": "ashscale_monitor_residents",
@@ -197,7 +197,7 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "baseEnemyDefId": "ashscale_monitor_t20",
     "activity": "prowl",
     "nativeBodyRadius": 2.3840643191337585,
-    "nativeVisualRadius": 3.126749966751312
+    "nativeVisualRadius": 3.1445374043543763
   },
   {
     "id": "scree_bustard_residents",

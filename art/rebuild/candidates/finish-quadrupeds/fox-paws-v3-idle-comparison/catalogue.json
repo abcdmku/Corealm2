@@ -1,0 +1,338 @@
+{
+  "schema": "corealm-asset-candidates/1",
+  "scope": "Slice 05 complete-source Fox: paws-v3 padded four-lobed paws, resting clip renamed Survey to Idle so the production renderer resolves it by name rather than by clip order. Frozen for hardware gallery, close paw views and the natural lifecycle proof on port 4181. No promotion acceptance.",
+  "packs": [
+    {
+      "id": "khronos-fox-complete-source",
+      "name": "Khronos glTF Sample Fox (complete source adaptation)",
+      "author": "PixelMannen (model); tomkranis (rigging and animation); @AsoboStudio and @scurest (glTF conversion)",
+      "source": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+      "license": "CC-BY-4.0",
+      "derivativeLicense": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "archiveSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+      "sourceArchive": "Models/Fox/glTF-Binary/Fox.glb at commit 81e8b567643b5166e6ff40024e4ff71ad4b18676",
+      "upstreamPackId": "khronos-gltf-sample-assets-fox",
+      "attribution": "Fox by PixelMannen (model, CC0-1.0), rigging and animation by tomkranis (CC-BY-4.0), glTF conversion by @AsoboStudio and @scurest (CC-BY-4.0). Source: https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox. Adapted for Corealm: controlled subdivision and paw/eye reshaping of the complete source body, vertex-colour coat, contact-corrected Walk/Run, and newly authored Attack, Hit, HitLeft, HitRight and Death on the original 24-joint rig. The adapted asset is distributed under CC BY 4.0; the original model portion remains CC0-1.0.",
+      "derivation": "Complete original mesh topology cage, rig, inverse binds and the three native clips (Survey/Idle, Walk, Run) retained, the resting clip renamed to Idle to match the production clip convention; Walk/Run contact-corrected; five gameplay clips authored on the native rig; geometry subdivided and reshaped at paws and eyes; source palette converted to vertex colours. See art/rebuild/candidates/finish-quadrupeds/source-fox for the unchanged source snapshot and provenance.json."
+    }
+  ],
+  "files": {
+    "creature_redbrush_fox": "creature_redbrush_fox.6c5c6329126b.glb"
+  },
+  "assets": [
+    {
+      "id": "creature_redbrush_fox",
+      "file": "models/creature/creature_redbrush_fox.glb",
+      "pack": "khronos-fox-complete-source",
+      "category": "character",
+      "is": "a red fox adapted from the complete Khronos sample Fox: narrow chest, pointed muzzle, tall ears, dark stockings, padded paws and a white-tipped brush",
+      "tags": [
+        "mammal",
+        "quadruped",
+        "fox",
+        "canid",
+        "woodland",
+        "complete-source",
+        "skinned"
+      ],
+      "bytes": 2280444,
+      "sha256": "6c5c6329126b5800a62c79e766f4f2b6f5bdea85bfdff56dce5d003656342f00",
+      "size": {
+        "x": 0.24451285362256836,
+        "y": 0.7827742114002594,
+        "z": 1.5342869510511183
+      },
+      "base": {
+        "x": -0.12225643787119361,
+        "y": -0.0012173418422932161,
+        "z": -0.8681037377774836
+      },
+      "bounds": {
+        "min": [
+          -0.12225643787119361,
+          -0.0012173418422932161,
+          -0.8681037377774836
+        ],
+        "max": [
+          0.12225641575137475,
+          0.7815568695579662,
+          0.6661832132736347
+        ]
+      },
+      "groundY": -0.0012173418422932161,
+      "triangles": 37200,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "Fox_source_coat_refined",
+        "Fox_seated_amber_eye",
+        "Fox_seated_amber_eye"
+      ],
+      "sourceProvenance": {
+        "repositoryUrl": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+        "commit": "81e8b567643b5166e6ff40024e4ff71ad4b18676",
+        "sourceSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+        "attribution": [
+          {
+            "author": "PixelMannen",
+            "work": "Model",
+            "year": 2014,
+            "license": "CC0-1.0",
+            "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
+          },
+          {
+            "author": "tomkranis",
+            "work": "Rigging & Animation",
+            "year": 2014,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          },
+          {
+            "author": "@AsoboStudio and @scurest",
+            "work": "Conversion to glTF",
+            "year": 2017,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          }
+        ],
+        "modifications": [
+          "Welded face duplicates by position and skin weights; averaged source texture colours at shared vertices without exchanging orange/white/dark coat regions.",
+          "Three controlled Loop-subdivision rounds on the complete original mesh cage. Ear/nose planes and sole elevation receive minimal relaxation.",
+          "Widened existing weighted distal foot vertices and eased pointed forefoot ends.",
+          "Source colour regions converted to linear vertex colours with directional grizzle; smooth normals and rough coat.",
+          "Added two small surface-projected almond eye details on native Head joint.",
+          "Connected distal paw surface reshaped; derivative limb contact animation and reach correction; see motion review.",
+          "Survey idle placement corrected by one constant 0.0013708967433231965m world-Y hip translation; all native rotations and times preserved. Generic transition boundary contact remains unresolved.",
+          "Slice 05: bind-pose distal paw reshape into padded four-lobed canid paws with preserved contact vertex set, skin weights, rig, clips and colours (paws-v2.mjs)."
+        ]
+      },
+      "impliedWalkMps": 0.58,
+      "impliedRunMps": 1.8,
+      "walkClipSeconds": 0.7083333134651184,
+      "runClipSeconds": 0.4000000059604645,
+      "attackSeconds": 1.0499999523162842,
+      "contactNormalized": 0.438095,
+      "measuredGait": {
+        "gait": {
+          "walk": {
+            "seconds": 0.7083333134651184,
+            "sampledFootBones": 4,
+            "stanceSamples": 276,
+            "measuredStanceMps": 0.5798481245003866,
+            "feet": [
+              {
+                "bone": "b_RightHand_08",
+                "minY": 0.06752095331171279,
+                "maxY": 0.13235044456401251,
+                "strideZ": 0.30863053362892184,
+                "contactSamples": 69,
+                "stanceMedianMps": 0.5798510073657928
+              },
+              {
+                "bone": "b_LeftHand_011",
+                "minY": 0.06751744025224327,
+                "maxY": 0.1324607706727268,
+                "strideZ": 0.3086508321240843,
+                "contactSamples": 69,
+                "stanceMedianMps": 0.5798184262386565
+              },
+              {
+                "bone": "b_LeftFoot02_018",
+                "minY": 0.011152473343429087,
+                "maxY": 0.07602866626072846,
+                "strideZ": 0.308615257902896,
+                "contactSamples": 69,
+                "stanceMedianMps": 0.5798481245003866
+              },
+              {
+                "bone": "b_RightFoot02_022",
+                "minY": 0.01107250607091953,
+                "maxY": 0.07597322629360398,
+                "strideZ": 0.30874891171036634,
+                "contactSamples": 69,
+                "stanceMedianMps": 0.5798491920558196
+              }
+            ],
+            "minimumSkinnedMeshY": -0.000016169999870898775
+          },
+          "run": {
+            "seconds": 0.4000000059604645,
+            "sampledFootBones": 4,
+            "stanceSamples": 190,
+            "measuredStanceMps": 1.7994476869768294,
+            "feet": [
+              {
+                "bone": "b_RightHand_08",
+                "minY": 0.06736333985647194,
+                "maxY": 0.20742983256808822,
+                "strideZ": 0.41364749148204033,
+                "contactSamples": 47,
+                "stanceMedianMps": 1.799188751076976
+              },
+              {
+                "bone": "b_LeftHand_011",
+                "minY": 0.06740163339651872,
+                "maxY": 0.20746443587863114,
+                "strideZ": 0.4132226267117442,
+                "contactSamples": 48,
+                "stanceMedianMps": 1.7994523544888368
+              },
+              {
+                "bone": "b_LeftFoot02_018",
+                "minY": 0.011100565435663207,
+                "maxY": 0.15115687344413614,
+                "strideZ": 0.41317747731515747,
+                "contactSamples": 48,
+                "stanceMedianMps": 1.7994823664012978
+              },
+              {
+                "bone": "b_RightFoot02_022",
+                "minY": 0.010879304092139525,
+                "maxY": 0.15097085333837912,
+                "strideZ": 0.41309657919537646,
+                "contactSamples": 47,
+                "stanceMedianMps": 1.7994879565017436
+              }
+            ],
+            "minimumSkinnedMeshY": -0.00023859967230133994
+          }
+        },
+        "loops": {
+          "Idle": {
+            "seconds": 3.4166667461395264,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006872158096838825
+          },
+          "Walk": {
+            "seconds": 0.7083333134651184,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.0006794824221646686
+          },
+          "Run": {
+            "seconds": 0.4000000059604645,
+            "maxTranslationGap": 0,
+            "maxRotationGapRadians": 0.000744273073323981
+          }
+        },
+        "basis": "96 samples per locomotion cycle; distal joint (Hand/Foot02) backward speed during the lowest 12 percent of its vertical travel, from the authored contact-corrected clips. Whole-mesh contact velocity evidence is in source-fox-adaptation review JSON; production movement review remains required."
+      },
+      "clipDurations": {
+        "Idle": 3.4166667461395264,
+        "Walk": 0.7083333134651184,
+        "Run": 0.4000000059604645,
+        "Attack": 1.0499999523162842,
+        "Hit": 0.7200000286102295,
+        "HitLeft": 0.7200000286102295,
+        "HitRight": 0.7200000286102295,
+        "Death": 1.399999976158142
+      },
+      "gameplayRoleProvenance": [
+        {
+          "name": "Attack",
+          "duration": 1.05,
+          "provenance": "Authored anticipation crouch, short pounce, downward head strike, landing and braced recovery. No jaw animation or bite claim.",
+          "events": {
+            "anticipation": 0.16,
+            "launch": 0.22,
+            "impact": 0.46,
+            "recovery": 0.8
+          }
+        },
+        {
+          "name": "Hit",
+          "duration": 0.72,
+          "provenance": "Authored rearward recoil and four-paw brace with recovery.",
+          "events": {
+            "peak": 0.13,
+            "recovered": 0.65
+          }
+        },
+        {
+          "name": "HitLeft",
+          "duration": 0.72,
+          "provenance": "Authored left-side impact response: rightward trunk displacement, yaw and counter-tail, planted paws.",
+          "events": {
+            "peak": 0.13,
+            "recovered": 0.65
+          }
+        },
+        {
+          "name": "HitRight",
+          "duration": 0.72,
+          "provenance": "Authored right-side impact response: leftward trunk displacement, yaw and counter-tail, planted paws.",
+          "events": {
+            "peak": 0.13,
+            "recovered": 0.65
+          }
+        },
+        {
+          "name": "Death",
+          "duration": 1.4,
+          "provenance": "Authored collapse, limb folding, side roll, head/tail rest and geometry-derived body support. Final .45 seconds held motionless.",
+          "events": {
+            "collapse": 0.1,
+            "sideContact": 0.85,
+            "settled": 0.95
+          }
+        }
+      ],
+      "metadata": {
+        "is": "red fox (complete Khronos source adaptation)",
+        "source": "Khronos glTF-Sample-Assets Fox",
+        "license": "CC-BY-4.0 (rigging, animation, glTF conversion) over a CC0-1.0 model",
+        "rig": "original-khronos-fox-24-joint",
+        "idleClip": "Idle",
+        "boneNames": [
+          "_rootJoint",
+          "b_Root_00",
+          "b_Hip_01",
+          "b_Spine01_02",
+          "b_Spine02_03",
+          "b_Neck_04",
+          "b_Head_05",
+          "b_RightUpperArm_06",
+          "b_RightForeArm_07",
+          "b_RightHand_08",
+          "b_LeftUpperArm_09",
+          "b_LeftForeArm_010",
+          "b_LeftHand_011",
+          "b_Tail01_012",
+          "b_Tail02_013",
+          "b_Tail03_014",
+          "b_LeftLeg01_015",
+          "b_LeftLeg02_016",
+          "b_LeftFoot01_017",
+          "b_LeftFoot02_018",
+          "b_RightLeg01_019",
+          "b_RightLeg02_020",
+          "b_RightFoot01_021",
+          "b_RightFoot02_022"
+        ],
+        "authoringModule": "art/rebuild/candidates/finish-quadrupeds/source-fox-adaptation/*.mjs"
+      },
+      "acceptance": {
+        "assetAudit": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "origins": [
+    {
+      "slot": "creature_redbrush_fox",
+      "inputFile": "art/rebuild/candidates/finish-quadrupeds/source-fox-adaptation/Fox.paws-v3-idle.glb",
+      "sha256": "6c5c6329126b5800a62c79e766f4f2b6f5bdea85bfdff56dce5d003656342f00",
+      "sourceSnapshot": "source-fox/provenance.json",
+      "sourceSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7"
+    }
+  ]
+}

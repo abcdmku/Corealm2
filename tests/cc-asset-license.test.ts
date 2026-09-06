@@ -29,6 +29,15 @@ describe("explicit Creative Commons asset provenance", () => {
   it.each(["CC-BY-NC-3.0", "CC-BY-ND-3.0", "CC-BY-SA-4.0", "CC0-1.0"])("does not infer permission for %s", (license) => {
     expect(() => validateCcAssetPack({ ...fixture(), license })).toThrow("unsupported attribution license");
   });
+  it("accepts CC-BY-4.0 only with its exact 4.0 deed and retained derivative license", () => {
+    const pack = { ...fixture(false), license: "CC-BY-4.0", derivativeLicense: "CC-BY-4.0", licenseUrl: "https://creativecommons.org/licenses/by/4.0/" };
+    expect(() => validateCcAssetPack(pack)).not.toThrow();
+    const wrongDeed = { ...pack, licenseUrl: fixture(false).licenseUrl };
+    const relicensed = { ...pack, derivativeLicense: "CC-BY-3.0" };
+    expect(() => validateCcAssetPack(wrongDeed)).toThrow("licenseUrl");
+    expect(() => validateCcAssetPack(relicensed)).toThrow("derivativeLicense");
+    expect(ccAssetCredits(pack)).toContain("[CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/)");
+  });
   it("rejects a mismatched deed and share-alike relicensing", () => {
     const mismatchedDeed = { ...fixture(), licenseUrl: fixture(false).licenseUrl };
     const relicensed = { ...fixture(), derivativeLicense: "LicenseRef-Corealm-Original" };

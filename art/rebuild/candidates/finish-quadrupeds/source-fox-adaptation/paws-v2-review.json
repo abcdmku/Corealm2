@@ -1,0 +1,4431 @@
+{
+  "input": {
+    "file": "Fox.adaptive-actor.glb",
+    "sha256": "07771d082ff31a4a0403fa4c4c3ddbf77c95db5066bf964d8befe8fdff751518",
+    "bytes": 2280448
+  },
+  "output": {
+    "file": "Fox.paws-v2.glb",
+    "sha256": "2859acf0777b4882f78c99e6b9aac95d5da7f4fe845cc8ab3d48749fee1b3e48",
+    "bytes": 2280448
+  },
+  "method": "Contact-locked distal deformation in skinned bind world coordinates, paired frames, dorsal toe inflation, lateral swell and three shallow clefts; per-vertex animation floor clipping and triangle-fold limiting; area-weighted smooth normals on affected triangle vertices; raw GLB buffer patch.",
+  "labException": "User explicitly prohibited browsers and game changes. No visual or gameplay acceptance claimed.",
+  "limitations": [
+    "Frozen sole vertices cannot be widened to the requested 5.5–6.0 cm footprint.",
+    "Exact bilateral equality of existing contact coordinates cannot be introduced while preserving those coordinates.",
+    "In-memory CPU side/top previews show added volume. The four toe lobes are not sufficiently distinct for visual acceptance; the locked sole retains its original pointed outline. No browser or extra image file was used.",
+    "test-results/codex-last.md omitted because the user explicitly limited writes to the three named files."
+  ],
+  "vertices": 18434,
+  "triangles": 36864,
+  "movedVertices": 2162,
+  "maxDisplacementM": 0.014318352406524673,
+  "normalRecomputedVertices": 2492,
+  "maxNormalChangeOutsideEditedSetDegrees": 0.47822179374579543,
+  "flippedTriangles": 0,
+  "degenerateTriangles": 0,
+  "foldLimitPasses": 0,
+  "floorLimitedVertices": 208,
+  "unexpectedBinaryBytes": 0,
+  "feet": [
+    {
+      "id": "foreLeft",
+      "regionDefinition": "At least 0.5 total weight on terminal hand/foot joint",
+      "vertices": 626,
+      "minimumBindWorldYM": -0.0005986454508763946,
+      "interiorDefinition": {
+        "centerWorldXZ": [
+          0.0671829886055216,
+          0.22063654800212013
+        ],
+        "ellipseRadiiM": [
+          0.023,
+          0.031
+        ],
+        "rearCutoffWorldZM": 0.21063654800212012
+      },
+      "before": {
+        "heightBands": [
+          {
+            "heightCm": [
+              0,
+              0.3
+            ],
+            "vertices": 47,
+            "widthCm": 4.728745028752506,
+            "lengthCm": 7.586349060135017
+          },
+          {
+            "heightCm": [
+              0.3,
+              1
+            ],
+            "vertices": 85,
+            "widthCm": 4.852774186630455,
+            "lengthCm": 7.5891777070775435
+          },
+          {
+            "heightCm": [
+              1,
+              2
+            ],
+            "vertices": 67,
+            "widthCm": 4.889222184059151,
+            "lengthCm": 7.667989421674804
+          },
+          {
+            "heightCm": [
+              2,
+              3.5
+            ],
+            "vertices": 86,
+            "widthCm": 4.747511428402637,
+            "lengthCm": 6.799272210750576
+          },
+          {
+            "heightCm": [
+              3.5,
+              5
+            ],
+            "vertices": 73,
+            "widthCm": 4.179985084182499,
+            "lengthCm": 5.072637328598518
+          },
+          {
+            "heightCm": [
+              5,
+              7
+            ],
+            "vertices": 96,
+            "widthCm": 3.537718334401516,
+            "lengthCm": 4.595605822192386
+          }
+        ],
+        "pawThicknessCm": 8.006352311366802,
+        "interiorVertices": 152,
+        "toeKnuckleHeightCm": 2.5800807522616154,
+        "toeKnuckleDefinition": "Maximum height within 2.2 cm of paw centre laterally and at least 2 cm forward of paw centre"
+      },
+      "after": {
+        "heightBands": [
+          {
+            "heightCm": [
+              0,
+              0.3
+            ],
+            "vertices": 47,
+            "widthCm": 4.728745028752506,
+            "lengthCm": 7.586349060135017
+          },
+          {
+            "heightCm": [
+              0.3,
+              1
+            ],
+            "vertices": 73,
+            "widthCm": 4.960524127707747,
+            "lengthCm": 7.592090229305548
+          },
+          {
+            "heightCm": [
+              1,
+              2
+            ],
+            "vertices": 35,
+            "widthCm": 5.72730355354666,
+            "lengthCm": 7.822240497592126
+          },
+          {
+            "heightCm": [
+              2,
+              3.5
+            ],
+            "vertices": 84,
+            "widthCm": 5.695251994245806,
+            "lengthCm": 7.92221600993461
+          },
+          {
+            "heightCm": [
+              3.5,
+              5
+            ],
+            "vertices": 94,
+            "widthCm": 5.067154454136282,
+            "lengthCm": 7.113660405541999
+          },
+          {
+            "heightCm": [
+              5,
+              7
+            ],
+            "vertices": 121,
+            "widthCm": 3.7420301813571752,
+            "lengthCm": 6.084798640379363
+          }
+        ],
+        "pawThicknessCm": 8.006352311366802,
+        "interiorVertices": 128,
+        "toeKnuckleHeightCm": 4.48346270514768,
+        "toeKnuckleDefinition": "Maximum height within 2.2 cm of paw centre laterally and at least 2 cm forward of paw centre"
+      },
+      "contactSetSize": 47,
+      "contactMaxDeltaM": 0,
+      "newVerticesInContactBand": 0
+    },
+    {
+      "id": "foreRight",
+      "regionDefinition": "At least 0.5 total weight on terminal hand/foot joint",
+      "vertices": 626,
+      "minimumBindWorldYM": -0.0005986701903729296,
+      "interiorDefinition": {
+        "centerWorldXZ": [
+          -0.06718296451439049,
+          0.22063657355959804
+        ],
+        "ellipseRadiiM": [
+          0.023,
+          0.031
+        ],
+        "rearCutoffWorldZM": 0.21063657355959803
+      },
+      "before": {
+        "heightBands": [
+          {
+            "heightCm": [
+              0,
+              0.3
+            ],
+            "vertices": 47,
+            "widthCm": 4.728745499390563,
+            "lengthCm": 7.586350072673192
+          },
+          {
+            "heightCm": [
+              0.3,
+              1
+            ],
+            "vertices": 85,
+            "widthCm": 4.852770374371202,
+            "lengthCm": 7.589178783140854
+          },
+          {
+            "heightCm": [
+              1,
+              2
+            ],
+            "vertices": 67,
+            "widthCm": 4.889219330562905,
+            "lengthCm": 7.667990576065079
+          },
+          {
+            "heightCm": [
+              2,
+              3.5
+            ],
+            "vertices": 86,
+            "widthCm": 4.74750570382021,
+            "lengthCm": 6.799273128691094
+          },
+          {
+            "heightCm": [
+              3.5,
+              5
+            ],
+            "vertices": 73,
+            "widthCm": 4.1799755433221355,
+            "lengthCm": 5.07263795102853
+          },
+          {
+            "heightCm": [
+              5,
+              7
+            ],
+            "vertices": 96,
+            "widthCm": 3.5377006765658208,
+            "lengthCm": 4.595606594184487
+          }
+        ],
+        "pawThicknessCm": 8.006353442462098,
+        "interiorVertices": 152,
+        "toeKnuckleHeightCm": 2.580081687419818,
+        "toeKnuckleDefinition": "Maximum height within 2.2 cm of paw centre laterally and at least 2 cm forward of paw centre"
+      },
+      "after": {
+        "heightBands": [
+          {
+            "heightCm": [
+              0,
+              0.3
+            ],
+            "vertices": 47,
+            "widthCm": 4.728745499390563,
+            "lengthCm": 7.586350072673192
+          },
+          {
+            "heightCm": [
+              0.3,
+              1
+            ],
+            "vertices": 73,
+            "widthCm": 4.960522687661459,
+            "lengthCm": 7.592091306368601
+          },
+          {
+            "heightCm": [
+              1,
+              2
+            ],
+            "vertices": 35,
+            "widthCm": 5.727299025600738,
+            "lengthCm": 7.822239714434503
+          },
+          {
+            "heightCm": [
+              2,
+              3.5
+            ],
+            "vertices": 84,
+            "widthCm": 5.695242933922084,
+            "lengthCm": 7.9222190808154735
+          },
+          {
+            "heightCm": [
+              3.5,
+              5
+            ],
+            "vertices": 94,
+            "widthCm": 5.067139199543797,
+            "lengthCm": 7.113657570121401
+          },
+          {
+            "heightCm": [
+              5,
+              7
+            ],
+            "vertices": 121,
+            "widthCm": 3.7420130118629014,
+            "lengthCm": 6.084799667842952
+          }
+        ],
+        "pawThicknessCm": 8.006353442462098,
+        "interiorVertices": 128,
+        "toeKnuckleHeightCm": 4.483464085004064,
+        "toeKnuckleDefinition": "Maximum height within 2.2 cm of paw centre laterally and at least 2 cm forward of paw centre"
+      },
+      "contactSetSize": 47,
+      "contactMaxDeltaM": 0,
+      "newVerticesInContactBand": 0
+    },
+    {
+      "id": "hindLeft",
+      "regionDefinition": "At least 0.5 total weight on terminal hand/foot joint",
+      "vertices": 405,
+      "minimumBindWorldYM": -0.0012174418412009803,
+      "interiorDefinition": {
+        "centerWorldXZ": [
+          0.06950808155335736,
+          -0.30347112448890484
+        ],
+        "ellipseRadiiM": [
+          0.023,
+          0.031
+        ],
+        "rearCutoffWorldZM": -0.31347112448890485
+      },
+      "before": {
+        "heightBands": [
+          {
+            "heightCm": [
+              0,
+              0.3
+            ],
+            "vertices": 87,
+            "widthCm": 4.925886686750934,
+            "lengthCm": 6.518254644577643
+          },
+          {
+            "heightCm": [
+              0.3,
+              1
+            ],
+            "vertices": 66,
+            "widthCm": 5.052380130317162,
+            "lengthCm": 7.4870485313827615
+          },
+          {
+            "heightCm": [
+              1,
+              2
+            ],
+            "vertices": 67,
+            "widthCm": 5.131557020179967,
+            "lengthCm": 7.306704664136032
+          },
+          {
+            "heightCm": [
+              2,
+              3.5
+            ],
+            "vertices": 84,
+            "widthCm": 4.929383777848963,
+            "lengthCm": 7.028286348741897
+          },
+          {
+            "heightCm": [
+              3.5,
+              5
+            ],
+            "vertices": 66,
+            "widthCm": 3.857415737933335,
+            "lengthCm": 5.27854321649866
+          },
+          {
+            "heightCm": [
+              5,
+              7
+            ],
+            "vertices": 30,
+            "widthCm": 3.819337534694828,
+            "lengthCm": 2.4594098656794907
+          }
+        ],
+        "pawThicknessCm": 5.022139317805492,
+        "interiorVertices": 143,
+        "toeKnuckleHeightCm": 2.809817041673285,
+        "toeKnuckleDefinition": "Maximum height within 2.2 cm of paw centre laterally and at least 2 cm forward of paw centre"
+      },
+      "after": {
+        "heightBands": [
+          {
+            "heightCm": [
+              0,
+              0.3
+            ],
+            "vertices": 87,
+            "widthCm": 4.925886686750934,
+            "lengthCm": 6.518254644577643
+          },
+          {
+            "heightCm": [
+              0.3,
+              1
+            ],
+            "vertices": 55,
+            "widthCm": 5.0974669912747395,
+            "lengthCm": 7.534276396942202
+          },
+          {
+            "heightCm": [
+              1,
+              2
+            ],
+            "vertices": 37,
+            "widthCm": 5.607708717583999,
+            "lengthCm": 7.286198922433885
+          },
+          {
+            "heightCm": [
+              2,
+              3.5
+            ],
+            "vertices": 94,
+            "widthCm": 5.597827469290604,
+            "lengthCm": 8.104403253418813
+          },
+          {
+            "heightCm": [
+              3.5,
+              5
+            ],
+            "vertices": 75,
+            "widthCm": 4.794775556409454,
+            "lengthCm": 6.552217545427802
+          },
+          {
+            "heightCm": [
+              5,
+              7
+            ],
+            "vertices": 50,
+            "widthCm": 4.345942613373267,
+            "lengthCm": 4.633384210399277
+          }
+        ],
+        "pawThicknessCm": 5.499728006230953,
+        "interiorVertices": 112,
+        "toeKnuckleHeightCm": 4.159504758874509,
+        "toeKnuckleDefinition": "Maximum height within 2.2 cm of paw centre laterally and at least 2 cm forward of paw centre"
+      },
+      "contactSetSize": 87,
+      "contactMaxDeltaM": 0,
+      "newVerticesInContactBand": 0
+    },
+    {
+      "id": "hindRight",
+      "regionDefinition": "At least 0.5 total weight on terminal hand/foot joint",
+      "vertices": 405,
+      "minimumBindWorldYM": -0.0012174022855986448,
+      "interiorDefinition": {
+        "centerWorldXZ": [
+          -0.06950790775436676,
+          -0.30347115807248193
+        ],
+        "ellipseRadiiM": [
+          0.023,
+          0.031
+        ],
+        "rearCutoffWorldZM": -0.31347115807248194
+      },
+      "before": {
+        "heightBands": [
+          {
+            "heightCm": [
+              0,
+              0.3
+            ],
+            "vertices": 87,
+            "widthCm": 4.925886388218189,
+            "lengthCm": 6.518252246788547
+          },
+          {
+            "heightCm": [
+              0.3,
+              1
+            ],
+            "vertices": 66,
+            "widthCm": 5.052380320192081,
+            "lengthCm": 7.4870443516533385
+          },
+          {
+            "heightCm": [
+              1,
+              2
+            ],
+            "vertices": 67,
+            "widthCm": 5.131556264073945,
+            "lengthCm": 7.306697118965976
+          },
+          {
+            "heightCm": [
+              2,
+              3.5
+            ],
+            "vertices": 84,
+            "widthCm": 4.92938445421446,
+            "lengthCm": 7.028287373018394
+          },
+          {
+            "heightCm": [
+              3.5,
+              5
+            ],
+            "vertices": 66,
+            "widthCm": 3.8574102435995425,
+            "lengthCm": 5.2785550496276645
+          },
+          {
+            "heightCm": [
+              5,
+              7
+            ],
+            "vertices": 30,
+            "widthCm": 3.819324045632682,
+            "lengthCm": 2.459405654111041
+          }
+        ],
+        "pawThicknessCm": 5.022139751339928,
+        "interiorVertices": 143,
+        "toeKnuckleHeightCm": 2.8098170590912726,
+        "toeKnuckleDefinition": "Maximum height within 2.2 cm of paw centre laterally and at least 2 cm forward of paw centre"
+      },
+      "after": {
+        "heightBands": [
+          {
+            "heightCm": [
+              0,
+              0.3
+            ],
+            "vertices": 87,
+            "widthCm": 4.925886388218189,
+            "lengthCm": 6.518252246788547
+          },
+          {
+            "heightCm": [
+              0.3,
+              1
+            ],
+            "vertices": 55,
+            "widthCm": 5.097468613795356,
+            "lengthCm": 7.534274138155722
+          },
+          {
+            "heightCm": [
+              1,
+              2
+            ],
+            "vertices": 37,
+            "widthCm": 5.607713228196241,
+            "lengthCm": 7.2862042369073174
+          },
+          {
+            "heightCm": [
+              2,
+              3.5
+            ],
+            "vertices": 94,
+            "widthCm": 5.597830098259882,
+            "lengthCm": 8.104401679795165
+          },
+          {
+            "heightCm": [
+              3.5,
+              5
+            ],
+            "vertices": 75,
+            "widthCm": 4.794776775013512,
+            "lengthCm": 6.552221074569475
+          },
+          {
+            "heightCm": [
+              5,
+              7
+            ],
+            "vertices": 50,
+            "widthCm": 4.345928639221852,
+            "lengthCm": 4.633385067246842
+          }
+        ],
+        "pawThicknessCm": 5.499729398495096,
+        "interiorVertices": 112,
+        "toeKnuckleHeightCm": 4.159504618550231,
+        "toeKnuckleDefinition": "Maximum height within 2.2 cm of paw centre laterally and at least 2 cm forward of paw centre"
+      },
+      "contactSetSize": 87,
+      "contactMaxDeltaM": 0,
+      "newVerticesInContactBand": 0
+    }
+  ],
+  "accessorIdentity": [
+    {
+      "index": 0,
+      "name": "",
+      "roles": [
+        "Survey/b_Head_05/rotation/input",
+        "Survey/b_Neck_04/rotation/input",
+        "Survey/b_RightHand_08/rotation/input",
+        "Survey/b_RightForeArm_07/rotation/input",
+        "Survey/b_RightUpperArm_06/rotation/input",
+        "Survey/b_LeftHand_011/rotation/input",
+        "Survey/b_LeftForeArm_010/rotation/input",
+        "Survey/b_LeftUpperArm_09/rotation/input",
+        "Survey/b_Spine02_03/rotation/input",
+        "Survey/b_Spine01_02/rotation/input",
+        "Survey/b_Tail03_014/rotation/input",
+        "Survey/b_Tail02_013/rotation/input",
+        "Survey/b_Tail01_012/rotation/input",
+        "Survey/b_LeftFoot01_017/rotation/input",
+        "Survey/b_LeftLeg02_016/rotation/input",
+        "Survey/b_LeftLeg01_015/rotation/input",
+        "Survey/b_RightFoot01_021/rotation/input",
+        "Survey/b_RightLeg02_020/rotation/input",
+        "Survey/b_RightLeg01_019/rotation/input",
+        "Survey/b_Hip_01/translation/input",
+        "Survey/b_Hip_01/rotation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 332,
+      "beforeSHA256": "7874f5db98fedcdacc38ede3913694bb657d7ab292eb521f32525ff5569a8682",
+      "afterSHA256": "7874f5db98fedcdacc38ede3913694bb657d7ab292eb521f32525ff5569a8682",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 1,
+      "name": "",
+      "roles": [
+        "Survey/b_Head_05/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "0e18681607f915de80cf016e88656ce6ed36db950917ffad5410d411003bd0ba",
+      "afterSHA256": "0e18681607f915de80cf016e88656ce6ed36db950917ffad5410d411003bd0ba",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 2,
+      "name": "",
+      "roles": [
+        "Survey/b_Neck_04/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "300e124deca12b467e127d6798aeb2927086bc41815fe1e0cc50ee82411f567d",
+      "afterSHA256": "300e124deca12b467e127d6798aeb2927086bc41815fe1e0cc50ee82411f567d",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 3,
+      "name": "",
+      "roles": [
+        "Survey/b_RightHand_08/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "f44eb0e65f5b44328e7b0fc32bf92a327ad0473939c65ab41d1750b69ce8f818",
+      "afterSHA256": "f44eb0e65f5b44328e7b0fc32bf92a327ad0473939c65ab41d1750b69ce8f818",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 4,
+      "name": "",
+      "roles": [
+        "Survey/b_RightForeArm_07/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "d14b22eb492c63f3ee4289f22cf536c54bdc65930f4e7a98f5558efe77e86607",
+      "afterSHA256": "d14b22eb492c63f3ee4289f22cf536c54bdc65930f4e7a98f5558efe77e86607",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 5,
+      "name": "",
+      "roles": [
+        "Survey/b_RightUpperArm_06/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "c95e994e93742480bbc12cd6cb1e6389874d6880623c176745db772782bf5ddc",
+      "afterSHA256": "c95e994e93742480bbc12cd6cb1e6389874d6880623c176745db772782bf5ddc",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 6,
+      "name": "",
+      "roles": [
+        "Survey/b_LeftHand_011/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "d1f70aff72f0861f06222d655f8c1da6616d8f991f51f5dc93e42651efca9b1b",
+      "afterSHA256": "d1f70aff72f0861f06222d655f8c1da6616d8f991f51f5dc93e42651efca9b1b",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 7,
+      "name": "",
+      "roles": [
+        "Survey/b_LeftForeArm_010/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "31d0bdc1a1b3bc3151189177dd0d93bcea0b0bf851bc9ff526e7ad24422a3850",
+      "afterSHA256": "31d0bdc1a1b3bc3151189177dd0d93bcea0b0bf851bc9ff526e7ad24422a3850",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 8,
+      "name": "",
+      "roles": [
+        "Survey/b_LeftUpperArm_09/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "1ac8d79c73e5de660fffef3a1ba4f720406aa057e980405a775214412348e4f5",
+      "afterSHA256": "1ac8d79c73e5de660fffef3a1ba4f720406aa057e980405a775214412348e4f5",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 9,
+      "name": "",
+      "roles": [
+        "Survey/b_Spine02_03/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "45cceb9d8acdd53961cc25672891d8c8694a1a9bdba3355c73375d76d1854e39",
+      "afterSHA256": "45cceb9d8acdd53961cc25672891d8c8694a1a9bdba3355c73375d76d1854e39",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 10,
+      "name": "",
+      "roles": [
+        "Survey/b_Spine01_02/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "8873726b7b587239df6cd82c8847f1bb9d3dc0b0d7fd03ec3dc0fa737f809b5a",
+      "afterSHA256": "8873726b7b587239df6cd82c8847f1bb9d3dc0b0d7fd03ec3dc0fa737f809b5a",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 11,
+      "name": "",
+      "roles": [
+        "Survey/b_Tail03_014/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "7d213351d04f372703d97465644cfba914b59c878a9b6eb6b95f34646200ea14",
+      "afterSHA256": "7d213351d04f372703d97465644cfba914b59c878a9b6eb6b95f34646200ea14",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 12,
+      "name": "",
+      "roles": [
+        "Survey/b_Tail02_013/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "3b8c2fc54be523b65d5f5e7b822a46ddc7643e2b1bffe395e3555f8e7dd54f33",
+      "afterSHA256": "3b8c2fc54be523b65d5f5e7b822a46ddc7643e2b1bffe395e3555f8e7dd54f33",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 13,
+      "name": "",
+      "roles": [
+        "Survey/b_Tail01_012/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "fbf9a136f6ed26dfdd1c864c263ac194471b4c2e8e1b9ac2843e5898e739b0b8",
+      "afterSHA256": "fbf9a136f6ed26dfdd1c864c263ac194471b4c2e8e1b9ac2843e5898e739b0b8",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 14,
+      "name": "",
+      "roles": [
+        "Survey/b_LeftFoot01_017/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "ded766488e27e1e981d90765c2dece568e499ff9c3952a1578a89397dca2d1fe",
+      "afterSHA256": "ded766488e27e1e981d90765c2dece568e499ff9c3952a1578a89397dca2d1fe",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 15,
+      "name": "",
+      "roles": [
+        "Survey/b_LeftLeg02_016/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "9ead79de0b15f46bba75d1a5fdffe8726fbfa60cf63f2005df4122056817b06e",
+      "afterSHA256": "9ead79de0b15f46bba75d1a5fdffe8726fbfa60cf63f2005df4122056817b06e",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 16,
+      "name": "",
+      "roles": [
+        "Survey/b_LeftLeg01_015/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "917e03c61da9c62a04d7f524cfdd800968ff6ab12e0bfed8ff860af231a1a123",
+      "afterSHA256": "917e03c61da9c62a04d7f524cfdd800968ff6ab12e0bfed8ff860af231a1a123",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 17,
+      "name": "",
+      "roles": [
+        "Survey/b_RightFoot01_021/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "a051d8181f4d56ce5a7ee216738206f78fee50b35598642b89b52bb8f436a00e",
+      "afterSHA256": "a051d8181f4d56ce5a7ee216738206f78fee50b35598642b89b52bb8f436a00e",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 18,
+      "name": "",
+      "roles": [
+        "Survey/b_RightLeg02_020/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "a216db1646adc116490b29b127710a83df2112cd454ab5a9b35e8876fff5c68a",
+      "afterSHA256": "a216db1646adc116490b29b127710a83df2112cd454ab5a9b35e8876fff5c68a",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 19,
+      "name": "",
+      "roles": [
+        "Survey/b_RightLeg01_019/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "5c6c1df741ee6efbdffa61fa32fd48f6d045f4e0b793a3d3beaa6bb403f2f288",
+      "afterSHA256": "5c6c1df741ee6efbdffa61fa32fd48f6d045f4e0b793a3d3beaa6bb403f2f288",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 20,
+      "name": "",
+      "roles": [
+        "Survey/b_Hip_01/translation/output"
+      ],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 996,
+      "beforeSHA256": "f9ed49f00201a4dbc9c283979950d70b513ac26d9f2234573c6b8a9545fdcd16",
+      "afterSHA256": "f9ed49f00201a4dbc9c283979950d70b513ac26d9f2234573c6b8a9545fdcd16",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 21,
+      "name": "",
+      "roles": [
+        "Survey/b_Hip_01/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 83,
+      "bytes": 1328,
+      "beforeSHA256": "e890bab568b5e5c96927d9f19b5471c88e71bd644436b494ac931fbc61e22a25",
+      "afterSHA256": "e890bab568b5e5c96927d9f19b5471c88e71bd644436b494ac931fbc61e22a25",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 22,
+      "name": "Walk_corrected_times",
+      "roles": [
+        "Walk/_rootJoint/rotation/input",
+        "Walk/b_Root_00/rotation/input",
+        "Walk/b_Hip_01/rotation/input",
+        "Walk/b_Spine01_02/rotation/input",
+        "Walk/b_Spine02_03/rotation/input",
+        "Walk/b_Neck_04/rotation/input",
+        "Walk/b_Head_05/rotation/input",
+        "Walk/b_RightUpperArm_06/rotation/input",
+        "Walk/b_RightForeArm_07/rotation/input",
+        "Walk/b_RightHand_08/rotation/input",
+        "Walk/b_LeftUpperArm_09/rotation/input",
+        "Walk/b_LeftForeArm_010/rotation/input",
+        "Walk/b_LeftHand_011/rotation/input",
+        "Walk/b_Tail01_012/rotation/input",
+        "Walk/b_Tail02_013/rotation/input",
+        "Walk/b_Tail03_014/rotation/input",
+        "Walk/b_LeftLeg01_015/rotation/input",
+        "Walk/b_LeftLeg02_016/rotation/input",
+        "Walk/b_LeftFoot01_017/rotation/input",
+        "Walk/b_LeftFoot02_018/rotation/input",
+        "Walk/b_RightLeg01_019/rotation/input",
+        "Walk/b_RightLeg02_020/rotation/input",
+        "Walk/b_RightFoot01_021/rotation/input",
+        "Walk/b_RightFoot02_022/rotation/input",
+        "Walk/b_Hip_01/translation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 684,
+      "beforeSHA256": "2cf0457757fec5cc6bfbe0d0dd6c7056d62d4cda2a3b4a268bb17e2a272f2cdd",
+      "afterSHA256": "2cf0457757fec5cc6bfbe0d0dd6c7056d62d4cda2a3b4a268bb17e2a272f2cdd",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 23,
+      "name": "_rootJoint_corrected_rotation",
+      "roles": [
+        "Walk/_rootJoint/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "9390d2a54c06d7a2c1e0c1deafdde7755f121024d38a647f5bfadced72b29c40",
+      "afterSHA256": "9390d2a54c06d7a2c1e0c1deafdde7755f121024d38a647f5bfadced72b29c40",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 24,
+      "name": "b_Root_00_corrected_rotation",
+      "roles": [
+        "Walk/b_Root_00/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "a3376d72616be4a0e61f37899d74fb92d854320d8c12f63c030bcf8bd1454543",
+      "afterSHA256": "a3376d72616be4a0e61f37899d74fb92d854320d8c12f63c030bcf8bd1454543",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 25,
+      "name": "b_Hip_01_corrected_rotation",
+      "roles": [
+        "Walk/b_Hip_01/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "c143c98f66d86f5fed93d2824764b8279c9a0e0d771d31036b3157d2ee2f586f",
+      "afterSHA256": "c143c98f66d86f5fed93d2824764b8279c9a0e0d771d31036b3157d2ee2f586f",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 26,
+      "name": "b_Spine01_02_corrected_rotation",
+      "roles": [
+        "Walk/b_Spine01_02/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "a24a8828cda92e931791cd205ddcb8324eb821c8eea876e8b80219150939c54e",
+      "afterSHA256": "a24a8828cda92e931791cd205ddcb8324eb821c8eea876e8b80219150939c54e",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 27,
+      "name": "b_Spine02_03_corrected_rotation",
+      "roles": [
+        "Walk/b_Spine02_03/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "f38d63ddc15ebcb8ebe40f16f7d9ce21aebc1b321c26060e259662fb7631fb80",
+      "afterSHA256": "f38d63ddc15ebcb8ebe40f16f7d9ce21aebc1b321c26060e259662fb7631fb80",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 28,
+      "name": "b_Neck_04_corrected_rotation",
+      "roles": [
+        "Walk/b_Neck_04/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "250da6b50056f6e47680df7d76ed14bac3040f87c393e6757b9dc12d3b630822",
+      "afterSHA256": "250da6b50056f6e47680df7d76ed14bac3040f87c393e6757b9dc12d3b630822",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 29,
+      "name": "b_Head_05_corrected_rotation",
+      "roles": [
+        "Walk/b_Head_05/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "4ef6a10f91507d2a747a71e6478c543fbaa1b74640f83428c5fa48328539765f",
+      "afterSHA256": "4ef6a10f91507d2a747a71e6478c543fbaa1b74640f83428c5fa48328539765f",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 30,
+      "name": "b_RightUpperArm_06_corrected_rotation",
+      "roles": [
+        "Walk/b_RightUpperArm_06/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "8b8d2d7141956004467b4d5b7d3faea8b2f4f69745c4be35770be94fa528e54e",
+      "afterSHA256": "8b8d2d7141956004467b4d5b7d3faea8b2f4f69745c4be35770be94fa528e54e",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 31,
+      "name": "b_RightForeArm_07_corrected_rotation",
+      "roles": [
+        "Walk/b_RightForeArm_07/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "9866aac23e296505c34a4a1b6806da0182d895b3636eecd1b454ea92f581bb19",
+      "afterSHA256": "9866aac23e296505c34a4a1b6806da0182d895b3636eecd1b454ea92f581bb19",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 32,
+      "name": "b_RightHand_08_corrected_rotation",
+      "roles": [
+        "Walk/b_RightHand_08/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "49a9d61a73c0aae00c891c5e27fc9bf4b4c88621222d0ba7ad47935c71669229",
+      "afterSHA256": "49a9d61a73c0aae00c891c5e27fc9bf4b4c88621222d0ba7ad47935c71669229",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 33,
+      "name": "b_LeftUpperArm_09_corrected_rotation",
+      "roles": [
+        "Walk/b_LeftUpperArm_09/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "458e49ce68c06981be508ea0455e3f54983f6ff3ae4e563e967428e03b898b60",
+      "afterSHA256": "458e49ce68c06981be508ea0455e3f54983f6ff3ae4e563e967428e03b898b60",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 34,
+      "name": "b_LeftForeArm_010_corrected_rotation",
+      "roles": [
+        "Walk/b_LeftForeArm_010/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "d7239b62e06348a478a501929d7c8632a7e7e3cf670b3c42b264f45f3f119747",
+      "afterSHA256": "d7239b62e06348a478a501929d7c8632a7e7e3cf670b3c42b264f45f3f119747",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 35,
+      "name": "b_LeftHand_011_corrected_rotation",
+      "roles": [
+        "Walk/b_LeftHand_011/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "af0551eb0482837d95b49572bec069d1c9088401b8bee0bf08072f28264f62c8",
+      "afterSHA256": "af0551eb0482837d95b49572bec069d1c9088401b8bee0bf08072f28264f62c8",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 36,
+      "name": "b_Tail01_012_corrected_rotation",
+      "roles": [
+        "Walk/b_Tail01_012/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "77ce608757e3f106564a87f43b0e39d0f7fbff4d7198a195da543b57275f5359",
+      "afterSHA256": "77ce608757e3f106564a87f43b0e39d0f7fbff4d7198a195da543b57275f5359",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 37,
+      "name": "b_Tail02_013_corrected_rotation",
+      "roles": [
+        "Walk/b_Tail02_013/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "752dfec98ebbecc1fbb0e5d1074e9507b8e602fccbf131e61f586fc1e44eef63",
+      "afterSHA256": "752dfec98ebbecc1fbb0e5d1074e9507b8e602fccbf131e61f586fc1e44eef63",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 38,
+      "name": "b_Tail03_014_corrected_rotation",
+      "roles": [
+        "Walk/b_Tail03_014/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "d9380a0a5d23b0e7b53dc80b19b77880b3cafb342a6bd5925b42078d36ab393a",
+      "afterSHA256": "d9380a0a5d23b0e7b53dc80b19b77880b3cafb342a6bd5925b42078d36ab393a",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 39,
+      "name": "b_LeftLeg01_015_corrected_rotation",
+      "roles": [
+        "Walk/b_LeftLeg01_015/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "81b2820d4c56e39b9923ee85ed64176fd02c8d1e52db58f937c61fe4ff95e1c7",
+      "afterSHA256": "81b2820d4c56e39b9923ee85ed64176fd02c8d1e52db58f937c61fe4ff95e1c7",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 40,
+      "name": "b_LeftLeg02_016_corrected_rotation",
+      "roles": [
+        "Walk/b_LeftLeg02_016/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "f39472ddaba99a66b1ca7f368b8ba0db68a4e8c201f520dce03be0f484ddaeec",
+      "afterSHA256": "f39472ddaba99a66b1ca7f368b8ba0db68a4e8c201f520dce03be0f484ddaeec",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 41,
+      "name": "b_LeftFoot01_017_corrected_rotation",
+      "roles": [
+        "Walk/b_LeftFoot01_017/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "4413ce6d85f2da37b40ae62572d3be9463bfea3c85c731bf10105f9f85e2e15d",
+      "afterSHA256": "4413ce6d85f2da37b40ae62572d3be9463bfea3c85c731bf10105f9f85e2e15d",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 42,
+      "name": "b_LeftFoot02_018_corrected_rotation",
+      "roles": [
+        "Walk/b_LeftFoot02_018/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "ff8f5449d36b0e0359d1289ceb9e69f05a29c694d395c01c8caadfe89c68f90b",
+      "afterSHA256": "ff8f5449d36b0e0359d1289ceb9e69f05a29c694d395c01c8caadfe89c68f90b",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 43,
+      "name": "b_RightLeg01_019_corrected_rotation",
+      "roles": [
+        "Walk/b_RightLeg01_019/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "8f1a81c66cb25eddd5b1e63dc9335b89938084e1d3b6a164283da8fc38d4816d",
+      "afterSHA256": "8f1a81c66cb25eddd5b1e63dc9335b89938084e1d3b6a164283da8fc38d4816d",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 44,
+      "name": "b_RightLeg02_020_corrected_rotation",
+      "roles": [
+        "Walk/b_RightLeg02_020/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "97267f48571669852aa48dc9c7e1099d820cfac26e11f48c976025bc232ccff3",
+      "afterSHA256": "97267f48571669852aa48dc9c7e1099d820cfac26e11f48c976025bc232ccff3",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 45,
+      "name": "b_RightFoot01_021_corrected_rotation",
+      "roles": [
+        "Walk/b_RightFoot01_021/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "646c97bde9bbe66b7a44e8db6d81fed6f031b4b0e658dbd8c578358bbf57fb00",
+      "afterSHA256": "646c97bde9bbe66b7a44e8db6d81fed6f031b4b0e658dbd8c578358bbf57fb00",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 46,
+      "name": "b_RightFoot02_022_corrected_rotation",
+      "roles": [
+        "Walk/b_RightFoot02_022/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2736,
+      "beforeSHA256": "a2dae85a53bcdd5cbda14a81198fa7f5cd1f7cbadf58b608e397fdfc06dfb90f",
+      "afterSHA256": "a2dae85a53bcdd5cbda14a81198fa7f5cd1f7cbadf58b608e397fdfc06dfb90f",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 47,
+      "name": "corrected_hip_translation",
+      "roles": [
+        "Walk/b_Hip_01/translation/output"
+      ],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 171,
+      "bytes": 2052,
+      "beforeSHA256": "f07da72e194642cb5bf6eac7eec06dff11617f515dccce9ce9837a6f4674dbc9",
+      "afterSHA256": "f07da72e194642cb5bf6eac7eec06dff11617f515dccce9ce9837a6f4674dbc9",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 48,
+      "name": "Attack_times",
+      "roles": [
+        "Attack/_rootJoint/rotation/input",
+        "Attack/b_Root_00/rotation/input",
+        "Attack/b_Hip_01/rotation/input",
+        "Attack/b_Spine01_02/rotation/input",
+        "Attack/b_Spine02_03/rotation/input",
+        "Attack/b_Neck_04/rotation/input",
+        "Attack/b_Head_05/rotation/input",
+        "Attack/b_RightUpperArm_06/rotation/input",
+        "Attack/b_RightForeArm_07/rotation/input",
+        "Attack/b_RightHand_08/rotation/input",
+        "Attack/b_LeftUpperArm_09/rotation/input",
+        "Attack/b_LeftForeArm_010/rotation/input",
+        "Attack/b_LeftHand_011/rotation/input",
+        "Attack/b_Tail01_012/rotation/input",
+        "Attack/b_Tail02_013/rotation/input",
+        "Attack/b_Tail03_014/rotation/input",
+        "Attack/b_LeftLeg01_015/rotation/input",
+        "Attack/b_LeftLeg02_016/rotation/input",
+        "Attack/b_LeftFoot01_017/rotation/input",
+        "Attack/b_LeftFoot02_018/rotation/input",
+        "Attack/b_RightLeg01_019/rotation/input",
+        "Attack/b_RightLeg02_020/rotation/input",
+        "Attack/b_RightFoot01_021/rotation/input",
+        "Attack/b_RightFoot02_022/rotation/input",
+        "Attack/b_Hip_01/translation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 1012,
+      "beforeSHA256": "6f67acc62a90226fe978a13fd57535c9e5528e70a5ab58203771a49bd016cf5b",
+      "afterSHA256": "6f67acc62a90226fe978a13fd57535c9e5528e70a5ab58203771a49bd016cf5b",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 49,
+      "name": "Attack__rootJoint",
+      "roles": [
+        "Attack/_rootJoint/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "2043d5f72ebc1199111f2b0eac60b51938da61d11209a15b240dc866c34c9109",
+      "afterSHA256": "2043d5f72ebc1199111f2b0eac60b51938da61d11209a15b240dc866c34c9109",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 50,
+      "name": "Attack_b_Root_00",
+      "roles": [
+        "Attack/b_Root_00/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "bd56b2544728407e2bc41cb28038b845ee9a7be52ca0a2fba0c4085512333446",
+      "afterSHA256": "bd56b2544728407e2bc41cb28038b845ee9a7be52ca0a2fba0c4085512333446",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 51,
+      "name": "Attack_b_Hip_01",
+      "roles": [
+        "Attack/b_Hip_01/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "f1aba5a8fa7b3e4dc286808a4be56a53a1e6fb240dce75456e9c6a78e51b7959",
+      "afterSHA256": "f1aba5a8fa7b3e4dc286808a4be56a53a1e6fb240dce75456e9c6a78e51b7959",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 52,
+      "name": "Attack_b_Spine01_02",
+      "roles": [
+        "Attack/b_Spine01_02/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "e217aaf809e10bcaa55915183b7c3ffca1ab22907410dcd6a40f127fc16ab58f",
+      "afterSHA256": "e217aaf809e10bcaa55915183b7c3ffca1ab22907410dcd6a40f127fc16ab58f",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 53,
+      "name": "Attack_b_Spine02_03",
+      "roles": [
+        "Attack/b_Spine02_03/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "00fb564852529371f78c3d7b1e933255a74e19afa4c42934a3a88831c1ee1de8",
+      "afterSHA256": "00fb564852529371f78c3d7b1e933255a74e19afa4c42934a3a88831c1ee1de8",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 54,
+      "name": "Attack_b_Neck_04",
+      "roles": [
+        "Attack/b_Neck_04/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "0d878e6af0426935b04bc32f097ce4054102d3993bbdd9c6e11c0184d2898d82",
+      "afterSHA256": "0d878e6af0426935b04bc32f097ce4054102d3993bbdd9c6e11c0184d2898d82",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 55,
+      "name": "Attack_b_Head_05",
+      "roles": [
+        "Attack/b_Head_05/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "7493d395b3228b2cb92bdfb64d697e739376ef2842e91feddc5242b6b2a78c5a",
+      "afterSHA256": "7493d395b3228b2cb92bdfb64d697e739376ef2842e91feddc5242b6b2a78c5a",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 56,
+      "name": "Attack_b_RightUpperArm_06",
+      "roles": [
+        "Attack/b_RightUpperArm_06/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "b56a96294c1bc818c7d678b748f43a657990e683b446f154324da847b421bb3d",
+      "afterSHA256": "b56a96294c1bc818c7d678b748f43a657990e683b446f154324da847b421bb3d",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 57,
+      "name": "Attack_b_RightForeArm_07",
+      "roles": [
+        "Attack/b_RightForeArm_07/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "54b166b8fb2e416b38f3034392efb1229c12592062c89e4a3c344b1757345576",
+      "afterSHA256": "54b166b8fb2e416b38f3034392efb1229c12592062c89e4a3c344b1757345576",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 58,
+      "name": "Attack_b_RightHand_08",
+      "roles": [
+        "Attack/b_RightHand_08/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "58d84bbd0d1d3d3ff59bf14e38c1b448f656e12a7415f77b0ce2d273d4791634",
+      "afterSHA256": "58d84bbd0d1d3d3ff59bf14e38c1b448f656e12a7415f77b0ce2d273d4791634",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 59,
+      "name": "Attack_b_LeftUpperArm_09",
+      "roles": [
+        "Attack/b_LeftUpperArm_09/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "217f828be93595c2ff8a7f5973fcb25934d1908ecbc4504baa1f4d888671d420",
+      "afterSHA256": "217f828be93595c2ff8a7f5973fcb25934d1908ecbc4504baa1f4d888671d420",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 60,
+      "name": "Attack_b_LeftForeArm_010",
+      "roles": [
+        "Attack/b_LeftForeArm_010/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "61332002dcf69e49ab1e3852b1d2ded56bbbded4042b30f8bcdd90e9bc56414e",
+      "afterSHA256": "61332002dcf69e49ab1e3852b1d2ded56bbbded4042b30f8bcdd90e9bc56414e",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 61,
+      "name": "Attack_b_LeftHand_011",
+      "roles": [
+        "Attack/b_LeftHand_011/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "1417c08ad21e627013f48610915e82a591d9f6a632a230c83de44c5ca6759262",
+      "afterSHA256": "1417c08ad21e627013f48610915e82a591d9f6a632a230c83de44c5ca6759262",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 62,
+      "name": "Attack_b_Tail01_012",
+      "roles": [
+        "Attack/b_Tail01_012/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "46b7aa719a7d82db13456487f63c9152945001ed26da0e72b73894062f97c184",
+      "afterSHA256": "46b7aa719a7d82db13456487f63c9152945001ed26da0e72b73894062f97c184",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 63,
+      "name": "Attack_b_Tail02_013",
+      "roles": [
+        "Attack/b_Tail02_013/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "06e35d28f05a878701eee8714e935f3d5617c39304e5c8c73face58c0d92bde1",
+      "afterSHA256": "06e35d28f05a878701eee8714e935f3d5617c39304e5c8c73face58c0d92bde1",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 64,
+      "name": "Attack_b_Tail03_014",
+      "roles": [
+        "Attack/b_Tail03_014/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "60faa2de755b8c9e0fa2d72f42d922637d6f37a33d2d7ba2e7adfeac8443d8cd",
+      "afterSHA256": "60faa2de755b8c9e0fa2d72f42d922637d6f37a33d2d7ba2e7adfeac8443d8cd",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 65,
+      "name": "Attack_b_LeftLeg01_015",
+      "roles": [
+        "Attack/b_LeftLeg01_015/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "15c2159bb5bca4051f3514d68d98b724be06d1351c399176a181d4851ae69a96",
+      "afterSHA256": "15c2159bb5bca4051f3514d68d98b724be06d1351c399176a181d4851ae69a96",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 66,
+      "name": "Attack_b_LeftLeg02_016",
+      "roles": [
+        "Attack/b_LeftLeg02_016/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "53a506e9c7ca8994e6d3139a5d962d755deb80384431e152485173e80688a3f8",
+      "afterSHA256": "53a506e9c7ca8994e6d3139a5d962d755deb80384431e152485173e80688a3f8",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 67,
+      "name": "Attack_b_LeftFoot01_017",
+      "roles": [
+        "Attack/b_LeftFoot01_017/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "2ec25e29eaa45aeea15ddaab8974ff9d40ea323a8fcd268d471994009c9df1fc",
+      "afterSHA256": "2ec25e29eaa45aeea15ddaab8974ff9d40ea323a8fcd268d471994009c9df1fc",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 68,
+      "name": "Attack_b_LeftFoot02_018",
+      "roles": [
+        "Attack/b_LeftFoot02_018/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "91de651030d4b52162631da9dff944ef71ac4f648f2872b30f1ec7b668203e42",
+      "afterSHA256": "91de651030d4b52162631da9dff944ef71ac4f648f2872b30f1ec7b668203e42",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 69,
+      "name": "Attack_b_RightLeg01_019",
+      "roles": [
+        "Attack/b_RightLeg01_019/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "29e89efb37648f89f7fd1e2d58d48c56832d5e501e969aa4be3c64a472a78827",
+      "afterSHA256": "29e89efb37648f89f7fd1e2d58d48c56832d5e501e969aa4be3c64a472a78827",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 70,
+      "name": "Attack_b_RightLeg02_020",
+      "roles": [
+        "Attack/b_RightLeg02_020/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "3e514fae06cc386711d019e69512def5d9c77425755f2d74cc5301a161a0f02f",
+      "afterSHA256": "3e514fae06cc386711d019e69512def5d9c77425755f2d74cc5301a161a0f02f",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 71,
+      "name": "Attack_b_RightFoot01_021",
+      "roles": [
+        "Attack/b_RightFoot01_021/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "99fb3c10b860040c733fe1da0d3aa7f983117727c28d2b56658a5fe608e22402",
+      "afterSHA256": "99fb3c10b860040c733fe1da0d3aa7f983117727c28d2b56658a5fe608e22402",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 72,
+      "name": "Attack_b_RightFoot02_022",
+      "roles": [
+        "Attack/b_RightFoot02_022/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 4048,
+      "beforeSHA256": "0c22466b64b4683d2adbeee7cf5711aa54b402b4a3647872a62f73ff8dfcc0fb",
+      "afterSHA256": "0c22466b64b4683d2adbeee7cf5711aa54b402b4a3647872a62f73ff8dfcc0fb",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 73,
+      "name": "Attack_hip",
+      "roles": [
+        "Attack/b_Hip_01/translation/output"
+      ],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 253,
+      "bytes": 3036,
+      "beforeSHA256": "f614f151b81caa69855c80bfba2350cb96b01adcb9bc64e8ebad7e3fad7c3e72",
+      "afterSHA256": "f614f151b81caa69855c80bfba2350cb96b01adcb9bc64e8ebad7e3fad7c3e72",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 74,
+      "name": "Hit_times",
+      "roles": [
+        "Hit/_rootJoint/rotation/input",
+        "Hit/b_Root_00/rotation/input",
+        "Hit/b_Hip_01/rotation/input",
+        "Hit/b_Spine01_02/rotation/input",
+        "Hit/b_Spine02_03/rotation/input",
+        "Hit/b_Neck_04/rotation/input",
+        "Hit/b_Head_05/rotation/input",
+        "Hit/b_RightUpperArm_06/rotation/input",
+        "Hit/b_RightForeArm_07/rotation/input",
+        "Hit/b_RightHand_08/rotation/input",
+        "Hit/b_LeftUpperArm_09/rotation/input",
+        "Hit/b_LeftForeArm_010/rotation/input",
+        "Hit/b_LeftHand_011/rotation/input",
+        "Hit/b_Tail01_012/rotation/input",
+        "Hit/b_Tail02_013/rotation/input",
+        "Hit/b_Tail03_014/rotation/input",
+        "Hit/b_LeftLeg01_015/rotation/input",
+        "Hit/b_LeftLeg02_016/rotation/input",
+        "Hit/b_LeftFoot01_017/rotation/input",
+        "Hit/b_LeftFoot02_018/rotation/input",
+        "Hit/b_RightLeg01_019/rotation/input",
+        "Hit/b_RightLeg02_020/rotation/input",
+        "Hit/b_RightFoot01_021/rotation/input",
+        "Hit/b_RightFoot02_022/rotation/input",
+        "Hit/b_Hip_01/translation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 696,
+      "beforeSHA256": "9c4b7ed91ab0992936c1f25e902fe329284d948e88cfe149d1fd53d0c728ddb8",
+      "afterSHA256": "9c4b7ed91ab0992936c1f25e902fe329284d948e88cfe149d1fd53d0c728ddb8",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 75,
+      "name": "Hit__rootJoint",
+      "roles": [
+        "Hit/_rootJoint/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "9817cc792a1f85e78f91efe60f775f31fa9bf6a7eaf491f2d683b885d32199fe",
+      "afterSHA256": "9817cc792a1f85e78f91efe60f775f31fa9bf6a7eaf491f2d683b885d32199fe",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 76,
+      "name": "Hit_b_Root_00",
+      "roles": [
+        "Hit/b_Root_00/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "e5bc366049573b8c1ef4ce20c7e29f064c40dc8b2a60832290e3089b99a12ab2",
+      "afterSHA256": "e5bc366049573b8c1ef4ce20c7e29f064c40dc8b2a60832290e3089b99a12ab2",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 77,
+      "name": "Hit_b_Hip_01",
+      "roles": [
+        "Hit/b_Hip_01/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "ad7dc09e50138094c838ee49c9c43f4e08c80e2c3c02417f0dd052a90579c9e4",
+      "afterSHA256": "ad7dc09e50138094c838ee49c9c43f4e08c80e2c3c02417f0dd052a90579c9e4",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 78,
+      "name": "Hit_b_Spine01_02",
+      "roles": [
+        "Hit/b_Spine01_02/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "df258aef2fb3da407d63fda71be1f36035403f6e664486d52fba92c882f5eeba",
+      "afterSHA256": "df258aef2fb3da407d63fda71be1f36035403f6e664486d52fba92c882f5eeba",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 79,
+      "name": "Hit_b_Spine02_03",
+      "roles": [
+        "Hit/b_Spine02_03/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "18ed76361e15c78bccbcc76bfe60d2a3f69f47edbba644e38d0f81bd96c3a650",
+      "afterSHA256": "18ed76361e15c78bccbcc76bfe60d2a3f69f47edbba644e38d0f81bd96c3a650",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 80,
+      "name": "Hit_b_Neck_04",
+      "roles": [
+        "Hit/b_Neck_04/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "2729295e5525a20eea030e3103672f3baeec57db215d0ee3bb17bcb9def088be",
+      "afterSHA256": "2729295e5525a20eea030e3103672f3baeec57db215d0ee3bb17bcb9def088be",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 81,
+      "name": "Hit_b_Head_05",
+      "roles": [
+        "Hit/b_Head_05/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "3eafedc85d69ff39884aae0bc7f8cb619717014ad0c2e02f7ba9b4cb1583688a",
+      "afterSHA256": "3eafedc85d69ff39884aae0bc7f8cb619717014ad0c2e02f7ba9b4cb1583688a",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 82,
+      "name": "Hit_b_RightUpperArm_06",
+      "roles": [
+        "Hit/b_RightUpperArm_06/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "76fc7793fd56129fc6e505a33b49df6ae7d6d84f2f036a2a482d170ce9823194",
+      "afterSHA256": "76fc7793fd56129fc6e505a33b49df6ae7d6d84f2f036a2a482d170ce9823194",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 83,
+      "name": "Hit_b_RightForeArm_07",
+      "roles": [
+        "Hit/b_RightForeArm_07/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "eeb70945ea95603233ae65f4501226b87844bce04c8afd0d195c22731ca92c36",
+      "afterSHA256": "eeb70945ea95603233ae65f4501226b87844bce04c8afd0d195c22731ca92c36",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 84,
+      "name": "Hit_b_RightHand_08",
+      "roles": [
+        "Hit/b_RightHand_08/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "e64b357d8d410483b0f7e969dac5ee53f980633c80de5da0b60341d5752d629d",
+      "afterSHA256": "e64b357d8d410483b0f7e969dac5ee53f980633c80de5da0b60341d5752d629d",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 85,
+      "name": "Hit_b_LeftUpperArm_09",
+      "roles": [
+        "Hit/b_LeftUpperArm_09/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "e373a5e80056fd3a3b4a6d0692a189038947d7c538c5fa72df0539099049a79c",
+      "afterSHA256": "e373a5e80056fd3a3b4a6d0692a189038947d7c538c5fa72df0539099049a79c",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 86,
+      "name": "Hit_b_LeftForeArm_010",
+      "roles": [
+        "Hit/b_LeftForeArm_010/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "28de87e771236648d46e2d71f4a259384a596d12a4363da62589836ad860b092",
+      "afterSHA256": "28de87e771236648d46e2d71f4a259384a596d12a4363da62589836ad860b092",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 87,
+      "name": "Hit_b_LeftHand_011",
+      "roles": [
+        "Hit/b_LeftHand_011/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "1eaecbc1bd46d29ece67116e73aba567f35a95733d0fbc547465c79fe1ae63e6",
+      "afterSHA256": "1eaecbc1bd46d29ece67116e73aba567f35a95733d0fbc547465c79fe1ae63e6",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 88,
+      "name": "Hit_b_Tail01_012",
+      "roles": [
+        "Hit/b_Tail01_012/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "4ed8e7f81e7ddc99a748f4f545d65eddeee8a7660a6d2ff5fc342a954884446d",
+      "afterSHA256": "4ed8e7f81e7ddc99a748f4f545d65eddeee8a7660a6d2ff5fc342a954884446d",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 89,
+      "name": "Hit_b_Tail02_013",
+      "roles": [
+        "Hit/b_Tail02_013/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "b9d255e46edc91acecddc99d2c9273ded5c749ca3513f0444e38662d6918dc61",
+      "afterSHA256": "b9d255e46edc91acecddc99d2c9273ded5c749ca3513f0444e38662d6918dc61",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 90,
+      "name": "Hit_b_Tail03_014",
+      "roles": [
+        "Hit/b_Tail03_014/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "dc223d8e88e31e87241fda7afc9b7db18638509e4a3c74d39564228786ce7adf",
+      "afterSHA256": "dc223d8e88e31e87241fda7afc9b7db18638509e4a3c74d39564228786ce7adf",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 91,
+      "name": "Hit_b_LeftLeg01_015",
+      "roles": [
+        "Hit/b_LeftLeg01_015/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "540fab5d7be59824f8d8b6e51c1b97143fd3fa1c259c482a0c519f68d496d0a1",
+      "afterSHA256": "540fab5d7be59824f8d8b6e51c1b97143fd3fa1c259c482a0c519f68d496d0a1",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 92,
+      "name": "Hit_b_LeftLeg02_016",
+      "roles": [
+        "Hit/b_LeftLeg02_016/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "2c15b3ea477a8190fe1b4da8120828cf22c7a1b4bd399ffa4919929c6e6933f9",
+      "afterSHA256": "2c15b3ea477a8190fe1b4da8120828cf22c7a1b4bd399ffa4919929c6e6933f9",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 93,
+      "name": "Hit_b_LeftFoot01_017",
+      "roles": [
+        "Hit/b_LeftFoot01_017/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "63a2b0876c3b20aae401504a2734dde8be54ba17f9bdaefdd303c2f022abd72c",
+      "afterSHA256": "63a2b0876c3b20aae401504a2734dde8be54ba17f9bdaefdd303c2f022abd72c",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 94,
+      "name": "Hit_b_LeftFoot02_018",
+      "roles": [
+        "Hit/b_LeftFoot02_018/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "4752733203aff96470f777062a7b7c8f31d392e20c10e493d24efc4349637c6e",
+      "afterSHA256": "4752733203aff96470f777062a7b7c8f31d392e20c10e493d24efc4349637c6e",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 95,
+      "name": "Hit_b_RightLeg01_019",
+      "roles": [
+        "Hit/b_RightLeg01_019/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "b7da54185cfcf68fde134e4944a699663d2065321ac3bf62778f2f6d4bdbe538",
+      "afterSHA256": "b7da54185cfcf68fde134e4944a699663d2065321ac3bf62778f2f6d4bdbe538",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 96,
+      "name": "Hit_b_RightLeg02_020",
+      "roles": [
+        "Hit/b_RightLeg02_020/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "e34a19a0b69d53b6c8896d9330a3d1c78fa0d25ed6d1a8d7a37310fd4e9bc77d",
+      "afterSHA256": "e34a19a0b69d53b6c8896d9330a3d1c78fa0d25ed6d1a8d7a37310fd4e9bc77d",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 97,
+      "name": "Hit_b_RightFoot01_021",
+      "roles": [
+        "Hit/b_RightFoot01_021/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "fd26f8753105aab1ec27f9923b040e5bc4e1eba5bc6b496d15ab441b325c0513",
+      "afterSHA256": "fd26f8753105aab1ec27f9923b040e5bc4e1eba5bc6b496d15ab441b325c0513",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 98,
+      "name": "Hit_b_RightFoot02_022",
+      "roles": [
+        "Hit/b_RightFoot02_022/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "78796b2c69c10dcfd9b72d2f16096b4edd8b714b56690581dee85818e78409e7",
+      "afterSHA256": "78796b2c69c10dcfd9b72d2f16096b4edd8b714b56690581dee85818e78409e7",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 99,
+      "name": "Hit_hip",
+      "roles": [
+        "Hit/b_Hip_01/translation/output"
+      ],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2088,
+      "beforeSHA256": "1e74d6670e6653f39bc0b44a5cfa5e4160c6afecaebe45de53e9bbf6564515b2",
+      "afterSHA256": "1e74d6670e6653f39bc0b44a5cfa5e4160c6afecaebe45de53e9bbf6564515b2",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 100,
+      "name": "HitLeft_times",
+      "roles": [
+        "HitLeft/_rootJoint/rotation/input",
+        "HitLeft/b_Root_00/rotation/input",
+        "HitLeft/b_Hip_01/rotation/input",
+        "HitLeft/b_Spine01_02/rotation/input",
+        "HitLeft/b_Spine02_03/rotation/input",
+        "HitLeft/b_Neck_04/rotation/input",
+        "HitLeft/b_Head_05/rotation/input",
+        "HitLeft/b_RightUpperArm_06/rotation/input",
+        "HitLeft/b_RightForeArm_07/rotation/input",
+        "HitLeft/b_RightHand_08/rotation/input",
+        "HitLeft/b_LeftUpperArm_09/rotation/input",
+        "HitLeft/b_LeftForeArm_010/rotation/input",
+        "HitLeft/b_LeftHand_011/rotation/input",
+        "HitLeft/b_Tail01_012/rotation/input",
+        "HitLeft/b_Tail02_013/rotation/input",
+        "HitLeft/b_Tail03_014/rotation/input",
+        "HitLeft/b_LeftLeg01_015/rotation/input",
+        "HitLeft/b_LeftLeg02_016/rotation/input",
+        "HitLeft/b_LeftFoot01_017/rotation/input",
+        "HitLeft/b_LeftFoot02_018/rotation/input",
+        "HitLeft/b_RightLeg01_019/rotation/input",
+        "HitLeft/b_RightLeg02_020/rotation/input",
+        "HitLeft/b_RightFoot01_021/rotation/input",
+        "HitLeft/b_RightFoot02_022/rotation/input",
+        "HitLeft/b_Hip_01/translation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 696,
+      "beforeSHA256": "9c4b7ed91ab0992936c1f25e902fe329284d948e88cfe149d1fd53d0c728ddb8",
+      "afterSHA256": "9c4b7ed91ab0992936c1f25e902fe329284d948e88cfe149d1fd53d0c728ddb8",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 101,
+      "name": "HitLeft__rootJoint",
+      "roles": [
+        "HitLeft/_rootJoint/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "9817cc792a1f85e78f91efe60f775f31fa9bf6a7eaf491f2d683b885d32199fe",
+      "afterSHA256": "9817cc792a1f85e78f91efe60f775f31fa9bf6a7eaf491f2d683b885d32199fe",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 102,
+      "name": "HitLeft_b_Root_00",
+      "roles": [
+        "HitLeft/b_Root_00/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "e5bc366049573b8c1ef4ce20c7e29f064c40dc8b2a60832290e3089b99a12ab2",
+      "afterSHA256": "e5bc366049573b8c1ef4ce20c7e29f064c40dc8b2a60832290e3089b99a12ab2",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 103,
+      "name": "HitLeft_b_Hip_01",
+      "roles": [
+        "HitLeft/b_Hip_01/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "ad7dc09e50138094c838ee49c9c43f4e08c80e2c3c02417f0dd052a90579c9e4",
+      "afterSHA256": "ad7dc09e50138094c838ee49c9c43f4e08c80e2c3c02417f0dd052a90579c9e4",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 104,
+      "name": "HitLeft_b_Spine01_02",
+      "roles": [
+        "HitLeft/b_Spine01_02/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "6438448970dfdf8906151f56d33f42ba250f7ad8c246bbb76cd9e5814c187ff6",
+      "afterSHA256": "6438448970dfdf8906151f56d33f42ba250f7ad8c246bbb76cd9e5814c187ff6",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 105,
+      "name": "HitLeft_b_Spine02_03",
+      "roles": [
+        "HitLeft/b_Spine02_03/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "e163bfe068aaaf8cb754a5de5869b619ab4a82e4349c0f30a041dded038c80b2",
+      "afterSHA256": "e163bfe068aaaf8cb754a5de5869b619ab4a82e4349c0f30a041dded038c80b2",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 106,
+      "name": "HitLeft_b_Neck_04",
+      "roles": [
+        "HitLeft/b_Neck_04/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "71556c1a74f5614902657b62aa3bc330173c1b1e9f2687aad17d1b3b6758713c",
+      "afterSHA256": "71556c1a74f5614902657b62aa3bc330173c1b1e9f2687aad17d1b3b6758713c",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 107,
+      "name": "HitLeft_b_Head_05",
+      "roles": [
+        "HitLeft/b_Head_05/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "0927e037be107c0d4b448f654386b06e02c2f3b6696a6a56800f501b246a0388",
+      "afterSHA256": "0927e037be107c0d4b448f654386b06e02c2f3b6696a6a56800f501b246a0388",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 108,
+      "name": "HitLeft_b_RightUpperArm_06",
+      "roles": [
+        "HitLeft/b_RightUpperArm_06/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "612424c48042fb60ede392ca9ade8894e080ead05143e6abbe3d5a1d4576acd1",
+      "afterSHA256": "612424c48042fb60ede392ca9ade8894e080ead05143e6abbe3d5a1d4576acd1",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 109,
+      "name": "HitLeft_b_RightForeArm_07",
+      "roles": [
+        "HitLeft/b_RightForeArm_07/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "e2e73906dcdaac541ada09297706ce83d4b001c8470f5d12cbe97200ad7752fc",
+      "afterSHA256": "e2e73906dcdaac541ada09297706ce83d4b001c8470f5d12cbe97200ad7752fc",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 110,
+      "name": "HitLeft_b_RightHand_08",
+      "roles": [
+        "HitLeft/b_RightHand_08/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "487a4a0e9c5b36bf658edab1d07dc8aead6e94456d4652ac1cc636c7a48e0fcc",
+      "afterSHA256": "487a4a0e9c5b36bf658edab1d07dc8aead6e94456d4652ac1cc636c7a48e0fcc",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 111,
+      "name": "HitLeft_b_LeftUpperArm_09",
+      "roles": [
+        "HitLeft/b_LeftUpperArm_09/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "a5accae70d9b1e20b0558cfcc8bb263515cae78cc37d90a59b55cee493182677",
+      "afterSHA256": "a5accae70d9b1e20b0558cfcc8bb263515cae78cc37d90a59b55cee493182677",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 112,
+      "name": "HitLeft_b_LeftForeArm_010",
+      "roles": [
+        "HitLeft/b_LeftForeArm_010/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "15c554b91591b95d69dc07f8e4608873d211edbfbe5d3cd64edccd38992ec76a",
+      "afterSHA256": "15c554b91591b95d69dc07f8e4608873d211edbfbe5d3cd64edccd38992ec76a",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 113,
+      "name": "HitLeft_b_LeftHand_011",
+      "roles": [
+        "HitLeft/b_LeftHand_011/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "4e3078a33a3092d7b3f5b65876090ff5504bf484ecbc77fa96270635365e98d1",
+      "afterSHA256": "4e3078a33a3092d7b3f5b65876090ff5504bf484ecbc77fa96270635365e98d1",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 114,
+      "name": "HitLeft_b_Tail01_012",
+      "roles": [
+        "HitLeft/b_Tail01_012/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "710a7b85f7a915f41612b7b2474a1261ed890c3e9cc5c0b0339440987e70f23b",
+      "afterSHA256": "710a7b85f7a915f41612b7b2474a1261ed890c3e9cc5c0b0339440987e70f23b",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 115,
+      "name": "HitLeft_b_Tail02_013",
+      "roles": [
+        "HitLeft/b_Tail02_013/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "b9d255e46edc91acecddc99d2c9273ded5c749ca3513f0444e38662d6918dc61",
+      "afterSHA256": "b9d255e46edc91acecddc99d2c9273ded5c749ca3513f0444e38662d6918dc61",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 116,
+      "name": "HitLeft_b_Tail03_014",
+      "roles": [
+        "HitLeft/b_Tail03_014/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "dc223d8e88e31e87241fda7afc9b7db18638509e4a3c74d39564228786ce7adf",
+      "afterSHA256": "dc223d8e88e31e87241fda7afc9b7db18638509e4a3c74d39564228786ce7adf",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 117,
+      "name": "HitLeft_b_LeftLeg01_015",
+      "roles": [
+        "HitLeft/b_LeftLeg01_015/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "d4c8880f524d249135e137c10497bd38863578978b610cd1083c72ab4c03f8d6",
+      "afterSHA256": "d4c8880f524d249135e137c10497bd38863578978b610cd1083c72ab4c03f8d6",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 118,
+      "name": "HitLeft_b_LeftLeg02_016",
+      "roles": [
+        "HitLeft/b_LeftLeg02_016/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "618288a0b621d9db899655de3650c2ec8f31646ea9db2bcc5d80932b2f4880f3",
+      "afterSHA256": "618288a0b621d9db899655de3650c2ec8f31646ea9db2bcc5d80932b2f4880f3",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 119,
+      "name": "HitLeft_b_LeftFoot01_017",
+      "roles": [
+        "HitLeft/b_LeftFoot01_017/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "df570f2c0c76dce677ba61cac1f47809957e4344f2c9b15e4f76633f1dc36197",
+      "afterSHA256": "df570f2c0c76dce677ba61cac1f47809957e4344f2c9b15e4f76633f1dc36197",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 120,
+      "name": "HitLeft_b_LeftFoot02_018",
+      "roles": [
+        "HitLeft/b_LeftFoot02_018/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "0cc01c4060b66026fdb11653fd634d755776caccdd7dc1a189f0124cd1101239",
+      "afterSHA256": "0cc01c4060b66026fdb11653fd634d755776caccdd7dc1a189f0124cd1101239",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 121,
+      "name": "HitLeft_b_RightLeg01_019",
+      "roles": [
+        "HitLeft/b_RightLeg01_019/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "f546eaab88f434c53d7b6c5502325a703208fe25469737bb135e634d7f7ef37c",
+      "afterSHA256": "f546eaab88f434c53d7b6c5502325a703208fe25469737bb135e634d7f7ef37c",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 122,
+      "name": "HitLeft_b_RightLeg02_020",
+      "roles": [
+        "HitLeft/b_RightLeg02_020/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "d26c5e388a35a794bdbcd174976dda5bd208e558f32f01c2824b65706cc8ba12",
+      "afterSHA256": "d26c5e388a35a794bdbcd174976dda5bd208e558f32f01c2824b65706cc8ba12",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 123,
+      "name": "HitLeft_b_RightFoot01_021",
+      "roles": [
+        "HitLeft/b_RightFoot01_021/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "fd0a15c6d6087dba48f5944e80ffdabfe9c3ae8ec10068ea009a36ca284827ba",
+      "afterSHA256": "fd0a15c6d6087dba48f5944e80ffdabfe9c3ae8ec10068ea009a36ca284827ba",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 124,
+      "name": "HitLeft_b_RightFoot02_022",
+      "roles": [
+        "HitLeft/b_RightFoot02_022/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "22790fe5c4215ad90c35b4ed207c6f289e174cc87f5d9bf36e481f2637c7c105",
+      "afterSHA256": "22790fe5c4215ad90c35b4ed207c6f289e174cc87f5d9bf36e481f2637c7c105",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 125,
+      "name": "HitLeft_hip",
+      "roles": [
+        "HitLeft/b_Hip_01/translation/output"
+      ],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2088,
+      "beforeSHA256": "0efdb647165e0ea42a26bca55428d8c28118b4e2adf1182672a9e3c3be159600",
+      "afterSHA256": "0efdb647165e0ea42a26bca55428d8c28118b4e2adf1182672a9e3c3be159600",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 126,
+      "name": "HitRight_times",
+      "roles": [
+        "HitRight/_rootJoint/rotation/input",
+        "HitRight/b_Root_00/rotation/input",
+        "HitRight/b_Hip_01/rotation/input",
+        "HitRight/b_Spine01_02/rotation/input",
+        "HitRight/b_Spine02_03/rotation/input",
+        "HitRight/b_Neck_04/rotation/input",
+        "HitRight/b_Head_05/rotation/input",
+        "HitRight/b_RightUpperArm_06/rotation/input",
+        "HitRight/b_RightForeArm_07/rotation/input",
+        "HitRight/b_RightHand_08/rotation/input",
+        "HitRight/b_LeftUpperArm_09/rotation/input",
+        "HitRight/b_LeftForeArm_010/rotation/input",
+        "HitRight/b_LeftHand_011/rotation/input",
+        "HitRight/b_Tail01_012/rotation/input",
+        "HitRight/b_Tail02_013/rotation/input",
+        "HitRight/b_Tail03_014/rotation/input",
+        "HitRight/b_LeftLeg01_015/rotation/input",
+        "HitRight/b_LeftLeg02_016/rotation/input",
+        "HitRight/b_LeftFoot01_017/rotation/input",
+        "HitRight/b_LeftFoot02_018/rotation/input",
+        "HitRight/b_RightLeg01_019/rotation/input",
+        "HitRight/b_RightLeg02_020/rotation/input",
+        "HitRight/b_RightFoot01_021/rotation/input",
+        "HitRight/b_RightFoot02_022/rotation/input",
+        "HitRight/b_Hip_01/translation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 696,
+      "beforeSHA256": "9c4b7ed91ab0992936c1f25e902fe329284d948e88cfe149d1fd53d0c728ddb8",
+      "afterSHA256": "9c4b7ed91ab0992936c1f25e902fe329284d948e88cfe149d1fd53d0c728ddb8",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 127,
+      "name": "HitRight__rootJoint",
+      "roles": [
+        "HitRight/_rootJoint/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "9817cc792a1f85e78f91efe60f775f31fa9bf6a7eaf491f2d683b885d32199fe",
+      "afterSHA256": "9817cc792a1f85e78f91efe60f775f31fa9bf6a7eaf491f2d683b885d32199fe",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 128,
+      "name": "HitRight_b_Root_00",
+      "roles": [
+        "HitRight/b_Root_00/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "e5bc366049573b8c1ef4ce20c7e29f064c40dc8b2a60832290e3089b99a12ab2",
+      "afterSHA256": "e5bc366049573b8c1ef4ce20c7e29f064c40dc8b2a60832290e3089b99a12ab2",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 129,
+      "name": "HitRight_b_Hip_01",
+      "roles": [
+        "HitRight/b_Hip_01/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "ad7dc09e50138094c838ee49c9c43f4e08c80e2c3c02417f0dd052a90579c9e4",
+      "afterSHA256": "ad7dc09e50138094c838ee49c9c43f4e08c80e2c3c02417f0dd052a90579c9e4",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 130,
+      "name": "HitRight_b_Spine01_02",
+      "roles": [
+        "HitRight/b_Spine01_02/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "c7a33fbf9a6b521dd11a6aaed88be4333f4b862af7045757d2aa7afd3c7ff638",
+      "afterSHA256": "c7a33fbf9a6b521dd11a6aaed88be4333f4b862af7045757d2aa7afd3c7ff638",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 131,
+      "name": "HitRight_b_Spine02_03",
+      "roles": [
+        "HitRight/b_Spine02_03/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "5d18473a9124b490e45a242bc2533377deeb10939c3bba89992a7d18a2d99421",
+      "afterSHA256": "5d18473a9124b490e45a242bc2533377deeb10939c3bba89992a7d18a2d99421",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 132,
+      "name": "HitRight_b_Neck_04",
+      "roles": [
+        "HitRight/b_Neck_04/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "0133d10e5bbb7822b7ccb10e922b6dd308ea308bc077901193308a6356e8345b",
+      "afterSHA256": "0133d10e5bbb7822b7ccb10e922b6dd308ea308bc077901193308a6356e8345b",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 133,
+      "name": "HitRight_b_Head_05",
+      "roles": [
+        "HitRight/b_Head_05/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "b0520d13bb81563d50905838d7076d1c6a893e3e1cb6441cfe638a25e627fed8",
+      "afterSHA256": "b0520d13bb81563d50905838d7076d1c6a893e3e1cb6441cfe638a25e627fed8",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 134,
+      "name": "HitRight_b_RightUpperArm_06",
+      "roles": [
+        "HitRight/b_RightUpperArm_06/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "8744deffe37aa50d263ea3a207a6a73ca3a2144b26b3b54b11d3b81cbadc5fb5",
+      "afterSHA256": "8744deffe37aa50d263ea3a207a6a73ca3a2144b26b3b54b11d3b81cbadc5fb5",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 135,
+      "name": "HitRight_b_RightForeArm_07",
+      "roles": [
+        "HitRight/b_RightForeArm_07/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "e1d9a72578e39dabda9b125d332273602aa7dafc240ad9cc756dc8c673e92904",
+      "afterSHA256": "e1d9a72578e39dabda9b125d332273602aa7dafc240ad9cc756dc8c673e92904",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 136,
+      "name": "HitRight_b_RightHand_08",
+      "roles": [
+        "HitRight/b_RightHand_08/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "af678b7dd6cd61ea3a4c5977b3b80fbfb88e0894097caf2ca34b08304b9cda55",
+      "afterSHA256": "af678b7dd6cd61ea3a4c5977b3b80fbfb88e0894097caf2ca34b08304b9cda55",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 137,
+      "name": "HitRight_b_LeftUpperArm_09",
+      "roles": [
+        "HitRight/b_LeftUpperArm_09/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "80889f8af877d789c90d8bb1f85f4057256247bb43b8c187d3413652842ab3a7",
+      "afterSHA256": "80889f8af877d789c90d8bb1f85f4057256247bb43b8c187d3413652842ab3a7",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 138,
+      "name": "HitRight_b_LeftForeArm_010",
+      "roles": [
+        "HitRight/b_LeftForeArm_010/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "42938713e0feb480730f7b7cc2b88218dc54d035856b76aa3cae5b33fb5b6d6d",
+      "afterSHA256": "42938713e0feb480730f7b7cc2b88218dc54d035856b76aa3cae5b33fb5b6d6d",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 139,
+      "name": "HitRight_b_LeftHand_011",
+      "roles": [
+        "HitRight/b_LeftHand_011/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "1de084bbbdbfc7a0a2da30db14c575edf8ef922be0cdab2b66c8804382b22032",
+      "afterSHA256": "1de084bbbdbfc7a0a2da30db14c575edf8ef922be0cdab2b66c8804382b22032",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 140,
+      "name": "HitRight_b_Tail01_012",
+      "roles": [
+        "HitRight/b_Tail01_012/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "cc48a2551b2ddf704203ad62f7da00bcd76d248843794f04a840dfcbfa5b7e40",
+      "afterSHA256": "cc48a2551b2ddf704203ad62f7da00bcd76d248843794f04a840dfcbfa5b7e40",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 141,
+      "name": "HitRight_b_Tail02_013",
+      "roles": [
+        "HitRight/b_Tail02_013/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "b9d255e46edc91acecddc99d2c9273ded5c749ca3513f0444e38662d6918dc61",
+      "afterSHA256": "b9d255e46edc91acecddc99d2c9273ded5c749ca3513f0444e38662d6918dc61",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 142,
+      "name": "HitRight_b_Tail03_014",
+      "roles": [
+        "HitRight/b_Tail03_014/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "dc223d8e88e31e87241fda7afc9b7db18638509e4a3c74d39564228786ce7adf",
+      "afterSHA256": "dc223d8e88e31e87241fda7afc9b7db18638509e4a3c74d39564228786ce7adf",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 143,
+      "name": "HitRight_b_LeftLeg01_015",
+      "roles": [
+        "HitRight/b_LeftLeg01_015/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "6be7c670f9ae218b9f8dad7a12c09df570d7d1ed5692ca5bf37096d211b2d3b1",
+      "afterSHA256": "6be7c670f9ae218b9f8dad7a12c09df570d7d1ed5692ca5bf37096d211b2d3b1",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 144,
+      "name": "HitRight_b_LeftLeg02_016",
+      "roles": [
+        "HitRight/b_LeftLeg02_016/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "ed353eaff21be29914b74426be766822d530f0a950eb3140c7dd0fe88d7dc70c",
+      "afterSHA256": "ed353eaff21be29914b74426be766822d530f0a950eb3140c7dd0fe88d7dc70c",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 145,
+      "name": "HitRight_b_LeftFoot01_017",
+      "roles": [
+        "HitRight/b_LeftFoot01_017/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "68cf0f8639119276908331ba7caec63996ba089e23c2396adb90d609c4f3a06d",
+      "afterSHA256": "68cf0f8639119276908331ba7caec63996ba089e23c2396adb90d609c4f3a06d",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 146,
+      "name": "HitRight_b_LeftFoot02_018",
+      "roles": [
+        "HitRight/b_LeftFoot02_018/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "a7084ab057652b8d237b6735febec76b6e4a11d1eaab59cbc63284858f9136c0",
+      "afterSHA256": "a7084ab057652b8d237b6735febec76b6e4a11d1eaab59cbc63284858f9136c0",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 147,
+      "name": "HitRight_b_RightLeg01_019",
+      "roles": [
+        "HitRight/b_RightLeg01_019/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "1166352e620f6ded988d8cfa54a8d00e455e4b19a144be802d1f54f38ea4cf09",
+      "afterSHA256": "1166352e620f6ded988d8cfa54a8d00e455e4b19a144be802d1f54f38ea4cf09",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 148,
+      "name": "HitRight_b_RightLeg02_020",
+      "roles": [
+        "HitRight/b_RightLeg02_020/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "9e51c3a4b336fd18921f73e600ae9d2fce738c678c74ad81bb6c73ba4c41c692",
+      "afterSHA256": "9e51c3a4b336fd18921f73e600ae9d2fce738c678c74ad81bb6c73ba4c41c692",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 149,
+      "name": "HitRight_b_RightFoot01_021",
+      "roles": [
+        "HitRight/b_RightFoot01_021/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "4f5695bc54d0a5d288200150809be45a30eaf7a6c4e3a820bcb9d6c66a7c8f10",
+      "afterSHA256": "4f5695bc54d0a5d288200150809be45a30eaf7a6c4e3a820bcb9d6c66a7c8f10",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 150,
+      "name": "HitRight_b_RightFoot02_022",
+      "roles": [
+        "HitRight/b_RightFoot02_022/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2784,
+      "beforeSHA256": "5c7f8fbff3398b1b899e9761ff39e1893e00540911548284a9a337acf0d91807",
+      "afterSHA256": "5c7f8fbff3398b1b899e9761ff39e1893e00540911548284a9a337acf0d91807",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 151,
+      "name": "HitRight_hip",
+      "roles": [
+        "HitRight/b_Hip_01/translation/output"
+      ],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 174,
+      "bytes": 2088,
+      "beforeSHA256": "7e910e406aa6fe4c2bd00a59da7b1187c81dc754f80181000915dd6a2d7f4889",
+      "afterSHA256": "7e910e406aa6fe4c2bd00a59da7b1187c81dc754f80181000915dd6a2d7f4889",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 152,
+      "name": "Death_times",
+      "roles": [
+        "Death/_rootJoint/rotation/input",
+        "Death/b_Root_00/rotation/input",
+        "Death/b_Hip_01/rotation/input",
+        "Death/b_Spine01_02/rotation/input",
+        "Death/b_Spine02_03/rotation/input",
+        "Death/b_Neck_04/rotation/input",
+        "Death/b_Head_05/rotation/input",
+        "Death/b_RightUpperArm_06/rotation/input",
+        "Death/b_RightForeArm_07/rotation/input",
+        "Death/b_RightHand_08/rotation/input",
+        "Death/b_LeftUpperArm_09/rotation/input",
+        "Death/b_LeftForeArm_010/rotation/input",
+        "Death/b_LeftHand_011/rotation/input",
+        "Death/b_Tail01_012/rotation/input",
+        "Death/b_Tail02_013/rotation/input",
+        "Death/b_Tail03_014/rotation/input",
+        "Death/b_LeftLeg01_015/rotation/input",
+        "Death/b_LeftLeg02_016/rotation/input",
+        "Death/b_LeftFoot01_017/rotation/input",
+        "Death/b_LeftFoot02_018/rotation/input",
+        "Death/b_RightLeg01_019/rotation/input",
+        "Death/b_RightLeg02_020/rotation/input",
+        "Death/b_RightFoot01_021/rotation/input",
+        "Death/b_RightFoot02_022/rotation/input",
+        "Death/b_Hip_01/translation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 1348,
+      "beforeSHA256": "c9b41c73eca65d51b4b3671763a4b54b3eb8b43c89f23e4c08caaba1d9637202",
+      "afterSHA256": "c9b41c73eca65d51b4b3671763a4b54b3eb8b43c89f23e4c08caaba1d9637202",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 153,
+      "name": "Death__rootJoint",
+      "roles": [
+        "Death/_rootJoint/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "3ffd4266f3ad169f52e6177653da06129fc2f4b4b313e4c621e2121d149bc9f8",
+      "afterSHA256": "3ffd4266f3ad169f52e6177653da06129fc2f4b4b313e4c621e2121d149bc9f8",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 154,
+      "name": "Death_b_Root_00",
+      "roles": [
+        "Death/b_Root_00/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "8f36afe9dcc1a71ff9a0bc9b54bfa3902d16c45bcb41afd6423ad3e1679a3acc",
+      "afterSHA256": "8f36afe9dcc1a71ff9a0bc9b54bfa3902d16c45bcb41afd6423ad3e1679a3acc",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 155,
+      "name": "Death_b_Hip_01",
+      "roles": [
+        "Death/b_Hip_01/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "24e06dcdaae1ca8dc0d44c112697e132d2d2dece7cf8c2eee36eac49655b1032",
+      "afterSHA256": "24e06dcdaae1ca8dc0d44c112697e132d2d2dece7cf8c2eee36eac49655b1032",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 156,
+      "name": "Death_b_Spine01_02",
+      "roles": [
+        "Death/b_Spine01_02/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "0d9af4e504b8eb31a43650a99379bc82a885d2739f731da35ef3a7ab731c690e",
+      "afterSHA256": "0d9af4e504b8eb31a43650a99379bc82a885d2739f731da35ef3a7ab731c690e",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 157,
+      "name": "Death_b_Spine02_03",
+      "roles": [
+        "Death/b_Spine02_03/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "e45a3d8a2e7e3922b14677ad499fe62e83883b9ec8161d4e9facee3d5908889f",
+      "afterSHA256": "e45a3d8a2e7e3922b14677ad499fe62e83883b9ec8161d4e9facee3d5908889f",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 158,
+      "name": "Death_b_Neck_04",
+      "roles": [
+        "Death/b_Neck_04/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "e190e08ae2c5635849e215c0815b9aa899181358fe247c94f5b81fd7b1d4ba8b",
+      "afterSHA256": "e190e08ae2c5635849e215c0815b9aa899181358fe247c94f5b81fd7b1d4ba8b",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 159,
+      "name": "Death_b_Head_05",
+      "roles": [
+        "Death/b_Head_05/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "3cf468445bae66369cb5216592d64025f121e2b5c47d1708b65a33c10826bfb1",
+      "afterSHA256": "3cf468445bae66369cb5216592d64025f121e2b5c47d1708b65a33c10826bfb1",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 160,
+      "name": "Death_b_RightUpperArm_06",
+      "roles": [
+        "Death/b_RightUpperArm_06/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "e43d8b177fd8e7c0e3a512be640a7a3656b25c6ec92971075667223f4407942f",
+      "afterSHA256": "e43d8b177fd8e7c0e3a512be640a7a3656b25c6ec92971075667223f4407942f",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 161,
+      "name": "Death_b_RightForeArm_07",
+      "roles": [
+        "Death/b_RightForeArm_07/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "f936b56a7c521674888ea96de4fd0b0d0ba2fed9216739cddb4c0cfbde5ba9de",
+      "afterSHA256": "f936b56a7c521674888ea96de4fd0b0d0ba2fed9216739cddb4c0cfbde5ba9de",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 162,
+      "name": "Death_b_RightHand_08",
+      "roles": [
+        "Death/b_RightHand_08/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "f4aa2218873af4927ecdef8356863e1857dbbb87d006ab19af96ab852b7bddd4",
+      "afterSHA256": "f4aa2218873af4927ecdef8356863e1857dbbb87d006ab19af96ab852b7bddd4",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 163,
+      "name": "Death_b_LeftUpperArm_09",
+      "roles": [
+        "Death/b_LeftUpperArm_09/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "fee04a400f4ec04569388d472349714bccd61e8599bc97aae18efec133e0d410",
+      "afterSHA256": "fee04a400f4ec04569388d472349714bccd61e8599bc97aae18efec133e0d410",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 164,
+      "name": "Death_b_LeftForeArm_010",
+      "roles": [
+        "Death/b_LeftForeArm_010/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "cb98a8ee8590346ce8bbd4f89ae593d576797fb3afc1d26533587942802aa80a",
+      "afterSHA256": "cb98a8ee8590346ce8bbd4f89ae593d576797fb3afc1d26533587942802aa80a",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 165,
+      "name": "Death_b_LeftHand_011",
+      "roles": [
+        "Death/b_LeftHand_011/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "a8d7d9dfe14b2fd8255935f49ea617e45c84724202cdaecfcf327186b44c6a04",
+      "afterSHA256": "a8d7d9dfe14b2fd8255935f49ea617e45c84724202cdaecfcf327186b44c6a04",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 166,
+      "name": "Death_b_Tail01_012",
+      "roles": [
+        "Death/b_Tail01_012/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "63bda5c4dbe1e5a109a3ea177e4d241679d49470e91004253aeb85d83d81f2c6",
+      "afterSHA256": "63bda5c4dbe1e5a109a3ea177e4d241679d49470e91004253aeb85d83d81f2c6",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 167,
+      "name": "Death_b_Tail02_013",
+      "roles": [
+        "Death/b_Tail02_013/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "7b0990808f4fcc2cd358045e146443440d0f6526090caa0b4a98f35625dbc663",
+      "afterSHA256": "7b0990808f4fcc2cd358045e146443440d0f6526090caa0b4a98f35625dbc663",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 168,
+      "name": "Death_b_Tail03_014",
+      "roles": [
+        "Death/b_Tail03_014/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "d9c5dacdf3aa580b9f425b92ae35813074af17dad4659f83e528d3414058d03c",
+      "afterSHA256": "d9c5dacdf3aa580b9f425b92ae35813074af17dad4659f83e528d3414058d03c",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 169,
+      "name": "Death_b_LeftLeg01_015",
+      "roles": [
+        "Death/b_LeftLeg01_015/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "d3a68e0588d9b28131b50e0caa50ea0333618baf32c470b0cb8f1ec4c0fc58f8",
+      "afterSHA256": "d3a68e0588d9b28131b50e0caa50ea0333618baf32c470b0cb8f1ec4c0fc58f8",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 170,
+      "name": "Death_b_LeftLeg02_016",
+      "roles": [
+        "Death/b_LeftLeg02_016/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "49a1750c2e333acbae4c1544d23c4d3ead018fbe7ef68b9011159b54890635fb",
+      "afterSHA256": "49a1750c2e333acbae4c1544d23c4d3ead018fbe7ef68b9011159b54890635fb",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 171,
+      "name": "Death_b_LeftFoot01_017",
+      "roles": [
+        "Death/b_LeftFoot01_017/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "877d412498054db09506db730695d743398680f3868e155a0270aca5bff52bb2",
+      "afterSHA256": "877d412498054db09506db730695d743398680f3868e155a0270aca5bff52bb2",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 172,
+      "name": "Death_b_LeftFoot02_018",
+      "roles": [
+        "Death/b_LeftFoot02_018/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "e0396f5f18e3a5c5a2572d88b43ef4db46757a6528888265c1a957b01c469f21",
+      "afterSHA256": "e0396f5f18e3a5c5a2572d88b43ef4db46757a6528888265c1a957b01c469f21",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 173,
+      "name": "Death_b_RightLeg01_019",
+      "roles": [
+        "Death/b_RightLeg01_019/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "fc6e87d59c9006d12dd1167173d0403efcbcb0d5d8dd889fd908a772cc79b976",
+      "afterSHA256": "fc6e87d59c9006d12dd1167173d0403efcbcb0d5d8dd889fd908a772cc79b976",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 174,
+      "name": "Death_b_RightLeg02_020",
+      "roles": [
+        "Death/b_RightLeg02_020/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "a4dccd9c94d67cb5b94069d4e214994ca7e4af9144f4b4ebf3e6ca9d98a7ef34",
+      "afterSHA256": "a4dccd9c94d67cb5b94069d4e214994ca7e4af9144f4b4ebf3e6ca9d98a7ef34",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 175,
+      "name": "Death_b_RightFoot01_021",
+      "roles": [
+        "Death/b_RightFoot01_021/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "03d62d5b2608e7a9c87d108fc52b663ca38e401b1a0115f986ecaaac66b74d13",
+      "afterSHA256": "03d62d5b2608e7a9c87d108fc52b663ca38e401b1a0115f986ecaaac66b74d13",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 176,
+      "name": "Death_b_RightFoot02_022",
+      "roles": [
+        "Death/b_RightFoot02_022/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 5392,
+      "beforeSHA256": "3535a542f215f7868c91a8b386f064e1e0a1f7aae2afe90bcd0af767cb513ee1",
+      "afterSHA256": "3535a542f215f7868c91a8b386f064e1e0a1f7aae2afe90bcd0af767cb513ee1",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 177,
+      "name": "Death_hip",
+      "roles": [
+        "Death/b_Hip_01/translation/output"
+      ],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 337,
+      "bytes": 4044,
+      "beforeSHA256": "23221f7ba73cd31c57f0d25cdfcd8bba428fe299d2040b491bc24441cb771cc9",
+      "afterSHA256": "23221f7ba73cd31c57f0d25cdfcd8bba428fe299d2040b491bc24441cb771cc9",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 178,
+      "name": "Run_adaptive_times",
+      "roles": [
+        "Run/b_Hip_01/rotation/input",
+        "Run/b_Spine01_02/rotation/input",
+        "Run/b_Spine02_03/rotation/input",
+        "Run/b_RightUpperArm_06/rotation/input",
+        "Run/b_RightForeArm_07/rotation/input",
+        "Run/b_RightHand_08/rotation/input",
+        "Run/b_LeftUpperArm_09/rotation/input",
+        "Run/b_LeftForeArm_010/rotation/input",
+        "Run/b_LeftHand_011/rotation/input",
+        "Run/b_LeftLeg01_015/rotation/input",
+        "Run/b_LeftLeg02_016/rotation/input",
+        "Run/b_LeftFoot01_017/rotation/input",
+        "Run/b_LeftFoot02_018/rotation/input",
+        "Run/b_RightLeg01_019/rotation/input",
+        "Run/b_RightLeg02_020/rotation/input",
+        "Run/b_RightFoot01_021/rotation/input",
+        "Run/b_RightFoot02_022/rotation/input",
+        "Run/b_Hip_01/translation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 1236,
+      "beforeSHA256": "7a5f8bfaa559ede9b27a5e7be959e05f427f4ab58513774a33e6bee8d156f34a",
+      "afterSHA256": "7a5f8bfaa559ede9b27a5e7be959e05f427f4ab58513774a33e6bee8d156f34a",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 179,
+      "name": "_rootJoint_adaptive_times",
+      "roles": [
+        "Run/_rootJoint/rotation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 2,
+      "bytes": 8,
+      "beforeSHA256": "0481dd278ae8b596eff1866f24479a7251b6b893193aeeb3ba11e1e58f461e83",
+      "afterSHA256": "0481dd278ae8b596eff1866f24479a7251b6b893193aeeb3ba11e1e58f461e83",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 180,
+      "name": "_rootJoint_adaptive_values",
+      "roles": [
+        "Run/_rootJoint/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 2,
+      "bytes": 32,
+      "beforeSHA256": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3",
+      "afterSHA256": "bf2022dccf9d8fba203301d60bd02bc2f5a8ad2b80747468c8cd27115ff848a3",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 181,
+      "name": "b_Root_00_adaptive_times",
+      "roles": [
+        "Run/b_Root_00/rotation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 2,
+      "bytes": 8,
+      "beforeSHA256": "0481dd278ae8b596eff1866f24479a7251b6b893193aeeb3ba11e1e58f461e83",
+      "afterSHA256": "0481dd278ae8b596eff1866f24479a7251b6b893193aeeb3ba11e1e58f461e83",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 182,
+      "name": "b_Root_00_adaptive_values",
+      "roles": [
+        "Run/b_Root_00/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 2,
+      "bytes": 32,
+      "beforeSHA256": "000e4cbd534d0dc5e917524b3702d5d32594fc106906011adf7a02cdf98fa5c8",
+      "afterSHA256": "000e4cbd534d0dc5e917524b3702d5d32594fc106906011adf7a02cdf98fa5c8",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 183,
+      "name": "b_Hip_01_adaptive_values",
+      "roles": [
+        "Run/b_Hip_01/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "709d897141510b9555148585dddf746a6803a40e5ec114d63517463aedc9a80f",
+      "afterSHA256": "709d897141510b9555148585dddf746a6803a40e5ec114d63517463aedc9a80f",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 184,
+      "name": "b_Spine01_02_adaptive_values",
+      "roles": [
+        "Run/b_Spine01_02/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "82e4e882c699412b0d08d40e0fb5498f78803cc956c67f84b693b7811f32c0b7",
+      "afterSHA256": "82e4e882c699412b0d08d40e0fb5498f78803cc956c67f84b693b7811f32c0b7",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 185,
+      "name": "b_Spine02_03_adaptive_values",
+      "roles": [
+        "Run/b_Spine02_03/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "14fac9602678231ce619aa1f54845ed3564d2e3e366c4b2e0c68ca0c73e7dcda",
+      "afterSHA256": "14fac9602678231ce619aa1f54845ed3564d2e3e366c4b2e0c68ca0c73e7dcda",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 186,
+      "name": "b_Neck_04_adaptive_times",
+      "roles": [
+        "Run/b_Neck_04/rotation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 42,
+      "bytes": 168,
+      "beforeSHA256": "5b02140fc4b454dfdfda6ef0ae59ee267568ce4fe4cfedf8115c5952309d8ad3",
+      "afterSHA256": "5b02140fc4b454dfdfda6ef0ae59ee267568ce4fe4cfedf8115c5952309d8ad3",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 187,
+      "name": "b_Neck_04_adaptive_values",
+      "roles": [
+        "Run/b_Neck_04/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 42,
+      "bytes": 672,
+      "beforeSHA256": "94d1377a041347d76583dfad9f53069d2e6bc1d6b2595d2f503dccfd36dfc5f1",
+      "afterSHA256": "94d1377a041347d76583dfad9f53069d2e6bc1d6b2595d2f503dccfd36dfc5f1",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 188,
+      "name": "b_Head_05_adaptive_times",
+      "roles": [
+        "Run/b_Head_05/rotation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 37,
+      "bytes": 148,
+      "beforeSHA256": "5a0881e0815a26e1f07be42bad70d6e7c47d0c93f082f8b81f1d31f901af15d9",
+      "afterSHA256": "5a0881e0815a26e1f07be42bad70d6e7c47d0c93f082f8b81f1d31f901af15d9",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 189,
+      "name": "b_Head_05_adaptive_values",
+      "roles": [
+        "Run/b_Head_05/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 37,
+      "bytes": 592,
+      "beforeSHA256": "7dd7294eee35b29cff26b87c7f3b0576533fb34e4f30388049d68278e499d712",
+      "afterSHA256": "7dd7294eee35b29cff26b87c7f3b0576533fb34e4f30388049d68278e499d712",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 190,
+      "name": "b_RightUpperArm_06_adaptive_values",
+      "roles": [
+        "Run/b_RightUpperArm_06/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "15992b51d26d4817d4058c3bd76fa39fe3fc287963f230dc8d85141c9978d992",
+      "afterSHA256": "15992b51d26d4817d4058c3bd76fa39fe3fc287963f230dc8d85141c9978d992",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 191,
+      "name": "b_RightForeArm_07_adaptive_values",
+      "roles": [
+        "Run/b_RightForeArm_07/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "77a8c6cc703b7aa65bc7bc920aa5c665507a5077c27c3fb49986c49e106a43f1",
+      "afterSHA256": "77a8c6cc703b7aa65bc7bc920aa5c665507a5077c27c3fb49986c49e106a43f1",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 192,
+      "name": "b_RightHand_08_adaptive_values",
+      "roles": [
+        "Run/b_RightHand_08/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "78cb47135c4f78c979941e31ce00b24d945ca6fe599415281f8b944e0c1872bd",
+      "afterSHA256": "78cb47135c4f78c979941e31ce00b24d945ca6fe599415281f8b944e0c1872bd",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 193,
+      "name": "b_LeftUpperArm_09_adaptive_values",
+      "roles": [
+        "Run/b_LeftUpperArm_09/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "075d39580f44e0c249834da16ea79782d9b0f2310be27774a4077967bfa0f23f",
+      "afterSHA256": "075d39580f44e0c249834da16ea79782d9b0f2310be27774a4077967bfa0f23f",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 194,
+      "name": "b_LeftForeArm_010_adaptive_values",
+      "roles": [
+        "Run/b_LeftForeArm_010/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "ac4689e7810adab7285710c2c94009763c1294ba4cbc6a72f400802e0fd40fee",
+      "afterSHA256": "ac4689e7810adab7285710c2c94009763c1294ba4cbc6a72f400802e0fd40fee",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 195,
+      "name": "b_LeftHand_011_adaptive_values",
+      "roles": [
+        "Run/b_LeftHand_011/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "98ddb63472e0494df3eb8072d5cb8087f6c90f30333b9a6f2fbcd598f4d09d7a",
+      "afterSHA256": "98ddb63472e0494df3eb8072d5cb8087f6c90f30333b9a6f2fbcd598f4d09d7a",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 196,
+      "name": "b_Tail01_012_adaptive_times",
+      "roles": [
+        "Run/b_Tail01_012/rotation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 38,
+      "bytes": 152,
+      "beforeSHA256": "f7b9f748bb23db9a7c4d939552b7260ca2873d0a9cd3c49d1e89bb410d2dd1c9",
+      "afterSHA256": "f7b9f748bb23db9a7c4d939552b7260ca2873d0a9cd3c49d1e89bb410d2dd1c9",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 197,
+      "name": "b_Tail01_012_adaptive_values",
+      "roles": [
+        "Run/b_Tail01_012/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 38,
+      "bytes": 608,
+      "beforeSHA256": "3c39100a2cdcb328e1a6456f03c141cd1bc2e8e45c59a7aee10d5fb357b60a2b",
+      "afterSHA256": "3c39100a2cdcb328e1a6456f03c141cd1bc2e8e45c59a7aee10d5fb357b60a2b",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 198,
+      "name": "b_Tail02_013_adaptive_times",
+      "roles": [
+        "Run/b_Tail02_013/rotation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 39,
+      "bytes": 156,
+      "beforeSHA256": "02fb2db0113064b7f48df867a6376a0548fb304aac625307aceef71b1cc464cf",
+      "afterSHA256": "02fb2db0113064b7f48df867a6376a0548fb304aac625307aceef71b1cc464cf",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 199,
+      "name": "b_Tail02_013_adaptive_values",
+      "roles": [
+        "Run/b_Tail02_013/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 39,
+      "bytes": 624,
+      "beforeSHA256": "23818404898b735bd486cfea1868099c7d648fd04a61f7b3f6df3fc09b52f9f3",
+      "afterSHA256": "23818404898b735bd486cfea1868099c7d648fd04a61f7b3f6df3fc09b52f9f3",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 200,
+      "name": "b_Tail03_014_adaptive_times",
+      "roles": [
+        "Run/b_Tail03_014/rotation/input"
+      ],
+      "type": "SCALAR",
+      "componentType": 5126,
+      "count": 45,
+      "bytes": 180,
+      "beforeSHA256": "f3335e049f91c3ea30ad7a4918385fee7ab521212387c8ab190c66f2d1de81ca",
+      "afterSHA256": "f3335e049f91c3ea30ad7a4918385fee7ab521212387c8ab190c66f2d1de81ca",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 201,
+      "name": "b_Tail03_014_adaptive_values",
+      "roles": [
+        "Run/b_Tail03_014/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 45,
+      "bytes": 720,
+      "beforeSHA256": "251ca4c8acfc9fe6b0eb08bbe685955d518246e2b9c41965c5e5ab49c39acc8c",
+      "afterSHA256": "251ca4c8acfc9fe6b0eb08bbe685955d518246e2b9c41965c5e5ab49c39acc8c",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 202,
+      "name": "b_LeftLeg01_015_adaptive_values",
+      "roles": [
+        "Run/b_LeftLeg01_015/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "01cf97954818722e578cba7aa36e77f01f9c60d0e329e81e4eaf0ba478a1b16d",
+      "afterSHA256": "01cf97954818722e578cba7aa36e77f01f9c60d0e329e81e4eaf0ba478a1b16d",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 203,
+      "name": "b_LeftLeg02_016_adaptive_values",
+      "roles": [
+        "Run/b_LeftLeg02_016/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "593e400245002688bb573c14d8f84a63e3060f7b6ccf790166f6ae2e50423a53",
+      "afterSHA256": "593e400245002688bb573c14d8f84a63e3060f7b6ccf790166f6ae2e50423a53",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 204,
+      "name": "b_LeftFoot01_017_adaptive_values",
+      "roles": [
+        "Run/b_LeftFoot01_017/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "38e25f38f52cc8a94c0076aeea2806d16c9bbe7d1ac056bfa946bc7a62fd9d2d",
+      "afterSHA256": "38e25f38f52cc8a94c0076aeea2806d16c9bbe7d1ac056bfa946bc7a62fd9d2d",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 205,
+      "name": "b_LeftFoot02_018_adaptive_values",
+      "roles": [
+        "Run/b_LeftFoot02_018/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "a28dd37453a0a15418f4b26241b6d7ba16bf563d2cab596c1676e60cb33f3838",
+      "afterSHA256": "a28dd37453a0a15418f4b26241b6d7ba16bf563d2cab596c1676e60cb33f3838",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 206,
+      "name": "b_RightLeg01_019_adaptive_values",
+      "roles": [
+        "Run/b_RightLeg01_019/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "df3557e01d66b0d23c577aec065f5a7e22d1468ef922991044ff60b975b37f65",
+      "afterSHA256": "df3557e01d66b0d23c577aec065f5a7e22d1468ef922991044ff60b975b37f65",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 207,
+      "name": "b_RightLeg02_020_adaptive_values",
+      "roles": [
+        "Run/b_RightLeg02_020/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "6705a1775d6b90a9ccbc81d60790ab8180823e0a55357562e7c68f73d250e111",
+      "afterSHA256": "6705a1775d6b90a9ccbc81d60790ab8180823e0a55357562e7c68f73d250e111",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 208,
+      "name": "b_RightFoot01_021_adaptive_values",
+      "roles": [
+        "Run/b_RightFoot01_021/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "41ea753b53fa76c9f4ebed083ffae18658f50ebfef637f600bd7a27f1fc72def",
+      "afterSHA256": "41ea753b53fa76c9f4ebed083ffae18658f50ebfef637f600bd7a27f1fc72def",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 209,
+      "name": "b_RightFoot02_022_adaptive_values",
+      "roles": [
+        "Run/b_RightFoot02_022/rotation/output"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 4944,
+      "beforeSHA256": "378f9ac24b9d78edb308e7f2ce80d8c7d732e3e1cdd189db1cbc83157599d3ed",
+      "afterSHA256": "378f9ac24b9d78edb308e7f2ce80d8c7d732e3e1cdd189db1cbc83157599d3ed",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 210,
+      "name": "b_Hip_01_adaptive_values",
+      "roles": [
+        "Run/b_Hip_01/translation/output"
+      ],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 309,
+      "bytes": 3708,
+      "beforeSHA256": "f84fe482f306566a6d7c5ded17cfb1c202856a31702270472b4cc2828bc9b7b1",
+      "afterSHA256": "f84fe482f306566a6d7c5ded17cfb1c202856a31702270472b4cc2828bc9b7b1",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 211,
+      "name": "",
+      "roles": [
+        "inverse bind matrices"
+      ],
+      "type": "MAT4",
+      "componentType": 5126,
+      "count": 24,
+      "bytes": 1536,
+      "beforeSHA256": "e8bcbd48f155b8eff0615b1c3e878d3664d175eae7f2186f61f50da31995a132",
+      "afterSHA256": "e8bcbd48f155b8eff0615b1c3e878d3664d175eae7f2186f61f50da31995a132",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 212,
+      "name": "Fox_refined_position",
+      "roles": [
+        "POSITION"
+      ],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 18434,
+      "bytes": 221208,
+      "beforeSHA256": "2c722fee254a01cdbd676bfd3b096819ae5fe3c1172448c5b69ba0fa71303e34",
+      "afterSHA256": "e1c62cda1dae641fb2199e24fedd93b5e72e12d8730fb12334a98f1850f901d3",
+      "identical": false,
+      "allowedChange": true
+    },
+    {
+      "index": 213,
+      "name": "Fox_refined_normal",
+      "roles": [
+        "NORMAL"
+      ],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 18434,
+      "bytes": 221208,
+      "beforeSHA256": "74a9e8356ed4febf6afb131364266932d21875075238133bc20d70f8fa9c1edd",
+      "afterSHA256": "b94d0784622c378558bff172579b7931fd5db6d1732a547a761a355262dd1ca0",
+      "identical": false,
+      "allowedChange": true
+    },
+    {
+      "index": 214,
+      "name": "Fox_refined_source_coat",
+      "roles": [
+        "COLOR_0"
+      ],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 18434,
+      "bytes": 221208,
+      "beforeSHA256": "be7aa1ea995913bd168602c29359ed30794d1454c2a97ad201e958c5bc784df9",
+      "afterSHA256": "be7aa1ea995913bd168602c29359ed30794d1454c2a97ad201e958c5bc784df9",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 215,
+      "name": "Fox_refined_joints",
+      "roles": [
+        "JOINTS_0"
+      ],
+      "type": "VEC4",
+      "componentType": 5123,
+      "count": 18434,
+      "bytes": 147472,
+      "beforeSHA256": "dd57493d21ee63d8bac1d1748598f90bced80fea7d5e712c5dadcaca9151cc6b",
+      "afterSHA256": "dd57493d21ee63d8bac1d1748598f90bced80fea7d5e712c5dadcaca9151cc6b",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 216,
+      "name": "Fox_refined_weights",
+      "roles": [
+        "WEIGHTS_0"
+      ],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 18434,
+      "bytes": 294944,
+      "beforeSHA256": "6cd60808a09247ffc41b8446383bfb8f2cec48d7c1fe01e8611e7b99ae6f34b4",
+      "afterSHA256": "6cd60808a09247ffc41b8446383bfb8f2cec48d7c1fe01e8611e7b99ae6f34b4",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 217,
+      "name": "Fox_refined_triangles",
+      "roles": [
+        "indices"
+      ],
+      "type": "SCALAR",
+      "componentType": 5125,
+      "count": 110592,
+      "bytes": 442368,
+      "beforeSHA256": "624c8727cf612a34362a102173cd872b7188ac1004da1822b142906f64b64cbd",
+      "afterSHA256": "624c8727cf612a34362a102173cd872b7188ac1004da1822b142906f64b64cbd",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 218,
+      "name": "eye_indices",
+      "roles": [],
+      "type": "SCALAR",
+      "componentType": 5123,
+      "count": 504,
+      "bytes": 1008,
+      "beforeSHA256": "ded11306b7cd3912fe263b0e0480b00ca410cc0eb99f91edf842db7960f68513",
+      "afterSHA256": "ded11306b7cd3912fe263b0e0480b00ca410cc0eb99f91edf842db7960f68513",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 219,
+      "name": "eye_indices",
+      "roles": [],
+      "type": "SCALAR",
+      "componentType": 5123,
+      "count": 504,
+      "bytes": 1008,
+      "beforeSHA256": "ded11306b7cd3912fe263b0e0480b00ca410cc0eb99f91edf842db7960f68513",
+      "afterSHA256": "ded11306b7cd3912fe263b0e0480b00ca410cc0eb99f91edf842db7960f68513",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 220,
+      "name": "eye_position",
+      "roles": [],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 120,
+      "bytes": 1440,
+      "beforeSHA256": "45b8d02d1531b57acab9af97a5fa41edd58461fe7f5333c224c04a8258a74afe",
+      "afterSHA256": "45b8d02d1531b57acab9af97a5fa41edd58461fe7f5333c224c04a8258a74afe",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 221,
+      "name": "eye_normal",
+      "roles": [],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 120,
+      "bytes": 1440,
+      "beforeSHA256": "f2e38d5c8ffc59ac313c3e75efca1cf2a86fa33c3e390245b8baf941dd079b98",
+      "afterSHA256": "f2e38d5c8ffc59ac313c3e75efca1cf2a86fa33c3e390245b8baf941dd079b98",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 222,
+      "name": "eye_color",
+      "roles": [],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 120,
+      "bytes": 1440,
+      "beforeSHA256": "c79d03e693f35fd6861ce5b400c6894b3d6df5b3290ba3137283fa52e4c25b83",
+      "afterSHA256": "c79d03e693f35fd6861ce5b400c6894b3d6df5b3290ba3137283fa52e4c25b83",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 223,
+      "name": "eye_joints",
+      "roles": [],
+      "type": "VEC4",
+      "componentType": 5123,
+      "count": 120,
+      "bytes": 960,
+      "beforeSHA256": "e84fd4b28ed848b191583c45133a3c84a6127ea0e0c6a27a2531734485e6058e",
+      "afterSHA256": "e84fd4b28ed848b191583c45133a3c84a6127ea0e0c6a27a2531734485e6058e",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 224,
+      "name": "eye_weights",
+      "roles": [],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 120,
+      "bytes": 1920,
+      "beforeSHA256": "896755b17a0f709bc0642922297ee2ba175ff8be3f9d2e691928a306e1398aec",
+      "afterSHA256": "896755b17a0f709bc0642922297ee2ba175ff8be3f9d2e691928a306e1398aec",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 225,
+      "name": "eye_position",
+      "roles": [],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 120,
+      "bytes": 1440,
+      "beforeSHA256": "e63bdb1085003402c2b7120d7d60375cf4a196ef5ae20c208eb0794a6c8baccd",
+      "afterSHA256": "e63bdb1085003402c2b7120d7d60375cf4a196ef5ae20c208eb0794a6c8baccd",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 226,
+      "name": "eye_normal",
+      "roles": [],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 120,
+      "bytes": 1440,
+      "beforeSHA256": "7cd2e93185a3309ad465667d2383ddb0b08aa8878f7b3e7e39a1d0894d5c33c0",
+      "afterSHA256": "7cd2e93185a3309ad465667d2383ddb0b08aa8878f7b3e7e39a1d0894d5c33c0",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 227,
+      "name": "eye_color",
+      "roles": [],
+      "type": "VEC3",
+      "componentType": 5126,
+      "count": 120,
+      "bytes": 1440,
+      "beforeSHA256": "c79d03e693f35fd6861ce5b400c6894b3d6df5b3290ba3137283fa52e4c25b83",
+      "afterSHA256": "c79d03e693f35fd6861ce5b400c6894b3d6df5b3290ba3137283fa52e4c25b83",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 228,
+      "name": "eye_joints",
+      "roles": [],
+      "type": "VEC4",
+      "componentType": 5123,
+      "count": 120,
+      "bytes": 960,
+      "beforeSHA256": "e84fd4b28ed848b191583c45133a3c84a6127ea0e0c6a27a2531734485e6058e",
+      "afterSHA256": "e84fd4b28ed848b191583c45133a3c84a6127ea0e0c6a27a2531734485e6058e",
+      "identical": true,
+      "allowedChange": false
+    },
+    {
+      "index": 229,
+      "name": "eye_weights",
+      "roles": [],
+      "type": "VEC4",
+      "componentType": 5126,
+      "count": 120,
+      "bytes": 1920,
+      "beforeSHA256": "896755b17a0f709bc0642922297ee2ba175ff8be3f9d2e691928a306e1398aec",
+      "afterSHA256": "896755b17a0f709bc0642922297ee2ba175ff8be3f9d2e691928a306e1398aec",
+      "identical": true,
+      "allowedChange": false
+    }
+  ],
+  "structuralIdentity": [
+    {
+      "section": "nodes",
+      "beforeSHA256": "7626ce8fd7a7bc78befc1ab4a9f4cd1614b23379558f6f21571b13ee4f9ade0c",
+      "afterSHA256": "7626ce8fd7a7bc78befc1ab4a9f4cd1614b23379558f6f21571b13ee4f9ade0c",
+      "identical": true
+    },
+    {
+      "section": "skins",
+      "beforeSHA256": "3e968a6203e8333f8c35b3946f8d001fff26bd0113ee51a6ad8578d409d712ea",
+      "afterSHA256": "3e968a6203e8333f8c35b3946f8d001fff26bd0113ee51a6ad8578d409d712ea",
+      "identical": true
+    },
+    {
+      "section": "animations",
+      "beforeSHA256": "171189665a298ea35ec8f4d0f3d5539ad6463e853f1b2a49016f17436bc944f2",
+      "afterSHA256": "171189665a298ea35ec8f4d0f3d5539ad6463e853f1b2a49016f17436bc944f2",
+      "identical": true
+    },
+    {
+      "section": "materials",
+      "beforeSHA256": "9d8ab38565a7caca410550844bf9296ed149024cb8a03f504ada3648a0f5842f",
+      "afterSHA256": "9d8ab38565a7caca410550844bf9296ed149024cb8a03f504ada3648a0f5842f",
+      "identical": true
+    },
+    {
+      "section": "textures",
+      "beforeSHA256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterSHA256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "identical": true
+    },
+    {
+      "section": "samplers",
+      "beforeSHA256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "afterSHA256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+      "identical": true
+    },
+    {
+      "section": "images",
+      "beforeSHA256": "42bee2bef60c7b53bc5b2b04a331953cfb811b7578898d9e4c4afc87f5cde3b8",
+      "afterSHA256": "42bee2bef60c7b53bc5b2b04a331953cfb811b7578898d9e4c4afc87f5cde3b8",
+      "identical": true
+    }
+  ],
+  "clipFloors": [
+    {
+      "clip": "Survey",
+      "samples": 165,
+      "beforeMinimumWorldYM": 0.00005005182305803288,
+      "beforeWorst": {
+        "time": 0.3958333283662796,
+        "vertex": 239
+      },
+      "afterMinimumWorldYM": 0.00005005182305803288,
+      "afterWorst": {
+        "time": 0.3958333283662796,
+        "vertex": 239
+      },
+      "deltaM": 0,
+      "pass": true
+    },
+    {
+      "clip": "Walk",
+      "samples": 341,
+      "beforeMinimumWorldYM": -0.000021470693653546307,
+      "beforeWorst": {
+        "time": 0.33124998211860657,
+        "vertex": 255
+      },
+      "afterMinimumWorldYM": -0.000021470693653546307,
+      "afterWorst": {
+        "time": 0.33124998211860657,
+        "vertex": 255
+      },
+      "deltaM": 0,
+      "pass": true
+    },
+    {
+      "clip": "Run",
+      "samples": 757,
+      "beforeMinimumWorldYM": -0.00024046223276604943,
+      "beforeWorst": {
+        "time": 0.11178385466337204,
+        "vertex": 268
+      },
+      "afterMinimumWorldYM": -0.00024046223276604943,
+      "afterWorst": {
+        "time": 0.11178385466337204,
+        "vertex": 268
+      },
+      "deltaM": 0,
+      "pass": true
+    },
+    {
+      "clip": "Attack",
+      "samples": 505,
+      "beforeMinimumWorldYM": -0.00001447655352899045,
+      "beforeWorst": {
+        "time": 0.05625000037252903,
+        "vertex": 255
+      },
+      "afterMinimumWorldYM": -0.00001447655352899045,
+      "afterWorst": {
+        "time": 0.05625000037252903,
+        "vertex": 255
+      },
+      "deltaM": 0,
+      "pass": true
+    },
+    {
+      "clip": "Hit",
+      "samples": 347,
+      "beforeMinimumWorldYM": -0.0000022413630636406404,
+      "beforeWorst": {
+        "time": 0.11861271411180496,
+        "vertex": 285
+      },
+      "afterMinimumWorldYM": -0.0000022413630636406404,
+      "afterWorst": {
+        "time": 0.11861271411180496,
+        "vertex": 285
+      },
+      "deltaM": 0,
+      "pass": true
+    },
+    {
+      "clip": "HitLeft",
+      "samples": 347,
+      "beforeMinimumWorldYM": -0.000004362726592900409,
+      "beforeWorst": {
+        "time": 0.06450866907835007,
+        "vertex": 255
+      },
+      "afterMinimumWorldYM": -0.000004362726592900409,
+      "afterWorst": {
+        "time": 0.06450866907835007,
+        "vertex": 255
+      },
+      "deltaM": 0,
+      "pass": true
+    },
+    {
+      "clip": "HitRight",
+      "samples": 347,
+      "beforeMinimumWorldYM": -0.00000434581459472047,
+      "beforeWorst": {
+        "time": 0.06450866907835007,
+        "vertex": 285
+      },
+      "afterMinimumWorldYM": -0.00000434581459472047,
+      "afterWorst": {
+        "time": 0.06450866907835007,
+        "vertex": 285
+      },
+      "deltaM": 0,
+      "pass": true
+    },
+    {
+      "clip": "Death",
+      "samples": 673,
+      "beforeMinimumWorldYM": -0.000006294165758573028,
+      "beforeWorst": {
+        "time": 0.4645833373069763,
+        "vertex": 269
+      },
+      "afterMinimumWorldYM": -0.0003062886486041007,
+      "afterWorst": {
+        "time": 0.8333333134651184,
+        "vertex": 4163
+      },
+      "deltaM": -0.00029999448284552765,
+      "pass": true
+    }
+  ],
+  "checks": {
+    "allowedAccessorsOnly": true,
+    "rigAnimationMaterialTextureSamplerIdentity": true,
+    "contactsPreserved": true,
+    "permittedVerticesOnly": true,
+    "finiteValues": true,
+    "zeroFlippedTriangles": true,
+    "zeroDegenerateTriangles": true,
+    "displacementWithin3cm": true,
+    "unchangedRegionNormalsWithinHalfDegree": true,
+    "allClipFloorsPass": true
+  },
+  "hardConstraintsPassed": true,
+  "visualAcceptance": false,
+  "normalBoundaryLimitPasses": 9,
+  "symmetry": [
+    {
+      "pair": "fore",
+      "correspondence": "Nearest reflected input vertex, reused for output",
+      "beforeMaxReflectionErrorM": 2.2133739580773914e-7,
+      "afterMaxReflectionErrorM": 2.2133739580773914e-7,
+      "exact": false
+    },
+    {
+      "pair": "hind",
+      "correspondence": "Nearest reflected input vertex, reused for output",
+      "beforeMaxReflectionErrorM": 5.740859594097125e-7,
+      "afterMaxReflectionErrorM": 6.588942353483548e-7,
+      "exact": false
+    }
+  ],
+  "shapeTargetsAccepted": false,
+  "visualReview": {
+    "method": "In-memory orthographic CPU triangle previews, before and after, fore/hind side and top views; no browser or saved screenshots",
+    "paddedSideVolumeImproved": true,
+    "fourDistinctRoundedToeLobesAccepted": false,
+    "soleOutlineTargetAccepted": false,
+    "exactBilateralSymmetryAccepted": false
+  }
+}

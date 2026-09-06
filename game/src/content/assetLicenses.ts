@@ -3,6 +3,8 @@ type AssetPack = { id: string; source: string; license: string; archiveSha256?: 
 const LICENSE_URLS = {
   "CC-BY-3.0": "https://creativecommons.org/licenses/by/3.0/",
   "CC-BY-SA-3.0": "https://creativecommons.org/licenses/by-sa/3.0/",
+  // Khronos glTF-Sample-Assets Fox: CC-BY-4.0 rigging/animation and conversion over a CC0 model.
+  "CC-BY-4.0": "https://creativecommons.org/licenses/by/4.0/",
 } as const;
 
 export function isSupportedCcAttributionLicense(license: string): boolean {

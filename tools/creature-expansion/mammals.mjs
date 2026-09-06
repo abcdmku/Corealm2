@@ -1,3 +1,4 @@
+import {LYNX_ANATOMY,lynxAnatomyConfig,lynxPawDesign,emitLynxTail} from './mammals/lynx-anatomy.mjs';
 import * as THREE from 'three';
 import {FOX_ANATOMY,foxAnatomyConfig,foxPawDesign} from './mammals/fox-anatomy.mjs';
 import {BADGER_ANATOMY,badgerAnatomyConfig,badgerPawDesign,badgerCoat,badgerEarWidth,badgerEarColour} from './mammals/badger-anatomy.mjs';
@@ -144,7 +145,7 @@ function addRig(s,group){
   const legs=[];
   for(const front of [true,false])for(const sign of [-1,1]){
     const name=(front?'F':'H')+(sign<0?'R':'L'), x=sign*s.stance,z=front?s.frontZ:s.rearZ;
-    const hip=v(x,s.hipY+(front?.018:0),z),
+    const hip=v(x,s.hipY+(s.kind==='lynx'?(front?0:.035):(front?.018:0)),z),
       knee=v(x,front?s.hipY*.55:s.hipY*.64,z+(front?(s.kind==='lynx'?-.035:-s.kneeZ):s.kneeZ)),
       hock=v(x,s.kind==='lynx'&&front?.15:s.hockY,z+(front?(s.kind==='lynx'?.037:.015):-.075)),
       paw=v(x,s.pawY,z+(front?.066:.035));
@@ -189,6 +190,7 @@ function ellipsoid(out,center,scale,color,weights,segments=20,rings=12,rotation=
 }
 
 function pawDesign(s,leg){
+  if(s.kind==='lynx')return lynxPawDesign(s,leg);
   if(s.kind==='fox')return foxPawDesign(s,leg);
   if(s.kind==='badger')return badgerPawDesign(s,leg);
   if(s.kind==='porc')return porcupinePawDesign(s,leg);
@@ -258,8 +260,8 @@ function ears(s,r,out,detail){
     if(s.kind==='lynx'){
       for(let k=0;k<5;k++){
         const a=earPoint(sign*s.ears.inward,s.ears.length-.010,s.ears.lean);
-        const b=a.clone().add(v(sign*(.013+k*.003),.043-k*.004,-.007+k*.002));
-        tube(detail,[a,a.clone().lerp(b,.55),b],[.0048-k*.0006,.002,.0002],()=>w,C[s.kind][1],{rings:5,sides:5});
+        const b=a.clone().add(v(sign*(.013+k*.003),LYNX_ANATOMY.tuftLength-k*.004,-.007+k*.002));
+        tube(detail,[a,a.clone().lerp(b,.55),b],[.0048-k*.0006,.002,.0002],()=>w,C.black,{rings:5,sides:5});
       }
     }
     if(s.kind==='fox'||s.kind==='lynx'){
@@ -317,6 +319,7 @@ function face(s,r,out,detail){
 }
 
 function tail(s,r,out){
+  if(s.kind==='lynx')return emitLynxTail({s,r,out,tube,palette:C.lynx,black:C.black});
   if(s.kind==='porc')return emitPorcupineTail({s,r,out,tube,palette:C.porc});
   const weights=t=>{
     const a=t*(s.tail.length-1),i=Math.min(s.tail.length-2,Math.floor(a)),u=smooth(0,1,a-i);return [[r.index('Tail_'+(i+1)),1-u],[r.index('Tail_'+(i+2)),u]];
@@ -463,7 +466,7 @@ function buildClips(s,r,group){
 
 export async function buildSpecies(id){
   const base=SHAPES[id];if(!base)throw new Error('Unknown mammal species '+id);
-  const s=base.kind==='fox'?foxAnatomyConfig(base):base.kind==='badger'?badgerAnatomyConfig(base):base.kind==='porc'?porcupineAnatomyConfig(base):base;
+  const s=base.kind==='fox'?foxAnatomyConfig(base):base.kind==='badger'?badgerAnatomyConfig(base):base.kind==='porc'?porcupineAnatomyConfig(base):base.kind==='lynx'?lynxAnatomyConfig(base):base;
   const object=new THREE.Group();object.name=id;
   const r=addRig(s,object),coatSurface=new Surface(),detailSurface=new Surface();
   const {joinedMammal}=await import('./mammals/implicit.mjs');joinedMammal(s,r,coatSurface,coat,profileAt,bodyWeights,pawDesign,pawCoat);

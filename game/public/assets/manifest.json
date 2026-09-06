@@ -170,7 +170,7 @@
       "author": "Corealm",
       "source": "tools/build-creature-expansion.ts",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+      "generatorSha256": "eb76f57507ff84e5ec1694cb5c68839bd8076b75342445ba18c1b78999974141"
     },
     {
       "id": "pixeliusvita-monster04",
@@ -361,6 +361,20 @@
       "sourceArchive": "Dungeon Skeletons Demo.unitypackage",
       "upstreamPackId": "dungeon-skeletons-demo",
       "derivation": "Corealm geometry, proportion, equipment and animation edits. Source rights retained; per-asset sourceProvenance lists all combined sources and modifications."
+    },
+    {
+      "id": "khronos-fox-complete-source",
+      "name": "Khronos glTF Sample Fox (complete source adaptation)",
+      "author": "PixelMannen (model); tomkranis (rigging and animation); @AsoboStudio and @scurest (glTF conversion)",
+      "source": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+      "license": "CC-BY-4.0",
+      "derivativeLicense": "CC-BY-4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "archiveSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+      "sourceArchive": "Models/Fox/glTF-Binary/Fox.glb at commit 81e8b567643b5166e6ff40024e4ff71ad4b18676",
+      "upstreamPackId": "khronos-gltf-sample-assets-fox",
+      "attribution": "Fox by PixelMannen (model, CC0-1.0), rigging and animation by tomkranis (CC-BY-4.0), glTF conversion by @AsoboStudio and @scurest (CC-BY-4.0). Source: https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox. Adapted for Corealm: controlled subdivision and paw/eye reshaping of the complete source body, vertex-colour coat, contact-corrected Walk/Run, and newly authored Attack, Hit, HitLeft, HitRight and Death on the original 24-joint rig. The adapted asset is distributed under CC BY 4.0; the original model portion remains CC0-1.0.",
+      "derivation": "Complete original mesh topology cage, rig, inverse binds and the three native clips (Survey/Idle, Walk, Run) retained, the resting clip renamed to Idle to match the production clip convention; Walk/Run contact-corrected; five gameplay clips authored on the native rig; geometry subdivided and reshaped at paws and eyes; source palette converted to vertex colours. See art/rebuild/candidates/finish-quadrupeds/source-fox for the unchanged source snapshot and provenance.json."
     }
   ],
   "assets": [
@@ -18760,32 +18774,32 @@
         "original",
         "skinned"
       ],
-      "bytes": 2614564,
-      "sha256": "7c22d6e71dccf631dfad298c59126a28e50cb26a24b420833d4bf7b169f52a99",
+      "bytes": 2688596,
+      "sha256": "0ff81ac1078f47cc7a8542829ce762ef8a0398f9fa36d019147c045ce2bdaab3",
       "size": {
-        "x": 0.9336281397744974,
-        "y": 2.470838681580499,
-        "z": 3.325599197938171
+        "x": 0.7250372844434754,
+        "y": 2.429229989433661,
+        "z": 3.101346580434922
       },
       "base": {
-        "x": -0.4668140768433188,
-        "y": 0.0019948755484074654,
-        "z": -1.537549934387207
+        "x": -0.36251864222148217,
+        "y": 0.0020000024791807236,
+        "z": -1.3592477655410766
       },
       "bounds": {
         "min": [
-          -0.4668140768433188,
-          0.0019948755484074654,
-          -1.537549934387207
+          -0.36251864222148217,
+          0.0020000024791807236,
+          -1.3592477655410766
         ],
         "max": [
-          0.46681406293117855,
-          2.472833557128906,
-          1.788049263550964
+          0.36251864222199315,
+          2.4312299919128417,
+          1.7420988148938452
         ]
       },
-      "groundY": 0.0019948755484074654,
-      "triangles": 55852,
+      "groundY": 0.0020000024791807236,
+      "triangles": 57050,
       "animations": [
         "Idle",
         "Walk",
@@ -18804,7 +18818,7 @@
       ],
       "sourceProvenance": {
         "author": "Corealm",
-        "source": "Original authored anatomical surface lofts and IK animation",
+        "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
         "license": "Project-owned original"
       },
       "impliedWalkMps": 1.1079545454545454,
@@ -18819,39 +18833,39 @@
             "seconds": 1.100000023841858,
             "sampledFootBones": 4,
             "stanceSamples": 248,
-            "measuredStanceMps": 1.107829832197918,
+            "measuredStanceMps": 1.1078932750268584,
             "feet": [
               {
                 "bone": "marchwild_horse_ForeLFoot",
-                "minY": 0.06480349687607155,
-                "maxY": 0.19444392977386443,
-                "strideZ": 0.778327510833962,
+                "minY": 0.06481134574092298,
+                "maxY": 0.1944439184170767,
+                "strideZ": 0.7783443062317699,
                 "contactSamples": 62,
-                "stanceMedianMps": 1.1075058742952004
+                "stanceMedianMps": 1.1072154392251963
               },
               {
                 "bone": "marchwild_horse_ForeRFoot",
-                "minY": 0.06480349451748886,
-                "maxY": 0.19444392977386593,
-                "strideZ": 0.7783275123791222,
+                "minY": 0.06481134837027323,
+                "maxY": 0.19444391841707792,
+                "strideZ": 0.7783443048931589,
                 "contactSamples": 62,
-                "stanceMedianMps": 1.1075063866136874
+                "stanceMedianMps": 1.1072149351459077
               },
               {
                 "bone": "marchwild_horse_HindLFoot",
-                "minY": 0.0647409306949821,
-                "maxY": 0.19444390458143762,
-                "strideZ": 0.7785708280739259,
+                "minY": 0.06480278340359051,
+                "maxY": 0.19444392868196936,
+                "strideZ": 0.7785978778761065,
                 "contactSamples": 62,
-                "stanceMedianMps": 1.1078960735299288
+                "stanceMedianMps": 1.108036189847949
               },
               {
                 "bone": "marchwild_horse_HindRFoot",
-                "minY": 0.06474093397362582,
-                "maxY": 0.19444390154941132,
-                "strideZ": 0.7785707937347526,
+                "minY": 0.06480278211152982,
+                "maxY": 0.1944439256050211,
+                "strideZ": 0.7785978436930152,
                 "contactSamples": 62,
-                "stanceMedianMps": 1.1078970266203825
+                "stanceMedianMps": 1.1080362172455913
               }
             ],
             "rootHorizontalTravel": [
@@ -18865,40 +18879,40 @@
           "run": {
             "seconds": 0.699999988079071,
             "sampledFootBones": 4,
-            "stanceSamples": 185,
-            "measuredStanceMps": 3.3429866157543016,
+            "stanceSamples": 184,
+            "measuredStanceMps": 3.343461832287375,
             "feet": [
               {
                 "bone": "marchwild_horse_ForeLFoot",
-                "minY": 0.06469967782921436,
-                "maxY": 0.30404557374656854,
-                "strideZ": 1.0975061288353272,
+                "minY": 0.06470211604025816,
+                "maxY": 0.3040324801816335,
+                "strideZ": 1.0985555717638378,
                 "contactSamples": 46,
-                "stanceMedianMps": 3.3436191984144377
+                "stanceMedianMps": 3.344241453778001
               },
               {
                 "bone": "marchwild_horse_ForeRFoot",
-                "minY": 0.06431350137107278,
-                "maxY": 0.3042217492223804,
-                "strideZ": 1.0963638873266226,
-                "contactSamples": 47,
-                "stanceMedianMps": 3.3424754694033845
+                "minY": 0.06430346672226323,
+                "maxY": 0.3042008879591232,
+                "strideZ": 1.0991199496361228,
+                "contactSamples": 46,
+                "stanceMedianMps": 3.3427087810300877
               },
               {
                 "bone": "marchwild_horse_HindLFoot",
-                "minY": 0.06479005146306255,
-                "maxY": 0.30421423388784424,
-                "strideZ": 1.0960009559795976,
+                "minY": 0.06472903475656465,
+                "maxY": 0.3041937717842579,
+                "strideZ": 1.098958480120782,
                 "contactSamples": 46,
-                "stanceMedianMps": 3.3426252233680187
+                "stanceMedianMps": 3.343237987488018
               },
               {
                 "bone": "marchwild_horse_HindRFoot",
-                "minY": 0.06475530372548678,
-                "maxY": 0.30420506781844775,
-                "strideZ": 1.0959795595008217,
+                "minY": 0.06465561996505916,
+                "maxY": 0.3041805171554233,
+                "strideZ": 1.0989790192747335,
                 "contactSamples": 46,
-                "stanceMedianMps": 3.343329719050929
+                "stanceMedianMps": 3.344413258789151
               }
             ],
             "rootHorizontalTravel": [
@@ -18920,13 +18934,13 @@
           "Walk": {
             "seconds": 1.100000023841858,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006109413876942256,
+            "maxRotationGapRadians": 0.000600562229292037,
             "maxScaleGap": 0
           },
           "Run": {
             "seconds": 0.699999988079071,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006368577337357133,
+            "maxRotationGapRadians": 0.0006717949562863838,
             "maxScaleGap": 0
           }
         },
@@ -18944,7 +18958,7 @@
         ],
         "provenance": {
           "author": "Corealm",
-          "source": "Original authored anatomical surface lofts and IK animation",
+          "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
           "license": "Project-owned original"
         },
         "attackSeconds": 1.18,
@@ -18953,8 +18967,8 @@
         "impliedRunMps": 3.3434650455927057,
         "walkClipSeconds": 1.1,
         "runClipSeconds": 0.7,
-        "notes": "Original anatomy and vertex-painted coat. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
-        "triangles": 55852,
+        "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
+        "triangles": 57050,
         "boneNames": [
           "marchwild_horse_Root",
           "marchwild_horse_Body",
@@ -18987,49 +19001,53 @@
       },
       "acceptance": {
         "assetAudit": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labEvidence": "test-results/s05-hoofed-lifecycle/marchwild_horse/report.json",
+        "labCatalogue": "art/rebuild/candidates/finish-quadrupeds/hoofed-death-export/catalogue.json"
       }
     },
     {
       "id": "creature_redbrush_fox",
       "file": "models/creature/creature_redbrush_fox.glb",
-      "pack": "corealm-creature-expansion",
+      "pack": "khronos-fox-complete-source",
       "category": "character",
-      "is": "a narrow-chested red fox with long legs, a pointed muzzle, broad listening ears and a white-tipped brush",
+      "is": "a red fox adapted from the complete Khronos sample Fox: narrow chest, pointed muzzle, tall ears, dark stockings, padded paws and a white-tipped brush",
       "tags": [
         "mammal",
         "quadruped",
         "fox",
         "canid",
-        "woodland"
+        "woodland",
+        "complete-source",
+        "skinned"
       ],
-      "bytes": 1703828,
-      "sha256": "4cea19d183bce605de42fea91f6f30ae477692c306b9464b476ad2ebc31ae765",
+      "bytes": 2280444,
+      "sha256": "6c5c6329126b5800a62c79e766f4f2b6f5bdea85bfdff56dce5d003656342f00",
       "size": {
-        "x": 0.41873881004274843,
-        "y": 1.064994445502758,
-        "z": 2.4265522575378418
+        "x": 0.24451285362256836,
+        "y": 0.7827742114002594,
+        "z": 1.5342869510511183
       },
       "base": {
-        "x": -0.20936940502137422,
-        "y": 2.98023217215615e-10,
-        "z": -1.3601760721206666
+        "x": -0.12225643787119361,
+        "y": -0.0012173418422932161,
+        "z": -0.8681037377774836
       },
       "bounds": {
         "min": [
-          -0.20936940502137422,
-          2.98023217215615e-10,
-          -1.3601760721206666
+          -0.12225643787119361,
+          -0.0012173418422932161,
+          -0.8681037377774836
         ],
         "max": [
-          0.20936940502137422,
-          1.0649944458007812,
-          1.0663761854171754
+          0.12225641575137475,
+          0.7815568695579662,
+          0.6661832132736347
         ]
       },
-      "groundY": 2.98023217215615e-10,
-      "triangles": 34500,
+      "groundY": -0.0012173418422932161,
+      "triangles": 37200,
       "animations": [
         "Idle",
         "Walk",
@@ -19041,190 +19059,198 @@
         "Death"
       ],
       "materials": [
-        "redbrush_fox_painted_fur",
-        "redbrush_fox_eyes_claws_whiskers"
+        "Fox_source_coat_refined",
+        "Fox_seated_amber_eye",
+        "Fox_seated_amber_eye"
       ],
-      "sourceProvenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
-      "impliedWalkMps": 0.53475935828877,
-      "impliedRunMps": 2.0661157024793386,
-      "walkClipSeconds": 1.0199999809265137,
-      "runClipSeconds": 0.6600000262260437,
-      "attackSeconds": 0.8799999952316284,
-      "contactNormalized": 0.49,
+      "sourceProvenance": {
+        "repositoryUrl": "https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox",
+        "commit": "81e8b567643b5166e6ff40024e4ff71ad4b18676",
+        "sourceSha256": "d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7",
+        "attribution": [
+          {
+            "author": "PixelMannen",
+            "work": "Model",
+            "year": 2014,
+            "license": "CC0-1.0",
+            "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode"
+          },
+          {
+            "author": "tomkranis",
+            "work": "Rigging & Animation",
+            "year": 2014,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          },
+          {
+            "author": "@AsoboStudio and @scurest",
+            "work": "Conversion to glTF",
+            "year": 2017,
+            "license": "CC-BY-4.0",
+            "url": "https://creativecommons.org/licenses/by/4.0/legalcode"
+          }
+        ],
+        "modifications": [
+          "Welded face duplicates by position and skin weights; averaged source texture colours at shared vertices without exchanging orange/white/dark coat regions.",
+          "Three controlled Loop-subdivision rounds on the complete original mesh cage. Ear/nose planes and sole elevation receive minimal relaxation.",
+          "Widened existing weighted distal foot vertices and eased pointed forefoot ends.",
+          "Source colour regions converted to linear vertex colours with directional grizzle; smooth normals and rough coat.",
+          "Added two small surface-projected almond eye details on native Head joint.",
+          "Connected distal paw surface reshaped; derivative limb contact animation and reach correction; see motion review.",
+          "Survey idle placement corrected by one constant 0.0013708967433231965m world-Y hip translation; all native rotations and times preserved. Generic transition boundary contact remains unresolved.",
+          "Slice 05: bind-pose distal paw reshape into padded four-lobed canid paws with preserved contact vertex set, skin weights, rig, clips and colours (paws-v2.mjs)."
+        ]
+      },
+      "impliedWalkMps": 0.58,
+      "impliedRunMps": 1.8,
+      "walkClipSeconds": 0.7083333134651184,
+      "runClipSeconds": 0.4000000059604645,
+      "attackSeconds": 1.0499999523162842,
+      "contactNormalized": 0.438095,
       "measuredGait": {
         "gait": {
           "walk": {
-            "seconds": 1.0199999809265137,
+            "seconds": 0.7083333134651184,
             "sampledFootBones": 4,
-            "stanceSamples": 257,
-            "measuredStanceMps": 0.534782372280458,
+            "stanceSamples": 276,
+            "measuredStanceMps": 0.5798481245003866,
             "feet": [
               {
-                "bone": "FR_Ankle",
-                "minY": 0.18989884007981378,
-                "maxY": 0.2513688507406897,
-                "strideZ": 0.3561712641306903,
-                "contactSamples": 65,
-                "stanceMedianMps": 0.5350458596134248
+                "bone": "b_RightHand_08",
+                "minY": 0.06752095331171279,
+                "maxY": 0.13235044456401251,
+                "strideZ": 0.30863053362892184,
+                "contactSamples": 69,
+                "stanceMedianMps": 0.5798510073657928
               },
               {
-                "bone": "FL_Ankle",
-                "minY": 0.18983178499490608,
-                "maxY": 0.2516137651773632,
-                "strideZ": 0.3605839330368614,
-                "contactSamples": 64,
-                "stanceMedianMps": 0.5348026541392941
+                "bone": "b_LeftHand_011",
+                "minY": 0.06751744025224327,
+                "maxY": 0.1324607706727268,
+                "strideZ": 0.3086508321240843,
+                "contactSamples": 69,
+                "stanceMedianMps": 0.5798184262386565
               },
               {
-                "bone": "HR_Ankle",
-                "minY": 0.18978649986619128,
-                "maxY": 0.24016917353584782,
-                "strideZ": 0.3565253945846648,
-                "contactSamples": 64,
-                "stanceMedianMps": 0.5347134849083713
+                "bone": "b_LeftFoot02_018",
+                "minY": 0.011152473343429087,
+                "maxY": 0.07602866626072846,
+                "strideZ": 0.308615257902896,
+                "contactSamples": 69,
+                "stanceMedianMps": 0.5798481245003866
               },
               {
-                "bone": "HL_Ankle",
-                "minY": 0.1898155280152941,
-                "maxY": 0.24031704721166258,
-                "strideZ": 0.35762911760285054,
-                "contactSamples": 64,
-                "stanceMedianMps": 0.5347905585621043
+                "bone": "b_RightFoot02_022",
+                "minY": 0.01107250607091953,
+                "maxY": 0.07597322629360398,
+                "strideZ": 0.30874891171036634,
+                "contactSamples": 69,
+                "stanceMedianMps": 0.5798491920558196
               }
             ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "Root",
-                "x": 0,
-                "z": 0
-              }
-            ]
+            "minimumSkinnedMeshY": -0.000016169999870898775
           },
           "run": {
-            "seconds": 0.6600000262260437,
+            "seconds": 0.4000000059604645,
             "sampledFootBones": 4,
-            "stanceSamples": 179,
-            "measuredStanceMps": 2.0635777455358064,
+            "stanceSamples": 190,
+            "measuredStanceMps": 1.7994476869768294,
             "feet": [
               {
-                "bone": "FR_Ankle",
-                "minY": 0.18697080119390358,
-                "maxY": 0.3256853654921224,
-                "strideZ": 0.596590024399604,
-                "contactSamples": 44,
-                "stanceMedianMps": 2.0632626405842505
+                "bone": "b_RightHand_08",
+                "minY": 0.06736333985647194,
+                "maxY": 0.20742983256808822,
+                "strideZ": 0.41364749148204033,
+                "contactSamples": 47,
+                "stanceMedianMps": 1.799188751076976
               },
               {
-                "bone": "FL_Ankle",
-                "minY": 0.18846761732587006,
-                "maxY": 0.32715332841166767,
-                "strideZ": 0.5928900527688405,
-                "contactSamples": 45,
-                "stanceMedianMps": 2.063731318694636
+                "bone": "b_LeftHand_011",
+                "minY": 0.06740163339651872,
+                "maxY": 0.20746443587863114,
+                "strideZ": 0.4132226267117442,
+                "contactSamples": 48,
+                "stanceMedianMps": 1.7994523544888368
               },
               {
-                "bone": "HR_Ankle",
-                "minY": 0.18688981804127253,
-                "maxY": 0.3151003059893932,
-                "strideZ": 0.5951875135330662,
-                "contactSamples": 45,
-                "stanceMedianMps": 2.064739255712959
+                "bone": "b_LeftFoot02_018",
+                "minY": 0.011100565435663207,
+                "maxY": 0.15115687344413614,
+                "strideZ": 0.41317747731515747,
+                "contactSamples": 48,
+                "stanceMedianMps": 1.7994823664012978
               },
               {
-                "bone": "HL_Ankle",
-                "minY": 0.18705704255560748,
-                "maxY": 0.31423844530243866,
-                "strideZ": 0.5961257626442549,
-                "contactSamples": 45,
-                "stanceMedianMps": 2.0635777455358064
+                "bone": "b_RightFoot02_022",
+                "minY": 0.010879304092139525,
+                "maxY": 0.15097085333837912,
+                "strideZ": 0.41309657919537646,
+                "contactSamples": 47,
+                "stanceMedianMps": 1.7994879565017436
               }
             ],
-            "rootHorizontalTravel": [
-              {
-                "bone": "Root",
-                "x": 0,
-                "z": 0
-              }
-            ]
+            "minimumSkinnedMeshY": -0.00023859967230133994
           }
         },
         "loops": {
           "Idle": {
-            "seconds": 3.4000000953674316,
+            "seconds": 3.4166667461395264,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006356162701409191,
-            "maxScaleGap": 0
+            "maxRotationGapRadians": 0.0006872158096838825
           },
           "Walk": {
-            "seconds": 1.0199999809265137,
+            "seconds": 0.7083333134651184,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006824759111396155,
-            "maxScaleGap": 0
+            "maxRotationGapRadians": 0.0006794824221646686
           },
           "Run": {
-            "seconds": 0.6600000262260437,
+            "seconds": 0.4000000059604645,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006733270011125278,
-            "maxScaleGap": 0
+            "maxRotationGapRadians": 0.000744273073323981
           }
         },
-        "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+        "basis": "96 samples per locomotion cycle; distal joint (Hand/Foot02) backward speed during the lowest 12 percent of its vertical travel, from the authored contact-corrected clips. Whole-mesh contact velocity evidence is in source-fox-adaptation review JSON; production movement review remains required."
       },
       "metadata": {
-        "is": "a narrow-chested red fox with long legs, a pointed muzzle, broad listening ears and a white-tipped brush",
-        "tags": [
-          "mammal",
-          "quadruped",
-          "fox",
-          "canid",
-          "woodland"
-        ],
-        "provenance": "Original Corealm anatomy authored from cross-section fields, integrated shoulder and haunch muscle fields, and tapered articulated limb fields. Their smooth union emits one continuous weighted body mesh. Original painted vertex coats, procedural fur grain, detail surfaces and skeletal animation. No source animal mesh or third-party animation was reused.",
-        "attackSeconds": 0.88,
-        "contactNormalized": 0.49,
-        "impliedWalkMps": 0.53475935828877,
-        "impliedRunMps": 2.0661157024793386,
-        "walkClipSeconds": 1.02,
-        "runClipSeconds": 0.66,
-        "notes": "Feet follow flat-ground stance trajectories at a constant backwards velocity, with smooth lifted swing arcs. Three limb segments use authored knee bend planes and two-link IK to the hock, plus a controlled distal segment; paw orientation cancels the parent rotation during gait. Root does not translate horizontally in locomotion. Contact is an authored flat-plane assumption, not runtime terrain IK. Stride matching requires the stated implied speed. Idle, Walk and Run have identical first/last poses. Death is an authored collapse rather than a physics ragdoll. Coat colour, markings, ears, feet, face and tail are individually shaped for this species.",
+        "is": "red fox (complete Khronos source adaptation)",
+        "source": "Khronos glTF-Sample-Assets Fox",
+        "license": "CC-BY-4.0 (rigging, animation, glTF conversion) over a CC0-1.0 model",
+        "rig": "original-khronos-fox-24-joint",
+        "idleClip": "Idle",
         "boneNames": [
-          "Root",
-          "Pelvis",
-          "Spine",
-          "Chest",
-          "Neck",
-          "Head",
-          "Jaw",
-          "Ear_L",
-          "Ear_R",
-          "FR_Upper",
-          "FR_Lower",
-          "FR_Ankle",
-          "FR_Paw",
-          "FL_Upper",
-          "FL_Lower",
-          "FL_Ankle",
-          "FL_Paw",
-          "Tail_1",
-          "Tail_2",
-          "Tail_3",
-          "Tail_4",
-          "Tail_5",
-          "HR_Upper",
-          "HR_Lower",
-          "HR_Ankle",
-          "HR_Paw",
-          "HL_Upper",
-          "HL_Lower",
-          "HL_Ankle",
-          "HL_Paw"
+          "_rootJoint",
+          "b_Root_00",
+          "b_Hip_01",
+          "b_Spine01_02",
+          "b_Spine02_03",
+          "b_Neck_04",
+          "b_Head_05",
+          "b_RightUpperArm_06",
+          "b_RightForeArm_07",
+          "b_RightHand_08",
+          "b_LeftUpperArm_09",
+          "b_LeftForeArm_010",
+          "b_LeftHand_011",
+          "b_Tail01_012",
+          "b_Tail02_013",
+          "b_Tail03_014",
+          "b_LeftLeg01_015",
+          "b_LeftLeg02_016",
+          "b_LeftFoot01_017",
+          "b_LeftFoot02_018",
+          "b_RightLeg01_019",
+          "b_RightLeg02_020",
+          "b_RightFoot01_021",
+          "b_RightFoot02_022"
         ],
-        "authoringModule": "tools/creature-expansion/mammals.mjs"
+        "authoringModule": "art/rebuild/candidates/finish-quadrupeds/source-fox-adaptation/*.mjs"
       },
       "acceptance": {
         "assetAudit": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labEvidence": "test-results/s05-fox-lifecycle/run3/report.json",
+        "labCatalogue": "art/rebuild/candidates/finish-quadrupeds/fox-paws-v3-idle-comparison/catalogue.json"
       }
     },
     {
@@ -19240,32 +19266,32 @@
         "feline",
         "woodland"
       ],
-      "bytes": 1692504,
-      "sha256": "95f983b1964f4f67427555b007b642285eb7119e2dfaf407ca615ce25c213fb5",
+      "bytes": 3269288,
+      "sha256": "32defc3ecbc3a6ed520ee452dfbbf3ceade47e737f77232a5146a8499bbd1463",
       "size": {
-        "x": 0.5108626406923624,
-        "y": 1.2410553807020188,
-        "z": 1.8274259090423586
+        "x": 0.43350073713119386,
+        "y": 1.1450515021085739,
+        "z": 1.7179820547103883
       },
       "base": {
-        "x": -0.2554313203461812,
-        "y": 1.072883587527329e-9,
-        "z": -0.9009185075759888
+        "x": -0.21675036856559693,
+        "y": 1.0728835736495412e-9,
+        "z": -0.753343475818634
       },
       "bounds": {
         "min": [
-          -0.2554313203461812,
-          1.072883587527329e-9,
-          -0.9009185075759888
+          -0.21675036856559693,
+          1.0728835736495412e-9,
+          -0.753343475818634
         ],
         "max": [
-          0.2554313203461812,
-          1.2410553817749024,
-          0.9265074014663697
+          0.21675036856559693,
+          1.1450515031814574,
+          0.9646385788917542
         ]
       },
-      "groundY": 1.072883587527329e-9,
-      "triangles": 34540,
+      "groundY": 1.0728835736495412e-9,
+      "triangles": 72720,
       "animations": [
         "Idle",
         "Walk",
@@ -19292,40 +19318,40 @@
           "walk": {
             "seconds": 1.159999966621399,
             "sampledFootBones": 4,
-            "stanceSamples": 257,
-            "measuredStanceMps": 0.5616502929331674,
+            "stanceSamples": 227,
+            "measuredStanceMps": 0.5617486692059789,
             "feet": [
               {
                 "bone": "FR_Ankle",
-                "minY": 0.229845338052632,
-                "maxY": 0.3081305992348269,
-                "strideZ": 0.426457542076197,
-                "contactSamples": 65,
-                "stanceMedianMps": 0.5615433513760388
+                "minY": 0.14909487359054124,
+                "maxY": 0.23556091621500458,
+                "strideZ": 0.41776795296932656,
+                "contactSamples": 49,
+                "stanceMedianMps": 0.5608892073215531
               },
               {
                 "bone": "FL_Ankle",
-                "minY": 0.22986606386312802,
-                "maxY": 0.30811859472515774,
-                "strideZ": 0.4310785245971395,
-                "contactSamples": 64,
-                "stanceMedianMps": 0.5616369162004078
+                "minY": 0.14969280720761297,
+                "maxY": 0.23375784127523966,
+                "strideZ": 0.41577222462109464,
+                "contactSamples": 50,
+                "stanceMedianMps": 0.5621923672398382
               },
               {
                 "bone": "HR_Ankle",
-                "minY": 0.2298388201824386,
-                "maxY": 0.2966670072332761,
-                "strideZ": 0.42748459044248477,
+                "minY": 0.22959231342254194,
+                "maxY": 0.29703480510090574,
+                "strideZ": 0.430406636827391,
                 "contactSamples": 64,
-                "stanceMedianMps": 0.5616646816221301
+                "stanceMedianMps": 0.5619712514962246
               },
               {
                 "bone": "HL_Ankle",
-                "minY": 0.22985866255635795,
-                "maxY": 0.2968239347459066,
-                "strideZ": 0.4266987374397092,
+                "minY": 0.22959231449569006,
+                "maxY": 0.2971260230755504,
+                "strideZ": 0.4304066364510623,
                 "contactSamples": 64,
-                "stanceMedianMps": 0.5616872650139554
+                "stanceMedianMps": 0.5617828404364772
               }
             ],
             "rootHorizontalTravel": [
@@ -19339,40 +19365,40 @@
           "run": {
             "seconds": 0.6700000166893005,
             "sampledFootBones": 4,
-            "stanceSamples": 179,
-            "measuredStanceMps": 2.5068938613151888,
+            "stanceSamples": 171,
+            "measuredStanceMps": 2.5103555236739554,
             "feet": [
               {
                 "bone": "FR_Ankle",
-                "minY": 0.227025369658044,
-                "maxY": 0.4246235491829609,
-                "strideZ": 0.7359184673095378,
-                "contactSamples": 44,
-                "stanceMedianMps": 2.5068938613151888
+                "minY": 0.14966887077481586,
+                "maxY": 0.35246427557324334,
+                "strideZ": 0.7194839618420779,
+                "contactSamples": 41,
+                "stanceMedianMps": 2.511943368568555
               },
               {
                 "bone": "FL_Ankle",
-                "minY": 0.22816100279854432,
-                "maxY": 0.4267044343144019,
-                "strideZ": 0.7313116087127529,
-                "contactSamples": 45,
-                "stanceMedianMps": 2.5072043258418706
+                "minY": 0.1493193397787314,
+                "maxY": 0.3523306311826331,
+                "strideZ": 0.7300066978209058,
+                "contactSamples": 42,
+                "stanceMedianMps": 2.512026149964794
               },
               {
                 "bone": "HR_Ankle",
-                "minY": 0.2268262542417347,
-                "maxY": 0.4145286369850379,
-                "strideZ": 0.734024054621289,
-                "contactSamples": 45,
-                "stanceMedianMps": 2.5064299135407255
+                "minY": 0.22953902584888597,
+                "maxY": 0.4153830281627341,
+                "strideZ": 0.738143010106177,
+                "contactSamples": 44,
+                "stanceMedianMps": 2.5103555236739554
               },
               {
                 "bone": "HL_Ankle",
-                "minY": 0.22690342522885038,
-                "maxY": 0.41327524151681005,
-                "strideZ": 0.7353408465011742,
-                "contactSamples": 45,
-                "stanceMedianMps": 2.50829188151657
+                "minY": 0.22975017593981922,
+                "maxY": 0.4147762193914297,
+                "strideZ": 0.7401624017720027,
+                "contactSamples": 44,
+                "stanceMedianMps": 2.510123715187551
               }
             ],
             "rootHorizontalTravel": [
@@ -19458,8 +19484,10 @@
       },
       "acceptance": {
         "assetAudit": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labEvidence": "test-results/s05-lynx-lifecycle/run1/report.json",
+        "labCatalogue": "art/rebuild/candidates/finish-quadrupeds/lynx-anatomy-v2/catalogue.json"
       }
     },
     {
@@ -19944,32 +19972,32 @@
         "original",
         "skinned"
       ],
-      "bytes": 2360220,
-      "sha256": "ca7005ff331d6610065c8742addc758841e21b13df4318ff8660e05d719efa0d",
+      "bytes": 2296312,
+      "sha256": "7e4c24863118769f6ec335a4d5a4ec71a898df5fb318b4d4e1370395e50e365e",
       "size": {
-        "x": 1.061620831489563,
-        "y": 1.8497002376336604,
-        "z": 2.375941348075867
+        "x": 0.7413877019882202,
+        "y": 1.7042760280612856,
+        "z": 2.333097236341173
       },
       "base": {
-        "x": -0.5279497504234314,
-        "y": 0.0019948755484074376,
+        "x": -0.3687076637744904,
+        "y": 0.002000002479180696,
         "z": -1.0114468121528626
       },
       "bounds": {
         "min": [
-          -0.5279497504234314,
-          0.0019948755484074376,
+          -0.3687076637744904,
+          0.002000002479180696,
           -1.0114468121528626
         ],
         "max": [
-          0.5336710810661316,
-          1.8516951131820678,
-          1.3644945359230043
+          0.37268003821372986,
+          1.7062760305404663,
+          1.32165042418831
         ]
       },
-      "groundY": 0.0019948755484074376,
-      "triangles": 49032,
+      "groundY": 0.002000002479180696,
+      "triangles": 47900,
       "animations": [
         "Idle",
         "Walk",
@@ -19985,15 +20013,16 @@
         "Hoof_keratin",
         "Horn_ivory",
         "Wet_eye",
-        "Inner_ear"
+        "Inner_ear",
+        "Muzzle_skin"
       ],
       "sourceProvenance": {
         "author": "Corealm",
         "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
         "license": "Project-owned original"
       },
-      "impliedWalkMps": 0.9210526315789475,
-      "impliedRunMps": 2.5930851063829787,
+      "impliedWalkMps": 0.7894736842105263,
+      "impliedRunMps": 2.327127659574468,
       "walkClipSeconds": 0.949999988079071,
       "runClipSeconds": 0.6399999856948853,
       "attackSeconds": 1.0499999523162842,
@@ -20004,39 +20033,39 @@
             "seconds": 0.949999988079071,
             "sampledFootBones": 4,
             "stanceSamples": 248,
-            "measuredStanceMps": 0.920930418036061,
+            "measuredStanceMps": 0.7894083170479104,
             "feet": [
               {
                 "bone": "cairn_bighorn_ForeLFoot",
-                "minY": 0.06485627383019088,
-                "maxY": 0.19444388612063673,
-                "strideZ": 0.5588184577379145,
+                "minY": 0.06488738452953119,
+                "maxY": 0.1944438873529059,
+                "strideZ": 0.47897280988142377,
                 "contactSamples": 62,
-                "stanceMedianMps": 0.9210133760383115
+                "stanceMedianMps": 0.7894122840275863
               },
               {
                 "bone": "cairn_bighorn_ForeRFoot",
-                "minY": 0.06485627349014271,
-                "maxY": 0.1944438976293582,
-                "strideZ": 0.5588184543946106,
+                "minY": 0.06488738426205251,
+                "maxY": 0.19444389827045153,
+                "strideZ": 0.4789728072410091,
                 "contactSamples": 62,
-                "stanceMedianMps": 0.9210152500595764
+                "stanceMedianMps": 0.7894114162088771
               },
               {
                 "bone": "cairn_bighorn_HindLFoot",
-                "minY": 0.0648176947890577,
-                "maxY": 0.19444391598705063,
-                "strideZ": 0.5589666642409219,
+                "minY": 0.0648538304026271,
+                "maxY": 0.19444393249921535,
+                "strideZ": 0.4791280204798408,
                 "contactSamples": 62,
-                "stanceMedianMps": 0.9195080561318413
+                "stanceMedianMps": 0.7894091855804738
               },
               {
                 "bone": "cairn_bighorn_HindRFoot",
-                "minY": 0.06481769532266327,
-                "maxY": 0.19444390870762346,
-                "strideZ": 0.5589666459200267,
+                "minY": 0.06485383038519668,
+                "maxY": 0.1944439256346519,
+                "strideZ": 0.47912800414709245,
                 "contactSamples": 62,
-                "stanceMedianMps": 0.9195076552634451
+                "stanceMedianMps": 0.7894083170479104
               }
             ],
             "rootHorizontalTravel": [
@@ -20051,39 +20080,39 @@
             "seconds": 0.6399999856948853,
             "sampledFootBones": 4,
             "stanceSamples": 184,
-            "measuredStanceMps": 2.5927276963701096,
+            "measuredStanceMps": 2.326781056799565,
             "feet": [
               {
                 "bone": "cairn_bighorn_ForeLFoot",
-                "minY": 0.06479709791669305,
-                "maxY": 0.30408753172181613,
-                "strideZ": 0.7789690581779196,
+                "minY": 0.06487591836327912,
+                "maxY": 0.3041612429060837,
+                "strideZ": 0.6990819671190162,
                 "contactSamples": 46,
-                "stanceMedianMps": 2.5924547599803818
+                "stanceMedianMps": 2.326829360910465
               },
               {
                 "bone": "cairn_bighorn_ForeRFoot",
-                "minY": 0.06482581276604249,
-                "maxY": 0.3040875317218163,
-                "strideZ": 0.7790095910126436,
+                "minY": 0.06488214497435818,
+                "maxY": 0.3041612429060834,
+                "strideZ": 0.6991253634793295,
                 "contactSamples": 46,
-                "stanceMedianMps": 2.5924576583736387
+                "stanceMedianMps": 2.326831092278586
               },
               {
                 "bone": "cairn_bighorn_HindLFoot",
-                "minY": 0.06485331931214569,
-                "maxY": 0.3041207057891809,
-                "strideZ": 0.7790065875300691,
+                "minY": 0.06488729256551601,
+                "maxY": 0.3041875249785587,
+                "strideZ": 0.6991204192378545,
                 "contactSamples": 46,
-                "stanceMedianMps": 2.5929349179848957
+                "stanceMedianMps": 2.3269445448465893
               },
               {
                 "bone": "cairn_bighorn_HindRFoot",
-                "minY": 0.06485331996805019,
-                "maxY": 0.3041207057891808,
-                "strideZ": 0.7789660527159069,
+                "minY": 0.06489519546488864,
+                "maxY": 0.3041875249785589,
+                "strideZ": 0.6990770101411509,
                 "contactSamples": 46,
-                "stanceMedianMps": 2.5928765780649456
+                "stanceMedianMps": 2.326481534012875
               }
             ],
             "rootHorizontalTravel": [
@@ -20099,19 +20128,19 @@
           "Idle": {
             "seconds": 3.200000047683716,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0,
+            "maxRotationGapRadians": 0.0006488404740159055,
             "maxScaleGap": 0
           },
           "Walk": {
             "seconds": 0.949999988079071,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0005610144210316079,
+            "maxRotationGapRadians": 0.0004659832052494485,
             "maxScaleGap": 0
           },
           "Run": {
             "seconds": 0.6399999856948853,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0005960717799056976,
+            "maxRotationGapRadians": 0.0006867416583365588,
             "maxScaleGap": 0
           }
         },
@@ -20134,12 +20163,12 @@
         },
         "attackSeconds": 1.05,
         "contactNormalized": 0.46,
-        "impliedWalkMps": 0.9210526315789475,
-        "impliedRunMps": 2.5930851063829787,
+        "impliedWalkMps": 0.7894736842105263,
+        "impliedRunMps": 2.327127659574468,
         "walkClipSeconds": 0.95,
         "runClipSeconds": 0.64,
         "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
-        "triangles": 49032,
+        "triangles": 47900,
         "boneNames": [
           "cairn_bighorn_Root",
           "cairn_bighorn_Body",
@@ -20172,8 +20201,10 @@
       },
       "acceptance": {
         "assetAudit": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labEvidence": "test-results/s05-hoofed-lifecycle/cairn_bighorn/report.json",
+        "labCatalogue": "art/rebuild/candidates/finish-quadrupeds/hoofed-death-export/catalogue.json"
       }
     },
     {
@@ -20189,32 +20220,32 @@
         "original",
         "skinned"
       ],
-      "bytes": 2641056,
-      "sha256": "b622388373aaec3771e4a4e67fd3fb8a256325ed62a057008bd9c982564df6d9",
+      "bytes": 2109608,
+      "sha256": "e89ba95d25ea1b751476b38276772bb3c524c19686772cadc361a5754fd085ab",
       "size": {
         "x": 2.4092817306518555,
-        "y": 2.8990251840371637,
-        "z": 3.0240739011764526
+        "y": 2.8990200571063904,
+        "z": 3.023226335241173
       },
       "base": {
         "x": -1.2046408653259277,
-        "y": 0.0019948755484074654,
+        "y": 0.0020000024791807236,
         "z": -1.2121323442459107
       },
       "bounds": {
         "min": [
           -1.2046408653259277,
-          0.0019948755484074654,
+          0.0020000024791807236,
           -1.2121323442459107
         ],
         "max": [
           1.2046408653259277,
           2.901020059585571,
-          1.811941556930542
+          1.8110939909952624
         ]
       },
-      "groundY": 0.0019948755484074654,
-      "triangles": 56432,
+      "groundY": 0.0020000024791807236,
+      "triangles": 43168,
       "animations": [
         "Idle",
         "Walk",
@@ -20237,8 +20268,8 @@
         "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
         "license": "Project-owned original"
       },
-      "impliedWalkMps": 1.2295081967213113,
-      "impliedRunMps": 3.4097108565193675,
+      "impliedWalkMps": 0.9989754098360656,
+      "impliedRunMps": 3.0005455537370436,
       "walkClipSeconds": 1.2200000286102295,
       "runClipSeconds": 0.7799999713897705,
       "attackSeconds": 1.2300000190734863,
@@ -20249,39 +20280,39 @@
             "seconds": 1.2200000286102295,
             "sampledFootBones": 4,
             "stanceSamples": 248,
-            "measuredStanceMps": 1.229489224918743,
+            "measuredStanceMps": 0.9988606333598813,
             "feet": [
               {
                 "bone": "marsh_moose_ForeLFoot",
-                "minY": 0.06483008444853952,
-                "maxY": 0.1944439213646661,
-                "strideZ": 0.9580692883077623,
+                "minY": 0.06483434687669992,
+                "maxY": 0.194443917798452,
+                "strideZ": 0.7783209757848828,
                 "contactSamples": 62,
-                "stanceMedianMps": 1.229490393148102
+                "stanceMedianMps": 0.9989003043712185
               },
               {
                 "bone": "marsh_moose_ForeRFoot",
-                "minY": 0.06483007915916932,
-                "maxY": 0.19444392397392912,
-                "strideZ": 0.9580692858033879,
+                "minY": 0.06483434623343907,
+                "maxY": 0.19444391958333132,
+                "strideZ": 0.778320971846126,
                 "contactSamples": 62,
-                "stanceMedianMps": 1.229489224918743
+                "stanceMedianMps": 0.9989026925014156
               },
               {
                 "bone": "marsh_moose_HindLFoot",
-                "minY": 0.06477609409644602,
-                "maxY": 0.19444390770851544,
-                "strideZ": 0.9582353431118358,
+                "minY": 0.06476615728275328,
+                "maxY": 0.19444391657013885,
+                "strideZ": 0.7785895118284847,
                 "contactSamples": 62,
-                "stanceMedianMps": 1.2295415403302656
+                "stanceMedianMps": 0.9988606333598813
               },
               {
                 "bone": "marsh_moose_HindRFoot",
-                "minY": 0.0647760980014097,
-                "maxY": 0.19444390374673948,
-                "strideZ": 0.9582353422556098,
+                "minY": 0.06476616018319985,
+                "maxY": 0.19444391385275867,
+                "strideZ": 0.7785895115254415,
                 "contactSamples": 62,
-                "stanceMedianMps": 1.2295425579430599
+                "stanceMedianMps": 0.9988630212020989
               }
             ],
             "rootHorizontalTravel": [
@@ -20296,39 +20327,39 @@
             "seconds": 0.7799999713897705,
             "sampledFootBones": 4,
             "stanceSamples": 184,
-            "measuredStanceMps": 3.409472533846039,
+            "measuredStanceMps": 3.0001146809184074,
             "feet": [
               {
                 "bone": "marsh_moose_ForeLFoot",
-                "minY": 0.06474742811322796,
-                "maxY": 0.30404164691401203,
-                "strideZ": 1.2483590741379909,
+                "minY": 0.06478630140034163,
+                "maxY": 0.3041149896201095,
+                "strideZ": 1.0985680400432625,
                 "contactSamples": 46,
-                "stanceMedianMps": 3.4097298019391533
+                "stanceMedianMps": 3.0001110190731963
               },
               {
                 "bone": "marsh_moose_ForeRFoot",
-                "minY": 0.06476246087394756,
-                "maxY": 0.30404164641905007,
-                "strideZ": 1.248439279945369,
+                "minY": 0.06481417574962227,
+                "maxY": 0.30411498894492356,
+                "strideZ": 1.098647958726845,
                 "contactSamples": 46,
-                "stanceMedianMps": 3.409725636269072
+                "stanceMedianMps": 3.0001146809184074
               },
               {
                 "bone": "marsh_moose_HindLFoot",
-                "minY": 0.06476430508078415,
-                "maxY": 0.3040843443906218,
-                "strideZ": 1.2484384066418652,
+                "minY": 0.06483926002939452,
+                "maxY": 0.30414920213802793,
+                "strideZ": 1.0986400197270927,
                 "contactSamples": 46,
-                "stanceMedianMps": 3.4094429236569694
+                "stanceMedianMps": 3.0003526523693393
               },
               {
                 "bone": "marsh_moose_HindRFoot",
-                "minY": 0.06476430565693551,
-                "maxY": 0.3040843477708767,
-                "strideZ": 1.2483581978196048,
+                "minY": 0.06483926042235072,
+                "maxY": 0.30414920515764654,
+                "strideZ": 1.098560098899802,
                 "contactSamples": 46,
-                "stanceMedianMps": 3.4094147186633097
+                "stanceMedianMps": 3.0001768914850473
               }
             ],
             "rootHorizontalTravel": [
@@ -20344,19 +20375,19 @@
           "Idle": {
             "seconds": 3.200000047683716,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0,
+            "maxRotationGapRadians": 0.0005156243919438794,
             "maxScaleGap": 0
           },
           "Walk": {
             "seconds": 1.2200000286102295,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006569410676516254,
+            "maxRotationGapRadians": 0.0006488480650415864,
             "maxScaleGap": 0
           },
           "Run": {
             "seconds": 0.7799999713897705,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006488138386759149,
+            "maxRotationGapRadians": 0.000659676401021626,
             "maxScaleGap": 0
           }
         },
@@ -20379,12 +20410,12 @@
         },
         "attackSeconds": 1.23,
         "contactNormalized": 0.47,
-        "impliedWalkMps": 1.2295081967213113,
-        "impliedRunMps": 3.4097108565193675,
+        "impliedWalkMps": 0.9989754098360656,
+        "impliedRunMps": 3.0005455537370436,
         "walkClipSeconds": 1.22,
         "runClipSeconds": 0.78,
         "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
-        "triangles": 56432,
+        "triangles": 43168,
         "boneNames": [
           "marsh_moose_Root",
           "marsh_moose_Body",
@@ -20417,8 +20448,10 @@
       },
       "acceptance": {
         "assetAudit": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labEvidence": "test-results/s05-hoofed-lifecycle/marsh_moose/report.json",
+        "labCatalogue": "art/rebuild/candidates/finish-quadrupeds/hoofed-death-export/catalogue.json"
       }
     },
     {
@@ -20434,32 +20467,32 @@
         "original",
         "skinned"
       ],
-      "bytes": 3092188,
-      "sha256": "2c16dd090f8558de658562a83409d67610afd72e0b16687a172e60313e16585f",
+      "bytes": 2344236,
+      "sha256": "b46eb134d46db8625f04d9f9f036e7639ab5c3694c66b3f1b50fd97e50a70342",
       "size": {
-        "x": 1.0054474070134818,
-        "y": 1.4866178383352238,
-        "z": 2.646225631434598
+        "x": 0.7259547698497772,
+        "y": 1.1229998983861877,
+        "z": 2.3407573752467847
       },
       "base": {
-        "x": -0.5027236997612342,
+        "x": -0.36298002243041994,
         "y": 0.0010000024316832445,
-        "z": -1.0823589420318602
+        "z": -1.0297929072380065
       },
       "bounds": {
         "min": [
-          -0.5027236997612342,
+          -0.36298002243041994,
           0.0010000024316832445,
-          -1.0823589420318602
+          -1.0297929072380065
         ],
         "max": [
-          0.5027237072522475,
-          1.487617840766907,
-          1.5638666894027382
+          0.3629747474193573,
+          1.123999900817871,
+          1.3109644680087784
         ]
       },
       "groundY": 0.0010000024316832445,
-      "triangles": 65094,
+      "triangles": 47406,
       "animations": [
         "Idle",
         "Walk",
@@ -20474,15 +20507,16 @@
         "Sculpted_coat",
         "Hoof_keratin",
         "Wet_eye",
-        "Inner_ear"
+        "Inner_ear",
+        "Muzzle_skin"
       ],
       "sourceProvenance": {
         "author": "Corealm",
         "source": "Original continuous anatomical fields, sculpted appendages, procedural coat textures and IK animation",
         "license": "Project-owned original"
       },
-      "impliedWalkMps": 0.7392473118279569,
-      "impliedRunMps": 2.3936170212765955,
+      "impliedWalkMps": 0.504032258064516,
+      "impliedRunMps": 1.6622340425531914,
       "walkClipSeconds": 0.9300000071525574,
       "runClipSeconds": 0.6399999856948853,
       "attackSeconds": 0.8999999761581421,
@@ -20493,39 +20527,39 @@
             "seconds": 0.9300000071525574,
             "sampledFootBones": 4,
             "stanceSamples": 248,
-            "measuredStanceMps": 0.7391480387779441,
+            "measuredStanceMps": 0.5039758564541207,
             "feet": [
               {
                 "bone": "bracken_tapir_ForeLFoot",
-                "minY": 0.06485106983025336,
-                "maxY": 0.1944439114465423,
-                "strideZ": 0.4390568337798722,
+                "minY": 0.06487297710012367,
+                "maxY": 0.19444393494895798,
+                "strideZ": 0.2993467236035115,
                 "contactSamples": 62,
-                "stanceMedianMps": 0.7391633226594678
+                "stanceMedianMps": 0.5039670655221287
               },
               {
                 "bone": "bracken_tapir_ForeRFoot",
-                "minY": 0.06485107011970798,
-                "maxY": 0.19444391144654216,
-                "strideZ": 0.43905683125397604,
+                "minY": 0.0648729773531303,
+                "maxY": 0.19444393494895784,
+                "strideZ": 0.2993467219022601,
                 "contactSamples": 62,
-                "stanceMedianMps": 0.7391631313340336
+                "stanceMedianMps": 0.5039668785368727
               },
               {
                 "bone": "bracken_tapir_HindLFoot",
-                "minY": 0.06483686190147094,
-                "maxY": 0.19444392286419834,
-                "strideZ": 0.4392058705878722,
+                "minY": 0.06486610115939302,
+                "maxY": 0.1944439179636057,
+                "strideZ": 0.2994720117351623,
                 "contactSamples": 62,
-                "stanceMedianMps": 0.7391487434895366
+                "stanceMedianMps": 0.5040260064785819
               },
               {
                 "bone": "bracken_tapir_HindRFoot",
-                "minY": 0.06483686170354473,
-                "maxY": 0.19444392391334325,
-                "strideZ": 0.4392058652633643,
+                "minY": 0.06486610096427933,
+                "maxY": 0.19444391748209794,
+                "strideZ": 0.29947200814953484,
                 "contactSamples": 62,
-                "stanceMedianMps": 0.7391480387779441
+                "stanceMedianMps": 0.5040262496338623
               }
             ],
             "rootHorizontalTravel": [
@@ -20540,39 +20574,39 @@
             "seconds": 0.6399999856948853,
             "sampledFootBones": 4,
             "stanceSamples": 184,
-            "measuredStanceMps": 2.3932060254799117,
+            "measuredStanceMps": 1.6618649063416255,
             "feet": [
               {
                 "bone": "bracken_tapir_ForeLFoot",
-                "minY": 0.06477607723939027,
-                "maxY": 0.3040599676910524,
-                "strideZ": 0.7190517978131001,
+                "minY": 0.06487034298902558,
+                "maxY": 0.3041656943236847,
+                "strideZ": 0.4993477268813931,
                 "contactSamples": 46,
-                "stanceMedianMps": 2.3929279978091564
+                "stanceMedianMps": 1.6621030413301308
               },
               {
                 "bone": "bracken_tapir_ForeRFoot",
-                "minY": 0.06481474220180025,
-                "maxY": 0.3040599702872216,
-                "strideZ": 0.7190917555005705,
+                "minY": 0.0648853658690445,
+                "maxY": 0.3041656943236846,
+                "strideZ": 0.49938078517944723,
                 "contactSamples": 46,
-                "stanceMedianMps": 2.3929306864408173
+                "stanceMedianMps": 1.6621042761390052
               },
               {
                 "bone": "bracken_tapir_HindLFoot",
-                "minY": 0.06484232696879955,
-                "maxY": 0.3041011610569848,
-                "strideZ": 0.7190888801823709,
+                "minY": 0.06489652855275646,
+                "maxY": 0.3041900574848261,
+                "strideZ": 0.4993783545683033,
                 "contactSamples": 46,
-                "stanceMedianMps": 2.3937925167359753
+                "stanceMedianMps": 1.6618688954245953
               },
               {
                 "bone": "bracken_tapir_HindRFoot",
-                "minY": 0.06484232767398199,
-                "maxY": 0.3041011610569849,
-                "strideZ": 0.7190489203162624,
+                "minY": 0.06490399698915533,
+                "maxY": 0.30419005748482597,
+                "strideZ": 0.49934529434117286,
                 "contactSamples": 46,
-                "stanceMedianMps": 2.3932615487515423
+                "stanceMedianMps": 1.6615829130900344
               }
             ],
             "rootHorizontalTravel": [
@@ -20594,13 +20628,13 @@
           "Walk": {
             "seconds": 0.9300000071525574,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006561791696155953,
+            "maxRotationGapRadians": 0.0006783501559213511,
             "maxScaleGap": 0
           },
           "Run": {
             "seconds": 0.6399999856948853,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006469220387744699,
+            "maxRotationGapRadians": 0.0006415758880627768,
             "maxScaleGap": 0
           }
         },
@@ -20623,12 +20657,12 @@
         },
         "attackSeconds": 0.9,
         "contactNormalized": 0.48,
-        "impliedWalkMps": 0.7392473118279569,
-        "impliedRunMps": 2.3936170212765955,
+        "impliedWalkMps": 0.504032258064516,
+        "impliedRunMps": 1.6622340425531914,
         "walkClipSeconds": 0.93,
         "runClipSeconds": 0.64,
         "notes": "Continuous skinned torso, neck, face and leg topology with recessed facial cavities. Embedded coat normal and roughness maps. In-place IK stance, articulated knees, ground-level hoof soles, eight authored clips. No source-model reuse or reduced-distance model.",
-        "triangles": 65094,
+        "triangles": 47406,
         "boneNames": [
           "bracken_tapir_Root",
           "bracken_tapir_Body",
@@ -20661,8 +20695,10 @@
       },
       "acceptance": {
         "assetAudit": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labEvidence": "test-results/s05-hoofed-lifecycle/bracken_tapir/report.json",
+        "labCatalogue": "art/rebuild/candidates/finish-quadrupeds/hoofed-death-export/catalogue.json"
       }
     },
     {
@@ -21257,32 +21293,32 @@
         "five-toed",
         "long-tail"
       ],
-      "bytes": 3137032,
-      "sha256": "7177dba27d5453b40d5dad3ab184b024bb024cc15c7dccc8a32db0fc42ed6483",
+      "bytes": 3035692,
+      "sha256": "81aa4269996482a5ca3f752b1a50ca8830f0449cded062d817c588d73bddf00e",
       "size": {
-        "x": 1.8283082466125486,
-        "y": 1.1981679896712303,
+        "x": 1.9464862937927248,
+        "y": 1.1931678258702159,
         "z": 4.768128638267517
       },
       "base": {
-        "x": -0.9141440501213073,
-        "y": -8.940696516468449e-10,
+        "x": -0.9732204971313477,
+        "y": 0.005000162906944772,
         "z": -2.9901286220550536
       },
       "bounds": {
         "min": [
-          -0.9141440501213073,
-          -8.940696516468449e-10,
+          -0.9732204971313477,
+          0.005000162906944772,
           -2.9901286220550536
         ],
         "max": [
-          0.9141641964912414,
+          0.973265796661377,
           1.1981679887771606,
           1.7780000162124634
         ]
       },
-      "groundY": -8.940696516468449e-10,
-      "triangles": 34374,
+      "groundY": 0.005000162906944772,
+      "triangles": 32230,
       "animations": [
         "Idle",
         "Walk",
@@ -21314,39 +21350,39 @@
             "seconds": 1.3600000143051147,
             "sampledFootBones": 4,
             "stanceSamples": 284,
-            "measuredStanceMps": 0.4769921718572518,
+            "measuredStanceMps": 0.4771984536725997,
             "feet": [
               {
                 "bone": "monitor_fore_left_foot",
-                "minY": 0.08492974416122895,
-                "maxY": 0.1728172848941087,
-                "strideZ": 0.4779244356155137,
+                "minY": 0.08493616598719467,
+                "maxY": 0.17281354844371044,
+                "strideZ": 0.47792443983564836,
                 "contactSamples": 71,
-                "stanceMedianMps": 0.47820582008497214
+                "stanceMedianMps": 0.4776951529961794
               },
               {
                 "bone": "monitor_fore_right_foot",
-                "minY": 0.08492974420320354,
-                "maxY": 0.17281729169407012,
-                "strideZ": 0.4781491820423669,
+                "minY": 0.08493744207859799,
+                "maxY": 0.17281355528595732,
+                "strideZ": 0.4781798727063604,
                 "contactSamples": 71,
-                "stanceMedianMps": 0.4790229748263525
+                "stanceMedianMps": 0.477655890876018
               },
               {
                 "bone": "monitor_hind_left_foot",
-                "minY": 0.08493639199414904,
-                "maxY": 0.17283944083059907,
-                "strideZ": 0.4779244257515663,
+                "minY": 0.08494173344625294,
+                "maxY": 0.17283943017747574,
+                "strideZ": 0.477924440577073,
                 "contactSamples": 71,
-                "stanceMedianMps": 0.4767801839992707
+                "stanceMedianMps": 0.4769951116774983
               },
               {
                 "bone": "monitor_hind_right_foot",
-                "minY": 0.08493639199192432,
-                "maxY": 0.1728394397499801,
-                "strideZ": 0.4778366182819637,
+                "minY": 0.08494173343981365,
+                "maxY": 0.17283942923792325,
+                "strideZ": 0.4778266391657542,
                 "contactSamples": 71,
-                "stanceMedianMps": 0.47677686645872996
+                "stanceMedianMps": 0.47702337692747465
               }
             ],
             "rootHorizontalTravel": [
@@ -21361,39 +21397,39 @@
             "seconds": 0.7200000286102295,
             "sampledFootBones": 4,
             "stanceSamples": 220,
-            "measuredStanceMps": 1.6862571342511896,
+            "measuredStanceMps": 1.6863952226189496,
             "feet": [
               {
                 "bone": "monitor_fore_left_foot",
-                "minY": 0.08479027940913358,
-                "maxY": 0.22975814333075129,
-                "strideZ": 0.6779618263154739,
+                "minY": 0.08479257433839016,
+                "maxY": 0.22977555769727573,
+                "strideZ": 0.6779524422933589,
                 "contactSamples": 55,
-                "stanceMedianMps": 1.6864305666595198
+                "stanceMedianMps": 1.6863858152491518
               },
               {
                 "bone": "monitor_fore_right_foot",
-                "minY": 0.08478910441389631,
-                "maxY": 0.22975814446170256,
-                "strideZ": 0.6780165379711983,
+                "minY": 0.08479630102764268,
+                "maxY": 0.2297755587584486,
+                "strideZ": 0.6780071532155532,
                 "contactSamples": 55,
-                "stanceMedianMps": 1.6862225844364656
+                "stanceMedianMps": 1.686387490709537
               },
               {
                 "bone": "monitor_hind_left_foot",
-                "minY": 0.0848703671526495,
-                "maxY": 0.22973320347563883,
-                "strideZ": 0.6779215371782027,
+                "minY": 0.08487219942471314,
+                "maxY": 0.22975382431296767,
+                "strideZ": 0.6779205912910051,
                 "contactSamples": 55,
-                "stanceMedianMps": 1.6862571342511896
+                "stanceMedianMps": 1.6863968980963584
               },
               {
                 "bone": "monitor_hind_right_foot",
-                "minY": 0.08489260684868183,
-                "maxY": 0.22973320224818594,
-                "strideZ": 0.6779215249994561,
+                "minY": 0.0848898417485861,
+                "maxY": 0.22975382316680762,
+                "strideZ": 0.6779205791689638,
                 "contactSamples": 55,
-                "stanceMedianMps": 1.6862554587660685
+                "stanceMedianMps": 1.6863952226189496
               }
             ],
             "rootHorizontalTravel": [
@@ -21409,7 +21445,7 @@
           "Idle": {
             "seconds": 4.199999809265137,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006773550513579684,
+            "maxRotationGapRadians": 0.0003367667748091781,
             "maxScaleGap": 0
           },
           "Walk": {
@@ -21421,7 +21457,7 @@
           "Run": {
             "seconds": 0.7200000286102295,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006366280566686988,
+            "maxRotationGapRadians": 0.0006290327506413761,
             "maxScaleGap": 0
           }
         },
@@ -21512,8 +21548,10 @@
       },
       "acceptance": {
         "assetAudit": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labEvidence": "test-results/s05-monitor-lifecycle/run5/report.json",
+        "labCatalogue": "art/rebuild/candidates/finish-quadrupeds/monitor-promotion.json"
       }
     },
     {
