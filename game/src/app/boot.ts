@@ -293,7 +293,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   renderer.prepareScene = (viewCamera) => scene.scatterVisibility.prepare(
     viewCamera, renderer.scene.fog instanceof THREE.Fog ? renderer.scene.fog.far : undefined,
   );
-  scene.materials.setFoliageOcclusionEnabled(true);
+  scene.materials.setFoliageOcclusionEnabled(false);
 
   // 6. Assets. Animation libraries load once as a shared clip library; every rig plays from it.
   setStatus("loading assets…");
@@ -894,7 +894,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
 
   // 12. Player.
-  renderer.playerSilhouette.obstructionProbe = (from, direction, length) => cameraQueries.raycast(from, direction, length);
   const groundY = scene.heightAt(spawnSpec.regionId, spawnSpec.x, spawnSpec.z);
   const spawn: Vec3 = nav.closestPoint([spawnSpec.x, groundY + 0.2, spawnSpec.z]) ?? [spawnSpec.x, groundY, spawnSpec.z];
   // Facing convention matches NpcStandDef and debug/shots.ts: 0 looks toward +z.
@@ -2347,15 +2346,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   const loop = new GameLoop({
     store, events, clock, rng, renderer, camera, scene, nav, movement, api, saves, input,
-    updateRoofVisibility: (position) => {
-      const lens = renderer.camera.position;
-      if (!roofVisibility.update(position, position ? {
-        actual: [lens.x, lens.y, lens.z], requested: camera.requestedPosition(position), nowMs: performance.now(),
-      } : undefined)) return;
-      entityViews.setHiddenRoofs(roofVisibility.hiddenEntities);
-      cameraQueries.setHiddenEntities(roofVisibility.hiddenEntities, roofVisibility.cutHeights);
-      camera.setHiddenRoofs(roofVisibility.hiddenBuildings);
-    },
+
   });
   // The Gravelmaw chambers are authored a few metres below the surface, right beside the entrance,
   // so rendering every entity unconditionally drew the whole dungeon population on top of the

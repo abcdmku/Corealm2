@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type { Vec3 } from "../contracts.js";
+import { PlayerDepthVisibility } from "./playerDepthVisibility.js";
 
 /** Draw only the occluded part of the animated player, using the completed scene depth. */
 export class PlayerSilhouette {
@@ -17,12 +17,11 @@ export class PlayerSilhouette {
     stencilZPass: THREE.ReplaceStencilOp,
   });
   source: THREE.Object3D | null = null;
-  obstructionProbe: ((from: Vec3, direction: Vec3, length: number) => number | null) | null = null;
+  private readonly visibility = new PlayerDepthVisibility();
   private active = false;
   private lastOpacityAt: number | null = null;
   private opacity = 0;
   snapshot(): { active: boolean; opacity: number } { return { active: this.active, opacity: this.fill.opacity }; }
-  private readonly feet = new THREE.Vector3();
 
   /** Ignore isolated limb and edge overlaps without delaying a substantial obstruction. */
   shouldShow(blockedSamples: number): boolean {
@@ -38,20 +37,7 @@ export class PlayerSilhouette {
   }
 
   render(renderer: THREE.WebGLRenderer, camera: THREE.Camera): void {
-    let blocked = 0;
-    if (this.source?.visible && this.obstructionProbe) {
-      this.source.getWorldPosition(this.feet);
-      const from: Vec3 = [camera.position.x, camera.position.y, camera.position.z];
-      const rightX = camera.matrixWorld.elements[0]!, rightZ = camera.matrixWorld.elements[2]!;
-      for (const [height, side] of [[0.65, 0], [1.05, 0], [1.5, 0], [1.1, -0.22], [1.1, 0.22]]) {
-        const delta: Vec3 = [this.feet.x + rightX * side! - from[0], this.feet.y + height! - from[1],
-          this.feet.z + rightZ * side! - from[2]];
-        const length = Math.hypot(...delta);
-        if (length < 0.3) continue;
-        const hit = this.obstructionProbe(from, [delta[0] / length, delta[1] / length, delta[2] / length], length - 0.25);
-        if (hit !== null) blocked++;
-      }
-    }
+    const blocked = this.visibility.sample(renderer, camera, this.source);
     this.fill.opacity = this.updateOpacity(blocked, performance.now());
     this.active = this.fill.opacity > 0;
     if (!this.active) return;
@@ -102,6 +88,7 @@ export class PlayerSilhouette {
   }
 
   dispose(): void {
+    this.visibility.dispose();
     this.scene.clear();
     this.copies.clear();
     this.mask.dispose();

@@ -17,7 +17,7 @@ async function shot(name:string){
  return {path,cyan,state:await driver.callDebug("getPlayerSilhouette") as any};
 }
 try{
- await driver.launch();await driver.open(world?60000:20000,world?'/index.html':'/index.html?mode=combat');
+ await driver.launch();await driver.open(world?60000:20000,world?'/index.html':'/index.html?mode=combat&environment=1');
  const page=driver.page!;
  if(!world)await page.evaluate(async()=> (window.__featureLab as any).setStructure({kind:'prefab',id:'gatehouse',kit:'stone',width:8,depth:4,seed:1}));
  const close=page.locator('#panel-feature-lab .panel__close');if(await close.isVisible())await close.click();
@@ -39,6 +39,16 @@ try{
  await page.waitForTimeout(250);
  report.clear=await shot('03-clear');
  assert(!report.clear.state.active,'Unobstructed player must not glow from self occlusion');
+ if(!world){
+   await page.evaluate(async()=> (window as any).__environmentLab.showFoliage('corealm_oak_1',{count:1,layout:'lane',scale:2}));
+   const treeY=await driver.callDebug('groundHeight',[0,22]) as number;
+   await driver.callDebug('teleport',[[0,treeY,22]]);
+   await driver.callDebug('inspectPose',[{x:0,y:treeY,z:22,yaw:0,pitch:0.35,distance:11,detached:false}]);
+   await page.waitForTimeout(350);
+   report.tree=await shot('04-tree-occlusion');
+   assert(report.tree.state.active,'Rendered tree must activate the same overlay as walls');
+   report.foliage=await driver.callDebug('getFoliageOcclusion');
+ }
  report.camera=await driver.callDebug('getCamera');
  assert.equal(report.camera.distance,11);
  assert.deepEqual(await driver.callDebug('getErrors'),[]);assert.deepEqual(driver.consoleErrors,[]);assert.deepEqual(driver.pageErrors,[]);
