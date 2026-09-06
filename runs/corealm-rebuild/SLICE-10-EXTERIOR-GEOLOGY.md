@@ -123,7 +123,9 @@ bounds, so no placement, collision box or navigation input changed size.
 ## Checks
 
 - `tests/sunder-ledge-geology.test.ts` and `tests/bedded-shortcut-source.test.ts`: 27 passed, 0 failed. Both
-  baseline failures are fixed without weakening either test.
+  baseline failures are fixed without weakening either test. One run out of six failed while the machine was
+  loaded and took nearly twice as long; five consecutive reruns pass, including inside the wider focused
+  suite, so it is recorded as timing rather than a result.
 - Focused suite over fourteen files covering geology sources, shortcut sources, ground ores, gathering
   provenance, CC licensing, agility routing and traversal: 136 passed.
 - `tests/structure-movement-grounding.test.ts` "crosses every native Rootfall flight" fails with a 0.868 m
