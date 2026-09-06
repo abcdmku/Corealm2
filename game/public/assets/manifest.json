@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T05:39:28.538Z",
+  "generatedAt": "2026-09-06T05:43:25.674Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -29199,6 +29199,704 @@
         "labAccepted": false,
         "worldIntegrated": false
       }
+    },
+    {
+      "id": "creature_stone_golem",
+      "file": "models/creature/creature_stone_golem.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "stone golem",
+      "tags": [
+        "creature",
+        "rpg",
+        "stone_golem"
+      ],
+      "bytes": 1912488,
+      "sha256": "987f4f59e973922652a47aedc24849aa6646bab28b566e3285dd10b51f911e5e",
+      "size": {
+        "x": 1.5118120373277524,
+        "y": 2.1400150694913225,
+        "z": 1.1932358745547815
+      },
+      "base": {
+        "x": -0.7014024865052151,
+        "y": 0.0029999995559962123,
+        "z": -0.6146288409344091
+      },
+      "groundY": 0.0029999995559962123,
+      "triangles": 27786,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_stone_golem_stone_golem_base_male_MI_Eyes",
+        "animal_rpg_stone_golem_stone_golem_base_male_MI_Superhero_Male",
+        "animal_rpg_stone_golem_stone_golem_outfit_male_knight_chest_MI_Knight"
+      ],
+      "walkClipSeconds": 1.8000000715255737,
+      "runClipSeconds": 1.1200000047683716,
+      "attackSeconds": 1.1266666650772095,
+      "contactNormalized": 0.38,
+      "sourceProvenance": {
+        "sourceAssets": [
+          "base_male",
+          "outfit_male_knight_chest",
+          "outfit_male_knight_legs",
+          "outfit_male_knight_boots",
+          "outfit_male_knight_gloves",
+          "outfit_male_knight_pauldron",
+          "animation_library_1"
+        ],
+        "sourceFiles": [
+          {
+            "file": "game/public/assets/models/character/base_male.glb",
+            "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_chest.glb",
+            "sha256": "9da7187fb41bb4033aa2a9c95b9804f6cd43c626d0fa0ce3a960a9cc69e7bcc0"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_legs.glb",
+            "sha256": "1b6a81600aea0038e93b40cc0010dce5efa8e6628a5e8d1b361473ff9cbdf13c"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_boots.glb",
+            "sha256": "c72ebde664b9b7b52c05645083aeff557f02865219f93b527cc3bf2fb76a245c"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_gloves.glb",
+            "sha256": "8834f57374c9972c28f00bf23a7f886c1c28106f1cd40a83c524ca0ab914e23a"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
+            "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
+          },
+          {
+            "file": "game/public/assets/models/animation/animation_library_1.glb",
+            "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+          }
+        ],
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "sourcePacks": [
+          {
+            "id": "universal-base-characters",
+            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+          },
+          {
+            "id": "modular-character-outfits-fantasy",
+            "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+          },
+          {
+            "id": "universal-animation-library",
+            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+          }
+        ],
+        "modifications": "Broad coordinated bind-space anatomy and joints; original knight armor converted to weathered guardian statue; authored mineral texture, heavy clip timing"
+      },
+      "metadata": {
+        "family": "golem",
+        "height": 2.1413415378000566,
+        "dimensions": [
+          3.692075743124171,
+          2.1413415378000566,
+          0.7637172341346741
+        ],
+        "rig": "entitled-universal-base-65-joint",
+        "textureBindings": [
+          {
+            "materialName": "stone_golem_base_male_MI_Superhero_Male",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+            "flipY": false
+          },
+          {
+            "materialName": "stone_golem_outfit_male_knight_chest_MI_Knight",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+            "flipY": false
+          },
+          {
+            "materialName": "stone_golem_outfit_male_knight_legs_MI_Knight",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+            "flipY": false
+          },
+          {
+            "materialName": "stone_golem_outfit_male_knight_boots_MI_Knight",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+            "flipY": false
+          },
+          {
+            "materialName": "stone_golem_outfit_male_knight_gloves_MI_Knight",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+            "flipY": false
+          },
+          {
+            "materialName": "stone_golem_outfit_male_knight_pauldron_MI_Knight",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-grain.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\golem-source\\derived\\mineral-normal.png",
+            "flipY": false
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 221,
+            "maximumLift": 0.023987187406190248
+          },
+          "Walk": {
+            "samples": 149,
+            "maximumLift": 0.12698868320811285
+          },
+          "Run": {
+            "samples": 95,
+            "maximumLift": 0.009140768129146007
+          },
+          "Attack": {
+            "samples": 94,
+            "maximumLift": 0.027977792289892812
+          },
+          "Hit": {
+            "samples": 31,
+            "maximumLift": 0.02558463619276214
+          },
+          "HitLeft": {
+            "samples": 31,
+            "maximumLift": 0.02558463619276214
+          },
+          "HitRight": {
+            "samples": 31,
+            "maximumLift": 0.02558463619276214
+          },
+          "Death": {
+            "samples": 203,
+            "maximumLift": 0.24301742261975595
+          }
+        },
+        "source": "Quaternius Universal Base Characters and Modular Fantasy Knight armor, preserved source topology and skin weights",
+        "license": "CC0-1.0",
+        "provenance": {
+          "sourceAssets": [
+            "base_male",
+            "outfit_male_knight_chest",
+            "outfit_male_knight_legs",
+            "outfit_male_knight_boots",
+            "outfit_male_knight_gloves",
+            "outfit_male_knight_pauldron",
+            "animation_library_1"
+          ],
+          "sourceFiles": [
+            {
+              "file": "game/public/assets/models/character/base_male.glb",
+              "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_knight_chest.glb",
+              "sha256": "9da7187fb41bb4033aa2a9c95b9804f6cd43c626d0fa0ce3a960a9cc69e7bcc0"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_knight_legs.glb",
+              "sha256": "1b6a81600aea0038e93b40cc0010dce5efa8e6628a5e8d1b361473ff9cbdf13c"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_knight_boots.glb",
+              "sha256": "c72ebde664b9b7b52c05645083aeff557f02865219f93b527cc3bf2fb76a245c"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_knight_gloves.glb",
+              "sha256": "8834f57374c9972c28f00bf23a7f886c1c28106f1cd40a83c524ca0ab914e23a"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
+              "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
+            },
+            {
+              "file": "game/public/assets/models/animation/animation_library_1.glb",
+              "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+            }
+          ],
+          "author": "Quaternius",
+          "license": "CC0-1.0",
+          "sourcePacks": [
+            {
+              "id": "universal-base-characters",
+              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+            },
+            {
+              "id": "modular-character-outfits-fantasy",
+              "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+            },
+            {
+              "id": "universal-animation-library",
+              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+            }
+          ],
+          "modifications": "Broad coordinated bind-space anatomy and joints; original knight armor converted to weathered guardian statue; authored mineral texture, heavy clip timing"
+        },
+        "attackContact": 0.38,
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "variantDesign": "Accepted paired stone pauldrons and weathered carved anatomy",
+        "revision": "golem-source-review-1",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-joint-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 0.97835,
+      "impliedRunMps": 6.7042,
+      "locomotionPolicy": "speed-matched"
+    },
+    {
+      "id": "creature_iron_golem",
+      "file": "models/creature/creature_iron_golem.glb",
+      "pack": "corealm-rpg-universal-base-characters",
+      "category": "character",
+      "is": "iron golem",
+      "tags": [
+        "creature",
+        "rpg",
+        "iron_golem"
+      ],
+      "bytes": 2006924,
+      "sha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
+      "size": {
+        "x": 1.551951880966139,
+        "y": 2.341389253991521,
+        "z": 1.2900518699872199
+      },
+      "base": {
+        "x": -0.723342356466185,
+        "y": 0.0029999995559962123,
+        "z": -0.6708345462288714
+      },
+      "groundY": 0.0029999995559962123,
+      "triangles": 29484,
+      "animations": [
+        "Idle",
+        "Walk",
+        "Run",
+        "Attack",
+        "Hit",
+        "HitLeft",
+        "HitRight",
+        "Death"
+      ],
+      "materials": [
+        "animal_rpg_iron_golem_iron_golem_base_male_MI_Eyes",
+        "animal_rpg_iron_golem_iron_golem_base_male_MI_Superhero_Male",
+        "animal_rpg_iron_golem_iron_golem_outfit_male_knight_chest_MI_Knight"
+      ],
+      "walkClipSeconds": 1.8000000715255737,
+      "runClipSeconds": 1.1200000047683716,
+      "attackSeconds": 1.1266666650772095,
+      "contactNormalized": 0.38,
+      "sourceProvenance": {
+        "sourceAssets": [
+          "base_male",
+          "outfit_male_knight_chest",
+          "outfit_male_knight_legs",
+          "outfit_male_knight_boots",
+          "outfit_male_knight_gloves",
+          "outfit_male_knight_pauldron",
+          "outfit_male_knight_helmet",
+          "animation_library_1"
+        ],
+        "sourceFiles": [
+          {
+            "file": "game/public/assets/models/character/base_male.glb",
+            "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_chest.glb",
+            "sha256": "9da7187fb41bb4033aa2a9c95b9804f6cd43c626d0fa0ce3a960a9cc69e7bcc0"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_legs.glb",
+            "sha256": "1b6a81600aea0038e93b40cc0010dce5efa8e6628a5e8d1b361473ff9cbdf13c"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_boots.glb",
+            "sha256": "c72ebde664b9b7b52c05645083aeff557f02865219f93b527cc3bf2fb76a245c"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_gloves.glb",
+            "sha256": "8834f57374c9972c28f00bf23a7f886c1c28106f1cd40a83c524ca0ab914e23a"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
+            "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_helmet.glb",
+            "sha256": "fdcdaaeeb44bcec5379a4a031017e7463ced1fa21df53a06a7d67edecc38f47c"
+          },
+          {
+            "file": "game/public/assets/models/animation/animation_library_1.glb",
+            "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+          }
+        ],
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "sourcePacks": [
+          {
+            "id": "universal-base-characters",
+            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+          },
+          {
+            "id": "modular-character-outfits-fantasy",
+            "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+          },
+          {
+            "id": "universal-animation-library",
+            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+          }
+        ],
+        "modifications": "Broad coordinated bind-space anatomy and joints; original knight armor converted to weathered guardian statue; authored mineral texture, heavy clip timing",
+        "materialRevision": {
+          "kind": "material-only",
+          "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
+          "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
+          "candidateSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
+          "sourceColor": {
+            "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0.png",
+            "sha256": "7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0"
+          },
+          "sourceNormal": {
+            "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
+            "sha256": "dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31",
+            "bytesUnchanged": true,
+            "materialNormalScale": 0.45
+          },
+          "interpretation": "Existing authored mineral-grain luminance is remapped to dark neutral grey-blue cast iron with muted rust in existing dark fissures. Metallic/roughness is newly authored PBR data. Geometry, source rig, skin, gait and all eight clips are unchanged.",
+          "channels": {
+            "baseColor": "Dark cast iron, source-luminance grain amplitude 12/255; rust [104,72,52], mix <=0.55",
+            "metallic": "B channel, clean iron 0.88 fading to oxide 0.35",
+            "roughness": "G channel, clean iron 0.58 plus grain, fading to oxide 0.85",
+            "normal": "Original normal PNG unchanged; material strength 0.45"
+          },
+          "statistics": {
+            "roughness": [
+              0.5804073725490195,
+              0.85
+            ],
+            "metalness": [
+              0.35,
+              0.88
+            ],
+            "oxidePixelFraction": 0.17180252075195312,
+            "oxidePixelDefinition": "oxide > 0",
+            "meanAlbedo": [
+              87.97062683105469,
+              92.02383422851562,
+              96.99153137207031
+            ]
+          },
+          "author": "Corealm project material adaptation; underlying geometry/rig/clips Quaternius CC0",
+          "status": "candidate-needs-production-material-review",
+          "parameters": {
+            "cleanBase": [
+              90.34351673687486,
+              95.03340705201711,
+              100.51249754864389
+            ],
+            "grainAmplitude": 12,
+            "oxideLuminanceCutoff": 0.739,
+            "oxideFade": 0.16,
+            "oxideMaxMix": 0.55,
+            "patina": [
+              104,
+              72,
+              52
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "family": "golem",
+        "height": 2.172113270130379,
+        "dimensions": [
+          3.692075743124171,
+          2.172113270130379,
+          0.9685257971286774
+        ],
+        "rig": "entitled-universal-base-65-joint",
+        "textureBindings": [
+          {
+            "materialName": "animal_rpg_iron_golem_iron_golem_base_male_MI_Superhero_Male",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\d04258594580081a0af33967d08f6d7ddee86dd1802b9a2aca679971ce359dd3.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\cac8febc24e64af50c16c4c4395b97cc15c8a43b7c31bfde49973e81df456b04.png",
+            "normalScale": 0.45,
+            "flipY": false
+          },
+          {
+            "materialName": "animal_rpg_iron_golem_iron_golem_outfit_male_knight_chest_MI_Knight",
+            "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\d04258594580081a0af33967d08f6d7ddee86dd1802b9a2aca679971ce359dd3.png",
+            "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
+            "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\cac8febc24e64af50c16c4c4395b97cc15c8a43b7c31bfde49973e81df456b04.png",
+            "normalScale": 0.45,
+            "flipY": false
+          }
+        ],
+        "floorCorrection": {
+          "Idle": {
+            "samples": 221,
+            "maximumLift": 0.023987187406190248
+          },
+          "Walk": {
+            "samples": 149,
+            "maximumLift": 0.1586746946931693
+          },
+          "Run": {
+            "samples": 95,
+            "maximumLift": 0.011913477462350369
+          },
+          "Attack": {
+            "samples": 94,
+            "maximumLift": 0.027977792289892812
+          },
+          "Hit": {
+            "samples": 31,
+            "maximumLift": 0.02558463619276214
+          },
+          "HitLeft": {
+            "samples": 31,
+            "maximumLift": 0.02558463619276214
+          },
+          "HitRight": {
+            "samples": 31,
+            "maximumLift": 0.02558463619276214
+          },
+          "Death": {
+            "samples": 203,
+            "maximumLift": 0.3956970024756407
+          }
+        },
+        "source": "Quaternius Universal Base Characters and Modular Fantasy Knight armor, preserved source topology and skin weights",
+        "license": "CC0-1.0",
+        "provenance": {
+          "sourceAssets": [
+            "base_male",
+            "outfit_male_knight_chest",
+            "outfit_male_knight_legs",
+            "outfit_male_knight_boots",
+            "outfit_male_knight_gloves",
+            "outfit_male_knight_pauldron",
+            "outfit_male_knight_helmet",
+            "animation_library_1"
+          ],
+          "sourceFiles": [
+            {
+              "file": "game/public/assets/models/character/base_male.glb",
+              "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_knight_chest.glb",
+              "sha256": "9da7187fb41bb4033aa2a9c95b9804f6cd43c626d0fa0ce3a960a9cc69e7bcc0"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_knight_legs.glb",
+              "sha256": "1b6a81600aea0038e93b40cc0010dce5efa8e6628a5e8d1b361473ff9cbdf13c"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_knight_boots.glb",
+              "sha256": "c72ebde664b9b7b52c05645083aeff557f02865219f93b527cc3bf2fb76a245c"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_knight_gloves.glb",
+              "sha256": "8834f57374c9972c28f00bf23a7f886c1c28106f1cd40a83c524ca0ab914e23a"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
+              "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
+            },
+            {
+              "file": "game/public/assets/models/outfit/outfit_male_knight_helmet.glb",
+              "sha256": "fdcdaaeeb44bcec5379a4a031017e7463ced1fa21df53a06a7d67edecc38f47c"
+            },
+            {
+              "file": "game/public/assets/models/animation/animation_library_1.glb",
+              "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+            }
+          ],
+          "author": "Quaternius",
+          "license": "CC0-1.0",
+          "sourcePacks": [
+            {
+              "id": "universal-base-characters",
+              "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+            },
+            {
+              "id": "modular-character-outfits-fantasy",
+              "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+            },
+            {
+              "id": "universal-animation-library",
+              "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+            }
+          ],
+          "modifications": "Broad coordinated bind-space anatomy and joints; original knight armor converted to weathered guardian statue; authored mineral texture, heavy clip timing",
+          "materialRevision": {
+            "kind": "material-only",
+            "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
+            "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
+            "candidateSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
+            "sourceColor": {
+              "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0.png",
+              "sha256": "7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0"
+            },
+            "sourceNormal": {
+              "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
+              "sha256": "dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31",
+              "bytesUnchanged": true,
+              "materialNormalScale": 0.45
+            },
+            "interpretation": "Existing authored mineral-grain luminance is remapped to dark neutral grey-blue cast iron with muted rust in existing dark fissures. Metallic/roughness is newly authored PBR data. Geometry, source rig, skin, gait and all eight clips are unchanged.",
+            "channels": {
+              "baseColor": "Dark cast iron, source-luminance grain amplitude 12/255; rust [104,72,52], mix <=0.55",
+              "metallic": "B channel, clean iron 0.88 fading to oxide 0.35",
+              "roughness": "G channel, clean iron 0.58 plus grain, fading to oxide 0.85",
+              "normal": "Original normal PNG unchanged; material strength 0.45"
+            },
+            "statistics": {
+              "roughness": [
+                0.5804073725490195,
+                0.85
+              ],
+              "metalness": [
+                0.35,
+                0.88
+              ],
+              "oxidePixelFraction": 0.17180252075195312,
+              "oxidePixelDefinition": "oxide > 0",
+              "meanAlbedo": [
+                87.97062683105469,
+                92.02383422851562,
+                96.99153137207031
+              ]
+            },
+            "author": "Corealm project material adaptation; underlying geometry/rig/clips Quaternius CC0",
+            "status": "candidate-needs-production-material-review",
+            "parameters": {
+              "cleanBase": [
+                90.34351673687486,
+                95.03340705201711,
+                100.51249754864389
+              ],
+              "grainAmplitude": 12,
+              "oxideLuminanceCutoff": 0.739,
+              "oxideFade": 0.16,
+              "oxideMaxMix": 0.55,
+              "patina": [
+                104,
+                72,
+                52
+              ]
+            }
+          }
+        },
+        "attackContact": 0.38,
+        "animationAcceptance": "candidate-needs-production-lab-motion-review",
+        "variantDesign": "Enclosed knight helmet, enlarged cast shoulder shells, deeper breastplate and broad iron gauntlets/boots",
+        "revision": "iron-material-round2",
+        "runtimeTexturePolicy": {
+          "maxDimension": 2048,
+          "sharedByEncodedSha256": true,
+          "originalsPreserved": true
+        },
+        "gaitMeasurement": {
+          "status": "credible-joint-estimate",
+          "source": "tools/rpg-bestiary/gait-results.json",
+          "visualContactAccepted": false
+        },
+        "materialRevision": {
+          "kind": "material-only",
+          "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
+          "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
+          "candidateSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
+          "sourceColor": {
+            "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0.png",
+            "sha256": "7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0"
+          },
+          "sourceNormal": {
+            "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
+            "sha256": "dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31",
+            "bytesUnchanged": true,
+            "materialNormalScale": 0.45
+          },
+          "interpretation": "Existing authored mineral-grain luminance is remapped to dark neutral grey-blue cast iron with muted rust in existing dark fissures. Metallic/roughness is newly authored PBR data. Geometry, source rig, skin, gait and all eight clips are unchanged.",
+          "channels": {
+            "baseColor": "Dark cast iron, source-luminance grain amplitude 12/255; rust [104,72,52], mix <=0.55",
+            "metallic": "B channel, clean iron 0.88 fading to oxide 0.35",
+            "roughness": "G channel, clean iron 0.58 plus grain, fading to oxide 0.85",
+            "normal": "Original normal PNG unchanged; material strength 0.45"
+          },
+          "statistics": {
+            "roughness": [
+              0.5804073725490195,
+              0.85
+            ],
+            "metalness": [
+              0.35,
+              0.88
+            ],
+            "oxidePixelFraction": 0.17180252075195312,
+            "oxidePixelDefinition": "oxide > 0",
+            "meanAlbedo": [
+              87.97062683105469,
+              92.02383422851562,
+              96.99153137207031
+            ]
+          },
+          "author": "Corealm project material adaptation; underlying geometry/rig/clips Quaternius CC0",
+          "status": "candidate-needs-production-material-review",
+          "parameters": {
+            "cleanBase": [
+              90.34351673687486,
+              95.03340705201711,
+              100.51249754864389
+            ],
+            "grainAmplitude": 12,
+            "oxideLuminanceCutoff": 0.739,
+            "oxideFade": 0.16,
+            "oxideMaxMix": 0.55,
+            "patina": [
+              104,
+              72,
+              52
+            ]
+          }
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      },
+      "impliedWalkMps": 0.97535,
+      "impliedRunMps": 6.7042,
+      "locomotionPolicy": "speed-matched"
     }
   ]
 }
