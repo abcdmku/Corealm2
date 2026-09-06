@@ -13,7 +13,8 @@ import { ForestResources, type ForestTreeDescriptor } from "../world/forestResou
 import { ForestPresentation } from "../render/forestPresentation.js";
 import { ForestObstacles } from "../world/forestObstacles.js";
 import { WORLD_SITES, worldSitePoint, type WorldSite } from "../content/worldSites.js";
-import { WORLD_HABITATS } from "../content/worldHabitats.js";
+import { WORLD_HABITATS, type HabitatDef } from "../content/worldHabitats.js";
+import { REGIONAL_PACK_ACTIVATION, activatedRegionalPackIds } from "../content/regionalPackActivation.js";
 import { habitatIdleTargets } from "../world/habitatMovement.js";
 import { buildWorldSiteDressing, type ResolvedWorldSiteDressing } from "../render/worldSiteDressing.js";
 import type {
@@ -468,6 +469,32 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const packFixture = packLab && packId ? packLab.assembleRegionalPackFixture(packId, {
     heightAt: (x, z) => scene.meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
   }, rpgPackCatalogue) : null;
+  // Final-world regional packs. Activation is the root's recorded decision in
+  // `regionalPackActivation.ts`, region by region; nothing in the URL can switch it on. The
+  // catalogue is measured from the public asset registry, so an unpromoted occupant fails boot
+  // loudly here instead of spawning an estimate.
+  const worldPackIds = profile.kind === "game" ? activatedRegionalPackIds() : [];
+  const worldPackCatalogue = worldPackIds.length
+    ? (await import("../content/rpgRegionalPacks.js")).createRpgRegionalPackCatalogue((id) => {
+      const entry = assets.entry(id);
+      return entry?.base ? { size: entry.size, base: entry.base } : null;
+    }, worldPackIds, REGIONAL_PACK_ACTIVATION.assignmentOverrides) : undefined;
+  const packBuilder = worldPackCatalogue ? await import("../world/regionalPackEntities.js") : undefined;
+  const worldHabitats: readonly HabitatDef[] = [...WORLD_HABITATS, ...(worldPackCatalogue?.habitats ?? [])];
+  const worldPackHabitats = new Map((worldPackCatalogue?.habitats ?? []).map((habitat) => [habitat.groupId, habitat]));
+  if (worldPackCatalogue) {
+    // `register` replaces the enemies table, so keep every existing definition and add variants by id.
+    const enemies = new Map(content.allEnemies().map((enemy) => [enemy.id, enemy]));
+    for (const variant of worldPackCatalogue.variants) enemies.set(variant.id, variant.stats);
+    content.register({ enemies: [...enemies.values()] });
+  }
+  // Fresh construction on every build keeps dead health or moved coordinates from leaking out of a
+  // cached assembly. Member IDs, coordinates and bindings are authored; the seed only orients them.
+  const buildWorldPackEntities = (): SemanticEntity[] => worldPackCatalogue && packBuilder
+    ? worldPackCatalogue.packs.flatMap((pack) => packBuilder.assembleRegionalPack(pack.id, {
+      heightAt: (x, z) => scene.meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
+    }, { seed: store.get().meta.seed }, worldPackCatalogue).entities)
+    : [];
   const built = profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts);
   const huntLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("hunt") === "1"
     ? await import("../featureLab/huntContracts.js") : null;
@@ -486,6 +513,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   }
   if (huntFixture) built.entities.push(...structuredClone(huntFixture.entities));
   if (packFixture) built.entities.push(...structuredClone(packFixture.entities));
+  if (worldPackCatalogue) built.entities.push(...buildWorldPackEntities());
   if (portalFixture) {
     built.entities.push(...structuredClone(portalFixture.entities));
     built.solids.push(...portalFixture.solids);
@@ -524,7 +552,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const { buildMineCutFace } = await import("../render/mineCutFace.js");
     // These are authored settings, loaded before navigation so visible rock faces and work
     // furniture have the same footprints in rendering, pathfinding and direct movement.
-    const settings: WorldSite[] = [...WORLD_SITES, ...WORLD_HABITATS.map((habitat): WorldSite => ({
+    const settings: WorldSite[] = [...WORLD_SITES, ...worldHabitats.map((habitat): WorldSite => ({
       id: habitat.id,
       locationId: habitat.groupId,
       regionId: habitat.regionId,
@@ -539,6 +567,20 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }))];
     for (const setting of settings) {
       if (!setting.dressing.length) continue;
+      const packHabitat = worldPackHabitats.get(setting.locationId);
+      if (packHabitat) {
+        // Same builder as the compact pack lab: measured physical boxes for collision, and
+        // navigation-only boxes grown by the pack's largest resident so full bodies clear corners.
+        const { buildRegionalPackDressing } = await import("../world/regionalPackDressing.js");
+        const largestBody = Math.max(0, ...built.entities
+          .filter((entity) => entity.meta?.groupId === packHabitat.groupId)
+          .map((entity) => entity.combat?.bodyRadius ?? 0));
+        const result = await buildRegionalPackDressing(scene, assets, packHabitat, largestBody);
+        sitePlacements.push(...result.placements);
+        built.solids.push(...result.solids);
+        for (const solid of result.navigationSolids) encounterNavSolids.set(solid.id, solid);
+        continue;
+      }
       const result = await buildWorldSiteDressing(scene, assets, setting);
       sitePlacements.push(...result.placements);
       built.solids.push(...result.solids);
@@ -785,7 +827,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     await assets.load("corealm_grass_1", { priority: "visible-spawn", primary: true });
     scene.setGrassSource(assets.instance("corealm_grass_1"));
     registerExclusions(scene, built.solids, sitePlacements);
-    for (const habitat of WORLD_HABITATS) {
+    for (const habitat of worldHabitats) {
       const bounds = getRegion(habitat.regionId)?.bounds;
       if (!bounds) continue;
       const inside = (point: Vec3) => point[0] >= bounds.min[0] && point[0] <= bounds.max[0]
@@ -1198,7 +1240,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
   const enemyAiSystem = new EnemyAiSystem({
     store, events, entities: entityStore, combat: combatSystem, nav,
-    ...((packFixture || groundMotionFixture) ? { habitatForEntity: (entity: SemanticEntity) => groundMotionFixture?.habitatForEntity(entity) ?? (packFixture && entity.meta?.groupId === packFixture.habitat.groupId ? packFixture.habitat : null) } : {}),
+    ...((packFixture || groundMotionFixture || worldPackHabitats.size) ? { habitatForEntity: (entity: SemanticEntity) =>
+      groundMotionFixture?.habitatForEntity(entity)
+      ?? (packFixture && entity.meta?.groupId === packFixture.habitat.groupId ? packFixture.habitat : null)
+      ?? worldPackHabitats.get(String(entity.meta?.groupId))
+      ?? null } : {}),
     // `meshHeightAt`, not `heightAt`: the drawn lattice needs no region id, and a creature's feet
     // should land on the same surface the SpellVfx impact rings chose it for. Without this port,
     // every step kept the navmesh's Y — 0.147-0.417 m above the drawn ground — so any animal that
@@ -2454,6 +2500,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (huntFixture) rebuilt.entities.push(...structuredClone(huntFixture.entities));
     if (groundMotionFixture) rebuilt.entities.push(...structuredClone(groundMotionFixture.entities));
     if (packFixture) rebuilt.entities.push(...structuredClone(packFixture.entities));
+    if (worldPackCatalogue) rebuilt.entities.push(...buildWorldPackEntities());
     if (portalFixture) {
       rebuilt.entities.push(...structuredClone(portalFixture.entities));
       rebuilt.routeNodes.push(...portalFixture.routeNodes);
