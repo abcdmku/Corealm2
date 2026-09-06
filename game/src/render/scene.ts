@@ -1590,7 +1590,7 @@ export class WorldScene {
   }
 
   /** One normalized field shared by terrain relief, surface palette, scatter masks, and diagnostics. */
-  private biomeWeightsAt(x: number, z: number): readonly { id: RegionId; weight: number }[] {
+  biomeWeightsAt(x: number, z: number): readonly { id: RegionId; weight: number }[] {
     const spec = this.world?.biomes;
     if (spec) return sampleOrganicBiomeWeights(x, z, spec);
     if (this.fields.length === 0) return [];

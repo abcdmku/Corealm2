@@ -322,6 +322,24 @@ Building-lab walking and free camera are presentation and local input checks. Th
 
 Use lab fixtures to prove the local logic, UI, and interactions for progression, inventory, equipment, quests, economy, persistence, and simulation work. The final world must still prove that real authored data and cross-system flows connect correctly. A feature is accepted only when its lab proof and relevant integration proof both pass.
 
+## Biome atmosphere
+
+Open `/index.html?mode=combat&presentation=1&atmosphere=1` to compare the five production
+biome color grades against a neutral reference using the same foliage, building and player.
+The bottom selector changes the shader target; transitions settle over roughly one second.
+The grade preserves black and white, uses separate shadow and highlight tints, and excludes DOM UI.
+Each region also blends a procedural sky, slowly drifting cloud cover, and fog colour and range.
+The sky horizon and terminal fog share one colour throughout transitions. Haze distances scale down
+with the selected draw distance. The lab's sky state reports current horizon, cloud cover and fog range.
+`window.__biomeAtmosphereLab.getState()` reports the selected preview and live shader uniforms.
+
+Run `npx tsx tools/biome-atmosphere-test.ts` for selector, resize and shader-state checks.
+After lab acceptance, `npx tsx tools/biome-atmosphere-test.ts --world` checks organic field wiring,
+regional travel and keyboard movement. Captures and JSON go to ignored `test-results/biome-atmosphere/`.
+Inspect the captures separately. `window.__gameDebug.getBiomeAtmosphere()` exposes world weights and
+live uniforms. Surface grades follow the existing organic field at the player; Gravelmaw uses the
+player's dungeon membership. Map captures retain their ungraded geographic overview.
+
 ## Time budgets
 
 These are hard design targets for every testing loop:

@@ -295,6 +295,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     viewCamera, renderer.scene.fog instanceof THREE.Fog ? renderer.scene.fog.far : undefined,
   );
   scene.materials.setFoliageOcclusionEnabled(false);
+  if (profile.kind === "game") {
+    renderer.biomeAtmosphere.sky.enabled = true;
+    renderer.biomeWeightsSource = () => {
+      const player = store.get().player;
+      if (player.regionId === "gravelmaw") return { gravelmaw: 1 };
+      return Object.fromEntries(scene.biomeWeightsAt(player.position[0], player.position[2])
+        .map(({ id, weight }) => [id, weight]));
+    };
+  }
 
   // 6. Assets. Animation libraries load once as a shared clip library; every rig plays from it.
   setStatus("loading assets…");
@@ -1943,6 +1952,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     api.setMovementCommandsEnabled(initialWalkingEnabled);
 
     const params = new URLSearchParams(window.location.search);
+    if (params.get("atmosphere") === "1") {
+      const { createBiomeAtmosphereWorkbench } = await import("../featureLab/biomeAtmosphere.js");
+      createBiomeAtmosphereWorkbench(renderer.biomeAtmosphere);
+    }
     if (profile.labMode === "combat" && params.get("creatureLoot") === "1") {
       const { createCreatureLootFixture } = await import("../featureLab/creatureLootFixture.js");
       (window as Window & { __creatureLootFixture?: unknown }).__creatureLootFixture = createCreatureLootFixture({

@@ -6,6 +6,7 @@ it("excludes an explicitly stopped interval from resumed frame-rate measurements
     frameTimes: [], lastFrameAt: 0, gpuTimer: null,
     transmissionOcclusion: { active: false },
     playerSilhouette: { render() {} },
+    biomeAtmosphere: { render() {}, updateEnvironment() {} },
     camera: { updateMatrixWorld() {} },
     renderer: { getContext: () => ({}), render() {}, info: { render: { calls: 2, triangles: 100 }, programs: [] } },
   }) as Renderer;

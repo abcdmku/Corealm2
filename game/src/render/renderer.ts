@@ -1,4 +1,5 @@
 import { PlayerSilhouette } from "./playerSilhouette.js";
+import { BiomeAtmosphere, type BiomeWeights } from "./biomeAtmosphere.js";
 /**
  * Renderer ownership: the WebGL context, the render target size, sky, atmosphere, lighting rig,
  * and per-frame stats.
@@ -254,6 +255,8 @@ export interface WarmupOptions {
 }
 
 export class Renderer {
+  readonly biomeAtmosphere = new BiomeAtmosphere();
+  biomeWeightsSource?: () => BiomeWeights;
   readonly renderer: THREE.WebGLRenderer;
   readonly playerSilhouette = new PlayerSilhouette();
   readonly scene: THREE.Scene;
@@ -463,6 +466,7 @@ export class Renderer {
   /** Keeps the far clip behind the fog so reduced draw distance never exposes a hard world edge. */
   setDrawDistance(distance: DrawDistancePreset): void {
     const preset = DRAW_DISTANCE[distance];
+    this.biomeAtmosphere.sky.setFogRange(preset.fogNear, preset.fogFar);
     this.camera.far = preset.cameraFar;
     this.camera.updateProjectionMatrix();
 
@@ -550,6 +554,8 @@ export class Renderer {
   }
 
   render(nowMs: number): void {
+    if (this.biomeWeightsSource) this.biomeAtmosphere.setWeights(this.biomeWeightsSource());
+    this.biomeAtmosphere.updateEnvironment(this.scene, this.lastFrameAt > 0 ? (nowMs - this.lastFrameAt) / 1000 : 1 / 60);
     const context = this.renderer.getContext();
     if ("createQuery" in context && !this.gpuTimer) {
       // WebGL elapsed queries cannot overlap. Whole-frame and shadow-only samples alternate.
@@ -582,6 +588,7 @@ export class Renderer {
       this.timingRender = true;
       this.renderer.render(this.scene, this.camera);
       this.playerSilhouette.render(this.renderer, this.camera);
+      this.biomeAtmosphere.render(this.renderer, this.lastFrameAt > 0 ? (nowMs - this.lastFrameAt) / 1000 : 1 / 60);
     } finally {
       this.timingRender = false;
       this.cpuSubmitMs = performance.now() - submitStart;
@@ -617,6 +624,7 @@ export class Renderer {
     this.prepareScene?.(this.camera);
     this.renderer.render(this.scene, this.camera);
     this.playerSilhouette.render(this.renderer, this.camera);
+    this.biomeAtmosphere.render(this.renderer, 0);
     return this.renderer.domElement.toDataURL("image/png");
   }
 
@@ -654,7 +662,7 @@ export class Renderer {
     };
     const previousShadowNeedsUpdate = this.sun.shadow.needsUpdate;
     const previousShadowMapNeedsUpdate = this.renderer.shadowMap.needsUpdate;
-    const hidden = [this.scene.getObjectByName("player"), this.scene.getObjectByName("overlays")]
+    const hidden = [this.scene.getObjectByName("player"), this.scene.getObjectByName("overlays"), this.scene.getObjectByName("biome-sky")]
       .filter((object): object is THREE.Object3D => object !== undefined)
       .map((object) => ({ object, visible: object.visible }));
 
@@ -755,6 +763,7 @@ export class Renderer {
   }
 
   dispose(): void {
+    this.biomeAtmosphere.dispose();
     this.playerSilhouette.dispose();
     this.transmissionOcclusion.dispose();
     this.gpuTimer?.dispose();

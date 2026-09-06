@@ -388,6 +388,7 @@ export function installGameDebug(deps: DebugDeps): void {
     },
 
     getPlayerSilhouette(): unknown { return deps.playerSilhouette?.() ?? null; },
+    getBiomeAtmosphere(): unknown { return deps.renderer.biomeAtmosphere.snapshot(); },
     getRoofVisibility(): unknown {
       return deps.roofVisibility?.() ?? null;
     },
