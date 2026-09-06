@@ -19,8 +19,22 @@ export interface RegionalPackActivation {
 }
 
 export const REGIONAL_PACK_ACTIVATION: RegionalPackActivation = {
-  regions: [],
-  excludedPackIds: [],
+  // Fallowmarch only. Slice 07 ran 29 representative packs through the production combat fixture
+  // against the public manifest and the current navmesh; all four of the region's species and both
+  // wildlife behaviours passed idle, patrol, aggro, pursuit, contact damage, death, loot, XP,
+  // respawn and post-combat return. The other three regions stay dark until their held packs
+  // clear: a returning resident can still be trapped by its own burial-shrine dressing, which is
+  // the main thing holding Vellenwood.
+  regions: ["fallowmarch"],
+  excludedPackIds: [
+    // Failed its lifecycle. Its sibling pack_fallowmarch_palewood_east_brush proves the same
+    // zombie-in-a-burial-shrine combination, so the region does not lose that coverage.
+    "pack_fallowmarch_northgate_west_scrub",
+    // Never exercised. The Wild Horse packs had no representative run, so they are not activated
+    // on the strength of other packs passing.
+    "pack_fallowmarch_northern_horse_outer_grass",
+    "pack_fallowmarch_south_march_horse_grass",
+  ],
   assignmentOverrides: {},
 };
 

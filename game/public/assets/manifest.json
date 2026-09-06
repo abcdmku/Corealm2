@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T07:46:14.316Z",
+  "generatedAt": "2026-09-06T09:20:28.523Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -170,7 +170,7 @@
       "author": "Corealm",
       "source": "tools/build-creature-expansion.ts",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "eb76f57507ff84e5ec1694cb5c68839bd8076b75342445ba18c1b78999974141"
+      "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
     },
     {
       "id": "pixeliusvita-monster04",
@@ -231,7 +231,7 @@
       "source": "tools/build-corealm-minerals.ts",
       "license": "LicenseRef-Corealm-Original",
       "generator": "npx tsx tools/build-corealm-minerals.ts",
-      "generatorSha256": "5195cee656fc9f1c19ddd45e8ecec4e37acfebbeea313c943fe940badf926b6a"
+      "generatorSha256": "93a251fe164ff8482045b3cde253f01b7ce53240051963b63e1820c30f6005a3"
     },
     {
       "id": "corealm-original-ground-ores",
@@ -19503,32 +19503,32 @@
         "mustelid",
         "burrow"
       ],
-      "bytes": 1544448,
-      "sha256": "80532daf085c3d3c3145083eba289e68ff25f91b4b7e2ba40297ebf06d3c1f1d",
+      "bytes": 1981704,
+      "sha256": "756c6a6428ca31ce0d2273227078af9270d2725c0e96f5bc7878192afad643fe",
       "size": {
-        "x": 0.5990828742393419,
-        "y": 0.6667274226546287,
-        "z": 1.8915685868263243
+        "x": 0.5241239824665223,
+        "y": 0.6010538329482078,
+        "z": 1.7939621663093566
       },
       "base": {
-        "x": -0.29954143711967096,
+        "x": -0.2620619912332611,
         "y": -1.1324882420726823e-9,
         "z": -0.9111107325553894
       },
       "bounds": {
         "min": [
-          -0.29954143711967096,
+          -0.2620619912332611,
           -1.1324882420726823e-9,
           -0.9111107325553894
         ],
         "max": [
-          0.29954143711967096,
-          0.6667274215221405,
-          0.980457854270935
+          0.2620619912332611,
+          0.6010538318157196,
+          0.8828514337539672
         ]
       },
       "groundY": -1.1324882420726823e-9,
-      "triangles": 31088,
+      "triangles": 41464,
       "animations": [
         "Idle",
         "Walk",
@@ -19555,40 +19555,40 @@
           "walk": {
             "seconds": 1.149999976158142,
             "sampledFootBones": 4,
-            "stanceSamples": 260,
-            "measuredStanceMps": 0.35570151374379405,
+            "stanceSamples": 256,
+            "measuredStanceMps": 0.3560710873861335,
             "feet": [
               {
                 "bone": "FR_Ankle",
-                "minY": 0.11983533255780679,
-                "maxY": 0.14605231894328236,
-                "strideZ": 0.27001703649774533,
-                "contactSamples": 65,
-                "stanceMedianMps": 0.3554590298357069
+                "minY": 0.11902901013734364,
+                "maxY": 0.14706612138737793,
+                "strideZ": 0.27083558870190577,
+                "contactSamples": 64,
+                "stanceMedianMps": 0.35610446663669165
               },
               {
                 "bone": "FL_Ankle",
-                "minY": 0.1198087416795941,
-                "maxY": 0.14594616776084385,
-                "strideZ": 0.27010850971361167,
-                "contactSamples": 65,
-                "stanceMedianMps": 0.355727785149879
+                "minY": 0.11921153622046168,
+                "maxY": 0.1453199405374634,
+                "strideZ": 0.2705384634229492,
+                "contactSamples": 64,
+                "stanceMedianMps": 0.35608740091844165
               },
               {
                 "bone": "HR_Ankle",
-                "minY": 0.11986990370312803,
-                "maxY": 0.13436597760676464,
-                "strideZ": 0.26780872715339604,
-                "contactSamples": 65,
-                "stanceMedianMps": 0.3557120957291984
+                "minY": 0.11970239551862841,
+                "maxY": 0.1347417010065424,
+                "strideZ": 0.2706120034846961,
+                "contactSamples": 64,
+                "stanceMedianMps": 0.3558274653743662
               },
               {
                 "bone": "HL_Ankle",
-                "minY": 0.11986990217035631,
-                "maxY": 0.13436597456930682,
-                "strideZ": 0.2678087241879257,
-                "contactSamples": 65,
-                "stanceMedianMps": 0.3557118936217527
+                "minY": 0.1196566387484352,
+                "maxY": 0.1347416903602563,
+                "strideZ": 0.27061200877634645,
+                "contactSamples": 64,
+                "stanceMedianMps": 0.35586401399227924
               }
             ],
             "rootHorizontalTravel": [
@@ -19602,40 +19602,40 @@
           "run": {
             "seconds": 0.7300000190734863,
             "sampledFootBones": 4,
-            "stanceSamples": 172,
-            "measuredStanceMps": 1.3084900729703068,
+            "stanceSamples": 174,
+            "measuredStanceMps": 1.3075600009595922,
             "feet": [
               {
                 "bone": "FR_Ankle",
-                "minY": 0.11908821625284521,
-                "maxY": 0.19248745308488127,
-                "strideZ": 0.41909568164663424,
-                "contactSamples": 43,
-                "stanceMedianMps": 1.3078909741108224
+                "minY": 0.11983501863596416,
+                "maxY": 0.19319547566919482,
+                "strideZ": 0.4191085734141571,
+                "contactSamples": 44,
+                "stanceMedianMps": 1.3079883417123181
               },
               {
                 "bone": "FL_Ankle",
-                "minY": 0.11889754303211933,
-                "maxY": 0.19259300718204414,
-                "strideZ": 0.4191268644608739,
+                "minY": 0.11981080330820065,
+                "maxY": 0.19315686921488234,
+                "strideZ": 0.4203580430258797,
                 "contactSamples": 43,
-                "stanceMedianMps": 1.307859740440588
+                "stanceMedianMps": 1.3072929677824676
               },
               {
                 "bone": "HR_Ankle",
-                "minY": 0.11795773447766085,
-                "maxY": 0.18083170321947528,
-                "strideZ": 0.41923199846510334,
+                "minY": 0.11974935990995333,
+                "maxY": 0.18147786099670582,
+                "strideZ": 0.42060550951746034,
                 "contactSamples": 43,
-                "stanceMedianMps": 1.309846455951073
+                "stanceMedianMps": 1.307593611675503
               },
               {
                 "bone": "HL_Ankle",
-                "minY": 0.1179577343964998,
-                "maxY": 0.18083170047901392,
-                "strideZ": 0.4192319909643004,
-                "contactSamples": 43,
-                "stanceMedianMps": 1.3098456573893218
+                "minY": 0.11986563293533666,
+                "maxY": 0.18143392227859956,
+                "strideZ": 0.4189942519803104,
+                "contactSamples": 44,
+                "stanceMedianMps": 1.3075013984616712
               }
             ],
             "rootHorizontalTravel": [
@@ -19737,32 +19737,32 @@
         "rodent",
         "quills"
       ],
-      "bytes": 1799040,
-      "sha256": "8164845978ec33ad12665854849cb88577a1ac50fcfd7c96ecb2195cd0594471",
+      "bytes": 3232648,
+      "sha256": "59e8924533248f8973155384ac63ff7dd005e4e285c26bc0cbf82e724a85386e",
       "size": {
-        "x": 0.9247332811355591,
-        "y": 0.9414220529794692,
-        "z": 1.7005261945724488
+        "x": 0.87363600730896,
+        "y": 0.8627880889177322,
+        "z": 1.606558166742325
       },
       "base": {
-        "x": -0.4624526798725128,
+        "x": -0.4284454584121704,
         "y": -1.7881393449270533e-9,
-        "z": -0.9415435218811035
+        "z": -0.8410502755641938
       },
       "bounds": {
         "min": [
-          -0.4624526798725128,
+          -0.4284454584121704,
           -1.7881393449270533e-9,
-          -0.9415435218811035
+          -0.8410502755641938
         ],
         "max": [
-          0.46228060126304626,
-          0.9414220511913299,
-          0.7589826726913452
+          0.44519054889678955,
+          0.8627880871295929,
+          0.7655078911781311
         ]
       },
       "groundY": -1.7881393449270533e-9,
-      "triangles": 33960,
+      "triangles": 61976,
       "animations": [
         "Idle",
         "Walk",
@@ -19789,40 +19789,40 @@
           "walk": {
             "seconds": 1.25,
             "sampledFootBones": 4,
-            "stanceSamples": 258,
-            "measuredStanceMps": 0.29091275017228924,
+            "stanceSamples": 256,
+            "measuredStanceMps": 0.2907201809941689,
             "feet": [
               {
                 "bone": "FR_Ankle",
-                "minY": 0.1198276199264597,
-                "maxY": 0.1382092835312116,
-                "strideZ": 0.24031326539134346,
+                "minY": 0.11904796299654033,
+                "maxY": 0.1391483105762112,
+                "strideZ": 0.24081108815105506,
                 "contactSamples": 64,
-                "stanceMedianMps": 0.2909090030134905
+                "stanceMedianMps": 0.2911630975999543
               },
               {
                 "bone": "FL_Ankle",
-                "minY": 0.1198901927906145,
-                "maxY": 0.1381138086487038,
-                "strideZ": 0.24028113566042092,
+                "minY": 0.11900493753634156,
+                "maxY": 0.13765786052293072,
+                "strideZ": 0.24050461959448388,
                 "contactSamples": 64,
-                "stanceMedianMps": 0.29098195644030583
+                "stanceMedianMps": 0.29113790184010996
               },
               {
                 "bone": "HR_Ankle",
-                "minY": 0.11986182496273108,
-                "maxY": 0.12655100111669498,
-                "strideZ": 0.2378974079029163,
-                "contactSamples": 65,
-                "stanceMedianMps": 0.2908964385079841
+                "minY": 0.1195005560945179,
+                "maxY": 0.12684421115128858,
+                "strideZ": 0.24060776567418424,
+                "contactSamples": 64,
+                "stanceMedianMps": 0.290685578266077
               },
               {
                 "bone": "HL_Ankle",
-                "minY": 0.11986182550976429,
-                "maxY": 0.12655099938894188,
-                "strideZ": 0.2378974077218603,
-                "contactSamples": 65,
-                "stanceMedianMps": 0.2908973236836417
+                "minY": 0.11950055345724976,
+                "maxY": 0.12675541052039366,
+                "strideZ": 0.24060776708055404,
+                "contactSamples": 64,
+                "stanceMedianMps": 0.29068681416600556
               }
             ],
             "rootHorizontalTravel": [
@@ -19836,40 +19836,40 @@
           "run": {
             "seconds": 0.7599999904632568,
             "sampledFootBones": 4,
-            "stanceSamples": 180,
-            "measuredStanceMps": 1.1663923017864506,
+            "stanceSamples": 174,
+            "measuredStanceMps": 1.1661897060269866,
             "feet": [
               {
                 "bone": "FR_Ankle",
-                "minY": 0.11931513085722563,
-                "maxY": 0.17287978211738037,
-                "strideZ": 0.38578011652808336,
-                "contactSamples": 46,
-                "stanceMedianMps": 1.1664855166675017
+                "minY": 0.11978582308085502,
+                "maxY": 0.17330762703730293,
+                "strideZ": 0.3903499618674922,
+                "contactSamples": 43,
+                "stanceMedianMps": 1.1656503001691167
               },
               {
                 "bone": "FL_Ankle",
-                "minY": 0.11906691426509661,
-                "maxY": 0.173104892201557,
-                "strideZ": 0.38974287270949304,
-                "contactSamples": 44,
-                "stanceMedianMps": 1.165909078012005
+                "minY": 0.11973438023908295,
+                "maxY": 0.1732683243259486,
+                "strideZ": 0.3903851138063168,
+                "contactSamples": 43,
+                "stanceMedianMps": 1.166438354671096
               },
               {
                 "bone": "HR_Ankle",
-                "minY": 0.11884787258426291,
-                "maxY": 0.16139297083186924,
-                "strideZ": 0.3900808915408943,
+                "minY": 0.11969066004983646,
+                "maxY": 0.1615593901806609,
+                "strideZ": 0.3902397016755717,
                 "contactSamples": 44,
-                "stanceMedianMps": 1.1679442745697646
+                "stanceMedianMps": 1.1663249587390416
               },
               {
                 "bone": "HL_Ankle",
-                "minY": 0.1174634419569826,
-                "maxY": 0.161188986936864,
-                "strideZ": 0.38564768271080074,
-                "contactSamples": 46,
-                "stanceMedianMps": 1.1654234877946636
+                "minY": 0.11980908322043257,
+                "maxY": 0.16157607127721152,
+                "strideZ": 0.39023970175269546,
+                "contactSamples": 44,
+                "stanceMedianMps": 1.1663226710752423
               }
             ],
             "rootHorizontalTravel": [
