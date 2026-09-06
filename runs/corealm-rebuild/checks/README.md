@@ -14,6 +14,11 @@ Most scripts default to the stable server at port 4175 and accept `EQUIPMENT_REV
 | `settlement-walk-browser.ts` | `--region <internal region ID>`, optional `--url` and `--trace-movement`. Normal interaction routes. |
 | `shop-respawn-browser.ts` | `--scenario shop` or `respawn`. Quotes/receipts or settlement/death/save lifecycle. |
 | `creature-review.ts` | Optional expansion species IDs. Gallery poses are visual diagnostics, not natural combat or translated gait proof. This older diagnostic needs a hard deadline before becoming an acceptance gate. |
+| `equipment-motion-matrix.ts` | One equipment-in-motion shard. `--body male|female --kit knight|ranger|mixed-a|mixed-b [--scene fishing] --url`. Real keyboard run, a real melee open, staff and wand casts, a real tree and ore click, hit and death previews, and a production save import that must restore the worn layers and both hands. |
+| `equipment-grips.ts` | Three tight views around the holding hand plus a figure, for each held item. `--body`, `--kit`, `--only`, `--out`, `--url`. |
+| `equipment-tiers.ts` | Front, back, close upper and close lower for each of the eight armour sets, weapons cleared. `--body`, `--only <set id>`, `--url`. |
+| `mineral-orbit-review.ts` | A specimen through N yaws at three pitches plus a top-down, in the production gallery. `--views`, `--catalog` to serve staged candidates, `--out`, `--url`. |
+| `icon-panel-audit.ts` | The DOM half of `npm run icons:verify` with no captures: the inventory, bank, equipment and shop panels must load only 48 px rasters with no SVG fallbacks, and the runtime must request nothing but game icons. The gate itself stays the gate; this exists because its 5 s capture budget reports contention on a shared machine. |
 | `stage-trees.ts` | Stages current oak/pine generator output under `test-results/tree-refinement/candidate` without public writes. |
 | `tree-browser-catalog.mjs` | Builds the browser candidate catalogue from the staged tree catalogue. Run with Node after staging. |
 

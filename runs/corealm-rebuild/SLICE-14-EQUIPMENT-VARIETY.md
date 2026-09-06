@@ -181,6 +181,13 @@ contention rather than a stall: `GameDriver.screenshot` keeps its 5 s default an
 capture the run then exceeds its own 270 s deadline. Left for a quiet machine. The feature lab
 itself is unaffected: a four-capture tier shard completes in 7 s.
 
+What the gate substantively checks was run instead, as
+`npx tsx runs/corealm-rebuild/checks/icon-panel-audit.ts`: the same four panel audits with no
+captures. Inventory 19 rasters, bank 19, equipment 9, shop 19, every one loaded, every natural size
+48 px, drawn at 44 px in the panels and 28 px in the shop, zero SVG fallbacks left visible, 26 icon
+requests and every one of them under `/assets/icons/items/48/`, with empty engine and console error
+lists. That is the gate's DOM half passing; it is not the gate, and it is not visual acceptance.
+
 ## Deletions
 
 - `art/rebuild/candidates/2026-09-05/equipment-v1` — superseded by
