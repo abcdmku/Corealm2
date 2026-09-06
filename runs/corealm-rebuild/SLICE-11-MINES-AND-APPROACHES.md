@@ -59,7 +59,59 @@ Inspected before-screenshots: `test-results/slice11/before-check/*-rear-left.png
 pale rear cut-wall strip already recorded in `FINISH-INTEGRATION.md`; Upper Seam's slabs floated with
 daylight under their western end.
 
-### AFTER-FIX-SUMMARY
+### The roof now falls away from the crest
+
+The roof rows leave the crest on a bounded grade instead of waiting for the bank, crowd toward the crest
+where the exposed slope actually is, and carry a lateral weathering offset so the rock-to-grass line is
+broken rather than a straight chord. The `shoulderDepth` search is unchanged, and the new bound only ever
+lowers a row.
+
+One correctness repair was needed on top of that. A monotonic "no uphill shelf" clamp is right while the
+terrain is flat and wrong where the bank climbs: pinning a deep row to a shallower row's height drove the
+roof through the buried underside and turned the shell inside out. `tests/mine-cut-face.test.ts` caught it
+as a signed volume of -98.2 where it requires a positive one. The clamp now also respects the local
+terrain, so a rising bank carries the buried roof up with it.
+
+| mine | top m² before → after | plan behind crest m² before → after | front m² before → after |
+|---|---|---|---|
+| bracken_workings | 78.58 → 20.29 (−74%) | 50.87 → 35.42 (−30%) | 69.94 → 69.64 |
+| hollowcut_workings | 39.00 → 10.59 (−73%) | 33.69 → 26.56 (−21%) | 50.37 → 50.37 |
+| lower_quarry_bench | 48.31 → 18.48 (−62%) | 38.01 → 30.10 (−21%) | 54.18 → 53.87 |
+| upper_seam_shelf | 26.69 → 10.22 (−62%) | 24.48 → 19.90 (−19%) | 34.28 → 34.28 |
+| clinker_cut | 82.03 → 23.63 (−71%) | 62.47 → 47.93 (−23%) | 106.60 → 105.12 |
+
+The visible cliff is intact at every mine, and triangle counts are unchanged.
+
+Read the `rear` column with care. It rises sharply (Bracken 9.71 → 64.72) because the audit bins by facing
+and the flat roof that used to be `top` is now a 60-degree back slope. Surface area alone cannot separate a
+flat roof from a steep slope of the same reach, which is why the audit now also reports the horizontal
+ground the exposed shell covers behind the crest lip. That is the number a rear or overhead camera actually
+reads, and it is down 19-30 percent.
+
+The pictures are the point. Compare `test-results/slice11/before-check/*-rear-left.png`,
+`*-rear-right.png` and `*-side-high.png` with `test-results/slice11/after-views/` and
+`test-results/slice11/after/`. Bracken's side-high view goes from a broad grey ramp spilling across the
+hillside behind a hard straight boundary to a narrow crest band with grass meeting the stone. Clinker's
+rear-left goes from a flat grey plateau over the ridge to a slim outcrop breaking out of the slope.
+Bracken's approach loses the pale grey wedge that used to ramp down over the right half of the cut.
+
+The roof loop itself was authored by the Codex CLI (gpt-6-astra, medium) from a bounded spec. It could not
+run its own verification — `npx` is not on its PATH — so every number and every screenshot here is mine.
+The inside-out repair and the plan-footprint metric are also mine.
+
+### What the fix did not reach
+
+- **Lower Quarry's upper bank.** The cut face reads correctly, but the near-vertical dark earth wall the
+  site terrain excavates above it still has a hard top edge and a shadow gap at the cut's crest. That is
+  `siteTerrain`'s `backRise`, not the cut face.
+- **Upper Seam has no working floor.** The site sits across a steep flank, so the ore rocks stand on about
+  a 25-degree slope and the cut face is pressed against the hillside rather than standing behind a bench.
+  It plays correctly — every rock passes approach, extraction and return — but it does not read as a mine.
+  Both need `terrain.floorRadius` / `backRise` changes, which is a terrain edit and a navmesh regeneration.
+- **Bracken's crest is still serrated from directly behind.** The per-station recessed fractures show as a
+  row of low fins where the crest stands above the bank. Flattening them would mean capping the crest at
+  the terrain a couple of metres behind it, which costs about 0.9 m of visible cliff at Bracken and is a
+  worse trade for the aisle view.
 
 ## Mine × check matrix
 
@@ -121,11 +173,14 @@ away on a separate bearing, and the quarry read as its own place in the approach
 Hollowcut's 12.6 m to the `root_tunnel` entry is the tightest separation in the world and is the same
 crowded corner as the postern defect above. It clears the aisle, but only just.
 
-The mine cut faces were **not** given `userData.cameraHardBlocker`. That tag makes the fixed follow camera
-pull in, and it is currently carried only by the dungeon shell. A mine cut face is a wall the player stands
-in front of rather than inside; the camera never ended up behind one in these runs, and adding the tag
-would pull the camera in every time the player mines with their back to the cliff, which is the normal case.
-If a later camera round shows the cliff clipping the follow camera, that is the moment to add it.
+The mine cut faces were **not** given `userData.cameraHardBlocker`, and they do not need it. The camera
+already treats the cliff as an obstruction: `buildMineCutFace` returns `SolidVolume` boxes that
+`app/boot.ts` feeds into `cameraQueries.addStaticBox` along with every other world solid. What the hard
+flag adds, per `systems/staticCameraQueries.ts`, is an exemption from the roof cutaway — "no cutaway opens
+this, so fixed follow has to pull in rather than sit outside". That matters for the dungeon shell, which
+the cutaway would otherwise open. Nothing cuts away a mine cliff, so tagging it would only change how the
+camera recovers when the player mines with their back to the face, which is the normal case. If a later
+camera round shows the follow camera sitting inside a cut face, that is the moment to revisit it.
 
 ## Limits
 
