@@ -340,6 +340,13 @@ async function main(): Promise<void> {
     await page.screenshot({ path: path.join(directory, "attack.png") });
 
     // ------------------------------------------------------------ 4. flinch on the resident the player hits
+    // Bare fists at melee 1 never connect with a Kilnhalt resident 30 levels above the player, so
+    // no hit reaction can be observed at all. Match the pack's own level, still unarmed: unarmed max
+    // hit stays small against 10 HP goblins and 73 HP plague zombies alike, and the poll stops at
+    // the first overlay.
+    await page.evaluate((level) => window.__featureLab!.setLevel("melee", level),
+      Math.max(1, Math.min(99, pack.levelRange[1])));
+    await page.waitForTimeout(200);
     if (aggressive) await invoke("corealm_attack", { entityId: targetId });
     const beforeFlinch = await read();
     const flinch = await poll("resident flinches from a non-lethal hit", (value) => {
@@ -358,25 +365,42 @@ async function main(): Promise<void> {
       const lab = window.__featureLab!;
       lab.setLevel("melee", 90);
       lab.setLevel("magic", 90);
-      const weapon = lab.getCatalog().equipment.find((row) => row.slot === "mainHand")?.items
-        .find((item) => /kaldite_sword|corven_sword|grithe_sword/.test(item.id));
+      // Strongest production sword first. The old first-match search handed the player a tier 10
+      // Cobalt Sword against tier 20-34 Kilnhalt residents, and no hit landed in the whole kill leg.
+      const items = lab.getCatalog().equipment.find((row) => row.slot === "mainHand")?.items ?? [];
+      const weapon = ["emberite_sword", "kaldite_sword", "corven_sword", "grithe_sword", "worn_sword"]
+        .map((id) => items.find((item) => item.id === id)).find((item) => item !== undefined);
       if (!weapon) throw new Error("No production melee weapon in lab catalogue");
       await lab.equipPlayer("mainHand", weapon.id);
     });
     const beforeKill = await read();
-    await invoke("corealm_attack", { entityId: targetId });
+    // A standoff caster backs away as the player closes and eventually leaves its own pursuit
+    // habitat, which leashes it mid-fight and ends the player's attack command with the resident
+    // alive. Re-engage rather than lengthening one command: chasing a retreating caster down is
+    // what a player does. Kilnhalt residents also carry 42-77 HP against the same authored weapon a
+    // 10 HP goblin faces, so the leg needs more swings, not a softer assertion.
     const killedAt = Date.now();
-    const dead = await poll("attack command kills the resident", (value) => {
-      const entity = value.entities.find((row) => row.id === targetId)!;
-      return entity.state === "dead" && entity.combat!.health === 0;
-    }, 30_000);
+    let dead = beforeKill;
+    const killRounds: string[] = [];
+    while (Date.now() - killedAt < 60_000) {
+      await invoke("corealm_attack", { entityId: targetId }).catch(() => {});
+      dead = await read();
+      const entity = dead.entities.find((row) => row.id === targetId)!;
+      killRounds.push(`${entity.state} ${entity.combat!.health}/${entity.combat!.maxHealth}`);
+      if (entity.state === "dead" && entity.combat!.health === 0) break;
+      await page.waitForTimeout(250);
+    }
+    const killedEntity = dead.entities.find((row) => row.id === targetId)!;
+    check("attackCommandKillsResident", killedEntity.state === "dead" && killedEntity.combat!.health === 0,
+      `target ended ${killedEntity.state} at ${killedEntity.combat!.health}/${killedEntity.combat!.maxHealth} after ${killRounds.length} attack commands: ${JSON.stringify(killRounds)}`);
     const deadAt = Date.now();
     const corpse = dead.entities.find((row) => row.id === targetId)!;
     const kills = dead.events.filter((event) => event.type === "combat.ended" && event.data.enemyId === targetId);
     const coin = dead.events.find((event) => event.type === "item.received" && event.data.from === targetId && Number(event.data.currency) > 0);
     const pile = dead.events.find((event) => event.type === "item.received" && typeof event.data.pileId === "string" && String(event.data.pileId).startsWith(`loot_${targetId}_`));
     report.kill = { id: targetId, xp: dead.state.skills.melee.xp - beforeKill.state.skills.melee.xp, currency: dead.state.currency - beforeKill.state.currency,
-      combatEnded: kills.length, dropTable: baseStats.drops, marks: baseStats.marks, lootRoll: pile ? pile.data.items : "no item dropped in this natural roll" };
+      combatEnded: kills.length, dropTable: baseStats.drops, marks: baseStats.marks, attackCommands: killRounds,
+      lootRoll: pile ? pile.data.items : "no item dropped in this natural roll" };
     check("killAwardsXp", dead.state.skills.melee.xp > beforeKill.state.skills.melee.xp, "melee XP did not rise");
     check("killRollsNormalCoinLoot", Boolean(coin) && dead.state.currency > beforeKill.state.currency, "no currency drop event");
     await page.waitForTimeout(1200);
@@ -384,9 +408,25 @@ async function main(): Promise<void> {
     if (pile) {
       const pileId = String(pile.data.pileId);
       const beforeLoot = await read();
+      // A large creature's pile lands outside the player's reach from where it was killed, and
+      // corealm_take_loot then answers OUT_OF_RANGE. Walk to the pile before taking it.
+      const pilePosition = await page.evaluate((id) =>
+        (window as unknown as { __gameDebug: PackDebug }).__gameDebug.getEntity(id)?.position ?? null, pileId);
+      if (pilePosition) await invoke("corealm_move_to", { position: pilePosition }).catch(() => {});
       await invoke("corealm_interact", { entityId: pileId, interaction: "loot" });
       await poll("loot pile opens", (value) => value.events.some((event) => event.type === "activity.started" && event.data.entityId === pileId) || distance(value.player, corpse.position) < 3, 15_000);
-      await invoke("corealm_take_loot", { entityId: pileId });
+      // A very large corpse can leave its pile beyond the player's reach from where it stands, and
+      // corealm_take_loot answers OUT_OF_RANGE. Close in and retry; give up loudly, not silently.
+      const takeAttempts: string[] = [];
+      for (let attempt = 0; attempt < 3; attempt += 1) {
+        const outcome = await invoke("corealm_take_loot", { entityId: pileId })
+          .then(() => "taken").catch((error: unknown) => String(error).replace(/\s+/g, " ").slice(0, 110));
+        takeAttempts.push(outcome);
+        if (outcome === "taken") break;
+        if (pilePosition) await invoke("corealm_interact", { entityId: pileId, interaction: "loot" }).catch(() => {});
+        await page.waitForTimeout(600);
+      }
+      check("lootPileReachable", takeAttempts.at(-1) === "taken", JSON.stringify(takeAttempts));
       const looted = await poll("loot pile picked up", (value) => value.events.some((event) => event.type === "item.received"
         && event.seq > (beforeLoot.events.at(-1)?.seq ?? 0) && typeof event.data.itemId === "string"), 10_000);
       const received = looted.events.filter((event) => event.type === "item.received" && event.seq > (beforeLoot.events.at(-1)?.seq ?? 0) && typeof event.data.itemId === "string")
