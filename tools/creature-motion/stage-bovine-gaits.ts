@@ -1,5 +1,6 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { generatorFileSha256 } from './generator-hash.js';
 import { NodeIO } from '@gltf-transform/core';
 import { KHRONOS_EXTENSIONS } from '@gltf-transform/extensions';
 import { appendGaitAnimations, auditGroundGait } from '../repair-ground-creature-gaits.js';
@@ -8,7 +9,7 @@ import { authorBovineGait } from './bovine-gait.js';
 const out = 'art/rebuild/candidates/finish-motion/legacy-bovines'; await mkdir(out, { recursive: true });
 const io = new NodeIO().registerExtensions(KHRONOS_EXTENSIONS), sha = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
 const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8')), results = [];
-const generatorSha256 = Object.fromEntries(await Promise.all(['tools/creature-motion/bovine-gait.ts', 'tools/creature-motion/stage-bovine-gaits.ts', 'tools/lib/ground-gait.ts', 'tools/repair-ground-creature-gaits.ts'].map(async file => [file, sha(await readFile(file))])));
+const generatorSha256 = Object.fromEntries(await Promise.all(['tools/creature-motion/bovine-gait.ts', 'tools/creature-motion/stage-bovine-gaits.ts', 'tools/lib/ground-gait.ts', 'tools/repair-ground-creature-gaits.ts'].map(async file => [file, await generatorFileSha256(file)])));
 for (const id of process.argv.slice(2).length ? process.argv.slice(2) : ['animal_cattle', 'animal_aurochs']) {
   if (!['animal_cattle', 'animal_aurochs'].includes(id)) throw new Error('Bovine helper owns only cattle/aurochs');
   const entry = manifest.assets.find((asset: any) => asset.id === id), sourceFile = `game/public/assets/${entry.file}`, source = await readFile(sourceFile);

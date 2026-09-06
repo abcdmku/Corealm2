@@ -19,9 +19,14 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   "animal_rat": { seconds: 0.58, contactNormalized: 0.43 },
   "animal_scorpion": { seconds: 0.8, contactNormalized: 0.45 },
   "animal_viper": { seconds: 1.666667, contactNormalized: 0.525 },
-  "boss_rhino_air": { seconds: 1.233333, contactNormalized: 0.7 },
-  "boss_rhino_earth": { seconds: 1.233333, contactNormalized: 0.7 },
-  "boss_rhino_water": { seconds: 1.233333, contactNormalized: 0.7 },
+  // Remeasured off the repaired Attack, where the horn actually crosses the target: 0.7 was a
+  // third of a second after the strike had already swept past and started back down. Measured
+  // offline by `tools/creature-motion/rhino-contact.ts` and confirmed in the production combat
+  // lab, where the observed damage lands at normalized 0.392 once the simulation tick quantizes
+  // it (test-results/rhino-{air,earth,water}-attack).
+  "boss_rhino_air": { seconds: 1.233333, contactNormalized: 0.33229264631653577 },
+  "boss_rhino_earth": { seconds: 1.233333, contactNormalized: 0.33229264631653577 },
+  "boss_rhino_water": { seconds: 1.233333, contactNormalized: 0.33229264631653577 },
   "creature_redbrush_fox": { seconds: 0.88, contactNormalized: 0.49 },
   "creature_duskoak_lynx": { seconds: 1.02, contactNormalized: 0.43 },
   "creature_rootdelve_badger": { seconds: 1.1, contactNormalized: 0.46 },
@@ -46,4 +51,105 @@ export const CREATURE_MOTION_TIMING: Record<string, { seconds: number; contactNo
   "creature_basalt_drake": { seconds: 1.6, contactNormalized: 0.65 },
   "creature_gorge_mantis": { seconds: 1, contactNormalized: 0.316667 },
   "creature_quarry_nightmare": { seconds: 1.2, contactNormalized: 0.72 },
+};
+
+/**
+ * The fastest a creature may be asked to CHASE, in metres per second, before its own run cycle
+ * has to play faster than the ceiling.
+ *
+ * Solved from the clip the chase actually plays, which is the run:
+ *
+ *     3 Hz * impliedRunMps * runClipSeconds
+ *
+ * The distinction matters. `EnemyDef.moveSpeedMps` is solved the same way off the WALK cycle, and
+ * capping a chase with it measures a cadence nothing plays - it would put a goblin scout at 1.6 m/s
+ * against a player who runs at 5.2, so no monster in the bestiary could ever catch anyone. Off the
+ * run cycle the same goblin solves to 11.28, a stone golem to 22.53 and a skeleton to 5.19: the
+ * ceiling never binds them at all, while a goose still comes down from 20.3 Hz of leg cycling to
+ * its real 0.69 m/s.
+ *
+ * Assets with no measured stride are omitted and fall back to the shared speed, for the same
+ * reason in every case: there is no planted foot whose contact could slide. That is the floating
+ * undead, the viper, and the humanoid raiders, who wear `outfit_*` assets with no animations of
+ * their own and borrow the player's jog. Rigs whose measurement is an artefact of a bad clip
+ * sub-range rather than a fact about the animal - the rat and the snail, below 0.15 m/s - are
+ * omitted on the same footing `tests/creature-gait.test.ts` excludes them on.
+ *
+ * Regenerated and pinned against the manifest by `tests/creature-gait.test.ts`, so a stale entry
+ * fails rather than silently slowing something down.
+ */
+export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
+  "animal_aurochs": 6.2288,
+  "animal_bear": 8.7634,
+  "animal_boar": 3.59,
+  "animal_cattle": 6.2288,
+  "animal_chicken": 1.7626,
+  "animal_chicken_speckled": 1.7626,
+  "animal_coyote": 7.3224,
+  "animal_crab": 0.3957,
+  "animal_deer": 6.5502,
+  "animal_frog": 0.69,
+  "animal_frog_green": 0.69,
+  "animal_goat": 4.4859,
+  "animal_hog": 1.673,
+  "animal_ibex": 4.0096,
+  "animal_rabbit": 1.7055,
+  "animal_rabbit_dark": 1.7055,
+  // animal_rat: stride 0.122 m/s is below the artefact floor
+  "animal_scorpion": 0.589,
+  // animal_viper: no measured stride
+  "boss_rhino_air": 4.9258,
+  "boss_rhino_earth": 4.9258,
+  "boss_rhino_water": 4.9258,
+  "creature_antler_beetle": 2.9474,
+  "creature_ashscale_monitor": 3.6429,
+  // creature_banshee: no measured stride
+  "creature_basalt_drake": 8.8191,
+  "creature_beetle_golem": 6.5016,
+  "creature_blackwater_heron": 2.262,
+  "creature_bracken_tapir": 4.5957,
+  "creature_cairn_bighorn": 4.9787,
+  "creature_cinder_ravager": 6,
+  "creature_duskoak_lynx": 5.0455,
+  "creature_goblin_archer": 11.2765,
+  "creature_goblin_scout": 11.2787,
+  "creature_goblin_shaman": 11.2634,
+  "creature_gorge_mantis": 5.6667,
+  "creature_grave_ghoul": 14.1415,
+  "creature_hollowroot_spider": 3.5357,
+  "creature_iron_golem": 22.5261,
+  "creature_kiln_salamander": 0.9316,
+  "creature_lava_golem": 9.1254,
+  "creature_marchfield_turkey": 1.8285,
+  "creature_marchwild_horse": 7.0213,
+  "creature_marsh_moose": 7.9787,
+  // creature_marsh_wasp: no measured stride
+  "creature_mossback_sentinel": 3.8976,
+  "creature_plague_zombie": 4.0891,
+  "creature_quarry_nightmare": 7.6323,
+  // creature_quarry_snail: stride 0.054 m/s is below the artefact floor
+  "creature_quillback_porcupine": 2.6591,
+  "creature_redbrush_fox": 4.0909,
+  "creature_reedbank_goose": 0.6933,
+  "creature_reedjaw_crocodile": 2.9833,
+  // creature_revenant: no measured stride
+  "creature_rootdelve_badger": 2.8636,
+  "creature_scree_bustard": 2.184,
+  "creature_shale_elemental": 9.4107,
+  "creature_skeleton_archer": 5.1914,
+  "creature_skeleton_mage": 5.1914,
+  "creature_skeleton_soldier": 5.1914,
+  "creature_slag_centipede": 1.7419,
+  "creature_slateback_tortoise": 0.9091,
+  "creature_stone_golem": 22.5261,
+  "creature_webweaver_spider": 2.7324,
+  // creature_wraith: no measured stride
+  "creature_zombie": 4.0849,
+  "miniboss_cinderwake": 19.0918,
+  "miniboss_galeskin": 19.0918,
+  "miniboss_mossbound": 19.0918,
+  "miniboss_tideworn": 19.0918,
+  // outfit_female_ranger: no measured stride
+  // outfit_male_peasant: no measured stride
+  // outfit_male_ranger: no measured stride
 };

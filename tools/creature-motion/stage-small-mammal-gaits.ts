@@ -1,6 +1,7 @@
 import { duration } from './pose.js';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { generatorFileSha256 } from './generator-hash.js';
 import { NodeIO } from '@gltf-transform/core';
 import { KHRONOS_EXTENSIONS } from '@gltf-transform/extensions';
 import { appendGaitAnimations, auditGroundGait } from '../repair-ground-creature-gaits.js';
@@ -9,7 +10,7 @@ import { authorSmallMammalGait } from './small-mammal-gait.js';
 const out = 'art/rebuild/candidates/finish-motion/legacy-small-mammals'; await mkdir(out, { recursive: true });
 const io = new NodeIO().registerExtensions(KHRONOS_EXTENSIONS), sha = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
 const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8')), results = [];
-const generatorSha256 = Object.fromEntries(await Promise.all(['tools/creature-motion/small-mammal-gait.ts', 'tools/creature-motion/stage-small-mammal-gaits.ts', 'tools/creature-motion/pose.ts', 'tools/lib/ground-gait.ts', 'tools/repair-ground-creature-gaits.ts'].map(async file => [file, sha(await readFile(file))])));
+const generatorSha256 = Object.fromEntries(await Promise.all(['tools/creature-motion/small-mammal-gait.ts', 'tools/creature-motion/stage-small-mammal-gaits.ts', 'tools/creature-motion/pose.ts', 'tools/lib/ground-gait.ts', 'tools/repair-ground-creature-gaits.ts'].map(async file => [file, await generatorFileSha256(file)])));
 for (const id of process.argv.slice(2).length ? process.argv.slice(2) : ['animal_rat', 'animal_rabbit', 'animal_rabbit_dark']) {
   if (!['animal_rat', 'animal_rabbit', 'animal_rabbit_dark'].includes(id)) throw new Error('Small mammal helper owns only rat and rabbits');
   const entry = manifest.assets.find((asset: any) => asset.id === id), sourceFile = `game/public/assets/${entry.file}`, source = await readFile(sourceFile);

@@ -27,3 +27,38 @@ Four later singleton sessions are in `test-results/legacy-visual-coyote`, `legac
 Coyote and ibex retain `visual-coverage-incomplete`: the coyote changed from Run to Attack across its attempted turning screenshot, and ibex had no eligible turn capture. Their measured moving turns were 5.015 and 3.964 radians, but this does not replace the missing stills. The captures remain unaccepted by this worker pending root's visual review. No rhino browser session ran during this lease.
 
 Root later inspected the video-derived turning sheets in `test-results/legacy-turn-video/coyote` and `ibex`, and accepted their readable natural orientation transitions with intact bodies, combined with the earlier moving state and unobscured Walk/Run images. Historical `frameChecks.turn=false` remains intact. These extracted sequences include Attack/Idle transitions and do not prove continuous gait contact through a turn. Root also accepted the cattle, deer, hog and rat pursuit views and the explicit frozen-run identity attestation limitation. `legacy-eight-promotion.json` records this acceptance; root owns public promotion. The eight-only catalog remains frozen at SHA256 `d9776f8a9859d9a018f72af866c6a6275e231c1f79d7e613e8a89ce82b878cef`.
+
+## Slice 06 rhino acceptance and promotion
+
+The three rhinos are now public. `art/rebuild/candidates/finish-motion/rhino-attack` was promoted
+with `tools/promote-finish-assets.ts --apply`, and `content/creatureMotionTiming.ts` moved to the
+remeasured contact marker 0.33229264631653577.
+
+Every family got its own production combat-lab session on port 4182 and the RTX 5080 hardware
+renderer, with served bytes hashed against the catalogue. Air, earth and water each take real
+damage from a real swing - 5, 7 and 9 - and the inspected stills read as one movement: head
+attached and horn low at the wind-up, horn sweeping up through the player's upper body on the frame
+the damage number spawns, horn already descending by the old 0.7 mark, settled head-down recovery.
+The water frame catches the player's own Hit_Chest firing on the same frame.
+
+Directional recoil is complete for all three families on all three sides, each the authored masked
+overlay over an unchanged base gait with `native-masked` status and every leg bone protected. Left
+and right mirror; the body and all four planted hooves are unchanged; nothing collapses.
+
+Two harness defects were fixed before that evidence was worth anything. The directional proof
+photographed the first frame that SAW the overlay, drawn at weight ~0, so every earlier `-during`
+frame in this tree was the plain base pose; it now follows the same overlay to full weight, and the
+new captures sit at 0.93-0.999. The lab camera was pinned at 5 m, inside a 2.4 m-radius boss rhino,
+so the frames were flank and belly with the head out of shot; it is now framed off the production
+body radius. The old `rhino-directional-earth` run predated both and reported `incomplete`. All
+three were rerun on the corrected harness.
+
+`animal_coyote` also has an accepted settled grounded death from
+`test-results/combat-residency-coyote`: death on the authored Death clip, and a corpse that settles
+at a byte-identical position with flank, shoulder, head and tail all in ground contact. Its
+directional coverage is front-only, and the live/sampled residency crossing was not observed inside
+the helper's budget; both remain open.
+
+Attack contact, side recoil and settled death for the rest of the roster remain uncollected. See
+`runs/corealm-rebuild/SLICE-06-CREATURE-COMBAT-CONSISTENCY.md` for the per-species matrix.
+

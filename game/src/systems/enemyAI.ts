@@ -30,6 +30,7 @@ import { Rng } from "../core/rng.js";
 import type { BossPhase } from "../content/enemies.js";
 import { ORDRUN_PHASES } from "../content/enemies.js";
 import { REGIONS, WORLD_BOUNDS } from "../content/regions.js";
+import { enemyPursuitSpeedMps } from "../content/index.js";
 import { habitatForGroup, type HabitatDef } from "../content/worldHabitats.js";
 import { habitatIdleTargets, hashId } from "../world/habitatMovement.js";
 export { hashId } from "../world/habitatMovement.js";
@@ -137,6 +138,16 @@ export function separationPush(
   const push = Math.min(limit, (want - gap) / 2);
   return { x: ux * push, z: uz * push };
 }
+/**
+ * The shared pursuit and return speed: 90% of the player's run.
+ *
+ * This is the CEILING and the default, not a speed every creature is forced to.
+ * `enemyPursuitSpeedMps` brings a creature under it only where its own RUN cycle cannot carry this
+ * much ground - a goose, a tortoise, a coney - and almost nothing else: solved off the run clip a
+ * goblin can carry 11.28 m/s and a golem 22.53, so the hunters in the bestiary all travel at this
+ * number. A creature walks home at the same speed it chased at; returning faster than you can
+ * chase was an artefact of this constant and `ENEMY_SPEED_MPS` drifting apart.
+ */
 export const ENEMY_RETURN_SPEED_MPS = CREATURE_RUN_SPEED;
 
 /**
@@ -415,7 +426,7 @@ export class EnemyAiSystem implements TickSystem {
 
       // 2. return home.
       if (record.mode === "returning") {
-        const arrived = this.stepToward(entity, spawn, CREATURE_RUN_SPEED, deltaMs, 0.6);
+        const arrived = this.stepToward(entity, spawn, enemyPursuitSpeedMps(def, entity.view, entity.tier, CREATURE_RUN_SPEED), deltaMs, 0.6);
         if (arrived) {
           record.mode = "idle";
           runtime.state = "idle";
@@ -459,7 +470,7 @@ export class EnemyAiSystem implements TickSystem {
         // could park a creature outside its own reach.
         const standoff = enemyHoldMetres(def, entity.combat?.bodyRadius ?? 0);
         if (distanceToPlayer > standoff) {
-          this.stepToward(entity, playerPos, CREATURE_RUN_SPEED, deltaMs, standoff, pursuitHabitat);
+          this.stepToward(entity, playerPos, enemyPursuitSpeedMps(def, entity.view, entity.tier, CREATURE_RUN_SPEED), deltaMs, standoff, pursuitHabitat);
         } else {
           // At standoff there is no displacement for stepToward to face along. Keep looking at the
           // player while the combat system swings.

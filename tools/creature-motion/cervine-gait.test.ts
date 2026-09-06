@@ -7,6 +7,7 @@ import { describe, expect, it } from 'vitest';
 import { assertSourcePreserved } from '../repair-ground-creature-gaits.js';
 import { contactAt, createSkinReader, type ContactFoot } from '../lib/ground-gait.js';
 import { applyClip, duration, restorePose, storedPose } from './pose.js';
+import { generatorFileSha256 } from './generator-hash.js';
 
 const out = 'art/rebuild/candidates/finish-motion/legacy-cervines';
 describe('deer serialized physical hooves', () => {
@@ -20,9 +21,7 @@ describe('deer serialized physical hooves', () => {
       const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8')).assets.find((a: any) => a.id === id);
       expect(report.audit.map((a: any) => a.nativeMps)).toEqual([manifest.impliedWalkMps, manifest.impliedRunMps]);
       expect(report.audit.map((a: any) => a.seconds)).toEqual([manifest.walkClipSeconds, manifest.runClipSeconds]);
-      for (const [file, digest] of Object.entries(report.generatorSha256)) {
-        expect(createHash('sha256').update(await readFile(file)).digest('hex'), file).toBe(digest);
-      }
+      for (const [file, digest] of Object.entries(report.generatorSha256)) expect(await generatorFileSha256(file), file).toBe(digest);
       expect(report.audit.every((a: any) => a.samplesPerCycle === 7680 && a.cycles === 2)).toBe(true);
     });
     it(`${id} never stretches the original joint translations or scales`, async () => {

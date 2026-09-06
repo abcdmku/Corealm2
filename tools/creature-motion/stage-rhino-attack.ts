@@ -6,6 +6,7 @@ import { NodeIO, type Document } from '@gltf-transform/core';
 import { KHRONOS_EXTENSIONS } from '@gltf-transform/extensions';
 import { readRawGlb } from '../repair-ground-creature-gaits.js';
 import { authorRhinoAttack, auditRhinoAttack } from './rhino-attack.js';
+import { generatorFileSha256 } from './generator-hash.js';
 
 const sha = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
 export function appendRhinoAttack(source: Buffer, doc: Document, contactNormalized: number): Buffer {
@@ -48,7 +49,7 @@ async function main() {
   const out = resolve('art/rebuild/candidates/finish-motion/rhino-attack'); await mkdir(out, { recursive: true });
   const io = new NodeIO().registerExtensions(KHRONOS_EXTENSIONS), rows = [];
   const generator = await Promise.all(['tools/creature-motion/rhino-attack.ts', 'tools/creature-motion/stage-rhino-attack.ts',
-    'tools/creature-motion/pose.ts', 'tools/lib/ground-gait.ts', 'tools/repair-ground-creature-gaits.ts'].map(async file => ({ file, sha256: sha(await readFile(file)) })));
+    'tools/creature-motion/pose.ts', 'tools/lib/ground-gait.ts', 'tools/repair-ground-creature-gaits.ts'].map(async file => ({ file, sha256: await generatorFileSha256(file) })));
   for (const variant of ['air', 'earth', 'water']) {
     const id = `boss_rhino_${variant}`, sourceFile = resolve(`art/rebuild/candidates/finish-motion/rhino-contact/${id}.glb`);
     const source = await readFile(sourceFile), doc = await io.readBinary(source);

@@ -1,9 +1,13 @@
 import * as THREE from "three";
 import { beforeAll, describe, expect, it } from "vitest";
 import type { SemanticEntity } from "../game/src/contracts.js";
+import type { EnemyDef } from "../game/src/content/index.js";
 import { ENEMY_BLOCKS, enemyBlockFor } from "../game/src/content/enemies.js";
 import { REGIONS } from "../game/src/content/regions.js";
-import { ENEMY_RETURN_SPEED_MPS, ENEMY_SPEED_MPS } from "../game/src/systems/enemyAI.js";
+import { ENEMY_SPEED_MPS } from "../game/src/systems/enemyAI.js";
+import { enemyPursuitSpeedMps } from "../game/src/content/index.js";
+import { CREATURE_PURSUIT_CEILING_MPS } from "../game/src/content/creatureMotionTiming.js";
+import { CREATURE_RUN_SPEED, MOVEMENT } from "../game/src/app/config.js";
 import { EntityViews, MOVING_EPSILON } from "../game/src/render/entityViews.js";
 import { MaterialLibrary } from "../game/src/render/materials.js";
 import { playbackTime } from "../game/src/render/creatureMotion.js";
@@ -12,7 +16,6 @@ import MANIFEST from "../game/public/assets/manifest.json" with { type: "json" }
 
 const ASSET_BY_ID = new Map(MANIFEST.assets.map((asset) => [asset.id, asset] as const));
 const GROUPS = REGIONS.flatMap((region) => [...region.enemyGroups, ...(region.dungeon?.enemyGroups ?? [])]);
-const RETURN_SPEED_RATIO = ENEMY_RETURN_SPEED_MPS / ENEMY_SPEED_MPS;
 const TICK_SECONDS = SIM_TICK_MS / 1000;
 const FRAMES = [0, 0.25, 0.5, 0.75];
 interface Gait {
@@ -70,12 +73,16 @@ async function fixture(entities: SemanticEntity[]) {
 }
 
 const gaits: Gait[] = [];
+/** Each spawned entity's content block, so the resolved pursuit speed can be re-derived per gait. */
+const BLOCK = new Map<string, EnemyDef>();
 beforeAll(async () => {
   const entities: SemanticEntity[] = GROUPS.filter((group) => ASSET_BY_ID.get(group.assetId)?.impliedWalkMps)
     .flatMap((group) => Array.from({ length: group.count }, (_, index): SemanticEntity => {
       const block = enemyBlockFor(group.id, group.family, group.tier)!;
+      const id = group.count === 1 ? group.id : `${group.id}_${index + 1}`;
+      BLOCK.set(id, block);
       return {
-        id: group.count === 1 ? group.id : `${group.id}_${index + 1}`, name: group.name,
+        id, name: group.name,
         archetype: group.boss || group.miniBoss ? "boss" : "enemy", tier: group.tier,
         regionId: "fallowmarch", position: [0, 0, 0], state: "alive", interactions: ["inspect", "attack"],
         combat: {
@@ -91,9 +98,12 @@ beforeAll(async () => {
   try {
     for (const gait of ["walk", "run", "return"] as const) {
       for (const entity of entities) {
-        const pursuit = entity.combat!.moveSpeedMps ?? ENEMY_SPEED_MPS;
-        const speed = gait === "walk" ? entity.combat!.walkSpeedMps ?? pursuit / 3
-          : pursuit * (gait === "return" ? RETURN_SPEED_RATIO : 1);
+        // `systems/enemyAI.ts` steps both the chase and the walk home through
+        // `enemyPursuitSpeedMps`, which brings the shared CREATURE_RUN_SPEED down to whatever the
+        // creature's own run cycle can carry. This has to be the resolved speed, or the file
+        // measures a cadence nothing ever plays.
+        const pursuit = enemyPursuitSpeedMps(BLOCK.get(entity.id)!, entity.view, entity.tier, CREATURE_RUN_SPEED);
+        const speed = gait === "walk" ? entity.combat!.walkSpeedMps ?? pursuit / 3 : pursuit;
         entity.state = gait === "walk" ? "alive" : gait === "run" ? "aggro" : "returning";
         entity.view!.gaitSpeedMps = speed;
         entity.position = [0, 0, entity.position[2] + speed * TICK_SECONDS];
@@ -144,8 +154,68 @@ describe("creature gait", () => {
     expect(sliding, sliding.join("\n")).toEqual([]);
   });
 
+  // The chase plays the RUN cycle, so its ceiling is solved off the run clip. Solving it off the
+  // WALK clip instead - which is what `EnemyDef.moveSpeedMps` is for, and what pottering uses -
+  // measures a cadence nothing plays and lands every goblin, skeleton and golem in the bestiary
+  // between 1.2 and 1.6 m/s. That is not a slower monster but no monster: nothing could ever close
+  // on a player who simply walks away. The three checks below fail loudly if the two are mixed up.
+
+  it("solves every pursuit ceiling from the clip the chase actually plays", () => {
+    const wrong: string[] = [];
+    for (const [assetId, ceiling] of Object.entries(CREATURE_PURSUIT_CEILING_MPS)) {
+      const entry = ASSET_BY_ID.get(assetId) as { impliedRunMps?: number; impliedWalkMps?: number;
+        runClipSeconds?: number; walkClipSeconds?: number } | undefined;
+      if (!entry) { wrong.push(`${assetId}: not in the manifest`); continue; }
+      // Run when the asset ships one; the semantic run falls back to Walk when it does not.
+      const running = entry.impliedRunMps !== undefined;
+      const implied = running ? entry.impliedRunMps! : entry.impliedWalkMps;
+      const seconds = running ? entry.runClipSeconds ?? entry.walkClipSeconds : entry.walkClipSeconds;
+      if (implied === undefined || seconds === undefined) { wrong.push(`${assetId}: no measured stride`); continue; }
+      const expected = Number((3 * implied * seconds).toFixed(4));
+      if (Math.abs(expected - ceiling) > 1e-9) {
+        wrong.push(`${assetId}: pinned ${ceiling}, manifest solves ${expected} off the ${running ? "run" : "walk"} clip`);
+      }
+    }
+    expect(wrong, wrong.join("\n")).toEqual([]);
+  });
+
+  it("never leaves a boss or miniboss unable to close on the player", () => {
+    const slow = GROUPS.filter((group) => group.boss || group.miniBoss).map((group) => {
+      const block = enemyBlockFor(group.id, group.family, group.tier)!;
+      const scale = group.scale * (group.boss ? 1.6 : 1.3);
+      const speed = enemyPursuitSpeedMps(block, { assetId: group.assetId, scale }, group.tier, CREATURE_RUN_SPEED);
+      return { id: group.id, speed };
+    }).filter((row) => row.speed < CREATURE_RUN_SPEED - 1e-9);
+    // A boss is the one fight the player cannot be allowed to stroll away from.
+    expect(slow.map((row) => `${row.id} chases at ${row.speed.toFixed(2)}`), "bosses must keep the shared run speed").toEqual([]);
+  });
+
+  it("never leaves a bestiary monster slower than a walking player", () => {
+    // The dungeon and pack monsters spawn outside the region enemy groups, so nothing else in this
+    // file covers them. A monster that cannot outpace MOVEMENT.walkSpeed cannot engage at all.
+    const spawnedFamilies = new Set(GROUPS.map((group) => group.family));
+    const monsters = ENEMY_BLOCKS.filter((block) => !spawnedFamilies.has(block.family));
+    expect(monsters.length).toBeGreaterThan(15);
+    const slow = monsters.map((block) => {
+      const assetId = [block.family, `creature_${block.family}`].find((id) => ASSET_BY_ID.has(id));
+      const speed = enemyPursuitSpeedMps(block, assetId ? { assetId, scale: 1 } : undefined, block.tier, CREATURE_RUN_SPEED);
+      return { id: block.id, assetId: assetId ?? "(no asset)", speed };
+    }).filter((row) => row.speed <= MOVEMENT.walkSpeed);
+    expect(slow.map((row) => `${row.id} (${row.assetId}) chases at ${row.speed.toFixed(2)} against a ${MOVEMENT.walkSpeed} m/s walk`),
+      "every monster must outpace a walking player").toEqual([]);
+  });
+
   it("keeps actual playback within walk and run cadence ceilings", () => {
-    expect(gaits.filter((row) => row.cadenceHz > (row.gait === "walk" ? 2.4 : 3) + 1e-6)).toEqual([]);
+    const racing = gaits.filter((row) => row.cadenceHz > (row.gait === "walk" ? 2.4 : 3) + 1e-6);
+    const bySpecies = new Map<string, { gait: string; cadenceHz: number; speedMps: number; impliedMps: number; drawnStrideScale: number }>();
+    for (const row of racing) {
+      const key = `${row.entityId.replace(/_\d+$/, "")} ${row.gait}`;
+      const previous = bySpecies.get(key);
+      if (!previous || row.cadenceHz > previous.cadenceHz) bySpecies.set(key, row);
+    }
+    const summary = [...bySpecies.entries()].map(([key, row]) =>
+      `${key}: ${row.cadenceHz.toFixed(2)} Hz at ${row.speedMps.toFixed(2)} m/s over a ${row.impliedMps.toFixed(3)} m/s native stride x${row.drawnStrideScale.toFixed(2)}`);
+    expect(summary, summary.join("\n")).toEqual([]);
     // Large bodies take long strides; a shared lower cadence would force their feet to slide.
     for (const row of gaits) expect(row.cadenceHz, `${row.entityId} ${row.gait}`).toBeGreaterThan(0);
   });

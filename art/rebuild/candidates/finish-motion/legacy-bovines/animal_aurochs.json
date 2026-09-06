@@ -7,7 +7,7 @@
   "bytes": 2417544,
   "generatorSha256": {
     "tools/creature-motion/bovine-gait.ts": "4bd55e1b7d33841a9bf2ebe33cd595696ae9ed3df136ad683bd83e426e64ec80",
-    "tools/creature-motion/stage-bovine-gaits.ts": "2a7fe0586e8a1c97d43d26539f75c86cedc06e457d7c456f3ff2d084caa944b5",
+    "tools/creature-motion/stage-bovine-gaits.ts": "27f6bc4c16db363327e860cb12081d19aa8e63e1f6e7bd148edc282dd357011f",
     "tools/lib/ground-gait.ts": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a",
     "tools/repair-ground-creature-gaits.ts": "070b3a2bff61c97e763ecb8f64e59eeee9a36249a1724f9b28118709c961ec2f"
   },
@@ -1137,5 +1137,6 @@
         ]
       }
     }
-  ]
+  ],
+  "generatorSha256Note": "CRLF-normalized source hashes (tools/creature-motion/generator-hash.ts). Byte-identical reproduction from the recorded original source was verified in the Slice 06 worktree on 2026-09-05 (test-results/legacy-reproduce/check.ts)."
 }

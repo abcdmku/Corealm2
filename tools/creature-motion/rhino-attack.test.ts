@@ -5,6 +5,7 @@ import { KHRONOS_EXTENSIONS } from '@gltf-transform/extensions';
 import { describe, expect, it } from 'vitest';
 import { readRawGlb } from '../repair-ground-creature-gaits.js';
 import { auditRhinoAttack } from './rhino-attack.js';
+import { generatorFileSha256 } from './generator-hash.js';
 
 describe('bounded rhino attack candidate', () => {
   it.each(['air', 'earth', 'water'])('%s preserves source geometry/recoil and plants complete weighted soles', async variant => {
@@ -14,7 +15,7 @@ describe('bounded rhino attack candidate', () => {
     const sha = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
     expect(sha(source)).toBe(report.sourceSha256); expect(sha(candidate)).toBe(report.sha256);
     expect(report.generator.map((row: any) => row.file)).toEqual(expect.arrayContaining(['tools/creature-motion/pose.ts', 'tools/lib/ground-gait.ts']));
-    for (const row of report.generator) expect(sha(await readFile(row.file))).toBe(row.sha256);
+    for (const row of report.generator) expect(await generatorFileSha256(row.file), row.file).toBe(row.sha256);
     const before = readRawGlb(source), after = readRawGlb(candidate);
     expect(after.bin.subarray(0, before.bin.length).equals(before.bin)).toBe(true);
     for (const key of ['nodes', 'meshes', 'skins', 'materials', 'textures', 'images']) expect(after.json[key]).toEqual(before.json[key]);

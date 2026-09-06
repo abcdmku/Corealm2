@@ -6,9 +6,9 @@
   "sha256": "58d6a103dcd547478e05d14fba1aafc3e7a517c94c364af6ef7ad585ec4a765d",
   "bytes": 2281336,
   "generatorSha256": {
-    "tools/creature-motion/suid-gait.ts": "45ddbbe8fc83a9e9a5e3fd40f95d41e3fa6c012e34d27c41f2162b7e6551ada0",
-    "tools/creature-motion/stage-suid-gaits.ts": "a35b9b00e891010941c053b01b4adced4f6c46a1110c75be7c0947ef8af0c884",
-    "tools/creature-motion/pose.ts": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795",
+    "tools/creature-motion/suid-gait.ts": "f370b448a214e59c3c5e3abd1416f75b1bd4686ad97ec15a23154df0a2f72036",
+    "tools/creature-motion/stage-suid-gaits.ts": "da0de660df7b52637ce291fc762f04655dc67694408f3422d782e989a1af05bb",
+    "tools/creature-motion/pose.ts": "8e6f3f2c8c999ef9a572237efddd57e008702f8468681125f25d84fa28680228",
     "tools/lib/ground-gait.ts": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a",
     "tools/repair-ground-creature-gaits.ts": "070b3a2bff61c97e763ecb8f64e59eeee9a36249a1724f9b28118709c961ec2f"
   },
@@ -1314,5 +1314,6 @@
         ]
       }
     }
-  ]
+  ],
+  "generatorSha256Note": "CRLF-normalized source hashes (tools/creature-motion/generator-hash.ts). Byte-identical reproduction from the recorded original source was verified in the Slice 06 worktree on 2026-09-05 (test-results/legacy-reproduce/check.ts)."
 }
