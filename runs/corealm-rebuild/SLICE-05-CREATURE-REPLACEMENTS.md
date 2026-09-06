@@ -355,16 +355,24 @@ Deleted (superseded, all regenerable from the retained generator and its pinned 
   `source-moose-horse/revision2/` — superseded revisions; the latest of each is kept.
 - `*.blend1` Blender autosaves under `source-bighorn-sheep/` and `source-tapir-horse/`.
 
+Also deleted from `test-results/`: superseded lifecycle runs, the pre-rename Fox view dumps, the
+resolution-160 Lynx views and the Codex transcripts, once their findings were written down here.
+`test-results/` is never committed.
+
 Kept deliberately: every source snapshot and `provenance.json`, the accepted staging catalogues, the
-`paws-v2`/`paws-v3` generators and reviews, and everything the manifest references.
+`paws-v2`/`paws-v3` generators and reviews, `fox-paws-v2-comparison/` (it is the evidence for the
+stale-hash finding), and everything the manifest references.
+
+`art/rebuild/candidates/finish-quadrupeds` went from 2.0 GB to 1.1 GB; free space on C: went from
+37 GB to 66 GB.
 
 ## Checks
 
 `npm run typecheck` passes.
 
-The full vitest suite was run with the promotions in place and again with them stashed. Both runs
-fail exactly the same 16 files and 25 tests, so every one of those failures is pre-existing on this
-branch and none is caused by this work. Named for the record: `creature-gait`, `creature-motion-continuity`,
+The full vitest suite was run four times: with the promotions stashed, after the Fox, after the four
+hoofed species, and after the Lynx. Every run fails exactly the same 16 files and 25 tests, so every
+one of those failures is pre-existing on this branch and none is caused by this work. Named for the record: `creature-gait`, `creature-motion-continuity`,
 `humanoidGait`, `coastal-traversal`, `renderer-frame-timing`, `structure-movement-grounding`,
 `sunder-ledge-geology`, the three shortcut-source suites, and the five `tools/creature-motion`
 gait suites. Everything touching creatures, packs, provenance, habitats and spacing passes:
