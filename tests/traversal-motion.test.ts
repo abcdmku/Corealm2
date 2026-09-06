@@ -69,10 +69,13 @@ describe("traversal presentation paths", () => {
   });
 
   it("steps a concealed crossing onto its authored entrance before the cover closes", () => {
-    const distant: SemanticEntity = { ...obstacle, interactionPosition: [1.5, 0, 0],
+    const distant: SemanticEntity = { ...obstacle, interactionPosition: [1.5, -5.77, 0],
       obstacle: { ...obstacle.obstacle!, exitPosition: [140, 3, 0], durationMs: 6000 } };
     const at = (p: number) => sampleTraversal(distant, [0, 0, 0], [140, 3, 0], p);
     expect(at(0).position).toEqual([0, 0, 0]);
+    // A buried entity origin must not drag the visible actor under the ground it stands on.
+    expect(at(0.02).position[1]).toBe(0);
+    expect(at(1).position[1]).toBe(0);
     expect(at(0.02).position[0]).toBeGreaterThan(0);
     expect(at(0.02).position[0]).toBeLessThan(1.5);
     // The authored entrance is reached by the time the cover is opaque, and never overshot.

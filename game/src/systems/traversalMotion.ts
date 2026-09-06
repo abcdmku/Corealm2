@@ -44,10 +44,13 @@ export function sampleTraversal(entity: SemanticEntity, entry: Vec3, exit: Vec3,
   const travel = smooth((p - 0.16) / 0.70);
   const approach = smooth(p / 0.16);
   // A concealed crossing still steps onto its authored entrance before the cover closes, so the
-  // visible beat is the start of a real move rather than an idle stand followed by a fade.
+  // visible beat is the start of a real move rather than an idle stand followed by a fade. Only
+  // in XZ: an authored obstacle's entity origin is not always a stance — the Fallen Ash is a
+  // 10.7 m beam whose origin sits 5.77 m under the ground its drawn end rests on — and the
+  // player is already standing on the surface this beat is drawn against.
   const position: [number, number, number] = concealed ? [
     entry[0] + (contactEntry[0] - entry[0]) * smooth(p / covered),
-    entry[1] + (contactEntry[1] - entry[1]) * smooth(p / covered),
+    entry[1],
     entry[2] + (contactEntry[2] - entry[2]) * smooth(p / covered),
   ] : [
     p < 0.16 ? entry[0] + (contactEntry[0] - entry[0]) * approach : contactEntry[0] + (exit[0] - contactEntry[0]) * travel,

@@ -23,7 +23,7 @@ const scenario = argValue(args, "--case") ?? "traverse";
 const url = argValue(args, "--url") ?? `http://127.0.0.1:${process.env.PORT ?? "4189"}`;
 const out = path.resolve(argValue(args, "--out") ?? "test-results/traversal-world", `${id}${reverse ? "-reverse" : ""}-${scenario}`);
 await mkdir(out, { recursive: true });
-const clearDeadline = installTestDeadline(`World traversal ${id} ${scenario}`, 90_000);
+const clearDeadline = installTestDeadline(`World traversal ${id} ${scenario}`, scenario === "stance" ? 60_000 : 150_000);
 const driver = new GameDriver({ url, close: async () => {} }, {
   headless: true, viewport: { width: 1440, height: 900 },
   browserArgs: ["--use-angle=d3d11", "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"],
@@ -121,7 +121,33 @@ try {
   const cursor = (await events(0)).nextSeq;
   report.before = { xp: before.skills.agility.xp, level: before.skills.agility.level, health: before.health, cursor, assets: before.assets };
 
-  if (scenario === "gate") {
+  if (scenario === "stance") {
+    // No movement. Just: is there standable ground at each authored endpoint, how far is it from
+    // the authored y, and does the navmesh connect the landing to the leg the route walks next?
+    const probe = async (label: string, point: Vec3) => {
+      const ground = await driver.callDebug("groundHeight", [point[0], point[2]]) as number;
+      const atAuthored = await driver.callDebug("getNavPoint", [point]) as Xyz | null;
+      const atGround = await driver.callDebug("getNavPoint", [[point[0], ground, point[2]]]) as Xyz | null;
+      return { label, point, ground, authoredRise: ground - point[1], atAuthored, atGround,
+        clearance: await driver.callDebug("probeWorldClearance", [{ x: point[0], z: point[2], y: ground, radius: 0.35 }]).catch(() => null) };
+    };
+    const legs = (report.plan as { legs?: { kind: string; from: Vec3; to: Vec3; toId?: string }[] } | null)?.legs ?? [];
+    const tail = legs.filter((leg) => leg.kind === "walk").at(-1) ?? null;
+    report.stance = {
+      entry: await probe("entry", entry as Vec3),
+      exit: await probe("exit", exit as Vec3),
+      crossing: await driver.callDebug("getNavPath", [entry, exit]),
+      ...(tail ? { resumeLeg: tail, resumePath: await driver.callDebug("getNavPath", [tail.from, tail.to]) } : {}),
+    };
+    for (const side of ["entry", "exit"] as const) {
+      const measured = (report.stance as any)[side];
+      if (!measured.atGround) findings.push(`${side} has no navigable ground at ${measured.point[0].toFixed(1)},${measured.point[2].toFixed(1)}`);
+      if (Math.abs(measured.authoredRise) > 2.5) findings.push(`${side} sits ${measured.authoredRise.toFixed(2)} m from the drawn ground`);
+    }
+    if (tail && !(report.stance as any).resumePath) findings.push(`No navmesh path for the walk the route resumes with: ${JSON.stringify(tail.from)} -> ${JSON.stringify(tail.to)}`);
+    await stopRows();
+    await shot("stance");
+  } else if (scenario === "gate") {
     const direct = await driver.callDebug("callTool", ["corealm_interact", { entityId: id, interaction }]) as any;
     report.directRefusal = direct;
     assert.equal(direct.error, "REQUIREMENTS_NOT_MET", `Level gate did not refuse the direct interaction: ${JSON.stringify(direct)}`);
