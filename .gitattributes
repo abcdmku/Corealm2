@@ -5,3 +5,5 @@
 tools/build-corealm-*.ts text eol=lf
 tools/build-creature-expansion.ts text eol=lf
 tools/build-ground-ores.ts text eol=lf
+tools/build-*-shortcuts.ts text eol=lf
+tools/build-shortcut-*.ts text eol=lf

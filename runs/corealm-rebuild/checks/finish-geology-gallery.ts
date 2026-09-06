@@ -11,9 +11,14 @@ let out=`test-results/finish-geology-gallery/${new Date().toISOString().replace(
 let catalog:string|undefined='art/rebuild/candidates/finish-structures/corealm-geology.json';
 const selections:string[]=[];
 let url=process.env.LAB_URL??'http://127.0.0.1:4175';
+// Approach and gameplay-distance views judge silhouette and texture scale the way a player meets
+// the rock, not only the framed turntable poses.
+let extraViews=false;
 for(let index=0;index<args.length;index+=1){
  const arg=args[index]!;
- if(arg==='--url'){
+ if(arg==='--extra-views'){
+  extraViews=true;
+ }else if(arg==='--url'){
   url=args[++index]!;if(!url||url.startsWith('--'))throw new Error('--url requires a server URL');
  }else if(arg==='--catalog'){
   catalog=args[++index];if(!catalog||catalog.startsWith('--'))throw new Error('--catalog requires a path');
@@ -72,6 +77,15 @@ try{
    const sidePose={...pose,yaw:Math.PI/2+.4,pitch:.38};
    await driver.callDebug('inspectPose',[sidePose]);await driver.wait(150);await driver.screenshot(out,`${id}-side`);
    report.shots.push({name:`${id}-side`,id,view:'side',options,bounds,state,camera:sidePose});
+   if(extraViews){
+    // Eye height on the approach side, then the same heading pulled back to gameplay range.
+    const approachPose={...pose,y:bounds.min[1]+1.7,yaw:.4,pitch:.06,distance:Math.max(3.2,w*.85)};
+    await driver.callDebug('inspectPose',[approachPose]);await driver.wait(150);await driver.screenshot(out,`${id}-approach`);
+    report.shots.push({name:`${id}-approach`,id,view:'approach',options,bounds,state,camera:approachPose});
+    const gameplayPose={...pose,y:bounds.min[1]+1.2,yaw:.9,pitch:.30,distance:Math.max(22,w*3.4)};
+    await driver.callDebug('inspectPose',[gameplayPose]);await driver.wait(150);await driver.screenshot(out,`${id}-gameplay`);
+    report.shots.push({name:`${id}-gameplay`,id,view:'gameplay',options,bounds,state,camera:gameplayPose});
+   }
   }finally{
    await page.evaluate(entries=>{for(const {selector,visibility} of entries){const element=document.querySelector<HTMLElement>(selector);if(element)element.style.visibility=visibility;}},panelVisibility);
   }
