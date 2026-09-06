@@ -13,8 +13,9 @@ import {
 
 const ITEMS = ["grithe_ore", "corven_ore", "kaldite_ore", "emberite_ore", "pale_quartz", "vell_amber", "cairn_garnet", "fire_opal"];
 const hash = (bytes: Uint8Array): string => createHash("sha256").update(bytes).digest("hex");
-// Root accepted seven specimens after the v6/v7 production browser reviews.
-// Only opal remains under revision; preserve the exact accepted bytes.
+// Seven specimens were accepted after the v6/v7 production browser reviews. The opal joined them
+// in slice 14, after two revision rounds each reviewed across a 24-yaw, three-pitch gallery orbit.
+// Preserve the exact accepted bytes: a change to any of these is a change to a promoted asset.
 const ACCEPTED_SPECIMEN_SHA256 = {
   corealm_item_grithe_ore: "b8be5d4c1206d04a0d6807fba82fd1cccc48113367a2fe7d152f3266ff8b9106",
   corealm_item_corven_ore: "e9556dc796e75cb5556ce0bf91ba70b2f8ffdda4ac9d3f48bbbeb1bc47dd266b",
@@ -23,6 +24,7 @@ const ACCEPTED_SPECIMEN_SHA256 = {
   corealm_item_pale_quartz: "70d6e032e386d440651580d8f84a3541e777fbb834d86d8943d3b7a7bf9f0284",
   corealm_item_vell_amber: "62e54d611aa942b0bc9a8f20bc1d3a5fe16d314194a70b42279984927f4e7b0e",
   corealm_item_cairn_garnet: "06b0559344d4fdc80b059755a5902fd79e3a48fa1a959a7d24c6f165ae17026e",
+  corealm_item_fire_opal: "afe63815af320580a40351ad3205fc6326f9c288df49d3c2c08a054e3c6d1351",
 } as const;
 type SurfaceTriangle = { points: [Vector3, Vector3, Vector3]; material: string };
 const pointKey = (point: Vector3): string => point.toArray().map(value => Math.round(value * 1e6)).join(",");
@@ -129,7 +131,7 @@ describe("inventory mineral source assets", () => {
     }));
   });
 
-  it("regenerates all seven accepted specimens byte-for-byte while opal is revised", () => {
+  it("regenerates all eight accepted specimens byte-for-byte", () => {
     for (const [assetId, acceptedHash] of Object.entries(ACCEPTED_SPECIMEN_SHA256)) {
       const specimen = specimens.find(({ entry }) => entry.id === assetId)!;
       expect(specimen, assetId).toBeTruthy();
