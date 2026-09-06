@@ -1,15 +1,15 @@
 ---
-title: "Sump Crab"
-description: "Sump Crab spawn locations, combat stats, and drops."
+title: "Giant Crab"
+description: "Giant Crab spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/gravelmaw_ch2_crabs.webp" alt="Sump Crab at its authored spawn in The Gravelmaw" loading="lazy" /><figcaption><strong>Sump Crab</strong><span>The Collapse, The Gravelmaw</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/gravelmaw_ch2_crabs.webp" alt="Giant Crab at its authored spawn in Stone Cavern" loading="lazy" /><figcaption><strong>Giant Crab</strong><span>The Collapse, Stone Cavern</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Sump Crab">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Giant Crab">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-collapse" style="--map-x:53.8333%;--map-y:60.8750%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Sump Crab, The Gravelmaw, The Collapse" title="Sump Crab, The Gravelmaw, The Collapse"><span>Sump Crab<small>The Gravelmaw, The Collapse</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-collapse" style="--map-x:53.8333%;--map-y:60.8750%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Giant Crab, Stone Cavern, The Collapse" title="Giant Crab, Stone Cavern, The Collapse"><span>Giant Crab<small>Stone Cavern, The Collapse</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Sump Crab spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [The Gravelmaw](../../regions/#the-collapse) | [The Collapse](../../regions/#the-collapse) | Sump Crab | 3 |
+| [Stone Cavern](../../regions/#the-collapse) | [The Collapse](../../regions/#the-collapse) | Giant Crab | 3 |
 
 ## Stats
 
@@ -44,5 +44,5 @@ description: "Sump Crab spawn locations, combat stats, and drops."
 | Marks | 30-110 | Always |
 | [Crab Claw](../../items/#crab-claw) | 1 | 45% |
 | [Raw Haunch](../../items/#raw-haunch) | 1-2 | 35% |
-| [Cragfin](../../items/#cragfin) | 1-3 | 30% |
-| [Cairn Garnet](../../items/#cairn-garnet) | 1 | 10% |
+| [Perch](../../items/#perch) | 1-3 | 30% |
+| [Garnet](../../items/#garnet) | 1 | 10% |

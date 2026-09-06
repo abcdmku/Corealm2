@@ -7,136 +7,160 @@ description: "Production recipes generated from the live game tables."
 
 | Recipe | Level | Station | Ingredients | Makes | Time | XP |
 | --- | --- | --- | --- | --- | --- | --- |
-| Grithe Bar | 1 | furnace | 1× Grithe Ore + 1× March Stone | 1× Grithe Bar | 2.4 s | 8 |
-| Grithe Dagger | 1 | anvil | 1× Grithe Bar + 1× Palewood Handle | 1× Grithe Dagger | 3.0 s | 20 |
-| Grithe Sword | 1 | anvil | 2× Grithe Bar + 1× Palewood Handle | 1× Grithe Sword | 3.0 s | 35 |
-| Grithe Helm | 1 | anvil | 2× Grithe Bar | 1× Grithe Helm | 3.0 s | 25 |
-| Grithe Body | 1 | anvil | 3× Grithe Bar | 1× Grithe Cuirass | 3.0 s | 50 |
-| Grithe Legs | 1 | anvil | 3× Grithe Bar | 1× Grithe Greaves | 3.0 s | 50 |
-| Grithe Boots | 1 | anvil | 1× Grithe Bar | 1× Grithe Boots | 3.0 s | 25 |
-| Grithe Gloves | 1 | anvil | 1× Grithe Bar | 1× Grithe Gloves | 3.0 s | 25 |
-| Grithe Pickaxe | 1 | anvil | 2× Grithe Bar + 1× Palewood Handle | 1× Grithe Pickaxe | 3.0 s | 22 |
-| Grithe Hatchet | 1 | anvil | 2× Grithe Bar + 1× Palewood Handle | 1× Grithe Hatchet | 3.0 s | 22 |
-| Corven Bar | 5 | furnace | 2× Corven Ore + 1× March Stone | 1× Corven Bar | 2.4 s | 19 |
-| Corven Dagger | 5 | anvil | 1× Corven Bar + 1× Duskoak Handle | 1× Corven Dagger | 3.0 s | 48 |
-| Corven Sword | 5 | anvil | 2× Corven Bar + 1× Duskoak Handle | 1× Corven Sword | 3.0 s | 84 |
-| Corven Helm | 5 | anvil | 2× Corven Bar | 1× Corven Helm | 3.0 s | 60 |
-| Corven Body | 5 | anvil | 3× Corven Bar | 1× Corven Plate | 3.0 s | 120 |
-| Corven Legs | 5 | anvil | 3× Corven Bar | 1× Corven Greaves | 3.0 s | 120 |
-| Corven Boots | 5 | anvil | 1× Corven Bar | 1× Corven Boots | 3.0 s | 60 |
-| Corven Gloves | 5 | anvil | 1× Corven Bar | 1× Corven Gauntlets | 3.0 s | 60 |
-| Corven Pickaxe | 5 | anvil | 2× Corven Bar + 1× Duskoak Handle | 1× Corven Pickaxe | 3.0 s | 53 |
-| Corven Hatchet | 5 | anvil | 2× Corven Bar + 1× Duskoak Handle | 1× Corven Hatchet | 3.0 s | 53 |
-| Kaldite Bar | 10 | furnace | 2× Kaldite Ore + 2× March Stone | 1× Kaldite Bar | 2.4 s | 28 |
-| Kaldite Dagger | 10 | anvil | 1× Kaldite Bar + 1× Cairnpine Handle | 1× Kaldite Dagger | 3.0 s | 70 |
-| Kaldite Sword | 10 | anvil | 2× Kaldite Bar + 1× Cairnpine Handle | 1× Kaldite Sword | 3.0 s | 123 |
-| Kaldite Helm | 10 | anvil | 2× Kaldite Bar | 1× Kaldite Helm | 3.0 s | 88 |
-| Kaldite Body | 10 | anvil | 3× Kaldite Bar | 1× Kaldite Plate | 3.0 s | 175 |
-| Kaldite Legs | 10 | anvil | 3× Kaldite Bar | 1× Kaldite Greaves | 3.0 s | 175 |
-| Kaldite Boots | 10 | anvil | 1× Kaldite Bar | 1× Kaldite Boots | 3.0 s | 88 |
-| Kaldite Gloves | 10 | anvil | 1× Kaldite Bar | 1× Kaldite Gauntlets | 3.0 s | 88 |
-| Kaldite Pickaxe | 10 | anvil | 2× Kaldite Bar + 1× Cairnpine Handle | 1× Kaldite Pickaxe | 3.0 s | 77 |
-| Kaldite Hatchet | 10 | anvil | 2× Kaldite Bar + 1× Cairnpine Handle | 1× Kaldite Hatchet | 3.0 s | 77 |
-| Emberite Bar | 20 | furnace | 3× Emberite Ore + 2× Kilnstone | 1× Emberite Bar | 2.4 s | 42 |
-| Emberite Dagger | 20 | anvil | 1× Emberite Bar + 1× Cinderpine Handle | 1× Emberite Dagger | 3.0 s | 104 |
-| Emberite Sword | 20 | anvil | 2× Emberite Bar + 1× Cinderpine Handle | 1× Emberite Sword | 3.0 s | 182 |
-| Emberite Helm | 20 | anvil | 2× Emberite Bar | 1× Emberite Helm | 3.0 s | 130 |
-| Emberite Body | 20 | anvil | 3× Emberite Bar | 1× Emberite Plate | 3.0 s | 260 |
-| Emberite Legs | 20 | anvil | 3× Emberite Bar | 1× Emberite Greaves | 3.0 s | 260 |
-| Emberite Boots | 20 | anvil | 1× Emberite Bar | 1× Emberite Boots | 3.0 s | 130 |
-| Emberite Gloves | 20 | anvil | 1× Emberite Bar | 1× Emberite Gauntlets | 3.0 s | 130 |
-| Emberite Pickaxe | 20 | anvil | 2× Emberite Bar + 1× Cinderpine Handle | 1× Emberite Pickaxe | 3.0 s | 114 |
-| Emberite Hatchet | 20 | anvil | 2× Emberite Bar + 1× Cinderpine Handle | 1× Emberite Hatchet | 3.0 s | 114 |
+| Copper Bar | 1 | furnace | 1× Copper Ore + 1× Limestone | 1× Copper Bar | 2.4 s | 8 |
+| Copper Dagger | 1 | anvil | 1× Copper Bar + 1× Pine Handle | 1× Copper Dagger | 3.0 s | 20 |
+| Copper Sword | 1 | anvil | 2× Copper Bar + 1× Pine Handle | 1× Copper Sword | 3.0 s | 35 |
+| Copper Helm | 1 | anvil | 2× Copper Bar | 1× Copper Helm | 3.0 s | 25 |
+| Copper Body | 1 | anvil | 3× Copper Bar | 1× Copper Cuirass | 3.0 s | 50 |
+| Copper Legs | 1 | anvil | 3× Copper Bar | 1× Copper Greaves | 3.0 s | 50 |
+| Copper Boots | 1 | anvil | 1× Copper Bar | 1× Copper Boots | 3.0 s | 25 |
+| Copper Gloves | 1 | anvil | 1× Copper Bar | 1× Copper Gloves | 3.0 s | 25 |
+| Copper Pickaxe | 1 | anvil | 2× Copper Bar + 1× Pine Handle | 1× Copper Pickaxe | 3.0 s | 22 |
+| Copper Hatchet | 1 | anvil | 2× Copper Bar + 1× Pine Handle | 1× Copper Hatchet | 3.0 s | 22 |
+| Iron Bar | 5 | furnace | 2× Iron Ore + 1× Limestone | 1× Iron Bar | 2.4 s | 19 |
+| Iron Dagger | 5 | anvil | 1× Iron Bar + 1× Ash Handle | 1× Iron Dagger | 3.0 s | 48 |
+| Iron Sword | 5 | anvil | 2× Iron Bar + 1× Ash Handle | 1× Iron Sword | 3.0 s | 84 |
+| Iron Helm | 5 | anvil | 2× Iron Bar | 1× Iron Helm | 3.0 s | 60 |
+| Iron Body | 5 | anvil | 3× Iron Bar | 1× Iron Plate | 3.0 s | 120 |
+| Iron Legs | 5 | anvil | 3× Iron Bar | 1× Iron Greaves | 3.0 s | 120 |
+| Iron Boots | 5 | anvil | 1× Iron Bar | 1× Iron Boots | 3.0 s | 60 |
+| Iron Gloves | 5 | anvil | 1× Iron Bar | 1× Iron Gauntlets | 3.0 s | 60 |
+| Iron Pickaxe | 5 | anvil | 2× Iron Bar + 1× Ash Handle | 1× Iron Pickaxe | 3.0 s | 53 |
+| Iron Hatchet | 5 | anvil | 2× Iron Bar + 1× Ash Handle | 1× Iron Hatchet | 3.0 s | 53 |
+| Cobalt Bar | 10 | furnace | 2× Cobalt Ore + 2× Limestone | 1× Cobalt Bar | 2.4 s | 28 |
+| Cobalt Dagger | 10 | anvil | 1× Cobalt Bar + 1× Oak Handle | 1× Cobalt Dagger | 3.0 s | 70 |
+| Cobalt Sword | 10 | anvil | 2× Cobalt Bar + 1× Oak Handle | 1× Cobalt Sword | 3.0 s | 123 |
+| Cobalt Helm | 10 | anvil | 2× Cobalt Bar | 1× Cobalt Helm | 3.0 s | 88 |
+| Cobalt Body | 10 | anvil | 3× Cobalt Bar | 1× Cobalt Plate | 3.0 s | 175 |
+| Cobalt Legs | 10 | anvil | 3× Cobalt Bar | 1× Cobalt Greaves | 3.0 s | 175 |
+| Cobalt Boots | 10 | anvil | 1× Cobalt Bar | 1× Cobalt Boots | 3.0 s | 88 |
+| Cobalt Gloves | 10 | anvil | 1× Cobalt Bar | 1× Cobalt Gauntlets | 3.0 s | 88 |
+| Cobalt Pickaxe | 10 | anvil | 2× Cobalt Bar + 1× Oak Handle | 1× Cobalt Pickaxe | 3.0 s | 77 |
+| Cobalt Hatchet | 10 | anvil | 2× Cobalt Bar + 1× Oak Handle | 1× Cobalt Hatchet | 3.0 s | 77 |
+| Mandible-braced Cobalt Pickaxe | 10 | anvil | 3× Beetle Jaw + 1× Cobalt Bar + 1× Oak Handle | 1× Cobalt Pickaxe | 3.0 s | 77 |
+| Pale Dragon Plated Cobalt Helm | 10 | anvil | 3× Pale Dragon Plate + 1× Cobalt Bar | 1× Cobalt Helm | 3.0 s | 88 |
+| Titanium Bar | 20 | furnace | 3× Titanium Ore + 2× Flux Stone | 1× Titanium Bar | 2.4 s | 42 |
+| Titanium Dagger | 20 | anvil | 1× Titanium Bar + 1× Walnut Handle | 1× Titanium Dagger | 3.0 s | 104 |
+| Titanium Sword | 20 | anvil | 2× Titanium Bar + 1× Walnut Handle | 1× Titanium Sword | 3.0 s | 182 |
+| Titanium Helm | 20 | anvil | 2× Titanium Bar | 1× Titanium Helm | 3.0 s | 130 |
+| Titanium Body | 20 | anvil | 3× Titanium Bar | 1× Titanium Plate | 3.0 s | 260 |
+| Titanium Legs | 20 | anvil | 3× Titanium Bar | 1× Titanium Greaves | 3.0 s | 260 |
+| Titanium Boots | 20 | anvil | 1× Titanium Bar | 1× Titanium Boots | 3.0 s | 130 |
+| Titanium Gloves | 20 | anvil | 1× Titanium Bar | 1× Titanium Gauntlets | 3.0 s | 130 |
+| Titanium Pickaxe | 20 | anvil | 2× Titanium Bar + 1× Walnut Handle | 1× Titanium Pickaxe | 3.0 s | 114 |
+| Titanium Hatchet | 20 | anvil | 2× Titanium Bar + 1× Walnut Handle | 1× Titanium Hatchet | 3.0 s | 114 |
+| Salamander-fluxed Titanium Bar | 20 | furnace | 3× Salamander Secretion + 3× Titanium Ore | 1× Titanium Bar | 2.4 s | 42 |
+| Demon Claw Grip Titanium Dagger | 20 | anvil | 3× Demon Claw + 1× Titanium Bar | 1× Titanium Dagger | 3.0 s | 104 |
 
 ## Cooking
 
 | Recipe | Level | Station | Ingredients | Makes | Time | XP |
 | --- | --- | --- | --- | --- | --- | --- |
-| Seared Minnow | 1 | range / campfire | 1× Silt Minnow | 1× Seared Minnow | 2.4 s | 15 |
+| Seared Minnow | 1 | range / campfire | 1× Minnow | 1× Seared Minnow | 2.4 s | 15 |
 | Roast Game | 1 | range / campfire | 1× Raw Game Meat | 1× Roast Game | 2.4 s | 15 |
-| Seared Trout | 5 | range / campfire | 1× Bramble Trout | 1× Seared Trout | 2.4 s | 36 |
+| Seared Trout | 5 | range / campfire | 1× Trout | 1× Seared Trout | 2.4 s | 36 |
 | Roast Venison | 5 | range / campfire | 1× Raw Venison | 1× Roast Venison | 2.4 s | 36 |
-| Seared Cragfin | 10 | range / campfire | 1× Cragfin | 1× Seared Cragfin | 2.4 s | 53 |
+| Seared Perch | 10 | range / campfire | 1× Perch | 1× Seared Perch | 2.4 s | 53 |
 | Roast Haunch | 10 | range / campfire | 1× Raw Haunch | 1× Roast Haunch | 2.4 s | 53 |
-| Seared Ashfin | 20 | range / campfire | 1× Ashfin | 1× Seared Ashfin | 2.4 s | 78 |
-| Roast Ember Haunch | 20 | range / campfire | 1× Raw Ember Haunch | 1× Roast Ember Haunch | 2.4 s | 78 |
+| Seared Bass | 20 | range / campfire | 1× Bass | 1× Seared Bass | 2.4 s | 78 |
+| Roast Prime Haunch | 20 | range / campfire | 1× Raw Prime Haunch | 1× Roast Prime Haunch | 2.4 s | 78 |
 
 ## Crafting
 
 | Recipe | Level | Station | Ingredients | Makes | Time | XP |
 | --- | --- | --- | --- | --- | --- | --- |
-| Air Wand | 1 | essence_altar | 1× Palewood Wand | 1× Air Wand | 1.8 s | 24 |
-| Air Staff | 1 | essence_altar | 1× Palewood Staff | 1× Air Staff | 1.8 s | 32 |
-| Grithe Ring | 1 | crafting_table | 1× Grithe Bar + 1× Pale Quartz | 1× Grithe Ring | 2.4 s | 30 |
-| Grithe Pendant | 1 | crafting_table | 1× Grithe Bar + 1× Pale Quartz | 1× Grithe Pendant | 2.4 s | 30 |
-| Ember Ring | 1 | crafting_table | 1× Grithe Bar + 2× Pale Quartz | 1× Ember Ring | 2.4 s | 30 |
-| Ember Charm | 1 | crafting_table | 2× Pale Quartz | 1× Ember Charm | 2.4 s | 30 |
-| Marchhide Robe | 1 | crafting_table | 3× Coarse Hide | 1× Marchhide Robe | 2.4 s | 40 |
-| Marchhide Leggings | 1 | crafting_table | 2× Coarse Hide | 1× Marchhide Leggings | 2.4 s | 40 |
-| Marchhide Hood | 1 | crafting_table | 1× Coarse Hide | 1× Marchhide Hood | 3.0 s | 25 |
-| Marchhide Boots | 1 | crafting_table | 1× Coarse Hide | 1× Marchhide Boots | 3.0 s | 25 |
-| Marchhide Wraps | 1 | crafting_table | 1× Coarse Hide | 1× Marchhide Wraps | 3.0 s | 25 |
-| Earth Wand | 5 | essence_altar | 1× Duskoak Wand | 1× Earth Wand | 1.8 s | 58 |
-| Earth Staff | 5 | essence_altar | 1× Duskoak Staff | 1× Earth Staff | 1.8 s | 77 |
-| Corven Ring | 5 | crafting_table | 1× Corven Bar + 1× Vell Amber | 1× Corven Ring | 2.4 s | 72 |
-| Corven Pendant | 5 | crafting_table | 1× Corven Bar + 1× Vell Amber | 1× Corven Pendant | 2.4 s | 72 |
-| Stone Ring | 5 | crafting_table | 1× Corven Bar + 2× Vell Amber | 1× Stone Ring | 2.4 s | 72 |
-| Stone Charm | 5 | crafting_table | 2× Vell Amber | 1× Stone Charm | 2.4 s | 72 |
-| Bramblehide Robe | 5 | crafting_table | 3× Bramble Hide | 1× Bramblehide Robe | 2.4 s | 96 |
-| Bramblehide Leggings | 5 | crafting_table | 2× Bramble Hide | 1× Bramblehide Leggings | 2.4 s | 96 |
-| Bramblehide Hood | 5 | crafting_table | 1× Bramble Hide | 1× Bramblehide Hood | 3.0 s | 60 |
-| Bramblehide Boots | 5 | crafting_table | 1× Bramble Hide | 1× Bramblehide Boots | 3.0 s | 60 |
-| Bramblehide Wraps | 5 | crafting_table | 1× Bramble Hide | 1× Bramblehide Wraps | 3.0 s | 60 |
-| Water Wand | 10 | essence_altar | 1× Cairnpine Wand | 1× Water Wand | 1.8 s | 84 |
-| Water Staff | 10 | essence_altar | 1× Cairnpine Staff | 1× Water Staff | 1.8 s | 112 |
-| Kaldite Ring | 10 | crafting_table | 1× Kaldite Bar + 1× Cairn Garnet | 1× Kaldite Ring | 2.4 s | 105 |
-| Kaldite Pendant | 10 | crafting_table | 1× Kaldite Bar + 1× Cairn Garnet | 1× Kaldite Pendant | 2.4 s | 105 |
-| Storm Ring | 10 | crafting_table | 1× Kaldite Bar + 2× Cairn Garnet | 1× Storm Ring | 2.4 s | 105 |
-| Storm Charm | 10 | crafting_table | 2× Cairn Garnet | 1× Storm Charm | 2.4 s | 105 |
-| Cairnpelt Robe | 10 | crafting_table | 3× Cairn Pelt | 1× Cairnpelt Robe | 2.4 s | 140 |
-| Cairnpelt Leggings | 10 | crafting_table | 2× Cairn Pelt | 1× Cairnpelt Leggings | 2.4 s | 140 |
-| Cairnpelt Hood | 10 | crafting_table | 1× Cairn Pelt | 1× Cairnpelt Hood | 3.0 s | 88 |
-| Cairnpelt Boots | 10 | crafting_table | 1× Cairn Pelt | 1× Cairnpelt Boots | 3.0 s | 88 |
-| Cairnpelt Wraps | 10 | crafting_table | 1× Cairn Pelt | 1× Cairnpelt Wraps | 3.0 s | 88 |
-| Fire Wand | 20 | essence_altar | 1× Cinderpine Wand | 1× Fire Wand | 1.8 s | 125 |
-| Fire Staff | 20 | essence_altar | 1× Cinderpine Staff | 1× Fire Staff | 1.8 s | 166 |
-| Emberite Ring | 20 | crafting_table | 1× Emberite Bar + 1× Fire Opal | 1× Emberite Ring | 2.4 s | 156 |
-| Emberite Pendant | 20 | crafting_table | 1× Emberite Bar + 1× Fire Opal | 1× Emberite Pendant | 2.4 s | 156 |
-| Cinder Ring | 20 | crafting_table | 1× Emberite Bar + 2× Fire Opal | 1× Cinder Ring | 2.4 s | 156 |
+| Air Wand | 1 | essence_altar | 1× Pine Wand | 1× Air Wand | 1.8 s | 24 |
+| Air Staff | 1 | essence_altar | 1× Pine Staff | 1× Air Staff | 1.8 s | 32 |
+| Copper Ring | 1 | crafting_table | 1× Copper Bar + 1× Quartz | 1× Copper Ring | 2.4 s | 30 |
+| Copper Pendant | 1 | crafting_table | 1× Copper Bar + 1× Quartz | 1× Copper Pendant | 2.4 s | 30 |
+| Ember Ring | 1 | crafting_table | 1× Copper Bar + 2× Quartz | 1× Ember Ring | 2.4 s | 30 |
+| Ember Charm | 1 | crafting_table | 2× Quartz | 1× Ember Charm | 2.4 s | 30 |
+| Hide Robe | 1 | crafting_table | 3× Coarse Hide | 1× Hide Robe | 2.4 s | 40 |
+| Hide Leggings | 1 | crafting_table | 2× Coarse Hide | 1× Hide Leggings | 2.4 s | 40 |
+| Hide Hood | 1 | crafting_table | 1× Coarse Hide | 1× Hide Hood | 3.0 s | 25 |
+| Hide Boots | 1 | crafting_table | 1× Coarse Hide | 1× Hide Boots | 3.0 s | 25 |
+| Hide Wraps | 1 | crafting_table | 1× Coarse Hide | 1× Hide Wraps | 3.0 s | 25 |
+| Fox Fur Ring | 1 | crafting_table | 3× Fox Fur + 1× Copper Bar + 1× Quartz | 1× Fox Fur Ring | 2.4 s | 30 |
+| Down-lined Hide Robe | 1 | crafting_table | 3× Goose Down + 2× Coarse Hide | 1× Hide Robe | 2.4 s | 40 |
+| Turkey Plume Charm | 1 | crafting_table | 3× Turkey Tail Feather + 1× Copper Bar + 1× Quartz | 1× Turkey Plume Charm | 2.4 s | 30 |
+| Earth Wand | 5 | essence_altar | 1× Ash Wand | 1× Earth Wand | 1.8 s | 58 |
+| Earth Staff | 5 | essence_altar | 1× Ash Staff | 1× Earth Staff | 1.8 s | 77 |
+| Iron Ring | 5 | crafting_table | 1× Iron Bar + 1× Amber | 1× Iron Ring | 2.4 s | 72 |
+| Iron Pendant | 5 | crafting_table | 1× Iron Bar + 1× Amber | 1× Iron Pendant | 2.4 s | 72 |
+| Stone Ring | 5 | crafting_table | 1× Iron Bar + 2× Amber | 1× Stone Ring | 2.4 s | 72 |
+| Stone Charm | 5 | crafting_table | 2× Amber | 1× Stone Charm | 2.4 s | 72 |
+| Thick Hide Robe | 5 | crafting_table | 3× Thick Hide | 1× Thick Hide Robe | 2.4 s | 96 |
+| Thick Hide Leggings | 5 | crafting_table | 2× Thick Hide | 1× Thick Hide Leggings | 2.4 s | 96 |
+| Thick Hide Hood | 5 | crafting_table | 1× Thick Hide | 1× Thick Hide Hood | 3.0 s | 60 |
+| Thick Hide Boots | 5 | crafting_table | 1× Thick Hide | 1× Thick Hide Boots | 3.0 s | 60 |
+| Thick Hide Wraps | 5 | crafting_table | 1× Thick Hide | 1× Thick Hide Wraps | 3.0 s | 60 |
+| Lynx Sinew Ring | 5 | crafting_table | 3× Lynx Sinew + 1× Iron Bar + 1× Amber | 1× Lynx Sinew Ring | 2.4 s | 72 |
+| Bristle-lined Thick Hide Leggings | 5 | crafting_table | 3× Badger Bristle + 1× Thick Hide | 1× Thick Hide Leggings | 2.4 s | 96 |
+| Trim Tapir Hide Sheets | 5 | crafting_table | 3× Tapir Leather | 2× Thick Hide | 2.4 s | 24 |
+| Heron Quill Charm | 5 | crafting_table | 3× Heron Quill + 1× Iron Bar + 1× Amber | 1× Heron Quill Charm | 2.4 s | 72 |
+| Silk-stitched Thick Hide Robe | 5 | crafting_table | 3× Spider Silk + 2× Thick Hide | 1× Thick Hide Robe | 2.4 s | 96 |
+| Water Wand | 10 | essence_altar | 1× Oak Wand | 1× Water Wand | 1.8 s | 84 |
+| Water Staff | 10 | essence_altar | 1× Oak Staff | 1× Water Staff | 1.8 s | 112 |
+| Cobalt Ring | 10 | crafting_table | 1× Cobalt Bar + 1× Garnet | 1× Cobalt Ring | 2.4 s | 105 |
+| Cobalt Pendant | 10 | crafting_table | 1× Cobalt Bar + 1× Garnet | 1× Cobalt Pendant | 2.4 s | 105 |
+| Storm Ring | 10 | crafting_table | 1× Cobalt Bar + 2× Garnet | 1× Storm Ring | 2.4 s | 105 |
+| Storm Charm | 10 | crafting_table | 2× Garnet | 1× Storm Charm | 2.4 s | 105 |
+| Fur Robe | 10 | crafting_table | 3× Fur Pelt | 1× Fur Robe | 2.4 s | 140 |
+| Fur Leggings | 10 | crafting_table | 2× Fur Pelt | 1× Fur Leggings | 2.4 s | 140 |
+| Fur Hood | 10 | crafting_table | 1× Fur Pelt | 1× Fur Hood | 3.0 s | 88 |
+| Fur Boots | 10 | crafting_table | 1× Fur Pelt | 1× Fur Boots | 3.0 s | 88 |
+| Fur Wraps | 10 | crafting_table | 1× Fur Pelt | 1× Fur Wraps | 3.0 s | 88 |
+| Porcupine Quill Ring | 10 | crafting_table | 3× Porcupine Quill + 1× Cobalt Bar + 1× Garnet | 1× Porcupine Quill Ring | 2.4 s | 105 |
+| Fleece-lined Fur Leggings | 10 | crafting_table | 3× Bighorn Wool + 1× Fur Pelt | 1× Fur Leggings | 2.4 s | 140 |
+| Antler Charm | 10 | crafting_table | 3× Moose Antler + 1× Cobalt Bar + 1× Garnet | 1× Antler Charm | 2.4 s | 105 |
+| Scute-soled Fur Boots | 10 | crafting_table | 3× Crocodile Armor Plate + 1× Fur Pelt | 2× Fur Boots | 2.4 s | 88 |
+| Plume-lined Fur Robe | 10 | crafting_table | 3× Bustard Plume + 2× Fur Pelt | 1× Fur Robe | 2.4 s | 140 |
+| Fire Wand | 20 | essence_altar | 1× Walnut Wand | 1× Fire Wand | 1.8 s | 125 |
+| Fire Staff | 20 | essence_altar | 1× Walnut Staff | 1× Fire Staff | 1.8 s | 166 |
+| Titanium Ring | 20 | crafting_table | 1× Titanium Bar + 1× Fire Opal | 1× Titanium Ring | 2.4 s | 156 |
+| Titanium Pendant | 20 | crafting_table | 1× Titanium Bar + 1× Fire Opal | 1× Titanium Pendant | 2.4 s | 156 |
+| Cinder Ring | 20 | crafting_table | 1× Titanium Bar + 2× Fire Opal | 1× Cinder Ring | 2.4 s | 156 |
 | Cinder Charm | 20 | crafting_table | 2× Fire Opal | 1× Cinder Charm | 2.4 s | 156 |
-| Charhide Robe | 20 | crafting_table | 3× Charhide | 1× Charhide Robe | 2.4 s | 208 |
-| Charhide Leggings | 20 | crafting_table | 2× Charhide | 1× Charhide Leggings | 2.4 s | 208 |
-| Charhide Hood | 20 | crafting_table | 1× Charhide | 1× Charhide Hood | 3.0 s | 130 |
-| Charhide Boots | 20 | crafting_table | 1× Charhide | 1× Charhide Boots | 3.0 s | 130 |
-| Charhide Wraps | 20 | crafting_table | 1× Charhide | 1× Charhide Wraps | 3.0 s | 130 |
+| Heavy Hide Robe | 20 | crafting_table | 3× Heavy Hide | 1× Heavy Hide Robe | 2.4 s | 208 |
+| Heavy Hide Leggings | 20 | crafting_table | 2× Heavy Hide | 1× Heavy Hide Leggings | 2.4 s | 208 |
+| Heavy Hide Hood | 20 | crafting_table | 1× Heavy Hide | 1× Heavy Hide Hood | 3.0 s | 130 |
+| Heavy Hide Boots | 20 | crafting_table | 1× Heavy Hide | 1× Heavy Hide Boots | 3.0 s | 130 |
+| Heavy Hide Wraps | 20 | crafting_table | 1× Heavy Hide | 1× Heavy Hide Wraps | 3.0 s | 130 |
+| Chitin Ring | 20 | crafting_table | 3× Centipede Chitin + 1× Titanium Bar + 1× Fire Opal | 1× Chitin Ring | 2.4 s | 156 |
+| Trim Armored Dragon Hide Sheets | 20 | crafting_table | 3× Armored Dragon Scale | 2× Heavy Hide | 2.4 s | 52 |
+| Mantis Edge Charm | 20 | crafting_table | 3× Mantis Claw + 1× Titanium Bar + 1× Fire Opal | 1× Mantis Edge Charm | 2.4 s | 156 |
 
 ## Fletching
 
 | Recipe | Level | Station | Ingredients | Makes | Time | XP |
 | --- | --- | --- | --- | --- | --- | --- |
-| Palewood Shafts | 1 | fletching_bench | 1× Palewood Log | 4× Palewood Shaft | 1.8 s | 10 |
-| Palewood Handles | 1 | fletching_bench | 1× Palewood Log | 2× Palewood Handle | 1.8 s | 10 |
-| Palewood Staff | 1 | fletching_bench | 3× Palewood Shaft | 1× Palewood Staff | 1.8 s | 32 |
-| Palewood Wand | 1 | fletching_bench | 2× Palewood Shaft | 1× Palewood Wand | 1.8 s | 24 |
-| Palewood Shield | 1 | fletching_bench | 2× Palewood Log + 1× Grithe Bar | 1× Palewood Shield | 1.8 s | 28 |
-| Palewood Rod | 1 | fletching_bench | 2× Palewood Shaft + 1× Coarse Hide | 1× Palewood Rod | 1.8 s | 18 |
-| Basic Wooden Wand | 1 | fletching_bench | 1× Palewood Shaft | 1× Basic Wooden Wand | 1.8 s | 24 |
-| Basic Wooden Staff | 1 | fletching_bench | 2× Palewood Shaft | 1× Basic Wooden Staff | 1.8 s | 32 |
-| Duskoak Shafts | 5 | fletching_bench | 1× Duskoak Log | 4× Duskoak Shaft | 1.8 s | 24 |
-| Duskoak Handles | 5 | fletching_bench | 1× Duskoak Log | 2× Duskoak Handle | 1.8 s | 24 |
-| Duskoak Staff | 5 | fletching_bench | 3× Duskoak Shaft | 1× Duskoak Staff | 1.8 s | 77 |
-| Duskoak Wand | 5 | fletching_bench | 2× Duskoak Shaft | 1× Duskoak Wand | 1.8 s | 58 |
-| Duskoak Shield | 5 | fletching_bench | 2× Duskoak Log + 1× Corven Bar | 1× Duskoak Shield | 1.8 s | 67 |
-| Duskoak Rod | 5 | fletching_bench | 2× Duskoak Shaft + 1× Bramble Hide | 1× Duskoak Rod | 1.8 s | 43 |
-| Cairnpine Shafts | 10 | fletching_bench | 1× Cairnpine Log | 4× Cairnpine Shaft | 1.8 s | 35 |
-| Cairnpine Handles | 10 | fletching_bench | 1× Cairnpine Log | 2× Cairnpine Handle | 1.8 s | 35 |
-| Cairnpine Staff | 10 | fletching_bench | 3× Cairnpine Shaft | 1× Cairnpine Staff | 1.8 s | 112 |
-| Cairnpine Wand | 10 | fletching_bench | 2× Cairnpine Shaft | 1× Cairnpine Wand | 1.8 s | 84 |
-| Cairnpine Shield | 10 | fletching_bench | 2× Cairnpine Log + 1× Kaldite Bar | 1× Cairnpine Shield | 1.8 s | 98 |
-| Cairnpine Rod | 10 | fletching_bench | 2× Cairnpine Shaft + 1× Cairn Pelt | 1× Cairnpine Rod | 1.8 s | 63 |
-| Cinderpine Shafts | 20 | fletching_bench | 1× Cinderpine Log | 4× Cinderpine Shaft | 1.8 s | 52 |
-| Cinderpine Handles | 20 | fletching_bench | 1× Cinderpine Log | 2× Cinderpine Handle | 1.8 s | 52 |
-| Cinderpine Staff | 20 | fletching_bench | 3× Cinderpine Shaft | 1× Cinderpine Staff | 1.8 s | 166 |
-| Cinderpine Wand | 20 | fletching_bench | 2× Cinderpine Shaft | 1× Cinderpine Wand | 1.8 s | 125 |
-| Cinderpine Shield | 20 | fletching_bench | 2× Cinderpine Log + 1× Emberite Bar | 1× Cinderpine Shield | 1.8 s | 146 |
-| Cinderpine Rod | 20 | fletching_bench | 2× Cinderpine Shaft + 1× Charhide | 1× Cinderpine Rod | 1.8 s | 94 |
+| Pine Shafts | 1 | fletching_bench | 1× Pine Log | 4× Pine Shaft | 1.8 s | 10 |
+| Pine Handles | 1 | fletching_bench | 1× Pine Log | 2× Pine Handle | 1.8 s | 10 |
+| Pine Staff | 1 | fletching_bench | 3× Pine Shaft | 1× Pine Staff | 1.8 s | 32 |
+| Pine Wand | 1 | fletching_bench | 2× Pine Shaft | 1× Pine Wand | 1.8 s | 24 |
+| Pine Shield | 1 | fletching_bench | 2× Pine Log + 1× Copper Bar | 1× Pine Shield | 1.8 s | 28 |
+| Pine Rod | 1 | fletching_bench | 2× Pine Shaft + 1× Coarse Hide | 1× Pine Rod | 1.8 s | 18 |
+| Basic Wooden Wand | 1 | fletching_bench | 1× Pine Shaft | 1× Basic Wooden Wand | 1.8 s | 24 |
+| Basic Wooden Staff | 1 | fletching_bench | 2× Pine Shaft | 1× Basic Wooden Staff | 1.8 s | 32 |
+| Ash Shafts | 5 | fletching_bench | 1× Ash Log | 4× Ash Shaft | 1.8 s | 24 |
+| Ash Handles | 5 | fletching_bench | 1× Ash Log | 2× Ash Handle | 1.8 s | 24 |
+| Ash Staff | 5 | fletching_bench | 3× Ash Shaft | 1× Ash Staff | 1.8 s | 77 |
+| Ash Wand | 5 | fletching_bench | 2× Ash Shaft | 1× Ash Wand | 1.8 s | 58 |
+| Ash Shield | 5 | fletching_bench | 2× Ash Log + 1× Iron Bar | 1× Ash Shield | 1.8 s | 67 |
+| Ash Rod | 5 | fletching_bench | 2× Ash Shaft + 1× Thick Hide | 1× Ash Rod | 1.8 s | 43 |
+| Horsehair Maple Rod | 5 | fletching_bench | 3× Horsehair + 2× Ash Shaft | 1× Ash Rod | 1.8 s | 43 |
+| Glue-bound Maple Shield | 5 | fletching_bench | 3× Snail Mucus + 2× Ash Log | 1× Ash Shield | 1.8 s | 67 |
+| Oak Shafts | 10 | fletching_bench | 1× Oak Log | 4× Oak Shaft | 1.8 s | 35 |
+| Oak Handles | 10 | fletching_bench | 1× Oak Log | 2× Oak Handle | 1.8 s | 35 |
+| Oak Staff | 10 | fletching_bench | 3× Oak Shaft | 1× Oak Staff | 1.8 s | 112 |
+| Oak Wand | 10 | fletching_bench | 2× Oak Shaft | 1× Oak Wand | 1.8 s | 84 |
+| Oak Shield | 10 | fletching_bench | 2× Oak Log + 1× Cobalt Bar | 1× Oak Shield | 1.8 s | 98 |
+| Oak Rod | 10 | fletching_bench | 2× Oak Shaft + 1× Fur Pelt | 1× Oak Rod | 1.8 s | 63 |
+| Shell-backed Pine Shield | 10 | fletching_bench | 3× Tortoise Shell Plate + 2× Oak Log | 1× Oak Shield | 1.8 s | 98 |
+| Walnut Shafts | 20 | fletching_bench | 1× Walnut Log | 4× Walnut Shaft | 1.8 s | 52 |
+| Walnut Handles | 20 | fletching_bench | 1× Walnut Log | 2× Walnut Handle | 1.8 s | 52 |
+| Walnut Staff | 20 | fletching_bench | 3× Walnut Shaft | 1× Walnut Staff | 1.8 s | 166 |
+| Walnut Wand | 20 | fletching_bench | 2× Walnut Shaft | 1× Walnut Wand | 1.8 s | 125 |
+| Walnut Shield | 20 | fletching_bench | 2× Walnut Log + 1× Titanium Bar | 1× Walnut Shield | 1.8 s | 146 |
+| Walnut Rod | 20 | fletching_bench | 2× Walnut Shaft + 1× Heavy Hide | 1× Walnut Rod | 1.8 s | 94 |
+| Sinew-bound Cedar Rod | 20 | fletching_bench | 3× Monitor Lizard Sinew + 2× Walnut Shaft | 1× Walnut Rod | 1.8 s | 94 |

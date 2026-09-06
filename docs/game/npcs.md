@@ -7,9 +7,9 @@ description: "Every named NPC, where to find them, and the quests they give."
 
 ![Warden Ilse](./assets/captures/npcs/npc_warden_ilse.webp)
 
-Warden of Coldbrace. Runs a town on behalf of a company that stopped writing back.
+Warden of Millfield. Runs a town on behalf of a company that stopped writing back.
 
-**Found at:** Coldbrace Square, Fallowmarch
+**Found at:** Millfield Square, Farmland
 
 ### Quests
 
@@ -19,9 +19,9 @@ _No quest._
 
 ![Pitmaster Dorn](./assets/captures/npcs/npc_pitmaster_dorn.webp)
 
-Runs the Bracken Pit, and the ledger that says what the Bracken Pit contains.
+Runs the Copper Pit, and the ledger that says what the Copper Pit contains.
 
-**Found at:** Coldbrace Square, Fallowmarch
+**Found at:** Millfield Square, Farmland
 
 ### Quests
 
@@ -31,9 +31,9 @@ Runs the Bracken Pit, and the ledger that says what the Bracken Pit contains.
 
 ![Harrow the Smith](./assets/captures/npcs/npc_smith_harrow.webp)
 
-Coldbrace's smith. Sells metal, teaches the material loop, says very little.
+Millfield's smith. Sells metal, teaches the material loop, says very little.
 
-**Found at:** Coldbrace Square, Fallowmarch
+**Found at:** Millfield Square, Farmland
 
 ### Quests
 
@@ -45,7 +45,7 @@ Coldbrace's smith. Sells metal, teaches the material loop, says very little.
 
 Walks the march and knows where the water is.
 
-**Found at:** Coldbrace Square, Fallowmarch
+**Found at:** Millfield Square, Farmland
 
 ### Quests
 
@@ -57,7 +57,7 @@ _No quest._
 
 Hauls ore from the pit to the vault. Currently losing an argument to Warden Ilse.
 
-**Found at:** Coldbrace South Gate, Fallowmarch
+**Found at:** Millfield South Gate, Farmland
 
 ### Quests
 
@@ -67,9 +67,9 @@ Hauls ore from the pit to the vault. Currently losing an argument to Warden Ilse
 
 ![Woodward Ansel](./assets/captures/npcs/npc_woodward_ansel.webp)
 
-Keeps the Duskoak stand. Decides which trees may be felled and which may not.
+Keeps the Maple Grove. Decides which trees may be felled and which may not.
 
-**Found at:** Rootfall, Vellenwood
+**Found at:** Oakwood, Woodlands
 
 ### Quests
 
@@ -79,9 +79,9 @@ Keeps the Duskoak stand. Decides which trees may be felled and which may not.
 
 ![Seamer Juno](./assets/captures/npcs/npc_seamer_juno.webp)
 
-Rootfall's crafter. Shafts, hide, cord, and anything that has to hold under load.
+Oakwood's crafter. Shafts, hide, cord, and anything that has to hold under load.
 
-**Found at:** Rootfall, Vellenwood
+**Found at:** Oakwood, Woodlands
 
 ### Quests
 
@@ -93,7 +93,7 @@ Rootfall's crafter. Shafts, hide, cord, and anything that has to hold under load
 
 Sets eleven traps in the deep wood. Has caught nothing in eleven days.
 
-**Found at:** Rootfall, Vellenwood
+**Found at:** Oakwood, Woodlands
 
 ### Quests
 
@@ -103,9 +103,9 @@ Sets eleven traps in the deep wood. Has caught nothing in eleven days.
 
 ![Foreman Arden](./assets/captures/npcs/npc_foreman_arden.webp)
 
-Foreman of the Highcairn quarry crew. Stopped the dig six months ago and kept the camp.
+Foreman of the Hillcrest quarry crew. Stopped the dig six months ago and kept the camp.
 
-**Found at:** Highcairn, Karrowmoor
+**Found at:** Hillcrest, Highlands
 
 ### Quests
 
@@ -115,9 +115,9 @@ Foreman of the Highcairn quarry crew. Stopped the dig six months ago and kept th
 
 ![Quarrier Vess](./assets/captures/npcs/npc_quarrier_vess.webp)
 
-Works the Kaldite faces. Does not like what the blue-black stone does in the dark.
+Works the Cobalt faces. Does not like what the blue-black stone does in the dark.
 
-**Found at:** Highcairn, Karrowmoor
+**Found at:** Hillcrest, Highlands
 
 ### Quests
 
@@ -129,7 +129,7 @@ Works the Kaldite faces. Does not like what the blue-black stone does in the dar
 
 Keeps the cairns on the moor. Nobody appointed her; nobody has argued.
 
-**Found at:** Highcairn, Karrowmoor
+**Found at:** Hillcrest, Highlands
 
 ### Quests
 
@@ -139,9 +139,9 @@ Keeps the cairns on the moor. Nobody appointed her; nobody has argued.
 
 ![Watcher Hale](./assets/captures/npcs/npc_watcher_hale.webp)
 
-On the rota that watches the Gravelmaw mouth. It is his shift more often than it should be.
+On the rota that watches Stone Cavern mouth. It is his shift more often than it should be.
 
-**Found at:** Highcairn, Karrowmoor
+**Found at:** Hillcrest, Highlands
 
 ### Quests
 

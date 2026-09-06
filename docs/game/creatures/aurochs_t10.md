@@ -1,15 +1,15 @@
 ---
-title: "Terrace Aurochs"
-description: "Terrace Aurochs spawn locations, combat stats, and drops."
+title: "Aurochs"
+description: "Aurochs spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/terrace_aurochs.webp" alt="Terrace Aurochs at its authored spawn in Karrowmoor" loading="lazy" /><figcaption><strong>Terrace Aurochs</strong><span>Lower Quarry, Karrowmoor</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/terrace_aurochs.webp" alt="Aurochs at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Aurochs</strong><span>Stone Cavern, Highlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Terrace Aurochs">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Aurochs">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#lower-quarry" style="--map-x:56.0000%;--map-y:62.1250%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Terrace Aurochs, Lower Quarry, Karrowmoor" title="Terrace Aurochs, Lower Quarry, Karrowmoor"><span>Terrace Aurochs<small>Lower Quarry, Karrowmoor</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#stone-cavern" style="--map-x:56.0000%;--map-y:62.1250%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Aurochs, Stone Cavern, Highlands" title="Aurochs, Stone Cavern, Highlands"><span>Aurochs<small>Stone Cavern, Highlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Terrace Aurochs spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Karrowmoor](../../regions/#lower-quarry) | [Lower Quarry](../../regions/#lower-quarry) | Terrace Aurochs | 3 |
+| [Highlands](../../regions/#stone-cavern) | [Stone Cavern](../../regions/#stone-cavern) | Aurochs | 3 |
 
 ## Stats
 
@@ -42,8 +42,8 @@ description: "Terrace Aurochs spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 30-110 | Always |
-| [Cairn Pelt](../../items/#cairn-pelt) | 1-2 | 55% |
+| [Fur Pelt](../../items/#fur-pelt) | 1-2 | 55% |
 | [Raw Haunch](../../items/#raw-haunch) | 1-3 | 50% |
 | [Aurochs Horn](../../items/#aurochs-horn) | 1 | 25% |
-| [March Stone](../../items/#march-stone) | 2-5 | 25% |
-| [Cairn Garnet](../../items/#cairn-garnet) | 1 | 10% |
+| [Limestone](../../items/#limestone) | 2-5 | 25% |
+| [Garnet](../../items/#garnet) | 1 | 10% |

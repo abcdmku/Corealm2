@@ -7,65 +7,65 @@ description: "Corealm's regions, settlements, routes, landmarks, gathering sites
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Interactive map of Corealm locations">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="#march-road-end" style="--map-x:36.6667%;--map-y:66.7500%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="March Road End, Fallowmarch" title="March Road End, Fallowmarch"><span>March Road End<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#coldbrace-south-gate" style="--map-x:36.6667%;--map-y:66.1250%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Coldbrace South Gate, Fallowmarch" title="Coldbrace South Gate, Fallowmarch"><span>Coldbrace South Gate<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#coldbrace-square" style="--map-x:36.6667%;--map-y:64.3750%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Coldbrace Square, Fallowmarch" title="Coldbrace Square, Fallowmarch"><span>Coldbrace Square<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#coldbrace-bank" style="--map-x:36.6667%;--map-y:64.8750%" data-map-side="right" data-map-kind="bank" data-map-marker aria-label="Coldbrace Bank, Fallowmarch" title="Coldbrace Bank, Fallowmarch"><span>Coldbrace Bank<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#coldbrace-east-gate" style="--map-x:38.8333%;--map-y:64.3750%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Coldbrace East Gate, Fallowmarch" title="Coldbrace East Gate, Fallowmarch"><span>Coldbrace East Gate<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#the-broken-milestone" style="--map-x:41.0000%;--map-y:59.8750%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Broken Milestone, Fallowmarch" title="The Broken Milestone, Fallowmarch"><span>The Broken Milestone<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#bracken-pit" style="--map-x:36.6667%;--map-y:54.3750%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Bracken Pit, Fallowmarch" title="Bracken Pit, Fallowmarch"><span>Bracken Pit<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#kiln-road-south" style="--map-x:36.6667%;--map-y:47.3750%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Kiln Road South, Fallowmarch" title="Kiln Road South, Fallowmarch"><span>Kiln Road South<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#palewood-copse" style="--map-x:22.1667%;--map-y:63.3750%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Palewood Copse, Fallowmarch" title="Palewood Copse, Fallowmarch"><span>Palewood Copse<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#redsill-shallows" style="--map-x:46.6667%;--map-y:63.1250%" data-map-side="right" data-map-kind="water" data-map-marker aria-label="Redsill Shallows, Fallowmarch" title="Redsill Shallows, Fallowmarch"><span>Redsill Shallows<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#corven-ford" style="--map-x:44.0000%;--map-y:68.5000%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Corven Ford, Fallowmarch" title="Corven Ford, Fallowmarch"><span>Corven Ford<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#marchfield" style="--map-x:42.0000%;--map-y:60.7500%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Marchfield, Fallowmarch" title="Marchfield, Fallowmarch"><span>Marchfield<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#west-track" style="--map-x:30.8333%;--map-y:63.1250%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="West Track, Fallowmarch" title="West Track, Fallowmarch"><span>West Track<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#the-open-march" style="--map-x:29.1667%;--map-y:57.5000%" data-map-side="right" data-map-kind="camp" data-map-marker aria-label="The Open March, Fallowmarch" title="The Open March, Fallowmarch"><span>The Open March<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#air-essence-cache" style="--map-x:29.1667%;--map-y:68.7500%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Air Essence Cache, Fallowmarch" title="Air Essence Cache, Fallowmarch"><span>Air Essence Cache<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#north-gate" style="--map-x:47.8333%;--map-y:52.0000%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="North Gate, Fallowmarch" title="North Gate, Fallowmarch"><span>North Gate<small>Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="#marchgate" style="--map-x:49.0000%;--map-y:51.7500%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Marchgate, Vellenwood" title="Marchgate, Vellenwood"><span>Marchgate<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#rootfall" style="--map-x:55.0000%;--map-y:51.8750%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Rootfall, Vellenwood" title="Rootfall, Vellenwood"><span>Rootfall<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#rootfall-bank-chest" style="--map-x:55.0000%;--map-y:51.3750%" data-map-side="right" data-map-kind="bank" data-map-marker aria-label="Rootfall Bank Chest, Vellenwood" title="Rootfall Bank Chest, Vellenwood"><span>Rootfall Bank Chest<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#hollowcut-seam" style="--map-x:57.8333%;--map-y:50.3125%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Hollowcut Seam, Vellenwood" title="Hollowcut Seam, Vellenwood"><span>Hollowcut Seam<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#duskoak-stand" style="--map-x:51.1667%;--map-y:49.0000%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Duskoak Stand, Vellenwood" title="Duskoak Stand, Vellenwood"><span>Duskoak Stand<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#mire-skirt" style="--map-x:49.5000%;--map-y:51.8750%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Mire Skirt, Vellenwood" title="Mire Skirt, Vellenwood"><span>Mire Skirt<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#blackwater-pools" style="--map-x:60.6667%;--map-y:54.1250%" data-map-side="right" data-map-kind="water" data-map-marker aria-label="Blackwater Pools, Vellenwood" title="Blackwater Pools, Vellenwood"><span>Blackwater Pools<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#gorge-ford" style="--map-x:69.1667%;--map-y:56.6250%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Gorge Ford, Vellenwood" title="Gorge Ford, Vellenwood"><span>Gorge Ford<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#gorge-head" style="--map-x:58.6667%;--map-y:47.3750%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Gorge Head, Vellenwood" title="Gorge Head, Vellenwood"><span>Gorge Head<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#the-thornline" style="--map-x:66.3333%;--map-y:49.8750%" data-map-side="left" data-map-kind="camp" data-map-marker aria-label="The Thornline, Vellenwood" title="The Thornline, Vellenwood"><span>The Thornline<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#earth-essence-cache" style="--map-x:71.8333%;--map-y:48.3750%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Earth Essence Cache, Vellenwood" title="Earth Essence Cache, Vellenwood"><span>Earth Essence Cache<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#cairn-gate" style="--map-x:70.8333%;--map-y:57.8750%" data-map-side="left" data-map-kind="gate" data-map-marker aria-label="Cairn Gate, Vellenwood" title="Cairn Gate, Vellenwood"><span>Cairn Gate<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#kiln-path" style="--map-x:62.5000%;--map-y:47.2500%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Kiln Path, Vellenwood" title="Kiln Path, Vellenwood"><span>Kiln Path<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#ember-edge" style="--map-x:73.8333%;--map-y:47.2500%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Ember Edge, Vellenwood" title="Ember Edge, Vellenwood"><span>Ember Edge<small>Vellenwood</small></span></a>
-<a class="corealm-map-marker" href="#moorgate" style="--map-x:71.3333%;--map-y:59.1250%" data-map-side="left" data-map-kind="gate" data-map-marker aria-label="Moorgate, Karrowmoor" title="Moorgate, Karrowmoor"><span>Moorgate<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#moor-road-bend" style="--map-x:64.1667%;--map-y:59.7500%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Moor Road Bend, Karrowmoor" title="Moor Road Bend, Karrowmoor"><span>Moor Road Bend<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#lower-quarry" style="--map-x:55.0000%;--map-y:60.3750%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Lower Quarry, Karrowmoor" title="Lower Quarry, Karrowmoor"><span>Lower Quarry<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#the-gravelmaw" style="--map-x:53.8333%;--map-y:60.8750%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="The Gravelmaw, Karrowmoor" title="The Gravelmaw, Karrowmoor"><span>The Gravelmaw<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#highcairn" style="--map-x:62.0000%;--map-y:63.5000%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Highcairn, Karrowmoor" title="Highcairn, Karrowmoor"><span>Highcairn<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#highcairn-bank" style="--map-x:62.5000%;--map-y:63.7500%" data-map-side="left" data-map-kind="bank" data-map-marker aria-label="Highcairn Bank, Karrowmoor" title="Highcairn Bank, Karrowmoor"><span>Highcairn Bank<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#second-ramp" style="--map-x:58.3333%;--map-y:64.3750%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Second Ramp, Karrowmoor" title="Second Ramp, Karrowmoor"><span>Second Ramp<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#third-ramp" style="--map-x:59.8333%;--map-y:68.0000%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Third Ramp, Karrowmoor" title="Third Ramp, Karrowmoor"><span>Third Ramp<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#upper-karrow-seam" style="--map-x:66.1667%;--map-y:67.6250%" data-map-side="left" data-map-kind="seam" data-map-marker aria-label="Upper Karrow Seam, Karrowmoor" title="Upper Karrow Seam, Karrowmoor"><span>Upper Karrow Seam<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#the-great-cairn" style="--map-x:61.6667%;--map-y:70.3750%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Great Cairn, Karrowmoor" title="The Great Cairn, Karrowmoor"><span>The Great Cairn<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#cairn-tarns" style="--map-x:67.1667%;--map-y:64.8750%" data-map-side="left" data-map-kind="water" data-map-marker aria-label="Cairn Tarns, Karrowmoor" title="Cairn Tarns, Karrowmoor"><span>Cairn Tarns<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#ridge-pines" style="--map-x:70.8333%;--map-y:65.3750%" data-map-side="left" data-map-kind="grove" data-map-marker aria-label="Ridge Pines, Karrowmoor" title="Ridge Pines, Karrowmoor"><span>Ridge Pines<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#far-tarn" style="--map-x:73.6667%;--map-y:66.2500%" data-map-side="left" data-map-kind="water" data-map-marker aria-label="Far Tarn, Karrowmoor" title="Far Tarn, Karrowmoor"><span>Far Tarn<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#tarn-track" style="--map-x:75.0000%;--map-y:64.3750%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Tarn Track, Karrowmoor" title="Tarn Track, Karrowmoor"><span>Tarn Track<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#water-essence-cache" style="--map-x:77.3333%;--map-y:70.3750%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Water Essence Cache, Karrowmoor" title="Water Essence Cache, Karrowmoor"><span>Water Essence Cache<small>Karrowmoor</small></span></a>
-<a class="corealm-map-marker" href="#kiln-road-south" style="--map-x:36.6667%;--map-y:46.0000%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Kiln Road South, Kilnhalt" title="Kiln Road South, Kilnhalt"><span>Kiln Road South<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#ridge-track" style="--map-x:62.5000%;--map-y:46.0000%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Ridge Track, Kilnhalt" title="Ridge Track, Kilnhalt"><span>Ridge Track<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#ember-edge-track" style="--map-x:74.1667%;--map-y:46.0000%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Ember Edge Track, Kilnhalt" title="Ember Edge Track, Kilnhalt"><span>Ember Edge Track<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#kilnroad-fork" style="--map-x:50.0000%;--map-y:43.5000%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Kilnroad Fork, Kilnhalt" title="Kilnroad Fork, Kilnhalt"><span>Kilnroad Fork<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#south-bend" style="--map-x:53.3333%;--map-y:40.6250%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="South Bend, Kilnhalt" title="South Bend, Kilnhalt"><span>South Bend<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#emberfast" style="--map-x:50.1667%;--map-y:39.0625%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Emberfast, Kilnhalt" title="Emberfast, Kilnhalt"><span>Emberfast<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#emberfast-bank" style="--map-x:50.6667%;--map-y:39.3125%" data-map-side="right" data-map-kind="bank" data-map-marker aria-label="Emberfast Bank, Kilnhalt" title="Emberfast Bank, Kilnhalt"><span>Emberfast Bank<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#emberfast-gate" style="--map-x:52.0000%;--map-y:38.5625%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Emberfast Gate, Kilnhalt" title="Emberfast Gate, Kilnhalt"><span>Emberfast Gate<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#quarry-postern" style="--map-x:48.0000%;--map-y:38.5625%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Quarry Postern, Kilnhalt" title="Quarry Postern, Kilnhalt"><span>Quarry Postern<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#clinker-quarry" style="--map-x:29.1667%;--map-y:38.7500%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Clinker Quarry, Kilnhalt" title="Clinker Quarry, Kilnhalt"><span>Clinker Quarry<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#ashfin-springs" style="--map-x:67.5000%;--map-y:43.7500%" data-map-side="left" data-map-kind="water" data-map-marker aria-label="Ashfin Springs, Kilnhalt" title="Ashfin Springs, Kilnhalt"><span>Ashfin Springs<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#cinderpine-stand" style="--map-x:70.0000%;--map-y:38.1250%" data-map-side="left" data-map-kind="grove" data-map-marker aria-label="Cinderpine Stand, Kilnhalt" title="Cinderpine Stand, Kilnhalt"><span>Cinderpine Stand<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#fire-essence-cache" style="--map-x:74.1667%;--map-y:34.3750%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Fire Essence Cache, Kilnhalt" title="Fire Essence Cache, Kilnhalt"><span>Fire Essence Cache<small>Kilnhalt</small></span></a>
-<a class="corealm-map-marker" href="#cinderwake-arena" style="--map-x:73.8333%;--map-y:33.1250%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Cinderwake Arena, Kilnhalt" title="Cinderwake Arena, Kilnhalt"><span>Cinderwake Arena<small>Kilnhalt</small></span></a>
+<a class="corealm-map-marker" href="#farm-road-end" style="--map-x:36.6667%;--map-y:66.7500%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Farm Road End, Farmland" title="Farm Road End, Farmland"><span>Farm Road End<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#millfield-south-gate" style="--map-x:36.6667%;--map-y:66.1250%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Millfield South Gate, Farmland" title="Millfield South Gate, Farmland"><span>Millfield South Gate<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#millfield-square" style="--map-x:36.6667%;--map-y:64.3750%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Millfield Square, Farmland" title="Millfield Square, Farmland"><span>Millfield Square<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#millfield-bank" style="--map-x:36.6667%;--map-y:64.8750%" data-map-side="right" data-map-kind="bank" data-map-marker aria-label="Millfield Bank, Farmland" title="Millfield Bank, Farmland"><span>Millfield Bank<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#millfield-east-gate" style="--map-x:38.8333%;--map-y:64.3750%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Millfield East Gate, Farmland" title="Millfield East Gate, Farmland"><span>Millfield East Gate<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#the-broken-milestone" style="--map-x:41.0000%;--map-y:59.8750%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Broken Milestone, Farmland" title="The Broken Milestone, Farmland"><span>The Broken Milestone<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#copper-pit" style="--map-x:36.6667%;--map-y:54.3750%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Copper Pit, Farmland" title="Copper Pit, Farmland"><span>Copper Pit<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#kiln-road-south" style="--map-x:36.6667%;--map-y:47.3750%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Kiln Road South, Farmland" title="Kiln Road South, Farmland"><span>Kiln Road South<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#pine-grove" style="--map-x:22.1667%;--map-y:63.3750%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Pine Grove, Farmland" title="Pine Grove, Farmland"><span>Pine Grove<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#river-shallows" style="--map-x:46.6667%;--map-y:63.1250%" data-map-side="right" data-map-kind="water" data-map-marker aria-label="River Shallows, Farmland" title="River Shallows, Farmland"><span>River Shallows<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#river-crossing" style="--map-x:44.0000%;--map-y:68.5000%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="River Crossing, Farmland" title="River Crossing, Farmland"><span>River Crossing<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#farm-fields" style="--map-x:42.0000%;--map-y:60.7500%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Farm Fields, Farmland" title="Farm Fields, Farmland"><span>Farm Fields<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#west-track" style="--map-x:30.8333%;--map-y:63.1250%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="West Track, Farmland" title="West Track, Farmland"><span>West Track<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#open-meadow" style="--map-x:29.1667%;--map-y:57.5000%" data-map-side="right" data-map-kind="camp" data-map-marker aria-label="Open Meadow, Farmland" title="Open Meadow, Farmland"><span>Open Meadow<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#air-essence-cache" style="--map-x:29.1667%;--map-y:68.7500%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="Air Essence Cache, Farmland" title="Air Essence Cache, Farmland"><span>Air Essence Cache<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#north-gate" style="--map-x:47.8333%;--map-y:52.0000%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="North Gate, Farmland" title="North Gate, Farmland"><span>North Gate<small>Farmland</small></span></a>
+<a class="corealm-map-marker" href="#forest-gate" style="--map-x:49.0000%;--map-y:51.7500%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Forest Gate, Woodlands" title="Forest Gate, Woodlands"><span>Forest Gate<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#oakwood" style="--map-x:55.3333%;--map-y:51.4375%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Oakwood, Woodlands" title="Oakwood, Woodlands"><span>Oakwood<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#oakwood-bank-chest" style="--map-x:55.0000%;--map-y:51.3750%" data-map-side="right" data-map-kind="bank" data-map-marker aria-label="Oakwood Bank Chest, Woodlands" title="Oakwood Bank Chest, Woodlands"><span>Oakwood Bank Chest<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#forest-quarry" style="--map-x:57.8333%;--map-y:50.3125%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Forest Quarry, Woodlands" title="Forest Quarry, Woodlands"><span>Forest Quarry<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#ash-grove" style="--map-x:51.1667%;--map-y:49.0000%" data-map-side="right" data-map-kind="grove" data-map-marker aria-label="Ash Grove, Woodlands" title="Ash Grove, Woodlands"><span>Ash Grove<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#marsh-edge" style="--map-x:49.5000%;--map-y:51.8750%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Marsh Edge, Woodlands" title="Marsh Edge, Woodlands"><span>Marsh Edge<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#blackwater-pools" style="--map-x:60.6667%;--map-y:54.1250%" data-map-side="right" data-map-kind="water" data-map-marker aria-label="Blackwater Pools, Woodlands" title="Blackwater Pools, Woodlands"><span>Blackwater Pools<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#gorge-ford" style="--map-x:69.1667%;--map-y:56.6250%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Gorge Ford, Woodlands" title="Gorge Ford, Woodlands"><span>Gorge Ford<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#gorge-head" style="--map-x:58.6667%;--map-y:47.3750%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Gorge Head, Woodlands" title="Gorge Head, Woodlands"><span>Gorge Head<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#the-thicket" style="--map-x:66.3333%;--map-y:49.8750%" data-map-side="left" data-map-kind="camp" data-map-marker aria-label="The Thicket, Woodlands" title="The Thicket, Woodlands"><span>The Thicket<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#earth-essence-cache" style="--map-x:71.8333%;--map-y:48.3750%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Earth Essence Cache, Woodlands" title="Earth Essence Cache, Woodlands"><span>Earth Essence Cache<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#mountain-gate" style="--map-x:70.8333%;--map-y:57.8750%" data-map-side="left" data-map-kind="gate" data-map-marker aria-label="Mountain Gate, Woodlands" title="Mountain Gate, Woodlands"><span>Mountain Gate<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#kiln-path" style="--map-x:62.5000%;--map-y:47.2500%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Kiln Path, Woodlands" title="Kiln Path, Woodlands"><span>Kiln Path<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#ash-border" style="--map-x:73.8333%;--map-y:47.2500%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Ash Border, Woodlands" title="Ash Border, Woodlands"><span>Ash Border<small>Woodlands</small></span></a>
+<a class="corealm-map-marker" href="#highland-gate" style="--map-x:71.3333%;--map-y:59.1250%" data-map-side="left" data-map-kind="gate" data-map-marker aria-label="Highland Gate, Highlands" title="Highland Gate, Highlands"><span>Highland Gate<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#moor-road-bend" style="--map-x:64.1667%;--map-y:59.7500%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Moor Road Bend, Highlands" title="Moor Road Bend, Highlands"><span>Moor Road Bend<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#lower-quarry" style="--map-x:61.6667%;--map-y:60.3750%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Lower Quarry, Highlands" title="Lower Quarry, Highlands"><span>Lower Quarry<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#stone-cavern" style="--map-x:53.8333%;--map-y:60.8750%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Stone Cavern, Highlands" title="Stone Cavern, Highlands"><span>Stone Cavern<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#hillcrest" style="--map-x:62.0000%;--map-y:63.5000%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Hillcrest, Highlands" title="Hillcrest, Highlands"><span>Hillcrest<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#hillcrest-bank" style="--map-x:62.5000%;--map-y:63.7500%" data-map-side="left" data-map-kind="bank" data-map-marker aria-label="Hillcrest Bank, Highlands" title="Hillcrest Bank, Highlands"><span>Hillcrest Bank<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#second-ramp" style="--map-x:58.3333%;--map-y:64.3750%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Second Ramp, Highlands" title="Second Ramp, Highlands"><span>Second Ramp<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#third-ramp" style="--map-x:59.8333%;--map-y:68.0000%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Third Ramp, Highlands" title="Third Ramp, Highlands"><span>Third Ramp<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#upper-cobalt-seam" style="--map-x:66.1667%;--map-y:67.6250%" data-map-side="left" data-map-kind="seam" data-map-marker aria-label="Upper Cobalt Seam, Highlands" title="Upper Cobalt Seam, Highlands"><span>Upper Cobalt Seam<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#the-great-cairn" style="--map-x:61.6667%;--map-y:70.3750%" data-map-side="right" data-map-kind="landmark" data-map-marker aria-label="The Great Cairn, Highlands" title="The Great Cairn, Highlands"><span>The Great Cairn<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#mountain-lakes" style="--map-x:67.1667%;--map-y:64.8750%" data-map-side="left" data-map-kind="water" data-map-marker aria-label="Mountain Lakes, Highlands" title="Mountain Lakes, Highlands"><span>Mountain Lakes<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#ridge-oaks" style="--map-x:70.8333%;--map-y:65.3750%" data-map-side="left" data-map-kind="grove" data-map-marker aria-label="Ridge Oaks, Highlands" title="Ridge Oaks, Highlands"><span>Ridge Oaks<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#far-lake" style="--map-x:73.6667%;--map-y:66.2500%" data-map-side="left" data-map-kind="water" data-map-marker aria-label="Far Lake, Highlands" title="Far Lake, Highlands"><span>Far Lake<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#lake-trail" style="--map-x:75.0000%;--map-y:64.3750%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Lake Trail, Highlands" title="Lake Trail, Highlands"><span>Lake Trail<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#water-essence-cache" style="--map-x:77.3333%;--map-y:70.3750%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Water Essence Cache, Highlands" title="Water Essence Cache, Highlands"><span>Water Essence Cache<small>Highlands</small></span></a>
+<a class="corealm-map-marker" href="#kiln-road-south" style="--map-x:36.6667%;--map-y:46.0000%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Kiln Road South, Ashlands" title="Kiln Road South, Ashlands"><span>Kiln Road South<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#ridge-track" style="--map-x:62.5000%;--map-y:46.0000%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Ridge Track, Ashlands" title="Ridge Track, Ashlands"><span>Ridge Track<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#ash-border-track" style="--map-x:74.1667%;--map-y:46.0000%" data-map-side="left" data-map-kind="junction" data-map-marker aria-label="Ash Border Track, Ashlands" title="Ash Border Track, Ashlands"><span>Ash Border Track<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#kiln-road-fork" style="--map-x:50.0000%;--map-y:43.5000%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="Kiln Road Fork, Ashlands" title="Kiln Road Fork, Ashlands"><span>Kiln Road Fork<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#south-bend" style="--map-x:53.3333%;--map-y:40.6250%" data-map-side="right" data-map-kind="junction" data-map-marker aria-label="South Bend, Ashlands" title="South Bend, Ashlands"><span>South Bend<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#ashford" style="--map-x:50.1667%;--map-y:39.0625%" data-map-side="right" data-map-kind="settlement" data-map-marker aria-label="Ashford, Ashlands" title="Ashford, Ashlands"><span>Ashford<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#ashford-bank" style="--map-x:50.6667%;--map-y:39.3125%" data-map-side="right" data-map-kind="bank" data-map-marker aria-label="Ashford Bank, Ashlands" title="Ashford Bank, Ashlands"><span>Ashford Bank<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#ashford-gate" style="--map-x:52.0000%;--map-y:38.5625%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Ashford Gate, Ashlands" title="Ashford Gate, Ashlands"><span>Ashford Gate<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#quarry-postern" style="--map-x:48.0000%;--map-y:38.5625%" data-map-side="right" data-map-kind="gate" data-map-marker aria-label="Quarry Postern, Ashlands" title="Quarry Postern, Ashlands"><span>Quarry Postern<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#volcanic-quarry" style="--map-x:29.1667%;--map-y:38.7500%" data-map-side="right" data-map-kind="seam" data-map-marker aria-label="Volcanic Quarry, Ashlands" title="Volcanic Quarry, Ashlands"><span>Volcanic Quarry<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#hot-springs" style="--map-x:67.5000%;--map-y:43.7500%" data-map-side="left" data-map-kind="water" data-map-marker aria-label="Hot Springs, Ashlands" title="Hot Springs, Ashlands"><span>Hot Springs<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#walnut-grove" style="--map-x:70.0000%;--map-y:38.1250%" data-map-side="left" data-map-kind="grove" data-map-marker aria-label="Walnut Grove, Ashlands" title="Walnut Grove, Ashlands"><span>Walnut Grove<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#fire-essence-cache" style="--map-x:74.1667%;--map-y:34.3750%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Fire Essence Cache, Ashlands" title="Fire Essence Cache, Ashlands"><span>Fire Essence Cache<small>Ashlands</small></span></a>
+<a class="corealm-map-marker" href="#fire-ogre-arena" style="--map-x:73.8333%;--map-y:33.1250%" data-map-side="left" data-map-kind="landmark" data-map-marker aria-label="Fire Ogre Arena, Ashlands" title="Fire Ogre Arena, Ashlands"><span>Fire Ogre Arena<small>Ashlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -78,47 +78,47 @@ description: "Corealm's regions, settlements, routes, landmarks, gathering sites
 <figcaption>Drag to pan. Scroll or use + and - to zoom. The Gravelmaw rooms lie below its entrance marker.</figcaption>
 </figure>
 
-## Fallowmarch
+## Farmland
 
-The last surveyed land before the maps stop being useful. Two generations ago the March Company drove a road north, planted a bank vault at the end of it, walled a town around the vault, and then stopped answering letters. What is left is Coldbrace: two hundred people pulling soft grey Grithe out of a shallow pit and pretending the wind off the northern moor does not sound like anything.
+The last surveyed land before the maps stop being useful. Two generations ago the Trade Company drove a road north, planted a bank vault at the end of it, walled a town around the vault, and then stopped answering letters. What is left is Millfield: two hundred people pulling Copper ore out of a shallow pit and pretending the wind off the northern moor does not sound like anything.
 
-Tier 1. Settlement: **Coldbrace**.
+Tier 1. Settlement: **Millfield**.
 
-### March Road End
+### Farm Road End
 
-![March Road End](./assets/captures/locations/spawn.webp)
+![Farm Road End](./assets/captures/locations/spawn.webp)
 
-Where the March Company road gives out, a stone throw south of Coldbrace.
+Where the Trade Company road gives out, a stone throw south of Millfield.
 
 **Tier:** 1 · **Type:** junction
 
-### Coldbrace South Gate
+### Millfield South Gate
 
-![Coldbrace South Gate](./assets/captures/locations/town_entrance.webp)
+![Millfield South Gate](./assets/captures/locations/town_entrance.webp)
 
-The south gate of Coldbrace. The only one the carters use.
+The south gate of Millfield. The only one the carters use.
 
 **Tier:** 1 · **Type:** gate
 
-### Coldbrace Square
+### Millfield Square
 
-![Coldbrace Square](./assets/captures/locations/town_center.webp)
+![Millfield Square](./assets/captures/locations/town_center.webp)
 
-The town square, built around the March Company vault.
+The town square, built around the Trade Company vault.
 
 **Tier:** 1 · **Type:** settlement
 
-### Coldbrace Bank
+### Millfield Bank
 
-![Coldbrace Bank](./assets/captures/locations/bank_interior.webp)
+![Millfield Bank](./assets/captures/locations/bank_interior.webp)
 
-The March Company vault counter. Twelve windows, one very deep store.
+The Trade Company vault counter. Twelve windows, one very deep store.
 
 **Tier:** 1 · **Type:** bank
 
-### Coldbrace East Gate
+### Millfield East Gate
 
-![Coldbrace East Gate](./assets/captures/locations/coldbrace_east_gate.webp)
+![Millfield East Gate](./assets/captures/locations/coldbrace_east_gate.webp)
 
 The gate the pit road leaves by.
 
@@ -128,15 +128,15 @@ The gate the pit road leaves by.
 
 ![The Broken Milestone](./assets/captures/locations/north_milestone.webp)
 
-A snapped March Company marker where the pit road bends around the rise.
+A snapped Trade Company marker where the pit road bends around the rise.
 
 **Tier:** 1 · **Type:** landmark
 
-### Bracken Pit
+### Copper Pit
 
-![Bracken Pit](./assets/captures/locations/bracken_pit.webp)
+![Copper Pit](./assets/captures/locations/bracken_pit.webp)
 
-A shallow Grithe pit 160 m north of Coldbrace. Six seams and two stone faces.
+A shallow Copper pit 160 m north of Millfield. Six seams and two stone faces.
 
 **Tier:** 1 · **Type:** seam
 
@@ -148,31 +148,31 @@ Where the pit track runs on toward the ember foothills. No gate; the border is o
 
 **Tier:** 1 · **Type:** junction
 
-### Palewood Copse
+### Pine Grove
 
-![Palewood Copse](./assets/captures/locations/palewood_copse.webp)
+![Pine Grove](./assets/captures/locations/palewood_copse.webp)
 
-Eight Palewood on the western track. The only shade on the plain.
+Eight pine trees on the western track. The only shade on the plain.
 
 **Tier:** 1 · **Type:** grove
 
-### Redsill Shallows
+### River Shallows
 
-![Redsill Shallows](./assets/captures/locations/redsill_shallows.webp)
+![River Shallows](./assets/captures/locations/redsill_shallows.webp)
 
-Where Corven Brook runs thin over red silt. Minnow water.
+Where Iron Brook runs thin over red silt. Minnow water.
 
 **Tier:** 1 · **Type:** water
 
-### Corven Ford
+### River Crossing
 
-![Corven Ford](./assets/captures/locations/corven_ford.webp)
+![River Crossing](./assets/captures/locations/corven_ford.webp)
 
-The only cart crossing of Corven Brook, well south of the shallows.
+The only cart crossing of Iron Brook, well south of the shallows.
 
 **Tier:** 1 · **Type:** junction
 
-### Marchfield
+### Farm Fields
 
 
 
@@ -188,9 +188,9 @@ Where the copse track leaves the town road.
 
 **Tier:** 1 · **Type:** junction
 
-### The Open March
+### Open Meadow
 
-![The Open March](./assets/captures/locations/open_march_camp.webp)
+![Open Meadow](./assets/captures/locations/open_march_camp.webp)
 
 Open tussock. Frogs down in the wet, billy goats on the rise.
 
@@ -208,60 +208,60 @@ A wind-scoured stone cache far beyond the west track, bright with trapped air es
 
 ![North Gate](./assets/captures/locations/fallowmarch_north_gate.webp)
 
-The top of the March Road, and the way into Vellenwood.
+The top of the Farm Road, and the way into Woodlands.
 
 **Tier:** 1 · **Type:** gate
 
 
-## Vellenwood
+## Woodlands
 
-Within two hundred metres of the gate the sky closes. The Duskoak here are old enough that the March Company surveyors marked them as terrain rather than trees. Rootfall is the only settlement: nine buildings and a bank chest built on and around a stump so large the stump is the town square. The people there will tell you which paths are safe. They will not tell you why the stags only move at the edges of the clearings.
+Within two hundred metres of the gate the sky closes. The Ash here are old enough that the Trade Company surveyors marked them as terrain rather than trees. Oakwood is the only settlement: nine buildings and a bank chest built on and around a stump so large the stump is the town square. The people there will tell you which paths are safe. They will not tell you why the stags only move at the edges of the clearings.
 
-Tier 5. Settlement: **Rootfall**.
+Tier 5. Settlement: **Oakwood**.
 
-### Marchgate
+### Forest Gate
 
-![Marchgate](./assets/captures/locations/vellenwood_marchgate.webp)
+![Forest Gate](./assets/captures/locations/vellenwood_marchgate.webp)
 
-Vellenwood's gate onto the March Road. Named for the direction, not the compass.
+Woodlands's gate onto the Farm Road. Named for the direction, not the compass.
 
 **Tier:** 5 · **Type:** gate
 
-### Rootfall
+### Oakwood
 
-![Rootfall](./assets/captures/locations/rootfall_hamlet.webp)
+![Oakwood](./assets/captures/locations/rootfall_hamlet.webp)
 
-Nine buildings around a Duskoak stump the size of a square.
+Nine buildings around a Ash stump the size of a square.
 
 **Tier:** 5 · **Type:** settlement
 
-### Rootfall Bank Chest
+### Oakwood Bank Chest
 
-![Rootfall Bank Chest](./assets/captures/locations/rootfall_bank.webp)
+![Oakwood Bank Chest](./assets/captures/locations/rootfall_bank.webp)
 
-One chest, set into the stump. Thirty-eight metres from the Hollowcut Seam.
+One chest, set into the stump. Thirty-eight metres from the Forest Quarry.
 
 **Tier:** 5 · **Type:** bank
 
-### Hollowcut Seam
+### Forest Quarry
 
-![Hollowcut Seam](./assets/captures/locations/hollowcut_seam.webp)
+![Forest Quarry](./assets/captures/locations/hollowcut_seam.webp)
 
-Five Corven seams, 38 m from the bank chest. The best XP in the game until Agility 10.
+Five Iron seams, 38 m from the bank chest. The best XP in the game until Agility 10.
 
 **Tier:** 5 · **Type:** seam
 
-### Duskoak Stand
+### Ash Grove
 
-![Duskoak Stand](./assets/captures/locations/vellenwood_canopy.webp)
+![Ash Grove](./assets/captures/locations/vellenwood_canopy.webp)
 
-Ten Duskoak. The canopy closes hard enough here that pathing is the puzzle.
+Ten ash trees. The canopy closes hard enough here that pathing is the puzzle.
 
 **Tier:** 5 · **Type:** grove
 
-### Mire Skirt
+### Marsh Edge
 
-![Mire Skirt](./assets/captures/locations/mire_skirt.webp)
+![Marsh Edge](./assets/captures/locations/mire_skirt.webp)
 
 The long dry way around the standing water below the stand.
 
@@ -271,7 +271,7 @@ The long dry way around the standing water below the stand.
 
 ![Blackwater Pools](./assets/captures/locations/blackwater_pools.webp)
 
-Five pools, deeper than they look. Bramble trout.
+Five pools, deeper than they look. Trout.
 
 **Tier:** 5 · **Type:** water
 
@@ -291,11 +291,11 @@ Where the gorge peters out against the northern ridge.
 
 **Tier:** 5 · **Type:** junction
 
-### The Thornline
+### The Thicket
 
-![The Thornline](./assets/captures/locations/thornline_camp.webp)
+![The Thicket](./assets/captures/locations/thornline_camp.webp)
 
-The edge the adders keep to. They do not enter the clearings and nobody says why.
+The edge the vipers keep to. They do not enter the clearings and nobody says why.
 
 **Tier:** 5 · **Type:** camp
 
@@ -307,11 +307,11 @@ An old stone heart under the eastern canopy, split through with earth essence.
 
 **Tier:** 5 · **Type:** landmark
 
-### Cairn Gate
+### Mountain Gate
 
-![Cairn Gate](./assets/captures/locations/vellenwood_east_gate.webp)
+![Mountain Gate](./assets/captures/locations/vellenwood_east_gate.webp)
 
-The east gate. On a clear day you can see the Karrowmoor ridge from it.
+The east gate. On a clear day you can see the Highlands ridge from it.
 
 **Tier:** 5 · **Type:** gate
 
@@ -323,7 +323,7 @@ A foot track over the northern ridge toward the ember foothills. No gate; it nev
 
 **Tier:** 5 · **Type:** junction
 
-### Ember Edge
+### Ash Border
 
 
 
@@ -332,17 +332,17 @@ The canopy's last shade line. North of here the trees stand scorched and far apa
 **Tier:** 5 · **Type:** junction
 
 
-## Karrowmoor
+## Highlands
 
-Fallowmarch tilted sixty degrees with the soil taken away. The moor climbs in terraces of grey slate and every flat surface on it is covered in cairns nobody in Highcairn built and nobody in Highcairn will move. The outpost is a quarry camp with a wall, kept alive by Kaldite and by the fact that the crew stopped digging six months ago. What they hit was the Gravelmaw. They have a rota for who watches the entrance. They have never discussed sealing it.
+Farmland tilted sixty degrees with the soil taken away. The moor climbs in terraces of grey slate and every flat surface on it is covered in cairns nobody in Hillcrest built and nobody in Hillcrest will move. The outpost is a quarry camp with a wall, kept alive by Cobalt and by the fact that the crew stopped digging six months ago. What they hit was the Stone Cavern. They have a rota for who watches the entrance. They have never discussed sealing it.
 
-Tier 10. Settlement: **Highcairn**.
+Tier 10. Settlement: **Hillcrest**.
 
-### Moorgate
+### Highland Gate
 
-![Moorgate](./assets/captures/locations/karrowmoor_north_gate.webp)
+![Highland Gate](./assets/captures/locations/karrowmoor_north_gate.webp)
 
-Where the Vellenwood road tips over onto the first terrace.
+Where the Woodlands road tips over onto the first terrace.
 
 **Tier:** 10 · **Type:** gate
 
@@ -350,7 +350,7 @@ Where the Vellenwood road tips over onto the first terrace.
 
 ![Moor Road Bend](./assets/captures/locations/moor_road_bend.webp)
 
-The quarry road forks here: down to the Lower Quarry, or up to Highcairn.
+The quarry road forks here: down to the Lower Quarry, or up to Hillcrest.
 
 **Tier:** 10 · **Type:** junction
 
@@ -358,31 +358,31 @@ The quarry road forks here: down to the Lower Quarry, or up to Highcairn.
 
 ![Lower Quarry](./assets/captures/locations/karrowmoor_terraces.webp)
 
-Terrace one. Five Kaldite faces, and the hole the crew stopped digging.
+Terrace one. Five Cobalt faces, and the hole the crew stopped digging.
 
 **Tier:** 10 · **Type:** seam
 
-### The Gravelmaw
+### Stone Cavern
 
-![The Gravelmaw](./assets/captures/locations/gravelmaw_entrance.webp)
+![Stone Cavern](./assets/captures/locations/gravelmaw_entrance.webp)
 
 A twelve-metre black wound in grey stone. Visible from anywhere on terrace one.
 
 **Tier:** 10 · **Type:** dungeon
 
-### Highcairn
+### Hillcrest
 
-![Highcairn](./assets/captures/locations/highcairn_outpost.webp)
+![Hillcrest](./assets/captures/locations/highcairn_outpost.webp)
 
 Terrace two. A quarry camp with a wall around it and a crane it no longer uses.
 
 **Tier:** 10 · **Type:** settlement
 
-### Highcairn Bank
+### Hillcrest Bank
 
-![Highcairn Bank](./assets/captures/locations/highcairn_bank.webp)
+![Hillcrest Bank](./assets/captures/locations/highcairn_bank.webp)
 
-One counter. 188 m from the Upper Karrow Seam by road, 46 m over Sunder Ledge.
+One counter. 188 m from the Upper Cobalt Seam by road, 46 m over Broken Ledge.
 
 **Tier:** 10 · **Type:** bank
 
@@ -402,11 +402,11 @@ The long ramp onto terrace four. Everything above here is exposed.
 
 **Tier:** 10 · **Type:** junction
 
-### Upper Karrow Seam
+### Upper Cobalt Seam
 
-![Upper Karrow Seam](./assets/captures/locations/upper_karrow_seam.webp)
+![Upper Cobalt Seam](./assets/captures/locations/upper_karrow_seam.webp)
 
-Three Kaldite faces on terrace four. A small seam - it genuinely runs dry above Mining 20.
+Three Cobalt faces on terrace four. A small seam - it genuinely runs dry above Mining 20.
 
 **Tier:** 10 · **Type:** seam
 
@@ -418,33 +418,33 @@ The largest cairn on the moor. Nobody will say who is under it.
 
 **Tier:** 10 · **Type:** landmark
 
-### Cairn Tarns
+### Mountain Lakes
 
-![Cairn Tarns](./assets/captures/locations/cairn_tarns.webp)
+![Mountain Lakes](./assets/captures/locations/cairn_tarns.webp)
 
-Two black tarns on the terrace two lip. Cragfin in both.
+Two black tarns on the terrace two lip. Perch in both.
 
 **Tier:** 10 · **Type:** water
 
-### Ridge Pines
+### Ridge Oaks
 
-![Ridge Pines](./assets/captures/locations/ridge_pines.webp)
+![Ridge Oaks](./assets/captures/locations/ridge_pines.webp)
 
-Eight Cairnpine on terrace three, all bent the same way.
+Eight oak trees on terrace three, all bent the same way.
 
 **Tier:** 10 · **Type:** grove
 
-### Far Tarn
+### Far Lake
 
-![Far Tarn](./assets/captures/locations/far_tarn.webp)
+![Far Lake](./assets/captures/locations/far_tarn.webp)
 
 Across the terrace three gap. Two more tarns, and nobody fishing them.
 
 **Tier:** 10 · **Type:** water
 
-### Tarn Track
+### Lake Trail
 
-![Tarn Track](./assets/captures/locations/tarn_track.webp)
+![Lake Trail](./assets/captures/locations/tarn_track.webp)
 
 The long way round the terrace three gap.
 
@@ -457,7 +457,7 @@ The long way round the terrace three gap.
 A blue-lit cache at the moor's far edge, where water essence beads on dry slate.
 
 **Tier:** 10 · **Type:** landmark
-## The Gravelmaw
+## Stone Cavern
 
 Tier 10. Enter through [The Gravelmaw](#the-gravelmaw).
 
@@ -485,25 +485,25 @@ Chamber three. Cairns, indoors, arranged since the crew left.
 
 **Tier:** 10 · **Type:** dungeon
 
-### The Quarrykeeper's Floor
+### The Armored Rhino's Floor
 
-![The Quarrykeeper's Floor](./assets/captures/locations/gravelmaw_arena.webp)
+![The Armored Rhino's Floor](./assets/captures/locations/gravelmaw_arena.webp)
 
 A twenty-four metre circle of swept stone.
 
 **Tier:** 10 · **Type:** dungeon
 
-## Kilnhalt
+## Ashlands
 
-The foothills north of the old survey line, where the ground runs warm and the pines grow back scorched. Somebody fired kilns here long before the March Company drew its maps, and the ground never entirely went out. Emberfast is the camp that grew up on the warm flat in the middle: smiths, mostly, because Emberite is the first metal since Kaldite worth the walk, and the walk is why they stay. Nobody watches the southern border. There is no border. You just notice, somewhere past the last milestone, that the wind has gone warm.
+The foothills north of the old survey line, where the ground runs warm and the pines grow back scorched. Somebody fired kilns here long before the Trade Company drew its maps, and the ground never entirely went out. Ashford is the camp that grew up on the warm flat in the middle: smiths, mostly, because Titanium is the first metal since Cobalt worth the walk, and the walk is why they stay. Nobody watches the southern border. There is no border. You just notice, somewhere past the last milestone, that the wind has gone warm.
 
-Tier 20. Settlement: **Emberfast**.
+Tier 20. Settlement: **Ashford**.
 
 ### Kiln Road South
 
 
 
-The pit track out of Fallowmarch, on warm ground now. The border is somewhere behind you.
+The pit track out of Farmland, on warm ground now. The border is somewhere behind you.
 
 **Tier:** 20 · **Type:** junction
 
@@ -511,11 +511,11 @@ The pit track out of Fallowmarch, on warm ground now. The border is somewhere be
 
 
 
-The foot track down off the Vellenwood ridge. The first scorched pines start here.
+The foot track down off the Woodlands ridge. The first scorched pines start here.
 
 **Tier:** 20 · **Type:** junction
 
-### Ember Edge Track
+### Ash Border Track
 
 
 
@@ -523,11 +523,11 @@ Where the canopy shade gives out for good. The springs lie north-west of here.
 
 **Tier:** 20 · **Type:** junction
 
-### Kilnroad Fork
+### Kiln Road Fork
 
 
 
-Both southern tracks meet here. Emberfast's rampart torches are visible up the road.
+Both southern tracks meet here. Ashford's rampart torches are visible up the road.
 
 **Tier:** 20 · **Type:** junction
 
@@ -535,19 +535,19 @@ Both southern tracks meet here. Emberfast's rampart torches are visible up the r
 
 
 
-The road swings east around Emberfast's rampart to reach the gate.
+The road swings east around Ashford's rampart to reach the gate.
 
 **Tier:** 20 · **Type:** junction
 
-### Emberfast
+### Ashford
 
 
 
-A walled kiln camp with every counter and bench a tier-20 trade needs inside one wall.
+A walled kiln camp with a bank, market, and workshops for titanium and walnut.
 
 **Tier:** 20 · **Type:** settlement
 
-### Emberfast Bank
+### Ashford Bank
 
 
 
@@ -555,7 +555,7 @@ One chest under a porch. The vault ledger smells faintly of smoke.
 
 **Tier:** 20 · **Type:** bank
 
-### Emberfast Gate
+### Ashford Gate
 
 
 
@@ -571,27 +571,27 @@ The west gatehouse, opening onto the plots and the quarry road.
 
 **Tier:** 20 · **Type:** gate
 
-### Clinker Quarry
+### Volcanic Quarry
 
 
 
-Six Emberite seams and two Kilnstone faces, still warm at the break.
+Six Titanium seams and two Flux Stone faces, still warm at the break.
 
 **Tier:** 20 · **Type:** seam
 
-### Ashfin Springs
+### Hot Springs
 
 
 
-Four warm pools where the ashfin run heavy. The water steams at dawn.
+Four warm pools where the bass run heavy. The water steams at dawn.
 
 **Tier:** 20 · **Type:** water
 
-### Cinderpine Stand
+### Walnut Grove
 
 
 
-Eight cinderpine, scorched black outside and sound within. The fire chose not to eat them.
+Eight walnut trees with weathered bark and sound heartwood.
 
 **Tier:** 20 · **Type:** grove
 
@@ -603,7 +603,7 @@ A ruined stone court where fire essence beads out of the warm rock. The altar is
 
 **Tier:** 20 · **Type:** landmark
 
-### Cinderwake Arena
+### Fire Ogre Arena
 
 
 

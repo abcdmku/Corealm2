@@ -1,15 +1,15 @@
 ---
-title: "Deepwood Coyote"
-description: "Deepwood Coyote spawn locations, combat stats, and drops."
+title: "Forest Wolf"
+description: "Forest Wolf spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/deepwood_coyotes.webp" alt="Deepwood Coyote at its authored spawn in Vellenwood" loading="lazy" /><figcaption><strong>Deepwood Coyote</strong><span>Duskoak Stand, Vellenwood</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/deepwood_coyotes.webp" alt="Forest Wolf at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Forest Wolf</strong><span>Ash Grove, Woodlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Deepwood Coyote">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Forest Wolf">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#duskoak-stand" style="--map-x:53.8333%;--map-y:49.5000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Deepwood Coyote, Duskoak Stand, Vellenwood" title="Deepwood Coyote, Duskoak Stand, Vellenwood"><span>Deepwood Coyote<small>Duskoak Stand, Vellenwood</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#ash-grove" style="--map-x:53.8333%;--map-y:49.5000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Forest Wolf, Ash Grove, Woodlands" title="Forest Wolf, Ash Grove, Woodlands"><span>Forest Wolf<small>Ash Grove, Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Deepwood Coyote spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Vellenwood](../../regions/#duskoak-stand) | [Duskoak Stand](../../regions/#duskoak-stand) | Deepwood Coyote | 4 |
+| [Woodlands](../../regions/#ash-grove) | [Ash Grove](../../regions/#ash-grove) | Forest Wolf | 4 |
 
 ## Stats
 
@@ -42,7 +42,7 @@ description: "Deepwood Coyote spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 15-55 | Always |
-| [Bramble Hide](../../items/#bramble-hide) | 1-2 | 55% |
+| [Thick Hide](../../items/#thick-hide) | 1-2 | 55% |
 | [Raw Venison](../../items/#raw-venison) | 1 | 35% |
-| [Coyote Fang](../../items/#coyote-fang) | 1-2 | 25% |
-| [Corven Ore](../../items/#corven-ore) | 1-2 | 15% |
+| [Wolf Fang](../../items/#wolf-fang) | 1-2 | 25% |
+| [Iron Ore](../../items/#iron-ore) | 1-2 | 15% |

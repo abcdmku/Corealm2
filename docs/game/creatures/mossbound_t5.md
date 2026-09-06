@@ -1,15 +1,15 @@
 ---
-title: "Mossbound"
-description: "Mossbound spawn locations, combat stats, and drops."
+title: "Forest Ogre"
+description: "Forest Ogre spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/mossbound.webp" alt="Mossbound at its authored spawn in Vellenwood" loading="lazy" /><figcaption><strong>Mossbound</strong><span>Cairn Gate, Vellenwood</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/mossbound.webp" alt="Forest Ogre at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Forest Ogre</strong><span>Mountain Gate, Woodlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Mossbound">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Forest Ogre">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#cairn-gate" style="--map-x:76.5000%;--map-y:54.8750%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Mossbound, Cairn Gate, Vellenwood" title="Mossbound, Cairn Gate, Vellenwood"><span>Mossbound<small>Cairn Gate, Vellenwood</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#mountain-gate" style="--map-x:76.5000%;--map-y:54.8750%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Forest Ogre, Mountain Gate, Woodlands" title="Forest Ogre, Mountain Gate, Woodlands"><span>Forest Ogre<small>Mountain Gate, Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Mossbound spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Vellenwood](../../regions/#cairn-gate) | [Cairn Gate](../../regions/#cairn-gate) | Mossbound | 1 |
+| [Woodlands](../../regions/#mountain-gate) | [Mountain Gate](../../regions/#mountain-gate) | Forest Ogre | 1 |
 
 ## Stats
 
@@ -42,8 +42,8 @@ description: "Mossbound spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 180-320 | Always |
-| [Mossbound Sword](../../items/#mossbound-sword) | 1 | 10% |
-| [Mossbound Staff](../../items/#mossbound-staff) | 1 | 10% |
+| [Forest Ogre Sword](../../items/#forest-ogre-sword) | 1 | 10% |
+| [Forest Ogre Staff](../../items/#forest-ogre-staff) | 1 | 10% |
 | [Earth Essence](../../items/#earth-essence) | 2-5 | 50% |
-| [Vell Amber](../../items/#vell-amber) | 1-2 | 50% |
-| [Duskoak Log](../../items/#duskoak-log) | 2-4 | 40% |
+| [Amber](../../items/#amber) | 1-2 | 50% |
+| [Ash Log](../../items/#ash-log) | 2-4 | 40% |

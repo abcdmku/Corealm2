@@ -1,15 +1,15 @@
 ---
-title: "Scree Boar"
-description: "Scree Boar spawn locations, combat stats, and drops."
+title: "Wild Boar"
+description: "Wild Boar spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/scree_boars.webp" alt="Scree Boar at its authored spawn in Karrowmoor" loading="lazy" /><figcaption><strong>Scree Boar</strong><span>The Great Cairn, Karrowmoor</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/scree_boars.webp" alt="Wild Boar at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Wild Boar</strong><span>The Great Cairn, Highlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Scree Boar">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Wild Boar">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-great-cairn" style="--map-x:64.1667%;--map-y:69.3750%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Scree Boar, The Great Cairn, Karrowmoor" title="Scree Boar, The Great Cairn, Karrowmoor"><span>Scree Boar<small>The Great Cairn, Karrowmoor</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-great-cairn" style="--map-x:64.1667%;--map-y:69.3750%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Wild Boar, The Great Cairn, Highlands" title="Wild Boar, The Great Cairn, Highlands"><span>Wild Boar<small>The Great Cairn, Highlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Scree Boar spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Karrowmoor](../../regions/#the-great-cairn) | [The Great Cairn](../../regions/#the-great-cairn) | Scree Boar | 6 |
+| [Highlands](../../regions/#the-great-cairn) | [The Great Cairn](../../regions/#the-great-cairn) | Wild Boar | 6 |
 
 ## Stats
 
@@ -42,8 +42,8 @@ description: "Scree Boar spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 30-110 | Always |
-| [Cairn Pelt](../../items/#cairn-pelt) | 1 | 40% |
+| [Fur Pelt](../../items/#fur-pelt) | 1 | 40% |
 | [Raw Haunch](../../items/#raw-haunch) | 1-2 | 40% |
 | [Curved Tusk](../../items/#curved-tusk) | 1 | 25% |
 | [Boar Bristle](../../items/#boar-bristle) | 1-3 | 25% |
-| [Kaldite Ore](../../items/#kaldite-ore) | 1-2 | 15% |
+| [Cobalt Ore](../../items/#cobalt-ore) | 1-2 | 15% |

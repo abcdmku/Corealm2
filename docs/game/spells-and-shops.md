@@ -52,95 +52,95 @@ A matching weapon charge pays for the cast first. At zero charge, the weapon kee
 
 ## Shops
 
-### Coldbrace General Supplies
+### Millfield General Supplies
 
 | Item | Stock | Price |
 | --- | --- | --- |
-| [Grithe Pickaxe](./items/#grithe-pickaxe) | 5 | 60 |
-| [Grithe Hatchet](./items/#grithe-hatchet) | 5 | 55 |
-| [Palewood Rod](./items/#palewood-rod) | 5 | 45 |
+| [Copper Pickaxe](./items/#copper-pickaxe) | 5 | 60 |
+| [Copper Hatchet](./items/#copper-hatchet) | 5 | 55 |
+| [Pine Rod](./items/#pine-rod) | 5 | 45 |
 | [Seared Minnow](./items/#seared-minnow) | 30 | 22 |
 | [Air Essence](./items/#air-essence) | 200 | 9 |
-| [Palewood Shaft](./items/#palewood-shaft) | 100 | 4 |
+| [Pine Shaft](./items/#pine-shaft) | 100 | 4 |
 | [Coarse Hide](./items/#coarse-hide) | 15 | 16 |
 
 ### Harrow's Metal
 
 | Item | Stock | Price |
 | --- | --- | --- |
-| [Grithe Bar](./items/#grithe-bar) | 40 | 30 |
-| [Grithe Dagger](./items/#grithe-dagger) | 5 | 90 |
-| [Grithe Sword](./items/#grithe-sword) | 3 | 180 |
-| [Grithe Helm](./items/#grithe-helm) | 3 | 110 |
-| [Grithe Boots](./items/#grithe-boots) | 3 | 80 |
-| [Grithe Gloves](./items/#grithe-gloves) | 3 | 80 |
-| [Palewood Shield](./items/#palewood-shield) | 4 | 70 |
-| [March Stone](./items/#march-stone) | 60 | 5 |
+| [Copper Bar](./items/#copper-bar) | 40 | 30 |
+| [Copper Dagger](./items/#copper-dagger) | 5 | 90 |
+| [Copper Sword](./items/#copper-sword) | 3 | 180 |
+| [Copper Helm](./items/#copper-helm) | 3 | 110 |
+| [Copper Boots](./items/#copper-boots) | 3 | 80 |
+| [Copper Gloves](./items/#copper-gloves) | 3 | 80 |
+| [Pine Shield](./items/#pine-shield) | 4 | 70 |
+| [Limestone](./items/#limestone) | 60 | 5 |
 
-### Rootfall Trade Post
+### Oakwood Trade Post
 
 | Item | Stock | Price |
 | --- | --- | --- |
-| [Corven Pickaxe](./items/#corven-pickaxe) | 4 | 240 |
-| [Corven Hatchet](./items/#corven-hatchet) | 4 | 225 |
-| [Duskoak Rod](./items/#duskoak-rod) | 4 | 190 |
+| [Iron Pickaxe](./items/#iron-pickaxe) | 4 | 240 |
+| [Iron Hatchet](./items/#iron-hatchet) | 4 | 225 |
+| [Ash Rod](./items/#ash-rod) | 4 | 190 |
 | [Seared Trout](./items/#seared-trout) | 25 | 62 |
 | [Seared Minnow](./items/#seared-minnow) | 20 | 22 |
 | [Earth Essence](./items/#earth-essence) | 200 | 24 |
-| [Duskoak Shaft](./items/#duskoak-shaft) | 80 | 14 |
-| [Bramble Hide](./items/#bramble-hide) | 12 | 55 |
-| [Corven Bar](./items/#corven-bar) | 30 | 110 |
+| [Ash Shaft](./items/#ash-shaft) | 80 | 14 |
+| [Thick Hide](./items/#thick-hide) | 12 | 55 |
+| [Iron Bar](./items/#iron-bar) | 30 | 110 |
 
-### Highcairn Camp Store
+### Hillcrest Camp Store
 
 | Item | Stock | Price |
 | --- | --- | --- |
-| [Kaldite Pickaxe](./items/#kaldite-pickaxe) | 3 | 620 |
-| [Kaldite Hatchet](./items/#kaldite-hatchet) | 3 | 600 |
-| [Cairnpine Rod](./items/#cairnpine-rod) | 3 | 480 |
-| [Seared Cragfin](./items/#seared-cragfin) | 40 | 70 |
+| [Cobalt Pickaxe](./items/#cobalt-pickaxe) | 3 | 620 |
+| [Cobalt Hatchet](./items/#cobalt-hatchet) | 3 | 600 |
+| [Oak Rod](./items/#oak-rod) | 3 | 480 |
+| [Seared Perch](./items/#seared-perch) | 40 | 70 |
 | [Seared Trout](./items/#seared-trout) | 20 | 62 |
 | [Water Essence](./items/#water-essence) | 300 | 55 |
-| [Cairnpine Shaft](./items/#cairnpine-shaft) | 60 | 32 |
-| [Cairn Pelt](./items/#cairn-pelt) | 8 | 130 |
+| [Oak Shaft](./items/#oak-shaft) | 60 | 32 |
+| [Fur Pelt](./items/#fur-pelt) | 8 | 130 |
 
 ### Quarry Smith
 
 | Item | Stock | Price |
 | --- | --- | --- |
-| [Corven Bar](./items/#corven-bar) | 30 | 110 |
-| [Kaldite Bar](./items/#kaldite-bar) | 25 | 250 |
-| [March Stone](./items/#march-stone) | 80 | 5 |
-| [Corven Sword](./items/#corven-sword) | 2 | 620 |
-| [Corven Helm](./items/#corven-helm) | 2 | 380 |
-| [Kaldite Dagger](./items/#kaldite-dagger) | 2 | 760 |
-| [Kaldite Boots](./items/#kaldite-boots) | 2 | 600 |
-| [Kaldite Gauntlets](./items/#kaldite-gauntlets) | 2 | 600 |
-| [Cairnpine Shield](./items/#cairnpine-shield) | 2 | 560 |
+| [Iron Bar](./items/#iron-bar) | 30 | 110 |
+| [Cobalt Bar](./items/#cobalt-bar) | 25 | 250 |
+| [Limestone](./items/#limestone) | 80 | 5 |
+| [Iron Sword](./items/#iron-sword) | 2 | 620 |
+| [Iron Helm](./items/#iron-helm) | 2 | 380 |
+| [Cobalt Dagger](./items/#cobalt-dagger) | 2 | 760 |
+| [Cobalt Boots](./items/#cobalt-boots) | 2 | 600 |
+| [Cobalt Gauntlets](./items/#cobalt-gauntlets) | 2 | 600 |
+| [Oak Shield](./items/#oak-shield) | 2 | 560 |
 
-### Emberfast Provisioners
+### Ashford Provisioners
 
 | Item | Stock | Price |
 | --- | --- | --- |
-| [Emberite Pickaxe](./items/#emberite-pickaxe) | 3 | 1400 |
-| [Emberite Hatchet](./items/#emberite-hatchet) | 3 | 1350 |
-| [Cinderpine Rod](./items/#cinderpine-rod) | 3 | 1100 |
-| [Seared Ashfin](./items/#seared-ashfin) | 40 | 150 |
-| [Seared Cragfin](./items/#seared-cragfin) | 20 | 70 |
+| [Titanium Pickaxe](./items/#titanium-pickaxe) | 3 | 1400 |
+| [Titanium Hatchet](./items/#titanium-hatchet) | 3 | 1350 |
+| [Walnut Rod](./items/#walnut-rod) | 3 | 1100 |
+| [Seared Bass](./items/#seared-bass) | 40 | 150 |
+| [Seared Perch](./items/#seared-perch) | 20 | 70 |
 | [Fire Essence](./items/#fire-essence) | 300 | 120 |
-| [Cinderpine Shaft](./items/#cinderpine-shaft) | 60 | 70 |
-| [Charhide](./items/#charhide) | 8 | 290 |
+| [Walnut Shaft](./items/#walnut-shaft) | 60 | 70 |
+| [Heavy Hide](./items/#heavy-hide) | 8 | 290 |
 
 ### Kiln Row Smith
 
 | Item | Stock | Price |
 | --- | --- | --- |
-| [Kaldite Bar](./items/#kaldite-bar) | 25 | 250 |
-| [Emberite Bar](./items/#emberite-bar) | 20 | 760 |
-| [Kilnstone](./items/#kilnstone) | 80 | 12 |
-| [Kaldite Sword](./items/#kaldite-sword) | 2 | 1450 |
-| [Kaldite Helm](./items/#kaldite-helm) | 2 | 880 |
-| [Emberite Dagger](./items/#emberite-dagger) | 2 | 1700 |
-| [Emberite Boots](./items/#emberite-boots) | 2 | 1350 |
-| [Emberite Gauntlets](./items/#emberite-gauntlets) | 2 | 1350 |
-| [Cinderpine Shield](./items/#cinderpine-shield) | 2 | 1250 |
+| [Cobalt Bar](./items/#cobalt-bar) | 25 | 250 |
+| [Titanium Bar](./items/#titanium-bar) | 20 | 760 |
+| [Flux Stone](./items/#flux-stone) | 80 | 12 |
+| [Cobalt Sword](./items/#cobalt-sword) | 2 | 1450 |
+| [Cobalt Helm](./items/#cobalt-helm) | 2 | 880 |
+| [Titanium Dagger](./items/#titanium-dagger) | 2 | 1700 |
+| [Titanium Boots](./items/#titanium-boots) | 2 | 1350 |
+| [Titanium Gauntlets](./items/#titanium-gauntlets) | 2 | 1350 |
+| [Walnut Shield](./items/#walnut-shield) | 2 | 1250 |

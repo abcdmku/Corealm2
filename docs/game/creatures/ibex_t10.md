@@ -1,15 +1,15 @@
 ---
-title: "Ridge Ibex"
-description: "Ridge Ibex spawn locations, combat stats, and drops."
+title: "Ibex"
+description: "Ibex spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/ridge_ibex.webp" alt="Ridge Ibex at its authored spawn in Karrowmoor" loading="lazy" /><figcaption><strong>Ridge Ibex</strong><span>Far Tarn, Karrowmoor</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/ridge_ibex.webp" alt="Ibex at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Ibex</strong><span>Far Lake, Highlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Ridge Ibex">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Ibex">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#far-tarn" style="--map-x:72.3333%;--map-y:68.1250%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Ridge Ibex, Far Tarn, Karrowmoor" title="Ridge Ibex, Far Tarn, Karrowmoor"><span>Ridge Ibex<small>Far Tarn, Karrowmoor</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#far-lake" style="--map-x:72.3333%;--map-y:68.1250%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Ibex, Far Lake, Highlands" title="Ibex, Far Lake, Highlands"><span>Ibex<small>Far Lake, Highlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Ridge Ibex spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Karrowmoor](../../regions/#far-tarn) | [Far Tarn](../../regions/#far-tarn) | Ridge Ibex | 3 |
+| [Highlands](../../regions/#far-lake) | [Far Lake](../../regions/#far-lake) | Ibex | 3 |
 
 ## Stats
 
@@ -42,8 +42,8 @@ description: "Ridge Ibex spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 30-110 | Always |
-| [Cairn Pelt](../../items/#cairn-pelt) | 1-2 | 50% |
+| [Fur Pelt](../../items/#fur-pelt) | 1-2 | 50% |
 | [Ibex Horn](../../items/#ibex-horn) | 1 | 28% |
 | [Raw Haunch](../../items/#raw-haunch) | 1-2 | 35% |
-| [Cairnpine Log](../../items/#cairnpine-log) | 1-2 | 15% |
-| [Cairn Garnet](../../items/#cairn-garnet) | 1 | 10% |
+| [Oak Log](../../items/#oak-log) | 1-2 | 15% |
+| [Garnet](../../items/#garnet) | 1 | 10% |

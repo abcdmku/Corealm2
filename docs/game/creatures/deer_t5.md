@@ -1,15 +1,15 @@
 ---
-title: "Duskoak Stag"
-description: "Duskoak Stag spawn locations, combat stats, and drops."
+title: "Stag"
+description: "Stag spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/duskoak_stags.webp" alt="Duskoak Stag at its authored spawn in Vellenwood" loading="lazy" /><figcaption><strong>Duskoak Stag</strong><span>Duskoak Stand, Vellenwood</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/duskoak_stags.webp" alt="Stag at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Stag</strong><span>Ash Grove, Woodlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Duskoak Stag">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Stag">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#duskoak-stand" style="--map-x:50.8333%;--map-y:47.7500%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Duskoak Stag, Duskoak Stand, Vellenwood" title="Duskoak Stag, Duskoak Stand, Vellenwood"><span>Duskoak Stag<small>Duskoak Stand, Vellenwood</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#ash-grove" style="--map-x:50.8333%;--map-y:47.7500%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Stag, Ash Grove, Woodlands" title="Stag, Ash Grove, Woodlands"><span>Stag<small>Ash Grove, Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Duskoak Stag spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Vellenwood](../../regions/#duskoak-stand) | [Duskoak Stand](../../regions/#duskoak-stand) | Duskoak Stag | 5 |
+| [Woodlands](../../regions/#ash-grove) | [Ash Grove](../../regions/#ash-grove) | Stag | 5 |
 
 ## Stats
 
@@ -42,8 +42,8 @@ description: "Duskoak Stag spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 15-55 | Always |
-| [Bramble Hide](../../items/#bramble-hide) | 1-2 | 55% |
+| [Thick Hide](../../items/#thick-hide) | 1-2 | 55% |
 | [Raw Venison](../../items/#raw-venison) | 1-2 | 50% |
 | [Stag Antler](../../items/#stag-antler) | 1 | 22% |
-| [Duskoak Log](../../items/#duskoak-log) | 1-2 | 15% |
-| [Vell Amber](../../items/#vell-amber) | 1 | 6% |
+| [Ash Log](../../items/#ash-log) | 1-2 | 15% |
+| [Amber](../../items/#amber) | 1 | 6% |

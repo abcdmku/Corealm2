@@ -1349,7 +1349,7 @@ function creatureSpawnMap(creature: EnemyDef, spawns: readonly CreatureSpawn[]):
 }
 
 function creatureIndexDoc(): string {
-  const rows = [...ENEMY_BLOCKS]
+  const rows = guideCreatures()
     .sort((a, b) => a.tier - b.tier || a.name.localeCompare(b.name))
     .map((creature) => {
       const spawns = creatureSpawns(creature);
@@ -1360,6 +1360,13 @@ function creatureIndexDoc(): string {
     ["Creature", "Tier", "Regions"],
     rows,
   ));
+}
+
+/** Candidate stat blocks without authored spawns have no public location page yet. */
+export function guideCreatures(): EnemyDef[] {
+  const groups = REGIONS.flatMap((region) => [...region.enemyGroups, ...region.dungeon?.enemyGroups ?? []]);
+  return ENEMY_BLOCKS.filter((creature) => groups.some((group) =>
+    group.family === creature.family && group.tier === creature.tier));
 }
 
 function creatureDoc(creature: EnemyDef): string {
@@ -1708,7 +1715,7 @@ async function main(): Promise<void> {
     ...QUESTS.map((quest): [string, string] => [`quests/${quest.id}.md`, questDoc(quest)]),
     ["npcs.md", npcsDoc()],
     ["creatures/index.md", creatureIndexDoc()],
-    ...ENEMY_BLOCKS.map((creature): [string, string] => [`creatures/${creature.id}.md`, creatureDoc(creature)]),
+    ...guideCreatures().map((creature): [string, string] => [`creatures/${creature.id}.md`, creatureDoc(creature)]),
     ["regions.md", regionsDoc()],
     ["items.md", itemsDoc()],
     ["recipes.md", recipesDoc()],

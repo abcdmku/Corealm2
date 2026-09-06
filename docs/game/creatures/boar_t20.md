@@ -1,15 +1,15 @@
 ---
-title: "Cinder Boar"
-description: "Cinder Boar spawn locations, combat stats, and drops."
+title: "Dire Boar"
+description: "Dire Boar spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/cinder_boars.webp" alt="Cinder Boar at its authored spawn in Kilnhalt" loading="lazy" /><figcaption><strong>Cinder Boar</strong><span>Emberfast Gate, Kilnhalt</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/cinder_boars.webp" alt="Dire Boar at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Dire Boar</strong><span>Ashford Gate, Ashlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Cinder Boar">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Dire Boar">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#emberfast-gate" style="--map-x:56.6667%;--map-y:35.6250%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Cinder Boar, Emberfast Gate, Kilnhalt" title="Cinder Boar, Emberfast Gate, Kilnhalt"><span>Cinder Boar<small>Emberfast Gate, Kilnhalt</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#ashford-gate" style="--map-x:56.6667%;--map-y:35.6250%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Dire Boar, Ashford Gate, Ashlands" title="Dire Boar, Ashford Gate, Ashlands"><span>Dire Boar<small>Ashford Gate, Ashlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Cinder Boar spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Kilnhalt](../../regions/#emberfast-gate) | [Emberfast Gate](../../regions/#emberfast-gate) | Cinder Boar | 5 |
+| [Ashlands](../../regions/#ashford-gate) | [Ashford Gate](../../regions/#ashford-gate) | Dire Boar | 5 |
 
 ## Stats
 
@@ -42,7 +42,7 @@ description: "Cinder Boar spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 60-220 | Always |
-| [Charhide](../../items/#charhide) | 1 | 45% |
-| [Raw Ember Haunch](../../items/#raw-ember-haunch) | 1-2 | 40% |
-| [Cinder Tusk](../../items/#cinder-tusk) | 1 | 25% |
-| [Emberite Ore](../../items/#emberite-ore) | 1-2 | 15% |
+| [Heavy Hide](../../items/#heavy-hide) | 1 | 45% |
+| [Raw Prime Haunch](../../items/#raw-prime-haunch) | 1-2 | 40% |
+| [Dire Boar Tusk](../../items/#dire-boar-tusk) | 1 | 25% |
+| [Titanium Ore](../../items/#titanium-ore) | 1-2 | 15% |

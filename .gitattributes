@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Asset provenance hashes must see the same generator bytes on Windows and CI.
+tools/build-corealm-*.ts text eol=lf
+tools/build-creature-expansion.ts text eol=lf
+tools/build-ground-ores.ts text eol=lf

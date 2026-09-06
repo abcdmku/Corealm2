@@ -154,7 +154,7 @@
       "author": "Corealm project",
       "source": "tools/build-corealm-nature.ts",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "f70901ac494cb364a9fe6056dbbe036dfe53f9a7061dc746375693704662aade"
+      "generatorSha256": "00756ec9ca1a8d0068e8b6b072f8b28c9a5b59334578f54236923c2659aae3a6"
     },
     {
       "id": "corealm-original-geology",
@@ -162,7 +162,7 @@
       "author": "Corealm",
       "source": "tools/build-corealm-geology.ts",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "29930c68edd143f5c486a884251ebcb163074ac4954e3fcf106a5912c623be98"
+      "generatorSha256": "b05c776ffdf944d635b1253b58083e4b6cdaca1de7a6858ec447559f32bfcc80"
     },
     {
       "id": "corealm-creature-expansion",
@@ -231,7 +231,7 @@
       "source": "tools/build-corealm-minerals.ts",
       "license": "LicenseRef-Corealm-Original",
       "generator": "npx tsx tools/build-corealm-minerals.ts",
-      "generatorSha256": "64ce0dc2ad4a6757131519e77f4dcb46ec7dd1b96e03f1bb6b5570a8022305db"
+      "generatorSha256": "f4ffdc27f3c5ac823b668ae4d149b1cbcea31899b7c3d13af417acd6eb17eb53"
     },
     {
       "id": "corealm-original-ground-ores",

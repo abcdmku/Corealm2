@@ -1,15 +1,15 @@
 ---
-title: "Blackwater Frog"
-description: "Blackwater Frog spawn locations, combat stats, and drops."
+title: "Green Frog"
+description: "Green Frog spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/blackwater_frogs.webp" alt="Blackwater Frog at its authored spawn in Vellenwood" loading="lazy" /><figcaption><strong>Blackwater Frog</strong><span>Blackwater Pools, Vellenwood</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/blackwater_frogs.webp" alt="Green Frog at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Green Frog</strong><span>Blackwater Pools, Woodlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Blackwater Frog">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Green Frog">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:59.3333%;--map-y:53.3750%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Blackwater Frog, Blackwater Pools, Vellenwood" title="Blackwater Frog, Blackwater Pools, Vellenwood"><span>Blackwater Frog<small>Blackwater Pools, Vellenwood</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:59.3333%;--map-y:53.3750%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Green Frog, Blackwater Pools, Woodlands" title="Green Frog, Blackwater Pools, Woodlands"><span>Green Frog<small>Blackwater Pools, Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Blackwater Frog spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Vellenwood](../../regions/#blackwater-pools) | [Blackwater Pools](../../regions/#blackwater-pools) | Blackwater Frog | 7 |
+| [Woodlands](../../regions/#blackwater-pools) | [Blackwater Pools](../../regions/#blackwater-pools) | Green Frog | 7 |
 
 ## Stats
 
@@ -44,4 +44,4 @@ description: "Blackwater Frog spawn locations, combat stats, and drops."
 | Marks | 15-55 | Always |
 | [Marsh Gland](../../items/#marsh-gland) | 1-2 | 45% |
 | [Raw Venison](../../items/#raw-venison) | 1 | 25% |
-| [Vell Amber](../../items/#vell-amber) | 1 | 5% |
+| [Amber](../../items/#amber) | 1 | 5% |

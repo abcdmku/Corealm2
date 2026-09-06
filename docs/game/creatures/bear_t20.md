@@ -1,15 +1,15 @@
 ---
-title: "Ashback Bear"
-description: "Ashback Bear spawn locations, combat stats, and drops."
+title: "Dire Bear"
+description: "Dire Bear spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/ashback_bears.webp" alt="Ashback Bear at its authored spawn in Kilnhalt" loading="lazy" /><figcaption><strong>Ashback Bear</strong><span>Quarry Postern, Kilnhalt</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/ashback_bears.webp" alt="Dire Bear at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Dire Bear</strong><span>Quarry Postern, Ashlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Ashback Bear">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Dire Bear">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#quarry-postern" style="--map-x:40.0000%;--map-y:34.3750%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Ashback Bear, Quarry Postern, Kilnhalt" title="Ashback Bear, Quarry Postern, Kilnhalt"><span>Ashback Bear<small>Quarry Postern, Kilnhalt</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#quarry-postern" style="--map-x:40.0000%;--map-y:34.3750%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Dire Bear, Quarry Postern, Ashlands" title="Dire Bear, Quarry Postern, Ashlands"><span>Dire Bear<small>Quarry Postern, Ashlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Ashback Bear spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Kilnhalt](../../regions/#quarry-postern) | [Quarry Postern](../../regions/#quarry-postern) | Ashback Bear | 4 |
+| [Ashlands](../../regions/#quarry-postern) | [Quarry Postern](../../regions/#quarry-postern) | Dire Bear | 4 |
 
 ## Stats
 
@@ -42,8 +42,8 @@ description: "Ashback Bear spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 60-220 | Always |
-| [Charhide](../../items/#charhide) | 1 | 50% |
-| [Raw Ember Haunch](../../items/#raw-ember-haunch) | 1-2 | 45% |
-| [Ashback Claw](../../items/#ashback-claw) | 1-2 | 28% |
-| [Emberite Ore](../../items/#emberite-ore) | 1-2 | 18% |
+| [Heavy Hide](../../items/#heavy-hide) | 1 | 50% |
+| [Raw Prime Haunch](../../items/#raw-prime-haunch) | 1-2 | 45% |
+| [Dire Bear Claw](../../items/#dire-bear-claw) | 1-2 | 28% |
+| [Titanium Ore](../../items/#titanium-ore) | 1-2 | 18% |
 | [Fire Opal](../../items/#fire-opal) | 1 | 8% |

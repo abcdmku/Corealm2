@@ -1,17 +1,17 @@
 ---
-title: "Marchfield Hen"
-description: "Marchfield Hen spawn locations, combat stats, and drops."
+title: "Hen"
+description: "Hen spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/marchfield_hens.webp" alt="Marchfield Hen at its authored spawn in Fallowmarch" loading="lazy" /><figcaption><strong>Marchfield Hen</strong><span>Marchfield, Fallowmarch</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/bracken_hens.webp" alt="Bracken Hen at its authored spawn in Fallowmarch" loading="lazy" /><figcaption><strong>Bracken Hen</strong><span>Bracken Pit, Fallowmarch</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/marchfield_hens.webp" alt="Hen at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Hen</strong><span>Farm Fields, Farmland</span></figcaption></figure>
+<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/bracken_hens.webp" alt="Speckled Hen at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Speckled Hen</strong><span>Copper Pit, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Marchfield Hen">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Hen">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#marchfield" style="--map-x:42.2500%;--map-y:60.6875%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Marchfield Hen, Marchfield, Fallowmarch" title="Marchfield Hen, Marchfield, Fallowmarch"><span>Marchfield Hen<small>Marchfield, Fallowmarch</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#bracken-pit" style="--map-x:37.3333%;--map-y:56.6250%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Bracken Hen, Bracken Pit, Fallowmarch" title="Bracken Hen, Bracken Pit, Fallowmarch"><span>Bracken Hen<small>Bracken Pit, Fallowmarch</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#farm-fields" style="--map-x:42.2500%;--map-y:60.6875%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Hen, Farm Fields, Farmland" title="Hen, Farm Fields, Farmland"><span>Hen<small>Farm Fields, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:37.3333%;--map-y:56.6250%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Speckled Hen, Copper Pit, Farmland" title="Speckled Hen, Copper Pit, Farmland"><span>Speckled Hen<small>Copper Pit, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -29,8 +29,8 @@ description: "Marchfield Hen spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Fallowmarch](../../regions/#marchfield) | [Marchfield](../../regions/#marchfield) | Marchfield Hen | 12 |
-| [Fallowmarch](../../regions/#bracken-pit) | [Bracken Pit](../../regions/#bracken-pit) | Bracken Hen | 4 |
+| [Farmland](../../regions/#farm-fields) | [Farm Fields](../../regions/#farm-fields) | Hen | 12 |
+| [Farmland](../../regions/#copper-pit) | [Copper Pit](../../regions/#copper-pit) | Speckled Hen | 4 |
 
 ## Stats
 

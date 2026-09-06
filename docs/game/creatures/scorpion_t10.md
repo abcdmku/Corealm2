@@ -1,15 +1,15 @@
 ---
-title: "Quarry Scorpion"
-description: "Quarry Scorpion spawn locations, combat stats, and drops."
+title: "Giant Scorpion"
+description: "Giant Scorpion spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/gravelmaw_ch2_scorpions.webp" alt="Quarry Scorpion at its authored spawn in The Gravelmaw" loading="lazy" /><figcaption><strong>Quarry Scorpion</strong><span>The Collapse, The Gravelmaw</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/gravelmaw_ch2_scorpions.webp" alt="Giant Scorpion at its authored spawn in Stone Cavern" loading="lazy" /><figcaption><strong>Giant Scorpion</strong><span>The Collapse, Stone Cavern</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Quarry Scorpion">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Giant Scorpion">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-collapse" style="--map-x:53.8333%;--map-y:60.8750%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Quarry Scorpion, The Gravelmaw, The Collapse" title="Quarry Scorpion, The Gravelmaw, The Collapse"><span>Quarry Scorpion<small>The Gravelmaw, The Collapse</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-collapse" style="--map-x:53.8333%;--map-y:60.8750%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Giant Scorpion, Stone Cavern, The Collapse" title="Giant Scorpion, Stone Cavern, The Collapse"><span>Giant Scorpion<small>Stone Cavern, The Collapse</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Quarry Scorpion spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [The Gravelmaw](../../regions/#the-collapse) | [The Collapse](../../regions/#the-collapse) | Quarry Scorpion | 6 |
+| [Stone Cavern](../../regions/#the-collapse) | [The Collapse](../../regions/#the-collapse) | Giant Scorpion | 6 |
 
 ## Stats
 
@@ -44,5 +44,5 @@ description: "Quarry Scorpion spawn locations, combat stats, and drops."
 | Marks | 30-110 | Always |
 | [Scorpion Stinger](../../items/#scorpion-stinger) | 1-2 | 40% |
 | [Venom Gland](../../items/#venom-gland) | 1-2 | 30% |
-| [Cairn Pelt](../../items/#cairn-pelt) | 1 | 20% |
-| [Cairn Garnet](../../items/#cairn-garnet) | 1 | 10% |
+| [Fur Pelt](../../items/#fur-pelt) | 1 | 20% |
+| [Garnet](../../items/#garnet) | 1 | 10% |

@@ -1,15 +1,15 @@
 ---
-title: "Rootfall Coney"
-description: "Rootfall Coney spawn locations, combat stats, and drops."
+title: "Forest Rabbit"
+description: "Forest Rabbit spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/rootfall_coneys.webp" alt="Rootfall Coney at its authored spawn in Vellenwood" loading="lazy" /><figcaption><strong>Rootfall Coney</strong><span>Hollowcut Seam, Vellenwood</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/rootfall_coneys.webp" alt="Forest Rabbit at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Forest Rabbit</strong><span>Forest Quarry, Woodlands</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Rootfall Coney">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Forest Rabbit">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#hollowcut-seam" style="--map-x:56.3333%;--map-y:50.0000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Rootfall Coney, Hollowcut Seam, Vellenwood" title="Rootfall Coney, Hollowcut Seam, Vellenwood"><span>Rootfall Coney<small>Hollowcut Seam, Vellenwood</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#forest-quarry" style="--map-x:56.3333%;--map-y:50.0000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Forest Rabbit, Forest Quarry, Woodlands" title="Forest Rabbit, Forest Quarry, Woodlands"><span>Forest Rabbit<small>Forest Quarry, Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Rootfall Coney spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Vellenwood](../../regions/#hollowcut-seam) | [Hollowcut Seam](../../regions/#hollowcut-seam) | Rootfall Coney | 6 |
+| [Woodlands](../../regions/#forest-quarry) | [Forest Quarry](../../regions/#forest-quarry) | Forest Rabbit | 6 |
 
 ## Stats
 
@@ -42,6 +42,6 @@ description: "Rootfall Coney spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 15-55 | Always |
-| [Bramble Hide](../../items/#bramble-hide) | 1 | 45% |
+| [Thick Hide](../../items/#thick-hide) | 1 | 45% |
 | [Raw Venison](../../items/#raw-venison) | 1 | 35% |
-| [Coney Foot](../../items/#coney-foot) | 1 | 15% |
+| [Rabbit Foot](../../items/#rabbit-foot) | 1 | 15% |

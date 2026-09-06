@@ -1,15 +1,15 @@
 ---
-title: "Palewood Adder"
-description: "Palewood Adder spawn locations, combat stats, and drops."
+title: "Viper"
+description: "Viper spawn locations, combat stats, and drops."
 ---
 
 <div class="corealm-creature-spawn-evidence">
-<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/palewood_adders.webp" alt="Palewood Adder at its authored spawn in Fallowmarch" loading="lazy" /><figcaption><strong>Palewood Adder</strong><span>Palewood Copse, Fallowmarch</span></figcaption></figure></div>
+<div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/palewood_adders.webp" alt="Viper at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Viper</strong><span>Pine Grove, Farmland</span></figcaption></figure></div>
 <figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
-<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Palewood Adder">
+<div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Viper">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#palewood-copse" style="--map-x:23.3333%;--map-y:65.5000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Palewood Adder, Palewood Copse, Fallowmarch" title="Palewood Adder, Palewood Copse, Fallowmarch"><span>Palewood Adder<small>Palewood Copse, Fallowmarch</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#pine-grove" style="--map-x:23.3333%;--map-y:65.5000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Viper, Pine Grove, Farmland" title="Viper, Pine Grove, Farmland"><span>Viper<small>Pine Grove, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Palewood Adder spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Fallowmarch](../../regions/#palewood-copse) | [Palewood Copse](../../regions/#palewood-copse) | Palewood Adder | 4 |
+| [Farmland](../../regions/#pine-grove) | [Pine Grove](../../regions/#pine-grove) | Viper | 4 |
 
 ## Stats
 
@@ -44,5 +44,5 @@ description: "Palewood Adder spawn locations, combat stats, and drops."
 | Marks | 3-11 | Always |
 | [Viper Skin](../../items/#viper-skin) | 1 | 45% |
 | [Marsh Gland](../../items/#marsh-gland) | 1 | 20% |
-| [Palewood Log](../../items/#palewood-log) | 1-2 | 20% |
+| [Pine Log](../../items/#pine-log) | 1-2 | 20% |
 | [Air Essence](../../items/#air-essence) | 1 | 10% |
