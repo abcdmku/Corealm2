@@ -206,7 +206,13 @@ async function main(): Promise<void> {
   }
 }
 
-const clearDeadline = installTestDeadline("item icon verification");
+// Every icon is captured from the real game, so the run is minutes long by construction and its
+// length tracks how loaded the machine is, not whether the icons are right. The default still
+// holds; COREALM_ICON_VERIFY_DEADLINE_MS lets a release run finish on a busy box.
+const deadlineMs = Number(process.env.COREALM_ICON_VERIFY_DEADLINE_MS ?? 0);
+const clearDeadline = Number.isFinite(deadlineMs) && deadlineMs > 0
+  ? installTestDeadline("item icon verification", deadlineMs)
+  : installTestDeadline("item icon verification");
 try {
   await main();
 } finally {
