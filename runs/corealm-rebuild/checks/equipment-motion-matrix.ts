@@ -283,6 +283,13 @@ try {
     await shot("07-fish-side", "fish", 0.1, 8000, /^equip-mainHand-proc_rod_cairnpine$/);
     await frame(-0.6, 0.2, 3.4);
     await shot("07-fish-front", "fish", 0.0, 8000, /^equip-mainHand-proc_rod_cairnpine$/);
+    // A strapped shield covers the rod hand from most angles, so take one close view without it.
+    // The worn layers are untouched, so the layer assertions in `shot` still hold.
+    await page.evaluate(async () => (window as any).__featureLab.equipPlayer("offHand", null));
+    await page.waitForFunction(() => !(window as any).__gameDebug.getPlayerMotion().attachments?.offHand,
+      undefined, { timeout: 6000 });
+    await frame(1.35, 0.05, 1.6, 1.1);
+    await shot("07-fish-grip", "fish", 0.0, 8000, /^equip-mainHand-proc_rod_cairnpine$/);
     report.fishing = { schoolId, player: await player(), motion: await motion() };
   } else {
     await driver.open(25_000, `/index.html?mode=combat&forest=1&environment=1&body=${body}`);
