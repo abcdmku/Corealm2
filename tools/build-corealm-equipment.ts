@@ -1,8 +1,8 @@
 /** Stage original weapon candidates. Never writes the served catalogue. */
 import { createHash } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { Document, NodeIO } from "@gltf-transform/core";
 import { KHRMaterialsClearcoat } from "@gltf-transform/extensions";
 import { weld } from "@gltf-transform/functions";
@@ -11,6 +11,8 @@ import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js
 import sharp from "sharp";
 import { buildEquipmentWeapon, type WeaponForm, type WeaponGrade } from "../game/src/render/equipmentWeapons.js";
 import type { AssetEntry } from "../game/src/render/assets.js";
+
+const digest = (data: Uint8Array): string => createHash("sha256").update(data).digest("hex");
 
 export const EQUIPMENT_FORMS: readonly WeaponForm[] = ["sword", "dagger", "axe", "shield", "staff", "wand"];
 export async function buildWeaponCandidate(form: WeaponForm, grade: WeaponGrade): Promise<{ glb: Uint8Array; entry: AssetEntry; gripCenter: number[]; sha256: string }> {
@@ -68,8 +70,15 @@ async function main(): Promise<void> {
     const destination = path.join(out, row.entry.file);
     await mkdir(path.dirname(destination), { recursive: true }); await writeFile(destination, glb); entries.push(row);
   }
+  // The manifest pack pins one generator hash, and the schema's `source` is this tool. The
+  // geometry actually lives in game/src/render/equipmentWeapons.ts, so that file's hash is pinned
+  // beside it: promoting a mesh whose authoring source moved would otherwise leave no trace.
+  const generatorSha256 = digest(await readFile(fileURLToPath(import.meta.url)));
+  const geometrySha256 = digest(await readFile(new URL("../game/src/render/equipmentWeapons.ts", import.meta.url)));
   await writeFile(path.join(out, "catalogue.json"), JSON.stringify({ status: "unreviewed-candidate",
-    pack: { id: "corealm-original-equipment", name: "Corealm original equipment", author: "Corealm", license: "LicenseRef-Corealm-Original", source: "tools/build-corealm-equipment.ts" },
+    generatorSha256, geometrySha256,
+    generator: `npx tsx tools/build-corealm-equipment.ts ${path.relative(process.cwd(), out).split(path.sep).join("/")}`,
+    pack: { id: "corealm-original-equipment", name: "Corealm original equipment", author: "Corealm", license: "LicenseRef-Corealm-Original", source: "tools/build-corealm-equipment.ts", generatorSha256 },
     assets: entries.map(row => ({ ...row.entry, sha256: row.sha256, gripCenter: row.gripCenter })),
   }, null, 2));
   await writeFile(path.join(out, "held-catalogue.json"), JSON.stringify({
