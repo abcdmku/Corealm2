@@ -25,9 +25,10 @@ describe("inventory and held equipment parity", () => {
       expect(icon.map(part => part.gearAppearance), item.id).toEqual(held);
       expect(icon.map(part => part.scale), item.id).toEqual(held.map(part => part.scale));
     }
-    for (const tier of ["grithe", "corven", "kaldite", "emberite"]) {
-      expect(assets(`${tier}_dagger`)[0]?.assetId).toBe("corealm_dagger");
-    }
+    // Four separately constructed dagger grades, not one mesh recoloured four times.
+    const daggerAssets = ["grithe", "corven", "kaldite", "emberite"]
+      .map(tier => assets(`${tier}_dagger`)[0]?.assetId);
+    expect(daggerAssets).toEqual(["corealm_dagger_1", "corealm_dagger_2", "corealm_dagger_3", "corealm_dagger_4"]);
   });
 
   it("distinguishes all elemental weapons from their plain bases and preserves depleted preview state", () => {

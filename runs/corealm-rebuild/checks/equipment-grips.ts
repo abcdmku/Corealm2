@@ -31,8 +31,10 @@ await mkdir(out, { recursive: true });
 const HELD: readonly { name: string; mainHand: string | null; offHand?: string | null; hand: "r" | "l" }[] = [
   { name: "shield-cairnpine", mainHand: "kaldite_sword", offHand: "cairnpine_shield", hand: "l" },
   { name: "shield-palewood", mainHand: "grithe_sword", offHand: "palewood_shield", hand: "l" },
-  { name: "dagger-kaldite", mainHand: "kaldite_dagger", offHand: null, hand: "r" },
-  { name: "dagger-grithe", mainHand: "grithe_dagger", offHand: null, hand: "r" },
+  { name: "dagger-1-grithe", mainHand: "grithe_dagger", offHand: null, hand: "r" },
+  { name: "dagger-2-corven", mainHand: "corven_dagger", offHand: null, hand: "r" },
+  { name: "dagger-3-kaldite", mainHand: "kaldite_dagger", offHand: null, hand: "r" },
+  { name: "dagger-4-emberite", mainHand: "emberite_dagger", offHand: null, hand: "r" },
   { name: "sword-kaldite", mainHand: "kaldite_sword", offHand: null, hand: "r" },
   { name: "staff-cairnpine", mainHand: "cairnpine_staff", offHand: null, hand: "r" },
   { name: "staff-basic", mainHand: "basic_wooden_staff", offHand: null, hand: "r" },

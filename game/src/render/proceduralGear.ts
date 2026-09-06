@@ -74,13 +74,25 @@ export interface ProceduralGearAsset {
 export const PROCEDURAL_FISHING_ROD_ASSETS: readonly ProceduralGearAsset[] =
   Object.keys(FISHING_ROD_LOOKS).map((itemId) => ({ assetId: fishingRodAssetId(itemId), itemId }));
 
-/** Shared full-size dagger; its tier treatment is applied by equipmentVisuals. */
-export const EQUIPMENT_DAGGER_ASSET_ID = "corealm_dagger";
+/**
+ * The four dagger grades, in ladder order. Each is a separate construction, not a recolour: the
+ * grade decides the blade section, the guard, the pommel and how many stones are set. Tier colour
+ * is still applied by equipmentVisuals on top.
+ *
+ * These stay generated rather than promoted GLBs because the geometry already lives in the client
+ * bundle for the icon renderer, and four more manifest entries would buy nothing.
+ */
+export const EQUIPMENT_DAGGER_ASSETS: readonly { assetId: string; itemId: string; grade: 0 | 1 | 2 | 3 }[] = [
+  { assetId: "corealm_dagger_1", itemId: "grithe_dagger", grade: 0 },
+  { assetId: "corealm_dagger_2", itemId: "corven_dagger", grade: 1 },
+  { assetId: "corealm_dagger_3", itemId: "kaldite_dagger", grade: 2 },
+  { assetId: "corealm_dagger_4", itemId: "emberite_dagger", grade: 3 },
+];
 
 /** Every generated held asset registered during boot. */
 export const ALL_PROCEDURAL_GEAR_ASSETS: readonly ProceduralGearAsset[] = [
   ...PROCEDURAL_FISHING_ROD_ASSETS,
-  { assetId: EQUIPMENT_DAGGER_ASSET_ID, itemId: "grithe_dagger" },
+  ...EQUIPMENT_DAGGER_ASSETS.map(({ assetId, itemId }) => ({ assetId, itemId })),
 ];
 
 const PROCEDURAL_ASSET_IDS = new Set(ALL_PROCEDURAL_GEAR_ASSETS.map((asset) => asset.assetId));
@@ -115,10 +127,12 @@ export function registerProceduralGear(sink: {
     });
     registered.push(assetId);
   }
-  sink.registerFactory(EQUIPMENT_DAGGER_ASSET_ID, async () => {
-    const { buildEquipmentDagger } = await import("./proceduralGearModels.js");
-    return buildEquipmentDagger();
-  });
-  registered.push(EQUIPMENT_DAGGER_ASSET_ID);
+  for (const { assetId, grade } of EQUIPMENT_DAGGER_ASSETS) {
+    sink.registerFactory(assetId, async () => {
+      const { buildEquipmentDagger } = await import("./proceduralGearModels.js");
+      return buildEquipmentDagger(grade);
+    });
+    registered.push(assetId);
+  }
   return registered;
 }

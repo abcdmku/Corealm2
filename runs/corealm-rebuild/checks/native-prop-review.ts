@@ -7,10 +7,13 @@ const defaultSelections=['corealm_sunder_ledge','corealm_scree_slide',...['grith
 const args=process.argv.slice(2);
 let out='test-results/native-prop-review';
 let catalog:string|undefined;
+let url=process.env.COREALM_URL??`http://127.0.0.1:${process.env.PORT??'4175'}`;
 const selections:string[]=[];
 for(let index=0;index<args.length;index+=1){
  const arg=args[index]!;
- if(arg==='--catalog'){
+ if(arg==='--url'){
+  const value=args[++index];if(!value||value.startsWith('--'))throw new Error('--url requires a value');url=value;
+ }else if(arg==='--catalog'){
   catalog=args[++index];if(!catalog||catalog.startsWith('--'))throw new Error('--catalog requires a path');
  }else if(arg==='--out'){
   const value=args[index+1];
@@ -27,7 +30,7 @@ if(!selections.length)selections.push(...defaultSelections);
 
 await mkdir(out,{recursive:true});
 const clearDeadline=installTestDeadline('Native prop review',60000);
-const driver=new GameDriver({url:'http://127.0.0.1:4175',close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
+const driver=new GameDriver({url,close:async()=>{}},{headless:true,viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
 const report:any={passed:false,visualAccepted:false,out,selections,shots:[]};
 try{
  await driver.launch();

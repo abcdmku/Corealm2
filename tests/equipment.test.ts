@@ -356,7 +356,7 @@ describe("weapon sockets", () => {
   it("keeps the dagger's full grip seated in the fist at every tier", () => {
     for (const tier of ["grithe", "corven", "kaldite", "emberite"]) {
       const dagger = gearAppearance(`${tier}_dagger`);
-      expect(dagger?.assetId).toBe("corealm_dagger");
+      expect(dagger?.assetId).toBe(`corealm_dagger_${["grithe", "corven", "kaldite", "emberite"].indexOf(tier) + 1}`);
       const socket = dagger ? weaponAttachment(dagger) : null;
       expect(socket?.scale).toBe(1);
       const grip = new THREE.Vector3(0, -0.1, 0);

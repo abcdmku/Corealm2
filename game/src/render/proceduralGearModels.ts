@@ -370,89 +370,39 @@ function mergeOwned(parts: readonly THREE.BufferGeometry[]): THREE.BufferGeometr
   return merged;
 }
 
-function daggerBlade(): THREE.BufferGeometry {
+/** Closed section rings preserve bevels, fuller shoulders and distal taper. */
+function daggerBlade(grade: 0 | 1 | 2 | 3): THREE.BufferGeometry {
   const faces = new Faces();
-  const rows = [
-    { y: 0.006, width: 0.037, thickness: 0.009, fuller: 0 },
-    { y: 0.050, width: 0.037, thickness: 0.009, fuller: 0 },
-    { y: 0.068, width: 0.047, thickness: 0.010, fuller: 0 },
-    { y: 0.098, width: 0.046, thickness: 0.010, fuller: 1 },
-    { y: 0.295, width: 0.039, thickness: 0.0085, fuller: 1 },
-    { y: 0.402, width: 0.030, thickness: 0.007, fuller: 1 },
-    { y: 0.473, width: 0.019, thickness: 0.005, fuller: 0 },
-    { y: 0.535, width: 0.008, thickness: 0.0027, fuller: 0 },
+  // Rows specify height, half-width, lateral bend and half-thickness in metres.
+  const profiles: ReadonlyArray<ReadonlyArray<readonly [number, number, number, number]>> = [
+    [[0, .023, 0, .004], [.045, .023, 0, .004], [.175, .017, -.006, .003], [.225, .010, -.011, .002]],
+    [[0, .019, 0, .0045], [.045, .023, 0, .0045], [.135, .035, 0, .004], [.205, .026, 0, .003], [.250, .011, 0, .002]],
+    [[0, .014, 0, .006], [.065, .013, 0, .0055], [.210, .006, 0, .003], [.270, .0025, 0, .0015]],
+    [[0, .025, 0, .006], [.045, .028, -.007, .006], [.110, .017, -.015, .0055], [.185, .032, .007, .005], [.240, .021, .022, .003]],
   ];
-  const rails = [-1, -0.76, -0.24, -0.10, 0.10, 0.24, 0.76, 1];
-  function point(row: typeof rows[number], rail: number, front: number): Point {
-    const across = Math.abs(rails[rail]!);
-    const height = across === 1 ? 0.04 : across === 0.76 ? 0.56
-      : across === 0.24 ? 1 : 1 - row.fuller * 0.34;
-    return [rails[rail]! * row.width, row.y, row.thickness * height * front];
-  }
-  for (const front of [1, -1]) {
+  // Clockwise X/Z perimeter: blunt spine and single edge, shallow fuller,
+  // triangular stiletto, then a tall diamond ridge with broad edge bevels.
+  const sections: ReadonlyArray<ReadonlyArray<readonly [number, number]>> = [
+    [[-1, .8], [-.65, 1], [1, .06], [1, -.06], [-.65, -1], [-1, -.8]],
+    [[-1, .06], [-.30, 1], [0, .70], [.30, 1], [1, .06], [1, -.06], [.30, -1], [0, -.70], [-.30, -1], [-1, -.06]],
+    [[-1, -.65], [0, 1], [1, -.65]],
+    [[-1, .04], [-.65, .30], [0, 1], [.65, .30], [1, .04], [1, -.04], [.65, -.30], [0, -1], [-.65, -.30], [-1, -.04]],
+  ];
+  const rows = profiles[grade]!, section = sections[grade]!;
+  const point = (row: number, edge: number): Point => {
+    const [y, width, bend, thickness] = rows[row]!;
+    const [x, z] = section[edge % section.length]!;
+    return [bend + x * width, y, z * thickness];
+  };
+  const tips: readonly Point[] = [[-.023, .260, 0], [0, .280, 0], [0, .290, 0], [.037, .285, 0]];
+  for (let edge = 0; edge < section.length; edge++) {
+    const next = edge + 1;
+    const tone = grade === 1 && [1, 2, 6, 7].includes(edge) ? .72 : .85 + (edge % 2) * .15;
     for (let row = 0; row < rows.length - 1; row++) {
-      for (let rail = 0; rail < rails.length - 1; rail++) {
-        const a = point(rows[row]!, rail, front);
-        const b = point(rows[row]!, rail + 1, front);
-        const c = point(rows[row + 1]!, rail + 1, front);
-        const d = point(rows[row + 1]!, rail, front);
-        const edge = rail === 0 || rail === rails.length - 2;
-        const fuller = rail === 3 && rows[row]!.fuller > 0;
-        const tone = edge ? 1 : fuller ? 0.57 : 0.79 + (rail % 3) * 0.045;
-        if (front > 0) faces.quad(a, b, c, d, tone);
-        else faces.quad(d, c, b, a, tone);
-      }
+      faces.quad(point(row, edge), point(row, next), point(row + 1, next), point(row + 1, edge), tone);
     }
-    const last = rows.at(-1)!;
-    for (let rail = 0; rail < rails.length - 1; rail++) {
-      const a = point(last, rail, front);
-      const b = point(last, rail + 1, front);
-      const tip: Point = [0, 0.570, 0];
-      if (front > 0) faces.triangle(a, b, tip, 0.92);
-      else faces.triangle(b, a, tip, 0.92);
-    }
-  }
-  // Close the edge and tang rather than relying on a double-sided material.
-  for (const rail of [0, rails.length - 1]) {
-    for (let row = 0; row < rows.length - 1; row++) {
-      const a = point(rows[row]!, rail, 1);
-      const b = point(rows[row]!, rail, -1);
-      const c = point(rows[row + 1]!, rail, -1);
-      const d = point(rows[row + 1]!, rail, 1);
-      if (rail === 0) faces.quad(a, d, c, b);
-      else faces.quad(a, b, c, d);
-    }
-    const a = point(rows.at(-1)!, rail, 1);
-    const b = point(rows.at(-1)!, rail, -1);
-    if (rail === 0) faces.triangle(a, [0, 0.570, 0], b);
-    else faces.triangle(b, [0, 0.570, 0], a);
-  }
-  for (let rail = 0; rail < rails.length - 1; rail++) {
-    faces.quad(point(rows[0]!, rail, -1), point(rows[0]!, rail + 1, -1),
-      point(rows[0]!, rail + 1, 1), point(rows[0]!, rail, 1), 0.72);
-  }
-  // Fine, uneven honing marks live on the long primary bevels on both sides.
-  for (const front of [-1, 1]) {
-    for (let mark = 0; mark < 12; mark++) {
-      const y = 0.12 + mark * 0.0223;
-      const row = y < 0.295 ? 3 : 4;
-      const a = rows[row]!;
-      const b = rows[row + 1]!;
-      const sample = (atY: number, rail: number): Point => {
-        const fraction = (atY - a.y) / (b.y - a.y);
-        const width = THREE.MathUtils.lerp(a.width, b.width, fraction);
-        const thickness = THREE.MathUtils.lerp(a.thickness, b.thickness, fraction);
-        const height = THREE.MathUtils.lerp(1, 0.56, (Math.abs(rail) - 0.24) / 0.52);
-        return [width * rail, atY, front * (thickness * height + 0.000025)];
-      };
-      const side = mark % 2 ? 1 : -1;
-      const start = side * (0.37 + (mark % 3) * 0.05);
-      const p = sample(y, start);
-      const q = sample(y + 0.009, start + side * 0.11);
-      const r = sample(y + 0.0092, start + side * 0.112);
-      if (front * side > 0) faces.triangle(p, q, r, 0.88);
-      else faces.triangle(p, r, q, 0.88);
-    }
+    faces.triangle(point(rows.length - 1, edge), point(rows.length - 1, next), tips[grade]!, tone);
+    faces.triangle([0, 0, 0], point(0, next), point(0, edge), .8);
   }
   return faces.geometry();
 }
@@ -489,53 +439,56 @@ function leatherGrip(): THREE.BufferGeometry {
 /**
  * Shared production dagger, in metres. Origin is the guard, blade points +Y, and the grip center
  * is [0, -0.100, 0]. The existing Rx(PI/2) socket therefore needs the sword's 0.100 m grip offset.
- * Four meshes keep metal tint, leather and gem independent. Every call creates fresh resources;
+ * Separate role meshes keep metal tint, leather and optional gems independent. Every call creates fresh resources;
  * the asset registry may own and cache the result, while icons may dispose their own result.
  */
-export function buildEquipmentDagger(): THREE.Group {
+export function buildEquipmentDagger(grade: 0 | 1 | 2 | 3 = 0): THREE.Group {
   const group = new THREE.Group();
   group.name = "equipment-dagger";
   group.userData.gripCenter = [0, -0.100, 0];
-  const guard = loft([
-    { at: -0.090, radius: 0.001, depth: 0.003, bend: 0.017 },
-    { at: -0.086, radius: 0.006, depth: 0.010, bend: 0.017 },
-    { at: -0.074, radius: 0.008, depth: 0.014, bend: 0.014 },
-    { at: -0.054, radius: 0.009, depth: 0.017, bend: 0.008 },
-    { at: -0.031, radius: 0.011, depth: 0.021, bend: 0.002 },
-    { at: 0, radius: 0.013, depth: 0.024, bend: 0 },
-    { at: 0.031, radius: 0.011, depth: 0.021, bend: 0.002 },
-    { at: 0.054, radius: 0.009, depth: 0.017, bend: 0.008 },
-    { at: 0.074, radius: 0.008, depth: 0.014, bend: 0.014 },
-    { at: 0.086, radius: 0.006, depth: 0.010, bend: 0.017 },
-    { at: 0.090, radius: 0.001, depth: 0.003, bend: 0.017 },
-  ], "x", 16);
-  const topCollar = loft([
-    { at: -0.036, radius: 0.025, depth: 0.018 },
-    { at: -0.033, radius: 0.028, depth: 0.021 },
-    { at: -0.022, radius: 0.028, depth: 0.021 },
-    { at: -0.018, radius: 0.025, depth: 0.019 },
-    { at: -0.010, radius: 0.025, depth: 0.019 },
-  ], "y");
-  const pommel = loft([
-    { at: -0.208, radius: 0.012, depth: 0.008 },
-    { at: -0.205, radius: 0.023, depth: 0.014 },
-    { at: -0.196, radius: 0.034, depth: 0.022 },
-    { at: -0.183, radius: 0.033, depth: 0.022 },
-    { at: -0.176, radius: 0.025, depth: 0.018 },
-    { at: -0.173, radius: 0.025, depth: 0.018 },
-    { at: -0.170, radius: 0.028, depth: 0.020 },
-    { at: -0.165, radius: 0.028, depth: 0.020 },
-  ], "y");
-  const gems = [-1, 1].map((side) => {
-    const geometry = buildEquipmentCoreGeometry();
-    geometry.scale(0.010, 0.012, 0.006);
-    geometry.translate(0, -0.189, side * 0.022);
-    return geometry;
-  });
-  const parts: Record<EquipmentRole, THREE.BufferGeometry> = {
-    blade: daggerBlade(), metal: mergeOwned([guard, topCollar, pommel]),
-    leather: leatherGrip(), gem: mergeOwned(gems),
+  const fittings: THREE.BufferGeometry[] = [];
+  // Guard rows are X, vertical radius, depth and Y bend. All spans stay below 17 cm.
+  const guards: ReadonlyArray<ReadonlyArray<readonly [number, number, number, number]>> = [
+    [[-.051, .008, .012, 0], [.051, .008, .012, 0]],
+    [[-.065, .007, .009, -.029], [-.040, .009, .012, -.012], [0, .010, .020, 0], [.040, .009, .012, -.012], [.065, .007, .009, -.029]],
+    [[-.048, .008, .009, .013], [0, .010, .020, 0], [.048, .008, .009, -.013]],
+    [[-.079, .002, .005, .031], [-.064, .013, .010, .013], [-.034, .012, .015, .003], [0, .012, .022, 0], [.034, .012, .015, .003], [.064, .013, .010, .013], [.079, .002, .005, .031]],
+  ];
+  fittings.push(loft(guards[grade]!.map(([at, radius, depth, bend]) => ({ at, radius, depth, bend })), "x", grade === 0 || grade === 3 ? 8 : 12));
+  if (grade === 2) {
+    const ring = new THREE.TorusGeometry(.023, .004, 8, 32);
+    ring.translate(.045, -.018, 0);
+    ring.deleteAttribute("uv");
+    fittings.push(paint(ring, 0xffffff));
+  }
+  fittings.push(loft([
+    { at: -.036, radius: .025, depth: .018 },
+    { at: -.030, radius: .028, depth: .021 },
+    { at: -.008, radius: .025, depth: .019 },
+  ], "y"));
+  const pommelProfiles: Ring[][] = [
+    [{ at: -.188, radius: .032, depth: .023 }, { at: -.174, radius: .032, depth: .023 }, { at: -.165, radius: .025, depth: .018 }],
+    [{ at: -.190, radius: .014, depth: .010 }, { at: -.180, radius: .035, depth: .025 }, { at: -.165, radius: .025, depth: .018 }],
+    Array.from({ length: 9 }, (_, i) => ({ at: -.185 + i * .0025, radius: i % 2 ? .032 : .025, depth: i % 2 ? .024 : .018 })),
+    [{ at: -.190, radius: .029, depth: .023 }, { at: -.185, radius: .036, depth: .026 }, { at: -.177, radius: .036, depth: .026 }, { at: -.177, radius: .026, depth: .018 }, { at: -.165, radius: .026, depth: .018 }],
+  ];
+  const pommel = loft(pommelProfiles[grade]!, "y", grade === 1 ? 6 : 24);
+  if (grade === 1) {
+    const faceted = pommel.toNonIndexed();
+    pommel.dispose(); faceted.computeVertexNormals(); fittings.push(faceted);
+  } else fittings.push(pommel);
+  const parts: Partial<Record<EquipmentRole, THREE.BufferGeometry>> = {
+    blade: daggerBlade(grade), metal: mergeOwned(fittings), leather: leatherGrip(),
   };
+  if (grade >= 2) {
+    const gems = (grade === 2 ? [0] : [-.034, .034]).map(x => {
+      const geometry = buildEquipmentCoreGeometry();
+      geometry.scale(.008, .010, .005);
+      geometry.translate(x, grade === 2 ? -.174 : .003, grade === 2 ? .022 : .015);
+      return geometry;
+    });
+    parts.gem = mergeOwned(gems);
+  }
   const materials: Record<EquipmentRole, THREE.MeshStandardMaterial> = {
     blade: new THREE.MeshStandardMaterial({ color: 0xe7e9eb, metalness: 0.82, roughness: 0.29, vertexColors: true }),
     metal: new THREE.MeshStandardMaterial({ color: 0xa7a7a5, metalness: 0.76, roughness: 0.39, vertexColors: true }),
@@ -547,7 +500,7 @@ export function buildEquipmentDagger(): THREE.Group {
     const material = materials[role];
     material.name = `equipment-dagger-${role}`;
     material.userData.equipmentRole = role;
-    const mesh = new THREE.Mesh(parts[role], material);
+    const mesh = new THREE.Mesh(parts[role]!, material);
     mesh.name = `equipment-dagger-${role}`;
     mesh.castShadow = true;
     mesh.receiveShadow = true;

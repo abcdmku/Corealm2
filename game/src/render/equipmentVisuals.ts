@@ -123,7 +123,8 @@ const MAGIC_WAND_SCALE = 0.80;
 type OutfitKit = "ranger" | "knight";
 type OutfitPart = "helmet" | "hood" | "chest" | "legs" | "boots" | "gloves" | "pauldron" | "scarf";
 type WeaponAsset =
-  | "sword" | "corealm_dagger" | "shield" | "axe" | "pickaxe" | "rpg_weapon_staff" | "rpg_weapon_wand"
+  | "sword" | "shield" | "axe" | "pickaxe" | "rpg_weapon_staff" | "rpg_weapon_wand"
+  | "corealm_dagger_1" | "corealm_dagger_2" | "corealm_dagger_3" | "corealm_dagger_4"
   | "miniboss_sword" | "miniboss_staff" | "corealm_sword_1" | "corealm_sword_2" | "corealm_sword_3" | "corealm_sword_4" | "corealm_axe_1";
 
 /**
@@ -176,7 +177,7 @@ const LADDER: readonly LadderTier[] = [
   {
     tier: 1, kit: "knight", cloth: GRITHE, weapon: GRITHE, offHandTint: 0x8a6f4d,
     mainHand: [
-      { id: "grithe_dagger", asset: "corealm_dagger", scale: 1, fixedScale: true },
+      { id: "grithe_dagger", asset: "corealm_dagger_1", scale: 1, fixedScale: true },
       { id: "grithe_sword", asset: "corealm_sword_1", scale: 0.9, fixedScale: true },
     ],
     offHand: { id: "palewood_shield", scale: 1 },
@@ -187,7 +188,7 @@ const LADDER: readonly LadderTier[] = [
   {
     tier: 5, kit: "knight", cloth: CORVEN, weapon: CORVEN, offHandTint: 0x5c4a33,
     mainHand: [
-      { id: "corven_dagger", asset: "corealm_dagger", scale: 1, fixedScale: true },
+      { id: "corven_dagger", asset: "corealm_dagger_2", scale: 1, fixedScale: true },
       { id: "corven_sword", asset: "corealm_sword_2", scale: 0.9, fixedScale: true },
     ],
     offHand: { id: "duskoak_shield", scale: 1 },
@@ -199,7 +200,7 @@ const LADDER: readonly LadderTier[] = [
     tier: 10, kit: "knight", cloth: KALDITE,
     weapon: KALDITE, weaponAccent: KALDITE_GARNET, offHandTint: KALDITE,
     mainHand: [
-      { id: "kaldite_dagger", asset: "corealm_dagger", scale: 1, fixedScale: true },
+      { id: "kaldite_dagger", asset: "corealm_dagger_3", scale: 1, fixedScale: true },
       { id: "kaldite_sword", asset: "corealm_sword_3", scale: 0.9, fixedScale: true },
     ],
     offHand: { id: "cairnpine_shield", scale: 1 },
@@ -247,7 +248,7 @@ const LADDER: readonly LadderTier[] = [
     tier: 20, kit: "knight", cloth: EMBERITE,
     weapon: EMBERITE, weaponAccent: EMBERITE_OPAL, offHandTint: EMBERITE,
     mainHand: [
-      { id: "emberite_dagger", asset: "corealm_dagger", scale: 1, fixedScale: true },
+      { id: "emberite_dagger", asset: "corealm_dagger_4", scale: 1, fixedScale: true },
       { id: "emberite_sword", asset: "corealm_sword_4", scale: 0.9, fixedScale: true },
     ],
     offHand: { id: "cinderpine_shield", scale: 1 },
@@ -589,7 +590,8 @@ interface SocketParts {
 /** Where the grip centre lands relative to the asset origin AFTER `rotation`, at scale 1. */
 const SOCKET_PARTS: Readonly<Record<string, SocketParts>> = {
   sword: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.100], rotation: [Math.PI / 2, 0, 0] },
-  corealm_dagger: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.100], rotation: [Math.PI / 2, 0, 0] },
+  // Shared by all four dagger grades: every grade keeps its grip centre at asset y = -0.100.
+  dagger: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.100], rotation: [Math.PI / 2, 0, 0] },
   axe: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.250], rotation: [Math.PI / 2, 0, 0] },
   pickaxe: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.150], rotation: [Math.PI / 2, Math.PI / 2, 0], fit: 0.68 },
   // Strapped to the forearm, not dangled from the fist. `rotation` is unchanged and still sends
@@ -649,6 +651,7 @@ const SOCKET_PARTS: Readonly<Record<string, SocketParts>> = {
  */
 function socketPartsFor(assetId: string): SocketParts | undefined {
   if (/^corealm_sword_[1-4]$/.test(assetId)) return SOCKET_PARTS["sword"];
+  if (/^corealm_dagger_[1-4]$/.test(assetId)) return SOCKET_PARTS["dagger"];
   if (assetId === "corealm_axe_1") return SOCKET_PARTS["axe"];
   if (assetId.startsWith("proc_rod_")) return SOCKET_PARTS["fishing_rod"];
   return SOCKET_PARTS[assetId];
