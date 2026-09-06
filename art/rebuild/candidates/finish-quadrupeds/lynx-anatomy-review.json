@@ -1,0 +1,4866 @@
+{
+  "schemaVersion": 1,
+  "species": "duskoak_lynx",
+  "units": "metres unless a field explicitly names centimetres",
+  "scope": "CPU asset refinement only. No game, production manifest, tests, or other anatomy modules were edited. No internet requests or downloads were used.",
+  "reviewBoundary": "No rendered appearance or hardware review was performed. The requested CPU-only scope supersedes the repository's lab and screenshot workflow for this task.",
+  "baseline": {
+    "file": "game/public/assets/models/creature/creature_duskoak_lynx.glb",
+    "sha256": "95f983b1964f4f67427555b007b642285eb7119e2dfaf407ca615ce25c213fb5",
+    "basis": "Measurements A–G use the shipped GLB, not a rebuild of the pre-edit source. The shipped geometry differs from the current pre-edit authoring source. J uses actual pre-edit and post-edit compiler outputs."
+  },
+  "candidate": {
+    "file": "test-results/creature-expansion/models/creature_duskoak_lynx.glb",
+    "sha256": "cd1aad5e4d2a7b422f24793d7f3fe0ccf87281500429f62e1439de95c9288ed5",
+    "hashes": {
+      "tools/build-creature-expansion.ts": "eb76f57507ff84e5ec1694cb5c68839bd8076b75342445ba18c1b78999974141",
+      "tools/creature-expansion/mammals.mjs": "5324598acf77b972170651982916dd57df344a51c85c22f7fc2e13be71ac2857",
+      "tools/creature-expansion/mammals/implicit.mjs": "7d42f8015bcff8e58c13d825f32728c147529e3cdc2d1f4ac5a1032dab45bdb0",
+      "tools/creature-expansion/mammals/lynx-anatomy.mjs": "a5c53e98fad3dca098ba42676786e01f575aa8df975aede83b58d8cc51c5cf27"
+    },
+    "audit": {
+      "passed": true,
+      "vertices": 50549,
+      "triangles": 99040,
+      "skinnedVertices": 50549,
+      "invalidWeights": 0,
+      "invalidJoints": 0,
+      "invalidDrawIndices": 0,
+      "invalidNormals": 0,
+      "missingUV": 0,
+      "zeroArea": 96,
+      "failures": [],
+      "notes": [
+        "96 degenerate cap/seam triangles"
+      ],
+      "animationResampleTolerance": 1e-7
+    }
+  },
+  "rig": {
+    "beforeJointNames": [
+      "Root",
+      "Pelvis",
+      "Spine",
+      "Chest",
+      "Neck",
+      "Head",
+      "Jaw",
+      "Ear_L",
+      "Ear_R",
+      "Tail_1",
+      "Tail_2",
+      "Tail_3",
+      "Tail_4",
+      "FR_Upper",
+      "FR_Lower",
+      "FR_Ankle",
+      "FR_Paw",
+      "FL_Upper",
+      "FL_Lower",
+      "FL_Ankle",
+      "FL_Paw",
+      "HR_Upper",
+      "HR_Lower",
+      "HR_Ankle",
+      "HR_Paw",
+      "HL_Upper",
+      "HL_Lower",
+      "HL_Ankle",
+      "HL_Paw"
+    ],
+    "afterJointNames": [
+      "Root",
+      "Pelvis",
+      "Spine",
+      "Chest",
+      "Neck",
+      "Head",
+      "Jaw",
+      "Ear_L",
+      "Ear_R",
+      "Tail_1",
+      "Tail_2",
+      "Tail_3",
+      "Tail_4",
+      "FR_Upper",
+      "FR_Lower",
+      "FR_Ankle",
+      "FR_Paw",
+      "FL_Upper",
+      "FL_Lower",
+      "FL_Ankle",
+      "FL_Paw",
+      "HR_Upper",
+      "HR_Lower",
+      "HR_Ankle",
+      "HR_Paw",
+      "HL_Upper",
+      "HL_Lower",
+      "HL_Ankle",
+      "HL_Paw"
+    ],
+    "beforeJointCount": 29,
+    "afterJointCount": 29,
+    "beforeClipNames": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "HitLeft",
+      "HitRight",
+      "Death"
+    ],
+    "afterClipNames": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "HitLeft",
+      "HitRight",
+      "Death"
+    ],
+    "jointNamesPreserved": true,
+    "clipNamesPreserved": true,
+    "authoredSoleYM": 0,
+    "exportedBindSoleYM": [
+      {
+        "bone": "FR_Paw",
+        "y": 1.0728835736495412e-9
+      },
+      {
+        "bone": "FL_Paw",
+        "y": 1.0728835736495412e-9
+      },
+      {
+        "bone": "HR_Paw",
+        "y": 1.072883587527329e-9
+      },
+      {
+        "bone": "HL_Paw",
+        "y": 1.072883587527329e-9
+      }
+    ],
+    "soleNote": "The authored vertices are exactly y=0. Float32 skin matrices produce approximately +1.07e-9 m at the exported bind sole. Animation keys target +1 mm to leave room for interpolation without changing the bind sole."
+  },
+  "numericChecks": {
+    "A": {
+      "target": "40 evenly spaced sections per leg; every interior valley depth <= 0.12 of the smaller neighbouring maximum.",
+      "method": "Skinned bind-space triangle intersections with 40 horizontal planes from the foot's lowest vertex to the Upper joint origin. The centre follows sole-patch centroid, Paw, Ankle, Lower and Upper joints. At each plane, 64 angular rays intersect the actual mesh; intervals are unioned per connected component and across overlapping surfaces. Radius is sqrt(mean(r^2)), the polar area-equivalent radius of the union containing the centre. Above the torso junction this includes the attached torso. The sole limit is evaluated 1e-7 m above its plane. Missing contours are recorded as zero, never interpolated. Flat extrema use a 1e-7 m equality tolerance; endpoints can bound an interior valley. All four full curves are retained.",
+      "before": [
+        {
+          "bone": "FR_Paw",
+          "curve": [
+            {
+              "heightM": 1.072883587527329e-9,
+              "radiusM": 0,
+              "missingRays": 64
+            },
+            {
+              "heightM": 0.019564103609476316,
+              "radiusM": 0.06984470600971865,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.039128206146069044,
+              "radiusM": 0.08207594877272649,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.05869230868266178,
+              "radiusM": 0.08424328953881575,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.0782564112192545,
+              "radiusM": 0.07729498142714725,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.09782051375584723,
+              "radiusM": 0.0707267908440575,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.11738461629243997,
+              "radiusM": 0.0589740511979187,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.13694871882903267,
+              "radiusM": 0.03918169551402087,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.15651282136562542,
+              "radiusM": 0.02963890185846658,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.17607692390221816,
+              "radiusM": 0.027778307653212625,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.19564102643881087,
+              "radiusM": 0.030028205583718326,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.2152051289754036,
+              "radiusM": 0.03465065188292348,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.23476923151199636,
+              "radiusM": 0.03665883012050672,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.25433333404858904,
+              "radiusM": 0.03462934943869723,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.27389743658518173,
+              "radiusM": 0.030115843286931187,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.29346153912177453,
+              "radiusM": 0.027163196022303222,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3130256416583672,
+              "radiusM": 0.026775216918170103,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.33258974419496,
+              "radiusM": 0.027485844977746886,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3521538467315527,
+              "radiusM": 0.029229109583062424,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3717179492681455,
+              "radiusM": 0.03522641345598143,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3912820518047382,
+              "radiusM": 0.040844321510618724,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.410846154341331,
+              "radiusM": 0.04287809047073397,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.43041025687792356,
+              "radiusM": 0.04282858005481892,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.44997435941451636,
+              "radiusM": 0.043002621472293355,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.46953846195110915,
+              "radiusM": 0.04421019022690856,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.48910256448770184,
+              "radiusM": 0.04624694531340606,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5086666670242945,
+              "radiusM": 0.04887108609239305,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5282307695608873,
+              "radiusM": 0.1502040703113589,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5477948720974799,
+              "radiusM": 0.208571821053672,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5673589746340727,
+              "radiusM": 0.256483039000053,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5869230771706655,
+              "radiusM": 0.2881580652091226,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6064871797072582,
+              "radiusM": 0.30282479168115384,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6260512822438509,
+              "radiusM": 0.3318476076374717,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6456153847804437,
+              "radiusM": 0.34039977344528916,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6651794873170364,
+              "radiusM": 0.3467989886312593,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.684743589853629,
+              "radiusM": 0.3612641868323536,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7043076923902218,
+              "radiusM": 0.3547947859256501,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7238717949268145,
+              "radiusM": 0.357921210514282,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7434358974634073,
+              "radiusM": 0.35807374113049517,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.763,
+              "radiusM": 0.3596747395918854,
+              "missingRays": 0
+            }
+          ],
+          "valleys": [
+            {
+              "bins": [
+                9,
+                9
+              ],
+              "valueM": 0.027778307653212625,
+              "leftMaximumM": 0.08424328953881575,
+              "rightMaximumM": 0.03665883012050672,
+              "prominenceM": 0.008880522467294094,
+              "depthFraction": 0.24224784146416026
+            },
+            {
+              "bins": [
+                16,
+                16
+              ],
+              "valueM": 0.026775216918170103,
+              "leftMaximumM": 0.03665883012050672,
+              "rightMaximumM": 0.04287809047073397,
+              "prominenceM": 0.009883613202336616,
+              "depthFraction": 0.2696107096120284
+            },
+            {
+              "bins": [
+                22,
+                22
+              ],
+              "valueM": 0.04282858005481892,
+              "leftMaximumM": 0.04287809047073397,
+              "rightMaximumM": 0.3612641868323536,
+              "prominenceM": 0.000049510415915055006,
+              "depthFraction": 0.0011546786568969963
+            },
+            {
+              "bins": [
+                36,
+                36
+              ],
+              "valueM": 0.3547947859256501,
+              "leftMaximumM": 0.3612641868323536,
+              "rightMaximumM": 0.3596747395918854,
+              "prominenceM": 0.004879953666235282,
+              "depthFraction": 0.013567685269675741
+            }
+          ],
+          "passes": false
+        },
+        {
+          "bone": "FL_Paw",
+          "curve": [
+            {
+              "heightM": 1.072883587527329e-9,
+              "radiusM": 0,
+              "missingRays": 64
+            },
+            {
+              "heightM": 0.019564103609476316,
+              "radiusM": 0.07000934793187162,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.039128206146069044,
+              "radiusM": 0.0820632869361619,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.05869230868266178,
+              "radiusM": 0.0842423570652567,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.0782564112192545,
+              "radiusM": 0.07729435639333546,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.09782051375584723,
+              "radiusM": 0.07074363487213806,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.11738461629243997,
+              "radiusM": 0.058967001989774864,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.13694871882903267,
+              "radiusM": 0.03920178202389638,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.15651282136562542,
+              "radiusM": 0.029574316174522264,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.17607692390221816,
+              "radiusM": 0.02774370910051204,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.19564102643881087,
+              "radiusM": 0.03004738726842409,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.2152051289754036,
+              "radiusM": 0.03458485280913837,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.23476923151199636,
+              "radiusM": 0.036699506101085626,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.25433333404858904,
+              "radiusM": 0.03451710542014501,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.27389743658518173,
+              "radiusM": 0.03021837940251952,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.29346153912177453,
+              "radiusM": 0.027133766099301612,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3130256416583672,
+              "radiusM": 0.026779277691055727,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.33258974419496,
+              "radiusM": 0.027477912988721175,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3521538467315527,
+              "radiusM": 0.029234038190389517,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3717179492681455,
+              "radiusM": 0.035354568147650436,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3912820518047382,
+              "radiusM": 0.04086588517560459,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.410846154341331,
+              "radiusM": 0.04287342239033397,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.43041025687792356,
+              "radiusM": 0.04281922313302692,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.44997435941451636,
+              "radiusM": 0.043012943375052626,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.46953846195110915,
+              "radiusM": 0.04421019286793995,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.48910256448770184,
+              "radiusM": 0.04623230512199133,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5086666670242945,
+              "radiusM": 0.04884575171166241,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5282307695608873,
+              "radiusM": 0.14931087460619225,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5477948720974799,
+              "radiusM": 0.20470686891440182,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5673589746340727,
+              "radiusM": 0.270517019046787,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5869230771706655,
+              "radiusM": 0.28644939185930696,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6064871797072582,
+              "radiusM": 0.31318813715217503,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6260512822438509,
+              "radiusM": 0.32469503913838366,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6456153847804437,
+              "radiusM": 0.3339506129927555,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6651794873170364,
+              "radiusM": 0.3457401590010577,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.684743589853629,
+              "radiusM": 0.35853743398000437,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7043076923902218,
+              "radiusM": 0.3495215591364358,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7238717949268145,
+              "radiusM": 0.3529373922519455,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7434358974634073,
+              "radiusM": 0.3562627558268978,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.763,
+              "radiusM": 0.35761395715716615,
+              "missingRays": 0
+            }
+          ],
+          "valleys": [
+            {
+              "bins": [
+                9,
+                9
+              ],
+              "valueM": 0.02774370910051204,
+              "leftMaximumM": 0.0842423570652567,
+              "rightMaximumM": 0.036699506101085626,
+              "prominenceM": 0.008955797000573584,
+              "depthFraction": 0.24403045032556062
+            },
+            {
+              "bins": [
+                16,
+                16
+              ],
+              "valueM": 0.026779277691055727,
+              "leftMaximumM": 0.036699506101085626,
+              "rightMaximumM": 0.04287342239033397,
+              "prominenceM": 0.009920228410029899,
+              "depthFraction": 0.2703095889820829
+            },
+            {
+              "bins": [
+                22,
+                22
+              ],
+              "valueM": 0.04281922313302692,
+              "leftMaximumM": 0.04287342239033397,
+              "rightMaximumM": 0.35853743398000437,
+              "prominenceM": 0.0000541992573070485,
+              "depthFraction": 0.001264169135218559
+            },
+            {
+              "bins": [
+                36,
+                36
+              ],
+              "valueM": 0.3495215591364358,
+              "leftMaximumM": 0.35853743398000437,
+              "rightMaximumM": 0.35761395715716615,
+              "prominenceM": 0.008092398020730363,
+              "depthFraction": 0.022628865173665105
+            }
+          ],
+          "passes": false
+        },
+        {
+          "bone": "HR_Paw",
+          "curve": [
+            {
+              "heightM": 1.072883587527329e-9,
+              "radiusM": 0,
+              "missingRays": 64
+            },
+            {
+              "heightM": 0.019102565147937855,
+              "radiusM": 0.06808819998246168,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.03820512922299212,
+              "radiusM": 0.0817838730155385,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.057307693298046386,
+              "radiusM": 0.0843460186710098,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.07641025737310066,
+              "radiusM": 0.07802310432044424,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.09551282144815493,
+              "radiusM": 0.07171007791540762,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.11461538552320918,
+              "radiusM": 0.06122592525715971,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.13371794959826347,
+              "radiusM": 0.04488215683736919,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.15282051367331773,
+              "radiusM": 0.032823291446709535,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.17192307774837198,
+              "radiusM": 0.03034848812548253,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.19102564182342627,
+              "radiusM": 0.03201162464724067,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.21012820589848055,
+              "radiusM": 0.03559344229424025,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.22923076997353478,
+              "radiusM": 0.037915475569332266,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.24833333404858907,
+              "radiusM": 0.037626601386653455,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.2674358981236433,
+              "radiusM": 0.03387907173514998,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.2865384621986976,
+              "radiusM": 0.02772543456210544,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3056410262737519,
+              "radiusM": 0.026609627853697426,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3247435903488062,
+              "radiusM": 0.026173784413534337,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.34384615442386035,
+              "radiusM": 0.026087126914988296,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.36294871849891464,
+              "radiusM": 0.026880582223125157,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3820512825739689,
+              "radiusM": 0.02771925204561541,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4011538466490232,
+              "radiusM": 0.028450416083732014,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4202564107240775,
+              "radiusM": 0.029498069952183268,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.43935897479913166,
+              "radiusM": 0.035687718233699324,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.45846153887418595,
+              "radiusM": 0.04116090434110798,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.47756410294924023,
+              "radiusM": 0.044499452906133025,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4966666670242945,
+              "radiusM": 0.04813995614778824,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5157692310993488,
+              "radiusM": 0.0524636059534722,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5348717951744031,
+              "radiusM": 0.05880306394845043,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5539743592494573,
+              "radiusM": 0.1508972875745025,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5730769233245115,
+              "radiusM": 0.19724769371900275,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5921794873995658,
+              "radiusM": 0.2681510733196091,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6112820514746201,
+              "radiusM": 0.31145456323807125,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6303846155496744,
+              "radiusM": 0.3344667748659419,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6494871796247287,
+              "radiusM": 0.3415920719308597,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.668589743699783,
+              "radiusM": 0.35649522603598605,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6876923077748371,
+              "radiusM": 0.362489797671151,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7067948718498914,
+              "radiusM": 0.3658740297517424,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7258974359249457,
+              "radiusM": 0.36825427502116037,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.745,
+              "radiusM": 0.3695574477104835,
+              "missingRays": 0
+            }
+          ],
+          "valleys": [
+            {
+              "bins": [
+                9,
+                9
+              ],
+              "valueM": 0.03034848812548253,
+              "leftMaximumM": 0.0843460186710098,
+              "rightMaximumM": 0.037915475569332266,
+              "prominenceM": 0.0075669874438497355,
+              "depthFraction": 0.19957516898377647
+            },
+            {
+              "bins": [
+                18,
+                18
+              ],
+              "valueM": 0.026087126914988296,
+              "leftMaximumM": 0.037915475569332266,
+              "rightMaximumM": 0.3695574477104835,
+              "prominenceM": 0.01182834865434397,
+              "depthFraction": 0.3119662479958782
+            }
+          ],
+          "passes": false
+        },
+        {
+          "bone": "HL_Paw",
+          "curve": [
+            {
+              "heightM": 1.072883587527329e-9,
+              "radiusM": 0,
+              "missingRays": 64
+            },
+            {
+              "heightM": 0.019102565147937855,
+              "radiusM": 0.06879476733549464,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.03820512922299212,
+              "radiusM": 0.0817824149548993,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.057307693298046386,
+              "radiusM": 0.08435616422914043,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.07641025737310066,
+              "radiusM": 0.07801977036210232,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.09551282144815493,
+              "radiusM": 0.07173418428380138,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.11461538552320918,
+              "radiusM": 0.06130821177705511,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.13371794959826347,
+              "radiusM": 0.04497806285740433,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.15282051367331773,
+              "radiusM": 0.03281961828191889,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.17192307774837198,
+              "radiusM": 0.030360735201415658,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.19102564182342627,
+              "radiusM": 0.03204439017423235,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.21012820589848055,
+              "radiusM": 0.035462926709895544,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.22923076997353478,
+              "radiusM": 0.03789273524003737,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.24833333404858907,
+              "radiusM": 0.03769009567411512,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.2674358981236433,
+              "radiusM": 0.033874331710959805,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.2865384621986976,
+              "radiusM": 0.02777939700911767,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3056410262737519,
+              "radiusM": 0.02657973089824939,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3247435903488062,
+              "radiusM": 0.026146240486094114,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.34384615442386035,
+              "radiusM": 0.026101807460471117,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.36294871849891464,
+              "radiusM": 0.026892019905043446,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3820512825739689,
+              "radiusM": 0.02772788647741983,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4011538466490232,
+              "radiusM": 0.02846493719672316,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4202564107240775,
+              "radiusM": 0.029466351380258334,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.43935897479913166,
+              "radiusM": 0.03573757395855996,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.45846153887418595,
+              "radiusM": 0.04119801836898491,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.47756410294924023,
+              "radiusM": 0.04442425279941759,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4966666670242945,
+              "radiusM": 0.04811799434375225,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5157692310993488,
+              "radiusM": 0.052544583475727526,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5348717951744031,
+              "radiusM": 0.058766949376073005,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5539743592494573,
+              "radiusM": 0.15364976801154734,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5730769233245115,
+              "radiusM": 0.1995717576327588,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5921794873995658,
+              "radiusM": 0.25492712375558807,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6112820514746201,
+              "radiusM": 0.299140273541831,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6303846155496744,
+              "radiusM": 0.3241516044647733,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6494871796247287,
+              "radiusM": 0.3442528083935234,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.668589743699783,
+              "radiusM": 0.34940886442161684,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6876923077748371,
+              "radiusM": 0.35645592340280896,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7067948718498914,
+              "radiusM": 0.3670148114227905,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7258974359249457,
+              "radiusM": 0.37343434235897305,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.745,
+              "radiusM": 0.3617710993238136,
+              "missingRays": 0
+            }
+          ],
+          "valleys": [
+            {
+              "bins": [
+                9,
+                9
+              ],
+              "valueM": 0.030360735201415658,
+              "leftMaximumM": 0.08435616422914043,
+              "rightMaximumM": 0.03789273524003737,
+              "prominenceM": 0.0075320000386217105,
+              "depthFraction": 0.1987716112576486
+            },
+            {
+              "bins": [
+                18,
+                18
+              ],
+              "valueM": 0.026101807460471117,
+              "leftMaximumM": 0.03789273524003737,
+              "rightMaximumM": 0.37343434235897305,
+              "prominenceM": 0.011790927779566251,
+              "depthFraction": 0.3111659188727022
+            }
+          ],
+          "passes": false
+        }
+      ],
+      "after": [
+        {
+          "bone": "FR_Paw",
+          "curve": [
+            {
+              "heightM": 1.0728835736495412e-9,
+              "radiusM": 0.03853400003487681,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.01910256514793784,
+              "radiusM": 0.05670053065847196,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.03820512922299211,
+              "radiusM": 0.05501333510819491,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.05730769329804637,
+              "radiusM": 0.05315221534969926,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.07641025737310064,
+              "radiusM": 0.053783560139697505,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.09551282144815491,
+              "radiusM": 0.0544825250234171,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.11461538552320917,
+              "radiusM": 0.05473604473605355,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.13371794959826344,
+              "radiusM": 0.05546586683969451,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.15282051367331773,
+              "radiusM": 0.05540016694473144,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.17192307774837196,
+              "radiusM": 0.05458907316887299,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.19102564182342624,
+              "radiusM": 0.054230744478810114,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.21012820589848052,
+              "radiusM": 0.05439096823098846,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.22923076997353475,
+              "radiusM": 0.054634736055851174,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.24833333404858904,
+              "radiusM": 0.054838859003767386,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.2674358981236433,
+              "radiusM": 0.0550861806366627,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.28653846219869755,
+              "radiusM": 0.05530081027594644,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.30564102627375184,
+              "radiusM": 0.055540473536251335,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3247435903488061,
+              "radiusM": 0.055763919116883796,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.34384615442386035,
+              "radiusM": 0.055979022108357854,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.36294871849891464,
+              "radiusM": 0.05622099945408558,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3820512825739689,
+              "radiusM": 0.056918225875558025,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.40115384664902315,
+              "radiusM": 0.057973247335975454,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4202564107240775,
+              "radiusM": 0.058113777664266036,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.43935897479913166,
+              "radiusM": 0.05825435964975463,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.45846153887418595,
+              "radiusM": 0.059340881777516716,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.47756410294924023,
+              "radiusM": 0.06058195115721903,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4966666670242945,
+              "radiusM": 0.061821752950859246,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5157692310993488,
+              "radiusM": 0.063049836640032,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5348717951744031,
+              "radiusM": 0.06429405125004363,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5539743592494573,
+              "radiusM": 0.06568058953083301,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5730769233245115,
+              "radiusM": 0.11879647543735439,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5921794873995658,
+              "radiusM": 0.14356334233349924,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6112820514746201,
+              "radiusM": 0.16538152025274433,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6303846155496744,
+              "radiusM": 0.19190408325235808,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6494871796247287,
+              "radiusM": 0.22733777646107647,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.668589743699783,
+              "radiusM": 0.2706113557514103,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6876923077748371,
+              "radiusM": 0.27711840305027957,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7067948718498914,
+              "radiusM": 0.3047819934713122,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7258974359249457,
+              "radiusM": 0.30963854686569303,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.745,
+              "radiusM": 0.31529743378609953,
+              "missingRays": 0
+            }
+          ],
+          "valleys": [
+            {
+              "bins": [
+                3,
+                3
+              ],
+              "valueM": 0.05315221534969926,
+              "leftMaximumM": 0.05670053065847196,
+              "rightMaximumM": 0.05546586683969451,
+              "prominenceM": 0.0023136514899952526,
+              "depthFraction": 0.04171306826741005
+            },
+            {
+              "bins": [
+                10,
+                10
+              ],
+              "valueM": 0.054230744478810114,
+              "leftMaximumM": 0.05546586683969451,
+              "rightMaximumM": 0.31529743378609953,
+              "prominenceM": 0.001235122360884397,
+              "depthFraction": 0.022268152131365838
+            }
+          ],
+          "passes": true
+        },
+        {
+          "bone": "FL_Paw",
+          "curve": [
+            {
+              "heightM": 1.0728835736495412e-9,
+              "radiusM": 0.038534000034877156,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.01910256514793784,
+              "radiusM": 0.0567005295332497,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.03820512922299211,
+              "radiusM": 0.05501508801633831,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.05730769329804637,
+              "radiusM": 0.0531535058720497,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.07641025737310064,
+              "radiusM": 0.0537927209197545,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.09551282144815491,
+              "radiusM": 0.05448195563599101,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.11461538552320917,
+              "radiusM": 0.05472666374613168,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.13371794959826344,
+              "radiusM": 0.055472163699945065,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.15282051367331773,
+              "radiusM": 0.055386213293159715,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.17192307774837196,
+              "radiusM": 0.05458695361533221,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.19102564182342624,
+              "radiusM": 0.0542341194368739,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.21012820589848052,
+              "radiusM": 0.05438570807498333,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.22923076997353475,
+              "radiusM": 0.05464343014464006,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.24833333404858904,
+              "radiusM": 0.05483520962342038,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.2674358981236433,
+              "radiusM": 0.05510599717864503,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.28653846219869755,
+              "radiusM": 0.055301039409126646,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.30564102627375184,
+              "radiusM": 0.055529804697262965,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3247435903488061,
+              "radiusM": 0.05576409333218837,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.34384615442386035,
+              "radiusM": 0.05597197685526892,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.36294871849891464,
+              "radiusM": 0.05622248566409317,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3820512825739689,
+              "radiusM": 0.05691710362902365,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.40115384664902315,
+              "radiusM": 0.057958216103851205,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4202564107240775,
+              "radiusM": 0.05808780989141916,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.43935897479913166,
+              "radiusM": 0.05822901207742563,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.45846153887418595,
+              "radiusM": 0.059324491660500536,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.47756410294924023,
+              "radiusM": 0.06056916911919229,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4966666670242945,
+              "radiusM": 0.06179885523665688,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5157692310993488,
+              "radiusM": 0.06304153550239368,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5348717951744031,
+              "radiusM": 0.0642813554505269,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5539743592494573,
+              "radiusM": 0.06567776885087061,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5730769233245115,
+              "radiusM": 0.11678489621613795,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5921794873995658,
+              "radiusM": 0.1484176587787949,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6112820514746201,
+              "radiusM": 0.17033260276174766,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6303846155496744,
+              "radiusM": 0.18934949420601738,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6494871796247287,
+              "radiusM": 0.22314123033969221,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.668589743699783,
+              "radiusM": 0.25780965053071914,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6876923077748371,
+              "radiusM": 0.2958406230300545,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7067948718498914,
+              "radiusM": 0.30123423121392207,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7258974359249457,
+              "radiusM": 0.32495163238833996,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.745,
+              "radiusM": 0.32905740620805574,
+              "missingRays": 0
+            }
+          ],
+          "valleys": [
+            {
+              "bins": [
+                3,
+                3
+              ],
+              "valueM": 0.0531535058720497,
+              "leftMaximumM": 0.0567005295332497,
+              "rightMaximumM": 0.055472163699945065,
+              "prominenceM": 0.002318657827895365,
+              "depthFraction": 0.04179858280699553
+            },
+            {
+              "bins": [
+                10,
+                10
+              ],
+              "valueM": 0.0542341194368739,
+              "leftMaximumM": 0.055472163699945065,
+              "rightMaximumM": 0.32905740620805574,
+              "prominenceM": 0.0012380442630711627,
+              "depthFraction": 0.02231829769193569
+            }
+          ],
+          "passes": true
+        },
+        {
+          "bone": "HR_Paw",
+          "curve": [
+            {
+              "heightM": 1.072883587527329e-9,
+              "radiusM": 0.038533999896747134,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.020000001045373753,
+              "radiusM": 0.05670360823524543,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.04000000101786392,
+              "radiusM": 0.05485154965087644,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.06000000099035409,
+              "radiusM": 0.05374166330246785,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.08000000096284425,
+              "radiusM": 0.05669222601840181,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.10000000093533441,
+              "radiusM": 0.05821424380568479,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.12000000090782459,
+              "radiusM": 0.05827529157169434,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.14000000088031475,
+              "radiusM": 0.05828173694316021,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.1600000008528049,
+              "radiusM": 0.058275052049674064,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.18000000082529508,
+              "radiusM": 0.05836242202034408,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.20000000079778524,
+              "radiusM": 0.058930183442107195,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.22000000077027543,
+              "radiusM": 0.05824138403526216,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.2400000007427656,
+              "radiusM": 0.05844384364677192,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.26000000071525575,
+              "radiusM": 0.05934497232153319,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.2800000006877459,
+              "radiusM": 0.05904318653878798,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.300000000660236,
+              "radiusM": 0.05932497319542917,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.32000000063272627,
+              "radiusM": 0.05951258320199327,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3400000006052164,
+              "radiusM": 0.059854499469984696,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.36000000057770654,
+              "radiusM": 0.060029686859033496,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3800000005501968,
+              "radiusM": 0.060359487072313076,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4000000005226869,
+              "radiusM": 0.060595079260902504,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.42000000049517705,
+              "radiusM": 0.06089293638963364,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4400000004676673,
+              "radiusM": 0.0617084874910877,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.46000000044015743,
+              "radiusM": 0.06170138555405944,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.48000000041264757,
+              "radiusM": 0.060210191576237665,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5000000003851377,
+              "radiusM": 0.061354824021416995,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5200000003576278,
+              "radiusM": 0.06387203014760576,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5400000003301181,
+              "radiusM": 0.06691236655880772,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5600000003026082,
+              "radiusM": 0.06990004354773775,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5800000002750985,
+              "radiusM": 0.0729140779347623,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6000000002475885,
+              "radiusM": 0.07678134628636829,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6200000002200787,
+              "radiusM": 0.14620799605258247,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6400000001925689,
+              "radiusM": 0.17214248496393292,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.660000000165059,
+              "radiusM": 0.1953755619616844,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6800000001375492,
+              "radiusM": 0.23480053786597868,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7000000001100394,
+              "radiusM": 0.2605303156203018,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7200000000825295,
+              "radiusM": 0.2880000308423202,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7400000000550196,
+              "radiusM": 0.3150575230125409,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7600000000275099,
+              "radiusM": 0.3178199840597425,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.78,
+              "radiusM": 0.33809172080213457,
+              "missingRays": 0
+            }
+          ],
+          "valleys": [
+            {
+              "bins": [
+                3,
+                3
+              ],
+              "valueM": 0.05374166330246785,
+              "leftMaximumM": 0.05670360823524543,
+              "rightMaximumM": 0.05828173694316021,
+              "prominenceM": 0.0029619449327775785,
+              "depthFraction": 0.0522355635727695
+            },
+            {
+              "bins": [
+                8,
+                8
+              ],
+              "valueM": 0.058275052049674064,
+              "leftMaximumM": 0.05828173694316021,
+              "rightMaximumM": 0.058930183442107195,
+              "prominenceM": 0.000006684893486146037,
+              "depthFraction": 0.00011469962696316927
+            },
+            {
+              "bins": [
+                11,
+                11
+              ],
+              "valueM": 0.05824138403526216,
+              "leftMaximumM": 0.058930183442107195,
+              "rightMaximumM": 0.05934497232153319,
+              "prominenceM": 0.0006887994068450337,
+              "depthFraction": 0.011688397466498773
+            },
+            {
+              "bins": [
+                14,
+                14
+              ],
+              "valueM": 0.05904318653878798,
+              "leftMaximumM": 0.05934497232153319,
+              "rightMaximumM": 0.0617084874910877,
+              "prominenceM": 0.0003017857827452147,
+              "depthFraction": 0.005085279694969416
+            },
+            {
+              "bins": [
+                24,
+                24
+              ],
+              "valueM": 0.060210191576237665,
+              "leftMaximumM": 0.0617084874910877,
+              "rightMaximumM": 0.33809172080213457,
+              "prominenceM": 0.0014982959148500327,
+              "depthFraction": 0.024280224257099567
+            }
+          ],
+          "passes": true
+        },
+        {
+          "bone": "HL_Paw",
+          "curve": [
+            {
+              "heightM": 1.072883587527329e-9,
+              "radiusM": 0.038533999896749306,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.020000001045373753,
+              "radiusM": 0.056703606961588146,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.04000000101786392,
+              "radiusM": 0.05484720442051899,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.06000000099035409,
+              "radiusM": 0.053739825366863295,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.08000000096284425,
+              "radiusM": 0.056688529178826226,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.10000000093533441,
+              "radiusM": 0.058215356078578764,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.12000000090782459,
+              "radiusM": 0.05827662706214858,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.14000000088031475,
+              "radiusM": 0.05828540379073017,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.1600000008528049,
+              "radiusM": 0.05828194684917413,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.18000000082529508,
+              "radiusM": 0.05835333725005566,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.20000000079778524,
+              "radiusM": 0.05893286431892092,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.22000000077027543,
+              "radiusM": 0.058241851055875815,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.2400000007427656,
+              "radiusM": 0.05842046164030968,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.26000000071525575,
+              "radiusM": 0.059357389404179506,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.2800000006877459,
+              "radiusM": 0.059050715101229286,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.300000000660236,
+              "radiusM": 0.05930895518189151,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.32000000063272627,
+              "radiusM": 0.05951242605294498,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3400000006052164,
+              "radiusM": 0.059859776120290135,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.36000000057770654,
+              "radiusM": 0.06004405215193254,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.3800000005501968,
+              "radiusM": 0.06034464571330465,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4000000005226869,
+              "radiusM": 0.06058642938091047,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.42000000049517705,
+              "radiusM": 0.06089596005514525,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.4400000004676673,
+              "radiusM": 0.06170823376823902,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.46000000044015743,
+              "radiusM": 0.06169687430216303,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.48000000041264757,
+              "radiusM": 0.06020738967660806,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5000000003851377,
+              "radiusM": 0.061331660001051634,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5200000003576278,
+              "radiusM": 0.06386780403425012,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5400000003301181,
+              "radiusM": 0.06687175366336318,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5600000003026082,
+              "radiusM": 0.06988546109976572,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.5800000002750985,
+              "radiusM": 0.07291760662961672,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6000000002475885,
+              "radiusM": 0.07695660701314955,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6200000002200787,
+              "radiusM": 0.1469273856317902,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6400000001925689,
+              "radiusM": 0.17317376537442175,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.660000000165059,
+              "radiusM": 0.19807784474157314,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.6800000001375492,
+              "radiusM": 0.23878909904023418,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7000000001100394,
+              "radiusM": 0.2653134382977653,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7200000000825295,
+              "radiusM": 0.2938251291082048,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7400000000550196,
+              "radiusM": 0.3189063809529899,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.7600000000275099,
+              "radiusM": 0.3222303532882325,
+              "missingRays": 0
+            },
+            {
+              "heightM": 0.78,
+              "radiusM": 0.324588605412514,
+              "missingRays": 0
+            }
+          ],
+          "valleys": [
+            {
+              "bins": [
+                3,
+                3
+              ],
+              "valueM": 0.053739825366863295,
+              "leftMaximumM": 0.056703606961588146,
+              "rightMaximumM": 0.05828540379073017,
+              "prominenceM": 0.0029637815947248514,
+              "depthFraction": 0.052267955312482337
+            },
+            {
+              "bins": [
+                8,
+                8
+              ],
+              "valueM": 0.05828194684917413,
+              "leftMaximumM": 0.05828540379073017,
+              "rightMaximumM": 0.05893286431892092,
+              "prominenceM": 0.0000034569415560403716,
+              "depthFraction": 0.00005931058774941816
+            },
+            {
+              "bins": [
+                11,
+                11
+              ],
+              "valueM": 0.058241851055875815,
+              "leftMaximumM": 0.05893286431892092,
+              "rightMaximumM": 0.059357389404179506,
+              "prominenceM": 0.0006910132630451038,
+              "depthFraction": 0.011725431489391359
+            },
+            {
+              "bins": [
+                14,
+                14
+              ],
+              "valueM": 0.059050715101229286,
+              "leftMaximumM": 0.059357389404179506,
+              "rightMaximumM": 0.06170823376823902,
+              "prominenceM": 0.0003066743029502203,
+              "depthFraction": 0.0051665732948933665
+            },
+            {
+              "bins": [
+                24,
+                24
+              ],
+              "valueM": 0.06020738967660806,
+              "leftMaximumM": 0.06170823376823902,
+              "rightMaximumM": 0.324588605412514,
+              "prominenceM": 0.001500844091630961,
+              "depthFraction": 0.024321618039948492
+            }
+          ],
+          "passes": true
+        }
+      ],
+      "withinTarget": true
+    },
+    "B": {
+      "target": {
+        "widthCm": [
+          6.5,
+          8
+        ],
+        "lengthCm": [
+          6,
+          7.5
+        ],
+        "aspect": [
+          0.95,
+          1.25
+        ],
+        "nonzeroSlices": 8,
+        "widestSliceNumbers": [
+          3,
+          4,
+          5,
+          6
+        ],
+        "frontToWidestMinimum": 0.45,
+        "rearToWidestMinimum": 0.4
+      },
+      "method": "Unmodified project paw-contact-audit.mjs, terminal paw weight >=0.5, 0.003 m band. Slice numbering here is 1-based, rear to front.",
+      "before": [
+        {
+          "bone": "FR_Paw",
+          "regionVertices": 570,
+          "lowestWorldYM": 1.072883587527329e-9,
+          "contactVertices": 55,
+          "contactWidthCm": 9.59,
+          "contactLengthCm": 10.15,
+          "aspect": 0.945,
+          "widthProfileCm": [
+            {
+              "zFromRear": 0,
+              "vertices": 1,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 1.27,
+              "vertices": 4,
+              "widthCm": 6.16
+            },
+            {
+              "zFromRear": 2.54,
+              "vertices": 0,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 3.81,
+              "vertices": 4,
+              "widthCm": 6.17
+            },
+            {
+              "zFromRear": 5.08,
+              "vertices": 2,
+              "widthCm": 2.02
+            },
+            {
+              "zFromRear": 6.34,
+              "vertices": 0,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 7.61,
+              "vertices": 0,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 8.88,
+              "vertices": 44,
+              "widthCm": 9.59
+            }
+          ],
+          "topDownMap": [
+            ".........#......",
+            "................",
+            "................",
+            "................",
+            "..#..#...#..#...",
+            "................",
+            "................",
+            "................",
+            "..#..#...#..#...",
+            "................",
+            "................",
+            "................",
+            ".....#...#......",
+            "................",
+            "................",
+            "................",
+            "................",
+            "................",
+            "#..............#",
+            ".....#....#....."
+          ]
+        },
+        {
+          "bone": "FL_Paw",
+          "regionVertices": 570,
+          "lowestWorldYM": 1.072883587527329e-9,
+          "contactVertices": 55,
+          "contactWidthCm": 9.59,
+          "contactLengthCm": 10.14,
+          "aspect": 0.946,
+          "widthProfileCm": [
+            {
+              "zFromRear": 0,
+              "vertices": 1,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 1.27,
+              "vertices": 4,
+              "widthCm": 6.16
+            },
+            {
+              "zFromRear": 2.53,
+              "vertices": 0,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 3.8,
+              "vertices": 4,
+              "widthCm": 6.16
+            },
+            {
+              "zFromRear": 5.07,
+              "vertices": 2,
+              "widthCm": 2.02
+            },
+            {
+              "zFromRear": 6.34,
+              "vertices": 0,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 7.6,
+              "vertices": 0,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 8.87,
+              "vertices": 44,
+              "widthCm": 9.59
+            }
+          ],
+          "topDownMap": [
+            "......#.........",
+            "................",
+            "................",
+            "......#.........",
+            "...#......#..#..",
+            "................",
+            "................",
+            "................",
+            "...#..#...#..#..",
+            "................",
+            "................",
+            "................",
+            "......#..#......",
+            "................",
+            "................",
+            "................",
+            "................",
+            "................",
+            "#..............#",
+            ".....#....#....."
+          ]
+        },
+        {
+          "bone": "HR_Paw",
+          "regionVertices": 566,
+          "lowestWorldYM": 1.072883587527329e-9,
+          "contactVertices": 56,
+          "contactWidthCm": 9.59,
+          "contactLengthCm": 9.86,
+          "aspect": 0.973,
+          "widthProfileCm": [
+            {
+              "zFromRear": 0,
+              "vertices": 2,
+              "widthCm": 2.04
+            },
+            {
+              "zFromRear": 1.23,
+              "vertices": 4,
+              "widthCm": 6.16
+            },
+            {
+              "zFromRear": 2.47,
+              "vertices": 0,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 3.7,
+              "vertices": 4,
+              "widthCm": 6.16
+            },
+            {
+              "zFromRear": 4.93,
+              "vertices": 0,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 6.17,
+              "vertices": 2,
+              "widthCm": 2.05
+            },
+            {
+              "zFromRear": 7.4,
+              "vertices": 0,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 8.63,
+              "vertices": 44,
+              "widthCm": 9.59
+            }
+          ],
+          "topDownMap": [
+            ".....#...#......",
+            "................",
+            "................",
+            "................",
+            "..#..#...#..#...",
+            "................",
+            "................",
+            "................",
+            "..#..#...#..#...",
+            "................",
+            "................",
+            "................",
+            "......#..#......",
+            "................",
+            "................",
+            "................",
+            "................",
+            "................",
+            "#..............#",
+            ".....#....#....."
+          ]
+        },
+        {
+          "bone": "HL_Paw",
+          "regionVertices": 566,
+          "lowestWorldYM": 1.072883587527329e-9,
+          "contactVertices": 56,
+          "contactWidthCm": 9.59,
+          "contactLengthCm": 9.86,
+          "aspect": 0.973,
+          "widthProfileCm": [
+            {
+              "zFromRear": 0,
+              "vertices": 2,
+              "widthCm": 2.04
+            },
+            {
+              "zFromRear": 1.23,
+              "vertices": 4,
+              "widthCm": 6.16
+            },
+            {
+              "zFromRear": 2.47,
+              "vertices": 0,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 3.7,
+              "vertices": 4,
+              "widthCm": 6.16
+            },
+            {
+              "zFromRear": 4.93,
+              "vertices": 0,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 6.17,
+              "vertices": 2,
+              "widthCm": 2.04
+            },
+            {
+              "zFromRear": 7.4,
+              "vertices": 0,
+              "widthCm": 0
+            },
+            {
+              "zFromRear": 8.63,
+              "vertices": 44,
+              "widthCm": 9.59
+            }
+          ],
+          "topDownMap": [
+            "......#..#......",
+            "................",
+            "................",
+            "................",
+            "...#..#...#..#..",
+            "................",
+            "................",
+            "................",
+            "...#..#...#..#..",
+            "................",
+            "................",
+            "................",
+            "......#...#.....",
+            "................",
+            "................",
+            "................",
+            "................",
+            "................",
+            "#..............#",
+            ".....#....#....."
+          ]
+        }
+      ],
+      "after": [
+        {
+          "bone": "FR_Paw",
+          "regionVertices": 5181,
+          "lowestWorldYM": 1.0728835736495412e-9,
+          "contactVertices": 513,
+          "contactWidthCm": 7.4,
+          "contactLengthCm": 6.8,
+          "aspect": 1.088,
+          "widthProfileCm": [
+            {
+              "zFromRear": 0,
+              "vertices": 159,
+              "widthCm": 6.72
+            },
+            {
+              "zFromRear": 0.85,
+              "vertices": 56,
+              "widthCm": 7.28
+            },
+            {
+              "zFromRear": 1.7,
+              "vertices": 30,
+              "widthCm": 7.39
+            },
+            {
+              "zFromRear": 2.55,
+              "vertices": 13,
+              "widthCm": 7.4
+            },
+            {
+              "zFromRear": 3.4,
+              "vertices": 13,
+              "widthCm": 7.4
+            },
+            {
+              "zFromRear": 4.25,
+              "vertices": 30,
+              "widthCm": 7.39
+            },
+            {
+              "zFromRear": 5.1,
+              "vertices": 56,
+              "widthCm": 7.28
+            },
+            {
+              "zFromRear": 5.95,
+              "vertices": 159,
+              "widthCm": 6.72
+            }
+          ],
+          "topDownMap": [
+            ".##############.",
+            ".#............#.",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "................",
+            "#.......#......#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            ".#............#.",
+            ".##############."
+          ]
+        },
+        {
+          "bone": "FL_Paw",
+          "regionVertices": 5181,
+          "lowestWorldYM": 1.0728835736495412e-9,
+          "contactVertices": 513,
+          "contactWidthCm": 7.4,
+          "contactLengthCm": 6.8,
+          "aspect": 1.088,
+          "widthProfileCm": [
+            {
+              "zFromRear": 0,
+              "vertices": 159,
+              "widthCm": 6.72
+            },
+            {
+              "zFromRear": 0.85,
+              "vertices": 56,
+              "widthCm": 7.28
+            },
+            {
+              "zFromRear": 1.7,
+              "vertices": 30,
+              "widthCm": 7.39
+            },
+            {
+              "zFromRear": 2.55,
+              "vertices": 13,
+              "widthCm": 7.4
+            },
+            {
+              "zFromRear": 3.4,
+              "vertices": 13,
+              "widthCm": 7.4
+            },
+            {
+              "zFromRear": 4.25,
+              "vertices": 30,
+              "widthCm": 7.39
+            },
+            {
+              "zFromRear": 5.1,
+              "vertices": 56,
+              "widthCm": 7.28
+            },
+            {
+              "zFromRear": 5.95,
+              "vertices": 159,
+              "widthCm": 6.72
+            }
+          ],
+          "topDownMap": [
+            ".##############.",
+            ".#............#.",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "................",
+            "#......#.......#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            ".#............#.",
+            ".##############."
+          ]
+        },
+        {
+          "bone": "HR_Paw",
+          "regionVertices": 5180,
+          "lowestWorldYM": 1.072883587527329e-9,
+          "contactVertices": 513,
+          "contactWidthCm": 7.4,
+          "contactLengthCm": 6.8,
+          "aspect": 1.088,
+          "widthProfileCm": [
+            {
+              "zFromRear": 0,
+              "vertices": 159,
+              "widthCm": 6.72
+            },
+            {
+              "zFromRear": 0.85,
+              "vertices": 56,
+              "widthCm": 7.28
+            },
+            {
+              "zFromRear": 1.7,
+              "vertices": 30,
+              "widthCm": 7.39
+            },
+            {
+              "zFromRear": 2.55,
+              "vertices": 13,
+              "widthCm": 7.4
+            },
+            {
+              "zFromRear": 3.4,
+              "vertices": 13,
+              "widthCm": 7.4
+            },
+            {
+              "zFromRear": 4.25,
+              "vertices": 30,
+              "widthCm": 7.39
+            },
+            {
+              "zFromRear": 5.1,
+              "vertices": 56,
+              "widthCm": 7.28
+            },
+            {
+              "zFromRear": 5.95,
+              "vertices": 159,
+              "widthCm": 6.72
+            }
+          ],
+          "topDownMap": [
+            ".##############.",
+            ".#............#.",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "................",
+            "#.......#......#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            ".#............#.",
+            ".##############."
+          ]
+        },
+        {
+          "bone": "HL_Paw",
+          "regionVertices": 5180,
+          "lowestWorldYM": 1.072883587527329e-9,
+          "contactVertices": 513,
+          "contactWidthCm": 7.4,
+          "contactLengthCm": 6.8,
+          "aspect": 1.088,
+          "widthProfileCm": [
+            {
+              "zFromRear": 0,
+              "vertices": 159,
+              "widthCm": 6.72
+            },
+            {
+              "zFromRear": 0.85,
+              "vertices": 56,
+              "widthCm": 7.28
+            },
+            {
+              "zFromRear": 1.7,
+              "vertices": 30,
+              "widthCm": 7.39
+            },
+            {
+              "zFromRear": 2.55,
+              "vertices": 13,
+              "widthCm": 7.4
+            },
+            {
+              "zFromRear": 3.4,
+              "vertices": 13,
+              "widthCm": 7.4
+            },
+            {
+              "zFromRear": 4.25,
+              "vertices": 30,
+              "widthCm": 7.39
+            },
+            {
+              "zFromRear": 5.1,
+              "vertices": 56,
+              "widthCm": 7.28
+            },
+            {
+              "zFromRear": 5.95,
+              "vertices": 159,
+              "widthCm": 6.72
+            }
+          ],
+          "topDownMap": [
+            ".##############.",
+            ".#............#.",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "................",
+            "#......#.......#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            "#..............#",
+            ".#............#.",
+            ".##############."
+          ]
+        }
+      ],
+      "withinTarget": true
+    },
+    "C": {
+      "target": {
+        "bandM": [
+          0.003,
+          0.03
+        ],
+        "bins": 16,
+        "minimumLocalMinima": 3,
+        "minimumProminenceM": 0.002,
+        "maximumGrooveLowestHeightM": 0.012
+      },
+      "method": "Paw region uses terminal joint weight >=0.5. The primary 16-bin curve projects actual triangles clipped to the 3–30 mm band, including edge intersections at bin boundaries. Triangles must have all three vertices in the paw region. The vertex-only projection is also retained; unlike the primary curve, sparse baseline vertices can create false valleys. Values are forward distance from the Paw joint. Bin indices are zero-based and equal-height plateaus count as one extremum. Grooves are measured on triangle/plane sections every 0.25 mm from 0 to 30 mm, requiring >=2 mm prominence, and matched to their band-projection bin within one bin. lowestHeightM is the first qualifying sampled height, with the preceding 0.25 mm sample below threshold. Threshold-neighbour samples are retained. No qualifying baseline groove exists in the primary band projection.",
+      "before": [
+        {
+          "bone": "FR_Paw",
+          "bandM": [
+            0.003,
+            0.03
+          ],
+          "widthM": 0.13805823773145676,
+          "forwardExtentM": [
+            0.0976161132651937,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.10766925101104141,
+            0.11068374969832118,
+            0.11068374969832118,
+            0.1098133505537831,
+            0.11044238557932345,
+            0.11068374969832118,
+            0.11068374969832118,
+            0.1070402073317735,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.09698707949529672
+          ],
+          "vertexForwardExtentM": [
+            0.09002646803855896,
+            0.10138991475105286,
+            0.08881628513336182,
+            0.10138991475105286,
+            0.09730646014213562,
+            0.10866990685462952,
+            0.10866990685462952,
+            0.09730646014213562,
+            0.09730646014213562,
+            0.10866990685462952,
+            0.10866990685462952,
+            0.09730646014213562,
+            0.10138991475105286,
+            0.08881628513336182,
+            0.10138991475105286,
+            0.09002646803855896
+          ],
+          "minima": [],
+          "grooves": [],
+          "grooveThresholdSamples": [],
+          "passes": false
+        },
+        {
+          "bone": "FL_Paw",
+          "bandM": [
+            0.003,
+            0.03
+          ],
+          "widthM": 0.13748332113027573,
+          "forwardExtentM": [
+            0.09757679407737502,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.10747267013711892,
+            0.11068374969832118,
+            0.11068374969832118,
+            0.11008855379253485,
+            0.11008855366194914,
+            0.11068374969832118,
+            0.11068374969832118,
+            0.10747267350292006,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.09757680314517592
+          ],
+          "vertexForwardExtentM": [
+            0.09002646803855896,
+            0.10138991475105286,
+            0.08881628513336182,
+            0.10138991475105286,
+            0.09730646014213562,
+            0.10866990685462952,
+            0.10866990685462952,
+            0.09730646014213562,
+            0.09730646014213562,
+            0.10866990685462952,
+            0.10866990685462952,
+            0.09730646014213562,
+            0.10138991475105286,
+            0.08881628513336182,
+            0.10138991475105286,
+            0.09002646803855896
+          ],
+          "minima": [],
+          "grooves": [],
+          "grooveThresholdSamples": [],
+          "passes": false
+        },
+        {
+          "bone": "HR_Paw",
+          "bandM": [
+            0.003,
+            0.03
+          ],
+          "widthM": 0.13748332113027573,
+          "forwardExtentM": [
+            0.09757679866218966,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.10747267828901241,
+            0.11068374969832118,
+            0.11068374969832118,
+            0.11008855277481122,
+            0.11008855467967127,
+            0.11068374969832118,
+            0.11068374969832118,
+            0.10747266765457941,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.09757679856036128
+          ],
+          "vertexForwardExtentM": [
+            0.09002646803855896,
+            0.10138991475105286,
+            0.08881628513336182,
+            0.10138991475105286,
+            0.09730646014213562,
+            0.10866990685462952,
+            0.10866990685462952,
+            0.09730646014213562,
+            0.09730646014213562,
+            0.10866990685462952,
+            0.10866990685462952,
+            0.09730646014213562,
+            0.10138991475105286,
+            0.08881628513336182,
+            0.10138991475105286,
+            0.09002646803855896
+          ],
+          "minima": [],
+          "grooves": [],
+          "grooveThresholdSamples": [],
+          "passes": false
+        },
+        {
+          "bone": "HL_Paw",
+          "bandM": [
+            0.003,
+            0.03
+          ],
+          "widthM": 0.13748332113027573,
+          "forwardExtentM": [
+            0.09757679407737502,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.10747267013711892,
+            0.11068374969832118,
+            0.11068374969832118,
+            0.11008855379253485,
+            0.11008855366194914,
+            0.11068374969832118,
+            0.11068374969832118,
+            0.10747267350292006,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.10340375759474452,
+            0.09757680314517592
+          ],
+          "vertexForwardExtentM": [
+            0.09002646803855896,
+            0.10138991475105286,
+            0.08881628513336182,
+            0.10138991475105286,
+            0.09730646014213562,
+            0.10866990685462952,
+            0.10866990685462952,
+            0.09730646014213562,
+            0.09730646014213562,
+            0.10866990685462952,
+            0.10866990685462952,
+            0.09730646014213562,
+            0.10138991475105286,
+            0.08881628513336182,
+            0.10138991475105286,
+            0.09002646803855896
+          ],
+          "minima": [],
+          "grooves": [],
+          "grooveThresholdSamples": [],
+          "passes": false
+        }
+      ],
+      "after": [
+        {
+          "bone": "FR_Paw",
+          "bandM": [
+            0.003,
+            0.03
+          ],
+          "widthM": 0.10399999469518661,
+          "forwardExtentM": [
+            0.06408099188096045,
+            0.06915237299942195,
+            0.06931522488594055,
+            0.06656660552367433,
+            0.06851854549034375,
+            0.07400473705696714,
+            0.0740487277507782,
+            0.06874691961431789,
+            0.06874691619173873,
+            0.0740487277507782,
+            0.07400473439713123,
+            0.0685185455468103,
+            0.0665666127907199,
+            0.06931522488594055,
+            0.06915237180856088,
+            0.0640809816129575
+          ],
+          "vertexForwardExtentM": [
+            0.06377926468849182,
+            0.0691261887550354,
+            0.06931522488594055,
+            0.06624272465705872,
+            0.06796815991401672,
+            0.07361066341400146,
+            0.0740487277507782,
+            0.06785279512405396,
+            0.06785279512405396,
+            0.0740487277507782,
+            0.07361066341400146,
+            0.06796815991401672,
+            0.06624272465705872,
+            0.06931522488594055,
+            0.0691261887550354,
+            0.06377926468849182
+          ],
+          "minima": [
+            {
+              "bins": [
+                3,
+                3
+              ],
+              "valueM": 0.06656660552367433,
+              "leftMaximumM": 0.06931522488594055,
+              "rightMaximumM": 0.0740487277507782,
+              "prominenceM": 0.0027486193622662247,
+              "depthFraction": 0.039653905282557
+            },
+            {
+              "bins": [
+                7,
+                8
+              ],
+              "valueM": 0.06874691961431789,
+              "leftMaximumM": 0.0740487277507782,
+              "rightMaximumM": 0.0740487277507782,
+              "prominenceM": 0.0053018081364603065,
+              "depthFraction": 0.07159890922507563
+            },
+            {
+              "bins": [
+                12,
+                12
+              ],
+              "valueM": 0.0665666127907199,
+              "leftMaximumM": 0.0740487277507782,
+              "rightMaximumM": 0.06931522488594055,
+              "prominenceM": 0.0027486120952206483,
+              "depthFraction": 0.039653800442017446
+            }
+          ],
+          "grooves": [
+            {
+              "bins": [
+                3,
+                3
+              ],
+              "prominenceM": 0.0027486193622662247,
+              "lowestHeightM": 0.004
+            },
+            {
+              "bins": [
+                7,
+                8
+              ],
+              "prominenceM": 0.0053018081364603065,
+              "lowestHeightM": 0.002
+            },
+            {
+              "bins": [
+                12,
+                12
+              ],
+              "prominenceM": 0.0027486120952206483,
+              "lowestHeightM": 0.004
+            }
+          ],
+          "grooveThresholdSamples": [
+            {
+              "heightM": 0.00175,
+              "minima": []
+            },
+            {
+              "heightM": 0.002,
+              "minima": [
+                {
+                  "bins": [
+                    7,
+                    7
+                  ],
+                  "valueM": 0.06080585662508298,
+                  "leftMaximumM": 0.06291221039727879,
+                  "rightMaximumM": 0.06291796224577284,
+                  "prominenceM": 0.0021063537721958125,
+                  "depthFraction": 0.03348084193663812
+                }
+              ]
+            },
+            {
+              "heightM": 0.00225,
+              "minima": [
+                {
+                  "bins": [
+                    7,
+                    7
+                  ],
+                  "valueM": 0.06154896921178238,
+                  "leftMaximumM": 0.06403023515532413,
+                  "rightMaximumM": 0.06403526802282467,
+                  "prominenceM": 0.002481265943541755,
+                  "depthFraction": 0.03875147323015004
+                }
+              ]
+            },
+            {
+              "heightM": 0.00375,
+              "minima": [
+                {
+                  "bins": [
+                    7,
+                    7
+                  ],
+                  "valueM": 0.06600764473197862,
+                  "leftMaximumM": 0.07073937463009877,
+                  "rightMaximumM": 0.07074025566188208,
+                  "prominenceM": 0.004731729898120152,
+                  "depthFraction": 0.06688962014242711
+                }
+              ]
+            },
+            {
+              "heightM": 0.004,
+              "minima": [
+                {
+                  "bins": [
+                    3,
+                    3
+                  ],
+                  "valueM": 0.064254158619102,
+                  "leftMaximumM": 0.06667777821475707,
+                  "rightMaximumM": 0.0718584052164769,
+                  "prominenceM": 0.002423619595655069,
+                  "depthFraction": 0.036348235657298424
+                },
+                {
+                  "bins": [
+                    7,
+                    8
+                  ],
+                  "valueM": 0.06675075731867797,
+                  "leftMaximumM": 0.0718584052164769,
+                  "rightMaximumM": 0.07185840521714648,
+                  "prominenceM": 0.005107647897798939,
+                  "depthFraction": 0.0710793383517475
+                },
+                {
+                  "bins": [
+                    12,
+                    12
+                  ],
+                  "valueM": 0.06425415175519017,
+                  "leftMaximumM": 0.07185840521714648,
+                  "rightMaximumM": 0.06667777822072635,
+                  "prominenceM": 0.0024236264655361772,
+                  "depthFraction": 0.03634833868508847
+                }
+              ]
+            },
+            {
+              "heightM": 0.00425,
+              "minima": [
+                {
+                  "bins": [
+                    3,
+                    3
+                  ],
+                  "valueM": 0.06439762927719916,
+                  "leftMaximumM": 0.06683973954951394,
+                  "rightMaximumM": 0.0719953010616004,
+                  "prominenceM": 0.002442110272314779,
+                  "depthFraction": 0.0365368011421663
+                },
+                {
+                  "bins": [
+                    8,
+                    8
+                  ],
+                  "valueM": 0.06687328517570168,
+                  "leftMaximumM": 0.0719953010616004,
+                  "rightMaximumM": 0.07199342910312467,
+                  "prominenceM": 0.005120143927422993,
+                  "depthFraction": 0.07111960065256522
+                },
+                {
+                  "bins": [
+                    12,
+                    12
+                  ],
+                  "valueM": 0.06439409744843216,
+                  "leftMaximumM": 0.07199342910312467,
+                  "rightMaximumM": 0.06683596583348872,
+                  "prominenceM": 0.002441868385056556,
+                  "depthFraction": 0.03653524497783254
+                }
+              ]
+            }
+          ],
+          "passes": true
+        },
+        {
+          "bone": "FL_Paw",
+          "bandM": [
+            0.003,
+            0.03
+          ],
+          "widthM": 0.10399999469518661,
+          "forwardExtentM": [
+            0.0640809816129575,
+            0.06915237180856088,
+            0.06931522488594055,
+            0.0665666127907199,
+            0.0685185455468103,
+            0.07400473439713123,
+            0.0740487277507782,
+            0.06874691619173873,
+            0.06874691961431789,
+            0.0740487277507782,
+            0.07400473705696714,
+            0.06851854549034375,
+            0.06656660552367433,
+            0.06931522488594055,
+            0.06915237299942195,
+            0.06408099188096045
+          ],
+          "vertexForwardExtentM": [
+            0.06377926468849182,
+            0.0691261887550354,
+            0.06931522488594055,
+            0.06624272465705872,
+            0.06796815991401672,
+            0.07361066341400146,
+            0.0740487277507782,
+            0.06785279512405396,
+            0.06785279512405396,
+            0.0740487277507782,
+            0.07361066341400146,
+            0.06796815991401672,
+            0.06624272465705872,
+            0.06931522488594055,
+            0.0691261887550354,
+            0.06377926468849182
+          ],
+          "minima": [
+            {
+              "bins": [
+                3,
+                3
+              ],
+              "valueM": 0.0665666127907199,
+              "leftMaximumM": 0.06931522488594055,
+              "rightMaximumM": 0.0740487277507782,
+              "prominenceM": 0.0027486120952206483,
+              "depthFraction": 0.039653800442017446
+            },
+            {
+              "bins": [
+                7,
+                8
+              ],
+              "valueM": 0.06874691619173873,
+              "leftMaximumM": 0.0740487277507782,
+              "rightMaximumM": 0.0740487277507782,
+              "prominenceM": 0.005301811559039471,
+              "depthFraction": 0.0715989554457099
+            },
+            {
+              "bins": [
+                12,
+                12
+              ],
+              "valueM": 0.06656660552367433,
+              "leftMaximumM": 0.0740487277507782,
+              "rightMaximumM": 0.06931522488594055,
+              "prominenceM": 0.0027486193622662247,
+              "depthFraction": 0.039653905282557
+            }
+          ],
+          "grooves": [
+            {
+              "bins": [
+                3,
+                3
+              ],
+              "prominenceM": 0.0027486120952206483,
+              "lowestHeightM": 0.004
+            },
+            {
+              "bins": [
+                7,
+                8
+              ],
+              "prominenceM": 0.005301811559039471,
+              "lowestHeightM": 0.002
+            },
+            {
+              "bins": [
+                12,
+                12
+              ],
+              "prominenceM": 0.0027486193622662247,
+              "lowestHeightM": 0.004
+            }
+          ],
+          "grooveThresholdSamples": [
+            {
+              "heightM": 0.00175,
+              "minima": []
+            },
+            {
+              "heightM": 0.002,
+              "minima": [
+                {
+                  "bins": [
+                    7,
+                    7
+                  ],
+                  "valueM": 0.060805865794641145,
+                  "leftMaximumM": 0.06291221039727879,
+                  "rightMaximumM": 0.06291796224577284,
+                  "prominenceM": 0.0021063446026376442,
+                  "depthFraction": 0.03348069618499293
+                }
+              ]
+            },
+            {
+              "heightM": 0.00225,
+              "minima": [
+                {
+                  "bins": [
+                    7,
+                    7
+                  ],
+                  "valueM": 0.06154897838134055,
+                  "leftMaximumM": 0.06403023515532413,
+                  "rightMaximumM": 0.06403526802282467,
+                  "prominenceM": 0.0024812567739835867,
+                  "depthFraction": 0.03875133002345798
+                }
+              ]
+            },
+            {
+              "heightM": 0.00375,
+              "minima": [
+                {
+                  "bins": [
+                    7,
+                    7
+                  ],
+                  "valueM": 0.06600765390153679,
+                  "leftMaximumM": 0.07073937463009877,
+                  "rightMaximumM": 0.07074025566188208,
+                  "prominenceM": 0.004731720728561983,
+                  "depthFraction": 0.06688949051789739
+                }
+              ]
+            },
+            {
+              "heightM": 0.004,
+              "minima": [
+                {
+                  "bins": [
+                    3,
+                    3
+                  ],
+                  "valueM": 0.06425415173689658,
+                  "leftMaximumM": 0.06667777821475707,
+                  "rightMaximumM": 0.0718584052164769,
+                  "prominenceM": 0.0024236264778604855,
+                  "depthFraction": 0.03634833887317635
+                },
+                {
+                  "bins": [
+                    7,
+                    8
+                  ],
+                  "valueM": 0.06675076648823614,
+                  "leftMaximumM": 0.0718584052164769,
+                  "rightMaximumM": 0.07185840521714648,
+                  "prominenceM": 0.005107638728240771,
+                  "depthFraction": 0.07107921074582386
+                },
+                {
+                  "bins": [
+                    12,
+                    12
+                  ],
+                  "valueM": 0.06425415863739564,
+                  "leftMaximumM": 0.07185840521714648,
+                  "rightMaximumM": 0.06667777822072635,
+                  "prominenceM": 0.002423619583330705,
+                  "depthFraction": 0.036348235469209726
+                }
+              ]
+            },
+            {
+              "heightM": 0.00425,
+              "minima": [
+                {
+                  "bins": [
+                    3,
+                    3
+                  ],
+                  "valueM": 0.06439762325526815,
+                  "leftMaximumM": 0.06683973954951394,
+                  "rightMaximumM": 0.0719953010616004,
+                  "prominenceM": 0.0024421162942457886,
+                  "depthFraction": 0.03653689123723624
+                },
+                {
+                  "bins": [
+                    8,
+                    8
+                  ],
+                  "valueM": 0.06687327600614346,
+                  "leftMaximumM": 0.0719953010616004,
+                  "rightMaximumM": 0.07199342910312467,
+                  "prominenceM": 0.005120153096981217,
+                  "depthFraction": 0.07111972801916433
+                },
+                {
+                  "bins": [
+                    12,
+                    12
+                  ],
+                  "valueM": 0.06439410390050071,
+                  "leftMaximumM": 0.07199342910312467,
+                  "rightMaximumM": 0.06683596583348872,
+                  "prominenceM": 0.00244186193298801,
+                  "depthFraction": 0.036535148441955996
+                }
+              ]
+            }
+          ],
+          "passes": true
+        },
+        {
+          "bone": "HR_Paw",
+          "bandM": [
+            0.003,
+            0.03
+          ],
+          "widthM": 0.10399999469518661,
+          "forwardExtentM": [
+            0.06408099188096045,
+            0.06915237299942195,
+            0.06931522488594055,
+            0.06656658454965109,
+            0.06851853050324547,
+            0.07400473705696714,
+            0.0740487277507782,
+            0.06874691961431789,
+            0.06874691619173873,
+            0.0740487277507782,
+            0.07400473439713123,
+            0.06851853055971358,
+            0.06656659181622604,
+            0.06931522488594055,
+            0.06915237180856088,
+            0.0640809816129575
+          ],
+          "vertexForwardExtentM": [
+            0.06377926468849182,
+            0.0691261887550354,
+            0.06931522488594055,
+            0.06624272465705872,
+            0.06796813011169434,
+            0.07361066341400146,
+            0.0740487277507782,
+            0.06785279512405396,
+            0.06785279512405396,
+            0.0740487277507782,
+            0.07361066341400146,
+            0.06796813011169434,
+            0.06624272465705872,
+            0.06931522488594055,
+            0.0691261887550354,
+            0.06377926468849182
+          ],
+          "minima": [
+            {
+              "bins": [
+                3,
+                3
+              ],
+              "valueM": 0.06656658454965109,
+              "leftMaximumM": 0.06931522488594055,
+              "rightMaximumM": 0.0740487277507782,
+              "prominenceM": 0.002748640336289465,
+              "depthFraction": 0.03965420787153764
+            },
+            {
+              "bins": [
+                7,
+                8
+              ],
+              "valueM": 0.06874691961431789,
+              "leftMaximumM": 0.0740487277507782,
+              "rightMaximumM": 0.0740487277507782,
+              "prominenceM": 0.0053018081364603065,
+              "depthFraction": 0.07159890922507563
+            },
+            {
+              "bins": [
+                12,
+                12
+              ],
+              "valueM": 0.06656659181622604,
+              "leftMaximumM": 0.0740487277507782,
+              "rightMaximumM": 0.06931522488594055,
+              "prominenceM": 0.0027486330697145123,
+              "depthFraction": 0.03965410303778769
+            }
+          ],
+          "grooves": [
+            {
+              "bins": [
+                3,
+                3
+              ],
+              "prominenceM": 0.002748640336289465,
+              "lowestHeightM": 0.004
+            },
+            {
+              "bins": [
+                7,
+                8
+              ],
+              "prominenceM": 0.0053018081364603065,
+              "lowestHeightM": 0.002
+            },
+            {
+              "bins": [
+                12,
+                12
+              ],
+              "prominenceM": 0.0027486330697145123,
+              "lowestHeightM": 0.004
+            }
+          ],
+          "grooveThresholdSamples": [
+            {
+              "heightM": 0.00175,
+              "minima": []
+            },
+            {
+              "heightM": 0.002,
+              "minima": [
+                {
+                  "bins": [
+                    7,
+                    7
+                  ],
+                  "valueM": 0.060805845810528725,
+                  "leftMaximumM": 0.06291221039727879,
+                  "rightMaximumM": 0.06291796224577284,
+                  "prominenceM": 0.0021063645867500647,
+                  "depthFraction": 0.03348101383576842
+                }
+              ]
+            },
+            {
+              "heightM": 0.00225,
+              "minima": [
+                {
+                  "bins": [
+                    7,
+                    7
+                  ],
+                  "valueM": 0.061548958188187786,
+                  "leftMaximumM": 0.06403023515532413,
+                  "rightMaximumM": 0.06403526802282467,
+                  "prominenceM": 0.0024812769671363477,
+                  "depthFraction": 0.03875164539248188
+                }
+              ]
+            },
+            {
+              "heightM": 0.00375,
+              "minima": [
+                {
+                  "bins": [
+                    7,
+                    7
+                  ],
+                  "valueM": 0.0660076324541422,
+                  "leftMaximumM": 0.07073937463009877,
+                  "rightMaximumM": 0.07074025566188208,
+                  "prominenceM": 0.004731742175956566,
+                  "depthFraction": 0.0668897937068172
+                }
+              ]
+            },
+            {
+              "heightM": 0.004,
+              "minima": [
+                {
+                  "bins": [
+                    3,
+                    3
+                  ],
+                  "valueM": 0.064254158619102,
+                  "leftMaximumM": 0.06667777821475707,
+                  "rightMaximumM": 0.0718584052164769,
+                  "prominenceM": 0.002423619595655069,
+                  "depthFraction": 0.036348235657298424
+                },
+                {
+                  "bins": [
+                    7,
+                    8
+                  ],
+                  "valueM": 0.06675074483180127,
+                  "leftMaximumM": 0.0718584052164769,
+                  "rightMaximumM": 0.07185840521714648,
+                  "prominenceM": 0.0051076603846756385,
+                  "depthFraction": 0.07107951212232676
+                },
+                {
+                  "bins": [
+                    12,
+                    12
+                  ],
+                  "valueM": 0.06425415175519017,
+                  "leftMaximumM": 0.07185840521714648,
+                  "rightMaximumM": 0.06667777822072635,
+                  "prominenceM": 0.0024236264655361772,
+                  "depthFraction": 0.03634833868508847
+                }
+              ]
+            },
+            {
+              "heightM": 0.00425,
+              "minima": [
+                {
+                  "bins": [
+                    3,
+                    3
+                  ],
+                  "valueM": 0.06439762741455551,
+                  "leftMaximumM": 0.06683973954951394,
+                  "rightMaximumM": 0.0719953010616004,
+                  "prominenceM": 0.0024421121349584296,
+                  "depthFraction": 0.03653682900947493
+                },
+                {
+                  "bins": [
+                    8,
+                    8
+                  ],
+                  "valueM": 0.06687327480577221,
+                  "leftMaximumM": 0.0719953010616004,
+                  "rightMaximumM": 0.07199342910312467,
+                  "prominenceM": 0.005120154297352464,
+                  "depthFraction": 0.07111974469250885
+                },
+                {
+                  "bins": [
+                    12,
+                    12
+                  ],
+                  "valueM": 0.06439409744843216,
+                  "leftMaximumM": 0.07199342910312467,
+                  "rightMaximumM": 0.06683596583348872,
+                  "prominenceM": 0.002441868385056556,
+                  "depthFraction": 0.03653524497783254
+                }
+              ]
+            }
+          ],
+          "passes": true
+        },
+        {
+          "bone": "HL_Paw",
+          "bandM": [
+            0.003,
+            0.03
+          ],
+          "widthM": 0.10399999469518661,
+          "forwardExtentM": [
+            0.0640809816129575,
+            0.06915237180856088,
+            0.06931522488594055,
+            0.06656659181622604,
+            0.06851853055971358,
+            0.07400473439713123,
+            0.0740487277507782,
+            0.06874691619173873,
+            0.06874691961431789,
+            0.0740487277507782,
+            0.07400473705696714,
+            0.06851853050324547,
+            0.06656658454965109,
+            0.06931522488594055,
+            0.06915237299942195,
+            0.06408099188096045
+          ],
+          "vertexForwardExtentM": [
+            0.06377926468849182,
+            0.0691261887550354,
+            0.06931522488594055,
+            0.06624272465705872,
+            0.06796813011169434,
+            0.07361066341400146,
+            0.0740487277507782,
+            0.06785279512405396,
+            0.06785279512405396,
+            0.0740487277507782,
+            0.07361066341400146,
+            0.06796813011169434,
+            0.06624272465705872,
+            0.06931522488594055,
+            0.0691261887550354,
+            0.06377926468849182
+          ],
+          "minima": [
+            {
+              "bins": [
+                3,
+                3
+              ],
+              "valueM": 0.06656659181622604,
+              "leftMaximumM": 0.06931522488594055,
+              "rightMaximumM": 0.0740487277507782,
+              "prominenceM": 0.0027486330697145123,
+              "depthFraction": 0.03965410303778769
+            },
+            {
+              "bins": [
+                7,
+                8
+              ],
+              "valueM": 0.06874691619173873,
+              "leftMaximumM": 0.0740487277507782,
+              "rightMaximumM": 0.0740487277507782,
+              "prominenceM": 0.005301811559039471,
+              "depthFraction": 0.0715989554457099
+            },
+            {
+              "bins": [
+                12,
+                12
+              ],
+              "valueM": 0.06656658454965109,
+              "leftMaximumM": 0.0740487277507782,
+              "rightMaximumM": 0.06931522488594055,
+              "prominenceM": 0.002748640336289465,
+              "depthFraction": 0.03965420787153764
+            }
+          ],
+          "grooves": [
+            {
+              "bins": [
+                3,
+                3
+              ],
+              "prominenceM": 0.0027486330697145123,
+              "lowestHeightM": 0.004
+            },
+            {
+              "bins": [
+                7,
+                8
+              ],
+              "prominenceM": 0.005301811559039471,
+              "lowestHeightM": 0.002
+            },
+            {
+              "bins": [
+                12,
+                12
+              ],
+              "prominenceM": 0.002748640336289465,
+              "lowestHeightM": 0.004
+            }
+          ],
+          "grooveThresholdSamples": [
+            {
+              "heightM": 0.00175,
+              "minima": []
+            },
+            {
+              "heightM": 0.002,
+              "minima": [
+                {
+                  "bins": [
+                    7,
+                    7
+                  ],
+                  "valueM": 0.06080585497999008,
+                  "leftMaximumM": 0.06291221039727879,
+                  "rightMaximumM": 0.06291796224577284,
+                  "prominenceM": 0.002106355417288708,
+                  "depthFraction": 0.03348086808566205
+                }
+              ]
+            },
+            {
+              "heightM": 0.00225,
+              "minima": [
+                {
+                  "bins": [
+                    7,
+                    7
+                  ],
+                  "valueM": 0.06154896735764914,
+                  "leftMaximumM": 0.06403023515532413,
+                  "rightMaximumM": 0.06403526802282467,
+                  "prominenceM": 0.002481267797674991,
+                  "depthFraction": 0.038751502187301785
+                }
+              ]
+            },
+            {
+              "heightM": 0.00375,
+              "minima": [
+                {
+                  "bins": [
+                    7,
+                    7
+                  ],
+                  "valueM": 0.06600764162360362,
+                  "leftMaximumM": 0.07073937463009877,
+                  "rightMaximumM": 0.07074025566188208,
+                  "prominenceM": 0.0047317330064951535,
+                  "depthFraction": 0.06688966408365528
+                }
+              ]
+            },
+            {
+              "heightM": 0.004,
+              "minima": [
+                {
+                  "bins": [
+                    3,
+                    3
+                  ],
+                  "valueM": 0.06425415173689658,
+                  "leftMaximumM": 0.06667777821475707,
+                  "rightMaximumM": 0.0718584052164769,
+                  "prominenceM": 0.0024236264778604855,
+                  "depthFraction": 0.03634833887317635
+                },
+                {
+                  "bins": [
+                    7,
+                    8
+                  ],
+                  "valueM": 0.06675075400126262,
+                  "leftMaximumM": 0.0718584052164769,
+                  "rightMaximumM": 0.07185840521714648,
+                  "prominenceM": 0.005107651215214282,
+                  "depthFraction": 0.07107938451775038
+                },
+                {
+                  "bins": [
+                    12,
+                    12
+                  ],
+                  "valueM": 0.06425415863739564,
+                  "leftMaximumM": 0.07185840521714648,
+                  "rightMaximumM": 0.06667777822072635,
+                  "prominenceM": 0.002423619583330705,
+                  "depthFraction": 0.036348235469209726
+                }
+              ]
+            },
+            {
+              "heightM": 0.00425,
+              "minima": [
+                {
+                  "bins": [
+                    3,
+                    3
+                  ],
+                  "valueM": 0.0643976213926245,
+                  "leftMaximumM": 0.06683973954951394,
+                  "rightMaximumM": 0.0719953010616004,
+                  "prominenceM": 0.002442118156889439,
+                  "depthFraction": 0.03653691910454487
+                },
+                {
+                  "bins": [
+                    8,
+                    8
+                  ],
+                  "valueM": 0.0668732656363108,
+                  "leftMaximumM": 0.0719953010616004,
+                  "rightMaximumM": 0.07199342910312467,
+                  "prominenceM": 0.005120163466813876,
+                  "depthFraction": 0.07111987205776325
+                },
+                {
+                  "bins": [
+                    12,
+                    12
+                  ],
+                  "valueM": 0.06439410390050071,
+                  "leftMaximumM": 0.07199342910312467,
+                  "rightMaximumM": 0.06683596583348872,
+                  "prominenceM": 0.00244186193298801,
+                  "depthFraction": 0.036535148441955996
+                }
+              ]
+            }
+          ],
+          "passes": true
+        }
+      ],
+      "withinTarget": true
+    },
+    "D": {
+      "target": {
+        "minimumDarkExtensionAboveEarTipM": 0.025
+      },
+      "method": "Ear joint weight >=0.99. Ear-tip height is the highest Anatomy vertex, including the rim. Tuft height is the highest detail vertex on that ear whose maximum linear RGB channel is below 0.08.",
+      "before": [
+        {
+          "bone": "Ear_L",
+          "earTipHeightM": 1.1759995346069336,
+          "darkTuftHeightM": 1.2410553817749024,
+          "extensionM": 0.06505584716796875,
+          "passes": true
+        },
+        {
+          "bone": "Ear_R",
+          "earTipHeightM": 1.1759995346069336,
+          "darkTuftHeightM": 1.2410513286590577,
+          "extensionM": 0.06505179405212402,
+          "passes": true
+        }
+      ],
+      "after": [
+        {
+          "bone": "Ear_L",
+          "earTipHeightM": 1.103973650932312,
+          "darkTuftHeightM": 1.1450515031814574,
+          "extensionM": 0.04107785224914551,
+          "passes": true
+        },
+        {
+          "bone": "Ear_R",
+          "earTipHeightM": 1.103973650932312,
+          "darkTuftHeightM": 1.1450453042984008,
+          "extensionM": 0.04107165336608887,
+          "passes": true
+        }
+      ],
+      "withinTarget": true
+    },
+    "E": {
+      "target": {
+        "centrelineLengthM": [
+          0.12,
+          0.2
+        ],
+        "distalArcFraction": [
+          0.7,
+          1
+        ],
+        "distalColour": "Darker than mid-tail, with a solid black tip"
+      },
+      "method": "Tail-weighted vertices are grouped by their joint-weight signature into the 21 exported tube rings. Duplicate seam positions are removed before averaging each ring's centre. Length is the sum along those centres. Colours are mean linear vertex RGB over rings at 35–60% and >=70% of measured arc length. The candidate's distal rings all share the same dark colour.",
+      "before": {
+        "lengthM": 0.3487908672126897,
+        "midMeanLinearRGB": [
+          0.22211491614580153,
+          0.17028914391994476,
+          0.10611265078186989
+        ],
+        "distalMeanLinearRGB": [
+          0.07312069730833173,
+          0.05553112404420972,
+          0.03990982217714191
+        ],
+        "midLuminance": 0.1766737602905929,
+        "distalLuminance": 0.05814280932535976,
+        "rings": [
+          {
+            "parameter": 0,
+            "centre": [
+              -1.3877787807814458e-18,
+              0.765000011920929,
+              -0.5629999791383743
+            ],
+            "colour": [
+              0.22211491614580153,
+              0.17028914391994476,
+              0.10611265078186989
+            ],
+            "arcFraction": 0
+          },
+          {
+            "parameter": 0.02025,
+            "centre": [
+              0.001540161636433291,
+              0.7599295051531083,
+              -0.5883720361487567
+            ],
+            "colour": [
+              0.22211491614580153,
+              0.17028914391994476,
+              0.10611265078186989
+            ],
+            "arcFraction": 0.07431260111402284
+          },
+          {
+            "parameter": 0.072,
+            "centre": [
+              0.0031322966578633147,
+              0.7543148130825335,
+              -0.614160914421783
+            ],
+            "colour": [
+              0.22211491614580153,
+              0.17028914391994476,
+              0.10611265078186989
+            ],
+            "arcFraction": 0.150120173977938
+          },
+          {
+            "parameter": 0.14175000000000001,
+            "centre": [
+              0.00473388028522953,
+              0.7486011948601008,
+              -0.640025561369538
+            ],
+            "colour": [
+              0.22211491614580153,
+              0.17028914391994476,
+              0.10611265078186989
+            ],
+            "arcFraction": 0.22620183145597147
+          },
+          {
+            "parameter": 0.216,
+            "centre": [
+              0.006302390625253321,
+              0.7432338648433683,
+              -0.6656249704751966
+            ],
+            "colour": [
+              0.22211491614580153,
+              0.17028914391994476,
+              0.10611265078186989
+            ],
+            "arcFraction": 0.3013271326772831
+          },
+          {
+            "parameter": 0.28125,
+            "centre": [
+              0.00779530410887673,
+              0.7386580617874856,
+              -0.6906181376427409
+            ],
+            "colour": [
+              0.22211491614580153,
+              0.17028914391994476,
+              0.10611265078186989
+            ],
+            "arcFraction": 0.37430040200624604
+          },
+          {
+            "parameter": 0.324,
+            "centre": [
+              0.009170094663240369,
+              0.7353190278676414,
+              -0.7146640433460774
+            ],
+            "colour": [
+              0.22211491614580153,
+              0.17028914391994476,
+              0.10611265078186989
+            ],
+            "arcFraction": 0.44401416957015155
+          },
+          {
+            "parameter": 0.33575,
+            "centre": [
+              0.01029937809079649,
+              0.7336665070146042,
+              -0.7360371468963046
+            ],
+            "colour": [
+              0.22211491614580153,
+              0.17028914391994476,
+              0.10611265078186989
+            ],
+            "arcFraction": 0.5055599822465575
+          },
+          {
+            "parameter": 0.36800000000000005,
+            "centre": [
+              0.011011661034871955,
+              0.7330352046349996,
+              -0.7539959094547001
+            ],
+            "colour": [
+              0.22211491614580153,
+              0.17028914391994476,
+              0.10611265078186989
+            ],
+            "arcFraction": 0.5571208685743411
+          },
+          {
+            "parameter": 0.42724999999999996,
+            "centre": [
+              0.011546667017337538,
+              0.7329984558675744,
+              -0.7716030274825376
+            ],
+            "colour": [
+              0.22211491614580153,
+              0.17028914391994476,
+              0.10611265078186989
+            ],
+            "arcFraction": 0.6076247218210017
+          },
+          {
+            "parameter": 0.5,
+            "centre": [
+              0.012034893454983833,
+              0.7336092561483386,
+              -0.7887013202905655
+            ],
+            "colour": [
+              0.21648016199469566,
+              0.16594915464520454,
+              0.10360895097255707
+            ],
+            "arcFraction": 0.6566975768898976
+          },
+          {
+            "parameter": 0.57275,
+            "centre": [
+              0.012606839670586512,
+              0.7349203434159646,
+              -0.8051333292307449
+            ],
+            "colour": [
+              0.16689430847764014,
+              0.12775724083185197,
+              0.081576394662261
+            ],
+            "arcFraction": 0.7039870896864688
+          },
+          {
+            "parameter": 0.632,
+            "centre": [
+              0.013393003564417458,
+              0.7369846773889263,
+              -0.820741824587041
+            ],
+            "colour": [
+              0.10040418654680253,
+              0.07654535546898841,
+              0.052032736502587794
+            ],
+            "arcFraction": 0.7491833144781057
+          },
+          {
+            "parameter": 0.66425,
+            "centre": [
+              0.014523882055509285,
+              0.7398549743631596,
+              -0.8353693352853208
+            ],
+            "colour": [
+              0.05927046705037355,
+              0.044863426871597764,
+              0.03375572748482227
+            ],
+            "arcFraction": 0.7920436673660647
+          },
+          {
+            "parameter": 0.676,
+            "centre": [
+              0.015847981590483264,
+              0.7430636322399066,
+              -0.8469267631657674
+            ],
+            "colour": [
+              0.05780543014407158,
+              0.04373503103852272,
+              0.03310476616024971
+            ],
+            "arcFraction": 0.8266415626230629
+          },
+          {
+            "parameter": 0.71875,
+            "centre": [
+              0.017312467762967576,
+              0.746797954872251,
+              -0.8566089471429587
+            ],
+            "colour": [
+              0.05780543014407158,
+              0.04373503103852272,
+              0.03310476616024971
+            ],
+            "arcFraction": 0.8566887915543409
+          },
+          {
+            "parameter": 0.7839999999999999,
+            "centre": [
+              0.018951967171652248,
+              0.7511131017761228,
+              -0.8656475619030001
+            ],
+            "colour": [
+              0.05780543014407158,
+              0.04373503103852272,
+              0.03310476616024971
+            ],
+            "arcFraction": 0.8857868535661234
+          },
+          {
+            "parameter": 0.85825,
+            "centre": [
+              0.02070347459244914,
+              0.7557999824126956,
+              -0.8742742846614124
+            ],
+            "colour": [
+              0.05780543014407158,
+              0.04373503103852272,
+              0.03310476616024971
+            ],
+            "arcFraction": 0.9143790914917722
+          },
+          {
+            "parameter": 0.9279999999999999,
+            "centre": [
+              0.022503984641388284,
+              0.7606494857557788,
+              -0.8827208094572898
+            ],
+            "colour": [
+              0.05780543014407158,
+              0.04373503103852272,
+              0.03310476616024971
+            ],
+            "arcFraction": 0.9427763688961595
+          },
+          {
+            "parameter": 0.97975,
+            "centre": [
+              0.024290495027357743,
+              0.76545252849343,
+              -0.8912188286201742
+            ],
+            "colour": [
+              0.05780543014407158,
+              0.04373503103852272,
+              0.03310476616024971
+            ],
+            "arcFraction": 0.9712277053762249
+          },
+          {
+            "parameter": 1,
+            "centre": [
+              0.025999999161809693,
+              0.7700000208616254,
+              -0.9000000268220901
+            ],
+            "colour": [
+              0.05780543014407158,
+              0.04373503103852272,
+              0.03310476616024971
+            ],
+            "arcFraction": 1
+          }
+        ],
+        "passes": false
+      },
+      "after": {
+        "lengthM": 0.19074684770437556,
+        "midMeanLinearRGB": [
+          0.2704368598759174,
+          0.2268113113939762,
+          0.15767773166298865
+        ],
+        "distalMeanLinearRGB": [
+          0.006048833020031452,
+          0.007499032188206911,
+          0.006512090563774109
+        ],
+        "midLuminance": 0.2310946585446596,
+        "distalLuminance": 0.00711946265976876,
+        "rings": [
+          {
+            "parameter": 0,
+            "centre": [
+              -6.938893903907229e-19,
+              0.7650000149011614,
+              -0.5629999791383743
+            ],
+            "colour": [
+              0.2704368598759174,
+              0.2268113113939762,
+              0.15767773166298865
+            ],
+            "arcFraction": 0
+          },
+          {
+            "parameter": 0.02025,
+            "centre": [
+              0.0009125113795026279,
+              0.7627312469529269,
+              -0.5763542584444116
+            ],
+            "colour": [
+              0.2704368598759174,
+              0.2268113113939762,
+              0.15767773166298865
+            ],
+            "arcFraction": 0.07117460166183642
+          },
+          {
+            "parameter": 0.072,
+            "centre": [
+              0.001841213119630318,
+              0.7604382096559074,
+              -0.5899081833512158
+            ],
+            "colour": [
+              0.2704368598759174,
+              0.2268113113939762,
+              0.15767773166298865
+            ],
+            "arcFraction": 0.14340572241991756
+          },
+          {
+            "parameter": 0.14175000000000001,
+            "centre": [
+              0.0027728592755142624,
+              0.7581407778227327,
+              -0.6034984416605236
+            ],
+            "colour": [
+              0.2704368598759174,
+              0.2268113113939762,
+              0.15767773166298865
+            ],
+            "arcFraction": 0.21582910236874434
+          },
+          {
+            "parameter": 0.216,
+            "centre": [
+              0.003694201506406071,
+              0.7558587780284879,
+              -0.6169616289844514
+            ],
+            "colour": [
+              0.2704368598759174,
+              0.2268113113939762,
+              0.15767773166298865
+            ],
+            "arcFraction": 0.28758003101761986
+          },
+          {
+            "parameter": 0.28125,
+            "centre": [
+              0.004591993850423021,
+              0.7536120794713494,
+              -0.6301344016045332
+            ],
+            "colour": [
+              0.2704368598759174,
+              0.2268113113939762,
+              0.15767773166298865
+            ],
+            "arcFraction": 0.357794132549203
+          },
+          {
+            "parameter": 0.324,
+            "centre": [
+              0.005452988452631936,
+              0.751420563678967,
+              -0.6428534034463367
+            ],
+            "colour": [
+              0.2704368598759174,
+              0.2268113113939762,
+              0.15767773166298865
+            ],
+            "arcFraction": 0.4256070992179944
+          },
+          {
+            "parameter": 0.33575,
+            "centre": [
+              0.006220785082780361,
+              0.7494063709235372,
+              -0.6543183919543805
+            ],
+            "colour": [
+              0.2704368598759174,
+              0.2268113113939762,
+              0.15767773166298865
+            ],
+            "arcFraction": 0.4867659955752717
+          },
+          {
+            "parameter": 0.36800000000000005,
+            "centre": [
+              0.006862059695990665,
+              0.7475390991369207,
+              -0.6641284773569243
+            ],
+            "colour": [
+              0.2704368598759174,
+              0.2268113113939762,
+              0.15767773166298865
+            ],
+            "arcFraction": 0.5392270634919545
+          },
+          {
+            "parameter": 0.42724999999999996,
+            "centre": [
+              0.007476931939028361,
+              0.745616911128374,
+              -0.6737047152957699
+            ],
+            "colour": [
+              0.2704368598759174,
+              0.2268113113939762,
+              0.15767773166298865
+            ],
+            "arcFraction": 0.5905337202559714
+          },
+          {
+            "parameter": 0.5,
+            "centre": [
+              0.008072114542126658,
+              0.743736109852791,
+              -0.6830267133712767
+            ],
+            "colour": [
+              0.15809025689959527,
+              0.13361877687275409,
+              0.09344280175864697
+            ],
+            "arcFraction": 0.6404870862047947
+          },
+          {
+            "parameter": 0.57275,
+            "centre": [
+              0.008654316030129677,
+              0.7419927572573188,
+              -0.6920738635286721
+            ],
+            "colour": [
+              0.006170729943551123,
+              0.007600146648474038,
+              0.006581786135211587
+            ],
+            "arcFraction": 0.6888861255684127
+          },
+          {
+            "parameter": 0.632,
+            "centre": [
+              0.00923024763314418,
+              0.7404831667748437,
+              -0.7008257552450223
+            ],
+            "colour": [
+              0.006048833020031452,
+              0.007499032188206911,
+              0.006512090563774109
+            ],
+            "arcFraction": 0.7355436976010824
+          },
+          {
+            "parameter": 0.66425,
+            "centre": [
+              0.009806618276214771,
+              0.7393033199373857,
+              -0.7092617218337907
+            ],
+            "colour": [
+              0.006048833020031452,
+              0.007499032188206911,
+              0.006512090563774109
+            ],
+            "arcFraction": 0.7803022397235461
+          },
+          {
+            "parameter": 0.676,
+            "centre": [
+              0.01030626456853101,
+              0.7386229093143899,
+              -0.7162374585054422
+            ],
+            "colour": [
+              0.006048833020031452,
+              0.007499032188206911,
+              0.006512090563774109
+            ],
+            "arcFraction": 0.8171396948022694
+          },
+          {
+            "parameter": 0.71875,
+            "centre": [
+              0.010760875358828342,
+              0.7382689473927024,
+              -0.7223358665853736
+            ],
+            "colour": [
+              0.006048833020031452,
+              0.007499032188206911,
+              0.006512090563774109
+            ],
+            "arcFraction": 0.849253276909093
+          },
+          {
+            "parameter": 0.7839999999999999,
+            "centre": [
+              0.01121113644716702,
+              0.7381074070911406,
+              -0.7281999314575195
+            ],
+            "colour": [
+              0.006048833020031452,
+              0.007499032188206911,
+              0.006512090563774109
+            ],
+            "arcFraction": 0.880098052735717
+          },
+          {
+            "parameter": 0.85825,
+            "centre": [
+              0.011658613208245478,
+              0.7380690231683257,
+              -0.733914013844371
+            ],
+            "colour": [
+              0.006048833020031452,
+              0.007499032188206911,
+              0.006512090563774109
+            ],
+            "arcFraction": 0.9101468080683034
+          },
+          {
+            "parameter": 0.9279999999999999,
+            "centre": [
+              0.012104871852668054,
+              0.7380844982942858,
+              -0.7395624690965041
+            ],
+            "colour": [
+              0.006048833020031452,
+              0.007499032188206911,
+              0.006512090563774109
+            ],
+            "arcFraction": 0.9398515054641801
+          },
+          {
+            "parameter": 0.97975,
+            "centre": [
+              0.012551478779561975,
+              0.7380845944947854,
+              -0.7452296821527653
+            ],
+            "colour": [
+              0.006048833020031452,
+              0.007499032188206911,
+              0.006512090563774109
+            ],
+            "arcFraction": 0.9696542697288859
+          },
+          {
+            "parameter": 1,
+            "centre": [
+              0.012999999645210454,
+              0.7380000170298983,
+              -0.7510000113532654
+            ],
+            "colour": [
+              0.006048833020031452,
+              0.007499032188206911,
+              0.006512090563774109
+            ],
+            "arcFraction": 1
+          }
+        ],
+        "passes": true
+      },
+      "withinTarget": true,
+      "distalUniform": true
+    },
+    "F": {
+      "target": "Sacrum top >= scapula top in the skinned bind pose.",
+      "method": "Highest Anatomy triangle intersection at the rear hip station z=-0.40 m and front shoulder station z=+0.31 m, restricted to the central |x|<0.09 m dorsal region. These are geometric surface heights, not bone heights.",
+      "before": {
+        "sacrumStationZM": -0.4,
+        "scapulaStationZM": 0.31,
+        "sacrumTopM": 0.9392199408316043,
+        "scapulaTopM": 1.0030223947911105,
+        "passes": false
+      },
+      "after": {
+        "sacrumStationZM": -0.4,
+        "scapulaStationZM": 0.31,
+        "sacrumTopM": 1.0183925076449076,
+        "scapulaTopM": 0.998344328311278,
+        "passes": true
+      },
+      "withinTarget": true
+    },
+    "G": {
+      "target": {
+        "everySampleLowestWorldYM": [
+          0,
+          0.005
+        ],
+        "samplesFullyAboveOneCentimetre": 0
+      },
+      "method": "every animation key time and interval midpoint; all skinned vertices; skinned world space",
+      "before": [
+        {
+          "clip": "Idle",
+          "seconds": 3.4000000953674316,
+          "samples": 163,
+          "lowestWorldYM": -0.0004968845858682884,
+          "atSeconds": 3.0250000953674316,
+          "vertex": 6716,
+          "highestLowestWorldYM": -1.4901160944047476e-8,
+          "atSecondsHighest": 0.15000000596046448,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "Walk",
+          "seconds": 1.159999966621399,
+          "samples": 95,
+          "lowestWorldYM": -0.00017251457472796302,
+          "atSeconds": 0.4072340428829193,
+          "vertex": 1737,
+          "highestLowestWorldYM": 0.00008536248756892278,
+          "atSecondsHighest": 0.098723404109478,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "Run",
+          "seconds": 0.6700000166893005,
+          "samples": 55,
+          "lowestWorldYM": -0.003319636800550965,
+          "atSeconds": 0.5831481516361237,
+          "vertex": 1747,
+          "highestLowestWorldYM": 1.093890662743634e-8,
+          "atSecondsHighest": 0.1985185146331787,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "Attack",
+          "seconds": 1.0199999809265137,
+          "samples": 65,
+          "lowestWorldYM": -0.00007374242407356775,
+          "atSeconds": 0.5846341550350189,
+          "vertex": 6716,
+          "highestLowestWorldYM": 0.00006922250048824682,
+          "atSecondsHighest": 0.6219512224197388,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "Hit",
+          "seconds": 0.699999988079071,
+          "samples": 43,
+          "lowestWorldYM": -0.00012094625388725522,
+          "atSeconds": 0.5,
+          "vertex": 6513,
+          "highestLowestWorldYM": 0.00004708895021439606,
+          "atSecondsHighest": 0.32499998807907104,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "HitLeft",
+          "seconds": 0.699999988079071,
+          "samples": 43,
+          "lowestWorldYM": -0.00015750623175540075,
+          "atSeconds": 0.5,
+          "vertex": 1948,
+          "highestLowestWorldYM": 0.000006225817900218963,
+          "atSecondsHighest": 0.32499998807907104,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "HitRight",
+          "seconds": 0.699999988079071,
+          "samples": 43,
+          "lowestWorldYM": -0.00015750623175540075,
+          "atSeconds": 0.5,
+          "vertex": 1748,
+          "highestLowestWorldYM": 0.000006272519158722939,
+          "atSecondsHighest": 0.32499998807907104,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "Death",
+          "seconds": 1.5,
+          "samples": 97,
+          "lowestWorldYM": -0.00019107354223912507,
+          "atSeconds": 0.3125,
+          "vertex": 6894,
+          "highestLowestWorldYM": 0.0003490136181792114,
+          "atSecondsHighest": 1.0625,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        }
+      ],
+      "after": [
+        {
+          "clip": "Idle",
+          "seconds": 3.4000000953674316,
+          "samples": 273,
+          "lowestWorldYM": 0.0009997959627040553,
+          "atSeconds": 1.8125,
+          "vertex": 22987,
+          "highestLowestWorldYM": 0.0009999888716266392,
+          "atSecondsHighest": 0.125,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "Walk",
+          "seconds": 1.159999966621399,
+          "samples": 373,
+          "lowestWorldYM": 0.0008610559264668458,
+          "atSeconds": 0.6829032301902771,
+          "vertex": 27853,
+          "highestLowestWorldYM": 0.0009999904592722531,
+          "atSecondsHighest": 0.48021504282951355,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "Run",
+          "seconds": 0.6700000166893005,
+          "samples": 431,
+          "lowestWorldYM": 0.00037587138034127617,
+          "atSeconds": 0.6559767425060272,
+          "vertex": 28109,
+          "highestLowestWorldYM": 0.002484556685323014,
+          "atSecondsHighest": 0.5936511754989624,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "Attack",
+          "seconds": 1.0199999809265137,
+          "samples": 247,
+          "lowestWorldYM": 0.0009960058460610117,
+          "atSeconds": 0.3638414740562439,
+          "vertex": 33231,
+          "highestLowestWorldYM": 0.0010000482239374265,
+          "atSecondsHighest": 0.5970731973648071,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "Hit",
+          "seconds": 0.699999988079071,
+          "samples": 43,
+          "lowestWorldYM": 0.0009509582119098396,
+          "atSeconds": 0.08750000223517418,
+          "vertex": 22731,
+          "highestLowestWorldYM": 0.0009999889537410424,
+          "atSecondsHighest": 0.30000001192092896,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "HitLeft",
+          "seconds": 0.699999988079071,
+          "samples": 43,
+          "lowestWorldYM": 0.000888489441164538,
+          "atSeconds": 0.08750000223517418,
+          "vertex": 22826,
+          "highestLowestWorldYM": 0.000999989047432321,
+          "atSecondsHighest": 0.2750000059604645,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "HitRight",
+          "seconds": 0.699999988079071,
+          "samples": 43,
+          "lowestWorldYM": 0.000888489441164538,
+          "atSeconds": 0.08750000223517418,
+          "vertex": 27758,
+          "highestLowestWorldYM": 0.000999989047432321,
+          "atSecondsHighest": 0.2750000059604645,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        },
+        {
+          "clip": "Death",
+          "seconds": 1.5,
+          "samples": 99,
+          "lowestWorldYM": 0.0009065453037416238,
+          "atSeconds": 0.887499988079071,
+          "vertex": 33635,
+          "highestLowestWorldYM": 0.001000007057687352,
+          "atSecondsHighest": 1.0499999523162842,
+          "samplesFullyAboveFloatLimit": 0,
+          "fractionAirborne": 0
+        }
+      ],
+      "withinTarget": true
+    },
+    "H": {
+      "requestedCommand": "npx tsx tools/build-creature-expansion.ts --only duskoak_lynx",
+      "actualExecution": "Installed Node with local tsx/esm; unmodified builder, using an in-process Playwright launch override for installed Chrome. See reproduction.builderPowerShell.",
+      "exitCode": 0,
+      "browserErrors": [],
+      "writtenAudit": "test-results/creature-expansion/duskoak_lynx.audit.json",
+      "writtenAuditPassed": true,
+      "rawOutput": "{\"id\":\"duskoak_lynx\",\"bytes\":4411840,\"triangles\":99040,\"seconds\":6.907,\"groundY\":1.0728835736495412e-9}\n{\"built\":1,\"failed\":0,\"browserErrors\":[],\"output\":\"C:\\\\Users\\\\Borg\\\\Documents\\\\GitHub\\\\Corealm2-wt\\\\05-creature-replacements\\\\test-results\\\\creature-expansion\"}\n",
+      "withinTarget": true
+    },
+    "I": {
+      "requestedCommand": "npx tsc --noEmit",
+      "actualCommand": "node node_modules/typescript/bin/tsc --noEmit",
+      "exitCode": 0,
+      "rawOutput": "",
+      "withinTarget": true
+    },
+    "J": {
+      "requestedCommand": "npx tsx tools/build-creature-expansion.ts --only redbrush_fox,rootdelve_badger,quillback_porcupine",
+      "beforeBuild": {
+        "exitCode": 0,
+        "built": 3,
+        "failed": 0,
+        "browserErrors": []
+      },
+      "afterBuild": {
+        "exitCode": 0,
+        "built": 3,
+        "failed": 0,
+        "browserErrors": []
+      },
+      "beforeSHA256": {
+        "redbrush_fox": "a5e447ec1735465187543c050652e78df204c8801a9e571f9ac4b07a25074168",
+        "rootdelve_badger": "756c6a6428ca31ce0d2273227078af9270d2725c0e96f5bc7878192afad643fe",
+        "quillback_porcupine": "59e8924533248f8973155384ac63ff7dd005e4e285c26bc0cbf82e724a85386e"
+      },
+      "afterSHA256": {
+        "redbrush_fox": "a5e447ec1735465187543c050652e78df204c8801a9e571f9ac4b07a25074168",
+        "rootdelve_badger": "756c6a6428ca31ce0d2273227078af9270d2725c0e96f5bc7878192afad643fe",
+        "quillback_porcupine": "59e8924533248f8973155384ac63ff7dd005e4e285c26bc0cbf82e724a85386e"
+      },
+      "byteIdentical": {
+        "redbrush_fox": true,
+        "rootdelve_badger": true,
+        "quillback_porcupine": true
+      },
+      "withinTarget": true
+    }
+  },
+  "rawProjectAudits": {
+    "pawBefore": {
+      "command": "node tools/creature-expansion/mammals/paw-contact-audit.mjs game/public/assets/models/creature/creature_duskoak_lynx.glb --feet FR_Paw,FL_Paw,HR_Paw,HL_Paw --band 0.003 --map",
+      "exitCode": 0,
+      "rawCombinedOutput": "{\n \"file\": \"game/public/assets/models/creature/creature_duskoak_lynx.glb\",\n \"sha256\": \"95f983b1964f4f67427555b007b642285eb7119e2dfaf407ca615ce25c213fb5\",\n \"bandMetres\": 0.003,\n \"units\": \"metres\",\n \"feet\": [\n  {\n   \"bone\": \"FR_Paw\",\n   \"regionVertices\": 570,\n   \"lowestWorldYM\": 1.072883587527329e-9,\n   \"contactVertices\": 55,\n   \"contactWidthCm\": 9.59,\n   \"contactLengthCm\": 10.15,\n   \"aspect\": 0.945,\n   \"widthProfileCm\": [\n    {\n     \"zFromRear\": 0,\n     \"vertices\": 1,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 1.27,\n     \"vertices\": 4,\n     \"widthCm\": 6.16\n    },\n    {\n     \"zFromRear\": 2.54,\n     \"vertices\": 0,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 3.81,\n     \"vertices\": 4,\n     \"widthCm\": 6.17\n    },\n    {\n     \"zFromRear\": 5.08,\n     \"vertices\": 2,\n     \"widthCm\": 2.02\n    },\n    {\n     \"zFromRear\": 6.34,\n     \"vertices\": 0,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 7.61,\n     \"vertices\": 0,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 8.88,\n     \"vertices\": 44,\n     \"widthCm\": 9.59\n    }\n   ],\n   \"topDownMap\": [\n    \".........#......\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"..#..#...#..#...\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"..#..#...#..#...\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \".....#...#......\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"#..............#\",\n    \".....#....#.....\"\n   ]\n  },\n  {\n   \"bone\": \"FL_Paw\",\n   \"regionVertices\": 570,\n   \"lowestWorldYM\": 1.072883587527329e-9,\n   \"contactVertices\": 55,\n   \"contactWidthCm\": 9.59,\n   \"contactLengthCm\": 10.14,\n   \"aspect\": 0.946,\n   \"widthProfileCm\": [\n    {\n     \"zFromRear\": 0,\n     \"vertices\": 1,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 1.27,\n     \"vertices\": 4,\n     \"widthCm\": 6.16\n    },\n    {\n     \"zFromRear\": 2.53,\n     \"vertices\": 0,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 3.8,\n     \"vertices\": 4,\n     \"widthCm\": 6.16\n    },\n    {\n     \"zFromRear\": 5.07,\n     \"vertices\": 2,\n     \"widthCm\": 2.02\n    },\n    {\n     \"zFromRear\": 6.34,\n     \"vertices\": 0,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 7.6,\n     \"vertices\": 0,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 8.87,\n     \"vertices\": 44,\n     \"widthCm\": 9.59\n    }\n   ],\n   \"topDownMap\": [\n    \"......#.........\",\n    \"................\",\n    \"................\",\n    \"......#.........\",\n    \"...#......#..#..\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"...#..#...#..#..\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"......#..#......\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"#..............#\",\n    \".....#....#.....\"\n   ]\n  },\n  {\n   \"bone\": \"HR_Paw\",\n   \"regionVertices\": 566,\n   \"lowestWorldYM\": 1.072883587527329e-9,\n   \"contactVertices\": 56,\n   \"contactWidthCm\": 9.59,\n   \"contactLengthCm\": 9.86,\n   \"aspect\": 0.973,\n   \"widthProfileCm\": [\n    {\n     \"zFromRear\": 0,\n     \"vertices\": 2,\n     \"widthCm\": 2.04\n    },\n    {\n     \"zFromRear\": 1.23,\n     \"vertices\": 4,\n     \"widthCm\": 6.16\n    },\n    {\n     \"zFromRear\": 2.47,\n     \"vertices\": 0,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 3.7,\n     \"vertices\": 4,\n     \"widthCm\": 6.16\n    },\n    {\n     \"zFromRear\": 4.93,\n     \"vertices\": 0,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 6.17,\n     \"vertices\": 2,\n     \"widthCm\": 2.05\n    },\n    {\n     \"zFromRear\": 7.4,\n     \"vertices\": 0,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 8.63,\n     \"vertices\": 44,\n     \"widthCm\": 9.59\n    }\n   ],\n   \"topDownMap\": [\n    \".....#...#......\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"..#..#...#..#...\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"..#..#...#..#...\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"......#..#......\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"#..............#\",\n    \".....#....#.....\"\n   ]\n  },\n  {\n   \"bone\": \"HL_Paw\",\n   \"regionVertices\": 566,\n   \"lowestWorldYM\": 1.072883587527329e-9,\n   \"contactVertices\": 56,\n   \"contactWidthCm\": 9.59,\n   \"contactLengthCm\": 9.86,\n   \"aspect\": 0.973,\n   \"widthProfileCm\": [\n    {\n     \"zFromRear\": 0,\n     \"vertices\": 2,\n     \"widthCm\": 2.04\n    },\n    {\n     \"zFromRear\": 1.23,\n     \"vertices\": 4,\n     \"widthCm\": 6.16\n    },\n    {\n     \"zFromRear\": 2.47,\n     \"vertices\": 0,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 3.7,\n     \"vertices\": 4,\n     \"widthCm\": 6.16\n    },\n    {\n     \"zFromRear\": 4.93,\n     \"vertices\": 0,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 6.17,\n     \"vertices\": 2,\n     \"widthCm\": 2.04\n    },\n    {\n     \"zFromRear\": 7.4,\n     \"vertices\": 0,\n     \"widthCm\": 0\n    },\n    {\n     \"zFromRear\": 8.63,\n     \"vertices\": 44,\n     \"widthCm\": 9.59\n    }\n   ],\n   \"topDownMap\": [\n    \"......#..#......\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"...#..#...#..#..\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"...#..#...#..#..\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"......#...#.....\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"................\",\n    \"#..............#\",\n    \".....#....#.....\"\n   ]\n  }\n ]\n}\n"
+    },
+    "pawAfter": {
+      "requestedCommand": "npx tsx tools/creature-expansion/mammals/paw-contact-audit.mjs test-results/creature-expansion/models/creature_duskoak_lynx.glb --feet FR_Paw,FL_Paw,HR_Paw,HL_Paw --band 0.003 --map",
+      "actualCommand": "node tools/creature-expansion/mammals/paw-contact-audit.mjs test-results/creature-expansion/models/creature_duskoak_lynx.glb --feet FR_Paw,FL_Paw,HR_Paw,HL_Paw --band 0.003 --map",
+      "exitCode": 0,
+      "rawCombinedOutput": "Missing optional extension, \"KHR_texture_transform\".\n{\n \"file\": \"test-results/creature-expansion/models/creature_duskoak_lynx.glb\",\n \"sha256\": \"cd1aad5e4d2a7b422f24793d7f3fe0ccf87281500429f62e1439de95c9288ed5\",\n \"bandMetres\": 0.003,\n \"units\": \"metres\",\n \"feet\": [\n  {\n   \"bone\": \"FR_Paw\",\n   \"regionVertices\": 5181,\n   \"lowestWorldYM\": 1.0728835736495412e-9,\n   \"contactVertices\": 513,\n   \"contactWidthCm\": 7.4,\n   \"contactLengthCm\": 6.8,\n   \"aspect\": 1.088,\n   \"widthProfileCm\": [\n    {\n     \"zFromRear\": 0,\n     \"vertices\": 159,\n     \"widthCm\": 6.72\n    },\n    {\n     \"zFromRear\": 0.85,\n     \"vertices\": 56,\n     \"widthCm\": 7.28\n    },\n    {\n     \"zFromRear\": 1.7,\n     \"vertices\": 30,\n     \"widthCm\": 7.39\n    },\n    {\n     \"zFromRear\": 2.55,\n     \"vertices\": 13,\n     \"widthCm\": 7.4\n    },\n    {\n     \"zFromRear\": 3.4,\n     \"vertices\": 13,\n     \"widthCm\": 7.4\n    },\n    {\n     \"zFromRear\": 4.25,\n     \"vertices\": 30,\n     \"widthCm\": 7.39\n    },\n    {\n     \"zFromRear\": 5.1,\n     \"vertices\": 56,\n     \"widthCm\": 7.28\n    },\n    {\n     \"zFromRear\": 5.95,\n     \"vertices\": 159,\n     \"widthCm\": 6.72\n    }\n   ],\n   \"topDownMap\": [\n    \".##############.\",\n    \".#............#.\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"................\",\n    \"#.......#......#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \".#............#.\",\n    \".##############.\"\n   ]\n  },\n  {\n   \"bone\": \"FL_Paw\",\n   \"regionVertices\": 5181,\n   \"lowestWorldYM\": 1.0728835736495412e-9,\n   \"contactVertices\": 513,\n   \"contactWidthCm\": 7.4,\n   \"contactLengthCm\": 6.8,\n   \"aspect\": 1.088,\n   \"widthProfileCm\": [\n    {\n     \"zFromRear\": 0,\n     \"vertices\": 159,\n     \"widthCm\": 6.72\n    },\n    {\n     \"zFromRear\": 0.85,\n     \"vertices\": 56,\n     \"widthCm\": 7.28\n    },\n    {\n     \"zFromRear\": 1.7,\n     \"vertices\": 30,\n     \"widthCm\": 7.39\n    },\n    {\n     \"zFromRear\": 2.55,\n     \"vertices\": 13,\n     \"widthCm\": 7.4\n    },\n    {\n     \"zFromRear\": 3.4,\n     \"vertices\": 13,\n     \"widthCm\": 7.4\n    },\n    {\n     \"zFromRear\": 4.25,\n     \"vertices\": 30,\n     \"widthCm\": 7.39\n    },\n    {\n     \"zFromRear\": 5.1,\n     \"vertices\": 56,\n     \"widthCm\": 7.28\n    },\n    {\n     \"zFromRear\": 5.95,\n     \"vertices\": 159,\n     \"widthCm\": 6.72\n    }\n   ],\n   \"topDownMap\": [\n    \".##############.\",\n    \".#............#.\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"................\",\n    \"#......#.......#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \".#............#.\",\n    \".##############.\"\n   ]\n  },\n  {\n   \"bone\": \"HR_Paw\",\n   \"regionVertices\": 5180,\n   \"lowestWorldYM\": 1.072883587527329e-9,\n   \"contactVertices\": 513,\n   \"contactWidthCm\": 7.4,\n   \"contactLengthCm\": 6.8,\n   \"aspect\": 1.088,\n   \"widthProfileCm\": [\n    {\n     \"zFromRear\": 0,\n     \"vertices\": 159,\n     \"widthCm\": 6.72\n    },\n    {\n     \"zFromRear\": 0.85,\n     \"vertices\": 56,\n     \"widthCm\": 7.28\n    },\n    {\n     \"zFromRear\": 1.7,\n     \"vertices\": 30,\n     \"widthCm\": 7.39\n    },\n    {\n     \"zFromRear\": 2.55,\n     \"vertices\": 13,\n     \"widthCm\": 7.4\n    },\n    {\n     \"zFromRear\": 3.4,\n     \"vertices\": 13,\n     \"widthCm\": 7.4\n    },\n    {\n     \"zFromRear\": 4.25,\n     \"vertices\": 30,\n     \"widthCm\": 7.39\n    },\n    {\n     \"zFromRear\": 5.1,\n     \"vertices\": 56,\n     \"widthCm\": 7.28\n    },\n    {\n     \"zFromRear\": 5.95,\n     \"vertices\": 159,\n     \"widthCm\": 6.72\n    }\n   ],\n   \"topDownMap\": [\n    \".##############.\",\n    \".#............#.\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"................\",\n    \"#.......#......#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \".#............#.\",\n    \".##############.\"\n   ]\n  },\n  {\n   \"bone\": \"HL_Paw\",\n   \"regionVertices\": 5180,\n   \"lowestWorldYM\": 1.072883587527329e-9,\n   \"contactVertices\": 513,\n   \"contactWidthCm\": 7.4,\n   \"contactLengthCm\": 6.8,\n   \"aspect\": 1.088,\n   \"widthProfileCm\": [\n    {\n     \"zFromRear\": 0,\n     \"vertices\": 159,\n     \"widthCm\": 6.72\n    },\n    {\n     \"zFromRear\": 0.85,\n     \"vertices\": 56,\n     \"widthCm\": 7.28\n    },\n    {\n     \"zFromRear\": 1.7,\n     \"vertices\": 30,\n     \"widthCm\": 7.39\n    },\n    {\n     \"zFromRear\": 2.55,\n     \"vertices\": 13,\n     \"widthCm\": 7.4\n    },\n    {\n     \"zFromRear\": 3.4,\n     \"vertices\": 13,\n     \"widthCm\": 7.4\n    },\n    {\n     \"zFromRear\": 4.25,\n     \"vertices\": 30,\n     \"widthCm\": 7.39\n    },\n    {\n     \"zFromRear\": 5.1,\n     \"vertices\": 56,\n     \"widthCm\": 7.28\n    },\n    {\n     \"zFromRear\": 5.95,\n     \"vertices\": 159,\n     \"widthCm\": 6.72\n    }\n   ],\n   \"topDownMap\": [\n    \".##############.\",\n    \".#............#.\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"................\",\n    \"#......#.......#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \"#..............#\",\n    \".#............#.\",\n    \".##############.\"\n   ]\n  }\n ]\n}\n"
+    },
+    "floorBefore": {
+      "command": "node tools/creature-expansion/mammals/clip-floor-audit.mjs game/public/assets/models/creature/creature_duskoak_lynx.glb",
+      "exitCode": 0,
+      "rawCombinedOutput": "{\n \"file\": \"game/public/assets/models/creature/creature_duskoak_lynx.glb\",\n \"sha256\": \"95f983b1964f4f67427555b007b642285eb7119e2dfaf407ca615ce25c213fb5\",\n \"floatLimitM\": 0.01,\n \"basis\": \"every animation key time and interval midpoint; all skinned vertices; skinned world space\",\n \"clips\": [\n  {\n   \"clip\": \"Idle\",\n   \"seconds\": 3.4000000953674316,\n   \"samples\": 163,\n   \"lowestWorldYM\": -0.0004968845858682884,\n   \"atSeconds\": 3.0250000953674316,\n   \"vertex\": 6716,\n   \"highestLowestWorldYM\": -1.4901160944047476e-8,\n   \"atSecondsHighest\": 0.15000000596046448,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"Walk\",\n   \"seconds\": 1.159999966621399,\n   \"samples\": 95,\n   \"lowestWorldYM\": -0.00017251457472796302,\n   \"atSeconds\": 0.4072340428829193,\n   \"vertex\": 1737,\n   \"highestLowestWorldYM\": 0.00008536248756892278,\n   \"atSecondsHighest\": 0.098723404109478,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"Run\",\n   \"seconds\": 0.6700000166893005,\n   \"samples\": 55,\n   \"lowestWorldYM\": -0.003319636800550965,\n   \"atSeconds\": 0.5831481516361237,\n   \"vertex\": 1747,\n   \"highestLowestWorldYM\": 1.093890662743634e-8,\n   \"atSecondsHighest\": 0.1985185146331787,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"Attack\",\n   \"seconds\": 1.0199999809265137,\n   \"samples\": 65,\n   \"lowestWorldYM\": -0.00007374242407356775,\n   \"atSeconds\": 0.5846341550350189,\n   \"vertex\": 6716,\n   \"highestLowestWorldYM\": 0.00006922250048824682,\n   \"atSecondsHighest\": 0.6219512224197388,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"Hit\",\n   \"seconds\": 0.699999988079071,\n   \"samples\": 43,\n   \"lowestWorldYM\": -0.00012094625388725522,\n   \"atSeconds\": 0.5,\n   \"vertex\": 6513,\n   \"highestLowestWorldYM\": 0.00004708895021439606,\n   \"atSecondsHighest\": 0.32499998807907104,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"HitLeft\",\n   \"seconds\": 0.699999988079071,\n   \"samples\": 43,\n   \"lowestWorldYM\": -0.00015750623175540075,\n   \"atSeconds\": 0.5,\n   \"vertex\": 1948,\n   \"highestLowestWorldYM\": 0.000006225817900218963,\n   \"atSecondsHighest\": 0.32499998807907104,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"HitRight\",\n   \"seconds\": 0.699999988079071,\n   \"samples\": 43,\n   \"lowestWorldYM\": -0.00015750623175540075,\n   \"atSeconds\": 0.5,\n   \"vertex\": 1748,\n   \"highestLowestWorldYM\": 0.000006272519158722939,\n   \"atSecondsHighest\": 0.32499998807907104,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"Death\",\n   \"seconds\": 1.5,\n   \"samples\": 97,\n   \"lowestWorldYM\": -0.00019107354223912507,\n   \"atSeconds\": 0.3125,\n   \"vertex\": 6894,\n   \"highestLowestWorldYM\": 0.0003490136181792114,\n   \"atSecondsHighest\": 1.0625,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  }\n ]\n}\n"
+    },
+    "floorAfter": {
+      "requestedCommand": "npx tsx tools/creature-expansion/mammals/clip-floor-audit.mjs test-results/creature-expansion/models/creature_duskoak_lynx.glb",
+      "actualCommand": "node tools/creature-expansion/mammals/clip-floor-audit.mjs test-results/creature-expansion/models/creature_duskoak_lynx.glb",
+      "exitCode": 0,
+      "rawCombinedOutput": "Missing optional extension, \"KHR_texture_transform\".\n{\n \"file\": \"test-results/creature-expansion/models/creature_duskoak_lynx.glb\",\n \"sha256\": \"cd1aad5e4d2a7b422f24793d7f3fe0ccf87281500429f62e1439de95c9288ed5\",\n \"floatLimitM\": 0.01,\n \"basis\": \"every animation key time and interval midpoint; all skinned vertices; skinned world space\",\n \"clips\": [\n  {\n   \"clip\": \"Idle\",\n   \"seconds\": 3.4000000953674316,\n   \"samples\": 273,\n   \"lowestWorldYM\": 0.0009997959627040553,\n   \"atSeconds\": 1.8125,\n   \"vertex\": 22987,\n   \"highestLowestWorldYM\": 0.0009999888716266392,\n   \"atSecondsHighest\": 0.125,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"Walk\",\n   \"seconds\": 1.159999966621399,\n   \"samples\": 373,\n   \"lowestWorldYM\": 0.0008610559264668458,\n   \"atSeconds\": 0.6829032301902771,\n   \"vertex\": 27853,\n   \"highestLowestWorldYM\": 0.0009999904592722531,\n   \"atSecondsHighest\": 0.48021504282951355,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"Run\",\n   \"seconds\": 0.6700000166893005,\n   \"samples\": 431,\n   \"lowestWorldYM\": 0.00037587138034127617,\n   \"atSeconds\": 0.6559767425060272,\n   \"vertex\": 28109,\n   \"highestLowestWorldYM\": 0.002484556685323014,\n   \"atSecondsHighest\": 0.5936511754989624,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"Attack\",\n   \"seconds\": 1.0199999809265137,\n   \"samples\": 247,\n   \"lowestWorldYM\": 0.0009960058460610117,\n   \"atSeconds\": 0.3638414740562439,\n   \"vertex\": 33231,\n   \"highestLowestWorldYM\": 0.0010000482239374265,\n   \"atSecondsHighest\": 0.5970731973648071,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"Hit\",\n   \"seconds\": 0.699999988079071,\n   \"samples\": 43,\n   \"lowestWorldYM\": 0.0009509582119098396,\n   \"atSeconds\": 0.08750000223517418,\n   \"vertex\": 22731,\n   \"highestLowestWorldYM\": 0.0009999889537410424,\n   \"atSecondsHighest\": 0.30000001192092896,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"HitLeft\",\n   \"seconds\": 0.699999988079071,\n   \"samples\": 43,\n   \"lowestWorldYM\": 0.000888489441164538,\n   \"atSeconds\": 0.08750000223517418,\n   \"vertex\": 22826,\n   \"highestLowestWorldYM\": 0.000999989047432321,\n   \"atSecondsHighest\": 0.2750000059604645,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"HitRight\",\n   \"seconds\": 0.699999988079071,\n   \"samples\": 43,\n   \"lowestWorldYM\": 0.000888489441164538,\n   \"atSeconds\": 0.08750000223517418,\n   \"vertex\": 27758,\n   \"highestLowestWorldYM\": 0.000999989047432321,\n   \"atSecondsHighest\": 0.2750000059604645,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  },\n  {\n   \"clip\": \"Death\",\n   \"seconds\": 1.5,\n   \"samples\": 99,\n   \"lowestWorldYM\": 0.0009065453037416238,\n   \"atSeconds\": 0.887499988079071,\n   \"vertex\": 33635,\n   \"highestLowestWorldYM\": 0.001000007057687352,\n   \"atSecondsHighest\": 1.0499999523162842,\n   \"samplesFullyAboveFloatLimit\": 0,\n   \"fractionAirborne\": 0\n  }\n ]\n}\n"
+    }
+  },
+  "contractChecks": {
+    "exitCode": 0,
+    "rawOutput": "PASS: fresh config, immutable frozen input, independent authored arrays, paw design shape, and all lynx-only guards.\n"
+  },
+  "reproduction": {
+    "environment": "Windows PowerShell; installed Node v24.14.0 and workspace dependencies. npx was not on PATH. Default Playwright launch failed because its expected chromium_headless_shell-1234 executable was unavailable. No browser was downloaded. Only the executable selection was overridden in memory; the builder and its audit code were not edited.",
+    "browserExecutable": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    "builderPowerShell": "@'\nimport {chromium} from 'playwright';\nconst launch=chromium.launch.bind(chromium);\nchromium.launch=options=>launch({...options,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'});\nprocess.argv=['node','tools/build-creature-expansion.ts','--only','duskoak_lynx'];\nawait import('tsx/esm');\nawait import('./tools/build-creature-expansion.ts');\n'@ | node --input-type=module",
+    "nonLynxBuilderPowerShell": "@'\nimport {chromium} from 'playwright';\nconst launch=chromium.launch.bind(chromium);\nchromium.launch=options=>launch({...options,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'});\nprocess.argv=['node','tools/build-creature-expansion.ts','--only','redbrush_fox,rootdelve_badger,quillback_porcupine'];\nawait import('tsx/esm');\nawait import('./tools/build-creature-expansion.ts');\n'@ | node --input-type=module",
+    "geometryMeasurementPowerShell": "$review = Get-Content -Raw art/rebuild/candidates/finish-quadrupeds/lynx-anatomy-review.json | ConvertFrom-Json\n$review.reproduction.geometryMeasurementSource | node --input-type=module - test-results/creature-expansion/models/creature_duskoak_lynx.glb",
+    "geometryMeasurementSource": "\nimport * as THREE from 'three';\nimport {NodeIO} from '@gltf-transform/core';\nimport {KHRONOS_EXTENSIONS} from '@gltf-transform/extensions';\nimport {readFile} from 'node:fs/promises';\nimport {createHash} from 'node:crypto';\n\nfunction extrema(curve){\n  const groups=[];\n  for(let i=0;i<curve.length;i++){\n    if(!groups.length||Math.abs(curve[i]-groups.at(-1).v)>1e-7)groups.push({lo:i,hi:i,v:curve[i]});\n    else groups.at(-1).hi=i;\n  }\n  const maxima=groups.filter((g,i)=>i===0||i===groups.length-1||g.v>groups[i-1].v&&g.v>groups[i+1].v);\n  return groups.filter((g,i)=>i>0&&i<groups.length-1&&g.v<groups[i-1].v&&g.v<groups[i+1].v).map(g=>{\n    const left=maxima.filter(m=>m.hi<g.lo).at(-1),right=maxima.find(m=>m.lo>g.hi);\n    const smaller=Math.min(left.v,right.v);\n    return {bins:[g.lo,g.hi],valueM:g.v,leftMaximumM:left.v,rightMaximumM:right.v,prominenceM:smaller-g.v,depthFraction:(smaller-g.v)/smaller};\n  });\n}\nasync function measure(file){\n  const bytes=await readFile(file),doc=await new NodeIO().registerExtensions(KHRONOS_EXTENSIONS).readBinary(bytes),rt=doc.getRoot(),nodes=rt.listNodes();\n  const skin=rt.listSkins()[0],joints=skin.listJoints(),names=joints.map(j=>j.getName()),ibm=skin.getInverseBindMatrices();\n  const mats=joints.map((j,i)=>new THREE.Matrix4().fromArray(j.getWorldMatrix()).multiply(new THREE.Matrix4().fromArray(ibm.getElement(i,[]))));\n  const verts=[],triangles=[],parents=[];\n  const find=i=>{while(parents[i]!==i){parents[i]=parents[parents[i]];i=parents[i];}return i;};\n  for(const node of nodes)for(const prim of node.getMesh()?.listPrimitives()??[]){\n    const base=verts.length,P=prim.getAttribute('POSITION'),J=prim.getAttribute('JOINTS_0'),W=prim.getAttribute('WEIGHTS_0'),C=prim.getAttribute('COLOR_0');\n    for(let i=0;i<P.getCount();i++){\n      const p=new THREE.Vector3(...P.getElement(i,[])),js=J.getElement(i,[]),ws=W.getElement(i,[]),world=new THREE.Vector3(),weights={};\n      for(let k=0;k<4;k++)if(ws[k]>0){world.add(p.clone().applyMatrix4(mats[js[k]]).multiplyScalar(ws[k]));weights[names[js[k]]]=(weights[names[js[k]]]??0)+ws[k];}\n      parents.push(verts.length);verts.push({p:world.toArray(),weights,c:C?.getElement(i,[])??[0,0,0],mesh:node.getName()});\n    }\n    const indices=prim.getIndices()?.getArray()??Array.from({length:P.getCount()},(_,i)=>i);\n    for(let i=0;i<indices.length;i+=3){\n      const t=[base+indices[i],base+indices[i+1],base+indices[i+2]];triangles.push(t);\n      parents[find(t[1])]=find(t[0]);parents[find(t[2])]=find(t[0]);\n    }\n  }\n  const tris=triangles.map(t=>({v:t.map(i=>verts[i].p),component:find(t[0]),indices:t}));\n  function section(y,filter=()=>true){\n    const out=[];\n    for(const tri of tris){\n      if(!filter(tri))continue;\n      const hits=[];\n      for(let i=0;i<3;i++){\n        const a=tri.v[i],b=tri.v[(i+1)%3];\n        if((a[1]<=y&&b[1]>y)||(b[1]<=y&&a[1]>y)){\n          const t=(y-a[1])/(b[1]-a[1]);hits.push([a[0]+(b[0]-a[0])*t,a[2]+(b[2]-a[2])*t]);\n        }\n      }\n      if(hits.length===2)out.push({a:hits[0],b:hits[1],component:tri.component});\n    }\n    return out;\n  }\n  function radius(segments,cx,cz){\n    const radii=[];\n    for(let k=0;k<64;k++){\n      const angle=(k+.371)/64*Math.PI*2,dx=Math.cos(angle),dz=Math.sin(angle),groups=new Map();\n      for(const {a,b,component} of segments){\n        const ax=a[0]-cx,az=a[1]-cz,bx=b[0]-cx,bz=b[1]-cz,ha=dx*az-dz*ax,hb=dx*bz-dz*bx;\n        if((ha<=0&&hb>0)||(hb<=0&&ha>0)){\n          const u=ha/(ha-hb),t=dx*(ax+(bx-ax)*u)+dz*(az+(bz-az)*u);\n          if(!groups.has(component))groups.set(component,[]);groups.get(component).push(t);\n        }\n      }\n      const intervals=[];\n      for(const hits of groups.values()){\n        hits.sort((a,b)=>a-b);\n        for(let i=0;i+1<hits.length;i+=2)intervals.push([hits[i],hits[i+1]]);\n      }\n      intervals.sort((a,b)=>a[0]-b[0]);\n      const merged=[];\n      for(const ab of intervals){if(merged.length&&ab[0]<=merged.at(-1)[1]+1e-7)merged.at(-1)[1]=Math.max(merged.at(-1)[1],ab[1]);else merged.push([...ab]);}\n      const containing=merged.find(ab=>ab[0]<=1e-6&&ab[1]>=-1e-6);\n      radii.push(containing?Math.max(0,containing[1]):0);\n    }\n    return {radiusM:Math.sqrt(radii.reduce((s,r)=>s+r*r,0)/radii.length),missingRays:radii.filter(r=>r===0).length};\n  }\n  const feet=[];\n  for(const leg of ['FR','FL','HR','HL']){\n    const name=leg+'_Paw',region=verts.filter(v=>(v.weights[name]??0)>=.5),lowest=Math.min(...region.map(v=>v.p[1]));\n    const patch=region.filter(v=>v.p[1]<=lowest+.003);\n    const bound=(v,k)=>[Math.min(...v.map(v=>v.p[k])),Math.max(...v.map(v=>v.p[k]))];\n    const px=bound(patch,0),pz=bound(patch,2);\n    const bone=n=>joints[names.indexOf(n)].getWorldMatrix().slice(12,15);\n    const paw=bone(name),path=[[paw[0],lowest,(pz[0]+pz[1])/2],paw,bone(leg+'_Ankle'),bone(leg+'_Lower'),bone(leg+'_Upper')];\n    const curve=[];\n    for(let i=0;i<40;i++){\n      const y=lowest+(path.at(-1)[1]-lowest)*i/39,evalY=y+(i===0?1e-7:0);\n      let j=0;while(j<path.length-2&&path[j+1][1]<y)j++;\n      const a=path[j],b=path[j+1],t=(y-a[1])/(b[1]-a[1]),cx=a[0]+(b[0]-a[0])*t,cz=a[2]+(b[2]-a[2])*t;\n      curve.push({heightM:y,...radius(section(evalY),cx,cz)});\n    }\n    const band=region.filter(v=>v.p[1]>=lowest+.003-1e-7&&v.p[1]<=lowest+.030+1e-7),bx=bound(band,0);\n    const project=points=>{\n      const bins=Array(16).fill(-Infinity);\n      for(const p of points){const i=Math.max(0,Math.min(15,Math.floor((p[0]-bx[0])/(bx[1]-bx[0])*16)));bins[i]=Math.max(bins[i],p[2]-paw[2]);}\n      return bins;\n    };\n    const vertexToe=project(band.map(v=>v.p));\n    const projected=[];\n    for(const tri of tris){\n      if(!tri.indices.every(i=>(verts[i].weights[name]??0)>=.5))continue;\n      let polygon=tri.v;\n      for(const [plane,sign] of [[lowest+.003,1],[lowest+.030,-1]]){\n        const next=[];\n        for(let i=0;i<polygon.length;i++){\n          const a=polygon[i],b=polygon[(i+1)%polygon.length],insideA=(a[1]-plane)*sign>=0,insideB=(b[1]-plane)*sign>=0;\n          if(insideA)next.push(a);\n          if(insideA!==insideB){const t=(plane-a[1])/(b[1]-a[1]);next.push(a.map((v,k)=>v+(b[k]-v)*t));}\n        }\n        polygon=next;\n      }\n      for(let j=0;j<polygon.length;j++){\n        const a=polygon[j],b=polygon[(j+1)%polygon.length];projected.push(a);\n        for(let k=1;k<16;k++){\n          const x=bx[0]+(bx[1]-bx[0])*k/16,t=(x-a[0])/(b[0]-a[0]);\n          if(t>0&&t<1){const p=a.map((v,k)=>v+(b[k]-v)*t);projected.push([x-1e-9,p[1],p[2]],[x+1e-9,p[1],p[2]]);}\n        }\n      }\n    }\n    const toe=project(projected),minima=toe.every(Number.isFinite)?extrema(toe).filter(m=>m.prominenceM>=.002):[];\n    const grooves=minima.map(m=>({bins:m.bins,prominenceM:m.prominenceM,lowestHeightM:null}));\n    const heightCurves=[];\n    for(let step=0;step<=120;step++){\n      const mm=step*.25;\n      const y=lowest+mm/1000,segments=section(y,tri=>tri.indices.every(i=>(verts[i].weights[name]??0)>=.5)),points=[];\n      for(const {a,b}of segments){\n        points.push([a[0],y,a[1]],[b[0],y,b[1]]);\n        for(let i=1;i<16;i++){\n          const x=bx[0]+(bx[1]-bx[0])*i/16,t=(x-a[0])/(b[0]-a[0]);\n          if(t>0&&t<1){const z=a[1]+(b[1]-a[1])*t;points.push([x-1e-9,y,z],[x+1e-9,y,z]);}\n        }\n      }\n      const values=project(points),first=values.findIndex(Number.isFinite),last=values.findLastIndex(Number.isFinite);\n      const finite=first>=0?values.slice(first,last+1):[];\n      const minimaAt=finite.length>=3&&finite.every(Number.isFinite)?extrema(finite).filter(m=>m.prominenceM>=.002).map(m=>({...m,bins:m.bins.map(i=>i+first)})):[];\n      heightCurves.push({heightM:mm/1000,minima:minimaAt});\n      for(const g of grooves)if(g.lowestHeightM===null&&minimaAt.some(m=>m.bins[0]<=g.bins[1]+1&&m.bins[1]>=g.bins[0]-1))g.lowestHeightM=mm/1000;\n    }\n    const valleys=extrema(curve.map(p=>p.radiusM));\n    feet.push({bone:name,limb:{curve,valleys,passes:curve.every(p=>p.missingRays===0)&&valleys.every(v=>v.depthFraction<=.12)},\n      toes:{bandM:[.003,.030],widthM:bx[1]-bx[0],forwardExtentM:toe,vertexForwardExtentM:vertexToe,minima,grooves,grooveThresholdSamples:heightCurves.filter(row=>grooves.some(g=>g.lowestHeightM!==null&&Math.abs(row.heightM-g.lowestHeightM)<.00026)),passes:toe.every(Number.isFinite)&&grooves.length>=3&&grooves.every(g=>g.lowestHeightM!==null&&g.lowestHeightM<=.012)}});\n  }\n  const ears=['Ear_L','Ear_R'].map(name=>{\n    const region=verts.filter(v=>(v.weights[name]??0)>=.99),shell=region.filter(v=>v.mesh.endsWith('_Anatomy')),tufts=region.filter(v=>!v.mesh.endsWith('_Anatomy')&&Math.max(...v.c.slice(0,3))<.08);\n    const tip=Math.max(...shell.map(v=>v.p[1])),tuft=Math.max(...tufts.map(v=>v.p[1]));\n    return {bone:name,earTipHeightM:tip,darkTuftHeightM:tuft,extensionM:tuft-tip,passes:tuft-tip>=.025};\n  });\n  const tailVertices=verts.filter(v=>Object.entries(v.weights).filter(([n])=>n.startsWith('Tail_')).reduce((s,[n,w])=>s+w,0)>.999);\n  const groups=new Map();\n  for(const v of tailVertices){\n    const t=Object.entries(v.weights).reduce((s,[n,w])=>s+(n.startsWith('Tail_')?(Number(n.slice(5))-1)*w:0),0);\n    const key=t.toFixed(6);if(!groups.has(key))groups.set(key,[]);groups.get(key).push(v);\n  }\n  const rings=[...groups.entries()].sort((a,b)=>Number(a[0])-Number(b[0])).map(([t,vs])=>{\n    const unique=[...new Map(vs.map(v=>[v.p.map(x=>x.toFixed(6)).join(','),v])).values()];\n    return {parameter:Number(t)/3,centre:[0,1,2].map(k=>unique.reduce((s,v)=>s+v.p[k],0)/unique.length),colour:[0,1,2].map(k=>unique.reduce((s,v)=>s+v.c[k],0)/unique.length)};\n  });\n  const length=rings.slice(1).reduce((s,r,i)=>s+Math.hypot(...r.centre.map((x,k)=>x-rings[i].centre[k])),0);\n  const meanColour=arr=>[0,1,2].map(k=>arr.reduce((s,r)=>s+r.colour[k],0)/arr.length);\n  let distance=0;for(let i=0;i<rings.length;i++){if(i)distance+=Math.hypot(...rings[i].centre.map((x,k)=>x-rings[i-1].centre[k]));rings[i].arcFraction=distance/length;}\n  const mid=meanColour(rings.filter(r=>r.arcFraction>=.35&&r.arcFraction<=.60)),distal=meanColour(rings.filter(r=>r.arcFraction>=.70));\n  const luminance=c=>c[0]*.2126+c[1]*.7152+c[2]*.0722;\n  function stationTop(z){\n    let highest=-Infinity;\n    for(const tri of tris){\n      if(!tri.indices.every(i=>verts[i].mesh.endsWith('_Anatomy')))continue;\n      for(let i=0;i<3;i++){\n        const a=tri.v[i],b=tri.v[(i+1)%3];\n        if((a[2]<=z&&b[2]>=z)||(b[2]<=z&&a[2]>=z)){\n          if(Math.abs(b[2]-a[2])<1e-10)continue;\n          const t=(z-a[2])/(b[2]-a[2]),x=a[0]+(b[0]-a[0])*t,y=a[1]+(b[1]-a[1])*t;\n          if(Math.abs(x)<.09)highest=Math.max(highest,y);\n        }\n      }\n    }\n    return highest;\n  }\n  const sacrum=stationTop(-.40),scapula=stationTop(.31);\n  return {file,sha256:createHash('sha256').update(bytes).digest('hex'),jointNames:names,clipNames:rt.listAnimations().map(a=>a.getName()),feet,ears,\n    tail:{lengthM:length,midMeanLinearRGB:mid,distalMeanLinearRGB:distal,midLuminance:luminance(mid),distalLuminance:luminance(distal),rings,passes:length>=.12&&length<=.20&&luminance(distal)<luminance(mid)},\n    haunch:{sacrumStationZM:-.40,scapulaStationZM:.31,sacrumTopM:sacrum,scapulaTopM:scapula,passes:sacrum>=scapula}};\n}\nconsole.log(JSON.stringify(await measure(process.argv[2])));\n"
+  }
+}

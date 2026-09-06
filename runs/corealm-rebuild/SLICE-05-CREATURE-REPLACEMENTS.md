@@ -19,7 +19,7 @@ Ground rules that hold for every row below:
 | --- | --- | --- | --- | --- |
 | Ashscale Monitor (`creature_ashscale_monitor`) | **Accepted, promoted** | Full natural lifecycle passed on hardware with no console errors; front/side/rear/gameplay silhouettes read as a monitor; the settled death pose is grounded and belly-down; loot, XP and respawn all natural. | `test-results/s05-monitor-lifecycle/run5/report.json`, `test-results/s05-monitor-views/` | Original Corealm authored geometry, rig and clips (`tools/creature-expansion/reptiles/monitor.mjs`), pack `corealm-creature-expansion`, `LicenseRef-Corealm-Original` |
 | Redbrush Fox (`creature_redbrush_fox`) | **Accepted, promoted** | Paws reshaped into padded four-lobed canid paws (`paws-v3`), resting clip renamed to `Idle`, full natural lifecycle passed on hardware with no console errors. | `test-results/s05-fox-lifecycle/run3/report.json`, `test-results/s05-fox-v3-views/`, `test-results/s05-fox-v3-close/`, `art/rebuild/candidates/finish-quadrupeds/source-fox-adaptation/paws-v3-review.json` | Khronos glTF-Sample-Assets Fox — PixelMannen (model, CC0-1.0), tomkranis (rig/animation, CC-BY-4.0), @AsoboStudio and @scurest (glTF conversion, CC-BY-4.0); adapted asset distributed CC-BY-4.0 |
-| Duskoak Lynx | **Held** | Fresh hardware view: forelegs collapse forward at the wrist with the chest almost on the ground, and the silhouette reads closer to a hyena than a lynx. The candidate also has no Attack, Hit or Death clip at all, on a 196-joint, 50 372-triangle, 20 MB rig. | `test-results/s05-lynx-views/`, `source-feline/PAUSED-ACTOR2-CHECKPOINT.md` | JonasDichelle Cat, CC-BY-3.0 (base only) |
+| Duskoak Lynx (`creature_duskoak_lynx`) | **Accepted, promoted** | Given the anatomy refinement module it was the only mammal never to get. Beaded limbs replaced by continuous tapered ones, the four disconnected sole lumps by a single broad snowshoe pad, plus ear tufts, cheek ruff and a short black-tipped tail. Full lifecycle passed. | `test-results/s05-lynx-lifecycle/run1/report.json`, `test-results/s05-lynx-v2-views/`, `art/rebuild/candidates/finish-quadrupeds/lynx-anatomy-review.json` | Original Corealm authored anatomy, rig and clips (`tools/creature-expansion/mammals/lynx-anatomy.mjs`), `LicenseRef-Corealm-Original`. The JonasDichelle Cat CC-BY-3.0 source line was **not** used and is now recommended for abandonment. |
 | Rootdelve Badger | **Held** | Fresh hardware view: the head is buried in the ground and the body is slumped flat with the legs splayed — it reads as a dying animal in its idle. Only 5 930 triangles. | `test-results/s05-mammal-views/` | CDmir/TinyWorlds rat, CC0-1.0 (base only) |
 | Quillback Porcupine | **Held** | Closest of the three rat/cat-derived mammals: the quill mantle reads well. Still blocked by a crouched idle with no weight-bearing feet, and by a naked pink rat tail that no porcupine has. Slides 2.14/3.35 m/s at real toe contacts. | `test-results/s05-mammal-views/` | CDmir/TinyWorlds rat, CC0-1.0 (base only) |
 | Cairn Bighorn (`creature_cairn_bighorn`) | **Accepted, promoted** | Re-exported from the corrected source. Shipped Death sank 0.453 m through the floor for 29% of its samples; the new one never leaves the ground. Full lifecycle passed. | `test-results/s05-hoofed-lifecycle/cairn_bighorn/report.json`, `test-results/s05-hoofed-views/` | Original Corealm authored anatomy, rig and clips (`tools/creature-expansion/hoofed/`), `LicenseRef-Corealm-Original`. The separate p0ss Sheep2 CC-BY-SA-3.0 source-derived candidate remains a static anatomy experiment and was **not** promoted. |
@@ -196,6 +196,59 @@ a barrel body, and the re-exported Tapir is leaner with smaller ears than the on
 — both are the current authored anatomy — and neither outweighs a corpse that falls through the
 floor, but both are worth another art pass.
 
+## Duskoak Lynx: the mammal that never got an anatomy module
+
+Fox, badger, porcupine and monitor each have a dedicated `*-anatomy.mjs` refinement. The lynx never
+did, and on hardware it was visibly the worst creature in the game: its legs read as a string of
+beads and its paws as separate blobs.
+
+That is measurable, not just an impression. On the shipped GLB, all four contact patches were
+9.59 x 10.15 cm with a width across eight rear-to-front slices of
+**0 / 6.16 / 0 / 6.17 / 2.02 / 0 / 0 / 9.59 cm**. Four zero-width slices means the sole was not one
+pad; it was separate lumps with gaps between them.
+
+`tools/creature-expansion/mammals/lynx-anatomy.mjs` is new, following the fox and badger pattern
+exactly: `LYNX_ANATOMY`, `lynxAnatomyConfig`, `lynxPawDesign`, `emitLynxTail`, each with the same
+`if(s.kind!=='lynx') throw` guards and returning fresh objects. `mammals.mjs` and `implicit.mjs` gain
+lynx branches only. After:
+
+| Measure | Before | After |
+| --- | --- | --- |
+| Contact patch, all four feet | 9.59 x 10.15 cm | 7.40 x 6.80 cm, aspect 1.088 |
+| Eight-slice width profile | 0 / 6.16 / 0 / 6.17 / 2.02 / 0 / 0 / 9.59 | 6.72 / 7.28 / 7.39 / 7.40 / 7.40 / 7.39 / 7.28 / 6.72 |
+| Sacrum vs scapula height | 0.939 m vs 1.003 m (rump below shoulder) | 1.018 m vs 0.998 m |
+| Tail centreline | 0.349 m, tip not black | 0.16 m, solid black distal third |
+| Limb continuity | beaded | no interior valley deeper than 12% of its neighbouring maxima, on all four legs |
+
+Ear tufts, a cheek ruff and spotted forelegs are also new. Front and side hardware views read as a
+lynx rather than a beige quadruped.
+
+### Two things in the first attempt that were not accepted
+
+Codex's first pass hit every numeric target, and two of the ways it did so were not acceptable:
+
+1. It extended the per-frame whole-body ground lock from the Death clip to **every** lynx clip. That
+   makes the floor audit pass by construction rather than because the limbs are right, which destroys
+   the audit's value as evidence. It was reverted. Measuring the Root Y track showed why it was never
+   needed: the shipped lynx already has Walk 9.99 mm / Run 23.92 mm of authored vertical root travel,
+   and the lock changed that by 0.01 mm. Without it the floors are -0.1 mm to -0.95 mm across all
+   eight clips, with nothing airborne.
+2. It set `animationResampleTolerance` to 1e-7, a thousand times tighter than the default, which is
+   what the sub-millimetre lock corrections needed to survive resampling. Removing the lock let the
+   default stand, and Walk dropped from 187 keys back to the resampler's own choice.
+
+Marching-cubes resolution was then taken from 160 to 104 (the generic default; fox, badger and
+porcupine use 144). The rendered result is indistinguishable at 27% fewer triangles.
+
+**Budget, recorded honestly:** the lynx is still 72 720 triangles and 3.27 MB, against a previous
+heaviest character of 57 050 triangles and a family of 32k-62k. Reducing resolution further starts to
+coarsen the surface, so the remaining win has to come from decimating the body mesh rather than from
+sampling it less finely. That is left as follow-up work and no performance claim is made either way.
+
+I verified independently that this is lynx-only: `redbrush_fox`, `rootdelve_badger` and
+`quillback_porcupine` rebuild to bytes identical to their pre-edit hashes
+(`a5e447ec...`, `756c6a64...`, `59e89245...`).
+
 ## The badger and porcupine source lines should be abandoned
 
 The held rat-derived Badger and Porcupine were compared against what the game actually ships today,
@@ -238,9 +291,9 @@ is more than 1 cm airborne:
 
 ## Shared and production files touched
 
-- `game/public/assets/manifest.json` and six creature GLBs — `creature_ashscale_monitor`,
-  `creature_redbrush_fox`, `creature_cairn_bighorn`, `creature_marchwild_horse`,
-  `creature_marsh_moose`, `creature_bracken_tapir` — only through
+- `game/public/assets/manifest.json` and seven creature GLBs — `creature_ashscale_monitor`,
+  `creature_redbrush_fox`, `creature_duskoak_lynx`, `creature_cairn_bighorn`,
+  `creature_marchwild_horse`, `creature_marsh_moose`, `creature_bracken_tapir` — only through
   `tools/creature-expansion/mammals/promote-candidate.mjs`, added here as this slice's promote
   helper. It refuses to move anything whose staged bytes, SHA-256, production path, declared pack,
   Creative Commons metadata or lifecycle evidence hash does not check out, and it stamps the evidence
@@ -273,10 +326,12 @@ is more than 1 cm airborne:
 
 `contracts.ts`, `app/boot.ts`, `world/regionBuilder.ts`, save schemas, `content/enemies.ts`,
 `items.ts`, `equipment.ts`, `recipes.ts`, `regions.ts`, `render/entityViews.ts`, `materials.ts`,
-`assets.ts`, `systems/combat.ts`, `enemyAI.ts` and `tools/build-assets.ts` were not modified. The
+`assets.ts`, `systems/combat.ts`, `enemyAI.ts` and `tools/build-assets.ts` were not modified.
+`tools/creature-expansion/mammals.mjs` and `mammals/implicit.mjs` gained lynx-only branches, proved
+lynx-only by rebuilding the other three mammals to byte-identical GLBs. The
 Fox's `Survey`→`Idle` rename exists precisely so that the renderer's clip table did not have to be.
 
-All six species' habitat rows in `content/creatureHabitats.ts` remain `enabled: false` and
+All seven species' habitat rows in `content/creatureHabitats.ts` remain `enabled: false` and
 `proposed_pending_lab_and_world_acceptance`. Lab acceptance does not by itself place a species in the
 world, so every promoted manifest entry records `worldIntegrated: false`.
 

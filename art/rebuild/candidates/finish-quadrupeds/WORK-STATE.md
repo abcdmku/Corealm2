@@ -1,6 +1,6 @@
 # Quadruped work state
 
-**Six creatures are now accepted and promoted.** See
+**Seven creatures are now accepted and promoted.** See
 `runs/corealm-rebuild/SLICE-05-CREATURE-REPLACEMENTS.md` for the full decision table, measurements
 and evidence paths; that file, not this one, is the durable record.
 
@@ -15,6 +15,12 @@ and evidence paths; that file, not this one, is the durable record.
   `clip-floor-audit.mjs`. The re-exports never leave the ground. Staged in `hoofed-death-export/`.
   Their old manifest bounds were inflated by that broken corpse, which is why the derived pack radii
   went down.
+- **Duskoak Lynx** — promoted at
+  `32defc3ecbc3a6ed520ee452dfbbf3ceade47e737f77232a5146a8499bbd1463`. It was the only mammal without a
+  `*-anatomy.mjs` refinement, and it showed: beaded limbs and four disconnected lumps for a sole.
+  `tools/creature-expansion/mammals/lynx-anatomy.mjs` is new. Staged in `lynx-anatomy-v2/`. Still
+  72,720 triangles and 3.27 MB, which makes it the heaviest character in the game; decimating the body
+  mesh is open follow-up work.
 - **Redbrush Fox** — promoted at
   `6c5c6329126b5800a62c79e766f4f2b6f5bdea85bfdff56dce5d003656342f00`, built from the complete Khronos
   source: `Fox.adaptive-actor.glb` → `paws-v2.mjs` → `paws-v3.mjs` (padded four-lobed paws) →
@@ -33,8 +39,10 @@ retention decision, not acceptance.
 The user prefers free, properly licensed whole-body source bases over repeated procedural rebuilding.
 The Fox is the worked example of that approach paying off; the rest follow the same route.
 
-- `source-feline/`: complete JonasDichelle Cat, CC BY 3.0, from an attributed public mirror. Whole-cat
-  adaptation base for the Lynx, not an accepted Lynx. The newer Lynx actor
+- `source-feline/`: complete JonasDichelle Cat, CC BY 3.0, from an attributed public mirror. **This
+  line is now recommended for abandonment.** The promoted Lynx is the original Corealm-authored one
+  with its new anatomy module; the cat-derived actor has no Attack, Hit or Death clip at all, weighs
+  20 MB on a 196-joint rig, and its forelegs collapse forward at the wrist. The newer Lynx actor
   `fcc4296906bfeec04b9b2c650639a150238d2bccf14b2ec45b427ade1453b2d5` has unlabelled Walk/Run residual
   maxima of 3.372/9.289 m/s near support release and generic blends that bury vertices by 139/157 mm.
   Do not cite it as contact-ready. The `.npz` weight-fit and baked-validation dumps were deleted; they
