@@ -151,8 +151,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "redbrush_fox_t1",
     "activity": "forage",
-    "nativeBodyRadius": 1.2132761287689209,
-    "nativeVisualRadius": 1.37619566011836
+    "nativeBodyRadius": 0.7671434755255592,
+    "nativeVisualRadius": 0.8766702550812312
   },
   {
     "id": "rootdelve_badger_residents",

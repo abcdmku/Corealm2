@@ -1,21 +1,77 @@
 # Quadruped work state
 
-No public promotion is authorized yet. The full catalogue review covers 29 assets and 145 inspected hardware images: 16 retainable bases, 11 requiring rebuild, and two replacements because their horned/demonic monster direction conflicts with the user's preference. KEEP is a source-retention decision, not acceptance.
+**Two creatures are now accepted and promoted.** See
+`runs/corealm-rebuild/SLICE-05-CREATURE-REPLACEMENTS.md` for the full decision table, measurements
+and evidence paths; that file, not this one, is the durable record.
 
-The latest five-model art batch is frozen under `revision8/`: Fox, Lynx, Badger, Porcupine and Monitor. All 15 images were inspected. The four mammals remain rejected for anatomical quality; Monitor is an improved direction pending front/rear/gameplay views and independent review. Its frozen GLB hash is `81aa4269996482a5ca3f752b1a50ca8830f0449cded062d817c588d73bddf00e`.
+- **Ashscale Monitor** — promoted at
+  `81aa4269996482a5ca3f752b1a50ca8830f0449cded062d817c588d73bddf00e`. The revision8 direction was
+  already approved; what it needed was the moving lifecycle and the settled death pose, both of which
+  now pass on hardware. The generator sources still hash to the values pinned in
+  `monitor-promotion.json`.
+- **Redbrush Fox** — promoted at
+  `6c5c6329126b5800a62c79e766f4f2b6f5bdea85bfdff56dce5d003656342f00`, built from the complete Khronos
+  source: `Fox.adaptive-actor.glb` → `paws-v2.mjs` → `paws-v3.mjs` (padded four-lobed paws) →
+  `rename-idle.mjs` (`Survey` → `Idle`). Staged in `fox-paws-v3-idle-comparison/`.
 
-Mammal contact changes after that capture are source-only. Rigid soles had been penetrating between 40 Hz keys despite correct contacts at the keys. Walk, Run and Attack now use 160 Hz joint sampling; Lynx Run uses 320 Hz. All 32 clips pass a new, explicit 1 mm review criterion across keys and quarter intervals: Fox .518 mm, Lynx .575 mm, Badger .333 mm, Porcupine .785 mm. Geometry, endpoints, durations and metadata match the earlier source. Raw track arrays grow by 332–470 KB per model; this is not a runtime performance measurement. `penetration-review.json` and its before report preserve both results.
+`paws-v2` did NOT fix the paws and never claimed to: its own review reports `visualAcceptance: false`.
+Its contact patch is byte-for-byte the same shape as the unmodified adaptive actor's, because it froze
+the contact vertex set. `fox-paws-v2-comparison/` also stages a stale earlier iteration whose hash does
+not match `Fox.paws-v2.glb` on disk. Do not treat either as evidence.
 
-Horse, Moose, Bighorn and Tapir have new integrated whole-body/refinement helpers and corrected Death clips. All four pass eight-clip full-skinned CPU audits and a separate 321-pose Death sweep. Visual review must assess the small initial collapse rise, head attitude and hip-supported torso clearance. Exact hashes and measurements are in `test-results/hoofed-full-skin-audit.json` and `hoofed-death-audit.json`. They have not been exported since this source change. Older Bighorn/Tapir staged GLBs remain unchanged and held following the fresh critic's rejection.
+Everything below this line is the state of the creatures that are still HELD. KEEP is a source
+retention decision, not acceptance.
 
-The user explicitly prefers free source bases over repeated procedural rebuilding. Further small cosmetic patches to the four rejected mammals are paused while complete sources are evaluated:
+## Held creatures
 
-- `source-fox/`: official Khronos whole Fox acquired, attribution preserved and source hash pinned. Original and 0.01-scale preview retain native Survey/Walk/Run data. The preview has a coherent angular silhouette worth hardware comparison. Native Walk/Run have substantial contact defects; no locomotion speed or combat coverage has been invented.
-- `source-lynx/`: nicholas.w.charles candidate metadata verifies CC BY 4.0, 23,048 triangles, zero clips. The official download API requires authentication. Model unacquired; whole-body preview unverified.
-- `source-feline/`: complete JonasDichelle Cat acquired from a legitimate attributed public mirror, CC BY 3.0. The current FBX export is static; its neutral material preview preserves geometry and UVs. A pinned historical FBX also retains the original rig and native Walk/Run, now undergoing isolation checks. This is a whole-cat adaptation base, not an accepted Lynx.
-- `source-badger/`: axonite's original taxidermy scan is the strongest provenance lead, 410,286 triangles and CC BY 4.0. Preview and authorized download remain outstanding; retopology, rigging and animation would be required.
-- `source-porcupine/`: original CDmir/TinyWorlds CC0 rat acquired directly from OpenGameArt, with packed textures and 14 source actions. A normalized static preview preserves the visible body and rig; legacy materials are explicitly translated. All 2,321 sampled native action frames are finite. Hidden Hair collection bounds were stale until evaluated, not proof of corruption. A rat-to-porcupine adaptation needs a whole-body decision before shaping or new animation. Two exact porcupine candidates still need authenticated preview/download; the museum specimen is a skull lead and is not being treated as a complete body.
+The user prefers free, properly licensed whole-body source bases over repeated procedural rebuilding.
+The Fox is the worked example of that approach paying off; the rest follow the same route.
 
-All 18 locally cached Unity archives were inspected. None contains an exact complete Fox, Lynx, Badger or Porcupine. No login bypass, purchase, public manifest change or shared renderer/contract edit was performed.
+- `source-feline/`: complete JonasDichelle Cat, CC BY 3.0, from an attributed public mirror. Whole-cat
+  adaptation base for the Lynx, not an accepted Lynx. The newer Lynx actor
+  `fcc4296906bfeec04b9b2c650639a150238d2bccf14b2ec45b427ade1453b2d5` has unlabelled Walk/Run residual
+  maxima of 3.372/9.289 m/s near support release and generic blends that bury vertices by 139/157 mm.
+  Do not cite it as contact-ready. The `.npz` weight-fit and baked-validation dumps were deleted; they
+  are regenerable intermediates.
+- `source-porcupine/`: original CDmir/TinyWorlds CC0 rat from OpenGameArt, packed textures, 14 source
+  actions (13 real after the corrected release drops the discontinuous long Idle.000). Porcupine
+  original-rig continuous IK v2 preserves bone lengths and ~19.375% Run flight but still slides
+  2.138/3.354 m/s at real near-floor toe contacts. The per-frame `contact-*-readback.json` dumps were
+  deleted; they are regenerable.
+- `source-badger/`: axonite taxidermy scan is the strongest provenance lead, 410,286 triangles,
+  CC BY 4.0; preview and authorized download still outstanding. The Gonsplitters/mz4250 badger remains
+  provisional — publisher declares CC-BY-SA4 but the original creator grant and mesh identity are not
+  independently verified, so no deep derivative is authorized. A separate CC0 rat-derived badger
+  (`7e2b87920ac035d6a9886ad3c35a050fee7e6097fd5a1bb75e76702e2bd59bf0`) penetrates ~52/17/60 mm on
+  Walk/Run/Die.
+- `source-bighorn-sheep/`: p0ss Sheep2, CC-BY-SA-3.0, accepted for adaptation with attribution and
+  share-alike records. v4 is the current revision; v2 and v3 were deleted as superseded. Source motion
+  is contact-rejected; v4 is an anatomy candidate only.
+- `source-moose-horse/` and `source-tapir-horse/`: Lyndon Daniels CC0 horse (ChadM's rigged derivative
+  also CC0). The native armature has no actions and lacks `Bone.005` despite 330 body vertices being
+  dominated by that group; mane, tail and eyes need binding. `revision3` is current for the Moose;
+  `revision2` was deleted. Do not claim the source rig is gameplay-ready.
+- `source-hoofed/`: Horse, Moose, Bighorn and Tapir have integrated whole-body helpers and corrected
+  Death clips that pass eight-clip full-skinned CPU audits and a 321-pose Death sweep
+  (`test-results/hoofed-full-skin-audit.json`, `hoofed-death-audit.json`), but have not been exported
+  since that source change.
 
-The next GPU work prioritizes the complete Fox comparison, then the neutral Cat and original Rat bases. All three share `source-comparison/catalogue.json`; `SOURCE_NATIVE_PREVIEW=1` captures native Fox Walk/Run and skips nonexistent clips on static previews. Production slot labels retain their names; metadata identifies the actual source animal. Four hoofed exports/views and Monitor's remaining views are also ready. `mammals/compile-candidates.mjs` records source hashes before and after each future export; it requires the root's GPU lease. `review-catalogue.mjs` accepts `CANDIDATE_CATALOGUE` for isolated source comparisons.
+All 18 locally cached Unity archives were inspected; none contains an exact complete Fox, Lynx, Badger
+or Porcupine. No login bypass, purchase or unverified entitlement was used at any point.
+
+## How to prove the next one
+
+The Monitor and Fox both went the same way, and it is the shortest honest route:
+
+1. Measure the actual defect on skinned vertices in metres. `paw-contact-audit.mjs` does feet;
+   `death-settle.mjs` says when a Death clip really stops moving.
+2. Give the mesh work to Codex as one bounded task with numeric acceptance targets, then re-measure
+   the result yourself with the project's own audit rather than reading its report.
+3. Freeze the bytes into a staging catalogue — the hash is validated on load, so the review is stable
+   even if the generator runs again.
+4. Capture hardware gallery and close views, then run
+   `tools/creature-expansion/mammals/lifecycle-proof.ts` against port 4181.
+5. Promote only through `tools/creature-expansion/mammals/promote-candidate.mjs`, which requires the
+   passing lifecycle report and checks its asset hash against the catalogue.
+6. Update the derived `nativeBodyRadius`/`nativeVisualRadius` pins in `regionalPacks.ts`; the manifest
+   bounds move when the bytes do.

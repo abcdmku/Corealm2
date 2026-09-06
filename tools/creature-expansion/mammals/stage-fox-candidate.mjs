@@ -28,10 +28,13 @@ pose(null,0);const bind=bounds();
 // distal joint backward speed during the lowest 12% of its vertical travel.
 const feet=['b_RightHand_08','b_LeftHand_011','b_LeftFoot02_018','b_RightFoot02_022'].map(name=>joints.find(j=>j.getName()===name));
 const gait={},loops={};
-for(const name of ['Survey','Walk','Run']){const clip=clips.find(c=>c.name===name);if(!clip)continue;
+// The Khronos source calls its resting clip Survey; the production renderer's own-clip idle row
+// matches /^idle/i, so an adapted actor may ship it renamed. Resolve whichever this GLB carries.
+const idleName=clips.some(c=>c.name==='Idle')?'Idle':'Survey';
+for(const name of [idleName,'Walk','Run']){const clip=clips.find(c=>c.name===name);if(!clip)continue;
  let maxTranslationGap=0,maxRotationGap=0;for(const c of clip.channels){const first=c.values.getElement(0,[]),last=c.values.getElement(c.times.length-1,[]);if(c.path==='rotation')maxRotationGap=Math.max(maxRotationGap,new THREE.Quaternion().fromArray(first).angleTo(new THREE.Quaternion().fromArray(last)));else if(c.path==='translation')maxTranslationGap=Math.max(maxTranslationGap,Math.hypot(...first.map((v,i)=>v-last[i])));}
  loops[name]={seconds:clip.duration,maxTranslationGap,maxRotationGapRadians:maxRotationGap};
- if(name==='Survey')continue;
+ if(name===idleName)continue;
  const count=96,dt=clip.duration/count,rows=feet.map(()=>[]);let minMeshY=Infinity;
  for(let i=0;i<=count;i++){pose(clip,i*dt);feet.forEach((f,k)=>rows[k].push(objects.get(f).getWorldPosition(new THREE.Vector3()).toArray()));const s=skinned();for(let j=1;j<s.length;j+=3)minMeshY=Math.min(minMeshY,s[j]);}
  const all=[],footRows=[];
@@ -52,14 +55,14 @@ const asset={
  attackSeconds:base.clipDurations.Attack,contactNormalized:Number((0.46/base.clipDurations.Attack).toFixed(6)),
  measuredGait:{gait,loops,basis:'96 samples per locomotion cycle; distal joint (Hand/Foot02) backward speed during the lowest 12 percent of its vertical travel, from the authored contact-corrected clips. Whole-mesh contact velocity evidence is in source-fox-adaptation review JSON; production movement review remains required.'},
  clipDurations:Object.fromEntries(clips.map(c=>[c.name,c.duration])),gameplayRoleProvenance:base.gameplayRoleProvenance,
- metadata:{is:'red fox (complete Khronos source adaptation)',source:'Khronos glTF-Sample-Assets Fox',license:'CC-BY-4.0 (rigging, animation, glTF conversion) over a CC0-1.0 model',rig:'original-khronos-fox-24-joint',idleClip:'Survey',boneNames:joints.map(j=>j.getName()),authoringModule:'art/rebuild/candidates/finish-quadrupeds/source-fox-adaptation/*.mjs'},
+ metadata:{is:'red fox (complete Khronos source adaptation)',source:'Khronos glTF-Sample-Assets Fox',license:'CC-BY-4.0 (rigging, animation, glTF conversion) over a CC0-1.0 model',rig:'original-khronos-fox-24-joint',idleClip:idleName,boneNames:joints.map(j=>j.getName()),authoringModule:'art/rebuild/candidates/finish-quadrupeds/source-fox-adaptation/*.mjs'},
  acceptance:{assetAudit:true,labAccepted:false,worldIntegrated:false},
 };
 const pack={id:'khronos-fox-complete-source',name:'Khronos glTF Sample Fox (complete source adaptation)',author:'PixelMannen (model); tomkranis (rigging and animation); @AsoboStudio and @scurest (glTF conversion)',
  source:'https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox',license:'CC-BY-4.0',derivativeLicense:'CC-BY-4.0',licenseUrl:'https://creativecommons.org/licenses/by/4.0/',
  archiveSha256:'d97044e701822bac5a62696459b27d7b375aada5de8574ed4362edbba94771f7',sourceArchive:'Models/Fox/glTF-Binary/Fox.glb at commit 81e8b567643b5166e6ff40024e4ff71ad4b18676',upstreamPackId:'khronos-gltf-sample-assets-fox',
  attribution:'Fox by PixelMannen (model, CC0-1.0), rigging and animation by tomkranis (CC-BY-4.0), glTF conversion by @AsoboStudio and @scurest (CC-BY-4.0). Source: https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/Fox. Adapted for Corealm: controlled subdivision and paw/eye reshaping of the complete source body, vertex-colour coat, contact-corrected Walk/Run, and newly authored Attack, Hit, HitLeft, HitRight and Death on the original 24-joint rig. The adapted asset is distributed under CC BY 4.0; the original model portion remains CC0-1.0.',
- derivation:'Complete original mesh topology cage, rig, inverse binds and the three native clips (Survey, Walk, Run) retained; Walk/Run contact-corrected; five gameplay clips authored on the native rig; geometry subdivided and reshaped at paws and eyes; source palette converted to vertex colours. See art/rebuild/candidates/finish-quadrupeds/source-fox for the unchanged source snapshot and provenance.json.'};
+ derivation:'Complete original mesh topology cage, rig, inverse binds and the three native clips (Survey/Idle, Walk, Run) retained, the resting clip renamed to Idle to match the production clip convention; Walk/Run contact-corrected; five gameplay clips authored on the native rig; geometry subdivided and reshaped at paws and eyes; source palette converted to vertex colours. See art/rebuild/candidates/finish-quadrupeds/source-fox for the unchanged source snapshot and provenance.json.'};
 const dir=new URL(`${batch}/`,quadrupeds);await mkdir(dir,{recursive:true});
 const fileName=`creature_redbrush_fox.${sha.slice(0,12)}.glb`;await copyFile(inputFile,new URL(fileName,dir));
 const catalogue={schema:'corealm-asset-candidates/1',scope,packs:[pack],files:{creature_redbrush_fox:fileName},assets:[asset],

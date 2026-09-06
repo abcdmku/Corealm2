@@ -33,8 +33,25 @@ try{
  await page.waitForFunction(p=>(window as any).__featureLab.getState()?.target?.presetId===p,preset);
  const sample=async(stage:string)=>{const s=await page.evaluate(()=>{const l=(window as any).__featureLab.getState(),d=(window as any).__gameDebug;return {lab:l,motion:d.getEntityMotion(l.target.entityId),entity:d.getEntity(l.target.entityId),drawn:d.getDrawnBounds(l.target.entityId),game:d.getState()};});assert.equal(s.lab.target.presetId,preset);const row={at:Date.now(),stage,...s};report.trace.push(row);return row;};
  const hitActive=(s:any)=>{const o=s.motion?.hitOverlay;return !!(o&&o.active&&o.duration>0&&o.time>=o.duration*.15&&o.time<=o.duration*.6);};
+ // Corpse framing is relative to the KILLER, not to world axes. The detached camera sits at
+  // (sin yaw, cos yaw) from its target, so a fixed yaw regularly puts the player between the lens
+  // and a small corpse - a dead fox is 1.5 m long and the swordsman standing over it hid the whole
+  // body. `side` looks along the perpendicular to the player, `rear` the other perpendicular, and
+  // `front` from directly opposite the player. inspectPose focuses 1.2 m below the point it is
+  // given, which is right for a standing actor and wrong for one lying flat, so corpse frames add
+  // that back. The yaw actually used is recorded with the capture.
  const capture=async(label:string,expected?:'attack'|'hit')=>{
-  await page.evaluate(label=>{const d=(window as any).__gameDebug,l=(window as any).__featureLab.getState(),b=d.getDrawnBounds(l.target.entityId);if(b){const size=Math.max(b.max.x-b.min.x,b.max.y-b.min.y,b.max.z-b.min.z);d.inspectPose({x:(b.min.x+b.max.x)/2,y:(b.min.y+b.max.y)/2,z:(b.min.z+b.max.z)/2,yaw:label==='corpse-front'?0:label==='corpse-rear'?Math.PI:Math.PI/2,pitch:label.startsWith('corpse-')?.28:.20,distance:Math.max(4.5,size*(label.startsWith('corpse-')?2.2:1.8)),detached:true});}},label);
+  const framing=await page.evaluate(label=>{const d=(window as any).__gameDebug,l=(window as any).__featureLab.getState(),b=d.getDrawnBounds(l.target.entityId);
+   if(!b)return null;
+   const size=Math.max(b.max.x-b.min.x,b.max.y-b.min.y,b.max.z-b.min.z),corpse=label.startsWith('corpse-');
+   const centre={x:(b.min.x+b.max.x)/2,y:(b.min.y+b.max.y)/2,z:(b.min.z+b.max.z)/2};
+   let yaw=Math.PI/2,playerAzimuth=null;
+   if(corpse){const p=l.player.position,dx=p[0]-centre.x,dz=p[2]-centre.z;
+    playerAzimuth=Math.atan2(dx,dz);
+    yaw=playerAzimuth+(label==='corpse-front'?Math.PI:label==='corpse-rear'?-Math.PI/2:Math.PI/2);}
+   const pose={x:centre.x,y:centre.y,z:centre.z,yaw,pitch:corpse?.30:.20,distance:Math.max(corpse?3:4.5,size*(corpse?1.6:1.8)),detached:true};
+   d.inspectPose(pose);
+   return {pose,playerAzimuth,size,centre};},label);
   await driver.wait(expected||label.startsWith('corpse-')?0:180);
   const before=await sample(`capture-${label}-before`);
   if(label.startsWith('corpse-'))assert(before.drawn&&before.drawn.fade===0,'Corpse already fading before capture');
@@ -42,11 +59,11 @@ try{
   // The production corpse fades over CORPSE_FADE_MS once its linger expires, so the settled view
   // has only a few hundred milliseconds. A full-page PNG encode ate most of it; the corpse frames
   // are therefore encoded from a centred crop, which is where inspectPose already frames the actor.
-  if(label.startsWith('corpse-'))await page.screenshot({path:`${out}/${file}.png`,type:'png',timeout:5000,animations:'disabled',clip:{x:220,y:120,width:900,height:760}});
+  if(label.startsWith('corpse-'))await page.screenshot({path:`${out}/${file}.png`,type:'png',timeout:5000,animations:'disabled',clip:{x:270,y:120,width:900,height:760}});
   else await driver.screenshot(out,file);
   const after=await sample(`capture-${label}-after`);
   const matched=!expected||(expected==='attack'?(before.motion?.motion==='attack'&&after.motion?.motion==='attack'&&before.motion?.clip===after.motion?.clip):(!!before.motion?.hitOverlay?.active&&!!after.motion?.hitOverlay?.active));
-  report.captureStates.push({label,file,expected,matched,before:{at:before.at,motion:before.motion,drawn:before.drawn},after:{at:after.at,motion:after.motion,drawn:after.drawn},note:'Filename is the triggering observation; bracketing states record what the live rig actually showed.'});
+  report.captureStates.push({label,file,expected,matched,framing,before:{at:before.at,motion:before.motion,drawn:before.drawn},after:{at:after.at,motion:after.motion,drawn:after.drawn},note:'Filename is the triggering observation; bracketing states record what the live rig actually showed.'});
   // Whole when the shutter opened; `maxCorpseFade` bounds how far the dissolve can have advanced by
   // the time it closed. The exact bracketing fade values are recorded in captureStates either way.
   if(label.startsWith('corpse-'))assert(after.drawn&&after.drawn.fade<=maxCorpseFade,`Corpse faded to ${after.drawn?.fade} during capture, above the ${maxCorpseFade} bound`);
