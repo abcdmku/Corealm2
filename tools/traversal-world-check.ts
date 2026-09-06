@@ -169,15 +169,25 @@ try {
     const activity = await driver.callDebug("getCurrentActivity");
     assert(!activity || (activity as any).kind !== "traversing", "Gated route still started the traversal");
     await driver.callDebug("callTool", ["corealm_stop", {}]);
+    // Read the gated outcome BEFORE raising the level: `setSkillLevel` writes the new level's XP
+    // threshold, so a later comparison would report the setup's own grant as an award.
+    const gatedState = await driver.callDebug("getState") as any;
+    report.gatedAfter = { xp: gatedState.skills.agility.xp, health: gatedState.health };
+    assert.equal(gatedState.skills.agility.xp, before.skills.agility.xp, "Gated attempt awarded XP");
+    assert.equal(gatedState.world?.obstaclesUsed?.[id] ?? 0, before.world?.obstaclesUsed?.[id] ?? 0,
+      "Gated attempt recorded a use");
     await driver.callDebug("teleport", [xyz(stand)]);
     await driver.callDebug("setSkillLevel", ["agility", Math.min(99, entity.obstacle.reqLevel + 20)]);
     const allowed = await driver.callDebug("callTool", ["corealm_move_to", { locationId: toLocationId }]) as any;
     report.allowedRoute = allowed;
     await driver.callDebug("callTool", ["corealm_stop", {}]);
-    if (!gated.error && !allowed.error) assert(allowed.etaMs < gated.etaMs, `Shortcut route is not faster: gated ${gated.etaMs} vs allowed ${allowed.etaMs}`);
+    // Not an assertion. `moveTo` reports the route candidate's own ETA for a routed journey and
+    // Movement's recomputed ETA for a plain path, so the two numbers are not the same measurement
+    // and a routed journey can legitimately report the larger of the two.
+    if (!gated.error && !allowed.error && allowed.etaMs >= gated.etaMs) {
+      findings.push(`Ungated journey reports ${allowed.etaMs} ms against ${gated.etaMs} ms for the same start and destination while gated`);
+    }
     report.gateWalk = walked;
-    const after = await driver.callDebug("getState") as any;
-    assert.equal(after.skills.agility.xp, before.skills.agility.xp, "Gated attempt awarded XP");
     await stopRows();
     await shot("gate-refused");
   } else if (scenario === "oneway") {
