@@ -8,7 +8,7 @@ import { installTestDeadline } from "./lib/deadline.js";
 
 const args = process.argv.slice(2);
 if (args.includes("--help")) {
-  console.log("tsx tools/mining-finish-review.ts --site <mine-id> [--url http://127.0.0.1:4175] [--catalog art/rebuild/candidates/finish-mining/ground-ores.json] [--out test-results/finish-mining/views/<mine-id>]");
+  console.log("PORT=4190 npx tsx tools/mining-finish-review.ts --site <mine-id> [--url http://127.0.0.1:$PORT] [--catalog art/rebuild/candidates/finish-mining/ground-ores.json] [--out test-results/finish-mining/views/<mine-id>]");
   process.exit(0);
 }
 const options: Record<string, string> = {};
@@ -23,7 +23,7 @@ assert(site, "--site requires one exact mine ID");
 const out = options["--out"] ?? `test-results/finish-mining/views/${site.id}`;
 await mkdir(out, { recursive: true });
 const deadline = installTestDeadline("Mine composition review", 59_500);
-const driver = new GameDriver({ url: options["--url"] ?? "http://127.0.0.1:4175", close: async () => {} }, {
+const driver = new GameDriver({ url: options["--url"] ?? `http://127.0.0.1:${process.env.PORT ?? 4175}`, close: async () => {} }, {
   headless: true, viewport: { width: 1440, height: 900 },
   browserArgs: ["--use-angle=d3d11", "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"],
 });

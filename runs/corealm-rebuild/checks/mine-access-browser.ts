@@ -90,7 +90,7 @@ const report: Record<string, unknown> = {
     : "Production environment fixture, ore entities, dressing, cut face, navigation, body clearance and pointer mining.",
   setupPolicy: "Fresh browser context; debug inventory and skill grants; one initial placement at the authored haul-ramp end. Normal simulation clock throughout.",
 };
-const driver = new GameDriver({ url: options["--url"] ?? "http://127.0.0.1:4175", close: async () => {} }, {
+const driver = new GameDriver({ url: options["--url"] ?? `http://127.0.0.1:${process.env.PORT ?? 4175}`, close: async () => {} }, {
   headless: true, viewport: { width: 1440, height: 900 },
   browserArgs: ["--use-angle=d3d11", "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"],
 });
