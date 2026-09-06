@@ -671,12 +671,19 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   //     navmesh so the chambers are genuinely walkable.
   const caveLabModule = profile.kind === "feature-lab" && (new URLSearchParams(location.search).get("cave") === "1" || portalFixture)
     ? await import("../featureLab/cave.js") : null;
-  const caveRockSource = caveLabModule && new URLSearchParams(location.search).get("caveSource") === "1"
+  // The scanned facing is the accepted cave surface, so the authored Gravelmaw uses it too. The lab
+  // keeps its explicit switch for candidate review. It shapes ceilings and the shell only; the
+  // walkable floor is unchanged, so navigation is not affected.
+  const wantsCaveRock = (caveLabModule && new URLSearchParams(location.search).get("caveSource") === "1")
+    || (profile.kind === "game" && authoredDungeonSpec !== null);
+  const caveRockSource = wantsCaveRock
     ? await (await import("../render/dungeon.js")).loadCaveRockSource("/assets/models/cave/rock-face-01.glb")
     : undefined;
   const caveFixture = caveLabModule?.createCaveLabFixture({ scene, surfaceTextures, rockSource: caveRockSource }) ?? null;
   const dungeonSpec = caveFixture?.spec ?? authoredDungeonSpec;
-  const dungeon = caveFixture ?? (dungeonSpec ? buildDungeon(dungeonSpec, scene.materials, { surfaceTextures }) : null);
+  const dungeon = caveFixture ?? (dungeonSpec
+    ? buildDungeon(dungeonSpec, scene.materials, { surfaceTextures, ...(caveRockSource ? { rockSource: caveRockSource } : {}) })
+    : null);
   if (dungeon && dungeonSpec) {
     if (gates && gateMaterials) {
       for (const threshold of worldDoorThresholds) {
