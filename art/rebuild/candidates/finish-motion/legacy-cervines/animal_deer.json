@@ -6,8 +6,8 @@
   "sha256": "1024912844d00105ffe2b7ba947730a26931ba04282cb57560fef5671de00b7e",
   "bytes": 2145128,
   "generatorSha256": {
-    "tools/creature-motion/cervine-gait.ts": "dbaa8acf4b13b9dfc37b237aa10c5460a5c4bf426e17e227903df50fa179e987",
-    "tools/creature-motion/stage-cervine-gaits.ts": "291b570b5149b41413c877ebd35b6f018ca3ee79e7cc8f8f1b44bd39214686af",
+    "tools/creature-motion/cervine-gait.ts": "4c869651e8a8e8bf780ab131a545ba4a475e5e05e5216610d1fbe1abef169778",
+    "tools/creature-motion/stage-cervine-gaits.ts": "b7166597c7d7f652a8cc3bdeb2aea0a1372e30281fa94ae8c6531cfd62b44fb7",
     "tools/lib/ground-gait.ts": "fb6747a78063afc0335a77ab48588e4f0fb1d588c54273b82ac6f300b4457c6a",
     "tools/repair-ground-creature-gaits.ts": "070b3a2bff61c97e763ecb8f64e59eeee9a36249a1724f9b28118709c961ec2f"
   },
@@ -1129,5 +1129,6 @@
         ]
       }
     }
-  ]
+  ],
+  "generatorSha256Note": "CRLF-normalized source hashes (tools/creature-motion/generator-hash.ts). Byte-identical reproduction from the recorded original source was verified in the Slice 06 worktree on 2026-09-05 (test-results/legacy-reproduce/check.ts)."
 }

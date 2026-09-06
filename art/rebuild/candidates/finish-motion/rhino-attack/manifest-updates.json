@@ -1,8 +1,8 @@
 [
   {
     "id": "boss_rhino_air",
-    "sourceFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-contact\\boss_rhino_air.glb",
-    "stagedFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-attack\\boss_rhino_air.glb",
+    "sourceFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\06-combat-consistency\\art\\rebuild\\candidates\\finish-motion\\rhino-contact\\boss_rhino_air.glb",
+    "stagedFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\06-combat-consistency\\art\\rebuild\\candidates\\finish-motion\\rhino-attack\\boss_rhino_air.glb",
     "sourceSha256": "9c275983d1fb913c51b48fc22adf9daee616bf0e16fb7852aa34fea87e190daa",
     "sha256": "3350ab7f8300adddd57d661a859e756ed7e4af9f5d9be4031703b40992b9692f",
     "bytes": 1457908,
@@ -13,11 +13,11 @@
       },
       {
         "file": "tools/creature-motion/stage-rhino-attack.ts",
-        "sha256": "23402e5fc65d6289b13db6732134529db18400f93ec2c7fe22c8c4b759da77aa"
+        "sha256": "858e37e38d81f21d79abb5267513171264a5f128a9d7e300ae886bdf4eb38b25"
       },
       {
         "file": "tools/creature-motion/pose.ts",
-        "sha256": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795"
+        "sha256": "8e6f3f2c8c999ef9a572237efddd57e008702f8468681125f25d84fa28680228"
       },
       {
         "file": "tools/lib/ground-gait.ts",
@@ -44,8 +44,8 @@
   },
   {
     "id": "boss_rhino_earth",
-    "sourceFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-contact\\boss_rhino_earth.glb",
-    "stagedFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-attack\\boss_rhino_earth.glb",
+    "sourceFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\06-combat-consistency\\art\\rebuild\\candidates\\finish-motion\\rhino-contact\\boss_rhino_earth.glb",
+    "stagedFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\06-combat-consistency\\art\\rebuild\\candidates\\finish-motion\\rhino-attack\\boss_rhino_earth.glb",
     "sourceSha256": "564312c745bf052fa0f4884a9e4b0400cfed7e9edb67eae32ece48c17ef0a17c",
     "sha256": "b8f8c30ba5d2f917fe9555e92f8852d25ac0d137a221e8ce5744e361087f79ae",
     "bytes": 1447708,
@@ -56,11 +56,11 @@
       },
       {
         "file": "tools/creature-motion/stage-rhino-attack.ts",
-        "sha256": "23402e5fc65d6289b13db6732134529db18400f93ec2c7fe22c8c4b759da77aa"
+        "sha256": "858e37e38d81f21d79abb5267513171264a5f128a9d7e300ae886bdf4eb38b25"
       },
       {
         "file": "tools/creature-motion/pose.ts",
-        "sha256": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795"
+        "sha256": "8e6f3f2c8c999ef9a572237efddd57e008702f8468681125f25d84fa28680228"
       },
       {
         "file": "tools/lib/ground-gait.ts",
@@ -87,8 +87,8 @@
   },
   {
     "id": "boss_rhino_water",
-    "sourceFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-contact\\boss_rhino_water.glb",
-    "stagedFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\art\\rebuild\\candidates\\finish-motion\\rhino-attack\\boss_rhino_water.glb",
+    "sourceFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\06-combat-consistency\\art\\rebuild\\candidates\\finish-motion\\rhino-contact\\boss_rhino_water.glb",
+    "stagedFile": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\06-combat-consistency\\art\\rebuild\\candidates\\finish-motion\\rhino-attack\\boss_rhino_water.glb",
     "sourceSha256": "b9efdfeecb24b40be03cf5a611fa64e8140e21f4ab8135ae41c631ee9e17523e",
     "sha256": "bec1b97ae9e313e0849d7c219b61c08674f4c2df041b2d4134f8b41ec50e9c71",
     "bytes": 1421676,
@@ -99,11 +99,11 @@
       },
       {
         "file": "tools/creature-motion/stage-rhino-attack.ts",
-        "sha256": "23402e5fc65d6289b13db6732134529db18400f93ec2c7fe22c8c4b759da77aa"
+        "sha256": "858e37e38d81f21d79abb5267513171264a5f128a9d7e300ae886bdf4eb38b25"
       },
       {
         "file": "tools/creature-motion/pose.ts",
-        "sha256": "9a047bca2195aed980b61207dbdf5ac2c12a91e118decbd91460fc05a338c795"
+        "sha256": "8e6f3f2c8c999ef9a572237efddd57e008702f8468681125f25d84fa28680228"
       },
       {
         "file": "tools/lib/ground-gait.ts",

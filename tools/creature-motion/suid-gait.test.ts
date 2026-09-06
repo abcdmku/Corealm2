@@ -7,6 +7,7 @@ import { describe, expect, it } from 'vitest';
 import { assertSourcePreserved } from '../repair-ground-creature-gaits.js';
 import { contactAt, createSkinReader, type ContactFoot } from '../lib/ground-gait.js';
 import { applyClip, duration, restorePose, storedPose } from './pose.js';
+import { generatorFileSha256 } from './generator-hash.js';
 
 const out = 'art/rebuild/candidates/finish-motion/legacy-suids';
 describe('boar and hog serialized physical hooves', () => {
@@ -15,11 +16,21 @@ describe('boar and hog serialized physical hooves', () => {
       const report = JSON.parse(await readFile(`${out}/${id}.json`, 'utf8'));
       const bytes = await readFile(`${out}/${id}.glb`), source = await readFile(`game/public/assets/models/animal/${id}.glb`);
       expect(createHash('sha256').update(bytes).digest('hex')).toBe(report.sha256);
-      expect(createHash('sha256').update(source).digest('hex')).toBe(report.sourceSha256);
-      for (const [file, expected] of Object.entries(report.generatorSha256)) expect(createHash('sha256').update(await readFile(file)).digest('hex')).toBe(expected);
-      expect(() => assertSourcePreserved(source, bytes)).not.toThrow();
-      expect(report.offlinePassed).toBe(true);
+      for (const [file, expected] of Object.entries(report.generatorSha256)) expect(await generatorFileSha256(file), file).toBe(expected);
       const manifest = JSON.parse(await readFile('game/public/assets/manifest.json', 'utf8')).assets.find((a: any) => a.id === id);
+      const publicSha256 = createHash('sha256').update(source).digest('hex');
+      expect(manifest.sha256.toLowerCase()).toBe(publicSha256);
+      if (publicSha256 === report.sha256) {
+        // Promoted: the served model is this audited candidate. Its repaired gaits were proven
+        // against the recorded original source before promotion, so the original bytes no longer
+        // ship; the pinned source hash and byte count remain the provenance record.
+        expect(report.sourceSha256).toMatch(/^[0-9a-f]{64}$/);
+        expect(manifest.bytes).toBe(bytes.length);
+      } else {
+        expect(publicSha256).toBe(report.sourceSha256);
+        expect(() => assertSourcePreserved(source, bytes)).not.toThrow();
+      }
+      expect(report.offlinePassed).toBe(true);
       expect(report.audit.map((a: any) => a.nativeMps)).toEqual([manifest.impliedWalkMps, ...(manifest.impliedRunMps ? [manifest.impliedRunMps] : [])]);
       expect(report.audit.map((a: any) => a.seconds)).toEqual([manifest.walkClipSeconds, ...(manifest.runClipSeconds ? [manifest.runClipSeconds] : [])]);
       expect(report.audit.every((a: any) => a.samplesPerCycle === 7680 && a.cycles === 2)).toBe(true);

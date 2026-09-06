@@ -25,14 +25,26 @@ async function fixture(count = 1, deathClip = true, options: FixtureOptions = {}
   const mesh = new THREE.SkinnedMesh(geometry, material);
   const bone = new THREE.Bone();
   bone.name = "Test_Spine";
+  // A support branch and a head branch, so the support-safe hit overlay (SLICE-03) can be built:
+  // the recoil is a masked additive rotation on Test_Head, and Test_Leg (with its ancestor
+  // Test_Spine) keeps the base pose. Every vertex is still skinned to Test_Spine alone.
+  const leg = new THREE.Bone();
+  leg.name = "Test_Leg";
+  leg.position.set(0, -0.5, 0);
+  const head = new THREE.Bone();
+  head.name = "Test_Head";
+  head.position.set(0, 0.6, 0);
+  bone.add(leg, head);
   mesh.add(bone);
-  mesh.bind(new THREE.Skeleton([bone]));
+  mesh.bind(new THREE.Skeleton([bone, leg, head]));
   source.add(mesh);
   source.updateMatrixWorld(true);
+  const headNod = new THREE.QuaternionKeyframeTrack("Test_Head.quaternion", [0, 0.5, 1],
+    [0, -0.4, 0].flatMap((angle) => new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), angle).toArray()));
   const clips = ["Idle", "Walk", "Run", "Attack", "Hit", ...(deathClip ? ["Death"] : [])].map((name) => (
     new THREE.AnimationClip(name, 1, [new THREE.VectorKeyframeTrack(
       "Test_Spine.position", [0, 0.5, 1], [0, 0, 0, 0, 0.3, 0, 0, name === "Death" ? -0.5 : 0, 0],
-    )])
+    ), ...(name === "Hit" ? [headNod] : [])])
   ));
   const assets = {
     entry: () => ({
@@ -241,14 +253,24 @@ describe("creature presentation continuity", () => {
     } finally { f.dispose(); }
   });
 
-  it("retimes attack, returns from recoil, and holds a far corpse against later hits", async () => {
+  it("retimes attack, plays the recoil overlay over it, and holds a far corpse against later hits", async () => {
     const f = await fixture();
     try {
       expect(f.views.playAction("actor-0", "attack", { durationSeconds: 2 })).toBe(true);
       f.views.update(0.2, new THREE.Vector3(100, 0, 0));
       expect(f.views.motionSnapshot("actor-0")).toMatchObject({ motion: "attack", time: 0.1, timeScale: 0.5 });
+      // SLICE-03: a nonlethal hit is a masked additive overlay. It neither interrupts the committed
+      // attack nor restarts its clock; the far sampled rig receives the same overlay as a live one.
       expect(f.views.playAction("actor-0", "hit")).toBe(true);
+      expect(f.views.motionSnapshot("actor-0")).toMatchObject({
+        path: "sampled-rig", motion: "attack", time: 0.1,
+        hitOverlay: { clip: "Hit_MaskedOverlay", time: 0, duration: 1, maskStatus: "native-masked", bones: ["Test_Head"] },
+      });
       for (let i = 0; i < 5; i += 1) f.views.update(0.25, new THREE.Vector3(100, 0, 0));
+      // 1.25 s later the 1 s overlay has finished while the retimed 2 s attack is still committed.
+      expect(f.views.motionSnapshot("actor-0")).toMatchObject({ motion: "attack", hitOverlay: null });
+      expect(f.views.motionSnapshot("actor-0")!.time).toBeCloseTo(0.725);
+      for (let i = 0; i < 3; i += 1) f.views.update(0.25, new THREE.Vector3(100, 0, 0));
       expect(f.views.motionSnapshot("actor-0")?.motion).toBe("idle");
       f.entities[0]!.state = "dead";
       f.views.sync(f.entities);
@@ -270,21 +292,34 @@ describe("creature presentation continuity", () => {
     } finally { f.dispose(); }
   });
 
-  it("blends a repeated close hit from its previous phase instead of fading to bind pose", async () => {
+  it("restarts a repeated close hit from phase zero without disturbing the base gait", async () => {
     const f = await fixture();
     try {
       f.views.update(0, new THREE.Vector3(0, 0, 0));
-      f.views.playAction("actor-0", "hit");
+      const start = f.views.motionSnapshot("actor-0")!;
+      expect(start).toMatchObject({ path: "live-rig", motion: "idle", clip: "Idle", hitOverlay: null });
+      expect(f.views.playAction("actor-0", "hit")).toBe(true);
       f.views.update(0.2, new THREE.Vector3(0, 0, 0));
-      f.views.playAction("actor-0", "hit");
-      f.views.update(0.03, new THREE.Vector3(0, 0, 0));
-      let drawnBone: THREE.Bone | null = null;
+      expect(f.views.playAction("actor-0", "hit")).toBe(true);
+      f.views.update(0.09, new THREE.Vector3(0, 0, 0));
+      const drawn = new Map<string, THREE.Bone>();
       f.scene.entityGroup.traverse((node) => {
-        if (node.name === "Test_Spine" && node.userData.entityId === "actor-0") drawnBone = node as THREE.Bone;
+        if ((node as THREE.Bone).isBone && node.userData.entityId === "actor-0") drawn.set(node.name, node as THREE.Bone);
       });
-      // Old phase .23 gives y=.138; new phase .03 gives y=.018, at equal weights.
-      expect((drawnBone as THREE.Bone | null)?.position.y).toBeCloseTo(0.078);
-      expect(f.views.motionSnapshot("actor-0")?.time).toBeCloseTo(0.03);
+      const snapshot = f.views.motionSnapshot("actor-0")!;
+      // The second hit restarts the overlay clock (0.09, not 0.29) while the Idle base keeps its own
+      // continuous clock from its per-actor phase and rate; the spine follows Idle alone.
+      expect(snapshot).toMatchObject({ path: "live-rig", motion: "idle", clip: "Idle", timeScale: start.timeScale });
+      expect(snapshot.time).toBeCloseTo(playbackTime(start.time! + 0.29 * start.timeScale!, 1, true));
+      expect(snapshot.hitOverlay?.time).toBeCloseTo(0.09);
+      const idleY = snapshot.time! <= 0.5 ? 0.3 * snapshot.time! / 0.5 : 0.3 * (1 - snapshot.time!) / 0.5;
+      expect(drawn.get("Test_Spine")!.position.y).toBeCloseTo(idleY);
+      // Recoil is the authored head nod at 0.09 s (-0.4 * 0.09 / 0.5 = -0.072 rad), faded in by the
+      // overlay weight (0.5 at 9% of a one-second clip). The support branch is untouched.
+      const nod = drawn.get("Test_Head")!.quaternion.angleTo(new THREE.Quaternion());
+      expect(snapshot.hitOverlay?.weight).toBeCloseTo(0.5);
+      expect(nod).toBeCloseTo(0.036, 3);
+      expect(drawn.get("Test_Leg")!.quaternion.angleTo(new THREE.Quaternion())).toBe(0);
     } finally { f.dispose(); }
   });
 

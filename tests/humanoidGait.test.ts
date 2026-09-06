@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { ENEMY_BLOCKS } from "../game/src/content/enemies.js";
-import { ENEMY_RETURN_SPEED_MPS, ENEMY_SPEED_MPS } from "../game/src/systems/enemyAI.js";
-import { MOVEMENT, PLAYER_SPEED } from "../game/src/app/config.js";
+import { ENEMY_RETURN_SPEED_MPS } from "../game/src/systems/enemyAI.js";
+import { CREATURE_RUN_SPEED, MOVEMENT, PLAYER_SPEED } from "../game/src/app/config.js";
 
 /**
  * Humanoids RUN — on the same Jog_Fwd_Loop the player runs on, only slightly slower.
@@ -9,15 +9,19 @@ import { MOVEMENT, PLAYER_SPEED } from "../game/src/app/config.js";
  * Two failed states bracket this file, both shipped and both reported. Retiming the 5.92 m/s jog
  * exactly to a 2.1 m/s pursuit played it at 0.35x: slow motion. Swapping to a sped-up walk fixed
  * the slow motion and produced "they should run, not walk fast": the read of a raider is a RUN.
- * The resolution is on the CONTENT side — pursuit speeds authored at 3.4-3.9, just under the
- * player's 4.2, so the shared jog plays at 0.57-0.66 against the player's own 0.71 and reads as
- * the same gait. The clip threshold and rate constants are duplicated from
- * `render/entityViews.ts` so a change there has to be meant.
+ * The resolution was first on the CONTENT side — pursuit speeds authored at 3.4-3.9, just under
+ * the player's 4.2. Slices 02/03 then moved every creature's pursuit and return onto one shared
+ * `CREATURE_RUN_SPEED` (90% of the 5.2 m/s player run): `systems/enemyAI.ts` steps pursuit and
+ * return with that constant, and an authored `moveSpeedMps` now only seeds the unauthored walk
+ * fallback. This file therefore checks the EFFECTIVE pursuit speed, not the retained content
+ * numbers. The clip threshold and rate constants are duplicated from `render/entityViews.ts` so
+ * a change there has to be meant.
  */
 const HUMANOID_JOG_IMPLIED_MPS = 5.92;
 const HUMANOID_WALK_IMPLIED_MPS = 1.15;
 const HUMANOID_JOG_MIN_RATE = 0.55;
-const RETURN_RATIO = ENEMY_RETURN_SPEED_MPS / ENEMY_SPEED_MPS;
+/** What `enemyAI.ts` actually moves a pursuing or returning humanoid at. */
+const PURSUIT_SPEED = CREATURE_RUN_SPEED;
 
 const HUMANOIDS = ENEMY_BLOCKS.filter((block) => block.family === "reaver");
 
@@ -31,9 +35,10 @@ describe("humanoid gait", () => {
     // exact planting reads as slow motion even at the player's own 4.2 (that rig's documented
     // finding, twice re-confirmed from play against enemies). The player's steady run is 1.2x;
     // a pursuing reaver must land close under it — visibly a run, visibly not quite the player.
+    expect(ENEMY_RETURN_SPEED_MPS).toBe(PURSUIT_SPEED);
     for (const block of HUMANOIDS) {
-      const pursuit = block.moveSpeedMps ?? ENEMY_SPEED_MPS;
-      for (const [gait, speed] of [["run", pursuit], ["return", pursuit * RETURN_RATIO]] as const) {
+      const pursuit = PURSUIT_SPEED;
+      for (const [gait, speed] of [["run", pursuit], ["return", ENEMY_RETURN_SPEED_MPS]] as const) {
         // At or above the threshold the clip choice is Jog_Fwd_Loop...
         expect(speed, `${block.id} ${gait} must land on the jog`)
           .toBeGreaterThanOrEqual(HUMANOID_JOG_IMPLIED_MPS * HUMANOID_JOG_MIN_RATE);
@@ -53,7 +58,7 @@ describe("humanoid gait", () => {
 
   it("runs slightly slower than the player, so escaping on foot stays possible", () => {
     for (const block of HUMANOIDS) {
-      const pursuit = block.moveSpeedMps ?? ENEMY_SPEED_MPS;
+      const pursuit = PURSUIT_SPEED;
       expect(pursuit, `${block.id} pursuit`).toBeLessThan(PLAYER_SPEED);
       // "Slightly": a raider that pursues at half the player's speed is not a threat, and one at
       // 95% is an escape that takes a minute of running. 80-93% is the authored band.

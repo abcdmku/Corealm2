@@ -4,6 +4,7 @@ import type { SemanticEntity } from "../game/src/contracts.js";
 import { ENEMY_BLOCKS, enemyBlockFor } from "../game/src/content/enemies.js";
 import { REGIONS } from "../game/src/content/regions.js";
 import { ENEMY_RETURN_SPEED_MPS, ENEMY_SPEED_MPS } from "../game/src/systems/enemyAI.js";
+import { CREATURE_RUN_SPEED } from "../game/src/app/config.js";
 import { EntityViews, MOVING_EPSILON } from "../game/src/render/entityViews.js";
 import { MaterialLibrary } from "../game/src/render/materials.js";
 import { playbackTime } from "../game/src/render/creatureMotion.js";
@@ -12,7 +13,6 @@ import MANIFEST from "../game/public/assets/manifest.json" with { type: "json" }
 
 const ASSET_BY_ID = new Map(MANIFEST.assets.map((asset) => [asset.id, asset] as const));
 const GROUPS = REGIONS.flatMap((region) => [...region.enemyGroups, ...(region.dungeon?.enemyGroups ?? [])]);
-const RETURN_SPEED_RATIO = ENEMY_RETURN_SPEED_MPS / ENEMY_SPEED_MPS;
 const TICK_SECONDS = SIM_TICK_MS / 1000;
 const FRAMES = [0, 0.25, 0.5, 0.75];
 interface Gait {
@@ -91,9 +91,11 @@ beforeAll(async () => {
   try {
     for (const gait of ["walk", "run", "return"] as const) {
       for (const entity of entities) {
-        const pursuit = entity.combat!.moveSpeedMps ?? ENEMY_SPEED_MPS;
+        // `systems/enemyAI.ts` steps every pursuit at CREATURE_RUN_SPEED and every return at
+        // ENEMY_RETURN_SPEED_MPS; authored `moveSpeedMps` only seeds the unauthored walk fallback.
+        const pursuit = entity.combat!.moveSpeedMps ?? CREATURE_RUN_SPEED;
         const speed = gait === "walk" ? entity.combat!.walkSpeedMps ?? pursuit / 3
-          : pursuit * (gait === "return" ? RETURN_SPEED_RATIO : 1);
+          : gait === "return" ? ENEMY_RETURN_SPEED_MPS : CREATURE_RUN_SPEED;
         entity.state = gait === "walk" ? "alive" : gait === "run" ? "aggro" : "returning";
         entity.view!.gaitSpeedMps = speed;
         entity.position = [0, 0, entity.position[2] + speed * TICK_SECONDS];
@@ -145,7 +147,16 @@ describe("creature gait", () => {
   });
 
   it("keeps actual playback within walk and run cadence ceilings", () => {
-    expect(gaits.filter((row) => row.cadenceHz > (row.gait === "walk" ? 2.4 : 3) + 1e-6)).toEqual([]);
+    const racing = gaits.filter((row) => row.cadenceHz > (row.gait === "walk" ? 2.4 : 3) + 1e-6);
+    const bySpecies = new Map<string, { gait: string; cadenceHz: number; speedMps: number; impliedMps: number; drawnStrideScale: number }>();
+    for (const row of racing) {
+      const key = `${row.entityId.replace(/_\d+$/, "")} ${row.gait}`;
+      const previous = bySpecies.get(key);
+      if (!previous || row.cadenceHz > previous.cadenceHz) bySpecies.set(key, row);
+    }
+    const summary = [...bySpecies.entries()].map(([key, row]) =>
+      `${key}: ${row.cadenceHz.toFixed(2)} Hz at ${row.speedMps.toFixed(2)} m/s over a ${row.impliedMps.toFixed(3)} m/s native stride x${row.drawnStrideScale.toFixed(2)}`);
+    expect(summary, summary.join("\n")).toEqual([]);
     // Large bodies take long strides; a shared lower cadence would force their feet to slide.
     for (const row of gaits) expect(row.cadenceHz, `${row.entityId} ${row.gait}`).toBeGreaterThan(0);
   });

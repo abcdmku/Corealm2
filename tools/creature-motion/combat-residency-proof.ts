@@ -42,7 +42,7 @@ if (validateOnly) { console.log(JSON.stringify({ status: 'preflight-passed', sel
 const clearDeadline = installTestDeadline('combat residency proof', 120_000);
 const started = performance.now();
 const report: any = { status: 'incomplete', selected, stage, publicManifestSha256: sha(manifestBytes), visualAccepted: false,
-  limits: ['Only exact observed HitLeft/HitRight counts as directional; generic Hit is fallback evidence only.', 'Corpse dwell is 350 ms before fade; a missed capture is a failure.', 'Screenshots require human review. No world acceptance is claimed.'], commands: [], assets: [], errors: [] };
+  limits: ['Only an exact observed HitLeft/HitRight masked overlay counts as directional; generic Hit is fallback evidence only. Since SLICE-03 the recoil is an additive overlay over the unchanged base gait, so the base motion never reads "hit".', 'Corpse dwell is 350 ms before fade; a missed capture is a failure.', 'Screenshots require human review. No world acceptance is claimed.'], commands: [], assets: [], errors: [] };
 const browser = await chromium.launch({ headless: !args.includes('--headed'), args: process.platform === 'win32' ? ['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio'] : ['--enable-gpu','--ignore-gpu-blocklist','--mute-audio'] });
 const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, recordVideo: { dir: path.join(output, 'video'), size: { width: 1280, height: 800 } } });
 const page = await context.newPage(); page.setDefaultTimeout(3000);
@@ -140,9 +140,10 @@ async function combat(row: any) {
   const cursor=(await call('debug','getEvents',[0])).nextSeq;
   await call('debug','callTool',['corealm_attack',{entityId:row.entityId}]);
   try {
-    row.directional=await poll(row,'directional-hit',10000,s=>['HitLeft','HitRight'].includes(s.motion?.clip));
-    row.directionalCoverage={observedClip:row.directional.motion.clip,scope:'One naturally observed authored side; not full left/front/right coverage'};
-    await capture(row,'directional-hit',s=>['HitLeft','HitRight'].includes(s.motion?.clip) && s.entity?.combat?.health>0);
+    const directional=(s:any)=>['HitLeft_MaskedOverlay','HitRight_MaskedOverlay'].includes(s.motion?.hitOverlay?.clip) && s.motion.hitOverlay.maskStatus==='native-masked';
+    row.directional=await poll(row,'directional-hit',10000,directional);
+    row.directionalCoverage={observedClip:row.directional.motion.hitOverlay.clip,baseMotion:row.directional.motion.clip,bones:row.directional.motion.hitOverlay.bones,scope:'One naturally observed authored side; not full left/front/right coverage'};
+    await capture(row,'directional-hit',s=>directional(s) && s.motion.hitOverlay.weight>0 && s.entity?.combat?.health>0);
   } catch(e) { row.errors.push(String(e)); }
   await call('lab','setLevel',['melee',99]); await call('lab','equipPlayer',['mainHand','worn_sword']);
   await call('debug','callTool',['corealm_stop',{}]);
