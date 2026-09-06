@@ -9,6 +9,7 @@ import {createHash} from 'node:crypto';
  * skinned vertices within `--band` metres (default 0.003) of the foot's lowest skinned vertex, not
  * bone tips. Joint transforms already carry the source scene scale, so every figure below is metres.
  * Usage: npx tsx tools/creature-expansion/mammals/paw-contact-audit.mjs <glb> [--band 0.003] [--map]
+ *          [--feet FR_Paw,FL_Paw,HR_Paw,HL_Paw]   default: the Khronos Fox terminal joints
  */
 const [file] = process.argv.slice(2).filter(a => !a.startsWith('--'));
 if (!file) throw Error('Pass one GLB path');
@@ -32,7 +33,8 @@ for (const node of nodes) for (const p of node.getMesh()?.listPrimitives() ?? []
   }
 }
 // A foot region is every vertex with at least half its weight on the terminal foot/hand joint.
-const feet = ['b_RightHand_08', 'b_LeftHand_011', 'b_LeftFoot02_018', 'b_RightFoot02_022'];
+const feetArg = (() => { const i = process.argv.indexOf('--feet'); return i < 0 ? null : process.argv[i + 1]; })();
+const feet = feetArg ? feetArg.split(',') : ['b_RightHand_08', 'b_LeftHand_011', 'b_LeftFoot02_018', 'b_RightFoot02_022'];
 const report = { file, sha256: sha, bandMetres: band, units: 'metres', feet: [] };
 for (const name of feet) {
   const index = joints.findIndex(j => j.getName() === name);

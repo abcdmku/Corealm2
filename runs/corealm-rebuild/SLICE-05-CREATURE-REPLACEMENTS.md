@@ -196,6 +196,46 @@ a barrel body, and the re-exported Tapir is leaner with smaller ears than the on
 — both are the current authored anatomy — and neither outweighs a corpse that falls through the
 floor, but both are worth another art pass.
 
+## The badger and porcupine source lines should be abandoned
+
+The held rat-derived Badger and Porcupine were compared against what the game actually ships today,
+on the same hardware, same camera, same frame
+(`test-results/s05-mammal-views/` versus `test-results/s05-shipped-mammals/`). The comparison
+reverses the previous assumption:
+
+- **Shipped Badger**: low broad body, white facial blaze, grizzled grey back, dark legs with visible
+  digging claws, feet planted. It reads as a badger.
+  **Rat-derived candidate**: head buried in the ground, body slumped flat, legs splayed. It reads as
+  an animal dying, in its idle. 5 930 triangles.
+- **Shipped Porcupine**: banded quills sweeping back over a heavy rump, short legs, small dark feet,
+  blunt snout, quilled tail, feet planted. It reads as a porcupine.
+  **Rat-derived candidate**: good quill mantle, but a crouched idle with no weight-bearing feet and a
+  naked pink rat tail that no porcupine has.
+
+Both shipped models are also clean on the floor audit across all eight clips. The considerable
+remaining work on the rat-derived line - per-limb contact repair, re-posing, tail replacement - would
+buy a result worse than what is already in the game. Recommendation: stop that line and spend the
+effort on the Lynx, which is the one shipped mammal that genuinely is bad.
+
+## A defect sweep outside this slice
+
+`clip-floor-audit.mjs` was run over the other shipped creature-expansion species while it was to
+hand. These are **not** this slice's creatures and nothing was changed about them; they are recorded
+so their owners can decide. Lowest skinned world Y, and the fraction of samples where the whole body
+is more than 1 cm airborne:
+
+| Species | Finding |
+| --- | --- |
+| `reedbank_goose` | Death reaches -0.226 m; every one of its eight clips sinks between 1.9 and 4.7 cm |
+| `antler_beetle` | Death is airborne for 53.6% of its samples - the beetle dies hovering |
+| `reedjaw_crocodile` | all eight clips sink 2.1 to 5.0 cm |
+| `quarry_snail` | Death -0.053 m, Idle and Walk 1.3-1.5 cm |
+| `kiln_salamander` | Walk, Run and Death sink 1.5-1.6 cm |
+| `marchfield_turkey`, `scree_bustard` | Death airborne 5-6% of samples |
+
+`duskoak_lynx`, `rootdelve_badger`, `quillback_porcupine`, `slateback_tortoise` and
+`blackwater_heron` are clean.
+
 ## Shared and production files touched
 
 - `game/public/assets/manifest.json` and six creature GLBs — `creature_ashscale_monitor`,
