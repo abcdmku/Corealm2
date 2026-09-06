@@ -57,6 +57,8 @@ interface VariantRow {
   metrics: Metrics;
   cueGain: number;
   variantGain: number;
+  /** Configured `startOffsetS` in milliseconds; 0 when the recording plays from its first sample. */
+  trimMs: number;
   rate: number;
   asPlayedDbfs: number;
   flags: string[];
@@ -115,7 +117,8 @@ function fft(re: Float64Array, im: Float64Array): void {
   }
 }
 
-function measure(samples: Float32Array, sampleRate: number, isLoop: boolean): Omit<Metrics, "integratedLufs" | "truePeakDbtp"> {
+function measure(samples: Float32Array, sampleRate: number, isLoop: boolean,
+  loopPoints?: { start?: number; end?: number }): Omit<Metrics, "integratedLufs" | "truePeakDbtp"> {
   const n = samples.length;
   let peak = 0, power = 0, sum = 0, clippedRuns = 0, run = 0;
   for (let i = 0; i < n; i += 1) {
@@ -191,12 +194,19 @@ function measure(samples: Float32Array, sampleRate: number, isLoop: boolean): Om
     bands,
   };
   if (isLoop && n > sampleRate) {
-    // Loop seam: RMS of the last 20 ms against the first 20 ms, plus the raw sample step across the join.
+    // Loop seam, measured where the loop ACTUALLY repeats.
+    //
+    // Web Audio jumps from `loopEnd` back to `loopStart`, not from the last sample back to the
+    // first. Measuring the file's ends instead reported a 32.8 dB "seam jump" on a track whose
+    // only problem was a second of run-out silence, and would keep reporting it after the loop
+    // points had moved the repeat inside the music.
     const seam = Math.round(sampleRate * 0.02);
+    const startIndex = Math.min(n - seam - 1, Math.max(0, Math.round((loopPoints?.start ?? 0) * sampleRate)));
+    const endIndex = Math.min(n - 1, Math.max(startIndex + seam, Math.round((loopPoints?.end ?? n / sampleRate) * sampleRate)));
     let head = 0, tail = 0;
-    for (let i = 0; i < seam; i += 1) { head += samples[i]! ** 2; tail += samples[n - 1 - i]! ** 2; }
+    for (let i = 0; i < seam; i += 1) { head += samples[startIndex + i]! ** 2; tail += samples[endIndex - seam + i]! ** 2; }
     result.seamJumpDbfs = round1(Math.abs(db(Math.sqrt(head / seam)) - db(Math.sqrt(tail / seam))));
-    result.seamSampleStepDbfs = round1(db(samples[0]! - samples[n - 1]!));
+    result.seamSampleStepDbfs = round1(db(samples[startIndex]! - samples[endIndex]!));
   }
   return result;
 }
@@ -225,12 +235,19 @@ const CREATURE_EXPECTATIONS: Record<string, { centroid: [number, number]; maxDur
 const CONTACT_PREFIXES = ["movement.footstep", "gather.mining_impact", "gather.wood_impact", "combat.melee_hit",
   "combat.player_hit", "combat.magic_hit", "production.smith", "production.craft", "ui.click"];
 
-function flagsFor(cue: string, definition: AudioCueDefinition, m: Metrics): string[] {
+/**
+ * `trimMs` is the variant's configured `startOffsetS`. Silence and onset flags are about what the
+ * player hears, so they are measured after the trim: an untrimmed 139 ms of room tone is a defect,
+ * the same 139 ms with `startOffsetS: 0.139` in front of it is the fix for that defect and must not
+ * keep reporting itself. `asPlayedDbfs` carries the catalogue and variant gain for the same reason.
+ */
+function flagsFor(cue: string, definition: AudioCueDefinition, m: Metrics, trimMs: number, asPlayedDbfs: number): string[] {
   const flags: string[] = [];
   const isContact = CONTACT_PREFIXES.some((prefix) => cue.startsWith(prefix));
   const played = m.durationS / rateOf(definition);
-  if (isContact && m.leadingSilenceMs > 60) flags.push(`leading silence ${m.leadingSilenceMs} ms on a contact cue`);
-  if (!isContact && m.leadingSilenceMs > 250) flags.push(`leading silence ${m.leadingSilenceMs} ms`);
+  const leadMs = Math.max(0, m.leadingSilenceMs - trimMs);
+  if (isContact && leadMs > 60) flags.push(`leading silence ${leadMs} ms on a contact cue after the trim`);
+  if (!isContact && leadMs > 250) flags.push(`leading silence ${leadMs} ms after the trim`);
   if (m.trailingSilenceMs > 400) flags.push(`trailing silence ${m.trailingSilenceMs} ms`);
   if (m.clippedRuns > 0) flags.push(`${m.clippedRuns} clipped runs`);
   if (m.dcOffsetDbfs > -40) flags.push(`DC offset ${m.dcOffsetDbfs} dBFS`);
@@ -244,24 +261,28 @@ function flagsFor(cue: string, definition: AudioCueDefinition, m: Metrics): stri
     }
     if (played > expectation.maxDurationS) flags.push(`${round1(played)} s idle vocal as played`);
   }
-  if (m.activeRmsDbfs < -36) flags.push(`quiet source (active RMS ${m.activeRmsDbfs} dBFS)`);
+  // Judged as played, not as stored. The loudest ambience bed measures -39.9 LUFS at catalogue
+  // gain, so a cue landing under about -46 dBFS is being played into its own room tone. A quiet
+  // source that the catalogue boosts is fine; a loud source the catalogue buries is not.
+  if (asPlayedDbfs < -46) flags.push(`plays at ${asPlayedDbfs} dBFS, under the ambience bed`);
   return flags;
 }
 
 const rows: VariantRow[] = [];
 const fileCache = new Map<string, { probe: Probe; metrics: Metrics }>();
-function analyse(url: string, isLoop = false): { probe: Probe; metrics: Metrics } {
-  const cached = fileCache.get(url);
+function analyse(url: string, isLoop = false, loopPoints?: { start?: number; end?: number }): { probe: Probe; metrics: Metrics } {
+  const key = `${isLoop ? "loop" : "cue"}:${url}:${loopPoints?.start ?? ""}:${loopPoints?.end ?? ""}`;
+  const cached = fileCache.get(key);
   if (cached) return cached;
   const file = urlToPath(url);
   if (!existsSync(file)) throw new Error(`Missing audio file ${file}`);
   const info = probe(file);
   const samples = decodeMono(file, info.sampleRate);
-  const base = measure(samples, info.sampleRate, isLoop);
+  const base = measure(samples, info.sampleRate, isLoop, loopPoints);
   const loud = base.durationS >= 0.4 ? ebur128(file) : { integrated: null, truePeak: null };
   const metrics: Metrics = { ...base, integratedLufs: loud.integrated, truePeakDbtp: loud.truePeak };
   const result = { probe: info, metrics };
-  fileCache.set(url, result);
+  fileCache.set(key, result);
   return result;
 }
 
@@ -270,15 +291,17 @@ for (const [cue, definition] of Object.entries(cues)) {
   for (const variant of definition.variants) {
     const url = typeof variant === "string" ? variant : variant.url;
     const variantGain = typeof variant === "string" ? 1 : variant.gain ?? 1;
+    const trimMs = Math.round((typeof variant === "string" ? 0 : variant.startOffsetS ?? 0) * 1000);
     const { probe: info, metrics } = analyse(url);
     const cueGain = definition.gain ?? 1;
     rows.push({
       cue, url, file: path.relative(publicRoot, urlToPath(url)).replace(/\\/g, "/"), probe: info, metrics,
       cueGain, variantGain, rate: rateOf(definition),
       asPlayedDbfs: round1(metrics.activeRmsDbfs + db(cueGain * variantGain)),
-      flags: [...flagsFor(cue, definition, metrics),
+      flags: [...flagsFor(cue, definition, metrics, trimMs, round1(metrics.activeRmsDbfs + db(cueGain * variantGain))),
         ...(metrics.peakDbfs + db(cueGain * variantGain) > -1 ? [`as-played peak ${round1(metrics.peakDbfs + db(cueGain * variantGain))} dBFS before the bus (clips when stacked)`] : []),
-        ...(CONTACT_PREFIXES.some((prefix) => cue.startsWith(prefix)) && metrics.onsetMs > 30 ? [`onset ${metrics.onsetMs} ms late for a contact cue`] : [])],
+        ...(CONTACT_PREFIXES.some((prefix) => cue.startsWith(prefix)) && metrics.onsetMs - trimMs > 30
+          ? [`onset ${round1(metrics.onsetMs - trimMs)} ms late for a contact cue after the trim`] : [])],
     });
   }
 }
@@ -294,17 +317,23 @@ for (const [, group] of byCue) {
   if (Math.max(...durations) / Math.max(0.05, Math.min(...durations)) > 4) for (const row of group) row.flags.push("variant durations differ more than 4x");
 }
 
-interface LoopRow { name: string; url: string; bus: string; gain: number; probe: Probe; metrics: Metrics; asPlayedLufs: number | null; flags: string[] }
+interface LoopRow { name: string; url: string; bus: string; gain: number; loopStart?: number; loopEnd?: number; probe: Probe; metrics: Metrics; asPlayedLufs: number | null; flags: string[] }
 const loopRows: LoopRow[] = [];
 for (const [name, definition] of Object.entries(COREALM_AUDIO_CATALOG.loops)) {
-  const { probe: info, metrics } = analyse(definition.url, true);
+  const { probe: info, metrics } = analyse(definition.url, true, { start: definition.loopStart, end: definition.loopEnd });
   const flags: string[] = [];
   if (metrics.clippedRuns > 0) flags.push(`${metrics.clippedRuns} clipped runs`);
   if (metrics.dcOffsetDbfs > -40) flags.push(`DC offset ${metrics.dcOffsetDbfs} dBFS`);
   if ((metrics.seamJumpDbfs ?? 0) > 6) flags.push(`loop seam level jump ${metrics.seamJumpDbfs} dB`);
   if ((metrics.seamSampleStepDbfs ?? -120) > -40) flags.push(`loop seam sample step ${metrics.seamSampleStepDbfs} dBFS (click)`);
-  if (metrics.leadingSilenceMs > 200 || metrics.trailingSilenceMs > 200) flags.push(`loop has ${metrics.leadingSilenceMs}/${metrics.trailingSilenceMs} ms edge silence`);
-  loopRows.push({ name, url: definition.url, bus: definition.bus, gain: definition.gain ?? 1, probe: info, metrics,
+  // Edge silence outside `loopStart`/`loopEnd` is heard once on the way in and never repeats, so
+  // it is only a defect while the loop still runs end to end.
+  if (definition.loopStart === undefined && definition.loopEnd === undefined
+    && (metrics.leadingSilenceMs > 200 || metrics.trailingSilenceMs > 200)) {
+    flags.push(`loop has ${metrics.leadingSilenceMs}/${metrics.trailingSilenceMs} ms edge silence and no loop points`);
+  }
+  loopRows.push({ name, url: definition.url, bus: definition.bus, gain: definition.gain ?? 1,
+    loopStart: definition.loopStart, loopEnd: definition.loopEnd, probe: info, metrics,
     asPlayedLufs: metrics.integratedLufs === null ? null : round1(metrics.integratedLufs + db(definition.gain ?? 1)), flags });
 }
 
@@ -374,10 +403,10 @@ if (existsSync(candidateDir)) {
 const fmt = (value: number | null): string => value === null ? "n/a" : String(value);
 const lines: string[] = [];
 lines.push("# Audio file review (objective measurements, not listening)", "", `Generated ${new Date().toISOString()} from the production catalogue. Listening copies and timestamps are in this directory.`, "");
-lines.push("## Cue variants", "", "| Cue | File | SR/ch | Dur s | Peak dBFS | Active RMS dBFS | LUFS | Lead/Trail ms | Onset ms | Clip | DC dBFS | Centroid Hz | sub/low/mid/high/air % | Gain x rate | As played dBFS | Flags |", "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | ---: | --- |");
+lines.push("## Cue variants", "", "| Cue | File | SR/ch | Dur s | Peak dBFS | Active RMS dBFS | LUFS | Lead/Trail ms | Onset ms | Trim ms | Clip | DC dBFS | Centroid Hz | sub/low/mid/high/air % | Gain x rate | As played dBFS | Flags |", "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- | ---: | --- |");
 for (const row of rows) {
   const m = row.metrics; const b = m.bands;
-  lines.push(`| ${row.cue} | ${row.file} | ${row.probe.sampleRate}/${row.probe.channels} | ${m.durationS.toFixed(2)} | ${m.peakDbfs} | ${m.activeRmsDbfs} | ${fmt(m.integratedLufs)} | ${m.leadingSilenceMs}/${m.trailingSilenceMs} | ${m.onsetMs} | ${m.clippedRuns} | ${m.dcOffsetDbfs} | ${m.centroidHz} | ${b.sub}/${b.low}/${b.mid}/${b.high}/${b.air} | ${(row.cueGain * row.variantGain).toFixed(2)} x ${row.rate.toFixed(2)} | ${row.asPlayedDbfs} | ${row.flags.join("; ")} |`);
+  lines.push(`| ${row.cue} | ${row.file} | ${row.probe.sampleRate}/${row.probe.channels} | ${m.durationS.toFixed(2)} | ${m.peakDbfs} | ${m.activeRmsDbfs} | ${fmt(m.integratedLufs)} | ${m.leadingSilenceMs}/${m.trailingSilenceMs} | ${m.onsetMs} | ${row.trimMs} | ${m.clippedRuns} | ${m.dcOffsetDbfs} | ${m.centroidHz} | ${b.sub}/${b.low}/${b.mid}/${b.high}/${b.air} | ${(row.cueGain * row.variantGain).toFixed(2)} x ${row.rate.toFixed(2)} | ${row.asPlayedDbfs} | ${row.flags.join("; ")} |`);
 }
 if (candidateRows.length) {
   lines.push("", "## Unpromoted candidates", "", "| File | SR/ch | Dur s | Peak dBFS | Active RMS dBFS | LUFS | Lead/Trail ms | Centroid Hz | sub/low/mid/high/air % |", "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |");
@@ -386,10 +415,10 @@ if (candidateRows.length) {
     lines.push(`| ${row.file} | ${row.probe.sampleRate}/${row.probe.channels} | ${m.durationS.toFixed(2)} | ${m.peakDbfs} | ${m.activeRmsDbfs} | ${fmt(m.integratedLufs)} | ${m.leadingSilenceMs}/${m.trailingSilenceMs} | ${m.centroidHz} | ${b.sub}/${b.low}/${b.mid}/${b.high}/${b.air} |`);
   }
 }
-lines.push("", "## Loops", "", "| Loop | File | SR/ch | Dur s | Peak | LUFS | As played LUFS | Seam step dBFS | Lead/Trail ms | Flags |", "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |");
+lines.push("", "## Loops", "", "| Loop | File | SR/ch | Dur s | Loop points s | Peak | LUFS | As played LUFS | Seam jump dB | Lead/Trail ms | Flags |", "| --- | --- | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: | --- |");
 for (const row of loopRows) {
   const m = row.metrics;
-  lines.push(`| ${row.name} | ${row.file ?? row.url} | ${row.probe.sampleRate}/${row.probe.channels} | ${m.durationS.toFixed(1)} | ${m.peakDbfs} | ${fmt(m.integratedLufs)} | ${fmt(row.asPlayedLufs)} | ${fmt(m.seamJumpDbfs ?? null)} | ${m.leadingSilenceMs}/${m.trailingSilenceMs} | ${row.flags.join("; ")} |`);
+  lines.push(`| ${row.name} | ${row.file ?? row.url} | ${row.probe.sampleRate}/${row.probe.channels} | ${m.durationS.toFixed(1)} | ${row.loopStart ?? 0}..${row.loopEnd ?? "end"} | ${m.peakDbfs} | ${fmt(m.integratedLufs)} | ${fmt(row.asPlayedLufs)} | ${fmt(m.seamJumpDbfs ?? null)} | ${m.leadingSilenceMs}/${m.trailingSilenceMs} | ${row.flags.join("; ")} |`);
 }
 lines.push("", "## Listening copies", "");
 for (const [name, marks] of Object.entries(timestamps)) {

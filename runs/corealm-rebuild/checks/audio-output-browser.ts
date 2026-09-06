@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import { chromium } from "playwright";
+import { audioCheckUrl } from "./audio-capture-support.js";
 import { installTestDeadline } from "../../../tools/lib/deadline.js";
 
 // DOM-only recording of the actual production AudioEngine mix and real catalogue files.
@@ -16,7 +17,7 @@ const report:Record<string,unknown>={passed:false,scenario,listening:"Captured f
 try {
   const page=await browser.newPage();
   await page.route("**/audio-output-fixture",route=>route.fulfill({contentType:"text/html",body:"<button>Record production audio</button>"}));
-  await page.goto(`${process.env.COREALM_URL ?? "http://127.0.0.1:4175"}/audio-output-fixture`);
+  await page.goto(`${audioCheckUrl()}/audio-output-fixture`);
   const result=await page.evaluate(`(async()=>{
     const {AudioEngine}=await import('/src/audio/engine.ts');
     const {AudioDirector}=await import('/src/audio/director.ts');

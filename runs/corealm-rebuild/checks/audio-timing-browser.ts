@@ -141,8 +141,17 @@ try {
     report.staleImpactsAfterStop = history.filter((e) => e.cue === cueImpact && e.atMs > stopAt).length;
   }
   if (scenario === "melee") {
-    const swingMarkers = markers.filter((m) => m.method === "handlePlayerCombatMotion" && m.args[1] === "swing");
-    const contactMarkers = markers.filter((m) => m.method === "handlePlayerCombatMotion" && (m.args[1] === "impact" || m.args[1] === "combined"));
+    // `paintCombatHits` routes EVERY resolved hit through this handler, the enemy's included, and
+    // an enemy hit is always "combined" because only the player's rig has a swing marker. Scoping
+    // to `attacker === "player"` is not a filter of inconvenient data: an incoming bear swing is a
+    // different cue family with no swing/contact split to measure.
+    const byPlayer = (m: AudioMarker): boolean =>
+      m.method === "handlePlayerCombatMotion" && (m.args[0] as Record<string, unknown>)["attacker"] === "player";
+    const swingMarkers = markers.filter((m) => byPlayer(m) && m.args[1] === "swing");
+    const contactMarkers = markers.filter((m) => byPlayer(m) && (m.args[1] === "impact" || m.args[1] === "combined"));
+    report.enemyContacts = markers.filter((m) => m.method === "handlePlayerCombatMotion"
+      && (m.args[0] as Record<string, unknown>)["attacker"] === "enemy")
+      .map((m) => ({ atMs: Math.round(m.atMs), phase: m.args[1], hit: (m.args[0] as Record<string, unknown>)["hit"] }));
     const rigSwings = capture.rig.filter((r) => r.pose === "attack_melee" && r.kind === "swing");
     const rigImpacts = capture.rig.filter((r) => r.pose === "attack_melee" && r.kind === "impact");
     assert(contactMarkers.length >= 2, "Two melee contacts presented");
@@ -159,7 +168,9 @@ try {
     }
     report.rigSwingCount = rigSwings.length;
     const phases = contactMarkers.map((m) => m.args[1]);
-    assert(phases.every((p) => p === "impact"), `Contacts present as impact only when the swing sounded: ${phases.join(",")}`);
+    assert(phases.every((p) => p === "impact"), `Player contacts present as impact only when the swing sounded: ${phases.join(",")}`);
+    assert(!history.some((e) => e.cue === "combat.melee_swing" && contactMarkers.some((c) => Math.abs(c.atMs - e.atMs) < 60)),
+      "No swing whoosh stacked on a contact frame");
   }
   if (scenario === "spell") {
     const launches = events("spell.launched");

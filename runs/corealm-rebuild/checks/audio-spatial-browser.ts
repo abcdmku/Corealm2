@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import { chromium } from "playwright";
+import { audioCheckUrl } from "./audio-capture-support.js";
 
 // Production audio graph in Chromium OfflineAudioContext. No renderer or GPU.
 const out="test-results/audio-spatial-browser";
@@ -9,7 +10,7 @@ const browser=await chromium.launch({args:["--disable-gpu"]});
 try {
   const page=await browser.newPage();
   await page.route("**/audio-fixture",route=>route.fulfill({contentType:"text/html",body:"<html><body>Audio graph check</body></html>"}));
-  await page.goto(`${process.env.COREALM_URL ?? "http://127.0.0.1:4175"}/audio-fixture`);
+  await page.goto(`${audioCheckUrl()}/audio-fixture`);
   const report=await page.evaluate(`(async()=>{
     const {AudioEngine}=await import('/src/audio/engine.ts');
     const samples=12000,rate=24000;
