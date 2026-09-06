@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T07:31:53.961Z",
+  "generatedAt": "2026-09-06T07:46:14.316Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -231,7 +231,7 @@
       "source": "tools/build-corealm-minerals.ts",
       "license": "LicenseRef-Corealm-Original",
       "generator": "npx tsx tools/build-corealm-minerals.ts",
-      "generatorSha256": "f4ffdc27f3c5ac823b668ae4d149b1cbcea31899b7c3d13af417acd6eb17eb53"
+      "generatorSha256": "5195cee656fc9f1c19ddd45e8ecec4e37acfebbeea313c943fe940badf926b6a"
     },
     {
       "id": "corealm-original-ground-ores",
@@ -24696,28 +24696,28 @@
         "gem",
         "opal"
       ],
-      "bytes": 551136,
+      "bytes": 967916,
       "size": {
         "x": 0.3474846092650421,
         "y": 0.2777390270966279,
-        "z": 0.20314512540458046
+        "z": 0.20334562112604795
       },
       "base": {
         "x": -0.17374230463252105,
         "y": 0,
-        "z": -0.10157256270229023
+        "z": -0.10167281056302398
       },
       "animations": [],
       "materials": [
         "Corealm weathered strata",
         "Corealm opal dielectric"
       ],
-      "sha256": "b1272a34e277558abac56669698cb5b9ccb87160df83be7365fa1813a3090039",
-      "triangles": 8040,
+      "sha256": "afe63815af320580a40351ad3205fc6326f9c288df49d3c2c08a054e3c6d1351",
+      "triangles": 15720,
       "construction": "A thick irregular ironstone matrix enclosing a convex polished fire-opal lens along a continuous shared contour, with absorbing transmission and an iridescent surface response.",
       "surfaceTriangles": {
-        "host": 5494,
-        "gem": 2546
+        "host": 10742,
+        "gem": 4978
       },
       "acceptance": {
         "labAccepted": false,
