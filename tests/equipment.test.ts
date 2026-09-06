@@ -287,6 +287,7 @@ describe("gear appearance", () => {
     expect(gearAppearanceParts("cairnpelt_robe", "male").map((part) => part.assetId)).toEqual([
       "outfit_male_ranger_chest",
       "outfit_male_ranger_pauldron",
+      "proc_hide_yoke_10",
     ]);
     expect(gearAppearance("marchhide_hood", "female")?.assetId).toBe("outfit_female_ranger_hood");
     expect(gearAppearance("grithe_helm", "male")?.assetId).toBe("outfit_male_knight_helmet");
@@ -303,13 +304,41 @@ describe("gear appearance", () => {
 
   it("attaches weapons to bones and armour to skin, and never scales a skinned part", () => {
     for (const def of EQUIPMENT) {
+      const held = def.equip?.slot === "mainHand" || def.equip?.slot === "offHand";
       for (const part of gearAppearanceParts(def.id)) {
-        const expected = def.equip?.slot === "mainHand" || def.equip?.slot === "offHand" ? "bone" : "skin";
-        expect(part.attach, def.id).toBe(expected);
+        // Worn armour is skinned, except for the additive tier pieces, which are rigid because they
+        // ride one torso or hip bone over the outfit rather than deforming with it.
+        const expected = held || part.assetId.startsWith("proc_") ? "bone" : "skin";
+        expect(part.attach, `${def.id} -> ${part.assetId}`).toBe(expected);
         if (part.attach === "skin") expect(part.scale, def.id).toBeUndefined();
         else expect(weaponSocket(part.assetId), `${def.id} has no socket`).not.toBeNull();
       }
     }
+  });
+
+  it("gives each armour tier above the baseline its own construction, not just a tint", () => {
+    const trims = (itemId: string) => gearAppearanceParts(itemId)
+      .filter(part => part.assetId.startsWith("proc_")).map(part => part.assetId);
+    // Copper and Hide are the plain baselines and carry no neck piece; every tier carries a hip
+    // piece, which is also what closes the bare hip the imported metal sets leave.
+    expect(trims("grithe_cuirass")).toEqual([]);
+    expect(trims("marchhide_robe")).toEqual([]);
+    for (const [body, legs] of [
+      ["corven_plate", "corven_greaves"], ["kaldite_plate", "kaldite_greaves"],
+      ["emberite_plate", "emberite_greaves"], ["bramblehide_robe", "bramblehide_leggings"],
+      ["cairnpelt_robe", "cairnpelt_leggings"], ["charhide_robe", "charhide_leggings"],
+    ] as const) {
+      expect(trims(body), body).toHaveLength(1);
+      expect(trims(legs), legs).toHaveLength(1);
+    }
+    for (const legs of ["grithe_greaves", "marchhide_leggings"]) {
+      expect(trims(legs), legs).toHaveLength(1);
+    }
+    // No two tiers of a line share a piece.
+    const all = ["grithe", "corven", "kaldite", "emberite"].flatMap(t => trims(`${t}_greaves`))
+      .concat(["marchhide", "bramblehide", "cairnpelt", "charhide"].flatMap(t => trims(`${t}_leggings`)));
+    expect(new Set(all).size).toBe(all.length);
+    expect(all).toHaveLength(8);
   });
 });
 

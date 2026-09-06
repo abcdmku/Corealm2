@@ -136,6 +136,21 @@ type WeaponAsset =
   | "corealm_wand_1" | "corealm_wand_2" | "corealm_wand_3" | "corealm_wand_4";
 
 /**
+ * Additive tier pieces, generated in `render/armourTierParts.ts` and worn over the skinned outfit.
+ *
+ * They exist because Copper through Titanium were one imported Knight mesh per slot with four tint
+ * values, and Hide through Heavy Hide one imported Ranger mesh per slot, so no tier had a
+ * construction of its own. A neck piece rides `spine_03` and a hip piece rides `pelvis`; the hip
+ * piece also closes the bare hip and upper thigh the metal sets leave between the cuirass skirt and
+ * the greaves. Copper and Hide carry no neck piece on purpose: they are the plain baselines.
+ */
+type TrimAsset =
+  | "proc_armour_collar_5" | "proc_armour_collar_10" | "proc_armour_collar_20"
+  | "proc_armour_fauld_1" | "proc_armour_fauld_5" | "proc_armour_fauld_10" | "proc_armour_fauld_20"
+  | "proc_hide_yoke_5" | "proc_hide_yoke_10" | "proc_hide_yoke_20"
+  | "proc_hide_skirt_1" | "proc_hide_skirt_5" | "proc_hide_skirt_10" | "proc_hide_skirt_20";
+
+/**
  * A resolved part before the body variant is chosen. One item can be more than one part.
  *
  * The dagger is authored in equipmentDetails; other weapons are file-backed. Magic variants reuse
@@ -143,6 +158,7 @@ type WeaponAsset =
  */
 type PartSpec =
   | { kind: "outfit"; kit: OutfitKit; part: OutfitPart; tint: number; accent?: number }
+  | { kind: "trim"; assetId: TrimAsset; tint: number }
   | { kind: "weapon"; assetId: WeaponAsset; tint: number; accent?: number; scale: number };
 
 interface GearVisual {
@@ -168,6 +184,10 @@ interface LadderTier {
    */
   mainHand: readonly { id: ItemId; asset: WeaponAsset; scale?: number; fixedScale?: boolean }[];
   offHand?: { id: ItemId; asset: WeaponAsset };
+  /** Neck piece worn with the body slot. Absent on the baseline tier of each line. */
+  bodyTrim?: TrimAsset;
+  /** Hip piece worn with the legs slot. Every tier has one. */
+  legsTrim?: TrimAsset;
   head: ItemId;
   body: ItemId;
   legs: ItemId;
@@ -190,6 +210,7 @@ const LADDER: readonly LadderTier[] = [
       { id: "grithe_sword", asset: "corealm_sword_1", scale: 0.9, fixedScale: true },
     ],
     offHand: { id: "palewood_shield", asset: "corealm_shield_1" },
+    legsTrim: "proc_armour_fauld_1",
     head: "grithe_helm", body: "grithe_cuirass", legs: "grithe_greaves",
     feet: "grithe_boots", hands: "grithe_gloves",
     accessories: ["grithe_ring", "grithe_pendant"],
@@ -201,6 +222,7 @@ const LADDER: readonly LadderTier[] = [
       { id: "corven_sword", asset: "corealm_sword_2", scale: 0.9, fixedScale: true },
     ],
     offHand: { id: "duskoak_shield", asset: "corealm_shield_2" },
+    bodyTrim: "proc_armour_collar_5", legsTrim: "proc_armour_fauld_5",
     head: "corven_helm", body: "corven_plate", legs: "corven_greaves",
     feet: "corven_boots", hands: "corven_gauntlets",
     accessories: ["corven_ring", "corven_pendant"],
@@ -213,6 +235,7 @@ const LADDER: readonly LadderTier[] = [
       { id: "kaldite_sword", asset: "corealm_sword_3", scale: 0.9, fixedScale: true },
     ],
     offHand: { id: "cairnpine_shield", asset: "corealm_shield_3" },
+    bodyTrim: "proc_armour_collar_10", legsTrim: "proc_armour_fauld_10",
     head: "kaldite_helm", body: "kaldite_plate", legs: "kaldite_greaves",
     feet: "kaldite_boots", hands: "kaldite_gauntlets",
     accessories: ["kaldite_ring", "kaldite_pendant"],
@@ -225,6 +248,7 @@ const LADDER: readonly LadderTier[] = [
       { id: "air_wand", asset: "corealm_wand_1", scale: 1, fixedScale: true },
       { id: "air_staff", asset: "corealm_staff_1", scale: 1, fixedScale: true },
     ],
+    legsTrim: "proc_hide_skirt_1",
     head: "marchhide_hood", body: "marchhide_robe", legs: "marchhide_leggings",
     feet: "marchhide_boots", hands: "marchhide_wraps",
     accessories: ["ember_ring", "ember_charm"],
@@ -237,6 +261,7 @@ const LADDER: readonly LadderTier[] = [
       { id: "earth_wand", asset: "corealm_wand_2", scale: 1, fixedScale: true },
       { id: "earth_staff", asset: "corealm_staff_2", scale: 1, fixedScale: true },
     ],
+    bodyTrim: "proc_hide_yoke_5", legsTrim: "proc_hide_skirt_5",
     head: "bramblehide_hood", body: "bramblehide_robe", legs: "bramblehide_leggings",
     feet: "bramblehide_boots", hands: "bramblehide_wraps",
     accessories: ["stone_ring", "stone_charm"],
@@ -249,6 +274,7 @@ const LADDER: readonly LadderTier[] = [
       { id: "water_wand", asset: "corealm_wand_3", scale: 1, fixedScale: true },
       { id: "water_staff", asset: "corealm_staff_3", scale: 1, fixedScale: true },
     ],
+    bodyTrim: "proc_hide_yoke_10", legsTrim: "proc_hide_skirt_10",
     head: "cairnpelt_hood", body: "cairnpelt_robe", legs: "cairnpelt_leggings",
     feet: "cairnpelt_boots", hands: "cairnpelt_wraps",
     accessories: ["storm_ring", "storm_charm"],
@@ -261,6 +287,7 @@ const LADDER: readonly LadderTier[] = [
       { id: "emberite_sword", asset: "corealm_sword_4", scale: 0.9, fixedScale: true },
     ],
     offHand: { id: "cinderpine_shield", asset: "corealm_shield_4" },
+    bodyTrim: "proc_armour_collar_20", legsTrim: "proc_armour_fauld_20",
     head: "emberite_helm", body: "emberite_plate", legs: "emberite_greaves",
     feet: "emberite_boots", hands: "emberite_gauntlets",
     accessories: ["emberite_ring", "emberite_pendant"],
@@ -273,6 +300,7 @@ const LADDER: readonly LadderTier[] = [
       { id: "fire_wand", asset: "corealm_wand_4", scale: 1, fixedScale: true },
       { id: "fire_staff", asset: "corealm_staff_4", scale: 1, fixedScale: true },
     ],
+    bodyTrim: "proc_hide_yoke_20", legsTrim: "proc_hide_skirt_20",
     head: "charhide_hood", body: "charhide_robe", legs: "charhide_leggings",
     feet: "charhide_boots", hands: "charhide_wraps",
     accessories: ["cinder_ring", "cinder_charm"],
@@ -367,9 +395,14 @@ function buildTable(): Map<ItemId, GearVisual> {
     const bodyParts: PartSpec[] = [outfitPart(row.kit, "chest", row.cloth, row.clothAccent)];
     bodyParts.push(outfitPart(row.kit, "pauldron", row.cloth, row.clothAccent));
     if (row.kit === "knight") bodyParts.push(outfitPart("knight", "scarf", row.cloth, row.clothAccent));
+    // The trim goes last so `gearAppearance` still answers with the skinned chest, and so the rig's
+    // single bone attachment per slot picks the trim.
+    if (row.bodyTrim) bodyParts.push({ kind: "trim", assetId: row.bodyTrim, tint: row.cloth });
     table.set(row.body, { slot: "body", parts: bodyParts });
 
-    table.set(row.legs, { slot: "legs", parts: [outfitPart(row.kit, "legs", row.cloth, row.clothAccent)] });
+    const legParts: PartSpec[] = [outfitPart(row.kit, "legs", row.cloth, row.clothAccent)];
+    if (row.legsTrim) legParts.push({ kind: "trim", assetId: row.legsTrim, tint: row.cloth });
+    table.set(row.legs, { slot: "legs", parts: legParts });
     table.set(row.feet, { slot: "feet", parts: [outfitPart(row.kit, "boots", row.cloth, row.clothAccent)] });
     table.set(row.hands, { slot: "hands", parts: [outfitPart(row.kit, "gloves", row.cloth, row.clothAccent)] });
 
@@ -441,6 +474,9 @@ export function gearAssetIds(body: CharacterBody = "male"): readonly string[] {
 }
 
 function resolve(spec: PartSpec, slot: EquipSlot, body: CharacterBody): GearAppearance {
+  if (spec.kind === "trim") {
+    return { assetId: spec.assetId, slot, attach: "bone", tint: spec.tint };
+  }
   if (spec.kind === "weapon") {
     const appearance: GearAppearance = {
       assetId: spec.assetId, slot, attach: "bone", tint: spec.tint, scale: round3(spec.scale),
@@ -677,6 +713,15 @@ const SOCKET_PARTS: Readonly<Record<string, SocketParts>> = {
    * `CharacterRig.socketFor`'s unmeasured fallback and any change there would have moved it.
    */
   fishing_rod: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0], rotation: [Math.PI / 2, 0, 0] },
+  /**
+   * The additive tier pieces, authored in an upright character frame with the bone joint at their
+   * origin. `spine_03` sits at world (0, 1.311, 0.007) with a rest euler of (-0.226, 0, 0) and
+   * `pelvis` at (0, 0.949, -0.043) with (0.286, 0, 0), so each socket rotation is that bone's rest
+   * tilt cancelled. Both pieces are symmetric about the Z axis, so the character's facing does not
+   * enter into it.
+   */
+  torso_trim: { bone: "spine_03", fist: [0, 0, 0], grip: [0, 0, 0], rotation: [0.226, 0, 0] },
+  hip_trim: { bone: "pelvis", fist: [0, 0, 0], grip: [0, 0, 0], rotation: [-0.286, 0, 0] },
   miniboss_staff: {
     // The mesh origin sits at the authored grip just under the crystal, i.e. near the TOP of the
     // 1.75 m shaft. Holding the origin put the crystal at fist height with the foot dragging the
@@ -699,6 +744,8 @@ function socketPartsFor(assetId: string): SocketParts | undefined {
   if (/^corealm_shield_[1-4]$/.test(assetId)) return SOCKET_PARTS["corealm_shield"];
   if (/^corealm_staff_[1-4]$/.test(assetId)) return SOCKET_PARTS["corealm_staff"];
   if (/^corealm_wand_[1-4]$/.test(assetId)) return SOCKET_PARTS["corealm_wand"];
+  if (/^proc_(armour_collar|hide_yoke)_/.test(assetId)) return SOCKET_PARTS["torso_trim"];
+  if (/^proc_(armour_fauld|hide_skirt)_/.test(assetId)) return SOCKET_PARTS["hip_trim"];
   if (assetId === "corealm_axe_1") return SOCKET_PARTS["axe"];
   if (assetId.startsWith("proc_rod_")) return SOCKET_PARTS["fishing_rod"];
   return SOCKET_PARTS[assetId];
