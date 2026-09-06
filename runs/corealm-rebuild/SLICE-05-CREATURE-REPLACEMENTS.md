@@ -197,8 +197,14 @@ Deleted (superseded, all regenerable from the retained generator and its pinned 
 
 - `art/rebuild/candidates/finish-quadrupeds/fox-paws-v3-comparison/` — the pre-rename staging batch,
   superseded by `fox-paws-v3-idle-comparison/` which holds the promoted bytes.
-- `art/rebuild/candidates/finish-quadrupeds/source-feline/*.npz` — intermediate weight-fit and
-  baked-validation numeric dumps, ~400 MB.
+- `art/rebuild/candidates/finish-quadrupeds/source-feline/*.npz` — intermediate weight-fit,
+  corrective-fit and baked-validation numeric dumps, ~400 MB. **Three were restored immediately**:
+  `actor2-weight-fit-data.npz`, `actor2-weight-random-data.npz` and `actor2-bake-data.npz`.
+  `PAUSED-ACTOR2-CHECKPOINT.md` names them as the current training data that `fit_correctives.py
+  --actor2` needs to resume the held Lynx, so deleting them was wrong. What stays deleted is the
+  actor1/revision1 lineage (its handoff is marked FAILED), the `*-baked-validation-errors.npz`
+  output dumps, and `actor2-corrective-fit.npz`, which that same checkpoint explicitly marks stale
+  and forbids rebuilding from.
 - `art/rebuild/candidates/finish-quadrupeds/source-porcupine/contact-*-readback.json` — per-frame
   contact readback dumps from superseded IK iterations, ~400 MB.
 - `art/rebuild/candidates/finish-quadrupeds/source-bighorn-sheep/v2/` and `v3/`, and
