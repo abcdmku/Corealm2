@@ -2,6 +2,7 @@ import { access } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { AUDIO_CUE_IDS } from "../game/src/contracts.js";
+import { ENEMIES } from "../game/src/content/enemies.js";
 import type { GroundSurfaceSample } from "../game/src/contracts.js";
 import {
   COREALM_AUDIO_CATALOG, FUTURE_REGION_MUSIC_FILES, cueForActivity, cueForCreature,
@@ -198,12 +199,30 @@ describe("creature voices", () => {
     }
   });
 
-  it("leaves the humanoid families silent", () => {
-    expect(cueForCreature("reaver")).toBeNull();
-    expect(cueForCreature("quarrykeeper")).toBeNull();
+  it("names every voiceless family, and every one of them against actual content", () => {
     expect(cueForCreature(null)).toBeNull();
-    expect(isCreatureFamily("reaver")).toBe(false);
     expect(isCreatureFamily("bear")).toBe(true);
+
+    // Counted against `content/enemies.ts`, not against a hand-written list, because the director's
+    // own comment drifted: it called the silent set "the two humanoid families" while the roster
+    // grew to sixty-nine, and one of the two it named is the Armored Rhino.
+    const families = [...new Set(ENEMIES.map((enemy) => enemy.family))].sort();
+    const voiced = families.filter((family) => isCreatureFamily(family));
+    expect(voiced).toEqual([
+      "aurochs", "bear", "boar", "cattle", "coney", "coyote", "crab", "deer",
+      "frog", "goat", "hen", "hog", "ibex", "rat", "scorpion", "viper",
+    ]);
+    // Adding a family to the roster must not quietly widen the gap without anyone noticing it.
+    expect(families.length - voiced.length).toBe(53);
+    for (const family of families.filter((name) => !isCreatureFamily(name))) {
+      expect(cueForCreature(family)).toBeNull();
+    }
+
+    // Every family that does have a voice resolves to a cue the catalogue actually ships.
+    for (const family of voiced) {
+      const cue = cueForCreature(family)!;
+      expect(COREALM_AUDIO_CATALOG.cues[cue]?.variants.length ?? 0).toBeGreaterThan(0);
+    }
   });
 
   it("still sounds a landed blow and a kill through the combat cues", () => {

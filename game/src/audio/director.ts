@@ -58,8 +58,25 @@ export function loopsForRegion(
  * aurochs both low, goats and ibex both bleat, coneys and rats both squeak, scorpions and crabs
  * both click. That is a deliberate saving of eleven recordings, not a gap.
  *
- * `reaver` and `quarrykeeper` are absent and return null. They are the two humanoid families, and
- * a raider that bellows like a stag would be worse than a raider that says nothing.
+ * This map covers sixteen of the sixty-nine families in `content/enemies.ts`. The other fifty-three
+ * are silent, and the previous version of this comment described that as "the two humanoid
+ * families" — it named `reaver` and `quarrykeeper`, and `quarrykeeper` is the Armored Rhino.
+ *
+ * The real split, counted against content rather than asserted:
+ *
+ * - Deliberate. Bandits, goblins, skeletons, wraiths, revenants, zombies, ghouls, banshees, the
+ *   five golems and the shale elemental have no animal voice to give them, and a raider that
+ *   bellows like a stag would be worse than a raider that says nothing.
+ * - A coverage gap. Thirty-odd real animals — fox, lynx, moose, bighorn, tapir, crocodile, monitor
+ *   lizard, heron, goose, turkey, horse, badger, porcupine, tortoise, the spiders, the mantis, the
+ *   centipede — plus the four ogres and three rhinos. Some could share an existing bank the way
+ *   cattle and aurochs already do; a bighorn on the goat bleat and a spider on the chitin click are
+ *   the obvious ones. That is a listening judgement about whether the shared throat is convincing,
+ *   and it has not been made, so nothing is guessed here. `runs/corealm-rebuild/SLICE-12-AUDIO.md`
+ *   carries the full list as a decision item.
+ *
+ * `tests/audioCatalog.test.ts` pins the voiced set against `content/enemies.ts`, so the count in
+ * this comment cannot drift away from the roster again.
  */
 const CREATURE_VOICE: Readonly<Record<string, AudioCueId>> = {
   hen: "creature.hen_cluck",
