@@ -7,7 +7,7 @@
     "license": "Original project artwork; no third-party assets"
   },
   "generator": "npx tsx tools/build-corealm-geology.ts",
-  "generatorSha256": "6874164565a378de5507fe38b0997b0d7af035ee247ae7b66b7ed280e475de29",
+  "generatorSha256": "c5c3fe81b70f7be73dc62332e8ec700ff0d862966df25aa0714a267134552fda",
   "coordinates": "Metres, Y-up. Native formations are centred XZ with minimum Y=0; fitted variants retain their declared legacy base and pivot. Ore worked faces point +Z; back geology toward -Z.",
   "oreMount": {
     "matingPlaneZ": 0.12,
@@ -29,7 +29,7 @@
         "geology",
         "environment"
       ],
-      "bytes": 1441084,
+      "bytes": 1501504,
       "size": {
         "x": 9.319,
         "y": 4.448,
@@ -44,9 +44,9 @@
       "materials": [
         "Corealm weathered strata"
       ],
-      "sha256": "20898d700b4d4bc654f10c53ee28cb94954b3fd0bfc7d7ac1934c37fc5d65460",
-      "triangles": 36860,
-      "blocks": 8,
+      "sha256": "406f4e5f0896f1ebb0f33e9cb462381b183869fe58330a4f725ef5347d5cded1",
+      "triangles": 35424,
+      "blocks": 11,
       "mineralFaces": 0,
       "placement": {
         "replacesAssetId": "cliff_step_2",

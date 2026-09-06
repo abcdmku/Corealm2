@@ -459,15 +459,22 @@ class Geology {
     const [width, height, depth] = this.spec.size;
     type Field = (x: number, y: number, z: number) => number;
     type Plane = readonly [x: number, y: number, z: number, distance: number];
-    const convex = (planes: readonly Plane[]): Field => {
+    const convex = (planes: readonly Plane[], cutPhase?: number): Field => {
       const normalized = planes.map(([x, y, z, distance]) => {
         const length = Math.hypot(x, y, z);
         return [x / length, y / length, z / length, distance / length] as const;
       });
       return (x, y, z) => {
         let farthest = -Infinity;
-        for (const [nx, ny, nz, distance] of normalized) {
-          farthest = Math.max(farthest, nx * x + ny * y + nz * z - distance);
+        for (let index = 0; index < normalized.length; index++) {
+          const [nx, ny, nz, distance] = normalized[index]!;
+          // Metre-scale waves move grazing cut intersections off marching-cubes rows.
+          // At most 6 cm of displacement keeps the broad fracture faces nearly planar.
+          const phase = (cutPhase ?? 0) + index * 2.41;
+          const displacement = cutPhase === undefined ? 0
+            : .045 * Math.sin(x * .61 + y * .37 + z * .53 + phase)
+              + .015 * Math.sin(x * -.43 + y * .59 + z * .31 + phase * 1.73);
+          farthest = Math.max(farthest, nx * x + ny * y + nz * z - distance - displacement);
         }
         return farthest;
       };
@@ -502,20 +509,20 @@ class Geology {
       convex([[.31, 1, .21, 1.12], [-.31, -1, -.21, -.88], [-1, 0, 0, 1.75],
         [1, 0, 0, -.32], [0, 0, -1, -.10]]),
     ] : [
-      convex([[1, .32, -.22, .61], [-1, -.32, .22, -.11], [0, -.18, -1, -.25], [0, -1, 0, -.82]]),
-      convex([[1, .11, .40, -1.10], [-1, -.11, -.40, 1.46], [0, 0, 1, -.63], [0, -1, 0, -.44]]),
+      convex([[1, .32, -.22, .61], [-1, -.32, .22, -.11], [0, -.18, -1, -.25], [0, -1, 0, -.82]], .7),
+      convex([[1, .11, .40, -1.10], [-1, -.11, -.40, 1.46], [0, 0, 1, -.63], [0, -1, 0, -.44]], 2.3),
       convex([[.18, 1, .17, 1.40], [-.18, -1, -.17, -1.13], [-1, 0, 0, 3.93],
-        [1, 0, 0, -.31], [0, 0, -1, -.21]]),
-      convex([[1, -.24, -.31, 2.74], [-1, .24, .31, -2.39], [0, 0, -1, .06], [0, -1, 0, -.32]]),
+        [1, 0, 0, -.31], [0, 0, -1, -.21]], 4.1),
+      convex([[1, -.24, -.31, 2.74], [-1, .24, .31, -2.39], [0, 0, -1, .06], [0, -1, 0, -.32]], 5.8),
     ];
     // Irregular shallow crown losses cross the larger tilted planes at different angles.
     const crownCuts: Field[] = slide ? [
       convex([[.52, -1, .19, -3.30], [-1, 0, -.25, .75], [1, 0, .25, -.21], [0, 0, 1, -.30]]),
       convex([[-.26, -1, -.34, -3.12], [1, 0, -.32, .95], [-1, 0, .32, -.45], [0, 0, -1, 1.85]]),
     ] : [
-      convex([[.44, -1, .15, -3.65], [-1, 0, .28, 2.06], [1, 0, -.28, -1.38], [0, 0, 1, -.25]]),
-      convex([[-.21, -1, .38, -3.34], [-1, 0, -.24, .80], [1, 0, .24, -.20], [0, 0, -1, 1.73]]),
-      convex([[.31, -1, -.26, -2.69], [-1, 0, .22, -1.20], [1, 0, -.22, 1.84], [0, 0, 1, 1.31]]),
+      convex([[.44, -1, .15, -3.65], [-1, 0, .28, 2.06], [1, 0, -.28, -1.38], [0, 0, 1, -.25]], 7.2),
+      convex([[-.21, -1, .38, -3.34], [-1, 0, -.24, .80], [1, 0, .24, -.20], [0, 0, -1, 1.73]], 8.9),
+      convex([[.31, -1, -.26, -2.69], [-1, 0, .22, -1.20], [1, 0, -.22, 1.84], [0, 0, 1, 1.31]], 10.6),
     ];
     const approach: Field = slide
       ? convex([[-1, 0, 0, -.85], [0, 0, 1, -.05], [0, 0, -1, 1.16], [0, 1, 0, 1.88], [0, -1, 0, -.04]])
@@ -543,11 +550,38 @@ class Geology {
     // A rounded subtraction erodes grazing slivers instead of preserving voxel-sized ledges.
     const smoothMax = (a: number, b: number, radius: number): number =>
       Math.max(a, b) + Math.max(0, radius - Math.abs(a - b)) ** 2 / (4 * radius);
+    // Three broad recesses supplement the fine beds. Their 1.16 / 1.33 m spacing
+    // follows the same bedding attitude; metre-scale strike waves break each lip.
+    // Positive offsets only remove rock from the shared body, never add slabs.
+    const benches = [
+      { bottom: .62, depth: .22, breadth: .58, phase: .4 },
+      { bottom: 1.78, depth: .30, breadth: .69, phase: 1.7 },
+      { bottom: 3.11, depth: .26, breadth: .61, phase: 2.9 },
+    ];
+    const coarseBedding: Field = (x, y, z) => {
+      const level = y + x * .18 + z * .13 + .045 * Math.sin(x * .67 + z * .51);
+      const strike = (x * .13 - z * .18) / Math.hypot(.13, .18);
+      const ease = (value: number) => {
+        const t = Math.max(0, Math.min(1, value));
+        return t * t * (3 - 2 * t);
+      };
+      let recess = 0;
+      for (const bench of benches) {
+        const edge = .09 * Math.sin(strike * 1.73 + bench.phase)
+          + .035 * Math.sin(strike * 2.61 - bench.phase * .7);
+        const above = level - bench.bottom - edge;
+        const depth = bench.depth + .025 * Math.sin(strike * .81 + bench.phase);
+        // A short lower lip opens into a broad cut, then a gentler upper return.
+        recess += depth * ease(above / .14) * (1 - ease((above - bench.breadth) / .28));
+      }
+      return recess;
+    };
     const mainField: Field = (x, y, z) => {
       const rise = Math.max(0, Math.min(1, y / .65));
       const relief = rise * (bedding(x, y, z).offset
         + .045 * Math.sin(x * 1.31 + z * .87 + y * .43));
       let distance = Math.min(body(x, y, z), toe(x, y, z)) + relief;
+      if (!slide) distance += rise * coarseBedding(x, y, z);
       for (const cut of fractureCuts) distance = smoothMax(distance, -cut(x, y, z), .12);
       for (const cut of crownCuts) distance = smoothMax(distance, -cut(x, y, z), .12);
       return Math.max(distance, -approach(x, y, z));
