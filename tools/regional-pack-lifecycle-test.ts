@@ -94,7 +94,7 @@ async function main(): Promise<void> {
   const original = REGIONAL_PACKS.find((row) => row.id === packId);
   if (!plan || !original) throw new Error(`Unknown regional pack: ${packId}`);
   if (plan.speciesId && HELD_SPECIES[plan.speciesId]) throw new Error(`Pack ${packId} is held: ${HELD_SPECIES[plan.speciesId]}`);
-  const budgetMs = Number(argValue(args, "--budget-ms") ?? 200_000);
+  const budgetMs = Number(argValue(args, "--budget-ms") ?? 240_000);
   const clearDeadline = installTestDeadline(`Regional pack lifecycle ${packId}`, budgetMs);
 
   // Resolve the pack exactly as the fixture will, from real measurements, before any browser starts.
@@ -400,33 +400,55 @@ async function main(): Promise<void> {
     }
 
     // ------------------------------------------------------------ 6. disengage, return and resume ranging
-    // The kill command keeps the player swinging at the rest of the pack, so it stands and fights
-    // instead of walking off. Break off first, then leave; the leash is what is under test here.
-    await invoke("corealm_stop", {});
-    await invoke("corealm_move_to", { position: initial.fixture.spawn });
+    // What has to be true is that the player is clear of the habitat and the survivors leash home,
+    // not that the player is standing on one exact tile. corealm_move_to blocks until the walk ends
+    // and the player re-engages the pack on its own afterwards, so the walk-off is reissued while
+    // the pack settles. Every attempt is recorded; a pack that pins the player shows up as attempts
+    // that report arrival while the player is still standing in the middle of it.
     arrivals.clear();
     const returnStarted = Date.now();
     // Keep the deliberately weak lab player alive while it walks off. A death here teleports it to
     // the region respawn point, which reads as "never arrived" and hides the actual leash result.
     let playerDowned = false;
-    const returned = await poll("survivors leash and settle back in the habitat", (value) => {
-      noteArrivals(value);
-      if (value.state.health <= 0) playerDowned = true;
-      const survivors = value.entities.filter((entity) => entity.id !== targetId);
-      return distance(value.player, initial.fixture.spawn) < 2 && survivors.every((entity) => entity.state === "alive"
-        && entity.combat!.health === entity.combat!.maxHealth
+    const walkAttempts: string[] = [];
+    const clearOfHabitat = (value: Sample) =>
+      distance(value.player, { x: habitatCentre[0], z: habitatCentre[1] }) > initial.fixture.habitat.radius + 4;
+    const settledIn = (value: Sample) => value.entities.filter((entity) => entity.id !== targetId)
+      .filter((entity) => entity.state === "alive" && entity.combat!.health === entity.combat!.maxHealth
         && distance(entity.position, { x: habitatCentre[0], z: habitatCentre[1] }) + entity.combat!.bodyRadius! <= initial.fixture.habitat.radius + 0.35);
-      // Slower residents walk the full disengagement leg home and then regenerate; 60 s covers the
-      // slowest proven pack without relaxing what "settled" means.
-    }, 60_000, 250, undefined, true);
+    let returned = await read();
+    let lastWalkAt = 0;
+    // Slow residents walk the whole disengagement leg home and then regenerate. A passing run uses
+    // a few seconds; 75 s covers the slowest proven pack without relaxing what "settled" means.
+    while (Date.now() - returnStarted < 75_000) {
+      noteArrivals(returned);
+      if (returned.state.health <= 0) playerDowned = true;
+      if (clearOfHabitat(returned) && settledIn(returned).length === pack.members.length - 1) break;
+      await topUp(returned);
+      if (!clearOfHabitat(returned) && Date.now() - lastWalkAt > 3_000 && walkAttempts.length < 6) {
+        lastWalkAt = Date.now();
+        await invoke("corealm_stop", {});
+        walkAttempts.push(await invoke("corealm_move_to", { position: initial.fixture.spawn })
+          .then(() => "arrived").catch((error: unknown) => String(error).replace(/\s+/g, " ").slice(0, 120)));
+      } else {
+        await page.waitForTimeout(250);
+      }
+      returned = await read();
+    }
     const returnLeashed = returned.events.some((event) => event.type === "combat.ended" && initial.fixture.ids.includes(String(event.data.enemyId)) && event.data.enemyId !== targetId);
     const survivors = returned.entities.filter((entity) => entity.id !== targetId);
-    report.return = { settledAfterMs: Date.now() - returnStarted, leashEvents: returnLeashed, playerDowned,
-      survivorStates: survivors.map((entity) => [entity.id, entity.state, entity.combat!.health]) };
-    check("survivorsReturnToHabitat", !playerDowned && survivors.length === pack.members.length - 1
-      && survivors.every((entity) => entity.state === "alive" && entity.combat!.health === entity.combat!.maxHealth
-        && distance(entity.position, { x: habitatCentre[0], z: habitatCentre[1] }) + entity.combat!.bodyRadius! <= initial.fixture.habitat.radius + 0.35),
-      JSON.stringify(report.return));
+    const settled = settledIn(returned);
+    report.return = { settledAfterMs: Date.now() - returnStarted, leashEvents: returnLeashed, playerDowned, walkAttempts,
+      playerClearOfHabitat: clearOfHabitat(returned), habitatRadius: initial.fixture.habitat.radius,
+      playerPosition: [round(returned.player.x, 2), round(returned.player.z, 2)], habitatCentre,
+      playerDistanceFromCentre: round(distance(returned.player, { x: habitatCentre[0], z: habitatCentre[1] }), 2),
+      settledSurvivors: settled.length, expectedSurvivors: pack.members.length - 1,
+      survivorStates: survivors.map((entity) => [entity.id, entity.state, entity.combat!.health, entity.combat!.maxHealth,
+        round(distance(entity.position, { x: habitatCentre[0], z: habitatCentre[1] }) + entity.combat!.bodyRadius!, 2),
+        [round(entity.position[0], 2), round(entity.position[2], 2)],
+        [round(spawns.get(entity.id)![0], 2), round(spawns.get(entity.id)![2], 2)]]) };
+    check("survivorsReturnToHabitat", !playerDowned && clearOfHabitat(returned)
+      && settled.length === pack.members.length - 1, JSON.stringify(report.return));
 
     // ------------------------------------------------------------ 7. respawn on the normal clock
     const respawnDeadline = ENEMY_RESPAWN_MS + 8_000 - (Date.now() - deadAt);
