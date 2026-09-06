@@ -246,3 +246,30 @@ camera round shows the follow camera sitting inside a cut face, that is the mome
   Compare `top` and the new plan footprint instead.
 - Deleted as superseded and unreferenced: `art/rebuild/candidates/2026-09-05/ground-ore/` (3.8 MB, twelve
   models from generator `a6f1cb96`, not the served bytes).
+
+## Root follow-up, 2026-09-06
+
+The Hollowcut gatehouse collision is resolved. Of the two options this slice
+measured, swinging `approachAngle` to -1.0 was tried first and rejected: it
+clears the building by 10.8 m but drives the settlement approach to a 2.09 grade
+against the 0.65 that `hollowcut-mine-route` holds. The Forest Quarry Postern
+moved 6 m west instead, to `[74, 138]`. The ramp end at `[81.92, 138.97]` now
+clears the gatehouse box by 5.9 m, and the mine, settlement and structure suites
+all pass unchanged.
+
+Re-running this slice's own check confirms it in the browser: approach from
+`rootfall_hamlet` at 27.14 m with an 0.042 approach slope and no rejected
+approach, all five rocks clicked with receipts, respawn at 32 s, inventory-full
+stop, and a 0.04 m haul return arrival. Evidence:
+`test-results/hollowcut-after/report.json`.
+
+**Still open: `haulRamp.gradeWithinIntent` at Hollowcut, 0.616 against 0.55.**
+Widening `bermWidth` from 7.5 to 10.5 was tried and changed the measured grade by
+nothing at all (0.616 either way, ramp end distance 13.5 m both times), because
+the grade comes from the natural terrain the lane crosses rather than from the
+berm. It was reverted rather than left in as a change that buys nothing. Closing
+it needs a real `siteTerrain` cut along the lane, which is this package's work,
+not a parameter nudge. The mine is fully playable meanwhile.
+
+Navigation was regenerated once for this slice's cut faces together with the
+gatehouse move: 3544 polys, fingerprint `eaf7c7a8`.
