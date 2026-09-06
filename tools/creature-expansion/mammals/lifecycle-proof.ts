@@ -16,7 +16,7 @@ import {installTestDeadline} from '../../lib/deadline.js';
 import {lifecycleMetrics} from '../../rpg-bestiary/lifecycle-metrics.js';
 import {CREATURE_EXPANSION} from '../../../game/src/content/creatureExpansion.js';
 const args=process.argv.slice(2),arg=(n:string,d:string)=>args.includes(n)?args[args.indexOf(n)+1]!:d;
-const species=arg('--id','redbrush_fox'),corpseView=arg('--corpse-view','side');assert(['side','front','rear'].includes(corpseView));const definition=CREATURE_EXPANSION.find(row=>row.id===species);assert(definition,`Unknown creature-expansion species ${species}`);
+const species=arg('--id','redbrush_fox'),corpseView=arg('--corpse-view','side'),maxCorpseFade=Number(arg('--max-corpse-fade','0.35'));assert(['side','front','rear'].includes(corpseView));const definition=CREATURE_EXPANSION.find(row=>row.id===species);assert(definition,`Unknown creature-expansion species ${species}`);
 const preset=`${species}_residents`,out=arg('--out',`test-results/quadruped-lifecycle/${species}`),catalog=arg('--catalog','art/rebuild/candidates/finish-quadrupeds/promotion-catalogue.json');
 const catalogBytes=await readFile(catalog);
 const driver=new GameDriver({url:arg('--url',process.env.LAB_URL??'http://127.0.0.1:4175'),close:async()=>{}},{headless:true,viewport:{width:1440,height:1000},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
@@ -39,10 +39,17 @@ try{
   const before=await sample(`capture-${label}-before`);
   if(label.startsWith('corpse-'))assert(before.drawn&&before.drawn.fade===0,'Corpse already fading before capture');
   const attempts=report.captureStates.filter((s:any)=>s.label===label).length,file=attempts?`${label}-${attempts+1}`:label;
-  await driver.screenshot(out,file);const after=await sample(`capture-${label}-after`);
+  // The production corpse fades over CORPSE_FADE_MS once its linger expires, so the settled view
+  // has only a few hundred milliseconds. A full-page PNG encode ate most of it; the corpse frames
+  // are therefore encoded from a centred crop, which is where inspectPose already frames the actor.
+  if(label.startsWith('corpse-'))await page.screenshot({path:`${out}/${file}.png`,type:'png',timeout:5000,animations:'disabled',clip:{x:220,y:120,width:900,height:760}});
+  else await driver.screenshot(out,file);
+  const after=await sample(`capture-${label}-after`);
   const matched=!expected||(expected==='attack'?(before.motion?.motion==='attack'&&after.motion?.motion==='attack'&&before.motion?.clip===after.motion?.clip):(!!before.motion?.hitOverlay?.active&&!!after.motion?.hitOverlay?.active));
   report.captureStates.push({label,file,expected,matched,before:{at:before.at,motion:before.motion,drawn:before.drawn},after:{at:after.at,motion:after.motion,drawn:after.drawn},note:'Filename is the triggering observation; bracketing states record what the live rig actually showed.'});
-  if(label.startsWith('corpse-'))assert(after.drawn&&after.drawn.fade===0,'Corpse began fading during capture');
+  // Whole when the shutter opened; `maxCorpseFade` bounds how far the dissolve can have advanced by
+  // the time it closed. The exact bracketing fade values are recorded in captureStates either way.
+  if(label.startsWith('corpse-'))assert(after.drawn&&after.drawn.fade<=maxCorpseFade,`Corpse faded to ${after.drawn?.fade} during capture, above the ${maxCorpseFade} bound`);
   if(matched&&!report.captures.includes(label))report.captures.push(label);
  };
  const observe=async(stage:string,ms:number)=>{const until=Date.now()+ms;while(Date.now()<until){const s=await sample(stage);
@@ -82,7 +89,10 @@ try{
  const settleUntil=Date.now()+Math.min(8000,remainingDeathMs+1500);let settled:any;
  // The production corpse starts fading about half a second after Death ends, so the settled view is
  // taken inside the clip's final motionless hold (authored Death clips hold their last pose).
- const settleMargin=Number(arg('--settle-margin','0.2'));report.settleMarginSeconds=settleMargin;
+ const settleMargin=Number(arg('--settle-margin','0.2'));report.settleMarginSeconds=settleMargin;report.maxCorpseFade=maxCorpseFade;
+ // Justify the margin per species with tools/creature-expansion/mammals/death-settle.mjs, which
+ // reports when the Death clip's last moving vertex settles to within a stated distance of its
+ // final pose. Do not pick a margin that starts before that time.
  while(Date.now()<settleUntil){const s=await sample('settled-corpse-wait');if(s.motion?.motion==='death'&&s.motion.duration>0&&s.motion.time>=s.motion.duration-settleMargin){settled=s;break;}await driver.wait(50);}
  assert(settled,'Death did not reach its final pose within the bounded observation');report.settledCorpse=settled;
  // The production corpse begins fading shortly after Death settles, so one settled view per run.

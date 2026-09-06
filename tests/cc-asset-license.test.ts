@@ -32,8 +32,10 @@ describe("explicit Creative Commons asset provenance", () => {
   it("accepts CC-BY-4.0 only with its exact 4.0 deed and retained derivative license", () => {
     const pack = { ...fixture(false), license: "CC-BY-4.0", derivativeLicense: "CC-BY-4.0", licenseUrl: "https://creativecommons.org/licenses/by/4.0/" };
     expect(() => validateCcAssetPack(pack)).not.toThrow();
-    expect(() => validateCcAssetPack({ ...pack, licenseUrl: fixture(false).licenseUrl })).toThrow("licenseUrl");
-    expect(() => validateCcAssetPack({ ...pack, derivativeLicense: "CC-BY-3.0" })).toThrow("derivativeLicense");
+    const wrongDeed = { ...pack, licenseUrl: fixture(false).licenseUrl };
+    const relicensed = { ...pack, derivativeLicense: "CC-BY-3.0" };
+    expect(() => validateCcAssetPack(wrongDeed)).toThrow("licenseUrl");
+    expect(() => validateCcAssetPack(relicensed)).toThrow("derivativeLicense");
     expect(ccAssetCredits(pack)).toContain("[CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/)");
   });
   it("rejects a mismatched deed and share-alike relicensing", () => {

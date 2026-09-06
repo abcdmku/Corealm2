@@ -197,7 +197,7 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "baseEnemyDefId": "ashscale_monitor_t20",
     "activity": "prowl",
     "nativeBodyRadius": 2.3840643191337585,
-    "nativeVisualRadius": 3.126749966751312
+    "nativeVisualRadius": 3.1445374043543763
   },
   {
     "id": "scree_bustard_residents",

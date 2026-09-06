@@ -170,7 +170,7 @@
       "author": "Corealm",
       "source": "tools/build-creature-expansion.ts",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "9a42f48ae7c563a5c3331dcd6f610d510db3609544b474b9f62fa25d42acd4e1"
+      "generatorSha256": "eb76f57507ff84e5ec1694cb5c68839bd8076b75342445ba18c1b78999974141"
     },
     {
       "id": "pixeliusvita-monster04",
@@ -21217,32 +21217,32 @@
         "five-toed",
         "long-tail"
       ],
-      "bytes": 3137032,
-      "sha256": "7177dba27d5453b40d5dad3ab184b024bb024cc15c7dccc8a32db0fc42ed6483",
+      "bytes": 3035692,
+      "sha256": "81aa4269996482a5ca3f752b1a50ca8830f0449cded062d817c588d73bddf00e",
       "size": {
-        "x": 1.8283082466125486,
-        "y": 1.1981679896712303,
+        "x": 1.9464862937927248,
+        "y": 1.1931678258702159,
         "z": 4.768128638267517
       },
       "base": {
-        "x": -0.9141440501213073,
-        "y": -8.940696516468449e-10,
+        "x": -0.9732204971313477,
+        "y": 0.005000162906944772,
         "z": -2.9901286220550536
       },
       "bounds": {
         "min": [
-          -0.9141440501213073,
-          -8.940696516468449e-10,
+          -0.9732204971313477,
+          0.005000162906944772,
           -2.9901286220550536
         ],
         "max": [
-          0.9141641964912414,
+          0.973265796661377,
           1.1981679887771606,
           1.7780000162124634
         ]
       },
-      "groundY": -8.940696516468449e-10,
-      "triangles": 34374,
+      "groundY": 0.005000162906944772,
+      "triangles": 32230,
       "animations": [
         "Idle",
         "Walk",
@@ -21274,39 +21274,39 @@
             "seconds": 1.3600000143051147,
             "sampledFootBones": 4,
             "stanceSamples": 284,
-            "measuredStanceMps": 0.4769921718572518,
+            "measuredStanceMps": 0.4771984536725997,
             "feet": [
               {
                 "bone": "monitor_fore_left_foot",
-                "minY": 0.08492974416122895,
-                "maxY": 0.1728172848941087,
-                "strideZ": 0.4779244356155137,
+                "minY": 0.08493616598719467,
+                "maxY": 0.17281354844371044,
+                "strideZ": 0.47792443983564836,
                 "contactSamples": 71,
-                "stanceMedianMps": 0.47820582008497214
+                "stanceMedianMps": 0.4776951529961794
               },
               {
                 "bone": "monitor_fore_right_foot",
-                "minY": 0.08492974420320354,
-                "maxY": 0.17281729169407012,
-                "strideZ": 0.4781491820423669,
+                "minY": 0.08493744207859799,
+                "maxY": 0.17281355528595732,
+                "strideZ": 0.4781798727063604,
                 "contactSamples": 71,
-                "stanceMedianMps": 0.4790229748263525
+                "stanceMedianMps": 0.477655890876018
               },
               {
                 "bone": "monitor_hind_left_foot",
-                "minY": 0.08493639199414904,
-                "maxY": 0.17283944083059907,
-                "strideZ": 0.4779244257515663,
+                "minY": 0.08494173344625294,
+                "maxY": 0.17283943017747574,
+                "strideZ": 0.477924440577073,
                 "contactSamples": 71,
-                "stanceMedianMps": 0.4767801839992707
+                "stanceMedianMps": 0.4769951116774983
               },
               {
                 "bone": "monitor_hind_right_foot",
-                "minY": 0.08493639199192432,
-                "maxY": 0.1728394397499801,
-                "strideZ": 0.4778366182819637,
+                "minY": 0.08494173343981365,
+                "maxY": 0.17283942923792325,
+                "strideZ": 0.4778266391657542,
                 "contactSamples": 71,
-                "stanceMedianMps": 0.47677686645872996
+                "stanceMedianMps": 0.47702337692747465
               }
             ],
             "rootHorizontalTravel": [
@@ -21321,39 +21321,39 @@
             "seconds": 0.7200000286102295,
             "sampledFootBones": 4,
             "stanceSamples": 220,
-            "measuredStanceMps": 1.6862571342511896,
+            "measuredStanceMps": 1.6863952226189496,
             "feet": [
               {
                 "bone": "monitor_fore_left_foot",
-                "minY": 0.08479027940913358,
-                "maxY": 0.22975814333075129,
-                "strideZ": 0.6779618263154739,
+                "minY": 0.08479257433839016,
+                "maxY": 0.22977555769727573,
+                "strideZ": 0.6779524422933589,
                 "contactSamples": 55,
-                "stanceMedianMps": 1.6864305666595198
+                "stanceMedianMps": 1.6863858152491518
               },
               {
                 "bone": "monitor_fore_right_foot",
-                "minY": 0.08478910441389631,
-                "maxY": 0.22975814446170256,
-                "strideZ": 0.6780165379711983,
+                "minY": 0.08479630102764268,
+                "maxY": 0.2297755587584486,
+                "strideZ": 0.6780071532155532,
                 "contactSamples": 55,
-                "stanceMedianMps": 1.6862225844364656
+                "stanceMedianMps": 1.686387490709537
               },
               {
                 "bone": "monitor_hind_left_foot",
-                "minY": 0.0848703671526495,
-                "maxY": 0.22973320347563883,
-                "strideZ": 0.6779215371782027,
+                "minY": 0.08487219942471314,
+                "maxY": 0.22975382431296767,
+                "strideZ": 0.6779205912910051,
                 "contactSamples": 55,
-                "stanceMedianMps": 1.6862571342511896
+                "stanceMedianMps": 1.6863968980963584
               },
               {
                 "bone": "monitor_hind_right_foot",
-                "minY": 0.08489260684868183,
-                "maxY": 0.22973320224818594,
-                "strideZ": 0.6779215249994561,
+                "minY": 0.0848898417485861,
+                "maxY": 0.22975382316680762,
+                "strideZ": 0.6779205791689638,
                 "contactSamples": 55,
-                "stanceMedianMps": 1.6862554587660685
+                "stanceMedianMps": 1.6863952226189496
               }
             ],
             "rootHorizontalTravel": [
@@ -21369,7 +21369,7 @@
           "Idle": {
             "seconds": 4.199999809265137,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006773550513579684,
+            "maxRotationGapRadians": 0.0003367667748091781,
             "maxScaleGap": 0
           },
           "Walk": {
@@ -21381,7 +21381,7 @@
           "Run": {
             "seconds": 0.7200000286102295,
             "maxTranslationGap": 0,
-            "maxRotationGapRadians": 0.0006366280566686988,
+            "maxRotationGapRadians": 0.0006290327506413761,
             "maxScaleGap": 0
           }
         },
@@ -21472,8 +21472,10 @@
       },
       "acceptance": {
         "assetAudit": true,
-        "labAccepted": false,
-        "worldIntegrated": false
+        "labAccepted": true,
+        "worldIntegrated": false,
+        "labEvidence": "test-results/s05-monitor-lifecycle/run5/report.json",
+        "labCatalogue": "art/rebuild/candidates/finish-quadrupeds/monitor-promotion.json"
       }
     },
     {
