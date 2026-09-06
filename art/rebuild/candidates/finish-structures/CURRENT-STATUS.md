@@ -26,9 +26,15 @@ The unused `bridge_small`, `bridge_modular_end` and `bridge_modular_center` asse
 
 ## Shortcut geology
 
-No replacement Sunder or Scree asset is approved for promotion.
+`corealm_sunder_ledge` and `corealm_scree_slide` are accepted and promoted. They are authored
+`tools/build-corealm-geology.ts` output with no third-party geometry or maps. Acceptance covers the
+production environment lab at approach, side, opposite and gameplay distance on RTX 5080/D3D11
+(`test-results/geo-gallery/r4`), both world landing runs and the CPU grounding sections. The rejected
+rounds below are kept as history, not approval; `reviewed-e8200209` was deleted after promotion.
 
-- `reviewed-e8200209`: custom source, rejected exposed rectangular backs and unsupported world lip.
+Earlier rejected rounds:
+
+- `reviewed-e8200209`: custom source, rejected exposed rectangular backs and unsupported world lip. Deleted after promotion.
 - Root candidate custom revision: tapered bodies, rejected artificial form.
 - `source-outcrops`: DEXSOFT geometry with original maps, rejected bright painted rims and lobed form.
 - `source-outcrops-quiet`: preserved DEXSOFT geometry with the accepted muted ore albedo treatment, rejected soft lobed form despite improved material response.

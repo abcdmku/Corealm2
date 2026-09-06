@@ -459,15 +459,22 @@ class Geology {
     const [width, height, depth] = this.spec.size;
     type Field = (x: number, y: number, z: number) => number;
     type Plane = readonly [x: number, y: number, z: number, distance: number];
-    const convex = (planes: readonly Plane[]): Field => {
+    const convex = (planes: readonly Plane[], cutPhase?: number): Field => {
       const normalized = planes.map(([x, y, z, distance]) => {
         const length = Math.hypot(x, y, z);
         return [x / length, y / length, z / length, distance / length] as const;
       });
       return (x, y, z) => {
         let farthest = -Infinity;
-        for (const [nx, ny, nz, distance] of normalized) {
-          farthest = Math.max(farthest, nx * x + ny * y + nz * z - distance);
+        for (let index = 0; index < normalized.length; index++) {
+          const [nx, ny, nz, distance] = normalized[index]!;
+          // Metre-scale waves move grazing cut intersections off marching-cubes rows.
+          // At most 6 cm of displacement keeps the broad fracture faces nearly planar.
+          const phase = (cutPhase ?? 0) + index * 2.41;
+          const displacement = cutPhase === undefined ? 0
+            : .045 * Math.sin(x * .61 + y * .37 + z * .53 + phase)
+              + .015 * Math.sin(x * -.43 + y * .59 + z * .31 + phase * 1.73);
+          farthest = Math.max(farthest, nx * x + ny * y + nz * z - distance - displacement);
         }
         return farthest;
       };
@@ -502,36 +509,81 @@ class Geology {
       convex([[.31, 1, .21, 1.12], [-.31, -1, -.21, -.88], [-1, 0, 0, 1.75],
         [1, 0, 0, -.32], [0, 0, -1, -.10]]),
     ] : [
-      convex([[1, .32, -.22, .61], [-1, -.32, .22, -.11], [0, -.18, -1, .62], [0, -1, 0, -.82]]),
-      convex([[1, .11, .40, -1.10], [-1, -.11, -.40, 1.46], [0, 0, 1, -.63], [0, -1, 0, -.44]]),
+      convex([[1, .32, -.22, .61], [-1, -.32, .22, -.11], [0, -.18, -1, -.25], [0, -1, 0, -.82]], .7),
+      convex([[1, .11, .40, -1.10], [-1, -.11, -.40, 1.46], [0, 0, 1, -.63], [0, -1, 0, -.44]], 2.3),
       convex([[.18, 1, .17, 1.40], [-.18, -1, -.17, -1.13], [-1, 0, 0, 3.93],
-        [1, 0, 0, -.31], [0, 0, -1, -.21]]),
-      convex([[1, -.24, -.31, 2.74], [-1, .24, .31, -2.39], [0, 0, -1, .06], [0, -1, 0, -.32]]),
+        [1, 0, 0, -.31], [0, 0, -1, -.21]], 4.1),
+      convex([[1, -.24, -.31, 2.74], [-1, .24, .31, -2.39], [0, 0, -1, .06], [0, -1, 0, -.32]], 5.8),
     ];
     // Irregular shallow crown losses cross the larger tilted planes at different angles.
     const crownCuts: Field[] = slide ? [
       convex([[.52, -1, .19, -3.30], [-1, 0, -.25, .75], [1, 0, .25, -.21], [0, 0, 1, -.30]]),
       convex([[-.26, -1, -.34, -3.12], [1, 0, -.32, .95], [-1, 0, .32, -.45], [0, 0, -1, 1.85]]),
     ] : [
-      convex([[.44, -1, .15, -3.65], [-1, 0, .28, 2.06], [1, 0, -.28, -1.38], [0, 0, 1, -.25]]),
-      convex([[-.21, -1, .38, -3.34], [-1, 0, -.24, .80], [1, 0, .24, -.20], [0, 0, -1, 1.73]]),
-      convex([[.31, -1, -.26, -2.69], [-1, 0, .22, -1.20], [1, 0, -.22, 1.84], [0, 0, 1, 1.31]]),
+      convex([[.44, -1, .15, -3.65], [-1, 0, .28, 2.06], [1, 0, -.28, -1.38], [0, 0, 1, -.25]], 7.2),
+      convex([[-.21, -1, .38, -3.34], [-1, 0, -.24, .80], [1, 0, .24, -.20], [0, 0, -1, 1.73]], 8.9),
+      convex([[.31, -1, -.26, -2.69], [-1, 0, .22, -1.20], [1, 0, -.22, 1.84], [0, 0, 1, 1.31]], 10.6),
     ];
     const approach: Field = slide
       ? convex([[-1, 0, 0, -.85], [0, 0, 1, -.05], [0, 0, -1, 1.16], [0, 1, 0, 1.88], [0, -1, 0, -.04]])
       : convex([[1, 0, 0, -.62], [-.20, 0, 1, .23], [.20, 0, -1, 1.04], [0, 1, 0, 2.08], [0, -1, 0, -.04]]);
-    // Back and flank faces remain exposed in the authored shortcut placements. Broad tapered
-    // planes meet a low foot, while oblique rock folds break their silhouettes without cards.
-    const fold = (t: number): number => Math.abs(((t % 2) + 2) % 2 - 1) - .5;
+    // One shallow bedding attitude drives both erosion and colour on every exposed face.
+    // Unequal beds blend through weathered lips, leaving the interior a continuous mass.
+    const bedRandom = rng(this.spec.seed + 913);
+    const beds: { bottom: number; thickness: number; offset: number; value: number; warmth: number }[] = [];
+    for (let bottom = -3; bottom < height + 4;) {
+      const thickness = .35 + bedRandom() * .43;
+      beds.push({ bottom, thickness, offset: .025 + bedRandom() * .31,
+        value: (bedRandom() - .5) * .24, warmth: bedRandom() * 2 - 1 });
+      bottom += thickness;
+    }
+    const bedding = (x: number, y: number, z: number) => {
+      const level = y + x * .18 + z * .13 + .045 * Math.sin(x * .67 + z * .51);
+      const index = Math.max(0, beds.findIndex(bed => level < bed.bottom + bed.thickness));
+      const bed = beds[index]!, next = beds[Math.min(index + 1, beds.length - 1)]!;
+      const t = Math.max(0, Math.min(1, (level - bed.bottom - bed.thickness + .16) / .16));
+      const blend = t * t * (3 - 2 * t);
+      return { offset: bed.offset + (next.offset - bed.offset) * blend,
+        value: bed.value + (next.value - bed.value) * blend,
+        warmth: bed.warmth + (next.warmth - bed.warmth) * blend };
+    };
+    // A rounded subtraction erodes grazing slivers instead of preserving voxel-sized ledges.
+    const smoothMax = (a: number, b: number, radius: number): number =>
+      Math.max(a, b) + Math.max(0, radius - Math.abs(a - b)) ** 2 / (4 * radius);
+    // Three broad recesses supplement the fine beds. Their 1.16 / 1.33 m spacing
+    // follows the same bedding attitude; metre-scale strike waves break each lip.
+    // Positive offsets only remove rock from the shared body, never add slabs.
+    const benches = [
+      { bottom: .62, depth: .22, breadth: .58, phase: .4 },
+      { bottom: 1.78, depth: .30, breadth: .69, phase: 1.7 },
+      { bottom: 3.11, depth: .26, breadth: .61, phase: 2.9 },
+    ];
+    const coarseBedding: Field = (x, y, z) => {
+      const level = y + x * .18 + z * .13 + .045 * Math.sin(x * .67 + z * .51);
+      const strike = (x * .13 - z * .18) / Math.hypot(.13, .18);
+      const ease = (value: number) => {
+        const t = Math.max(0, Math.min(1, value));
+        return t * t * (3 - 2 * t);
+      };
+      let recess = 0;
+      for (const bench of benches) {
+        const edge = .09 * Math.sin(strike * 1.73 + bench.phase)
+          + .035 * Math.sin(strike * 2.61 - bench.phase * .7);
+        const above = level - bench.bottom - edge;
+        const depth = bench.depth + .025 * Math.sin(strike * .81 + bench.phase);
+        // A short lower lip opens into a broad cut, then a gentler upper return.
+        recess += depth * ease(above / .14) * (1 - ease((above - bench.breadth) / .28));
+      }
+      return recess;
+    };
     const mainField: Field = (x, y, z) => {
-      const back = Math.max(0, Math.min(1, (-z + .1) / 1.4));
       const rise = Math.max(0, Math.min(1, y / .65));
-      const rearRelief = back * rise * (.43 * fold(x * .91 + y * .73) + .23 * fold(x * .43 - y * 1.13));
-      const sideRelief = rise * (.18 * fold(z * 1.11 + y * .61) + .12 * fold(z * .47 - y * .89));
-      const outwardX = x + Math.sign(x) * sideRelief;
-      let distance = Math.min(body(outwardX, y, z + rearRelief), toe(x, y, z));
-      for (const cut of fractureCuts) distance = Math.max(distance, -cut(x, y, z));
-      for (const cut of crownCuts) distance = Math.max(distance, -cut(x, y, z));
+      const relief = rise * (bedding(x, y, z).offset
+        + .045 * Math.sin(x * 1.31 + z * .87 + y * .43));
+      let distance = Math.min(body(x, y, z), toe(x, y, z)) + relief;
+      if (!slide) distance += rise * coarseBedding(x, y, z);
+      for (const cut of fractureCuts) distance = smoothMax(distance, -cut(x, y, z), .12);
+      for (const cut of crownCuts) distance = smoothMax(distance, -cut(x, y, z), .12);
       return Math.max(distance, -approach(x, y, z));
     };
     const topAt = (x: number, z: number): number => {
@@ -572,7 +624,8 @@ class Geology {
         [1, .24, .13, .49], [-1, .18, -.19, .46], [.16, .28, 1, .49], [-.17, .22, -1, .47],
         [.72, .20, .70, .51 + this.random() * .13], [-.64, .14, -.75, .53 + this.random() * .11],
         [.45, 1, .34, .67 + this.random() * .18]]);
-      fragments.push({ x, y, z, w, h, d, yaw, pitch, roll, field: profile });
+      // Keep talus at the foot. Small pieces perched high on a planar face read as cubes.
+      if (y < .85) fragments.push({ x, y, z, w, h, d, yaw, pitch, roll, field: profile });
     }
     const field: Field = (x, y, z) => {
       let distance = mainField(x, y, z);
@@ -590,11 +643,10 @@ class Geology {
         distance = Math.min(distance, local * Math.min(fragment.w, fragment.h, fragment.d));
       }
       // Keep all debris inside the established envelope. Each boundary is buried in the foot.
-      return Math.max(distance, Math.abs(x) - width / 2, -y, Math.abs(z) - depth / 2);
+      return Math.max(distance, Math.abs(x) - width / 2, -y, Math.abs(z) - depth / 2, -approach(x, y, z));
     };
-    // Hard Boolean intersections preserve fracture planes. Grid interpolation adds only a
-    // small chamfer at their meeting edges; no smoothing union or displacement noise is used.
-    const resolution = 64, padding = .40;
+    // Resolve the weathered bedding lips without relying on resolution to hide hard cuts.
+    const resolution = 76, padding = .40;
     const extent = new Vector3(width + padding * 2, height + padding * 2, depth + padding * 2);
     const material = new MeshBasicMaterial();
     const surface = new MarchingCubes(resolution, material, false, false, 80_000);
@@ -610,12 +662,50 @@ class Geology {
     const positions = surface.geometry.getAttribute("position");
     const point = (index: number): V => new Vector3(positions.getX(index) * extent.x / 2,
       (positions.getY(index) + 1) * extent.y / 2 - padding, positions.getZ(index) * extent.z / 2);
+    const firstTriangle = this.triangles.length;
+    const shade = (p: V): Colour => {
+      const bed = bedding(p.x, p.y, p.z);
+      const cutDistance = Math.min(...fractureCuts.concat(crownCuts).map(cut => Math.abs(cut(p.x, p.y, p.z))));
+      const fresh = Math.max(0, 1 - cutDistance / .14);
+      const foot = Math.max(0, 1 - p.y / .55);
+      const recess = Math.max(0, (bed.offset - .15) / .20);
+      const value = .89 + bed.value + fresh * .13 - foot * .16 - recess * .065
+        + .025 * Math.sin(p.x * .83 + p.z * .62);
+      const warmth = bed.warmth * .035 + .025 - fresh * .07;
+      const base = colour(this.host, value);
+      return [base[0] * (1 + warmth), base[1], base[2] * (1 - warmth)];
+    };
     for (let i = 0; i < surface.count; i += 3) {
       const a = point(i), b = point(i + 1), c = point(i + 2);
       const normal = new Vector3().crossVectors(b.clone().sub(a), c.clone().sub(a)).normalize();
-      const shade = (p: V): Colour => this.stone(p, Math.floor((p.y - p.x * .24 + p.z * .31) / .77), false);
-      this.tri(a, b, c, shade(a), shade(b), shade(c), false, normal);
+      // Tiny valid marching-cubes faces close the surface around near-grid intersections.
+      // The general polygon helper's area cutoff would leave pinholes here.
+      this.triangles.push({ points: [a, b, c], colours: [shade(a), shade(b), shade(c)],
+        mineral: false, faceNormal: normal });
     }
+    // Marching cubes can isolate chips at grazing intersections or at the fan perimeter.
+    // Retain the largest complete surface component, never individual floating fragments.
+    const triangles = this.triangles.splice(firstTriangle);
+    const parents = triangles.map((_, index) => index);
+    const root = (index: number): number => {
+      while (parents[index] !== index) {
+        parents[index] = parents[parents[index]!]!;
+        index = parents[index]!;
+      }
+      return index;
+    };
+    const vertices = new Map<string, number>();
+    for (const [index, triangle] of triangles.entries()) for (const p of triangle.points) {
+      const key = `${p.x.toFixed(6)},${p.y.toFixed(6)},${p.z.toFixed(6)}`;
+      const other = vertices.get(key);
+      if (other === undefined) vertices.set(key, index);
+      else parents[root(index)] = root(other);
+    }
+    const sizes = new Map<number, number>();
+    for (let i = 0; i < triangles.length; i++) sizes.set(root(i), (sizes.get(root(i)) ?? 0) + 1);
+    const largest = [...sizes].sort((a, b) => b[1] - a[1])[0]![0];
+    for (let i = 0; i < triangles.length; i++) if (root(i) === largest) this.triangles.push(triangles[i]!);
+    if (this.triangles.length - firstTriangle >= 60_000) throw new Error(`${this.spec.id}: shortcut exceeds 60000 triangles`);
     surface.geometry.dispose(); material.dispose();
     // Native normalization fits the actual closed solid. There is no flat bounding card.
     this.blocks = 1 + fragments.length;

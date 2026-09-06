@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T05:48:59.915Z",
+  "generatedAt": "2026-09-06T06:10:24.422Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -162,7 +162,7 @@
       "author": "Corealm",
       "source": "tools/build-corealm-geology.ts",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "b05c776ffdf944d635b1253b58083e4b6cdaca1de7a6858ec447559f32bfcc80"
+      "generatorSha256": "c5c3fe81b70f7be73dc62332e8ec700ff0d862966df25aa0714a267134552fda"
     },
     {
       "id": "corealm-creature-expansion",
@@ -23619,7 +23619,7 @@
         "geology",
         "environment"
       ],
-      "bytes": 412220,
+      "bytes": 1501504,
       "size": {
         "x": 9.319,
         "y": 4.448,
@@ -23634,9 +23634,9 @@
       "materials": [
         "Corealm weathered strata"
       ],
-      "sha256": "89e8bc3389d3b5a8f469aba4d5bd6effe39816699f861499115792e01c51094b",
-      "triangles": 8604,
-      "blocks": 13,
+      "sha256": "406f4e5f0896f1ebb0f33e9cb462381b183869fe58330a4f725ef5347d5cded1",
+      "triangles": 35424,
+      "blocks": 11,
       "mineralFaces": 0,
       "placement": {
         "replacesAssetId": "cliff_step_2",
@@ -24356,7 +24356,7 @@
         "geology",
         "environment"
       ],
-      "bytes": 333416,
+      "bytes": 1050468,
       "size": {
         "x": 5.996,
         "y": 4.382,
@@ -24371,9 +24371,9 @@
       "materials": [
         "Corealm weathered strata"
       ],
-      "sha256": "4abdd4260d01bb41594cdf33dc911a6f8da2fcd53ee8ecee7040b1bb35f0328b",
-      "triangles": 6133,
-      "blocks": 16,
+      "sha256": "f72e4863d121b71d2b9c4f6aeff1c4e6638e464359886cb4631f2e86f82a1e12",
+      "triangles": 23524,
+      "blocks": 23,
       "mineralFaces": 0,
       "placement": {
         "replacesAssetId": "cliff_step_3",

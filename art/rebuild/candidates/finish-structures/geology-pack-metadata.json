@@ -1,0 +1,10 @@
+[
+  {
+    "id": "corealm-original-geology",
+    "name": "Corealm fractured strata and mineral workings",
+    "author": "Corealm",
+    "source": "tools/build-corealm-geology.ts",
+    "license": "LicenseRef-Corealm-Original",
+    "generatorSha256": "c5c3fe81b70f7be73dc62332e8ec700ff0d862966df25aa0714a267134552fda"
+  }
+]
