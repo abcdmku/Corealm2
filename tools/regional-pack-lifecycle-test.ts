@@ -304,6 +304,11 @@ async function main(): Promise<void> {
       // Territorial and passive residents only answer provocation; the punch is the natural trigger.
       await poll("player reaches the approach point", (value) => distance(value.player, approach) < 1.5, 15_000);
       await invoke("corealm_attack", { entityId: targetId });
+      // A level-1 player still kills a small territorial or passive resident if the attack command
+      // is left running, which would end the lifecycle before its own flinch and kill steps. Break
+      // off the moment the pack answers; the provoked residents keep fighting on their own.
+      await poll("provoked resident answers", (value) => value.entities.some((entity) => entity.state === "aggro"), 20_000, 40);
+      await invoke("corealm_stop", {});
     }
     interface HitSample { damage: number; playerHealth: number; maxHealth: number; attackers: { id: string; clip: string | null; phase: number | null; distance: number }[] }
     const hits: HitSample[] = [];
@@ -311,9 +316,13 @@ async function main(): Promise<void> {
     let pursuitSeen = false;
     let lastHealth = beforeAggro.state.health;
     let firstHitAt: number | null = null;
+    // Provoked passive and territorial residents answer, trade blows and disengage inside this
+    // window, so the closing snapshot alone understates the engagement. Keep the peak.
+    let peakAggro = 0;
     const aggro = await poll("normal aggro and enemy damage", (value) => {
       const started = value.events.some((event) => event.type === "combat.started" && event.data.initiator === "enemy"
         && initial.fixture.ids.includes(String(event.data.by)));
+      peakAggro = Math.max(peakAggro, value.entities.filter((entity) => entity.state === "aggro").length);
       if (value.entities.some((entity) => entity.state === "aggro" && distance(entity.position, spawns.get(entity.id)!) > 0.5)) pursuitSeen = true;
       for (const [index, motion] of value.motions.entries()) {
         if (motion?.hitOverlay?.active && !flinchSeen) flinchSeen = { id: value.entities[index]!.id, clip: motion.hitOverlay.clip, weight: motion.hitOverlay.weight };
@@ -335,10 +344,11 @@ async function main(): Promise<void> {
       // Two hits or six seconds after the first: enough to attribute contact without a long stand.
       return started && hits.length > 0 && (hits.length >= 2 || Date.now() - firstHitAt! > 6_000);
     }, 40_000, 40, undefined, true);
-    const aggroCount = aggro.entities.filter((entity) => entity.state === "aggro").length;
+    const aggroAtClose = aggro.entities.filter((entity) => entity.state === "aggro").length;
+    const aggroCount = Math.max(peakAggro, aggroAtClose);
     const maxHit = Math.max(...pack.members.map((member) => variants.get(member.variantId)!.stats.maxHit));
     const attributed = hits.filter((hit) => hit.attackers.some((attacker) => attacker.phase !== null && Math.abs(attacker.phase - contactNormalized) <= 0.3 && ATTACK_CLIP.test(attacker.clip ?? "")));
-    report.aggro = { residentsAggro: aggroCount, pursuitSeen, playerHealthBefore: beforeAggro.state.health, playerMaxHealth: beforeAggro.state.maxHealth, hits, debugHealthTopUps: topUps, flinchSeenDuringAggro: flinchSeen };
+    report.aggro = { residentsAggro: aggroCount, residentsAggroAtClose: aggroAtClose, pursuitSeen, playerHealthBefore: beforeAggro.state.health, playerMaxHealth: beforeAggro.state.maxHealth, hits, debugHealthTopUps: topUps, flinchSeenDuringAggro: flinchSeen };
     check("residentsInitiateOrAnswer", aggroCount >= 1, `${aggroCount} residents aggro`);
     check("residentsPursuePlayer", pursuitSeen || (baseStats.attackStyle !== undefined && baseStats.attackStyle !== "melee"), "no resident left its spawn while aggro");
     check("enemyDamageLands", hits.length > 0 && hits.every((hit) => hit.damage >= 1), "player health did not fall");
