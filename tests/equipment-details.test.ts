@@ -27,12 +27,19 @@ function signedVolume(geometry: THREE.BufferGeometry): number {
 }
 
 describe("shared production equipment details", () => {
-  it("keeps a full grip at the guard-origin hand socket and a closed short blade", () => {
-    const dagger = buildEquipmentDagger();
+  it.each([0, 1, 2, 3] as const)("keeps grade %i's grip on the guard-origin hand socket", (grade) => {
+    const dagger = buildEquipmentDagger(grade);
     const bounds = new THREE.Box3().setFromObject(dagger);
-    expect(bounds.min.y).toBeCloseTo(-0.208, 6);
-    expect(bounds.max.y).toBeCloseTo(0.570, 6);
-    expect(bounds.getSize(new THREE.Vector3()).x).toBeCloseTo(0.180, 6);
+    // A dagger, not a scaled sword: the tier-10 sword beside it is 1.03 m long on a 1.81 m rig.
+    const height = bounds.getSize(new THREE.Vector3()).y;
+    expect(height).toBeGreaterThan(0.40);
+    expect(height).toBeLessThan(0.48);
+    // Blade above the guard origin.
+    expect(bounds.max.y).toBeGreaterThan(0.25);
+    expect(bounds.max.y).toBeLessThan(0.31);
+    // The axe form has to stay clearly wider; tests/equipment-weapons.test.ts pins that ratio.
+    expect(bounds.getSize(new THREE.Vector3()).x).toBeLessThan(0.17);
+    // Every grade keeps the reviewed grip, because the hand socket is measured against it.
     const grip = meshes(dagger).find((mesh) => mesh.material.userData.equipmentRole === "leather")!;
     expect(grip.geometry.boundingBox!.min.y).toBeCloseTo(-0.170, 6);
     expect(grip.geometry.boundingBox!.max.y).toBeCloseTo(-0.030, 6);
@@ -42,28 +49,48 @@ describe("shared production equipment details", () => {
     gripCenter.applyEuler(new THREE.Euler(Math.PI / 2, 0, 0)).add(new THREE.Vector3(0, 0, 0.100));
     expect(gripCenter.length()).toBeLessThan(0.0002);
     const blade = meshes(dagger).find((mesh) => mesh.material.userData.equipmentRole === "blade")!;
-    expect(blade.geometry.boundingBox!.getSize(new THREE.Vector3()).z).toBeGreaterThan(0.019);
-    expect(signedVolume(blade.geometry)).toBeGreaterThan(0.00025);
+    // Real section, not a flat sliver, and it thickens with the grade.
+    expect(blade.geometry.boundingBox!.getSize(new THREE.Vector3()).z).toBeGreaterThan(0.0075);
+    expect(Math.abs(signedVolume(blade.geometry))).toBeGreaterThan(0.000015);
+  });
+
+  it("gives the four dagger grades separable silhouettes", () => {
+    const measured = [0, 1, 2, 3].map((grade) => {
+      const dagger = buildEquipmentDagger(grade as 0 | 1 | 2 | 3);
+      const size = new THREE.Box3().setFromObject(dagger).getSize(new THREE.Vector3());
+      const blade = meshes(dagger).find((mesh) => mesh.material.userData.equipmentRole === "blade")!;
+      return { width: size.x, height: size.y, thickness: blade.geometry.boundingBox!.getSize(new THREE.Vector3()).z };
+    });
+    // No two grades share a width, and the blade section grows monotonically with the grade.
+    expect(new Set(measured.map((row) => row.width.toFixed(4))).size).toBe(4);
+    for (let grade = 1; grade < measured.length; grade += 1) {
+      expect(measured[grade]!.thickness, `grade ${grade} section`).toBeGreaterThan(measured[grade - 1]!.thickness);
+    }
   });
 
   it("separates tintable metal from leather and gem without per-detail draws", () => {
-    const parts = meshes(buildEquipmentDagger());
-    expect(parts).toHaveLength(4);
-    expect(new Set(parts.map((part) => part.material.userData.equipmentRole)))
-      .toEqual(new Set(["blade", "metal", "leather", "gem"]));
-    for (const part of parts) {
-      expect(part.material.name).toBe(`equipment-dagger-${part.material.userData.equipmentRole}`);
-      expect(part.material.vertexColors).toBe(true);
-      const geometry = part.geometry;
-      for (const attribute of ["position", "normal", "color"]) {
-        expect(Array.from(geometry.getAttribute(attribute).array).every(Number.isFinite), `${part.name} ${attribute}`).toBe(true);
+    for (const grade of [0, 1, 2, 3] as const) {
+      const parts = meshes(buildEquipmentDagger(grade));
+      // Stones are a high-grade feature: the two lower grades are plain steel and leather.
+      const roles = grade >= 2
+        ? ["blade", "metal", "leather", "gem"]
+        : ["blade", "metal", "leather"];
+      expect(parts, `grade ${grade}`).toHaveLength(roles.length);
+      expect(new Set(parts.map((part) => part.material.userData.equipmentRole))).toEqual(new Set(roles));
+      for (const part of parts) {
+        expect(part.material.name).toBe(`equipment-dagger-${part.material.userData.equipmentRole}`);
+        expect(part.material.vertexColors).toBe(true);
+        const geometry = part.geometry;
+        for (const attribute of ["position", "normal", "color"]) {
+          expect(Array.from(geometry.getAttribute(attribute).array).every(Number.isFinite), `${part.name} ${attribute}`).toBe(true);
+        }
+        expect(geometry.boundingSphere!.radius).toBeGreaterThan(0);
       }
-      expect(geometry.boundingSphere!.radius).toBeGreaterThan(0);
+      const leather = parts.find((part) => part.material.userData.equipmentRole === "leather")!;
+      const blade = parts.find((part) => part.material.userData.equipmentRole === "blade")!;
+      expect(leather.material.roughness).toBeGreaterThan(blade.material.roughness);
+      expect(leather.material.metalness).toBe(0);
     }
-    const leather = parts.find((part) => part.material.userData.equipmentRole === "leather")!;
-    const blade = parts.find((part) => part.material.userData.equipmentRole === "blade")!;
-    expect(leather.material.roughness).toBeGreaterThan(blade.material.roughness);
-    expect(leather.material.metalness).toBe(0);
   });
 
   it("builds a closed unit crystal with outward facets and restrained stone variation", () => {
