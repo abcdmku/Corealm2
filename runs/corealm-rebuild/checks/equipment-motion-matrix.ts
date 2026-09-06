@@ -331,7 +331,10 @@ try {
     await shot("02-melee-front", "attack_melee", 0.3, 8000, /corealm_sword_/);
 
     // Real casts with a two-hand staff and a wand.
-    for (const [weapon, expected] of [["cairnpine_staff", /rpg_weapon_staff/], ["cairnpine_wand", /rpg_weapon_wand/]] as const) {
+    for (const [weapon, expected, held] of [
+      ["cairnpine_staff", /^equip-mainHand-corealm_staff_[1-4]$/, "corealm_staff_3"],
+      ["cairnpine_wand", /^equip-mainHand-corealm_wand_[1-4]$/, "corealm_wand_3"],
+    ] as const) {
       await page.evaluate(async (id) => {
         const lab = (window as any).__featureLab; await lab.perform("reset-player");
         // The melee target may be dead; each cast gets a fresh small production creature.
@@ -342,7 +345,7 @@ try {
       }, weapon);
       await driver.page!.waitForFunction(() => (window as any).__gameDebug.getEntities()
         .some((e: any) => String(e.id).startsWith("feature-lab:creature:") && e.health > 0), undefined, { timeout: 6000 });
-      await page.waitForFunction((id) => (window as any).__gameDebug.getPlayerMotion().attachments?.mainHand === `equip-mainHand-${id}`, expected.source.replace(/\\/g, ""), { timeout: 6000 });
+      await page.waitForFunction((id) => (window as any).__gameDebug.getPlayerMotion().attachments?.mainHand === `equip-mainHand-${id}`, held, { timeout: 6000 });
       await frame(0.9, 0.14, 3.7);
       await shot(`03-${weapon}-idle`, "idle", 0, 6000, expected);
       await page.evaluate(async () => (window as any).__featureLab.perform("cast"));

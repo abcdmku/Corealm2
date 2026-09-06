@@ -17,7 +17,7 @@ const report: Record<string, unknown> = { visualAccepted: false, selections, sho
 try {
   await driver.launch();
   const page = driver.page!;
-  await installAssetCandidates(page, process.env.EQUIPMENT_REVIEW_CATALOG ?? "art/rebuild/candidates/2026-09-05/equipment-v1/catalogue.json");
+  await installAssetCandidates(page, process.env.EQUIPMENT_REVIEW_CATALOG ?? "art/rebuild/candidates/2026-09-06/equipment-held-r3/catalogue.json");
   await driver.open(25_000, "/index.html?mode=combat&environment=1");
   report.renderer = await verifyEquipmentHardware(page);
   for (const id of selections) {

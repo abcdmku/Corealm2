@@ -9,7 +9,7 @@ const output = path.resolve("art/rebuild/candidates/2026-09-05/equipment-selecte
 const hash = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
 const selections = [
   { name: "minerals", catalog: "test-results/mineral-items-v8/catalog.json", ids: ["grithe_ore", "corven_ore", "kaldite_ore", "emberite_ore", "pale_quartz", "vell_amber", "cairn_garnet"].map(id => `corealm_item_${id}`) },
-  { name: "weapons", catalog: "art/rebuild/candidates/2026-09-05/equipment-v1/catalogue.json", ids: [1, 2, 3, 4].map(grade => `corealm_sword_${grade}`).concat("corealm_axe_1") },
+  { name: "weapons", catalog: "art/rebuild/candidates/2026-09-06/equipment-held-r3/catalogue.json", ids: [1, 2, 3, 4].map(grade => `corealm_sword_${grade}`).concat("corealm_axe_1") },
 ];
 for (const selection of selections) {
   const source = JSON.parse(await readFile(selection.catalog, "utf8"));

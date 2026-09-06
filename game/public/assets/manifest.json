@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-06T07:19:28.668Z",
+  "generatedAt": "2026-09-06T07:31:53.961Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -258,7 +258,7 @@
       "author": "Corealm",
       "license": "LicenseRef-Corealm-Original",
       "source": "tools/build-corealm-equipment.ts",
-      "generatorSha256": "5016efef2f545690ff83729733b98f13cf6bd7235744e4b9bd5b19ef4408eb9c"
+      "generatorSha256": "eca19637dc158d8256cc54b535eb7c92ca8bfa1e5571f1b810c6dccf3169f3fc"
     },
     {
       "id": "corealm-rpg-quaternius-easy-enemies",

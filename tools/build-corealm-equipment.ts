@@ -62,7 +62,7 @@ export async function buildWeaponCandidate(form: WeaponForm, grade: WeaponGrade)
 }
 
 async function main(): Promise<void> {
-  const out = path.resolve(process.argv[2] ?? "art/rebuild/candidates/2026-09-05/equipment-v1");
+  const out = path.resolve(process.argv[2] ?? "art/rebuild/candidates/2026-09-06/equipment-held-r3");
   if (out.toLowerCase().includes(`${path.sep}game${path.sep}public`)) throw new Error("Equipment candidates cannot write game/public");
   const entries = [];
   for (const form of EQUIPMENT_FORMS) for (const grade of [0, 1, 2, 3] as const) {
