@@ -23,6 +23,7 @@ import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import { PerspectiveCamera, Vector3 } from "three";
 import { CAMERA, PLAYER_RADIUS } from "../game/src/app/config.js";
+import { INVENTORY_SLOTS } from "../game/src/state/store.js";
 import { REGIONS } from "../game/src/content/regions.js";
 import { WORLD_SITES, worldSitePoint, type WorldSite } from "../game/src/content/worldSites.js";
 import { worldSiteHaulRamp } from "../game/src/world/siteTerrain.js";
@@ -101,16 +102,12 @@ function span(a: readonly number[], b: readonly number[]): number {
   return Math.hypot(a[0]! - b[0]!, a[1]! - b[1]!);
 }
 
-/** Nearest route node the player could realistically arrive from, excluding the mine's own node. */
-function arrivalNode(site: WorldSite): { id: string; position: readonly [number, number] } {
-  const candidates = REGIONS.flatMap((region) => region.locations
+/** Authored route nodes other than the mine's own, nearest first. */
+function arrivalNodes(site: WorldSite): { id: string; position: readonly [number, number] }[] {
+  return REGIONS.flatMap((region) => region.locations
     .filter((location) => location.routeNode && location.id !== site.locationId)
-    .map((location) => ({ id: location.id, position: location.position })));
-  let best = candidates[0]!;
-  for (const candidate of candidates) {
-    if (span(candidate.position, site.centre) < span(best.position, site.centre)) best = candidate;
-  }
-  return best;
+    .map((location) => ({ id: location.id, position: location.position })))
+    .sort((a, b) => span(a.position, site.centre) - span(b.position, site.centre));
 }
 
 /** Screen point for a world position using the live production camera. */
@@ -131,10 +128,14 @@ async function project(world: readonly number[]): Promise<{ x: number; y: number
   return { x, y, depth: projected.z };
 }
 
+let lastHoverBlockers: unknown[] = [];
+
 /** A stable canvas hover on the exact entity, sampled across its drawn bounds. */
 async function hoverEntity(id: string): Promise<{ x: number; y: number } | null> {
+  const blockers: unknown[] = [];
+  lastHoverBlockers = blockers;
   const bounds = await debug<{ min: Point; max: Point; meshes: number } | null>("getDrawnBounds", [id]);
-  if (!bounds || bounds.meshes <= 0) return null;
+  if (!bounds || bounds.meshes <= 0) { blockers.push({ reason: "no drawn bounds", bounds }); return null; }
   for (const height of [0.55, 0.35, 0.75]) for (const along of [0.5, 0.32, 0.68]) for (const depth of [0.5, 0.3, 0.7]) {
     const world = [
       bounds.min.x + (bounds.max.x - bounds.min.x) * along,
@@ -142,7 +143,7 @@ async function hoverEntity(id: string): Promise<{ x: number; y: number } | null>
       bounds.min.z + (bounds.max.z - bounds.min.z) * depth,
     ];
     const screen = await project(world);
-    if (!screen) continue;
+    if (!screen) { blockers.push({ world, reason: "off screen" }); continue; }
     await driver.moveMouse(screen.x, screen.y);
     let stable = true;
     for (let sample = 0; sample < 2 && stable; sample++) {
@@ -151,20 +152,58 @@ async function hoverEntity(id: string): Promise<{ x: number; y: number } | null>
         return { id: window.__gameDebug.getState().hoveredEntityId,
           canvas: document.elementFromPoint(input.x, input.y)?.tagName === 'CANVAS' };
       `, screen);
-      stable = hover.canvas && hover.id === id;
+      if (!(hover.canvas && hover.id === id)) { blockers.push({ world, hovered: hover.id, canvas: hover.canvas }); stable = false; }
     }
     if (stable) return { x: screen.x, y: screen.y };
   }
   return null;
 }
 
+interface HoverResult { spot: { x: number; y: number } | null; turned: boolean; stepped: boolean; blockers: unknown[] }
+
+/**
+ * Hover the rock the way a player would: from the follow camera on the approach; then, if
+ * something stands between them, from a camera turned straight at it; and only then after walking
+ * onto the site apron. `turned` and `stepped` say which of those the mine actually needed, so a
+ * rock hidden behind a building on the approach is recorded rather than quietly worked around.
+ */
+async function hoverAsPlayer(id: string, site: WorldSite, player: Point): Promise<HoverResult> {
+  await faceAisle(player, site);
+  const direct = await hoverEntity(id);
+  if (direct) return { spot: direct, turned: false, stepped: false, blockers: [] };
+  const blockers = [...lastHoverBlockers];
+  const stance = (await debug<{ interactionPosition?: Vec3 } | null>("getEntity", [id]))?.interactionPosition;
+  if (!stance) return { spot: null, turned: true, stepped: false, blockers };
+  const lookAt = async (from: Point): Promise<void> => {
+    await debug("inspectPose", [{ x: from.x, y: from.y, z: from.z,
+      yaw: Math.atan2(stance[0] - from.x, stance[2] - from.z), pitch: 0.5, distance: 12 }]);
+    await settle();
+  };
+  await lookAt(player);
+  const turned = await hoverEntity(id);
+  if (turned) return { spot: turned, turned: true, stepped: false, blockers };
+  blockers.push(...lastHoverBlockers);
+  // Walk onto the apron in front of the aisle, then look again from there.
+  const apron = worldSitePoint(site, Math.sin(site.terrain.approachAngle) * 2.5,
+    Math.cos(site.terrain.approachAngle) * 2.5);
+  const apronY = await debug<number>("groundHeight", [...apron]);
+  await debug("teleport", [[apron[0], apronY, apron[1]] as Vec3]);
+  await driver.wait(400);
+  const here = await debug<Point>("getPlayerPosition");
+  await lookAt(here);
+  const stepped = await hoverEntity(id);
+  if (!stepped) blockers.push(...lastHoverBlockers);
+  return { spot: stepped, turned: true, stepped: true, blockers };
+}
+
 /**
  * Re-aims the follow camera along the mine's approach without moving the player: inspectPose is
  * given the player's own current position, so its world relocation is a no-op.
  */
-async function faceAisle(player: Point, site: WorldSite): Promise<void> {
+async function faceAisle(player: Point, site: WorldSite, back = false): Promise<void> {
   await debug("inspectPose", [{ x: player.x, y: player.y, z: player.z,
-    yaw: site.rotationY + site.terrain.approachAngle, pitch: 0.55, distance: 22 }]);
+    yaw: site.rotationY + site.terrain.approachAngle + (back ? Math.PI : 0),
+    pitch: back ? 0.75 : 0.55, distance: back ? 26 : 22 }]);
   await settle();
 }
 
@@ -256,16 +295,33 @@ try {
     const rampY = await debug<number>("groundHeight", [...ramp.worldEnd]);
     const rampEnd: Vec3 = [ramp.worldEnd[0], rampY, ramp.worldEnd[1]];
 
-    // ---- approach: start at the nearest other route node and let production navigation walk in.
-    const node = arrivalNode(site);
+    // ---- approach: walk in from the nearest authored road/bank route node.
+    // Authored route-node and haul-ramp points are ideal positions, not navmesh vertices. Route
+    // between their production projections so a 0.1 m offset never reads as an unreachable mine.
+    const rampNav = await debug<Point | null>("getNavPoint", [rampEnd]);
+    check(site.id, "approach.rampEndOnNavmesh",
+      Boolean(rampNav) && span(flat(rampNav!), flat(rampEnd)) <= 0.35,
+      { rampNav, gap: rampNav ? span(flat(rampNav), flat(rampEnd)) : null });
+    let node: { id: string; position: readonly [number, number] } | null = null;
+    let approachPoints: Point[] = [];
+    const rejected: { id: string; reason: string }[] = [];
+    for (const candidate of arrivalNodes(site).slice(0, 8)) {
+      const candidateY = await debug<number>("groundHeight", [...candidate.position]);
+      const candidateNav = await debug<Point | null>("getNavPoint",
+        [[candidate.position[0], candidateY, candidate.position[1]] as Vec3]);
+      if (!candidateNav || !rampNav) { rejected.push({ id: candidate.id, reason: "no navmesh projection" }); continue; }
+      const path = await debug<Point[] | null>("getNavPath",
+        [[candidateNav.x, candidateNav.y, candidateNav.z] as Vec3,
+          [rampNav.x, rampNav.y, rampNav.z] as Vec3]) ?? [];
+      if (path.length < 2) { rejected.push({ id: candidate.id, reason: `path of ${path.length} points` }); continue; }
+      node = candidate; approachPoints = path; break;
+    }
+    check(site.id, "approach.route", Boolean(node), { rejected });
+    if (!node) { mine.checks["approach"] = { rejected }; continue; }
     const nodeY = await debug<number>("groundHeight", [...node.position]);
     mine.shortcuts.push(`teleport to route node ${node.id} as the approach start (setup, not proof)`);
     await debug("teleport", [[node.position[0], nodeY, node.position[1]] as Vec3]);
     await driver.wait(400);
-    const approachPoints = await debug<Point[] | null>("getNavPath",
-      [[node.position[0], nodeY, node.position[1]], rampEnd]) ?? [];
-    check(site.id, "approach.route", approachPoints.length > 1,
-      { node: node.id, points: approachPoints.length });
     let approachLength = 0;
     let approachSlope = 0;
     for (let index = 1; index < approachPoints.length; index++) {
@@ -277,7 +333,9 @@ try {
     // 0.55 is the authored haul-lane bound in tests/mine-haul-ramp.test.ts. A route leg above it
     // reads as climbing rather than walking in.
     check(site.id, "approach.noClimbLookingLegs", approachSlope <= 0.55, { approachSlope });
-    mine.checks["approach"] = { from: node.id, distance: Math.round(approachLength * 100) / 100, approachSlope: Math.round(approachSlope * 1000) / 1000 };
+    mine.checks["approach"] = { from: node.id, rejected,
+      distance: Math.round(approachLength * 100) / 100,
+      approachSlope: Math.round(approachSlope * 1000) / 1000 };
 
     // World inspectPose relocates the player as well as the camera, so it is used only here, as
     // declared setup, to put the follow camera on the authored approach before any real click.
@@ -292,10 +350,12 @@ try {
     await debug("clearInventory");
     const grant = await debug<{ ok: boolean; value: number }>("giveItem", [pickaxe, 1, "inventory"]);
     assert(grant.ok && grant.value === 1, `Pickaxe grant failed at ${site.id}`);
-    // A high base Mining level keeps natural gathering attempts reliable inside a bounded browser
-    // run. No clock, yield or respawn value is edited.
-    await debug("setSkillLevel", ["mining", 99]);
-    mine.shortcuts.push(`clearInventory, ${pickaxe} grant and Mining 99 as eligibility setup`);
+    // Comfortably above the seam's requirement so natural attempts are reliable in a bounded run,
+    // and well below the cap so real gathering XP still moves. No clock or yield value is edited.
+    const requirement = Number((firstEntity as { requirements?: { mining?: number } } | null)?.requirements?.mining ?? 1);
+    const miningLevel = Math.min(90, Math.max(40, requirement + 25));
+    await debug("setSkillLevel", ["mining", miningLevel]);
+    mine.shortcuts.push(`clearInventory, ${pickaxe} grant and Mining ${miningLevel} as eligibility setup`);
     await page.waitForFunction((resourceIds) => resourceIds.every((id) => {
       const bounds = (window as unknown as { __gameDebug: { getDrawnBounds(id: string): { meshes: number } | null } })
         .__gameDebug.getDrawnBounds(id);
@@ -366,9 +426,12 @@ try {
       // FULL: one real canvas click drives the whole approach and extraction. The camera is only
       // re-aimed at the player's own current position so the next stance is on screen; this moves
       // no one and the walk itself stays production movement driven by the click.
-      await faceAisle(before.player, site);
-      const spot = await hoverEntity(id);
-      if (!check(site.id, `rock.${id}.hoverable`, Boolean(spot), "no stable unobstructed canvas hover")) continue;
+      const hover = await hoverAsPlayer(id, site, before.player);
+      const spot = hover.spot;
+      if (!check(site.id, `rock.${id}.hoverable`, Boolean(spot),
+        { turnedCamera: hover.turned, steppedOntoApron: hover.stepped, blockers: hover.blockers.slice(0, 6) })) continue;
+      check(site.id, `rock.${id}.readableFromApproach`, !hover.stepped,
+        { turnedCamera: hover.turned, blockers: hover.blockers.slice(0, 4) });
       await driver.click(spot!.x, spot!.y);
       const clicked = await observe(id, cursor);
       check(site.id, `rock.${id}.clickSelects`, clicked.state.selectedEntityId === id,
@@ -380,12 +443,12 @@ try {
         (event) => event.type === "item.received" && event.entityId === id && event.data["source"] === "gather"));
       const gathers = full.events.events.filter((event) => event.type === "item.received"
         && event.entityId === id && event.data["source"] === "gather");
-      const xpEvents = full.events.events.filter((event) => event.type === "xp.gained" && event.data["skill"] === "mining");
       const failed = full.events.events.filter((event) => event.type === "navigation.failed");
       check(site.id, `rock.${id}.full.navigationSucceeded`, failed.length === 0, failed);
       check(site.id, `rock.${id}.full.oreReceipt`, gathers.length > 0, { gathers: gathers.length });
-      check(site.id, `rock.${id}.full.xpReceipt`, xpEvents.length > 0 && xpOf(full) > xpBefore,
-        { xpBefore, xpAfter: xpOf(full), events: xpEvents.length });
+      // Gathering XP has no event of its own; the skill total is the receipt.
+      check(site.id, `rock.${id}.full.xpReceipt`, xpOf(full) > xpBefore,
+        { xpBefore, xpAfter: xpOf(full) });
       const stanceGap = span(flat(full.player), flat(before.entity!.interactionPosition!));
       check(site.id, `rock.${id}.full.workedFromStance`, stanceGap <= 0.45 + 0.002, { stanceGap });
       const received = gathers.reduce((sum, event) => sum + Number(event.data["quantity"] ?? 0), 0);
@@ -400,8 +463,7 @@ try {
         (partialBefore.entity?.resource?.remaining ?? 0) > 0
         && (partialBefore.entity?.resource?.remaining ?? 0) < (partialBefore.entity?.resource?.maxYields ?? 0),
         partialBefore.entity?.resource);
-      await faceAisle(partialBefore.player, site);
-      const partialSpot = await hoverEntity(id);
+      const partialSpot = (await hoverAsPlayer(id, site, partialBefore.player)).spot;
       if (check(site.id, `rock.${id}.partial.hoverable`, Boolean(partialSpot), "no hover on partial rock")) {
         await driver.click(partialSpot!.x, partialSpot!.y);
         const partial = await until(id, partialCursor, 20_000, (snapshot) => snapshot.events.events.some(
@@ -421,8 +483,7 @@ try {
         check(site.id, `rock.${id}.depleted.state`, depleted.entity?.state === "depleted", depleted.entity?.state);
         const depletedView = await debug<{ meshes: number } | null>("getDrawnBounds", [id]);
         check(site.id, `rock.${id}.depleted.stillDrawn`, (depletedView?.meshes ?? 0) > 0, depletedView);
-        await faceAisle((await observe(id, 0)).player, site);
-        const depletedSpot = await hoverEntity(id);
+        const depletedSpot = (await hoverAsPlayer(id, site, (await observe(id, 0)).player)).spot;
         if (check(site.id, `rock.${id}.depleted.hoverable`, Boolean(depletedSpot), "depleted rock is not hoverable")) {
           await driver.click(depletedSpot!.x, depletedSpot!.y);
           const after = await until(id, depletedCursor, 6_000, () => false);
@@ -448,20 +509,18 @@ try {
         mine.shortcuts.push("giveItem to fill the pack for the inventory-full stop");
         const filled = await evaluate<{ used: number; capacity: number }>(`
           const d = window.__gameDebug;
-          let used = JSON.parse(d.getSaveBlob()).inventory.slots.length;
-          for (let slot = 0; slot < 40; slot++) {
-            d.giveItem('march_stone', 1, 'inventory');
-            const save = JSON.parse(d.getSaveBlob());
-            const filledSlots = save.inventory.slots.filter(entry => entry !== null).length;
-            if (filledSlots >= save.inventory.capacity) { used = filledSlots; break; }
-            used = filledSlots;
+          const distinct = ['march_stone', 'pale_quartz', 'grithe_ore', 'corven_ore', 'oak_log',
+            'pine_log', 'raw_silverfin', 'raw_brookling'];
+          for (let attempt = 0; attempt < 60; attempt++) {
+            const used = d.getState().inventoryUsed;
+            if (used >= input.capacity) break;
+            d.giveItem(distinct[attempt % distinct.length], 1, 'inventory');
+            if (d.getState().inventoryUsed === used) d.giveItem('pale_quartz', 1, 'inventory');
           }
-          const save = JSON.parse(d.getSaveBlob());
-          return { used: save.inventory.slots.filter(entry => entry !== null).length, capacity: save.inventory.capacity };
-        `, null, 15_000);
+          return { used: d.getState().inventoryUsed, capacity: input.capacity };
+        `, { capacity: INVENTORY_SLOTS }, 15_000);
         check(site.id, `rock.${id}.inventoryFull.packIsFull`, filled.used >= filled.capacity, filled);
-        await faceAisle((await observe(id, 0)).player, site);
-        const fullSpot = await hoverEntity(id);
+        const fullSpot = (await hoverAsPlayer(id, site, (await observe(id, 0)).player)).spot;
         if (check(site.id, `rock.${id}.inventoryFull.hoverable`, Boolean(fullSpot), "no hover for inventory-full click")) {
           await driver.click(fullSpot!.x, fullSpot!.y);
           const stopped = await until(id, fullCursor, 25_000, (snapshot) => snapshot.events.events.some(
@@ -486,7 +545,7 @@ try {
     // ---- haul return: one real ground click back to the authored haul endpoint.
     current = `${site.id}/return`;
     const returnCursor = (await observe(ids[0]!, 0)).events.nextSeq;
-    await faceAisle((await observe(ids[0]!, 0)).player, site);
+    await faceAisle((await observe(ids[0]!, 0)).player, site, true);
     const returnSpot = await project([rampEnd[0], rampEnd[1] + 0.05, rampEnd[2]]);
     if (check(site.id, "return.groundVisible", Boolean(returnSpot), "no on-screen view of the haul endpoint")) {
       await driver.moveMouse(returnSpot!.x, returnSpot!.y);
