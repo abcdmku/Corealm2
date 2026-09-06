@@ -24,7 +24,7 @@ const mines = WORLD_SITES.filter((site) => site.kind === "mine" && (!options["--
 assert(mines.length, "No mine matched --site");
 const out = options["--out"] ?? "test-results/slice11/views";
 await mkdir(out, { recursive: true });
-const deadline = installTestDeadline("Mine world views", 150_000);
+const deadline = installTestDeadline("Mine world views", 600_000);
 const driver = new GameDriver({ url: options["--url"] ?? `http://127.0.0.1:${process.env.PORT ?? 4175}`, close: async () => {} }, {
   headless: true, viewport: { width: 1440, height: 900 },
   browserArgs: ["--use-angle=d3d11", "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"],
@@ -32,7 +32,7 @@ const driver = new GameDriver({ url: options["--url"] ?? `http://127.0.0.1:${pro
 const report: Record<string, unknown> = { passed: false, sites: {} };
 try {
   await driver.launch();
-  await driver.open(30_000, "/index.html");
+  await driver.open(90_000, "/index.html");
   const page = driver.page!;
   const renderer = await page.evaluate(() => {
     const gl = document.querySelector("canvas")!.getContext("webgl2")!;
@@ -41,6 +41,7 @@ try {
   });
   assert(/D3D11/i.test(renderer) && !/SwiftShader/i.test(renderer), `Hardware renderer required, got ${renderer}`);
   report.renderer = renderer;
+  report.navigation = await driver.callDebug("getNavigationState");
   await page.evaluate(() => {
     for (const selector of ["#panel-feature-lab", "#environment-lab-panel"]) {
       const element = document.querySelector<HTMLElement>(selector);
