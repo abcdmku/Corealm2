@@ -166,7 +166,7 @@ export const ROOTFALL: SettlementDef = {
     // The bank -> Hollowcut road already crossed the east wall here, but the old 6 m opening was
     // only a raw gap between two jambs. This full gatehouse retains a 4 m clear passage, and the
     // Root Tunnel now begins four metres beyond its east edge instead of occupying the inner lane.
-    { id: "rootfall_postern", name: "Forest Quarry Postern", prefab: "gatehouse", position: [80, 138], rotationY: Math.PI / 2, footprint: [8, 4] },
+    { id: "rootfall_postern", name: "Forest Quarry Postern", prefab: "gatehouse", position: [74, 138], rotationY: Math.PI / 2, footprint: [8, 4] },
   ],
 
   /**
