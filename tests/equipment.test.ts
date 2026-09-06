@@ -7,11 +7,11 @@ import { EQUIPMENT, KITS, MAGIC_ORBS } from "../game/src/content/equipment.js";
 import { computeMaxHealth, createInitialState, setSkillLevel } from "../game/src/state/store.js";
 import {
   GEAR_APPEARANCE_IDS, GEAR_ASSET_GAPS, VISIBLE_EQUIP_SLOTS,
-  applyGearAppearance, gearAppearance, gearAppearanceParts, gearAppearancePartsWithCharge,
-  weaponAttachment, weaponSocket,
+  applyGearAppearance, gatheringToolAppearance, gearAppearance, gearAppearanceParts,
+  gearAppearancePartsWithCharge, weaponAttachment, weaponSocket,
 } from "../game/src/render/equipmentVisuals.js";
 import { iconShapeFor } from "../game/src/ui/itemIcons.js";
-import { isProceduralGearAsset } from "../game/src/render/proceduralGear.js";
+import { fishingRodAssetId, isProceduralGearAsset } from "../game/src/render/proceduralGear.js";
 
 /**
  * The equipment ladder, frozen as tests.
@@ -306,10 +306,51 @@ describe("weapon sockets", () => {
     expect(weaponSocket("sword")).toEqual({
       bone: "hand_r", position: [-0.01, 0.085, 0.1], rotation: [Math.PI / 2, 0, 0], scale: 1,
     });
-    expect(weaponSocket("shield")?.bone).toBe("hand_l");
     expect(weaponSocket("pickaxe")?.rotation[1]).toBeCloseTo(Math.PI / 2, 10);
     expect(weaponSocket("rpg_weapon_staff")?.bone).toBe("hand_r");
     expect(weaponSocket("rpg_weapon_wand")?.bone).toBe("hand_r");
+  });
+
+  it("straps the shield to the left forearm clear of the arm instead of dangling it from the fist", () => {
+    const socket = weaponSocket("shield")!;
+    // lowerarm_l local +Y runs elbow (0) to wrist (0.244) on base_male.glb, and the forearm has a
+    // radius of about 0.045 m about that axis.
+    expect(socket.bone).toBe("lowerarm_l");
+    expect(socket.position[1]).toBeGreaterThan(0.05);
+    expect(socket.position[1]).toBeLessThan(0.20);
+    // The boss leaves along asset +Z; the rotation must send it to local -X, the back-of-hand side.
+    const boss = new THREE.Vector3(0, 0, 1).applyEuler(new THREE.Euler(...socket.rotation));
+    expect(boss.x).toBeCloseTo(-1, 6);
+    // Every worn tier's inner face must sit outside the forearm, on the opposite side to the boss.
+    for (const id of ["palewood_shield", "duskoak_shield", "cairnpine_shield", "cinderpine_shield"]) {
+      const appearance = gearAppearance(id)!;
+      const worn = weaponAttachment(appearance)!;
+      expect(worn.bone).toBe("lowerarm_l");
+      expect(worn.position[0], `${id} inner face`).toBeLessThan(-0.05);
+    }
+  });
+
+  it("pins an explicit grip for every generated fishing rod instead of the rig fallback", () => {
+    for (const itemId of ["worn_rod", "palewood_rod", "duskoak_rod", "cairnpine_rod", "cinderpine_rod"]) {
+      const socket = weaponSocket(fishingRodAssetId(itemId));
+      expect(socket, itemId).not.toBeNull();
+      // The rod models put their grip at the origin, so the socket is the bare fist centre.
+      expect(socket!.bone).toBe("hand_r");
+      expect(socket!.position).toEqual([-0.01, 0.085, 0]);
+      expect(socket!.rotation).toEqual([Math.PI / 2, 0, 0]);
+    }
+  });
+
+  it("fits the pickaxe head inside a believable one-handed swing at every tier", () => {
+    // pickaxe.glb spans 0.813 m across the head and 1.198 m end to end at scale 1, against a
+    // 1.81 m rig with a 0.424 m shoulder span. Unfitted, the tier-20 row drew a 1.00 m head.
+    for (const itemId of ["worn_pickaxe", "grithe_pickaxe", "corven_pickaxe", "kaldite_pickaxe", "emberite_pickaxe"]) {
+      const appearance = gatheringToolAppearance(itemId)!;
+      const socket = weaponAttachment(appearance)!;
+      expect(socket.scale * 0.813, `${itemId} head width`).toBeLessThan(0.70);
+      expect(socket.scale * 1.198, `${itemId} length`).toBeLessThan(1.05);
+      expect(socket.scale * 1.198, `${itemId} length`).toBeGreaterThan(0.60);
+    }
   });
 
   it("keeps the dagger's full grip seated in the fist at every tier", () => {

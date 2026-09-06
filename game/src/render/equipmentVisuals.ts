@@ -572,9 +572,18 @@ const FIST_LEFT: readonly [number, number, number] = [0.010, 0.085, 0.000];
 
 interface SocketParts {
   bone: string;
+  /** Anchor in bone-local space. A fist centre for held gear, a strap point for a worn shield. */
   fist: readonly [number, number, number];
   grip: readonly [number, number, number];
   rotation: readonly [number, number, number];
+  /**
+   * Asset fit scale, applied on top of the tier scale a caller asks for. 1 for every asset whose
+   * modelled size is already right for a 1.81 m body. The pickaxe is the exception: its head spans
+   * 0.813 m at scale 1, so the tier-10 and tier-20 rows drew a 0.94-1.00 m head, over twice the
+   * rig's 0.42 m shoulder span. The grip offset scales with `fit * requested`, because a scaled
+   * child shrinks toward its own origin.
+   */
+  fit?: number;
 }
 
 /** Where the grip centre lands relative to the asset origin AFTER `rotation`, at scale 1. */
@@ -582,8 +591,20 @@ const SOCKET_PARTS: Readonly<Record<string, SocketParts>> = {
   sword: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.100], rotation: [Math.PI / 2, 0, 0] },
   corealm_dagger: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.100], rotation: [Math.PI / 2, 0, 0] },
   axe: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.250], rotation: [Math.PI / 2, 0, 0] },
-  pickaxe: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.150], rotation: [Math.PI / 2, Math.PI / 2, 0] },
-  shield: { bone: "hand_l", fist: FIST_LEFT, grip: [0.022, 0, 0], rotation: [Math.PI / 2, -Math.PI / 2, 0] },
+  pickaxe: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.150], rotation: [Math.PI / 2, Math.PI / 2, 0], fit: 0.68 },
+  // Strapped to the forearm, not dangled from the fist. `rotation` is unchanged and still sends
+  // asset +Z (the boss) to local -X, which is the back-of-hand side; only the anchor moved.
+  //
+  // Held at `hand_l` the board's back plane sat at local x = +0.035 while the forearm runs along
+  // x = 0 with a ~0.045 m radius, so the arm came out through the face of the shield -- visible as
+  // the forearm crossing the boards in every left-side view, and as the board swinging away from
+  // the body like a tray whenever the melee clip raised the hand. `lowerarm_l` local +Y runs
+  // elbow (0) to wrist (0.244); the anchor centres the board over the middle of that span and
+  // stands its inner face 0.060 m clear of the bone, which clears the arm with ~0.015 m to spare.
+  shield: {
+    bone: "lowerarm_l", fist: [-0.060, 0.120, 0], grip: [0, 0, 0],
+    rotation: [Math.PI / 2, -Math.PI / 2, 0],
+  },
   rpg_weapon_staff: {
     // Hold the source mesh at its midpoint. The first turn follows the diagonal through the fist;
     // the small second turn pushes the shaft away from the torso when viewed from above.
@@ -602,6 +623,14 @@ const SOCKET_PARTS: Readonly<Record<string, SocketParts>> = {
     // flip the handle (-Y) lands at +Z, so the grip centre sits a hand-width up the handle.
     bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0.100], rotation: [-Math.PI / 2, 0, 0],
   },
+  /**
+   * Every `proc_rod_*` model from `render/proceduralGear.ts`. Y-up with the grip already at the
+   * origin, so the grip offset is zero and the butt, reel, guides and line hang off that point.
+   * This entry pins what the rod was authored against ("+Z becomes downward with the existing hand
+   * attachment", `proceduralGearModels.buildFishingRod`); before it, the rod was riding
+   * `CharacterRig.socketFor`'s unmeasured fallback and any change there would have moved it.
+   */
+  fishing_rod: { bone: "hand_r", fist: FIST_RIGHT, grip: [0, 0, 0], rotation: [Math.PI / 2, 0, 0] },
   miniboss_staff: {
     // The mesh origin sits at the authored grip just under the crystal, i.e. near the TOP of the
     // 1.75 m shaft. Holding the origin put the crystal at fist height with the foot dragging the
@@ -612,10 +641,24 @@ const SOCKET_PARTS: Readonly<Record<string, SocketParts>> = {
   },
 };
 
-function socketAt(assetId: string, scale: number): WeaponSocket | null {
-  const nativeId = /^corealm_sword_[1-4]$/.test(assetId) ? "sword" : assetId === "corealm_axe_1" ? "axe" : assetId;
-  const parts = SOCKET_PARTS[nativeId];
+/**
+ * The socket table entry for an asset, after the aliases.
+ *
+ * The four promoted sword grades share the reviewed sword grip; the promoted axe shares the axe
+ * grip; and every generated fishing rod shares one rod grip.
+ */
+function socketPartsFor(assetId: string): SocketParts | undefined {
+  if (/^corealm_sword_[1-4]$/.test(assetId)) return SOCKET_PARTS["sword"];
+  if (assetId === "corealm_axe_1") return SOCKET_PARTS["axe"];
+  if (assetId.startsWith("proc_rod_")) return SOCKET_PARTS["fishing_rod"];
+  return SOCKET_PARTS[assetId];
+}
+
+function socketAt(assetId: string, requested: number): WeaponSocket | null {
+  const parts = socketPartsFor(assetId);
   if (!parts) return null;
+  const fit = parts.fit ?? 1;
+  const scale = fit * requested;
   return {
     bone: parts.bone,
     position: [
@@ -624,11 +667,11 @@ function socketAt(assetId: string, scale: number): WeaponSocket | null {
       round3(parts.fist[2] + parts.grip[2] * scale),
     ],
     rotation: parts.rotation,
-    scale: 1,
+    scale: round3(fit),
   };
 }
 
-/** The socket at the asset's own scale. Prefer `weaponAttachment` when the part is scaled. */
+/** The socket at the asset's own fit scale. Prefer `weaponAttachment` when the part is scaled. */
 export function weaponSocket(assetId: string): WeaponSocket | null {
   return socketAt(assetId, 1);
 }
@@ -638,10 +681,10 @@ export function weaponSocket(assetId: string): WeaponSocket | null {
  * out. This is what a rig should call: pass the `GearAppearance` it is about to attach.
  */
 export function weaponAttachment(appearance: GearAppearance): WeaponSocket | null {
-  const scale = appearance.scale ?? 1;
-  const socket = socketAt(appearance.assetId, scale);
+  const requested = appearance.scale ?? 1;
+  const socket = socketAt(appearance.assetId, requested);
   if (!socket) return null;
-  return { ...socket, scale: round3(socket.scale * scale) };
+  return { ...socket, scale: round3(socket.scale * requested) };
 }
 
 // ------------------------------------------------------------------------ tinting
@@ -792,7 +835,16 @@ function applyMetalTierColour(
   material.customProgramCacheKey = (): string => `${inheritedCacheKey()}|metal-tier:${tint}:${reference}`;
 }
 
-/** Keep texture-driven grain and wear while giving each log tier its intended albedo. */
+/**
+ * Keep texture-driven grain and wear while giving each log tier its intended albedo.
+ *
+ * The grain factor used to multiply the tier colour directly, with a 0.20 floor. On the pale tiers
+ * that reads as wood, but on the dark tiers it stacked two dark values: the Cairnpine staff came
+ * out of the lab as flat slate with no visible grain, and the Cinderpine wand as a black stick.
+ * Remapping the same grain into a 0.50-1.47 band keeps the authored carving, bindings and wear
+ * legible while letting the tier colour survive to the surface. Pale tiers move by about +12% at
+ * the grain midpoint, which the basic wooden staff (the tier that already read correctly) absorbs.
+ */
 function applyWoodTierColour(material: THREE.Material, tint: number): void {
   const shaded = material as THREE.MeshStandardMaterial;
   if (!(shaded.color instanceof THREE.Color)) return;
@@ -801,7 +853,7 @@ function applyWoodTierColour(material: THREE.Material, tint: number): void {
   patchGearShader(material, `wood-tier:${tint}`, `
     float gearWoodLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
     float gearWoodGrain = clamp(pow(max(gearWoodLuma, 0.001) / 0.050, 0.85), 0.20, 1.45);
-    diffuseColor.rgb = ${colour} * gearWoodGrain;
+    diffuseColor.rgb = ${colour} * (0.34 + 0.78 * gearWoodGrain);
   `, `
     roughnessFactor = clamp(roughnessFactor * mix(1.14, 0.86,
       smoothstep(0.014, 0.090, gearWoodLuma)), 0.48, 0.96);
