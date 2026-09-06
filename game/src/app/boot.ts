@@ -691,8 +691,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     scene.root.add(dungeon.group);
     if (!caveFixture) addChamberLights(dungeonSpec, dungeon.group);
     // Camera collision uses the rendered shell, including the roof, without adding roof
-    // volumes to navigation and deleting the walkable chamber underneath them.
-    for (const mesh of dungeon.blockers) cameraQueries.addStaticMesh(mesh);
+    // volumes to navigation and deleting the walkable chamber underneath them. The shell is also
+    // a hard blocker: no cutaway opens it, so fixed follow has to pull in rather than sit outside.
+    for (const mesh of dungeon.blockers) {
+      mesh.userData["cameraHardBlocker"] = true;
+      cameraQueries.addStaticMesh(mesh);
+    }
   }
 
   // Imported altar ruins are not one solid box. Their authored triangles preserve the walkable
@@ -906,6 +910,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (length < 0.001) return null;
     const unit: Vec3 = [direction[0] / length, direction[1] / length, direction[2] / length];
     return cameraQueries.raycast(from, unit, length);
+  });
+  // Production follow keeps a fixed frame and lets the cutaway open buildings. Cave and dungeon
+  // rock has no cutaway, so the camera consults this narrower probe before seating the lens.
+  camera.setHardOcclusionProbe((from, to) => {
+    const direction: Vec3 = [to[0] - from[0], to[1] - from[1], to[2] - from[2]];
+    const length = Math.hypot(direction[0], direction[1], direction[2]);
+    if (length < 0.001) return null;
+    const unit: Vec3 = [direction[0] / length, direction[1] / length, direction[2] / length];
+    return cameraQueries.raycast(from, unit, length, true);
   });
 
   // 12. Player.

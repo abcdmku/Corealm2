@@ -335,6 +335,10 @@ export class OrbitCamera {
   private initialised = false;
   private lastUpdateMs = 0;
   private occlusionProbe: OcclusionProbe | null = null;
+  /** Sees only geometry no cutaway can open, so fixed follow can still refuse to sit inside rock. */
+  private hardOcclusionProbe: OcclusionProbe | null = null;
+  /** Set for the duration of one hard-blocker clearance pass. */
+  private hardProbeOnly = false;
   /** Production follow uses building cutaways instead of changing the player's chosen framing. */
   fixedFollow = false;
   private hiddenRoofs: ReadonlySet<string> = new Set();
@@ -433,6 +437,18 @@ export class OrbitCamera {
    * collider at all. A camera fix cannot cover for a missing collider; see `OccluderFade` for the
    * part that can be done from here.
    */
+  /**
+   * The subset of `setOcclusionProbe`'s world that a building cutaway can never remove.
+   *
+   * Fixed follow deliberately ignores town obstructions, because roofs and walls are opened by the
+   * cutaway instead of moving the player's chosen framing. Cave and dungeon rock has no cutaway, so
+   * without this the camera sat outside the shell and drew a slab over the player. Leaving it unset
+   * keeps the previous fixed-follow behaviour exactly.
+   */
+  setHardOcclusionProbe(probe: OcclusionProbe | null): void {
+    this.hardOcclusionProbe = probe;
+  }
+
   setOcclusionProbe(probe: OcclusionProbe | null): void {
     this.occlusionProbe = probe;
     if (!probe) this.occluded = false;
@@ -517,6 +533,21 @@ export class OrbitCamera {
 
     // The interpolated pitch is a different segment from the winning candidate. Validate the
     // actual seat as well, and never ease through a wall while the spring catches up.
+    //
+    // Fixed follow keeps the player's chosen framing and skips the pose search above, but it still
+    // may not seat the lens inside rock. It repeats this check against hard blockers only, so town
+    // obstructions keep their fixed framing while a cave shell still pulls the camera in.
+    if (fixedPose && !this.freeMove && this.hardOcclusionProbe) {
+      this.hardProbeOnly = true;
+      this.probeYaw = this.effectiveYaw;
+      this.aim(this.effectivePitch, this.effectiveDistance);
+      const safeDistance = this.clearance(this.effectiveDistance);
+      this.hardProbeOnly = false;
+      if (safeDistance < this.effectiveDistance) {
+        this.effectiveDistance = safeDistance;
+        this.occluded = true;
+      }
+    }
     if (!fixedPose) {
       this.probeYaw = this.effectiveYaw;
       this.aim(this.effectivePitch, this.effectiveDistance);
@@ -678,12 +709,14 @@ export class OrbitCamera {
     const segmentLength = Math.hypot(
       this.probeTo[0] - this.probeFrom[0], this.probeTo[1] - this.probeFrom[1], this.probeTo[2] - this.probeFrom[2],
     );
-    const probe = this.occlusionProbe;
+    const probe = this.hardProbeOnly ? this.hardOcclusionProbe : this.occlusionProbe;
     if (probe) {
       const hit = probe(this.probeFrom, this.probeTo);
       if (hit !== null && Number.isFinite(hit) && hit > 0 && hit < segmentLength) nearest = hit;
     }
-    const roof = this.coverSegment(segmentLength);
+    // Walk-under cover is authored building geometry, which the cutaway owns. A hard-blocker pass
+    // is asking a narrower question and must not answer it with a roof.
+    const roof = this.hardProbeOnly ? null : this.coverSegment(segmentLength);
     if (roof !== null) {
       this.coverBlocked = true;
       if (nearest === null || roof < nearest) nearest = roof;

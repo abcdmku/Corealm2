@@ -24,7 +24,7 @@ type Triangle = Bounded & { a: Vec3; b: Vec3; c: Vec3 };
 type Shape = Bounded & (
   | { kind: "box"; centre: Vec3; halfExtents: Vec3; cosine: number; sine: number; ownerId?: string; cutHeight: number }
   | { kind: "cylinder"; base: Vec3; radius: number; height: number }
-  | { kind: "mesh"; tree: Tree<Triangle>; entityId?: string; hidden: boolean }
+  | { kind: "mesh"; tree: Tree<Triangle>; entityId?: string; hidden: boolean; hard: boolean }
   | { kind: "heightfield"; field: HeightfieldInput; stepX: number; stepZ: number }
 );
 
@@ -216,7 +216,8 @@ function castHeightfield(shape: Extract<Shape, { kind: "heightfield" }>, ray: Ra
   return null;
 }
 
-function castShape(shape: Shape, ray: Ray, limit: number): number | null {
+function castShape(shape: Shape, ray: Ray, limit: number, hardOnly = false): number | null {
+  if (hardOnly && !(shape.kind === "mesh" && shape.hard)) return null;
   switch (shape.kind) {
     case "mesh": return shape.hidden ? null : castTree(shape.tree, ray, limit, castTriangle);
     case "heightfield": return castHeightfield(shape, ray, limit);
@@ -325,12 +326,20 @@ export class StaticCameraQueries {
     if (triangles.length === 0) return false;
     const tree = buildTree(triangles);
     this.add({ kind: "mesh", tree, bounds: tree.bounds, hidden: false,
-      entityId: mesh.userData["structureCamera"] as string | undefined });
+      entityId: mesh.userData["structureCamera"] as string | undefined,
+      // Opt-in, never inferred: a mesh is a hard blocker only when its author says no cutaway can
+      // ever open it. Untagged structure meshes stay ordinary so town framing is unaffected.
+      hard: mesh.userData["cameraHardBlocker"] === true });
     return true;
   }
 
-  /** Normalizes direction and returns metres. Like Rapier World.castRay, the end is exclusive. */
-  raycast(origin: Vec3, direction: Vec3, maxDistance = 100): number | null {
+  /**
+   * Normalizes direction and returns metres. Like Rapier World.castRay, the end is exclusive.
+   *
+   * `hardOnly` restricts the cast to meshes tagged as hard blockers — geometry such as the cave
+   * shell that the roof cutaway will never remove.
+   */
+  raycast(origin: Vec3, direction: Vec3, maxDistance = 100, hardOnly = false): number | null {
     if (maxDistance <= 0 || Number.isNaN(maxDistance) || ![...origin, ...direction].every(Number.isFinite)) return null;
     if (this.dirty) {
       this.tree = this.shapes.length > 0 ? buildTree(this.shapes.slice()) : null;
@@ -340,7 +349,7 @@ export class StaticCameraQueries {
     const length = Math.hypot(...direction) || 1;
     const hit = castTree(this.tree, {
       origin, direction: [direction[0] / length, direction[1] / length, direction[2] / length],
-    }, maxDistance, castShape);
+    }, maxDistance, (shape, ray, limit) => castShape(shape, ray, limit, hardOnly));
     return hit !== null && hit < maxDistance ? hit : null;
   }
 

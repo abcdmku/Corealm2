@@ -47,6 +47,35 @@ describe("camera obstruction recovery", () => {
     expect(orbit.snapshot().effectivePitch).toBe(0.65);
     expect(orbit.snapshot().effectiveYaw).toBe(0.6);
   });
+  it("pulls fixed follow in for cave rock while leaving the same town obstruction alone", () => {
+    let now = 100;
+    vi.spyOn(performance, "now").mockImplementation(() => now);
+    const seat = (hard: boolean) => {
+      const orbit = new OrbitCamera(new THREE.PerspectiveCamera());
+      orbit.fixedFollow = true;
+      orbit.setPose(0.4, 0.55, 11);
+      // The same obstruction 3 m out. Only its answer to "can a cutaway open this?" differs.
+      orbit.setOcclusionProbe(() => 3);
+      if (hard) orbit.setHardOcclusionProbe(() => 3);
+      for (let frame = 0; frame < 4; frame++) {
+        now += 1000 / 60;
+        orbit.update(72, 0, 149);
+      }
+      return orbit.snapshot();
+    };
+    // A building: the cutaway owns it, so the player's chosen framing survives untouched.
+    const town = seat(false);
+    expect(town.distance).toBe(11);
+    expect(town.occluded).toBe(false);
+    // Cave rock: nothing will ever open it, so the lens has to come inside the shell.
+    const cave = seat(true);
+    expect(cave.distance).toBeLessThan(3);
+    expect(cave.occluded).toBe(true);
+    // The framing the player chose is still theirs; only the seat distance moved.
+    expect(cave.effectivePitch).toBe(0.55);
+    expect(cave.effectiveYaw).toBe(0.4);
+    expect(cave.requestedDistance).toBe(11);
+  });
   it.each([
     ["real Rootfall stair descent", [68.443, 8.287, 128.443]],
     ["normal Rootfall bank arrival", [60.289, 8.287, 127.219]],
