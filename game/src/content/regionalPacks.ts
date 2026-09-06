@@ -160,8 +160,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "rootdelve_badger_t5",
     "activity": "forage",
-    "nativeBodyRadius": 0.9457842934131622,
-    "nativeVisualRadius": 1.0251939702091908
+    "nativeBodyRadius": 0.8969810831546783,
+    "nativeVisualRadius": 0.9480502382399154
   },
   {
     "id": "quillback_porcupine_residents",
@@ -169,8 +169,8 @@ export const REGIONAL_PACK_SOURCES: readonly PackSource[] = [
     "scale": 1,
     "baseEnemyDefId": "quillback_porcupine_t10",
     "activity": "forage",
-    "nativeBodyRadius": 0.8502630972862244,
-    "nativeVisualRadius": 1.048983643684467
+    "nativeBodyRadius": 0.8032790833711625,
+    "nativeVisualRadius": 0.9516092637493768
   },
   {
     "id": "marchwild_horse_residents",
