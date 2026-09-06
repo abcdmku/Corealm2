@@ -159,7 +159,7 @@ async function hoverEntity(id: string): Promise<{ x: number; y: number } | null>
   return null;
 }
 
-interface HoverResult { spot: { x: number; y: number } | null; turned: boolean; stepped: boolean; blockers: unknown[] }
+interface HoverResult { spot: { x: number; y: number } | null; turned: boolean; stepped: boolean; detached: boolean; blockers: unknown[] }
 
 /**
  * Hover the rock the way a player would: from the follow camera on the approach; then, if
@@ -170,10 +170,10 @@ interface HoverResult { spot: { x: number; y: number } | null; turned: boolean; 
 async function hoverAsPlayer(id: string, site: WorldSite, player: Point): Promise<HoverResult> {
   await faceAisle(player, site);
   const direct = await hoverEntity(id);
-  if (direct) return { spot: direct, turned: false, stepped: false, blockers: [] };
+  if (direct) return { spot: direct, turned: false, stepped: false, detached: false, blockers: [] };
   const blockers = [...lastHoverBlockers];
   const stance = (await debug<{ interactionPosition?: Vec3 } | null>("getEntity", [id]))?.interactionPosition;
-  if (!stance) return { spot: null, turned: true, stepped: false, blockers };
+  if (!stance) return { spot: null, turned: true, stepped: false, detached: false, blockers };
   const lookAt = async (from: Point): Promise<void> => {
     await debug("inspectPose", [{ x: from.x, y: from.y, z: from.z,
       yaw: Math.atan2(stance[0] - from.x, stance[2] - from.z), pitch: 0.5, distance: 12 }]);
@@ -181,7 +181,7 @@ async function hoverAsPlayer(id: string, site: WorldSite, player: Point): Promis
   };
   await lookAt(player);
   const turned = await hoverEntity(id);
-  if (turned) return { spot: turned, turned: true, stepped: false, blockers };
+  if (turned) return { spot: turned, turned: true, stepped: false, detached: false, blockers };
   blockers.push(...lastHoverBlockers);
   // Walk onto the apron in front of the aisle, then look again from there.
   const apron = worldSitePoint(site, Math.sin(site.terrain.approachAngle) * 2.5,
@@ -192,8 +192,17 @@ async function hoverAsPlayer(id: string, site: WorldSite, player: Point): Promis
   const here = await debug<Point>("getPlayerPosition");
   await lookAt(here);
   const stepped = await hoverEntity(id);
-  if (!stepped) blockers.push(...lastHoverBlockers);
-  return { spot: stepped, turned: true, stepped: true, blockers };
+  if (stepped) return { spot: stepped, turned: true, stepped: true, detached: false, blockers };
+  blockers.push(...lastHoverBlockers);
+  // Last resort so the rock still gets a real click: frame it with a detached inspection camera.
+  // The click is still a real canvas click that has to land on this entity, but the view is no
+  // longer one the follow camera reached, so it is recorded separately.
+  await debug("inspectPose", [{ x: stance[0], y: stance[1] + 1.2, z: stance[2],
+    yaw: site.rotationY, pitch: 0.42, distance: 9, detached: true }]);
+  await settle();
+  const framed = await hoverEntity(id);
+  if (!framed) blockers.push(...lastHoverBlockers);
+  return { spot: framed, turned: true, stepped: true, detached: true, blockers };
 }
 
 /**
@@ -429,9 +438,11 @@ try {
       const hover = await hoverAsPlayer(id, site, before.player);
       const spot = hover.spot;
       if (!check(site.id, `rock.${id}.hoverable`, Boolean(spot),
-        { turnedCamera: hover.turned, steppedOntoApron: hover.stepped, blockers: hover.blockers.slice(0, 6) })) continue;
-      check(site.id, `rock.${id}.readableFromApproach`, !hover.stepped,
-        { turnedCamera: hover.turned, blockers: hover.blockers.slice(0, 4) });
+        { turnedCamera: hover.turned, steppedOntoApron: hover.stepped, detachedCamera: hover.detached,
+          blockers: hover.blockers.slice(0, 6) })) continue;
+      check(site.id, `rock.${id}.readableFromApproach`, !hover.stepped && !hover.detached,
+        { turnedCamera: hover.turned, steppedOntoApron: hover.stepped, detachedCamera: hover.detached,
+          blockers: hover.blockers.slice(0, 4) });
       await driver.click(spot!.x, spot!.y);
       const clicked = await observe(id, cursor);
       check(site.id, `rock.${id}.clickSelects`, clicked.state.selectedEntityId === id,

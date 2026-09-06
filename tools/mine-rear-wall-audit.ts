@@ -20,6 +20,12 @@ export interface MineExposure {
   triangles: number;
   /** Square metres of shell more than `EXPOSURE` above the terrain triangle under its centroid. */
   exposed: { front: number; rear: number; side: number; top: number; bottom: number };
+  /**
+   * Ground the exposed shell covers behind the crest lip, square metres of horizontal projection.
+   * Surface area alone cannot separate a flat roof from a steep back slope of the same reach, and
+   * it is the ground a rear or overhead camera sees stone lying on that makes a mine read wrong.
+   */
+  planBehindCrest: number;
   /** Highest rear- or side-facing exposed point above terrain, metres. */
   maxRearRise: number;
   maxSideRise: number;
@@ -75,7 +81,13 @@ export async function auditMine(site: WorldSite): Promise<MineExposure> {
     const right = new THREE.Vector3(Math.cos(site.rotationY), 0, -Math.sin(site.rotationY));
     const position = mesh.geometry.getAttribute("position");
     const exposed = { front: 0, rear: 0, side: 0, top: 0, bottom: 0 };
-    let maxRearRise = 0; let maxSideRise = 0;
+    let maxRearRise = 0; let maxSideRise = 0; let planBehindCrest = 0;
+    const setbackForPlan = site.cutFace?.frontSetback ?? 2.4;
+    const lips = (site.cutFace?.stations ?? []).map((station) => {
+      const slot = site.resourceSlots.find((entry) => entry.clusterId === station.clusterId && entry.index === station.index)!;
+      const [x, z] = worldSitePoint(site, slot.x, slot.z);
+      return new THREE.Vector3(x, 0, z).addScaledVector(forward, -setbackForPlan);
+    });
     const a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3();
     const normal = new THREE.Vector3(), centroid = new THREE.Vector3();
     for (let index = 0; index < position.count; index += 3) {
@@ -88,6 +100,12 @@ export async function auditMine(site: WorldSite): Promise<MineExposure> {
       const rise = centroid.y - ground(centroid.x, centroid.z);
       if (rise <= EXPOSURE) continue;
       const along = normal.dot(forward), across = normal.dot(right);
+      // Behind the nearest station's cut-face plane, so the intended cliff face is excluded.
+      const nearest = lips.reduce((best, lip) => {
+        const offset = centroid.clone().sub(lip).dot(forward);
+        return Math.abs(offset) < Math.abs(best) ? offset : best;
+      }, Infinity);
+      if (nearest < -0.05 && normal.y > 0) planBehindCrest += area * Math.abs(normal.y);
       if (normal.y > 0.6) exposed.top += area;
       else if (normal.y < -0.6) exposed.bottom += area;
       else if (along > 0.35) exposed.front += area;
@@ -108,6 +126,7 @@ export async function auditMine(site: WorldSite): Promise<MineExposure> {
     return {
       site: site.id, triangles: position.count / 3,
       exposed: Object.fromEntries(Object.entries(exposed).map(([k, v]) => [k, round(v)])) as MineExposure["exposed"],
+      planBehindCrest: round(planBehindCrest),
       maxRearRise: round(maxRearRise), maxSideRise: round(maxSideRise), stations,
     };
   } finally { scene.dispose(); }
@@ -122,9 +141,9 @@ if (invokedDirectly) {
   for (const site of WORLD_SITES.filter((entry) => entry.kind === "mine")) results.push(await auditMine(site));
   if (json) console.log(JSON.stringify(results, null, 2));
   else {
-    console.log("site | tris | front m2 | rear m2 | side m2 | top m2 | bottom m2 | max rear rise | max side rise");
+    console.log("site | tris | front m2 | rear m2 | side m2 | top m2 | bottom m2 | plan behind crest m2 | max rear rise | max side rise");
     for (const r of results) {
-      console.log(`${r.site} | ${r.triangles} | ${r.exposed.front} | ${r.exposed.rear} | ${r.exposed.side} | ${r.exposed.top} | ${r.exposed.bottom} | ${r.maxRearRise} | ${r.maxSideRise}`);
+      console.log(`${r.site} | ${r.triangles} | ${r.exposed.front} | ${r.exposed.rear} | ${r.exposed.side} | ${r.exposed.top} | ${r.exposed.bottom} | ${r.planBehindCrest} | ${r.maxRearRise} | ${r.maxSideRise}`);
       for (const s of r.stations) console.log(`    ${s.id}: crest ${s.crestY}  deficit@1.5m ${s.bankDeficit1_5}  @3m ${s.bankDeficit3}`);
     }
   }

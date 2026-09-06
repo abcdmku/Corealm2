@@ -392,8 +392,10 @@ export async function buildMineCutFace(
         break;
       }
     }
+    // Rows crowd toward the crest, where the exposed back slope actually is.
+    let previousRoofY = crest.y;
     for (let row = 1; row <= 20; row++) {
-      const t = row / 20;
+      const t = (row / 20) ** 1.6;
       const point = crest.clone().lerp(rear, t);
       const ground = burialHeightAt(point.x, point.z);
       const depth = t * rearDistance;
@@ -402,6 +404,22 @@ export async function buildMineCutFace(
       point.y += (1 - buried) * Math.sin(Math.PI * Math.min(1, depth / shoulderDepth)) * exposedDetail
         * (weather(across * 0.65 + t * 5, seed + 139) * 0.17
           + weather(across * 1.7 - t * 8, seed + 141) * 0.05);
+      // Weathered rock falls away from the crest before the receiving bank rises to meet it. Without
+      // this the roof waits at crest height for the two to four metres the real bank takes to climb,
+      // and the shell reads as a flat grey plane laid over the hillside.
+      point.y = Math.min(point.y, Math.max(ground - 0.30, crest.y - 1.7 * depth));
+      // Uneven erosion breaks the exposed soil contact so the rock-to-grass line is not a chord.
+      // The displacement is constant down a section, so no row overtakes the one before it.
+      if (point.y > ground) {
+        point.addScaledVector(outward, (weather(across / 2.8, seed + 143) * 0.17
+          + weather(across / 0.8, seed + 149) * 0.08) * exposedDetail * (1 - buried));
+      }
+      // No uphill shelf along the back slope, but a rising bank must still carry the buried roof up
+      // with it: pinning a deep row to a shallower row's height drives it through the underside and
+      // turns the shell inside out.
+      point.y = Math.min(point.y, Math.max(previousRoofY, ground - 0.30));
+      point.y = Math.max(point.y, ground - cut.buryDepth + 0.05);
+      previousRoofY = point.y;
       push(point, "top");
     }
     push(rearFoot.clone());
