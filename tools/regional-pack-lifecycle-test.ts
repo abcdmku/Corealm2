@@ -24,7 +24,7 @@ import { REGIONAL_PACK_LAYOUT } from "../game/src/content/regionalPackLayout.js"
 import { REGIONAL_PACKS } from "../game/src/content/regionalPacks.js";
 import { createRpgRegionalPackCatalogue, RPG_REGIONAL_PACK_PLAN } from "../game/src/content/rpgRegionalPacks.js";
 import { CREATURE_MOTION_TIMING } from "../game/src/content/creatureMotionTiming.js";
-import { ENEMY_RESPAWN_MS } from "../game/src/systems/combat.js";
+import { ENEMY_RESPAWN_MS, MAX_PURSUE_METRES } from "../game/src/systems/combat.js";
 import { GameDriver } from "./lib/driver.js";
 import { installTestDeadline } from "./lib/deadline.js";
 import { argValue, repoRoot } from "./lib/paths.js";
@@ -61,6 +61,8 @@ const CASES: Record<string, string> = {
 const HELD_SPECIES: Readonly<Record<string, string>> = {};
 const ATTACK_CLIP = /attack|bite|sting|slam|punch|strike|shoot|cast|swing|smash/i;
 const ARRIVAL_METRES = 0.8;
+/** featureLab/regionalPacks.ts translates every authored pack into this lab yard position. */
+const LAB_HABITAT_CENTRE: [number, number] = [-72, 30];
 
 type Measured = { id: string; file: string; size: { x: number; y: number; z: number }; base: { x: number; y: number; z: number } };
 
@@ -194,7 +196,7 @@ async function main(): Promise<void> {
       await page.evaluate(() => window.__featureLab!.setFreeCameraEnabled(false));
     };
     const [cx, cz] = pack.centre;
-    const habitatCentre: [number, number] = [-72, 30];
+    const habitatCentre = LAB_HABITAT_CENTRE;
 
     // ------------------------------------------------------------ 1. residents as registered
     const initial = await read();
@@ -411,6 +413,16 @@ async function main(): Promise<void> {
     // the region respawn point, which reads as "never arrived" and hides the actual leash result.
     let playerDowned = false;
     const walkAttempts: string[] = [];
+    // Production walks the player back up to MAX_PURSUE_METRES to keep an auto-attack alive. The
+    // lab spawn sits 30 m from the habitat, inside that radius, so a pack that keeps swinging drags
+    // the player straight back and nothing ever leashes. Break off past the pursue radius; fall
+    // back to the spawn if the yard has no route that far out.
+    const breakOffZ = habitatCentre[1] + initial.fixture.habitat.radius + MAX_PURSUE_METRES + 4;
+    const breakOff: Vec3 = [habitatCentre[0], await page.evaluate(([x, z]) =>
+      (window as unknown as { __gameDebug: PackDebug }).__gameDebug.groundHeight(x, z),
+      [habitatCentre[0], breakOffZ] as [number, number]), breakOffZ];
+    const disengagePoints: Vec3[] = [breakOff, initial.fixture.spawn];
+    let disengageIndex = 0;
     const clearOfHabitat = (value: Sample) =>
       distance(value.player, { x: habitatCentre[0], z: habitatCentre[1] }) > initial.fixture.habitat.radius + 4;
     const settledIn = (value: Sample) => value.entities.filter((entity) => entity.id !== targetId)
@@ -428,8 +440,12 @@ async function main(): Promise<void> {
       if (!clearOfHabitat(returned) && Date.now() - lastWalkAt > 3_000 && walkAttempts.length < 6) {
         lastWalkAt = Date.now();
         await invoke("corealm_stop", {});
-        walkAttempts.push(await invoke("corealm_move_to", { position: initial.fixture.spawn })
-          .then(() => "arrived").catch((error: unknown) => String(error).replace(/\s+/g, " ").slice(0, 120)));
+        const destination = disengagePoints[Math.min(disengageIndex, disengagePoints.length - 1)]!;
+        const outcome = await invoke("corealm_move_to", { position: destination })
+          .then(() => "arrived").catch((error: unknown) => String(error).replace(/\s+/g, " ").slice(0, 110));
+        if (outcome !== "arrived") disengageIndex += 1;
+        const at = await page.evaluate(() => (window as unknown as { __gameDebug: PackDebug }).__gameDebug.getPlayerPosition());
+        walkAttempts.push(`${outcome} to [${round(destination[0], 1)},${round(destination[2], 1)}] left at [${round(at.x, 1)},${round(at.z, 1)}]`);
       } else {
         await page.waitForTimeout(250);
       }
@@ -440,6 +456,7 @@ async function main(): Promise<void> {
     const settled = settledIn(returned);
     report.return = { settledAfterMs: Date.now() - returnStarted, leashEvents: returnLeashed, playerDowned, walkAttempts,
       playerClearOfHabitat: clearOfHabitat(returned), habitatRadius: initial.fixture.habitat.radius,
+      breakOffPoint: [round(breakOff[0], 1), round(breakOff[2], 1)], pursueRadiusMetres: MAX_PURSUE_METRES,
       playerPosition: [round(returned.player.x, 2), round(returned.player.z, 2)], habitatCentre,
       playerDistanceFromCentre: round(distance(returned.player, { x: habitatCentre[0], z: habitatCentre[1] }), 2),
       settledSurvivors: settled.length, expectedSurvivors: pack.members.length - 1,
@@ -510,6 +527,15 @@ async function main(): Promise<void> {
     report.passed = true;
   } catch (error) {
     report.error = String(error);
+    // A failed run is worth looking at. Capture the frame the assertion fired on before teardown.
+    // Frame the habitat, not the player: a run usually fails because of where the residents are.
+    await driver.page?.evaluate((centre) => {
+      const w = window as unknown as { __gameDebug: PackDebug };
+      w.__gameDebug.inspectPose({ x: centre[0], z: centre[1], y: w.__gameDebug.groundHeight(centre[0], centre[1]),
+        yaw: 0, pitch: 0.75, distance: 22, detached: true });
+    }, LAB_HABITAT_CENTRE).catch(() => {});
+    await driver.page?.waitForTimeout(350);
+    await driver.page?.screenshot({ path: path.join(directory, "failure.png") }).catch(() => {});
     report.consoleErrors ??= driver.consoleErrors;
     report.pageErrors ??= driver.pageErrors;
     throw error;
