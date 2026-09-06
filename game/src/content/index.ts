@@ -12,6 +12,8 @@
  *
  * FROZEN. Only the root edits this file.
  */
+import { CREATURE_PURSUIT_CEILING_MPS } from "./creatureMotionTiming.js";
+import { tierSilhouetteScale } from "../core/math.js";
 import type {
   EquipSlot, ItemDef, ItemId, RecipeId, SkillId, SpellElement, SpellId, SpellRung, StationKind,
 } from "../contracts.js";
@@ -440,39 +442,59 @@ export function enemyCombatLevel(def: {
 }
 
 /**
- * Families whose enemies wear the PLAYER's rig rather than one of their own.
- *
- * The reaver blocks spawn on `outfit_*` assets, which ship no animations: `render/entityViews.ts`
- * plays them the shared `Jog_Fwd_Loop` at `runPresentationScale` — a cadence chosen to read as a
- * run next to the player's, deliberately NOT retimed to a measured stride. Nothing in a humanoid's
- * presentation improves when it pursues more slowly; below `MOVEMENT.runMinPlaybackRate` the jog
- * clamps and the feet start skating instead.
- */
-const SHARED_RIG_FAMILIES: ReadonlySet<string> = new Set(["reaver"]);
-
-/**
  * How fast this enemy actually chases, in metres per second.
  *
- * `moveSpeedMps` above states the hard rule: an animal's pursuit speed is SOLVED from its own walk
- * cycle, `moveSpeedMps <= MAX_WALK_CADENCE_HZ * impliedWalkMps * walkClipSeconds`, so its legs
- * never cycle past the ceiling. That solution is only worth anything if the simulation then moves
- * the creature at the speed it solved for. Stepping every creature at one shared run speed throws
- * it away: measured against the shipped stride metadata (`tests/creature-gait.test.ts`) a goose
- * pursuing at 4.68 m/s cycles its legs at 20.3 Hz, a tortoise at 15.4 and a coney at 9.2 — three
- * times over the roster that was already re-tuned once because a coney at 3.94 Hz, a frog at 3.62
- * and a goat at 3.35 were reported from play as feet moving rapidly and jittering.
+ * A creature's chase speed is bounded by the clip the chase PLAYS. `render/entityViews.ts` retimes
+ * the run cycle to the ground it covers, so asking for more speed than the cycle can carry does not
+ * slide the feet - it spins them. Stepping every creature at one shared speed did exactly that:
+ * measured against the shipped stride metadata a pursuing goose cycled its legs at 20.3 Hz, a
+ * tortoise at 15.4 and a coney at 9.2, against a roster already retuned once because a coney at
+ * 3.94 Hz was reported from play as feet moving rapidly and jittering.
  *
- * The shared speed stays the ceiling and the default, for the rigs with no stride to solve from.
+ * `CREATURE_PURSUIT_CEILING_MPS` solves that bound off the run cycle. It is deliberately NOT
+ * `EnemyDef.moveSpeedMps`, which is solved off the WALK cycle and belongs to pottering: capping a
+ * chase with it measures a cadence nothing plays, and lands every goblin, skeleton and golem in the
+ * bestiary between 1.2 and 1.6 m/s against a player who runs at 5.2 - which is not a slower monster
+ * but no monster, since nothing could ever close on a player who simply walks away.
+ *
+ * The shared speed stays the ceiling and the default. Off the run cycle it is what almost every
+ * hunter keeps: goblins solve to 11.28, golems to 22.53, a grave ghoul to 14.14, skeletons to 5.19.
+ * Only the shambling zombies come under it, at 4.08, which is the right shape for a zombie.
+ *
+ * The stored ceilings are NATIVE, in source-model metres, so they have to be scaled by the same
+ * factor `render/entityViews.ts` scales the DRAWN stride by before they mean anything: a goat drawn
+ * at 0.75 covers three quarters of the ground its cycle implies, and so cycles its legs a third
+ * faster for the same speed over the ground.
+ *
+ * That factor is `view.scale * tierSilhouetteScale(tier) * buildFor()[2] * view.scaleAxes[2]`. The
+ * first, third and fourth are exact here; `buildFor` is not, because it gives each individual a
+ * private +-6% hashed from its entity id that content cannot see. The smallest build is assumed, so
+ * every larger individual cycles slower than the ceiling rather than faster.
  */
+const SMALLEST_BUILD_SCALE = 0.95;
+
+/**
+ * Headroom under the ceiling, because the ceiling is a MUST NOT EXCEED rather than a target.
+ *
+ * Solving a chase to land exactly on 3 Hz leaves nothing for the individual build variation or for
+ * a future retiming of the same clip, and a hen came out at 3.0009 Hz - compliant to three decimal
+ * places and over the line. One percent of speed buys a bound that stays true.
+ */
+const PURSUIT_CADENCE_HEADROOM = 0.99;
+
 export function enemyPursuitSpeedMps(
   def: EnemyDef,
-  /** The spawned entity's own `combat.moveSpeedMps`, which wins over the block the way
-   * `enemyAI.wanderSpeed` already lets it win for the pottering speed. */
-  spawnedMps: number | undefined,
+  /** The spawned entity's `view`: the rig whose run cycle has to carry the speed, and its size. */
+  view: { assetId: string; scale?: number; scaleAxes?: readonly [number, number, number] } | undefined,
+  /** The spawned entity's tier. Everything `enemyAI` steps is a tiered archetype. */
+  tier: number,
   sharedRunSpeedMps: number,
 ): number {
-  if (SHARED_RIG_FAMILIES.has(def.family)) return sharedRunSpeedMps;
-  const authored = spawnedMps ?? def.moveSpeedMps;
-  if (authored === undefined || !Number.isFinite(authored) || authored <= 0) return sharedRunSpeedMps;
-  return Math.min(sharedRunSpeedMps, authored);
+  void def;
+  const native = view === undefined ? undefined : CREATURE_PURSUIT_CEILING_MPS[view.assetId];
+  if (native === undefined || !Number.isFinite(native) || native <= 0) return sharedRunSpeedMps;
+  const drawn = Math.abs((view!.scale ?? 1) * tierSilhouetteScale(tier) * (view!.scaleAxes?.[2] ?? 1))
+    * SMALLEST_BUILD_SCALE * PURSUIT_CADENCE_HEADROOM;
+  if (!Number.isFinite(drawn) || drawn <= 0) return sharedRunSpeedMps;
+  return Math.min(sharedRunSpeedMps, native * drawn);
 }
