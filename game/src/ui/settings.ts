@@ -36,6 +36,8 @@ export interface UiSettings extends AudioVolumes {
   invertCameraY: boolean;
   /** Panel and HUD density. */
   uiScale: "compact" | "normal";
+  /** The agent companion card in the top-left corner. Its × sets this false; Settings sets it back. */
+  agentCompanion: boolean;
 }
 
 export const DEFAULT_SETTINGS: UiSettings = {
@@ -49,6 +51,7 @@ export const DEFAULT_SETTINGS: UiSettings = {
   damageNumbers: true,
   invertCameraY: true,
   uiScale: "normal",
+  agentCompanion: true,
 };
 
 const STORAGE_KEY = "corealm.settings.v1";
@@ -141,6 +144,7 @@ function readStored(): Partial<UiSettings> {
   if (typeof source["damageNumbers"] === "boolean") out.damageNumbers = source["damageNumbers"];
   if (typeof source["invertCameraY"] === "boolean") out.invertCameraY = source["invertCameraY"];
   if (source["uiScale"] === "compact" || source["uiScale"] === "normal") out.uiScale = source["uiScale"];
+  if (typeof source["agentCompanion"] === "boolean") out.agentCompanion = source["agentCompanion"];
   return out;
 }
 

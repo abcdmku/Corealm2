@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { ASSET_BASE_URL } from "../app/config.js";
 import { prepareLeafTexture } from "./leafTexture.js";
 
 interface CorealmSurfaceMapSet {
@@ -29,7 +30,7 @@ const materialCaches = new WeakMap<CorealmSurfaceTextures, WeakMap<THREE.Materia
 const SURFACE_MARKER = "corealmAuthoredSurface";
 
 /** Shared authored albedo and registered PBR maps; no image processing runs during game loading. */
-export function loadCorealmSurfaceTextures(baseUrl = "/assets/textures/corealm/"): Promise<CorealmSurfaceTextures> {
+export function loadCorealmSurfaceTextures(baseUrl = `${ASSET_BASE_URL}textures/corealm/`): Promise<CorealmSurfaceTextures> {
   const directory = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
   const cached = textureLoads.get(directory);
   if (cached) return cached;

@@ -131,6 +131,9 @@
 
 * { box-sizing: border-box; }
 
+/* The only places a caret belongs. Everything else inherits the no-select rule on body. */
+input:not([type="range"]), textarea, [contenteditable="true"] { -webkit-user-select: text; user-select: text; }
+
 .ui-icon { display: block; flex: 0 0 auto; pointer-events: none; }
 
 html, body {
@@ -142,6 +145,9 @@ html, body {
   font-family: var(--font);
   font-size: var(--size-md);
   -webkit-font-smoothing: antialiased;
+  /* A game, not a document: a drag across the HUD must never paint a selection over the world. */
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 #app { position: relative; width: 100vw; height: 100vh; }
@@ -1432,88 +1438,187 @@ html, body {
 
 /* ------------------------------------------------------------- the dock */
 
-/* Labeled controls share one quiet frame. The side slot opens above its full height. */
+/*
+ * One strip of dark glass, no inner boxes. Each button is an icon over one small word; the open
+ * panel's button turns brass and carries a short underline. The side slot opens above it.
+ */
 .dock {
   position: absolute;
-  right: 10px;
-  bottom: 10px;
+  right: 12px;
+  bottom: 12px;
   display: flex;
-  gap: 4px;
-  padding: 4px;
-  background: rgba(15, 13, 10, 0.94);
-  border: 1px solid rgba(169, 144, 92, 0.32);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-panel);
+  gap: 2px;
+  padding: 4px 6px;
+  background: rgba(12, 10, 8, 0.78);
+  border: 1px solid rgba(235, 220, 188, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
   z-index: var(--z-hud);
 }
 
 .dock__btn {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr 17px;
-  grid-template-rows: 24px 16px;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-items: center;
-  width: 64px;
-  height: 54px;
-  padding: 5px 6px;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid transparent;
-  border-radius: var(--radius);
+  justify-content: center;
+  gap: 4px;
+  width: 54px;
+  height: 50px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 4px;
   color: var(--ink-dim);
   font-family: var(--font);
   cursor: pointer;
-  transition: border-color var(--transition), color var(--transition), background var(--transition);
+  transition: color var(--transition), background var(--transition);
 }
 
-.dock__btn:hover { color: var(--ink); border-color: var(--panel-edge-bright); background: rgba(212, 175, 78, 0.09); }
-.dock__btn:hover .dock__glyph { color: var(--highlight); }
-.dock__btn:focus-visible { outline: 2px solid var(--highlight); outline-offset: 1px; }
+.dock__btn:hover { color: var(--ink); background: rgba(255, 255, 255, 0.05); }
+.dock__btn:hover .dock__label { color: var(--ink); }
+.dock__btn:focus-visible { outline: 1px solid var(--accent); outline-offset: -1px; }
 
-.dock__btn.is-active {
-  color: var(--ink);
-  border-color: var(--accent);
-  background: rgba(212, 175, 78, 0.16);
-  box-shadow: inset 0 -2px 0 var(--accent);
+.dock__btn.is-active { color: var(--accent); }
+.dock__btn.is-active .dock__label { color: var(--accent); }
+
+.dock__btn.is-active::after {
+  content: "";
+  position: absolute;
+  left: 17px;
+  right: 17px;
+  bottom: 2px;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 1px;
 }
 
-.dock__btn.is-active .dock__glyph { color: var(--accent); }
+.dock__glyph { display: block; transition: color var(--transition); }
+.dock__glyph .ui-icon { width: 22px; height: 22px; }
 
-.dock__glyph { grid-column: 1; color: var(--ink-dim); transition: color var(--transition); }
-.dock__glyph .ui-icon { width: 21px; height: 21px; }
-
-.dock__label { grid-column: 1 / -1; grid-row: 2; font-size: 11px; line-height: 16px; font-weight: 600; letter-spacing: 0.02em; }
-
-.dock__key {
-  grid-column: 2;
-  grid-row: 1;
-  min-width: 15px;
-  padding: 0 2px 1px;
-  background: rgba(0, 0, 0, 0.28);
-  border: 1px solid var(--panel-edge);
-  border-radius: 2px;
-  font-family: var(--font-numeric);
+.dock__label {
   font-size: 10px;
-  line-height: 14px;
-  color: var(--ink-dim);
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  transition: color var(--transition);
 }
 
+/* Small and round, tucked against the icon's corner. Brass so it reads at a glance. */
 .dock__badge {
   position: absolute;
-  top: -5px;
-  right: 1px;
+  top: 3px;
+  right: 8px;
+  min-width: 14px;
+  height: 14px;
   padding: 0 4px;
   background: var(--accent);
   color: var(--accent-ink);
-  border-radius: 2px;
-  font-size: 10px;
+  border-radius: 7px;
+  font-size: 9px;
   font-weight: 700;
   line-height: 14px;
+  letter-spacing: 0.02em;
 }
 
 .dock__badge[hidden] { display: none; }
 
 /* ------------------------------------------------------------ the journal */
+
+/* Two tabs on one hairline. The open one is brass with a short underline, like the dock. */
+.quests__tabs {
+  display: flex;
+  gap: var(--space-3);
+  margin: -2px 0 var(--space-1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.quests__tabs[hidden] { display: none; }
+
+.quests__tab {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 1px 6px;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: var(--size-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.quests__tab[hidden] { display: none; }
+.quests__tab:hover { color: var(--ink); }
+.quests__tab.is-active { color: var(--accent); }
+
+.quests__tab.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--accent);
+}
+
+.quests__tab-mark {
+  padding: 0 4px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  font-family: var(--font-numeric);
+  font-size: 9px;
+  line-height: 13px;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.quests__tab-mark[hidden] { display: none; }
+.quests__tab-mark.is-ready { background: var(--accent); color: var(--accent-ink); }
+
+.quests__pane { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.quests__pane[hidden] { display: none; }
+
+/* ---- the hunt board */
+
+.hunts__body { display: flex; flex-direction: column; gap: var(--space-1); }
+
+.hunts__card {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: var(--space-1) var(--space-2) var(--space-2);
+  background: rgba(255, 255, 255, 0.03);
+  border: var(--border);
+  border-left: 2px solid var(--panel-edge);
+  border-radius: var(--radius);
+}
+
+.hunts__card.is-active { border-left-color: var(--danger); }
+.hunts__card.is-ready { border-left-color: var(--accent); }
+
+.hunts__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-2); }
+.hunts__name { font-size: var(--size-sm); font-weight: 700; }
+.hunts__count { font-size: var(--size-xs); color: var(--ink-dim); white-space: nowrap; }
+.hunts__place { font-size: var(--size-xs); }
+.hunts__reward { font-size: var(--size-xs); color: var(--accent); }
+.hunts__card.is-ready .hunts__reward { color: var(--highlight); }
+.hunts__actions { display: flex; gap: var(--space-1); margin-top: 3px; }
+.hunts__actions .btn, .hunts__accept { min-height: 24px; padding: 2px 8px; font-size: var(--size-xs); }
+.hunts__accept { align-self: flex-start; margin-top: 2px; }
+.hunts__refresh { align-self: flex-start; min-height: 24px; padding: 2px 6px; font-size: var(--size-xs); }
+.hunts__note { font-size: var(--size-xs); line-height: 1.4; }
+.hunts__tally { font-size: var(--size-xs); }
+.hunts__feedback { margin: var(--space-1) 0 0; font-size: var(--size-xs); color: var(--danger); }
+.hunts__feedback[hidden] { display: none; }
 
 .quests__summary { margin: 0 0 var(--space-1); font-size: var(--size-xs); }
 .quests__list { display: flex; flex-direction: column; gap: var(--space-1); }
@@ -1767,6 +1872,45 @@ html, body {
 }
 
 .quest-tracker__body[hidden] { display: none; }
+.quest-tracker__quest[hidden] { display: none; }
+
+/* ---- the hunt line under the quest: caption, target, count, and a bar */
+
+.quest-tracker__hunt {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-1) var(--space-2) var(--space-2);
+  border-top: 1px solid rgba(212, 175, 88, 0.2);
+  cursor: grab;
+}
+
+.quest-tracker__hunt[hidden] { display: none; }
+.quest-tracker__quest[hidden] + .quest-tracker__hunt { border-top: none; }
+
+.quest-tracker__hunt-head { display: flex; align-items: baseline; gap: var(--space-1); }
+
+.quest-tracker__hunt-caption {
+  flex: 0 0 auto;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--danger);
+}
+
+.quest-tracker__hunt.is-ready .quest-tracker__hunt-caption { color: var(--accent); }
+
+.quest-tracker__hunt-name {
+  flex: 1 1 auto;
+  font-size: var(--size-sm);
+  font-weight: 700;
+  color: var(--ink);
+  text-shadow: var(--shadow-text);
+}
+
+.quest-tracker__hunt-place { font-size: var(--size-xs); color: var(--ink-dim); text-shadow: var(--shadow-text); }
+.quest-tracker__hunt.is-ready .quest-tracker__hunt-place { color: var(--highlight); }
 
 .quest-tracker__objective {
   margin: 0;

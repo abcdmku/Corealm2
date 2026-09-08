@@ -2,8 +2,9 @@ import { PanelFrame } from "./panelFrame.js";
 /**
  * The settings screen, over `SettingsStore`.
  *
- * Every control here changes the client as it moves. Graphics rows describe what changes in the
- * picture, and audio rows name what each bus contains.
+ * Every control here changes the client as it moves. The face of each row is a label and a
+ * control, nothing else; what a setting changes in the picture or the sound is a hover title on
+ * the label, so the window reads as a short list rather than a page of prose.
  *
  * The DOM is built once and only its states are synced afterwards. `refresh()` is called on the
  * panel cadence — every 220 ms while the panel is open — and rebuilding the rows on that beat
@@ -21,29 +22,27 @@ import { notify } from "./contextMenu.js";
 
 /** The two non-renderer booleans, in the order they are shown. */
 interface ToggleSpec {
-  key: "damageNumbers" | "invertCameraY";
-  group: string;
+  key: "damageNumbers" | "invertCameraY" | "agentCompanion";
   label: string;
-  /** What changes on screen. Not a restatement of the label. */
+  /** What changes on screen. Shown on hover, not a restatement of the label. */
   hint: string;
-  /** Word shown on the switch when it is on, then when it is off. */
-  states: readonly [string, string];
 }
 
 const TOGGLES: readonly ToggleSpec[] = [
   {
-    key: "damageNumbers",
-    group: "Effects",
-    label: "Damage numbers",
-    hint: "Hits and misses float over whoever took them. Off means they are never drawn, not drawn and hidden.",
-    states: ["On", "Off"],
+    key: "invertCameraY",
+    label: "Invert vertical look",
+    hint: "Drag down to raise the camera instead of lowering it.",
   },
   {
-    key: "invertCameraY",
-    group: "Camera",
-    label: "Invert vertical look",
-    hint: "Drag down to raise the camera instead of lowering it. Applies to every way the camera turns.",
-    states: ["Inverted", "Normal"],
+    key: "damageNumbers",
+    label: "Damage numbers",
+    hint: "Hits and misses float over whoever took them.",
+  },
+  {
+    key: "agentCompanion",
+    label: "Agent companion",
+    hint: "The companion card in the top-left corner. Its × hides it; this brings it back.",
   },
 ];
 
@@ -97,7 +96,6 @@ export class SettingsPanel implements ManagedPanel {
   readonly frame: PanelFrame;
   private readonly body: HTMLElement;
   private readonly switches = new Map<ToggleSpec["key"], HTMLButtonElement>();
-  private readonly stateLabels = new Map<ToggleSpec["key"], HTMLElement>();
   private readonly renderScaleButtons = new Map<RenderScale, HTMLButtonElement>();
   private readonly shadowQualityButtons = new Map<ShadowQuality, HTMLButtonElement>();
   private readonly drawDistanceButtons = new Map<DrawDistance | "auto", HTMLButtonElement>();
@@ -127,13 +125,12 @@ export class SettingsPanel implements ManagedPanel {
       id: "settings",
       title: "Settings",
       registry: ctx.registry,
-      placement: { top: "64px", left: "50%", width: "480px" },
+      placement: { top: "72px", left: "50%", width: "420px" },
       onOpen: () => this.refresh(true),
       onClose,
     });
     this.frame.root.setAttribute("aria-modal", "true");
     this.frame.root.addEventListener("keydown", this.onKeyDown);
-    this.frame.setSubtitle("Changes apply instantly");
 
     this.body = document.createElement("div");
     this.body.className = "settings";
@@ -194,16 +191,16 @@ export class SettingsPanel implements ManagedPanel {
     const graphics = this.group("Graphics");
     graphics.append(
       this.choiceRow(
-        "Render resolution",
-        "Lower values draw fewer pixels, which helps the GPU at the cost of a softer picture.",
+        "Resolution",
+        "Fewer pixels help the GPU at the cost of a softer picture.",
         "Render resolution",
         RENDER_SCALES,
         this.renderScaleButtons,
         (value) => { this.settings.set({ renderScale: value }); },
       ),
       this.choiceRow(
-        "Shadow quality",
-        "Low uses a smaller shadow map. Off removes moving sun shadows and saves the most work.",
+        "Shadows",
+        "Off removes moving sun shadows and saves the most work.",
         "Shadow quality",
         SHADOW_QUALITIES,
         this.shadowQualityButtons,
@@ -211,7 +208,7 @@ export class SettingsPanel implements ManagedPanel {
       ),
       this.choiceRow(
         "Draw distance",
-        "Auto adjusts distance to keep play smooth. Creatures and scenery share the visible range. Choose a distance to keep it fixed.",
+        "Auto adjusts the range to keep play smooth.",
         "Draw distance",
         DRAW_DISTANCES,
         this.drawDistanceButtons,
@@ -220,21 +217,9 @@ export class SettingsPanel implements ManagedPanel {
       ),
     );
 
-    let openGroup: HTMLElement | null = null;
-    let openGroupName = "";
-    for (const spec of TOGGLES) {
-      if (spec.group !== openGroupName) {
-        openGroupName = spec.group;
-        openGroup = this.group(spec.group);
-      }
-      openGroup?.appendChild(this.toggleRow(spec));
-    }
-
-    this.group("Interface").appendChild(this.densityRow());
-
-    const note = document.createElement("p");
-    note.className = "settings__note";
-    note.textContent = "These stay on this device. Starting a new game does not reset them.";
+    const game = this.group("Game");
+    for (const spec of TOGGLES) game.appendChild(this.toggleRow(spec));
+    game.appendChild(this.densityRow());
 
     const footer = document.createElement("div");
     footer.className = "settings__footer";
@@ -248,7 +233,7 @@ export class SettingsPanel implements ManagedPanel {
       notify("Settings reset to defaults", "info");
     });
 
-    footer.append(note, reset);
+    footer.append(reset);
     this.body.appendChild(footer);
   }
 
@@ -406,26 +391,19 @@ export class SettingsPanel implements ManagedPanel {
     const row = document.createElement("div");
     row.className = "settings__row";
 
-    const text = document.createElement("div");
-    text.className = "settings__text";
-
     const label = document.createElement("span");
     label.className = "settings__label";
     label.textContent = spec.label;
-
-    const hint = document.createElement("span");
-    hint.className = "settings__hint";
-    hint.textContent = spec.hint;
-
-    text.append(label, hint);
+    label.title = spec.hint;
 
     // role="switch" rather than a checkbox: it is a control that acts at once, not a form field
-    // that waits for a save button, and the two states are named on it.
+    // that waits for a save button.
     const control = document.createElement("button");
     control.type = "button";
     control.className = "switch";
     control.setAttribute("role", "switch");
     control.setAttribute("aria-label", spec.label);
+    control.title = spec.hint;
 
     const track = document.createElement("span");
     track.className = "switch__track";
@@ -433,24 +411,20 @@ export class SettingsPanel implements ManagedPanel {
     knob.className = "switch__knob";
     track.appendChild(knob);
 
-    const state = document.createElement("span");
-    state.className = "switch__state";
-
-    control.append(track, state);
+    control.append(track);
     control.addEventListener("click", () => {
       this.settings.set({ [spec.key]: !this.settings.get()[spec.key] } as Partial<UiSettings>);
     });
 
     this.switches.set(spec.key, control);
-    this.stateLabels.set(spec.key, state);
 
-    row.append(text, control);
+    row.append(label, control);
     return row;
   }
 
   private densityRow(): HTMLElement {
     return this.choiceRow(
-      "Density",
+      "Interface size",
       "Compact shrinks type and padding across the HUD and panels.",
       "Interface density",
       DENSITY,
@@ -463,22 +437,13 @@ export class SettingsPanel implements ManagedPanel {
     const row = document.createElement("div");
     row.className = "settings__row";
 
-    const text = document.createElement("div");
-    text.className = "settings__text";
-
     const inputId = `setting-volume-${spec.key}`;
-    const hintId = `${inputId}-hint`;
 
     const label = document.createElement("label");
     label.className = "settings__label";
     label.htmlFor = inputId;
     label.textContent = spec.label;
-
-    const hint = document.createElement("span");
-    hint.id = hintId;
-    hint.className = "settings__hint";
-    hint.textContent = spec.hint;
-    text.append(label, hint);
+    label.title = spec.hint;
 
     const control = document.createElement("div");
     control.className = "volume";
@@ -490,7 +455,7 @@ export class SettingsPanel implements ManagedPanel {
     input.min = "0";
     input.max = "100";
     input.step = "1";
-    input.setAttribute("aria-describedby", hintId);
+    input.title = spec.hint;
     input.addEventListener("input", () => {
       const percent = Number(input.value);
       this.settings.set({ [spec.key]: percent / 100 });
@@ -501,7 +466,7 @@ export class SettingsPanel implements ManagedPanel {
     output.setAttribute("for", inputId);
 
     control.append(input, output);
-    row.append(text, control);
+    row.append(label, control);
     this.audioInputs.set(spec.key, input);
     this.audioOutputs.set(spec.key, output);
     return row;
@@ -518,18 +483,10 @@ export class SettingsPanel implements ManagedPanel {
     const row = document.createElement("div");
     row.className = "settings__row";
 
-    const text = document.createElement("div");
-    text.className = "settings__text";
-
     const label = document.createElement("span");
     label.className = "settings__label";
     label.textContent = labelText;
-
-    const hint = document.createElement("span");
-    hint.className = "settings__hint";
-    hint.textContent = hintText;
-
-    text.append(label, hint);
+    label.title = hintText;
 
     const group = document.createElement("div");
     group.className = "seg";
@@ -540,7 +497,7 @@ export class SettingsPanel implements ManagedPanel {
     for (const option of options) {
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "btn btn--ghost seg__btn";
+      button.className = "seg__btn";
       button.textContent = option.label;
       button.setAttribute("role", "radio");
       button.setAttribute("aria-label", `${ariaLabel}: ${option.accessibleLabel ?? option.label}`);
@@ -569,7 +526,7 @@ export class SettingsPanel implements ManagedPanel {
       button.focus({ preventScroll: true });
     });
 
-    row.append(text, group);
+    row.append(label, group);
     return row;
   }
 
@@ -583,7 +540,11 @@ export class SettingsPanel implements ManagedPanel {
       const percent = Math.round(current[spec.key] * 100);
       const input = this.audioInputs.get(spec.key);
       if (input && input.value !== String(percent)) input.value = String(percent);
-      if (input) input.setAttribute("aria-valuetext", `${percent} percent`);
+      if (input) {
+        input.setAttribute("aria-valuetext", `${percent} percent`);
+        // The filled part of the track is painted from this; a native range has no fill of its own.
+        input.style.setProperty("--fill", `${percent}%`);
+      }
       const output = this.audioOutputs.get(spec.key);
       const value = `${percent}%`;
       if (output && output.textContent !== value) output.textContent = value;
@@ -596,9 +557,6 @@ export class SettingsPanel implements ManagedPanel {
         control.setAttribute("aria-checked", on ? "true" : "false");
         control.classList.toggle("is-on", on);
       }
-      const state = this.stateLabels.get(spec.key);
-      const word = on ? spec.states[0] : spec.states[1];
-      if (state && state.textContent !== word) state.textContent = word;
     }
 
     for (const [value, button] of this.renderScaleButtons) {
@@ -617,7 +575,8 @@ export class SettingsPanel implements ManagedPanel {
 
     for (const [value, button] of this.drawDistanceButtons) {
       const on = current.autoDrawDistance ? value === "auto" : current.drawDistance === value;
-      if (value === "auto") button.textContent = current.autoDrawDistance ? `Auto (${current.drawDistance})` : "Auto";
+      // Auto's face stays one word; the range it has settled on rides in the hover title.
+      if (value === "auto") button.title = current.autoDrawDistance ? `Currently ${current.drawDistance}` : "";
       button.classList.toggle("is-active", on);
       button.setAttribute("aria-checked", on ? "true" : "false");
       button.tabIndex = on ? 0 : -1;

@@ -375,9 +375,9 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
   let bank: LazyPanel<BankPanelHandle> | null = null;
   let shop: LazyPanel<ShopPanelHandle> | null = null;
 
-  const tracker = new QuestTracker(api);
+  const tracker = new QuestTracker(api, () => hunts);
   const agentPanel = options.agentSession
-    ? new AgentPanel({ session: options.agentSession, now: () => api.getTime().simMs })
+    ? new AgentPanel({ session: options.agentSession, now: () => api.getTime().simMs, settings })
     : null;
 
   const context: UiContext = {
@@ -539,7 +539,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
   const dock = new PanelDock([
     ...(featureLab ? [{ id: "feature-lab", label: "Lab", key: "l", icon: "lab" as const,
       toggle: () => featureLab.frame.toggle(), isOpen: () => featureLab.frame.isOpen() }] : []),
-    { id: "inventory", label: "Pack", key: "i", icon: "pack",
+    { id: "inventory", label: "Inv", key: "i", icon: "pack",
       toggle: () => inventory.frame.toggle(), isOpen: () => inventory.frame.isOpen(),
       badge: () => {
         const used = api.getInventory().slots.filter((slot) => slot !== null).length;

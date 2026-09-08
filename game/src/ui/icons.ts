@@ -1,35 +1,42 @@
-/** Small line icons drawn on the same 24px grid for the game's interface. */
+/**
+ * Small line icons drawn on the same 24px grid for the game's interface.
+ *
+ * One or two strokes each, nothing inside the silhouette. At the dock's 22px they have to read as
+ * a shape, not a drawing: a bag, a rising bar, a tunic, a scroll, a spark, a key row.
+ */
 export type UiIconName = "pack" | "skills" | "equipment" | "quests" | "spells" | "keys" | "lab" | "close";
 
 const PATHS: Readonly<Record<UiIconName, readonly string[]>> = {
+  // A satchel: rounded body and a single handle.
   pack: [
-    "M8 6V4.5A1.5 1.5 0 0 1 9.5 3h5A1.5 1.5 0 0 1 16 4.5V6",
-    "M6 6h12l2 5v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8l2-5Z",
-    "M4 11l6 2m4 0 6-2M10 11h4v5h-4zM8 18h8",
+    "M4 9h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9Z",
+    "M8 9V7a4 4 0 0 1 8 0v2",
   ],
+  // Three bars climbing.
   skills: [
-    "M5 21v-6h4v6m2 0V10h4v11m2 0V6h4v15M3 21h19",
-    "M5 3v6M2 6h6",
+    "M5 20v-5M12 20V9M19 20V4",
   ],
+  // A tunic.
   equipment: [
-    "M8 4 4 6l-2 5 4 2 1-2v10h10V11l1 2 4-2-2-5-4-2",
-    "M8 4a4 4 0 0 0 8 0M7 16h10M12 9v7",
+    "M8 4 3 7l2 4 2-1v10h10V10l2 1 2-4-5-3a4 4 0 0 1-8 0Z",
   ],
+  // A scroll with two lines of writing.
   quests: [
-    "M7 3h12a2 2 0 0 1 2 2v2h-4V5a2 2 0 0 1 2-2M17 7v12a2 2 0 0 1-2 2H5",
-    "M7 3a2 2 0 0 0-2 2v12H2v2a2 2 0 0 0 4 0v-2h7M9 8h5M9 11h5M9 14h3",
+    "M6 3h9l4 4v14H6V3Z",
+    "M9 12h7M9 16h5",
   ],
+  // A four-point spark.
   spells: [
-    "M12 9c-2-2-5-3-9-2v13c4-1 7 0 9 2 2-2 5-3 9-2V7c-2-.5-4-.4-6 0M12 9v13",
-    "m13 2 1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2ZM6 12l3 1M6 16l3 1M15 13l3-1M15 17l3-1",
+    "M12 3l2.4 6.6L21 12l-6.6 2.4L12 21l-2.4-6.6L3 12l6.6-2.4L12 3Z",
   ],
+  // A key row.
   keys: [
-    "M9 3h6v6H9zM2 12h6v7H2zM9 12h6v7H9zM16 12h6v7h-6z",
-    "m11 6 1-1 1 1M5 15l-1 1 1 1m6-1 1 1 1-1m8-1 1 1-1 1",
+    "M2 7h20v10H2z",
+    "M6 11h.01M10 11h.01M14 11h.01M18 11h.01M8 14h8",
   ],
+  // A flask.
   lab: [
-    "M9 3h6M10 3v6l-6 9a2 2 0 0 0 1.7 3h12.6a2 2 0 0 0 1.7-3l-6-9V3M7 14h10",
-    "M10 18h.01M14 17h.01",
+    "M9 3h6M10 3v6l-5.5 9.5A1.5 1.5 0 0 0 5.8 21h12.4a1.5 1.5 0 0 0 1.3-2.5L14 9V3",
   ],
   close: ["m6 6 12 12M18 6 6 18"],
 };
@@ -42,7 +49,7 @@ export function createUiIcon(name: UiIconName): SVGSVGElement {
   svg.setAttribute("height", "24");
   svg.setAttribute("fill", "none");
   svg.setAttribute("stroke", "currentColor");
-  svg.setAttribute("stroke-width", "1.5");
+  svg.setAttribute("stroke-width", "1.6");
   svg.setAttribute("stroke-linecap", "round");
   svg.setAttribute("stroke-linejoin", "round");
   svg.setAttribute("aria-hidden", "true");

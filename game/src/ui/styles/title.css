@@ -210,8 +210,9 @@
 .settings {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-4);
   min-width: 0;
+  padding: var(--space-1) var(--space-2) 0;
 }
 
 .settings__group {
@@ -220,144 +221,179 @@
   gap: 0;
 }
 
+/* A quiet caption, no rule: the whitespace above it is the divider. */
 .settings__group-title {
   margin: 0 0 var(--space-1);
-  padding-bottom: 2px;
-  border-bottom: 1px solid rgba(212, 175, 88, 0.18);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
 }
 
-/*
- * Label, then what the value changes, then the control. The sentence keeps each choice concrete.
- */
+/* One label, one control. The hint that used to sit under the label is now the label's title. */
 .settings__row {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-1) 0;
+  min-height: 36px;
+  padding: 2px 0;
 }
 
-.settings__row + .settings__row { border-top: 1px solid rgba(255, 255, 255, 0.04); }
+.settings__row + .settings__row { border-top: 1px solid rgba(255, 255, 255, 0.05); }
 
-.settings__text {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
-}
-
-.settings__label { font-size: var(--size-sm); font-weight: 600; color: var(--ink); }
+.settings__label { font-size: var(--size-sm); font-weight: 500; color: var(--ink); cursor: default; }
 .settings__hint { font-size: var(--size-xs); line-height: 1.4; color: var(--ink-dim); }
 
-/* Native ranges keep every browser and keyboard interaction, with a fixed-width numeric readout. */
+/* ---- the slider: a thin track with a brass fill and a small round thumb */
+
 .volume {
   display: grid;
-  grid-template-columns: minmax(110px, 160px) 38px;
+  grid-template-columns: 150px 34px;
   align-items: center;
   gap: var(--space-2);
-  min-width: 172px;
 }
 
 .volume__range {
+  --fill: 0%;
   width: 100%;
+  height: 16px;
   margin: 0;
-  accent-color: var(--accent);
+  background: none;
+  appearance: none;
+  -webkit-appearance: none;
   cursor: pointer;
 }
 
-.volume__range:focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: 3px;
+.volume__range::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent) var(--fill), rgba(255, 255, 255, 0.14) var(--fill));
 }
 
+.volume__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4.5px;
+  border-radius: 50%;
+  background: #eac768;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.volume__range::-moz-range-track {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.volume__range::-moz-range-progress { height: 3px; border-radius: 2px; background: var(--accent); }
+
+.volume__range::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #eac768;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.volume__range:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
 .volume__value {
-  color: var(--accent);
-  font-size: var(--size-sm);
-  font-weight: 700;
+  color: var(--ink-dim);
+  font-size: var(--size-xs);
   text-align: right;
 }
 
 .settings__footer {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-2);
+  justify-content: flex-end;
   padding-top: var(--space-2);
-  border-top: var(--border);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
+
+.settings__footer .btn { color: var(--ink-faint); font-weight: 500; letter-spacing: 0; }
+.settings__footer .btn:hover { color: var(--ink); }
 
 .settings__note { margin: 0; font-size: var(--size-xs); line-height: 1.45; color: var(--ink-faint); }
 
-/* ---- the switch */
+/* ---- the switch: the track alone says on or off */
 
 .switch {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
   padding: 2px;
   background: none;
   border: none;
-  border-radius: var(--radius);
+  border-radius: 999px;
   font: inherit;
-  color: var(--ink-dim);
   cursor: pointer;
 }
 
 .switch__track {
   position: relative;
   flex: 0 0 auto;
-  width: 32px;
-  height: 16px;
-  background: var(--panel-sunken);
-  border: 1px solid var(--panel-edge);
+  width: 36px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 999px;
-  box-shadow: var(--inset-well);
-  transition: background var(--transition), border-color var(--transition);
+  transition: background var(--transition);
 }
 
 .switch__knob {
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 10px;
-  height: 10px;
-  background: linear-gradient(180deg, #6b6154, #453e35);
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  background: var(--ink-dim);
   border-radius: 50%;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
   transition: transform var(--transition), background var(--transition);
 }
 
-/* The state is spelled out. Brass says on, and so does the word, for anyone the brass fails. */
-.switch__state {
-  min-width: 30px;
-  text-align: left;
-  font-size: var(--size-xs);
-  font-weight: 700;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-}
-
-.switch:hover .switch__track { border-color: var(--panel-edge-bright); }
+.switch:hover .switch__track { background: rgba(255, 255, 255, 0.16); }
 .switch:focus-visible { outline: 1px solid var(--accent); outline-offset: 2px; }
-.switch.is-on .switch__track { background: rgba(150, 118, 42, 0.5); border-color: var(--accent-dim); }
-.switch.is-on .switch__knob { transform: translateX(14px); background: linear-gradient(180deg, #eac768, var(--accent)); }
-.switch.is-on .switch__state { color: var(--accent); }
+.switch.is-on .switch__track { background: var(--accent-dim); }
+.switch.is-on:hover .switch__track { background: var(--accent); }
+.switch.is-on .switch__knob { transform: translateX(16px); background: #fff3cf; }
 
-/* ---- segmented choices, following .qty__btn */
+/* ---- segmented choices: one sunken strip, the chosen option lit */
 
-.seg { display: flex; flex: 0 0 auto; gap: 2px; }
+.seg {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 1px;
+  padding: 2px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+}
 
 .seg__btn {
-  min-width: 52px;
+  min-width: 44px;
   min-height: 22px;
-  padding: 1px var(--space-2);
-  border-color: var(--panel-edge);
+  padding: 2px 10px;
+  background: none;
+  border: none;
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: var(--size-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+  cursor: pointer;
+  transition: color var(--transition), background var(--transition);
 }
 
+.seg__btn:hover { color: var(--ink); background: rgba(255, 255, 255, 0.06); }
+.seg__btn:focus-visible { outline: 1px solid var(--accent); outline-offset: -1px; }
+
 .seg__btn.is-active {
-  color: var(--accent-ink);
-  background: linear-gradient(180deg, #dcb95c, #a5822e);
-  border-color: rgba(0, 0, 0, 0.6);
+  color: var(--highlight);
+  background: rgba(212, 175, 78, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(212, 175, 78, 0.35);
 }
 
 /* ================================================================= compact density */
@@ -401,11 +437,11 @@
 #ui-root.is-compact .bar--tall { height: 12px; }
 #ui-root.is-compact .bar--thin { height: 3px; }
 
-#ui-root.is-compact .dock { gap: 2px; }
-#ui-root.is-compact .dock__btn { width: 58px; height: 46px; grid-template-rows: 21px 15px; padding: 3px 4px; }
-#ui-root.is-compact .dock__glyph .ui-icon { width: 19px; height: 19px; }
-#ui-root.is-compact .dock__label { font-size: 10px; line-height: 15px; }
-#ui-root.is-compact .dock__key { font-size: 10px; line-height: 13px; }
+#ui-root.is-compact .dock { gap: 0; padding: 3px 4px; }
+#ui-root.is-compact .dock__btn { width: 48px; height: 44px; gap: 3px; }
+#ui-root.is-compact .dock__glyph .ui-icon { width: 20px; height: 20px; }
+#ui-root.is-compact .dock__label { font-size: 9px; }
+#ui-root.is-compact .dock__btn.is-active::after { left: 15px; right: 15px; }
 
 /* ---- controls and slots */
 #ui-root.is-compact .btn { min-height: 24px; padding: 2px 8px; }
@@ -417,18 +453,19 @@
   grid-template-rows: repeat(4, 48px);
   gap: 4px;
 }
-#ui-root.is-compact .switch__track { width: 28px; height: 14px; }
-#ui-root.is-compact .switch__knob { width: 8px; height: 8px; }
-#ui-root.is-compact .switch.is-on .switch__knob { transform: translateX(12px); }
-#ui-root.is-compact .seg__btn { min-width: 46px; min-height: 20px; }
-#ui-root.is-compact .volume { grid-template-columns: minmax(90px, 130px) 34px; min-width: 146px; }
+#ui-root.is-compact .switch__track { width: 32px; height: 18px; }
+#ui-root.is-compact .switch__knob { width: 12px; height: 12px; }
+#ui-root.is-compact .switch.is-on .switch__knob { transform: translateX(14px); }
+#ui-root.is-compact .seg__btn { min-width: 40px; min-height: 20px; padding-inline: 8px; }
+#ui-root.is-compact .volume { grid-template-columns: 130px 30px; }
+#ui-root.is-compact .settings__row { min-height: 32px; }
 
 /* ---- the side slot narrows; centre-anchored panels stay put (they centre by transform) */
 #ui-root.is-compact #panel-inventory { max-width: var(--side-panel-width); }
 #ui-root.is-compact #panel-skills { max-width: var(--side-panel-width); }
 #ui-root.is-compact #panel-equipment { max-width: var(--side-panel-width); }
 #ui-root.is-compact #panel-quests { max-width: var(--side-panel-width); }
-#ui-root.is-compact #panel-settings { max-width: 400px; }
+#ui-root.is-compact #panel-settings { max-width: 380px; }
 
 /* ---- and the menu itself, since it is inside #ui-root too */
 #ui-root.is-compact .title__card { width: min(400px, 100%); }
@@ -443,14 +480,14 @@
   .title__mark { font-size: 28px; }
   .title__actions { margin-top: var(--space-1); }
   .title__action { min-height: 34px; }
-  .settings__row { padding: 3px 0; }
-  .settings { gap: var(--space-2); }
+  .settings__row { min-height: 32px; }
+  .settings { gap: var(--space-3); }
 }
 
 @media (max-width: 620px) {
   #panel-settings { width: calc(100vw - 32px) !important; }
   .settings__row { grid-template-columns: 1fr; }
-  .seg { justify-content: stretch; }
+  .seg { display: flex; }
   .seg__btn { flex: 1 1 0; }
-  .volume { width: 100%; grid-template-columns: minmax(0, 1fr) 38px; }
+  .volume { width: 100%; grid-template-columns: minmax(0, 1fr) 34px; }
 }

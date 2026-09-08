@@ -56,6 +56,8 @@ const REF_GROUP: Record<QuestObjectiveRef["kind"], string> = {
   spell: "Cast",
 };
 
+type Tab = "quests" | "hunts";
+
 export class QuestPanel implements ManagedPanel {
   readonly frame: PanelFrame;
   private readonly list: HTMLElement;
@@ -65,6 +67,11 @@ export class QuestPanel implements ManagedPanel {
   private huntBoard: ReturnType<typeof mountHuntContractsPanel> | null = null;
   private huntSignature = "";
   private readonly huntHost = document.createElement("div");
+  private readonly questHost = document.createElement("div");
+  private readonly tabBar = document.createElement("div");
+  private readonly tabButtons = new Map<Tab, HTMLButtonElement>();
+  private readonly huntTabMark: HTMLElement;
+  private tab: Tab = "quests";
 
   constructor(private readonly ctx: UiContext) {
     this.frame = new PanelFrame({
@@ -78,11 +85,64 @@ export class QuestPanel implements ManagedPanel {
       onOpen: () => this.refresh(true),
     });
 
+    // Two tabs: the quest log, and the hunt board. The Hunts tab only appears once the hunt system
+    // exists, and carries a small mark while a hunt is running so the count is one glance away.
+    this.tabBar.className = "quests__tabs";
+    this.tabBar.setAttribute("role", "tablist");
+    const huntMark = document.createElement("span");
+    huntMark.className = "quests__tab-mark";
+    huntMark.hidden = true;
+    this.huntTabMark = huntMark;
+    this.tabBar.append(this.tabButton("quests", "Quests"), this.tabButton("hunts", "Hunts", huntMark));
+    this.tabBar.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      event.preventDefault();
+      event.stopPropagation();
+      this.selectTab(this.tab === "quests" ? "hunts" : "quests");
+      this.tabButtons.get(this.tab)?.focus({ preventScroll: true });
+    });
+
     this.summaryLine = document.createElement("p");
     this.summaryLine.className = "u-dim quests__summary";
     this.list = document.createElement("div");
     this.list.className = "quests__list";
-    this.frame.body.append(this.huntHost, this.summaryLine, this.list);
+    this.questHost.className = "quests__pane";
+    this.questHost.setAttribute("role", "tabpanel");
+    this.questHost.append(this.summaryLine, this.list);
+    this.huntHost.className = "quests__pane";
+    this.huntHost.setAttribute("role", "tabpanel");
+    this.frame.body.append(this.tabBar, this.questHost, this.huntHost);
+    this.applyTab();
+  }
+
+  private tabButton(tab: Tab, label: string, mark?: HTMLElement): HTMLButtonElement {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "quests__tab";
+    button.setAttribute("role", "tab");
+    button.textContent = label;
+    if (mark) button.appendChild(mark);
+    button.addEventListener("click", () => this.selectTab(tab));
+    this.tabButtons.set(tab, button);
+    return button;
+  }
+
+  private selectTab(tab: Tab): void {
+    if (tab === "hunts" && !this.hunts) tab = "quests";
+    if (tab === this.tab) return;
+    this.tab = tab;
+    this.applyTab();
+  }
+
+  private applyTab(): void {
+    for (const [tab, button] of this.tabButtons) {
+      const on = tab === this.tab;
+      button.classList.toggle("is-active", on);
+      button.setAttribute("aria-selected", on ? "true" : "false");
+      button.tabIndex = on ? 0 : -1;
+    }
+    this.questHost.hidden = this.tab !== "quests";
+    this.huntHost.hidden = this.tab !== "hunts";
   }
 
   refresh(force = false): void {
@@ -92,11 +152,20 @@ export class QuestPanel implements ManagedPanel {
       this.hunts = hunts;
       this.huntBoard = hunts ? mountHuntContractsPanel(this.huntHost, hunts) : null;
       this.huntSignature = "";
+      const huntTab = this.tabButtons.get("hunts");
+      if (huntTab) huntTab.hidden = !hunts;
+      this.tabBar.hidden = !hunts;
+      if (!hunts) this.selectTab("quests");
     }
     const huntSignature = hunts ? JSON.stringify(hunts.snapshot()) : "";
     if (force || huntSignature !== this.huntSignature) {
       this.huntSignature = huntSignature;
       this.huntBoard?.refresh();
+      const active = hunts?.snapshot().active ?? null;
+      const running = active !== null && active.status !== "claimed";
+      this.huntTabMark.hidden = !running;
+      this.huntTabMark.textContent = running ? `${active.kills}/${active.offer.requiredKills}` : "";
+      this.huntTabMark.classList.toggle("is-ready", running && active.status === "ready");
     }
     const quests = this.ctx.api.getQuests();
     // The pinned id is part of the signature: pinning from the tracker or another session must

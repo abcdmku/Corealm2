@@ -1,6 +1,13 @@
-/** Companion header and preferences. Detailed controls load when the panel is expanded. */
+/**
+ * Companion header and preferences. Detailed controls load when the panel is expanded.
+ *
+ * The × in the header hides the card through the settings store (`agentCompanion: false`) rather
+ * than a local flag, so the one place to bring it back is the Settings window, and a hide survives
+ * a reload the same way every other client preference does.
+ */
 import type { AgentSession } from "../agent/session.js";
 import type { AgentPanelBody } from "./agentPanelBody.js";
+import type { SettingsStore } from "./settings.js";
 
 const STORE_KEY = "corealm.agentPanel.v1";
 
@@ -47,6 +54,8 @@ export interface AgentPanelDeps {
   session: AgentSession;
   /** Sim clock, for elapsed-time readouts. */
   now(): number;
+  /** Owns `agentCompanion`, the shown/hidden preference. */
+  settings: SettingsStore;
 }
 
 export class AgentPanel {
@@ -73,7 +82,10 @@ export class AgentPanel {
     const name = el("span", "agent-panel__name u-truncate");
     const mode = el("span", "agent-panel__mode");
     const collapse = button("▾", "agent-panel__btn", () => this.setCollapsed(!this.prefs.collapsed));
-    header.append(dot, name, mode, collapse);
+    const close = button("×", "agent-panel__btn", () => deps.settings.set({ agentCompanion: false }));
+    close.title = "Hide. Settings brings it back.";
+    close.setAttribute("aria-label", "Hide agent companion");
+    header.append(dot, name, mode, collapse, close);
 
     const body = el("div", "agent-panel__body");
 
@@ -111,7 +123,9 @@ export class AgentPanel {
     this.collapseButton = collapse;
     this.applyPosition();
     this.applyCollapsed();
-    this.unsubscribe = deps.session.subscribe(() => this.update(true));
+    const unsubscribeSession = deps.session.subscribe(() => this.update(true));
+    const unsubscribeSettings = deps.settings.subscribe((current) => { root.hidden = !current.agentCompanion; });
+    this.unsubscribe = () => { unsubscribeSession(); unsubscribeSettings(); };
   }
 
   mount(parent: HTMLElement): void {
@@ -146,7 +160,8 @@ export class AgentPanel {
     root.classList.toggle("is-controlling", view.controlOwner === "agent");
     root.classList.toggle("is-paused", view.paused);
 
-    this.nameEl.textContent = view.connected ? view.agentName ?? "Agent" : "Agent companion";
+    // "Companion" rather than "Agent companion": with the hide button the longer name truncates.
+    this.nameEl.textContent = view.connected ? view.agentName ?? "Agent" : "Companion";
     this.nameEl.title = view.connected ? `${view.agentName} · ${view.toolCalls} tool calls` : "No agent has connected yet";
     this.modeEl.textContent = !view.connected ? "Offline" : view.paused ? "paused" : view.mode;
 

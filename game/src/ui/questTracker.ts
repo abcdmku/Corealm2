@@ -7,10 +7,15 @@
  * dragged position and collapsed state persist in localStorage — they are client preferences,
  * like the settings store, not save data.
  *
+ * The active hunt rides on the same card, under the quest, as one line and a bar: the target,
+ * the region, kills so far. It needs no pin, because there is only ever one, and the card shows
+ * for a hunt alone when no quest is pinned. Accepting, claiming and abandoning stay in the journal.
+ *
  * Repaints follow the panels' signature rule: `update()` runs at the panel cadence and touches
  * the DOM only when the quest's stage, objective or status actually changed.
  */
 import type { GameApi, QuestId, QuestSummary } from "../contracts.js";
+import type { HuntContractsSystem, HuntProgress } from "../systems/huntContracts.js";
 
 const STORE_KEY = "corealm.questTracker.v1";
 
@@ -48,10 +53,16 @@ export class QuestTracker {
   private readonly objectiveEl: HTMLElement;
   private readonly fill: HTMLElement;
   private readonly collapseButton: HTMLButtonElement;
+  private readonly questCard: HTMLElement;
+  private readonly huntCard: HTMLElement;
+  private readonly huntNameEl: HTMLElement;
+  private readonly huntCountEl: HTMLElement;
+  private readonly huntPlaceEl: HTMLElement;
+  private readonly huntFill: HTMLElement;
   private state: TrackerState = loadState();
   private signature = "";
 
-  constructor(private readonly api: GameApi) {
+  constructor(private readonly api: GameApi, private readonly hunts: () => HuntContractsSystem | null = () => null) {
     const root = document.createElement("section");
     root.className = "quest-tracker";
     root.hidden = true;
@@ -94,11 +105,43 @@ export class QuestTracker {
     bar.appendChild(fill);
 
     body.append(objective, bar);
-    root.append(header, body);
 
-    // Drag by the header, exactly the movable-panel recipe: explicit left/top from the first
-    // move, transform killed so the default translateY(-50%) centring cannot double-count.
-    header.addEventListener("pointerdown", (event) => {
+    const questCard = document.createElement("div");
+    questCard.className = "quest-tracker__quest";
+    questCard.append(header, body);
+
+    // The hunt line: caption, target, count, then a bar. Hidden until a hunt is accepted.
+    const huntCard = document.createElement("div");
+    huntCard.className = "quest-tracker__hunt";
+    huntCard.hidden = true;
+
+    const huntHead = document.createElement("div");
+    huntHead.className = "quest-tracker__hunt-head";
+    const huntCaption = document.createElement("span");
+    huntCaption.className = "quest-tracker__hunt-caption";
+    huntCaption.textContent = "Hunt";
+    const huntName = document.createElement("span");
+    huntName.className = "quest-tracker__hunt-name u-truncate";
+    const huntCount = document.createElement("span");
+    huntCount.className = "quest-tracker__stage u-numeric";
+    huntHead.append(huntCaption, huntName, huntCount);
+
+    const huntPlace = document.createElement("span");
+    huntPlace.className = "quest-tracker__hunt-place";
+
+    const huntBar = document.createElement("div");
+    huntBar.className = "bar bar--thin quest-tracker__progress";
+    const huntFill = document.createElement("div");
+    huntFill.className = "bar__fill";
+    huntBar.appendChild(huntFill);
+    huntCard.append(huntHead, huntPlace, huntBar);
+
+    root.append(questCard, huntCard);
+
+    // Drag by anything that is not a button, exactly the movable-panel recipe: explicit left/top
+    // from the first move, transform killed so the default translateY(-50%) centring cannot
+    // double-count. The whole card, because with only a hunt showing there is no header.
+    root.addEventListener("pointerdown", (event) => {
       if (event.button !== 0) return;
       if (event.target instanceof Element && event.target.closest("button")) return;
       const rect = root.getBoundingClientRect();
@@ -128,6 +171,12 @@ export class QuestTracker {
     this.objectiveEl = objective;
     this.fill = fill;
     this.collapseButton = collapse;
+    this.questCard = questCard;
+    this.huntCard = huntCard;
+    this.huntNameEl = huntName;
+    this.huntCountEl = huntCount;
+    this.huntPlaceEl = huntPlace;
+    this.huntFill = huntFill;
     this.applyPosition();
     this.applyCollapsed();
   }
@@ -150,35 +199,55 @@ export class QuestTracker {
 
   update(force = false): void {
     const id = this.state.questId;
-    if (!id) {
-      if (!this.root.hidden) this.root.hidden = true;
-      this.signature = "";
-      return;
-    }
-    const quest = this.api.getQuests().find((entry) => entry.id === id);
-    if (!quest) {
+    let quest = id ? this.api.getQuests().find((entry) => entry.id === id) ?? null : null;
+    if (id && !quest) {
       // The pinned quest no longer exists (new game, content change): let go quietly.
       this.state.questId = null;
       this.save();
-      this.root.hidden = true;
-      return;
     }
+    const hunt = this.activeHunt();
 
-    const signature = `${quest.id}:${quest.status}:${quest.stage}:${quest.currentObjective ?? ""}`;
+    const signature = (quest ? `${quest.id}:${quest.status}:${quest.stage}:${quest.currentObjective ?? ""}` : "")
+      + `#${hunt ? `${hunt.offer.id}:${hunt.status}:${hunt.kills}` : ""}`;
     if (!force && signature === this.signature) return;
     this.signature = signature;
 
+    if (!quest && !hunt) {
+      if (!this.root.hidden) this.root.hidden = true;
+      return;
+    }
     this.root.hidden = false;
-    this.root.classList.toggle("is-complete", quest.status === "complete");
-    this.nameEl.textContent = quest.name;
-    this.nameEl.title = quest.name;
-    this.stageEl.textContent = quest.status === "active"
-      ? `${quest.stage + 1}/${quest.stageCount}`
-      : quest.status === "complete" ? "done" : "—";
-    this.objectiveEl.textContent = this.objectiveText(quest);
-    this.fill.style.width = quest.status === "complete"
-      ? "100%"
-      : `${Math.round((quest.stage / Math.max(1, quest.stageCount)) * 100)}%`;
+
+    this.questCard.hidden = !quest;
+    if (quest) {
+      this.root.classList.toggle("is-complete", quest.status === "complete");
+      this.nameEl.textContent = quest.name;
+      this.nameEl.title = quest.name;
+      this.stageEl.textContent = quest.status === "active"
+        ? `${quest.stage + 1}/${quest.stageCount}`
+        : quest.status === "complete" ? "done" : "—";
+      this.objectiveEl.textContent = this.objectiveText(quest);
+      this.fill.style.width = quest.status === "complete"
+        ? "100%"
+        : `${Math.round((quest.stage / Math.max(1, quest.stageCount)) * 100)}%`;
+    }
+
+    this.huntCard.hidden = !hunt;
+    if (hunt) {
+      const ready = hunt.status === "ready";
+      this.huntCard.classList.toggle("is-ready", ready);
+      this.huntNameEl.textContent = hunt.offer.targetName;
+      this.huntNameEl.title = hunt.offer.targetName;
+      this.huntCountEl.textContent = `${hunt.kills}/${hunt.offer.requiredKills}`;
+      this.huntPlaceEl.textContent = ready ? "Done. Claim it in the journal." : hunt.offer.regionName;
+      this.huntFill.style.width = `${Math.round((hunt.kills / Math.max(1, hunt.offer.requiredKills)) * 100)}%`;
+    }
+  }
+
+  /** The hunt in progress or waiting to be claimed. A claimed one is history, not a tracker line. */
+  private activeHunt(): HuntProgress | null {
+    const active = this.hunts()?.snapshot().active ?? null;
+    return active && active.status !== "claimed" ? active : null;
   }
 
   dispose(): void {

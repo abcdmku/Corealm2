@@ -4,8 +4,11 @@
  * Phase 1 bound the inventory to `i`, skills to `k` and equipment to `e`, and advertised none of
  * it. A player who cannot find their inventory cannot progress, and no screenshot of the game ever
  * showed a panel because nothing on screen suggested there was one. This is the fix: every panel
- * has a permanent button, each button prints its own key, and the button lights up while its panel
- * is open.
+ * has a permanent button, and the button lights up while its panel is open.
+ *
+ * Each button is an icon and one word. The key is in the hover title and the accessible name, not
+ * printed on the face: six key caps in a row made the bar look like a keyboard, and the controls
+ * panel (H) already lists every binding.
  *
  * The dock owns no state. It asks each entry whether its panel is open on every update and paints
  * from the answer, so a panel opened by a key, by a world interaction, or by another panel all
@@ -16,9 +19,9 @@ import { createUiIcon, type UiIconName } from "./icons.js";
 export interface DockEntry {
   id: string;
   label: string;
-  /** The key that toggles it, as the player should read it. */
+  /** The key that toggles it, as the player should read it. Shown on hover, not on the face. */
   key: string;
-  /** An authored line icon; the visible label carries the panel's name. */
+  /** An authored line icon; the one-word label under it carries the panel's name. */
   icon: UiIconName;
   toggle(): void;
   isOpen(): boolean;
@@ -61,16 +64,11 @@ export class PanelDock {
       label.className = "dock__label";
       label.textContent = entry.label;
 
-      const key = document.createElement("kbd");
-      key.className = "dock__key";
-      key.setAttribute("aria-hidden", "true");
-      key.textContent = entry.key.toUpperCase();
-
       const badge = document.createElement("span");
       badge.className = "dock__badge";
       badge.hidden = true;
 
-      button.append(glyph, label, key, badge);
+      button.append(glyph, label, badge);
       // Pointer down rather than click: the world's click-to-move listener runs on the canvas, and
       // a dock press must never also order a walk.
       button.addEventListener("pointerdown", (event) => event.stopPropagation());
