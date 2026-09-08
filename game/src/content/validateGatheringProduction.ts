@@ -91,7 +91,7 @@ export function validateGatheringManifestProvenance(
     const hashMatches = LOWERCASE_SHA256.test(pack.generatorSha256 ?? "")
       && verifiedSourceHashes.get(pack.source) === pack.generatorSha256;
     const isOriginal = pack.license === "LicenseRef-Corealm-Original"
-      && /^tools\/build-(?:corealm-(?:nature|geology|farm|minerals|equipment)|creature-expansion)\.ts$/.test(pack.source)
+      && /^tools\/build-(?:corealm-(?:nature|geology|farm|minerals|equipment)|creature-expansion|ground-ores)\.ts$/.test(pack.source)
       && hashMatches;
     const derivativeIdentity = pack.id === "corealm-original-ground-ores" && pack.source === "tools/build-ground-ores.ts"
       && pack.license.startsWith("Derivative geometry and material maps") && pack.license.includes(UNITY_ASSET_STORE_LICENSE);

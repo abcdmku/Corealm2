@@ -73,7 +73,9 @@ export function miningAccessPositions(
       const radius = Math.round(Math.min(Math.max(0.4, INTERACT_RANGE - 1),
         Math.max(0.35, (size.x + size.z) * 0.20 * scale)) * 100) / 100;
       const front = (centre.z + size.z / 2) * scale;
-      const forward = Math.max(front + FACE_CLEARANCE, radius + COLLISION_CLEARANCE);
+      // Small deposits still need clearance from the sampled bank and its navmesh erosion.
+      // Keep the working pivot outside that shoulder even when the source rock shrinks.
+      const forward = Math.max(1.65, front + FACE_CLEARANCE, radius + COLLISION_CLEARANCE);
       const lateral = centre.x * scale;
       const yaw = site.rotationY + slot.yaw;
       const [originX, originZ] = worldSitePoint(site, slot.x, slot.z);

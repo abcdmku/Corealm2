@@ -22,6 +22,15 @@ function fixture() {
 }
 
 describe("gathering build provenance", () => {
+  it("accepts the original ore generator only with its measured source hash", () => {
+    const { manifest, hashes } = fixture();
+    const ore = manifest.packs[2]!;
+    ore.license = "LicenseRef-Corealm-Original";
+    delete ore.sourceReference;
+    expect(validateGatheringManifestProvenance(manifest, hashes)).toEqual([]);
+    hashes.set(ore.source, "c".repeat(64));
+    expect(validateGatheringManifestProvenance(manifest, hashes).join("\n")).toContain("generator SHA-256 does not match");
+  });
   it("accepts verified original equipment and the pinned DEXSOFT derivative without relabeling its license", () => {
     const { manifest, hashes } = fixture();
     expect(validateGatheringManifestProvenance(manifest, hashes)).toEqual([]);

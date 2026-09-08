@@ -19,6 +19,7 @@ import { pathToFileURL } from "node:url";
 import { FAST_TEST_SETTINGS, GameDriver } from "./lib/driver.js";
 import { argValue, repoRoot, resolveInside, safeName } from "./lib/paths.js";
 import { startGameServer } from "./lib/server.js";
+import { installAssetCandidates } from "./lib/assetCandidates.js";
 import { checkActionResult } from "./play-game.js";
 import type { EnvironmentWorkbench } from "../game/src/featureLab/environment.js";
 import type { CreatureGallery } from "../game/src/featureLab/creatureGallery.js";
@@ -271,6 +272,8 @@ async function main(): Promise<void> {
 
   try {
     await driver.launch();
+    const catalog = argValue(args, "--catalog");
+    if (catalog) await installAssetCandidates(driver.page!, catalog);
     await driver.open(20_000, route);
     await emit({ type: "ready", server: server.url, output: path.relative(repoRoot, output), observation: await observe() });
     const input = createInterface({ input: process.stdin, crlfDelay: Infinity, terminal: false });

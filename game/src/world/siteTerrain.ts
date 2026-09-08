@@ -128,8 +128,8 @@ function cutSample(shape: MineShape, x: number, z: number) {
   const along = localX * shape.approachSin + localZ * shape.approachCos;
   const { floorRadius, backDistance, bermWidth } = site.terrain;
   const boundary = smoothstep(0, 2.4, marginX) * smoothstep(0, 2.4, marginZ);
-  // A 3.6 m rear buffer protects the ore footprint and surrounding 2 m lattice cells.
-  // The whole seam shares this ledge; recesses in the plan no longer become dirt plinths.
+  // The whole seam shares a work ledge. The receiving bank starts just beyond the embedded
+  // deposits, so the exposed stone joins the hill without an empty rear aisle.
   const ends = 1 - smoothstep(5, 8, beyondEnd);
   const front = 1 - smoothstep(5.4, Math.max(6.4, floorRadius + 1.5), distance);
   const rear = 1 - smoothstep(backDistance + bermWidth * 0.22, backDistance + bermWidth, -distance);
@@ -194,7 +194,7 @@ export function applyWorldSiteTerrain(
     const floor = supportHeight - Math.min(2.3, Math.max(1.3, backRise * 0.35));
     // Two percent drainage grade toward the approach. Rear distance is measured from the
     // exposed seam, so curved returns and deep stations retain the same accessible footing.
-    const back = smoothstep(3.6, Math.max(4.6, backDistance), -sample.distance);
+    const back = smoothstep(1.25, Math.max(3.8, backDistance * 0.72), -sample.distance);
     const regionalRelief = back > 0 ? Math.max(-0.6, Math.min(1.4, heightAtNatural(x, z) - centreHeight)) : 0;
     const floorPlane = floor - sample.along * 0.02;
     const target = floorPlane + backRise * back + regionalRelief * back * back * 0.35;

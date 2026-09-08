@@ -56,7 +56,8 @@ describe("mining working positions", () => {
         expect(solid.kind, id).toBe("cylinder");
         if (solid.kind !== "cylinder") throw new Error(`Missing ore cylinder ${id}`);
         expect(ahead - sourceFront, id).toBeGreaterThanOrEqual(0.70 - 1e-8);
-        expect(ahead - sourceFront, id).toBeLessThan(1.05);
+        expect(ahead, id).toBeGreaterThanOrEqual(1.65 - 1e-8);
+        expect(ahead - sourceFront, id).toBeLessThan(1.3);
         expect(Math.hypot(dx, dz) - solid.radius, id).toBeGreaterThanOrEqual(PLAYER_RADIUS + 0.20 - 1e-8);
         expect(sideways, id).toBeCloseTo(0, 9);
         const source = worldSitePoint(site, slot.x, slot.z);
@@ -91,14 +92,14 @@ describe("mining working positions", () => {
     }).values().next().value!;
     const moved = miningAccessPositions([site], () => 0, {
       assetSize: () => size,
-      assetCenterXZ: () => ({ x: 0.4, z: 0.2 }),
+      assetCenterXZ: () => ({ x: 0.4, z: 2 }),
     }).values().next().value!;
     expect(ordinary[0]).toBeCloseTo(0);
-    expect(moved[0]).toBeGreaterThan(0.3);
+    expect(moved[0]).toBeGreaterThan(0.2);
     expect(moved[2]).toBeGreaterThan(ordinary[2]);
-    // The source centre moves by 0.2 source metres, scaled into world units.
-    // Compare otherwise identical models so public art promotion cannot change this baseline.
-    expect((moved[2] - ordinary[2]) / moved[0]).toBeCloseTo(0.5, 6);
+    // A strongly offset source must keep its visible front behind the working point.
+    const drawnScale = moved[0] / 0.4;
+    expect(moved[2] - (size.z / 2 + 2) * drawnScale).toBeCloseTo(0.70, 6);
   });
 
   it("requires valid measurements and ground rather than guessing a reachable point", () => {

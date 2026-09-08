@@ -56,7 +56,7 @@ export interface WorldSite {
     readonly stations: readonly { clusterId: string; index: number; crestHeight: number }[];
     readonly backDepth: number;
     readonly buryDepth: number;
-    /** Metres behind the ore centres along the site forward axis. Defaults to 2.4. */
+    /** Metres behind the ore centres along the site forward axis. Defaults to 0.40, embedding the rear of each deposit. */
     readonly frontSetback?: number;
   };
   readonly dressing: readonly WorldSiteDressing[];

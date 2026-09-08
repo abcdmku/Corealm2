@@ -329,6 +329,23 @@ describe("authored stone mine cliff", () => {
     }
   });
 
+  it("embeds the deposit's rear by default and bridges a receiving bank without a trough", async () => {
+    const flat = fixture(true);
+    const embedded = await flat.build({ ...flat.site, cutFace: { ...flat.site.cutFace!, frontSetback: undefined } });
+    const front = new THREE.Raycaster(new THREE.Vector3(0, 0.7, 3), new THREE.Vector3(0, 0, -1), 0, 10)
+      .intersectObject(embedded.objects[0]!)[0];
+    expect(front).toBeDefined();
+    expect(front!.point.z).toBeGreaterThan(-1);
+    expect(front!.point.z).toBeLessThan(0);
+
+    const bank = fixture(true, true);
+    const joined = await bank.build();
+    const shoulder = new THREE.Raycaster(new THREE.Vector3(0, 10, -SETBACK - 1.2), new THREE.Vector3(0, -1, 0), 0, 20)
+      .intersectObject(joined.objects[0]!)[0];
+    expect(shoulder).toBeDefined();
+    expect(shoulder!.point.y).toBeGreaterThan(3.1);
+  });
+
   it("keeps the closed underside below a curved two-metre terrain lattice", async () => {
     const h = fixture(true);
     const analytic = (x: number, z: number) => {

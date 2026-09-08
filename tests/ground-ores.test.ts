@@ -1,5 +1,4 @@
 import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
 import { NodeIO } from "@gltf-transform/core";
 import { Box3, Mesh, Vector3, type BufferGeometry, type Group } from "three";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
@@ -11,7 +10,7 @@ const AXES = ["x", "y", "z"] as const;
 type Specimen = { root: Group; geometry: BufferGeometry; bounds: Box3 };
 const positionKey = (point: Vector3): string => point.toArray().map(value => value.toFixed(5)).join(",");
 
-/** Weld geometry across original atlas seams without relying on source vertex indices. */
+/** Weld geometry across mineral and planar texture seams without relying on source vertex indices. */
 function vertexIds(geometry: BufferGeometry): number[] {
   const position = geometry.getAttribute("position"), exact = new Map<string, number>(), cells = new Map<string, number[]>(), points: Vector3[] = [];
   const result: number[] = [];
@@ -37,7 +36,7 @@ function groundPoints(specimen: Specimen): string[] {
   return [...ground].sort();
 }
 
-describe("ordinary ground ore boulders", () => {
+describe("fractured mineral deposits", () => {
   const specimens = new Map<string, Specimen>();
   beforeAll(() => {
     for (const id of IDS) {
@@ -50,34 +49,35 @@ describe("ordinary ground ore boulders", () => {
       for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) material.dispose(); }
   });
 
-  it("preserves all resource identities and makes copper a full 1.80 metre rock", () => {
+  it("preserves all resource identities and keeps deposits below 1.05 metres at native scale", () => {
     expect(GROUND_ORE_ASSET_IDS).toEqual(IDS);
-    expect(GROUND_ORE_SPECS.find(spec => spec.family === "grithe")!.size).toEqual([2.6, 1.80, 1.85]);
+    for (const spec of GROUND_ORE_SPECS) { expect(spec.size[1]).toBeLessThanOrEqual(1.05); expect(spec.size[0]).toBeLessThanOrEqual(1.60); }
+    expect(GROUND_ORE_SPECS.find(spec => spec.family === "grithe")!.size).toEqual([1.55, 0.94, 1.12]);
   });
 
-  it.each(IDS)("keeps %s closed, solid, grounded, and valid through original texture seams", id => {
+  it.each(IDS)("keeps %s closed, solid, grounded, and valid through mineral boundaries and planar texture seams", id => {
     const { root, geometry, bounds } = specimens.get(id)!, size = bounds.getSize(new Vector3());
     const spec = GROUND_ORE_SPECS.find(entry => id === `corealm_ore_${entry.family}` || id === `corealm_ore_${entry.family}_spent`)!;
     expect(root.children).toHaveLength(1); expect(geometry.index).toBeNull();
     expect(bounds.min.y).toBeCloseTo(0, 6); expect(bounds.min.x + bounds.max.x).toBeCloseTo(0, 5); expect(bounds.min.z + bounds.max.z).toBeCloseTo(0, 5);
     for (const [index, axis] of AXES.entries()) expect(size[axis]).toBeCloseTo(spec.size[index]!, 5);
-    expect(size.y / size.x, "a full boulder, not a flat layer cake").toBeGreaterThanOrEqual(0.65);
+    expect(size.y / size.x, "a full boulder, not a flat layer cake").toBeGreaterThanOrEqual(0.50);
     const position = geometry.getAttribute("position"), ids = vertexIds(geometry), edges = new Map<string, { count: number; winding: number }>(), parents = new Map<number, number>();
     const find = (id: number): number => { const parent = parents.get(id); if (parent === undefined) { parents.set(id, id); return id; } if (parent === id) return id; const root = find(parent); parents.set(id, root); return root; };
-    let volume = 0, minimumArea = Infinity;
+    let volume = 0, minimumArea = Infinity, collapsedEdges = 0;
     for (let offset = 0; offset < position.count; offset += 3) {
       const [a, b, c] = [0, 1, 2].map(corner => new Vector3().fromBufferAttribute(position, offset + corner));
       minimumArea = Math.min(minimumArea, b!.clone().sub(a!).cross(c!.clone().sub(a!)).length() * 0.5);
       volume += a!.dot(b!.clone().cross(c!)) / 6;
       for (let corner = 0; corner < 3; corner++) {
-        const start = ids[offset + corner]!, end = ids[offset + (corner + 1) % 3]!; expect(start).not.toBe(end);
+        const start = ids[offset + corner]!, end = ids[offset + (corner + 1) % 3]!; if (start === end) collapsedEdges++;
         const key = [start, end].sort((a, b) => a - b).join(","), edge = edges.get(key) ?? { count: 0, winding: 0 };
         edge.count++; edge.winding += start < end ? 1 : -1; edges.set(key, edge); parents.set(find(start), find(end));
       }
     }
-    expect(minimumArea).toBeGreaterThan(1e-10);
+    expect(collapsedEdges).toBe(0); expect(minimumArea).toBeGreaterThan(1e-10);
     expect([...edges.values()].filter(edge => edge.count !== 2 || edge.winding !== 0)).toEqual([]);
-    expect(new Set(ids.map(find)).size).toBe(1); expect(new Set(ids).size - edges.size + position.count / 3).toBe(2);
+    expect(new Set(ids.map(find)).size).toBe(6); expect(new Set(ids).size - edges.size + position.count / 3).toBe(12);
     expect(volume / (size.x * size.y * size.z)).toBeGreaterThan(0.30);
     const ground = groundPoints(specimens.get(id)!); expect(ground.length).toBeGreaterThan(20);
     const normals = geometry.getAttribute("normal"), uv = geometry.getAttribute("uv1"), albedoUv = geometry.getAttribute("uv");
@@ -89,13 +89,16 @@ describe("ordinary ground ore boulders", () => {
     // Keep the original UV validity threshold on the actual normal-map atlas.
     // Quiet albedo coordinates deliberately sample a smaller interior region.
     expect(maximumNormalError).toBeLessThan(1e-4); expect(minimumUvArea).toBeGreaterThan(1e-10);
+    let maximumAlbedoUvError = 0;
     for (let index = 0; index < uv.count; index++) {
-      expect(albedoUv.getX(index)).toBeCloseTo(0.34 + uv.getX(index) * 0.10, 6);
-      expect(albedoUv.getY(index)).toBeCloseTo(0.32 + uv.getY(index) * 0.10, 6);
+      maximumAlbedoUvError = Math.max(maximumAlbedoUvError,
+        Math.abs(albedoUv.getX(index) - (0.34 + uv.getX(index) * 0.10)),
+        Math.abs(albedoUv.getY(index) - (0.32 + uv.getY(index) * 0.10)));
     }
+    expect(maximumAlbedoUvError).toBeLessThan(1e-6);
   });
 
-  it.each(FAMILIES)("keeps %s flecks in small patches rather than an encircling ribbon", family => {
+  it.each(FAMILIES)("gives %s broad exposed mineral seams readable at gameplay distance", family => {
     const specimen = specimens.get(`corealm_ore_${family}`)!, geometry = specimen.geometry, position = geometry.getAttribute("position"), ids = vertexIds(geometry);
     const flags = (specimen.root.children[0] as Mesh).userData.mineralFaces as boolean[], adjacency = new Map<number, Set<number>>(), coordinates = new Map<number, Vector3>();
     let totalArea = 0, mineralArea = 0;
@@ -106,12 +109,12 @@ describe("ordinary ground ore boulders", () => {
       for (let corner = 0; corner < 3; corner++) { const a = ids[offset + corner]!, b = ids[offset + (corner + 1) % 3]!;
         coordinates.set(a, points[corner]!); const neighbours = adjacency.get(a) ?? new Set<number>(); neighbours.add(b); adjacency.set(a, neighbours); }
     }
-    expect(mineralArea / totalArea).toBeGreaterThan(0.001); expect(mineralArea / totalArea).toBeLessThan(0.04);
+    expect(mineralArea / totalArea).toBeGreaterThan(0.15); expect(mineralArea / totalArea).toBeLessThan(0.50);
     const remaining = new Set(adjacency.keys()); let components = 0, largestSpan = 0;
     while (remaining.size) { components++; const pending = [remaining.values().next().value!], bounds = new Box3(); remaining.delete(pending[0]!);
       while (pending.length) { const id = pending.pop()!; bounds.expandByPoint(coordinates.get(id)!); for (const next of adjacency.get(id) ?? []) if (remaining.delete(next)) pending.push(next); }
       largestSpan = Math.max(largestSpan, bounds.getSize(new Vector3()).length()); }
-    expect(components, "scattered mineral flecks").toBeGreaterThan(12); expect(largestSpan, "no continuous mineral ribbon").toBeLessThan(0.55);
+    expect(components, "mineral exposures across the fractured deposit").toBeGreaterThan(1); expect(largestSpan, "visible seams rather than subpixel flecks").toBeGreaterThan(0.55);
   });
 
   it.each(FAMILIES)("depletes %s without moving its body or ground contact", family => {
@@ -124,12 +127,7 @@ describe("ordinary ground ore boulders", () => {
     expect(changed).toBeGreaterThan(5); expect(outward).toBe(0);
   });
 
-  it("preserves the reference's real stone maps with matte, unlit mineral flecks", async () => {
-    const sourcePath = "game/public/assets/models/magic/rocks_free_essence_node.glb", source = await new NodeIO().read(sourcePath);
-    expect(createHash("sha256").update(await readFile(sourcePath)).digest("hex")).toBe("c1c3c2af9eaed4027d80c84ed64422c9fb261eabc8bc275334a6a834fb541a1d");
-    const textureHashes = new Set(source.getRoot().listTextures().map(texture => createHash("sha256").update(texture.getImage()!).digest("hex")));
-    const mutedHash = createHash("sha256").update(await readFile("tools/data/ground-ore-muted-albedo.png")).digest("hex");
-    textureHashes.add(mutedHash);
+  it("exports original granular stone detail and distinguishes metallic mineral from its non-emissive host", async () => {
     for (const id of IDS) {
       const { glb, entry } = await buildGroundOreAsset(id), doc = await new NodeIO().readBinary(glb), spent = id.endsWith("_spent");
       const family = id.slice("corealm_ore_".length).replace(/_spent$/, "");
@@ -137,10 +135,10 @@ describe("ordinary ground ore boulders", () => {
       expect(entry.pack).toBe("corealm-original-ground-ores");
       expect(entry.materials).toEqual(spent ? ["Corealm ground host stone"] : ["Corealm ground host stone", `Corealm exposed ${family} mineral`]);
       for (const material of doc.getRoot().listMaterials()) { expect(material.getName()).not.toMatch(/essence|seam|weathered strata/); expect(material.getEmissiveFactor()).toEqual([0, 0, 0]);
-        expect(material.getBaseColorTexture()).not.toBeNull(); expect(material.getRoughnessFactor()).toBeGreaterThanOrEqual(0.70); expect(material.getMetallicFactor()).toBeLessThanOrEqual(0.20);
-        expect(createHash("sha256").update(material.getBaseColorTexture()!.getImage()!).digest("hex")).toBe(mutedHash);
-        expect(material.getNormalScale()).toBe(0.16); if (material.getNormalTexture()) expect(material.getNormalTextureInfo()!.getTexCoord()).toBe(1); }
-      for (const texture of doc.getRoot().listTextures()) expect(textureHashes.has(createHash("sha256").update(texture.getImage()!).digest("hex"))).toBe(true);
+        expect(material.getBaseColorTexture()).toBeNull(); expect(material.getRoughnessFactor()).toBeGreaterThanOrEqual(0.24); expect(material.getMetallicFactor()).toBeLessThanOrEqual(1);
+        if (material.getName() === "Corealm ground host stone") { expect(material.getMetallicFactor()).toBe(0); expect(material.getRoughnessFactor()).toBe(0.92); }
+        expect(material.getNormalScale()).toBe(material.getName() === "Corealm ground host stone" ? 0.70 : 0.28); if (material.getNormalTexture()) expect(material.getNormalTextureInfo()!.getTexCoord()).toBe(1); }
+      for (const texture of doc.getRoot().listTextures()) { expect(texture.getName()).toBe("Original granular fracture normals"); expect(texture.getMimeType()).toBe("image/png"); expect(texture.getImage()!.byteLength).toBeGreaterThan(10000); }
       const bounds = new Box3(); for (const mesh of doc.getRoot().listMeshes()) for (const primitive of mesh.listPrimitives()) { const p = primitive.getAttribute("POSITION")!;
         for (let index = 0; index < p.getCount(); index++) bounds.expandByPoint(new Vector3().fromArray(p.getElement(index, []))); }
       for (const axis of AXES) { expect(bounds.min[axis]).toBeCloseTo(entry.base![axis], 5); expect(bounds.getSize(new Vector3())[axis]).toBeCloseTo(entry.size[axis], 5); }

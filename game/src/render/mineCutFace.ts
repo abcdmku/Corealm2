@@ -85,7 +85,7 @@ export async function buildMineCutFace(
 ): Promise<MineCutFaceResult> {
   const cut = site.cutFace;
   if (!cut || cut.stations.length === 0) return { objects: [], solids: [] };
-  const setback = cut.frontSetback ?? 2.4;
+  const setback = cut.frontSetback ?? 0.40;
   const burialHeightAt = createMineBurialSampler(scene);
   if (site.kind !== "mine" || ![cut.backDepth, cut.buryDepth, setback].every((value) => Number.isFinite(value) && value > 0)) {
     throw new Error(`Mine cut ${site.id} requires positive back and burial depths.`);
@@ -385,10 +385,12 @@ export async function buildMineCutFace(
     // while the bank is still at work-floor height leaves a steep exposed rear wall.
     // Flat fixtures without a receiving bank keep a short, buried shoulder.
     let shoulderDepth = 0.85 + weather(across * 0.29, seed + 137) * 0.15;
+    let receivingHeight: number | null = null;
     for (let sample = 1; sample <= 40; sample++) {
       const point = crest.clone().lerp(rear, sample / 40);
       if (burialHeightAt(point.x, point.z) >= crest.y - 0.30) {
         shoulderDepth = Math.max(shoulderDepth, rearDistance * sample / 40);
+        receivingHeight = burialHeightAt(point.x, point.z) - 0.12;
         break;
       }
     }
@@ -401,13 +403,17 @@ export async function buildMineCutFace(
       const depth = t * rearDistance;
       const buried = THREE.MathUtils.smoothstep(depth, 0, shoulderDepth);
       point.y = THREE.MathUtils.lerp(crest.y, ground - 0.30, buried);
+      if (receivingHeight !== null && depth < shoulderDepth) {
+        // Bridge to the actual bank contact, not to the low floor beneath each intermediate
+        // sample. The latter produces a trough that separates the cliff from the hillside.
+        point.y = THREE.MathUtils.lerp(crest.y, receivingHeight, depth / shoulderDepth);
+      }
       point.y += (1 - buried) * Math.sin(Math.PI * Math.min(1, depth / shoulderDepth)) * exposedDetail
         * (weather(across * 0.65 + t * 5, seed + 139) * 0.17
           + weather(across * 1.7 - t * 8, seed + 141) * 0.05);
-      // Weathered rock falls away from the crest before the receiving bank rises to meet it. Without
-      // this the roof waits at crest height for the two to four metres the real bank takes to climb,
-      // and the shell reads as a flat grey plane laid over the hillside.
-      point.y = Math.min(point.y, Math.max(ground - 0.30, crest.y - 1.7 * depth));
+      // An isolated outcrop buries its rear promptly. A receiving hillside needs the full
+      // shoulder: forcing the same steep drop there cuts a dark trench behind the face.
+      if (shoulderDepth < 1.2) point.y = Math.min(point.y, Math.max(ground - 0.30, crest.y - 1.7 * depth));
       // Uneven erosion breaks the exposed soil contact so the rock-to-grass line is not a chord.
       // The displacement is constant down a section, so no row overtakes the one before it.
       if (point.y > ground) {

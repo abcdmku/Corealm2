@@ -120,6 +120,15 @@ states, collision and local mining. Accept those before integrating the face wit
 Then inspect the full site's relief, work floor, seam orientation, approach, navigation and depleted
 state. The world exception covers that spatial integration; it does not waive the reusable asset gate.
 
+Ore deposits use weathered fracture masses and broad mineral exposures, with matching depleted hosts.
+The ordinary ore placement target is 1.55 m across, with native heights of 0.82?1.02 m. Change both
+the generator dimensions and the production tier presentation target when resizing: runtime sizing
+normalizes the source mesh. Geometry and granular normal maps are now original generator output.
+The cut face defaults to 0.40 m behind the resource centres, embedding their rear blocks. Its shoulder
+meets the sampled receiving bank; the terrain rise begins 1.25 m behind the seam. Keep the work aisle
+and resource IDs stable when adjusting this join. The September 2026 ore revision used the lab for
+the assets and pointer mining, then the world exception for the receiving bank's terrain profile.
+
 Fishery slots must reference the solved production basin. A fishery slot authors only which
 outward ray a school belongs to (`slot.x`) and how it is drawn; `game/src/app/fishingAccess.ts`
 solves the dry casting stance and the school itself from the built water body, so both sit on one

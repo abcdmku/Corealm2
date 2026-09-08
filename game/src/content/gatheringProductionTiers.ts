@@ -86,7 +86,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
         id: "ore_grithe", name: "Copper Seam", archetype: "ore", skill: "mining",
         itemId: "grithe_ore", bonus: [{ itemId: "pale_quartz", chance: 0.06 }],
         presentation: {
-          availableAssetIds: ["corealm_ore_grithe"], depletedAssetId: "corealm_ore_grithe_spent", targetWorldSize: 2.6,
+          availableAssetIds: ["corealm_ore_grithe"], depletedAssetId: "corealm_ore_grithe_spent", targetWorldSize: 1.55,
           variantScale: [0.92, 1.08], materialTier: 1,
         },
       },
@@ -94,7 +94,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
         id: "ore_marchstone", name: "Limestone Face", archetype: "ore", skill: "mining",
         itemId: "march_stone", bonus: [{ itemId: "pale_quartz", chance: 0.03 }],
         presentation: {
-          availableAssetIds: ["corealm_ore_stone"], depletedAssetId: "corealm_ore_stone_spent", targetWorldSize: 2.6,
+          availableAssetIds: ["corealm_ore_stone"], depletedAssetId: "corealm_ore_stone_spent", targetWorldSize: 1.55,
           variantScale: [0.94, 1.06], materialTier: 1,
         },
       },
@@ -140,7 +140,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
         id: "ore_corven", name: "Iron Seam", archetype: "ore", skill: "mining",
         itemId: "corven_ore", bonus: [{ itemId: "vell_amber", chance: 0.06 }],
         presentation: {
-          availableAssetIds: ["corealm_ore_corven"], depletedAssetId: "corealm_ore_corven_spent", targetWorldSize: 2.6,
+          availableAssetIds: ["corealm_ore_corven"], depletedAssetId: "corealm_ore_corven_spent", targetWorldSize: 1.55,
           variantScale: [0.92, 1.08], materialTier: 5,
         },
       },
@@ -187,7 +187,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
         id: "ore_kaldite", name: "Cobalt Face", archetype: "ore", skill: "mining",
         itemId: "kaldite_ore", bonus: [{ itemId: "cairn_garnet", chance: 0.07 }],
         presentation: {
-          availableAssetIds: ["corealm_ore_kaldite"], depletedAssetId: "corealm_ore_kaldite_spent", targetWorldSize: 2.6,
+          availableAssetIds: ["corealm_ore_kaldite"], depletedAssetId: "corealm_ore_kaldite_spent", targetWorldSize: 1.55,
           variantScale: [0.92, 1.08], materialTier: 10,
         },
       },
@@ -234,7 +234,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
         id: "ore_emberite", name: "Titanium Seam", archetype: "ore", skill: "mining",
         itemId: "emberite_ore", bonus: [{ itemId: "fire_opal", chance: 0.07 }],
         presentation: {
-          availableAssetIds: ["corealm_ore_emberite"], depletedAssetId: "corealm_ore_emberite_spent", targetWorldSize: 2.6,
+          availableAssetIds: ["corealm_ore_emberite"], depletedAssetId: "corealm_ore_emberite_spent", targetWorldSize: 1.55,
           variantScale: [0.92, 1.08], materialTier: 20,
         },
       },
@@ -244,7 +244,7 @@ export const GATHERING_PRODUCTION_TIERS: readonly GatheringProductionTierDef[] =
         id: "ore_kilnstone", name: "Flux Stone Face", archetype: "ore", skill: "mining",
         itemId: "kilnstone", bonus: [{ itemId: "fire_opal", chance: 0.03 }],
         presentation: {
-          availableAssetIds: ["corealm_ore_kilnstone"], depletedAssetId: "corealm_ore_kilnstone_spent", targetWorldSize: 2.6,
+          availableAssetIds: ["corealm_ore_kilnstone"], depletedAssetId: "corealm_ore_kilnstone_spent", targetWorldSize: 1.55,
           variantScale: [0.94, 1.06], materialTier: 20,
         },
       },

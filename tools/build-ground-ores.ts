@@ -1,10 +1,11 @@
-/** Ordinary mineral-bearing boulders. Stage only: npx tsx tools/build-ground-ores.ts */
+/** Fractured mineral deposits. Stage only: npx tsx tools/build-ground-ores.ts */
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { Document, NodeIO, type Material } from "@gltf-transform/core";
-import { copyToDocument, weld } from "@gltf-transform/functions";
+import { Document, NodeIO } from "@gltf-transform/core";
+import { weld } from "@gltf-transform/functions";
+import sharp from "sharp";
 import * as THREE from "three";
 import { ConvexGeometry } from "three/addons/geometries/ConvexGeometry.js";
 import { toCreasedNormals } from "three/addons/utils/BufferGeometryUtils.js";
@@ -12,20 +13,18 @@ import type { AssetEntry } from "../game/src/render/assets.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIRECTORY = "models/corealm/geology";
-const REFERENCE_FILE = "game/public/assets/models/magic/rocks_free_essence_node.glb";
-const MUTED_ALBEDO = "tools/data/ground-ore-muted-albedo.png";
 const HOST_MATERIAL = "Corealm ground host stone";
-const PACK = { id: "corealm-original-ground-ores", name: "Corealm mineral-bearing ground boulders", author: "Corealm; rock foundation by DEXSOFT",
-  source: "tools/build-ground-ores.ts", license: "Derivative geometry and material maps from the project's DEXSOFT Rocks FREE pack asset, under its existing Standard Unity Asset Store EULA. Corealm mineral coloring and presentation are project-authored." };
+const PACK = { id: "corealm-original-ground-ores", name: "Corealm fractured mineral deposits", author: "Corealm",
+  source: "tools/build-ground-ores.ts", license: "LicenseRef-Corealm-Original" };
 type Point = [number, number, number];
 type Spec = { family: string; seed: number; size: Point; host: number; ore: number; pale: number; metalness: number; roughness: number };
 export const GROUND_ORE_SPECS: readonly Spec[] = [
-  { family: "grithe", seed: 8219, size: [2.6, 1.80, 1.85], host: 0xe9e7e0, ore: 0xa38466, pale: 0xb6a184, metalness: 0.16, roughness: 0.72 },
-  { family: "corven", seed: 8938, size: [2.6, 1.85, 1.95], host: 0xbabcb2, ore: 0x8e8372, pale: 0xb1ab9a, metalness: 0.13, roughness: 0.77 },
-  { family: "kaldite", seed: 9657, size: [2.6, 1.95, 1.75], host: 0xbac0b8, ore: 0x7a8f9b, pale: 0xa0aeb1, metalness: 0.14, roughness: 0.75 },
-  { family: "emberite", seed: 10376, size: [2.6, 1.75, 2.05], host: 0xbdbbb1, ore: 0x8a8b94, pale: 0xada8b0, metalness: 0.18, roughness: 0.70 },
-  { family: "stone", seed: 11095, size: [2.6, 1.70, 2.20], host: 0xc4c2b6, ore: 0xaaa995, pale: 0xc0bba6, metalness: 0.02, roughness: 0.85 },
-  { family: "kilnstone", seed: 11814, size: [2.6, 1.80, 1.90], host: 0xb9b8ab, ore: 0xa4977f, pale: 0xb8ad97, metalness: 0.02, roughness: 0.84 },
+  { family: "grithe", seed: 8219, size: [1.55, 0.94, 1.12], host: 0x777b79, ore: 0xa46d35, pale: 0xd4a667, metalness: 0.90, roughness: 0.26 },
+  { family: "corven", seed: 8938, size: [1.48, 0.87, 1.15], host: 0x434c55, ore: 0x758f98, pale: 0xa9bdc0, metalness: 0.92, roughness: 0.24 },
+  { family: "kaldite", seed: 9657, size: [1.42, 1.02, 1.08], host: 0x434b61, ore: 0x246b81, pale: 0x5d9caa, metalness: 0.88, roughness: 0.28 },
+  { family: "emberite", seed: 10376, size: [1.58, 0.89, 1.20], host: 0x393b48, ore: 0x962d22, pale: 0xce6535, metalness: 0.88, roughness: 0.28 },
+  { family: "stone", seed: 11095, size: [1.50, 0.82, 1.26], host: 0x919187, ore: 0x95907a, pale: 0xb5af94, metalness: 0.02, roughness: 0.85 },
+  { family: "kilnstone", seed: 11815, size: [1.48, 0.91, 1.16], host: 0x9b8574, ore: 0xb29160, pale: 0xd0b580, metalness: 0.02, roughness: 0.84 },
 ];
 export const GROUND_ORE_ASSET_IDS: readonly string[] = GROUND_ORE_SPECS.flatMap(spec => [false, true].map(spent => `corealm_ore_${spec.family}${spent ? "_spent" : ""}`));
 export interface GroundOreEntry extends AssetEntry {
@@ -36,8 +35,6 @@ type Corner = { point: THREE.Vector3; uv: THREE.Vector2 };
 type Triangle = { corners: [Corner, Corner, Corner]; mineral: boolean };
 type BuiltRock = { spec: Spec; spent: boolean; triangles: Triangle[]; footprint: Point[] };
 const io = new NodeIO();
-const reference = await io.read(path.join(ROOT, REFERENCE_FILE));
-const referenceMaterial = reference.getRoot().listMaterials()[0]!;
 const clamp = THREE.MathUtils.clamp;
 const smooth = (a: number, b: number, value: number): number => { const t = clamp((value - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
 
@@ -62,101 +59,78 @@ function resolve(assetId: string): { spec: Spec; spent: boolean } {
 const interpolate = (a: Corner, b: Corner, t: number): Corner => ({ point: a.point.clone().lerp(b.point, t), uv: a.uv.clone().lerp(b.uv, t) });
 const key = (point: THREE.Vector3): string => point.toArray().map(value => value.toFixed(6)).join(",");
 
-/** Start from the referenced rock, soften small lobes, and fill its deepest clefts. */
-function referenceBody(spec: Spec): { triangles: Array<[Corner, Corner, Corner]>; footprint: Point[] } {
-  const positions: THREE.Vector3[] = [], vertices = new Map<string, number>(), faces: Array<{ ids: [number, number, number]; uvs: THREE.Vector2[] }> = [];
-  for (const node of reference.getRoot().listNodes()) for (const primitive of node.getMesh()?.listPrimitives() ?? []) {
-    const source = primitive.getAttribute("POSITION")!, uv = primitive.getAttribute("TEXCOORD_0")!, indices = primitive.getIndices();
-    const matrix = new THREE.Matrix4().fromArray(node.getWorldMatrix());
-    for (let offset = 0; offset < (indices?.getCount() ?? source.getCount()); offset += 3) {
-      const ids: number[] = [], uvs: THREE.Vector2[] = [];
-      for (let corner = 0; corner < 3; corner++) {
-        const index = indices?.getScalar(offset + corner) ?? offset + corner;
-        const point = new THREE.Vector3().fromArray(source.getElement(index, [])).applyMatrix4(matrix), idKey = key(point);
-        let id = vertices.get(idKey); if (id === undefined) { id = positions.length; positions.push(point); vertices.set(idKey, id); }
-        ids.push(id); uvs.push(new THREE.Vector2().fromArray(uv.getElement(index, [])));
+/** Interlocking blunt fracture blocks, with broad chipped faces and a shared buried root. */
+function fractureBody(spec: Spec): { triangles: Array<[Corner, Corner, Corner]>; footprint: Point[] } {
+  const triangles: Array<[Corner, Corner, Corner]> = [];
+  const variant = GROUND_ORE_SPECS.indexOf(spec);
+  // Each family has a different fracture habit, while retaining the saved resource footprint.
+  const habit = [1.0, 0.65, 1.25, 0.85, 0.55, 0.72][variant]!;
+  const blocks = [
+    [-0.27, 0, -0.16, 1.35, 1.25 * habit, 1.10, -0.16],
+    [0.47, 0, -0.12, 0.91, 0.94, 0.89, 0.22],
+    [-0.72, 0, 0.20, 0.70, 0.78, 0.83, -0.40],
+    [0.03, 0, 0.49, 0.88, 0.63, 0.71, 0.18],
+    [0.77, 0, 0.37, 0.60, 0.50, 0.62, -0.23],
+    [-0.37, 0, 0.71, 0.48, 0.35, 0.43, 0.45],
+  ];
+  for (const [block, values] of blocks.entries()) {
+    const [cx, cy, cz, width, height, depth, yaw] = values as [number, number, number, number, number, number, number];
+    const points: THREE.Vector3[] = [];
+    // Unequal fracture planes and chipped shoulders, with a broad buried base.
+    // Seed each block independently so neither the crown nor the seam repeats.
+    for (const [level, scale] of [[0,0.80],[0.16,1],[0.68,0.94],[1,0.52]]) {
+      for (let side = 0; side < 9; side++) {
+        const angle = side / 9 * Math.PI * 2;
+        const sample = new THREE.Vector3(side * 1.77, block * 2.41, level! * 2.19);
+        const jitter = noise(sample, 1, spec.seed) * 0.24;
+        const radius = scale! * (0.5 + jitter);
+        const px = Math.cos(angle) * radius, pz = Math.sin(angle) * radius;
+        const top = level === 0 ? 0 : level! * (1 + noise(sample, 2, spec.seed + 9) * 0.22);
+        const point = new THREE.Vector3((px + level! * (block % 2 ? 0.13 : -0.17)) * width,
+          top * height, pz * depth);
+        point.applyAxisAngle(new THREE.Vector3(0, 1, 0), yaw + variant * 0.31).add(new THREE.Vector3(cx, cy, cz));
+        points.push(point);
       }
-      faces.push({ ids: ids as [number, number, number], uvs });
     }
-  }
-  const neighbours = positions.map(() => new Set<number>());
-  for (const { ids } of faces) for (let edge = 0; edge < 3; edge++) {
-    const a = ids[edge]!, b = ids[(edge + 1) % 3]!; neighbours[a]!.add(b); neighbours[b]!.add(a);
-  }
-  let softened = positions.map(point => point.clone());
-  for (let pass = 0; pass < 8; pass++) softened = softened.map((point, index) => {
-    const average = new THREE.Vector3(); for (const neighbour of neighbours[index]!) average.add(softened[neighbour]!);
-    return point.clone().lerp(average.multiplyScalar(1 / neighbours[index]!.size), 0.28);
-  });
-  const bounds = new THREE.Box3().setFromPoints(softened), centre = bounds.getCenter(new THREE.Vector3());
-  const hull = new ConvexGeometry(softened), hullPoints = hull.getAttribute("position"), planes: THREE.Plane[] = [];
-  for (let offset = 0; offset < hullPoints.count; offset += 3) planes.push(new THREE.Plane().setFromCoplanarPoints(
-    new THREE.Vector3().fromBufferAttribute(hullPoints, offset), new THREE.Vector3().fromBufferAttribute(hullPoints, offset + 1), new THREE.Vector3().fromBufferAttribute(hullPoints, offset + 2)));
-  const variant = GROUND_ORE_SPECS.indexOf(spec), rotation = new THREE.Matrix4().makeRotationY(0.46 + variant * 0.63)
-    .multiply(new THREE.Matrix4().makeRotationX(0.09 + Math.sin(variant * 1.9) * 0.11));
-  const body = softened.map(point => {
-    const direction = point.clone().sub(centre).normalize();
-    let limit = Infinity;
-    for (const plane of planes) { const denominator = plane.normal.dot(direction); if (denominator > 1e-8) limit = Math.min(limit, -plane.distanceToPoint(centre) / denominator); }
-    const convex = centre.clone().addScaledVector(direction, limit);
-    return point.clone().lerp(convex, 0.76).sub(centre).applyMatrix4(rotation);
-  });
-  hull.dispose();
-  const bodyBounds = new THREE.Box3().setFromPoints(body), cutY = bodyBounds.min.y + bodyBounds.getSize(new THREE.Vector3()).y * 0.17;
-  const triangles: Array<[Corner, Corner, Corner]> = [], cutSegments: Array<[THREE.Vector3, THREE.Vector3]> = [];
-  for (const face of faces) {
-    const source = face.ids.map((id, index) => ({ point: body[id]!, uv: face.uvs[index]! })), polygon: Corner[] = [], cut: THREE.Vector3[] = [];
-    for (let edge = 0; edge < 3; edge++) {
-      const a = source[edge]!, b = source[(edge + 1) % 3]!, da = a.point.y - cutY, db = b.point.y - cutY;
-      if (da >= 0) polygon.push(a);
-      if ((da >= 0) !== (db >= 0)) { const crossing = interpolate(a, b, da / (da - db)); crossing.point.y = cutY; polygon.push(crossing); cut.push(crossing.point); }
+    const coarse = new ConvexGeometry(points), coarsePositions = coarse.getAttribute("position"), bevelPoints: THREE.Vector3[] = [];
+    for (let i = 0; i < coarsePositions.count; i += 3) {
+      const face = [0,1,2].map(j => new THREE.Vector3().fromBufferAttribute(coarsePositions, i+j));
+      const centre = face.reduce((sum, p) => sum.add(p), new THREE.Vector3()).multiplyScalar(1/3);
+      for (const point of face) bevelPoints.push(point.clone().lerp(centre, 0.10));
     }
-    for (let edge = 1; edge < polygon.length - 1; edge++) triangles.push([polygon[0]!, polygon[edge]!, polygon[edge + 1]!]);
-    if (cut.length === 2) cutSegments.push(cut as [THREE.Vector3, THREE.Vector3]);
-  }
-  const links = new Map<string, string[]>(), cutPoints = new Map<string, THREE.Vector3>();
-  for (const segment of cutSegments) {
-    const [a, b] = segment.map(key) as [string, string];
-    cutPoints.set(a, segment[0]); cutPoints.set(b, segment[1]);
-    for (const [start, end] of [[a, b], [b, a]]) { const next = links.get(start!) ?? []; if (!next.includes(end!)) next.push(end!); links.set(start!, next); }
-  }
-  const remaining = new Set(links.keys()), foot: THREE.Vector3[] = [];
-  while (remaining.size) {
-    const start = remaining.values().next().value!, outline: THREE.Vector3[] = [];
-    let current = start, previous = "";
-    do {
-      outline.push(cutPoints.get(current)!); remaining.delete(current);
-      const next = links.get(current)?.find(candidate => candidate !== previous);
-      if (!next) throw new Error("Reference rock ground cut is not a closed contour");
-      previous = current; current = next;
-    } while (current !== start && outline.length <= links.size);
-    const contour = outline.map(point => new THREE.Vector2(point.x, point.z));
-    const caps = THREE.ShapeUtils.triangulateShape(contour, []);
-    for (const indices of caps) {
-      const points = indices.map(index => outline[index]!.clone()) as [THREE.Vector3, THREE.Vector3, THREE.Vector3];
-      if (points[1].clone().sub(points[0]).cross(points[2].clone().sub(points[0])).y > 0) [points[1], points[2]] = [points[2], points[1]];
-      triangles.push(points.map(point => ({ point, uv: new THREE.Vector2(0.13 + point.x * 0.03, 0.24 + point.z * 0.03) })) as [Corner, Corner, Corner]);
+    coarse.dispose();
+    const hull = new ConvexGeometry(bevelPoints), positions = hull.getAttribute("position");
+    for (let i = 0; i < positions.count; i += 3) {
+      const face = [0, 1, 2].map(j => new THREE.Vector3().fromBufferAttribute(positions, i + j));
+      const n = face[1]!.clone().sub(face[0]!).cross(face[2]!.clone().sub(face[0]!)).normalize();
+      const axis = Math.abs(n.y) > 0.7 ? "y" : Math.abs(n.x) > Math.abs(n.z) ? "x" : "z";
+      triangles.push(face.map(point => ({ point, uv: new THREE.Vector2(
+        axis === "x" ? point.z : point.x, axis === "y" ? point.z : point.y) })) as [Corner, Corner, Corner]);
     }
-    foot.push(...outline);
+    hull.dispose();
   }
-  const fitBounds = new THREE.Box3().setFromPoints(triangles.flatMap(triangle => triangle.map(corner => corner.point))), size = fitBounds.getSize(new THREE.Vector3());
-  const offset = new THREE.Vector3((fitBounds.min.x + fitBounds.max.x) * 0.5, cutY, (fitBounds.min.z + fitBounds.max.z) * 0.5);
-  const scale = new THREE.Vector3(...spec.size).divide(size);
-  const fit = (point: THREE.Vector3): THREE.Vector3 => point.clone().sub(offset).multiply(scale);
-  return { triangles: triangles.map(triangle => triangle.map(corner => ({ point: fit(corner.point), uv: corner.uv.clone() })) as [Corner, Corner, Corner]),
-    footprint: foot.map(point => fit(point).toArray() as Point) };
+  const bounds = new THREE.Box3().setFromPoints(triangles.flatMap(triangle => triangle.map(corner => corner.point)));
+  const size = bounds.getSize(new THREE.Vector3()), offset = bounds.getCenter(new THREE.Vector3()); offset.y = bounds.min.y;
+  const fit = new THREE.Vector3(...spec.size).divide(size);
+  for (const triangle of triangles) for (const corner of triangle) corner.point.sub(offset).multiply(fit);
+  const foot = new Map<string, Point>();
+  for (const triangle of triangles) for (const { point } of triangle) if (Math.abs(point.y) < 1e-6) foot.set(key(point), point.toArray() as Point);
+  return { triangles, footprint: [...foot.values()] };
 }
 
-/** An isotropic field forms small, scattered flecks, with no seam or band direction. */
+/** Oblique mineral seams and broad breakout pockets remain legible from the gameplay camera. */
 function exposure(point: THREE.Vector3, spec: Spec): number {
   if (point.y < 0.10) return -1;
-  // Keep only the local peaks. Lower cutoffs join neighbouring iron flecks into a
-  // 0.63 m stripe; this cutoff keeps every family's connected patch below 0.55 m.
-  return noise(point, 8.4, spec.seed + 419) * 0.72 + noise(point, 17.6, spec.seed + 463) * 0.28 - 0.47;
+  const p = point.clone().multiplyScalar(1.65);
+  const warp = noise(p, 2.8, spec.seed + 419) * 0.31;
+  const seam = Math.abs(Math.sin((p.x * 0.54 + p.y * 1.15 + p.z * 0.34 + warp) * 4.2));
+  const pocket = noise(p, 3.2, spec.seed + 463);
+  return Math.max(0.32 - seam, pocket - 0.30);
+
 }
 
 function makeRock(assetId: string): BuiltRock {
-  const { spec, spent } = resolve(assetId), body = referenceBody(spec), triangles: Triangle[] = [];
+  const { spec, spent } = resolve(assetId), body = fractureBody(spec), triangles: Triangle[] = [];
   const emit = (corners: [Corner, Corner, Corner], mineral: boolean): void => {
     if (corners[1].point.clone().sub(corners[0].point).cross(corners[2].point.clone().sub(corners[0].point)).lengthSq() < 1e-22) return;
     triangles.push({ corners, mineral });
@@ -176,10 +150,12 @@ function makeRock(assetId: string): BuiltRock {
       for (let i = 1; i < polygon.length - 1; i++) emit([polygon[0]!, polygon[i]!, polygon[i + 1]!], mineral);
     }
   };
-  for (const [a, b, c] of body.triangles) {
-    const ab = interpolate(a, b, 0.5), bc = interpolate(b, c, 0.5), ca = interpolate(c, a, 0.5);
-    for (const triangle of [[a, ab, ca], [ab, b, bc], [ca, bc, c], [ab, bc, ca]] as Array<[Corner, Corner, Corner]>) add(triangle);
-  }
+  const subdivide = (triangle: [Corner, Corner, Corner], depth: number): void => {
+    if (!depth) { add(triangle); return; }
+    const [a, b, c] = triangle, ab = interpolate(a, b, 0.5), bc = interpolate(b, c, 0.5), ca = interpolate(c, a, 0.5);
+    for (const child of [[a, ab, ca], [ab, b, bc], [ca, bc, c], [ab, bc, ca]] as Array<[Corner, Corner, Corner]>) subdivide(child, depth - 1);
+  };
+  for (const triangle of body.triangles) subdivide(triangle, 2);
   return { spec, spent, triangles, footprint: body.footprint };
 }
 
@@ -198,11 +174,24 @@ function geometry(rock: BuiltRock): THREE.BufferGeometry {
     const original = corner.point, point = original.clone();
     const edge = Math.pow(Math.max(0, Math.sin((point.x / rock.spec.size[0] + 0.5) * Math.PI)
       * Math.sin(point.y / rock.spec.size[1] * Math.PI) * Math.sin((point.z / rock.spec.size[2] + 0.5) * Math.PI)), 0.5);
+    // Small geometric erosion gives the host a chipped surface; the mineral
+    // stands proud of its eroded matrix. A zero envelope preserves all bounds.
+    const direction = original.clone().sub(new THREE.Vector3(0, rock.spec.size[1] * 0.43, 0)).normalize();
+    const weather = (0.022 + (noise(original, 19, rock.spec.seed + 53) + 1) * 0.013)
+      * (1 - smooth(-0.03, 0.15, exposure(original, rock.spec)));
+    point.addScaledVector(direction, -weather * edge);
     if (rock.spent) point.addScaledVector(original.clone().sub(new THREE.Vector3(0, rock.spec.size[1] * 0.43, 0)).normalize(),
       -smooth(0, 0.19, exposure(original, rock.spec)) * edge * 0.026);
     const color = new THREE.Color(triangle.mineral && !rock.spent ? rock.spec.ore : rock.spec.host);
-    if (triangle.mineral && !rock.spent) color.lerp(new THREE.Color(rock.spec.pale), 0.25 + noise(original, 16, rock.spec.seed + 541) * 0.20);
-    color.multiplyScalar(0.97 + noise(original, 2.9, rock.spec.seed + 77) * 0.035);
+    if (triangle.mineral && !rock.spent) color.lerp(new THREE.Color(rock.spec.pale), 0.04 + smooth(-0.2, 0.55, noise(original, 12, rock.spec.seed + 541)) * 0.22);
+    color.multiplyScalar(0.87 + noise(original, 10.9, rock.spec.seed + 77) * 0.23 + noise(original, 43, rock.spec.seed + 87) * 0.10);
+    if (!triangle.mineral) {
+      const boundary = 1 - smooth(-0.16, -0.015, -Math.abs(exposure(original, rock.spec)));
+      const stain = rock.spec.family === "grithe" ? 0x4c7468 : rock.spec.family === "corven" ? 0x67564b : rock.spec.host;
+      color.lerp(new THREE.Color(stain), boundary * 0.35);
+      const fracture = Math.abs(Math.sin((original.y * 2.9 + original.x * 0.8 + noise(original, 9, rock.spec.seed)*0.055)*18));
+      color.multiplyScalar(0.77 + smooth(0.025, 0.13, fracture)*0.23);
+    }
     if (rock.spent && triangle.mineral) color.multiplyScalar(0.91);
     positions.push(...point.toArray()); colors.push(color.r, color.g, color.b); uvs.push(triangleUvs[cornerIndex]!.x, triangleUvs[cornerIndex]!.y);
     }
@@ -211,7 +200,7 @@ function geometry(rock: BuiltRock): THREE.BufferGeometry {
   const raw = new THREE.BufferGeometry().setAttribute("position", new THREE.Float32BufferAttribute(positions, 3))
     .setAttribute("color", new THREE.Float32BufferAttribute(colors, 3)).setAttribute("uv", new THREE.Float32BufferAttribute(albedoUvs, 2))
     .setAttribute("uv1", new THREE.Float32BufferAttribute(uvs, 2));
-  const smoothed = toCreasedNormals(raw, THREE.MathUtils.degToRad(68));
+  const smoothed = toCreasedNormals(raw, THREE.MathUtils.degToRad(48));
   if (raw !== smoothed) raw.dispose();
   return smoothed;
 }
@@ -222,13 +211,45 @@ export function buildGroundOreGeometry(assetId: string): THREE.Group {
   root.add(mesh); return root;
 }
 
+let normalMap: Promise<Buffer> | undefined;
+/** A periodic microrelief map authored for metre-scaled planar coordinates. */
+function stoneNormalMap(): Promise<Buffer> {
+  return normalMap ??= (async () => {
+    const size = 512, heights = new Float32Array(size * size), pixels = Buffer.alloc(size * size * 3);
+    const lattice = (x: number, y: number, period: number): number => {
+      let h = Math.imul((x+period)%period, 374761393) ^ Math.imul((y+period)%period, 668265263) ^ 53819;
+      h = Math.imul(h ^ h >>> 13, 1274126177); return ((h ^ h >>> 16) >>> 0) / 4294967295;
+    };
+    const sample = (u: number, v: number, period: number): number => {
+      const x = Math.floor(u), y = Math.floor(v), a = u-x, b = v-y;
+      const tx=a*a*(3-2*a), ty=b*b*(3-2*b);
+      return THREE.MathUtils.lerp(THREE.MathUtils.lerp(lattice(x,y,period), lattice(x+1,y,period),tx),
+        THREE.MathUtils.lerp(lattice(x,y+1,period),lattice(x+1,y+1,period),tx),ty);
+    };
+    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+      let height = 0;
+      for (let octave = 0; octave < 6; octave++) {
+        const f = 8 * 2 ** octave;
+        height += sample(x/size*f, y/size*f, f) / (1.65 ** octave);
+      }
+      heights[y*size+x] = height;
+    }
+    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+      const h = (dx: number, dy: number) => heights[((y+dy+size)%size)*size+(x+dx+size)%size]!;
+      const n = new THREE.Vector3((h(-1,0)-h(1,0))*5, (h(0,-1)-h(0,1))*5, 1).normalize();
+      const i = (y*size+x)*3; pixels[i] = Math.round((n.x*.5+.5)*255); pixels[i+1] = Math.round((n.y*.5+.5)*255); pixels[i+2] = Math.round((n.z*.5+.5)*255);
+    }
+    return sharp(pixels, {raw:{width:size,height:size,channels:3}}).png().toBuffer();
+  })();
+}
+
 export async function buildGroundOreAsset(assetId: string): Promise<{ glb: Uint8Array; entry: GroundOreEntry }> {
   const rock = makeRock(assetId), surface = geometry(rock), doc = new Document(), buffer = doc.createBuffer(), scene = doc.createScene(assetId), mesh = doc.createMesh(assetId);
   doc.getRoot().setDefaultScene(scene);
-  const host = (copyToDocument(doc, reference, [referenceMaterial]).get(referenceMaterial) as Material)
-    .setName(HOST_MATERIAL).setMetallicFactor(0).setRoughnessFactor(0.92).setNormalScale(0.16).setEmissiveFactor([0, 0, 0]);
-  host.setBaseColorTexture(doc.createTexture("Corealm muted stone albedo").setImage(await readFile(path.join(ROOT, MUTED_ALBEDO))).setMimeType("image/png"));
-  host.getNormalTextureInfo()?.setTexCoord(1); host.getMetallicRoughnessTextureInfo()?.setTexCoord(1); host.getOcclusionTextureInfo()?.setTexCoord(1);
+  const normalTexture = doc.createTexture("Original granular fracture normals").setImage(await stoneNormalMap()).setMimeType("image/png");
+  const host = doc.createMaterial(HOST_MATERIAL).setBaseColorFactor([1, 1, 1, 1])
+    .setMetallicFactor(0).setRoughnessFactor(0.92).setNormalScale(0.70).setNormalTexture(normalTexture);
+  host.getNormalTextureInfo()!.setTexCoord(1).setWrapS(10497).setWrapT(10497);
   const position = surface.getAttribute("position"), normal = surface.getAttribute("normal"), color = surface.getAttribute("color"), uv = surface.getAttribute("uv"), uv1 = surface.getAttribute("uv1");
   let area = 0, mineralArea = 0;
   for (let index = 0; index < rock.triangles.length; index++) {
@@ -238,7 +259,7 @@ export async function buildGroundOreAsset(assetId: string): Promise<{ glb: Uint8
   for (const mineral of [false, true]) {
     const selection = rock.triangles.flatMap((triangle, index) => (triangle.mineral && !rock.spent) === mineral ? [index] : []);
     if (!selection.length) continue;
-    const material = mineral ? host.clone().setName(`Corealm exposed ${rock.spec.family} mineral`).setRoughnessFactor(rock.spec.roughness).setMetallicFactor(rock.spec.metalness) : host;
+    const material = mineral ? host.clone().setBaseColorTexture(null).setMetallicRoughnessTexture(null).setOcclusionTexture(null).setName(`Corealm exposed ${rock.spec.family} mineral`).setRoughnessFactor(rock.spec.roughness).setMetallicFactor(rock.spec.metalness).setNormalScale(0.28) : host;
     const primitive = doc.createPrimitive().setMaterial(material);
     for (const [semantic, attribute, type] of [["POSITION", position, "VEC3"], ["NORMAL", normal, "VEC3"], ["COLOR_0", color, "VEC3"], ["TEXCOORD_0", uv, "VEC2"], ["TEXCOORD_1", uv1, "VEC2"]] as const) {
       const values = selection.flatMap(index => [0, 1, 2].flatMap(corner => Array.from({ length: attribute.itemSize }, (_, axis) => attribute.array[(index * 3 + corner) * attribute.itemSize + axis]!)));
@@ -275,15 +296,12 @@ export async function buildGroundOres(options: { out?: string; only?: readonly s
   const paths = groundOreOutputPaths(options.out), entries: GroundOreEntry[] = [];
   await mkdir(paths.models, { recursive: true });
   for (const id of selected) { const { glb, entry } = await buildGroundOreAsset(id); await writeFile(path.join(paths.models, `${id}.glb`), glb); entries.push(entry);
-    console.log(`${id}: ${entry.triangles} triangles, ${(entry.presentation.mineralAreaRatio * 100).toFixed(2)}% mineral flecks`); }
+    console.log(`${id}: ${entry.triangles} triangles, ${(entry.presentation.mineralAreaRatio * 100).toFixed(2)}% exposed mineral`); }
   await writeFile(paths.catalog, `${JSON.stringify({ pack: PACK, generator: "npx tsx tools/build-ground-ores.ts",
     generatorSha256: createHash("sha256").update(await readFile(fileURLToPath(import.meta.url))).digest("hex"),
-    reference: { assetId: "rocks_free_essence_node", file: REFERENCE_FILE, pack: "dexsoft-rocks-free", author: "DEXSOFT",
-      sha256: createHash("sha256").update(await readFile(path.join(ROOT, REFERENCE_FILE))).digest("hex"),
-      license: "Standard Unity Asset Store EULA; existing project asset license retained", changes: "Native rock geometry softened and its deepest clefts partially filled, cut to a broad soil contact, fitted to ore dimensions. Original UVs retained for reduced-strength normal and roughness maps; quieter generated albedo uses a safe interior patch. No runtime essence shader, crystals or emission." },
-    albedo: { file: MUTED_ALBEDO, provenance: "tools/data/ground-ore-muted-albedo.json", sha256: createHash("sha256").update(await readFile(path.join(ROOT, MUTED_ALBEDO))).digest("hex"), normalScale: 0.16, status: "all six families pending visual acceptance" },
+    surface: { color: "Authored vertex colors; mineral colors are independent of the host.", normalScale: 0.70, status: "Candidate; requires lab visual acceptance" },
     coordinates: "Metres, Y-up, centred XZ, minimum Y=0. Ordinary ground boulders with closed soil-contact bases. Preferred work approach +Z. No wall mounting plane.",
-    construction: "Ordinary asymmetric full rocks derived from the local essence-rock reference with less surface activity. Restrained isotropic mineral flecks replace horizontal bands and sculpted shelves. Mineral and depleted stone share the same ground footprint and outer bounds.", assets: entries }, null, 2)}\n`);
+    construction: "Six independently fractured, weathered rock masses with family-specific proportions and broad oblique mineral seams. Mineral and depleted stone share the same ground footprint and outer bounds.", assets: entries }, null, 2)}\n`);
   return { entries, paths };
 }
 

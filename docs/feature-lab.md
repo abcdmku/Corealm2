@@ -84,6 +84,8 @@ The available operations are:
 
 Captures overwrite files under `--out`; the journal appends across sessions. The default `test-results/lab-session/` and all other `test-results/` paths are ignored. `--headed` shows the browser. The default session uses production graphics and requests hardware rendering, including ANGLE D3D11 on Windows. `--software` explicitly selects SwiftShader and reduced graphics for semantic checks; those captures are not production-quality visual evidence.
 
+`--catalog <candidate.json>` serves staged, hash-checked GLBs through the production asset loader for that session. For ore work, generate candidates with `npx tsx tools/build-ground-ores.ts --out test-results/ground-ores`, then pass `--catalog test-results/ground-ores/ground-ores.json`. Restart the session after regenerating the candidate files. Promotion remains a separate step after lab acceptance.
+
 Read a large result without copying it through the terminal session, for example in PowerShell:
 
 ```powershell

@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { REGIONS } from "../game/src/content/regions.js";
+import { RESOURCES } from "../game/src/content/resources.js";
 import * as worldSites from "../game/src/content/worldSites.js";
 import { buildWorld, type BuiltWorld } from "../game/src/world/regionBuilder.js";
 
@@ -18,6 +19,11 @@ function gatheringState(world: BuiltWorld) {
 }
 
 describe("resource presentation stability", () => {
+  it("keeps ordinary ore placement compact instead of normalizing smaller meshes back to oversized deposits", () => {
+    const ores = RESOURCES.filter(resource => resource.presentation.availableAssetIds.some(id => id.startsWith("corealm_ore_")));
+    expect(ores).toHaveLength(6);
+    for (const ore of ores) expect(ore.presentation.targetWorldSize).toBeLessThanOrEqual(1.6);
+  });
   it("retains every declared resource ID and its initial yield state in deterministic replay", () => {
     const first = resourceEntities(buildWorld(SEED, FLAT_GROUND));
     const replay = resourceEntities(buildWorld(SEED, FLAT_GROUND));
