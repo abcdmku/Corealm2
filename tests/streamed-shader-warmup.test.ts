@@ -37,6 +37,8 @@ it("waits for every program, restores materials and visibility between frames", 
   const material = mesh.material;
   scene.add(mesh);gate.prepare();
   expect(mesh.visible).toBe(false);
+  expect(gate.hasPending(scene)).toBe(true);
+  expect(gate.hasPending(new THREE.Group())).toBe(false);
   expect(mesh.material).toBe(material);
   expect(calls[0]!.material).not.toBe(material);
   expect(calls[1]!.linear).toBe(true);
@@ -46,6 +48,7 @@ it("waits for every program, restores materials and visibility between frames", 
   gate.prepare();expect(mesh.visible).toBe(false);gate.restore();
   programs[0]!.program.ready = true;
   gate.prepare();expect(mesh.visible).toBe(true);expect(gate.getState().waiting).toBe(0);
+  expect(gate.hasPending(scene)).toBe(false);
   gate.dispose();mesh.geometry.dispose();material.dispose();
 });
 

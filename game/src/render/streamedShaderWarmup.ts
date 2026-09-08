@@ -183,6 +183,15 @@ export class StreamedShaderWarmup {
 
   getState() { return { waiting: this.waiting.size, queued: this.queued.size, compiling: this.pending }; }
 
+  hasPending(root: THREE.Object3D): boolean {
+    for (const mesh of this.waiting) {
+      for (let object: THREE.Object3D | null = mesh; object; object = object.parent) {
+        if (object === root) return true;
+      }
+    }
+    return false;
+  }
+
   dispose(): void {
     this.disposed = true;
     this.restore();

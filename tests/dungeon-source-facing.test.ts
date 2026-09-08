@@ -83,8 +83,9 @@ it('fits the accepted licensed scan outside the walking footprint with covered r
   expect(state.sourceFacing).not.toBeNull();
   expect(state.sourceFacing!.wallPanels).toBeGreaterThan(4);
   expect(state.sourceFacing!.wallPanels + state.sourceFacing!.roofPanels).toBeLessThan(120);
-  expect(state.sourceFacing!.renderedTriangles).toBeLessThan(650000);
-  expect(state.sourceFacing!.renderedTriangles).toBeGreaterThan(50000);
+  // Keep the source relief and coverage checks below while bounding repeated panel topology.
+  expect(state.sourceFacing!.renderedTriangles).toBeLessThan(50000);
+  expect(state.sourceFacing!.renderedTriangles).toBeGreaterThan(10000);
   expect(state.textured).toBe(true);
   for (const probe of Object.values(state.probes)) expect(probe!.headroom).toBeGreaterThanOrEqual(7);
   const positions = facing.geometry.getAttribute('position');

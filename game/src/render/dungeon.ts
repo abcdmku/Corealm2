@@ -304,8 +304,33 @@ export function dungeonNavigationBlockers(blockers: readonly THREE.Mesh[]): THRE
 /** Fit the licensed scan as connected facing strips, retaining its triangles and authored UVs. */
 function buildSourceRockFacing(spec: DungeonSpec, grid: FloorGrid, source: CaveRockSource, options: DungeonOptions): THREE.Mesh {
   const sourcePosition = source.geometry.getAttribute('position'), sourceUv = source.geometry.getAttribute('uv');
-  const sourceIndex = source.geometry.index;
+  let sourceIndex = source.geometry.index;
   if (!sourceUv || !sourceIndex) throw new Error('Cave source needs indexed geometry and original UVs');
+  // The periodic source remains full resolution for relief sampling. Repeating its dense scan
+  // topology on every wall and roof panel otherwise produces millions of rendered triangles.
+  const vertices: number[] = [];
+  if (source.continuousEnvelope && source.domainWarp) {
+    const { columns, rows } = source.domainWarp;
+    if (sourcePosition.count !== (columns + 1) * (rows + 1)) throw new Error('Unexpected cave envelope grid');
+    const indices: number[] = [];
+    for (let row = 0; row <= rows; row = Math.min(rows, row + 4)) {
+      for (let column = 0; column <= columns; column = Math.min(columns, column + 4)) {
+        const a = row * (columns + 1) + column;
+        vertices.push(a);
+        if (row < rows && column < columns) {
+          const b = row * (columns + 1) + Math.min(columns, column + 4);
+          const c = Math.min(rows, row + 4) * (columns + 1) + column;
+          const d = Math.min(rows, row + 4) * (columns + 1) + Math.min(columns, column + 4);
+          indices.push(a, b, d, a, d, c);
+        }
+        if (column === columns) break;
+      }
+      if (row === rows) break;
+    }
+    sourceIndex = new THREE.Uint32BufferAttribute(indices, 1);
+  } else {
+    for (let i = 0; i < sourcePosition.count; i++) vertices.push(i);
+  }
   source.geometry.computeBoundingBox();
   const bounds = source.geometry.boundingBox!, size = bounds.getSize(new THREE.Vector3());
   const envelope = source.domainWarp ? caveEnvelopeSampler(source.geometry, source.domainWarp.columns, source.domainWarp.rows) : null;
@@ -317,10 +342,10 @@ function buildSourceRockFacing(spec: DungeonSpec, grid: FloorGrid, source: CaveR
   let wallPanels = 0, roofPanels = 0;
   const append = (map: (point: THREE.Vector3) => { position: THREE.Vector3; normal: THREE.Vector3 } | null, reverse = false): number => {
     const mapped: number[] = [];
-    for (let i = 0; i < sourcePosition.count; i++) {
+    for (const i of vertices) {
       const local = new THREE.Vector3().fromBufferAttribute(sourcePosition, i);
       const point = map(local);
-      mapped.push(point ? positions.length / 3 : -1);
+      mapped[i] = point ? positions.length / 3 : -1;
       if (!point) continue;
       positions.push(...point.position.toArray());
       borderNormals.push(...point.normal.toArray());

@@ -296,6 +296,15 @@ export class Renderer {
 
   streamingShaderState() { return this.streamedShaders?.getState() ?? null; }
 
+  isInteriorReady(root: THREE.Object3D): boolean { return !this.streamedShaders?.hasPending(root); }
+
+  /** Keep portal loading covered while the streaming compiler still suppresses its meshes. */
+  async waitForInterior(root: THREE.Object3D): Promise<void> {
+    while (!this.isInteriorReady(root)) {
+      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    }
+  }
+
   private renderScale = 1;
   private stableShadows = true;
   private frameTimes: number[] = [];

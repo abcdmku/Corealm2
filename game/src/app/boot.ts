@@ -610,10 +610,13 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   // The fitted stone recess gives the existing portal visible depth beyond its masonry arch.
   const portalMouths = portalFixture?.entities ?? built.entities.filter((entity) => entity.id === "gravelmaw_mouth_portal" || entity.id === "gravelmaw_exit_portal");
+  const portalPickMeshes: THREE.Object3D[] = [];
   for (const portal of portalMouths) {
     const { buildDungeonMouth } = await import("../render/dungeonMouth.js");
     const { applyCorealmSurfaceMaterials } = await import("../render/corealmSurfaceMaterials.js");
     const mouth = buildDungeonMouth(portal);
+    mouth.userData["portalEntityId"] = portal.id;
+    portalPickMeshes.push(mouth);
     applyCorealmSurfaceMaterials(mouth, surfaceTextures);
     if (portal.regionId === "gravelmaw") {
       mouth.userData["portalInterior"] = true;
@@ -1075,7 +1078,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       return dungeonDoors?.resolve(resolved, from, radius) ?? resolved;
     },
   };
-  movement.setPorts({ solids: movementSolids, heightAt, preserveNavigationHeight, entities: entityStore, dynamicObstacles: forestObstacles });
+  const movementHeightAt = (regionId: RegionId, x: number, z: number): number =>
+    dungeonSpec && regionId === dungeonSpec.regionId ? dungeonFloorHeight(dungeonSpec, x, z) : heightAt(regionId, x, z);
+  movement.setPorts({ solids: movementSolids, heightAt: movementHeightAt,
+    preserveNavigationHeight, entities: entityStore, dynamicObstacles: forestObstacles });
   const api = new CorealmGameApi(store, events, nav, movement, clock);
 
   const interactions = new InteractionDispatcher({
@@ -1499,8 +1505,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
   const transitionThroughPortal = (destination: { position: Vec3; regionId: RegionId; name: string }, commit: () => void): Promise<void> => portalTransition.run({
     name: destination.name,
-    prepare: async () => {
+    prepare: async (report) => {
+      report(0, destination.regionId === "gravelmaw" ? "Loading cave…" : "Loading destination…");
       if (destination.regionId === "gravelmaw") await deferredCave?.ensure();
+      report(1, "Loading creatures and objects…");
       const destinationEntities = entitiesForVisualRegion(destination.regionId).filter((entity) =>
         distanceXZ(entity.position, destination.position) <= (profile.kind === "feature-lab" ? 220
           : isActorEntity(entity) || isStructureEntity(entity)
@@ -1523,6 +1531,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     },
     settled: async () => {
       await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+      if (destination.regionId === dungeonSpec?.regionId && dungeon) await renderer.waitForInterior(dungeon.group);
       renderer.render(performance.now());
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
     },
@@ -1786,7 +1795,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     onProduction: (entityId) => ui.openProduction(entityId),
   });
   input.setEntityPickSource((raycaster) => {
-    const hit = entityViews.pickHit(raycaster);
+    let hit = entityViews.pickHit(raycaster);
+    const mouthHit = raycaster.intersectObjects(portalPickMeshes.filter(object =>
+      entityStore.get(object.userData["portalEntityId"])?.regionId === store.get().player.regionId), true)[0];
+    if (mouthHit && (!hit || mouthHit.distance < hit.distance)) {
+      let owner = mouthHit.object;
+      while (!owner.userData["portalEntityId"] && owner.parent) owner = owner.parent;
+      hit = { entityId: owner.userData["portalEntityId"] as EntityId, distance: mouthHit.distance };
+    }
     if (!hit) return null;
     const { entityId } = hit;
     const position = entityViews.positionOf(entityId);
@@ -1797,6 +1813,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       distance: hit.distance,
     };
   });
+  input.configurePicking({ pickGround: (raycaster) => {
+    const surfaces = dungeon && store.get().player.regionId === dungeonSpec?.regionId
+      ? dungeon.walkable : scene.getWalkableMeshes();
+    const hit = raycaster.intersectObjects(surfaces, false)[0];
+    return hit ? { entityId: null, point: hit.point.toArray() as Vec3, distance: hit.distance, object: hit.object } : null;
+  } });
 
   let featureLab: FeatureLabApi | undefined;
   let environmentLab: import("../featureLab/environment.js").EnvironmentWorkbench | undefined;
@@ -1905,7 +1927,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       cameraQueries.setHiddenEntities(roofVisibility.hiddenEntities, roofVisibility.cutHeights);
       solids = new Solids(allSolids);
       structureMovementBounds = importedSurfaceBounds([...structureNavigation.meshes, ...structureMeshes]);
-      movement.setPorts({ solids: movementSolids, heightAt, preserveNavigationHeight, entities: entityStore });
+      movement.setPorts({ solids: movementSolids, heightAt: movementHeightAt, preserveNavigationHeight, entities: entityStore });
     };
 
     const disposeCarve = (carve: THREE.Mesh): void => {
@@ -2410,7 +2432,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     (window as Window & { __renderDistanceLab?: unknown }).__renderDistanceLab = {
       getState: () => ({ settings: clientSettings.get(), residency: entityViews.residencyStats(), scatter: scatterStreaming.getResidency() }),
       set: (patch: Partial<UiSettings>) => clientSettings.set(patch),
-      caveState: () => deferredCave?.getState() ?? null,
+      caveState: () => deferredCave ? { ...deferredCave.getState(),
+        drawable: !!dungeon && deferredCave.getState().ready && renderer.isInteriorReady(dungeon.group) } : null,
       loadCave: () => deferredCave?.ensure(),
       shaders: () => renderer.streamingShaderState(),
       ...(performanceLab ? {

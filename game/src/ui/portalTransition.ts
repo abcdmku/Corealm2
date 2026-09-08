@@ -1,7 +1,7 @@
 export interface PortalTransitionRequest {
   name: string;
   /** Load the destination before changing any authoritative player state. */
-  prepare(): Promise<void>;
+  prepare(report: (completedSteps: number, label: string) => void): Promise<void>;
   commit(): void;
   /** Resolve only after the destination has drawn behind the opaque curtain. */
   settled(): Promise<void>;
@@ -29,8 +29,33 @@ export class PortalTransition {
     curtain.setAttribute("role", "status");
     curtain.setAttribute("aria-live", "polite");
     curtain.tabIndex = -1;
-    curtain.textContent = request.name;
     curtain.style.cssText = "position:fixed;inset:0;z-index:100000;background:#080a0c;color:#c7c4ba;display:grid;place-items:center;opacity:0;font:16px Georgia,serif;letter-spacing:.04em;pointer-events:auto;";
+    const panel = document.createElement("div");
+    panel.style.cssText = "width:min(340px,calc(100vw - 48px));text-align:center;";
+    const title = document.createElement("div");
+    title.textContent = request.name;
+    title.style.cssText = "font-size:26px;margin-bottom:24px;color:#ece5d3;";
+    const label = document.createElement("div");
+    label.className = "portal-loading-label";
+    label.style.cssText = "font:14px system-ui,sans-serif;letter-spacing:normal;margin-bottom:12px;";
+    const progress = document.createElement("progress");
+    progress.max = 3;
+    progress.value = 0;
+    progress.setAttribute("aria-label", "Destination loading progress");
+    progress.style.cssText = "width:100%;height:10px;accent-color:#bfa36c;display:block;";
+    const count = document.createElement("div");
+    count.style.cssText = "font:12px system-ui,sans-serif;letter-spacing:normal;color:#a7a394;margin-top:10px;";
+    panel.append(title, label, progress, count);
+    curtain.append(panel);
+    // Count completed loading stages, not elapsed time or an estimated download percentage.
+    const report = (completedSteps: number, text: string): void => {
+      if (generation !== this.generation || !Number.isFinite(completedSteps)) return;
+      progress.value = Math.max(progress.value, Math.min(3, Math.floor(completedSteps)));
+      label.textContent = text;
+      count.textContent = `${progress.value} of 3 steps complete`;
+      progress.setAttribute("aria-valuetext", `${count.textContent}. ${text}`);
+    };
+    report(0, "Loading destination…");
     const blockKey = (event: KeyboardEvent): void => {
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -64,7 +89,7 @@ export class PortalTransition {
         loadTimer = setTimeout(() => resolve({ ok: false, error: new Error("The passage could not finish loading. Please try again.") }), 30_000);
       });
       const loaded = Promise.race([
-        request.prepare().then(() => ({ ok: true as const }), (error: unknown) => ({ ok: false as const, error })),
+        request.prepare((steps, label) => report(Math.min(2, steps), label)).then(() => ({ ok: true as const }), (error: unknown) => ({ ok: false as const, error })),
         cancelled, timeout,
       ]);
       await fade(0, 1, 280);
@@ -74,9 +99,11 @@ export class PortalTransition {
       if (!current()) return;
       if ("cancelled" in result) return;
       if (!result.ok) throw result.error;
+      report(2, "Preparing the view…");
       request.commit();
       await request.settled();
       if (!current()) return;
+      report(3, "Ready");
       curtain.dataset.phase = "opening";
       await fade(1, 0, 360);
     } finally {
