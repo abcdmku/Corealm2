@@ -726,6 +726,54 @@ html, body {
   z-index: 20;
 }
 
+/* World-space health bars over the player and every creature in the fight, drawn by
+   render/healthBars.ts. Passive like the labels: a bar over a creature must not eat the click
+   meant for the creature. The container carries .is-passive, and the bars inherit. */
+.hp-bars {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 19;
+}
+
+.hp-bar {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  width: 64px;
+  height: 7px;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  border-radius: 2px;
+  background: rgba(14, 12, 10, 0.78);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 1px 3px rgba(0, 0, 0, 0.75);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hp-bar__ghost,
+.hp-bar__fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* Where the health WAS: a pale trail that follows the fill down after a hit. */
+.hp-bar__ghost { background: rgba(255, 236, 200, 0.55); }
+
+.hp-bar__fill {
+  background: linear-gradient(180deg, var(--bar-colour, #6b9c52), color-mix(in srgb, var(--bar-colour, #6b9c52) 60%, #000));
+}
+
+.hp-bar--player { width: 78px; height: 8px; }
+
+/* The creature the player is swinging at gets the HUD's brass edge; the others stay plain. */
+.hp-bar.is-target { box-shadow: 0 0 0 1px var(--accent, #d4af4e), 0 1px 3px rgba(0, 0, 0, 0.75); }
+.hp-bar.is-low .hp-bar__fill { animation: pulse 900ms ease-in-out infinite; }
+.hp-bar.is-dead { opacity: 0.7; }
+
 /* -------------------------------------------------------------------- vfx */
 /* Floating combat and XP text. Passive: it must never intercept a world click. */
 .vfx-float {

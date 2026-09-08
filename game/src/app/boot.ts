@@ -129,6 +129,7 @@ import { DeferredDungeonFacing } from "../render/deferredDungeonFacing.js";
 import { isActorEntity } from "../render/entityActiveSet.js";
 import { Ambience, Vfx, type AmbienceEmitter, type AmbienceKind } from "../render/vfx.js";
 import { SpellVfx } from "../render/spellVfx.js";
+import { HealthBars } from "../render/healthBars.js";
 import {
   AudioDirector, AudioEngine, COREALM_AUDIO_CATALOG, CorealmAudioBridge,
   footstepSurfaceAt, type AudioDiagnostic,
@@ -2543,6 +2544,39 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   loop.setOverlays(guidance);
   loop.setVfx(vfx);
   loop.setSpellVfx(spellVfx);
+  // Health bars over the player and every engaged creature. They read the same two combat fields
+  // the API folds into `inCombat`, and anchor to the DRAWN creature, not its sim position, so a
+  // bar over a chasing wolf slides with the wolf rather than stepping ten times a second.
+  const playerRigBox = new THREE.Box3();
+  const healthBars = new HealthBars({
+    camera: renderer.camera,
+    root: labelRoot,
+    entity: (entityId) => entityStore.get(entityId) ?? null,
+    drawnPosition: (entityId) => {
+      const drawn = entityViews.positionOf(entityId);
+      return drawn ? [drawn.x, drawn.y, drawn.z] : null;
+    },
+    drawnTop: (entityId) => {
+      const drawn = entityViews.positionOf(entityId);
+      const bounds = entityViews.drawnBounds(entityId);
+      return drawn && bounds ? bounds.max[1] - drawn.y : null;
+    },
+    // The rig's own box, not `PLAYER_HEIGHT`: the drawn head is lower than the configured capsule
+    // top, and a bar measured from the constant hung a hand's width above it.
+    playerTop: () => {
+      if (!rigged || !playerRig.root.visible) return null;
+      playerRigBox.setFromObject(playerRig.root);
+      return playerRigBox.isEmpty() ? null : playerRigBox.max.y - playerRig.root.position.y;
+    },
+    player: () => {
+      const state = store.get();
+      return {
+        health: state.player.health, maxHealth: state.player.maxHealth,
+        targetId: state.combat.targetId, engagedBy: state.combat.engagedBy,
+      };
+    },
+  });
+  loop.setHealthBars(healthBars);
   loop.setCombatHits(() => combatSystem.consumeHits());
   loop.setCombatAttackStarts(() => combatSystem.consumeAttackStarts(),
     (id) => combatSystem.isAttackCommitted(id) && entityStore.get(id)?.regionId === store.get().player.regionId);

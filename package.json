@@ -35,6 +35,7 @@
     "lab:creatures": "tsx tools/creature-lab-test.ts",
     "lab:forest": "tsx tools/forest-lab-test.ts",
     "lab:fishing": "tsx tools/fishing-lab-test.ts",
+    "lab:health-bars": "tsx tools/health-bars-lab-test.ts",
     "lab:session": "tsx tools/lab-session.ts",
     "structure:preview": "vite game --host 127.0.0.1 --port 4174 --strictPort --open /structure-preview.html?mode=structures",
     "structure:contracts": "vitest run tests/structures.test.ts",

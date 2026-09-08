@@ -38,6 +38,7 @@ import type {
 } from "../render/characterRig.js";
 import type { Vfx } from "../render/vfx.js";
 import type { SpellVfx } from "../render/spellVfx.js";
+import type { HealthBars } from "../render/healthBars.js";
 import { content } from "../content/index.js";
 import type { GameEvent, ItemId, SkillId, SpellElement, SpellRung } from "../contracts.js";
 import type { Ui } from "../ui/panels.js";
@@ -198,6 +199,7 @@ export class GameLoop {
   private pendingPlayerSwing: CombatAttackStart | null = null;
   private playerSwingSounded = false;
   private spellVfx: SpellVfx | null = null;
+  private healthBars: HealthBars | null = null;
   /** Scratch for the cast origin, so a cast allocates nothing. */
   private readonly spellOriginTuple: [number, number, number] = [0, 0, 0];
   private fishingRigKey: string | null = null;
@@ -320,6 +322,14 @@ export class GameLoop {
    */
   setSpellVfx(spellVfx: SpellVfx): void {
     this.spellVfx = spellVfx;
+  }
+
+  /**
+   * Health bars over the player and the creatures in the fight. Optional: unwired, the HUD's own
+   * bar is the only readout, which is how every fight read before this landed.
+   */
+  setHealthBars(healthBars: HealthBars): void {
+    this.healthBars = healthBars;
   }
 
   /**
@@ -585,6 +595,9 @@ export class GameLoop {
     camera.update(position[0], position[1], position[2]);
     renderer.followShadow(renderer.camera.position.clone().setY(position[1]));
     renderer.camera.updateMatrixWorld();
+    // After the camera has moved for this frame, unlike the floaters above, so a bar pinned over a
+    // head projects through THIS frame's view and does not trail it by one.
+    this.healthBars?.update(nowMs, position);
     scene.materials.updatePlayerOcclusion(renderer.renderer, renderer.camera, position,
       this.playerRig?.root.visible ?? true);
     renderer.render(nowMs);

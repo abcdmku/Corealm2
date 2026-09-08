@@ -145,9 +145,10 @@ Root-owned browser gates:
 npm run lab:creatures
 npx tsx tools/forest-lab-test.ts --url http://127.0.0.1:4174
 npx tsx tools/fishing-lab-test.ts --url http://127.0.0.1:4174
+npm run lab:health-bars
 ```
 
-These write ignored `report.json` files and screenshots under `test-results/creature-lab/`, `forest-lab/` and `fishing-lab/`. Forest and fishing accept `--url` to reuse a server. Their reports distinguish debug setup from real input. The creature gate follows natural attack, flee, death and respawn behavior in its own lifecycle loop; it does not certify every creature's art.
+These write ignored `report.json` files and screenshots under `test-results/creature-lab/`, `forest-lab/`, `fishing-lab/` and `health-bars-lab/`. Forest, fishing and health bars accept `--url` to reuse a server. The health-bars gate fights a cow at melee level 1 and checks the world-space bars `render/healthBars.ts` draws: one over the creature, one over the player, the fill equal to the creature's health ratio, the creature's bar anchored just above its drawn bounds through the reported camera, and no bars left once the fight is reset and the linger ends. Their reports distinguish debug setup from real input. The creature gate follows natural attack, flee, death and respawn behavior in its own lifecycle loop; it does not certify every creature's art.
 
 ### Creature gallery
 
