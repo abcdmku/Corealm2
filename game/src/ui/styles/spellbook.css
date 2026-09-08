@@ -18,13 +18,16 @@
  * which the panel owns but cannot style from inside), matching controls.css and map.css.
  */
 
-/* Centre slot: `left: 50%` places the left edge, this pulls the box back over the centre line. */
-#panel-spellbook { transform: translateX(-50%); }
-
+/*
+ * Side slot, the inventory's own: anchored by right/bottom from its placement, so no centring
+ * transform. The panel is the pack's 190 px wide, which is four tiles across and nothing else —
+ * the rung gutter and the element blurbs do not fit and are not drawn; the glyph in each tile
+ * already says the rung, and the swatch says the element.
+ */
 .spellbook {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-1);
   /* The grid columns are minmax(0, 1fr); without this a long spell name would push the panel
    * wider than the width its placement asked for. */
   min-width: 0;
@@ -69,10 +72,15 @@
  */
 .spellbook__grid {
   display: grid;
-  grid-template-columns: 48px repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 2px;
   align-items: stretch;
 }
+
+/* The rung labels stay in the DOM for the roving grid's row maths and for screen readers, but
+ * `display: none` takes them out of grid flow so the four element columns line up on their own. */
+.spellbook__rung,
+.spellbook__corner { display: none; }
 
 .spellbook__corner,
 .spellbook__head {
@@ -91,19 +99,22 @@
 .spellbook__head-line {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 3px;
 }
 
+/* Five letters in a 44 px column: small caps, tight tracking, the swatch beside them does the rest. */
 .spellbook__head-name {
   font-family: var(--font-display);
-  font-size: var(--size-sm);
+  font-size: 8px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.04em;
   color: var(--ink);
 }
 
+/* The requirement line has no room at this width; the tooltip on each tile carries it. */
 .spellbook__head-blurb {
+  display: none;
   font-size: var(--size-xs);
   color: var(--ink-faint);
   white-space: nowrap;
@@ -114,8 +125,10 @@
   color: #d9a294;
 }
 
+/* Fire's release state is the one blurb that must survive: it explains four dead tiles. */
 .spellbook__head.is-unreleased .spellbook__head-blurb {
-  font-size: 8px;
+  display: block;
+  font-size: 7px;
   line-height: 1.1;
   text-align: center;
   white-space: normal;
@@ -126,9 +139,10 @@
   opacity: 0.72;
 }
 
-/* The ladder's own axis, right-aligned into the cells so the eye reads label-then-row. */
+/* The ladder's own axis. Not drawn at the side slot's width (see the grid note above); the rest
+ * of the rule is kept so a wider layout can bring the gutter back by flipping `display` alone. */
 .spellbook__rung {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: flex-end;
   padding-right: var(--space-2);
@@ -277,56 +291,16 @@
 
 /*
  * The tokens in title.css do most of this on their own — type and spacing shrink under
- * `#ui-root.is-compact` and every rule above reads them through var(). What is left is the fixed
- * geometry: the rung gutter, the glyphs, and the panel width itself. `max-width` is used rather than
- * `width` because the width is an inline style from `PanelPlacement` and only `max-width` outranks
- * it without `!important`; the panel is centred by transform, so clamping it keeps it centred.
+ * `#ui-root.is-compact` and every rule above reads them through var(). The panel is the side
+ * slot's width (`--side-panel-width`, which compact density already narrows), so there is no
+ * geometry left to clamp here: only the swatches, which are fixed pixels.
  */
-/* 380, not the old 600: a 600 px cap never bound once the panel went from 700 px name plates to a
- * 460 px icon grid, so compact density silently stopped narrowing this panel at all. */
-#ui-root.is-compact #panel-spellbook { max-width: 380px; }
-#ui-root.is-compact .spellbook__grid { grid-template-columns: 44px repeat(4, minmax(0, 1fr)); gap: 2px; }
-#ui-root.is-compact .spellbook__status { padding: var(--space-1) var(--space-2); }
 #ui-root.is-compact .spellbook__swatch { width: 18px; height: 18px; }
-#ui-root.is-compact .spellbook__head-blurb { display: none; }
 
 /* =================================================================== smaller screens */
 
 /* 1280x720 is the floor. Squeeze the gaps, never the tiles: the sixteen glyphs are what the panel
  * is read by, and a shrunken glyph stops being distinguishable from the rung above it. */
 @media (max-height: 800px) {
-  .spellbook { gap: var(--space-1); }
   .spellbook__grid { gap: 2px; }
-  .spellbook__head-blurb { display: none; }
-  .spellbook__note { line-height: 1.35; }
-}
-
-/*
- * Below the floor the rung gutter goes first. `display: none` takes those cells out of grid flow
- * entirely, so the header row and each rung row still line up four across without renumbering
- * anything — and the ladder is still legible without its labels, because the glyph in each tile IS
- * the rung and it escalates down the grid. The four element columns are the one thing that must
- * survive, so they never collapse.
- */
-@media (max-width: 780px) {
-  /* `max-width`, not `width`. The old rule forced the panel to the full viewport, which was right
-   * for a 700 px grid of name plates and wrong for a 460 px grid of square tiles: measured at a
-   * 760x720 viewport it inflated the panel to 736 px and, with the tiles on `aspect-ratio: 1`,
-   * pushed the grid taller than the window and made it scroll. Clamping instead of forcing leaves
-   * the panel at its natural 460 px until the viewport is actually narrower than that. */
-  #panel-spellbook { max-width: calc(100vw - 24px); }
-  .spellbook__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .spellbook__rung,
-  .spellbook__corner { display: none; }
-  .spellbook__status { grid-template-columns: auto minmax(0, 1fr); }
-  .spellbook__auto { grid-column: 2; justify-self: start; }
-}
-
-/* Fire's release state must survive density and viewport rules that hide ordinary blurbs. */
-#ui-root.is-compact .spellbook__head.is-unreleased .spellbook__head-blurb {
-  display: block;
-}
-
-@media (max-height: 800px), (max-width: 780px) {
-  .spellbook__head.is-unreleased .spellbook__head-blurb { display: block; }
 }

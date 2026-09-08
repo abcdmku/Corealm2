@@ -70,6 +70,12 @@ const DENSITY: readonly { value: UiSettings["uiScale"]; label: string }[] = [
   { value: "compact", label: "Compact" },
 ];
 
+const TOUCH_CONTROLS: readonly { value: UiSettings["touchControls"]; label: string }[] = [
+  { value: "auto", label: "Auto" },
+  { value: "on", label: "On" },
+  { value: "off", label: "Off" },
+];
+
 const AUDIO_CONTROLS: readonly {
   key: AudioBus;
   label: string;
@@ -100,6 +106,7 @@ export class SettingsPanel implements ManagedPanel {
   private readonly shadowQualityButtons = new Map<ShadowQuality, HTMLButtonElement>();
   private readonly drawDistanceButtons = new Map<DrawDistance | "auto", HTMLButtonElement>();
   private readonly densityButtons = new Map<UiSettings["uiScale"], HTMLButtonElement>();
+  private readonly touchButtons = new Map<UiSettings["touchControls"], HTMLButtonElement>();
   private readonly audioInputs = new Map<AudioBus, HTMLInputElement>();
   private readonly audioOutputs = new Map<AudioBus, HTMLOutputElement>();
   private readonly unsubscribe: () => void;
@@ -220,6 +227,14 @@ export class SettingsPanel implements ManagedPanel {
     const game = this.group("Game");
     for (const spec of TOGGLES) game.appendChild(this.toggleRow(spec));
     game.appendChild(this.densityRow());
+    game.appendChild(this.choiceRow(
+      "Touch controls",
+      "Tap to walk or use, hold for the menu, drag to look, pinch to zoom, and a stick to move. Auto follows the device.",
+      "Touch controls",
+      TOUCH_CONTROLS,
+      this.touchButtons,
+      (value) => { this.settings.set({ touchControls: value }); },
+    ));
 
     const footer = document.createElement("div");
     footer.className = "settings__footer";
@@ -584,6 +599,13 @@ export class SettingsPanel implements ManagedPanel {
 
     for (const [value, button] of this.densityButtons) {
       const on = current.uiScale === value;
+      button.classList.toggle("is-active", on);
+      button.setAttribute("aria-checked", on ? "true" : "false");
+      button.tabIndex = on ? 0 : -1;
+    }
+
+    for (const [value, button] of this.touchButtons) {
+      const on = current.touchControls === value;
       button.classList.toggle("is-active", on);
       button.setAttribute("aria-checked", on ? "true" : "false");
       button.tabIndex = on ? 0 : -1;

@@ -24,6 +24,7 @@ import { PanelFrame } from "./panelFrame.js";
 import type { KeyBinding } from "../input/keyboard.js";
 import { normaliseChord } from "../input/keyboard.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
+import { layoutState } from "./mobileLayout.js";
 
 
 /**
@@ -100,6 +101,18 @@ const MOVE_ROWS: StaticRow[] = [
   { chords: [["D"], ["→"]], label: "Step right." },
 ];
 
+/**
+ * Touch, straight out of `input/touch.ts`. Listed only while touch play is on, because on a
+ * desktop it is a page of gestures the player cannot make.
+ */
+const TOUCH_ROWS: StaticRow[] = [
+  { chords: [["Tap"]], label: "Walk to that spot, or run the main action of the thing under your finger." },
+  { chords: [["Hold"]], label: "Everything that thing will let you do, in a menu. On bare ground: Walk here, Stop." },
+  { chords: [["Drag"]], label: "Swing the camera. Two fingers work as well as one." },
+  { chords: [["Pinch"]], label: "Zoom in and out." },
+  { chords: [["Stick"]], label: "The stick in the bottom-left corner walks you, camera-relative, like the keys below." },
+];
+
 const HOW_TO_PLAY = [
   "Left click the ground to walk there, or click a tree, a rock or a person to use it — you close the distance on your own.",
   "Right click anything to see everything it will let you do. That menu is the game.",
@@ -157,6 +170,7 @@ export class ControlsPanel implements ManagedPanel {
     // cannot see until they are already scrolling. Side by side it fits on screen at both sizes.
     const written = document.createElement("div");
     written.className = "controls__column";
+    if (layoutState().touch) written.appendChild(this.buildStaticSection("Touch", TOUCH_ROWS));
     written.appendChild(this.buildStaticSection("Mouse", MOUSE_ROWS));
     written.appendChild(this.buildStaticSection("Moving", MOVE_ROWS, MOVE_NOTE));
 

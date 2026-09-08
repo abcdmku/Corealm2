@@ -16,6 +16,7 @@
  */
 
 import type { AudioVolumes } from "../contracts.js";
+import type { TouchPreference } from "./mobileLayout.js";
 
 export type RenderScale = 0.7 | 0.85 | 1;
 export type ShadowQuality = "off" | "low" | "high";
@@ -38,6 +39,12 @@ export interface UiSettings extends AudioVolumes {
   uiScale: "compact" | "normal";
   /** The agent companion card in the top-left corner. Its × sets this false; Settings sets it back. */
   agentCompanion: boolean;
+  /**
+   * Touch play: gestures on the world, the on-screen stick, touch-sized chrome. "auto" follows
+   * the browser's primary pointer; "on" and "off" are for the touchscreen laptop and the phone in
+   * desktop mode, where the browser's answer is not the player's.
+   */
+  touchControls: TouchPreference;
 }
 
 export const DEFAULT_SETTINGS: UiSettings = {
@@ -52,6 +59,7 @@ export const DEFAULT_SETTINGS: UiSettings = {
   invertCameraY: true,
   uiScale: "normal",
   agentCompanion: true,
+  touchControls: "auto",
 };
 
 const STORAGE_KEY = "corealm.settings.v1";
@@ -145,6 +153,9 @@ function readStored(): Partial<UiSettings> {
   if (typeof source["invertCameraY"] === "boolean") out.invertCameraY = source["invertCameraY"];
   if (source["uiScale"] === "compact" || source["uiScale"] === "normal") out.uiScale = source["uiScale"];
   if (typeof source["agentCompanion"] === "boolean") out.agentCompanion = source["agentCompanion"];
+  if (source["touchControls"] === "auto" || source["touchControls"] === "on" || source["touchControls"] === "off") {
+    out.touchControls = source["touchControls"];
+  }
   return out;
 }
 

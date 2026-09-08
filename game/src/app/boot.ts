@@ -118,6 +118,7 @@ import { worldExclusions, type ScatterResult } from "../world/scatter.js";
 import { ScatterStreamingController } from "../world/scatterStreaming.js";
 import { findShot, shotIds, SHOTS } from "../debug/shots.js";
 import { createUi } from "../ui/panels.js";
+import { MobileLayout } from "../ui/mobileLayout.js";
 import { preloadFeatureLabPanel } from "../ui/lazyPanelRegistry.js";
 import { SettingsStore, type UiSettings } from "../ui/settings.js";
 import { keybindings } from "../input/keyboard.js";
@@ -1607,6 +1608,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // what makes it safe to let an agent write here. A dynamic import, like the agent surface and
   // for the same reason: the renderer and the ribbon shader are not the first frame's business.
   const labelRoot = document.getElementById("ui-root") ?? document.body;
+  // Phone-sized and touch classes on the UI root. The stylesheet reads them for the layout; the
+  // input layer is told through the subscription below once it exists.
+  const mobileLayout = new MobileLayout(labelRoot);
   const { createGuidance } = await import("./guidance.js");
   const { overlays, guidance } = createGuidance({
     scene,
@@ -2426,7 +2430,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (!previous || previous.uiScale !== preferences.uiScale) {
       labelRoot.classList.toggle("is-compact", preferences.uiScale === "compact");
     }
+    if (!previous || previous.touchControls !== preferences.touchControls) {
+      mobileLayout.setTouchPreference(preferences.touchControls);
+    }
     appliedPreferences = preferences;
+  });
+  // Touch play follows the resolved layout, not the raw preference: "auto" can change under a
+  // running game when the browser's primary pointer does (a tablet docking, DevTools emulation).
+  mobileLayout.subscribe((layout) => {
+    input.setTouchControls(layout.touch);
   });
   if (runtimePerformanceEnabled) {
     (window as Window & { __renderDistanceLab?: unknown }).__renderDistanceLab = {

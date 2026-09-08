@@ -16,6 +16,7 @@
  */
 import type { GameApi, QuestId, QuestSummary } from "../contracts.js";
 import type { HuntContractsSystem, HuntProgress } from "../systems/huntContracts.js";
+import { isSmallScreen } from "./mobileLayout.js";
 
 const STORE_KEY = "corealm.questTracker.v1";
 
@@ -144,6 +145,8 @@ export class QuestTracker {
     root.addEventListener("pointerdown", (event) => {
       if (event.button !== 0) return;
       if (event.target instanceof Element && event.target.closest("button")) return;
+      // A phone pins the card under the vitals; the stylesheet owns its place there.
+      if (isSmallScreen()) return;
       const rect = root.getBoundingClientRect();
       const grabX = event.clientX - rect.left;
       const grabY = event.clientY - rect.top;

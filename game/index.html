@@ -2,9 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#0e0c09" />
     <title>Corealm</title>
     <link rel="stylesheet" href="./src/ui/styles.css" />
+    <!-- After styles.css on purpose: the phone layout overrides the desktop rules by order. -->
+    <link rel="stylesheet" href="./src/ui/styles/mobile.css" />
   </head>
   <body>
     <div id="app">

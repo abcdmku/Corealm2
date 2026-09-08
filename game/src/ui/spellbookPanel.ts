@@ -83,8 +83,11 @@ export class SpellbookPanel implements ManagedPanel {
       key: "b",
       keyLabel: "Spellbook",
       registry: ctx.registry,
-      placement: { top: "56px", left: "50%", width: "360px", maxHeight: "calc(100vh - 112px)" },
-      group: "center",
+      // The inventory's slot, exactly: a side card above the dock, swapped with the pack, the
+      // skills and the worn gear. Sixteen icon tiles fit the pack's width at 4 across, and a
+      // spellbook that stands where the pack stands is one the player already knows how to find.
+      placement: { right: "10px", bottom: "48px", width: "190px", maxHeight: "calc(100vh - 110px)" },
+      group: "side",
       onOpen: () => this.refresh(true),
     });
 

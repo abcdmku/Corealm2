@@ -1,0 +1,394 @@
+/*
+ * Small screens and touch.
+ *
+ * Two independent axes, two independent hooks:
+ *
+ *   - Media queries carry the LAYOUT. `(max-width: 760px), (max-height: 480px)` is a phone in
+ *     either orientation; the landscape block after it is the short-and-wide case, where height
+ *     is the scarce thing and the dock turns into a column on the right edge.
+ *   - `#ui-root.is-touch` carries the TOUCH chrome: the joystick, bigger targets, and the keys
+ *     button hidden. It is set by `ui/mobileLayout.ts` from the settings store, so a phone in
+ *     desktop mode and a touchscreen laptop both get the answer the player asked for.
+ *
+ * The rule on a phone is the same as on a desktop, only more so: the middle of the screen is
+ * where the game is. Nothing here grows to fill the screen. Panels stay CARDS at roughly their
+ * desktop size — a 4-wide inventory is still ~190 px across, a slot is still a slot — and they
+ * shrink in type and padding rather than stretch. A card that fills the phone is a card that has
+ * hidden the world, and then the player cannot see what they just opened it for.
+ *
+ * Panel placements are inline styles from `PanelFrame`, which nothing but `!important` can beat;
+ * every override of a placement here says so on purpose. Linked from index.html AFTER styles.css
+ * (not @imported from it: imports sit above every rule) so its ordinary rules win on order.
+ */
+
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  /* The dock footprint on a phone; cards and the joystick keep clear of it. */
+  --mobile-dock-h: 44px;
+  --mobile-dock-w: 42px;
+  /* The one card width. Everything that is not a big window is this wide. */
+  --mobile-card-w: 196px;
+}
+
+/* The address bar comes and goes; the dynamic unit follows it, 100vh does not. */
+@supports (height: 100dvh) {
+  #app { height: 100dvh; }
+}
+
+/* A long press must open the game menu, never the browser callout or a text selection. */
+#viewport { -webkit-touch-callout: none; }
+
+/* ------------------------------------------------------------- the joystick */
+
+.joystick {
+  position: absolute;
+  left: calc(10px + var(--safe-left));
+  bottom: calc(10px + var(--safe-bottom));
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(12, 10, 8, 0.14) 0%, rgba(12, 10, 8, 0.38) 100%);
+  border: 1px solid rgba(235, 220, 188, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+  opacity: 0.5;
+  touch-action: none;
+  pointer-events: auto;
+  z-index: var(--z-hud);
+  transition: opacity 120ms ease-out;
+}
+
+.joystick[hidden] { display: none; }
+.joystick.is-active { opacity: 0.92; }
+
+.joystick__knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  margin: -17px 0 0 -17px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(212, 175, 78, 0.9), rgba(120, 95, 40, 0.9));
+  border: 1px solid rgba(0, 0, 0, 0.65);
+  box-shadow: inset 0 1px 0 rgba(255, 236, 193, 0.35), 0 2px 6px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+/* With a stick in the corner the log steps up out from under it, whatever the screen size. */
+#ui-root.is-touch .msglog { bottom: calc(100px + var(--safe-bottom)); }
+
+/* ------------------------------------------------------------ touch chrome */
+
+/* Taps, not double-tap-to-zoom, on anything that is a control. */
+#ui-root.is-touch button,
+#ui-root.is-touch [role="button"],
+#ui-root.is-touch .slot,
+#ui-root.is-touch input[type="range"] { touch-action: manipulation; }
+
+/* The keys panel lists keyboard bindings. A thumb has none. */
+#ui-root.is-touch .dock__btn[data-panel="controls"] { display: none; }
+
+/* Menu rows and the close glyph are the two things tapped in a hurry; they get a fingertip. */
+#ui-root.is-touch .ctx-menu__item { padding: 7px 10px; }
+#ui-root.is-touch .panel__close { width: 32px; height: 32px; }
+#ui-root.is-touch .slot { min-width: 38px; }
+#ui-root.is-touch .minimap__btn { width: 26px; height: 26px; }
+#ui-root.is-touch .btn { min-height: 32px; }
+#ui-root.is-touch .dialogue__option { min-height: 32px; }
+
+/* Hover states are sticky under a finger; the tap label already says what a tap does. */
+#ui-root.is-touch .dock__btn:hover:not(.is-active) { color: var(--ink-dim); background: none; }
+
+/* --------------------------------------------------------- phone: both ways */
+
+@media (max-width: 760px), (max-height: 480px) {
+  /* ---- one size down, everywhere. The tokens do the work so every panel follows for free. */
+  :root {
+    --size-xs: 10px;
+    --size-sm: 11px;
+    --size-md: 12px;
+    --size-lg: 13px;
+    --size-xl: 16px;
+    --space-3: 7px;
+    --space-4: 9px;
+    --space-5: 12px;
+    --side-panel-width: var(--mobile-card-w);
+    --dock-clearance: calc(var(--mobile-dock-h) + var(--safe-bottom) + 6px);
+  }
+
+  /* ---- vitals, top left: a short bar, the activity line under it. */
+  .hud__vitals {
+    top: calc(6px + var(--safe-top));
+    left: calc(6px + var(--safe-left));
+    width: 128px;
+    gap: 2px;
+  }
+
+  .hud__health.bar--tall { height: 10px; }
+  .hud__health .bar__text { font-size: 9px; }
+  .hud__activity { padding: 2px 5px 3px; }
+  .hud__activity-count { font-size: 9px; }
+  .hud__cache { padding: 1px 5px; }
+
+  /* ---- minimap, top right, half size. The three buttons keep their full targets. */
+  .minimap {
+    top: calc(6px + var(--safe-top));
+    right: calc(6px + var(--safe-right));
+    width: 72px;
+    height: 72px;
+  }
+
+  .minimap__btn--menu { top: -6px; right: -6px; }
+  .minimap__btn--map { bottom: -6px; left: -6px; }
+  .minimap__btn--compass { top: -6px; left: -6px; }
+
+  /* ---- the purse and XP feed, under the minimap. Just the number. */
+  .hud__right { right: calc(8px + var(--safe-right)); gap: 0; }
+  .hud.has-minimap .hud__right { top: calc(84px + var(--safe-top)); }
+  .hud__currency-value { font-size: var(--size-sm); }
+  .hud__currency > .u-caps { display: none; }
+  .xp-drop { padding: 0 2px; font-size: var(--size-xs); }
+
+  /* ---- the tracked quest: a narrow card under the vitals, never dragged. */
+  .quest-tracker,
+  .quest-tracker.is-moved {
+    left: calc(6px + var(--safe-left)) !important;
+    top: calc(46px + var(--safe-top)) !important;
+    width: 168px;
+    transform: none !important;
+  }
+
+  .quest-tracker__header { min-height: 20px; }
+  .quest-tracker__objective { font-size: var(--size-xs); }
+
+  /* ---- the message log: two or three short lines, clear of the stick and the dock. */
+  .msglog,
+  #ui-root.is-touch .msglog,
+  #ui-root.is-compact .msglog {
+    left: calc(8px + var(--safe-left));
+    right: calc(8px + var(--safe-right));
+    bottom: calc(var(--mobile-dock-h) + var(--safe-bottom) + 6px);
+    width: auto;
+    max-height: 42px;
+    overflow: hidden;
+    padding: 1px 5px;
+    border-color: transparent;
+    background: none;
+    backdrop-filter: none;
+  }
+
+  #ui-root.is-touch .msglog { left: calc(96px + var(--safe-left)); }
+  .msglog__line { padding: 0 4px; font-size: var(--size-xs); line-height: 1.3; }
+
+  /* ---- the dock: a low strip along the bottom edge, icon and a tiny word each. */
+  .dock {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: space-evenly;
+    gap: 0;
+    padding: 2px 4px calc(2px + var(--safe-bottom));
+    border-width: 1px 0 0;
+    border-radius: 0;
+    background: rgba(12, 10, 8, 0.82);
+  }
+
+  .dock__btn { flex: 0 1 64px; width: auto; height: 40px; gap: 2px; }
+  .dock__glyph .ui-icon { width: 18px; height: 18px; }
+  .dock__label { font-size: 8px; }
+  .dock__btn.is-active::after { left: 30%; right: 30%; bottom: 1px; }
+  .dock__badge { top: 1px; right: 6px; }
+
+  .joystick { bottom: calc(var(--mobile-dock-h) + var(--safe-bottom) + 8px); }
+
+  /* ---- panels stay cards. Tighter chrome, the same shapes. */
+  .panel { min-width: 0; }
+  .panel__header { min-height: 28px; padding: 2px var(--space-1) 2px var(--space-2); }
+  .panel__title { font-size: var(--size-sm); letter-spacing: 0.06em; }
+  .panel__body { padding: var(--space-2); gap: var(--space-1); -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+  .panel--movable .panel__header { cursor: default; }
+
+  /* Side cards sit above the dock in the right corner, exactly where the desktop keeps them. */
+  .panel--side,
+  .panel--side.is-moved {
+    top: auto !important;
+    left: auto !important;
+    right: calc(6px + var(--safe-right)) !important;
+    bottom: var(--dock-clearance) !important;
+    width: var(--mobile-card-w) !important;
+    max-height: min(52vh, 380px) !important;
+    transform: none !important;
+  }
+
+  /*
+   * Big windows: a card centred between the edges, capped well short of the screen. `left` and
+   * `right` together with `max-width` and `margin: auto` centre an absolute box without the
+   * translate the desktop uses, so the same rule serves every placement style the panels have.
+   */
+  .panel--float:not(.panel--side),
+  .panel--float:not(.panel--side).is-moved,
+  #panel-settings,
+  #panel-map,
+  #panel-skill-guide,
+  #panel-skill-guide:not(.is-moved),
+  #panel-feature-lab {
+    top: calc(8px + var(--safe-top)) !important;
+    left: calc(6px + var(--safe-left)) !important;
+    right: calc(6px + var(--safe-right)) !important;
+    bottom: auto !important;
+    width: auto !important;
+    max-width: 380px !important;
+    max-height: calc(100vh - var(--dock-clearance) - 14px - var(--safe-top)) !important;
+    min-height: 0 !important;
+    margin: 0 auto !important;
+    transform: none !important;
+    resize: none;
+  }
+
+  /* The conversation is a low card: the player has to see who is talking, and the replies. */
+  #panel-dialogue,
+  #panel-dialogue.is-moved {
+    top: auto !important;
+    left: calc(6px + var(--safe-left)) !important;
+    right: calc(6px + var(--safe-right)) !important;
+    bottom: var(--dock-clearance) !important;
+    width: auto !important;
+    max-width: 400px !important;
+    max-height: min(42vh, 300px) !important;
+    margin: 0 auto !important;
+    transform: none !important;
+  }
+
+  /* ---- inside the windows: fixed-size cells, stacked columns, shorter lists. */
+  .slot-grid { gap: 2px; }
+  .equip-grid { grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(4, 40px); gap: 4px; }
+  .equip-silhouette { width: 50px; }
+  .bank-columns { flex-direction: column; gap: var(--space-2); }
+  .bank-column--inventory { flex-basis: auto; }
+  .bank-grid { max-height: 30vh; }
+  .shop-list { max-height: 36vh; }
+  .production-list { max-height: 36vh; }
+  .controls__columns { grid-template-columns: 1fr; }
+  .controls__dynamic { padding-left: 0; border-left: none; }
+  #panel-map .map__figure { height: clamp(200px, 46vh, 360px); }
+  .settings__row { grid-template-columns: 1fr; min-height: 0; }
+  .seg { display: flex; }
+  .seg__btn { flex: 1 1 0; }
+  .volume { width: 100%; grid-template-columns: minmax(0, 1fr) 34px; }
+
+  /* Full-screen covers: a small card in the middle, not a poster. */
+  .title { padding: var(--space-3); }
+  .title__card { width: min(300px, 100%); padding: var(--space-4) var(--space-4) var(--space-3); gap: var(--space-2); }
+  .title__mark { font-size: 22px; }
+  .title__actions { width: 100%; }
+  .title__action { min-height: 32px; }
+  .death { padding: var(--space-3); }
+  .death__card { width: min(340px, 100%); }
+  .ctx-menu { min-width: 170px; max-width: min(280px, calc(100vw - 16px)); }
+  .loot-reveal__grid { grid-template-columns: repeat(var(--slot-columns), 38px); }
+  .loot-reveal__slot { width: 38px; min-width: 38px; }
+
+  /* The agent companion card is a desktop luxury; its work still reaches the log. */
+  .agent-panel { display: none; }
+
+  .hover-label { font-size: var(--size-sm); }
+}
+
+/* -------------------------------------------------------- phone: landscape */
+
+/*
+ * Short and wide. The bottom edge is where thumbs rest, so the dock leaves it and becomes a
+ * column down the right edge; the stick keeps the bottom-left. Cards sit beside the dock column,
+ * and the big windows centre in the space to its left, capped by the height.
+ */
+@media (orientation: landscape) and (max-height: 480px) {
+  :root {
+    --dock-clearance: calc(6px + var(--safe-bottom));
+  }
+
+  .minimap {
+    right: calc(var(--mobile-dock-w) + 8px + var(--safe-right));
+    width: 64px;
+    height: 64px;
+  }
+
+  .hud__right { right: calc(var(--mobile-dock-w) + 10px + var(--safe-right)); }
+  .hud.has-minimap .hud__right { top: calc(76px + var(--safe-top)); }
+
+  .quest-tracker,
+  .quest-tracker.is-moved {
+    top: calc(40px + var(--safe-top)) !important;
+    width: 160px;
+  }
+
+  .msglog,
+  #ui-root.is-touch .msglog,
+  #ui-root.is-compact .msglog {
+    left: calc(8px + var(--safe-left));
+    right: calc(var(--mobile-dock-w) + 10px + var(--safe-right));
+    bottom: calc(6px + var(--safe-bottom));
+    max-height: 30px;
+  }
+
+  #ui-root.is-touch .msglog { left: calc(96px + var(--safe-left)); }
+
+  .dock {
+    top: var(--safe-top);
+    bottom: var(--safe-bottom);
+    left: auto;
+    right: 0;
+    flex-direction: column;
+    justify-content: center;
+    width: calc(var(--mobile-dock-w) + var(--safe-right));
+    padding: 4px calc(2px + var(--safe-right)) 4px 2px;
+    border-width: 0 0 0 1px;
+  }
+
+  .dock__btn { flex: 0 0 auto; width: 38px; height: 38px; gap: 0; }
+  .dock__label { display: none; }
+  .dock__btn.is-active::after { left: 9px; right: 9px; bottom: 2px; }
+  .dock__badge { top: 1px; right: 1px; }
+
+  .joystick {
+    left: calc(8px + var(--safe-left));
+    bottom: calc(8px + var(--safe-bottom));
+  }
+
+  .panel--side,
+  .panel--side.is-moved {
+    top: calc(6px + var(--safe-top)) !important;
+    bottom: auto !important;
+    right: calc(var(--mobile-dock-w) + 6px + var(--safe-right)) !important;
+    max-height: calc(100vh - 12px - var(--safe-top) - var(--safe-bottom)) !important;
+  }
+
+  .panel--float:not(.panel--side),
+  .panel--float:not(.panel--side).is-moved,
+  #panel-settings,
+  #panel-map,
+  #panel-skill-guide,
+  #panel-skill-guide:not(.is-moved),
+  #panel-feature-lab {
+    top: calc(6px + var(--safe-top)) !important;
+    right: calc(var(--mobile-dock-w) + 6px + var(--safe-right)) !important;
+    max-width: 460px !important;
+    max-height: calc(100vh - 12px - var(--safe-top) - var(--safe-bottom)) !important;
+  }
+
+  #panel-dialogue,
+  #panel-dialogue.is-moved {
+    left: calc(96px + var(--safe-left)) !important;
+    right: calc(var(--mobile-dock-w) + 6px + var(--safe-right)) !important;
+    bottom: calc(6px + var(--safe-bottom)) !important;
+    max-height: min(56vh, 220px) !important;
+  }
+
+  /* Height is the scarce thing: lists and the map figure give it back first. */
+  .bank-grid, .shop-list, .production-list { max-height: 40vh; }
+  #panel-map .map__figure { height: clamp(160px, 50vh, 240px); }
+  .title__actions { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+  .title__action { flex: 1 1 40%; width: auto; }
+}

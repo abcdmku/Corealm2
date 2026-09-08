@@ -2,6 +2,7 @@ import { keybindings } from "../input/keyboard.js";
 import type { KeyBindingRegistry, Unregister } from "../input/keyboard.js";
 import { createUiIcon } from "./icons.js";
 import { panelInteraction } from "./panelInteraction.js";
+import { isSmallScreen } from "./mobileLayout.js";
 
 export interface PanelPlacement {
   top?: string;
@@ -129,6 +130,8 @@ export class PanelFrame {
       header.addEventListener("pointerdown", (event) => {
         if (event.button !== 0) return;
         if (event.target instanceof Element && event.target.closest("button")) return;
+        // On a phone the panel is a sheet pinned by the stylesheet; a drag would only fight it.
+        if (isSmallScreen()) return;
         this.cancelDrag?.();
         const rect = root.getBoundingClientRect();
         const grabX = event.clientX - rect.left;

@@ -35,6 +35,11 @@
 @import "./styles/spellbook.css";
 @import "./styles/loot.css";
 @import "./styles/agent.css";
+/*
+ * `./styles/mobile.css` is NOT imported here. Imports have to sit above every rule, so an import
+ * would land before the desktop rules below and lose to them on order; index.html links it as a
+ * second stylesheet after this one instead, where its phone layout wins the way it is written.
+ */
 
 /* Cinzel (SIL OFL 1.1), self-hosted variable font. The ceremonial face: titles, the mark, gold
  * numbers. Body text stays on the system sans stack — small type in a HUD must stay crisp. */

@@ -50,6 +50,9 @@ export class PanelDock {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "dock__btn";
+      // The stylesheet's touch layout hides the keys button by this handle: a list of bindings is
+      // no use to a thumb.
+      button.dataset["panel"] = entry.id;
       button.setAttribute("aria-pressed", "false");
       // The title carries the key too, so a hover answers "how do I open this without the mouse".
       button.title = `${entry.label} (${entry.key.toUpperCase()})`;

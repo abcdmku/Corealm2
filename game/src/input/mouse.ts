@@ -16,6 +16,8 @@ import type { EntityId, GameApi, InteractionId, MoveTarget, Vec3 } from "../cont
 import { CAMERA } from "../app/config.js";
 import { Picker, type Pick, type PickSource, type PickerSources } from "./picking.js";
 import { KeyboardController, type KeyBindingRegistry } from "./keyboard.js";
+import { TouchGestures } from "./touch.js";
+import { VirtualJoystick } from "./joystick.js";
 import {
   ContextMenu, interactionLabel, notify, primaryInteraction, reportResult,
 } from "../ui/contextMenu.js";
@@ -30,6 +32,12 @@ const ORBIT_PITCH_PER_PX = 0.004;
 
 /** Fraction of the zoom range per wheel notch. */
 const ZOOM_STEP_FRACTION = 0.06;
+
+/** Finger spread that covers the whole zoom range. About a thumb-and-finger stretch. */
+const PINCH_RANGE_PX = 240;
+
+/** How long the tap label names the thing that was tapped. A finger has no hover to keep it up. */
+const TOUCH_LABEL_MS = 1_400;
 
 
 export interface RendererLike {
@@ -108,6 +116,16 @@ export class InputController {
   private movementEnabled = true;
   private freeCameraEnabled = false;
 
+  /**
+   * Touch play. Off, a finger is a mouse with one button: the same press-to-act path, which is
+   * fine on a touchscreen laptop where the mouse is still the main way in. On, touch pointers go
+   * through the gesture recogniser instead, and the joystick is on screen.
+   */
+  private touchEnabled = false;
+  private touch: TouchGestures | null = null;
+  private joystick: VirtualJoystick | null = null;
+  private touchLabelUntil = 0;
+
   constructor(
     private readonly canvas: HTMLCanvasElement,
     renderer: RendererLike,
@@ -171,6 +189,8 @@ export class InputController {
     this.movementEnabled = enabled;
     this.contextMenu.close();
     this.keyboard.clear();
+    this.joystick?.clear();
+    this.joystick?.setVisible(enabled && this.touchEnabled);
     this.movement.setDirectInput({ forward: 0, strafe: 0, cameraYaw: this.camera.yaw });
     if (!enabled) this.api.stop();
   }
@@ -179,6 +199,41 @@ export class InputController {
     this.freeCameraEnabled = enabled;
     this.contextMenu.close();
     this.keyboard.clear();
+  }
+
+  /**
+   * Switches touch play on or off. The root calls this from the settings store, so the stick
+   * and the gestures follow the player's "auto | on | off" rather than the browser's guess.
+   *
+   * The joystick is built on first use and only hidden afterwards: it holds no state worth
+   * rebuilding, and a phone that flips the setting twice should not pay for two.
+   */
+  setTouchControls(enabled: boolean): void {
+    if (this.touchEnabled === enabled) return;
+    this.touchEnabled = enabled;
+    this.touch?.reset();
+    if (enabled) {
+      this.touch ??= new TouchGestures({
+        onTap: (x, y) => this.onTouchTap(x, y),
+        onLongPress: (x, y) => this.onTouchLongPress(x, y),
+        onOrbit: (dx, dy) => this.onTouchOrbit(dx, dy),
+        onPinch: (delta) => this.onTouchPinch(delta),
+      });
+      if (!this.joystick && typeof document !== "undefined") {
+        this.joystick = new VirtualJoystick();
+        const root = this.options.uiRoot ?? document.getElementById("ui-root");
+        if (root) this.joystick.mount(root);
+      }
+    }
+    this.joystick?.setVisible(enabled && this.movementEnabled);
+    if (!enabled) {
+      this.touchLabelUntil = 0;
+      this.setHovered(null);
+    }
+  }
+
+  isTouchEnabled(): boolean {
+    return this.touchEnabled;
   }
 
   // ------------------------------------------------------------------ events
@@ -247,6 +302,13 @@ export class InputController {
 
   private onPointerDown = (event: PointerEvent): void => {
     if (event.target !== this.canvas) return;
+    if (this.routesToTouch(event)) {
+      // Cancelling here also stops the browser from synthesising the mouse events a tap would
+      // otherwise produce, so a tap is handled exactly once.
+      event.preventDefault();
+      this.touch!.down(event);
+      return;
+    }
     this.activePointerId = event.pointerId;
     this.cursorX = this.heldMoveX = event.clientX;
     this.cursorY = this.heldMoveY = event.clientY;
@@ -255,6 +317,10 @@ export class InputController {
   };
 
   private onPointerMove = (event: PointerEvent): void => {
+    if (this.touch?.tracks(event.pointerId)) {
+      this.touch.move(event);
+      return;
+    }
     this.cursorX = event.clientX;
     this.cursorY = event.clientY;
     this.cursorOverCanvas = event.target === this.canvas;
@@ -289,11 +355,19 @@ export class InputController {
   };
 
   private onPointerUp = (event: PointerEvent): void => {
+    if (this.touch?.tracks(event.pointerId)) {
+      this.touch.up(event);
+      return;
+    }
     if (!this.pointerDown || event.pointerId !== this.activePointerId) return;
     this.syncButtons(event);
   };
 
   private onPointerCancel = (event: PointerEvent): void => {
+    if (this.touch?.tracks(event.pointerId)) {
+      this.touch.cancel(event);
+      return;
+    }
     this.releaseCapture(event.pointerId);
     this.pointerDown = false;
     this.heldButtons = 0;
@@ -313,8 +387,55 @@ export class InputController {
     this.leftDragging = this.orbitDragging = false;
     this.dragging = false;
     this.cursorOverCanvas = false;
+    this.touch?.reset();
+    this.joystick?.clear();
     this.setHovered(null);
   };
+
+  // ------------------------------------------------------------------- touch
+
+  private routesToTouch(event: PointerEvent): boolean {
+    return this.touchEnabled && this.touch !== null && event.pointerType === "touch";
+  }
+
+  /**
+   * A tap is a left click at the lift point, plus a moment of the cursor label: with no hover,
+   * the label is the only way a tap on a rock says "Mine Copper Rock" rather than nothing.
+   */
+  private onTouchTap(clientX: number, clientY: number): void {
+    this.contextMenu.close();
+    this.cursorX = clientX;
+    this.cursorY = clientY;
+    this.handleLeftClick(clientX, clientY);
+    const pick = this.picker.pickAt(clientX, clientY);
+    const entityId = pick?.entityId ?? null;
+    this.touchLabelUntil = entityId ? performance.now() + TOUCH_LABEL_MS : 0;
+    this.setHovered(entityId);
+    if (entityId) this.positionHoverLabel();
+  }
+
+  private onTouchLongPress(clientX: number, clientY: number): void {
+    this.touchLabelUntil = 0;
+    this.setHovered(null);
+    if (!this.picker.containsPoint(clientX, clientY)) return;
+    // A short buzz says "held long enough" before the menu appears; harmless where unsupported.
+    try { navigator.vibrate?.(12); } catch { /* Some browsers throw on vibrate without a gesture. */ }
+    this.handleRightClick(clientX, clientY);
+  }
+
+  private onTouchOrbit(deltaX: number, deltaY: number): void {
+    this.touchLabelUntil = 0;
+    this.setHovered(null);
+    if (this.freeCameraEnabled) this.camera.panPixels(deltaX, deltaY, this.canvas.clientHeight);
+    else this.camera.rotate(-deltaX * ORBIT_YAW_PER_PX, -deltaY * ORBIT_PITCH_PER_PX);
+    this.picker.invalidate();
+  }
+
+  private onTouchPinch(deltaPx: number): void {
+    // Spreading the fingers brings the camera in, as it does with a map.
+    this.camera.zoom(-deltaPx * (CAMERA.maxDistance - CAMERA.minDistance) / PINCH_RANGE_PX);
+    this.picker.invalidate();
+  }
 
   private onWheel = (event: WheelEvent): void => {
     event.preventDefault();
@@ -444,9 +565,13 @@ export class InputController {
    * `Picker` bounds it further, so a fast sweep across a canopy costs a handful of rays.
    */
   update(): void {
-    const { forward, strafe } = this.movementEnabled
+    let { forward, strafe } = this.movementEnabled
       ? this.keyboard.axes()
       : { forward: 0, strafe: 0 };
+    // The stick fills in only when no key is held: two sources of the same axis would fight.
+    if (this.movementEnabled && forward === 0 && strafe === 0 && this.joystick?.active()) {
+      ({ forward, strafe } = this.joystick.axes());
+    }
     this.movement.setDirectInput({ forward, strafe, cameraYaw: this.camera.yaw });
     if (forward === 0 && strafe === 0) this.updateHeldMove();
     this.updateHover();
@@ -472,6 +597,11 @@ export class InputController {
   }
 
   private updateHover(): void {
+    if (this.touchLabelUntil > 0) {
+      // The tap label holds for its moment, then the ordinary rule below takes it down.
+      if (performance.now() < this.touchLabelUntil && !this.contextMenu.isOpen()) return;
+      this.touchLabelUntil = 0;
+    }
     if (!this.cursorOverCanvas || this.dragging || this.contextMenu.isOpen()) {
       this.setHovered(null);
       return;
@@ -602,6 +732,9 @@ export class InputController {
   /** Resets transient input state. The debug `reset()` path calls this. */
   clear(): void {
     this.keyboard.clear();
+    this.touch?.reset();
+    this.joystick?.clear();
+    this.touchLabelUntil = 0;
     this.pointerDown = false;
     this.heldButtons = 0;
     this.leftDragging = this.orbitDragging = false;
@@ -633,6 +766,10 @@ export class InputController {
     window.removeEventListener("blur", this.onWindowBlur);
     this.keyboard.dispose();
     this.contextMenu.dispose();
+    this.touch?.dispose();
+    this.touch = null;
+    this.joystick?.dispose();
+    this.joystick = null;
     this.hoverLabel?.remove();
     this.hoverLabel = null;
   }

@@ -28,6 +28,7 @@
  */
 import { keybindings } from "../input/keyboard.js";
 import type { Unregister } from "../input/keyboard.js";
+import { layoutState } from "./mobileLayout.js";
 
 /** Root-owned persistence actions. These controls never read or write browser storage. */
 export interface SaveRecoveryControls {
@@ -280,7 +281,14 @@ export class TitleScreen {
 
     const hint = document.createElement("p");
     hint.className = "title__hint";
-    hint.append(cap("Esc"), text(" returns to the world. "), cap("H"), text(" lists every key."));
+    if (layoutState().touch) {
+      hint.append(
+        text("Tap to walk or use a thing. Hold for its menu. Drag to look, pinch to zoom. "),
+        text("The stick in the corner moves you."),
+      );
+    } else {
+      hint.append(cap("Esc"), text(" returns to the world. "), cap("H"), text(" lists every key."));
+    }
 
     this.card.append(eyebrow, mark);
     if (recovery) {
