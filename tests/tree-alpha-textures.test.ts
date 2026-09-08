@@ -6,8 +6,44 @@ import * as THREE from "three";
 import { describe, expect, it } from "vitest";
 import { applyCorealmSurfaceMaterials, type CorealmSurfaceTextures } from "../game/src/render/corealmSurfaceMaterials.js";
 import { MaterialLibrary } from "../game/src/render/materials.js";
+import { createArtDirectedMaterial } from "../game/src/render/artDirection.js";
 
 describe("production tree cutouts", () => {
+  it("preserves red maple saturation through the production organic treatment", () => {
+    const map = new THREE.Texture();
+    const source = new THREE.MeshStandardMaterial({ name: "Leaves_Corealm_broadleaf_maple_cutout", map });
+    const treated = createArtDirectedMaterial(source, "foliage") as THREE.MeshStandardMaterial;
+    const shader = { uniforms: {}, vertexShader: "", fragmentShader: THREE.ShaderLib.standard.fragmentShader };
+    treated.onBeforeCompile(shader as THREE.WebGLProgramParametersWithUniforms, {} as THREE.WebGLRenderer);
+    expect(treated.map).toBe(map);
+    expect(shader.fragmentShader).toContain("mix( vec3( organicLuma ), diffuseColor.rgb, 1.000 )");
+    expect(shader.fragmentShader).not.toContain("diffuseColor.rgb, 0.720");
+    source.dispose(); treated.dispose(); map.dispose();
+  });
+  it("preserves authored bark albedo and relief through the production surface and organic passes", () => {
+    const map = new THREE.Texture();
+    const source = new THREE.MeshStandardMaterial({ name: "Bark_Corealm", map });
+    source.userData.corealmBarkRelief = true;
+    source.userData.corealmMagicTree = true;
+    const geometry = new THREE.CylinderGeometry();
+    const mesh = new THREE.Mesh(geometry, source);
+    const textures = {} as CorealmSurfaceTextures;
+    applyCorealmSurfaceMaterials(mesh, textures);
+    const treated = mesh.material;
+    expect(treated.map).toBe(map);
+    expect(treated.bumpMap).toBe(map);
+    expect(treated.bumpScale).toBe(.035);
+    expect(treated.userData.corealmMagicTree).toBe(true);
+    const library = new MaterialLibrary();
+    const final = library.organic(treated, "bark") as THREE.MeshStandardMaterial;
+    expect(final.map).toBe(map);
+    expect(final.bumpMap).toBe(map);
+    expect(final.customProgramCacheKey()).toContain("magic-tree-v3");
+    applyCorealmSurfaceMaterials(mesh, textures);
+    expect(mesh.material).toBe(treated);
+    library.dispose(); geometry.dispose(); source.dispose(); treated.dispose(); map.dispose();
+  });
+
   it("exports masked RGBA branch sprays on curved eight-triangle cards across every tree species", async () => {
     const io = new NodeIO().registerExtensions([KHRMeshQuantization]);
     for (const id of TREE_SPECIES.flatMap(treeAssetIds)) {

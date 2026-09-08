@@ -11,7 +11,7 @@ const bounds = { minX: 1000, maxX: 1192, minZ: 1000, maxZ: 1096 };
 
 function harness(sourceAsset = "tree_common_5") {
   const entries = new Map<string, AssetEntry>();
-  for (const id of ["tree_common_5", "tree_common_3", "tree_pine_5", "tree_dead_5", "corealm_oak_1", "corealm_oak_3", "corealm_pine_2"]) {
+  for (const id of ["tree_common_5", "tree_common_3", "tree_pine_5", "tree_dead_5", "corealm_oak_1", "corealm_oak_3", "corealm_pine_2", "corealm_willow_1"]) {
     const native = id.startsWith("corealm_");
     entries.set(id, {
       id, file: `${id}.glb`, pack: "fixture", category: "nature", is: "tree", tags: ["tree"], bytes: 1,
@@ -32,11 +32,12 @@ function harness(sourceAsset = "tree_common_5") {
   const scene = {
     getScatterBounds: () => bounds,
     describeRegions: () => [{ regionId: "fallowmarch" as const }, { regionId: "vellenwood" as const }],
+    regionAt: (x: number) => x < 1096 ? "fallowmarch" as const : "vellenwood" as const,
     getRegionRect: (regionId: RegionId) => ({
       ...bounds, minX: regionId === "fallowmarch" ? 1000 : 1096,
       maxX: regionId === "fallowmarch" ? 1096 : 1144,
     }),
-    getWaterBodies: () => [], getRoadPolylines: () => [],
+    getWaterBodies: (): { closed: boolean; centre: [number, number]; level: number; contour: [number, number][] }[] => [], getRoadPolylines: () => [],
     scatterSurfaceAt: (x: number) => ({ height: 3 + x * 0.002, normal: [0, 1, 0] as const, slope: 0, density: 1 }),
     regionWeightAt: () => 1, meshHeightAt: (x: number) => 3 + x * 0.002,
     normalAt: () => [0, 1, 0] as const,
@@ -83,6 +84,36 @@ async function populate(f: ReturnType<typeof harness>, reverse = false) {
 }
 
 describe("scatter forest resource bridge", () => {
+  it("places shoreline-only willows on dry banks and none in a waterless forest", async () => {
+    const dry = harness("corealm_willow_1");
+    const lake = harness("corealm_willow_1");
+    const centre: [number, number] = [1050, 1048];
+    const radius = 18;
+    lake.scene.getWaterBodies = () => [{ closed: true, centre, level: 3,
+      contour: Array.from({ length: 64 }, (_, index) => {
+        const angle = index / 64 * Math.PI * 2;
+        return [centre[0] + Math.cos(angle) * radius, centre[1] + Math.sin(angle) * radius];
+      }),
+    }];
+    for (const fixture of [dry, lake]) {
+      fixture.spec.layers[0]!.species = [{ assetId: "corealm_willow_1", sources: ["shore"] }];
+      fixture.spec.layers[0]!.shore = { band: [3, 10], perMetre: .5 };
+      delete fixture.spec.layers[0]!.assetIds;
+    }
+    try {
+      await populate(dry);
+      await populate(lake);
+      expect(dry.registered).toHaveLength(0);
+      expect(lake.registered.length).toBeGreaterThan(20);
+      for (const { descriptor } of lake.registered) {
+        const distance = Math.hypot(descriptor.position[0] - centre[0], descriptor.position[2] - centre[1]);
+        expect(descriptor.resourceId).toBe("tree_willow");
+        expect(distance).toBeGreaterThan(radius + 2.9);
+        expect(distance).toBeLessThanOrEqual(radius + 10);
+      }
+    } finally { dry.dispose(); lake.dispose(); }
+  });
+
   it("keeps tree identities stable across tile order and replacement models", async () => {
     const forward = harness();
     const reverse = harness("tree_common_3");
@@ -98,14 +129,17 @@ describe("scatter forest resource bridge", () => {
     } finally { forward.dispose(); reverse.dispose(); }
   });
 
-  it("uses semantic region ownership, excludes the visual coast and publishes grounded uniform transforms", async () => {
+  it("registers living coast trees with the nearest region and publishes grounded uniform transforms", async () => {
     const f = harness();
     try {
       await populate(f);
       expect(f.registered.some(({ descriptor }) => descriptor.regionId === "vellenwood")).toBe(true);
       expect(f.batches.flatMap((batch) => batch.placements).some((placement) => placement.position[0] > 1144)).toBe(true);
+      const coast = f.registered.filter(({ descriptor }) => descriptor.position[0] > 1144);
+      expect(coast.length).toBeGreaterThan(0);
+      expect(coast.every(({ descriptor }) => descriptor.regionId === "vellenwood")).toBe(true);
+      expect(f.registered.length).toBe(f.batches.flatMap(batch => batch.placements).length);
       for (const { descriptor: tree } of f.registered) {
-        expect(tree.position[0]).toBeLessThanOrEqual(1144);
         expect(tree.resourceId).toBe("tree_cairnpine");
         expect(tree.position[1] - tree.scale * 0.2).toBeCloseTo(f.scene.meshHeightAt(tree.position[0]));
         const placement = f.batches.flatMap((batch) => batch.placements).find((entry) => entry.position === tree.position)!;

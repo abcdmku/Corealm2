@@ -91,7 +91,7 @@ function entry(id: string, size: AssetEntry["size"], base?: AssetEntry["base"]):
     size, base: base ?? { x: -size.x / 2, y: 0, z: -size.z / 2 }, animations: [], materials: [] };
 }
 
-function harness(exclusions = new ExclusionZones(), options: { nativeOnly?: boolean; decorative?: boolean } = {}) {
+function harness(exclusions = new ExclusionZones(), options: { nativeOnly?: boolean; outsideRegions?: boolean } = {}) {
   const entries = new Map([
     entry("tree_common_5", { x: 6, y: 8, z: 4 }, { x: 2.5, y: -0.2, z: -3 }),
     entry("tree_pine_5", { x: 3, y: 10, z: 3 }, { x: 2, y: 0, z: -2 }),
@@ -118,12 +118,12 @@ function harness(exclusions = new ExclusionZones(), options: { nativeOnly?: bool
   const receiver = { scatterGroup: new THREE.Group(), scatterVisibility: { add: () => undefined }, registerScatter: () => undefined };
   const terrainGroup = new THREE.Group();
   terrainGroup.add(new THREE.Object3D());
-  const semanticBounds = options.decorative ? { minX: 0, maxX: 1, minZ: 0, maxZ: 1 }
+  const semanticBounds = options.outsideRegions ? { minX: 0, maxX: 1, minZ: 0, maxZ: 1 }
     : { minX: 980, maxX: 1056, minZ: 980, maxZ: 1056 };
   const scene = {
     terrainGroup, getScatterBounds: () => BOUNDS,
     describeRegions: () => [{ regionId: "fallowmarch" as const }],
-    getRegionRect: () => semanticBounds,
+    getRegionRect: () => semanticBounds, regionAt: () => "fallowmarch" as const,
     getWaterBodies: () => [], getRoadPolylines: () => [],
     scatterSurfaceAt: (x: number, z: number) => ({ height: x * 0.001 + z * 0.002, normal: [0.2, 0.97, -0.1] as const, slope: 0.03, density: 1 }),
     regionWeightAt: () => 1, meshHeightAt: (x: number, z: number) => x * 0.001 + z * 0.002,
@@ -248,20 +248,22 @@ describe("tree clearance through production scatter", () => {
     } finally { baseline.dispose(); cleared.dispose(); }
   });
 
-  it("also clears decorative native trunks beyond semantic bounds", async () => {
-    const baseline = harness(new ExclusionZones(), { nativeOnly: true, decorative: true });
+  it("also clears gathering trees beyond semantic bounds", async () => {
+    const baseline = harness(new ExclusionZones(), { nativeOnly: true, outsideRegions: true });
     const clearances = new ExclusionZones();
-    const cleared = harness(clearances, { nativeOnly: true, decorative: true });
+    const cleared = harness(clearances, { nativeOnly: true, outsideRegions: true });
     try {
       await populate(baseline);
-      expect(baseline.trees).toEqual([]);
+      expect(baseline.trees.length).toBe(baseline.rows.length);
+      expect(baseline.trees.every((tree) => tree.regionId === "fallowmarch")).toBe(true);
       expect(baseline.rows.length).toBeGreaterThan(30);
       const centre = baseline.rows[0]!.placement.position;
       clearances.addTreeClearance([centre], 0.4);
       await populate(cleared);
       expect(bytes(cleared.rows)).toEqual(bytes(baseline.rows.filter((row) => !pointBlocks(row, centre, 0.4))));
       expect(cleared.rows.length).toBeLessThan(baseline.rows.length);
-      expect(cleared.trees).toEqual([]);
+      expect(cleared.trees.length).toBe(cleared.rows.length);
+      expect(bytes(cleared.trees)).toEqual(bytes(cleared.rows.map((row) => row.placement.forestTree)));
     } finally { baseline.dispose(); cleared.dispose(); }
   });
 

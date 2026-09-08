@@ -86,6 +86,8 @@ Captures overwrite files under `--out`; the journal appends across sessions. The
 
 `--catalog <candidate.json>` serves staged, hash-checked GLBs through the production asset loader for that session. For ore work, generate candidates with `npx tsx tools/build-ground-ores.ts --out test-results/ground-ores`, then pass `--catalog test-results/ground-ores/ground-ores.json`. Restart the session after regenerating the candidate files. Promotion remains a separate step after lab acceptance.
 
+For tree architecture, load one tree through `showFoliage()` and use the **Wood only** checkbox or `setFoliageWoodOnly(true)` to inspect its supporting limbs. This hides leaf meshes in the existing production fixture. Turn it off for canopy acceptance. `tools/forest-lab-test.ts --catalog <candidate.json> --url http://127.0.0.1:4174` also accepts staged models, so their normal click, gather and persistence paths can pass before promotion.
+
 Read a large result without copying it through the terminal session, for example in PowerShell:
 
 ```powershell
@@ -128,7 +130,7 @@ Tree spray lighting uses the same upward normal on both sides of a card. The sun
 
 ### Forest and fishing fixtures
 
-`forest=1` adds a deterministic oak/pine lane with the production forest descriptors, lazy entity activation, tree collision, gathering, save/load and respawn. `window.__forestLab.getState()` reports residency and `getTrees()` returns the stable descriptors. A tree must keep the same trunk origin through scatter, nearby interaction, depletion, leaving the area and returning.
+`forest=1` adds deterministic woodland lanes with the production forest descriptors, lazy entity activation, tree collision, gathering, save/load and respawn. The original oak/pine lane stays at x=20; an eastern lane at x=64 includes both maples and the other tree species to expose tier-material errors during activation. `window.__forestLab.getState()` reports residency and `getTrees()` returns the stable descriptors. A tree must keep the same trunk origin and authored materials through scatter, nearby interaction, depletion, leaving the area and returning. Run `tools/forest-handoff-lab-test.ts --x 64 --url http://127.0.0.1:4174` to walk the eastern residency boundaries.
 
 ```json
 {"op":"open","route":"/index.html?mode=combat&forest=1"}

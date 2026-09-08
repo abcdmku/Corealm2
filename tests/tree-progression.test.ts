@@ -4,8 +4,47 @@ import { resourceDef } from "../game/src/content/resources.js";
 import { ALL_ITEMS } from "../game/src/content/items.js";
 import { CAMPFIRE_FUELS } from "../game/src/content/gatheringProductionTiers.js";
 import { DEFAULT_SCATTER } from "../game/src/world/scatter.js";
+import { REGIONS } from "../game/src/content/regions.js";
 
 describe("tree species progression", () => {
+  it("keeps mature oak and walnut substantially larger than ordinary trees", () => {
+    const ash = TREE_SPECIES.find(species => species.id === "ash")!;
+    for (const id of ["oak", "walnut"]) {
+      const species = TREE_SPECIES.find(species => species.id === id)!;
+      expect(species.height).toBeGreaterThanOrEqual(ash.height * 1.6);
+      expect(species.trunkRadius).toBeGreaterThan(ash.trunkRadius * 2);
+      expect(resourceDef(species.resourceId)?.presentation?.targetWorldSize).toBe(species.height);
+    }
+  });
+  it("keeps a regional preference without letting one species dominate the forest pool", () => {
+    for (const region of REGIONS) {
+      for (const layer of DEFAULT_SCATTER[region.id].layers) {
+        const trees = (layer.species ?? []).filter(entry => treeSpeciesForAsset(entry.assetId) && (!entry.sources || entry.sources.includes("field")));
+        if (!trees.length) continue;
+        if (layer.cluster) expect(layer.cluster.dominance).toBeLessThanOrEqual(.35);
+        const total = trees.reduce((sum, entry) => sum + (entry.weight ?? 1), 0);
+        const matching = trees.filter(entry => treeSpeciesForAsset(entry.assetId)!.level === region.tier)
+          .reduce((sum, entry) => sum + (entry.weight ?? 1), 0);
+        expect(matching / total, `${region.id}/${layer.id}`).toBeGreaterThan(.25);
+        expect(matching / total, `${region.id}/${layer.id}`).toBeLessThan(.55);
+        expect(trees.filter(entry => treeSpeciesForAsset(entry.assetId)!.level >= 20)
+          .reduce((sum, entry) => sum + (entry.weight ?? 1), 0) / total).toBeGreaterThan(.15);
+      }
+    }
+  });
+
+  it("restricts willows to solved shoreline sources and gives every region a dry bank recipe", () => {
+    for (const region of REGIONS) {
+      for (const layer of DEFAULT_SCATTER[region.id].layers) {
+        for (const entry of layer.species ?? []) {
+          if (treeSpeciesForAsset(entry.assetId)?.id === "willow") expect(entry.sources).toEqual(["shore"]);
+        }
+      }
+      const bank = DEFAULT_SCATTER[region.id].layers.find(layer => layer.id === "willow-banks")!;
+      expect(bank.shore!.band).toEqual([3, 10]);
+      expect(bank.shore!.perMetre).toBeGreaterThan(0);
+    }
+  });
   it("uses the requested woodcutting levels for both the tree and the harvested log", () => {
     const expected = [["pine",1],["ash",5],["oak",10],["walnut",20],["willow",30],["maple",40],["teak",50],["yew",60],["magic",70]];
     expect(TREE_SPECIES.map(s => [s.id,s.level])).toEqual(expected);
@@ -28,17 +67,18 @@ describe("tree species progression", () => {
       for (const [i,species] of future.entries()) {
         const weight=treeEncounterWeight(species,area);
         expect(weight).toBeGreaterThan(0);
-        expect(weight).toBeLessThan(.08);
+        expect(weight).toBeLessThan(.5);
         if (i) expect(weight).toBeLessThan(treeEncounterWeight(future[i-1]!,area));
       }
     }
-    expect(treeEncounterWeight(TREE_SPECIES[8]!,1)).toBeLessThan(.00001);
+    expect(treeEncounterWeight(TREE_SPECIES[8]!,1)).toBeGreaterThan(.02);
+    expect(treeEncounterWeight(TREE_SPECIES[8]!,1)).toBeLessThan(.04);
   });
 
   it("divides encounter weight across variants so extra models never make a species more common", () => {
     const pool=DEFAULT_SCATTER.fallowmarch.layers.find(l => l.id === "copse")!.species!;
     const weights = TREE_SPECIES.map(species => pool.filter(e=>treeAssetIds(species).includes(e.assetId)).reduce((n,e)=>n+e.weight!,0));
-    expect(weights[0]!/weights.reduce((a,b)=>a+b,0)).toBeGreaterThan(.9);
+    expect(weights[0]!/weights.reduce((a,b)=>a+b,0)).toBeLessThan(.55);
     for (let i=1;i<weights.length;i++) expect(weights[i]!).toBeLessThan(weights[i-1]!);
     expect(pool.filter(e=>treeSpeciesForAsset(e.assetId)).length).toBe(24);
   });

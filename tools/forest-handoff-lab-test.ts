@@ -5,7 +5,8 @@ import { installTestDeadline } from './lib/deadline.js';
 import { GameDriver } from './lib/driver.js';
 import { argValue } from './lib/paths.js';
 const clearDeadline = installTestDeadline('Forest handoff lab', 59000);
-const out='test-results/forest-handoff';
+const laneX=Number(argValue(process.argv.slice(2),'--x')??20);
+const out=argValue(process.argv.slice(2),'--out')??'test-results/forest-handoff';
 await mkdir(out,{recursive:true});
 const driver=new GameDriver({url:argValue(process.argv.slice(2),'--url')??'http://127.0.0.1:4188',close:async()=>{}},{viewport:{width:1440,height:900},browserArgs:[...(process.platform === 'win32' ? ['--use-angle=d3d11'] : []),'--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});
 try {
@@ -13,7 +14,7 @@ try {
  const page=driver.page!; await page.evaluate("window.__name = (fn) => fn");
  await page.waitForFunction(()=>Boolean((window as any).__forestLab));
  await page.evaluate(()=> (window as any).__featureLab.setWalkingEnabled(true));
- await driver.callDebug('inspectPose',[{x:20,y:0,z:-23,yaw:Math.PI,pitch:.45,distance:20}]);
+ await driver.callDebug('inspectPose',[{x:laneX,y:0,z:-23,yaw:Math.PI,pitch:.45,distance:20}]);
  await page.evaluate(() => (document.activeElement as HTMLElement)?.blur());
  await driver.wait(400);
  await page.evaluate(()=>{

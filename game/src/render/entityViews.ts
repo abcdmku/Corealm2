@@ -78,6 +78,7 @@
  *    `view.groundNormal` by `view.tiltStrength`, defaulted per archetype by `DEFAULT_TILT`.
  */
 import * as THREE from "three";
+import { isNativeTreeAsset } from "../content/treeSpecies.js";
 import { containedWaterMaterialSnapshot } from "./containedTroughWater.js";
 import { selectSpeedMatchedLocomotion } from "./speedMatchedLocomotion.js";
 import { createMaskedHitOverlay, hitOverlayWeight } from './creatureHitOverlay.js';
@@ -336,7 +337,6 @@ const LEAF_MATERIAL = /leaf|leaves|foliage|canopy/i;
 
 /** Local-space bend at full height. Trunks stay fixed while their foliage moves. */
 const TREE_FOLIAGE_WIND = 0.055;
-const NATIVE_TREE_ASSET = /^corealm_(?:(?:oak|pine)_|stump_(?:oak|pine)$)/;
 const NATIVE_TREE_FOLIAGE_WIND = 0.035;
 
 /**
@@ -2981,7 +2981,7 @@ export class EntityViews {
       if (parts.length > 0) {
         // Native stumps share the tree's rooted origin. A spreading or leaning canopy's centre
         // is not the trunk: centering this pair would move the cut tree sideways on harvest.
-        if (NATIVE_TREE_ASSET.test(group.assetId) && /^corealm_stump_(?:oak|pine)$/.test(group.depletedAssetId)) return parts;
+        if (isNativeTreeAsset(group.assetId) && /^corealm_stump_(?:oak|pine)$/.test(group.depletedAssetId)) return parts;
         return this.alignDepletedParts(group.liveParts, parts);
       }
     }
@@ -3091,7 +3091,7 @@ export class EntityViews {
         ),
         matrix: mesh.matrixWorld.clone(),
         triangles: triangleCount(mesh.geometry),
-        windStrength: !spent && NATIVE_TREE_ASSET.test(assetId) && artSurfaceRoleForMaterial(base.name) === "foliage"
+        windStrength: !spent && isNativeTreeAsset(assetId) && artSurfaceRoleForMaterial(base.name) === "foliage"
           ? NATIVE_TREE_FOLIAGE_WIND : 0,
       });
     });
@@ -3434,7 +3434,7 @@ export class EntityViews {
     }
     // Native seams and their spent companions carry authored mineral colors and stone layers.
     if (assetId.startsWith("corealm_ore_")) return base;
-    if (NATIVE_TREE_ASSET.test(assetId)) {
+    if (isNativeTreeAsset(assetId)) {
       // Forest activation swaps scatter instances for semantic views at the exact same placement.
       // Keep the same authored palette, organic grade and world-origin wind phase on both paths.
       const role = artSurfaceRoleForMaterial(base.name);
@@ -3615,7 +3615,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     assetId: string,
     character: CharacterSpec | null,
   ): number | string {
-    if (NATIVE_TREE_ASSET.test(assetId)) return "-";
+    if (isNativeTreeAsset(assetId)) return "-";
     if (archetype === "ore") return tier;
     if ((APPEARANCE[archetype]?.strength ?? 0) > 0) return tier;
     if (TIER_BLIND_ARCHETYPES.has(archetype)) return "-";

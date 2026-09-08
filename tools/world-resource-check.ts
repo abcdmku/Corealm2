@@ -27,6 +27,7 @@ interface Debug {
   getNavPath(from: Vec3, to: Vec3): Point[] | null;
   getCamera(): CameraView;
   getNavigationState(): unknown;
+  getScatterResidency(): { resident: string[] };
   getCurrentActivity(): unknown;
   getSaveBlob(): string;
   getEvents(since: number): { events: GameEvent[]; nextSeq: number; dropped?: boolean };
@@ -100,13 +101,18 @@ async function main(): Promise<void> {
         const body = entity.archetype === "fishing_spot" ? debug.getWaterBodies().find((water) => water.id === entity.meta?.clusterId) : undefined;
         const baseAngle = body ? Math.atan2(anchor[0] - body.centre[0], anchor[2] - body.centre[1])
           : Math.atan2(player.x - anchor[0], player.z - anchor[2]);
-        for (const distance of [6, 8]) for (const angleOffset of [0, 45, -45, 90, -90, 135, -135, 180]) {
+        // Coast terrain can leave only a narrow dry, nav-aligned approach between slopes.
+        const angles = [0, 45, -45, 90, -90, 135, -135, 180,
+          15, -15, 30, -30, 60, -60, 75, -75, 105, -105, 120, -120, 150, -150, 165, -165];
+        for (const distance of [6, 8, 10]) for (const angleOffset of angles) {
           const angle = baseAngle + angleOffset * Math.PI / 180;
           const x = anchor[0] + Math.sin(angle) * distance, z = anchor[2] + Math.cos(angle) * distance;
           const surface = debug.sampleWorld(x, z);
           if (!surface.playable || surface.waterBodyId !== null) continue;
           const nav = debug.getNavPoint([x, surface.height, z]);
-          if (!nav || Math.hypot(nav.x - x, nav.z - z) > 0.15 || Math.abs(nav.y - surface.height) > 0.7) continue;
+          // Setup must meet the same vertical tolerance checked after physics settles the player.
+          // A point half a metre above the actual ground is not a usable acceptance approach.
+          if (!nav || Math.hypot(nav.x - x, nav.z - z) > 0.15 || Math.abs(nav.y - surface.height) > 0.20) continue;
           if (trees.some((tree) => tree.id !== entity.id && tree.state !== "depleted"
             && Math.hypot(nav.x - tree.position[0], nav.z - tree.position[2]) < Number(tree.meta?.trunkRadius ?? 0.6) + radius + 0.2)) continue;
           const route = debug.getNavPath([nav.x, nav.y, nav.z], anchor);
@@ -363,6 +369,13 @@ async function main(): Promise<void> {
       }, { x: x!, z: z! });
       if (!point) continue;
       await driver.callDebug("teleport", [tuple(point)]);
+      // A teleport may enter an uncached tile. Wait for production scatter to finish
+      // registering it before deciding that this part of the world has no trees.
+      await page.waitForFunction(() => {
+        const debug = window.__gameDebug as unknown as Debug;
+        const player = debug.getPlayerPosition();
+        return debug.getScatterResidency().resident.includes(`${Math.floor(player.x / 96)}:${Math.floor(player.z / 96)}`);
+      }, undefined, { timeout: remaining(15_000) });
       for (let attempt = 0; attempt < 4 && !forest; attempt++) {
         await driver.wait(250);
         forest = await approachFor(requestedTree);

@@ -102,7 +102,7 @@ async function main(): Promise<void> {
     assert(state.ready && state.mode === "foliage");
     assert.equal(state.selection, source.id);
     assert.deepEqual(state.assets, [source.id], "The workbench contains more than one foliage source");
-    assert.deepEqual(state.foliage, { layout: "lane", count: 1, span: 1 });
+    assert.deepEqual(state.foliage, { layout: "lane", count: 1, span: 1, woodOnly: false });
     assert.deepEqual(state.entityIds, [], "This must use production scatter instancing");
     assert(bounds, "The source has no production drawn bounds");
     const group = `lab-foliage-${source.id}-lane`;
@@ -189,9 +189,10 @@ async function main(): Promise<void> {
     const bounds = tree ? await driver.page!.evaluate(() =>
       (window as unknown as { __environmentLab: EnvironmentWorkbench }).__environmentLab.getBounds()) : null;
     const side = bounds ? Math.max(6, bounds.max[0] + 2) : 6;
-    const nearDistance = bounds ? Math.max(24, (bounds.max[1] - bounds.min[1]) * 2.5) : 24;
+    // Mature crowns need the whole 34 m camera boom and a lower viewing angle.
+    // Keep the actual player outside the crown, with the camera below the old 70 m threshold.
     const position = tree
-      ? far ? { x: side, z: -28, yaw: Math.PI, pitch: 0.18, distance: 34 } : { x: side, z: 18, yaw: Math.PI, pitch: 0.35, distance: nearDistance }
+      ? far ? { x: side, z: -28, yaw: Math.PI, pitch: 0.18, distance: 34 } : { x: side, z: 0, yaw: Math.PI, pitch: 0.10, distance: 34 }
       : far ? { x: -3, z: 8, yaw: Math.PI, pitch: 0.18, distance: 28 } : { x: -3, z: 25, yaw: 0, pitch: 0.48, distance: 7 };
     const y = await driver.callDebug("groundHeight", [position.x, position.z]) as number;
     assert.equal(await driver.callDebug("inspectPose", [{ ...position, y }]), true);

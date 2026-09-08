@@ -19,13 +19,13 @@ export interface TreeSpeciesDef {
 export const TREE_SPECIES: readonly TreeSpeciesDef[] = [
   { id: "pine", name: "Pine", level: 1, resourceId: "tree_palewood", logId: "palewood_log", variants: 5, trunkRadius: .23, height: 8, logValue: 10 },
   { id: "ash", name: "Ash", level: 5, resourceId: "tree_duskoak", logId: "duskoak_log", variants: 2, trunkRadius: .20, height: 10, logValue: 38 },
-  { id: "oak", name: "Oak", level: 10, resourceId: "tree_cairnpine", logId: "cairnpine_log", variants: 5, trunkRadius: .28, height: 9, logValue: 88 },
-  { id: "walnut", name: "Walnut", level: 20, resourceId: "tree_cinderpine", logId: "cinderpine_log", variants: 2, trunkRadius: .30, height: 10, logValue: 195 },
+  { id: "oak", name: "Oak", level: 10, resourceId: "tree_cairnpine", logId: "cairnpine_log", variants: 5, trunkRadius: .58, height: 16, logValue: 88 },
+  { id: "walnut", name: "Walnut", level: 20, resourceId: "tree_cinderpine", logId: "cinderpine_log", variants: 2, trunkRadius: .52, height: 17, logValue: 195 },
   { id: "willow", name: "Willow", level: 30, resourceId: "tree_willow", logId: "willow_log", variants: 2, trunkRadius: .34, height: 10, logValue: 310 },
   { id: "maple", name: "Maple", level: 40, resourceId: "tree_maple", logId: "maple_log", variants: 2, trunkRadius: .27, height: 11, logValue: 440 },
   { id: "teak", name: "Teak", level: 50, resourceId: "tree_teak", logId: "teak_log", variants: 2, trunkRadius: .24, height: 12, logValue: 590 },
-  { id: "yew", name: "Yew", level: 60, resourceId: "tree_yew", logId: "yew_log", variants: 2, trunkRadius: .32, height: 10, logValue: 755 },
-  { id: "magic", name: "Magic", level: 70, resourceId: "tree_magic", logId: "magic_log", variants: 2, trunkRadius: .40, height: 13, logValue: 940 },
+  { id: "yew", name: "Yew", level: 60, resourceId: "tree_yew", logId: "yew_log", variants: 2, trunkRadius: .32, height: 8, logValue: 755 },
+  { id: "magic", name: "Magic", level: 70, resourceId: "tree_magic", logId: "magic_log", variants: 2, trunkRadius: .72, height: 14, logValue: 940 },
 ];
 
 export function treeAssetIds(species: TreeSpeciesDef): string[] {
@@ -36,6 +36,11 @@ const speciesByAsset = new Map(TREE_SPECIES.flatMap(species => treeAssetIds(spec
 
 export function treeSpeciesForAsset(assetId: string): TreeSpeciesDef | undefined {
   return speciesByAsset.get(assetId);
+}
+
+/** Living species and shared stumps retain authored materials during forest promotion. */
+export function isNativeTreeAsset(assetId: string): boolean {
+  return speciesByAsset.has(assetId) || /^corealm_stump_(?:oak|pine)$/.test(assetId);
 }
 
 export function treeResource(species: TreeSpeciesDef): ResourceDef {
@@ -57,8 +62,8 @@ export const HIGH_TIER_LOG_ITEMS: readonly ItemDef[] = TREE_SPECIES.filter(speci
   stackable: false, value: species.logValue, category: "resource",
 }));
 
-/** Future-tier encounters: each successive ten-level gap is four times rarer. */
+/** Regional preference within a mixed forest; higher tiers remain visible at declining frequency. */
 export function treeEncounterWeight(species: TreeSpeciesDef, areaLevel: number): number {
-  if (species.level <= areaLevel) return species.level === areaLevel ? 1 : .55;
-  return .08 * Math.pow(.25, (species.level - areaLevel) / 10);
+  if (species.level <= areaLevel) return species.level === areaLevel ? 1 : .45 * Math.pow(.9, (areaLevel - species.level) / 10);
+  return .5 * Math.pow(.65, (species.level - areaLevel) / 10);
 }

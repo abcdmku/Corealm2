@@ -99,6 +99,22 @@ export function applyCorealmSurfaceMaterials(root: THREE.Object3D, textures: Cor
   const apply = (source: THREE.Material): THREE.Material => {
     if (source.userData[SURFACE_MARKER]) return source;
     const name = source.name.split("@", 1)[0];
+    // Botanical GLBs carry their own bark scan in metre-based UVs. Do not replace it
+    // with the legacy mean-normalized surface, which would wash out their albedo.
+    if (name === "Bark_Corealm" && source.userData.corealmBarkRelief
+      && (source as THREE.MeshStandardMaterial).isMeshStandardMaterial && (source as THREE.MeshStandardMaterial).map) {
+      const existing = cache.get(source);
+      if (existing) return existing;
+      const derived = (source as THREE.MeshStandardMaterial).clone();
+      derived.bumpMap = derived.map;
+      derived.bumpScale = .035;
+      derived.roughness = .94;
+      derived.map!.anisotropy = 8;
+      derived.map!.needsUpdate = true;
+      derived.userData[SURFACE_MARKER] = "botanical-bark";
+      cache.set(source, derived);
+      return derived;
+    }
     // Keep the embedded species texture and UVs. Alpha-to-coverage uses the existing MSAA
     // samples to soften leaf edges without sorting transparent cards or adding geometry.
     if (name?.endsWith("_cutout") && (source as THREE.MeshStandardMaterial).isMeshStandardMaterial) {

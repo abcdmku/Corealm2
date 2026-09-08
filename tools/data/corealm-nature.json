@@ -8,11 +8,11 @@
   },
   "generator": {
     "command": "npx tsx tools/build-corealm-nature.ts",
-    "version": 13,
+    "version": 21,
     "deterministic": true,
     "coordinateSystem": "+Y up; metres; origin at ground contact under the trunk or plant base"
   },
-  "artStatement": "Space-colonization broadleaf growth with pipe-area taper, unequal forks, and terminal shoots; leader-dominated pines with lateral needle boughs. Eight-triangle alpha sprays carry fine foliage. Species differ in crown habit, height, age, texture and branch response.",
+  "artStatement": "Continuous dominant wood axes with staggered, subordinate laterals and species-specific crown architecture; leader-dominated pines with unequal needle boughs. Eight-triangle alpha sprays overlap along fine growth, not only branch tips. Species differ in crown habit, height, age, texture and branch response. Mature bark scans supply albedo and relief; magic has a crooked bole and dedicated silver-veined foliage.",
   "validation": {
     "finiteAttributes": true,
     "unitNormals": true,
@@ -21,16 +21,28 @@
     "groundedPivots": true,
     "roundTripBounds": true,
     "triangleBudgets": {
-      "oak": 18000,
+      "oak": 42000,
       "pine": 22000,
       "deadwood": 8000,
       "stump": 3000,
       "fern": 30000,
       "grass": 80,
       "shrub": 40000,
-      "flower": 2000
+      "flower": 2000,
+      "walnut": 42000,
+      "willow": 42000,
+      "ash": 32000,
+      "maple": 36000,
+      "teak": 32000,
+      "yew": 36000,
+      "magic": 42000
     },
-    "preservedProductionBounds": true,
+    "preservedProductionBounds": false,
+    "matureOakEnvelopeScale": [
+      2.05,
+      1.95,
+      2.05
+    ],
     "botanicalSprayProvenance": true,
     "coherentLeafUV": "U across blade, midrib .5, V base 0 to tip 1",
     "barkUV": "U circumference metres, V arc-length metres before small envelope fit"
@@ -50,40 +62,40 @@
         "tree",
         "woodland"
       ],
-      "bytes": 2029884,
+      "bytes": 3284300,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3653906202,
-        "maxLinearColourError": 0.0019569514,
+        "maxNormalAngleDegrees": 0.3740142753,
+        "maxLinearColourError": 0.0019596242,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 2277208
+        "unpackedBytes": 3985508
       },
       "size": {
-        "x": 6.813,
-        "y": 7.9465,
-        "z": 6.4061
+        "x": 13.9667,
+        "y": 15.4957,
+        "z": 13.1325
       },
       "base": {
-        "x": -3.2961,
+        "x": -6.757,
         "y": 0,
-        "z": -3.1075
+        "z": -6.3704
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_oak_cutout"
       ],
-      "sha256": "2ffa62d0f52738565b824bf3e777a20223bfc05e5c4c7705782eb34cabe02ee1",
-      "triangles": 12056,
+      "sha256": "01aa58c1f5e81a0e143852f6379d3ef38c8955505330fecc696e048eb4a8f77b",
+      "triangles": 35330,
       "seed": 7241,
-      "trunkRadius": 0.2689,
-      "laminae": 528,
-      "botanicalSprays": 528
+      "trunkRadius": 0.686,
+      "laminae": 1737,
+      "botanicalSprays": 1737
     },
     {
       "id": "corealm_oak_2",
@@ -99,40 +111,40 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1882676,
+      "bytes": 3236964,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3687612528,
-        "maxLinearColourError": 0.001957884,
+        "maxNormalAngleDegrees": 0.3783224403,
+        "maxLinearColourError": 0.0019599475,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 2050688
+        "unpackedBytes": 3913452
       },
       "size": {
-        "x": 7.4677,
-        "y": 8.5595,
-        "z": 7.3968
+        "x": 15.3088,
+        "y": 16.691,
+        "z": 15.1634
       },
       "base": {
-        "x": -3.581,
+        "x": -7.3411,
         "y": 0,
-        "z": -3.4813
+        "z": -7.1367
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_oak_cutout"
       ],
-      "sha256": "5c25b1d7eae617ef538ed82c4e2390febe94db4be1111be27f23d46c68a5e266",
-      "triangles": 8176,
+      "sha256": "95b4f2e0bd954f1f58cd9c813f2a0c6ab48aa3eb7028534221f64a7b5fe02e7a",
+      "triangles": 33948,
       "seed": 1927,
-      "trunkRadius": 0.3201,
-      "laminae": 355,
-      "botanicalSprays": 355
+      "trunkRadius": 1.0137,
+      "laminae": 1687,
+      "botanicalSprays": 1687
     },
     {
       "id": "corealm_oak_3",
@@ -148,40 +160,40 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1953388,
+      "bytes": 2850724,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3671996843,
-        "maxLinearColourError": 0.0019606999,
+        "maxNormalAngleDegrees": 0.3676077453,
+        "maxLinearColourError": 0.0019605767,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 2160292
+        "unpackedBytes": 3325576
       },
       "size": {
-        "x": 5.2962,
-        "y": 6.5614,
-        "z": 5.1566
+        "x": 10.8572,
+        "y": 12.7947,
+        "z": 10.571
       },
       "base": {
-        "x": -2.6443,
+        "x": -5.4208,
         "y": 0,
-        "z": -2.3622
+        "z": -4.8425
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_oak_cutout"
       ],
-      "sha256": "97c5e03cc399e603083c6c0d8795ad249c31bed42797983ae12531b045486a9c",
-      "triangles": 10036,
+      "sha256": "5c9b3158cd1e166550a54ffa77ea4fa356f0839aad182688ba9e018f56eca8f3",
+      "triangles": 23232,
       "seed": 8359,
-      "trunkRadius": 0.1719,
-      "laminae": 454,
-      "botanicalSprays": 454
+      "trunkRadius": 0.5468,
+      "laminae": 1319,
+      "botanicalSprays": 1319
     },
     {
       "id": "corealm_oak_4",
@@ -197,40 +209,40 @@
         "tree",
         "woodland"
       ],
-      "bytes": 2197564,
+      "bytes": 3402100,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.386756818,
-        "maxLinearColourError": 0.0019600401,
+        "maxNormalAngleDegrees": 0.3819198734,
+        "maxLinearColourError": 0.001960164,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 2534368
+        "unpackedBytes": 4162656
       },
       "size": {
-        "x": 8.0393,
-        "y": 6.9135,
-        "z": 7.5592
+        "x": 16.4806,
+        "y": 13.4812,
+        "z": 15.4964
       },
       "base": {
-        "x": -3.8894,
+        "x": -7.9733,
         "y": 0,
-        "z": -3.6669
+        "z": -7.517
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_oak_cutout"
       ],
-      "sha256": "6c2a42714daf1d02e40c7b54ef1faf28ff6f8d2566e6cf3b4acfc333cba079d6",
-      "triangles": 16570,
+      "sha256": "e7a60ceba90e903aa2952c9382b802aa99bc9c32e36c833db7f00061e959e621",
+      "triangles": 38576,
       "seed": 3157,
-      "trunkRadius": 0.3525,
-      "laminae": 714,
-      "botanicalSprays": 714
+      "trunkRadius": 0.7154,
+      "laminae": 1803,
+      "botanicalSprays": 1803
     },
     {
       "id": "corealm_oak_5",
@@ -246,40 +258,40 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1927140,
+      "bytes": 3105224,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.375124304,
-        "maxLinearColourError": 0.00195261,
+        "maxNormalAngleDegrees": 0.3734236595,
+        "maxLinearColourError": 0.0019606011,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 2118856
+        "unpackedBytes": 3707172
       },
       "size": {
-        "x": 6.1982,
-        "y": 9.2443,
-        "z": 6.1393
+        "x": 12.7063,
+        "y": 18.0263,
+        "z": 12.5857
       },
       "base": {
-        "x": -2.9722,
+        "x": -6.0931,
         "y": 0,
-        "z": -2.8895
+        "z": -5.9234
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_oak_cutout"
       ],
-      "sha256": "0f08c69f36ed7257c601d08a07999c47cc579f3ba064316d36c562c248ee051d",
-      "triangles": 9346,
+      "sha256": "d6fa1180899738c2c38005062f3035e3148a24fefb81651ca5571f2e0b711f65",
+      "triangles": 30430,
       "seed": 6113,
-      "trunkRadius": 0.2816,
-      "laminae": 402,
-      "botanicalSprays": 402
+      "trunkRadius": 0.7283,
+      "laminae": 1451,
+      "botanicalSprays": 1451
     },
     {
       "id": "corealm_pine_1",
@@ -295,18 +307,18 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1750492,
+      "bytes": 2225956,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3707396474,
-        "maxLinearColourError": 0.00196017,
+        "maxNormalAngleDegrees": 0.3805418582,
+        "maxLinearColourError": 0.0019593599,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 2049544
+        "unpackedBytes": 2547912
       },
       "size": {
         "x": 6.9317,
@@ -323,10 +335,10 @@
         "Bark_Corealm",
         "Leaves_Corealm_needle_cutout"
       ],
-      "sha256": "12d46e515c85b11537a8b7a725db5c1425ce80a1f684ef12fdd3103cab2bcae8",
-      "triangles": 14230,
+      "sha256": "847e02013daf6c731af261544854fea3046db36339d854dd57c4cd0b7590deeb",
+      "triangles": 16258,
       "seed": 5843,
-      "trunkRadius": 0.2487,
+      "trunkRadius": 0.2467,
       "laminae": 629,
       "botanicalSprays": 629
     },
@@ -344,18 +356,18 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1699288,
+      "bytes": 2169860,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3595005514,
-        "maxLinearColourError": 0.0019600428,
+        "maxNormalAngleDegrees": 0.3638381742,
+        "maxLinearColourError": 0.0019581281,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1971276
+        "unpackedBytes": 2462508
       },
       "size": {
         "x": 6.3792,
@@ -372,10 +384,10 @@
         "Bark_Corealm",
         "Leaves_Corealm_needle_cutout"
       ],
-      "sha256": "6ae61c70aafce4d03ef163c78dc1afd0a93a5521e1f63ad26c94da90930eb1d5",
-      "triangles": 12904,
+      "sha256": "6ba0db959c876d70212c82fb4d558133c2a3396656482df5f18c330e96635bcf",
+      "triangles": 14770,
       "seed": 2399,
-      "trunkRadius": 0.2147,
+      "trunkRadius": 0.2059,
       "laminae": 581,
       "botanicalSprays": 581
     },
@@ -393,18 +405,18 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1607012,
+      "bytes": 2086520,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3675684237,
-        "maxLinearColourError": 0.0019589702,
+        "maxNormalAngleDegrees": 0.368634929,
+        "maxLinearColourError": 0.0019581884,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1832376
+        "unpackedBytes": 2336748
       },
       "size": {
         "x": 5.243,
@@ -421,10 +433,10 @@
         "Bark_Corealm",
         "Leaves_Corealm_needle_cutout"
       ],
-      "sha256": "42ea17517c0e64f674b27b6815699282a1e1e5e0857d2d326e1095e8db183478",
-      "triangles": 10436,
+      "sha256": "d166880482e2c37f5434ca17f90064aee3502049ee61143a53fed44735ff8e74",
+      "triangles": 12564,
       "seed": 9437,
-      "trunkRadius": 0.1692,
+      "trunkRadius": 0.1768,
       "laminae": 533,
       "botanicalSprays": 533
     },
@@ -442,18 +454,18 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1484872,
+      "bytes": 1947076,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3667056207,
-        "maxLinearColourError": 0.0019599449,
+        "maxNormalAngleDegrees": 0.3752111091,
+        "maxLinearColourError": 0.0019540819,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1641504
+        "unpackedBytes": 2121104
       },
       "size": {
         "x": 6.0999,
@@ -470,10 +482,10 @@
         "Bark_Corealm",
         "Leaves_Corealm_needle_cutout"
       ],
-      "sha256": "9dabd95bb02e7529a6ef6a64702eedc3dd19b67deaaa9b483afddb1bd94025b6",
-      "triangles": 7376,
+      "sha256": "d0f3c88e161319227473c16d381f976cdfaae3583861794aa840dcf6ee5a93d3",
+      "triangles": 8794,
       "seed": 4703,
-      "trunkRadius": 0.2877,
+      "trunkRadius": 0.3138,
       "laminae": 341,
       "botanicalSprays": 341
     },
@@ -491,18 +503,18 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1692188,
+      "bytes": 2194852,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.35107142,
-        "maxLinearColourError": 0.0019596156,
+        "maxNormalAngleDegrees": 0.369905737,
+        "maxLinearColourError": 0.0019600754,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1963464
+        "unpackedBytes": 2502024
       },
       "size": {
         "x": 6.3965,
@@ -519,10 +531,10 @@
         "Bark_Corealm",
         "Leaves_Corealm_needle_cutout"
       ],
-      "sha256": "c559589822daa34895106ee26d5768e5394c43895fd8ff33edbf0b6fc81f8e06",
-      "triangles": 12614,
+      "sha256": "203644aa06daa8e1eea58e110783a84b83d9c23ea94437351c237d7062916b06",
+      "triangles": 15386,
       "seed": 1307,
-      "trunkRadius": 0.2387,
+      "trunkRadius": 0.2362,
       "laminae": 629,
       "botanicalSprays": 629
     },
@@ -531,7 +543,7 @@
       "file": "models/corealm/nature/corealm_ash_1.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Mature ash with a space-grown crown and progressively tapering branches.",
+      "is": "Mature ash with a round spreading crown, ascending limbs and opposite compound leaf sprays.",
       "tags": [
         "ash",
         "corealm",
@@ -540,47 +552,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1114260,
+      "bytes": 2265172,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3736941347,
-        "maxLinearColourError": 0.0019606387,
+        "maxNormalAngleDegrees": 0.3760601214,
+        "maxLinearColourError": 0.001960472,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1241568
+        "unpackedBytes": 2807444
       },
       "size": {
-        "x": 6.0575,
-        "y": 10.2133,
-        "z": 6.0295
+        "x": 6.5456,
+        "y": 9.9982,
+        "z": 6.6203
       },
       "base": {
-        "x": -2.9761,
+        "x": -3.434,
         "y": 0,
-        "z": -3.3286
+        "z": -3.4931
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_ash_cutout"
       ],
-      "sha256": "7ce59cc8c47bad9006fbdc9d067b87f043959b137b1f85c9920b867b9bfa7fa5",
-      "triangles": 6398,
+      "sha256": "b16edac7368c571a98cc669946e8f4947f8048711b623eeac0921636f0cd2447",
+      "triangles": 26604,
       "seed": 1373,
-      "trunkRadius": 0.2321,
-      "laminae": 224,
-      "botanicalSprays": 224
+      "trunkRadius": 0.2242,
+      "laminae": 1628,
+      "botanicalSprays": 1628
     },
     {
       "id": "corealm_ash_2",
       "file": "models/corealm/nature/corealm_ash_2.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Young ash with a space-grown crown and progressively tapering branches.",
+      "is": "Young ash with a stronger upright leader, a narrower crown and fine lateral shoots.",
       "tags": [
         "ash",
         "corealm",
@@ -589,47 +601,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1079308,
+      "bytes": 1952092,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3659922939,
-        "maxLinearColourError": 0.0019580715,
+        "maxNormalAngleDegrees": 0.3723182749,
+        "maxLinearColourError": 0.0019605169,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1191696
+        "unpackedBytes": 2324964
       },
       "size": {
-        "x": 5.034,
-        "y": 8.6576,
-        "z": 4.6742
+        "x": 4.5433,
+        "y": 8.798,
+        "z": 4.6204
       },
       "base": {
-        "x": -2.5338,
+        "x": -2.5326,
         "y": 0,
-        "z": -2.3159
+        "z": -2.3692
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_ash_cutout"
       ],
-      "sha256": "2ff09b646302a5c7306b5670c45373b95184ce21fffa46f4839a56f805099649",
-      "triangles": 5368,
+      "sha256": "bfd97307e676d0b84fac2004d0558b266d379c20bcea34f780ce3145714937ce",
+      "triangles": 17974,
       "seed": 4162,
-      "trunkRadius": 0.1361,
-      "laminae": 255,
-      "botanicalSprays": 255
+      "trunkRadius": 0.1427,
+      "laminae": 1210,
+      "botanicalSprays": 1210
     },
     {
       "id": "corealm_walnut_1",
       "file": "models/corealm/nature/corealm_walnut_1.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Mature walnut with a space-grown crown and progressively tapering branches.",
+      "is": "Large walnut with a heavy clear bole, high spreading limbs and alternate compound foliage.",
       "tags": [
         "walnut",
         "corealm",
@@ -638,47 +650,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1359536,
+      "bytes": 2634172,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.367679997,
-        "maxLinearColourError": 0.0019598024,
+        "maxNormalAngleDegrees": 0.3842436188,
+        "maxLinearColourError": 0.0019605894,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1620452
+        "unpackedBytes": 3243140
       },
       "size": {
-        "x": 10.2143,
-        "y": 10.3889,
-        "z": 9.1739
+        "x": 12.2706,
+        "y": 15.5695,
+        "z": 11.0443
       },
       "base": {
-        "x": -5.1508,
+        "x": -6.2124,
         "y": 0,
-        "z": -4.8969
+        "z": -6.0233
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_walnut_cutout"
       ],
-      "sha256": "c8a4312add0a683c893cd664609200b63cc708e4452aa5e63a661c4c8cec7ca8",
-      "triangles": 12848,
+      "sha256": "27f9835f7ba330b98e29c5c2217b39c914b63c18919760fe15308d582b6f4c50",
+      "triangles": 30400,
       "seed": 2590,
-      "trunkRadius": 0.3901,
-      "laminae": 541,
-      "botanicalSprays": 541
+      "trunkRadius": 0.5382,
+      "laminae": 1578,
+      "botanicalSprays": 1578
     },
     {
       "id": "corealm_walnut_2",
       "file": "models/corealm/nature/corealm_walnut_2.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Young walnut with a space-grown crown and progressively tapering branches.",
+      "is": "Younger walnut with a tall continuous trunk and smaller asymmetric upper crown.",
       "tags": [
         "walnut",
         "corealm",
@@ -687,47 +699,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1263840,
+      "bytes": 2305196,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3689608256,
-        "maxLinearColourError": 0.0019603386,
+        "maxNormalAngleDegrees": 0.3703960392,
+        "maxLinearColourError": 0.0019597406,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1474144
+        "unpackedBytes": 2742600
       },
       "size": {
-        "x": 7.6615,
-        "y": 8.5754,
-        "z": 7.1385
+        "x": 7.7215,
+        "y": 13.0005,
+        "z": 8.607
       },
       "base": {
-        "x": -3.7837,
+        "x": -4.1359,
         "y": 0,
-        "z": -3.3371
+        "z": -4.3824
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_walnut_cutout"
       ],
-      "sha256": "ae5a03229049e8755270057f57ef92203dfeece85f0cf896a093f0b34eb882f6",
-      "triangles": 10272,
+      "sha256": "54944ff6352bda8511d3a61ad2379f42bbd365a14d7e66c647daa22b44a725b2",
+      "triangles": 21338,
       "seed": 5379,
-      "trunkRadius": 0.224,
-      "laminae": 444,
-      "botanicalSprays": 444
+      "trunkRadius": 0.3456,
+      "laminae": 1273,
+      "botanicalSprays": 1273
     },
     {
       "id": "corealm_willow_1",
       "file": "models/corealm/nature/corealm_willow_1.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Mature willow with a space-grown crown and progressively tapering branches.",
+      "is": "Mature weeping willow with arching supporting limbs and long, unequal leafy pendant shoots.",
       "tags": [
         "willow",
         "corealm",
@@ -736,47 +748,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1439208,
+      "bytes": 2495872,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3752235073,
-        "maxLinearColourError": 0.0019605107,
+        "maxNormalAngleDegrees": 0.3735085409,
+        "maxLinearColourError": 0.0019601621,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1806332
+        "unpackedBytes": 3223720
       },
       "size": {
-        "x": 9.4633,
-        "y": 9.3997,
-        "z": 8.0453
+        "x": 10.8968,
+        "y": 8.2521,
+        "z": 8.7399
       },
       "base": {
-        "x": -4.4047,
+        "x": -5.6179,
         "y": 0,
-        "z": -4.2916
+        "z": -4.7709
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_willow_cutout"
       ],
-      "sha256": "816be7aa75e01dbfcaeb16cb08f829ae742991d7a3a4dc24d1ad066fc43e47ba",
-      "triangles": 17976,
+      "sha256": "4221ec645b43e6c5605510dbbcd8f5a7759300dacc39037be6a4dfebed1b90ce",
+      "triangles": 36510,
       "seed": 3807,
-      "trunkRadius": 0.3945,
-      "laminae": 702,
-      "botanicalSprays": 702
+      "trunkRadius": 1.8501,
+      "laminae": 1990,
+      "botanicalSprays": 1990
     },
     {
       "id": "corealm_willow_2",
       "file": "models/corealm/nature/corealm_willow_2.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Young willow with a space-grown crown and progressively tapering branches.",
+      "is": "Young willow with a smaller dome and separated curtains of narrow hanging leaves.",
       "tags": [
         "willow",
         "corealm",
@@ -785,47 +797,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1320064,
+      "bytes": 2268064,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3735583204,
-        "maxLinearColourError": 0.0019574981,
+        "maxNormalAngleDegrees": 0.3796972009,
+        "maxLinearColourError": 0.0019606941,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1625860
+        "unpackedBytes": 2875700
       },
       "size": {
-        "x": 6.6139,
-        "y": 7.7527,
-        "z": 6.2332
+        "x": 6.216,
+        "y": 7.652,
+        "z": 6.1556
       },
       "base": {
-        "x": -3.3251,
+        "x": -3.2626,
         "y": 0,
-        "z": -2.842
+        "z": -3.2641
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_willow_cutout"
       ],
-      "sha256": "36d83893baf392d1b8a0463737620a4fc28410d0552693c1342aabad71618aee",
-      "triangles": 14974,
+      "sha256": "fa73e4511578201313af2c8190d6510747757ed155f50427d48452d77edc39e1",
+      "triangles": 30186,
       "seed": 6596,
-      "trunkRadius": 0.2369,
-      "laminae": 630,
-      "botanicalSprays": 630
+      "trunkRadius": 0.2714,
+      "laminae": 1746,
+      "botanicalSprays": 1746
     },
     {
       "id": "corealm_maple_1",
       "file": "models/corealm/nature/corealm_maple_1.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Mature maple with a space-grown crown and progressively tapering branches.",
+      "is": "Rounded mature red maple with ascending limbs, smaller lateral branches and paired lobed foliage.",
       "tags": [
         "maple",
         "corealm",
@@ -834,47 +846,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1501064,
+      "bytes": 2752620,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3706781636,
-        "maxLinearColourError": 0.0019597048,
+        "maxNormalAngleDegrees": 0.3753044689,
+        "maxLinearColourError": 0.0019598641,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1689228
+        "unpackedBytes": 3352312
       },
       "size": {
-        "x": 7.676,
-        "y": 11.2684,
-        "z": 6.5423
+        "x": 6.2214,
+        "y": 9.8743,
+        "z": 6.9591
       },
       "base": {
-        "x": -3.459,
+        "x": -3.4443,
         "y": 0,
-        "z": -3.4899
+        "z": -3.5535
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_maple_cutout"
       ],
-      "sha256": "e50ae34adfe1ea8c5535a3fb12baf9b0061094aca12f6767a39b54ad205c7b57",
-      "triangles": 9108,
+      "sha256": "2a9b750b33de1eec8541fbc40393f994640baab726b71c87894426b9acd10adf",
+      "triangles": 29480,
       "seed": 5024,
-      "trunkRadius": 0.3088,
-      "laminae": 401,
-      "botanicalSprays": 401
+      "trunkRadius": 0.2472,
+      "laminae": 1787,
+      "botanicalSprays": 1787
     },
     {
       "id": "corealm_maple_2",
       "file": "models/corealm/nature/corealm_maple_2.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Young maple with a space-grown crown and progressively tapering branches.",
+      "is": "Young red maple with an upright oval crown and a slender continuous leader.",
       "tags": [
         "maple",
         "corealm",
@@ -883,47 +895,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1407880,
+      "bytes": 2316648,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3716189202,
-        "maxLinearColourError": 0.0019587292,
+        "maxNormalAngleDegrees": 0.3715552629,
+        "maxLinearColourError": 0.0019607621,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1544580
+        "unpackedBytes": 2677580
       },
       "size": {
-        "x": 6.0063,
-        "y": 9.4459,
-        "z": 5.6196
+        "x": 4.7799,
+        "y": 8.3994,
+        "z": 4.6352
       },
       "base": {
-        "x": -3.0131,
+        "x": -1.9417,
         "y": 0,
-        "z": -2.8043
+        "z": -2.5747
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_maple_cutout"
       ],
-      "sha256": "c8cee2c3bd7f9de01622c2131d10385cd6c295b5f49a0135bba47566f33d4b0c",
-      "triangles": 6750,
+      "sha256": "3241c37702d2ee0dba221bac80c8df6a651f0dede44c025d777805665ed61bb9",
+      "triangles": 17452,
       "seed": 7813,
-      "trunkRadius": 0.1843,
-      "laminae": 273,
-      "botanicalSprays": 273
+      "trunkRadius": 0.1535,
+      "laminae": 1145,
+      "botanicalSprays": 1145
     },
     {
       "id": "corealm_teak_1",
       "file": "models/corealm/nature/corealm_teak_1.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Mature teak with a space-grown crown and progressively tapering branches.",
+      "is": "Mature teak with a tall clear trunk, spreading upper limbs and large opposite oval leaves.",
       "tags": [
         "teak",
         "corealm",
@@ -932,47 +944,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1552276,
+      "bytes": 2488240,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3633857545,
-        "maxLinearColourError": 0.0019605602,
+        "maxNormalAngleDegrees": 0.3649429038,
+        "maxLinearColourError": 0.001959977,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1687296
+        "unpackedBytes": 2919644
       },
       "size": {
-        "x": 7.4194,
-        "y": 13.0596,
-        "z": 6.7361
+        "x": 8.1294,
+        "y": 11.7325,
+        "z": 6.8772
       },
       "base": {
-        "x": -3.5522,
+        "x": -4.3817,
         "y": 0,
-        "z": -3.6926
+        "z": -3.2099
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_teak_cutout"
       ],
-      "sha256": "88bcde9b5265629c9e5f29d54691f26d0b1b4b6d96297de1e964d0c0d471ef30",
-      "triangles": 6938,
+      "sha256": "12f49c1e724e76add347a46a65e6aaac7a7baea07a6de911038dca448d2a5e01",
+      "triangles": 21332,
       "seed": 6241,
-      "trunkRadius": 0.2613,
-      "laminae": 195,
-      "botanicalSprays": 195
+      "trunkRadius": 0.2318,
+      "laminae": 1272,
+      "botanicalSprays": 1272
     },
     {
       "id": "corealm_teak_2",
       "file": "models/corealm/nature/corealm_teak_2.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Young teak with a space-grown crown and progressively tapering branches.",
+      "is": "Young teak with a narrower high crown and large paired leaves on rising shoots.",
       "tags": [
         "teak",
         "corealm",
@@ -981,47 +993,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1450280,
+      "bytes": 2094692,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3633829847,
-        "maxLinearColourError": 0.0019596896,
+        "maxNormalAngleDegrees": 0.3685325608,
+        "maxLinearColourError": 0.0019607766,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1534652
+        "unpackedBytes": 2308688
       },
       "size": {
-        "x": 6.2405,
-        "y": 10.9716,
-        "z": 5.5307
+        "x": 5.4695,
+        "y": 9.5956,
+        "z": 5.2714
       },
       "base": {
-        "x": -2.9169,
+        "x": -2.9108,
         "y": 0,
-        "z": -2.6959
+        "z": -2.7887
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_teak_cutout"
       ],
-      "sha256": "0253af67311f965cbdd8c8a08d8ddbae989a8ef877292e6a82271b1fa2c753cc",
-      "triangles": 4192,
+      "sha256": "cf1f63ac3eb081c8fa5dabc19831f7997c9a75087f59bb79f82c123cf54ced26",
+      "triangles": 10442,
       "seed": 9030,
-      "trunkRadius": 0.1622,
-      "laminae": 159,
-      "botanicalSprays": 159
+      "trunkRadius": 0.1422,
+      "laminae": 661,
+      "botanicalSprays": 661
     },
     {
       "id": "corealm_yew_1",
       "file": "models/corealm/nature/corealm_yew_1.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Mature yew with a space-grown crown and progressively tapering branches.",
+      "is": "Broad mature yew with low spreading limbs, a narrowing upper crown and flat evergreen needle sprays.",
       "tags": [
         "yew",
         "corealm",
@@ -1030,47 +1042,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1627760,
+      "bytes": 2649652,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3748760408,
-        "maxLinearColourError": 0.0019607802,
+        "maxNormalAngleDegrees": 0.3695884749,
+        "maxLinearColourError": 0.0019606194,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1858136
+        "unpackedBytes": 3198648
       },
       "size": {
-        "x": 6.4493,
-        "y": 8.443,
-        "z": 6.0209
+        "x": 7.9233,
+        "y": 7.1255,
+        "z": 7.7194
       },
       "base": {
-        "x": -3.0586,
+        "x": -3.7756,
         "y": 0,
-        "z": -3.3444
+        "z": -4.2322
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_yew_cutout"
       ],
-      "sha256": "672091af572399ad78e7a0d8432bbd54d62711d46a5526d2e16d6418b8093f28",
-      "triangles": 11416,
+      "sha256": "2db6eed8ad88aa8d8207b5815f81e4f93f5620198d3f0467c94176372146f22f",
+      "triangles": 27052,
       "seed": 7458,
-      "trunkRadius": 0.4276,
-      "laminae": 462,
-      "botanicalSprays": 462
+      "trunkRadius": 0.3017,
+      "laminae": 1569,
+      "botanicalSprays": 1569
     },
     {
       "id": "corealm_yew_2",
       "file": "models/corealm/nature/corealm_yew_2.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Young yew with a space-grown crown and progressively tapering branches.",
+      "is": "Young yew with a narrower conical crown and short horizontal needle-bearing branches.",
       "tags": [
         "yew",
         "corealm",
@@ -1079,47 +1091,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1546012,
+      "bytes": 2534116,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3773715684,
-        "maxLinearColourError": 0.0019578333,
+        "maxNormalAngleDegrees": 0.3764891666,
+        "maxLinearColourError": 0.0019602556,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1732764
+        "unpackedBytes": 3026252
       },
       "size": {
-        "x": 5.2478,
-        "y": 6.9522,
-        "z": 4.6292
+        "x": 5.6378,
+        "y": 5.9915,
+        "z": 6.3278
       },
       "base": {
-        "x": -2.5767,
+        "x": -2.854,
         "y": 0,
-        "z": -2.2055
+        "z": -3.1988
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_yew_cutout"
       ],
-      "sha256": "01a11946aac1d23acf910207c8e2a69a37a99b4eb3a3f10ec9aa14aea326346f",
-      "triangles": 9282,
+      "sha256": "6affb18f5563386a725a442429160e453a3db0317f153ce8f23d9471d1c3d9d8",
+      "triangles": 23778,
       "seed": 10247,
-      "trunkRadius": 0.2432,
-      "laminae": 376,
-      "botanicalSprays": 376
+      "trunkRadius": 0.1953,
+      "laminae": 1526,
+      "botanicalSprays": 1526
     },
     {
       "id": "corealm_magic_1",
       "file": "models/corealm/nature/corealm_magic_1.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Mature magic with a space-grown crown and progressively tapering branches.",
+      "is": "Old magic tree with a heavy crooked bole, unequal spreading limbs, flowing bark motes and shimmering silver-veined foliage.",
       "tags": [
         "magic",
         "corealm",
@@ -1128,47 +1140,47 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1679716,
+      "bytes": 3117744,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3714414994,
-        "maxLinearColourError": 0.0019588751,
+        "maxNormalAngleDegrees": 0.3757118457,
+        "maxLinearColourError": 0.0019607584,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1958408
+        "unpackedBytes": 3840032
       },
       "size": {
-        "x": 11.8058,
-        "y": 13.3393,
-        "z": 9.9032
+        "x": 10.5598,
+        "y": 12.3911,
+        "z": 11.7572
       },
       "base": {
-        "x": -5.5655,
+        "x": -4.3801,
         "y": 0,
-        "z": -5.4708
+        "z": -5.9016
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_magic_cutout"
       ],
-      "sha256": "3550d7a944bb415c29c7fb5cb89ba3a2ca738e184bf3377409f465f106f5ba61",
-      "triangles": 13766,
+      "sha256": "212dded25a11a31fc3308a418aff9dfd68086c6b2f995ba9590b496b2d2b70a6",
+      "triangles": 36924,
       "seed": 8675,
-      "trunkRadius": 0.4674,
-      "laminae": 491,
-      "botanicalSprays": 491
+      "trunkRadius": 0.7483,
+      "laminae": 1624,
+      "botanicalSprays": 1624
     },
     {
       "id": "corealm_magic_2",
       "file": "models/corealm/nature/corealm_magic_2.glb",
       "pack": "corealm-original-nature",
       "category": "nature",
-      "is": "Young magic with a space-grown crown and progressively tapering branches.",
+      "is": "Younger magic tree with a narrower rising crown, fine side shoots and the same living bark and leaf shimmer.",
       "tags": [
         "magic",
         "corealm",
@@ -1177,40 +1189,40 @@
         "tree",
         "woodland"
       ],
-      "bytes": 1537896,
+      "bytes": 2797084,
       "encoding": {
         "positions": "Float32 unchanged",
         "normals": "normalized Int8",
         "linearColours": "normalized Uint8",
         "bladeUV": "normalized Uint16",
         "woodUV": "Float32 unchanged",
-        "maxNormalAngleDegrees": 0.3766637503,
-        "maxLinearColourError": 0.0019607238,
+        "maxNormalAngleDegrees": 0.369456969,
+        "maxLinearColourError": 0.0019602724,
         "maxBladeUVError": 0.0000076295,
         "groundedIdentityTransform": true,
-        "unpackedBytes": 1745148
+        "unpackedBytes": 3354848
       },
       "size": {
-        "x": 8.3992,
-        "y": 10.8648,
-        "z": 6.9065
+        "x": 8.1759,
+        "y": 11.1672,
+        "z": 7.8219
       },
       "base": {
-        "x": -4.118,
+        "x": -3.9883,
         "y": 0,
-        "z": -3.2178
+        "z": -3.5537
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_magic_cutout"
       ],
-      "sha256": "b4e5833ca42a01e75a22dae68e79bd86f0c7b068e7760440a2d1857965a75be2",
-      "triangles": 10152,
+      "sha256": "165f8557032a5319ef7367a7a806fc704b476b5381a2b3fbd38f884619438790",
+      "triangles": 27896,
       "seed": 11464,
-      "trunkRadius": 0.2826,
-      "laminae": 434,
-      "botanicalSprays": 434
+      "trunkRadius": 0.4827,
+      "laminae": 1369,
+      "botanicalSprays": 1369
     },
     {
       "id": "corealm_deadwood_1",

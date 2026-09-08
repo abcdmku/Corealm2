@@ -24,7 +24,7 @@ export interface EnvironmentWorkbenchState {
   selection: string;
   entityIds: string[];
   assets: string[];
-  foliage?: { layout: "lane" | "grid"; count: number; span: number };
+  foliage?: { layout: "lane" | "grid"; count: number; span: number; woodOnly: boolean };
 }
 
 export interface EnvironmentCatalog {
@@ -38,6 +38,8 @@ export interface EnvironmentWorkbench {
   getBounds(): { min: Vec3; max: Vec3 } | null;
   showGallery(assetId?: string, options?: EnvironmentGalleryOptions): Promise<void>;
   showFoliage(assetId: string, options?: EnvironmentFoliageOptions): Promise<void>;
+  /** Inspect the production wood without hiding flaws behind the leaf canopy. */
+  setFoliageWoodOnly(enabled: boolean): void;
   showSite(siteId: string): Promise<void>;
   showCutFace(): Promise<void>;
   showPortal(): Promise<void>;
@@ -312,8 +314,18 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
         });
         clear();
         objects = foliage;
-        state = { ready: false, mode: "foliage", selection: assetId, entityIds: [], assets: [...byVariant.keys()], foliage: { layout, count, span } };
+        state = { ready: false, mode: "foliage", selection: assetId, entityIds: [], assets: [...byVariant.keys()], foliage: { layout, count, span, woodOnly: false } };
       });
+    },
+    setFoliageWoodOnly(enabled) {
+      if (state.mode !== "foliage" || !state.foliage) throw new Error("Load foliage before inspecting its wood");
+      for (const object of objects) object.traverse(child => {
+        const mesh = child as Mesh;
+        if (!mesh.isMesh) return;
+        const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+        if (materials.some(material => material.name.startsWith("Leaves_Corealm"))) mesh.visible = !enabled;
+      });
+      state.foliage.woodOnly = enabled;
     },
     showSite(siteId) {
       return enqueue(async () => {

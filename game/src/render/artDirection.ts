@@ -100,7 +100,7 @@ export function createArtDirectedMaterial(source: THREE.Material, role: ArtSurfa
   const treatment = TREATMENTS[role];
   const sourceName = source.name.split("@", 1)[0]!;
   const understory = role === "foliage" && /^Leaves$/i.test(sourceName);
-  const cutout = role === "foliage" && /_(needle|broadleaf_oak|broadleaf_yew)_cutout$/.test(sourceName);
+  const cutout = role === "foliage" && /_(needle|broadleaf_oak|broadleaf_yew|broadleaf_maple)_cutout$/.test(sourceName);
   const branchSpray = role === "foliage" && sourceName.endsWith("_cutout");
   const leafNormals = role === "foliage" && !/^(?:Grass|grass-sprite)$/i.test(sourceName);
   const inheritedCompile = source.onBeforeCompile;

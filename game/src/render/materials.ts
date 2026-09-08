@@ -15,6 +15,7 @@
  */
 import * as THREE from "three";
 import { createContainedTroughWater } from "./containedTroughWater.js";
+import { createMagicTreeShimmer } from "./magicTreeShimmer.js";
 import type { RegionId } from "../contracts.js";
 import { oceanDepthGridBounds, type OceanDepthGrid } from "../world/coastDepth.js";
 import { createArtDirectedMaterial, type ArtSurfaceRole } from "./artDirection.js";
@@ -1075,6 +1076,7 @@ export class MaterialLibrary {
   private windUniforms: WindUniforms[] = [];
   private grassSpriteMaterial: THREE.MeshStandardMaterial | null = null;
   private timeSeconds = 0;
+  private readonly magicTreeTime = { value: 0 };
   private readonly foliageOcclusion = new FoliageOcclusion();
   private readonly foliagePlayerFeet = new THREE.Vector3();
   private readonly foliageBufferSize = new THREE.Vector2();
@@ -1101,7 +1103,9 @@ export class MaterialLibrary {
   /** Shared organic treatment after tier/state colour and before animation shader extensions. */
   organic(source: THREE.Material, role: ArtSurfaceRole): THREE.Material {
     return this.remember(this.key(["organic", this.baseKey(source), role]), () => {
-      const graded = createArtDirectedMaterial(source, role);
+      const organic = createArtDirectedMaterial(source, role);
+      const graded = createMagicTreeShimmer(organic, this.magicTreeTime);
+      if (graded !== organic && organic !== source) organic.dispose();
       const name = source.name.split("@", 1)[0]!;
       const treeOrPlant = role === "bark"
         || (role === "foliage" && !/^(?:Grass|grass-sprite)$/i.test(name));
@@ -1471,6 +1475,7 @@ normal = normalize(mix(normal, grassUp, 0.45));`);
   /** Advances every animated material. View-only: nothing here feeds semantic state. */
   setTime(seconds: number): void {
     this.timeSeconds = seconds;
+    this.magicTreeTime.value = seconds;
     for (const uniforms of this.waterUniforms) uniforms.uTime.value = seconds;
     for (const uniforms of this.windUniforms) uniforms.uCorealmWindTime.value = seconds;
   }

@@ -14,6 +14,7 @@ import { GameDriver } from "./lib/driver.js";
 import { installTestDeadline } from "./lib/deadline.js";
 import { argValue, repoRoot } from "./lib/paths.js";
 import { startGameServer } from "./lib/server.js";
+import { installAssetCandidates } from "./lib/assetCandidates.js";
 
 type Point = { x: number; y: number; z: number };
 type Bounds = { min: Point; max: Point; height: number; width: number; meshes: number; path: string };
@@ -117,6 +118,8 @@ async function main(): Promise<void> {
 
   try {
     await driver.launch();
+    const candidateCatalog = argValue(args, "--catalog");
+    if (candidateCatalog) await installAssetCandidates(driver.page!, candidateCatalog);
     driver.page!.setDefaultTimeout(5_000);
     await driver.open(remaining(18_000), evidence.route as string);
     await driver.page!.waitForFunction(() => Boolean((window as Window & { __forestLab?: unknown }).__forestLab), undefined, { timeout: remaining(3_000) });

@@ -254,20 +254,20 @@ const specs: Spec[] = [
   { id: "corealm_pine_3", kind: "pine", seed: 9437, variant: 2, description: "Young pine with lifted lower branches and a slender, open conical crown." },
   { id: "corealm_pine_4", kind: "pine", seed: 4703, variant: 3, description: "Older open pine with a bare lower trunk and a wind-bent, interrupted crown." },
   { id: "corealm_pine_5", kind: "pine", seed: 1307, variant: 4, description: "Compact broad pine with drooping lower boughs and a dense short leader." },
-  { id: "corealm_ash_1", kind: "oak", seed: 1373, variant: 0, description: "Mature ash with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_ash_2", kind: "oak", seed: 4162, variant: 2, description: "Young ash with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_walnut_1", kind: "oak", seed: 2590, variant: 0, description: "Mature walnut with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_walnut_2", kind: "oak", seed: 5379, variant: 2, description: "Young walnut with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_willow_1", kind: "oak", seed: 3807, variant: 0, description: "Mature willow with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_willow_2", kind: "oak", seed: 6596, variant: 2, description: "Young willow with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_maple_1", kind: "oak", seed: 5024, variant: 0, description: "Mature maple with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_maple_2", kind: "oak", seed: 7813, variant: 2, description: "Young maple with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_teak_1", kind: "oak", seed: 6241, variant: 0, description: "Mature teak with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_teak_2", kind: "oak", seed: 9030, variant: 2, description: "Young teak with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_yew_1", kind: "oak", seed: 7458, variant: 0, description: "Mature yew with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_yew_2", kind: "oak", seed: 10247, variant: 2, description: "Young yew with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_magic_1", kind: "oak", seed: 8675, variant: 0, description: "Mature magic with a space-grown crown and progressively tapering branches." },
-  { id: "corealm_magic_2", kind: "oak", seed: 11464, variant: 2, description: "Young magic with a space-grown crown and progressively tapering branches." },
+  { id: "corealm_ash_1", kind: "oak", seed: 1373, variant: 0, description: "Mature ash with a round spreading crown, ascending limbs and opposite compound leaf sprays." },
+  { id: "corealm_ash_2", kind: "oak", seed: 4162, variant: 2, description: "Young ash with a stronger upright leader, a narrower crown and fine lateral shoots." },
+  { id: "corealm_walnut_1", kind: "oak", seed: 2590, variant: 0, description: "Large walnut with a heavy clear bole, high spreading limbs and alternate compound foliage." },
+  { id: "corealm_walnut_2", kind: "oak", seed: 5379, variant: 2, description: "Younger walnut with a tall continuous trunk and smaller asymmetric upper crown." },
+  { id: "corealm_willow_1", kind: "oak", seed: 3807, variant: 0, description: "Mature weeping willow with arching supporting limbs and long, unequal leafy pendant shoots." },
+  { id: "corealm_willow_2", kind: "oak", seed: 6596, variant: 2, description: "Young willow with a smaller dome and separated curtains of narrow hanging leaves." },
+  { id: "corealm_maple_1", kind: "oak", seed: 5024, variant: 0, description: "Rounded mature red maple with ascending limbs, smaller lateral branches and paired lobed foliage." },
+  { id: "corealm_maple_2", kind: "oak", seed: 7813, variant: 2, description: "Young red maple with an upright oval crown and a slender continuous leader." },
+  { id: "corealm_teak_1", kind: "oak", seed: 6241, variant: 0, description: "Mature teak with a tall clear trunk, spreading upper limbs and large opposite oval leaves." },
+  { id: "corealm_teak_2", kind: "oak", seed: 9030, variant: 2, description: "Young teak with a narrower high crown and large paired leaves on rising shoots." },
+  { id: "corealm_yew_1", kind: "oak", seed: 7458, variant: 0, description: "Broad mature yew with low spreading limbs, a narrowing upper crown and flat evergreen needle sprays." },
+  { id: "corealm_yew_2", kind: "oak", seed: 10247, variant: 2, description: "Young yew with a narrower conical crown and short horizontal needle-bearing branches." },
+  { id: "corealm_magic_1", kind: "oak", seed: 8675, variant: 0, description: "Old magic tree with a heavy crooked bole, unequal spreading limbs, flowing bark motes and shimmering silver-veined foliage." },
+  { id: "corealm_magic_2", kind: "oak", seed: 11464, variant: 2, description: "Younger magic tree with a narrower rising crown, fine side shoots and the same living bark and leaf shimmer." },
   { id: "corealm_deadwood_1", kind: "deadwood", seed: 3989, variant: 0, description: "Weathered standing oak snag with root flare, a splintered top and asymmetric broken boughs." },
   { id: "corealm_deadwood_2", kind: "deadwood", seed: 6823, variant: 1, description: "Leaning dead pine with a snapped leader, exposed branch ends and grounded spreading roots." },
   { id: "corealm_stump_oak", kind: "stump", seed: 1139, variant: 0, description: "Low oak stump with buttress roots, an uneven cut rim and visible concentric growth grain." },
@@ -296,6 +296,26 @@ function rng(seed: number): () => number {
 }
 function curve(a: V, control: V, b: V, t: number): V { return add(add(mul(a, (1 - t) ** 2), mul(control, 2 * t * (1 - t))), mul(b, t * t)); }
 
+const woodCurves = new WeakMap<V, { b: V; before: V; after: V; c1: V; c2: V; c3: V }>();
+function woodPoint(a: V, b: V, before: V, after: V, t: number): V {
+  let curve = woodCurves.get(a);
+  if (!curve || curve.b !== b || curve.before !== before || curve.after !== after) {
+    const length = Math.hypot(...sub(b, a));
+    const tangent = (from: V, to: V) => {
+      const delta = sub(to, from), span = Math.hypot(...delta);
+      return mul(delta, span > 0 ? Math.min(length * .90 / span, .5) : 0);
+    };
+    const c1 = tangent(before, b), m1 = tangent(a, after);
+    const c2 = sub(mul(sub(b, a), 3), add(mul(c1, 2), m1));
+    const c3 = add(mul(sub(a, b), 2), add(c1, m1));
+    curve = { b, before, after, c1, c2, c3 };
+    woodCurves.set(a, curve);
+  }
+  const { c1, c2, c3 } = curve;
+  return [a[0] + t * (c1[0] + t * (c2[0] + t * c3[0])),
+    a[1] + t * (c1[1] + t * (c2[1] + t * c3[1])), a[2] + t * (c1[2] + t * (c2[2] + t * c3[2]))];
+}
+
 class Plant {
   readonly skins: Record<Role, Skin> = {
     bark: { positions: [], normals: [], colours: [], uvs: [] },
@@ -311,7 +331,10 @@ class Plant {
   readonly leaf: V;
   constructor(readonly spec: Spec) {
     this.random = rng(spec.seed);
-    this.bark = colour(spec.kind === "pine" ? 0x73604a : spec.kind === "deadwood" ? 0x817868 : 0x72604b);
+    const speciesBark: Record<string, number> = { oak: 0x746b59, ash: 0x8b8979, walnut: 0x554b40,
+      willow: 0x786e52, maple: 0x817363, teak: 0x938477, yew: 0x865644, magic: 0x635f79 };
+    this.bark = colour(spec.kind === "pine" ? 0x73604a : spec.kind === "deadwood" ? 0x817868
+      : speciesBark[spec.id.split("_")[1]!] ?? 0x72604b);
     this.leaf = colour(spec.kind === "pine" ? 0x587451 : spec.kind === "fern" ? 0x799b55 : spec.kind === "grass" ? 0x7f8c57 : 0x6c8647);
   }
   triangle(role: Role, a: V, b: V, c: V, col: V, uv: [UV, UV, UV] = [[0, 0], [1, 0], [0.5, 1]], normals?: [V, V, V]): void {
@@ -327,7 +350,7 @@ class Plant {
     }
   }
   /** Smooth swept wood with longitudinal contour and metre-based grain coordinates. */
-  branch(authored: Ring[], sides: number, base = this.bark, cap = true, role: Role = "bark"): V[] {
+  branch(authored: Ring[], sides: number, base = this.bark, cap = true, role: Role = "bark", phase = this.random() * TAU): V[] {
     const largest = Math.max(...authored.map(r => r.radius));
     sides = largest < 0.008 ? 4 : Math.max(sides, largest > 0.20 ? 20 : largest > 0.07 ? 14 : largest > 0.022 ? 9 : 5);
     if (this.spec.kind === "oak" || this.spec.kind === "pine") sides = largest < .022 ? 4 : largest < .07 ? 6 : largest < .20 ? 8 : 12;
@@ -335,18 +358,23 @@ class Plant {
     for (let i = 0; i < authored.length - 1; i++) {
       const a = authored[i]!, b = authored[i + 1]!;
       const before = authored[Math.max(0, i - 1)]!, after = authored[Math.min(authored.length - 1, i + 2)]!;
-      const upperTree = (this.spec.kind === "oak" || this.spec.kind === "pine") && authored[0]!.p[1] > 1.9;
-      const steps = Math.max(1, Math.min(6, Math.ceil(Math.hypot(...sub(b.p, a.p)) / (upperTree ? .40 : largest > 0.05 ? 0.18 : largest > 0.008 ? 0.16 : 0.35))));
+      const upperTree = (this.spec.kind === "oak" || this.spec.kind === "pine")
+        && authored[0]!.p[1] > (this.spec.id.startsWith("corealm_yew_") ? .8 : 1.9);
+      const upperSpacing = /^corealm_(oak|walnut|willow)_/.test(this.spec.id) ? .65 : this.spec.id.startsWith("corealm_yew_") ? .55 : .40;
+      const entering = norm(sub(b.p, before.p)), leaving = norm(sub(after.p, a.p));
+      const bend = Math.acos(Math.max(-1, Math.min(1, entering.reduce((sum, v, axis) => sum + v * leaving[axis]!, 0))));
+      const curveSteps = upperTree ? Math.ceil(bend / .22) : 1;
+      const steps = Math.max(curveSteps, 1, Math.min(6, Math.ceil(Math.hypot(...sub(b.p, a.p)) / (upperTree ? upperSpacing : largest > 0.05 ? 0.18 : largest > 0.008 ? 0.16 : 0.35))));
       for (let n = 0; n < steps; n++) {
         const t = n / steps, t2 = t * t, t3 = t2 * t;
         const m0 = mul(sub(b.p, before.p), 0.5), m1 = mul(sub(after.p, a.p), 0.5);
-        const point = add(add(mul(a.p, 2 * t3 - 3 * t2 + 1), mul(m0, t3 - 2 * t2 + t)), add(mul(b.p, -2 * t3 + 3 * t2), mul(m1, t3 - t2)));
+        const point = this.spec.kind === "oak" || this.spec.kind === "pine" ? woodPoint(a.p, b.p, before.p, after.p, t)
+          : add(add(mul(a.p, 2 * t3 - 3 * t2 + 1), mul(m0, t3 - 2 * t2 + t)), add(mul(b.p, -2 * t3 + 3 * t2), mul(m1, t3 - t2)));
         rings.push({ p: point, radius: a.radius * (1 - t) + b.radius * t });
       }
     }
     rings.push(authored[authored.length - 1]!);
     const vertices: V[][] = [], normals: V[][] = [], arcs = [0];
-    const phase = this.random() * TAU;
     let frameU: V | undefined;
     for (let i = 0; i < rings.length; i++) {
       const ring = rings[i]!;
@@ -370,6 +398,28 @@ class Plant {
         return p;
       }));
       normals.push(ringNormals);
+    }
+    if (this.spec.kind === "oak" || this.spec.kind === "pine") {
+      // At a growth elbow the surface normal differs from the ideal cylinder radius.
+      // Weight the actual adjoining faces by corner angle so a long segment cannot pull
+      // a short collar's lighting normal through its surface. Keep end caps separate.
+      for (let i = 0; i < normals.length; i++) normals[i] = vertices[i]!.map(() => [0, 0, 0]);
+      const accumulate = (indices: Array<[number, number]>) => {
+        const points = indices.map(([i, j]) => vertices[i]![j]!);
+        const face = norm(cross(sub(points[1]!, points[0]!), sub(points[2]!, points[0]!)));
+        for (let k = 0; k < 3; k++) {
+          const a = norm(sub(points[(k + 1) % 3]!, points[k]!)), b = norm(sub(points[(k + 2) % 3]!, points[k]!));
+          const angle = Math.acos(Math.max(-1, Math.min(1, a.reduce((sum, v, axis) => sum + v * b[axis]!, 0))));
+          const [i, j] = indices[k]!;
+          normals[i]![j] = add(normals[i]![j]!, mul(face, angle));
+        }
+      };
+      for (let i = 0; i < rings.length - 1; i++) for (let j = 0; j < sides; j++) {
+        const k = (j + 1) % sides;
+        accumulate([[i, j], [i, k], [i + 1, j]]);
+        accumulate([[i, k], [i + 1, k], [i + 1, j]]);
+      }
+      for (let i = 0; i < normals.length; i++) normals[i] = normals[i]!.map(norm);
     }
     for (let i = 0; i < rings.length - 1; i++) for (let j = 0; j < sides; j++) {
       const k = (j + 1) % sides;
@@ -398,7 +448,7 @@ class Plant {
     const across = add(mul(lateral, Math.cos(roll)), mul(vertical, Math.sin(roll)));
     const face = norm(cross(across, forward));
     const first = this.skins.leaves.positions.length / 9;
-    const colour: V = this.spec.id.startsWith("corealm_magic_") ? [gain * .54, gain * .91, gain] : this.spec.id.startsWith("corealm_walnut_") ? [gain * .92, gain, gain * .88] : [gain, gain, gain];
+    const colour: V = this.spec.id.startsWith("corealm_magic_") ? [gain * .86, gain * .97, gain] : this.spec.id.startsWith("corealm_walnut_") ? [gain * .92, gain, gain * .88] : [gain, gain, gain];
     // One shallow spray, rooted at its texture's stem. Fine transparent gaps supply
     // the silhouette; never inflate it into an opaque lens around a branch.
     for (const sign of [1]) {
@@ -559,15 +609,65 @@ interface TreeAxis {
   order: number;
   rings: Ring[];
   leafBearing: boolean;
+  stem: boolean;
+  phase: number;
 }
 
 /** Tree-only growth records: every fork starts within the wood that carries it. */
-function treeAxis(plant: Plant, axes: TreeAxis[], rings: Ring[], parent: TreeAxis | null = null, attachment = 0, attachmentFraction = 0): TreeAxis {
+function treeAxis(plant: Plant, axes: TreeAxis[], rings: Ring[], parent: TreeAxis | null = null, attachment = 0, attachmentFraction = 0, stem = parent === null): TreeAxis {
   const axis = { id: axes.length, parent: parent?.id ?? null, attachment, attachmentFraction,
-    order: parent ? parent.order + 1 : 0, rings, leafBearing: false };
+    order: parent ? parent.order + 1 : 0, rings, leafBearing: false, stem, phase: plant.random() * TAU };
   axes.push(axis);
-  plant.branch(rings, parent ? 7 : 9);
+  // Broadleaf stems are swept after their daughters exist, so a divided bole can
+  // continue through the fork without an exposed full-width end cap.
+  if (plant.spec.kind !== "oak") plant.branch(rings, parent ? 7 : 9, plant.bark, rings.at(-1)!.radius >= .0001, "bark", axis.phase);
   return axis;
+}
+
+interface TreeWoodSweep { axisIds: number[]; rings: Ring[]; phase: number }
+
+/** One continuous surface through each main fork. Biological axes remain separate
+ * for crown construction; their rendered wood shares the same ring at the join.
+ */
+function treeWoodSweeps(axes: TreeAxis[]): TreeWoodSweep[] {
+  const continuations = new Map<number, TreeAxis>();
+  for (const axis of axes) if (axis.parent !== null && axis.stem) {
+    const current = continuations.get(axis.parent);
+    if (!current || axis.attachment + axis.attachmentFraction > current.attachment + current.attachmentFraction)
+      continuations.set(axis.parent, axis);
+  }
+  const continued = new Set([...continuations.values()].map(axis => axis.id));
+  return axes.filter(axis => !continued.has(axis.id)).map(root => {
+    const sweep: TreeWoodSweep = { axisIds: [], rings: [], phase: root.phase };
+    let axis = root, extra = 0, blendLength = 1;
+    if (root.stem && root.parent !== null) {
+      const parent = treeJoint(axes[root.parent]!, root.attachment, root.attachmentFraction);
+      extra = Math.max(0, parent.radius * .92 - root.rings[0]!.radius);
+      blendLength = parent.radius * 4;
+    }
+    while (true) {
+      sweep.axisIds.push(axis.id);
+      const next = continuations.get(axis.id);
+      const rings = next ? axis.rings.slice(0, next.attachment + 1) : axis.rings;
+      const section = next && next.attachmentFraction > 0
+        ? [...rings, treeJoint(axis, next.attachment, next.attachmentFraction)] : rings;
+      let arc = 0;
+      for (let i = 0; i < section.length; i++) {
+        if (i) arc += Math.hypot(...sub(section[i]!.p, section[i - 1]!.p));
+        const ring = section[i]!;
+        const radius = ring.radius + extra * Math.pow(Math.max(0, 1 - arc / blendLength), 2);
+        // The daughter's origin is the parent's final ring, not a second smaller
+        // circumference placed on top of it. Keep only that shared ring.
+        if (i || sweep.axisIds.length === 1) sweep.rings.push({ p: ring.p, radius });
+      }
+      if (!next) break;
+      const join = sweep.rings.at(-1)!;
+      extra = Math.max(0, join.radius - next.rings[0]!.radius);
+      blendLength = Math.max(.25, join.radius * 4);
+      axis = next;
+    }
+    return sweep;
+  });
 }
 
 /** Attachment on the same Hermite centreline emitted by Plant.branch. */
@@ -575,9 +675,57 @@ function treeJoint(parent: TreeAxis, segment: number, t = 0): Ring {
   const a = parent.rings[segment]!, b = parent.rings[segment + 1]!;
   if (t === 0) return a;
   const before = parent.rings[Math.max(0, segment - 1)]!, after = parent.rings[Math.min(parent.rings.length - 1, segment + 2)]!;
-  const t2 = t * t, t3 = t2 * t;
-  return { p: add(add(mul(a.p, 2 * t3 - 3 * t2 + 1), mul(sub(b.p, before.p), (t3 - 2 * t2 + t) * 0.5)),
-    add(mul(b.p, -2 * t3 + 3 * t2), mul(sub(after.p, a.p), (t3 - t2) * 0.5))), radius: a.radius * (1 - t) + b.radius * t };
+  return { p: woodPoint(a.p, b.p, before.p, after.p, t), radius: a.radius * (1 - t) + b.radius * t };
+}
+
+/** Unequal growth extensions leave elbows where the advancing shoot changed direction.
+ * The wood sweep rounds those joints, while the long stretches between them stay firm.
+ * Offsets have only two major turns; adding noise to every ring makes rope-like branches.
+ */
+function grownLimbRings(start: V, end: V, radius: number, departure: V, random: () => number,
+  character: number, arch: number, tipLift: number, junctionRadius = 0): Ring[] {
+  const delta = sub(end, start), length = Math.hypot(...delta), forward = norm(delta);
+  character *= Math.min(1, length / (radius * 25)) * (.65 + random() * .55);
+  const side = norm(cross(forward, Math.abs(forward[1]) > .97 ? [0, 0, 1] : [0, 1, 0]));
+  const up = norm(cross(side, forward));
+  const hand = random() < .5 ? -1 : 1;
+  const firstTurn = hand * length * character * (.07 + random() * .07);
+  const secondTurn = firstTurn * (.18 + random() * .62) + (random() - .5) * length * character * .10;
+  const firstLift = arch - length * character * (.025 + random() * .075);
+  const secondLift = arch * (.25 + random() * .5) + length * character * (random() - .35) * .12;
+  const collar = .09 + random() * .025;
+  const fractions = [0, collar, .23 + random() * .11, .52 + random() * .13, .79 + random() * .09, 1];
+  const sideways = [0, 0, firstTurn, secondTurn, secondTurn * .18, 0];
+  const lifts = [0, 0, firstLift, secondLift, -length * tipLift * .065, 0];
+  let points = fractions.map((t, i) => i === 1 ? add(start, mul(departure, length * t))
+    : add(mix(start, end, t), add(mul(side, sideways[i]!), mul(up, lifts[i]!))));
+  // A substantial daughter initially follows the trunk grain, then turns into its
+  // first growth extension. Confine that easing to the collar; later elbows keep
+  // their authored headings. Small laterals already depart toward that extension.
+  const collarLength = junctionRadius > 0 ? Math.min(length * collar, junctionRadius * 1.6) : length * collar;
+  const departureBlend = junctionRadius > 0 ? .14 : .82;
+  points[1] = add(start, mul(norm(mix(departure, norm(sub(points[2]!, start)), departureBlend)), collarLength));
+  if (random() < .30) points.splice(4, 1);
+  // A thick limb cannot carry the same concentrated elbow as a twig. Round its
+  // control polygon over a broad part of both adjoining growth sections, then let
+  // the normal wood sweep interpolate the fillet. Fine outer wood keeps its turns.
+  const rounded = [points[0]!];
+  for (let i = 1; i < points.length - 1; i++) {
+    const point = points[i]!, before = points[i - 1]!, after = points[i + 1]!;
+    const thickness = radius * (1 - Math.min(1, Math.hypot(...sub(point, start)) / length));
+    const rounding = Math.min(.32, Math.max(0, (thickness - .055) / .32));
+    if (rounding < .025) { rounded.push(point); continue; }
+    const enter = mix(point, before, rounding), leave = mix(point, after, rounding);
+    rounded.push(enter, mix(mix(enter, point, .5), mix(point, leave, .5), .5), leave);
+  }
+  rounded.push(points.at(-1)!);
+  points = rounded;
+  const arcs = [0];
+  for (let i = 1; i < points.length; i++) arcs.push(arcs[i - 1]! + Math.hypot(...sub(points[i]!, points[i - 1]!)));
+  const taper = .88 + random() * .32;
+  return points.map((p, i) => ({ p,
+    radius: Math.max(.00002, radius * Math.pow(1 - .992 * arcs[i]! / arcs.at(-1)!, taper)),
+  }));
 }
 
 function treeFork(plant: Plant, axes: TreeAxis[], parent: TreeAxis, attachment: number,
@@ -588,21 +736,11 @@ function treeFork(plant: Plant, axes: TreeAxis[], parent: TreeAxis, attachment: 
     : norm(sub(parent.rings[Math.min(parent.rings.length - 1, attachment + 1)]!.p,
       parent.rings[Math.max(0, attachment - 1)]!.p));
   const base = joint.radius * ratio;
-  const collarLift = Math.min(joint.radius * 0.42, reach * 0.025 + Math.abs(rise) * 0.10, Math.max(0, rise * 0.12));
-  // A seated collar, a load-bearing elbow, then younger growth changing direction at each fork.
-  // The small turns belong to growth nodes; there is no periodic bend around the whole limb.
-  const nodes = [0, 0.075, 0.27, 0.53, 0.78, 1];
-  const lift = [0, 0.06, 0.19, 0.43, 0.75, 1];
-  const turns = [0, 0, turn * 0.20, turn, turn * 0.68, turn * 1.15];
-  const taper = [1.16, 1, 0.79, 0.57, 0.32, 0.09];
-  const rings = nodes.map((t, i) => ({
-    p: i === 0 ? [...joint.p] as V : add(joint.p, add(polar(bearing + turns[i]!, reach * t, rise * lift[i]!),
-      mul(tangent, collarLift * (i === 1 ? 1 : i === 2 ? 0.48 : 0)))),
-    radius: Math.max(0.0001, base * taper[i]!),
-  }));
-  // Three authored samples are enough for a sub-four-millimetre twig; its swept wood remains
-  // present at every distance. Spend the saved vertices on actual leaf-bearing growth.
-  return treeAxis(plant, axes, base < 0.004 ? [rings[0]!, rings[3]!, rings[5]!] : rings, parent, attachment, attachmentFraction);
+  const end = add(joint.p, polar(bearing + turn, reach, rise));
+  const departure = norm(add(norm(sub(end, joint.p)), mul(tangent, .18)));
+  const random = rng(plant.spec.seed ^ Math.imul(axes.length + 1, 0x45d9f3b));
+  return treeAxis(plant, axes, grownLimbRings(joint.p, end, base, departure, random,
+    parent.order === 0 ? .65 : .95, -reach * .035, .18), parent, attachment, attachmentFraction);
 }
 
 function treeForkAt(plant: Plant, axes: TreeAxis[], parent: TreeAxis, at: number,
@@ -619,8 +757,7 @@ function treeSpray(plant: Plant, axis: TreeAxis, at: number, bearing: number, ri
   plant.foliageCard(base, polar(bearing, 1, rise), length, width, roll, .88 + plant.random() * .12);
 }
 
-// Additional silhouettes have their own dimensions. The original six keep their placement
-// envelopes and grounded origins; the branch and trunk geometry is rebuilt inside them.
+// Additional age silhouettes derive envelopes before the deliberate mature-oak enlargement.
 for (const [id, source, width, height] of [
   ["corealm_oak_4", "corealm_oak_1", 1.18, .87],
   ["corealm_oak_5", "corealm_oak_2", .83, 1.08],
@@ -635,158 +772,227 @@ for (const [id, source, width, height] of [
 
 }
 
-interface CrownHabit { width: number; height: number; base: number; radius: number; upright: number; points: number; spray: number }
+// Mature oaks are large spreading trees. Preserve grounded pivots, but deliberately replace
+// the old sapling-sized envelope for every oak age variant.
+for (const [id, bounds] of Object.entries(productionBounds)) if (/^corealm_oak_\d+$/.test(id)) {
+  bounds.min = [bounds.min[0] * 2.05, 0, bounds.min[2] * 2.05];
+  bounds.max = [bounds.max[0] * 2.05, bounds.max[1] * 1.95, bounds.max[2] * 2.05];
+}
+
+interface CrownHabit {
+  width: number; height: number; base: number; radius: number; spray: number;
+  boughs: number; spread: number; shoots: number; opposite: boolean;
+}
 const crownHabits: Record<string, CrownHabit> = {
-  oak: { width: 3.2, height: 7.8, base: 2.9, radius: .24, upright: .08, points: 720, spray: .72 },
-  ash: { width: 2.2, height: 9.3, base: 3.4, radius: .18, upright: .22, points: 630, spray: .76 },
-  walnut: { width: 3.9, height: 9.2, base: 3.0, radius: .29, upright: .04, points: 700, spray: .86 },
-  willow: { width: 3.8, height: 8.8, base: 3.6, radius: .31, upright: .02, points: 430, spray: .85 },
-  maple: { width: 3.0, height: 10.5, base: 3.5, radius: .24, upright: .15, points: 800, spray: .72 },
-  teak: { width: 2.7, height: 12, base: 5.5, radius: .22, upright: .25, points: 600, spray: .90 },
-  yew: { width: 2.6, height: 7.5, base: 1.7, radius: .29, upright: .14, points: 820, spray: .67 },
-  magic: { width: 4.5, height: 12, base: 3.4, radius: .37, upright: .07, points: 820, spray: .84 },
+  oak: { width: 6.8, height: 15.2, base: 3.4, radius: .58, spray: 1.02, boughs: 11, spread: .85, shoots: 5, opposite: false },
+  ash: { width: 4.2, height: 10.8, base: 3.4, radius: .22, spray: .76, boughs: 10, spread: .65, shoots: 5, opposite: true },
+  walnut: { width: 6.8, height: 16.2, base: 5.8, radius: .52, spray: 1.08, boughs: 10, spread: .80, shoots: 5, opposite: false },
+  willow: { width: 5.2, height: 9.4, base: 2.9, radius: .42, spray: .72, boughs: 10, spread: .88, shoots: 5, opposite: false },
+  maple: { width: 4.2, height: 10.5, base: 3.3, radius: .24, spray: .72, boughs: 11, spread: .66, shoots: 5, opposite: true },
+  teak: { width: 4.1, height: 12, base: 5.5, radius: .22, spray: .90, boughs: 9, spread: .70, shoots: 4, opposite: true },
+  yew: { width: 4.0, height: 7.5, base: 1.4, radius: .32, spray: .88, boughs: 13, spread: .90, shoots: 5, opposite: false },
+  magic: { width: 6.0, height: 13.8, base: 3.2, radius: .72, spray: .92, boughs: 11, spread: .82, shoots: 5, opposite: false },
 };
 
-/**
- * Space-colonization growth, after Runions, Lane & Prusinkiewicz, 2007.
- * Shoots compete for crown space. Pipe area accumulated from their descendants
- * determines the trunk and branch taper; there are no rings of pasted-on limbs.
+/** Continuous limbs with subordinate lateral growth. See art/foliage/tree-construction.md.
+ * Bud arrangement controls small shoots. It does not duplicate equal adult scaffold forks.
  */
 function oak(plant: Plant): TreeAxis[] {
-  const species = plant.spec.id.split("_")[1]!;
-  const habit = crownHabits[species]!;
-  const v = plant.spec.variant;
+  const species = plant.spec.id.split("_")[1]!, habit = crownHabits[species]!;
+  const v = plant.spec.variant, young = v === 2;
   const height = habit.height * [1, 1.12, .80, .90, 1.08][v]!;
   const width = habit.width * [1, .78, .70, 1.2, .87][v]!;
-  const base = habit.base * [1, 1.20, .90, .65, 1.02][v]!;
+  const base = habit.base * [1, 1.20, .94, .65, 1.02][v]!;
   const girth = habit.radius * [1, .87, .65, 1.10, .9][v]!;
-  const lean = polar(v * 1.7 + .5, height * (.018 + v * .004));
-  type Node = { p: V; parent: number; children: number[]; mass: number; radius: number; direction: V };
-  const nodes: Node[] = [];
-  const step = height * .031;
-  const push = (p: V, parent: number, direction: V) => {
-    const id = nodes.length;
-    nodes.push({ p, parent, direction, children: [], mass: 1, radius: .004 });
-    if (parent >= 0) nodes[parent]!.children.push(id);
-    return id;
-  };
-  // Young leader first. Unequal forks arise from the same growth process as smaller twigs.
-  const trunkSteps = Math.ceil(base / step);
-  for (let i = 0; i <= trunkSteps; i++) {
-    const t = i / trunkSteps;
-    push(add(mul(lean, t * t), [Math.sin(t * 2.1) * girth * .32, base * t, 0]), i - 1, [0, 1, 0]);
-  }
-  let targets: V[] = [];
-  for (let i = 0; i < habit.points; i++) {
-    const y = plant.random() * 2 - 1;
-    const angle = plant.random() * TAU;
-    const shell = Math.pow(plant.random(), .32);
-    const radius = Math.sqrt(1 - y * y) * shell;
-    const crownY = base + (height - base) * (.5 + y * .5 * shell);
-    // Broad crown lobes and small gaps are unequal, rather than rotationally symmetric.
-    const lobe = 1 + .14 * Math.sin(angle * 3 + v * 1.3) + .08 * Math.cos(angle * 5 + y * 3);
-    const a = polar(angle, width * radius * lobe, crownY);
-    a[2] *= .89;
-    a[0] += lean[0] * crownY / height;
-    if (v === 3) a[0] += width * .25 * Math.max(0, y);
-    targets.push(a);
-  }
-  const kill = step * 2.1, influence = width * 1.5;
-  for (let iteration = 0; iteration < 100 && targets.length; iteration++) {
-    const vectors = new Map<number, V[]>();
-    targets = targets.filter(target => {
-      let nearest = -1, distance = influence;
-      for (let n = Math.floor(trunkSteps * .72); n < nodes.length; n++) {
-        const node = nodes[n]!;
-        const d = Math.hypot(...sub(target, node.p));
-        if (d < kill) return false;
-        if (d < distance) { distance = d; nearest = n; }
-      }
-      if (nearest >= 0) {
-        const list = vectors.get(nearest) ?? [];
-        list.push(norm(sub(target, nodes[nearest]!.p)));
-        vectors.set(nearest, list);
-      }
-      return true;
-    });
-    let grown = 0;
-    for (const [id, directions] of vectors) {
-      const parent = nodes[id]!;
-      const average = mul(directions.reduce((sum, direction) => add(sum, direction), [0, 0, 0] as V), 1 / directions.length);
-      const direction = norm(add(add(average, mul(parent.direction, .28)), [0, habit.upright, 0]));
-      if (parent.children.some(child => {
-        const d = nodes[child]!.direction;
-        return d[0] * direction[0] + d[1] * direction[1] + d[2] * direction[2] > .88;
-      })) continue;
-      const p = add(parent.p, mul(direction, step));
-      if (p[1] < base * .75) continue;
-      push(p, id, direction); grown++;
-    }
-    if (!grown || nodes.length > 1400) break;
-  }
-  for (let i = nodes.length - 1; i >= 0; i--) {
-    const node = nodes[i]!;
-    node.mass = node.children.length ? node.children.reduce((total, child) => total + nodes[child]!.mass, 0) : 1;
-  }
-  for (const node of nodes) {
-    const wood = girth * Math.pow(node.mass / nodes[0]!.mass, .64);
-    node.radius = Math.min(node.parent >= 0 ? nodes[node.parent]!.radius : Infinity,
-      wood * (1 + .32 * Math.exp(-node.p[1] / .24)));
-  }
-  plant.roots(girth, girth * 3.3, 6);
+  const conical = species === "yew";
+  const spreading = !young && (species === "oak" || species === "magic");
+  const leaderHeight = height * (conical || young ? .95 : spreading ? .76 : species === "teak" ? .90 : .83);
+  // Keep the geometry random stream independent of how many vertices a wood sweep emits.
+  const random = rng(plant.spec.seed ^ 0x61a82bd7);
+  const jitter = (span: number) => (random() - .5) * span;
   const axes: TreeAxis[] = [];
-  const emit = (start: number, next: number | undefined, parent: TreeAxis | null, attachment: number): void => {
-    const chain = [start];
-    if (next !== undefined) chain.push(next);
-    let current = next ?? start;
-    while (nodes[current]!.children.length) {
-      current = [...nodes[current]!.children].sort((a, b) => nodes[b]!.mass - nodes[a]!.mass)[0]!;
-      chain.push(current);
+  const bearing0 = random() * TAU;
+  const architecture = rng(plant.spec.seed ^ 0x795ab37);
+  const splitChance = ({ oak: .68, ash: .48, walnut: .54, willow: .74, maple: .55, teak: .25, yew: .60, magic: .80 } as Record<string, number>)[species]!;
+  const split = !young && (v === 4 || species === "magic" && v === 0 || architecture() < splitChance);
+  const splitAgain = split && (v === 4 || species === "magic" && v === 0);
+  const boleHeight = split ? base * (.90 + architecture() * .22) : leaderHeight;
+  const lean = polar(bearing0 + .8, height * (v === 1 ? .085 : v === 3 ? .065 : .028));
+  const crownShift = polar(bearing0 + (v === 4 ? -.7 : .5), width * (spreading ? .34 : young ? .05 : .15));
+  const clearT = Math.min(.70, base * .90 / boleHeight);
+  const lowLean = mul(lean, clearT * .28);
+  const upperEnd = add(lean, crownShift);
+  const trunkGrowth = [
+    { t: 0, p: [0, 0, 0] as V },
+    { t: clearT, p: lowLean },
+    { t: clearT + (1 - clearT) * (.32 + architecture() * .07), p: add(mix(lowLean, upperEnd, .32), polar(bearing0 + 1.2, boleHeight * .012)) },
+    { t: clearT + (1 - clearT) * (.68 + architecture() * .07), p: add(mix(lowLean, upperEnd, .68), polar(bearing0 - .65, boleHeight * .016)) },
+    { t: 1, p: upperEnd },
+  ];
+  const trunkPoint = (t: number): V => {
+    // The clear lower bole carries a mild lean. Large changes of heading belong to
+    // upper stem growth, above the first scaffold limbs rather than at player height.
+    if (split) return add(mul(lean, t * boleHeight / height * .28), [0, boleHeight * t, 0]);
+    // Unequal firm stem sections, with local changes of heading instead of one polynomial bow.
+    const i = Math.min(trunkGrowth.length - 2, trunkGrowth.findIndex((node, i) => i + 1 < trunkGrowth.length && trunkGrowth[i + 1]!.t >= t));
+    const a = trunkGrowth[Math.max(0, i)]!, b = trunkGrowth[Math.max(0, i) + 1]!;
+    const growth = mix(a.p, b.p, (t - a.t) / (b.t - a.t));
+    return add(growth, [0, boleHeight * t, 0]);
+  };
+  plant.roots(girth, girth * 3.3, 6);
+  const trunk = treeAxis(plant, axes, [0, .025, .08, .17, .28, .41, .55, .70, .83, .93, 1].map(t => ({
+    p: trunkPoint(t), radius: girth * (split ? 1 - .27 * t : Math.pow(1 - t * .995, young ? .90 : .82)) * (1 + .28 * Math.exp(-t * boleHeight / .22)),
+  })));
+
+  const axisAt = (axis: TreeAxis, at: number) => {
+    const u = Math.min(.9999, Math.max(0, at)) * (axis.rings.length - 1), segment = Math.floor(u);
+    const fraction = u - segment;
+    const joint = treeJoint(axis, segment, fraction);
+    const tangent = norm(sub(treeJoint(axis, segment, Math.min(1, fraction + .015)).p,
+      treeJoint(axis, segment, Math.max(0, fraction - .015)).p));
+    return { segment, fraction, joint, tangent };
+  };
+
+  const stems = [trunk];
+  const addStem = (parent: TreeAxis, at: number, end: V, ratio: number, divides = false) => {
+    const { joint, tangent, segment, fraction } = axisAt(parent, at);
+    const radius = joint.radius * ratio;
+    const rings = grownLimbRings(joint.p, end, radius, tangent, architecture,
+      species === "magic" || species === "oak" ? .55 : .45, 0, .24, joint.radius);
+    if (divides) for (let i = 0; i < rings.length; i++) rings[i]!.radius = radius * (1 - .26 * i / (rings.length - 1));
+    const stem = treeAxis(plant, axes, rings, parent, segment, fraction, true);
+    stems.push(stem);
+    return stem;
+  };
+  if (split) {
+    const spread = width * (conical ? .25 : .38);
+    const firstHeight = splitAgain ? base + (leaderHeight - base) * .48 : leaderHeight;
+    const first = addStem(trunk, .86, add(polar(bearing0 + .35, spread, firstHeight), mul(lean, .65)), .76, splitAgain);
+    addStem(trunk, .975, add(polar(bearing0 + 2.7, spread * 1.12, leaderHeight * (.91 + architecture() * .08)), mul(lean, .45)), .70);
+    if (splitAgain) {
+      addStem(first, .86, add(first.rings.at(-1)!.p, polar(bearing0 - .5, width * .24, leaderHeight - firstHeight)), .76);
+      addStem(first, .973, add(first.rings.at(-1)!.p, polar(bearing0 + 1.1, width * .30, (leaderHeight - firstHeight) * .86)), .69);
     }
-    if (chain.length < 2) return;
-    const rings = chain.map((id, index) => {
-      const n = nodes[id]!;
-      // The side branch starts inside the parent fork and narrows into its own pipe.
-      const radius = index === 0 && next !== undefined ? Math.min(n.radius, nodes[next]!.radius * 1.16)
-        : index === chain.length - 1 ? n.radius * .20 : n.radius;
-      return { p: n.p, radius };
-    });
-    const axis = treeAxis(plant, axes, rings, parent, attachment);
-    for (let i = parent ? 1 : 0; i < chain.length - 1; i++) for (const child of nodes[chain[i]!]!.children) {
-      if (child !== chain[i + 1]) emit(chain[i]!, child, axis, i);
-    }
-    const last = nodes[chain.at(-1)!]!;
-    const direction = norm(add(last.direction, [0, .4, 0]));
+  }
+  const terminals = stems.filter(stem => !stems.some(other => other.parent === stem.id));
+  const atHeight = (axis: TreeAxis, y: number) => {
+    const segment = Math.max(0, axis.rings.findIndex((ring, i) => i + 1 < axis.rings.length && axis.rings[i + 1]!.p[1] >= y));
+    const a = axis.rings[segment]!, b = axis.rings[segment + 1]!;
+    const fraction = Math.max(0, Math.min(.9999, (y - a.p[1]) / Math.max(.001, b.p[1] - a.p[1])));
+    return (segment + fraction) / (axis.rings.length - 1);
+  };
+
+  const limb = (parent: TreeAxis, at: number, end: V, ratio: number, arch: number, tipLift: number): TreeAxis => {
+    const { segment, fraction, joint, tangent } = axisAt(parent, at);
+    const direction = norm(sub(end, joint.p));
+    // Tangential emergence and a short collar connect the smaller branch to a continuing limb.
+    // Neither child direction nor radius is mirrored around the parent.
+    const departure = norm(add(mul(tangent, parent.stem ? spreading ? .22 : .48 : .32), direction));
+    const radius = joint.radius * ratio;
+    const character = (species === "magic" ? 1.30 : spreading ? 1.15 : species === "willow" ? .52 : .90)
+      * (parent.stem ? .64 : 1.12) * (young ? .75 : 1);
+    const rings = grownLimbRings(joint.p, end, radius, departure, random, character, arch, tipLift);
+    return treeAxis(plant, axes, rings, parent, segment, fraction);
+  };
+
+  const leaves = (axis: TreeAxis, size: number, count: number, start = .24, pendant = false) => {
     axis.leafBearing = true;
-    for (let spray = 0; spray < 4; spray++) {
-      const at = .40 + spray * .19;
-      const joint = treeJoint(axis, Math.max(0, rings.length - 2), at);
-      const bearing = Math.atan2(direction[2], direction[0]) + (spray - 1.5) * .62;
-      const rise = .45 + spray * .45;
-      const size = habit.spray * (species === "willow" ? 1.25 : 1.65) * (.83 + plant.random() * .30);
-      plant.foliageCard(joint.p, polar(bearing, 1, rise), size, size * .91, (spray - 1.5) * .4, .95 + plant.random() * .05);
-    }
-    if (chain.length > 5 && species !== "willow") {
-      for (let shoot = 0; shoot < 3; shoot++) treeSpray(plant, axis, .48 + shoot * .16,
-        Math.atan2(direction[2], direction[0]) + (shoot % 2 ? -.5 : .5), .8,
-        habit.spray * 1.3, habit.spray * 1.1, shoot % 2 ? -.45 : .45);
-    }
-    if (species === "willow") {
-      // Pendulous extension grows off an established bough, then bends under its weight.
-      const a = Math.atan2(last.direction[2], last.direction[0]);
-      const drop = 1.3 + plant.random() * 1.4;
-      const hanging = treeAxis(plant, axes, [
-        { p: last.p, radius: last.radius * .18 },
-        { p: add(last.p, polar(a, .2, -.25)), radius: last.radius * .13 },
-        { p: add(last.p, polar(a, .3, -drop * .55)), radius: last.radius * .06 },
-        { p: add(last.p, polar(a, .32, -drop)), radius: .0003 },
-      ], axis, rings.length - 1);
-      for (let t = 0; t < 5; t++) treeSpray(plant, hanging, .08 + t * .20, a + t * .45, -4, 1.15, .65, .25);
+    const phase = random() * TAU;
+    for (let i = 0; i < count; i++) {
+      // Opposite buds retain their paired pattern only on this fine, leaf-bearing growth.
+      const pair = habit.opposite ? Math.floor(i / 2) : i;
+      const steps = habit.opposite ? Math.ceil(count / 2) : count;
+      const at = start + (1 - start) * (pair + .18 + random() * .44) / steps;
+      const { joint, tangent } = axisAt(axis, at);
+      const direction = Math.atan2(tangent[2], tangent[0]);
+      const sign = i % 2 ? -1 : 1;
+      const angle = pendant ? direction + jitter(1.8) : direction + sign * (.42 + random() * .66) + jitter(.35);
+      const rise = pendant ? -2.5 - random() * 2 : species === "yew" ? .02 + random() * .20 : .16 + random() * .60;
+      const cardSize = size * (.80 + random() * .38);
+      plant.foliageCard(joint.p, polar(angle, 1, rise), cardSize,
+        cardSize * (pendant ? .53 : species === "walnut" ? .79 : species === "yew" ? .87 : .96),
+        Math.sin(phase + i * 2.4) * .48, .87 + random() * .13);
     }
   };
-  emit(0, undefined, null, 0);
+
+  const boughCount = habit.boughs - (young ? 2 : 0) + (v === 3 ? 1 : v === 4 ? -1 : 0);
+  const primaryAxes: Array<{ axis: TreeAxis; reach: number }> = [];
+  for (let b = 0; b < boughCount; b++) {
+    const q = (b + .20 + random() * .42) / boughCount;
+    const y = Math.max(base, boleHeight * (split ? 1.05 : 0)) + (leaderHeight - base) * q * .79;
+    // Locate by actual height, not equal ring indexes, because trunk rings are nonuniform.
+    const supports = stems.filter(stem => stem.rings[0]!.p[1] < y && stem.rings.at(-1)!.p[1] > y);
+    const support = supports[b % supports.length] ?? terminals[0]!;
+    const at = atHeight(support, y);
+    const bearing = bearing0 + b * 2.399963 + jitter(.65);
+    const shape = species === "yew" ? Math.pow(1 - q * .90, .65)
+      : Math.sqrt(Math.max(.13, 1 - Math.pow(q * 1.3 - .20, 2)));
+    const reach = width * shape * habit.spread * (.78 + random() * .27) * (v === 3 && Math.cos(bearing - bearing0) > 0 ? 1.18 : 1);
+    const crownTop = base + (height - base) * (.51 + q * .34 + jitter(.10));
+    const rise = conical ? (height - y) * (.08 + random() * .14)
+      : species === "willow" ? crownTop - y - height * .07
+          : (crownTop - y) * (spreading ? .60 + q * .40 : 1);
+    const origin = axisAt(support, at).joint.p;
+    const end = add(origin, polar(bearing + jitter(.35), reach, rise));
+    const ratio = (species === "oak" || species === "magic" ? .54 : species === "walnut" ? .50 : .40) * (.80 + random() * .30);
+    const axis = limb(support, at, end, ratio, reach * (species === "willow" ? .24 : .04), species === "willow" ? -.6 : .38);
+    primaryAxes.push({ axis, reach });
+  }
+  for (const { axis, reach } of primaryAxes) {
+    // Outer continuation stays intact. Side branches bud at different distances down the limb.
+    const secondaryCount = habit.shoots - 2 + Math.floor(random() * 4);
+    const gaps = Array.from({ length: secondaryCount + 1 }, () => .30 + random() * 1.40);
+    const gapTotal = gaps.reduce((a, b) => a + b, 0);
+    let growth = 0, side = random() < .5 ? -1 : 1;
+    for (let j = 0; j < secondaryCount; j++) {
+      growth += gaps[j]!;
+      const at = .13 + growth / gapTotal * .78;
+      const { joint, tangent } = axisAt(axis, at);
+      if (random() > .23) side *= -1;
+      const angle = Math.atan2(tangent[2], tangent[0]) + side * (.38 + random() * 1.02);
+      const vigour = random();
+      const distance = reach * (.20 + vigour * .35) * (1 - at * .38);
+      const rise = species === "yew" ? distance * (.03 + random() * .18)
+        : species === "willow" ? -distance * (.10 + random() * .25)
+          : distance * (-.12 + random() * 1.10);
+      const secondary = limb(axis, at, add(joint.p, polar(angle, distance, rise)), .32 + vigour * .29,
+        distance * (species === "willow" ? .32 : .07), species === "willow" ? -1.2 : .38);
+      const spraySize = habit.spray * (young ? .95 : 1.06);
+      leaves(secondary, spraySize * 1.14, species === "teak" ? 9 : 8, .30);
+      const tertiaryCount = species === "willow" ? 4 : 2 + Math.floor(random() * 3);
+      const twigGaps = Array.from({ length: tertiaryCount + 1 }, () => .35 + random() * 1.3);
+      const twigTotal = twigGaps.reduce((a, b) => a + b, 0);
+      let twigGrowth = 0;
+      for (let k = 0; k < tertiaryCount; k++) {
+        twigGrowth += twigGaps[k]!;
+        const at2 = .14 + twigGrowth / twigTotal * .78;
+        const local = axisAt(secondary, at2), start = local.joint.p;
+        const twigAngle = Math.atan2(local.tangent[2], local.tangent[0]) + (random() < .5 ? -1 : 1) * (.35 + random() * 1.04);
+        const pendant = species === "willow";
+        const twigLength = pendant ? Math.min(start[1] - .7, height * (.17 + random() * .17))
+          : distance * (.25 + random() * .55) + spraySize * .18;
+        const tip = pendant ? add(start, polar(twigAngle, .25 + random() * .40, -twigLength))
+          : add(start, polar(twigAngle, twigLength, twigLength * (species === "yew" ? .02 + random() * .2 : -.12 + random() * 1.18)));
+        const twig = limb(secondary, at2, tip, .30 + random() * .20, pendant ? twigLength * .10 : 0, pendant ? -2 : .2);
+        leaves(twig, spraySize * (pendant ? 1.12 : 1.08), pendant ? 8 : 7 + (habit.opposite ? 1 : 0), .06, pendant);
+      }
+    }
+    leaves(axis, habit.spray * 1.28, 7, .66);
+  }
+  // Small ascending shoots around the continuing leader close the upper crown naturally.
+  const leaderShoots = young ? 5 : Math.ceil(7 / terminals.length);
+  for (const leader of terminals) for (let i = 0; i < leaderShoots; i++) {
+    const at = .80 + i / leaderShoots * .175;
+    const start = axisAt(leader, at).joint.p, angle = bearing0 + i * 2.399963;
+    const reach = width * (conical || young ? .27 - i / leaderShoots * .16 : .33 - i / leaderShoots * .05);
+    const shoot = limb(leader, at, add(start, polar(angle, reach, reach * .58)), .30 + random() * .12, 0, .6);
+    leaves(shoot, habit.spray * 1.18, 10, .05);
+  }
+  for (const sweep of treeWoodSweeps(axes)) plant.branch(sweep.rings, 9, plant.bark,
+    sweep.rings.at(-1)!.radius >= .0001, "bark", sweep.phase);
   return axes;
 }
+
 
 function pine(plant: Plant): TreeAxis[] {
   const { variant } = plant.spec;
@@ -986,24 +1192,40 @@ function flower(plant: Plant): void {
 }
 
 const budgets: Record<Kind, number> = { oak: 18000, pine: 22000, deadwood: 8000, stump: 3000, fern: 30000, grass: 80, shrub: 40000, flower: 2000 };
+// Fuller crowns spend geometry on leaf-bearing branches as well as the mature wood scaffold.
+const largeTreeBudgets: Record<string, number> = { oak: 42000, walnut: 42000, willow: 42000, ash: 32000, maple: 36000, teak: 32000, yew: 36000, magic: 42000 };
 
 /** Preserve the accepted placement envelope and trunk origin through the art rebuild. */
 function fitProductionBounds(plant: Plant): void {
   const target = productionBounds[plant.spec.id];
-  if (!target) return;
-  const min: V = [Infinity, Infinity, Infinity], max: V = [-Infinity, -Infinity, -Infinity];
-  for (const skin of Object.values(plant.skins)) for (let i = 0; i < skin.positions.length; i += 3) for (let axis = 0; axis < 3; axis++) {
-    min[axis] = Math.min(min[axis]!, skin.positions[i + axis]!); max[axis] = Math.max(max[axis]!, skin.positions[i + axis]!);
-  }
-  for (const skin of Object.values(plant.skins)) for (let i = 0; i < skin.positions.length; i += 3) {
-    const scale: V = [1, 1, 1];
-    for (let axis = 0; axis < 3; axis++) {
-      const v = skin.positions[i + axis]!;
-      if (axis === 1) { scale[axis] = (target.max[axis] - target.min[axis]) / (max[axis]! - min[axis]!); skin.positions[i + axis] = target.min[axis] + (v - min[axis]!) * scale[axis]; }
-      else { scale[axis] = v < 0 ? target.min[axis]! / min[axis]! : target.max[axis]! / max[axis]!; skin.positions[i + axis] = v * scale[axis]!; }
+  if (target) {
+    const min: V = [Infinity, Infinity, Infinity], max: V = [-Infinity, -Infinity, -Infinity];
+    for (const skin of Object.values(plant.skins)) for (let i = 0; i < skin.positions.length; i += 3) for (let axis = 0; axis < 3; axis++) {
+      min[axis] = Math.min(min[axis]!, skin.positions[i + axis]!); max[axis] = Math.max(max[axis]!, skin.positions[i + axis]!);
     }
-    const n = norm([skin.normals[i]! / scale[0], skin.normals[i + 1]! / scale[1], skin.normals[i + 2]! / scale[2]]);
-    skin.normals.splice(i, 3, ...n);
+    for (const skin of Object.values(plant.skins)) for (let i = 0; i < skin.positions.length; i += 3) {
+      const scale: V = [1, 1, 1];
+      for (let axis = 0; axis < 3; axis++) {
+        const v = skin.positions[i + axis]!;
+        if (axis === 1) { scale[axis] = (target.max[axis] - target.min[axis]) / (max[axis]! - min[axis]!); skin.positions[i + axis] = target.min[axis] + (v - min[axis]!) * scale[axis]; }
+        else { scale[axis] = v < 0 ? target.min[axis]! / min[axis]! : target.max[axis]! / max[axis]!; skin.positions[i + axis] = v * scale[axis]!; }
+      }
+      const n = norm([skin.normals[i]! / scale[0], skin.normals[i + 1]! / scale[1], skin.normals[i + 2]! / scale[2]]);
+      skin.normals.splice(i, 3, ...n);
+    }
+  }
+  if (plant.spec.kind === "oak" || plant.spec.kind === "pine") {
+    // Retain a crease at tight growth joints. Smoothing across a nearly perpendicular
+    // adjoining face is wrong, especially after fitting an asymmetric planting envelope.
+    const { positions, normals } = plant.skins.bark;
+    for (let i = 0; i < positions.length; i += 9) {
+      const a = positions.slice(i, i + 3) as V, b = positions.slice(i + 3, i + 6) as V, c = positions.slice(i + 6, i + 9) as V;
+      const face = norm(cross(sub(b, a), sub(c, a)));
+      for (let v = i; v < i + 9; v += 3) {
+        const alignment = face[0] * normals[v]! + face[1] * normals[v + 1]! + face[2] * normals[v + 2]!;
+        if (alignment < .25) { normals[v] = face[0]; normals[v + 1] = face[1]; normals[v + 2] = face[2]; }
+      }
+    }
   }
 }
 
@@ -1021,7 +1243,7 @@ function validateGeometry(plant: Plant): number {
       const face = cross(sub(b, a), sub(c, a));
       if (Math.hypot(...face) < 1e-10) throw new Error(`${plant.spec.id}/${role}: collapsed fitted face`);
       const n = norm(face);
-      for (let v = i; v < i + 9; v += 3) if (n[0] * skin.normals[v]! + n[1] * skin.normals[v + 1]! + n[2] * skin.normals[v + 2]! < -0.001) throw new Error(`${plant.spec.id}/${role}: inverted smooth normal`);
+      for (let v = i; v < i + 9; v += 3) if (n[0] * skin.normals[v]! + n[1] * skin.normals[v + 1]! + n[2] * skin.normals[v + 2]! < -0.001) throw new Error(`${plant.spec.id}/${role}: inverted smooth normal at ${skin.positions.slice(i, i+9)}`);
     }
     if ((role === "leaves" || role === "flowers") && skin.uvs.some(v => v < -0.00001 || v > 1.00001)) throw new Error(`${plant.spec.id}: blade UV outside continuous lamina frame`);
     if (skin.colours.some(v => v < 0 || v > 1)) throw new Error(`${plant.spec.id}: vertex colour out of range`);
@@ -1034,7 +1256,7 @@ function validateGeometry(plant: Plant): number {
     leafCursor += triangleCount;
   }
   if (leafCursor !== plant.skins.leaves.positions.length / 9) throw new Error(`${plant.spec.id}: uncovered botanical lamina`);
-  const budget = budgets[plant.spec.kind];
+  const budget = largeTreeBudgets[plant.spec.id.split("_")[1]!] ?? budgets[plant.spec.kind];
   if (triangles > budget) throw new Error(`${plant.spec.id}: ${triangles} triangles exceeds ${budget}`);
   return triangles;
 }
@@ -1102,7 +1324,9 @@ function foliageTexture(kind: string): Promise<Buffer> {
   let pending = foliageTextureCache.get(kind);
   if (!pending) {
     // Final atlas is build-time resampling only; preserve the source alpha exactly.
-    pending = sharp(path.join(repoRoot, `art/foliage/${kind === "pine" ? "pine-spray-v2" : `${kind}-spray-source`}.png`)).resize(1024,1024).png().toBuffer();
+    const source = kind === "pine" ? "pine-spray-v2" : kind === "maple" ? "maple-red-spray-source"
+      : `${kind}-spray-source`;
+    pending = sharp(path.join(repoRoot, `art/foliage/${source}.png`)).resize(1024,1024).png().toBuffer();
     foliageTextureCache.set(kind, pending);
   }
   return pending;
@@ -1123,8 +1347,18 @@ async function exportPlant(spec: Spec) {
     const materialName = role === "bark" ? "Bark_Corealm" : role === "cutwood" ? "Cutwood_Corealm" : role === "stem" ? "Stem_Corealm" : role === "flowers" ? "Flowers_Corealm" : `Leaves_Corealm_${leafFamily}`;
     const treeCard = role === "leaves" && (spec.kind === "oak" || spec.kind === "pine");
     const material = doc.createMaterial(treeCard ? `${materialName}_cutout` : materialName).setBaseColorFactor([1, 1, 1, 1]).setMetallicFactor(0).setRoughnessFactor(role === "leaves" ? 0.87 : 0.94).setDoubleSided(role === "leaves" || role === "flowers");
+    if (spec.id.startsWith("corealm_magic_") && (role === "bark" || role === "leaves")) material.setExtras({ corealmMagicTree: true });
+    if (role === "bark" && (spec.kind === "oak" || spec.kind === "pine")) {
+      material.setExtras({ ...material.getExtras(), corealmBarkRelief: true });
+      material.setBaseColorTexture(doc.createTexture("Mature bark ridges")
+        .setImage(await sharp(path.join(repoRoot, "art/foliage/bark-ridges-source.png")).resize(1024, 1024).jpeg({ quality: 86 }).toBuffer()).setMimeType("image/jpeg"));
+      material.getBaseColorTextureInfo()!.setWrapS(10497).setWrapT(10497);
+      // The scan supplies the bark's albedo; vertex colour retains each species' hue.
+      const peak = Math.max(...plant.bark);
+      for (let c = 0; c < skin.colours.length; c++) skin.colours[c] = Math.min(1, skin.colours[c]! / peak);
+    }
     if (treeCard) {
-      material.setBaseColorTexture(doc.createTexture(`${spec.kind} foliage cutout`).setImage(await foliageTexture(({ walnut: "ash", yew: "pine", magic: "maple" } as Record<string,string>)[spec.id.split("_")[1]!] ?? spec.id.split("_")[1]!)).setMimeType("image/png"))
+      material.setBaseColorTexture(doc.createTexture(`${spec.id.split("_")[1]} foliage cutout`).setImage(await foliageTexture(spec.id.split("_")[1]!)).setMimeType("image/png"))
         .setAlphaMode("MASK").setAlphaCutoff(0.32);
     }
     const accessor = (name: string, type: "VEC2" | "VEC3", array: number[]) => doc.createAccessor(`${spec.id}-${role}-${name}`).setBuffer(buffer).setType(type).setArray(new Float32Array(array));
@@ -1185,9 +1419,9 @@ for (const spec of specs) {
 console.log(JSON.stringify({ assets: assets.length, bytesBeforeEncoding: assets.reduce((sum, asset) => sum + asset.encoding.unpackedBytes, 0), bytesAfterEncoding: assets.reduce((sum, asset) => sum + asset.bytes, 0), maxNormalAngleDegrees: Math.max(...assets.map(asset => asset.encoding.maxNormalAngleDegrees)), maxLinearColourError: Math.max(...assets.map(asset => asset.encoding.maxLinearColourError)), maxBladeUVError: Math.max(...assets.map(asset => asset.encoding.maxBladeUVError)), positionError: 0, groundedIdentityTransforms: true }));
 const catalogue = JSON.stringify({
   pack: { id: "corealm-original-nature", name: "Corealm authored nature", author: "Corealm project", source: "tools/build-corealm-nature.ts", license: "Original project geometry; no third-party source assets or textures" },
-  generator: { command: "npx tsx tools/build-corealm-nature.ts", version: 13, deterministic: true, coordinateSystem: "+Y up; metres; origin at ground contact under the trunk or plant base" },
-  artStatement: "Space-colonization broadleaf growth with pipe-area taper, unequal forks, and terminal shoots; leader-dominated pines with lateral needle boughs. Eight-triangle alpha sprays carry fine foliage. Species differ in crown habit, height, age, texture and branch response.",
-  validation: { finiteAttributes: true, unitNormals: true, nonDegenerateTriangles: true, outwardSmoothNormals: true, groundedPivots: true, roundTripBounds: true, triangleBudgets: budgets, preservedProductionBounds: true, botanicalSprayProvenance: true, coherentLeafUV: "U across blade, midrib .5, V base 0 to tip 1", barkUV: "U circumference metres, V arc-length metres before small envelope fit" },
+  generator: { command: "npx tsx tools/build-corealm-nature.ts", version: 21, deterministic: true, coordinateSystem: "+Y up; metres; origin at ground contact under the trunk or plant base" },
+  artStatement: "Continuous dominant wood axes with staggered, subordinate laterals and species-specific crown architecture; leader-dominated pines with unequal needle boughs. Eight-triangle alpha sprays overlap along fine growth, not only branch tips. Species differ in crown habit, height, age, texture and branch response. Mature bark scans supply albedo and relief; magic has a crooked bole and dedicated silver-veined foliage.",
+  validation: { finiteAttributes: true, unitNormals: true, nonDegenerateTriangles: true, outwardSmoothNormals: true, groundedPivots: true, roundTripBounds: true, triangleBudgets: { ...budgets, ...largeTreeBudgets }, preservedProductionBounds: false, matureOakEnvelopeScale: [2.05, 1.95, 2.05], botanicalSprayProvenance: true, coherentLeafUV: "U across blade, midrib .5, V base 0 to tip 1", barkUV: "U circumference metres, V arc-length metres before small envelope fit" },
   assets,
 }, null, 2) + "\n";
 // All geometry and export checks passed before any live asset can change.

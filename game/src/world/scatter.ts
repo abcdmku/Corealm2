@@ -2253,17 +2253,20 @@ function composePlacement(
       const rect = ctx.scene.getRegionRect(layout.regionId);
       return rect && x >= rect.minX && x <= rect.maxX && z >= rect.minZ && z <= rect.maxZ;
     });
+    // The playable coast extends past the authored rectangles. Its living trees need the
+    // nearest region's gathering ownership too; a missing rectangle is not decorative wood.
+    const regionId = semantic?.regionId ?? ctx.scene.regionAt(x, z);
     const resourceId = treeSpeciesForAsset(entry.assetId)!.resourceId;
     const nativeTrunkRadius = next.trunkRadius ?? TREE_TRUNK_RADII[entry.assetId];
     if (nativeTrunkRadius === undefined) throw new Error(`Missing trunk dimensions for ${entry.assetId}.`);
     return {
       position, rotationY, scale, tilt: 0,
-      ...(semantic ? { forestTree: {
+      forestTree: {
         // The source candidate identifies the tree before display aliases, batching or sharding.
         id: `forest:${ctx.seed >>> 0}:${ctx.regionId}:${layer.id}:${ctx.tile.id}:${candidate.source}:${candidate.x.toFixed(4)}:${candidate.z.toFixed(4)}`,
-        resourceId, regionId: semantic.regionId, position, assetId: entry.assetId, scale, rotationY,
+        resourceId, regionId, position, assetId: entry.assetId, scale, rotationY,
         trunkRadius: nativeTrunkRadius * scale,
-      } } : {}),
+      },
     };
   }
   const nativeBase = entry.assetId !== entry.sourceAssetId ? assets.entry(entry.assetId)?.base?.y ?? 0 : 0;
@@ -3055,7 +3058,7 @@ export const DEFAULT_SCATTER: Record<RegionId, RegionScatterSpec> = {
 
 // World composition follows the area's woodcutting level. All future species stay in the pool,
 // with exponentially smaller encounter weights; no player's changing skill changes the forest.
-for (const [regionId, areaLevel] of [["fallowmarch", 1], ["vellenwood", 5], ["karrowmoor", 10], ["kilnhalt", 20]] as const) {
+for (const { id: regionId, tier: areaLevel } of REGIONS) {
   for (const layer of DEFAULT_SCATTER[regionId].layers) {
     const ids = layer.species?.map(entry => entry.assetId) ?? layer.assetIds ?? [];
     const living = (id: string) => /^tree_(common|pine|twisted)_/.test(id);
@@ -3066,7 +3069,22 @@ for (const [regionId, areaLevel] of [["fallowmarch", 1], ["vellenwood", 5], ["ka
     layer.species = [...original.filter(entry => !living(entry.assetId)), ...TREE_SPECIES.flatMap(species => treeAssetIds(species).map(assetId => ({
       assetId, weight: livingWeight * treeEncounterWeight(species, areaLevel) / (total * species.variants),
       scale: [.64, 1.08] as [number, number], tilt: 0,
+      sources: species.id === "willow" ? ["shore"] as ScatterSource[] : undefined,
     })))];
     delete layer.assetIds;
+    // Mixed forest patches should show several species even when one cluster seed picks ash/oak.
+    if (layer.cluster) layer.cluster.dominance = Math.min(layer.cluster.dominance ?? .7, .35);
   }
+  // Willows grow on the solved lake banks, independent of the upland forest candidates.
+  // Keep the source restricted so collectField cannot scatter this pool across dry interiors.
+  const willow = TREE_SPECIES.find(species => species.id === "willow")!;
+  DEFAULT_SCATTER[regionId].layers.push({
+    id: "willow-banks",
+    maxCount: 160,
+    species: treeAssetIds(willow).map(assetId => ({ assetId, sources: ["shore"] })),
+    scale: [.64, 1.08], tilt: 0, castShadow: true,
+    exclusion: TREE_EXCLUSION,
+    terrain: { slopeMax: .55 },
+    shore: { band: [3, 10], perMetre: .012 + .001 * areaLevel },
+  });
 }

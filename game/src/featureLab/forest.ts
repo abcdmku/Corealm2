@@ -33,6 +33,15 @@ export async function createForestFixture({ assets, scene, registerTree }: Fores
     { species: "oak", variant: 1, x: 20, z: 47, scale: 0.8, yaw: 4.1, radius: 0.48 },
     { species: "pine", variant: 1, x: 31, z: 49, scale: 1.04, yaw: 0.9, radius: 0.34 },
     { species: "pine", variant: 2, x: 42, z: 48, scale: 0.84, yaw: 3.7, radius: 0.32 },
+    // Higher-tier materials must also survive scatter-to-interactive promotion.
+    { species: "maple", variant: 1, x: 64, z: 4, scale: 1, yaw: 0.2, radius: 0.27 },
+    { species: "maple", variant: 2, x: 78, z: 5, scale: 1, yaw: 1.3, radius: 0.27 },
+    { species: "walnut", variant: 1, x: 64, z: 26, scale: 0.8, yaw: 0.8, radius: 0.52 },
+    { species: "teak", variant: 1, x: 84, z: 26, scale: 1, yaw: 2.1, radius: 0.24 },
+    { species: "ash", variant: 1, x: 64, z: 49, scale: 1, yaw: 0.9, radius: 0.20 },
+    { species: "yew", variant: 1, x: 84, z: 50, scale: 1, yaw: 1.7, radius: 0.32 },
+    { species: "willow", variant: 1, x: 64, z: 73, scale: 1, yaw: 3.2, radius: 0.34 },
+    { species: "magic", variant: 1, x: 85, z: 74, scale: 0.9, yaw: 2.6, radius: 0.72 },
   ] as const;
   const assetIds = [...new Set(layout.map((row) => `corealm_${row.species}_${row.variant}`))];
   for (const assetId of assetIds) {
@@ -44,7 +53,7 @@ export async function createForestFixture({ assets, scene, registerTree }: Fores
   await Promise.all([...assetIds, "corealm_stump_oak", "corealm_stump_pine"].map((assetId) =>
     assets.load(assetId, { priority: "visible-spawn", primary: true })));
 
-  const counts = { oak: 0, pine: 0 };
+  const counts: Record<string, number> = {};
   const trees: ForestTreeDescriptor[] = layout.map((row) => {
     const assetId = `corealm_${row.species}_${row.variant}`;
     const centre = assets.assetCenterXZ(assetId)!;
@@ -54,7 +63,7 @@ export async function createForestFixture({ assets, scene, registerTree }: Fores
     const z = row.z - row.scale * (-centre.x * sin + centre.z * cos);
     const position: Vec3 = [x, scene.meshHeightAt(x, z) - assets.baseY(assetId) * row.scale, z];
     return {
-      id: `feature-lab:forest:${row.species}:${++counts[row.species]}`,
+      id: `feature-lab:forest:${row.species}:${counts[row.species] = (counts[row.species] ?? 0) + 1}`,
       resourceId: treeSpeciesForAsset(assetId)!.resourceId,
       regionId: "fallowmarch",
       position,

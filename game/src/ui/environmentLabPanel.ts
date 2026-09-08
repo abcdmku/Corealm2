@@ -15,6 +15,7 @@ export class EnvironmentLabPanel {
   private readonly count = document.createElement("input");
   private readonly span = document.createElement("input");
   private readonly variants = document.createElement("input");
+  private readonly woodOnly = document.createElement("input");
   private readonly load = document.createElement("button");
   private readonly frame = document.createElement("button");
   private readonly detail = document.createElement("button");
@@ -61,7 +62,13 @@ export class EnvironmentLabPanel {
     dimensions.append(label("Instance count", this.count), label("Span (m)", this.span));
     this.variants.type = "checkbox";
     this.variants.id = "environment-lab-variants";
-    this.foliageControls.append(label("Layout", this.layout), dimensions, label("Mix species variants", this.variants));
+    this.woodOnly.type = "checkbox";
+    this.woodOnly.id = "environment-lab-wood-only";
+    this.woodOnly.addEventListener("change", () => {
+      this.workbench.setFoliageWoodOnly(this.woodOnly.checked);
+      this.refresh();
+    });
+    this.foliageControls.append(label("Layout", this.layout), dimensions, label("Mix species variants", this.variants), label("Wood only", this.woodOnly));
     this.mode.addEventListener("change", () => { this.populate(); this.describe(); });
     this.selection.addEventListener("change", () => this.describe());
     this.load.type = "button";
@@ -117,6 +124,7 @@ export class EnvironmentLabPanel {
       this.count.value = String(state.foliage.count);
       this.span.value = String(state.foliage.span);
       this.variants.checked = state.assets.length > 1;
+      this.woodOnly.checked = state.foliage.woodOnly;
     }
     this.describe();
     this.status.textContent = state.ready
@@ -158,6 +166,8 @@ export class EnvironmentLabPanel {
   }
 
   private describe(): void {
+    const state = this.workbench.getState();
+    this.woodOnly.disabled = this.busy || state.mode !== "foliage" || !state.ready;
     if (this.mode.value === "portal") {
       this.info.textContent = "Production masonry opening and recessed stone passage. Inspect threshold, arch fit and depth.";
     } else if (this.mode.value === "cut-face") {
