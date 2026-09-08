@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-08T01:05:57.427Z",
+  "generatedAt": "2026-09-08T01:23:40.632Z",
   "packs": [
     {
       "id": "stylized-nature-megakit",
@@ -239,7 +239,7 @@
       "author": "Corealm",
       "source": "tools/build-ground-ores.ts",
       "license": "LicenseRef-Corealm-Original",
-      "generatorSha256": "872c2d0a17360dec7ee6f56c4df9683888b5a764ea1e786a7a7813f94c839091"
+      "generatorSha256": "ebb677922a932e2be26e5a93dbcd46fcbb3cb8de65229b0f09be779c8f1c5d50"
     },
     {
       "id": "corealm-original-equipment",
@@ -10022,7 +10022,7 @@
         "grithe",
         "resource"
       ],
-      "bytes": 2324512,
+      "bytes": 3244568,
       "size": {
         "x": 1.55,
         "y": 0.94,
@@ -10038,8 +10038,8 @@
         "Corealm ground host stone",
         "Corealm exposed grithe mineral"
       ],
-      "sha256": "cba709db568e2160f110cc0997c56753b6b198463ef73f1b4ed9e099598b5520",
-      "triangles": 36840,
+      "sha256": "278789ee27286fbdd970cdb4afbe336f05b1cb23573c2a3e8a9bad83dce8bb1c",
+      "triangles": 50736,
       "blocks": 1,
       "mineralFaces": 7981,
       "presentation": {
@@ -10413,7 +10413,7 @@
             0.272627
           ]
         ],
-        "mineralAreaRatio": 0.204339,
+        "mineralAreaRatio": 0.163222,
         "scarAreaRatio": 0
       }
     },
@@ -10430,7 +10430,7 @@
         "grithe",
         "depleted"
       ],
-      "bytes": 2240708,
+      "bytes": 3443332,
       "size": {
         "x": 1.55,
         "y": 0.94,
@@ -10445,8 +10445,8 @@
       "materials": [
         "Corealm ground host stone"
       ],
-      "sha256": "4837e25a4480bedaa005d9ed4fcf2bc8c18a89474a13de4b2ac54b221a8aedf0",
-      "triangles": 36840,
+      "sha256": "17972deab5280d37a5436b48d9b5ffedbd20b11d54ba5f9a24ee2855a82250e3",
+      "triangles": 50736,
       "blocks": 1,
       "mineralFaces": 0,
       "presentation": {
@@ -10821,7 +10821,7 @@
           ]
         ],
         "mineralAreaRatio": 0,
-        "scarAreaRatio": 0.194953
+        "scarAreaRatio": 0.163467
       }
     },
     {
@@ -10837,7 +10837,7 @@
         "corven",
         "resource"
       ],
-      "bytes": 2453992,
+      "bytes": 3352540,
       "size": {
         "x": 1.48,
         "y": 0.87,
@@ -10853,8 +10853,8 @@
         "Corealm ground host stone",
         "Corealm exposed corven mineral"
       ],
-      "sha256": "045cc8eb4ddd020d24b1a7a5cf7d6f2bd66208746aa3f1ed7b193a6574ec8cc2",
-      "triangles": 38028,
+      "sha256": "81fb4d1342ec51ff78f892800cdabd0c62b96f4a6d289da70462dec47ce7e68a",
+      "triangles": 52084,
       "blocks": 1,
       "mineralFaces": 11253,
       "presentation": {
@@ -11258,7 +11258,7 @@
             0.440276
           ]
         ],
-        "mineralAreaRatio": 0.269907,
+        "mineralAreaRatio": 0.212269,
         "scarAreaRatio": 0
       }
     },
@@ -11275,7 +11275,7 @@
         "corven",
         "depleted"
       ],
-      "bytes": 2376532,
+      "bytes": 3552244,
       "size": {
         "x": 1.48,
         "y": 0.87,
@@ -11290,8 +11290,8 @@
       "materials": [
         "Corealm ground host stone"
       ],
-      "sha256": "6f9517ef895294193a84a7d714c83227a6bb3ecb6c25d608779463c6252872b1",
-      "triangles": 38028,
+      "sha256": "e030a5a49b743d0d28ffa56693e5232d906618c14ffc99d15af8cd12a1ba9e90",
+      "triangles": 52084,
       "blocks": 1,
       "mineralFaces": 0,
       "presentation": {
@@ -11696,7 +11696,7 @@
           ]
         ],
         "mineralAreaRatio": 0,
-        "scarAreaRatio": 0.25898
+        "scarAreaRatio": 0.211966
       }
     },
     {
@@ -11712,7 +11712,7 @@
         "kaldite",
         "resource"
       ],
-      "bytes": 2320964,
+      "bytes": 3168300,
       "size": {
         "x": 1.42,
         "y": 1.02,
@@ -11728,8 +11728,8 @@
         "Corealm ground host stone",
         "Corealm exposed kaldite mineral"
       ],
-      "sha256": "764fd683371f8d53d68823884ce1c568ed5d40b62eecf28caa151438c9939e82",
-      "triangles": 37116,
+      "sha256": "2308f35f302a08dc6737e3de9cca07b361c2aedc08b90d4f97d083ebdc1488f6",
+      "triangles": 49794,
       "blocks": 1,
       "mineralFaces": 10546,
       "presentation": {
@@ -12103,7 +12103,7 @@
             0.507093
           ]
         ],
-        "mineralAreaRatio": 0.310553,
+        "mineralAreaRatio": 0.256466,
         "scarAreaRatio": 0
       }
     },
@@ -12120,7 +12120,7 @@
         "kaldite",
         "depleted"
       ],
-      "bytes": 2248032,
+      "bytes": 3338152,
       "size": {
         "x": 1.42,
         "y": 1.02,
@@ -12135,8 +12135,8 @@
       "materials": [
         "Corealm ground host stone"
       ],
-      "sha256": "55d288703ff09a37b36e006022fa471ed3c776112078b1d900fef1c33ddeb8fc",
-      "triangles": 37116,
+      "sha256": "f7393cfea1d289ba8374b8a049b09a4e95003944a79e5608ada817c3948641e8",
+      "triangles": 49794,
       "blocks": 1,
       "mineralFaces": 0,
       "presentation": {
@@ -12511,7 +12511,7 @@
           ]
         ],
         "mineralAreaRatio": 0,
-        "scarAreaRatio": 0.301623
+        "scarAreaRatio": 0.256781
       }
     },
     {
@@ -12527,7 +12527,7 @@
         "emberite",
         "resource"
       ],
-      "bytes": 2450900,
+      "bytes": 3316104,
       "size": {
         "x": 1.58,
         "y": 0.89,
@@ -12543,8 +12543,8 @@
         "Corealm ground host stone",
         "Corealm exposed emberite mineral"
       ],
-      "sha256": "766380b4e41c6ca03c4df2c11f283d6b91494acd20ffcd0ba0284bbbc6e243e4",
-      "triangles": 38230,
+      "sha256": "4688fc6842c82aea6f61269491b3eee322689e389d339c2fb57c65879d320eaf",
+      "triangles": 52354,
       "blocks": 1,
       "mineralFaces": 10200,
       "presentation": {
@@ -12938,7 +12938,7 @@
             0.488335
           ]
         ],
-        "mineralAreaRatio": 0.247212,
+        "mineralAreaRatio": 0.191026,
         "scarAreaRatio": 0
       }
     },
@@ -12955,7 +12955,7 @@
         "emberite",
         "depleted"
       ],
-      "bytes": 2344628,
+      "bytes": 3522572,
       "size": {
         "x": 1.58,
         "y": 0.89,
@@ -12970,8 +12970,8 @@
       "materials": [
         "Corealm ground host stone"
       ],
-      "sha256": "d92b9377e4b2db1bfef488d999e8d59e7b03f8b377ee83754fa6ab696aa14069",
-      "triangles": 38230,
+      "sha256": "ace499bad010dc8d20c2a42b168d4df56144ca0832c6f92e51651d82052a3df5",
+      "triangles": 52354,
       "blocks": 1,
       "mineralFaces": 0,
       "presentation": {
@@ -13366,7 +13366,7 @@
           ]
         ],
         "mineralAreaRatio": 0,
-        "scarAreaRatio": 0.234209
+        "scarAreaRatio": 0.191303
       }
     },
     {
@@ -13382,7 +13382,7 @@
         "stone",
         "resource"
       ],
-      "bytes": 2435276,
+      "bytes": 3227272,
       "size": {
         "x": 1.5,
         "y": 0.82,
@@ -13398,8 +13398,8 @@
         "Corealm ground host stone",
         "Corealm exposed stone mineral"
       ],
-      "sha256": "ba040913e74f1b738f28a32b65b436da48bdccf20a4f698ef00d9972b48fe6ac",
-      "triangles": 37964,
+      "sha256": "79fadadda287a17d9ecf7fdd05311a84f9effd5c9ef16db9ba737b7eff6927de",
+      "triangles": 50338,
       "blocks": 1,
       "mineralFaces": 10619,
       "presentation": {
@@ -13768,7 +13768,7 @@
             0.387565
           ]
         ],
-        "mineralAreaRatio": 0.267333,
+        "mineralAreaRatio": 0.198234,
         "scarAreaRatio": 0
       }
     },
@@ -13785,7 +13785,7 @@
         "stone",
         "depleted"
       ],
-      "bytes": 2337484,
+      "bytes": 3457604,
       "size": {
         "x": 1.5,
         "y": 0.82,
@@ -13800,8 +13800,8 @@
       "materials": [
         "Corealm ground host stone"
       ],
-      "sha256": "f85a0389285564364e851656405d3dc1b7a3896e1c435721d387ec2778756214",
-      "triangles": 37964,
+      "sha256": "4b3aed2e7f0687b819893d37235cf556d83f007b3547faf096f907dd3a07dffe",
+      "triangles": 50338,
       "blocks": 1,
       "mineralFaces": 0,
       "presentation": {
@@ -14171,7 +14171,7 @@
           ]
         ],
         "mineralAreaRatio": 0,
-        "scarAreaRatio": 0.25346
+        "scarAreaRatio": 0.198903
       }
     },
     {
@@ -14187,7 +14187,7 @@
         "kilnstone",
         "resource"
       ],
-      "bytes": 2544952,
+      "bytes": 3542924,
       "size": {
         "x": 1.48,
         "y": 0.91,
@@ -14203,8 +14203,8 @@
         "Corealm ground host stone",
         "Corealm exposed kilnstone mineral"
       ],
-      "sha256": "66c397d5d3af5154262bee69f954a6c4ca319202a3a5b982141ecaf8fa2bf7b3",
-      "triangles": 38408,
+      "sha256": "1cb1cea11b97c94f07aaf067d0d960dfdb638830aec766f3bd20ebacf2fa0909",
+      "triangles": 54154,
       "blocks": 1,
       "mineralFaces": 10891,
       "presentation": {
@@ -14593,7 +14593,7 @@
             0.458857
           ]
         ],
-        "mineralAreaRatio": 0.261021,
+        "mineralAreaRatio": 0.193476,
         "scarAreaRatio": 0
       }
     },
@@ -14610,7 +14610,7 @@
         "kilnstone",
         "depleted"
       ],
-      "bytes": 2440444,
+      "bytes": 3833356,
       "size": {
         "x": 1.48,
         "y": 0.91,
@@ -14625,8 +14625,8 @@
       "materials": [
         "Corealm ground host stone"
       ],
-      "sha256": "a1e3aa0d0f011d73105fa60c5a45859f17f07ed3b5b030610e9c6f6fed823867",
-      "triangles": 38408,
+      "sha256": "d6e50aeb57c219b385d7c598a47443641237beb80376f1c25cfb21b5afb85bc7",
+      "triangles": 54154,
       "blocks": 1,
       "mineralFaces": 0,
       "presentation": {
@@ -15016,7 +15016,7 @@
           ]
         ],
         "mineralAreaRatio": 0,
-        "scarAreaRatio": 0.246845
+        "scarAreaRatio": 0.194496
       }
     },
     {

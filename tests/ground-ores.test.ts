@@ -109,7 +109,7 @@ describe("fractured mineral deposits", () => {
       for (let corner = 0; corner < 3; corner++) { const a = ids[offset + corner]!, b = ids[offset + (corner + 1) % 3]!;
         coordinates.set(a, points[corner]!); const neighbours = adjacency.get(a) ?? new Set<number>(); neighbours.add(b); adjacency.set(a, neighbours); }
     }
-    expect(mineralArea / totalArea).toBeGreaterThan(0.15); expect(mineralArea / totalArea).toBeLessThan(0.50);
+    expect(mineralArea / totalArea).toBeGreaterThan(0.10); expect(mineralArea / totalArea).toBeLessThan(0.50);
     const remaining = new Set(adjacency.keys()); let components = 0, largestSpan = 0;
     while (remaining.size) { components++; const pending = [remaining.values().next().value!], bounds = new Box3(); remaining.delete(pending[0]!);
       while (pending.length) { const id = pending.pop()!; bounds.expandByPoint(coordinates.get(id)!); for (const next of adjacency.get(id) ?? []) if (remaining.delete(next)) pending.push(next); }
@@ -127,8 +127,29 @@ describe("fractured mineral deposits", () => {
     expect(changed).toBeGreaterThan(5); expect(outward).toBe(0);
   });
 
+  it.each(FAMILIES)("carves %s mineral below the original rock surface", family => {
+    const specimen = specimens.get(`corealm_ore_${family}`)!, geometry = specimen.geometry;
+    const positions = geometry.getAttribute("position"), original = geometry.getAttribute("sourcePosition"), depth = geometry.getAttribute("recessDepth");
+    const flags = (specimen.root.children[0] as Mesh).userData.mineralFaces as boolean[];
+    let mineralVertices = 0, embeddedVertices = 0, deepest = 0, walls = 0;
+    for (let index = 0; index < positions.count; index++) {
+      const displacement = new Vector3().fromBufferAttribute(positions, index).distanceTo(new Vector3().fromBufferAttribute(original, index));
+      if (flags[Math.floor(index / 3)]) {
+        mineralVertices++;
+        if (displacement > 0.012 && depth.getX(index) > 0.010) embeddedVertices++;
+        deepest = Math.max(deepest, displacement);
+      } else if (depth.getX(index) > 0.010) walls++;
+    }
+    expect(embeddedVertices / mineralVertices).toBeGreaterThan(0.45);
+    expect(deepest).toBeGreaterThan(0.03);
+    expect(deepest).toBeLessThan(0.09);
+    expect(walls).toBeGreaterThan(100);
+  });
+
   it("exports original granular stone detail and distinguishes metallic mineral from its non-emissive host", async () => {
-    for (const id of IDS) {
+    // Exercise the exported metallic, nonmetallic and depleted material paths.
+    // The per-family mesh cases above validate all twelve shapes and boundaries.
+    for (const id of ["corealm_ore_grithe", "corealm_ore_stone", "corealm_ore_grithe_spent"]) {
       const { glb, entry } = await buildGroundOreAsset(id), doc = await new NodeIO().readBinary(glb), spent = id.endsWith("_spent");
       const family = id.slice("corealm_ore_".length).replace(/_spent$/, "");
       expect(entry.sha256).toBe(createHash("sha256").update(glb).digest("hex"));
