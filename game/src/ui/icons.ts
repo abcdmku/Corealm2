@@ -7,10 +7,12 @@
 export type UiIconName = "pack" | "skills" | "equipment" | "quests" | "spells" | "keys" | "lab" | "close";
 
 const PATHS: Readonly<Record<UiIconName, readonly string[]>> = {
-  // A satchel: rounded body and a single handle.
+  // A backpack: domed body, a strap band across it, a front pocket. The earlier satchel with a
+  // single handle read as a padlock at dock size.
   pack: [
-    "M4 9h16v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9Z",
-    "M8 9V7a4 4 0 0 1 8 0v2",
+    "M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z",
+    "M9 6V4.5A1.5 1.5 0 0 1 10.5 3h3A1.5 1.5 0 0 1 15 4.5V6",
+    "M4 12h16M8 22v-5h8v5",
   ],
   // Three bars climbing.
   skills: [
