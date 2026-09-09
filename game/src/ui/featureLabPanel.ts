@@ -124,6 +124,13 @@ export class FeatureLabPanel implements ManagedPanel {
     ));
 
     const catalog = this.lab.getCatalog();
+    const spellRangeLink = document.createElement("a");
+    spellRangeLink.id = "lab-open-spell-range";
+    spellRangeLink.className = "btn";
+    spellRangeLink.textContent = "Open 24-spell range";
+    const rangeUrl = new URL(window.location.href);
+    rangeUrl.searchParams.set("mode", "combat"); rangeUrl.searchParams.set("spells", "1");
+    spellRangeLink.href = rangeUrl.href;
     this.skill.append(...catalog.skills.map((row) => option(row.id, row.label)));
     this.skill.value = "magic";
     this.skill.addEventListener("change", () => this.refresh(true));
@@ -155,6 +162,7 @@ export class FeatureLabPanel implements ManagedPanel {
     gear.textContent = "Open Worn and choose a slot to equip any production item valid for it.";
 
     this.combatWorkbench.append(
+      spellRangeLink,
       labelled("Target kind", this.kind),
       labelled("Target", this.target),
       spawn,

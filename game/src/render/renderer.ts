@@ -10,6 +10,8 @@ import * as THREE from "three";
 import { CAMERA, RENDER_BUDGET } from "../app/config.js";
 import { GpuTimer } from "./gpuTimer.js";
 import { ScreenAntialiasing } from "./screenAntialiasing.js";
+import { MagicGlow } from "./magicGlow.js";
+import { ElementalRefraction } from "./elementalRefraction.js";
 import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transmissionOcclusion.js";
 import { StreamedShaderWarmup } from "./streamedShaderWarmup.js";
 
@@ -257,6 +259,8 @@ export interface WarmupOptions {
 }
 
 export class Renderer {
+  readonly magicGlow = new MagicGlow();
+  readonly elementalRefraction = new ElementalRefraction();
   readonly biomeAtmosphere = new BiomeAtmosphere();
   biomeWeightsSource?: () => BiomeWeights;
   readonly renderer: THREE.WebGLRenderer;
@@ -658,8 +662,10 @@ export class Renderer {
   /** Draw the scene and final display treatment without advancing simulation or camera state. */
   drawFrame(deltaSeconds = 0): void {
     this.drawWorld();
+    this.elementalRefraction.render(this.renderer, this.scene, this.camera);
     this.playerSilhouette.render(this.renderer, this.camera);
     this.biomeAtmosphere.render(this.renderer, deltaSeconds);
+    this.magicGlow.render(this.renderer, this.scene, this.camera);
     this.screenAntialiasing.render(this.renderer);
   }
 
@@ -669,7 +675,7 @@ export class Renderer {
     // The procedural sky is an opaque full-screen triangle. The underlying cube is fully covered,
     // but still triggers its own shader variants whenever refraction first appears.
     if (sky?.enabled && sky.mesh.visible && sky.mesh.parent === this.scene) this.scene.background = null;
-    try { this.renderer.render(this.scene, this.camera); }
+    try { this.magicGlow.renderBase(this.renderer, this.scene, this.camera); }
     finally { this.scene.background = background; }
   }
 
@@ -832,6 +838,8 @@ export class Renderer {
     this.biomeAtmosphere.dispose();
     this.playerSilhouette.dispose();
     this.screenAntialiasing.dispose();
+    this.magicGlow.dispose();
+    this.elementalRefraction.dispose();
     this.transmissionOcclusion.dispose();
     this.gpuTimer?.dispose();
     this.shadowGpuTimer?.dispose();

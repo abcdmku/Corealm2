@@ -2582,6 +2582,30 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   loop.setOverlays(guidance);
   loop.setVfx(vfx);
   loop.setSpellVfx(spellVfx);
+  if (profile.kind === "feature-lab" && profile.labMode === "combat" && new URLSearchParams(location.search).get("spells") === "1") {
+    const { createSpellRange } = await import("../featureLab/spellRange.js");
+    featureLab?.setWalkingEnabled(true);
+    const rangeSpawn: Vec3 = [20, scene.meshHeightAt(20, 28), 28];
+    store.get().player.position = rangeSpawn;
+    store.get().player.facingRad = 0;
+    movement.stop(store.get(), clock.elapsedMs, "spell-range-setup");
+    const range = createSpellRange({
+      parent: scene.overlayGroup,
+      camera: renderer.camera,
+      ground: (x, z) => scene.meshHeightAt(x, z),
+      origin: () => store.get().player.position,
+      frame: (aim) => {
+        featureLab?.setFreeCameraEnabled(false);
+        const at = store.get().player.position;
+        const yaw = Math.atan2(aim[0] - at[0], aim[2] - at[2]) + Math.PI;
+        camera.setFreeTarget(null);
+        camera.setPose(yaw + 0.3, 0.35, CAMERA.maxDistance);
+        camera.update(at[0], at[1], at[2], true);
+      },
+      castPose: () => { if (rigged) playerRig.play("cast", true); },
+    });
+    loop.setSpellRangeFrame((now) => range.update(now));
+  }
   // Health bars over the player and every engaged creature. They read the same two combat fields
   // the API folds into `inCombat`, and anchor to the DRAWN creature, not its sim position, so a
   // bar over a chasing wolf slides with the wolf rather than stepping ten times a second.

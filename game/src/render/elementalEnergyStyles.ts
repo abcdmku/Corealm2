@@ -1,0 +1,44 @@
+import type { ElementalSpellId } from "../content/elementalSpells.js";
+
+export interface ElementalEnergyStyle {
+  core: number;
+  edge: number;
+  secondary: number;
+  smoke: number;
+  fragment: number;
+}
+const style = (
+  core: number,
+  edge: number,
+  secondary: number,
+  smoke = 0x504658,
+  fragment = 0x423b46,
+): ElementalEnergyStyle => ({ core, edge, secondary, smoke, fragment });
+/** Keep hot cores legible while the moving outer strands carry each spell's color. */
+export const ELEMENTAL_ENERGY: Record<ElementalSpellId, ElementalEnergyStyle> =
+  {
+    "breeze-puff": style(0xe0f7f2, 0x88cedd, 0x6b9cc6),
+    "water-bead": style(0xd6faff, 0x259cb9, 0x48d6c6),
+    "pebble-toss": style(0xd8eab2, 0x88b969, 0xa8a47a, 0x817966, 0x4c493e),
+    kindle: style(0xffe1a0, 0xff8e22, 0xd9400c, 0x453d32, 0x49372a),
+    "air-needle": style(0xf4f0db, 0x99b3b6, 0xc4baa0, 0x8b8576, 0x696252),
+    "razor-crescent": style(0xf2efdd, 0xacc0ba, 0xcbbda0, 0x8b8576, 0x696252),
+    "vacuum-coil": style(0xe5e9de, 0x8ca6a8, 0xb4ab91, 0x807b6c, 0x625e50),
+    "thunder-lance": style(0xeff6ed, 0x82b4ce, 0xc3cbbd, 0x85857d, 0x625e50),
+    skybreaker: style(0xe9eee3, 0x8aadb6, 0xc5b799, 0x827c70, 0x625c4e),
+    waterjet: style(0xe0eee0, 0x327e8b, 0x8dbdb6, 0xa8c4bc, 0x608b86),
+    "tidal-fan": style(0xf1f2df, 0x6b9eaf, 0xb7d0c7, 0xa5bcb4, 0x95b5ac),
+    "geyser-chain": style(0xe7efdd, 0x3d8490, 0x8cbbb0, 0xa1beb5, 0x689c91),
+    undertow: style(0xd9e9da, 0x366f7e, 0x81b2a7, 0x89a6a0, 0x537e76),
+    deluge: style(0xeaf0df, 0x397b87, 0x92bdb0, 0xa2c0b7, 0x648d84),
+    "flint-shot": style(0xd5d8c2, 0x858f80, 0xa6a084, 0x817966, 0x4c493e),
+    faultline: style(0xd4d8c4, 0x8d9687, 0xa29c81, 0x827b68, 0x4d4b40),
+    "basalt-jaw": style(0xcbdac2, 0x77917b, 0xaaa389, 0x787d6b, 0x41473e),
+    "siege-boulder": style(0xd6d8c4, 0x899583, 0xa59e84, 0x817969, 0x4c483e),
+    mountainfall: style(0xd5dbc6, 0x7e9480, 0xa9a38a, 0x807d6d, 0x49493e),
+    "ember-dart": style(0xffedb0, 0xf07816, 0xa92f0c, 0x453d32, 0x49372a),
+    "furnace-whip": style(0xffdda0, 0xed6712, 0xb83d0c, 0x41372c, 0x433227),
+    "cinder-mine": style(0xffe4a1, 0xe97716, 0x9c360e, 0x42382d, 0x443426),
+    "phoenix-pass": style(0xffedb2, 0xf6991c, 0xbe420c, 0x473a2d, 0x4d3927),
+    starfall: style(0xffe4a8, 0xf47c14, 0xa3320b, 0x40362d, 0x46352a),
+  };

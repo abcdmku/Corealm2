@@ -200,6 +200,8 @@ export class GameLoop {
   private pendingPlayerSwing: CombatAttackStart | null = null;
   private playerSwingSounded = false;
   private spellVfx: SpellVfx | null = null;
+  private spellRangeFrame: ((nowMs: number) => void) | null = null;
+  setSpellRangeFrame(update: (nowMs: number) => void): void { this.spellRangeFrame = update; }
   private healthBars: HealthBars | null = null;
   /** Scratch for the cast origin, so a cast allocates nothing. */
   private readonly spellOriginTuple: [number, number, number] = [0, 0, 0];
@@ -601,6 +603,7 @@ export class GameLoop {
     // After the camera has moved for this frame, unlike the floaters above, so a bar pinned over a
     // head projects through THIS frame's view and does not trail it by one.
     this.healthBars?.update(nowMs, position);
+    this.spellRangeFrame?.(nowMs);
     scene.materials.updatePlayerOcclusion(renderer.renderer, renderer.camera, position,
       this.playerRig?.root.visible ?? true);
     renderer.render(nowMs);

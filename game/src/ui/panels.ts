@@ -629,7 +629,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
       dock.mount(root);
       loot.mount(root);
       for (const panel of panels) panel.frame.mount(root);
-      featureLab?.frame.open();
+      if (new URLSearchParams(location.search).get("spells") !== "1") featureLab?.frame.open();
       // Both of these cover the screen, so they mount last and sit above the panels.
       death.mount(root);
       title.mount(root);

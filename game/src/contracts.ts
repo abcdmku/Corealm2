@@ -1175,6 +1175,46 @@ export interface FeatureLabCreatureAi {
   respawnInMs: number | null;
 }
 
+/** Lab adapter for the reusable elemental attack system. Damage is deterministic dummy damage. */
+export interface SpellRangeState {
+  selected: string;
+  casting: boolean;
+  elapsed: number;
+  duration: number;
+  castId: number;
+  impacts: number;
+  totalImpacts: number;
+  hits: number;
+  damage: number;
+  instances: number;
+  particleCount: number;
+  volumeCount: number;
+  solidCount: number;
+  vfxUpdateMs: number;
+  droppedParticles: number;
+  filamentCount: number;
+  droppedFilaments: number;
+  bodyCount: number;
+  droppedBodies: number;
+  speed: number;
+  repeat: boolean;
+  targets: {
+    id: string;
+    position: Vec3;
+    health: number;
+    maxHealth: number;
+    hits: number;
+    status: string | null;
+  }[];
+}
+export interface SpellRangeApi {
+  getState(): SpellRangeState;
+  select(id: string): void;
+  cast(): void;
+  reset(): void;
+  frame(): void;
+}
+
 export interface FeatureLabApi {
   getState(): FeatureLabState;
   getCatalog(): FeatureLabCatalog;

@@ -350,6 +350,41 @@ export function installGameDebug(deps: DebugDeps): void {
     getPerformanceTimings(): Record<string, unknown> {
       return renderer.getPerformanceTimings();
     },
+    getMagicGlowState() {
+      return renderer.magicGlow.snapshot();
+    },
+    getElementalArtState() {
+      return renderer.scene.getObjectByName("elemental-spell-effects")?.userData["elementalArt"] ?? null;
+    },
+    getElementalRefractionState() {
+      return renderer.elementalRefraction.snapshot();
+    },
+    captureElementalRefractionComparison() {
+      const enabled = renderer.elementalRefraction.enabled;
+      try {
+        renderer.elementalRefraction.enabled = false;
+        const withoutRefraction = renderer.captureFrame();
+        renderer.elementalRefraction.enabled = true;
+        const withRefraction = renderer.captureFrame();
+        return { withoutRefraction, withRefraction, state: renderer.elementalRefraction.snapshot() };
+      } finally { renderer.elementalRefraction.enabled = enabled; }
+    },
+    setMagicGlowEnabled(enabled: boolean): void {
+      renderer.magicGlow.enabled = Boolean(enabled);
+    },
+    /** Compare the display contribution without changing simulation time or the gameplay camera. */
+    captureMagicGlowComparison() {
+      const enabled = renderer.magicGlow.enabled;
+      try {
+        renderer.magicGlow.enabled = false;
+        const withoutGlow = renderer.captureFrame();
+        renderer.magicGlow.enabled = true;
+        const withGlow = renderer.captureFrame();
+        return { withoutGlow, withGlow, state: renderer.magicGlow.snapshot() };
+      } finally {
+        renderer.magicGlow.enabled = enabled;
+      }
+    },
     setScreenAntialiasingEnabled(enabled: boolean): void {
       renderer.setScreenAntialiasingEnabled(Boolean(enabled));
     },

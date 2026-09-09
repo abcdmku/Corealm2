@@ -355,6 +355,119 @@ Inspect the captures separately. `window.__gameDebug.getBiomeAtmosphere()` expos
 live uniforms. Surface grades follow the existing organic field at the player; Gravelmaw uses the
 player's dungeon membership. Map captures retain their ungraded geographic overview.
 
+## Elemental spell range
+
+Run `npm run lab:spells:preview`, or choose **Open 24-spell range** in the combat workbench.
+The route is `/index.html?mode=combat&spells=1`. The dedicated preview uses port 4178 so the
+ordinary lab can remain open on 4174. Each of air, water, earth and fire has one basic spell and
+five advanced attacks, progressing from precision strikes to large area attacks. Each entry includes damage, timing, hit area,
+status effects and a specific observation cue.
+
+**Reset & cast** restores eleven 1,000-HP dummies and fires the selected spell. **Next** and
+**Previous** select and immediately cast within the current element filter. **Repeat** resets
+between casts, **Slow motion** runs at 35% speed, and **Reset view** restores the player-follow view.
+Walking and normal camera orbit/zoom remain available. Casts originate at the player's current
+position. Camera acceptance uses only gameplay-reachable angles and the normal 6–11 m zoom,
+with no detached focus or authored-distance override. Large attacks are judged from that view.
+**Reset targets** cancels pending damage and stops repeating. T5 is the aim point. Labels show
+real dummy health and status, while the panel totals resolved impacts, target hits and damage.
+**Show hit areas** adds diagnostic radius guides; they are hidden during ordinary visual review.
+
+The range uses `content/elementalSpells.ts`, `systems/elementalAttacks.ts`,
+`render/elementalSpellVfx.ts` and the reusable training-dummy view. Geometry and damage read the
+same pulse positions and deadlines. The lab adapter owns fixture setup and controls. These new
+attacks are not yet registered in authored-world progression or the existing fuel-based spellbook.
+Statuses are visible on stationary dummies; this fixture does not prove enemy movement AI under slow or freeze.
+
+Presentation uses small instanced 3D particles, moving pressure and liquid surfaces, spatial
+noise on dissolving volumes and shaded stone. Water is liquid throughout, with no freezing attacks. Multi-hit vortices share one
+continuous visual field. The caster gesture, projectile, impact and residue are inspected at
+their own phases. An original grayscale flow mask adds fine turbulence, erosion and moving ridges to curved 3D surfaces. The texture is not a whole spell image or a camera-facing attack card.
+
+Air bends the scene through moving pressure shells and sculpted currents. Air Needle has a
+pointed, twisting dart; Razor Crescent has three banked blades with different curves and tilts;
+Vacuum Coil has a low inward spiral eye; Thunder Lance drives one continuous corkscrew down
+the lane; Skybreaker is the broad tornado. Eroded current edges carry blue-violet emission,
+with fine circulating motes. Air emits no rocks or smoke and uses no line-segment tracers.
+Water uses flowing, refractive bodies, moving crests and falling droplets. Fire has irregular
+flame tongues with independent flutter, rising turbulence and eroding edges. Earth uses
+shaded stone, cool mineral emission, fine chips and dense dust. Flint Shot and Siege Boulder separate their own connected geometry into 72 and 180 pieces. Faultline, Basalt Jaw and Mountainfall each have a distinct continuous formation.
+Fine particle sizes are preserved. The later earth request supersedes the earlier request
+to preserve its palette and emission settings.
+
+Skybreaker has an approximately 11.4 m ground-contact diameter, broad rotating wind layers and
+smaller rotating vortices at its base. Ground currents gather beneath the descending funnel,
+so the wind-up remains visible when the crown is above the gameplay view.
+Vacuum Coil instead stays below 3.2 m with an open eye. Authored contact
+recipes vary stream bends, width, depth, height, partial arcs, plume count, splash direction and
+debris distribution. Successive Deluge waves have different crests and curls; Basalt Jaw's two
+walls have different rock profiles. Moving light follows the existing material detail on wind,
+water, flame and mineral surfaces.
+
+Breeze Puff, Water Bead, Pebble Toss and Kindle are labeled **Basic**. Each has a single hit
+within 0.9 m, arrives in under 600 ms and uses fewer than 500 live particles. They use the same
+production flow, refraction, emission and fracture systems as the larger attacks.
+
+`render/elementalRefraction.ts` shares one scene-color copy among active wind and liquid
+meshes on layer 29. The pass retains the world depth buffer and restores renderer state.
+It runs after the world draw and before atmosphere, glow and antialiasing. With no active
+sources it skips both the copy and draw. Refraction changes neither camera pose nor focus.
+
+`render/magicGlow.ts` isolates emission in an antialiased HDR buffer with scene depth, applies
+bloom, and composites it without washing the edge colors to white. Pure energy is drawn once
+through this buffer. Lit flame bodies, stone and textured flowing surfaces contribute only their emission to bloom;
+refractive water surfaces remain in the scene pass. Four pooled point lights illuminate
+nearby targets and ground with per-element gains. Air uses none. With
+no active spell sources, the glow pass does no GPU work and leaves the frame unchanged.
+
+Run `npm run lab:spells:test -- --element wind`, then the `water`, `earth` and `fire` shards.
+Each shard owns a 60-second deadline and uses real pointer casts, before/after health, impact
+counts, reset and effect cleanup. `--url` reuses a running server. Reports and six captures per
+element overwrite ignored `test-results/elemental-spells/`; inspect the captures separately.
+`window.__spellRange.getState()` exposes the live evidence without altering combat time.
+
+For motion review, run `npx tsx tools/elemental-spells-motion-test.ts --spell starfall --url http://127.0.0.1:4178`.
+The 60-second loop uses the actual Slow motion checkbox, captures six phases of a live cast (eight for boulders, including intact pre-contact and breakup),
+checks delayed damage and cleanup, and records the normal follow camera with each observation.
+Add `--contacts` to capture each distinct impact time as well, for repeated-hit variation review.
+Open the ignored `test-results/elemental-spells/motion/<spell-id>/index.html` to inspect the
+sequence. The script accepts any of the 24 spell IDs and never advances time through a debug API.
+
+The spell range uses instanced 3D particles, lit stone, curved water volumes, and
+spatially sampled effect shaders. Tapered 3D energy bodies define the main attack shapes above the fine particles.
+Its state includes live particle, strand, body, solid and volume counts,
+particle, strand and body overflow, and CPU update time. The per-element gate records actual frame intervals,
+peak populations and GPU submissions, and rejects overflow. Particle storage is
+bounded at 48,000 luminous motes, 16,000 fragments and 3,000 smoke particles; these are capacities,
+not populations emitted by every attack. Connected energy segments share a 4,096-instance pool.
+Each particle batch uses one draw call per pass.
+The main energy bodies use an instanced batch per element with a 256-body capacity; air
+instead uses three pressure batches of 96 each and four current shapes with 64 instances each.
+Each current strip has 384 triangles, draws depth-tested refraction and contributes only its
+emissive detail to glow. Water adds bounded wave, jet and droplet
+batches. Textured impact bands, shells, plumes and funnels each use a bounded 96-instance batch with 576 triangles per surface. The browser gate requires principal shapes during every spell and zero dropped
+bodies, as well as the particle and strand checks. Air and water must activate refraction.
+
+Run `npx tsx tools/elemental-glow-test.ts --url http://127.0.0.1:4178` for the HDR regression.
+It checks that idle frames are identical with glow enabled or disabled, compares two synchronous
+renders of a live cast without moving the camera or advancing combat time, checks visible colored
+glow, resizes the viewport and resets the cast. Captures and state go to the ignored `glow/` subfolder.
+This pixel comparison checks the rendering contribution; ordinary live casts and screenshot review
+still determine visual acceptance.
+
+The glow command also accepts `--spell vacuum-coil` for the air-current material. It selects
+the requested spell and compares emission shortly after the first impact, writing into
+`test-results/elemental-spells/glow-vacuum-coil/`.
+
+Run `npx tsx tools/elemental-refraction-test.ts --url http://127.0.0.1:4178` to compare air
+and water with refraction enabled and disabled in synchronous renders. It checks visible
+pixel changes, unchanged foreground outside the effects, one shared scene-color copy,
+viewport resize, camera preservation, idle equivalence and cleanup. Captures and state go
+to the ignored `refraction/` subfolder; inspect the live phase captures as well.
+
+Add `--orbit` to the motion command to review a second view reached by actual right-mouse
+dragging. It retains player-follow focus and verifies the same gameplay pitch and zoom limits.
+
 ## Time budgets
 
 These are hard design targets for every testing loop:

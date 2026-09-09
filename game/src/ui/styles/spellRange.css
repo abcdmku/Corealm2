@@ -1,0 +1,26 @@
+#spell-range { --accent:#a9dfff; position:fixed; left:18px; top:76px; width:300px; max-height:calc(100vh - 105px); overflow:auto; z-index:100; padding:19px; border:1px solid #566771; border-radius:10px; background:rgba(16,25,30,.96); box-shadow:0 12px 38px #0006; color:#eaf0ed; font:13px/1.5 system-ui,sans-serif; }
+#spell-range[data-element="water"] { --accent:#80c9ff; }
+#spell-range[data-element="earth"] { --accent:#e7c38d; }
+#spell-range[data-element="fire"] { --accent:#ffb279; }
+#spell-range h2 { margin:4px 0; font-size:22px; color:#fff; }
+#spell-range h3 { margin:7px 0; font-size:19px; color:var(--accent); }
+#spell-range p { margin:7px 0 13px; }
+#spell-range header p, .spell-range-note { color:#b4c4c9; }
+.spell-range-kicker { font-size:10px; letter-spacing:1.8px; color:var(--accent); }
+#spell-range label { display:block; margin:10px 0; }
+#spell-range select { display:block; box-sizing:border-box; width:100%; margin-top:4px; background:#26353d; border:1px solid #61717b; border-radius:5px; padding:8px; color:#fff; font:inherit; }
+#spell-range button { cursor:pointer; padding:9px; border:1px solid #62757e; border-radius:5px; color:#f5f8f8; background:#2c3e48; font:inherit; }
+#spell-range button:hover { background:#415866; }
+#spell-range button:focus-visible, #spell-range select:focus-visible, #spell-range a:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+#spell-range .spell-range-primary { width:100%; color:#101a21; background:var(--accent); font-weight:700; font-size:15px; }
+#spell-range .spell-range-primary:hover { background:#e2f1f7; }
+.spell-range-actions { display:flex; gap:8px; margin-top:8px; }
+.spell-range-actions > * { flex:1; }
+.spell-range-actions input { accent-color:var(--accent); }
+.spell-range-tier { margin-top:17px; color:var(--accent); text-transform:capitalize; font-size:11px; letter-spacing:.5px; }
+.spell-range-watch { padding:10px; border-left:2px solid var(--accent); background:#ffffff08; color:#e4e9e8; }
+#spell-range output { display:block; white-space:pre-line; padding:10px 0; border-top:1px solid #4b5d65; color:var(--accent); font-variant-numeric:tabular-nums; }
+#spell-range .spell-range-note { font-size:11px; }
+#spell-range a { color:#c1dbea; text-decoration:underline; cursor:pointer; }
+.spell-target-label { position:fixed; z-index:50; transform:translate(-50%,-100%); padding:3px 6px 6px; border-radius:3px; color:#fff; background:linear-gradient(#84b99b,#84b99b) left bottom / var(--hp,100%) 3px no-repeat, #152025db; font:11px/1.3 system-ui,sans-serif; white-space:nowrap; pointer-events:none; }
+@media(max-width:700px) { #spell-range { width:235px; left:8px; padding:12px; } }
