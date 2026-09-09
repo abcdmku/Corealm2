@@ -19,6 +19,25 @@ const target = (x = 0, z = 10): ElementalTarget => ({
 });
 
 describe("elemental attacks", () => {
+  it("binds invocation light to the supplied animated focus and clears every ritual on reset", () => {
+    const vfx = new ElementalSpellVfx(new THREE.Group(), () => 0);
+    try {
+      for (const spell of ELEMENTAL_SPELLS) {
+        const cast = new ElementalAttacks().cast(spell.id, [0,0,0], [0,0,10], 0);
+        const focus: [number,number,number] = [1.25,2.15,.4];
+        vfx.update(cast,160,[],focus);
+        const cores=vfx.group.getObjectByName("elemental-arcane-concentrated-foci") as THREE.InstancedMesh;
+        const matrix=new THREE.Matrix4(); cores.getMatrixAt(0,matrix);
+        const position=new THREE.Vector3().setFromMatrixPosition(matrix);
+        expect(position.distanceTo(new THREE.Vector3(...focus))).toBeLessThan(.00001);
+        expect(vfx.group.userData["elementalArt"].arcane.rite).toBe(spell.id);
+        vfx.update(null,180);
+        expect(vfx.instances).toBe(0);
+        expect(vfx.group.userData["elementalArt"].arcane.inscriptions).toBe(0);
+        expect(vfx.group.userData["elementalArt"].arcane.cores).toBe(0);
+      }
+    } finally { vfx.dispose(); }
+  });
   it("keeps six distinct patterns per element with bounded effects and a finite end", () => {
     for (const element of ["wind", "water", "earth", "fire"])
       expect(

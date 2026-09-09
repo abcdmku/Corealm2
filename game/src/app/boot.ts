@@ -2589,6 +2589,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     store.get().player.position = rangeSpawn;
     store.get().player.facingRad = 0;
     movement.stop(store.get(), clock.elapsedMs, "spell-range-setup");
+    // Production robe and staff, through the same equipment path as the combat workbench.
+    // The feature-lab store is transient; this fixture never changes a saved character.
+    await featureLab?.equipPlayer("offHand", null);
+    for (const [slot, item] of [
+      ["head", "marchhide_hood"], ["body", "marchhide_robe"],
+      ["legs", "marchhide_leggings"], ["feet", "marchhide_boots"],
+      ["hands", "marchhide_wraps"], ["mainHand", "basic_wooden_staff"],
+    ] as const) await featureLab?.equipPlayer(slot, item);
+    if (rigged) await playerRig.applyEquipment(store.get().equipment);
     const range = createSpellRange({
       parent: scene.overlayGroup,
       camera: renderer.camera,
@@ -2602,7 +2611,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         camera.setPose(yaw + 0.3, 0.35, CAMERA.maxDistance);
         camera.update(at[0], at[1], at[2], true);
       },
-      castPose: () => { if (rigged) playerRig.play("cast", true); },
+      castPose: (rank, speed) => {
+        const at = store.get().player.position;
+        store.get().player.facingRad = Math.atan2(20 - at[0], 40 - at[2]);
+        if (rigged) playerRig.play("cast", true, (rank < 2 ? 1.15 : rank < 4 ? .85 : .65) * speed);
+      },
+      castingFocus: () => rigged ? playerRig.castingFocus() : undefined,
     });
     loop.setSpellRangeFrame((now) => range.update(now));
   }

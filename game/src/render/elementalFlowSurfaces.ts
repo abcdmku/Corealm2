@@ -89,19 +89,19 @@ export class ElementalFlowSurfaces {
               energy=vec3(.24,.75,1.)*ridge*1.7+vec3(.22,.67,1.15)*current*.8;
               alpha*=.45+.28*fresnel;
             }else if(kind<1.5){
-              color=mix(vec3(.005,.11,.24),vec3(.08,.56,.74),density);
+              color=mix(vec3(.005,.055,.30),vec3(.045,.39,.82),density);
               color=mix(color,vec3(.62,.91,.97),ridge*.65);
-              energy=vec3(.06,.55,.82)*ridge*1.2+vec3(.10,.95,1.35)*current*1.1;
+              energy=vec3(.05,.46,1.35)*ridge*1.45+vec3(.18,1.25,1.65)*current*1.35;
               color=mix(color,mix(vec3(.26,.63,.72),vec3(.87,.98,1.),density),vLife.w);
               alpha*=mix(1.,smoothstep(.14,.46,n),vLife.w);
             }else if(kind<2.5){
               color=mix(vec3(.08,.075,.058),vec3(.40,.39,.24),density);
-              energy=vec3(.26,.43,.17)*ridge*.55+vec3(.40,.96,.28)*current*1.2;
+              energy=vec3(.14,.46,.27)*ridge*.55+vec3(.30,1.15,.67)*current*1.2;
             }else{
               float heat=pow(density,2.);
-              color=mix(vec3(.34,.008,.002),vec3(1.8,.18,.006),heat);
-              color=mix(color,vec3(4.,1.65,.30),ridge*.75);
-              energy=color*.72+vec3(2.4,.62,.12)*current;
+              color=mix(vec3(.25,.002,.012),vec3(1.8,.12,.004),heat);
+              color=mix(color,vec3(4.5,1.85,.24),ridge*.75);
+              energy=color*.82+vec3(3.2,.92,.14)*current;
             }
             if(alpha<.012)discard;
             gl_FragColor=vec4(magicEmissionPass>.5?energy:color,alpha);

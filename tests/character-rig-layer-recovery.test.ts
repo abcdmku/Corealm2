@@ -3,6 +3,32 @@ import * as THREE from "three";
 import { CharacterRig } from "../game/src/render/characterRig.js";
 
 describe("character outfit load recovery", () => {
+  it("keeps the casting light on an exported staff's authored socket as its hand animates", async () => {
+    // Exported equipment can be a merged mesh without the procedural source's userData.
+    const assets = { load: vi.fn(async () => new THREE.Group()) };
+    const rig = new CharacterRig(assets as never) as any;
+    rig.ready = true;
+    const hand = new THREE.Bone();
+    hand.name = "hand_r";
+    rig.root.add(hand);
+    rig.hostBones.set("hand_r", hand);
+    await rig.attachBoneSlot("mainHand", { assetId: "corealm_staff_1", slot: "mainHand", attach: "bone" });
+    const staff = rig.boneAttachments.get("mainHand") as THREE.Object3D;
+    const expected = () => {
+      staff.updateWorldMatrix(true, false);
+      return staff.localToWorld(new THREE.Vector3(0, 0.85, 0));
+    };
+    const first = new THREE.Vector3(...rig.castingFocus());
+    expect(first.distanceTo(expected())).toBeLessThan(0.00001);
+    expect(first.distanceTo(hand.getWorldPosition(new THREE.Vector3()))).toBeGreaterThan(0.5);
+    hand.position.set(1, 2, 3);
+    hand.rotation.set(0.4, -0.6, 1.2);
+    const moved = new THREE.Vector3(...rig.castingFocus());
+    expect(moved.distanceTo(expected())).toBeLessThan(0.00001);
+    expect(moved.distanceTo(first)).toBeGreaterThan(1);
+    await rig.attachBoneSlot("mainHand", null);
+    expect(new THREE.Vector3(...rig.castingFocus()).distanceTo(moved)).toBeGreaterThan(0.5);
+  });
   it("shows the carried hatchet through an equipment change, then restores the worn weapon", async () => {
     const assets = { load: vi.fn(async () => new THREE.Group()) };
     const rig = new CharacterRig(assets as never) as any;

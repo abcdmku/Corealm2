@@ -25,7 +25,8 @@ export function createSpellRange(deps: {
   ground: (x: number, z: number) => number;
   origin: () => Vec3;
   frame: (aim: Vec3) => void;
-  castPose: () => void;
+  castPose: (rank: number, speed: number) => void;
+  castingFocus?: () => Vec3 | undefined;
 }): { update(now: number): void } {
   const aim: Vec3 = [20, deps.ground(20, 40), 40];
   const positions: Vec3[] = [];
@@ -132,7 +133,7 @@ export function createSpellRange(deps: {
     attacks.reset();
     restoreTargets();
     attacks.cast(selected, deps.origin(), aim, time);
-    deps.castPose();
+    deps.castPose(elementalSpell(selected).rank, speed);
   };
   const getState = (): SpellRangeState => {
     const active = attacks.active;
@@ -224,7 +225,7 @@ export function createSpellRange(deps: {
       if (last) time += Math.min(100, Math.max(0, now - last)) * speed;
       last = now;
       attacks.update(time, targets);
-      effects.update(attacks.active, time, targets);
+      effects.update(attacks.active, time, targets, deps.castingFocus?.());
       views.update(targets, deps.camera, deps.ground);
       const state = getState();
       if (now - lastDensityUpdate > 100) {

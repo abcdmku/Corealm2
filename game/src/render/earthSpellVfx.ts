@@ -96,7 +96,7 @@ export class EarthSpellVfx {
           .replace("#include <emissivemap_fragment>",`#include <emissivemap_fragment>
             float vein=pow(smoothstep(.46,.72,etched),2.);
             float charge=pow(.5+.5*sin(rockSurface.y*2.1+etched*15.-mineralTime*3.),8.);
-            totalEmissiveRadiance=vec3(.35,.68,.19)*vein*(.95+charge*2.0);`);
+            totalEmissiveRadiance=vec3(.19,.74,.42)*vein*(.95+charge*2.0);`);
       };
       isolateMagicEmission(material);
       const mesh=new THREE.Mesh(geometry,material);mesh.name=name;mesh.castShadow=true;mesh.receiveShadow=true;mesh.visible=false;

@@ -518,3 +518,9 @@ Add `--world` to check traversal and capture the coastal foothills, Ember foothi
 Highland ridge, woodland seam, and Marchfield after lab acceptance. World terrain and
 biome placement use the authored-world exception. `tools/verify-slope-traversal.ts`
 also accepts `--route` for the slope lab and checks navigation completion in both directions.
+
+### Medieval spell invocation pass
+
+The spell range stages the production Marchhide mage kit and basic wooden staff through `FeatureLabApi.equipPlayer` in its transient state. It uses `CharacterRig.castingFocus` to locate the authored weapon socket, falling back to the animated hand. Cast-pose speed follows the selected rung and the range's slow-motion setting at cast start.
+
+`ArcaneSpellVfx` adds world-space inscriptions and concentrated elemental foci to all 24 attacks. Advanced rites have different spatial compositions, while the four starters retain only small focus/contact light. The signs use original tapered stroke geometry, three glyph variants per spell, shader reveal and the existing isolated HDR path. They never orient toward the camera. The geometry and effect counts participate in the existing body-pool budget and cleanup checks. The motion test also verifies the production robe and staff. See [the current art direction](../runs/elemental-spell-range/art-direction-review.md).

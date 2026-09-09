@@ -61,6 +61,9 @@ try {
   await driver.open(30_000, "/index.html?mode=combat&spells=1");
   const page = driver.page!;
   await page.waitForFunction(() => !!window.__spellRange);
+  const kit=await page.evaluate(()=>window.__featureLab!.getState().equipment);
+  assert.equal(kit.body,"marchhide_robe","The range uses the production mage kit");
+  assert.equal(kit.mainHand,"basic_wooden_staff");
   await page.locator("#spell-range-element").selectOption(spell.element);
   await page.locator("#spell-range-select").selectOption(spell.id);
   await page.locator("#spell-range-slow").check();

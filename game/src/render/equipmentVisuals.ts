@@ -553,6 +553,11 @@ const ORB_SOCKETS: Readonly<Record<string, {
   corealm_wand_3: WAND_ORB, corealm_wand_4: WAND_ORB,
 };
 
+/** Restore the authored focus after GLB mesh merging removes procedural socket metadata. */
+export function elementalWeaponFocus(assetId: string): readonly [number, number, number] | undefined {
+  return ORB_SOCKETS[assetId]?.position;
+}
+
 /** Adds the crafted elemental core to a magic weapon. */
 export function gearAppearancePartsWithCharge(
   itemId: ItemId,

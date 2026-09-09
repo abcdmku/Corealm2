@@ -1050,6 +1050,8 @@ export class CharacterRig {
       if (this.slotEpoch.get(slot) !== epoch) return;
       this.slotLoading.delete(slot);
       const object = source.clone(true);
+      const elementalFocus = equipmentVisuals.elementalWeaponFocus(appearance.assetId);
+      if (elementalFocus) object.userData["elementalSocket"] = [...elementalFocus];
       const socket = this.socketFor(slot, appearance);
       object.position.set(socket.position[0], socket.position[1], socket.position[2]);
       object.rotation.set(socket.rotation[0], socket.rotation[1], socket.rotation[2]);
@@ -1313,6 +1315,25 @@ export class CharacterRig {
         : travel < 0.5 ? travel * 2 : (1 - travel) * 2;
     action.time = Math.min(0.999999, phase) * action.getClip().duration;
     action.paused = true;
+  }
+
+  /** The weapon's authored elemental socket, or the animated hand when no socket exists. */
+  castingFocus(): Vec3 | undefined {
+    const weapon = this.boneAttachments.get("mainHand");
+    if (weapon) {
+      let focus: Vec3 | undefined;
+      weapon.traverse((object) => {
+        const socket = object.userData["elementalSocket"] as Vec3 | undefined;
+        if (focus || !socket) return;
+        object.updateWorldMatrix(true, false);
+        focus = object.localToWorld(new THREE.Vector3(...socket)).toArray() as Vec3;
+      });
+      if (focus) return focus;
+    }
+    const bone = this.hostBones.get("hand_r");
+    if (!bone) return undefined;
+    bone.updateWorldMatrix(true, false);
+    return bone.localToWorld(new THREE.Vector3(...FIST_RIGHT)).toArray() as Vec3;
   }
 
   update(deltaSeconds: number): void {

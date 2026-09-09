@@ -1,38 +1,51 @@
-# Elemental spell artwork and lab verification
+# Medieval fantasy spell verification
 
-2026-09-09. The range now has 24 spells: the existing five tiers and one simple starter per element. All 20 existing attacks received moving emissive material detail and authored variation across repeated contacts. After the owner's further feedback about plain, repetitive air effects, the air set was rebuilt with separate spatial forms and choreography.
+2026-09-09. The prior 24-spell implementation was committed as `ba5aefc` before this art pass. All 24 attacks now have an invocation and enchanted focus. Advanced spells add composed seals, gates or bindings with different school symbols and three geometric glyph variants per spell. The four starters retain compact focus and contact light. [The art review](./art-direction-review.md) describes every spell and the reference interpretation.
 
-| Element | Implemented artwork |
-| --- | --- |
-| Air | Air Needle is a pointed twisting dart. Razor Crescent has three broad banked blades with different curves and tilts. Vacuum Coil is a low inward spiral with an open eye, below 3.2 m. Thunder Lance is one continuous corkscrew travelling through the lane. Skybreaker has an 11.4 m base, rotating currents, smaller vortices around its foot and ground-level gathering wind before touchdown. Curved surfaces refract the scene, with eroded blue-violet emission and fine circulating motes. No rocks, smoke or line-segment tracers. |
-| Water | Visible blue liquid, moving flow, foam, spray and droplets. Repeated streams have different bends, depths and splash directions. Geysers have unequal heights and lateral spills. Undertow contracts through partial inward collars. Deluge keeps one continuous 14 m curling wave per row, with three different crests. No ice or freezing status. |
-| Earth | Shaded stone with moving cool mineral seams, torn dust and fine chips. Flint Shot and Siege Boulder fracture their connected geometry into 72 and 180 pieces. Dust fronts, fragment fans and contact bands vary by pulse. Basalt Jaw's two walls have different rock profiles. Mountainfall remains one asymmetric mass that sheds avalanches and collapses. |
-| Fire | Organic textured flame with moving heat ridges and eroded edges. Contacts vary in height, spread, flame folds, plume count and flow direction. The comet, lash, mine canopy, continuous phoenix and descending solar mass retain their separate choreography. |
-| Basics | Breeze Puff, Water Bead, Pebble Toss and Kindle each arrive in under 600 ms, hit once within 0.9 m and use fewer than 500 live particles. The small puff has one curved edge; the bead forms a small liquid splash; the pebble breaks into 24 connected pieces; Kindle has one brief flame contact. |
+The production Marchhide robe and wooden staff are equipped through the transient feature-lab state. The casting light follows the weapon's authored focus. Exported merged staff meshes lack the procedural socket metadata, so `CharacterRig` restores it from the equipment system's existing socket table. A regression test exercises this metadata-free load, animated hand transforms and weapon removal.
 
-Twelve authored contact recipes vary width, depth, height, arc length, flow bend, orientation and breakup direction. These change the actual spatial surfaces and emissions. Tidal Fan's five arrivals are staggered by 35 ms. The four starter spells have dedicated compact choreography and remain separate from the five advanced tiers.
+Elemental matter remains spatial: refracting silver-blue wind, flowing saturated blue water, shaded stone with jade mineral energy, and organic red-gold flame. The wide tornado, connected boulder fractures, asymmetrical mountain, continuous flood and phoenix retain their existing choreography. Damage and impact timing are unchanged. No final-world integration was performed.
 
-The original material mask remains `game/public/assets/vfx/elemental-flow-v2.png`. It moves across curved spatial surfaces, never an entire attack card. The [asset provenance](./asset-provenance.md) records its generation. Existing flow surfaces use 576 triangles each. The new air currents use 384 triangles per strip, bounded instanced batches, a scene-refraction pass and a separate emissive contribution. Fine detail comes from material flow and erosion. These counts do not imply that transparent shading is free.
+## Completed checks
 
-Completed verification:
+- `npm run typecheck` and `npm run build` passed after the final socket correction. Existing mixed dynamic-import and bundle-size warnings remain.
+- `npx vitest run tests/elemental-attacks.test.ts tests/spell-vfx.test.ts tests/spells.test.ts tests/character-rig-layer-recovery.test.ts`: **39 tests passed**. This includes all 24 spells using a supplied animated focus, cleanup, damage bounds, distinct attack patterns, single-hit starters, spatial geometry, finite pools and equipment recovery.
+- All four Chromium elemental shards passed after the final art changes: **24 pointer casts**, health before and after, delayed impacts, reset, next, repeat, slow motion, HDR/refraction activity and cleanup. No console/shader errors or pool overflow were reported.
+- Live motion capture passed for **all 24 spells** at charge, travel, contact, peak, final impact and fade. Flint Shot and Siege Boulder also capture the intact body and its breakup. All phase galleries and the four element overview sheets were visually inspected.
+- The final staff socket correction was then checked with the rig regression and a fresh Air Needle motion capture. Its full-resolution charge image shows the light at the staff head. The four shard performance measurements below precede that attachment-only correction; the shared focus path is covered for all 24 spells by the unit test.
+- Captures use the normal player-follow target and gameplay pitch/zoom limits. Tall spells can extend above the frame. The camera target was never lifted or detached to fit an effect.
+- Final same-frame HDR comparisons passed for Cinder Mine and Vacuum Coil, including idle equivalence, viewport resize and cleanup. Their images were inspected for readable silhouettes and localized bloom.
+- Final same-frame refraction comparisons passed for Vacuum Coil and Geyser Chain. Both use one shared scene-color copy, leave the tested foreground outside the effects unchanged, preserve the camera, and pass idle, resize and cleanup checks. The liquid image was inspected.
 
-- `npm run typecheck` and `npm run build` passed after the final game changes. Existing mixed dynamic-import and bundle-size warnings remain.
-- `npx vitest run tests/elemental-attacks.test.ts tests/spell-vfx.test.ts tests/spells.test.ts`: 33 tests passed. Coverage includes delayed and bounded damage, distinct attack patterns, single-hit starter behavior, a wide Skybreaker versus a low Vacuum Coil, liquid-only water, air without debris, finite lifetimes, spatial geometry and pool bounds.
-- All four Chromium elemental shards passed, covering 24 pointer casts, target health before and after, delayed impacts, reset, next, repeat, slow motion, HDR/refraction activity and cleanup. The air shard was rerun after its final artwork changes. No console or shader errors or pool overflow were reported.
-- Live motion captures cover all 24 spells at charge, travel, contact, peak, final impact and fade. The two boulders also verify an intact body before contact and the same geometry separating into fragments. Geyser Chain and Sunfall received extra captures at every contact. All phase galleries were visually inspected; the six air galleries were recaptured and inspected after the air rebuild.
-- Captures use normal player-follow focus and gameplay pitch/zoom limits. Thunder Lance also received a second view reached through actual right-mouse dragging. Tall effects extend beyond the frame; no camera target was lifted or detached to fit them. Skybreaker's ground wind-up remains visible while its crown is above the frame.
-- The Cinder Mine HDR comparison passed with 26,389 changed pixels and 3,449 halo pixels. The additional Vacuum Coil comparison passed with 36,035 changed pixels, 26,882 halo pixels and 1,349 saturated changed pixels. Both checks include idle equivalence, viewport resize and cleanup.
-- The final refraction comparison passed with 21,617 changed pixels for Vacuum Coil and 37,282 for Geyser Chain. No pixels changed in the tested foreground outside the effects. The pass uses one shared scene-color copy and preserves the camera, idle image, resize behavior and cleanup.
+## Renderer comparisons
 
-Final hardware Chromium measurements at 1440 by 1000:
+| Comparison | Changed pixels | Halo pixels | Saturated changed pixels |
+| --- | ---: | ---: | ---: |
+| Cinder Mine HDR | 73,308 | 30,182 | 63,494 |
+| Vacuum Coil HDR | 126,645 | 92,784 | 16,515 |
 
-| Element | Peak live particles | Peak principal bodies | Peak strand segments | Highest VFX CPU update p95 |
+The saturation count detects a saturated channel, not necessarily a white pixel. These comparisons establish that the isolated glow pass contributes to the live image; aesthetic quality was also reviewed visually.
+
+| Refraction comparison | Changed pixels | Changed foreground pixels outside effect | Scene copies |
+| --- | ---: | ---: | ---: |
+| Vacuum Coil | 17,257 | 0 | 1 |
+| Geyser Chain | 37,296 | 0 | 1 |
+
+## Performance
+
+Hardware Chromium/D3D11 at 1440 by 1000. Values are the highest measurements across each element's six spells.
+
+| Element | Peak live particles | Peak principal bodies, including inscriptions/foci | Peak strand segments | Highest VFX CPU update p95 |
 | --- | ---: | ---: | ---: | ---: |
-| Air | 9,167 | 42 | 0 | 1.8 ms |
-| Water | 20,201 | 33 | 430 | 2.6 ms |
-| Earth | 15,224 | 52 | 112 | 3.4 ms |
-| Fire | 13,025 | 42 | 48 | 2.6 ms |
+| Air | 9,012 | 48 | 0 | 2.2 ms |
+| Water | 20,201 | 43 | 430 | 2.9 ms |
+| Earth | 15,224 | 57 | 112 | 3.5 ms |
+| Fire | 13,025 | 45 | 48 | 2.9 ms |
 
-The highest observed frame-interval p95 was 16.8 ms. Particle, strand, body and liquid-pool overflow were zero. These figures describe this machine and the compact lab, not final-world combat.
+The highest observed frame-interval p95 was 16.8 ms. Particle, strand, body and liquid-pool overflow were zero. These results apply to this machine and compact lab. Focus meshes use 80 triangles each; inscriptions use bounded instanced stroke geometry, and fine elemental detail remains in material flow and particles. Transparent rendering and the additional glow pass still have a cost.
 
-The preview remains available at `http://127.0.0.1:4178/index.html?mode=combat&spells=1`. Choose an element and use **Reset & cast**, **Next**, **Repeat** or **Slow motion**. Reproduction commands are in [the feature-lab workflow](../../docs/feature-lab.md#elemental-spell-range). Screenshots, phase galleries, semantic state and performance reports remain disposable under ignored `test-results/elemental-spells/`. Production modules are exercised through the lab; authored-world progression has not been changed.
+## Review and reproduction
+
+The preview runs at `http://127.0.0.1:4178/index.html?mode=combat&spells=1`. Select an element and spell, then use **Reset & cast**, **Next**, **Repeat** or **Slow motion**. Commands are in [the feature-lab workflow](../../docs/feature-lab.md#elemental-spell-range).
+
+Disposable screenshots, phase galleries, state and performance reports remain under ignored `test-results/elemental-spells/`. Knight Online storyboard reference frames remain under `test-results/knight-online-study/`; sampled frames informed the art direction but were not used to claim continuous animation timing. No reference assets were shipped. This report records implementation and testing; the owner's review determines whether the new art fits the desired style.

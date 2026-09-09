@@ -19,6 +19,7 @@ import { AirSpellVfx } from "./airSpellVfx.js";
 import { ElementalFlowSurfaces } from "./elementalFlowSurfaces.js";
 import { BasicElementalVfx } from "./basicElementalVfx.js";
 import { elementalPulseArt } from "./elementalPulseArt.js";
+import { ArcaneSpellVfx } from "./arcaneSpellVfx.js";
 
 const TAU = Math.PI * 2;
 const clamp = (v: number): number => Math.max(0, Math.min(1, v));
@@ -53,6 +54,7 @@ export class ElementalSpellVfx {
   private readonly fire: FireSpellVfx;
   private readonly waterFlow: ElementalFlowSurfaces;
   private readonly basic: BasicElementalVfx;
+  private readonly arcane: ArcaneSpellVfx;
   private readonly pointLights: THREE.PointLight[] = [];
   private palette = ELEMENTAL_ENERGY["air-needle"];
   private element: SpellElement = "earth";
@@ -74,6 +76,7 @@ export class ElementalSpellVfx {
     this.solids = new ElementalSolids(this.group);
     this.fluids = new ElementalFluidBodies(this.group);
     this.basic = new BasicElementalVfx(this.group,ground,this.light,this.fragments,this.fluids);
+    this.arcane = new ArcaneSpellVfx(this.group,ground);
     this.waterFlow = new ElementalFlowSurfaces(this.group);
     this.filaments = new ElementalFilaments(this.group);
     this.art = new ElementalSpellArt(this.group, ground);
@@ -112,10 +115,10 @@ export class ElementalSpellVfx {
     return this.filaments.dropped;
   }
   get bodyCount(): number {
-    return this.art.instances + this.air.instances + this.earth.instances + this.fire.instances + this.waterFlow.instances + this.basic.instances;
+    return this.art.instances + this.air.instances + this.earth.instances + this.fire.instances + this.waterFlow.instances + this.basic.instances + this.arcane.instances;
   }
   get droppedBodies(): number {
-    return this.art.dropped + this.air.dropped + this.fire.dropped + this.earth.dropped + this.waterFlow.dropped + this.basic.dropped + this.fluids.dropped;
+    return this.art.dropped + this.air.dropped + this.fire.dropped + this.earth.dropped + this.waterFlow.dropped + this.basic.dropped + this.fluids.dropped + this.arcane.dropped;
   }
   get instances(): number {
     return (
@@ -130,6 +133,7 @@ export class ElementalSpellVfx {
     cast: ElementalCast | null,
     now: number,
     targets: readonly ElementalTarget[] = [],
+    focus?: Vec3,
   ): void {
     const start = performance.now();
     this.element = cast ? elementalSpell(cast.spellId).element : "earth";
@@ -142,12 +146,14 @@ export class ElementalSpellVfx {
     this.fluids.begin(now / 1000);
     this.waterFlow.begin(now / 1000);
     this.basic.begin(now / 1000);
+    this.arcane.begin(now / 1000);
     this.filaments.begin(now / 1000, grounded ? .17 : this.element === "water" ? .13 : .3);
     this.art.begin(now / 1000, cast);
     this.air.begin(now / 1000);
     this.earth.begin(now / 1000);
     this.fire.begin(now / 1000);
     for (const light of this.pointLights) light.intensity = 0;
+    if(cast) this.arcane.update(cast,now,focus);
     if (cast && elementalSpell(cast.spellId).rank === 0) this.basic.update(cast,now,this.element);
     else if (cast && this.element === "wind") this.air.update(cast,now);
     else if (cast && this.element === "earth") this.earth.update(cast,now);
@@ -188,7 +194,8 @@ export class ElementalSpellVfx {
     this.fire.end();
     this.earth.end();
     this.basic.end();
-    this.group.userData["elementalArt"]={element:this.element,basic:cast&&elementalSpell(cast.spellId).rank===0?cast.spellId:null,air:{...this.air.state},earth:{...this.earth.state},fire:{...this.fire.state},contacts:cast?.pulses.map((_,i)=>elementalPulseArt(cast.spellId,i).name)??[]};
+    this.arcane.end();
+    this.group.userData["elementalArt"]={element:this.element,basic:cast&&elementalSpell(cast.spellId).rank===0?cast.spellId:null,arcane:{...this.arcane.state},air:{...this.air.state},earth:{...this.earth.state},fire:{...this.fire.state},contacts:cast?.pulses.map((_,i)=>elementalPulseArt(cast.spellId,i).name)??[]};
     this.updateMs = performance.now() - start;
   }
   private waterComposition(cast:ElementalCast,age:number):void {
@@ -1443,6 +1450,7 @@ export class ElementalSpellVfx {
     this.fluids.dispose();
     this.waterFlow.dispose();
     this.basic.dispose();
+    this.arcane.dispose();
     this.filaments.dispose();
     this.art.dispose();
     this.air.dispose();

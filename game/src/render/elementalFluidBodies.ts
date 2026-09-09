@@ -27,8 +27,8 @@ export class ElementalFluidBodies {
             x,
             ((Math.sin(a) + 1) * 0.5 +
               Math.max(0, Math.sin(u * Math.PI)) * ripple) *
-              (1 - 0.08 * x * x + .045*Math.sin(x*7+1.2) + .025*Math.sin(x*13)),
-            Math.cos(a) * 0.7 + thickness,
+              (1 - 0.65 * Math.pow(Math.abs(x),6) + .065*Math.sin(x*7+1.2) + .035*Math.sin(x*13)),
+            (Math.cos(a) * 0.7 + thickness)*(1-.68*Math.pow(Math.abs(x),8)),
           );
         }
     const surface = (columns + 1) * (rows + 1);

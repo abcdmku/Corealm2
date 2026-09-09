@@ -27,3 +27,7 @@ Use a caster gesture and charge, continuous travel, a distinct contact silhouett
 Visual references: [Knight Online mage fire skills](https://www.youtube.com/watch?v=VXXKPvZGhtc) for caster preparation and concentrated elemental attacks; [Old School RuneScape Ice Barrage](https://oldschool.runescape.wiki/w/Ice_Barrage) for an immediately readable target encasement. These guide shape and timing, not asset reuse or a claim of visual parity.
 
 Review live casts at charge, travel, first contact, peak, final impact and fade. Capture through the actual Slow motion control at 0.35×, recording elapsed simulation time and the normal gameplay camera alongside each frame. The range's training targets should leave spell shapes visible and react to hits.
+
+## Authorized follow-up: medieval fantasy invocation
+
+2026-09-09: the owner requested a progress commit and a rethink of every spell around Knight Online. Commit `ba5aefc` preserves the preceding 24-spell version. Add a production robed mage and staff to the transient lab fixture, animated weapon-socket light, original school-specific inscriptions, spell-specific summoning patterns, concentrated magical cores and richer elemental coloration. Preserve all 24 damage patterns, the four simple starters, liquid-only water, wind distortion without rocks, connected earth fracture, organic fire and gameplay camera limits. Validate every spell in the existing range. No final-world registration is requested.

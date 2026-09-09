@@ -100,7 +100,7 @@ export const elementalRefractionFragment = `
     if(liquid>.5){
       float crest=smoothstep(.32,.85,vRefLocal.y)*smoothstep(.32,.66,n);
       float glint=pow(max(0.0,dot(normal,normalize(vec3(-.3,.8,.5)))),28.0);
-      vec3 water=mix(vec3(.014,.105,.23),vec3(.06,.52,.68),smoothstep(.05,.7,n)*.7+face*.15);
+      vec3 water=mix(vec3(.012,.065,.29),vec3(.04,.42,.78),smoothstep(.05,.7,n)*.7+face*.15);
       refracted=mix(refracted*vec3(.45,.84,1.),water,.58+edge*.18);
       refracted+=vec3(.04,.19,.23)*smoothstep(.35,.68,n)*(.35+face*.65);
       refracted+=vec3(.48,.72,.82)*glint*.5;

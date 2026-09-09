@@ -1,45 +1,46 @@
-# Elemental spell art review
+# Medieval fantasy spell direction
 
-2026-09-08. Reference review after the owner rejected the latest revisions and asked to stop and reconsider. This records the next visual target, not acceptance of the current renderer. No spell implementation was changed during this review.
+2026-09-09. The owner requested a checkpoint commit and a rethink of all spells around Knight Online. The checkpoint is `ba5aefc`. This direction supersedes the earlier physical-effects-only review; the previous elemental restrictions still apply.
 
-## Reference evidence
+## Reference and interpretation
 
-Reviewed all eight attached stills and sampled preparation, active effects and dissipation in both supplied videos: [ARPG Earth Bending VFX Pack](https://www.youtube.com/watch?v=sxlg3EcyloY) and [Realistic Water and Ice Content Overview](https://www.youtube.com/watch?v=6cyHAmjhLs8). The repeated earth URL is the same video. Knight Online and RuneScape remain the owner's broader RPG references. The more specific supplied visuals and subsequent elemental corrections govern this pass.
+Reviewed the supplied Piloto images again and the storyboard sequence from [Knight Online Beginners Chapter #4 Mage](https://www.youtube.com/watch?v=wfps4olHIVo), especially the staff gestures, gold casting flares, ground markings and bright elemental attacks around 180 to 300 and 375 to 435 seconds. The storyboard images are sampled reference frames, not proof of continuous animation timing. Older local `knight-playing-*` captures showed a buffering player and were not used as motion evidence. No Knight Online assets were extracted or shipped.
 
-| Supplied still | Visual lesson to preserve |
+The implementation interprets that visual language through a robed production mage, a staff-bound focus, an inscription that appears during invocation, concentrated elemental light, and an impact that resolves a deliberate magical sign. Symbols are supporting spell structures. Liquid, wind, stone and flame remain the main moving bodies. The daylight, terrain and gameplay camera are unchanged.
+
+## Spell treatments
+
+| Spell | Magical identity |
 | --- | --- |
-| Two long orange-purple and blue projectiles | A continuous bright core, a saturated surrounding body, torn trailing sheets, and tiny sparks following one direction. |
-| Floating dark stones beside a blue impact | Clearly shaded solid masses, broad irregular energy wrapping around them, fine fragments, and open space between layers. |
-| Single boulder beside a gold impact | One coherent stone before contact. A broad, ragged ground impact with upward debris and a short-lived bright leading edge. |
-| Traveling earth rupture | One advancing violent front. The trail records where it passed and fades behind it. Dust and fragments originate at the rupture. |
-| Ice effect catalogue | Strong differences in silhouette and scale, with fine detail supporting larger forms. The owner's later ban on ice overrides its literal shapes and materials for water. |
-| Magenta eruption with blue ground energy | Irregular overlapping sheets, holes, uneven heights, bright local edges, and darker saturated interiors. |
-| Massive earth explosion with two pressure fronts | Wide textured shockwave bands, turbulent dusty interiors, dark stone fragments of varied sizes, and a concentrated central thrust. |
-| Long stone ridge | Substantial irregular slabs, varied height and lean, weathered surfaces, and smaller broken material connecting the base to the ground. Keep the stone character; reduce the fiery treatment as requested. |
+| Breeze Puff | A small silver-blue focus and one enchanted pressure puff. No full ritual. |
+| Air Needle | A wind invocation, concentrated violet-silver dart and a brief upright contact seal. |
+| Razor Crescent | Three banked wind blades with different curl signs, orientations and proportions. |
+| Vacuum Coil | A rotating floor ward and three hovering binding signs around an open, contracting eye. |
+| Thunder Lance | One upright heraldic gate at release; the continuing wind bore breaks varied signs along its lane. |
+| Skybreaker | A broad five-point summoning ward anchors the violent 11.4 m tornado base and satellite currents. |
+| Water Bead | One small blue focus, liquid bead and brief contact glint. |
+| Waterjet | A concentrated liquid lance followed by two differently shaped blue contact inscriptions. |
+| Tidal Fan | Five curved liquid trajectories with varied water signs, impact proportions and spray recipes. |
+| Geyser Chain | Successive wellspring seals prepare the three liquid columns. |
+| Undertow | A turning water ward with three orbiting blue foci, followed by the gathered surge. |
+| Deluge | Three unequal gates with different central signs release a continuous flood. Gates fade as the wave arrives. Wave ends taper into side spills. |
+| Pebble Toss | A small jade focus enchants one pebble. Its connected fracture remains intact. |
+| Flint Shot | A suspended mineral inscription binds the moving stone and opens on impact. |
+| Faultline | A procession of ground inscriptions wakes the connected ridge. |
+| Basalt Jaw | Two upright binding seals command the unequal stone walls over a broad earth ward. |
+| Siege Boulder | Two crossing mineral seals bind one heavy boulder before its 180-piece fracture. |
+| Mountainfall | Four raised earth signs surround one monumental formation and its avalanche field. |
+| Kindle | One gold focus releases a compact red-gold flame; one contact only. |
+| Ember Dart | A concentrated ember heart in the existing organic comet, followed by a fire brand. |
+| Furnace Whip | One continuous flame lash stamps differently shaped fire signs along its sweeping contacts. |
+| Cinder Mine | A contracting inscription feeds a bright ember heart, then breaks open beneath its blast canopy. |
+| Phoenix Pass | A gold summoning gate and selected feather-proportioned contact signs support the continuous bird. |
+| Sunfall | A solar ward and turning airborne seal hold a bright descending sun; nine unequal contact flares precede impact. |
 
-The video samples reinforce changing, torn contours and a transition from concentrated impact into fragmented wisps and debris. Their appearance does not establish how their geometry, textures or particles were implemented.
+## Construction and limits
 
-## Diagnosis of the current work
+`ArcaneSpellVfx` is a production renderer driven by the existing combat clock. Its original inscriptions use tapered stroke geometry on shallow curved surfaces, with three geometrically different glyph forms per spell. They stay in world space and never face the camera. Shared instancing, 80-triangle focus meshes, shader reveal and existing small particles supply detail. The animated focus reads the production weapon's authored socket and falls back to the casting hand.
 
-The owner's rejection remains authoritative. Tests establish behavior, not art quality. The latest saved Cinder Mine capture reads as diffuse orange fog around the targets. The latest Sunfall capture exposes separate smooth curved strands with weak connection to its main mass. Those captures do not meet the reference target.
+Air retains distortion, silver-blue leading edges and no rocks or smoke. Water remains saturated flowing liquid, foam and droplets, with no ice. Earth keeps shaded connected stone and jade mineral energy. Fire keeps organic red-gold matter. The four starters remain simple. Multi-contact effects retain the twelve authored matter recipes as well as distinct inscription variants and aspect ratios.
 
-The revisions repeatedly emphasized generic geometry, particle totals and shader changes before establishing a convincing silhouette, material and motion. Dense particles need to follow an authored flow and concentrate around meaningful events. Bloom needs localized bright sources with enough surrounding color and darker detail to remain readable.
-
-## Element requirements
-
-- **Air:** background distortion and pressure ripples carry the body. Give the moving edge a subtle, broken white highlight. Tornadoes need a large turbulent funnel, spiraling condensation of uneven density, and a violent touchdown spreading from the contact point. Keep rocks out of the wind effect.
-- **Water:** cohesive blue liquid with enough opacity to show thickness. Surface detail must visibly travel along the flow, gather into crests, fold at contact, and break into droplets and foam. No ice, frozen status, crystal shapes or rigid panels.
-- **Fire:** connected organic flame with uneven lobes and torn edges. Concentrate bright heat near active cores; retain saturated orange/red body color and darker gaps. Embers trail the flow and burst from contact. Avoid repeated symmetrical loops and uniform orange haze.
-- **Earth:** solid mineral mass, weathered surfaces, dark fracture interiors and grounded dust. Flint Shot and Siege Boulder must visibly separate the original stone at contact. Large chunks transition into smaller chips; all debris begins at the breaking body. Mountainfall needs one monumental formation with a distinct movement and silhouette. Earth should not read as another fire attack.
-
-## Execution order and acceptance
-
-Start with **Siege Boulder**, because the owner identified earth as the closest thematic fit. Establish one complete sequence: a single substantial stone in flight, connected fracture at contact, a heavy expanding dust front, and tumbling fragments that settle. Match the reference's distribution of large mass, irregular impact sheets and fine debris, using a mineral palette rather than fire colors.
-
-Review the whole cast at normal speed and in the existing slow-motion mode. Inspect flight, first contact, breakup, peak and fade through the actual gameplay camera. The stone must remain coherent before impact, and its fragments must visibly come from that same body. Keep the impact location and target reactions aligned. Do not spread a new treatment across the other spells until this example passes visual review.
-
-Use triangles where they affect the visible silhouette or shaded solid mass. Use particles, texture detail, animated masks and flow on spatially arranged VFX surfaces for fine motion. The effects must retain depth and parallax in the game; a single painted image is insufficient. Lower triangle count alone is not a performance result: measure frame cost, transparency overdraw and effect cleanup after the appearance works.
-
-Keep five spells per element and distinguish them by silhouette, movement and impact, not just count or scale. Preserve the small particle size the owner liked. Review in the existing gameplay lighting and camera limits; do not move the camera target, zoom beyond gameplay bounds or darken the scene to make weak effects appear stronger.
-
-The existing lab remains the test surface, with Reset & cast, Next, Repeat and Slow motion. This review authorizes no final-world integration and records no new visual acceptance.
+Lab proof must cover real pointer casts, unchanged damage behavior, cleanup, finite pools, the production mage kit and normal-camera screenshots. No final-world integration is part of this request. Verification results are recorded separately after the final browser run. The owner's judgement of the artwork remains the final aesthetic judgement.
