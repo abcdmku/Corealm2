@@ -1,3 +1,4 @@
+import { interpolatedGroundHeight } from "../render/terrainContact.js";
 /**
  * The update loop. Fixed 100 ms sim tick with an accumulator, decoupled from render.
  *
@@ -528,6 +529,8 @@ export class GameLoop {
     this.renderPos[0] = this.prevPlayerPos[0] + dx * alpha;
     this.renderPos[1] = this.prevPlayerPos[1] + dy * alpha;
     this.renderPos[2] = this.prevPlayerPos[2] + dz * alpha;
+    this.renderPos[1] = interpolatedGroundHeight(this.prevPlayerPos, current, this.renderPos,
+      (x, z) => this.deps.scene.meshHeightAt(x, z));
 
     let turn = (player.facingRad - this.prevFacingRad) % TWO_PI;
     if (turn > Math.PI) turn -= TWO_PI;

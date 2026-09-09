@@ -294,3 +294,17 @@ Open the Vite game in Chromium and inspect the view, not only source or the SVG.
 Capture a coast/map edge, a biome seam, a curved path, a foliage field, and a lake. Before accepting,
 check `getErrors()`, `getScatterStats()`, `getWaterBodies()`, and a few `sampleWorld()` points on both
 sides of each semantic seam.
+
+### Terrain contact and relief
+
+Terrain chunks partition whole lattice cells, with a smaller final row or column when
+world dimensions do not divide by the requested chunk size. Keep their quad diagonals
+aligned with the triangle interpolation used by `meshHeightAt()`, including the coast.
+Bilinear interpolation agrees at vertices but floats above or sinks below folded quads.
+`tests/terrain-contact.test.ts` compares real mesh ray hits with placement heights.
+
+Highland terraces retain their authored core and taper into rocky foothills beyond that
+extent. Regions with no authored terrace axis use rolling relief. Do not extend the final
+plateau height indefinitely into small climate pockets: that created isolated 70 m peaks
+along the southern coast. The two former southwest coastal anchors were removed; the
+shared climate field still decides biome coverage there.

@@ -31,7 +31,7 @@ function enemy(habitat: HabitatDef, id: string, position = point(habitat.anchors
   };
 }
 
-function fixture(entities: SemanticEntity[], nav?: EnemyNavPort) {
+function fixture(entities: SemanticEntity[], nav?: EnemyNavPort, groundHeightAt?: (x: number, z: number) => number) {
   const store = new Store(7, 0);
   const state = store.get();
   state.player.position = [...entities[0]!.position];
@@ -54,7 +54,7 @@ function fixture(entities: SemanticEntity[], nav?: EnemyNavPort) {
     }),
   });
   for (const entity of entities) combat.setEnemyOverride(entity.id, { behaviour: "passive", aggroRadius: 0 });
-  const ai = new EnemyAiSystem({ store, events, entities: entityPort, combat, nav });
+  const ai = new EnemyAiSystem({ store, events, entities: entityPort, combat, nav, groundHeightAt });
   let now = 0;
   return {
     state, ai, combat,
@@ -347,5 +347,30 @@ describe("hostile pack pursuit boundary", () => {
     sim.state.player.position = [-243, 0, 30];
     sim.ai.provoke(actor.id, 8_000);
     expect(sim.ai.modeOf(actor.id)).toBe("aggro");
+  });
+});
+
+
+describe("enemy terrain contact", () => {
+  it("queries downhill destinations at ground height and removes large navigation offsets", () => {
+    const habitat: HabitatDef = { id: "march_road_reavers", groupId: "march_road_reavers", regionId: "fallowmarch",
+      centre: [-200, 0], radius: 15, activity: "patrol", anchors: [[-200, 0], [-195, 0], [-195, 5]], dressing: [] };
+    vi.spyOn(habitats, "habitatForGroup").mockReturnValue(habitat);
+    const actor = enemy(habitat, "march_road_reavers:1");
+    const h = (x: number) => -(x + 200) * 1.2;
+    let queries = 0, movedSamples = 0;
+    const sim = fixture([actor], {
+      nearestWalkable(wanted) {
+        queries++;
+        if (Math.abs(wanted[1] - h(wanted[0])) > 0.001) return null;
+        return [wanted[0], h(wanted[0]) + 3, wanted[2]];
+      },
+    }, h);
+    sim.advance(30_000, () => {
+      expect(actor.position[1]).toBeCloseTo(h(actor.position[0]), 6);
+      if (distance(actor.position, [-200, 0, 0]) > 2) movedSamples++;
+    });
+    expect(queries).toBeGreaterThan(10);
+    expect(movedSamples).toBeGreaterThan(10);
   });
 });

@@ -3,7 +3,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import type { Vec3 } from "../game/src/contracts.js";
 import { PLAYER_SLOPES } from "../game/src/app/config.js";
-import { FAST_TEST_SETTINGS, GameDriver } from "./lib/driver.js";
+import { GameDriver } from "./lib/driver.js";
 import { startGameServer } from "./lib/server.js";
 import { repoRoot } from "./lib/paths.js";
 
@@ -179,7 +179,9 @@ export async function verifySlopeTraversal(): Promise<SlopeReport> {
   const server = externalUrl
     ? { url: externalUrl, close: async () => undefined }
     : await startGameServer({ logLevel: "error" });
-  const driver = new GameDriver(server, { settings: FAST_TEST_SETTINGS });
+  const routeIndex = process.argv.indexOf("--route");
+  const route = routeIndex >= 0 ? process.argv[routeIndex + 1]! : "/";
+  const driver = new GameDriver(server, { browserArgs: ["--use-angle=d3d11", "--mute-audio"] });
   const report: SlopeReport = {
     passed: false,
     candidate: null,
@@ -192,7 +194,7 @@ export async function verifySlopeTraversal(): Promise<SlopeReport> {
 
   try {
     await driver.launch();
-    await driver.open(120_000);
+    await driver.open(120_000, route);
     const found = await findCandidate(driver);
     if (!found) throw new Error("No short nav path crossed a real authored 30-63 degree terrain facet");
     report.candidate = found.candidate;

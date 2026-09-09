@@ -642,12 +642,14 @@ export class WorldScene {
     const { bounds, chunkSize } = spec;
     const width = bounds.maxX - bounds.minX;
     const depth = bounds.maxZ - bounds.minZ;
-    const cols = Math.max(1, Math.round(width / chunkSize));
-    const rows = Math.max(1, Math.round(depth / chunkSize));
-    const chunkX = width / cols;
-    const chunkZ = depth / rows;
-    const segmentsX = Math.max(1, Math.round(chunkX / spec.metresPerQuad));
-    const segmentsZ = Math.max(1, Math.round(chunkZ / spec.metresPerQuad));
+    // Partition lattice cells, not world metres. Equal-width chunks moved the 660 m world's
+    // vertices off its 2 m lattice and created a second, differently triangulated surface.
+    const step = Math.max(0.25, spec.metresPerQuad);
+    const cellsX = Math.max(1, Math.round(width / step));
+    const cellsZ = Math.max(1, Math.round(depth / step));
+    const cellsPerChunk = Math.max(1, Math.round(chunkSize / step));
+    const cols = Math.ceil(cellsX / cellsPerChunk);
+    const rows = Math.ceil(cellsZ / cellsPerChunk);
     const coastPadding = Number.isFinite(spec.coast?.collar)
       ? Math.max(0, spec.coast?.collar ?? 0)
       : 0;
@@ -718,8 +720,12 @@ export class WorldScene {
     for (let cz = 0; cz < rows; cz += 1) {
       for (let cx = 0; cx < cols; cx += 1) {
         steps.push(() => {
-          const originX = bounds.minX + cx * chunkX;
-          const originZ = bounds.minZ + cz * chunkZ;
+          const segmentsX = Math.min(cellsPerChunk, cellsX - cx * cellsPerChunk);
+          const segmentsZ = Math.min(cellsPerChunk, cellsZ - cz * cellsPerChunk);
+          const chunkX = segmentsX * step;
+          const chunkZ = segmentsZ * step;
+          const originX = bounds.minX + cx * cellsPerChunk * step;
+          const originZ = bounds.minZ + cz * cellsPerChunk * step;
           const mesh = this.buildChunk(originX, originZ, chunkX, chunkZ, segmentsX, segmentsZ, material);
           mesh.name = `terrain-chunk-${cx}-${cz}`;
           mesh.userData.walkable = true;
@@ -2009,7 +2015,7 @@ export class WorldScene {
     this.lattice = { heights, cols, rows, minX: bounds.minX, minZ: bounds.minZ, step };
   }
 
-  /** Bilinear read of the lattice, falling back to the analytic field before it exists. */
+  /** Triangle read of the lattice, falling back to the analytic field before it exists. */
   private sampleLattice(x: number, z: number): number {
     const lattice = this.lattice;
     if (!lattice) return this.heightAtXZ(x, z);
@@ -2025,12 +2031,13 @@ export class WorldScene {
     const h10 = lattice.heights[z0 * lattice.cols + x1]!;
     const h01 = lattice.heights[z1 * lattice.cols + x0]!;
     const h11 = lattice.heights[z1 * lattice.cols + x1]!;
-    const top = h00 + (h10 - h00) * tx;
-    const bottom = h01 + (h11 - h01) * tx;
-    return top + (bottom - top) * tz;
+    // PlaneGeometry and the coast split each quad along h10--h01.
+    return tx + tz <= 1
+      ? h00 + (h10 - h00) * tx + (h01 - h00) * tz
+      : h11 + (h01 - h11) * (1 - tx) + (h10 - h11) * (1 - tz);
   }
 
-  /** Bilinear read of the shared coastal terrain grid. Coordinates outside its rectangle clamp to it. */
+  /** Triangle read of the shared coastal terrain grid. Coordinates outside its rectangle clamp to it. */
   private sampleCoastGrid(x: number, z: number): number | null {
     const grid = this.coastGrid;
     if (!grid) return null;
@@ -2046,13 +2053,14 @@ export class WorldScene {
     const h10 = grid.heights[z0 * grid.cols + x1]!;
     const h01 = grid.heights[z1 * grid.cols + x0]!;
     const h11 = grid.heights[z1 * grid.cols + x1]!;
-    const top = h00 + (h10 - h00) * tx;
-    const bottom = h01 + (h11 - h01) * tx;
-    return top + (bottom - top) * tz;
+    // PlaneGeometry and the coast split each quad along h10--h01.
+    return tx + tz <= 1
+      ? h00 + (h10 - h00) * tx + (h01 - h00) * tz
+      : h11 + (h01 - h11) * (1 - tx) + (h10 - h11) * (1 - tz);
   }
 
   /**
-   * The height of the DRAWN ground, bilinear on the same 2 m lattice the mesh is built from.
+   * The height of the DRAWN ground, triangle-interpolated on the same 2 m lattice the mesh is built from.
    *
    * Not the same thing as `heightAtXZ`, which is the analytic field: measured over 38332 samples,
    * the two differ by meanAbs 0.031 m, 6.1% of samples exceed 5 cm, and 10% of road ribbon
@@ -3466,6 +3474,10 @@ function makeRegionField(spec: RegionTerrainSpec): (x: number, z: number) => num
     }
 
     case "highlands": {
+      // Regions without authored terraces are rolling foothills, not a second stepped plateau.
+      if (!spec.terraceAxis) return (x, z) => spec.baseHeight
+        + (0.24 + fbm(noise, x, z, 3, 135) * 0.22
+          + fbm(detail, x, z, 2, 48) * 0.045) * spec.amplitude;
       const frame = makeTerraceFrame(spec, width, depth);
       return (x, z) => {
         // The frame starts at the authored low edge and advances in metres along the uphill axis.
@@ -3490,7 +3502,14 @@ function makeRegionField(spec: RegionTerrainSpec): (x: number, z: number) => num
         const spur = (1 - Math.abs(fbm(detail, x, z, 3, 105))) * 0.32;
         const rubble = fbm(detail, x * 0.9, z * 0.9, 3, 30) * 0.045;
 
-        return spec.baseHeight + (terraced + spur * 0.22 + rubble) * spec.amplitude;
+        // Climate pockets outside the authored plateau keep rocky foothills. Extending the
+        // final terrace indefinitely made small coastal biome anchors into 70 m towers.
+        const outside = Math.hypot(
+          Math.max(spec.rect.minX - x, 0, x - spec.rect.maxX),
+          Math.max(spec.rect.minZ - z, 0, z - spec.rect.maxZ),
+        );
+        const plateau = Math.exp(-Math.pow(outside / 45, 2));
+        return spec.baseHeight + (terraced * plateau + spur * 0.22 + rubble) * spec.amplitude;
       };
     }
 

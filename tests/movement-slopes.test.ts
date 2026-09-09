@@ -111,3 +111,17 @@ describe("directional player slope traversal", () => {
     expect(state.player.position[1]).toBe(0);
   });
 });
+
+
+describe("authoritative terrain grounding", () => {
+  it("recovers a large spawn height error and walks a slope with a coarse nav height", () => {
+    const height = slopeHeight(50);
+    const state = createInitialState();
+    state.player.position = [0, 8, 0];
+    const movement = movementOn(height, 2.5);
+    movement.setPorts({ authoritativeGround: true });
+    walkFor(movement, state);
+    expect(state.player.position[0]).toBeGreaterThan(2);
+    expect(state.player.position[1]).toBeCloseTo(height(state.player.position[0]), 6);
+  });
+});

@@ -199,7 +199,11 @@ export function bootProfileFor(
       : new URLSearchParams(locationOrSearch.search);
   const mode = params.get("mode");
   if ((mode === "combat" || mode === "building") && params.get("terrain") === "slopes") {
-    return { ...FEATURE_LAB_PROFILES[mode], terrain: () => buildFeatureLabTerrain(true) };
+    return { ...FEATURE_LAB_PROFILES[mode], terrain: () => buildFeatureLabTerrain(true),
+      ...(params.get("footing") === "slope" ? {
+        spawn: { ...FEATURE_LAB_SPAWN, x: 30, z: -99 },
+      } : {}),
+    };
   }
   if (mode === "combat" || mode === "actors") return FEATURE_LAB_PROFILES.combat;
   if (mode === "building" || mode === "structures") return FEATURE_LAB_PROFILES.building;

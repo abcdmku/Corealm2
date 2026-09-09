@@ -1,7 +1,9 @@
 import * as THREE from "three";
+import { conformTerrainRig, restoreTerrainRig, terrainRigSnapshot, type TerrainPose } from "./terrainRig.js";
 import { clone as cloneRigged } from "three/examples/jsm/utils/SkeletonUtils.js";
 
 export interface LodPose {
+  terrain?: TerrainPose;
   clip: THREE.AnimationClip;
   time: number;
   previousClip?: THREE.AnimationClip;
@@ -148,6 +150,13 @@ function shadowMaterial(source: THREE.Material, distance: boolean): THREE.Materi
 
 /** Shared sampled skeletal poses with small per-instance clip/phase attributes. */
 export class AnimationLod {
+  private readonly terrainPoses = new Map<number, LodPose>();
+  terrainSnapshot(slot: number) {
+    const pose = this.terrainPoses.get(slot), frame = this.overlayFrames.get(slot);
+    if (!pose || frame === undefined) return null;
+    this.writeOverlay(this.sampleCount + frame, pose);
+    return terrainRigSnapshot(this.samplingRoot!);
+  }
   readonly sampleCount: number;
   private readonly samples = new Map<THREE.AnimationClip, ClipSamples>();
   private readonly palettes: Palette[] = [];
@@ -275,12 +284,21 @@ export class AnimationLod {
     const overlay = pose.overlay;
     if (overlay && (!Number.isFinite(overlay.time) || !Number.isFinite(overlay.weight))) throw new Error("AnimationLod requires finite overlay time and weight.");
     const hasOverlay = overlay !== undefined && overlay.weight > 0;
-    if (hasOverlay) {
-      if (overlay.clip.blendMode !== THREE.AdditiveAnimationBlendMode) throw new Error("AnimationLod overlay must be a masked additive clip.");
+    const dynamic = hasOverlay || pose.terrain !== undefined;
+    if (dynamic) {
+      if (hasOverlay && overlay.clip.blendMode !== THREE.AdditiveAnimationBlendMode) throw new Error("AnimationLod overlay must be a masked additive clip.");
       if (!Number.isFinite(pose.time) || !Number.isFinite(pose.blend)
         || (pose.previousTime !== undefined && !Number.isFinite(pose.previousTime))) throw new Error("AnimationLod requires finite base clocks.");
       const frame = this.overlayFrame(slot);
       this.writeOverlay(frame, pose);
+      if (pose.terrain) {
+        const previousTerrain = this.terrainPoses.get(slot)?.terrain;
+        const terrain = previousTerrain ?? { ...pose.terrain, placement: new THREE.Matrix4(), origin: new THREE.Vector3() };
+        terrain.placement.copy(pose.terrain.placement);
+        terrain.origin.copy(pose.terrain.origin);
+        terrain.heightAt = pose.terrain.heightAt;
+        this.terrainPoses.set(slot, { ...pose, terrain });
+      } else this.terrainPoses.delete(slot);
       current = [frame, frame, 0];
     } else this.releaseOverlayFrame(slot);
     let row = this.slots.get(slot);
@@ -290,7 +308,7 @@ export class AnimationLod {
       this.slots.set(slot, row);
       this.rows.push(slot);
     }
-    this.frames.setXYZW(row, current[0], current[1], current[2], !hasOverlay && pose.previousClip ? THREE.MathUtils.clamp(pose.blend, 0, 1) : 1);
+    this.frames.setXYZW(row, current[0], current[1], current[2], !dynamic && pose.previousClip ? THREE.MathUtils.clamp(pose.blend, 0, 1) : 1);
     this.previousFrames.setXYZW(row, previous[0], previous[1], previous[2], THREE.MathUtils.clamp(pose.opacity ?? 1, 0, 1));
     this.frames.needsUpdate = true;
     this.previousFrames.needsUpdate = true;
@@ -361,6 +379,7 @@ export class AnimationLod {
     this.samplingBounds = [];
     this.replayClips.clear();
     this.overlayFrames.clear();
+    this.terrainPoses.clear();
     this.freeOverlayFrames.length = 0;
     for (const part of this.parts) {
       part.mesh.removeFromParent();
@@ -378,6 +397,7 @@ export class AnimationLod {
   }
 
   private releaseOverlayFrame(slot: number): void {
+    this.terrainPoses.delete(slot);
     const frame = this.overlayFrames.get(slot);
     if (frame === undefined) return;
     this.overlayFrames.delete(slot);
@@ -427,6 +447,7 @@ export class AnimationLod {
   /** One shared mixer composes local rotations before skinning; matrix-space addition is invalid. */
   private writeOverlay(frame: number, pose: LodPose): void {
     const mixer = this.samplingMixer!, root = this.samplingRoot!, overlay = pose.overlay!;
+    restoreTerrainRig(root);
     const blend = pose.previousClip ? THREE.MathUtils.clamp(pose.blend, 0, 1) : 1;
     mixer.stopAllAction();
     const play = (clip: THREE.AnimationClip, time: number, weight: number, mode: THREE.AnimationBlendMode): void => {
@@ -444,9 +465,10 @@ export class AnimationLod {
       play(previous, pose.previousTime ?? 0, 1 - blend, THREE.NormalAnimationBlendMode);
     }
     play(pose.clip, pose.time, blend, THREE.NormalAnimationBlendMode);
-    play(overlay.clip, overlay.time, THREE.MathUtils.clamp(overlay.weight, 0, 1), THREE.AdditiveAnimationBlendMode);
+    if (overlay) play(overlay.clip, overlay.time, THREE.MathUtils.clamp(overlay.weight, 0, 1), THREE.AdditiveAnimationBlendMode);
     mixer.update(0);
     root.updateMatrixWorld(true);
+    if (pose.terrain) conformTerrainRig(root, pose.terrain);
     const skin = new THREE.Matrix4(), bind = new THREE.Matrix4(), transformed = new THREE.Box3();
     for (let part = 0; part < this.samplingMeshes.length; part++) {
       const mesh = this.samplingMeshes[part]!, skinned = mesh as THREE.SkinnedMesh, palette = this.palettes[part]!;

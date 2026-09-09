@@ -31,11 +31,11 @@
     "format": "png",
     "width": 4800,
     "height": 4800,
-    "bytes": 10149642,
-    "sha256": "8b0a747451fe9f3f35d439b27d0d39b3d4a5a20de7b9643e9ec5d0dea5e1ad45"
+    "bytes": 10308841,
+    "sha256": "02408fc9e70bc1852d20eb608a1848e888e498c5c0cc3bb1bf33acf7a1a02c20"
   },
-  "sha256": "8b0a747451fe9f3f35d439b27d0d39b3d4a5a20de7b9643e9ec5d0dea5e1ad45",
-  "renderFingerprint": "c709e56c44334314f889f9783975874a5f0b16782422e6638bbab86581945be1",
+  "sha256": "02408fc9e70bc1852d20eb608a1848e888e498c5c0cc3bb1bf33acf7a1a02c20",
+  "renderFingerprint": "fd7808307d86f69ac89a96ba54eb9748b9ad62ad12d09f12a6d801cbdf91c0d6",
   "renditions": {
     "minimap": {
       "id": "minimap",
@@ -45,8 +45,8 @@
       "width": 800,
       "height": 800,
       "metresPerPixel": 1.5,
-      "bytes": 110786,
-      "sha256": "27e90e85b3a9e3f8533162a05c1411f25fb21759f72586b7edd453b2092a8e25",
+      "bytes": 110350,
+      "sha256": "d5f584b98a2a6dbd8567a259d3f9bb159fea9cab79b511607f6da83e0c07b1bf",
       "quality": 92
     },
     "detail": [
@@ -58,8 +58,8 @@
         "width": 4800,
         "height": 4800,
         "metresPerPixel": 0.25,
-        "bytes": 540924,
-        "sha256": "089be8855971eb6f37438ba04a44fb7d3e9295aed94042a43a619a78d9be0e25",
+        "bytes": 542802,
+        "sha256": "a7f42cde988d35d237edcb5702504ceb9692afa2da13edd1e13649ab173e5694",
         "quality": 60
       },
       {
@@ -70,8 +70,8 @@
         "width": 2400,
         "height": 2400,
         "metresPerPixel": 0.5,
-        "bytes": 316890,
-        "sha256": "4e921bc62f01c360e88b9dc77b76e44b84f025732785cdb6c7a6bc1d47e96850",
+        "bytes": 314966,
+        "sha256": "79a3a57321945f5984a49302b444d0a9bd6c6907c81328cd0f6057ad85a3097a",
         "quality": 82
       },
       {
@@ -82,8 +82,8 @@
         "width": 1200,
         "height": 1200,
         "metresPerPixel": 1,
-        "bytes": 133756,
-        "sha256": "17771eb613b3310be94e3c3974bcf19b65d1b114faebce3a1a85aa33528db392",
+        "bytes": 131572,
+        "sha256": "50defe2ae9e1eff8082021fbd9542b70cc78d09279516bbc6ab0151cd49e693e",
         "quality": 86
       }
     ]

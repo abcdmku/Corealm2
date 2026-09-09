@@ -22,6 +22,7 @@ export interface CreatureGallery {
   getCatalog(): FeatureLabPreset[];
   show(presetId: string, count?: number): Promise<void>;
   play(motion: GalleryMotion): void;
+  place(x: number, z: number, yaw?: number): void;
   getBounds(): { min: Vec3; max: Vec3 } | null;
   dispose(): void;
 }
@@ -109,6 +110,17 @@ export async function createCreatureGallery({ assets, scene, entityStore, entity
       }
       state.motion = motion;
       if (failed.length) throw new Error(`Production motion ${motion} was unavailable for ${failed.join(", ")}`);
+    },
+    place(x, z, yaw = 0) {
+      if (![x, z, yaw].every(Number.isFinite) || Math.abs(x) > 115 || Math.abs(z) > 115) throw new Error("Gallery placement must stay within the terrain yard");
+      for (const [index, id] of state.entityIds.entries()) {
+        const entity = entityStore.get(id);
+        if (!entity) continue;
+        const px = x + index * 4;
+        entity.position = [px, scene.meshHeightAt(px, z), z];
+        if (entity.view) entity.view.rotationY = yaw;
+      }
+      entityViews.sync(entityStore.all());
     },
     getBounds() {
       const box = new Box3();

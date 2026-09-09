@@ -154,6 +154,10 @@ These write ignored `report.json` files and screenshots under `test-results/crea
 
 ### Creature gallery
 
+Terrain articulation uses the production skeleton after clip blending, on both live rigs and instanced animation palettes. Open `?mode=combat&creatures=1&terrain=slopes`, then use `__creatureGallery.show('slag_centipede_residents', 1)` and `__creatureGallery.place(-100, -80, 0)` for a segmented body crossing a change in slope. `place(x, z, yaw)` samples the production yard mesh. Check idle, walk, run and a return to flat ground; also inspect `open_march_goats` and `reedjaw_crocodile_residents`. These are isolated actor tests, so no world-authoring exception applies.
+
+`__gameDebug.getEntityMotion(id).terrainContact` reports evaluated joint clearance and a sparse skinned-vertex sample. Joint error compares against the authored animation's clearance, so swing feet can lift; it does not assert that every vertex or every swing foot touches the floor. Inspect feet and the body silhouette in screenshots. Move the camera beyond 70 m to release a live rig, back into the 40–70 m band to inspect the sampled path, then within 40 m to check its return. Both colour and shadow passes must retain terrain articulation. `tests/terrain-rig.test.ts` covers twenty-foot crest contact, clearance, scale, yaw and repeated updates; the animation palette test compares actual skin vertices across independent terrain placements and return to an unmodified clip.
+
 Add `creatures=1` to a combat-lab route for the compact creature acceptance grid. It starts with one cow near `(0, 70)`. The selector uses the production creature catalogue, and a count from 1 to 64 stages separate production entities with stable `lab:creatures:<preset>:<index>` IDs. Grid spacing follows the actual creature footprint. Ordinary AI does not move gallery actors; they keep their real meshes, rigs, animation clocks, rendering and distance transitions.
 
 ```json
@@ -386,3 +390,18 @@ All four capture calls must succeed, but the gate does not decide whether the sc
 Lab screenshots, browser reports, traces, and other generated evidence are disposable by default. Keep routine output under ignored test-result locations and overwrite it between runs. Inspect visual output during development, but do not update Markdown, commit screenshots, or create report diffs on every pass.
 
 Promote an artifact into the repository only when it is deliberately selected as durable acceptance evidence or documentation. Record why it is being retained. Otherwise the command should leave the tracked worktree unchanged.
+
+### Terrain contact regression
+
+`npx tsx tools/verify-grounding.ts` opens the production slope yard with
+`?mode=combat&terrain=slopes&footing=slope`. The `footing=slope` fixture moves the player
+and ordinary target spawns off the flat build pad. It samples a pursuing goat's semantic
+and drawn positions against the terrain, checks initial player contact, and sends real
+WASD input after clearing workbench focus. Reports and screenshots go to
+`test-results/grounding/`. Screenshots still require visual review; root contact does not
+measure individual animated feet.
+
+Add `--world` to check traversal and capture the coastal foothills, Ember foothills,
+Highland ridge, woodland seam, and Marchfield after lab acceptance. World terrain and
+biome placement use the authored-world exception. `tools/verify-slope-traversal.ts`
+also accepts `--route` for the slope lab and checks navigation completion in both directions.

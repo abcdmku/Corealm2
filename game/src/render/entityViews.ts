@@ -1,3 +1,5 @@
+import { interpolatedGroundHeight } from "./terrainContact.js";
+import { conformTerrainRig, restoreTerrainRig, terrainRigSnapshot, type TerrainPose } from "./terrainRig.js";
 /**
  * Semantic entities -> Three.js objects.
  *
@@ -1534,6 +1536,7 @@ export type EntityMotionPath = "live-rig" | "sampled-rig" | "unique-static" | "b
 
 /** JSON-safe renderer state for browser motion acceptance. Gameplay never reads this. */
 export interface EntityMotionSnapshot {
+  readonly terrainContact: ReturnType<typeof terrainRigSnapshot>;
   readonly hitOverlay: { clip: string; time: number; duration: number; weight: number; active: true; bones: readonly string[]; maskStatus: string } | null;
   readonly entityId: EntityId;
   readonly liveRig: boolean;
@@ -1560,6 +1563,7 @@ export interface EntityMotionSnapshot {
  * groups without constructing terrain, scatter, water, or the rest of the production world.
  */
 export interface EntityViewScene {
+  meshHeightAt?(x: number, z: number): number;
   readonly entityGroup: THREE.Group;
   readonly overlayGroup: THREE.Group;
 }
@@ -2191,6 +2195,10 @@ export class EntityViews {
       record.rotationTargetPending = false;
 
       record.position.lerpVectors(record.previous, record.target, blend);
+      if (this.scene.meshHeightAt) {
+        record.position.y = interpolatedGroundHeight(record.previous.toArray(), record.target.toArray(),
+          record.position.toArray(), (x, z) => this.scene.meshHeightAt!(x, z));
+      }
       record.rotationY = shortestArc(record.previousRotationY, record.targetRotationY, blend);
 
       if (record.unique) {
@@ -4274,6 +4282,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const rig = record.rig;
     const state = record.playback;
     if (!rig || !state) return;
+    restoreTerrainRig(rig.root);
     const action = rig.mixer.clipAction(state.clip);
     let previous = state.previousClip ? rig.mixer.clipAction(state.previousClip) : null;
     if (state.previousClip === state.clip) {
@@ -4319,6 +4328,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     rig.motion = record.motion;
     rig.resting = record.resting;
     rig.mixer.update(0);
+    this.placeUnique(record);
   }
 
   /** Idle may vary per person. A gait or one-shot must match what the entity is doing. */
@@ -4836,6 +4846,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const lod = playback ? this.ensureAnimationLod(group, record) : null;
     if (lod && playback) {
       lod.set(slot, placement, {
+        terrain: this.terrainPose(record, placement),
         clip: playback.clip,
         time: playback.time,
         ...(playback.previousClip ? {
@@ -5037,6 +5048,21 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
       record.scale * build[1] * record.scaleAxes[1],
       record.scale * build[2] * record.scaleAxes[2],
     );
+    if (record.rig) {
+      restoreTerrainRig(record.rig.root);
+      const pose = this.terrainPose(record, new THREE.Matrix4());
+      if (pose) conformTerrainRig(record.rig.root, pose);
+    }
+  }
+
+  private terrainPose(record: ViewRecord, placement: THREE.Matrix4): TerrainPose | undefined {
+    const heightAt = this.scene.meshHeightAt;
+    const assetId = this.groups.get(record.groupKey)?.assetId ?? "";
+    if (!heightAt || !/^(animal_|creature_)/.test(assetId)
+      || /wasp|wraith|banshee/.test(assetId)) return undefined;
+    // Raised floors and underground rooms own their own support plane.
+    if (Math.abs(record.position.y - heightAt.call(this.scene, record.position.x, record.position.z)) > 0.15) return undefined;
+    return { placement, origin: record.position, heightAt: (x, z) => heightAt.call(this.scene, x, z) };
   }
 
   /**
@@ -5552,6 +5578,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     return {
       entityId,
       liveRig: rig !== null,
+      terrainContact: rig ? terrainRigSnapshot(rig.root) : group?.animationLod?.terrainSnapshot(record.slot) ?? null,
       path,
       semanticPosition: [record.target.x, record.target.y, record.target.z],
       drawnPosition: [record.position.x, record.position.y, record.position.z],

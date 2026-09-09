@@ -69,17 +69,6 @@ export const ENEMY_TURN_RATE_RAD_PER_S = 7;
 export const TURN_IN_PLACE_RAD = Math.PI / 3;
 
 /**
- * How far the drawn terrain may disagree with a step's Y before the terrain is ignored, in metres.
- *
- * Same constant, same reasoning, and same measurements as `GROUND_SNAP_MAX` in
- * `systems/movement.ts`: the navmesh floats 0.147-0.417 m above the drawn ground and the float
- * changes as a creature walks, so an animal standing on the NAVMESH is an animal hovering in the
- * air. 1.2 m is 3x the worst measured float and far below any dungeon offset, so grounding can
- * never fire a Gravelmaw creature up through the chamber roof to the surface terrain.
- */
-const GROUND_SNAP_MAX_METRES = 1.2;
-
-/**
  * How fast an enemy is allowed to be pushed out of another one, metres per second.
  *
  * Well under any pursuit speed, so giving way never outruns chasing and two animals cannot shove
@@ -544,7 +533,7 @@ export class EnemyAiSystem implements TickSystem {
     const wanted: Vec3 = [from[0] + dx, from[1], from[2] + dz];
     const habitat = this.records.get(entity.id)?.mode === "idle"
       ? this.habitat(entity) : this.pursuitHabitat(entity);
-    const snapped = habitat ? this.snapHabitatStep(wanted, habitat) : this.snapStep(wanted);
+    const snapped = habitat ? this.snapHabitatStep(wanted, habitat, entity) : this.snapStep(wanted, entity);
     // No `faceDirection` here on purpose: a creature being shoved aside is still looking at what it
     // is chasing, and turning it to face the shove is what made the animals spin.
     if (!snapped || distanceXZ(from, snapped) <= 0.001) return;
@@ -629,7 +618,7 @@ export class EnemyAiSystem implements TickSystem {
 
     const landed = habitat
       ? this.habitatDestination(entity, record, runtime.spawnPos, habitat)
-      : this.snapStep(wanderDestination(runtime.spawnPos, record.rng));
+      : this.snapStep(wanderDestination(runtime.spawnPos, record.rng), entity);
     if (!landed || distanceXZ(entity.position, landed) < (habitat ? 0.6 : WANDER_MIN_METRES)) {
       record.wanderUntilMs = atMs + record.rng.int(pauseMin, pauseMax);
       return;
@@ -650,7 +639,7 @@ export class EnemyAiSystem implements TickSystem {
       const { anchorIndex: index, position: wanted } = candidates[(first + attempt) % count]!;
       const anchor = habitat.anchors[index]!;
       if (!insideHabitat(habitat, [anchor[0], spawn[1], anchor[1]])) continue;
-      const landed = this.snapHabitatStep(wanted, habitat);
+      const landed = this.snapHabitatStep(wanted, habitat, entity);
       if (!landed || distanceXZ(entity.position, landed) < 0.6) continue;
       record.habitatAnchorIndex = index;
       return landed;
@@ -695,8 +684,8 @@ export class EnemyAiSystem implements TickSystem {
       if (entity.view) delete entity.view.diedAtMs;
 
       if (entity.combat) entity.combat.health = runtime.health;
-      this.deps.entities.setPosition?.(entityId, cloneVec3(runtime.spawnPos));
-      entity.position = cloneVec3(runtime.spawnPos);
+      entity.position = this.ground(cloneVec3(runtime.spawnPos), entity);
+      this.deps.entities.setPosition?.(entityId, entity.position);
       this.setEntityState(entity, "alive");
 
       const record = this.recordFor(entityId);
@@ -968,7 +957,7 @@ export class EnemyAiSystem implements TickSystem {
     const nx = from[0] + (dx / gap) * step;
     const nz = from[2] + (dz / gap) * step;
     const wanted: Vec3 = [nx, from[1], nz];
-    let snapped = habitat ? this.snapHabitatStep(wanted, habitat) : this.snapStep(wanted);
+    let snapped = habitat ? this.snapHabitatStep(wanted, habitat, entity) : this.snapStep(wanted, entity);
 
     // Detour returns the current boundary point when the direct candidate falls inside a carved
     // solid. Retrying that point forever is the enemy version of walking into a wall. Sliding one
@@ -976,10 +965,10 @@ export class EnemyAiSystem implements TickSystem {
     // corners without a full path query per enemy per tick.
     if (!this.madeProgress(from, snapped, target, gap)) {
       const candidates = [
-        habitat ? this.snapHabitatStep([nx, from[1], from[2]], habitat)
-          : this.snapStep([nx, from[1], from[2]]),
-        habitat ? this.snapHabitatStep([from[0], from[1], nz], habitat)
-          : this.snapStep([from[0], from[1], nz]),
+        habitat ? this.snapHabitatStep([nx, from[1], from[2]], habitat, entity)
+          : this.snapStep([nx, from[1], from[2]], entity),
+        habitat ? this.snapHabitatStep([from[0], from[1], nz], habitat, entity)
+          : this.snapStep([from[0], from[1], nz], entity),
       ].filter((candidate): candidate is Vec3 => this.madeProgress(from, candidate, target, gap));
       candidates.sort((a, b) => distanceXZ(a, target) - distanceXZ(b, target));
       snapped = candidates[0] ?? null;
@@ -1000,34 +989,30 @@ export class EnemyAiSystem implements TickSystem {
   }
 
   /** Uses raw steering only when no nav port exists. A nav miss is a blocker, not permission. */
-  private snapStep(wanted: Vec3): Vec3 | null {
+  private snapStep(wanted: Vec3, entity: SemanticEntity): Vec3 | null {
+    wanted = this.ground(wanted, entity);
     const snapped = this.deps.nav ? this.deps.nav.nearestWalkable(wanted, 2) : wanted;
-    return snapped ? this.ground(snapped) : null;
+    return snapped ? this.ground(snapped, entity) : null;
   }
 
   /** A nearby polygon across a fence or shore is not the requested habitat footing. */
-  private snapHabitatStep(wanted: Vec3, habitat: HabitatDef): Vec3 | null {
+  private snapHabitatStep(wanted: Vec3, habitat: HabitatDef, entity: SemanticEntity): Vec3 | null {
+    wanted = this.ground(wanted, entity);
     if (!insideHabitat(habitat, wanted)) return null;
     const snapped = this.deps.nav
       ? this.deps.nav.nearestWalkable(wanted, HABITAT_NAV_TOLERANCE) : wanted;
     if (!snapped || distanceXZ(wanted, snapped) > HABITAT_NAV_TOLERANCE
       || !insideHabitat(habitat, snapped)) return null;
-    return this.ground(snapped);
+    return this.ground(snapped, entity);
   }
 
-  /**
-   * Replaces the navmesh's Y with the drawn terrain height, when the two agree closely enough to
-   * be talking about the same surface. Keeps the navmesh authoritative for XZ.
-   *
-   * The player's movement has done exactly this since the float was measured; enemies never did,
-   * which is why every animal stood 0.15-0.42 m above its own shadow the moment it took a step.
-   */
-  private ground(point: Vec3): Vec3 {
+  /** Surface actors use terrain Y; dungeon actors retain their separate navigation floor. */
+  private ground(point: Vec3, entity: SemanticEntity): Vec3 {
+    if (realmOf(entity.regionId) !== null) return point;
     const heightAt = this.deps.groundHeightAt;
     if (!heightAt) return point;
     const groundY = heightAt(point[0], point[2]);
     if (!Number.isFinite(groundY)) return point;
-    if (Math.abs(groundY - point[1]) > GROUND_SNAP_MAX_METRES) return point;
     return [point[0], groundY, point[2]];
   }
 

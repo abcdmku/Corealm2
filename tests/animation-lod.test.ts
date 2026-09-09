@@ -91,6 +91,33 @@ function overlayClip(): THREE.AnimationClip {
     [0, 0, 0, 1, ...new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1, 0, 0), .75).toArray(), 0, 0, 0, 1])], THREE.AdditiveAnimationBlendMode);
 }
 
+it("keeps terrain-adjusted palette vertices on the same surface as live animation across slots and return to flat", () => {
+  const { root, walk } = actor(), parent = new THREE.Group();
+  const before = root.toJSON();
+  const lod = new AnimationLod(parent, root, root, [walk], material => material);
+  const heightAt = (x: number, z: number) => .45 * x - .3 * z;
+  for (let slot = 0; slot < 3; slot++) {
+    const origin = new THREE.Vector3(slot * 8, heightAt(slot * 8, 4), 4);
+    const placement = new THREE.Matrix4().makeRotationY(slot * .6).setPosition(origin);
+    const time = .15 + slot * .2;
+    lod.set(slot, placement, { clip: walk, time, blend: 1, terrain: { placement, origin, heightAt } });
+    const mesh = parent.children[0] as THREE.InstancedMesh;
+    for (let vertex = 0; vertex < 3; vertex++) {
+      const expected = referenceVertex(root, walk, time, vertex).applyMatrix4(placement);
+      expected.y += heightAt(expected.x, expected.z) - origin.y;
+      expect(paletteVertex(mesh, slot, vertex).distanceTo(expected)).toBeLessThan(2e-6);
+      expect(lod.bounds(slot, new THREE.Box3())!.containsPoint(expected)).toBe(true);
+    }
+  }
+  lod.hide(1);
+  lod.set(0, new THREE.Matrix4(), { clip: walk, time: .4, blend: 1 });
+  const mesh = parent.children[0] as THREE.InstancedMesh;
+  expect(paletteVertex(mesh, 0, 2).distanceTo(referenceVertex(root, walk, .4, 2))).toBeLessThan(1e-6);
+  expect(lod.terrainSnapshot(0)).toBeNull();
+  expect(root.toJSON()).toEqual(before);
+  lod.dispose();
+});
+
 /** Independent ordinary live mixer reference: local normal blend, then additive local recoil. */
 function overlayReference(root: THREE.Object3D, pose: LodPose, vertex: number): THREE.Vector3 {
   const copy = cloneRigged(root), mixer = new THREE.AnimationMixer(copy);

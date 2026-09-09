@@ -228,6 +228,8 @@ export interface MovementPorts {
    * authoritative for XZ and Y comes from the ground everything else is placed on.
    */
   heightAt?: (regionId: RegionId, x: number, z: number) => number;
+  /** Height port resolves the current realm; only explicit structure footprints retain nav Y. */
+  authoritativeGround?: boolean;
   /** Imported walk-surface footprints whose navmesh height must survive terrain grounding. */
   preserveNavigationHeight?: (point: Vec3) => boolean;
   /**
@@ -809,7 +811,7 @@ export class Movement {
     if (!heightAt) return [x, from[1], z];
 
     const currentGround = heightAt(state.player.regionId, from[0], from[2]);
-    if (!Number.isFinite(currentGround) || Math.abs(currentGround - from[1]) > GROUND_SNAP_MAX) {
+    if (!Number.isFinite(currentGround) || (!this.ports.authoritativeGround && Math.abs(currentGround - from[1]) > GROUND_SNAP_MAX)) {
       return [x, from[1], z];
     }
     const targetGround = heightAt(state.player.regionId, x, z);
@@ -1065,7 +1067,7 @@ export class Movement {
     if (!heightAt) return point;
     const groundY = heightAt(state.player.regionId, point[0], point[2]);
     if (!Number.isFinite(groundY)) return point;
-    if (Math.abs(groundY - point[1]) > GROUND_SNAP_MAX) return point;
+    if (!this.ports.authoritativeGround && Math.abs(groundY - point[1]) > GROUND_SNAP_MAX) return point;
     return [point[0], groundY, point[2]];
   }
 
@@ -1428,7 +1430,7 @@ export class Movement {
       // retry from the accepted position; the next recovery replans without teleporting.
       if (!this.ports.dynamicObstacles) {
         const snapped = this.nav.nearestWalkable(state.player.position, 4);
-        if (snapped) state.player.position = snapped;
+        if (snapped) state.player.position = this.ground(state, snapped);
       }
       this.pathDetour = null;
       this.moverDetour = null;

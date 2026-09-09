@@ -1007,7 +1007,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   // 12. Player.
   const groundY = scene.heightAt(spawnSpec.regionId, spawnSpec.x, spawnSpec.z);
-  const spawn: Vec3 = nav.closestPoint([spawnSpec.x, groundY + 0.2, spawnSpec.z]) ?? [spawnSpec.x, groundY, spawnSpec.z];
+  const spawnNav = nav.closestPoint([spawnSpec.x, groundY + 0.2, spawnSpec.z]);
+  const spawn: Vec3 = spawnNav
+    ? [spawnNav[0], scene.meshHeightAt(spawnNav[0], spawnNav[2]), spawnNav[2]]
+    : [spawnSpec.x, groundY, spawnSpec.z];
   // Facing convention matches NpcStandDef and debug/shots.ts: 0 looks toward +z.
   // The camera sits behind the player, so its yaw is the player's facing plus pi.
   const spawnFacing = packFixture ? Math.PI : spawnSpec.facingRad;
@@ -1081,7 +1084,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   };
   const movementHeightAt = (regionId: RegionId, x: number, z: number): number =>
     dungeonSpec && regionId === dungeonSpec.regionId ? dungeonFloorHeight(dungeonSpec, x, z) : heightAt(regionId, x, z);
-  movement.setPorts({ solids: movementSolids, heightAt: movementHeightAt,
+  movement.setPorts({ solids: movementSolids, heightAt: movementHeightAt, authoritativeGround: true,
     preserveNavigationHeight, entities: entityStore, dynamicObstacles: forestObstacles });
   const api = new CorealmGameApi(store, events, nav, movement, clock);
 
@@ -1847,7 +1850,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
     const resetLabPlayer = (): void => {
       const state = store.get();
-      const landed = nav.closestPoint(spawn) ?? [...spawn] as Vec3;
+      const landed: Vec3 = [spawn[0], scene.meshHeightAt(spawn[0], spawn[2]), spawn[2]];
       state.player.position = [...landed] as Vec3;
       state.player.regionId = spawnSpec.regionId;
       state.player.facingRad = spawnFacing;
@@ -1931,7 +1934,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       cameraQueries.setHiddenEntities(roofVisibility.hiddenEntities, roofVisibility.cutHeights);
       solids = new Solids(allSolids);
       structureMovementBounds = importedSurfaceBounds([...structureNavigation.meshes, ...structureMeshes]);
-      movement.setPorts({ solids: movementSolids, heightAt: movementHeightAt, preserveNavigationHeight, entities: entityStore });
+      movement.setPorts({ solids: movementSolids, heightAt: movementHeightAt, authoritativeGround: true, preserveNavigationHeight, entities: entityStore });
     };
 
     const disposeCarve = (carve: THREE.Mesh): void => {

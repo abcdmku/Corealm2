@@ -263,8 +263,6 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
         { id: "far-tarn", centre: [284, -110], radius: 34, strength: 1.2 },
         { id: "south-ridge", centre: [170, -214], radius: 38, strength: 1.0 },
         { id: "far-uplift", centre: [310, -180], radius: 40, strength: 1.0 },
-        { id: "southwest-foot", centre: [0, -245], radius: 26, strength: 1.0 },
-        { id: "south-spur", centre: [45, -290], radius: 26, strength: 1.0 },
       ],
       corridors: [
         { from: [140, -16], to: [144, -66], halfWidth: 28, strength: 0.64 },
