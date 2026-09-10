@@ -1,3 +1,5 @@
+import { WaterFinaleVfx } from "./waterFinaleVfx.js";
+import { elementalChoreographyTime } from "../content/elementalTiming.js";
 import * as THREE from "three";
 import type { Vec3, SpellElement } from "../contracts.js";
 import { elementalSpell } from "../content/elementalSpells.js";
@@ -53,13 +55,16 @@ export class ElementalSpellVfx {
   private readonly earth: EarthSpellVfx;
   private readonly fire: FireSpellVfx;
   private readonly waterFlow: ElementalFlowSurfaces;
+  private readonly waterFinale:WaterFinaleVfx;
   private readonly basic: BasicElementalVfx;
   private readonly arcane: ArcaneSpellVfx;
   private readonly pointLights: THREE.PointLight[] = [];
   private palette = ELEMENTAL_ENERGY["air-needle"];
   private element: SpellElement = "earth";
   private hitAreas = false;
+  private contactHeight=1.5;
   private readonly unregisterGlow: () => void;
+  private readonly choreographyCasts=new WeakMap<ElementalCast,ElementalCast>();
   updateMs = 0;
   constructor(
     parent: THREE.Object3D,
@@ -76,11 +81,12 @@ export class ElementalSpellVfx {
     this.solids = new ElementalSolids(this.group);
     this.fluids = new ElementalFluidBodies(this.group);
     this.basic = new BasicElementalVfx(this.group,ground,this.light,this.fragments,this.fluids);
-    this.arcane = new ArcaneSpellVfx(this.group,ground);
+    this.arcane = new ArcaneSpellVfx(this.group,ground,this.light);
     this.waterFlow = new ElementalFlowSurfaces(this.group);
+    this.waterFinale=new WaterFinaleVfx(this.group,ground);
     this.filaments = new ElementalFilaments(this.group);
     this.art = new ElementalSpellArt(this.group, ground);
-    this.air = new AirSpellVfx(this.group,ground,this.light,this.filaments);
+    this.air = new AirSpellVfx(this.group,ground,this.light,this.filaments,this.fragments,this.smoke);
     this.earth = new EarthSpellVfx(this.group,ground,this.fragments,this.smoke,this.light,this.filaments);
     this.fire = new FireSpellVfx(this.group,ground,this.light,this.smoke,this.filaments,this.volumes,
       (x,y,z,color,intensity,distance)=>this.illuminate(x,y,z,color,intensity,distance));
@@ -96,14 +102,14 @@ export class ElementalSpellVfx {
   }
   get particleCount(): number {
     return (
-      this.light.instances + this.fragments.instances + this.smoke.instances
+      this.light.instances + this.fragments.instances + this.smoke.instances + this.waterFinale.particleCount
     );
   }
   get volumeCount(): number {
     return this.volumes.instances + this.fluids.instances;
   }
   get droppedParticles(): number {
-    return this.light.dropped + this.fragments.dropped + this.smoke.dropped;
+    return this.light.dropped + this.fragments.dropped + this.smoke.dropped + this.waterFinale.droppedParticles;
   }
   get solidCount(): number {
     return this.solids.instances + this.earth.fracturePieces + this.basic.solidCount;
@@ -115,10 +121,10 @@ export class ElementalSpellVfx {
     return this.filaments.dropped;
   }
   get bodyCount(): number {
-    return this.art.instances + this.air.instances + this.earth.instances + this.fire.instances + this.waterFlow.instances + this.basic.instances + this.arcane.instances;
+    return this.art.instances + this.air.instances + this.earth.instances + this.fire.instances + this.waterFlow.instances + this.waterFinale.instances + this.basic.instances + this.arcane.instances;
   }
   get droppedBodies(): number {
-    return this.art.dropped + this.air.dropped + this.fire.dropped + this.earth.dropped + this.waterFlow.dropped + this.basic.dropped + this.fluids.dropped + this.arcane.dropped;
+    return this.art.dropped + this.air.dropped + this.fire.dropped + this.earth.dropped + this.waterFlow.dropped + this.waterFinale.dropped + this.basic.dropped + this.fluids.dropped + this.arcane.dropped;
   }
   get instances(): number {
     return (
@@ -136,15 +142,26 @@ export class ElementalSpellVfx {
     focus?: Vec3,
   ): void {
     const start = performance.now();
+    if(cast&&elementalSpell(cast.spellId).rank>0){
+      now=elementalChoreographyTime(cast.spellId,(now-cast.started)/(cast.presentationScale??1));
+      let authored=this.choreographyCasts.get(cast);
+      if(!authored){
+        authored={...cast,started:0,pulses:cast.pulses.map(p=>({...p,at:p.choreographyAt??p.at}))};
+        this.choreographyCasts.set(cast,authored);
+      }
+      cast=authored;
+    }
+    this.contactHeight=cast?.impactHeight??1.5;
     this.element = cast ? elementalSpell(cast.spellId).element : "earth";
     const grounded = this.element === "earth";
-    this.light.begin(now / 1000, grounded ? .65 : this.element === "fire" ? 1.1 : .8);
+    this.light.begin(now / 1000, grounded ? 1.05 : this.element === "fire" ? 1.25 : 1.1);
     this.smoke.begin(now / 1000);
     this.fragments.begin(now / 1000);
     this.volumes.begin(now / 1000, grounded ? .13 : this.element === "water" ? .08 : .24);
     this.solids.begin();
     this.fluids.begin(now / 1000);
     this.waterFlow.begin(now / 1000);
+    this.waterFinale.begin(now/1000);
     this.basic.begin(now / 1000);
     this.arcane.begin(now / 1000);
     this.filaments.begin(now / 1000, grounded ? .17 : this.element === "water" ? .13 : .3);
@@ -158,12 +175,14 @@ export class ElementalSpellVfx {
     else if (cast && this.element === "wind") this.air.update(cast,now);
     else if (cast && this.element === "earth") this.earth.update(cast,now);
     else if (cast && this.element === "fire") this.fire.update(cast,now);
+    else if(cast?.spellId==="deluge")this.waterFinale.update(cast,now-cast.started);
     else if (cast) {
       const spell = elementalSpell(cast.spellId),
         age = now - cast.started;
       this.palette = ELEMENTAL_ENERGY[cast.spellId];
       this.waterComposition(cast,age);
-      this.charge(cast, age, spell.element, spell.rank);
+      if(cast.spellId==="undertow")this.undertowCollapse(cast,age);
+
       const vortices = cast.pulses.filter((p) => p.form === "vortex");
       if (vortices.length)
         this.vortex(
@@ -188,6 +207,7 @@ export class ElementalSpellVfx {
     this.solids.end();
     this.fluids.end();
     this.waterFlow.end();
+    this.waterFinale.end();
     this.filaments.end();
     this.art.end();
     this.air.end();
@@ -195,7 +215,7 @@ export class ElementalSpellVfx {
     this.earth.end();
     this.basic.end();
     this.arcane.end();
-    this.group.userData["elementalArt"]={element:this.element,basic:cast&&elementalSpell(cast.spellId).rank===0?cast.spellId:null,arcane:{...this.arcane.state},air:{...this.air.state},earth:{...this.earth.state},fire:{...this.fire.state},contacts:cast?.pulses.map((_,i)=>elementalPulseArt(cast.spellId,i).name)??[]};
+    this.group.userData["elementalArt"]={element:this.element,basic:cast&&elementalSpell(cast.spellId).rank===0?cast.spellId:null,arcane:{...this.arcane.state},waterFinale:{...this.waterFinale.state},air:{...this.air.state},earth:{...this.earth.state},fire:{...this.fire.state},contacts:cast?.pulses.map((_,i)=>elementalPulseArt(cast.spellId,i).name)??[]};
     this.updateMs = performance.now() - start;
   }
   private waterComposition(cast:ElementalCast,age:number):void {
@@ -213,29 +233,45 @@ export class ElementalSpellVfx {
         const u=(a+.5)/1.35,fade=smooth(u/.2)*(1-smooth((u-.65)/.35));
         if(u<0||u>1)continue;
         const d=p.direction??[0,1],forward=(u-.37)*5,height=p.height*.62*Math.sin(Math.min(1,u*1.5)*Math.PI*.8)*(i===0?.82:i===4?1.13:1);
-        this.fluids.put("wave",cx+d[0]*forward,y,cz+d[1]*forward,7.1,height*fade,2.6*variant.depth,Math.atan2(d[0],d[1]),0,i/4,variant.bend);
-        for(let k=0;k<9;k++){
-          const side=(k-4)*1.58,along=forward-.18+Math.sin(t*3+k)*.24;
-          const size=.9+rand(k,i+71)*.5,crest=height*fade*(.96+Math.sin(k*1.7+t*3+i)*.09);
-          this.waterFlow.put("shell","water",cx+d[1]*side+d[0]*along,y+crest,cz-d[0]*side+d[1]*along,size,.36+rand(k+i,73)*.18,.7*variant.depth,fade*.88,i+k,t*.2+k*.2,0,1,{arc:.65+rand(k,i)*.25,lean:variant.bend});
+        // Broken surf fronts leave room between the glowing crest and falling liquid.
+        for(let k=0;k<3;k++){
+          const side=(k-1)*4.6,stagger=Math.sin(k*2+i)*.65,crest=height*.36*(.8+rand(k,i)*.3);
+          const px=cx+d[1]*side+d[0]*(forward+stagger),pz=cz-d[0]*side+d[1]*(forward+stagger);
+          this.fluids.put("wave",px,y,pz,2.3+rand(k,i)*.3,crest*fade,1.1*variant.depth,Math.atan2(d[0],d[1]),0,i+k,variant.bend);
+          this.waterFlow.put("band","water",px,y+.12,pz,2.8,crest*.65,1.4,fade*.58,i+k,
+            Math.atan2(d[0],d[1])+k*.2,0,1,{arc:.48+rand(k,i)*.16,lean:variant.bend});
         }
         continue;
       }
-      if(a>=0&&a<1.02&&p.form!=="vortex"){
+      if(a>=0&&a<1.02&&p.form!=="vortex"&&cast.spellId!=="undertow"){
         const fade=1-smooth((a-.35)/.67),r=p.radius*(.18+1.1*(1-Math.exp(-a*6)));
         this.waterFlow.put("band","water",x,y+.08,z,r*variant.width,(.6+p.radius*.13)*variant.lift,r*variant.depth,fade*.76,i,variant.yaw,0,0,{arc:variant.arc,lean:variant.bend});
-        if(a<.45&&i%3===0)this.waterFlow.put("shell","water",x,y+(p.radius<2?1.25:.45),z,r*.7*variant.width,r*.6*variant.lift,r*.7*variant.depth,(1-a/.45)*.72,i+30,variant.yaw,0,0,{arc:variant.arc,lean:variant.bend});
-        if(p.radius<3&&a<.65)for(let k=0;k<variant.lobes;k++){
-          const angle=variant.yaw+k/variant.lobes*TAU,spread=r*(.46+rand(k,i)*.28);
+
+        if(p.radius<3&&a<.65)for(let k=0;k<1+i%3;k++){
+          const angle=variant.yaw+k*(.8+rand(i,37)*1.7),spread=r*(.26+rand(k,i)*.48);
           this.waterFlow.put("plume","water",x+Math.cos(angle)*spread,y+.06,z+Math.sin(angle)*spread,
             .24+variant.width*.25,(.5+variant.lift*.9)*fade,.24+variant.depth*.22,fade*.64,i*7+k,
             angle,variant.bend*.16,0,{arc:.7,lean:variant.bend});
         }
       }
-      if(p.form==="spike"&&a>-.15&&a<.85){
-        const fade=smooth((a+.15)/.25)*(1-smooth((a-.28)/.57));
-        this.waterFlow.put("plume","water",x,y,z,p.radius*1.1*variant.width,p.height*.93*fade*variant.lift,p.radius*1.1*variant.depth,fade*.58,i+50,variant.yaw,0,0,{arc:variant.arc,lean:variant.bend});
-      }
+
+    }
+  }
+  private undertowCollapse(cast:ElementalCast,age:number):void {
+    const local=(age-cast.pulses.at(-1)!.at)/1000;
+    if(local<-.35||local>1.05)return;
+    const [x,,z]=cast.aim,y=this.ground(x,z),fade=1-smooth((local-.15)/.9);
+    // The eye pinches shut. A low foam crown collapses and drains, without fountain arcs.
+    for(let k=0;k<3;k++){
+      const radius=(3.3-k*.58)*(1-smooth((local+.35)/.68)),height=.2+Math.sin(clamp((local+.35)/.65)*Math.PI)*.9;
+      this.waterFlow.put("band","water",x,y+.08,z,Math.max(.08,radius),height,Math.max(.08,radius*.86),fade*.9,k+70,age*.002+k*1.8,0,0,{arc:.63,lean:.45});
+    }
+    for(let i=0;i<2400;i++){
+      const u=rand(i,92),angle=rand(i,93)*TAU+age*.004,r=(.2+u*3.5)*(1-smooth((local+.35)/.7));
+      const bounce=Math.max(0,local)*(.3+rand(i,94)*1.5)-Math.max(0,local)**2*4;
+      const py=y+.08+Math.max(0,bounce);
+      this.light.put(x+Math.cos(angle)*r,py,z+Math.sin(angle)*r,.014+rand(i,95)*.024,i%5?0x2ca9ef:0xc1fff2,fade*.7,i,1.2,1.5);
+      if(i%45===0)this.fluids.put("drop",x+Math.cos(angle)*r,py,z+Math.sin(angle)*r,.035*fade,.05*fade,.035*fade,angle);
     }
   }
   private charge(
@@ -304,6 +340,7 @@ export class ElementalSpellVfx {
       y = this.ground(x, z),
       pal = this.palette;
     if (local > 1080) return;
+    if(cast.spellId==="undertow"&&p.form==="nova")return;
     if (["dart", "blade", "beam", "meteor", "wing"].includes(p.form))
       this.projectile(cast, p, index, age, element, rank);
     if (p.form === "wave") this.wave(p, local, seed);
@@ -369,7 +406,7 @@ export class ElementalSpellVfx {
     const from = p.from ?? cast.origin,
       pal = this.palette,
       seed = index + rank * 71;
-    const endY = this.ground(p.point[0], p.point[2]) + (meteor ? 0.5 : 1.35),
+    const endY = this.ground(p.point[0], p.point[2]) + (cast.impactHeight??1.5),
       sky = meteor && element === "fire";
     const sx = sky ? p.point[0] - 3 : from[0],
       sy = sky ? endY + p.height : from[1] + 1.45,
@@ -469,8 +506,8 @@ export class ElementalSpellVfx {
     }
     if (t <= 1) {
       if(element==="water"){
-        this.fluids.put("drop",hx,hy,hz,thickness*1.9*variant.width,thickness*1.7,thickness*3.1*variant.depth,Math.atan2(dx,dz));
-        this.waterFlow.put("shell","water",hx,hy,hz,thickness*2.1*variant.width,thickness*1.9,thickness*3.3*variant.depth,fade*.72,seed,Math.atan2(dx,dz),0,0,{arc:variant.arc,lean:variant.bend});
+        this.fluids.put("drop",hx,hy,hz,thickness*.65*variant.width,thickness*.65,thickness*1.5*variant.depth,Math.atan2(dx,dz));
+
       }else
       this.volumes.put(
         "sphere",
@@ -614,7 +651,7 @@ export class ElementalSpellVfx {
       const h = Math.max(
         0.025,
         (p.form === "dart" || p.form === "beam"
-          ? 1.25
+          ? this.contactHeight
           : element === "earth" && p.form !== "meteor"
             ? p.height * 0.24
             : 0.14) +
@@ -879,37 +916,8 @@ export class ElementalSpellVfx {
         );
     }
     if (water) {
-      this.fluids.put("pool",x,y+.07,z,radius*fade,.34*fade,radius*fade,-time*.4);
-      this.waterFlow.put("band","water",x,y+.12,z,radius,.8,radius,fade*.75,41,-time*.45);
-      this.waterFlow.put("band","water",x,y+.22,z,radius*.68,.65,radius*.68,fade*.65,17,time*.3);
-      this.volumes.put(
-        "sphere",
-        x,
-        y + 0.25,
-        z,
-        radius,
-        0.7,
-        radius,
-        pal.edge,
-        fade * 0.23,
-        8,
-      );
-      for (let i = 0; i < 3; i++)
-        this.volumes.put(
-          "ring",
-          x,
-          y + 0.12 + i * 0.16,
-          z,
-          radius * (0.35 + i * 0.28),
-          radius * (0.35 + i * 0.28),
-          0.7,
-          pal.core,
-          fade * 0.2,
-          i,
-          Math.PI / 2,
-          0,
-          time * 0.8,
-        );
+      this.waterFlow.put("band","water",x,y+.12,z,radius,.5,radius,fade*.60,41,-time*.45,0,0,{arc:.64});
+      this.waterFlow.put("band","water",x,y+.22,z,radius*.68,.4,radius*.68,fade*.50,17,time*.3,0,0,{arc:.48});
     } else {
       for (let i = 0; i < 3; i++)
         this.volumes.put(
@@ -994,20 +1002,12 @@ export class ElementalSpellVfx {
       y = this.ground(x, z),
       fade = 1 - smooth((local - 400) / 600),
       growth = smooth((local + 200) / 330),
-      height = p.height * growth * variant.lift;
-    this.waterFlow.put("plume","water",x,y,z,p.radius*1.15*variant.width,height*fade,p.radius*1.15*variant.depth,fade*.9,seed,variant.yaw,0,0,{arc:variant.arc,lean:variant.bend});
-    this.waterFlow.put("shell","water",x+variant.bend*.5,y+height*.50*fade,z-.15,p.radius*.47*variant.width,height*.3*fade,p.radius*.44*variant.depth,fade*.55,seed+17,t+variant.yaw,0,0,{arc:variant.arc,lean:variant.bend});
-    this.fluids.put(
-      "jet",
-      x,
-      y,
-      z,
-      p.radius * 1.15 * fade * variant.width,
-      height * fade * .72,
-      p.radius * 1.15 * fade * variant.depth,
-      variant.yaw,
-      0,index,variant.bend,
-    );
+      height = p.height * growth * variant.lift * .57;
+    for(let k=0;k<3;k++){
+      const angle=variant.yaw+k*2.4,r=.55+k*.28,px=x+Math.cos(angle)*r,pz=z+Math.sin(angle)*r;
+      this.fluids.put("jet",px,y,pz,.40*fade,height*fade*(.62+k*.12),.40*fade,angle,.13,index+k,variant.bend+k*.3);
+      this.waterFlow.put("plume","water",px,y,pz,.33,height*fade*(.60+k*.10),.33,fade*.45,seed+k,angle,.12,0,{arc:.45,lean:1});
+    }
     for (let i = 0; i < 1900; i++) {
       const u = (rand(i, seed) + t * 0.65) % 1,
         a = rand(i, seed + 1) * TAU + u * 9 + t * 4,
@@ -1034,32 +1034,6 @@ export class ElementalSpellVfx {
         1.25,
       );
     }
-    this.volumes.put(
-      "funnel",
-      x,
-      y + height / 2,
-      z,
-      p.radius * 0.45,
-      height,
-      p.radius * 0.45,
-      this.palette.edge,
-      fade * 0.28,
-      seed,
-      0,
-      t,
-    );
-    this.volumes.put(
-      "sphere",
-      x,
-      y + height * 0.8,
-      z,
-      p.radius * 0.56,
-      height * 0.22,
-      p.radius * 0.56,
-      this.palette.secondary,
-      fade * 0.2,
-      seed + 2,
-    );
   }
   private wave(p: ElementalPulse, local: number, seed: number): void {
     if (local < -500 || local > 850) return;
@@ -1069,7 +1043,7 @@ export class ElementalSpellVfx {
       y = this.ground(x, z),
       d = p.direction ?? [0, 1];
     const forward = (t - 0.37) * 5,
-      height = p.height * 0.7 * Math.sin(Math.min(1, t * 1.5) * Math.PI * 0.8);
+      height = p.height * 0.25 * Math.sin(Math.min(1, t * 1.5) * Math.PI * 0.8);
     for (let i = 0; i < 1100; i++) {
       const a = ((rand(i, seed) + t * 0.7) % 1) * Math.PI * 1.3,
         span = (rand(i, seed + 1) - 0.5) * 3.7,
@@ -1101,23 +1075,6 @@ export class ElementalSpellVfx {
         i,
         1.8,
         1.25,
-      );
-    }
-    for (let i = 0; i < 3; i++) {
-      const span = (i - 1) * 1.1;
-      this.volumes.put(
-        "sphere",
-        x + d[1] * span + d[0] * forward,
-        y + height * 0.43,
-        z - d[0] * span + d[1] * forward,
-        0.8,
-        height * 0.52,
-        0.55,
-        this.palette.edge,
-        fade * 0.28,
-        seed + i,
-        0,
-        Math.atan2(d[0], d[1]),
       );
     }
   }
@@ -1449,6 +1406,7 @@ export class ElementalSpellVfx {
     this.solids.dispose();
     this.fluids.dispose();
     this.waterFlow.dispose();
+    this.waterFinale.dispose();
     this.basic.dispose();
     this.arcane.dispose();
     this.filaments.dispose();

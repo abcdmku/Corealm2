@@ -293,6 +293,11 @@ export function buildDocs(): DocEntry[] {
         + `Cast cadence comes from the equipped weapon (wands are faster; staffs are stronger), `
         + `gives ${spell.baseXp} Magic experience hit or miss, and consumes ${spell.cost.charges} `
         + `${spell.cost.element === "wind" ? "Air" : spell.cost.element} weapon charge or Essence. `
+        + (spell.rank
+          ? `It is a rank ${spell.rank} invocation cast once from the action bar, which also spends `
+            + (spell.cost.runes ?? []).map((rune) => `${rune.quantity} ${content.item(rune.itemId)?.name ?? rune.itemId}`).join(" and ")
+            + (spell.aoe ? ", and strikes every enemy in its area. " : ". ")
+          : "")
         + "All four elements deal the same kind of damage; they differ in when they unlock, so the "
         + "released Essence and elemental weapons gate which element can be cast.",
       // Element and rung are keywords because "what wind spells do I have" is the question a player

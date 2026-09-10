@@ -101,15 +101,44 @@ export function spellBlockReason(state: GameState, spell: SpellDef): string | nu
     && loadout.charge.element === spell.cost.element
     && loadout.charges >= spell.cost.charges
   ) {
-    return null;
+    return runeBlockReason(state, spell);
   }
 
   const essenceItemId = ESSENCE_BY_ELEMENT[spell.cost.element];
   if (!essenceItemId) return `${ELEMENT_LABELS[spell.cost.element]} magic is not released yet.`;
-  if (carriedInState(state, essenceItemId) >= spell.cost.charges) return null;
+  if (carriedInState(state, essenceItemId) >= spell.cost.charges) return runeBlockReason(state, spell);
 
   const label = ELEMENT_LABELS[spell.cost.element];
   return `Carry ${spell.cost.charges} ${label} Essence to cast ${spell.name}.`;
+}
+
+/**
+ * The secondary runes an invocation burns, checked after its Essence.
+ *
+ * Checked LAST on purpose: Essence is the fuel every spell shares and the reason a caster is most
+ * often blocked, so it keeps the first word. A weapon charge never stands in for a rune; charges
+ * are Essence pressed into a staff, and the runes are a separate purchase.
+ */
+function runeBlockReason(state: GameState, spell: SpellDef): string | null {
+  for (const rune of spell.cost.runes ?? []) {
+    if (carriedInState(state, rune.itemId) >= rune.quantity) continue;
+    const name = content.item(rune.itemId)?.name ?? rune.itemId;
+    return `Carry ${rune.quantity} ${name} to cast ${spell.name}.`;
+  }
+  return null;
+}
+
+/** Carried count of every rune this spell spends, for the spellbook row. */
+export function spellRunesCarried(
+  state: GameState,
+  spell: SpellDef,
+): { itemId: ItemId; name: string; quantity: number; carried: number }[] {
+  return (spell.cost.runes ?? []).map((rune) => ({
+    itemId: rune.itemId,
+    name: content.item(rune.itemId)?.name ?? rune.itemId,
+    quantity: rune.quantity,
+    carried: carriedInState(state, rune.itemId),
+  }));
 }
 
 export interface SpellFuelInventory {
@@ -117,9 +146,12 @@ export interface SpellFuelInventory {
   removeItem(itemId: ItemId, quantity: number): Result<number>;
 }
 
+/** Runes removed by one cast, present only when the spell spends any. */
+export interface SpellRuneSpend { itemId: ItemId; quantity: number; remaining: number }
+
 export type SpellFuelSpend =
-  | { source: "weapon"; weaponItemId: ItemId; remainingCharges: number }
-  | { source: "essence"; essenceItemId: ItemId; remainingEssence: number };
+  | { source: "weapon"; weaponItemId: ItemId; remainingCharges: number; runes?: SpellRuneSpend[] }
+  | { source: "essence"; essenceItemId: ItemId; remainingEssence: number; runes?: SpellRuneSpend[] };
 
 /** Charged matching weapons pay first. Plain, empty, or other-element weapons spend Essence. */
 export function spendSpellFuel(
@@ -139,7 +171,9 @@ export function spendSpellFuel(
   ) {
     const remainingCharges = loadout.charges - spell.cost.charges;
     state.magic.weaponCharges[loadout.weaponItemId] = remainingCharges;
-    return ok({ source: "weapon", weaponItemId: loadout.weaponItemId, remainingCharges });
+    const runes = spendRunes(spell, inventory);
+    if (!runes.ok) return runes;
+    return ok({ source: "weapon", weaponItemId: loadout.weaponItemId, remainingCharges, ...runes.value });
   }
 
   const essenceItemId = ESSENCE_BY_ELEMENT[spell.cost.element];
@@ -148,11 +182,31 @@ export function spendSpellFuel(
   }
   const removed = inventory.removeItem(essenceItemId, spell.cost.charges);
   if (!removed.ok) return removed;
+  const runes = spendRunes(spell, inventory);
+  if (!runes.ok) return runes;
   return ok({
     source: "essence",
     essenceItemId,
     remainingEssence: inventory.countItem(essenceItemId),
+    ...runes.value,
   });
+}
+
+/**
+ * Removes the spell's runes. `spellBlockReason` has already confirmed they are carried, so a
+ * failure here is a genuine inventory fault rather than a shortfall. Returns an empty object for
+ * the basics so their spend result is byte-for-byte what it always was.
+ */
+function spendRunes(spell: SpellDef, inventory: SpellFuelInventory): Result<{ runes?: SpellRuneSpend[] }> {
+  const costs = spell.cost.runes ?? [];
+  if (costs.length === 0) return ok({});
+  const runes: SpellRuneSpend[] = [];
+  for (const cost of costs) {
+    const removed = inventory.removeItem(cost.itemId, cost.quantity);
+    if (!removed.ok) return removed;
+    runes.push({ itemId: cost.itemId, quantity: cost.quantity, remaining: inventory.countItem(cost.itemId) });
+  }
+  return ok({ runes });
 }
 
 export function equippedMagicWeaponView(state: GameState): EquippedMagicWeaponView | null {

@@ -31,3 +31,63 @@ Review live casts at charge, travel, first contact, peak, final impact and fade.
 ## Authorized follow-up: medieval fantasy invocation
 
 2026-09-09: the owner requested a progress commit and a rethink of every spell around Knight Online. Commit `ba5aefc` preserves the preceding 24-spell version. Add a production robed mage and staff to the transient lab fixture, animated weapon-socket light, original school-specific inscriptions, spell-specific summoning patterns, concentrated magical cores and richer elemental coloration. Preserve all 24 damage patterns, the four simple starters, liquid-only water, wind distortion without rocks, connected earth fracture, organic fire and gameplay camera limits. Validate every spell in the existing range. No final-world registration is requested.
+
+
+## Authorized follow-up: glowing motion before elemental matter
+
+The owner rejected the repeated lettered circles and oversized central objects, with the large tornado explicitly retained. Remove the inscription layer. Flying attacks must read primarily as glowing magic, with small elemental cores, textured swooshes and fine particles. Use a few thicker strokes to describe motion, with open space between them. Recompose the large water, earth and fire attacks as distributed bursts and moving fronts. Preserve combat timings, all 24 selectable spells, simple starters and normal gameplay camera limits. This instruction supersedes the inscription and central-mass direction above.
+
+
+## Authorized refinement: contrast and elemental motion
+
+The owner accepted this as an improvement and requested stronger contrast in air, more interesting flowing water, clearer fire magic, and a smaller refinement of earth. Keep the glyph-free composition and distributed impacts. Deepen the air pressure body beneath a narrow silver leading edge; move dense spray through water currents and break up the surf crests; give fire curling tapered tongues with red shoulders and gold-hot centers. Retain the low-triangle spatial surfaces, small particles and gameplay camera.
+
+
+## Upper-body targeting and manual area casting
+
+The owner authorized direct contact at 75% of creature height, removal of staff arcs in favour of socket glow with environmental gathering, a draining Undertow finish, complete replacement of Phoenix Pass, one impactful Sunfall strike, further Furnace Whip refinement, and darker dust/debris in large air attacks. Advanced spells use a repositionable manual action bar. The existing sixteen auto-cast spells use four strength variants of each new basic spell, retaining their progression and combat rules. The lab proves these production paths before world integration.
+
+## Authorized elemental finales
+
+The owner requests the rank-five water, earth and fire spells to rival Skybreaker in intensity, with longer animations for all four final spells. Skybreaker must form organically while descending, sustain its circulation, then release debris that visibly falls and settles after the wind fades. Preserve gameplay camera limits, the basic tiers, manual activation and single-impact Sunfall. Longer build, active and aftermath phases share timing with combat and the action-bar lock.
+
+The subsequent correction asks for a sharper burst of energy at every finale's impact. Tornado debris must scatter in varied directions, with interior and distant landings rather than a perfect circle. Use quick pressure fronts, breaking white water, luminous mineral fractures and a single hot solar blast to distinguish the four contacts.
+
+
+## Authorized implosions and fire contrast
+
+The owner rejected Skybreaker's artificial pulse. Remove its expanding shells and impact rings while retaining continuous wind and irregular falling debris. Deluge must surround its area with waves that converge and collide into a large upward splash. Mountainfall must collapse inward. All fire spells, including the four basic strengths, need richer dark flames, visible hot seams and black smoke. Retain the real gameplay camera, low-triangle surfaces and finite particle pools.
+
+
+## Authorized motion revision
+
+The owner rejected visible procedural repetition and requested stronger explosive and implosive motion. Deluge must retain the surrounding inward surf and upward splash, with one connected irregular front. Mountainfall must use rigid, individually shaped slabs that accelerate into a toppling collapse and break into their own pieces. Sunfall must retain one impact, with a fast expanding, rolling flame mass instead of radial lashes and matching pillars. Smaller multi-contact effects need different shapes and directions. Preserve existing damage, timing, casting controls, small particle sizes, and gameplay camera limits.
+
+
+## Faster contact and material refinement, 2026-09-09
+
+User-authorized revision: Deluge should use Undertow's broken flowing currents, with visible ground between streams, instead of an opaque blue circle. All fire spells need a dedicated detailed flame texture, sharper hot edges, richer dark folds and more forceful attack shapes. AOE windups should lead into a sharp hit; compress gathering and contact travel on a shared combat/presentation timeline, retaining falling and cooling motion after contact. Correct earth fragment rotation and ground landing. Keep the existing damage amounts, hit areas, basic tiers, action bars and gameplay camera limits.
+
+## Implosion pacing and elemental balance
+
+The next correction asks for a little more gathering time before the water and earth implosions, more body in the liquid, fewer earth rocks with more visible magic, and less repeated texture in the otherwise accepted fire treatment. Extend only the water/earth finale gathering windows. Keep the sharp collapse and slower aftermath. Give Deluge denser teal wave bodies without restoring the blue pool. Reduce Mountainfall to five stone anchors with fewer fragments and use jade currents and mineral light for its main energy. Vary flame texture scale, shear, phase and flow per surface while retaining its colors and attack shapes.
+
+## Fire repetition, water splash and Furnace Whip
+
+The owner still sees repeated fire patterns and asks to rethink Furnace Whip. Remove mirrored texture pairs and repeated conical flame silhouettes. Preserve the rich red fire, smoke and glow, with varied flowing detail within each body. Furnace Whip should unfurl as one broad ribbon, crack across the existing six contacts, then break into cinders. The owner also rejected Deluge's cone-shaped explosion. Keep the heavier water and accepted timing, but split the upward blast into unequal curling lobes with visible gaps and spray released from their moving crests. Preserve damage, the triangle budgets and gameplay camera limits.
+
+## Continuous organic fire
+
+The owner rejected the remaining repeated fire patterns and requests substantially more organic fire. Replace Sunfall's array of flame sheets and matching smoke pockets with a continuous turbulent combustion volume. Give the fire spatially changing density and temperature, rising motion, tearing boundaries and cooling soot. Remove its repeated corona loops. The other fire recipes should retain their distinct movements while losing repeated surface motifs. Preserve accepted water and earth effects, existing damage, casting controls, particle size and normal gameplay camera limits.
+
+## Clear water spray and a lighter fire blast
+
+The owner rejects fuzzy glow around Deluge's droplets and its central splash, and finds the continuous Sunfall explosion too dense. Render Deluge's spray as small shaded liquid droplets outside the bloom pass. Replace the hanging central arches with broad low fans and rounded, bending upward streams, retaining its inward surf and accepted timing. Reduce Sunfall's optical density and introduce irregular clear gaps while preserving the turbulent fire, sharp single impact and cooling aftermath. Keep the existing damage, controls, low-triangle budgets and gameplay cameras.
+
+## Deluge collision and circulation
+
+The owner finds the reduced water collision weak and its enlarged splash too blocky. Apply the air tornado's continuous spatial turbulence and circulating currents to the implosion. Carry the surrounding water into a twisting inward surge, then release a heavy, irregular collision and directional spray. Replace the flat splash silhouettes with a low-triangle volume and curved flow strips. Preserve clear non-blooming droplets, accepted contact timing, damage, controls and gameplay cameras. Other elements retain their current rendering.
+
+## Basic spell arcs
+
+All sixteen basic spells must arc upward during flight and descend into their existing hit point. The elemental body, luminous wake and trailing particles must follow the same path in the range and normal combat. Scale arc height with shot distance so short shots stay compact. Preserve the four tier sizes and particle densities, upper-body aiming, hit timing, damage and normal gameplay camera.

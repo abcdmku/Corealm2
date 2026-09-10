@@ -32,6 +32,8 @@
     "lab:preview": "vite game --host 127.0.0.1 --port 4174 --strictPort --open /index.html?mode=combat",
     "lab:spells:preview": "vite game --host 127.0.0.1 --port 4178 --strictPort --open \"/index.html?mode=combat&spells=1\"",
     "lab:spells:test": "tsx tools/elemental-spells-lab-test.ts",
+    "lab:spells:bar": "tsx tools/spell-action-bar-test.ts",
+    "lab:spells:world-bar": "tsx tools/spell-world-bar-test.ts",
     "lab:building:preview": "vite game --host 127.0.0.1 --port 4174 --strictPort --open /index.html?mode=building",
     "lab:test": "tsx tools/feature-lab-test.ts",
     "lab:creatures": "tsx tools/creature-lab-test.ts",

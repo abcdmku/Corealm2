@@ -28,7 +28,7 @@ export class ElementalSpellArt {
     this.batches = {
       earth: new ElementalEnergyBodies(parent),
       wind: new ElementalEnergyBodies(parent,"wind"),
-      water: new ElementalEnergyBodies(parent,"water"),
+      water: new ElementalEnergyBodies(parent,"water",true),
       fire: new ElementalEnergyBodies(parent,"fire"),
     };
     this.bodies = this.batches.earth;

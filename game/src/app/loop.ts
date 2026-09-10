@@ -1,4 +1,5 @@
 import { interpolatedGroundHeight } from "../render/terrainContact.js";
+import { spellImpactPoint } from "../systems/spellAim.js";
 /**
  * The update loop. Fixed 100 ms sim tick with an accumulator, decoupled from render.
  *
@@ -41,7 +42,7 @@ import type { Vfx } from "../render/vfx.js";
 import type { SpellVfx } from "../render/spellVfx.js";
 import type { HealthBars } from "../render/healthBars.js";
 import { content } from "../content/index.js";
-import type { GameEvent, ItemId, SkillId, SpellElement, SpellRung } from "../contracts.js";
+import type { GameEvent, ItemId, SkillId, SpellElement, SpellId, SpellRung } from "../contracts.js";
 import type { Ui } from "../ui/panels.js";
 import type { EntityId, SemanticEntity, Vec3 } from "../contracts.js";
 import { GATHER_TICK_MS, SIM_TICK_MS } from "../core/time.js";
@@ -841,17 +842,25 @@ export class GameLoop {
     const element = data["element"] as SpellElement | undefined;
     const rung = data["rung"] as SpellRung | undefined;
     if (!targetId || !element || !rung) return;
-    const to = this.entityPositionFor(targetId);
+    const rawAim = data["aim"];
+    const aim: Vec3 | null = Array.isArray(rawAim) && rawAim.length === 3 && rawAim.every((v) => typeof v === "number")
+      ? [rawAim[0] as number, rawAim[1] as number, rawAim[2] as number] : null;
+    const to = aim ?? this.entityPositionFor(targetId);
     if (!to) return;
 
+    const spellId = typeof data["spellId"] === "string" ? data["spellId"] as SpellId : undefined;
+    const rank = typeof data["rank"] === "number" ? data["rank"] : 0;
     this.spellVfx.cast({
       // Seeded off the sim stamp and the target, so two casts thrown in one frame at two enemies
       // scatter differently, and the same cast replayed from a seed scatters identically.
       id: `${event.atMs}:${targetId}`,
+      spellId,
       element,
       rung,
       from: this.castOrigin(),
       to,
+      // An area invocation was placed on the ground; a bolt still aims up the target's body.
+      impactPoint: aim ? aim : spellImpactPoint(to,this.entityViews?.drawnBounds(targetId)),
       hit: data["hit"] === true,
       // The event carries the flight in SIM milliseconds, which is what the damage was scheduled
       // against. This layer runs on the render clock, so the sim's time scale is divided out or the
@@ -860,13 +869,15 @@ export class GameLoop {
       flightMsOverride: typeof data["flightMs"] === "number"
         ? data["flightMs"] / (this.deps.clock.timeScale || 1)
         : undefined,
+      timeScale: this.deps.clock.timeScale || 1,
     }, nowMs);
 
     // The cast animation belongs here too, for the same reason the bolt does: this is the moment
     // the spell leaves. Driving it off the hit log would play the throw at the instant the spell
     // arrived, a whole flight late.
     this.pendingRigPose = "cast";
-    this.pendingRigPoseTimeScale = castTimeScale(rung);
+    // Invocations use the lab's tempo ladder: quick for a dart, slow and heavy for a finale.
+    this.pendingRigPoseTimeScale = rank > 0 ? (rank < 2 ? 1.15 : rank < 4 ? 0.85 : 0.65) : castTimeScale(rung);
   }
 
   /**

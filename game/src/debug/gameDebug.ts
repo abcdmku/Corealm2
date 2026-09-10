@@ -65,6 +65,7 @@ export interface DebugDeps {
    * reading draw calls and calling a streamed-in hedge a spell. This answers the question directly.
    */
   spellParticles?(): number;
+  basicSpellState?(): unknown;
   /** JSON-safe audio playback state and evidence; absent only in boot-fallback tests. */
   audioState?(): unknown;
   audioHistory?(limit?: number): unknown;
@@ -353,6 +354,7 @@ export function installGameDebug(deps: DebugDeps): void {
     getMagicGlowState() {
       return renderer.magicGlow.snapshot();
     },
+    getBasicSpellState() { return deps.basicSpellState?.()??[]; },
     getElementalArtState() {
       return renderer.scene.getObjectByName("elemental-spell-effects")?.userData["elementalArt"] ?? null;
     },

@@ -13,7 +13,7 @@ import type {
   ActivitySummary, BankView, DialogueView, DocHit, EntityId, EquipSlot, EquipmentBonuses, EventBatch,
   GameApi as GameApiContract, GameEventType, InteractionId, InventorySlot, ItemId,
   ItemStack, LootTakeResult, MoveTarget, ObserveFilter, ObservedEntity, PathPlan, PlayerView, QuestSummary, RecipeId, TimeView,
-  Result, SemanticEntity, SkillId, SkillView, SpellbookView, SpellElement, SpellId, SpellRow, StateRevision, Vec3,
+  Result, SemanticEntity, SkillId, SkillView, SpellbookView, SpellCastLock, SpellElement, SpellId, SpellRow, StateRevision, Vec3,
   OverlaySpec,
 } from "../contracts.js";
 import { EQUIP_SLOTS, SKILL_IDS, err, ok } from "../contracts.js";
@@ -29,8 +29,9 @@ import { distanceXZ } from "../core/math.js";
 import { INTERACT_RANGE } from "../app/config.js";
 import { content } from "../content/index.js";
 import { magicMaxHit } from "../systems/combat.js";
+import { SPELL_RUNES } from "../content/spells.js";
 import {
-  ESSENCE_BY_ELEMENT, RELEASED_MAGIC_ELEMENTS, equippedMagicWeaponView, spellBlockReason,
+  ESSENCE_BY_ELEMENT, RELEASED_MAGIC_ELEMENTS, equippedMagicWeaponView, spellBlockReason, spellRunesCarried,
 } from "../systems/essence.js";
 
 /**
@@ -108,7 +109,11 @@ export interface SystemHooks {
   combat?: {
     attack(entityId: EntityId): Result<{ targetId: EntityId; attackSpeedMs: number }>;
     cast(spellId: SpellId, entityId: EntityId): Result<{ targetId: EntityId; castMs: number }>;
+    castNow(spellId: SpellId): Result<{ targetId: EntityId; castMs: number }>;
+    castArea(spellId: SpellId, point: Vec3): Result<{ castMs: number; victims: number }>;
     setPreferredSpell(spellId: SpellId | null): void;
+    /** The advanced invocation still resolving, if any. Drives the action bar's slot lock. */
+    castLock(): SpellCastLock | null;
   };
   dialogue?: { op(op: "state" | "choose" | "end", optionId?: string): Result<DialogueView | null> };
   bank?: {
@@ -671,6 +676,23 @@ export class CorealmGameApi implements GameApiContract {
     return hook.cast(spellId, entityId);
   }
 
+  castNow(spellId: SpellId): Result<{ targetId: EntityId; castMs: number }> {
+    const hook = this.hooks.combat;
+    if (!hook) return err("UNAVAILABLE", "Combat system is not available yet");
+    if (!content.spell(spellId)) return err("NOT_FOUND", `No spell with id ${spellId}`);
+    return hook.castNow(spellId);
+  }
+
+  castArea(spellId: SpellId, point: Vec3): Result<{ castMs: number; victims: number }> {
+    const hook = this.hooks.combat;
+    if (!hook) return err("UNAVAILABLE", "Combat system is not available yet");
+    if (!content.spell(spellId)) return err("NOT_FOUND", `No spell with id ${spellId}`);
+    if (!Array.isArray(point) || point.length !== 3 || point.some((value) => !Number.isFinite(value))) {
+      return err("INVALID_ARGUMENT", "point must be a finite [x, y, z]");
+    }
+    return hook.castArea(spellId, [point[0], point[1], point[2]]);
+  }
+
   /**
    * The whole spellbook, resolved against the player standing here right now.
    *
@@ -698,7 +720,7 @@ export class CorealmGameApi implements GameApiContract {
     const mainHandId = state.equipment.mainHand?.itemId;
     const mainHand = mainHandId ? content.item(mainHandId) : undefined;
 
-    const spells = content.allSpells().map((spell) => {
+    const spells = content.allSpells().map((spell): SpellRow => {
       const unlocked = magicLevel >= spell.reqLevel;
       const blockedBy = spellBlockReason(state, spell);
       return {
@@ -712,6 +734,9 @@ export class CorealmGameApi implements GameApiContract {
         castMs: mainHand?.magicWeapon ? (mainHand.equip?.attackSpeedMs ?? spell.castMs) : spell.castMs,
         requiredElement: spell.cost.element,
         fuelCost: spell.cost.charges,
+        rank: spell.rank ?? 0,
+        aoe: spell.aoe === true,
+        runes: spellRunesCarried(state, spell),
         unlocked,
         castable: blockedBy === null,
         blockedBy,
@@ -721,13 +746,13 @@ export class CorealmGameApi implements GameApiContract {
 
     const preferredSpellId = state.combat.preferredSpellId ?? null;
     const preferred = spells.find((row) => row.id === preferredSpellId);
-    // What "Cast at" would throw: the standing choice when it is castable, else the strongest that
-    // is. This mirrors `CombatSystem.preferredSpellId` and the two must not drift; the panel prints
-    // this as "automatic", so a wrong answer here teaches the player something false.
+    // What "Cast at" would throw: the standing choice when it is castable, else the strongest BASIC
+    // that is. This mirrors `CombatSystem.preferredSpellId` and the two must not drift; the panel
+    // prints this as "automatic", so a wrong answer here teaches the player something false.
     const active = preferred?.castable
       ? preferred
       : spells.reduce<SpellRow | undefined>(
-        (best, row) => (row.castable && (!best || row.reqLevel > best.reqLevel) ? row : best),
+        (best, row) => (row.castable && row.rank === 0 && (!best || row.reqLevel > best.reqLevel) ? row : best),
         undefined,
       );
 
@@ -739,6 +764,14 @@ export class CorealmGameApi implements GameApiContract {
       equippedWeapon: equippedMagicWeaponView(state),
       essence,
       releasedElements: [...RELEASED_MAGIC_ELEMENTS],
+      runes: SPELL_RUNES.map((rune) => ({
+        itemId: rune.itemId,
+        name: rune.name,
+        tier: rune.tier,
+        carried: countIn(slots, rune.itemId),
+        description: rune.description,
+      })),
+      castLock: this.hooks.combat?.castLock() ?? null,
     };
   }
 
@@ -747,6 +780,10 @@ export class CorealmGameApi implements GameApiContract {
     if (!hook) return err("UNAVAILABLE", "Combat system is not available yet");
     if (spellId !== null && !content.spell(spellId)) {
       return err("NOT_FOUND", `No spell with id ${spellId}`);
+    }
+    const spell = spellId ? content.spell(spellId) : undefined;
+    if (spell && (spell.rank ?? 0) > 0) {
+      return err("INVALID_ARGUMENT", `${spell.name} is an invocation: cast it from the action bar rather than setting it as the standing spell.`);
     }
     hook.setPreferredSpell(spellId);
     return ok({ preferredSpellId: spellId });

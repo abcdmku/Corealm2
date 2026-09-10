@@ -147,7 +147,13 @@ export type SpellId =
   // burst — Magic 41 to 59
   | "galeburst" | "spateburst" | "cragburst" | "pyreburst"
   // surge — Magic 62 to 70
-  | "squallsurge" | "tidesurge" | "scarpsurge" | "kilnsurge";
+  | "squallsurge" | "tidesurge" | "scarpsurge" | "kilnsurge"
+  // advanced invocations, rank 1 to 5 per element. Cast on demand from the action bar; each spends
+  // its element's Essence plus a tier rune, and every area invocation a Field Rune as well.
+  | "air-needle" | "razor-crescent" | "vacuum-coil" | "thunder-lance" | "skybreaker"
+  | "waterjet" | "tidal-fan" | "geyser-chain" | "undertow" | "deluge"
+  | "flint-shot" | "faultline" | "basalt-jaw" | "siege-boulder" | "mountainfall"
+  | "ember-dart" | "furnace-whip" | "cinder-mine" | "phoenix-pass" | "starfall";
 
 export type Archetype =
   | "ore" | "tree" | "fishing_spot"
@@ -673,6 +679,10 @@ export interface GameEventPayloads {
   "combat.ended": { reason: string; enemyId?: EntityId; name?: string; xp?: number };
   "spell.launched": {
     spellId: SpellId; targetId: EntityId; element: SpellElement; rung: SpellRung; flightMs: number; hit: boolean;
+    /** 0 for a basic. Present since the invocations joined the book. */
+    rank?: number; aoe?: boolean;
+    /** The ground point an area invocation was placed on. Absent on targeted spells. */
+    aim?: Vec3;
     fuelSource: string; weaponItemId: ItemId | null; remainingCharges: number | null;
     essenceItemId: ItemId | null; remainingEssence: number | null;
   };
@@ -914,11 +924,41 @@ export interface SpellRow {
   castMs: number;
   requiredElement: SpellElement;
   fuelCost: number;
+  /** 0 for the sixteen basic auto-cast spells, 1 to 5 for the advanced invocations. */
+  rank: number;
+  /** True when the invocation strikes an area and therefore also spends a Field Rune. */
+  aoe: boolean;
+  /** Secondary runes spent per cast, with how many the player carries right now. Empty for basics. */
+  runes: SpellRuneRequirement[];
   unlocked: boolean;
   castable: boolean;
   /** Null when castable; otherwise a player-facing, current-state reason. */
   blockedBy: string | null;
   description: string;
+}
+
+export interface SpellRuneRequirement {
+  itemId: ItemId;
+  name: string;
+  quantity: number;
+  carried: number;
+}
+
+/** One of the six spell runes, as the spellbook's rune shelf shows it. */
+export interface SpellRuneView {
+  itemId: ItemId;
+  name: string;
+  /** 1 to 5 for the tier runes; 0 for the Field Rune that every area invocation adds. */
+  tier: number;
+  carried: number;
+  description: string;
+}
+
+/** A manual invocation in progress: the action bar locks its slots until `endsMs`. */
+export interface SpellCastLock {
+  spellId: SpellId;
+  startedMs: number;
+  endsMs: number;
 }
 
 export interface EquippedMagicWeaponView {
@@ -944,6 +984,10 @@ export interface SpellbookView {
   essence: Record<SpellElement, number>;
   /** Every released element. Fire joined the list with the tier-20 Kilnhalt region. */
   releasedElements: SpellElement[];
+  /** The six spell runes with carried counts, for the spellbook's rune shelf. */
+  runes: SpellRuneView[];
+  /** The advanced invocation still resolving, or null. Basic auto-casts never lock. */
+  castLock: SpellCastLock | null;
 }
 
 export interface ShopView {
@@ -1177,6 +1221,12 @@ export interface FeatureLabCreatureAi {
 
 /** Lab adapter for the reusable elemental attack system. Damage is deterministic dummy damage. */
 export interface SpellRangeState {
+  basicTier: SpellRung;
+  impactHeight: number;
+  actionBar: {
+    bars: number; dock: string; vertical: boolean; x: number; y: number;
+    selected: string; busy: boolean; slots: (string | null)[];
+  } | null;
   selected: string;
   casting: boolean;
   elapsed: number;
@@ -1213,6 +1263,10 @@ export interface SpellRangeApi {
   cast(): void;
   reset(): void;
   frame(): void;
+  /** The area invocation being placed through the ground reticle, or null. */
+  aiming(): string | null;
+  /** Places the invocation being aimed at a ground point, as a click would. */
+  castAt(point: Vec3): void;
 }
 
 export interface FeatureLabApi {
@@ -1323,6 +1377,23 @@ export interface GameApi {
   // combat
   attack(entityId: EntityId): Result<{ targetId: EntityId; attackSpeedMs: number }>;
   cast(spellId: SpellId, entityId: EntityId): Result<{ targetId: EntityId; castMs: number }>;
+  /**
+   * Casts one spell at the CURRENT target, the action bar's verb.
+   *
+   * An advanced invocation fires once on the next cast beat and the engagement then returns to the
+   * standing spell; a basic spell becomes the standing spell. Fails with REQUIREMENTS_NOT_MET when
+   * nothing is engaged, so a slot press never picks a target the player did not.
+   */
+  castNow(spellId: SpellId): Result<{ targetId: EntityId; castMs: number }>;
+  /**
+   * Casts an area invocation at a ground point, the reticle's verb.
+   *
+   * Fires at once rather than on the next beat: the player has already chosen where. Every living
+   * enemy inside the invocation's pulses is rolled against separately. Fails with OUT_OF_RANGE past
+   * the 15 m spell range, UNAVAILABLE while another invocation is still resolving, and
+   * INVALID_ARGUMENT for anything that is not an area invocation.
+   */
+  castArea(spellId: SpellId, point: Vec3): Result<{ castMs: number; victims: number }>;
   getSpellbook(): SpellbookView;
   /**
    * Sets the standing spell choice, or clears it back to automatic with null.

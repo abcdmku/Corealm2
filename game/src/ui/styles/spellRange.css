@@ -24,3 +24,6 @@
 #spell-range a { color:#c1dbea; text-decoration:underline; cursor:pointer; }
 .spell-target-label { position:fixed; z-index:50; transform:translate(-50%,-100%); padding:3px 6px 6px; border-radius:3px; color:#fff; background:linear-gradient(#84b99b,#84b99b) left bottom / var(--hp,100%) 3px no-repeat, #152025db; font:11px/1.3 system-ui,sans-serif; white-space:nowrap; pointer-events:none; }
 @media(max-width:700px) { #spell-range { width:235px; left:8px; padding:12px; } }
+
+#spell-range [hidden] { display:none !important; }
+#spell-range button:disabled, #spell-range input:disabled { opacity:.45; cursor:not-allowed; }

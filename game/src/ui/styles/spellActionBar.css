@@ -1,0 +1,256 @@
+/* spell action bars — owned with spellActionBar.ts. Nothing else writes to this file. */
+
+/*
+ * A strip of square slots and nothing else. Sized from the Knight Online bar: 34 px slots, a 1 px
+ * seam between them, a 12 px grip on the leading edge, a 14 px options tab on the trailing edge.
+ * Every colour is a token from styles.css so the bar sits with the dock and the panels; the only
+ * saturated colour on it is inside the icons, which carry their element's own render palette.
+ *
+ * `.abars` is a zero-size layer; each `.abar` is positioned by spellActionBar.ts (docked bars by
+ * edge and stack order, free bars by left/top), so nothing here decides where a bar goes.
+ */
+.abars,
+#ui-root > .abars {
+  position: fixed;
+  inset: 0;
+  /* The layer covers the screen and must let everything through; only the bars inside catch
+   * pointers. Repeated under `#ui-root` because its own `> *` rule turns pointer events back on
+   * for every child at id specificity, and a transparent full-screen layer that swallowed clicks
+   * would silence the dock, the panels and the world. */
+  pointer-events: none;
+  z-index: calc(var(--z-hud, 10) + 2);
+  --abar-slot: 34px;
+}
+
+.abar {
+  position: absolute;
+  display: flex;
+  align-items: stretch;
+  gap: 1px;
+  padding: 2px;
+  pointer-events: auto;
+  background: rgba(12, 10, 8, 0.82);
+  border: 1px solid rgba(235, 220, 188, 0.12);
+  border-radius: 5px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+  user-select: none;
+  touch-action: none;
+}
+
+.abar[hidden] { display: none; }
+.abar.is-vertical { flex-direction: column; }
+
+/* ------------------------------------------------------------------ the grip */
+
+.abar__grip {
+  position: relative;
+  flex: 0 0 auto;
+  width: 12px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px 0 0 3px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink-faint, #a09783);
+  cursor: grab;
+  touch-action: none;
+}
+
+.abar__grip:active { cursor: grabbing; }
+.abar__grip:hover { background: rgba(212, 175, 78, 0.16); color: var(--ink, #f0e8d8); }
+.abar.is-vertical .abar__grip { width: auto; height: 12px; border-radius: 3px 3px 0 0; }
+
+/* Six dots, drawn with two radial gradients so the grip has no markup to size. */
+.abar__grip-dots {
+  position: absolute;
+  inset: 4px 3px;
+  background-image: radial-gradient(circle, currentColor 0.9px, transparent 1.1px);
+  background-size: 4px 4px;
+  background-position: 0 0;
+  opacity: 0.7;
+}
+
+.abar__num {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  font: 700 7px/1 var(--font-numeric, monospace);
+  text-align: center;
+  color: var(--accent-dim, #96762a);
+  pointer-events: none;
+}
+
+.abar.is-vertical .abar__num { bottom: auto; right: 1px; left: auto; top: 1px; }
+
+/* ----------------------------------------------------------------- the slots */
+
+.abar__slots {
+  display: flex;
+  gap: 1px;
+}
+
+.abar.is-vertical .abar__slots { flex-direction: column; }
+
+.abar__slot {
+  position: relative;
+  width: var(--abar-slot);
+  height: var(--abar-slot);
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.34);
+  color: var(--ink, #f0e8d8);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color var(--transition, 100ms), box-shadow var(--transition, 100ms);
+}
+
+.abar__slot:hover { border-color: var(--panel-edge-bright, rgba(212, 175, 88, 0.48)); }
+.abar__slot:focus-visible { outline: 2px solid var(--accent, #d4af4e); outline-offset: -2px; }
+
+.abar__icon { position: absolute; inset: 1px; display: block; line-height: 0; }
+.abar__icon .spell-icon { width: 100%; height: 100%; display: block; }
+
+.abar__key {
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  font: 700 8px/1 var(--font-numeric, monospace);
+  color: var(--ink, #f0e8d8);
+  text-shadow: 0 1px 2px #000, 0 0 3px #000;
+  pointer-events: none;
+}
+
+.abar__key:empty { display: none; }
+
+.abar__slot.is-empty { cursor: default; background: rgba(0, 0, 0, 0.22); }
+.abar__slot.is-empty .abar__key { color: var(--ink-faint, #a09783); }
+
+/* Above the player's level: the icon dims and a padlock sits in the corner. */
+.abar__lock {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  width: 7px;
+  height: 7px;
+  display: none;
+  border: 1.5px solid #d9a294;
+  border-radius: 2px 2px 1px 1px;
+  box-sizing: border-box;
+}
+
+.abar__lock::before {
+  content: "";
+  position: absolute;
+  left: 0.5px;
+  top: -4px;
+  width: 3px;
+  height: 4px;
+  border: 1.5px solid #d9a294;
+  border-bottom: 0;
+  border-radius: 3px 3px 0 0;
+}
+
+.abar__slot.is-locked .abar__lock { display: block; }
+.abar__slot.is-locked .abar__icon { opacity: 0.42; filter: saturate(0.3); }
+
+/* Unlocked but not castable right now (no Essence, no rune, wrong weapon): a red wash. */
+.abar__slot.is-blocked .abar__icon { opacity: 0.72; filter: saturate(0.55); }
+.abar__slot.is-blocked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(200, 60, 40, 0.28);
+  pointer-events: none;
+}
+
+/* The standing spell: a brass ring, the one accent the bar spends. */
+.abar__slot.is-selected {
+  border-color: var(--accent, #d4af4e);
+  box-shadow: inset 0 0 0 1px var(--accent, #d4af4e);
+}
+
+/* While an invocation resolves every slot is held; the casting slot shows the remaining lock. */
+.abar.is-busy .abar__slot:not(.is-empty) { cursor: wait; }
+.abar.is-busy .abar__slot:not(.is-empty):not(.is-casting) .abar__icon { opacity: 0.5; }
+
+.abar__sweep {
+  position: absolute;
+  inset: 0;
+  display: none;
+  pointer-events: none;
+  background: conic-gradient(transparent calc(var(--sweep, 0) * 360deg), rgba(0, 0, 0, 0.62) 0);
+}
+
+.abar__slot.is-casting .abar__sweep { display: block; }
+.abar__slot.is-casting { border-color: var(--highlight, #ffe9a8); }
+
+.abar__slot.is-dragging { opacity: 0.4; }
+.abar__slot.is-drop { border-color: var(--highlight, #ffe9a8); background: rgba(212, 175, 78, 0.22); }
+.abar.is-locked .abar__slot { cursor: pointer; }
+
+/* --------------------------------------------------------------- the options */
+
+.abar__menu {
+  flex: 0 0 auto;
+  width: 14px;
+  padding: 0;
+  border: 0;
+  border-radius: 0 3px 3px 0;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink-faint, #a09783);
+  font: 700 11px/1 var(--font, sans-serif);
+  cursor: pointer;
+}
+
+.abar__menu:hover { color: var(--ink, #f0e8d8); background: rgba(212, 175, 78, 0.16); }
+.abar.is-vertical .abar__menu { width: auto; height: 14px; border-radius: 0 0 3px 3px; }
+
+.abar-menu {
+  position: fixed;
+  z-index: calc(var(--z-menu, 30) + 1);
+  min-width: 148px;
+  padding: 3px;
+  pointer-events: auto;
+  background: var(--panel-solid, #16130e);
+  border: 1px solid var(--panel-edge-bright, rgba(212, 175, 88, 0.48));
+  border-radius: 4px;
+  box-shadow: var(--shadow-pop, 0 4px 14px rgba(0, 0, 0, 0.55));
+}
+
+.abar-menu__item {
+  display: block;
+  width: 100%;
+  padding: 5px 8px 5px 20px;
+  border: 0;
+  border-radius: 3px;
+  background: none;
+  color: var(--ink, #f0e8d8);
+  font: 12px/1.2 var(--font, sans-serif);
+  text-align: left;
+  cursor: pointer;
+  position: relative;
+}
+
+.abar-menu__item:hover { background: rgba(212, 175, 78, 0.14); color: var(--highlight, #ffe9a8); }
+.abar-menu__item[aria-checked="true"]::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: var(--accent, #d4af4e);
+}
+
+/* While an area invocation is being placed the whole view is a target. */
+body.is-aiming,
+body.is-aiming #viewport { cursor: crosshair; }
+
+/* ------------------------------------------------------------ small screens */
+
+#ui-root.is-touch .abars { --abar-slot: 40px; }
+@media (max-width: 760px) { .abars { --abar-slot: 32px; } }

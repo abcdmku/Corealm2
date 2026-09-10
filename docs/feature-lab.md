@@ -364,8 +364,7 @@ five advanced attacks, progressing from precision strikes to large area attacks.
 status effects and a specific observation cue.
 
 **Reset & cast** restores eleven 1,000-HP dummies and fires the selected spell. **Next** and
-**Previous** select and immediately cast within the current element filter. **Repeat** resets
-between casts, **Slow motion** runs at 35% speed, and **Reset view** restores the player-follow view.
+**Previous** select within the current element filter without casting. **Auto-cast basic** repeats only the selected basic spell; it is disabled for advanced spells. **Slow motion** runs at 35% speed, and **Reset view** restores the player-follow view.
 Walking and normal camera orbit/zoom remain available. Casts originate at the player's current
 position. Camera acceptance uses only gameplay-reachable angles and the normal 6–11 m zoom,
 with no detached focus or authored-distance override. Large attacks are judged from that view.
@@ -373,10 +372,14 @@ with no detached focus or authored-distance override. Large attacks are judged f
 real dummy health and status, while the panel totals resolved impacts, target hits and damage.
 **Show hit areas** adds diagnostic radius guides; they are hidden during ordinary visual review.
 
+The range mounts the production spell action bars (`ui/spellActionBar.ts`): up to four strips of eight square slots, three shown here by default with all twenty invocations and four basics bound. Keys **1-8** drive bar one, **Shift+digit** bar two and **Alt+digit** bar three; bar four is pointer-only. A targeted invocation casts once and locks every slot until it resolves, with the remaining lock swept over its slot. An area invocation (rank 2 and up) opens the ground reticle instead: the ring follows the pointer at the invocation's footprint radius, turns red beyond the 15 m spell range, and a left click places the cast; right-click or Escape cancels. Slots take spells by drag from the spellbook or another slot, right-click clears one, and dragging a slot off the bars empties it. The grip drags a bar anywhere; its **⋯** menu docks it bottom, left or right, flips its orientation, locks the slots, and shows or hides bars two to four. Layout persists per surface in `localStorage` and clamps after a viewport resize. `window.__spellRange.aiming()` reports the invocation being placed and `castAt(point)` places it without a pointer.
+
+Direct projectiles target 75% of rendered creature height. Ground area attacks retain their ground contacts. The ordinary combat lab exercises the same basic renderer against actual creature bounds.
+
 The range uses `content/elementalSpells.ts`, `systems/elementalAttacks.ts`,
 `render/elementalSpellVfx.ts` and the reusable training-dummy view. Geometry and damage read the
 same pulse positions and deadlines. The lab adapter owns fixture setup and controls. These new
-attacks are not yet registered in authored-world progression or the existing fuel-based spellbook.
+advanced attacks are not yet registered in authored-world progression. The existing sixteen fuel-based auto-cast entries use the four basic recipes at four strengths, preserving progression and combat rules.
 Statuses are visible on stationary dummies; this fixture does not prove enemy movement AI under slow or freeze.
 
 Presentation uses small instanced 3D particles, moving pressure and liquid surfaces, spatial
@@ -388,24 +391,25 @@ Air bends the scene through moving pressure shells and sculpted currents. Air Ne
 pointed, twisting dart; Razor Crescent has three banked blades with different curves and tilts;
 Vacuum Coil has a low inward spiral eye; Thunder Lance drives one continuous corkscrew down
 the lane; Skybreaker is the broad tornado. Eroded current edges carry blue-violet emission,
-with fine circulating motes. Air emits no rocks or smoke and uses no line-segment tracers.
+with fine circulating motes. Large air attacks add dark dust, smoke-like haze and tiny circulating grit for contrast; simple wind shots stay clean. There are no large flying rocks.
 Water uses flowing, refractive bodies, moving crests and falling droplets. Fire has irregular
-flame tongues with independent flutter, rising turbulence and eroding edges. Earth uses
+flame tongues with shaded crimson bodies, isolated hot emission, independent flutter and rolling black smoke. Smoke is spatially sampled inside bounded twelve-triangle proxies. Earth uses
 shaded stone, cool mineral emission, fine chips and dense dust. Flint Shot and Siege Boulder separate their own connected geometry into 72 and 180 pieces. Faultline, Basalt Jaw and Mountainfall each have a distinct continuous formation.
 Fine particle sizes are preserved. The later earth request supersedes the earlier request
 to preserve its palette and emission settings.
 
 Skybreaker has an approximately 11.4 m ground-contact diameter, broad rotating wind layers and
-smaller rotating vortices at its base. Ground currents gather beneath the descending funnel,
-so the wind-up remains visible when the crown is above the gameplay view.
+smaller rotating vortices at its base. Loose elevated currents form a neck as it descends, while ground currents gather beneath it. Damage resolves inside the continuous wind; no separate expanding pressure pulse is drawn. The 4.95-second sequence ends with independently scattered debris falling and settling after the wind fades. Ground currents keep the build visible when the crown is above the gameplay view.
 Vacuum Coil instead stays below 3.2 m with an open eye. Authored contact
 recipes vary stream bends, width, depth, height, partial arcs, plume count, splash direction and
-debris distribution. Successive Deluge waves have different crests and curls; Basalt Jaw's two
+debris distribution. Area spells start contact within 1.1 seconds, except Deluge at 1.21 seconds. Water and earth have longer gathering windows before their final inward collisions at 1.55 and 1.91 seconds. The rank-five finales run for 4.30 to 4.95 seconds, including their slower aftermath. `content/elementalTiming.ts` maps the authored motion beats to the same clock used by damage and the action bar. Deluge uses a thick curling teal surf front with moving foam, dense wave bellies and broken lips, then unfolds into torn splash sheets and falling spray. Its opaque circular pool is removed. Mountainfall draws seven jade currents around five narrower stone anchors, topples them inward, and releases 64 small chunks through an upward mineral glow. Solid chips are sparse among the luminous grains. Fragment landings use the terrain plane; their shadow transforms and fade follow the pieces. Sunfall has one accelerating sun and one fast gas expansion, followed by uneven rolling fire and drifting smoke. Fire bodies, sheets and gas volumes use a dedicated rising flame texture with dark red folds and narrow hot edges. Independent texture scale, shear, offset, speed and warp break up repeated patterns. The repeated radial lashes and pillar array are removed. Deluge contacts follow three shrinking rings; Basalt Jaw's two
 walls have different rock profiles. Moving light follows the existing material detail on wind,
 water, flame and mineral surfaces.
 
+Fire curves and sheets use three independently cropped texture regions blended on a moving triangular grid, with open folded plumes and eroded crowns. Sunfall's blast now uses one continuous 3D combustion field instead of repeated fronts, tongues and gas pockets. Seeded spatial noise drives rolling fuel and temperature, followed by red cooling and soot. One twelve-triangle proxy contains the blast, with a shared 256 KiB noise volume and up to 96 GPU samples per ray. Its repeated corona loops are replaced by one torn wake. Furnace Whip uses one 576-triangle ribbon following its tip through the existing six contacts, followed by cinders. Deluge's upward blast uses eight unjoined, unequal lobes within the same 2,880-triangle budget. Their crests curl outward and down from different roots, with spray released from each moving crest. This replaces the tall cone while preserving the heavy liquid, inward collision and accepted timing. Current evidence and measured costs are in [verification](../runs/elemental-spell-range/verification.md).
+
 Breeze Puff, Water Bead, Pebble Toss and Kindle are labeled **Basic**. Each has a single hit
-within 0.9 m, arrives in under 600 ms and uses fewer than 500 live particles. They use the same
+within 0.9 m, arrives in under 600 ms and uses fewer than 500 live particles at the lowest strength. The **Basic strength** selector provides Lash, Bolt, Burst and Surge, increasing body size and particle density. They use the same
 production flow, refraction, emission and fracture systems as the larger attacks.
 
 `render/elementalRefraction.ts` shares one scene-color copy among active wind and liquid
@@ -427,9 +431,11 @@ element overwrite ignored `test-results/elemental-spells/`; inspect the captures
 `window.__spellRange.getState()` exposes the live evidence without altering combat time.
 
 For motion review, run `npx tsx tools/elemental-spells-motion-test.ts --spell starfall --url http://127.0.0.1:4178`.
-The 60-second loop uses the actual Slow motion checkbox, captures six phases of a live cast (eight for boulders, including intact pre-contact and breakup),
+The 60-second loop uses the actual Slow motion checkbox, captures six phases of a live cast (eight for boulders, including intact pre-contact and breakup; eleven for finales, including formation, pre-impact, impact flash and settling),
 checks delayed damage and cleanup, and records the normal follow camera with each observation.
+Deluge adds three collision, rebound and breaking-spray captures for fourteen frames per view.
 Add `--contacts` to capture each distinct impact time as well, for repeated-hit variation review.
+Add `--orbit` for a second view reached by the ordinary right-mouse camera drag, within the same gameplay limits.
 Open the ignored `test-results/elemental-spells/motion/<spell-id>/index.html` to inspect the
 sequence. The script accepts any of the 24 spell IDs and never advances time through a debug API.
 
@@ -441,6 +447,17 @@ peak populations and GPU submissions, and rejects overflow. Particle storage is
 bounded at 48,000 luminous motes, 16,000 fragments and 3,000 smoke particles; these are capacities,
 not populations emitted by every attack. Connected energy segments share a 4,096-instance pool.
 Each particle batch uses one draw call per pass.
+Deluge's foam and spray use a separate 30,000-particle liquid batch. Its eight-triangle
+droplets have smooth shaded normals and specular highlights, normal blending and no bloom.
+The batch is included in particle/overflow counters and clears with the other effects.
+Launch data is cached once; only motion and draw attributes update each frame. The water
+casting gate checks that the collision droplets submit to scene color instead of HDR emission.
+Its collision uses one turbulent refractive liquid volume with twelve proxy triangles,
+a shared 256 KiB spatial-noise texture and up to 56 samples per ray. Eight tapered
+currents wrap that volume within the existing 2,880-triangle splash budget. Clockwise
+circulation carries from the inward waves through the collision into released spray.
+The volume writes sampled liquid depth and contributes to the principal-body count.
+Sunfall's explosion now has lower optical density and irregular clear gaps through its gas.
 The main energy bodies use an instanced batch per element with a 256-body capacity; air
 instead uses three pressure batches of 96 each and four current shapes with 64 instances each.
 Each current strip has 384 triangles, draws depth-tested refraction and contributes only its
@@ -467,6 +484,15 @@ to the ignored `refraction/` subfolder; inspect the live phase captures as well.
 
 Add `--orbit` to the motion command to review a second view reached by actual right-mouse
 dragging. It retains player-follow focus and verifies the same gameplay pitch and zoom limits.
+
+Additional focused browser checks:
+
+- `npx tsx tools/basic-spell-variants-test.ts --element wind --url http://127.0.0.1:4178` (repeat for water, earth and fire): four strengths, rising/apex/descending flight captures, one target, growing density and cleanup. All sixteen basics share `render/basicSpellPath.ts` between their elemental body, luminous wake and particles. Distance scales arc height; release, contact height and hit time are unchanged.
+- `npx tsx tools/basic-spell-combat-test.ts --url http://127.0.0.1:4178`: normal auto-cast integration for all four elements, scaled creature contact and health changes.
+- `npx tsx tools/spell-action-bar-test.ts --url http://127.0.0.1:4178`: three default bars, slot and hotkey casts across bars, the cast lock, the ground reticle for an area invocation with a placing click, right-click clear, drag-to-bind, docking, free drag, reload and resize.
+- `npx tsx tools/spell-world-bar-test.ts --url http://127.0.0.1:4178`: the ordinary combat lab with real Essence and runes: the spellbook's Basic and All filters and rune shelf, binding by drag, a standing basic through the bar, a targeted invocation spending its Focus Rune under the cast lock, and an area invocation placed through the reticle spending its Sweep and Field Runes.
+
+Browser gates run against a dev server. When another editor is saving files in the same checkout, start a second server without hot reload so a save cannot reload the page mid-test: `npx vite game --config game/vite.nohmr.config.ts --host 127.0.0.1 --port 4179 --strictPort` and pass `--url http://127.0.0.1:4179`.
 
 ## Time budgets
 
@@ -519,8 +545,8 @@ Highland ridge, woodland seam, and Marchfield after lab acceptance. World terrai
 biome placement use the authored-world exception. `tools/verify-slope-traversal.ts`
 also accepts `--route` for the slope lab and checks navigation completion in both directions.
 
-### Medieval spell invocation pass
+### Glowing spell motion
 
-The spell range stages the production Marchhide mage kit and basic wooden staff through `FeatureLabApi.equipPlayer` in its transient state. It uses `CharacterRig.castingFocus` to locate the authored weapon socket, falling back to the animated hand. Cast-pose speed follows the selected rung and the range's slow-motion setting at cast start.
+The spell range stages the production Marchhide mage kit and wooden staff through `FeatureLabApi.equipPlayer` in transient state. `CharacterRig.castingFocus` follows the authored weapon socket, with a hand fallback. Cast speed follows the selected spell and slow-motion setting.
 
-`ArcaneSpellVfx` adds world-space inscriptions and concentrated elemental foci to all 24 attacks. Advanced rites have different spatial compositions, while the four starters retain only small focus/contact light. The signs use original tapered stroke geometry, three glyph variants per spell, shader reveal and the existing isolated HDR path. They never orient toward the camera. The geometry and effect counts participate in the existing body-pool budget and cleanup checks. The motion test also verifies the production robe and staff. See [the current art direction](../runs/elemental-spell-range/art-direction-review.md).
+The repeated inscription layer was removed. `ArcaneSpellVfx` now composes tapered emissive swooshes, small casting foci and fine particles. Flying mineral and water cores sit inside brighter magical wakes. Earth and fire fields distribute their bursts across the footprint, while the wide Skybreaker tornado retains its scale. Curves use 288 triangles, the existing flow texture and isolated HDR emission. Body and particle counts stay inside the existing pools; the four starters keep their small-effect budgets. See [the current art direction](../runs/elemental-spell-range/art-direction-review.md) and [verification](../runs/elemental-spell-range/verification.md).

@@ -21,7 +21,7 @@ import {
   type NpcStandDef,
 } from "../content/regions.js";
 import { SKILLS } from "../content/skills.js";
-import { SPELLS } from "../content/spells.js";
+import { ALL_SPELLS } from "../content/spells.js";
 import { npcOutfitParts } from "../render/characterAppearances.js";
 import { FEATURE_LAB_STRUCTURE_CATALOG } from "./structures.js";
 
@@ -149,9 +149,9 @@ export const FEATURE_LAB_CATALOG = {
       .map((item) => ({ id: item.id, label: item.name })),
   })),
   skills: SKILL_IDS.map((id) => ({ id, label: SKILLS[id].name })),
-  spells: SPELLS.map((spell) => ({
+  spells: ALL_SPELLS.map((spell) => ({
     id: spell.id,
-    label: `${spell.name} - ${spell.element} ${spell.rung}`,
+    label: spell.rank ? `${spell.name} - ${spell.element} rank ${spell.rank}` : `${spell.name} - ${spell.element} ${spell.rung}`,
   })),
   structures: FEATURE_LAB_STRUCTURE_CATALOG,
 } satisfies FeatureLabCatalog;

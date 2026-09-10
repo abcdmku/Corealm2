@@ -1,3 +1,4 @@
+import { elementalDuration } from "../game/src/content/elementalFinales.js";
 import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -51,7 +52,19 @@ const phases = [
   { name: "contact", at: first + 150 },
   { name: "peak", at: Math.max(first + 320, last - 300) },
   { name: "final-impact", at: last + 150 },
-  { name: "fade", at: last + 820 },
+  ...(spell.id==="deluge"?[
+    {name:"collision",at:last+45},
+    {name:"rebound",at:last+350},
+    {name:"breaking-spray",at:last+650},
+  ]:[]),
+  ...(spell.rank===5?[
+    {name:"formation",at:first*.38},
+    {name:"pre-impact",at:first-90},
+    {name:"impact-flash",at:first+60},
+    {name:"aftermath",at:last+1250},
+    {name:"settling",at:elementalDuration(spell.id,last)-600},
+    {name:"fade",at:elementalDuration(spell.id,last)-200},
+  ]:[{name:"fade",at:last+820}]),
   ...(args.includes("--contacts")?[...new Set(pulses.map(p=>p.at))].map((at,i)=>({name:`contact-${i+1}`,at:at+95})):[]),
 ].sort((a, b) => a.at - b.at);
 const frames: unknown[] = [];

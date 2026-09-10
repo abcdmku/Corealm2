@@ -10,8 +10,10 @@
  * 15. Fire fuel and weapons released with the tier-20 Kilnhalt region, so every rung is castable
  * once its element's Essence is in hand.
  */
-import type { SpellRung } from "../contracts.js";
-import type { SpellDef } from "./index.js";
+import type { ItemId, SpellElement, SpellId, SpellRung } from "../contracts.js";
+import type { SpellDef, SpellRuneCost } from "./index.js";
+import { ELEMENTAL_SPELLS } from "./elementalSpells.js";
+import { tierForLevel } from "./xp.js";
 
 export const SPELLS: readonly SpellDef[] = [
   // -------------------------------------------------------------------- lash, Magic 1-15
@@ -27,7 +29,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 5,
     castMs: 3000,
     cost: { element: "wind", charges: 1 },
-    description: "A tight crosswind snapped from the weapon tip and driven straight at the target.",
+    description: "A compact wind charm with a pale leading edge and a rippling pressure wake.",
   },
   {
     id: "stonebrand",
@@ -41,9 +43,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 12,
     castMs: 3000,
     cost: { element: "earth", charges: 1 },
-    description:
-      "Drives a wedge of hot stone into the target and leaves it there. Heavier than Voltrend, "
-      + "and it does not care much what the target is wearing.",
+    description: "A small green-gold charm carrying fine stone grit into a sharp magical impact.",
   },
   {
     id: "rimewash",
@@ -57,9 +57,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 22,
     castMs: 3000,
     cost: { element: "water", charges: 1 },
-    description:
-      "Throws a palmful of water and freezes it on the way out, so it lands as grit rather than "
-      + "ice. Blackwater fishers had it worked out long before a Coldbrace tutor taught it.",
+    description: "A bright water charm that streams toward one target and breaks into fine liquid spray.",
   },
   {
     id: "emberlash",
@@ -73,7 +71,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 30,
     castMs: 3000,
     cost: { element: "fire", charges: 1 },
-    description: "A thin whip of fire, the first thing the Kilnhalt altar teaches a hand to hold.",
+    description: "A small, living flame gathered at the weapon tip and released with a trail of sparks.",
   },
 
   // -------------------------------------------------------------------- bolt, Magic 17-35
@@ -89,9 +87,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 36,
     castMs: 3000,
     cost: { element: "wind", charges: 1 },
-    description:
-      "A thin screaming line of air, loosed flat and heard before it arrives. Karrow Reavers duck "
-      + "it on the sound alone, which is the one flaw in an otherwise excellent spell.",
+    description: "A stronger wind charm with a wider pressure wake and more luminous motes.",
   },
   {
     id: "sleetbolt",
@@ -105,9 +101,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 47,
     castMs: 3000,
     cost: { element: "water", charges: 1 },
-    description:
-      "A column of half-frozen rain driven flat through the target. It leaves the ground wet for a "
-      + "minute afterwards, which is how the Highcairn watch tracks a careless caster.",
+    description: "A stronger water charm with a fuller flowing wake and a denser splash on contact.",
   },
   {
     id: "shalebolt",
@@ -121,9 +115,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 59,
     castMs: 3000,
     cost: { element: "earth", charges: 1 },
-    description:
-      "Shears a plate of terrace slate out of the ground and throws it edge-first. Cheap on the "
-      + "moor, awkward in Vellenwood mud, and the reason Highcairn casters carry so little.",
+    description: "A stronger earth charm with a brighter mineral wake and more scattered grit.",
   },
   {
     id: "cinderbolt",
@@ -137,9 +129,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 71,
     castMs: 3000,
     cost: { element: "fire", charges: 1 },
-    description:
-      "Packs the weapon's heat into one coal and throws it hard enough to bury. It goes out inside "
-      + "the target, which the Thornline crews consider a clear improvement on Emberlash.",
+    description: "A stronger flame charm with a fuller burning core and a longer ember wake.",
   },
 
   // -------------------------------------------------------------------- burst, Magic 41-59
@@ -155,9 +145,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 84,
     castMs: 3000,
     cost: { element: "wind", charges: 1 },
-    description:
-      "Opens a hand's worth of storm at ten paces and drops it on whatever is standing there. "
-      + "Loose scree goes with it, so nobody sensible casts it uphill of their own party.",
+    description: "A broad wind charm that drives a dense, shimmering pressure wake into one target.",
   },
   {
     id: "spateburst",
@@ -171,9 +159,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 97,
     castMs: 3000,
     cost: { element: "water", charges: 1 },
-    description:
-      "Half a second of flood, arriving all at once and going nowhere afterwards. The Cairn Tarns "
-      + "are where it gets practised, on the grounds that the water is already there.",
+    description: "A broad water charm with rolling liquid highlights and a dense burst of spray.",
   },
   {
     id: "cragburst",
@@ -187,9 +173,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 111,
     castMs: 3000,
     cost: { element: "earth", charges: 1 },
-    description:
-      "Lifts a ring of slate out of the ground around the target and closes it again. There is a "
-      + "scar behind the Great Cairn where somebody proved the range, and nobody has tidied it.",
+    description: "A broad earth charm with a dense green-gold wake that scatters tiny fragments on contact.",
   },
   {
     id: "pyreburst",
@@ -203,9 +187,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 125,
     castMs: 3000,
     cost: { element: "fire", charges: 1 },
-    description:
-      "A standing column of fire, lit from the ground up and held until the cast breaks. The "
-      + "scorch it leaves on terrace slate is still findable a week later.",
+    description: "A broad flame charm with curling fire and a dense shower of embers on contact.",
   },
 
   // -------------------------------------------------------------------- surge, Magic 62-70
@@ -221,9 +203,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 133,
     castMs: 3000,
     cost: { element: "wind", charges: 1 },
-    description:
-      "Cuts once through the air and lets the pressure follow the cut. Anything light inside nine "
-      + "metres comes off the ground, and Gravelmaw dust does not settle for a full cast after.",
+    description: "The strongest wind charm: a wide luminous wake, dense motes, and one concentrated impact.",
   },
   {
     id: "tidesurge",
@@ -237,9 +217,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 141,
     castMs: 3000,
     cost: { element: "water", charges: 1 },
-    description:
-      "A wall of black tarn water thrown from the wrist and then let go of. It does not drown "
-      + "things so much as fold them against the nearest stone, and the moor is mostly stone.",
+    description: "The strongest water charm: a full flowing wake and a brilliant, concentrated splash.",
   },
   {
     id: "scarpsurge",
@@ -253,9 +231,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 149,
     castMs: 3000,
     cost: { element: "earth", charges: 1 },
-    description:
-      "Drives a scarp of Karrow slate up under the target and keeps driving. The Quarrykeeper's "
-      + "floor is about the only ground with room for it that nobody else is standing on.",
+    description: "The strongest earth charm: a broad mineral glow and dense fragments released on impact.",
   },
   {
     id: "kilnsurge",
@@ -269,9 +245,7 @@ export const SPELLS: readonly SpellDef[] = [
     baseXp: 155,
     castMs: 3000,
     cost: { element: "fire", charges: 1 },
-    description:
-      "Turns eight metres of ground into a kiln floor and holds it there while the fire burns "
-      + "out. Highcairn has a written rule about casting it inside the wall, which is unusual.",
+    description: "The strongest flame charm: a full organic flame wake and a concentrated burst of glowing embers.",
   },
 ];
 
@@ -311,3 +285,107 @@ export const MELEE_STYLE_FACTOR = 1.00;
  */
 export const SPELL_RANGE_M = 15.0;
 export const MELEE_RANGE_M = 1.6;
+
+// ------------------------------------------------------------------ spell runes
+
+/**
+ * The six spell runes. Essence is the primary fuel of every spell; these are the secondaries.
+ *
+ * One tier rune per advanced rank, so a caster stocks the rune of the invocations they actually
+ * use rather than a single universal token, and one Field Rune that every area invocation adds on
+ * top. Rank-1 invocations strike one target and need no Field Rune; ranks 2 to 5 all sweep an
+ * area. The basic sixteen never touch a rune, which keeps the starter loop unchanged.
+ */
+export interface SpellRuneDef {
+  itemId: ItemId;
+  name: string;
+  /** 1 to 5 for the tier runes; 0 for the Field Rune. */
+  tier: number;
+  description: string;
+}
+
+export const SPELL_RUNES: readonly SpellRuneDef[] = [
+  { itemId: "focus_rune", name: "Focus Rune", tier: 1,
+    description: "A narrow silver-cut rune that tightens an invocation onto one mark. Spent by every rank-one invocation." },
+  { itemId: "sweep_rune", name: "Sweep Rune", tier: 2,
+    description: "A curved rune that lets a spell bank across a line of foes. Spent by every rank-two invocation." },
+  { itemId: "binding_rune", name: "Binding Rune", tier: 3,
+    description: "A knotted rune that holds a spell's shape while it gathers and closes. Spent by every rank-three invocation." },
+  { itemId: "siege_rune", name: "Siege Rune", tier: 4,
+    description: "A heavy square-cut rune for invocations that batter the ground itself. Spent by every rank-four invocation." },
+  { itemId: "cataclysm_rune", name: "Cataclysm Rune", tier: 5,
+    description: "A rune split through with slow light. Spent by the four finales and by nothing smaller." },
+  { itemId: "field_rune", name: "Field Rune", tier: 0,
+    description: "A ringed rune that spreads an invocation across an area. Spent alongside the tier rune by every area invocation." },
+];
+
+export const FIELD_RUNE_ID: ItemId = "field_rune";
+
+export function tierRune(rank: number): SpellRuneDef {
+  const rune = SPELL_RUNES.find((row) => row.tier === rank);
+  if (!rune) throw new Error(`No spell rune for rank ${rank}`);
+  return rune;
+}
+
+export function spellRune(itemId: ItemId): SpellRuneDef | undefined {
+  return SPELL_RUNES.find((row) => row.itemId === itemId);
+}
+
+// ----------------------------------------------------------- advanced invocations
+
+/**
+ * Numbers for the twenty manual invocations, keyed by rank and element.
+ *
+ * Elements open in the ladder's own order inside each rank (wind, earth, water, fire). Every rank
+ * costs its tier rune; ranks 2 to 5 strike an area and cost a Field Rune as well. Damage per cast
+ * climbs a step above the basic rung a caster holds at the same level, because the cast also burns
+ * a rune and, for the finales, locks the caster for six or seven seconds.
+ */
+const ADVANCED_ELEMENT_ORDER: readonly SpellElement[] = ["wind", "earth", "water", "fire"];
+
+const ADVANCED_RANKS: readonly {
+  rank: number; reqLevel: number; baseMax: number; divisor: number; baseXp: number; aoe: boolean;
+}[] = [
+  { rank: 1, reqLevel: 20, baseMax: 14, divisor: 5.0, baseXp: 40, aoe: false },
+  { rank: 2, reqLevel: 32, baseMax: 18, divisor: 4.6, baseXp: 66, aoe: true },
+  { rank: 3, reqLevel: 44, baseMax: 22, divisor: 4.2, baseXp: 92, aoe: true },
+  { rank: 4, reqLevel: 56, baseMax: 27, divisor: 3.8, baseXp: 120, aoe: true },
+  { rank: 5, reqLevel: 74, baseMax: 40, divisor: 3.2, baseXp: 170, aoe: true },
+];
+
+/** The rung whose flight profile and cast tempo an invocation of this rank borrows. */
+export function rungForRank(rank: number): SpellRung {
+  return rank <= 1 ? "bolt" : rank <= 3 ? "burst" : "surge";
+}
+
+export const ADVANCED_SPELLS: readonly SpellDef[] = ADVANCED_RANKS.flatMap((row) =>
+  ADVANCED_ELEMENT_ORDER.map((element, offset): SpellDef => {
+    const source = ELEMENTAL_SPELLS.find((spell) => spell.element === element && spell.rank === row.rank);
+    if (!source) throw new Error(`No elemental spell for ${element} rank ${row.rank}`);
+    const reqLevel = row.reqLevel + offset * 2;
+    const runes: SpellRuneCost[] = [{ itemId: tierRune(row.rank).itemId, quantity: 1 }];
+    if (row.aoe) runes.push({ itemId: FIELD_RUNE_ID, quantity: 1 });
+    return {
+      id: source.id as SpellId,
+      name: source.name,
+      element,
+      rung: rungForRank(row.rank),
+      rank: row.rank,
+      aoe: row.aoe,
+      reqLevel,
+      tier: tierForLevel(reqLevel),
+      baseMax: row.baseMax + offset,
+      divisor: row.divisor,
+      baseXp: row.baseXp + offset * 4,
+      castMs: 3000,
+      cost: { element, charges: 1, runes },
+      description: source.description,
+    };
+  }));
+
+/** Every spell the world registers: the sixteen basics first, then the twenty invocations. */
+export const ALL_SPELLS: readonly SpellDef[] = [...SPELLS, ...ADVANCED_SPELLS];
+
+export function isAdvancedSpell(spell: Pick<SpellDef, "rank">): boolean {
+  return (spell.rank ?? 0) > 0;
+}

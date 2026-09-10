@@ -45,3 +45,8 @@ Regenerate with:
 npx tsx tools/build-vfx-atlas.ts
 npx tsx tools/build-vfx-atlas.ts --check   # fails if the committed PNG is stale
 ```
+
+
+## Current spatial flame texture
+
+`elemental-flame-flow-v1.png` is an original grayscale texture generated with the built-in image generation tool on 2026-09-09. It is sampled on curved 3D flame surfaces and inside volumetric fire. See `runs/elemental-spell-range/asset-provenance.md` for the exact prompt and source output. The older atlas described above is retained as a historical asset and is not used by the current elemental spell renderer.

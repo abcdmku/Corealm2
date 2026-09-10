@@ -1,13 +1,24 @@
 import { PanelFrame } from "./panelFrame.js";
 /**
- * Four elements crossed with four spell rungs. The panel only presents values resolved by GameApi,
- * so charge rules and weapon cadence stay identical in combat, agent tools, and the UI.
+ * Four elements crossed with the spell ladder: four basic rungs, then five ranks of invocation.
+ *
+ * The panel only presents values resolved by GameApi, so charge and rune rules stay identical in
+ * combat, agent tools, and the UI. A tile is dragged onto an action bar slot to bind it; clicking a
+ * basic sets it as the standing auto-cast spell, clicking an invocation casts it once (a targeted
+ * one at the current target, an area one through the ground reticle).
+ *
+ * The filter at the top shows the sixteen basics alone or the whole book. The rune shelf under the
+ * grid is the six secondaries with carried counts, so a caster sees at once which invocations they
+ * can still pay for.
  */
 import type { SpellElement, SpellId, SpellRow, SpellRung, SpellbookView } from "../contracts.js";
 import { SPELL_ELEMENTS, SPELL_RUNGS } from "../contracts.js";
 import { ELEMENT_COLOURS } from "../render/spellVfx.js";
 import type { ManagedPanel, UiContext } from "./panels.js";
-import { formatQuantity, installRovingGrid, report } from "./panels.js";
+import { formatQuantity, installRovingGrid, itemDef, report } from "./panels.js";
+import { createItemIcon } from "./itemIcons.js";
+import { spellIconSvg } from "./spellIcons.js";
+import { SPELL_DRAG_MIME } from "./spellActionBar.js";
 import { spellElementRequirementLabel } from "./displayLabels.js";
 
 const ELEMENT_LABELS: Readonly<Record<SpellElement, string>> = {
@@ -24,25 +35,11 @@ const RUNG_LABELS: Readonly<Record<SpellRung, string>> = {
   surge: "Surge",
 };
 
-const RUNG_GLYPHS: Readonly<Record<SpellRung, string>> = {
-  lash:
-    '<path d="M16 10 L19 16 L16 22 L13 16 Z" fill="var(--spell-core)" stroke="var(--spell-edge)"'
-    + ' stroke-width="1.4" stroke-linejoin="round"/>',
-  bolt:
-    '<path d="M3 16 L13 14.4 L13 17.6 Z" fill="var(--spell-edge)" opacity="0.9"/>'
-    + '<path d="M22 7 L28 16 L22 25 L13 16 Z" fill="var(--spell-core)" stroke="var(--spell-edge)"'
-    + ' stroke-width="1.4" stroke-linejoin="round"/>',
-  burst:
-    '<path d="M16 3 L19 13 L29 16 L19 19 L16 29 L13 19 L3 16 L13 13 Z" fill="var(--spell-core)"'
-    + ' stroke="var(--spell-edge)" stroke-width="1.3" stroke-linejoin="round"/>'
-    + '<circle cx="16" cy="16" r="3" fill="var(--spell-edge)" opacity="0.55"/>',
-  surge:
-    '<path d="M3 12 Q9 6 16 11 Q23 16 29 10" fill="none" stroke="var(--spell-edge)"'
-    + ' stroke-width="2" stroke-linecap="round" opacity="0.75"/>'
-    + '<path d="M3 22 Q9 15 16 20 Q23 25 29 18 L29 27 Q23 29 16 27 Q9 25 3 27 Z"'
-    + ' fill="var(--spell-core)" stroke="var(--spell-edge)" stroke-width="1.3"'
-    + ' stroke-linejoin="round"/>',
-};
+const RANK_LABELS: readonly string[] = ["", "Rank I", "Rank II", "Rank III", "Rank IV", "Rank V"];
+const RANKS: readonly number[] = [1, 2, 3, 4, 5];
+const FILTER_KEY = "corealm.spellbook.filter.v1";
+
+type Filter = "basic" | "all";
 
 const LOCK_GLYPH =
   '<svg class="spellbook__lock" viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"'
@@ -58,14 +55,16 @@ function cadence(castMs: number): string {
   return `${(castMs / 1000).toFixed(1)}s`;
 }
 
-function essenceName(element: SpellElement): string {
-  return `${ELEMENT_LABELS[element]} Essence`;
-}
-
 interface SpellCell {
   root: HTMLButtonElement;
   req: HTMLElement;
   lock: HTMLElement;
+  runes: HTMLElement;
+}
+
+interface RuneTile {
+  root: HTMLElement;
+  count: HTMLElement;
 }
 
 export class SpellbookPanel implements ManagedPanel {
@@ -73,6 +72,11 @@ export class SpellbookPanel implements ManagedPanel {
 
   private readonly cells = new Map<SpellId, SpellCell>();
   private readonly rows = new Map<SpellId, SpellRow>();
+  private readonly runeTiles = new Map<string, RuneTile>();
+  private readonly filterButtons = new Map<Filter, HTMLButtonElement>();
+  private readonly advancedRows: HTMLElement[] = [];
+  private readonly body: HTMLElement;
+  private filter: Filter = readFilter();
   private autofocus: HTMLElement | null = null;
   private signature = "";
 
@@ -84,8 +88,8 @@ export class SpellbookPanel implements ManagedPanel {
       keyLabel: "Spellbook",
       registry: ctx.registry,
       // The inventory's slot, exactly: a side card above the dock, swapped with the pack, the
-      // skills and the worn gear. Sixteen icon tiles fit the pack's width at 4 across, and a
-      // spellbook that stands where the pack stands is one the player already knows how to find.
+      // skills and the worn gear. Four icon tiles across fit the pack's width; the whole book is
+      // ten rows tall and scrolls inside the frame on a short screen.
       placement: { right: "10px", bottom: "48px", width: "190px", maxHeight: "calc(100vh - 110px)" },
       group: "side",
       onOpen: () => this.refresh(true),
@@ -96,11 +100,14 @@ export class SpellbookPanel implements ManagedPanel {
 
     const body = document.createElement("div");
     body.className = "spellbook";
+    this.body = body;
+
+    body.appendChild(this.buildFilter());
 
     const grid = document.createElement("div");
     grid.className = "spellbook__grid";
     grid.setAttribute("role", "group");
-    grid.setAttribute("aria-label", "Attack spells by element and rung");
+    grid.setAttribute("aria-label", "Spells by element and rank");
 
     const corner = document.createElement("span");
     corner.className = "spellbook__corner";
@@ -112,19 +119,40 @@ export class SpellbookPanel implements ManagedPanel {
 
     let index = 0;
     const byCell = new Map<string, SpellRow>();
-    for (const row of view.spells) byCell.set(`${row.element}/${row.rung}`, row);
+    for (const row of view.spells) byCell.set(`${row.element}/${row.rank > 0 ? `r${row.rank}` : row.rung}`, row);
 
     for (const rung of SPELL_RUNGS) {
-      grid.appendChild(this.buildRungLabel(rung));
+      grid.appendChild(this.buildRowLabel(RUNG_LABELS[rung], false));
       for (const element of SPELL_ELEMENTS) {
-        grid.appendChild(this.buildCell(element, byCell.get(`${element}/${rung}`), index));
+        grid.appendChild(this.buildCell(element, byCell.get(`${element}/${rung}`), index, `No ${ELEMENT_LABELS[element]} spell at this rung`));
+        index += 1;
+      }
+    }
+
+    const divider = document.createElement("div");
+    divider.className = "spellbook__divider";
+    divider.textContent = "Invocations";
+    divider.setAttribute("aria-hidden", "true");
+    this.advancedRows.push(divider);
+    grid.appendChild(divider);
+
+    for (const rank of RANKS) {
+      const label = this.buildRowLabel(RANK_LABELS[rank]!, true);
+      grid.appendChild(label);
+      for (const element of SPELL_ELEMENTS) {
+        const cell = this.buildCell(element, byCell.get(`${element}/r${rank}`), index, `No ${ELEMENT_LABELS[element]} invocation at rank ${rank}`);
+        cell.classList.add("spellbook__cell--advanced");
+        this.advancedRows.push(cell);
+        grid.appendChild(cell);
         index += 1;
       }
     }
 
     installRovingGrid(grid, SPELL_ELEMENTS.length);
     body.appendChild(grid);
+    body.appendChild(this.buildRuneShelf(view));
     this.frame.body.appendChild(body);
+    this.applyFilter();
   }
 
   refresh(force = false): void {
@@ -133,7 +161,9 @@ export class SpellbookPanel implements ManagedPanel {
       view.magicLevel,
       view.preferredSpellId ?? "-",
       view.activeSpellId ?? "-",
+      view.castLock?.spellId ?? "-",
       ...SPELL_ELEMENTS.map((element) => `${element}:${view.essence[element]}`),
+      ...view.runes.map((rune) => `${rune.itemId}:${rune.carried}`),
       ...view.spells.map((row) => [
         row.id,
         row.maxHit,
@@ -152,6 +182,13 @@ export class SpellbookPanel implements ManagedPanel {
       const cell = this.cells.get(row.id);
       if (cell) this.paintCell(cell, row, view);
     }
+    for (const rune of view.runes) {
+      const tile = this.runeTiles.get(rune.itemId);
+      if (!tile) continue;
+      tile.count.textContent = formatQuantity(rune.carried);
+      tile.root.classList.toggle("is-empty", rune.carried === 0);
+      tile.root.setAttribute("aria-label", `${rune.name}, ${rune.carried} carried`);
+    }
 
     const focusId = view.preferredSpellId ?? view.activeSpellId;
     this.setAutofocus(focusId === null ? null : this.cells.get(focusId)?.root ?? null);
@@ -161,6 +198,42 @@ export class SpellbookPanel implements ManagedPanel {
   dispose(): void {
     this.frame.dispose();
   }
+
+  // ---------------------------------------------------------------- filter
+
+  private buildFilter(): HTMLElement {
+    const bar = document.createElement("div");
+    bar.className = "spellbook__filter";
+    bar.setAttribute("role", "group");
+    bar.setAttribute("aria-label", "Show");
+    for (const [value, label] of [["basic", "Basic"], ["all", "All spells"]] as const) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "spellbook__filter-btn";
+      button.textContent = label;
+      button.dataset["filter"] = value;
+      button.addEventListener("click", () => this.setFilter(value));
+      this.filterButtons.set(value, button);
+      bar.appendChild(button);
+    }
+    return bar;
+  }
+
+  private setFilter(filter: Filter): void {
+    if (this.filter === filter) return;
+    this.filter = filter;
+    try { localStorage.setItem(FILTER_KEY, filter); } catch { /* preference only */ }
+    this.applyFilter();
+  }
+
+  private applyFilter(): void {
+    const all = this.filter === "all";
+    for (const [value, button] of this.filterButtons) button.setAttribute("aria-pressed", String(value === this.filter));
+    for (const row of this.advancedRows) row.hidden = !all;
+    this.body.classList.toggle("is-all", all);
+  }
+
+  // ------------------------------------------------------------------ grid
 
   private buildHead(element: SpellElement, released: boolean, spells: readonly SpellRow[]): HTMLElement {
     const requirement = spellElementRequirementLabel(spells, element);
@@ -194,14 +267,15 @@ export class SpellbookPanel implements ManagedPanel {
     return head;
   }
 
-  private buildRungLabel(rung: SpellRung): HTMLElement {
+  private buildRowLabel(text: string, advanced: boolean): HTMLElement {
     const label = document.createElement("span");
     label.className = "spellbook__rung";
-    label.textContent = RUNG_LABELS[rung];
+    label.textContent = text;
+    if (advanced) this.advancedRows.push(label);
     return label;
   }
 
-  private buildCell(element: SpellElement, row: SpellRow | undefined, index: number): HTMLElement {
+  private buildCell(element: SpellElement, row: SpellRow | undefined, index: number, absentLabel: string): HTMLButtonElement {
     const cell = document.createElement("button");
     cell.type = "button";
     cell.className = "spellbook__cell";
@@ -216,26 +290,49 @@ export class SpellbookPanel implements ManagedPanel {
     const req = document.createElement("span");
     req.className = "spellbook__cell-req u-numeric";
 
+    const runes = document.createElement("span");
+    runes.className = "spellbook__cell-runes";
+    runes.setAttribute("aria-hidden", "true");
+
     const lock = document.createElement("span");
     lock.className = "spellbook__cell-lock";
     lock.setAttribute("aria-hidden", "true");
     lock.innerHTML = LOCK_GLYPH;
-    cell.append(glyph, req, lock);
+    cell.append(glyph, req, runes, lock);
 
     if (!row) {
       cell.disabled = true;
       cell.classList.add("is-absent");
-      cell.setAttribute("aria-label", `No ${ELEMENT_LABELS[element]} spell at this rung`);
+      cell.setAttribute("aria-label", absentLabel);
       return cell;
     }
 
     const id = row.id;
-    glyph.innerHTML =
-      `<svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true">${RUNG_GLYPHS[row.rung]}</svg>`;
+    cell.dataset["spell"] = id;
+    glyph.innerHTML = spellIconSvg(row, 30);
 
-    cell.addEventListener("click", () => {
-      const current = this.ctx.api.getSpellbook().preferredSpellId;
-      this.choose(current === id ? null : id);
+    cell.addEventListener("click", (event) => {
+      if (event.shiftKey && this.ctx.assignToActionBar) {
+        if (!this.ctx.assignToActionBar(id)) this.ctx.notify?.("Every visible action bar slot is full.");
+        return;
+      }
+      const current = this.rows.get(id);
+      if (!current) return;
+      if (current.rank === 0) {
+        this.choose(this.ctx.api.getSpellbook().preferredSpellId === id ? null : id);
+        return;
+      }
+      this.ctx.activateSpell(id);
+    });
+
+    // A tile is the drag source for the action bar. The payload carries no slot, so a drop binds a
+    // copy and the book keeps its tile.
+    cell.draggable = true;
+    cell.addEventListener("dragstart", (event) => {
+      if (!event.dataTransfer) return;
+      event.dataTransfer.effectAllowed = "copy";
+      event.dataTransfer.setData(SPELL_DRAG_MIME, JSON.stringify({ id }));
+      event.dataTransfer.setData("text/plain", id);
     });
 
     this.ctx.tooltip.attach(cell, () => {
@@ -244,44 +341,98 @@ export class SpellbookPanel implements ManagedPanel {
       return { kind: "text", title: current.name, lines: this.tooltipLines(current) };
     });
 
-    this.cells.set(id, { root: cell, req, lock });
+    this.cells.set(id, { root: cell, req, lock, runes });
     return cell;
   }
 
   private tooltipLines(row: SpellRow): string[] {
     const lines = [row.description];
-    lines.push(`${ELEMENT_LABELS[row.element]} · ${RUNG_LABELS[row.rung]} · Magic ${row.reqLevel}`);
+    lines.push(
+      row.rank > 0
+        ? `${ELEMENT_LABELS[row.element]} · ${RANK_LABELS[row.rank]} invocation${row.aoe ? " · area" : " · one target"} · Magic ${row.reqLevel}`
+        : `${ELEMENT_LABELS[row.element]} · ${RUNG_LABELS[row.rung]} · Magic ${row.reqLevel}`,
+    );
     lines.push(
       `Max hit ${formatQuantity(row.maxHit)} · ${formatQuantity(row.baseXp)} base xp`
       + ` · current weapon cadence ${cadence(row.castMs)}`,
     );
-    lines.push(
-      `Spends ${formatQuantity(row.fuelCost)} ${ELEMENT_LABELS[row.requiredElement]} Essence per cast`,
-    );
+    const cost = [`${formatQuantity(row.fuelCost)} ${ELEMENT_LABELS[row.requiredElement]} Essence`];
+    for (const rune of row.runes) cost.push(`${rune.quantity} ${rune.name} (${formatQuantity(rune.carried)} carried)`);
+    lines.push(`Spends ${cost.join(" + ")} per cast`);
     lines.push(row.blockedBy ?? "Ready to cast.");
+    lines.push(
+      row.rank === 0
+        ? "Click to set as the standing spell. Drag to an action bar slot."
+        : row.aoe
+          ? "Click or press its slot, then click the ground to place it. Drag to an action bar slot."
+          : "Click or press its slot to cast once at your target. Drag to an action bar slot.",
+    );
     return lines;
   }
 
   private paintCell(cell: SpellCell, row: SpellRow, view: SpellbookView): void {
     const active = view.activeSpellId === row.id;
     const preferred = view.preferredSpellId === row.id;
+    const casting = view.castLock?.spellId === row.id;
 
     cell.root.classList.toggle("is-locked", !row.unlocked);
     cell.root.classList.toggle("is-blocked", !row.castable);
     cell.root.classList.toggle("is-preferred", preferred);
-    cell.root.classList.toggle("is-active", active);
+    cell.root.classList.toggle("is-active", active || casting);
     cell.root.setAttribute("aria-pressed", preferred ? "true" : "false");
 
     cell.req.textContent = String(row.reqLevel);
     cell.lock.hidden = row.unlocked;
+    cell.runes.textContent = row.runes.map(() => "◆").join("");
+    cell.runes.classList.toggle("is-short", row.runes.some((rune) => rune.carried < rune.quantity));
     const availability = row.blockedBy ?? "Ready to cast.";
     cell.root.title = availability;
+    const runeText = row.runes.length ? ` and ${row.runes.map((rune) => `${rune.quantity} ${rune.name}`).join(" and ")}` : "";
     cell.root.setAttribute(
       "aria-label",
-      `${row.name}, ${ELEMENT_LABELS[row.requiredElement]}, Magic ${row.reqLevel}. `
-      + `${formatQuantity(row.fuelCost)} Essence, ${cadence(row.castMs)} weapon cadence. `
+      `${row.name}, ${ELEMENT_LABELS[row.requiredElement]}, ${row.rank > 0 ? `${RANK_LABELS[row.rank]} invocation` : RUNG_LABELS[row.rung]}, Magic ${row.reqLevel}. `
+      + `${formatQuantity(row.fuelCost)} Essence${runeText}, ${cadence(row.castMs)} weapon cadence. `
       + `Max hit ${formatQuantity(row.maxHit)}. ${availability}`,
     );
+  }
+
+  // ------------------------------------------------------------ rune shelf
+
+  private buildRuneShelf(view: SpellbookView): HTMLElement {
+    const shelf = document.createElement("div");
+    shelf.className = "spellbook__runes";
+    shelf.setAttribute("role", "list");
+    shelf.setAttribute("aria-label", "Spell runes carried");
+    for (const rune of view.runes) {
+      const tile = document.createElement("div");
+      tile.className = "spellbook__rune";
+      tile.setAttribute("role", "listitem");
+      tile.dataset["rune"] = rune.itemId;
+      tile.appendChild(createItemIcon(itemDef(rune.itemId)));
+      const count = document.createElement("span");
+      count.className = "spellbook__rune-count u-numeric";
+      count.textContent = formatQuantity(rune.carried);
+      const tier = document.createElement("span");
+      tier.className = "spellbook__rune-tier";
+      tier.textContent = rune.tier > 0 ? ["", "I", "II", "III", "IV", "V"][rune.tier]! : "◎";
+      tile.append(tier, count);
+      this.ctx.tooltip.attach(tile, () => {
+        const live = this.ctx.api.getSpellbook().runes.find((entry) => entry.itemId === rune.itemId);
+        if (!live) return null;
+        return {
+          kind: "text",
+          title: live.name,
+          lines: [
+            live.description,
+            live.tier > 0 ? `Tier rune for rank ${["", "I", "II", "III", "IV", "V"][live.tier]} invocations.` : "Added by every area invocation.",
+            `${formatQuantity(live.carried)} carried. Sold at the region general stores.`,
+          ],
+        };
+      });
+      this.runeTiles.set(rune.itemId, { root: tile, count });
+      shelf.appendChild(tile);
+    }
+    return shelf;
   }
 
   private choose(spellId: SpellId | null): void {
@@ -295,6 +446,10 @@ export class SpellbookPanel implements ManagedPanel {
     this.autofocus = target;
     if (target) target.dataset["autofocus"] = "";
   }
+}
+
+function readFilter(): Filter {
+  try { return localStorage.getItem(FILTER_KEY) === "all" ? "all" : "basic"; } catch { return "basic"; }
 }
 
 function applyElementColours(target: HTMLElement, element: SpellElement): void {

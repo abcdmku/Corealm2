@@ -104,7 +104,9 @@ try {
         }
       ).getMagicGlowState(),
     );
-    assert(glow.rendered && glow.hdr, "Live casts use HDR emission and bloom");
+    if(spell.id === "deluge")
+      assert(!glow.rendered, "Deluge's collision water and droplets stay outside bloom");
+    else assert(glow.rendered && glow.hdr, "Live casts use HDR emission and bloom");
     const refraction = await page.evaluate(() =>
       (window.__gameDebug as unknown as {
         getElementalRefractionState(): { rendered: boolean; copies: number };
@@ -195,9 +197,14 @@ try {
     );
     const draws = (
       renderProfile as {
-        draws: { name: string; triangles: number; calls: number }[];
+        draws: { name: string; pass: string; triangles: number; calls: number }[];
       }
     ).draws;
+    if(spell.id === "deluge"){
+      const drops=draws.filter(draw=>draw.name === "elemental-3d-deluge-droplets");
+      assert(drops.length > 0, "The live collision submits shaded water droplets");
+      assert(drops.every(draw=>draw.pass === "colour"), "Droplets draw in scene color, never HDR bloom");
+    }
     assert(
       draws.length > 0 &&
         draws.every((draw) => draw.calls === 1 && draw.triangles >= 20),
@@ -251,6 +258,8 @@ try {
   );
   assert.equal(reset.instances, 0);
   await page.locator("#spell-range-next").click();
+  assert.equal((await page.evaluate(()=>window.__spellRange!.getState())).casting,false,"Selecting another spell does not cast");
+  await page.locator("#spell-range-cast").click();
   await page.waitForFunction(() => window.__spellRange!.getState().casting);
   await page.locator("#spell-range-reset").click();
   await page.locator("#spell-range-select").selectOption(spells[0]!.id);

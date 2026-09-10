@@ -1,3 +1,4 @@
+import { FINALE, elementalChoreographyDuration } from "../content/elementalFinales.js";
 import * as THREE from "three";
 import type { Vec3 } from "../contracts.js";
 import type { ElementalCast } from "../systems/elementalAttacks.js";
@@ -8,6 +9,7 @@ import { ElementalAtmosphere } from "./elementalAtmosphere.js";
 import { ElementalEnergyBodies } from "./elementalEnergyBodies.js";
 import { ElementalFlowSurfaces } from "./elementalFlowSurfaces.js";
 import { elementalPulseArt } from "./elementalPulseArt.js";
+import { FurnaceLash } from "./furnaceLash.js";
 
 const TAU=Math.PI*2;
 const clamp=(v:number)=>Math.max(0,Math.min(1,v));
@@ -20,154 +22,194 @@ const bezier=(a:Vec3,b:Vec3,c:Vec3,d:Vec3,t:number):Vec3=>{const s=1-t;const at=
 export class FireSpellVfx {
   private readonly bodies:ElementalEnergyBodies;
   private readonly atmosphere:ElementalAtmosphere;
+  private readonly darkSmoke:ElementalAtmosphere;
   private readonly flow:ElementalFlowSurfaces;
+  private readonly lash:FurnaceLash;
   readonly state={variant:"",mainShapes:0,composition:""};
   constructor(parent:THREE.Object3D,private readonly ground:(x:number,z:number)=>number,
     private readonly sparks:ElementalParticleCloud,private readonly smoke:ElementalParticleCloud,
     private readonly lines:ElementalFilaments,private readonly volumes:ElementalVolumes,
     private readonly illuminate:(x:number,y:number,z:number,color:number,intensity:number,distance:number)=>void){
-    this.bodies=new ElementalEnergyBodies(parent,"fire");this.bodies.mesh.name="elemental-fire-authored-shapes";
+    this.bodies=new ElementalEnergyBodies(parent,"fire",true);this.bodies.mesh.name="elemental-fire-authored-shapes";
     this.atmosphere=new ElementalAtmosphere(parent,'fire');
+    this.darkSmoke=new ElementalAtmosphere(parent,'smoke');
     this.flow=new ElementalFlowSurfaces(parent);
+    this.lash=new FurnaceLash(parent);
   }
-  get instances():number{return this.bodies.instances+this.atmosphere.instances+this.flow.instances;}
-  get dropped():number{return this.bodies.dropped+this.atmosphere.dropped+this.flow.dropped;}
-  begin(seconds:number):void{this.bodies.begin(seconds);this.atmosphere.begin(seconds);this.flow.begin(seconds);this.state.mainShapes=0;}
-  end():void{this.bodies.end();this.atmosphere.end();this.flow.end();this.state.mainShapes=this.instances;}
+  get instances():number{return this.bodies.instances+this.atmosphere.instances+this.darkSmoke.instances+this.flow.instances+this.lash.instances;}
+  get dropped():number{return this.bodies.dropped+this.atmosphere.dropped+this.darkSmoke.dropped+this.flow.dropped;}
+  begin(seconds:number):void{this.bodies.begin(seconds);this.atmosphere.begin(seconds);this.darkSmoke.begin(seconds);this.flow.begin(seconds);this.lash.hide();this.state.mainShapes=0;}
+  end():void{this.bodies.end();this.atmosphere.end();this.darkSmoke.end();this.flow.end();this.state.mainShapes=this.instances;}
   update(cast:ElementalCast,now:number):void{
     const age=now-cast.started,t=age/1000,last=cast.pulses.at(-1)!.at;
-    if(age<0||age>last+1050)return;
+    if(age<0||age>=elementalChoreographyDuration(cast.spellId,last))return;
     this.state.variant=cast.spellId;
     const [x,,z]=cast.aim,y=this.ground(x,z),end=1-ease((age-last-350)/650);
     const yaw=Math.atan2(x-cast.origin[0],z-cast.origin[2]),dx=Math.sin(yaw),dz=Math.cos(yaw);
     const release:Vec3=[cast.origin[0]+dx*.5+dz*.3,cast.origin[1]+1.18,cast.origin[2]+dz*.5-dx*.3];
     const charge=ease(age/180)*(1-ease((age-300)/220));
-    this.flow.put("shell","fire",release[0],release[1],release[2],.25,.30,.25,charge*.9,43);
+
     if(cast.spellId==="ember-dart"){
       this.state.composition="single-comet-and-crawling-burn";
-      const progress=clamp((age-90)/460),head:Vec3=[release[0]+(x-release[0])*progress,release[1]+progress*.22,release[2]+(z-release[2])*progress];
+      const progress=clamp((age-90)/460),head:Vec3=[release[0]+(x-release[0])*progress,release[1]+(y+(cast.impactHeight??1.5)-release[1])*progress,release[2]+(z-release[2])*progress];
       if(age<650){
         const trailLength=Math.min(1.8,progress*12+.2),tail:Vec3=[head[0]-dx*trailLength,head[1]+.15,head[2]-dz*trailLength];
         this.stroke(tail,mix(tail,head,.3),[head[0]+.14,head[1]+.3,head[2]],head,.34,0xffad30,1,1);
-        this.flow.put("shell","fire",head[0],head[1],head[2],.42,.45,.42,.95,3);
+
         this.emitTrail(u=>mix(tail,head,u),900,t,1,.2);
       }
       if(age>=550){
         const a=(age-550)/1000;
-        for(let k=0;k<5;k++){
-          const angle=k*2.4+t*1.1,r=.5+k*.07;
-          this.flow.put("plume","fire",x+Math.cos(angle)*r*.6,y+.04,z+Math.sin(angle)*r*.6,.45,.95+Math.sin(t*6+k)*.16,.45,end*.86,k);
-        }
-        this.burst([x,y+.8,z],a,1.1,1100,5,1);
+        // A contact tears upward into two unequal flame folds, then becomes drifting cinders.
+        const lick=1-ease((a-.25)/.8);
+        this.flow.put("plume","fire",x-.12,y+.04,z,.95,1.9*lick,.65,lick*.95,17,yaw,.22,0,{arc:.62,lean:1.2});
+        this.flow.put("plume","fire",x+.22,y+.07,z-.12,.5,1.15*lick,.42,lick*.85,29,yaw+1.7,-.18,0,{arc:.48,lean:-.9});
+        this.burst([x,y+(cast.impactHeight??1.5),z],a,1.1,1100,5,1);
       }
     }else if(cast.spellId==="furnace-whip"){
-      this.state.composition="one-flexing-lash";
-      const u=clamp((age-450)/650),index=Math.min(4,Math.floor(u*5)),blend=u*5-index;
-      const target=mix(cast.pulses[index]!.point,cast.pulses[index+1]!.point,blend);
-      const start:Vec3=release,head:Vec3=[target[0],y+1.3,target[2]];
-      const fade=ease((age-150)/300)*(1-ease((age-1200)/650));
-      const a:Vec3=[start[0]+dx*4+dz*Math.sin(t*4)*2,start[1]+2.3,start[2]+dz*4-dx*Math.sin(t*4)*2];
-      const b:Vec3=[head[0]-dx*2+dz*Math.sin(t*5),y+3,head[2]-dz*2-dx*Math.sin(t*5)];
-      this.stroke(start,a,b,head,.5,0xffa52e,fade,8);
-      this.stroke(start,[a[0]-.13,a[1]-.18,a[2]],[b[0],b[1]+.15,b[2]],head,.23,0xff5521,fade,9);
-      this.emitTrail(u=>bezier(start,a,b,head,u),2600,t,2,fade*.5);
-      for(let k=0;k<10;k++){
-        const p=bezier(start,a,b,head,.13+k*.08),h=.5+random(k)*.5;
-        this.stroke(p,[p[0]-.3,p[1]+h*.3,p[2]-.2],[p[0]+Math.sin(t*8+k)*.4,p[1]+h*.8,p[2]-.5],
-          [p[0],p[1]+h,p[2]-.75],.16,0xff6d17,fade*.7,k+10);
+      this.state.composition="continuous-ribbon-unfurl-crack-and-cinders";
+      const fade=ease((age-190)/150)*(1-ease((age-1100)/380)),height=y+(cast.impactHeight??1.5);
+      const first=cast.pulses[0]!.point;
+      const tipAt=(ms:number):Vec3=>{
+        if(ms<600){
+          const u=ease((ms-190)/410),p=mix(release,[first[0],height,first[2]],u);
+          return [p[0]+dz*Math.sin(u*Math.PI)*1.3,p[1]+Math.sin(u*Math.PI)*.5,p[2]-dx*Math.sin(u*Math.PI)*1.3];
+        }
+        const u=clamp((ms-600)/500),index=Math.min(4,Math.floor(u*5)),blend=u*5-index;
+        const p=mix(cast.pulses[index]!.point,cast.pulses[index+1]!.point,blend);
+        return [p[0],height+Math.sin(u*Math.PI*2)*.14,p[2]];
+      };
+      const path=(u:number):Vec3=>{
+        const p=tipAt(Math.max(190,Math.min(age,1100)-(1-u)*490));
+        const recoil=clamp((age-1100)/380),flutter=Math.sin(u*6.3-t*3.8)*Math.sin(u*Math.PI)*.22;
+        return [p[0]+dz*flutter+dx*recoil*.9,p[1]+Math.sin(u*Math.PI)*(.32+recoil*.8),p[2]-dx*flutter+dz*recoil*.9];
+      };
+      this.lash.update(path,t,fade,.85);
+      this.emitTrail(path,2500,t,57,fade*.92);
+      // Each contact strips fine cinders from the moving leading edge, without a second flame shape.
+      for(const [i,pulse] of cast.pulses.entries()){
+        const local=(age-pulse.at)/1000;if(local<0||local>.65)continue;
+        const f=1-ease(local/.65),direction=-1.2+i*.48;
+        for(let j=0;j<320;j++){
+          const speed=2+random(j,i+400)*6,scatter=(random(j,i+401)-.5)*1.2,angle=yaw+direction+scatter;
+          const distance=local*speed,py=Math.max(y+.04,height+local*(random(j,i+402)*4-1)-local*local*4);
+          this.sparks.put(pulse.point[0]+Math.cos(angle)*distance,py,pulse.point[2]-Math.sin(angle)*distance,
+            .013+random(j,i+403)*.025,j%9?0xe73c08:0xffc36a,f,j,1.6,1.8);
+        }
       }
-      for(const [i,p] of cast.pulses.entries())this.burst([p.point[0],y+.1,p.point[2]],(age-p.at)/1000,1.1,600,4,i+40,true);
+      const head=tipAt(Math.min(age,1100));this.illuminate(...head,0xff8020,24*fade,5);
     }else if(cast.spellId==="cinder-mine"){
-      this.state.composition="compressed-core-and-blast-canopy";
+      this.state.composition="inward-embers-and-separated-flame-bursts";
       if(age<1800){
         const charge=ease(age/1800);
-        for(let k=0;k<9;k++){
-          const angle=k*TAU/9+t*1.5,r=3.8*(1-charge*.85);
+        for(let k=0;k<3;k++){
+          const angle=[.31,2.15,4.53][k]!,r=(3.0+random(k,420)*2)*(1-charge*.85);
           const a:Vec3=[x+Math.cos(angle)*r,y+.05,z+Math.sin(angle)*r];
           this.stroke(a,[x+Math.cos(angle+.4)*r*.7,y+.1,z+Math.sin(angle+.4)*r*.7],
             [x+.3*Math.cos(angle),y+.18+charge*.4,z+.3*Math.sin(angle)],[x,y+.2,z],.12+charge*.12,0xff4b0c,.75,k);
         }
-        this.emitTrail(u=>[x+Math.cos(u*TAU+t*3)*(1-charge)*3,y+.08+u*.6,z+Math.sin(u*TAU+t*3)*(1-charge)*3],1100,t,4,.4);
-        this.illuminate(x,y+.4,z,0xff6615,50*charge,8);
+        this.emitTrail(u=>[x+(u-.5)*5*(1-charge),y+.08+Math.sin(u*7)*.03,z+Math.sin(u*5+1.3)*(1-charge)*2],1100,t,4,.4);
+        this.illuminate(x,y+.4,z,0xff6615,23*charge,6);
       }else{
         const a=(age-1800)/1000,r=5.5*(1-Math.exp(-a*7)),h=1.4+Math.sin(clamp(a)*Math.PI)*2.8;
-        // Unequal rolling billows form a blast front, with dense sparks between them.
-        for(let k=0;k<11;k++){
-          const angle=k*2.39996,spread=r*(.35+random(k,15)*.42),size=1.2+random(k,12)*.65;
-          const lift=h*(.2+random(k,16)*.32),curl=angle+a*(.3+random(k,18));
-          this.flow.put("plume","fire",x+Math.cos(curl)*spread,y+.04,z+Math.sin(curl)*spread,size*1.15,lift*1.4+1.1,size*1.15,end*.9,k+10);
-          if(k<4)this.flow.put("shell","fire",x+Math.cos(curl)*spread*.7,y+lift*.5,z+Math.sin(curl)*spread*.7,size,Math.max(.25,lift),size,end*.75,k+17);
+        // A low, fast combustion front rips across the footprint, with a trailing smoke roll.
+        for(let k=0;k<4;k++){
+          const angle=[.2,1.8,3.6,5.1][k]!,travel=r*(.4+random(k,15)*.35),px=x+Math.cos(angle)*travel,pz=z+Math.sin(angle)*travel;
+          const f=1-ease((a-.16)/.7),roll=1-Math.exp(-a*22);
+          this.flow.put("plume","fire",px,y+.035,pz,2.4+random(k,12),(.9+random(k,16)*2.4)*roll,1.1,
+            f*.96,k+61,angle,.40,0,{arc:.48+random(k,17)*.25,lean:2.6});
+          if(k%2===0)this.atmosphere.put(px,y+.65,pz,1.3,.85,1.1,f*.6,k+85,y);
         }
-        this.flow.put("band","fire",x,y+.08,z,r,1.1*(1-a*.7),r,end,12);
         this.burst([x,y+.5,z],a,5.5,5500,9,8);
         if(age>=2150)this.burst([x,y+.15,z],(age-2150)/1000,6,3000,12,9,true);
       }
     }else if(cast.spellId==="phoenix-pass"){
-      this.state.composition="one-phoenix-outward-and-return";
-      const pulse=cast.pulses.find(p=>age<p.at)??cast.pulses.at(-1)!;
-      const u=clamp((age-(pulse.launchAt??0))/(pulse.at-(pulse.launchAt??0))),from=pulse.from??cast.origin;
-      const p=mix(from,pulse.point,u),returning=age>=1500,span=returning?3.4:5.8;
-      const direction=returning?-1:1,fx=dx*direction,fz=dz*direction;
-      const h=y+2.5+Math.sin(u*Math.PI)*.35,flap=Math.sin(t*7)*.65,fade=ease(age/200)*end;
-      const head:Vec3=[p[0]+fx*.7,h+.4,p[2]+fz*.7],tail:Vec3=[p[0]-fx*2.4,h-.15,p[2]-fz*2.4];
-      this.stroke(tail,[p[0]-fx,h+.2,p[2]-fz],[p[0]+fx*.2,h+.7,p[2]+fz*.2],head,.63,0xffb332,fade,4);
-      for(const side of [-1,1])for(let k=0;k<6;k++){
-        const s=side*(span-k*.45),back=k*.38;
-        this.stroke([p[0],h,p[2]],[p[0]+dz*s*.28,h+1.5+flap,p[2]-dx*s*.28],
-          [p[0]+dz*s*.76-fx*back,h+1.15+flap-k*.13,p[2]-dx*s*.76-fz*back],
-          [p[0]+dz*s-fx*(1.1+back),h-.1-k*.2,p[2]-dx*s-fz*(1.1+back)],
-          k===0?.63:.45,k%3?0xff8420:0xffd26b,fade*(1-k*.05),k+8);
+      this.state.composition="kiln-rupture-staggered-vents";
+      for(const [i,p] of cast.pulses.entries()){
+        const a=(age-p.at)/1000,[px,,pz]=p.point,py=this.ground(px,pz);
+        const ready=ease((a+.15)/.11)*(1-ease(a/.06));
+        if(ready>.01){
+          this.flow.put("band","fire",px,py+.05,pz,1.1,.12,.8,ready*.8,i,yaw+i,0,0,{arc:.45});
+          this.emitTrail(v=>[px+Math.sin(v*7+i)*.5,py+.04+v*.3,pz+(v-.5)*1.7],280,t,i+120,ready*.65);
+        }
+        if(a<0||a>1.04)continue;
+        const f=1-ease((a-.17)/.87),rise=1-Math.exp(-a*28),h=p.height*rise*(1-a*.55);
+        // Unequal vent tongues, lifted ash and a bright torn base, no bird silhouette.
+        for(let k=0;k<(i%3===0?1:i%3===1?2:3);k++){
+          const angle=i*2.1+k*1.63,offset=.15+random(k,i+20)*.65,px0=px+Math.cos(angle)*offset,pz0=pz+Math.sin(angle)*offset;
+          this.flow.put("plume","fire",px0,py+.04,pz0,(i%3===0?2.2:.85+k*.32),h*(i%3===0?.55:1-k*.22),.8+random(k,i+21)*.65,f*.94,i*3+k,angle,.12+random(k,i+22)*.42,0,{lean:Math.sin(t*4+i+k)*1.1,arc:.4+random(k,i+23)*.5});
+        }
+        this.darkSmoke.put(px+a*(.8+Math.sin(i)),py+h*.54+.35,pz-a*.4,1.0+a*.6,h*.34+.3,1.2,f*.75,i,py);
+        if(i%3===0)this.atmosphere.put(px+.3,py+h*.3,pz,1.5,h*.25,1.1,f*.8,i+415,py);
+        for(let k=0;k<(i%2?1:2);k++){
+          const side=k?1:-1,drift=Math.sin(t*7+i+k)*.35;
+          this.stroke([px+side*.3,py+.06,pz],[px+side*.5,py+h*.32,pz+.15],
+            [px-side*.25+drift,py+h*.77,pz-.35],[px+side*.3+drift,py+h*.96,pz-.15],.46-k*.12,0xffb45e,f*.95,i*2+k+131);
+        }
+        for(let j=0;j<1800;j++){
+          const v=random(j,i+11),angle=random(j,i+12)*TAU,rad=Math.sqrt(v)*(.25+a*1.4);
+          const py0=Math.max(py+.04,py+a*(2+random(j,i+13)*8)-a*a*5);
+          this.sparks.put(px+Math.cos(angle)*rad,py0,pz+Math.sin(angle)*rad,.014+random(j,i+14)*.029,
+            j%7===0?0xffb64d:j%3?0xc93a08:0xc9290b,f*(1-v*.5),j,1.4,2.2);
+          if(j%22===0)this.smoke.put(px+Math.cos(angle)*rad,py0+.3,pz+Math.sin(angle)*rad,.13+a*.23,0x343236,f*.45,j);
+        }
+        this.illuminate(px,py+1,pz,0xff8020,17*f,5);
       }
-      for(let k=0;k<3;k++)this.stroke(tail,[tail[0]-fx,h,tail[2]-fz],
-        [tail[0]-fx*2+dz*(k-1),h-.2+Math.sin(t*6+k)*.4,tail[2]-fz*2-dx*(k-1)],
-        [tail[0]-fx*3+dz*(k-1),h-.7,tail[2]-fz*3-dx*(k-1)],.25,0xff561b,fade,k+21);
-      this.emitTrail(v=>[p[0]+dz*(v-.5)*span*2-fx*Math.abs(v-.5)*3,h+Math.sin(v*Math.PI)*1.2+flap*v,p[2]-dx*(v-.5)*span*2-fz*Math.abs(v-.5)*3],3200,t,7,fade*.45);
-      for(const [i,hit] of cast.pulses.entries())this.burst([hit.point[0],y+.15,hit.point[2]],(age-hit.at)/1000,hit.radius,450,4,i+60,true);
-      this.illuminate(p[0],h,p[2],0xff9426,120*fade,15);
     }else{
-      this.state.composition="single-solar-mass-and-coronal-strikes";
-      const descent=ease((age-550)/2150),height=2.8+(1-descent)*6,r=3.0+Math.sin(t*8)*.12;
-      if(age<2850){
-        const fade=ease(age/500)*(1-ease((age-2700)/150));
-        this.flow.put("shell","fire",x,y+height,z,r,r*1.07,r,fade,7,t*.4);
-        this.flow.put("shell","fire",x,y+height,z,r*.83,r*.88,r*.83,fade,17,-t*.3);
-        this.atmosphere.put(x,y+height,z,r*.69,r*.73,r*.69,fade*.45,7,y);
-        this.illuminate(x,y+height,z,0xff942a,145*fade,18);
-        // Asymmetric coronal tongues break away from a filled solar mass.
-        for(let k=0;k<9;k++){
-          const angle=k*2.39996+t*.5,vertical=random(k,72)*1.6-.8,ring=Math.sqrt(1-vertical*vertical),reach=1+random(k,73)*1.7;
-          const start:Vec3=[x+Math.cos(angle)*r*ring*.8,y+height+vertical*r*.8,z+Math.sin(angle)*r*ring*.8];
-          this.stroke(start,[start[0]+Math.cos(angle)*reach*.5,start[1]+reach*.4,start[2]+Math.sin(angle)*reach*.5],
-            [start[0]+Math.cos(angle+.7)*reach,start[1]+reach,start[2]+Math.sin(angle+.7)*reach],
-            [start[0]+Math.cos(angle+1)*reach,start[1]+reach*1.5,start[2]+Math.sin(angle+1)*reach],.28+random(k,74)*.25,0xff9127,fade*.78,k+70);
-        }
-        for(const [i,hit] of cast.pulses.slice(0,-1).entries()){
-          const local=(age-hit.at)/1000;if(local<-.24||local>.32)continue;
-          const alpha=Math.sin(clamp((local+.24)/.56)*Math.PI),dest:Vec3=[hit.point[0],y+.1,hit.point[2]];
-          const origin:Vec3=[x,y+height,z];
-          this.stroke(origin,[x+(dest[0]-x)*.5,y+height*.85,z+(dest[2]-z)*.3],
-            [dest[0]+Math.sin(i)*1.2,y+height*.4,dest[2]],dest,.33,0xffaf2d,alpha,i+32);
-          this.burst(dest,local,2,850,6,i+90,true);
-        }
-        this.emitTrail(u=>[x+Math.cos(u*TAU*5+t)*r,y+height+Math.sin(u*TAU*3+t*.5)*r,z+Math.sin(u*TAU*5+t)*r],2100,t,9,fade*.4);
+      this.sunfall(cast,age);
+    }
+  }
+  private sunfall(cast:ElementalCast,age:number):void {
+    this.state.composition="single-advected-combustion-blast";
+    const [x,,z]=cast.aim,y=this.ground(x,z),t=age/1000,hit=FINALE.starfall.contact;
+    const yaw=Math.atan2(x-cast.origin[0],z-cast.origin[2]),dx=Math.sin(yaw),dz=Math.cos(yaw);
+    const a=(age-hit)/1000,u=clamp((age-450)/(hit-450));
+    const dest:Vec3=[x,y+.6,z],start:Vec3=[x-dx*5+dz*1.5,y+11.5,z-dz*5-dx*1.5];
+    const path=(v:number)=>mix(start,dest,v);
+    if(age<hit){
+      const f=ease((age-250)/750),head=path(u*u),r=1.3+u*2.0;
+      this.atmosphere.put(head[0],head[1],head[2],r*1.08,r*.91,r,f*.95,90,y);
+      this.atmosphere.put(head[0]-r*.45,head[1]+r*.32,head[2]+r*.25,r*.7,r*.8,r*.65,f*.8,105,y);
+      for(let k=0;k<4;k++){
+        const tail=path(Math.max(0,u*u-.12-k*.07));
+        this.darkSmoke.put(tail[0]+Math.sin(k*2.4)*r*.55,tail[1]+.5,tail[2]+Math.cos(k*2.4)*r*.55,
+          r*.7,r*.78,r*.7,f*.52,230+k,y);
       }
-      if(age>=2700){
-        const local=(age-2700)/1000,expand=1-Math.exp(-local*6),radius=9*expand,crest=1+3*Math.sin(clamp(local)*Math.PI);
-        for(let k=0;k<14;k++){
-          const a=k*2.39996,cs=Math.cos(a),sn=Math.sin(a),h=crest*(.75+random(k,61)*.6),size=1.35+random(k,62)*.65;
-          this.flow.put("plume","fire",x+cs*radius*.76,y+.04,z+sn*radius*.76,size*1.4,h*1.3,size*1.4,end*.92,k+30);
-          if(k%2===0)this.stroke([x+cs*radius*.5,y+.06,z+sn*radius*.5],
-            [x+cs*radius*.7,y+h*.65,z+sn*radius*.7],[x+cs*radius*.85,y+h*.8,z+sn*radius*.85],
-            [x+cs*radius,y+.3,z+sn*radius],.33,0xff8a22,end*.6,k);
-        }
-        this.flow.put("band","fire",x,y+.08,z,radius,1.2+crest*.35,radius,end,45);
-        this.flow.put("band","fire",x,y+.11,z,radius*.82,.9,radius*.82,end*.75,75,t*.2);
-        this.burst([x,y+.9,z],local,9,10500,14,90);
+      // One torn wake follows the falling core. The former repeated corona loops are gone.
+      const tail=path(Math.max(0,u*u-.36));
+      this.stroke(tail,[tail[0]+dz*.7,tail[1]+.8,tail[2]-dx*.7],
+        [head[0]-dz*.9,head[1]+r*.8,head[2]+dx*.9],head,r*.48,0xffab42,f*.75,91);
+      this.emitTrail(v=>path(Math.max(0,u*u-v*.35)),7200,t,94,f*.90);
+      for(let i=0;i<2200;i++){
+        const angle=random(i,140)*TAU,radius=(2+random(i,141)*7)*(1-u*.42),lift=random(i,142)*u*3;
+        this.sparks.put(x+Math.cos(angle)*radius,y+.08+lift,z+Math.sin(angle)*radius,.015+random(i,143)*.025,
+          i%7?0xff7a1c:0xffd88a,f*u*.65,i,1.4,1.7);
       }
+      this.illuminate(...head,0xffa43c,70*f,14);
+      this.illuminate(x,y+.6,z,0xff6e19,16*u,11);
+    }else{
+      const fade=1-ease((a-1.95)/1.25);
+      // One contact launches this whole blast. Its fire and airborne embers persist without extra damage pulses.
+      const flash=1-ease(a/.26);
+      if(flash>.01)this.volumes.put("sphere",x,y+1.2,z,1.1+a*12,1.0+a*8,1.1+a*12,0xffbd5f,flash*1.8,201);
+      // A single spatial temperature/density field rolls from this contact into
+      // flames and cooling soot. There are no repeated sheets or smoke pockets.
+      this.atmosphere.put(x,y+4.6,z,11.8,5.6,10.4,fade*.96,310,y,a);
+      for(let i=0;i<18000;i++){
+        const birth=random(i,170)*.28,flight=a-birth;if(flight<0)continue;
+        const angle=random(i,171)*TAU,speed=2.5+random(i,172)*6.5,vy=3+random(i,173)*10;
+        const d=.4+speed*(1-Math.exp(-flight*1.1))/1.1;
+        const px=x+Math.cos(angle)*d*(.65+random(i,176)*.35)+flight*.7,pz=z+Math.sin(angle)*d-flight*.3;
+        const gy=this.ground(px,pz),py=Math.max(gy+.035,y+.4+vy*flight-flight*flight*5.4);
+        const cooling=1-ease((a-1.6)/1.6);
+        this.sparks.put(px,py,pz,.014+random(i,174)*.030,i%11===0?0xffc55c:i%3?0xca3205:0xbd2410,fade*cooling,i,1.5,1.7);
+        if(i%28===0)this.smoke.put(px,py+.35+a*.45,pz,.15+random(i,175)*.30+a*.13,0x302c2b,fade*.42,i,1.7,1.3);
+      }
+      this.illuminate(x,y+2,z,0xff8b29,52*(1-ease(a/2.2)),13);
     }
   }
   private stroke(a:Vec3,b:Vec3,c:Vec3,d:Vec3,width:number,color:number,alpha:number,seed:number):void{
-    this.bodies.curve(a,b,c,d,width*1.35,color,alpha,seed,.7,1);
+    this.bodies.curve(a,b,c,d,width,color,alpha,seed,.45,1);
     if(seed%4===0&&width>.25)for(let i=1;i<=8;i++){
       const p=bezier(a,b,c,d,(i-1)/8),q=bezier(a,b,c,d,i/8);
       this.lines.segment(p[0],p[1],p[2],q[0],q[1],q[2],.014,0xffbd55,alpha*.3,seed,(i-1)/8,i/8);
@@ -175,10 +217,16 @@ export class FireSpellVfx {
   }
   private emitTrail(path:(u:number)=>Vec3,count:number,t:number,seed:number,alpha:number):void{
     if(alpha<.01)return;
+    const billows=count>4000?5:count>1000?3:1;
+    for(let k=0;k<billows;k++){
+      const v=.10+k/(billows+1)*.7,p=path(v),size=count>4000?.65:.26;
+      this.darkSmoke.put(p[0]+Math.sin(k+seed)*size*.5,p[1]+size*.7,p[2],
+        size,size*1.45,size*.85,Math.min(1,alpha*1.7),seed+k);
+    }
     for(let i=0;i<count;i++){
       const u=(random(i,seed)+t*.43)%1,p=path(u),lag=random(i,seed+1);
       this.sparks.put(p[0]+Math.sin(i+t*7)*lag*.22,p[1]+lag*.5,p[2]+Math.cos(i+t*6)*lag*.22,
-        .013+random(i,seed+2)*.032,i%9?0xff8c22:0xffd48c,alpha*(1-lag*.6),i,1.3,1.6);
+        .013+random(i,seed+2)*.032,i%11===0?0xffbb49:i%3?0xcf3c08:0xd82309,alpha*(1-lag*.6),i,1.3,1.6);
     }
   }
   private burst(origin:Vec3,t:number,radius:number,count:number,speed:number,seed:number,low=false):void{
@@ -186,8 +234,8 @@ export class FireSpellVfx {
     const fade=1-ease((t-.35)/.67),variant=elementalPulseArt(this.state.variant as ElementalCast["spellId"],seed);
     const spread=radius*(.15+1.05*(1-Math.exp(-t*7)));
     if(count>=1000){
-      this.flow.put("band","fire",origin[0],this.ground(origin[0],origin[2])+.06,origin[2],spread*variant.width,(low?.45:.8)*variant.lift,spread*variant.depth,fade*.85,seed,variant.yaw,0,0,{arc:variant.arc,lean:variant.bend});
-      if(t<.4)this.flow.put("shell","fire",origin[0],origin[1],origin[2],spread*.65*variant.width,spread*.55*variant.lift,spread*.65*variant.depth,(1-t/.4)*.8,seed+5,variant.yaw,0,0,{arc:variant.arc,lean:variant.bend});
+      this.flow.put("band","fire",origin[0],this.ground(origin[0],origin[2])+.06,origin[2],spread*variant.width,(low?.45:.8)*variant.lift,spread*variant.depth,fade*.48,seed,variant.yaw,0,0,{arc:Math.min(.62,variant.arc),lean:variant.bend});
+
     }else{
       // Small contacts inherit the lash/wing direction but have individually shaped flame folds.
       for(let k=0;k<variant.lobes;k++){
@@ -197,15 +245,31 @@ export class FireSpellVfx {
           angle,variant.bend*.15,0,{arc:variant.arc,lean:variant.bend});
       }
     }
+    for(let k=0;k<(radius>3?5:2);k++){
+      const angle=k*2.399+seed,d=spread*(.3+random(k,seed+71)*.45),sx=origin[0]+Math.cos(angle)*d,sz=origin[2]+Math.sin(angle)*d;
+      const size=(.32+radius*.12)*(1+t*.9);
+      this.darkSmoke.put(sx,origin[1]+.2+t*1.2,sz,size,size*1.3,size,fade*.88,k+seed,this.ground(sx,sz));
+    }
+    // Brief hooked flames unfurl at different heights, then shed their hot tips into sparks.
+    for(let k=0;k<(low?2:3);k++){
+      const angle=variant.yaw+k*2.399,cs=Math.cos(angle),sn=Math.sin(angle),
+        rise=1-Math.exp(-t*9),h=(.85+random(k,seed+17)*1.2)*variant.lift*rise,
+        r=spread*(.35+random(k,seed+18)*.3),flutter=Math.sin(t*11+seed+k)*.35;
+      const base:Vec3=[origin[0]+cs*r,origin[1]+.03,origin[2]+sn*r];
+      this.stroke(base,[base[0]-sn*.3,base[1]+h*.3,base[2]+cs*.3],
+        [base[0]+cs*(.4+flutter)-sn*.4,base[1]+h,base[2]+sn*(.4+flutter)+cs*.4],
+        [base[0]+cs*.7+sn*.3,base[1]+h*.88,base[2]+sn*.7-cs*.3],
+        .12+radius*.018,0xffc55a,fade*(1-t*.45)*.82,seed+k+100);
+    }
     for(let i=0;i<count;i++){
       const a=variant.yaw+random(i,seed)*TAU*variant.arc,birth=random(i,seed+1)*(.08+variant.depth*.06),age=t-birth;if(age<0)continue;
       const d=(.04+(1-Math.exp(-age*1.7))/1.7*speed/radius)*radius*(.3+random(i,seed+2)*.7);
       const x=origin[0]+Math.cos(a)*d*variant.width,z=origin[2]+Math.sin(a)*d*variant.depth;
       const y=Math.max(this.ground(x,z)+.04,origin[1]+age*(low?.5:2+random(i,seed+3)*speed*.65)*variant.lift-age*age*5);
-      this.sparks.put(x,y,z,.015+random(i,seed+4)*.035,i%7?0xff821d:0xffce76,fade,i,1.7,1.7);
+      this.sparks.put(x,y,z,.015+random(i,seed+4)*.035,i%9===0?0xffb84b:i%3?0xbf3006:0xd42609,fade,i,1.7,1.7);
       if(i%19===0)this.smoke.put(x,y+.18,z,(.06+random(i,seed+5)*.16)*(1+age*1.5),0x4d4237,fade*.35,i,1.5);
     }
-    this.illuminate(origin[0],origin[1]+1,origin[2],0xff8b27,(65+radius*12)*fade,7+radius);
+    this.illuminate(origin[0],origin[1]+1,origin[2],0xff8b27,(16+radius*3)*fade,5+radius);
   }
-  dispose():void{this.bodies.dispose();this.atmosphere.dispose();this.flow.dispose();}
+  dispose():void{this.bodies.dispose();this.atmosphere.dispose();this.darkSmoke.dispose();this.flow.dispose();this.lash.dispose();}
 }

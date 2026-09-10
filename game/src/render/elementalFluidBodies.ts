@@ -10,6 +10,7 @@ export class ElementalFluidBodies {
   dropped=0;
   constructor(parent: THREE.Object3D) {
     const wave = new THREE.BufferGeometry();
+    const surfaceCoordinates:number[]=[];
     const vertices: number[] = [],
       indices: number[] = [];
     const columns = 40,
@@ -23,6 +24,7 @@ export class ElementalFluidBodies {
           const ripple =
             0.035 * Math.sin(x * 6 + u * 5) + 0.012 * Math.sin(x * 13 - u * 8);
           const thickness = (side ? 1 : -1) * (0.07 + (1 - u) * 0.08);
+          surfaceCoordinates.push(x,u,side?1:-1);
           vertices.push(
             x,
             ((Math.sin(a) + 1) * 0.5 +
@@ -59,6 +61,7 @@ export class ElementalFluidBodies {
       "position",
       new THREE.Float32BufferAttribute(vertices, 3),
     );
+    wave.setAttribute("fluidSurface",new THREE.Float32BufferAttribute(surfaceCoordinates,3));
     wave.setIndex(indices);
     wave.computeVertexNormals();
     const jet = new THREE.CylinderGeometry(0.55, 0.18, 1, 24, 12, true);
@@ -91,9 +94,9 @@ export class ElementalFluidBodies {
       geometry.setAttribute("fluidVariant",new THREE.InstancedBufferAttribute(new Float32Array((kind==="drop"?640:32)*2),2).setUsage(THREE.DynamicDrawUsage));
       const material = new THREE.ShaderMaterial({
         uniforms: refractionUniforms(this.clock,true,kind === "drop" ? 5 : 14,kind === "pool" ? 2 : kind === "wave" ? 1 : kind === "jet" ? 3 : 0),
-        defines: { FLUID_JET: kind === "jet" ? 1 : 0, FLUID_DROP: kind === "drop" ? 1 : 0 },
+        defines: { FLUID_WAVE: kind === "wave" ? 1 : 0, FLUID_JET: kind === "jet" ? 1 : 0, FLUID_DROP: kind === "drop" ? 1 : 0 },
         transparent: true, depthWrite: false, side: THREE.DoubleSide, toneMapped: false,
-        vertexShader: `uniform float time;attribute vec2 fluidVariant;
+        vertexShader: `uniform float time;attribute vec2 fluidVariant;attribute vec3 fluidSurface;
           varying vec3 vRefNormal,vRefView,vRefLocal;varying float vRefAlpha,vRefSeed;
           void main(){
             float seed=instanceMatrix[3].x*.31+instanceMatrix[3].z*.17+fluidVariant.x*2.31;
@@ -112,6 +115,21 @@ export class ElementalFluidBodies {
                 p.z+=sin(p.x*3.5+time*3.7+seed)*.20*smoothstep(.1,.8,p.y);
                 p.y*=1.+sin(p.x*3.1+fluidVariant.x*1.7)*.17;
                 p.z+=fluidVariant.y*p.x*p.x*.24;
+                #if FLUID_WAVE == 1
+                if(fluidVariant.x>=50.&&fluidVariant.x<60.){
+                  // A rolled lip parameterized directly, so narrowing the ring cannot create spikes.
+                  float lateral=fluidSurface.x,along=fluidSurface.y;
+                  float curl=-1.5707963+along*4.241150;
+                  float crest=(sin(curl)+1.)*.5;
+                  float roll=.93+.055*sin(lateral*4.-time*2.8+seed)+.025*sin(lateral*9.+time*3.1);
+                  p=vec3(lateral,crest*roll,cos(curl)*.7+fluidSurface.z*(.045+(1.-along)*.07));
+                  p.z+=lateral*lateral*.48+crest*crest*.30;
+                }else if(fluidVariant.x>=40.&&fluidVariant.x<50.){
+                  p.y*=1.-smoothstep(.64,1.,abs(p.x));
+                  p.z+=p.y*p.y*.5;
+                  p.z*=1.-smoothstep(.80,1.,abs(p.x))*.7;
+                }
+                #endif
               #endif
               n+=vec3(cos(phase)*.28,sin(phase*.7)*.08,sin(phase)*.24);
             #endif

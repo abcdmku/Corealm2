@@ -1,110 +1,39 @@
+import { FINALE } from "../content/elementalFinales.js";
+import { basicSpellPath } from "./basicSpellPath.js";
 import * as THREE from "three";
 import type { SpellElement, Vec3 } from "../contracts.js";
-import { elementalSpell, ELEMENTAL_SPELLS, type ElementalSpellId } from "../content/elementalSpells.js";
+import { elementalSpell } from "../content/elementalSpells.js";
 import type { ElementalCast } from "../systems/elementalAttacks.js";
+import { ElementalEnergyBodies } from "./elementalEnergyBodies.js";
+import type { ElementalParticleCloud } from "./elementalParticleCloud.js";
+import { elementalPulseArt } from "./elementalPulseArt.js";
 
 const TAU = Math.PI * 2;
 const clamp = (x: number) => Math.max(0, Math.min(1, x));
-const ease = (x: number) => { const t = clamp(x); return t * t * (3 - 2 * t); };
+const ease = (x: number) => { const t = clamp(x); return t*t*(3-2*t); };
+const random = new Float32Array(8192);
+let seed = 61937;
+for(let i=0;i<random.length;i++){seed=(Math.imul(seed,1664525)+1013904223)>>>0;random[i]=seed/4294967296;}
+const rand=(i:number,s=0)=>random[(i*37+s*139)&8191]!;
 const palette: Record<SpellElement, [number, number]> = {
-  wind: [0x9e9cff, 0xd5f4ff], water: [0x2385ff, 0x86fff1],
-  earth: [0x52ce93, 0xe0db9c], fire: [0xff651d, 0xffe2a0],
+  wind: [0x5d8be5, 0xd5f4ff], water: [0x1676ff, 0x80fff0],
+  earth: [0x45d894, 0xe5efae], fire: [0xff5b24, 0xffe0a0],
 };
+type Path = (u:number)=>Vec3;
 
-/** Original pen-stroke geometry, not a decal or a camera-facing effect card.
- * Each school has its own central sign and each spell has its own surrounding script.
- * Strokes are tapered and reveal in writing order. Large rituals remain world anchored.
- */
-function inscription(element: SpellElement, rank: number, variant: number): THREE.BufferGeometry {
-  const positions: number[] = [], uvs: number[] = [], orders: number[] = [];
-  let stroke = 0;
-  const line = (points: number[][], width = .017) => {
-    const order = stroke++;
-    for (let i = 1; i < points.length; i++) {
-      const a = points[i - 1]!, b = points[i]!, dx = b[0]! - a[0]!, dy = b[1]! - a[1]!, d = Math.hypot(dx, dy) || 1;
-      const w = width * (.55 + .45 * Math.sin(i / points.length * Math.PI)), nx = -dy / d * w, ny = dx / d * w;
-      const p = [[a[0]!+nx,a[1]!+ny],[a[0]!-nx,a[1]!-ny],[b[0]!+nx,b[1]!+ny],[b[0]!-nx,b[1]!-ny]];
-      for (const k of [0,1,2,2,1,3]) {
-        const px=p[k]![0]!,py=p[k]![1]!;
-        // Ink hangs on a shallow curved magical surface, including the freestanding gates.
-        positions.push(px,py,.028+.025*Math.sin(px*3)*Math.cos(py*2));
-        uvs.push(k%2, i/points.length); orders.push(order);
-      }
-    }
-  };
-  const arc = (r: number, start: number, end: number, width = .011) => line(Array.from({length:25},(_,i)=>[Math.cos(start+(end-start)*i/24)*r,Math.sin(start+(end-start)*i/24)*r]),width);
-  if (element === "wind") {
-    const arms=[3,2,4][variant]!;
-    for(let k=0;k<arms;k++) line(Array.from({length:17},(_,i)=>{const u=i/16,a=u*(4.8-variant*.55)+k*TAU/arms,r=.08+u*.52;return [Math.cos(a)*r,Math.sin(a)*r];}),.027);
-  } else if (element === "water") {
-    if(variant!==1)line(Array.from({length:33},(_,i)=>{const a=i/32*TAU;return [Math.sin(a)*(.31-.18*Math.cos(a)),.50*Math.cos(a)];}),.027);
-    else line([[-.45,.4],[-.32,-.17],[0,-.4],[.32,-.17],[.45,.4]],.028);
-    if(variant===2)line([[0,-.1],[0,.72],[-.16,.5],[0,.72],[.16,.5]],.018);
-    for(let k=0;k<2;k++)line(Array.from({length:17},(_,i)=>{const x=i/16*1.15-.575;return [x,Math.sin(x*5+k*.7)*.10-.25-k*.13];}),.020);
-  } else if (element === "earth") {
-    line([[-.52,-.35],[-.12-variant*.07,.46-variant*.07],[.09,.05],[.31,.33+variant*.12],[.56,-.35],[-.52,-.35]],.032);
-    if(variant)line([[-.25,-.1],[0,.20],[.25,-.1]],.018);
-    line([[-.29,-.50],[0,-.68],[.29,-.50]],.024); line([[0,-.25],[0,.01]],.034);
-  } else {
-    line([[-.43,-.38],[-.32,.02+variant*.12],[-.12,.18],[.05,.61],[.16,.19],[.38,-.04+variant*.18],[.44,-.38],[.10,-.58],[-.18,-.55],[-.43,-.38]],.026);
-    line([[-.08,-.32],[.04,.03],[.18,-.29],[.06,-.43],[-.08,-.32]],.023);
-  }
-  const sections = (rank < 2 ? 2 : rank === 5 ? 5 : rank)+variant;
-  for(let k=0;k<sections;k++) arc(.76,k*TAU/sections+.07,(k+1)*TAU/sections-.10,.010);
-  // Unequal hand-authored rune stems, hooks and diamonds. No Latin labels or sci-fi grids.
-  const runes=6+rank*2+variant;
-  for(let k=0;k<runes;k++) {
-    const a=k*TAU/runes+rank*.13, r=.95, c=Math.cos(a),s=Math.sin(a);
-    const transform=(p:number[])=>[c*(r+p[1]!)-s*p[0]!,s*(r+p[1]!)+c*p[0]!];
-    const glyph = (k+rank+variant)%4;
-    const points = glyph===0?[[-.05,-.05],[0,.10],[.05,-.05],[0,0],[-.05,-.05]]:
-      glyph===1?[[-.05,.04],[0,.10],[0,-.09],[.06,-.03]]:
-      glyph===2?[[-.05,-.07],[.04,.07],[-.04,.07],[.05,-.07]]:
-      [[-.06,.02],[0,.10],[.06,.02],[0,-.08],[-.06,.02]];
-    line(points.map(transform),.013);
-  }
-  if(rank>=3)for(let k=0;k<4;k++)arc(1.13,k*Math.PI/2+.09,k*Math.PI/2+.72,.008);
-  const g=new THREE.BufferGeometry();
-  g.setAttribute("position",new THREE.Float32BufferAttribute(positions,3));
-  g.setAttribute("uv",new THREE.Float32BufferAttribute(uvs,2));
-  g.setAttribute("scriptOrder",new THREE.Float32BufferAttribute(orders.map(n=>n/Math.max(1,stroke-1)),1));
-  return g;
-}
-
-/** Fantasy spell grammar: invocation, enchanted focus, a spell-specific rite, contact seal.
- * Supplements elemental matter; it never changes the attack's damage clock or camera.
- */
+/** Directional magical light. Silhouette comes from moving strokes and dispersed sparks. */
 export class ArcaneSpellVfx {
-  private readonly signs = new Map<string, THREE.InstancedMesh<THREE.BufferGeometry,THREE.ShaderMaterial>>();
+  private readonly swooshes: ElementalEnergyBodies;
   private readonly cores: THREE.InstancedMesh<THREE.BufferGeometry,THREE.ShaderMaterial>;
   private readonly object = new THREE.Object3D();
   private readonly color = new THREE.Color();
   private readonly clock={value:0};
   dropped=0;
-  readonly state={rite:"",inscriptions:0,cores:0};
-  constructor(parent:THREE.Object3D,private readonly ground:(x:number,z:number)=>number) {
-    for(const spell of ELEMENTAL_SPELLS) for(let variant=0;variant<3;variant++) {
-      const g=inscription(spell.element,spell.rank,variant);
-      g.setAttribute("riteLife",new THREE.InstancedBufferAttribute(new Float32Array(24*4),4).setUsage(THREE.DynamicDrawUsage));
-      const material=new THREE.ShaderMaterial({
-        uniforms:{time:this.clock,tint:{value:new THREE.Color(palette[spell.element][0])},gold:{value:new THREE.Color(palette[spell.element][1])}},
-        transparent:true,depthWrite:false,side:THREE.DoubleSide,blending:THREE.AdditiveBlending,
-        vertexShader:`attribute vec4 riteLife;attribute float scriptOrder;varying vec4 vLife;varying vec2 vUv;varying float vOrder;
-          void main(){vLife=riteLife;vUv=uv;vOrder=scriptOrder;gl_Position=projectionMatrix*modelViewMatrix*instanceMatrix*vec4(position,1.);}`,
-        fragmentShader:`uniform float time;uniform vec3 tint,gold;varying vec4 vLife;varying vec2 vUv;varying float vOrder;
-          void main(){float reveal=1.-smoothstep(vLife.y-.13,vLife.y+.04,vOrder);
-            float ink=.78+.22*sin(vOrder*31.-time*4.+vLife.z);
-            float a=vLife.x*reveal*ink;if(a<.006)discard;
-            vec3 c=mix(tint,gold,vLife.w)*3.3+gold*pow(.5+.5*sin(vOrder*15.-time*3.),12.)*1.2;
-            gl_FragColor=vec4(c,a);
-            #include <tonemapping_fragment>
-            #include <colorspace_fragment>
-          }`,
-      });
-      const mesh=new THREE.InstancedMesh(g,material,24);mesh.count=0;mesh.visible=false;mesh.frustumCulled=false;
-      mesh.name=`elemental-arcane-inscription-${spell.id}-${variant}`;mesh.userData["magicGlow"]=true;mesh.userData["magicGlowOnly"]=true;
-      mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);parent.add(mesh);this.signs.set(`${spell.id}:${variant}`,mesh);
-    }
+  readonly state={rite:"",inscriptions:0,cores:0,swooshes:0,composition:""};
+  constructor(parent:THREE.Object3D,private readonly ground:(x:number,z:number)=>number,
+    private readonly particles:ElementalParticleCloud) {
+    this.swooshes=new ElementalEnergyBodies(parent,"earth",true);
+    this.swooshes.mesh.name="elemental-magic-swooshes";
     const g=new THREE.IcosahedronGeometry(1,1);
     g.setAttribute("coreTint",new THREE.InstancedBufferAttribute(new Float32Array(64*4),4).setUsage(THREE.DynamicDrawUsage));
     const material=new THREE.ShaderMaterial({uniforms:{time:this.clock},transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
@@ -122,12 +51,10 @@ export class ArcaneSpellVfx {
     this.cores.name="elemental-arcane-concentrated-foci";this.cores.userData["magicGlow"]=true;this.cores.userData["magicGlowOnly"]=true;
     this.cores.instanceMatrix.setUsage(THREE.DynamicDrawUsage);parent.add(this.cores);
   }
-  get instances():number{return this.state.inscriptions+this.state.cores;}
-  begin(seconds:number):void {this.clock.value=seconds;this.dropped=0;this.cores.count=0;for(const m of this.signs.values())m.count=0;this.state.rite="";this.state.inscriptions=0;this.state.cores=0;}
-  private sign(id:ElementalSpellId,p:Vec3,r:number,alpha:number,reveal=1,yaw=0,upright=false,gold=0,stretch=1,variant=0):void {
-    if(alpha<.01||r<.02)return;const m=this.signs.get(`${id}:${variant%3}`)!,i=m.count;if(i===24){this.dropped++;return;}
-    this.object.position.set(...p);this.object.rotation.set(upright?0:-Math.PI/2,upright?yaw:0,upright?0:yaw);this.object.scale.set(r,r*stretch,r);this.object.updateMatrix();m.setMatrixAt(i,this.object.matrix);
-    (m.geometry.getAttribute("riteLife") as THREE.InstancedBufferAttribute).setXYZW(i,alpha,reveal*1.18,i,gold);m.count++;this.state.inscriptions++;
+  get instances():number{return this.cores.count+this.swooshes.instances;}
+  begin(seconds:number):void {
+    this.clock.value=seconds;this.dropped=0;this.cores.count=0;this.swooshes.begin(seconds);
+    this.state.rite="";this.state.cores=0;this.state.inscriptions=0;this.state.swooshes=0;this.state.composition="";
   }
   private core(element:SpellElement,p:Vec3,r:number,alpha:number,stretch:Vec3=[1,1,1]):void {
     if(alpha<.01||r<.005)return;const i=this.cores.count;if(i===64){this.dropped++;return;}
@@ -135,123 +62,162 @@ export class ArcaneSpellVfx {
     this.color.setHex(palette[element][0]);(this.cores.geometry.getAttribute("coreTint") as THREE.InstancedBufferAttribute).setXYZW(i,this.color.r,this.color.g,this.color.b,alpha);this.cores.count++;this.state.cores++;
   }
   update(cast:ElementalCast,now:number,focus?:Vec3):void {
-    const def=elementalSpell(cast.spellId),id=def.id,element=def.element,rank=def.rank,age=now-cast.started,t=age/1000,
-      first=cast.pulses[0]!,last=cast.pulses.at(-1)!.at;
+    const def=elementalSpell(cast.spellId),id=def.id,element=def.element,rank=def.rank,
+      age=now-cast.started,first=cast.pulses[0]!,last=cast.pulses.at(-1)!.at;
     if(age<0||age>last+1000)return;
     this.state.rite=id;
-    const [x,,z]=cast.aim,y=this.ground(x,z),[ox,oy,oz]=cast.origin,yaw=Math.atan2(x-ox,z-oz),fx=Math.sin(yaw),fz=Math.cos(yaw);
+    const [x,,z]=cast.aim,y=this.ground(x,z),[ox,oy,oz]=cast.origin,
+      yaw=Math.atan2(x-ox,z-oz),fx=Math.sin(yaw),fz=Math.cos(yaw);
     const hand:Vec3=focus??[ox+fx*.6+fz*.28,oy+1.3,oz+fz*.6-fx*.28];
-    const gathering=ease(age/95)*(1-ease((age-Math.min(600,first.at*.65))/240));
+    const gathering=ease(age/85)*(1-ease((age-Math.min(480,first.at*.55))/200));
     if(gathering>.01){
-      this.core(element,hand,rank===0?.12:.20+rank*.035,gathering*.9);
-      if(rank>0) {
-        this.sign(id,[ox,this.ground(ox,oz)+.045,oz],1.25+rank*.13,gathering*.56,ease(age/230),yaw,false,.40);
-        this.sign(id,hand,.38+rank*.04,gathering*.60,ease(age/140),yaw,true,.15);
+      this.core(element,hand,rank===0?.08:.13+rank*.008,gathering*.85);
+      // Loose energy gathers into the socket; there are no drawn staff arcs.
+      const count=rank===0?28:240+rank*50;
+      for(let i=0;i<count;i++){
+        const u=(rand(i,51)+age*.0018)%1,angle=rand(i,52)*TAU,reach=(rank===0?.55:1.8)*(1-u);
+        const groundFed=element==="earth"||element==="water"||element==="fire";
+        const sourceY=groundFed?this.ground(hand[0],hand[2])+.04:hand[1]+(rand(i,53)-.2)*2.5;
+        this.particles.put(hand[0]+Math.cos(angle)*reach,sourceY+(hand[1]-sourceY)*ease(u),
+          hand[2]+Math.sin(angle)*reach,.012+rand(i,54)*.020,palette[element][i%6===0?1:0],
+          gathering*Math.sin(u*Math.PI)*.8,i,1.2,1.8);
       }
     }
-    // Starter incantations have a single small enchanted heart, then a brief contact glint.
     if(rank===0){
-      const u=clamp((age-100)/(first.at-100)),a=(age-first.at)/1000;
-      if(age>100&&a<0&&element!=="earth")this.core(element,[ox+(x-ox)*u,oy+1.18+(y-oy)*u,z+(oz-z)*(1-u)],.11, .72);
-      if(a>=0&&a<.3)this.core(element,[x,y+1.05,z],.11+Math.sin(a/.3*Math.PI)*.18,(1-a/.3)*.62);
+      this.state.composition="small-enchanted-streak";
+      if(element==="fire")return; // Kindle owns its shaded flame, smoke and contact.
+      const release:Vec3=cast.release??[ox+fx*.5+fz*.28,oy+1.17,oz+fz*.5-fx*.28];
+      const size=cast.visualScale??1;
+      const path=basicSpellPath(release,[x,y+(cast.impactHeight??1.5),z]);
+      const releaseAt=cast.releaseAt??100;
+      this.comet(element,path,(age-releaseAt)/(first.at-releaseAt),.14*size,.115*size,0,Math.round(64*(cast.particleScale??1)));
+      if(!cast.missed)this.splash(element,[x,y+(cast.impactHeight??1.5),z],(age-first.at)/1000,.65*size,0,1);
       return;
     }
-    const target:Vec3=[x,y+.06,z];
-    // These are composed rites, not one ring instantiated for every damage pulse.
-    switch(id){
-      case "air-needle": {
-        const u=clamp((age-150)/(first.at-150));
-        if(age>150&&age<first.at){const bend=Math.sin(u*Math.PI)*.32;this.core(element,[ox+(x-ox)*u+fz*bend,y+1.35,oz+(z-oz)*u-fx*bend],.20,.58,[.7,.7,1.5]);}
-        this.contact(cast,age,0,1.15,yaw,true);break;
+    if(id==="flint-shot"||id==="siege-boulder"){
+      const big=id==="siege-boulder",size=big?.28:.19,launch=big?320:90,
+        u=(age-launch)/(first.at-launch),arc=big?5.1:2.8;
+      const path:Path=v=>[ox+(x-ox)*v,oy+1.55+(y+(cast.impactHeight??1.5)-oy-1.55)*v+Math.sin(v*Math.PI)*arc,oz+(z-oz)*v];
+      this.state.composition=big?"braided-jade-siege-comet":"flint-light-lance";
+      this.comet(element,path,u,big?.28:.26,big?.52:.30,big?12:6,big?1700:800);
+    }else if(id==="air-needle"){
+      const path:Path=u=>[ox+(x-ox)*u+fz*Math.sin(u*Math.PI)*.32,y+(cast.impactHeight??1.5),oz+(z-oz)*u-fx*Math.sin(u*Math.PI)*.32];
+      this.state.composition="silver-pressure-needle";
+      this.comet(element,path,(age-150)/(first.at-150),.25,.20,1,650);
+    }else if(id==="waterjet"||id==="tidal-fan"){
+      this.state.composition=id==="waterjet"?"twin-cobalt-light-jets":"five-banked-azure-wakes";
+      for(const [i,p] of cast.pulses.entries()){
+        const art=elementalPulseArt(id,i),launch=Math.max(90,p.at-500),u=(age-launch)/(p.at-launch),
+          dx=p.point[0]-ox,dz=p.point[2]-oz,len=Math.hypot(dx,dz)||1;
+        const path:Path=v=>[ox+dx*v+dz/len*Math.sin(v*Math.PI)*art.bend,
+          oy+1.45+(this.ground(p.point[0],p.point[2])+(cast.impactHeight??1.5)-oy-1.45)*v+Math.sin(v*Math.PI)*art.lift*.35,
+          oz+dz*v-dx/len*Math.sin(v*Math.PI)*art.bend];
+        this.comet(element,path,u,.30,id==="waterjet"?.20:.24+i*.025,20+i,700);
       }
-      case "razor-crescent":
-        for(let i=0;i<3;i++)this.contact(cast,age,i,1.15+i*.18,yaw+(i-1)*.55,true,.75+(i%2)*.45);break;
-      case "vacuum-coil": {
-        const f=ease((age-100)/350)*(1-ease((age-last)/650));
-        this.sign(id,target,4.8,f*.48,ease(age/500),-.12*t,false,.12);
-        // Three levitating binding signs lean into an empty eye, then sink as it collapses.
-        for(let i=0;i<3;i++){const a=i*TAU/3+t*.24,r=3.8*(1-ease((age-last)/500));this.sign(id,[x+Math.cos(a)*r,y+1.0+Math.sin(t*3+i)*.14,z+Math.sin(a)*r],.68,f*.48,1,-a,true,.40);}
-        if(age>=last)this.core(element,[x,y+.8,z],.55+ease((age-last)/180)*.9,(1-ease((age-last)/340))*.60,[1,.6,1]);break;
+    }else if(id==="thunder-lance"){
+      const end=cast.pulses.at(-1)!,near=Math.hypot(first.point[0]-ox,first.point[2]-oz),far=Math.hypot(end.point[0]-ox,end.point[2]-oz);
+      const distance=age<first.at?clamp((age-280)/(first.at-280))*near:near+(age-first.at)/(end.at-first.at)*(far-near);
+      const path:Path=u=>[ox+fx*far*u,y+(cast.impactHeight??1.5),oz+fz*far*u];
+      this.state.composition="piercing-pressure-wake";
+      if(age>280)this.comet(element,path,distance/far,.27,.31,31,1100);
+    }else if(id==="geyser-chain"){
+      this.state.composition=id==="geyser-chain"?"branching-spring-bursts":"gathered-spiral-spray";
+      for(const [i,p] of cast.pulses.entries())if(p.form==="spike"){
+        const a=(age-p.at)/1000,f=ease((a+.2)/.25)*(1-ease((a-.15)/.7));
+        if(f>.01)for(let k=0;k<(i%3===0?1:i%3===1?2:3);k++){
+          const clock=age/1000,angle=k*(1.2+rand(i,28)*1.6)+i*.9+Math.sin(clock*2.2+k)*.22,r=.2+rand(k,i+29)*.7,
+            h=(1.6+rand(k,i)*3.8)*f*(.9+Math.sin(clock*5+k*1.8)*.10),curl=Math.sin(clock*3.7+k)*.55;
+          const base:Vec3=[p.point[0]+Math.cos(angle)*r,y+.05,p.point[2]+Math.sin(angle)*r];
+          const b:Vec3=[base[0]-.3*Math.sin(angle),y+h*.6,base[2]+.3*Math.cos(angle)],
+            c:Vec3=[base[0]+Math.cos(angle)*1.5-Math.sin(angle)*curl,y+h*1.3,base[2]+Math.sin(angle)*1.5+Math.cos(angle)*curl],
+            d:Vec3=[base[0]+Math.cos(angle)*2.3,y+h*.25,base[2]+Math.sin(angle)*2.3];
+          this.stroke(element,base,b,c,d,.10+rand(k,i+27)*.13,f*.66,i*4+k);
+          this.currentSpray(base,b,c,d,age/1000,f,i*4+k,260);
+
+        }
       }
-      case "thunder-lance": {
-        const f=ease((age-110)/160)*(1-ease((age-850)/220));
-        // A vertical heraldic gate is held in front of the staff as the bore is released.
-        this.sign(id,[ox+fx*1.5,oy+1.5,oz+fz*1.5],1.05,f*.64,ease(age/220),yaw,true,.12);
-        for(let i=0;i<cast.pulses.length;i++)this.contact(cast,age,i,.9+(i%3)*.2,yaw,true,.75+(i%2)*.35);break;
-      }
-      case "skybreaker": {
-        const f=ease((age-120)/450)*(1-ease((age-last)/750));
-        this.sign(id,target,7.8,f*.38,ease(age/700),-.055*t,false,.10);
-        // A wide, five-point storm ward anchors the violent wedge to the summoned site.
-        for(let i=0;i<5;i++){const a=i*TAU/5+.3;this.sign(id,[x+Math.cos(a)*7.8,y+.18,z+Math.sin(a)*7.8],1.0,f*.56,1,a,false,.55);}
-        break;
-      }
-      case "waterjet":
-        this.contact(cast,age,0,1.4,yaw,true);this.contact(cast,age,1,1.05,yaw+.5,true,1.3);break;
-      case "tidal-fan":
-        for(let i=0;i<5;i++)this.contact(cast,age,i,.95+(i%3)*.18,yaw+(i-2)*.25,true,.75+(i%2)*.40);break;
-      case "geyser-chain":
-        for(let i=0;i<cast.pulses.length;i+=2){const p=cast.pulses[i]!,a=age-p.at,f=ease((a+420)/240)*(1-ease((a-100)/650));this.sign(id,[p.point[0],this.ground(p.point[0],p.point[2])+.05,p.point[2]],2.2+(i%3)*.3,f*.58,ease((a+400)/350),i*.8,false,.12,1+(i%2)*.2);}
-        break;
-      case "undertow": {
-        const f=ease(age/500)*(1-ease((age-last)/700));this.sign(id,target,5.6,f*.42,ease(age/650),t*.10,false,.05);
-        for(let i=0;i<3;i++){const a=t*.8+i*TAU/3,r=4*(1-ease((age-last+250)/650));this.core(element,[x+Math.cos(a)*r,y+.35,z+Math.sin(a)*r],.22,f*.75,[1,.5,1]);}
-        break;
-      }
-      case "deluge": {
-        const f=ease((age-50)/500)*(1-ease((age-950)/450));
-        // A water temple's three arched gates awaken in sequence along the wave's breadth.
-        for(let i=0;i<3;i++)this.sign(id,[x+(i-1)*5.3,y+2.5,z-5],2.05,f*.44,ease((age-i*120)/450),yaw,true,.12,1.15+(i===1?.25:0),i);break;
-      }
-      case "flint-shot": case "siege-boulder": {
-        const big=id==="siege-boulder",u=clamp((age-(big?320:90))/(first.at-(big?320:90))),a=(age-first.at)/1000;
-        const py=oy+1.55+(y+(big?2.05:.68)*.84-oy-1.55)*u+Math.sin(u*Math.PI)*(big?7.2:1.7);
-        if(age>(big?320:90)&&a<0){const q:Vec3=[ox+(x-ox)*u,py,oz+(z-oz)*u];this.sign(id,q,big?2.65:.93,.66,1,yaw+t*.25,true,.36);if(big)this.sign(id,q,2.65,.42,1,yaw+Math.PI/2,true,.10);}
-        if(a>=0)this.sign(id,target,big?5.7:1.75,(1-ease(a/.75))*.57,1,yaw,false,.20);break;
-      }
-      case "faultline":
-        for(let i=0;i<cast.pulses.length;i++){const p=cast.pulses[i]!,a=age-p.at;this.sign(id,[p.point[0],this.ground(p.point[0],p.point[2])+.05,p.point[2]],1.15+(i%3)*.2,(ease((a+250)/160)*(1-ease((a-120)/650)))*.50,ease((a+250)/200),yaw+i*.3,false,.30,.75+(i%2)*.5);}break;
-      case "basalt-jaw": {
-        const f=ease(age/430)*(1-ease((age-last)/600));this.sign(id,target,4.65,f*.52,ease(age/600),yaw,false,.26);
-        for(const side of [-1,1])this.sign(id,[x+side*3.5,y+2.5,z],1.75,f*.40,ease(age/500),side*Math.PI/2,true,.36,1.2);break;
-      }
-      case "mountainfall": {
-        const f=ease(age/600)*(1-ease((age-last)/850));this.sign(id,target,8.2,f*.42,ease(age/800),yaw,false,.28);
-        for(let i=0;i<4;i++){const a=i*Math.PI/2+.4;this.sign(id,[x+Math.cos(a)*6.7,y+1.1,z+Math.sin(a)*6.7],1.35,f*.58,ease((age-i*90)/650),-a,true,.44);}
-        break;
-      }
-      case "ember-dart": {
-        const u=clamp((age-90)/460);if(age>90&&age<550)this.core(element,[ox+(x-ox)*u,y+1.4,oz+(z-oz)*u],.26,.85);
-        this.contact(cast,age,0,1.25,yaw,true);break;
-      }
-      case "furnace-whip":
-        for(let i=0;i<cast.pulses.length;i++)this.contact(cast,age,i,1.0+(i%3)*.18,yaw+i*.34,true,.75+(i%2)*.4);break;
-      case "cinder-mine": {
-        const f=ease(age/400)*(1-ease((age-first.at)/480));this.sign(id,target,3.9*(1-ease(age/1800)*.55),f*.62,ease(age/600),-.14*t,false,.45);
-        if(age<first.at)this.core(element,[x,y+.3,z],.15+ease(age/first.at)*.45,f*.8);
-        if(age>=first.at)this.sign(id,target,5.7,(1-ease((age-first.at)/750))*.60,1,.2,false,.30);break;
-      }
-      case "phoenix-pass": {
-        const f=ease(age/250)*(1-ease((age-950)/300));this.sign(id,[ox+fx*2.3,oy+2.2,oz+fz*2.3],1.85,f*.62,ease(age/300),yaw,true,.55,1.15);
-        // The returning bird leaves three separate feather-shaped invocations, not ten clones.
-        for(const i of [1,4,8])this.contact(cast,age,i,1.15+i*.055,yaw+(i%3)*.6,true,.70);break;
-      }
-      case "starfall": {
-        const f=ease(age/500)*(1-ease((age-last)/850));this.sign(id,target,8.1,f*.42,ease(age/800),.08*t,false,.55);
-        const descent=ease((age-550)/2150),h=y+2.8+(1-descent)*6;
-        if(age<last){this.sign(id,[x,h,z],4.05,f*.56,1,-.12*t,false,.72);this.core(element,[x,h,z],1.8,f*.75);}
-        // Each coronal contact is a short consecrating flare of a different aspect ratio.
-        for(let i=0;i<9;i++) {const p=cast.pulses[i]!,a=(age-p.at)/1000;if(a>=0&&a<.30)this.core(element,[p.point[0],y+.6,p.point[2]],.5+(i%3)*.15,(1-a/.30)*.7,[.7,1.3+(i%2)*.5,.7]);}
-        break;
+    }else if(id==="deluge"){
+      this.state.composition="perimeter-surf-inward-collision";
+    }else if(id==="faultline"||id==="basalt-jaw"){
+      this.state.composition=id==="basalt-jaw"?"crossing-mineral-rakes":"running-mineral-seam";
+      for(const [i,p] of cast.pulses.entries()){
+        const a=(age-p.at)/1000,f=ease((a+.18)/.18)*(1-ease((a-.18)/.65));
+        if(f<.01)continue;
+        const angle=yaw+(id==="faultline"?0:i*2.4),dx=Math.sin(angle),dz=Math.cos(angle),reach=2.0;
+        this.stroke(element,[p.point[0]-dx*reach,y+.07,p.point[2]-dz*reach],
+          [p.point[0]-dx*.8,y+.25,p.point[2]-dz*.8],
+          [p.point[0]+dx*.4,y+(id==="basalt-jaw"?2.1:1.15),p.point[2]+dz*.4],
+          [p.point[0]+dx*reach,y+.15,p.point[2]+dz*reach],.20,f*.76,i);
       }
     }
+    if(id==="mountainfall")this.state.composition="toppling-slabs-and-inward-fracture";
+    // Contact light follows the pulse's direction and has open space between its strokes.
+    // Large fields scatter their flashes over the footprint; no central orb or rune plane.
+    if(id!=="skybreaker"&&id!=="deluge"&&id!=="undertow"&&id!=="mountainfall"&&element!=="fire")for(const [i,p] of cast.pulses.entries()){
+      if(p.form==="vortex"||p.form==="wing")continue;
+      const a=(age-p.at)/1000;
+      this.splash(element,[p.point[0],this.ground(p.point[0],p.point[2])+(p.form==="dart"||p.form==="beam"?(cast.impactHeight??1.5):.18),p.point[2]],
+        a,Math.min(2.8,p.radius*.72),i,rank<3?2:3);
+    }
   }
-  private contact(cast:ElementalCast,age:number,index:number,r:number,yaw:number,upright:boolean,stretch=1):void {
-    const p=cast.pulses[index]!;const a=(age-p.at)/1000;if(a<0||a>.55)return;
-    const y=this.ground(p.point[0],p.point[2]),f=1-ease(a/.55);
-    this.sign(cast.spellId,[p.point[0],y+(upright?1.2:.06),p.point[2]],r*(.8+ease(a/.3)*.35),f*.65,1,yaw,upright,.12,stretch,index);
-    if(a<.22)this.core(elementalSpell(cast.spellId).element,[p.point[0],y+1.2,p.point[2]],r*.3*(.7+ease(a/.14)),(1-a/.22)*.66);
+  private stroke(element:SpellElement,a:Vec3,b:Vec3,c:Vec3,d:Vec3,width:number,alpha:number,seed:number):void {
+    this.swooshes.curve(a,b,c,d,width,palette[element][seed%3===0?1:0],alpha,seed,.42,element==="fire"?1:element==="wind"?2:element==="water"?3:0);
   }
-  end():void {for(const m of [...this.signs.values(),this.cores]){m.visible=m.count>0;m.instanceMatrix.needsUpdate=true;const a=m.geometry.getAttribute(m===this.cores?"coreTint":"riteLife");a.needsUpdate=true;}}
-  dispose():void {for(const m of [...this.signs.values(),this.cores]){m.removeFromParent();m.geometry.dispose();m.material.dispose();}}
+  private comet(element:SpellElement,path:Path,u:number,span:number,width:number,seed:number,count:number):void {
+    if(u<0||u>1.15)return;
+    const head=clamp(u),tail=Math.max(0,u-span),fade=ease(u*9)*(1-ease((u-1)/.15));
+    if(head<=tail||fade<.01)return;
+    const at=path(head),a=path(tail),b=path(tail+(head-tail)/3),c=path(tail+(head-tail)*2/3);
+    const dx=at[0]-a[0],dz=at[2]-a[2],length=Math.hypot(dx,dz)||1,rx=dz/length,rz=-dx/length;
+    this.core(element,at,width*(element==="earth"?.82:.56),fade*.88,[.8,.8,1.15]);
+    this.stroke(element,a,b,c,at,width,fade*.82,seed);
+    if(width>.18){
+      const side=seed%2?1:-1;
+      this.stroke(element,[a[0]+.25*side,a[1]-.1,a[2]],
+        [b[0]+width*1.9*side,b[1]+width*.8,b[2]],
+        [c[0]-width*.7*side,c[1]+width*.65,c[2]],at,width*.47,fade*.56,seed+1);
+    }
+    for(let i=0;i<count;i++){
+      const lag=rand(i,seed)*span,v=u-lag;if(v<0||v>1)continue;
+      const p=path(v),angle=rand(i,seed+1)*TAU+v*12,r=width*(.12+lag/span*1.5)*Math.sqrt(rand(i,seed+2));
+      this.particles.put(p[0]+rx*Math.cos(angle)*r,p[1]+Math.sin(angle)*r,p[2]+rz*Math.cos(angle)*r,
+        .012+rand(i,seed+4)*.023,palette[element][i%7===0?1:0],fade*(1-lag/span)*.88,i,1.25,1.6);
+    }
+  }
+  private currentSpray(a:Vec3,b:Vec3,c:Vec3,d:Vec3,time:number,alpha:number,seed:number,count:number):void {
+    for(let i=0;i<count;i++){
+      const u=(rand(i,seed+30)+time*(.62+rand(i,seed+31)*.24))%1,v=1-u,
+        spread=(.035+u*u*.19),offset=rand(i,seed+32)-.5;
+      const point=(k:number)=>v*v*v*a[k]!+3*v*v*u*b[k]!+3*v*u*u*c[k]!+u*u*u*d[k]!;
+      this.particles.put(point(0)+Math.sin(i+time*5)*spread,
+        Math.max(this.ground(point(0),point(2))+.04,point(1)+offset*spread-u*u*rand(i,seed+33)*.32),
+        point(2)+Math.cos(i-time*4)*spread,.012+rand(i,seed+34)*.024,
+        i%8===0?0xd0fff4:i%3?0x3bdaff:0x2773eb,alpha*(.35+.65*Math.sin(u*Math.PI)),i,1.25,1.6);
+    }
+  }
+  private splash(element:SpellElement,point:Vec3,t:number,r:number,seed:number,strokes:number):void {
+    if(t<0||t>.55)return;
+    const f=(1-ease(t/.55)),spread=r*(.1+ease(t/.45)),[x,y,z]=point;
+    if(t<.14)this.core(element,point,.12+Math.min(.13,r*.05),f*.7,[1.4,.65,1]);
+    const marks=seed%4===0?0:seed%4===2?2:1;
+    if(strokes>1)for(let k=0;k<marks;k++){
+      const a=seed*.71+k*(.8+rand(seed,7)*1.9),dx=Math.cos(a),dz=Math.sin(a),h=.3+r*(seed%3===0?.18:.25+rand(k,seed)*.65);
+      this.stroke(element,[x+dx*spread*.25,y,z+dz*spread*.25],
+        [x+dx*spread*.45-dz*.25,y+h*f,z+dz*spread*.45+dx*.25],
+        [x+dx*spread-dz*.35,y+h*.6,z+dz*spread+dx*.35],
+        [x+dx*spread*1.5,y-.05,z+dz*spread*1.5],.065+r*.035,f*.50,seed+k);
+    }
+    const count=strokes===1?32:180+strokes*65;
+    for(let i=0;i<count;i++){
+      const a=seed*.71+(rand(i,seed+7)-.5)*(seed%3===0?2.4:seed%3===1?4.5:TAU),velocity=r*(1+rand(i,seed+8)*3),d=t*velocity,
+        px=x+Math.cos(a)*d,pz=z+Math.sin(a)*d,py=Math.max(this.ground(px,pz)+.04,y+t*(1+rand(i,seed+9)*r*3)-4*t*t);
+      this.particles.put(px,py,pz,.012+rand(i,seed+10)*.023,palette[element][i%5===0?1:0],f*.8,i,1.2,1.5);
+    }
+  }
+  end():void {
+    this.swooshes.end();this.cores.visible=this.cores.count>0;this.cores.instanceMatrix.needsUpdate=true;
+    this.cores.geometry.getAttribute("coreTint").needsUpdate=true;
+    this.state.swooshes=this.swooshes.instances;this.dropped+=this.swooshes.dropped;
+  }
+  dispose():void {this.swooshes.dispose();this.cores.removeFromParent();this.cores.geometry.dispose();this.cores.material.dispose();}
 }

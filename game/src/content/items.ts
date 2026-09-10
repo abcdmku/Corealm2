@@ -260,6 +260,46 @@ const ESSENCES: readonly ItemDef[] = [
   },
 ];
 
+// ---------------------------------------------------------------------------------- spell runes
+
+/**
+ * The six secondary runes the advanced invocations burn beside their Essence. Names, tiers and the
+ * rank each one unlocks are authored once in `content/spells.ts` (`SPELL_RUNES`); this table only
+ * makes them carriable and priced. Sold at the region stores in the order the ranks open.
+ */
+const RUNES: readonly ItemDef[] = [
+  {
+    id: "focus_rune", name: "Focus Rune", tier: 20,
+    description: "A narrow silver-cut rune that tightens an invocation onto one mark. Rank-one invocations spend one per cast.",
+    stackable: true, value: 30, category: "resource",
+  },
+  {
+    id: "sweep_rune", name: "Sweep Rune", tier: 30,
+    description: "A curved rune that lets a spell bank across a line of foes. Rank-two invocations spend one per cast.",
+    stackable: true, value: 45, category: "resource",
+  },
+  {
+    id: "binding_rune", name: "Binding Rune", tier: 40,
+    description: "A knotted rune that holds a spell's shape while it gathers and closes. Rank-three invocations spend one per cast.",
+    stackable: true, value: 70, category: "resource",
+  },
+  {
+    id: "siege_rune", name: "Siege Rune", tier: 50,
+    description: "A heavy square-cut rune for invocations that batter the ground itself. Rank-four invocations spend one per cast.",
+    stackable: true, value: 110, category: "resource",
+  },
+  {
+    id: "cataclysm_rune", name: "Cataclysm Rune", tier: 70,
+    description: "A rune split through with slow light. The four finales spend one per cast, and nothing smaller touches it.",
+    stackable: true, value: 180, category: "resource",
+  },
+  {
+    id: "field_rune", name: "Field Rune", tier: 30,
+    description: "A ringed rune that spreads an invocation across an area. Every area invocation spends one beside its rank rune.",
+    stackable: true, value: 40, category: "resource",
+  },
+];
+
 // ------------------------------------------------------------------------------ animal trophies
 
 /**
@@ -616,6 +656,7 @@ export const ITEMS: readonly ItemDef[] = [
   ...BARS,
   ...COMPONENTS,
   ...ESSENCES,
+  ...RUNES,
   ...TROPHIES,
   ...GAME_MEAT,
   ...FOOD,

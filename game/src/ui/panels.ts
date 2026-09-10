@@ -20,7 +20,7 @@
  */
 import type {
   EntityId, FeatureLabApi, GameApi, ItemDef, ItemId, ItemStack, LootContainerView, QuestId,
-  RegionId, Result, SkillId, Vec3,
+  RegionId, Result, SkillId, SpellId, Vec3,
 } from "../contracts.js";
 import { content } from "../content/index.js";
 import { SKILLS } from "../content/skills.js";
@@ -37,6 +37,11 @@ import type { DeathDetail } from "./deathScreen.js";
 import { TitleScreen, type SaveRecoveryControls } from "./titleScreen.js";
 import { SettingsStore } from "./settings.js";
 import { PanelDock } from "./dock.js";
+import { createSpellActionBar, type ActionBarSpell, type SpellActionBar } from "./spellActionBar.js";
+import { createAreaAimSession, type AreaAimHost, type AreaAimSession } from "./areaAim.js";
+import { areaFootprintRadius } from "../systems/elementalAttacks.js";
+import type { ElementalSpellId } from "../content/elementalSpells.js";
+import { SPELL_RANGE } from "../app/config.js";
 import { panelInteraction } from "./panelInteraction.js";
 import { QuestTracker } from "./questTracker.js";
 import { AgentPanel } from "./agentPanel.js";
@@ -269,6 +274,16 @@ export interface UiContext {
   pinnedQuestId(): QuestId | null;
   /** Repaint every open panel now. Called after any mutation so the player sees the result. */
   refresh(): void;
+  /**
+   * The one spell verb the spellbook and the action bars share: a basic becomes the standing
+   * spell, a targeted invocation fires once at the current target, an area invocation opens the
+   * ground reticle. Errors are reported to the player, never thrown.
+   */
+  activateSpell(spellId: SpellId): void;
+  /** Puts a spell in the first empty visible action bar slot. Absent when no bar is mounted. */
+  assignToActionBar?(spellId: SpellId): boolean;
+  /** The notice channel, for a panel that has to tell the player something in passing. */
+  notify(message: string, tone?: NoticeTone): void;
 }
 
 /** The lifecycle used by both a concrete `PanelFrame` and a deferred panel proxy. */
@@ -318,6 +333,16 @@ export interface UiOptions {
   getDestination?(): Vec3 | null;
   /** Present only in the transient real-engine lab; enables setup controls in production panels. */
   featureLab?: FeatureLabApi;
+  /**
+   * The ground reticle and picker for placing area invocations. Without it, area spells fall back
+   * to landing under the current target, which is what the agent surface does anyway.
+   */
+  areaAim?: AreaAimHost;
+  /**
+   * Suppresses the world action bars. The spell range lab mounts its own bar over the same slot
+   * with range semantics, and two bars answering the same digit would fire twice.
+   */
+  actionBars?: boolean;
   /** The collaboration session, when the agent surface is installed. Drives the agent panel. */
   agentSession?: AgentSession;
 }
@@ -395,7 +420,73 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     pinQuest: (questId) => { tracker.pin(questId); },
     pinnedQuestId: () => tracker.pinnedId(),
     refresh: () => refreshAll(true),
+    activateSpell,
+    assignToActionBar: (spellId) => actionBar?.assign(spellId) ?? false,
+    notify: (message, tone) => notify(message, tone),
   };
+
+  // ---- the spell action bars and the ground reticle for area invocations
+  //
+  // Built before the panels so the spellbook can hand tiles to them. `catalogue()` is read from the
+  // same spellbook view the panel paints from, so a slot and a tile never disagree about whether a
+  // spell is castable.
+  const spellCatalogue = (): ActionBarSpell[] => api.getSpellbook().spells.map((row) => ({
+    id: row.id, name: row.name, element: row.element, rung: row.rung, rank: row.rank,
+    unlocked: row.unlocked, castable: row.castable, blockedBy: row.blockedBy, description: row.description,
+  }));
+  const areaAim: AreaAimSession | null = options.areaAim ? createAreaAimSession({
+    host: options.areaAim,
+    casterPosition: () => api.getPlayer().position,
+    cast: (spellId, point) => {
+      const result = api.castArea(spellId, point);
+      if (!result.ok) {
+        notify(result.error.message, "error");
+        // Out of range keeps the reticle up so the player can pick a nearer spot; anything else ends it.
+        return result.error.code !== "OUT_OF_RANGE";
+      }
+      refreshAll(true);
+      return true;
+    },
+    notify: (message) => notify(message),
+  }) : null;
+  const actionBar: SpellActionBar | null = options.actionBars === false ? null : createSpellActionBar({
+    catalogue: spellCatalogue,
+    activate: activateSpell,
+    registry,
+    storageKey: "corealm.action-bars.v2",
+    // First run: the four entry spells, one per element, in the order the regions open them.
+    defaults: [["voltrend", "stonebrand", "rimewash", "emberlash", null, null, null, null]],
+    defaultVisible: 1,
+    notify: (message) => notify(message),
+  });
+
+  function activateSpell(spellId: SpellId): void {
+    const book = api.getSpellbook();
+    const row = book.spells.find((entry) => entry.id === spellId);
+    if (!row) return;
+    if (row.rank === 0) {
+      areaAim?.cancel();
+      if (report(api.setPreferredSpell(book.preferredSpellId === spellId ? null : spellId))) refreshAll(true);
+      return;
+    }
+    if (!row.castable) {
+      notify(row.blockedBy ?? `${row.name} cannot be cast right now.`, "error");
+      return;
+    }
+    if (book.castLock) {
+      notify(`${book.spells.find((entry) => entry.id === book.castLock!.spellId)?.name ?? "The invocation"} is still resolving.`);
+      return;
+    }
+    if (row.aoe && areaAim) {
+      areaAim.begin({
+        spellId, name: row.name, element: row.element,
+        radius: areaFootprintRadius(spellId as ElementalSpellId), range: SPELL_RANGE,
+      });
+      return;
+    }
+    areaAim?.cancel();
+    if (report(api.castNow(spellId))) refreshAll(true);
+  }
 
   const loadError = (title: string) => (error: unknown): void => {
     console.error(`[ui] Could not load ${title}`, error);
@@ -604,6 +695,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
   function dismissTransient(): void {
     cancelPendingPanelOpens(registry);
     cancelProductionOpen?.();
+    areaAim?.cancel();
     menu.close();
     loot.hide();
     for (const panel of panels) panel.frame.close();
@@ -627,6 +719,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
       tracker.mount(root);
       agentPanel?.mount(root);
       dock.mount(root);
+      actionBar?.mount(root);
       loot.mount(root);
       for (const panel of panels) panel.frame.mount(root);
       if (new URLSearchParams(location.search).get("spells") !== "1") featureLab?.frame.open();
@@ -651,6 +744,13 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
         dock.update();
         death.update();
         minimap?.update(now);
+        if (actionBar) {
+          const book = api.getSpellbook();
+          actionBar.refresh();
+          actionBar.select(book.preferredSpellId);
+          actionBar.setCastLock(book.castLock, api.getTime().simMs);
+        }
+        areaAim?.update();
       }
       if (now - lastPanelMs >= PANEL_INTERVAL_MS) {
         lastPanelMs = now;
@@ -664,6 +764,8 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     dispose(): void {
       cancelProductionOpen?.();
       setNoticeSink(null);
+      areaAim?.dispose();
+      actionBar?.dispose();
       minimap?.dispose();
       tracker.dispose();
       agentPanel?.dispose();

@@ -218,6 +218,20 @@ for (const element of ["air", "earth", "water", "fire"] as const) {
   put(`${element}_essence`, [primitive("essence", colours.body, colours.glow)], { frameScale: 1.2 });
 }
 
+// Spell runes: one carved plate each. Colour climbs with the rank the rune unlocks, and the Field
+// Rune sits apart in ring-green so an area cost is told from a rank cost inside the pouch.
+const RUNE_COLOURS: Readonly<Record<string, readonly [number, number]>> = {
+  focus_rune: [0xb9c2cf, 0xf1f5ff],
+  sweep_rune: [0x7d9cc4, 0xd6e8ff],
+  binding_rune: [0x8a6fb5, 0xe3d3ff],
+  siege_rune: [0xa8734d, 0xffd9b0],
+  cataclysm_rune: [0xc94a3c, 0xffc39a],
+  field_rune: [0x6f9a5c, 0xd4f0b8],
+};
+for (const [itemId, [body, glow]] of Object.entries(RUNE_COLOURS)) {
+  put(itemId, [primitive("scute", body, glow)], { frameScale: 1.1 });
+}
+
 // Animal trophies, one per family. Colour is the only thing separating several of these, so each
 // one is picked off the animal's own texture rather than from a palette: a coyote fang is bone
 // against a bear claw's horn-brown, and the two horn shapes differ in silhouette as well.

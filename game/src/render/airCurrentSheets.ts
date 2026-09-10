@@ -75,17 +75,17 @@ export class AirCurrentSheets {
             float n=authoredFlow(vec2(u*2.4-time*.48,v*.55+u*.16),time*.6,vLife.y);
             float ends=smoothstep(0.,.08,u)*(1.-smoothstep(.86,1.,u));
             float edgePath=.12+sin(u*18.-time*5.+n*2.)*.038;
-            float leading=exp(-pow((v-edgePath)/.11,2.));
+            float leading=exp(-pow((v-edgePath)/.075,2.));
             float tearing=smoothstep(.08,.58,n+v*.18);
-            float body=sin(v*3.14159)*tearing*.40;
+            float body=sin(v*3.14159)*tearing*.62;
             float striae=pow(.5+.5*sin(v*46.+n*6.-u*18.-time*3.),12.)*tearing;
             float pulse=pow(.5+.5*sin(u*27.-time*9.+vLife.y),6.);
-            float alpha=vLife.x*ends*(body+leading*(.05+tearing*.68)+striae*.13);
+            float alpha=vLife.x*ends*(body+leading*(.12+tearing*.75)+striae*.16);
             if(alpha<.009)discard;
-            vec3 tint=mix(vec3(.06,.42,.62),vec3(.34,.24,.68),vLife.z*.55);
-            vec3 color=mix(tint,vec3(.67,.89,.92),leading*.65+striae*.12);
+            vec3 tint=mix(vec3(.018,.085,.19),vec3(.065,.08,.23),vLife.z*.35);
+            vec3 color=mix(tint,vec3(.78,.94,1.),leading*.90+striae*.20);
             // Concentrated silver-blue enchantment on the moving lip, clear air behind it.
-            vec3 energy=tint*(.55+striae*1.1)+mix(vec3(.40,1.35,2.9),vec3(1.15,.65,2.8),vLife.z*.65)*leading*(1.1+pulse*1.9);
+            vec3 energy=vec3(.03,.17,.45)*striae*.55+mix(vec3(.48,1.25,2.4),vec3(.75,1.1,2.5),vLife.z*.35)*leading*(1.05+pulse*2.1);
             gl_FragColor=vec4(magicEmissionPass>.5?energy:color,alpha);
             #include <tonemapping_fragment>
             #include <colorspace_fragment>

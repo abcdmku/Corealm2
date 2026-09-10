@@ -99,17 +99,21 @@ export const elementalRefractionFragment = `
     vec3 refracted=texture2D(sceneColor,clamp(uv+shift,vec2(.002),vec2(.998))).rgb;
     if(liquid>.5){
       float crest=smoothstep(.32,.85,vRefLocal.y)*smoothstep(.32,.66,n);
-      float glint=pow(max(0.0,dot(normal,normalize(vec3(-.3,.8,.5)))),28.0);
+      vec3 flowingNormal=normalize(normal+vec3(sin(vRefLocal.y*15.-time*6.+n*5.),cos(vRefLocal.x*12.+time*4.+n*3.),sin(vRefLocal.z*13.-time*5.))* .14);
+      float glint=pow(max(0.0,dot(flowingNormal,normalize(vec3(-.3,.8,.5)))),22.0);
       vec3 water=mix(vec3(.012,.065,.29),vec3(.04,.42,.78),smoothstep(.05,.7,n)*.7+face*.15);
       refracted=mix(refracted*vec3(.45,.84,1.),water,.58+edge*.18);
       refracted+=vec3(.04,.19,.23)*smoothstep(.35,.68,n)*(.35+face*.65);
-      refracted+=vec3(.48,.72,.82)*glint*.5;
+      refracted+=vec3(.63,.86,.95)*glint*.8;
+      float caustic=pow(.5+.5*sin(n*32.+vRefLocal.y*9.-time*5.),16.);
+      refracted+=vec3(.035,.20,.24)*caustic*(.35+face*.5);
       refracted=mix(refracted,vec3(.73,.93,.97),crest*.8);
       if(flowMode>2.5)refracted=mix(refracted,vec3(.77,.94,.97),smoothstep(.50,.94,vRefLocal.y)*smoothstep(.13,.5,n)*.85);
     }else{
       float leading=pow(1.0-face,2.7)*(.35+.65*smoothstep(-.25,.65,vRefLocal.z));
-      float vapor=flowMode>.5?smoothstep(.1,.62,n)*.16:0.0;
-      refracted=mix(refracted,vec3(.74,.87,.89),leading*(.12+n*.45)+vapor);
+      float vapor=flowMode>.5?smoothstep(.1,.62,n)*.55:0.0;
+      refracted=mix(refracted,vec3(.045,.065,.095),vapor);
+      refracted=mix(refracted,vec3(.79,.91,.96),leading*(.10+n*.24));
       refracted+=vec3(.018,.023,.024)*edge*(.25+.75*n);
     }
     gl_FragColor=vec4(refracted,coverage);

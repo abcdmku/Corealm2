@@ -1,3 +1,5 @@
+import { FINALE, elementalDuration } from "../content/elementalFinales.js";
+import { elementalGameplayTime } from "../content/elementalTiming.js";
 import type { Vec3 } from "../contracts.js";
 import {
   elementalSpell,
@@ -7,6 +9,8 @@ import {
 /** Shared by attack resolution and rendering. Times are relative to cast start. */
 export interface ElementalPulse {
   at: number;
+  /** Original art beat, before the combat timing map. */
+  choreographyAt?: number;
   point: Vec3;
   radius: number;
   damage: number;
@@ -44,6 +48,14 @@ export interface ElementalCast {
   aim: Vec3;
   started: number;
   pulses: readonly ElementalPulse[];
+  /** Upper-body contact height above the target ground. */
+  impactHeight?: number;
+  release?: Vec3;
+  releaseAt?: number;
+  visualScale?: number;
+  particleScale?: number;
+  missed?: boolean;
+  presentationScale?: number;
   resolved: number;
   damage: number;
   hits: number;
@@ -72,7 +84,8 @@ export function planElementalAttack(
     force?: number,
   ): void => {
     pulses.push({
-      at,
+      at: elementalGameplayTime(id,at),
+      choreographyAt: at,
       point: [aim[0] + dz * x + dx * z, aim[1], aim[2] - dx * x + dz * z],
       radius,
       damage,
@@ -82,7 +95,7 @@ export function planElementalAttack(
       force,
       direction:
         id === "deluge"
-          ? [dx, dz]
+          ? [-(dz*x+dx*z)/(Math.hypot(x,z)||1), -(-dx*x+dz*z)/(Math.hypot(x,z)||1)]
           : id === "razor-crescent"
             ? [dz, -dx]
             : undefined,
@@ -118,9 +131,9 @@ export function planElementalAttack(
         add(850 + i * 110, 0, -4 + i * 2, 1.7, 26, "beam", 3, "stagger");
       break;
     case "skybreaker":
-      add(1500, 0, 0, 4, 45, "vortex", 15);
+      add(FINALE.skybreaker.contact, 0, 0, 4, 45, "vortex", 15);
       for (let i = 0; i < 3; i++)
-        add(1800 + i * 300, 0, 0, 6 + i * 2, 18, "nova", 5, "stagger", 1.8);
+        add(FINALE.skybreaker.fronts[i]!, 0, 0, 6 + i * 2, 18, "nova", 5, "stagger", 1.8);
       break;
     case "waterjet":
       for (let i = 0; i < 2; i++)
@@ -139,15 +152,15 @@ export function planElementalAttack(
     case "undertow":
       for (let i = 0; i < 3; i++)
         add(800 + i * 550, 0, 0, 7, 12, "vortex", 1.5, "slow", -1.8);
-      add(2450, 0, 0, 3.5, 35, "spike", 5, "stagger");
+      add(2450, 0, 0, 3.5, 35, "nova", 1.2, "stagger");
       break;
     case "deluge":
       for (let row = 0; row < 3; row++)
         for (let i = 0; i < 4; i++)
           add(
-            1100 + row * 500,
-            -5.25 + i * 3.5,
-            -4 + row * 4,
+            FINALE.deluge.contact + row * FINALE.deluge.rowGap,
+            Math.cos(i * Math.PI / 2 + row * Math.PI / 4) * [6,3,1.25][row]!,
+            Math.sin(i * Math.PI / 2 + row * Math.PI / 4) * [6,3,1.25][row]!,
             2.8,
             20,
             "wave",
@@ -182,10 +195,10 @@ export function planElementalAttack(
       add(2000, 0, 0, 7, 18, "nova", 3, "stagger", 1.2);
       break;
     case "mountainfall":
-      add(1300, 0, 0, 3, 50, "spike", 13);
+      add(FINALE.mountainfall.contact, 0, 0, 3, 50, "spike", 13);
       for (let i = 0; i < 8; i++)
         add(
-          1650 + i * 70,
+          FINALE.mountainfall.outcrops + i * FINALE.mountainfall.gap,
           Math.cos((i * Math.PI) / 4) * 7,
           Math.sin((i * Math.PI) / 4) * 7,
           3,
@@ -194,7 +207,7 @@ export function planElementalAttack(
           9,
           "stagger",
         );
-      add(2500, 0, 0, 10, 22, "nova", 3, "stagger", 1);
+      add(FINALE.mountainfall.collapse, 0, 0, 10, 22, "nova", 3, "stagger", -2);
       break;
     case "ember-dart":
       add(550, 0, 0, 1.1, 15, "dart");
@@ -221,36 +234,34 @@ export function planElementalAttack(
       add(2150, 0, 0, 6, 15, "nova", 3, "burn", 1.5);
       break;
     case "phoenix-pass":
-      for (let i = 0; i < 5; i++)
-        add(800 + i * 150, 0, -4 + i * 2, 3, 21, "wing", 4, "burn");
-      for (let i = 0; i < 5; i++)
-        add(1800 + i * 130, 0, 4 - i * 2, 2, 10, "dart", 2, "burn");
+      // Kiln rupture: unequal ground vents open once across the selected area.
+      for (let i = 0; i < 7; i++) {
+        const angle = i * 2.399963;
+        const radius = i === 0 ? 0 : 2.1 + (i % 3) * 1.25;
+        add(1000 + i * 115, Math.cos(angle)*radius, Math.sin(angle)*radius,
+          2.7, 32, "spike", 3.2 + (i % 3)*1.15, "burn");
+      }
       break;
     case "starfall":
-      for (let i = 0; i < 9; i++)
-        add(
-          1100 + i * 140,
-          ((i % 3) - 1) * 6,
-          (Math.floor(i / 3) - 1) * 6,
-          3.4,
-          30,
-          "meteor",
-          16,
-          "burn",
-        );
-      add(2700, 0, 0, 9, 70, "meteor", 21, "burn", 1.5);
+      // One sun, one impact. Residue is visual and deals no second hit.
+      add(FINALE.starfall.contact, 0, 0, 9, 110, "meteor", 21, "burn", 1.5);
       break;
   }
   pulses.sort((a, b) => a.at - b.at);
-  if (id === "phoenix-pass") {
-    for (let i = 0; i < pulses.length; i++) {
-      const pulse = pulses[i]!,
-        previous = pulses[i - 1];
-      pulse.from = previous ? [...previous.point] : [...origin];
-      pulse.launchAt = previous?.at ?? 0;
-    }
-  }
   return pulses;
+}
+
+/**
+ * How far an invocation reaches from its aim point: the furthest pulse edge. This is the ground
+ * reticle's radius, so what the player places is exactly what the pulses will cover.
+ */
+export function areaFootprintRadius(id: ElementalSpellId): number {
+  const aim: Vec3 = [0, 0, 10];
+  let reach = 0;
+  for (const pulse of planElementalAttack(id, [0, 0, 0], aim)) {
+    reach = Math.max(reach, Math.hypot(pulse.point[0] - aim[0], pulse.point[2] - aim[2]) + pulse.radius);
+  }
+  return reach;
 }
 
 /** Deterministic combat primitive. Callers supply real targets and own their persistence. */
@@ -280,7 +291,7 @@ export class ElementalAttacks {
     return this.active;
   }
   get duration(): number {
-    return (this.active?.pulses.at(-1)?.at ?? 0) + 1100;
+    return this.active ? elementalDuration(this.active.spellId,this.active.pulses.at(-1)!.at) : 1100;
   }
   reset(): void {
     this.active = null;

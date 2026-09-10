@@ -52,7 +52,7 @@ function mockApi(): GameApi & { calls: string[] } {
     getCurrency: () => 0,
     getTime: () => ({ simMs: 0, tick: 0, timeScale: 1, paused: false }),
     getRevision: () => ({ revision: 3, eventSeq: bus.currentSeq(), simMs: 0, tick: 0 }),
-    getSpellbook: () => ({ spells: [], preferredSpellId: null, activeSpellId: null, magicLevel: 1, equippedWeapon: null, essence: { wind: 0, earth: 0, water: 0, fire: 0 }, releasedElements: [] }),
+    getSpellbook: () => ({ spells: [], preferredSpellId: null, activeSpellId: null, magicLevel: 1, equippedWeapon: null, essence: { wind: 0, earth: 0, water: 0, fire: 0 }, releasedElements: [], runes: [], castLock: null }),
     observe: () => [],
     inspect: (id: string) => err("NOT_FOUND", `No entity with id ${id}`, id),
     searchDocs: async () => [],

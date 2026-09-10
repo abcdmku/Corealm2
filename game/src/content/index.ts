@@ -145,10 +145,19 @@ export interface SpellDef {
   divisor: number;
   baseXp: number;
   castMs: number;
-  /** Matching elemental-weapon charge or carried Essence spent per cast. */
-  cost: { element: SpellElement; charges: number };
+  /**
+   * Matching elemental-weapon charge or carried Essence spent per cast, plus the secondary runes
+   * an advanced invocation burns: its tier rune, and a Field Rune when it strikes an area.
+   */
+  cost: { element: SpellElement; charges: number; runes?: readonly SpellRuneCost[] };
+  /** 0 (or absent) for the sixteen auto-cast basics; 1 to 5 for the manual invocations. */
+  rank?: number;
+  /** Strikes an area: several targets, several pulses. Absent means one target, one bolt. */
+  aoe?: boolean;
   description: string;
 }
+
+export interface SpellRuneCost { itemId: ItemId; quantity: number }
 
 // ------------------------------------------------------------------ enemies
 

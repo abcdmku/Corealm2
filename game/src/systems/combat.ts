@@ -41,6 +41,10 @@ import { REGIONS } from "../content/regions.js";
 import {
   magicLoadout, spellBlockReason, spendSpellFuel, type SpellFuelSpend,
 } from "./essence.js";
+import { planElementalAttack } from "./elementalAttacks.js";
+import { elementalDuration } from "../content/elementalFinales.js";
+import type { ElementalSpellId } from "../content/elementalSpells.js";
+import { isAdvancedSpell } from "../content/spells.js";
 
 // ------------------------------------------------------------------ tunables
 
@@ -345,7 +349,15 @@ interface PendingSpellHit {
   damage: number;
   hit: boolean;
   maxHit: number;
+  /**
+   * An area pulse: the hit only lands if the victim is still inside the pulse when it arrives.
+   * Absent on bolts, which home on their target the way the basics always have.
+   */
+  area?: { point: Vec3; radius: number };
 }
+
+/** How far from the aim point an area invocation looks for extra victims when it is cast. */
+const AREA_CANDIDATE_METRES = 16;
 
 export interface CombatDeps {
   store: Store;
@@ -401,6 +413,13 @@ export class CombatSystem implements TickSystem {
    * what a player would expect; `hitLog` is kept out of the save for the same reason.
    */
   private readonly pendingSpellHits: PendingSpellHit[] = [];
+  /**
+   * An advanced invocation pressed on the action bar, waiting for the next cast beat. Not saved:
+   * it is a button press, and a reload should not fire a finale the player pressed a minute ago.
+   */
+  private queuedSpellId: SpellId | null = null;
+  /** The invocation still resolving, so the action bar can lock its slots for the duration. */
+  private castLock: { spellId: SpellId; startedMs: number; endsMs: number } | null = null;
 
   private nextCombatTickAtMs = -1;
   private lastAtMs = 0;
@@ -441,13 +460,133 @@ export class CombatSystem implements TickSystem {
   hook(): {
     attack(entityId: EntityId): Result<{ targetId: EntityId; attackSpeedMs: number }>;
     cast(spellId: SpellId, entityId: EntityId): Result<{ targetId: EntityId; castMs: number }>;
+    castNow(spellId: SpellId): Result<{ targetId: EntityId; castMs: number }>;
+    castArea(spellId: SpellId, point: Vec3): Result<{ castMs: number; victims: number }>;
     setPreferredSpell(spellId: SpellId | null): void;
+    castLock(): { spellId: SpellId; startedMs: number; endsMs: number } | null;
   } {
     return {
       attack: (entityId) => this.attack(entityId),
       cast: (spellId, entityId) => this.cast(spellId, entityId),
+      castNow: (spellId) => this.castNow(spellId),
+      castArea: (spellId, point) => this.castArea(spellId, point),
       setPreferredSpell: (spellId) => { this.setPreferredSpell(spellId); },
+      castLock: () => this.currentCastLock(),
     };
+  }
+
+  /** The invocation still resolving, or null once its lock has run out. */
+  currentCastLock(): { spellId: SpellId; startedMs: number; endsMs: number } | null {
+    if (this.castLock && this.lastAtMs >= this.castLock.endsMs) this.castLock = null;
+    return this.castLock;
+  }
+
+  /**
+   * The action bar's verb: cast this at whatever is already engaged.
+   *
+   * No target search here on purpose. A slot press that picked the nearest creature would start
+   * fights the player did not ask for; the bar fires at the thing they are already fighting.
+   */
+  castNow(spellId: SpellId): Result<{ targetId: EntityId; castMs: number }> {
+    const state = this.deps.store.get();
+    const targetId = state.combat.targetId;
+    if (!targetId) return err("REQUIREMENTS_NOT_MET", "Attack a target first, then cast from the action bar.");
+    return this.cast(spellId, targetId);
+  }
+
+  /**
+   * An area invocation placed on the ground. Fires now, not on the next beat: the player has
+   * already chosen the spot, and a wave that arrived three seconds after the click would land on
+   * empty grass. Needs no engagement; every living enemy inside the pulses is a victim, each with
+   * its own accuracy roll, and the caster is locked for the choreography like any invocation.
+   */
+  castArea(spellId: SpellId, point: Vec3): Result<{ castMs: number; victims: number }> {
+    const state = this.deps.store.get();
+    const atMs = this.lastAtMs;
+    if (state.player.health <= 0) return err("DEAD", "You are dead.");
+    const spell = content.spell(spellId);
+    if (!spell) return err("NOT_FOUND", `No spell with id ${spellId}`);
+    if (!isAdvancedSpell(spell) || !spell.aoe) {
+      return err("INVALID_ARGUMENT", `${spell.name} is not an area invocation; cast it at a target.`);
+    }
+    const blocked = spellBlockReason(state, spell);
+    if (blocked) return err("REQUIREMENTS_NOT_MET", blocked);
+    const loadout = magicLoadout(state);
+    if (!loadout) return err("REQUIREMENTS_NOT_MET", "Equip a wand or staff first.");
+    if (state.activity?.kind === "eating") return err("UNAVAILABLE", "Finish eating first.");
+    const lock = this.currentCastLock();
+    if (lock) return err("UNAVAILABLE", `${content.spell(lock.spellId)?.name ?? "The invocation"} is still resolving.`);
+    const aim: Vec3 = [point[0], point[1], point[2]];
+    const gap = distanceXZ(state.player.position, aim);
+    if (gap > SPELL_RANGE) {
+      return err("OUT_OF_RANGE", `${spell.name} reaches ${SPELL_RANGE} m; that spot is ${gap.toFixed(1)} m away.`);
+    }
+
+    const paid = spendSpellFuel(state, spell, this.deps.inventory);
+    if (!paid.ok) return paid;
+    const castFuel = paid.value;
+    const gear = this.deps.equipment.totals();
+    const maxHit = magicMaxHit(state.skills.magic.level, gear.magicPower, spell);
+    // PRD 2.4: a cast awards its base XP hit or miss, and a caster faces what they throw at.
+    this.awardXp(state, "magic", spell.baseXp, atMs);
+    if (state.player.movement.mode === "idle") state.player.facingRad = bearingXZ(state.player.position, aim);
+
+    const victims = this.areaVictims(state, aim, null)
+      .sort((a, b) => distanceXZ(a.position, aim) - distanceXZ(b.position, aim))
+      .map((entity) => ({ entity, hit: this.combatRng.chance(this.magicChance(state, gear, entity)) }));
+    const scheduled = this.scheduleInvocation(state, spell, aim, victims, atMs, maxHit);
+    if (victims.length > 0) this.markInCombat(state, atMs);
+    const lockMs = Math.max(loadout.castMs, scheduled.durationMs);
+    state.combat.nextAttackAtMs = atMs + lockMs;
+    this.castLock = { spellId: spell.id, startedMs: atMs, endsMs: atMs + lockMs };
+
+    const focus = victims[0]?.entity.id ?? state.player.id;
+    this.deps.events.emit(
+      "spell.launched",
+      {
+        spellId: spell.id,
+        targetId: focus,
+        aim,
+        element: spell.element,
+        rung: spell.rung,
+        rank: spell.rank ?? 0,
+        aoe: true,
+        flightMs: scheduled.firstContactMs,
+        hit: victims.some((victim) => victim.hit),
+        fuelSource: castFuel.source,
+        weaponItemId: castFuel.source === "weapon" ? castFuel.weaponItemId : null,
+        remainingCharges: castFuel.source === "weapon" ? castFuel.remainingCharges : null,
+        essenceItemId: castFuel.source === "essence" ? castFuel.essenceItemId : null,
+        remainingEssence: castFuel.source === "essence" ? castFuel.remainingEssence : null,
+      },
+      focus,
+      atMs,
+    );
+    this.deps.store.markDirty();
+    return ok({ castMs: lockMs, victims: victims.length });
+  }
+
+  /** Magic accuracy against one creature, PRD 2.4: Magic level, gear accuracy, the 1.15 factor. */
+  private magicChance(state: GameState, gear: EquipmentBonuses, entity: SemanticEntity): number {
+    const def = this.defFor(entity);
+    return hitChance(
+      attackRoll(state.skills.magic.level, gear.magicAccuracy, MAGIC_STYLE_FACTOR),
+      defenceRoll(def.defenceLevel, def.magicArmour),
+    );
+  }
+
+  /** Living enemies near an aim point, in the caster's realm, excluding one id. */
+  private areaVictims(state: GameState, aim: Vec3, exclude: EntityId | null): SemanticEntity[] {
+    const out: SemanticEntity[] = [];
+    for (const other of this.deps.entities.all()) {
+      if (other.id === exclude || (other.archetype !== "enemy" && other.archetype !== "boss")) continue;
+      if (other.state === "dead" || !sameCombatRealm(state.player.regionId, other.regionId)) continue;
+      if (distanceXZ(other.position, aim) > AREA_CANDIDATE_METRES) continue;
+      const runtime = state.world.enemies[other.id];
+      if (runtime && (runtime.state === "dead" || runtime.health <= 0)) continue;
+      out.push(other);
+    }
+    return out;
   }
 
   // -------------------------------------------------------------- commands
@@ -524,6 +663,13 @@ export class CombatSystem implements TickSystem {
     const problem = this.rejectTarget(entity);
     if (problem) return err(problem.code, problem.message, entity.id);
 
+    if (spell.aoe) {
+      // Named with a creature rather than a point (an agent call, or a slot press with a target
+      // engaged): the invocation is placed on the ground under that creature.
+      const placed = this.castArea(spell.id, entity.position);
+      return placed.ok ? ok({ targetId: entity.id, castMs: placed.value.castMs }) : placed;
+    }
+
     const gap = distanceXZ(state.player.position, entity.position);
     if (gap > MAX_PURSUE_METRES) {
       return err(
@@ -534,7 +680,18 @@ export class CombatSystem implements TickSystem {
     }
 
     this.replaceUnrelatedMovement(state, entity.id, atMs);
-    this.engagePlayer(state, entity, spell.id, atMs);
+    if (isAdvancedSpell(spell)) {
+      // ONE SHOT. The invocation fires on the next cast beat and the engagement carries on with the
+      // standing basic spell (or the one already being thrown at this target). Auto-casting a rune
+      // spell every beat would empty a rune pouch in a minute, which is not what a slot press means.
+      const active = state.combat.targetId === entity.id ? state.combat.activeSpellId : null;
+      const activeDef = active ? content.spell(active) : undefined;
+      const standing = activeDef && !isAdvancedSpell(activeDef) ? activeDef.id : this.standingSpellId() ?? null;
+      this.engagePlayer(state, entity, standing, atMs);
+      this.queuedSpellId = spell.id;
+    } else {
+      this.engagePlayer(state, entity, spell.id, atMs);
+    }
     if (gap > SPELL_RANGE) this.pursue(state, entity, atMs);
     return ok({ targetId: entity.id, castMs: loadout.castMs });
   }
@@ -544,6 +701,7 @@ export class CombatSystem implements TickSystem {
     const state = this.deps.store.get();
     const targetId = state.combat.targetId;
     this.playerCombatRealm = undefined;
+    this.queuedSpellId = null;
     this.cancelMeleeAttack(state.player.id);
     if (!targetId) return false;
     state.combat.targetId = null;
@@ -630,7 +788,9 @@ export class CombatSystem implements TickSystem {
     if (committed && atMs < committed.start.recoverAtMs
       && this.meleeAttackActive(state, committed)) return;
 
-    const spellId = state.combat.activeSpellId;
+    // A queued invocation takes the next beat; the standing spell resumes on the one after.
+    const queued = this.queuedSpellId;
+    const spellId = queued ?? state.combat.activeSpellId;
     const spell = spellId ? content.spell(spellId) : undefined;
     const range = spell ? SPELL_RANGE : meleeReachMetres(bodyRadiusOf(entity));
     const gap = distanceXZ(state.player.position, entity.position);
@@ -680,9 +840,16 @@ export class CombatSystem implements TickSystem {
       const loadout = magicLoadout(state);
       const paid = spendSpellFuel(state, spell, this.deps.inventory);
       if (!loadout || !paid.ok) {
+        if (queued) {
+          // The rune or Essence went between the press and the beat. Drop the press; the standing
+          // spell gets the next beat rather than the whole fight ending over one slot.
+          this.queuedSpellId = null;
+          return;
+        }
         this.disengagePlayer("spell-blocked", atMs);
         return;
       }
+      if (queued) this.queuedSpellId = null;
       castFuel = paid.value;
       chance = hitChance(
         attackRoll(state.skills.magic.level, gear.magicAccuracy, MAGIC_STYLE_FACTOR),
@@ -720,17 +887,34 @@ export class CombatSystem implements TickSystem {
     // `combat` stream is drawn in exactly the order it always was, so a fight still replays
     // identically from a seed and a tick count.
     if (spell) {
-      const flightMs = spellFlightMs(spell.rung, distanceXZ(state.player.position, entity.position));
-      this.pendingSpellHits.push({
-        landsAtMs: atMs + flightMs,
-        sourceId: state.player.id,
-        realm: combatRealmOf(state.player.regionId),
-        targetId: entity.id,
-        spellId: spell.id,
-        damage,
-        hit: landed,
-        maxHit,
-      });
+      let flightMs: number;
+      if (isAdvancedSpell(spell)) {
+        const victims = [{ entity, hit: landed }];
+        if (spell.aoe) {
+          for (const other of this.areaVictims(state, entity.position, entity.id)) {
+            victims.push({ entity: other, hit: this.combatRng.chance(this.magicChance(state, gear, other)) });
+          }
+        }
+        const scheduled = this.scheduleInvocation(state, spell, entity.position, victims, atMs, maxHit);
+        flightMs = scheduled.firstContactMs;
+        // The lock runs for the whole choreography, so a finale cannot be stacked on itself and the
+        // action bar can show the same window. Cadence stretches to match: the staff is busy.
+        const lockMs = Math.max(intervalMs, scheduled.durationMs);
+        state.combat.nextAttackAtMs = atMs + lockMs;
+        this.castLock = { spellId: spell.id, startedMs: atMs, endsMs: atMs + lockMs };
+      } else {
+        flightMs = spellFlightMs(spell.rung, distanceXZ(state.player.position, entity.position));
+        this.pendingSpellHits.push({
+          landsAtMs: atMs + flightMs,
+          sourceId: state.player.id,
+          realm: combatRealmOf(state.player.regionId),
+          targetId: entity.id,
+          spellId: spell.id,
+          damage,
+          hit: landed,
+          maxHit,
+        });
+      }
       // The renderer's cue to start the bolt. It cannot use the hit log any more: that entry is now
       // written when the spell LANDS, which is exactly when the projectile should already be gone.
       this.deps.events.emit(
@@ -740,6 +924,8 @@ export class CombatSystem implements TickSystem {
           targetId: entity.id,
           element: spell.element,
           rung: spell.rung,
+          rank: spell.rank ?? 0,
+          aoe: spell.aoe === true,
           flightMs,
           hit: landed,
           fuelSource: castFuel!.source,
@@ -796,6 +982,8 @@ export class CombatSystem implements TickSystem {
 
       const runtime = this.runtimeFor(state, entity);
       if (runtime.state === "dead" || runtime.health <= 0) continue;
+      // An area pulse is a place, not a homing bolt: a creature that walked out of it is not hit.
+      if (pending.area && distanceXZ(entity.position, pending.area.point) > pending.area.radius) continue;
 
       let killed = false;
       if (pending.damage > 0) {
@@ -821,6 +1009,57 @@ export class CombatSystem implements TickSystem {
       for (const listener of this.provokeListeners) listener(entity.id, atMs);
       this.deps.store.markDirty();
     }
+  }
+
+  /**
+   * Schedules every pulse of an advanced invocation around `aim`. Returns the delay to its first
+   * contact and the length of the whole choreography, which is how long the caster is locked.
+   *
+   * The pulse plan is the lab's own (`systems/elementalAttacks.ts`), so a Deluge in the world lands
+   * where and when the range showed it landing. The rolled max hit is shared across the pulses
+   * that reach the aim point, so a creature that stands through the whole cast takes about one
+   * full spell's worth of damage and one that steps out of a later wave takes less. Area pulses
+   * carry their footprint so `landSpellHits` can check the victim is still inside on arrival; a
+   * rank-one invocation homes like a bolt. A miss records once, at the first pulse, rather than
+   * once per pulse, and only for the first victim so a missed sweep does not spray zeroes.
+   */
+  private scheduleInvocation(
+    state: GameState,
+    spell: SpellDef,
+    aim: Vec3,
+    victims: readonly { entity: SemanticEntity; hit: boolean }[],
+    atMs: number,
+    maxHit: number,
+  ): { firstContactMs: number; durationMs: number } {
+    const pulses = planElementalAttack(spell.id as ElementalSpellId, state.player.position, aim);
+    const reference = pulses.reduce(
+      (sum, pulse) => sum + (distanceXZ(pulse.point, aim) <= pulse.radius ? pulse.damage : 0), 0) || 1;
+    const realm = combatRealmOf(state.player.regionId);
+    victims.forEach(({ entity, hit }, index) => {
+      if (!hit) {
+        if (index === 0) {
+          this.pendingSpellHits.push({
+            landsAtMs: atMs + pulses[0]!.at, sourceId: state.player.id, realm, targetId: entity.id,
+            spellId: spell.id, damage: 0, hit: false, maxHit,
+          });
+        }
+        return;
+      }
+      for (const pulse of pulses) {
+        const area = spell.aoe ? { point: pulse.point, radius: pulse.radius } : undefined;
+        if (area && distanceXZ(entity.position, pulse.point) > pulse.radius + 1.5) continue;
+        const share = Math.max(1, Math.round(maxHit * pulse.damage / reference));
+        this.pendingSpellHits.push({
+          landsAtMs: atMs + pulse.at, sourceId: state.player.id, realm, targetId: entity.id,
+          spellId: spell.id, damage: Math.max(1, this.combatRng.int(1, share)), hit: true, maxHit: share,
+          ...(area ? { area } : {}),
+        });
+      }
+    });
+    return {
+      firstContactMs: pulses[0]!.at,
+      durationMs: elementalDuration(spell.id as ElementalSpellId, pulses.at(-1)!.at),
+    };
   }
 
   /**
@@ -1270,6 +1509,8 @@ export class CombatSystem implements TickSystem {
     // damage and re-PROVOKE a creature that the death had just released, seconds after the screen
     // said the fight was over.
     this.pendingSpellHits.length = 0;
+    this.queuedSpellId = null;
+    this.castLock = null;
     this.meleeAttacks.clear();
     this.attackStarts.length = 0;
     this.deps.store.markDirty();
@@ -1286,6 +1527,8 @@ export class CombatSystem implements TickSystem {
   resetForNewWorld(): void {
     this.playerCombatRealm = undefined;
     this.pendingSpellHits.length = 0;
+    this.queuedSpellId = null;
+    this.castLock = null;
     this.meleeAttacks.clear();
     this.attackStarts.length = 0;
     this.hitLog.length = 0;
@@ -1546,9 +1789,29 @@ export class CombatSystem implements TickSystem {
     const chosen = chosenId ? content.spell(chosenId) : undefined;
     if (castable(chosen)) return chosen.id;
 
+    return this.bestBasicSpellId();
+  }
+
+  /**
+   * The standing spell an invocation hands the engagement back to: the player's basic choice when
+   * castable, else the strongest castable basic. Never an invocation, even a chosen one: a rune
+   * spell set as the standing choice is thrown by `preferredSpellId` on purpose, but it is not what
+   * a one-shot press falls back to afterwards.
+   */
+  private standingSpellId(): SpellId | undefined {
+    const state = this.deps.store.get();
+    const chosenId = state.combat.preferredSpellId;
+    const chosen = chosenId ? content.spell(chosenId) : undefined;
+    if (chosen && !isAdvancedSpell(chosen) && spellBlockReason(state, chosen) === null) return chosen.id;
+    return this.bestBasicSpellId();
+  }
+
+  /** The strongest castable BASIC spell. Automatic selection never reaches for a rune. */
+  private bestBasicSpellId(): SpellId | undefined {
+    const state = this.deps.store.get();
     let best: SpellDef | undefined;
     for (const spell of content.allSpells()) {
-      if (!castable(spell)) continue;
+      if (isAdvancedSpell(spell) || spellBlockReason(state, spell) !== null) continue;
       if (!best || spell.reqLevel > best.reqLevel) best = spell;
     }
     return best?.id;

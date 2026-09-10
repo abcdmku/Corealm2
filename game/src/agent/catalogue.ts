@@ -7,7 +7,7 @@
  */
 import { ARCHETYPES, EQUIP_SLOTS, GAME_EVENT_TYPES, INTERACTION_IDS } from "../contracts.js";
 import type { AgentMode } from "../contracts.js";
-import { SPELLS } from "../content/spells.js";
+import { ALL_SPELLS } from "../content/spells.js";
 import { BOOL, ENUM, INT, NUM, STR, VEC3, obj, type ToolSpec } from "./toolkit.js";
 
 export const MANUAL_TOPICS = [
@@ -29,7 +29,7 @@ export const MAX_TIMEOUT_MS = 600_000;
 const MODES: readonly AgentMode[] = ["guide", "assist", "play"];
 const NUM_RADIUS = NUM("Metres. Default 40 for loot, 140 for gathering. Max 140.", { minimum: 1, maximum: 140 });
 const NUM_FRACTION = NUM("Fraction of max health, 0 to 1", { minimum: 0, maximum: 1 });
-const SPELL_IDS = SPELLS.map((spell) => spell.id);
+const SPELL_IDS = ALL_SPELLS.map((spell) => spell.id);
 const SECTIONS = CONTEXT_SECTIONS;
 
 export const TOOL_SPECS = {
@@ -245,11 +245,13 @@ export const TOOL_SPECS = {
       // the thing that goes stale first, and the enum makes a bad id a schema rejection here
       // instead of a NOT_FOUND three calls later.
       spellId: ENUM(
-        SPELLS.map((spell) => spell.id),
+        ALL_SPELLS.map((spell) => spell.id),
         "Optional. With a wand or staff, forces this spell; omit it to use the standing choice or "
         + "the strongest compatible spell automatically. With a non-magic weapon, supplying it "
-        + "returns a loadout error. Spells and the Magic level each needs: "
-        + SPELLS.map((spell) => `${spell.id} (${spell.element}, Magic ${spell.reqLevel})`).join(", ")
+        + "returns a loadout error. Advanced invocations (rank 1 to 5) fire once on the next cast "
+        + "beat and also spend their tier rune, plus a Field Rune when they strike an area. Spells "
+        + "and the Magic level each needs: "
+        + ALL_SPELLS.map((spell) => `${spell.id} (${spell.element}, Magic ${spell.reqLevel})`).join(", ")
         + ". The player-facing Air Essence supplies wind spells.",
       ),
     }, ["entityId"]),
@@ -260,18 +262,20 @@ export const TOOL_SPECS = {
     access: "read",
     mutates: true,
     description:
-      "Read the sixteen attack spells and the active automatic choice, or set the standing choice. "
-      + "Each spell row returns id, name, element, rung, reqLevel, maxHit, baseXp, castMs, "
-      + "requiredElement, fuelCost, unlocked, castable, blockedBy, and description. The top-level "
-      + "result returns preferredSpellId, activeSpellId, magicLevel, equippedWeapon (with live "
-      + "charges, capacity, rechargeItemId, rechargeCost), carried Essence by element, and "
-      + "releasedElements. Selecting a locked or currently incompatible spell is allowed; "
+      "Read the sixteen basic spells and twenty advanced invocations with the active automatic "
+      + "choice, or set the standing choice. Each spell row returns id, name, element, rung, rank "
+      + "(0 basic, 1 to 5 advanced), aoe, runes (itemId, name, quantity, carried), reqLevel, maxHit, "
+      + "baseXp, castMs, requiredElement, fuelCost, unlocked, castable, blockedBy, and description. "
+      + "The top-level result returns preferredSpellId, activeSpellId, magicLevel, equippedWeapon "
+      + "(with live charges, capacity, rechargeItemId, rechargeCost), carried Essence by element, "
+      + "releasedElements, the six runes with carried counts, and castLock while an advanced "
+      + "invocation is still resolving. Automatic selection only ever picks a basic spell. Selecting a locked or currently incompatible spell is allowed; "
       + "automatic selection stands in until it becomes castable. Pass an explicit null spellId "
       + "to restore automatic selection. `select` is a loadout preference, not a world action, "
       + "so it is allowed in every mode.",
     inputSchema: obj({
       op: ENUM(["read", "select"], "read the spellbook, or select the standing spell"),
-      spellId: ENUM([...SPELLS.map((spell) => spell.id), null], "Required when op is select. Null clears the choice back to automatic."),
+      spellId: ENUM([...ALL_SPELLS.map((spell) => spell.id), null], "Required when op is select. Null clears the choice back to automatic."),
     }, ["op"]),
   },
   corealm_dialogue: {

@@ -5,6 +5,14 @@ import { isolateMagicEmission } from "./magicGlow.js";
 type Face = THREE.Vector3[];
 const noise = (n: number) => { const x = Math.sin(n * 127.1 + 17.7) * 43758.5453; return x - Math.floor(x); };
 
+/** Packed depth does not inherit transparent surface opacity. Fade its coverage too. */
+export function fadeFractureShadow(shader: THREE.WebGLProgramParametersWithUniforms, fade: {value:number}): void {
+  shader.uniforms['fractureFade']=fade;
+  shader.fragmentShader=`uniform float fractureFade;\n${shader.fragmentShader}`.replace('#include <alphatest_fragment>',`#include <alphatest_fragment>
+    float coverageNoise=fract(52.9829189*fract(dot(floor(gl_FragCoord.xy),vec2(.06711056,.00583715))));
+    if(coverageNoise>=fractureFade)discard;`);
+}
+
 /** Clip a convex cell, retaining the cap so every fracture fragment is a closed solid. */
 function clip(faces: Face[], normal: THREE.Vector3, distance: number): Face[] {
   const next: Face[] = [], cap: THREE.Vector3[] = [];
@@ -84,14 +92,17 @@ export class FracturedBoulder {
   readonly release = { value: 0 };
   readonly scale = { value: 1 };
   private readonly energy = { value: 0 };
-  constructor(parent: THREE.Object3D, count: number, name: string) {
+  private readonly floor = { value: 0 };
+  private readonly fade = { value: 0 };
+  constructor(parent: THREE.Object3D, count: number, name: string,private readonly ground:(x:number,z:number)=>number=()=>0) {
     const material = new THREE.MeshStandardMaterial({ color: 0x7e8479, roughness: .83, flatShading: true, transparent: true });
     material.onBeforeCompile = shader => {
       shader.uniforms["shatterTime"] = this.release;
       shader.uniforms["rockScale"] = this.scale;
+      shader.uniforms["rockFloor"] = this.floor;
       shader.uniforms["mineralTime"] = this.energy;
       shader.uniforms["flowTexture"]={value:elementalFlowTexture()};
-      shader.vertexShader = `attribute vec4 shardCentre,shardMotion;uniform float shatterTime,rockScale;
+      shader.vertexShader = `attribute vec4 shardCentre,shardMotion;uniform float shatterTime,rockScale,rockFloor;
         varying vec3 rockPoint;
         vec3 fractureTurn(vec3 v){
           vec3 axis=normalize(vec3(sin(shardMotion.w),.7,cos(shardMotion.w)));
@@ -101,7 +112,7 @@ export class FracturedBoulder {
         .replace("#include <beginnormal_vertex>","#include <beginnormal_vertex>\nobjectNormal=fractureTurn(objectNormal);")
         .replace("#include <begin_vertex>",`float t=shatterTime;
           vec3 centre=shardCentre.xyz+shardMotion.xyz*((1.-exp(-t*1.1))/1.1);
-          float floorY=-.84+shardCentre.w*.48;
+          float floorY=rockFloor+shardCentre.w*.48;
           float fall=centre.y-7.5*t*t/rockScale;
           if(t>0.00001){centre.y=max(floorY,fall);
           if(fall<floorY)centre.y+=abs(sin((floorY-fall)*2.0))*.11*exp(-t*2.);}
@@ -126,7 +137,10 @@ export class FracturedBoulder {
     this.mesh.receiveShadow = true;
     this.mesh.userData["magicGlow"]=true;
     const depth = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking });
-    depth.onBeforeCompile = material.onBeforeCompile;
+    depth.onBeforeCompile = (shader,renderer) => {
+      material.onBeforeCompile(shader,renderer);
+      fadeFractureShadow(shader,this.fade);
+    };
     this.mesh.customDepthMaterial = depth;
     this.mesh.castShadow = true;
     parent.add(this.mesh);
@@ -141,7 +155,9 @@ export class FracturedBoulder {
     this.release.value = Math.max(0,shatter);
     this.energy.value = spin+Math.max(0,shatter)*2;
     this.scale.value = size;
+    this.floor.value = (this.ground(x,z)-y)/size;
     this.mesh.material.opacity = fade;
+    this.fade.value = fade;
   }
   dispose(): void { this.mesh.removeFromParent();this.mesh.geometry.dispose();this.mesh.material.dispose();this.mesh.customDepthMaterial?.dispose(); }
 }

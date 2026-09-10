@@ -28,7 +28,7 @@ import type { EquipSlot, ItemCategory, ItemDef } from "../contracts.js";
 export type IconShape =
   | "helm" | "cuirass" | "greaves" | "boot" | "glove" | "sword" | "shield" | "ring"
   | "staff" | "dagger" | "orb" | "amulet" | "robe" | "hood"
-  | "ore" | "bar" | "food" | "tool" | "scroll" | "coin" | "shard" | "log";
+  | "ore" | "bar" | "food" | "tool" | "scroll" | "coin" | "shard" | "log" | "rune";
 
 /** Filled paths on a 24x24 viewBox. Two paths where a silhouette needs a cut-out or a second mass. */
 const PATHS: Record<IconShape, string[]> = {
@@ -116,6 +116,10 @@ const PATHS: Record<IconShape, string[]> = {
     "M4 7.4h11.6a4.6 4.6 0 0 1 0 9.2H4z",
     "M4 7.4a4.6 4.6 0 0 0 0 9.2 4.6 4.6 0 0 0 0-9.2zm0 3a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2z",
   ],
+  // A rune stone: a tall rounded tablet with a carved stroke cut out of it.
+  rune: [
+    "M7.2 2.6h9.6l2.4 3.2v13.4l-2.4 2.2H7.2l-2.4-2.2V5.8zM11 6.4v4.4l-2.6 1.8 1.2 1.6 1.4-1v4.4h2v-4.4l1.4 1 1.2-1.6-2.6-1.8V6.4z",
+  ],
 };
 
 const BY_EQUIP_SLOT: Record<EquipSlot, IconShape> = {
@@ -147,6 +151,7 @@ const BY_CATEGORY: Record<ItemCategory, IconShape> = {
  * staff — but it also has no `equip` block, so it never reaches here).
  */
 const BY_ITEM_ID: readonly { readonly pattern: RegExp; readonly shape: IconShape }[] = [
+  { pattern: /_rune$/, shape: "rune" },
   { pattern: /_staff$/, shape: "staff" },
   { pattern: /_dagger$/, shape: "dagger" },
   { pattern: /_(?:focus|orb)$/, shape: "orb" },

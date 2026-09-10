@@ -110,7 +110,7 @@ import { ALL_ITEMS } from "../content/items.js";
 import { GATHERING_PRODUCTION_TIERS } from "../content/gatheringProductionTiers.js";
 import { RESOURCES } from "../content/resources.js";
 import { RECIPES } from "../content/recipes.js";
-import { SPELLS } from "../content/spells.js";
+import { ALL_SPELLS } from "../content/spells.js";
 import { ENEMIES } from "../content/enemies.js";
 import { SHOPS } from "../content/shops.js";
 import { QUESTS } from "../content/quests.js";
@@ -130,6 +130,7 @@ import { DeferredDungeonFacing } from "../render/deferredDungeonFacing.js";
 import { isActorEntity } from "../render/entityActiveSet.js";
 import { Ambience, Vfx, type AmbienceEmitter, type AmbienceKind } from "../render/vfx.js";
 import { SpellVfx } from "../render/spellVfx.js";
+import { AimReticle } from "../render/aimReticle.js";
 import { HealthBars } from "../render/healthBars.js";
 import {
   AudioDirector, AudioEngine, COREALM_AUDIO_CATALOG, CorealmAudioBridge,
@@ -262,7 +263,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     items: ALL_ITEMS,
     resources: RESOURCES,
     recipes: RECIPES,
-    spells: SPELLS,
+    spells: ALL_SPELLS,
     enemies: packContent ? [...ENEMIES, ...packContent.REGIONAL_PACK_VARIANTS.map((variant) => variant.stats)] : ENEMIES,
     shops: SHOPS,
   });
@@ -1676,6 +1677,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     // impact ring would sink into or float over the ground exactly where a region seam runs.
     // `meshHeightAt` samples the drawn lattice and needs no region at all.
     groundHeightAt: (x, z) => scene.meshHeightAt(x, z),
+    // The staff socket an invocation gathers its light at. Resolved lazily: the rig may still be
+    // loading when this layer is built, and a cast never happens before the world is up.
+    castingFocus: () => rigged ? playerRig.castingFocus() : undefined,
   });
 
   // Standing atmosphere, as opposed to the event-driven feedback above. Both are polled from Vfx's
@@ -2313,7 +2317,19 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // The human UI. Everything it does goes through GameApi, the same object the agent tools call.
   const uiConstructionSpan = bootTelemetry.startSpan(BOOT_SPANS.UI_CONSTRUCTION);
   const lootProjection = new THREE.Vector3();
+  // The ground reticle for placing area invocations. It reads the same walkable-mesh picker
+  // click-to-move uses, so "where the ring is" and "where a click would walk" never disagree.
+  const aimReticle = new AimReticle(scene.overlayGroup, (x, z) => scene.meshHeightAt(x, z));
+  const spellRangeLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("spells") === "1";
   const ui = createUi(api, {
+    areaAim: {
+      pickGround: (clientX, clientY) => input.picker.pickGroundAt(clientX, clientY)?.point ?? null,
+      show: (radius, element) => aimReticle.show(radius, element),
+      move: (point, inRange) => aimReticle.move(point, inRange),
+      hide: () => aimReticle.hide(),
+    },
+    // The spell range mounts its own bar with range semantics over the same slot.
+    actionBars: !spellRangeLab,
     saveRecovery: {
       getRecovery: () => saves.getRecovery(),
       recoverSave: async (json) => {
@@ -2862,6 +2878,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     // Direct evidence that a cast drew something, for `tools/verify-magic.ts`. Reading `drawCalls`
     // instead conflates a spell with anything else that streamed in that frame.
     spellParticles: () => spellVfx.liveParticles(),
+    basicSpellState: () => spellVfx.getState(),
     audioState: () => ({
       ...audioEngine.snapshot(),
       regionId: store.get().player.regionId,
