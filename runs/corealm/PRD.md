@@ -1843,3 +1843,8 @@ The single thing to build before anything else, and the thing that decides wheth
 That single run exercises: content loading and validation, the semantic entity layer, navmesh pathing, the character controller, the activity system, the gather tick, the seeded RNG, the XP curve, level-up, the depletion and respawn timer, inventory slots, the bank, the event queue, and `__gameDebug` state comparison. If it works through a mouse click and produces an identical result through `callTool("corealm_interact", ...)`, the architecture is proven and rounds 3 through 7 are content and systems on top of a known-good base.
 
 If it does not work, nothing after it matters.
+
+## September 10 deep Wilderness amendment
+
+The user's implementation request approves the T50/T70 Wilderness expansion, five merged-magic rune keepers, 7–15 creature packs, universal miniboss scaling, adult and baby dragon families, high-tier gathering and equipment materials described in docs/deep-wilderness-round.md. That document records the frozen depth contract and acceptance workflow.
+

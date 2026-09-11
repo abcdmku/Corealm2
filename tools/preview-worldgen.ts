@@ -25,6 +25,7 @@ const BIOME_COLOURS: Record<string, string> = {
   vellenwood: "#56765b",
   karrowmoor: "#7d7865",
   kilnhalt: "#9b7a54",
+  wilderness: "#646a78",
 };
 
 const FALLBACK_BIOME_COLOUR = "#8a8779";

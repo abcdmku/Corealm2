@@ -15,14 +15,25 @@ import {
 const MAP_FIELDS = [
   "map", "normalMap", "roughnessMap", "metalnessMap", "emissiveMap", "aoMap", "alphaMap",
 ] as const;
-const TIERS = ["worn", "grithe", "corven", "kaldite", "emberite"] as const;
+const TIERS = ["worn", "grithe", "corven", "kaldite", "emberite", "cindersteel", "nightglass"] as const;
 const BODIES: readonly CharacterBody[] = ["male", "female"];
 const KNIGHT_PARTS = ["helmet", "chest", "pauldron", "scarf", "legs", "boots", "gloves"] as const;
+const KNIGHT_VARIANTS = [
+  { item: "grithe_helm", parts: KNIGHT_PARTS },
+  { item: "corven_helm", parts: KNIGHT_PARTS },
+  { item: "kaldite_helm", parts: KNIGHT_PARTS },
+  { item: "emberite_helm", parts: KNIGHT_PARTS },
+  { item: "cindersteel_helm", parts: KNIGHT_PARTS },
+  { item: "nightglass_helm", parts: KNIGHT_PARTS },
+  { item: "nightmarshal_plate", parts: ["chest", "pauldron", "scarf"] as const },
+] as const;
 const SHIELDS = [
   ["palewood_shield", "grithe_sword"],
   ["duskoak_shield", "corven_sword"],
   ["cairnpine_shield", "kaldite_sword"],
   ["cinderpine_shield", "emberite_sword"],
+  ["teak_shield", "cindersteel_sword"],
+  ["magic_shield", "nightglass_sword"],
 ] as const;
 
 function fixtureMaterial(name = "MI_Trim_Props_Vertex"): THREE.MeshStandardMaterial {
@@ -107,16 +118,18 @@ const KNIGHT_APPEARANCES = BODIES.flatMap(body => GEAR_APPEARANCE_IDS.flatMap(it
 const TOOL_APPEARANCES = TIERS.flatMap(tier => ["pickaxe", "hatchet"].map(kind => (
   gatheringToolAppearance(`${tier}_${kind}`)!
 )));
-const SWORD_APPEARANCES = TIERS.map(tier => gearAppearance(`${tier}_sword`)!);
+const SWORD_APPEARANCES = [...TIERS.map(tier => gearAppearance(`${tier}_sword`)!), gearAppearance("chainbound_sword")!];
 
 describe("restored equipment metal materials", () => {
-  it("covers every Knight part for both bodies at each authored tier", () => {
-    expect(KNIGHT_APPEARANCES).toHaveLength(2 * 4 * KNIGHT_PARTS.length);
+  it("covers six complete Knight tiers and the three Nightmarshal chest parts on both bodies", () => {
+    expect(KNIGHT_APPEARANCES).toHaveLength(2 * (6 * KNIGHT_PARTS.length + 3));
+    const variants = KNIGHT_VARIANTS.map(row => ({ ...row, tint: gearAppearance(row.item)!.tint }));
+    expect(new Set(variants.map(row => row.tint)).size).toBe(7);
     for (const body of BODIES) {
-      for (const part of KNIGHT_PARTS) {
-        const appearances = KNIGHT_APPEARANCES.filter(appearance => appearance.assetId === `outfit_${body}_knight_${part}`);
-        expect(new Set(appearances.map(appearance => appearance.tint)).size, `${body} ${part}`).toBe(4);
-      }
+      const expected = variants.flatMap(row => row.parts.map(part => `outfit_${body}_knight_${part}:${row.tint}`));
+      const actual = KNIGHT_APPEARANCES.filter(part => part.assetId.startsWith(`outfit_${body}_knight_`))
+        .map(part => `${part.assetId}:${part.tint}`);
+      expect(actual.sort(), body).toEqual(expected.sort());
     }
   });
 
@@ -149,12 +162,15 @@ describe("restored equipment metal materials", () => {
 
   it("keeps one compatible shader and merge identity across a Knight tier's modular parts", () => {
     for (const body of BODIES) {
-      for (const tint of new Set(KNIGHT_APPEARANCES.map(appearance => appearance.tint))) {
+      for (const variant of KNIGHT_VARIANTS) {
+        const tint = gearAppearance(variant.item)!.tint;
         const source = fixtureMaterial("MI_Knight");
         const appearances = KNIGHT_APPEARANCES.filter(appearance => appearance.tint === tint
           && appearance.assetId.startsWith(`outfit_${body}_knight_`));
+        expect(appearances.map(part => part.assetId).sort(), `${body} ${variant.item}`)
+          .toEqual(variant.parts.map(part => `outfit_${body}_knight_${part}`).sort());
         const painted = appearances.map(appearance => paint(source, appearance));
-        expect(painted).toHaveLength(KNIGHT_PARTS.length);
+        expect(painted).toHaveLength(variant.parts.length);
         expect(new Set(painted.map(material => `${material.name}|${material.color.getHexString()}`)).size).toBe(1);
         expect(new Set(painted.map(material => material.customProgramCacheKey())).size).toBe(1);
         expect(new Set(painted.map(compile)).size).toBe(1);

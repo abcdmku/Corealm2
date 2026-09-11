@@ -2220,6 +2220,9 @@ export class EntityViews {
     this.syncMotion(this.residentMovingEntities, alpha);
   }
 
+  /** Existing resident references for bounded actor effects; callers must not mutate the list. */
+  residentActors(): readonly SemanticEntity[] { return this.residentMovingEntities; }
+
   /**
    * Shows one real entity view against the world surface while hiding every other semantic view.
    * Locations pass null and get the complete world back. This works for unique rigs and batched
@@ -2989,7 +2992,7 @@ export class EntityViews {
       if (parts.length > 0) {
         // Native stumps share the tree's rooted origin. A spreading or leaning canopy's centre
         // is not the trunk: centering this pair would move the cut tree sideways on harvest.
-        if (isNativeTreeAsset(group.assetId) && /^corealm_stump_(?:oak|pine)$/.test(group.depletedAssetId)) return parts;
+        if (isNativeTreeAsset(group.assetId) && isNativeTreeAsset(group.depletedAssetId)) return parts;
         return this.alignDepletedParts(group.liveParts, parts);
       }
     }
@@ -5402,12 +5405,18 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
 
   private pickCandidates(raycaster: THREE.Raycaster): { entityId: EntityId; distance: number }[] {
     const nearest = new Map<EntityId, number>();
-    for (const hit of raycaster.intersectObject(this.group, true)) {
+    meshHits: for (const hit of raycaster.intersectObject(this.group, true)) {
       const entityId = this.entityOfHit(hit);
       if (!entityId || this.hiddenRoofs.has(entityId)) continue;
       // A hit on a 20 m ruin is a hit on the place, not on a thing. Let it fall through to
       // whatever is behind it — usually the ground, so the click walks there.
-      if (this.records.get(entityId)?.pickable === false) continue;
+      const record = this.records.get(entityId);
+      if (record?.pickable === false || record && record.fade >= 1) continue;
+      // Three's raycaster still intersects invisible objects. A dissolved unique rig
+      // must not cover its loot chest, and a hidden interior must not cover the surface.
+      for (let object: THREE.Object3D | null = hit.object; object; object = object.parent) {
+        if (!object.visible) continue meshHits;
+      }
       const previous = nearest.get(entityId);
       if (previous === undefined || hit.distance < previous) nearest.set(entityId, hit.distance);
     }
@@ -5644,7 +5653,9 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
 
     if (record.unique) {
       record.unique.updateMatrixWorld(true);
-      box.setFromObject(record.unique);
+      // SkinnedMesh caches its first bounding box. Precise sampling follows the current bone
+      // pose, so a reaching arm or crouched body changes gallery framing and health-bar height.
+      box.setFromObject(record.unique, true);
       record.unique.traverse((child) => { if ((child as THREE.Mesh).isMesh) meshes += 1; });
       // The playback RATE is part of the answer, not decoration: a walk cycle can be playing and
       // still read as sliding if it is running at the wrong speed for the ground being covered, and

@@ -111,7 +111,8 @@ export function resourceGuideLifecycle(resourceId: string): {
 }
 
 const ARCHIVE_SHA256 = /^[a-f0-9]{64}$/;
-const ORIGINAL_GENERATORS = new Set(["tools/build-corealm-nature.ts", "tools/build-corealm-geology.ts", "tools/build-corealm-farm.ts", "tools/build-corealm-minerals.ts", "tools/build-ground-ores.ts", "tools/build-creature-expansion.ts", "tools/build-corealm-equipment.ts"]);
+const ORIGINAL_GENERATORS = new Set(["tools/build-corealm-nature.ts", "tools/build-corealm-geology.ts", "tools/build-corealm-farm.ts", "tools/build-corealm-minerals.ts", "tools/build-ground-ores.ts", "tools/build-creature-expansion.ts", "tools/build-corealm-equipment.ts", "tools/wilderness-trees/build.ts", "tools/wilderness-creatures/keepers/hollow-star.mjs"]);
+ORIGINAL_GENERATORS.add('tools/wilderness-resources/build.ts');
 const FOUNDATION_IMPORT_PACK_IDS = new Set(["ultimate-nature-pack", "animated-fish-pack"]);
 
 const APPROVED_GATHERING_ASSET_CANDIDATES = [
@@ -1501,7 +1502,7 @@ function regionsDoc(): string {
       "",
       region.lore,
       "",
-      `Tier ${region.tier}. Settlement: **${region.settlement.name}**.`,
+      `Tier ${region.tier}. Settlement: **${region.settlement?.name ?? "Uninhabited"}**.`,
       "",
       places,
       dungeon,

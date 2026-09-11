@@ -30,6 +30,7 @@ import type { ItemId } from "../contracts.js";
 import type { GatheringProductionTierDef, RecipeDef } from "./index.js";
 import { recipeXp } from "./index.js";
 import { CREATURE_LOOT_RECIPES } from "./creatureLoot.js";
+import { WILDERNESS_LOOT_RECIPES } from './wildernessLoot.js';
 import { GATHERING_PRODUCTION_TIERS } from "./gatheringProductionTiers.js";
 import { ALL_ITEMS } from "./items.js";
 
@@ -276,4 +277,4 @@ function basicMagicRecipes(definition: GatheringProductionTierDef): RecipeDef[] 
 export const RECIPES: readonly RecipeDef[] = [...GATHERING_PRODUCTION_TIERS.flatMap((definition) => [
   ...recipesForTier(definition),
   ...basicMagicRecipes(definition),
-]), ...CREATURE_LOOT_RECIPES];
+]), ...CREATURE_LOOT_RECIPES, ...WILDERNESS_LOOT_RECIPES];

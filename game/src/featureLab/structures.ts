@@ -10,6 +10,7 @@ import type {
   Vec3,
 } from "../contracts.js";
 import { REGIONS } from "../content/regions.js";
+import { DEEP_WILDERNESS_STRUCTURE_IDS } from '../render/compositions/deepWildernessStructures.js';
 import {
   BUILDING_KITS,
   COMPOSITION_IDS,
@@ -154,7 +155,10 @@ export function assembleFeatureLabStructure(
   measurements?: FeatureLabStructureMeasurements,
 ): FeatureLabStructureAssembly {
   const sanitized = sanitizeFeatureLabStructureSelection(selection);
-  const context = KIT_CONTEXT[sanitized.kit];
+  const context = (DEEP_WILDERNESS_STRUCTURE_IDS as readonly string[]).includes(sanitized.id)
+    ? { regionId: 'wilderness' as const, tier: 70 }
+    : sanitized.id === "black_knight_castle" || sanitized.id.startsWith("wilderness_")
+      ? { regionId: "wilderness" as const, tier: 50 } : KIT_CONTEXT[sanitized.kit];
   const name = titleCaseIdentifier(sanitized.id);
   const placementOrigin: Vec3 = sanitized.kind === "wall-run"
     ? [origin[0] - sanitized.width / 2, origin[1], origin[2]]
@@ -270,8 +274,8 @@ export function buildFeatureLabStructureParts(selection: FeatureLabStructureSele
 
 /** Resolve the real tower relative to its south-facing landmark, preserving its authored seed. */
 function vaultHost() {
-  const region = REGIONS.find(region => region.settlement.buildings.some(building => building.id === "coldbrace_vault"));
-  const building = region?.settlement.buildings.find(building => building.id === "coldbrace_vault");
+  const region = REGIONS.find(region => region.settlement?.buildings.some(building => building.id === "coldbrace_vault"));
+  const building = region?.settlement?.buildings.find(building => building.id === "coldbrace_vault");
   const landmark = region?.landmarks.find(landmark => landmark.id === "march_vault_tower");
   if (!region || !building || !landmark) throw new Error("Vault fixture requires authored coldbrace_vault and march_vault_tower");
   const yaw = landmark.rotationY ?? 0;
@@ -286,7 +290,7 @@ export function compositionHostParts(selection: FeatureLabStructureSelection): P
   if (selection.kind !== "composition" || selection.id !== "vault_door") return [];
   const host = vaultHost();
   const cos = Math.cos(host.rotationY); const sin = Math.sin(host.rotationY);
-  return buildPrefab(host.building.prefab, host.building.footprint, variantSeed(host.building.id), host.region.settlement.kit).map(part => ({
+  return buildPrefab(host.building.prefab, host.building.footprint, variantSeed(host.building.id), host.region.settlement?.kit ?? "stone").map(part => ({
     ...part, tag:`host_${part.tag}`,
     dx:host.offset[0] + part.dx*cos + part.dz*sin,
     dz:host.offset[2] - part.dx*sin + part.dz*cos,

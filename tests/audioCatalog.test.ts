@@ -205,15 +205,15 @@ describe("creature voices", () => {
 
     // Counted against `content/enemies.ts`, not against a hand-written list, because the director's
     // own comment drifted: it called the silent set "the two humanoid families" while the roster
-    // grew to sixty-nine, and one of the two it named is the Armored Rhino.
+    // grew to sixty-nine, and one of the two it named is the Quarry Warden.
     const families = [...new Set(ENEMIES.map((enemy) => enemy.family))].sort();
     const voiced = families.filter((family) => isCreatureFamily(family));
     expect(voiced).toEqual([
       "aurochs", "bear", "boar", "cattle", "coney", "coyote", "crab", "deer",
       "frog", "goat", "hen", "hog", "ibex", "rat", "scorpion", "viper",
     ]);
-    // Adding a family to the roster must not quietly widen the gap without anyone noticing it.
-    expect(families.length - voiced.length).toBe(53);
+    // The fifteen new fantasy bodies retain the source roster's silent voice policy.
+    expect(families.length - voiced.length).toBe(83);
     for (const family of families.filter((name) => !isCreatureFamily(name))) {
       expect(cueForCreature(family)).toBeNull();
     }

@@ -20,14 +20,14 @@ describe("authored structure fixture fidelity", () => {
 
   it("places the real Coldbrace vault tower behind its frame with matching solid and regional material", () => {
     const region = REGIONS.find(region=>region.id === "fallowmarch")!;
-    const tower = region.settlement.buildings.find(building=>building.id === "coldbrace_vault")!;
+    const tower = region.settlement!.buildings.find(building=>building.id === "coldbrace_vault")!;
     const landmark = region.landmarks.find(landmark=>landmark.id === "march_vault_tower")!;
     // A different selected kit must not recolour the native authored host.
     const selection = {kind:"composition",id:"vault_door",kit:"stone",width:6,depth:4,seed:5} as const;
     const origin = [20,7,-15] as const;
     const assembly = assembleFeatureLabStructure(selection,[...origin]);
     const host = assembly.entities.filter(entity=>entity.meta?.compositionHost === true);
-    const native = buildPrefab(tower.prefab,tower.footprint,variantSeed(tower.id),region.settlement.kit);
+    const native = buildPrefab(tower.prefab,tower.footprint,variantSeed(tower.id),region.settlement!.kit);
     expect(host).toHaveLength(native.length);
     for (const part of native) {
       const actual = host.find(entity=>entity.id.endsWith(`#host_${part.tag}`))!;

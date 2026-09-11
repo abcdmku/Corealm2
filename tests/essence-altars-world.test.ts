@@ -99,7 +99,7 @@ describe("regional Essence Altar mini-quests", () => {
 
   it("removes the superseded town Essence Altars", () => {
     const townStationIds = REGIONS.flatMap((region) => (
-      region.settlement.stations.map((station) => station.id)
+      (region.settlement?.stations ?? []).map((station) => station.id)
     ));
     expect(townStationIds.some((id) => id.includes("essence_altar"))).toBe(false);
   });

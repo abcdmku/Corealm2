@@ -13,10 +13,19 @@ import { enemyCombatLevel } from "../content/index.js";
 import { enemyBlockFor } from "../content/enemies.js";
 import { CREATURE_SPECIES } from "../content/creatureSpecies.js";
 import { RPG_BESTIARY, RPG_BESTIARY_REVIEW_BY_ID } from "../content/rpgBestiary.js";
+import { CREATURE_REDESIGNS } from "../content/creatureRedesign.js";
+import { STONE_CREATURE_REDESIGNS } from "../content/stoneCreatureRedesigns.js";
+import { ASH_CREATURE_REDESIGNS } from "../content/ashCreatureRedesigns.js";
+import { FOREST_CREATURE_REDESIGNS } from "../content/forestCreatureRedesigns.js";
+import { WILDERNESS_CREATURE_SPECIES } from '../content/wildernessCreatureSpecies.js';
+import { REGIONAL_BOSS_SPECIES } from '../content/regionalBossBodies.js';
+import { WILDERNESS_DRAGONS } from '../content/wildernessDragons.js';
+import { WILDERNESS_LOOT_ITEMS } from '../content/wildernessLoot.js';
+import { WILDERNESS_RUNE_KEEPERS } from '../content/wildernessDepth.js';
 import { ALL_ITEMS } from "../content/items.js";
 import { QUESTS } from "../content/quests.js";
 import {
-  REGIONS,
+  REGIONS, SOURCE_REGIONS,
   type EnemyGroupDef,
   type NpcStandDef,
 } from "../content/regions.js";
@@ -49,7 +58,7 @@ function creatureOptionLabel(group: EnemyGroupDef): string {
 }
 
 const NPC_SOURCES: readonly NpcTargetSource[] = REGIONS.flatMap((region) => (
-  region.settlement.npcs.map((npc) => ({
+  (region.settlement?.npcs ?? []).map((npc) => ({
     kind: "npc" as const,
     preset: {
       id: npc.id,
@@ -58,17 +67,18 @@ const NPC_SOURCES: readonly NpcTargetSource[] = REGIONS.flatMap((region) => (
       tier: region.tier,
     },
     regionId: region.id,
-    settlementId: region.settlement.id,
+    settlementId: region.settlement!.id,
     npc,
   }))
 ));
 
-const CREATURE_SOURCES: readonly CreatureTargetSource[] = [...REGIONS.flatMap((region) => {
+const CREATURE_SOURCES: readonly CreatureTargetSource[] = [...[...REGIONS, ...SOURCE_REGIONS].flatMap((region, regionIndex) => {
+  const sourcePrefix = regionIndex >= REGIONS.length ? "source:" : "";
   const surface = region.enemyGroups.map((group) => ({
     kind: "creature" as const,
     preset: {
-      id: group.id,
-      label: creatureOptionLabel(group),
+      id: `${sourcePrefix}${group.id}`,
+      label: `${sourcePrefix ? "Source ? " : ""}${creatureOptionLabel(group)}`,
       kind: "creature" as const,
       tier: group.tier,
     },
@@ -83,7 +93,7 @@ const CREATURE_SOURCES: readonly CreatureTargetSource[] = [...REGIONS.flatMap((r
     ...dungeon.enemyGroups.map((group) => ({
       kind: "creature" as const,
       preset: {
-        id: `${dungeon.id}:${group.id}`,
+        id: `${sourcePrefix}${dungeon.id}:${group.id}`,
         label: `${creatureOptionLabel(group)} - ${dungeon.name}`,
         kind: "creature" as const,
         tier: group.tier,
@@ -107,13 +117,18 @@ const CREATURE_SOURCES: readonly CreatureTargetSource[] = [...REGIONS.flatMap((r
 
 const TARGET_SOURCE_BY_KEY = new Map<string, TargetSource>();
 // Explicit candidate IDs are available to review tools without entering the normal catalogue.
-const STAGED_SOURCES: readonly CreatureTargetSource[] = [...RPG_BESTIARY_REVIEW_BY_ID.values()].map((species) => ({
+const REVIEW_CREATURES = new Map([...RPG_BESTIARY_REVIEW_BY_ID.values(), ...CREATURE_REDESIGNS, ...STONE_CREATURE_REDESIGNS, ...ASH_CREATURE_REDESIGNS, ...FOREST_CREATURE_REDESIGNS,
+  ...WILDERNESS_CREATURE_SPECIES, ...REGIONAL_BOSS_SPECIES, ...WILDERNESS_DRAGONS].map(species => [species.id, species]));
+const REVIEW_KEEPERS = new Set<string>(WILDERNESS_RUNE_KEEPERS.map(keeper => keeper.id));
+const STAGED_SOURCES: readonly CreatureTargetSource[] = [...REVIEW_CREATURES.values()].map((species) => ({
   kind: "creature",
   preset: { id: `candidate:${species.id}`, label: `${species.stats.name} (Level ${enemyCombatLevel(species.stats)})`, kind: "creature", tier: species.stats.tier },
   regionId: species.regionId,
   dungeonName: null,
   group: { id: `candidate:${species.id}`, family: species.stats.family, name: species.stats.name,
-    tier: species.stats.tier, assetId: species.assetId, scale: species.scale,
+    tier: species.stats.tier, assetId: species.assetId,
+    scale: species.scale / (REVIEW_KEEPERS.has(species.id) ? 1.3 : 1),
+    miniBoss: REVIEW_KEEPERS.has(species.id),
     count: 1, centre: [0, 0], radius: 0 },
 }));
 for (const source of [...NPC_SOURCES, ...CREATURE_SOURCES, ...STAGED_SOURCES]) {
@@ -144,7 +159,7 @@ export const FEATURE_LAB_CATALOG = {
   equipment: EQUIP_SLOTS.map((slot) => ({
     slot,
     label: titleCaseIdentifier(slot),
-    items: ALL_ITEMS
+    items: [...new Map([...ALL_ITEMS, ...WILDERNESS_LOOT_ITEMS].map(item => [item.id, item])).values()]
       .filter((item) => item.equip?.slot === slot)
       .map((item) => ({ id: item.id, label: item.name })),
   })),
@@ -280,7 +295,7 @@ function createCreatureEntity(
   // a group with no stat block is a content bug, and the lab must report it rather than spawn a
   // creature whose numbers differ from the one in the world.
   const stats = group.id.startsWith("candidate:")
-    ? RPG_BESTIARY_REVIEW_BY_ID.get(group.id.slice("candidate:".length))?.stats
+    ? REVIEW_CREATURES.get(group.id.slice("candidate:".length))?.stats
     : enemyBlockFor(group.id, group.family, group.tier);
   if (!stats) {
     throw new Error(

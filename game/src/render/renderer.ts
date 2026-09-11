@@ -14,6 +14,7 @@ import { MagicGlow } from "./magicGlow.js";
 import { ElementalRefraction } from "./elementalRefraction.js";
 import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transmissionOcclusion.js";
 import { StreamedShaderWarmup } from "./streamedShaderWarmup.js";
+import { compileShadowMeshes } from "./shaderPreparation.js";
 
 export interface RenderStats {
   fps: number;
@@ -263,11 +264,17 @@ export class Renderer {
   readonly elementalRefraction = new ElementalRefraction();
   readonly biomeAtmosphere = new BiomeAtmosphere();
   biomeWeightsSource?: () => BiomeWeights;
+  wildernessMagicSource?: () => number;
   readonly renderer: THREE.WebGLRenderer;
   readonly playerSilhouette = new PlayerSilhouette();
   readonly scene: THREE.Scene;
   readonly camera: THREE.PerspectiveCamera;
   readonly sun: THREE.DirectionalLight;
+  private readonly hemisphere = new THREE.HemisphereLight(
+    DAYLIGHT_LOOK.hemisphereSky, DAYLIGHT_LOOK.hemisphereGround, DAYLIGHT_LOOK.hemisphereIntensity);
+  private readonly daylightSun = new THREE.Color(DAYLIGHT_LOOK.sunColour);
+  private readonly moonlight = new THREE.Color(0xadc0e1);
+  private readonly arcaneMoonlight = new THREE.Color(0xafa0e4);
   /** Prepare instance buffers after the camera settles and before Three uploads this frame. */
   prepareScene?: (camera: THREE.Camera) => void;
   transmissionCandidates?: () => readonly THREE.Mesh[];
@@ -435,11 +442,7 @@ export class Renderer {
     // the problem. What is left here is a small neutral lift so the very darkest interiors do not
     // crush, with a warm ground half so that a face turned away from both sun and sky picks up
     // earth bounce rather than more sky.
-    this.scene.add(new THREE.HemisphereLight(
-      DAYLIGHT_LOOK.hemisphereSky,
-      DAYLIGHT_LOOK.hemisphereGround,
-      DAYLIGHT_LOOK.hemisphereIntensity,
-    ));
+    this.scene.add(this.hemisphere);
 
     // The 0.35 back-light that used to sit at (-30, 18, -24) is deliberately gone. It was a fixed
     // fill from one direction regardless of where the geometry faced; `scene.environment` does the
@@ -521,14 +524,7 @@ export class Renderer {
    *
    * Cheap to call twice; three returns the cached program for anything already compiled.
    *
-   * THIS METHOD CANNOT WARM EVERY LAYER, and `render/spellVfx.ts` is the counter-example worth
-   * recording. Its one InstancedMesh sits hidden with `count = 0` until the player casts, and three
-   * gathers materials with a plain `scene.traverse` (three.module.js:17426), so it looks like it
-   * should be covered here — but measured, `getMetrics().programs` still climbed 106 -> 107 on the
-   * first cast of a session, and routing the material through a one-instance proxy in this method
-   * did not stop it either. That layer now compiles its own program by drawing one degenerate
-   * instance on its first idle frame; see `SpellVfx.primeShader`. Prefer that shape for any future
-   * layer whose real draw is unusual enough that a proxy is a guess.
+   * Hidden invocation pools and the first HDR glow draw are prepared separately by prepareEffects.
    */
   warmup(options?: WarmupOptions): void {
     const holder = new THREE.Group();
@@ -595,9 +591,69 @@ export class Renderer {
     }
   }
 
+  /** Prepare the actual hidden effect pools and HDR compositor before a timed cast can begin. */
+  async prepareEffects(root: THREE.Object3D): Promise<void> {
+    const meshes: THREE.Mesh[] = [];
+    root.traverse(object => { if ((object as THREE.Mesh).isMesh) meshes.push(object as THREE.Mesh); });
+    // Compile-only traversal keeps real geometry, instancing, parents and scene light counts.
+    const view = new THREE.Group();
+    view.traverse = callback => { callback(view); for (const mesh of meshes) callback(mesh); };
+    const previous = this.renderer.getRenderTarget();
+    const cubeFace = this.renderer.getActiveCubeFace();
+    const mipmapLevel = this.renderer.getActiveMipmapLevel();
+    const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType });
+    try {
+      this.renderer.setRenderTarget(null);
+      this.renderer.compile(view, this.camera, this.scene);
+      this.renderer.setRenderTarget(target);
+      this.renderer.compile(view, this.camera, this.scene);
+      if (meshes.some(mesh => mesh.castShadow)) {
+        const fallbackDepth = new THREE.MeshDepthMaterial();
+        const materials = new Map<THREE.Material, THREE.Material>();
+        const compilationMaterial = (source: THREE.Material): THREE.Material => {
+          const cached = materials.get(source);
+          if (cached) return cached;
+          const clone = source.clone();
+          clone.onBeforeCompile = source.onBeforeCompile.bind(source);
+          clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
+          materials.set(source, clone);
+          this.warmupMaterials.push(clone);
+          return clone;
+        };
+        try { compileShadowMeshes(this.renderer, this.scene, this.camera, meshes, compilationMaterial, fallbackDepth); }
+        finally { fallbackDepth.dispose(); }
+      }
+    } finally {
+      this.renderer.setRenderTarget(previous, cubeFace, mipmapLevel);
+      target.dispose();
+    }
+    const gl = this.renderer.getContext();
+    const extension = gl.getExtension('KHR_parallel_shader_compile');
+    for (const program of this.renderer.info.programs ?? []) {
+      if (!program.program) continue;
+      while (extension && !gl.getProgramParameter(program.program as WebGLProgram, extension.COMPLETION_STATUS_KHR)) {
+        await new Promise<void>(resolve => setTimeout(resolve, 8));
+      }
+      program.getUniforms();
+      program.getAttributes();
+    }
+    this.camera.updateMatrixWorld();
+    this.prepareScene?.(this.camera);
+    this.drawWorld();
+    this.magicGlow.prepare(this.renderer, this.scene, this.camera);
+  }
+
   render(nowMs: number): void {
     if (this.biomeWeightsSource) this.biomeAtmosphere.setWeights(this.biomeWeightsSource());
+    if (this.wildernessMagicSource) this.biomeAtmosphere.setWildernessMagic(this.wildernessMagicSource());
     this.biomeAtmosphere.updateEnvironment(this.scene, this.lastFrameAt > 0 ? (nowMs - this.lastFrameAt) / 1000 : 1 / 60);
+    const night = this.biomeAtmosphere.sky.nightAmount;
+    const magic = this.biomeAtmosphere.sky.magicAmount;
+    this.sun.intensity = THREE.MathUtils.lerp(DAYLIGHT_LOOK.sunIntensity, .95 - magic * .12, night);
+    this.sun.color.copy(this.daylightSun).lerp(this.moonlight, night);
+    this.sun.color.lerp(this.arcaneMoonlight, magic);
+    this.scene.environmentIntensity = THREE.MathUtils.lerp(DAYLIGHT_LOOK.environmentIntensity, .2, night);
+    this.hemisphere.intensity = THREE.MathUtils.lerp(DAYLIGHT_LOOK.hemisphereIntensity, .12, night);
     const context = this.renderer.getContext();
     if ("createQuery" in context && !this.gpuTimer) {
       // WebGL elapsed queries cannot overlap. Whole-frame and shadow-only samples alternate.

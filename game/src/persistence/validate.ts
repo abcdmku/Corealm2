@@ -4,7 +4,7 @@ import { INVENTORY_SLOTS } from "../state/store.js";
 import { normalizeHuntContracts } from "../systems/huntContracts.js";
 
 const REGIONS: Readonly<Record<RegionId, true>> = {
-  fallowmarch: true, vellenwood: true, karrowmoor: true, kilnhalt: true, gravelmaw: true,
+  fallowmarch: true, vellenwood: true, karrowmoor: true, kilnhalt: true, wilderness: true, gravelmaw: true,
 };
 
 type RecordValue = Record<string, unknown>;

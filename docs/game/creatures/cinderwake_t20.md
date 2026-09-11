@@ -5,11 +5,11 @@ description: "Fire Ogre spawn locations, combat stats, and drops."
 
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/cinderwake.webp" alt="Fire Ogre at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Fire Ogre</strong><span>Fire Ogre Arena, Ashlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Fire Ogre">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#fire-ogre-arena" style="--map-x:73.8333%;--map-y:33.1250%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Fire Ogre, Fire Ogre Arena, Ashlands" title="Fire Ogre, Fire Ogre Arena, Ashlands"><span>Fire Ogre<small>Fire Ogre Arena, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#fire-ogre-arena" style="--map-x:73.8333%;--map-y:40.8929%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Fire Ogre, Fire Ogre Arena, Ashlands" title="Fire Ogre, Fire Ogre Arena, Ashlands"><span>Fire Ogre<small>Fire Ogre Arena, Ashlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

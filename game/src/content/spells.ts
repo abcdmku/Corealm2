@@ -292,34 +292,34 @@ export const MELEE_RANGE_M = 1.6;
  * The six spell runes. Essence is the primary fuel of every spell; these are the secondaries.
  *
  * One tier rune per advanced rank, so a caster stocks the rune of the invocations they actually
- * use rather than a single universal token, and one Field Rune that every area invocation adds on
- * top. Rank-1 invocations strike one target and need no Field Rune; ranks 2 to 5 all sweep an
+ * use rather than a single universal token, and one Cosmic Rune that every area invocation adds on
+ * top. Rank-1 invocations strike one target and need no Cosmic Rune; ranks 2 to 5 all sweep an
  * area. The basic sixteen never touch a rune, which keeps the starter loop unchanged.
  */
 export interface SpellRuneDef {
   itemId: ItemId;
   name: string;
-  /** 1 to 5 for the tier runes; 0 for the Field Rune. */
+  /** 1 to 5 for the tier runes; 0 for the Cosmic Rune. */
   tier: number;
   description: string;
 }
 
 export const SPELL_RUNES: readonly SpellRuneDef[] = [
-  { itemId: "focus_rune", name: "Focus Rune", tier: 1,
-    description: "A narrow silver-cut rune that tightens an invocation onto one mark. Spent by every rank-one invocation." },
-  { itemId: "sweep_rune", name: "Sweep Rune", tier: 2,
-    description: "A curved rune that lets a spell bank across a line of foes. Spent by every rank-two invocation." },
-  { itemId: "binding_rune", name: "Binding Rune", tier: 3,
-    description: "A knotted rune that holds a spell's shape while it gathers and closes. Spent by every rank-three invocation." },
-  { itemId: "siege_rune", name: "Siege Rune", tier: 4,
-    description: "A heavy square-cut rune for invocations that batter the ground itself. Spent by every rank-four invocation." },
-  { itemId: "cataclysm_rune", name: "Cataclysm Rune", tier: 5,
-    description: "A rune split through with slow light. Spent by the four finales and by nothing smaller." },
-  { itemId: "field_rune", name: "Field Rune", tier: 0,
-    description: "A ringed rune that spreads an invocation across an area. Spent alongside the tier rune by every area invocation." },
+  { itemId: "mind_rune", name: "Mind Rune", tier: 1,
+    description: "A pale rune etched with a single clear eye. It steadies the caster's thought onto one mark. Spent by every rank-one invocation." },
+  { itemId: "chaos_rune", name: "Chaos Rune", tier: 2,
+    description: "An orange rune scored with a jagged fork. It lets a spell break loose and scatter across a line of foes. Spent by every rank-two invocation." },
+  { itemId: "death_rune", name: "Death Rune", tier: 3,
+    description: "A bone-white rune cut with a hollow skull. It holds a spell's shape while it gathers and closes. Spent by every rank-three invocation." },
+  { itemId: "blood_rune", name: "Blood Rune", tier: 4,
+    description: "A dark red rune with a drop sunk into its face. It feeds invocations heavy enough to batter the ground. Spent by every rank-four invocation." },
+  { itemId: "wrath_rune", name: "Wrath Rune", tier: 5,
+    description: "A black rune split through with slow red light. Spent by the four finales and by nothing smaller." },
+  { itemId: "cosmic_rune", name: "Cosmic Rune", tier: 0,
+    description: "A yellow rune ringed with a wheel of stars. It spreads an invocation across an area. Spent alongside the tier rune by every area invocation." },
 ];
 
-export const FIELD_RUNE_ID: ItemId = "field_rune";
+export const COSMIC_RUNE_ID: ItemId = "cosmic_rune";
 
 export function tierRune(rank: number): SpellRuneDef {
   const rune = SPELL_RUNES.find((row) => row.tier === rank);
@@ -337,7 +337,7 @@ export function spellRune(itemId: ItemId): SpellRuneDef | undefined {
  * Numbers for the twenty manual invocations, keyed by rank and element.
  *
  * Elements open in the ladder's own order inside each rank (wind, earth, water, fire). Every rank
- * costs its tier rune; ranks 2 to 5 strike an area and cost a Field Rune as well. Damage per cast
+ * costs its tier rune; ranks 2 to 5 strike an area and cost a Cosmic Rune as well. Damage per cast
  * climbs a step above the basic rung a caster holds at the same level, because the cast also burns
  * a rune and, for the finales, locks the caster for six or seven seconds.
  */
@@ -364,7 +364,7 @@ export const ADVANCED_SPELLS: readonly SpellDef[] = ADVANCED_RANKS.flatMap((row)
     if (!source) throw new Error(`No elemental spell for ${element} rank ${row.rank}`);
     const reqLevel = row.reqLevel + offset * 2;
     const runes: SpellRuneCost[] = [{ itemId: tierRune(row.rank).itemId, quantity: 1 }];
-    if (row.aoe) runes.push({ itemId: FIELD_RUNE_ID, quantity: 1 });
+    if (row.aoe) runes.push({ itemId: COSMIC_RUNE_ID, quantity: 1 });
     return {
       id: source.id as SpellId,
       name: source.name,

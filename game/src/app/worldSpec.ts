@@ -24,6 +24,9 @@ import { WORLD_SITES } from "../content/worldSites.js";
 import type { FlatSpot, RegionTerrainSpec, WorldTerrainSpec, Rect } from "../render/scene.js";
 import { seedFromText, type OrganicBiomeSpec } from "../world/organicFields.js";
 import { WATER_BASIN_DEPTH, waterBasinForCluster } from "../world/waterBodies.js";
+import { WILDERNESS_LAVA_CHANNELS } from "../content/wildernessLava.js";
+import { WILDERNESS_RUINS, type WildernessRuinId } from "../render/compositions/wildernessRuins.js";
+import { DEEP_WILDERNESS_STRUCTURES, type DeepWildernessStructureId } from '../render/compositions/deepWildernessStructures.js';
 
 // Kept here as a re-export because boot and its existing callers already own this import path.
 export { WATER_BASIN_DEPTH };
@@ -68,6 +71,17 @@ const SETTLEMENT_PAD_MARGIN = 8;
  */
 function flatSpotsFor(region: RegionDef): FlatSpot[] {
   const flats: FlatSpot[] = [];
+  const castles = region.landmarks.filter(landmark=>landmark.composition==='black_knight_castle');
+  for (const castle of castles) flats.push({x:castle.position[0],z:castle.position[1],radius:37,
+    halfExtents:[24,28],rotationY:castle.rotationY,blend:20});
+  for (const landmark of region.landmarks) {
+    const ruin = WILDERNESS_RUINS[landmark.composition as WildernessRuinId]
+      ?? DEEP_WILDERNESS_STRUCTURES[landmark.composition as DeepWildernessStructureId];
+    if (!ruin) continue;
+    const halfExtents = [ruin.footprint[0] / 2 + 2, ruin.footprint[1] / 2 + 2] as const;
+    flats.push({x:landmark.position[0],z:landmark.position[1],radius:Math.hypot(...halfExtents),
+      halfExtents,rotationY:landmark.rotationY,blend:12});
+  }
 
   const settlement = region.settlement;
   if (settlement) {
@@ -122,6 +136,16 @@ function flatSpotsFor(region: RegionDef): FlatSpot[] {
   // basin applied after every ordinary pad, so a generic location pad must not pull its floor back
   // toward the dry terrain.
   for (const location of region.locations) {
+    if (castles.some(castle=>Math.abs(location.position[0]-castle.position[0])<=24 && Math.abs(location.position[1]-castle.position[1])<=28)) continue;
+    if (region.landmarks.some(landmark => {
+      const structure = DEEP_WILDERNESS_STRUCTURES[landmark.composition as DeepWildernessStructureId];
+      if (!structure) return false;
+      if (location.id === `${landmark.id}_approach`) return true;
+      const x = location.position[0] - landmark.position[0], z = location.position[1] - landmark.position[1];
+      const yaw = landmark.rotationY ?? 0, cos = Math.cos(yaw), sin = Math.sin(yaw);
+      return Math.abs(x * cos - z * sin) <= structure.footprint[0] / 2 + 2
+        && Math.abs(x * sin + z * cos) <= structure.footprint[1] / 2 + 2;
+    })) continue;
     if (location.kind === "water") continue;
     if (WORLD_SITES.some((site) => site.locationId === location.id)) continue;
     // The regional Essence Cache and its altar share a centre. Keep the purpose-built 12.5 m court
@@ -187,6 +211,22 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
   edgeStrength: 0.5,
   temperature: 0.5,
   fields: [
+    {
+      id:'wilderness',seed:seedFromText('corealm:biome:wilderness'),
+      climateTarget:[-.25,.1],climateTolerance:[.85,.85],
+      // A long, low-gradient climate trend leaves room for dusk and mixed vegetation.
+      // The old 11-point logit crossed almost the entire day/night range in twenty metres.
+      northwardClimate:{startZ:320,endZ:720,strength:5},bias:.25,
+      anchors:[
+        {id:'black-knight-castle',centre:[40,600],radius:46,holdRadius:34,strength:1.8},
+        {id:'unnamed-graves',centre:[-205,585],radius:36,holdRadius:16,strength:1.4},
+        {id:'dead-boughs',centre:[-286,638],radius:38,holdRadius:24,strength:1.2},
+        {id:'silent-stones',centre:[-80,680],radius:36,holdRadius:18,strength:1.3},
+        {id:'petrified-grove',centre:[255,640],radius:43,holdRadius:26,strength:1.5},
+      ],
+      corridors:[{from:[-220,568],to:[-205,585],halfWidth:20,strength:.35},
+        {from:[40,600],to:[55,657],halfWidth:26,strength:.5}],
+    },
     {
       id: "fallowmarch",
       seed: seedFromText("corealm:biome:fallowmarch"),
@@ -345,6 +385,7 @@ export function buildWorldTerrainSpec(): WorldTerrainSpec {
     regions,
     flats,
     basins,
+    lavaChannels: WILDERNESS_LAVA_CHANNELS,
     worldSites: WORLD_SITES,
     portalLandforms: REGIONS.flatMap((region) => region.dungeon
       ? [{ centre: region.dungeon.entrance, rotationY: region.dungeon.entranceRotationY ?? 0 }]

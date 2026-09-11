@@ -1228,11 +1228,12 @@ export function solidObstacleMeshes(volumes: readonly SolidVolume[]): THREE.Mesh
   const material = new THREE.MeshBasicMaterial();
 
   for (const volume of volumes) {
-    const base = volume.position[1] - CARVE_SKIRT;
+    const skirt = volume.elevated ? 0 : CARVE_SKIRT;
+    const base = volume.position[1] - skirt;
     const geometry =
       volume.kind === "box"
-        ? ringGeometry(boxFootprint(volume.size[0], volume.size[2]), CARVE_SKIRT + Math.max(volume.size[1], MIN_CARVE_HEIGHT))
-        : ringGeometry(circleFootprint(volume.radius, CYLINDER_SEGMENTS), CARVE_SKIRT + Math.max(volume.height, MIN_CARVE_HEIGHT));
+        ? ringGeometry(boxFootprint(volume.size[0], volume.size[2]), skirt + Math.max(volume.size[1], MIN_CARVE_HEIGHT))
+        : ringGeometry(circleFootprint(volume.radius, CYLINDER_SEGMENTS), skirt + Math.max(volume.height, MIN_CARVE_HEIGHT));
 
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(volume.position[0], base, volume.position[2]);

@@ -30,6 +30,8 @@ import * as THREE from "three";
 import { createGrassBladeGeometry } from "./grassBlades.js";
 import type { WorldSite } from "../content/worldSites.js";
 import { applyWorldSiteTerrain, worldSiteWorkFloorWeight } from "../world/siteTerrain.js";
+import { carveLavaTerrain, type LavaChannel } from "../content/wildernessLava.js";
+import { wildernessMagicAt, WILDERNESS_RESOURCE_INTENTS } from "../content/wildernessDepth.js";
 import { portalLandformHeight, type PortalLandform } from "../world/portalLandform.js";
 import type { GroundSurfaceSample, RegionId, Vec3 } from "../contracts.js";
 import { GRASS_WIND_STRENGTH, MaterialLibrary, REGION_PALETTES, surfaceColour } from "./materials.js";
@@ -126,6 +128,8 @@ export interface WorldTerrainSpec {
   portalLandforms?: readonly Omit<PortalLandform, "floorY">[];
   /** Closed recessed profiles for authored water. Applied after flats and haul roads. */
   basins?: WaterBasinSpec[];
+  /** Molten channels share terrain, placement and obstacle coordinates with their rendered banks. */
+  lavaChannels?: readonly LavaChannel[];
   /** Normalized hub-and-band fields shared by terrain relief, palette, and scatter. */
   biomes?: OrganicBiomeSpec<RegionId>;
   /** Coastal land and ocean. Dry terrain extends physics, navigation, and placement. */
@@ -1536,7 +1540,8 @@ export class WorldScene {
    * `protectedAuthority` - see `applyHaulRoads`.
    */
   heightAtXZ(x: number, z: number): number {
-    return this.applyBasins(x, z, this.preBasinHeight(x, z));
+    const height = this.applyBasins(x, z, this.preBasinHeight(x, z));
+    return this.world?.lavaChannels?.length ? carveLavaTerrain(height, x, z, this.world.lavaChannels) : height;
   }
 
   private preBasinHeight(x: number, z: number): number {
@@ -2427,7 +2432,14 @@ export class WorldScene {
     // Slope above ~23 degrees loses its soil and shows stone. Lowered from the old 0.5 threshold
     // because at 0.5 only 12.71% of the world had any surface variation at all. The macro field
     // moves the soil line by +/-3.5 degrees so it is a coastline rather than a contour.
-    const rock = smoothstep01((slope - 0.42 - macro * 0.07) / 0.5);
+    const barren = biomeWeights.find(sample=>sample.id==='wilderness')?.weight ?? 0;
+    let livingPocket = 0;
+    if (barren > .1) for (const site of WILDERNESS_RESOURCE_INTENTS) {
+      if (site.kind !== 'grove') continue;
+      const distance = Math.hypot(x - site.position[0], z - site.position[1]) + macro * 7;
+      livingPocket = Math.max(livingPocket, (1 - smoothstep01((distance - 11) / 21)) * (site.tier === 50 ? 1 : .55));
+    }
+    const rock = Math.max(smoothstep01((slope - 0.42 - macro * 0.07) / 0.5), barren * (.8 + macro * .12) * (1 - .72 * livingPocket));
     // Debris collects in hollows and washes off crests, and gathers in patches within that.
     const gravel = smoothstep01((curvature - 0.05) / 0.14) * (1 - rock * 0.6)
       * clamp(0.45 + macro * 0.8, 0, 1);
@@ -2568,6 +2580,19 @@ export class WorldScene {
       (lowB * out.grass + highB * out.dry + rockB * out.rock + gravelB * out.gravel
         + dirtB * out.dirt + mudB * out.mud + cobbleB * out.cobble + wetB * out.wet) * inverse,
     );
+
+    // The same continuous depth field colours lava, night atmosphere and exposed bedrock.
+    const deepMagic = wildernessMagicAt(x, z) * barren;
+    if (deepMagic > 0) {
+      out.colour.r *= 1 - deepMagic * .09;
+      out.colour.g *= 1 - deepMagic * .23;
+      out.colour.b *= 1 + deepMagic * .14;
+    }
+    if (livingPocket > 0) {
+      out.colour.r *= 1 - livingPocket * .09 * barren;
+      out.colour.g *= 1 + livingPocket * .16 * barren;
+      out.colour.b *= 1 - livingPocket * .18 * barren;
+    }
 
     if (shadeColour) {
       const ao = this.horizonAo(x, z, height, heightAt);
@@ -3440,7 +3465,14 @@ function makeRegionField(spec: RegionTerrainSpec): (x: number, z: number) => num
       return (x, z) => {
         const rolling = fbm(noise, x, z, 3, 120);
         const swell = fbm(detail, x, z, 2, 46) * 0.28;
-        return spec.baseHeight + (rolling + swell) * spec.amplitude * 0.62;
+        let height = spec.baseHeight + (rolling + swell) * spec.amplitude * 0.62;
+        if (spec.regionId === 'wilderness') {
+          // Sparse broad hills leave most of the wastes as walking and fighting plains.
+          const pockets = smoothstep01((noise((x + 53) / 104, (z - 31) / 104) - .08) / .42);
+          const hummocks = .55 + fbm(detail, x - 73, z + 87, 2, 64) * .45;
+          height += pockets * hummocks * 6.5;
+        }
+        return height;
       };
 
     case "woodland": {
@@ -4007,8 +4039,9 @@ function rectDistance(
 ): number {
   const dx = x - centre[0];
   const dz = z - centre[1];
-  const cos = Math.cos(-rotationY);
-  const sin = Math.sin(-rotationY);
+  // Inverse of Three's Y rotation: worldX = localX*cos + localZ*sin.
+  const cos = Math.cos(rotationY);
+  const sin = Math.sin(rotationY);
   const lx = Math.abs(dx * cos - dz * sin) - halfExtents[0];
   const lz = Math.abs(dx * sin + dz * cos) - halfExtents[1];
   const outside = Math.hypot(Math.max(lx, 0), Math.max(lz, 0));

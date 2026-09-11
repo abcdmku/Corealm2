@@ -44,7 +44,14 @@ function explicitExpressiveBranches(bones:THREE.Bone[]):Set<THREE.Bone>|null {
   const named=(name:string)=>bones.find(b=>b.name===name);
   const edge=(child:string,parent:string)=>named(child)?.parent===named(parent) && !!named(parent);
   let roots:THREE.Bone[]=[];
-  if(named('Viper_MAINSHJnt') && named('Viper_Front_01_01SHJnt')) roots=bones.filter(b=>b.name==='Viper_Neck_01SHJnt');
+  if(edge('hollow_thorax','hollow_root') && Array.from({length:6},(_,index)=>index).every(index=>
+    edge(`hollow_arm_${index}`,'hollow_thorax') && edge(`hollow_forearm_${index}`,`hollow_arm_${index}`)
+    && edge(`hollow_hook_${index}`,`hollow_forearm_${index}`))) {
+    // The hovering six-arm rig has no legs. Preserve the root/thorax and lower hooked pair,
+    // whose clearance defines its support envelope; only its upper four arms recoil.
+    roots=bones.filter(b=>/^hollow_arm_[0-3]$/.test(b.name));
+  }
+  else if(named('Viper_MAINSHJnt') && named('Viper_Front_01_01SHJnt')) roots=bones.filter(b=>b.name==='Viper_Neck_01SHJnt');
   else if(named('Scorpion_MAINSHJnt') && named('Scorpion_l_FrontLeg_HipSHJnt')) roots=bones.filter(b=>/^Scorpion_[lr]_Pedipalp_01_01SHJnt$/.test(b.name));
   else if(named('hollowroot_spider_leg_L_1_coxa')) roots=bones.filter(b=>/^hollowroot_spider_(?:chelicera_|pedipalp_(?:-?1)$)/.test(b.name));
   else if(named('Snail_EyeLeft') && edge('Bone009','Bone008') && edge('Bone006','Bone005')) roots=bones.filter(b=>/^Snail_Eye(?:Left|Right)$/.test(b.name));

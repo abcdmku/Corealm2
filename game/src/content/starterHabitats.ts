@@ -27,3 +27,10 @@ export const STARTER_GROUPS: readonly EnemyGroupDef[] = pockets.map(([, speciesI
   return { id: habitat.groupId, family: species.stats.family, name: species.stats.name, tier: 1,
     count, centre: habitat.centre, radius: habitat.radius, assetId: species.assetId, scale: species.scale };
 });
+
+/** These three stable group IDs replace the residents of one reserved pack pocket. */
+export const STARTER_SHARED_PACK_RESERVATIONS: Readonly<Record<string, string>> = {
+  pack_fallowmarch_palewood_far_south_scrub: "pack_fallowmarch_palewood_far_south_scrub",
+  pack_fallowmarch_palewood_heath_scrub: "pack_fallowmarch_palewood_far_south_scrub",
+  pack_fallowmarch_palewood_reed_scrub: "pack_fallowmarch_palewood_far_south_scrub",
+};

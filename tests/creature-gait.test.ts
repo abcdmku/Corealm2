@@ -3,6 +3,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import type { SemanticEntity } from "../game/src/contracts.js";
 import type { EnemyDef } from "../game/src/content/index.js";
 import { ENEMY_BLOCKS, enemyBlockFor } from "../game/src/content/enemies.js";
+import { RPG_BESTIARY } from "../game/src/content/rpgBestiary.js";
 import { REGIONS } from "../game/src/content/regions.js";
 import { ENEMY_SPEED_MPS } from "../game/src/systems/enemyAI.js";
 import { enemyPursuitSpeedMps } from "../game/src/content/index.js";
@@ -194,8 +195,8 @@ describe("creature gait", () => {
     // The dungeon and pack monsters spawn outside the region enemy groups, so nothing else in this
     // file covers them. A monster that cannot outpace MOVEMENT.walkSpeed cannot engage at all.
     const spawnedFamilies = new Set(GROUPS.map((group) => group.family));
-    const monsters = ENEMY_BLOCKS.filter((block) => !spawnedFamilies.has(block.family));
-    expect(monsters.length).toBeGreaterThan(15);
+    const monsters = RPG_BESTIARY.map(species => species.stats).filter(block => !spawnedFamilies.has(block.family));
+    expect(RPG_BESTIARY.length).toBeGreaterThan(15);
     const slow = monsters.map((block) => {
       const assetId = [block.family, `creature_${block.family}`].find((id) => ASSET_BY_ID.has(id));
       const speed = enemyPursuitSpeedMps(block, assetId ? { assetId, scale: 1 } : undefined, block.tier, CREATURE_RUN_SPEED);

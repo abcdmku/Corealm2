@@ -5,6 +5,12 @@ import { WORLD_HABITATS, habitatForGroup } from "../game/src/content/worldHabita
 import { WORLD_SITES } from "../game/src/content/worldSites.js";
 import { organicDistance } from "../game/src/world/organicFields.js";
 import { waterBasinForCluster } from "../game/src/world/waterBodies.js";
+import { encounterBodyRadius } from "../game/src/content/encounterPlacement.js";
+import MANIFEST from "../game/public/assets/manifest.json";
+import { buildComposition } from "../game/src/render/buildings.js";
+import { structureCollisionFromCompositionParts } from "../game/src/world/regionBuilder.js";
+import { lavaClearanceAt, WILDERNESS_LAVA_CHANNELS } from "../game/src/content/wildernessLava.js";
+import { WILDERNESS_RESOURCE_INTENTS } from "../game/src/content/wildernessDepth.js";
 
 const ordinaryGroups = REGIONS.flatMap((region) => region.enemyGroups
   .filter((group) => !group.boss && !group.miniBoss)
@@ -22,6 +28,8 @@ describe("authored wildlife habitats", () => {
     for (const habitat of WORLD_HABITATS) {
       const { group, region } = groupsById.get(habitat.groupId)!;
       expect(habitat.regionId, habitat.id).toBe(region.id);
+      expect(group.count, habitat.id).toBeGreaterThanOrEqual(7);
+      expect(group.count, habitat.id).toBeLessThanOrEqual(15);
       expect(habitat.anchors.length, habitat.id).toBeGreaterThanOrEqual(group.count);
       expect(habitatForGroup(group.id), group.id).toBe(habitat);
       expect(new Set(habitat.dressing.map((piece) => piece.id)).size, habitat.id).toBe(habitat.dressing.length);
@@ -56,16 +64,17 @@ describe("authored wildlife habitats", () => {
   it("contains every activity anchor and leaves enough separation for distinct animals", () => {
     const errors: string[] = [];
     for (const habitat of WORLD_HABITATS) {
-      const minimumSeparation = groupsById.get(habitat.groupId)!.group.family === "hen" ? 0.65 : 1.5;
+      const bodyRadius = encounterBodyRadius(groupsById.get(habitat.groupId)!.group);
+      const minimumSeparation = bodyRadius * 2 + .5;
       expect(Number.isFinite(habitat.radius) && habitat.radius > 0, habitat.id).toBe(true);
       for (const [index, [x, z]] of habitat.anchors.entries()) {
-        if (Math.hypot(x - habitat.centre[0], z - habitat.centre[1]) > habitat.radius) {
+        if (Math.hypot(x - habitat.centre[0], z - habitat.centre[1]) + bodyRadius > habitat.radius + 1e-6) {
           errors.push(`${habitat.id}/anchor ${index + 1} lies outside habitat radius`);
         }
         for (let next = index + 1; next < habitat.anchors.length; next++) {
           const other = habitat.anchors[next]!;
           const distance = Math.hypot(x - other[0], z - other[1]);
-          if (distance < minimumSeparation) {
+          if (distance < minimumSeparation - 1e-6) {
             errors.push(`${habitat.id}/anchors ${index + 1},${next + 1}: ${distance.toFixed(2)} m separation`);
           }
         }
@@ -77,6 +86,7 @@ describe("authored wildlife habitats", () => {
   it("keeps animal anchors and refuge props above the actual organic water boundary", () => {
     const errors: string[] = [];
     for (const habitat of WORLD_HABITATS) {
+      const bodyRadius = encounterBodyRadius(groupsById.get(habitat.groupId)!.group);
       const points = [
         ...habitat.anchors.map(([x, z], index) => ({ name: `anchor ${index + 1}`, x, z })),
         ...habitat.dressing.map((piece) => ({ name: piece.id, x: piece.x, z: piece.z })),
@@ -85,6 +95,14 @@ describe("authored wildlife habitats", () => {
         for (const basin of basins) {
           const clearance = organicDistance(point.x - basin.x, point.z - basin.z, basin.shape) - basin.shoreRadius;
           if (clearance < 0.5) errors.push(`${habitat.id}/${point.name}: ${clearance.toFixed(2)} m from ${basin.id} shore`);
+        }
+      }
+      for (const [index, [x, z]] of habitat.anchors.entries()) for (const basin of basins) {
+        for (let sample = 0; sample < 32; sample++) {
+          const angle = sample * Math.PI / 16;
+          const clearance = organicDistance(x + Math.cos(angle) * bodyRadius - basin.x,
+            z + Math.sin(angle) * bodyRadius - basin.z, basin.shape) - basin.shoreRadius;
+          if (clearance < 0) errors.push(`${habitat.id}/anchor ${index + 1}: body crosses ${basin.id} shore by ${(-clearance).toFixed(3)} m`);
         }
       }
     }
@@ -104,9 +122,39 @@ describe("authored wildlife habitats", () => {
     expect(errors).toEqual([]);
   });
 
+  it("keeps complete northern actor bodies and activity connections clear of active lava and high-tier resource floors", () => {
+    expect(WILDERNESS_LAVA_CHANNELS).toHaveLength(21);
+    const resources = WORLD_SITES.filter(site => WILDERNESS_RESOURCE_INTENTS.some(intent => intent.id === site.id));
+    expect(resources).toHaveLength(6);
+    const errors = new Set<string>();
+    for (const habitat of WORLD_HABITATS.filter(row => row.regionId === 'wilderness')) {
+      const radius = encounterBodyRadius(groupsById.get(habitat.groupId)!.group);
+      for (let a = 0; a < habitat.anchors.length; a++) for (let b = a; b < habitat.anchors.length; b++) {
+        const from = habitat.anchors[a]!, to = habitat.anchors[b]!;
+        const steps = Math.max(1, Math.ceil(Math.hypot(to[0] - from[0], to[1] - from[1])));
+        for (let step = 0; step <= steps; step++) {
+          const x = from[0] + (to[0] - from[0]) * step / steps;
+          const z = from[1] + (to[1] - from[1]) * step / steps;
+          if (lavaClearanceAt(x, z) < radius + .5)
+            errors.add(`${habitat.id}/connection ${a + 1},${b + 1} intersects a lava bank body reservation`);
+          for (const site of resources) {
+            const dx = x - site.centre[0], dz = z - site.centre[1];
+            const localX = dx * Math.cos(site.rotationY) - dz * Math.sin(site.rotationY);
+            const localZ = dx * Math.sin(site.rotationY) + dz * Math.cos(site.rotationY);
+            const clearance = Math.hypot(Math.max(0, Math.abs(localX) - site.extent[0]),
+              Math.max(0, Math.abs(localZ) - site.extent[1]));
+            if (clearance < radius + .5)
+              errors.add(`${habitat.id}/connection ${a + 1},${b + 1} enters ${site.id} with its body`);
+          }
+        }
+      }
+    }
+    expect([...errors]).toEqual([]);
+  });
+
   it("keeps actor centres at least 0.75 m clear of settlement building footprints", () => {
     const errors: string[] = [];
-    const buildings = REGIONS.flatMap((region) => region.settlement.buildings);
+    const buildings = REGIONS.flatMap((region) => region.settlement?.buildings ?? []);
     for (const habitat of WORLD_HABITATS) {
       for (const [index, [x, z]] of habitat.anchors.entries()) {
         for (const building of buildings) {
@@ -124,19 +172,23 @@ describe("authored wildlife habitats", () => {
     expect(errors).toEqual([]);
   });
 
-  it("keeps the domestic flocks inside their farm yards and cattle in the existing grazing area", () => {
+  it("keeps domestic flocks inside the real farm fences and the enlarged herd beside the barn", () => {
     const areas = [
-      { groupId: "marchfield_hens", min: [-95, -24], max: [-91, -18] },
-      { groupId: "bracken_hens", min: [-101.8, -23], max: [-100.3, -21.3] },
-      { groupId: "redsill_cattle", min: [-113, -38], max: [-105, -30] },
+      // Physical rails are x[-96,-90], z[-25,-17], with a west entrance.
+      { groupId: "marchfield_hens", min: [-96, -25], max: [-90, -17] },
+      { groupId: "bracken_hens", min: [-103.9, -25.5], max: [-96, -17] },
+      { groupId: "redsill_cattle", min: [-123, -48], max: [-107, -32] },
     ];
     for (const area of areas) {
       const habitat = habitatForGroup(area.groupId)!;
+      const radius = encounterBodyRadius(groupsById.get(area.groupId)!.group);
       for (const [x, z] of habitat.anchors) {
-        expect(x, area.groupId).toBeGreaterThanOrEqual(area.min[0]!);
-        expect(x, area.groupId).toBeLessThanOrEqual(area.max[0]!);
-        expect(z, area.groupId).toBeGreaterThanOrEqual(area.min[1]!);
-        expect(z, area.groupId).toBeLessThanOrEqual(area.max[1]!);
+        expect(x - radius, area.groupId).toBeGreaterThanOrEqual(area.min[0]!);
+        expect(x + radius, area.groupId).toBeLessThanOrEqual(area.max[0]!);
+        expect(z - radius, area.groupId).toBeGreaterThanOrEqual(area.min[1]!);
+        expect(z + radius, area.groupId).toBeLessThanOrEqual(area.max[1]!);
+        if (area.groupId !== 'redsill_cattle')
+          expect(Math.hypot(x + 96, z + 22) + radius, area.groupId).toBeLessThan(7.9);
       }
     }
     // Existing farmhouse dressing occupies these locations even though it is not a settlement
@@ -146,6 +198,25 @@ describe("authored wildlife habitats", () => {
     }
     for (const [x, z] of habitatForGroup("bracken_hens")!.anchors) {
       expect(Math.hypot(x + 99.4, z + 19.4), "hen overlaps farm scarecrow").toBeGreaterThanOrEqual(1);
+    }
+    const assets = new Map(MANIFEST.assets.map(asset => [asset.id, asset]));
+    const solids = structureCollisionFromCompositionParts('farm_yard', buildComposition('farm_yard', 1337),
+      { origin: [-96, 0, -22], rotationY: 0, ownerId: 'marchfield_farmstead' }, {
+        assetSize: id => assets.get(id)?.size ?? null,
+        assetCenterXZ: id => { const asset = assets.get(id); return asset?.base && asset.size
+          ? { x: asset.base.x + asset.size.x / 2, z: asset.base.z + asset.size.z / 2 } : null; },
+      });
+    for (const area of areas) for (const [x, z] of habitatForGroup(area.groupId)!.anchors) {
+      const radius = encounterBodyRadius(groupsById.get(area.groupId)!.group);
+      for (const solid of solids) {
+        if (solid.kind !== 'box') continue;
+        const dx = x - solid.position[0], dz = z - solid.position[2];
+        const localX = dx * Math.cos(solid.rotationY) - dz * Math.sin(solid.rotationY);
+        const localZ = dx * Math.sin(solid.rotationY) + dz * Math.cos(solid.rotationY);
+        const clearance = Math.hypot(Math.max(0, Math.abs(localX) - solid.size[0] / 2),
+          Math.max(0, Math.abs(localZ) - solid.size[2] / 2));
+        expect(clearance, `${area.groupId}/${solid.id}`).toBeGreaterThan(radius + .05);
+      }
     }
   });
 });

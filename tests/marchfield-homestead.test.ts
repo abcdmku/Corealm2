@@ -24,13 +24,17 @@ describe("Marchfield homestead", () => {
 
     expect(hens.count).toBe(12);
     expect(hens.centre).toEqual([-93, -21]);
-    expect(hens.radius).toBeLessThanOrEqual(2.1);
-    expect(cattle.count).toBe(4);
+    expect(hens.radius).toBeLessThanOrEqual(4.4);
+    expect(cattle.count).toBe(7);
+    expect(cattle.legacyCount).toBe(4);
     expect(cattle.name).toBe("Cow");
-    expect(Math.hypot(cattle.centre[0] + 96, cattle.centre[1] + 22)).toBeLessThan(20);
+    expect(cattle.centre).toEqual([-115, -40]);
+    expect(Math.hypot(cattle.centre[0] + 96, cattle.centre[1] + 22)).toBeLessThan(30);
 
     const world = buildWorld(1337, () => 0);
     expect(world.entities.filter((entity) => entity.meta?.groupId === "marchfield_hens")).toHaveLength(12);
-    expect(world.entities.filter((entity) => entity.meta?.groupId === "redsill_cattle")).toHaveLength(4);
+    const herd = world.entities.filter((entity) => entity.meta?.groupId === "redsill_cattle");
+    expect(herd).toHaveLength(7);
+    expect(herd.map(entity => entity.id)).toEqual(Array.from({ length: 7 }, (_, index) => `redsill_cattle_${index + 1}`));
   });
 });

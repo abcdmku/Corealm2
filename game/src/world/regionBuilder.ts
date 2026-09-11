@@ -33,6 +33,10 @@ import { INTERACT_RANGE } from "../app/config.js";
 import { worldSiteResourceSlot, worldSitePoint } from "../content/worldSites.js";
 import { habitatForGroup, type HabitatDef } from "../content/worldHabitats.js";
 import { RngStreams, Rng } from "../core/rng.js";
+import { isStarterAnimalAsset } from "../content/fantasyEncounters.js";
+import { createCoastalEncounterFormation, coastalEncounterTier, type CoastalEncounterFormation } from '../content/coastalEncounterFormation.js';
+import { encounterBodyRadius } from '../content/encounterPlacement.js';
+import { DEEP_WILDERNESS_PACKS } from '../content/deepWildernessEncounters.js';
 import { content, enemyCombatLevel } from "../content/index.js";
 import type { EnemyDef, GatheringResourceArchetype, ResourceDef } from "../content/index.js";
 import { enemyBlockFor } from "../content/enemies.js";
@@ -50,6 +54,8 @@ import {
   type BuildingKit, type CompositionId, type PartPlacement, type PrefabBox,
 } from "../render/buildings.js";
 import { tierSilhouetteScale } from "../core/math.js";
+import { buildWildernessRuinCollisionParts, WILDERNESS_RUIN_IDS, type WildernessRuinId } from "../render/compositions/wildernessRuins.js";
+import { buildDeepWildernessStructureCollisionParts, DEEP_WILDERNESS_STRUCTURE_IDS, type DeepWildernessStructureId } from '../render/compositions/deepWildernessStructures.js';
 import { npcOutfitParts } from "../render/characterAppearances.js";
 import type { KnownLocation } from "./entities.js";
 import { WATER_FILL_DEPTH } from "./waterBodies.js";
@@ -186,6 +192,8 @@ export interface BuildingBox {
 }
 
 export interface BuiltWorld {
+  /** Generated coastal formations share exact spawn and patrol sockets. */
+  coastalHabitats?: readonly HabitatDef[];
   entities: SemanticEntity[];
   routeNodes: RouteNodeOut[];
   routeEdges: RouteEdgeOut[];
@@ -256,6 +264,8 @@ export interface WorldPorts {
   dungeonGates?: boolean;
   /** Dry coastal sites supplied by the production terrain sampler. */
   coastalSpawns?: readonly { id: string; regionId: RegionId; biomeId: RegionId; spot: Spot }[];
+  /** Required for coastal packs: whole-body dry terrain and slope acceptance. */
+  coastalAccepts?: (spot: Spot, bodyRadius: number) => boolean;
 }
 
 // ------------------------------------------------------------------- build
@@ -333,15 +343,33 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
     const dungeon = region.dungeon;
     if (dungeon) buildDungeonEntities(region, dungeon, rng, ctx);
   }
+  const coastalFormations: CoastalEncounterFormation[] = [];
+  const authoredActors = entities.filter(entity => entity.combat && (entity.archetype === 'enemy' || entity.archetype === 'boss'));
   for (const site of ports?.coastalSpawns ?? []) {
-    const region = REGIONS.find((entry) => entry.id === site.biomeId);
-    const groups = region?.enemyGroups.filter((group) => !group.boss && !group.miniBoss) ?? [];
+    if (!ports?.coastalAccepts) continue;
+    const region = REGIONS.find((entry) => entry.id === (site.regionId === 'wilderness' ? 'wilderness' : site.biomeId));
+    const tier = coastalEncounterTier(site.regionId, site.spot[1], region?.tier ?? 1);
+    const groups = region?.enemyGroups.filter((group) => !group.boss && !group.miniBoss
+      && !isStarterAnimalAsset(group.assetId) && (site.regionId !== 'wilderness' || group.tier === tier)) ?? [];
     const coastalRng = new Rng(seed ^ variantSeed(site.id));
     const source = coastalRng.pick(groups);
     if (!source) continue;
-    buildEnemyGroup(site.regionId, { ...source, id: site.id, centre: site.spot, count: 1, radius: 0 },
+    const bodyRadius = Math.max(encounterBodyRadius(source),
+      ...DEEP_WILDERNESS_PACKS.filter(pack => `creature_${pack.speciesId}` === source.assetId).map(pack => pack.bodyRadius));
+    const neighbours = authoredActors.filter(entity => Math.hypot(entity.position[0] - site.spot[0],
+      entity.position[2] - site.spot[1]) < 34 + (entity.combat!.bodyRadius ?? 1));
+    const formation = createCoastalEncounterFormation(site, source, { bodyRadius,
+      accepts: (spot, radius) => ports.coastalAccepts!(spot, radius) && neighbours.every(entity =>
+        Math.hypot(entity.position[0] - spot[0], entity.position[2] - spot[1]) >= radius + (entity.combat!.bodyRadius ?? 1) + 2),
+      reserved: coastalFormations, regionTier: tier });
+    if (!formation) continue;
+    const stats = enemyBlockFor(site.id, source.family, tier);
+    if (!stats) throw new Error(`Missing coastal stats for ${source.family} T${tier}`);
+    coastalFormations.push(formation);
+    buildEnemyGroup(site.regionId, formation.group,
       coastalRng, (spot, assetId, scale) => placeOnGround(ctx, site.regionId, spot, assetId, scale),
-      entities, ctx.assetSize);
+      entities, ctx.assetSize, { habitat: formation.habitat,
+        members: formation.actorIds.map(id => ({ id, stats, scaleMultiplier: 1 })) });
   }
 
   // The approach pad is the surface destination. Keep every graph copy aligned before costs
@@ -452,7 +480,8 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
     if (entityId) location.entityId = entityId;
   }
 
-  return { entities, routeNodes, routeEdges: edges, knownLocations, buildings, solids };
+  return { entities, routeNodes, routeEdges: edges, knownLocations, buildings, solids,
+    coastalHabitats: coastalFormations.map(formation => formation.habitat) };
 }
 
 /**
@@ -736,7 +765,9 @@ function compositionPartBlocks(
   if (composition === "milestone" || composition === "rootfall_stump" ||
       composition === "vault_door" || composition === "highcairn_crane") return false;
   if (!size || part.dy > 0.45 || size.y * part.scale * (part.scaleAxes?.[1] ?? 1) <= 0.45) return false;
-  if (NON_BLOCKING_COMPOSITION_ASSET.test(part.assetId)) return false;
+  if (NON_BLOCKING_COMPOSITION_ASSET.test(part.assetId)
+    && !((composition.startsWith('wilderness_') || (DEEP_WILDERNESS_STRUCTURE_IDS as readonly string[]).includes(composition))
+      && part.assetId === 'kerb_straight')) return false;
   // The farm's building and fence are structural. Loose yard clutter should not carve a metre-wide
   // hole in a plot the player reads as open ground.
   if (composition === "farm_yard" &&
@@ -964,13 +995,18 @@ export function structureCollisionFromCompositionParts(
   const solids: SolidVolume[] = [];
   const cos = Math.cos(options.rotationY);
   const sin = Math.sin(options.rotationY);
-  for (const part of parts) {
+  const collisionParts = (WILDERNESS_RUIN_IDS as readonly string[]).includes(composition)
+    ? buildWildernessRuinCollisionParts(composition as WildernessRuinId)
+    : (DEEP_WILDERNESS_STRUCTURE_IDS as readonly string[]).includes(composition)
+      ? buildDeepWildernessStructureCollisionParts(composition as DeepWildernessStructureId) : parts;
+  for (const part of collisionParts) {
     const size = measurements.assetSize(part.assetId);
     if (!size || !compositionPartBlocks(composition, part, size)) continue;
     // The hero reach allowance applies to loose dressing, not the load-bearing shell. Applying
     // it to walls shortened gate piers and discarded the bank's counter and slim timber posts.
     const structural = /^(?:wall_|overhang_|corner_|fence_)/.test(part.assetId) ||
-      (composition === "bank_counter" && part.tag === "counter");
+      (composition === "bank_counter" && part.tag === "counter") ||
+      ((composition.startsWith('wilderness_') || (DEEP_WILDERNESS_STRUCTURE_IDS as readonly string[]).includes(composition)) && part.assetId === 'kerb_straight');
     if (!structural && Math.hypot(part.dx, part.dz) < COMPOSITION_CLEARANCE_METRES) continue;
     const position: Vec3 = [
       round2(options.origin[0] + part.dx * cos + part.dz * sin),
@@ -1142,6 +1178,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
   }
 
   const settlement = region.settlement;
+  if (settlement) {
   const kit = BUILDING_KITS[settlement.kit];
 
   // Buildings. Round-1 critique finding 1: `settlement.buildings` was authored and never read, so
@@ -1208,6 +1245,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
     pushAssetSolid(ctx, shop.id, position, shop.assetId, scale, shop.rotationY, true);
   }
 
+  }
   const emitStation = (station: import("../content/regions.js").StationDef, settlementId?: string): void => {
     const scale = drawnScale("station", station.scale, tier);
     const position = place(station.position, station.assetId, scale);
@@ -1239,14 +1277,14 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
     pushAssetSolid(ctx, station.id, position, station.assetId, scale, station.rotationY, true);
   };
 
-  for (const station of settlement.stations) {
-    emitStation(station, settlement.id);
+  for (const station of settlement?.stations ?? []) {
+    emitStation(station, settlement?.id);
   }
   for (const station of region.stations) {
     emitStation(station);
   }
 
-  for (const npc of settlement.npcs) {
+  for (const npc of settlement?.npcs ?? []) {
     ctx.out.push({
       id: npc.id,
       archetype: "npc",
@@ -1270,7 +1308,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
         rotationY: npc.facingRad,
         labelHeight: 2.2,
       },
-      meta: { settlementId: settlement.id },
+      meta: { settlementId: settlement!.id },
     });
   }
 
@@ -1291,7 +1329,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
       obstacle.rotationY ?? 0,
       regionId,
       tier,
-      region.settlement.kit,
+      region.settlement?.kit ?? "stone",
       obstacle.id,
       obstacle.name,
       { scenery: true, traversal: true },
@@ -1329,7 +1367,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
       position,
       state: essenceAltar ? "dormant" : "present",
       interactions: ["inspect"],
-      view: {
+      view: landmark.compositionOnly ? undefined : {
         assetId: landmark.assetId,
         scale: trueScale(landmark.scale, tier),
         rotationY: landmark.rotationY,
@@ -1352,7 +1390,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
     });
     // A landmark clipped to a fraction of its own height is a stump, not a mass; sizing a collider
     // off the uncut bbox would wall off a 7 m circle around a 2 m stub.
-    if (landmark.clipFraction === undefined && landmark.solid !== false) {
+    if (!landmark.compositionOnly && landmark.clipFraction === undefined && landmark.solid !== false) {
       pushAssetSolid(ctx, landmark.id, position, landmark.assetId, scale, landmark.rotationY ?? 0, true);
     }
     ctx.locationEntity.set(landmark.id, landmark.id);
@@ -1360,7 +1398,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
     // still the clickable, inspectable entity; these parts are what the player navigates by.
     emitComposition(
       landmark.composition, origin, landmark.rotationY ?? 0, regionId, tier,
-      region.settlement.kit, landmark.id, landmark.name,
+      region.settlement?.kit ?? "stone", landmark.id, landmark.name,
       { blurb: landmark.blurb, scenery: true }, ctx.out, ctx,
     );
   }
@@ -1390,7 +1428,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
     ctx.locationEntity.set(gate.id, gate.id);
     emitComposition(
       gate.composition, origin, gate.rotationY ?? 0, regionId, tier,
-      region.settlement.kit, gate.id, gate.name,
+      region.settlement?.kit ?? "stone", gate.id, gate.name,
       { toRegionId: gate.toRegionId, scenery: true }, ctx.out, ctx,
     );
   }
@@ -1814,7 +1852,7 @@ function buildDungeonEntities(
       bearing + Math.PI,
       dungeon.id,
       dungeon.tier,
-      region.settlement.kit,
+      region.settlement?.kit ?? "stone",
       "gravelmaw_exit_portal",
       `${dungeon.name} Mouth`,
       { scenery: true, dungeonId: dungeon.id },
@@ -1838,7 +1876,7 @@ function buildDungeonEntities(
   // a hole, and a box across it would seal the entrance to the dungeon.
   emitComposition(
     dungeon.entranceComposition, mouth, mouthRotation, region.id, region.tier,
-    region.settlement.kit, "gravelmaw_mouth_portal", dungeon.name,
+    region.settlement?.kit ?? "stone", "gravelmaw_mouth_portal", dungeon.name,
     { scenery: true, dungeonId: dungeon.id }, out, ctx,
   );
 
@@ -2083,7 +2121,7 @@ export function buildEnemyGroup(
     const spot = habitat?.anchors[index] ?? generatedSpot;
     const position = place(spot, group.assetId, scale);
     out.push({
-      id: member?.id ?? (group.count === 1 ? group.id : `${group.id}_${index + 1}`),
+      id: member?.id ?? ((group.legacyCount ?? group.count) === 1 && index === 0 ? group.id : `${group.id}_${index + 1}`),
       archetype,
       name: member ? stats.name : group.name,
       tier: group.tier,

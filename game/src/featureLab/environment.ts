@@ -17,6 +17,10 @@ import type { EntityStore } from "../world/entities.js";
 import { structureEntitiesFromParts, structureCollisionFromCompositionParts } from "../world/regionBuilder.js";
 import { FOLIAGE_RENDER_TILE_METRES, shardByTile } from "../world/scatter.js";
 import { miningAccessPositions } from "../app/miningAccess.js";
+import { WILDERNESS_RESOURCE_SITES, WILDERNESS_RESOURCE_CLUSTERS, WILDERNESS_ORE_RESOURCES, WILDERNESS_TREE_RESOURCES, WILDERNESS_TREE_VARIANTS } from '../content/wildernessResources.js';
+
+const REVIEW_SITES = [...new Map([...WORLD_SITES, ...WILDERNESS_RESOURCE_SITES].map(site => [site.id, site])).values()];
+const reviewTreeAsset = (id: string): boolean => WILDERNESS_TREE_VARIANTS.some(row => row.assetId === id);
 
 export interface EnvironmentWorkbenchState {
   ready: boolean;
@@ -92,7 +96,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
       source: manifest.packs.find((pack) => pack.id === entry.pack)?.source ?? entry.pack,
       size: [entry.size.x, entry.size.y, entry.size.z],
     })),
-    sites: WORLD_SITES.map((site) => ({
+    sites: REVIEW_SITES.map((site) => ({
       id: site.id, label: `${title(site.id)} · ${title(site.regionId)}`,
       available: site.kind === "mine" || site.kind === "grove",
       ...(site.kind === "mine" || site.kind === "grove" ? {} : { reason: "Requires the production water and basin scene; unavailable in the dry yard." }),
@@ -156,14 +160,13 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
   }
 
   function resource(site: WorldSite, slot: WorldSiteResourceSlot): SemanticEntity {
-    const cluster = getRegion(site.regionId)?.clusters.find((candidate) => candidate.id === slot.clusterId);
+    const cluster = getRegion(site.regionId)?.clusters.find((candidate) => candidate.id === slot.clusterId)
+      ?? WILDERNESS_RESOURCE_CLUSTERS.find(candidate => candidate.id === slot.clusterId);
     if (!cluster) throw new Error(`Site ${site.id} refers to unknown cluster ${slot.clusterId}`);
-    const definition = resourceDef(cluster.resourceId);
+    const definition = [...WILDERNESS_ORE_RESOURCES, ...WILDERNESS_TREE_RESOURCES].find(row => row.id === cluster.resourceId)
+      ?? resourceDef(cluster.resourceId);
     const id = `${slot.clusterId}_${slot.index}`;
-    const pine = definition.id === "tree_cairnpine" || definition.id === "tree_cinderpine";
-    const assetId = definition.archetype === "tree"
-      ? `corealm_${pine ? "pine" : "oak"}_${(slot.index - 1) % 3 + 1}`
-      : definition.presentation.availableAssetIds[variantSeed(id) % definition.presentation.availableAssetIds.length];
+    const assetId = definition.presentation.availableAssetIds[variantSeed(id) % definition.presentation.availableAssetIds.length];
     if (!assetId) throw new Error(`No environment model for resource ${definition.id}`);
     const size = assets.assetSize(assetId);
     if (!size) throw new Error(`Missing measurements for ${assetId}`);
@@ -188,7 +191,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
       resource: { remaining: yields, maxYields: yields, respawnSeconds: definition.respawnSeconds ?? respawnSeconds(definition.tier), itemId: definition.itemId },
       view: {
         assetId,
-        depletedAssetId: definition.archetype === "tree" ? `corealm_stump_${pine ? "pine" : "oak"}` : `${assetId}_spent`,
+        depletedAssetId: definition.presentation.depletedAssetId,
         scale: scale / tierSilhouetteScale(definition.presentation.materialTier),
         materialTier: definition.presentation.materialTier, rotationY: yaw,
         ...(definition.archetype === "ore" ? { groundNormal: scene.normalAt(x, z), tiltStrength: 0.85 } : {}),
@@ -201,7 +204,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
   function applyMiningAccess(site: WorldSite, entities: SemanticEntity[]): void {
     const access = miningAccessPositions([site], (x, z) => scene.meshHeightAt(x, z), {
       assetSize: (id) => assets.assetSize(id), assetCenterXZ: (id) => assets.assetCenterXZ(id),
-    });
+    }, { clusters: WILDERNESS_RESOURCE_CLUSTERS, resources: WILDERNESS_ORE_RESOURCES });
     for (const entity of entities) {
       const stance = access.get(entity.id);
       if (stance) entity.interactionPosition = stance;
@@ -269,7 +272,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
     },
     showFoliage(assetId, options = {}) {
       return enqueue(async () => {
-        const tree = /^corealm_(?:oak|pine|ash|walnut|willow|maple|teak|yew|magic)_\d+$/.test(assetId);
+        const tree = reviewTreeAsset(assetId) || /^corealm_(?:(?:oak|pine|ash|walnut|willow|maple|teak|yew|magic)_\d+|deadwood_[a-z0-9_]+)$/.test(assetId);
         const understory = /^corealm_(?:fern|shrub)_\d+$/.test(assetId);
         if (!tree && !understory) throw new Error(`No production foliage family for ${assetId}`);
         if (!assets.entry(assetId)) throw new Error(`Foliage fixture requires ${assetId}`);
@@ -283,7 +286,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
           throw new Error("Foliage span and scale must be finite and positive");
         }
         const variants = [...new Set(options.variants?.length ? options.variants : [assetId])];
-        if (variants.some(id => !assets.entry(id) || !/^corealm_(?:oak|pine|ash|walnut|willow|maple|teak|yew|magic|fern|shrub)_\d+$/.test(id))) {
+        if (variants.some(id => !assets.entry(id) || (!reviewTreeAsset(id) && !/^corealm_(?:(?:oak|pine|ash|walnut|willow|maple|teak|yew|magic|fern|shrub)_\d+|deadwood_[a-z0-9_]+)$/.test(id)))) {
           throw new Error("Every grove variant must be a production foliage asset");
         }
         await assets.loadMany(variants, { priority: "visible-spawn", regionId: "fallowmarch" });
@@ -308,7 +311,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
           const source = assets.instance(sourceId);
           return shardByTile({ castShadow, placements }, tree ? FOLIAGE_RENDER_TILE_METRES.trees : FOLIAGE_RENDER_TILE_METRES.understory)
           .flatMap((shard) => scene.scatterInstanced(source, shard.placements, `lab-foliage-${sourceId}-${layout}-t${shard.tile >>> 0}`, {
-            regionId: "fallowmarch", castShadow, windStrength: tree ? 0.035 : 0.075,
+            regionId: "fallowmarch", castShadow, windStrength: sourceId.includes('deadwood') ? 0 : tree ? 0.035 : 0.075,
             compactVisibility: !castShadow && /^corealm_(fern|shrub)_\d+$/.test(assetId),
           }));
         });
@@ -329,7 +332,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
     },
     showSite(siteId) {
       return enqueue(async () => {
-        const source = WORLD_SITES.find((candidate) => candidate.id === siteId);
+        const source = REVIEW_SITES.find((candidate) => candidate.id === siteId);
         if (!source) throw new Error(`Unknown environment site: ${siteId}`);
         if (source.kind !== "mine" && source.kind !== "grove") throw new Error("This site needs the production water and basin scene. It cannot be previewed on the dry yard.");
         const site: WorldSite = { ...source, centre: [0, 25], rotationY: 0 };
@@ -345,7 +348,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
         if (disposed) { releaseObjects([...dressing.objects, ...cut.objects]); return; }
         clear();
         objects = [...dressing.objects, ...cut.objects];
-        scene.scatterGroup.add(...cut.objects);
+        if (cut.objects.length) scene.scatterGroup.add(...cut.objects);
         const solids = [...dressing.solids, ...cut.solids];
         if (solids.length) { replaceCollision(solids); collisionInstalled = true; }
         for (const entity of entities) entityStore.add(entity);
@@ -398,7 +401,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
         const origin: Vec3 = [0, scene.meshHeightAt(0, 25), 25];
         const rotationY = dungeon.entranceRotationY ?? 0;
         const scale = dungeon.entranceScale ?? 4;
-        const parts = buildComposition(dungeon.entranceComposition, variantSeed(sourceOwnerId), region.settlement.kit);
+        const parts = buildComposition(dungeon.entranceComposition, variantSeed(sourceOwnerId), region.settlement?.kit ?? "stone");
         // Match regionBuilder's separate origins: the hero rests on its measured source base;
         // composition parts retain the authored ground origin. Region/tier preserve world materials.
         const entity: SemanticEntity = {

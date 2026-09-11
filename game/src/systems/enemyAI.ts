@@ -29,9 +29,8 @@ import { distanceXZ, turnToward } from "../core/math.js";
 import { Rng } from "../core/rng.js";
 import type { BossPhase } from "../content/enemies.js";
 import { ORDRUN_PHASES } from "../content/enemies.js";
-import { REGIONS, WORLD_BOUNDS } from "../content/regions.js";
 import { enemyPursuitSpeedMps } from "../content/index.js";
-import { habitatForGroup, type HabitatDef } from "../content/worldHabitats.js";
+import { habitatForGroup, habitatContains, type HabitatDef } from "../content/worldHabitats.js";
 import { habitatIdleTargets, hashId } from "../world/habitatMovement.js";
 export { hashId } from "../world/habitatMovement.js";
 import type { CombatEntityPort, CombatSystem } from "./combat.js";
@@ -244,13 +243,7 @@ function worldHabitat(entity: SemanticEntity): HabitatDef | null {
 }
 
 function insideHabitat(habitat: HabitatDef, position: Vec3): boolean {
-  const [x, , z] = position;
-  const bounds = REGIONS.find((region) => region.id === habitat.regionId)?.bounds;
-  return bounds !== undefined && Number.isFinite(x) && Number.isFinite(z)
-    && x >= WORLD_BOUNDS.min[0] && x <= WORLD_BOUNDS.max[0]
-    && z >= WORLD_BOUNDS.min[1] && z <= WORLD_BOUNDS.max[1]
-    && x >= bounds.min[0] && x <= bounds.max[0] && z >= bounds.min[1] && z <= bounds.max[1]
-    && Math.hypot(x - habitat.centre[0], z - habitat.centre[1]) <= habitat.radius;
+  return habitatContains(habitat, position);
 }
 
 // ------------------------------------------------------------- boss tuning
@@ -359,6 +352,14 @@ export class EnemyAiSystem implements TickSystem {
     // Being struck provokes, whatever the behaviour says. This is what makes `territorial` work
     // and what stops a `passive` frog standing still while it is beaten to death.
     deps.combat.onEnemyProvoked((enemyId, atMs) => this.provoke(enemyId, atMs));
+  }
+
+  /** Entity IDs may name a different seeded encounter after a world replacement. */
+  resetForNewWorld(): void {
+    this.records.clear();
+    this.enemies = [];
+    this.nextScanAtMs = -1;
+    this.scannedRealm = undefined;
   }
 
   private pursuitHabitat(entity: SemanticEntity): HabitatDef | null {

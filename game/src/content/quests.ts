@@ -567,7 +567,7 @@ const ELEVEN_EMPTY_DAYS: QuestDef = {
       ],
       hint:
         "All four are route-graph nodes: `moveTo({ locationId })` reaches each one directly. The "
-        + "Thicket is where the vipers keep to the edge, so go there with health to "
+        + "Thicket is where Thorn Maws keep to the edge, so go there with health to "
         + "spare or take the long way round by the ford.",
       completion: {
         kind: "all",
@@ -584,14 +584,14 @@ const ELEVEN_EMPTY_DAYS: QuestDef = {
       index: 1,
       objective:
         
-        "Something has been going through the bait. Kill 3 Pigs between Oakwood and "
+        "Something has been going through the bait. Defeat 3 Fen Crawlers between Oakwood and "
         + "The Thicket.",
       refs: [
-        { kind: "enemyFamily", id: "hog" },
+        { kind: "enemyFamily", id: "fen_crawler" },
         { kind: "location", id: "thornline_camp" },
       ],
-      hint: "They root around (150, 128) and they are aggressive, so they will find you first.",
-      completion: { kind: "kill", enemyFamily: "hog", count: 3 },
+      hint: "They patrol around (150, 128) and they are aggressive, so they will find you first.",
+      completion: { kind: "kill", enemyFamily: "fen_crawler", count: 3 },
       grants: { xp: { melee: 150 } },
     },
     {
@@ -722,27 +722,27 @@ const SPARKING_STONE: QuestDef = {
   stages: [
     {
       index: 0,
-      objective: "Return to Farmland and kill the Storm Rhino west of the Air Essence Cache.",
+      objective: "Return to Farmland and kill the Storm Scarab west of the Air Essence Cache.",
       refs: [
         { kind: "entity", id: "tempest_roc" },
         { kind: "location", id: "fallowmarch_air_cache" },
       ],
       hint:
         "Go south through Woodlands to Millfield, then follow the western track to locationId "
-        + "fallowmarch_air_cache. The Storm Rhino, entity tempest_roc, roams about 42 metres west "
+        + "fallowmarch_air_cache. The Storm Scarab, entity tempest_roc, roams about 42 metres west "
         + "of the cache. The Air Essence Vess gave you can power Voltrend during the fight.",
       completion: { kind: "kill", enemyFamily: "tempest_roc", count: 1 },
     },
     {
       index: 1,
-      objective: "Loot the Air Orb dropped by the Storm Rhino.",
+      objective: "Loot the Air Orb dropped by the Storm Scarab.",
       refs: [
         { kind: "item", id: "air_orb" },
         { kind: "entity", id: "tempest_roc" },
         { kind: "location", id: "fallowmarch_air_cache" },
       ],
       hint:
-        "The guaranteed Air Orb remains in the Storm Rhino's loot pile after the kill. Use `loot` "
+        "The guaranteed Air Orb remains in the Storm Scarab's loot pile after the kill. Use `loot` "
         + "on that pile. If you already used its Orb to awaken the Air Altar, that earlier "
         + "awakening counts and you can continue with your staff.",
       completion: {
@@ -844,7 +844,7 @@ const LONG_CAIRN: QuestDef = {
       refs: [{ kind: "entity", id: "great_cairn_stone" }, { kind: "location", id: "great_cairn" }],
       hint:
         "`moveTo({ locationId: \"great_cairn\" })` from Hillcrest goes bank -> Second Ramp -> Third "
-        + "Ramp -> the cairn. Bears hold the ground around (100, -110) on the way, so travel "
+        + "Ramp -> the cairn. Cairn Treaders hold the ground around (100, -110) on the way, so travel "
         + "fed and armed. `inspect(\"great_cairn_stone\")` when you arrive.",
       completion: { kind: "reach", locationId: "great_cairn", radius: 16 },
       grants: { xp: { mining: 120 }, flags: ["saw_great_cairn"] },
@@ -878,10 +878,10 @@ const LONG_CAIRN: QuestDef = {
     {
       index: 3,
       objective:
-        "Enter Stone Cavern, kill 4 Giant Rats in the Lit Gallery, and reach The Collapse.",
+        "Enter Stone Cavern, defeat 4 Blind Cave Weavers in the Lit Gallery, and reach The Collapse.",
       refs: [
         { kind: "entity", id: "gravelmaw_mouth_portal" },
-        { kind: "enemyFamily", id: "rat" },
+        { kind: "enemyFamily", id: "blind_cave_weaver" },
         { kind: "location", id: "gravelmaw_entrance" },
         { kind: "location", id: "gravelmaw_chamber1" },
         { kind: "location", id: "gravelmaw_chamber2" },
@@ -893,7 +893,7 @@ const LONG_CAIRN: QuestDef = {
       completion: {
         kind: "all",
         of: [
-          { kind: "kill", enemyFamily: "rat", count: 4 },
+          { kind: "kill", enemyFamily: "blind_cave_weaver", count: 4 },
           { kind: "reach", locationId: "gravelmaw_chamber2", radius: 16 },
         ],
       },
@@ -969,21 +969,21 @@ const LONG_CAIRN: QuestDef = {
       index: 6,
       objective:
         
-        "Carry the Garnet into The Cairn Hall, kill the 2 cave bears standing over the cairn, and set the stone on it.",
+        "Carry the Garnet into The Cairn Hall, kill the 2 Vault Custodians standing over the cairn, and set the stone on it.",
       refs: [
         { kind: "item", id: "cairn_garnet" },
         { kind: "location", id: "gravelmaw_entrance" },
         { kind: "location", id: "gravelmaw_chamber3" },
-        { kind: "enemyFamily", id: "bear" },
+        { kind: "enemyFamily", id: "vault_custodian" },
       ],
       hint:
         "With the door open, chamber 2 walks straight through to chamber 3. The stage completes "
-        + "the moment all three hold at once: both bears dead, you inside the hall, garnet still "
-        + "in your bag. Completing it takes the garnet and unseals the Armored Rhino's Gate.",
+        + "the moment all three hold at once: both custodians defeated, you inside the hall, garnet still "
+        + "in your bag. Completing it takes the garnet and unseals the Quarry Warden's Gate.",
       completion: {
         kind: "all",
         of: [
-          { kind: "kill", enemyFamily: "bear", count: 2 },
+          { kind: "kill", enemyFamily: "vault_custodian", count: 2 },
           { kind: "reach", locationId: "gravelmaw_chamber3", radius: 16 },
           { kind: "have", itemId: "cairn_garnet", quantity: 1 },
         ],
@@ -1002,7 +1002,7 @@ const LONG_CAIRN: QuestDef = {
     ],
     currency: 2400,
     unlocks: [
-      "The Armored Rhino's Gate (entity `ordrun_gate`) is unsealed. Armored Rhino is behind it.",
+      "The Quarry Warden's Gate (entity `ordrun_gate`) is unsealed. Quarry Warden is behind it.",
       "Cairnkeeper Ode will speak plainly about what is under the Great Cairn.",
     ],
     worldState: [

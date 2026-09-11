@@ -50,7 +50,7 @@ export interface ActorPreset {
 }
 
 export const NPC_PRESETS: readonly ActorPreset[] = REGIONS.flatMap((region) => (
-  region.settlement.npcs.map((npc) => ({
+  (region.settlement?.npcs ?? []).map((npc) => ({
     id: npc.id,
     label: npc.name,
     kind: "npc" as const,

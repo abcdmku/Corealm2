@@ -1,4 +1,5 @@
 import type { RegionId } from "../contracts.js";
+import { WILDERNESS_RESOURCE_SITES } from './wildernessResources.js';
 
 export interface WorldSiteResourceSlot {
   readonly clusterId: string;
@@ -63,6 +64,7 @@ export interface WorldSite {
 }
 
 export const WORLD_SITES: readonly WorldSite[] = [
+  ...WILDERNESS_RESOURCE_SITES,
   {
     id: "bracken_workings", locationId: "bracken_pit", regionId: "fallowmarch",
     centre: [-160, 80], rotationY: 2.608, kind: "mine", workRadius: 6.5, extent: [22, 26],

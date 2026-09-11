@@ -1,5 +1,7 @@
 import type { Vec3 } from "../contracts.js";
 import { getRegion } from "../content/regions.js";
+import type { ResourceClusterDef } from '../content/regions.js';
+import type { ResourceDef } from '../content/index.js';
 import { resourceDef } from "../content/resources.js";
 import { worldSitePoint, type WorldSite } from "../content/worldSites.js";
 import { tierSilhouetteScale } from "../core/math.js";
@@ -25,6 +27,7 @@ export function miningAccessPositions(
   sites: readonly WorldSite[],
   heightAt: (x: number, z: number) => number,
   measurements?: MiningAssetMeasurements,
+  candidates?: { readonly clusters: readonly ResourceClusterDef[]; readonly resources: readonly ResourceDef[] },
 ): Map<string, Vec3> {
   const positions = new Map<string, Vec3>();
   for (const site of sites) {
@@ -41,9 +44,10 @@ export function miningAccessPositions(
         || !Number.isInteger(slot.index) || slot.index < 1) {
         throw new Error(`Mine ${site.id} has an invalid resource slot ${id}`);
       }
-      const cluster = region?.clusters.find((candidate) => candidate.id === slot.clusterId);
+      const cluster = candidates?.clusters.find(candidate => candidate.id === slot.clusterId)
+        ?? region?.clusters.find((candidate) => candidate.id === slot.clusterId);
       if (!cluster || slot.index > cluster.count) throw new Error(`Mine ${site.id} has no resource slot ${id}`);
-      const definition = resourceDef(cluster.resourceId);
+      const definition = candidates?.resources.find(candidate => candidate.id === cluster.resourceId) ?? resourceDef(cluster.resourceId);
       if (definition.archetype !== "ore") continue;
       const hero = slot.index === 1 && cluster.heroAssetId !== undefined;
       const variants = definition.presentation.availableAssetIds;

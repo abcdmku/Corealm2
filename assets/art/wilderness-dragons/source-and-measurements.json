@@ -1,0 +1,1120 @@
+[
+  {
+    "id": "creature_baby_red_dragon",
+    "sha256": "d83ddce64e6027093730042fac0d3afb7eaec73c5b79a27879faa0fa274b6e20",
+    "provenance": {
+      "author": "Dungeon Mason; Corealm juvenile anatomy and fissure authoring",
+      "license": "Standard Unity Asset Store EULA",
+      "archiveSha256": "01b15c6e6ac1339acc40e653924691583cbf44303397878ae7f79a59112b7383",
+      "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonTerrorBringerMesh.fbx",
+      "sourceAnimations": {
+        "Idle": "idle01",
+        "Walk": "walk",
+        "Run": "Run",
+        "Attack": "Basic Attack",
+        "Hit": "GetHit",
+        "Death": "die",
+        "Breath": "Flame Attack"
+      },
+      "generator": "tools/wilderness-dragons/build.mjs",
+      "juvenile": true,
+      "sculptedVertices": 14058,
+      "nativeScale": 0.25,
+      "animationTempo": 0.76,
+      "textures": {
+        "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/ForSP_lambert1_AlbedoTransparency.png",
+        "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/ForSP_lambert1_Normal.png",
+        "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/Ambient Occlusion Map from Mesh lambert1.png",
+        "albedoGrade": "Burgundy skin midtones; native grain and pale membrane/claw islands retained.",
+        "fissures": null
+      }
+    },
+    "measurement": {
+      "size": {
+        "x": 1.775421285338363,
+        "y": 1.3583771851580204,
+        "z": 1.9597260566161783
+      },
+      "base": {
+        "x": -0.8939897998906037,
+        "y": 0.003,
+        "z": -1.39698271252256
+      },
+      "animatedMin": [
+        -1.4491590519455024,
+        0.002999999999999989,
+        -1.536640821920534
+      ],
+      "animatedMax": [
+        2.0593023657993044,
+        1.7855833810694852,
+        1.0398707166146786
+      ],
+      "locomotionRadius": 1.7568283531024174,
+      "fullMotionRadius": 2.5694340328911394,
+      "clips": {
+        "Idle": {
+          "seconds": 1.0133333206176758,
+          "samples": 62,
+          "min": [
+            -0.9444165278762369,
+            0.002999999999999999,
+            -1.4420266807811295
+          ],
+          "max": [
+            0.9144147130106913,
+            1.3613772233944998,
+            0.5891720530686285
+          ],
+          "maximumLift": 0.016065373721755018,
+          "maximumDrop": 0,
+          "stanceSamples": 0,
+          "impliedMps": 0
+        },
+        "Walk": {
+          "seconds": 1.0133333206176758,
+          "samples": 62,
+          "min": [
+            -0.8927090755473008,
+            0.002999999999999999,
+            -1.481392346456112
+          ],
+          "max": [
+            0.8196438964938649,
+            1.218914503193439,
+            0.7044778862527254
+          ],
+          "maximumLift": 0.01483725362410029,
+          "maximumDrop": 0,
+          "stanceSamples": 143,
+          "impliedMps": 0.4118954596156388
+        },
+        "Run": {
+          "seconds": 0.6282666325569153,
+          "samples": 39,
+          "min": [
+            -0.8927271448115611,
+            0.002999999999999999,
+            -1.481392346456112
+          ],
+          "max": [
+            0.8194646971160545,
+            1.2189288967836318,
+            0.7045078448024404
+          ],
+          "maximumLift": 0.01483725362410029,
+          "maximumDrop": 0,
+          "stanceSamples": 91,
+          "impliedMps": 0.6589392718552778
+        },
+        "Attack": {
+          "seconds": 0.7599999904632568,
+          "samples": 47,
+          "min": [
+            -1.0539254255249366,
+            0.0029999999999999957,
+            -1.536640821920534
+          ],
+          "max": [
+            0.983122974188207,
+            1.3703211330545342,
+            1.0398707166146786
+          ],
+          "maximumLift": 0.06520014438563747,
+          "maximumDrop": 0,
+          "stanceSamples": 24,
+          "impliedMps": 4.391603229355523
+        },
+        "Hit": {
+          "seconds": 1.0133333206176758,
+          "samples": 62,
+          "min": [
+            -1.2848102751437775,
+            0.002999999999999999,
+            -1.4431492643891173
+          ],
+          "max": [
+            1.1960145084196137,
+            1.419351551003412,
+            0.9114926013774285
+          ],
+          "maximumLift": 0.0175489978723995,
+          "maximumDrop": 0,
+          "stanceSamples": 192,
+          "impliedMps": 0.157058909573502
+        },
+        "Death": {
+          "seconds": 1.1399999856948853,
+          "samples": 70,
+          "min": [
+            -1.4447905170000037,
+            0.002999999999999989,
+            -1.4735662786166916
+          ],
+          "max": [
+            2.0593023657993044,
+            1.7855833810694852,
+            0.7982124489612029
+          ],
+          "maximumLift": 0.1596905084547167,
+          "maximumDrop": 0,
+          "stanceSamples": 109,
+          "impliedMps": 0.9158914250589079
+        },
+        "Breath": {
+          "seconds": 1.7733333110809326,
+          "samples": 108,
+          "min": [
+            -1.4491590519455024,
+            0.002999999999999999,
+            -1.480616178271731
+          ],
+          "max": [
+            1.3196878194500294,
+            1.422985862683064,
+            0.8531104055093472
+          ],
+          "maximumLift": 0.02099081887550421,
+          "maximumDrop": 0,
+          "stanceSamples": 147,
+          "impliedMps": 0.34078001952045023
+        }
+      },
+      "attackContact": 0.5043859712414905,
+      "grounding": "Actual skinned geometry at 60 Hz; per-clip root clearance is 3 mm."
+    }
+  },
+  {
+    "id": "creature_baby_black_dragon",
+    "sha256": "2dce69e42f6a2076dd0fd0d88dbf8aae726839574d2fd1b8b97ec448bfba080a",
+    "provenance": {
+      "author": "Dungeon Mason; Corealm juvenile anatomy and fissure authoring",
+      "license": "Standard Unity Asset Store EULA",
+      "archiveSha256": "01b15c6e6ac1339acc40e653924691583cbf44303397878ae7f79a59112b7383",
+      "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonUsurperMesh.fbx",
+      "sourceAnimations": {
+        "Idle": "idle01",
+        "Walk": "Walk",
+        "Run": "Run",
+        "Attack": "attackMouth",
+        "Hit": "getHit",
+        "Death": "Die",
+        "Breath": "attackFlame"
+      },
+      "generator": "tools/wilderness-dragons/build.mjs",
+      "juvenile": true,
+      "sculptedVertices": 14496,
+      "nativeScale": 0.25,
+      "animationTempo": 0.78,
+      "textures": {
+        "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Albedo.png",
+        "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Normal.png",
+        "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/AO.png",
+        "fissures": null
+      }
+    },
+    "measurement": {
+      "size": {
+        "x": 1.9016952236750042,
+        "y": 1.2084341154444622,
+        "z": 3.7758443013675755
+      },
+      "base": {
+        "x": -0.987209778901833,
+        "y": 0.002999999999999999,
+        "z": -1.9801759098201797
+      },
+      "animatedMin": [
+        -3.0289931328393997,
+        0.002999999999999999,
+        -2.4439681884639075
+      ],
+      "animatedMax": [
+        1.8279500017407126,
+        2.7211302941803033,
+        1.9063502121192037
+      ],
+      "locomotionRadius": 2.2785663431412027,
+      "fullMotionRadius": 3.8920148901323333,
+      "clips": {
+        "Idle": {
+          "seconds": 1.040000081062317,
+          "samples": 64,
+          "min": [
+            -1.0057813088639938,
+            0.002999999999999999,
+            -2.000003709517256
+          ],
+          "max": [
+            0.9342716069777521,
+            1.2790575325783349,
+            1.835268822411651
+          ],
+          "maximumLift": 0.024904265797153564,
+          "maximumDrop": 0,
+          "stanceSamples": 0,
+          "impliedMps": 0
+        },
+        "Walk": {
+          "seconds": 1.040000081062317,
+          "samples": 64,
+          "min": [
+            -1.065728763807227,
+            0.002999999999999999,
+            -1.8983393125602857
+          ],
+          "max": [
+            1.003469151300873,
+            1.3096200361245207,
+            1.8024851034244946
+          ],
+          "maximumLift": 0.04272774516803819,
+          "maximumDrop": 0,
+          "stanceSamples": 67,
+          "impliedMps": 0.8650391361791554
+        },
+        "Run": {
+          "seconds": 0.5200000405311584,
+          "samples": 33,
+          "min": [
+            -1.0917187101140509,
+            0.002999999999999999,
+            -1.8407286271937127
+          ],
+          "max": [
+            1.0368512804063752,
+            2.0206353725897817,
+            1.790767832949212
+          ],
+          "maximumLift": 0.059628007272352,
+          "maximumDrop": 0,
+          "stanceSamples": 21,
+          "impliedMps": 2.0764945404013613
+        },
+        "Attack": {
+          "seconds": 0.9099999666213989,
+          "samples": 56,
+          "min": [
+            -1.504489995237726,
+            0.002999999999999999,
+            -2.002351239143604
+          ],
+          "max": [
+            1.5971011434078737,
+            1.5424760022164927,
+            1.9063502121192037
+          ],
+          "maximumLift": 0.042880507547833666,
+          "maximumDrop": 0,
+          "stanceSamples": 10,
+          "impliedMps": 4.27000476375933
+        },
+        "Hit": {
+          "seconds": 1.040000081062317,
+          "samples": 64,
+          "min": [
+            -1.7785918357967618,
+            0.002999999999999999,
+            -1.9916924545768926
+          ],
+          "max": [
+            1.8279500017407126,
+            1.7169954239284486,
+            1.7956685605204483
+          ],
+          "maximumLift": 0.056748436920273176,
+          "maximumDrop": 0,
+          "stanceSamples": 33,
+          "impliedMps": 0.7472809073666786
+        },
+        "Death": {
+          "seconds": 1.6640000343322754,
+          "samples": 101,
+          "min": [
+            -3.0289931328393997,
+            0.002999999999999999,
+            -2.4439681884639075
+          ],
+          "max": [
+            1.467798615504857,
+            2.7211302941803033,
+            1.7956685926326528
+          ],
+          "maximumLift": 0.2458643037314586,
+          "maximumDrop": -0.06731790507722214,
+          "stanceSamples": 15,
+          "impliedMps": 0.5750945358948539
+        },
+        "Breath": {
+          "seconds": 2.080000162124634,
+          "samples": 126,
+          "min": [
+            -1.5807004602699903,
+            0.002999999999999999,
+            -2.0032282940524135
+          ],
+          "max": [
+            1.2863917666381224,
+            2.1525053608762637,
+            1.804050389703188
+          ],
+          "maximumLift": 0.02802036934933223,
+          "maximumDrop": 0,
+          "stanceSamples": 26,
+          "impliedMps": 0.6322717748131512
+        }
+      },
+      "attackContact": 0.439560455683421,
+      "grounding": "Actual skinned geometry at 60 Hz; per-clip root clearance is 3 mm."
+    }
+  },
+  {
+    "id": "creature_baby_lava_dragon",
+    "sha256": "63b59a617f90a3cfbac598a1862e4fa51cd4e8e6f654f93afbe0850b28dd8601",
+    "provenance": {
+      "author": "Dungeon Mason; Corealm juvenile anatomy and fissure authoring",
+      "license": "Standard Unity Asset Store EULA",
+      "archiveSha256": "01b15c6e6ac1339acc40e653924691583cbf44303397878ae7f79a59112b7383",
+      "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonSoulEaterMesh.fbx",
+      "sourceAnimations": {
+        "Idle": "Idle",
+        "Walk": "Walk",
+        "Run": "Run",
+        "Attack": "Basic Attack",
+        "Hit": "Get Hit",
+        "Death": "Die",
+        "Breath": "Fireball Shoot"
+      },
+      "generator": "tools/wilderness-dragons/build.mjs",
+      "juvenile": true,
+      "sculptedVertices": 11592,
+      "nativeScale": 0.32,
+      "animationTempo": 0.79,
+      "textures": {
+        "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonSoulEater/Red/Albedo.png",
+        "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonSoulEater/Red/Normal.png",
+        "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonSoulEater/Red/AO.png",
+        "albedoGrade": "Warm basalt grey midtones derived from native luminance; full diffuse factor and reduced fissure emission.",
+        "fissures": {
+          "file": "assets/art/wilderness-dragons/baby_lava_dragon-fissures.png",
+          "coveredPixels": 708015,
+          "litPixels": 7104,
+          "litFraction": 0.01003368572699731
+        }
+      }
+    },
+    "measurement": {
+      "size": {
+        "x": 1.2926246101406593,
+        "y": 1.2237102293658941,
+        "z": 2.4421383773642225
+      },
+      "base": {
+        "x": -0.6463268815110721,
+        "y": 0.003,
+        "z": -1.494157438963213
+      },
+      "animatedMin": [
+        -1.2959152012414483,
+        0.002999999999999999,
+        -1.5796231927270972
+      ],
+      "animatedMax": [
+        1.3277905587410483,
+        1.858361130889501,
+        1.1952418465411394
+      ],
+      "locomotionRadius": 1.8607588629233585,
+      "fullMotionRadius": 2.0635496599023764,
+      "clips": {
+        "Idle": {
+          "seconds": 1.0533334016799927,
+          "samples": 65,
+          "min": [
+            -0.6801591693024819,
+            0.002999999999999999,
+            -1.494157439018267
+          ],
+          "max": [
+            0.7038586281096034,
+            1.2267102494433013,
+            0.9479809435951059
+          ],
+          "maximumLift": 0.009537634940061145,
+          "maximumDrop": 0,
+          "stanceSamples": 0,
+          "impliedMps": 0
+        },
+        "Walk": {
+          "seconds": 1.0533334016799927,
+          "samples": 65,
+          "min": [
+            -0.7620088511399894,
+            0.002999999999999999,
+            -1.512604792604864
+          ],
+          "max": [
+            0.722399963183844,
+            1.152632720484876,
+            1.01385571620226
+          ],
+          "maximumLift": 0.028666874344893352,
+          "maximumDrop": 0,
+          "stanceSamples": 78,
+          "impliedMps": 0.5640245719241999
+        },
+        "Run": {
+          "seconds": 1.0533334016799927,
+          "samples": 65,
+          "min": [
+            -0.9686687985637947,
+            0.002999999999999999,
+            -1.5696378538941862
+          ],
+          "max": [
+            0.9993300523702281,
+            1.4013829546385423,
+            1.0438653193670864
+          ],
+          "maximumLift": 0.04061892352165884,
+          "maximumDrop": 0,
+          "stanceSamples": 63,
+          "impliedMps": 1.222937183989835
+        },
+        "Attack": {
+          "seconds": 0.7900000214576721,
+          "samples": 49,
+          "min": [
+            -1.1774389623206725,
+            0.002999999999999999,
+            -1.5796231927270972
+          ],
+          "max": [
+            1.0330352979984243,
+            1.257141562086282,
+            1.036671638442232
+          ],
+          "maximumLift": 0.09657668853269911,
+          "maximumDrop": 0,
+          "stanceSamples": 16,
+          "impliedMps": 1.6430965326465985
+        },
+        "Hit": {
+          "seconds": 1.0533334016799927,
+          "samples": 65,
+          "min": [
+            -1.2083381044497608,
+            0.002999999999999999,
+            -1.5198775688502861
+          ],
+          "max": [
+            1.231361509075335,
+            1.3589138074061036,
+            1.0860047930047598
+          ],
+          "maximumLift": 0.15619765624896487,
+          "maximumDrop": 0,
+          "stanceSamples": 26,
+          "impliedMps": 0.7962460062529408
+        },
+        "Death": {
+          "seconds": 1.184999942779541,
+          "samples": 73,
+          "min": [
+            -1.0633269694953293,
+            0.002999999999999999,
+            -1.4755496128224517
+          ],
+          "max": [
+            1.3277905587410483,
+            1.858361130889501,
+            0.9533856573773358
+          ],
+          "maximumLift": 0.1600694995870409,
+          "maximumDrop": 0,
+          "stanceSamples": 21,
+          "impliedMps": 0.3184689947982522
+        },
+        "Breath": {
+          "seconds": 0.7900000214576721,
+          "samples": 49,
+          "min": [
+            -1.2959152012414483,
+            0.002999999999999999,
+            -1.5138140583798245
+          ],
+          "max": [
+            1.2735814779614636,
+            1.5718799070572482,
+            1.1952418465411394
+          ],
+          "maximumLift": 0.04873639717089277,
+          "maximumDrop": 0,
+          "stanceSamples": 2,
+          "impliedMps": 6.613966022998932
+        }
+      },
+      "attackContact": 0.6329113752141712,
+      "grounding": "Actual skinned geometry at 60 Hz; per-clip root clearance is 3 mm."
+    }
+  },
+  {
+    "id": "creature_red_wilderness_dragon",
+    "sha256": "5f93b158fc655c3388653295c4594749d507c8a485a7b1e56e06ea183190c461",
+    "provenance": {
+      "author": "Dungeon Mason; Corealm juvenile anatomy and fissure authoring",
+      "license": "Standard Unity Asset Store EULA",
+      "archiveSha256": "01b15c6e6ac1339acc40e653924691583cbf44303397878ae7f79a59112b7383",
+      "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonTerrorBringerMesh.fbx",
+      "sourceAnimations": {
+        "Idle": "idle01",
+        "Walk": "walk",
+        "Run": "Run",
+        "Attack": "Basic Attack",
+        "Hit": "GetHit",
+        "Death": "die",
+        "Breath": "Flame Attack"
+      },
+      "generator": "tools/wilderness-dragons/build.mjs",
+      "juvenile": false,
+      "sculptedVertices": 14058,
+      "nativeScale": 0.59,
+      "animationTempo": 1.12,
+      "textures": {
+        "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/ForSP_lambert1_AlbedoTransparency.png",
+        "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/ForSP_lambert1_Normal.png",
+        "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/Ambient Occlusion Map from Mesh lambert1.png",
+        "albedoGrade": "Burgundy skin midtones; native grain and pale membrane/claw islands retained.",
+        "fissures": null
+      }
+    },
+    "measurement": {
+      "size": {
+        "x": 5.586659341360475,
+        "y": 3.365314657180091,
+        "z": 5.9782780199338665
+      },
+      "base": {
+        "x": -2.8130880703175243,
+        "y": 0.0030000000000000005,
+        "z": -4.431881333234373
+      },
+      "animatedMin": [
+        -4.495203433739318,
+        0.0029999999999999957,
+        -4.678756495776568
+      ],
+      "animatedMax": [
+        5.987353163113845,
+        5.507059729037308,
+        2.715098097066484
+      ],
+      "locomotionRadius": 5.352171877931126,
+      "fullMotionRadius": 7.598628839903999,
+      "clips": {
+        "Idle": {
+          "seconds": 1.493333339691162,
+          "samples": 91,
+          "min": [
+            -2.8130884891716335,
+            0.0029999999999999996,
+            -4.544349275800948
+          ],
+          "max": [
+            2.7737174492814654,
+            3.3683147589229323,
+            1.5645415925699642
+          ],
+          "maximumLift": 0.005901117663897353,
+          "maximumDrop": 0,
+          "stanceSamples": 0,
+          "impliedMps": 0
+        },
+        "Walk": {
+          "seconds": 1.493333339691162,
+          "samples": 91,
+          "min": [
+            -2.827478288235684,
+            0.0029999999999999996,
+            -4.516724091938013
+          ],
+          "max": [
+            2.7206818413272975,
+            3.022798330200372,
+            1.9012518362857784
+          ],
+          "maximumLift": 0.005886939558044578,
+          "maximumDrop": 0,
+          "stanceSamples": 261,
+          "impliedMps": 0.7712204493651509
+        },
+        "Run": {
+          "seconds": 1.0154666900634766,
+          "samples": 62,
+          "min": [
+            -2.827478288235684,
+            0.0029999999999999996,
+            -4.516724091938013
+          ],
+          "max": [
+            2.7205905388407654,
+            3.020705752004097,
+            1.9012518362857784
+          ],
+          "maximumLift": 0.005896412649230366,
+          "maximumDrop": 0,
+          "stanceSamples": 177,
+          "impliedMps": 1.1352385432186463
+        },
+        "Attack": {
+          "seconds": 1.1200000047683716,
+          "samples": 69,
+          "min": [
+            -3.0232956557200708,
+            0.002999999999999999,
+            -4.678756495776568
+          ],
+          "max": [
+            2.9654106480803035,
+            3.8292285125834815,
+            2.715098097066484
+          ],
+          "maximumLift": 0.19451136214874218,
+          "maximumDrop": 0,
+          "stanceSamples": 12,
+          "impliedMps": 8.37339330324648
+        },
+        "Hit": {
+          "seconds": 1.493333339691162,
+          "samples": 91,
+          "min": [
+            -4.170452427615131,
+            0.0029999999999999996,
+            -4.5210800978519305
+          ],
+          "max": [
+            3.8881689953709864,
+            3.589652303371857,
+            2.2717301726957375
+          ],
+          "maximumLift": 0.008697866602664299,
+          "maximumDrop": 0,
+          "stanceSamples": 0,
+          "impliedMps": 0
+        },
+        "Death": {
+          "seconds": 1.6799999475479126,
+          "samples": 102,
+          "min": [
+            -4.465040277531436,
+            0.0029999999999999957,
+            -4.598476265838872
+          ],
+          "max": [
+            5.987353163113845,
+            5.507059729037308,
+            2.2186968225882073
+          ],
+          "maximumLift": 0.32529972925490547,
+          "maximumDrop": 0,
+          "stanceSamples": 126,
+          "impliedMps": 1.4926484427520492
+        },
+        "Breath": {
+          "seconds": 2.613333225250244,
+          "samples": 158,
+          "min": [
+            -4.495203433739318,
+            0.002999999999999999,
+            -4.609106629978541
+          ],
+          "max": [
+            4.192057155568585,
+            3.8856121163391326,
+            2.239017444101134
+          ],
+          "maximumLift": 0.008121150416898747,
+          "maximumDrop": 0,
+          "stanceSamples": 25,
+          "impliedMps": 1.157654778383086
+        }
+      },
+      "attackContact": 0.5059523787983016,
+      "grounding": "Actual skinned geometry at 60 Hz; per-clip root clearance is 3 mm."
+    }
+  },
+  {
+    "id": "creature_black_wilderness_dragon",
+    "sha256": "81d86b625b996d88fa3a6eab80af0b136d78a47f515ac48013c64ef185e4564d",
+    "provenance": {
+      "author": "Dungeon Mason; Corealm juvenile anatomy and fissure authoring",
+      "license": "Standard Unity Asset Store EULA",
+      "archiveSha256": "01b15c6e6ac1339acc40e653924691583cbf44303397878ae7f79a59112b7383",
+      "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonUsurperMesh.fbx",
+      "sourceAnimations": {
+        "Idle": "idle01",
+        "Walk": "Walk",
+        "Run": "Run",
+        "Attack": "attackMouth",
+        "Hit": "getHit",
+        "Death": "Die",
+        "Breath": "attackFlame"
+      },
+      "generator": "tools/wilderness-dragons/build.mjs",
+      "juvenile": false,
+      "sculptedVertices": 14496,
+      "nativeScale": 0.51,
+      "animationTempo": 1.12,
+      "textures": {
+        "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Albedo.png",
+        "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Normal.png",
+        "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/AO.png",
+        "fissures": null
+      }
+    },
+    "measurement": {
+      "size": {
+        "x": 5.623704597734273,
+        "y": 3.416436580848296,
+        "z": 8.033499210569321
+      },
+      "base": {
+        "x": -2.9183374737311443,
+        "y": 0.002999999999999999,
+        "z": -4.570246271728783
+      },
+      "animatedMin": [
+        -6.764996379031633,
+        0.0029999999999999957,
+        -5.734446218795124
+      ],
+      "animatedMax": [
+        4.373480195894517,
+        6.435355241649949,
+        3.677955251405454
+      ],
+      "locomotionRadius": 5.496916121181597,
+      "fullMotionRadius": 8.868429931197788,
+      "clips": {
+        "Idle": {
+          "seconds": 1.493333339691162,
+          "samples": 91,
+          "min": [
+            -2.9183374737311443,
+            0.002999999999999999,
+            -4.6223989761163375
+          ],
+          "max": [
+            2.7053671240031285,
+            3.5897602112528166,
+            3.5535241959999615
+          ],
+          "maximumLift": 0.036660195885198685,
+          "maximumDrop": 0,
+          "stanceSamples": 0,
+          "impliedMps": 0
+        },
+        "Walk": {
+          "seconds": 1.493333339691162,
+          "samples": 91,
+          "min": [
+            -2.939830308080166,
+            0.0029999999999999957,
+            -4.381764834890624
+          ],
+          "max": [
+            2.7495112994514685,
+            3.575294203738302,
+            3.4836372376256217
+          ],
+          "maximumLift": 0.08007707539769175,
+          "maximumDrop": -0.012443167840073745,
+          "stanceSamples": 94,
+          "impliedMps": 1.4292920580209434
+        },
+        "Run": {
+          "seconds": 0.746666669845581,
+          "samples": 46,
+          "min": [
+            -2.9748133637095227,
+            0.002999999999999999,
+            -4.240744505307639
+          ],
+          "max": [
+            2.810944132815778,
+            5.172586456415625,
+            3.4691371817016963
+          ],
+          "maximumLift": 0.008443398144681171,
+          "maximumDrop": -0.07783900194042447,
+          "stanceSamples": 37,
+          "impliedMps": 3.4993468527147176
+        },
+        "Attack": {
+          "seconds": 1.306666612625122,
+          "samples": 80,
+          "min": [
+            -4.001693180952608,
+            0.002999999999999999,
+            -4.625013730395532
+          ],
+          "max": [
+            3.9147739090570903,
+            4.015588328250519,
+            3.677955251405454
+          ],
+          "maximumLift": 0.03912651931887568,
+          "maximumDrop": 0,
+          "stanceSamples": 12,
+          "impliedMps": 7.822193621282105
+        },
+        "Hit": {
+          "seconds": 1.493333339691162,
+          "samples": 91,
+          "min": [
+            -4.487706202193159,
+            0.002999999999999999,
+            -4.602616626832708
+          ],
+          "max": [
+            4.373480195894517,
+            4.358382722868143,
+            3.4632532568000354
+          ],
+          "maximumLift": 0.030710780242536474,
+          "maximumDrop": -0.04345982454927464,
+          "stanceSamples": 81,
+          "impliedMps": 0.552742801429924
+        },
+        "Death": {
+          "seconds": 2.389333486557007,
+          "samples": 145,
+          "min": [
+            -6.764996379031633,
+            0.002999999999999999,
+            -5.734446218795124
+          ],
+          "max": [
+            3.8039757791375917,
+            6.435355241649949,
+            3.4632533217896837
+          ],
+          "maximumLift": 0.26326278884399984,
+          "maximumDrop": -0.07136108356395832,
+          "stanceSamples": 29,
+          "impliedMps": 0.04765268499101527
+        },
+        "Breath": {
+          "seconds": 2.986666679382324,
+          "samples": 181,
+          "min": [
+            -4.227900246766238,
+            0.0029999999999999957,
+            -4.62433517595245
+          ],
+          "max": [
+            3.340479891199554,
+            5.405006528740746,
+            3.512118192688677
+          ],
+          "maximumLift": 0.07364047741234755,
+          "maximumDrop": 0,
+          "stanceSamples": 53,
+          "impliedMps": 0.8359472156074776
+        }
+      },
+      "attackContact": 0.4336734873237641,
+      "grounding": "Actual skinned geometry at 60 Hz; per-clip root clearance is 3 mm."
+    }
+  },
+  {
+    "id": "creature_purple_wilderness_dragon",
+    "sha256": "2b8f9569cdce00993e9de046f770d3bead32e683d52f15763a8cfa4c378d04b3",
+    "provenance": {
+      "author": "Dungeon Mason; Corealm juvenile anatomy and fissure authoring",
+      "license": "Standard Unity Asset Store EULA",
+      "archiveSha256": "01b15c6e6ac1339acc40e653924691583cbf44303397878ae7f79a59112b7383",
+      "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonSoulEaterMesh.fbx",
+      "sourceAnimations": {
+        "Idle": "Idle",
+        "Walk": "Walk",
+        "Run": "Run",
+        "Attack": "Basic Attack",
+        "Hit": "Get Hit",
+        "Death": "Die",
+        "Breath": "Fireball Shoot"
+      },
+      "generator": "tools/wilderness-dragons/build.mjs",
+      "juvenile": false,
+      "sculptedVertices": 11592,
+      "nativeScale": 0.75,
+      "animationTempo": 1.08,
+      "textures": {
+        "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonSoulEater/purple/Albedo.png",
+        "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonSoulEater/purple/Normal.png",
+        "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonSoulEater/purple/AO.png",
+        "albedoGrade": "Muted violet slate midtones derived from native luminance; reduced fissure emission.",
+        "fissures": {
+          "file": "assets/art/wilderness-dragons/purple_wilderness_dragon-fissures.png",
+          "coveredPixels": 708015,
+          "litPixels": 2769,
+          "litFraction": 0.003910934090379441
+        }
+      }
+    },
+    "measurement": {
+      "size": {
+        "x": 4.7988181232767175,
+        "y": 3.1908811695338883,
+        "z": 7.177341660377673
+      },
+      "base": {
+        "x": -2.43276150725851,
+        "y": 0.002999999999999999,
+        "z": -4.620487742210937
+      },
+      "animatedMin": [
+        -3.375879864288991,
+        0.0029999999999999957,
+        -4.813110727967608
+      ],
+      "animatedMax": [
+        3.679937612560138,
+        4.7924653738920595,
+        3.135040310708905
+      ],
+      "locomotionRadius": 5.521421076844568,
+      "fullMotionRadius": 6.058710730181107,
+      "clips": {
+        "Idle": {
+          "seconds": 1.440000057220459,
+          "samples": 88,
+          "min": [
+            -2.455222859891454,
+            0.002999999999999999,
+            -4.620487742772575
+          ],
+          "max": [
+            2.3670092531285682,
+            3.1938812225703606,
+            2.5568539367109
+          ],
+          "maximumLift": 0.020507318820926226,
+          "maximumDrop": 0,
+          "stanceSamples": 0,
+          "impliedMps": 0
+        },
+        "Walk": {
+          "seconds": 1.440000057220459,
+          "samples": 88,
+          "min": [
+            -2.0525488048999847,
+            0.002999999999999999,
+            -4.641235422566582
+          ],
+          "max": [
+            1.9892937632600896,
+            3.885545799233458,
+            2.742752049412795
+          ],
+          "maximumLift": 0.034120861253120256,
+          "maximumDrop": 0,
+          "stanceSamples": 106,
+          "impliedMps": 1.0867463201733951
+        },
+        "Run": {
+          "seconds": 1.440000057220459,
+          "samples": 88,
+          "min": [
+            -2.557772077594206,
+            0.002999999999999999,
+            -4.8050899138559995
+          ],
+          "max": [
+            2.7197797020315404,
+            4.0674670645313,
+            2.7956531197215724
+          ],
+          "maximumLift": 0.02806857517779795,
+          "maximumDrop": 0,
+          "stanceSamples": 87,
+          "impliedMps": 2.4401597369702888
+        },
+        "Attack": {
+          "seconds": 1.0800000429153442,
+          "samples": 66,
+          "min": [
+            -2.83556069409557,
+            0.002999999999999999,
+            -4.813110727967608
+          ],
+          "max": [
+            2.6436671621151446,
+            4.130792832713632,
+            2.7224905561114454
+          ],
+          "maximumLift": 0.15934623728411976,
+          "maximumDrop": 0,
+          "stanceSamples": 6,
+          "impliedMps": 5.782490191041694
+        },
+        "Hit": {
+          "seconds": 1.440000057220459,
+          "samples": 88,
+          "min": [
+            -2.9770587333002108,
+            0.0029999999999999957,
+            -4.689514130499235
+          ],
+          "max": [
+            3.3000541037362976,
+            3.9857434455992053,
+            2.9114687767251395
+          ],
+          "maximumLift": 0.27736634357024775,
+          "maximumDrop": 0,
+          "stanceSamples": 34,
+          "impliedMps": 1.710672205587671
+        },
+        "Death": {
+          "seconds": 1.6200000047683716,
+          "samples": 99,
+          "min": [
+            -2.69614640491985,
+            0.002999999999999999,
+            -4.56825561970914
+          ],
+          "max": [
+            3.679937612560138,
+            4.7924653738920595,
+            2.556853732040145
+          ],
+          "maximumLift": 0.5686684246217971,
+          "maximumDrop": 0,
+          "stanceSamples": 53,
+          "impliedMps": 0.7853693178601806
+        },
+        "Breath": {
+          "seconds": 1.0800000429153442,
+          "samples": 66,
+          "min": [
+            -3.375879864288991,
+            0.002999999999999999,
+            -4.658089734545024
+          ],
+          "max": [
+            3.4957301340982325,
+            4.45437666700089,
+            3.135040310708905
+          ],
+          "maximumLift": 0.08642225143228352,
+          "maximumDrop": 0,
+          "stanceSamples": 4,
+          "impliedMps": 15.012349921868267
+        }
+      },
+      "attackContact": 0.6018518279364089,
+      "grounding": "Actual skinned geometry at 60 Hz; per-clip root clearance is 3 mm."
+    }
+  }
+]

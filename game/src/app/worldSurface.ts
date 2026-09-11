@@ -163,6 +163,9 @@ const PAVING_SURFACES: Record<PavingAssetId, PavingSurface> = {
 export function collectPavingStamps(): PavingStamp[] {
   const stamps: PavingStamp[] = [];
   for (const region of REGIONS) {
+    for (const castle of region.landmarks.filter(landmark=>landmark.composition==='black_knight_castle')) {
+      stamps.push({centre:castle.position,halfExtents:[18,20],rotationY:castle.rotationY ?? 0,surface:'stone',kerb:false});
+    }
     for (const paving of region.settlement?.paving ?? []) {
       stamps.push(pavingStampFromRect(paving.rect, {
         surface: PAVING_SURFACES[paving.assetId],

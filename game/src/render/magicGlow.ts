@@ -91,6 +91,16 @@ export class MagicGlow {
       height: this.target?.height ?? 0,
     };
   }
+  /** Prepare the real HDR and bloom passes before the first gameplay effect is visible. */
+  prepare(renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera): void {
+    const activeMeshes = this.activeMeshes, rendered = this.rendered;
+    try {
+      this.draw(renderer, scene, camera, new Set());
+    } finally {
+      this.activeMeshes = activeMeshes;
+      this.rendered = rendered;
+    }
+  }
   render(
     renderer: THREE.WebGLRenderer,
     scene: THREE.Scene,
@@ -110,6 +120,14 @@ export class MagicGlow {
     }
     this.activeMeshes = selected.size;
     if (!selected.size) return;
+    this.draw(renderer, scene, camera, selected);
+  }
+  private draw(
+    renderer: THREE.WebGLRenderer,
+    scene: THREE.Scene,
+    camera: THREE.Camera,
+    selected: ReadonlySet<THREE.Object3D>,
+  ): void {
     renderer.getDrawingBufferSize(this.size);
     if (
       !this.target ||
@@ -132,6 +150,8 @@ export class MagicGlow {
       this.composite.uniforms["glow"]!.value = this.target.texture;
     }
     const previousTarget = renderer.getRenderTarget(),
+      previousCubeFace = renderer.getActiveCubeFace(),
+      previousMipmapLevel = renderer.getActiveMipmapLevel(),
       autoClear = renderer.autoClear,
       autoReset = renderer.info.autoReset;
     const shadowAuto = renderer.shadowMap.autoUpdate,
@@ -176,7 +196,7 @@ export class MagicGlow {
       renderer.clear();
       renderer.render(scene, camera);
       this.bloom!.render(renderer, this.target!, this.target!, 0, false);
-      renderer.setRenderTarget(previousTarget);
+      renderer.setRenderTarget(previousTarget, previousCubeFace, previousMipmapLevel);
       renderer.autoClear = false;
       this.quad.render(renderer);
       this.rendered = true;
@@ -188,7 +208,7 @@ export class MagicGlow {
       renderer.setClearColor(this.clearColour, clearAlpha);
       renderer.shadowMap.autoUpdate = shadowAuto;
       renderer.shadowMap.needsUpdate = shadowNeeds;
-      renderer.setRenderTarget(previousTarget);
+      renderer.setRenderTarget(previousTarget, previousCubeFace, previousMipmapLevel);
       renderer.autoClear = autoClear;
       renderer.info.autoReset = autoReset;
     }

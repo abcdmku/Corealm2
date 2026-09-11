@@ -356,7 +356,14 @@ export function installGameDebug(deps: DebugDeps): void {
     },
     getBasicSpellState() { return deps.basicSpellState?.()??[]; },
     getElementalArtState() {
-      return renderer.scene.getObjectByName("elemental-spell-effects")?.userData["elementalArt"] ?? null;
+      const states: Record<string, any>[] = [];
+      renderer.scene.traverse(node => {
+        const art = node.name === 'elemental-spell-effects' ? node.userData['elementalArt'] : undefined;
+        if (art) states.push(art);
+      });
+      // The warmed player renderer and the spell workbench can coexist. Report the one
+      // actually presenting a cast instead of whichever dormant group was constructed first.
+      return states.find(state => Array.isArray(state.contacts) && state.contacts.length > 0) ?? states[0] ?? null;
     },
     getElementalRefractionState() {
       return renderer.elementalRefraction.snapshot();

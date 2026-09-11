@@ -94,6 +94,13 @@ const BRAMBLEHIDE = 0x2f4f3b;
 const WIGHTSHROUD = 0x4a4d52;
 /** Magic tier 20: seared warm grey-brown, the charhide read against the tier 10 cold charcoal. */
 const CHARHIDE = 0x5c4a3c;
+/** Wilderness metals retain enough midtone colour for their worn edges to read at night. */
+const CINDERSTEEL = 0x8f7867;
+const NIGHTGLASS = 0x697b98;
+const DRAGONHIDE = 0x653c36;
+const STARHIDE = 0x514b73;
+const TEAK_FOCUS = 0xbb7838;
+const MAGIC_FOCUS = 0x8174ab;
 
 /**
  * Magic tier fittings.
@@ -197,8 +204,8 @@ interface LadderTier {
 }
 
 /**
- * Every id in `content/equipment.ts`, grouped the way the content file groups them. All tiers keep
- * their class silhouette and change palette, stats, names, and weapon scale.
+ * The equipment and Wilderness crafting ladders. Higher Wilderness tiers use the reviewed fourth
+ * weapon construction at its existing hand scale, with their own metal and hide treatment.
  */
 const LADDER: readonly LadderTier[] = [
   // Reviewed native sword grades already contain their length progression. The common
@@ -305,6 +312,57 @@ const LADDER: readonly LadderTier[] = [
     feet: "charhide_boots", hands: "charhide_wraps",
     accessories: ["cinder_ring", "cinder_charm"],
   },
+  {
+    tier: 50, kit: "knight", cloth: CINDERSTEEL, weapon: CINDERSTEEL, offHandTint: CINDERSTEEL,
+    mainHand: [{ id: "cindersteel_sword", asset: "corealm_sword_4", scale: 0.9, fixedScale: true }],
+    offHand: { id: "teak_shield", asset: "corealm_shield_4" },
+    bodyTrim: "proc_armour_collar_20", legsTrim: "proc_armour_fauld_20",
+    head: "cindersteel_helm", body: "cindersteel_plate", legs: "cindersteel_greaves",
+    feet: "cindersteel_boots", hands: "cindersteel_gauntlets",
+    accessories: ["cindersteel_ring", "cindersteel_pendant"],
+  },
+  {
+    tier: 70, kit: "knight", cloth: NIGHTGLASS, weapon: NIGHTGLASS, offHandTint: NIGHTGLASS,
+    mainHand: [{ id: "nightglass_sword", asset: "corealm_sword_4", scale: 0.9, fixedScale: true }],
+    offHand: { id: "magic_shield", asset: "corealm_shield_4" },
+    bodyTrim: "proc_armour_collar_20", legsTrim: "proc_armour_fauld_20",
+    head: "nightglass_helm", body: "nightglass_plate", legs: "nightglass_greaves",
+    feet: "nightglass_boots", hands: "nightglass_gauntlets",
+    accessories: ["nightglass_ring", "nightglass_pendant"],
+  },
+  {
+    tier: 50, kit: "ranger", cloth: DRAGONHIDE, weapon: CINDERSTEEL, weaponAccent: TEAK_FOCUS,
+    mainHand: [
+      { id: "teak_wand", asset: "corealm_wand_4", scale: 1, fixedScale: true },
+      { id: "teak_staff", asset: "corealm_staff_4", scale: 1, fixedScale: true },
+    ],
+    bodyTrim: "proc_hide_yoke_20", legsTrim: "proc_hide_skirt_20",
+    head: "dragonhide_hood", body: "dragonhide_robe", legs: "dragonhide_leggings",
+    feet: "dragonhide_boots", hands: "dragonhide_wraps",
+    accessories: ["emberweave_ring", "emberweave_charm"],
+  },
+  {
+    tier: 70, kit: "ranger", cloth: STARHIDE, weapon: NIGHTGLASS, weaponAccent: MAGIC_FOCUS,
+    mainHand: [
+      { id: "magic_wand", asset: "corealm_wand_4", scale: 1, fixedScale: true },
+      { id: "magic_staff", asset: "corealm_staff_4", scale: 1, fixedScale: true },
+    ],
+    bodyTrim: "proc_hide_yoke_20", legsTrim: "proc_hide_skirt_20",
+    head: "starhide_hood", body: "starhide_robe", legs: "starhide_leggings",
+    feet: "starhide_boots", hands: "starhide_wraps",
+    accessories: ["starweave_ring", "starweave_charm"],
+  },
+];
+
+/** Keeper rewards inherit the crafted item's fitted parts and keep the same attachment scale. */
+const WILDERNESS_REWARD_VISUALS: readonly {
+  id: ItemId; base: ItemId; tint: number; accent?: number;
+}[] = [
+  { id: "ashseal_guard", base: "teak_shield", tint: 0x735f54 },
+  { id: "regent_staff", base: "teak_staff", tint: 0xa28462, accent: 0xcd8b45 },
+  { id: "chainbound_sword", base: "nightglass_sword", tint: 0x8a94a6, accent: 0x766995 },
+  { id: "nightmarshal_plate", base: "nightglass_plate", tint: 0x8592ab },
+  { id: "hollowstar_staff", base: "magic_staff", tint: 0x8794b3, accent: 0xa198cc },
 ];
 
 /**
@@ -424,6 +482,19 @@ function buildTable(): Map<ItemId, GearVisual> {
     });
   }
 
+  for (const reward of WILDERNESS_REWARD_VISUALS) {
+    const base = table.get(reward.base);
+    if (!base) throw new Error(`Keeper reward ${reward.id} has no fitted base: ${reward.base}`);
+    table.set(reward.id, {
+      slot: base.slot,
+      parts: base.parts.map(part => part.kind === "weapon"
+        ? weaponPart(part.assetId, reward.tint, part.scale, reward.accent)
+        : part.kind === "outfit"
+          ? outfitPart(part.kit, part.part, reward.tint, reward.accent)
+          : { ...part, tint: reward.tint }),
+    });
+  }
+
   return table;
 }
 
@@ -441,6 +512,12 @@ const GATHERING_TOOL_APPEARANCES = new Map<ItemId, GearAppearance>([
   ["kaldite_hatchet", { assetId: "corealm_axe_1", slot: "mainHand", attach: "bone", tint: KALDITE, scale: tierSilhouetteScale(10), accent: KALDITE_GARNET }],
   ["emberite_pickaxe", { assetId: "pickaxe", slot: "mainHand", attach: "bone", tint: EMBERITE, scale: tierSilhouetteScale(20), accent: EMBERITE_OPAL }],
   ["emberite_hatchet", { assetId: "corealm_axe_1", slot: "mainHand", attach: "bone", tint: EMBERITE, scale: tierSilhouetteScale(20), accent: EMBERITE_OPAL }],
+  // Gathering tools keep the reviewed tier-20 hand fit. A level-70 stat requirement must not
+  // stretch an imported pickaxe through the player's other arm or into the ground.
+  ["cindersteel_pickaxe", { assetId: "pickaxe", slot: "mainHand", attach: "bone", tint: CINDERSTEEL, scale: tierSilhouetteScale(20) }],
+  ["cindersteel_hatchet", { assetId: "corealm_axe_1", slot: "mainHand", attach: "bone", tint: CINDERSTEEL, scale: tierSilhouetteScale(20) }],
+  ["nightglass_pickaxe", { assetId: "pickaxe", slot: "mainHand", attach: "bone", tint: NIGHTGLASS, scale: tierSilhouetteScale(20) }],
+  ["nightglass_hatchet", { assetId: "corealm_axe_1", slot: "mainHand", attach: "bone", tint: NIGHTGLASS, scale: tierSilhouetteScale(20) }],
 ]);
 
 /** Appearance of a carried pickaxe or hatchet while gathering, if the item is one. */

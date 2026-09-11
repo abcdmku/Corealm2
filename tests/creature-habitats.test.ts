@@ -115,15 +115,23 @@ describe("staged creature habitats", () => {
   it("uses existing native cover with room for bodies along every straight activity connection", () => {
     expect(CREATURE_HABITATS.reduce((count, habitat) => count + habitat.dressing.length, 0)).toBe(17);
     const allGroups = new Map([
-      ...REGIONS.flatMap((region) => region.enemyGroups), ...CREATURE_ENEMY_GROUPS,
+      ...REGIONS.flatMap((region) => region.enemyGroups),
     ].map((group) => [group.id, group]));
-    const allHabitats = [...WORLD_HABITATS, ...CREATURE_HABITATS];
-    for (const habitat of CREATURE_HABITATS) {
-      const group = groups.get(habitat.groupId)!;
+    const allHabitats = WORLD_HABITATS.map(habitat => {
+      const group = allGroups.get(habitat.groupId)!;
       const scale = group.scale * tierSilhouetteScale(group.tier);
-      const bodyRadius = horizontalRadius(group.assetId, scale, scale);
+      return { habitat, bodyRadius: horizontalRadius(group.assetId, scale, scale) };
+    });
+    const errors: string[] = [];
+    for (const original of CREATURE_HABITATS) {
+      const habitat = WORLD_HABITATS.find(row => row.groupId === original.groupId)!;
+      expect(habitat, original.id).toBeDefined();
+      // These notes describe the frozen source gallery, not the later fantasy-body projection.
+      const sourceGroup = groups.get(original.groupId)!;
+      const sourceScale = sourceGroup.scale * tierSilhouetteScale(sourceGroup.tier);
+      const sourceRadius = horizontalRadius(sourceGroup.assetId, sourceScale, sourceScale);
       if (habitat.dressing.length > 0) {
-        expect(notes.get(habitat.id)!.dressingBodyRadius, habitat.id).toBeGreaterThanOrEqual(bodyRadius * 1.2 + 0.25);
+        expect(notes.get(original.id)!.dressingBodyRadius, original.id).toBeGreaterThanOrEqual(sourceRadius * 1.2 + 0.25);
         expect(notes.get(habitat.id)!.dressingNotes.length).toBeGreaterThan(0);
       }
       expect(new Set(habitat.dressing.map((piece) => piece.id)).size).toBe(habitat.dressing.length);
@@ -136,24 +144,22 @@ describe("staged creature habitats", () => {
         expect([piece.x, piece.z, piece.yaw, piece.sink ?? 0].every(Number.isFinite)).toBe(true);
         const propRadius = horizontalRadius(piece.assetId, sx, sz);
         const sway = /^corealm_(shrub|fern)_/.test(piece.assetId) ? 0.25 : 0;
-        for (const other of allHabitats) {
-          const otherGroup = allGroups.get(other.groupId)!;
-          const otherScale = otherGroup.scale * tierSilhouetteScale(otherGroup.tier);
-          const otherRadius = notes.get(other.id)?.dressingBodyRadius
-            ?? horizontalRadius(otherGroup.assetId, otherScale, otherScale);
+        for (const { habitat: other, bodyRadius: otherRadius } of allHabitats) {
           for (let a = 0; a < other.anchors.length; a++) {
             for (let b = a; b < other.anchors.length; b++) {
-              expect(segmentDistance(piece.x, piece.z, other.anchors[a]!, other.anchors[b]!) - otherRadius - propRadius - sway,
-                `${habitat.id}/${piece.id}: ${other.id} anchors ${a + 1},${b + 1}`).toBeGreaterThanOrEqual(1);
+              const clearance = segmentDistance(piece.x, piece.z, other.anchors[a]!, other.anchors[b]!) - otherRadius - propRadius - sway;
+              if (clearance < 1 - 1e-6) errors.push(`${habitat.id}/${piece.id}: ${other.id} anchors ${a + 1},${b + 1}, ${clearance.toFixed(3)} m`);
             }
           }
         }
       }
     }
+    expect(errors).toEqual([]);
   });
 
   it("keeps dressing bounds inside the region and outside existing mine, grove and building footprints", () => {
-    for (const habitat of CREATURE_HABITATS) {
+    for (const original of CREATURE_HABITATS) {
+      const habitat = WORLD_HABITATS.find(row => row.groupId === original.groupId)!;
       const region = REGIONS.find((candidate) => candidate.id === habitat.regionId)!;
       for (const piece of habitat.dressing) {
         const sx = typeof piece.scale === "number" ? piece.scale : piece.scale[0];
@@ -166,7 +172,7 @@ describe("staged creature habitats", () => {
         const footprints = [
           ...WORLD_SITES.filter((site) => site.kind === "mine" || site.kind === "grove")
             .map((site) => ({ id: site.id, centre: site.centre, yaw: site.rotationY, halfX: site.extent[0], halfZ: site.extent[1] })),
-          ...REGIONS.flatMap((candidate) => candidate.settlement.buildings)
+          ...REGIONS.flatMap((candidate) => candidate.settlement?.buildings ?? [])
             .map((building) => ({ id: building.id, centre: building.position, yaw: building.rotationY,
               halfX: building.footprint[0] / 2, halfZ: building.footprint[1] / 2 })),
         ];

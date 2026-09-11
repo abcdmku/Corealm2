@@ -45,7 +45,7 @@ function questRuntime() {
   const tempestRoc: SemanticEntity = {
     id: "tempest_roc",
     archetype: "enemy",
-    name: "Storm Rhino",
+    name: "Storm Scarab",
     tier: 1,
     regionId: "fallowmarch",
     position: [-292, 0, -156],
@@ -179,7 +179,7 @@ describe("The Sparking Stone Air Orb route", () => {
     const root = dialogueNode("vess_root");
     const text = `${offer?.text ?? ""} ${directions?.text ?? ""}`;
 
-    expect(text).toMatch(/Storm Rhino/);
+    expect(text).toMatch(/Storm Scarab/);
     expect(text).toMatch(/Air Essence Cache/);
     expect(text).toMatch(/loot the Air Orb/i);
     expect(text).toMatch(/Air Staff/);

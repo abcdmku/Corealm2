@@ -94,6 +94,7 @@ export function createDungeonDoorThreshold(
         kind: "box", id: `${spec.id}:partition:${wallIndex}:${index}`,
         position: [origin[0] + x * cos, gateBase + base, origin[2] - x * sin],
         size: [width, top - base, PARTITION_DEPTH], rotationY: spec.rotationY,
+        ...(wallIndex === 2 ? { elevated: true } : {}),
       });
     }
   }

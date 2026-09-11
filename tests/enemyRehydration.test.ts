@@ -33,6 +33,17 @@ function stateWith(enemies: GameState["world"]["enemies"]): GameState {
 }
 
 describe("enemy runtime rehydration", () => {
+  it("clamps saved boss health when a balance update lowers its maximum", () => {
+    const boss = { ...enemy('galeskin', 12), archetype: 'boss' as const };
+    const state = stateWith({ galeskin: {
+      health: 50, state: 'idle', spawnPos: [0, 0, 0], respawnAtMs: null,
+    } });
+    const result = rehydrateEnemyRuntimes(state, { all: () => [boss], add: () => undefined, remove: () => false });
+    expect(result).toEqual({ deadApplied: 0, healthApplied: 1 });
+    expect(state.world.enemies.galeskin!.health).toBe(12);
+    expect(boss.combat!.health).toBe(12);
+    expect(boss.state).toBe('alive');
+  });
   it("turns a dead runtime into a corpse on the NEW clock, not a living ghost", () => {
     const ghost = enemy("marchfield_hens_1", 4);
     const state = stateWith({

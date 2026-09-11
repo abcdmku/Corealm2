@@ -20,7 +20,6 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import type { GameEvent, SemanticEntity, Vec3 } from "../game/src/contracts.js";
 import { enemyCombatLevel } from "../game/src/content/index.js";
 import { RPG_BESTIARY_BY_ID } from "../game/src/content/rpgBestiary.js";
-import { REGIONAL_PACK_LAYOUT } from "../game/src/content/regionalPackLayout.js";
 import { REGIONAL_PACKS } from "../game/src/content/regionalPacks.js";
 import { createRpgRegionalPackCatalogue, RPG_REGIONAL_PACK_PLAN } from "../game/src/content/rpgRegionalPacks.js";
 import { CREATURE_MOTION_TIMING } from "../game/src/content/creatureMotionTiming.js";
@@ -29,6 +28,7 @@ import { GameDriver } from "./lib/driver.js";
 import { installTestDeadline } from "./lib/deadline.js";
 import { argValue, repoRoot } from "./lib/paths.js";
 import { startGameServer } from "./lib/server.js";
+import { CAMERA } from "../game/src/app/config.js";
 
 interface PackDebug {
   getState(): { health: number; maxHealth: number; currency: number; skills: { melee: { xp: number } }; clock: { timeScale: number }; inventory?: unknown };
@@ -39,7 +39,8 @@ interface PackDebug {
   getEntityMotion(id: string): MotionSnapshot | null;
   getPlayerPosition(): { x: number; y: number; z: number };
   groundHeight(x: number, z: number): number;
-  inspectPose(pose: Record<string, unknown>): boolean;
+  getCamera(): { freeMove: boolean; yaw: number; pitch: number; requestedDistance: number;
+    target: { x: number; y: number; z: number } };
   callTool(name: string, args: Record<string, unknown>): Promise<unknown>;
 }
 interface MotionSnapshot {
@@ -96,7 +97,9 @@ async function main(): Promise<void> {
   const original = REGIONAL_PACKS.find((row) => row.id === packId);
   if (!plan || !original) throw new Error(`Unknown regional pack: ${packId}`);
   if (plan.speciesId && HELD_SPECIES[plan.speciesId]) throw new Error(`Pack ${packId} is held: ${HELD_SPECIES[plan.speciesId]}`);
-  const budgetMs = Number(argValue(args, "--budget-ms") ?? 240_000);
+  const budgetMs = Number(argValue(args, "--budget-ms") ?? 120_000);
+  assert(Number.isFinite(budgetMs) && budgetMs > 0 && budgetMs <= 120_000,
+    "Regional pack lifecycle budget must be at most 120000 ms, including startup and cleanup");
   const clearDeadline = installTestDeadline(`Regional pack lifecycle ${packId}`, budgetMs);
 
   // Resolve the pack exactly as the fixture will, from real measurements, before any browser starts.
@@ -110,7 +113,7 @@ async function main(): Promise<void> {
   if (!measurements.has(pack.assetId))
     throw new Error(`${pack.assetId} is not in the public manifest; the final world cannot load this pack`);
   const expectedLevels = new Map(pack.members.map((member) => [member.id, enemyCombatLevel(variants.get(member.variantId)!.stats)]));
-  const dressing = REGIONAL_PACK_LAYOUT[packId]!.dressing;
+  const dressing = catalogue.habitats[0]!.dressing;
   const settingKind = !dressing.length ? "undressed"
     : dressing.some((piece) => piece.id === "ration-cache") ? "supply-camp"
     : dressing.some((piece) => piece.id === "offering-table") ? "burial-shrine"
@@ -186,22 +189,51 @@ async function main(): Promise<void> {
       if (result && typeof result === "object" && "error" in result) throw new Error(JSON.stringify(result));
       return result;
     }, { name, toolArgs });
-    const frame = async (file: string, pose: { x: number; z: number; yaw: number; pitch: number; distance: number }) => {
-      await page.evaluate((pose) => {
-        const w = window as unknown as { __gameDebug: PackDebug };
-        w.__gameDebug.inspectPose({ ...pose, y: w.__gameDebug.groundHeight(pose.x, pose.z), detached: true });
-      }, pose);
-      await page.waitForTimeout(350);
-      await page.screenshot({ path: path.join(directory, file) });
-      await page.evaluate(() => window.__featureLab!.setFreeCameraEnabled(false));
+    const cameraViews: unknown[] = [];
+    report.cameraViews = cameraViews;
+    const capture = async (file: string) => {
+      const view = await page.evaluate(() => {
+        const d = (window as unknown as { __gameDebug: PackDebug }).__gameDebug;
+        return { camera: d.getCamera(), player: d.getPlayerPosition() };
+      });
+      assert.equal(view.camera.freeMove, false, `${file}: camera must follow the player`);
+      assert(view.camera.requestedDistance >= CAMERA.minDistance && view.camera.requestedDistance <= CAMERA.maxDistance,
+        `${file}: camera zoom must remain inside gameplay limits`);
+      assert(view.camera.pitch >= CAMERA.minPitch && view.camera.pitch <= CAMERA.maxPitch,
+        `${file}: camera pitch must remain inside gameplay limits`);
+      assert(Math.hypot(view.camera.target.x - view.player.x, view.camera.target.z - view.player.z) < 3,
+        `${file}: camera focus left the player`);
+      assert(Math.abs(view.camera.target.y - view.player.y - 1.1) < .6,
+        `${file}: camera focus was raised above its normal follow height`);
+      cameraViews.push({ file, ...view });
+      await page.screenshot({ path: path.join(directory, file), timeout: 5000 });
     };
-    const [cx, cz] = pack.centre;
+    const frame = async (file: string, pose: { yaw: number; pitch: number }) => {
+      // Ordinary right-button orbit input only. The camera keeps the actual player's location
+      // and normal follow height; a whole habitat need not fit inside an impossible wide view.
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const camera = await page.evaluate(() => (window as unknown as { __gameDebug: PackDebug }).__gameDebug.getCamera());
+        assert.equal(camera.freeMove, false);
+        const yawDelta = Math.atan2(Math.sin(pose.yaw - camera.yaw), Math.cos(pose.yaw - camera.yaw));
+        const pitchDelta = Math.max(CAMERA.minPitch, Math.min(CAMERA.maxPitch, pose.pitch)) - camera.pitch;
+        if (Math.abs(yawDelta) < .01 && Math.abs(pitchDelta) < .01) break;
+        const dx = Math.max(-280, Math.min(280, -yawDelta / .006));
+        // A fresh production session uses the default inverted vertical orbit.
+        const dy = Math.max(-200, Math.min(200, pitchDelta / .004));
+        await page.mouse.move(720, 510);
+        await page.mouse.down({ button: "right" });
+        await page.mouse.move(720 + dx, 510 + dy, { steps: 6 });
+        await page.mouse.up({ button: "right" });
+      }
+      await page.waitForTimeout(250);
+      await capture(file);
+    };
     const habitatCentre = LAB_HABITAT_CENTRE;
 
     // ------------------------------------------------------------ 1. residents as registered
     const initial = await read();
     check("fixtureIsRequestedPack", initial.fixture.packId === packId && initial.entities.length === pack.members.length
-      && initial.entities.length >= 5 && initial.entities.length <= 10, `fixture ${initial.fixture.packId} with ${initial.entities.length} residents`);
+      && initial.entities.length >= 7 && initial.entities.length <= 15, `fixture ${initial.fixture.packId} with ${initial.entities.length} residents`);
     check("normalClock", initial.state.clock.timeScale === 1, `timeScale ${initial.state.clock.timeScale}`);
     for (const entity of initial.entities) {
       check("residentAliveAtBoot", entity.state === "alive", `${entity.id} ${entity.state}`);
@@ -260,7 +292,7 @@ async function main(): Promise<void> {
     check("idleMovementInsideHabitat", movers.length >= (ranging ? Math.ceil(patrol.entities.length / 2) : 1), `${movers.length} of ${patrol.entities.length} residents moved`);
     check("patrolBodiesNeverOverlap", minimumGap >= -0.15, `minimum body gap ${round(minimumGap)} m`);
     check("patrolStaysInsideHabitat", worstContainment <= 0.35, `bodies overran the habitat by ${round(worstContainment)} m`);
-    await frame("patrol.png", { x: habitatCentre[0], z: habitatCentre[1], yaw: 0, pitch: 0.75, distance: Math.max(18, pack.radius * 2.2) });
+    await frame("patrol.png", { yaw: 0, pitch: .35 });
 
     // ------------------------------------------------------------ 3. aggro, pursuit and contact
     await page.evaluate(() => {
@@ -337,7 +369,7 @@ async function main(): Promise<void> {
       const standoff = attributed.flatMap((hit) => hit.attackers.map((attacker) => attacker.distance));
       check("rangedDamageFromStandoff", standoff.some((metres) => metres > 3), `${baseStats.attackStyle} attackers damaged from ${JSON.stringify(standoff)} m`);
     }
-    await page.screenshot({ path: path.join(directory, "attack.png") });
+    await capture("attack.png");
 
     // ------------------------------------------------------------ 4. flinch on the resident the player hits
     // Bare fists at melee 1 never connect with a Kilnhalt resident 30 levels above the player, so
@@ -404,7 +436,7 @@ async function main(): Promise<void> {
     check("killAwardsXp", dead.state.skills.melee.xp > beforeKill.state.skills.melee.xp, "melee XP did not rise");
     check("killRollsNormalCoinLoot", Boolean(coin) && dead.state.currency > beforeKill.state.currency, "no currency drop event");
     await page.waitForTimeout(1200);
-    await frame("corpse.png", { x: corpse.position[0], z: corpse.position[2], yaw: 0.7, pitch: 0.45, distance: Math.max(6, corpse.combat!.bodyRadius! * 6) });
+    await frame("corpse.png", { yaw: .7, pitch: .45 });
     if (pile) {
       const pileId = String(pile.data.pileId);
       const beforeLoot = await read();
@@ -537,7 +569,7 @@ async function main(): Promise<void> {
     const order = rangingOrderRespected();
     report.resume = { afterMs: Date.now() - resumeStarted, resumedMovers, ranging, ...order, arrivals: Object.fromEntries(arrivals) };
     check("survivorsResumeRanging", resumedMovers >= 1 && (!ranging || (order.observedSequences >= 1 && order.ordered)), JSON.stringify(report.resume));
-    await frame("respawn.png", { x: habitatCentre[0], z: habitatCentre[1], yaw: 0, pitch: 0.75, distance: Math.max(18, pack.radius * 2.2) });
+    await frame("respawn.png", { yaw: 0, pitch: .35 });
 
     // A resident respawning onto its own circuit anchor can land on a survivor that is currently
     // passing through it, because production enemy AI has no lateral body avoidance. One instant
@@ -568,14 +600,8 @@ async function main(): Promise<void> {
   } catch (error) {
     report.error = String(error);
     // A failed run is worth looking at. Capture the frame the assertion fired on before teardown.
-    // Frame the habitat, not the player: a run usually fails because of where the residents are.
-    await driver.page?.evaluate((centre) => {
-      const w = window as unknown as { __gameDebug: PackDebug };
-      w.__gameDebug.inspectPose({ x: centre[0], z: centre[1], y: w.__gameDebug.groundHeight(centre[0], centre[1]),
-        yaw: 0, pitch: 0.75, distance: 22, detached: true });
-    }, LAB_HABITAT_CENTRE).catch(() => {});
-    await driver.page?.waitForTimeout(350);
-    await driver.page?.screenshot({ path: path.join(directory, "failure.png") }).catch(() => {});
+    // Preserve the camera and scene that failed, including the normal player-follow focus.
+    await driver.page?.screenshot({ path: path.join(directory, "failure.png"), timeout: 5000 }).catch(() => {});
     report.consoleErrors ??= driver.consoleErrors;
     report.pageErrors ??= driver.pageErrors;
     throw error;

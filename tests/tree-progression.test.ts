@@ -33,12 +33,16 @@ describe("tree species progression", () => {
     }
   });
 
-  it("restricts willows to solved shoreline sources and gives every region a dry bank recipe", () => {
+  it("restricts willows to solved shoreline sources and leaves the wilderness without living trees", () => {
     for (const region of REGIONS) {
       for (const layer of DEFAULT_SCATTER[region.id].layers) {
         for (const entry of layer.species ?? []) {
           if (treeSpeciesForAsset(entry.assetId)?.id === "willow") expect(entry.sources).toEqual(["shore"]);
         }
+      }
+      if (region.id === "wilderness") {
+        expect(DEFAULT_SCATTER.wilderness.layers.flatMap(layer => layer.species ?? []).some(entry => treeSpeciesForAsset(entry.assetId))).toBe(false);
+        continue;
       }
       const bank = DEFAULT_SCATTER[region.id].layers.find(layer => layer.id === "willow-banks")!;
       expect(bank.shore!.band).toEqual([3, 10]);

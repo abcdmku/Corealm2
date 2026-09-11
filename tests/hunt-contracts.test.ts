@@ -120,3 +120,78 @@ describe("hunt event boundaries", () => {
     expect(f.state.completedCount).toBe(0);
   });
 });
+
+describe("saved hunts after a creature body replacement", () => {
+  function savedHogHunt(oldEnemyId: string) {
+    const f = fixture(); f.start(); f.kill();
+    const offer = f.state.active!.offer;
+    offer.targetId = `vellenwood:${oldEnemyId}`;
+    offer.targetName = oldEnemyId === "hog_t5" ? "Bramble Hog" : "Beetle Golem";
+    offer.regionId = "vellenwood"; offer.regionName = "Vellenwood";
+    offer.enemyDefIds = [oldEnemyId];
+    offer.level = 5; offer.rewardXp = offer.requiredKills * (12 + offer.level * 4);
+    f.entity.regionId = "vellenwood";
+    f.entity.meta!.enemyDefId = "bramble_hogs";
+    f.entity.meta!.family = "fen_crawler";
+    f.reload();
+    return f;
+  }
+
+  it.each(["hog_t5", "beetle_golem_t10"])("continues a saved %s hunt without resetting progress or changing its reward", (oldEnemyId) => {
+    const f = savedHogHunt(oldEnemyId);
+    const before = structuredClone(f.state.active!);
+    expect(before.kills).toBe(1);
+    f.kill({}, f.state.killSerial);
+    expect(f.state.active).toEqual(before);
+    f.kill();
+    expect(f.state.active!.kills).toBe(2);
+    expect(f.state.active!.offer).toEqual(before.offer);
+    expect(f.state.active!.acceptedAfterSerial).toBe(before.acceptedAfterSerial);
+    f.reload();
+    while (f.state.active!.status === "active") f.kill();
+    expect(f.system.claim().ok).toBe(true);
+    expect(f.xp).toBe(before.offer.rewardXp);
+    f.reload();
+    expect(f.system.claim().ok).toBe(false);
+    expect(f.xp).toBe(before.offer.rewardXp);
+    expect(f.state.completedCount).toBe(1);
+  });
+
+  it("keeps death, credit, region and serial guards when matching an old creature ID", () => {
+    const f = savedHogHunt("hog_t5");
+    const before = structuredClone(f.state.active!);
+    f.kill({ creditedPlayerId: null });
+    f.kill({ killSerial: undefined });
+    f.kill({ killSerial: 9000 });
+    f.entity.state = "alive"; f.kill(); f.entity.state = "dead";
+    f.entity.regionId = "fallowmarch"; f.kill(); f.entity.regionId = "vellenwood";
+    f.entity.meta!.enemyDefId = "bracken_tapir_residents"; f.kill();
+    f.entity.meta!.enemyDefId = "fen_crawler_t5"; f.kill();
+    delete f.entity.meta!.enemyDefId; f.kill();
+    expect(f.state.active).toEqual(before);
+    f.entity.meta!.enemyDefId = "bramble_hogs";
+    f.kill({}, before.lastCreditedSerial);
+    expect(f.state.active).toEqual(before);
+    f.kill(); f.kill({}, f.state.killSerial);
+    expect(f.state.active!.kills).toBe(before.kills + 1);
+  });
+
+  it("round trips Wilderness offers and active progress through the real save validator", () => {
+    const f = fixture(); f.system.refreshOffers();
+    const offer = f.state.offers[0]!;
+    offer.regionId = "wilderness"; offer.regionName = "The Wilderness";
+    offer.targetId = "wilderness:grave_lantern_t20"; offer.targetName = "Grave Lantern";
+    offer.enemyDefIds = ["grave_lantern_t20"];
+    f.reload();
+    expect(f.state.offers[0]).toEqual(offer);
+    f.state.active = { offer: structuredClone(f.state.offers[0]!), kills: 1, status: "active",
+      acceptedAfterSerial: 3, lastCreditedSerial: 4 };
+    f.state.killSerial = 4; f.state.offers = [];
+    f.reload();
+    expect(f.state.active!.kills).toBe(1);
+    expect(f.state.active!.lastCreditedSerial).toBe(4);
+    f.entity.regionId = "wilderness"; f.entity.meta!.enemyDefId = "grave_lantern_t20";
+    f.kill();
+    expect(f.state.active!.kills).toBe(2);
+  });
+});

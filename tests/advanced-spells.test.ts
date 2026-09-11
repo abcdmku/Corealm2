@@ -5,7 +5,7 @@ import { ALL_ITEMS } from "../game/src/content/items.js";
 import { SHOPS } from "../game/src/content/shops.js";
 import { content, type ContentTables } from "../game/src/content/index.js";
 import {
-  ADVANCED_SPELLS, ALL_SPELLS, FIELD_RUNE_ID, SPELLS, SPELL_RUNES, isAdvancedSpell, tierRune,
+  ADVANCED_SPELLS, ALL_SPELLS, COSMIC_RUNE_ID, SPELLS, SPELL_RUNES, isAdvancedSpell, tierRune,
 } from "../game/src/content/spells.js";
 import { ELEMENTAL_SPELLS } from "../game/src/content/elementalSpells.js";
 import { areaFootprintRadius, planElementalAttack } from "../game/src/systems/elementalAttacks.js";
@@ -21,8 +21,8 @@ import { SPELL_RANGE } from "../game/src/app/config.js";
  * The twenty invocations and their six runes, frozen as tests.
  *
  * The rule the owner set: the basics stay rune-free, every invocation spends its rank's rune, and
- * every area invocation spends a Field Rune on top. Rank one is the only single-target rank, so it
- * is also the only rank without the Field Rune, and that has to stay true of the pulse plans too.
+ * every area invocation spends a Cosmic Rune on top. Rank one is the only single-target rank, so it
+ * is also the only rank without the Cosmic Rune, and that has to stay true of the pulse plans too.
  */
 
 const originalContent: ContentTables = {
@@ -83,10 +83,10 @@ describe("the invocation ladder", () => {
 });
 
 describe("spell runes", () => {
-  it("are six carried items: one per rank plus the Field Rune, all sold somewhere", () => {
+  it("are six carried items: one per rank plus the Cosmic Rune, all sold somewhere", () => {
     expect(SPELL_RUNES).toHaveLength(6);
     expect(SPELL_RUNES.filter((rune) => rune.tier > 0).map((rune) => rune.tier).sort()).toEqual([1, 2, 3, 4, 5]);
-    expect(SPELL_RUNES.filter((rune) => rune.tier === 0).map((rune) => rune.itemId)).toEqual([FIELD_RUNE_ID]);
+    expect(SPELL_RUNES.filter((rune) => rune.tier === 0).map((rune) => rune.itemId)).toEqual([COSMIC_RUNE_ID]);
     const stocked = new Set(SHOPS.flatMap((shop) => shop.stock.map((row) => row.itemId)));
     for (const rune of SPELL_RUNES) {
       const item = ALL_ITEMS.find((entry) => entry.id === rune.itemId);
@@ -97,12 +97,12 @@ describe("spell runes", () => {
     }
   });
 
-  it("are spent by rank, with the Field Rune on every area invocation and never on a basic", () => {
+  it("are spent by rank, with the Cosmic Rune on every area invocation and never on a basic", () => {
     for (const spell of SPELLS) expect(spell.cost.runes ?? []).toHaveLength(0);
     for (const spell of ADVANCED_SPELLS) {
       const runes = spell.cost.runes ?? [];
       expect(runes.map((rune) => rune.itemId)).toContain(tierRune(spell.rank!).itemId);
-      expect(runes.some((rune) => rune.itemId === FIELD_RUNE_ID), spell.id).toBe(spell.aoe === true);
+      expect(runes.some((rune) => rune.itemId === COSMIC_RUNE_ID), spell.id).toBe(spell.aoe === true);
       expect(runes).toHaveLength(spell.aoe ? 2 : 1);
       for (const rune of runes) expect(rune.quantity).toBe(1);
     }
@@ -128,14 +128,14 @@ describe("paying for an invocation", () => {
     expect(equipment.equip("basic_wooden_staff").ok).toBe(true);
     inventory.addItem("fire_essence", 5);
     const sunfall = content.spell("starfall")!;
-    expect(spellBlockReason(store.get(), sunfall)).toContain("Cataclysm Rune");
-    inventory.addItem("cataclysm_rune", 2);
-    expect(spellBlockReason(store.get(), sunfall)).toContain("Field Rune");
-    inventory.addItem("field_rune", 3);
+    expect(spellBlockReason(store.get(), sunfall)).toContain("Wrath Rune");
+    inventory.addItem("wrath_rune", 2);
+    expect(spellBlockReason(store.get(), sunfall)).toContain("Cosmic Rune");
+    inventory.addItem("cosmic_rune", 3);
     expect(spellBlockReason(store.get(), sunfall)).toBeNull();
     expect(spellRunesCarried(store.get(), sunfall)).toEqual([
-      { itemId: "cataclysm_rune", name: "Cataclysm Rune", quantity: 1, carried: 2 },
-      { itemId: "field_rune", name: "Field Rune", quantity: 1, carried: 3 },
+      { itemId: "wrath_rune", name: "Wrath Rune", quantity: 1, carried: 2 },
+      { itemId: "cosmic_rune", name: "Cosmic Rune", quantity: 1, carried: 3 },
     ]);
 
     const paid = spendSpellFuel(store.get(), sunfall, inventory);
@@ -143,18 +143,18 @@ describe("paying for an invocation", () => {
     if (!paid.ok) return;
     expect(paid.value.source).toBe("essence");
     expect(paid.value.runes).toEqual([
-      { itemId: "cataclysm_rune", quantity: 1, remaining: 1 },
-      { itemId: "field_rune", quantity: 1, remaining: 2 },
+      { itemId: "wrath_rune", quantity: 1, remaining: 1 },
+      { itemId: "cosmic_rune", quantity: 1, remaining: 2 },
     ]);
     expect(inventory.countItem("fire_essence")).toBe(4);
 
-    // A rank-one invocation needs its Focus Rune and nothing else beyond Essence.
+    // A rank-one invocation needs its Mind Rune and nothing else beyond Essence.
     inventory.addItem("air_essence", 2);
     const needle = content.spell("air-needle")!;
-    expect(spellBlockReason(store.get(), needle)).toContain("Focus Rune");
-    inventory.addItem("focus_rune", 1);
+    expect(spellBlockReason(store.get(), needle)).toContain("Mind Rune");
+    inventory.addItem("mind_rune", 1);
     const dart = spendSpellFuel(store.get(), needle, inventory);
-    expect(dart.ok && dart.value.runes).toEqual([{ itemId: "focus_rune", quantity: 1, remaining: 0 }]);
+    expect(dart.ok && dart.value.runes).toEqual([{ itemId: "mind_rune", quantity: 1, remaining: 0 }]);
   });
 
   it("leaves a basic spell's spend result exactly as it was", () => {

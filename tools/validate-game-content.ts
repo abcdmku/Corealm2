@@ -8,6 +8,7 @@ import { ALL_ITEMS } from "../game/src/content/items.js";
 import { RESOURCES } from "../game/src/content/resources.js";
 import { RECIPES } from "../game/src/content/recipes.js";
 import { CREATURE_LOOT_RECIPES } from "../game/src/content/creatureLoot.js";
+import { WILDERNESS_CRAFTING_TIERS } from '../game/src/content/wildernessLoot.js';
 import { SPELLS } from "../game/src/content/spells.js";
 import { ENEMIES } from "../game/src/content/enemies.js";
 import { SHOPS } from "../game/src/content/shops.js";
@@ -134,11 +135,12 @@ export async function validateGameContent(): Promise<GameContentValidation> {
     ...validateContentTables(tables).map((problem) => `tables: ${problem}`),
     ...validateGatheringProduction({
       tiers: GATHERING_PRODUCTION_TIERS, resources: RESOURCES,
+      additionalRecipeTiers: WILDERNESS_CRAFTING_TIERS.map(({ tier }) => ({ tier, reqLevel: tier })),
       recipes: RECIPES.filter((recipe) => !CREATURE_LOOT_RECIPES.includes(recipe)), items: ALL_ITEMS,
       knownManifestAssetIds: knownAssetIds, assetManifest: manifest,
       verifiedSourceHashes,
       clusters: REGIONS.flatMap((region) => region.clusters),
-      stations: REGIONS.flatMap((region) => [...region.settlement.stations, ...region.stations]),
+      stations: REGIONS.flatMap((region) => [...(region.settlement?.stations ?? []), ...region.stations]),
       itemAppearances: ITEM_ICON_APPEARANCE_IDS.map((id) => itemIconAppearance(id)),
     }).map((problem) => `gathering-production: ${problem}`),
   ];

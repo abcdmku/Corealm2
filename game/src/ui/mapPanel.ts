@@ -256,6 +256,31 @@ export class MapPanel implements ManagedPanel {
       this.labelsButton,
     );
 
+    const regionSelect = document.createElement("select");
+    regionSelect.className = "map__region-select";
+    regionSelect.setAttribute("aria-label", "Map region");
+    const overview = document.createElement("option");
+    overview.value = ""; overview.disabled = true; overview.selected = true; overview.textContent = "Explore regions"; regionSelect.append(overview);
+    for (const region of REGIONS) {
+      const option = document.createElement("option");
+      option.value = region.id; option.textContent = region.name; regionSelect.append(option);
+      for (const dungeon of region.dungeon ? [region.dungeon] : []) {
+        const cave = document.createElement("option");
+        cave.value = dungeon.id; cave.textContent = `${dungeon.name} entrance`; regionSelect.append(cave);
+      }
+    }
+    regionSelect.addEventListener("change", () => {
+      const region = REGIONS.find(row => row.id === regionSelect.value);
+      const dungeon = REGIONS.flatMap(row => row.dungeon ? [row.dungeon] : []).find(row => row.id === regionSelect.value);
+      if (region || dungeon) {
+        const x = dungeon ? dungeon.entrance[0] : (region!.bounds.min[0] + region!.bounds.max[0]) / 2;
+        const z = dungeon ? dungeon.entrance[1] : (region!.bounds.min[1] + region!.bounds.max[1]) / 2;
+        this.map.centreOn([x, this.source.sample(x, z).height, z], dungeon ? MAP_HOME_ZOOM : 3);
+        this.schedulePaint();
+      }
+    });
+    toolbar.prepend(regionSelect);
+
     this.figure = document.createElement("div");
     this.figure.className = "map__figure";
     this.figure.tabIndex = 0;

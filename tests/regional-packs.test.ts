@@ -4,7 +4,7 @@ import { CREATURE_EXPANSION } from "../game/src/content/creatureExpansion.js";
 import { CREATURE_ENEMY_GROUPS } from "../game/src/content/creatureHabitats.js";
 import { ENEMY_BLOCKS, enemyBlockFor } from "../game/src/content/enemies.js";
 import { enemyCombatLevel } from "../game/src/content/index.js";
-import { REGIONS } from "../game/src/content/regions.js";
+import { REGIONS, SOURCE_REGIONS } from "../game/src/content/regions.js";
 import {
   REGIONAL_PACKS, REGIONAL_PACK_SOURCES, REGIONAL_PACK_VARIANTS,
   REGIONAL_PACK_GROUPS, REGIONAL_PACK_HABITATS, REGIONAL_PACK_LEVEL_RANGES,
@@ -17,7 +17,7 @@ const bases = new Map(ENEMY_BLOCKS.map((base) => [base.id, base]));
 const sources = new Map(REGIONAL_PACK_SOURCES.map((source) => [source.id, source]));
 const variants = new Map(REGIONAL_PACK_VARIANTS.map((variant) => [variant.id, variant]));
 const groups = new Map([
-  ...REGIONS.flatMap((region) => [...region.enemyGroups, ...(region.dungeon?.enemyGroups ?? [])]),
+  ...SOURCE_REGIONS.flatMap((region) => [...region.enemyGroups, ...(region.dungeon?.enemyGroups ?? [])]),
   ...CREATURE_ENEMY_GROUPS,
 ].map((group) => [group.id, group]));
 
@@ -33,11 +33,11 @@ function modelRadii(assetId: string, scale: number): { body: number; visual: num
 }
 
 describe("authored regional pack staging", () => {
-  it("adds 24 packs per surface region, each with 5–10 ordered, uniquely identified residents", () => {
+  it("stages 24 packs per original surface region, each with 5–10 ordered, uniquely identified residents", () => {
     expect(REGIONAL_PACKS).toHaveLength(96);
     expect(new Set(REGIONAL_PACKS.map((pack) => pack.id)).size).toBe(96);
     const memberIds: string[] = [];
-    for (const region of REGIONS) {
+    for (const region of REGIONS.filter(region => region.id !== "wilderness")) {
       expect(REGIONAL_PACKS.filter((pack) => pack.regionId === region.id), region.id).toHaveLength(24);
     }
     for (const pack of REGIONAL_PACKS) {
@@ -62,7 +62,7 @@ describe("authored regional pack staging", () => {
     expect(new Set(memberIds).size).toBe(558);
   });
 
-  it("uses actual ordinary source models and retains the original 24-species populations", () => {
+  it("keeps measured source models independently of the current fantasy occupants", () => {
     for (const source of REGIONAL_PACK_SOURCES) {
       const group = groups.get(source.id)!;
       expect(group, source.id).toBeDefined();
@@ -183,7 +183,7 @@ describe("authored regional pack staging", () => {
   });
 
   it("makes most packs monster or bandit threats while retaining a few passive populations", () => {
-    for (const region of REGIONS) {
+    for (const region of REGIONS.filter(region => region.id !== "wilderness")) {
       const packs = REGIONAL_PACKS.filter((pack) => pack.regionId === region.id);
       expect(packs.filter((pack) => bases.get(pack.baseEnemyDefId)!.behaviour !== "passive").length, region.id)
         .toBeGreaterThanOrEqual(19);

@@ -26,7 +26,7 @@ export interface DungeonDoorFixture {
 export function assembleDungeonDoorFixture(heightAt: (x: number, z: number) => number): DungeonDoorFixture {
   const thresholds = [
     { id: "gravelmaw_stone_door", name: "The Three-Lever Door", z: -6, state: "locked" },
-    { id: "ordrun_gate", name: "The Armored Rhino's Gate", z: -18, state: "sealed" },
+    { id: "ordrun_gate", name: "The Quarry Warden's Gate", z: -18, state: "sealed" },
   ].map((door) => ({
     door,
     threshold: createDungeonDoorThreshold({
@@ -35,7 +35,7 @@ export function assembleDungeonDoorFixture(heightAt: (x: number, z: number) => n
   }));
   const entities = thresholds.flatMap(({ door, threshold }) => createDungeonDoorEntities(threshold, {
     regionId: "fallowmarch", tier: 1, name: door.name, state: door.state,
-    lockedReason: door.id === "gravelmaw_stone_door" ? "Three stone levers hold it." : "The Armored Rhino's Gate is sealed.",
+    lockedReason: door.id === "gravelmaw_stone_door" ? "Three stone levers hold it." : "The Quarry Warden's Gate is sealed.",
   }));
   const solids: SolidVolume[] = thresholds.flatMap(({ threshold }) => threshold.staticSolids);
   const enclosure: DungeonDoorFixture["enclosure"] = [];

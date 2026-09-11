@@ -1,0 +1,44 @@
+# Deep Wilderness population
+
+`content/encounterPopulation.ts` supplies deterministic formations for ordinary packs of 7 to 15 real residents. Bosses remain single actors. The caller supplies the maximum animated horizontal body radius at final production scale. The module leaves 0.5 m between envelopes, preserves safe preferred anchors, checks neighboring residents and accepts the caller's terrain or room predicate. A restricted room that cannot fit the whole pack throws `EncounterFormationError`.
+
+The formation returns the projected group, anchors and stable actor IDs. For a former single resident, the first actor retains the bare group ID and additions start at `_2`. Other groups retain `_1`, `_2` and subsequent indices. The hexagonal placement order does not depend on count, so the first seven positions remain stable if the pack grows to fifteen. Root must pass these IDs into actor construction; the old count-based ID expression would rename former single residents.
+
+`content/deepWildernessEncounters.ts` is an unregistered placement proposal. It adds 24 packs with 225 residents, including 53 shallow and 172 deep residents. Six new shallow packs cover the three hatchlings and three molten rock creatures. Deep plains have adult red, black and purple dragons, Rift Carapaces, Voidstone Colossi and Gloam Wraiths. Six nine-member Gloam Wraith packs occupy the side courts of the three large structures. Their centers and the three deep keeper centers read the production structure metadata. The central ten-meter passages stay open.
+
+The two shallow keepers are at `[-171,573]` and `[155,694]`. The latter has 9.95 m of clearance from the current lava bank, which must exceed its accepted animated envelope. The three deep keepers occupy the structures' rear courts. Rune IDs read the frozen root depth contract. This module does not define spell elements or combat stats.
+
+New formations reserve baby dragon radii of 2.4 m and adult radii of 5.5, 5.7 and 5.7 m. Adult packs contain seven, with at least 12 m between roots. The final measured moving radii are 5.35, 5.50 and 5.52 m; transient death wings reach 8.87 m. The 24 m adult habitat radius contains that reach beyond the 12 m formation ring. The six other bodies reserve 1.5 to 3.3 m, above their final measured moving envelopes. Root normalizes new species scales to cancel the tier silhouette multiplier, so native dimensions become actual world dimensions. Existing creatures still need their current tier multiplier included in placement.
+
+The new eastern red dragon pack moved from `[243,863]` to `[233,866]` to leave the Nightglass mine's work floor clear. Tests check every new animated anchor against the actual lava sampler, all six mine or grove reservations, other structure footprints, adjacent packs, depth bands and world bounds. These are placement contracts. They do not prove terrain slope, a reachable navigation path or readable gameplay screenshots.
+
+## Existing packs
+
+`content/legacyEncounterPlacements.ts` contains thirty-six explicit placement overrides and their original centers and counts. `createLegacyEncounterFormation()` accepts measured body radii and the root's receiving-floor predicate. It returns the same group, anchors and actor-ID contract as the ordinary formation helper. Larger bodies fail the authored capacity check. The cave anchors are mandatory and cannot fall back to an unchecked spiral. All 21 original Wilderness group IDs and 12 previous population additions survive.
+
+| Encounter | Authored placement |
+| --- | --- |
+| `black_keep_gate_guard`, `black_keep_gate_archers`, `black_keep_court_guard` | Seven each, at `[27,566]`, `[54,565]` and `[31,596]`. The inner detachment uses the west court. All leave the gate axis open and clear the production castle solids. |
+| All eight `*_haunt` groups attached to small ruins | Seven each in side clearings beyond the complete rotated ruin footprint. Their existing through passages remain clear. |
+| `population_petrified_grove_south_shades` | Nine at `[326,571]`, outside the Ember Shelter grove reservation. |
+| `wilderness_petrified_grove`, `population_broken_watch_lanterns`, `population_aqueduct_west_lanterns` | Nine at `[255,620]`, eight at `[-249,489]` and eight at `[-250,664]`. Their complete activity connections clear the newly active tree and mine floors. |
+| Three `pack_fallowmarch_palewood_*_scrub` singleton groups | Separate clearings at `[-330,-174]`, `[-307,-164]` and `[-337,-147]`, with 7, 9 and 7 members. Preserve the original bare actor IDs. |
+| `marchfield_hens`, `bracken_hens`, `redsill_cattle` | Twelve hens remain in the eastern pen, seven fit the western paddock, and seven cattle graze southwest of the barn at `[-115,-40]`. Production farm solids pass with those body envelopes. |
+| `reedbank_goose_residents`, `marchfield_turkey_residents` | Seven each. Geese move north to `[-40,-21]` to clear fishing access. Turkeys retain `[-83,8]`. |
+| `blackwater_heron_residents`, `quarry_snail_residents`, `antler_beetle_residents`, `kiln_salamander_residents` | Seven each at `[162,113]`, `[132,179]`, `[241,-129]` and `[247,277]`. Expanded floors avoid authored mines, groves and fishing access. |
+| `antler_beetle_residents` | Explicit western sockets leave the full Flint Mandible body, deadwood bounds and a one-meter aisle clear on every activity connection. |
+| `highcairn_bears` | Seven Cairn Treaders use the authored `[92,-116]` refuge and its 12 m reservation. The unused 26 m fallback disc is removed; the neighboring regional pack retains its required 3 m clearance. |
+| `redsill_frogs`, `blackwater_frogs` | Seven each. Redsill retains its six dry bank sockets and extends south along the bank. Blackwater's last three sockets move 0.5 m east so the complete Reed Strider bodies stay dry. Dressing keeps its original location. |
+| Gravelmaw before the Three-Lever Door | Five seven-member groups retain their original side of the locked door. Explicit sockets separate 35 bodies across the first two rooms and their continuous floor link. Amethyst Weavers remain accessible before the door. |
+| Gravelmaw chamber 3 | Seven Vault Custodians occupy `[22,-77]` between the two unchanged door partitions. |
+| Coastal sites | Old sites each held one resident and only sampled a six-meter square for dry ground. Reject candidates unless every new animated anchor is dry, sufficiently flat and clear; reserve each accepted pack against other coastal packs. Keep the first bare coastal actor ID. |
+
+The cave proposal requires the first room's radius to grow from 11 to 13 m. The other chamber radii, all centers, floor heights and both door partitions stay intact. `LEGACY_CAVE_FLOOR_INTENTS` publishes that requirement without editing the live dungeon. Production `dungeonSolids()`, door partition volumes and receiving-floor probes pass for all 42 proposed ordinary cave actors. Root must accept the larger receiving floor in the production fixture before applying the override.
+
+For an ordinary pack, call `createEncounterFormation`, or the legacy helper when an override exists, before both world actor construction and habitat/scatter reservation. Use the same returned anchors in both. Never append extra actors through the old fallback spiral while leaving an old four-anchor habitat behind. `encounterFormationClearance()` provides the actual body-circle reservation for scatter and placement consumers. The root's final receiving-floor predicate and adjacent-pack checks remain required for every layout.
+
+The final world layout uses the world-authoring exception because it depends on full terrain, structures, water, roads and neighboring populations. Reusable creature bodies and pack behavior still need lab acceptance first. Root must then verify actual resident counts, ground and path clearance, movement, return behavior and screenshots using normal gameplay camera controls. No world registration or browser acceptance was performed by this worker.
+
+Focused checks pass all 43 tests across `encounter-population`, `world-habitats`, `creature-habitats`, `marchfield-homestead`, `starter-creatures` and the unchanged `regional-pack-exclusions` test. They cover identity, deterministic ordering, measured body separation, constrained-room failure, real farm solids, dry body rims, native prop clearance, all 21 active lava channels, six high-tier resource floors, and proposed cave collision volumes. Fishery bounds include natural wildlife banks; their actual work aisles and native props remain excluded, and body rims are checked against the organic shore. Browser acceptance remains a separate root gate.
+
+The revised `biome-population` test also requires actual dungeon groups to reach seven members. It still reports `gravelmaw_ch1_rats` at four until the root accepts and registers the larger cave fixture. The assertion is retained so this integration gap cannot be hidden by the placement proposal.

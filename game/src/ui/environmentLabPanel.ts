@@ -147,7 +147,7 @@ export class EnvironmentLabPanel {
       for (const asset of this.catalog.assets) this.selection.append(option(asset.id, asset.label));
     } else if (this.mode.value === "foliage") {
       for (const asset of this.catalog.assets) {
-        if (/^corealm_(?:oak|pine|ash|walnut|willow|maple|teak|yew|magic|fern|shrub)_\d+$/.test(asset.id)) {
+        if (/^corealm_(?:(?:oak|pine|ash|walnut|willow|maple|teak|yew|magic|fern|shrub)_\d+|deadwood_[a-z0-9_]+)$/.test(asset.id)) {
           this.selection.append(option(asset.id, asset.label));
         }
       }

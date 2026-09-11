@@ -542,6 +542,8 @@ export interface AmbienceEmitter {
   cullMetres?: number;
   /** Scales sizes and travel distances. */
   scale?: number;
+  /** Linear RGB for authored fire and magic fissures; omitted retains the kind's colour. */
+  readonly colour?: readonly [number, number, number];
 }
 
 interface Burst {
@@ -788,7 +790,7 @@ export class Ambience {
       for (let index = 0; index < count && this.live < capacity; index += 1) {
         const offset = hash01(seed, index, 0);
         const phase = fract(nowMs / profile.lifeMs + offset);
-        this.writeParticle(profile, phase, seed, index, emitter.position, emitterScale);
+        this.writeParticle(profile, phase, seed, index, emitter.position, emitterScale, emitter.colour);
       }
     }
 
@@ -857,12 +859,14 @@ export class Ambience {
     index: number,
     origin: Vec3,
     emitterScale: number,
+    colourOverride?: readonly [number, number, number],
   ): void {
     const a = hash01(seed, index, 1);
     const b = hash01(seed, index, 2);
     const c = hash01(seed, index, 3);
     const offset = profile.motion(phase, a, b, c);
     const brightness = profile.fade(phase);
+    const colour = colourOverride ?? profile.colour;
     if (brightness <= 0.004) return;
 
     const size = (profile.size[0] + (profile.size[1] - profile.size[0]) * phase)
@@ -877,15 +881,15 @@ export class Ambience {
     if (profile.alphaBlend) {
       this.dustMesh.setMatrixAt(this.dustLive, this.matrix);
       this.dustColours.setXYZW(
-        this.dustLive, profile.colour[0], profile.colour[1], profile.colour[2], brightness,
+        this.dustLive, colour[0], colour[1], colour[2], brightness,
       );
       this.dustLive += 1;
     } else {
       this.mesh.setMatrixAt(this.additiveLive, this.matrix);
       this.colour.setRGB(
-        profile.colour[0] * brightness,
-        profile.colour[1] * brightness,
-        profile.colour[2] * brightness,
+        colour[0] * brightness,
+        colour[1] * brightness,
+        colour[2] * brightness,
       );
       this.mesh.setColorAt(this.additiveLive, this.colour);
       this.additiveLive += 1;

@@ -33,6 +33,14 @@ export function treeAssetIds(species: TreeSpeciesDef): string[] {
 }
 
 const speciesByAsset = new Map(TREE_SPECIES.flatMap(species => treeAssetIds(species).map(id => [id, species] as const)));
+// Native metadata also applies when these candidates are served in the isolated lab.
+for (const [id, speciesId] of [
+  ['corealm_teak_lastroot', 'teak'], ['corealm_teak_embershelter', 'teak'],
+  ['corealm_magic_starwood', 'magic'], ['corealm_magic_moonvein', 'magic'],
+] as const) speciesByAsset.set(id, {
+  ...TREE_SPECIES.find(species => species.id === speciesId)!,
+  resourceId: `tree_wilderness_${speciesId}`,
+});
 
 export function treeSpeciesForAsset(assetId: string): TreeSpeciesDef | undefined {
   return speciesByAsset.get(assetId);
@@ -40,7 +48,7 @@ export function treeSpeciesForAsset(assetId: string): TreeSpeciesDef | undefined
 
 /** Living species and shared stumps retain authored materials during forest promotion. */
 export function isNativeTreeAsset(assetId: string): boolean {
-  return speciesByAsset.has(assetId) || /^corealm_stump_(?:oak|pine)$/.test(assetId);
+  return speciesByAsset.has(assetId) || /^corealm_stump_(?:oak|pine|wilderness_teak|wilderness_magic)$/.test(assetId);
 }
 
 export function treeResource(species: TreeSpeciesDef): ResourceDef {

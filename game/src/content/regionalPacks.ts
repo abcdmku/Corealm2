@@ -7,7 +7,7 @@ import type { EnemyGroupDef } from "./regions.js";
 import type { HabitatDef } from "./worldHabitats.js";
 
 export type RegionalPackRank = "ordinary" | "seasoned" | "mature";
-export type RegionalPackRegionId = Exclude<RegionId, "gravelmaw">;
+export type RegionalPackRegionId = Exclude<RegionId, "gravelmaw" | "wilderness">;
 
 export interface RegionalPackVariant {
   readonly id: string;

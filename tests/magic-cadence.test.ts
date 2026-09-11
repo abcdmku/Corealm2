@@ -59,7 +59,7 @@ function skillLevels(store: Store): Record<SkillId, number> {
   return levels;
 }
 
-function runtime(weaponItemId: ItemId) {
+function runtime(weaponItemId: ItemId, bonuses = NO_BONUSES) {
   const store = new Store(7, 0);
   const state = store.get();
   state.equipment.mainHand = { itemId: weaponItemId, quantity: 1 };
@@ -84,7 +84,7 @@ function runtime(weaponItemId: ItemId) {
       all: () => [...targets.values()],
     },
     equipment: {
-      totals: () => NO_BONUSES,
+      totals: () => bonuses,
       slots: () => store.get().equipment,
     },
     inventory: {
@@ -110,7 +110,7 @@ function runtime(weaponItemId: ItemId) {
     },
     dispatcher,
   });
-  return { combat, events, store };
+  return { combat, events, store, targets };
 }
 
 function tickThrough(combat: CombatSystem, lastAtMs: number): void {
@@ -123,6 +123,20 @@ function launchTimes(events: EventBus): number[] {
 }
 
 describe("magic weapon cadence", () => {
+  it("caps projectile damage XP at the victim's remaining health", () => {
+    const { combat, events, store, targets } = runtime('air_staff', { ...NO_BONUSES, magicPower: 300, magicAccuracy: 500 });
+    targets.get('target_a')!.combat!.health = targets.get('target_a')!.combat!.maxHealth = 1;
+    expect(combat.attack('target_a').ok).toBe(true);
+    tickThrough(combat, 8000);
+    const hits = combat.hits().filter(hit => hit.attacker === 'player' && hit.damage > 0);
+    expect(hits).toHaveLength(1);
+    expect(hits[0]!.damage).toBeGreaterThan(1);
+    expect(targets.get('target_a')!.state).toBe('dead');
+    events.flush();
+    const baseXp = events.since(0, ['spell.launched']).events.reduce((total, event) =>
+      total + SPELLS.find(spell => spell.id === event.data.spellId)!.baseXp, 0);
+    expect(store.get().skills.magic.xp).toBe(baseXp + 6);
+  });
   it("lets the starter wand cast Voltrend by spending its starting Air Essence", () => {
     const { combat, events, store } = runtime("basic_wooden_wand");
     expect(combat.attack("target_a")).toEqual({

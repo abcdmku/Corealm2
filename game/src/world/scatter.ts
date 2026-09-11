@@ -3054,11 +3054,44 @@ export const DEFAULT_SCATTER: Record<RegionId, RegionScatterSpec> = {
   // Underground. Dressed by hand from the dungeon kit in a later round; scattering rubble in a
   // corridor produces nonsense.
   gravelmaw: { regionId: "gravelmaw", layers: [] },
+  wilderness: { regionId: "wilderness", layers: [
+    {
+      id: "petrified_deadwood",
+      species: [{ assetId: "corealm_deadwood_hollow", weight: 3 }, { assetId: "corealm_deadwood_claw", weight: 4 },
+        { assetId: "corealm_deadwood_crown", weight: 3 }, { assetId: "corealm_deadwood_1", weight: 1 }, { assetId: "corealm_deadwood_2", weight: 1 }],
+      maxCount: 720, scale: [.65, 1.2], sizeBias: 1.25, tilt: .035, castShadow: true, mirror: true,
+      exclusion: TREE_EXCLUSION, terrain: { slopeMax: .55 },
+      cluster: { spacing: 27, radius: [10, 24], memberSpacing: 8.5, accept: .9, falloff: .65, dominance: .4 },
+      mask: { strength: .3, featureSize: 82 },
+    },
+    {
+      id: "fallen_griefwood", species: [{ assetId: "corealm_deadwood_fallen", weight: 1 }],
+      maxCount: 95, scale: [.6, .95], sizeBias: 1.1, tilt: .025, sink: .08, castShadow: true, mirror: true,
+      exclusion: TREE_EXCLUSION, terrain: { slopeMax: .18 },
+      cluster: { spacing: 43, radius: [7, 15], memberSpacing: 12, accept: .7, falloff: .8, dominance: 1 },
+    },
+    {
+      id: "slate_outcrops",
+      species: [1, 2, 3].map(n => ({ assetId: `corealm_rock_strata_${n}`, weight: 1 })),
+      maxCount: 180, scale: [.55, 1.15], sizeBias: 1.7, tilt: .22, sink: .25, castShadow: true, mirror: true,
+      exclusion: SHRUB_EXCLUSION,
+      cluster: { spacing: 31, radius: [6, 14], memberSpacing: 5.5, accept: .78, falloff: .7, dominance: .4 },
+      mask: { strength: .28, featureSize: 74 },
+    },
+    {
+      id: "loose_slate", species: STONE_SPECIES,
+      maxCount: 2200, scale: [.35, .85], sizeBias: 1.6, tilt: .75, sink: .06, mirror: true,
+      exclusion: LITTER_EXCLUSION,
+      cluster: { spacing: 19, radius: [5, 12], memberSpacing: 1.6, accept: .8, falloff: .7, dominance: .4 },
+      road: { band: [1.3, 5.5], perMetre: .35 }, shore: { band: [2, 10], perMetre: .2 },
+    },
+  ] },
 };
 
 // World composition follows the area's woodcutting level. All future species stay in the pool,
 // with exponentially smaller encounter weights; no player's changing skill changes the forest.
 for (const { id: regionId, tier: areaLevel } of REGIONS) {
+  if (regionId === 'wilderness') continue;
   for (const layer of DEFAULT_SCATTER[regionId].layers) {
     const ids = layer.species?.map(entry => entry.assetId) ?? layer.assetIds ?? [];
     const living = (id: string) => /^tree_(common|pine|twisted)_/.test(id);

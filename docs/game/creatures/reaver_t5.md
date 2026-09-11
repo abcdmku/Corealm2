@@ -5,11 +5,11 @@ description: "Forest Bandit spawn locations, combat stats, and drops."
 
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/gorge_reavers.webp" alt="Forest Bandit at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Forest Bandit</strong><span>Gorge Ford, Woodlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Forest Bandit">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#gorge-ford" style="--map-x:67.8333%;--map-y:55.3750%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Forest Bandit, Gorge Ford, Woodlands" title="Forest Bandit, Gorge Ford, Woodlands"><span>Forest Bandit<small>Gorge Ford, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#gorge-ford" style="--map-x:67.8333%;--map-y:59.9643%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Forest Bandit, Gorge Ford, Woodlands" title="Forest Bandit, Gorge Ford, Woodlands"><span>Forest Bandit<small>Gorge Ford, Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

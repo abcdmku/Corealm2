@@ -8,12 +8,13 @@ export const BIOME_LOOKS = {
   karrowmoor: { name: "Karrowmoor · slate highlands", tint: [0.85, 0.98, 1.20], shade: [0.76, 0.88, 1.12], saturation: 0.86 },
   kilnhalt: { name: "Kilnhalt · ember haze", tint: [1.23, 0.99, 0.74], shade: [1.12, 0.83, 0.71], saturation: 0.88 },
   gravelmaw: { name: "Gravelmaw · mineral gloom", tint: [0.85, 0.91, 1.14], shade: [0.68, 0.77, 1.07], saturation: 0.77 },
+  wilderness: { name: "Wilderness · moonlit wastes", tint: [.88, .96, 1.10], shade: [.79, .86, 1.05], saturation: .72 },
 } as const satisfies Record<RegionId, unknown>;
 
 export type BiomeWeights = Partial<Record<RegionId, number>>;
 
 /** Normalized organic field weights, never semantic region rectangles. Empty input is neutral. */
-export function blendBiomeLook(weights: BiomeWeights) {
+export function blendBiomeLook(weights: BiomeWeights, wildernessMagic = 0) {
   const tint = [0, 0, 0], shade = [0, 0, 0];
   let total = 0, saturation = 0;
   for (const id of Object.keys(BIOME_LOOKS) as RegionId[]) {
@@ -27,9 +28,15 @@ export function blendBiomeLook(weights: BiomeWeights) {
       shade[i]! += look.shade[i]! * weight;
     }
   }
-  return total > 0
+  const result = total > 0
     ? { tint: tint.map(v => v / total), shade: shade.map(v => v / total), saturation: saturation / total }
     : { tint: [1, 1, 1], shade: [1, 1, 1], saturation: 1 };
+  const deep = total ? Math.max(0, Math.min(1, wildernessMagic)) * (weights.wilderness ?? 0) / total : 0;
+  for (let i = 0; i < 3; i++) {
+    result.tint[i]! += ([.96, .87, 1.2][i]! - result.tint[i]!) * deep;
+    result.shade[i]! += ([.72, .68, 1.05][i]! - result.shade[i]!) * deep;
+  }
+  return result;
 }
 
 /** Grade the completed display frame so existing sky/fog, antialiasing and stencil stay intact.
@@ -64,6 +71,7 @@ export class BiomeAtmosphere {
     new THREE.Float32BufferAttribute([-1, -1, 0, 3, -1, 0, -1, 3, 0], 3));
   private weights: BiomeWeights = {};
   private override: RegionId | "neutral" | null = null;
+  private wildernessMagic = 0;
 
   constructor() {
     const mesh = new THREE.Mesh(this.geometry, this.material);
@@ -72,17 +80,18 @@ export class BiomeAtmosphere {
   }
 
   setWeights(weights: BiomeWeights): void { this.weights = { ...weights }; }
+  setWildernessMagic(amount: number): void { this.wildernessMagic = Math.max(0, Math.min(1, amount)); }
   setPreview(region: RegionId | "neutral" | null): void { this.override = region; this.sky.enabled = true; }
   private activeWeights(): BiomeWeights { return this.override === "neutral" ? {} : this.override ? { [this.override]: 1 } : this.weights; }
-  updateEnvironment(scene: THREE.Scene, deltaSeconds: number): void { this.sky.update(scene, this.activeWeights(), deltaSeconds); }
+  updateEnvironment(scene: THREE.Scene, deltaSeconds: number): void { this.sky.update(scene, this.activeWeights(), deltaSeconds, this.wildernessMagic); }
   snapshot() {
-    return { preview: this.override, weights: { ...this.weights }, sky: this.sky.snapshot(),
+    return { preview: this.override, weights: { ...this.weights }, wildernessMagic: this.wildernessMagic, sky: this.sky.snapshot(),
       tint: this.material.uniforms.tint!.value.toArray(),
       shade: this.material.uniforms.shade!.value.toArray(), saturation: this.material.uniforms.saturation!.value };
   }
 
   render(renderer: THREE.WebGLRenderer, deltaSeconds: number): void {
-    const look = blendBiomeLook(this.activeWeights());
+    const look = blendBiomeLook(this.activeWeights(), this.wildernessMagic);
     const blend = 1 - Math.exp(-Math.min(Math.max(deltaSeconds, 0), 0.1) * 3);
     for (const key of ["tint", "shade"] as const) {
       const value = this.material.uniforms[key]!.value as THREE.Vector3;

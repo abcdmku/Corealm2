@@ -49,6 +49,11 @@ field. Beyond the core, the anchor feathers smoothly to its broader influence ra
 rectangle around it. Corridors guide a biome between intents, but their finite half-width never pins a
 long straight border.
 
+The northern Wilderness also uses a bounded latitude trend in that same warped domain. This
+establishes the requested night region across the top of the island without a rectangular visual
+mask. It competes with the existing climate and local intents before normalization; every visual
+consumer receives the resulting weights. See [the Wilderness acceptance notes](./wilderness.md).
+
 The field may cross a semantic rectangle, but never moves a location or changes gameplay ownership.
 The analytic `heightAtXZ()` field initializes the terrain lattice. Road grading updates that shared
 lattice before meshes are built. `meshHeightAt()` then supplies terrain placement and physics from

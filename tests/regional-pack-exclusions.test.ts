@@ -1,11 +1,15 @@
+import { STARTER_SHARED_PACK_RESERVATIONS, STARTER_HABITATS, STARTER_GROUPS } from "../game/src/content/starterHabitats.js";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import MANIFEST from "../game/public/assets/manifest.json";
 import { collectRoadStamps } from "../game/src/app/worldSurface.js";
 import { REGIONS, ESSENCE_ALTAR_COURT_RADIUS, type Spot } from "../game/src/content/regions.js";
-import { REGIONAL_PACKS } from "../game/src/content/regionalPacks.js";
+import { REGIONAL_PACKS, type RegionalPackDef } from "../game/src/content/regionalPacks.js";
+import { activatedRegionalPackIds, REGIONAL_PACK_ACTIVATION } from "../game/src/content/regionalPackActivation.js";
+import { createRpgRegionalPackCatalogue } from "../game/src/content/rpgRegionalPacks.js";
+import { BIOME_POPULATION_HABITATS } from "../game/src/content/biomePopulation.js";
 import { resourceDef } from "../game/src/content/resources.js";
-import { WORLD_HABITATS, habitatForGroup } from "../game/src/content/worldHabitats.js";
+import { WORLD_HABITATS, habitatForGroup, type HabitatDef } from "../game/src/content/worldHabitats.js";
 import { WORLD_SITES, worldSitePoint } from "../game/src/content/worldSites.js";
 import { tierSilhouetteScale } from "../game/src/core/math.js";
 import {
@@ -23,11 +27,19 @@ type Reservation = { id: string; distance: (point: Spot) => number; margin: numb
 type Rect = { centre: Spot; half: Spot; yaw: number };
 const assets = new Map(MANIFEST.assets.map((asset) => [asset.id, asset]));
 const packIds = new Set(REGIONAL_PACKS.map((pack) => pack.id));
+const populationIds = new Set(BIOME_POPULATION_HABITATS.map((habitat) => habitat.groupId));
+// Match boot's accepted catalogue, including assignment overrides and native asset measurements.
+// The other source plans remain useful authoring candidates, but do not occupy the live world.
+const activatedPackIds = activatedRegionalPackIds();
+const activeCatalogue = createRpgRegionalPackCatalogue((id) => {
+  const asset = assets.get(id);
+  return asset ? { size: asset.size, base: asset.base } : null;
+}, activatedPackIds, REGIONAL_PACK_ACTIVATION.assignmentOverrides);
 // Once integrated, packs are checked against each other below, not counted a second time as
 // old content. Habitat identity uses groupId because its own id can have a habitat suffix.
-const existingHabitats = WORLD_HABITATS.filter((habitat) => !packIds.has(habitat.groupId));
+const existingHabitats = WORLD_HABITATS.filter((habitat) => !packIds.has(habitat.groupId) && !STARTER_SHARED_PACK_RESERVATIONS[habitat.groupId]);
 const surfaceGroups = REGIONS.flatMap((region) => region.enemyGroups)
-  .filter((group) => !packIds.has(group.id));
+  .filter((group) => !packIds.has(group.id) && !STARTER_SHARED_PACK_RESERVATIONS[group.id]);
 const groupsById = new Map(surfaceGroups.map((group) => [group.id, group]));
 
 function groupVisualRadius(groupId: string): number {
@@ -104,9 +116,10 @@ function partBoxes(id: string, parts: readonly PartPlacement[], origin: Spot, ya
   });
 }
 
-function failures(reservations: readonly Reservation[]): string[] {
+function failures(reservations: readonly Reservation[],
+  packs: readonly Pick<RegionalPackDef, "id" | "centre" | "radius">[] = REGIONAL_PACKS): string[] {
   const errors: string[] = [];
-  for (const pack of REGIONAL_PACKS) for (const reserve of reservations) {
+  for (const pack of packs) for (const reserve of reservations) {
     const gap = reserve.distance(pack.centre) - pack.radius;
     if (gap + 1e-7 < reserve.margin) {
       errors.push(`${pack.id} / ${reserve.id}: ${gap.toFixed(3)} m edge gap; requires ${reserve.margin} m`);
@@ -146,11 +159,17 @@ const siteReservations = WORLD_SITES.flatMap((site) => [
   ...site.dressing.map((piece) => nativeBox(`${site.id}/${piece.id}`, piece.assetId,
     worldSitePoint(site, piece.x, piece.z), site.rotationY + piece.yaw, piece.scale)),
 ]);
-const habitatReservations = existingHabitats.flatMap((habitat) => [
-  disc(habitat.id, habitat.centre, habitat.radius, habitatBodyMargin(habitat.groupId)),
-  ...habitat.dressing.map((piece) => nativeBox(`${habitat.id}/${piece.id}`, piece.assetId,
-    [piece.x, piece.z], piece.yaw, piece.scale)),
-]);
+function reserveHabitats(habitats: readonly HabitatDef[]): Reservation[] {
+  return habitats.flatMap((habitat) => [
+    disc(habitat.id, habitat.centre, habitat.radius, habitatBodyMargin(habitat.groupId)),
+    ...habitat.dressing.map((piece) => nativeBox(`${habitat.id}/${piece.id}`, piece.assetId,
+      [piece.x, piece.z], piece.yaw, piece.scale)),
+  ]);
+}
+const habitatReservations = reserveHabitats(existingHabitats);
+// Preserve the original source-plan gate against the original habitats. The accepted population
+// may use pockets held only by unactivated candidates; its live overlap gate follows below.
+const originalHabitatReservations = reserveHabitats(existingHabitats.filter(habitat => !populationIds.has(habitat.groupId)));
 const fullyAnchoredGroups = surfaceGroups.filter((group) => !group.boss && !group.miniBoss
   && (habitatForGroup(group.id)?.anchors.length ?? 0) >= group.count);
 const fullyAnchoredIds = new Set(fullyAnchoredGroups.map((group) => group.id));
@@ -167,6 +186,7 @@ const resourceReservations = REGIONS.flatMap((region) => region.clusters
 
 const settlementReservations = REGIONS.flatMap((region) => {
   const town = region.settlement;
+  if (!town) return [];
   return [
     ...(town.padShape ? [box(`${town.id}/pad`, { centre: town.centre,
       half: [town.padShape.halfX, town.padShape.halfZ], yaw: town.padShape.rotationY }, 6)] : []),
@@ -189,7 +209,7 @@ const routeAndLandmarkReservations = REGIONS.flatMap((region) => [
     corridor(obstacle.id, obstacle.position, obstacle.exitPosition, 6),
     nativeBox(obstacle.id, obstacle.assetId, obstacle.position, obstacle.rotationY ?? 0, obstacle.scale ?? 1),
     ...(obstacle.composition ? partBoxes(`${obstacle.id}/setting`,
-      buildComposition(obstacle.composition, variantSeed(obstacle.id), region.settlement.kit),
+      buildComposition(obstacle.composition, variantSeed(obstacle.id), region.settlement?.kit ?? "stone"),
       obstacle.position, obstacle.rotationY ?? 0) : []),
   ]),
   ...region.landmarks.flatMap((landmark) => [
@@ -197,13 +217,13 @@ const routeAndLandmarkReservations = REGIONS.flatMap((region) => [
     ...(assets.has(landmark.assetId) ? [nativeBox(landmark.id, landmark.assetId, landmark.position,
       landmark.rotationY ?? 0, landmark.scale ?? 1)] : []),
     ...(landmark.composition ? partBoxes(`${landmark.id}/setting`,
-      buildComposition(landmark.composition, variantSeed(landmark.id), region.settlement.kit),
+      buildComposition(landmark.composition, variantSeed(landmark.id), region.settlement?.kit ?? "stone"),
       landmark.position, landmark.rotationY ?? 0) : []),
   ]),
   ...region.gates.flatMap((gate) => [
     disc(gate.id, gate.position, 12),
     ...(gate.composition ? partBoxes(`${gate.id}/setting`,
-      buildComposition(gate.composition, variantSeed(gate.id), region.settlement.kit),
+      buildComposition(gate.composition, variantSeed(gate.id), region.settlement?.kit ?? "stone"),
       gate.position, gate.rotationY ?? 0) : []),
   ]),
   ...region.stations.filter((station) => station.kind === "essence_altar")
@@ -219,7 +239,7 @@ const dungeonReservations = REGIONS.flatMap((region) => {
     disc(`${dungeon.id}/original quarry approach`, [60, -16], 16),
     corridor(`${dungeon.id}/mouth approach`, dungeon.entrance, [60, -16], 8),
     ...(dungeon.entranceComposition ? partBoxes(`${dungeon.id}/mouth setting`,
-      buildComposition(dungeon.entranceComposition, variantSeed("gravelmaw_mouth_portal"), region.settlement.kit),
+      buildComposition(dungeon.entranceComposition, variantSeed("gravelmaw_mouth_portal"), region.settlement?.kit ?? "stone"),
       dungeon.entrance, dungeon.entranceRotationY ?? 0) : []),
     ...dungeon.chambers.map((chamber) => disc(chamber.id, chamber.centre, chamber.radius + 5)),
     // Production boot connects consecutive chambers with 6 m corridors. The seven-metre
@@ -237,7 +257,7 @@ describe("regional pack source reservations", () => {
   it("checks every authored pack and maintains two-metre aisles between full reservations", () => {
     expect(REGIONAL_PACKS).toHaveLength(96);
     const errors: string[] = [];
-    for (const region of REGIONS) {
+    for (const region of REGIONS.filter(region => region.id !== "wilderness")) {
       expect(REGIONAL_PACKS.filter((pack) => pack.regionId === region.id), region.id).toHaveLength(24);
     }
     for (const [index, pack] of REGIONAL_PACKS.entries()) {
@@ -266,6 +286,37 @@ describe("regional pack source reservations", () => {
     expect(failures([...waterReservations, ...siteReservations, ...resourceReservations])).toEqual([]);
   });
 
+  it("contains shared starter occupants and their idle routes within their parent reservation", () => {
+    const envelopes: { id: string; points: Spot[]; radius: number }[] = [];
+    for (const [groupId, packId] of Object.entries(STARTER_SHARED_PACK_RESERVATIONS)) {
+      const pack = REGIONAL_PACKS.find(row => row.id === packId)!;
+      const group = STARTER_GROUPS.find(row => row.id === groupId)!;
+      const habitat = STARTER_HABITATS.find(row => row.groupId === groupId)!;
+      expect(pack, packId).toBeDefined(); expect(group, groupId).toBeDefined(); expect(habitat, groupId).toBeDefined();
+      expect(habitat.regionId).toBe(pack.regionId);
+      const asset = assets.get(group.assetId)!;
+      const radius = Math.hypot(Math.max(Math.abs(asset.base.x), Math.abs(asset.base.x + asset.size.x)),
+        Math.max(Math.abs(asset.base.z), Math.abs(asset.base.z + asset.size.z))) * group.scale * tierSilhouetteScale(group.tier);
+      const points: Spot[] = [];
+      for (let index = 0; index < group.count; index++) {
+        const anchor = habitat.anchors[index]!;
+        const id = group.count === 1 ? groupId : `${groupId}_${index + 1}`;
+        points.push(anchor, ...habitatIdleTargets(id, [anchor[0], 0, anchor[1]], habitat).candidates
+          .map(target => [target.position[0], target.position[2]] as Spot));
+      }
+      for (const point of points) expect(Math.hypot(point[0] - pack.centre[0], point[1] - pack.centre[1]) + radius,
+        groupId).toBeLessThanOrEqual(pack.radius);
+      envelopes.push({ id: groupId, points, radius });
+    }
+    for (let a = 0; a < envelopes.length; a++) for (let b = a + 1; b < envelopes.length; b++) {
+      const first = envelopes[a]!, second = envelopes[b]!;
+      for (const p of first.points) for (const q of second.points) {
+        expect(Math.hypot(p[0] - q[0], p[1] - q[1]) - first.radius - second.radius,
+          `${first.id} / ${second.id}`).toBeGreaterThanOrEqual(1);
+      }
+    }
+  });
+
   it("leaves existing habitats, fallback group discs and boss encounters separate", () => {
     expect(habitatReservations.length).toBeGreaterThan(existingHabitats.length);
     expect(encounterReservations.length + fullyAnchoredGroups.length).toBe(surfaceGroups.length);
@@ -291,7 +342,24 @@ describe("regional pack source reservations", () => {
         }
       }
     }
-    expect(failures([...habitatReservations, ...encounterReservations])).toEqual([]);
+    expect(failures([...originalHabitatReservations, ...encounterReservations])).toEqual([]);
+  });
+
+  it("checks activated production packs against every current habitat and the original world exclusions", () => {
+    expect(activeCatalogue.packs.length).toBeGreaterThan(0);
+    expect(activeCatalogue.packs.map(pack => pack.id).sort()).toEqual([...activatedPackIds].sort());
+    const newHabitats = existingHabitats.filter(habitat => populationIds.has(habitat.groupId));
+    expect(newHabitats.map(habitat => habitat.groupId).sort()).toEqual([...populationIds].sort());
+    expect(failures([
+      ...habitatReservations, ...encounterReservations, ...roadReservations,
+      ...waterReservations, ...siteReservations, ...resourceReservations,
+      ...settlementReservations, ...routeAndLandmarkReservations, ...dungeonReservations,
+    ], activeCatalogue.packs)).toEqual([]);
+    // Accepted pack dressing is assembled separately at boot. Its native pieces must also leave
+    // the new population's full body-and-idle discs clear, even when a prop extends past its pack.
+    const activeDressing = activeCatalogue.habitats.flatMap(habitat => habitat.dressing.map(piece =>
+      nativeBox(`${habitat.id}/${piece.id}`, piece.assetId, [piece.x, piece.z], piece.yaw, piece.scale)));
+    expect(failures(activeDressing, newHabitats)).toEqual([]);
   });
 
   it("keeps towns, composed native buildings and walls, landmarks, gates and shortcuts clear", () => {

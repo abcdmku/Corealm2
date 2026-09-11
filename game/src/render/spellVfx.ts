@@ -67,9 +67,9 @@ class BasicSlot {
 /**
  * The world's invocation layer: one lab renderer, one cast at a time.
  *
- * The full `ElementalSpellVfx` is a heavy object (48k light motes, solids, fluids, filaments), so it
- * is built on the first advanced cast rather than at boot, and a second invocation replaces the
- * first: the combat lock makes overlap impossible for the player anyway.
+ * Build the production pools and their four point lights before boot shader warmup. Adding those
+ * lights on the first cast changes every lit material's shader variant during the invocation.
+ * A second invocation replaces the first; the combat lock prevents player overlap anyway.
  */
 class AdvancedSlot {
   readonly group=new THREE.Group();
@@ -79,6 +79,7 @@ class AdvancedSlot {
   constructor(parent:THREE.Object3D,ground:(x:number,z:number)=>number,camera:THREE.Camera){
     this.group.name="advanced-spell-cast";parent.add(this.group);
     this.vfx=new ElementalSpellVfx(this.group,ground,camera);
+    this.vfx.update(null,0);
   }
   update(now:number,focus?:Vec3):void {
     if(this.cast&&now>=this.end)this.cast=null;
@@ -91,8 +92,13 @@ class AdvancedSlot {
 export class SpellVfx {
   private readonly slots:BasicSlot[]=[];
   private advanced:AdvancedSlot|null=null;
+  private advancedGround:number|null=null;
   private lastNow=0;
-  constructor(private readonly deps:SpellVfxDeps){}
+  constructor(private readonly deps:SpellVfxDeps){
+    this.advanced=new AdvancedSlot(deps.parent,deps.groundHeightAt??(()=>this.advancedGround??0),deps.camera);
+  }
+  /** Actual production meshes and lights, available before the first invocation. */
+  preparationRoot():THREE.Object3D{return this.advanced!.group;}
   flightMs(rung:SpellRung,distanceM=0):number{return spellFlightMs(rung,distanceM);}
   cast(request:SpellCastRequest,nowMs:number):void {
     if(this.slots.some(s=>s.cast&&s.id===request.id))return;
@@ -127,6 +133,7 @@ export class SpellVfx {
   private castAdvanced(spellId:ElementalSpellId,request:SpellCastRequest,nowMs:number):void {
     if(this.advanced?.cast&&this.advanced.id===request.id)return;
     const ground=this.deps.groundHeightAt??(()=>request.to[1]);
+    this.advancedGround??=request.to[1];
     this.advanced??=new AdvancedSlot(this.deps.parent,ground,this.deps.camera);
     const scale=1/(request.timeScale||1);
     const origin:Vec3=[request.from[0],ground(request.from[0],request.from[2]),request.from[2]];
@@ -162,5 +169,5 @@ export class SpellVfx {
   }
   /** The invocation being drawn right now, for the debug surface and the browser gates. */
   advancedState(){const a=this.advanced;return a?.cast?{spellId:a.cast.spellId,elapsed:this.lastNow-a.cast.started,particles:a.vfx.particleCount,instances:a.vfx.instances}:null;}
-  dispose():void {for(const slot of this.slots)slot.dispose();this.slots.length=0;this.advanced?.dispose();this.advanced=null;}
+  dispose():void {for(const slot of this.slots)slot.dispose();this.slots.length=0;this.advanced?.dispose();this.advanced=null;this.advancedGround=null;}
 }

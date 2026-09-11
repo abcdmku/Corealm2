@@ -50,7 +50,7 @@ function runtime(saved?: GameState) {
       id: "npc_trapper_mott", name: "Trapper Mott", archetype: "npc", tier: 1,
       regionId: rootfall.regionId, position: mottPosition, state: "idle", interactions: ["talk"],
     },
-    ...(["hog", "rat"] as const).map((family) => ({
+    ...(["fen_crawler", "blind_cave_weaver"] as const).map((family) => ({
       id: `test_${family}`, name: family, archetype: "enemy" as const, tier: 1,
       regionId: "vellenwood" as const, position: [0, 0, 0] as Vec3,
       state: "alive", interactions: ["attack" as const], meta: { family },
@@ -85,7 +85,7 @@ function runtime(saved?: GameState) {
     store.get().player.regionId = entry.regionId;
     tick();
   };
-  const kill = (family: "hog" | "rat", count = 1) => {
+  const kill = (family: "fen_crawler" | "blind_cave_weaver", count = 1) => {
     for (let index = 0; index < count; index += 1) {
       events.emit("combat.ended", { reason: "killed", enemyId: `test_${family}` }, `test_${family}`, clock.elapsedMs);
     }
@@ -115,10 +115,25 @@ function reload(previous: ReturnType<typeof runtime>) {
 }
 
 describe("persistent quest visits", () => {
-  it("completes Mott's circuit in reverse order across a reload, then counts only new hog kills", () => {
+  it.each(["hog", "beetle_golem"])("retains two earned bait kills from a %s save and requires one new Fen Crawler", (oldFamily) => {
+    const first = runtime();
+    first.store.get().quests[ELEVEN] = { status: "active", stage: 1, counters: {
+      [`kill:${oldFamily}`]: 7, [`@base:kill:${oldFamily}`]: 5,
+    }, flags: { walked_the_line: true } };
+    const second = reload(first);
+    second.tick();
+    expect(second.quests.stage(ELEVEN)).toBe(1);
+    expect(second.quests.counter(ELEVEN, "kill:fen_crawler")).toBe(7);
+    expect(second.quests.counter(ELEVEN, "@base:kill:fen_crawler")).toBe(5);
+    second.kill("fen_crawler");
+    expect(second.quests.stage(ELEVEN)).toBe(2);
+    expect(second.store.get().skills.melee.xp).toBe(150);
+  });
+
+  it("completes Mott's circuit in reverse order across a reload, then counts only new Fen Crawler kills", () => {
     const first = runtime();
     first.accept();
-    first.kill("hog", 2);
+    first.kill("fen_crawler", 2);
     for (const id of REVERSED.slice(0, 2)) first.visit(id);
     expect(first.quests.stage(ELEVEN)).toBe(0);
     for (const id of REVERSED.slice(0, 2)) expect(first.quests.flag(ELEVEN, visitFlag(id))).toBe(true);
@@ -131,16 +146,16 @@ describe("persistent quest visits", () => {
     expect(second.quests.stage(ELEVEN)).toBe(1);
     expect(second.store.get().skills.agility.xp).toBe(90);
     expect(second.quests.flag(ELEVEN, "walked_the_line")).toBe(true);
-    expect(second.quests.counter(ELEVEN, "kill:hog")).toBe(2);
+    expect(second.quests.counter(ELEVEN, "kill:fen_crawler")).toBe(2);
     for (const id of TRAP_LINE) second.visit(id);
     second.tick(20);
     expect(second.quests.stage(ELEVEN)).toBe(1);
     expect(second.store.get().skills.agility.xp).toBe(90);
     for (const id of TRAP_LINE) expect(second.quests.flag(ELEVEN, visitFlag(id, 1))).toBe(false);
 
-    second.kill("hog", 2);
+    second.kill("fen_crawler", 2);
     expect(second.quests.stage(ELEVEN)).toBe(1);
-    second.kill("hog");
+    second.kill("fen_crawler");
     expect(second.quests.stage(ELEVEN)).toBe(2);
     expect(second.store.get().skills.melee.xp).toBe(150);
     second.talkToMott();
@@ -154,7 +169,7 @@ describe("persistent quest visits", () => {
     const rewards = structuredClone(second.store.get().skills);
 
     for (const id of REVERSED) second.visit(id);
-    second.kill("hog", 3);
+    second.kill("fen_crawler", 3);
     const third = reload(second);
     for (const id of TRAP_LINE) third.visit(id);
     third.tick(20);
@@ -253,7 +268,7 @@ describe("current-location quest requirements", () => {
     current.tick();
     expect(current.quests.stage("long_cairn")).toBe(3);
     current.store.get().player.position = [900, -24, 900];
-    current.kill("rat", 4);
+    current.kill("blind_cave_weaver", 4);
     expect(current.quests.stage("long_cairn")).toBe(3);
     expect(current.quests.flag("long_cairn", visitFlag("gravelmaw_chamber2", 3))).toBe(false);
     current.store.get().player.position = [800, 0, 900];

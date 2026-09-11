@@ -112,6 +112,7 @@ function harness(bounds = ordinaryBounds, regionIds: RegionId[] = ["fallowmarch"
     getWaterBodies: () => waters, getRoadPolylines: () => roads,
     scatterSurfaceAt: (x: number, z: number) => { surfaceCalls += 1; return surfaceAt(x, z); },
     regionWeightAt: () => 1,
+    regionAt: () => regionIds[0]!,
     meshHeightAt: (x: number, z: number) => surfaceAt(x, z)?.height ?? 0,
     normalAt: (x: number, z: number) => surfaceAt(x, z)?.normal ?? [0, 1, 0] as const,
     scatterGrassSprites: (next: readonly GrassSpritePlacement[], _name: string, options: { regionId: RegionId }) => {

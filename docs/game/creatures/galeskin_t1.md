@@ -5,11 +5,11 @@ description: "Plains Ogre spawn locations, combat stats, and drops."
 
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/galeskin.webp" alt="Plains Ogre at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Plains Ogre</strong><span>Open Meadow, Farmland</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:1">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Plains Ogre">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:25.0000%;--map-y:50.3125%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Plains Ogre, Open Meadow, Farmland" title="Plains Ogre, Open Meadow, Farmland"><span>Plains Ogre<small>Open Meadow, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:25.0000%;--map-y:55.6250%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Plains Ogre, Open Meadow, Farmland" title="Plains Ogre, Open Meadow, Farmland"><span>Plains Ogre<small>Open Meadow, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">

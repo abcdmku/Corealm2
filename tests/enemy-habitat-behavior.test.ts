@@ -4,6 +4,10 @@ import type { EquipmentBonuses, SemanticEntity, SkillId, Vec3 } from "../game/sr
 import { SKILL_IDS, ok } from "../game/src/contracts.js";
 import { EventBus } from "../game/src/core/events.js";
 import { Rng, RngStreams } from "../game/src/core/rng.js";
+import { createCoastalEncounterFormation } from "../game/src/content/coastalEncounterFormation.js";
+import { ENEMIES } from "../game/src/content/enemies.js";
+import { content } from "../game/src/content/index.js";
+import { WORLD_BOUNDS } from "../game/src/content/regions.js";
 import * as habitats from "../game/src/content/worldHabitats.js";
 import type { HabitatDef } from "../game/src/content/worldHabitats.js";
 import { Store } from "../game/src/state/store.js";
@@ -31,7 +35,8 @@ function enemy(habitat: HabitatDef, id: string, position = point(habitat.anchors
   };
 }
 
-function fixture(entities: SemanticEntity[], nav?: EnemyNavPort, groundHeightAt?: (x: number, z: number) => number) {
+function fixture(entities: SemanticEntity[], nav?: EnemyNavPort, groundHeightAt?: (x: number, z: number) => number,
+  habitatForEntity?: (entity: SemanticEntity) => HabitatDef | null) {
   const store = new Store(7, 0);
   const state = store.get();
   state.player.position = [...entities[0]!.position];
@@ -54,10 +59,10 @@ function fixture(entities: SemanticEntity[], nav?: EnemyNavPort, groundHeightAt?
     }),
   });
   for (const entity of entities) combat.setEnemyOverride(entity.id, { behaviour: "passive", aggroRadius: 0 });
-  const ai = new EnemyAiSystem({ store, events, entities: entityPort, combat, nav, groundHeightAt });
+  const ai = new EnemyAiSystem({ store, events, entities: entityPort, combat, nav, groundHeightAt, habitatForEntity });
   let now = 0;
   return {
-    state, ai, combat,
+    store, state, ai, combat,
     advance(durationMs: number, observe?: () => void) {
       const until = now + durationMs;
       while (now < until) {
@@ -121,10 +126,17 @@ describe("authored enemy habitat behavior", () => {
   });
 
   it.each([
-    { group: "march_road_reavers", activity: "patrol", order: [2, 3, 4, 0, 1, 2, 3] },
-    { group: "palewood_adders", activity: "prowl", order: [2, 3, 0, 1, 2, 3] },
-  ])("follows the authored $activity circuit from the anchor nearest its spawn", ({ group, order }) => {
-    const habitat = habitats.habitatForGroup(group)!;
+    { group: "march_road_reavers", activity: "patrol", order: [2, 3, 4, 0, 1, 2, 3],
+      anchors: [[-254, 26], [-246, 26], [-245, 32], [-250, 35], [-255, 32]] },
+    { group: "palewood_adders", activity: "prowl", order: [2, 3, 0, 1, 2, 3],
+      anchors: [[-254, 26], [-246, 26], [-246, 34], [-254, 34]] },
+  ] as const)("follows the authored $activity circuit from the anchor nearest its spawn", ({ group, activity, order, anchors }) => {
+    // Distinct, fixed corners make circuit order observable regardless of world pack layout.
+    const habitat: HabitatDef = {
+      id: "circuit_fixture", groupId: group, regionId: "fallowmarch",
+      centre: [-250, 30], radius: 8, activity, anchors, dressing: [],
+    };
+    vi.spyOn(habitats, "habitatForGroup").mockReturnValue(habitat);
     const actor = enemy(habitat, `${group}:2`, point(habitat.anchors[2]!));
     const sim = fixture([actor]);
     const visited: number[] = [];
@@ -140,9 +152,16 @@ describe("authored enemy habitat behavior", () => {
 
   it.each([
     { group: "open_march_goats", activity: "graze", travel: 5.5, pauseMin: 10_000, pauseMax: 22_000 },
-    { group: "bramble_hogs", activity: "forage", travel: 4.5, pauseMin: 4_000, pauseMax: 10_000 },
-  ])("keeps $activity movement local and repeatable, with repeated activity pauses", ({ group, travel, pauseMin, pauseMax }) => {
-    const habitat = habitats.habitatForGroup(group)!;
+    { group: "redsill_frogs", activity: "forage", travel: 4.5, pauseMin: 4_000, pauseMax: 10_000 },
+  ] as const)("keeps $activity movement local and repeatable, with repeated activity pauses", ({ group, activity, travel, pauseMin, pauseMax }) => {
+    // The nearest browse points leave room for visible strides and exercise the travel limit.
+    // World authoring may pack anchors closer together without changing these AI guarantees.
+    const habitat: HabitatDef = {
+      id: "browse_fixture", groupId: group, regionId: "fallowmarch",
+      centre: [-250, 30], radius: 10, activity,
+      anchors: [[-250, 30], [-245, 30], [-250, 36], [-258, 30], [-250, 22]], dressing: [],
+    };
+    vi.spyOn(habitats, "habitatForGroup").mockReturnValue(habitat);
     const trace = (id: string) => {
       const actor = enemy(habitat, id);
       const spawn: Vec3 = [...actor.position];
@@ -319,6 +338,180 @@ describe("authored enemy habitat behavior", () => {
       expect(requests.every((wanted) => distance(wanted, [0, 0, 0]) <= 6.01)).toBe(true);
     },
   );
+});
+
+
+describe("generated coastal habitat behavior", () => {
+  it("patrols a generated formation outside the original world bounds through the injected habitat", () => {
+    const site = { id: "coastal_patrol_fixture", regionId: "fallowmarch", biomeId: "fallowmarch",
+      spot: [WORLD_BOUNDS.min[0] - 30, -50] } as const;
+    const formation = createCoastalEncounterFormation(site, {
+      id: "coastal_source", family: "goat", name: "Coastal goat", tier: 1, count: 7,
+      centre: [-250, 30], radius: 10, assetId: "animal_goat", scale: 1,
+    }, { bodyRadius: 1, accepts: () => true })!;
+    expect(formation).not.toBeNull();
+    const habitat = formation.habitat;
+    expect(habitat.boundary).toBe("playable-coast");
+    expect(habitat.anchors.every(([x]) => x < WORLD_BOUNDS.min[0])).toBe(true);
+    // The same points remain invalid for an authored habitat without the explicit coast policy.
+    const { boundary: _boundary, ...authored } = habitat;
+    expect(habitat.anchors.every(anchor => !habitats.habitatContains(authored, point(anchor)))).toBe(true);
+    const actor = enemy(habitat, formation.actorIds[0]!);
+    const spawn: Vec3 = [...actor.position];
+    const targets: number[] = [];
+    const sim = fixture([actor], {
+      nearestWalkable(wanted, tolerance) {
+        expect(tolerance).toBe(0.1);
+        expect(habitats.habitatContains(habitat, wanted)).toBe(true);
+        if (distance(wanted, actor.position) > 0.3) {
+          targets.push(habitat.anchors.findIndex(anchor => distance(wanted, point(anchor)) <= 0.45));
+        }
+        return [...wanted];
+      },
+    }, undefined, candidate => candidate.meta?.groupId === habitat.groupId ? habitat : null);
+    const reached = new Set<number>();
+    let travel = 0;
+    sim.advance(120_000, () => {
+      expect(habitats.habitatContains(habitat, actor.position)).toBe(true);
+      travel = Math.max(travel, distance(actor.position, spawn));
+      habitat.anchors.forEach((anchor, index) => {
+        if (distance(actor.position, point(anchor)) < 0.8) reached.add(index);
+      });
+    });
+    expect(travel).toBeGreaterThan(2);
+    expect(targets.slice(0, 8)).toEqual([1, 2, 3, 4, 5, 6, 0, 1]);
+    expect(reached.size).toBe(habitat.anchors.length);
+    expect(sim.ai.modeOf(actor.id)).toBe("idle");
+  });
+
+  it.each([
+    { name: "outside-circle", anchor: [-389, -50] },
+    { name: "NaN", anchor: [NaN, -50] },
+    { name: "infinite", anchor: [-380, Infinity] },
+  ] as const)("rejects a coastal $name anchor before navigation", ({ anchor }) => {
+    const habitat: HabitatDef = {
+      id: "invalid_coastal_fixture", groupId: "invalid_coastal_fixture", regionId: "fallowmarch",
+      centre: [-380, -50], radius: 8, boundary: "playable-coast", activity: "patrol",
+      anchors: [[-380, -50], anchor], dressing: [],
+    };
+    expect(habitats.habitatContains(habitat, point(anchor))).toBe(false);
+    const actor = enemy(habitat, "coastal_invalid_anchor");
+    const spawn: Vec3 = [...actor.position];
+    const requests: Vec3[] = [];
+    const sim = fixture([actor], {
+      nearestWalkable(wanted) {
+        requests.push([...wanted]);
+        expect(habitats.habitatContains(habitat, wanted)).toBe(true);
+        return [...wanted];
+      },
+    }, undefined, () => habitat);
+    sim.advance(30_000, () => expect(actor.position).toEqual(spawn));
+    // The valid spawn anchor is still considered, so a disabled AI cannot satisfy this check.
+    expect(requests.length).toBeGreaterThan(0);
+    expect(requests.every(wanted => distance(wanted, spawn) <= 0.45)).toBe(true);
+  });
+
+  it.each(["missing", "across-wall", "NaN"] as const)("rejects a coastal %s navigation result", result => {
+    const habitat: HabitatDef = {
+      id: "coastal_nav_fixture", groupId: "coastal_nav_fixture", regionId: "fallowmarch",
+      centre: [-380, -50], radius: 8, boundary: "playable-coast", activity: "patrol",
+      anchors: [[-380, -50], [-376, -50]], dressing: [],
+    };
+    const actor = enemy(habitat, "coastal_blocked_nav");
+    const spawn: Vec3 = [...actor.position];
+    const requests: Vec3[] = [];
+    const sim = fixture([actor], {
+      nearestWalkable(wanted) {
+        requests.push([...wanted]);
+        if (result === "missing") return null;
+        return [result === "NaN" ? NaN : wanted[0] + 0.101, wanted[1], wanted[2]];
+      },
+    }, undefined, () => habitat);
+    sim.advance(30_000, () => expect(actor.position).toEqual(spawn));
+    expect(requests.some(wanted => distance(wanted, spawn) > 3)).toBe(true);
+  });
+});
+
+
+describe("enemy world replacement", () => {
+  it("immediately scans a reused coastal ID at clock zero with fresh species stats and AI state", () => {
+    const previousEnemies = content.allEnemies();
+    content.register({ enemies: ENEMIES });
+    try {
+      const habitat: HabitatDef = {
+        id: "coastal_reset_habitat", groupId: "coastal_reset_fixture", regionId: "fallowmarch",
+        centre: [-380, -50], radius: 12, boundary: "playable-coast", activity: "patrol",
+        anchors: [[-380, -50], [-372, -50]], dressing: [],
+      };
+      const canonicalActor = (defId: string, id: string, position: Vec3) => {
+        const def = content.enemy(defId)!;
+        const actor = enemy(habitat, id, position);
+        actor.name = def.name;
+        actor.tier = def.tier;
+        Object.assign(actor.combat!, {
+          health: def.maxHealth, maxHealth: def.maxHealth, aggroRadius: def.aggroRadius,
+        });
+        Object.assign(actor.meta!, { enemyDefId: def.id, family: def.family });
+        return actor;
+      };
+      const oldActor = canonicalActor("goat_t1", habitat.groupId, [-380, 0, -50]);
+      const oldBoss = canonicalActor("ordrun", "ordrun", [-378, 0, -50]);
+      oldBoss.archetype = "boss";
+      oldBoss.combat!.health = oldBoss.combat!.maxHealth / 2;
+      const entities = [oldActor, oldBoss];
+      const sim = fixture(entities, { nearestWalkable: wanted => [...wanted] }, undefined,
+        actor => actor.id === habitat.groupId ? habitat : null);
+      sim.combat.setEnemyOverride(oldActor.id, null);
+      const oldTime = 90_000;
+      sim.ai.provoke(oldActor.id, oldTime);
+      sim.ai.provoke(oldBoss.id, oldTime);
+      sim.ai.tick(100, oldTime);
+      sim.combat.tick(100, oldTime);
+      sim.ai.tick(100, oldTime + 1_800);
+      sim.combat.tick(100, oldTime + 1_800);
+      expect(sim.ai.modeOf(oldActor.id)).toBe("aggro");
+      expect(sim.ai.telegraphFor(oldBoss.id)?.stage).toBe("windup");
+      expect(sim.combat.defFor(oldActor).id).toBe("goat_t1");
+      expect(sim.state.world.enemies[oldActor.id]?.health).toBe(oldActor.combat!.maxHealth);
+
+      const replacement = canonicalActor("frog_t1", oldActor.id, [-372, 0, -50]);
+      replacement.view!.assetId = "animal_frog";
+      const spawn: Vec3 = [...replacement.position];
+      const oldPositions = [oldActor.position.slice(), oldBoss.position.slice()];
+      expect(replacement.combat!.maxHealth).not.toBe(oldActor.combat!.maxHealth);
+      entities.splice(0, entities.length, replacement);
+      sim.store.reset(19, 0);
+      const state = sim.store.get();
+      state.player.position = [spawn[0] + 3, spawn[1], spawn[2]];
+      sim.combat.resetForNewWorld();
+      sim.ai.resetForNewWorld();
+      expect(sim.ai.modeOf(replacement.id)).toBeUndefined();
+      expect(sim.ai.modeOf(oldBoss.id)).toBeUndefined();
+      expect(sim.ai.telegraphs()).toEqual([]);
+
+      // Same realm and a rewound clock must still scan the replacement on this first tick.
+      sim.ai.tick(100, 0);
+      sim.combat.tick(100, 0);
+      expect(Object.keys(state.world.enemies)).toEqual([replacement.id]);
+      expect(state.world.enemies[replacement.id]).toMatchObject({
+        health: content.enemy("frog_t1")!.maxHealth, state: "idle", spawnPos: spawn,
+      });
+      expect(sim.combat.defFor(replacement)).toBe(content.enemy("frog_t1"));
+      expect(sim.ai.modeOf(replacement.id)).toBe("idle");
+      expect(state.combat.engagedBy).toEqual([]);
+      expect(sim.ai.telegraphs()).toEqual([]);
+
+      sim.combat.damageEnemy(replacement.id, 1, 100);
+      sim.ai.provoke(replacement.id, 100);
+      for (let atMs = 100; atMs <= 1_000; atMs += 100) sim.ai.tick(100, atMs);
+      expect(state.world.enemies[replacement.id]?.health).toBe(replacement.combat!.maxHealth - 1);
+      expect(sim.ai.modeOf(replacement.id)).toBe("aggro");
+      expect(distance(replacement.position, spawn)).toBeGreaterThan(0);
+      expect([oldActor.position, oldBoss.position]).toEqual(oldPositions);
+    } finally {
+      content.register({ enemies: previousEnemies });
+    }
+  });
 });
 
 

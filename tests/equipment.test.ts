@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import type { EquipmentBonuses, ItemDef, ItemId } from "../game/src/contracts.js";
 import { EQUIPMENT, KITS, MAGIC_ORBS } from "../game/src/content/equipment.js";
+import { WILDERNESS_LOOT_ITEMS } from "../game/src/content/wildernessLoot.js";
 import { computeMaxHealth, createInitialState, setSkillLevel } from "../game/src/state/store.js";
 import {
   GEAR_APPEARANCE_IDS, GEAR_ASSET_GAPS, VISIBLE_EQUIP_SLOTS,
@@ -30,6 +31,8 @@ import { fishingRodAssetId, isProceduralGearAsset } from "../game/src/render/pro
 
 const BY_ID = new Map<ItemId, ItemDef>(EQUIPMENT.map((def) => [def.id, def]));
 const ALL_BY_ID = new Map<ItemId, ItemDef>([...MAGIC_ORBS, ...EQUIPMENT].map((def) => [def.id, def]));
+const WILDERNESS_EQUIPMENT = WILDERNESS_LOOT_ITEMS.filter(def => def.equip);
+const ALL_EQUIPMENT = [...EQUIPMENT, ...WILDERNESS_EQUIPMENT];
 
 function kitTotals(kit: keyof typeof KITS): EquipmentBonuses {
   const totals: EquipmentBonuses = {
@@ -178,11 +181,14 @@ const MANIFEST_IDS = new Set(manifest.assets.map((asset) => asset.id));
 
 describe("gear appearance", () => {
   it("covers every id in the content table and nothing else", () => {
-    expect([...GEAR_APPEARANCE_IDS].sort()).toEqual(EQUIPMENT.map((def) => def.id).sort());
+    expect(EQUIPMENT).toHaveLength(95);
+    expect(WILDERNESS_EQUIPMENT).toHaveLength(41);
+    expect(new Set(ALL_EQUIPMENT.map(def => def.id)).size).toBe(136);
+    expect([...GEAR_APPEARANCE_IDS].sort()).toEqual(ALL_EQUIPMENT.map((def) => def.id).sort());
   });
 
   it("agrees with content on which slot each item goes in", () => {
-    for (const def of EQUIPMENT) {
+    for (const def of ALL_EQUIPMENT) {
       for (const part of gearAppearanceParts(def.id)) {
         expect(part.slot, def.id).toBe(def.equip?.slot);
       }
@@ -200,7 +206,7 @@ describe("gear appearance", () => {
     // starting "proc_" through, so it is checked against the real registration list instead.
     // The authored dagger is built by the same registry that supplies held fishing tools.
     for (const body of ["male", "female"] as const) {
-      for (const def of EQUIPMENT) {
+      for (const def of ALL_EQUIPMENT) {
         for (const part of gearAppearanceParts(def.id, body)) {
           expect(MANIFEST_IDS.has(part.assetId) || isProceduralGearAsset(part.assetId), `${def.id} (${body}) -> ${part.assetId}`).toBe(true);
         }
@@ -253,7 +259,7 @@ describe("gear appearance", () => {
   });
 
   it("shows something for every visible slot, with no gaps left", () => {
-    const empty = EQUIPMENT
+    const empty = ALL_EQUIPMENT
       .filter((def) => def.equip && VISIBLE_EQUIP_SLOTS.includes(def.equip.slot))
       .filter((def) => gearAppearance(def.id) === null)
       .map((def) => def.id);
@@ -262,7 +268,7 @@ describe("gear appearance", () => {
   });
 
   it("leaves rings and pendants out of the direct rig slots", () => {
-    for (const def of EQUIPMENT) {
+    for (const def of ALL_EQUIPMENT) {
       if (!["accessory1", "accessory2"].includes(def.equip?.slot ?? "")) continue;
       expect(gearAppearanceParts(def.id)).toHaveLength(0);
     }
@@ -303,7 +309,7 @@ describe("gear appearance", () => {
   });
 
   it("attaches weapons to bones and armour to skin, and never scales a skinned part", () => {
-    for (const def of EQUIPMENT) {
+    for (const def of ALL_EQUIPMENT) {
       const held = def.equip?.slot === "mainHand" || def.equip?.slot === "offHand";
       for (const part of gearAppearanceParts(def.id)) {
         // Worn armour is skinned, except for the additive tier pieces, which are rigid because they
@@ -536,6 +542,6 @@ describe("item icons", () => {
   });
 
   it("gives every equipment row a shape", () => {
-    for (const def of EQUIPMENT) expect(iconShapeFor(def), def.id).toBeTruthy();
+    for (const def of ALL_EQUIPMENT) expect(iconShapeFor(def), def.id).toBeTruthy();
   });
 });

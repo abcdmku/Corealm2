@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { compileShadowMeshes } from "./shaderPreparation.js";
 
 /** Prepare newly resident meshes before their first draw can synchronously wait on the driver. */
 export class StreamedShaderWarmup {
@@ -15,8 +16,6 @@ export class StreamedShaderWarmup {
   private disposed = false;
   private readonly linearTarget = new THREE.WebGLRenderTarget(1, 1);
   private readonly defaultDepth = new THREE.MeshDepthMaterial();
-  private readonly shadowScene = new THREE.Scene();
-  private readonly shadowLights: THREE.Light[] = [];
   private readonly added = (event: { child: THREE.Object3D }) => this.watch(event.child, true);
   private readonly removed = (event: { child: THREE.Object3D }) => {
     event.child.traverse(object => {
@@ -29,11 +28,6 @@ export class StreamedShaderWarmup {
   };
 
   constructor(private renderer: THREE.WebGLRenderer, private scene: THREE.Scene, private camera: THREE.Camera) {
-    // Shadow draws use the world's light counts but no scene fog/environment.
-    this.shadowScene.traverseVisible = callback => {
-      callback(this.shadowScene);
-      for (const light of this.shadowLights) callback(light);
-    };
     // Existing meshes were covered by startup warmup. Listen before background residency expands.
     this.watch(scene, false);
   }
@@ -86,7 +80,8 @@ export class StreamedShaderWarmup {
       try {
         this.renderer.setRenderTarget(this.linearTarget);
         this.compile(view, meshes);
-        this.compileShadows(meshes);
+        compileShadowMeshes(this.renderer, this.scene, this.camera, meshes,
+          source => this.compilationMaterial(source), this.defaultDepth);
       } finally { this.renderer.setRenderTarget(previous); }
       // compileAsync checks only each material's last program. Shared materials can produce
       // several mesh/side variants; wait for all submitted programs without blocking the driver.
@@ -147,33 +142,6 @@ export class StreamedShaderWarmup {
     this.materials.set(source, { clone, version: source.version, dispose });
     // Retaining the clone keeps the compiled program cached until an offscreen mesh first draws.
     return clone;
-  }
-
-  private compileShadows(meshes: THREE.Mesh[]): void {
-    this.shadowLights.length = 0;
-    this.scene.traverseVisible(object => { if ((object as THREE.Light).isLight) this.shadowLights.push(object as THREE.Light); });
-    for (const mesh of meshes) {
-      if (!mesh.castShadow) continue;
-      const original = mesh.material;
-      try {
-        for (const surface of Array.isArray(original) ? original : [original]) {
-          const depth = this.compilationMaterial(mesh.customDepthMaterial ?? this.defaultDepth) as THREE.MeshDepthMaterial;
-          const source = surface as THREE.MeshStandardMaterial;
-          depth.side = surface.shadowSide ?? (surface.side === THREE.FrontSide ? THREE.BackSide
-            : surface.side === THREE.BackSide ? THREE.FrontSide : THREE.DoubleSide);
-          depth.map = source.map;depth.alphaMap = source.alphaMap;
-          depth.alphaTest = surface.alphaToCoverage ? 0.5 : surface.alphaTest;
-          depth.displacementMap = source.displacementMap;
-          depth.displacementScale = source.displacementScale;depth.displacementBias = source.displacementBias;
-          depth.clippingPlanes = surface.clippingPlanes;depth.clipShadows = surface.clipShadows;
-          depth.clipIntersection = surface.clipIntersection;depth.wireframe = source.wireframe;
-          mesh.material = depth;
-          const view = new THREE.Group();
-          view.traverse = callback => { callback(view);callback(mesh); };
-          this.renderer.compile(view, this.camera, this.shadowScene);
-        }
-      } finally { mesh.material = original; }
-    }
   }
 
   private retire(material: THREE.Material): void {

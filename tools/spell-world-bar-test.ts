@@ -23,7 +23,7 @@ try{
     await lab.equipPlayer("offHand",null);await lab.equipPlayer("mainHand","basic_wooden_staff");
     await lab.equipPlayer("body","marchhide_robe");lab.setFreeCameraEnabled(false);
     const debug=window.__gameDebug as unknown as Debug;
-    for(const [id,n] of [["fire_essence",40],["air_essence",40],["water_essence",40],["focus_rune",5],["sweep_rune",5],["binding_rune",5],["siege_rune",5],["cataclysm_rune",5],["field_rune",10]] as const)debug.giveItem(id,n,"inventory");
+    for(const [id,n] of [["fire_essence",40],["air_essence",40],["water_essence",40],["mind_rune",5],["chaos_rune",5],["death_rune",5],["blood_rune",5],["wrath_rune",5],["cosmic_rune",10]] as const)debug.giveItem(id,n,"inventory");
   });
   const api=()=>page.evaluate(()=>window.__featureLab!.getState());
   // The world bar mounts with the four entry spells and answers the spellbook's rows.
@@ -63,7 +63,7 @@ try{
   await page.waitForFunction(count=>window.__featureLab!.getState().counters.spellLaunched>count,before.counters.spellLaunched,{timeout:15000});
   assert.equal((await api()).spellId,"emberlash");
 
-  // Slot 6 (Ember dart) is a targeted invocation: one cast, the Focus Rune spent, the lock shown.
+  // Slot 6 (Ember dart) is a targeted invocation: one cast, the Mind Rune spent, the lock shown.
   const launched=(await api()).counters.spellLaunched;
   await page.locator('.abar[data-bar="0"] .abar__slot[data-slot="5"]').click();
   await page.waitForFunction(count=>window.__featureLab!.getState().counters.spellLaunched>count,launched,{timeout:15000});
@@ -75,8 +75,8 @@ try{
     await page.waitForTimeout(500);
     return Number(await page.locator(`#panel-spellbook .spellbook__rune[data-rune="${id}"] .spellbook__rune-count`).textContent());
   };
-  const focusLeft=await carried("focus_rune");
-  assert.equal(focusLeft,4,"one Focus Rune spent");
+  const mindLeft=await carried("mind_rune");
+  assert.equal(mindLeft,4,"one Mind Rune spent");
 
   // Slot 7 (Deluge) opens the ground reticle; a click on the ground casts it and spends both runes.
   await page.waitForFunction(()=>document.querySelector(".abar.is-busy")===null,undefined,{timeout:12000});
@@ -94,11 +94,11 @@ try{
   await page.waitForFunction(()=>!document.body.classList.contains("is-aiming"));
   await page.waitForTimeout(2600);
   await page.screenshot({path:path.join(out,"deluge-world.png")});
-  const runes={cataclysm:await carried("cataclysm_rune"),field:await carried("field_rune")};
-  assert.deepEqual(runes,{cataclysm:4,field:9},"Deluge, a finale, spends its Cataclysm Rune and a Field Rune");
+  const runes={wrath:await carried("wrath_rune"),cosmic:await carried("cosmic_rune")};
+  assert.deepEqual(runes,{wrath:4,cosmic:9},"Deluge, a finale, spends its Wrath Rune and a Cosmic Rune");
   await page.waitForFunction(()=>window.__featureLab!.getState().liveSpellParticles>0,undefined,{timeout:8000}).catch(()=>{});
   await page.waitForFunction(()=>document.querySelector(".abar.is-busy")===null,undefined,{timeout:12000});
   assert.deepEqual([...driver.consoleErrors,...driver.pageErrors],[]);
-  await writeFile(path.join(out,"report.json"),JSON.stringify({passed:true,basicTiles,focusLeft,runes,errors:[]},null,2));
+  await writeFile(path.join(out,"report.json"),JSON.stringify({passed:true,basicTiles,mindLeft,runes,errors:[]},null,2));
   console.log(JSON.stringify({passed:true,output:out}));
 }finally{await driver.close();clear();}

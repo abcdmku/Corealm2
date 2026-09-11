@@ -9,6 +9,8 @@ import { tierSilhouetteScale } from "../core/math.js";
 import { hashId } from "../world/habitatMovement.js";
 import { REGIONAL_PACK_LAYOUT } from "./regionalPackLayout.js";
 import type { RegionalPackCatalogue } from "../world/regionalPackEntities.js";
+import { createEncounterFormation, encounterPopulationCount, EncounterFormationError } from "./encounterPopulation.js";
+import type { EnemyGroupDef } from "./regions.js";
 
 /** Stable setting IDs keep their existing coordinates and member save identities. Null retains
  * the wildlife already authored there. These assignments stage RPG occupants, not public assets. */
@@ -75,6 +77,81 @@ export interface RpgPackModelMeasurement {
   readonly base: { readonly x: number; readonly y: number; readonly z: number };
 }
 
+function requireMeasurement(assetId: string, measurement: (assetId: string) => RpgPackModelMeasurement | null): RpgPackModelMeasurement {
+  const model = measurement(assetId);
+  if (!model || !Object.values(model.size).every(value => Number.isFinite(value) && value > 0)
+    || !Object.values(model.base).every(Number.isFinite)) throw new Error(`RPG pack requires measured model: ${assetId}`);
+  return model;
+}
+
+/** Root-relative bounds cover an offset tail or shell at every facing direction. */
+function measuredRadius(model: RpgPackModelMeasurement, sx = 1, sz = sx): number {
+  return Math.hypot(
+    Math.max(Math.abs(model.base.x), Math.abs(model.base.x + model.size.x)) * sx,
+    Math.max(Math.abs(model.base.z), Math.abs(model.base.z + model.size.z)) * sz,
+  );
+}
+
+/** Existing assignments still decide which pockets have props. Population changes never add them. */
+function packDressing(pack: RegionalPackDef) {
+  return CREATURE_SPECIES.some(row => row.id === pack.speciesId) ? [] : REGIONAL_PACK_LAYOUT[pack.id]!.dressing;
+}
+
+function populatePack(pack: RegionalPackDef, variants: Map<string, RegionalPackVariant>,
+  measurement: (assetId: string) => RpgPackModelMeasurement | null): RegionalPackDef {
+  const stats = variants.get(pack.members[0]!.variantId)!.stats;
+  const group: EnemyGroupDef = { id: pack.id, family: stats.family, name: stats.name, tier: stats.tier,
+    count: pack.members.length, centre: pack.centre, radius: pack.radius, assetId: pack.assetId, scale: pack.scale };
+  const model = requireMeasurement(pack.assetId, measurement);
+  const maxScale = Math.max(...pack.members.map(member => {
+    const variant = variants.get(member.variantId)!;
+    return pack.scale * tierSilhouetteScale(variant.stats.tier) * variant.scaleMultiplier;
+  }));
+  // The activity circuit can move a resident 45cm off its anchor. Both moving bodies need that
+  // allowance, in addition to the shared formation gap, rather than just protecting their roots.
+  const bodyRadius = measuredRadius(model, maxScale) + .45;
+  const occupied = packDressing(pack).map(piece => {
+    const prop = requireMeasurement(piece.assetId, measurement);
+    const sx = typeof piece.scale === "number" ? piece.scale : piece.scale[0];
+    const sz = typeof piece.scale === "number" ? piece.scale : piece.scale[2];
+    // A root-relative circle includes the complete rotated prop, including an offset wall base.
+    return { position: [piece.x, piece.z] as const, bodyRadius: measuredRadius(prop, sx, sz) };
+  });
+  const count = encounterPopulationCount(group);
+  const settingRadius = Math.max(0, ...occupied.map(prop =>
+    Math.hypot(prop.position[0] - pack.centre[0], prop.position[1] - pack.centre[1]) + prop.bodyRadius + .15));
+  const minimumRadius = Math.max(pack.radius, settingRadius);
+  if (bodyRadius > pack.radius)
+    throw new Error(`RPG pack model or dressing exceeds habitat: ${pack.id}; author a larger pocket`);
+  // Fifteen residents fit inside two hexagonal rings. Include the setting's full extent so a
+  // large body can route the formation around it. World acceptance owns adjacent reservations.
+  const maximumRadius = Math.ceil(Math.max(minimumRadius, bodyRadius * 5 + 1 + settingRadius) * 2) / 2;
+  let formation: ReturnType<typeof createEncounterFormation> | undefined;
+  // Try the authored reservation first. Half-metre growth stops as soon as the complete pack fits.
+  for (let radius = minimumRadius; radius <= maximumRadius + 1e-6; radius += .5) {
+    // The sparse old ring can obstruct a safe interior lattice. Prefer existing positions where
+    // possible, then repack the same saved IDs before increasing the world reservation.
+    for (const preferredAnchors of [pack.anchors, []] as const) {
+      try {
+        formation = createEncounterFormation(group, { bodyRadius, occupied, count,
+          preferredAnchors, maxRadius: radius });
+        break;
+      } catch (error) {
+        if (!(error instanceof EncounterFormationError)) throw error;
+        if (radius + .5 > maximumRadius + 1e-6 && preferredAnchors.length === 0) throw error;
+      }
+    }
+    if (formation) break;
+  }
+  if (!formation) throw new EncounterFormationError(pack.id, count, 0, maximumRadius);
+  const ordinary = [...variants.values()].find(variant => variant.baseEnemyDefId === pack.baseEnemyDefId
+    && variant.rank === "ordinary");
+  if (!ordinary) throw new Error(`RPG pack has no ordinary rank: ${pack.id}`);
+  const members = formation.anchors.map((_, index) => pack.members[index]
+    ?? { id: formation.actorIds[index]!, anchorIndex: index, variantId: ordinary.id });
+  return { ...pack, radius: Math.max(minimumRadius, formation.group.radius), anchors: formation.anchors, members };
+}
+
 /** Build only with real candidate or promoted GLB measurements. This intentionally fails on
  * missing models and unsafe formations. Root registers the returned stats/habitats together,
  * proves the pack fixture, then audits the generated world before population registration. */
@@ -95,34 +172,27 @@ export function createRpgRegionalPackCatalogue(
       : RPG_REGIONAL_PACK_PLAN.find((row) => row.packId === original.id)!.speciesId;
     if (!speciesId) {
       for (const member of original.members) variants.set(member.variantId, legacyVariants.get(member.variantId)!);
-      return original;
+      return populatePack(original, variants, measurement);
     }
     const species = RPG_BESTIARY_BY_ID.get(speciesId) ?? CREATURE_SPECIES.find(row => row.id === speciesId);
     if (!species || species.regionId !== original.regionId) throw new Error(`Invalid RPG pack species: ${speciesId}`);
-    const model = measurement(species.assetId);
-    if (!model || !Object.values(model.size).every((value) => Number.isFinite(value) && value > 0)
-      || !Object.values(model.base).every(Number.isFinite)) throw new Error(`RPG pack requires measured model: ${species.assetId}`);
+    const model = requireMeasurement(species.assetId, measurement);
     const wildlife = CREATURE_SPECIES.some(row => row.id === speciesId);
-    const residents = wildlife ? original.members.slice(0, 3) : original.members;
+    const residents = original.members;
+    const previousCount = wildlife ? Math.min(3, residents.length) : residents.length;
     const maxScale = species.scale * tierSilhouetteScale(species.stats.tier) * 1.04;
-    const bodyRadius = Math.max(model.size.x, model.size.z) * maxScale / 2;
-    const visualRadius = Math.hypot(
-      Math.max(Math.abs(model.base.x), Math.abs(model.base.x + model.size.x)),
-      Math.max(Math.abs(model.base.z), Math.abs(model.base.z + model.size.z)),
-    ) * maxScale;
+    const visualRadius = measuredRadius(model, maxScale);
     const ring = original.radius - visualRadius - 0.6;
-    if (ring <= 0) throw new Error(`RPG pack model exceeds habitat: ${original.id}/${speciesId}`);
     const phase = (hashId(original.id) % 360) * Math.PI / 180;
-    const anchors = residents.map((_, index) => {
-      const angle = phase + index * Math.PI * 2 / residents.length;
+    const anchors = ring <= 0 ? [] : Array.from({ length: previousCount }, (_, index) => {
+      const angle = phase + index * Math.PI * 2 / previousCount;
       return [original.centre[0] + Math.cos(angle) * ring, original.centre[1] + Math.sin(angle) * ring] as const;
     });
-    for (let a = 0; a < anchors.length; a++) for (let b = a + 1; b < anchors.length; b++) {
-      if (Math.hypot(anchors[a]![0] - anchors[b]![0], anchors[a]![1] - anchors[b]![1]) < bodyRadius * 2 + 0.3)
-        throw new Error(`RPG pack bodies overlap: ${original.id}/${speciesId}; author a larger pocket or smaller resident count`);
-    }
     const members = residents.map((member, index) => {
-      const step = index === residents.length - 1 ? 2 : index === 1 ? 1 : 0;
+      // Keep the three already-spawned wildlife ranks, then restore the uncapped source members
+      // with their authored ranks. Appended residents below receive the ordinary variant.
+      const step = index < previousCount ? (index === previousCount - 1 ? 2 : index === 1 ? 1 : 0)
+        : (["ordinary", "seasoned", "mature"] as const).indexOf(legacyVariants.get(member.variantId)!.rank);
       const rank = (["ordinary", "seasoned", "mature"] as const)[step]!;
       const id = `${species.stats.id}_pack_${rank}`;
       variants.set(id, { id, baseEnemyDefId: species.stats.id, rank, scaleMultiplier: 1 + step * 0.02,
@@ -133,12 +203,12 @@ export function createRpgRegionalPackCatalogue(
       return { ...member, variantId: id };
     });
     const levels = members.map((member) => enemyCombatLevel(variants.get(member.variantId)!.stats));
-    return { ...original, speciesId, baseGroupId: `${speciesId}_residents`, baseEnemyDefId: species.stats.id,
+    return populatePack({ ...original, speciesId, baseGroupId: `${speciesId}_residents`, baseEnemyDefId: species.stats.id,
       assetId: species.assetId, scale: species.scale, activity: species.activity, anchors, members,
       rationale: `${species.description} ${wildlife ? "An undressed creature pocket." : REGIONAL_PACK_LAYOUT[original.id]!.purpose}`,
       placementRisks: [...original.placementRisks, "RPG models and encounter dressing are candidates until production lab acceptance."],
       levelRange: [Math.min(...levels), Math.max(...levels)],
-    };
+    }, variants, measurement);
   });
   return {
     packs, variants: [...variants.values()],
@@ -149,6 +219,6 @@ export function createRpgRegionalPackCatalogue(
     }),
     habitats: packs.map((pack) => ({ id: `${pack.id}_habitat`, groupId: pack.id, regionId: pack.regionId,
       centre: pack.centre, radius: pack.radius, anchors: pack.anchors, activity: pack.activity,
-      dressing: CREATURE_SPECIES.some(row => row.id === pack.speciesId) ? [] : REGIONAL_PACK_LAYOUT[pack.id]!.dressing })),
+      dressing: packDressing(pack) })),
   };
 }

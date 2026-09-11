@@ -53,7 +53,14 @@ export function worldSiteHaulRamp(site: WorldSite): WorldSiteHaulRamp {
     Math.abs(alongX) > 1e-9 ? (site.extent[0] - boundaryMargin) / Math.abs(alongX) : Infinity,
     Math.abs(alongZ) > 1e-9 ? (site.extent[1] - boundaryMargin) / Math.abs(alongZ) : Infinity,
   );
-  const startDistance = Math.max(4, floorRadius * 0.3);
+  // Keep the mining stance and a 0.55 m footing margin ahead of the ramp's first rise.
+  // An oblique approach can otherwise begin climbing underneath an end station.
+  const stanceReach = site.resourceSlots.filter(slot =>
+    Math.abs(slot.x * alongZ - slot.z * alongX + 2.3 * Math.sin(slot.yaw - approachAngle)) <= 2.8
+  ).map(slot =>
+    slot.x * alongX + slot.z * alongZ
+      + 2.3 * Math.cos(slot.yaw - approachAngle) + 0.55);
+  const startDistance = Math.max(4, floorRadius * 0.3, ...stanceReach);
   const endDistance = Math.min(floorRadius + 5, extentReach);
   if (!Number.isFinite(endDistance) || endDistance <= startDistance) {
     throw new Error(`Haul ramp ${site.id} has no room inside its authored extent`);

@@ -63,6 +63,8 @@ export interface GatheringProductionAssetManifest {
 
 export interface GatheringProductionValidationInput {
   tiers: readonly GatheringProductionTierDef[];
+  /** Combat-loot crafting can extend production beyond the complete gathering matrices. */
+  additionalRecipeTiers?: readonly { tier: number; reqLevel: number }[];
   resources: readonly ResourceDef[];
   recipes: readonly RecipeDef[];
   items: readonly ItemDef[];
@@ -91,7 +93,10 @@ export function validateGatheringManifestProvenance(
     const hashMatches = LOWERCASE_SHA256.test(pack.generatorSha256 ?? "")
       && verifiedSourceHashes.get(pack.source) === pack.generatorSha256;
     const isOriginal = pack.license === "LicenseRef-Corealm-Original"
-      && /^tools\/build-(?:corealm-(?:nature|geology|farm|minerals|equipment)|creature-expansion|ground-ores)\.ts$/.test(pack.source)
+      && (/^tools\/build-(?:corealm-(?:nature|geology|farm|minerals|equipment)|creature-expansion|ground-ores)\.ts$/.test(pack.source)
+        || pack.source === 'tools/wilderness-trees/build.ts'
+        || pack.id === 'corealm-original-wilderness-resources' && pack.source === 'tools/wilderness-resources/build.ts'
+        || pack.id === 'corealm-original-wilderness-keepers' && pack.source === 'tools/wilderness-creatures/keepers/hollow-star.mjs')
       && hashMatches;
     const derivativeIdentity = pack.id === "corealm-original-ground-ores" && pack.source === "tools/build-ground-ores.ts"
       && pack.license.startsWith("Derivative geometry and material maps") && pack.license.includes(UNITY_ASSET_STORE_LICENSE);
@@ -632,7 +637,8 @@ export function validateGatheringProduction(
   }
 
   for (const recipe of input.recipes) {
-    const tier = tiersByLevel.get(recipe.tier);
+    const tier = tiersByLevel.get(recipe.tier)
+      ?? input.additionalRecipeTiers?.find(candidate => candidate.tier === recipe.tier);
     if (!tier) {
       problems.push(`recipe ${recipe.id} references unknown gathering tier ${recipe.tier}`);
     } else if (recipe.reqLevel !== tier.reqLevel) {

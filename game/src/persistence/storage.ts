@@ -20,6 +20,7 @@ const REGION_IDS: Readonly<Record<RegionId, true>> = {
   vellenwood: true,
   karrowmoor: true,
   kilnhalt: true,
+  wilderness: true,
   gravelmaw: true,
 };
 
@@ -197,6 +198,22 @@ function recompute(state: GameState): GameState {
   state.discovery.locations = state.discovery.locations ?? {};
   state.discovery.regions = state.discovery.regions ?? fresh.discovery.regions;
   state.quests = state.quests ?? {};
+  // These encounters retain their quests through both creature revisions. Merge each generation's
+  // kills and stage baselines together; removing aliases makes the transfer idempotent on reload.
+  for (const [questId, previousFamilies, after] of [
+    ['eleven_empty_days', ['hog', 'beetle_golem'], 'fen_crawler'],
+    ['long_cairn', ['rat', 'skeleton_soldier'], 'blind_cave_weaver'],
+    ['long_cairn', ['bear', 'stone_golem'], 'vault_custodian'],
+  ] as const) {
+    const counters = state.quests[questId]?.counters;
+    if (!isRecord(counters)) continue;
+    for (const before of previousFamilies) for (const prefix of ['kill:', '@base:kill:']) {
+      const oldKey = `${prefix}${before}`, newKey = `${prefix}${after}`;
+      if (typeof counters[oldKey] !== 'number' || !Number.isFinite(counters[oldKey])) continue;
+      counters[newKey] = (typeof counters[newKey] === 'number' ? counters[newKey] : 0) + counters[oldKey];
+      delete counters[oldKey];
+    }
+  }
   state.bank = state.bank ?? fresh.bank;
   state.bank.slots = state.bank.slots ?? [];
   state.equipment = { ...fresh.equipment, ...(state.equipment ?? {}) };

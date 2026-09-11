@@ -138,7 +138,7 @@ export function createQuestRecoveryFixture(deps: QuestRecoveryFixtureDeps): Ques
       // does not claim a play-through; the browser must prove every replacement attempt itself.
       state.quests[questId] = {
         status: "active", stage: 6,
-        counters: { stones_given: 0, "@base:kill:bear": 0 },
+        counters: { stones_given: 0, "@base:kill:vault_custodian": 0 },
         flags: {
           lever_order_known: true, "@reacted:4:lever_order_known": true,
           door_open: true, has_keeping_stone: true,

@@ -48,8 +48,8 @@ function kitTotals(kit: readonly string[]): EquipmentBonuses {
 }
 
 describe("world extension", () => {
-  it("extends the world north to a 700 x 660 map with Kilnhalt across the full width", () => {
-    expect(WORLD_BOUNDS).toEqual({ min: [-350, -200], max: [350, 460] });
+  it("keeps Kilnhalt across the full width beneath the northern wilderness", () => {
+    expect(WORLD_BOUNDS).toEqual({ min: [-350, -200], max: [350, 700] });
     const kilnhalt = getRegion("kilnhalt")!;
     expect(kilnhalt.tier).toBe(20);
     expect(kilnhalt.bounds).toEqual({ min: [-350, 200], max: [350, 460] });
@@ -60,10 +60,10 @@ describe("world extension", () => {
     expect(kilnhalt.gates).toEqual([]);
     // Multiple semantic route connections across the old northern edge, both directions.
     expect(kilnhalt.adjacency.map((link) => link.toRegionId).sort())
-      .toEqual(["fallowmarch", "vellenwood", "vellenwood"]);
+      .toEqual(["fallowmarch", "vellenwood", "vellenwood", "wilderness"]);
     const inbound = REGIONS.flatMap((region) => region.adjacency)
       .filter((link) => link.toRegionId === "kilnhalt");
-    expect(inbound).toHaveLength(3);
+    expect(inbound).toHaveLength(4);
   });
 
   it("tiles the four surface regions without gaps along the z = 200 seam", () => {
@@ -81,7 +81,7 @@ describe("world extension", () => {
 
 describe("Emberfast", () => {
   it("ships the complete production station set inside one settlement", () => {
-    const settlement = getRegion("kilnhalt")!.settlement;
+    const settlement = getRegion("kilnhalt")!.settlement!;
     expect(settlement.id).toBe("emberfast");
     const kinds = settlement.stations.map((station) => station.kind).sort();
     expect(kinds).toEqual(["anvil", "crafting_table", "fletching_bench", "furnace", "range"]);
@@ -226,12 +226,12 @@ describe("miniboss placements", () => {
   it("places the four minibosses at their authored spots with the miniboss rank and 1.3x scale", () => {
     const world = buildWorld(1337, () => 0);
     const expectations = [
-      ["galeskin", "fallowmarch", 1, [-300, 145], "miniboss_galeskin"],
-      ["mossbound", "vellenwood", 5, [318, 72], "miniboss_mossbound"],
-      ["tideworn", "karrowmoor", 10, [18, -164], "miniboss_tideworn"],
-      ["cinderwake", "kilnhalt", 20, [286, 420], "miniboss_cinderwake"],
+      ["galeskin", "fallowmarch", 1, [-300, 145], "creature_briar_harrow", 1.2],
+      ["mossbound", "vellenwood", 5, [318, 72], "creature_thorn_maw", 1.3],
+      ["tideworn", "karrowmoor", 10, [18, -164], "creature_flint_mandible", 1.25],
+      ["cinderwake", "kilnhalt", 20, [286, 420], "creature_kiln_marrow", 1.3 * .88],
     ] as const;
-    for (const [id, regionId, tier, [x, z], assetId] of expectations) {
+    for (const [id, regionId, tier, [x, z], assetId, bodyScale] of expectations) {
       const entity = world.entities.find((candidate) => candidate.id === id);
       expect(entity, id).toBeDefined();
       expect(entity).toMatchObject({
@@ -244,17 +244,19 @@ describe("miniboss placements", () => {
       expect(entity!.position[2], `${id} z`).toBe(z);
       expect(entity!.view?.assetId, id).toBe(assetId);
       // 1.3x authored scale, against a major boss's 1.6x.
-      expect(entity!.view?.scale, id).toBeCloseTo(1.3, 5);
+      expect(entity!.view?.scale, id).toBeCloseTo(bodyScale * 1.3, 5);
     }
   });
 
-  it("stamps the three Orb bosses with the major rank and leaves them otherwise unchanged", () => {
+  it("preserves the three Orb bosses and their major rank with accepted fantasy bodies", () => {
     const world = buildWorld(1337, () => 0);
     for (const id of ["tempest_roc", "rootheart", "ordrun"] as const) {
       const entity = world.entities.find((candidate) => candidate.id === id)!;
       expect(entity.archetype, id).toBe("boss");
       expect(entity.meta?.rank, id).toBe("boss");
-      expect(entity.view?.scale, id).toBeCloseTo(1.6, 5);
+      const scale = { tempest_roc: 1.15, rootheart: 1.4, ordrun: 1.3 }[id];
+      expect(entity.view?.assetId).toBe({tempest_roc:'creature_flint_mandible',rootheart:'creature_briar_harrow',ordrun:'creature_vault_custodian'}[id]);
+      expect(entity.view?.scale, id).toBeCloseTo(scale * 1.6, 5);
     }
   });
 });

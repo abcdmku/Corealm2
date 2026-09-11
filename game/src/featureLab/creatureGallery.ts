@@ -21,7 +21,7 @@ export interface CreatureGallery {
   getState(): CreatureGalleryState;
   getCatalog(): FeatureLabPreset[];
   show(presetId: string, count?: number): Promise<void>;
-  play(motion: GalleryMotion): void;
+  play(motion: GalleryMotion, impactSide?: 'front' | 'left' | 'right'): void;
   place(x: number, z: number, yaw?: number): void;
   getBounds(): { min: Vec3; max: Vec3 } | null;
   dispose(): void;
@@ -98,13 +98,14 @@ export async function createCreatureGallery({ assets, scene, entityStore, entity
       queue = next;
       return next;
     },
-    play(motion) {
+    play(motion, impactSide = 'front') {
       if (!["idle", "walk", "run", "attack", "hit"].includes(motion)) throw new Error(`Unknown gallery motion: ${motion}`);
+      if (!['front', 'left', 'right'].includes(impactSide)) throw new Error(`Unknown impact side: ${impactSide}`);
       if (disposed || !state.ready || !state.entityIds.length) throw new Error("Load a creature gallery before playing motion");
       const failed: string[] = [];
       for (const id of state.entityIds) {
         const played = motion === "attack" || motion === "hit"
-          ? entityViews.playAction(id, motion)
+          ? entityViews.playAction(id, motion, { impactSide })
           : entityViews.setLocomotion(id, motion);
         if (!played) failed.push(id);
       }

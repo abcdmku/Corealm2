@@ -1,7 +1,11 @@
+import { REGIONAL_VARIANT_RESERVED_PACK_IDS } from "./regionalVariantHabitats.js";
 import type { RegionId } from "../contracts.js";
 import { REGIONAL_PACKS, type RegionalPackRegionId } from "./regionalPacks.js";
-import type { RpgPackAssignmentOverrides } from "./rpgRegionalPacks.js";
+import { RPG_REGIONAL_PACK_PLAN, type RpgPackAssignmentOverrides } from "./rpgRegionalPacks.js";
+import { CREATURE_SPECIES } from "./creatureSpecies.js";
+import { RPG_BESTIARY_BY_ID } from "./rpgBestiary.js";
 import { STARTER_GROUPS } from "./starterHabitats.js";
+import { inStarterWildlifeArea, isStarterAnimalAsset } from "./fantasyEncounters.js";
 
 /**
  * Root acceptance decision for the final-world regional pack population.
@@ -28,6 +32,8 @@ export const REGIONAL_PACK_ACTIVATION: RegionalPackActivation = {
   // the main thing holding Vellenwood.
   regions: ["fallowmarch"],
   excludedPackIds: [
+    // These reservations now hold the accepted undressed regional variant encounters.
+    ...REGIONAL_VARIANT_RESERVED_PACK_IDS,
     // These pockets are already populated by the accepted starter encounters. Do not
     // assemble a second regional-pack population over the same stable group IDs.
     ...STARTER_GROUPS.filter(group => REGIONAL_PACKS.some(pack => pack.id === group.id)).map(group => group.id),
@@ -39,7 +45,14 @@ export const REGIONAL_PACK_ACTIVATION: RegionalPackActivation = {
     "pack_fallowmarch_northern_horse_outer_grass",
     "pack_fallowmarch_south_march_horse_grass",
   ],
-  assignmentOverrides: {},
+  assignmentOverrides: Object.fromEntries(REGIONAL_PACKS
+    .filter(pack => {
+      if (pack.regionId !== 'fallowmarch' || inStarterWildlifeArea(pack.regionId, pack.centre, pack.radius)) return false;
+      const id = RPG_REGIONAL_PACK_PLAN.find(row => row.packId === pack.id)?.speciesId;
+      const species = id ? CREATURE_SPECIES.find(row => row.id === id) ?? RPG_BESTIARY_BY_ID.get(id) : null;
+      return isStarterAnimalAsset(species?.assetId ?? pack.assetId);
+    })
+    .map((pack,index)=>[pack.id,['goblin_scout','goblin_archer','goblin_shaman'][index%3]!])),
 };
 
 /** Stable pack IDs that the final world constructs at boot and on every save rebuild. */

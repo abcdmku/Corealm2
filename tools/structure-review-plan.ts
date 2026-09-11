@@ -105,8 +105,9 @@ function add(selection: FeatureLabStructureSelection, scope: string, wallOpening
 }
 
 for (const region of REGIONS) {
-  for (const building of region.settlement.buildings) add({kind: "prefab", id: building.prefab, kit: region.settlement.kit, width: building.footprint[0], depth: building.footprint[1], seed: variantSeed(building.id)}, `authored:${region.id}:${building.id}`);
-  for (const wall of region.settlement.walls ?? []) add({kind: "wall-run", id: "wall_run", kit: region.settlement.kit, width: Math.hypot(wall.to[0] - wall.from[0], wall.to[1] - wall.from[1]), depth: 4, seed: variantSeed(wall.id)}, `authored-wall:${region.id}:${wall.id}`, wall.openings ?? []);
+  if (!region.settlement) continue;
+  for (const building of region.settlement.buildings) add({kind: "prefab", id: building.prefab, kit: region.settlement?.kit ?? "stone", width: building.footprint[0], depth: building.footprint[1], seed: variantSeed(building.id)}, `authored:${region.id}:${building.id}`);
+  for (const wall of region.settlement.walls ?? []) add({kind: "wall-run", id: "wall_run", kit: region.settlement?.kit ?? "stone", width: Math.hypot(wall.to[0] - wall.from[0], wall.to[1] - wall.from[1]), depth: 4, seed: variantSeed(wall.id)}, `authored-wall:${region.id}:${wall.id}`, wall.openings ?? []);
 }
 const footprints = [[6,4],[6,6],[12,6],[5,4],[4,4],[8,1],[3,2],[8,3],[8,4],[6,3],[6,5],[4,3],[9,3],[2,2],[10,4],[16,3],[10,6]] as const;
 const witnessed = new Set<string>();
@@ -167,7 +168,7 @@ const plan = {
   inactiveAssets: ["bridge_small", "bridge_modular_end", "bridge_modular_center"].map(id => ({
     id, disposition: "retired-from-active-review", reason: "No game/src production reference. Legacy Ultimate Platformer assets remain in the build catalogue and public files during active integration; root approved scope retirement. Active authored crossings are reviewed through traversal fixtures.",
   })),
-  coverage: {namedVariants: STRUCTURE_VARIANTS.length, witnessedNamedVariants: visited.size, namedVariantKitWitnesses: witnessed.size, caseCount:cases.length, authoredBuildings:REGIONS.reduce((sum,region)=>sum+region.settlement.buildings.length,0), compositionSeedWitnesses:[0,1,2,3,4,5], missingNamedVariants:missing, uniquePartHashes:new Set(cases.map(entry=>entry.partsSha256)).size, representativeCases:representative.size, representativeNamedVariants:representativeVariants.size, representativeCompositionGeometries:representedCompositionGeometry.size, proofGroups:proofGroupsByHash.size},
+  coverage: {namedVariants: STRUCTURE_VARIANTS.length, witnessedNamedVariants: visited.size, namedVariantKitWitnesses: witnessed.size, caseCount:cases.length, authoredBuildings:REGIONS.reduce((sum,region)=>sum+(region.settlement?.buildings.length ?? 0),0), compositionSeedWitnesses:[0,1,2,3,4,5], missingNamedVariants:missing, uniquePartHashes:new Set(cases.map(entry=>entry.partsSha256)).size, representativeCases:representative.size, representativeNamedVariants:representativeVariants.size, representativeCompositionGeometries:representedCompositionGeometry.size, proofGroups:proofGroupsByHash.size},
   limitations: [
     "Finite branch witnesses only. Arbitrary random seeds and continuous footprint domains are not exhaustively covered.",
     "Representative queue includes every authored building selection, at least one witness per named variant, each exact composition geometry+hero combination in this finite inventory, and nine compact wall witnesses. Other cases remain inventoried and unreviewed.",

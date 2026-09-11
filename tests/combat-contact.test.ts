@@ -75,6 +75,15 @@ function setup(meleeTiming?: CombatDeps["meleeTiming"], movement?: CombatDeps["m
 }
 
 describe("melee contact timing", () => {
+  it("awards damage XP only for health removed on an overkill hit", () => {
+    const { state, targets, advanceTo, start, combat } = setup();
+    targets.get('target_a')!.combat!.health = targets.get('target_a')!.combat!.maxHealth = 1;
+    const attack = start('player');
+    advanceTo(Math.ceil(attack.contactAtMs / 100) * 100);
+    expect(combat.hits().find(hit => hit.attacker === 'player')!.damage).toBeGreaterThan(1);
+    expect(targets.get('target_a')!.state).toBe('dead');
+    expect(state.skills.melee.xp).toBe(6); // Four damage XP plus the two-XP defeat reward.
+  });
   it.each(["player", "enemy"] as const)(
     "%s damage waits for contact, resolves once, and remains committed through recovery",
     (attacker) => {

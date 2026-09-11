@@ -1,18 +1,19 @@
 import { describe, expect, it } from "vitest";
 import { ALL_ITEMS } from "../game/src/content/items.js";
+import { WILDERNESS_LOOT_ITEMS } from '../game/src/content/wildernessLoot.js';
 import { ARMOUR_SET_SLOTS, EQUIPMENT_SETS, getEquipmentSetBonuses, inferEquipmentSets,
   type EquipmentSetSlots } from "../game/src/content/equipmentSets.js";
 
 describe("derived armour sets", () => {
   it("uses five distinct real armour members with matching ordinary names and slots", () => {
-    expect(EQUIPMENT_SETS).toHaveLength(8);
+    expect(EQUIPMENT_SETS).toHaveLength(12);
     const ids = new Set<string>();
     for (const set of EQUIPMENT_SETS) {
       for (const slot of ARMOUR_SET_SLOTS) {
         const id = set.members[slot];
         expect(ids.has(id)).toBe(false);
         ids.add(id);
-        const item = ALL_ITEMS.find((candidate) => candidate.id === id);
+        const item = [...ALL_ITEMS, ...WILDERNESS_LOOT_ITEMS].find((candidate) => candidate.id === id);
         expect(item?.equip?.slot).toBe(slot);
         expect(item?.tier).toBe(set.tier);
         expect(item?.name.startsWith(`${set.name} `)).toBe(true);
@@ -23,8 +24,8 @@ describe("derived armour sets", () => {
   for (const set of EQUIPMENT_SETS) {
     it(`${set.name} activates and removes cumulative thresholds without changing damage or accuracy`, () => {
       const slots: EquipmentSetSlots = {};
-      const defence = [2, 3, 4, 6][[1, 5, 10, 20].indexOf(set.tier)]!;
-      const vitality = [1, 2, 3, 4][[1, 5, 10, 20].indexOf(set.tier)]!;
+      const defence = [2, 3, 4, 6, 10, 14][[1, 5, 10, 20, 50, 70].indexOf(set.tier)]!;
+      const vitality = [1, 2, 3, 4, 7, 10][[1, 5, 10, 20, 50, 70].indexOf(set.tier)]!;
       for (let count = 0; count <= 5; count++) {
         if (count > 0) {
           const slot = ARMOUR_SET_SLOTS[count - 1]!;

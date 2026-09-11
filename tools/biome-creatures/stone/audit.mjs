@@ -1,0 +1,26 @@
+/** Independent final-byte deformation, floor and gait evidence. No renderer acceptance claim. */
+import assert from 'node:assert/strict';
+import {NodeIO} from '@gltf-transform/core';
+import {ALL_EXTENSIONS} from '@gltf-transform/extensions';
+import * as THREE from 'three';
+import {readFile,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {measuredScene} from './build.mjs';
+const out='test-results/biome-creatures/stone',catalog=JSON.parse(await readFile(`${out}/catalog.json`,'utf8')),io=new NodeIO().registerExtensions(ALL_EXTENSIONS),report=[];
+const median=a=>a.length?[...a].sort((a,b)=>a-b)[Math.floor(a.length/2)]:null;
+const footPatterns={cairn_treader:[/earth_.*_(foot|toe|heel).*_L/,/earth_.*_(foot|toe|heel).*_R/],flint_mandible:[/beetle_25_/,/beetle_29_/],vault_custodian:[/^(foot|ball).*_l$/,/^(foot|ball).*_r$/],scree_watcher:[/^(foot|ball).*_l$/,/^(foot|ball).*_r$/],blind_cave_weaver:[/^FrontFootL$/,/^FrontFoot2R$/,/^MidFrontFootL$/,/^MidFrontFootR$/,/^MidBackFootL$/,/^MidBackFootR$/,/^BackFootL$/,/^BackFootR$/]};
+for(const asset of catalog.assets){const id=asset.id.replace('creature_',''),bytes=await readFile(`${out}/${catalog.files[asset.id]}`);assert.equal(createHash('sha256').update(bytes).digest('hex'),asset.sha256);const doc=await io.readBinary(bytes),gltf=await measuredScene(doc),scene=gltf.scene,mixer=new THREE.AnimationMixer(scene),row={id,clips:{},gait:{}};
+ const patches=footPatterns[id].map(pattern=>{const candidates=[];scene.traverse(mesh=>{if(!mesh.isSkinnedMesh)return;const p=mesh.geometry.attributes.position,si=mesh.geometry.attributes.skinIndex,sw=mesh.geometry.attributes.skinWeight,bones=new Set(mesh.skeleton.bones.flatMap((bone,index)=>pattern.test(bone.name)?[index]:[]));for(let index=0;index<p.count;index++){let weight=0;for(let k=0;k<4;k++)if(bones.has(si.getComponent(index,k)))weight+=sw.getComponent(index,k);if(weight>.5)candidates.push({mesh,index});}});assert(candidates.length,`${id} no weighted sole vertices`);return candidates;});
+ for(const clip of gltf.animations){mixer.stopAllAction();const action=mixer.clipAction(clip).setLoop(THREE.LoopOnce,1);action.clampWhenFinished=true;action.play();let low=Infinity,high=-Infinity;const count=['Walk','Run'].includes(clip.name)?180:65,poses=patches.map(()=>[]),tmp=new THREE.Vector3();
+  for(let i=0;i<count;i++){mixer.setTime(clip.duration*i/(count-1));scene.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(scene,true);assert([...box.min,...box.max].every(Number.isFinite));low=Math.min(low,box.min.y);high=Math.max(high,box.min.y);assert(box.getSize(tmp).length()<9,`${id} ${clip.name} exploded rig`);if(['Walk','Run'].includes(clip.name))patches.forEach((patch,j)=>poses[j].push(patch.map(({mesh,index})=>mesh.getVertexPosition(index,new THREE.Vector3()).applyMatrix4(mesh.matrixWorld))));}
+  row.clips[clip.name]={samples:count,minGroundM:low,maxGroundM:high};assert(low>-.035&&high<.045,`${id} ${clip.name}: deformed mesh clearance ${low}..${high}`);
+  if(['Walk','Run'].includes(clip.name)){const speeds=[],contacts=[];for(const [index,trace]of poses.entries()){const stance=[];for(let i=1;i<trace.length-1;i++){const minimum=Math.min(...trace[i].map(v=>v.y));if(minimum>.03){stance.push(null);continue;}const velocities=trace[i].flatMap((v,k)=>v.y<minimum+.01?[(trace[i-1][k].z-trace[i+1][k].z)/(2*clip.duration/(count-1))]:[]),speed=median(velocities);stance.push(speed>.035?speed:null);}const runs=[];let run=[];for(const v of stance){if(v!==null)run.push(v);else if(run.length){runs.push(run);run=[];}}if(run.length)runs.push(run);if(runs.length>1&&stance[0]!==null&&stance.at(-1)!==null)runs[0]=[...runs.pop(),...runs[0]];runs.sort((a,b)=>b.length-a.length);const main=runs[0]??[],trim=Math.floor(main.length*.15),core=main.slice(trim,main.length-trim);speeds.push(...core);contacts.push({side:index,soleVertices:patches[index].length,stanceSamples:stance.filter(v=>v!==null).length,mainStanceSamples:main.length,coreSamples:core.length,medianMps:median(core)});}row.gait[clip.name]={impliedMps:median(speeds),contacts,method:'Central 70% of longest continuous grounded backward contact, joined across cycle seam. Median same-vertex sole velocity, within 30 mm of ground. Final GLB at 180 phases.'};}
+ }
+ report.push(row);console.log(id,JSON.stringify(row.gait));
+}
+await writeFile(`${out}/cpu-audit.json`,JSON.stringify(report,null,2)+'\n');
+if(process.argv.includes('--apply')){
+ const calibration={method:'Measured final staged GLBs using tools/biome-creatures/stone/audit.mjs; CPU gait evidence, visual contact acceptance remains separate.',assets:[]};
+ for(const row of report){const asset=catalog.assets.find(a=>a.id===`creature_${row.id}`);assert(row.gait.Walk.impliedMps>0&&row.gait.Run.impliedMps>0,`${row.id}: no measured gait`);asset.impliedWalkMps=row.gait.Walk.impliedMps;asset.impliedRunMps=row.gait.Run.impliedMps;asset.metadata.gaitMeasurement={source:'art/biome-creatures/stone/gait-calibration.json',status:'measured-weighted-sole',visualContactAccepted:false};calibration.assets.push({id:asset.id,sha256:asset.sha256,walk:row.gait.Walk,run:row.gait.Run});}
+ await writeFile('art/biome-creatures/stone/gait-calibration.json',JSON.stringify(calibration,null,2)+'\n');await writeFile(`${out}/catalog.json`,JSON.stringify(catalog,null,2)+'\n');
+}

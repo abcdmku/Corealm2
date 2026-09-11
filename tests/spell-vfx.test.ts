@@ -16,20 +16,21 @@ describe("basic spell replacement",()=>{
       const duration=vfx.flightMs(spell.rung,12),releaseAt=Math.min(SPELL_FLIGHT[spell.rung].chargeMs,duration*.5);
       vfx.cast({id:spell.id,element:spell.element,rung:spell.rung,from:[0,3.2,0],to:[0,2,12],impactPoint:[0,5,12],hit:true},0);
       vfx.update(releaseAt+(duration-releaseAt)*.5);
+      const basic=parent.getObjectByName("basic-spell-cast")!;
       const expected=new THREE.Vector3(0,4.1+11.7*.24,6.15);
       if(spell.element==="fire"){
-        const flame=parent.getObjectByName("elemental-basic-flame") as THREE.Mesh<THREE.InstancedBufferGeometry>;
+        const flame=basic.getObjectByName("elemental-basic-flame") as THREE.Mesh<THREE.InstancedBufferGeometry>;
         position.fromBufferAttribute(flame.geometry.getAttribute('curveD'),0);
       }else{
-        const core=parent.getObjectByName("elemental-arcane-concentrated-foci") as THREE.InstancedMesh;
+        const core=basic.getObjectByName("elemental-arcane-concentrated-foci") as THREE.InstancedMesh;
         core.getMatrixAt(core.count-1,matrix);position.setFromMatrixPosition(matrix);
       }
       expect(position.distanceTo(expected),spell.id).toBeLessThan(.0001);
-      if(spell.element==="wind")position.copy(parent.getObjectByName("elemental-basic-pressure")!.position);
+      if(spell.element==="wind")position.copy(basic.getObjectByName("elemental-basic-pressure")!.position);
       if(spell.element==="water"){
-        (parent.getObjectByName("elemental-fluid-drop") as THREE.InstancedMesh).getMatrixAt(0,matrix);position.setFromMatrixPosition(matrix);
+        (basic.getObjectByName("elemental-fluid-drop") as THREE.InstancedMesh).getMatrixAt(0,matrix);position.setFromMatrixPosition(matrix);
       }
-      if(spell.element==="earth")position.copy(parent.getObjectByName("elemental-basic-pebble")!.position);
+      if(spell.element==="earth")position.copy(basic.getObjectByName("elemental-basic-pebble")!.position);
       expect(position.distanceTo(expected),`${spell.id} body stays inside its wake`).toBeLessThan(.0001);
       vfx.update(duration+2000);
     }}finally{vfx.dispose();}

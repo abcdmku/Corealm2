@@ -94,6 +94,9 @@ import {
 import { buildPathWaypointComposition } from "./compositions/pathWaypoint.js";
 import { buildRegionGateComposition } from "./compositions/regionGate.js";
 import { buildRootTunnelComposition } from "./compositions/rootTunnel.js";
+import { buildBlackKnightCastle } from "./compositions/blackKnightCastle.js";
+import { buildWildernessRuin, WILDERNESS_RUIN_IDS, type WildernessRuinId } from "./compositions/wildernessRuins.js";
+import { buildDeepWildernessStructure, DEEP_WILDERNESS_STRUCTURE_IDS, type DeepWildernessStructureId } from "./compositions/deepWildernessStructures.js";
 import { applyStructureVariant, structureVariantCount } from "./structures/catalog.js";
 
 // ------------------------------------------------------------------ constants
@@ -223,6 +226,9 @@ export function isPrefabId(value: string): value is PrefabId {
  * landmark's own hero mesh.
  */
 export type CompositionId =
+  | WildernessRuinId
+  | DeepWildernessStructureId
+  | "black_knight_castle"
   | "essence_altar_ruins"
   | "vault_door"
   | "milestone"
@@ -244,6 +250,9 @@ export type CompositionId =
   | "farm_yard";
 
 export const COMPOSITION_IDS: readonly CompositionId[] = [
+  ...WILDERNESS_RUIN_IDS,
+  ...DEEP_WILDERNESS_STRUCTURE_IDS,
+  "black_knight_castle",
   "essence_altar_ruins", "vault_door", "milestone", "highcairn_crane", "gravelmaw_mouth", "gravelmaw_exit",
   "great_cairn", "standing_stones", "rootfall_stump", "region_gate", "path_waypoint",
   "root_tunnel_entrance", "canopy_walk_entrance",
@@ -2507,6 +2516,14 @@ export function buildComposition(
   const kit = BUILDING_KITS[kitId];
   switch (id) {
     case "essence_altar_ruins": return essenceAltarRuins();
+    case "black_knight_castle": return buildBlackKnightCastle();
+    case 'cinder_chain_foundry':
+    case 'nightforge_bastion':
+    case 'hollow_star_sanctum': return buildDeepWildernessStructure(id);
+    case "wilderness_broken_watchtower":
+    case "wilderness_roofless_abbey":
+    case "wilderness_ruined_smithy":
+    case "wilderness_shattered_aqueduct": return buildWildernessRuin(id);
     case "vault_door": return vaultDoor();
     case "milestone": return milestone();
     case "highcairn_crane": return highcairnCrane();

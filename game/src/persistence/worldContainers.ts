@@ -150,9 +150,13 @@ export function rehydrateEnemyRuntimes(
         + (entity.archetype === "boss" ? BOSS_RESPAWN_MS : ENEMY_RESPAWN_MS);
       if (entity.view) entity.view.diedAtMs = nowMs;
       deadApplied += 1;
-    } else if (entity.combat && runtime.health < entity.combat.health) {
-      entity.combat.health = runtime.health;
-      healthApplied += 1;
+    } else if (entity.combat) {
+      // A balance update may lower the current maximum. Combat consumes runtime health,
+      // so clamp that source as well as the displayed bar when loading an older save.
+      const health = Math.min(runtime.health, entity.combat.maxHealth);
+      if (runtime.health !== health || entity.combat.health !== health) healthApplied += 1;
+      runtime.health = health;
+      entity.combat.health = health;
     }
   }
   return { deadApplied, healthApplied };

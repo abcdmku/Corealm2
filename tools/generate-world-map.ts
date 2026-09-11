@@ -58,7 +58,8 @@ const MINIMAP_RENDITION: RenditionSpec = {
   id: "minimap",
   role: "minimap",
   file: "world-map-minimap.webp",
-  width: 800,
+  // 798 x 931 preserves the expanded island's 6:7 aspect exactly at the existing boot budget.
+  width: 798,
   height: 0,
   quality: 92,
   maxBytes: MINIMAP_MAX_BYTES,

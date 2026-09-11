@@ -1,4 +1,5 @@
 import type { EquipmentBonuses, EquipSlot, ItemStack } from "../contracts.js";
+import { WILDERNESS_CRAFTING_TIERS } from './wildernessLoot.js';
 
 export const ARMOUR_SET_SLOTS = ["head", "body", "legs", "hands", "feet"] as const;
 export type ArmourSetSlot = typeof ARMOUR_SET_SLOTS[number];
@@ -57,6 +58,14 @@ export const EQUIPMENT_SETS: readonly EquipmentSetDefinition[] = [
   defineSet("thick_hide", "Thick Hide", 5, "magic", ["bramblehide_hood", "bramblehide_robe", "bramblehide_leggings", "bramblehide_wraps", "bramblehide_boots"], 3, 2),
   defineSet("fur", "Fur", 10, "magic", ["cairnpelt_hood", "cairnpelt_robe", "cairnpelt_leggings", "cairnpelt_wraps", "cairnpelt_boots"], 4, 3),
   defineSet("heavy_hide", "Heavy Hide", 20, "magic", ["charhide_hood", "charhide_robe", "charhide_leggings", "charhide_wraps", "charhide_boots"], 6, 4),
+  ...WILDERNESS_CRAFTING_TIERS.flatMap(row => [
+    defineSet(row.metal, row.metalName, row.tier, 'melee',
+      [`${row.metal}_helm`, `${row.metal}_plate`, `${row.metal}_greaves`, `${row.metal}_gauntlets`, `${row.metal}_boots`],
+      row.tier === 50 ? 10 : 14, row.tier === 50 ? 7 : 10),
+    defineSet(row.hide, row.hideName, row.tier, 'magic',
+      [`${row.hide}_hood`, `${row.hide}_robe`, `${row.hide}_leggings`, `${row.hide}_wraps`, `${row.hide}_boots`],
+      row.tier === 50 ? 10 : 14, row.tier === 50 ? 7 : 10),
+  ]),
 ];
 
 function addBonuses(total: EquipmentBonuses, addition: EquipmentBonuses): void {

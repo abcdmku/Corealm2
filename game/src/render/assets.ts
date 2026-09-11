@@ -78,6 +78,9 @@ export interface AssetEntry {
    * second on the goat's 0.47 s clip and 1.2 on the hog's 1.33 s one.
    */
   walkClipSeconds?: number;
+  /** Authored native attack take and its measured contact pose, including retimed derivatives. */
+  attackSeconds?: number;
+  contactNormalized?: number;
   /** The same two numbers for the RUN cycle, used while a creature is pursuing. */
   impliedRunMps?: number;
   runClipSeconds?: number;

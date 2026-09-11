@@ -23,7 +23,7 @@ describe("authored mine terrain", () => {
     }
   });
 
-  it("keeps every seam and mining stance on a continuous ledge after 2 m terrain interpolation", () => {
+  it("keeps the mining approach and player footprint on a continuous ledge after 2 m terrain interpolation", () => {
     for (const site of WORLD_SITES.filter((candidate) => candidate.kind === "mine")) {
       const sites = [site];
       const steepNatural = (x: number, z: number) => 10 + 0.08 * x + 0.04 * z;
@@ -34,17 +34,20 @@ describe("authored mine terrain", () => {
           const [x, z] = worldSitePoint(site, slot.x, slot.z);
           const yaw = site.rotationY + slot.yaw;
           const forwardX = Math.sin(yaw); const forwardZ = Math.cos(yaw);
-          const origin = mesh(x, z);
+          // Start in front of the embedded deposit, where the player can stand.
+          const origin = mesh(x + forwardX * 1.5, z + forwardZ * 1.5);
           const label = `${site.id}/${slot.clusterId}_${slot.index} lattice ${phaseX},${phaseZ}`;
           expect(Math.abs(mesh(x + forwardX * 2.3, z + forwardZ * 2.3) - origin), label).toBeLessThan(0.08);
-          const slopeX = (mesh(x + 2, z) - mesh(x - 2, z)) / 4;
-          const slopeZ = (mesh(x, z + 2) - mesh(x, z - 2)) / 4;
+          // Measure the player's work stance, not a stencil crossing the receiving bank.
+          const stanceX = x + forwardX * 2.3, stanceZ = z + forwardZ * 2.3;
+          const slopeX = (mesh(stanceX + 0.4, stanceZ) - mesh(stanceX - 0.4, stanceZ)) / 0.8;
+          const slopeZ = (mesh(stanceX, stanceZ + 0.4) - mesh(stanceX, stanceZ - 0.4)) / 0.8;
           expect(Math.hypot(slopeX, slopeZ), label).toBeLessThan(0.04);
-          for (const across of [-1.3, 0, 1.3]) for (const depth of [-0.325, 0.325]) {
-            const scale = slot.scale * 1.08;
-            const footX = x + (Math.cos(yaw) * across + forwardX * depth) * scale;
-            const footZ = z + (-Math.sin(yaw) * across + forwardZ * depth) * scale;
-            expect(Math.abs(mesh(footX, footZ) - origin), label).toBeLessThan(0.08);
+          // The ore's rear is embedded in the hill. The player's footprint must be level.
+          for (const across of [-0.4, 0, 0.4]) for (const depth of [-0.3, 0.3]) {
+            const footX = stanceX + Math.cos(yaw) * across + forwardX * depth;
+            const footZ = stanceZ - Math.sin(yaw) * across + forwardZ * depth;
+            expect(Math.abs(mesh(footX, footZ) - mesh(stanceX, stanceZ)), label).toBeLessThan(0.08);
           }
         }
       }

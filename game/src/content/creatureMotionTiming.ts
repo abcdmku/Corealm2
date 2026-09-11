@@ -153,3 +153,33 @@ export const CREATURE_PURSUIT_CEILING_MPS: Record<string, number> = {
   // outfit_male_peasant: no measured stride
   // outfit_male_ranger: no measured stride
 };
+
+// Material variants retain their source animation samples and cadence limits.
+for (const [variant, source] of [
+  ["gloam_fox", "redbrush_fox"], ["moonweave_spider", "webweaver_spider"],
+  ["rimeback_tortoise", "slateback_tortoise"], ["cindercrest_salamander", "kiln_salamander"],
+  ["amethyst_spider", "webweaver_spider"],
+]) {
+  const base = `creature_${source}`, id = `creature_${variant}`;
+  if (CREATURE_MOTION_TIMING[base]) CREATURE_MOTION_TIMING[id] = { ...CREATURE_MOTION_TIMING[base] };
+  if (CREATURE_PURSUIT_CEILING_MPS[base]) CREATURE_PURSUIT_CEILING_MPS[id] = CREATURE_PURSUIT_CEILING_MPS[base];
+}
+
+// Complete-body reshaping changes the stride length; retiming changes contact duration.
+CREATURE_PURSUIT_CEILING_MPS["creature_chalk_warden"] = 10.6341;
+CREATURE_PURSUIT_CEILING_MPS["creature_hollow_bough"] = 3.4299;
+
+// Accepted biome bodies: measured final weighted-sole run cadence.
+CREATURE_PURSUIT_CEILING_MPS["creature_briar_harrow"] = 3.8976;
+CREATURE_PURSUIT_CEILING_MPS["creature_fen_crawler"] = 2.8964;
+CREATURE_PURSUIT_CEILING_MPS["creature_reed_strider"] = 3.3336;
+CREATURE_PURSUIT_CEILING_MPS["creature_thorn_maw"] = 6.5016;
+CREATURE_PURSUIT_CEILING_MPS["creature_heath_jack"] = 11.2787;
+CREATURE_PURSUIT_CEILING_MPS["creature_kiln_marrow"] = 9.1254;
+CREATURE_PURSUIT_CEILING_MPS["creature_slag_crawler"] = 2.7324;
+CREATURE_PURSUIT_CEILING_MPS["creature_grave_lantern"] = 14.1415;
+CREATURE_PURSUIT_CEILING_MPS["creature_cairn_treader"] = 8.1089;
+CREATURE_PURSUIT_CEILING_MPS["creature_flint_mandible"] = 5.9942;
+CREATURE_PURSUIT_CEILING_MPS["creature_vault_custodian"] = 9.8903;
+CREATURE_PURSUIT_CEILING_MPS["creature_blind_cave_weaver"] = 3.1556;
+CREATURE_PURSUIT_CEILING_MPS["creature_scree_watcher"] = 26.5850;

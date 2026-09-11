@@ -26,7 +26,7 @@ export const SKILL_IDS: readonly SkillId[] = [
   "agility",
 ] as const;
 
-export type RegionId = "fallowmarch" | "vellenwood" | "karrowmoor" | "kilnhalt" | "gravelmaw";
+export type RegionId = "fallowmarch" | "vellenwood" | "karrowmoor" | "kilnhalt" | "wilderness" | "gravelmaw";
 
 // ------------------------------------------------------------------- audio
 
@@ -149,7 +149,7 @@ export type SpellId =
   // surge — Magic 62 to 70
   | "squallsurge" | "tidesurge" | "scarpsurge" | "kilnsurge"
   // advanced invocations, rank 1 to 5 per element. Cast on demand from the action bar; each spends
-  // its element's Essence plus a tier rune, and every area invocation a Field Rune as well.
+  // its element's Essence plus a tier rune, and every area invocation a Cosmic Rune as well.
   | "air-needle" | "razor-crescent" | "vacuum-coil" | "thunder-lance" | "skybreaker"
   | "waterjet" | "tidal-fan" | "geyser-chain" | "undertow" | "deluge"
   | "flint-shot" | "faultline" | "basalt-jaw" | "siege-boulder" | "mountainfall"
@@ -481,6 +481,8 @@ export type SolidVolume =
       /** Full extents in the box's own frame, before `rotationY`. */
       size: readonly [number, number, number];
       rotationY: number;
+      /** Suspended masonry preserves its true underside when navigation is carved. */
+      elevated?: boolean;
     }
   | {
       kind: "cylinder";
@@ -489,6 +491,8 @@ export type SolidVolume =
       position: Vec3;
       radius: number;
       height: number;
+      /** Suspended solids must not receive the below-ground navigation skirt. */
+      elevated?: boolean;
     };
 
 // ------------------------------------------------------------- observation
@@ -926,7 +930,7 @@ export interface SpellRow {
   fuelCost: number;
   /** 0 for the sixteen basic auto-cast spells, 1 to 5 for the advanced invocations. */
   rank: number;
-  /** True when the invocation strikes an area and therefore also spends a Field Rune. */
+  /** True when the invocation strikes an area and therefore also spends a Cosmic Rune. */
   aoe: boolean;
   /** Secondary runes spent per cast, with how many the player carries right now. Empty for basics. */
   runes: SpellRuneRequirement[];
@@ -948,7 +952,7 @@ export interface SpellRuneRequirement {
 export interface SpellRuneView {
   itemId: ItemId;
   name: string;
-  /** 1 to 5 for the tier runes; 0 for the Field Rune that every area invocation adds. */
+  /** 1 to 5 for the tier runes; 0 for the Cosmic Rune that every area invocation adds. */
   tier: number;
   carried: number;
   description: string;

@@ -27,7 +27,7 @@ describe("gameplay acceptance fixture prerequisites", () => {
     await expect(fixture.prepare("altar")).rejects.toThrow("Reload the lab");
   });
 
-  it("publishes an alive canonical Storm Rhino and an unsatisfied kill objective", async () => {
+  it("publishes an alive canonical Storm Scarab and an unsatisfied kill objective", async () => {
     const { fixture, store, table } = setup();
     await fixture.prepare("storm-rhino");
     expect(table.get("tempest_roc")).toMatchObject({ id: "tempest_roc", state: "alive", meta: { family: "tempest_roc" } });
@@ -43,9 +43,9 @@ describe("gameplay acceptance fixture prerequisites", () => {
       regionId: "fallowmarch", position: [36, 4, -18], state: "sealed", interactions: ["inspect", "open"] });
     await fixture.prepare("gate");
     expect(table.get("ordrun_gate")?.state).toBe("sealed");
-    expect(store.get().quests.long_cairn).toMatchObject({ status: "active", stage: 6, counters: { "@base:kill:bear": 0 } });
+    expect(store.get().quests.long_cairn).toMatchObject({ status: "active", stage: 6, counters: { "@base:kill:vault_custodian": 0 } });
     expect(table.get("ordrun")).toMatchObject({ state: "alive", meta: { family: "quarrykeeper" } });
-    expect([...table.values()].filter((entity) => entity.meta?.family === "bear")).toHaveLength(2);
+    expect([...table.values()].filter((entity) => entity.meta?.family === "vault_custodian")).toHaveLength(2);
     expect(store.get().inventory.slots[0]?.itemId).toBe("cairn_garnet");
   });
 

@@ -8,12 +8,26 @@
  * views, A4's input. Each depends only on frozen contracts, so no worker had to know about another.
  */
 import * as THREE from "three";
+import { WILDERNESS_LAVA_LAB_CHANNELS, DEEP_WILDERNESS_LAVA_LAB_CHANNELS } from "../content/wildernessLava.js";
+import { WildernessEffects, wildernessEffectsLabTorches, deepWildernessEffectsLabTorches, torchFlameOrigin, type WildernessTorch } from "../render/wildernessEffects.js";
+import { WildernessCreatureEffects, type WildernessCreatureEmitter } from '../render/wildernessCreatureEffects.js';
+import { WILDERNESS_CREATURE_SPECIES } from '../content/wildernessCreatureSpecies.js';
+import { WILDERNESS_DRAGONS } from '../content/wildernessDragons.js';
+import { REGIONAL_BOSS_SPECIES } from '../content/regionalBossBodies.js';
+import { WILDERNESS_LOOT_ITEMS, WILDERNESS_LOOT_RECIPES, wildernessDrops } from '../content/wildernessLoot.js';
+import { WILDERNESS_ORE_RESOURCES, WILDERNESS_TREE_RESOURCES } from '../content/wildernessResources.js';
+import { WILDERNESS_RUNE_KEEPERS, wildernessMagicAt } from '../content/wildernessDepth.js';
+import { DEEP_WILDERNESS_STRUCTURES, type DeepWildernessStructureId } from '../render/compositions/deepWildernessStructures.js';
+import { coastalBodyOnSafeGround } from '../content/coastalEncounterFormation.js';
+import { lavaObstacles } from "../world/lavaObstacles.js";
+import { WILDERNESS_ROAD_BRAZIERS } from "../content/wildernessLandmarks.js";
+import { WILDERNESS_RUINS, type WildernessRuinId } from "../render/compositions/wildernessRuins.js";
 import { CREATURE_MOTION_TIMING } from "../content/creatureMotionTiming.js";
 import { ForestResources, type ForestTreeDescriptor } from "../world/forestResources.js";
 import { ForestPresentation } from "../render/forestPresentation.js";
 import { ForestObstacles } from "../world/forestObstacles.js";
 import { WORLD_SITES, worldSitePoint, type WorldSite } from "../content/worldSites.js";
-import { WORLD_HABITATS, type HabitatDef } from "../content/worldHabitats.js";
+import { WORLD_HABITATS, habitatContains, type HabitatDef } from "../content/worldHabitats.js";
 import { REGIONAL_PACK_ACTIVATION, activatedRegionalPackIds } from "../content/regionalPackActivation.js";
 import { habitatIdleTargets } from "../world/habitatMovement.js";
 import { buildWorldSiteDressing, type ResolvedWorldSiteDressing } from "../render/worldSiteDressing.js";
@@ -270,6 +284,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   if (profile.kind === "feature-lab") {
     const { RPG_BESTIARY_STAGED } = await import("../content/rpgBestiary.js");
     content.register({ enemies: [...content.allEnemies(), ...RPG_BESTIARY_STAGED.map((entry) => entry.stats)] });
+    const species = [...WILDERNESS_CREATURE_SPECIES, ...WILDERNESS_DRAGONS];
+    content.register({
+      items: [...new Map([...content.allItems(), ...WILDERNESS_LOOT_ITEMS].map(row => [row.id, row])).values()],
+      recipes: [...new Map([...content.allRecipes(), ...WILDERNESS_LOOT_RECIPES].map(row => [row.id, row])).values()],
+      resources: [...new Map([...content.allResources(), ...WILDERNESS_ORE_RESOURCES, ...WILDERNESS_TREE_RESOURCES].map(row => [row.id, row])).values()],
+      enemies: [...new Map([...content.allEnemies(), ...REGIONAL_BOSS_SPECIES.map(row => row.stats),
+        ...species.map(row => ({ ...row.stats, drops: wildernessDrops(row.id, row.stats.tier,
+          WILDERNESS_RUNE_KEEPERS.some(keeper => keeper.id === row.id) ? row.id : undefined) }))].map(row => [row.id, row])).values()],
+    });
   }
 
   // 3 + 4. Start the manifest beside navigation initialization. These requests are independent; making
@@ -314,6 +337,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       return Object.fromEntries(scene.biomeWeightsAt(player.position[0], player.position[2])
         .map(({ id, weight }) => [id, weight]));
     };
+    renderer.wildernessMagicSource = () => {
+      const player = store.get().player;
+      return player.regionId === 'gravelmaw' ? 0 : wildernessMagicAt(player.position[0], player.position[2]);
+    };
   }
 
   // 6. Assets. Animation libraries load once as a shared clip library; every rig plays from it.
@@ -339,6 +366,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const surfaceTextures = await loadCorealmSurfaceTextures();
   scene.materials.setGroundStoneSurface(surfaceTextures);
   const terrainSpec = profile.terrain();
+  const deepWildernessEffectsLab = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('wildernessEffects') === 'deep';
+  const wildernessEffectsLab = deepWildernessEffectsLab || profile.kind === "feature-lab" && new URLSearchParams(location.search).get("wildernessEffects") === "1";
+  const wildernessCreaturesLab = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('wildernessCreatures') === '1';
+  const wildernessTorchesLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("wildernessTorches") === "1";
+  if (wildernessEffectsLab) terrainSpec.lavaChannels = deepWildernessEffectsLab ? DEEP_WILDERNESS_LAVA_LAB_CHANNELS : WILDERNESS_LAVA_LAB_CHANNELS;
   if (fishingLab) terrainSpec.basins = [fishingLab.FISHING_LAB_BASIN];
   await bootTelemetry.measureAsync(BOOT_SPANS.TERRAIN_BUILD, async () => {
     await scene.buildWorldYielding(terrainSpec, profile.worldSurface
@@ -358,9 +390,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   const heightAt = (regionId: RegionId, x: number, z: number): number => scene.heightAt(regionId, x, z);
   const authoredDungeonSpec = profile.dungeon ? buildDungeonSpec(scene) : null;
-  const doorLab = profile.kind === "feature-lab" && new URLSearchParams(window.location.search).get("doors") === "1"
+  const denseCaveLab = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('denseCave') === '1'
+    ? await import('../featureLab/denseCave.js') : null;
+  const denseCavePopulation = denseCaveLab?.assembleDenseCavePopulation(id => assets.baseY(id), id => assets.assetSize(id));
+  const doorLab = profile.kind === "feature-lab" && (new URLSearchParams(window.location.search).get("doors") === "1" || denseCaveLab)
     ? await import("../featureLab/dungeonDoors.js") : null;
-  const doorFixture = doorLab?.assembleDungeonDoorFixture((x, z) => scene.meshHeightAt(x, z));
+  const doorFixture = denseCavePopulation ?? doorLab?.assembleDungeonDoorFixture((x, z) => scene.meshHeightAt(x, z));
   const agilityLabModule = profile.kind === "feature-lab" && new URLSearchParams(window.location.search).get("agility") === "1"
     ? await import("../featureLab/agility.js") : null;
   const agilityFixture = agilityLabModule?.assembleAgilityFixture((x, z) => scene.meshHeightAt(x, z),
@@ -469,6 +504,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     assetCenterXZ: (assetId: string): { x: number; z: number } | null => assets.assetCenterXZ(assetId),
     roadDistance,
     coastalSpawns: profile.worldSurface ? coastalSpawnSites(scene, store.get().meta.seed) : [],
+    coastalAccepts: (spot: readonly [number, number], radius: number) =>
+      coastalBodyOnSafeGround((x, z) => scene.sampleWorld(x, z), spot, radius),
   };
   const shopLab = profile.kind === "feature-lab" && new URLSearchParams(window.location.search).get("shop") === "1"
     ? await import("../featureLab/shop.js") : null;
@@ -497,7 +534,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       return entry?.base ? { size: entry.size, base: entry.base } : null;
     }, worldPackIds, REGIONAL_PACK_ACTIVATION.assignmentOverrides) : undefined;
   const packBuilder = worldPackCatalogue ? await import("../world/regionalPackEntities.js") : undefined;
-  const worldHabitats: readonly HabitatDef[] = [...WORLD_HABITATS, ...(worldPackCatalogue?.habitats ?? [])];
+  const worldHabitats: HabitatDef[] = [...WORLD_HABITATS, ...(worldPackCatalogue?.habitats ?? [])];
   const worldPackHabitats = new Map((worldPackCatalogue?.habitats ?? []).map((habitat) => [habitat.groupId, habitat]));
   if (worldPackCatalogue) {
     // `register` replaces the enemies table, so keep every existing definition and add variants by id.
@@ -513,6 +550,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }, { seed: store.get().meta.seed }, worldPackCatalogue).entities)
     : [];
   const built = profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts);
+  let currentCoastalHabitats = built.coastalHabitats ?? [];
+  worldHabitats.push(...(built.coastalHabitats ?? []));
+  for (const habitat of built.coastalHabitats ?? []) worldPackHabitats.set(habitat.groupId, habitat);
   const huntLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("hunt") === "1"
     ? await import("../featureLab/huntContracts.js") : null;
   const huntFixture = huntLab?.assembleHuntContractsFixture((x, z) => scene.meshHeightAt(x, z), worldPorts.baseY, worldPorts.assetSize);
@@ -529,6 +569,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     (window as Window & { __groundMotionLab?: unknown }).__groundMotionLab = { actors: groundMotionFixture.actors, habitats: groundMotionFixture.habitats, spawn: groundMotionFixture.spawn };
   }
   if (huntFixture) built.entities.push(...structuredClone(huntFixture.entities));
+  if (terrainSpec.lavaChannels?.length) built.solids.push(...lavaObstacles(terrainSpec.lavaChannels, (x, z) => scene.meshHeightAt(x, z)));
   if (packFixture) built.entities.push(...structuredClone(packFixture.entities));
   if (worldPackCatalogue) built.entities.push(...buildWorldPackEntities());
   if (portalFixture) {
@@ -670,8 +711,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
   const registerForestTree = (descriptor: ForestTreeDescriptor, setVisible: (visible: boolean) => void): void => {
     forestInstances.set(descriptor.id, { descriptor, setVisible });
-    forestPresentation.register(descriptor.id, setVisible);
-    forest.register(descriptor);
+    const excluded = () => worldExclusions.blocksTreeClearance(descriptor.position[0], descriptor.position[2], descriptor.trunkRadius);
+    forestPresentation.register(descriptor.id, visible => setVisible(visible && !excluded()));
+    if (excluded()) setVisible(false);
+    else forest.register(descriptor);
   };
   const updateForest = (): void => {
     const state = store.get();
@@ -736,14 +779,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // The scanned facing is the accepted cave surface, so the authored Gravelmaw uses it too. The lab
   // keeps its explicit switch for candidate review. It shapes ceilings and the shell only; the
   // walkable floor is unchanged, so navigation is not affected.
-  const wantsCaveRock = (caveLabModule && new URLSearchParams(location.search).get("caveSource") === "1")
+  const wantsCaveRock = ((caveLabModule || denseCaveLab) && new URLSearchParams(location.search).get("caveSource") === "1")
     || (profile.kind === "game" && authoredDungeonSpec !== null);
   const deferCaveRock = wantsCaveRock && runtimePerformanceEnabled;
   const caveRockSource = wantsCaveRock && !deferCaveRock
     ? await (await import("../render/dungeon.js")).loadCaveRockSource("/assets/models/cave/rock-face-01.glb")
     : undefined;
   const { caveFixture, dungeonSpec, dungeon } = bootTelemetry.measureSync(BOOT_SPANS.DUNGEON_BUILD, () => {
-    const caveFixture = caveLabModule?.createCaveLabFixture({ scene, surfaceTextures, rockSource: caveRockSource, rockEnvelope: !!wantsCaveRock }) ?? null;
+    const caveFixture = denseCaveLab?.createDenseCaveLabFixture({ scene, surfaceTextures, rockSource: caveRockSource, rockEnvelope: !!wantsCaveRock })
+      ?? caveLabModule?.createCaveLabFixture({ scene, surfaceTextures, rockSource: caveRockSource, rockEnvelope: !!wantsCaveRock }) ?? null;
     const dungeonSpec = caveFixture?.spec ?? authoredDungeonSpec;
     const dungeon = caveFixture ?? (dungeonSpec
       ? buildDungeon(dungeonSpec, scene.materials, { surfaceTextures, rockEnvelope: !!wantsCaveRock, ...(caveRockSource ? { rockSource: caveRockSource } : {}) })
@@ -859,17 +903,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   assets.setActiveRegion(spawnSpec.regionId);
   const scatterStreaming = new ScatterStreamingController(scene, assets, store.get().meta.seed, { onTree: registerForestTree });
   let scatterResults: ScatterResult[] = [];
-  if (profile.scatter) {
-    await assets.load("corealm_grass_1", { priority: "visible-spawn", primary: true });
-    scene.setGrassSource(assets.instance("corealm_grass_1"));
-    registerExclusions(scene, built.solids, sitePlacements);
+  const registerHabitatTreeClearance = (entities: readonly SemanticEntity[]): void => {
     for (const habitat of worldHabitats) {
-      const bounds = getRegion(habitat.regionId)?.bounds;
-      if (!bounds) continue;
-      const inside = (point: Vec3) => point[0] >= bounds.min[0] && point[0] <= bounds.max[0]
-        && point[2] >= bounds.min[1] && point[2] <= bounds.max[1]
-        && Math.hypot(point[0] - habitat.centre[0], point[2] - habitat.centre[1]) <= habitat.radius;
-      for (const entity of built.entities.filter((entry) => entry.meta?.groupId === habitat.groupId)) {
+      const inside = (point: Vec3) => habitatContains(habitat, point);
+      for (const entity of entities.filter((entry) => entry.meta?.groupId === habitat.groupId)) {
         const spawn = entity.position;
         const targets = habitatIdleTargets(entity.id, spawn, habitat);
         const valid: Vec3[] = [];
@@ -892,6 +929,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         }
       }
     }
+  };
+  if (profile.scatter) {
+    await assets.load("corealm_grass_1", { priority: "visible-spawn", primary: true });
+    scene.setGrassSource(assets.instance("corealm_grass_1"));
+    registerExclusions(scene, built.solids, sitePlacements);
+    registerHabitatTreeClearance(built.entities);
     try {
       scatterResults = await bootTelemetry.measureAsync(
         "boot.scatter.total",
@@ -1273,11 +1316,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       const assetId = entityStore.get(sourceId)?.view?.assetId;
       const clip = assetId ? assets.clipOf(assetId, "Attack") : undefined;
       const timing = assetId ? CREATURE_MOTION_TIMING[assetId] : undefined;
-      const recoveryMs = (timing?.seconds ?? clip?.duration ?? 0.9) * 1000;
+      const authoredTiming = assetId ? assets.entry(assetId) : undefined;
+      const recoveryMs = (timing?.seconds ?? authoredTiming?.attackSeconds ?? clip?.duration ?? 0.9) * 1000;
       const reviewingRhinoContact = profile.kind === "feature-lab"
         && new URLSearchParams(location.search).get("rhinoTiming") === "1"
         && assetId?.startsWith("boss_rhino_");
-      return { contactMs: recoveryMs * (reviewingRhinoContact ? 0.33229264631653577 : timing?.contactNormalized ?? 0.45), recoveryMs };
+      return { contactMs: recoveryMs * (reviewingRhinoContact ? 0.33229264631653577 : timing?.contactNormalized ?? authoredTiming?.contactNormalized ?? 0.45), recoveryMs };
     },
   });
   const enemyAiSystem = new EnemyAiSystem({
@@ -1685,6 +1729,37 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Standing atmosphere, as opposed to the event-driven feedback above. Both are polled from Vfx's
   // own update, so the loop needs no change. One InstancedMesh for the whole world.
   const ambience = new Ambience(scene.overlayGroup, { maxParticles: 640 });
+  let wildernessEffects: WildernessEffects | null = null;
+  const refreshWildernessEffects = (structureEntities: readonly SemanticEntity[] = []): void => {
+    if (profile.kind !== 'game' && !wildernessEffectsLab && !wildernessTorchesLab) return;
+    wildernessEffects?.dispose();
+    const groundHeightAt = (x: number, z: number) => scene.meshHeightAt(x, z);
+    const torches: WildernessTorch[] = wildernessEffectsLab
+      ? (deepWildernessEffectsLab ? deepWildernessEffectsLabTorches : wildernessEffectsLabTorches)(groundHeightAt) : [];
+    if (profile.kind === 'game') for (const [index, [x, z]] of WILDERNESS_ROAD_BRAZIERS.entries()) {
+      torches.push({id:`wilderness-road-brazier-${index}`,position:[x,groundHeightAt(x,z)+1.3,z],scale:1,support:'brazier', magic:wildernessMagicAt(x,z)});
+    }
+    for (const entity of structureEntities) {
+      if (entity.view?.assetId !== 'torch') continue;
+      const scale = entity.view.scale ?? 1;
+      const structureId = String(entity.meta?.structureId ?? entity.id.split('#')[0]);
+      const mountIndex = /#mounted_torch_(\d+)$/.exec(entity.id)?.[1];
+      const theme = mountIndex === undefined ? undefined
+        : DEEP_WILDERNESS_STRUCTURES[structureId as DeepWildernessStructureId]?.torches[Number(mountIndex)]?.theme;
+      torches.push({ id: entity.id, position: torchFlameOrigin(entity.position, scale, entity.view.rotationY ?? 0),
+        scale, support: 'none', theme, magic: wildernessMagicAt(entity.position[0],entity.position[2]) });
+    }
+    // Permanent banks and molten ground belong to the world and must also appear on its map.
+    wildernessEffects = new WildernessEffects(profile.kind === 'game' ? scene.terrainGroup : scene.overlayGroup, { groundHeightAt, torches,
+      channels: terrainSpec.lavaChannels ?? [], maxLights: 6, surfaceTextures });
+    (window as any).__wildernessEffects = wildernessEffects;
+  };
+  refreshWildernessEffects(profile.kind === 'game' ? built.entities.filter(entity => entity.regionId === 'wilderness') : []);
+  const creatureEffects = profile.kind === 'game' || wildernessCreaturesLab
+    ? new WildernessCreatureEffects(scene.overlayGroup) : null;
+  const emberCreatureFamilies = new Set(['cinderback_crag', 'furnace_grazer', 'basalt_maw',
+    'baby_lava_dragon', 'ashseal_warden', 'furnace_regent']);
+  if (creatureEffects) (window as any).__wildernessCreatureEffects = creatureEffects;
   vfx.setAmbience(ambience);
   if (profile.scatter) {
     for (const emitter of collectAmbienceEmitters(scene, built)) ambience.addEmitter(emitter);
@@ -1990,6 +2065,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         throw cause;
       }
       activeStructure = next;
+      refreshWildernessEffects(next.entities);
       activeStructureNavigation = nextStructureNavigation.meshes;
       activeStructureCamera = nextStructureCamera.meshes;
       roofVisibility.setSources([...structureCamera.meshes, ...activeStructureCamera]);
@@ -2110,6 +2186,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
     if (caveFixture) {
       (window as Window & { __caveLab?: unknown }).__caveLab = caveFixture;
+      if (denseCavePopulation) (window as any).__denseCaveLab = {
+        fixture: caveFixture, packs: denseCavePopulation.packs, spawn: denseCavePopulation.spawn,
+      };
     }
     if (shopFixture) {
       (window as Window & { __shopLab?: unknown }).__shopLab = shopFixture;
@@ -2597,6 +2676,28 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   loop.setArchetypeLookup((id) => entityStore.get(id)?.archetype ?? null);
   loop.setOverlays(guidance);
   loop.setVfx(vfx);
+  if (profile.kind === 'game' || wildernessEffectsLab || wildernessTorchesLab || wildernessCreaturesLab) loop.setEnvironmentEffects({
+    update: (seconds, viewCamera) => {
+      wildernessEffects?.setEnabled(store.get().player.regionId !== 'gravelmaw');
+      wildernessEffects?.update(seconds, viewCamera);
+      if (creatureEffects) {
+        const emitters: WildernessCreatureEmitter[] = [];
+        for (const entity of entityViews.residentActors()) {
+          if (entity.state !== 'alive' || entity.tier < 50 || !entity.combat) continue;
+          if (!wildernessCreaturesLab && (entity.regionId !== 'wilderness'
+            || (entity.tier < 70 && !emberCreatureFamilies.has(String(entity.meta?.family))))) continue;
+          const position = entityViews.positionOf(entity.id);
+          if (!position) continue;
+          const body = entity.combat.bodyRadius ?? 1;
+          emitters.push({ id: entity.id, position: { x: position.x, y: position.y, z: position.z },
+            scale: Math.max(.7, Math.min(2.4, body / 1.2)), hero: entity.archetype === 'boss',
+            palette: entity.tier >= 70 ? 'arcane' : 'ember' });
+        }
+        creatureEffects.update(seconds, viewCamera, emitters);
+      }
+    },
+    dispose: () => { wildernessEffects?.dispose(); creatureEffects?.dispose(); },
+  });
   loop.setSpellVfx(spellVfx);
   if (profile.kind === "feature-lab" && profile.labMode === "combat" && new URLSearchParams(location.search).get("spells") === "1") {
     const { createSpellRange } = await import("../featureLab/spellRange.js");
@@ -2701,9 +2802,17 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   loop.setTraversalPresentation(() => traversalPresentation.current());
 
   const rebuildSemanticWorld = (): void => {
+    enemyAiSystem.resetForNewWorld();
     forest.reset();
     forestObstacles.clear();
-    const rebuilt = profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts);
+    const rebuilt = profile.buildSemanticWorld(store.get().meta.seed, heightAt, {
+      ...worldPorts, coastalSpawns: profile.worldSurface ? coastalSpawnSites(scene, store.get().meta.seed) : [],
+    });
+    for (const habitat of currentCoastalHabitats) worldPackHabitats.delete(habitat.groupId);
+    currentCoastalHabitats = rebuilt.coastalHabitats ?? [];
+    for (const habitat of currentCoastalHabitats) worldPackHabitats.set(habitat.groupId, habitat);
+    worldHabitats.splice(0, worldHabitats.length, ...WORLD_HABITATS,
+      ...(worldPackCatalogue?.habitats ?? []), ...currentCoastalHabitats);
     if (huntFixture) rebuilt.entities.push(...structuredClone(huntFixture.entities));
     if (groundMotionFixture) rebuilt.entities.push(...structuredClone(groundMotionFixture.entities));
     if (packFixture) rebuilt.entities.push(...structuredClone(packFixture.entities));
@@ -2725,6 +2834,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       rebuilt.routeEdges.push(...agilityFixture.routeEdges);
     }
     rebuilt.entities.push(...(fishingLab?.createFishingLabEntities(scene, assets) ?? []));
+    if (profile.scatter) {
+      // Physical terrain, cut faces and lava stay resident across a semantic save/reset.
+      // Keep their complete boot-time solid reservations while replacing actor corridors.
+      registerExclusions(scene, built.solids, sitePlacements);
+      registerHabitatTreeClearance(rebuilt.entities);
+    }
     entityStore.load(rebuilt.entities);
     if (authoredDungeonSpec) relocateDungeonSave(store.get(), authoredDungeonSpec, {
       surfaceHeightAt: (x, z) => scene.meshHeightAt(x, z),
@@ -2733,7 +2848,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     });
     questSystem.rehydrateWorldState();
     entityStore.registerLocations(rebuilt.knownLocations);
-    for (const { descriptor } of forestInstances.values()) forest.register(descriptor);
+    for (const { descriptor, setVisible } of forestInstances.values()) {
+      const excluded = worldExclusions.blocksTreeClearance(descriptor.position[0], descriptor.position[2], descriptor.trunkRadius);
+      setVisible(!excluded);
+      if (!excluded) forest.register(descriptor);
+    }
     updateForest();
     nav.setRouteGraph(rebuilt.routeNodes, rebuilt.routeEdges);
     rehydrateWorldContainers(store.get(), entityStore, { regionAt: regionAtPoint });
@@ -3074,7 +3193,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       const settlementRegion = settlementEntity
         ? REGIONS.find((region) => region.id === entity.regionId)
         : undefined;
-      const settlementCentre = settlementRegion?.settlement.centre;
+      const settlementCentre = settlementRegion?.settlement?.centre;
       const centreYaw = settlementCentre
         ? Math.atan2(settlementCentre[0] - entity.position[0], settlementCentre[1] - entity.position[2])
         : authoredYaw;
@@ -3190,12 +3309,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       }
       const node = nav.routeNode(locationId);
       if (!node) return false;
-      const centre = locationRegion?.settlement.centre;
+      const centre = locationRegion?.settlement?.centre;
       const contextX = centre ? node.position[0] - centre[0] : 0;
       const contextZ = centre ? node.position[2] - centre[1] : 0;
       const bankLocation = location?.kind === "bank" && locationRegion;
       const yaw = bankLocation
-        ? bankLocation.settlement.bank.rotationY
+        ? bankLocation.settlement?.bank.rotationY ?? 0
         : !dungeonLocation && centre && Math.hypot(contextX, contextZ) > 2
           ? Math.atan2(contextX, contextZ)
           : stableCaptureYaw(locationId);
@@ -3262,6 +3381,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   if (profile.fullWarmup) {
     setStatus("warming the shaders…");
     bootTelemetry.measureSync(BOOT_SPANS.SHADER_COMPILE, () => renderer.warmup());
+  }
+  if (!worldMapCapture) {
+    setStatus("preparing spell effects…");
+    await bootTelemetry.measureAsync("boot.shaders.effects", () => renderer.prepareEffects(spellVfx.preparationRoot()));
   }
   bootTelemetry.milestone(BOOT_MILESTONES.SHADERS_READY);
   if (runtimePerformanceEnabled) renderer.startStreamingWarmup();
@@ -3395,9 +3518,21 @@ function registerExclusions(
   dressing: readonly ResolvedWorldSiteDressing[],
 ): void {
   worldExclusions.clear();
+  for (const [index,[x,z]] of WILDERNESS_ROAD_BRAZIERS.entries()) {
+    worldExclusions.addCircle(x,z,2,'building',`wilderness-road-brazier-${index}`);
+  }
   const authoredLocations = new Set(WORLD_SITES.map((site) => site.locationId));
   const authoredClusters = new Set(WORLD_SITES.flatMap((site) => site.resourceSlots.map((slot) => slot.clusterId)));
   for (const region of REGIONS) {
+    for (const castle of region.landmarks.filter(landmark=>landmark.composition==='black_knight_castle')) {
+      worldExclusions.addOrientedRect(castle.position[0],castle.position[1],46,52,castle.rotationY ?? 0,2,'building',castle.id);
+    }
+    for (const landmark of region.landmarks) {
+      const ruin = WILDERNESS_RUINS[landmark.composition as WildernessRuinId]
+        ?? DEEP_WILDERNESS_STRUCTURES[landmark.composition as DeepWildernessStructureId];
+      if (ruin) worldExclusions.addOrientedRect(landmark.position[0],landmark.position[1],
+        ruin.footprint[0]+4,ruin.footprint[1]+4,landmark.rotationY??0,2,'building',landmark.id);
+    }
     for (const location of region.locations) {
       if (!authoredLocations.has(location.id)) {
         worldExclusions.addCircle(location.position[0], location.position[1], 5, "cluster", location.id);

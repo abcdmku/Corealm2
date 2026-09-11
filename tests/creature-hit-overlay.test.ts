@@ -62,6 +62,29 @@ const unchangedCoreMasks:Record<string,string>={
 const overlayDigest=(clip:THREE.AnimationClip|null)=>createHash('sha256').update(JSON.stringify(clip?.tracks.map(track=>({name:track.name,times:Array.from(track.times),values:Array.from(track.values)})))).digest('hex');
 
 describe('support-safe additive creature recoil',()=>{
+  it('recognizes the complete hovering six-arm topology while protecting its lower hooks and hover',()=>{
+    const root=new THREE.Group(), hover=bone('hollow_root',root), thorax=bone('hollow_thorax',hover);
+    const joints=Array.from({length:6},(_,index)=>{
+      const arm=bone(`hollow_arm_${index}`,thorax), forearm=bone(`hollow_forearm_${index}`,arm);
+      return [arm,forearm,bone(`hollow_hook_${index}`,forearm)];
+    }).flat();
+    const all=[hover,thorax,...joints];
+    const idle=new THREE.AnimationClip('Idle',1,all.map(joint=>rotation(joint.name,[0,0,0])));
+    const hit=new THREE.AnimationClip('Hit',1,[...all.map(joint=>rotation(joint.name,[0,.3,0])),
+      new THREE.VectorKeyframeTrack('hollow_root.position',[0,1],[0,0,0,0,-3,0])]);
+    const overlay=createMaskedHitOverlay(root,hit,idle);
+    expect(overlay.status).toBe('native-masked');
+    expect(overlay.boneNames).toHaveLength(12);
+    expect(overlay.boneNames.every(name=>/^hollow_(?:arm|forearm|hook)_[0-3]$/.test(name))).toBe(true);
+    root.updateMatrixWorld(true);
+    const protectedBones=[hover,thorax,...joints.filter(joint=>/_[45]$/.test(joint.name))];
+    const before=protectedBones.map(joint=>joint.matrixWorld.clone());
+    applyMaskedHitOverlay(root,overlay,.5);root.updateMatrixWorld(true);
+    protectedBones.forEach((joint,index)=>expect(joint.matrixWorld.elements).toEqual(before[index]!.elements));
+    expect(joints[0]!.quaternion.angleTo(new THREE.Quaternion())).toBeGreaterThan(.2);
+    thorax.remove(joints[15]!);
+    expect(createMaskedHitOverlay(root,hit,idle).status).toBe('no-safe-mask');
+  });
   it('keeps support branches and all their ancestors out of the quaternion-only clip',()=>{
     const f=fixture(),result=createMaskedHitOverlay(f.root,f.hit,f.idle);
     expect(result.status).toBe('native-masked');expect(result.boneNames.sort()).toEqual(['Wolf_Head','Wolf_Neck']);

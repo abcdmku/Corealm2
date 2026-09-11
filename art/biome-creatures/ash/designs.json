@@ -1,0 +1,47 @@
+[
+  {
+    "id": "kiln_marrow",
+    "source": "lava_golem",
+    "name": "Kiln Marrow",
+    "contact": 0.6,
+    "tempo": 1.17,
+    "art": "A furnace-born giant with a hollow ribbed chest, a hunched basalt mantle and one fused crushing forearm. The glow is recessed inside the body.",
+    "motion": "Native two-arm smash with prolonged brace, delayed contact and spine compression on recovery."
+  },
+  {
+    "id": "slag_crawler",
+    "source": "webweaver_spider",
+    "name": "Slag Crawler",
+    "contact": 0.44,
+    "tempo": 1.28,
+    "art": "A broad, low eight-legged furnace scavenger. Its abdomen is rebuilt as overlapping ridged slag plates and its head as a shovel-shaped jaw. No animal abdomen or eye cluster remains.",
+    "motion": "Native eight-leg support cycle slowed for mass, with abdomen rocking and jaw closure on contact."
+  },
+  {
+    "id": "cinder_penitent",
+    "source": "revenant",
+    "name": "Cinder Penitent",
+    "contact": 0.38,
+    "tempo": 1.2,
+    "art": "A blind iron-faced apparition in an asymmetric burnt shroud. The ordinary hood, belt ornaments and knight pauldrons are removed; the new sealed elongated face is part of the body.",
+    "motion": "Suspended drift with opposing forearm suspension; deliberate head bow and torso recoil during the contact strike."
+  },
+  {
+    "id": "grave_lantern",
+    "source": "grave_ghoul",
+    "name": "Grave Lantern",
+    "contact": 0.36,
+    "tempo": 1.12,
+    "art": "A crouched corpse with a hollow cage-like skull, recessed corpse-light, exposed arched ribs and enlarged forearms. Its human face is removed and its back becomes a long shoulder hump.",
+    "motion": "Hunched stalk with a searching head pendulum; asymmetrical shoulder reach and head recoil in the claw attack."
+  },
+  {
+    "id": "veil_reaper",
+    "source": "banshee",
+    "name": "Veil Reaper",
+    "contact": 0.46,
+    "tempo": 1.3,
+    "art": "A tall, hollow veiled predator with a swept-back cowl, a long trailing split shroud and continuous torn membranes beneath both arms. Its hands end in long curved talons.",
+    "motion": "Slow levitation with independent membrane lag and an opening, pulling sweep; no walking leg cycle."
+  }
+]

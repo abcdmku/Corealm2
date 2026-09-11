@@ -18,7 +18,7 @@ export class SimClock {
    * thousand-tick catch-up burst.
    */
   advance(realDeltaMs: number, maxTicks = this.maxTicksPerFrame()): number {
-    if (this.paused) return 0;
+    if (this.paused || !Number.isFinite(realDeltaMs) || realDeltaMs <= 0) return 0;
     this.accumulator += realDeltaMs * this.timeScale;
     let ticks = 0;
     while (this.accumulator >= SIM_TICK_MS && ticks < maxTicks) {

@@ -60,7 +60,7 @@ export function loopsForRegion(
  *
  * This map covers sixteen of the sixty-nine families in `content/enemies.ts`. The other fifty-three
  * are silent, and the previous version of this comment described that as "the two humanoid
- * families" — it named `reaver` and `quarrykeeper`, and `quarrykeeper` is the Armored Rhino.
+ * families" — it named `reaver` and `quarrykeeper`, and `quarrykeeper` is the Quarry Warden.
  *
  * The real split, counted against content rather than asserted:
  *

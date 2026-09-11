@@ -138,6 +138,11 @@ export interface RegionPalette {
 }
 
 export const REGION_PALETTES: Record<RegionId, RegionPalette> = {
+  wilderness: {
+    id: "wilderness", name: "Wilderness",
+    groundLow: 0x555961, groundHigh: 0x7b7e83, soil: 0x535357, rock: 0x72767e,
+    foliage: 0x4b4a47, timber: 0x49464a, water: 0x313e49, accent: 0x958b80,
+  },
   // Bleached grass greens, weathered grey-brown timber, and a restrained dried-clay accent.
   fallowmarch: {
     id: "fallowmarch", name: "Fallowmarch",
@@ -191,6 +196,7 @@ export interface ArchitecturePalette {
 }
 
 export const ARCHITECTURE_PALETTES: Record<RegionId, ArchitecturePalette> = {
+  wilderness: { roof: 0x292c35, plaster: 0x55565c, stone: 0x42464e, timber: 0x353035, moss: 0x424447 },
   fallowmarch: {
     roof: 0x69504a,
     plaster: 0x89908e,
@@ -1580,7 +1586,7 @@ normal = normalize(mix(normal, grassUp, 0.45));`);
       const sourceProgramKey = source.customProgramCacheKey();
       const shaderKey = `architecture-luma-v2:${regionId}:${role}`;
       const strength = treatment.strength.toFixed(3);
-      const brightness = treatment.brightness.toFixed(3);
+      const brightness = (treatment.brightness * (regionId === "wilderness" ? .52 : 1)).toFixed(3);
       const contrast = treatment.contrast.toFixed(3);
       const tintVector = `vec3(${tint.r.toFixed(6)}, ${tint.g.toFixed(6)}, ${tint.b.toFixed(6)})`;
 

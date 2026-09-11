@@ -1,5 +1,7 @@
+import { REGIONAL_VARIANT_GROUPS, REGIONAL_VARIANT_HABITATS, AMETHYST_CAVE_GROUP } from "./regionalVariantHabitats.js";
+import { LEGACY_CAVE_FLOOR_INTENTS } from './legacyEncounterPlacements.js';
 /**
- * The three Phase 1 regions, as pure data.
+ * The five surface regions and Stone Cavern, as pure data.
  *
  * Nothing here imports Three.js, reads the store, or computes terrain. This file is the authored
  * truth for *where things are and what they mean*; `world/regionBuilder.ts` turns it into
@@ -13,8 +15,11 @@
  * COORDINATE SYSTEM
  * ---------------------------------------------------------------------------------------------
  * One connected world. X grows east, Z grows north, Y is up. All units are metres.
- * The four surface regions tile a single 700 x 660 m rectangle with no overlap and no gaps:
+ * The five surface regions tile a single 700 x 900 m rectangle with no overlap and no gaps:
  *
+ *        z=+700  +---------------------------------------------------+
+ *                |          WILDERNESS ? NIGHT / DEADWOOD             |
+ *                |               x [-350,350] z [460,700]            |
  *        z=+460  +---------------------------------------------------+
  *                |                     KILNHALT                      |
  *                |               x [-350,350] z [200,460]            |
@@ -103,6 +108,12 @@ import { ROOTFALL } from "./settlements/rootfall.js";
 import { resourceDef } from "./resources.js";
 import { CREATURE_ENEMY_GROUPS, CREATURE_HABITATS } from "./creatureHabitats.js";
 import { STARTER_GROUPS } from "./starterHabitats.js";
+import { WILDERNESS } from "./wilderness.js";
+import { fantasyEncounter } from "./fantasyEncounters.js";
+import { BIOME_POPULATION, resolveBiomePopulation } from "./biomePopulation.js";
+import { CREATURE_SPECIES } from "./creatureSpecies.js";
+import { populationGroup } from './encounterPlacement.js';
+import { WILDERNESS_DEPTH } from './wildernessDepth.js';
 
 // ------------------------------------------------------------------ primitives
 
@@ -513,6 +524,8 @@ export interface EnemyGroupDef {
   name: string;
   tier: number;
   count: number;
+  /** Original one-member groups keep their bare entity ID when the pack gains residents. */
+  legacyCount?: number;
   centre: Spot;
   radius: number;
   assetId: string;
@@ -563,6 +576,8 @@ export interface LandmarkDef {
   composition?: CompositionId;
   /** False for broad, walkable compositions whose central interactable owns collision. */
   solid?: boolean;
+  /** The composition is the complete structure; the location marker has no extra hero mesh. */
+  compositionOnly?: boolean;
   /** Keep the imported origin on terrain instead of lifting the asset's lowest buried detail. */
   originOnGround?: boolean;
 }
@@ -684,7 +699,7 @@ export interface RegionDef {
   clusters: ResourceClusterDef[];
   /** Production stations outside the settlement, such as regional Essence Altars. */
   stations: StationDef[];
-  settlement: SettlementDef;
+  settlement?: SettlementDef;
   obstacles: ObstacleDef[];
   enemyGroups: EnemyGroupDef[];
   landmarks: LandmarkDef[];
@@ -696,7 +711,7 @@ export interface RegionDef {
 /** Movement speed the route graph costs walking edges at. Mirrors `app/config.ts` PLAYER_SPEED. */
 export const WALK_SPEED_MPS = PLAYER_SPEED;
 
-export const WORLD_BOUNDS: RegionBounds = { min: [-350, -200], max: [350, 460] };
+export const WORLD_BOUNDS: RegionBounds = { min: [-350, -200], max: [350, WILDERNESS_DEPTH.north] };
 
 /** One boss-keyed crafting altar at each matching Essence Cache. */
 export const ESSENCE_ALTAR_COURT_RADIUS = 16;
@@ -725,7 +740,7 @@ export const REGIONAL_ESSENCE_ALTARS = {
     position: [290, 400], rotationY: 0, assetId: "altar_ruins_altar", scale: 1,
     recipeIds: ["craft_fire_wand", "craft_fire_staff"], essenceElement: "fire",
   },
-} as const satisfies Readonly<Record<Exclude<RegionId, "gravelmaw">, StationDef>>;
+} as const satisfies Readonly<Record<Exclude<RegionId, "gravelmaw" | "wilderness">, StationDef>>;
 
 // =============================================================== FALLOWMARCH
 
@@ -966,7 +981,7 @@ const FALLOWMARCH: RegionDef = {
     {
       // West of the cache and well clear of its approach road. The four-metre hovering silhouette
       // is visible over the plain before its territorial leash can pull a traveller into combat.
-      id: "tempest_roc", family: "tempest_roc", name: "Storm Rhino", tier: 1,
+      id: "tempest_roc", family: "tempest_roc", name: "Storm Scarab", tier: 1,
       count: 1, centre: [-292, -156], radius: 0,
       // 2.63 m of rig. Boss scaling in `world/regionBuilder.ts` is 1.6x on top of this, and the
       // tier 1 silhouette is 0.90, so it is drawn 3.79 m long — the biggest thing in Fallowmarch
@@ -993,7 +1008,7 @@ const FALLOWMARCH: RegionDef = {
     {
       id: "fallowmarch_air_altar_ruins", name: "Air Altar Ruins", position: [-250, -150],
       assetId: "altar_ruins_site", scale: 1, rotationY: 0, solid: false, originOnGround: true,
-      blurb: "A dormant stone court ringed by Air Essence. The Storm Rhino's Orb is its missing light.",
+      blurb: "A dormant stone court ringed by Air Essence. The Storm Scarab's Orb is its missing light.",
     },
     {
       // Round-1 critique finding 8: this was a bare `roof_tower` cone standing on the grass - the
@@ -1269,7 +1284,7 @@ const VELLENWOOD: RegionDef = {
     {
       // East of the cache, outside the cache ring and its Thornline approach. The scaled old-growth
       // tree is a six-metre combat silhouette without placing its roots across the route.
-      id: "rootheart", family: "rootheart", name: "Stone Rhino", tier: 5,
+      id: "rootheart", family: "rootheart", name: "Rootbound Colossus", tier: 5,
       count: 1, centre: [304, 158], radius: 0,
       // The same rig as the Tempest Roc, in earth. Drawn 4.52 m long here against Fallowmarch's
       // 3.79, because the tier 5 silhouette is 1.075 against tier 1's 0.90: one creature, three
@@ -1293,7 +1308,7 @@ const VELLENWOOD: RegionDef = {
     {
       id: "vellenwood_earth_altar_ruins", name: "Earth Altar Ruins", position: [262, 176],
       assetId: "altar_ruins_site", scale: 1, rotationY: 0, solid: false, originOnGround: true,
-      blurb: "A root-bound stone court ringed by Earth Essence. Stone Rhino's Orb can wake it.",
+      blurb: "A root-bound stone court ringed by Earth Essence. Rootbound Colossus's Orb can wake it.",
     },
     {
       id: "rootfall_stump", name: "The Oakwood Stump", position: [60, 120],
@@ -1568,7 +1583,7 @@ const KARROWMOOR: RegionDef = {
     {
       id: "karrowmoor_water_altar_ruins", name: "Water Altar Ruins", position: [328, -176],
       assetId: "altar_ruins_site", scale: 1, rotationY: 0, solid: false, originOnGround: true,
-      blurb: "A rain-cut stone court ringed by Water Essence. Armored Rhino's Orb can wake it.",
+      blurb: "A rain-cut stone court ringed by Water Essence. Quarry Warden's Orb can wake it.",
     },
     {
       // North shoulder of the long Moor Road descent, 4.5 m from its centreline and outside the
@@ -1638,7 +1653,7 @@ const KARROWMOOR: RegionDef = {
       { id: "gravelmaw_chamber1", name: "The Lit Gallery", centre: [40, -40], radius: 11, floorOffset: -23.2, lit: true },
       { id: "gravelmaw_chamber2", name: "The Collapse", centre: [30, -58], radius: 12, floorOffset: -27.2, lit: false },
       { id: "gravelmaw_chamber3", name: "The Cairn Hall", centre: [22, -76], radius: 12, floorOffset: -31.2, lit: false },
-      { id: "gravelmaw_arena", name: "The Armored Rhino's Floor", centre: [10, -96], radius: 12, floorOffset: -33.2, lit: true },
+      { id: "gravelmaw_arena", name: "The Quarry Warden's Floor", centre: [10, -96], radius: 12, floorOffset: -33.2, lit: true },
     ],
     doors: [
       {
@@ -1648,7 +1663,7 @@ const KARROWMOOR: RegionDef = {
         lockedReason: "Three stone levers hold it. The Long Cairn's fifth stage describes them.",
       },
       {
-        id: "ordrun_gate", name: "The Armored Rhino's Gate", position: [14, -88], floorOffset: -32.2,
+        id: "ordrun_gate", name: "The Quarry Warden's Gate", position: [14, -88], floorOffset: -32.2,
         assetId: "cage", state: "sealed",
         lockedReason: "Sealed until The Long Cairn is complete.",
       },
@@ -1713,7 +1728,7 @@ const KARROWMOOR: RegionDef = {
         // now: on a floor of rats, scorpions and crabs he was the only thing that was not an
         // animal, and looked like a lost hiker rather than what holds the Water Orb. Sharing the
         // orb bosses' silhouette says what he is before he moves.
-        id: "ordrun", family: "quarrykeeper", name: "Armored Rhino", tier: 10,
+        id: "ordrun", family: "quarrykeeper", name: "Quarry Warden", tier: 10,
         count: 1, centre: [10, -96], radius: 0,
         assetId: "boss_rhino_water", scale: 1, boss: true,
       },
@@ -1725,7 +1740,7 @@ const KARROWMOOR: RegionDef = {
         blurb: "Chamber two. Dark, fallen in, and a stone door with three levers." },
       { id: "gravelmaw_chamber3", name: "The Cairn Hall", position: [22, -76], kind: "dungeon", routeNode: true,
         blurb: "Chamber three. Cairns, indoors, arranged since the crew left." },
-      { id: "gravelmaw_arena", name: "The Armored Rhino's Floor", position: [10, -96], kind: "dungeon", routeNode: true,
+      { id: "gravelmaw_arena", name: "The Quarry Warden's Floor", position: [10, -96], kind: "dungeon", routeNode: true,
         blurb: "A twenty-four metre circle of swept stone." },
     ],
     roads: [
@@ -1935,11 +1950,30 @@ const KILNHALT: RegionDef = {
 
 // ------------------------------------------------------------------- exports
 
-/** The four surface regions, in a fixed order. `buildWorld` iterates this to stay deterministic. */
-export const REGIONS: readonly RegionDef[] = [FALLOWMARCH, VELLENWOOD, KARROWMOOR, KILNHALT].map((region) => ({
+/** Original source bodies remain available for isolated animation regression fixtures. */
+export const SOURCE_REGIONS: readonly RegionDef[] = [FALLOWMARCH, VELLENWOOD, KARROWMOOR, {
+  ...KILNHALT,
+  locations:[...KILNHALT.locations,{id:'kilnhalt_north_bend',name:'North Road Bend',position:[64,395] as Spot,kind:'junction' as const,routeNode:true},{id:'kilnhalt_north_track',name:'North Ash Track',position:[64,455] as Spot,kind:'junction' as const,routeNode:true}],
+  roads:[...KILNHALT.roads,{from:'emberfast_east_gate',to:'kilnhalt_north_bend'},{from:'kilnhalt_north_bend',to:'kilnhalt_north_track'}],
+  adjacency:[...KILNHALT.adjacency,{toRegionId:'wilderness' as const,fromLocationId:'kilnhalt_north_track',toLocationId:'wilderness_south_track',meters:69.5}],
+}, WILDERNESS].map((region) => ({
   ...region,
-  enemyGroups: [...region.enemyGroups, ...(region.id === "fallowmarch" ? STARTER_GROUPS : []), ...CREATURE_ENEMY_GROUPS.filter((group) =>
+  dungeon: region.dungeon ? { ...region.dungeon, enemyGroups: [...region.dungeon.enemyGroups, AMETHYST_CAVE_GROUP] } : undefined,
+  enemyGroups: [...region.enemyGroups, ...REGIONAL_VARIANT_GROUPS.filter(group => REGIONAL_VARIANT_HABITATS.some(h => h.groupId === group.id && h.regionId === region.id)), ...(region.id === "fallowmarch" ? STARTER_GROUPS : []), ...CREATURE_ENEMY_GROUPS.filter((group) =>
     CREATURE_HABITATS.some((habitat) => habitat.groupId === group.id && habitat.regionId === region.id))],
+}));
+
+/** The five surface regions. World builders use only the accepted encounter projection. */
+const POPULATION_GROUPS = resolveBiomePopulation(CREATURE_SPECIES);
+export const REGIONS: readonly RegionDef[] = SOURCE_REGIONS.map(region => ({ ...region,
+  enemyGroups: [...region.enemyGroups.map(fantasyEncounter), ...POPULATION_GROUPS.filter(group =>
+    BIOME_POPULATION.some(pack => pack.id === group.id && pack.regionId === region.id))].map(populationGroup),
+  dungeon: region.dungeon ? { ...region.dungeon,
+    chambers: region.dungeon.chambers.map(chamber => ({ ...chamber,
+      radius: LEGACY_CAVE_FLOOR_INTENTS.find(intent => intent.id === chamber.id)?.radius ?? chamber.radius,
+    })),
+    enemyGroups: region.dungeon.enemyGroups.map(fantasyEncounter).map(populationGroup),
+  } : undefined,
 }));
 
 export const STARTING_REGION: RegionId = "fallowmarch";
@@ -2123,6 +2157,7 @@ export function validateRegions(knownAssetIds?: ReadonlySet<string>): string[] {
       }
     }
 
+    if (region.settlement) {
     if (!inBounds(region.bounds, region.settlement.centre)) {
       problems.push(`${region.id}: settlement ${region.settlement.id} is outside the region bounds`);
     }
@@ -2270,6 +2305,7 @@ export function validateRegions(knownAssetIds?: ReadonlySet<string>): string[] {
     for (const station of settlement.stations) checkAsset(`${region.id}: station ${station.id}`, station.assetId);
     for (const npc of settlement.npcs) checkAsset(`${region.id}: npc ${npc.id}`, npc.assetId);
     checkAsset(`${region.id}: bank ${settlement.bank.id}`, settlement.bank.assetId);
+    }
 
     for (const cluster of region.clusters) {
       try {

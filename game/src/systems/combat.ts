@@ -987,7 +987,7 @@ export class CombatSystem implements TickSystem {
 
       let killed = false;
       if (pending.damage > 0) {
-        this.awardXp(state, "magic", pending.damage * XP_PER_DAMAGE, atMs);
+        this.awardXp(state, "magic", Math.min(pending.damage, runtime.health) * XP_PER_DAMAGE, atMs);
         killed = this.applyEnemyDamage(state, entity, runtime, pending.damage, "magic", atMs);
       }
 
@@ -1226,7 +1226,7 @@ export class CombatSystem implements TickSystem {
       } else {
         let killed = false;
         if (damage > 0) {
-          this.awardXp(state, "melee", damage * XP_PER_DAMAGE, contactAtMs);
+          this.awardXp(state, "melee", Math.min(damage, state.world.enemies[enemyId]!.health) * XP_PER_DAMAGE, contactAtMs);
           killed = this.applyEnemyDamage(
             state, entity, state.world.enemies[enemyId]!, damage, "melee", contactAtMs,
           );

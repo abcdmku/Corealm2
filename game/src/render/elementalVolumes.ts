@@ -49,6 +49,9 @@ export class ElementalVolumes {
         }`,
       });
       const mesh = new THREE.InstancedMesh(geometry, material, 160);
+      // The shader reads instanceColor even while this pool is empty at preparation.
+      mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(160 * 3).fill(1), 3)
+        .setUsage(THREE.DynamicDrawUsage);
       mesh.count = 0;
       mesh.frustumCulled = false;
       mesh.renderOrder = 12;
@@ -220,6 +223,9 @@ export class ElementalSolids {
     name: string,
   ): THREE.InstancedMesh {
     const mesh = new THREE.InstancedMesh(geometry, material, 800);
+    // Keep the lit shader's instance-colour variant fixed before the first cast.
+    mesh.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(800 * 3).fill(1), 3)
+      .setUsage(THREE.DynamicDrawUsage);
     mesh.count = 0;
     mesh.name = name;
     mesh.frustumCulled = false;

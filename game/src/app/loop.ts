@@ -181,6 +181,7 @@ export class GameLoop {
   private overlays: OverlayTicker | null = null;
   private playerRig: CharacterRig | null = null;
   private vfx: Vfx | null = null;
+  private environmentEffects: { update(seconds: number, camera: Renderer['camera']): void; dispose(): void } | null = null;
   private drainHits: (() => readonly CombatHit[]) | null = null;
   private drainAttackStarts: (() => readonly CombatAttackStart[]) | null = null;
   private attackStillCommitted: ((id: EntityId) => boolean) | null = null;
@@ -320,6 +321,11 @@ export class GameLoop {
     this.vfx = vfx;
   }
 
+  setEnvironmentEffects(effects: { update(seconds: number, camera: Renderer['camera']): void; dispose(): void }): void {
+    this.environmentEffects?.dispose();
+    this.environmentEffects = effects;
+  }
+
   /**
    * The spell effect layer. Optional: unwired, casts still resolve, still award XP and still play
    * their cue — they simply pay out on the rig's contact marker like a sword does.
@@ -419,6 +425,8 @@ export class GameLoop {
   /** Releases loop-owned presentation resources when the game is torn down. */
   dispose(): void {
     this.stop();
+    this.environmentEffects?.dispose();
+    this.environmentEffects = null;
     this.enemyProjectiles?.dispose();
     this.enemyProjectiles = null;
   }
@@ -440,7 +448,9 @@ export class GameLoop {
     this.frameHandle = requestAnimationFrame(this.frame);
 
     const frameMs = nowMs - this.lastFrameAt;
-    const realDelta = Math.min(frameMs, 250);
+    // A first RAF timestamp can precede start() after a long task in that browser frame.
+    // Never turn shader preparation into simulation time that gameplay must pay back.
+    const realDelta = Math.max(0, Math.min(frameMs, 250));
     this.lastFrameAt = nowMs;
 
     const clock = this.deps.clock;
@@ -601,6 +611,7 @@ export class GameLoop {
     camera.update(position[0], position[1], position[2]);
     renderer.followShadow(renderer.camera.position.clone().setY(position[1]));
     renderer.camera.updateMatrixWorld();
+    this.environmentEffects?.update(nowMs / 1000, renderer.camera);
     // After the camera has moved for this frame, unlike the floaters above, so a bar pinned over a
     // head projects through THIS frame's view and does not trail it by one.
     this.healthBars?.update(nowMs, position);

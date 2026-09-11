@@ -24,6 +24,7 @@ import type { EquipSlot, ItemDef, ItemStack } from "../contracts.js";
 import { healAmount, toolBonus } from "./index.js";
 import { EQUIPMENT, MAGIC_ORBS } from "./equipment.js";
 import { CREATURE_LOOT_ITEMS } from "./creatureLoot.js";
+import { WILDERNESS_LOOT_ITEMS } from './wildernessLoot.js';
 
 // ------------------------------------------------------------------------------ currency
 
@@ -269,33 +270,33 @@ const ESSENCES: readonly ItemDef[] = [
  */
 const RUNES: readonly ItemDef[] = [
   {
-    id: "focus_rune", name: "Focus Rune", tier: 20,
-    description: "A narrow silver-cut rune that tightens an invocation onto one mark. Rank-one invocations spend one per cast.",
+    id: "mind_rune", name: "Mind Rune", tier: 20,
+    description: "A pale rune etched with a single clear eye. It steadies the caster's thought onto one mark. Rank-one invocations spend one per cast.",
     stackable: true, value: 30, category: "resource",
   },
   {
-    id: "sweep_rune", name: "Sweep Rune", tier: 30,
-    description: "A curved rune that lets a spell bank across a line of foes. Rank-two invocations spend one per cast.",
+    id: "chaos_rune", name: "Chaos Rune", tier: 30,
+    description: "An orange rune scored with a jagged fork. It lets a spell break loose and scatter across a line of foes. Rank-two invocations spend one per cast.",
     stackable: true, value: 45, category: "resource",
   },
   {
-    id: "binding_rune", name: "Binding Rune", tier: 40,
-    description: "A knotted rune that holds a spell's shape while it gathers and closes. Rank-three invocations spend one per cast.",
+    id: "death_rune", name: "Death Rune", tier: 40,
+    description: "A bone-white rune cut with a hollow skull. It holds a spell's shape while it gathers and closes. Rank-three invocations spend one per cast.",
     stackable: true, value: 70, category: "resource",
   },
   {
-    id: "siege_rune", name: "Siege Rune", tier: 50,
-    description: "A heavy square-cut rune for invocations that batter the ground itself. Rank-four invocations spend one per cast.",
+    id: "blood_rune", name: "Blood Rune", tier: 50,
+    description: "A dark red rune with a drop sunk into its face. It feeds invocations heavy enough to batter the ground. Rank-four invocations spend one per cast.",
     stackable: true, value: 110, category: "resource",
   },
   {
-    id: "cataclysm_rune", name: "Cataclysm Rune", tier: 70,
-    description: "A rune split through with slow light. The four finales spend one per cast, and nothing smaller touches it.",
+    id: "wrath_rune", name: "Wrath Rune", tier: 70,
+    description: "A black rune split through with slow red light. The four finales spend one per cast, and nothing smaller touches it.",
     stackable: true, value: 180, category: "resource",
   },
   {
-    id: "field_rune", name: "Field Rune", tier: 30,
-    description: "A ringed rune that spreads an invocation across an area. Every area invocation spends one beside its rank rune.",
+    id: "cosmic_rune", name: "Cosmic Rune", tier: 30,
+    description: "A yellow rune ringed with a wheel of stars. It spreads an invocation across an area. Every area invocation spends one beside its rank rune.",
     stackable: true, value: 40, category: "resource",
   },
 ];
@@ -539,7 +540,7 @@ const FOOD: readonly ItemDef[] = [
   },
   {
     id: "seared_cragfin", name: "Seared Perch", tier: 10,
-    description: "The reason anyone survives Armored Rhino's floor. Hillcrest will not sell you fewer than five.",
+    description: "The reason anyone survives Quarry Warden's floor. Hillcrest will not sell you fewer than five.",
     stackable: false, value: 70, category: "food", food: { healAmount: healAmount(10) },
   },
   {
@@ -664,7 +665,8 @@ export const ITEMS: readonly ItemDef[] = [
 ];
 
 /** The table the root registers as `items`. */
-export const ALL_ITEMS: readonly ItemDef[] = [...ITEMS, ...HIGH_TIER_LOG_ITEMS, ...MAGIC_ORBS, ...EQUIPMENT, ...CREATURE_LOOT_ITEMS];
+export const ALL_ITEMS: readonly ItemDef[] = [...ITEMS, ...HIGH_TIER_LOG_ITEMS, ...MAGIC_ORBS, ...EQUIPMENT, ...CREATURE_LOOT_ITEMS,
+  ...WILDERNESS_LOOT_ITEMS];
 
 /** The currency item id, so nothing else has to spell it. PRD 2.10: currency is marks. */
 export const CURRENCY_ITEM_ID = "marks";

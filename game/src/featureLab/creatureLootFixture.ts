@@ -1,6 +1,7 @@
 import type { EntityId, SemanticEntity, Vec3 } from "../contracts.js";
 import { REGIONS } from "../content/regions.js";
 import type { GameState, Store } from "../state/store.js";
+import { WILDERNESS_LOOT_RECIPES } from '../content/wildernessLoot.js';
 
 export const CREATURE_LOOT_STATION_ID = "feature-lab:creature-loot:crafting-table";
 
@@ -21,17 +22,20 @@ export interface CreatureLootFixtureState {
   readonly stationId: EntityId;
   readonly position: Vec3 | null;
   readonly assetId: string;
+  readonly woundedTarget: { entityId: EntityId; before: number; maxHealth: number; setupHealth: number } | null;
 }
 
 export interface CreatureLootFixtureApi {
   prepare(): Promise<CreatureLootFixtureState>;
   getState(): CreatureLootFixtureState;
+  /** Loot-path setup only. A real combat action must still cause death and produce rewards. */
+  prepareWoundedTarget(entityId: EntityId): CreatureLootFixtureState;
 }
 
 /** A production crafting station only. Ingredients, rewards and equipment stay in their systems. */
 export function createCreatureLootFixture(deps: CreatureLootFixtureDeps): CreatureLootFixtureApi {
   const region = REGIONS.find((candidate) => candidate.id === "fallowmarch");
-  const source = region?.settlement.stations.find((station) => station.id === "coldbrace_crafting");
+  const source = region?.settlement?.stations.find((station) => station.id === "coldbrace_crafting");
   if (!region || !source || source.kind !== "crafting_table") {
     throw new Error("The creature loot fixture requires the production Coldbrace crafting table.");
   }
@@ -39,6 +43,7 @@ export function createCreatureLootFixture(deps: CreatureLootFixtureDeps): Creatu
   let station: SemanticEntity | null = null;
   let preparedWorld: GameState | null = null;
   let pending: Promise<CreatureLootFixtureState> | null = null;
+  let woundedTarget: CreatureLootFixtureState['woundedTarget'] = null;
 
   function getState(): CreatureLootFixtureState {
     const ready = station !== null
@@ -49,6 +54,7 @@ export function createCreatureLootFixture(deps: CreatureLootFixtureDeps): Creatu
       stationId: CREATURE_LOOT_STATION_ID,
       position: ready && station ? [...station.position] as Vec3 : null,
       assetId,
+      woundedTarget,
     };
   }
 
@@ -79,13 +85,14 @@ export function createCreatureLootFixture(deps: CreatureLootFixtureDeps): Creatu
       interactionPosition,
       state: "idle",
       interactions: ["inspect", "produce"],
-      station: { kind: source!.kind, skill: source!.skill, recipeIds: [...source!.recipeIds] },
+      station: { kind: source!.kind, skill: source!.skill, recipeIds: [...new Set([...source!.recipeIds,
+        ...WILDERNESS_LOOT_RECIPES.filter(recipe => recipe.stations?.includes(source!.kind)).map(recipe => recipe.id)])] },
       view: {
         assetId, rotationY: source!.rotationY, scale: source!.scale, labelHeight: 1.6,
       },
       meta: {
         stationKind: source!.kind,
-        settlementId: region!.settlement.id,
+        settlementId: region!.settlement!.id,
         featureLab: true,
         creatureLootFixture: true,
         sourceStationId: source!.id,
@@ -106,6 +113,15 @@ export function createCreatureLootFixture(deps: CreatureLootFixtureDeps): Creatu
 
   return {
     getState,
+    prepareWoundedTarget(entityId) {
+      const target = deps.entities.get(entityId);
+      if (!target?.combat || target.state !== 'alive' || !String(target.meta?.groupId ?? '').startsWith('candidate:')) {
+        throw new Error('Wounded-target setup requires a living candidate creature in the lab.');
+      }
+      woundedTarget = { entityId, before: target.combat.health, maxHealth: target.combat.maxHealth, setupHealth: 1 };
+      target.combat.health = 1;
+      return getState();
+    },
     async prepare() {
       if (getState().ready) return getState();
       if (pending) return pending;

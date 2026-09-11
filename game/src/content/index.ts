@@ -147,7 +147,7 @@ export interface SpellDef {
   castMs: number;
   /**
    * Matching elemental-weapon charge or carried Essence spent per cast, plus the secondary runes
-   * an advanced invocation burns: its tier rune, and a Field Rune when it strikes an area.
+   * an advanced invocation burns: its tier rune, and a Cosmic Rune when it strikes an area.
    */
   cost: { element: SpellElement; charges: number; runes?: readonly SpellRuneCost[] };
   /** 0 (or absent) for the sixteen auto-cast basics; 1 to 5 for the manual invocations. */

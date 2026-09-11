@@ -174,6 +174,9 @@ put("march_stone", [asset("rock_small_2", 0xb8aa91)]);
 put("corven_ore", [asset("corealm_item_corven_ore")]);
 put("kaldite_ore", [asset("corealm_item_kaldite_ore")]);
 put("emberite_ore", [asset("corealm_item_emberite_ore")]);
+// These promoted deposits already carry their own mineral seams and fractured host colours.
+put("cindervein_ore", [asset("corealm_ore_cindervein")]);
+put("nightglass_ore", [asset("corealm_ore_nightglass")]);
 put("kilnstone", [asset("rock_small_1", 0x4a443c)]);
 
 for (const id of TREE_SPECIES.map(species => species.logId)) {
@@ -205,6 +208,34 @@ put("bramble_hide", [primitive("hide", 0x65503d, 0x362d26)]);
 put("cairn_pelt", [primitive("hide", 0x8b7f70, 0x4c443c)]);
 put("charhide", [primitive("hide", 0x574840, 0x2e2622)]);
 
+// Candidate loot remains unregistered until the root accepts its lab proof. Each row uses a
+// finished material form: stone kernels, folded hide, wound thread or a worked metal component.
+const WILDERNESS_MATERIAL_ICONS: readonly ItemIconAppearance[] = [
+  { itemId: "cindersteel_bar", parts: [primitive("ingot", 0x8f7867, 0xc47b47)] },
+  { itemId: "nightglass_bar", parts: [primitive("ingot", 0x697b98, 0xa398bf)] },
+  { itemId: "molten_heart", parts: [asset("corealm_item_emberite_ore", 0xe99562)] },
+  { itemId: "astral_core", parts: [asset("corealm_item_kaldite_ore", 0xa797d5)] },
+  { itemId: "dragonhide", parts: [primitive("hide", 0x653c36, 0xb07550, 1)] },
+  { itemId: "starhide", parts: [primitive("hide", 0x514b73, 0x9c94be, 2)] },
+  { itemId: "grave_thread", parts: [primitive("cord", 0x484046, 0x968573, 0)] },
+  { itemId: "void_thread", parts: [primitive("cord", 0x413d65, 0x9885ba, 2)] },
+  { itemId: "teak_handle", parts: [primitive("handle", WOOD[50]!, 0x8f7867)],
+    rotation: [0, 0, -0.3], frameScale: 1.08 },
+  { itemId: "magic_handle", parts: [primitive("handle", WOOD[70]!, 0x697b98)],
+    rotation: [0, 0, -0.3], frameScale: 1.08 },
+  { itemId: "ashseal_iron", parts: [primitive("ingot", 0x735f54, 0xb48f67)], rotation: [0, 0.3, 0] },
+  // The fluted production gorget supplies the crucible crown's open metal rim.
+  { itemId: "furnace_crown", parts: [asset("proc_armour_collar_20", 0xb6814c)] },
+  // Its dark authored metal texture needs a pale tint to keep the links visible at 48 px.
+  { itemId: "chainbound_link", parts: [asset("chain_coil", 0xe4efff)], rotation: [0.35, 0, 0] },
+  { itemId: "nightforge_seal", parts: [primitive("scute", 0x69758d, 0xb1abc4, 3)] },
+  { itemId: "hollow_star_fragment", parts: [asset("corealm_item_pale_quartz", 0x655d89)],
+    rotation: [0, 0, -0.25] },
+];
+for (const { itemId, parts, ...options } of WILDERNESS_MATERIAL_ICONS) {
+  if (BY_ID.has(itemId)) put(itemId, parts, options);
+}
+
 /** Element colour stays consistent between the loose essence and the boss-won orb. */
 const ELEMENT_COLOURS = {
   air: { body: 0x78cce8, glow: 0xd8f7ff },
@@ -221,12 +252,12 @@ for (const element of ["air", "earth", "water", "fire"] as const) {
 // Spell runes: one carved plate each. Colour climbs with the rank the rune unlocks, and the Field
 // Rune sits apart in ring-green so an area cost is told from a rank cost inside the pouch.
 const RUNE_COLOURS: Readonly<Record<string, readonly [number, number]>> = {
-  focus_rune: [0xb9c2cf, 0xf1f5ff],
-  sweep_rune: [0x7d9cc4, 0xd6e8ff],
-  binding_rune: [0x8a6fb5, 0xe3d3ff],
-  siege_rune: [0xa8734d, 0xffd9b0],
-  cataclysm_rune: [0xc94a3c, 0xffc39a],
-  field_rune: [0x6f9a5c, 0xd4f0b8],
+  mind_rune: [0xb9c2cf, 0xf1f5ff],
+  chaos_rune: [0x7d9cc4, 0xd6e8ff],
+  death_rune: [0x8a6fb5, 0xe3d3ff],
+  blood_rune: [0xa8734d, 0xffd9b0],
+  wrath_rune: [0xc94a3c, 0xffc39a],
+  cosmic_rune: [0x6f9a5c, 0xd4f0b8],
 };
 for (const [itemId, [body, glow]] of Object.entries(RUNE_COLOURS)) {
   put(itemId, [primitive("scute", body, glow)], { frameScale: 1.1 });
@@ -298,6 +329,19 @@ const ACCESSORY_ANATOMY: Readonly<Record<ItemId, number>> = {
   turkey_plume_charm: 1, heron_quill_charm: 2, antler_palm_charm: 3, mantis_edge_charm: 4,
 };
 
+// These opal settings follow the crafted metals, rather than the unused T50 Sunderglass palette.
+// Thread-wrapped rings reuse the existing braided band; dark bindings distinguish the charms.
+const WILDERNESS_JEWELLERY: Readonly<Record<ItemId, ItemIconPrimitivePart>> = {
+  cindersteel_ring: primitive("ring", 0x8f7867, 0xdb874c),
+  cindersteel_pendant: primitive("amulet", 0x8f7867, 0xdb874c),
+  nightglass_ring: primitive("ring", 0x697b98, 0xdb874c),
+  nightglass_pendant: primitive("amulet", 0x697b98, 0xdb874c),
+  emberweave_ring: primitive("ring", 0x8f7867, 0xdb874c, 2),
+  emberweave_charm: primitive("amulet", 0x514348, 0xe69b61),
+  starweave_ring: primitive("ring", 0x697b98, 0xe69b61, 2),
+  starweave_charm: primitive("amulet", 0x524b78, 0xe69b61),
+};
+
 // Game meat. Raw, cooked and burnt share one model; colour carries preparation state, exactly the
 // convention the fish line below already uses.
 put("raw_game_meat", [primitive("meat", 0xbe6a63, 0xe8ddc6)]);
@@ -325,7 +369,9 @@ put("burnt_ashfin", [primitive("fish", 0x231f1e, 0x4f3c32)]);
 
 // The same finished tools, tint and grip dimensions shown during production gathering.
 for (const id of ["worn_pickaxe", "grithe_pickaxe", "corven_pickaxe", "kaldite_pickaxe", "emberite_pickaxe",
-  "worn_hatchet", "grithe_hatchet", "corven_hatchet", "kaldite_hatchet", "emberite_hatchet"] as const) {
+  "worn_hatchet", "grithe_hatchet", "corven_hatchet", "kaldite_hatchet", "emberite_hatchet",
+  "cindersteel_pickaxe", "cindersteel_hatchet", "nightglass_pickaxe", "nightglass_hatchet"] as const) {
+  if (!BY_ID.has(id)) continue;
   const appearance = gatheringToolAppearance(id);
   if (!appearance) throw new Error(`Gathering tool icon has no production appearance: ${id}`);
   put(id, [equipmentPart(appearance)], { rotation: [0, 0, -0.38] });
@@ -348,6 +394,11 @@ for (const item of ALL_ITEMS.filter((entry) => entry.orb !== undefined)) {
 // Static item art shows elemental identity. Explicit charge previews use the same runtime core.
 for (const item of ALL_ITEMS.filter((entry) => entry.category === "equipment")) {
   const id = item.id;
+  const jewellery = WILDERNESS_JEWELLERY[id];
+  if (jewellery) {
+    put(id, [jewellery]);
+    continue;
+  }
   if (/_ring$/.test(id)) {
     put(id, [primitive("ring", tierMetal(id), tierAccent(id), ACCESSORY_ANATOMY[id])]);
     continue;

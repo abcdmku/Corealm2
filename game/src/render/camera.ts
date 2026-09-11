@@ -107,6 +107,7 @@ function overheadCover(): readonly CoverSlab[] {
   if (coverCache) return coverCache;
   const slabs: CoverSlab[] = [];
   for (const region of REGIONS) {
+    if (!region.settlement) continue;
     const kit = region.settlement.kit;
     for (const building of region.settlement.buildings) {
       const rect = coverRect(building.prefab, building.footprint, kit);

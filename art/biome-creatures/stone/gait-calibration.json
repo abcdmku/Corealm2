@@ -1,0 +1,341 @@
+{
+  "method": "Measured final staged GLBs using tools/biome-creatures/stone/audit.mjs; CPU gait evidence, visual contact acceptance remains separate.",
+  "assets": [
+    {
+      "id": "creature_cairn_treader",
+      "sha256": "118d8e7328ecfc6eee2a0c20a18c92718fbe7f9db98adaffe4fc8cf688c5a2ba",
+      "walk": {
+        "impliedMps": 1.9306958476453484,
+        "contacts": [
+          {
+            "side": 0,
+            "soleVertices": 667,
+            "stanceSamples": 81,
+            "mainStanceSamples": 81,
+            "coreSamples": 57,
+            "medianMps": 1.9309737968453249
+          },
+          {
+            "side": 1,
+            "soleVertices": 667,
+            "stanceSamples": 90,
+            "mainStanceSamples": 86,
+            "coreSamples": 62,
+            "medianMps": 1.5338257743019386
+          }
+        ],
+        "method": "Central 70% of longest continuous grounded backward contact, joined across cycle seam. Median same-vertex sole velocity, within 30 mm of ground. Final GLB at 180 phases."
+      },
+      "run": {
+        "impliedMps": 2.7581364455772777,
+        "contacts": [
+          {
+            "side": 0,
+            "soleVertices": 667,
+            "stanceSamples": 81,
+            "mainStanceSamples": 81,
+            "coreSamples": 57,
+            "medianMps": 2.758533518289912
+          },
+          {
+            "side": 1,
+            "soleVertices": 667,
+            "stanceSamples": 90,
+            "mainStanceSamples": 86,
+            "coreSamples": 62,
+            "medianMps": 2.1911795938954572
+          }
+        ],
+        "method": "Central 70% of longest continuous grounded backward contact, joined across cycle seam. Median same-vertex sole velocity, within 30 mm of ground. Final GLB at 180 phases."
+      }
+    },
+    {
+      "id": "creature_flint_mandible",
+      "sha256": "6491536848dbceecfa57805ee7b88d8a9e32fe18285ebfd35d93c9bc953287a5",
+      "walk": {
+        "impliedMps": 1.1534446162674061,
+        "contacts": [
+          {
+            "side": 0,
+            "soleVertices": 48,
+            "stanceSamples": 91,
+            "mainStanceSamples": 91,
+            "coreSamples": 65,
+            "medianMps": 1.1187306132113473
+          },
+          {
+            "side": 1,
+            "soleVertices": 48,
+            "stanceSamples": 91,
+            "mainStanceSamples": 91,
+            "coreSamples": 65,
+            "medianMps": 1.1884120048716504
+          }
+        ],
+        "method": "Central 70% of longest continuous grounded backward contact, joined across cycle seam. Median same-vertex sole velocity, within 30 mm of ground. Final GLB at 180 phases."
+      },
+      "run": {
+        "impliedMps": 1.6467638952923151,
+        "contacts": [
+          {
+            "side": 0,
+            "soleVertices": 48,
+            "stanceSamples": 92,
+            "mainStanceSamples": 92,
+            "coreSamples": 66,
+            "medianMps": 1.5981868885728132
+          },
+          {
+            "side": 1,
+            "soleVertices": 48,
+            "stanceSamples": 91,
+            "mainStanceSamples": 91,
+            "coreSamples": 65,
+            "medianMps": 1.6977240266236169
+          }
+        ],
+        "method": "Central 70% of longest continuous grounded backward contact, joined across cycle seam. Median same-vertex sole velocity, within 30 mm of ground. Final GLB at 180 phases."
+      }
+    },
+    {
+      "id": "creature_vault_custodian",
+      "sha256": "8b3f2c0cc153b02765b162014e8d3a2b363ebe0162cdf563a83311c44e45a6c5",
+      "walk": {
+        "impliedMps": 1.477044572835194,
+        "contacts": [
+          {
+            "side": 0,
+            "soleVertices": 361,
+            "stanceSamples": 58,
+            "mainStanceSamples": 32,
+            "coreSamples": 24,
+            "medianMps": 1.477044572835194
+          },
+          {
+            "side": 1,
+            "soleVertices": 361,
+            "stanceSamples": 58,
+            "mainStanceSamples": 31,
+            "coreSamples": 23,
+            "medianMps": 1.486337567974752
+          }
+        ],
+        "method": "Central 70% of longest continuous grounded backward contact, joined across cycle seam. Median same-vertex sole velocity, within 30 mm of ground. Final GLB at 180 phases."
+      },
+      "run": {
+        "impliedMps": 2.0514487681421643,
+        "contacts": [
+          {
+            "side": 0,
+            "soleVertices": 361,
+            "stanceSamples": 58,
+            "mainStanceSamples": 32,
+            "coreSamples": 24,
+            "medianMps": 2.0514487681421643
+          },
+          {
+            "side": 1,
+            "soleVertices": 361,
+            "stanceSamples": 58,
+            "mainStanceSamples": 31,
+            "coreSamples": 23,
+            "medianMps": 2.064357860048138
+          }
+        ],
+        "method": "Central 70% of longest continuous grounded backward contact, joined across cycle seam. Median same-vertex sole velocity, within 30 mm of ground. Final GLB at 180 phases."
+      }
+    },
+    {
+      "id": "creature_blind_cave_weaver",
+      "sha256": "d571f3cc6c1d1aee897823ed65b7a1f64b6522a704eb13e6419e75362f54e89d",
+      "walk": {
+        "impliedMps": 1.1371806232903339,
+        "contacts": [
+          {
+            "side": 0,
+            "soleVertices": 96,
+            "stanceSamples": 98,
+            "mainStanceSamples": 98,
+            "coreSamples": 70,
+            "medianMps": 1.2964098655882201
+          },
+          {
+            "side": 1,
+            "soleVertices": 96,
+            "stanceSamples": 80,
+            "mainStanceSamples": 80,
+            "coreSamples": 56,
+            "medianMps": 1.2393073799730177
+          },
+          {
+            "side": 2,
+            "soleVertices": 96,
+            "stanceSamples": 80,
+            "mainStanceSamples": 80,
+            "coreSamples": 56,
+            "medianMps": 1.2266765383526728
+          },
+          {
+            "side": 3,
+            "soleVertices": 96,
+            "stanceSamples": 97,
+            "mainStanceSamples": 97,
+            "coreSamples": 69,
+            "medianMps": 1.270995548440624
+          },
+          {
+            "side": 4,
+            "soleVertices": 96,
+            "stanceSamples": 89,
+            "mainStanceSamples": 89,
+            "coreSamples": 63,
+            "medianMps": 1.0483904551633634
+          },
+          {
+            "side": 5,
+            "soleVertices": 96,
+            "stanceSamples": 81,
+            "mainStanceSamples": 81,
+            "coreSamples": 57,
+            "medianMps": 0.9968942190289768
+          },
+          {
+            "side": 6,
+            "soleVertices": 96,
+            "stanceSamples": 81,
+            "mainStanceSamples": 81,
+            "coreSamples": 57,
+            "medianMps": 1.1596376933754124
+          },
+          {
+            "side": 7,
+            "soleVertices": 96,
+            "stanceSamples": 89,
+            "mainStanceSamples": 89,
+            "coreSamples": 63,
+            "medianMps": 1.1371806232903339
+          }
+        ],
+        "method": "Central 70% of longest continuous grounded backward contact, joined across cycle seam. Median same-vertex sole velocity, within 30 mm of ground. Final GLB at 180 phases."
+      },
+      "run": {
+        "impliedMps": 1.8762785459185922,
+        "contacts": [
+          {
+            "side": 0,
+            "soleVertices": 96,
+            "stanceSamples": 98,
+            "mainStanceSamples": 98,
+            "coreSamples": 70,
+            "medianMps": 2.1390762136096493
+          },
+          {
+            "side": 1,
+            "soleVertices": 96,
+            "stanceSamples": 80,
+            "mainStanceSamples": 80,
+            "coreSamples": 56,
+            "medianMps": 2.044856768387463
+          },
+          {
+            "side": 2,
+            "soleVertices": 96,
+            "stanceSamples": 81,
+            "mainStanceSamples": 81,
+            "coreSamples": 57,
+            "medianMps": 1.9796648464066373
+          },
+          {
+            "side": 3,
+            "soleVertices": 96,
+            "stanceSamples": 97,
+            "mainStanceSamples": 97,
+            "coreSamples": 69,
+            "medianMps": 2.097142550598572
+          },
+          {
+            "side": 4,
+            "soleVertices": 96,
+            "stanceSamples": 89,
+            "mainStanceSamples": 89,
+            "coreSamples": 63,
+            "medianMps": 1.7298435264857017
+          },
+          {
+            "side": 5,
+            "soleVertices": 96,
+            "stanceSamples": 82,
+            "mainStanceSamples": 82,
+            "coreSamples": 58,
+            "medianMps": 1.64487477245258
+          },
+          {
+            "side": 6,
+            "soleVertices": 96,
+            "stanceSamples": 81,
+            "mainStanceSamples": 81,
+            "coreSamples": 57,
+            "medianMps": 1.9134013926053486
+          },
+          {
+            "side": 7,
+            "soleVertices": 96,
+            "stanceSamples": 89,
+            "mainStanceSamples": 89,
+            "coreSamples": 63,
+            "medianMps": 1.8763478470012644
+          }
+        ],
+        "method": "Central 70% of longest continuous grounded backward contact, joined across cycle seam. Median same-vertex sole velocity, within 30 mm of ground. Final GLB at 180 phases."
+      }
+    },
+    {
+      "id": "creature_scree_watcher",
+      "sha256": "a981cc923273319b900f7c95810e1b36541dd129fb5e36885d48e3599261edcc",
+      "walk": {
+        "impliedMps": 1.116602708699901,
+        "contacts": [
+          {
+            "side": 0,
+            "soleVertices": 132,
+            "stanceSamples": 111,
+            "mainStanceSamples": 111,
+            "coreSamples": 79,
+            "medianMps": 1.1125511456020813
+          },
+          {
+            "side": 1,
+            "soleVertices": 132,
+            "stanceSamples": 111,
+            "mainStanceSamples": 111,
+            "coreSamples": 79,
+            "medianMps": 1.1175821727740716
+          }
+        ],
+        "method": "Central 70% of longest continuous grounded backward contact, joined across cycle seam. Median same-vertex sole velocity, within 30 mm of ground. Final GLB at 180 phases."
+      },
+      "run": {
+        "impliedMps": 7.394587776326992,
+        "contacts": [
+          {
+            "side": 0,
+            "soleVertices": 132,
+            "stanceSamples": 75,
+            "mainStanceSamples": 75,
+            "coreSamples": 53,
+            "medianMps": 7.400777993918313
+          },
+          {
+            "side": 1,
+            "soleVertices": 132,
+            "stanceSamples": 69,
+            "mainStanceSamples": 69,
+            "coreSamples": 49,
+            "medianMps": 7.3124072101352855
+          }
+        ],
+        "method": "Central 70% of longest continuous grounded backward contact, joined across cycle seam. Median same-vertex sole velocity, within 30 mm of ground. Final GLB at 180 phases."
+      }
+    }
+  ]
+}

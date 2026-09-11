@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { GameLoop, type LoopDeps } from "../game/src/app/loop.js";
+import { SimClock } from "../game/src/core/time.js";
 import type { EntityViews } from "../game/src/render/entityViews.js";
 import type { CharacterRig } from "../game/src/render/characterRig.js";
 import type { TraversalSample } from "../game/src/systems/traversalMotion.js";
@@ -19,7 +20,7 @@ function fixture() {
   const deps = {
     events: { subscribe: vi.fn() },
     store: { get: () => state },
-    clock: { advance: () => 0, paused: false, timeScale: 1, alpha: () => 0.375, elapsedMs: 0 },
+    clock: { advance: (_delta: number) => 0, paused: false, timeScale: 1, alpha: () => 0.375, elapsedMs: 0 },
     scene: { overlayGroup: new THREE.Group(), syncPlayer: vi.fn(), materials: { updatePlayerOcclusion: vi.fn() } },
     camera: { update: vi.fn() },
     renderer: { camera, renderer: {}, followShadow: vi.fn(), render: vi.fn() },
@@ -32,7 +33,7 @@ function fixture() {
   const views = {
     sync: vi.fn(() => { order.push("structure"); }),
     syncResidentMotion: vi.fn(() => { order.push("motion"); }),
-    update: vi.fn(() => { order.push("animation"); }),
+    update: vi.fn((_delta: number) => { order.push("animation"); }),
     playAction: vi.fn(),
     actionDurationSeconds: vi.fn<(...args: unknown[]) => number | null>(() => null),
     motionSnapshot: vi.fn(() => ({ drawnPosition: [4, 0, 0], semanticPosition: [4, 0, 0], semanticRotationY: 0 })),
@@ -44,6 +45,21 @@ function fixture() {
 }
 
 describe("frame loop resident motion", () => {
+  it("does not create a startup time debt when the first RAF predates a long boot task", () => {
+    const f = fixture(), clock = new SimClock();
+    f.deps.clock.advance = (delta: number) => {
+      const ticks = clock.advance(delta);
+      for (let i = 0; i < ticks; i++) clock.commitTick();
+      return 0;
+    };
+    try {
+      f.render(-5000);
+      expect(f.views.update.mock.calls[0]![0]).toBe(0);
+      f.render(-4900);
+      expect(clock.tick).toBe(1);
+      expect(clock.elapsedMs).toBe(100);
+    } finally { f.loop.dispose(); }
+  });
   it("reconciles resource handoffs after structural sync and before drawing every frame", () => {
     const f = fixture();
     const reconcile = vi.fn(() => { f.order.push("handoff"); });

@@ -698,7 +698,7 @@ const MAGIC_TIER_10: readonly ItemDef[] = [
   }),
   gear({
     id: "cairnpelt_robe", name: "Fur Robe", tier: 10, slot: "body", value: 1400,
-    description: "Three pelts, stitched with Cobalt wire. Armored Rhino's floor is survivable in this.",
+    description: "Three pelts, stitched with Cobalt wire. Quarry Warden's floor is survivable in this.",
     requires: { magic: 10 },
     bonuses: { armour: 2, magicAccuracy: 6, magicPower: 3, magicArmour: 14, vitality: 4 },
   }),

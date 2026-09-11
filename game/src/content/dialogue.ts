@@ -965,7 +965,7 @@ const MOTT: DialogueNodeDef[] = [
       {
         when: [{ kind: "questStatus", questId: "eleven_empty_days", status: "complete", reason: "" }],
         text:
-          "Hogs. Hogs all along, eating the bait out from under. Well. That is a "
+          "Fen Crawlers. Fen Crawlers all along, eating the bait out from under. Well. That is a "
           + "relief, in the way that a thing can be a relief and still leave you with eleven "
           + "empty traps.",
       },
@@ -988,7 +988,7 @@ const MOTT: DialogueNodeDef[] = [
         requires: [
           {
             kind: "questStage", questId: "eleven_empty_days", min: 2,
-            reason: "Walk all four sites and clear the Pigs first.",
+            reason: "Walk all four sites and clear the Fen Crawlers first.",
           },
         ],
         next: "mott_report",
@@ -1016,8 +1016,8 @@ const MOTT: DialogueNodeDef[] = [
   {
     id: "mott_line_accepted",
     text:
-      "Thank you. Genuinely. The vipers on The Thicket are territorial, so they will not "
-      + "chase you far, they will simply be extremely present. Pigs sit between "
+      "Thank you. The Thorn Maws on The Thicket are territorial, so they will not "
+      + "chase you far, they will simply be extremely present. Fen Crawlers sit between "
       + "here and there, around one-fifty, one-twenty-eight, and they are the ones I would bet "
       + "on for the bait.",
     options: [
@@ -1032,13 +1032,13 @@ const MOTT: DialogueNodeDef[] = [
     options: [
       {
         id: "mott_report#kind",
-        text: "Hogs. They have been working the bait out from under the plates.",
+        text: "Fen Crawlers. They have been working the bait out from under the plates.",
         effects: [{ kind: "setFlag", questId: "eleven_empty_days", flag: "let_him_off" }],
         next: "mott_verdict_given",
       },
       {
         id: "mott_report#truth",
-        text: "Hogs, yes. Also, Mott, all eleven traps are set upside down.",
+        text: "Fen Crawlers, yes. Also, Mott, all eleven traps are set upside down.",
         effects: [{ kind: "setFlag", questId: "eleven_empty_days", flag: "told_him_the_truth" }],
         next: "mott_verdict_given",
       },
@@ -1047,7 +1047,7 @@ const MOTT: DialogueNodeDef[] = [
   {
     id: "mott_verdict_given",
     text:
-      "Hogs. Of course it is hogs. It is never anything with a story in it. Here, take the "
+      "Fen Crawlers prying open the bait boxes. That explains the crushed boards. Here, take the "
       + "trout, I smoked them myself and they are the one thing I have not got wrong.",
     variants: [
       {
@@ -1219,7 +1219,7 @@ const VESS: DialogueNodeDef[] = [
           { kind: "questStage", questId: "sparking_stone", min: 0, max: 0, reason: "" },
         ],
         text:
-          "Storm Rhino first. Back to Farmland, west of the Air Essence Cache. Kill it without "
+          "Storm Scarab first. Back to Farmland, west of the Air Essence Cache. Kill it without "
           + "waiting for me. The Essence I gave you already lets your starter wand cast.",
       },
       {
@@ -1228,7 +1228,7 @@ const VESS: DialogueNodeDef[] = [
           { kind: "questStage", questId: "sparking_stone", min: 1, max: 1, reason: "" },
         ],
         text:
-          "The Storm Rhino is dead. Good. Its Air Orb is still in the loot pile unless you picked it up, "
+          "The Storm Scarab is dead. Good. Its Air Orb is still in the loot pile unless you picked it up, "
           + "so go and pick it up.",
       },
       {
@@ -1279,7 +1279,7 @@ const VESS: DialogueNodeDef[] = [
           {
             kind: "questStage", questId: "sparking_stone", min: 4,
             reason:
-              "Kill the Storm Rhino, loot its Air Orb, awaken the Air Altar, make and equip the Air Staff, and get Magic to 5 first.",
+              "Kill the Storm Scarab, loot its Air Orb, awaken the Air Altar, make and equip the Air Staff, and get Magic to 5 first.",
           },
           {
             kind: "item", itemId: "kaldite_ore", quantity: 6,
@@ -1291,7 +1291,7 @@ const VESS: DialogueNodeDef[] = [
       },
       {
         id: "vess_root#roc_route",
-        text: "Remind me where the Storm Rhino is.",
+        text: "Remind me where the Storm Scarab is.",
         showIf: [{ kind: "questStatus", questId: "sparking_stone", status: "active", reason: "" }],
         next: "vess_stone_accepted",
       },
@@ -1306,14 +1306,14 @@ const VESS: DialogueNodeDef[] = [
       "It holds. Whatever you put in it, it holds it, and it gives it back later when nobody is "
       + "looking. I want somebody to put something in it on purpose so I can stop imagining what "
       + "it is holding. Here. Pine from my brother's stock and 100 Air Essence. The Air Orb is "
-      + "not mine to give. Go back to Farmland, kill the Storm Rhino west of the Air Essence Cache, and "
+      + "not mine to give. Go back to Farmland, kill the Storm Scarab west of the Air Essence Cache, and "
       + "take its orb. Use it on the ruined altar at the cache, then fletch the wood into a staff "
       + "and make an Air Staff at the awakened altar. "
       + "Get Magic to five, and bring me six ore.",
     options: [
       {
         id: "vess_stone_offer#accept",
-        text: "Storm Rhino, Air Orb, staff, Magic five, six ore.",
+        text: "Storm Scarab, Air Orb, staff, Magic five, six ore.",
         effects: [{ kind: "startQuest", questId: "sparking_stone" }],
         next: "vess_stone_accepted",
       },
@@ -1332,14 +1332,14 @@ const VESS: DialogueNodeDef[] = [
     id: "vess_stone_accepted",
     text:
       "Go south through Woodlands to Millfield. Follow West Track out of town, then head south "
-      + "to the Air Essence Cache. The Storm Rhino roams about 42 metres west of the cache. "
+      + "to the Air Essence Cache. The Storm Scarab roams about 42 metres west of the cache. "
       + "Kill it, then loot the Air Orb from the pile it leaves. It will be there, but it will "
       + "not jump into your bag. At a fletching bench, make Pine Shafts from an Pine log, "
       + "then use three shafts to make an Pine Staff. Use the Air Orb on the Air Essence Altar "
       + "at the cache to awaken it, then turn the Pine Staff into an Air Staff there. Equip "
       + "the Air Staff. It starts with 1000 charges and spends those before carried Air Essence. "
       + "The same altar fills it back to 1000 for 100 Air Essence. Then use Voltrend on "
-      + "Frogs at River Shallows. Do not practise on bears.",
+      + "Frogs at River Shallows. Do not practise on Cairn Treaders.",
     options: [
       { id: "vess_stone_accepted#back", text: "Right.", next: "vess_root" },
       LEAVE("vess_stone_accepted#bye"),
@@ -1420,7 +1420,7 @@ const ODE: DialogueNodeDef[] = [
         requires: [
           {
             kind: "skill", skill: "melee", level: 10,
-            reason: "Ode will not send anyone under Melee 10 up the terraces. Bears hold the ground at (100, -110).",
+            reason: "Ode will not send anyone under Melee 10 up the terraces. Cairn Treaders hold the ground at (100, -110).",
           },
           {
             kind: "skill", skill: "mining", level: 10,
@@ -1523,7 +1523,7 @@ const ODE: DialogueNodeDef[] = [
   {
     id: "ode_long_cairn_accepted",
     text:
-      "Bank, Second Ramp, Third Ramp, then west. Bears hold the middle ground at about one "
+      "Bank, Second Ramp, Third Ramp, then west. Cairn Treaders hold the middle ground at about one "
       + "hundred, minus one hundred and ten, and they do not leash early. Go fed.",
     options: [
       { id: "ode_long_cairn_accepted#back", text: "Understood.", next: "ode_root" },
@@ -1648,7 +1648,7 @@ const ODE: DialogueNodeDef[] = [
     text:
       "Then the hall is reachable and the office can be finished properly. This is a keeping-"
       + "stone. Garnet, cut and not polished, and it goes on the top course of the cairn in "
-      + "that hall. Two cave bears stand over it and they will have to "
+      + "that hall. Two Vault Custodians stand over it and they will have to "
       + "be moved, and I am sorry, and I mean it. Do not sell the stone on the way.",
     options: [
       { id: "ode_long_cairn_stone_given#back", text: "Top course. Understood.", next: "ode_root" },
@@ -1728,9 +1728,9 @@ const HALE: DialogueNodeDef[] = [
   {
     id: "hale_gravelmaw_told",
     text:
-      "Plainly. Right. ... Four rats in the first chamber, the lit one. Somebody keeps "
+      "Plainly. Right. ... Four Blind Cave Weavers in the first chamber, the lit one. Somebody keeps "
       + "those torches burning, and it is not us, and I would rather they went out. Past that "
-      + "there is a collapse, and it is dark, and there are a lot of the small ones in it. And "
+      + "there is a collapse, and it is dark, and more weavers move through the fallen beams. And "
       + "there is a door with three levers that none of us could work out, and after that... I "
       + "have not been after that. Nobody on the rota has been after that.\n\n"
       + "Stone Cavern mouth is on terrace one, next to the quarry. It opens into The Lit Gallery. "

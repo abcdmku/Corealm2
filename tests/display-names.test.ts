@@ -27,7 +27,7 @@ describe("familiar display names", () => {
   });
 
   it("retains punctuation and ordinary prose casing without replacing parts of words", () => {
-    expect(plainDisplayText("Grithe, GRITHE and grithe; Tempest Roc's nest.")).toBe("Copper, COPPER and copper; Storm Rhino's nest.");
+    expect(plainDisplayText("Grithe, GRITHE and grithe; Tempest Roc's nest.")).toBe("Copper, COPPER and copper; Storm Scarab's nest.");
     expect(plainDisplayText("coyotes, coneys and reavers")).toBe("wolves, rabbits and bandits");
     expect(plainDisplayText("Rococo, microcircuit, éGrithe, Grithe2, Grithewood")).toBe("Rococo, microcircuit, éGrithe, Grithe2, Grithewood");
     expect(plainDisplayText("(Grithe)—Corven")).toBe("(Copper)—Iron");
@@ -35,19 +35,21 @@ describe("familiar display names", () => {
 
   it("preserves identifiers embedded in guidance and all inline code spans", () => {
     const guidance = 'Kill Tempest Roc, entity tempest_roc. Keep grithe_ore and proc_rod_palewood. Use `moveTo({ entityId: "ordrun" })`, `kilnstone` and ``query(`Grithe`)``.';
-    expect(plainDisplayText(guidance)).toBe('Kill Storm Rhino, entity tempest_roc. Keep grithe_ore and proc_rod_palewood. Use `moveTo({ entityId: "ordrun" })`, `kilnstone` and ``query(`Grithe`)``.');
+    expect(plainDisplayText(guidance)).toBe('Kill Storm Scarab, entity tempest_roc. Keep grithe_ore and proc_rod_palewood. Use `moveTo({ entityId: "ordrun" })`, `kilnstone` and ``query(`Grithe`)``.');
     const fenced = "Grithe\n```ts\nconst target = 'Ordrun';\nconst wood = 'Palewood';\n```\nCorven";
     expect(plainDisplayText(fenced)).toBe("Copper\n```ts\nconst target = 'Ordrun';\nconst wood = 'Palewood';\n```\nIron");
   });
 
   it("keeps production enemy identities distinguishable after removing invented modifiers", () => {
-    const names = ENEMY_BLOCKS.map((enemy) => enemy.name);
-    expect(new Set(names).size).toBe(ENEMY_BLOCKS.length);
+    // A species keeps its name across regional combat tiers. Different families must remain distinct.
+    for (const name of new Set(ENEMY_BLOCKS.map(enemy => enemy.name))) {
+      expect(new Set(ENEMY_BLOCKS.filter(enemy=>enemy.name===name).map(enemy=>enemy.family)).size, name).toBe(1);
+    }
     const byId = new Map(ENEMY_BLOCKS.map((enemy) => [enemy.id, enemy.name]));
     expect(byId.get("coyote_t5")).toBe("Forest Wolf");
     expect(byId.get("coyote_t10")).toBe("Dire Wolf");
-    expect(byId.get("tempest_roc_t1")).toBe("Storm Rhino");
-    expect(byId.get("quarrykeeper_t10")).toBe("Armored Rhino");
+    expect(byId.get("tempest_roc_t1")).toBe("Storm Scarab");
+    expect(byId.get("quarrykeeper_t10")).toBe("Quarry Warden");
     expect(byId.get("cinder_ravager_t20")).toBe("Armored Demon");
     expect(byId.get("gorge_mantis_t20")).toBe("Giant Mantis");
   });
@@ -64,10 +66,10 @@ describe("familiar display names", () => {
   it("keeps regions and their towns distinct", () => {
     expect(REGIONS.map((region) => [region.id, region.name])).toEqual([
       ["fallowmarch", "Farmland"], ["vellenwood", "Woodlands"],
-      ["karrowmoor", "Highlands"], ["kilnhalt", "Ashlands"],
+      ["karrowmoor", "Highlands"], ["kilnhalt", "Ashlands"], ["wilderness", "Wilderness"],
     ]);
     expect(plainDisplayText("Coldbrace / Rootfall / Highcairn / Emberfast")).toBe("Millfield / Oakwood / Hillcrest / Ashford");
-    expect(REGIONS.map((region) => region.settlement.name)).toEqual(["Millfield", "Oakwood", "Hillcrest", "Ashford"]);
+    expect(REGIONS.flatMap((region) => region.settlement ? [region.settlement.name] : [])).toEqual(["Millfield", "Oakwood", "Hillcrest", "Ashford"]);
   });
 
   it("uses canonical item names for recipes instead of title-casing saved IDs", () => {

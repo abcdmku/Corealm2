@@ -2,6 +2,7 @@ import type { GameEvent, Result, SemanticEntity } from "../contracts.js";
 import { err, ok } from "../contracts.js";
 import type { EventBus } from "../core/events.js";
 import { eligibleHuntTargets, generateHuntOffers, type HuntEligibility, type HuntOffer, type HuntTarget } from "../content/huntContracts.js";
+import { huntEnemyDefMatches } from "../content/enemies.js";
 
 export interface HuntProgress {
   offer: HuntOffer;
@@ -26,7 +27,7 @@ export function createInitialHuntContracts(seed = 1337): HuntContractsState {
     completedCount: 0, lastTargetId: null };
 }
 const integer = (n: unknown): n is number => Number.isSafeInteger(n) && (n as number) >= 0;
-const regions = new Set(["fallowmarch", "vellenwood", "karrowmoor", "kilnhalt", "gravelmaw"]);
+const regions = new Set(["fallowmarch", "vellenwood", "karrowmoor", "kilnhalt", "gravelmaw", "wilderness"]);
 function validOffer(o: HuntOffer): boolean {
   return !!o && typeof o.id === "string" && o.id.length > 0 && typeof o.targetId === "string"
     && typeof o.targetName === "string" && typeof o.regionName === "string" && regions.has(o.regionId)
@@ -127,8 +128,9 @@ export class HuntContractsSystem {
       || data.killSerial <= active.lastCreditedSerial || data.killSerial > state.killSerial
       || typeof data.enemyId !== "string") return;
     const entity = this.deps.entity(data.enemyId);
+    const enemyDefId = entity?.meta?.enemyDefId;
     if (!entity || entity.archetype !== "enemy" || entity.state !== "dead" || entity.regionId !== active.offer.regionId
-      || !active.offer.enemyDefIds.includes(String(entity.meta?.enemyDefId))) return;
+      || typeof enemyDefId !== "string" || !active.offer.enemyDefIds.some(id => huntEnemyDefMatches(id, enemyDefId))) return;
     active.lastCreditedSerial = data.killSerial;
     active.kills += 1;
     if (active.kills === active.offer.requiredKills) active.status = "ready";

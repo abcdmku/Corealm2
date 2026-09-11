@@ -46,11 +46,93 @@ it("skips only a fully covering procedural sky's background and restores scene s
     scene, camera: new THREE.PerspectiveCamera(),
     renderer: { render: () => seen.push(scene.background) },
     playerSilhouette: { render() {} }, screenAntialiasing: { render() {} },
+    elementalRefraction: { render() {} },
+    magicGlow: { render() {}, renderBase(renderer: { render(): void }) { renderer.render(); } },
     biomeAtmosphere: { sky, render() {} },
   }) as Renderer;
   renderer.drawFrame();
   expect(seen.at(-1)).toBeNull();expect(scene.background).toBe(background);
   sky.mesh.visible = false;renderer.drawFrame();expect(seen.at(-1)).toBe(background);
   sky.mesh.visible = true;scene.remove(sky.mesh);renderer.drawFrame();expect(seen.at(-1)).toBe(background);
+});
+
+it("prepares hidden real effect meshes before drawing the base and glow passes", async () => {
+  const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(), root = new THREE.Group();
+  root.visible = false;
+  const material = new THREE.MeshBasicMaterial();
+  material.customProgramCacheKey = () => "production-effect";
+  const mesh = new THREE.InstancedMesh(new THREE.BoxGeometry(), material, 3);
+  mesh.visible = false; mesh.count = 0;
+  const light = new THREE.PointLight();
+  root.add(mesh); scene.add(root, light);
+  const unrelated = new THREE.Mesh(new THREE.SphereGeometry(), new THREE.MeshStandardMaterial());
+  scene.add(unrelated);
+  const geometry = mesh.geometry, parent = mesh.parent;
+  const initialTarget = new THREE.WebGLRenderTarget(16, 16);
+  let target: THREE.WebGLRenderTarget | null = initialTarget;
+  let cubeFace = 2, mipLevel = 1;
+  const calls: { object: THREE.Mesh; scene: THREE.Scene; output: number | null; material: THREE.Material | THREE.Material[] }[] = [];
+  const order: string[] = [], queries = new Map<object, number>();
+  const programs: { program: object; getUniforms(): void; getAttributes(): void }[] = [];
+  let disposed = false;
+  const fake = {
+    info: { programs },
+    getRenderTarget: () => target,
+    getActiveCubeFace: () => cubeFace,
+    getActiveMipmapLevel: () => mipLevel,
+    setRenderTarget: (next: THREE.WebGLRenderTarget | null, face = 0, level = 0) => {
+      target = next; cubeFace = face; mipLevel = level;
+    },
+    getContext: () => ({
+      getExtension: () => ({ COMPLETION_STATUS_KHR: 123 }),
+      getProgramParameter: (program: object) => {
+        const count = (queries.get(program) ?? 0) + 1;
+        queries.set(program, count);
+        return count > 1;
+      },
+    }),
+    compile: (view: THREE.Object3D, viewCamera: THREE.Camera, targetScene: THREE.Scene) => {
+      expect(viewCamera).toBe(camera);
+      view.traverse(object => {
+        if (!(object instanceof THREE.Mesh)) return;
+        calls.push({ object, scene: targetScene, output: target?.texture.type ?? null, material: object.material });
+      });
+      if (target) target.addEventListener("dispose", () => { disposed = true; });
+      const index = programs.length;
+      const program = {};
+      programs.push({ program,
+        getUniforms: () => { expect(queries.get(program)).toBe(2); order.push(`uniforms-${index}`); },
+        getAttributes: () => order.push(`attributes-${index}`),
+      });
+    },
+    render: () => { order.push("base"); },
+  };
+  const renderer = Object.assign(Object.create(Renderer.prototype), {
+    scene, camera, renderer: fake,
+    biomeAtmosphere: { sky: { enabled: false } },
+    magicGlow: {
+      renderBase: () => fake.render(),
+      prepare: (actualRenderer: unknown, actualScene: THREE.Scene, actualCamera: THREE.Camera) => {
+        expect(actualRenderer).toBe(fake); expect(actualScene).toBe(scene); expect(actualCamera).toBe(camera);
+        order.push("glow");
+      },
+    },
+  }) as Renderer;
+  try {
+    await renderer.prepareEffects(root);
+    expect(calls).toEqual([
+      { object: mesh, scene, output: null, material },
+      { object: mesh, scene, output: THREE.HalfFloatType, material },
+    ]);
+    expect(order).toEqual(["uniforms-0", "attributes-0", "uniforms-1", "attributes-1", "base", "glow"]);
+    expect(target).toBe(initialTarget); expect(disposed).toBe(true);
+    expect(cubeFace).toBe(2); expect(mipLevel).toBe(1);
+    expect(mesh.parent).toBe(parent); expect(mesh.geometry).toBe(geometry); expect(mesh.material).toBe(material);
+    expect(mesh.visible).toBe(false); expect(mesh.count).toBe(0); expect(root.visible).toBe(false);
+    expect(scene.children).toEqual([root, light, unrelated]);
+  } finally {
+    initialTarget.dispose(); geometry.dispose(); material.dispose();
+    unrelated.geometry.dispose(); (unrelated.material as THREE.Material).dispose();
+  }
 });
 

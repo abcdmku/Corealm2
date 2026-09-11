@@ -2,6 +2,12 @@ import type { RegionId } from "../contracts.js";
 import type { EnemyDef } from "./index.js";
 import { CREATURE_EXPANSION } from "./creatureExpansion.js";
 import { STARTER_CREATURES } from "./starterCreatures.js";
+import { CREATURE_REDESIGNS } from "./creatureRedesign.js";
+import { FOREST_CREATURE_REDESIGNS } from "./forestCreatureRedesigns.js";
+import { ASH_CREATURE_REDESIGNS } from "./ashCreatureRedesigns.js";
+import { STONE_CREATURE_REDESIGNS } from "./stoneCreatureRedesigns.js";
+import { WILDERNESS_DRAGONS } from "./wildernessDragons.js";
+import { WILDERNESS_CREATURE_SPECIES } from "./wildernessCreatureSpecies.js";
 
 /** Production species can be tested before an encounter is placed in the authored world. */
 export interface CreatureSpeciesDef {
@@ -14,4 +20,8 @@ export interface CreatureSpeciesDef {
   readonly description: string;
 }
 
-export const CREATURE_SPECIES: readonly CreatureSpeciesDef[] = [...CREATURE_EXPANSION, ...STARTER_CREATURES];
+import { REGIONAL_CREATURE_VARIANTS } from "./regionalCreatureVariants.js";
+
+export const CREATURE_SPECIES: readonly CreatureSpeciesDef[] = [...CREATURE_EXPANSION, ...STARTER_CREATURES, ...REGIONAL_CREATURE_VARIANTS, ...CREATURE_REDESIGNS,
+  ...FOREST_CREATURE_REDESIGNS, ...ASH_CREATURE_REDESIGNS, ...STONE_CREATURE_REDESIGNS,
+  ...WILDERNESS_DRAGONS, ...WILDERNESS_CREATURE_SPECIES];

@@ -78,6 +78,24 @@ function rejectFurtherMotionReads(entity: SemanticEntity): void {
 }
 
 describe("EntityViews resident motion", () => {
+  it("lets the visible loot behind a dissolved unique corpse receive the ray pick", async () => {
+    const corpse = actor('fallen-keeper');
+    const loot: SemanticEntity = { id: 'keeper-loot', name: 'Keeper loot', archetype: 'loot', tier: 50,
+      regionId: 'fallowmarch', position: [0, 0, -3], state: 'available', interactions: ['inspect'],
+      view: { assetId: 'test_loot' } };
+    const f = await fixture([corpse, loot]);
+    try {
+      const ray = new THREE.Raycaster(new THREE.Vector3(0, .2, 5), new THREE.Vector3(0, 0, -1));
+      f.views.update(0, new THREE.Vector3(), 0);
+      f.scene.entityGroup.updateMatrixWorld(true);
+      expect(f.views.pick(ray)).toBe(corpse.id);
+      corpse.state = 'dead'; corpse.view!.diedAtMs = 0;
+      f.views.sync([corpse, loot]);
+      f.views.update(5, new THREE.Vector3(), 5000);
+      f.scene.entityGroup.updateMatrixWorld(true);
+      expect(f.views.pickAll(ray)).toEqual([loot.id]);
+    } finally { f.dispose(); }
+  });
   it("keeps nearby live rigs drawable when pose changes invalidate cached bounds", async () => {
     const entity = actor("animated-bounds");
     const f = await fixture([entity]);

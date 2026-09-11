@@ -249,7 +249,7 @@ export const TOOL_SPECS = {
         "Optional. With a wand or staff, forces this spell; omit it to use the standing choice or "
         + "the strongest compatible spell automatically. With a non-magic weapon, supplying it "
         + "returns a loadout error. Advanced invocations (rank 1 to 5) fire once on the next cast "
-        + "beat and also spend their tier rune, plus a Field Rune when they strike an area. Spells "
+        + "beat and also spend their tier rune, plus a Cosmic Rune when they strike an area. Spells "
         + "and the Magic level each needs: "
         + ALL_SPELLS.map((spell) => `${spell.id} (${spell.element}, Magic ${spell.reqLevel})`).join(", ")
         + ". The player-facing Air Essence supplies wind spells.",

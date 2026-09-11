@@ -15,7 +15,7 @@ export type GameplayAcceptanceScenario = "altar" | "storm-rhino" | "gate";
 
 /** Compact production actors/station. Preparation sets prerequisites only, never kills, grants
  * final rewards, awakens an altar, or opens a gate. Each scenario requires a fresh lab document.
- * Gate uses the existing ?doors=1 fixture's physical Armored Rhino gate.
+ * Gate uses the existing ?doors=1 fixture's physical Quarry Warden gate.
  */
 export function createGameplayAcceptanceFixture(deps: GameplayAcceptanceDeps) {
   let scenario: GameplayAcceptanceScenario | null = null;
@@ -95,7 +95,7 @@ export function createGameplayAcceptanceFixture(deps: GameplayAcceptanceDeps) {
         } else {
           state.inventory.slots[0] = { slotIndex: 0, itemId: "cairn_garnet", quantity: 1 };
           state.quests.long_cairn = { status: "active", stage: 6,
-            counters: { "@base:kill:bear": 0 },
+            counters: { "@base:kill:vault_custodian": 0 },
             flags: { lever_order_known: true, "@reacted:4:lever_order_known": true, door_open: true, has_keeping_stone: true } };
         }
         for (const entity of entities) deps.entities.add(entity);

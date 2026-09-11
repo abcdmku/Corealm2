@@ -3,25 +3,25 @@ import type { HabitatDef } from '../content/worldHabitats.js';
 import { createFeatureLabEntity, FEATURE_LAB_CATALOG } from './catalog.js';
 
 export const GROUND_MOTION_ACTORS = [
-  { assetId: 'animal_frog', presetId: 'redsill_frogs', centre: [-66, 24] },
-  { assetId: 'animal_frog_green', presetId: 'blackwater_frogs', centre: [-54, 24] },
-  { assetId: 'animal_crab', presetId: 'gravelmaw:gravelmaw_ch2_crabs', centre: [-42, 24] },
-  { assetId: 'animal_scorpion', presetId: 'gravelmaw:gravelmaw_ch2_scorpions', centre: [-30, 24] },
+  { assetId: 'animal_frog', presetId: 'source:redsill_frogs', centre: [-66, 24] },
+  { assetId: 'animal_frog_green', presetId: 'source:blackwater_frogs', centre: [-54, 24] },
+  { assetId: 'animal_crab', presetId: 'source:gravelmaw:gravelmaw_ch2_crabs', centre: [-42, 24] },
+  { assetId: 'animal_scorpion', presetId: 'source:gravelmaw:gravelmaw_ch2_scorpions', centre: [-30, 24] },
 ] as const;
 
 export const LEGACY_GROUND_MOTION_ACTORS = [
-  { assetId: 'animal_coyote', presetId: 'tarn_coyotes', centre: [-78, 24] },
-  { assetId: 'animal_bear', presetId: 'highcairn_bears', centre: [-66, 24] },
-  { assetId: 'animal_cattle', presetId: 'redsill_cattle', centre: [-54, 24] },
-  { assetId: 'animal_aurochs', presetId: 'terrace_aurochs', centre: [-42, 24] },
-  { assetId: 'animal_goat', presetId: 'open_march_goats', centre: [-30, 24] },
-  { assetId: 'animal_ibex', presetId: 'ridge_ibex', centre: [-90, 24] },
-  { assetId: 'animal_deer', presetId: 'duskoak_stags', centre: [-66, 48] },
-  { assetId: 'animal_boar', presetId: 'scree_boars', centre: [-42, 36] },
-  { assetId: 'animal_hog', presetId: 'bramble_hogs', centre: [-54, 36] },
-  { assetId: 'animal_rat', presetId: 'gravelmaw:gravelmaw_ch1_rats', centre: [-30, 12] },
-  { assetId: 'animal_rabbit', presetId: 'marchfield_coneys', centre: [-42, 12] },
-  { assetId: 'animal_rabbit_dark', presetId: 'rootfall_coneys', centre: [-54, 12] },
+  { assetId: 'animal_coyote', presetId: 'source:tarn_coyotes', centre: [-78, 24] },
+  { assetId: 'animal_bear', presetId: 'source:highcairn_bears', centre: [-66, 24] },
+  { assetId: 'animal_cattle', presetId: 'source:redsill_cattle', centre: [-54, 24] },
+  { assetId: 'animal_aurochs', presetId: 'source:terrace_aurochs', centre: [-42, 24] },
+  { assetId: 'animal_goat', presetId: 'source:open_march_goats', centre: [-30, 24] },
+  { assetId: 'animal_ibex', presetId: 'source:ridge_ibex', centre: [-90, 24] },
+  { assetId: 'animal_deer', presetId: 'source:duskoak_stags', centre: [-66, 48] },
+  { assetId: 'animal_boar', presetId: 'source:scree_boars', centre: [-42, 36] },
+  { assetId: 'animal_hog', presetId: 'source:bramble_hogs', centre: [-54, 36] },
+  { assetId: 'animal_rat', presetId: 'source:gravelmaw:gravelmaw_ch1_rats', centre: [-30, 12] },
+  { assetId: 'animal_rabbit', presetId: 'source:marchfield_coneys', centre: [-42, 12] },
+  { assetId: 'animal_rabbit_dark', presetId: 'source:rootfall_coneys', centre: [-54, 12] },
 ] as const;
 
 export interface GroundMotionFixture {

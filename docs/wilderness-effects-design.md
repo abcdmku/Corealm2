@@ -1,0 +1,23 @@
+# Wilderness fire and lava
+
+`WildernessEffects` is the production renderer for ruin torches and the Widow's Furnace fissure. The compact feature lab uses the same module, terrain carve and collision footprint. Final-world placement follows after the root accepts that fixture.
+
+The lava channel bends across the northeastern Wilderness from `(127, 656)` to `(234, 690)`. Its nominal width is 6.5 metres, with irregular margins, 2.8 metre rock banks and a 1.5 metre trench. Both ends narrow into closed fissure tips. It does not divide the entire northern region. The surrounding routes should remain on dry ground outside the shared clearance envelope.
+
+`wildernessLava.ts` owns the Catmull-Rom centreline and width profile. Rendering, terrain carving, scatter clearance and navigation capsule segments sample that definition. `carveLavaTerrain` belongs in the shared height sampler before terrain, physics and navigation are built. It preserves height outside the banks. Cached broad bounds reject distant terrain samples before segment work. `lavaClearanceAt` gives exact signed bank clearance within those bounds and a conservative positive clearance beyond them.
+
+The lava is dark crust split by slowly moving seams and uneven red-orange pools. Raised irregular plates partly cover the molten surface, and broken basalt rubble sits on sloping banks. The banks, basalt and plates use the production stone albedo, normal and roughness maps. The shader warps the cracks and varies their heat, with flow at 0.045 metres per second. Sparse embers and small thermal wisps reuse the production `Ambience` system. The effect adds no damage or combat rule. The root wires the shared capsules into physical and navigation blocking so actors cannot walk over molten ground.
+
+Torches have animated flames and a warm point light that reaches the nearby wall and ground. New freestanding braziers use a metal basket, coals and a grounded iron stand. Existing torch models receive the effect at their actual bowl, using `torchFlameOrigin(position, scale, rotationY)`. The local origin `[0, .35, .277]` was measured against the promoted `Torch_Metal` mesh's upper basket, including its offset from the mounting wall. The caller must avoid registering an additional ambience flame for the same torch.
+
+The renderer owns six point lights by default, with an enforced maximum of eight. It assigns those slots to the nearest torch and lava sources, fades them at distance, and never enables light shadows. Far particles are culled independently. `update(seconds, camera)` shares the production render clock. `dispose()` removes the group and releases its geometry, materials, ambience and lights.
+
+## Lab fixture
+
+The root boot hook is `?mode=combat&atmosphere=1&wildernessEffects=1`. It carves `WILDERNESS_LAVA_LAB_CHANNELS` into the lab's shared terrain and creates `wildernessEffectsLabTorches(groundHeightAt)`. The fixture has a 40 metre lava bend and eight braziers, enough to prove the six-light budget and selection changes. `window.__wildernessEffects.getState()` reports particle activity, selected lights, their intensities, the animation clock, textured material count, crust and rock counts, and bounds. `setLightingEnabled` removes only point-light illumination while leaving the flames and every mesh visible. `setEnabled` hides the entire effect for lifecycle checks.
+
+Run `npx tsx tools/wilderness-effects-lab-test.ts` for Chromium proof and `npx vitest run tests/wilderness-effects.test.ts` for focused checks. The browser driver records flame and lava state before and after time advances, screenshots the channel and a close brazier, and walks the player along the dry bank with keyboard input. It rejects game or browser errors. Screenshots and its report are disposable under `test-results/wilderness-effects-lab/`.
+
+The five focused checks and focused TypeScript entry-point check pass. They cover continuous bank carving, unchanged distant terrain, shared rendered and blocked centreline coverage, rotated torch origins, nearest-light culling, animated intensity, raised bank geometry, upward normals and disposal.
+
+The revised production Chromium fixture passes. Its report records 408 molten triangles, eight raised crust plates, 32 bank rocks, three textured stone meshes, 124 live particles and six active point lights at the first observation. Real keyboard movement succeeds on the dry bank, animation advances, and browser and game errors are empty. The author inspected the updated channel and torch screenshots. The light-only comparison retains the flame and ironwork while the warm ground pool disappears. Root acceptance and final-world placement proof remain separate gates.

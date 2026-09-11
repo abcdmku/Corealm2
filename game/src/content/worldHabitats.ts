@@ -1,6 +1,15 @@
-import type { RegionId } from "../contracts.js";
+import { BIOME_POPULATION_HABITATS } from './biomePopulation.js';
+import { REGIONAL_VARIANT_HABITATS, AMETHYST_CAVE_HABITAT } from "./regionalVariantHabitats.js";
+import type { RegionId, Vec3 } from "../contracts.js";
+import { WILDERNESS_HABITATS } from "./wilderness.js";
+import { DEEP_WILDERNESS_PACK_HABITATS } from './deepWildernessEncounters.js';
+import { FANTASY_ENCOUNTER_SPECIES } from "./fantasyEncounters.js";
 import { CREATURE_HABITATS } from "./creatureHabitats.js";
 import { STARTER_HABITATS } from "./starterHabitats.js";
+import { REGIONS, WORLD_BOUNDS } from './regions.js';
+import { encounterBodyRadius } from './encounterPlacement.js';
+import { createEncounterFormation } from './encounterPopulation.js';
+import { createLegacyEncounterFormation, LEGACY_ENCOUNTER_PLACEMENT_OVERRIDES } from './legacyEncounterPlacements.js';
 
 export interface HabitatDef {
   readonly id: string;
@@ -8,6 +17,8 @@ export interface HabitatDef {
   readonly regionId: RegionId;
   readonly centre: readonly [number, number];
   readonly radius: number;
+  /** Generated coast has already passed the playable receiving-floor sampler outside the core map. */
+  readonly boundary?: 'playable-coast';
   /** World-space spawn and activity points. The first group.count points preserve actor order. */
   readonly anchors: readonly (readonly [number, number])[];
   readonly activity: "graze" | "forage" | "prowl" | "patrol";
@@ -23,8 +34,24 @@ export interface HabitatDef {
   }[];
 }
 
+/** One containment rule for AI destinations, pursuit and the corresponding tree-clearance paths. */
+export function habitatContains(habitat: HabitatDef, position: Vec3): boolean {
+  const [x, , z] = position;
+  if (!Number.isFinite(x) || !Number.isFinite(z)
+    || Math.hypot(x - habitat.centre[0], z - habitat.centre[1]) > habitat.radius) return false;
+  if (habitat.boundary === 'playable-coast') return true;
+  // Underground residents use their bounded pack circle and the dungeon navmesh.
+  if (REGIONS.some(region => region.dungeon?.id === habitat.regionId)) return true;
+  const bounds = REGIONS.find(region => region.id === habitat.regionId)?.bounds;
+  return bounds !== undefined
+    && x >= WORLD_BOUNDS.min[0] && x <= WORLD_BOUNDS.max[0]
+    && z >= WORLD_BOUNDS.min[1] && z <= WORLD_BOUNDS.max[1]
+    && x >= bounds.min[0] && x <= bounds.max[0] && z >= bounds.min[1] && z <= bounds.max[1];
+}
+
 /** Ordinary surface wildlife and patrols. Bosses and dungeon rooms keep their encounter authorship. */
-export const WORLD_HABITATS: readonly HabitatDef[] = [
+const AUTHORED_WORLD_HABITATS: readonly HabitatDef[] = [
+  ...REGIONAL_VARIANT_HABITATS,
   {
     id: "redsill_wet_margin", groupId: "redsill_frogs", regionId: "fallowmarch",
     centre: [-50, -52], radius: 9, activity: "forage",
@@ -264,9 +291,36 @@ export const WORLD_HABITATS: readonly HabitatDef[] = [
   },
   ...CREATURE_HABITATS,
   ...STARTER_HABITATS,
+  ...WILDERNESS_HABITATS,
 ];
+const sourceHabitats = [...AUTHORED_WORLD_HABITATS, ...BIOME_POPULATION_HABITATS, AMETHYST_CAVE_HABITAT];
+const encounterRegions = [...REGIONS, ...REGIONS.flatMap(region => region.dungeon ? [region.dungeon] : [])];
+const allEncounterHabitats: readonly HabitatDef[] = encounterRegions.flatMap(region => region.enemyGroups
+  .filter(group => !group.boss && !group.miniBoss)
+  .map(group => {
+    const accepted = DEEP_WILDERNESS_PACK_HABITATS.find(habitat => habitat.groupId === group.id);
+    if (accepted) return accepted;
+    const source = sourceHabitats.find(habitat => habitat.groupId === group.id);
+    // Authored shore and clearing centres already account for local water and paths.
+    // Only a measured replacement layout is allowed to relocate that habitat.
+    const placedGroup = source && !LEGACY_ENCOUNTER_PLACEMENT_OVERRIDES[group.id]
+      ? { ...group, centre: source.centre } : group;
+    const bodyRadius = encounterBodyRadius(group);
+    const formation = createLegacyEncounterFormation(placedGroup, { bodyRadius })
+      ?? createEncounterFormation(placedGroup, { bodyRadius, count: group.count,
+        preferredAnchors: source?.anchors, maxRadius: Math.max(group.radius, source?.radius ?? 0) });
+    const dx = placedGroup.centre[0] - (source?.centre[0] ?? placedGroup.centre[0]);
+    const dz = placedGroup.centre[1] - (source?.centre[1] ?? placedGroup.centre[1]);
+    return { id: source?.id ?? `${group.id}_habitat`, groupId: group.id, regionId: region.id,
+      centre: formation.group.centre, radius: formation.group.radius, anchors: formation.anchors,
+      activity: FANTASY_ENCOUNTER_SPECIES[group.id] ? 'patrol' as const : source?.activity ?? 'patrol' as const,
+      dressing: (source?.dressing ?? []).map(piece => ({ ...piece, x: piece.x + dx, z: piece.z + dz })),
+    };
+  }));
 
-const HABITAT_BY_GROUP = new Map(WORLD_HABITATS.map((habitat) => [habitat.groupId, habitat]));
+/** Surface dressing and tree clearance must not project underground packs onto the terrain. */
+export const WORLD_HABITATS = allEncounterHabitats.filter(habitat => REGIONS.some(region => region.id === habitat.regionId));
+const HABITAT_BY_GROUP = new Map(allEncounterHabitats.map((habitat) => [habitat.groupId, habitat]));
 
 export function habitatForGroup(groupId: string): HabitatDef | null {
   return HABITAT_BY_GROUP.get(groupId) ?? null;

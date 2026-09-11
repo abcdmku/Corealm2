@@ -405,7 +405,7 @@ export class QuestSystem implements TickSystem {
     }
 
     if (entity.id === "ordrun_gate") {
-      return ok({ started: "The Armored Rhino's Gate stands open. What is beyond it is awake." });
+      return ok({ started: "The Quarry Warden's Gate stands open. What is beyond it is awake." });
     }
 
     if (entity.archetype !== "door" && entity.archetype !== "portal") {

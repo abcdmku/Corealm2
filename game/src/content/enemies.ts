@@ -1,17 +1,13 @@
 /**
- * Enemy stat blocks: sixteen animal families, one humanoid, and two monstrous region bosses.
- *
- * The ordinary roster is animals; nothing a player grinds is invented. The three bosses that gate
- * the magic ladder deliberately are not — the Tempest Roc, the Rootheart and Ordrun the
- * Quarrykeeper each guard one element's Orb, and each is meant to read on sight as the one thing
- * on that map which is not simply wildlife.
+ * Original combat blocks and the fantasy creatures that now occupy their encounters.
+ * Stable encounter aliases retain the original balance, rewards and currency. Canonical family
+ * blocks remain available for the source gallery, new populations and coastal generation.
  *
  * Owned by W-CONTENT.
  *
  * ---------------------------------------------------------------------------------------------
- * THE FAMILY VOCABULARY. Every hostile creature in Corealm is a real animal, placed on the ground
- * it would actually live on. The family is named for the animal; the SHAPE it holds in the numbers
- * is what makes it a distinct fight, and that is what this table is for.
+ * THE ORIGINAL FAMILY VOCABULARY. The old animal families below document the encounter balance.
+ * The aliases at the end of this file give their replacement creatures new families and names.
  *
  *  family       region             the number that defines it
  *  ------------ ------------------ ---------------------------------------------------------------
@@ -99,6 +95,13 @@
 import type { EnemyDef } from "./index.js";
 import { CREATURE_SPECIES } from "./creatureSpecies.js";
 import { RPG_BESTIARY } from "./rpgBestiary.js";
+import { FOREST_CREATURE_REDESIGNS } from "./forestCreatureRedesigns.js";
+import { STONE_CREATURE_REDESIGNS } from "./stoneCreatureRedesigns.js";
+import { ASH_CREATURE_REDESIGNS } from "./ashCreatureRedesigns.js";
+import { BIOME_POPULATION, BIOME_POPULATION_LEGACY_REPLACEMENTS, resolveBiomePopulation } from "./biomePopulation.js";
+import { WILDERNESS_GROUPS } from './wilderness.js';
+import { buildWildernessEnemyProgression } from './wildernessEnemyProgression.js';
+import { REGIONAL_BOSS_LEVELS, tuneEnemyCombatLevel } from './encounterBalance.js';
 
 /** PRD 2.4: enemies leash at 28 m from their spawn point, at every tier. */
 export const LEASH_RADIUS_M = 28;
@@ -261,7 +264,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "tempest_roc_t1", name: "Storm Rhino", family: "tempest_roc", tier: 1,
+    id: "tempest_roc_t1", name: "Storm Scarab", family: "tempest_roc", tier: 1,
     // 2.1 m/s, which is 1.6x the 1.32 m/s its own walk cycle implies — the same rule every animal
     // in this table follows, and it has to be here rather than left to the shared default. Without
     // it `render/entityViews.ts: motionTimeScale` has nothing to divide by, plays the cycle at its
@@ -398,7 +401,7 @@ const BLOCKS: readonly EnemyDef[] = [
     ],
   },
   {
-    id: "rootheart_t5", name: "Stone Rhino", family: "rootheart", tier: 5,
+    id: "rootheart_t5", name: "Rootbound Colossus", family: "rootheart", tier: 5,
     // Same 2.1 m/s and the same reason as the Tempest Roc: one rig, one walk cycle, one honest gait.
     // Vellenwood's region boss. High physical armour favours the Earth Orb it guards once the
     // player has earned that progression reward.
@@ -740,7 +743,7 @@ const BLOCKS: readonly EnemyDef[] = [
 
   // ---------------------------------------------------------------- Gravelmaw boss
   {
-    id: "quarrykeeper_t10", name: "Armored Rhino", family: "quarrykeeper", tier: 10,
+    id: "quarrykeeper_t10", name: "Quarry Warden", family: "quarrykeeper", tier: 10,
     // Same 2.1 m/s as the other two orb bosses. He is heavier than anything else on the floor and
     // reads that way; the arena is 24 m across, so this is not a fight anyone outruns by accident.
     // 200 HP and magicArmour 18 are given. defenceLevel 20 / armour 62 are solved from the 45%
@@ -781,10 +784,19 @@ export interface BossPhase {
   telegraphRadiusM?: number;
 }
 
+const REGIONAL_BOSS_BLOCKS = new Map(Object.entries(REGIONAL_BOSS_LEVELS).map(([id, target]) => {
+  const canonicalId = id === 'ordrun' ? 'quarrykeeper_t10' : `${id}_t${target.tier}`;
+  const base = BLOCKS.find(row => row.id === canonicalId);
+  if (!base) throw new Error(`Missing saved regional boss ${canonicalId}`);
+  return [canonicalId, tuneEnemyCombatLevel(base, target.tier * target.multiplier, target.tier)] as const;
+}));
+const balancedOrdrun = REGIONAL_BOSS_BLOCKS.get('quarrykeeper_t10')!;
+
 export const ORDRUN_PHASES: readonly BossPhase[] = [
-  { atHealthFraction: 1.00, armour: 62, attackSpeedMs: 3000, maxHit: 12 },
+  { atHealthFraction: 1.00, armour: balancedOrdrun.armour, attackSpeedMs: 3000, maxHit: balancedOrdrun.maxHit },
   {
-    atHealthFraction: 0.55, armour: 50, attackSpeedMs: 2400, maxHit: 14,
+    atHealthFraction: 0.55, armour: Math.round(balancedOrdrun.armour * 50 / 62), attackSpeedMs: 2400,
+    maxHit: Math.round(balancedOrdrun.maxHit * 14 / 12),
     telegraphId: "ground_slam", telegraphWindupMs: 1800, telegraphRadiusM: 6.0,
   },
 ];
@@ -841,19 +853,134 @@ const GROUP_BLOCK: readonly (readonly [string, string])[] = [
   ["ordrun", "quarrykeeper_t10"],
 ];
 
-const ALL_BLOCKS = [...BLOCKS, ...CREATURE_SPECIES.map((species) => species.stats), ...RPG_BESTIARY.map((species) => species.stats)];
+const FANTASY_SPECIES = [...FOREST_CREATURE_REDESIGNS, ...STONE_CREATURE_REDESIGNS, ...ASH_CREATURE_REDESIGNS];
+const FANTASY_SPECIES_BY_ID = new Map(FANTASY_SPECIES.map(species => [species.id, species]));
+
+/** New roaming populations have a canonical block at each world tier. Authored old encounters
+ * use the original balance below, so a visual revision never retunes their fights or rewards. */
+export const FANTASY_TIER_BLOCKS: readonly EnemyDef[] = FANTASY_SPECIES.flatMap(species =>
+  [1, 5, 10, 20].map(tier => {
+    const base = species.stats;
+    if (tier === base.tier) return base;
+    const ratio = tier / base.tier;
+    const scaled = (value: number, minimum = 0) => Math.max(minimum, Math.round(value * ratio));
+    return { ...base, id: enemyIdFor(base.family, tier), tier,
+      maxHealth: scaled(base.maxHealth, 1), attackLevel: scaled(base.attackLevel, 1),
+      defenceLevel: scaled(base.defenceLevel, 1), accuracy: scaled(base.accuracy),
+      armour: scaled(base.armour), magicArmour: scaled(base.magicArmour), maxHit: scaled(base.maxHit, 1),
+      marks: base.marks ? [scaled(base.marks[0]), scaled(base.marks[1])] as [number, number] : undefined };
+  }));
+
+/** Saved hunts may refer to either the original body or the first fantasy replacement. These
+ * IDs are historical data; never derive them from the current world roster. */
+export const FANTASY_ENCOUNTER_LINEAGE: Readonly<Record<string, readonly [originalBlockId: string, previousBlockId: string]>> = {
+  palewood_adders: ['viper_t1', 'goblin_scout_t1'],
+  regional_gloam_fox: ['gloam_fox_t1', 'goblin_shaman_t5'],
+  regional_redbrush_fox: ['redbrush_fox_t1', 'goblin_archer_t1'],
+  pack_fallowmarch_palewood_far_south_scrub: ['field_wasp_t1', 'goblin_scout_t1'],
+  pack_fallowmarch_palewood_heath_scrub: ['heath_wasp_t1', 'goblin_archer_t1'],
+  pack_fallowmarch_palewood_reed_scrub: ['reed_wasp_t1', 'goblin_scout_t1'],
+  pack_fallowmarch_bracken_northeast_spiders: ['briar_spider_t1', 'briar_spider_t1'],
+  marchwild_horse_residents: ['marchwild_horse_t5', 'beetle_golem_t10'],
+  duskoak_stags: ['deer_t5', 'mossback_sentinel_t10'],
+  bramble_hogs: ['hog_t5', 'beetle_golem_t10'],
+  deepwood_coyotes: ['coyote_t5', 'goblin_shaman_t5'],
+  blackwater_frogs: ['frog_t5', 'marsh_wasp_t5'],
+  rootfall_coneys: ['coney_t5', 'webweaver_spider_t5'],
+  thornline_adders: ['viper_t5', 'webweaver_spider_t5'],
+  pack_vellenwood_marchgate_south_bramble: ['moonweave_spider_t5', 'webweaver_spider_t5'],
+  pack_vellenwood_mossbound_west_bramble: ['webweaver_spider_t5', 'webweaver_spider_t5'],
+  duskoak_lynx_residents: ['duskoak_lynx_t5', 'beetle_golem_t10'],
+  rootdelve_badger_residents: ['rootdelve_badger_t5', 'mossback_sentinel_t10'],
+  marsh_moose_residents: ['marsh_moose_t10', 'mossback_sentinel_t10'],
+  bracken_tapir_residents: ['bracken_tapir_t5', 'beetle_golem_t10'],
+  blackwater_heron_residents: ['blackwater_heron_t5', 'marsh_wasp_t5'],
+  quarry_snail_residents: ['quarry_snail_t5', 'webweaver_spider_t5'],
+  hollowroot_spider_residents: ['hollowroot_spider_t5', 'hollowroot_spider_t5'],
+  highcairn_bears: ['bear_t10', 'shale_elemental_t10'],
+  scree_boars: ['boar_t10', 'stone_golem_t10'],
+  ridge_ibex: ['ibex_t10', 'chalk_warden_t10'],
+  terrace_aurochs: ['aurochs_t10', 'iron_golem_t20'],
+  tarn_coyotes: ['coyote_t10', 'shale_elemental_t10'],
+  pack_karrowmoor_tarn_track_east_mandibles: ['rimeback_tortoise_t10', 'chalk_warden_t10'],
+  pack_karrowmoor_moor_road_far_west_watch: ['slateback_tortoise_t10', 'stone_golem_t10'],
+  quillback_porcupine_residents: ['quillback_porcupine_t10', 'chalk_warden_t10'],
+  cairn_bighorn_residents: ['cairn_bighorn_t10', 'shale_elemental_t10'],
+  reedjaw_crocodile_residents: ['reedjaw_crocodile_t10', 'beetle_golem_t10'],
+  slateback_tortoise_residents: ['slateback_tortoise_t10', 'stone_golem_t10'],
+  scree_bustard_residents: ['scree_bustard_t10', 'chalk_warden_t10'],
+  antler_beetle_residents: ['antler_beetle_t10', 'beetle_golem_t10'],
+  quarry_nightmare_residents: ['quarry_nightmare_t10', 'quarry_nightmare_t10'],
+  gravelmaw_ch1_rats: ['rat_t10', 'skeleton_soldier_t5'],
+  gravelmaw_ch2_scorpions: ['scorpion_t10', 'webweaver_spider_t5'],
+  gravelmaw_ch2_crabs: ['crab_t10', 'beetle_golem_t10'],
+  gravelmaw_ch3_bears: ['bear_t10', 'stone_golem_t10'],
+  gravelmaw_amethyst_spiders: ['amethyst_spider_t5', 'webweaver_spider_t5'],
+  ashback_bears: ['bear_t20', 'lava_golem_t10'],
+  cinder_boars: ['boar_t20', 'fire_golem_t20'],
+  emberhorn_ibex: ['ibex_t20', 'revenant_t20'],
+  cinder_adders: ['viper_t20', 'skeleton_mage_t20'],
+  pack_kilnhalt_clinker_southern_approach_west: ['cindercrest_salamander_t20', 'lava_golem_t10'],
+  pack_kilnhalt_cinderpine_northwest_outer: ['kiln_salamander_t20', 'fire_golem_t20'],
+  kiln_salamander_residents: ['kiln_salamander_t20', 'lava_golem_t10'],
+  ashscale_monitor_residents: ['ashscale_monitor_t20', 'revenant_t20'],
+  slag_centipede_residents: ['slag_centipede_t20', 'fire_golem_t20'],
+  cinder_ravager_residents: ['cinder_ravager_t20', 'cinder_ravager_t20'],
+  basalt_drake_residents: ['basalt_drake_t20', 'basalt_drake_t20'],
+  gorge_mantis_residents: ['gorge_mantis_t20', 'gorge_mantis_t20'],
+};
+
+/** Compatibility is directional and limited to this encounter's own recorded predecessors.
+ * The hunt caller still checks region, real death, player credit and kill serial. */
+export function huntEnemyDefMatches(requestedId: string, currentId: string): boolean {
+  return requestedId === currentId || FANTASY_ENCOUNTER_LINEAGE[currentId]?.includes(requestedId) === true;
+}
+
+// Root may also register the native redesign species in CREATURE_SPECIES. The canonical catalogue
+// contains each ID once, including those native-tier rows and their three other tier versions.
+const ALL_BLOCKS: readonly EnemyDef[] = [...new Map([
+  ...BLOCKS.map(row => REGIONAL_BOSS_BLOCKS.get(row.id) ?? row),
+  ...CREATURE_SPECIES.map(species => species.stats), ...RPG_BESTIARY.map(species => species.stats),
+  ...FANTASY_TIER_BLOCKS,
+].map(row => [row.id, row] as const)).values()];
 const BY_BLOCK_ID = new Map(ALL_BLOCKS.map((row) => [row.id, row] as const));
 
 const GROUP_ALIASES: readonly EnemyDef[] = GROUP_BLOCK.flatMap(([groupId, blockId]) => {
+  if (Object.hasOwn(BIOME_POPULATION_LEGACY_REPLACEMENTS, groupId)) return [];
   const base = BY_BLOCK_ID.get(blockId);
   return base === undefined ? [] : [{ ...base, id: groupId }];
 });
 
-/** Thirty-five stat blocks plus thirty-eight group aliases: 73 rows. */
-export const ENEMIES: readonly EnemyDef[] = [...ALL_BLOCKS, ...GROUP_ALIASES];
+/** Preserve authored encounter balance and every source reward while the rig dictates movement. */
+export const FANTASY_ENCOUNTER_BLOCKS: readonly EnemyDef[] = Object.entries(BIOME_POPULATION_LEGACY_REPLACEMENTS)
+  .map(([groupId, speciesId]) => {
+    const lineage = FANTASY_ENCOUNTER_LINEAGE[groupId];
+    const original = lineage ? BY_BLOCK_ID.get(lineage[0]) : undefined;
+    const species = FANTASY_SPECIES_BY_ID.get(speciesId);
+    if (!original || !species) throw new Error(`Missing original stats or replacement creature for ${groupId}`);
+    return { ...original, id: groupId, family: species.stats.family, name: species.stats.name,
+      moveSpeedMps: species.stats.moveSpeedMps, walkSpeedMps: species.stats.walkSpeedMps };
+  });
 
-/** The thirty-five canonical stat blocks, without the group aliases. For docs and the bestiary. */
-export const ENEMY_BLOCKS: readonly EnemyDef[] = ALL_BLOCKS;
+const PRE_WILDERNESS_BLOCKS = [...ALL_BLOCKS, ...GROUP_ALIASES, ...FANTASY_ENCOUNTER_BLOCKS];
+const PRE_WILDERNESS_BY_ID = new Map(PRE_WILDERNESS_BLOCKS.map(row => [row.id, row]));
+const WILDERNESS_BLOCKS = buildWildernessEnemyProgression([
+  ...WILDERNESS_GROUPS,
+  ...resolveBiomePopulation(CREATURE_SPECIES).filter(group =>
+    BIOME_POPULATION.some(pack => pack.id === group.id && pack.regionId === 'wilderness')),
+], (groupId, family, tier) => {
+  const exact = PRE_WILDERNESS_BY_ID.get(groupId);
+  return exact?.family === family ? exact : PRE_WILDERNESS_BY_ID.get(enemyIdFor(family, tier));
+}, [...CREATURE_SPECIES, ...RPG_BESTIARY]);
+
+export const ENEMIES: readonly EnemyDef[] = [...new Map([
+  ...PRE_WILDERNESS_BLOCKS, ...WILDERNESS_BLOCKS,
+].map(row => [row.id, row] as const)).values()];
+
+/** Canonical stat blocks, without encounter aliases. For docs and the bestiary. */
+export const ENEMY_BLOCKS: readonly EnemyDef[] = [...new Map([
+  ...ALL_BLOCKS, ...WILDERNESS_BLOCKS.filter(row => row.id === enemyIdFor(row.family, row.tier)),
+].map(row => [row.id, row] as const)).values()];
 
 const BY_ANY_ID = new Map(ENEMIES.map((row) => [row.id, row] as const));
 
@@ -868,5 +995,8 @@ const BY_ANY_ID = new Map(ENEMIES.map((row) => [row.id, row] as const));
  * change; this is not that.
  */
 export function enemyBlockFor(groupId: string, family: string, tier: number): EnemyDef | undefined {
-  return BY_ANY_ID.get(groupId) ?? BY_ANY_ID.get(enemyIdFor(family, tier));
+  const group = BY_ANY_ID.get(groupId);
+  // Source-gallery families still resolve their original canonical block. The production family
+  // selects its stable encounter alias, including that encounter's authored balance and rewards.
+  return group?.family === family ? group : BY_ANY_ID.get(enemyIdFor(family, tier)) ?? group;
 }

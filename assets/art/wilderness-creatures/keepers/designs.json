@@ -1,0 +1,47 @@
+[
+  {
+    "id": "ashseal_warden",
+    "base": "iron_golem",
+    "factor": 1.78,
+    "contact": 0.61,
+    "attackDuration": 2.3,
+    "tempo": 1.2,
+    "deep": false,
+    "design": "An ash seal imprisoned in a broad split volcanic breastplate. One forearm grows into a thick broken shield with a hollow centre. Tapered shins, interlocking feet, a recessed blind head and fused shoulder strata carry the mass.",
+    "motion": "Heavy native planted gait; broad shield brace precedes a delayed crushing arm strike, with extended recovery."
+  },
+  {
+    "id": "furnace_regent",
+    "base": "lava_golem",
+    "factor": 1.76,
+    "contact": 0.66,
+    "attackDuration": 2.6,
+    "tempo": 1.25,
+    "deep": false,
+    "design": "A walking open caldera. Slag ribs enclose a sunken molten organ beneath a high overhanging crater mantle. Its jaw is a broken vent and each forearm is a ridged furnace plunger.",
+    "motion": "Native lava-golem support cycle, prolonged two-arm windup, late descending contact and settling torso compression."
+  },
+  {
+    "id": "chainbound_archon",
+    "base": "banshee",
+    "factor": 2.22,
+    "contact": 0.64,
+    "attackDuration": 2.5,
+    "tempo": 1.6,
+    "deep": true,
+    "hover": true,
+    "design": "An unbodied archon suspended inside a broken double stone thorax. Open stone forearm rails, narrow hooked hands and separated wrist shackles expose recessed spectral marrow between asymmetric structural ribs. A sealed head, hanging split vertebral blades and load-bearing chain lengths retain its bound jailer silhouette.",
+    "motion": "Footless hover using native caster suspension. Split thorax counter-turns, long forearms rise then pull together on contact, with delayed chain movement."
+  },
+  {
+    "id": "nightforge_marshal",
+    "base": "iron_golem",
+    "factor": 1.94,
+    "contact": 0.68,
+    "attackDuration": 2.75,
+    "tempo": 1.32,
+    "deep": true,
+    "design": "A hollow gate-shaped cuirass with a pointed arch opening, buttressed shoulder armour and an integrated hammer forearm. There is no ordinary knight body or helmet inside the worn obsidian frame.",
+    "motion": "Slow braced step, a long hammer shoulder telegraph, late downward impact and a visibly weighted return."
+  }
+]
