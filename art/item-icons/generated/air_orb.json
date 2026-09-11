@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "air_orb.png",
+  "sha256": "b412cf9a9e50ab68339e6755a51b800b694ef0f1c6377ba794b2e69ae20475f9",
+  "prompt": "Use case: stylized-concept. Asset type: final fantasy RPG inventory icon for Air Orb. Authored description: A region-boss core used to craft a charged Air wand or staff. Subject: A single smooth spherical crystal boss core containing a twisting silver-white cyclone suspended inside translucent cool cyan glass, dimensional sphere with clear polished rim. No rune stone. Render as a polished realistic 3D fantasy collectible with convincing tactile material, soft studio key light from upper left, restrained highlights, clean silhouette. Near-front three-quarter view reveals thickness and dimensionality. Single centered object occupies 80 percent of square 1024px canvas with safe margins, extremely clear at 48px. Genuine transparent alpha background with no environment, no floor, no cast shadow outside object, no labels, no text, no border, no tile, no watermark. Do not make a flat vector, generic gem, or diagram.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "Source model audit inspected loose rune and orb candidates. Available essence nodes and altars are world structures, not carriable rune stones or singleton boss cores. No suitable loose rune/orb GLB exists. Authored item descriptions from game/src/content/items.ts and equipment.ts and existing runeIcons.ts motifs informed generated art.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

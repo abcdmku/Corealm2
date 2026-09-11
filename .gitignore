@@ -7,9 +7,11 @@ docs-site/src/content/docs/game/
 docs-site/public/game/locations/assets/world-map.webp
 docs-site/public/game/assets/world-map.webp
 docs-site/public/game/assets/captures/
+docs-site/public/game/assets/items/
 playwright-report/
 test-results/
 *.log
+.tmp
 
 # Keep run records, but ignore throwaway local runs.
 runs/local-*/

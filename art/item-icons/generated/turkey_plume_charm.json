@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "turkey_plume_charm.png",
+  "prompt": "Use case: stylized-concept. Asset type: polished fantasy RPG inventory icon. Generate one single item: Turkey Plume Charm. A quartz charm wrapped in barred turkey feathers. One small pale quartz crystal pendant bound with copper wire and two broad short brown cream barred feathers. Simple hanging loop.. Believable premium 3D render with finely textured physical materials matching the accepted hammered copper ring style, realistic restrained reflections, strong readable silhouette at 48px. Centered three-quarter view, object fills 80% of square canvas with comfortable margins. Soft studio key light upper-left, subtle rim, no cast shadow outside object. Genuinely transparent RGBA background and transparent holes. No frame, no text, no watermark, no hands, no scenery, no checkerboard baked in. ",
+  "generator": "built-in image_gen",
+  "sourceLookup": "game/src/content/creatureLoot.ts; icon_3d source review found no suitable jewelry model",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10.",
+  "sha256": "168cb1637a2ec61c3c692e600fb224657efa27c2af1578f46d9595afa6a7fbe3"
+}

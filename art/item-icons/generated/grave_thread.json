@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "grave_thread.png",
+  "sha256": "ad90361962814120f571f425f94d5b0282252a6214925a53b593888eec44aaca",
+  "prompt": "Use case: stylized-concept. Asset type: polished grounded fantasy RPG inventory icon. Generate one isolated item on a genuinely transparent alpha background, square canvas. Physically convincing high quality 3D rendered appearance with natural detailed materials, matching realistic artisan copper ring inventory art. Three-quarter view, centered complete object, occupies about 75% canvas with generous transparent margin on every side. Soft upper-left key light, clear highlights and readable silhouette at 48 pixels. No frame, text, symbols, watermark, backdrop, floor, cast shadow, hands or extra objects. Subject: Grave Thread. Black binding drawn from the Wilderness dead. A compact skein of black fibrous thread tied at the waist, looped strands with soft silver-gray edge light. Clearly fine textile thread, no spool, no bones.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "icon-audit/audit.json identifies procedural hide or cord geometry; icon_3d review confirms creature GLBs are whole beasts rather than hide/thread props. No suitable authored item model.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

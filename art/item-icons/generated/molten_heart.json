@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "molten_heart.png",
+  "sha256": "8dace0d869f559f9c94e8abc081728c4800635f6a8d674f5871b9f5e12704f6c",
+  "prompt": "Use case: stylized-concept. Asset type: final fantasy RPG inventory icon, Molten Heart. Exact item description: A cooled kernel from a living stone creature. It replaces flux when smelting Cindersteel. Render a single rounded asymmetrical heart-like dense volcanic kernel, a living stone creature's inner core, cooled rough dark basalt crust plates wrapped around subdued residual orange-red heat glowing through deep broad cracks. Compact rounded core with two unequal upper lobes and tapered base, no cartoon heart symbol, no anatomical flesh, no gem facets, no rune. Convincing tactile pitted cooled rock, soft studio light upper left reveals volume, restrained molten inner glow. Polished realistic 3D fantasy collectible look, clear silhouette readable at 48px. Centered single object occupies80 percent of square1024px canvas with safe margins. Genuine transparent alpha background, no floor, no external shadow, no text, no label, no border or tile, no watermark.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "Luna visual audit found current molten_heart uses a generic titanium ore chunk. Source model audit found no loose living-stone heart/core GLB. That ore silhouette does not represent the authored cooled kernel; generated its own volcanic core artwork.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

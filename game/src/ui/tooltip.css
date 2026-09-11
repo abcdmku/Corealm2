@@ -1,0 +1,32 @@
+/* The item card: near-opaque glass, brass name, stat deltas in green and red. */
+.tooltip {
+  position: fixed;
+  max-width: 34ch;
+  padding: var(--space-2) var(--space-3);
+  background: rgba(14, 12, 9, 0.96);
+  border: 1px solid rgba(212, 175, 88, 0.3);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-pop);
+  font-size: var(--size-sm);
+  line-height: 1.45;
+  color: var(--ink);
+  z-index: var(--z-tooltip);
+  pointer-events: none;
+}
+
+.tooltip__title { font-family: var(--font-display); font-size: var(--size-sm); font-weight: 700; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 2px; }
+.tooltip__count { color: var(--ink-dim); font-weight: 400; }
+.tooltip__tier { color: var(--ink-dim); font-size: var(--size-xs); letter-spacing: var(--tracking-wide); }
+.tooltip__body { color: var(--ink-dim); margin-top: var(--space-1); }
+.tooltip__stats { display: grid; grid-template-columns: auto auto; gap: 1px var(--space-3); margin-top: var(--space-2); }
+.tooltip__stat-value { font-family: var(--font-numeric); text-align: right; }
+.tooltip__delta-up { color: var(--success); }
+.tooltip__delta-down { color: var(--danger); }
+.tooltip__requirement { color: var(--ink-dim); margin-top: var(--space-2); font-size: var(--size-xs); }
+.tooltip__requirement.is-unmet { color: #eda392; }
+
+.tooltip__rune-cost { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.tooltip__rune-cost .item-icon { position: relative; display: block; flex: none; width: 24px; height: 24px; }
+.tooltip__rune-cost .item-icon__raster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+.tooltip__rune-carried { margin-left: auto; color: var(--ink-dim); font-size: var(--size-xs); }
+.tooltip__rune-cost.is-short, .tooltip__rune-cost.is-short .tooltip__rune-carried { color: #ff9684; }

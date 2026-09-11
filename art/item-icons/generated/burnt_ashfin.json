@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "burnt_ashfin.png",
+  "sha256": "347e12c6eaa9cf4c452bb2176ec09894d5e969e5592db7489d9120ee53064b70",
+  "prompt": "Use case: stylized-concept. Asset type: polished grounded fantasy RPG inventory icon, readable at 48 pixels. One isolated culinary fish item, three-quarter product view, centered occupying 80 percent of square canvas. Believable three-dimensional volume and rich physically grounded material shading, broad clear silhouette, soft studio light from upper left. Actual transparent background with true alpha channel, no backdrop, floor, shadow outside object, plate, garnish, utensils, text, labels, border, or tile. No cartoon outline or crude geometric rendering. Subject: Burnt Bass, one whole freshwater bass overcooked and charred. Dry charcoal-black scaled skin with ash-grey highlights, cracked sear cuts, defined dark dorsal fin and short fan tail, head to left, tail to right, slightly diagonal. Clearly burnt fish food.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "Root source-render review rejected fish_cragfin GLB for Bass because it renders multiple fish as a school; no suitable single Bass true 3D file is available.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

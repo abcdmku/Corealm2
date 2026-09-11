@@ -51,6 +51,27 @@ description: "Production recipes generated from the live game tables."
 | Titanium Hatchet | 20 | anvil | 2× Titanium Bar + 1× Walnut Handle | 1× Titanium Hatchet | 3.0 s | 114 |
 | Salamander-fluxed Titanium Bar | 20 | furnace | 3× Salamander Secretion + 3× Titanium Ore | 1× Titanium Bar | 2.4 s | 42 |
 | Demon Claw Grip Titanium Dagger | 20 | anvil | 3× Demon Claw + 1× Titanium Bar | 1× Titanium Dagger | 3.0 s | 104 |
+| Cindersteel Bar | 50 | furnace | 3× Cindervein Ore + 1× Molten Heart | 1× Cindersteel Bar | 2.4 s | 69 |
+| Cindersteel Sword | 50 | anvil | 3× Cindersteel Bar + 1× Teak Handle | 1× Cindersteel Sword | 3.0 s | 301 |
+| Cindersteel Helm | 50 | anvil | 2× Cindersteel Bar | 1× Cindersteel Helm | 3.0 s | 215 |
+| Cindersteel Plate | 50 | anvil | 4× Cindersteel Bar | 1× Cindersteel Plate | 3.0 s | 430 |
+| Cindersteel Greaves | 50 | anvil | 4× Cindersteel Bar | 1× Cindersteel Greaves | 3.0 s | 430 |
+| Cindersteel Boots | 50 | anvil | 1× Cindersteel Bar | 1× Cindersteel Boots | 3.0 s | 215 |
+| Cindersteel Gauntlets | 50 | anvil | 1× Cindersteel Bar | 1× Cindersteel Gauntlets | 3.0 s | 215 |
+| Cindersteel Pickaxe | 50 | anvil | 2× Cindersteel Bar + 1× Teak Handle | 1× Cindersteel Pickaxe | 3.0 s | 189 |
+| Cindersteel Hatchet | 50 | anvil | 2× Cindersteel Bar + 1× Teak Handle | 1× Cindersteel Hatchet | 3.0 s | 189 |
+| Ashseal Guard | 50 | anvil | 1× Teak Shield + 3× Ashseal Iron + 2× Cindersteel Bar | 1× Ashseal Guard | 3.0 s | 241 |
+| Nightglass Bar | 70 | furnace | 3× Nightglass Ore + 1× Astral Core | 1× Nightglass Bar | 2.4 s | 82 |
+| Nightglass Sword | 70 | anvil | 3× Nightglass Bar + 1× Magic Handle | 1× Nightglass Sword | 3.0 s | 361 |
+| Nightglass Helm | 70 | anvil | 2× Nightglass Bar | 1× Nightglass Helm | 3.0 s | 258 |
+| Nightglass Plate | 70 | anvil | 4× Nightglass Bar | 1× Nightglass Plate | 3.0 s | 515 |
+| Nightglass Greaves | 70 | anvil | 4× Nightglass Bar | 1× Nightglass Greaves | 3.0 s | 515 |
+| Nightglass Boots | 70 | anvil | 1× Nightglass Bar | 1× Nightglass Boots | 3.0 s | 258 |
+| Nightglass Gauntlets | 70 | anvil | 1× Nightglass Bar | 1× Nightglass Gauntlets | 3.0 s | 258 |
+| Nightglass Pickaxe | 70 | anvil | 2× Nightglass Bar + 1× Magic Handle | 1× Nightglass Pickaxe | 3.0 s | 227 |
+| Nightglass Hatchet | 70 | anvil | 2× Nightglass Bar + 1× Magic Handle | 1× Nightglass Hatchet | 3.0 s | 227 |
+| Chainbound Sword | 70 | anvil | 1× Nightglass Sword + 3× Chainbound Link + 2× Nightglass Bar | 1× Chainbound Sword | 3.0 s | 361 |
+| Nightmarshal Plate | 70 | anvil | 1× Nightglass Plate + 3× Nightforge Seal + 2× Nightglass Bar | 1× Nightmarshal Plate | 3.0 s | 515 |
 
 ## Cooking
 
@@ -129,6 +150,24 @@ description: "Production recipes generated from the live game tables."
 | Chitin Ring | 20 | crafting_table | 3× Centipede Chitin + 1× Titanium Bar + 1× Fire Opal | 1× Chitin Ring | 2.4 s | 156 |
 | Trim Armored Dragon Hide Sheets | 20 | crafting_table | 3× Armored Dragon Scale | 2× Heavy Hide | 2.4 s | 52 |
 | Mantis Edge Charm | 20 | crafting_table | 3× Mantis Claw + 1× Titanium Bar + 1× Fire Opal | 1× Mantis Edge Charm | 2.4 s | 156 |
+| Cindersteel Ring | 50 | crafting_table | 1× Cindersteel Bar + 1× Fire Opal | 1× Cindersteel Ring | 2.4 s | 258 |
+| Cindersteel Pendant | 50 | crafting_table | 1× Cindersteel Bar + 2× Fire Opal | 1× Cindersteel Pendant | 2.4 s | 258 |
+| Dragonhide Hood | 50 | crafting_table | 2× Dragonhide + 2× Grave Thread | 1× Dragonhide Hood | 2.4 s | 215 |
+| Dragonhide Robe | 50 | crafting_table | 4× Dragonhide + 4× Grave Thread | 1× Dragonhide Robe | 2.4 s | 344 |
+| Dragonhide Leggings | 50 | crafting_table | 4× Dragonhide + 4× Grave Thread | 1× Dragonhide Leggings | 2.4 s | 344 |
+| Dragonhide Boots | 50 | crafting_table | 1× Dragonhide + 2× Grave Thread | 1× Dragonhide Boots | 2.4 s | 215 |
+| Dragonhide Wraps | 50 | crafting_table | 1× Dragonhide + 2× Grave Thread | 1× Dragonhide Wraps | 2.4 s | 215 |
+| Emberweave Ring | 50 | crafting_table | 1× Cindersteel Bar + 1× Fire Opal + 2× Grave Thread | 1× Emberweave Ring | 2.4 s | 258 |
+| Emberweave Charm | 50 | crafting_table | 1× Cindersteel Bar + 2× Fire Opal + 3× Grave Thread | 1× Emberweave Charm | 2.4 s | 258 |
+| Nightglass Ring | 70 | crafting_table | 1× Nightglass Bar + 1× Fire Opal | 1× Nightglass Ring | 2.4 s | 309 |
+| Nightglass Pendant | 70 | crafting_table | 1× Nightglass Bar + 2× Fire Opal | 1× Nightglass Pendant | 2.4 s | 309 |
+| Starhide Hood | 70 | crafting_table | 2× Starhide + 2× Void Thread | 1× Starhide Hood | 2.4 s | 258 |
+| Starhide Robe | 70 | crafting_table | 4× Starhide + 4× Void Thread | 1× Starhide Robe | 2.4 s | 412 |
+| Starhide Leggings | 70 | crafting_table | 4× Starhide + 4× Void Thread | 1× Starhide Leggings | 2.4 s | 412 |
+| Starhide Boots | 70 | crafting_table | 1× Starhide + 2× Void Thread | 1× Starhide Boots | 2.4 s | 258 |
+| Starhide Wraps | 70 | crafting_table | 1× Starhide + 2× Void Thread | 1× Starhide Wraps | 2.4 s | 258 |
+| Starweave Ring | 70 | crafting_table | 1× Nightglass Bar + 1× Fire Opal + 2× Void Thread | 1× Starweave Ring | 2.4 s | 309 |
+| Starweave Charm | 70 | crafting_table | 1× Nightglass Bar + 2× Fire Opal + 3× Void Thread | 1× Starweave Charm | 2.4 s | 309 |
 
 ## Fletching
 
@@ -164,3 +203,13 @@ description: "Production recipes generated from the live game tables."
 | Walnut Shield | 20 | fletching_bench | 2× Walnut Log + 1× Titanium Bar | 1× Walnut Shield | 1.8 s | 146 |
 | Walnut Rod | 20 | fletching_bench | 2× Walnut Shaft + 1× Heavy Hide | 1× Walnut Rod | 1.8 s | 94 |
 | Sinew-bound Cedar Rod | 20 | fletching_bench | 3× Monitor Lizard Sinew + 2× Walnut Shaft | 1× Walnut Rod | 1.8 s | 94 |
+| Teak Handle | 50 | fletching_bench | 1× Teak Log | 1× Teak Handle | 1.8 s | 86 |
+| Teak Shield | 50 | fletching_bench | 2× Teak Log + 2× Cindersteel Bar | 1× Teak Shield | 1.8 s | 241 |
+| Teak Wand | 50 | fletching_bench | 2× Teak Log + 1× Cindersteel Bar + 3× Grave Thread | 1× Teak Wand | 1.8 s | 206 |
+| Teak Staff | 50 | fletching_bench | 3× Teak Log + 2× Cindersteel Bar + 5× Grave Thread | 1× Teak Staff | 1.8 s | 275 |
+| Regent Staff | 50 | fletching_bench | 1× Teak Staff + 3× Furnace Crown + 6× Grave Thread | 1× Regent Staff | 1.8 s | 275 |
+| Magic Handle | 70 | fletching_bench | 1× Magic Log | 1× Magic Handle | 1.8 s | 103 |
+| Magic Shield | 70 | fletching_bench | 2× Magic Log + 2× Nightglass Bar | 1× Magic Shield | 1.8 s | 288 |
+| Magic Wand | 70 | fletching_bench | 2× Magic Log + 1× Nightglass Bar + 3× Void Thread | 1× Magic Wand | 1.8 s | 247 |
+| Magic Staff | 70 | fletching_bench | 3× Magic Log + 2× Nightglass Bar + 5× Void Thread | 1× Magic Staff | 1.8 s | 330 |
+| Hollowstar Staff | 70 | fletching_bench | 1× Magic Staff + 3× Hollow Star Fragment + 6× Void Thread | 1× Hollowstar Staff | 1.8 s | 330 |

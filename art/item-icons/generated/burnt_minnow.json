@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "burnt_minnow.png",
+  "sha256": "3d5972c704fdf1425ea77a9377daa66d7f14a0ae80a3ccc9e865f9850535acc8",
+  "prompt": "Use case: stylized-concept. Create a fantasy RPG inventory PNG icon on an actual TRANSPARENT BACKGROUND with a true ALPHA CHANNEL. Subject: one whole small narrow freshwater minnow fish, ruined by burning, charcoal black cracked skin and grey ash ridges, blackened cuts, scorched eye, thin crisp fins, forked tail, head left and tail right. Grounded polished three-dimensional food rendering with realistic texture and soft upper-left highlights. Fill 80% of square canvas with a single fish, simple strong silhouette readable at 48px. No checkerboard pattern, no background color, no glow, no floor, no plate, no drop shadow, no border, no text. Actual PNG transparency. This is burnt food, not living fish.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "Existing genuine fish_minnow GLB was rendered with improved shading and reviewed by final fresh Luna max critic. It remained flat and low detail at inventory size and was rejected; no suitable higher quality single Minnow 3D source available.",
+  "review": "Root accepted after fresh Luna max critic approved source and 48px readability. All nine fish passed production inventory lab: loaded 48px rasters, no SVG fallback, matching hover, no errors. Root inspected lab screenshot. Evidence: test-results/icon-fish-final/lab-icons.json and test-results/icon-fish-final/lab-icons.png. Accepted 2026-09-10."
+}

@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "bear_claw.png",
+  "sha256": "60c71d921fda72ecc8b825f39aa9ef8ecc41dd14c5a5bad175537e69cec93ddc",
+  "prompt": "Use case: stylized-concept. Transparent fantasy RPG inventory icon of Bear Claw. Exact lore: Longer than a finger and blunt from stone. Hillcrest hangs them over doorways. Subject: One large bear claw, dark brown keratin, heavily curved hook, broad base and stone-worn blunt tip, natural lengthwise texture. Polished grounded natural-material dimensional 3D-style rendering, crisp detail, three-quarter view, warm top-left studio light. Centered object occupying 80% square canvas, generous margin, recognizable at 48px. Actual transparent alpha background, no floor, no cast shadow beyond silhouette, no tile, no text or border.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "Audit uses procedural claw. No suitable authored inventory prop; candidates game/public/assets/models/corealm/nature/corealm_deadwood_claw.glb, game/public/assets/models/animal/animal_bear.glb, game/public/assets/models/animal/animal_crab.glb, game/public/assets/models/creature/creature_basalt_maw.glb, game/public/assets/models/creature/creature_cinder_ravager.glb, art\\rebuild\\candidates\\finish-motion\\legacy-canines\\animal_bear.glb, game\\dist\\assets\\models\\animal\\animal_bear.glb, game\\dist\\assets\\models\\corealm\\nature\\corealm_deadwood_claw.glb, game\\public\\assets\\models\\animal\\animal_bear.glb are whole creatures or scenery, not this item.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

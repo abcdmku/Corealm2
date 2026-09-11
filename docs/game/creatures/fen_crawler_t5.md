@@ -9,15 +9,15 @@ description: "Fen Crawler spawn locations, combat stats, and drops."
 <figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/bracken_tapir_residents.webp" alt="Fen Crawler at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Fen Crawler</strong><span>Blackwater Pools, Woodlands</span></figcaption></figure>
 <figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_blackwater_south_crawlers.webp" alt="Fen Crawler at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Fen Crawler</strong><span>Blackwater Pools, Woodlands</span></figcaption></figure>
 <figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_rootfall_south_crawlers.webp" alt="Fen Crawler at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Fen Crawler</strong><span>Blackwater Pools, Woodlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Fen Crawler">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:62.5000%;--map-y:56.5357%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Fen Crawler, Blackwater Pools, Woodlands" title="Fen Crawler, Blackwater Pools, Woodlands"><span>Fen Crawler<small>Blackwater Pools, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#gorge-ford" style="--map-x:73.2500%;--map-y:58.5179%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Fen Crawler, Gorge Ford, Woodlands" title="Fen Crawler, Gorge Ford, Woodlands"><span>Fen Crawler<small>Gorge Ford, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:58.0000%;--map-y:61.0357%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Fen Crawler, Blackwater Pools, Woodlands" title="Fen Crawler, Blackwater Pools, Woodlands"><span>Fen Crawler<small>Blackwater Pools, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:60.3333%;--map-y:61.2500%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Fen Crawler, Blackwater Pools, Woodlands" title="Fen Crawler, Blackwater Pools, Woodlands"><span>Fen Crawler<small>Blackwater Pools, Woodlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:56.8333%;--map-y:59.9643%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Fen Crawler, Blackwater Pools, Woodlands" title="Fen Crawler, Blackwater Pools, Woodlands"><span>Fen Crawler<small>Blackwater Pools, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:62.5000%;--map-y:61.2273%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Fen Crawler, Blackwater Pools, Woodlands" title="Fen Crawler, Blackwater Pools, Woodlands"><span>Fen Crawler<small>Blackwater Pools, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#gorge-ford" style="--map-x:73.2500%;--map-y:62.9091%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Fen Crawler, Gorge Ford, Woodlands" title="Fen Crawler, Gorge Ford, Woodlands"><span>Fen Crawler<small>Gorge Ford, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:58.0000%;--map-y:65.0455%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Fen Crawler, Blackwater Pools, Woodlands" title="Fen Crawler, Blackwater Pools, Woodlands"><span>Fen Crawler<small>Blackwater Pools, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:60.3333%;--map-y:65.2273%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Fen Crawler, Blackwater Pools, Woodlands" title="Fen Crawler, Blackwater Pools, Woodlands"><span>Fen Crawler<small>Blackwater Pools, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#blackwater-pools" style="--map-x:56.8333%;--map-y:64.1364%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Fen Crawler, Blackwater Pools, Woodlands" title="Fen Crawler, Blackwater Pools, Woodlands"><span>Fen Crawler<small>Blackwater Pools, Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -35,11 +35,11 @@ description: "Fen Crawler spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Woodlands](../../regions/#blackwater-pools) | [Blackwater Pools](../../regions/#blackwater-pools) | Fen Crawler | 5 |
-| [Woodlands](../../regions/#gorge-ford) | [Gorge Ford](../../regions/#gorge-ford) | Fen Crawler | 2 |
-| [Woodlands](../../regions/#blackwater-pools) | [Blackwater Pools](../../regions/#blackwater-pools) | Fen Crawler | 2 |
-| [Woodlands](../../regions/#blackwater-pools) | [Blackwater Pools](../../regions/#blackwater-pools) | Fen Crawler | 3 |
-| [Woodlands](../../regions/#blackwater-pools) | [Blackwater Pools](../../regions/#blackwater-pools) | Fen Crawler | 3 |
+| [Woodlands](../../regions/#blackwater-pools) | [Blackwater Pools](../../regions/#blackwater-pools) | Fen Crawler | 11 |
+| [Woodlands](../../regions/#gorge-ford) | [Gorge Ford](../../regions/#gorge-ford) | Fen Crawler | 10 |
+| [Woodlands](../../regions/#blackwater-pools) | [Blackwater Pools](../../regions/#blackwater-pools) | Fen Crawler | 10 |
+| [Woodlands](../../regions/#blackwater-pools) | [Blackwater Pools](../../regions/#blackwater-pools) | Fen Crawler | 8 |
+| [Woodlands](../../regions/#blackwater-pools) | [Blackwater Pools](../../regions/#blackwater-pools) | Fen Crawler | 14 |
 
 ## Stats
 
@@ -54,4 +54,4 @@ description: "Fen Crawler spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 3-8 | Always |
-| [Earth Essence](../../items/#earth-essence) | 1-2 | 35% |
+| [Earth Essence](../../items/earth_essence/) | 1-2 | 35% |

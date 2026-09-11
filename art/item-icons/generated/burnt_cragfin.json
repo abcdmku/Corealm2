@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "burnt_cragfin.png",
+  "sha256": "3e7b5b3e90bcb6405a9a5626c0e6e284c0ee4ecf88e5e9f6c667cb29dc83fa72",
+  "prompt": "Use case: stylized-concept. Generate a polished grounded realistic three-dimensional fantasy RPG inventory icon of one whole Burnt Perch, ruined over a fire. Recognizable deep slab-sided perch head left, forked tail right, three-quarter product view on gentle diagonal. Body shriveled and warped by heat, black charcoal skin with thick raised crust broken into cracked ash-gray plates, several deep burnt scoring cuts expose dry pale gray flesh, curled brittle fin tips and damaged spined dorsal fin. A few brown scorched ridges contrast with matte black charcoal and chalky ash highlights. Convincing volume with broad soft upper-left studio light so dark object stays legible at 48 pixels. Clearly a ruined cooked fish, not living raw anatomy painted black. Whole fish fills 85 percent square canvas with crisp strong silhouette. True transparent alpha background, no plate, floor, contact shadow, loose crumbs, flame, smoke, garnish, text, border or tile. High material detail, no cartoon outlines or flat low-detail geometry.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "The genuine true3D animal_perch GLB was rendered with shading and rejected by the final Luna max icon critic as flat and low detail. This generated source replaces that rejected single-perch render.",
+  "review": "Root accepted after fresh Luna max critic approved source and 48px readability. All nine fish passed production inventory lab: loaded 48px rasters, no SVG fallback, matching hover, no errors. Root inspected lab screenshot. Evidence: test-results/icon-fish-final/lab-icons.json and test-results/icon-fish-final/lab-icons.png. Accepted 2026-09-10."
+}

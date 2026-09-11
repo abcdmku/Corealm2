@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "seared_ashfin.png",
+  "sha256": "280facc785e4b8ce60967582ad36a7fa7351717ad6c32f585b0bd284e16046cf",
+  "prompt": "Use case: stylized-concept. Asset type: polished grounded fantasy RPG inventory icon, readable at 48 pixels. One isolated culinary fish item, three-quarter product view, centered occupying 80 percent of square canvas. Believable three-dimensional volume and rich physically grounded material shading, broad clear silhouette, soft studio light from upper left. Actual transparent background with true alpha channel, no backdrop, floor, shadow outside object, plate, garnish, utensils, text, labels, border, or tile. No cartoon outline or crude geometric rendering. Subject: Seared Bass, one whole freshwater bass cooked until its own rich oil crisps the skin. Golden bronze brown crisp scaled body with three shallow diagonal sear cuts, defined dorsal fin and fan tail, head to left, tail to right, slightly diagonal. Appetizing cooked food.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "Root source-render review rejected fish_cragfin GLB for Bass because it renders multiple fish as a school; no suitable single Bass true 3D file is available.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

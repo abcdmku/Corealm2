@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "fox_guardhair.png",
+  "sha256": "3eece7854df0bd21e4fbe833b4100f4308a5b82123ddb0eddbf6552ed7ac3743",
+  "prompt": "Use case: stylized-concept. Asset type: grounded fantasy RPG inventory icon of Fox Fur raw crafting material. One loose compact tuft of coarse russet red hair from a fox's back with pale ochre underfur and darker guard hair tips. Hair only, no metal band, no ring, no cord, no binding, no animal. Premium realistic sculptural rendering with fine natural strands and strong silhouette readable at 48px. Center diagonally in square canvas with generous 10 percent empty margin, soft upper-left studio light and self-shadow. Output PNG with actual transparent alpha background, all empty pixels alpha zero. No checkerboard pattern, floor, backdrop, tile, frame, text, watermark or glow.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "Luna audit test-results/icon-audit/audit.json flags fox_guardhair as needs-generated-art: current appearance uses tuft procedural geometry. Candidate search: game/public/assets/models/creature/creature_gloam_fox.glb, game/public/assets/models/creature/creature_redbrush_fox.glb, art\\rebuild\\candidates\\finish-quadrupeds\\fox-adaptive-comparison\\creature_redbrush_fox.07771d082ff3.glb, art\\rebuild\\candidates\\finish-quadrupeds\\fox-paws-v2-comparison\\creature_redbrush_fox.482ba174aca6.glb. Source expert confirmed no separate usable trophy prop; whole creatures are not detached material props.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

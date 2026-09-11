@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "stag_antler.png",
+  "sha256": "f0d4bfe3b59bb0a4856e53fdfe97872b4233e754f2db8757f7368869e2926a11",
+  "prompt": "Create a new transparent PNG game inventory icon. One naturally branching STAG ANTLER with SIX clearly separated ivory-tipped points: one terminal tip of main beam and FIVE side tines. Exactly six pointed ends, all visible in silhouette. Brown textured bone at base fading to pale ivory tips. Polished grounded fantasy item, dimensional realistic studio rendering, warm top-left light. Broad diagonal branching shape centered with 10% margin, 48px readability. Absolutely transparent alpha channel outside object, no checkerboard, no floor, no shadow, no labels, no framing.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "Audit uses procedural antler. No suitable authored inventory prop; candidates game/public/assets/models/animal/animal_deer.glb, game/public/assets/models/creature/creature_antler_beetle.glb, game\\dist\\assets\\models\\creature\\creature_antler_beetle.glb, game\\public\\assets\\models\\creature\\creature_antler_beetle.glb are whole creatures or scenery, not this item.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

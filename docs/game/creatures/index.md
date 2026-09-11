@@ -32,29 +32,51 @@ description: "Every creature in Corealm, with a separate spawn, stats, and drops
 | [Heath Jack](./heath_jack_t5/) | 5 | Woodlands |
 | [Reed Strider](./reed_strider_t5/) | 5 | Woodlands |
 | [Rootbound Colossus](./rootheart_t5/) | 5 | Woodlands |
-| [Skeleton Archer](./skeleton_archer_t5/) | 5 | Wilderness |
-| [Skeleton Soldier](./skeleton_soldier_t5/) | 5 | Wilderness |
 | [Thorn Maw](./thorn_maw_t5/) | 5 | Woodlands |
 | [Blind Cave Weaver](./blind_cave_weaver_t10/) | 10 | Highlands, Stone Cavern |
 | [Briar Harrow](./briar_harrow_t10/) | 10 | Woodlands |
 | [Cairn Treader](./cairn_treader_t10/) | 10 | Highlands |
 | [Cave Ogre](./tideworn_t10/) | 10 | Highlands |
 | [Flint Mandible](./flint_mandible_t10/) | 10 | Highlands, Stone Cavern |
-| [Grave Ghoul](./grave_ghoul_t10/) | 10 | Wilderness |
 | [Highland Bandit](./reaver_t10/) | 10 | Highlands, Stone Cavern |
-| [Hollow Bough](./hollow_bough_t10/) | 10 | Wilderness |
-| [Pallid Shade](./pallid_shade_t10/) | 10 | Wilderness |
 | [Quarry Warden](./quarrykeeper_t10/) | 10 | Stone Cavern |
 | [Scree Watcher](./scree_watcher_t10/) | 10 | Highlands |
 | [Vault Custodian](./vault_custodian_t10/) | 10 | Highlands, Stone Cavern |
-| [Wraith](./wraith_t10/) | 10 | Wilderness |
-| [Banshee](./banshee_t20/) | 20 | Wilderness |
-| [Cinder Penitent](./cinder_penitent_t20/) | 20 | Ashlands, Wilderness |
+| [Ashen Ghoul](./grave_lantern_t20/) | 20 | Ashlands |
+| [Cinder Penitent](./cinder_penitent_t20/) | 20 | Ashlands |
 | [Fire Ogre](./cinderwake_t20/) | 20 | Ashlands |
-| [Grave Lantern](./grave_lantern_t20/) | 20 | Ashlands, Wilderness |
-| [Kiln Marrow](./kiln_marrow_t20/) | 20 | Ashlands, Wilderness |
+| [Kiln Marrow](./kiln_marrow_t20/) | 20 | Ashlands |
 | [Quarry Bandit](./reaver_t20/) | 20 | Ashlands |
-| [Revenant](./revenant_t20/) | 20 | Wilderness |
-| [Skeleton Mage](./skeleton_mage_t20/) | 20 | Wilderness |
 | [Slag Crawler](./slag_crawler_t20/) | 20 | Ashlands |
-| [Veil Reaper](./veil_reaper_t20/) | 20 | Ashlands, Wilderness |
+| [Veil Reaper](./veil_reaper_t20/) | 20 | Ashlands |
+| [Ashen Ghoul](./grave_lantern_t50/) | 50 | Wilderness |
+| [Ashseal Warden](./ashseal_warden_t50/) | 50 | Wilderness |
+| [Banshee](./banshee_t50/) | 50 | Wilderness |
+| [Basalt Maw](./basalt_maw_t50/) | 50 | Wilderness |
+| [Black Dragon Hatchling](./baby_black_dragon_t50/) | 50 | Wilderness |
+| [Cinder Dreadwing](./baby_lava_dragon_t50/) | 50 | Wilderness |
+| [Cinder Penitent](./cinder_penitent_t50/) | 50 | Wilderness |
+| [Cinderback Crag](./cinderback_crag_t50/) | 50 | Wilderness |
+| [Furnace Grazer](./furnace_grazer_t50/) | 50 | Wilderness |
+| [Furnace Regent](./furnace_regent_t50/) | 50 | Wilderness |
+| [Grave Ghoul](./grave_ghoul_t50/) | 50 | Wilderness |
+| [Hollow Bough](./hollow_bough_t50/) | 50 | Wilderness |
+| [Kiln Marrow](./kiln_marrow_t50/) | 50 | Wilderness |
+| [Pallid Shade](./pallid_shade_t50/) | 50 | Wilderness |
+| [Red Dragon Hatchling](./baby_red_dragon_t50/) | 50 | Wilderness |
+| [Revenant](./revenant_t50/) | 50 | Wilderness |
+| [Skeleton Archer](./skeleton_archer_t50/) | 50 | Wilderness |
+| [Skeleton Mage](./skeleton_mage_t50/) | 50 | Wilderness |
+| [Skeleton Soldier](./skeleton_soldier_t50/) | 50 | Wilderness |
+| [Veil Reaper](./veil_reaper_t50/) | 50 | Wilderness |
+| [Wraith](./wraith_t50/) | 50 | Wilderness |
+| [Black Wilderness Dragon](./black_wilderness_dragon_t70/) | 70 | Wilderness |
+| [Chainbound Archon](./chainbound_archon_t70/) | 70 | Wilderness |
+| [Gloam Wraith](./gloam_wraith_t70/) | 70 | Wilderness |
+| [Nightforge Marshal](./nightforge_marshal_t70/) | 70 | Wilderness |
+| [Purple Wilderness Dragon](./amethyst_dragon_t70/) | 70 | Wilderness |
+| [Red Wilderness Dragon](./red_wilderness_dragon_t70/) | 70 | Wilderness |
+| [Rift Carapace](./rift_carapace_t70/) | 70 | Wilderness |
+| [The Hollow Star](./hollow_star_t70/) | 70 | Wilderness |
+| [Violet Dreadwing](./purple_wilderness_dragon_t70/) | 70 | Wilderness |
+| [Voidstone Colossus](./voidstone_colossus_t70/) | 70 | Wilderness |

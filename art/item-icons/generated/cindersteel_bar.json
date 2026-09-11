@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cindersteel_bar.png",
+  "sha256": "de8e11e96bace347162acf21e4456203d1f93acd946eac45151a2e9bfdc8e802",
+  "prompt": "Use case: stylized-concept. Asset type: polished grounded fantasy RPG inventory icon. Generate one isolated item on a genuinely transparent alpha background, square canvas. Physically convincing high quality 3D rendered appearance with natural detailed materials, matching realistic artisan copper ring inventory art. Three-quarter view, centered complete object, occupies about 75% canvas with generous transparent margin on every side. Soft upper-left key light, clear highlights and readable silhouette at 48 pixels. No frame, text, symbols, watermark, backdrop, floor, cast shadow, hands or extra objects. Subject: Cindersteel Bar. Dense dark steel cast with a molten stone heart. A single dense blackened steel ingot, broad dark metal faces, coarse forged bevels, a narrow subtle orange molten seam visible only on the end. No flames.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "icon-audit/audit.json identifies procedural ingot geometry; icon_3d source review found only ore/deposit GLBs, not usable ingot props. No suitable authored bar model.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

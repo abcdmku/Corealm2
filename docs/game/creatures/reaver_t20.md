@@ -5,11 +5,11 @@ description: "Quarry Bandit spawn locations, combat stats, and drops."
 
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/kilnroad_reavers.webp" alt="Quarry Bandit at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Quarry Bandit</strong><span>Kiln Road Fork, Ashlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Quarry Bandit">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#kiln-road-fork" style="--map-x:46.6667%;--map-y:49.3571%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Quarry Bandit, Kiln Road Fork, Ashlands" title="Quarry Bandit, Kiln Road Fork, Ashlands"><span>Quarry Bandit<small>Kiln Road Fork, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#kiln-road-fork" style="--map-x:46.6667%;--map-y:55.1364%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Quarry Bandit, Kiln Road Fork, Ashlands" title="Quarry Bandit, Kiln Road Fork, Ashlands"><span>Quarry Bandit<small>Kiln Road Fork, Ashlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Quarry Bandit spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Ashlands](../../regions/#kiln-road-fork) | [Kiln Road Fork](../../regions/#kiln-road-fork) | Quarry Bandit | 4 |
+| [Ashlands](../../regions/#kiln-road-fork) | [Kiln Road Fork](../../regions/#kiln-road-fork) | Quarry Bandit | 9 |
 
 ## Stats
 
@@ -42,7 +42,7 @@ description: "Quarry Bandit spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 140-540 | Always |
-| [Heavy Hide](../../items/#heavy-hide) | 1 | 30% |
-| [Titanium Ore](../../items/#titanium-ore) | 1-3 | 30% |
-| [Fire Essence](../../items/#fire-essence) | 1-3 | 20% |
-| [Titanium Boots](../../items/#titanium-boots) | 1 | 3% |
+| [Heavy Hide](../../items/charhide/) | 1 | 30% |
+| [Titanium Ore](../../items/emberite_ore/) | 1-3 | 30% |
+| [Fire Essence](../../items/fire_essence/) | 1-3 | 20% |
+| [Titanium Boots](../../items/emberite_boots/) | 1 | 3% |

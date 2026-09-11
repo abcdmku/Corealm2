@@ -5,11 +5,11 @@ description: "Forest Ogre spawn locations, combat stats, and drops."
 
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/mossbound.webp" alt="Forest Ogre at its authored spawn in Woodlands" loading="lazy" /><figcaption><strong>Forest Ogre</strong><span>Mountain Gate, Woodlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Forest Ogre">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#mountain-gate" style="--map-x:76.5000%;--map-y:59.5357%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Forest Ogre, Mountain Gate, Woodlands" title="Forest Ogre, Mountain Gate, Woodlands"><span>Forest Ogre<small>Mountain Gate, Woodlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#mountain-gate" style="--map-x:76.5000%;--map-y:63.7727%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Forest Ogre, Mountain Gate, Woodlands" title="Forest Ogre, Mountain Gate, Woodlands"><span>Forest Ogre<small>Mountain Gate, Woodlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -33,7 +33,7 @@ description: "Forest Ogre spawn locations, combat stats, and drops."
 
 | Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 5 | 95 | 14 | 10 | 12 | 7 | 3.0 s | 34 | 30 | territorial | 16 m |
+| 5 | 67 | 11 | 8 | 9 | 6 | 3.0 s | 26 | 23 | territorial | 16 m |
 
 ## Drops
 
@@ -42,8 +42,8 @@ description: "Forest Ogre spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 180-320 | Always |
-| [Forest Ogre Sword](../../items/#forest-ogre-sword) | 1 | 10% |
-| [Forest Ogre Staff](../../items/#forest-ogre-staff) | 1 | 10% |
-| [Earth Essence](../../items/#earth-essence) | 2-5 | 50% |
-| [Amber](../../items/#amber) | 1-2 | 50% |
-| [Ash Log](../../items/#ash-log) | 2-4 | 40% |
+| [Forest Ogre Sword](../../items/mossbound_sword/) | 1 | 10% |
+| [Forest Ogre Staff](../../items/mossbound_staff/) | 1 | 10% |
+| [Earth Essence](../../items/earth_essence/) | 2-5 | 50% |
+| [Amber](../../items/vell_amber/) | 1-2 | 50% |
+| [Ash Log](../../items/duskoak_log/) | 2-4 | 40% |

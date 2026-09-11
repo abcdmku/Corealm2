@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "seared_trout.png",
+  "sha256": "c1c6c03d1d1b6eea47893eadea7dbec433332e54fa9f7223ed79fa4cf0aaf6be",
+  "prompt": "Generate a transparent PNG game inventory icon of one seared trout, isolated on actual transparent alpha background. Square image. Polished realistic three-dimensional fantasy item art. Whole trout split open lengthwise showing two thick golden ivory flaky flesh panels, crisp browned speckled skin edges, tiny salt crystals. Head bottom left, tail top right, complete fish with margin. Soft directional studio lighting, clear silhouette, rich volume and appetizing food texture readable at 48px. The fish is the ONLY visible object. All pixels outside the fish must have alpha zero. No checkerboard pattern, no plate, no herbs, no lemon, no floor, no backdrop, no shadows, no typography. Transparent background required.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "The genuine fish_trout GLB was rendered with material shading and inspected. Final Luna max critic rejected that source as flat and low detail; it did not meet the polished grounded item icon standard. This generated replacement follows that concrete source-render rejection.",
+  "review": "Root accepted after fresh Luna max critic approved source and 48px readability. All nine fish passed production inventory lab: loaded 48px rasters, no SVG fallback, matching hover, no errors. Root inspected lab screenshot. Evidence: test-results/icon-fish-final/lab-icons.json and test-results/icon-fish-final/lab-icons.png. Accepted 2026-09-10."
+}

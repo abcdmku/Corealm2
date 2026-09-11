@@ -778,10 +778,39 @@ export function buildItemIconPrimitive(part: ItemIconPrimitivePart): THREE.Group
   return group;
 }
 
-function tintObject(object: THREE.Object3D, colour?: number, accent?: number): void {
+function tintObject(
+  object: THREE.Object3D,
+  colour?: number,
+  accent?: number,
+  surfaceTreatment?: ItemIconAssetPart["surfaceTreatment"],
+  materialLift?: number,
+): void {
   object.traverse((child) => {
     const mesh = child as THREE.Mesh;
     if (!mesh.isMesh) return;
+    const sourceColours = mesh.geometry.getAttribute("color");
+    const bakedVertexColour = surfaceTreatment !== undefined && sourceColours !== undefined;
+    if (bakedVertexColour) {
+      // Rebuild the live palette around the cooked colour while retaining every authored light and
+      // dark marking. The clone owns this geometry; the registry's shared GLB remains untouched.
+      const geometry = mesh.geometry.clone();
+      geometry.userData["itemIconOwned"] = true;
+      const values = new Float32Array(sourceColours.count * sourceColours.itemSize);
+      const target = new THREE.Color(colour ?? 0xffffff);
+      for (let index = 0; index < sourceColours.count; index += 1) {
+        const luma = sourceColours.getX(index) * 0.2126
+          + sourceColours.getY(index) * 0.7152
+          + sourceColours.getZ(index) * 0.0722;
+        const tone = 0.48 + luma * 0.72;
+        const offset = index * sourceColours.itemSize;
+        values[offset] = Math.min(1, target.r * tone);
+        values[offset + 1] = Math.min(1, target.g * tone);
+        values[offset + 2] = Math.min(1, target.b * tone);
+        if (sourceColours.itemSize > 3) values[offset + 3] = sourceColours.getW(index);
+      }
+      geometry.setAttribute("color", new THREE.Float32BufferAttribute(values, sourceColours.itemSize));
+      mesh.geometry = geometry;
+    }
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     const tint = (source: THREE.Material): THREE.Material => {
@@ -790,7 +819,7 @@ function tintObject(object: THREE.Object3D, colour?: number, accent?: number): v
       if (colour !== undefined && standard.color instanceof THREE.Color) {
         // Resource tints multiply the authored surface. Keep painted details, vertex colours,
         // normal maps and the original roughness instead of flattening the whole object.
-        standard.color.setHex(colour);
+        standard.color.setHex(bakedVertexColour ? 0xffffff : colour);
         standard.needsUpdate = true;
       }
       if (accent !== undefined && standard.emissive instanceof THREE.Color) {
@@ -799,6 +828,20 @@ function tintObject(object: THREE.Object3D, colour?: number, accent?: number): v
           standard.emissive.setHex(accent);
           standard.emissiveIntensity = 0.15;
         }
+      }
+      if (surfaceTreatment === "seared") {
+        // A dry, warm surface reads as cooked. Authored markings remain in the recoloured vertex
+        // data instead of the live blue palette.
+        if (typeof standard.roughness === "number") standard.roughness = Math.max(standard.roughness, 0.76);
+        if (typeof standard.metalness === "number") standard.metalness = 0;
+      } else if (surfaceTreatment === "charred") {
+        // Burnt fish stay lifted above black so their fins remain legible against the dark UI.
+        if (typeof standard.roughness === "number") standard.roughness = 0.94;
+        if (typeof standard.metalness === "number") standard.metalness = 0;
+      }
+      if (materialLift !== undefined && standard.emissive instanceof THREE.Color) {
+        standard.emissive.setHex(colour ?? 0xffffff);
+        standard.emissiveIntensity = materialLift;
       }
       return clone;
     };
@@ -830,7 +873,7 @@ export function prepareItemIconAsset(
       mesh.material = Array.isArray(mesh.material) ? mesh.material.map(own) : own(mesh.material);
     });
   } else {
-    tintObject(object, part.colour, part.accent);
+    tintObject(object, part.colour, part.accent, part.surfaceTreatment, part.materialLift);
   }
   if (presentation === "paired-hands") object = stagePairedHands(object, part.assetId);
   if (part.scale !== undefined) object.scale.multiplyScalar(part.scale);

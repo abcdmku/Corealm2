@@ -6,12 +6,12 @@ description: "Highland Bandit spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/karrow_reavers.webp" alt="Highland Bandit at its authored spawn in Highlands" loading="lazy" /><figcaption><strong>Highland Bandit</strong><span>Third Ramp, Highlands</span></figcaption></figure>
 <figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/gravelmaw_ch1_reavers.webp" alt="Highland Bandit at its authored spawn in Stone Cavern" loading="lazy" /><figcaption><strong>Highland Bandit</strong><span>The Lit Gallery, Stone Cavern</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Highland Bandit">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#third-ramp" style="--map-x:62.3333%;--map-y:70.2500%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Highland Bandit, Third Ramp, Highlands" title="Highland Bandit, Third Ramp, Highlands"><span>Highland Bandit<small>Third Ramp, Highlands</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#the-lit-gallery" style="--map-x:53.8333%;--map-y:64.6786%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Highland Bandit, Stone Cavern, The Lit Gallery" title="Highland Bandit, Stone Cavern, The Lit Gallery"><span>Highland Bandit<small>Stone Cavern, The Lit Gallery</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#third-ramp" style="--map-x:62.3333%;--map-y:72.8636%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Highland Bandit, Third Ramp, Highlands" title="Highland Bandit, Third Ramp, Highlands"><span>Highland Bandit<small>Third Ramp, Highlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-lit-gallery" style="--map-x:53.8333%;--map-y:68.1364%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Highland Bandit, Stone Cavern, The Lit Gallery" title="Highland Bandit, Stone Cavern, The Lit Gallery"><span>Highland Bandit<small>Stone Cavern, The Lit Gallery</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -29,8 +29,8 @@ description: "Highland Bandit spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Highlands](../../regions/#third-ramp) | [Third Ramp](../../regions/#third-ramp) | Highland Bandit | 4 |
-| [Stone Cavern](../../regions/#the-lit-gallery) | [The Lit Gallery](../../regions/#the-lit-gallery) | Highland Bandit | 2 |
+| [Highlands](../../regions/#third-ramp) | [Third Ramp](../../regions/#third-ramp) | Highland Bandit | 11 |
+| [Stone Cavern](../../regions/#the-lit-gallery) | [The Lit Gallery](../../regions/#the-lit-gallery) | Highland Bandit | 7 |
 
 ## Stats
 
@@ -45,7 +45,7 @@ description: "Highland Bandit spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 70-270 | Always |
-| [Fur Pelt](../../items/#fur-pelt) | 1 | 30% |
-| [Cobalt Ore](../../items/#cobalt-ore) | 1-3 | 30% |
-| [Water Essence](../../items/#water-essence) | 1-3 | 20% |
-| [Cobalt Dagger](../../items/#cobalt-dagger) | 1 | 3% |
+| [Fur Pelt](../../items/cairn_pelt/) | 1 | 30% |
+| [Cobalt Ore](../../items/kaldite_ore/) | 1-3 | 30% |
+| [Water Essence](../../items/water_essence/) | 1-3 | 20% |
+| [Cobalt Dagger](../../items/kaldite_dagger/) | 1 | 3% |

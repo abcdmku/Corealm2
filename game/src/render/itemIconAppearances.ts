@@ -51,6 +51,10 @@ export interface ItemIconAssetPart {
   colour?: number;
   accent?: number;
   scale?: number;
+  /** Changes the authored surface to the item's cooked state without replacing its silhouette. */
+  surfaceTreatment?: "seared" | "charred";
+  /** Small self-lit contribution for dark authored textures on the inventory's near-black panels. */
+  materialLift?: number;
   /** Exact production equipment treatment, including its charged or depleted crystal. */
   gearAppearance?: GearAppearance;
   /**
@@ -107,8 +111,20 @@ function put(
   APPEARANCES.set(itemId, { itemId, parts, ...options });
 }
 
-function asset(assetId: string, colour?: number, scale?: number): ItemIconAssetPart {
-  return { kind: "asset", assetId, ...(colour === undefined ? {} : { colour }), ...(scale === undefined ? {} : { scale }) };
+function asset(
+  assetId: string,
+  colour?: number,
+  scale?: number,
+  surfaceTreatment?: ItemIconAssetPart["surfaceTreatment"],
+  materialLift?: number,
+): ItemIconAssetPart {
+  return {
+    kind: "asset", assetId,
+    ...(colour === undefined ? {} : { colour }),
+    ...(scale === undefined ? {} : { scale }),
+    ...(surfaceTreatment === undefined ? {} : { surfaceTreatment }),
+    ...(materialLift === undefined ? {} : { materialLift }),
+  };
 }
 
 function primitive(
@@ -154,7 +170,6 @@ const WOOD: Readonly<Record<number, number>> = {
   30: 0x79734e, 40: 0x805638, 50: 0x79513b, 60: 0x68422f, 70: 0x625276,
 };
 
-/** Fresh end grain stays lighter than bark, including the scorched Cinderpine tier. */
 const LOG_END_GRAIN: Readonly<Record<number, number>> = {
   1: 0xd9c49a,
   5: 0xb99a74,
@@ -179,13 +194,36 @@ put("cindervein_ore", [asset("corealm_ore_cindervein")]);
 put("nightglass_ore", [asset("corealm_ore_nightglass")]);
 put("kilnstone", [asset("rock_small_1", 0x4a443c)]);
 
+// The available environment-log GLBs are branch-covered fallen trunks with no readable cut face at
+// inventory size. Keep this explicit fallback until accepted generated art supplies finished logs.
 for (const id of TREE_SPECIES.map(species => species.logId)) {
   put(id, [primitive("log", wood(id), LOG_END_GRAIN[def(id).tier])], { rotation: [0, 0, -0.2] });
 }
 
-put("silt_minnow", [primitive("fish", 0x7f98a3, 0xc4d4d7)]);
-put("bramble_trout", [primitive("fish", 0x4f5962, 0x9d6d54)]);
-put("cragfin", [primitive("fish", 0x53697b, 0xb9c4c5)]);
+const FISH_ASSETS = {
+  minnow: "fish_minnow",
+  trout: "fish_trout",
+  cragfin: "animal_perch",
+} as const;
+
+const RAW_FISH_COLOURS = {
+  minnow: 0xa9bbc0,
+  trout: 0x716b61,
+  cragfin: 0x8d835e,
+} as const;
+
+for (const [itemId, fish] of [
+  ["silt_minnow", "minnow"],
+  ["bramble_trout", "trout"],
+  ["cragfin", "cragfin"],
+] as const) {
+  put(itemId, [asset(FISH_ASSETS[fish], RAW_FISH_COLOURS[fish], undefined, undefined,
+    fish === "cragfin" ? 0.12 : undefined)], {
+    rotation: [0.1, -0.34, -0.18], frameScale: 1.04,
+  });
+}
+// The shipped cragfin GLB is a full school, and the single-fish Perch GLB is the wrong species for
+// a Bass. Keep the fallback isolated until the accepted generated Bass art replaces it.
 put("ashfin", [primitive("fish", 0x574a44, 0xd88a56)]);
 
 // Processed resources and components.
@@ -357,13 +395,20 @@ put("raw_ember_haunch", [primitive("meat", 0xa8524a, 0xf0e2c8)]);
 put("roast_ember_haunch", [primitive("meat", 0x84431f, 0xe2d3b6)]);
 put("burnt_ember_haunch", [primitive("meat", 0x241f1d, 0x4f4841)]);
 
-// Seeds and food. Raw and cooked fish share a model, while colour carries preparation state.
-put("seared_minnow", [primitive("fish", 0xc58a54, 0xf0c781)]);
-put("burnt_minnow", [primitive("fish", 0x3b3029, 0x72533d)]);
-put("seared_trout", [primitive("fish", 0xa76a48, 0xdfad70)]);
-put("burnt_trout", [primitive("fish", 0x312925, 0x654837)]);
-put("seared_cragfin", [primitive("fish", 0x9e704f, 0xe3b877)]);
-put("burnt_cragfin", [primitive("fish", 0x282322, 0x59443a)]);
+// Cooked fish keep the exact caught-species silhouette. The renderer bakes or chars the cloned
+// authored material, so food state remains clear without substituting a generic procedural fish.
+for (const [itemId, fish, colour, treatment, materialLift] of [
+  ["seared_minnow", "minnow", 0xc58a54, "seared", undefined],
+  ["burnt_minnow", "minnow", 0x60483a, "charred", undefined],
+  ["seared_trout", "trout", 0xb5774d, "seared", undefined],
+  ["burnt_trout", "trout", 0x584035, "charred", undefined],
+  ["seared_cragfin", "cragfin", 0xae7950, "seared", 0.16],
+  ["burnt_cragfin", "cragfin", 0x604941, "charred", 0.24],
+] as const) {
+  put(itemId, [asset(FISH_ASSETS[fish], colour, undefined, treatment, materialLift)], {
+    rotation: [0.1, -0.34, -0.18], frameScale: 1.04,
+  });
+}
 put("seared_ashfin", [primitive("fish", 0xa06342, 0xe8ab6a)]);
 put("burnt_ashfin", [primitive("fish", 0x231f1e, 0x4f3c32)]);
 

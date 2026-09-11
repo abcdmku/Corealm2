@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "seared_cragfin.png",
+  "sha256": "186872cc285d782daa5702b4566158a48bc550bd9506ef3f1a5e89cf53a230f5",
+  "prompt": "Use case: stylized-concept. Generate a polished grounded realistic three-dimensional fantasy RPG inventory icon of one whole Seared Perch, hearty provisions for a quarry worker. Deep slab-sided perch head left and forked tail right on a gentle diagonal, three-quarter product view of the fish lying on its side but floating isolated without any supporting surface. Fully cooked crisp golden bronze skin, three deep diagonal scoring cuts reveal moist ivory cooked flesh, blistered browned scale crust, dark caramelized fin edges, opaque cooked eye, shortened crisp spined dorsal. Rich appetizing material detail with physical volume and strong soft upper-left light, carefully placed highlights. Distinct cooked anatomy and material, not a raw fish merely colored brown. Whole fish fills 85 percent of square canvas, broad strong silhouette readable at 48 pixels. True transparent alpha background. No plate, floor, shadow outside object, garnish, lemon, herbs, utensil, text, border, tile, cartoon outline or flat low-detail geometry.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "The genuine true3D animal_perch GLB was rendered with shading and rejected by the final Luna max icon critic as flat and low detail. This generated source replaces that rejected single-perch render.",
+  "review": "Root accepted after fresh Luna max critic approved source and 48px readability. All nine fish passed production inventory lab: loaded 48px rasters, no SVG fallback, matching hover, no errors. Root inspected lab screenshot. Evidence: test-results/icon-fish-final/lab-icons.json and test-results/icon-fish-final/lab-icons.png. Accepted 2026-09-10."
+}

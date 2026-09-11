@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "bramble_trout.png",
+  "sha256": "859187e77f24c1b4b225cf3318bc9e04fb0e5a249d4e91b2c364d5c80592dc5b",
+  "prompt": "Use case: stylized-concept. Asset type: polished grounded fantasy RPG inventory item icon readable at 48 pixels. Square composition, one isolated fish, believable three-dimensional volume, detailed realistic materials and soft studio light from upper left. Full object contained with clear margins, strong silhouette. True transparent alpha background. No plate, stone, floor, scene, drop shadow, text, labels, border, garnish, utensils, cartoon outline or flat vector rendering. Subject: Trout. One whole raw black-backed freshwater trout from dark Blackwater pools, healthy natural fish anatomy with small salmonid head at lower left, tail at upper right. Sleek thick rounded body, charcoal black dorsal surface, silver pewter scaled flanks with small dark trout spots, subtle bronze tint, pale belly, distinct soft dorsal fin and small adipose fin, realistic gill cover and glossy eye. Gently curved harvested fish pose, three-quarter side view showing depth. Rich small-scale detail, wet silvery highlights, no wound or gore.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "The genuine fish_trout GLB was rendered with material shading and inspected. Final Luna max critic rejected that source as flat and low detail; it did not meet the polished grounded item icon standard. This generated replacement follows that concrete source-render rejection.",
+  "review": "Root accepted after fresh Luna max critic approved source and 48px readability. All nine fish passed production inventory lab: loaded 48px rasters, no SVG fallback, matching hover, no errors. Root inspected lab screenshot. Evidence: test-results/icon-fish-final/lab-icons.json and test-results/icon-fish-final/lab-icons.png. Accepted 2026-09-10."
+}

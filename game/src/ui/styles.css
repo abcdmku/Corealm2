@@ -35,6 +35,7 @@
 @import "./styles/spellbook.css";
 @import "./styles/loot.css";
 @import "./styles/agent.css";
+@import "./tooltip.css";
 /*
  * `./styles/mobile.css` is NOT imported here. Imports have to sit above every rule, so an import
  * would land before the desktop rules below and lose to them on order; index.html links it as a
@@ -496,34 +497,6 @@ html, body {
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
 }
 .skill-text { color: var(--skill-colour, var(--ink)); }
-
-/* --------------------------------------------------------------- tooltip */
-
-/* The item card: near-opaque glass, brass name, stat deltas in green and red. */
-.tooltip {
-  position: fixed;
-  max-width: 34ch;
-  padding: var(--space-2) var(--space-3);
-  background: rgba(14, 12, 9, 0.96);
-  border: 1px solid rgba(212, 175, 88, 0.3);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-pop);
-  font-size: var(--size-sm);
-  line-height: 1.45;
-  color: var(--ink);
-  z-index: var(--z-tooltip);
-  pointer-events: none;
-}
-
-.tooltip__title { font-family: var(--font-display); font-size: var(--size-sm); font-weight: 700; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 2px; }
-.tooltip__tier { color: var(--ink-dim); font-size: var(--size-xs); letter-spacing: var(--tracking-wide); }
-.tooltip__body { color: var(--ink-dim); margin-top: var(--space-1); }
-.tooltip__stats { display: grid; grid-template-columns: auto auto; gap: 1px var(--space-3); margin-top: var(--space-2); }
-.tooltip__stat-value { font-family: var(--font-numeric); text-align: right; }
-.tooltip__delta-up { color: var(--success); }
-.tooltip__delta-down { color: var(--danger); }
-.tooltip__requirement { color: var(--ink-dim); margin-top: var(--space-2); font-size: var(--size-xs); }
-.tooltip__requirement.is-unmet { color: #eda392; }
 
 /* ---------------------------------------------------------- context menu */
 
@@ -1489,8 +1462,6 @@ html, body {
 .shop-row.is-blocked { opacity: 0.72; }
 .shop-row.is-blocked .shop-row__action { border-color: var(--panel-edge); color: var(--ink-faint); cursor: default; }
 
-.tooltip__count { color: var(--ink-dim); font-weight: 400; }
-
 /* ------------------------------------------------------------- the dock */
 
 /*
@@ -2155,9 +2126,3 @@ html, body {
   .skill-guide__unlocks { max-height: none; }
   .skill-guide__unlock { grid-template-columns: 34px minmax(0, 1fr) auto; }
 }
-
-/* Rune costs belong to the spell hover card. */
-.tooltip__rune-cost { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
-.tooltip__rune-cost .rune-icon { flex: none; width: 24px; height: 24px; }
-.tooltip__rune-carried { margin-left: auto; color: var(--ink-dim); font-size: var(--size-xs); }
-.tooltip__rune-cost.is-short, .tooltip__rune-cost.is-short .tooltip__rune-carried { color: #ff9684; }

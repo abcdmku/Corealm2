@@ -1,22 +1,15 @@
 /**
  * The one tooltip in the game.
  *
- * Every panel that shows an item hands this the item id and an anchor element; nothing else builds
- * its own hover card. That matters for the PRD's readability contract, which is specific about what
- * an item tooltip must say: name, category, description, requirements in plain text with the
- * reason when they are unmet, value, and — for equipment — the stat delta against what is currently
- * worn. A second tooltip implementation somewhere would drift off that list within a round.
- *
- * The card is rendered from a signature-compared descriptor, positioned to stay on screen, and
- * never given pointer events, because it sits under the cursor.
+ * Item facts come from itemTooltipContent, which the generated Codex also uses. This renderer adds
+ * live skill levels, equipped-item comparison, weapon charge, and DOM positioning.
  */
 import type {
-  EquipSlot, EquipmentBonuses, EquippedMagicWeaponView, GameApi, ItemDef, ItemId, SkillId,
-  SpellElement, SpellRow,
+  EquipSlot, EquipmentBonuses, EquippedMagicWeaponView, GameApi, ItemId, SkillId, SpellRow,
 } from "../contracts.js";
 import { content } from "../content/index.js";
-import { runeIconSvg } from "./runeIcons.js";
-import { SKILLS } from "../content/skills.js";
+import { createItemIcon } from "./itemIcons.js";
+import { itemTooltipContent } from "./itemTooltipContent.js";
 
 export type TooltipContent =
   | {
@@ -31,25 +24,8 @@ export type TooltipContent =
   }
   | { kind: "text"; title: string; lines: string[]; runeCosts?: SpellRow["runes"] };
 
-const BONUS_LABELS: readonly [keyof EquipmentBonuses, string][] = [
-  ["accuracy", "Accuracy"],
-  ["power", "Power"],
-  ["armour", "Armour"],
-  ["magicAccuracy", "Magic accuracy"],
-  ["magicPower", "Magic power"],
-  ["magicArmour", "Magic armour"],
-  ["vitality", "Vitality"],
-];
-
 const EMPTY_BONUSES: EquipmentBonuses = {
   accuracy: 0, power: 0, armour: 0, magicAccuracy: 0, magicPower: 0, magicArmour: 0, vitality: 0,
-};
-
-const ELEMENT_LABELS: Readonly<Record<SpellElement, string>> = {
-  wind: "Air",
-  water: "Water",
-  earth: "Earth",
-  fire: "Fire",
 };
 
 export function liveWeaponChargeFor(
@@ -59,17 +35,7 @@ export function liveWeaponChargeFor(
   return equipped?.itemId === itemId ? equipped.charges : null;
 }
 
-export function formatWeaponChargeLine(
-  element: SpellElement,
-  capacity: number,
-  charges: number | null,
-): string {
-  const name = ELEMENT_LABELS[element];
-  const maximum = Math.max(0, Math.floor(capacity)).toLocaleString("en-US");
-  if (charges === null) return `${name} weapon · ${maximum} charge capacity.`;
-  const current = Math.max(0, Math.min(capacity, Math.floor(charges))).toLocaleString("en-US");
-  return `${name} weapon · ${current} / ${maximum} charges remaining.`;
-}
+export { formatWeaponChargeLine } from "./itemTooltipContent.js";
 
 const EDGE_MARGIN_PX = 10;
 const ANCHOR_GAP_PX = 12;
@@ -93,10 +59,6 @@ export class Tooltip {
     parent.appendChild(this.element);
   }
 
-  /**
-   * Wires hover and focus on an element to a content provider. The provider is called on enter, so
-   * a slot that changed since mount still describes what is in it now.
-   */
   attach(target: Element, provider: () => TooltipContent | null): () => void {
     let attached = true;
     const show = (): void => {
@@ -138,7 +100,6 @@ export class Tooltip {
     this.position(anchor);
   }
 
-  /** Repaints the open card from its provider without requiring the pointer to leave and re-enter. */
   refresh(): void {
     const anchor = this.anchor;
     const provider = this.activeProvider;
@@ -160,11 +121,8 @@ export class Tooltip {
     this.element.remove();
   }
 
-  // ----------------------------------------------------------------- render
-
   private signatureFor(spec: TooltipContent): string {
     if (spec.kind === "text") return `t:${spec.title}:${spec.lines.join("|")}:${JSON.stringify(spec.runeCosts ?? [])}`;
-    // Skill levels are in the signature because a level-up changes a requirement from red to grey.
     const skills = this.api.getSkills();
     const levels = (Object.keys(skills) as SkillId[]).map((id) => skills[id].level).join(",");
     const worn = spec.compareEquipped ? this.equippedIn(this.slotOf(spec.itemId)) : null;
@@ -201,13 +159,13 @@ export class Tooltip {
         cost.className = `tooltip__rune-cost${rune.carried < rune.quantity ? " is-short" : ""}`;
         cost.dataset["rune"] = rune.itemId;
         cost.dataset["carried"] = String(rune.carried);
-        cost.innerHTML = runeIconSvg(rune.itemId, 24) ?? "";
+        const icon = createItemIcon(content.item(rune.itemId));
         const label = document.createElement("span");
         label.textContent = `${rune.quantity} ${rune.name}`;
         const carried = document.createElement("span");
         carried.className = "tooltip__rune-carried";
         carried.textContent = `${rune.carried} carried${rune.carried < rune.quantity ? ", missing" : ""}`;
-        cost.append(label, carried);
+        cost.append(icon, label, carried);
         nodes.push(cost);
       }
     }
@@ -216,169 +174,93 @@ export class Tooltip {
 
   private renderItem(spec: Extract<TooltipContent, { kind: "item" }>): HTMLElement[] {
     const def = content.item(spec.itemId);
+    const worn = def?.equip && spec.compareEquipped ? this.wornBonuses(def.equip.slot, def.id) : null;
+    const liveCharge = def?.magicWeapon?.charge
+      ? liveWeaponChargeFor(def.id, this.api.getSpellbook().equippedWeapon)
+      : null;
+    const model = itemTooltipContent(spec.itemId, {
+      quantity: spec.quantity,
+      skillLevels: this.api.getSkills(),
+      ...(worn ? { wornBonuses: worn, comparedSlotLabel: this.slotLabel(def!.equip!.slot) } : {}),
+      liveWeaponCharges: liveCharge,
+      footer: spec.footer,
+    });
     const nodes: HTMLElement[] = [];
 
     const title = document.createElement("div");
     title.className = "tooltip__title";
-    title.textContent = def?.name ?? spec.itemId;
-    if (spec.quantity !== undefined && spec.quantity > 1) {
+    title.textContent = model.title;
+    if (model.quantity !== undefined && model.quantity > 1) {
       const count = document.createElement("span");
       count.className = "tooltip__count u-numeric";
-      count.textContent = ` ×${spec.quantity.toLocaleString("en-US")}`;
+      count.textContent = ` ×${model.quantity.toLocaleString("en-US")}`;
       title.appendChild(count);
     }
     nodes.push(title);
 
     if (!def) {
-      // Content for this id has not been registered yet. Say so rather than rendering a blank card.
       const unknown = document.createElement("div");
       unknown.className = "tooltip__body";
-      unknown.textContent = "No description available yet.";
+      unknown.textContent = model.details[0] ?? "No description available yet.";
       nodes.push(unknown);
       return nodes;
     }
 
     const meta = document.createElement("div");
     meta.className = "tooltip__tier";
-    meta.textContent = `${def.category}${def.stackable ? " · stacks" : ""}`;
+    meta.textContent = model.meta ?? "";
     nodes.push(meta);
-
-    if (def.description) {
+    if (model.description) {
       const body = document.createElement("div");
       body.className = "tooltip__body";
-      body.textContent = def.description;
+      body.textContent = model.description;
       nodes.push(body);
     }
-
-    if (def.equip) {
-      const worn = spec.compareEquipped ? this.wornBonuses(def.equip.slot, def.id) : null;
-      nodes.push(this.renderBonuses(def.equip.bonuses, worn));
-      if (def.equip.attackSpeedMs !== undefined) {
-        const speed = document.createElement("div");
-        speed.className = "tooltip__body u-numeric";
-        speed.textContent = def.magicWeapon
-          ? `Cast cadence ${(def.equip.attackSpeedMs / 1000).toFixed(1)} s`
-          : `Attack speed ${(def.equip.attackSpeedMs / 1000).toFixed(1)} s`;
-        nodes.push(speed);
-      }
-      if (def.magicWeapon) {
-        const role = document.createElement("div");
-        role.className = "tooltip__body";
-        role.textContent = def.magicWeapon.kind === "wand"
-          ? "Wand: one-handed, faster casts, weaker hits."
-          : "Staff: two-handed, slower casts, stronger hits.";
-        nodes.push(role);
-      }
-      const charge = def.magicWeapon?.charge;
-      if (charge) {
-        const live = liveWeaponChargeFor(def.id, this.api.getSpellbook().equippedWeapon);
-        const chargeLine = document.createElement("div");
-        chargeLine.className = "tooltip__body u-numeric";
-        chargeLine.textContent = formatWeaponChargeLine(charge.element, charge.capacity, live);
-        nodes.push(chargeLine);
-
-        const recharge = document.createElement("div");
-        recharge.className = "tooltip__body";
-        const essence = content.item(charge.rechargeItemId)?.name ?? charge.rechargeItemId;
-        recharge.textContent =
-          `${charge.rechargeCost.toLocaleString("en-US")} ${essence} at an Essence Altar refills it.`;
-        nodes.push(recharge);
-      }
-      if (worn) {
-        const note = document.createElement("div");
-        note.className = "tooltip__body u-faint";
-        note.textContent = `Compared with your ${this.slotLabel(def.equip.slot)}.`;
-        nodes.push(note);
-      }
-    }
-
-    if (def.orb) {
-      const element = ELEMENT_LABELS[def.orb.element];
-      const craftedCharge = content.allItems()
-        .find((candidate) => candidate.magicWeapon?.charge?.orbItemId === def.id)
-        ?.magicWeapon?.charge;
-      const firstDrop = document.createElement("div");
-      firstDrop.className = "tooltip__body";
-      firstDrop.textContent =
-        `Craft this into a ${element} wand or staff. The finished weapon starts with `
-        + `${(craftedCharge?.initialCharges ?? 1000).toLocaleString("en-US")} charges.`;
-      nodes.push(firstDrop);
-
-      if (!def.orb.released) {
-        const unreleased = document.createElement("div");
-        unreleased.className = "tooltip__requirement is-unmet";
-        unreleased.textContent = "This orb is not released.";
-        nodes.push(unreleased);
-      }
-    }
-
-    if (def.food) {
-      const heal = document.createElement("div");
-      heal.className = "tooltip__body";
-      heal.textContent = `Heals ${def.food.healAmount} health.`;
-      nodes.push(heal);
-    }
-
-    if (def.tool) {
-      const tool = document.createElement("div");
-      tool.className = "tooltip__body";
-      tool.textContent = `${SKILLS[def.tool.skill].name} tool, +${def.tool.gatherBonus} effective levels.`;
-      nodes.push(tool);
-    }
-
-    for (const requirement of this.requirementLines(def)) {
+    if (def.equip) nodes.push(this.renderBonuses(model.stats));
+    for (const detail of model.details) {
       const line = document.createElement("div");
-      line.className = requirement.met ? "tooltip__requirement" : "tooltip__requirement is-unmet";
+      line.className = detail === "This orb is not released."
+        ? "tooltip__requirement is-unmet"
+        : detail.startsWith("Compared with your ") ? "tooltip__body u-faint" : "tooltip__body";
+      line.textContent = detail;
+      nodes.push(line);
+    }
+    for (const requirement of model.requirements) {
+      const line = document.createElement("div");
+      line.className = requirement.met === false ? "tooltip__requirement is-unmet" : "tooltip__requirement";
       line.textContent = requirement.text;
       nodes.push(line);
     }
-
     const value = document.createElement("div");
     value.className = "tooltip__body u-numeric";
-    value.textContent = `Value ${def.value.toLocaleString("en-US")} · sells for ${Math.round(def.value * 0.6).toLocaleString("en-US")}`;
+    value.textContent = model.value ?? "";
     nodes.push(value);
-
-    for (const line of spec.footer ?? []) {
-      const extra = document.createElement("div");
-      extra.className = "tooltip__body";
-      extra.textContent = line;
-      nodes.push(extra);
+    for (const footer of model.footer) {
+      const line = document.createElement("div");
+      line.className = "tooltip__body";
+      line.textContent = footer;
+      nodes.push(line);
     }
-
     return nodes;
   }
 
-  /**
-   * The stat table. With a comparison, each row is "value (+delta)" so the player can read the
-   * trade — a swap that raises armour and drops power is the common case and it has to be obvious.
-   */
-  private renderBonuses(bonuses: EquipmentBonuses, worn: EquipmentBonuses | null): HTMLElement {
+  private renderBonuses(stats: ReturnType<typeof itemTooltipContent>["stats"]): HTMLElement {
     const table = document.createElement("div");
     table.className = "tooltip__stats";
-
-    for (const [key, label] of BONUS_LABELS) {
-      const value = bonuses[key];
-      const wornValue = worn ? worn[key] : 0;
-      const delta = value - wornValue;
-      if (value === 0 && delta === 0) continue;
-
+    for (const stat of stats) {
       const name = document.createElement("span");
-      name.textContent = label;
-
+      name.textContent = stat.label;
       const amount = document.createElement("span");
       amount.className = "tooltip__stat-value u-numeric";
-      amount.textContent = value > 0 ? `+${value}` : String(value);
-
-      if (worn) {
+      amount.textContent = stat.value > 0 ? `+${stat.value}` : String(stat.value);
+      if (stat.delta !== undefined) {
         const change = document.createElement("span");
-        change.className = delta > 0 ? "tooltip__delta-up" : delta < 0 ? "tooltip__delta-down" : "u-faint";
-        change.textContent = delta === 0 ? " (=)" : ` (${delta > 0 ? "+" : ""}${delta})`;
+        change.className = stat.delta > 0 ? "tooltip__delta-up" : stat.delta < 0 ? "tooltip__delta-down" : "u-faint";
+        change.textContent = stat.delta === 0 ? " (=)" : ` (${stat.delta > 0 ? "+" : ""}${stat.delta})`;
         amount.appendChild(change);
       }
-
       table.append(name, amount);
     }
-
     if (table.childElementCount === 0) {
       const none = document.createElement("span");
       none.className = "u-faint";
@@ -386,25 +268,6 @@ export class Tooltip {
       table.appendChild(none);
     }
     return table;
-  }
-
-  private requirementLines(def: ItemDef): { text: string; met: boolean }[] {
-    const requires = def.equip?.requires;
-    if (!requires) return [];
-    const skills = this.api.getSkills();
-    const lines: { text: string; met: boolean }[] = [];
-    for (const [skill, level] of Object.entries(requires)) {
-      if (typeof level !== "number") continue;
-      const id = skill as SkillId;
-      const have = skills[id]?.level ?? 1;
-      lines.push({
-        text: have >= level
-          ? `Requires ${SKILLS[id].name} ${level}`
-          : `Requires ${SKILLS[id].name} ${level} — you have ${have}`,
-        met: have >= level,
-      });
-    }
-    return lines;
   }
 
   private slotOf(itemId: ItemId): EquipSlot | null {
@@ -416,7 +279,6 @@ export class Tooltip {
     return this.api.getEquipment().slots[slot]?.itemId ?? null;
   }
 
-  /** Null when nothing is worn in that slot or when the hovered item IS the worn one. */
   private wornBonuses(slot: EquipSlot, hoveredId: ItemId): EquipmentBonuses | null {
     const equipped = this.api.getEquipment().slots[slot];
     if (!equipped) return EMPTY_BONUSES;
@@ -428,27 +290,21 @@ export class Tooltip {
     return slot.replace(/([A-Z])/g, " $1").replace(/(\d)/g, " $1").toLowerCase().trim();
   }
 
-  // --------------------------------------------------------------- position
-
-  /** Right of the anchor, flipped left when it would leave the viewport, clamped vertically. */
   private position(anchor: Element): void {
     const target = anchor.getBoundingClientRect();
     this.element.style.left = "0px";
     this.element.style.top = "0px";
     const card = this.element.getBoundingClientRect();
-
     let left = target.right + ANCHOR_GAP_PX;
     if (left + card.width + EDGE_MARGIN_PX > window.innerWidth) {
       left = target.left - card.width - ANCHOR_GAP_PX;
     }
     if (left < EDGE_MARGIN_PX) left = EDGE_MARGIN_PX;
-
     let top = target.top;
     if (top + card.height + EDGE_MARGIN_PX > window.innerHeight) {
       top = window.innerHeight - card.height - EDGE_MARGIN_PX;
     }
     if (top < EDGE_MARGIN_PX) top = EDGE_MARGIN_PX;
-
     this.element.style.left = `${Math.round(left)}px`;
     this.element.style.top = `${Math.round(top)}px`;
   }

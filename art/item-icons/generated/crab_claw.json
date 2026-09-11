@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "crab_claw.png",
+  "sha256": "d0c15563418d93941b34e2b9a963ac21e1ecef9fcf45d854f2cb9ac691616914",
+  "prompt": "Use case: stylized-concept. Asset type: polished grounded fantasy RPG inventory icon. Subject: Crab Claw. Exact game description: Off a giant crab, and big enough to have taken a pick handle in half. Render One massive detached rust red crab pincer with open toothed jaws and a stout pebbled shell, clean dry joint. Realistic finely textured natural material, carefully lit sculptural three-quarter view, crisp silhouette readable at 48px. Center single item diagonally in square canvas occupying 80 percent with transparent margin. Soft upper-left studio illumination and subtle self-shadow. Actual transparent alpha background; no floor, tile, frame, text, watermark, extra objects, gore, painted backdrop, checkerboard or glow. Premium realistic rendered item art with tactile detail.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "Luna audit test-results/icon-audit/audit.json flags crab_claw as needs-generated-art: current appearance uses claw procedural geometry. Candidate search: game/public/assets/models/animal/animal_crab.glb, game/public/assets/models/corealm/nature/corealm_deadwood_claw.glb, game/public/assets/models/creature/creature_basalt_maw.glb, game/public/assets/models/creature/creature_cinder_ravager.glb. Source expert confirmed no separate usable trophy prop; whole creatures are not detached material props.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

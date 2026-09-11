@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "kaldite_dagger.png",
+  "sha256": "143a74fb22aa7da252bf2f52b23990b2648022fd24b7e3127c2a4f11df7888e5",
+  "prompt": "Use case: stylized-concept. Asset: square fantasy RPG inventory icon, a single isolated item on genuinely transparent alpha background. Premium grounded realistic 3D-rendered natural materials, crisp bevels and physically plausible soft studio reflections, subtle wear. Centered diagonal from bottom-left grip to upper-right tip, entirely visible with 8% margins, strong silhouette readable at 48 pixels. No text, watermark, border, tile, floor, backdrop, glow or extra objects. Subject: Cobalt Dagger. Slim triangular-section stiletto blade with needle point, black cobalt metal polished with cool silver edge reflections, asymmetric narrow slanted crossguard with a small finger ring on one side, ridged silver pommel set with one tiny dark red garnet, seven turns dark brown leather wrap grip. Practical compact dagger, no ornate decoration. Actual description: A punch of black Cobalt with a needle point. It goes through moor-rot like paper.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "EQUIPMENT_DAGGER_ASSETS in game/src/render/proceduralGear.ts maps this item to corealm_dagger procedural geometry built by buildEquipmentDagger in proceduralGearModels.ts. Asset specialist confirmed no genuine GLB source; existing art/item-icons/256 render, grade geometry and current game/src/content/equipment.ts description inspected.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

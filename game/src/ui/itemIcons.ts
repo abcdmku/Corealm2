@@ -21,8 +21,8 @@ import { runeIconSvg } from "./runeIcons.js";
  *   3. What it heals, buys or builds — food, currency, tool, component.
  *   4. Its raw category, for anything left over.
  *
- * The 3D icon pipeline now supplies a 48 px transparent PNG for every item. These paths remain the
- * synchronous fallback while that image loads and if an asset request fails.
+ * The icon pipeline now supplies a 48 px transparent PNG for every item. These legacy shape
+ * helpers remain for callers that explicitly request a glyph; inventory icons use only the PNG.
  */
 import type { EquipSlot, ItemCategory, ItemDef } from "../contracts.js";
 
@@ -197,19 +197,10 @@ export function itemIconUrl(def: ItemDef | undefined): string | undefined {
   return def ? `${ITEM_ICON_BASE_URL}${encodeURIComponent(def.id)}.png` : undefined;
 }
 
-/**
- * A 48 px raster icon with the old vector silhouette behind it.
- *
- * The image starts hidden, so a slow or failed request never flashes a broken-image marker over an
- * inventory slot. On a successful load it replaces the SVG in one class change. The wrapper is
- * capped at 48 CSS pixels even in the 50-56 px equipment slots.
- */
+/** Every inventory item, including runes, uses its audited 48px artwork. */
 export function createItemIcon(def: ItemDef | undefined): HTMLElement {
   const wrapper = document.createElement("span");
   wrapper.className = "item-icon";
-  wrapper.innerHTML = itemIconSvg(def);
-
-  if (def && runeIconSvg(def.id)) return wrapper;
 
   const url = itemIconUrl(def);
   if (!url) return wrapper;
@@ -227,7 +218,10 @@ export function createItemIcon(def: ItemDef | undefined): HTMLElement {
     image.hidden = false;
     wrapper.classList.add("is-raster-ready");
   }, { once: true });
-  image.addEventListener("error", () => image.remove(), { once: true });
+  image.addEventListener("error", () => {
+    wrapper.dataset["iconError"] = def!.id;
+    image.remove();
+  }, { once: true });
   wrapper.appendChild(image);
   return wrapper;
 }

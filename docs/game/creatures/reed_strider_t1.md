@@ -6,12 +6,12 @@ description: "Reed Strider spawn locations, combat stats, and drops."
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/pack_fallowmarch_palewood_reed_scrub.webp" alt="Reed Strider at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Reed Strider</strong><span>Pine Grove, Farmland</span></figcaption></figure>
 <figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_bracken_north_striders.webp" alt="Reed Strider at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Reed Strider</strong><span>Copper Pit, Farmland</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Reed Strider">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#pine-grove" style="--map-x:22.0833%;--map-y:70.3036%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Reed Strider, Pine Grove, Farmland" title="Reed Strider, Pine Grove, Farmland"><span>Reed Strider<small>Pine Grove, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:40.3333%;--map-y:57.3929%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Reed Strider, Copper Pit, Farmland" title="Reed Strider, Copper Pit, Farmland"><span>Reed Strider<small>Copper Pit, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#pine-grove" style="--map-x:21.9167%;--map-y:73.7273%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Reed Strider, Pine Grove, Farmland" title="Reed Strider, Pine Grove, Farmland"><span>Reed Strider<small>Pine Grove, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:40.3333%;--map-y:61.9545%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Reed Strider, Copper Pit, Farmland" title="Reed Strider, Copper Pit, Farmland"><span>Reed Strider<small>Copper Pit, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -29,8 +29,8 @@ description: "Reed Strider spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Farmland](../../regions/#pine-grove) | [Pine Grove](../../regions/#pine-grove) | Reed Strider | 1 |
-| [Farmland](../../regions/#copper-pit) | [Copper Pit](../../regions/#copper-pit) | Reed Strider | 3 |
+| [Farmland](../../regions/#pine-grove) | [Pine Grove](../../regions/#pine-grove) | Reed Strider | 7 |
+| [Farmland](../../regions/#copper-pit) | [Copper Pit](../../regions/#copper-pit) | Reed Strider | 14 |
 
 ## Stats
 
@@ -45,4 +45,4 @@ description: "Reed Strider spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 1-2 | Always |
-| [Earth Essence](../../items/#earth-essence) | 1-2 | 35% |
+| [Earth Essence](../../items/earth_essence/) | 1-2 | 35% |

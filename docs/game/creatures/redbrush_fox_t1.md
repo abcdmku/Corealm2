@@ -5,11 +5,11 @@ description: "Red Fox spawn locations, combat stats, and drops."
 
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/redbrush_fox_residents.webp" alt="Red Fox at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Red Fox</strong><span>Copper Pit, Farmland</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Red Fox">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:35.2500%;--map-y:62.1071%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Red Fox, Copper Pit, Farmland" title="Red Fox, Copper Pit, Farmland"><span>Red Fox<small>Copper Pit, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:35.2500%;--map-y:65.9545%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Red Fox, Copper Pit, Farmland" title="Red Fox, Copper Pit, Farmland"><span>Red Fox<small>Copper Pit, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Red Fox spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Farmland](../../regions/#copper-pit) | [Copper Pit](../../regions/#copper-pit) | Red Fox | 2 |
+| [Farmland](../../regions/#copper-pit) | [Copper Pit](../../regions/#copper-pit) | Red Fox | 8 |
 
 ## Stats
 
@@ -42,6 +42,6 @@ description: "Red Fox spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 2-6 | Always |
-| [Fox Fur](../../items/#fox-fur) | 1-2 | 65% |
-| [Coarse Hide](../../items/#coarse-hide) | 1 | 35% |
-| [Raw Game Meat](../../items/#raw-game-meat) | 1 | 30% |
+| [Fox Fur](../../items/fox_guardhair/) | 1-2 | 65% |
+| [Coarse Hide](../../items/coarse_hide/) | 1 | 35% |
+| [Raw Game Meat](../../items/raw_game_meat/) | 1 | 30% |

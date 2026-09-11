@@ -38,7 +38,7 @@ Mining, Woodcutting, and Fishing attempt an action every **1.8 seconds**. Succes
 
 ## Gathering and production skill guides
 
-The unlock rows below come from the same tier, resource, recipe, and item tables used by the game. See the [three complete gathering loops](./gathering-production) for ingredients and finished equipment.
+The unlock rows below come from the same tier, resource, recipe, and item tables used by the game. See the [three complete gathering loops](../gathering-production/) for ingredients and finished equipment.
 
 ### Mining
 

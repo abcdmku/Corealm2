@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "hen_feather.png",
+  "sha256": "bc4cd7021798f22b1f62138c185608431c5bf24364f31cfeae2f123d712ce523",
+  "prompt": "Use case: stylized-concept. Asset type: transparent fantasy RPG inventory icon. Subject: one Hen Feather. Exact lore: Barred brown, still stiff at the quill. Fletchers buy them by the double handful. Render a single broad brown barred hen feather with stiff cream quill, diagonal, unmistakable silhouette at 48px. Polished grounded natural-material dimensional 3D-style rendering, crisp detail, warm top-left studio light. Centered object occupying 80% canvas, generous margin. Actual transparent alpha background, no floor, no cast shadow beyond silhouette, no tile, no lettering, no border. Match grounded realism of approved copper quartz ring reference.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "Audit uses procedural feather. No suitable authored inventory prop; candidates game/public/assets/models/animal/animal_chicken.glb, game/public/assets/models/animal/animal_chicken_speckled.glb are whole creatures or scenery, not this item.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

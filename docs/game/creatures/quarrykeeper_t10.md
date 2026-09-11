@@ -5,11 +5,11 @@ description: "Quarry Warden spawn locations, combat stats, and drops."
 
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/ordrun.webp" alt="Quarry Warden at its authored spawn in Stone Cavern" loading="lazy" /><figcaption><strong>Quarry Warden</strong><span>The Quarry Warden's Floor, Stone Cavern</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Quarry Warden">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#the-quarry-wardens-floor" style="--map-x:53.8333%;--map-y:64.6786%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Quarry Warden, Stone Cavern, The Quarry Warden's Floor" title="Quarry Warden, Stone Cavern, The Quarry Warden's Floor"><span>Quarry Warden<small>Stone Cavern, The Quarry Warden's Floor</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#the-quarry-wardens-floor" style="--map-x:53.8333%;--map-y:68.1364%" data-map-side="right" data-map-kind="dungeon" data-map-marker aria-label="Quarry Warden, Stone Cavern, The Quarry Warden's Floor" title="Quarry Warden, Stone Cavern, The Quarry Warden's Floor"><span>Quarry Warden<small>Stone Cavern, The Quarry Warden's Floor</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -33,7 +33,7 @@ description: "Quarry Warden spawn locations, combat stats, and drops."
 
 | Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 10 | 200 | 24 | 20 | 15 | 12 | 3.0 s | 62 | 18 | territorial | 24 m |
+| 10 | 258 | 31 | 26 | 15 | 14 | 3.0 s | 62 | 18 | territorial | 24 m |
 
 ## Drops
 
@@ -42,8 +42,8 @@ Elemental orbs are singleton altar keys. The boss drops its orb when no physical
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 900-1400 | Always |
-| [Water Orb](../../items/#water-orb) | 1 | First eligible acquisition |
-| [Cobalt Sword](../../items/#cobalt-sword) | 1 | 100% |
-| [Cobalt Bar](../../items/#cobalt-bar) | 3-6 | 100% |
-| [Garnet](../../items/#garnet) | 2-4 | 100% |
-| [Fur Pelt](../../items/#fur-pelt) | 1-2 | 75% |
+| [Water Orb](../../items/water_orb/) | 1 | First eligible acquisition |
+| [Cobalt Sword](../../items/kaldite_sword/) | 1 | 100% |
+| [Cobalt Bar](../../items/kaldite_bar/) | 3-6 | 100% |
+| [Garnet](../../items/cairn_garnet/) | 2-4 | 100% |
+| [Fur Pelt](../../items/cairn_pelt/) | 1-2 | 75% |

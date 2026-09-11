@@ -5,11 +5,11 @@ description: "Fen Crawler spawn locations, combat stats, and drops."
 
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/population_northgate_fen_crawlers.webp" alt="Fen Crawler at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Fen Crawler</strong><span>North Gate, Farmland</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Fen Crawler">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#north-gate" style="--map-x:44.8333%;--map-y:59.6429%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Fen Crawler, North Gate, Farmland" title="Fen Crawler, North Gate, Farmland"><span>Fen Crawler<small>North Gate, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#north-gate" style="--map-x:44.8333%;--map-y:63.8636%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Fen Crawler, North Gate, Farmland" title="Fen Crawler, North Gate, Farmland"><span>Fen Crawler<small>North Gate, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Fen Crawler spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Farmland](../../regions/#north-gate) | [North Gate](../../regions/#north-gate) | Fen Crawler | 3 |
+| [Farmland](../../regions/#north-gate) | [North Gate](../../regions/#north-gate) | Fen Crawler | 15 |
 
 ## Stats
 
@@ -42,4 +42,4 @@ description: "Fen Crawler spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 1-2 | Always |
-| [Earth Essence](../../items/#earth-essence) | 1-2 | 35% |
+| [Earth Essence](../../items/earth_essence/) | 1-2 | 35% |

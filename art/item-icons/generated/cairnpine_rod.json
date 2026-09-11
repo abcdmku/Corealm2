@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cairnpine_rod.png",
+  "sha256": "d245486315e6948160f8edcea8145aea2a95d9be3d86fa0ba279b84ac4c4f749",
+  "prompt": "Use case: stylized-concept. Asset: square fantasy RPG inventory icon, a single isolated item on genuinely transparent alpha background. Premium grounded realistic 3D-rendered natural materials, crisp bevels and physically plausible soft studio reflections, subtle wear. Centered diagonal from bottom-left grip to upper-right tip, entirely visible with 8% margins, strong silhouette readable at 48 pixels. No text, watermark, border, tile, floor, backdrop, glow or extra objects. Subject: Oak Rod. Strong long tapered medium brown oak shaft with mild tip bend, near-black wrapped grip, silver small fly-style reel beneath grip, silver butt cap and four line guides. Thin line curves from tip to one small dark garnet red bobber. Actual description: Built for perch, which fight like something with a grudge. Nine effective Fishing levels.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "FISHING_ROD_LOOKS and PROCEDURAL_FISHING_ROD_ASSETS in game/src/render/proceduralGear.ts map this item to a proc_rod asset constructed by buildFishingRod in proceduralGearModels.ts. Asset specialist confirmed no genuine GLB source; existing art/item-icons/256 render and current game/src/content/items.ts description inspected.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

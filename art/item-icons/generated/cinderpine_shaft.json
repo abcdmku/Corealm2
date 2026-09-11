@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cinderpine_shaft.png",
+  "sha256": "b080df38edb47aa13646f51f3b97ffd927f54fcb534f5572c5c5d3c2d50da827",
+  "prompt": "Use case: stylized-concept. Asset: Walnut Shaft inventory icon, a straight walnut shaft shaped and seasoned for rods and staves. Generate one polished grounded fantasy photoreal 3D product render of a long straight seasoned polished walnut shaft. Dark chocolate walnut wood with warm brown highlights and sinuous grain with readable natural longitudinal grain, subtle tool-planed facets and beveled cut ends. Plain crafting intermediate, no hardware or decoration. Diagonally bottom left to upper right, entire object visible, substantial thickness readable at 48px, square canvas with 12 percent transparent margin. Studio key light upper left, textured material and strong dimensional shading matching realistic fantasy inventory art. Genuinely transparent alpha background. No floor, cast shadow, text, frame, watermark, hands, or other objects. Not flat vector or crude cylinder.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "Model audit by icon_3d found logs and building timber unsuitable for crafted shafts and shaped handles. Existing itemIconAppearances.ts uses primitive shaft/handle geometry; no genuine matching crafted component model was available.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

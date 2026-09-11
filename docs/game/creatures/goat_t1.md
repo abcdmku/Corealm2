@@ -5,11 +5,11 @@ description: "Goat spawn locations, combat stats, and drops."
 
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/open_march_goats.webp" alt="Goat at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Goat</strong><span>Open Meadow, Farmland</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Goat">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:29.1667%;--map-y:61.7857%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Goat, Open Meadow, Farmland" title="Goat, Open Meadow, Farmland"><span>Goat<small>Open Meadow, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#open-meadow" style="--map-x:29.1667%;--map-y:65.6818%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Goat, Open Meadow, Farmland" title="Goat, Open Meadow, Farmland"><span>Goat<small>Open Meadow, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -27,7 +27,7 @@ description: "Goat spawn locations, combat stats, and drops."
 
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
-| [Farmland](../../regions/#open-meadow) | [Open Meadow](../../regions/#open-meadow) | Goat | 4 |
+| [Farmland](../../regions/#open-meadow) | [Open Meadow](../../regions/#open-meadow) | Goat | 11 |
 
 ## Stats
 
@@ -42,8 +42,8 @@ description: "Goat spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 3-11 | Always |
-| [Coarse Hide](../../items/#coarse-hide) | 1-2 | 55% |
-| [Raw Game Meat](../../items/#raw-game-meat) | 1-2 | 40% |
-| [Curled Horn](../../items/#curled-horn) | 1 | 22% |
-| [Copper Ore](../../items/#copper-ore) | 1-2 | 15% |
-| [Copper Dagger](../../items/#copper-dagger) | 1 | 2% |
+| [Coarse Hide](../../items/coarse_hide/) | 1-2 | 55% |
+| [Raw Game Meat](../../items/raw_game_meat/) | 1-2 | 40% |
+| [Curled Horn](../../items/curl_horn/) | 1 | 22% |
+| [Copper Ore](../../items/grithe_ore/) | 1-2 | 15% |
+| [Copper Dagger](../../items/grithe_dagger/) | 1 | 2% |

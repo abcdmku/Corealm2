@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cragfin.png",
+  "sha256": "2008a3f8ee18f06b96a63902e811629de86b892dda045d769847d34b9c5ad9af",
+  "prompt": "Use case: stylized-concept. Generate a polished grounded realistic three-dimensional fantasy RPG inventory icon of one whole raw Perch. A slab-sided tarn fish with a strongly spined dorsal fin, deep yellow olive sides crossed by dark vertical bars, silvery cream belly, orange red lower fins and forked tail, small natural mouth and glassy eye. Head left, tail right on a gentle rising diagonal, three-quarter product view showing body volume, whole fish completely in frame. Fine realistic overlapping wet scales and translucent fin rays, strong upper-left studio illumination, dimensional shading and specular highlights. Clear broad silhouette readable at 48 pixels, subject fills 85 percent of square image. True transparent alpha background. No floor, plate, cast shadow outside fish, garnish, scene, text, border, tile, cartoon outline or flat low-detail geometry. Natural caught fish, no gore.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "The genuine true3D animal_perch GLB was rendered with shading and rejected by the final Luna max icon critic as flat and low detail. This generated source replaces that rejected single-perch render.",
+  "review": "Root accepted after fresh Luna max critic approved source and 48px readability. All nine fish passed production inventory lab: loaded 48px rasters, no SVG fallback, matching hover, no errors. Root inspected lab screenshot. Evidence: test-results/icon-fish-final/lab-icons.json and test-results/icon-fish-final/lab-icons.png. Accepted 2026-09-10."
+}

@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "burnt_game.png",
+  "sha256": "debdc8acab57451265a021b4c2f0b800a4904a8c5f4cabb4f924c8155d5b7cce",
+  "prompt": "Use case: stylized-concept. Asset type: polished grounded fantasy RPG inventory icon, readable at 48 pixels. One isolated culinary meat item, three-quarter product view, centered occupying 80 percent of square canvas. Believable three-dimensional volume and rich physically grounded material shading, broad clear silhouette, soft studio light from upper left. Actual transparent background with true alpha channel, no backdrop, floor, shadow outside object, plate, garnish, utensils, text, labels, border, or tile. No cartoon outline or crude geometric rendering. Subject: Burnt Game, compact farmland game joint ruined on the range. Charcoal-black dry cracked crust with grey ash ridges and one small scorched bone end. Completely burnt with no pink or juicy flesh.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "Luna audit found procedural meat geometry in itemIconRenderer.ts, not authored 3D. Asset expert icon_3d confirmed no suitable meat prop GLBs. Animal and miniboss filename candidates represent whole creatures, not butchered food props.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

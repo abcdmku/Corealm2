@@ -4,12 +4,12 @@ A persistent 3D browser RPG in the classic-MMO tradition: gather, craft, fight, 
 
 Play it at **https://abcdmku.github.io/Corealm/**. The generated player guide (skills, recipes, regions, quests, XP table) lives at **https://abcdmku.github.io/Corealm/docs**.
 
-Built with TypeScript, Vite, Three.js, Rapier, and recast-navigation. All content is original; models come from the free Quaternius packs plus a handful of ledgered Unity-store assets.
+Built with TypeScript, Vite, Three.js, and recast-navigation. Model sources and licenses are recorded in the asset manifest. Item icons use rendered models or reviewed generated artwork with source records.
 
 ## The game
 
 - **Ten skills, 1–99 each.** Melee and Magic for combat; Mining, Woodcutting, and Fishing for gathering; Smithing, Crafting, Cooking, and Fletching for production; Agility for shortcuts and alternate routes. Gathering feeds production, production feeds combat, combat and exploration reward both.
-- **One connected world, currently tiers 1–20.** Fallowmarch (frontier plains, the starting town of Coldbrace), Vellenwood (deep woodland), Karrowmoor (stone highlands with the Highcairn terraces and the Gravelmaw dungeon and boss), and Kilnhalt (ember foothills, the Emberfast settlement, four regional minibosses). Borders are open; difficulty is the gate.
+- **One connected world, with content through tier 70.** Farmland starts at Millfield, followed by Woodlands and Oakwood, Highlands and Hillcrest, the Stone Cavern dungeon, and Ashlands and Ashford. The northern Wilderness adds tier 50 and 70 encounters, dragons, gathering sites, equipment, and bosses. Borders are open; difficulty is the gate.
 - **Click-to-move over a real navmesh** plus keyboard movement, an elevated third-person camera, hover and selection feedback, and contextual actions.
 - **Continuing activities.** One click on an ore node starts mining and keeps yielding until the node depletes, your pack fills, you move, or you cancel. Nodes visibly deplete and respawn on timers.
 - **28-slot inventory, banks as geographic anchors, one currency, shops.** Capacity and bank distance drive real route decisions.
@@ -17,7 +17,7 @@ Built with TypeScript, Vite, Three.js, Rapier, and recast-navigation. All conten
 - **Quests** are the most authored content, including multi-stage chains an external agent can complete end to end.
 - **Death** keeps progression but drops carried items into a recoverable container.
 - **Persistence** is browser-local: skills, inventory, equipment, bank, quests, discovered locations, and settings survive a reload.
-- **The optimisation metagame.** The highest-tier resource is not always the best one. Tier 5 Corven ore 38 m from the Rootfall bank beats tier 10 Kaldite ore 188 m from Highcairn on XP/hour, until Agility 10 opens the Sunder Ledge shortcut and flips the comparison. Working this out from observable data is the point of writing a better agent.
+- **Route planning.** Compare time spent gathering, travelling, and banking to choose a site. Agility shortcuts can change which routes are worth taking. The agent can inspect live locations and requirements to make that choice.
 
 Everything in the world is a semantic entity (id, archetype, tier, region, state, requirements, interactions) that the renderer merely draws. Gameplay, UI, quests, persistence, tests, and the agent surface all read the same state.
 

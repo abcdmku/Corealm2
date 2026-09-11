@@ -48,6 +48,7 @@ import {
 import { SKILLS } from "../game/src/content/skills.js";
 import { MAX_LEVEL, TIERS, totalXpAt, xpTable } from "../game/src/content/xp.js";
 import { WORLD_MAP_IMAGE_BOUNDS } from "../game/src/generated/worldMapFingerprint.js";
+import { itemIsReleased, itemTooltipContent } from "../game/src/ui/itemTooltipContent.js";
 import type { RegionId, SkillId } from "../game/src/contracts.js";
 import type { AssetManifest, AssetPack } from "../game/src/render/assets.js";
 
@@ -490,8 +491,8 @@ function elementName(element: string): string {
   return element === "wind" ? "Air" : `${element[0]?.toUpperCase() ?? ""}${element.slice(1)}`;
 }
 
-function itemIcon(id: string, label = itemName(id)): string {
-  return `![${label}](./assets/items/${id}.png)`;
+function itemIcon(id: string, label = itemName(id), base = "./"): string {
+  return `![${label}](${base}assets/items/${id}.png)`;
 }
 
 type CaptureKind = "npc" | "enemy" | "enemyGroup" | "entity" | "location";
@@ -518,8 +519,8 @@ function capture(kind: CaptureKind, id: string, label: string, base = "./"): str
   return `![${label}](${captureAsset(kind, id, base)})`;
 }
 
-function itemLink(id: string, label = itemName(id), base = "./"): string {
-  return `[${label}](${base}items/#${headingSlug(label)})`;
+export function itemLink(id: string, label = itemName(id), base = "../"): string {
+  return `[${label}](${base}items/${id}/)`;
 }
 
 function humanizeId(id: string): string {
@@ -980,7 +981,7 @@ function questStepEvidence(quest: QuestDef, stage: QuestStageDef): string {
     `<a href="../../regions/#${headingSlug(place.location.name)}">${escapeHtml(place.location.name)}</a>`).join("");
   const itemLinks = (stage.refs ?? [])
     .filter((ref) => ref.kind === "item")
-    .map((ref) => `<a href="../../items/#${headingSlug(itemName(ref.id))}">${escapeHtml(itemName(ref.id))}</a>`)
+    .map((ref) => `<a href="../../items/${escapeHtml(ref.id)}/">${escapeHtml(itemName(ref.id))}</a>`)
     .join("");
   const where = `<nav class="corealm-quest-where" aria-label="Locations for step ${stage.index + 1}"><span>Where</span>${whereLinks}</nav>`;
   const items = itemLinks
@@ -1081,7 +1082,7 @@ function skillsDoc(): string {
     "",
     "## Gathering and production skill guides",
     "",
-    "The unlock rows below come from the same tier, resource, recipe, and item tables used by the game. See the [three complete gathering loops](./gathering-production) for ingredients and finished equipment.",
+    "The unlock rows below come from the same tier, resource, recipe, and item tables used by the game. See the [three complete gathering loops](../gathering-production/) for ingredients and finished equipment.",
     "",
     generatedSkillGuides(),
     "",
@@ -1091,40 +1092,154 @@ function skillsDoc(): string {
   ].join("\n"));
 }
 
-function itemsDoc(): string {
-  const rows = [...ALL_ITEMS]
-    .sort((a, b) => a.tier - b.tier || a.category.localeCompare(b.category) || a.name.localeCompare(b.name))
-    .map((item) => {
-      const craftedCharge = item.orb
-        ? ALL_ITEMS.find((candidate) => candidate.magicWeapon?.charge?.orbItemId === item.id)?.magicWeapon?.charge
-        : undefined;
-      const requires = item.equip
-        ? Object.entries(item.equip.requires).map(([skill, level]) => `${skillName(skill as SkillId)} ${level}`).join(", ")
-        : "";
-      const notes = [
-        item.equip?.slot,
-        item.magicWeapon
-          ? `${item.magicWeapon.kind}; ${item.magicWeapon.hands}-handed; ${((item.equip?.attackSpeedMs ?? 0) / 1000).toFixed(1)} s cast cadence`
-            + (item.magicWeapon.charge ? `; ${item.magicWeapon.charge.capacity} ${elementName(item.magicWeapon.charge.element)} charges` : "")
-          : "",
-        item.orb
-          ? `boss altar key; awakens its regional altar for ${craftedCharge?.initialCharges ?? 1000}-charge weapons; ${item.orb.released ? "released" : "unreleased"}`
-          : "",
-        item.food ? `Heals ${item.food.healAmount}` : "",
-        item.tool ? `${skillName(item.tool.skill)} +${item.tool.gatherBonus}` : "",
-        requires,
-      ].filter(Boolean).join("; ");
-      return [
-        `<span id="${headingSlug(item.name)}"></span>${itemIcon(item.id, item.name)} **${item.name}**`,
-        item.tier,
-        item.category,
-        item.stackable ? "Yes" : "No", item.value, sellPrice(item.value), notes || "-",
-      ];
-    });
-  return page("Items", "Every item, price, requirement, and effect in Corealm.", table(
-    ["Item", "Tier", "Category", "Stacks", "Buy", "Sell", "Use"],
-    rows,
-  ));
+function sortedGuideItems(): typeof ALL_ITEMS[number][] {
+  return [...ALL_ITEMS]
+    .sort((a, b) => a.tier - b.tier || a.category.localeCompare(b.category) || a.name.localeCompare(b.name));
+}
+
+function tooltipHtml(item: typeof ALL_ITEMS[number]): string {
+  const model = itemTooltipContent(item.id);
+  const stats = item.equip
+    ? `<span class="tooltip__stats">${model.stats.map((stat) => (
+      `<span>${escapeHtml(stat.label)}</span><span class="tooltip__stat-value u-numeric">${stat.value > 0 ? "+" : ""}${stat.value}</span>`
+    )).join("") || `<span class="u-faint">No stat bonuses</span>`}</span>`
+    : "";
+  const details = model.details.map((detail) => {
+    const unreleased = detail === "This orb is not released.";
+    return `<span class="${unreleased ? "tooltip__requirement is-unmet" : "tooltip__body"}">${escapeHtml(detail)}</span>`;
+  }).join("");
+  const requirements = model.requirements.map((requirement) =>
+    `<span class="tooltip__requirement">${escapeHtml(requirement.text)}</span>`).join("");
+  return [
+    `<span class="tooltip" id="item-tooltip-${escapeHtml(item.id)}" role="tooltip">`,
+    `<span class="tooltip__title">${escapeHtml(model.title)}</span>`,
+    `<span class="tooltip__tier">${escapeHtml(model.meta ?? "")}</span>`,
+    model.description ? `<span class="tooltip__body">${escapeHtml(model.description)}</span>` : "",
+    stats,
+    details,
+    requirements,
+    model.value ? `<span class="tooltip__body u-numeric">${escapeHtml(model.value)}</span>` : "",
+    `</span>`,
+  ].join("");
+}
+
+function itemGalleryTile(item: typeof ALL_ITEMS[number]): string {
+  const released = itemIsReleased(item);
+  return [
+    `<a class="corealm-item-tile${released ? "" : " is-unreleased"}"`,
+    ` id="${headingSlug(item.name)}" data-item-id="${escapeHtml(item.id)}"`,
+    ` href="./${escapeHtml(item.id)}/" aria-label="${escapeHtml(item.name)}"`,
+    ` aria-describedby="item-tooltip-${escapeHtml(item.id)}">`,
+    `<img src="../assets/items/${escapeHtml(item.id)}.png" alt="" width="256" height="256" loading="lazy" />`,
+    `<span class="corealm-item-tile__name">${escapeHtml(item.name)}</span>`,
+    `<span class="corealm-item-tile__meta">Tier ${item.tier} · ${escapeHtml(item.category)}</span>`,
+    released ? "" : `<span class="corealm-item-tile__status">Unreleased</span>`,
+    tooltipHtml(item),
+    `</a>`,
+  ].join("");
+}
+
+export function itemsDoc(): string {
+  const groups = new Map<number, typeof ALL_ITEMS[number][]>();
+  for (const item of sortedGuideItems()) {
+    const group = groups.get(item.tier) ?? [];
+    group.push(item);
+    groups.set(item.tier, group);
+  }
+  const sections = [...groups].map(([tier, items]) => [
+    `## Tier ${tier}`,
+    "",
+    `<div class="corealm-item-gallery" data-item-gallery>`,
+    ...items.map(itemGalleryTile),
+    `</div>`,
+  ].join("\n"));
+  return page("Items", "Browse every item in Corealm and open its source-backed reference page.", [
+    `${ALL_ITEMS.length} items from the live game catalog. Hover an icon or focus it with the keyboard for the in-game item card.`,
+    "",
+    ...sections,
+  ].join("\n\n"));
+}
+
+function itemQuestLinks(itemId: string): string[] {
+  return QUESTS.filter((quest) => {
+    const encoded = JSON.stringify(quest);
+    return encoded.includes(`\"itemId\":\"${itemId}\"`)
+      || encoded.includes(`\"kind\":\"item\",\"id\":\"${itemId}\"`);
+  }).map((quest) => `[${quest.name}](../../quests/${quest.id}/)`);
+}
+
+export function itemDetailDoc(item: typeof ALL_ITEMS[number]): string {
+  const model = itemTooltipContent(item.id);
+  const producedBy = RECIPES.filter((recipe) => recipe.output.itemId === item.id);
+  const usedBy = RECIPES.filter((recipe) => recipe.inputs.some((input) => input.itemId === item.id));
+  const gatheredFrom = RESOURCE_ARCHETYPES.filter((resource) =>
+    resource.itemId === item.id || resource.bonus?.some((drop) => drop.itemId === item.id));
+  const droppedBy = new Map<string, { enemy: EnemyDef; drop: EnemyDef["drops"][number]; linked: boolean }>();
+  for (const enemy of ENEMIES.filter((candidate) => candidate.drops.some((drop) => drop.itemId === item.id))) {
+    const canonical = guideCreatures().find((candidate) =>
+      candidate.family === enemy.family && candidate.tier === enemy.tier);
+    const key = `${enemy.family}:${enemy.tier}`;
+    if (!droppedBy.has(key)) {
+      droppedBy.set(key, {
+        enemy: canonical ?? enemy,
+        drop: enemy.drops.find((drop) => drop.itemId === item.id)!,
+        linked: canonical !== undefined,
+      });
+    }
+  }
+  const soldBy = SHOPS.filter((shop) => shop.stock.some((stock) => stock.itemId === item.id));
+  const quests = itemQuestLinks(item.id);
+
+  const facts: (string | number)[][] = [
+    ["Tier", item.tier], ["Category", item.category], ["Stacks", item.stackable ? "Yes" : "No"],
+    ["Buy value", item.value.toLocaleString("en-US")], ["Sell value", sellPrice(item.value).toLocaleString("en-US")],
+  ];
+  if (item.equip) facts.push(["Equipment slot", item.equip.slot.replace(/([A-Z])/g, " $1").trim()]);
+  if (!model.released) facts.push(["Availability", "Unreleased"]);
+
+  const sections: string[] = [
+    `<div class="corealm-item-detail${model.released ? "" : " is-unreleased"}">`,
+    `<img src="../../assets/items/${escapeHtml(item.id)}.png" alt="${escapeHtml(item.name)}" width="256" height="256" />`,
+    `<p>${escapeHtml(item.description)}</p>`,
+    `</div>`,
+    "",
+    table(["Fact", "Value"], facts),
+  ];
+  if (model.stats.length) {
+    sections.push("", "## Equipment stats", "", table(
+      ["Stat", "Bonus"],
+      model.stats.map((stat) => [stat.label, stat.value > 0 ? `+${stat.value}` : stat.value]),
+    ));
+  }
+  const behavior = [...model.details, ...model.requirements.map((entry) => entry.text)];
+  if (behavior.length) sections.push("", "## Use and requirements", "", ...behavior.map((line) => `- ${line}`));
+
+  const sourceRows: (string | number)[][] = [];
+  for (const recipe of producedBy) sourceRows.push(["Made by", recipe.name, `${recipe.output.quantity} per craft`]);
+  for (const resource of gatheredFrom) {
+    const secondary = resource.itemId !== item.id;
+    const chance = resource.bonus?.find((drop) => drop.itemId === item.id)?.chance;
+    sourceRows.push([secondary ? "Bonus from" : "Gathered from", resource.name,
+      secondary && chance !== undefined ? `${Math.round(chance * 1000) / 10}% per gather` : `${skillName(resource.skill)} level ${resource.reqLevel}`]);
+  }
+  for (const { enemy, drop, linked } of droppedBy.values()) {
+    sourceRows.push(["Dropped by", linked ? `[${enemy.name}](../../creatures/${enemy.id}/)` : enemy.name,
+      `${Math.round(drop.chance * 1000) / 10}% · ${drop.quantity[0]}-${drop.quantity[1]}`]);
+  }
+  for (const shop of soldBy) {
+    const stock = shop.stock.find((entry) => entry.itemId === item.id)!;
+    sourceRows.push(["Sold by", `[${shop.name}](../../spells-and-shops/#${headingSlug(shop.name)})`,
+      `${stock.quantity.toLocaleString("en-US")} in stock`]);
+  }
+  for (const quest of quests) sourceRows.push(["Quest", quest, "Referenced, granted, or required"]);
+  if (sourceRows.length) sections.push("", "## Where it comes from", "", table(["Source", "Name", "Details"], sourceRows));
+
+  if (usedBy.length) sections.push("", "## Used to make", "", ...usedBy.map((recipe) => {
+    const input = recipe.inputs.find((entry) => entry.itemId === item.id)!;
+    return `- ${input.quantity}× for **${recipe.name}**, producing ${recipe.output.quantity}× ${itemLink(recipe.output.itemId, itemName(recipe.output.itemId), "../../")}`;
+  }));
+  sections.push("", "[Back to all items](../)");
+  return page(item.name, item.description, sections.join("\n"));
 }
 
 function recipesDoc(): string {
@@ -1272,7 +1387,7 @@ function woodcuttingFletchingCraftingGuide(): string {
     "",
     table(["Level", "Gem", "Crafting outputs"], craftingRows),
     "",
-    "[Campfire fuel, lifetime, and build XP](./campfires) also derive from each tier's log row.",
+    "[Campfire fuel, lifetime, and build XP](../campfires/) also derive from each tier's log row.",
   ].join("\n");
 }
 
@@ -1707,7 +1822,7 @@ async function main(): Promise<void> {
     await readFile(path.resolve(repoRoot, "game/public/assets/manifest.json"), "utf8"),
   ) as AssetManifest;
 
-  for (const stale of ["quests.md", "enemies.md", "locations.md", "quests", "creatures"]) {
+  for (const stale of ["quests.md", "enemies.md", "locations.md", "items.md", "quests", "creatures", "items"]) {
     await rm(path.join(out, stale), { recursive: true, force: true });
   }
 
@@ -1718,7 +1833,8 @@ async function main(): Promise<void> {
     ["creatures/index.md", creatureIndexDoc()],
     ...guideCreatures().map((creature): [string, string] => [`creatures/${creature.id}.md`, creatureDoc(creature)]),
     ["regions.md", regionsDoc()],
-    ["items.md", itemsDoc()],
+    ["items/index.md", itemsDoc()],
+    ...sortedGuideItems().map((item): [string, string] => [`items/${item.id}.md`, itemDetailDoc(item)]),
     ["recipes.md", recipesDoc()],
     ["resources.md", resourcesDoc()],
     ["skills.md", skillsDoc()],

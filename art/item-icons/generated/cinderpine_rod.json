@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cinderpine_rod.png",
+  "sha256": "d9202d1bd8757611ee7d04ed6c9fe3134dcd7ef49d9179ec33d130485beab609",
+  "prompt": "Use case: stylized-concept. Asset: square fantasy RPG inventory icon, a single isolated item on genuinely transparent alpha background. Premium grounded realistic 3D-rendered natural materials, crisp bevels and physically plausible soft studio reflections, subtle wear. Centered diagonal from bottom-left grip to upper-right tip, entirely visible with 8% margins, strong silhouette readable at 48 pixels. No text, watermark, border, tile, floor, backdrop, glow or extra objects. Subject: Walnut Rod. Long flexible tapered dark walnut brown shaft with mild tip bend, dark brown wrapped grip, warm copper small fly-style reel beneath grip, copper butt cap and four line guides. Thin line curves from tip to one small burnt orange bobber. Actual description: A flexible walnut rod built for heavy bass. Seventeen effective Fishing levels.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "FISHING_ROD_LOOKS and PROCEDURAL_FISHING_ROD_ASSETS in game/src/render/proceduralGear.ts map this item to a proc_rod asset constructed by buildFishingRod in proceduralGearModels.ts. Asset specialist confirmed no genuine GLB source; existing art/item-icons/256 render and current game/src/content/items.ts description inspected.",
+  "review": "Root accepted after fresh Luna max final_icon_critic reviewed all 153 generated sources in six sheets plus nine-log sheet with no artifacts and good 48px readability. Production staged inventory lab passed all 299 inventory items in 13 cohorts with matching hover and no errors. Evidence: test-results/icon-final/contact-sheet-48.png; test-results/icon-final/lab-all-299.json; test-results/art-components/log-review-48.png. Accepted 2026-09-10."
+}

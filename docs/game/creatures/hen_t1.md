@@ -5,13 +5,13 @@ description: "Hen spawn locations, combat stats, and drops."
 
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/marchfield_hens.webp" alt="Hen at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Hen</strong><span>Farm Fields, Farmland</span></figcaption></figure>
-<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/bracken_hens.webp" alt="Speckled Hen at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Speckled Hen</strong><span>Copper Pit, Farmland</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
+<figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/bracken_hens.webp" alt="Speckled Hen at its authored spawn in Farmland" loading="lazy" /><figcaption><strong>Speckled Hen</strong><span>Farm Fields, Farmland</span></figcaption></figure></div>
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Hen">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#farm-fields" style="--map-x:42.2500%;--map-y:64.5179%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Hen, Farm Fields, Farmland" title="Hen, Farm Fields, Farmland"><span>Hen<small>Farm Fields, Farmland</small></span></a>
-<a class="corealm-map-marker" href="../../regions/#copper-pit" style="--map-x:37.3333%;--map-y:61.0357%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Speckled Hen, Copper Pit, Farmland" title="Speckled Hen, Copper Pit, Farmland"><span>Speckled Hen<small>Copper Pit, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#farm-fields" style="--map-x:42.2500%;--map-y:68.0000%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Hen, Farm Fields, Farmland" title="Hen, Farm Fields, Farmland"><span>Hen<small>Farm Fields, Farmland</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#farm-fields" style="--map-x:41.5833%;--map-y:68.0455%" data-map-side="right" data-map-kind="enemy" data-map-marker aria-label="Speckled Hen, Farm Fields, Farmland" title="Speckled Hen, Farm Fields, Farmland"><span>Speckled Hen<small>Farm Fields, Farmland</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -30,7 +30,7 @@ description: "Hen spawn locations, combat stats, and drops."
 | Region | Nearest place | Spawn group | Count |
 | --- | --- | --- | --- |
 | [Farmland](../../regions/#farm-fields) | [Farm Fields](../../regions/#farm-fields) | Hen | 12 |
-| [Farmland](../../regions/#copper-pit) | [Copper Pit](../../regions/#copper-pit) | Speckled Hen | 4 |
+| [Farmland](../../regions/#farm-fields) | [Farm Fields](../../regions/#farm-fields) | Speckled Hen | 7 |
 
 ## Stats
 
@@ -45,6 +45,6 @@ description: "Hen spawn locations, combat stats, and drops."
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 3-11 | Always |
-| [Hen Feather](../../items/#hen-feather) | 1-3 | 55% |
-| [Raw Game Meat](../../items/#raw-game-meat) | 1 | 35% |
-| [Hen Egg](../../items/#hen-egg) | 1-2 | 25% |
+| [Hen Feather](../../items/hen_feather/) | 1-3 | 55% |
+| [Raw Game Meat](../../items/raw_game_meat/) | 1 | 35% |
+| [Hen Egg](../../items/hen_egg/) | 1-2 | 25% |

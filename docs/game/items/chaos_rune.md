@@ -1,0 +1,53 @@
+---
+title: "Chaos Rune"
+description: "An orange rune scored with a jagged fork. It lets a spell break loose and scatter across a line of foes. Rank-two invocations spend one per cast."
+---
+
+<div class="corealm-item-detail">
+<img src="../../assets/items/chaos_rune.png" alt="Chaos Rune" width="256" height="256" />
+<p>An orange rune scored with a jagged fork. It lets a spell break loose and scatter across a line of foes. Rank-two invocations spend one per cast.</p>
+</div>
+
+| Fact | Value |
+| --- | --- |
+| Tier | 30 |
+| Category | resource |
+| Stacks | Yes |
+| Buy value | 45 |
+| Sell value | 27 |
+
+## Where it comes from
+
+| Source | Name | Details |
+| --- | --- | --- |
+| Dropped by | [Red Dragon Hatchling](../../creatures/baby_red_dragon_t50/) | 28% · 2-3 |
+| Dropped by | [Black Dragon Hatchling](../../creatures/baby_black_dragon_t50/) | 28% · 2-3 |
+| Dropped by | [Cinder Dreadwing](../../creatures/baby_lava_dragon_t50/) | 28% · 2-3 |
+| Dropped by | [Cinderback Crag](../../creatures/cinderback_crag_t50/) | 28% · 2-3 |
+| Dropped by | [Furnace Grazer](../../creatures/furnace_grazer_t50/) | 28% · 2-3 |
+| Dropped by | [Basalt Maw](../../creatures/basalt_maw_t50/) | 28% · 2-3 |
+| Dropped by | [Furnace Regent](../../creatures/furnace_regent_t50/) | 100% · 24-40 |
+| Dropped by | Purple Wilderness Dragon | 28% · 2-3 |
+| Dropped by | [Banshee](../../creatures/banshee_t50/) | 28% · 2-3 |
+| Dropped by | Black Wilderness Dragon | 28% · 2-3 |
+| Dropped by | [Cinder Penitent](../../creatures/cinder_penitent_t50/) | 28% · 2-3 |
+| Dropped by | Gloam Wraith | 28% · 2-3 |
+| Dropped by | [Grave Ghoul](../../creatures/grave_ghoul_t50/) | 28% · 2-3 |
+| Dropped by | [Ashen Ghoul](../../creatures/grave_lantern_t50/) | 28% · 2-3 |
+| Dropped by | [Hollow Bough](../../creatures/hollow_bough_t50/) | 28% · 2-3 |
+| Dropped by | [Kiln Marrow](../../creatures/kiln_marrow_t50/) | 28% · 2-3 |
+| Dropped by | [Pallid Shade](../../creatures/pallid_shade_t50/) | 28% · 2-3 |
+| Dropped by | Violet Dreadwing | 28% · 2-3 |
+| Dropped by | Red Wilderness Dragon | 28% · 2-3 |
+| Dropped by | [Revenant](../../creatures/revenant_t50/) | 28% · 2-3 |
+| Dropped by | Rift Carapace | 28% · 2-3 |
+| Dropped by | [Skeleton Archer](../../creatures/skeleton_archer_t50/) | 28% · 2-3 |
+| Dropped by | [Skeleton Mage](../../creatures/skeleton_mage_t50/) | 28% · 2-3 |
+| Dropped by | [Skeleton Soldier](../../creatures/skeleton_soldier_t50/) | 28% · 2-3 |
+| Dropped by | [Veil Reaper](../../creatures/veil_reaper_t50/) | 28% · 2-3 |
+| Dropped by | Voidstone Colossus | 28% · 2-3 |
+| Dropped by | [Wraith](../../creatures/wraith_t50/) | 28% · 2-3 |
+| Sold by | [Oakwood Trade Post](../../spells-and-shops/#oakwood-trade-post) | 120 in stock |
+| Sold by | [Hillcrest Camp Store](../../spells-and-shops/#hillcrest-camp-store) | 120 in stock |
+
+[Back to all items](../)

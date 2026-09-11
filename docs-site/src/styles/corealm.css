@@ -25,6 +25,22 @@
   --sl-color-hairline-light: rgba(212, 175, 78, 0.22);
   --sl-font: "Segoe UI", "Trebuchet MS", system-ui, sans-serif;
   --sl-font-mono: "Consolas", "SF Mono", ui-monospace, monospace;
+  --ink: #f0e8d8;
+  --ink-dim: #c1b7a1;
+  --accent: #d4af4e;
+  --danger: #e06550;
+  --success: #82b563;
+  --space-1: 3px;
+  --space-2: 8px;
+  --space-3: 10px;
+  --radius: 3px;
+  --shadow-pop: 0 4px 14px rgba(0, 0, 0, 0.55);
+  --font-display: "Cinzel", "Trebuchet MS", serif;
+  --font-numeric: "Consolas", "SF Mono", ui-monospace, monospace;
+  --size-xs: 11px;
+  --size-sm: 12px;
+  --tracking-wide: 0.08em;
+  --z-tooltip: 10000;
   color-scheme: dark;
 }
 
@@ -222,6 +238,92 @@ starlight-theme-select {
   object-fit: contain;
   padding: 0.35rem;
 }
+
+.corealm-item-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 2.25rem;
+}
+
+.corealm-item-tile {
+  position: relative;
+  display: grid;
+  min-width: 0;
+  padding: 0.65rem;
+  color: #ece4d2;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid rgba(212, 175, 78, 0.2);
+  border-radius: 3px;
+  outline: none;
+  background: rgba(20, 17, 12, 0.76);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.025);
+  transition: border-color 100ms ease-out, background 100ms ease-out;
+}
+
+.corealm-item-tile:hover,
+.corealm-item-tile:focus-visible {
+  color: #ffe9a8;
+  border-color: rgba(255, 233, 168, 0.68);
+  background: rgba(57, 44, 18, 0.72);
+  box-shadow: 0 0 0 2px rgba(212, 175, 78, 0.16), inset 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.corealm-item-tile > img {
+  display: block;
+  width: min(100%, 7rem);
+  height: auto;
+  aspect-ratio: 1;
+  margin: 0 auto 0.45rem;
+  object-fit: contain;
+}
+
+.corealm-item-tile__name,
+.corealm-item-tile__meta,
+.corealm-item-tile__status { display: block; }
+.corealm-item-tile__name { font-family: var(--font-display); font-size: 0.78rem; font-weight: 700; line-height: 1.25; }
+.corealm-item-tile__meta { margin-top: 0.2rem; color: #a89f88; font-size: 0.66rem; text-transform: capitalize; }
+.corealm-item-tile__status { margin-top: 0.3rem; color: #eda392; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+.corealm-item-tile.is-unreleased > img { filter: saturate(0.45); opacity: 0.72; }
+
+.corealm-item-tile > .tooltip {
+  display: block;
+  width: max-content;
+  min-width: 14rem;
+  text-align: left;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.corealm-item-tile.is-tooltip-open > .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.corealm-item-tile > .tooltip > :not(.tooltip__stats) { display: block; }
+
+.corealm-item-detail {
+  display: grid;
+  grid-template-columns: minmax(10rem, 15rem) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: center;
+  margin: 0 0 1.5rem;
+}
+
+.corealm-item-detail > img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border: 1px solid rgba(212, 175, 78, 0.25);
+  border-radius: 3px;
+  background: rgba(8, 7, 5, 0.5);
+}
+
+.corealm-item-detail > p { margin: 0; color: #d0c6ad; font-size: 1.05rem; }
+.corealm-item-detail.is-unreleased { border-inline-start: 3px solid #e06550; padding-inline-start: 1rem; }
 
 .corealm-quest-where,
 .corealm-quest-items {
@@ -544,4 +646,7 @@ html.corealm-map-open body { overflow: hidden; }
   .sl-markdown-content table { display: block; overflow-x: auto; }
   .corealm-quest-step-evidence,
   .corealm-creature-spawn-evidence { grid-template-columns: 1fr; }
+  .corealm-item-gallery { grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr)); }
+  .corealm-item-detail { grid-template-columns: 1fr; }
+  .corealm-item-detail > img { width: min(100%, 14rem); }
 }

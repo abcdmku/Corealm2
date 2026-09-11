@@ -5,11 +5,11 @@ description: "Fire Ogre spawn locations, combat stats, and drops."
 
 <div class="corealm-creature-spawn-evidence">
 <div class="corealm-quest-scenes"><figure class="corealm-quest-scene"><img src="../../assets/captures/enemy-groups/cinderwake.webp" alt="Fire Ogre at its authored spawn in Ashlands" loading="lazy" /><figcaption><strong>Fire Ogre</strong><span>Fire Ogre Arena, Ashlands</span></figcaption></figure></div>
-<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.8571428571428571">
+<figure class="corealm-location-map corealm-creature-map" data-location-map style="--map-image-ratio:0.7272727272727273">
 <div class="corealm-map-viewport" data-map-viewport role="region" tabindex="0" aria-label="Spawn map for Fire Ogre">
 <div class="corealm-map-stage" data-map-stage>
 <img src="../../assets/world-map.webp" alt="Overhead map rendered from the Corealm game world" draggable="false" />
-<a class="corealm-map-marker" href="../../regions/#fire-ogre-arena" style="--map-x:73.8333%;--map-y:40.8929%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Fire Ogre, Fire Ogre Arena, Ashlands" title="Fire Ogre, Fire Ogre Arena, Ashlands"><span>Fire Ogre<small>Fire Ogre Arena, Ashlands</small></span></a>
+<a class="corealm-map-marker" href="../../regions/#fire-ogre-arena" style="--map-x:73.8333%;--map-y:47.9545%" data-map-side="left" data-map-kind="enemy" data-map-marker aria-label="Fire Ogre, Fire Ogre Arena, Ashlands" title="Fire Ogre, Fire Ogre Arena, Ashlands"><span>Fire Ogre<small>Fire Ogre Arena, Ashlands</small></span></a>
 </div>
 <span class="corealm-map-north" aria-hidden="true">N</span>
 <div class="corealm-map-controls corealm-map-controls-zoom" aria-label="Map zoom controls">
@@ -33,7 +33,7 @@ description: "Fire Ogre spawn locations, combat stats, and drops."
 
 | Tier | Health | Attack | Defence | Accuracy | Max hit | Attack speed | Armour | Magic armour | Behaviour | Aggro |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 20 | 260 | 32 | 24 | 22 | 15 | 3.0 s | 78 | 45 | territorial | 22 m |
+| 20 | 394 | 49 | 37 | 22 | 20 | 3.0 s | 78 | 45 | territorial | 22 m |
 
 ## Drops
 
@@ -42,9 +42,9 @@ Elemental orbs are singleton altar keys. The boss drops its orb when no physical
 | Drop | Quantity | Chance or rule |
 | --- | --- | --- |
 | Marks | 1800-2800 | Always |
-| [Fire Orb](../../items/#fire-orb) | 1 | First eligible acquisition |
-| [Fire Ogre Sword](../../items/#fire-ogre-sword) | 1 | 10% |
-| [Fire Ogre Staff](../../items/#fire-ogre-staff) | 1 | 10% |
-| [Titanium Bar](../../items/#titanium-bar) | 1-3 | 100% |
-| [Fire Opal](../../items/#fire-opal) | 1-3 | 75% |
-| [Heavy Hide](../../items/#heavy-hide) | 1-2 | 60% |
+| [Fire Orb](../../items/fire_orb/) | 1 | First eligible acquisition |
+| [Fire Ogre Sword](../../items/cinderwake_sword/) | 1 | 10% |
+| [Fire Ogre Staff](../../items/cinderwake_staff/) | 1 | 10% |
+| [Titanium Bar](../../items/emberite_bar/) | 1-3 | 100% |
+| [Fire Opal](../../items/fire_opal/) | 1-3 | 75% |
+| [Heavy Hide](../../items/charhide/) | 1-2 | 60% |
