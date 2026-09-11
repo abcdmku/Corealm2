@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cairnpelt_boots.png",
+  "sha256": "a325edae3b8d80a8800c89e1ef1d9d6c717a9fcfcb1a5d537ac22f8f77f23a6e",
+  "prompt": "Generate a transparent PNG inventory icon: a pair of empty medieval winter bear-fur boots, soft silent soles suitable for walking on stone. Cohesive Cairnpelt design of brown-grey undyed dense bear fur with tawny hairs and pale tips, dark umber hide toe caps, soft thick suede soles, leather lacing and seams. Mid-calf fur shafts and hollow tops, no feet or legs inside. Detailed photorealistic 3D fantasy game product render, light from upper left, three-quarter view. Two boots together but separated by a small visible gap, one slightly behind, both completely visible. Center entire pair with generous empty margin in square image. Strong readable 48px silhouette. Background must be transparent, alpha channel zero outside boots. No scene, floor, shadow, text, wearer or mannequin.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Separate hollow fur boots with leather toes and soft suede soles remain readable. Pending fresh Luna and root lab acceptance."
+}

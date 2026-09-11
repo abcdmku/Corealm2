@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "grithe_ore.png",
+  "sha256": "4634190408e5214bdd9850ae838bd05ca9474345fc2487702cb49f9804f259d8",
+  "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon, square PNG with actual transparent alpha background. Polished believable three-dimensional product render, rich fine material detail, crisp edges and highlights, strong silhouette readable at 48 pixels. One isolated complete object centered at about 80 percent canvas with clear margin on every side, three-quarter view, upper-left studio illumination. No floor, environment, pedestal, cast background shadow, frame, letters, numbers, text, logo, watermark, hand, wearer, floating particles, checkerboard or flat vector style. Subject: Copper Ore: a single chunky irregular grey ore rock with broad unmistakable rust-red copper mineral streaks crossing its fractured faces. Grey stone remains the main body, copper-rust veins warm reddish brown with tiny metallic flecks. Natural rough angular fracture, dense believable geology, no crystals or glow.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Grey fractured ore has broad reddish copper seams and a complete angular silhouette with clear alpha outside the stone. Pending fresh Luna and root lab acceptance."
+}

@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "kaldite_ore.png",
+  "sha256": "609145e5ed8db98f6941e3894623fb42db99d452157b84a2b187c18211596cf7",
+  "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon, square PNG with actual transparent alpha background. Polished believable three-dimensional product render, rich fine material detail, crisp edges and highlights, strong silhouette readable at 48 pixels. One isolated complete object centered at about 80 percent canvas with clear margin on every side, three-quarter view, upper-left studio illumination. No floor, environment, pedestal, cast background shadow, frame, letters, numbers, text, logo, watermark, hand, wearer, floating particles, checkerboard or flat vector style. Subject: Cobalt Ore: one black Highlands ore chunk with a broad vivid deep cobalt-blue fresh fracture cutting across its center and side. Dense black craggy mineral outer rind around rich blue mineral interior, natural jagged rock shape, slight metallic blue sheen in fracture. Grounded geological specimen, no crystal spikes, magic glow or loose debris.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Blue mineral fracture crosses a black craggy ore rind; the blue band remains strong at 48px and all edges have clear transparent margin. Pending fresh Luna and root lab acceptance."
+}

@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "fire_opal.png",
+  "sha256": "65da3fafa9ffdc5759951f707b63991bbafcde78125b88926f86396b8d4f26a7",
+  "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon. Polished believable three-dimensional product render with rich material detail, crisp edges and upper-left studio highlights. One isolated complete object, centered in a square with transparent margin on every side, fills about 80 percent, three-quarter view, strong readable silhouette at 48px. Actual transparent PNG background with real alpha. No floor, background shadow, scene, pedestal, frame, text, logo, watermark, hands, wearer, particles, or floating decorations. Avoid flat vector and crude low-poly shapes. Subject: Fire Opal, a single loose orange stone with a live spark inside its translucent depths. Rounded irregular cabochon-like natural gemstone, glowing tangerine body with subtle opalescent red and golden fire, one clear bright ember trapped at the center, fine cloudy mineral inclusions and glassy curved surface. No metal claw setting, no ring. Internal spark contained within stone, no outside flame or aura.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; orange opalescent body and contained ember are visible at 48px; smooth complete gem silhouette and real alpha. Pending fresh Luna and root lab acceptance."
+}

@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "nightglass_ore.png",
+  "sha256": "a2588020cfce3051bfe1514e1a825ddb52518ca8622aa58d88068c00b8ee8c65",
+  "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon. Polished believable three-dimensional product render with rich material detail, crisp edges and upper-left studio highlights. One isolated complete object, centered in a square with transparent margin on every side, fills about 80 percent, three-quarter view, strong readable silhouette at 48px. Actual transparent PNG background with real alpha. No floor, background shadow, scene, pedestal, frame, text, logo, watermark, hands, wearer, particles, or floating decorations. Avoid flat vector and crude low-poly shapes. Subject: Nightglass Ore, a single substantial angular violet ore chunk with a vivid blue fracture cutting across its main face. Dark violet rough mineral exterior and glossy obsidian-like broken surfaces, deep cobalt blue exposed fracture plane and thin blue fissures, sharp chipped geological edges, layered glassy violet-black depth. High-tier ore for smelting, not a polished jewelry gem. Clear readable blue fracture amid violet mass, no magical aura or floating shards.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; broad blue fracture crosses violet ore and remains distinct at 48px; real alpha and complete silhouette. Pending fresh Luna and root lab acceptance."
+}

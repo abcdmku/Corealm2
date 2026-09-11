@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cairnpelt_robe.png",
+  "sha256": "af886899290e14be7ef026e8bf50d5ec470e05a9b386a72d7e3226f69d1d46c6",
+  "prompt": "Generate a transparent PNG inventory icon: a single empty long medieval winter bear-fur robe with sleeves and a leather belt. Brown-grey undyed fur with pale tips, dark hide lining, three pelt panels visibly sewn using metallic cobalt-blue wire stitches. Detailed photorealistic 3D fantasy game product render, light from upper left, isolated freestanding garment, hollow neck and cuffs, no wearer or mannequin. Center entire robe with generous empty margin. Background must be transparent, alpha channel zero outside garment. No scene or shadow or text.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Full fur robe, cobalt wire seams and heavy skirt remain readable with empty neck and cuffs. Pending fresh Luna and root lab acceptance."
+}

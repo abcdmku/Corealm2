@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "grithe_cuirass.png",
+  "sha256": "6ebe0b36596ec4f690b79ae91aea963fc5defed8e1ccdd45f902aea7ca586924",
+  "prompt": "undefinedSubject: Copper Cuirass, a simple broad hand-hammered copper plate front laced over a brown leather back. Sleeveless torso armor shown empty, leather shoulder straps support copper breastplate, sturdy eyelets and crossed rawhide lacing visible along both sides, curved bottom rim, open neck and armholes. No pauldrons, no sleeves, no body, no cloth stuffing. Copper dominates with burnished warm red-orange metal, realistic wear and simple rivets. EDIT: Preserve this exact copper cuirass design, materials and lighting. Remove the entire gray background and floor shadow using actual transparent PNG alpha. Fit the complete cuirass centered in a square canvas with 10 percent clear transparent margin on every side. No background color and no checkerboard painted into the image.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Copper plate front, leather back and side lacing are visible; broad torso silhouette reads at 48px. Pending fresh Luna and root lab acceptance."
+}

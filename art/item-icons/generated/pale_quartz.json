@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "pale_quartz.png",
+  "sha256": "f00fcbadf136c4035d00db49f07b6192e9921f753187927da048446874e57815",
+  "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon, square PNG with actual transparent alpha background. Polished believable three-dimensional product render, rich fine material detail, crisp edges and highlights, strong silhouette readable at 48 pixels. One isolated complete object centered at about 80 percent canvas with clear margin on every side, three-quarter view, upper-left studio illumination. No floor, environment, pedestal, cast background shadow, frame, letters, numbers, text, logo, watermark, hand, wearer, floating particles, checkerboard or flat vector style. Subject: Quartz: one milky white quartz chip from a copper seam, a compact irregular naturally broken crystalline shard with a single blunt upward point and broad fractured translucent faces. Creamy cloudy interior, glassy clear thin edges, pale cool grey facets and tiny warm copper inclusion at its rough base. Natural mineral component, no magical glow, jewelry setting or loose fragments.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Milky quartz chip has broad cloudy crystalline faces, glassy edge highlights and copper at its rough base; pale pointed silhouette stays readable at 48px without clipping or background. Pending fresh Luna and root lab acceptance."
+}

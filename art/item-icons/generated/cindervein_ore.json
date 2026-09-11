@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cindervein_ore.png",
+  "sha256": "21704657bc141a613cdefb4c7f16470b7fb67809f43f038ee08b78f57161e2eb",
+  "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon. Polished believable three-dimensional product render with rich material detail, crisp edges and upper-left studio highlights. One isolated complete object, centered in a square with transparent margin on every side, fills about 80 percent, three-quarter view, strong readable silhouette at 48px. Actual transparent PNG background with real alpha. No floor, background shadow, scene, pedestal, frame, text, logo, watermark, hands, wearer, particles, or floating decorations. Avoid flat vector and crude low-poly shapes. Subject: Cindervein Ore, one rugged chunk of heavy black ore shot through with thick copper-red metallic seams. Angular fractured charcoal basalt-like mineral mass with visible porous rough crust, several branching rich copper-red veins penetrating and wrapping the broken faces, metallic highlights on the exposed seams. Believable mined ore used for smelting Cindersteel. Copper-red seams are solid metal, not lava; no fire, glow, or embers.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; copper-red solid metallic seams contrast with rough black ore at 48px; real alpha and complete silhouette. Pending fresh Luna and root lab acceptance."
+}

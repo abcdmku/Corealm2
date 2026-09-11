@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "grithe_helm.png",
+  "sha256": "c1e330e943c800a4a00c374c5cd71e353187d5639baa0b1510474258079cbfd0",
+  "prompt": "Use case: stylized-concept. Create one polished believable 3D fantasy RPG inventory product render, square PNG with genuine transparent alpha background. Rich warm reddish copper with hammered microtexture, dark recess patina and bright peach metallic edge highlights; practical entry-tier construction, no ornate decoration. Studio key light upper left, crisp edges, strong readable silhouette at 48 pixels. Three-quarter view, centered complete item occupying about 80% of square with transparent margins. No floor, scene, pedestal, background shadow, frame, lettering, logo, watermark, wearer, body, mannequin, or floating decoration. Subject: Copper Helm, an open-faced cap. Rounded copper skull cap with riveted rim and subtle central reinforcing band, shallow ear-clear sides, plain dark brown leather lining visible in empty opening. Entire face open; no mask, visor, horns, plume or neck covering. Believable hand-worked copper, small scratches and soft dents.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Open face, leather lining and rounded riveted copper cap remain clear at 48px. Pending fresh Luna and root lab acceptance."
+}

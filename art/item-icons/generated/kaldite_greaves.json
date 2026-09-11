@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "kaldite_greaves.png",
+  "sha256": "49252e3cfa3244c3d61fa22792b39e37eb6afc3086cff3bf38a33c42feb895dc",
+  "prompt": "Edit the referenced Cobalt Greaves inventory icon. Preserve the exact paired full leg armor design, cobalt metal, leather, hinges, lighting, realistic material detail, and actual transparent alpha background. Reframe so both COMPLETE greaves fit well within the square, with at least 10 percent clear transparent margin above the highest edge and below the lowest edge. Restore the clipped top edge naturally. No wearer, no scene or ground. Do not add anything else.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Full paired leg plates have visible knee hinges, empty openings and separate silhouettes at 48px. Reframed through image_gen to restore complete top edges. Complete object, no wearer. Pending fresh Luna and root lab acceptance."
+}

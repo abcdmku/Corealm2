@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "emberite_plate.png",
+  "sha256": "48cbea3ed29a1e080dabb5ec733b58c8a7a3edf562b27c1969d2049543e78c7c",
+  "prompt": "Use case: stylized-concept. Create a polished believable three-dimensional fantasy RPG inventory product render of Titanium Plate, a substantial forged titanium torso cuirass that retains forge warmth all day. One isolated empty wearable breastplate and backplate assembly with attached compact layered shoulder plates and articulated waist lames, hollow neck and arm openings, no arms. Matching forge armor: angular smoke-blue titanium plates, brushed silver beveled edges, dark leather straps, practical riveted construction and subtle bronze-purple heat tempering at seams. Substantial believable craftsmanship and surface wear. No magical glow or flames. Three-quarter view, studio light upper left, rich metal detail, crisp edges, strong silhouette readable at 48px. Complete object centered, about 80 percent of square, clear margin on all sides. Actual transparent alpha background. No floor, scene, pedestal, background shadow, frame, text, logo, watermark, wearer, body, mannequin or floating decoration. Detailed realistic metal render, never vector or low-poly.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; smoke-blue titanium, silver plate edges and heat tempering remain readable. Empty wearable construction with no wearer and clear alpha. Pending fresh Luna and root lab acceptance."
+}

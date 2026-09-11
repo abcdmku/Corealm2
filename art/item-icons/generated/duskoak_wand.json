@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "duskoak_wand.png",
+  "sha256": "3dd9e530b66b37c4e09800ce897ebeb63c93f018d8f60dd8fc8459d20da33852",
+  "prompt": "Use case: stylized-concept. Create a polished believable three-dimensional fantasy RPG inventory product render on a genuinely transparent alpha background. One isolated complete item, centered diagonal from lower left to upper right, occupies about 80% of square canvas with clear margins. Three-quarter view, studio lighting from upper left, crisp readable silhouette at 48px, rich realistic grain and material detail. No floor, scene, pedestal, background shadow, frame, text, logo, hands, wearer, decorative particles or extra objects. No gemstone, no crystal, no glow or magical charge: socket must be visibly EMPTY with dark brown wood interior and open negative space. Subject: Ash Wand. Dark chocolate brown polished ash with expressive fine wavy grain, compact one-handed wand about 38cm long with sculpted ergonomic grip occupying one third of length. Better craftsmanship than a plain apprentice wand: elegant fluted handle and narrow restrained carved scroll channels along the taper. Crown made of three swept dark wooden prongs surrounding a plainly EMPTY cavity, unobstructed open negative space. All wood, polished nonluminous reflections, no metal. The head remains brown and unlit.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; compact grip and taper read as a one-handed wand, material grain is visible, empty crown has open negative space and no gemstone or glow, complete silhouette has transparent margin. Pending fresh Luna and root lab acceptance."
+}

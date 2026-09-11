@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cairnpelt_wraps.png",
+  "sha256": "55eb6df402b16715f1d3803992cb70c51daf18a81a3f7dcbd2f28163d6f8ac2e",
+  "prompt": "Generate a transparent PNG inventory icon: a matched pair of empty Fur Wraps for the hands and wrists, crafted from overlapping narrow winter bear-pelt strips wrapped over dark umber woven backing. Brown-grey undyed dense fur with tawny hairs and pale tips, exposed dark leather binding and woven strips around wrist and palm. Fine dark crimson garnet mineral dust worked visibly into the exposed weave, subtle mineral red flecks without glow or large gems. Short fingerless hand wraps with empty thumb holes, empty wrist openings and open knuckle ends, clearly garments with no hands inside. Detailed photorealistic 3D fantasy RPG product render, upper-left light, three-quarter view, two wraps side by side with clear gap and complete contours. Center entire pair with generous empty margin in square canvas, readable at 48px. Real transparent PNG alpha channel zero outside wraps. No scene, floor, cast shadow, text, wearer, mannequin or floating dust.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Separate empty fingerless pelt wraps show garnet-red flecks in the exposed weave and clear wrist openings. Pending fresh Luna and root lab acceptance."
+}

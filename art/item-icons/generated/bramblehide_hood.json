@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "bramblehide_hood.png",
+  "sha256": "abad9bf48d23278255e6bca6ac0305cf351c644c0bb3a19af9e408adabe22535",
+  "prompt": "Use case: stylized-concept. Asset: square fantasy RPG inventory icon. Polished believable three-dimensional product render, rich detailed natural leather grain, crisp seams and highlights, strong silhouette readable at 48px. Thick-hide deepwood equipment set, dark chestnut waxed leather with muted olive undertone, tan saddle stitching, doubled hide edging, subtle small natural thorn remnants on selected seams. Upper-left studio light, three-quarter front view. Genuine transparent background with real alpha, one complete isolated item filling 80% of square with clear margin on every side. No floor, cast background shadow, scene, pedestal, text, frame, logo, watermark, wearer, hand, mannequin, body, magic glow, or floating decorations. Subject: Thick Hide Hood. Deepwood hide, still faintly thorned along the seam. A standalone hollow hood with rounded crown, broad face opening revealing dark suede lining, short shoulder cowl with a small leather throat clasp. Thick supple folds, stitched center ridge carrying a few small woody thorns. No face or head inside, no robe.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Hollow hood and shoulder cowl remain clear at 48px; brown waxed hide, sewn edging and seam thorns are visible at source size. Real transparent alpha and complete silhouette. Pending fresh Luna and root lab acceptance."
+}

@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "nightglass_helm.png",
+  "sha256": "ec2b8ea3228df81929fa82002cd6a5fd17572c45ae737d3ad8f2dbe2875f8c88",
+  "prompt": "Use case: stylized-concept. Polished believable three-dimensional fantasy RPG inventory product render, square PNG with actual transparent alpha background. Nightglass is solid blue-black glass metal forged for level 70 melee combat, subtle violet undertones and icy blue specular beveled edges, dark leather joints, restrained silver-blue rivets, masterfully engineered angular plate construction, fine believable wear. Cohesive Nightglass armor set. Studio light upper left with enough reflected light to read dark surfaces at 48px. Three-quarter front view, centered entire item fills 80% of square, transparent margin all sides. No floor, scene, pedestal, background shadow, checkerboard, frame, label, text, logo, watermark, wearer, mannequin, body, hand or floating decorative junk. Crisp realistic rich materials, no flat vector or low-poly geometry. Subject: one Nightglass Helm, closed protective knight helmet with sharp central brow ridge, narrow unlit eye slit, overlapping angular cheek plates, articulated neck rim, no horns or crest. Hollow empty armor, compact strong readable silhouette.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; blue-black glass metal, bright beveled edges and hollow armor silhouette remain readable. Real alpha and complete item bounds confirmed. Pending fresh Luna and root lab acceptance."
+}

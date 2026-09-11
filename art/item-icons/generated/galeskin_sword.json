@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "galeskin_sword.png",
+  "sha256": "4dfb052717594b125b2e67bf03c92ae454f21e0304b5c7f51e622ef897147316",
+  "prompt": "Use case: stylized-concept. Square fantasy RPG inventory icon. Believable polished detailed three-dimensional product render, rich tactile materials, crisp highlights and edges, strong readable silhouette at 48 pixels. Entire single sword including blade tip, guard, grip and pommel fully visible diagonally from lower left pommel to upper right tip, slight three-quarter view showing broad blade face, centered occupying 80 percent of square with transparent margins on all sides. Studio light upper left. Actual transparent alpha background, no checkerboard. No floor, scene, pedestal, cast background shadow, frame, text, logo, watermark, hand, wearer, particles, or decorative floating objects. No crude low-poly shapes. Subject: Plains Ogre Sword, tier 1. Copper pattern, but its edge whistles on the backswing; an ogre carried it point-down. A heavy broad long copper sword with an aerodynamic tapered point, shallow longitudinal flute near the spine and a clean sharpened copper edge. Burnished reddish copper hammer texture, large simple swept copper guard, robust weathered tan hide-bound grip with thicker turns, copper weighted pommel. Ogre-carried wear at the tip, rugged plains feel. No visual sound effects or wind particles.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Broad fluted copper blade and tan hide grip distinguish the Plains Ogre variant. Pending fresh Luna and root lab acceptance."
+}

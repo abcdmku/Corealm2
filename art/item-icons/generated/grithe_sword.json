@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "grithe_sword.png",
+  "sha256": "b98fc985b324230ef184a88204a6a5d970816573e8d501326db2f597d64d9d85",
+  "prompt": "Use case: stylized-concept. Square fantasy RPG inventory icon. Believable polished detailed three-dimensional product render, rich tactile materials, crisp highlights and edges, strong readable silhouette at 48 pixels. Entire single sword including blade tip, guard, grip and pommel fully visible diagonally from lower left pommel to upper right tip, slight three-quarter view showing broad blade face, centered occupying 80 percent of square with transparent margins on all sides. Studio light upper left. Actual transparent alpha background, no checkerboard. No floor, scene, pedestal, cast background shadow, frame, text, logo, watermark, hand, wearer, particles, or decorative floating objects. No crude low-poly shapes. Subject: Copper Sword, tier 1. Two bars of copper beaten flat and given an edge, heavier than a dagger. A broad straightforward tapered copper blade with orange-red metallic sheen, visible forging hammer marks and burnished cutting edges. Sturdy unornamented copper crossguard, dark brown wrapped leather grip, simple copper disc pommel. Low tier practical construction but believable craftsmanship. Copper blade must clearly be copper, not silver.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Hammered copper blade and simple leather hilt give a clear low-tier silhouette. Pending fresh Luna and root lab acceptance."
+}

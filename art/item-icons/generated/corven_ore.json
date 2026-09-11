@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "corven_ore.png",
+  "sha256": "750bf40d065a912f250dd05d63f8d6e7b8546634a3f7ef5a5e7d6428893393e1",
+  "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon, square PNG with actual transparent alpha background. Polished believable three-dimensional product render, rich fine material detail, crisp edges and highlights, strong silhouette readable at 48 pixels. One isolated complete object centered at about 80 percent canvas with clear margin on every side, three-quarter view, upper-left studio illumination. No floor, environment, pedestal, cast background shadow, frame, letters, numbers, text, logo, watermark, hand, wearer, floating particles, checkerboard or flat vector style. Subject: Iron Ore: one heavy dark deepwood ore chunk, irregular broad jagged fractures, dense charcoal-grey iron-rich body and slightly oily metallic sheen across the fresh broken face. Black magnetite-like fine granular texture, silver-grey sharp highlights, subtle umber weathering only. No blue coloration, crystals, glow or loose debris.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Dark iron ore retains broad silvery fracture highlights and oily mineral sheen at inventory size, with clear alpha outside the complete rock. Pending fresh Luna and root lab acceptance."
+}

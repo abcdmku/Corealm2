@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "palewood_shield.png",
+  "sha256": "34a05a4b4cdfbd49cc7d95d03aa3cbe62369416af81df8a0c554229d57fd3e57",
+  "prompt": "Use case: stylized-concept. Asset: polished believable 3D fantasy RPG inventory icon. Generate one isolated shield, complete object centered occupying about 80 percent of square, front three-quarter view with visible thickness along right edge. Rich realistic material detail, crisp highlights and strong silhouette readable at 48px. Studio lighting upper left. Actual transparent RGBA background with clear alpha outside object. No floor, scene, pedestal, cast background shadow, frame, text, label, logo, watermark, hand, wearer or decorative floating objects. Pine Shield, humble tier 1. Round shield made of pale cream pine planks banded around the rim with worn dark iron, small nail heads, no central boss. Broad visible woodgrain and knots, modest claw scratches, solid practical construction.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Pale pine planks, iron rim and clear circular silhouette. Pending fresh Luna and root lab acceptance."
+}

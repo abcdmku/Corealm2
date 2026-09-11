@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "emberite_pickaxe.png",
+  "sha256": "ebca51100cf3cf03b23e1a52654296d133701db3ad59b6ded3b602f1acc14f27",
+  "prompt": "Use case: stylized-concept. Square fantasy RPG inventory icon, polished believable three-dimensional product render with rich fine material texture, crisp highlights, strong silhouette readable at 48 pixels. Single isolated complete tool centered in three-quarter view, diagonal handle bottom left to head upper right, fills 80% of square, transparent margins all sides. True transparent alpha background. Studio light upper left. No floor, scenery, pedestal, cast background shadow, frame, text, logo, watermark, hands, people, checkerboard pattern, floating particles or decorations. Subject: Titanium Pickaxe. A practical forged silver titanium mining head on a rich dark walnut wooden handle. One slender curved pointed pick opposed by a short chisel end, robust central eye fitting, restrained fine collar and leather lower grip. Titanium has cool satin metallic sheen, fine hammer and grind marks, bright sharpened edges. Walnut grain remains visible. Crafted fantasy hand tool, no fire or glowing parts.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Silver curved pick and chisel remain distinct, walnut shaft and wrapped grip readable, complete silhouette on clear alpha. Pending fresh Luna and root lab acceptance."
+}

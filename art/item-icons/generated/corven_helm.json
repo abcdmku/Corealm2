@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "corven_helm.png",
+  "sha256": "c2d995e5defb5133af51b090511e7c184e964e9e8204d6dad08ad9f87a0cf619",
+  "prompt": "Use case: stylized-concept. Asset type: polished three-dimensional fantasy RPG inventory product render, readable at 48px. Cohesive practical iron armor set, charcoal gray forged iron with silver worn edges, small round iron rivets and dark brown leather straps, fine hammer marks and scratches, restrained believable craftsmanship. Genuine transparent background with real alpha. One isolated item or matching wearable pair, no wearer, body, hands, mannequin, floor, scene, pedestal, cast background shadow, text, label, logo, watermark, decorative floating objects or checkerboard. Center complete object with clear margin on all sides, occupies about 80% of square. Three-quarter view, upper-left studio lighting, rich realistic material detail and crisp strong silhouette. Subject: Iron Helm, a complete closed full helm with a single narrow dark horizontal sight slit, subtle central ridge, riveted brow band and enclosed angular cheek and chin plates. Empty inside, no eyes, no horns, no crest. Honest functional medieval iron protection.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Closed iron helm has a clear narrow sight slit and empty interior; riveted ridge and worn iron edges remain readable at 48px. Pending fresh Luna and root lab acceptance."
+}

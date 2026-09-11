@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "grithe_pickaxe.png",
+  "sha256": "1b98e9bf1ee684d607fe96ed218cacd9d236042418b3b7ec53f64636e356f185",
+  "prompt": "Use case: stylized-concept. Create one Copper Pickaxe fantasy RPG inventory icon. Believable polished three-dimensional product render, rich copper and wood detail, crisp silhouette readable at 48px. Simple forged warm reddish-orange copper mining pick head, one curved tapering pointed end and one shorter squared chisel end, modest hammer marks and bright worn edges. Mounted securely on a straight pale honey pine wood haft with visible fine grain and plain leather grip. Entry-tier practical craftsmanship, no ornaments. Complete single pickaxe diagonal lower left haft to upper right head, three-quarter view, centered, 80% of square with margin on every side. Upper-left studio light. Actual transparent alpha background. No ground or cast background shadow, scene, text, logo, frame, hand, person, extra objects, glow, low-poly or flat vector.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; pick and chisel head ends read clearly, copper with pine and riveted iron with ash are distinct, complete tool has real alpha. Pending fresh Luna and root lab acceptance."
+}

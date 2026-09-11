@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "magic_shield.png",
+  "sha256": "11d30150ffa1d99db51b409f1301453fef4bce757c60baa87e7afc447e3a0555",
+  "prompt": "Use case: stylized-concept. Asset: polished believable 3D fantasy RPG inventory icon. Generate one isolated shield, complete object centered occupying about 80 percent of square, front three-quarter view with visible thickness along right edge. Rich realistic material detail, crisp highlights and strong silhouette readable at 48px. Studio lighting upper left. Actual transparent RGBA background with clear alpha outside object. No floor, scene, pedestal, cast background shadow, frame, text, label, logo, watermark, hand, wearer or decorative floating objects. Magic Shield, tier 70. Layered magic wood faced in Nightglass. Elegant but functional curved pointed shield with midnight black glossy obsidian-like Nightglass armor panels, blue-violet reflected edges, fine silvery bindings, dark violet magical woodgrain visible in recessed strips and layered edge. Swept shoulder corners and faceted raised central plate distinguish a masterwork. Material has restrained internal violet sheen without external glow or particles. No gemstone or text. Leave generous transparent margin around all edges, especially top and bottom.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Nightglass facets and violet wood insets remain distinct within the pointed shield silhouette. Pending fresh Luna and root lab acceptance."
+}

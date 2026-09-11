@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "worn_sword.png",
+  "sha256": "6780a831eb6671594ed44f4127d7dfbf29e72e27bfdeb4af3140b117c5388442",
+  "prompt": "Use case: stylized-concept. Square fantasy RPG inventory icon. One Worn Shortsword, an apprentice's secondhand weapon, notched and re-hafted twice, lighter than it looks. Short tapered steel blade with shallow edge nicks, rubbed gray iron surfaces, mismatched repair rivets and a newly wrapped worn brown leather grip over an older wooden handle, plain compact crossguard and battered small pommel. Believable detailed three-dimensional product render with rich tactile metal and leather, crisp edges, restrained wear. Entire blade and hilt visible diagonally from lower left pommel to upper right tip, modest three-quarter angle showing blade face, centered occupying 80 percent of square with clear margins. Studio light upper left. Actual transparent alpha background. One weapon only, no scene, floor, cast background shadow, pedestal, label, text, logo, watermark, hands, particles, or checkerboard. Readable silhouette at 48 pixels, no crude low-poly geometry.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Complete nicked steel blade, repaired grip, and worn fittings remain readable. Pending fresh Luna and root lab acceptance."
+}

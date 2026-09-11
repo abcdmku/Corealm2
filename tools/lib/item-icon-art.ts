@@ -12,7 +12,7 @@ export interface ItemIconArtEntry {
   readonly sha256: string;
   readonly prompt: string;
   readonly generator: "built-in image_gen";
-  /** Concrete asset-search findings explaining why a genuine model could not be used. */
+  /** Asset-source findings or the explicit art direction authorizing a generated replacement. */
   readonly sourceLookup: string;
   /** Visual review of both the full source and the 48px derivative. */
   readonly review: string;

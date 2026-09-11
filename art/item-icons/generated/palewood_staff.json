@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "palewood_staff.png",
+  "sha256": "b89325312cb67c5a2fc221cb5cdf8400539658f26d4fa93f4d84e8a9c932d881",
+  "prompt": "Use case: stylized-concept. Create a polished believable three-dimensional fantasy RPG inventory product render on a genuinely transparent alpha background. One isolated complete item, centered diagonal from lower left to upper right, occupies about 80% of square canvas with clear margins. Three-quarter view, studio lighting from upper left, crisp readable silhouette at 48px, rich realistic grain and material detail. No floor, scene, pedestal, background shadow, frame, text, logo, hands, wearer, decorative particles or extra objects. No gemstone, no crystal, no glow or magical charge: socket must be visibly EMPTY with dark brown wood interior and open negative space. Subject: Pine Staff. A tall 175cm two-handed shaft of pale honey cream pine, slim long continuous woodgrain with subtle knots, delicate amber grain. Long central double-hand grip carved with restrained spiral grooves, rounded wooden heel. Shaft roughly eight times crown height. Small hollow socket atop shaft made from curved pale wooden prongs, visibly empty open brown cavity. Smooth practical joinery, modest wax polish, no metal or elaborate ornaments. Full staff proportions, not short wand.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; long slender shaft and extended grip read as a two-handed staff, material grain is visible, empty crown has open negative space and no gemstone or glow, complete silhouette has transparent margin. Pending fresh Luna and root lab acceptance."
+}

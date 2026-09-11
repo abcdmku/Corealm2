@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cinderpine_wand.png",
+  "sha256": "c2138bb8385219d9c82db1f723fea79a0c0cd4fb3e118ee4a272ebd4d5b79039",
+  "prompt": "Use case: stylized-concept. Asset: square fantasy RPG inventory icon. Polished believable three-dimensional product render with rich material microdetail, crisp edges and highlights, readable silhouette at 48px. Studio illumination from upper left, three-quarter view. One complete isolated weapon angled from lower left butt to upper right tip, centered, fills roughly 80% square with generous transparent margins at every extremity. Genuine transparent alpha background. No scene, floor, pedestal, cast background shadow, frame, lettering, logo, watermark, hands, wearer, floating decoration. No flat vector, low-poly shapes, or primitive stand-ins. Subject: Walnut Wand, a SHORT one-handed casting baton of polished deep brown walnut with flowing visible grain, shaped ergonomic grip taking one third of its length and a tapered stout shaft. At its tip is a small brushed titanium socket with clearly EMPTY open brown interior, unlit. Elegant restrained metal collar and pommel, subtly worn edges. Entire object about 35cm in physical proportion. Keep socket completely empty, no stone, gem, orb, flame, light or glow anywhere. Detailed walnut and titanium construction.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Polished brown walnut, one-hand grip, and a visibly empty titanium tip socket remain legible; no gem or glow. Pending fresh Luna and root lab acceptance."
+}

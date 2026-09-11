@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "kaldite_gauntlets.png",
+  "sha256": "bc6aa102fc2d26fde1667c71aeb7c55040e66e973fcfee3282351fb022300213",
+  "prompt": "Extract the pair of Cobalt Gauntlets from the reference as an actual transparent PNG cutout. Completely remove the gray and white checkerboard background, including all gaps between fingers and gloves. It must be real alpha transparency, zero opacity outside the object, not a drawn checkerboard. Preserve both five-digit gloves, cobalt plate, red garnet rivets, leather, lighting and complete uncropped composition. No background or shadow at all.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Paired cobalt gloves have four fingers plus a thumb each, articulated knuckle armor and dark red garnet rivets. Image_gen corrected finger count and removed a generated checkerboard; final source has real alpha and reads at 48px. Complete object, no wearer. Pending fresh Luna and root lab acceptance."
+}

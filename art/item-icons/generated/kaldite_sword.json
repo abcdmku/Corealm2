@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "kaldite_sword.png",
+  "sha256": "e2f8835f6fb8b7453f1ee6363d04acff9b29d0985489cbce0bf1e37d25f11a6c",
+  "prompt": "Use case: stylized-concept. Square fantasy RPG inventory icon. Believable polished detailed three-dimensional product render, rich tactile materials, crisp highlights and edges, strong readable silhouette at 48 pixels. Entire single sword including blade tip, guard, grip and pommel fully visible diagonally from lower left pommel to upper right tip, slight three-quarter view showing broad blade face, centered occupying 80 percent of square with transparent margins on all sides. Studio light upper left. Actual transparent alpha background, no checkerboard. No floor, scene, pedestal, cast background shadow, frame, text, logo, watermark, hand, wearer, particles, or decorative floating objects. No crude low-poly shapes. Subject: Cobalt Sword, tier 10. Hillcrest's best; cobalt holds an edge through stone. Stout long sword of lustrous deep cobalt blue metal with sharp pale blue-silver edges, thick diamond-section blade and a crisp reinforced angular shoulder. Carefully forged angular swept crossguard, tightly wound dark navy leather grip, blue metal faceted pommel. Better engineering and craftsmanship than an iron sword, resilient mountain smithwork, fine hammer grain and restrained engraved geometric lines. No gems, flames or magic.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Cobalt blue reinforced blade and angular mountain-forged fittings remain distinct at inventory scale. Pending fresh Luna and root lab acceptance."
+}

@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "teak_shield.png",
+  "sha256": "276b62172fbe327c523101184eeddedd23acec06ff57cf9a22d0b71aa5122aea",
+  "prompt": "Use case: stylized-concept. Asset: polished believable 3D fantasy RPG inventory icon. Generate one isolated shield, complete object centered occupying about 80 percent of square, front three-quarter view with visible thickness along right edge. Rich realistic material detail, crisp highlights and strong silhouette readable at 48px. Studio lighting upper left. Actual transparent RGBA background with clear alpha outside object. No floor, scene, pedestal, cast background shadow, frame, text, label, logo, watermark, hand, wearer or decorative floating objects. Teak Shield, tier 50. Layered teak faced in Cindersteel. Mastercrafted broad angular heater shield, thick warm golden teak laminate visible at edges and inset panels, dark charcoal forged steel face with subtle ember-copper temper tones, hammered texture, central broad armored spine, overlapping side plates and riveted heavy rim. No flames or particles. Leave generous transparent margin around all edges, especially top and bottom.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Cindersteel armor over warm teak has broad defensive plates and visible layered construction. Pending fresh Luna and root lab acceptance."
+}

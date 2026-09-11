@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "starhide_robe.png",
+  "sha256": "351df00b4dd9c02a832209b96403b1b40ed0b502033ccbbfef75e5209832829b",
+  "prompt": "Use case: stylized-concept. Create one polished believable three-dimensional fantasy RPG inventory product render of Starhide Robe, a level 70 magic robe sewn with Void Thread. One empty long sleeved robe garment without hood, no body inside, hollow open neck and empty sleeves; long divided skirt panels, tailored belted waist, broad cuffs. Cohesive Starhide material: supple midnight-indigo leather with visible fine grain, restrained pale star-like speckles embedded in the hide, violet-black double-stitched Void Thread seams, narrow aged silver edging and small silver fasteners. Expert tailoring, layered angular shoulder panels, natural leather creases, long flowing coat-like skirt panels and dark violet lining visible at openings. Rich material detail, crisp highlights and edges, strong silhouette readable at 48 pixels. Three-quarter view, studio light upper left. Entire item centered, fills about 80% of square with generous transparent margins. Actual transparent alpha background. No floor, scene, pedestal, cast background shadow, frame, label, text, logo, watermark, hand, wearer, mannequin, face, eyes, floating decoration, detached stars, particles, glow aura, vector art or low-poly look.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; midnight indigo grained leather, violet Void Thread seams and silver edging retain a clear robe silhouette with no wearer and real transparent margins. Pending fresh Luna and root lab acceptance."
+}

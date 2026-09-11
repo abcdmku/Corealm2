@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cinderpine_shield.png",
+  "sha256": "6b78253de013a091c9d21e1fdd442362969c061be635e55764b1d46c08dff8dc",
+  "prompt": "Use case: stylized-concept. Asset: polished believable 3D fantasy RPG inventory icon. Generate one isolated shield, complete object centered occupying about 80 percent of square, front three-quarter view with visible thickness along right edge. Rich realistic material detail, crisp highlights and strong silhouette readable at 48px. Studio lighting upper left. Actual transparent RGBA background with clear alpha outside object. No floor, scene, pedestal, cast background shadow, frame, text, label, logo, watermark, hand, wearer or decorative floating objects. Walnut Shield, tier 20. Layered rich dark walnut faced in titanium. Tall rounded-top kite shield with a shallow central crease, satin pale silver titanium face panels, dark walnut exposed in narrow recessed channels and thick laminated edge. Strong rolled rim, precise rivets and beveled plates built to withstand heavy blows. No gold decoration. Leave generous transparent margin around all edges, especially top and bottom.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Silver titanium panels and walnut channels create a distinct tall kite shield. Pending fresh Luna and root lab acceptance."
+}

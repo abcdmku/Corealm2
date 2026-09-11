@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "hollow_star_fragment.png",
+  "sha256": "115e2e010830e4d6b2047ee9f202dcb5f7dbd2ff5a112fd88bc075eab6615bf1",
+  "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon. Polished believable three-dimensional product render with rich material detail, crisp edges and upper-left studio highlights. One isolated complete object, centered in a square with transparent margin on every side, fills about 80 percent, three-quarter view, strong readable silhouette at 48px. Actual transparent PNG background with real alpha. No floor, background shadow, scene, pedestal, frame, text, logo, watermark, hands, wearer, particles, or floating decorations. Avoid flat vector and crude low-poly shapes. Subject: Hollow Star Fragment, one heavy black shard from an ancient sanctum guardian, a rare component used to form the crown of a Hollowstar Staff. A thick asymmetric tapered wedge of dense jet-black star-metal and obsidian, one jagged crownlike point and a broad snapped base, dark rough fracture edge, curved glossy black faces with fine silver-grey metallic highlights revealing its weight and depth. Subtle ancient mineral striations. Rich black material, no bright gem color, no whole star shape, no jewelry, no staff, no aura, no floating fragments. Fully visible single shard tilted diagonally.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; heavy black shard has a broad snapped base, pointed crown profile and silver-grey edge highlights readable at 48px; complete uncut silhouette with real alpha. Pending fresh Luna and root lab acceptance."
+}

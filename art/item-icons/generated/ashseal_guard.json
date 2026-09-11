@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "ashseal_guard.png",
+  "sha256": "084455e85813edb6921c3dd4b198bbd906d00f3845dfafcf58411502e80ba2e8",
+  "prompt": "Use case: stylized-concept. Asset: polished believable 3D fantasy RPG inventory icon. Generate one isolated shield, complete object centered occupying about 80 percent of square, front three-quarter view with visible thickness along right edge. Rich realistic material detail, crisp highlights and strong silhouette readable at 48px. Studio lighting upper left. Actual transparent RGBA background with clear alpha outside object. No floor, scene, pedestal, cast background shadow, frame, text, label, logo, watermark, hand, wearer or decorative floating objects. Ashseal Guard. The Ashseal Warden's iron spread across a Teak Shield, a very heavy guard for close fighting, tier 50 boss equipment. Compact broad rectangular shield with chamfered corners and rounded lower point, thick golden-brown teak planks reinforced across most of the face with massive weathered dark iron plates, heavy bolted rim and large blunt central iron boss. Dense forged seams, ash-gray patina, modest copper heat stains and old impact scars, exceptional heavy duty construction, no spikes, no emblem or text. Leave generous transparent margin around all edges, especially top and bottom.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Massive iron plates, blunt boss and thick teak edge establish the heavy close-fighting guard. Pending fresh Luna and root lab acceptance."
+}

@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "corven_pickaxe.png",
+  "sha256": "270f75976a01db7487fc93548845016b6d3803fc26d2005b887fa6b83a4b7275",
+  "prompt": "Use case: stylized-concept. Create one Iron Pickaxe fantasy RPG inventory icon. Polished believable three-dimensional product render, rich tactile detail, crisp edges and broad readable silhouette at 48px. Sturdy blacksmith-forged iron mining pick head, dark charcoal iron faces with hammered texture and silvery polished bevels, long curved pointed pick and shorter stout chisel end. Robust raised central socket reinforced with a simple riveted collar, solid pale ash wood haft with straight grain, comfortable dark brown leather lower grip. Mid-tier practical quality with light honest wear. Complete single tool diagonal from lower left handle to upper right head, three-quarter view, centered within square with clear margins, fills 80%. Upper-left studio light. Real transparent alpha background. No floor, scene, background shadow, text, logo, ornament, hand, person, extra objects, glowing parts, low-poly or vector.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; pick and chisel head ends read clearly, copper with pine and riveted iron with ash are distinct, complete tool has real alpha. Pending fresh Luna and root lab acceptance."
+}

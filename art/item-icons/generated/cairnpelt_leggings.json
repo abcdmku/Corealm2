@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cairnpelt_leggings.png",
+  "sha256": "921358db896c90902e4303b0d9e7af0c95f350fd8558e0378581404f1a1fa7b1",
+  "prompt": "Generate a transparent PNG inventory icon: one empty pair of medieval winter bear-fur leggings, connected at the waist, full length pelt trousers reaching the ankles with weighted dark hide hem bands incorporating small iron weights. Brown-grey undyed dense bear fur with tawny hairs and pale tips, dark umber hide lining, sturdy leather seams and waist belt. Detailed photorealistic 3D fantasy game product render, light from upper left, three-quarter view, isolated garment with hollow waist and ankle openings, no wearer, legs, mannequin or boots. Center entire item with generous empty margin. Strong two-leg silhouette readable at 48px. Background must be transparent, alpha channel zero outside garment. No scene or shadow or text.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Two full-length fur legs with weighted dark hide ankle hems and an empty waist form a clear trouser silhouette. Pending fresh Luna and root lab acceptance."
+}

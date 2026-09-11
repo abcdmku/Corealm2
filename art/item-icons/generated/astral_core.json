@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "astral_core.png",
+  "sha256": "c173cbe20d18270ae3e1a74260c5e5f758a65db5c62bc002042db05f3cb406cd",
+  "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon. Polished believable three-dimensional product render with rich material detail, crisp edges and upper-left studio highlights. One isolated complete object, centered in a square with transparent margin on every side, fills about 80 percent, three-quarter view, strong readable silhouette at 48px. Actual transparent PNG background with real alpha. No floor, background shadow, scene, pedestal, frame, text, logo, watermark, hands, wearer, particles, or floating decorations. Avoid flat vector and crude low-poly shapes. Subject: Astral Core, a blue-violet heart taken from a deep Wilderness creature, an organic magical crafting component that fuses Nightglass Ore. One compact alien anatomical heart, asymmetric ventricles and a few short sealed vessel stubs, not a Valentine heart. Smooth firm blue-violet flesh with translucent crystalline membrane, dark indigo vein ridges and soft blue light contained inside its center, fine organic surface detail. Clean non-gory harvested magical organ, no blood, no external aura, no stand, no metal cage.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; blue-violet anatomical creature heart, contained blue core and organic vein ridges remain clear at 48px; real alpha and complete outline. Pending fresh Luna and root lab acceptance."
+}

@@ -4,7 +4,7 @@ A persistent 3D browser RPG in the classic-MMO tradition: gather, craft, fight, 
 
 Play it at **https://abcdmku.github.io/Corealm/**. The generated player guide (skills, recipes, regions, quests, XP table) lives at **https://abcdmku.github.io/Corealm/docs**.
 
-Built with TypeScript, Vite, Three.js, and recast-navigation. Model sources and licenses are recorded in the asset manifest. Item icons use rendered models or reviewed generated artwork with source records.
+Built with TypeScript, Vite, Three.js, and recast-navigation. Model sources and licenses are recorded in the asset manifest. All 300 item icons use reviewed generated artwork with source records.
 
 ## The game
 

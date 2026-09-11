@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "marks.png",
+  "sha256": "f01156351333812812a35f39b8cdb86ce5020f0a000058e3e84333821bf53f15",
+  "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon, square PNG with actual transparent alpha background. Polished believable three-dimensional product render, rich fine material detail, crisp edges and highlights, strong silhouette readable at 48 pixels. One isolated complete object centered at about 80 percent canvas with clear margin on every side, three-quarter view, upper-left studio illumination. No floor, environment, pedestal, cast background shadow, frame, letters, numbers, text, logo, watermark, hand, wearer, floating particles, checkerboard or flat vector style. Subject: Marks currency: one weathered thick stamped Trade Company scrip token, dull warm brass with an inset abstract geometric trade stamp, shallow circular border grooves and small hammered edge imperfections. Common practical frontier money, not royal treasure. Stamp is a plain geometric impression, no lettering or recognizable logo.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Worn brass token has a broad geometric stamped face, complete rim and clear alpha margin; stamp remains readable at inventory size. Pending fresh Luna and root lab acceptance."
+}

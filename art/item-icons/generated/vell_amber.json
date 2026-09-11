@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "vell_amber.png",
+  "sha256": "089d6057a3ef9ae707d0faa4909d0bafaccd3c67a0599ddb1cef76d3d2702023",
+  "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon. Polished believable three-dimensional product render with rich material detail, crisp edges and upper-left studio highlights. One isolated complete object, centered in a square with transparent margin on every side, fills about 80 percent, three-quarter view, strong readable silhouette at 48px. Actual transparent PNG background with real alpha. No floor, background shadow, scene, pedestal, frame, text, logo, watermark, hands, wearer, particles, or floating decorations. Avoid flat vector and crude low-poly shapes. Subject: Amber, a single irregular rounded nugget of ancient fossil tree resin from under the deepwood. Warm honey-gold and burnt orange translucent depths, fine organic flow lines, tiny trapped bubbles and flecks, gently chipped outer rind along one edge. Believable resin rather than cut gemstone. Warm internal color, no magical aura or exterior glow.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; honey-gold resin, trapped bubbles and rough rind remain readable; complete silhouette and real alpha. Pending fresh Luna and root lab acceptance."
+}

@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "corven_greaves.png",
+  "sha256": "c7fc1bd7225707d7ba35dd6a31106bebe810a9ff74e3a2ff18a0a44ea55124d5",
+  "prompt": "Use case: stylized-concept. Asset type: polished three-dimensional fantasy RPG inventory product render, readable at 48px. Cohesive practical iron armor set, charcoal gray forged iron with silver worn edges, small round iron rivets and dark brown leather straps, fine hammer marks and scratches, restrained believable craftsmanship. Genuine transparent background with real alpha. One isolated item or matching wearable pair, no wearer, body, hands, mannequin, floor, scene, pedestal, cast background shadow, text, label, logo, watermark, decorative floating objects or checkerboard. Center complete object with clear margin on all sides, occupies about 80% of square. Three-quarter view, upper-left studio lighting, rich realistic material detail and crisp strong silhouette. Subject: Iron Greaves, a matching pair of empty armored legs from upper thigh to ankle, separate with a small clear gap. Long curved thigh plates, articulated riveted kneecaps and tapered shin plates with leather rear straps. No feet or boots, no torso, no person. Both complete leg armor assemblies visible, gently staggered in three-quarter view. Utilitarian heavy plated legs.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Separated complete leg plates have articulated knees, thigh and shin coverage, empty openings and visible leather straps; the pair reads cleanly at 48px. Pending fresh Luna and root lab acceptance."
+}

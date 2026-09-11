@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "charhide_leggings.png",
+  "sha256": "3924c447643c6c3ee821e6741b8e387956ce068311871f03c5d3f8f5130c6b2d",
+  "prompt": "Use case: stylized-concept. Create one polished detailed three-dimensional fantasy RPG inventory product render of Heavy Hide Leggings. A complete pair of ankle-length heavy leather trousers, practical fire-resistant mage armor, empty garment with open waistband and two separated full legs. Thick kiln-seared reddish chestnut animal hide with coarse visible grain, charcoal blackened edges, titanium-gray wire cross stitching along reinforced seams. Broad waistband, natural heavy folds, reinforced knees, doubled weighted ankle cuffs that keep foothill gusts from flapping them. Cohesive substantial crafted leather armor, restrained wear and crisp warm highlights, no boots. Three-quarter front view, studio light upper left, rich realistic material detail, strong two-leg silhouette readable at48px. Center complete item about80% of square with transparent margins on every side. Actual transparent alpha background. No floor, scene, pedestal, cast background shadow, frame, text, label, logo, watermark, wearer, mannequin, body, feet, fire, smoke or floating particles.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Two ankle-length legs remain distinct at inventory size, with reinforced weighted cuffs, empty waistband and heavy seared leather grain. Pending fresh Luna and root lab acceptance."
+}

@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "basic_wooden_staff.png",
+  "sha256": "832c78e2227c33c48e308ffef0467a3734b6ee9cd2c66ef99d7bd03f3fb9ac59",
+  "prompt": "Use case: stylized-concept. Create a polished believable three-dimensional fantasy RPG inventory product render on a genuinely transparent alpha background. One isolated complete item, centered diagonal from lower left to upper right, occupies about 80% of square canvas with clear margins. Three-quarter view, studio lighting from upper left, crisp readable silhouette at 48px, rich realistic grain and material detail. No floor, scene, pedestal, background shadow, frame, text, logo, hands, wearer, decorative particles or extra objects. No gemstone, no crystal, no glow or magical charge: socket must be visibly EMPTY with dark brown wood interior and open negative space. Subject: Basic Wooden Staff. A full-length two-handed plain medium brown wooden staff about 175cm tall, slender continuous shaft with long simple carved gripping section and rounded heel. Its tip is a small empty brown wooden socket formed by two curved prongs, opening clearly visible. Staff shaft is about eight times the length of its small crown and has two-hand proportions, no short wand handle. Modest hand-carved grain and wear, entirely brown wood, no metal.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; long slender shaft and extended grip read as a two-handed staff, material grain is visible, empty crown has open negative space and no gemstone or glow, complete silhouette has transparent margin. Pending fresh Luna and root lab acceptance."
+}

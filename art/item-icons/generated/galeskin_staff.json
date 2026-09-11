@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "galeskin_staff.png",
+  "sha256": "225f1cb4e83a69efff1a2da169af61b781b06479bd6befe041fea8257b93e6db",
+  "prompt": "Use case: stylized-concept. Asset type: square fantasy RPG inventory icon. Polished believable three-dimensional fantasy product render with rich tactile material detail, crisp edges and highlights, strong readable silhouette at 48 pixels. Actual transparent RGBA background, no checkerboard painted in image. One isolated complete long two-handed staff, diagonally rising from bottom left to top right, full butt and head visible, centered with 10 percent transparent margin on all sides. Three-quarter view, studio light upper left. No floor, scene, pedestal, background shadow, frame, label, text, logo, watermark, hand, wearer, or unrelated floating decorations. No flat vector or low-poly look. Subject: Plains Ogre Staff. Pine scoured silver by wind. Long rugged pale silver-gray pine shaft, worn flowing grain and knots, weathered brown leather grip, modest dark iron binding. Head is a forked carved wooden cage with clearly EMPTY brown socket, visibly hollow with transparency through its opening, unlit, no gem, no orb or magical glow. Wind-worn humble primitive craftsmanship with realistic wood and bindings. Broad enough shaft and forked head for clear small icon silhouette.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; silver pine grain and a hollow unlit forked socket remain legible; complete diagonal shaft has intact ends. Pending fresh Luna and root lab acceptance."
+}

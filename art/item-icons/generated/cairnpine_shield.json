@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cairnpine_shield.png",
+  "sha256": "5c8ad4554f417e53363d6d6565f37c1f96a82eb9ae0b655e65d497138171b427",
+  "prompt": "Use case: stylized-concept. Asset: polished believable 3D fantasy RPG inventory icon. Generate one isolated shield, complete object centered occupying about 80 percent of square, front three-quarter view with visible thickness along right edge. Rich realistic material detail, crisp highlights and strong silhouette readable at 48px. Studio lighting upper left. Actual transparent RGBA background with clear alpha outside object. No floor, scene, pedestal, cast background shadow, frame, text, label, logo, watermark, hand, wearer or decorative floating objects. Oak Shield, tier 10. Thick oak shield faced in Cobalt metal. Broad pointed-bottom heater silhouette. Deep blue cobalt plates cover most face, with central raised ridge, rivets and restrained engraved borders, stout oak grain visible along thick edge and two recessed strips. Strong bear-stopping protective construction. Critical framing: zoom out enough to leave at least 12 percent transparent margin above the highest point and below the bottom tip. Full shield must be visible, no edge touching image borders.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Blue cobalt facing, raised ridge and thick oak edge give a distinct heater profile. Pending fresh Luna and root lab acceptance."
+}

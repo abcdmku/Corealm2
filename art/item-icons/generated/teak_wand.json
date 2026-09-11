@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "teak_wand.png",
+  "sha256": "61e8bf345dcdae8cb1d40e449755d26212842a4707937b1c47c9058661aa9f0f",
+  "prompt": "Use case: stylized-concept. Asset: square fantasy RPG inventory icon. Polished believable three-dimensional product render with rich material microdetail, crisp edges and highlights, readable silhouette at 48px. Studio illumination from upper left, three-quarter view. One complete isolated weapon angled from lower left butt to upper right tip, centered, fills roughly 80% square with generous transparent margins at every extremity. Genuine transparent alpha background. No scene, floor, pedestal, cast background shadow, frame, lettering, logo, watermark, hands, wearer, floating decoration. No flat vector, low-poly shapes, or primitive stand-ins. Subject: Teak Wand. A SHORT fast one-handed casting wand, about 35cm in proportion, with broad hand-length grip forming a third of its length, tapering sculpted oiled golden-brown teak shaft with rich close grain. Woven black Grave Thread wraps the grip and binds a carved notched wooden tip in taut patterned strands. Fine dense dark steel ferrule accents with a subdued copper-red seam, believable excellent handcraft. All wood remains brown, sockets if any are brown, empty and unlit. No gem, crystal, orb, flame, light emission, smoke or magic effects. Distinctive black thread texture must be visible. Complete object.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Golden teak and black Grave Thread bindings read as a short wand; the split wooden tip has no gem or glow. Pending fresh Luna and root lab acceptance."
+}

@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cairnpelt_hood.png",
+  "sha256": "7495f195ee64f6aee1ab4d7d46e5186d3a8b53e4e508f20cbaa8d6f15aa9d4ab",
+  "prompt": "Use case: stylized-concept. Create one polished believable 3D fantasy RPG inventory product render of a Fur Hood, cut from a bear's winter coat, undyed and almost indestructible. Cohesive Cairnpelt set design: dense natural warm grey-brown bear fur with tawny guard hairs and pale frosted tips, dark umber hide lining, sturdy hand-sewn leather bindings. Empty wearable hood with rounded crown, deep clearly hollow face opening and short shoulder cowl, no face or head inside. Rich realistic individual fur clumps, seams, weight and thickness; rugged functional craftsmanship. Three-quarter view, complete centered object occupies 80% of square, studio light upper left, crisp edges and readable at 48px. Actual transparent RGBA background and transparent margins all sides. No floor, cast background shadow, pedestal, scene, text, frame, logo, hands, wearer, mannequin, skull, animal face, ears, horns, decorative floating objects, painted checkerboard, flat vector or crude low-poly.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Dense undyed bear fur, hollow lined hood and shoulder cowl remain distinct. Pending fresh Luna and root lab acceptance."
+}

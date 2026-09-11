@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "worn_pickaxe.png",
+  "sha256": "584950a912110fd685ae44b53047f96fd4f913ca84cb976bc9c3d1a734e9c477",
+  "prompt": "Use case: stylized-concept. Create one Worn Pickaxe inventory icon for a fantasy RPG. Polished believable three-dimensional product render, detailed tactile materials and crisp edges readable at 48px. A battered dull iron mining pick head with two asymmetrical tapered ends, dents, rust patches and a loose-looking wedged eye, mounted on a roughly shaved weathered fence-post wood haft, splintered grain and crude old binding at the head. Cheap functional beginner tool. Complete single pickaxe diagonal from lower left haft to upper right head, three-quarter view, centered with transparent margins, fills 80% of square. Upper-left studio light. Actual transparent alpha background. No ground, scene, cast background shadow, frame, text, logo, hand, person, glow or extra objects. Not flat vector or low-poly.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; battered iron, crude weathered wood and distinct complete tool silhouette read clearly, with true alpha and clear margins. Pending fresh Luna and root lab acceptance."
+}

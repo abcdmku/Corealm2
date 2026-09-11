@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "nightglass_hatchet.png",
+  "sha256": "c97e0eaf661ffabb64d3346d745e283b3770f818d3c9e107ec200aeb6af4017c",
+  "prompt": "Use case: stylized-concept. Square fantasy RPG inventory icon, polished believable three-dimensional product render with rich fine material texture, crisp highlights, strong silhouette readable at 48 pixels. Single isolated complete tool centered in three-quarter view, diagonal handle bottom left to head upper right, fills 80% of square, transparent margins all sides. True transparent alpha background. Studio light upper left. No floor, scenery, pedestal, cast background shadow, frame, text, logo, watermark, hands, people, checkerboard pattern, floating particles or decorations. Subject: Nightglass Hatchet. A high-tier fantasy woodworking hatchet with a deep midnight violet-black volcanic glass single wedge blade, broad curved cutting edge, visibly faceted glassy planes and pale lavender sharp reflective bevel. Short solid poll. Secure dark silver fitted socket joins a compact gently curved magic hardwood handle with naturally twisting grain, deep indigo wood and restrained silver binding. Small subtle violet inlay within handle only. Purposeful handcrafted usable tool, no projecting crystals, aura, particles or flames.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Faceted violet glass wedge and lavender bevel read as a hatchet, curved magic wood and fitted silver mount distinct at 48px, complete silhouette on clear alpha. Pending fresh Luna and root lab acceptance."
+}

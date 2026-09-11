@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cindersteel_pickaxe.png",
+  "sha256": "64cb1db089d407b0042846fee3b6e34ec86c232ce8bc714811b249ae87d0b530",
+  "prompt": "Use case: stylized-concept. Square fantasy RPG inventory icon, polished believable three-dimensional product render with rich fine material texture, crisp highlights, strong silhouette readable at 48 pixels. Single isolated complete tool centered in three-quarter view, diagonal handle bottom left to head upper right, fills 80% of square, transparent margins all sides. True transparent alpha background. Studio light upper left. No floor, scenery, pedestal, cast background shadow, frame, text, logo, watermark, hands, people, checkerboard pattern, floating particles or decorations. Subject: Cindersteel Pickaxe. Heavy mastercrafted charcoal steel mining pick head with subtle russet forge temper patterns and bright sharpened silver bevels, one curved pointed pick opposed by a sturdy narrow chisel. Riveted dark metal central socket and warm golden brown teak handle with visible close grain, reinforced collar, dark leather grip. Stout purposeful tier-50 fantasy craftsmanship. Cool solid metal, no flames, embers or glow.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Charcoal and russet forged head has crisp pick and chisel ends, golden teak and riveted socket distinct at 48px, complete silhouette on clear alpha. Pending fresh Luna and root lab acceptance."
+}

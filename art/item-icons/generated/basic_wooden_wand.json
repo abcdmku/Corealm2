@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "basic_wooden_wand.png",
+  "sha256": "c6b7063fbd7c361ac0b54a049bcbc46c3afe2810722e44c9e4b65a33ccfcd4b7",
+  "prompt": "Use case: stylized-concept. Create a polished believable three-dimensional fantasy RPG inventory product render on a genuinely transparent alpha background. One isolated complete item, centered diagonal from lower left to upper right, occupies about 80% of square canvas with clear margins. Three-quarter view, studio lighting from upper left, crisp readable silhouette at 48px, rich realistic grain and material detail. No floor, scene, pedestal, background shadow, frame, text, logo, hands, wearer, decorative particles or extra objects. No gemstone, no crystal, no glow or magical charge: socket must be visibly EMPTY with dark brown wood interior and open negative space. Subject: Basic Wooden Wand. Plain medium brown wood from rounded single-hand grip to the small hollow carved wooden socket at its tip. A compact short wand approximately 35cm long, thick grip occupying one third of overall length, subtly tapered shaft, humble hand-carved construction with fine woodgrain and a few worn tool marks. Entirely brown wood, no metal. Socket shaped as two simple open wooden prongs, clearly empty.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; compact grip and taper read as a one-handed wand, material grain is visible, empty crown has open negative space and no gemstone or glow, complete silhouette has transparent margin. Pending fresh Luna and root lab acceptance."
+}

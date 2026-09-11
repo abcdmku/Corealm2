@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cindersteel_hatchet.png",
+  "sha256": "b1659dd0fb842962095f1da614a8b4cd1d697f3957be4ebcf86e1edb1b6f870c",
+  "prompt": "Use case: stylized-concept. Square fantasy RPG inventory icon, polished believable three-dimensional product render with rich fine material texture, crisp highlights, strong silhouette readable at 48 pixels. Single isolated complete tool centered in three-quarter view, diagonal handle bottom left to head upper right, fills 80% of square, transparent margins all sides. True transparent alpha background. Studio light upper left. No floor, scenery, pedestal, cast background shadow, frame, text, logo, watermark, hands, people, checkerboard pattern, floating particles or decorations. Subject: Cindersteel Hatchet. Mastercrafted heavy single woodworking axe head of charcoal cindersteel with subtle russet forge temper patterns, broad curved bright sharpened silver bevel, thick solid poll and riveted dark socket. Short curved warm golden brown teak handle with visible close grain and dark leather grip. Stout purposeful tier-50 fantasy craftsmanship, metal scrollwork is subtle. Cool solid metal, no flames, embers or glow.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Broad charcoal blade with silver bevel reads clearly at 48px, teak handle and reinforced socket give distinct craftsmanship, complete silhouette on clear alpha. Pending fresh Luna and root lab acceptance."
+}

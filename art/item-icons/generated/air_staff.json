@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "air_staff.png",
+  "sha256": "60525f917ac4465e98a57112f4ee04ee7d1e60f012fdf587f830fc1a1c2a4af0",
+  "prompt": "Use case: stylized-concept. Asset type: polished three-dimensional fantasy RPG inventory icon readable at 48px. Actual transparent background with true alpha, one isolated complete item centered diagonally from lower left grip to upper right tip, fills 80% of square with generous clear margins. Three-quarter product render, rich realistic material texture, crisp edges, studio light upper left. No scene, floor, pedestal, cast background shadow, frame, text, logo, watermark, hand, wearer, floating particles, detached ornaments, or checkerboard pixels. Subject: Air Staff, a LONG two-handed pine walking-height mage staff fitted with a single Air Orb. Long slender pole about twelve orb diameters in length, with two separated leather grip sections on the lower middle and a small metal foot cap. Pale golden pine wood with fine grain and carved spiral air grooves, modest tier-one craftsmanship. Small pewter collar and three curved wooden prongs firmly cradle a milky translucent pale sky-blue spherical orb with cloudy white currents contained INSIDE it. Orb head occupies only upper 15% of total length. Must read as a full-length staff, no short baton. Entire diagonal staff visible.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; clear pine grain, pale blue cloudy Air Orb held by wooden prongs, leather grip and complete diagonal silhouette. Long slim shaft and two grip sections read as staff. Real alpha verified. Pending fresh Luna and root lab acceptance."
+}

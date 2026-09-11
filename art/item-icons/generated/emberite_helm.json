@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "emberite_helm.png",
+  "sha256": "64cecb137f64825f472541fc7b9b40ff2dd5e05247815e27d648d07ffa234c29",
+  "prompt": "Use case: stylized-concept. Create a polished believable three-dimensional fantasy RPG inventory product render of Titanium Helm, a closed helm with a smoke-vent crown built for standing close to heat. One isolated empty helmet with narrow dark visor, angular forged smoke-blue titanium plates, brushed silver beveled edges, practical riveted construction, subtle bronze-purple heat tempering near crown and several clearly visible crown ventilation slots. Cohesive skilled forge armor set, realistic surface wear, no flames or literal smoke. Three-quarter view, studio light upper left, rich material detail, crisp edges, strong silhouette readable at 48px. Complete object centered and fills about 80 percent of square with clear margin on all sides. Actual transparent alpha background. No floor, scene, pedestal, background shadow, frame, text, logo, watermark, wearer, body, head, mannequin, floating decoration. Detailed realistic metal render, never vector or low-poly.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; smoke-blue titanium, silver plate edges and heat tempering remain readable. Empty wearable construction with no wearer and clear alpha. Pending fresh Luna and root lab acceptance."
+}

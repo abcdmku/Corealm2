@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "emberite_sword.png",
+  "sha256": "df62dc4e73b6773edc60fabafb408751383c7a54bf5fcb185325ab6bf9fb902a",
+  "prompt": "Use case: stylized-concept. Square fantasy RPG inventory icon. Believable polished detailed three-dimensional product render, rich tactile materials, crisp highlights and edges, strong readable silhouette at 48 pixels. Entire single sword including blade tip, guard, grip and pommel fully visible diagonally from lower left pommel to upper right tip, slight three-quarter view showing broad blade face, centered occupying 80 percent of square with transparent margins on all sides. Studio light upper left. Actual transparent alpha background, no checkerboard. No floor, scene, pedestal, cast background shadow, frame, text, logo, watermark, hand, wearer, particles, or decorative floating objects. No crude low-poly shapes. Subject: Titanium Sword, tier 20. Kiln-forged and quenched twice; its edge holds a dull orange line in the dark. Expertly forged elegant long titanium sword, satin smoky silver blade with subtle heat-tempered brown-violet undertones and a narrow subdued ember-orange line along the cutting edges. Orange line is integrated into metal, no flames or floating sparks. Finely swept fitted titanium guard, charcoal leather grip with precise stitched construction, sculpted titanium pommel. Richly detailed masterwork but readable, no gems.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; Titanium blade carries a narrow orange cutting line, with sculpted guard and stitched leather grip. Pending fresh Luna and root lab acceptance."
+}

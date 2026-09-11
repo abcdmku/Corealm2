@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "cairn_garnet.png",
+  "sha256": "562e8ba13495499a33067e2ad198642fb4298544e76f4978480b1453b8abd65b",
+  "prompt": "Use case: stylized-concept. Asset type: fantasy RPG inventory icon. Polished believable three-dimensional product render with rich material detail, crisp edges and upper-left studio highlights. One isolated complete object, centered in a square with transparent margin on every side, fills about 80 percent, three-quarter view, strong readable silhouette at 48px. Actual transparent PNG background with real alpha. No floor, background shadow, scene, pedestal, frame, text, logo, watermark, hands, wearer, particles, or floating decorations. Avoid flat vector and crude low-poly shapes. Subject: Garnet, one deep wine-red natural gemstone cut square by the rock itself. A thick squat square crystal in a tilted three-quarter view, naturally planar dark crimson faces and chipped geological bevels, ruby red translucent edges, subtle internal inclusions, a few rugged mineral growth marks. Loose jewel component, no metal cage or jewelry setting. Show its convincing substantial volume and square shape.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; deep red square natural faces and chipped bevels remain distinct at inventory size; complete silhouette and real alpha. Pending fresh Luna and root lab acceptance."
+}

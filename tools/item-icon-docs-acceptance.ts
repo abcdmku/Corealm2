@@ -4,7 +4,11 @@ import { ALL_ITEMS } from "../game/src/content/items.js";
 import { GameDriver } from "./lib/driver.js";
 import { startGameServer } from "./lib/server.js";
 
-const out = path.resolve("test-results/item-icon-docs");
+const outArg = process.argv.indexOf("--out");
+if (outArg >= 0 && (!process.argv[outArg + 1] || process.argv[outArg + 1]!.startsWith("--"))) {
+  throw new Error("--out requires an evidence directory");
+}
+const out = path.resolve(outArg >= 0 ? process.argv[outArg + 1]! : "test-results/item-icon-docs");
 await mkdir(out, { recursive: true });
 const server = await startGameServer();
 const driver = new GameDriver(server, {
@@ -82,7 +86,9 @@ try {
       const first = page.locator('#panel-inventory [data-slot-index="0"]');
       await page.mouse.move(0, 0);
       const hiddenBefore = await page.locator("#ui-root > .tooltip").isHidden();
-      await first.hover({ timeout: 2000 });
+      const firstBounds = await first.boundingBox();
+      if (!firstBounds) throw new Error("First inventory slot is not visible");
+      await page.mouse.move(firstBounds.x + firstBounds.width / 2, firstBounds.y + firstBounds.height / 2);
       const tooltip = page.locator("#ui-root > .tooltip");
       await tooltip.waitFor({ state: "visible", timeout: 2000 });
       const title = await tooltip.locator(".tooltip__title").innerText();

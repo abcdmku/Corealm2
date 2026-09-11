@@ -1,0 +1,9 @@
+{
+  "status": "accepted",
+  "source": "palewood_wand.png",
+  "sha256": "b2193b039f048141aaba9895ecebf22ce49b63b90c508a98097173e0c0eac9fd",
+  "prompt": "Use case: stylized-concept. Create a polished believable three-dimensional fantasy RPG inventory product render on a genuinely transparent alpha background. One isolated complete item, centered diagonal from lower left to upper right, occupies about 80% of square canvas with clear margins. Three-quarter view, studio lighting from upper left, crisp readable silhouette at 48px, rich realistic grain and material detail. No floor, scene, pedestal, background shadow, frame, text, logo, hands, wearer, decorative particles or extra objects. No gemstone, no crystal, no glow or magical charge: socket must be visibly EMPTY with dark brown wood interior and open negative space. Subject: Pine Wand. Pale honey cream pine wood with fine amber growth grain, compact 35cm one-handed magic wand with a smooth bulbous carved grip taking one third of its length. Refined taper and small open socket at the tip formed from three curved pale wooden prongs around an EMPTY brown cavity. All wood construction with shallow decorative incised rings at grip collar, subtle wax polish. Short substantial wand proportions, no metal.",
+  "generator": "built-in image_gen",
+  "sourceLookup": "User requested generated replacement of the previously retained model-rendered icon on September 11, 2026, explicitly freeing artwork from existing 3D model appearance; new models will be authored later. Item identity follows the current content name and description.",
+  "review": "Worker inspected source and 48px preview; compact grip and taper read as a one-handed wand, material grain is visible, empty crown has open negative space and no gemstone or glow, complete silhouette has transparent margin. Pending fresh Luna and root lab acceptance."
+}
