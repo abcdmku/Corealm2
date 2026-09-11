@@ -14,7 +14,7 @@ export const WILDERNESS_TREE_VARIANTS = [
 export const WILDERNESS_ORE_RESOURCES: readonly ResourceDef[] = [
   { id: 'cindervein_vein', name: 'Cindervein Deposit', archetype: 'ore', skill: 'mining', tier: 50, reqLevel: 50,
     itemId: 'cindervein_ore', yieldRange: [5, 9], respawnSeconds: 75,
-    presentation: { availableAssetIds: ['corealm_ore_cindervein'], depletedAssetId: 'corealm_ore_cindervein_spent', targetWorldSize: 1.62, variantScale: [.94, 1.10], materialTier: 50 } },
+    presentation: { availableAssetIds: ['corealm_ore_cindervein'], depletedAssetId: 'corealm_ore_cindervein_spent', targetWorldSize: 1.55, variantScale: [.94, 1.10], materialTier: 50 } },
   { id: 'nightglass_vein', name: 'Nightglass Deposit', archetype: 'ore', skill: 'mining', tier: 70, reqLevel: 70,
     itemId: 'nightglass_ore', yieldRange: [4, 8], respawnSeconds: 95,
     presentation: { availableAssetIds: ['corealm_ore_nightglass'], depletedAssetId: 'corealm_ore_nightglass_spent', targetWorldSize: 1.55, variantScale: [.94, 1.10], materialTier: 70 } },
@@ -22,9 +22,9 @@ export const WILDERNESS_ORE_RESOURCES: readonly ResourceDef[] = [
 
 /** Authored groves select Wilderness bodies while yielding the existing production timber. */
 export const WILDERNESS_TREE_RESOURCES: readonly ResourceDef[] = [
-  { id: 'tree_wilderness_teak', name: 'Lastroot Teak', archetype: 'tree', skill: 'woodcutting', tier: 50, reqLevel: 50, itemId: 'teak_log',
+  { id: 'tree_wilderness_teak', name: 'Veinwood', archetype: 'tree', skill: 'woodcutting', tier: 50, reqLevel: 50, itemId: 'teak_log',
     presentation: { availableAssetIds: ['corealm_teak_lastroot', 'corealm_teak_embershelter'], depletedAssetId: 'corealm_stump_wilderness_teak', targetWorldSize: 11, variantScale: [.86, 1.10], materialTier: 50 } },
-  { id: 'tree_wilderness_magic', name: 'Veinwood Magic Tree', archetype: 'tree', skill: 'woodcutting', tier: 70, reqLevel: 70, itemId: 'magic_log',
+  { id: 'tree_wilderness_magic', name: 'Magic Tree', archetype: 'tree', skill: 'woodcutting', tier: 70, reqLevel: 70, itemId: 'magic_log',
     presentation: { availableAssetIds: ['corealm_magic_starwood', 'corealm_magic_moonvein'], depletedAssetId: 'corealm_stump_wilderness_magic', targetWorldSize: 14, variantScale: [.90, 1.08], materialTier: 70 } },
 ];
 
@@ -35,7 +35,7 @@ const labels: Record<string, string> = {
 const clusterId = (id: string) => `${id}_resources`;
 export const WILDERNESS_RESOURCE_LOCATIONS: LocationDef[] = WILDERNESS_RESOURCE_INTENTS.map(intent => ({
   id: intent.id, name: labels[intent.id]!, position: intent.position, kind: intent.kind === 'mine' ? 'seam' : 'grove', routeNode: true,
-  blurb: intent.kind === 'mine' ? `Worked T${intent.tier} seams open above a dry mining aisle.` : intent.tier === 50 ? 'Living teak survives in a sheltered pocket among scorched trunks.' : 'Old magic trees draw blue and violet sap through the deep stone.',
+  blurb: intent.kind === 'mine' ? `Worked T${intent.tier} seams open above a dry mining aisle.` : intent.tier === 50 ? 'Veinwood survives in a sheltered pocket among scorched trunks.' : 'Old magic trees draw blue and violet sap through the deep stone.',
 }));
 
 export const WILDERNESS_RESOURCE_CLUSTERS: ResourceClusterDef[] = WILDERNESS_RESOURCE_INTENTS.map(intent => ({
@@ -64,8 +64,10 @@ export const WILDERNESS_RESOURCE_SITES: readonly WorldSite[] = WILDERNESS_RESOUR
       { id: 'west-shoulder', assetId: 'corealm_rock_strata_3', x: -13.8, z: -6.3, yaw: .62, scale: [1.25, 1.10, 1.10], sink: .48 },
       { id: 'east-shoulder', assetId: 'corealm_rock_strata_1', x: 13.7, z: -6.0, yaw: -.74, scale: [1.20, 1.05, 1.17], sink: .52 },
       { id: 'tailings', assetId: 'corealm_scree_2', x: -14.4, z: 2.5, yaw: .43, scale: [1.25, .85, 1.08], sink: .12 },
-      { id: 'sorting-bench', assetId: 'workbench', x: 13.8, z: 5.8, yaw: -.28, scale: 1 },
-      { id: 'ore-crate', assetId: 'crate_wood', x: 15.8, z: 7, yaw: .22, scale: .9 },
+      // Handling sits on the graded floor east of the last station, inside the working area and
+      // clear of both the mining stances and the central haul lane.
+      { id: 'sorting-bench', assetId: 'workbench', x: 12.9, z: 1.5, yaw: -.28, scale: 1 },
+      { id: 'ore-crate', assetId: 'crate_wood', x: 14.5, z: 2.3, yaw: .22, scale: .9 },
     ] : [
       { id: 'windbreak-west', assetId: 'corealm_rock_strata_1', x: -18.8, z: -8, yaw: .38, scale: [1.2, .84, .85], sink: .3 },
       { id: 'windbreak-east', assetId: 'corealm_rock_strata_3', x: 18.5, z: -6, yaw: -.45, scale: [1.12, .84, .9], sink: .3 },

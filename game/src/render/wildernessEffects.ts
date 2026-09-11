@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { Ambience } from './vfx.js';
+import { buildLavaFlowField } from '../world/lavaFlow.js';
+import { LavaBankLighting } from './lavaBankLighting.js';
 import { applyCorealmSurfaceMaterials, type CorealmSurfaceTextures } from './corealmSurfaceMaterials.js';
 import { isMoltenLavaAt, lavaClearanceAt, lavaMagicAt, lavaSections, lavaSurfaceClearanceAt,
   type LavaChannel, type LavaSection } from '../content/wildernessLava.js';
@@ -95,6 +97,7 @@ export interface WildernessEffectsState {
   liveParticles: number;
   particleEmitters: number;
   lightBudget: number;
+  bankLighting: { budget: number; active: number; strips: number };
   lights: { id: string | null; kind: 'torch' | 'lava' | null; intensity: number; colour: number; position: number[] }[];
   bounds: { min: number[]; max: number[] } | null;
 }
@@ -114,11 +117,14 @@ export class WildernessEffects {
   private readonly ownedGeometry = new Set<THREE.BufferGeometry>();
   private readonly ownedMaterial = new Set<THREE.Material>();
   private readonly flowClock = { value: 0 };
+  private readonly bankLighting: LavaBankLighting;
+  private readonly flowAt: (x: number, z: number) => readonly [number, number];
   private readonly viewer = new THREE.Vector3();
   private readonly facing = new THREE.Quaternion();
   private seconds = 0;
   private enabled = true;
   private lightingEnabled = true;
+  private bankLightingEnabled = true;
   private disposed = false;
   private moltenTriangles = 0;
   private dryApronTriangles = 0;
@@ -138,6 +144,8 @@ export class WildernessEffects {
       this.group.add(light);
       this.lights.push(light);
     }
+    this.flowAt = buildLavaFlowField(options.channels, options.groundHeightAt);
+    this.bankLighting = new LavaBankLighting(this.group, options.channels, options.groundHeightAt);
     this.buildTorches();
     for (const channel of options.channels) this.buildChannel(channel);
     if (options.surfaceTextures) {
@@ -162,19 +170,26 @@ export class WildernessEffects {
   setEnabled(enabled: boolean): void {
     this.enabled = enabled;
     this.group.visible = enabled;
-    if (!enabled) for (const light of this.lights) light.intensity = 0;
+    if (!enabled) { for (const light of this.lights) light.intensity = 0; this.bankLighting.disable(); }
   }
 
   /** Diagnostic comparison keeps flames, ironwork and lava visible while removing their point light. */
   setLightingEnabled(enabled: boolean): void {
     this.lightingEnabled = enabled;
-    if (!enabled) for (const light of this.lights) light.intensity = 0;
+    if (!enabled) { for (const light of this.lights) light.intensity = 0; this.bankLighting.disable(); }
+  }
+
+  /** Compare receiving-bank illumination without changing the molten material or torches. */
+  setBankLightingEnabled(enabled: boolean): void {
+    this.bankLightingEnabled = enabled;
+    if (!enabled) this.bankLighting.disable();
   }
 
   update(seconds: number, camera: THREE.Camera): void {
     if (this.disposed || !Number.isFinite(seconds)) return;
     this.seconds = seconds;
     this.flowClock.value = seconds;
+    this.bankLighting.update(camera, this.enabled && this.lightingEnabled && this.bankLightingEnabled, seconds);
     if (!this.enabled) return;
     camera.getWorldPosition(this.viewer);
     camera.getWorldQuaternion(this.facing);
@@ -214,7 +229,7 @@ export class WildernessEffects {
         return material?.userData.corealmAuthoredSurface === 'stone' && !!material.map && !!material.normalMap;
       }).length,
       liveParticles: this.enabled ? this.ambience.liveParticles() : 0,
-      particleEmitters: this.ambience.emitterCount(), lightBudget: this.lights.length,
+      particleEmitters: this.ambience.emitterCount(), lightBudget: this.lights.length, bankLighting: this.bankLighting.snapshot(),
       lights: this.lights.map((light, i) => ({ id: this.assigned[i]?.id ?? null,
         kind: this.assigned[i]?.kind ?? null, intensity: light.intensity, colour: light.color.getHex(), position: light.position.toArray() })),
       bounds: this.bounds ? { min: this.bounds.min.toArray(), max: this.bounds.max.toArray() } : null,
@@ -224,6 +239,7 @@ export class WildernessEffects {
   dispose(): void {
     if (this.disposed) return;
     this.disposed = true;
+    this.bankLighting.dispose();
     this.ambience.dispose();
     this.group.removeFromParent();
     for (const geometry of this.ownedGeometry) geometry.dispose();
@@ -299,9 +315,9 @@ export class WildernessEffects {
   }
 
   private buildChannel(channel: LavaChannel): void {
-    const sections = lavaSections(channel);
-    const adjoining = this.options.channels.filter(other => other !== channel);
-    const molten = this.channelRibbon(channel, sections, [-1, -.66, -.33, 0, .33, .66, 1], false);
+    const sections = lavaSections(channel, .55);
+    const columns = Math.max(12, Math.ceil(channel.halfWidth * 2 / .45));
+    const molten = this.channelRibbon(channel, sections, Array.from({ length: columns + 1 }, (_, i) => i / columns * 2 - 1), false);
     this.moltenTriangles += molten.index!.count / 3;
     const material = new THREE.MeshStandardMaterial({ color: 0x2b1816, roughness: .91,
       emissive: 0xff5a08, emissiveIntensity: 1, side: THREE.DoubleSide });
@@ -310,19 +326,23 @@ export class WildernessEffects {
       shader.vertexShader = shader.vertexShader.replace('#include <common>', `#include <common>
         attribute float lavaMagic;
         attribute float lavaBank;
+        attribute vec2 lavaVelocity;
         varying vec2 lavaUv;
         varying float moltenMagic;
         varying float moltenBank;
+        varying vec2 moltenVelocity;
       `).replace('#include <begin_vertex>', `#include <begin_vertex>
         lavaUv = position.xz;
         moltenMagic = lavaMagic;
         moltenBank = lavaBank;
+        moltenVelocity = lavaVelocity;
       `);
       shader.fragmentShader = shader.fragmentShader.replace('#include <common>', `#include <common>
         uniform float wildernessTime;
         varying vec2 lavaUv;
         varying float moltenMagic;
         varying float moltenBank;
+        varying vec2 moltenVelocity;
         vec2 lavaHash(vec2 p) {
           return fract(sin(vec2(dot(p, vec2(127.1,311.7)), dot(p,vec2(269.5,183.3))))*43758.5453);
         }
@@ -346,32 +366,37 @@ export class WildernessEffects {
           }
           return second-first;
         }
+        vec4 lavaField(vec2 flow) {
+          flow.x += sin(flow.y*.36)*.16;
+          vec2 warp = vec2(lavaFbm(flow*.8),lavaFbm(flow*.7+18.4))-.5;
+          vec2 broken = flow*vec2(.7,.45)+warp*1.45;
+          return vec4(lavaFracture(broken), lavaFbm(flow*.47+3.8),
+            lavaFbm(flow*.63-11.0), lavaFbm(flow*7.7));
+        }
       `).replace('#include <color_fragment>', `#include <color_fragment>
-        vec2 flow = vec2(lavaUv.x, lavaUv.y - wildernessTime * .045);
-        flow.x += sin(flow.y*.36+wildernessTime*.17)*.16;
-        vec2 warp = vec2(lavaFbm(flow*.8),lavaFbm(flow*.7+18.4))-.5;
-        vec2 broken = flow*vec2(.7,.45)+warp*1.45;
-        float crack = 1.0-smoothstep(.006,.060,lavaFracture(broken));
-        float openings = smoothstep(.40,.74,lavaFbm(flow*.47+3.8));
-        float hotPool = smoothstep(.73,.86,lavaFbm(flow*.63-11.0)) * openings;
-        float pulse = .9+.1*sin(flow.y*.85+wildernessTime*.38);
-        float heat = max(crack*(.10+.90*openings),hotPool*.48)*pulse;
-        float edge = 1.0-smoothstep(.66,.96,abs(moltenBank));
-        heat *= .62+.38*edge;
-        float grit = lavaFbm(flow*7.7)*.048;
+        float speed = mix(.04, .14, 1.0 - smoothstep(.15, 1.0, abs(moltenBank)));
+        vec2 flow = lavaUv - moltenVelocity * wildernessTime * speed;
+        vec4 field = lavaField(flow);
+        float crack = 1.0 - smoothstep(.006, .060, field.x);
+        float openings = smoothstep(.40, .74, field.y);
+        float hotPool = smoothstep(.73, .86, field.z) * openings;
+        float heat = max(crack * (.10 + .90 * openings), hotPool * .48);
+        float edge = 1.0 - smoothstep(.66, .96, abs(moltenBank));
+        heat *= .62 + .38 * edge;
+        float grit = field.w * .048;
         vec3 warmRock = vec3(.029+grit,.027+grit,.025+grit);
         vec3 coldRock = vec3(.027+grit,.025+grit,.034+grit);
         vec3 hotRock = mix(vec3(.16,.032,.008),vec3(.048,.031,.18),moltenMagic);
         diffuseColor.rgb = mix(mix(warmRock,coldRock,moltenMagic),hotRock,heat);
       `).replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
         float hottest = smoothstep(.70,.99,heat);
-        vec3 warmMolten = mix(vec3(.72,.045,.001),vec3(1.35,.21,.006),hottest);
-        vec3 coldMolten = mix(vec3(.22,.012,.58),vec3(.028,.28,.88),hottest);
+        vec3 warmMolten = mix(vec3(1.08,.068,.0015),vec3(2.025,.315,.009),hottest);
+        vec3 coldMolten = mix(vec3(.33,.018,.87),vec3(.042,.42,1.32),hottest);
         vec3 moltenColour = mix(warmMolten,coldMolten,moltenMagic);
-        totalEmissiveRadiance = mix(mix(vec3(.02,.001,.0005),vec3(.003,.001,.028),moltenMagic),moltenColour,heat);
+        totalEmissiveRadiance = mix(mix(vec3(.02,.001,.0005),vec3(.003,.001,.028),moltenMagic),moltenColour * 1.6,heat);
       `);
     };
-    material.customProgramCacheKey = () => 'wilderness-lava-fractured-crust-v4';
+    material.customProgramCacheKey = () => 'wilderness-lava-dark-flow-v9';
     this.addMesh(`wilderness-lava-${channel.id}`, molten, material);
     const bankColumns = [...Array.from({ length: 9 }, (_, i) => -2 + i / 8),
       ...Array.from({ length: 9 }, (_, i) => 1 + i / 8)];
@@ -379,26 +404,15 @@ export class WildernessEffects {
     const bankMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, roughness: 1 });
     bankMaterial.name = 'Corealm weathered strata';
     this.addMesh(`wilderness-lava-banks-${channel.id}`, banks, bankMaterial);
-    const plates: THREE.BufferGeometry[] = [];
     const rocks: THREE.BufferGeometry[] = [];
-    for (let i = 2; i < sections.length - 2; i += 2) {
+    for (let i = 2; i < sections.length - 2; i += 4) {
       const section = sections[i]!;
       if (section.halfWidth < .4) continue;
-      const lanes = Math.max(1, Math.floor(section.halfWidth * 2 / 1.9));
-      for (let lane = 0; lane < lanes; lane++) {
-        const seed = channel.seed + i * 97 + lane * 17;
-        if (hash(seed + 2) < .17) continue;
-        const lateral = ((lane + .5) / lanes * 2 - 1) * (section.halfWidth - .25)
-          + (hash(seed + 3) - .5) * .25;
-        const plate = this.crustFloe(channel, section, lateral, seed,
-          Math.min(.72 + hash(seed + 4) * .45, section.halfWidth * .67), .85 + hash(seed + 5) * .65);
-        if (plate) { plates.push(plate); this.crustPlates++; }
-      }
       for (const side of [-1, 1]) {
         const lateral = side * (section.halfWidth + .55 + hash(i + side + channel.seed) * 1.65);
         const x = section.x - section.tz * lateral;
         const z = section.z + section.tx * lateral;
-        if (isMoltenLavaAt(x, z, adjoining, .7)) continue;
+        if (isMoltenLavaAt(x, z, this.options.channels, 1.1)) continue;
         const width = .35 + hash(i * 2 + side) * .7;
         const rock = new THREE.IcosahedronGeometry(1, 0);
         rock.scale(width, .22 + hash(i + 6) * .55, .4 + hash(i + 11) * .65);
@@ -406,23 +420,8 @@ export class WildernessEffects {
         rock.translate(x, this.options.groundHeightAt(x, z) + .02, z);
         rocks.push(rock); this.bankRocks++;
       }
-      if (i % 10 === 2) {
-        const y = this.options.groundHeightAt(section.x, section.z) + .22;
-        const magic = lavaMagicAt(channel, section.x, section.z);
-        this.ambience.addEmitter({ id: `${channel.id}:seep:${i}`, kind: 'spark',
-          position: [section.x, y, section.z], count: 3, scale: .48, cullMetres: 48,
-          colour: [1 - .68 * magic, .42 - .22 * magic, .09 + .91 * magic] });
-        this.ambience.addEmitter({ id: `${channel.id}:heat:${i}`, kind: 'smoke',
-          position: [section.x, y, section.z], count: 2, scale: .33, cullMetres: 38 });
-        this.sources.push({ id: `${channel.id}:glow:${i}`, kind: 'lava',
-          position: new THREE.Vector3(section.x, y + .6, section.z),
-          colour: new THREE.Color(0xff4c16).lerp(new THREE.Color(0x7255ff), magic).getHex(),
-          intensity: 11, reach: 10, phase: hash(i + channel.seed) * 12 });
-      }
     }
-    const crustMaterial = new THREE.MeshStandardMaterial({ color: 0x81786f, vertexColors: true, roughness: .98 });
-    crustMaterial.name = 'Corealm weathered strata';
-    this.addMerged(`wilderness-lava-crust-${channel.id}`, plates, crustMaterial);
+
     const basaltMaterial = new THREE.MeshStandardMaterial({ color: 0x66636a, roughness: 1 });
     basaltMaterial.name = 'Corealm weathered strata';
     this.addMerged(`wilderness-lava-basalt-${channel.id}`, rocks, basaltMaterial);
@@ -516,56 +515,6 @@ export class WildernessEffects {
     mesh.renderOrder = 1;
   }
 
-  /** A low torn slab, with a broken rim and uneven raised interior. It stays within molten ground. */
-  private crustFloe(channel: LavaChannel, section: LavaSection, lateral: number, seed: number,
-    halfWidth: number, halfLength: number): THREE.BufferGeometry | null {
-    const sides = 8 + Math.floor(hash(seed + 6) * 4);
-    const along = (hash(seed + 7) - .5) * .55;
-    const cx = section.x - section.tz * lateral + section.tx * along;
-    const cz = section.z + section.tx * lateral + section.tz * along;
-    const turn = (hash(seed + 8) - .5) * .55;
-    const outline = Array.from({ length: sides }, (_, i) => {
-      const angle = i / sides * Math.PI * 2;
-      const ragged = .68 + hash(seed + i * 13 + 9) * .32;
-      const cross = Math.cos(angle) * halfWidth * ragged;
-      const length = Math.sin(angle) * halfLength * ragged;
-      const u = cross * Math.cos(turn) - length * Math.sin(turn);
-      const v = cross * Math.sin(turn) + length * Math.cos(turn);
-      return [-section.tz * u + section.tx * v, section.tx * u + section.tz * v] as const;
-    });
-    if (outline.some(([x, z]) => !isMoltenLavaAt(cx + x, cz + z, [channel], -.08))) return null;
-    const positions: number[] = [], colours: number[] = [], uv: number[] = [], indices: number[] = [];
-    const add = (x: number, z: number, rise: number, tint: number): void => {
-      positions.push(x, this.options.groundHeightAt(x, z) + rise, z);
-      colours.push(tint * .97, tint * .96, tint);
-      uv.push(x * .55, z * .55);
-    };
-    for (let ring = 0; ring < 3; ring++) {
-      const shrink = [1, .78, .28][ring]!;
-      for (let i = 0; i < sides; i++) {
-        const [x, z] = outline[i]!;
-        const relief = ring === 0 ? .086 : ring === 1 ? .16 + hash(seed + i * 19) * .13
-          : .24 + hash(seed + i * 29) * .2;
-        add(cx + x * shrink, cz + z * shrink, relief, .5 + hash(seed + i * 11 + ring) * .28);
-        if (ring > 0) {
-          const a = (ring - 1) * sides + i, b = (ring - 1) * sides + (i + 1) % sides;
-          const c = ring * sides + i, d = ring * sides + (i + 1) % sides;
-          indices.push(a, b, c, b, d, c);
-        }
-      }
-    }
-    const centre = positions.length / 3;
-    add(cx, cz, .27 + hash(seed + 10) * .16, .57 + hash(seed + 11) * .12);
-    for (let i = 0; i < sides; i++) indices.push(2 * sides + i, 2 * sides + (i + 1) % sides, centre);
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colours, 3));
-    geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
-    geometry.setIndex(indices);
-    geometry.computeVertexNormals();
-    return geometry;
-  }
-
   private channelRibbon(channel: LavaChannel, sections: readonly LavaSection[],
     columns: readonly number[], banks: boolean): THREE.BufferGeometry {
     const positions: number[] = [];
@@ -573,6 +522,7 @@ export class WildernessEffects {
     const colours: number[] = [];
     const magicValues: number[] = [];
     const edgeValues: number[] = [];
+    const velocityValues: number[] = [];
     const bankDistance: number[] = [];
     const indices: number[] = [];
     const adjoining = banks ? this.options.channels.filter(other => other !== channel) : [];
@@ -584,7 +534,11 @@ export class WildernessEffects {
         const distance = banks ? side * (section.halfWidth + (abs - 1) * channel.bankWidth * edgeBreak) : offset * section.halfWidth;
         const x = section.x - section.tz * distance;
         const z = section.z + section.tx * distance;
-        const rise = banks ? Math.sin((abs - 1) * Math.PI) * (.17 + hash(row + channel.seed) * .23) + .065 : .075;
+        // Broken ledges sit on the physical cut, tapering into the receiving terrain.
+        const bankT = abs - 1;
+        const ledge = Math.sin(bankT * Math.PI) * (.12 + .09 * Math.sin(section.distance * 1.7 + side * 2.3));
+        const strata = Math.sin(bankT * Math.PI * 5 + Math.sin(section.distance * .6)) * .055;
+        const rise = banks ? .065 + Math.max(0, ledge + strata * Math.sin(bankT * Math.PI)) : .16;
         const y = this.options.groundHeightAt(x, z) + rise;
         positions.push(x, y, z);
         const magic = lavaMagicAt(channel, x, z);
@@ -592,6 +546,7 @@ export class WildernessEffects {
         this.paletteRange[1] = Math.max(this.paletteRange[1], magic);
         magicValues.push(magic);
         edgeValues.push(offset);
+        velocityValues.push(...this.flowAt(x, z));
         bankDistance.push(banks ? lavaSurfaceClearanceAt(x, z, adjoining) : Infinity);
         uv.push(distance, section.distance);
         const tint = .2 + hash(row * 5 + column + channel.seed) * .075;
@@ -629,7 +584,7 @@ export class WildernessEffects {
           }
         };
         interpolate(positions, 3); interpolate(uv, 2); interpolate(colours, 3);
-        interpolate(magicValues, 1); interpolate(edgeValues, 1);
+        interpolate(magicValues, 1); interpolate(edgeValues, 1); interpolate(velocityValues, 2);
         bankDistance.push(shore);
         return index;
       };
@@ -653,6 +608,7 @@ export class WildernessEffects {
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(colours, 3));
     geometry.setAttribute('lavaMagic', new THREE.Float32BufferAttribute(magicValues, 1));
     geometry.setAttribute('lavaBank', new THREE.Float32BufferAttribute(edgeValues, 1));
+    geometry.setAttribute('lavaVelocity', new THREE.Float32BufferAttribute(velocityValues, 2));
     geometry.setIndex(indices);
     geometry.computeVertexNormals();
     return geometry;

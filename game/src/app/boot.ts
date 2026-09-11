@@ -8,7 +8,7 @@
  * views, A4's input. Each depends only on frozen contracts, so no worker had to know about another.
  */
 import * as THREE from "three";
-import { WILDERNESS_LAVA_LAB_CHANNELS, DEEP_WILDERNESS_LAVA_LAB_CHANNELS } from "../content/wildernessLava.js";
+import { WILDERNESS_LAVA_CHANNELS, lavaSections, WILDERNESS_LAVA_LAB_CHANNELS, DEEP_WILDERNESS_LAVA_LAB_CHANNELS } from "../content/wildernessLava.js";
 import { WildernessEffects, wildernessEffectsLabTorches, deepWildernessEffectsLabTorches, torchFlameOrigin, type WildernessTorch } from "../render/wildernessEffects.js";
 import { WildernessCreatureEffects, type WildernessCreatureEmitter } from '../render/wildernessCreatureEffects.js';
 import { WILDERNESS_CREATURE_SPECIES } from '../content/wildernessCreatureSpecies.js';
@@ -3518,6 +3518,14 @@ function registerExclusions(
   dressing: readonly ResolvedWorldSiteDressing[],
 ): void {
   worldExclusions.clear();
+  // Reserve the entire carved bank, including the footprint of large dressing rocks.
+  // Production bank detail owns this strip; general biome scatter starts beyond it.
+  for (const channel of WILDERNESS_LAVA_CHANNELS) {
+    for (const section of lavaSections(channel, 2)) {
+      worldExclusions.addCircle(section.x, section.z,
+        section.halfWidth + channel.bankWidth + 1.5, 'custom', `lava-bank:${channel.id}`);
+    }
+  }
   for (const [index,[x,z]] of WILDERNESS_ROAD_BRAZIERS.entries()) {
     worldExclusions.addCircle(x,z,2,'building',`wilderness-road-brazier-${index}`);
   }

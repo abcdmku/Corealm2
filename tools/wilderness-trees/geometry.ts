@@ -41,22 +41,45 @@ class Tree {
   child(parent: Axis, at: number, offsets: V[], radius: number, broken = false): Axis {
     const joint = pointOn(parent, at), base = joint.p;
     const start = Math.min(radius, joint.radius * .76);
-    return this.axis(parent, at, [base, ...offsets.map(p => add(base, p))], [start, start * .72, start * .35, broken ? start * .2 : Math.min(.009, start * .12)], broken);
+    // Follow the parent briefly through a flared collar before the lateral opens out.
+    const tangent = vector(pointOn(parent, Math.min(1, at + .035)).p).sub(vector(pointOn(parent, Math.max(0, at - .035)).p)).normalize();
+    const departure = vector(offsets[0]!).normalize();
+    const collar = tangent.multiplyScalar(.6).addScaledVector(departure, .4).normalize().multiplyScalar(start * 1.6);
+    const axis = this.axis(parent, at, [base, add(base, tuple(collar)), ...offsets.map(p => add(base, p))], [start, start * .78, start * .39, broken ? start * .23 : Math.min(.009, start * .12)], broken, parent.root);
+    return axis;
   }
   roots(parent: Axis, count: number, reach: number): void {
+    let theta = this.rand();
     for (let i = 0; i < count; i++) {
-      const theta = TAU * i / count + this.rand() * .28, span = reach * (.72 + this.rand() * .35), side = this.rand() * .35 - .175;
-      const root = this.axis(parent, .008 + i * .006, [[0, 0, 0], [Math.cos(theta) * span * .35, .29, Math.sin(theta) * span * .35], [Math.cos(theta + side) * span * .75, .08, Math.sin(theta + side) * span * .75], [Math.cos(theta + side) * span, .016, Math.sin(theta + side) * span]], [.3, .2, .075, .013], false, true);
-      if (i % 2 === 0) this.child(root, .64, [[Math.cos(theta + .5) * .33, -.02, Math.sin(theta + .5) * .33], [Math.cos(theta + .7) * .65, -.04, Math.sin(theta + .7) * .65]], .055);
+      theta += .55 + this.rand() * .55;
+      const span = reach * (.55 + this.rand() * .55), bend = (this.rand() - .5) * .8;
+      const radius = pointOn(parent, .015).radius * (.28 + this.rand() * .16);
+      const root = this.axis(parent, .012 + this.rand() * .027, [[0, 0, 0],
+        [Math.cos(theta) * span * .24, .22, Math.sin(theta) * span * .24],
+        [Math.cos(theta + bend * .4) * span * .61, .09, Math.sin(theta + bend * .4) * span * .61],
+        [Math.cos(theta + bend) * span, .015, Math.sin(theta + bend) * span]], [radius, radius * .73, radius * .25, .009], false, true);
+      for (let j = 0; j < 2; j++) {
+        const at = .46 + j * .24, joint = pointOn(root, at), angle = theta + bend + (j ? -.65 : .8);
+        const tip: V = [Math.cos(angle) * span * .32, -.04, Math.sin(angle) * span * .32];
+        this.child(root, at, [[tip[0] * .48, -.01, tip[2] * .48], tip], joint.radius * .48);
+      }
     }
   }
   twigs(parent: Axis, count: number, habit: 'crown' | 'claw' | 'hollow'): void {
     for (let i = 0; i < count; i++) {
-      const at = .35 + i / count * .48, a = (i % 2 ? -1 : 1), length = .7 + this.rand() * .9;
-      const angle = this.rand() * TAU, x = Math.cos(angle) * length, z = Math.sin(angle) * length;
-      const y = habit === 'claw' ? .38 + this.rand() * .25 : .6 + this.rand() * .8;
-      const child = this.child(parent, at, [[x * .34, y * .32, z * .34], [x * .78, y * .7, z * .76], [x, y, z + a * .13]], Math.min(.075, pointOn(parent, at).radius * .63), i % 5 === 0);
-      if (i % 2 === 0) this.child(child, .58, [[x * -.17 + .19, .2, z * .15], [x * -.25 + .36, .4, z * .28]], .025);
+      const at = .28 + (i + this.rand() * .5) / count * .57;
+      const tangent = vector(pointOn(parent, Math.min(.98, at + .1)).p).sub(vector(pointOn(parent, at - .08).p)).normalize();
+      const side = new Vector3(-tangent.z, .12, tangent.x).normalize().multiplyScalar(i % 2 ? -1 : 1);
+      const length = .55 + this.rand() * 1.15;
+      const direction = tangent.multiplyScalar(.6).addScaledVector(side, .55 + this.rand() * .35);
+      direction.y += habit === 'claw' ? .08 : .28;
+      direction.normalize().multiplyScalar(length);
+      const d = tuple(direction), elbow = this.rand() * .24 - .12;
+      const child = this.child(parent, at, [[d[0] * .37, d[1] * .43, d[2] * .4], [d[0] * .76 + elbow, d[1] * .8, d[2] * .73], d], Math.min(.085, pointOn(parent, at).radius * .55), this.rand() < .22);
+      if (i % 3 !== 1) {
+        const end = direction.clone().multiplyScalar(.42).addScaledVector(side, -.24);
+        this.child(child, .47 + this.rand() * .22, [tuple(end.clone().multiplyScalar(.45)), tuple(end)], .022, this.rand() < .2);
+      }
     }
   }
 }
@@ -64,10 +87,10 @@ class Tree {
 function architecture(id: TreeId): Tree {
   const tree = new Tree(id, { corealm_deadwood_hollow: 19311, corealm_deadwood_claw: 22909, corealm_deadwood_crown: 40861, corealm_deadwood_fallen: 61393 }[id]);
   if (id === 'corealm_deadwood_hollow') {
-    const trunk = tree.axis(null, 0, [[0, 0, 0], [.12, 1.25, .08], [-.07, 2.85, -.03], [-.34, 4.3, .18]], [.87, .72, .62, .5], true);
+    const trunk = tree.axis(null, 0, [[0, 0, 0], [.12, 1.25, .08], [-.07, 2.85, -.03], [-.34, 4.3, .18], [-1.1, 5.7, .02], [-1.55, 7.3, -.32], [-1.3, 8.8, -.55]], [.87, .72, .62, .48, .34, .18, .045], true);
     tree.roots(trunk, 7, 2.25);
-    const left = tree.child(trunk, .71, [[-.8, 1.1, -.15], [-1.48, 2.4, -.1], [-1.21, 4.75, -.6]], .45, true);
-    const right = tree.child(trunk, .86, [[.65, .55, .14], [1.4, 1.5, .5], [1.85, 3.65, .76]], .4, true);
+    const left = tree.child(trunk, .47, [[-.65, .6, -.2], [-1.7, 1.2, -.7], [-2.25, 2.1, -.52]], .29, true);
+    const right = tree.child(trunk, .43, [[.4, .65, .14], [1.18, 1.7, .5], [1.85, 3.5, .76]], .38, true);
     for (const [parent, side] of [[left, -1], [right, 1]] as const) for (let i = 0; i < 4; i++) {
       const at = .26 + i * .17, z = (i % 2 ? -1 : 1) * (.7 + tree.rand());
       const b = tree.child(parent, at, [[side * .55, .1, z * .25], [side * (1.3 + tree.rand() * .6), .45, z * .9], [side * (1.4 + tree.rand() * .8), 1.4, z]], .16 - i * .023, i === 2);
@@ -77,7 +100,7 @@ function architecture(id: TreeId): Tree {
     const trunk = tree.axis(null, 0, [[0, 0, 0], [-.15, 1.55, .07], [.6, 3.3, -.18], [2.4, 4.55, -.12], [4.1, 4.75, .15], [5.7, 4.45, .32]], [.63, .48, .36, .25, .13, .025]);
     tree.roots(trunk, 6, 2.05);
     for (let i = 0; i < 7; i++) {
-      const at = .28 + i * .085, sign = i % 2 ? -1 : 1, reach = 1.25 + tree.rand() * .7;
+      const at = .25 + i * .083 + tree.rand() * .03, sign = i % 2 ? -1 : 1, reach = 1.25 + tree.rand() * .7;
       const limb = tree.child(trunk, at, [[.15, .6, sign * .6], [.7, 1.25, sign * reach], [1.7, 1.65, sign * (reach + .3)], [2.55, 1.2, sign * (reach + .45)]], .2 - i * .014, i === 0);
       tree.twigs(limb, 4, 'claw');
     }
@@ -86,22 +109,41 @@ function architecture(id: TreeId): Tree {
   } else if (id === 'corealm_deadwood_crown') {
     const trunk = tree.axis(null, 0, [[0, 0, 0], [.1, 1.8, .12], [-.18, 3.25, .07], [.15, 4.55, -.2], [.5, 6.2, -.43], [.3, 7.3, -.38]], [.85, .59, .47, .35, .21, .07], true);
     tree.roots(trunk, 8, 2.7);
-    for (let i = 0; i < 9; i++) {
-      const at = .29 + i * .069, angle = i * 2.39996 + .3, reach = 3.2 + tree.rand() * 1.4, x = Math.cos(angle) * reach, z = Math.sin(angle) * reach;
-      const limb = tree.child(trunk, at, [[x * .32, .5, z * .32], [x * .68, .7, z * .68], [x * .93, 1.15, z], [x, 2.3 + tree.rand(), z * 1.04]], .3 - i * .019, i === 6);
+    // Old broadleaf scaffold: a few heavy unequal limbs, each with its own smaller crown.
+    const scaffolds = [
+      { at: .28, angle: .3, reach: 4.3, rise: 1.2 },
+      { at: .39, angle: 2.5, reach: 3.8, rise: 2.8 },
+      { at: .48, angle: 4.65, reach: 4.8, rise: 1.7 },
+      { at: .62, angle: 1.5, reach: 3.6, rise: 2.9 },
+      { at: .74, angle: 3.4, reach: 2.8, rise: 2.0 },
+      { at: .85, angle: 5.5, reach: 2.4, rise: 2.2 },
+    ];
+    for (const [i, spec] of scaffolds.entries()) {
+      const { at, angle, reach, rise } = spec;
+      const x = Math.cos(angle) * reach, z = Math.sin(angle) * reach;
+      const limb = tree.child(trunk, at, [[x * .22, rise * .34, z * .16],
+        [x * .5, rise * .53, z * .61], [x * .81, rise * .68, z * .87],
+        [x, rise, z]], .35 - i * .033, i === 4);
       tree.twigs(limb, 5, 'crown');
-      if (i < 5) {
-        const spur = tree.child(limb, .44, [[x * -.08 + .45, .65, z * .18], [x * -.16 + .65, 1.6, z * .37], [x * -.12 + .73, 2.1, z * .54]], .115);
-        tree.twigs(spur, 2, 'crown');
-      }
+      const side = i % 2 ? -1 : 1;
+      const spur = tree.child(limb, .39 + tree.rand() * .18,
+        [[x * .07 + side * .32, .4, z * .08], [x * .15 + side * .75, 1.2, z * .24], [x * .25 + side * .9, 1.65 + tree.rand() * .8, z * .45]], .13 - i * .009);
+      tree.twigs(spur, 3, 'crown');
     }
   } else {
-    const trunk = tree.axis(null, 0, [[-3.8, .85, -.3], [-2.25, .55, -.12], [0, .42, .17], [2.6, .3, -.16], [4.45, .22, -.63]], [.64, .5, .39, .24, .08], true);
-    // The heaved root plate remains attached to the torn butt; its limbs differ in height and angle.
-    for (let i = 0; i < 7; i++) {
-      const a = -.18 + i * .48, y = Math.sin(a) * (1.75 + tree.rand() * .8), z = Math.cos(a) * (1.4 + tree.rand() * .4);
-      const root = tree.child(trunk, .008 + i * .007, [[-.2, y * .33, z * .3], [-.5, y * .72, z * .75], [-.95, y, z]], .23 - i * .012, true);
-      tree.child(root, .65, [[-.25, .27, .3], [-.6, .43, .52]], .065, true);
+    const trunk = tree.axis(null, 0, [[-3.8, .78, -.3], [-2.25, .55, -.12], [0, .42, .17], [2.6, .3, -.16], [4.45, .22, -.63]], [.72, .5, .39, .24, .08], true);
+    // Uneven structural roots sweep back from the butt, then split into smaller torn roots.
+    // Their attachment spans the butt collar instead of converging in a flat fan.
+    const rootDirections: V[] = [[-.95, 1.75, -.75], [-1.4, .85, -1.5], [-.65, 1.95, .42], [-1.55, .65, 1.4], [-.9, -.45, 1.5], [-1.2, -.5, -.95]];
+    for (const [i, d] of rootDirections.entries()) {
+      const at = .004 + i * .012, base = pointOn(trunk, at).p, radius = .29 - i * .018;
+      const root = tree.axis(trunk, at, [base, add(base, [d[0] * .22, d[1] * .28, d[2] * .25]),
+        add(base, [d[0] * .55, d[1] * .78, d[2] * .62]), add(base, d)], [radius, radius * .8, radius * .38, .028], true, true);
+      for (let j = 0; j < 3; j++) {
+        const sign = (i + j) % 2 ? -1 : 1, at = .38 + j * .19;
+        const lateral = tree.child(root, at, [[-.16, sign * .16, sign * .22], [-.38 - tree.rand() * .3, sign * (.2 + tree.rand() * .2), sign * (.38 + tree.rand() * .22)]], pointOn(root, at).radius * .48, true);
+        if (j === 1) tree.child(lateral, .61, [[-.15, -.08, sign * .14], [-.34, -.17, sign * .2]], .023, true);
+      }
     }
     for (let i = 0; i < 6; i++) {
       const sign = i % 2 ? -1 : 1, limb = tree.child(trunk, .24 + i * .11, [[.2, .3, sign * .58], [.5, .45 + (i % 3) * .18, sign * 1.35], [.8, .55 + (i % 3) * .35, sign * 1.8]], .18 - i * .018, true);

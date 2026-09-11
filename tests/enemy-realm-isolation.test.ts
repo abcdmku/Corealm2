@@ -169,7 +169,12 @@ describe("enemy dungeon and surface isolation", () => {
       sim.state.player.position = [0, 0, 0];
     }
     sim.ai.tick(100, telegraph.firesAtMs);
-    expect(sim.state.player.health).toBe(left ? 10_000 : 9_979);
+    // 24, not the pre-expansion 21. The slam formula is unchanged — `enemyAI.fireSlam` still deals
+    // round(phase.maxHit * SLAM_DAMAGE_MULTIPLIER 1.5) — but `content/enemies.ts` now derives
+    // ORDRUN_PHASES from the block tuned to Ordrun's combat level 50 instead of the old authored
+    // level-39 numbers. Base maxHit 12 -> 14, so the second phase's authored 14/12 escalation
+    // reads 16, and 16 x 1.5 = 24. Leaving the realm still costs the player exactly nothing.
+    expect(sim.state.player.health).toBe(left ? 10_000 : 9_976);
     if (left) {
       expect(sim.ai.telegraphs()).toEqual([]);
       expect(sim.combat.isEngaged(boss.id)).toBe(false);

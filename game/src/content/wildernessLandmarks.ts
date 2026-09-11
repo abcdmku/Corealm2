@@ -10,7 +10,13 @@ export const WILDERNESS_RUIN_SITES: readonly {
   { id: 'dead_smithy', name: 'Cinderwatch Smithy', position: [130, 565], composition: 'wilderness_ruined_smithy', rotationY: -.45 },
   { id: 'fallen_aqueduct', name: 'The Broken Waterway', position: [-205, 665], composition: 'wilderness_shattered_aqueduct', rotationY: .17 },
   { id: 'outer_watch', name: 'Widow Watch', position: [-310, 575], composition: 'wilderness_broken_watchtower', rotationY: 1.9 },
-  { id: 'forgotten_forge', name: 'The Cold Forge', position: [-55, 675], composition: 'wilderness_ruined_smithy', rotationY: 2.4 },
+  // Moved 5 m north off [-55, 675]. The Cinder Crossing road junction at [-65, 690] takes a
+  // generic 7 m location pad that grades 0.87 m higher, and its core used to reach 2.2 m inside
+  // this ruin's pad. applyFlats averages overlapping cores by depth, so the shared lattice
+  // vertices built high and tilted the rotated footprint's south-west corner 0.099 m out of
+  // level. Separating the two pads levels all eight ruins exactly and moves the ruin further off
+  // the Grave Road centreline. legacyEncounterPlacements.ts carries the matching haunt centre.
+  { id: 'forgotten_forge', name: 'The Cold Forge', position: [-55, 670], composition: 'wilderness_ruined_smithy', rotationY: 2.4 },
   { id: 'eastern_cloister', name: 'Hollow Choir Cloister', position: [305, 670], composition: 'wilderness_roofless_abbey', rotationY: -.4 },
   { id: 'eastern_aqueduct', name: 'The Empty Sluice', position: [230, 555], composition: 'wilderness_shattered_aqueduct', rotationY: Math.PI / 2 },
 ];

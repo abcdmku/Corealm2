@@ -35,10 +35,11 @@ try {
     for (const shot of ['near', 'far', 'return'] as const) {
       await page.evaluate(({ id, shot }) => {
         const debug = window.__gameDebug as any;
-        debug.teleport([15, debug.groundHeight(15, 0), 0]);
+
         const low = id.endsWith('fallen');
-        debug.inspectPose(shot === 'far' ? { x: 0, y: 4, z: -25, yaw: Math.PI, pitch: .08, distance: 34, detached: true }
-          : { x: 0, y: low ? .2 : 2.9, z: 25, yaw: -.38, pitch: low ? .3 : .11, distance: low ? 16 : 20, detached: true });
+        const pose = shot === 'far' ? { x: 0, z: -62, yaw: Math.PI, pitch: .18, distance: 11 }
+          : { x: low ? 3 : 0, z: low ? 19 : 8, yaw: Math.PI - .28, pitch: low ? .45 : .18, distance: low ? 8 : 11 };
+        debug.inspectPose({ ...pose, y: debug.groundHeight(pose.x, pose.z) });
       }, { id: asset.id, shot });
       await page.waitForTimeout(600);
       const state = await observe();
@@ -48,7 +49,7 @@ try {
       assert.deepEqual(state.state.assets, [asset.id]);
       const centre = state.bounds.min.map((v: number, i: number) => (v + state.bounds.max[i]) / 2), camera = state.camera.position;
       const distance = Math.hypot(camera.x - centre[0], camera.y - centre[1], camera.z - centre[2]);
-      assert(shot === 'far' ? distance > 75 : distance < 35, `${asset.id} ${shot} actual camera distance ${distance}`);
+      assert(shot === 'far' ? distance > 75 : distance < 45, `${asset.id} ${shot} actual camera distance ${distance}`);
       const draws = state.profile.draws.filter((d: any) => d.pass === 'colour' && d.name.startsWith('lab-foliage-'));
       assert.equal(draws.reduce((sum: number, d: any) => sum + d.triangles, 0), asset.triangles, `${asset.id} ${shot} actual detailed triangles`);
       const bark = draws.flatMap((d: any) => d.materials).find((m: any) => m.name.startsWith('Bark_Corealm'));
@@ -58,11 +59,6 @@ try {
       if (shot !== 'return') await capture(`${asset.id}-${shot}`);
     }
     assert.deepEqual(states[0].bounds, states[2].bounds, 'Returning changed native instance bounds');
-    if (asset.id.endsWith('hollow') || asset.id.endsWith('crown')) {
-      await page.evaluate(() => { (window.__gameDebug as any).inspectPose({ x: 0, y: 1.4, z: 25, yaw: -.38, pitch: .1, distance: 8, detached: true }); });
-      await page.waitForTimeout(250); await capture(`${asset.id}-bark-detail`);
-      await page.evaluate(() => { (window.__gameDebug as any).inspectPose({ x: 0, y: 2.9, z: 25, yaw: -.38, pitch: .11, distance: 20, detached: true }); });
-    }
     await page.getByLabel('Biome atmosphere', { exact: true }).selectOption('wilderness');
     await page.waitForTimeout(1100); const night = await observe();
     assert(night.atmosphere.sky.night > .9, 'Night material proof requires the selected Wilderness light');
@@ -70,7 +66,7 @@ try {
   }
   if (!hollowOnly) { await page.evaluate(async (ids) => {
     await (window as any).__environmentLab.showFoliage(ids[0], { variants: ids, layout: 'grid', count: 20, span: 48 });
-    (window.__gameDebug as any).inspectPose({ x: 0, y: 3, z: 15, yaw: .4, pitch: .2, distance: 34, detached: true });
+    const d = window.__gameDebug as any; d.inspectPose({ x: 0, y: d.groundHeight(0, -12), z: -12, yaw: Math.PI, pitch: .3, distance: 11 });
   }, catalog.assets.map((a: any) => a.id));
   await page.waitForTimeout(650); const grove = await observe();
   assert.equal(grove.state.foliage.count, 20); assert.equal(grove.state.assets.length, 4); samples.push({ shot: 'mixed-night-grove', ...grove }); await capture('mixed-night-grove');

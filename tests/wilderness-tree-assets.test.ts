@@ -46,6 +46,21 @@ describe('original Wilderness dead forest geometry', () => {
     expect(hollow.skins.heartwood.indices.length).toBeGreaterThan(0);
     for (const other of trees.filter(t => !t.id.endsWith('hollow'))) expect(other.openingFaces).toBe(0);
   });
+  it('keeps torn secondary roots attached to an uneven three-dimensional fallen butt', () => {
+    const fallen = trees.find(tree => tree.id.endsWith('fallen'))!;
+    const roots = fallen.axes.filter(axis => axis.root && axis.parent === 0);
+    expect(roots.length).toBeGreaterThanOrEqual(5);
+    const tips = roots.map(axis => axis.rings.at(-1)!.p);
+    for (const dimension of [0, 1, 2]) {
+      const values = tips.map(p => p[dimension]!);
+      expect(Math.max(...values) - Math.min(...values)).toBeGreaterThan(.5);
+    }
+    for (const root of roots) {
+      const laterals = fallen.axes.filter(axis => axis.parent === root.id);
+      expect(laterals.length).toBeGreaterThanOrEqual(2);
+      expect(laterals.every(axis => axis.root && axis.broken)).toBe(true);
+    }
+  });
   it('rebuilds each silhouette deterministically', () => {
     for (const spec of TREE_DESIGNS) {
       const a = generateTree(spec.id), b = generateTree(spec.id);

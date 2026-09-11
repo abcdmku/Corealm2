@@ -540,11 +540,16 @@ try {
   if (band === 'regions') {
     const bosses = Object.entries(REGIONAL_BOSS_LEVELS);
     assert.equal(bosses.length, 7);
+    // Fallowmarch's ordinary residents already derive level 6 from their own stats, so its two
+    // tier-1 bosses are authored at 11 and 13 instead of the 3-5x band the tier 5+ regions use.
+    const tierOneBossLevels: Readonly<Record<string, number>> = { galeskin: 11, tempest_roc: 13 };
     // Ordrun's deferred cave is visited last so the six surface views share one world residency.
     bosses.sort(([a], [b]) => Number(a === 'ordrun') - Number(b === 'ordrun'));
     for (const [id, balance] of bosses) {
       stage = `regional boss ${id}`;
-      assert(balance.multiplier >= 3 && balance.multiplier <= 5);
+      const expectedLevel = balance.tier * balance.multiplier;
+      if (balance.tier >= 5) assert(balance.multiplier >= 3 && balance.multiplier <= 5, `${id}: expected 3-5× regional tier`);
+      else assert.equal(expectedLevel, tierOneBossLevels[id], `${id}: expected the authored tier-1 boss level`);
       const rows = groups.get(id) ?? []; assert.equal(rows.length, 1, `${id}: original boss must remain a singleton`);
       const actor = await debug<SemanticEntity>('getEntity', [rows[0]!.id]);
       const species = REGIONAL_BOSS_SPECIES.find(row => row.id === `boss_${id}`)!;
@@ -552,7 +557,7 @@ try {
       const block = ENEMIES.find(row => row.id === actor.meta?.enemyDefId);
       assert(species && body && block, `${id}: original regional boss definition is absent`);
       assert.equal(actor.regionId, species.regionId); assert.equal(actor.tier, balance.tier);
-      assert.equal(actor.combat?.level, balance.tier * balance.multiplier, `${id}: expected ${balance.multiplier}× regional tier`);
+      assert.equal(actor.combat?.level, expectedLevel, `${id}: expected level ${expectedLevel} (${balance.multiplier}× regional tier)`);
       assert.equal(actor.combat?.level, enemyCombatLevel(block)); assert.equal(actor.combat?.maxHealth, block.maxHealth);
       assert.equal(actor.view?.assetId, body.assetId, `${id}: replacement body was not wired into normal world boot`);
       assert(actor.meta?.rank === 'boss' || actor.meta?.rank === 'miniboss', `${id}: boss rank metadata missing`);
@@ -593,7 +598,7 @@ try {
       const live = await debug<SemanticEntity>('getEntity', [actor.id]);
       const drawn = await debug<Bounds>('getDrawnBounds', [actor.id]);
       assert(drawn?.meshes > 0 && drawn.max.y > drawn.min.y, `${id}: native boss body is not drawn`);
-      await capture(`regional-${id}`, { balance, expectedLevel: balance.tier * balance.multiplier,
+      await capture(`regional-${id}`, { balance, expectedLevel,
         canonical: { id: block.id, level: enemyCombatLevel(block), health: block.maxHealth }, before: actor,
         after: live, drawn, motion: await debug('getEntityMotion', [actor.id]) });
     }

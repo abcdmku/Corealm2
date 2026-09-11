@@ -112,7 +112,9 @@ export const LEGACY_ENCOUNTER_PLACEMENTS: readonly LegacyEncounterPlacement[] = 
   ruin('dead_smithy', [130,565], -.45, -21, 1.4),
   ruin('fallen_aqueduct', [-205,665], .17, -27, 1.35),
   ruin('outer_watch', [-310,575], 1.9, -17, 1.4),
-  ruin('forgotten_forge', [-55,675], 2.4, -21, 1.35),
+  // Must track wildernessLandmarks.ts: wilderness.ts derives this haunt's centre from the site
+  // position, so the pair moves together or the saved encounter identity breaks.
+  ruin('forgotten_forge', [-55,670], 2.4, -21, 1.35),
   ruin('eastern_cloister', [305,670], -.4, 20, 1.4),
   ruin('eastern_aqueduct', [230,555], Math.PI / 2, -27, 1.35),
   { id: 'gravelmaw_ch1_rats', regionId: 'gravelmaw', originalCentre: [40,-40], originalCount: 4,

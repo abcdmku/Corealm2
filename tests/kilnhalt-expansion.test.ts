@@ -1,7 +1,7 @@
 /**
  * Phase 2 amendment: the Kilnhalt tier-20 expansion.
  *
- * Freezes the amendment's literal claims: the 700 x 660 world with an OPEN southern Kilnhalt
+ * Freezes the amendment's literal claims: the 700 m wide world with an OPEN southern Kilnhalt
  * border, the complete Emberfast station set, the tier-20 formula values, the fire release, the
  * rare miniboss weapon derivation rule, miniboss placement semantics, the 25-40 s on-tier combat
  * band, and the fire-orb altar migration.
@@ -11,6 +11,7 @@ import type { EquipmentBonuses, ItemDef } from "../game/src/contracts.js";
 import { EQUIPMENT, KITS, MAGIC_ORBS, RARE_MINIBOSS_WEAPONS } from "../game/src/content/equipment.js";
 import { ALL_ITEMS } from "../game/src/content/items.js";
 import { ENEMY_BLOCKS } from "../game/src/content/enemies.js";
+import { REGIONAL_BOSS_BODIES } from "../game/src/content/regionalBossBodies.js";
 import {
   gatherXp, healAmount, respawnSeconds, toolBonus, yieldRange,
 } from "../game/src/content/index.js";
@@ -49,7 +50,9 @@ function kitTotals(kit: readonly string[]): EquipmentBonuses {
 
 describe("world extension", () => {
   it("keeps Kilnhalt across the full width beneath the northern wilderness", () => {
-    expect(WORLD_BOUNDS).toEqual({ min: [-350, -200], max: [350, 700] });
+    // The Deep Wilderness expansion doubled the northern band to z940 (`WILDERNESS_DEPTH.north`).
+    // Kilnhalt's own bounds are unchanged: it still sits beneath the wilderness, full width.
+    expect(WORLD_BOUNDS).toEqual({ min: [-350, -200], max: [350, 940] });
     const kilnhalt = getRegion("kilnhalt")!;
     expect(kilnhalt.tier).toBe(20);
     expect(kilnhalt.bounds).toEqual({ min: [-350, 200], max: [350, 460] });
@@ -223,15 +226,24 @@ describe("rare miniboss weapons", () => {
 });
 
 describe("miniboss placements", () => {
+  /** The registered group an authored boss is built from, wherever it is placed. */
+  function bossGroup(id: string) {
+    const group = REGIONS
+      .flatMap((region) => [...region.enemyGroups, ...region.dungeon?.enemyGroups ?? []])
+      .find((row) => row.id === id);
+    if (!group) throw new Error(`Missing registered boss group ${id}`);
+    return group;
+  }
+
   it("places the four minibosses at their authored spots with the miniboss rank and 1.3x scale", () => {
     const world = buildWorld(1337, () => 0);
     const expectations = [
-      ["galeskin", "fallowmarch", 1, [-300, 145], "creature_briar_harrow", 1.2],
-      ["mossbound", "vellenwood", 5, [318, 72], "creature_thorn_maw", 1.3],
-      ["tideworn", "karrowmoor", 10, [18, -164], "creature_flint_mandible", 1.25],
-      ["cinderwake", "kilnhalt", 20, [286, 420], "creature_kiln_marrow", 1.3 * .88],
+      ["galeskin", "fallowmarch", 1, [-300, 145]],
+      ["mossbound", "vellenwood", 5, [318, 72]],
+      ["tideworn", "karrowmoor", 10, [18, -164]],
+      ["cinderwake", "kilnhalt", 20, [286, 420]],
     ] as const;
-    for (const [id, regionId, tier, [x, z], assetId, bodyScale] of expectations) {
+    for (const [id, regionId, tier, [x, z]] of expectations) {
       const entity = world.entities.find((candidate) => candidate.id === id);
       expect(entity, id).toBeDefined();
       expect(entity).toMatchObject({
@@ -242,9 +254,15 @@ describe("miniboss placements", () => {
       });
       expect(entity!.position[0], `${id} x`).toBe(x);
       expect(entity!.position[2], `${id} z`).toBe(z);
-      expect(entity!.view?.assetId, id).toBe(assetId);
-      // 1.3x authored scale, against a major boss's 1.6x.
-      expect(entity!.view?.scale, id).toBeCloseTo(bodyScale * 1.3, 5);
+      // The expansion replaced the borrowed ordinary bodies with a dedicated hero asset per boss.
+      expect(entity!.view?.assetId, id).toBe(REGIONAL_BOSS_BODIES[id].assetId);
+      // 1.3x authored group scale, against a major boss's 1.6x: `world/regionBuilder.ts` still
+      // applies the rank multiplier, so a miniboss that silently got the boss rule fails here.
+      expect(entity!.view?.scale, id).toBeCloseTo(bossGroup(id).scale * 1.3, 10);
+      // The dedicated body is modelled at final world size, so `content/fantasyEncounters.ts`
+      // divides the rank multiplier and the tier silhouette back out: it draws at scale 1.0.
+      expect(entity!.view!.scale! * tierSilhouetteScale(tier), id)
+        .toBeCloseTo(REGIONAL_BOSS_BODIES[id].scale, 10);
     }
   });
 
@@ -254,9 +272,10 @@ describe("miniboss placements", () => {
       const entity = world.entities.find((candidate) => candidate.id === id)!;
       expect(entity.archetype, id).toBe("boss");
       expect(entity.meta?.rank, id).toBe("boss");
-      const scale = { tempest_roc: 1.15, rootheart: 1.4, ordrun: 1.3 }[id];
-      expect(entity.view?.assetId).toBe({tempest_roc:'creature_flint_mandible',rootheart:'creature_briar_harrow',ordrun:'creature_vault_custodian'}[id]);
-      expect(entity.view?.scale, id).toBeCloseTo(scale * 1.6, 5);
+      expect(entity.view?.assetId, id).toBe(REGIONAL_BOSS_BODIES[id].assetId);
+      expect(entity.view?.scale, id).toBeCloseTo(bossGroup(id).scale * 1.6, 10);
+      expect(entity.view!.scale! * tierSilhouetteScale(entity.tier!), id)
+        .toBeCloseTo(REGIONAL_BOSS_BODIES[id].scale, 10);
     }
   });
 });

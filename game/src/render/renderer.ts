@@ -543,6 +543,7 @@ export class Renderer {
           if (seen.has(material)) continue;
           seen.add(material);
           const clone = material.clone();
+          clone.defines = { ...material.defines };
           clone.onBeforeCompile = material.onBeforeCompile.bind(material);
           clone.customProgramCacheKey = material.customProgramCacheKey.bind(material);
           clone.transparent = true;
@@ -555,6 +556,9 @@ export class Renderer {
           const proxy = instanced.isInstancedMesh === true
             ? new THREE.InstancedMesh(mesh.geometry, clone, 1)
             : new THREE.Mesh(mesh.geometry, clone);
+          if (instanced.isInstancedMesh && instanced.instanceColor) {
+            (proxy as THREE.InstancedMesh).instanceColor = instanced.instanceColor;
+          }
           proxy.frustumCulled = false;
           holder.add(proxy);
         }
@@ -614,6 +618,7 @@ export class Renderer {
           const cached = materials.get(source);
           if (cached) return cached;
           const clone = source.clone();
+          clone.defines = { ...source.defines };
           clone.onBeforeCompile = source.onBeforeCompile.bind(source);
           clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
           materials.set(source, clone);

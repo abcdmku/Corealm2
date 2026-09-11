@@ -72,8 +72,8 @@ function shapeFor(config,root){
  const head=root.listNodes().find(n=>n.getName()==='Head'), chest=root.listNodes().find(n=>n.getName()==='Chest');
  const hp=V().fromArray(head.getWorldMatrix().slice(12,15)), cp=V().fromArray(chest.getWorldMatrix().slice(12,15));
  if(!config.baby)return v=>{
-   // Adult lineages retain their authored proportions. Soul Eater develops broader folded wing shoulders.
-   if(config.arcane){const mantle=smooth(.75,1.4,Math.abs(v.x))*smooth(2.1,3,v.y);v.x*=1+.58*mantle;}
+   // Keep the approved black adult; red bodies and dreadwings have narrower, longer silhouettes.
+   if(config.lineage==='DragonTerrorBringer'){v.x*=config.dreadwing?.72:.86;v.z*=config.dreadwing?1.24:1.12;}
    if(config.lineage==='DragonUsurper'){v.x*=1.08;v.z*=.82;}
    return v.multiplyScalar(config.scale);
  };
@@ -83,9 +83,9 @@ function shapeFor(config,root){
   const headField=smooth(hp.z-.7,hp.z+.1,z)*smooth(hp.y-.9,hp.y-.1,y)*(1-smooth(1,1.8,Math.abs(x)));
   const wings=smooth(1.1,2.4,Math.abs(x))*smooth(1.8,3.1,y);
   const tail=1-smooth(-3.5,-1.5,z);
-  const nx=x*(1+belly*.18+headField*.34-wings*.25);
+  const nx=x*(config.lineage==='DragonUsurper'?1+belly*.18+headField*.34-wings*.25:1-belly*.05+headField*.16-wings*.18);
   const ny=y*.88+headField*(y-hp.y)*.26-wings*Math.max(0,y-2.8)*.28;
-  const nz=z< -1.5?-1.5+(z+1.5)*(1-.32*tail):z-(z-cp.z)*smooth(cp.z,hp.z+.6,z)*.17;
+  const nz=z< -1.5?-1.5+(z+1.5)*(1-(config.lineage==='DragonUsurper'?.32:.12)*tail):z-(z-cp.z)*smooth(cp.z,hp.z+.6,z)*(config.lineage==='DragonUsurper'?.17:.09);
   return V(nx,ny,nz).multiplyScalar(config.scale);
  };
 }
@@ -165,7 +165,7 @@ async function materials(doc,config){
  const ao=terror?'Ambient Occlusion Map from Mesh lambert1.png':'AO.png';
  const texture=async(name,file)=>{
   let input=sharp(`${folder}/${file}`).flip();
-  if(name==='native_albedo'&&terror){
+  if(name==='native_albedo'&&terror&&!config.arcane&&!config.lava){
    // The source Red atlas is mostly ochre. Grade its dark skin midtones into
    // burgundy while retaining source grain and the pale membrane/claw islands.
    const {data,info}=await input.removeAlpha().raw().toBuffer({resolveWithObject:true});
@@ -173,25 +173,67 @@ async function materials(doc,config){
    for(let i=0;i<data.length;i+=info.channels){
     const r=data[i]/255,g=data[i+1]/255,b=data[i+2]/255,luma=.2126*r+.7152*g+.0722*b;
     const skin=(1-smooth(.48,.68,luma))*smooth(0,.06,r-b);
-    const graded=[Math.min(.93,.045+Math.pow(r,.64)*1.05),Math.pow(g,.90)*.66,Math.pow(b,.85)*.96+.065*r];
-    for(let c=0;c<3;c++)data[i+c]=Math.round(255*Math.max(0,Math.min(1,[r,g,b][c]*(1-skin)+graded[c]*skin)));
+    const graded=[Math.min(.90,.10+Math.pow(r,.70)*1.02),Math.pow(g,.85)*.72+.035,Math.pow(b,.95)*.48+.018];
+    // Native ochre ridge markings distinguish throat plates and facial scales
+    // from the crimson hide. Keep their warm value under violet night light.
+    const ridge=smooth(.58,.82,g/Math.max(.01,r))*smooth(.18,.42,luma);
+    const bone=(.22+.74*Math.pow(luma,.65));
+    for(let c=0;c<3;c++){
+     const hide=[r,g,b][c]*(1-skin)+graded[c]*skin;
+     data[i+c]=Math.round(255*Math.max(0,Math.min(.96,hide*(1-ridge)+bone*[1,.80,.52][c]*ridge)));
+    }
    }
    input=sharp(data,{raw:{width:info.width,height:info.height,channels:info.channels}});
   }
-  if(name==='native_albedo'&&(config.lava||config.arcane)){
-   // Soul Eater's source atlas contains nearly black painted skin. Lift that
-   // native luminance detail into stone midtones before regional night lighting.
-   // Normal/AO maps still supply creases; the fissures do not replace the skin.
+  if(name==='native_albedo'&&config.arcane&&terror){
    const {data,info}=await input.removeAlpha().raw().toBuffer({resolveWithObject:true});
-   const tint=config.lava?[1.04,.98,.90]:[1.03,.91,1.17];
+   for(let i=0;i<data.length;i+=info.channels){
+    const [r,g,b]=[data[i]/255,data[i+1]/255,data[i+2]/255];
+    const skin=1-smooth(.02,.14,r-b);
+    const violet=[Math.pow(r,.66)*1.13,Math.pow(g,.72)*.62,Math.pow(b,.68)*1.1];
+    const warm=[Math.pow(r,.68)*1.1,Math.pow(g,.68)*1.05,Math.pow(b,.68)];
+    for(let c=0;c<3;c++)data[i+c]=Math.round(255*Math.min(.96,warm[c]*(1-skin)+violet[c]*skin));
+   }
+   input=sharp(data,{raw:{width:info.width,height:info.height,channels:info.channels}});
+  }
+  if(name==='native_albedo'&&(config.lava||config.arcane&&!terror)){
+   // Preserve native colour separation and pale horns under regional night lighting.
+   const {data,info}=await input.removeAlpha().raw().toBuffer({resolveWithObject:true});
    for(let i=0;i<data.length;i+=info.channels){
     const source=[data[i]/255,data[i+1]/255,data[i+2]/255];
     const luma=.2126*source[0]+.7152*source[1]+.0722*source[2];
-    const stone=.90*Math.pow(luma,.34);
+    const horn=smooth(.44,.65,luma);
+    const warm=config.lava?[1.0,.52,.25]:[.76,.55,.96];
     for(let c=0;c<3;c++){
-     // Retain a little native hue variation within the grey stone grade.
-     const grainHue=(source[c]-luma)*(config.lava?.10:.18);
-     data[i+c]=Math.round(255*Math.max(0,Math.min(.92,stone*tint[c]+grainHue)));
+     // Colour channels retain the source texture grain instead of a monochrome grade.
+     const hide=config.lava ? .10+Math.pow(source[c],.58)*[.80,.64,.48][c] : .14*warm[c]+Math.pow(source[c],.28)*.78*(config.arcane&&terror?warm[c]:1);
+     const ivory=(.25+.65*Math.pow(luma,.65))*[1,.85,.61][c];
+     data[i+c]=Math.round(255*Math.max(0,Math.min(.95,hide*(1-horn)+ivory*horn)));
+    }
+   }
+   input=sharp(data,{raw:{width:info.width,height:info.height,channels:info.channels}});
+  }
+  if(name==='native_albedo'&&config.simpleBlack){
+   const {data,info}=await input.removeAlpha().raw().toBuffer({resolveWithObject:true});
+   for(let i=0;i<data.length;i+=info.channels){
+    const source=[data[i]/255,data[i+1]/255,data[i+2]/255],l=.2126*source[0]+.7152*source[1]+.0722*source[2];
+    const hide=1-smooth(.40,.67,l),charcoal=.12+.38*Math.pow(l,.68);
+    for(let c=0;c<3;c++)data[i+c]=Math.round(255*(source[c]*(1-hide*.75)+charcoal*[.85,.91,1][c]*hide*.75));
+   }
+   input=sharp(data,{raw:{width:info.width,height:info.height,channels:info.channels}});
+  }
+  if(name==='native_albedo'&&config.fineGlow){
+   const {data,info}=await input.removeAlpha().raw().toBuffer({resolveWithObject:true});
+   for(let i=0;i<data.length;i+=info.channels){
+    const l=(.2126*data[i]+.7152*data[i+1]+.0722*data[i+2])/255;
+    const source=[data[i]/255,data[i+1]/255,data[i+2]/255],horn=smooth(.48,.72,l);
+    const value=.14+.60*Math.pow(l,.72),tint=[1.04,.62,1.24];
+    // The four native membrane islands occupy the left two thirds of this atlas.
+    const pixel=i/info.channels,u=(pixel%info.width)/info.width,v=Math.floor(pixel/info.width)/info.height;
+    const membrane=u<.65&&v>.08&&v<.92?(1-smooth(.50,.64,l))*(1-smooth(.10,.22,Math.max(...source)-Math.min(...source))):0;
+    for(let c=0;c<3;c++){
+     const skin=(value*tint[c]+(source[c]-l)*.28)*(1-horn)+value*[1.15,1.02,.74][c]*horn;
+     data[i+c]=Math.round(255*Math.min(.94,skin*(1-membrane)+value*[.90,.64,.70][c]*membrane));
     }
    }
    input=sharp(data,{raw:{width:info.width,height:info.height,channels:info.channels}});
@@ -202,10 +244,23 @@ async function materials(doc,config){
  };
  const diffuse=await texture('native_albedo',albedo),norm=await texture('native_normal',normal),occlusion=await texture('native_occlusion',ao);
  const veins=config.lava||config.arcane?await fissures(doc,config):null;
- const emission=veins?doc.createTexture(`animal_rpg_${config.id}_fissure_mask`).setImage(veins.bytes).setMimeType('image/png'):null;
+ let emission=veins?doc.createTexture(`animal_rpg_${config.id}_fissure_mask`).setImage(veins.bytes).setMimeType('image/png'):null;
+ if(config.fineGlow){
+  const {data,info}=await sharp(`${folder}/${albedo}`).flip().removeAlpha().raw().toBuffer({resolveWithObject:true});
+  const pixels=Buffer.alloc(info.width*info.height*3);
+  for(let y=1;y<info.height-1;y++)for(let x=1;x<info.width-1;x++){
+   const i=(y*info.width+x)*info.channels;
+   const edge=Math.abs(data[i]-data[i+info.channels])+Math.abs(data[i]-data[i+info.width*info.channels]);
+   const membrane=x/info.width<.65&&y/info.height>.08&&y/info.height<.92;
+   const strength=membrane?0:smooth(32,78,edge)*smooth(18,65,data[i])*.45;
+   for(let c=0;c<3;c++)pixels[(y*info.width+x)*3+c]=Math.round(strength*[235,75,255][c]);
+  }
+  const bytes=await sharp(pixels,{raw:{width:info.width,height:info.height,channels:3}}).png().toBuffer();
+  emission=doc.createTexture(`animal_rpg_${config.id}_fine_scale_glow`).setImage(bytes).setMimeType('image/png');
+ }
  for(const mat of doc.getRoot().listMaterials()){
   mat.setBaseColorTexture(diffuse).setBaseColorFactor([1,1,1,1]).setNormalTexture(norm).setOcclusionTexture(occlusion).setRoughnessFactor(config.lava?.91:config.palette==='Dark'?.73:.85).setMetallicFactor(0).setDoubleSided(true);
-  if(emission)mat.setEmissiveTexture(emission).setEmissiveFactor(config.lava?[.62,.51,.34]:[.37,.41,.57]);
+  if(emission)mat.setEmissiveTexture(emission).setEmissiveFactor(config.fineGlow?[.9,.6,.7]:config.lava?[.62,.51,.34]:[.37,.41,.57]);
  }
  return{sourceAlbedo:`${folder}/${albedo}`,sourceNormal:`${folder}/${normal}`,sourceAO:`${folder}/${ao}`,albedoGrade:terror?'Burgundy skin midtones; native grain and pale membrane/claw islands retained.':config.lava?'Warm basalt grey midtones derived from native luminance; full diffuse factor and reduced fissure emission.':config.arcane?'Muted violet slate midtones derived from native luminance; reduced fissure emission.':null,fissures:veins?{...veins,bytes:undefined}:null};
 }

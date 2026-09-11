@@ -135,6 +135,7 @@ export class StreamedShaderWarmup {
     if (cached?.version === source.version) return cached.clone;
     if (cached) { source.removeEventListener("dispose", cached.dispose); this.retire(cached.clone); }
     const clone = source.clone();
+    clone.defines = { ...source.defines };
     clone.onBeforeCompile = source.onBeforeCompile.bind(source);
     clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
     const dispose = () => { this.retire(clone); this.materials.delete(source); source.removeEventListener("dispose", dispose); };

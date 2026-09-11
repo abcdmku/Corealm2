@@ -87,19 +87,21 @@ describe("mining working positions", () => {
   it("uses measured source depth and off-centre bounds instead of a fixed pivot offset", () => {
     const site = singleMine();
     const size = { x: 2.6, y: 1.6, z: 1.5 };
-    const ordinary = miningAccessPositions([site], () => 0, {
-      assetSize: () => size, assetCenterXZ: () => ({ x: 0, z: 0 }),
+    const stance = (centre: { x: number; z: number }) => miningAccessPositions([site], () => 0, {
+      assetSize: () => size, assetCenterXZ: () => centre,
     }).values().next().value!;
-    const moved = miningAccessPositions([site], () => 0, {
-      assetSize: () => size,
-      assetCenterXZ: () => ({ x: 0.4, z: 2 }),
-    }).values().next().value!;
-    expect(ordinary[0]).toBeCloseTo(0);
-    expect(moved[0]).toBeGreaterThan(0.2);
+    const ordinary = stance({ x: 0, z: 0 });
+    const moved = stance({ x: 0.4, z: 2 });
+    // Whatever one more metre of measured source depth adds to the stance is the drawn scale.
+    const drawnScale = stance({ x: 0.4, z: 3 })[2] - moved[2];
+    expect(drawnScale).toBeGreaterThan(0.3);
     expect(moved[2]).toBeGreaterThan(ordinary[2]);
     // A strongly offset source must keep its visible front behind the working point.
-    const drawnScale = moved[0] / 0.4;
     expect(moved[2] - (size.z / 2 + 2) * drawnScale).toBeCloseTo(0.70, 6);
+    // Depth, never sideways: the ore cylinder is centred on the authored pivot and the graded
+    // haul ramp and dressing clearances both measure the stance straight ahead of the slot.
+    expect(ordinary[0]).toBe(0);
+    expect(moved[0]).toBe(0);
   });
 
   it("requires valid measurements and ground rather than guessing a reachable point", () => {

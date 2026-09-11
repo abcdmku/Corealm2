@@ -9,8 +9,9 @@ const deep=process.argv.includes('--deep'),emittingOnly=process.argv.includes('-
 const materialOnly=process.argv.includes('--material-only');
 assert(Number(emittingOnly)+Number(redOnly)+Number(blackOnly)<=1,'Select one family per focused job.');
 const band=deep?['red_wilderness_dragon','black_wilderness_dragon','purple_wilderness_dragon']:['baby_red_dragon','baby_black_dragon','baby_lava_dragon'];
-const ids=emittingOnly?[band[2]!]:redOnly?[band[0]!]:blackOnly?[band[1]!]:band;
-const suffix=emittingOnly?'-fissures':redOnly?'-red':blackOnly?'-black':'';
+const customId=process.argv.includes('--id')?process.argv[process.argv.indexOf('--id')+1]:undefined;
+const ids=customId?[customId]:emittingOnly?[band[2]!]:redOnly?[band[0]!]:blackOnly?[band[1]!]:band;
+const suffix=customId?`-${customId}`:emittingOnly?'-fissures':redOnly?'-red':blackOnly?'-black':'';
 const out=`test-results/wilderness-dragons/lab-${deep?'deep':'shallow'}${suffix}-${materialOnly?'materials':'full'}`;await mkdir(out,{recursive:true});
 const clearDeadline=installTestDeadline(`Wilderness dragons ${deep?'deep':'shallow'}${suffix} full motion`,60_000);
 const started=Date.now(),server=await startGameServer({hmr:false}),driver=new GameDriver(server,{viewport:{width:1440,height:900},browserArgs:['--use-angle=d3d11','--enable-gpu','--ignore-gpu-blocklist','--mute-audio']});

@@ -40,6 +40,7 @@ for (const [id, speciesId] of [
 ] as const) speciesByAsset.set(id, {
   ...TREE_SPECIES.find(species => species.id === speciesId)!,
   resourceId: `tree_wilderness_${speciesId}`,
+  name: speciesId === 'teak' ? 'Veinwood' : 'Magic',
 });
 
 export function treeSpeciesForAsset(assetId: string): TreeSpeciesDef | undefined {

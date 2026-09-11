@@ -5,9 +5,11 @@ import { Renderer } from "../game/src/render/renderer.js";
 it("prepares screen and linear refraction programs without losing custom material hooks", () => {
   const scene = new THREE.Scene();
   const material = new THREE.MeshStandardMaterial();
+  material.defines = { MATTER_KIND: 2 };
   material.customProgramCacheKey = () => "authored-wind";
   material.onBeforeCompile = shader => { shader.vertexShader += "// authored wind"; };
-  const mesh = new THREE.Mesh(new THREE.BoxGeometry(), material);
+  const mesh = new THREE.InstancedMesh(new THREE.BoxGeometry(), material, 1);
+  mesh.setColorAt(0, new THREE.Color(1, .5, .25));
   scene.add(mesh);
   const originalTarget = null;
   let target: THREE.WebGLRenderTarget | null = originalTarget;
@@ -20,6 +22,8 @@ it("prepares screen and linear refraction programs without losing custom materia
       compile: () => scene.traverse(object => {
         if (!(object instanceof THREE.Mesh)) return;
         const current = object.material as THREE.Material;
+        expect(current.defines).toEqual(material.defines);
+        expect((object as THREE.InstancedMesh).instanceColor).toBe(mesh.instanceColor);
         const shader = { vertexShader: "", fragmentShader: "", uniforms: {} };
         current.onBeforeCompile(shader as never, {} as never);
         calls.push({ offscreen: target !== null, transparent: current.transparent,

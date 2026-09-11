@@ -54,8 +54,8 @@ describe('forks and seeded lava pools', () => {
         }
       }
     }
-    expect(ground(1, -9)).toBeCloseTo(-1.5, 3);
-    expect(ground(-3, -24)).toBeCloseTo(-1.5, 3);
+    expect(ground(1, -9)).toBeCloseTo(-2.6, 3);
+    expect(ground(-3, -24)).toBeCloseTo(-2.6, 3);
     expect(ground(0, 10)).toBe(0);
     expect(isMoltenLavaAt(1, -9, channels)).toBe(true);
     expect(lavaObstacles(channels, ground).every(solid => solid.id.startsWith('lava:'))).toBe(true);
@@ -134,7 +134,7 @@ describe('production deep lava rendering', () => {
       expect(magic.getX(0)).toBe(channel.magic);
       const vertices = molten.geometry.getAttribute('position');
       for (let i = 0; i < vertices.count; i++) {
-        expect(vertices.getY(i) - ground(vertices.getX(i), vertices.getZ(i))).toBeCloseTo(.075, 4);
+        expect(vertices.getY(i) - ground(vertices.getX(i), vertices.getZ(i))).toBeCloseTo(.16, 4);
       }
       const apron = effects.group.getObjectByName(`wilderness-lava-apron-${channel.id}`) as THREE.Mesh;
       // Full-width dry banks and end caps must be covered even where the raised berms diverge.
@@ -142,11 +142,11 @@ describe('production deep lava rendering', () => {
         for (const side of [-1, 1]) {
           const lateral = side * (section.halfWidth + channel.bankWidth * .95);
           const x = section.x - section.tz * lateral, z = section.z + section.tx * lateral;
-          if (lavaClearanceAt(x, z, [channel]) > .5) continue;
+          if (lavaClearanceAt(x, z, [channel]) > .5 || isMoltenLavaAt(x, z, channels, .05)) continue;
           const ray = new THREE.Raycaster(new THREE.Vector3(x, ground(x, z) + 10, z), downward, 0, 20);
           const hit = ray.intersectObject(apron, false)[0];
           expect(hit, `${channel.id} dry shore ${section.progress}:${side}`).toBeDefined();
-          expect(hit!.point.y - ground(x, z)).toBeGreaterThan(-.015);
+          expect(hit!.point.y - ground(x, z), `${channel.id} ${section.progress} ${side} ${x},${z}`).toBeGreaterThan(-.015);
           expect(hit!.point.y - ground(x, z)).toBeLessThan(.15);
         }
       }

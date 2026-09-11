@@ -1,6 +1,6 @@
 import path from "node:path";
 import { createHash } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import { chromium, type Browser } from "playwright";
 import sharp, { type OverlayOptions } from "sharp";
@@ -41,6 +41,48 @@ const SETTLEMENT_CAPTURE_REPRESENTATIVES = [
 // unchanged quality setting; keep a narrow 1.275 MB ceiling rather than degrading the map.
 const DETAIL_MAX_BYTES = 1_275_000;
 
+/**
+ * Serving tiles for the deepest zoom level.
+ *
+ * The flat renditions stay exactly as they were: they are the instant-draw fallback, and the
+ * canvas keeps one of them on screen while tiles stream in. What changes is the TOP of the
+ * pyramid. A single 4800x6600 file could only reach quality 60 under DETAIL_MAX_BYTES, and a
+ * pan at street zoom had to download all of it before anything sharpened. Cut into 600 px
+ * squares the same level encodes at quality 75 for 1.47 MB TOTAL, of which a viewport needs
+ * roughly a dozen tiles (~0.3-0.45 MB) fetched in parallel and painted as they land.
+ *
+ * 600 px is the largest square that divides 4800x6600 exactly (gcd is 600) and it covers a
+ * round 150 m of world. Anything smaller only multiplies request count and per-file container
+ * overhead for the same pixels: 300 px would put ~40 tiles in a street-zoom viewport instead
+ * of ~12. `chooseServingTileEdge` re-derives it from the level, so a future capture at a finer
+ * METRES_PER_PIXEL picks its own legal edge instead of throwing.
+ *
+ * The top level is NOT upscaled past the capture. 4800x6600 is 0.25 m/px, which is the real
+ * resolution of the orthographic capture; a 9600 px level would be four times the bytes of
+ * lanczos-invented detail. Tiling removed the single-file ceiling, so the honest way to spend
+ * that headroom is encode quality at native scale. If genuinely more map detail is wanted, the
+ * lever is METRES_PER_PIXEL in the capture itself, and this tiler follows it automatically.
+ */
+const SERVING_TILE_TARGET_PIXELS = 600;
+// A land tile at quality 75 measures 28-38.5 KB and an ocean tile under 1 KB. These ceilings sit
+// ~1.6x above the measured worst case: wide enough for ordinary capture drift, narrow enough
+// that a tiling or quality mistake fails the bake instead of shipping.
+const SERVING_TILE_MAX_BYTES = 64_000;
+const TILED_LEVEL_MAX_BYTES = 2_250_000;
+const TILE_FILE_PATTERN = /^world-map-tile-[0-9]+-c[0-9]+-r[0-9]+\.webp$/;
+
+interface TiledLevelSpec {
+  id: string;
+  width: number;
+  height: number;
+  quality: number;
+}
+
+/** Largest first, like DETAIL_RENDITIONS. Only the native capture scale is tiled today. */
+const TILED_LEVELS: readonly TiledLevelSpec[] = [
+  { id: "tiled-4800", width: 4800, height: 0, quality: 75 },
+];
+
 interface RenditionSpec {
   id: string;
   role: "minimap" | "detail";
@@ -58,8 +100,15 @@ const MINIMAP_RENDITION: RenditionSpec = {
   id: "minimap",
   role: "minimap",
   file: "world-map-minimap.webp",
-  // 798 x 931 preserves the expanded island's 6:7 aspect exactly at the existing boot budget.
-  width: 798,
+  // 704 x 968 preserves the canonical image's aspect exactly at the existing boot budget.
+  // The wilderness expansion to z940 made the island taller, moving the canonical capture from
+  // 6:7 to 4800x6600 (8:11), so the old 798 no longer divides into an integer height and any legal
+  // width is now a multiple of 8. A taller map costs bytes: the minimap already encoded to 148,772
+  // of its 150,000 ceiling, and holding the previous 798x931 pixel count needs 159,876. Quality
+  // stays at 92 rather than absorbing that, so the width carries it — 704 encodes to 146,428,
+  // which is more headroom than the pre-expansion map had. The map covers twice the north-south
+  // extent, so metres per pixel coarsens either way; spending it on width keeps the encoder honest.
+  width: 704,
   height: 0,
   quality: 92,
   maxBytes: MINIMAP_MAX_BYTES,
@@ -126,6 +175,37 @@ interface MapRenditionMetadata {
   quality: number;
 }
 
+/** One serving tile: where it sits in the grid, what it covers, and exactly what was written. */
+interface MapTileMetadata {
+  column: number;
+  row: number;
+  path: string;
+  bytes: number;
+  sha256: string;
+  /** Source rect inside the level, in level pixels. Top-left origin, +y south. */
+  pixelBounds: { left: number; top: number; width: number; height: number };
+  /** World metres this tile covers. Column 0 is minX, row 0 is maxZ (north-up). */
+  imageBounds: MapBounds;
+}
+
+interface MapTiledLevelMetadata {
+  id: string;
+  role: "tiled";
+  format: "webp";
+  width: number;
+  height: number;
+  metresPerPixel: number;
+  tilePixels: number;
+  tileMetres: number;
+  columns: number;
+  rows: number;
+  quality: number;
+  tileCount: number;
+  bytes: number;
+  maxTileBytes: number;
+  tiles: MapTileMetadata[];
+}
+
 interface MapLayout {
   width: number;
   height: number;
@@ -154,6 +234,7 @@ export interface MapMetadata extends MapLayout {
   renditions: {
     minimap: MapRenditionMetadata;
     detail: MapRenditionMetadata[];
+    tiled: MapTiledLevelMetadata[];
   };
   layers: readonly ["terrain", "stamped-ground", "water", "buildings", "props", "trees", "grass", "entities"];
   overlays: "none";
@@ -212,13 +293,146 @@ function buildMapLayout(): MapLayout {
  * byte budget. Throws when a width cannot divide the canonical bounds into integer pixels.
  */
 function sizedRendition(layout: MapLayout, spec: RenditionSpec): RenditionSpec {
-  const height = (spec.width * layout.height) / layout.width;
+  return { ...spec, height: derivedHeight(layout, spec.width) };
+}
+
+function sizedTiledLevel(layout: MapLayout, spec: TiledLevelSpec): TiledLevelSpec {
+  return { ...spec, height: derivedHeight(layout, spec.width) };
+}
+
+function derivedHeight(layout: MapLayout, width: number): number {
+  const height = (width * layout.height) / layout.width;
   if (!Number.isInteger(height)) {
     throw new Error(
-      `Map rendition width ${spec.width} cannot render the ${layout.width}x${layout.height} canonical image at an integer height.`,
+      `Map rendition width ${width} cannot render the ${layout.width}x${layout.height} canonical image at an integer height.`,
     );
   }
-  return { ...spec, height };
+  return height;
+}
+
+function greatestCommonDivisor(a: number, b: number): number {
+  return b === 0 ? a : greatestCommonDivisor(b, a % b);
+}
+
+/**
+ * Largest square edge that divides the level exactly, preferring the one nearest the target.
+ * Exact division is not cosmetic: a ragged final column would give those tiles a different
+ * metres-per-pixel from the rest of the grid, and the viewport solver assumes a uniform stride.
+ */
+export function chooseServingTileEdge(
+  width: number,
+  height: number,
+  target = SERVING_TILE_TARGET_PIXELS,
+): number {
+  const limit = greatestCommonDivisor(width, height);
+  let best = 1;
+  for (let edge = 1; edge <= limit; edge += 1) {
+    if (limit % edge !== 0) continue;
+    const better = Math.abs(edge - target) - Math.abs(best - target);
+    if (better < 0 || (better === 0 && edge > best)) best = edge;
+  }
+  return best;
+}
+
+/**
+ * Cuts one pyramid level into serving tiles. The canonical capture is decoded to raw pixels once
+ * and every tile is extracted from that buffer, so an 88-tile grid costs one PNG decode rather
+ * than 88, and no tile is ever encoded from another tile's output.
+ */
+async function renderTiledLevel(
+  sourceImage: Buffer,
+  outputDir: string,
+  layout: MapLayout,
+  spec: TiledLevelSpec,
+): Promise<MapTiledLevelMetadata> {
+  const metresPerPixel = exactMetresPerPixel(layout, spec.width, spec.height);
+  const tilePixels = chooseServingTileEdge(spec.width, spec.height);
+  const columns = spec.width / tilePixels;
+  const rows = spec.height / tilePixels;
+  const resized = spec.width === layout.width && spec.height === layout.height
+    ? sharp(sourceImage)
+    : sharp(sourceImage).resize({
+      width: spec.width, height: spec.height, fit: "fill", kernel: "lanczos3",
+    });
+  const { data, info } = await resized.raw().toBuffer({ resolveWithObject: true });
+  const raw = { width: info.width, height: info.height, channels: info.channels };
+
+  const tiles: MapTileMetadata[] = [];
+  let bytes = 0;
+  let maxTileBytes = 0;
+  for (let row = 0; row < rows; row += 1) {
+    for (let column = 0; column < columns; column += 1) {
+      const left = column * tilePixels;
+      const top = row * tilePixels;
+      const tile = await sharp(data, { raw })
+        .extract({ left, top, width: tilePixels, height: tilePixels })
+        // Same encoder settings the monolithic top level used, at the higher quality the tile
+        // budget affords. "photo" with full chroma keeps coast and roof edges from fringing.
+        .webp({ quality: spec.quality, effort: 6, smartSubsample: false, preset: "photo" })
+        .toBuffer();
+      if (tile.byteLength > SERVING_TILE_MAX_BYTES) {
+        throw new Error(
+          `Map tile ${spec.id} c${column} r${row} is ${tile.byteLength} bytes; the per-tile budget `
+            + `is ${SERVING_TILE_MAX_BYTES} bytes. Review the capture before lowering tile quality.`,
+        );
+      }
+      const file = tileFileName(spec, column, row);
+      await writeFile(path.join(outputDir, file), tile);
+      bytes += tile.byteLength;
+      maxTileBytes = Math.max(maxTileBytes, tile.byteLength);
+      tiles.push({
+        column,
+        row,
+        path: `generated/${file}`,
+        bytes: tile.byteLength,
+        sha256: createHash("sha256").update(tile).digest("hex"),
+        pixelBounds: { left, top, width: tilePixels, height: tilePixels },
+        imageBounds: {
+          minX: layout.imageBounds.minX + left * metresPerPixel,
+          maxX: layout.imageBounds.minX + (left + tilePixels) * metresPerPixel,
+          minZ: layout.imageBounds.maxZ - (top + tilePixels) * metresPerPixel,
+          maxZ: layout.imageBounds.maxZ - top * metresPerPixel,
+        },
+      });
+    }
+  }
+  if (bytes > TILED_LEVEL_MAX_BYTES) {
+    throw new Error(
+      `Tiled level ${spec.id} totals ${bytes} bytes across ${tiles.length} tiles; its budget is `
+        + `${TILED_LEVEL_MAX_BYTES} bytes. Review the capture before lowering tile quality.`,
+    );
+  }
+  return {
+    id: spec.id,
+    role: "tiled",
+    format: "webp",
+    width: spec.width,
+    height: spec.height,
+    metresPerPixel,
+    tilePixels,
+    tileMetres: tilePixels * metresPerPixel,
+    columns,
+    rows,
+    quality: spec.quality,
+    tileCount: tiles.length,
+    bytes,
+    maxTileBytes,
+    tiles,
+  };
+}
+
+function tileFileName(spec: TiledLevelSpec, column: number, row: number): string {
+  const pad = (value: number): string => String(value).padStart(2, "0");
+  return `world-map-tile-${spec.width}-c${pad(column)}-r${pad(row)}.webp`;
+}
+
+/** A regrid leaves orphans behind; a stale tile that still 404s cleanly would be worse. */
+async function removeStaleTiles(outputDir: string, keep: ReadonlySet<string>): Promise<void> {
+  const existing = await readdir(outputDir).catch(() => [] as string[]);
+  for (const file of existing) {
+    if (!TILE_FILE_PATTERN.test(file) || keep.has(file)) continue;
+    await rm(path.join(outputDir, file), { force: true });
+  }
 }
 
 function exactMetresPerPixel(layout: MapLayout, width: number, height: number): number {
@@ -265,6 +479,45 @@ async function renderRendition(
   };
 }
 
+/**
+ * Runtime projection of the tile ledger. `world-map.json` keeps the full record, including every
+ * tile's pixel and world bounds; the browser only needs the grid plus per-tile identity and
+ * re-derives the bounds from the grid, so the bundle does not carry 88 redundant rectangles.
+ * The per-tile sha256 stays: it is the cache-busting query, and it is what makes a partially
+ * rewritten bake detectable instead of silently mixed.
+ */
+function tiledLevelSource(levels: readonly MapTiledLevelMetadata[]): string {
+  const newline = String.fromCharCode(10);
+  const body = levels.map((level) => {
+    const head: [string, string | number][] = [
+      ["id", level.id],
+      ["format", level.format],
+      ["width", level.width],
+      ["height", level.height],
+      ["metresPerPixel", level.metresPerPixel],
+      ["tilePixels", level.tilePixels],
+      ["tileMetres", level.tileMetres],
+      ["columns", level.columns],
+      ["rows", level.rows],
+      ["bytes", level.bytes],
+    ];
+    const fields = head
+      .map(([key, value]) => `    ${JSON.stringify(key)}: ${JSON.stringify(value)},`)
+      .join(newline);
+    const tiles = level.tiles
+      .map((tile) => `      ${JSON.stringify({
+        column: tile.column,
+        row: tile.row,
+        path: tile.path,
+        bytes: tile.bytes,
+        sha256: tile.sha256,
+      })},`)
+      .join(newline);
+    return [`  {`, fields, `    "tiles": [`, tiles, `    ],`, `  },`].join(newline);
+  }).join(newline);
+  return [`export const WORLD_MAP_TILED_LEVELS = [`, body, `] as const;`].join(newline);
+}
+
 async function writeWorldMapArtifacts(layout: MapLayout, sourceImage: Buffer): Promise<MapMetadata> {
   const imageInfo = await sharp(sourceImage).metadata();
   if (imageInfo.width !== layout.width || imageInfo.height !== layout.height) {
@@ -293,6 +546,16 @@ async function writeWorldMapArtifacts(layout: MapLayout, sourceImage: Buffer): P
       sourceImage, outputDir, layout, sizedRendition(layout, rendition),
     ));
   }
+  const tiled: MapTiledLevelMetadata[] = [];
+  for (const level of TILED_LEVELS) {
+    tiled.push(await renderTiledLevel(
+      sourceImage, outputDir, layout, sizedTiledLevel(layout, level),
+    ));
+  }
+  await removeStaleTiles(
+    outputDir,
+    new Set(tiled.flatMap((level) => level.tiles.map((tile) => path.posix.basename(tile.path)))),
+  );
 
   const sourceSha256 = createHash("sha256").update(sourceImage).digest("hex");
   const renderFingerprint = createHash("sha256")
@@ -301,7 +564,7 @@ async function writeWorldMapArtifacts(layout: MapLayout, sourceImage: Buffer): P
       sourceSha256,
       playableBounds: layout.playableBounds,
       imageBounds: layout.imageBounds,
-      renditions: { minimap, detail },
+      renditions: { minimap, detail, tiled },
     }))
     .digest("hex");
   const metadata: MapMetadata = {
@@ -321,7 +584,7 @@ async function writeWorldMapArtifacts(layout: MapLayout, sourceImage: Buffer): P
     // Kept for consumers of the v3 metadata. The source capture is still the canonical map image.
     sha256: sourceSha256,
     renderFingerprint,
-    renditions: { minimap, detail },
+    renditions: { minimap, detail, tiled },
     layers: ["terrain", "stamped-ground", "water", "buildings", "props", "trees", "grass", "entities"],
     overlays: "none",
   };
@@ -334,6 +597,7 @@ async function writeWorldMapArtifacts(layout: MapLayout, sourceImage: Buffer): P
     `export const WORLD_MAP_PLAYABLE_BOUNDS = ${JSON.stringify(layout.playableBounds)} as const;`,
     `export const WORLD_MAP_MINIMAP_RENDITION = ${JSON.stringify(minimap, null, 2)} as const;`,
     `export const WORLD_MAP_DETAIL_RENDITIONS = ${JSON.stringify(detail, null, 2)} as const;`,
+    tiledLevelSource(tiled),
     "",
   ].join("\n");
   await Promise.all([
@@ -507,6 +771,11 @@ if (import.meta.url === entry) {
     : await generateWorldMap();
   console.log(
     `${postprocessOnly ? "Postprocessed" : "Captured"} ${metadata.width}x${metadata.height} world map `
-      + `(${metadata.tiles.columns}x${metadata.tiles.rows} tiles; ${metadata.renditions.detail.length} detail levels).`,
+      + `(${metadata.tiles.columns}x${metadata.tiles.rows} capture tiles; `
+      + `${metadata.renditions.detail.length} flat levels; `
+      + metadata.renditions.tiled
+        .map((level) => `${level.id} ${level.columns}x${level.rows} @ ${level.tilePixels}px = ${level.bytes} B`)
+        .join(", ")
+      + ").",
   );
 }

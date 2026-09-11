@@ -27,7 +27,11 @@ describe('authored regional boss bodies', () => {
       const balance = REGIONAL_BOSS_LEVELS[id];
       expect(enemyCombatLevel(s.stats)).toBe(balance.tier * balance.multiplier);
       expect(s.assetId).toBe(`creature_${s.id}`);
-      expect(s.scale * tierSilhouetteScale(s.stats.tier)).toBeCloseTo(1, 8);
+      // The lab species must draw at the authored body scale once tier silhouette is divided back
+      // out, which is what fantasyEncounter hands the world. This used to pin the product to 1,
+      // which silently meant "every boss is authored at 1" — it stopped holding when Galeskin and
+      // Rootheart were drawn larger to get their briar_harrow stride under the cadence ceiling.
+      expect(s.scale * tierSilhouetteScale(s.stats.tier)).toBeCloseTo(REGIONAL_BOSS_BODIES[id].scale, 8);
     }
   });
 

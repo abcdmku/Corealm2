@@ -7,9 +7,15 @@ import { tierSilhouetteScale } from '../core/math.js';
 export const REGIONAL_BOSS_BODIES = {
   tempest_roc: { assetId: 'creature_boss_tempest_roc', scale: 1,
     description: 'A storm scarab with swept carapace shields, a crescent shovel cranium and inward-cutting stone mandibles.' },
-  galeskin: { assetId: 'creature_boss_galeskin', scale: 1,
+  // Galeskin and Rootheart are the only two bodies built on briar_harrow, whose run cycle covers
+  // 0.48 of its own height per stride where every other boss base covers 0.85 or more. A boss has
+  // to hold the shared 4.68 m/s run speed, so that short stride cycles its legs at 3.62 Hz, past
+  // the 3 Hz legibility ceiling in creatureMotionTiming. Drawing them larger lengthens the drawn
+  // stride by the same factor and is the only fix that does not re-author the rig; it also settles
+  // the oddity that both bosses rendered smaller than an ordinary 4.02 m mossback sentinel.
+  galeskin: { assetId: 'creature_boss_galeskin', scale: 1.35,
     description: 'A wind-stripped elder with a split timber mantle, one heavy root forearm and a hollow wind-cut head.' },
-  rootheart: { assetId: 'creature_boss_rootheart', scale: 1,
+  rootheart: { assetId: 'creature_boss_rootheart', scale: 1.35,
     description: 'A walking cathedral tree with a split hollow trunk, load-bearing bough arches and a recessed heart chamber.' },
   mossbound: { assetId: 'creature_boss_mossbound', scale: 1,
     description: 'A mature seed predator with interlocking woody pod valves, thick shoulder pods and an articulated root jaw.' },
@@ -38,6 +44,9 @@ export const REGIONAL_BOSS_SPECIES: readonly CreatureSpeciesDef[] = Object.entri
   const source = RPG_BESTIARY_BY_ID.get(sourceId)!;
   const { tier, multiplier } = REGIONAL_BOSS_LEVELS[id];
   const stats = tuneEnemyCombatLevel(source.stats, tier * multiplier, tier);
-  return { id: `boss_${id}`, ...body, scale: 1 / tierSilhouetteScale(tier), regionId, activity: 'patrol',
+  // The lab has to draw the body at the size the world draws it, or gait and silhouette are
+  // accepted against a scale that never ships. fantasyEncounter divides the same authored scale
+  // back out by tier silhouette, so this mirrors it rather than pinning every boss to 1.
+  return { id: `boss_${id}`, ...body, scale: body.scale / tierSilhouetteScale(tier), regionId, activity: 'patrol',
     stats: { ...stats, id: `boss_${id}_t${tier}`, family: `boss_${id}`, name, behaviour: 'territorial' } };
 });

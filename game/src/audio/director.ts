@@ -58,9 +58,9 @@ export function loopsForRegion(
  * aurochs both low, goats and ibex both bleat, coneys and rats both squeak, scorpions and crabs
  * both click. That is a deliberate saving of eleven recordings, not a gap.
  *
- * This map covers sixteen of the sixty-nine families in `content/enemies.ts`. The other fifty-three
- * are silent, and the previous version of this comment described that as "the two humanoid
- * families" — it named `reaver` and `quarrykeeper`, and `quarrykeeper` is the Quarry Warden.
+ * This map covers sixteen of the 116 families in `content/enemies.ts`. The other hundred are
+ * silent, and an earlier version of this comment described that as "the two humanoid families" —
+ * it named `reaver` and `quarrykeeper`, and `quarrykeeper` is the Quarry Warden.
  *
  * The real split, counted against content rather than asserted:
  *
@@ -74,9 +74,19 @@ export function loopsForRegion(
  *   the obvious ones. That is a listening judgement about whether the shared throat is convincing,
  *   and it has not been made, so nothing is guessed here. `runs/corealm-rebuild/SLICE-12-AUDIO.md`
  *   carries the full list as a decision item.
+ * - Nothing with a throat to record. The Deep Wilderness expansion added seventeen families — six
+ *   dragons (`baby_red_dragon`, `baby_black_dragon`, `baby_lava_dragon`, `red_wilderness_dragon`,
+ *   `black_wilderness_dragon`, `purple_wilderness_dragon`), six deep bodies (`cinderback_crag`,
+ *   `furnace_grazer`, `basalt_maw`, `rift_carapace`, `voidstone_colossus`, `gloam_wraith`) and the
+ *   five rune keepers (`ashseal_warden`, `furnace_regent`, `chainbound_archon`,
+ *   `nightforge_marshal`, `hollow_star`). Every bank on disk is a field recording of a real farm or
+ *   woodland animal, so there is nothing here to reuse: a dragon on `creature.bear_roar` is the
+ *   same class of mistake as the bird call that used to play under a cow being hit. These need a
+ *   recording, not a reassignment, and they stay silent until there is one.
  *
- * `tests/audioCatalog.test.ts` pins the voiced set against `content/enemies.ts`, so the count in
- * this comment cannot drift away from the roster again.
+ * `tests/audioCatalog.test.ts` names the voiced AND the voiceless set against
+ * `content/enemies.ts`, so neither this comment nor the policy can drift away from the roster: a
+ * new family has to be classified there before the suite goes green again.
  */
 const CREATURE_VOICE: Readonly<Record<string, AudioCueId>> = {
   hen: "creature.hen_cluck",

@@ -25,17 +25,17 @@ try {
     null, { timeout: 8000 });
   await page.evaluate(() => {
     const debug = window.__gameDebug as any;
-    debug.inspectPose({ x: -2, y: 1, z: -5, yaw: .4, pitch: .48, distance: 31, detached: true });
+    debug.inspectPose({ x: -2, y: debug.groundHeight(-2, 2), z: 2, yaw: .4, pitch: .6, distance: 11 });
   });
   await page.waitForTimeout(250);
   const first: WildernessEffectsState = await page.evaluate(() => (window as any).__wildernessEffects.getState());
   assert.equal(first.channels, 1);
   assert.equal(first.torches, 8);
   assert.equal(first.lightBudget, 6);
-  assert(first.liveParticles > 20 && first.crustPlates > 6 && first.bankRocks > 20);
-  assert(first.texturedStoneMeshes >= 3, 'The banks, plates and basalt must use production stone PBR maps');
+  assert(first.liveParticles > 20 && first.crustPlates === 0 && first.bankRocks > 0);
+  assert(first.texturedStoneMeshes >= 3, 'The banks, apron and basalt must use production stone PBR maps');
   assert(first.lights.some(light => light.kind === 'torch' && light.intensity > 0));
-  assert(first.lights.some(light => light.kind === 'lava' && light.intensity > 0));
+  assert(first.lights.every(light => light.kind !== 'lava'), 'Lava emits from its surface, with no point lights');
   await page.screenshot({ path: `${out}/lava-and-torches.png` });
   await page.waitForTimeout(700);
   const after: WildernessEffectsState = await page.evaluate(() => (window as any).__wildernessEffects.getState());
@@ -44,7 +44,7 @@ try {
   evidence.push({ first, after });
   await page.screenshot({ path: `${out}/lava-flow-later.png` });
   await page.evaluate(() => (window.__gameDebug as any).inspectPose({
-    x: -12, y: 1.5, z: 2, yaw: .62, pitch: .23, distance: 7.5, detached: true,
+    x: -12, y: (window.__gameDebug as any).groundHeight(-12, 4), z: 4, yaw: .62, pitch: .45, distance: 7.5,
   }));
   await page.waitForTimeout(150);
   await page.screenshot({ path: `${out}/brazier-light.png` });
@@ -59,7 +59,7 @@ try {
   await page.evaluate(() => (window as any).__wildernessEffects.setLightingEnabled(true));
   await page.evaluate(() => {
     window.__featureLab!.setWalkingEnabled(true);
-    (window.__gameDebug as any).inspectPose({ x: 28, y: 0, z: 16, yaw: 0, pitch: .3, distance: 12 });
+    (window.__gameDebug as any).inspectPose({ x: 28, y: (window.__gameDebug as any).groundHeight(28, 16), z: 16, yaw: 0, pitch: .3, distance: 11 });
   });
   const beforeWalk = await page.evaluate(() => window.__featureLab!.getState().playerPosition);
   await page.keyboard.down('w');

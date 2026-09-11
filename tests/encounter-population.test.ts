@@ -289,6 +289,17 @@ describe('expanded Wilderness population proposal', () => {
     }
   });
 
+  it('gives each open Wilderness resident room instead of a tightly packed crowd', () => {
+    for (const pack of DEEP_WILDERNESS_PACKS) {
+      const formed = deepWildernessPackFormation(pack);
+      const minimum = pack.siteId ? 6 : pack.speciesId.endsWith('_wilderness_dragon') || pack.speciesId === 'amethyst_dragon' ? 24 : 14;
+      expect(pack.count).toBe(7);
+      for (const [index, anchor] of formed.anchors.entries()) for (const other of formed.anchors.slice(index + 1)) {
+        expect(distance(anchor, other), pack.id).toBeGreaterThanOrEqual(minimum - 1e-6);
+      }
+    }
+  });
+
   it('fits inhabited structure courts and leaves their central through lanes open', () => {
     for (const pack of DEEP_WILDERNESS_PACKS.filter(pack => pack.siteId)) {
       const site = WILDERNESS_EXPANSION_SITES.find(site => site.id === pack.siteId)!;

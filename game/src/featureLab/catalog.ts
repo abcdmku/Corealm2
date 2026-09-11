@@ -19,7 +19,7 @@ import { ASH_CREATURE_REDESIGNS } from "../content/ashCreatureRedesigns.js";
 import { FOREST_CREATURE_REDESIGNS } from "../content/forestCreatureRedesigns.js";
 import { WILDERNESS_CREATURE_SPECIES } from '../content/wildernessCreatureSpecies.js';
 import { REGIONAL_BOSS_SPECIES } from '../content/regionalBossBodies.js';
-import { WILDERNESS_DRAGONS } from '../content/wildernessDragons.js';
+import { WILDERNESS_DRAGON_CANDIDATES } from '../content/wildernessDragons.js';
 import { WILDERNESS_LOOT_ITEMS } from '../content/wildernessLoot.js';
 import { WILDERNESS_RUNE_KEEPERS } from '../content/wildernessDepth.js';
 import { ALL_ITEMS } from "../content/items.js";
@@ -118,7 +118,7 @@ const CREATURE_SOURCES: readonly CreatureTargetSource[] = [...[...REGIONS, ...SO
 const TARGET_SOURCE_BY_KEY = new Map<string, TargetSource>();
 // Explicit candidate IDs are available to review tools without entering the normal catalogue.
 const REVIEW_CREATURES = new Map([...RPG_BESTIARY_REVIEW_BY_ID.values(), ...CREATURE_REDESIGNS, ...STONE_CREATURE_REDESIGNS, ...ASH_CREATURE_REDESIGNS, ...FOREST_CREATURE_REDESIGNS,
-  ...WILDERNESS_CREATURE_SPECIES, ...REGIONAL_BOSS_SPECIES, ...WILDERNESS_DRAGONS].map(species => [species.id, species]));
+  ...WILDERNESS_CREATURE_SPECIES, ...REGIONAL_BOSS_SPECIES, ...WILDERNESS_DRAGON_CANDIDATES].map(species => [species.id, species]));
 const REVIEW_KEEPERS = new Set<string>(WILDERNESS_RUNE_KEEPERS.map(keeper => keeper.id));
 const STAGED_SOURCES: readonly CreatureTargetSource[] = [...REVIEW_CREATURES.values()].map((species) => ({
   kind: "creature",

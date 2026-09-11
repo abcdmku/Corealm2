@@ -1,3 +1,4 @@
+import { wildernessTierAt } from "../content/wildernessDepth.js";
 import { TREE_SPECIES, treeAssetIds, treeSpeciesForAsset, treeEncounterWeight, type TreeSpeciesId } from "../content/treeSpecies.js";
 /**
  * Deterministic ecological dressing around authored sites. Generate stable candidates on the
@@ -677,6 +678,8 @@ export interface ScatterLayerSpec {
   shore?: ScatterShoreSpec;
   /** Optional absolute altitude band, in metres. */
   heightRange?: [number, number];
+  /** Individual Wilderness timber favours the local tier while retaining occasional trees of the other tier. */
+  wildernessTimber?: boolean;
 }
 
 export interface RegionScatterSpec {
@@ -2077,7 +2080,13 @@ async function collectField(
       if (out.length >= fieldLimit) break;
       const factor = siteFactor(layer, ctx, x, z, "field", true) * maskAt(x, z);
       if (factor <= 0 || rng.next() > factor) { result.rejected += 1; continue; }
-      const entry = pickSpecies(species, "field", rng);
+      const pool = layer.wildernessTimber
+        ? species.map(entry => ({
+          ...entry,
+          weight: entry.weight * (treeSpeciesForAsset(entry.assetId)?.level === wildernessTierAt(z) ? 4 : 1),
+        }))
+        : species;
+      const entry = pickSpecies(pool, "field", rng);
       if (!entry) break;
       out.push({ x, z, source: "field", species: entry });
       if ((pointIndex + 1) % 128 === 0) await yieldToMain?.();
@@ -3056,9 +3065,17 @@ export const DEFAULT_SCATTER: Record<RegionId, RegionScatterSpec> = {
   gravelmaw: { regionId: "gravelmaw", layers: [] },
   wilderness: { regionId: "wilderness", layers: [
     {
+      // Solitary trees use the ordinary Poisson field, never the cluster generator.
+      id: "wandering_timber", wildernessTimber: true,
+      assetIds: ["corealm_teak_lastroot", "corealm_teak_embershelter", "corealm_magic_starwood", "corealm_magic_moonvein"],
+      spacing: 52, maxCount: 180, scale: [.78, 1.05], sizeBias: 1.3,
+      tilt: 0, castShadow: true, mirror: true,
+      exclusion: TREE_EXCLUSION, terrain: { slopeMax: .45 },
+    },
+    {
       id: "petrified_deadwood",
       species: [{ assetId: "corealm_deadwood_hollow", weight: 3 }, { assetId: "corealm_deadwood_claw", weight: 4 },
-        { assetId: "corealm_deadwood_crown", weight: 3 }, { assetId: "corealm_deadwood_1", weight: 1 }, { assetId: "corealm_deadwood_2", weight: 1 }],
+        { assetId: "corealm_deadwood_crown", weight: 3 }, { assetId: "corealm_deadwood_hollow", weight: 1 }, { assetId: "corealm_deadwood_claw", weight: 1 }],
       maxCount: 720, scale: [.65, 1.2], sizeBias: 1.25, tilt: .035, castShadow: true, mirror: true,
       exclusion: TREE_EXCLUSION, terrain: { slopeMax: .55 },
       cluster: { spacing: 27, radius: [10, 24], memberSpacing: 8.5, accept: .9, falloff: .65, dominance: .4 },

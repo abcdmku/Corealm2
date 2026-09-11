@@ -1,7 +1,7 @@
 [
   {
     "id": "creature_baby_red_dragon",
-    "sha256": "d83ddce64e6027093730042fac0d3afb7eaec73c5b79a27879faa0fa274b6e20",
+    "sha256": "985c3848985ad424a355d083a7ca08d1286aaab35b99cf993604311fbd2f93f1",
     "provenance": {
       "author": "Dungeon Mason; Corealm juvenile anatomy and fissure authoring",
       "license": "Standard Unity Asset Store EULA",
@@ -31,42 +31,42 @@
     },
     "measurement": {
       "size": {
-        "x": 1.775421285338363,
-        "y": 1.3583771851580204,
-        "z": 1.9597260566161783
+        "x": 1.9411273480909257,
+        "y": 1.3583771724425642,
+        "z": 2.303843156349105
       },
       "base": {
-        "x": -0.8939897998906037,
-        "y": 0.003,
-        "z": -1.39698271252256
+        "x": -0.977428913932523,
+        "y": 0.0030000000000000005,
+        "z": -1.6975659187507102
       },
       "animatedMin": [
-        -1.4491590519455024,
-        0.002999999999999989,
-        -1.536640821920534
+        -1.6389618841158606,
+        0.002999999999999999,
+        -1.7927860865731358
       ],
       "animatedMax": [
-        2.0593023657993044,
-        1.7855833810694852,
-        1.0398707166146786
+        2.3529926527585294,
+        1.858511964964405,
+        1.0677297013674454
       ],
-      "locomotionRadius": 1.7568283531024174,
-      "fullMotionRadius": 2.5694340328911394,
+      "locomotionRadius": 2.0258896758482,
+      "fullMotionRadius": 2.9581508372876866,
       "clips": {
         "Idle": {
           "seconds": 1.0133333206176758,
           "samples": 62,
           "min": [
-            -0.9444165278762369,
-            0.002999999999999999,
-            -1.4420266807811295
+            -1.0385930797123553,
+            0.0029999999999999996,
+            -1.7394117952577905
           ],
           "max": [
-            0.9144147130106913,
-            1.3613772233944998,
-            0.5891720530686285
+            1.00288141281746,
+            1.3613772130252535,
+            0.6393481374805737
           ],
-          "maximumLift": 0.016065373721755018,
+          "maximumLift": 0.007105969153236385,
           "maximumDrop": 0,
           "stanceSamples": 0,
           "impliedMps": 0
@@ -75,109 +75,109 @@
           "seconds": 1.0133333206176758,
           "samples": 62,
           "min": [
-            -0.8927090755473008,
-            0.002999999999999999,
-            -1.481392346456112
+            -0.9762293015737646,
+            0.0029999999999999996,
+            -1.7302378371276699
           ],
           "max": [
-            0.8196438964938649,
-            1.218914503193439,
-            0.7044778862527254
+            0.8941887621806297,
+            1.2172012545075068,
+            0.7400123451329482
           ],
-          "maximumLift": 0.01483725362410029,
+          "maximumLift": 0.007466630714792001,
           "maximumDrop": 0,
-          "stanceSamples": 143,
-          "impliedMps": 0.4118954596156388
+          "stanceSamples": 177,
+          "impliedMps": 0.42013416224308875
         },
         "Run": {
           "seconds": 0.6282666325569153,
           "samples": 39,
           "min": [
-            -0.8927271448115611,
-            0.002999999999999999,
-            -1.481392346456112
+            -0.9760545425039776,
+            0.0029999999999999996,
+            -1.7302378371276699
           ],
           "max": [
-            0.8194646971160545,
-            1.2189288967836318,
-            0.7045078448024404
+            0.8943661139943937,
+            1.2171323148556752,
+            0.7400173630994566
           ],
-          "maximumLift": 0.01483725362410029,
+          "maximumLift": 0.007475956781281009,
           "maximumDrop": 0,
-          "stanceSamples": 91,
-          "impliedMps": 0.6589392718552778
+          "stanceSamples": 111,
+          "impliedMps": 0.6812870723360909
         },
         "Attack": {
           "seconds": 0.7599999904632568,
           "samples": 47,
           "min": [
-            -1.0539254255249366,
-            0.0029999999999999957,
-            -1.536640821920534
+            -1.154687551787041,
+            0.002999999999999999,
+            -1.7927860865731358
           ],
           "max": [
-            0.983122974188207,
-            1.3703211330545342,
-            1.0398707166146786
+            1.0673629303993728,
+            1.378632192962311,
+            1.0677297013674454
           ],
-          "maximumLift": 0.06520014438563747,
+          "maximumLift": 0.07925027376065168,
           "maximumDrop": 0,
-          "stanceSamples": 24,
-          "impliedMps": 4.391603229355523
+          "stanceSamples": 18,
+          "impliedMps": 4.448586921593057
         },
         "Hit": {
           "seconds": 1.0133333206176758,
           "samples": 62,
           "min": [
-            -1.2848102751437775,
+            -1.4498304080561115,
             0.002999999999999999,
-            -1.4431492643891173
+            -1.7323935173870932
           ],
           "max": [
-            1.1960145084196137,
-            1.419351551003412,
-            0.9114926013774285
+            1.348883497743741,
+            1.432420828027176,
+            0.9380509546611052
           ],
-          "maximumLift": 0.0175489978723995,
+          "maximumLift": 0.059444924647925335,
           "maximumDrop": 0,
           "stanceSamples": 192,
-          "impliedMps": 0.157058909573502
+          "impliedMps": 0.2555865749724795
         },
         "Death": {
           "seconds": 1.1399999856948853,
           "samples": 70,
           "min": [
-            -1.4447905170000037,
-            0.002999999999999989,
-            -1.4735662786166916
+            -1.5348375028576398,
+            0.002999999999999999,
+            -1.7604549166659151
           ],
           "max": [
-            2.0593023657993044,
-            1.7855833810694852,
-            0.7982124489612029
+            2.3529926527585294,
+            1.858511964964405,
+            0.8216107089163933
           ],
-          "maximumLift": 0.1596905084547167,
+          "maximumLift": 0.24361007377140453,
           "maximumDrop": 0,
-          "stanceSamples": 109,
-          "impliedMps": 0.9158914250589079
+          "stanceSamples": 70,
+          "impliedMps": 0.8709922760986721
         },
         "Breath": {
           "seconds": 1.7733333110809326,
           "samples": 108,
           "min": [
-            -1.4491590519455024,
+            -1.6389618841158606,
             0.002999999999999999,
-            -1.480616178271731
+            -1.7629442502249377
           ],
           "max": [
-            1.3196878194500294,
-            1.422985862683064,
-            0.8531104055093472
+            1.5014512259241026,
+            1.5148890243425979,
+            0.8714218021620528
           ],
-          "maximumLift": 0.02099081887550421,
+          "maximumLift": 0.008684784627664626,
           "maximumDrop": 0,
-          "stanceSamples": 147,
-          "impliedMps": 0.34078001952045023
+          "stanceSamples": 138,
+          "impliedMps": 0.37998642946107886
         }
       },
       "attackContact": 0.5043859712414905,
@@ -186,7 +186,7 @@
   },
   {
     "id": "creature_baby_black_dragon",
-    "sha256": "2dce69e42f6a2076dd0fd0d88dbf8aae726839574d2fd1b8b97ec448bfba080a",
+    "sha256": "7b2530f8c88037337efa786459f00dcbe09df17508a3a93d2ecc8ff0158514db",
     "provenance": {
       "author": "Dungeon Mason; Corealm juvenile anatomy and fissure authoring",
       "license": "Standard Unity Asset Store EULA",
@@ -210,6 +210,7 @@
         "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Albedo.png",
         "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Normal.png",
         "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/AO.png",
+        "albedoGrade": null,
         "fissures": null
       }
     },
@@ -370,77 +371,77 @@
   },
   {
     "id": "creature_baby_lava_dragon",
-    "sha256": "63b59a617f90a3cfbac598a1862e4fa51cd4e8e6f654f93afbe0850b28dd8601",
+    "sha256": "3a7b6874d181ed727a3032924d4e64cf3da61b2e8da5a642fa5ef0d65dac432b",
     "provenance": {
       "author": "Dungeon Mason; Corealm juvenile anatomy and fissure authoring",
       "license": "Standard Unity Asset Store EULA",
       "archiveSha256": "01b15c6e6ac1339acc40e653924691583cbf44303397878ae7f79a59112b7383",
-      "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonSoulEaterMesh.fbx",
+      "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonTerrorBringerMesh.fbx",
       "sourceAnimations": {
-        "Idle": "Idle",
-        "Walk": "Walk",
+        "Idle": "idle01",
+        "Walk": "walk",
         "Run": "Run",
         "Attack": "Basic Attack",
-        "Hit": "Get Hit",
-        "Death": "Die",
-        "Breath": "Fireball Shoot"
+        "Hit": "GetHit",
+        "Death": "die",
+        "Breath": "Flame Attack"
       },
       "generator": "tools/wilderness-dragons/build.mjs",
       "juvenile": true,
-      "sculptedVertices": 11592,
-      "nativeScale": 0.32,
+      "sculptedVertices": 14058,
+      "nativeScale": 0.25,
       "animationTempo": 0.79,
       "textures": {
-        "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonSoulEater/Red/Albedo.png",
-        "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonSoulEater/Red/Normal.png",
-        "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonSoulEater/Red/AO.png",
-        "albedoGrade": "Warm basalt grey midtones derived from native luminance; full diffuse factor and reduced fissure emission.",
+        "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/ForSP_lambert1_AlbedoTransparency.png",
+        "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/ForSP_lambert1_Normal.png",
+        "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/Ambient Occlusion Map from Mesh lambert1.png",
+        "albedoGrade": "Burgundy skin midtones; native grain and pale membrane/claw islands retained.",
         "fissures": {
           "file": "assets/art/wilderness-dragons/baby_lava_dragon-fissures.png",
-          "coveredPixels": 708015,
-          "litPixels": 7104,
-          "litFraction": 0.01003368572699731
+          "coveredPixels": 660076,
+          "litPixels": 2601,
+          "litFraction": 0.00394045534150613
         }
       }
     },
     "measurement": {
       "size": {
-        "x": 1.2926246101406593,
-        "y": 1.2237102293658941,
-        "z": 2.4421383773642225
+        "x": 1.9411273480909257,
+        "y": 1.3583771724425642,
+        "z": 2.303843156349105
       },
       "base": {
-        "x": -0.6463268815110721,
-        "y": 0.003,
-        "z": -1.494157438963213
+        "x": -0.977428913932523,
+        "y": 0.0030000000000000005,
+        "z": -1.6975659187507102
       },
       "animatedMin": [
-        -1.2959152012414483,
-        0.002999999999999999,
-        -1.5796231927270972
+        -1.6391941751846228,
+        0.002999999999999989,
+        -1.7927925510888125
       ],
       "animatedMax": [
-        1.3277905587410483,
-        1.858361130889501,
-        1.1952418465411394
+        2.351451769504191,
+        1.860963408965965,
+        1.0654624416926255
       ],
-      "locomotionRadius": 1.8607588629233585,
-      "fullMotionRadius": 2.0635496599023764,
+      "locomotionRadius": 2.02592079578764,
+      "fullMotionRadius": 2.9569292442572785,
       "clips": {
         "Idle": {
           "seconds": 1.0533334016799927,
           "samples": 65,
           "min": [
-            -0.6801591693024819,
-            0.002999999999999999,
-            -1.494157439018267
+            -1.038507831622277,
+            0.0029999999999999996,
+            -1.7394989377588077
           ],
           "max": [
-            0.7038586281096034,
-            1.2267102494433013,
-            0.9479809435951059
+            1.0029030344233676,
+            1.3613772130252535,
+            0.6393156857345941
           ],
-          "maximumLift": 0.009537634940061145,
+          "maximumLift": 0.0071071298200966,
           "maximumDrop": 0,
           "stanceSamples": 0,
           "impliedMps": 0
@@ -449,118 +450,118 @@
           "seconds": 1.0533334016799927,
           "samples": 65,
           "min": [
-            -0.7620088511399894,
-            0.002999999999999999,
-            -1.512604792604864
+            -0.9762020948977821,
+            0.0029999999999999996,
+            -1.7302378371276699
           ],
           "max": [
-            0.722399963183844,
-            1.152632720484876,
-            1.01385571620226
+            0.8942366650069484,
+            1.2172757435786563,
+            0.7400177270084726
           ],
-          "maximumLift": 0.028666874344893352,
+          "maximumLift": 0.007477468587275957,
           "maximumDrop": 0,
-          "stanceSamples": 78,
-          "impliedMps": 0.5640245719241999
+          "stanceSamples": 186,
+          "impliedMps": 0.4028634177025836
         },
         "Run": {
-          "seconds": 1.0533334016799927,
-          "samples": 65,
+          "seconds": 0.6530666947364807,
+          "samples": 41,
           "min": [
-            -0.9686687985637947,
-            0.002999999999999999,
-            -1.5696378538941862
+            -0.9761395302101409,
+            0.0029999999999999996,
+            -1.7302378371276699
           ],
           "max": [
-            0.9993300523702281,
-            1.4013829546385423,
-            1.0438653193670864
+            0.8942366637486578,
+            1.217251653591254,
+            0.7399946036108797
           ],
-          "maximumLift": 0.04061892352165884,
+          "maximumLift": 0.007476482059478985,
           "maximumDrop": 0,
-          "stanceSamples": 63,
-          "impliedMps": 1.222937183989835
+          "stanceSamples": 117,
+          "impliedMps": 0.6422066708386587
         },
         "Attack": {
           "seconds": 0.7900000214576721,
           "samples": 49,
           "min": [
-            -1.1774389623206725,
+            -1.1551840251608765,
             0.002999999999999999,
-            -1.5796231927270972
+            -1.7927925510888125
           ],
           "max": [
-            1.0330352979984243,
-            1.257141562086282,
-            1.036671638442232
+            1.067716094728323,
+            1.3786291567388667,
+            1.0654624416926255
           ],
-          "maximumLift": 0.09657668853269911,
+          "maximumLift": 0.08073863059744836,
           "maximumDrop": 0,
-          "stanceSamples": 16,
-          "impliedMps": 1.6430965326465985
+          "stanceSamples": 18,
+          "impliedMps": 4.346634821215223
         },
         "Hit": {
           "seconds": 1.0533334016799927,
           "samples": 65,
           "min": [
-            -1.2083381044497608,
+            -1.4511871471632083,
             0.002999999999999999,
-            -1.5198775688502861
+            -1.7328592714004305
           ],
           "max": [
-            1.231361509075335,
-            1.3589138074061036,
-            1.0860047930047598
+            1.3500760097683395,
+            1.4319845516696896,
+            0.9377151101833546
           ],
-          "maximumLift": 0.15619765624896487,
+          "maximumLift": 0.05962029317345058,
           "maximumDrop": 0,
-          "stanceSamples": 26,
-          "impliedMps": 0.7962460062529408
+          "stanceSamples": 198,
+          "impliedMps": 0.22600066666724317
         },
         "Death": {
           "seconds": 1.184999942779541,
           "samples": 73,
           "min": [
-            -1.0633269694953293,
-            0.002999999999999999,
-            -1.4755496128224517
+            -1.5348375028576398,
+            0.002999999999999989,
+            -1.7599256755417387
           ],
           "max": [
-            1.3277905587410483,
-            1.858361130889501,
-            0.9533856573773358
+            2.351451769504191,
+            1.860963408965965,
+            0.821568076548389
           ],
-          "maximumLift": 0.1600694995870409,
+          "maximumLift": 0.24170200138106224,
           "maximumDrop": 0,
-          "stanceSamples": 21,
-          "impliedMps": 0.3184689947982522
+          "stanceSamples": 75,
+          "impliedMps": 0.8348905912877047
         },
         "Breath": {
-          "seconds": 0.7900000214576721,
-          "samples": 49,
+          "seconds": 1.8433332443237305,
+          "samples": 112,
           "min": [
-            -1.2959152012414483,
+            -1.6391941751846228,
             0.002999999999999999,
-            -1.5138140583798245
+            -1.7635191580051957
           ],
           "max": [
-            1.2735814779614636,
-            1.5718799070572482,
-            1.1952418465411394
+            1.5027247068991696,
+            1.5140233009079183,
+            0.8713861216296517
           ],
-          "maximumLift": 0.04873639717089277,
+          "maximumLift": 0.008650396776202555,
           "maximumDrop": 0,
-          "stanceSamples": 2,
-          "impliedMps": 6.613966022998932
+          "stanceSamples": 144,
+          "impliedMps": 0.3861623060183428
         }
       },
-      "attackContact": 0.6329113752141712,
+      "attackContact": 0.5063291001713369,
       "grounding": "Actual skinned geometry at 60 Hz; per-clip root clearance is 3 mm."
     }
   },
   {
     "id": "creature_red_wilderness_dragon",
-    "sha256": "5f93b158fc655c3388653295c4594749d507c8a485a7b1e56e06ea183190c461",
+    "sha256": "8c4a2a1c830fdc0723d7620298344459e6ccd9897ce5488ecfc921d5e48876d1",
     "provenance": {
       "author": "Dungeon Mason; Corealm juvenile anatomy and fissure authoring",
       "license": "Standard Unity Asset Store EULA",
@@ -590,42 +591,42 @@
     },
     "measurement": {
       "size": {
-        "x": 5.586659341360475,
-        "y": 3.365314657180091,
-        "z": 5.9782780199338665
+        "x": 4.804526965863634,
+        "y": 3.36531455541523,
+        "z": 6.695671111288273
       },
       "base": {
-        "x": -2.8130880703175243,
-        "y": 0.0030000000000000005,
-        "z": -4.431881333234373
+        "x": -2.419255662570315,
+        "y": 0.003,
+        "z": -4.963706748789274
       },
       "animatedMin": [
-        -4.495203433739318,
-        0.0029999999999999957,
-        -4.678756495776568
+        -4.444487011460006,
+        0.002999999999999989,
+        -5.160701451288572
       ],
       "animatedMax": [
-        5.987353163113845,
-        5.507059729037308,
-        2.715098097066484
+        6.288872662464776,
+        5.569393377741696,
+        2.8455969237204832
       ],
-      "locomotionRadius": 5.352171877931126,
-      "fullMotionRadius": 7.598628839903999,
+      "locomotionRadius": 5.6265646711227895,
+      "fullMotionRadius": 8.135278657429552,
       "clips": {
         "Idle": {
           "seconds": 1.493333339691162,
           "samples": 91,
           "min": [
-            -2.8130884891716335,
+            -2.419255662570315,
             0.0029999999999999996,
-            -4.544349275800948
+            -5.072339790548538
           ],
           "max": [
-            2.7737174492814654,
-            3.3683147589229323,
-            1.5645415925699642
+            2.385271303293318,
+            3.3683146626761986,
+            1.7424418723510233
           ],
-          "maximumLift": 0.005901117663897353,
+          "maximumLift": 0.00590111499599912,
           "maximumDrop": 0,
           "stanceSamples": 0,
           "impliedMps": 0
@@ -634,109 +635,109 @@
           "seconds": 1.493333339691162,
           "samples": 91,
           "min": [
-            -2.827478288235684,
-            0.0029999999999999996,
-            -4.516724091938013
+            -2.4350768052661325,
+            0.002999999999999999,
+            -4.977733066212266
           ],
           "max": [
-            2.7206818413272975,
-            3.022798330200372,
-            1.9012518362857784
+            2.338455440891364,
+            3.0781276959636537,
+            2.0588030061899643
           ],
-          "maximumLift": 0.005886939558044578,
+          "maximumLift": 0.03824117758392022,
           "maximumDrop": 0,
           "stanceSamples": 261,
-          "impliedMps": 0.7712204493651509
+          "impliedMps": 0.7954220988035354
         },
         "Run": {
           "seconds": 1.0154666900634766,
           "samples": 62,
           "min": [
-            -2.827478288235684,
-            0.0029999999999999996,
-            -4.516724091938013
+            -2.4350768052661325,
+            0.002999999999999999,
+            -4.977733066212266
           ],
           "max": [
-            2.7205905388407654,
-            3.020705752004097,
-            1.9012518362857784
+            2.3384212068139307,
+            3.0767012345208475,
+            2.0588030061899643
           ],
-          "maximumLift": 0.005896412649230366,
+          "maximumLift": 0.038211171284113624,
           "maximumDrop": 0,
-          "stanceSamples": 177,
-          "impliedMps": 1.1352385432186463
+          "stanceSamples": 180,
+          "impliedMps": 1.1683554722749934
         },
         "Attack": {
           "seconds": 1.1200000047683716,
           "samples": 69,
           "min": [
-            -3.0232956557200708,
+            -2.7078583394795586,
             0.002999999999999999,
-            -4.678756495776568
+            -5.160701451288572
           ],
           "max": [
-            2.9654106480803035,
-            3.8292285125834815,
-            2.715098097066484
+            2.6374278694777553,
+            3.869518641289894,
+            2.8455969237204832
           ],
-          "maximumLift": 0.19451136214874218,
+          "maximumLift": 0.22789535942699515,
           "maximumDrop": 0,
-          "stanceSamples": 12,
-          "impliedMps": 8.37339330324648
+          "stanceSamples": 24,
+          "impliedMps": 4.717125294858895
         },
         "Hit": {
           "seconds": 1.493333339691162,
           "samples": 91,
           "min": [
-            -4.170452427615131,
-            0.0029999999999999996,
-            -4.5210800978519305
+            -4.0536002257031445,
+            0.002999999999999999,
+            -5.044173524525235
           ],
           "max": [
-            3.8881689953709864,
-            3.589652303371857,
-            2.2717301726957375
+            3.7311752680799746,
+            3.652627784920903,
+            2.384018344797739
           ],
-          "maximumLift": 0.008697866602664299,
+          "maximumLift": 0.02547479265568457,
           "maximumDrop": 0,
-          "stanceSamples": 0,
-          "impliedMps": 0
+          "stanceSamples": 39,
+          "impliedMps": 0.8106405663044702
         },
         "Death": {
           "seconds": 1.6799999475479126,
           "samples": 102,
           "min": [
-            -4.465040277531436,
-            0.0029999999999999957,
-            -4.598476265838872
+            -4.383997051267284,
+            0.002999999999999989,
+            -5.116074422895963
           ],
           "max": [
-            5.987353163113845,
-            5.507059729037308,
-            2.2186968225882073
+            6.288872662464776,
+            5.569393377741696,
+            2.351384669576876
           ],
-          "maximumLift": 0.32529972925490547,
+          "maximumLift": 0.3682452091638785,
           "maximumDrop": 0,
-          "stanceSamples": 126,
-          "impliedMps": 1.4926484427520492
+          "stanceSamples": 31,
+          "impliedMps": 1.3676702250234563
         },
         "Breath": {
           "seconds": 2.613333225250244,
           "samples": 158,
           "min": [
-            -4.495203433739318,
+            -4.444487011460006,
             0.002999999999999999,
-            -4.609106629978541
+            -5.122353902298547
           ],
           "max": [
-            4.192057155568585,
-            3.8856121163391326,
-            2.239017444101134
+            4.095308469745092,
+            4.071241629303964,
+            2.345393295116773
           ],
-          "maximumLift": 0.008121150416898747,
+          "maximumLift": 0.023390299329906696,
           "maximumDrop": 0,
-          "stanceSamples": 25,
-          "impliedMps": 1.157654778383086
+          "stanceSamples": 126,
+          "impliedMps": 0.2843290353356531
         }
       },
       "attackContact": 0.5059523787983016,
@@ -769,6 +770,7 @@
         "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Albedo.png",
         "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Normal.png",
         "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/AO.png",
+        "albedoGrade": null,
         "fissures": null
       }
     },
@@ -929,78 +931,78 @@
   },
   {
     "id": "creature_purple_wilderness_dragon",
-    "sha256": "2b8f9569cdce00993e9de046f770d3bead32e683d52f15763a8cfa4c378d04b3",
+    "sha256": "7a533b8765632aeff027bb76fa085f9a35d79bb39c4261ab61cc6ec2ed307186",
     "provenance": {
       "author": "Dungeon Mason; Corealm juvenile anatomy and fissure authoring",
       "license": "Standard Unity Asset Store EULA",
       "archiveSha256": "01b15c6e6ac1339acc40e653924691583cbf44303397878ae7f79a59112b7383",
-      "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonSoulEaterMesh.fbx",
+      "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonTerrorBringerMesh.fbx",
       "sourceAnimations": {
-        "Idle": "Idle",
-        "Walk": "Walk",
+        "Idle": "idle01",
+        "Walk": "walk",
         "Run": "Run",
         "Attack": "Basic Attack",
-        "Hit": "Get Hit",
-        "Death": "Die",
-        "Breath": "Fireball Shoot"
+        "Hit": "GetHit",
+        "Death": "die",
+        "Breath": "Flame Attack"
       },
       "generator": "tools/wilderness-dragons/build.mjs",
       "juvenile": false,
-      "sculptedVertices": 11592,
-      "nativeScale": 0.75,
+      "sculptedVertices": 14058,
+      "nativeScale": 0.59,
       "animationTempo": 1.08,
       "textures": {
-        "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonSoulEater/purple/Albedo.png",
-        "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonSoulEater/purple/Normal.png",
-        "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonSoulEater/purple/AO.png",
-        "albedoGrade": "Muted violet slate midtones derived from native luminance; reduced fissure emission.",
+        "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Grey/ForSP_lambert1_AlbedoTransparency.png",
+        "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Grey/ForSP_lambert1_Normal.png",
+        "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Grey/Ambient Occlusion Map from Mesh lambert1.png",
+        "albedoGrade": "Burgundy skin midtones; native grain and pale membrane/claw islands retained.",
         "fissures": {
           "file": "assets/art/wilderness-dragons/purple_wilderness_dragon-fissures.png",
-          "coveredPixels": 708015,
-          "litPixels": 2769,
-          "litFraction": 0.003910934090379441
+          "coveredPixels": 660076,
+          "litPixels": 1721,
+          "litFraction": 0.002607275525848539
         }
       }
     },
     "measurement": {
       "size": {
-        "x": 4.7988181232767175,
-        "y": 3.1908811695338883,
-        "z": 7.177341660377673
+        "x": 4.022394807815929,
+        "y": 3.3653147077697287,
+        "z": 7.4130646006153995
       },
       "base": {
-        "x": -2.43276150725851,
-        "y": 0.002999999999999999,
-        "z": -4.620487742210937
+        "x": -2.02542340760412,
+        "y": 0.003,
+        "z": -5.495532617439226
       },
       "animatedMin": [
-        -3.375879864288991,
-        0.0029999999999999957,
-        -4.813110727967608
+        -4.395570963673606,
+        0.002999999999999999,
+        -5.646126769846421
       ],
       "animatedMax": [
-        3.679937612560138,
-        4.7924653738920595,
-        3.135040310708905
+        6.591832618043162,
+        5.63840594683767,
+        2.9684080700005357
       ],
-      "locomotionRadius": 5.521421076844568,
-      "fullMotionRadius": 6.058710730181107,
+      "locomotionRadius": 5.964302655420335,
+      "fullMotionRadius": 8.679343567659604,
       "clips": {
         "Idle": {
           "seconds": 1.440000057220459,
           "samples": 88,
           "min": [
-            -2.455222859891454,
-            0.002999999999999999,
-            -4.620487742772575
+            -2.02542340760412,
+            0.0029999999999999996,
+            -5.600336727782069
           ],
           "max": [
-            2.3670092531285682,
-            3.1938812225703606,
-            2.5568539367109
+            1.996971400211809,
+            3.394742087122193,
+            1.9224501985958091
           ],
-          "maximumLift": 0.020507318820926226,
-          "maximumDrop": 0,
+          "maximumLift": 0.005901112428220642,
+          "maximumDrop": -0.0003687251932599626,
           "stanceSamples": 0,
           "impliedMps": 0
         },
@@ -1008,112 +1010,297 @@
           "seconds": 1.440000057220459,
           "samples": 88,
           "min": [
-            -2.0525488048999847,
+            -2.051617581546153,
             0.002999999999999999,
-            -4.641235422566582
+            -5.441770623098532
           ],
           "max": [
-            1.9892937632600896,
-            3.885545799233458,
-            2.742752049412795
+            1.9603399367955676,
+            3.133735308454366,
+            2.2178211752477437
           ],
-          "maximumLift": 0.034120861253120256,
+          "maximumLift": 0.071506934734301,
           "maximumDrop": 0,
-          "stanceSamples": 106,
-          "impliedMps": 1.0867463201733951
+          "stanceSamples": 255,
+          "impliedMps": 0.8454923364513744
         },
         "Run": {
-          "seconds": 1.440000057220459,
-          "samples": 88,
+          "seconds": 0.9792000651359558,
+          "samples": 60,
           "min": [
-            -2.557772077594206,
+            -2.051617581546153,
             0.002999999999999999,
-            -4.8050899138559995
+            -5.441137535585437
           ],
           "max": [
-            2.7197797020315404,
-            4.0674670645313,
-            2.7956531197215724
+            1.960341155579103,
+            3.1304075458743443,
+            2.21780325179542
           ],
-          "maximumLift": 0.02806857517779795,
+          "maximumLift": 0.07144380318885797,
           "maximumDrop": 0,
-          "stanceSamples": 87,
-          "impliedMps": 2.4401597369702888
+          "stanceSamples": 174,
+          "impliedMps": 1.2532976852918987
         },
         "Attack": {
           "seconds": 1.0800000429153442,
           "samples": 66,
           "min": [
-            -2.83556069409557,
+            -2.391443784817986,
             0.002999999999999999,
-            -4.813110727967608
+            -5.646126769846421
           ],
           "max": [
-            2.6436671621151446,
-            4.130792832713632,
-            2.7224905561114454
+            2.3128961224238256,
+            3.908522506238751,
+            2.9684080700005357
           ],
-          "maximumLift": 0.15934623728411976,
+          "maximumLift": 0.2631113133680997,
           "maximumDrop": 0,
-          "stanceSamples": 6,
-          "impliedMps": 5.782490191041694
+          "stanceSamples": 24,
+          "impliedMps": 4.54986288443866
         },
         "Hit": {
           "seconds": 1.440000057220459,
           "samples": 88,
           "min": [
-            -2.9770587333002108,
-            0.0029999999999999957,
-            -4.689514130499235
+            -3.9343925232405605,
+            0.002999999999999999,
+            -5.571605225109017
           ],
           "max": [
-            3.3000541037362976,
-            3.9857434455992053,
-            2.9114687767251395
+            3.569551793560689,
+            3.7297923872337027,
+            2.514395049760373
           ],
-          "maximumLift": 0.27736634357024775,
+          "maximumLift": 0.04601464469241164,
           "maximumDrop": 0,
-          "stanceSamples": 34,
-          "impliedMps": 1.710672205587671
+          "stanceSamples": 42,
+          "impliedMps": 0.849658829413058
         },
         "Death": {
           "seconds": 1.6200000047683716,
           "samples": 99,
           "min": [
-            -2.69614640491985,
-            0.002999999999999999,
-            -4.56825561970914
+            -4.3037788232702905,
+            0.0029999999999999996,
+            -5.634405090256257
           ],
           "max": [
-            3.679937612560138,
-            4.7924653738920595,
-            2.556853732040145
+            6.591832618043162,
+            5.63840594683767,
+            2.476478352184757
           ],
-          "maximumLift": 0.5686684246217971,
+          "maximumLift": 0.6387977360267879,
           "maximumDrop": 0,
-          "stanceSamples": 53,
-          "impliedMps": 0.7853693178601806
+          "stanceSamples": 24,
+          "impliedMps": 1.246768525521258
         },
         "Breath": {
-          "seconds": 1.0800000429153442,
-          "samples": 66,
+          "seconds": 2.5199999809265137,
+          "samples": 153,
           "min": [
-            -3.375879864288991,
+            -4.395570963673606,
             0.002999999999999999,
-            -4.658089734545024
+            -5.6388215032958575
           ],
           "max": [
-            3.4957301340982325,
-            4.45437666700089,
-            3.135040310708905
+            4.001046363904608,
+            4.30683184759786,
+            2.4572619112017025
           ],
-          "maximumLift": 0.08642225143228352,
+          "maximumLift": 0.04843662136548516,
           "maximumDrop": 0,
-          "stanceSamples": 4,
-          "impliedMps": 15.012349921868267
+          "stanceSamples": 114,
+          "impliedMps": 0.2570380623491708
         }
       },
-      "attackContact": 0.6018518279364089,
+      "attackContact": 0.5092592390231153,
+      "grounding": "Actual skinned geometry at 60 Hz; per-clip root clearance is 3 mm."
+    }
+  },
+  {
+    "id": "creature_amethyst_dragon",
+    "sha256": "ebd8008e01a38becaef193e72def2a11ddcf686be94ca985e5c89707ee99ea87",
+    "provenance": {
+      "author": "Dungeon Mason; Corealm juvenile anatomy and fissure authoring",
+      "license": "Standard Unity Asset Store EULA",
+      "archiveSha256": "01b15c6e6ac1339acc40e653924691583cbf44303397878ae7f79a59112b7383",
+      "sourceMesh": "Assets/FourEvilDragonsPBR/Mesh/DragonUsurperMesh.fbx",
+      "sourceAnimations": {
+        "Idle": "idle01",
+        "Walk": "Walk",
+        "Run": "Run",
+        "Attack": "attackMouth",
+        "Hit": "getHit",
+        "Death": "Die",
+        "Breath": "attackFlame"
+      },
+      "generator": "tools/wilderness-dragons/build.mjs",
+      "juvenile": false,
+      "sculptedVertices": 14496,
+      "nativeScale": 0.51,
+      "animationTempo": 1.12,
+      "textures": {
+        "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Albedo.png",
+        "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Normal.png",
+        "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/AO.png",
+        "albedoGrade": null,
+        "fissures": null
+      }
+    },
+    "measurement": {
+      "size": {
+        "x": 5.623704597734273,
+        "y": 3.416436580848296,
+        "z": 8.033499210569321
+      },
+      "base": {
+        "x": -2.9183374737311443,
+        "y": 0.002999999999999999,
+        "z": -4.570246271728783
+      },
+      "animatedMin": [
+        -6.764996379031633,
+        0.0029999999999999957,
+        -5.734446218795124
+      ],
+      "animatedMax": [
+        4.373480195894517,
+        6.435355241649949,
+        3.677955251405454
+      ],
+      "locomotionRadius": 5.496916121181597,
+      "fullMotionRadius": 8.868429931197788,
+      "clips": {
+        "Idle": {
+          "seconds": 1.493333339691162,
+          "samples": 91,
+          "min": [
+            -2.9183374737311443,
+            0.002999999999999999,
+            -4.6223989761163375
+          ],
+          "max": [
+            2.7053671240031285,
+            3.5897602112528166,
+            3.5535241959999615
+          ],
+          "maximumLift": 0.036660195885198685,
+          "maximumDrop": 0,
+          "stanceSamples": 0,
+          "impliedMps": 0
+        },
+        "Walk": {
+          "seconds": 1.493333339691162,
+          "samples": 91,
+          "min": [
+            -2.939830308080166,
+            0.0029999999999999957,
+            -4.381764834890624
+          ],
+          "max": [
+            2.7495112994514685,
+            3.575294203738302,
+            3.4836372376256217
+          ],
+          "maximumLift": 0.08007707539769175,
+          "maximumDrop": -0.012443167840073745,
+          "stanceSamples": 94,
+          "impliedMps": 1.4292920580209434
+        },
+        "Run": {
+          "seconds": 0.746666669845581,
+          "samples": 46,
+          "min": [
+            -2.9748133637095227,
+            0.002999999999999999,
+            -4.240744505307639
+          ],
+          "max": [
+            2.810944132815778,
+            5.172586456415625,
+            3.4691371817016963
+          ],
+          "maximumLift": 0.008443398144681171,
+          "maximumDrop": -0.07783900194042447,
+          "stanceSamples": 37,
+          "impliedMps": 3.4993468527147176
+        },
+        "Attack": {
+          "seconds": 1.306666612625122,
+          "samples": 80,
+          "min": [
+            -4.001693180952608,
+            0.002999999999999999,
+            -4.625013730395532
+          ],
+          "max": [
+            3.9147739090570903,
+            4.015588328250519,
+            3.677955251405454
+          ],
+          "maximumLift": 0.03912651931887568,
+          "maximumDrop": 0,
+          "stanceSamples": 12,
+          "impliedMps": 7.822193621282105
+        },
+        "Hit": {
+          "seconds": 1.493333339691162,
+          "samples": 91,
+          "min": [
+            -4.487706202193159,
+            0.002999999999999999,
+            -4.602616626832708
+          ],
+          "max": [
+            4.373480195894517,
+            4.358382722868143,
+            3.4632532568000354
+          ],
+          "maximumLift": 0.030710780242536474,
+          "maximumDrop": -0.04345982454927464,
+          "stanceSamples": 81,
+          "impliedMps": 0.552742801429924
+        },
+        "Death": {
+          "seconds": 2.389333486557007,
+          "samples": 145,
+          "min": [
+            -6.764996379031633,
+            0.002999999999999999,
+            -5.734446218795124
+          ],
+          "max": [
+            3.8039757791375917,
+            6.435355241649949,
+            3.4632533217896837
+          ],
+          "maximumLift": 0.26326278884399984,
+          "maximumDrop": -0.07136108356395832,
+          "stanceSamples": 29,
+          "impliedMps": 0.04765268499101527
+        },
+        "Breath": {
+          "seconds": 2.986666679382324,
+          "samples": 181,
+          "min": [
+            -4.227900246766238,
+            0.0029999999999999957,
+            -4.62433517595245
+          ],
+          "max": [
+            3.340479891199554,
+            5.405006528740746,
+            3.512118192688677
+          ],
+          "maximumLift": 0.07364047741234755,
+          "maximumDrop": 0,
+          "stanceSamples": 53,
+          "impliedMps": 0.8359472156074776
+        }
+      },
+      "attackContact": 0.4336734873237641,
       "grounding": "Actual skinned geometry at 60 Hz; per-clip root clearance is 3 mm."
     }
   }

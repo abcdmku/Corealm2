@@ -25,30 +25,30 @@ function courtPack(siteIndex: number, side: 'west' | 'east'): DeepWildernessPack
   const cos = Math.cos(site.rotationY), sin = Math.sin(site.rotationY);
   return { id: `${site.id}_${side}_conclave`, speciesId: 'gloam_wraith',
     centre: [site.position[0] + x * cos + z * sin, site.position[1] - x * sin + z * cos],
-    count: 9, radius: court.radius, bodyRadius: 1.5,
+    count: 7, radius: court.radius, bodyRadius: 1.5,
     siteId: site.id, court: side, rotationY: -site.rotationY };
 }
 
 /** Placement proposal only. The root registers accepted actors after production lab proof. */
 export const DEEP_WILDERNESS_PACKS: readonly DeepWildernessPackPlan[] = [
-  { id: 'wilderness_red_hatchling_nest', speciesId: 'baby_red_dragon', centre: [-178, 484], count: 9, radius: 18, bodyRadius: 2.4 },
-  { id: 'wilderness_black_hatchling_nest', speciesId: 'baby_black_dragon', centre: [-325, 612], count: 8, radius: 18, bodyRadius: 2.4 },
-  { id: 'wilderness_lava_hatchling_nest', speciesId: 'baby_lava_dragon', centre: [325, 620], count: 9, radius: 18, bodyRadius: 2.4 },
-  { id: 'wilderness_cinderback_scree', speciesId: 'cinderback_crag', centre: [-181, 630], count: 11, radius: 18, bodyRadius: 2.5 },
-  { id: 'wilderness_furnace_grazers', speciesId: 'furnace_grazer', centre: [190, 484], count: 9, radius: 18, bodyRadius: 2.6 },
-  { id: 'wilderness_basalt_maw_hollow', speciesId: 'basalt_maw', centre: [-8, 680], count: 7, radius: 18, bodyRadius: 3 },
-  { id: 'wilderness_foundry_west_carapaces', speciesId: 'rift_carapace', centre: [-292, 732], count: 12, radius: 19, bodyRadius: 2.5 },
-  { id: 'wilderness_foundry_north_carapaces', speciesId: 'rift_carapace', centre: [-200, 791], count: 11, radius: 19, bodyRadius: 2.5 },
-  { id: 'wilderness_rift_mouth_conclave', speciesId: 'gloam_wraith', centre: [-31, 738], count: 15, radius: 15, bodyRadius: 1.5 },
-  { id: 'wilderness_midnight_carapaces', speciesId: 'rift_carapace', centre: [163, 724], count: 12, radius: 19, bodyRadius: 2.5 },
-  { id: 'wilderness_nightforge_east_colossi', speciesId: 'voidstone_colossus', centre: [254, 812], count: 7, radius: 20, bodyRadius: 3.3 },
-  { id: 'wilderness_northwest_black_dragons', speciesId: 'black_wilderness_dragon', centre: [-319, 910], count: 7, radius: 24, bodyRadius: 5.7 },
-  { id: 'wilderness_northwest_red_dragons', speciesId: 'red_wilderness_dragon', centre: [-251, 899], count: 7, radius: 24, bodyRadius: 5.5 },
-  { id: 'wilderness_central_purple_dragons', speciesId: 'purple_wilderness_dragon', centre: [15, 812], count: 7, radius: 24, bodyRadius: 5.7 },
-  { id: 'wilderness_eastern_red_dragons', speciesId: 'red_wilderness_dragon', centre: [233, 866], count: 7, radius: 24, bodyRadius: 5.5 },
-  { id: 'wilderness_eastern_gloam_conclave', speciesId: 'gloam_wraith', centre: [317, 802], count: 15, radius: 15, bodyRadius: 1.5 },
-  { id: 'wilderness_sanctum_east_carapaces', speciesId: 'rift_carapace', centre: [146, 885], count: 11, radius: 19, bodyRadius: 2.5 },
-  { id: 'wilderness_sanctum_west_colossi', speciesId: 'voidstone_colossus', centre: [-99, 858], count: 7, radius: 20, bodyRadius: 3.3 },
+  { id: 'wilderness_red_hatchling_nest', speciesId: 'baby_red_dragon', centre: [-178, 484], count: 7, radius: 28, bodyRadius: 2.4 },
+  { id: 'wilderness_black_hatchling_nest', speciesId: 'baby_black_dragon', centre: [-325, 612], count: 7, radius: 28, bodyRadius: 2.4 },
+  { id: 'wilderness_lava_hatchling_nest', speciesId: 'baby_lava_dragon', centre: [325, 620], count: 7, radius: 28, bodyRadius: 2.4 },
+  { id: 'wilderness_cinderback_scree', speciesId: 'cinderback_crag', centre: [-181, 630], count: 7, radius: 28, bodyRadius: 2.5 },
+  { id: 'wilderness_furnace_grazers', speciesId: 'furnace_grazer', centre: [190, 484], count: 7, radius: 28, bodyRadius: 2.6 },
+  { id: 'wilderness_basalt_maw_hollow', speciesId: 'basalt_maw', centre: [-8, 680], count: 7, radius: 28, bodyRadius: 3 },
+  { id: 'wilderness_foundry_west_carapaces', speciesId: 'rift_carapace', centre: [-292, 732], count: 7, radius: 28, bodyRadius: 2.5 },
+  { id: 'wilderness_foundry_north_carapaces', speciesId: 'rift_carapace', centre: [-200, 791], count: 7, radius: 28, bodyRadius: 2.5 },
+  { id: 'wilderness_rift_mouth_conclave', speciesId: 'gloam_wraith', centre: [-31, 738], count: 7, radius: 28, bodyRadius: 1.5 },
+  { id: 'wilderness_midnight_carapaces', speciesId: 'rift_carapace', centre: [163, 724], count: 7, radius: 28, bodyRadius: 2.5 },
+  { id: 'wilderness_nightforge_east_colossi', speciesId: 'voidstone_colossus', centre: [254, 812], count: 7, radius: 28, bodyRadius: 3.3 },
+  { id: 'wilderness_northwest_black_dragons', speciesId: 'black_wilderness_dragon', centre: [-319, 910], count: 7, radius: 34, bodyRadius: 5.7 },
+  { id: 'wilderness_northwest_red_dragons', speciesId: 'red_wilderness_dragon', centre: [-255, 903], count: 7, radius: 34, bodyRadius: 5.5 },
+  { id: 'wilderness_central_purple_dragons', speciesId: 'purple_wilderness_dragon', centre: [15, 807], count: 7, radius: 34, bodyRadius: 5.7 },
+  { id: 'wilderness_eastern_red_dragons', speciesId: 'red_wilderness_dragon', centre: [233, 866], count: 7, radius: 34, bodyRadius: 5.5 },
+  { id: 'wilderness_eastern_gloam_conclave', speciesId: 'gloam_wraith', centre: [317, 802], count: 7, radius: 28, bodyRadius: 1.5 },
+  { id: 'wilderness_sanctum_east_carapaces', speciesId: 'rift_carapace', centre: [146, 885], count: 7, radius: 28, bodyRadius: 2.5 },
+  { id: 'wilderness_sanctum_west_colossi', speciesId: 'voidstone_colossus', centre: [-99, 858], count: 7, radius: 28, bodyRadius: 3.3 },
   courtPack(0, 'west'), courtPack(0, 'east'),
   courtPack(1, 'west'), courtPack(1, 'east'),
   courtPack(2, 'west'), courtPack(2, 'east'),
@@ -85,7 +85,7 @@ export function deepWildernessPackFormation(pack: DeepWildernessPackPlan): Encou
     centre: pack.centre, count: pack.count, radius: pack.radius };
   return createEncounterFormation(group, { bodyRadius: pack.bodyRadius, count: pack.count,
     maxRadius: pack.radius, rotationY: pack.rotationY, bodyGap: pack.speciesId.endsWith('_wilderness_dragon')
-      ? Math.max(.5, 12 - pack.bodyRadius * 2) : undefined });
+      ? Math.max(.5, 24 - pack.bodyRadius * 2) : pack.siteId ? 3 : Math.max(4, 14 - pack.bodyRadius * 2) });
 }
 
 export const DEEP_WILDERNESS_PACK_HABITATS: readonly HabitatDef[] = DEEP_WILDERNESS_PACKS.map(pack => ({

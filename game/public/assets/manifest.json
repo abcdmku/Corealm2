@@ -33706,16 +33706,16 @@
         "wilderness",
         "dressing"
       ],
-      "bytes": 582856,
+      "bytes": 740916,
       "size": {
-        "x": 7.85245,
-        "y": 7.90418,
-        "z": 4.60333
+        "x": 7.39748,
+        "y": 8.87967,
+        "z": 4.7561
       },
       "base": {
-        "x": -4.31992,
+        "x": -3.97917,
         "y": 0,
-        "z": -2.07
+        "z": -2.11445
       },
       "animations": [],
       "materials": [
@@ -33723,8 +33723,8 @@
         "Bark_Corealm@exposed-grain",
         "Bark_Corealm@hollow-interior"
       ],
-      "sha256": "6ef620ec331b0e48fa8ef9c65e1de8f634c713c64cb7e801d6d72503f33262d8",
-      "triangles": 14424,
+      "sha256": "9fce1bc4e12b9be46c2f91580dffed3f7494c017b0ee4425f114eda36f497317",
+      "triangles": 18784,
       "provenance": {
         "geometry": "Original tools/wilderness-trees/geometry.ts",
         "material": "Production Corealm bark albedo, tangent normal and roughness through Bark_Corealm; original heartwood and cavity materials",
@@ -33734,7 +33734,7 @@
       "acceptance": {
         "exported": true,
         "labAccepted": true,
-        "worldIntegrated": true
+        "worldIntegrated": false
       }
     },
     {
@@ -33750,24 +33750,24 @@
         "wilderness",
         "dressing"
       ],
-      "bytes": 506868,
+      "bytes": 582204,
       "size": {
-        "x": 8.43974,
-        "y": 6.97167,
-        "z": 5.74541
+        "x": 8.11701,
+        "y": 6.55272,
+        "z": 6.19025
       },
       "base": {
-        "x": -1.86966,
+        "x": -1.87472,
         "y": 0,
-        "z": -3.08306
+        "z": -3.31593
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Wilderness exposed heartwood"
       ],
-      "sha256": "c5098210fdca30e52f630281cd9496de31d4d7051ea936e105807921c2245df3",
-      "triangles": 12781,
+      "sha256": "d49990efb8e02834c0b5df81823cf1c2f3058a8b99913e1935d919458603b0e5",
+      "triangles": 14564,
       "provenance": {
         "geometry": "Original tools/wilderness-trees/geometry.ts",
         "material": "Production Corealm bark albedo, tangent normal and roughness through Bark_Corealm; original heartwood and cavity materials",
@@ -33777,7 +33777,7 @@
       "acceptance": {
         "exported": true,
         "labAccepted": true,
-        "worldIntegrated": true
+        "worldIntegrated": false
       }
     },
     {
@@ -33793,24 +33793,24 @@
         "wilderness",
         "dressing"
       ],
-      "bytes": 932328,
+      "bytes": 815436,
       "size": {
-        "x": 8.64226,
-        "y": 9.50201,
-        "z": 9.08059
+        "x": 7.53538,
+        "y": 9.38267,
+        "z": 8.1942
       },
       "base": {
-        "x": -3.99825,
+        "x": -3.44041,
         "y": 0,
-        "z": -4.62101
+        "z": -4.82267
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Wilderness exposed heartwood"
       ],
-      "sha256": "f40c02d65b91df5224fe307e9621a4f4fa336c4b98d2bcef6b216331363d6293",
-      "triangles": 23519,
+      "sha256": "a7bcd5c463fbdf81e0051c6e971d9b9059aeffa68f82a2f70c4728728efedc31",
+      "triangles": 20275,
       "provenance": {
         "geometry": "Original tools/wilderness-trees/geometry.ts",
         "material": "Production Corealm bark albedo, tangent normal and roughness through Bark_Corealm; original heartwood and cavity materials",
@@ -33820,7 +33820,7 @@
       "acceptance": {
         "exported": true,
         "labAccepted": true,
-        "worldIntegrated": true
+        "worldIntegrated": false
       }
     },
     {
@@ -33836,24 +33836,24 @@
         "wilderness",
         "dressing"
       ],
-      "bytes": 250480,
+      "bytes": 335836,
       "size": {
-        "x": 9.42055,
-        "y": 2.86232,
-        "z": 4.06513
+        "x": 9.84001,
+        "y": 2.82792,
+        "z": 4.07108
       },
       "base": {
-        "x": -4.86642,
+        "x": -5.28593,
         "y": 0,
-        "z": -2.06229
+        "z": -2.06442
       },
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Wilderness exposed heartwood"
       ],
-      "sha256": "09f714a1972d84edc0ef79859bbb14e2263450f75fdf9264b3a12e2ad54f6b60",
-      "triangles": 6379,
+      "sha256": "acfdea6facfcb85e5595613e20ce760edeabda51ab30e090128b07967639e45b",
+      "triangles": 8430,
       "provenance": {
         "geometry": "Original tools/wilderness-trees/geometry.ts",
         "material": "Production Corealm bark albedo, tangent normal and roughness through Bark_Corealm; original heartwood and cavity materials",
@@ -33863,7 +33863,7 @@
       "acceptance": {
         "exported": true,
         "labAccepted": true,
-        "worldIntegrated": true
+        "worldIntegrated": false
       }
     },
     {
@@ -41016,36 +41016,36 @@
       "file": "models/corealm/nature/corealm_teak_lastroot.glb",
       "pack": "corealm-original-wilderness-resources",
       "category": "nature",
-      "is": "Fireward boughs stripped bare above a broad living lee crown; the bowed bole still supports each surviving leaf spray.",
+      "is": "Veinwood with a tall clear bole and a broad sheltered crown; the bowed bole still supports each surviving leaf spray.",
       "tags": [
         "wilderness",
         "corealm",
         "original",
         "tree"
       ],
-      "bytes": 2704724,
-      "sha256": "a3ac0513bb277b16982768c068bd5934ddbb37c90537194b4b9d43c4c2328b5c",
+      "bytes": 2885172,
+      "sha256": "8eff8d2cd79cc87523989c17882978c9333da90c9f7a556ad05989a9a6d04c29",
       "size": {
-        "x": 9.2201,
-        "y": 10.41016,
-        "z": 6.63379
+        "x": 8.7578,
+        "y": 10.67657,
+        "z": 7.27723
       },
       "base": {
-        "x": -5.86009,
+        "x": -5.0015,
         "y": 0,
-        "z": -2.9723
+        "z": -3.15932
       },
-      "triangles": 19170,
+      "triangles": 22622,
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_teak_cutout",
         "Cutwood_Corealm_torn_fire_bough"
       ],
-      "trunkRadius": 0.23281,
+      "trunkRadius": 0.23309,
       "species": "teak",
       "tier": 50,
-      "botanicalSprays": 670,
+      "botanicalSprays": 1105,
       "sourceSprays": 1272,
       "sapFaces": 0,
       "brokenBoughs": 2,
@@ -41068,36 +41068,36 @@
       "file": "models/corealm/nature/corealm_teak_embershelter.glb",
       "pack": "corealm-original-wilderness-resources",
       "category": "nature",
-      "is": "A low storm-bent teak with a ragged split crown, charred windward wood and sheltered olive growth.",
+      "is": "A storm-weathered Veinwood with a ragged split crown, charred windward wood and sheltered olive growth.",
       "tags": [
         "wilderness",
         "corealm",
         "original",
         "tree"
       ],
-      "bytes": 2230596,
-      "sha256": "89846c7416d5c509d18711c0be2c8e06e257963c7df7ada4263a5a49cc733890",
+      "bytes": 2310312,
+      "sha256": "c00fc05b5872a003afaa805c41130ef35d0886dd505a515d342a733bccd3d07d",
       "size": {
-        "x": 6.3243,
-        "y": 7.96437,
-        "z": 4.51699
+        "x": 6.04934,
+        "y": 9.01988,
+        "z": 4.72127
       },
       "base": {
-        "x": -2.17849,
+        "x": -2.83052,
         "y": 0,
         "z": -2.72983
       },
-      "triangles": 10418,
+      "triangles": 11768,
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Leaves_Corealm_broadleaf_teak_cutout",
         "Cutwood_Corealm_torn_fire_bough"
       ],
-      "trunkRadius": 0.15239,
+      "trunkRadius": 0.1427,
       "species": "teak",
       "tier": 50,
-      "botanicalSprays": 313,
+      "botanicalSprays": 569,
       "sourceSprays": 661,
       "sapFaces": 0,
       "brokenBoughs": 2,
@@ -41127,17 +41127,17 @@
         "original",
         "tree"
       ],
-      "bytes": 4058040,
-      "sha256": "b78efe67b3950a0d99202dbfbfffc3b513fbe5d3a33e65113a28bef450ff5222",
+      "bytes": 4058044,
+      "sha256": "9759cecaba5e516f09f5b51aa824257174344bb231d5bd500c4809c3a79882ed",
       "size": {
-        "x": 12.72709,
+        "x": 11.07994,
         "y": 11.02811,
-        "z": 16.78268
+        "z": 13.61397
       },
       "base": {
-        "x": -5.95704,
+        "x": -4.98496,
         "y": 0,
-        "z": -8.64635
+        "z": -6.88442
       },
       "triangles": 44118,
       "animations": [],
@@ -41146,7 +41146,7 @@
         "Leaves_Corealm_broadleaf_magic_cutout",
         "Corealm exposed blue sap"
       ],
-      "trunkRadius": 0.86226,
+      "trunkRadius": 0.78277,
       "species": "magic",
       "tier": 70,
       "botanicalSprays": 1624,
@@ -41170,7 +41170,7 @@
       "file": "models/corealm/nature/corealm_magic_moonvein.glb",
       "pack": "corealm-original-wilderness-resources",
       "category": "nature",
-      "is": "A rising corkscrew magic tree with an unequal swept crown and violet sap following the wood grain.",
+      "is": "An upright old magic tree with an unequal swept crown and violet sap following the wood grain.",
       "tags": [
         "wilderness",
         "corealm",
@@ -41178,16 +41178,16 @@
         "tree"
       ],
       "bytes": 3565952,
-      "sha256": "186b30efabb72970e8a2fd7bcf94612ed0811b7f5fc63f977cc0b870b66cdd02",
+      "sha256": "88c0d9fd31764f462b6237bd66aaf94f60db79c067721a621481b36bb3730c1e",
       "size": {
-        "x": 8.89288,
+        "x": 8.52501,
         "y": 11.39052,
-        "z": 8.32026
+        "z": 8.16671
       },
       "base": {
-        "x": -3.77775,
+        "x": -3.69592,
         "y": 0,
-        "z": -3.7771
+        "z": -3.69963
       },
       "triangles": 34098,
       "animations": [],
@@ -41196,7 +41196,7 @@
         "Leaves_Corealm_broadleaf_magic_cutout",
         "Corealm exposed violet sap"
       ],
-      "trunkRadius": 0.50444,
+      "trunkRadius": 0.49251,
       "species": "magic",
       "tier": 70,
       "botanicalSprays": 1369,
@@ -41227,15 +41227,15 @@
         "original",
         "stump"
       ],
-      "bytes": 489092,
-      "sha256": "26459d8458a0d236d0aff67a5ec580e2af533a79bf7ca083fbd7afb8842f4b82",
+      "bytes": 489084,
+      "sha256": "674fdbbf9c2630da6cb9b76f37a3e44abdd48ef1dbf9cf4cdeca4711fe4ba814",
       "size": {
-        "x": 0.87202,
-        "y": 0.47198,
+        "x": 0.87197,
+        "y": 0.47203,
         "z": 0.94206
       },
       "base": {
-        "x": -0.46305,
+        "x": -0.46303,
         "y": 0,
         "z": -0.37769
       },
@@ -41251,7 +41251,7 @@
       "provenance": {
         "source": "test-results/wilderness-resources/models/corealm/nature/corealm_teak_lastroot.glb",
         "sourceId": "corealm_teak_lastroot",
-        "sourceSha256": "a3ac0513bb277b16982768c068bd5934ddbb37c90537194b4b9d43c4c2328b5c",
+        "sourceSha256": "8eff8d2cd79cc87523989c17882978c9333da90c9f7a556ad05989a9a6d04c29",
         "geometry": "Lower bole and buttress roots cut directly from the living Wilderness tree; original bark surface, UVs and rooted footprint retained. Growth rings close the exact uneven cut rim.",
         "textures": "Same embedded bark scan, relief shader metadata and colours as the living tree."
       },
@@ -41273,31 +41273,31 @@
         "original",
         "stump"
       ],
-      "bytes": 618728,
-      "sha256": "882b4727de7415ec655fcf353412f27adeb172f8d2edae0423bc53183d20c370",
+      "bytes": 620200,
+      "sha256": "f600b8ee96de0d7eca5b3cd6da08580e5a70ede0c368c9255f16b4584d31de51",
       "size": {
-        "x": 2.8742,
-        "y": 0.63008,
-        "z": 3.21626
+        "x": 2.87247,
+        "y": 0.61939,
+        "z": 3.21367
       },
       "base": {
-        "x": -1.25096,
+        "x": -1.25029,
         "y": 0,
-        "z": -1.67939
+        "z": -1.67816
       },
-      "triangles": 3993,
+      "triangles": 4028,
       "animations": [],
       "materials": [
         "Bark_Corealm",
         "Cutwood_Corealm_magic_growth_rings"
       ],
       "tier": 70,
-      "rimVertices": 130,
+      "rimVertices": 132,
       "barkTexture": true,
       "provenance": {
         "source": "test-results/wilderness-resources/models/corealm/nature/corealm_magic_starwood.glb",
         "sourceId": "corealm_magic_starwood",
-        "sourceSha256": "b78efe67b3950a0d99202dbfbfffc3b513fbe5d3a33e65113a28bef450ff5222",
+        "sourceSha256": "9759cecaba5e516f09f5b51aa824257174344bb231d5bd500c4809c3a79882ed",
         "geometry": "Lower bole and buttress roots cut directly from the living Wilderness tree; original bark surface, UVs and rooted footprint retained. Growth rings close the exact uneven cut rim.",
         "textures": "Same embedded bark scan, relief shader metadata and colours as the living tree."
       },

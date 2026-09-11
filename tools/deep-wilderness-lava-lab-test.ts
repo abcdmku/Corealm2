@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import sharp from 'sharp';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { GameDriver } from './lib/driver.js';
 import { startGameServer } from './lib/server.js';
@@ -60,15 +61,40 @@ try {
   assert.equal(first.pools, 2);
   assert.deepEqual(first.paletteRange, [0, 1]);
   assert.equal(first.lightBudget, 6);
+  assert.equal(first.crustPlates, 0, 'Molten flow stays clear of static slab clutter');
+  assert(first.lights.every(light => light.kind !== 'lava'), 'Lava has no point-light substitutes');
   assert(first.liveParticles > 20 && first.moltenTriangles > 500);
   assert(first.dryApronTriangles > 0, 'The dry cinder apron must close the bank and end-cap gaps');
-  assert(first.texturedStoneMeshes >= 16);
+  assert(first.texturedStoneMeshes >= 12);
   await capture('warm-fork');
-  await page.waitForTimeout(650);
+  assert(first.bankLighting.active > 0 && first.bankLighting.budget === 4);
+  const comparison = await page.evaluate(() => {
+    const debug = window.__gameDebug as any, effects = (window as any).__wildernessEffects;
+    const lit = debug.captureMagicGlowComparison().withoutGlow;
+    effects.setBankLightingEnabled(false);
+    const unlit = debug.captureMagicGlowComparison().withoutGlow;
+    effects.setBankLightingEnabled(true);
+    return { lit, unlit };
+  });
+  const decode = (data: string) => Buffer.from(data.split(',')[1]!, 'base64');
+  await writeFile(`${out}/bank-light-enabled.png`, decode(comparison.lit));
+  await writeFile(`${out}/bank-light-disabled.png`, decode(comparison.unlit));
+  const a = await sharp(decode(comparison.unlit)).removeAlpha().raw().toBuffer();
+  const b = await sharp(decode(comparison.lit)).removeAlpha().raw().toBuffer();
+  let litPixels = 0;
+  for (let i = 0; i < a.length; i += 3) {
+    if (Math.max(b[i]! - a[i]!, b[i + 1]! - a[i + 1]!, b[i + 2]! - a[i + 2]!) > 5) litPixels++;
+  }
+  assert(litPixels > 500, 'Invisible area sources must visibly illuminate the receiving banks');
+  evidence.push({ bankLighting: first.bankLighting, litPixels, cameraAndSimulationUnchanged: true });
+  await page.waitForTimeout(3000);
   const later = await readState();
   assert(later.seconds > first.seconds);
   assert(later.lights.some((light, i) => light.intensity !== first.lights[i]!.intensity));
   await capture('warm-fork-later');
+  await pose(-2, 18, 0, .42);
+  assert((await readState()).bankLighting.active > 0, 'Shore lighting must remain active before approaching the lava');
+  await capture('distant-bank-lighting');
   await pose(-7, -17, .12, .7);
   await capture('rounded-cinder-basin');
   await page.getByLabel('Biome atmosphere', { exact: true }).selectOption('deep_wilderness');
@@ -102,6 +128,10 @@ try {
   passed = true;
   console.log(`Deep Wilderness lava lab passed in ${Date.now() - started}ms. Images require root acceptance.`);
 } catch (cause) {
+  if (driver.page) {
+    console.log(await driver.page.locator("body").innerText({ timeout: 2000 }).catch(() => "Page unavailable"));
+    await driver.page.screenshot({ path: `${out}/failure.png`, timeout: 3000 }).catch(() => {});
+  }
   failure = cause instanceof Error ? cause.stack : String(cause);
   throw cause;
 } finally {

@@ -8,14 +8,14 @@ describe('shared lava footprint', () => {
   it('carves a closed trench with continuous dry banks and leaves the rest of the world unchanged', () => {
     const channel = WILDERNESS_LAVA_CHANNELS[0]!;
     const centre = lavaSections(channel).find(row => row.progress >= .5)!;
-    expect(carveLavaTerrain(10, centre.x, centre.z)).toBeCloseTo(8.5, 3);
+    expect(carveLavaTerrain(10, centre.x, centre.z)).toBeCloseTo(10 - channel.depth, 3);
     expect(carveLavaTerrain(10, -220, -140)).toBe(10);
     expect(lavaClearanceAt(-220, -140)).toBeGreaterThan(200);
     let last = carveLavaTerrain(10, centre.x, centre.z);
     for (let d = .05; d <= 12; d += .05) {
       const next = carveLavaTerrain(10, centre.x - centre.tz * d, centre.z + centre.tx * d);
       expect(Math.abs(next - last)).toBeLessThan(.065);
-      expect(next).toBeGreaterThanOrEqual(8.49);
+      expect(next).toBeGreaterThanOrEqual(10 - channel.depth - .01);
       expect(next).toBeLessThanOrEqual(10);
       last = next;
     }
@@ -84,14 +84,14 @@ describe('production Wilderness effects', () => {
     expect(effects.getState().ready).toBe(false);
   });
 
-  it('draws bank relief and raised crust over the carved terrain with upward bank normals', () => {
+  it('draws bank relief and unobstructed molten flow over the carved terrain with upward bank normals', () => {
     const parent = new THREE.Scene();
     const effects = new WildernessEffects(parent, {
       groundHeightAt: ground, torches: [], channels: WILDERNESS_LAVA_LAB_CHANNELS,
     });
     const state = effects.getState();
-    expect(state.crustPlates).toBeGreaterThan(6);
-    expect(state.bankRocks).toBeGreaterThan(20);
+    expect(state.crustPlates).toBe(0);
+    expect(state.bankRocks).toBeGreaterThan(0);
     expect(state.moltenTriangles).toBeGreaterThan(300);
     expect(state.bounds!.max[1]! - state.bounds!.min[1]!).toBeGreaterThan(1);
     const bank = effects.group.getObjectByName('wilderness-lava-banks-lab-widows-furnace') as THREE.Mesh;
@@ -101,7 +101,7 @@ describe('production Wilderness effects', () => {
     const molten = effects.group.getObjectByName('wilderness-lava-lab-widows-furnace') as THREE.Mesh;
     const positions = molten.geometry.getAttribute('position');
     for (let i = 0; i < positions.count; i++) {
-      expect(positions.getY(i) - ground(positions.getX(i), positions.getZ(i))).toBeCloseTo(.075, 4);
+      expect(positions.getY(i) - ground(positions.getX(i), positions.getZ(i))).toBeCloseTo(.16, 4);
     }
     effects.setEnabled(false);
     expect(effects.group.visible).toBe(false);

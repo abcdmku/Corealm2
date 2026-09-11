@@ -37,7 +37,9 @@ export const REGION_COMBAT_TIERS: Readonly<Record<RegionId, number>> = {
 
 /** Retain the four orb encounters and three regional boss identities and saved kill IDs. */
 export const REGIONAL_BOSS_LEVELS = {
-  galeskin: { tier: 1, multiplier: 3 }, tempest_roc: { tier: 1, multiplier: 5 },
+  // Fallowmarch's ordinary residents already reach level 6 on their own stats, so a tier-1 boss
+  // needs a much larger multiplier than the tier 5+ regions to stay above its own trash mobs.
+  galeskin: { tier: 1, multiplier: 11 }, tempest_roc: { tier: 1, multiplier: 13 },
   mossbound: { tier: 5, multiplier: 3 }, rootheart: { tier: 5, multiplier: 5 },
   tideworn: { tier: 10, multiplier: 4 }, ordrun: { tier: 10, multiplier: 5 },
   cinderwake: { tier: 20, multiplier: 4 },

@@ -80,11 +80,16 @@ export function miningAccessPositions(
       // Small deposits still need clearance from the sampled bank and its navmesh erosion.
       // Keep the working pivot outside that shoulder even when the source rock shrinks.
       const forward = Math.max(1.65, front + FACE_CLEARANCE, radius + COLLISION_CLEARANCE);
-      const lateral = centre.x * scale;
+      // The stance stays on the slot's own approach ray. The resource cylinder is centred on the
+      // authored pivot, and `world/siteTerrain.ts` (haul ramp start) and the authored dressing
+      // clearances all measure the working position straight ahead of the slot, so translating it
+      // sideways by a mesh's bounding-box asymmetry - 3 cm on the shipped Wilderness ore rocks -
+      // moves the player off the cylinder's clearance axis for no collision gain. Measured depth
+      // still comes from the off-centre bounds, which is what decides how far ahead it stands.
       const yaw = site.rotationY + slot.yaw;
       const [originX, originZ] = worldSitePoint(site, slot.x, slot.z);
-      const x = originX + lateral * Math.cos(yaw) + forward * Math.sin(yaw);
-      const z = originZ - lateral * Math.sin(yaw) + forward * Math.cos(yaw);
+      const x = originX + forward * Math.sin(yaw);
+      const z = originZ + forward * Math.cos(yaw);
       const y = heightAt(x, z);
       if (![x, y, z].every(Number.isFinite)) throw new Error(`Mine ${site.id}/${id} has no finite working ground`);
       positions.set(id, [x, y, z]);

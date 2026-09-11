@@ -10,6 +10,8 @@ type WildernessTier = 50 | 70;
 type Keeper = typeof WILDERNESS_RUNE_KEEPERS[number];
 
 const KEEPERS = new Map<string, Keeper>(WILDERNESS_RUNE_KEEPERS.map((keeper) => [keeper.id, keeper]));
+/** Keeper bodies carry a singleton boss level. An ordinary pack that reuses one is not a keeper. */
+const KEEPER_FAMILIES = new Set<string>(WILDERNESS_RUNE_KEEPERS.map((keeper) => keeper.id));
 const TIERS = [50, 70] as const;
 const LEGACY_TIERS = [20, 10, 5, 1] as const;
 
@@ -36,7 +38,14 @@ export function wildernessEnemyLevelAt(base: Readonly<EnemyDef>, z: number): num
   // The new bodies already have authored T50/T70 combat identities. Cross-tier family fallbacks
   // preserve their offset from the regional tier rather than multiplying the old stat numbers.
   const low = tier === 50 ? 48 : 69, high = tier === 50 ? 57 : 77;
-  const nativeLevel = Math.max(low, Math.min(high, tier + enemyCombatLevel(base) - base.tier));
+  const authored = enemyCombatLevel(base);
+  // The ordinary band ceiling exists to stop a level that does not belong to this band from being
+  // imported: a cross-tier family fallback, or a keeper-strength body reused by an ordinary pack.
+  // It must not clip a body that was authored FOR this band. Clipping the deep purple adult from
+  // its authored 78 to 77 is what made its label disagree with the entity the lab actually spawns.
+  const nativeLevel = base.tier === tier && !KEEPER_FAMILIES.has(base.family)
+    ? authored
+    : Math.max(low, Math.min(high, tier + authored - base.tier));
   return nativeLevel + Math.round(progress * 4);
 }
 

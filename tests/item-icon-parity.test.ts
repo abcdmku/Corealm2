@@ -65,8 +65,17 @@ describe("inventory and held equipment parity", () => {
   });
 
   it("stages all hand equipment compactly without applying glove staging to other slots", () => {
+    // Named, not counted. `presentation` is derived straight from `equip.slot` in
+    // itemIconAppearances.ts, so it cannot be set on the wrong slot; what this guard is really for
+    // is a hand item that nobody staged. A bare `toHaveLength(8)` could not say that the wilderness
+    // expansion had added the T50 and T70 pairs (cindersteel/dragonhide, nightglass/starhide), so
+    // the roster is spelled out and a new glove has to be listed here to go green.
     const hands = ALL_ITEMS.filter(item => item.equip?.slot === "hands");
-    expect(hands).toHaveLength(8);
+    expect(hands.map(item => item.id).sort()).toEqual([
+      "bramblehide_wraps", "cairnpelt_wraps", "charhide_wraps", "cindersteel_gauntlets",
+      "corven_gauntlets", "dragonhide_wraps", "emberite_gauntlets", "grithe_gloves",
+      "kaldite_gauntlets", "marchhide_wraps", "nightglass_gauntlets", "starhide_wraps",
+    ]);
     for (const item of ALL_ITEMS.filter(item => item.equip)) {
       expect(itemIconAppearance(item.id).presentation, item.id)
         .toBe(item.equip!.slot === "hands" ? "paired-hands" : undefined);

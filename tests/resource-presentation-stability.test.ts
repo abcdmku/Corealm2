@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { REGIONS } from "../game/src/content/regions.js";
 import { RESOURCES } from "../game/src/content/resources.js";
+import { WILDERNESS_ORE_RESOURCES } from "../game/src/content/wildernessResources.js";
 import * as worldSites from "../game/src/content/worldSites.js";
 import { buildWorld, type BuiltWorld } from "../game/src/world/regionBuilder.js";
 
@@ -20,9 +21,13 @@ function gatheringState(world: BuiltWorld) {
 
 describe("resource presentation stability", () => {
   it("keeps ordinary ore placement compact instead of normalizing smaller meshes back to oversized deposits", () => {
-    const ores = RESOURCES.filter(resource => resource.presentation.availableAssetIds.some(id => id.startsWith("corealm_ore_")));
-    expect(ores).toHaveLength(6);
-    for (const ore of ores) expect(ore.presentation.targetWorldSize).toBeLessThanOrEqual(1.6);
+    // Derived from the catalog so a new tier's deposit is covered the moment it is registered.
+    // Essence caches are excluded: they share one cache node, not a mined ore body.
+    const mined = RESOURCES.filter(resource => resource.archetype === "ore" && !resource.id.startsWith("essence_"));
+    const ores = mined.filter(resource => resource.presentation.availableAssetIds.some(id => id.startsWith("corealm_ore_")));
+    expect(ores).toEqual(mined);
+    expect(ores.map(ore => ore.id)).toEqual(expect.arrayContaining(WILDERNESS_ORE_RESOURCES.map(ore => ore.id)));
+    for (const ore of ores) expect(ore.presentation.targetWorldSize, ore.id).toBeLessThanOrEqual(1.6);
   });
   it("retains every declared resource ID and its initial yield state in deterministic replay", () => {
     const first = resourceEntities(buildWorld(SEED, FLAT_GROUND));

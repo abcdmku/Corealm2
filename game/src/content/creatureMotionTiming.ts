@@ -183,3 +183,47 @@ CREATURE_PURSUIT_CEILING_MPS["creature_flint_mandible"] = 5.9942;
 CREATURE_PURSUIT_CEILING_MPS["creature_vault_custodian"] = 9.8903;
 CREATURE_PURSUIT_CEILING_MPS["creature_blind_cave_weaver"] = 3.1556;
 CREATURE_PURSUIT_CEILING_MPS["creature_scree_watcher"] = 26.5850;
+
+/**
+ * Deep Wilderness expansion bodies, solved off the same run clip every other entry above is: the
+ * manifest's `3 * impliedRunMps * runClipSeconds`.
+ *
+ * These shipped without ceilings, so `enemyPursuitSpeedMps` had nothing to bring them under and
+ * every one of them chased at the full shared 4.68 m/s over a stride its own run cycle never
+ * covers. A rift carapace cycled its legs at 3.48 Hz and a red hatchling - whose run cycle travels
+ * 0.414 m, a third of what its black and lava clutchmates cover - at 11.30 Hz, which is not a fast
+ * animal but a blur. Pinned here they come down to the same ~2.8 Hz every other ceiling-bound
+ * resident in this file runs at.
+ *
+ * The long-strided bodies below the first group are pinned at a ceiling that never binds, exactly
+ * as the golems and ghouls above are: their stride already carries the shared speed. They are
+ * listed so a later remeasurement of the rig fails this file's pin rather than silently changing
+ * how fast they may be asked to move.
+ */
+CREATURE_PURSUIT_CEILING_MPS["creature_baby_red_dragon"] = 1.242;
+CREATURE_PURSUIT_CEILING_MPS["creature_baby_black_dragon"] = 3.2393;
+CREATURE_PURSUIT_CEILING_MPS["creature_baby_lava_dragon"] = 3.8645;
+CREATURE_PURSUIT_CEILING_MPS["creature_cinderback_crag"] = 3.679;
+CREATURE_PURSUIT_CEILING_MPS["creature_red_wilderness_dragon"] = 3.4584;
+CREATURE_PURSUIT_CEILING_MPS["creature_rift_carapace"] = 4.0333;
+CREATURE_PURSUIT_CEILING_MPS["creature_basalt_maw"] = 5.5562;
+CREATURE_PURSUIT_CEILING_MPS["creature_voidstone_colossus"] = 6.1573;
+CREATURE_PURSUIT_CEILING_MPS["creature_black_wilderness_dragon"] = 7.8385;
+CREATURE_PURSUIT_CEILING_MPS["creature_furnace_grazer"] = 9.0837;
+CREATURE_PURSUIT_CEILING_MPS["creature_purple_wilderness_dragon"] = 10.5415;
+
+// Dedicated regional boss and keeper bodies. Their strides carry the shared run speed, so the
+// ceiling never binds; `creature_boss_galeskin` (1.294 m per run cycle) and
+// `creature_boss_rootheart` (1.291 m) do not, and are deliberately absent: pinning them would
+// drop both under the shared speed a boss has to keep. Their run cycles need the longer stride,
+// not a lower ceiling.
+CREATURE_PURSUIT_CEILING_MPS["creature_boss_tideworn"] = 5.5693;
+CREATURE_PURSUIT_CEILING_MPS["creature_boss_tempest_roc"] = 5.7844;
+CREATURE_PURSUIT_CEILING_MPS["creature_boss_mossbound"] = 6.6059;
+CREATURE_PURSUIT_CEILING_MPS["creature_boss_cinderwake"] = 9.6872;
+CREATURE_PURSUIT_CEILING_MPS["creature_boss_ordrun"] = 9.7581;
+CREATURE_PURSUIT_CEILING_MPS["creature_furnace_regent"] = 16.0608;
+CREATURE_PURSUIT_CEILING_MPS["creature_hollow_star"] = 17.1;
+CREATURE_PURSUIT_CEILING_MPS["creature_chainbound_archon"] = 30.24;
+CREATURE_PURSUIT_CEILING_MPS["creature_ashseal_warden"] = 43.8197;
+CREATURE_PURSUIT_CEILING_MPS["creature_nightforge_marshal"] = 47.7586;
