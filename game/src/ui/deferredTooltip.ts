@@ -6,7 +6,7 @@ export class DeferredTooltip {
   private tooltip: Tooltip | null = null;
   private loading: Promise<void> | null = null;
   private parent: HTMLElement | null = null;
-  private active: { target: HTMLElement; provider: () => TooltipContent | null } | null = null;
+  private active: { target: Element; provider: () => TooltipContent | null } | null = null;
   private readonly detachers: (() => void)[] = [];
   private disposed = false;
 
@@ -18,8 +18,9 @@ export class DeferredTooltip {
     this.tooltip?.mount(parent);
   }
 
-  attach(target: HTMLElement, provider: () => TooltipContent | null): void {
-    if (this.disposed) return;
+  attach(target: Element, provider: () => TooltipContent | null): () => void {
+    if (this.disposed) return () => undefined;
+    let attached = true;
     const show = (): void => {
       this.active = { target, provider };
       if (this.tooltip) this.refresh();
@@ -34,12 +35,20 @@ export class DeferredTooltip {
     target.addEventListener("pointerleave", hide);
     target.addEventListener("focus", show);
     target.addEventListener("blur", hide);
-    this.detachers.push(() => {
+    const detach = (): void => {
+      if (!attached) return;
+      attached = false;
       target.removeEventListener("pointerenter", show);
       target.removeEventListener("pointerleave", hide);
       target.removeEventListener("focus", show);
       target.removeEventListener("blur", hide);
-    });
+      if (this.active?.target === target) {
+        this.active = null;
+        this.tooltip?.hide();
+      }
+    };
+    this.detachers.push(detach);
+    return detach;
   }
 
   refresh(): void {

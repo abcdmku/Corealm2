@@ -136,7 +136,6 @@ export class LootReveal {
         quantity: stack.quantity,
       }));
       const label = `Take ${itemName(stack.itemId)} x ${stack.quantity.toLocaleString("en-US")}`;
-      cell.title = label;
       cell.setAttribute("aria-label", label);
       cell.addEventListener("click", () => this.take(stackIndex));
       return cell;

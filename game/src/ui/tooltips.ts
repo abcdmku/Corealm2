@@ -12,9 +12,10 @@
  */
 import type {
   EquipSlot, EquipmentBonuses, EquippedMagicWeaponView, GameApi, ItemDef, ItemId, SkillId,
-  SpellElement,
+  SpellElement, SpellRow,
 } from "../contracts.js";
 import { content } from "../content/index.js";
+import { runeIconSvg } from "./runeIcons.js";
 import { SKILLS } from "../content/skills.js";
 
 export type TooltipContent =
@@ -28,7 +29,7 @@ export type TooltipContent =
     /** Extra lines appended below, e.g. shop prices. */
     footer?: string[];
   }
-  | { kind: "text"; title: string; lines: string[] };
+  | { kind: "text"; title: string; lines: string[]; runeCosts?: SpellRow["runes"] };
 
 const BONUS_LABELS: readonly [keyof EquipmentBonuses, string][] = [
   ["accuracy", "Accuracy"],
@@ -75,7 +76,7 @@ const ANCHOR_GAP_PX = 12;
 
 export class Tooltip {
   readonly element: HTMLElement;
-  private anchor: HTMLElement | null = null;
+  private anchor: Element | null = null;
   private activeProvider: (() => TooltipContent | null) | null = null;
   private signature = "";
   private readonly detachers: (() => void)[] = [];
@@ -96,7 +97,8 @@ export class Tooltip {
    * Wires hover and focus on an element to a content provider. The provider is called on enter, so
    * a slot that changed since mount still describes what is in it now.
    */
-  attach(target: HTMLElement, provider: () => TooltipContent | null): void {
+  attach(target: Element, provider: () => TooltipContent | null): () => void {
+    let attached = true;
     const show = (): void => {
       this.activeProvider = provider;
       const contentSpec = provider();
@@ -112,15 +114,20 @@ export class Tooltip {
     target.addEventListener("focus", show);
     target.addEventListener("blur", hide);
 
-    this.detachers.push(() => {
+    const detach = (): void => {
+      if (!attached) return;
+      attached = false;
       target.removeEventListener("pointerenter", show);
       target.removeEventListener("pointerleave", hide);
       target.removeEventListener("focus", show);
       target.removeEventListener("blur", hide);
-    });
+      if (this.anchor === target) this.hide();
+    };
+    this.detachers.push(detach);
+    return detach;
   }
 
-  show(spec: TooltipContent, anchor: HTMLElement): void {
+  show(spec: TooltipContent, anchor: Element): void {
     const signature = this.signatureFor(spec);
     if (signature !== this.signature) {
       this.signature = signature;
@@ -156,7 +163,7 @@ export class Tooltip {
   // ----------------------------------------------------------------- render
 
   private signatureFor(spec: TooltipContent): string {
-    if (spec.kind === "text") return `t:${spec.title}:${spec.lines.join("|")}`;
+    if (spec.kind === "text") return `t:${spec.title}:${spec.lines.join("|")}:${JSON.stringify(spec.runeCosts ?? [])}`;
     // Skill levels are in the signature because a level-up changes a requirement from red to grey.
     const skills = this.api.getSkills();
     const levels = (Object.keys(skills) as SkillId[]).map((id) => skills[id].level).join(",");
@@ -172,7 +179,7 @@ export class Tooltip {
     ].join(":");
   }
 
-  private renderText(spec: { title: string; lines: string[] }): HTMLElement[] {
+  private renderText(spec: Extract<TooltipContent, { kind: "text" }>): HTMLElement[] {
     const nodes: HTMLElement[] = [];
     const title = document.createElement("div");
     title.className = "tooltip__title";
@@ -183,6 +190,26 @@ export class Tooltip {
       body.className = "tooltip__body";
       body.textContent = line;
       nodes.push(body);
+    }
+    if (spec.runeCosts?.length) {
+      const heading = document.createElement("div");
+      heading.className = "tooltip__body";
+      heading.textContent = "Cost per cast";
+      nodes.push(heading);
+      for (const rune of spec.runeCosts) {
+        const cost = document.createElement("div");
+        cost.className = `tooltip__rune-cost${rune.carried < rune.quantity ? " is-short" : ""}`;
+        cost.dataset["rune"] = rune.itemId;
+        cost.dataset["carried"] = String(rune.carried);
+        cost.innerHTML = runeIconSvg(rune.itemId, 24) ?? "";
+        const label = document.createElement("span");
+        label.textContent = `${rune.quantity} ${rune.name}`;
+        const carried = document.createElement("span");
+        carried.className = "tooltip__rune-carried";
+        carried.textContent = `${rune.carried} carried${rune.carried < rune.quantity ? ", missing" : ""}`;
+        cost.append(label, carried);
+        nodes.push(cost);
+      }
     }
     return nodes;
   }
@@ -404,7 +431,7 @@ export class Tooltip {
   // --------------------------------------------------------------- position
 
   /** Right of the anchor, flipped left when it would leave the viewport, clamped vertically. */
-  private position(anchor: HTMLElement): void {
+  private position(anchor: Element): void {
     const target = anchor.getBoundingClientRect();
     this.element.style.left = "0px";
     this.element.style.top = "0px";

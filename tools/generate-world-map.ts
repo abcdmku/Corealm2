@@ -100,15 +100,17 @@ const MINIMAP_RENDITION: RenditionSpec = {
   id: "minimap",
   role: "minimap",
   file: "world-map-minimap.webp",
-  // 704 x 968 preserves the canonical image's aspect exactly at the existing boot budget.
+  // 688 x 946 preserves the canonical image's aspect exactly at the existing boot budget.
   // The wilderness expansion to z940 made the island taller, moving the canonical capture from
   // 6:7 to 4800x6600 (8:11), so the old 798 no longer divides into an integer height and any legal
   // width is now a multiple of 8. A taller map costs bytes: the minimap already encoded to 148,772
   // of its 150,000 ceiling, and holding the previous 798x931 pixel count needs 159,876. Quality
-  // stays at 92 rather than absorbing that, so the width carries it — 704 encodes to 146,428,
-  // which is more headroom than the pre-expansion map had. The map covers twice the north-south
+  // stays at 92 rather than absorbing that. The volcanic-landform capture was visually
+  // reviewed but encoded at 150,876 bytes at 704 px and 150,336 at 696 px;
+  // two 8 px steps restore budget headroom while retaining quality 92.
+  // The map covers twice the north-south
   // extent, so metres per pixel coarsens either way; spending it on width keeps the encoder honest.
-  width: 704,
+  width: 688,
   height: 0,
   quality: 92,
   maxBytes: MINIMAP_MAX_BYTES,

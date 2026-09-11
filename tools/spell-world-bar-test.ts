@@ -32,12 +32,16 @@ try{
   await page.locator('.dock__btn[data-panel="spellbook"]').click();
   await page.waitForSelector("#panel-spellbook .spellbook__cell[data-spell]");
   const basicTiles=await page.locator("#panel-spellbook .spellbook__cell[data-spell]:visible").count();
-  assert.equal(basicTiles,16,"basic filter shows the sixteen basics");
-  await page.getByRole("button",{name:"All spells"}).click();
-  await page.waitForFunction(()=>document.querySelectorAll("#panel-spellbook .spellbook__cell--advanced:not([hidden])").length===20);
-  assert.equal(await page.locator("#panel-spellbook .spellbook__cell[data-spell]:visible").count(),36,"all filter shows every spell");
-  assert.equal(await page.locator("#panel-spellbook .spellbook__rune").count(),6,"six runes on the shelf");
+  assert.equal(basicTiles,36,"the full spellbook is visible without tabs");
+  assert.equal(await page.locator(".spellbook__filter").count(),0);
+  assert.equal(await page.locator("#panel-spellbook .spellbook__runes").count(),0,"no redundant rune shelf");
+  assert.equal(await page.locator(".spellbook__cell .rune-icon").count(),0,"costs only appear on hover");
+  await page.mouse.move(700,400);
   await page.screenshot({path:path.join(out,"spellbook-all.png")});
+  await page.locator('.spellbook__cell[data-spell="deluge"]').hover();
+  await page.waitForSelector('.tooltip:not([hidden]) .tooltip__rune-cost');
+  assert.equal(await page.locator('.tooltip__rune-cost').count(),3);
+  await page.screenshot({path:path.join(out,"rune-hover.png")});
 
   // Drag Sunfall from the book onto slot 5, then a targeted invocation onto slot 6.
   // No inner named functions in an evaluate body: tsx's keep-names helper does not exist in the page.
@@ -69,11 +73,12 @@ try{
   await page.waitForFunction(count=>window.__featureLab!.getState().counters.spellLaunched>count,launched,{timeout:15000});
   await page.waitForFunction(()=>document.querySelector('.abar[data-bar="0"] .abar__slot[data-slot="5"].is-casting')!==null,undefined,{timeout:5000});
   await page.screenshot({path:path.join(out,"ember-dart-lock.png")});
-  // Rune counts are read off the spellbook's rune shelf, which is the production view of the pack.
+  // Read live inventory amounts from each spell's hover card.
   const carried=async(id:string):Promise<number>=>{
-    if(!(await page.locator("#panel-spellbook").isVisible())){await page.locator('.dock__btn[data-panel="spellbook"]').click();await page.waitForSelector("#panel-spellbook .spellbook__rune");}
-    await page.waitForTimeout(500);
-    return Number(await page.locator(`#panel-spellbook .spellbook__rune[data-rune="${id}"] .spellbook__rune-count`).textContent());
+    if(!(await page.locator("#panel-spellbook").isVisible())) await page.locator('.dock__btn[data-panel="spellbook"]').click();
+    await page.locator(`.spellbook__cell[data-spell="${id === 'mind_rune' ? 'ember-dart' : 'deluge'}"]`).hover();
+    await page.waitForSelector(`.tooltip:not([hidden]) .tooltip__rune-cost[data-rune="${id}"]`);
+    return Number(await page.locator(`.tooltip__rune-cost[data-rune="${id}"]`).getAttribute("data-carried"));
   };
   const mindLeft=await carried("mind_rune");
   assert.equal(mindLeft,4,"one Mind Rune spent");

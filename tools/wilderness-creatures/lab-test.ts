@@ -1,10 +1,16 @@
 import assert from 'node:assert/strict';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { NodeIO } from '@gltf-transform/core';
+import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { GameDriver } from '../lib/driver.js';
 import { startGameServer } from '../lib/server.js';
 import { installAssetCandidates } from '../lib/assetCandidates.js';
 import { WILDERNESS_CREATURE_SPECIES } from '../../game/src/content/wildernessCreatureSpecies.js';
 import { WILDERNESS_RUNE_KEEPERS } from '../../game/src/content/wildernessDepth.js';
+import { CREATURE_REDESIGNS } from '../../game/src/content/creatureRedesign.js';
+import { RPG_BESTIARY_REVIEW_BY_ID } from '../../game/src/content/rpgBestiary.js';
+import { CREATURE_SPECIES } from '../../game/src/content/creatureSpecies.js';
 
 // Root runs one bounded batch at a time in the serialized browser lane.
 const value = (flag: string) => process.argv.includes(flag) ? process.argv[process.argv.indexOf(flag) + 1] : undefined;
@@ -33,6 +39,7 @@ const started = performance.now(), evidence: any[] = [];
 let passed = false;
 let activeId = '';
 let failure: any = null;
+let latestProfile: any = null;
 const deadline = setTimeout(() => { void driver.close(); }, 52_000);
 function checkEffects(state: any, subject: string, palette: 'arcane' | 'ember', required = true): void {
   assert(state?.ready && state.enabled, 'Production Wilderness creature effects unavailable');
@@ -59,8 +66,11 @@ try {
     const keyPosesOnly = allKeyPoses || keyPoseIds.has(id);
     const asset = catalog.assets.find((row: any) => row.id === `creature_${id}`);
     assert(asset, `Missing staged ${id}`);
-    const species = WILDERNESS_CREATURE_SPECIES.find(species => species.id === id);
+    const species = WILDERNESS_CREATURE_SPECIES.find(species => species.id === id)
+      ?? CREATURE_REDESIGNS.find(species => species.id === id) ?? RPG_BESTIARY_REVIEW_BY_ID.get(id)
+      ?? CREATURE_SPECIES.find(species => species.id === id);
     assert(species, `Unknown Wilderness species ${id}`);
+    const hasBodyEffects = WILDERNESS_CREATURE_SPECIES.some(species => species.id === id);
     const deep = species.stats.tier >= 70;
     const palette = deep ? 'arcane' : 'ember';
     await page.getByLabel('Biome atmosphere', { exact: true }).selectOption(deep ? 'deep_wilderness' : 'wilderness');
@@ -80,21 +90,38 @@ try {
       const gallery = (window as any).__creatureGallery, debug = window.__gameDebug as any;
       const state = gallery.getState(), shaders = (window as any).__renderDistanceLab?.shaders?.();
       const drawn = debug.getDrawnBounds(state.entityIds[0]);
-      return state.ready && drawn && debug.getEntityMotion(state.entityIds[0])?.liveRig &&
+      const motion = debug.getEntityMotion(state.entityIds[0]);
+      return state.ready && drawn && (motion?.liveRig || motion?.path === 'sampled-rig' && motion.clip) &&
         (!shaders || !shaders.waiting && !shaders.queued && !shaders.compiling);
     }, id, { timeout: 15_000 });
-    const initialProfile = await page.evaluate(id => (window.__gameDebug as any).getRenderProfile(id), id);
-    assert(initialProfile.draws.some((draw: any) => draw.pass.startsWith('colour') && draw.materials.some((material: any) => material.name.includes(id))), `${id} missing actual colour submissions`);
+    await page.waitForFunction(() => {
+      const select = document.querySelector<HTMLSelectElement>('#creature-gallery-preset');
+      return select?.value === (window as any).__creatureGallery.getState().presetId && !!select?.selectedOptions[0]?.textContent;
+    });
+    const materialNames = new Set<string>(asset.materials);
+    const isAssetMaterial = (name: string) => materialNames.has(name) || materialNames.has(name.split('@art:')[0]!);
+    // Complete source bodies retain native node names. Query their actual mesh prefixes;
+    // the unfiltered debug result intentionally returns only the largest 40 draws.
+    const source = await new NodeIO().registerExtensions(ALL_EXTENSIONS).read(path.resolve(path.dirname(catalogPath), catalog.files[asset.id]));
+    const prefixes = [...new Set([id, ...source.getRoot().listNodes().filter(node => node.getMesh())
+      .map(node => node.getName().replace(/[\s.:[\]]/g, '_').split('_').slice(0, 3).join('_')).filter(Boolean)])];
+    const profile = () => page.evaluate(prefixes => {
+      const d=window.__gameDebug as any, overview=d.getRenderProfile();
+      return {...overview,draws:[...overview.draws,...prefixes.flatMap(prefix=>d.getRenderProfile(prefix).draws)]};
+    }, prefixes);
+    const initialProfile = await profile();
+    latestProfile = { prefixes, materialNames: [...materialNames], profile: initialProfile };
+    assert(initialProfile.draws.some((draw: any) => draw.pass.startsWith('colour') && draw.materials.some((material: any) => isAssetMaterial(material.name))), `${id} missing actual colour submissions`);
     const baseline = await page.evaluate(() => {
       const gallery = (window as any).__creatureGallery, debug = window.__gameDebug as any;
       const state = gallery.getState();
       return { atmosphere: (window as any).__biomeAtmosphereLab.getState(), effects: (window as any).__wildernessCreatureEffects.getState(),
         entity: debug.getEntity(state.entityIds[0]), subjectId: state.entityIds[0] };
     });
-    checkEffects(baseline.effects, baseline.subjectId, palette);
+    if (hasBodyEffects) checkEffects(baseline.effects, baseline.subjectId, palette);
     const keeper = WILDERNESS_RUNE_KEEPERS.some(keeper => keeper.id === id);
     assert.equal(baseline.entity.archetype === 'boss', keeper, `${id} wrong candidate rank`);
-    assert.equal(baseline.effects.emitters.find((emitter: any) => emitter.id === baseline.subjectId).hero, keeper, `${id} wrong production emitter rank`);
+    if (hasBodyEffects) assert.equal(baseline.effects.emitters.find((emitter: any) => emitter.id === baseline.subjectId).hero, keeper, `${id} wrong production emitter rank`);
     const row: any = { id, sha256: asset.sha256, mode: keyPosesOnly ? 'material-key-poses' : 'full-cycles', tier: species.stats.tier, palette, baseline, initialProfile, motions: [] };
     evidence.push(row);
     for (const motion of keyPosesOnly ? ['idle', 'run', 'attack', 'hit'] : ['idle', 'walk', 'run', 'attack', 'hit']) {
@@ -132,8 +159,12 @@ try {
         assert(sample.camera.requestedDistance >= 6 && sample.camera.requestedDistance <= 11, `${id} noninteractive zoom`);
         assert(sample.camera.pitch >= .18 && sample.camera.pitch <= 1.32, `${id} noninteractive pitch`);
         assert(Math.abs(sample.camera.target.x - sample.player.x) < .1 && Math.abs(sample.camera.target.z - sample.player.z) < .1, `${id} camera lost player focus`);
-        checkEffects(sample.effects, sample.state.entityIds[0], palette);
-        const clearance = sample.bounds.min[1] - sample.ground;
+        if (hasBodyEffects) checkEffects(sample.effects, sample.state.entityIds[0], palette);
+        // Sampled rigs expose conservative all-pose bounds. Their evaluated vertex
+        // contact is the actual current-pose floor measurement.
+        const clearance = sample.motion.path === 'sampled-rig'
+          ? sample.motion.terrainContact?.minVertexClearance : sample.bounds.min[1] - sample.ground;
+        assert(Number.isFinite(clearance), `${id}:${motion} missing evaluated floor contact`);
         assert(clearance > -.10 && clearance < .55, `${id}:${motion} floor clearance ${clearance}`);
         assert(sample.drawn.height > .45 && sample.drawn.height < 9, `${id}:${motion} collapsed or exploded`);
         samples.push({ ...sample, clearance });
@@ -168,14 +199,15 @@ try {
     row.beforeCamera = beforeCamera;
     row.afterCamera = await driver.callDebug('getCamera');
     assert.notEqual(row.afterCamera.yaw, row.beforeCamera.yaw, `${id} real orbit did not move`);
-    row.profile = await page.evaluate(id => (window.__gameDebug as any).getRenderProfile(id), id);
+    row.profile = await profile();
     const materials = row.profile.draws.filter((draw: any) => draw.pass.startsWith('colour'))
-      .flatMap((draw: any) => draw.materials).filter((material: any) => material.name.includes(id));
+      .flatMap((draw: any) => draw.materials).filter((material: any) => isAssetMaterial(material.name));
     assert(materials.some((material: any) => material.mapUuid), `${id} authored texture missing from actual colour submissions`);
     row.materials = materials;
     await page.screenshot({ path: `${output}/${id}-orbit.png` });
     // Move through the existing fixture API. Emitters must follow drawn production actors and
     // disappear beyond the real distance/frustum boundary; the driver never writes world state.
+    if (hasBodyEffects) {
     const effectsBefore = await page.evaluate(() => (window as any).__wildernessCreatureEffects.getState());
     await page.evaluate(() => (window as any).__creatureGallery.place(2, 70));
     await page.waitForFunction(subject => {
@@ -196,6 +228,7 @@ try {
     const effectsReturned = await page.evaluate(() => (window as any).__wildernessCreatureEffects.getState());
     checkEffects(effectsReturned, baseline.subjectId, palette);
     row.effectsMovement = { before: effectsBefore, moved: effectsMoved, culled: effectsCulled, returned: effectsReturned };
+    }
     process.stdout.write(`${id}: production material draws and ${keyPosesOnly ? 'material key poses' : 'five complete actions'} recorded\n`);
   }
   assert.deepEqual(driver.pageErrors, []);
@@ -203,7 +236,7 @@ try {
   assert.deepEqual(await driver.callDebug('getErrors'), []);
   passed = true;
 } catch (error) {
-  failure = { id: activeId, error: String(error) };
+  failure = { id: activeId, error: String(error), latestProfile };
   if (driver.page && !driver.page.isClosed()) {
     failure.state = await driver.page.evaluate(id => {
       const debug = window.__gameDebug as any, gallery = (window as any).__creatureGallery;

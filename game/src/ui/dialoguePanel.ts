@@ -31,7 +31,7 @@ import { PanelFrame } from "./panelFrame.js";
  *    return a locked option with a plain-English `disabledReason` rather than dropping it, and the
  *    reasons are written to be read ("Ode will not send anyone under Melee 10 up the terraces.
  *    Cairnwights hold the ground at (100, -110).") That sentence is the quest pointer. Putting it
- *    in a `title=` tooltip would hide the game's own signposting behind a hover nobody performs, so
+ *    in a browser tooltip would hide the game's own signposting behind a hover nobody performs, so
  *    it is printed under the option. A locked option is therefore NOT a `disabled` button: the
  *    shared `.btn[disabled]` rule fades to 50% opacity and desaturates, which is right for a button
  *    and wrong for a sentence you are meant to act on. It is a button with `aria-disabled`, drawn

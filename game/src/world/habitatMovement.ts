@@ -27,11 +27,20 @@ export function habitatIdleTargets(
   const nearest = habitat.anchors.map((anchor, index) => ({
     index, distance: Math.hypot(anchor[0] - spawn[0], anchor[1] - spawn[2]),
   })).sort((a, b) => a.distance - b.distance || a.index - b.index);
-  const ranging = habitat.activity === "patrol" || habitat.activity === "prowl";
+  const ranging = habitat.roamRadius === undefined && (habitat.activity === "patrol" || habitat.activity === "prowl");
   const selected = ranging ? habitat.anchors.map((_, index) => index)
-    : nearest.slice(0, 3).map((anchor) => anchor.index);
+    : nearest.slice(0, habitat.roamRadius === undefined ? 3 : 1).map((anchor) => anchor.index);
   const seed = hashId(entityId);
   const angle = (seed % 360) * Math.PI / 180;
+  if (habitat.roamRadius !== undefined && nearest[0]) {
+    const anchorIndex = nearest[0].index;
+    return { ranging: false, nearestAnchorIndex: anchorIndex,
+      candidates: Array.from({ length: 4 }, (_, index) => {
+        const direction = angle + index * Math.PI / 2;
+        return { anchorIndex, position: [spawn[0] + Math.cos(direction) * habitat.roamRadius!,
+          spawn[1], spawn[2] + Math.sin(direction) * habitat.roamRadius!] as Vec3 };
+      }) };
+  }
   const offset = Math.min(0.45, habitat.radius * 0.05) * (0.5 + ((seed >>> 8) % 100) / 200);
   const candidates = selected.map((anchorIndex) => {
     const anchor = habitat.anchors[anchorIndex]!;
@@ -39,8 +48,8 @@ export function habitatIdleTargets(
     const dz = anchor[1] - spawn[2];
     const distance = Math.hypot(dx, dz);
     // Grazers browse their own patch; a distant flock anchor gives direction, not a long trek.
-    const localRadius = habitat.activity === "graze" ? Math.min(5, habitat.radius * 0.55)
-      : Math.min(4, habitat.radius * 0.7);
+    const localRadius = habitat.roamRadius ?? (habitat.activity === "graze" ? Math.min(5, habitat.radius * 0.55)
+      : Math.min(4, habitat.radius * 0.7));
     const fraction = ranging || distance <= localRadius ? 1 : localRadius / distance;
     const position: Vec3 = [
       spawn[0] + dx * fraction + Math.cos(angle) * offset, spawn[1],

@@ -3,7 +3,7 @@
  *
  * A bar is a row of icons and nothing else. Key caps sit in the slot corner, the drag grip is a
  * twelve-pixel tab on the leading edge, and every option that is not "press a slot" lives behind
- * one small menu on the trailing edge. The first pass of this bar carried a title, four school
+ * one small menu on the trailing edge. The first pass of this bar carried extra hover copy, four school
  * tabs, a status line and a progress bar and was wider than the inventory; a bar the player has
  * to look at is a bar that is in the way.
  *
@@ -21,6 +21,7 @@
 import type { SpellElement, SpellId, SpellRung } from "../contracts.js";
 import type { KeyBindingRegistry, Unregister } from "../input/keyboard.js";
 import { spellIconSvg } from "./spellIcons.js";
+import type { Tooltip } from "./tooltips.js";
 import "./styles/spellActionBar.css";
 
 export const ACTION_BAR_SLOTS = 8;
@@ -61,6 +62,8 @@ export interface ActionBarDeps {
   defaultVisible?: number;
   /** Where a message about a refused press goes. Default: nowhere. */
   notify?(message: string): void;
+  /** Shared in-game hover card. */
+  tooltip?: Pick<Tooltip, "attach">;
 }
 
 export interface ActionBarLayout {
@@ -151,7 +154,11 @@ export function createSpellActionBar(deps: ActionBarDeps): SpellActionBar {
     const grip = document.createElement("button");
     grip.type = "button";
     grip.className = "abar__grip";
-    grip.title = `Action bar ${index + 1}. Drag to move, right-click for options`;
+    deps.tooltip?.attach(grip, () => ({
+      kind: "text",
+      title: "Action bar " + (index + 1),
+      lines: ["Drag to move.", "Right-click for options."],
+    }));
     grip.setAttribute("aria-label", `Move action bar ${index + 1}`);
     grip.innerHTML = `<span class="abar__grip-dots" aria-hidden="true"></span><span class="abar__num">${index + 1}</span>`;
     installGripDrag(grip, index);
@@ -176,6 +183,25 @@ export function createSpellActionBar(deps: ActionBarDeps): SpellActionBar {
         setSlot(index, slot, null);
       });
       installSlotDrag(button, index, slot);
+      deps.tooltip?.attach(button, () => {
+        const bar = layout.bars[index];
+        const id = bar?.slots[slot] ?? null;
+        const spell = id ? byId.get(id) : undefined;
+        if (!spell) return {
+          kind: "text",
+          title: "Empty spell slot",
+          lines: [layout.locked ? "Slots are locked." : "Drag a spell here from the spellbook."],
+        };
+        const status = spell.blockedBy ?? (spell.rank > 0
+          ? "Cast once at the current target."
+          : "Set as the standing spell.");
+        const key = keyLabel(index, slot);
+        return {
+          kind: "text",
+          title: spell.name,
+          lines: [key ? "Press " + key + " to use." : "Click to use.", status],
+        };
+      });
       strip.appendChild(button);
       slots.push(button);
     }
@@ -183,7 +209,11 @@ export function createSpellActionBar(deps: ActionBarDeps): SpellActionBar {
     const options = document.createElement("button");
     options.type = "button";
     options.className = "abar__menu";
-    options.title = "Action bar options";
+    deps.tooltip?.attach(options, () => ({
+      kind: "text",
+      title: "Action bar options",
+      lines: ["Change its dock, layout, or slot lock."],
+    }));
     options.setAttribute("aria-label", `Action bar ${index + 1} options`);
     options.setAttribute("aria-haspopup", "menu");
     options.textContent = "⋯";
@@ -420,12 +450,10 @@ export function createSpellActionBar(deps: ActionBarDeps): SpellActionBar {
         button.draggable = !!spell && !layout.locked;
         button.dataset["spell"] = spell?.id ?? "";
         if (!spell) {
-          button.title = layout.locked ? "Empty slot" : "Empty slot. Drag a spell here from the spellbook";
           button.setAttribute("aria-label", `Bar ${index + 1} slot ${slot + 1}, empty`);
           return;
         }
         const status = spell.blockedBy ?? (spell.rank > 0 ? "Cast once at the current target" : "Set as the standing spell");
-        button.title = `${spell.name}${key ? ` (${key})` : ""}\n${status}`;
         button.setAttribute("aria-label", `${spell.name}, bar ${index + 1} slot ${slot + 1}${key ? `, key ${key}` : ""}. ${status}`);
       });
     });

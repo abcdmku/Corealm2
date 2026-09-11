@@ -35,6 +35,7 @@ export class AgentPanelBody {
   private readonly takeButton: HTMLButtonElement;
   private readonly grantButton: HTMLButtonElement;
   private readonly footEl: HTMLElement;
+  private readonly stepTooltipDetachers: (() => void)[] = [];
   private signature = "";
 
   constructor(private readonly deps: AgentPanelDeps, body: HTMLElement) {
@@ -56,10 +57,18 @@ export class AgentPanelBody {
     const proposalSummary = el("div", "agent-panel__value");
     // The player's two hands on the plan: skip the step the guide is waiting on, or drop the plan.
     const skip = button("Skip", "agent-panel__link", () => this.deps.session.advanceProposal("player"));
-    skip.title = "Mark the current step done and move on";
     const dismiss = button("×", "agent-panel__btn", () => this.deps.session.clearProposal());
-    dismiss.title = "Dismiss the plan";
     dismiss.setAttribute("aria-label", "Dismiss the plan");
+    this.deps.tooltip.attach(skip, () => ({
+      kind: "text",
+      title: "Skip step",
+      lines: ["Mark the current step done and move on."],
+    }));
+    this.deps.tooltip.attach(dismiss, () => ({
+      kind: "text",
+      title: "Dismiss plan",
+      lines: ["Remove the current plan."],
+    }));
     proposalHead.append(proposalSummary, skip, dismiss);
     const proposalSteps = el("ol", "agent-panel__steps");
     proposalCell.append(proposalHead, proposalSteps);
@@ -91,6 +100,13 @@ export class AgentPanelBody {
     actions.append(pause, stop, take, grant);
 
     const foot = el("div", "agent-panel__foot");
+    this.deps.tooltip.attach(foot, () => {
+      const webmcp = this.deps.session.read().webmcp;
+      const detail = webmcp.native || webmcp.binding === "polyfill"
+        ? "Bound to " + webmcp.binding + "."
+        : "Open Corealm in a WebMCP-capable browser to let an AI play alongside you.";
+      return { kind: "text", title: "WebMCP connection", lines: [detail] };
+    });
 
     body.append(objectiveRow, activityRow, controlRow, proposalRow, approvalBox, actions, foot);
     this.objectiveEl = objective;
@@ -132,6 +148,8 @@ export class AgentPanelBody {
 
     const proposal = view.proposal;
     this.proposalRow.hidden = !proposal;
+    for (const detach of this.stepTooltipDetachers) detach();
+    this.stepTooltipDetachers.length = 0;
     if (proposal) {
       const finished = proposal.currentStep === null;
       this.proposalSummary.textContent = finished ? `${proposal.summary} — done` : proposal.summary;
@@ -143,9 +161,14 @@ export class AgentPanelBody {
         item.classList.toggle("is-done", step.status === "done");
         item.classList.toggle("is-skipped", step.status === "skipped");
         if (index === proposal.currentStep) {
-          item.title = step.target
-            ? step.done === "arrive" ? "Clears when you get there" : "Marked in the world; the agent ticks it off"
-            : "The agent ticks this off";
+          const detail = step.target
+            ? step.done === "arrive" ? "Clears when you get there." : "Marked in the world; the agent ticks it off."
+            : "The agent ticks this off.";
+          this.stepTooltipDetachers.push(this.deps.tooltip.attach(item, () => ({
+            kind: "text",
+            title: "Current step",
+            lines: [detail],
+          })));
         }
         return item;
       }));
@@ -172,10 +195,12 @@ export class AgentPanelBody {
         ? `WebMCP test shim · ${webmcp.toolCount} tools`
         : "WebMCP not available in this browser";
     this.footEl.textContent = status;
-    this.footEl.title = webmcp.native || webmcp.binding === "polyfill"
-      ? `Bound to ${webmcp.binding}`
-      : "Open Corealm in a WebMCP-capable browser (Chrome with chrome://flags/#enable-webmcp-testing, or an agent's in-app browser) to let an AI play alongside you. window.corealm.agent is always available.";
     this.footEl.classList.toggle("is-warning", view.connected && !webmcp.native && webmcp.binding !== "polyfill");
+  }
+
+  dispose(): void {
+    for (const detach of this.stepTooltipDetachers) detach();
+    this.stepTooltipDetachers.length = 0;
   }
 
   private answer(approved: boolean): void {

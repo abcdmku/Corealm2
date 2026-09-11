@@ -22,7 +22,7 @@ export interface LegacyEncounterPlacement {
 
 /** Receiving-floor proposal only. Root applies it after the production cave fixture accepts it. */
 export const LEGACY_CAVE_FLOOR_INTENTS = [
-  { id: 'gravelmaw_chamber1', originalRadius: 11, radius: 13, centre: [40, -40] as const },
+  { id: 'gravelmaw_chamber1', originalRadius: 11, radius: 24, centre: [40, -40] as const },
 ] as const;
 
 function ruin(id: string, originalCentre: Spot, yaw: number, localX: number, bodyRadiusBudget: number): LegacyEncounterPlacement {

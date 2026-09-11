@@ -1,0 +1,27 @@
+[
+  {
+    "id": "skeleton_soldier",
+    "path": "assets/art/wilderness-creatures/keeper-refinement/native-sources/models/creature/creature_skeleton_soldier.glb",
+    "origin": "approved-live-source-snapshot"
+  },
+  {
+    "id": "lava_golem",
+    "path": "assets/art/wilderness-creatures/keeper-refinement/native-sources/models/creature/creature_lava_golem.glb",
+    "origin": "HEAD:game/public/assets/models/creature/creature_lava_golem.glb"
+  },
+  {
+    "id": "iron_golem",
+    "path": "assets/art/wilderness-creatures/keeper-refinement/native-sources/models/creature/creature_iron_golem.glb",
+    "origin": "HEAD:game/public/assets/models/creature/creature_iron_golem.glb"
+  },
+  {
+    "id": "banshee",
+    "path": "assets/art/wilderness-creatures/keeper-refinement/native-sources/models/creature/creature_banshee.glb",
+    "origin": "HEAD:game/public/assets/models/creature/creature_banshee.glb"
+  },
+  {
+    "id": "gorge_mantis",
+    "path": "assets/art/wilderness-creatures/keeper-refinement/native-sources/models/creature/creature_gorge_mantis.glb",
+    "origin": "HEAD:game/public/assets/models/creature/creature_gorge_mantis.glb"
+  }
+]

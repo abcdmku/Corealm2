@@ -215,7 +215,11 @@ export class ProductionPanel implements ManagedPanel {
     make.className = "btn btn--primary production-row__action";
     make.textContent = recipe.kind === "cook" ? "Cook" : "Make";
     make.disabled = !enabled;
-    if (blockedReason) make.title = blockedReason;
+    this.ctx.tooltip?.attach(root, () => blockedReason ? ({
+      kind: "text",
+      title: "Unavailable",
+      lines: [blockedReason],
+    }) : null);
     make.addEventListener("click", () => {
       if (!this.stationId) return;
       const result = this.ctx.api.produceAt(

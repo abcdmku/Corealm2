@@ -25,7 +25,7 @@
         "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/ForSP_lambert1_AlbedoTransparency.png",
         "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/ForSP_lambert1_Normal.png",
         "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/Ambient Occlusion Map from Mesh lambert1.png",
-        "albedoGrade": "Burgundy skin midtones; native grain and pale membrane/claw islands retained.",
+        "albedoGrade": "Crimson skin with ochre throat and face ridge markings; native grain and warm pale membrane islands retained.",
         "fissures": null
       }
     },
@@ -210,7 +210,7 @@
         "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Albedo.png",
         "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Normal.png",
         "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/AO.png",
-        "albedoGrade": null,
+        "albedoGrade": "Simple charcoal midtones with native pale horns and dark membranes.",
         "fissures": null
       }
     },
@@ -395,7 +395,7 @@
         "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/ForSP_lambert1_AlbedoTransparency.png",
         "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/ForSP_lambert1_Normal.png",
         "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/Ambient Occlusion Map from Mesh lambert1.png",
-        "albedoGrade": "Burgundy skin midtones; native grain and pale membrane/claw islands retained.",
+        "albedoGrade": "Copper-charcoal hide with warm ivory membranes; native grain and sparse molten seams.",
         "fissures": {
           "file": "assets/art/wilderness-dragons/baby_lava_dragon-fissures.png",
           "coveredPixels": 660076,
@@ -585,7 +585,7 @@
         "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/ForSP_lambert1_AlbedoTransparency.png",
         "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/ForSP_lambert1_Normal.png",
         "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Red/Ambient Occlusion Map from Mesh lambert1.png",
-        "albedoGrade": "Burgundy skin midtones; native grain and pale membrane/claw islands retained.",
+        "albedoGrade": "Crimson skin with ochre throat and face ridge markings; native grain and warm pale membrane islands retained.",
         "fissures": null
       }
     },
@@ -955,7 +955,7 @@
         "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Grey/ForSP_lambert1_AlbedoTransparency.png",
         "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Grey/ForSP_lambert1_Normal.png",
         "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonTerrorBringer/Grey/Ambient Occlusion Map from Mesh lambert1.png",
-        "albedoGrade": "Burgundy skin midtones; native grain and pale membrane/claw islands retained.",
+        "albedoGrade": "Violet hide with pale native membranes and horns; sparse seam emission.",
         "fissures": {
           "file": "assets/art/wilderness-dragons/purple_wilderness_dragon-fissures.png",
           "coveredPixels": 660076,
@@ -1145,7 +1145,7 @@
         "sourceAlbedo": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Albedo.png",
         "sourceNormal": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/Normal.png",
         "sourceAO": "test-results/wilderness-dragons/source/Assets/FourEvilDragonsPBR/Texture/DragonUsurper/Dark/AO.png",
-        "albedoGrade": null,
+        "albedoGrade": "Amethyst scales with warm grey horns and smoky plum membranes; fine scale-edge emission excludes wings.",
         "fissures": null
       }
     },

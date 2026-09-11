@@ -522,9 +522,7 @@ export class MapPanel implements ManagedPanel {
         `${place.name}, ${KIND_LABEL[place.kind]}, ${Math.round(place.distance)} metres. Walk there.`,
       );
       node.dataset["place"] = place.key;
-      const title = el("title");
-      title.textContent = `${place.name}, walk here`;
-      node.replaceChildren(title, this.pip(place.kind), el("circle", { class: "map__hit", r: HIT_RADIUS }));
+     node.replaceChildren(this.pip(place.kind), el("circle", { class: "map__hit", r: HIT_RADIUS }));
       group.appendChild(node);
     }
     return group;
@@ -573,9 +571,6 @@ export class MapPanel implements ManagedPanel {
     const arrow = el("path", { class: "map__player-arrow", d: "M0 -10.5 L5.2 3 L0 0.2 L-5.2 3 Z" });
     arrow.setAttribute("visibility", "hidden");
     mark.appendChild(arrow);
-    const title = el("title");
-    title.textContent = "You are here";
-    mark.appendChild(title);
     this.playerMark = mark;
     this.playerArrow = arrow;
 

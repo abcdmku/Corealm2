@@ -246,7 +246,7 @@ describe('expanded Wilderness population proposal', () => {
   it('covers all six dragon and six new creature bodies with 24 ordinary packs', () => {
     expect(DEEP_WILDERNESS_PACKS).toHaveLength(24);
     expect(new Set(DEEP_WILDERNESS_PACKS.map(pack => pack.id)).size).toBe(24);
-    expect(new Set(DEEP_WILDERNESS_PACKS.map(pack => pack.speciesId)).size).toBe(12);
+    expect(new Set(DEEP_WILDERNESS_PACKS.map(pack => pack.speciesId)).size).toBe(13);
     expect(DEEP_WILDERNESS_PACKS.filter(pack => pack.siteId)).toHaveLength(6);
     for (const pack of DEEP_WILDERNESS_PACKS) {
       expect(pack.count).toBeGreaterThanOrEqual(7); expect(pack.count).toBeLessThanOrEqual(15);

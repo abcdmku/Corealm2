@@ -1,16 +1,23 @@
 import * as THREE from 'three';
 import { describe, expect, it, vi } from 'vitest';
 import { carveLavaTerrain, DEEP_WILDERNESS_LAVA_LAB_CHANNELS, isMoltenLavaAt,
-  lavaClearanceAt, lavaCollisionSegments, lavaMagicAt, lavaSections,
+  lavaClearanceAt, lavaCollisionSegments, lavaMagicAt, lavaSections, sampleLavaChannel,
   WILDERNESS_LAVA_CHANNELS, WILDERNESS_LAVA_EXPANSION_CHANNELS } from '../game/src/content/wildernessLava.js';
 import { WILDERNESS_EXPANSION_SITES, WILDERNESS_RESOURCE_INTENTS } from '../game/src/content/wildernessDepth.js';
 import { WildernessEffects, deepWildernessEffectsLabTorches, wildernessTorchPalette,
   type WildernessTorch } from '../game/src/render/wildernessEffects.js';
 import { Ambience } from '../game/src/render/vfx.js';
 import { lavaObstacles } from '../game/src/world/lavaObstacles.js';
+import { buildLavaSurfaceField } from '../game/src/world/lavaSurface.js';
+import { rockMassDistance } from '../game/src/world/lavaLandforms.js';
 
 const channels = DEEP_WILDERNESS_LAVA_LAB_CHANNELS;
 const ground = (x: number, z: number): number => carveLavaTerrain(0, x, z, channels);
+const liquid = buildLavaSurfaceField(channels, ground);
+// Placement proof needs exact distances, not the conservative bounding-box shortcut used by scatter.
+const exactClearance = (x: number, z: number): number => Math.min(...WILDERNESS_LAVA_CHANNELS.flatMap(c =>
+  [sampleLavaChannel(c, x, z).signedDistance - c.bankWidth,
+    ...(c.rockMasses ?? []).map(mass => rockMassDistance(mass, x, z) - 3)]));
 const segmentDistance = (x: number, z: number, a: readonly number[], b: readonly number[]): number => {
   const dx = b[0]! - a[0]!, dz = b[1]! - a[1]!;
   const t = Math.max(0, Math.min(1, ((x - a[0]!) * dx + (z - a[1]!) * dz) / (dx * dx + dz * dz || 1)));
@@ -18,6 +25,21 @@ const segmentDistance = (x: number, z: number, a: readonly number[], b: readonly
 };
 
 describe('forks and seeded lava pools', () => {
+  it('grades the rebuilt flows downhill through joins and varies their width with the receiving basin', () => {
+    for (const channel of WILDERNESS_LAVA_CHANNELS.filter(c => c.kind !== 'pool')) {
+      expect(channel.widths?.length).toBe(channel.points.length);
+      expect(channel.bedHeights?.length).toBe(channel.points.length);
+      const sections = lavaSections(channel, .6);
+      const heights = sections.map(row => carveLavaTerrain(14, row.x, row.z));
+      expect(heights[0]! - heights.at(-1)!, channel.id).toBeGreaterThan(1);
+      for (let i = 1; i < heights.length; i++) {
+        expect(heights[i]! - heights[i - 1]!, `${channel.id} at ${i}`).toBeLessThan(.015);
+      }
+      const middle = sections.filter(row => row.progress > .1 && row.progress < .9);
+      expect(Math.max(...middle.map(row => row.halfWidth)) / Math.min(...middle.map(row => row.halfWidth))).toBeGreaterThan(1.4);
+    }
+  });
+
   it('uses the accepted expansion for the world and reserves the new structures and resources', () => {
     expect(WILDERNESS_LAVA_CHANNELS).toBe(WILDERNESS_LAVA_EXPANSION_CHANNELS);
     expect(WILDERNESS_LAVA_CHANNELS).toHaveLength(21);
@@ -27,12 +49,12 @@ describe('forks and seeded lava pools', () => {
         for (let z = -site.footprint[1] / 2; z <= site.footprint[1] / 2; z += 4) {
           const wx = site.position[0] + x * Math.cos(site.rotationY) + z * Math.sin(site.rotationY);
           const wz = site.position[1] - x * Math.sin(site.rotationY) + z * Math.cos(site.rotationY);
-          expect(lavaClearanceAt(wx, wz, WILDERNESS_LAVA_EXPANSION_CHANNELS), site.id).toBeGreaterThan(8);
+          expect(exactClearance(wx, wz), site.id).toBeGreaterThan(8);
         }
       }
     }
     for (const site of WILDERNESS_RESOURCE_INTENTS) {
-      expect(lavaClearanceAt(site.position[0], site.position[1], WILDERNESS_LAVA_EXPANSION_CHANNELS), site.id).toBeGreaterThan(24);
+      expect(exactClearance(site.position[0], site.position[1]), site.id).toBeGreaterThan(24);
     }
   });
 
@@ -122,6 +144,9 @@ describe('production deep lava rendering', () => {
     expect(state.dryApronTriangles).toBeGreaterThan(0);
     effects.group.updateMatrixWorld(true);
     const downward = new THREE.Vector3(0, -1, 0);
+    const moltenMeshes = channels.map(c => effects.group.getObjectByName(`wilderness-lava-${c.id}`)!);
+    const joinedHits = new THREE.Raycaster(new THREE.Vector3(1, 10, -9), downward).intersectObjects(moltenMeshes);
+    expect(new Set(joinedHits.map(hit => hit.object.name)).size, 'one molten surface at the join').toBe(1);
     for (const channel of channels) {
       const bank = effects.group.getObjectByName(`wilderness-lava-banks-${channel.id}`) as THREE.Mesh;
       const positions = bank.geometry.getAttribute('position');
@@ -134,7 +159,7 @@ describe('production deep lava rendering', () => {
       expect(magic.getX(0)).toBe(channel.magic);
       const vertices = molten.geometry.getAttribute('position');
       for (let i = 0; i < vertices.count; i++) {
-        expect(vertices.getY(i) - ground(vertices.getX(i), vertices.getZ(i))).toBeCloseTo(.16, 4);
+        expect(vertices.getY(i)).toBeCloseTo(liquid(vertices.getX(i), vertices.getZ(i)), 4);
       }
       const apron = effects.group.getObjectByName(`wilderness-lava-apron-${channel.id}`) as THREE.Mesh;
       // Full-width dry banks and end caps must be covered even where the raised berms diverge.

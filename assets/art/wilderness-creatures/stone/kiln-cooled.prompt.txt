@@ -1,0 +1,12 @@
+Built-in imagegen edits of extracted native gavlig Lava Golem UV atlases. 2026-09-10.
+
+Emission prompt:
+Edit this exact square UV emissive map for a cooling volcanic stone golem. Keep all existing crack positions and the two eye spots at the bottom precisely aligned, no shift, no rotation, no new branches. Reduce the orange crack widths to about one third of current widths, as fine dim cooling ember seams with naturally broken intermittent dark sections. Color the cracks a muted burnt reddish-orange with mostly low intensity, never yellow or white. Most cracks should barely smoulder. Keep the two small eye spots dim amber at their original location. Everything else pure black. Remove the bright uniform web appearance. No glow halo, no background texture, no new marks, no lettering, no outline of UV islands. Must remain exactly aligned to this reference UV map for the same model.
+
+Albedo prompt:
+Edit this exact UV base-color atlas for a stone golem. Preserve every UV island silhouette, placement, edges and padding exactly. Replace the coarse cloudy grey noise within the islands with much finer subtle ash-grey volcanic stone grain, low-contrast medium grey with a slight cool slate tint, average color roughly RGB 135,140,142. Gentle broad worn areas toward light grey and subtle charcoal shallow recesses, but no big black or white mottles, no camo, no obvious waves, no marble veins. Thin natural mineral grains less than 2 pixels at this resolution. This is a flat uniformly lit PBR basecolor atlas. NO glow, no lava, no cracks, no drawn anatomy, no highlights. Keep outside-island background unchanged flat grey. Keep exact original UV alignment.
+
+Source output directory: C:/Users/Borg/.codex/generated_images/01a08e30-2b88-7c11-a8f2-a306007ebd37
+Emission output: exec-d6738949-8451-46b7-9abf-acd2cb672c71.png
+Albedo output: exec-0454275a-fbb5-408d-b272-5f629e430b2b.png
+Both copied unchanged. Native UV coordinates, normal image, shape and rig remain unchanged. Normal strength .35, emissive factor .22. Rendered alignment requires root lab inspection.

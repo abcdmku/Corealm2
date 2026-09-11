@@ -23,6 +23,7 @@ import {
 } from "../generated/worldMapFingerprint.js";
 import type { MapTerrainSource } from "./panels.js";
 import { reportResult } from "./contextMenu.js";
+import type { Tooltip } from "./tooltips.js";
 
 /** Canvas backing resolution, css px. The wrapper's CSS size may differ; clicks use the rect. */
 const SIZE = 148;
@@ -55,6 +56,8 @@ export interface MinimapActions {
   onOpenMap?(): void;
   /** The corner X: raise the pause menu. */
   onMenu?(): void;
+  /** Shared in-game hover card. */
+  tooltip?: Pick<Tooltip, "attach">;
 }
 
 export class Minimap {
@@ -92,10 +95,14 @@ export class Minimap {
 
     const disc = document.createElement("div");
     disc.className = "minimap__disc";
-    disc.title = "Click to walk there";
     disc.setAttribute("role", "button");
     disc.setAttribute("aria-label", "Minimap. Click a point to walk there.");
     disc.tabIndex = 0;
+    actions.tooltip?.attach(disc, () => ({
+      kind: "text",
+      title: "Minimap",
+      lines: ["Click a point to walk there."],
+    }));
 
     const canvas = document.createElement("canvas");
     const ratio = Math.min(Math.max(1, window.devicePixelRatio || 1), 2);
@@ -119,8 +126,12 @@ export class Minimap {
       + 'stroke="currentColor" stroke-width="2" stroke-linejoin="round">'
       + '<path d="M3 5.5L9 3.5L15 5.5L21 3.5V18.5L15 20.5L9 18.5L3 20.5Z"/>'
       + '<path d="M9 3.5V18.5M15 5.5V20.5"/></svg>';
-    mapButton.title = "Full map (M)";
     mapButton.setAttribute("aria-label", "Open full map");
+    actions.tooltip?.attach(mapButton, () => ({
+      kind: "text",
+      title: "Full map",
+      lines: ["Open the map. Press M."],
+    }));
     mapButton.addEventListener("pointerdown", (event) => event.stopPropagation());
     mapButton.addEventListener("click", () => actions.onOpenMap?.());
 
@@ -128,8 +139,12 @@ export class Minimap {
     menuButton.type = "button";
     menuButton.className = "minimap__btn minimap__btn--menu";
     menuButton.textContent = "×";
-    menuButton.title = "Menu (Esc)";
     menuButton.setAttribute("aria-label", "Open menu");
+    actions.tooltip?.attach(menuButton, () => ({
+      kind: "text",
+      title: "Menu",
+      lines: ["Open the game menu. Press Escape."],
+    }));
     menuButton.addEventListener("pointerdown", (event) => event.stopPropagation());
     menuButton.addEventListener("click", () => actions.onMenu?.());
 
@@ -142,6 +157,13 @@ export class Minimap {
     needle.className = "minimap__needle";
     needle.textContent = "N";
     compassButton.appendChild(needle);
+    actions.tooltip?.attach(compassButton, () => ({
+      kind: "text",
+      title: "Map orientation",
+      lines: [this.mode === "view"
+        ? "Map turns with the view. Click to lock north up."
+        : "North is up. Click to turn the map with the view."],
+    }));
     compassButton.addEventListener("pointerdown", (event) => event.stopPropagation());
     compassButton.addEventListener("click", () => this.setMode(this.mode === "north" ? "view" : "north"));
 
@@ -167,8 +189,10 @@ export class Minimap {
 
   private applyMode(): void {
     const view = this.mode === "view";
-    this.compassButton.title = view ? "Map turns with the view. Click to lock north up." : "North is up. Click to turn the map with the view.";
-    this.compassButton.setAttribute("aria-label", this.compassButton.title);
+    const label = view
+      ? "Map turns with the view. Click to lock north up."
+      : "North is up. Click to turn the map with the view.";
+    this.compassButton.setAttribute("aria-label", label);
     this.compassButton.setAttribute("aria-pressed", view ? "true" : "false");
     this.compassButton.classList.toggle("is-view", view);
     // North-locked shows the letter; following the view it switches to a needle that keeps

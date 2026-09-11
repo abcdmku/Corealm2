@@ -291,7 +291,10 @@ export class ShopPanel implements ManagedPanel {
       kind: "item",
       itemId,
       compareEquipped: true,
-      footer: [`${verb} price ${formatExact(verb === "Buy" ? this.buyPriceFor(itemId) : this.sellPriceFor(itemId))} marks each.`],
+      footer: [
+        `${verb} price ${formatExact(verb === "Buy" ? this.buyPriceFor(itemId) : this.sellPriceFor(itemId))} marks each.`,
+        ...(action.dataset["reason"] ? [`Unavailable: ${action.dataset["reason"]}`] : []),
+      ],
     }));
 
     const row: ShopRow = { root, name, detail, price, action };
@@ -326,8 +329,7 @@ export class ShopPanel implements ManagedPanel {
     if (reason) {
       row.action.dataset["reason"] = reason;
       row.action.setAttribute("aria-disabled", "true");
-      row.action.title = reason;
-      row.root.classList.add("is-blocked");
+     row.root.classList.add("is-blocked");
     } else {
       delete row.action.dataset["reason"];
       row.action.removeAttribute("aria-disabled");

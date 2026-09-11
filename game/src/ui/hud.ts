@@ -113,9 +113,8 @@ export class Hud {
   constructor(private readonly ctx: UiContext, private readonly options: UiOptions) {
     const root = document.createElement("div");
     // is-passive keeps the HUD out of the way of world clicks: #ui-root's rule opts it back out of
-    // pointer events. Nothing in the HUD is clickable, so this is free.
-    // The cache banner is the one clickable thing in here, so it opts back into pointer events
-    // itself; everything else stays passive so world clicks pass straight through.
+    // pointer events. The cache and marks readout opt back in for their in-game hover surfaces.
+    // Everything else stays passive so world clicks pass straight through.
     root.className = "hud is-passive";
 
     // ---- vitals, top left
@@ -161,7 +160,6 @@ export class Hud {
     cache.type = "button";
     cache.className = "hud__cache";
     cache.hidden = true;
-    cache.title = "Walk back to your recovery cache";
     const cacheLabel = document.createElement("span");
     cacheLabel.className = "hud__cache-label u-caps";
     cacheLabel.textContent = "Cache";
@@ -173,6 +171,11 @@ export class Hud {
       // `interact` walks into range and opens the cache on arrival. Contents move only by choice.
       reportResult(this.ctx.api.interact(RECOVERY_CACHE_ID, "loot"));
     });
+    this.ctx.tooltip.attach(cache, () => ({
+      kind: "text",
+      title: "Recovery cache",
+      lines: ["Walk back to reclaim the items inside."],
+    }));
 
     vitals.append(health, activity, cache);
     this.cacheBanner = cache;
@@ -193,6 +196,11 @@ export class Hud {
     currencyWord.className = "u-caps u-dim";
     currencyWord.textContent = "marks";
     currency.append(currencyMark, currencyValue, currencyWord);
+    this.ctx.tooltip.attach(currency, () => ({
+      kind: "text",
+      title: "Marks",
+      lines: [(currencyValue.textContent ?? "0") + " marks carried."],
+    }));
 
     const xpFeed = document.createElement("div");
     xpFeed.className = "hud__xp-feed";
@@ -389,7 +397,6 @@ export class Hud {
     if (signature === this.currencySig) return;
     this.currencySig = signature;
     this.currencyValue.textContent = formatQuantity(currency);
-    this.currencyValue.title = `${Math.floor(currency).toLocaleString("en-US")} marks`;
   }
 
   // ---------------------------------------------------------------- xp feed

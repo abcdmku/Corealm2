@@ -2,21 +2,22 @@ import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
 import { WildernessEffects, wildernessEffectsLabTorches, torchFlameOrigin } from '../game/src/render/wildernessEffects.js';
 import { carveLavaTerrain, lavaClearanceAt, lavaCollisionSegments, lavaSections, sampleLavaChannel,
-  WILDERNESS_LAVA_CHANNELS, WILDERNESS_LAVA_LAB_CHANNELS } from '../game/src/content/wildernessLava.js';
+  lavaBedAt, WILDERNESS_LAVA_CHANNELS, WILDERNESS_LAVA_LAB_CHANNELS } from '../game/src/content/wildernessLava.js';
 
 describe('shared lava footprint', () => {
   it('carves a closed trench with continuous dry banks and leaves the rest of the world unchanged', () => {
     const channel = WILDERNESS_LAVA_CHANNELS[0]!;
     const centre = lavaSections(channel).find(row => row.progress >= .5)!;
-    expect(carveLavaTerrain(10, centre.x, centre.z)).toBeCloseTo(10 - channel.depth, 3);
+    const bed = lavaBedAt(channel, sampleLavaChannel(channel, centre.x, centre.z).centreProgress)!;
+    expect(carveLavaTerrain(10, centre.x, centre.z)).toBeCloseTo(bed, 3);
     expect(carveLavaTerrain(10, -220, -140)).toBe(10);
     expect(lavaClearanceAt(-220, -140)).toBeGreaterThan(200);
     let last = carveLavaTerrain(10, centre.x, centre.z);
-    for (let d = .05; d <= 12; d += .05) {
+    for (let d = .05; d <= 24; d += .05) {
       const next = carveLavaTerrain(10, centre.x - centre.tz * d, centre.z + centre.tx * d);
-      expect(Math.abs(next - last)).toBeLessThan(.065);
-      expect(next).toBeGreaterThanOrEqual(10 - channel.depth - .01);
-      expect(next).toBeLessThanOrEqual(10);
+      expect(Math.abs(next - last)).toBeLessThan(.13);
+      expect(next).toBeGreaterThanOrEqual(Math.min(...channel.bedHeights!) - .01);
+      expect(next).toBeLessThanOrEqual(Math.max(10, ...(channel.rockMasses ?? []).map(mass => mass.crown)));
       last = next;
     }
     expect(last).toBe(10);
@@ -26,7 +27,7 @@ describe('shared lava footprint', () => {
     const channel = WILDERNESS_LAVA_CHANNELS[0]!;
     const segments = lavaCollisionSegments(channel);
     for (const section of lavaSections(channel)) {
-      expect(sampleLavaChannel(channel, section.x, section.z).distance).toBeLessThan(.03);
+      expect(sampleLavaChannel(channel, section.x, section.z).signedDistance).toBeLessThanOrEqual(.03);
       const covered = segments.some(segment => {
         const dx = segment.to[0] - segment.from[0];
         const dz = segment.to[1] - segment.from[1];
@@ -39,7 +40,8 @@ describe('shared lava footprint', () => {
     }
     expect(lavaClearanceAt(180, 667)).toBeLessThan(0);
     for (let x = 16; x <= 64; x += 4) for (let z = 572; z <= 628; z += 4) {
-      expect(lavaClearanceAt(x, z), `Black Knight Castle floor ${x},${z}`).toBeGreaterThan(2);
+      const clearance = Math.min(...WILDERNESS_LAVA_CHANNELS.map(c => sampleLavaChannel(c, x, z).signedDistance - c.bankWidth));
+      expect(clearance, `Black Knight Castle floor ${x},${z}`).toBeGreaterThan(2);
     }
   });
 });

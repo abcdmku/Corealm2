@@ -1,0 +1,6 @@
+Built-in imagegen edit of grazer-native-albedo.png, extracted from licensed Dungeon Mason DragonBoar source GLB. 2026-09-10.
+
+Edit this exact native creature UV albedo atlas. STRICTLY preserve every UV island silhouette, every eye, tooth, horn, scale ridge, membrane fold, pixel layout and padding. No new shapes, no rearranging anything. Change ONLY the dark blue/black scaled hide into visibly lighter warm charcoal and umber with subtle copper-brown scale ridges. Target hide midtones around RGB 95,77,65, darkest crevices around 35,30,27, worn ridges around 135,107,83. Keep the same original local detail and scales. Original tan throat and underbelly, white horns/claws, pale teeth, yellow eyes, red mouth are already correct and must remain exactly positioned and their original colors. Slight copper warmth over existing scale ridge highlights only; do not add noise, patterns, glowing lines, light bloom, highlights or illumination. This is a flat PBR basecolor texture for the same model, not a creature illustration.
+
+Original generated output: C:/Users/Borg/.codex/generated_images/01a08e30-2b88-7c11-a8f2-a306007ebd37/exec-ef61ce32-f3b3-44be-a6b5-8b145ea460c0.png
+Copied unchanged. Native normal, AO, roughness and metallic maps remain byte-identical. Model UV coordinates unchanged. Rendered alignment requires lab review.

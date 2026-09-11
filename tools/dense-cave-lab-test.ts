@@ -87,7 +87,7 @@ try {
   });
   await page.waitForTimeout(450);
   const entry = await capture('gallery-entry');
-  assert.deepEqual(entry.chambers.map((chamber: any) => chamber.radius), [13, 12, 12, 12]);
+  assert.deepEqual(entry.chambers.map((chamber: any) => chamber.radius), [24, 12, 12, 12]);
   assert.equal(entry.actors.length, 42); assert.equal(new Set(entry.actors.map((actor: any) => actor.id)).size, 42);
   assert.equal(entry.packs.length, 6);
   assert(entry.packs.every((pack: any) => pack.entityIds.length === 7));

@@ -12,6 +12,8 @@ import { createEncounterFormation } from './encounterPopulation.js';
 import { createLegacyEncounterFormation, LEGACY_ENCOUNTER_PLACEMENT_OVERRIDES } from './legacyEncounterPlacements.js';
 
 export interface HabitatDef {
+  /** Spaced residents idle near their own spawn instead of sharing the pack's patrol sockets. */
+  readonly roamRadius?: number;
   readonly id: string;
   readonly groupId: string;
   readonly regionId: RegionId;

@@ -200,17 +200,17 @@ CREATURE_PURSUIT_CEILING_MPS["creature_scree_watcher"] = 26.5850;
  * listed so a later remeasurement of the rig fails this file's pin rather than silently changing
  * how fast they may be asked to move.
  */
-CREATURE_PURSUIT_CEILING_MPS["creature_baby_red_dragon"] = 1.242;
+CREATURE_PURSUIT_CEILING_MPS["creature_baby_red_dragon"] = 1.2841;
 CREATURE_PURSUIT_CEILING_MPS["creature_baby_black_dragon"] = 3.2393;
-CREATURE_PURSUIT_CEILING_MPS["creature_baby_lava_dragon"] = 3.8645;
+CREATURE_PURSUIT_CEILING_MPS["creature_baby_lava_dragon"] = 1.2582;
 CREATURE_PURSUIT_CEILING_MPS["creature_cinderback_crag"] = 3.679;
-CREATURE_PURSUIT_CEILING_MPS["creature_red_wilderness_dragon"] = 3.4584;
+CREATURE_PURSUIT_CEILING_MPS["creature_red_wilderness_dragon"] = 3.5593;
 CREATURE_PURSUIT_CEILING_MPS["creature_rift_carapace"] = 4.0333;
-CREATURE_PURSUIT_CEILING_MPS["creature_basalt_maw"] = 5.5562;
-CREATURE_PURSUIT_CEILING_MPS["creature_voidstone_colossus"] = 6.1573;
+CREATURE_PURSUIT_CEILING_MPS["creature_basalt_maw"] = 6;
+CREATURE_PURSUIT_CEILING_MPS["creature_voidstone_colossus"] = 29.2839;
 CREATURE_PURSUIT_CEILING_MPS["creature_black_wilderness_dragon"] = 7.8385;
-CREATURE_PURSUIT_CEILING_MPS["creature_furnace_grazer"] = 9.0837;
-CREATURE_PURSUIT_CEILING_MPS["creature_purple_wilderness_dragon"] = 10.5415;
+CREATURE_PURSUIT_CEILING_MPS["creature_furnace_grazer"] = 6.3498;
+CREATURE_PURSUIT_CEILING_MPS["creature_purple_wilderness_dragon"] = 3.6817;
 
 // Dedicated regional boss and keeper bodies. Their strides carry the shared run speed, so the
 // ceiling never binds; `creature_boss_galeskin` (1.294 m per run cycle) and
@@ -222,8 +222,34 @@ CREATURE_PURSUIT_CEILING_MPS["creature_boss_tempest_roc"] = 5.7844;
 CREATURE_PURSUIT_CEILING_MPS["creature_boss_mossbound"] = 6.6059;
 CREATURE_PURSUIT_CEILING_MPS["creature_boss_cinderwake"] = 9.6872;
 CREATURE_PURSUIT_CEILING_MPS["creature_boss_ordrun"] = 9.7581;
-CREATURE_PURSUIT_CEILING_MPS["creature_furnace_regent"] = 16.0608;
-CREATURE_PURSUIT_CEILING_MPS["creature_hollow_star"] = 17.1;
-CREATURE_PURSUIT_CEILING_MPS["creature_chainbound_archon"] = 30.24;
-CREATURE_PURSUIT_CEILING_MPS["creature_ashseal_warden"] = 43.8197;
-CREATURE_PURSUIT_CEILING_MPS["creature_nightforge_marshal"] = 47.7586;
+CREATURE_PURSUIT_CEILING_MPS["creature_furnace_regent"] = 11.0199;
+CREATURE_PURSUIT_CEILING_MPS["creature_hollow_star"] = 10.8546;
+
+CREATURE_PURSUIT_CEILING_MPS["creature_ashseal_warden"] = 9.7587;
+CREATURE_PURSUIT_CEILING_MPS["creature_nightforge_marshal"] = 31.7487;
+
+CREATURE_PURSUIT_CEILING_MPS["creature_amethyst_dragon"] = 7.8385;
+
+CREATURE_MOTION_TIMING["creature_basalt_maw"] = { seconds: 2.3333332538604736, contactNormalized: 0.235 };
+
+CREATURE_PURSUIT_CEILING_MPS["creature_grave_ghoul"] = 14.1415;
+
+CREATURE_MOTION_TIMING["creature_grave_ghoul"] = { seconds: 1.7999999523162842, contactNormalized: 0.33 };
+
+CREATURE_MOTION_TIMING["creature_grave_lantern"] = { seconds: 1.7999999523162842, contactNormalized: 0.33 };
+
+CREATURE_MOTION_TIMING["creature_furnace_grazer"] = { seconds: 1.600000023841858, contactNormalized: 0.65 };
+
+CREATURE_MOTION_TIMING["creature_ashseal_warden"] = { seconds: 1.5, contactNormalized: 0.4 };
+
+CREATURE_MOTION_TIMING["creature_furnace_regent"] = { seconds: 2, contactNormalized: 0.52 };
+
+CREATURE_MOTION_TIMING["creature_chainbound_archon"] = { seconds: 0.5, contactNormalized: 0.42 };
+
+CREATURE_MOTION_TIMING["creature_hollow_star"] = { seconds: 1, contactNormalized: 0.316667 };
+
+CREATURE_MOTION_TIMING["creature_voidstone_colossus"] = { seconds: 1.1266666650772095, contactNormalized: 0.38 };
+
+CREATURE_MOTION_TIMING["creature_kiln_marrow"] = { seconds: 2, contactNormalized: 0.52 };
+
+CREATURE_MOTION_TIMING["creature_nightforge_marshal"] = { seconds: 1.1266666650772095, contactNormalized: 0.38 };

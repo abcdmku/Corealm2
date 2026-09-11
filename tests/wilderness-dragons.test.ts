@@ -19,7 +19,7 @@ async function assetFor(id:string){
 }
 
 describe('Wilderness winged dragon production assets',()=>{
- it('keeps three juvenile and three adult identities at native authored metres',()=>{
+ it('keeps three juvenile and four adult identities at native authored metres',()=>{
   expect(WILDERNESS_DRAGONS).toHaveLength(7);expect(new Set(WILDERNESS_DRAGONS.map(s=>s.id)).size).toBe(7);
   for(const s of WILDERNESS_DRAGONS){expect(s.assetId).toBe(`creature_${s.id}`);expect(s.stats.family).toBe(s.id);expect(s.regionId).toBe('wilderness');expect(s.stats.tier).toBe(s.id.startsWith('baby_')?50:70);expect(s.scale*tierSilhouetteScale(s.stats.tier)).toBeCloseTo(1,6);}
   expect(WILDERNESS_DRAGONS.map(s=>enemyCombatLevel(s.stats))).toEqual([50,53,56,72,75,78,78]);

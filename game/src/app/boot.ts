@@ -550,6 +550,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }, { seed: store.get().meta.seed }, worldPackCatalogue).entities)
     : [];
   const built = profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts);
+  const mobSpacingLab = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('spawnSpacing') === '1';
+  const mobSpacingFixture: SemanticEntity[] = [];
+  if (mobSpacingLab) {
+    const { createMobSpacingFixture } = await import('../featureLab/mobSpawnSpacing.js');
+    mobSpacingFixture.push(...createMobSpacingFixture({ heightAt: (x, z) => scene.meshHeightAt(x, z),
+      baseY: worldPorts.baseY!, assetSize: worldPorts.assetSize! }));
+    built.entities.push(...structuredClone(mobSpacingFixture));
+  }
   let currentCoastalHabitats = built.coastalHabitats ?? [];
   worldHabitats.push(...(built.coastalHabitats ?? []));
   for (const habitat of built.coastalHabitats ?? []) worldPackHabitats.set(habitat.groupId, habitat);
@@ -891,6 +899,56 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     bootTelemetry.milestone(BOOT_MILESTONES.NAVIGATION_READY);
   }
   nav.setRouteGraph(built.routeNodes, built.routeEdges);
+
+  const { spreadMobSpawns } = await import('../world/mobSpawnSpacing.js');
+  const applyMobSpacing = (actors: readonly SemanticEntity[]): void => {
+    const placementSolids = new Solids(built.solids);
+    const habitatSources = new Map(worldHabitats.map(habitat => [habitat.groupId, habitat]));
+    const habitats = spreadMobSpawns(actors, worldHabitats, {
+      underground: regionId => regionId === dungeonSpec?.regionId,
+      place: (entity, x, z, radius) => {
+        const underground = entity.regionId === dungeonSpec?.regionId;
+        if (underground) {
+          for (const threshold of doorThresholds) {
+            const side = (px: number, pz: number) => (px - threshold.origin[0]) * Math.sin(threshold.rotationY)
+              + (pz - threshold.origin[2]) * Math.cos(threshold.rotationY);
+            const originalSide = side(entity.position[0], entity.position[2]);
+            if (side(x, z) * Math.sign(originalSide) < radius + .4) return null;
+          }
+        } else if (profile.kind === 'game' && Math.hypot(x - profile.spawn.x, z - profile.spawn.z) < radius + 25) return null;
+        const floor = (px: number, pz: number): number | null => {
+          if (underground) return chamberFloorAt(dungeonSpec!, [px, entity.position[1], pz]);
+          if (profile.kind === 'feature-lab') return Math.abs(px) < 120 && Math.abs(pz) < 120 ? scene.meshHeightAt(px, pz) : null;
+          const sample = scene.sampleWorld(px, pz);
+          const coast = habitatSources.get(String(entity.meta?.groupId))?.boundary === 'playable-coast';
+          return sample.playable && (coast || sample.semanticRegion === entity.regionId) && !sample.waterBodyId
+            && sample.slope !== null && sample.slope < .65 ? scene.meshHeightAt(px, pz) : null;
+        };
+        const y = floor(x, z);
+        if (y === null) return null;
+        const point: Vec3 = [x, y, z];
+        const resolved = placementSolids.resolve(point, point, radius + .4);
+        if (Math.hypot(resolved[0] - x, resolved[2] - z) > .001) return null;
+        for (let index = 0; index < 16; index++) {
+          const angle = index * Math.PI / 8;
+          const edge = floor(x + Math.cos(angle) * (radius + .4), z + Math.sin(angle) * (radius + .4));
+          if (edge === null || Math.abs(edge - y) > Math.max(1, radius * .65)) return null;
+        }
+        const snapped = nav.nearestWalkable(point, .3);
+        if (!snapped || Math.hypot(snapped[0] - x, snapped[2] - z) > .3 || Math.abs(snapped[1] - y) > .6) return null;
+        const originalFloor = underground ? dungeonFloorHeight(dungeonSpec!, entity.position[0], entity.position[2])
+          : scene.meshHeightAt(entity.position[0], entity.position[2]);
+        return [x, y + entity.position[1] - originalFloor, z];
+      },
+    });
+    worldHabitats.splice(0, worldHabitats.length, ...habitats.filter(habitat => habitat.regionId !== dungeonSpec?.regionId));
+    for (const habitat of habitats) worldPackHabitats.set(habitat.groupId, habitat);
+  };
+  if (mobSpacingLab || denseCaveLab || profile.kind === 'game') {
+    applyMobSpacing(built.entities);
+    entityStore.load(built.entities);
+    rehydrateEnemyRuntimes(store.get(), entityStore, clock.elapsedMs);
+  }
 
   // Path distance, not straight line: `ObservedEntity.distance` is documented as walking distance,
   // and across Karrowmoor's terraces the difference is large enough to change an agent's choice.
@@ -1512,7 +1570,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   };
 
   const teleportPlayer = (position: Vec3, regionId: RegionId): void => {
-    const snapped = nav.closestPoint(position) ?? position;
+    const navPoint = nav.closestPoint(position) ?? position;
+    const snapped: Vec3 = regionId === dungeonSpec?.regionId
+      ? [navPoint[0], movementHeightAt(regionId, navPoint[0], navPoint[2]), navPoint[2]] : navPoint;
     store.get().player.position = snapped;
     store.get().player.regionId = regionId;
     audioDirector.setRegion(regionId);
@@ -2817,6 +2877,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (groundMotionFixture) rebuilt.entities.push(...structuredClone(groundMotionFixture.entities));
     if (packFixture) rebuilt.entities.push(...structuredClone(packFixture.entities));
     if (worldPackCatalogue) rebuilt.entities.push(...buildWorldPackEntities());
+    if (mobSpacingLab) rebuilt.entities.push(...structuredClone(mobSpacingFixture));
     if (portalFixture) {
       rebuilt.entities.push(...structuredClone(portalFixture.entities));
       rebuilt.routeNodes.push(...portalFixture.routeNodes);
@@ -2834,6 +2895,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       rebuilt.routeEdges.push(...agilityFixture.routeEdges);
     }
     rebuilt.entities.push(...(fishingLab?.createFishingLabEntities(scene, assets) ?? []));
+    if (mobSpacingLab || denseCaveLab || profile.kind === 'game') applyMobSpacing(rebuilt.entities);
     if (profile.scatter) {
       // Physical terrain, cut faces and lava stay resident across a semantic save/reset.
       // Keep their complete boot-time solid reservations while replacing actor corridors.
@@ -3046,8 +3108,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     resetWorld,
     isIdle: () => store.get().player.movement.mode === "idle" && store.get().activity === null,
     teleport: (to: Vec3) => {
-      const snapped = nav.closestPoint(to) ?? to;
-      const regionId = regionAtPoint(snapped);
+      const navPoint = nav.closestPoint(to) ?? to;
+      const regionId = regionAtPoint(navPoint);
+      const snapped: Vec3 = regionId === dungeonSpec?.regionId
+        ? [navPoint[0], movementHeightAt(regionId, navPoint[0], navPoint[2]), navPoint[2]] : navPoint;
       store.get().player.position = snapped;
       store.get().player.regionId = regionId;
       audioDirector.setRegion(regionId);
@@ -3524,6 +3588,12 @@ function registerExclusions(
     for (const section of lavaSections(channel, 2)) {
       worldExclusions.addCircle(section.x, section.z,
         section.halfWidth + channel.bankWidth + 1.5, 'custom', `lava-bank:${channel.id}`);
+    }
+    for (const mass of channel.rockMasses ?? []) {
+      const x = mass.polygon.reduce((sum, p) => sum + p[0], 0) / mass.polygon.length;
+      const z = mass.polygon.reduce((sum, p) => sum + p[1], 0) / mass.polygon.length;
+      const radius = Math.max(...mass.polygon.map(p => Math.hypot(p[0] - x, p[1] - z))) + 3;
+      worldExclusions.addCircle(x, z, radius, 'custom', `lava-landform:${mass.id}`);
     }
   }
   for (const [index,[x,z]] of WILDERNESS_ROAD_BRAZIERS.entries()) {

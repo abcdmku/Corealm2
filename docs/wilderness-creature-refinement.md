@@ -1,0 +1,23 @@
+# Wilderness creature refinement
+
+This pass covers every creature asset used by the live Wilderness region, including its older undead population. Family workers own separate builders under `tools/wilderness-creatures/families/`; dragons use `tools/wilderness-dragons/`.
+
+The approved skeletons and black adult dragon retain their accepted appearance. Crawlers have flatter, separated shells with space beneath them. Wraiths use slender cloth bodies with readable cowls, hands and worn fabric. Hollow Bough has bark grain that follows its original mesh.
+
+The rejected stone and Keeper block bodies are replaced completely. Furnace Grazer uses a four-legged horned creature with continuous scale textures. Basalt Maw uses a lean, clawed predator. Colossus and Nightforge use articulated native bodies and fitted armour. Ashseal uses the approved skeletal anatomy, Regent and Kiln use complete stone bodies, and Archon uses a detailed cloth apparition. Hollow Star uses a winged insect body. Original skinning and animation are retained, with uniform scale and measured ground corrections. Source UVs remain intact except for Archon, whose cloth uses the accepted wraith atlas mapping. Material changes distinguish hide, bone, cloth, chitin, stone and metal under regional night lighting.
+
+Cinder Dreadwing and Violet Dreadwing retain their old asset and encounter IDs. Purple Wilderness Dragon uses the added `amethyst_dragon` species. The former Grave Lantern is now Ashen Ghoul; its stable asset ID remains `grave_lantern`.
+
+The 24 expansion packs have seven residents each. Open ordinary packs have at least 14 m between centres, adult dragon packs 24 m, and constrained court packs 6 m. Three pack centres moved to keep the larger formations clear of lava. The eastern duplicate red pack now contains purple dragons and retains its encounter ID.
+
+Each family exports an isolated candidate catalog. `tools/wilderness-creatures/lab-test.ts --catalog <catalog> --ids <one-or-two-species> --batch <name>` loads the actual production models in the creature lab. The gate records animation state, attack recovery, hit reactions, material submissions and screenshots through the normal player-follow camera. Full motion gates remain separate from shorter material key-pose checks. Root and a read-only critic inspect the pictures before promotion. Gallery actions prove animation and recovery, not outgoing damage/contact synchronization.
+
+`tools/wilderness-creatures/promote-refinement.mjs --catalog <catalog> --promote` requires a passing report matching every staged hash. It updates measured pursuit limits and attack timing with the accepted asset. Stone replacement catalogs are `families/stone/native-{grazer,maw,colossus,kiln}/catalog.json`; the older stone catalog contains rejected designs and must not be promoted.
+
+Raster sources, prompts and source records live under `assets/art/wilderness-creatures/`. Keeper source snapshots are preserved in `keeper-refinement/native-sources`. Stone replacements read untouched source species rather than their own live output. Use the native builder modes; do not run the old stone grafting pipeline. Routine captures and reports stay in ignored `test-results/wilderness-creatures/` and `test-results/wilderness-dragons/`.
+
+World placement uses the authored-world exception because pack spacing, lava clearance and neighbouring habitats depend on the whole region. Asset appearance and animation still pass the lab first. After promotion, rebuild encounter footprints and navigation, then run `tools/wilderness-creatures/refinement-world-test.ts --band acceptance`. One bounded world boot checks all 31 creature asset identities and all 24 expansion formations, then inspects the Grazer, purple dragon, Gloam and Nightforge through actual mapped colour submissions and player movement. Optional focused bands remain available for later debugging. Background shader queues for unrelated world meshes are not treated as readiness for the inspected actor. Final floor placement preserves authored Wilderness anchor separation instead of falling back to its generic minimum.
+
+Family builders transform source bodies rather than their own outputs. Preserve hash-identified source catalogs while iterating. Do not feed already-refined production GLBs back into a slimming pass.
+
+Final validation: typecheck, production build and 68 focused tests pass. The world acceptance report confirms 31 creature types, 24 spaced formations and four representative textured views with player movement. The black adult GLB remains byte-identical at SHA-256 `81d86b625b996d88fa3a6eab80af0b136d78a47f515ac48013c64ef185e4564d`. The gallery now retains the selected creature name for staged presets.

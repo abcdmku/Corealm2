@@ -1,4 +1,7 @@
 import { wildernessMagicAt } from './wildernessDepth.js';
+import { smoothNoise2D } from '../world/organicFields.js';
+import { rockMassHeight, type LavaRockMass } from '../world/lavaLandforms.js';
+import { WILDERNESS_LAVA_LANDFORMS } from './wildernessLavaLandforms.js';
 
 /** One centreline owns rendering, terrain carving, scatter clearance and navigation exclusion. */
 export interface LavaChannel {
@@ -8,6 +11,11 @@ export interface LavaChannel {
   readonly depth: number;
   readonly bankWidth: number;
   readonly seed: number;
+  /** Half-widths and bed elevations at the authored controls; shared by every consumer. */
+  readonly widths?: readonly number[];
+  readonly bedHeights?: readonly number[];
+  readonly rugged?: boolean;
+  readonly rockMasses?: readonly LavaRockMass[];
   /** Pools are short broad spines with rounded, lobed shores, not decorative discs. */
   readonly kind?: 'flow' | 'pool';
   /** A connected end stays open beneath the adjoining flow instead of tapering to dry ground. */
@@ -24,14 +32,18 @@ export interface LavaSection {
   readonly progress: number;
   readonly distance: number;
   readonly halfWidth: number;
+  readonly leftHalfWidth: number;
+  readonly rightHalfWidth: number;
 }
 
 const ORIGINAL_WILDERNESS_LAVA_CHANNELS: readonly LavaChannel[] = [{
   id: 'widows-furnace',
-  points: [[127, 656], [144, 652], [162, 655], [180, 664], [199, 672], [218, 676], [234, 690]],
+  points: [[224, 700], [214, 686], [196, 679], [184, 669], [169, 667], [155, 675]],
+  widths: [1.3, 2.5, 3.4, 4.2, 6.2, 4.8],
+  bedHeights: [7.5, 7.1, 6.7, 6.3, 6.0, 5.8],
   halfWidth: 3.25,
   depth: 2.6,
-  bankWidth: 4.4,
+  bankWidth: 8.5,
   seed: 7301,
 }];
 
@@ -48,13 +60,19 @@ export const WILDERNESS_LAVA_LAB_CHANNELS: readonly LavaChannel[] = [{
 /** Isolated production fixture. Root accepts its forks, basin and palette before world registration. */
 export const DEEP_WILDERNESS_LAVA_LAB_CHANNELS: readonly LavaChannel[] = [
   { id: 'lab-cinder-fork', points: [[-22, -11], [-10, -13], [1, -9], [13, -13], [24, -10]],
-    halfWidth: 2.4, depth: 2.6, bankWidth: 4.4, seed: 11031, magic: 0 },
+    halfWidth: 2.4, widths: [1.8, 2.2, 3.1, 3.7, 2.4], bedHeights: [-2.1, -2.3, -2.6, -2.8, -3],
+    depth: 2.6, bankWidth: 6.5, seed: 11031, magic: 0, rugged: true,
+    rockMasses: [
+      { id: 'lab-broken-wall', crown: 4.8, polygon: [[-20,-21],[-15,-25],[-8,-24],[-5,-20],[-7,-16],[-13,-17],[-17,-15],[-21,-17]] },
+      { id: 'lab-downstream-spur', crown: 3.4, polygon: [[9,-20],[17,-22],[25,-19],[27,-15],[22,-12],[18,-16],[12,-15],[8,-17]] },
+      { id: 'lab-low-bench', crown: 1.6, polygon: [[-16,-5],[-9,-7],[-3,-4],[-2,1],[-11,3],[-17,0]] },
+    ] },
   { id: 'lab-cinder-tributary', points: [[1, -9], [3, -18], [-3, -24]],
-    halfWidth: 1.7, depth: 2.6, bankWidth: 4.4, seed: 11032, openEnds: [true, true], magic: 0 },
+    halfWidth: 1.7, depth: 2.6, bedHeights: [-2.6,-2.6,-2.6], bankWidth: 4.4, seed: 11032, openEnds: [true, true], magic: 0, rugged: true },
   { id: 'lab-cinder-basin', points: [[-12, -25], [-4, -24], [4, -27]],
-    halfWidth: 5.5, depth: 2.6, bankWidth: 4.4, seed: 11033, kind: 'pool', magic: 0 },
+    halfWidth: 5.5, depth: 2.6, bedHeights: [-2.6,-2.6,-2.6], bankWidth: 4.4, seed: 11033, kind: 'pool', magic: 0, rugged: true },
   { id: 'lab-nightglass-pool', points: [[16, -28], [24, -30], [31, -27]],
-    halfWidth: 6.1, depth: 3, bankWidth: 4.8, seed: 11034, kind: 'pool', magic: 1 },
+    halfWidth: 6.1, depth: 3, bedHeights: [-3,-3,-3], bankWidth: 4.8, seed: 11034, kind: 'pool', magic: 1, rugged: true },
 ];
 
 const seededUnit = (seed: number): number => {
@@ -76,30 +94,41 @@ function scatteredPool(id: string, centre: readonly [number, number], seed: numb
 }
 
 /** Lab-accepted molten surfaces, banks and effects, composed across both northern depth bands. */
-export const WILDERNESS_LAVA_EXPANSION_CHANNELS: readonly LavaChannel[] = [
+const AUTHORED_LAVA_EXPANSION_CHANNELS: readonly LavaChannel[] = [
   ...ORIGINAL_WILDERNESS_LAVA_CHANNELS,
-  { id: 'widows-furnace-west-seep', points: [[162, 655], [161, 666], [149, 678]],
-    halfWidth: 1.65, depth: 2.6, bankWidth: 4.4, seed: 12001, openEnds: [true, false] },
-  { id: 'chainfire-rill', points: [[-133, 708], [-119, 731], [-106, 748], [-102, 769], [-96, 793], [-88, 815]],
-    halfWidth: 2.6, depth: 2.7, bankWidth: 4.5, seed: 12010 },
-  { id: 'chainfire-fork', points: [[-106, 748], [-94, 739], [-79, 735]],
-    halfWidth: 1.8, depth: 2.7, bankWidth: 4.5, seed: 12011, openEnds: [true, false] },
-  { id: 'chainfire-basin', points: [[-140, 707], [-133, 708], [-124, 706]],
-    halfWidth: 5.1, depth: 2.7, bankWidth: 4.5, seed: 12012, kind: 'pool' },
-  { id: 'chainfire-nightfall-pool', points: [[-96, 816], [-88, 815], [-79, 819]],
-    halfWidth: 5.8, depth: 2.7, bankWidth: 4.5, seed: 12013, kind: 'pool' },
-  { id: 'veilburn-river', points: [[75, 735], [77, 755], [81, 778], [92, 802], [105, 827], [108, 852], [93, 879]],
-    halfWidth: 3.1, depth: 3.0, bankWidth: 4.8, seed: 12020 },
-  { id: 'veilburn-fork', points: [[81, 778], [66, 770], [47, 765]],
-    halfWidth: 1.85, depth: 3.0, bankWidth: 4.8, seed: 12021, openEnds: [true, false] },
-  { id: 'veilburn-mouth', points: [[84, 881], [93, 879], [104, 883]],
-    halfWidth: 6.3, depth: 3.0, bankWidth: 4.8, seed: 12022, kind: 'pool' },
-  { id: 'hollow-star-rift', points: [[-212, 883], [-190, 895], [-170, 902], [-149, 906], [-129, 911]],
-    halfWidth: 2.7, depth: 2.8, bankWidth: 4.7, seed: 12030 },
-  { id: 'hollow-star-fork', points: [[-190, 895], [-202, 908], [-202, 920]],
-    halfWidth: 1.7, depth: 2.8, bankWidth: 4.7, seed: 12031, openEnds: [true, false] },
-  { id: 'hollow-star-eye', points: [[-137, 910], [-129, 911], [-122, 916]],
-    halfWidth: 5.5, depth: 2.8, bankWidth: 4.7, seed: 12032, kind: 'pool' },
+  { id: 'widows-furnace-west-seep', points: [[197, 649], [195, 658], [191, 665], [184, 669], [177, 668]],
+    widths: [1, 1.5, 1.9, 2.3, 2.5], bedHeights: [7.2, 6.9, 6.6, 6.3, 6.15],
+    halfWidth: 1.65, depth: 2.6, bankWidth: 7, seed: 12001, openEnds: [false, true] },
+  { id: 'chainfire-rill', points: [[-86, 724], [-100, 737], [-113, 745], [-108, 761], [-111, 785], [-99, 801], [-84, 809]],
+    widths: [2, 2.5, 3.5, 3, 4.3, 5.3, 5.8], bedHeights: [9, 8.1, 7.5, 7.2, 6.8, 6.5, 6.3],
+    halfWidth: 2.6, depth: 2.7, bankWidth: 8, seed: 12010, openEnds: [true, true] },
+  { id: 'chainfire-fork', points: [[-70, 748], [-83, 750], [-97, 756], [-108, 761], [-109, 768]],
+    widths: [1, 1.5, 2.2, 2.4, 2.6], bedHeights: [8.6, 8.1, 7.6, 7.2, 7.12],
+    halfWidth: 1.8, depth: 2.7, bankWidth: 6.5, seed: 12011, openEnds: [false, true] },
+  { id: 'chainfire-basin', points: [[-78, 710], [-81, 718], [-86, 724], [-93, 731]],
+    widths: [1.8, 3.1, 2.6, 2], bedHeights: [9.5, 9.25, 9, 8.55],
+    halfWidth: 3.1, depth: 2.7, bankWidth: 8, seed: 12012, kind: 'pool' },
+  { id: 'chainfire-nightfall-pool', points: [[-99, 801], [-87, 808], [-73, 809], [-65, 814]],
+    widths: [4.2, 6.2, 7.1, 4], bedHeights: [6.5, 6.3, 6.15, 6.1],
+    halfWidth: 6.2, depth: 2.7, bankWidth: 9, seed: 12013, kind: 'pool' },
+  { id: 'veilburn-river', points: [[102, 879], [89, 862], [73, 845], [70, 825], [87, 804], [93, 785], [90, 767], [105, 749]],
+    widths: [1.8, 2.7, 4.1, 3.2, 5.2, 4.3, 5.1, 5.8], bedHeights: [10.3, 8.4, 7.6, 7.3, 6.9, 6.5, 6.2, 5.9],
+    halfWidth: 3.1, depth: 3, bankWidth: 9, seed: 12020, openEnds: [false, true] },
+  { id: 'veilburn-fork', points: [[48, 827], [62, 818], [76, 808], [87, 804], [91, 795]],
+    widths: [1, 1.6, 2.2, 2.6, 3.2], bedHeights: [8.1, 7.6, 7.2, 6.9, 6.7],
+    halfWidth: 1.85, depth: 3, bankWidth: 7.5, seed: 12021, openEnds: [false, true] },
+  { id: 'veilburn-mouth', points: [[99, 756], [104, 746], [110, 737], [116, 729]],
+    widths: [4.8, 6.3, 5.8, 2.8], bedHeights: [6, 5.85, 5.7, 5.65],
+    halfWidth: 6.3, depth: 3, bankWidth: 8, seed: 12022, kind: 'pool' },
+  { id: 'hollow-star-rift', points: [[-129, 915], [-146, 900], [-162, 889], [-176, 879], [-194, 875], [-213, 881]],
+    widths: [1.8, 2.4, 3.1, 4.8, 6.5, 4.7], bedHeights: [9.5, 8.2, 7.3, 6.6, 6, 5.5],
+    halfWidth: 2.7, depth: 2.8, bankWidth: 9, seed: 12030, openEnds: [true, false] },
+  { id: 'hollow-star-fork', points: [[-179, 915], [-185, 902], [-196, 888], [-206, 882], [-213, 881]],
+    widths: [1, 1.7, 2.2, 2.8, 3.5], bedHeights: [7.8, 7.1, 6.3, 5.8, 5.5],
+    halfWidth: 1.7, depth: 2.8, bankWidth: 7, seed: 12031, openEnds: [false, true] },
+  { id: 'hollow-star-eye', points: [[-119, 925], [-123, 920], [-129, 915], [-136, 909]],
+    widths: [1.5, 3.1, 2.5, 2], bedHeights: [10.1, 9.8, 9.5, 8.95],
+    halfWidth: 3.1, depth: 2.8, bankWidth: 8, seed: 12032, kind: 'pool' },
   scatteredPool('nameless-cinder-pool', [-166, 539], 12101),
   scatteredPool('black-keep-seep', [-5, 635], 12102),
   scatteredPool('widows-ember-pool', [112, 681], 12103),
@@ -110,6 +139,10 @@ export const WILDERNESS_LAVA_EXPANSION_CHANNELS: readonly LavaChannel[] = [
   scatteredPool('moonvein-seep', [313, 830], 12108),
   scatteredPool('nightforge-overflow', [191, 915], 12109),
 ];
+
+export const WILDERNESS_LAVA_EXPANSION_CHANNELS: readonly LavaChannel[] =
+  AUTHORED_LAVA_EXPANSION_CHANNELS.map(channel => ({ ...channel, rugged: true,
+    rockMasses: WILDERNESS_LAVA_LANDFORMS[channel.id] }));
 
 /** Terrain, rendering, scatter and navigation share this exact active channel set. */
 export const WILDERNESS_LAVA_CHANNELS = WILDERNESS_LAVA_EXPANSION_CHANNELS;
@@ -140,14 +173,45 @@ function pointAt(channel: LavaChannel, progress: number): readonly [number, numb
   return [interpolate(0), interpolate(1)];
 }
 
-export function lavaWidthAt(channel: LavaChannel, progress: number): number {
+const lengthCache = new WeakMap<LavaChannel, number>();
+function channelLength(channel: LavaChannel): number {
+  let length = lengthCache.get(channel);
+  if (length === undefined) {
+    length = channel.points.slice(1).reduce((sum, p, i) => sum + Math.hypot(p[0] - channel.points[i]![0], p[1] - channel.points[i]![1]), 0);
+    lengthCache.set(channel, length);
+  }
+  return length;
+}
+
+export function lavaWidthAt(channel: LavaChannel, progress: number, side = 0): number {
   const cap = channel.kind === 'pool' ? Math.sin(clamp01(progress) * Math.PI) ** .55
     : Math.min(channel.openEnds?.[0] ? 1 : smooth(0, .065, progress),
       channel.openEnds?.[1] ? 1 : smooth(0, .065, 1 - progress));
   const irregular = channel.kind === 'pool'
     ? 1 + .13 * Math.sin(progress * 13 + channel.seed) + .1 * Math.sin(progress * 25 + channel.seed * .3)
     : 1 + .19 * Math.sin(progress * 9 + channel.seed) + .055 * Math.sin(progress * 27 + channel.seed * .3);
-  return channel.halfWidth * cap * irregular;
+  const width = profileAt(channel.widths, channel.halfWidth, progress) * cap * irregular;
+  if (!channel.rugged) return width;
+  const along = progress * channelLength(channel);
+  const brokenEdge = (edge: number): number => {
+    const cell = along / 2.8, i = Math.floor(cell), t = cell - i;
+    const a = smoothNoise2D(i, edge * 7, channel.seed);
+    const b = smoothNoise2D(i + 1, edge * 7, channel.seed);
+    return 1 + .18 * (a + (b - a) * t) + .1 * smoothNoise2D(along / 9, edge * 11, channel.seed + 91);
+  };
+  return width * (side ? brokenEdge(side) : Math.max(brokenEdge(-1), brokenEdge(1)));
+}
+
+function profileAt(values: readonly number[] | undefined, fallback: number, progress: number): number {
+  if (!values?.length) return fallback;
+  const scaled = clamp01(progress) * (values.length - 1);
+  const i = Math.min(values.length - 1, Math.floor(scaled));
+  const t = smooth(0, 1, scaled - i);
+  return values[i]! + ((values[i + 1] ?? values[i]!) - values[i]!) * t;
+}
+
+export function lavaBedAt(channel: LavaChannel, progress: number): number | undefined {
+  return channel.bedHeights ? profileAt(channel.bedHeights, 0, progress) : undefined;
 }
 
 export function lavaSections(channel: LavaChannel, maxSpacing = 1.2): readonly LavaSection[] {
@@ -165,7 +229,8 @@ export function lavaSections(channel: LavaChannel, maxSpacing = 1.2): readonly L
     const length = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
     distance += Math.hypot(x - previous[0], z - previous[1]);
     rows.push({ x, z, tx: (b[0] - a[0]) / length, tz: (b[1] - a[1]) / length,
-      progress, distance, halfWidth: lavaWidthAt(channel, progress) });
+      progress, distance, halfWidth: lavaWidthAt(channel, progress),
+      leftHalfWidth: lavaWidthAt(channel, progress, -1), rightHalfWidth: lavaWidthAt(channel, progress, 1) });
     previous = [x, z];
   }
   return rows;
@@ -175,7 +240,7 @@ const sectionCache = new WeakMap<LavaChannel, readonly LavaSection[]>();
 const boundsCache = new WeakMap<LavaChannel, { minX: number; maxX: number; minZ: number; maxZ: number }>();
 function cachedSections(channel: LavaChannel): readonly LavaSection[] {
   let sections = sectionCache.get(channel);
-  if (!sections) { sections = lavaSections(channel); sectionCache.set(channel, sections); }
+  if (!sections) { sections = lavaSections(channel, channel.rugged ? .55 : 1.2); sectionCache.set(channel, sections); }
   return sections;
 }
 
@@ -183,7 +248,7 @@ function boundsDistance(channel: LavaChannel, x: number, z: number): number {
   let bounds = boundsCache.get(channel);
   if (!bounds) {
     const sections = cachedSections(channel);
-    const margin = channel.halfWidth * 1.24 + channel.bankWidth + 1.2;
+    const margin = Math.max(channel.halfWidth, ...channel.widths ?? []) * (channel.rugged ? 1.6 : 1.25) + channel.bankWidth + 1.2;
     bounds = { minX: Math.min(...sections.map(row => row.x)) - margin,
       maxX: Math.max(...sections.map(row => row.x)) + margin,
       minZ: Math.min(...sections.map(row => row.z)) - margin,
@@ -201,12 +266,15 @@ export interface LavaSample {
   readonly halfWidth: number;
   readonly bankWidth: number;
   readonly progress: number;
+  readonly centreProgress: number;
+  readonly centreDistance: number;
   readonly centre: readonly [number, number];
 }
 
 export function sampleLavaChannel(channel: LavaChannel, x: number, z: number): LavaSample {
   const sections = cachedSections(channel);
   let closest = Infinity;
+  let nearestCentre = Infinity, centreProgress = 0;
   let result: LavaSample | undefined;
   for (let i = 1; i < sections.length; i++) {
     const a = sections[i - 1]!;
@@ -218,26 +286,39 @@ export function sampleLavaChannel(channel: LavaChannel, x: number, z: number): L
     const cz = a.z + dz * t;
     const distance = Math.hypot(x - cx, z - cz);
     const progress = a.progress + (b.progress - a.progress) * t;
-    const halfWidth = lavaWidthAt(channel, progress);
+    if (distance < nearestCentre) { nearestCentre = distance; centreProgress = progress; }
+    const side = (x - cx) * -dz + (z - cz) * dx < 0 ? -1 : 1;
+    const aw = side < 0 ? a.leftHalfWidth : a.rightHalfWidth;
+    const bw = side < 0 ? b.leftHalfWidth : b.rightHalfWidth;
+    const halfWidth = aw + (bw - aw) * t;
     if (distance - halfWidth >= closest) continue;
     closest = distance - halfWidth;
     result = { channelId: channel.id, distance, signedDistance: distance - halfWidth,
-      halfWidth, bankWidth: channel.bankWidth, progress, centre: [cx, cz] };
+        halfWidth, bankWidth: channel.bankWidth, progress, centreProgress: 0, centreDistance: 0, centre: [cx, cz] };
   }
-  return result!;
+  return { ...result!, centreProgress, centreDistance: nearestCentre };
 }
 
 /** Apply to the shared terrain sampler before its lattice is built, never only to a render mesh. */
 export function carveLavaTerrain(baseHeight: number, x: number, z: number,
   channels: readonly LavaChannel[] = WILDERNESS_LAVA_CHANNELS): number {
+  for (const channel of channels) for (const mass of channel.rockMasses ?? []) {
+    baseHeight = Math.max(baseHeight, rockMassHeight(baseHeight, x, z, mass));
+  }
   let depth = 0;
   for (const channel of channels) {
     if (boundsDistance(channel, x, z) > 0) continue;
     const sample = sampleLavaChannel(channel, x, z);
-    const bank = 1 - smooth(0, channel.bankWidth, sample.signedDistance);
+    const bankT = clamp01(sample.signedDistance / channel.bankWidth);
+    const bank = channel.rugged
+      ? 1 - (.5 * smooth(.01, .25, bankT) + .32 * smooth(.37, .62, bankT) + .18 * smooth(.76, 1, bankT))
+      : 1 - smooth(0, 1, bankT);
     // The terminal basin remains cut below grade. Tapering its depth lifted the lava
     // into pointed horns and introduced discontinuous banks at pool medial seams.
-    depth = Math.max(depth, channel.depth * bank);
+    const bed = lavaBedAt(channel, sample.centreProgress);
+    const wettedBed = bed === undefined ? undefined : bed + smooth(.55, 1,
+      sample.centreDistance / Math.max(.05, sample.centreDistance - sample.signedDistance));
+    depth = Math.max(depth, (wettedBed === undefined ? channel.depth : Math.max(0, baseHeight - wettedBed)) * bank);
   }
   return baseHeight - depth;
 }

@@ -17,6 +17,7 @@
 import type { GameApi, QuestId, QuestSummary } from "../contracts.js";
 import type { HuntContractsSystem, HuntProgress } from "../systems/huntContracts.js";
 import { isSmallScreen } from "./mobileLayout.js";
+import type { Tooltip } from "./tooltips.js";
 
 const STORE_KEY = "corealm.questTracker.v1";
 
@@ -63,7 +64,11 @@ export class QuestTracker {
   private state: TrackerState = loadState();
   private signature = "";
 
-  constructor(private readonly api: GameApi, private readonly hunts: () => HuntContractsSystem | null = () => null) {
+  constructor(
+    private readonly api: GameApi,
+    private readonly hunts: () => HuntContractsSystem | null = () => null,
+    private readonly tooltip?: Pick<Tooltip, "attach">,
+  ) {
     const root = document.createElement("section");
     root.className = "quest-tracker";
     root.hidden = true;
@@ -87,9 +92,24 @@ export class QuestTracker {
     unpin.type = "button";
     unpin.className = "quest-tracker__btn";
     unpin.textContent = "×";
-    unpin.title = "Unpin quest";
     unpin.setAttribute("aria-label", "Unpin quest");
+    this.tooltip?.attach(unpin, () => ({
+      kind: "text",
+      title: "Unpin quest",
+      lines: ["Remove the quest from the tracker."],
+    }));
     unpin.addEventListener("click", () => this.pin(null));
+
+    this.tooltip?.attach(name, () => ({
+      kind: "text",
+      title: "Tracked quest",
+      lines: [this.nameEl.textContent ?? ""].filter(Boolean),
+    }));
+    this.tooltip?.attach(collapse, () => ({
+      kind: "text",
+      title: this.state.collapsed ? "Expand tracker" : "Collapse tracker",
+      lines: [this.state.collapsed ? "Show the tracked objective." : "Hide the tracked objective."],
+    }));
 
     header.append(name, stage, collapse, unpin);
 
@@ -123,6 +143,12 @@ export class QuestTracker {
     huntCaption.textContent = "Hunt";
     const huntName = document.createElement("span");
     huntName.className = "quest-tracker__hunt-name u-truncate";
+    this.tooltip?.attach(huntName, () => ({
+      kind: "text",
+      title: "Hunt target",
+      lines: [this.huntNameEl.textContent ?? ""].filter(Boolean),
+    }));
+
     const huntCount = document.createElement("span");
     huntCount.className = "quest-tracker__stage u-numeric";
     huntHead.append(huntCaption, huntName, huntCount);
@@ -225,7 +251,6 @@ export class QuestTracker {
     if (quest) {
       this.root.classList.toggle("is-complete", quest.status === "complete");
       this.nameEl.textContent = quest.name;
-      this.nameEl.title = quest.name;
       this.stageEl.textContent = quest.status === "active"
         ? `${quest.stage + 1}/${quest.stageCount}`
         : quest.status === "complete" ? "done" : "—";
@@ -240,7 +265,6 @@ export class QuestTracker {
       const ready = hunt.status === "ready";
       this.huntCard.classList.toggle("is-ready", ready);
       this.huntNameEl.textContent = hunt.offer.targetName;
-      this.huntNameEl.title = hunt.offer.targetName;
       this.huntCountEl.textContent = `${hunt.kills}/${hunt.offer.requiredKills}`;
       this.huntPlaceEl.textContent = ready ? "Done. Claim it in the journal." : hunt.offer.regionName;
       this.huntFill.style.width = `${Math.round((hunt.kills / Math.max(1, hunt.offer.requiredKills)) * 100)}%`;
@@ -273,7 +297,6 @@ export class QuestTracker {
     this.body.hidden = this.state.collapsed;
     this.root.classList.toggle("is-collapsed", this.state.collapsed);
     this.collapseButton.textContent = this.state.collapsed ? "▸" : "▾";
-    this.collapseButton.title = this.state.collapsed ? "Expand" : "Collapse";
     this.collapseButton.setAttribute("aria-label", this.state.collapsed ? "Expand tracker" : "Collapse tracker");
     this.collapseButton.setAttribute("aria-expanded", this.state.collapsed ? "false" : "true");
   }

@@ -8,6 +8,7 @@
 import type { AgentSession } from "../agent/session.js";
 import type { AgentPanelBody } from "./agentPanelBody.js";
 import type { SettingsStore } from "./settings.js";
+import type { Tooltip } from "./tooltips.js";
 
 const STORE_KEY = "corealm.agentPanel.v1";
 
@@ -56,6 +57,8 @@ export interface AgentPanelDeps {
   now(): number;
   /** Owns `agentCompanion`, the shown/hidden preference. */
   settings: SettingsStore;
+  /** Shared in-game hover card. */
+  tooltip: Pick<Tooltip, "attach">;
 }
 
 export class AgentPanel {
@@ -83,8 +86,24 @@ export class AgentPanel {
     const mode = el("span", "agent-panel__mode");
     const collapse = button("▾", "agent-panel__btn", () => this.setCollapsed(!this.prefs.collapsed));
     const close = button("×", "agent-panel__btn", () => deps.settings.set({ agentCompanion: false }));
-    close.title = "Hide. Settings brings it back.";
     close.setAttribute("aria-label", "Hide agent companion");
+    deps.tooltip.attach(close, () => ({
+      kind: "text",
+      title: "Hide companion",
+      lines: ["Settings brings it back."],
+    }));
+    deps.tooltip.attach(name, () => ({
+      kind: "text",
+      title: this.nameEl.textContent ?? "Companion",
+      lines: [this.connected
+        ? this.deps.session.read().toolCalls + " tool calls."
+        : "No agent has connected yet."],
+    }));
+    deps.tooltip.attach(collapse, () => ({
+      kind: "text",
+      title: this.prefs.collapsed ? "Expand companion" : "Collapse companion",
+      lines: [this.prefs.collapsed ? "Show agent details." : "Hide agent details."],
+    }));
     header.append(dot, name, mode, collapse, close);
 
     const body = el("div", "agent-panel__body");
@@ -162,7 +181,6 @@ export class AgentPanel {
 
     // "Companion" rather than "Agent companion": with the hide button the longer name truncates.
     this.nameEl.textContent = view.connected ? view.agentName ?? "Agent" : "Companion";
-    this.nameEl.title = view.connected ? `${view.agentName} · ${view.toolCalls} tool calls` : "No agent has connected yet";
     this.modeEl.textContent = !view.connected ? "Offline" : view.paused ? "paused" : view.mode;
 
   }
@@ -170,6 +188,7 @@ export class AgentPanel {
   dispose(): void {
     this.disposed = true;
     this.unsubscribe();
+    this.details?.dispose();
     this.details = null;
     this.root.remove();
   }
@@ -205,7 +224,6 @@ export class AgentPanel {
     this.body.hidden = this.prefs.collapsed;
     this.root.classList.toggle("is-collapsed", this.prefs.collapsed);
     this.collapseButton.textContent = this.prefs.collapsed ? "▸" : "▾";
-    this.collapseButton.title = this.prefs.collapsed ? "Expand" : "Collapse";
     this.collapseButton.setAttribute("aria-label", this.prefs.collapsed ? "Expand agent companion" : "Collapse agent companion");
     this.collapseButton.setAttribute("aria-expanded", this.prefs.collapsed ? "false" : "true");
   }

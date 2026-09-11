@@ -1,0 +1,1489 @@
+[
+  {
+    "id": "creature_skeleton_soldier",
+    "file": "models/creature/creature_skeleton_soldier.glb",
+    "pack": "corealm-rpg-dungeon-skeletons-demo",
+    "category": "character",
+    "is": "skeleton soldier",
+    "tags": [
+      "creature",
+      "rpg",
+      "skeleton_soldier"
+    ],
+    "bytes": 1183296,
+    "sha256": "b2eea4126ec0042d046960724cb03e631ddc1738c73ab0434a3b69c1f58b0710",
+    "size": {
+      "x": 1.2294581210833742,
+      "y": 1.5959422176642555,
+      "z": 0.8351349091732603
+    },
+    "base": {
+      "x": -0.872976577198899,
+      "y": 0.0032741110492161326,
+      "z": -0.387269709140566
+    },
+    "groundY": 0.0032741110492161326,
+    "triangles": 1150,
+    "animations": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "HitLeft",
+      "HitRight",
+      "Death"
+    ],
+    "materials": [
+      "animal_rpg_skeleton_soldier_DS_Skeleton_standard",
+      "animal_rpg_skeleton_soldier_DS_equipment_standard"
+    ],
+    "walkClipSeconds": 1.1666666269302368,
+    "runClipSeconds": 0.7933332920074463,
+    "attackSeconds": 1.5,
+    "contactNormalized": 0.4,
+    "sourceProvenance": {
+      "publisher": "Polygon Blacksmith",
+      "package": "Dungeon Skeletons Demo.unitypackage",
+      "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+      "license": "Standard Unity Asset Store EULA; local entitlement cache",
+      "mesh": "models/DungeonSkeleton_demo.FBX",
+      "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0.",
+      "hitRevision": {
+        "kind": "clip-only",
+        "baselineSha256": "b322df501fd9e916fba28eb1e6b067beb7783b142f586c1a85e973d9cd530426",
+        "candidateSha256": "858e5d64f151e7f4bd1a0d440f20d5e24c0a3a53c43b94851236bfb9579218fe",
+        "description": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal"
+      }
+    },
+    "metadata": {
+      "family": "skeleton",
+      "style": "source-onehand-soldier",
+      "heightM": 1.8143914708695248,
+      "dimensionsM": {
+        "width": 0.6257249590048719,
+        "height": 1.8143914708695248,
+        "depth": 0.7927388546838348
+      },
+      "forwardAxis": "+Z",
+      "upAxis": "+Y",
+      "groundY": -1.4268100589909238e-16,
+      "rig": "Original Dungeon Skeletons biped skin, bind matrices and weights",
+      "sourceSkinned": true,
+      "boneCount": 30,
+      "sourceVertices": 3606,
+      "attackContactPhase": 0.4,
+      "attackContactStatus": "Provisional contact phase pending production review of original Attack take",
+      "textureBindings": [
+        {
+          "materialName": "DS_Skeleton_standard",
+          "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoSkeleton.png",
+          "flipY": true
+        },
+        {
+          "materialName": "DS_equipment_standard",
+          "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\test-results\\rpg-bestiary-skeleton\\Assets\\DungeonCharacters\\Skeletons_demo\\models\\Materials\\DemoEquipment.png",
+          "flipY": true
+        }
+      ],
+      "provenance": {
+        "publisher": "Polygon Blacksmith",
+        "package": "Dungeon Skeletons Demo.unitypackage",
+        "sha256": "9e9e40c66eda22d756dd256bf670fcf5edc28bf0b4bba5026daa204791fdf23c",
+        "license": "Standard Unity Asset Store EULA; local entitlement cache",
+        "mesh": "models/DungeonSkeleton_demo.FBX",
+        "textureNotes": "Original UV albedo maps preserved. Demo contains no normal/roughness texture. Unity material smoothness .2 maps to roughness .8; metallic 0."
+      },
+      "animationProvenance": {
+        "Idle": "Original DS_onehand_idle_A.FBX take",
+        "Walk": "Original DS_onehand_walk.FBX take",
+        "Attack": "Original DS_onehand_attack_A.FBX take",
+        "Run": "PROPOSAL: original Walk retimed to 68% duration; no authored run in demo",
+        "Hit": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+        "HitLeft": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+        "HitRight": "Corealm-authored joint recoil (Spine1/Neck/Head/clavicles/arms) over source idle pose; replaces the earlier root-lean proposal",
+        "Death": "PROPOSAL: authored backward root collapse over source idle pose; no authored death in demo"
+      },
+      "acceptance": "Source candidate. Original mesh/material/rig preserved; derived motions need production review. Not accepted.",
+      "helmetModification": {
+        "removedHornTriangles": 52,
+        "removedHornComponents": [
+          {
+            "triangles": 26,
+            "min": [
+              -0.1815052598784736,
+              1.6647911761140672,
+              -0.03819738445343579
+            ],
+            "max": [
+              -0.049025541320902345,
+              1.7632333311028443,
+              0.10698005429677825
+            ]
+          },
+          {
+            "triangles": 26,
+            "min": [
+              0.04902742550705219,
+              1.664791171827675,
+              -0.03819736299599851
+            ],
+            "max": [
+              0.18150714802322265,
+              1.7632333167036884,
+              0.10698010579455214
+            ]
+          }
+        ],
+        "retainedHelmetBowlTriangles": 92,
+        "method": "Only the two reviewed disconnected 26-triangle source helmet horns removed. Retained source attributes and all rig/clip data unchanged."
+      },
+      "runtimeTexturePolicy": {
+        "maxDimension": 2048,
+        "sharedByEncodedSha256": true,
+        "originalsPreserved": true
+      },
+      "gaitMeasurement": {
+        "status": "credible-joint-estimate",
+        "source": "tools/rpg-bestiary/gait-results.json",
+        "visualContactAccepted": false
+      },
+      "revision": "retained-skeleton-hit-round1",
+      "materialRefinement": {
+        "generator": "tools/wilderness-creatures/families/undead.mjs",
+        "sourceAssetSha256": "858e5d64f151e7f4bd1a0d440f20d5e24c0a3a53c43b94851236bfb9579218fe",
+        "atlas": "assets/art/wilderness-creatures/undead/bone-ivory-v1.png",
+        "atlasSha256": "23d9e15f0bc8e4e4e421661d165589036af3fee4ec76e2f50af477e3eae7f9c0",
+        "accessorSha256": "de86295d7a895d83ef4fbece65393fea0a644cd9ab66840e3dbd7eccb950bd07",
+        "scope": "UV-preserving bone and corpse atlases. Grave Lantern uses retained anatomical TEXCOORD_1 instead of the former tiled rock skin. Ivory bone and visible role-specific leather, wood, wool and metal. All geometry, UV coordinates, rigs and animation accessors unchanged."
+      }
+    },
+    "acceptance": {
+      "exported": true,
+      "labAccepted": true,
+      "worldIntegrated": false,
+      "labReport": "test-results/wilderness-creatures/lab-family_undead_bones/report.json"
+    },
+    "impliedWalkMps": 1.48327,
+    "impliedRunMps": 2.18128,
+    "locomotionPolicy": "speed-matched"
+  },
+  {
+    "id": "creature_lava_golem",
+    "file": "models/creature/creature_lava_golem.glb",
+    "pack": "corealm-rpg-gavlig-lava-golem-clean",
+    "category": "character",
+    "is": "lava golem",
+    "tags": [
+      "creature",
+      "rpg",
+      "lava_golem"
+    ],
+    "bytes": 1275852,
+    "sha256": "0a54a15bacdc355293120e788000a237e74bcc430038aa465a8fb27359a22837",
+    "size": {
+      "x": 1.851119520119564,
+      "y": 2.815492736961961,
+      "z": 1.1630494568568968
+    },
+    "base": {
+      "x": -0.9431082959644478,
+      "y": 0.003000000452914528,
+      "z": -0.6299987111562713
+    },
+    "groundY": 0,
+    "triangles": 5502,
+    "animations": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "HitLeft",
+      "HitRight",
+      "Death"
+    ],
+    "materials": [
+      "animal_rpg_lava_golem_lava_authored_0_golem_mat"
+    ],
+    "walkClipSeconds": 1.6666666269302368,
+    "runClipSeconds": 1.1494252599518875,
+    "attackSeconds": 2,
+    "contactNormalized": 0.52,
+    "sourceProvenance": {
+      "author": "gavlig",
+      "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
+      "source": "https://opengameart.org/content/lava-golem",
+      "sourceAssets": [
+        "golem_clean.blend",
+        "golem_emit.png"
+      ],
+      "sourcePacks": [
+        {
+          "id": "gavlig-lava-golem-clean",
+          "author": "gavlig",
+          "license": "CC0-1.0",
+          "source": "https://opengameart.org/content/lava-golem",
+          "download": "https://opengameart.org/sites/default/files/golem_clean.blend.zip",
+          "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81"
+        }
+      ],
+      "sourceRecords": [
+        {
+          "archive": "golem_clean.blend.zip",
+          "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81",
+          "excluded": "Author removed cgtextures-derived diffuse/normal/specular images from official clean archive. Restricted Dropbox full-texture bundle not used.",
+          "conceptCredit": "Source page credits Boris concept artwork; model authored by gavlig and official clean asset labeled CC0."
+        }
+      ],
+      "modifications": "Complete authored body and 71-bone rig, no anatomy edits or grafts. Source constraints baked by Blender4.5.11. Own deterministic object-space basalt colour/micro-normal maps replace omitted textures. Original glow atlas remains emissive at original slot factor0.9434782266616821. Native idle/walk/smash retained; running, hit reactions and death are explicitly authored derivatives. Uniform1.5 source scale and whole-mesh ground alignment."
+    },
+    "metadata": {
+      "id": "lava_golem",
+      "family": "lava_golem",
+      "revision": "lava-golem-source-review-1",
+      "height": 2.803028340222869,
+      "dimensions": [
+        4.094039258665499,
+        2.803028340222869,
+        1.163049782082837
+      ],
+      "rig": "authored-71-bone-lava-golem",
+      "vertices": 3337,
+      "triangles": 5502,
+      "source": "https://opengameart.org/content/lava-golem",
+      "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
+      "provenance": {
+        "author": "gavlig",
+        "license": "CC0-1.0 model, rig, native animations and supplied glow map; original project procedural replacement rock maps",
+        "source": "https://opengameart.org/content/lava-golem",
+        "sourceAssets": [
+          "golem_clean.blend",
+          "golem_emit.png"
+        ],
+        "sourcePacks": [
+          {
+            "id": "gavlig-lava-golem-clean",
+            "author": "gavlig",
+            "license": "CC0-1.0",
+            "source": "https://opengameart.org/content/lava-golem",
+            "download": "https://opengameart.org/sites/default/files/golem_clean.blend.zip",
+            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81"
+          }
+        ],
+        "sourceRecords": [
+          {
+            "archive": "golem_clean.blend.zip",
+            "sha256": "602e37e8baccc55b6d9778ee2844b27278f8818ddab2fbbaa0b14b0c43a17c81",
+            "excluded": "Author removed cgtextures-derived diffuse/normal/specular images from official clean archive. Restricted Dropbox full-texture bundle not used.",
+            "conceptCredit": "Source page credits Boris concept artwork; model authored by gavlig and official clean asset labeled CC0."
+          }
+        ],
+        "modifications": "Complete authored body and 71-bone rig, no anatomy edits or grafts. Source constraints baked by Blender4.5.11. Own deterministic object-space basalt colour/micro-normal maps replace omitted textures. Original glow atlas remains emissive at original slot factor0.9434782266616821. Native idle/walk/smash retained; running, hit reactions and death are explicitly authored derivatives. Uniform1.5 source scale and whole-mesh ground alignment."
+      },
+      "textureBindings": [
+        {
+          "materialName": "lava_authored_0_golem_mat",
+          "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\original-basalt-color.png",
+          "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\original-basalt-normal.png",
+          "emissivePath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\golem_emit.png",
+          "emissiveTexCoord": 0,
+          "emissiveStrength": 0.9434782266616821,
+          "flipY": false
+        }
+      ],
+      "sourceMaterial": {
+        "originalEmitSlot": {
+          "index": 3,
+          "mapto": 65,
+          "uv": "active UV layer",
+          "texCoord": 0,
+          "emitfac": 0.9434782266616821,
+          "colfac": 1,
+          "offset": [
+            0,
+            0,
+            0
+          ],
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "evidence": "test-results/lava-golem-source/legacy-material-slots.json"
+        },
+        "replacementRock": {
+          "author": "Corealm project original procedural implementation",
+          "script": "tools/rpg-bestiary/lava-golem-source/bake-rock.mjs",
+          "inputs": "geometry positions/UVs and deterministic 3D noise only; no third-party texture images"
+        },
+        "specular": "Removed source photography not used or reinterpreted as roughness",
+        "textures": [
+          {
+            "materialName": "lava_authored_0_golem_mat",
+            "baseColorPath": {
+              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\original-basalt-color.png",
+              "sha256": "00547f846e383f95b16da5d0a4dafc2a618fc117627e762f081ba64c6a673b8b"
+            },
+            "normalPath": {
+              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\original-basalt-normal.png",
+              "sha256": "2924fe60cd7b1bb31904345fe0fd677ac0c77d58d42153a7453b13bcbfbf8a60"
+            },
+            "emissivePath": {
+              "path": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\lava-golem-source\\derived\\golem_emit.png",
+              "sha256": "1e3d17d34ce2df1f04ddc2e756d80f3a83a3e5d062b42b5b1de33467e3dd36c9"
+            },
+            "emissiveTexCoord": 0,
+            "emissiveStrength": 0.9434782266616821,
+            "flipY": false
+          }
+        ]
+      },
+      "clipSources": {
+        "Idle": "native idle0–300 at60fps",
+        "Walk": "native walk0–100 at60fps",
+        "Run": "native Walk retimed1.45x; no native run",
+        "Attack": "native smash0–120 at60fps",
+        "Hit": "idle-derived0.6s with authored spine recoil; no native hit",
+        "HitLeft": "same derivative with positive lateral spine turn",
+        "HitRight": "same derivative with negative lateral spine turn",
+        "Death": "authored1.6s forward collapse from original idle pose with spine curl; no native death"
+      },
+      "attackContact": 0.52,
+      "attackContactSource": "Provisional native smash phase0.52; requires production contact review",
+      "animationFloorChecks": [
+        {
+          "clip": "Idle",
+          "rawMinFloor": 9.566345446354596e-8,
+          "maxAlignment": 0.0029999043365455365,
+          "minFloor": 0.003000000452914528,
+          "firstSize": [
+            1.851119520119564,
+            2.815492736961961,
+            1.1630494568568968
+          ],
+          "lastSize": [
+            1.8511194064022622,
+            2.815492734892595,
+            1.1630494793421382
+          ]
+        },
+        {
+          "clip": "Walk",
+          "rawMinFloor": -0.012261837588512375,
+          "maxAlignment": 0.015261837588512375,
+          "minFloor": 0.0029106294623949813,
+          "firstSize": [
+            1.814483775503637,
+            2.7296527245846636,
+            1.785774518557567
+          ],
+          "lastSize": [
+            1.8144837619162715,
+            2.7296527344279085,
+            1.7857745487159478
+          ]
+        },
+        {
+          "clip": "Run",
+          "rawMinFloor": -0.01217951851821733,
+          "maxAlignment": 0.01517951851821733,
+          "minFloor": 0.002677727298468463,
+          "firstSize": [
+            1.814483775503637,
+            2.7296527245846636,
+            1.785774518557567
+          ],
+          "lastSize": [
+            1.8144837769159847,
+            2.7296527243126465,
+            1.7857745208064886
+          ]
+        },
+        {
+          "clip": "Attack",
+          "rawMinFloor": 9.566345446354596e-8,
+          "maxAlignment": 0.0029999043365455365,
+          "minFloor": 0.003000000452914528,
+          "firstSize": [
+            1.8529005558081244,
+            2.815492736961961,
+            1.163049493578511
+          ],
+          "lastSize": [
+            1.8278524474977256,
+            2.815492734892595,
+            1.1630494793421382
+          ]
+        },
+        {
+          "clip": "Hit",
+          "rawMinFloor": 9.566345446354596e-8,
+          "maxAlignment": 0.0029999043365455365,
+          "minFloor": 0.003000000452914528,
+          "firstSize": [
+            1.851119520119564,
+            2.815492736961961,
+            1.1630494568568968
+          ],
+          "lastSize": [
+            1.8511195200251775,
+            2.815492737423849,
+            1.1630494561227391
+          ]
+        },
+        {
+          "clip": "HitLeft",
+          "rawMinFloor": 9.566345446354596e-8,
+          "maxAlignment": 0.0029999043365455365,
+          "minFloor": 0.003000000452914528,
+          "firstSize": [
+            1.851119520119564,
+            2.815492736961961,
+            1.1630494568568968
+          ],
+          "lastSize": [
+            1.8511195200251775,
+            2.815492737423849,
+            1.1630494561227391
+          ]
+        },
+        {
+          "clip": "HitRight",
+          "rawMinFloor": 9.566345446354596e-8,
+          "maxAlignment": 0.0029999043365455365,
+          "minFloor": 0.003000000452914528,
+          "firstSize": [
+            1.851119520119564,
+            2.815492736961961,
+            1.1630494568568968
+          ],
+          "lastSize": [
+            1.8511195200251775,
+            2.815492737423849,
+            1.1630494561227391
+          ]
+        },
+        {
+          "clip": "Death",
+          "rawMinFloor": -0.2948923558718015,
+          "maxAlignment": 0.2978923558718015,
+          "minFloor": 0.002999979607113623,
+          "firstSize": [
+            1.8511194064022622,
+            2.815492734892595,
+            1.1630494793421382
+          ],
+          "lastSize": [
+            1.929528280393466,
+            1.280807215267135,
+            2.770033855732418
+          ]
+        }
+      ],
+      "approval": "candidate-needs-production-visual-and-motion-review",
+      "runtimeTexturePolicy": {
+        "maxDimension": 2048,
+        "sharedByEncodedSha256": true,
+        "originalsPreserved": true
+      },
+      "gaitMeasurement": {
+        "status": "credible-geometry-estimate",
+        "source": "tools/rpg-bestiary/replacement-inventory/user-golem-gaits.json",
+        "visualContactAccepted": false
+      }
+    },
+    "acceptance": {
+      "exported": true,
+      "labAccepted": false,
+      "worldIntegrated": false
+    },
+    "impliedWalkMps": 1.825079,
+    "impliedRunMps": 2.646375,
+    "locomotionPolicy": "speed-matched"
+  },
+  {
+    "id": "creature_iron_golem",
+    "file": "models/creature/creature_iron_golem.glb",
+    "pack": "corealm-rpg-universal-base-characters",
+    "category": "character",
+    "is": "iron golem",
+    "tags": [
+      "creature",
+      "rpg",
+      "iron_golem"
+    ],
+    "bytes": 2006924,
+    "sha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
+    "size": {
+      "x": 1.551951880966139,
+      "y": 2.341389253991521,
+      "z": 1.2900518699872199
+    },
+    "base": {
+      "x": -0.723342356466185,
+      "y": 0.0029999995559962123,
+      "z": -0.6708345462288714
+    },
+    "groundY": 0.0029999995559962123,
+    "triangles": 29484,
+    "animations": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "HitLeft",
+      "HitRight",
+      "Death"
+    ],
+    "materials": [
+      "animal_rpg_iron_golem_iron_golem_base_male_MI_Eyes",
+      "animal_rpg_iron_golem_iron_golem_base_male_MI_Superhero_Male",
+      "animal_rpg_iron_golem_iron_golem_outfit_male_knight_chest_MI_Knight"
+    ],
+    "walkClipSeconds": 1.8000000715255737,
+    "runClipSeconds": 1.1200000047683716,
+    "attackSeconds": 1.1266666650772095,
+    "contactNormalized": 0.38,
+    "sourceProvenance": {
+      "sourceAssets": [
+        "base_male",
+        "outfit_male_knight_chest",
+        "outfit_male_knight_legs",
+        "outfit_male_knight_boots",
+        "outfit_male_knight_gloves",
+        "outfit_male_knight_pauldron",
+        "outfit_male_knight_helmet",
+        "animation_library_1"
+      ],
+      "sourceFiles": [
+        {
+          "file": "game/public/assets/models/character/base_male.glb",
+          "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+        },
+        {
+          "file": "game/public/assets/models/outfit/outfit_male_knight_chest.glb",
+          "sha256": "9da7187fb41bb4033aa2a9c95b9804f6cd43c626d0fa0ce3a960a9cc69e7bcc0"
+        },
+        {
+          "file": "game/public/assets/models/outfit/outfit_male_knight_legs.glb",
+          "sha256": "1b6a81600aea0038e93b40cc0010dce5efa8e6628a5e8d1b361473ff9cbdf13c"
+        },
+        {
+          "file": "game/public/assets/models/outfit/outfit_male_knight_boots.glb",
+          "sha256": "c72ebde664b9b7b52c05645083aeff557f02865219f93b527cc3bf2fb76a245c"
+        },
+        {
+          "file": "game/public/assets/models/outfit/outfit_male_knight_gloves.glb",
+          "sha256": "8834f57374c9972c28f00bf23a7f886c1c28106f1cd40a83c524ca0ab914e23a"
+        },
+        {
+          "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
+          "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
+        },
+        {
+          "file": "game/public/assets/models/outfit/outfit_male_knight_helmet.glb",
+          "sha256": "fdcdaaeeb44bcec5379a4a031017e7463ced1fa21df53a06a7d67edecc38f47c"
+        },
+        {
+          "file": "game/public/assets/models/animation/animation_library_1.glb",
+          "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        }
+      ],
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "sourcePacks": [
+        {
+          "id": "universal-base-characters",
+          "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+        },
+        {
+          "id": "modular-character-outfits-fantasy",
+          "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+        },
+        {
+          "id": "universal-animation-library",
+          "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+        }
+      ],
+      "modifications": "Broad coordinated bind-space anatomy and joints; original knight armor converted to weathered guardian statue; authored mineral texture, heavy clip timing",
+      "materialRevision": {
+        "kind": "material-only",
+        "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
+        "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
+        "candidateSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
+        "sourceColor": {
+          "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0.png",
+          "sha256": "7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0"
+        },
+        "sourceNormal": {
+          "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
+          "sha256": "dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31",
+          "bytesUnchanged": true,
+          "materialNormalScale": 0.45
+        },
+        "interpretation": "Existing authored mineral-grain luminance is remapped to dark neutral grey-blue cast iron with muted rust in existing dark fissures. Metallic/roughness is newly authored PBR data. Geometry, source rig, skin, gait and all eight clips are unchanged.",
+        "channels": {
+          "baseColor": "Dark cast iron, source-luminance grain amplitude 12/255; rust [104,72,52], mix <=0.55",
+          "metallic": "B channel, clean iron 0.88 fading to oxide 0.35",
+          "roughness": "G channel, clean iron 0.58 plus grain, fading to oxide 0.85",
+          "normal": "Original normal PNG unchanged; material strength 0.45"
+        },
+        "statistics": {
+          "roughness": [
+            0.5804073725490195,
+            0.85
+          ],
+          "metalness": [
+            0.35,
+            0.88
+          ],
+          "oxidePixelFraction": 0.17180252075195312,
+          "oxidePixelDefinition": "oxide > 0",
+          "meanAlbedo": [
+            87.97062683105469,
+            92.02383422851562,
+            96.99153137207031
+          ]
+        },
+        "author": "Corealm project material adaptation; underlying geometry/rig/clips Quaternius CC0",
+        "status": "candidate-needs-production-material-review",
+        "parameters": {
+          "cleanBase": [
+            90.34351673687486,
+            95.03340705201711,
+            100.51249754864389
+          ],
+          "grainAmplitude": 12,
+          "oxideLuminanceCutoff": 0.739,
+          "oxideFade": 0.16,
+          "oxideMaxMix": 0.55,
+          "patina": [
+            104,
+            72,
+            52
+          ]
+        }
+      }
+    },
+    "metadata": {
+      "family": "golem",
+      "height": 2.172113270130379,
+      "dimensions": [
+        3.692075743124171,
+        2.172113270130379,
+        0.9685257971286774
+      ],
+      "rig": "entitled-universal-base-65-joint",
+      "textureBindings": [
+        {
+          "materialName": "animal_rpg_iron_golem_iron_golem_base_male_MI_Superhero_Male",
+          "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\d04258594580081a0af33967d08f6d7ddee86dd1802b9a2aca679971ce359dd3.png",
+          "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
+          "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\cac8febc24e64af50c16c4c4395b97cc15c8a43b7c31bfde49973e81df456b04.png",
+          "normalScale": 0.45,
+          "flipY": false
+        },
+        {
+          "materialName": "animal_rpg_iron_golem_iron_golem_outfit_male_knight_chest_MI_Knight",
+          "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\d04258594580081a0af33967d08f6d7ddee86dd1802b9a2aca679971ce359dd3.png",
+          "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
+          "metallicRoughnessPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2-wt\\04-monster-anims\\art\\rebuild\\candidates\\finish-bestiary\\iron-material-round2\\textures\\imported\\cac8febc24e64af50c16c4c4395b97cc15c8a43b7c31bfde49973e81df456b04.png",
+          "normalScale": 0.45,
+          "flipY": false
+        }
+      ],
+      "floorCorrection": {
+        "Idle": {
+          "samples": 221,
+          "maximumLift": 0.023987187406190248
+        },
+        "Walk": {
+          "samples": 149,
+          "maximumLift": 0.1586746946931693
+        },
+        "Run": {
+          "samples": 95,
+          "maximumLift": 0.011913477462350369
+        },
+        "Attack": {
+          "samples": 94,
+          "maximumLift": 0.027977792289892812
+        },
+        "Hit": {
+          "samples": 31,
+          "maximumLift": 0.02558463619276214
+        },
+        "HitLeft": {
+          "samples": 31,
+          "maximumLift": 0.02558463619276214
+        },
+        "HitRight": {
+          "samples": 31,
+          "maximumLift": 0.02558463619276214
+        },
+        "Death": {
+          "samples": 203,
+          "maximumLift": 0.3956970024756407
+        }
+      },
+      "source": "Quaternius Universal Base Characters and Modular Fantasy Knight armor, preserved source topology and skin weights",
+      "license": "CC0-1.0",
+      "provenance": {
+        "sourceAssets": [
+          "base_male",
+          "outfit_male_knight_chest",
+          "outfit_male_knight_legs",
+          "outfit_male_knight_boots",
+          "outfit_male_knight_gloves",
+          "outfit_male_knight_pauldron",
+          "outfit_male_knight_helmet",
+          "animation_library_1"
+        ],
+        "sourceFiles": [
+          {
+            "file": "game/public/assets/models/character/base_male.glb",
+            "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_chest.glb",
+            "sha256": "9da7187fb41bb4033aa2a9c95b9804f6cd43c626d0fa0ce3a960a9cc69e7bcc0"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_legs.glb",
+            "sha256": "1b6a81600aea0038e93b40cc0010dce5efa8e6628a5e8d1b361473ff9cbdf13c"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_boots.glb",
+            "sha256": "c72ebde664b9b7b52c05645083aeff557f02865219f93b527cc3bf2fb76a245c"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_gloves.glb",
+            "sha256": "8834f57374c9972c28f00bf23a7f886c1c28106f1cd40a83c524ca0ab914e23a"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_pauldron.glb",
+            "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_knight_helmet.glb",
+            "sha256": "fdcdaaeeb44bcec5379a4a031017e7463ced1fa21df53a06a7d67edecc38f47c"
+          },
+          {
+            "file": "game/public/assets/models/animation/animation_library_1.glb",
+            "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+          }
+        ],
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "sourcePacks": [
+          {
+            "id": "universal-base-characters",
+            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+          },
+          {
+            "id": "modular-character-outfits-fantasy",
+            "sha256": "c3468b18871cc8c8f05ab14df7712baf22cb9f389cbd870babf130e595187f70"
+          },
+          {
+            "id": "universal-animation-library",
+            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+          }
+        ],
+        "modifications": "Broad coordinated bind-space anatomy and joints; original knight armor converted to weathered guardian statue; authored mineral texture, heavy clip timing",
+        "materialRevision": {
+          "kind": "material-only",
+          "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
+          "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
+          "candidateSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
+          "sourceColor": {
+            "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0.png",
+            "sha256": "7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0"
+          },
+          "sourceNormal": {
+            "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
+            "sha256": "dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31",
+            "bytesUnchanged": true,
+            "materialNormalScale": 0.45
+          },
+          "interpretation": "Existing authored mineral-grain luminance is remapped to dark neutral grey-blue cast iron with muted rust in existing dark fissures. Metallic/roughness is newly authored PBR data. Geometry, source rig, skin, gait and all eight clips are unchanged.",
+          "channels": {
+            "baseColor": "Dark cast iron, source-luminance grain amplitude 12/255; rust [104,72,52], mix <=0.55",
+            "metallic": "B channel, clean iron 0.88 fading to oxide 0.35",
+            "roughness": "G channel, clean iron 0.58 plus grain, fading to oxide 0.85",
+            "normal": "Original normal PNG unchanged; material strength 0.45"
+          },
+          "statistics": {
+            "roughness": [
+              0.5804073725490195,
+              0.85
+            ],
+            "metalness": [
+              0.35,
+              0.88
+            ],
+            "oxidePixelFraction": 0.17180252075195312,
+            "oxidePixelDefinition": "oxide > 0",
+            "meanAlbedo": [
+              87.97062683105469,
+              92.02383422851562,
+              96.99153137207031
+            ]
+          },
+          "author": "Corealm project material adaptation; underlying geometry/rig/clips Quaternius CC0",
+          "status": "candidate-needs-production-material-review",
+          "parameters": {
+            "cleanBase": [
+              90.34351673687486,
+              95.03340705201711,
+              100.51249754864389
+            ],
+            "grainAmplitude": 12,
+            "oxideLuminanceCutoff": 0.739,
+            "oxideFade": 0.16,
+            "oxideMaxMix": 0.55,
+            "patina": [
+              104,
+              72,
+              52
+            ]
+          }
+        }
+      },
+      "attackContact": 0.38,
+      "animationAcceptance": "candidate-needs-production-lab-motion-review",
+      "variantDesign": "Enclosed knight helmet, enlarged cast shoulder shells, deeper breastplate and broad iron gauntlets/boots",
+      "revision": "iron-material-round2",
+      "runtimeTexturePolicy": {
+        "maxDimension": 2048,
+        "sharedByEncodedSha256": true,
+        "originalsPreserved": true
+      },
+      "gaitMeasurement": {
+        "status": "credible-joint-estimate",
+        "source": "tools/rpg-bestiary/gait-results.json",
+        "visualContactAccepted": false
+      },
+      "materialRevision": {
+        "kind": "material-only",
+        "baselineFile": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/models/creature/creature_iron_golem.glb",
+        "baselineSha256": "f84d7e0a237d1b4b78891f1b1802004b4acc67d64a93fce1b53d477acdf8ee2a",
+        "candidateSha256": "223e61a6675b5e93efe919068ef3ca7e58f6048b1ecf001e661340eec6be5ff8",
+        "sourceColor": {
+          "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0.png",
+          "sha256": "7d61861f670e8fa2bc8431e938db59dcba08a23f1016ab39d4518d50262768c0"
+        },
+        "sourceNormal": {
+          "file": "art/rebuild/candidates/finish-bestiary/retained-unhorned15/textures/imported/dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31.png",
+          "sha256": "dbb88d0d148e31c165ce7fd55409dded7a07ed0f35908944923297d01ae61e31",
+          "bytesUnchanged": true,
+          "materialNormalScale": 0.45
+        },
+        "interpretation": "Existing authored mineral-grain luminance is remapped to dark neutral grey-blue cast iron with muted rust in existing dark fissures. Metallic/roughness is newly authored PBR data. Geometry, source rig, skin, gait and all eight clips are unchanged.",
+        "channels": {
+          "baseColor": "Dark cast iron, source-luminance grain amplitude 12/255; rust [104,72,52], mix <=0.55",
+          "metallic": "B channel, clean iron 0.88 fading to oxide 0.35",
+          "roughness": "G channel, clean iron 0.58 plus grain, fading to oxide 0.85",
+          "normal": "Original normal PNG unchanged; material strength 0.45"
+        },
+        "statistics": {
+          "roughness": [
+            0.5804073725490195,
+            0.85
+          ],
+          "metalness": [
+            0.35,
+            0.88
+          ],
+          "oxidePixelFraction": 0.17180252075195312,
+          "oxidePixelDefinition": "oxide > 0",
+          "meanAlbedo": [
+            87.97062683105469,
+            92.02383422851562,
+            96.99153137207031
+          ]
+        },
+        "author": "Corealm project material adaptation; underlying geometry/rig/clips Quaternius CC0",
+        "status": "candidate-needs-production-material-review",
+        "parameters": {
+          "cleanBase": [
+            90.34351673687486,
+            95.03340705201711,
+            100.51249754864389
+          ],
+          "grainAmplitude": 12,
+          "oxideLuminanceCutoff": 0.739,
+          "oxideFade": 0.16,
+          "oxideMaxMix": 0.55,
+          "patina": [
+            104,
+            72,
+            52
+          ]
+        }
+      }
+    },
+    "acceptance": {
+      "exported": true,
+      "labAccepted": false,
+      "worldIntegrated": false
+    },
+    "impliedWalkMps": 0.97535,
+    "impliedRunMps": 6.7042,
+    "locomotionPolicy": "speed-matched"
+  },
+  {
+    "id": "creature_banshee",
+    "file": "models/creature/creature_banshee.glb",
+    "pack": "corealm-rpg-universal-base-characters",
+    "category": "character",
+    "is": "banshee",
+    "tags": [
+      "creature",
+      "rpg",
+      "banshee"
+    ],
+    "bytes": 897824,
+    "sha256": "b905c1c540caea25b5414dfe57f915a8f0f9071384954dc2567e22212bb33849",
+    "size": {
+      "x": 0.6499378916368594,
+      "y": 1.8696513598369475,
+      "z": 1.2651960488508256
+    },
+    "base": {
+      "x": -0.37060018664986805,
+      "y": 0.08999999971372165,
+      "z": -0.4624662247613074
+    },
+    "groundY": 0,
+    "triangles": 12574,
+    "animations": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "HitLeft",
+      "HitRight",
+      "Death"
+    ],
+    "materials": [
+      "animal_rpg_banshee_banshee_source_Male_Wizard_Body_MI_Wizard",
+      "animal_rpg_banshee_banshee_source_Male_Wizard_Arms_MI_Regular_Male",
+      "animal_rpg_banshee_banshee_source_outfit_male_ranger_hood_MI_Ranger"
+    ],
+    "walkClipSeconds": 1.3333333730697632,
+    "runClipSeconds": 0.9333333373069763,
+    "attackSeconds": 0.5,
+    "contactNormalized": 0.42,
+    "sourceProvenance": {
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "sourceAssets": [
+        "base_male",
+        "Male_Wizard_Body",
+        "Male_Wizard_Arms",
+        "outfit_male_ranger_hood",
+        "animation_library_1"
+      ],
+      "sources": [
+        {
+          "file": "game/public/assets/models/character/base_male.glb",
+          "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+        },
+        {
+          "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
+          "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
+        },
+        {
+          "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
+          "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
+        },
+        {
+          "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
+          "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
+        },
+        {
+          "file": "game/public/assets/models/animation/animation_library_1.glb",
+          "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+        }
+      ],
+      "sourcePacks": [
+        {
+          "id": "universal-base-characters",
+          "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+        },
+        {
+          "id": "modular-character-outfits-fantasy-source",
+          "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
+        },
+        {
+          "id": "universal-animation-library",
+          "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+        }
+      ],
+      "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
+    },
+    "metadata": {
+      "family": "wraith",
+      "height": 1.8696513598369475,
+      "dimensions": [
+        0.6499378916368594,
+        1.8696513598369475,
+        1.2651960488508256
+      ],
+      "rig": "entitled-universal-base-65-joint",
+      "sourceSkinned": true,
+      "vertices": 9505,
+      "triangles": 12574,
+      "textureBindings": [
+        {
+          "materialName": "banshee_source_Male_Wizard_Body_MI_Wizard",
+          "flipY": false,
+          "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-baseColorPath.png",
+          "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Body-0-normalPath.png"
+        },
+        {
+          "materialName": "banshee_source_Male_Wizard_Arms_MI_Wizard",
+          "flipY": false,
+          "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-baseColorPath.png",
+          "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-0-normalPath.png"
+        },
+        {
+          "materialName": "banshee_source_Male_Wizard_Arms_MI_Regular_Male",
+          "flipY": false,
+          "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-baseColorPath.png",
+          "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\Male_Wizard_Arms-1-normalPath.png"
+        },
+        {
+          "materialName": "banshee_source_outfit_male_ranger_hood_MI_Ranger",
+          "flipY": false,
+          "baseColorPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-baseColorPath.png",
+          "normalPath": "C:\\Users\\Borg\\Documents\\GitHub\\Corealm2\\tools\\rpg-bestiary\\wraith-source\\derived\\outfit_male_ranger_hood-0-normalPath.png"
+        }
+      ],
+      "floorCorrection": {
+        "Idle": {
+          "samples": 189,
+          "maximumLift": 0
+        },
+        "Walk": {
+          "samples": 121,
+          "maximumLift": 0
+        },
+        "Run": {
+          "samples": 85,
+          "maximumLift": 0.1103367225039341
+        },
+        "Attack": {
+          "samples": 45,
+          "maximumLift": 0
+        },
+        "Hit": {
+          "samples": 31,
+          "maximumLift": 0
+        },
+        "HitLeft": {
+          "samples": 31,
+          "maximumLift": 0
+        },
+        "HitRight": {
+          "samples": 31,
+          "maximumLift": 0
+        },
+        "Death": {
+          "samples": 207,
+          "maximumLift": 0.39499311100265894
+        }
+      },
+      "attackContact": 0.42,
+      "attackContactSource": "Spell_Simple_Shoot production marker .42",
+      "license": "CC0-1.0",
+      "provenance": {
+        "author": "Quaternius",
+        "license": "CC0-1.0",
+        "sourceAssets": [
+          "base_male",
+          "Male_Wizard_Body",
+          "Male_Wizard_Arms",
+          "outfit_male_ranger_hood",
+          "animation_library_1"
+        ],
+        "sources": [
+          {
+            "file": "game/public/assets/models/character/base_male.glb",
+            "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+          },
+          {
+            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Body.glb",
+            "sha256": "24d32c0f6526d1c54ef7dee365c95555326ec7a1a641987f15851f1102d7e5a1"
+          },
+          {
+            "file": "tools/rpg-bestiary/wraith-source/source/Male_Wizard_Arms.glb",
+            "sha256": "e6101431c763deed5568c32f4bb6d9855badec24755cd395b8018b47f008e961"
+          },
+          {
+            "file": "game/public/assets/models/outfit/outfit_male_ranger_hood.glb",
+            "sha256": "5a8c43840f5c9764a78ed86355b39f7d9f4bedaf1ef31917f54fe86fa005f2cf"
+          },
+          {
+            "file": "game/public/assets/models/animation/animation_library_1.glb",
+            "sha256": "751f4431be3e703fcacbc49e74c9b742a758cf03c82a9bb36ac295b18d7a481e"
+          }
+        ],
+        "sourcePacks": [
+          {
+            "id": "universal-base-characters",
+            "sha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40"
+          },
+          {
+            "id": "modular-character-outfits-fantasy-source",
+            "sha256": "c1bdaa7c79bb43e8f082f8484a841ac8ec8afa0295a9cfa7e9b101cd0cd32cab"
+          },
+          {
+            "id": "universal-animation-library",
+            "sha256": "cc73fc4e495b82958207316596317a3f40b9fa38065bde1027937452da537724"
+          }
+        ],
+        "modifications": "Hidden body and face; original Wizard hands. Rejected pants removed. Continuous source tunic extended to a ragged hem; lower robe reweighted to pelvis/spine to avoid leg separation. Source UV islands and normal maps retained. Basecolor textures desaturated with pale hands and cold cloth. Banshee has longer bell robe and hood veil; revenant adds source knight shoulder armor."
+      },
+      "textureOrientation": "Original glTF UVs and image rows, flipY false",
+      "sourceClips": {
+        "Idle": "Spell_Simple_Idle_Loop",
+        "Walk": "Walk_Loop",
+        "Run": "Jog_Fwd_Loop",
+        "Attack": "Spell_Simple_Shoot",
+        "Hit": "Hit_Chest",
+        "HitLeft": "Hit_Chest",
+        "HitRight": "Hit_Chest",
+        "Death": "Death01"
+      },
+      "animationAcceptance": "candidate-needs-production-lab-motion-review; floating cloak, no foot-contact claim",
+      "revision": "banshee-source-review-2",
+      "runtimeTexturePolicy": {
+        "maxDimension": 2048,
+        "sharedByEncodedSha256": true,
+        "originalsPreserved": true
+      },
+      "grounding": "Intentional source robe hover; preserve the 9 cm authored clearance."
+    },
+    "acceptance": {
+      "exported": true,
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
+  },
+  {
+    "id": "creature_gorge_mantis",
+    "file": "models/creature/creature_gorge_mantis.glb",
+    "pack": "pixeliusvita-monster09",
+    "category": "character",
+    "is": "A tall insectoid with jointed claws, a blue-grey shell, and folded reddish wings.",
+    "tags": [
+      "creature",
+      "monster",
+      "mantis",
+      "insectoid",
+      "ground",
+      "chitin",
+      "claws"
+    ],
+    "bytes": 3559432,
+    "sha256": "ee27bda91c10c4f362fe911682314b2be968e599032c67dbf9791293bcd6a9e1",
+    "size": {
+      "x": 1.3989777415860893,
+      "y": 2.0000280004692925,
+      "z": 1.2447057318343129
+    },
+    "base": {
+      "x": -0.6994890528010655,
+      "y": -0.009363583384709592,
+      "z": -0.8929037746942676
+    },
+    "bounds": {
+      "min": [
+        -0.6994890528010655,
+        -0.009363583384709592,
+        -0.8929037746942676
+      ],
+      "max": [
+        0.6994886887850239,
+        1.9906644170845829,
+        0.3518019571400453
+      ]
+    },
+    "groundY": -0.009363583384709592,
+    "triangles": 7400,
+    "animations": [
+      "Idle",
+      "Walk",
+      "Run",
+      "Attack",
+      "Hit",
+      "HitLeft",
+      "HitRight",
+      "Death"
+    ],
+    "materials": [
+      "gorge_mantis_authored_chitin"
+    ],
+    "sourceProvenance": {
+      "author": "PixeliusVita",
+      "package": "Fantasy Monster 09 Game Ready Rigged Animations PixeliusVita",
+      "sourceRig": "Assets/Stylized3DMonster/Monster09/Monster09.fbx",
+      "sourceTexture": "Assets/Stylized3DMonster/Monster09/Shader_Texture/Texture/Monster09_01.png",
+      "sourceAnimations": [
+        "Monster09_Idle.anim",
+        "Monster09_Walk.anim",
+        "Monster09_Run.anim",
+        "Monster09_Attack02.anim",
+        "Monster09_GetHit.anim",
+        "Monster09_Die.anim"
+      ],
+      "license": "Standard Unity Asset Store EULA"
+    },
+    "impliedWalkMps": 1.1475409836065573,
+    "impliedRunMps": 2.833333191666674,
+    "walkClipSeconds": 1,
+    "runClipSeconds": 0.6666666865348816,
+    "attackSeconds": 1,
+    "contactNormalized": 0.316667,
+    "measuredGait": {
+      "gait": {
+        "walk": {
+          "seconds": 1,
+          "sampledFootBones": 2,
+          "stanceSamples": 118,
+          "measuredStanceMps": 1.1475155979755707,
+          "feet": [
+            {
+              "bone": "footl",
+              "minY": 0.11678820883349927,
+              "maxY": 0.2166729359035427,
+              "strideZ": 0.6981704649047844,
+              "contactSamples": 59,
+              "stanceMedianMps": 1.147513560865863
+            },
+            {
+              "bone": "footr",
+              "minY": 0.11685088427944623,
+              "maxY": 0.21662697039434653,
+              "strideZ": 0.698170484619861,
+              "contactSamples": 59,
+              "stanceMedianMps": 1.1475155979755707
+            }
+          ],
+          "rootHorizontalTravel": [
+            {
+              "bone": "rootx",
+              "x": 0,
+              "z": 1.3113416498511388e-9
+            }
+          ]
+        },
+        "run": {
+          "seconds": 0.6666666865348816,
+          "sampledFootBones": 2,
+          "stanceSamples": 107,
+          "measuredStanceMps": 2.833504596571902,
+          "feet": [
+            {
+              "bone": "footl",
+              "minY": 0.1159814596593848,
+              "maxY": 0.27624038972082177,
+              "strideZ": 1.0147373771227608,
+              "contactSamples": 53,
+              "stanceMedianMps": 2.834830603253873
+            },
+            {
+              "bone": "footr",
+              "minY": 0.11608058403030744,
+              "maxY": 0.276092621228317,
+              "strideZ": 1.0144729029054442,
+              "contactSamples": 54,
+              "stanceMedianMps": 2.832358587813393
+            }
+          ],
+          "rootHorizontalTravel": [
+            {
+              "bone": "rootx",
+              "x": 0,
+              "z": 1.3055864341027235e-9
+            }
+          ]
+        }
+      },
+      "loops": {
+        "Idle": {
+          "seconds": 2.9666669368743896,
+          "maxTranslationGap": 0.0000395046302262347,
+          "maxRotationGapRadians": 0.0221039404120411,
+          "maxScaleGap": 0
+        },
+        "Walk": {
+          "seconds": 1,
+          "maxTranslationGap": 0.006955881012767716,
+          "maxRotationGapRadians": 0.014264101236315566,
+          "maxScaleGap": 0
+        },
+        "Run": {
+          "seconds": 0.6666666865348816,
+          "maxTranslationGap": 0.025278694743686943,
+          "maxRotationGapRadians": 0.031074620501883504,
+          "maxScaleGap": 0
+        }
+      },
+      "basis": "96 samples per exported locomotion cycle; distal joint backward speed during the lowest 12 percent of vertical travel. Actual moving production lab review remains required."
+    },
+    "metadata": {
+      "id": "gorge_mantis",
+      "is": "A tall insectoid with jointed claws, a blue-grey shell, and folded reddish wings.",
+      "tags": [
+        "creature",
+        "monster",
+        "mantis",
+        "insectoid",
+        "ground",
+        "chitin",
+        "claws"
+      ],
+      "provenance": {
+        "author": "PixeliusVita",
+        "package": "Fantasy Monster 09 Game Ready Rigged Animations PixeliusVita",
+        "sourceRig": "Assets/Stylized3DMonster/Monster09/Monster09.fbx",
+        "sourceTexture": "Assets/Stylized3DMonster/Monster09/Shader_Texture/Texture/Monster09_01.png",
+        "sourceAnimations": [
+          "Monster09_Idle.anim",
+          "Monster09_Walk.anim",
+          "Monster09_Run.anim",
+          "Monster09_Attack02.anim",
+          "Monster09_GetHit.anim",
+          "Monster09_Die.anim"
+        ],
+        "license": "Standard Unity Asset Store EULA"
+      },
+      "attackSeconds": 1,
+      "contactNormalized": 0.316667,
+      "impliedWalkMps": 1.1475409836065573,
+      "impliedRunMps": 2.833333191666674,
+      "gaitFootBones": [
+        "footl",
+        "footr"
+      ],
+      "walkClipSeconds": 1,
+      "runClipSeconds": 0.6666667,
+      "notes": [
+        "Original FBX geometry, UVs, vertex normals, inverse binds, and native 2048px texture preserved.",
+        "Source package has no normal texture. The actual _BumpMap is empty; its legacy _NORMAL_MAP refers to an albedo texture and is not imported as a normal map.",
+        "Original Unity quaternion, position, and scale curves resampled with cubic Hermite tangents at 60 Hz, with X handedness and metre-to-centimetre conversion.",
+        "Source locomotion is a hovering animation. This ground adaptation replaces pelvis and leg poses with two-bone IK and alternating planted contacts. Foot sweeps are 0.70 m over 61% of Walk and 1.02 m over 54% of Run; implied speeds match those stance velocities.",
+        "Both source wing pairs are folded down the back in every clip. Each baked frame corrects root Y against the actual skinned minimum. Source upper-body animation is retained.",
+        "Root X/Z is fixed across all clips, including the source Die clip, whose original backward travel is removed for an in-place collapse.",
+        "HitLeft and HitRight retain source GetHit recoil, adding a small directional torso bend. No flight clips are used.",
+        "Attack contact at normalized 0.316667 is the sampled peak forward reach of the right middle claw, 1.061 m from origin. Production feature-lab acceptance remains required."
+      ],
+      "boneNames": [
+        "rootx",
+        "thigh_stretchr",
+        "thigh_twistr",
+        "leg_stretchr",
+        "leg_twistr",
+        "footr",
+        "toes_01r",
+        "thigh_stretchl",
+        "leg_stretchl",
+        "footl",
+        "toes_01l",
+        "leg_twistl",
+        "thigh_twistl",
+        "spine_01x",
+        "spine_02x",
+        "spine_03x",
+        "shoulder_dupli_001r",
+        "arm_stretch_dupli_001r",
+        "arm_twist_dupli_001r",
+        "forearm_stretch_dupli_001r",
+        "hand_dupli_001r",
+        "forearm_twist_dupli_001r",
+        "shoulder_dupli_001l",
+        "arm_stretch_dupli_001l",
+        "arm_twist_dupli_001l",
+        "forearm_stretch_dupli_001l",
+        "hand_dupli_001l",
+        "forearm_twist_dupli_001l",
+        "shoulder_dupli_002r",
+        "arm_stretch_dupli_002r",
+        "forearm_stretch_dupli_002r",
+        "hand_dupli_002r",
+        "forearm_twist_dupli_002r",
+        "arm_twist_dupli_002r",
+        "c_subneck_1x",
+        "neckx",
+        "headx",
+        "c_ear_01l",
+        "c_ear_02l",
+        "c_ear_03l",
+        "c_ear_04l",
+        "c_ear_01r",
+        "c_ear_02r",
+        "c_ear_03r",
+        "c_ear_04r",
+        "shoulderr",
+        "arm_stretchr",
+        "forearm_stretchr",
+        "handr",
+        "middle1_baser",
+        "middle1r",
+        "middle2r",
+        "middle3r",
+        "index1_baser",
+        "index1r",
+        "index2r",
+        "index3r",
+        "thumb1r",
+        "thumb2r",
+        "thumb3r",
+        "ring1_baser",
+        "ring1r",
+        "ring2r",
+        "ring3r",
+        "forearm_twistr",
+        "arm_twistr",
+        "shoulder_dupli_002l",
+        "arm_stretch_dupli_002l",
+        "arm_twist_dupli_002l",
+        "forearm_stretch_dupli_002l",
+        "forearm_twist_dupli_002l",
+        "hand_dupli_002l",
+        "shoulderl",
+        "arm_stretchl",
+        "forearm_stretchl",
+        "handl",
+        "thumb1l",
+        "thumb2l",
+        "thumb3l",
+        "index1_basel",
+        "index1l",
+        "index2l",
+        "index3l",
+        "ring1_basel",
+        "ring1l",
+        "ring2l",
+        "ring3l",
+        "middle1_basel",
+        "middle1l",
+        "middle2l",
+        "middle3l",
+        "forearm_twistl",
+        "arm_twistl"
+      ],
+      "authoringModule": "tools/creature-expansion/monsters.mjs"
+    },
+    "acceptance": {
+      "assetAudit": true,
+      "labAccepted": false,
+      "worldIntegrated": false
+    }
+  }
+]

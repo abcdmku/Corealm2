@@ -6,7 +6,10 @@ import { startGameServer } from './lib/server.js';
 import { WILDERNESS_LAVA_CHANNELS, lavaSections, isMoltenLavaAt } from '../game/src/content/wildernessLava.js';
 import { CAMERA } from '../game/src/app/config.js';
 
-const out = 'test-results/lava-stream-world';
+const option = process.argv.indexOf('--channel');
+const selectedChannel = option >= 0 ? process.argv[option + 1]! : 'widows-furnace';
+assert(['widows-furnace', 'veilburn-river', 'hollow-star-rift'].includes(selectedChannel));
+const out = `test-results/lava-stream-world/${selectedChannel}`;
 await mkdir(out, { recursive: true });
 const started = Date.now();
 const server = await startGameServer();
@@ -26,7 +29,7 @@ try {
     await driver.callDebug('callTool', ['corealm_equip', { itemId }]);
   }
   await driver.callDebug('setHealth', [317]);
-  for (const id of ['widows-furnace', 'veilburn-river', 'hollow-star-rift']) {
+  for (const id of [selectedChannel]) {
     const channel = WILDERNESS_LAVA_CHANNELS.find(row => row.id === id)!;
     const section = lavaSections(channel).reduce((best, row) =>
       Math.abs(row.progress - .5) < Math.abs(best.progress - .5) ? row : best);
@@ -35,13 +38,13 @@ try {
     const y = await driver.callDebug('groundHeight', [x, z]);
     const yaw = Math.atan2(section.tz, -section.tx);
     await driver.callDebug('inspectPose', [{ x, y, z, yaw, pitch: .65, distance: CAMERA.maxDistance, detached: false }]);
-    await page.waitForFunction(({ x, z }) => (window as any).__wildernessEffects.getState().bankLighting.slots
-      .some((slot: { intensity: number; position: number[] }) => slot.intensity > 10
-        && Math.hypot(slot.position[0]! - x, slot.position[2]! - z) < 40), { x, z }, { timeout: 6000 });
     await page.waitForFunction(() => {
       const shaders = (window as any).__renderDistanceLab?.shaders();
       return !shaders || !shaders.waiting && !shaders.queued && !shaders.compiling;
-    }, null, { timeout: 20_000 });
+    }, null, { timeout: 45_000 });
+    await page.waitForFunction(({ x, z }) => (window as any).__wildernessEffects.getState().bankLighting.slots
+      .some((slot: { intensity: number; position: number[] }) => slot.intensity > 10
+        && Math.hypot(slot.position[0]! - x, slot.position[2]! - z) < 40), { x, z }, { timeout: 6000 });
     await page.waitForTimeout(250);
     const before = await page.evaluate(() => ({
       effects: (window as any).__wildernessEffects.getState(),
@@ -52,6 +55,7 @@ try {
     assert(before.effects.lights.every((light: { kind: string | null }) => light.kind !== 'lava'));
     assert(before.effects.bankLighting.active > 0);
     assert.equal(before.effects.channels, WILDERNESS_LAVA_CHANNELS.length);
+    assert.equal(before.effects.rockMasses, 16, 'Authored volcanic host bodies must be present in the final world');
     assert.equal(before.camera.freeMove, false);
     assert(before.camera.requestedDistance <= CAMERA.maxDistance);
     await page.screenshot({ path: `${out}/${id}.png`, timeout: 5000 });

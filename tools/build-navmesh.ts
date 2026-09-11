@@ -22,6 +22,8 @@ const SOURCE_GROUPS = {
     "game/src/world/siteTerrain.ts",
     "game/src/content/worldSites.ts",
     "game/src/content/wildernessLava.ts",
+    "game/src/content/wildernessLavaLandforms.ts",
+    "game/src/world/lavaLandforms.ts",
     "game/src/content/wildernessLandmarks.ts",
     "game/src/content/wildernessDepth.ts",
     "game/src/content/wildernessResources.ts",

@@ -1,3 +1,4 @@
+import { runeIconSvg } from "./runeIcons.js";
 /**
  * Item icon fallback shapes and the runtime raster element.
  *
@@ -181,6 +182,8 @@ export function iconShapeFor(def: ItemDef | undefined): IconShape {
  * measurably slower than one `innerHTML` write per slot.
  */
 export function itemIconSvg(def: ItemDef | undefined): string {
+  const rune = def && runeIconSvg(def.id);
+  if (rune) return rune;
   const paths = PATHS[iconShapeFor(def)]
     .map((d) => `<path d="${d}" />`)
     .join("");
@@ -205,6 +208,8 @@ export function createItemIcon(def: ItemDef | undefined): HTMLElement {
   const wrapper = document.createElement("span");
   wrapper.className = "item-icon";
   wrapper.innerHTML = itemIconSvg(def);
+
+  if (def && runeIconSvg(def.id)) return wrapper;
 
   const url = itemIconUrl(def);
   if (!url) return wrapper;

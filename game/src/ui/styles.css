@@ -963,6 +963,8 @@ html, body {
   padding: 0;
   background: none;
   border: none;
+  pointer-events: auto;
+  cursor: help;
 }
 
 .hud__currency-mark { color: var(--accent); font-size: var(--size-sm); text-shadow: var(--shadow-text); }
@@ -2153,3 +2155,9 @@ html, body {
   .skill-guide__unlocks { max-height: none; }
   .skill-guide__unlock { grid-template-columns: 34px minmax(0, 1fr) auto; }
 }
+
+/* Rune costs belong to the spell hover card. */
+.tooltip__rune-cost { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+.tooltip__rune-cost .rune-icon { flex: none; width: 24px; height: 24px; }
+.tooltip__rune-carried { margin-left: auto; color: var(--ink-dim); font-size: var(--size-xs); }
+.tooltip__rune-cost.is-short, .tooltip__rune-cost.is-short .tooltip__rune-carried { color: #ff9684; }

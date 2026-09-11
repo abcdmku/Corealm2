@@ -20,5 +20,5 @@ const DRAGON_SPECIES: readonly CreatureSpeciesDef[] = [
     marks:[row.tier*2,row.tier*6],drops:[{itemId:'drake_scale',quantity:[1,row.tier===50?2:4],chance:.85},{itemId:'fire_essence',quantity:[2,5],chance:.65}]},row.combatLevel),
 }));
 
-export const WILDERNESS_DRAGONS = DRAGON_SPECIES.filter(species => species.id !== 'amethyst_dragon');
+export const WILDERNESS_DRAGONS = DRAGON_SPECIES;
 export const WILDERNESS_DRAGON_CANDIDATES = DRAGON_SPECIES;

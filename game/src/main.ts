@@ -1,6 +1,9 @@
 import { boot } from "./app/boot.js";
 import { bootProfileFor } from "./app/bootProfile.js";
 
+// The game owns right-click interactions; never let Chromium replace them with its menu.
+document.addEventListener("contextmenu", (event) => event.preventDefault());
+
 const canvas = document.getElementById("viewport");
 if (!(canvas instanceof HTMLCanvasElement)) {
   throw new Error("Corealm needs a <canvas id=\"viewport\">");

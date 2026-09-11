@@ -6,15 +6,16 @@
  * showed a panel because nothing on screen suggested there was one. This is the fix: every panel
  * has a permanent button, and the button lights up while its panel is open.
  *
- * Each button is an icon and one word. The key is in the hover title and the accessible name, not
- * printed on the face: six key caps in a row made the bar look like a keyboard, and the controls
- * panel (H) already lists every binding.
+ * Each button is an icon and one word. The key is in the hover overlay and the accessible name,
+ * not printed on the face: six key caps in a row made the bar look like a keyboard, and the
+ * controls panel (H) already lists every binding.
  *
  * The dock owns no state. It asks each entry whether its panel is open on every update and paints
  * from the answer, so a panel opened by a key, by a world interaction, or by another panel all
  * light the same button.
  */
 import { createUiIcon, type UiIconName } from "./icons.js";
+import type { Tooltip } from "./tooltips.js";
 
 export interface DockEntry {
   id: string;
@@ -41,7 +42,7 @@ export class PanelDock {
   private readonly root: HTMLElement;
   private readonly buttons: DockButton[] = [];
 
-  constructor(entries: readonly DockEntry[]) {
+  constructor(entries: readonly DockEntry[], tooltip?: Pick<Tooltip, "attach">) {
     const root = document.createElement("nav");
     root.className = "dock";
     root.setAttribute("aria-label", "Panels");
@@ -54,9 +55,12 @@ export class PanelDock {
       // no use to a thumb.
       button.dataset["panel"] = entry.id;
       button.setAttribute("aria-pressed", "false");
-      // The title carries the key too, so a hover answers "how do I open this without the mouse".
-      button.title = `${entry.label} (${entry.key.toUpperCase()})`;
       button.setAttribute("aria-label", `${entry.label}, key ${entry.key.toUpperCase()}`);
+      tooltip?.attach(button, () => ({
+        kind: "text",
+        title: entry.label,
+        lines: [`Press ${entry.key.toUpperCase()} to open.`],
+      }));
 
       const glyph = document.createElement("span");
       glyph.className = "dock__glyph";

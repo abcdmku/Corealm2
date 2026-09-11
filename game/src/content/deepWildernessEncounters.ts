@@ -43,12 +43,12 @@ export const DEEP_WILDERNESS_PACKS: readonly DeepWildernessPackPlan[] = [
   { id: 'wilderness_midnight_carapaces', speciesId: 'rift_carapace', centre: [163, 724], count: 7, radius: 28, bodyRadius: 2.5 },
   { id: 'wilderness_nightforge_east_colossi', speciesId: 'voidstone_colossus', centre: [254, 812], count: 7, radius: 28, bodyRadius: 3.3 },
   { id: 'wilderness_northwest_black_dragons', speciesId: 'black_wilderness_dragon', centre: [-319, 910], count: 7, radius: 34, bodyRadius: 5.7 },
-  { id: 'wilderness_northwest_red_dragons', speciesId: 'red_wilderness_dragon', centre: [-255, 903], count: 7, radius: 34, bodyRadius: 5.5 },
-  { id: 'wilderness_central_purple_dragons', speciesId: 'purple_wilderness_dragon', centre: [15, 807], count: 7, radius: 34, bodyRadius: 5.7 },
-  { id: 'wilderness_eastern_red_dragons', speciesId: 'red_wilderness_dragon', centre: [233, 866], count: 7, radius: 34, bodyRadius: 5.5 },
+  { id: 'wilderness_northwest_red_dragons', speciesId: 'red_wilderness_dragon', centre: [-265, 903], count: 7, radius: 34, bodyRadius: 5.5 },
+  { id: 'wilderness_central_purple_dragons', speciesId: 'purple_wilderness_dragon', centre: [17, 803], count: 7, radius: 34, bodyRadius: 5.7 },
+  { id: 'wilderness_eastern_red_dragons', speciesId: 'amethyst_dragon', centre: [233, 866], count: 7, radius: 34, bodyRadius: 5.5 },
   { id: 'wilderness_eastern_gloam_conclave', speciesId: 'gloam_wraith', centre: [317, 802], count: 7, radius: 28, bodyRadius: 1.5 },
   { id: 'wilderness_sanctum_east_carapaces', speciesId: 'rift_carapace', centre: [146, 885], count: 7, radius: 28, bodyRadius: 2.5 },
-  { id: 'wilderness_sanctum_west_colossi', speciesId: 'voidstone_colossus', centre: [-99, 858], count: 7, radius: 28, bodyRadius: 3.3 },
+  { id: 'wilderness_sanctum_west_colossi', speciesId: 'voidstone_colossus', centre: [-101, 860], count: 7, radius: 28, bodyRadius: 3.3 },
   courtPack(0, 'west'), courtPack(0, 'east'),
   courtPack(1, 'west'), courtPack(1, 'east'),
   courtPack(2, 'west'), courtPack(2, 'east'),
@@ -84,7 +84,7 @@ export function deepWildernessPackFormation(pack: DeepWildernessPackPlan): Encou
     tier: wildernessTierAt(pack.centre[1]), assetId: `creature_${pack.speciesId}`, scale: 1,
     centre: pack.centre, count: pack.count, radius: pack.radius };
   return createEncounterFormation(group, { bodyRadius: pack.bodyRadius, count: pack.count,
-    maxRadius: pack.radius, rotationY: pack.rotationY, bodyGap: pack.speciesId.endsWith('_wilderness_dragon')
+    maxRadius: pack.radius, rotationY: pack.rotationY, bodyGap: pack.speciesId.endsWith('_wilderness_dragon') || pack.speciesId === 'amethyst_dragon'
       ? Math.max(.5, 24 - pack.bodyRadius * 2) : pack.siteId ? 3 : Math.max(4, 14 - pack.bodyRadius * 2) });
 }
 

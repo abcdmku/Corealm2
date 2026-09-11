@@ -59,6 +59,7 @@ try {
   const first = await readState();
   assert.equal(first.channels, 4);
   assert.equal(first.pools, 2);
+  assert.equal(first.rockMasses, 3, 'Connected host rock must be present in the production fixture');
   assert.deepEqual(first.paletteRange, [0, 1]);
   assert.equal(first.lightBudget, 6);
   assert.equal(first.crustPlates, 0, 'Molten flow stays clear of static slab clutter');

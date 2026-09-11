@@ -1,4 +1,5 @@
 import type { CreatureGallery, GalleryMotion } from "../featureLab/creatureGallery.js";
+import { stagedCreaturePreset } from "../featureLab/catalog.js";
 
 export interface CreatureGalleryPanelOptions {
   parent?: HTMLElement;
@@ -90,6 +91,10 @@ export class CreatureGalleryPanel {
     const signature = `${state.ready}:${state.presetId}:${state.count}:${state.motion}`;
     if (signature === this.signature) return;
     this.signature = signature;
+    if (state.presetId && !Array.from(this.preset.options).some(option => option.value === state.presetId)) {
+      const staged = stagedCreaturePreset(state.presetId);
+      this.preset.add(new Option(staged?.label ?? state.assetId, state.presetId));
+    }
     this.preset.value = state.presetId;
     this.count.value = String(state.count);
     this.status.textContent = state.ready

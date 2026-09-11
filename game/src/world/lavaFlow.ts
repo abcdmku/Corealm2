@@ -13,7 +13,7 @@ export function buildLavaFlowField(channels: readonly LavaChannel[], height: (x:
       const direction = Math.abs(fall) > .035 ? Math.sign(fall) : fallback;
       return [row.tx * direction, row.tz * direction] as const;
     });
-    const margin = channel.halfWidth * 1.25 + 2;
+    const margin = Math.max(...rows.map(row => row.halfWidth)) + 2;
     return { channel, rows, velocity,
       minX: Math.min(...rows.map(r => r.x)) - margin, maxX: Math.max(...rows.map(r => r.x)) + margin,
       minZ: Math.min(...rows.map(r => r.z)) - margin, maxZ: Math.max(...rows.map(r => r.z)) + margin };
@@ -24,7 +24,7 @@ export function buildLavaFlowField(channels: readonly LavaChannel[], height: (x:
       if (x < path.minX || x > path.maxX || z < path.minZ || z > path.maxZ) continue;
       const sample = sampleLavaChannel(path.channel, x, z);
       if (sample.signedDistance > 1.5) continue;
-      const index = sample.progress * (path.rows.length - 1);
+      const index = sample.centreProgress * (path.rows.length - 1);
       const i = Math.floor(index), t = index - i;
       const a = path.velocity[i]!, b = path.velocity[Math.min(i + 1, path.velocity.length - 1)]!;
       const weight = Math.max(.01, 1 - Math.max(0, sample.signedDistance) / 1.5)

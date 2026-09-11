@@ -400,9 +400,9 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
   let bank: LazyPanel<BankPanelHandle> | null = null;
   let shop: LazyPanel<ShopPanelHandle> | null = null;
 
-  const tracker = new QuestTracker(api, () => hunts);
+  const tracker = new QuestTracker(api, () => hunts, tooltip);
   const agentPanel = options.agentSession
-    ? new AgentPanel({ session: options.agentSession, now: () => api.getTime().simMs, settings })
+    ? new AgentPanel({ session: options.agentSession, now: () => api.getTime().simMs, settings, tooltip })
     : null;
 
   const context: UiContext = {
@@ -458,6 +458,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
     defaults: [["voltrend", "stonebrand", "rimewash", "emberlash", null, null, null, null]],
     defaultVisible: 1,
     notify: (message) => notify(message),
+    tooltip,
   });
 
   function activateSpell(spellId: SpellId): void {
@@ -621,6 +622,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
           loot.cancelPending();
           title.open();
         },
+        tooltip,
       })
     : null;
 
@@ -662,7 +664,7 @@ export function createUi(api: GameApi, options: UiOptions = {}): Ui {
       } },
     { id: "controls", label: "Keys", key: "h", icon: "keys",
       toggle: () => controls.frame.toggle(), isOpen: () => controls.frame.isOpen() },
-  ]);
+  ], tooltip);
 
   let mounted = false;
   let lastHudMs = 0;

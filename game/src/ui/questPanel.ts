@@ -219,9 +219,13 @@ export class QuestPanel implements ManagedPanel {
       pin.className = "quests__pin";
       pin.classList.toggle("is-pinned", pinned);
       pin.textContent = pinned ? "◈" : "◇";
-      pin.title = pinned ? "Unpin from tracker" : "Pin to tracker";
       pin.setAttribute("aria-label", pinned ? `Unpin ${quest.name} from tracker` : `Pin ${quest.name} to tracker`);
       pin.setAttribute("aria-pressed", pinned ? "true" : "false");
+      this.ctx.tooltip.attach(pin, () => ({
+        kind: "text",
+        title: pinned ? "Unpin quest" : "Pin quest",
+        lines: [pinned ? `Remove ${quest.name} from the tracker.` : `Show ${quest.name} on the tracker.`],
+      }));
       pin.addEventListener("click", (event) => {
         event.stopPropagation();
         this.ctx.pinQuest(pinned ? null : quest.id);

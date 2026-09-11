@@ -35,7 +35,6 @@ class TestElement extends EventTarget {
   value = "";
   hidden = false;
   disabled = false;
-  title = "";
   type = "";
   classList = { add() {}, toggle() {} };
   constructor(readonly tag = "div") { super(); }
@@ -133,7 +132,7 @@ describe("production batch controls", () => {
     const current = panelWithShafts(100);
     current.mode("X");
     expect(current.make().disabled).toBe(true);
-    expect(current.make().title).toBe("Batch limit is 28");
+    expect(current.batch().textContent).toContain("Batch limit is 28");
     current.make().click();
     expect(current.queue).not.toHaveBeenCalled();
     current.custom(28);
@@ -147,7 +146,7 @@ describe("production batch controls", () => {
     current.mode("X");
     current.custom(4);
     expect(current.make().disabled).toBe(true);
-    expect(current.make().title).toBe("Need ingredients for 4");
+    expect(current.batch().textContent).toContain("Need ingredients for 4");
   });
 
   it("rechecks ingredient availability when All is clicked", () => {

@@ -3,8 +3,8 @@ import { PanelFrame } from "./panelFrame.js";
  * The settings screen, over `SettingsStore`.
  *
  * Every control here changes the client as it moves. The face of each row is a label and a
- * control, nothing else; what a setting changes in the picture or the sound is a hover title on
- * the label, so the window reads as a short list rather than a page of prose.
+ * control, nothing else; what a setting changes in the picture or the sound is an in-game hover
+ * overlay, so the window reads as a short list rather than a page of prose.
  *
  * The DOM is built once and only its states are synced afterwards. `refresh()` is called on the
  * panel cadence — every 220 ms while the panel is open — and rebuilding the rows on that beat
@@ -123,7 +123,7 @@ export class SettingsPanel implements ManagedPanel {
   private disposed = false;
 
   constructor(
-    ctx: UiContext,
+    private readonly ctx: UiContext,
     private readonly settings: SettingsStore,
     onClose?: () => void,
     private readonly saveRecovery?: SaveRecoveryControls,
@@ -409,7 +409,6 @@ export class SettingsPanel implements ManagedPanel {
     const label = document.createElement("span");
     label.className = "settings__label";
     label.textContent = spec.label;
-    label.title = spec.hint;
 
     // role="switch" rather than a checkbox: it is a control that acts at once, not a form field
     // that waits for a save button.
@@ -418,7 +417,11 @@ export class SettingsPanel implements ManagedPanel {
     control.className = "switch";
     control.setAttribute("role", "switch");
     control.setAttribute("aria-label", spec.label);
-    control.title = spec.hint;
+    this.ctx.tooltip.attach(control, () => ({
+      kind: "text",
+      title: spec.label,
+      lines: [spec.hint],
+    }));
 
     const track = document.createElement("span");
     track.className = "switch__track";
@@ -458,7 +461,6 @@ export class SettingsPanel implements ManagedPanel {
     label.className = "settings__label";
     label.htmlFor = inputId;
     label.textContent = spec.label;
-    label.title = spec.hint;
 
     const control = document.createElement("div");
     control.className = "volume";
@@ -470,7 +472,11 @@ export class SettingsPanel implements ManagedPanel {
     input.min = "0";
     input.max = "100";
     input.step = "1";
-    input.title = spec.hint;
+    this.ctx.tooltip.attach(input, () => ({
+      kind: "text",
+      title: spec.label,
+      lines: [spec.hint],
+    }));
     input.addEventListener("input", () => {
       const percent = Number(input.value);
       this.settings.set({ [spec.key]: percent / 100 });
@@ -501,7 +507,6 @@ export class SettingsPanel implements ManagedPanel {
     const label = document.createElement("span");
     label.className = "settings__label";
     label.textContent = labelText;
-    label.title = hintText;
 
     const group = document.createElement("div");
     group.className = "seg";
@@ -516,6 +521,13 @@ export class SettingsPanel implements ManagedPanel {
       button.textContent = option.label;
       button.setAttribute("role", "radio");
       button.setAttribute("aria-label", `${ariaLabel}: ${option.accessibleLabel ?? option.label}`);
+      this.ctx.tooltip.attach(button, () => {
+        const current = this.settings.get();
+        const detail = String(option.value) === "auto" && current.autoDrawDistance
+          ? hintText + " Currently " + current.drawDistance + "."
+          : hintText;
+        return { kind: "text", title: labelText + ": " + option.label, lines: [detail] };
+      });
       button.addEventListener("click", () => { onChoose(option.value); });
       buttons.set(option.value, button);
       choiceButtons.push(button);
@@ -590,8 +602,7 @@ export class SettingsPanel implements ManagedPanel {
 
     for (const [value, button] of this.drawDistanceButtons) {
       const on = current.autoDrawDistance ? value === "auto" : current.drawDistance === value;
-      // Auto's face stays one word; the range it has settled on rides in the hover title.
-      if (value === "auto") button.title = current.autoDrawDistance ? `Currently ${current.drawDistance}` : "";
+      // Auto's face stays one word; the range it has settled on rides in the in-game overlay.
       button.classList.toggle("is-active", on);
       button.setAttribute("aria-checked", on ? "true" : "false");
       button.tabIndex = on ? 0 : -1;

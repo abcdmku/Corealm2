@@ -1,0 +1,6 @@
+Built-in imagegen edit of mineral-atlas-v1.png. 2026-09-10.
+
+Edit this four-quadrant game material atlas. Keep the exact four equal quadrants and no borders. Replace the TOP LEFT coarse granite with extremely fine smooth weathered blue-grey basalt dust grain. This is not granite: NO chunky white/black crystals, no camo patches, no blobs, no individual stones. Very low contrast medium light desaturated grey with slight blue tint. Grain frequency at least 5x finer than the current granite. Broad almost invisible weathering streaks only. TOP RIGHT also much less coarse: smooth medium muted warm clay-brown stone, tiny sand grain, faint horizontal worn layers, low contrast. BOTTOM LEFT dark charcoal fine basalt as before but smoother and lower contrast. BOTTOM RIGHT pale warm grey limestone, reduce large cracks to barely visible fine lines. Entire image flat even base colour for PBR, no illumination, no shadows, no baked highlights. Material readability will come from real 3D normals and anatomical boundaries, not texture noise.
+
+Original: C:/Users/Borg/.codex/generated_images/01a08e30-2b88-7c11-a8f2-a306007ebd37/exec-9475f8ac-5739-4523-a502-9539969028ca.png
+Copied unchanged. Supersedes rejected v1 granite for runtime candidates.
