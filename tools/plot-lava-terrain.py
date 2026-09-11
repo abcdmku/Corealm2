@@ -30,4 +30,6 @@ ax.text(.99, .03, "Shared terrain geometry, not an erosion simulation", transfor
         ha="right", fontsize=8, color="#eeeeef")
 Path("docs/figures").mkdir(exist_ok=True)
 fig.savefig("docs/figures/lava-terrain-cross-section.svg")
+svg_path = Path("docs/figures/lava-terrain-cross-section.svg")
+svg_path.write_text("\n".join(line.rstrip() for line in svg_path.read_text().splitlines()) + "\n")
 fig.savefig("test-results/lava-survey/cross-section.png", dpi=150)

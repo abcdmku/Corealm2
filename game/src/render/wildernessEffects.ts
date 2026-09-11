@@ -6,7 +6,7 @@ import { buildLavaTextureField } from '../world/lavaTextureFlow.js';
 import { rockMassDistance, type LavaRockMass } from '../world/lavaLandforms.js';
 import { LavaBankLighting } from './lavaBankLighting.js';
 import { applyCorealmSurfaceMaterials, type CorealmSurfaceTextures } from './corealmSurfaceMaterials.js';
-import { isMoltenLavaAt, lavaClearanceAt, lavaMagicAt, lavaSections, lavaSurfaceClearanceAt,
+import { isMoltenLavaAt, lavaBankWidthAt, lavaClearanceAt, lavaMagicAt, lavaSections, lavaSurfaceClearanceAt,
   type LavaChannel, type LavaSection } from '../content/wildernessLava.js';
 
 export interface WildernessTorch {
@@ -406,9 +406,26 @@ export class WildernessEffects {
     const banks = this.channelRibbon(channel, sections, bankColumns, true);
     const bankMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, vertexColors: true, roughness: 1 });
     bankMaterial.name = 'Corealm weathered strata';
+    if (channel.naturalBanks) {
+      bankMaterial.transparent = true;
+      bankMaterial.depthWrite = false;
+      bankMaterial.onBeforeCompile = shader => {
+        shader.vertexShader = shader.vertexShader.replace('#include <common>', `#include <common>
+          attribute float lavaBank; varying float shoreFade;
+        `).replace('#include <begin_vertex>', `#include <begin_vertex>
+          shoreFade = 2.0 - abs(lavaBank);
+        `);
+        shader.fragmentShader = shader.fragmentShader.replace('#include <common>', `#include <common>
+          varying float shoreFade;
+        `).replace('#include <color_fragment>', `#include <color_fragment>
+          diffuseColor.a *= smoothstep(0.0, .6, shoreFade);
+        `);
+      };
+      bankMaterial.customProgramCacheKey = () => 'lava-weathered-bank-v1';
+    }
     this.addMesh(`wilderness-lava-banks-${channel.id}`, banks, bankMaterial);
     const rocks: THREE.BufferGeometry[] = [];
-    for (let i = 2; !channel.rockMasses?.length && i < sections.length - 2; i += channel.rugged ? 11 : 4) {
+    for (let i = 2; !channel.naturalBanks && !channel.rockMasses?.length && i < sections.length - 2; i += channel.rugged ? 11 : 4) {
       const section = sections[i]!;
       if (section.halfWidth < .4) continue;
       for (const side of [-1, 1]) {
@@ -430,11 +447,12 @@ export class WildernessEffects {
     const basaltMaterial = new THREE.MeshStandardMaterial({ color: 0x66636a, roughness: 1 });
     basaltMaterial.name = 'Corealm weathered strata';
     this.addMerged(`wilderness-lava-basalt-${channel.id}`, rocks, basaltMaterial);
-    this.buildDryApron(channel, sections);
+    if (!channel.naturalBanks) this.buildDryApron(channel, sections);
   }
 
   /** Continuous exposed host rock follows the actual sculpted terrain, including the channel cut. */
   private buildRockMass(mass: LavaRockMass): void {
+    if (mass.weathered) return; // The shared terrain material continues across the whole shoulder.
     const minX = Math.floor(Math.min(...mass.polygon.map(p => p[0])) - 3);
     const maxX = Math.ceil(Math.max(...mass.polygon.map(p => p[0])) + 3);
     const minZ = Math.floor(Math.min(...mass.polygon.map(p => p[1])) - 3);
@@ -487,6 +505,54 @@ export class WildernessEffects {
     geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
     geometry.setIndex(indices);
     return geometry;
+  }
+
+  private conformBank(source: THREE.BufferGeometry, channel: LavaChannel): THREE.BufferGeometry {
+    const attributes = Object.entries(source.attributes).map(([name, value]) =>
+      ({ name, size: value.itemSize, values: Array.from(value.array) }));
+    const positions = attributes.find(a => a.name === 'position')!.values;
+    for (let i = 0; i < positions.length; i += 3)
+      positions[i + 1] = this.options.groundHeightAt(positions[i]!, positions[i + 2]!) + .065;
+    const others = this.options.channels.filter(c => c !== channel);
+    const wet = new Map<number, boolean>();
+    const isWet = (i: number): boolean => {
+      if (!wet.has(i)) wet.set(i, isMoltenLavaAt(positions[i*3]!, positions[i*3+2]!, others, .021));
+      return wet.get(i)!;
+    };
+    const indices: number[] = [], midpoints = new Map<string, number>();
+    const midpoint = (a: number, b: number): number => {
+      const key = a < b ? `${a}:${b}` : `${b}:${a}`;
+      const cached = midpoints.get(key);
+      if (cached !== undefined) return cached;
+      const index = positions.length / 3;
+      for (const attribute of attributes) for (let k = 0; k < attribute.size; k++)
+        attribute.values.push((attribute.values[a * attribute.size + k]! + attribute.values[b * attribute.size + k]!) / 2);
+      positions[index * 3 + 1] = this.options.groundHeightAt(positions[index * 3]!, positions[index * 3 + 2]!) + .065;
+      midpoints.set(key, index);
+      return index;
+    };
+    const triangle = (a: number, b: number, c: number, depth = 0): void => {
+      const x = (positions[a*3]! + positions[b*3]! + positions[c*3]!) / 3;
+      const z = (positions[a*3+2]! + positions[b*3+2]! + positions[c*3+2]!) / 3;
+      let error = Math.abs(this.options.groundHeightAt(x,z) + .065
+        - (positions[a*3+1]! + positions[b*3+1]! + positions[c*3+1]!) / 3);
+      for (const [from,to] of [[a,b],[b,c],[c,a]]) {
+        const mx = (positions[from!*3]! + positions[to!*3]!) / 2;
+        const mz = (positions[from!*3+2]! + positions[to!*3+2]!) / 2;
+        error = Math.max(error, Math.abs(this.options.groundHeightAt(mx,mz) + .065
+          - (positions[from!*3+1]! + positions[to!*3+1]!) / 2));
+      }
+      if (depth < 4 && error > .018) {
+        const ab=midpoint(a,b), bc=midpoint(b,c), ca=midpoint(c,a);
+        triangle(a,ab,ca,depth+1); triangle(ab,b,bc,depth+1);
+        triangle(ca,bc,c,depth+1); triangle(ab,bc,ca,depth+1);
+      } else if (![a,b,c].some(isWet)) indices.push(a,b,c);
+    };
+    const original = source.index!.array;
+    for (let i=0;i<original.length;i+=3) triangle(original[i]!,original[i+1]!,original[i+2]!);
+    for (const a of attributes) source.setAttribute(a.name,new THREE.Float32BufferAttribute(a.values,a.size));
+    source.setIndex(indices); source.computeVertexNormals();
+    return source;
   }
 
   /** A thin dry cinder layer closes the narrow spaces between curved berms and rounded end caps.
@@ -605,14 +671,15 @@ export class WildernessEffects {
         const abs = Math.abs(offset);
         const edgeBreak = .83 + .17 * Math.sin(section.distance * .95 + side * 3.1) ** 2;
         const shoreWidth = side < 0 ? section.leftHalfWidth : section.rightHalfWidth;
-        const distance = banks ? side * (shoreWidth + (abs - 1) * channel.bankWidth * edgeBreak) : offset * shoreWidth;
+        const bankWidth = lavaBankWidthAt(channel, section.progress, side);
+        const distance = banks ? side * (shoreWidth + (abs - 1) * bankWidth * (channel.naturalBanks ? 1 : edgeBreak)) : offset * shoreWidth;
         const x = section.x - section.tz * distance;
         const z = section.z + section.tx * distance;
         // Broken ledges sit on the physical cut, tapering into the receiving terrain.
         const bankT = abs - 1;
         const ledge = Math.sin(bankT * Math.PI) * (.12 + .09 * Math.sin(section.distance * 1.7 + side * 2.3));
         const strata = Math.sin(bankT * Math.PI * 5 + Math.sin(section.distance * .6)) * .055;
-        const rise = banks ? .065 + Math.max(0, ledge + strata * Math.sin(bankT * Math.PI)) : .16;
+        const rise = banks ? channel.naturalBanks ? .065 : .065 + Math.max(0, ledge + strata * Math.sin(bankT * Math.PI)) : .16;
         const y = banks ? this.options.groundHeightAt(x, z) + rise : this.surfaceAt(x, z);
         positions.push(x, y, z);
         const magic = lavaMagicAt(channel, x, z);
@@ -622,7 +689,8 @@ export class WildernessEffects {
         edgeValues.push(offset);
         bankDistance.push(adjoining.length ? clearance(x, z) : Infinity);
         uv.push(distance, section.distance);
-        const tint = .2 + hash(row * 5 + column + channel.seed) * .075;
+        const tint = channel.naturalBanks ? .073 + .025 * hash(Math.floor(x / 3) * 17 + Math.floor(z / 3))
+          : .2 + hash(row * 5 + column + channel.seed) * .075;
         colours.push(tint * .89, tint * .9, tint);
         if (row > 0 && column > 0) {
           // Leave the molten centre open between the independent left and right banks.
@@ -689,6 +757,6 @@ export class WildernessEffects {
     }
     geometry.setIndex(indices);
     geometry.computeVertexNormals();
-    return banks ? this.projectRockUvs(geometry) : geometry;
+    return banks ? this.projectRockUvs(channel.naturalBanks ? this.conformBank(geometry, channel) : geometry) : geometry;
   }
 }

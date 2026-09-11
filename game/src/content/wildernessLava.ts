@@ -15,6 +15,7 @@ export interface LavaChannel {
   readonly widths?: readonly number[];
   readonly bedHeights?: readonly number[];
   readonly rugged?: boolean;
+  readonly naturalBanks?: boolean;
   readonly rockMasses?: readonly LavaRockMass[];
   /** Pools are short broad spines with rounded, lobed shores, not decorative discs. */
   readonly kind?: 'flow' | 'pool';
@@ -36,11 +37,19 @@ export interface LavaSection {
   readonly rightHalfWidth: number;
 }
 
+/** One shore can be a short resistant cut while its opposite is a broad ash slope. */
+export function lavaBankWidthAt(channel: LavaChannel, progress: number, side: number): number {
+  if (!channel.naturalBanks) return channel.bankWidth;
+  const [x, z] = pointAt(channel, progress);
+  const field = smoothNoise2D(x / 17, z / 17, channel.seed + side * 71);
+  return channel.bankWidth * (.62 + .28 * field);
+}
+
 const ORIGINAL_WILDERNESS_LAVA_CHANNELS: readonly LavaChannel[] = [{
   id: 'widows-furnace',
-  points: [[224, 700], [214, 686], [196, 679], [184, 669], [169, 667], [155, 675]],
-  widths: [1.3, 2.5, 3.4, 4.2, 6.2, 4.8],
-  bedHeights: [7.5, 7.1, 6.7, 6.3, 6.0, 5.8],
+  points: [[224,700],[218,693],[207,688],[201,679],[191,675],[182,676],[171,670],[159,671],[151,679]],
+  widths: [1,1.7,2.4,2,3.4,4.8,4.1,6.8,4],
+  bedHeights: [7.5,7.3,7.05,6.8,6.55,6.35,6.15,5.95,5.8],
   halfWidth: 3.25,
   depth: 2.6,
   bankWidth: 8.5,
@@ -61,18 +70,24 @@ export const WILDERNESS_LAVA_LAB_CHANNELS: readonly LavaChannel[] = [{
 export const DEEP_WILDERNESS_LAVA_LAB_CHANNELS: readonly LavaChannel[] = [
   { id: 'lab-cinder-fork', points: [[-22, -11], [-10, -13], [1, -9], [13, -13], [24, -10]],
     halfWidth: 2.4, widths: [1.8, 2.2, 3.1, 3.7, 2.4], bedHeights: [-2.1, -2.3, -2.6, -2.8, -3],
-    depth: 2.6, bankWidth: 6.5, seed: 11031, magic: 0, rugged: true,
+    depth: 2.6, bankWidth: 6.5, seed: 11031, magic: 0, rugged: true, naturalBanks: true,
     rockMasses: [
-      { id: 'lab-broken-wall', crown: 4.8, polygon: [[-20,-21],[-15,-25],[-8,-24],[-5,-20],[-7,-16],[-13,-17],[-17,-15],[-21,-17]] },
-      { id: 'lab-downstream-spur', crown: 3.4, polygon: [[9,-20],[17,-22],[25,-19],[27,-15],[22,-12],[18,-16],[12,-15],[8,-17]] },
-      { id: 'lab-low-bench', crown: 1.6, polygon: [[-16,-5],[-9,-7],[-3,-4],[-2,1],[-11,3],[-17,0]] },
+      { id: 'lab-broken-wall', weathered: true, crown: 4.8, polygon: [[-20,-21],[-15,-25],[-8,-24],[-5,-20],[-7,-16],[-13,-17],[-17,-15],[-21,-17]] },
+      { id: 'lab-downstream-spur', weathered: true, crown: 3.4, polygon: [[9,-20],[17,-22],[25,-19],[27,-15],[22,-12],[18,-16],[12,-15],[8,-17]] },
+      { id: 'lab-low-bench', weathered: true, crown: 1.6, polygon: [[-16,-5],[-9,-7],[-3,-4],[-2,1],[-11,3],[-17,0]] },
     ] },
   { id: 'lab-cinder-tributary', points: [[1, -9], [3, -18], [-3, -24]],
-    halfWidth: 1.7, depth: 2.6, bedHeights: [-2.6,-2.6,-2.6], bankWidth: 4.4, seed: 11032, openEnds: [true, true], magic: 0, rugged: true },
+    halfWidth: 1.7, depth: 2.6, bedHeights: [-2.6,-2.6,-2.6], bankWidth: 4.4, seed: 11032, openEnds: [true, true], magic: 0, rugged: true, naturalBanks: true },
   { id: 'lab-cinder-basin', points: [[-12, -25], [-4, -24], [4, -27]],
-    halfWidth: 5.5, depth: 2.6, bedHeights: [-2.6,-2.6,-2.6], bankWidth: 4.4, seed: 11033, kind: 'pool', magic: 0, rugged: true },
+    halfWidth: 5.5, depth: 2.6, bedHeights: [-2.6,-2.6,-2.6], bankWidth: 4.4, seed: 11033, kind: 'pool', magic: 0, rugged: true, naturalBanks: true },
   { id: 'lab-nightglass-pool', points: [[16, -28], [24, -30], [31, -27]],
-    halfWidth: 6.1, depth: 3, bedHeights: [-3,-3,-3], bankWidth: 4.8, seed: 11034, kind: 'pool', magic: 1, rugged: true },
+    halfWidth: 6.1, depth: 3, bedHeights: [-3,-3,-3], bankWidth: 4.8, seed: 11034, kind: 'pool', magic: 1, rugged: true, naturalBanks: true },
+  { id: 'lab-bypass-trunk', points: [[42,-4],[43,-14],[50,-21],[59,-24]],
+    halfWidth: 3, widths:[1.5,3.5,3,4.5], bedHeights:[-1.9,-2.2,-2.6,-2.9],
+    depth:2.6, bankWidth:4, seed:11035, magic:0, rugged:true, naturalBanks:true },
+  { id: 'lab-bypass-arm', points: [[43,-14],[51,-12],[59,-16],[59,-24]],
+    halfWidth:1.5, widths:[1.4,1,1.6,2], bedHeights:[-2.2,-2.3,-2.6,-2.9],
+    depth:2.6, bankWidth:3.5, seed:11036, openEnds:[true,true], magic:0, rugged:true, naturalBanks:true },
 ];
 
 const seededUnit = (seed: number): number => {
@@ -96,35 +111,37 @@ function scatteredPool(id: string, centre: readonly [number, number], seed: numb
 /** Lab-accepted molten surfaces, banks and effects, composed across both northern depth bands. */
 const AUTHORED_LAVA_EXPANSION_CHANNELS: readonly LavaChannel[] = [
   ...ORIGINAL_WILDERNESS_LAVA_CHANNELS,
-  { id: 'widows-furnace-west-seep', points: [[197, 649], [195, 658], [191, 665], [184, 669], [177, 668]],
-    widths: [1, 1.5, 1.9, 2.3, 2.5], bedHeights: [7.2, 6.9, 6.6, 6.3, 6.15],
+  { id: 'widows-furnace-west-seep', points: [[197,649],[196,659],[190,666],[184,672],[181,676]],
+    widths: [.65,1.1,1.5,1.9,2.5], bedHeights: [7.6,7.2,6.85,6.5,6.34],
     halfWidth: 1.65, depth: 2.6, bankWidth: 7, seed: 12001, openEnds: [false, true] },
-  { id: 'chainfire-rill', points: [[-86, 724], [-100, 737], [-113, 745], [-108, 761], [-111, 785], [-99, 801], [-84, 809]],
-    widths: [2, 2.5, 3.5, 3, 4.3, 5.3, 5.8], bedHeights: [9, 8.1, 7.5, 7.2, 6.8, 6.5, 6.3],
+  { id: 'chainfire-rill', points: [[-86,724],[-94,733],[-111,738],[-117,747],[-111,757],[-115,774],[-108,787],[-111,799],[-97,808],[-84,809]],
+    widths: [1.6,2.1,3.7,4.2,2.4,2.9,3.8,3.1,6.2,5.8], bedHeights: [9,8.4,7.8,7.45,7.25,7,6.8,6.55,6.38,6.3],
     halfWidth: 2.6, depth: 2.7, bankWidth: 8, seed: 12010, openEnds: [true, true] },
-  { id: 'chainfire-fork', points: [[-70, 748], [-83, 750], [-97, 756], [-108, 761], [-109, 768]],
-    widths: [1, 1.5, 2.2, 2.4, 2.6], bedHeights: [8.6, 8.1, 7.6, 7.2, 7.12],
-    halfWidth: 1.8, depth: 2.7, bankWidth: 6.5, seed: 12011, openEnds: [false, true] },
+  // A narrow overflow arm leaves and rejoins the trunk around an older rock island.
+  { id: 'chainfire-fork', points: [[-114,743],[-110,747],[-105,755],[-108,765],[-114,770],[-115,774]],
+    widths: [1.8,1.2,1.5,1.1,1.9,2.4], bedHeights: [7.58,7.48,7.3,7.12,7.03,7],
+    halfWidth: 1.8, depth: 2.7, bankWidth: 6.5, seed: 12011, openEnds: [true, true] },
   { id: 'chainfire-basin', points: [[-78, 710], [-81, 718], [-86, 724], [-93, 731]],
     widths: [1.8, 3.1, 2.6, 2], bedHeights: [9.5, 9.25, 9, 8.55],
     halfWidth: 3.1, depth: 2.7, bankWidth: 8, seed: 12012, kind: 'pool' },
   { id: 'chainfire-nightfall-pool', points: [[-99, 801], [-87, 808], [-73, 809], [-65, 814]],
     widths: [4.2, 6.2, 7.1, 4], bedHeights: [6.5, 6.3, 6.15, 6.1],
     halfWidth: 6.2, depth: 2.7, bankWidth: 9, seed: 12013, kind: 'pool' },
-  { id: 'veilburn-river', points: [[102, 879], [89, 862], [73, 845], [70, 825], [87, 804], [93, 785], [90, 767], [105, 749]],
-    widths: [1.8, 2.7, 4.1, 3.2, 5.2, 4.3, 5.1, 5.8], bedHeights: [10.3, 8.4, 7.6, 7.3, 6.9, 6.5, 6.2, 5.9],
+  { id: 'veilburn-river', points: [[102,879],[93,870],[90,857],[82,849],[79,838],[67,832],[70,821],[80,812],[87,804],[87,793],[94,783],[95,772],[93,763],[101,750]],
+    widths: [.8,1.3,1.7,2.8,3.8,2.1,2.8,4.7,4.1,3.2,4.9,6.8,4.2,5.8],
+    bedHeights: [10.3,9.2,8.1,7.65,7.45,7.3,7.15,7,6.9,6.65,6.45,6.3,6.2,5.9],
     halfWidth: 3.1, depth: 3, bankWidth: 9, seed: 12020, openEnds: [false, true] },
-  { id: 'veilburn-fork', points: [[48, 827], [62, 818], [76, 808], [87, 804], [91, 795]],
-    widths: [1, 1.6, 2.2, 2.6, 3.2], bedHeights: [8.1, 7.6, 7.2, 6.9, 6.7],
+  { id: 'veilburn-fork', points: [[48,827],[56,820],[68,820],[76,812],[80,812]],
+    widths: [.6,1.1,1.4,2,2.6], bedHeights: [8.05,7.9,7.55,7.08,7],
     halfWidth: 1.85, depth: 3, bankWidth: 7.5, seed: 12021, openEnds: [false, true] },
   { id: 'veilburn-mouth', points: [[99, 756], [104, 746], [110, 737], [116, 729]],
     widths: [4.8, 6.3, 5.8, 2.8], bedHeights: [6, 5.85, 5.7, 5.65],
     halfWidth: 6.3, depth: 3, bankWidth: 8, seed: 12022, kind: 'pool' },
-  { id: 'hollow-star-rift', points: [[-129, 915], [-146, 900], [-162, 889], [-176, 879], [-194, 875], [-213, 881]],
-    widths: [1.8, 2.4, 3.1, 4.8, 6.5, 4.7], bedHeights: [9.5, 8.2, 7.3, 6.6, 6, 5.5],
+  { id: 'hollow-star-rift', points: [[-129,915],[-143,908],[-151,897],[-166,887],[-184,883],[-190,875],[-205,872],[-218,877]],
+    widths: [1.6,2.3,2,3.8,2.6,5.1,7.4,4.5], bedHeights: [9.5,8.6,7.9,7.25,6.4,6.1,5.7,5.5],
     halfWidth: 2.7, depth: 2.8, bankWidth: 9, seed: 12030, openEnds: [true, false] },
-  { id: 'hollow-star-fork', points: [[-179, 915], [-185, 902], [-196, 888], [-206, 882], [-213, 881]],
-    widths: [1, 1.7, 2.2, 2.8, 3.5], bedHeights: [7.8, 7.1, 6.3, 5.8, 5.5],
+  { id: 'hollow-star-fork', points: [[-179,915],[-173,909],[-171,900],[-175,891],[-184,883],[-188,879]],
+    widths: [.7,1.1,1.4,1.2,2.3,2.5], bedHeights: [8.9,8.3,7.6,6.95,6.4,6.25],
     halfWidth: 1.7, depth: 2.8, bankWidth: 7, seed: 12031, openEnds: [false, true] },
   { id: 'hollow-star-eye', points: [[-119, 925], [-123, 920], [-129, 915], [-136, 909]],
     widths: [1.5, 3.1, 2.5, 2], bedHeights: [10.1, 9.8, 9.5, 8.95],
@@ -141,8 +158,8 @@ const AUTHORED_LAVA_EXPANSION_CHANNELS: readonly LavaChannel[] = [
 ];
 
 export const WILDERNESS_LAVA_EXPANSION_CHANNELS: readonly LavaChannel[] =
-  AUTHORED_LAVA_EXPANSION_CHANNELS.map(channel => ({ ...channel, rugged: true,
-    rockMasses: WILDERNESS_LAVA_LANDFORMS[channel.id] }));
+  AUTHORED_LAVA_EXPANSION_CHANNELS.map(channel => ({ ...channel, rugged: true, naturalBanks: true,
+    rockMasses: WILDERNESS_LAVA_LANDFORMS[channel.id]?.map(mass => ({ ...mass, weathered: true })) }));
 
 /** Terrain, rendering, scatter and navigation share this exact active channel set. */
 export const WILDERNESS_LAVA_CHANNELS = WILDERNESS_LAVA_EXPANSION_CHANNELS;
@@ -187,6 +204,13 @@ export function lavaWidthAt(channel: LavaChannel, progress: number, side = 0): n
   const cap = channel.kind === 'pool' ? Math.sin(clamp01(progress) * Math.PI) ** .55
     : Math.min(channel.openEnds?.[0] ? 1 : smooth(0, .065, progress),
       channel.openEnds?.[1] ? 1 : smooth(0, .065, 1 - progress));
+  if (channel.naturalBanks) {
+    const [x,z] = pointAt(channel, progress);
+    const width = profileAt(channel.widths, channel.halfWidth, progress) * cap;
+    const edge = (s: number) => 1 + .14 * smoothNoise2D(x / 7, z / 7, channel.seed + s * 19)
+      + .045 * smoothNoise2D(x / 1.3, z / 1.3, channel.seed + s * 39);
+    return width * (side ? edge(side) : Math.max(edge(-1), edge(1)));
+  }
   const irregular = channel.kind === 'pool'
     ? 1 + .13 * Math.sin(progress * 13 + channel.seed) + .1 * Math.sin(progress * 25 + channel.seed * .3)
     : 1 + .19 * Math.sin(progress * 9 + channel.seed) + .055 * Math.sin(progress * 27 + channel.seed * .3);
@@ -294,7 +318,7 @@ export function sampleLavaChannel(channel: LavaChannel, x: number, z: number): L
     if (distance - halfWidth >= closest) continue;
     closest = distance - halfWidth;
     result = { channelId: channel.id, distance, signedDistance: distance - halfWidth,
-        halfWidth, bankWidth: channel.bankWidth, progress, centreProgress: 0, centreDistance: 0, centre: [cx, cz] };
+      halfWidth, bankWidth: lavaBankWidthAt(channel, progress, side), progress, centreProgress: 0, centreDistance: 0, centre: [cx, cz] };
   }
   return { ...result!, centreProgress, centreDistance: nearestCentre };
 }
@@ -309,8 +333,9 @@ export function carveLavaTerrain(baseHeight: number, x: number, z: number,
   for (const channel of channels) {
     if (boundsDistance(channel, x, z) > 0) continue;
     const sample = sampleLavaChannel(channel, x, z);
-    const bankT = clamp01(sample.signedDistance / channel.bankWidth);
-    const bank = channel.rugged
+    const bankT = clamp01(sample.signedDistance / sample.bankWidth);
+    const bank = channel.naturalBanks ? 1 - smooth(0, 1, bankT)
+      : channel.rugged
       ? 1 - (.5 * smooth(.01, .25, bankT) + .32 * smooth(.37, .62, bankT) + .18 * smooth(.76, 1, bankT))
       : 1 - smooth(0, 1, bankT);
     // The terminal basin remains cut below grade. Tapering its depth lifted the lava

@@ -102,13 +102,20 @@ The shallow and deep Wilderness should share those geometric rules. Warm lava li
 
 ## Implemented terrain revision
 
-The four main flows now have sixteen authored volcanic remnants: source shoulders, confluence
-dividers, exposed walls, and lower benches. Their polygon footprints and absolute crown heights
-raise the shared terrain before the channel bed is cut. These are connected landforms, with
-metres of exposed relief, rather than larger stones scattered beside the old outline. The data
+The first landform pass introduced sixteen authored volcanic remnants: source shoulders,
+confluence dividers, exposed walls, and lower benches. The user subsequently rejected its
+repeated silhouettes, pale rims, and flat polygon crowns. The organic-path revision retains
+the shared landform descriptions but changes them to broad weathered shoulders with uneven
+relief and the surrounding terrain material. Dark bank textures fade into the ground; the
+continuous secondary apron and regularly placed bank rocks are gone. The data
 is in `game/src/content/wildernessLavaLandforms.ts`; `lavaLandforms.ts` supplies the shared field.
 Full-world placement uses the world-authoring exception because the relationship to existing
 roads and structures cannot be established in the isolated yard.
+
+The routes also changed: Widow's Furnace has unequal constrictions and a wider receiving reach;
+Chainfire splits around a rock island and rejoins downstream; Veilburn has alternating narrow
+and broad reaches; Hollow Star's former parallel U-shaped fork now joins the middle of its trunk.
+The bypass transport field matches both mouths, and a separate production lab fixture verifies it.
 
 Profiled channels now have a separate liquid elevation above a shaped submerged bed. Their
 bed grade stays independent of shoreline irregularity. The material uses fixed longitudinal
@@ -119,7 +126,8 @@ Rock faces receive texture coordinates based on their orientation, avoiding vert
 
 ![Measured cross-section through Widow's Furnace](figures/lava-terrain-cross-section.svg)
 
-The section samples the final production terrain lattice across the middle of Widow's Furnace.
+The section samples the current production terrain lattice across the middle of Widow's Furnace,
+including the nearby seep where the extended section crosses it.
 The dashed line is the original ground; the solid outline is the rebuilt bed and host rock.
 Orange marks the independently graded liquid. The inputs can be regenerated with
 `npx tsx tools/lava-terrain-survey.ts` in `test-results/lava-survey/cross-section.json`;
@@ -133,7 +141,7 @@ transport, terrain continuity, and protected structure/resource clearances. The 
 checks descending world beds and unchanged road centre lines. Browser screenshots are disposable
 under `test-results/deep-wilderness-lava-lab` and `test-results/lava-stream-world`.
 
-Acceptance completed on September 10, 2026: the focused lava checks (19 tests), map payload
+Initial technical acceptance on September 10, 2026: the focused lava checks (19 tests), map payload
 checks (12 tests), TypeScript check, and production build passed. The production lab and
 Widow's Furnace, Veilburn River, and Hollow Star world checks passed real movement and
 error checks, and their ordinary follow-camera screenshots were inspected. Navigation was
@@ -148,6 +156,8 @@ this implementation. The nine small unprofiled scattered pools retain their lega
 the separate authored liquid grades apply to the main networks and their connected basins.
 
 ## Limits of the interpretation
+
+The organic-path revision passed 20 focused lava tests, 12 map payload checks, TypeScript checking, and the production build. Browser acceptance covered the six-channel lab and all four authored world reaches, with normal gameplay screenshots inspected alongside the regenerated map. Navigation was regenerated with 4,342 polygons; the full map remains 4,800 by 6,600 pixels. These checks establish rendering, transport, collision, and artifact consistency, rather than a physical erosion simulation.
 
 The references combine several natural settings. Hawaiian basaltic channels, the unusual Etna erosional example, alluvial river bends, and older exposed volcanic cliffs do not describe one universal landscape. The proposed setting deliberately uses an inherited volcanic valley with a later active flow. That historical interpretation is an artistic choice supported by known processes, not a reconstruction of a real location.
 

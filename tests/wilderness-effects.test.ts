@@ -20,7 +20,8 @@ describe('shared lava footprint', () => {
       expect(next).toBeLessThanOrEqual(Math.max(10, ...(channel.rockMasses ?? []).map(mass => mass.crown)));
       last = next;
     }
-    expect(last).toBe(10);
+    // The longer cross-section can cross the separate seep; only distant ground is unchanged.
+    expect(carveLavaTerrain(10, centre.x - centre.tz * 120, centre.z + centre.tx * 120)).toBe(10);
   });
 
   it('keeps rendered centreline sections inside collision capsules and clears the authored bank', () => {

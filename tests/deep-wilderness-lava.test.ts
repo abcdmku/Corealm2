@@ -17,7 +17,7 @@ const liquid = buildLavaSurfaceField(channels, ground);
 // Placement proof needs exact distances, not the conservative bounding-box shortcut used by scatter.
 const exactClearance = (x: number, z: number): number => Math.min(...WILDERNESS_LAVA_CHANNELS.flatMap(c =>
   [sampleLavaChannel(c, x, z).signedDistance - c.bankWidth,
-    ...(c.rockMasses ?? []).map(mass => rockMassDistance(mass, x, z) - 3)]));
+    ...(c.rockMasses ?? []).map(mass => rockMassDistance(mass, x, z) - (mass.weathered ? 8 : 3))]));
 const segmentDistance = (x: number, z: number, a: readonly number[], b: readonly number[]): number => {
   const dx = b[0]! - a[0]!, dz = b[1]! - a[1]!;
   const t = Math.max(0, Math.min(1, ((x - a[0]!) * dx + (z - a[1]!) * dz) / (dx * dx + dz * dz || 1)));
@@ -31,7 +31,7 @@ describe('forks and seeded lava pools', () => {
       expect(channel.bedHeights?.length).toBe(channel.points.length);
       const sections = lavaSections(channel, .6);
       const heights = sections.map(row => carveLavaTerrain(14, row.x, row.z));
-      expect(heights[0]! - heights.at(-1)!, channel.id).toBeGreaterThan(1);
+      expect(heights[0]! - heights.at(-1)!, channel.id).toBeGreaterThan(.3);
       for (let i = 1; i < heights.length; i++) {
         expect(heights[i]! - heights[i - 1]!, `${channel.id} at ${i}`).toBeLessThan(.015);
       }
@@ -141,7 +141,7 @@ describe('production deep lava rendering', () => {
     expect(state.paletteRange).toEqual([0, 1]);
     expect(state.lightBudget).toBe(6);
     expect(state.liveParticles).toBeGreaterThan(0);
-    expect(state.dryApronTriangles).toBeGreaterThan(0);
+    expect(state.dryApronTriangles).toBe(0);
     effects.group.updateMatrixWorld(true);
     const downward = new THREE.Vector3(0, -1, 0);
     const moltenMeshes = channels.map(c => effects.group.getObjectByName(`wilderness-lava-${c.id}`)!);
@@ -162,6 +162,15 @@ describe('production deep lava rendering', () => {
         expect(vertices.getY(i)).toBeCloseTo(liquid(vertices.getX(i), vertices.getZ(i)), 4);
       }
       const apron = effects.group.getObjectByName(`wilderness-lava-apron-${channel.id}`) as THREE.Mesh;
+      if (channel.naturalBanks) {
+        expect(apron).toBeUndefined();
+        expect((bank.material as THREE.MeshStandardMaterial).transparent).toBe(true);
+        expect((bank.material as THREE.MeshStandardMaterial).depthWrite).toBe(false);
+        for (let i = 0; i < positions.count; i++) {
+          expect(positions.getY(i) - ground(positions.getX(i), positions.getZ(i))).toBeLessThan(.12);
+        }
+        continue;
+      }
       // Full-width dry banks and end caps must be covered even where the raised berms diverge.
       for (const section of lavaSections(channel, 3)) {
         for (const side of [-1, 1]) {

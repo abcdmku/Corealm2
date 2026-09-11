@@ -11,7 +11,7 @@ export const WILDERNESS_LAVA_LANDFORMS: Readonly<Record<string, readonly LavaRoc
   ],
   'chainfire-rill': [
     { id:'chainfire-source-ridge', crown:16, polygon:[[-98,710],[-89,704],[-80,706],[-77,714],[-86,724],[-94,731],[-104,728],[-106,720]] },
-    { id:'chainfire-join-divider', crown:14.7, polygon:[[-104,740],[-97,735],[-86,737],[-81,742],[-91,748],[-99,749],[-104,746]] },
+    { id:'chainfire-join-divider', crown:12.8, polygon:[[-115,747],[-111,746],[-109,750],[-108,756],[-111,760],[-114,755]] },
     { id:'chainfire-western-wall', crown:14, polygon:[[-132,757],[-122,752],[-118,757],[-122,765],[-119,775],[-124,786],[-134,782],[-138,769]] },
     { id:'chainfire-eastern-bench', crown:12.4, polygon:[[-102,770],[-94,772],[-89,780],[-92,791],[-102,796],[-107,787],[-103,779]] },
   ],

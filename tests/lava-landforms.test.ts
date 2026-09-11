@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { carveLavaTerrain, lavaSections, WILDERNESS_LAVA_CHANNELS, type LavaChannel } from '../game/src/content/wildernessLava.js';
+import { carveLavaTerrain, lavaBankWidthAt, lavaSections, WILDERNESS_LAVA_CHANNELS,
+  DEEP_WILDERNESS_LAVA_LAB_CHANNELS, type LavaChannel } from '../game/src/content/wildernessLava.js';
 import { buildLavaSurfaceField } from '../game/src/world/lavaSurface.js';
 import { buildLavaTextureField } from '../game/src/world/lavaTextureFlow.js';
 import { rockMassHeight } from '../game/src/world/lavaLandforms.js';
@@ -9,6 +10,17 @@ const channel: LavaChannel = { id: 'cut', points: [[0,0],[0,20]], bedHeights: [0
   rockMasses: [{ id:'wall', crown:8, polygon:[[-12,4],[-2,4],[-2,16],[-12,16]] }], rugged:true };
 
 describe('volcanic valley, bed and free surface', () => {
+  it('uses sloping shoulders and different widths on opposite banks without exceeding the reserved footprint', () => {
+    const mass = { ...channel.rockMasses![0]!, weathered:true };
+    const a = rockMassHeight(3,-7,10,mass), b = rockMassHeight(3,-2,10,mass);
+    expect(a).toBeGreaterThan(b);
+    expect(a).toBeLessThan(mass.crown);
+    expect(rockMassHeight(3,-30,10,mass)).toBe(3);
+    const flow = WILDERNESS_LAVA_CHANNELS[0]!;
+    const widths = lavaSections(flow,3).flatMap(row => [-1,1].map(side => lavaBankWidthAt(flow,row.progress,side)));
+    expect(Math.max(...widths) - Math.min(...widths)).toBeGreaterThan(1);
+    expect(Math.max(...widths)).toBeLessThanOrEqual(flow.bankWidth);
+  });
   it('raises a connected resistant body while the channel cuts through its edge', () => {
     const mass = channel.rockMasses![0]!;
     expect(rockMassHeight(3,-9,10,mass)).toBe(8);
@@ -40,12 +52,14 @@ describe('volcanic valley, bed and free surface', () => {
     expect(late).toBeCloseTo(early,8);
   });
   it('does not invert transport along the authored world tributaries and trunks', () => {
-    const field = buildLavaTextureField(WILDERNESS_LAVA_CHANNELS, () => 0);
-    for (const flow of WILDERNESS_LAVA_CHANNELS.filter(c => c.kind !== 'pool')) {
-      for (const row of lavaSections(flow, 2).filter(r => r.progress > .05 && r.progress < .95)) {
-        const before = field(row.x - row.tx * .1, row.z - row.tz * .1)[1];
-        const after = field(row.x + row.tx * .1, row.z + row.tz * .1)[1];
-        expect(after - before, `${flow.id} station ${row.progress}`).toBeGreaterThan(-.01);
+    for (const paths of [WILDERNESS_LAVA_CHANNELS, DEEP_WILDERNESS_LAVA_LAB_CHANNELS.filter(c => c.id.startsWith('lab-bypass'))]) {
+      const field = buildLavaTextureField(paths, () => 0);
+      for (const flow of paths.filter(c => c.kind !== 'pool')) {
+        for (const row of lavaSections(flow, 2).filter(r => r.progress > .05 && r.progress < .95)) {
+          const before = field(row.x - row.tx * .1, row.z - row.tz * .1)[1];
+          const after = field(row.x + row.tx * .1, row.z + row.tz * .1)[1];
+          expect(after - before, `${flow.id} station ${row.progress}`).toBeGreaterThan(-.01);
+        }
       }
     }
   });

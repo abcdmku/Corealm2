@@ -9,7 +9,7 @@ export function buildLavaTextureField(channels: readonly LavaChannel[], height: 
       - (lavaBedAt(channel, 1) ?? height(last.x, last.z));
     const direction = Math.abs(drop) > .08 ? Math.sign(drop) : channel.openEnds?.[0] ? -1 : 1;
     const margin = Math.max(...rows.map(r => r.halfWidth)) + 4;
-    return { channel, rows, direction, offset: [0, 0], parent: -1,
+    return { channel, rows, direction, offset: [0, 0], longScale: 1, crossDrift: 0, parent: -1,
       minX: Math.min(...rows.map(r => r.x)) - margin, maxX: Math.max(...rows.map(r => r.x)) + margin,
       minZ: Math.min(...rows.map(r => r.z)) - margin, maxZ: Math.max(...rows.map(r => r.z)) + margin };
   });
@@ -20,8 +20,9 @@ export function buildLavaTextureField(channels: readonly LavaChannel[], height: 
     const a = path.rows[i]!, b = path.rows[Math.min(i + 1, path.rows.length - 1)]!;
     const cx = a.x + (b.x - a.x) * t, cz = a.z + (b.z - a.z) * t;
     const tx = a.tx + (b.tx - a.tx) * t, tz = a.tz + (b.tz - a.tz) * t;
-    return [((x - cx) * -tz + (z - cz) * tx) * path.direction + path.offset[0]!,
-      (a.distance + (b.distance - a.distance) * t) * path.direction + path.offset[1]!];
+    return [((x - cx) * -tz + (z - cz) * tx) * path.direction + path.offset[0]!
+      + station / (path.rows.length - 1) * path.crossDrift,
+      (a.distance + (b.distance - a.distance) * t) * path.direction * path.longScale + path.offset[1]!];
   };
   const coordinate = (index: number, x: number, z: number): readonly [number, number] => {
     const path = paths[index]!, own = raw(index, x, z);
@@ -37,6 +38,17 @@ export function buildLavaTextureField(channels: readonly LavaChannel[], height: 
     for (let j = 0; j < i && path.parent < 0; j++) {
       for (const end of [path.rows[0]!, path.rows.at(-1)!]) {
         if (sampleLavaChannel(paths[j]!.channel, end.x, end.z).signedDistance > .5) continue;
+        const first = path.rows[0]!, last = path.rows.at(-1)!;
+        if ([first,last].every(row => sampleLavaChannel(paths[j]!.channel,row.x,row.z).signedDistance < 0)) {
+          // A bypass rejoins downstream. Match both ends so the transport field
+          // remains coherent around the island instead of stretching at one mouth.
+          const start = coordinate(j,first.x,first.z), finish = coordinate(j,last.x,last.z);
+          path.offset = [start[0],start[1]];
+          path.crossDrift = finish[0]-start[0];
+          path.longScale = (finish[1]-start[1]) / (last.distance * path.direction);
+          path.parent = j;
+          break;
+        }
         // Align where the tributary actually enters the receiving shore. Anchoring
         // at its buried end stretches a long acute confluence into a bright fan.
         const mouth = path.rows.reduce((best, row) => {

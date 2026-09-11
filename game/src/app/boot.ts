@@ -3590,6 +3590,7 @@ function registerExclusions(
         section.halfWidth + channel.bankWidth + 1.5, 'custom', `lava-bank:${channel.id}`);
     }
     for (const mass of channel.rockMasses ?? []) {
+      if (mass.weathered) continue; // Ordinary scatter follows the shared sloping ground outside the reserved channel.
       const x = mass.polygon.reduce((sum, p) => sum + p[0], 0) / mass.polygon.length;
       const z = mass.polygon.reduce((sum, p) => sum + p[1], 0) / mass.polygon.length;
       const radius = Math.max(...mass.polygon.map(p => Math.hypot(p[0] - x, p[1] - z))) + 3;

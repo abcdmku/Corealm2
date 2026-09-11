@@ -1,6 +1,7 @@
 /** World-only placement proof after the production deep lava lab has passed. */
 import assert from 'node:assert/strict';
 import { mkdir, writeFile } from 'node:fs/promises';
+import sharp from 'sharp';
 import { GameDriver } from './lib/driver.js';
 import { startGameServer } from './lib/server.js';
 import { WILDERNESS_LAVA_CHANNELS, lavaSections, isMoltenLavaAt } from '../game/src/content/wildernessLava.js';
@@ -8,7 +9,7 @@ import { CAMERA } from '../game/src/app/config.js';
 
 const option = process.argv.indexOf('--channel');
 const selectedChannel = option >= 0 ? process.argv[option + 1]! : 'widows-furnace';
-assert(['widows-furnace', 'veilburn-river', 'hollow-star-rift'].includes(selectedChannel));
+assert(['widows-furnace', 'chainfire-rill', 'veilburn-river', 'hollow-star-rift'].includes(selectedChannel));
 const out = `test-results/lava-stream-world/${selectedChannel}`;
 await mkdir(out, { recursive: true });
 const started = Date.now();
@@ -68,6 +69,12 @@ try {
     assert(Math.hypot(after.player.x - before.player.x, after.player.z - before.player.z) > .5);
     assert(!isMoltenLavaAt(after.player.x, after.player.z, WILDERNESS_LAVA_CHANNELS));
     evidence.push({ id, section, before, after });
+  }
+  if (process.argv.includes('--map-preview')) {
+    // The production map camera is map evidence only. Gameplay screenshots above
+    // still use a grounded player and the ordinary interactive camera limits.
+    const image = await driver.callDebug('captureWorldMapTile', [{ centreX: 0, centreZ: 795, spanMetres: 550, pixels: 1800 }]) as string;
+    await writeFile(`${out}/lava-planform.png`, await sharp(Buffer.from(image.split(',')[1]!, 'base64')).flip().png().toBuffer());
   }
   assert.deepEqual(await driver.callDebug('getErrors'), []);
   assert.deepEqual(driver.pageErrors, []);

@@ -57,7 +57,7 @@ try {
 
   await pose(-2, -3, 0, .68);
   const first = await readState();
-  assert.equal(first.channels, 4);
+  assert.equal(first.channels, 6);
   assert.equal(first.pools, 2);
   assert.equal(first.rockMasses, 3, 'Connected host rock must be present in the production fixture');
   assert.deepEqual(first.paletteRange, [0, 1]);
@@ -65,8 +65,9 @@ try {
   assert.equal(first.crustPlates, 0, 'Molten flow stays clear of static slab clutter');
   assert(first.lights.every(light => light.kind !== 'lava'), 'Lava has no point-light substitutes');
   assert(first.liveParticles > 20 && first.moltenTriangles > 500);
-  assert(first.dryApronTriangles > 0, 'The dry cinder apron must close the bank and end-cap gaps');
-  assert(first.texturedStoneMeshes >= 12);
+  assert.equal(first.dryApronTriangles, 0, 'Natural banks blend into terrain without a second continuous apron');
+  assert.equal(first.bankRocks, 0, 'Natural banks must not use regularly spaced rock dressing');
+  assert(first.texturedStoneMeshes >= 4);
   await capture('warm-fork');
   assert(first.bankLighting.active > 0 && first.bankLighting.budget === 4);
   const comparison = await page.evaluate(() => {
@@ -103,6 +104,8 @@ try {
   await page.waitForTimeout(1000);
   await pose(23, -19, 0, .7);
   await capture('nightglass-pool-and-ward');
+  await pose(55, -7, 0, .65);
+  await capture('split-and-rejoin');
 
   await pose(36, 5);
   const beforeDry = await driver.callDebug('getPlayerPosition') as Position;
