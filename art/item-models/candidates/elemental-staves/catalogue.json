@@ -1,0 +1,292 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_air_staff",
+      "file": "models/items/air_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "air_staff"
+      ],
+      "bytes": 1333184,
+      "itemModel": {
+        "itemId": "air_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.015,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.26409342885017395,
+        "y": 1.8179492843151093,
+        "z": 0.20800000429153442
+      },
+      "base": {
+        "x": -0.1300448328256607,
+        "y": -0.6774999988079071,
+        "z": -0.10400000214576721
+      },
+      "animations": [],
+      "materials": [
+        "air-carved-wood",
+        "air-grain-recesses",
+        "air-leather-wrap",
+        "air-leather-seam",
+        "air-engraved-metal",
+        "air-elemental-orb",
+        "air-raised-wood-fibres"
+      ],
+      "itemId": "air_staff",
+      "status": "pending",
+      "sha256": "a4234aac88a9a011dca6be9c3a2382198533ee18f45ca91fe1b07263078217f1",
+      "sourceSha256": "12b74fde21447e37f5ff433208284ff118051077d3511affe2b861c57204b870",
+      "referenceSha256": "60525f917ac4465e98a57112f4ee04ee7d1e60f012fdf587f830fc1a1c2a4af0",
+      "metadata": {
+        "itemId": "air_staff",
+        "author": "elemental-staves",
+        "reference": "art/item-icons/generated/air_staff.png",
+        "description": "Pine Staff fitted with a Air Orb. Its charge pays for matching spells before carried Essence.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.015,
+          0
+        ]
+      },
+      "triangles": 36312,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_earth_staff",
+      "file": "models/items/earth_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "earth_staff"
+      ],
+      "bytes": 1845428,
+      "itemModel": {
+        "itemId": "earth_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.015,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.27212564647197723,
+        "y": 1.8867501299083234,
+        "z": 0.2268058806657791
+      },
+      "base": {
+        "x": -0.13104920089244843,
+        "y": -0.7405000011622905,
+        "z": -0.12088392674922943
+      },
+      "animations": [],
+      "materials": [
+        "earth-carved-wood",
+        "earth-raised-wood-fibres",
+        "earth-leather-wrap",
+        "earth-leather-seam",
+        "earth-engraved-metal",
+        "earth-inlaid-element",
+        "earth-elemental-orb",
+        "earth-grain-recesses"
+      ],
+      "itemId": "earth_staff",
+      "status": "pending",
+      "sha256": "f4f90e481558e8db5c33bd4147f1fa782c777f6ded07c02932cf13833b9bd5d3",
+      "sourceSha256": "12b74fde21447e37f5ff433208284ff118051077d3511affe2b861c57204b870",
+      "referenceSha256": "75be751e055feb67ba932af5625fb55845fccfaa264f8c81e9c84ae094ffda83",
+      "metadata": {
+        "itemId": "earth_staff",
+        "author": "elemental-staves",
+        "reference": "art/item-icons/generated/earth_staff.png",
+        "description": "Ash Staff fitted with a Earth Orb. Its charge pays for matching spells before carried Essence.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.015,
+          0
+        ]
+      },
+      "triangles": 51754,
+      "drawCalls": 8
+    },
+    {
+      "id": "corealm_item_water_staff",
+      "file": "models/items/water_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "water_staff"
+      ],
+      "bytes": 1407308,
+      "itemModel": {
+        "itemId": "water_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.015,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.28045645356178284,
+        "y": 1.8244590651988983,
+        "z": 0.2240000069141388
+      },
+      "base": {
+        "x": -0.13450489938259125,
+        "y": -0.6774999988079071,
+        "z": -0.1120000034570694
+      },
+      "animations": [],
+      "materials": [
+        "water-carved-wood",
+        "water-grain-recesses",
+        "water-leather-wrap",
+        "water-leather-seam",
+        "water-engraved-metal",
+        "water-elemental-orb",
+        "water-raised-wood-fibres",
+        "water-inlaid-element"
+      ],
+      "itemId": "water_staff",
+      "status": "pending",
+      "sha256": "22436f48905134bf4835eaa761dce57d60ac7a5d621a49d05532692c63b8fc8c",
+      "sourceSha256": "12b74fde21447e37f5ff433208284ff118051077d3511affe2b861c57204b870",
+      "referenceSha256": "14ff668b30fd52fab172b143f56741356314b7313676103f8d78cb224ef61cb7",
+      "metadata": {
+        "itemId": "water_staff",
+        "author": "elemental-staves",
+        "reference": "art/item-icons/generated/water_staff.png",
+        "description": "Oak Staff fitted with a Water Orb. Its charge pays for matching spells before carried Essence.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.015,
+          0
+        ]
+      },
+      "triangles": 38208,
+      "drawCalls": 8
+    },
+    {
+      "id": "corealm_item_fire_staff",
+      "file": "models/items/fire_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "fire_staff"
+      ],
+      "bytes": 1533628,
+      "itemModel": {
+        "itemId": "fire_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.015,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.2740427851676941,
+        "y": 1.886882929056883,
+        "z": 0.2212037295103073
+      },
+      "base": {
+        "x": -0.13637743890285492,
+        "y": -0.7405000011622905,
+        "z": -0.11347965896129608
+      },
+      "animations": [],
+      "materials": [
+        "fire-carved-wood",
+        "fire-raised-wood-fibres",
+        "fire-grain-recesses",
+        "fire-leather-wrap",
+        "fire-leather-seam",
+        "fire-engraved-metal",
+        "fire-inlaid-element",
+        "fire-elemental-orb"
+      ],
+      "itemId": "fire_staff",
+      "status": "pending",
+      "sha256": "45ba74a4ca9533136683bc83b5837a359248b9f345fe82dd25a479ff2e5cff57",
+      "sourceSha256": "12b74fde21447e37f5ff433208284ff118051077d3511affe2b861c57204b870",
+      "referenceSha256": "9b1a75107835b7c29ce05d8c54a869e0c4aeb8473dcaa78a595bb96bed7e6a15",
+      "metadata": {
+        "itemId": "fire_staff",
+        "author": "elemental-staves",
+        "reference": "art/item-icons/generated/fire_staff.png",
+        "description": "Walnut Staff fitted with a Fire Orb. Its charge pays for matching spells before carried Essence.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.015,
+          0
+        ]
+      },
+      "triangles": 41240,
+      "drawCalls": 8
+    }
+  ]
+}

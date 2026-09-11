@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_grithe_ring",
+      "file": "models/items/grithe_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_ring"
+      ],
+      "bytes": 566616,
+      "size": {
+        "x": 0.023215753957629204,
+        "y": 0.028831452131271362,
+        "z": 0.006935714278370142
+      },
+      "base": {
+        "x": -0.011634308844804764,
+        "y": -0.011631451547145844,
+        "z": -0.003467857139185071
+      },
+      "animations": [],
+      "materials": [
+        "Warm polished hammered copper",
+        "Clear milky fractured quartz",
+        "Quartz white mineral fracture edges"
+      ],
+      "itemId": "grithe_ring",
+      "status": "pending",
+      "sha256": "b1d57944b3b3103ed1273e2e41de1da271e20b9383040ac69380143140ca12a6",
+      "sourceSha256": "64e6c121b759da9506da23d694cae436975de72012f946218425eb0bf62da19b",
+      "referenceSha256": "4ad0c8b0bf19402a9bfea14ee552e60b58c19a6416f35202b712d4cba71187d4",
+      "metadata": {
+        "itemId": "grithe_ring",
+        "author": "pilot-ring",
+        "reference": "art/item-icons/generated/grithe_ring.png",
+        "description": "Forged reddish copper ring with 20 mm open finger bore, softly bevelled hammered shank, four bent copper claws and one asymmetric fractured clear quartz chip. Unseen rear setting inferred."
+      },
+      "triangles": 15762,
+      "drawCalls": 3
+    }
+  ]
+}

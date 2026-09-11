@@ -293,6 +293,7 @@ const COVERAGE_PARTS: readonly (readonly [part: string, region: string])[] = [
  * character wears its build-time outfit, which is what it does today.
  */
 export interface GearAppearanceLike {
+  itemId?: ItemId;
   assetId: string;
   slot: EquipSlot;
   attach: "bone" | "skin";
@@ -906,10 +907,11 @@ export class CharacterRig {
         ? requested
         : fishingRodItemForTier(input.activityTier);
       const assetId = fishingRodAssetId(rodItemId);
-      nextAppearance = { assetId, slot: "mainHand", attach: "bone" };
-      nextKey = `${rodItemId}:${assetId}`;
+      nextAppearance = this.authoredItemParts(rodItemId, [{ assetId, slot: "mainHand", attach: "bone" }])[0] ?? null;
+      nextKey = `${rodItemId}:${nextAppearance?.assetId}`;
     } else if (miningOrWoodcutting && input.activityToolItemId) {
       nextAppearance = equipmentVisuals.gatheringToolAppearance(input.activityToolItemId);
+      if (nextAppearance) nextAppearance = this.authoredItemParts(input.activityToolItemId, [nextAppearance])[0] ?? null;
       if (nextAppearance) nextKey = `${input.activityToolItemId}:${nextAppearance.assetId}`;
     }
     if (nextKey === this.activityMainHandKey) return;
@@ -974,11 +976,26 @@ export class CharacterRig {
     // male Cobalt captures, with `outfit_male_knight_*` in the female shard's layer list.
     const body = this.characterBody();
     const charged = port.gearAppearancePartsWithCharge?.(itemId, charge, body);
-    if (charged) return charged;
+    if (charged) return this.authoredItemParts(itemId, charged);
     const parts = port.gearAppearanceParts?.(itemId, body);
-    if (parts) return parts;
+    if (parts) return this.authoredItemParts(itemId, parts);
     const single = port.gearAppearance(itemId, body);
-    return single ? [single] : [];
+    return this.authoredItemParts(itemId, single ? [single] : []);
+  }
+
+  /** A manifest-backed authored item replaces the legacy multipart/tint treatment. */
+  private authoredItemParts(itemId: ItemId, fallback: readonly GearAppearanceLike[]): readonly GearAppearanceLike[] {
+    // Equipment uses the established fitted outfit and weapon meshes. Item-model overrides
+    // remain available for gathering/fishing assets outside the equipment catalogue.
+    if (equipmentVisuals.gearAppearanceParts(itemId, this.characterBody()).length) return fallback;
+    const first = fallback[0];
+    const entry = this.assets.entry(`corealm_item_${itemId}`);
+    if (!first || entry?.itemModel?.itemId !== itemId) return fallback;
+    const model = entry.itemModel;
+    const appearance: GearAppearanceLike = { assetId: entry.id, slot: first.slot, attach: model.wearable ? "skin" : "bone" };
+    const orb = fallback.find(part => part.orb)?.orb;
+    if (orb && model.focus) appearance.orb = { ...orb, position: model.focus };
+    return [appearance];
   }
 
   /** The body the rig was built with, which decides which outfit variant its slots resolve to. */
@@ -1050,8 +1067,13 @@ export class CharacterRig {
       if (this.slotEpoch.get(slot) !== epoch) return;
       this.slotLoading.delete(slot);
       const object = source.clone(true);
-      const elementalFocus = equipmentVisuals.elementalWeaponFocus(appearance.assetId);
+      const elementalFocus = this.assets.entry(appearance.assetId)?.itemModel?.focus ?? equipmentVisuals.elementalWeaponFocus(appearance.assetId);
       if (elementalFocus) object.userData["elementalSocket"] = [...elementalFocus];
+      const fishing = this.assets.entry(appearance.assetId)?.itemModel?.fishing;
+      if (fishing) {
+        object.userData["fishingRod"] = { ...fishing, lineGuide: [...fishing.lineGuide], crankAnchor: [...fishing.crankAnchor] };
+        object.traverse(child => { if (child.userData["itemModelPart"] === "tackle") child.visible = false; });
+      }
       const socket = this.socketFor(slot, appearance);
       object.position.set(socket.position[0], socket.position[1], socket.position[2]);
       object.rotation.set(socket.rotation[0], socket.rotation[1], socket.rotation[2]);
@@ -1088,6 +1110,15 @@ export class CharacterRig {
    * fist, past the fist's own 3.8 cm half-span.
    */
   private socketFor(slot: EquipSlot, appearance: GearAppearanceLike): WeaponSocketLike {
+    const model = this.assets.entry(appearance.assetId)?.itemModel;
+    if (model) {
+      const shield = slot === "offHand";
+      const rotation: [number, number, number] = shield ? [0, -Math.PI / 2, Math.PI] : [Math.PI / 2, 0, 0];
+      const anchor = shield ? [-.075, .100, 0] as const : FIST_RIGHT;
+      const offset = new THREE.Vector3(...(model.grip ?? [0, 0, 0])).applyEuler(new THREE.Euler(...rotation));
+      return { bone: shield ? "lowerarm_l" : BONE_FOR_SLOT[slot] ?? "hand_r",
+        position: [anchor[0] - offset.x, anchor[1] - offset.y, anchor[2] - offset.z], rotation, scale: 1 };
+    }
     const port = this.gear;
     const measured = port?.weaponAttachment?.(appearance) ?? port?.weaponSocket(appearance.assetId);
     if (measured) return measured;
@@ -1178,8 +1209,8 @@ export class CharacterRig {
     }
 
     this.clearLayers();
+    this.restoreCap();
     if (wantCap) this.applyCap();
-    else this.restoreCap();
 
     const rebound: THREE.SkinnedMesh[] = [];
     for (const { assetId, source } of sources) {
@@ -1275,6 +1306,7 @@ export class CharacterRig {
     this.capped = false;
   }
 
+  /** Keep exposed limbs beneath new overlays while old garments still replace their regions. */
   // ------------------------------------------------------------------ misc
 
   setPosition(position: Vec3, facingRad: number): void {
@@ -1413,7 +1445,7 @@ export class CharacterRig {
     layerMeshes?: string[];
     layerAssets?: string[];
     hairVisible?: boolean;
-    fishing?: { sample: FishingSample | null; visible: boolean; tip: number[]; float: number[]; spot: Vec3 | null; bones: string[] };
+    fishing?: { sample: FishingSample | null; visible: boolean; tip: number[]; float: number[]; spot: Vec3 | null; bones: string[]; guideWorld: number[] | null; guideLocal: number[] | null; visibleTackle: number };
   } {
     const clip = this.currentAction?.getClip();
     const local = Boolean(clip && this.locomotionClips.get(clip.name) === clip);
@@ -1421,8 +1453,13 @@ export class CharacterRig {
       const bone = this.hostBones.get(name);
       return bone ? bone.getWorldPosition(new THREE.Vector3()).toArray() as Vec3 : [0, 0, 0];
     };
+    const rod = this.boneAttachments.get("mainHand");
+    const guide = rod?.userData["fishingRod"]?.lineGuide as number[] | undefined;
+    let visibleTackle = 0;
+    rod?.traverse(child => { if (child.userData["itemModelPart"] === "tackle" && child.visible) visibleTackle++; });
     return {
-      fishing: { sample: this.fishingSample, visible: this.fishingLine.root.visible, tip: this.fishingLine.tip.toArray(), float: this.fishingLine.float.toArray(), spot: this.fishingSpot, bones: [...this.hostBones.keys()] },
+      fishing: { sample: this.fishingSample, visible: this.fishingLine.root.visible, tip: this.fishingLine.tip.toArray(), float: this.fishingLine.float.toArray(), spot: this.fishingSpot, bones: [...this.hostBones.keys()],
+        guideWorld: rod && guide ? new THREE.Vector3().fromArray(guide).applyMatrix4(rod.matrixWorld).toArray() : null, guideLocal: guide ? [...guide] : null, visibleTackle },
       pose: this.current,
       clip: this.currentClipName,
       time: this.currentAction?.time ?? 0,
@@ -1575,6 +1612,7 @@ function appearanceKey(appearance: GearAppearanceLike | undefined): string {
     : "-";
   return [
     appearance.assetId,
+    appearance.itemId ?? "-",
     appearance.attach,
     appearance.tint ?? "-",
     appearance.scale ?? 1,
@@ -1702,3 +1740,4 @@ function materialMergeKey(material: THREE.Material): string {
   const colour = (material as THREE.MeshStandardMaterial).color;
   return `${material.name}|${colour instanceof THREE.Color ? colour.getHexString() : "-"}`;
 }
+

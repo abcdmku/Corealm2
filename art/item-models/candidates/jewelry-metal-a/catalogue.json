@@ -1,0 +1,243 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_grithe_pendant",
+      "file": "models/items/grithe_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_pendant"
+      ],
+      "bytes": 926248,
+      "itemModel": {
+        "itemId": "grithe_pendant"
+      },
+      "size": {
+        "x": 0.02929343655705452,
+        "y": 0.05748431894108653,
+        "z": 0.006015500519424677
+      },
+      "base": {
+        "x": -0.01464671827852726,
+        "y": -0.018646718934178352,
+        "z": -0.003007751889526844
+      },
+      "animations": [],
+      "materials": [
+        "Reddish hand hammered copper",
+        "Darkened copper recessed border"
+      ],
+      "itemId": "grithe_pendant",
+      "status": "pending",
+      "sha256": "de89d76e25f90119653e1b887283a23068854ca577f71a328e5602d9de2f5cb3",
+      "sourceSha256": "b05720cf6f55c7441f2749bbcebb0f503e5e2c108b621cf9052bf217a4079894",
+      "referenceSha256": "ca96448bde6f8caec2a96f74c59d9c447c7e68b0e993a4f6ea53ed4d79a85aed",
+      "metadata": {
+        "itemId": "grithe_pendant",
+        "author": "jewelry-metal-a",
+        "reference": "art/item-icons/generated/grithe_pendant.png",
+        "description": "Oval hammered copper medallion with raised border, folded bail, interlocked short chain and inferred rear Trade Company serial."
+      },
+      "triangles": 23200,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_corven_ring",
+      "file": "models/items/corven_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_ring"
+      ],
+      "bytes": 988332,
+      "itemModel": {
+        "itemId": "corven_ring"
+      },
+      "size": {
+        "x": 0.02329999953508377,
+        "y": 0.027549999736621977,
+        "z": 0.010900000110268593
+      },
+      "base": {
+        "x": -0.011649999767541885,
+        "y": -0.011649999767541885,
+        "z": -0.005450000055134296
+      },
+      "animations": [],
+      "materials": [
+        "Softly polished dark iron",
+        "Worn iron setting edge",
+        "Honey amber translucent resin",
+        "Amber suspended bark and ancient fern",
+        "Golden resin fracture flakes"
+      ],
+      "itemId": "corven_ring",
+      "status": "pending",
+      "sha256": "e6fed6f7a7dc5ffd3ccc48de6014ae4e65aa28942fbaf01f56484cb2d9cf9350",
+      "sourceSha256": "b05720cf6f55c7441f2749bbcebb0f503e5e2c108b621cf9052bf217a4079894",
+      "referenceSha256": "c6ef6fa24c53ec607eeda080c72e14e9c84de713410fdcb39ecfbf0db8bf5276",
+      "metadata": {
+        "itemId": "corven_ring",
+        "author": "jewelry-metal-a",
+        "reference": "art/item-icons/generated/corven_ring.png",
+        "description": "Heavy open iron band with broad tapered shoulders and flush oval amber cabochon containing mineral fragments."
+      },
+      "triangles": 21880,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_corven_pendant",
+      "file": "models/items/corven_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_pendant"
+      ],
+      "bytes": 1108328,
+      "itemModel": {
+        "itemId": "corven_pendant"
+      },
+      "size": {
+        "x": 0.027039851993322372,
+        "y": 0.058387681021541356,
+        "z": 0.0075077516958117485
+      },
+      "base": {
+        "x": -0.013519925996661186,
+        "y": -0.01755008101463318,
+        "z": -0.003007751889526844
+      },
+      "animations": [],
+      "materials": [
+        "Clear golden honey amber pendant",
+        "Amber suspended bark and ancient fern",
+        "Golden resin fracture flakes",
+        "Worn charcoal iron"
+      ],
+      "itemId": "corven_pendant",
+      "status": "pending",
+      "sha256": "f4e97d84547e9c88acf7d635a9f0629d0c7e610a859d67a1beca0ac8033e8786",
+      "sourceSha256": "b05720cf6f55c7441f2749bbcebb0f503e5e2c108b621cf9052bf217a4079894",
+      "referenceSha256": "eb0b3fce245adc796b57dbb7ec956d943a9ff9556e7d4324b4c09e4d54307062",
+      "metadata": {
+        "itemId": "corven_pendant",
+        "author": "jewelry-metal-a",
+        "reference": "art/item-icons/generated/corven_pendant.png",
+        "description": "Pear shaped honey amber pendant with fossil fern, three folded iron claws, closed rear basket, broad hollow bail and iron chain."
+      },
+      "triangles": 27366,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_kaldite_ring",
+      "file": "models/items/kaldite_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_ring"
+      ],
+      "bytes": 792752,
+      "itemModel": {
+        "itemId": "kaldite_ring"
+      },
+      "size": {
+        "x": 0.02329999953508377,
+        "y": 0.028649999730661513,
+        "z": 0.012016106396913528
+      },
+      "base": {
+        "x": -0.011649999767541885,
+        "y": -0.011649999767541885,
+        "z": -0.006008053198456764
+      },
+      "animations": [],
+      "materials": [
+        "Blue steel cobalt band",
+        "Deep red transparent garnet",
+        "Garnet internal dark mineral feathers",
+        "Scarlet garnet fracture flakes",
+        "Bright bevels of cobalt"
+      ],
+      "itemId": "kaldite_ring",
+      "status": "pending",
+      "sha256": "850a581d623671ab9cda2e6331d4243513d9943cc292ed14fccfc1444366c0d6",
+      "sourceSha256": "b05720cf6f55c7441f2749bbcebb0f503e5e2c108b621cf9052bf217a4079894",
+      "referenceSha256": "4ccedae84f8eee48a5a664194a547b9b115fc836817c14cf4617783b1c2c2bb1",
+      "metadata": {
+        "itemId": "kaldite_ring",
+        "author": "jewelry-metal-a",
+        "reference": "art/item-icons/generated/kaldite_ring.png",
+        "description": "Heavy blue cobalt ring with octagonal setting, four angular claws, faceted red garnet, shoulder diamonds and inferred inner quarry tally."
+      },
+      "triangles": 11724,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_kaldite_pendant",
+      "file": "models/items/kaldite_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_pendant"
+      ],
+      "bytes": 589568,
+      "itemModel": {
+        "itemId": "kaldite_pendant"
+      },
+      "size": {
+        "x": 0.022083647549152374,
+        "y": 0.049901243299245834,
+        "z": 0.008129222318530083
+      },
+      "base": {
+        "x": -0.011041823774576187,
+        "y": -0.01889999955892563,
+        "z": -0.003429222386330366
+      },
+      "animations": [],
+      "materials": [
+        "Deep red transparent garnet",
+        "Garnet internal dark mineral feathers",
+        "Scarlet garnet fracture flakes",
+        "Polished cool blue cobalt"
+      ],
+      "itemId": "kaldite_pendant",
+      "status": "pending",
+      "sha256": "c2a2761eb54534295c0a034f4b8b94f20c1d5dbe862beecd74953fdc359ac738",
+      "sourceSha256": "b05720cf6f55c7441f2749bbcebb0f503e5e2c108b621cf9052bf217a4079894",
+      "referenceSha256": "dd6345636cbf7f2fe2314f76e9bef21dfab400dd4b42e3274d30f54b418ccf0e",
+      "metadata": {
+        "itemId": "kaldite_pendant",
+        "author": "jewelry-metal-a",
+        "reference": "art/item-icons/generated/kaldite_pendant.png",
+        "description": "Faceted marquise red garnet in four angular cobalt claws with open rear support, round suspension eye and tapered hollow cobalt bail."
+      },
+      "triangles": 10396,
+      "drawCalls": 4
+    }
+  ]
+}

@@ -1,0 +1,287 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_raw_game_meat",
+      "file": "models/items/raw_game_meat.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "raw_game_meat"
+      ],
+      "bytes": 1176404,
+      "itemModel": {
+        "itemId": "raw_game_meat"
+      },
+      "size": {
+        "x": 0.20330903679132462,
+        "y": 0.39899999582767487,
+        "z": 0.17135777324438095
+      },
+      "base": {
+        "x": -0.09982836246490479,
+        "y": -0.14499999582767487,
+        "z": -0.08176182210445404
+      },
+      "animations": [],
+      "materials": [
+        "Game raw flesh",
+        "Cream connective fat",
+        "Exposed joint bone"
+      ],
+      "itemId": "raw_game_meat",
+      "status": "pending",
+      "sha256": "f25d719872c065bbbb1e878d2dbccef33959e0dd39337305560128fc4e100e63",
+      "sourceSha256": "a21d57f602cd41af4da0101f0dbd8d85a6fd32431f558126a8eaca8baa1c2bd3",
+      "referenceSha256": "325f9e26099722bdb24f71b2547f522dd1f2ab3e0a1fefee80b410e629776a57",
+      "metadata": {
+        "itemId": "raw_game_meat",
+        "author": "meat-a",
+        "reference": "art/item-icons/generated/raw_game_meat.png",
+        "description": "Whatever the Farmland was carrying. Fowl, goat or rabbit, jointed the same way."
+      },
+      "triangles": 24960,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_roast_game",
+      "file": "models/items/roast_game.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "roast_game"
+      ],
+      "bytes": 1176972,
+      "itemModel": {
+        "itemId": "roast_game"
+      },
+      "size": {
+        "x": 0.19339203089475632,
+        "y": 0.39999999582767487,
+        "z": 0.16586091369390488
+      },
+      "base": {
+        "x": -0.09481832385063171,
+        "y": -0.14499999582767487,
+        "z": -0.0803539827466011
+      },
+      "animations": [],
+      "materials": [
+        "Game roast flesh",
+        "Rendered fat",
+        "Exposed joint bone"
+      ],
+      "itemId": "roast_game",
+      "status": "pending",
+      "sha256": "d9b1b80493c3ac7099c4a012440060779dd679aaef49b6e2b85ba37d950c4074",
+      "sourceSha256": "a21d57f602cd41af4da0101f0dbd8d85a6fd32431f558126a8eaca8baa1c2bd3",
+      "referenceSha256": "01edd9cc20d3c4ba59ef7872f6028d2b0a84d2cca02dd36c83e86d1f03aac339",
+      "metadata": {
+        "itemId": "roast_game",
+        "author": "meat-a",
+        "reference": "art/item-icons/generated/roast_game.png",
+        "description": "Turned over a range until the fat stops running. Frontier cooking, and it works."
+      },
+      "triangles": 25380,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_burnt_game",
+      "file": "models/items/burnt_game.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_game"
+      ],
+      "bytes": 1516400,
+      "itemModel": {
+        "itemId": "burnt_game"
+      },
+      "size": {
+        "x": 0.18366577476263046,
+        "y": 0.39999999582767487,
+        "z": 0.1559349074959755
+      },
+      "base": {
+        "x": -0.08979830145835876,
+        "y": -0.14499999582767487,
+        "z": -0.0755138024687767
+      },
+      "animations": [],
+      "materials": [
+        "Game burnt flesh",
+        "Rendered fat",
+        "Exposed joint bone"
+      ],
+      "itemId": "burnt_game",
+      "status": "pending",
+      "sha256": "ef336415a7b66e17d3e7e449d6559415c6abf42725dc8e5784265e421a63132d",
+      "sourceSha256": "a21d57f602cd41af4da0101f0dbd8d85a6fd32431f558126a8eaca8baa1c2bd3",
+      "referenceSha256": "debdc8acab57451265a021b4c2f0b800a4904a8c5f4cabb4f924c8155d5b7cce",
+      "metadata": {
+        "itemId": "burnt_game",
+        "author": "meat-a",
+        "reference": "art/item-icons/generated/burnt_game.png",
+        "description": "Left on the range. Black through and nothing left worth eating."
+      },
+      "triangles": 35940,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_raw_venison",
+      "file": "models/items/raw_venison.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "raw_venison"
+      ],
+      "bytes": 1288220,
+      "itemModel": {
+        "itemId": "raw_venison"
+      },
+      "size": {
+        "x": 0.16898996382951736,
+        "y": 0.15136824548244476,
+        "z": 0.3546000123023987
+      },
+      "base": {
+        "x": -0.08377773314714432,
+        "y": -0.07781480252742767,
+        "z": -0.17730000615119934
+      },
+      "animations": [],
+      "materials": [
+        "Venison raw outer muscle",
+        "Venison raw cut face",
+        "Venison connective rim"
+      ],
+      "itemId": "raw_venison",
+      "status": "pending",
+      "sha256": "5997e3fbe65381170fbdb2386e1f062834e33c063844aca5860bcaae317376e3",
+      "sourceSha256": "a21d57f602cd41af4da0101f0dbd8d85a6fd32431f558126a8eaca8baa1c2bd3",
+      "referenceSha256": "f48bd1f1bdf0194087acddfd9354484804fae97627352ea4d12140ec54a4ae27",
+      "metadata": {
+        "itemId": "raw_venison",
+        "author": "meat-a",
+        "reference": "art/item-icons/generated/raw_venison.png",
+        "description": "Dark, close-grained deepwood meat. Hangs two days before it is worth cooking."
+      },
+      "triangles": 27472,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_roast_venison",
+      "file": "models/items/roast_venison.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "roast_venison"
+      ],
+      "bytes": 1840172,
+      "itemModel": {
+        "itemId": "roast_venison"
+      },
+      "size": {
+        "x": 0.1814639152080608,
+        "y": 0.16310998052358627,
+        "z": 0.3285999894142151
+      },
+      "base": {
+        "x": -0.08930203471300809,
+        "y": -0.08181650936603546,
+        "z": -0.16429999470710754
+      },
+      "animations": [],
+      "materials": [
+        "Venison roast outer muscle",
+        "Venison roast cut face",
+        "Venison connective rim",
+        "Toasted seasoning seeds",
+        "Cracked black pepper",
+        "Roasted rosemary leaves"
+      ],
+      "itemId": "roast_venison",
+      "status": "pending",
+      "sha256": "4776f7b5f8d733388db9edc4c3f18042958d748ddbf798d1592353b7e17521a4",
+      "sourceSha256": "a21d57f602cd41af4da0101f0dbd8d85a6fd32431f558126a8eaca8baa1c2bd3",
+      "referenceSha256": "8ac312f364b0e61ce87272bc9c69a55317dff23d4115c3db5dffe856138bc48c",
+      "metadata": {
+        "itemId": "roast_venison",
+        "author": "meat-a",
+        "reference": "art/item-icons/generated/roast_venison.png",
+        "description": "Seared hard and rested. The one meal in Oakwood nobody complains about."
+      },
+      "triangles": 39312,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_burnt_venison",
+      "file": "models/items/burnt_venison.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_venison"
+      ],
+      "bytes": 1539752,
+      "itemModel": {
+        "itemId": "burnt_venison"
+      },
+      "size": {
+        "x": 0.163003072142601,
+        "y": 0.1476917862892151,
+        "z": 0.3086000084877014
+      },
+      "base": {
+        "x": -0.08074962347745895,
+        "y": -0.07565288245677948,
+        "z": -0.1543000042438507
+      },
+      "animations": [],
+      "materials": [
+        "Venison burnt outer muscle",
+        "Venison burnt cut face",
+        "Venison connective rim",
+        "Dry fissure interior"
+      ],
+      "itemId": "burnt_venison",
+      "status": "pending",
+      "sha256": "dd667a75b88977891edfc108d7ef527b3d4d2d9cd677e95c61df0b99811f69c9",
+      "sourceSha256": "a21d57f602cd41af4da0101f0dbd8d85a6fd32431f558126a8eaca8baa1c2bd3",
+      "referenceSha256": "a67cb366117cdcfe10b7718ce952b0e1022062772ea1f55b8734ce34ea8dfaa4",
+      "metadata": {
+        "itemId": "burnt_venison",
+        "author": "meat-a",
+        "reference": "art/item-icons/generated/burnt_venison.png",
+        "description": "A stag walked all summer for this and you left it on the coals."
+      },
+      "triangles": 36172,
+      "drawCalls": 4
+    }
+  ]
+}

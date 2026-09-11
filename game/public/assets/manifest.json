@@ -388,6 +388,14 @@
       "source": "tools/wilderness-creatures/keepers/hollow-star.mjs",
       "license": "LicenseRef-Corealm-Original",
       "generatorSha256": "cdb74a7e5abe9a3b4f229d6722335d4188f06a9da4a6ea3d06d521bc1f4e73b4"
+    },
+    {
+      "id": "corealm-icon-item-models",
+      "name": "Corealm item models from approved artwork",
+      "author": "Corealm",
+      "license": "LicenseRef-Corealm-Original",
+      "source": "tools/item-models/build.ts",
+      "generatorSha256": "7e5c7ad32215af304a3292acfacbe7f966a2a8439d003ad0617e2d921b0c3040"
     }
   ],
   "assets": [
@@ -3858,7 +3866,7 @@
         "armour",
         "female"
       ],
-      "bytes": 270324,
+      "bytes": 270572,
       "size": {
         "x": 0.396,
         "y": 0.499,
@@ -3874,7 +3882,8 @@
       ],
       "materials": [
         "MI_Knight"
-      ]
+      ],
+      "sha256": "3a26397057d6de4fe5b442ebcd7c31a2379153cb35aaa5b42e0d3eb55eee66e2"
     },
     {
       "id": "outfit_female_knight_chest",
@@ -3891,7 +3900,7 @@
         "armour",
         "female"
       ],
-      "bytes": 246912,
+      "bytes": 247156,
       "size": {
         "x": 0.341,
         "y": 0.628,
@@ -3905,7 +3914,8 @@
       "animations": [],
       "materials": [
         "MI_Knight"
-      ]
+      ],
+      "sha256": "de72a6c1f813ec8b69ddb08f077c3f488f9dab4ba98409847f0432445f37f21a"
     },
     {
       "id": "outfit_female_knight_gloves",
@@ -3923,7 +3933,7 @@
         "armour",
         "female"
       ],
-      "bytes": 498648,
+      "bytes": 498896,
       "size": {
         "x": 1.664,
         "y": 0.152,
@@ -3939,7 +3949,8 @@
       ],
       "materials": [
         "MI_Knight"
-      ]
+      ],
+      "sha256": "43c2a52ef2afed8cba6f1cf69a7be08630a474f07402b529e05198a85a047a03"
     },
     {
       "id": "outfit_female_knight_helmet",
@@ -3957,7 +3968,7 @@
         "armour",
         "female"
       ],
-      "bytes": 114512,
+      "bytes": 114756,
       "size": {
         "x": 0.195,
         "y": 0.285,
@@ -3971,7 +3982,8 @@
       "animations": [],
       "materials": [
         "MI_Knight"
-      ]
+      ],
+      "sha256": "4ca7bc0e8453360e5bbb5a095be7caee9307c790a052119a46222b523639c38b"
     },
     {
       "id": "outfit_female_knight_legs",
@@ -3988,7 +4000,7 @@
         "armour",
         "female"
       ],
-      "bytes": 288580,
+      "bytes": 288828,
       "size": {
         "x": 0.412,
         "y": 0.637,
@@ -4004,7 +4016,8 @@
       ],
       "materials": [
         "MI_Knight"
-      ]
+      ],
+      "sha256": "0b6932db376b4b58684fee6b5072d089812c3fcb69280faa0a3b696314c861a9"
     },
     {
       "id": "outfit_female_knight_pauldron",
@@ -4022,7 +4035,7 @@
         "armour",
         "female"
       ],
-      "bytes": 171964,
+      "bytes": 172208,
       "size": {
         "x": 0.676,
         "y": 0.18,
@@ -4036,7 +4049,8 @@
       "animations": [],
       "materials": [
         "MI_Knight"
-      ]
+      ],
+      "sha256": "b4979bffea63bb7016703b0cb1ddb8613785024880aa5fe02bab6702e7df0bd6"
     },
     {
       "id": "outfit_female_knight_scarf",
@@ -4463,7 +4477,7 @@
         "armour",
         "male"
       ],
-      "bytes": 157900,
+      "bytes": 158144,
       "size": {
         "x": 0.342,
         "y": 0.514,
@@ -4477,7 +4491,8 @@
       "animations": [],
       "materials": [
         "MI_Knight"
-      ]
+      ],
+      "sha256": "2063dfd2e7d4c0dcdc8aa56a19abf4d6fda6b7e802e861659d78ece5782811c6"
     },
     {
       "id": "outfit_male_knight_chest",
@@ -4494,7 +4509,7 @@
         "armour",
         "male"
       ],
-      "bytes": 399456,
+      "bytes": 399704,
       "size": {
         "x": 0.372,
         "y": 0.654,
@@ -4508,7 +4523,8 @@
       "animations": [],
       "materials": [
         "MI_Knight"
-      ]
+      ],
+      "sha256": "d31972f4984f7cd4ada724b75449629b7f0de142b0df3c8a0b20ccbfe58b10f1"
     },
     {
       "id": "outfit_male_knight_gloves",
@@ -4526,7 +4542,7 @@
         "armour",
         "male"
       ],
-      "bytes": 533520,
+      "bytes": 533764,
       "size": {
         "x": 1.799,
         "y": 0.165,
@@ -4540,7 +4556,8 @@
       "animations": [],
       "materials": [
         "MI_Knight"
-      ]
+      ],
+      "sha256": "c4cf61b9e3acc7a9b9c8eda408df2ce8c7d68eeef322bae952edff474a1b2e22"
     },
     {
       "id": "outfit_male_knight_helmet",
@@ -4558,7 +4575,7 @@
         "armour",
         "male"
       ],
-      "bytes": 113984,
+      "bytes": 114228,
       "size": {
         "x": 0.202,
         "y": 0.294,
@@ -4572,7 +4589,8 @@
       "animations": [],
       "materials": [
         "MI_Knight"
-      ]
+      ],
+      "sha256": "d02db9775755907ca5fff5f0735af6da5fec8a796efade8b5d7e903779ec489b"
     },
     {
       "id": "outfit_male_knight_legs",
@@ -4589,7 +4607,7 @@
         "armour",
         "male"
       ],
-      "bytes": 203992,
+      "bytes": 204236,
       "size": {
         "x": 0.375,
         "y": 0.718,
@@ -4603,7 +4621,8 @@
       "animations": [],
       "materials": [
         "MI_Knight"
-      ]
+      ],
+      "sha256": "67b75b3eb4e996aeb7bec38dc54a4177f8717973c4d63b0facd2e8ef8a930c6f"
     },
     {
       "id": "outfit_male_knight_pauldron",
@@ -4621,7 +4640,7 @@
         "armour",
         "male"
       ],
-      "bytes": 171432,
+      "bytes": 171676,
       "size": {
         "x": 0.693,
         "y": 0.209,
@@ -4635,7 +4654,8 @@
       "animations": [],
       "materials": [
         "MI_Knight"
-      ]
+      ],
+      "sha256": "f3c29477d36f101cb45616236be7dfcedfb2a571cdbcef58d73397b983c2fd36"
     },
     {
       "id": "outfit_male_knight_scarf",
@@ -8908,7 +8928,7 @@
         "emissive",
         "hue-neutral"
       ],
-      "bytes": 185852,
+      "bytes": 186096,
       "size": {
         "x": 0.171,
         "y": 1.75,
@@ -8923,7 +8943,7 @@
       "materials": [
         "miniboss_staff_material"
       ],
-      "sha256": "E44DBEAA15A1192A200DF6C51A0965016F36884FD997525CEE4FD20DB89984C7"
+      "sha256": "2df9e7ffff4ea03d803f3314b66a9b509213b2c007738e9ca988d51879e4425c"
     },
     {
       "id": "miniboss_sword",
@@ -8940,7 +8960,7 @@
         "iron-variant",
         "hue-neutral"
       ],
-      "bytes": 147780,
+      "bytes": 148028,
       "size": {
         "x": 0.236,
         "y": 1.25,
@@ -8955,7 +8975,7 @@
       "materials": [
         "miniboss_sword_material"
       ],
-      "sha256": "A28DE7A93A3FE1AD7A4CB383D3FDA1C796C8966AD8F8E30D48A237F27A899993"
+      "sha256": "d669a89f92389c764af1ae847cf805854aa3f3720dda9f3a7bc59c5ec5c43ca2"
     },
     {
       "id": "miniboss_tideworn",
@@ -23787,7 +23807,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 146060,
+      "bytes": 146308,
       "size": {
         "x": 0.2769061326980591,
         "y": 0.999999981790781,
@@ -23804,7 +23824,7 @@
         "corealm-weapon-metal",
         "corealm-weapon-blade"
       ],
-      "sha256": "5f0a55210edfe713e051873c1e6ca548fbad2371891c3585ebe008118a49e8dd",
+      "sha256": "d3e9e9f938654bd4bbfa1c56e2708ccd27e603b324bd48ebe814be8cee3b8f68",
       "gripCenter": [
         0,
         -0.1,
@@ -23823,7 +23843,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 148196,
+      "bytes": 148444,
       "size": {
         "x": 0.3010334372520447,
         "y": 1.090000015169382,
@@ -23840,7 +23860,7 @@
         "corealm-weapon-metal",
         "corealm-weapon-blade"
       ],
-      "sha256": "e68c3e2fe7988dcdeed962233abf75c873774b81461ffc035104fcd95774edc1",
+      "sha256": "fbb61427e811f3b0bf737e094aa808e962027da904656b256437f70c526e8bcc",
       "gripCenter": [
         0,
         -0.1,
@@ -23859,7 +23879,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 148384,
+      "bytes": 148632,
       "size": {
         "x": 0.32513636350631714,
         "y": 1.1500000175535678,
@@ -23876,7 +23896,7 @@
         "corealm-weapon-metal",
         "corealm-weapon-blade"
       ],
-      "sha256": "dc540db7697bfa2276dac22af98797233d53dc2d77cddfe4b4a0ea28537d2bad",
+      "sha256": "88e5d41f11719dfa6466dc167d9a3a986845cad9bf506f97993e21c048eea986",
       "gripCenter": [
         0,
         -0.1,
@@ -23895,7 +23915,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 148100,
+      "bytes": 148348,
       "size": {
         "x": 0.3490915596485138,
         "y": 1.1899999794065952,
@@ -23912,7 +23932,7 @@
         "corealm-weapon-metal",
         "corealm-weapon-blade"
       ],
-      "sha256": "b5fe6b28706191c570f7272ca25b701925ad61c8f0032be9dd6043ff9bd423f6",
+      "sha256": "068623bb6a71a00ebd6f09246f7638052eb3a301f44ec035107a36e4015d0641",
       "gripCenter": [
         0,
         -0.1,
@@ -29962,7 +29982,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 111712,
+      "bytes": 112208,
       "size": {
         "x": 0.6060000061988831,
         "y": 0.7400000095367432,
@@ -29979,7 +29999,7 @@
         "corealm-weapon-metal",
         "corealm-weapon-leather"
       ],
-      "sha256": "d0ae6efaacc1991f76eb56f268d50f2fb3f507c1cd8fde631761cec5050e3f9f",
+      "sha256": "d280eea974e3ff65552b60a0fe5cec238105d7598fdf87dcab8b05c82db2c25b",
       "gripCenter": [
         0,
         0,
@@ -29998,7 +30018,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 88736,
+      "bytes": 89232,
       "size": {
         "x": 0.6062150597572327,
         "y": 0.776552754715085,
@@ -30015,7 +30035,7 @@
         "corealm-weapon-metal",
         "corealm-weapon-leather"
       ],
-      "sha256": "a60e9fb4a1fb6defc81ecf9411992f217da3e6bd444cb1c7949553555768bfff",
+      "sha256": "5d53e345564c084699b7a13ce4e3f6141c1b503b51b396b19b35bf1688638c97",
       "gripCenter": [
         0,
         0,
@@ -30034,7 +30054,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 183308,
+      "bytes": 183804,
       "size": {
         "x": 0.6261781454086304,
         "y": 0.863999992609024,
@@ -30051,7 +30071,7 @@
         "corealm-weapon-metal",
         "corealm-weapon-leather"
       ],
-      "sha256": "01477fbd3041dab76b64af5ad826991974f0837a5f4c8d0e7ce6f849738e8889",
+      "sha256": "e139b3a55c5aa06279f95ec1ba2ac79aea32db0fa9475f8a1d377ea45136ec18",
       "gripCenter": [
         0,
         0,
@@ -30070,7 +30090,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 91504,
+      "bytes": 92000,
       "size": {
         "x": 0.6259999871253967,
         "y": 0.8859999775886536,
@@ -30087,7 +30107,7 @@
         "corealm-weapon-metal",
         "corealm-weapon-leather"
       ],
-      "sha256": "df13f8d190115a294500fdd2d9e00b7fdedf3de349b0eec802e8b1eb17250e8a",
+      "sha256": "b5d4d5fc2e4f4a493a9d081487898ebc882c9afb3e0c6e1c77342b056fff814b",
       "gripCenter": [
         0,
         0,
@@ -30106,7 +30126,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 1258840,
+      "bytes": 1259336,
       "size": {
         "x": 0.14068567752838135,
         "y": 1.6550000295042993,
@@ -30123,7 +30143,7 @@
         "corealm-weapon-leather",
         "corealm-weapon-gem"
       ],
-      "sha256": "cacdb7599400301628a45d4071add75520d8b4ef1edc52462b2b5cec76f50401",
+      "sha256": "0ba07d88395caa6888e88f07c633de0d6ae92811684817b9f11356883975edd3",
       "gripCenter": [
         0,
         0,
@@ -30142,7 +30162,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 140508,
+      "bytes": 141004,
       "size": {
         "x": 0.1842360645532608,
         "y": 1.6553629636764526,
@@ -30160,7 +30180,7 @@
         "corealm-weapon-metal",
         "corealm-weapon-gem"
       ],
-      "sha256": "02f788039a2428cfd780cdbc46149f417817f8258a1eb757e3edeb6512fdfc5c",
+      "sha256": "8fcb498599343cdd049be606fbbc884305c92a512f82988b11992b1f5dc92509",
       "gripCenter": [
         0,
         0,
@@ -30179,7 +30199,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 175324,
+      "bytes": 175820,
       "size": {
         "x": 0.16219840943813324,
         "y": 1.6690000013262032,
@@ -30197,7 +30217,7 @@
         "corealm-weapon-leather",
         "corealm-weapon-gem"
       ],
-      "sha256": "0d2629a0260172e97ce9566722c6d8591a88cf4708b00ff09adc4db41410feeb",
+      "sha256": "124d60270c93122134cc2157bc426b384e1188057889dc15b1cc52fb1c2b8fab",
       "gripCenter": [
         0,
         0,
@@ -30216,7 +30236,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 758848,
+      "bytes": 759344,
       "size": {
         "x": 0.18463701009750366,
         "y": 1.717000029310584,
@@ -30234,7 +30254,7 @@
         "corealm-weapon-metal",
         "corealm-weapon-gem"
       ],
-      "sha256": "310d607303d936707d2bc133956a8dd6ba7cc1e2f02ee30a2333383c8a527d07",
+      "sha256": "e7b3d351d23d4361fbda216bf0f3b2a01263f1faef508a8c49689a148ca07182",
       "gripCenter": [
         0,
         0,
@@ -30253,7 +30273,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 963928,
+      "bytes": 964424,
       "size": {
         "x": 0.06551975756883621,
         "y": 0.4070000030100346,
@@ -30270,7 +30290,7 @@
         "corealm-weapon-leather",
         "corealm-weapon-gem"
       ],
-      "sha256": "eae74a9e34bbdcdf7194a515a60b582fb697cb8a3bb52aaee5806cf8d72793be",
+      "sha256": "c6d75c63f573df73c187e2fac4cb72bcd8a78fe28bd67f8fba8bcd438a219f6e",
       "gripCenter": [
         0,
         0,
@@ -30289,7 +30309,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 96588,
+      "bytes": 97084,
       "size": {
         "x": 0.05999999865889549,
         "y": 0.4070000030100346,
@@ -30307,7 +30327,7 @@
         "corealm-weapon-metal",
         "corealm-weapon-gem"
       ],
-      "sha256": "18ae6aa6f78cd0ffdeec9968a6319c2873f68a54b185ab3129cc5cb3cf4f6e6b",
+      "sha256": "fb53619336bdf9f9c586fcea3aee75ce45093badfe60bc8caa5103c6b4cc0565",
       "gripCenter": [
         0,
         0,
@@ -30326,7 +30346,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 130096,
+      "bytes": 130592,
       "size": {
         "x": 0.07378871738910675,
         "y": 0.42099999986588954,
@@ -30344,7 +30364,7 @@
         "corealm-weapon-leather",
         "corealm-weapon-gem"
       ],
-      "sha256": "b5488ee7db667fe8cada0d9e43ac63d70d21dd77223ca985967fe82803644748",
+      "sha256": "3acbdf97b4a90b1979da109053b42b0cced67ebd9c9ab91b166531c9937f45e8",
       "gripCenter": [
         0,
         0,
@@ -30363,7 +30383,7 @@
         "original",
         "candidate"
       ],
-      "bytes": 156208,
+      "bytes": 156704,
       "size": {
         "x": 0.083979532122612,
         "y": 0.437000003516674,
@@ -30381,7 +30401,7 @@
         "corealm-weapon-metal",
         "corealm-weapon-gem"
       ],
-      "sha256": "f044b581d28d54210da1eec0ff0da7fc046c9f76bacf947e981091255bb3b91b",
+      "sha256": "99d8cb3abf0bd028b53d12983d1b4b906eb9b3320cdcc3c58c2cb788645cc069",
       "gripCenter": [
         0,
         0,
@@ -58302,6 +58322,4607 @@
         "labReport": "test-results/wilderness-dragons/lab-deep-amethyst_dragon-materials/report.json",
         "worldReport": "test-results/wilderness-creatures/world-acceptance/report.json",
         "worldProofScope": "Live spawn identity census for every Wilderness type; textured draws, normal camera, player movement and screenshots for Grazer, Purple Wilderness Dragon, Gloam and Nightforge. Every expansion pack checked for final spawn separation."
+      }
+    },
+    {
+      "id": "corealm_item_worn_sword",
+      "file": "models/items/worn_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "worn_sword"
+      ],
+      "bytes": 827604,
+      "size": {
+        "x": 0.2199999988079071,
+        "y": 1.0115000044852496,
+        "z": 0.05334999936074018
+      },
+      "base": {
+        "x": -0.10999999940395355,
+        "y": -0.14149999971687793,
+        "z": -0.0239999994635582
+      },
+      "animations": [],
+      "materials": [
+        "silver-honed-edge",
+        "worn-grey-iron",
+        "unpolished-fuller",
+        "brown-leather-grip",
+        "leather-overlap-lip"
+      ],
+      "itemModel": {
+        "itemId": "worn_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_grithe_dagger",
+      "file": "models/items/grithe_dagger.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_dagger"
+      ],
+      "bytes": 801212,
+      "size": {
+        "x": 0.12600000202655792,
+        "y": 0.48000001379847523,
+        "z": 0.032533396035432816
+      },
+      "base": {
+        "x": -0.06300000101327896,
+        "y": -0.11999999949336052,
+        "z": -0.01623144932091236
+      },
+      "animations": [],
+      "materials": [
+        "honed-copper-edge",
+        "warm-worked-copper",
+        "antique-brass-fittings",
+        "brown-leather-grip",
+        "leather-overlap-lip"
+      ],
+      "itemModel": {
+        "itemId": "grithe_dagger",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_corven_dagger",
+      "file": "models/items/corven_dagger.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_dagger"
+      ],
+      "bytes": 975128,
+      "size": {
+        "x": 0.193851038813591,
+        "y": 0.4560000002384186,
+        "z": 0.03999999910593033
+      },
+      "base": {
+        "x": -0.0969255194067955,
+        "y": -0.11100000143051147,
+        "z": -0.019999999552965164
+      },
+      "animations": [],
+      "materials": [
+        "silver-honed-edge",
+        "oiled-dark-iron",
+        "unpolished-fuller",
+        "brown-leather-grip",
+        "leather-overlap-lip"
+      ],
+      "itemModel": {
+        "itemId": "corven_dagger",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_corven_sword",
+      "file": "models/items/corven_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_sword"
+      ],
+      "bytes": 778772,
+      "size": {
+        "x": 0.34200000762939453,
+        "y": 1.2755000198185444,
+        "z": 0.04480000138282776
+      },
+      "base": {
+        "x": -0.17100000381469727,
+        "y": -0.17050000074505806,
+        "z": -0.02240000069141388
+      },
+      "animations": [],
+      "materials": [
+        "silver-honed-edge",
+        "oiled-dark-iron",
+        "unpolished-fuller",
+        "brown-leather-grip",
+        "leather-overlap-lip"
+      ],
+      "itemModel": {
+        "itemId": "corven_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_kaldite_dagger",
+      "file": "models/items/kaldite_dagger.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_dagger"
+      ],
+      "bytes": 850208,
+      "size": {
+        "x": 0.15709530307352543,
+        "y": 0.47400001516938206,
+        "z": 0.03870999997295439
+      },
+      "base": {
+        "x": -0.08769999934732914,
+        "y": -0.11400000086426734,
+        "z": -0.018860000036656856
+      },
+      "animations": [],
+      "materials": [
+        "silver-honed-edge",
+        "black-cobalt",
+        "brown-leather-grip",
+        "leather-overlap-lip",
+        "dark-garnet-pommel-inset"
+      ],
+      "itemModel": {
+        "itemId": "kaldite_dagger",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_kaldite_sword",
+      "file": "models/items/kaldite_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_sword"
+      ],
+      "bytes": 2617308,
+      "size": {
+        "x": 0.40132611989974976,
+        "y": 1.281535491347313,
+        "z": 0.0740000005364418
+      },
+      "base": {
+        "x": -0.20066305994987488,
+        "y": -0.20853553712368011,
+        "z": -0.0370000002682209
+      },
+      "animations": [],
+      "materials": [
+        "cobalt-polished-honed-bevels",
+        "cobalt-blade-facets",
+        "cobalt-recessed-metal",
+        "cobalt-guard-and-pommel",
+        "cobalt-raised-metal-ornament",
+        "cobalt-leather",
+        "cobalt-grip-seam"
+      ],
+      "itemModel": {
+        "itemId": "kaldite_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_emberite_dagger",
+      "file": "models/items/emberite_dagger.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_dagger"
+      ],
+      "bytes": 2832548,
+      "size": {
+        "x": 0.1552993655204773,
+        "y": 0.3839999884366989,
+        "z": 0.027903958223760128
+      },
+      "base": {
+        "x": -0.07764968276023865,
+        "y": -0.0820000022649765,
+        "z": -0.013916184194386005
+      },
+      "animations": [],
+      "materials": [
+        "titanium-polished-honed-bevels",
+        "titanium-blade-facets",
+        "titanium-recessed-metal",
+        "titanium-guard-and-pommel",
+        "titanium-raised-metal-ornament",
+        "amber-quillon-cabochons",
+        "titanium-leather",
+        "titanium-grip-seam"
+      ],
+      "itemModel": {
+        "itemId": "emberite_dagger",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_emberite_sword",
+      "file": "models/items/emberite_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_sword"
+      ],
+      "bytes": 3175228,
+      "size": {
+        "x": 0.39019814133644104,
+        "y": 1.298619568347931,
+        "z": 0.0740000005364418
+      },
+      "base": {
+        "x": -0.19509907066822052,
+        "y": -0.21453553438186646,
+        "z": -0.0370000002682209
+      },
+      "animations": [],
+      "materials": [
+        "titanium-polished-honed-bevels",
+        "titanium-blade-facets",
+        "titanium-recessed-metal",
+        "titanium-guard-and-pommel",
+        "titanium-raised-metal-ornament",
+        "titanium-leather",
+        "titanium-grip-seam",
+        "titanium-dull-orange-tempered-edge"
+      ],
+      "itemModel": {
+        "itemId": "emberite_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cindersteel_sword",
+      "file": "models/items/cindersteel_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_sword"
+      ],
+      "bytes": 1722544,
+      "size": {
+        "x": 0.4113737642765045,
+        "y": 1.274999976158142,
+        "z": 0.06385999942570925
+      },
+      "base": {
+        "x": -0.20568688213825226,
+        "y": -0.1940000057220459,
+        "z": -0.03192999971285462
+      },
+      "animations": [],
+      "materials": [
+        "cinder-polished-honed-bevels",
+        "cinder-blade-facets",
+        "cinder-recessed-metal",
+        "cinder-guard-and-pommel",
+        "cinder-raised-metal-ornament",
+        "cinder-honey-wood"
+      ],
+      "itemModel": {
+        "itemId": "cindersteel_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_nightglass_sword",
+      "file": "models/items/nightglass_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_sword"
+      ],
+      "bytes": 2027652,
+      "size": {
+        "x": 0.44931483268737793,
+        "y": 1.308535560965538,
+        "z": 0.0740000005364418
+      },
+      "base": {
+        "x": -0.22465741634368896,
+        "y": -0.21353553235530853,
+        "z": -0.0370000002682209
+      },
+      "animations": [],
+      "materials": [
+        "night-polished-honed-bevels",
+        "night-blade-facets",
+        "night-recessed-metal",
+        "night-guard-and-pommel",
+        "night-raised-metal-ornament",
+        "night-twisted-plum",
+        "cut-cobalt-inset"
+      ],
+      "itemModel": {
+        "itemId": "nightglass_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_galeskin_sword",
+      "file": "models/items/galeskin_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "galeskin_sword"
+      ],
+      "bytes": 953588,
+      "size": {
+        "x": 0.5163778066635132,
+        "y": 1.4920000143311918,
+        "z": 0.12200000137090683
+      },
+      "base": {
+        "x": -0.2581889033317566,
+        "y": -0.25700000002607704,
+        "z": -0.061000000685453415
+      },
+      "animations": [],
+      "materials": [
+        "galeskin_sword-honed-edge",
+        "galeskin_sword-forged-body",
+        "galeskin_sword-grip-hide",
+        "galeskin_sword-wrap-overlap"
+      ],
+      "itemModel": {
+        "itemId": "galeskin_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_mossbound_sword",
+      "file": "models/items/mossbound_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "mossbound_sword"
+      ],
+      "bytes": 2801644,
+      "size": {
+        "x": 0.5808665752410889,
+        "y": 1.5020000040531158,
+        "z": 0.11684885621070862
+      },
+      "base": {
+        "x": -0.29043328762054443,
+        "y": -0.2669999897480011,
+        "z": -0.0583965927362442
+      },
+      "animations": [],
+      "materials": [
+        "mossbound_sword-honed-edge",
+        "mossbound_sword-forged-body",
+        "mossbound_sword-grip-hide",
+        "mossbound_sword-wrap-overlap",
+        "living-olive-moss",
+        "living-moss-fresh-leaf-tips"
+      ],
+      "itemModel": {
+        "itemId": "mossbound_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_tideworn_sword",
+      "file": "models/items/tideworn_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "tideworn_sword"
+      ],
+      "bytes": 1278124,
+      "size": {
+        "x": 0.5840401649475098,
+        "y": 1.512000024318695,
+        "z": 0.08280696719884872
+      },
+      "base": {
+        "x": -0.2920200824737549,
+        "y": -0.2770000100135803,
+        "z": -0.04140348359942436
+      },
+      "animations": [],
+      "materials": [
+        "tideworn_sword-honed-edge",
+        "tideworn_sword-forged-body",
+        "tideworn_sword-grip-hide",
+        "tideworn_sword-wrap-overlap"
+      ],
+      "itemModel": {
+        "itemId": "tideworn_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cinderwake_sword",
+      "file": "models/items/cinderwake_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderwake_sword"
+      ],
+      "bytes": 1060356,
+      "size": {
+        "x": 0.5613123178482056,
+        "y": 1.5489999949932098,
+        "z": 0.09799000064283608
+      },
+      "base": {
+        "x": -0.2806561589241028,
+        "y": -0.2840000092983246,
+        "z": -0.04675000006705522
+      },
+      "animations": [],
+      "materials": [
+        "cinderwake_sword-honed-edge",
+        "cinderwake_sword-forged-body",
+        "cinderwake_sword-grip-hide",
+        "cinderwake_sword-wrap-overlap",
+        "permanent-orange-hot-edge",
+        "violet-gold-titanium-temper"
+      ],
+      "itemModel": {
+        "itemId": "cinderwake_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_chainbound_sword",
+      "file": "models/items/chainbound_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "chainbound_sword"
+      ],
+      "bytes": 2397984,
+      "size": {
+        "x": 0.5808665752410889,
+        "y": 1.5410710275173187,
+        "z": 0.1277627507278408
+      },
+      "base": {
+        "x": -0.29043328762054443,
+        "y": -0.2840000092983246,
+        "z": -0.05530000063031912
+      },
+      "animations": [],
+      "materials": [
+        "chainbound_sword-forged-body",
+        "chainbound_sword-honed-edge",
+        "chainbound-worn-iron-hardware",
+        "chainbound_sword-grip-hide",
+        "chainbound_sword-wrap-overlap"
+      ],
+      "itemModel": {
+        "itemId": "chainbound_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_basic_wooden_wand",
+      "file": "models/items/basic_wooden_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "basic_wooden_wand"
+      ],
+      "bytes": 616260,
+      "size": {
+        "x": 0.045432671904563904,
+        "y": 0.5038753426074982,
+        "z": 0.03999871760606766
+      },
+      "base": {
+        "x": -0.022590497508645058,
+        "y": -0.10332000017166137,
+        "z": -0.019221730530261993
+      },
+      "animations": [],
+      "materials": [
+        "Worn warm brown wood",
+        "Raised polished carved wood edges"
+      ],
+      "itemModel": {
+        "itemId": "basic_wooden_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.38,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_basic_wooden_staff",
+      "file": "models/items/basic_wooden_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "basic_wooden_staff"
+      ],
+      "bytes": 969364,
+      "size": {
+        "x": 0.11191850528120995,
+        "y": 1.8285553380548953,
+        "z": 0.05999999865889549
+      },
+      "base": {
+        "x": -0.05609387904405594,
+        "y": -0.7679999991953372,
+        "z": -0.029999999329447746
+      },
+      "animations": [],
+      "materials": [
+        "Worn warm brown wood",
+        "Brown leather spiral grip binding",
+        "Burnished raised leather overlap edges",
+        "Raised polished carved wood edges"
+      ],
+      "itemModel": {
+        "itemId": "basic_wooden_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.004,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_palewood_wand",
+      "file": "models/items/palewood_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_wand"
+      ],
+      "bytes": 679292,
+      "size": {
+        "x": 0.05494861863553524,
+        "y": 0.5188753283023835,
+        "z": 0.03999851085245609
+      },
+      "base": {
+        "x": -0.027478311210870743,
+        "y": -0.10332000017166137,
+        "z": -0.019221626222133636
+      },
+      "animations": [],
+      "materials": [
+        "Honey ivory pine with ochre fibres",
+        "Raised polished carved wood edges"
+      ],
+      "itemModel": {
+        "itemId": "palewood_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.38899999999999996,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_palewood_staff",
+      "file": "models/items/palewood_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_staff"
+      ],
+      "bytes": 955400,
+      "size": {
+        "x": 0.11191850528120995,
+        "y": 1.8057553385198117,
+        "z": 0.058400001376867294
+      },
+      "base": {
+        "x": -0.05609387904405594,
+        "y": -0.7451999996602535,
+        "z": -0.029200000688433647
+      },
+      "animations": [],
+      "materials": [
+        "Honey ivory pine with ochre fibres",
+        "Pale tan spiral grip binding",
+        "Raised polished carved wood edges"
+      ],
+      "itemModel": {
+        "itemId": "palewood_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.004,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_duskoak_wand",
+      "file": "models/items/duskoak_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_wand"
+      ],
+      "bytes": 1765636,
+      "size": {
+        "x": 0.059936702251434326,
+        "y": 0.5171144232153893,
+        "z": 0.03999871760606766
+      },
+      "base": {
+        "x": -0.030026135966181755,
+        "y": -0.09000017493963242,
+        "z": -0.019221730530261993
+      },
+      "animations": [],
+      "materials": [
+        "Polished dark ash heartwood",
+        "Raised polished carved wood edges"
+      ],
+      "itemModel": {
+        "itemId": "duskoak_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.3962,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_duskoak_staff",
+      "file": "models/items/duskoak_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_staff"
+      ],
+      "bytes": 1097348,
+      "size": {
+        "x": 0.13301682472229004,
+        "y": 1.8203526139259338,
+        "z": 0.0642105011638254
+      },
+      "base": {
+        "x": -0.06664139777421951,
+        "y": -0.7202383875846863,
+        "z": -0.03340800106525421
+      },
+      "animations": [],
+      "materials": [
+        "Polished dark ash heartwood",
+        "Raised polished carved wood edges",
+        "Dark forged iron collars",
+        "Worn iron rim and rivet heads"
+      ],
+      "itemModel": {
+        "itemId": "duskoak_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.028,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cairnpine_wand",
+      "file": "models/items/cairnpine_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_wand"
+      ],
+      "bytes": 925496,
+      "size": {
+        "x": 0.0658452957868576,
+        "y": 0.5725638717412949,
+        "z": 0.05018464886024594
+      },
+      "base": {
+        "x": -0.0329226478934288,
+        "y": -0.0983999980688095,
+        "z": -0.02509232443012297
+      },
+      "animations": [],
+      "materials": [
+        "oak oiled carved wood",
+        "Cobalt fittings",
+        "oak worn fitting edges",
+        "Brass attachment rivets"
+      ],
+      "itemModel": {
+        "itemId": "cairnpine_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.443,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cairnpine_staff",
+      "file": "models/items/cairnpine_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_staff"
+      ],
+      "bytes": 1523108,
+      "size": {
+        "x": 0.11961967869378516,
+        "y": 1.939300000667572,
+        "z": 0.1196196786937852
+      },
+      "base": {
+        "x": -0.05980983934689258,
+        "y": -1.0128999876976013,
+        "z": -0.0598098393468926
+      },
+      "animations": [],
+      "materials": [
+        "oak oiled carved wood",
+        "Cobalt fittings",
+        "oak worn fitting edges",
+        "Brass attachment rivets"
+      ],
+      "itemModel": {
+        "itemId": "cairnpine_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.8160000000000001,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cinderpine_wand",
+      "file": "models/items/cinderpine_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_wand"
+      ],
+      "bytes": 617100,
+      "size": {
+        "x": 0.04879999905824661,
+        "y": 0.5602499980366547,
+        "z": 0.0624464395771633
+      },
+      "base": {
+        "x": -0.024399999529123306,
+        "y": -0.10090000313520431,
+        "z": -0.024399999529123306
+      },
+      "animations": [],
+      "materials": [
+        "walnut oiled carved wood",
+        "Titanium fittings",
+        "walnut worn fitting edges",
+        "Brass attachment rivets",
+        "Dark recessed walnut socket lining"
+      ],
+      "itemModel": {
+        "itemId": "cinderpine_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.45114233482421817,
+          0.02172291271836598
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cinderpine_staff",
+      "file": "models/items/cinderpine_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_staff"
+      ],
+      "bytes": 1596532,
+      "size": {
+        "x": 0.1780177652835846,
+        "y": 1.9339242577552795,
+        "z": 0.06599999964237213
+      },
+      "base": {
+        "x": -0.0890088826417923,
+        "y": -0.8103999876976014,
+        "z": -0.032999999821186066
+      },
+      "animations": [],
+      "materials": [
+        "walnut oiled carved wood",
+        "Titanium fittings",
+        "walnut worn fitting edges",
+        "Brass attachment rivets",
+        "walnut dark hand binding"
+      ],
+      "itemModel": {
+        "itemId": "cinderpine_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.0274999999999999,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_teak_wand",
+      "file": "models/items/teak_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "teak_wand"
+      ],
+      "bytes": 1490908,
+      "size": {
+        "x": 0.05239999997615814,
+        "y": 0.5770093575119972,
+        "z": 0.052184648860245944
+      },
+      "base": {
+        "x": -0.02619999998807907,
+        "y": -0.10199999672174453,
+        "z": -0.026092324430122972
+      },
+      "animations": [],
+      "materials": [
+        "teak oiled carved wood",
+        "teak dark hand binding",
+        "Cindersteel fittings",
+        "teak worn fitting edges",
+        "Brass attachment rivets"
+      ],
+      "itemModel": {
+        "itemId": "teak_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.441,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_teak_staff",
+      "file": "models/items/teak_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "teak_staff"
+      ],
+      "bytes": 1026420,
+      "size": {
+        "x": 0.20399980247020721,
+        "y": 2.0180280208587646,
+        "z": 0.06599999964237213
+      },
+      "base": {
+        "x": -0.10199990123510361,
+        "y": -0.4080000257492065,
+        "z": -0.032999999821186066
+      },
+      "animations": [],
+      "materials": [
+        "teak oiled carved wood",
+        "Cindersteel fittings",
+        "teak worn fitting edges",
+        "teak dark hand binding"
+      ],
+      "itemModel": {
+        "itemId": "teak_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.47,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_magic_wand",
+      "file": "models/items/magic_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "magic_wand"
+      ],
+      "bytes": 750908,
+      "size": {
+        "x": 0.05198933742940426,
+        "y": 0.562009371817112,
+        "z": 0.05079999938607216
+      },
+      "base": {
+        "x": -0.025992581620812416,
+        "y": -0.10199999672174453,
+        "z": -0.02539999969303608
+      },
+      "animations": [],
+      "materials": [
+        "magic oiled carved wood",
+        "magic dark hand binding",
+        "Muted violet Void Thread",
+        "Nightglass fittings",
+        "magic worn fitting edges"
+      ],
+      "itemModel": {
+        "itemId": "magic_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.426,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_magic_staff",
+      "file": "models/items/magic_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "magic_staff"
+      ],
+      "bytes": 1956296,
+      "size": {
+        "x": 0.21393941342830658,
+        "y": 2.031053304672241,
+        "z": 0.06599999964237213
+      },
+      "base": {
+        "x": -0.10696970671415329,
+        "y": -0.41,
+        "z": -0.032999999821186066
+      },
+      "animations": [],
+      "materials": [
+        "magic oiled carved wood",
+        "Nightglass fittings",
+        "magic worn fitting edges",
+        "magic dark hand binding",
+        "Muted violet Void Thread"
+      ],
+      "itemModel": {
+        "itemId": "magic_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.47,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_air_staff",
+      "file": "models/items/air_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "air_staff"
+      ],
+      "bytes": 1333184,
+      "size": {
+        "x": 0.26409342885017395,
+        "y": 1.8179492843151093,
+        "z": 0.20800000429153442
+      },
+      "base": {
+        "x": -0.1300448328256607,
+        "y": -0.6774999988079071,
+        "z": -0.10400000214576721
+      },
+      "animations": [],
+      "materials": [
+        "air-carved-wood",
+        "air-grain-recesses",
+        "air-leather-wrap",
+        "air-leather-seam",
+        "air-engraved-metal",
+        "air-elemental-orb",
+        "air-raised-wood-fibres"
+      ],
+      "itemModel": {
+        "itemId": "air_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.015,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_earth_staff",
+      "file": "models/items/earth_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "earth_staff"
+      ],
+      "bytes": 1845428,
+      "size": {
+        "x": 0.27212564647197723,
+        "y": 1.8867501299083234,
+        "z": 0.2268058806657791
+      },
+      "base": {
+        "x": -0.13104920089244843,
+        "y": -0.7405000011622905,
+        "z": -0.12088392674922943
+      },
+      "animations": [],
+      "materials": [
+        "earth-carved-wood",
+        "earth-raised-wood-fibres",
+        "earth-leather-wrap",
+        "earth-leather-seam",
+        "earth-engraved-metal",
+        "earth-inlaid-element",
+        "earth-elemental-orb",
+        "earth-grain-recesses"
+      ],
+      "itemModel": {
+        "itemId": "earth_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.015,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_water_staff",
+      "file": "models/items/water_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "water_staff"
+      ],
+      "bytes": 1407308,
+      "size": {
+        "x": 0.28045645356178284,
+        "y": 1.8244590651988983,
+        "z": 0.2240000069141388
+      },
+      "base": {
+        "x": -0.13450489938259125,
+        "y": -0.6774999988079071,
+        "z": -0.1120000034570694
+      },
+      "animations": [],
+      "materials": [
+        "water-carved-wood",
+        "water-grain-recesses",
+        "water-leather-wrap",
+        "water-leather-seam",
+        "water-engraved-metal",
+        "water-elemental-orb",
+        "water-raised-wood-fibres",
+        "water-inlaid-element"
+      ],
+      "itemModel": {
+        "itemId": "water_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.015,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_fire_staff",
+      "file": "models/items/fire_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "fire_staff"
+      ],
+      "bytes": 1533628,
+      "size": {
+        "x": 0.2740427851676941,
+        "y": 1.886882929056883,
+        "z": 0.2212037295103073
+      },
+      "base": {
+        "x": -0.13637743890285492,
+        "y": -0.7405000011622905,
+        "z": -0.11347965896129608
+      },
+      "animations": [],
+      "materials": [
+        "fire-carved-wood",
+        "fire-raised-wood-fibres",
+        "fire-grain-recesses",
+        "fire-leather-wrap",
+        "fire-leather-seam",
+        "fire-engraved-metal",
+        "fire-inlaid-element",
+        "fire-elemental-orb"
+      ],
+      "itemModel": {
+        "itemId": "fire_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.015,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_galeskin_staff",
+      "file": "models/items/galeskin_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "galeskin_staff"
+      ],
+      "bytes": 1462532,
+      "size": {
+        "x": 0.2563760355114937,
+        "y": 1.5989960432052612,
+        "z": 0.13510800987482072
+      },
+      "base": {
+        "x": -0.13173139095306396,
+        "y": -0.37257254123687744,
+        "z": -0.07339916378259659
+      },
+      "animations": [],
+      "materials": [
+        "Wind silvered pine",
+        "Worn wrapped grip",
+        "Leather strap burnished edges",
+        "Weathered forged iron",
+        "Worn metal edge and rivets"
+      ],
+      "itemModel": {
+        "itemId": "galeskin_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.06,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_mossbound_staff",
+      "file": "models/items/mossbound_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "mossbound_staff"
+      ],
+      "bytes": 1869232,
+      "size": {
+        "x": 0.27312183380126953,
+        "y": 1.8509234189987183,
+        "z": 0.23548211980463496
+      },
+      "base": {
+        "x": -0.13795465230941772,
+        "y": -0.5842041969299316,
+        "z": -0.11613534166007804
+      },
+      "animations": [],
+      "materials": [
+        "Weathered living ash",
+        "Worn wrapped grip",
+        "Leather strap burnished edges",
+        "Worn metal edge and rivets",
+        "Dense green moss seam"
+      ],
+      "itemModel": {
+        "itemId": "mossbound_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.06,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_tideworn_staff",
+      "file": "models/items/tideworn_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "tideworn_staff"
+      ],
+      "bytes": 2515500,
+      "size": {
+        "x": 0.34980612993240356,
+        "y": 1.8754495978355408,
+        "z": 0.22279731929302216
+      },
+      "base": {
+        "x": -0.17212650179862976,
+        "y": -0.5825724005699158,
+        "z": -0.11743640154600143
+      },
+      "animations": [],
+      "materials": [
+        "Salt bleached oak",
+        "Worn wrapped grip",
+        "Leather strap burnished edges",
+        "Weathered forged iron",
+        "Worn metal edge and rivets",
+        "Granular salt deposits"
+      ],
+      "itemModel": {
+        "itemId": "tideworn_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.06,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cinderwake_staff",
+      "file": "models/items/cinderwake_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderwake_staff"
+      ],
+      "bytes": 1457412,
+      "size": {
+        "x": 0.28453876078128815,
+        "y": 1.951573133468628,
+        "z": 0.23528791218996048
+      },
+      "base": {
+        "x": -0.14204126596450806,
+        "y": -0.6800953149795532,
+        "z": -0.11773142963647842
+      },
+      "animations": [],
+      "materials": [
+        "Charred walnut",
+        "Worn wrapped grip",
+        "Leather strap burnished edges",
+        "Weathered forged iron",
+        "Worn metal edge and rivets",
+        "Recessed hot ember veins"
+      ],
+      "itemModel": {
+        "itemId": "cinderwake_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.06,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_regent_staff",
+      "file": "models/items/regent_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "regent_staff"
+      ],
+      "bytes": 1682092,
+      "size": {
+        "x": 0.37264661490917206,
+        "y": 1.90020090341568,
+        "z": 0.12541769218444823
+      },
+      "base": {
+        "x": -0.18627941608428955,
+        "y": -0.675000011920929,
+        "z": -0.06270884609222412
+      },
+      "animations": [],
+      "materials": [
+        "Polished red teak",
+        "Worn wrapped grip",
+        "Leather strap burnished edges",
+        "Black furnace iron",
+        "Worn crown gold"
+      ],
+      "itemModel": {
+        "itemId": "regent_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.02,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_hollowstar_staff",
+      "file": "models/items/hollowstar_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "hollowstar_staff"
+      ],
+      "bytes": 1644856,
+      "size": {
+        "x": 0.4462224841117859,
+        "y": 2.075454592704773,
+        "z": 0.11868603527545929
+      },
+      "base": {
+        "x": -0.23545204102993011,
+        "y": -0.7156568765640259,
+        "z": -0.07193487882614136
+      },
+      "animations": [],
+      "materials": [
+        "Violet magic wood",
+        "Worn wrapped grip",
+        "Leather strap burnished edges",
+        "Star pitted night metal",
+        "Worn metal edge and rivets",
+        "Recessed violet star veins"
+      ],
+      "itemModel": {
+        "itemId": "hollowstar_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0.02,
+          1.085,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_palewood_shield",
+      "file": "models/items/palewood_shield.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_shield"
+      ],
+      "bytes": 1911616,
+      "size": {
+        "x": 0.5854566693305969,
+        "y": 0.6555483341217041,
+        "z": 0.15633701611135992
+      },
+      "base": {
+        "x": -0.2927296757698059,
+        "y": -0.32777416706085205,
+        "z": -0.03297559171915054
+      },
+      "animations": [],
+      "materials": [
+        "pale-pine",
+        "forged-shield-metal",
+        "worn-polished-edges",
+        "rear-oiled-leather"
+      ],
+      "itemModel": {
+        "itemId": "palewood_shield",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_duskoak_shield",
+      "file": "models/items/duskoak_shield.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_shield"
+      ],
+      "bytes": 2338308,
+      "size": {
+        "x": 0.555458128452301,
+        "y": 0.8655266761779785,
+        "z": 0.20780624178051949
+      },
+      "base": {
+        "x": -0.27772974967956543,
+        "y": -0.43276333808898926,
+        "z": -0.032272640615701675
+      },
+      "animations": [],
+      "materials": [
+        "grey-ash",
+        "forged-shield-metal",
+        "worn-polished-edges",
+        "rear-oiled-leather"
+      ],
+      "itemModel": {
+        "itemId": "duskoak_shield",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cairnpine_shield",
+      "file": "models/items/cairnpine_shield.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_shield"
+      ],
+      "bytes": 2062308,
+      "size": {
+        "x": 0.6363195180892944,
+        "y": 0.9049281477928162,
+        "z": 0.17716394686998127
+      },
+      "base": {
+        "x": -0.3181597590446472,
+        "y": -0.45266902446746826,
+        "z": -0.033970918506383896
+      },
+      "animations": [],
+      "materials": [
+        "golden-oak",
+        "forged-shield-metal",
+        "worn-polished-edges",
+        "rivet-bronze",
+        "rear-oiled-leather"
+      ],
+      "itemModel": {
+        "itemId": "cairnpine_shield",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cinderpine_shield",
+      "file": "models/items/cinderpine_shield.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_shield"
+      ],
+      "bytes": 1308544,
+      "size": {
+        "x": 0.6236157417297363,
+        "y": 0.9452005624771118,
+        "z": 0.1614202782511711
+      },
+      "base": {
+        "x": -0.31179970502853394,
+        "y": -0.4726637601852417,
+        "z": -0.033464960753917694
+      },
+      "animations": [],
+      "materials": [
+        "cinderpine_shield-dark-walnut",
+        "cinderpine_shield-forged-shield-metal",
+        "cinderpine_shield-worn-polished-edges",
+        "cinderpine_shield-rear-oiled-leather"
+      ],
+      "itemModel": {
+        "itemId": "cinderpine_shield",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_teak_shield",
+      "file": "models/items/teak_shield.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "teak_shield"
+      ],
+      "bytes": 1673072,
+      "size": {
+        "x": 0.6363195180892944,
+        "y": 0.9049281477928162,
+        "z": 0.17990280043243528
+      },
+      "base": {
+        "x": -0.3181597590446472,
+        "y": -0.45266902446746826,
+        "z": -0.033970918506383896
+      },
+      "animations": [],
+      "materials": [
+        "oiled-teak",
+        "forged-shield-metal",
+        "worn-polished-edges",
+        "rear-oiled-leather"
+      ],
+      "itemModel": {
+        "itemId": "teak_shield",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_magic_shield",
+      "file": "models/items/magic_shield.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "magic_shield"
+      ],
+      "bytes": 1866600,
+      "size": {
+        "x": 0.6792345643043518,
+        "y": 0.9742449522018433,
+        "z": 0.22949345782399178
+      },
+      "base": {
+        "x": -0.3396172821521759,
+        "y": -0.4855841398239136,
+        "z": -0.03449346497654915
+      },
+      "animations": [],
+      "materials": [
+        "purple-magic-wood",
+        "forged-shield-metal",
+        "worn-polished-edges",
+        "nightglass-violet-crystal-cleavage",
+        "nightglass-silver-crystal-cleavage",
+        "rear-oiled-leather"
+      ],
+      "itemModel": {
+        "itemId": "magic_shield",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_ashseal_guard",
+      "file": "models/items/ashseal_guard.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ashseal_guard"
+      ],
+      "bytes": 1722520,
+      "size": {
+        "x": 0.6632007658481598,
+        "y": 0.9209105968475342,
+        "z": 0.2217557182610035
+      },
+      "base": {
+        "x": -0.3315865099430084,
+        "y": -0.47126278281211853,
+        "z": -0.033970918506383896
+      },
+      "animations": [],
+      "materials": [
+        "scarred-teak",
+        "forged-shield-metal",
+        "worn-polished-edges",
+        "rear-oiled-leather"
+      ],
+      "itemModel": {
+        "itemId": "ashseal_guard",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_worn_pickaxe",
+      "file": "models/items/worn_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "worn_pickaxe"
+      ],
+      "bytes": 301108,
+      "size": {
+        "x": 0.6200000047683716,
+        "y": 0.8199999928474426,
+        "z": 0.09799999743700027
+      },
+      "base": {
+        "x": -0.25999999046325684,
+        "y": -0.18000000715255737,
+        "z": -0.04899999871850014
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "worn_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges"
+      ],
+      "itemModel": {
+        "itemId": "worn_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_grithe_pickaxe",
+      "file": "models/items/grithe_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_pickaxe"
+      ],
+      "bytes": 343340,
+      "size": {
+        "x": 0.6050000041723251,
+        "y": 0.8500000238418579,
+        "z": 0.09799999743700027
+      },
+      "base": {
+        "x": -0.3700000047683716,
+        "y": -0.18000000715255737,
+        "z": -0.04899999871850014
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "grithe_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges"
+      ],
+      "itemModel": {
+        "itemId": "grithe_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_corven_pickaxe",
+      "file": "models/items/corven_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_pickaxe"
+      ],
+      "bytes": 364360,
+      "size": {
+        "x": 0.6450000107288361,
+        "y": 0.8820000067651272,
+        "z": 0.10702999987825751
+      },
+      "base": {
+        "x": -0.39500001072883606,
+        "y": -0.18000000715255737,
+        "z": -0.053514999939128755
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "corven_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges"
+      ],
+      "itemModel": {
+        "itemId": "corven_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_kaldite_pickaxe",
+      "file": "models/items/kaldite_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_pickaxe"
+      ],
+      "bytes": 354560,
+      "size": {
+        "x": 0.6649999916553497,
+        "y": 0.9199999998286368,
+        "z": 0.10100000351667404
+      },
+      "base": {
+        "x": -0.4050000011920929,
+        "y": -0.19800000021606684,
+        "z": -0.05050000175833702
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "kaldite_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges"
+      ],
+      "itemModel": {
+        "itemId": "kaldite_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_emberite_pickaxe",
+      "file": "models/items/emberite_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_pickaxe"
+      ],
+      "bytes": 403776,
+      "size": {
+        "x": 0.6699999868869781,
+        "y": 0.9299999998286368,
+        "z": 0.10100000351667404
+      },
+      "base": {
+        "x": -0.4050000011920929,
+        "y": -0.19800000021606684,
+        "z": -0.05050000175833702
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "emberite_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges"
+      ],
+      "itemModel": {
+        "itemId": "emberite_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cindersteel_pickaxe",
+      "file": "models/items/cindersteel_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_pickaxe"
+      ],
+      "bytes": 439572,
+      "size": {
+        "x": 0.7400000095367432,
+        "y": 0.9399999998286368,
+        "z": 0.11289999971166254
+      },
+      "base": {
+        "x": -0.4399999976158142,
+        "y": -0.19800000021606684,
+        "z": -0.05644999985583127
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "cindersteel_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges"
+      ],
+      "itemModel": {
+        "itemId": "cindersteel_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_nightglass_pickaxe",
+      "file": "models/items/nightglass_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_pickaxe"
+      ],
+      "bytes": 605252,
+      "size": {
+        "x": 0.7150000035762787,
+        "y": 0.9799999998286366,
+        "z": 0.10100000351667404
+      },
+      "base": {
+        "x": -0.4300000071525574,
+        "y": -0.19800000021606684,
+        "z": -0.05050000175833702
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "nightglass_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges",
+        "violet-faceted-inlays"
+      ],
+      "itemModel": {
+        "itemId": "nightglass_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_worn_hatchet",
+      "file": "models/items/worn_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "worn_hatchet"
+      ],
+      "bytes": 1031588,
+      "size": {
+        "x": 0.27759999781847,
+        "y": 0.6625000053774566,
+        "z": 0.05018790498375893
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.025093952491879463
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-weathered-wood",
+        "dark-brown-grip-leather",
+        "strap-edge-and-inlay",
+        "pitted-old-iron",
+        "honed-worn_hatchet"
+      ],
+      "itemModel": {
+        "itemId": "worn_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_grithe_hatchet",
+      "file": "models/items/grithe_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_hatchet"
+      ],
+      "bytes": 1040100,
+      "size": {
+        "x": 0.27759999781847,
+        "y": 0.6625000053774566,
+        "z": 0.05038516812026501
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.025093952491879463
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-pine",
+        "dark-brown-grip-leather",
+        "strap-edge-and-inlay",
+        "hammered-copper",
+        "honed-grithe_hatchet"
+      ],
+      "itemModel": {
+        "itemId": "grithe_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_corven_hatchet",
+      "file": "models/items/corven_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_hatchet"
+      ],
+      "bytes": 1033280,
+      "size": {
+        "x": 0.28860000520944595,
+        "y": 0.6625000053774566,
+        "z": 0.05038516812026501
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.025093952491879463
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-ash",
+        "dark-brown-grip-leather",
+        "strap-edge-and-inlay",
+        "forged-dark-iron",
+        "honed-corven_hatchet"
+      ],
+      "itemModel": {
+        "itemId": "corven_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_kaldite_hatchet",
+      "file": "models/items/kaldite_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_hatchet"
+      ],
+      "bytes": 1040612,
+      "size": {
+        "x": 0.28760000318288803,
+        "y": 0.6625000053774566,
+        "z": 0.05038516812026501
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.025093952491879463
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-oak",
+        "dark-brown-grip-leather",
+        "strap-edge-and-inlay",
+        "cobalt-steel",
+        "honed-kaldite_hatchet"
+      ],
+      "itemModel": {
+        "itemId": "kaldite_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_emberite_hatchet",
+      "file": "models/items/emberite_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_hatchet"
+      ],
+      "bytes": 1177412,
+      "size": {
+        "x": 0.2815999910235405,
+        "y": 0.6625000053774566,
+        "z": 0.05304000004380942
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.02652000002190471
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-walnut",
+        "dark-brown-grip-leather",
+        "strap-edge-and-inlay",
+        "satin-titanium",
+        "honed-emberite_hatchet"
+      ],
+      "itemModel": {
+        "itemId": "emberite_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cindersteel_hatchet",
+      "file": "models/items/cindersteel_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_hatchet"
+      ],
+      "bytes": 1729808,
+      "size": {
+        "x": 0.3176000043749809,
+        "y": 0.6625000053774566,
+        "z": 0.05904000004380941
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.029520000021904705
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-teak",
+        "dark-brown-grip-leather",
+        "strap-edge-and-inlay",
+        "russet-cindersteel",
+        "honed-cindersteel_hatchet"
+      ],
+      "itemModel": {
+        "itemId": "cindersteel_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_nightglass_hatchet",
+      "file": "models/items/nightglass_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_hatchet"
+      ],
+      "bytes": 856804,
+      "size": {
+        "x": 0.30059998482465744,
+        "y": 0.6625000053774566,
+        "z": 0.06169999995827675
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.030849999979138374
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-indigo-hardwood",
+        "honed-nightglass_hatchet",
+        "strap-edge-and-inlay",
+        "midnight-volcanic-glass",
+        "violet-inlay",
+        "violet-inlay",
+        "violet-glass-fracture-planes"
+      ],
+      "itemModel": {
+        "itemId": "nightglass_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_duskoak_log",
+      "file": "models/items/duskoak_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_log"
+      ],
+      "bytes": 5363512,
+      "size": {
+        "x": 0.2712014317512512,
+        "y": 0.2671518176794052,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.13433901965618134,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "Duskoak dark fibrous bark bed",
+        "Duskoak cut annual endgrain",
+        "Duskoak flaky bark faces",
+        "Duskoak chipped bark fracture edges"
+      ]
+    },
+    {
+      "id": "corealm_item_cairnpine_log",
+      "file": "models/items/cairnpine_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_log"
+      ],
+      "bytes": 5259220,
+      "size": {
+        "x": 0.25008975714445114,
+        "y": 0.25328318029642105,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.12101032584905624,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "Cairnpine dark fibrous bark bed",
+        "Cairnpine cut annual endgrain",
+        "Cairnpine flaky bark faces",
+        "Cairnpine chipped bark fracture edges"
+      ]
+    },
+    {
+      "id": "corealm_item_cinderpine_log",
+      "file": "models/items/cinderpine_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_log"
+      ],
+      "bytes": 5401896,
+      "size": {
+        "x": 0.2620476335287094,
+        "y": 0.26158490777015686,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.1321387141942978,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "Cinderpine dark fibrous bark bed",
+        "Cinderpine cut annual endgrain",
+        "Cinderpine flaky bark faces",
+        "Cinderpine chipped bark fracture edges"
+      ]
+    },
+    {
+      "id": "corealm_item_willow_log",
+      "file": "models/items/willow_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "willow_log"
+      ],
+      "bytes": 4829900,
+      "size": {
+        "x": 0.25674957036972046,
+        "y": 0.2615632265806198,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.12382528185844421,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "Willow dark fibrous bark bed",
+        "Willow cut annual endgrain",
+        "Willow flaky bark faces",
+        "Willow chipped bark fracture edges"
+      ]
+    },
+    {
+      "id": "corealm_item_maple_log",
+      "file": "models/items/maple_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "maple_log"
+      ],
+      "bytes": 3550968,
+      "size": {
+        "x": 0.24825369566679,
+        "y": 0.24828065186738968,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.12445586919784546,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "maple_log continuous fibrous fissure bed",
+        "maple_log species growth rings",
+        "maple_log irregular weathered bark",
+        "maple_log broken cambium and bark edges"
+      ]
+    },
+    {
+      "id": "corealm_item_teak_log",
+      "file": "models/items/teak_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "teak_log"
+      ],
+      "bytes": 3979300,
+      "size": {
+        "x": 0.24920348078012466,
+        "y": 0.24985602498054504,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.12280485779047012,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "teak_log continuous fibrous fissure bed",
+        "teak_log species growth rings",
+        "teak_log irregular weathered bark",
+        "teak_log broken cambium and bark edges"
+      ]
+    },
+    {
+      "id": "corealm_item_yew_log",
+      "file": "models/items/yew_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "yew_log"
+      ],
+      "bytes": 3107312,
+      "size": {
+        "x": 0.24799201637506485,
+        "y": 0.2510635033249855,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.11948961764574051,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "yew_log continuous fibrous fissure bed",
+        "yew_log species growth rings",
+        "yew_log irregular weathered bark",
+        "yew_log broken cambium and bark edges"
+      ]
+    },
+    {
+      "id": "corealm_item_magic_log",
+      "file": "models/items/magic_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "magic_log"
+      ],
+      "bytes": 3677760,
+      "size": {
+        "x": 0.2539214640855789,
+        "y": 0.2523498386144638,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.1276533454656601,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "magic_log continuous fibrous fissure bed",
+        "magic_log species growth rings",
+        "magic_log irregular weathered bark",
+        "magic_log broken cambium and bark edges",
+        "Magic blue vein borders",
+        "Magic silver blue winding bark veins"
+      ]
+    },
+    {
+      "id": "corealm_item_ember_ring",
+      "file": "models/items/ember_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ember_ring"
+      ],
+      "bytes": 1096008,
+      "size": {
+        "x": 0.023,
+        "y": 0.026439999580383303,
+        "z": 0.00737955379486084
+      },
+      "base": {
+        "x": -0.0115,
+        "y": -0.0115,
+        "z": -0.00368977689743042
+      },
+      "animations": [],
+      "materials": [
+        "Worn red copper",
+        "Clouded clear quartz",
+        "Oxidized copper recesses",
+        "Quartz pale inclusions"
+      ]
+    },
+    {
+      "id": "corealm_item_ember_charm",
+      "file": "models/items/ember_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ember_charm"
+      ],
+      "bytes": 1199548,
+      "size": {
+        "x": 0.014988651752471924,
+        "y": 0.04073125076293945,
+        "z": 0.009241282939910889
+      },
+      "base": {
+        "x": -0.006765786647796631,
+        "y": -0.016501251220703124,
+        "z": -0.004395471096038818
+      },
+      "animations": [],
+      "materials": [
+        "Clouded clear quartz",
+        "Scorched black quartz termination",
+        "Heat stained amber quartz",
+        "Worn red copper",
+        "Quartz fracture inclusions"
+      ]
+    },
+    {
+      "id": "corealm_item_stone_ring",
+      "file": "models/items/stone_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "stone_ring"
+      ],
+      "bytes": 766268,
+      "size": {
+        "x": 0.024345142364501953,
+        "y": 0.025170000076293948,
+        "z": 0.007599999904632568
+      },
+      "base": {
+        "x": -0.012172571182250977,
+        "y": -0.012220000267028809,
+        "z": -0.003799999952316284
+      },
+      "animations": [],
+      "materials": [
+        "Carved grey stone with quartz veins",
+        "Dark stone carving grooves"
+      ]
+    },
+    {
+      "id": "corealm_item_stone_charm",
+      "file": "models/items/stone_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "stone_charm"
+      ],
+      "bytes": 1186636,
+      "size": {
+        "x": 0.019692115783691407,
+        "y": 0.04760708236694336,
+        "z": 0.008199999809265137
+      },
+      "base": {
+        "x": -0.009846057891845703,
+        "y": -0.017,
+        "z": -0.0040999999046325685
+      },
+      "animations": [],
+      "materials": [
+        "Grey river stone with pale quartz veins",
+        "Brown twisted leather thong"
+      ]
+    },
+    {
+      "id": "corealm_item_storm_ring",
+      "file": "models/items/storm_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "storm_ring"
+      ],
+      "bytes": 1577512,
+      "size": {
+        "x": 0.023900381088256838,
+        "y": 0.026429765701293947,
+        "z": 0.01064852809906006
+      },
+      "base": {
+        "x": -0.011950190544128419,
+        "y": -0.011779766082763671,
+        "z": -0.00532426404953003
+      },
+      "animations": [],
+      "materials": [
+        "Blackened silver lightning grounds",
+        "Polished storm silver",
+        "Deep red garnet"
+      ]
+    },
+    {
+      "id": "corealm_item_storm_charm",
+      "file": "models/items/storm_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "storm_charm"
+      ],
+      "bytes": 1311516,
+      "size": {
+        "x": 0.0228475341796875,
+        "y": 0.045887542724609376,
+        "z": 0.010670369625091554
+      },
+      "base": {
+        "x": -0.01142376708984375,
+        "y": -0.016798822402954102,
+        "z": -0.005298754692077637
+      },
+      "animations": [],
+      "materials": [
+        "Deep red garnet",
+        "Pale hot lightning split",
+        "Polished storm silver",
+        "Oxidized recessed cage silver",
+        "Blackened silver bail strap"
+      ]
+    },
+    {
+      "id": "corealm_item_foxhair_ring",
+      "file": "models/items/foxhair_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "foxhair_ring"
+      ],
+      "bytes": 2252472,
+      "size": {
+        "x": 0.025747887790203094,
+        "y": 0.025763717480003834,
+        "z": 0.006800000090152025
+      },
+      "base": {
+        "x": -0.012869909405708313,
+        "y": -0.012874191626906395,
+        "z": -0.0034000000450760126
+      },
+      "animations": [],
+      "materials": [
+        "Red hammered copper rails and smooth bore",
+        "Dark russet hide under dense guardhair",
+        "Fox guardhair warm red and cream tips"
+      ]
+    },
+    {
+      "id": "corealm_item_turkey_plume_charm",
+      "file": "models/items/turkey_plume_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "turkey_plume_charm"
+      ],
+      "bytes": 1033624,
+      "size": {
+        "x": 0.03476483654230833,
+        "y": 0.06390050053596497,
+        "z": 0.010757180629298091
+      },
+      "base": {
+        "x": -0.020157117396593094,
+        "y": -0.041003357619047165,
+        "z": -0.002827611519023776
+      },
+      "animations": [],
+      "materials": [
+        "Natural cream and dark brown turkey barring",
+        "Dark warm turkey feather rachis",
+        "Cloudy natural quartz crystal with clear thick volume",
+        "Fine milky quartz inclusions",
+        "Hammered red copper hanging loop and binding wire"
+      ]
+    },
+    {
+      "id": "corealm_item_lynx_sinew_ring",
+      "file": "models/items/lynx_sinew_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "lynx_sinew_ring"
+      ],
+      "bytes": 1386948,
+      "size": {
+        "x": 0.027429139241576195,
+        "y": 0.027613002806901932,
+        "z": 0.004800000227987766
+      },
+      "base": {
+        "x": -0.01381765864789486,
+        "y": -0.013811590149998665,
+        "z": -0.002400000113993883
+      },
+      "animations": [],
+      "materials": [
+        "Dark worn iron wire with bright worked edges",
+        "Taut honey tan longitudinal sinew fibres",
+        "Fine pale raised sinew fibres"
+      ]
+    },
+    {
+      "id": "corealm_item_heron_quill_charm",
+      "file": "models/items/heron_quill_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "heron_quill_charm"
+      ],
+      "bytes": 844852,
+      "size": {
+        "x": 0.02508684527128935,
+        "y": 0.06630553677678108,
+        "z": 0.009257837198674679
+      },
+      "base": {
+        "x": -0.011336647905409336,
+        "y": -0.03201765939593315,
+        "z": -0.0030999998562037945
+      },
+      "animations": [],
+      "materials": [
+        "Heron pale grey feather vane",
+        "Slate blue grey heron feather tips",
+        "Ivory split quill with longitudinal striation",
+        "Polished honey orange amber with warm volume",
+        "Amber suspended brown mineral flecks",
+        "Brown grey forged iron quill ferrule"
+      ]
+    },
+    {
+      "id": "corealm_item_quillguard_ring",
+      "file": "models/items/quillguard_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "quillguard_ring"
+      ],
+      "bytes": 768008,
+      "size": {
+        "x": 0.030711974948644638,
+        "y": 0.030711974948644638,
+        "z": 0.0066999997943639755
+      },
+      "base": {
+        "x": -0.015355987474322319,
+        "y": -0.015355987474322319,
+        "z": -0.0033499998971819878
+      },
+      "animations": [],
+      "materials": [
+        "Worn cobalt blue forged band and sockets",
+        "Porcupine quill dark roots grading into ivory tips"
+      ]
+    },
+    {
+      "id": "corealm_item_antler_palm_charm",
+      "file": "models/items/antler_palm_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "antler_palm_charm"
+      ],
+      "bytes": 2480724,
+      "size": {
+        "x": 0.04293581284582615,
+        "y": 0.04443378187716007,
+        "z": 0.008139182347804308
+      },
+      "base": {
+        "x": -0.017321918159723282,
+        "y": -0.01741187274456024,
+        "z": -0.0038891825824975967
+      },
+      "animations": [],
+      "materials": [
+        "Warm cream polished antler end grain",
+        "Dark mottled antler cortex around sawn edge",
+        "Honey brown depths of cancellous antler pores",
+        "Hammered bronze antler bail",
+        "Dark cobalt blue interlocking chain"
+      ]
+    },
+    {
+      "id": "corealm_item_chitin_ring",
+      "file": "models/items/chitin_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "chitin_ring"
+      ],
+      "bytes": 902884,
+      "size": {
+        "x": 0.025745781138539314,
+        "y": 0.02568741235882044,
+        "z": 0.007389037404209375
+      },
+      "base": {
+        "x": -0.012975781224668026,
+        "y": -0.012774321250617504,
+        "z": -0.0036945187021046877
+      },
+      "animations": [],
+      "materials": [
+        "Worn pale titanium band and sculpted plate retainers",
+        "Polished reddish brown centipede chitin",
+        "Dark chitin plate seams and fine growth lines"
+      ]
+    },
+    {
+      "id": "corealm_item_mantis_edge_charm",
+      "file": "models/items/mantis_edge_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "mantis_edge_charm"
+      ],
+      "bytes": 581468,
+      "size": {
+        "x": 0.027575045824050903,
+        "y": 0.06965658813714981,
+        "z": 0.005418474553152919
+      },
+      "base": {
+        "x": -0.016502011567354202,
+        "y": -0.031003646552562714,
+        "z": -0.0026499999221414328
+      },
+      "animations": [],
+      "materials": [
+        "Olive green mantis spur with amber brown cutting edge",
+        "Amber brown mantis edge and tooth tips",
+        "Polished hammered titanium open cage"
+      ]
+    },
+    {
+      "id": "corealm_item_cinder_ring",
+      "file": "models/items/cinder_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinder_ring"
+      ],
+      "bytes": 1245432,
+      "size": {
+        "x": 0.023959944024682045,
+        "y": 0.02690000026226044,
+        "z": 0.009926886763423681
+      },
+      "base": {
+        "x": -0.011979944072663784,
+        "y": -0.011900000274181366,
+        "z": -0.00469689117744565
+      },
+      "animations": [],
+      "materials": [
+        "Cracked volcanic iron band",
+        "Recessed orange molten seams",
+        "Cracked amber fire opal",
+        "Oxidised warm dark bronze",
+        "Burnished copper edges"
+      ]
+    },
+    {
+      "id": "corealm_item_cinder_charm",
+      "file": "models/items/cinder_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinder_charm"
+      ],
+      "bytes": 1283232,
+      "size": {
+        "x": 0.017999999225139618,
+        "y": 0.04236275237053633,
+        "z": 0.010792856104671955
+      },
+      "base": {
+        "x": -0.008999999612569809,
+        "y": -0.014369138516485691,
+        "z": -0.0052445922046899796
+      },
+      "animations": [],
+      "materials": [
+        "Cracked amber fire opal",
+        "Oxidised warm dark bronze",
+        "Burnished copper edges"
+      ]
+    },
+    {
+      "id": "corealm_item_emberweave_ring",
+      "file": "models/items/emberweave_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberweave_ring"
+      ],
+      "bytes": 1408168,
+      "size": {
+        "x": 0.024480000138282776,
+        "y": 0.02863748111948371,
+        "z": 0.014590573497116566
+      },
+      "base": {
+        "x": -0.012240000069141388,
+        "y": -0.01213748101145029,
+        "z": -0.007295286748558283
+      },
+      "animations": [],
+      "materials": [
+        "Oxidised warm dark bronze",
+        "Cracked amber fire opal",
+        "Burnished copper edges",
+        "Blackened braided binding cord"
+      ]
+    },
+    {
+      "id": "corealm_item_emberweave_charm",
+      "file": "models/items/emberweave_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberweave_charm"
+      ],
+      "bytes": 1702632,
+      "size": {
+        "x": 0.020813031122088432,
+        "y": 0.042817569337785244,
+        "z": 0.010425899643450975
+      },
+      "base": {
+        "x": -0.010406515561044216,
+        "y": -0.014823955483734608,
+        "z": -0.0052445922046899796
+      },
+      "animations": [],
+      "materials": [
+        "Cracked amber fire opal",
+        "Oxidised warm dark bronze",
+        "Burnished copper edges"
+      ]
+    },
+    {
+      "id": "corealm_item_starweave_ring",
+      "file": "models/items/starweave_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starweave_ring"
+      ],
+      "bytes": 1719688,
+      "size": {
+        "x": 0.02440257091075182,
+        "y": 0.028701099764555694,
+        "z": 0.014590573497116566
+      },
+      "base": {
+        "x": -0.012162570841610432,
+        "y": -0.012201099656522274,
+        "z": -0.007295286748558283
+      },
+      "animations": [],
+      "materials": [
+        "Polished blue-black meteoric silver",
+        "Twisted violet silk bindings",
+        "Prismatic molten fire opal",
+        "Bright cold silver chased edges"
+      ]
+    },
+    {
+      "id": "corealm_item_starweave_charm",
+      "file": "models/items/starweave_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starweave_charm"
+      ],
+      "bytes": 1310044,
+      "size": {
+        "x": 0.021159719675779343,
+        "y": 0.04028511419892311,
+        "z": 0.010482913814485073
+      },
+      "base": {
+        "x": -0.010579859837889671,
+        "y": -0.013291498646140099,
+        "z": -0.005246322602033615
+      },
+      "animations": [],
+      "materials": [
+        "Prismatic molten fire opal",
+        "Polished blue-black meteoric silver",
+        "Bright cold silver chased edges",
+        "Violet inset star enamel"
+      ]
+    },
+    {
+      "id": "corealm_item_grithe_ring",
+      "file": "models/items/grithe_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_ring"
+      ],
+      "bytes": 566616,
+      "size": {
+        "x": 0.023215753957629204,
+        "y": 0.028831452131271362,
+        "z": 0.006935714278370142
+      },
+      "base": {
+        "x": -0.011634308844804764,
+        "y": -0.011631451547145844,
+        "z": -0.003467857139185071
+      },
+      "animations": [],
+      "materials": [
+        "Warm polished hammered copper",
+        "Clear milky fractured quartz",
+        "Quartz white mineral fracture edges"
+      ]
+    },
+    {
+      "id": "corealm_item_palewood_log",
+      "file": "models/items/palewood_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_log"
+      ],
+      "bytes": 2932644,
+      "size": {
+        "x": 0.2462095394730568,
+        "y": 0.2477879896759987,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.1209152564406395,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "Connected fibrous brown trunk beneath shallow plate fissures",
+        "Warm pale pine annual endgrain",
+        "Cinnamon and weathered grey pine plate faces",
+        "Thin ochre bark fracture edges"
+      ]
+    },
+    {
+      "id": "corealm_item_silt_minnow",
+      "file": "models/items/silt_minnow.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "silt_minnow"
+      ],
+      "bytes": 1460892,
+      "size": {
+        "x": 0.22980903156049903,
+        "y": 0.10726808073190472,
+        "z": 0.030084937810897827
+      },
+      "base": {
+        "x": -0.091439801481041,
+        "y": -0.03296486899465331,
+        "z": -0.015042468905448914
+      },
+      "animations": [],
+      "materials": [
+        "scaled skin with continuous back and belly",
+        "ribbed fin membrane",
+        "fin rays and lip rim",
+        "mouth, gill creases and pupils",
+        "iris ring"
+      ],
+      "itemModel": {
+        "itemId": "silt_minnow",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_seared_minnow",
+      "file": "models/items/seared_minnow.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "seared_minnow"
+      ],
+      "bytes": 2069576,
+      "size": {
+        "x": 0.22980903156049903,
+        "y": 0.10726808073190472,
+        "z": 0.030084937810897827
+      },
+      "base": {
+        "x": -0.091439801481041,
+        "y": -0.03296486899465331,
+        "z": -0.015042468905448914
+      },
+      "animations": [],
+      "materials": [
+        "scaled skin with continuous back and belly",
+        "ribbed fin membrane",
+        "fin rays and lip rim",
+        "mouth, gill creases and pupils",
+        "iris ring",
+        "exposed cooked muscle",
+        "raised char plates"
+      ],
+      "itemModel": {
+        "itemId": "seared_minnow",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_burnt_minnow",
+      "file": "models/items/burnt_minnow.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_minnow"
+      ],
+      "bytes": 2448964,
+      "size": {
+        "x": 0.22707388630867004,
+        "y": 0.10227710008621216,
+        "z": 0.03558162920978658
+      },
+      "base": {
+        "x": -0.09291,
+        "y": -0.037529006600379944,
+        "z": -0.01779747411812441
+      },
+      "animations": [],
+      "materials": [
+        "scaled skin with continuous back and belly",
+        "ribbed fin membrane",
+        "fin rays and lip rim",
+        "mouth, gill creases and pupils",
+        "iris ring",
+        "exposed cooked muscle",
+        "raised char plates"
+      ],
+      "itemModel": {
+        "itemId": "burnt_minnow",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_bramble_trout",
+      "file": "models/items/bramble_trout.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "bramble_trout"
+      ],
+      "bytes": 1401100,
+      "size": {
+        "x": 0.4938622049397493,
+        "y": 0.23345857548188303,
+        "z": 0.0757310539484024
+      },
+      "base": {
+        "x": -0.19737458343511702,
+        "y": -0.07943096273253426,
+        "z": -0.0378655269742012
+      },
+      "animations": [],
+      "materials": [
+        "scaled skin with continuous back and belly",
+        "ribbed fin membrane",
+        "fin rays and lip rim",
+        "mouth, gill creases and pupils",
+        "iris ring"
+      ],
+      "itemModel": {
+        "itemId": "bramble_trout",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_seared_trout",
+      "file": "models/items/seared_trout.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "seared_trout"
+      ],
+      "bytes": 2381696,
+      "size": {
+        "x": 0.4938622049397493,
+        "y": 0.23345857548188303,
+        "z": 0.07062940400753454
+      },
+      "base": {
+        "x": -0.19737458343511702,
+        "y": -0.07943096273253426,
+        "z": -0.0378655269742012
+      },
+      "animations": [],
+      "materials": [
+        "scaled skin with continuous back and belly",
+        "ribbed fin membrane",
+        "fin rays and lip rim",
+        "mouth, gill creases and pupils",
+        "iris ring",
+        "exposed cooked muscle",
+        "raised char plates",
+        "salt crystals"
+      ],
+      "itemModel": {
+        "itemId": "seared_trout",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_burnt_trout",
+      "file": "models/items/burnt_trout.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_trout"
+      ],
+      "bytes": 2363008,
+      "size": {
+        "x": 0.4837271952635659,
+        "y": 0.2528871114653557,
+        "z": 0.07097610087518866
+      },
+      "base": {
+        "x": -0.19737458343511702,
+        "y": -0.08880461016611563,
+        "z": -0.03821222384185534
+      },
+      "animations": [],
+      "materials": [
+        "scaled skin with continuous back and belly",
+        "ribbed fin membrane",
+        "fin rays and lip rim",
+        "mouth, gill creases and pupils",
+        "iris ring",
+        "exposed cooked muscle",
+        "raised char plates"
+      ],
+      "itemModel": {
+        "itemId": "burnt_trout",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cragfin",
+      "file": "models/items/cragfin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cragfin"
+      ],
+      "bytes": 1866128,
+      "size": {
+        "x": 0.7763840628885246,
+        "y": 0.42956182145103683,
+        "z": 0.1923999935388565
+      },
+      "base": {
+        "x": -0.3478399700820997,
+        "y": -0.18785267410019352,
+        "z": -0.09619999676942825
+      },
+      "animations": [],
+      "materials": [
+        "Scaled gold barred perch skin",
+        "Deep oral cavity",
+        "Fin rays and lip edges",
+        "Amber iris",
+        "Eye glass or cooked cloudy cornea",
+        "Fin web orange and ochre"
+      ],
+      "itemModel": {
+        "itemId": "cragfin"
+      }
+    },
+    {
+      "id": "corealm_item_seared_cragfin",
+      "file": "models/items/seared_cragfin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "seared_cragfin"
+      ],
+      "bytes": 2186884,
+      "size": {
+        "x": 0.7763840628885246,
+        "y": 0.42956182145103683,
+        "z": 0.1923999935388565
+      },
+      "base": {
+        "x": -0.3478399700820997,
+        "y": -0.18785267410019352,
+        "z": -0.09619999676942825
+      },
+      "animations": [],
+      "materials": [
+        "Scaled blistered golden roast skin",
+        "Deep oral cavity",
+        "Fin rays and lip edges",
+        "Amber iris",
+        "Eye glass or cooked cloudy cornea",
+        "Fin web roast amber"
+      ],
+      "itemModel": {
+        "itemId": "seared_cragfin"
+      }
+    },
+    {
+      "id": "corealm_item_burnt_cragfin",
+      "file": "models/items/burnt_cragfin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_cragfin"
+      ],
+      "bytes": 2322628,
+      "size": {
+        "x": 0.7749740986404225,
+        "y": 0.4239375878630329,
+        "z": 0.21029478311538696
+      },
+      "base": {
+        "x": -0.3478399700820997,
+        "y": -0.18785267410019352,
+        "z": -0.10514739155769348
+      },
+      "animations": [],
+      "materials": [
+        "Scaled cracked charcoal skin",
+        "Deep oral cavity",
+        "Fin rays and lip edges",
+        "Amber iris",
+        "Eye glass or cooked cloudy cornea",
+        "Fin web carbonized",
+        "Raised charcoal crust flakes"
+      ],
+      "itemModel": {
+        "itemId": "burnt_cragfin"
+      }
+    },
+    {
+      "id": "corealm_item_ashfin",
+      "file": "models/items/ashfin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ashfin"
+      ],
+      "bytes": 1790884,
+      "size": {
+        "x": 0.7792190715169633,
+        "y": 0.4095462747766117,
+        "z": 0.1923999935388565
+      },
+      "base": {
+        "x": -0.3506749787105385,
+        "y": -0.18785267410019352,
+        "z": -0.09619999676942825
+      },
+      "animations": [],
+      "materials": [
+        "Scaled olive bass skin",
+        "Deep oral cavity",
+        "Fin rays and lip edges",
+        "Amber iris",
+        "Eye glass or cooked cloudy cornea",
+        "Fin web dark olive"
+      ],
+      "itemModel": {
+        "itemId": "ashfin"
+      }
+    },
+    {
+      "id": "corealm_item_seared_ashfin",
+      "file": "models/items/seared_ashfin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "seared_ashfin"
+      ],
+      "bytes": 2186868,
+      "size": {
+        "x": 0.7792190715169633,
+        "y": 0.4095462747766117,
+        "z": 0.1923999935388565
+      },
+      "base": {
+        "x": -0.3506749787105385,
+        "y": -0.18785267410019352,
+        "z": -0.09619999676942825
+      },
+      "animations": [],
+      "materials": [
+        "Scaled blistered golden roast skin",
+        "Deep oral cavity",
+        "Fin rays and lip edges",
+        "Amber iris",
+        "Eye glass or cooked cloudy cornea",
+        "Fin web roast amber"
+      ],
+      "itemModel": {
+        "itemId": "seared_ashfin"
+      }
+    },
+    {
+      "id": "corealm_item_burnt_ashfin",
+      "file": "models/items/burnt_ashfin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_ashfin"
+      ],
+      "bytes": 2322612,
+      "size": {
+        "x": 0.7806583500744855,
+        "y": 0.4057359848015231,
+        "z": 0.21029478311538696
+      },
+      "base": {
+        "x": -0.3506749787105385,
+        "y": -0.18785267410019352,
+        "z": -0.10514739155769348
+      },
+      "animations": [],
+      "materials": [
+        "Scaled cracked charcoal skin",
+        "Deep oral cavity",
+        "Fin rays and lip edges",
+        "Amber iris",
+        "Eye glass or cooked cloudy cornea",
+        "Fin web carbonized",
+        "Raised charcoal crust flakes"
+      ],
+      "itemModel": {
+        "itemId": "burnt_ashfin"
+      }
+    },
+    {
+      "id": "corealm_item_raw_game_meat",
+      "file": "models/items/raw_game_meat.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "raw_game_meat"
+      ],
+      "bytes": 1176404,
+      "size": {
+        "x": 0.20330903679132462,
+        "y": 0.39899999582767487,
+        "z": 0.17135777324438095
+      },
+      "base": {
+        "x": -0.09982836246490479,
+        "y": -0.14499999582767487,
+        "z": -0.08176182210445404
+      },
+      "animations": [],
+      "materials": [
+        "Game raw flesh",
+        "Cream connective fat",
+        "Exposed joint bone"
+      ],
+      "itemModel": {
+        "itemId": "raw_game_meat"
+      }
+    },
+    {
+      "id": "corealm_item_roast_game",
+      "file": "models/items/roast_game.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "roast_game"
+      ],
+      "bytes": 1176972,
+      "size": {
+        "x": 0.19339203089475632,
+        "y": 0.39999999582767487,
+        "z": 0.16586091369390488
+      },
+      "base": {
+        "x": -0.09481832385063171,
+        "y": -0.14499999582767487,
+        "z": -0.0803539827466011
+      },
+      "animations": [],
+      "materials": [
+        "Game roast flesh",
+        "Rendered fat",
+        "Exposed joint bone"
+      ],
+      "itemModel": {
+        "itemId": "roast_game"
+      }
+    },
+    {
+      "id": "corealm_item_burnt_game",
+      "file": "models/items/burnt_game.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_game"
+      ],
+      "bytes": 1516400,
+      "size": {
+        "x": 0.18366577476263046,
+        "y": 0.39999999582767487,
+        "z": 0.1559349074959755
+      },
+      "base": {
+        "x": -0.08979830145835876,
+        "y": -0.14499999582767487,
+        "z": -0.0755138024687767
+      },
+      "animations": [],
+      "materials": [
+        "Game burnt flesh",
+        "Rendered fat",
+        "Exposed joint bone"
+      ],
+      "itemModel": {
+        "itemId": "burnt_game"
+      }
+    },
+    {
+      "id": "corealm_item_raw_venison",
+      "file": "models/items/raw_venison.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "raw_venison"
+      ],
+      "bytes": 1288220,
+      "size": {
+        "x": 0.16898996382951736,
+        "y": 0.15136824548244476,
+        "z": 0.3546000123023987
+      },
+      "base": {
+        "x": -0.08377773314714432,
+        "y": -0.07781480252742767,
+        "z": -0.17730000615119934
+      },
+      "animations": [],
+      "materials": [
+        "Venison raw outer muscle",
+        "Venison raw cut face",
+        "Venison connective rim"
+      ],
+      "itemModel": {
+        "itemId": "raw_venison"
+      }
+    },
+    {
+      "id": "corealm_item_roast_venison",
+      "file": "models/items/roast_venison.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "roast_venison"
+      ],
+      "bytes": 1840172,
+      "size": {
+        "x": 0.1814639152080608,
+        "y": 0.16310998052358627,
+        "z": 0.3285999894142151
+      },
+      "base": {
+        "x": -0.08930203471300809,
+        "y": -0.08181650936603546,
+        "z": -0.16429999470710754
+      },
+      "animations": [],
+      "materials": [
+        "Venison roast outer muscle",
+        "Venison roast cut face",
+        "Venison connective rim",
+        "Toasted seasoning seeds",
+        "Cracked black pepper",
+        "Roasted rosemary leaves"
+      ],
+      "itemModel": {
+        "itemId": "roast_venison"
+      }
+    },
+    {
+      "id": "corealm_item_burnt_venison",
+      "file": "models/items/burnt_venison.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_venison"
+      ],
+      "bytes": 1539752,
+      "size": {
+        "x": 0.163003072142601,
+        "y": 0.1476917862892151,
+        "z": 0.3086000084877014
+      },
+      "base": {
+        "x": -0.08074962347745895,
+        "y": -0.07565288245677948,
+        "z": -0.1543000042438507
+      },
+      "animations": [],
+      "materials": [
+        "Venison burnt outer muscle",
+        "Venison burnt cut face",
+        "Venison connective rim",
+        "Dry fissure interior"
+      ],
+      "itemModel": {
+        "itemId": "burnt_venison"
+      }
+    },
+    {
+      "id": "corealm_item_raw_haunch",
+      "file": "models/items/raw_haunch.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "raw_haunch"
+      ],
+      "bytes": 2233340,
+      "size": {
+        "x": 0.34812258183956146,
+        "y": 0.6661724374828247,
+        "z": 0.2880798202587263
+      },
+      "base": {
+        "x": -0.20443160831928253,
+        "y": -0.0474416301067344,
+        "z": -0.04198092591063248
+      },
+      "animations": [],
+      "materials": [
+        "raw_haunch wet red muscle and ivory fascia",
+        "Ivory dense cortical bone with residual tissue staining"
+      ],
+      "itemModel": {
+        "itemId": "raw_haunch",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_roast_haunch",
+      "file": "models/items/roast_haunch.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "roast_haunch"
+      ],
+      "bytes": 2297080,
+      "size": {
+        "x": 0.34057316184043884,
+        "y": 0.6173775557896459,
+        "z": 0.3046392768767528
+      },
+      "base": {
+        "x": -0.18715834617614746,
+        "y": -0.0474416301067344,
+        "z": -0.04198092591063248
+      },
+      "animations": [],
+      "materials": [
+        "roast_haunch basted chestnut roast with golden fat",
+        "Ivory dense cortical bone with residual tissue staining"
+      ],
+      "itemModel": {
+        "itemId": "roast_haunch",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_burnt_haunch",
+      "file": "models/items/burnt_haunch.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_haunch"
+      ],
+      "bytes": 2275408,
+      "size": {
+        "x": 0.3259896086155692,
+        "y": 0.6076185885771528,
+        "z": 0.2713278655884313
+      },
+      "base": {
+        "x": -0.1932540979320725,
+        "y": -0.0474416301067344,
+        "z": -0.04198092591063248
+      },
+      "animations": [],
+      "materials": [
+        "burnt_haunch cracked black crust with dark brown flesh",
+        "Ivory dense cortical bone with residual tissue staining",
+        "Raised brittle charcoal blisters"
+      ],
+      "itemModel": {
+        "itemId": "burnt_haunch",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_raw_ember_haunch",
+      "file": "models/items/raw_ember_haunch.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "raw_ember_haunch"
+      ],
+      "bytes": 2278420,
+      "size": {
+        "x": 0.4236731678247452,
+        "y": 0.5485348388770769,
+        "z": 0.46874099614519926
+      },
+      "base": {
+        "x": -0.23633107542991638,
+        "y": -0.056943612608660696,
+        "z": -0.03339499446623781
+      },
+      "animations": [],
+      "materials": [
+        "raw_ember_haunch wet red muscle and ivory fascia",
+        "Ivory dense cortical bone with residual tissue staining"
+      ],
+      "itemModel": {
+        "itemId": "raw_ember_haunch",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_roast_ember_haunch",
+      "file": "models/items/roast_ember_haunch.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "roast_ember_haunch"
+      ],
+      "bytes": 2298820,
+      "size": {
+        "x": 0.421486958861351,
+        "y": 0.494430172376143,
+        "z": 0.3905750874262728
+      },
+      "base": {
+        "x": -0.22586505115032196,
+        "y": -0.04648142017686592,
+        "z": -0.10512327268269045
+      },
+      "animations": [],
+      "materials": [
+        "roast_ember_haunch basted chestnut roast with golden fat",
+        "Ivory dense cortical bone with residual tissue staining",
+        "Porous marrow in sawn bone"
+      ],
+      "itemModel": {
+        "itemId": "roast_ember_haunch",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_burnt_ember_haunch",
+      "file": "models/items/burnt_ember_haunch.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_ember_haunch"
+      ],
+      "bytes": 2277172,
+      "size": {
+        "x": 0.41874924302101135,
+        "y": 0.5978596371043915,
+        "z": 0.38134424380389764
+      },
+      "base": {
+        "x": -0.22641752660274506,
+        "y": -0.0474416301067344,
+        "z": -0.07448155947396749
+      },
+      "animations": [],
+      "materials": [
+        "burnt_ember_haunch cracked black crust with dark brown flesh",
+        "Ivory dense cortical bone with residual tissue staining",
+        "Raised brittle charcoal blisters"
+      ],
+      "itemModel": {
+        "itemId": "burnt_ember_haunch",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_palewood_shaft",
+      "file": "models/items/palewood_shaft.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_shaft"
+      ],
+      "bytes": 1012852,
+      "size": {
+        "x": 0.050147201865911484,
+        "y": 1.120000034570694,
+        "z": 0.05007243528962135
+      },
+      "base": {
+        "x": -0.02502245455980301,
+        "y": -0.15000000596046448,
+        "z": -0.024992184713482857
+      },
+      "animations": [],
+      "materials": [
+        "pine worked longitudinal grain",
+        "pine endgrain on both sawn ends"
+      ],
+      "itemModel": {
+        "itemId": "palewood_shaft",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_duskoak_shaft",
+      "file": "models/items/duskoak_shaft.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_shaft"
+      ],
+      "bytes": 1367736,
+      "size": {
+        "x": 0.053837163373827934,
+        "y": 1.120000034570694,
+        "z": 0.0540024358779192
+      },
+      "base": {
+        "x": -0.026871012523770332,
+        "y": -0.15000000596046448,
+        "z": -0.027014099061489105
+      },
+      "animations": [],
+      "materials": [
+        "ash worked longitudinal grain",
+        "ash endgrain on both sawn ends"
+      ],
+      "itemModel": {
+        "itemId": "duskoak_shaft",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cairnpine_shaft",
+      "file": "models/items/cairnpine_shaft.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_shaft"
+      ],
+      "bytes": 925120,
+      "size": {
+        "x": 0.054158978164196014,
+        "y": 1.120000034570694,
+        "z": 0.054078228771686554
+      },
+      "base": {
+        "x": -0.027024250477552414,
+        "y": -0.15000000596046448,
+        "z": -0.02699155919253826
+      },
+      "animations": [],
+      "materials": [
+        "oak worked longitudinal grain",
+        "oak endgrain on both sawn ends"
+      ],
+      "itemModel": {
+        "itemId": "cairnpine_shaft",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cinderpine_shaft",
+      "file": "models/items/cinderpine_shaft.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_shaft"
+      ],
+      "bytes": 922364,
+      "size": {
+        "x": 0.054158978164196014,
+        "y": 1.120000034570694,
+        "z": 0.054078228771686554
+      },
+      "base": {
+        "x": -0.027024250477552414,
+        "y": -0.15000000596046448,
+        "z": -0.02699155919253826
+      },
+      "animations": [],
+      "materials": [
+        "walnut worked longitudinal grain",
+        "walnut endgrain on both sawn ends"
+      ],
+      "itemModel": {
+        "itemId": "cinderpine_shaft",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_palewood_handle",
+      "file": "models/items/palewood_handle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_handle"
+      ],
+      "bytes": 1914552,
+      "size": {
+        "x": 0.05799197405576706,
+        "y": 0.254720002412796,
+        "z": 0.05799197405576706
+      },
+      "base": {
+        "x": -0.02899598702788353,
+        "y": -0.10999999940395355,
+        "z": -0.02899598702788353
+      },
+      "animations": [],
+      "materials": [
+        "pine worked longitudinal grain",
+        "pine endgrain on both sawn ends"
+      ],
+      "itemModel": {
+        "itemId": "palewood_handle",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_duskoak_handle",
+      "file": "models/items/duskoak_handle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_handle"
+      ],
+      "bytes": 1921232,
+      "size": {
+        "x": 0.053999077528715134,
+        "y": 0.254720002412796,
+        "z": 0.053999077528715134
+      },
+      "base": {
+        "x": -0.026999538764357567,
+        "y": -0.10999999940395355,
+        "z": -0.026999538764357567
+      },
+      "animations": [],
+      "materials": [
+        "ash worked longitudinal grain",
+        "ash endgrain on both sawn ends"
+      ],
+      "itemModel": {
+        "itemId": "duskoak_handle",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cairnpine_handle",
+      "file": "models/items/cairnpine_handle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_handle"
+      ],
+      "bytes": 1914480,
+      "size": {
+        "x": 0.06199600175023079,
+        "y": 0.254720002412796,
+        "z": 0.06199600175023079
+      },
+      "base": {
+        "x": -0.030998000875115395,
+        "y": -0.10999999940395355,
+        "z": -0.030998000875115395
+      },
+      "animations": [],
+      "materials": [
+        "oak worked longitudinal grain",
+        "oak endgrain on both sawn ends"
+      ],
+      "itemModel": {
+        "itemId": "cairnpine_handle",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_cinderpine_handle",
+      "file": "models/items/cinderpine_handle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_handle"
+      ],
+      "bytes": 1911732,
+      "size": {
+        "x": 0.06199783831834793,
+        "y": 0.254720002412796,
+        "z": 0.06199783831834793
+      },
+      "base": {
+        "x": -0.030998919159173965,
+        "y": -0.10999999940395355,
+        "z": -0.030998919159173965
+      },
+      "animations": [],
+      "materials": [
+        "walnut worked longitudinal grain",
+        "walnut endgrain on both sawn ends"
+      ],
+      "itemModel": {
+        "itemId": "cinderpine_handle",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_teak_handle",
+      "file": "models/items/teak_handle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "teak_handle"
+      ],
+      "bytes": 1907588,
+      "size": {
+        "x": 0.059998463839292526,
+        "y": 0.2747199982404709,
+        "z": 0.059998463839292526
+      },
+      "base": {
+        "x": -0.029999231919646263,
+        "y": -0.10999999940395355,
+        "z": -0.029999231919646263
+      },
+      "animations": [],
+      "materials": [
+        "teak worked longitudinal grain",
+        "teak endgrain on both sawn ends"
+      ],
+      "itemModel": {
+        "itemId": "teak_handle",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "id": "corealm_item_magic_handle",
+      "file": "models/items/magic_handle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "magic_handle"
+      ],
+      "bytes": 2105040,
+      "size": {
+        "x": 0.05999809503555298,
+        "y": 0.254720002412796,
+        "z": 0.059997282922267914
+      },
+      "base": {
+        "x": -0.02999904751777649,
+        "y": -0.10999999940395355,
+        "z": -0.029998641461133957
+      },
+      "animations": [],
+      "materials": [
+        "magic worked longitudinal grain",
+        "magic endgrain on both sawn ends",
+        "Pale exposed magic wood on carved leaf edges"
+      ],
+      "itemModel": {
+        "itemId": "magic_handle",
+        "grip": [
+          0,
+          0,
+          0
+        ]
       }
     }
   ]

@@ -1,0 +1,364 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_silt_minnow",
+      "file": "models/items/silt_minnow.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "silt_minnow"
+      ],
+      "bytes": 1460892,
+      "itemModel": {
+        "itemId": "silt_minnow",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.22980903156049903,
+        "y": 0.10726808073190472,
+        "z": 0.030084937810897827
+      },
+      "base": {
+        "x": -0.091439801481041,
+        "y": -0.03296486899465331,
+        "z": -0.015042468905448914
+      },
+      "animations": [],
+      "materials": [
+        "scaled skin with continuous back and belly",
+        "ribbed fin membrane",
+        "fin rays and lip rim",
+        "mouth, gill creases and pupils",
+        "iris ring"
+      ],
+      "itemId": "silt_minnow",
+      "status": "pending",
+      "sha256": "b3a18a2d0329ad3ec376bdc360c9d4a70fe5542130fa6d8f7c1e587be12629fb",
+      "sourceSha256": "1de1ea3af1d81684d5192875d43a98a61b56263ebbcdf286bad7758ed049ecd5",
+      "referenceSha256": "ecc76c23551755a31c2a61a45e9aad68d26099989586b040439a25b6caa7fbe4",
+      "metadata": {
+        "itemId": "silt_minnow",
+        "author": "fish-a",
+        "reference": "art/item-icons/generated/silt_minnow.png",
+        "description": "A palm-sized fish out of the River shallows. Raw, it is mostly bone.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 32082,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_seared_minnow",
+      "file": "models/items/seared_minnow.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "seared_minnow"
+      ],
+      "bytes": 2069576,
+      "itemModel": {
+        "itemId": "seared_minnow",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.22980903156049903,
+        "y": 0.10726808073190472,
+        "z": 0.030084937810897827
+      },
+      "base": {
+        "x": -0.091439801481041,
+        "y": -0.03296486899465331,
+        "z": -0.015042468905448914
+      },
+      "animations": [],
+      "materials": [
+        "scaled skin with continuous back and belly",
+        "ribbed fin membrane",
+        "fin rays and lip rim",
+        "mouth, gill creases and pupils",
+        "iris ring",
+        "exposed cooked muscle",
+        "raised char plates"
+      ],
+      "itemId": "seared_minnow",
+      "status": "pending",
+      "sha256": "04a1ab2e9f888a804071c8fa8b26fed6f7f8cdb8457745a3fd28e27c050e9e8f",
+      "sourceSha256": "1de1ea3af1d81684d5192875d43a98a61b56263ebbcdf286bad7758ed049ecd5",
+      "referenceSha256": "2725705b4ed5009ca91dd4ea2bdde7733733d82fddeb47a1931358f6c98681ae",
+      "metadata": {
+        "itemId": "seared_minnow",
+        "author": "fish-a",
+        "reference": "art/item-icons/generated/seared_minnow.png",
+        "description": "Two minutes over a range and it stops being mostly bone.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 48322,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_burnt_minnow",
+      "file": "models/items/burnt_minnow.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_minnow"
+      ],
+      "bytes": 2448964,
+      "itemModel": {
+        "itemId": "burnt_minnow",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.22707388630867004,
+        "y": 0.10227710008621216,
+        "z": 0.03558162920978658
+      },
+      "base": {
+        "x": -0.09291,
+        "y": -0.037529006600379944,
+        "z": -0.01779747411812441
+      },
+      "animations": [],
+      "materials": [
+        "scaled skin with continuous back and belly",
+        "ribbed fin membrane",
+        "fin rays and lip rim",
+        "mouth, gill creases and pupils",
+        "iris ring",
+        "exposed cooked muscle",
+        "raised char plates"
+      ],
+      "itemId": "burnt_minnow",
+      "status": "pending",
+      "sha256": "59e83adfb7e7a4285e320eece94902aa2cda912131054ce0c37ae3b6c5b0cb8a",
+      "sourceSha256": "1de1ea3af1d81684d5192875d43a98a61b56263ebbcdf286bad7758ed049ecd5",
+      "referenceSha256": "3d5972c704fdf1425ea77a9377daa66d7f14a0ae80a3ccc9e865f9850535acc8",
+      "metadata": {
+        "itemId": "burnt_minnow",
+        "author": "fish-a",
+        "reference": "art/item-icons/generated/burnt_minnow.png",
+        "description": "Charred through. Nothing left worth eating.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 49682,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_bramble_trout",
+      "file": "models/items/bramble_trout.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "bramble_trout"
+      ],
+      "bytes": 1401100,
+      "itemModel": {
+        "itemId": "bramble_trout",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.4938622049397493,
+        "y": 0.23345857548188303,
+        "z": 0.0757310539484024
+      },
+      "base": {
+        "x": -0.19737458343511702,
+        "y": -0.07943096273253426,
+        "z": -0.0378655269742012
+      },
+      "animations": [],
+      "materials": [
+        "scaled skin with continuous back and belly",
+        "ribbed fin membrane",
+        "fin rays and lip rim",
+        "mouth, gill creases and pupils",
+        "iris ring"
+      ],
+      "itemId": "bramble_trout",
+      "status": "pending",
+      "sha256": "b4def25a1a617ddab351d144c3ca33c7a3cb50c78045428a96c0c2b50d05b223",
+      "sourceSha256": "1de1ea3af1d81684d5192875d43a98a61b56263ebbcdf286bad7758ed049ecd5",
+      "referenceSha256": "859187e77f24c1b4b225cf3318bc9e04fb0e5a249d4e91b2c364d5c80592dc5b",
+      "metadata": {
+        "itemId": "bramble_trout",
+        "author": "fish-a",
+        "reference": "art/item-icons/generated/bramble_trout.png",
+        "description": "Black-backed trout from the Blackwater pools. Fights the line the whole way in.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 32306,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_seared_trout",
+      "file": "models/items/seared_trout.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "seared_trout"
+      ],
+      "bytes": 2381696,
+      "itemModel": {
+        "itemId": "seared_trout",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.4938622049397493,
+        "y": 0.23345857548188303,
+        "z": 0.07062940400753454
+      },
+      "base": {
+        "x": -0.19737458343511702,
+        "y": -0.07943096273253426,
+        "z": -0.0378655269742012
+      },
+      "animations": [],
+      "materials": [
+        "scaled skin with continuous back and belly",
+        "ribbed fin membrane",
+        "fin rays and lip rim",
+        "mouth, gill creases and pupils",
+        "iris ring",
+        "exposed cooked muscle",
+        "raised char plates",
+        "salt crystals"
+      ],
+      "itemId": "seared_trout",
+      "status": "pending",
+      "sha256": "2f45d81a53b01dd22d494ff806c61be7ef1b40ecd45ef4fbd18274fe5e7b8ebf",
+      "sourceSha256": "1de1ea3af1d81684d5192875d43a98a61b56263ebbcdf286bad7758ed049ecd5",
+      "referenceSha256": "c1c6c03d1d1b6eea47893eadea7dbec433332e54fa9f7223ed79fa4cf0aaf6be",
+      "metadata": {
+        "itemId": "seared_trout",
+        "author": "fish-a",
+        "reference": "art/item-icons/generated/seared_trout.png",
+        "description": "Split, salted, and laid on the stone. Oakwood's entire cuisine.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 56144,
+      "drawCalls": 8
+    },
+    {
+      "id": "corealm_item_burnt_trout",
+      "file": "models/items/burnt_trout.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_trout"
+      ],
+      "bytes": 2363008,
+      "itemModel": {
+        "itemId": "burnt_trout",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.4837271952635659,
+        "y": 0.2528871114653557,
+        "z": 0.07097610087518866
+      },
+      "base": {
+        "x": -0.19737458343511702,
+        "y": -0.08880461016611563,
+        "z": -0.03821222384185534
+      },
+      "animations": [],
+      "materials": [
+        "scaled skin with continuous back and belly",
+        "ribbed fin membrane",
+        "fin rays and lip rim",
+        "mouth, gill creases and pupils",
+        "iris ring",
+        "exposed cooked muscle",
+        "raised char plates"
+      ],
+      "itemId": "burnt_trout",
+      "status": "pending",
+      "sha256": "dc5dbdf46134c8de83b220bac2cd3c5079bdbefc73dcdb6c7e5ab03af8ea1aa3",
+      "sourceSha256": "1de1ea3af1d81684d5192875d43a98a61b56263ebbcdf286bad7758ed049ecd5",
+      "referenceSha256": "ea4924334136051e56b1eb8cbb656e8cbeccdd01b0fd63b2536bf870f68b110c",
+      "metadata": {
+        "itemId": "burnt_trout",
+        "author": "fish-a",
+        "reference": "art/item-icons/generated/burnt_trout.png",
+        "description": "You left it on. It happens until Cooking 20.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 46432,
+      "drawCalls": 7
+    }
+  ]
+}

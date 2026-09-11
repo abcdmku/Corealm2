@@ -1,0 +1,410 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_marks",
+      "file": "models/items/marks.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "marks"
+      ],
+      "bytes": 1090500,
+      "itemModel": {
+        "itemId": "marks"
+      },
+      "size": {
+        "x": 0.07685130834579468,
+        "y": 0.07703676074743271,
+        "z": 0.007399999988079075
+      },
+      "base": {
+        "x": -0.03835398331284523,
+        "y": -0.038496315479278564,
+        "z": -0.0036999999940395397
+      },
+      "animations": [],
+      "materials": [
+        "Worn golden Trade Company stamp",
+        "Tarnish inside deep die impressions"
+      ],
+      "itemId": "marks",
+      "status": "pending",
+      "sha256": "8d7ade3f7b722c1ac6e11be9852121122923205b28dff33563c83cd1bae25bc8",
+      "sourceSha256": "9839f934c9ac7fe05945dc84007f3c77e8e5b151b424eaf61b0d7866fa5207f6",
+      "referenceSha256": "f01156351333812812a35f39b8cdb86ce5020f0a000058e3e84333821bf53f15",
+      "metadata": {
+        "itemId": "marks",
+        "author": "minerals-raw",
+        "reference": "art/item-icons/generated/marks.png",
+        "description": "Stamped Trade Company scrip. Every settlement between here and the moor takes it."
+      },
+      "triangles": 9824,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_grithe_ore",
+      "file": "models/items/grithe_ore.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_ore"
+      ],
+      "bytes": 718688,
+      "itemModel": {
+        "itemId": "grithe_ore"
+      },
+      "size": {
+        "x": 0.32652202248573303,
+        "y": 0.3317346125841141,
+        "z": 0.24459349364042282
+      },
+      "base": {
+        "x": -0.16153515875339508,
+        "y": -0.16432832181453705,
+        "z": -0.12349927425384521
+      },
+      "animations": [],
+      "materials": [
+        "Copper red native mineral",
+        "Grey copper bearing host"
+      ],
+      "itemId": "grithe_ore",
+      "status": "pending",
+      "sha256": "331ad61b67ae2b80c3e0a60d664631289aca8f77a471bb7abe622419f69197cd",
+      "sourceSha256": "9839f934c9ac7fe05945dc84007f3c77e8e5b151b424eaf61b0d7866fa5207f6",
+      "referenceSha256": "4634190408e5214bdd9850ae838bd05ca9474345fc2487702cb49f9804f259d8",
+      "metadata": {
+        "itemId": "grithe_ore",
+        "author": "minerals-raw",
+        "reference": "art/item-icons/generated/grithe_ore.png",
+        "description": "Grey ore, streaked rust-red. Smelts easily, which is the only nice thing about it."
+      },
+      "triangles": 2400,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_march_stone",
+      "file": "models/items/march_stone.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "march_stone"
+      ],
+      "bytes": 643796,
+      "itemModel": {
+        "itemId": "march_stone"
+      },
+      "size": {
+        "x": 0.2759411036968231,
+        "y": 0.2781563848257065,
+        "z": 0.21874447911977768
+      },
+      "base": {
+        "x": -0.1357254683971405,
+        "y": -0.14178931713104248,
+        "z": -0.10958904772996902
+      },
+      "animations": [],
+      "materials": [
+        "Porous ivory limestone",
+        "Weathered sediment bedding"
+      ],
+      "itemId": "march_stone",
+      "status": "pending",
+      "sha256": "48875d628427c52e2ef03096431ef2c1a63167afa1be05ed149c7d172124d20e",
+      "sourceSha256": "9839f934c9ac7fe05945dc84007f3c77e8e5b151b424eaf61b0d7866fa5207f6",
+      "referenceSha256": "3d5b2b2a6909d09283bc5f6009bf77a94f10a8f61a8e09bd1d7eb85efd4dce88",
+      "metadata": {
+        "itemId": "march_stone",
+        "author": "minerals-raw",
+        "reference": "art/item-icons/generated/march_stone.png",
+        "description": "Crumbly limestone from the Copper Pit. Every furnace on the frontier runs on it as flux."
+      },
+      "triangles": 1440,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_corven_ore",
+      "file": "models/items/corven_ore.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_ore"
+      ],
+      "bytes": 662360,
+      "itemModel": {
+        "itemId": "corven_ore"
+      },
+      "size": {
+        "x": 0.31837867200374603,
+        "y": 0.32656243443489075,
+        "z": 0.24333492666482925
+      },
+      "base": {
+        "x": -0.15638498961925507,
+        "y": -0.1632012128829956,
+        "z": -0.1194017082452774
+      },
+      "animations": [],
+      "materials": [
+        "Deep mineral clefts",
+        "Dark fractured host rock"
+      ],
+      "itemId": "corven_ore",
+      "status": "pending",
+      "sha256": "514ea60d81ee73b3f7f551e8a8eda31fa6aa29c37d284bb7f285c0841dade6db",
+      "sourceSha256": "9839f934c9ac7fe05945dc84007f3c77e8e5b151b424eaf61b0d7866fa5207f6",
+      "referenceSha256": "750bf40d065a912f250dd05d63f8d6e7b8546634a3f7ef5a5e7d6428893393e1",
+      "metadata": {
+        "itemId": "corven_ore",
+        "author": "minerals-raw",
+        "reference": "art/item-icons/generated/corven_ore.png",
+        "description": "Dark deepwood ore. Heavier than it looks and slightly oily on the break."
+      },
+      "triangles": 2400,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_kaldite_ore",
+      "file": "models/items/kaldite_ore.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_ore"
+      ],
+      "bytes": 701964,
+      "itemModel": {
+        "itemId": "kaldite_ore"
+      },
+      "size": {
+        "x": 0.3135371059179306,
+        "y": 0.3257537931203842,
+        "z": 0.23625009506940842
+      },
+      "base": {
+        "x": -0.15489107370376587,
+        "y": -0.16230523586273193,
+        "z": -0.11761632561683655
+      },
+      "animations": [],
+      "materials": [
+        "Cobalt blue mineral band",
+        "Dark fractured host rock"
+      ],
+      "itemId": "kaldite_ore",
+      "status": "pending",
+      "sha256": "9fc6664ab5225fe25b287e6b4aeaaf07d12a41f7412c4fb1acd03352d2410bc2",
+      "sourceSha256": "9839f934c9ac7fe05945dc84007f3c77e8e5b151b424eaf61b0d7866fa5207f6",
+      "referenceSha256": "609145e5ed8db98f6941e3894623fb42db99d452157b84a2b187c18211596cf7",
+      "metadata": {
+        "itemId": "kaldite_ore",
+        "author": "minerals-raw",
+        "reference": "art/item-icons/generated/kaldite_ore.png",
+        "description": "Black Highlands ore with a blue fracture. It takes a furnace twice to give anything up."
+      },
+      "triangles": 2400,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_emberite_ore",
+      "file": "models/items/emberite_ore.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_ore"
+      ],
+      "bytes": 898116,
+      "itemModel": {
+        "itemId": "emberite_ore"
+      },
+      "size": {
+        "x": 0.31792204082012177,
+        "y": 0.3315545916557312,
+        "z": 0.2381010577082634
+      },
+      "base": {
+        "x": -0.15507476031780243,
+        "y": -0.16394884884357452,
+        "z": -0.11841602623462677
+      },
+      "animations": [],
+      "materials": [
+        "Deep mineral clefts",
+        "Rust orange iron oxide crust",
+        "Fresh silvery cleavage"
+      ],
+      "itemId": "emberite_ore",
+      "status": "pending",
+      "sha256": "a34060e0680edca950b274cfec80bf30516fb4e7d9c6acda36922301410a5e44",
+      "sourceSha256": "9839f934c9ac7fe05945dc84007f3c77e8e5b151b424eaf61b0d7866fa5207f6",
+      "referenceSha256": "ec1ff274fe77fc361a44291381121c64874c47ac2253907a28e0ef31548946a2",
+      "metadata": {
+        "itemId": "emberite_ore",
+        "author": "minerals-raw",
+        "reference": "art/item-icons/generated/emberite_ore.png",
+        "description": "Rust-orange Ashlands ore, warm off the seam. It smells faintly of a banked fire."
+      },
+      "triangles": 2400,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_kilnstone",
+      "file": "models/items/kilnstone.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kilnstone"
+      ],
+      "bytes": 583744,
+      "itemModel": {
+        "itemId": "kilnstone"
+      },
+      "size": {
+        "x": 0.27823181450366974,
+        "y": 0.27823972702026367,
+        "z": 0.2205612729397416
+      },
+      "base": {
+        "x": -0.13477662205696106,
+        "y": -0.14178931713104248,
+        "z": -0.10891329497098923
+      },
+      "animations": [],
+      "materials": [
+        "Grey black kilnstone laminae",
+        "Coal dark fracture pocket"
+      ],
+      "itemId": "kilnstone",
+      "status": "pending",
+      "sha256": "7ca3cb9ac1aceb1cf3b8745358fde769d562aa9394603915981e2b15fdaf96f6",
+      "sourceSha256": "9839f934c9ac7fe05945dc84007f3c77e8e5b151b424eaf61b0d7866fa5207f6",
+      "referenceSha256": "d30b51550b8483d10c47b24e729cc9c336f5894ff52e16b856a9656854c60b1f",
+      "metadata": {
+        "itemId": "kilnstone",
+        "author": "minerals-raw",
+        "reference": "art/item-icons/generated/kilnstone.png",
+        "description": "Grey-black flux off the Quarry Seams. Titanium refuses to run without it."
+      },
+      "triangles": 1716,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_cindervein_ore",
+      "file": "models/items/cindervein_ore.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindervein_ore"
+      ],
+      "bytes": 696832,
+      "itemModel": {
+        "itemId": "cindervein_ore"
+      },
+      "size": {
+        "x": 0.3183174580335617,
+        "y": 0.3322008401155472,
+        "z": 0.24274440109729767
+      },
+      "base": {
+        "x": -0.15642793476581573,
+        "y": -0.16585230827331543,
+        "z": -0.12052103877067566
+      },
+      "animations": [],
+      "materials": [
+        "Copper red native mineral",
+        "Dark fractured host rock"
+      ],
+      "itemId": "cindervein_ore",
+      "status": "pending",
+      "sha256": "fc074c280deb239774047861cef3c55bd6dc0a28aa68579c10b49916b24cc449",
+      "sourceSha256": "9839f934c9ac7fe05945dc84007f3c77e8e5b151b424eaf61b0d7866fa5207f6",
+      "referenceSha256": "21704657bc141a613cdefb4c7f16470b7fb67809f43f038ee08b78f57161e2eb",
+      "metadata": {
+        "itemId": "cindervein_ore",
+        "author": "minerals-raw",
+        "reference": "art/item-icons/generated/cindervein_ore.png",
+        "description": "Black ore shot through with copper-red seams. Smelt three with a Molten Heart into Cindersteel."
+      },
+      "triangles": 2400,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_nightglass_ore",
+      "file": "models/items/nightglass_ore.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_ore"
+      ],
+      "bytes": 708196,
+      "itemModel": {
+        "itemId": "nightglass_ore"
+      },
+      "size": {
+        "x": 0.3163263350725174,
+        "y": 0.3920840322971344,
+        "z": 0.23557724803686142
+      },
+      "base": {
+        "x": -0.15702848136425018,
+        "y": -0.19907444715499878,
+        "z": -0.11624623835086823
+      },
+      "animations": [],
+      "materials": [
+        "Blue glass fracture",
+        "Violet black vitreous crust"
+      ],
+      "itemId": "nightglass_ore",
+      "status": "pending",
+      "sha256": "5acd5018336c29766ef2eef1ce9bc7de24410150d55d3f36bcad36131d6ea38c",
+      "sourceSha256": "9839f934c9ac7fe05945dc84007f3c77e8e5b151b424eaf61b0d7866fa5207f6",
+      "referenceSha256": "a2588020cfce3051bfe1514e1a825ddb52518ca8622aa58d88068c00b8ee8c65",
+      "metadata": {
+        "itemId": "nightglass_ore",
+        "author": "minerals-raw",
+        "reference": "art/item-icons/generated/nightglass_ore.png",
+        "description": "Violet ore with a blue fracture. Smelt three with an Astral Core into a Nightglass Bar."
+      },
+      "triangles": 2400,
+      "drawCalls": 2
+    }
+  ]
+}

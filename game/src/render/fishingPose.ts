@@ -97,7 +97,12 @@ export class FishingPoseLayer {
     root.updateMatrixWorld(true);
     const leftArm = bones.get("upperarm_l"), leftElbow = bones.get("lowerarm_l"), leftHand = bones.get("hand_l");
     if (rod && leftArm && leftElbow && leftHand) {
-      const target = rod.localToWorld(new THREE.Vector3(0.055, -0.137 + Math.sin(sample.crank) * 0.025, 0.051 + Math.cos(sample.crank) * 0.025));
+      const crankAnchor = rod.userData["fishingRod"]?.crankAnchor as readonly [number, number, number] | undefined;
+      // Authored anchors mark the actual grip at crank=0; procedural rods retain their old orbit.
+      const target = rod.localToWorld(crankAnchor
+        ? new THREE.Vector3(crankAnchor[0], crankAnchor[1] + Math.sin(sample.crank) * 0.025,
+          crankAnchor[2] + (Math.cos(sample.crank) - 1) * 0.025)
+        : new THREE.Vector3(0.055, -0.137 + Math.sin(sample.crank) * 0.025, 0.051 + Math.cos(sample.crank) * 0.025));
       reach(leftArm, leftElbow, leftHand, target, root.localToWorld(new THREE.Vector3(0.45, 0.9, 0.12)), sample.weight);
     }
     root.updateMatrixWorld(true);

@@ -1,0 +1,72 @@
+﻿[
+    {
+        "file":  "game/public/assets/textures/armor/cindersteel-albedo.png",
+        "bytes":  3111646,
+        "sha256":  "b22331c45eb2b57cdb242c6b79a617093087559099b87f4705785f3d4b7c816f"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/cindersteel-height.png",
+        "bytes":  3078299,
+        "sha256":  "7523b4aafa7dd0e77243fdea30184481b17313ca182ce59840d89787468f09ec"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/corven-albedo.png",
+        "bytes":  3261455,
+        "sha256":  "00fcd034f21727e041de357adaafce96e39985862be9716d1569f6525300507e"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/corven-height.png",
+        "bytes":  3125594,
+        "sha256":  "2baff1967aef0bd5ed120a47ee76b0288e6ddca29edf12ff22e02e18ac9fbebc"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/emberite-albedo.png",
+        "bytes":  3482737,
+        "sha256":  "fc3d56760476c02187f062428068ba9de9267b153b64653c1f0ef4f6b3b98698"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/emberite-height.png",
+        "bytes":  3117844,
+        "sha256":  "ee2e952e65c3881cc193e95a8724747b2ed8c2724a480da8bb064862273c057d"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/grithe-albedo.png",
+        "bytes":  2985548,
+        "sha256":  "7b760d775798811ee7e3e6f2bb516a328c9cb192253fcd12784ad59beca7a2dd"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/grithe-height.png",
+        "bytes":  2900337,
+        "sha256":  "800faa46089618a617d9be0f89ce4ec5cafb1239acee94231be598cc70b515a8"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/kaldite-albedo.png",
+        "bytes":  3316640,
+        "sha256":  "70279f4348eb0b444969c9c89615d1f895369871db55928417d5adc9ebc681fa"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/kaldite-height.png",
+        "bytes":  3157662,
+        "sha256":  "788a2c39cd6849769bde78746598e5b6bc317aa29785ddf5f174580c5e961a89"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/nightglass-albedo.png",
+        "bytes":  3446284,
+        "sha256":  "78dfb8a3ca43cf332dced2b275c063d9c337e857a0733d1d3bc3a5096ca0e633"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/nightglass-height.png",
+        "bytes":  3225125,
+        "sha256":  "db02074234c1571b36b37c33aabf0339fec4aeed1059be512cad79e51ce9d964"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/padding-albedo.png",
+        "bytes":  2928226,
+        "sha256":  "4a596ffa0062aea757739643813ab96a7bf586e9ecca2616e5b3eaec66eb0ef0"
+    },
+    {
+        "file":  "game/public/assets/textures/armor/padding-height.png",
+        "bytes":  2354514,
+        "sha256":  "87def87df87220b91e84bb038a168f12755a165ad110ff8dc682e00f691c1ef1"
+    }
+]

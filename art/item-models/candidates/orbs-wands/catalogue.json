@@ -1,0 +1,550 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_air_orb",
+      "file": "models/items/air_orb.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "air_orb"
+      ],
+      "bytes": 891508,
+      "itemModel": {
+        "itemId": "air_orb",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.15000000596046448,
+        "y": 0.15000000596046448,
+        "z": 0.15000000596046448
+      },
+      "base": {
+        "x": -0.07500000298023224,
+        "y": -0.07500000298023224,
+        "z": -0.07500000298023224
+      },
+      "animations": [],
+      "materials": [
+        "air dense patterned elemental interior",
+        "air thin polished glass skin",
+        "air sculpted elemental flow"
+      ],
+      "itemId": "air_orb",
+      "status": "pending",
+      "sha256": "e6ee97514aaa77d6c3fff235cda6864c09ac75bab80c4d4968a4f3aa0a06bd51",
+      "sourceSha256": "9c1629824af3ddbdb58ef62f8766ff3bf188160fba5e8da7579aaa201c1bf1de",
+      "referenceSha256": "b412cf9a9e50ab68339e6755a51b800b694ef0f1c6377ba794b2e69ae20475f9",
+      "metadata": {
+        "itemId": "air_orb",
+        "author": "orbs-wands",
+        "reference": "art/item-icons/generated/air_orb.png",
+        "description": "Spherical air region-boss core used to craft a charged air wand or staff, with polished glass enclosing a silver-white cyclone.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 18624,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_earth_orb",
+      "file": "models/items/earth_orb.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "earth_orb"
+      ],
+      "bytes": 587724,
+      "itemModel": {
+        "itemId": "earth_orb",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.15000000596046448,
+        "y": 0.15000000596046448,
+        "z": 0.15000000596046448
+      },
+      "base": {
+        "x": -0.07500000298023224,
+        "y": -0.07500000298023224,
+        "z": -0.07500000298023224
+      },
+      "animations": [],
+      "materials": [
+        "earth thin polished glass skin",
+        "earth sculpted elemental flow",
+        "Earth brown weathered mineral rock"
+      ],
+      "itemId": "earth_orb",
+      "status": "pending",
+      "sha256": "81694ae0aa0e218f0bf86558ec3bd1cd0244389fa963060acd762bc549084013",
+      "sourceSha256": "9c1629824af3ddbdb58ef62f8766ff3bf188160fba5e8da7579aaa201c1bf1de",
+      "referenceSha256": "6499398ced2e17885a3adf975a6ba487503a750e8cfa16efbf3553d9c95d5f11",
+      "metadata": {
+        "itemId": "earth_orb",
+        "author": "orbs-wands",
+        "reference": "art/item-icons/generated/earth_orb.png",
+        "description": "Spherical earth region-boss core used to craft a charged earth wand or staff, with polished glass enclosing rough brown mineral fragments and luminous green veins.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 5544,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_water_orb",
+      "file": "models/items/water_orb.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "water_orb"
+      ],
+      "bytes": 1238696,
+      "itemModel": {
+        "itemId": "water_orb",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.15000000596046448,
+        "y": 0.15000000596046448,
+        "z": 0.15000000596046448
+      },
+      "base": {
+        "x": -0.07500000298023224,
+        "y": -0.07500000298023224,
+        "z": -0.07500000298023224
+      },
+      "animations": [],
+      "materials": [
+        "water dense patterned elemental interior",
+        "water thin polished glass skin",
+        "water sculpted elemental flow"
+      ],
+      "itemId": "water_orb",
+      "status": "pending",
+      "sha256": "0be4fa84ea3e66646b5bc3948c1faf435e0fd64098fd293899b0282ad8c08cd1",
+      "sourceSha256": "9c1629824af3ddbdb58ef62f8766ff3bf188160fba5e8da7579aaa201c1bf1de",
+      "referenceSha256": "71e60a75c23018ca6b72b95ff50236da4b4ff09b4e16e9bb55a96f8942def8c0",
+      "metadata": {
+        "itemId": "water_orb",
+        "author": "orbs-wands",
+        "reference": "art/item-icons/generated/water_orb.png",
+        "description": "Spherical water region-boss core used to craft a charged water wand or staff, with polished glass enclosing a turquoise water vortex and bubbles.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 28560,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_fire_orb",
+      "file": "models/items/fire_orb.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "fire_orb"
+      ],
+      "bytes": 1312040,
+      "itemModel": {
+        "itemId": "fire_orb",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.15974683314561844,
+        "y": 0.15940812975168228,
+        "z": 0.15000000596046448
+      },
+      "base": {
+        "x": -0.07987475395202637,
+        "y": -0.07967418432235718,
+        "z": -0.07500000298023224
+      },
+      "animations": [],
+      "materials": [
+        "fire dense patterned elemental interior",
+        "fire thin polished glass skin",
+        "fire sculpted elemental flow",
+        "Fire orb broad hammered copper flame bands"
+      ],
+      "itemId": "fire_orb",
+      "status": "pending",
+      "sha256": "43ca2b51ad1e8b601ed58cdf3fd9e8443ba243b631a02a9919ec5b1eadca0094",
+      "sourceSha256": "9c1629824af3ddbdb58ef62f8766ff3bf188160fba5e8da7579aaa201c1bf1de",
+      "referenceSha256": "f2cf5c4a761f8e34b36b80dee5d012b06c6d288fde6e688a2dfc5bc85645be46",
+      "metadata": {
+        "itemId": "fire_orb",
+        "author": "orbs-wands",
+        "reference": "art/item-icons/generated/fire_orb.png",
+        "description": "Spherical fire region-boss core used to craft a charged fire wand or staff, with polished glass enclosing a molten orange flame and red lava curls, held in copper flame bands.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 33024,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_air_wand",
+      "file": "models/items/air_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "air_wand"
+      ],
+      "bytes": 1964040,
+      "itemModel": {
+        "itemId": "air_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.333,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.09058010578155518,
+        "y": 0.48180000127851963,
+        "z": 0.08914105966687202
+      },
+      "base": {
+        "x": -0.049580104649066925,
+        "y": -0.10780000014603137,
+        "z": -0.04483692720532417
+      },
+      "animations": [],
+      "materials": [
+        "air grip leather",
+        "air carved wood",
+        "air polished relief",
+        "air aged collar",
+        "air dense patterned elemental interior",
+        "air thin polished glass skin",
+        "air sculpted elemental flow"
+      ],
+      "itemId": "air_wand",
+      "status": "pending",
+      "sha256": "7438a02825eec3ebc6653f3cbd8b01009335b65e488e60ee6e5bbacc5884c3c1",
+      "sourceSha256": "9c1629824af3ddbdb58ef62f8766ff3bf188160fba5e8da7579aaa201c1bf1de",
+      "referenceSha256": "d1dccd6f8df8df320de2f32cba8cb2c3dd44ef94ef787ed5819e931d9bb5bfe9",
+      "metadata": {
+        "itemId": "air_wand",
+        "author": "orbs-wands",
+        "reference": "art/item-icons/generated/air_wand.png",
+        "description": "Short air wand with pale pine and pewter wind scrolls, three solid prongs securing its contained elemental orb.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.333,
+          0
+        ]
+      },
+      "triangles": 33424,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_earth_wand",
+      "file": "models/items/earth_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "earth_wand"
+      ],
+      "bytes": 1909268,
+      "itemModel": {
+        "itemId": "earth_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.333,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.09114811941981316,
+        "y": 0.48180000127851963,
+        "z": 0.09037231281399727
+      },
+      "base": {
+        "x": -0.050148118287324905,
+        "y": -0.10780000014603137,
+        "z": -0.04542095586657524
+      },
+      "animations": [],
+      "materials": [
+        "earth grip leather",
+        "earth aged collar",
+        "earth polished relief",
+        "earth carved wood",
+        "earth thin polished glass skin",
+        "earth sculpted elemental flow",
+        "Earth brown weathered mineral rock"
+      ],
+      "itemId": "earth_wand",
+      "status": "pending",
+      "sha256": "5a5b283384d0c1df115844a7505ce63202b893d8c76b1980b524a67162c35033",
+      "sourceSha256": "9c1629824af3ddbdb58ef62f8766ff3bf188160fba5e8da7579aaa201c1bf1de",
+      "referenceSha256": "6bd03419b312bc1208d1a93664de6e59557a6bfabd41161e0f882db98edfc8ff",
+      "metadata": {
+        "itemId": "earth_wand",
+        "author": "orbs-wands",
+        "reference": "art/item-icons/generated/earth_wand.png",
+        "description": "Short earth wand with pale ash root carving and aged bronze, three solid prongs securing its contained elemental orb.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.333,
+          0
+        ]
+      },
+      "triangles": 25720,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_water_wand",
+      "file": "models/items/water_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "water_wand"
+      ],
+      "bytes": 2399760,
+      "itemModel": {
+        "itemId": "water_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.333,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.09058010578155518,
+        "y": 0.48180000127851963,
+        "z": 0.08914105966687202
+      },
+      "base": {
+        "x": -0.049580104649066925,
+        "y": -0.10780000014603137,
+        "z": -0.04483692720532417
+      },
+      "animations": [],
+      "materials": [
+        "water grip leather",
+        "water aged collar",
+        "water polished relief",
+        "water carved wood",
+        "water dense patterned elemental interior",
+        "water thin polished glass skin",
+        "water sculpted elemental flow"
+      ],
+      "itemId": "water_wand",
+      "status": "pending",
+      "sha256": "1e52bbe664137897672dcdea3c33c7f6f64d728c6ba72efc9ab4fe2916992e19",
+      "sourceSha256": "9c1629824af3ddbdb58ef62f8766ff3bf188160fba5e8da7579aaa201c1bf1de",
+      "referenceSha256": "74c244dc89f6a22c9c031dc279425527206e2be0d65159d9aabe6e5a0614b23a",
+      "metadata": {
+        "itemId": "water_wand",
+        "author": "orbs-wands",
+        "reference": "art/item-icons/generated/water_wand.png",
+        "description": "Short water wand with honey oak wave scrolls, silver and blue leather, three solid prongs securing its contained elemental orb.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.333,
+          0
+        ]
+      },
+      "triangles": 46240,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_fire_wand",
+      "file": "models/items/fire_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "fire_wand"
+      ],
+      "bytes": 2311012,
+      "itemModel": {
+        "itemId": "fire_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.333,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.09058010578155518,
+        "y": 0.48180000127851963,
+        "z": 0.08914105966687202
+      },
+      "base": {
+        "x": -0.049580104649066925,
+        "y": -0.10780000014603137,
+        "z": -0.04483692720532417
+      },
+      "animations": [],
+      "materials": [
+        "fire grip leather",
+        "fire aged collar",
+        "fire polished relief",
+        "fire carved wood",
+        "fire dense patterned elemental interior",
+        "fire thin polished glass skin",
+        "fire sculpted elemental flow"
+      ],
+      "itemId": "fire_wand",
+      "status": "pending",
+      "sha256": "b854ec7d95199d69640e265ea55879fa6bbbfee27f1253c253e941651c7a1c7c",
+      "sourceSha256": "9c1629824af3ddbdb58ef62f8766ff3bf188160fba5e8da7579aaa201c1bf1de",
+      "referenceSha256": "0dbee580ba4d29cbf0b76b84c0a98ce2327c80db9dc1c955e1b84f2cf1ca4cdb",
+      "metadata": {
+        "itemId": "fire_wand",
+        "author": "orbs-wands",
+        "reference": "art/item-icons/generated/fire_wand.png",
+        "description": "Short fire wand with dark walnut flame carving, copper and oxblood leather, three solid prongs securing its contained elemental orb.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.333,
+          0
+        ]
+      },
+      "triangles": 45518,
+      "drawCalls": 7
+    }
+  ]
+}

@@ -4,7 +4,6 @@ import { buildEquipmentWeapon } from "../game/src/render/equipmentWeapons.js";
 import { buildWeaponCandidate } from "../tools/build-corealm-equipment.js";
 import { NodeIO } from "@gltf-transform/core";
 import { KHRMaterialsClearcoat } from "@gltf-transform/extensions";
-import { readFile } from "node:fs/promises";
 import { gearAppearance, gatheringToolAppearance, weaponAttachment } from "../game/src/render/equipmentVisuals.js";
 
 describe("original equipment candidates", () => {
@@ -15,15 +14,16 @@ describe("original equipment candidates", () => {
       expect(appearance.assetId).toBe(`corealm_sword_${grade + 1}`);
       expect(appearance.scale).toBe(0.9);
       expect(weaponAttachment(appearance)?.position).toEqual([-0.01, 0.085, 0.09]);
-      const data = await readFile(`game/public/assets/models/corealm/equipment/${appearance.assetId}.glb`);
-      const doc = await new NodeIO().registerExtensions([KHRMaterialsClearcoat]).readBinary(data);
+      const doc = await new NodeIO().registerExtensions([KHRMaterialsClearcoat])
+        .read(`game/public/assets/models/corealm/equipment/${appearance.assetId}.glb`);
       expect(doc.getRoot().listMaterials().some(material => material.getExtras().equipmentRole === "leather" && material.getBaseColorTexture())).toBe(true);
       expect(doc.getRoot().listMaterials().find(material => material.getExtras().equipmentRole === "blade")?.getMetallicFactor()).toBeGreaterThan(0.7);
     }
     const axe = gatheringToolAppearance("grithe_hatchet")!;
     expect(axe.assetId).toBe("corealm_axe_1");
     expect(weaponAttachment(axe)?.position).toEqual([-0.01, 0.085, 0.225]);
-    const doc = await new NodeIO().registerExtensions([KHRMaterialsClearcoat]).readBinary(await readFile("game/public/assets/models/corealm/equipment/corealm_axe_1.glb"));
+    const doc = await new NodeIO().registerExtensions([KHRMaterialsClearcoat])
+      .read("game/public/assets/models/corealm/equipment/corealm_axe_1.glb");
     expect(doc.getRoot().listMaterials().find(material => material.getExtras().equipmentRole === "wood")?.getMetallicFactor()).toBe(0);
   });
   it("keeps six independently authored forms and native hand grip measurements", () => {

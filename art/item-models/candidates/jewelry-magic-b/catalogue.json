@@ -1,0 +1,270 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_cinder_ring",
+      "file": "models/items/cinder_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinder_ring"
+      ],
+      "bytes": 1245432,
+      "size": {
+        "x": 0.023959944024682045,
+        "y": 0.02690000026226044,
+        "z": 0.009926886763423681
+      },
+      "base": {
+        "x": -0.011979944072663784,
+        "y": -0.011900000274181366,
+        "z": -0.00469689117744565
+      },
+      "animations": [],
+      "materials": [
+        "Cracked volcanic iron band",
+        "Recessed orange molten seams",
+        "Cracked amber fire opal",
+        "Oxidised warm dark bronze",
+        "Burnished copper edges"
+      ],
+      "itemId": "cinder_ring",
+      "status": "pending",
+      "sha256": "a79b9831ee78185e5b6f858ae614759df6b13a5dce84a8a2ad2918acef3883ce",
+      "sourceSha256": "8ea02e46dee667532bb1ed88df06d335efdd5713a791b2a22dc6681c1b0d1629",
+      "referenceSha256": "2dac9a12873d03e4e472e00a69d39e53e6b464715b667f2d18793b060f516c73",
+      "metadata": {
+        "itemId": "cinder_ring",
+        "author": "jewelry-magic-b",
+        "reference": "art/item-icons/generated/cinder_ring.png",
+        "description": "A dark band that is always a shade warmer than the hand wearing it. Cracked iron shank, small fire opal and angular raised bezel."
+      },
+      "triangles": 34784,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_cinder_charm",
+      "file": "models/items/cinder_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinder_charm"
+      ],
+      "bytes": 1283232,
+      "size": {
+        "x": 0.017999999225139618,
+        "y": 0.04236275237053633,
+        "z": 0.010792856104671955
+      },
+      "base": {
+        "x": -0.008999999612569809,
+        "y": -0.014369138516485691,
+        "z": -0.0052445922046899796
+      },
+      "animations": [],
+      "materials": [
+        "Cracked amber fire opal",
+        "Oxidised warm dark bronze",
+        "Burnished copper edges"
+      ],
+      "itemId": "cinder_charm",
+      "status": "pending",
+      "sha256": "1d48dab7e0ad3ceba0745b32191adce06e14d004684994dd1c41024bc78bd6d0",
+      "sourceSha256": "8ea02e46dee667532bb1ed88df06d335efdd5713a791b2a22dc6681c1b0d1629",
+      "referenceSha256": "521e14a9d00e2714f2459aff889fa8a6f23f9c0700e6694e4618764f8630cd32",
+      "metadata": {
+        "itemId": "cinder_charm",
+        "author": "jewelry-magic-b",
+        "reference": "art/item-icons/generated/cinder_charm.png",
+        "description": "A fire opal cracked in the kiln and wire-caged. Emberlash comes easier holding it. Full pear-shaped mineral, crossing iron straps, locking collars and articulated rune bail."
+      },
+      "triangles": 38420,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_emberweave_ring",
+      "file": "models/items/emberweave_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberweave_ring"
+      ],
+      "bytes": 1408168,
+      "size": {
+        "x": 0.024480000138282776,
+        "y": 0.02863748111948371,
+        "z": 0.014590573497116566
+      },
+      "base": {
+        "x": -0.012240000069141388,
+        "y": -0.01213748101145029,
+        "z": -0.007295286748558283
+      },
+      "animations": [],
+      "materials": [
+        "Oxidised warm dark bronze",
+        "Cracked amber fire opal",
+        "Burnished copper edges",
+        "Blackened braided binding cord"
+      ],
+      "itemId": "emberweave_ring",
+      "status": "pending",
+      "sha256": "7d6b15406153343bf5395235d22797ebec10d9ec51682b0d10be9a7905663424",
+      "sourceSha256": "8ea02e46dee667532bb1ed88df06d335efdd5713a791b2a22dc6681c1b0d1629",
+      "referenceSha256": "8cd29a8b101c00ba7e0dfd5a5294194637cefb517a35502037fca617d20013bf",
+      "metadata": {
+        "itemId": "emberweave_ring",
+        "author": "jewelry-magic-b",
+        "reference": "art/item-icons/generated/emberweave_ring.png",
+        "description": "Fire opal held by woven oxidised bronze flames with burnished edges, open gallery, and complete rear construction matching the approved icon."
+      },
+      "triangles": 42280,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_emberweave_charm",
+      "file": "models/items/emberweave_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberweave_charm"
+      ],
+      "bytes": 1702632,
+      "size": {
+        "x": 0.020813031122088432,
+        "y": 0.042817569337785244,
+        "z": 0.010425899643450975
+      },
+      "base": {
+        "x": -0.010406515561044216,
+        "y": -0.014823955483734608,
+        "z": -0.0052445922046899796
+      },
+      "animations": [],
+      "materials": [
+        "Cracked amber fire opal",
+        "Oxidised warm dark bronze",
+        "Burnished copper edges"
+      ],
+      "itemId": "emberweave_charm",
+      "status": "pending",
+      "sha256": "12d28124b7e2caa315b2c85ebb3ded0acdcad849276e35a99ce824d44fe32904",
+      "sourceSha256": "8ea02e46dee667532bb1ed88df06d335efdd5713a791b2a22dc6681c1b0d1629",
+      "referenceSha256": "05d0fae72d24354992f8254ae8c42ec897268c48eda3f77751f69e843d00f28d",
+      "metadata": {
+        "itemId": "emberweave_charm",
+        "author": "jewelry-magic-b",
+        "reference": "art/item-icons/generated/emberweave_charm.png",
+        "description": "Fire opal held by woven oxidised bronze flames with burnished edges, open gallery, and complete rear construction matching the approved icon."
+      },
+      "triangles": 52560,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_starweave_ring",
+      "file": "models/items/starweave_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starweave_ring"
+      ],
+      "bytes": 1719688,
+      "size": {
+        "x": 0.02440257091075182,
+        "y": 0.028701099764555694,
+        "z": 0.014590573497116566
+      },
+      "base": {
+        "x": -0.012162570841610432,
+        "y": -0.012201099656522274,
+        "z": -0.007295286748558283
+      },
+      "animations": [],
+      "materials": [
+        "Polished blue-black meteoric silver",
+        "Twisted violet silk bindings",
+        "Prismatic molten fire opal",
+        "Bright cold silver chased edges"
+      ],
+      "itemId": "starweave_ring",
+      "status": "pending",
+      "sha256": "5833b7167d36acfb781c6c2567ac522d87a987b9ea763425bb928ceb1a638c88",
+      "sourceSha256": "8ea02e46dee667532bb1ed88df06d335efdd5713a791b2a22dc6681c1b0d1629",
+      "referenceSha256": "bb7701e1d62eb350056a157f076ded5d09439f2753242671884b23933f34c3e2",
+      "metadata": {
+        "itemId": "starweave_ring",
+        "author": "jewelry-magic-b",
+        "reference": "art/item-icons/generated/starweave_ring.png",
+        "description": "Prismatic fire opal in blue-black silver. Ring has open interwoven shank and violet silk lashings; pendant has a faceted stone, four-pointed violet stars and chased open bail. Unseen rear basket inferred."
+      },
+      "triangles": 51016,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_starweave_charm",
+      "file": "models/items/starweave_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starweave_charm"
+      ],
+      "bytes": 1310044,
+      "size": {
+        "x": 0.021159719675779343,
+        "y": 0.04028511419892311,
+        "z": 0.010482913814485073
+      },
+      "base": {
+        "x": -0.010579859837889671,
+        "y": -0.013291498646140099,
+        "z": -0.005246322602033615
+      },
+      "animations": [],
+      "materials": [
+        "Prismatic molten fire opal",
+        "Polished blue-black meteoric silver",
+        "Bright cold silver chased edges",
+        "Violet inset star enamel"
+      ],
+      "itemId": "starweave_charm",
+      "status": "pending",
+      "sha256": "f16c9a8119d21bac1bff07838660399ea3f547d09a7c065c581c808431dfedf4",
+      "sourceSha256": "8ea02e46dee667532bb1ed88df06d335efdd5713a791b2a22dc6681c1b0d1629",
+      "referenceSha256": "700adcaaf246be0fea03bd2151f2d9f31df4a958b7ec68c48e37a3cd1a354691",
+      "metadata": {
+        "itemId": "starweave_charm",
+        "author": "jewelry-magic-b",
+        "reference": "art/item-icons/generated/starweave_charm.png",
+        "description": "Prismatic fire opal in blue-black silver. Ring has open interwoven shank and violet silk lashings; pendant has a faceted stone, four-pointed violet stars and chased open bail. Unseen rear basket inferred."
+      },
+      "triangles": 37128,
+      "drawCalls": 4
+    }
+  ]
+}

@@ -1,0 +1,559 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/build.ts",
+    "generatorSha256": "f59aa646552a93032fd51fd94c096a8f5e6d0d157ce953b4372ffd17e5c64e70"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_corven_helm",
+      "file": "models/items/corven_helm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_helm",
+        "head"
+      ],
+      "bytes": 3739432,
+      "itemModel": {
+        "itemId": "corven_helm",
+        "wearable": true,
+        "bodyCoverage": []
+      },
+      "size": {
+        "x": 0.21793494373559952,
+        "y": 0.26582562923431396,
+        "z": 0.24041275680065155
+      },
+      "base": {
+        "x": -0.10896734893321991,
+        "y": 1.5618646144866943,
+        "z": -0.12884372472763062
+      },
+      "animations": [],
+      "materials": [
+        "plate fitted outer shell",
+        "plate finished edges"
+      ],
+      "itemId": "corven_helm",
+      "status": "pending",
+      "sha256": "10fd82a1e852ebfaf34df3ef8d3a37a9c8bdb573f05ed9b4d3c808735197ce52",
+      "sourceSha256": "19f721d82c9d2cd1adb7fd30fd38f3dc958459dcb5c6775d71d328ca8b8d54e3",
+      "sourceDependencies": [
+        {
+          "path": "art/item-models/textures/neutral-leather-albedo.png",
+          "sha256": "3f044006fc90028bf10861aa40daad04a12b84d4a5ddd12e600aa94ac50ea966"
+        },
+        {
+          "path": "art/item-models/textures/tanned-leather-albedo.png",
+          "sha256": "8783bbe7c7fd07cfaef36604255993074802a817ffc1c0c15e960b6a712ad5af"
+        },
+        {
+          "path": "art/item-models/textures/worked-steel-albedo.png",
+          "sha256": "ad10023cadc01228d77db1a0d6c2045fb4ead15c87dee619fb10b9efb1a20b0c"
+        },
+        {
+          "path": "game/public/assets/models/character/base_male.glb",
+          "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+        },
+        {
+          "path": "tools/item-models/build.ts",
+          "sha256": "f59aa646552a93032fd51fd94c096a8f5e6d0d157ce953b4372ffd17e5c64e70"
+        },
+        {
+          "path": "tools/item-models/contracts.ts",
+          "sha256": "e3e95f85a4ea93d2fa31ca6ba5d85fffebf3137627f0bac82c78235f77553a38"
+        },
+        {
+          "path": "tools/item-models/core/body-profile.json",
+          "sha256": "2867adfb47a7da6ad394a901bc70060ad65a3e4d7bd2fa12b8c41fe111c16915"
+        },
+        {
+          "path": "tools/item-models/core/contracts.ts",
+          "sha256": "621a53db0f72362b54f39151a329d2b88084225548ab5ffc2497c2fa44bb829c"
+        },
+        {
+          "path": "tools/item-models/core/materials.ts",
+          "sha256": "697bbf53ff4b807c18a4a87c5922a4fcae5da0f3396b75dadb30a2f5228e2725"
+        },
+        {
+          "path": "tools/item-models/core/plate.ts",
+          "sha256": "ad12bc70fda4e30b58f692ed6fbd5bdb7c83882bb3a105abe96e7dc5cbb5e820"
+        },
+        {
+          "path": "tools/item-models/core/profile.ts",
+          "sha256": "b20c20a4adcc0ca67c6e383324a1acac4f589a9f73304a76f92e320899a43487"
+        },
+        {
+          "path": "tools/item-models/core/provenance.ts",
+          "sha256": "042a8dcf76f0808d3e40424853cbc769537302a5ee452a30181bb9405aff8e96"
+        },
+        {
+          "path": "tools/item-models/skin.ts",
+          "sha256": "a544f0dd6d7f4d4a30239216c5f0733ded4ad6be0b4663be86088a9bf00994c0"
+        }
+      ],
+      "referenceSha256": "c2d995e5defb5133af51b090511e7c184e964e9e8204d6dad08ad9f87a0cf619",
+      "metadata": {
+        "itemId": "corven_helm",
+        "author": "armor-corven",
+        "reference": "art/item-icons/generated/corven_helm.png",
+        "description": "Fitted worked-iron armor with thin articulated plates and finished edges.",
+        "wearable": true,
+        "bodyCoverage": []
+      },
+      "triangles": 6548,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_corven_plate",
+      "file": "models/items/corven_plate.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_plate",
+        "torso"
+      ],
+      "bytes": 7706776,
+      "itemModel": {
+        "itemId": "corven_plate",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.94,
+            "maxY": 1.49
+          }
+        ]
+      },
+      "size": {
+        "x": 0.7307999730110168,
+        "y": 0.629349410533905,
+        "z": 0.31812337040901184
+      },
+      "base": {
+        "x": -0.3653999865055084,
+        "y": 0.923454225063324,
+        "z": -0.17844584584236145
+      },
+      "animations": [],
+      "materials": [
+        "plate fitted outer shell",
+        "plate finished edges",
+        "soft leather lining",
+        "oiled leather straps",
+        "waxed linen thread"
+      ],
+      "itemId": "corven_plate",
+      "status": "pending",
+      "sha256": "f792eb5e1aef0d2ed936d5d2acac81d5ae9cbb993db134d69fb070485d1b6539",
+      "sourceSha256": "19f721d82c9d2cd1adb7fd30fd38f3dc958459dcb5c6775d71d328ca8b8d54e3",
+      "sourceDependencies": [
+        {
+          "path": "art/item-models/textures/neutral-leather-albedo.png",
+          "sha256": "3f044006fc90028bf10861aa40daad04a12b84d4a5ddd12e600aa94ac50ea966"
+        },
+        {
+          "path": "art/item-models/textures/tanned-leather-albedo.png",
+          "sha256": "8783bbe7c7fd07cfaef36604255993074802a817ffc1c0c15e960b6a712ad5af"
+        },
+        {
+          "path": "art/item-models/textures/worked-steel-albedo.png",
+          "sha256": "ad10023cadc01228d77db1a0d6c2045fb4ead15c87dee619fb10b9efb1a20b0c"
+        },
+        {
+          "path": "game/public/assets/models/character/base_male.glb",
+          "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+        },
+        {
+          "path": "tools/item-models/build.ts",
+          "sha256": "f59aa646552a93032fd51fd94c096a8f5e6d0d157ce953b4372ffd17e5c64e70"
+        },
+        {
+          "path": "tools/item-models/contracts.ts",
+          "sha256": "e3e95f85a4ea93d2fa31ca6ba5d85fffebf3137627f0bac82c78235f77553a38"
+        },
+        {
+          "path": "tools/item-models/core/body-profile.json",
+          "sha256": "2867adfb47a7da6ad394a901bc70060ad65a3e4d7bd2fa12b8c41fe111c16915"
+        },
+        {
+          "path": "tools/item-models/core/contracts.ts",
+          "sha256": "621a53db0f72362b54f39151a329d2b88084225548ab5ffc2497c2fa44bb829c"
+        },
+        {
+          "path": "tools/item-models/core/materials.ts",
+          "sha256": "697bbf53ff4b807c18a4a87c5922a4fcae5da0f3396b75dadb30a2f5228e2725"
+        },
+        {
+          "path": "tools/item-models/core/plate.ts",
+          "sha256": "ad12bc70fda4e30b58f692ed6fbd5bdb7c83882bb3a105abe96e7dc5cbb5e820"
+        },
+        {
+          "path": "tools/item-models/core/profile.ts",
+          "sha256": "b20c20a4adcc0ca67c6e383324a1acac4f589a9f73304a76f92e320899a43487"
+        },
+        {
+          "path": "tools/item-models/core/provenance.ts",
+          "sha256": "042a8dcf76f0808d3e40424853cbc769537302a5ee452a30181bb9405aff8e96"
+        },
+        {
+          "path": "tools/item-models/skin.ts",
+          "sha256": "a544f0dd6d7f4d4a30239216c5f0733ded4ad6be0b4663be86088a9bf00994c0"
+        }
+      ],
+      "referenceSha256": "e3551ec7572a5b3d2eefd2ec06b2100a46228a60b9abf0f52ff51fe659dd99e2",
+      "metadata": {
+        "itemId": "corven_plate",
+        "author": "armor-corven",
+        "reference": "art/item-icons/generated/corven_plate.png",
+        "description": "Fitted worked-iron armor with thin articulated plates and finished edges.",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.94,
+            "maxY": 1.49
+          }
+        ]
+      },
+      "triangles": 24404,
+      "drawCalls": 22
+    },
+    {
+      "id": "corealm_item_corven_greaves",
+      "file": "models/items/corven_greaves.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_greaves",
+        "legs"
+      ],
+      "bytes": 7491808,
+      "itemModel": {
+        "itemId": "corven_greaves",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.219,
+            "maxY": 0.91
+          }
+        ]
+      },
+      "size": {
+        "x": 0.4254092872142792,
+        "y": 0.7279980182647705,
+        "z": 0.26765772700309753
+      },
+      "base": {
+        "x": -0.2127046436071396,
+        "y": 0.20399999618530273,
+        "z": -0.17492985725402832
+      },
+      "animations": [],
+      "materials": [
+        "plate fitted outer shell",
+        "plate finished edges",
+        "oiled leather straps",
+        "soft leather lining"
+      ],
+      "itemId": "corven_greaves",
+      "status": "pending",
+      "sha256": "b1bfc59cf1831f74da88a6aee817c66a03fe6fcbf873fb4169f3698dac1633c2",
+      "sourceSha256": "19f721d82c9d2cd1adb7fd30fd38f3dc958459dcb5c6775d71d328ca8b8d54e3",
+      "sourceDependencies": [
+        {
+          "path": "art/item-models/textures/neutral-leather-albedo.png",
+          "sha256": "3f044006fc90028bf10861aa40daad04a12b84d4a5ddd12e600aa94ac50ea966"
+        },
+        {
+          "path": "art/item-models/textures/tanned-leather-albedo.png",
+          "sha256": "8783bbe7c7fd07cfaef36604255993074802a817ffc1c0c15e960b6a712ad5af"
+        },
+        {
+          "path": "art/item-models/textures/worked-steel-albedo.png",
+          "sha256": "ad10023cadc01228d77db1a0d6c2045fb4ead15c87dee619fb10b9efb1a20b0c"
+        },
+        {
+          "path": "game/public/assets/models/character/base_male.glb",
+          "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+        },
+        {
+          "path": "tools/item-models/build.ts",
+          "sha256": "f59aa646552a93032fd51fd94c096a8f5e6d0d157ce953b4372ffd17e5c64e70"
+        },
+        {
+          "path": "tools/item-models/contracts.ts",
+          "sha256": "e3e95f85a4ea93d2fa31ca6ba5d85fffebf3137627f0bac82c78235f77553a38"
+        },
+        {
+          "path": "tools/item-models/core/body-profile.json",
+          "sha256": "2867adfb47a7da6ad394a901bc70060ad65a3e4d7bd2fa12b8c41fe111c16915"
+        },
+        {
+          "path": "tools/item-models/core/contracts.ts",
+          "sha256": "621a53db0f72362b54f39151a329d2b88084225548ab5ffc2497c2fa44bb829c"
+        },
+        {
+          "path": "tools/item-models/core/materials.ts",
+          "sha256": "697bbf53ff4b807c18a4a87c5922a4fcae5da0f3396b75dadb30a2f5228e2725"
+        },
+        {
+          "path": "tools/item-models/core/plate.ts",
+          "sha256": "ad12bc70fda4e30b58f692ed6fbd5bdb7c83882bb3a105abe96e7dc5cbb5e820"
+        },
+        {
+          "path": "tools/item-models/core/profile.ts",
+          "sha256": "b20c20a4adcc0ca67c6e383324a1acac4f589a9f73304a76f92e320899a43487"
+        },
+        {
+          "path": "tools/item-models/core/provenance.ts",
+          "sha256": "042a8dcf76f0808d3e40424853cbc769537302a5ee452a30181bb9405aff8e96"
+        },
+        {
+          "path": "tools/item-models/skin.ts",
+          "sha256": "a544f0dd6d7f4d4a30239216c5f0733ded4ad6be0b4663be86088a9bf00994c0"
+        }
+      ],
+      "referenceSha256": "c7fc1bd7225707d7ba35dd6a31106bebe810a9ff74e3a2ff18a0a44ea55124d5",
+      "metadata": {
+        "itemId": "corven_greaves",
+        "author": "armor-corven",
+        "reference": "art/item-icons/generated/corven_greaves.png",
+        "description": "Fitted worked-iron armor with thin articulated plates and finished edges.",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.219,
+            "maxY": 0.91
+          }
+        ]
+      },
+      "triangles": 20120,
+      "drawCalls": 10
+    },
+    {
+      "id": "corealm_item_corven_boots",
+      "file": "models/items/corven_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_boots",
+        "feet"
+      ],
+      "bytes": 7018308,
+      "itemModel": {
+        "itemId": "corven_boots",
+        "wearable": true,
+        "bodyCoverage": []
+      },
+      "size": {
+        "x": 0.38971656560897827,
+        "y": 0.2733768845209852,
+        "z": 0.29032307863235474
+      },
+      "base": {
+        "x": -0.19485828280448914,
+        "y": 0.0016231214394792914,
+        "z": -0.15852607786655426
+      },
+      "animations": [],
+      "materials": [
+        "plate fitted outer shell",
+        "plate finished edges",
+        "oiled leather straps"
+      ],
+      "itemId": "corven_boots",
+      "status": "pending",
+      "sha256": "838098917616bf6c6433de4658e90ae44c9509c9ff95f19ad8ae069354454a3f",
+      "sourceSha256": "19f721d82c9d2cd1adb7fd30fd38f3dc958459dcb5c6775d71d328ca8b8d54e3",
+      "sourceDependencies": [
+        {
+          "path": "art/item-models/textures/neutral-leather-albedo.png",
+          "sha256": "3f044006fc90028bf10861aa40daad04a12b84d4a5ddd12e600aa94ac50ea966"
+        },
+        {
+          "path": "art/item-models/textures/tanned-leather-albedo.png",
+          "sha256": "8783bbe7c7fd07cfaef36604255993074802a817ffc1c0c15e960b6a712ad5af"
+        },
+        {
+          "path": "art/item-models/textures/worked-steel-albedo.png",
+          "sha256": "ad10023cadc01228d77db1a0d6c2045fb4ead15c87dee619fb10b9efb1a20b0c"
+        },
+        {
+          "path": "game/public/assets/models/character/base_male.glb",
+          "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+        },
+        {
+          "path": "tools/item-models/build.ts",
+          "sha256": "f59aa646552a93032fd51fd94c096a8f5e6d0d157ce953b4372ffd17e5c64e70"
+        },
+        {
+          "path": "tools/item-models/contracts.ts",
+          "sha256": "e3e95f85a4ea93d2fa31ca6ba5d85fffebf3137627f0bac82c78235f77553a38"
+        },
+        {
+          "path": "tools/item-models/core/body-profile.json",
+          "sha256": "2867adfb47a7da6ad394a901bc70060ad65a3e4d7bd2fa12b8c41fe111c16915"
+        },
+        {
+          "path": "tools/item-models/core/contracts.ts",
+          "sha256": "621a53db0f72362b54f39151a329d2b88084225548ab5ffc2497c2fa44bb829c"
+        },
+        {
+          "path": "tools/item-models/core/materials.ts",
+          "sha256": "697bbf53ff4b807c18a4a87c5922a4fcae5da0f3396b75dadb30a2f5228e2725"
+        },
+        {
+          "path": "tools/item-models/core/plate.ts",
+          "sha256": "ad12bc70fda4e30b58f692ed6fbd5bdb7c83882bb3a105abe96e7dc5cbb5e820"
+        },
+        {
+          "path": "tools/item-models/core/profile.ts",
+          "sha256": "b20c20a4adcc0ca67c6e383324a1acac4f589a9f73304a76f92e320899a43487"
+        },
+        {
+          "path": "tools/item-models/core/provenance.ts",
+          "sha256": "042a8dcf76f0808d3e40424853cbc769537302a5ee452a30181bb9405aff8e96"
+        },
+        {
+          "path": "tools/item-models/skin.ts",
+          "sha256": "a544f0dd6d7f4d4a30239216c5f0733ded4ad6be0b4663be86088a9bf00994c0"
+        }
+      ],
+      "referenceSha256": "b4f04850564c10403b91e2e056b160a2ed39de46ea492aeba338a4aa1f2c029f",
+      "metadata": {
+        "itemId": "corven_boots",
+        "author": "armor-corven",
+        "reference": "art/item-icons/generated/corven_boots.png",
+        "description": "Fitted worked-iron armor with thin articulated plates and finished edges.",
+        "wearable": true,
+        "bodyCoverage": []
+      },
+      "triangles": 9160,
+      "drawCalls": 11
+    },
+    {
+      "id": "corealm_item_corven_gauntlets",
+      "file": "models/items/corven_gauntlets.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_gauntlets",
+        "arms"
+      ],
+      "bytes": 3862824,
+      "itemModel": {
+        "itemId": "corven_gauntlets",
+        "wearable": true,
+        "bodyCoverage": []
+      },
+      "size": {
+        "x": 1.6028000116348267,
+        "y": 0.12967932224273682,
+        "z": 0.15125354565680027
+      },
+      "base": {
+        "x": -0.8014000058174133,
+        "y": 1.3791934251785278,
+        "z": -0.1417178362607956
+      },
+      "animations": [],
+      "materials": [
+        "plate fitted outer shell",
+        "plate finished edges"
+      ],
+      "itemId": "corven_gauntlets",
+      "status": "pending",
+      "sha256": "40e98ded49a30d3e244821d32e67bdf2290d50662f5067d85dfc442ed7c730f4",
+      "sourceSha256": "19f721d82c9d2cd1adb7fd30fd38f3dc958459dcb5c6775d71d328ca8b8d54e3",
+      "sourceDependencies": [
+        {
+          "path": "art/item-models/textures/neutral-leather-albedo.png",
+          "sha256": "3f044006fc90028bf10861aa40daad04a12b84d4a5ddd12e600aa94ac50ea966"
+        },
+        {
+          "path": "art/item-models/textures/tanned-leather-albedo.png",
+          "sha256": "8783bbe7c7fd07cfaef36604255993074802a817ffc1c0c15e960b6a712ad5af"
+        },
+        {
+          "path": "art/item-models/textures/worked-steel-albedo.png",
+          "sha256": "ad10023cadc01228d77db1a0d6c2045fb4ead15c87dee619fb10b9efb1a20b0c"
+        },
+        {
+          "path": "game/public/assets/models/character/base_male.glb",
+          "sha256": "90e5313df7f995d5714bc99415e262edf4641ce29a5bc03059f29b905b06c995"
+        },
+        {
+          "path": "tools/item-models/build.ts",
+          "sha256": "f59aa646552a93032fd51fd94c096a8f5e6d0d157ce953b4372ffd17e5c64e70"
+        },
+        {
+          "path": "tools/item-models/contracts.ts",
+          "sha256": "e3e95f85a4ea93d2fa31ca6ba5d85fffebf3137627f0bac82c78235f77553a38"
+        },
+        {
+          "path": "tools/item-models/core/body-profile.json",
+          "sha256": "2867adfb47a7da6ad394a901bc70060ad65a3e4d7bd2fa12b8c41fe111c16915"
+        },
+        {
+          "path": "tools/item-models/core/contracts.ts",
+          "sha256": "621a53db0f72362b54f39151a329d2b88084225548ab5ffc2497c2fa44bb829c"
+        },
+        {
+          "path": "tools/item-models/core/materials.ts",
+          "sha256": "697bbf53ff4b807c18a4a87c5922a4fcae5da0f3396b75dadb30a2f5228e2725"
+        },
+        {
+          "path": "tools/item-models/core/plate.ts",
+          "sha256": "ad12bc70fda4e30b58f692ed6fbd5bdb7c83882bb3a105abe96e7dc5cbb5e820"
+        },
+        {
+          "path": "tools/item-models/core/profile.ts",
+          "sha256": "b20c20a4adcc0ca67c6e383324a1acac4f589a9f73304a76f92e320899a43487"
+        },
+        {
+          "path": "tools/item-models/core/provenance.ts",
+          "sha256": "042a8dcf76f0808d3e40424853cbc769537302a5ee452a30181bb9405aff8e96"
+        },
+        {
+          "path": "tools/item-models/skin.ts",
+          "sha256": "a544f0dd6d7f4d4a30239216c5f0733ded4ad6be0b4663be86088a9bf00994c0"
+        }
+      ],
+      "referenceSha256": "32bcf1d4830e22b5cd9e80d16cb60b3ba9a37758bdb58150b4a2c36bc3bf9835",
+      "metadata": {
+        "itemId": "corven_gauntlets",
+        "author": "armor-corven",
+        "reference": "art/item-icons/generated/corven_gauntlets.png",
+        "description": "Fitted worked-iron armor with thin articulated plates and finished edges.",
+        "wearable": true,
+        "bodyCoverage": []
+      },
+      "triangles": 8960,
+      "drawCalls": 8
+    }
+  ]
+}

@@ -1,0 +1,299 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/build.ts",
+    "generatorSha256": "ad4817471ed4f1456cbfee2d216850f37f44a1a66d1ac479be30d4784569d1af"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_nightglass_helm",
+      "file": "models/items/nightglass_helm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_helm",
+        "head"
+      ],
+      "bytes": 380884,
+      "itemModel": {
+        "itemId": "nightglass_helm",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.23091797668902364,
+        "y": 0.35097229382546224,
+        "z": 0.28202498293642264
+      },
+      "base": {
+        "x": -0.11545898834451182,
+        "y": 1.5110852477737018,
+        "z": -0.11999999731779099
+      },
+      "animations": [],
+      "materials": [
+        "Charcoal grained leather lining",
+        "Nightglass polished midnight blue black steel",
+        "Cold blue silver honed bevels"
+      ],
+      "itemId": "nightglass_helm",
+      "status": "pending",
+      "sha256": "07e52dfcf962fb820cbe026116dadd16a1636c9b413558dcf819f3697ef9e66b",
+      "sourceSha256": "cd6c55d1e8b33ddb1a7b0472e0293f32e9263e8a0853a8a2202a6d98f6365ccf",
+      "referenceSha256": "ec2b8ea3228df81929fa82002cd6a5fd17572c45ae737d3ad8f2dbe2875f8c88",
+      "metadata": {
+        "itemId": "nightglass_helm",
+        "author": "armor-nightglass",
+        "reference": "art/item-icons/generated/nightglass_helm.png",
+        "description": "Nightglass helm forged for level 70 melee combat. Angular midnight steel armor with cold bevels, articulated plates and riveted leather lining.",
+        "wearable": true
+      },
+      "triangles": 2728,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_nightglass_plate",
+      "file": "models/items/nightglass_plate.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_plate",
+        "torso"
+      ],
+      "bytes": 808280,
+      "itemModel": {
+        "itemId": "nightglass_plate",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.94,
+            "maxY": 1.465
+          }
+        ]
+      },
+      "size": {
+        "x": 0.7862359254483938,
+        "y": 0.6571019855920908,
+        "z": 0.39114624225740513
+      },
+      "base": {
+        "x": -0.39312227977543707,
+        "y": 0.879891252645397,
+        "z": -0.1940000057220459
+      },
+      "animations": [],
+      "materials": [
+        "Charcoal grained leather lining",
+        "Nightglass polished midnight blue black steel",
+        "Cold blue silver honed bevels"
+      ],
+      "itemId": "nightglass_plate",
+      "status": "pending",
+      "sha256": "f2e041ee05567d64b72e67994634f742d003c7029f460f9bd8fef4a278b82819",
+      "sourceSha256": "cd6c55d1e8b33ddb1a7b0472e0293f32e9263e8a0853a8a2202a6d98f6365ccf",
+      "referenceSha256": "dfd115374e84dd6a4690b6237c93338841b828218d2b1de410db48643b7e6d21",
+      "metadata": {
+        "itemId": "nightglass_plate",
+        "author": "armor-nightglass",
+        "reference": "art/item-icons/generated/nightglass_plate.png",
+        "description": "Nightglass plate forged for level 70 melee combat. Angular midnight steel armor with cold bevels, articulated plates and riveted leather lining.",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.94,
+            "maxY": 1.465
+          }
+        ]
+      },
+      "triangles": 7926,
+      "drawCalls": 16
+    },
+    {
+      "id": "corealm_item_nightglass_greaves",
+      "file": "models/items/nightglass_greaves.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_greaves",
+        "legs"
+      ],
+      "bytes": 1771408,
+      "itemModel": {
+        "itemId": "nightglass_greaves",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.185,
+            "maxY": 0.96
+          }
+        ]
+      },
+      "size": {
+        "x": 0.4266878235366153,
+        "y": 0.7980266713272277,
+        "z": 0.27927837451237203
+      },
+      "base": {
+        "x": -0.21334391176830764,
+        "y": 0.17997331389082039,
+        "z": -0.18727999925613403
+      },
+      "animations": [],
+      "materials": [
+        "Charcoal grained leather lining",
+        "Nightglass polished midnight blue black steel",
+        "Cold blue silver honed bevels",
+        "Waxed dark grey stitching"
+      ],
+      "itemId": "nightglass_greaves",
+      "status": "pending",
+      "sha256": "aebf57d8efcaa3aacd6ac898e4789be0240fe0d970c45519f2ba87d39488dc63",
+      "sourceSha256": "cd6c55d1e8b33ddb1a7b0472e0293f32e9263e8a0853a8a2202a6d98f6365ccf",
+      "referenceSha256": "c9573d4ed3034e89e56417c91bd55366dce0c1aca2787321e40e8fa1ec60599c",
+      "metadata": {
+        "itemId": "nightglass_greaves",
+        "author": "armor-nightglass",
+        "reference": "art/item-icons/generated/nightglass_greaves.png",
+        "description": "Nightglass greaves forged for level 70 melee combat. Angular midnight steel armor with cold bevels, articulated plates and riveted leather lining.",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.185,
+            "maxY": 0.96
+          }
+        ]
+      },
+      "triangles": 17036,
+      "drawCalls": 15
+    },
+    {
+      "id": "corealm_item_nightglass_boots",
+      "file": "models/items/nightglass_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_boots",
+        "feet"
+      ],
+      "bytes": 1537296,
+      "itemModel": {
+        "itemId": "nightglass_boots",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.145,
+            "maxY": 0.298
+          }
+        ]
+      },
+      "size": {
+        "x": 0.3900330399657467,
+        "y": 0.3035000073388219,
+        "z": 0.351770201074454
+      },
+      "base": {
+        "x": -0.19501334378401877,
+        "y": 0.0014999998137354854,
+        "z": -0.17176364897036145
+      },
+      "animations": [],
+      "materials": [
+        "Charcoal grained leather lining",
+        "Nightglass polished midnight blue black steel",
+        "Cold blue silver honed bevels",
+        "Waxed dark grey stitching"
+      ],
+      "itemId": "nightglass_boots",
+      "status": "pending",
+      "sha256": "5addff336572e35230b7545d70b7e0c4f90b1cda2bafc7b3f97bcd8412aa2ae7",
+      "sourceSha256": "cd6c55d1e8b33ddb1a7b0472e0293f32e9263e8a0853a8a2202a6d98f6365ccf",
+      "referenceSha256": "0e3d3aa742b6db2b7202d575b91e12d4785e9688a4163ff3aeff02802136c754",
+      "metadata": {
+        "itemId": "nightglass_boots",
+        "author": "armor-nightglass",
+        "reference": "art/item-icons/generated/nightglass_boots.png",
+        "description": "Nightglass boots forged for level 70 melee combat. Angular midnight steel armor with cold bevels, articulated plates and riveted leather lining.",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.145,
+            "maxY": 0.298
+          }
+        ]
+      },
+      "triangles": 14832,
+      "drawCalls": 14
+    },
+    {
+      "id": "corealm_item_nightglass_gauntlets",
+      "file": "models/items/nightglass_gauntlets.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_gauntlets",
+        "arms"
+      ],
+      "bytes": 908364,
+      "itemModel": {
+        "itemId": "nightglass_gauntlets",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.742841339687222,
+        "y": 0.16385888578592667,
+        "z": 0.13294927688492741
+      },
+      "base": {
+        "x": -0.871420669843611,
+        "y": 1.3735705571070367,
+        "z": -0.12240000002980232
+      },
+      "animations": [],
+      "materials": [
+        "Charcoal grained leather lining",
+        "Nightglass polished midnight blue black steel",
+        "Cold blue silver honed bevels",
+        "Waxed dark grey stitching"
+      ],
+      "itemId": "nightglass_gauntlets",
+      "status": "pending",
+      "sha256": "8ee6f69f92353283d84db674b369b77403c9cb1cb3834187e5c01936188edfb4",
+      "sourceSha256": "cd6c55d1e8b33ddb1a7b0472e0293f32e9263e8a0853a8a2202a6d98f6365ccf",
+      "referenceSha256": "adf2c01dd0bc46e245c4fc9279e4e8354eb84f52dc38e83e627093ddf51dcf61",
+      "metadata": {
+        "itemId": "nightglass_gauntlets",
+        "author": "armor-nightglass",
+        "reference": "art/item-icons/generated/nightglass_gauntlets.png",
+        "description": "Nightglass gauntlets forged for level 70 melee combat. Angular midnight steel armor with cold bevels, articulated plates and riveted leather lining.",
+        "wearable": true
+      },
+      "triangles": 9940,
+      "drawCalls": 14
+    }
+  ]
+}

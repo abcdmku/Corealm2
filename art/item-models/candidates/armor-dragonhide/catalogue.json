@@ -1,0 +1,269 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/build.ts",
+    "generatorSha256": "ad4817471ed4f1456cbfee2d216850f37f44a1a66d1ac479be30d4784569d1af"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_dragonhide_hood",
+      "file": "models/items/dragonhide_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_hood",
+        "head"
+      ],
+      "bytes": 7952896,
+      "itemModel": {
+        "itemId": "dragonhide_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.5814541876316071,
+        "y": 0.4729008674621582,
+        "z": 0.41121773421764374
+      },
+      "base": {
+        "x": -0.29065123200416565,
+        "y": 1.3940068483352661,
+        "z": -0.2239404171705246
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-hide",
+        "dragonhide-scaleDark",
+        "dragonhide-scale",
+        "dragonhide-leather",
+        "dragonhide-thread",
+        "dragonhide-silver"
+      ],
+      "itemId": "dragonhide_hood",
+      "status": "pending",
+      "sha256": "1eab9aaf3cdd1c8c025adefbc604ed9d56f0fc624aa660f7dc90b65a6ebadd5d",
+      "sourceSha256": "cd02c1843b5437dc7fa71053da50464eff673b0f327425153fd1cf986cf0d2f4",
+      "referenceSha256": "d53f1361dd574200438b6aeef0be0fe3ddc0a6f1f560cbae11c90b9f864c0514",
+      "metadata": {
+        "itemId": "dragonhide_hood",
+        "author": "armor-dragonhide",
+        "reference": "art/item-icons/generated/dragonhide_hood.png",
+        "description": "Dragonhide hood sewn with Grave Thread. Requires level 50 Magic. Burgundy overlapping dragon scales, cross-stitched leather bindings and silver fastenings.",
+        "wearable": true
+      },
+      "triangles": 53934,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_dragonhide_robe",
+      "file": "models/items/dragonhide_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_robe",
+        "torso"
+      ],
+      "bytes": 20702860,
+      "itemModel": {
+        "itemId": "dragonhide_robe",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.3532562255859375,
+        "y": 1.4342203885316849,
+        "z": 0.5404918789863586
+      },
+      "base": {
+        "x": -0.6764562129974365,
+        "y": 0.1539323776960373,
+        "z": -0.2937348783016205
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-hide",
+        "dragonhide-scaleDark",
+        "dragonhide-scale",
+        "dragonhide-leather",
+        "dragonhide-thread",
+        "dragonhide-silver"
+      ],
+      "itemId": "dragonhide_robe",
+      "status": "pending",
+      "sha256": "a9ff420bb8efa1482dc89290afd89e551b428eebf1f8c61f22ed10b20b2cdb24",
+      "sourceSha256": "cd02c1843b5437dc7fa71053da50464eff673b0f327425153fd1cf986cf0d2f4",
+      "referenceSha256": "013e9215d6b2cb60d88266f9bffceb898e1204ea8c7e9763d07d106f05511b97",
+      "metadata": {
+        "itemId": "dragonhide_robe",
+        "author": "armor-dragonhide",
+        "reference": "art/item-icons/generated/dragonhide_robe.png",
+        "description": "Dragonhide robe sewn with Grave Thread. Requires level 50 Magic. Burgundy overlapping dragon scales, cross-stitched leather bindings and silver fastenings.",
+        "wearable": true
+      },
+      "triangles": 145784,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_dragonhide_leggings",
+      "file": "models/items/dragonhide_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_leggings",
+        "legs"
+      ],
+      "bytes": 11469616,
+      "itemModel": {
+        "itemId": "dragonhide_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4773445129394531,
+        "y": 0.8913557827472687,
+        "z": 0.30837005376815796
+      },
+      "base": {
+        "x": -0.23867225646972656,
+        "y": 0.15905842185020447,
+        "z": -0.18087005615234375
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-hide",
+        "dragonhide-scaleDark",
+        "dragonhide-scale",
+        "dragonhide-leather",
+        "dragonhide-thread",
+        "dragonhide-silver"
+      ],
+      "itemId": "dragonhide_leggings",
+      "status": "pending",
+      "sha256": "b9218c2e020f8b245c158d69f8f75d5f22eb4b80102fc37b0ebee7069a824a96",
+      "sourceSha256": "cd02c1843b5437dc7fa71053da50464eff673b0f327425153fd1cf986cf0d2f4",
+      "referenceSha256": "e34b45458f05d232baeafe4793dc9483ec06c49abb913466a0ea23eb8d578702",
+      "metadata": {
+        "itemId": "dragonhide_leggings",
+        "author": "armor-dragonhide",
+        "reference": "art/item-icons/generated/dragonhide_leggings.png",
+        "description": "Dragonhide leggings sewn with Grave Thread. Requires level 50 Magic. Burgundy overlapping dragon scales, cross-stitched leather bindings and silver fastenings.",
+        "wearable": true
+      },
+      "triangles": 74996,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_dragonhide_boots",
+      "file": "models/items/dragonhide_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_boots",
+        "feet"
+      ],
+      "bytes": 12413764,
+      "itemModel": {
+        "itemId": "dragonhide_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4485851973295212,
+        "y": 0.3990964916883968,
+        "z": 0.4049612283706665
+      },
+      "base": {
+        "x": -0.22285792231559753,
+        "y": 0.0009535225690342486,
+        "z": -0.1842917650938034
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-hide",
+        "dragonhide-scaleDark",
+        "dragonhide-scale",
+        "dragonhide-leather",
+        "dragonhide-thread",
+        "dragonhide-silver"
+      ],
+      "itemId": "dragonhide_boots",
+      "status": "pending",
+      "sha256": "25e96db5210d5d36443a7f5c1372ce92cca9aacec16ef4a83aa7a78a4dc08143",
+      "sourceSha256": "cd02c1843b5437dc7fa71053da50464eff673b0f327425153fd1cf986cf0d2f4",
+      "referenceSha256": "7ff0af279e77194bb3098e43ccdba7acc2b8986b88535a1c3358cf79e8814730",
+      "metadata": {
+        "itemId": "dragonhide_boots",
+        "author": "armor-dragonhide",
+        "reference": "art/item-icons/generated/dragonhide_boots.png",
+        "description": "Dragonhide boots sewn with Grave Thread. Requires level 50 Magic. Burgundy overlapping dragon scales, cross-stitched leather bindings and silver fastenings.",
+        "wearable": true
+      },
+      "triangles": 90416,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_dragonhide_wraps",
+      "file": "models/items/dragonhide_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide_wraps",
+        "arms"
+      ],
+      "bytes": 5302440,
+      "itemModel": {
+        "itemId": "dragonhide_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.609432578086853,
+        "y": 0.12531006336212158,
+        "z": 0.15315896831452847
+      },
+      "base": {
+        "x": -0.8046825528144836,
+        "y": 1.3948901891708374,
+        "z": -0.14160163700580597
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide-hide",
+        "dragonhide-scaleDark",
+        "dragonhide-scale",
+        "dragonhide-leather",
+        "dragonhide-thread",
+        "dragonhide-silver"
+      ],
+      "itemId": "dragonhide_wraps",
+      "status": "pending",
+      "sha256": "788198bb71af49a362f972385bf1e899eaab86865711572528ffc0e294b24755",
+      "sourceSha256": "cd02c1843b5437dc7fa71053da50464eff673b0f327425153fd1cf986cf0d2f4",
+      "referenceSha256": "85d547ece326fa82ef1d8f2570eaaf8f975782efb48f84ee03c6cfce555d8b7a",
+      "metadata": {
+        "itemId": "dragonhide_wraps",
+        "author": "armor-dragonhide",
+        "reference": "art/item-icons/generated/dragonhide_wraps.png",
+        "description": "Dragonhide wraps sewn with Grave Thread. Requires level 50 Magic. Burgundy overlapping dragon scales, cross-stitched leather bindings and silver fastenings.",
+        "wearable": true
+      },
+      "triangles": 45020,
+      "drawCalls": 6
+    }
+  ]
+}

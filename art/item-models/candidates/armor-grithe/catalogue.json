@@ -1,0 +1,290 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/build.ts",
+    "generatorSha256": "ad4817471ed4f1456cbfee2d216850f37f44a1a66d1ac479be30d4784569d1af"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_grithe_helm",
+      "file": "models/items/grithe_helm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_helm",
+        "head"
+      ],
+      "bytes": 838992,
+      "itemModel": {
+        "itemId": "grithe_helm",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.2406962364912033,
+        "y": 0.31628429889678933,
+        "z": 0.27399739623069763
+      },
+      "base": {
+        "x": -0.12036677449941635,
+        "y": 1.5587157011032104,
+        "z": -0.15499867498874664
+      },
+      "animations": [],
+      "materials": [
+        "hammered-copper",
+        "worn-copper-rolled-edges",
+        "dark-sewn-leather"
+      ],
+      "itemId": "grithe_helm",
+      "status": "pending",
+      "sha256": "d526242ce231511b50acb3e8811042dbe82542f99368aa00c9283d71bb57bf4f",
+      "sourceSha256": "f7685a038c6ef9525c42464f2a0c5cd31ec9ed9cf277a9bb58e0c01da2fb7a97",
+      "referenceSha256": "c1e330e943c800a4a00c374c5cd71e353187d5639baa0b1510474258079cbfd0",
+      "metadata": {
+        "itemId": "grithe_helm",
+        "author": "armor-grithe",
+        "reference": "art/item-icons/generated/grithe_helm.png",
+        "description": "Open-faced hammered copper cap with riveted crown band, ear skirt and leather lining.",
+        "wearable": true
+      },
+      "triangles": 15568,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_grithe_greaves",
+      "file": "models/items/grithe_greaves.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_greaves",
+        "legs"
+      ],
+      "bytes": 2625512,
+      "itemModel": {
+        "itemId": "grithe_greaves",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.14,
+            "maxY": 1.013
+          }
+        ]
+      },
+      "size": {
+        "x": 0.4369729310274124,
+        "y": 0.9025485664606094,
+        "z": 0.27747378431434633
+      },
+      "base": {
+        "x": -0.21858863532543182,
+        "y": 0.13463972508907318,
+        "z": -0.17212727665901184
+      },
+      "animations": [],
+      "materials": [
+        "dark-sewn-leather",
+        "worn-copper-rolled-edges",
+        "dark-leather-lining",
+        "hammered-copper",
+        "worn-silver-iron"
+      ],
+      "itemId": "grithe_greaves",
+      "status": "pending",
+      "sha256": "176c98e269115385e0a1b990bef346f3b3b5857e1c05714bf56ad48bd61d5a8a",
+      "sourceSha256": "f7685a038c6ef9525c42464f2a0c5cd31ec9ed9cf277a9bb58e0c01da2fb7a97",
+      "referenceSha256": "05ef571c3874d6216664079b3912485f0df2bec0247786edc754c1398ddb3882",
+      "metadata": {
+        "itemId": "grithe_greaves",
+        "author": "armor-grithe",
+        "reference": "art/item-icons/generated/grithe_greaves.png",
+        "description": "Paired copper thigh, knee and shin plates suspended from a march-issue leather belt.",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.14,
+            "maxY": 1.013
+          }
+        ]
+      },
+      "triangles": 57564,
+      "drawCalls": 23
+    },
+    {
+      "id": "corealm_item_grithe_boots",
+      "file": "models/items/grithe_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_boots",
+        "feet"
+      ],
+      "bytes": 2934624,
+      "itemModel": {
+        "itemId": "grithe_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.39156000316143036,
+        "y": 0.3409999907016754,
+        "z": 0.4224397032260895
+      },
+      "base": {
+        "x": -0.19581860303878784,
+        "y": 0,
+        "z": -0.1605632691383362
+      },
+      "animations": [],
+      "materials": [
+        "dark-sewn-leather",
+        "waxed-tan-stitching",
+        "hammered-copper",
+        "dark-leather-lining",
+        "worn-copper-rolled-edges",
+        "worn-silver-iron"
+      ],
+      "itemId": "grithe_boots",
+      "status": "pending",
+      "sha256": "16d1d959e7ebf230d60619dc47880d5a3ce2a57ba4bd53f87a62068303d53c26",
+      "sourceSha256": "f7685a038c6ef9525c42464f2a0c5cd31ec9ed9cf277a9bb58e0c01da2fb7a97",
+      "referenceSha256": "955885dd1ab0cf4e2436f79e14fd0bf57744ffd3f4ba2e92eb6288f252fb3818",
+      "metadata": {
+        "itemId": "grithe_boots",
+        "author": "armor-grithe",
+        "reference": "art/item-icons/generated/grithe_boots.png",
+        "description": "Paired leather boots with copper toe and instep plates, buckled shafts and iron-studded soles.",
+        "wearable": true
+      },
+      "triangles": 59736,
+      "drawCalls": 12
+    },
+    {
+      "id": "corealm_item_grithe_gloves",
+      "file": "models/items/grithe_gloves.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_gloves",
+        "arms"
+      ],
+      "bytes": 2278296,
+      "itemModel": {
+        "itemId": "grithe_gloves",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.7431893237304688,
+        "y": 0.07598416629433635,
+        "z": 0.13657796382904053
+      },
+      "base": {
+        "x": -0.8715946618652344,
+        "y": 1.4175158337056637,
+        "z": -0.1100355938911438
+      },
+      "animations": [],
+      "materials": [
+        "dark-sewn-leather",
+        "waxed-tan-stitching",
+        "worn-copper-rolled-edges",
+        "hammered-copper",
+        "dark-leather-lining"
+      ],
+      "itemId": "grithe_gloves",
+      "status": "pending",
+      "sha256": "45f2617753b377f053088946c6415c480c67a2c5804cce5ce9c7cc19cc3fdebe",
+      "sourceSha256": "f7685a038c6ef9525c42464f2a0c5cd31ec9ed9cf277a9bb58e0c01da2fb7a97",
+      "referenceSha256": "132338186e479a58b1d9cf4de9e8055596a9f4831b04a46924341f4707e4a0c3",
+      "metadata": {
+        "itemId": "grithe_gloves",
+        "author": "armor-grithe",
+        "reference": "art/item-icons/generated/grithe_gloves.png",
+        "description": "Paired studded leather T-pose gloves with copper knuckle plates and articulated fingers.",
+        "wearable": true
+      },
+      "triangles": 43688,
+      "drawCalls": 44
+    },
+    {
+      "id": "corealm_item_nightmarshal_plate",
+      "file": "models/items/nightmarshal_plate.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightmarshal_plate",
+        "torso"
+      ],
+      "bytes": 4690320,
+      "itemModel": {
+        "itemId": "nightmarshal_plate",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.013,
+            "maxY": 1.499
+          }
+        ]
+      },
+      "size": {
+        "x": 0.7185508012771606,
+        "y": 0.6274128556251526,
+        "z": 0.40951552987098694
+      },
+      "base": {
+        "x": -0.3592754006385803,
+        "y": 0.9135628342628479,
+        "z": -0.1977713257074356
+      },
+      "animations": [],
+      "materials": [
+        "dark-leather-lining",
+        "hammered-steel",
+        "worn-silver-iron",
+        "dark-sewn-leather"
+      ],
+      "itemId": "nightmarshal_plate",
+      "status": "pending",
+      "sha256": "207b7ceaa874570387a82e2ba546d584261b045297badc63a0b70563958d68f0",
+      "sourceSha256": "f7685a038c6ef9525c42464f2a0c5cd31ec9ed9cf277a9bb58e0c01da2fb7a97",
+      "referenceSha256": "8763b7f8b6a6db053e72854a24fd78c956fdb7f55313f1f988b40d5f4bf9b128",
+      "metadata": {
+        "itemId": "nightmarshal_plate",
+        "author": "armor-grithe",
+        "reference": "art/item-icons/generated/nightmarshal_plate.png",
+        "description": "Overlapping blue Nightglass ribs, silver borders, layered pauldrons and raised bastion tower seals.",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 1.013,
+            "maxY": 1.499
+          }
+        ]
+      },
+      "triangles": 97856,
+      "drawCalls": 16
+    }
+  ]
+}

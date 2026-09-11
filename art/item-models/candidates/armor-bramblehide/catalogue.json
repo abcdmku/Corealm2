@@ -1,0 +1,274 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_bramblehide_hood",
+      "file": "models/items/bramblehide_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "bramblehide_hood",
+        "head"
+      ],
+      "bytes": 2059456,
+      "itemModel": {
+        "itemId": "bramblehide_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.48026618361473083,
+        "y": 0.4369060638923121,
+        "z": 0.3577060003569959
+      },
+      "base": {
+        "x": -0.24113446474075317,
+        "y": 1.4193960428237915,
+        "z": -0.20038020610809326
+      },
+      "animations": [],
+      "materials": [
+        "Waxed walnut brown hide",
+        "Suede interior",
+        "Rolled dark leather binding",
+        "Ochre saddle stitching",
+        "Weathered olive hide inserts",
+        "Amber brown bramble thorns",
+        "Dull aged brass hardware"
+      ],
+      "itemId": "bramblehide_hood",
+      "status": "pending",
+      "sha256": "7b8f8fd3905da42653bca4d163a2fa73d044077349f16d9279aa1be06eb13961",
+      "sourceSha256": "5f39179b6a12db60c7f8ff3552ec949965342ed90ad24e8eefc464b9047f4a43",
+      "referenceSha256": "abad9bf48d23278255e6bca6ac0305cf351c644c0bb3a19af9e408adabe22535",
+      "metadata": {
+        "itemId": "bramblehide_hood",
+        "author": "armor-bramblehide",
+        "reference": "art/item-icons/generated/bramblehide_hood.png",
+        "description": "Deepwood hide, still faintly thorned along the seam.",
+        "wearable": true
+      },
+      "triangles": 40292,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_bramblehide_robe",
+      "file": "models/items/bramblehide_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "bramblehide_robe",
+        "torso"
+      ],
+      "bytes": 6501388,
+      "itemModel": {
+        "itemId": "bramblehide_robe",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.2989998787550086,
+        "y": 1.3990657864175335,
+        "z": 0.49736884236335754
+      },
+      "base": {
+        "x": -0.6494999393775043,
+        "y": 0.17249350249767303,
+        "z": -0.2648416757583618
+      },
+      "animations": [],
+      "materials": [
+        "Waxed walnut brown hide",
+        "Suede interior",
+        "Rolled dark leather binding",
+        "Ochre saddle stitching",
+        "Weathered olive hide inserts",
+        "Dull aged brass hardware",
+        "Amber brown bramble thorns"
+      ],
+      "itemId": "bramblehide_robe",
+      "status": "pending",
+      "sha256": "91fd2b91b96b9f8140ef6603eb57dcfd761ca98db1c861d8fae90f1bdfaf0b38",
+      "sourceSha256": "5f39179b6a12db60c7f8ff3552ec949965342ed90ad24e8eefc464b9047f4a43",
+      "referenceSha256": "8fa12d6be835d81c2594b6a38a806c1eb235c20802213c3992b97f6e50247a87",
+      "metadata": {
+        "itemId": "bramblehide_robe",
+        "author": "armor-bramblehide",
+        "reference": "art/item-icons/generated/bramblehide_robe.png",
+        "description": "Heavy hide, waxed. Sheds a Thornbound's spores and most of the rain.",
+        "wearable": true
+      },
+      "triangles": 118532,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_bramblehide_leggings",
+      "file": "models/items/bramblehide_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "bramblehide_leggings",
+        "legs"
+      ],
+      "bytes": 3654804,
+      "itemModel": {
+        "itemId": "bramblehide_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.45193469524383545,
+        "y": 0.9121457785367966,
+        "z": 0.2876146510243416
+      },
+      "base": {
+        "x": -0.22924290597438812,
+        "y": 0.11797745525836945,
+        "z": -0.1636056900024414
+      },
+      "animations": [],
+      "materials": [
+        "Waxed walnut brown hide",
+        "Suede interior",
+        "Rolled dark leather binding",
+        "Ochre saddle stitching",
+        "Weathered olive hide inserts",
+        "Amber brown bramble thorns",
+        "Dull aged brass hardware"
+      ],
+      "itemId": "bramblehide_leggings",
+      "status": "pending",
+      "sha256": "c0374164cbd85d3fc8716827cf984b71489fccc07680f202f299ce17ac80d911",
+      "sourceSha256": "5f39179b6a12db60c7f8ff3552ec949965342ed90ad24e8eefc464b9047f4a43",
+      "referenceSha256": "c0e5e122e83f3019da899c4bcb28178fc1f7ab3f6960a13fd3b3023cc685ebfd",
+      "metadata": {
+        "itemId": "bramblehide_leggings",
+        "author": "armor-bramblehide",
+        "reference": "art/item-icons/generated/bramblehide_leggings.png",
+        "description": "Long hide leggings cut for a full stride.",
+        "wearable": true
+      },
+      "triangles": 67356,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_bramblehide_boots",
+      "file": "models/items/bramblehide_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "bramblehide_boots",
+        "feet"
+      ],
+      "bytes": 4420532,
+      "itemModel": {
+        "itemId": "bramblehide_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.41657374799251556,
+        "y": 0.5129588226527544,
+        "z": 0.33970530810807853
+      },
+      "base": {
+        "x": -0.2132861614227295,
+        "y": -2.6077032026783353e-11,
+        "z": -0.15700191259384155
+      },
+      "animations": [],
+      "materials": [
+        "Weathered olive hide inserts",
+        "Suede interior",
+        "Waxed walnut brown hide",
+        "Rolled dark leather binding",
+        "Ochre saddle stitching",
+        "Dark leather sole and fur",
+        "Dull aged brass hardware",
+        "Amber brown bramble thorns"
+      ],
+      "itemId": "bramblehide_boots",
+      "status": "pending",
+      "sha256": "1ea3008595d5ef841369e7440b6ef39a709c5987acf269806976ad86cbe029b5",
+      "sourceSha256": "5f39179b6a12db60c7f8ff3552ec949965342ed90ad24e8eefc464b9047f4a43",
+      "referenceSha256": "e950e19c67aef73789bbe51fdf2a5bb82f84bae7b0bec54ff26a94bbf0c89854",
+      "metadata": {
+        "itemId": "bramblehide_boots",
+        "author": "armor-bramblehide",
+        "reference": "art/item-icons/generated/bramblehide_boots.png",
+        "description": "Laced to the knee against the root field.",
+        "wearable": true
+      },
+      "triangles": 80864,
+      "drawCalls": 8
+    },
+    {
+      "id": "corealm_item_bramblehide_wraps",
+      "file": "models/items/bramblehide_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "bramblehide_wraps",
+        "arms"
+      ],
+      "bytes": 2514456,
+      "itemModel": {
+        "itemId": "bramblehide_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.6729984353922178,
+        "y": 0.17707941753917522,
+        "z": 0.10237257927656174
+      },
+      "base": {
+        "x": -0.8364992176961089,
+        "y": 1.3669602912304124,
+        "z": -0.11177764021754265
+      },
+      "animations": [],
+      "materials": [
+        "Weathered olive hide inserts",
+        "Suede interior",
+        "Rolled dark leather binding",
+        "Ochre saddle stitching",
+        "Waxed walnut brown hide",
+        "Dull aged brass hardware",
+        "Amber brown bramble thorns"
+      ],
+      "itemId": "bramblehide_wraps",
+      "status": "pending",
+      "sha256": "a650fe51338cf59c75dfe31d3461b8be26ee81d51b360bfabf6eb7dda38bbba1",
+      "sourceSha256": "5f39179b6a12db60c7f8ff3552ec949965342ed90ad24e8eefc464b9047f4a43",
+      "referenceSha256": "e28316be37923c9b266cf486e41cf558c499761a6a893e3de3a185c09c7ac8b5",
+      "metadata": {
+        "itemId": "bramblehide_wraps",
+        "author": "armor-bramblehide",
+        "reference": "art/item-icons/generated/bramblehide_wraps.png",
+        "description": "Wrapped to the second knuckle. Casting hand stays free.",
+        "wearable": true
+      },
+      "triangles": 47252,
+      "drawCalls": 7
+    }
+  ]
+}

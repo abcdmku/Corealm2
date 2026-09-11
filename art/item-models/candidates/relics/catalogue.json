@@ -1,0 +1,410 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_molten_heart",
+      "file": "models/items/molten_heart.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "molten_heart"
+      ],
+      "bytes": 349892,
+      "itemModel": {
+        "itemId": "molten_heart"
+      },
+      "size": {
+        "x": 0.09141918644309044,
+        "y": 0.10919070988893509,
+        "z": 0.062758918851614
+      },
+      "base": {
+        "x": -0.045706212520599365,
+        "y": -0.05775420740246773,
+        "z": -0.03134884685277939
+      },
+      "animations": [],
+      "materials": [
+        "Orange molten stone",
+        "Charred porous basalt shell"
+      ],
+      "itemId": "molten_heart",
+      "status": "pending",
+      "sha256": "864fedcfefb1b2fe452b2ad75e7caef28bbcdd398f4e8b28e388f3d48c902a18",
+      "sourceSha256": "d22b2b410edc595e7dcac1c32a24705fd22327902adfdf59d50044a0195a4d32",
+      "referenceSha256": "8dace0d869f559f9c94e8abc081728c4800635f6a8d674f5871b9f5e12704f6c",
+      "metadata": {
+        "itemId": "molten_heart",
+        "author": "relics",
+        "reference": "art/item-icons/generated/molten_heart.png",
+        "description": "A cooled kernel from a living stone creature. It replaces flux when smelting Cindersteel."
+      },
+      "triangles": 11912,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_grave_thread",
+      "file": "models/items/grave_thread.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grave_thread"
+      ],
+      "bytes": 1222576,
+      "itemModel": {
+        "itemId": "grave_thread"
+      },
+      "size": {
+        "x": 0.08208316923519593,
+        "y": 0.09904774287974502,
+        "z": 0.025180401280522346
+      },
+      "base": {
+        "x": -0.04101875095468363,
+        "y": -0.049497599885903236,
+        "z": -0.012185338884592056
+      },
+      "animations": [],
+      "materials": [
+        "Silver-grey twisted fibers",
+        "Charcoal funerary binding"
+      ],
+      "itemId": "grave_thread",
+      "status": "pending",
+      "sha256": "3ac3c7b26a219b03431103d87a612140fc0176597c8ba24a386abaf1bece8446",
+      "sourceSha256": "d22b2b410edc595e7dcac1c32a24705fd22327902adfdf59d50044a0195a4d32",
+      "referenceSha256": "ad90361962814120f571f425f94d5b0282252a6214925a53b593888eec44aaca",
+      "metadata": {
+        "itemId": "grave_thread",
+        "author": "relics",
+        "reference": "art/item-icons/generated/grave_thread.png",
+        "description": "Black binding drawn from the Wilderness dead. Stitch Dragonhide or wind it into a Teak casting weapon."
+      },
+      "triangles": 37968,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_astral_core",
+      "file": "models/items/astral_core.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "astral_core"
+      ],
+      "bytes": 284920,
+      "itemModel": {
+        "itemId": "astral_core"
+      },
+      "size": {
+        "x": 0.08906712010502815,
+        "y": 0.13238476152566606,
+        "z": 0.061124008148908615
+      },
+      "base": {
+        "x": -0.04434296116232872,
+        "y": -0.05681892856955528,
+        "z": -0.030654355883598328
+      },
+      "animations": [],
+      "materials": [
+        "Blue-violet heart crystal",
+        "Dark violet vascular ridges"
+      ],
+      "itemId": "astral_core",
+      "status": "pending",
+      "sha256": "9f1867645c0815e050b4e7d40a9a043035dc01c69504054a8028dd157463b2aa",
+      "sourceSha256": "d22b2b410edc595e7dcac1c32a24705fd22327902adfdf59d50044a0195a4d32",
+      "referenceSha256": "c173cbe20d18270ae3e1a74260c5e5f758a65db5c62bc002042db05f3cb406cd",
+      "metadata": {
+        "itemId": "astral_core",
+        "author": "relics",
+        "reference": "art/item-icons/generated/astral_core.png",
+        "description": "A blue-violet heart from a deep Wilderness creature. It fuses Nightglass Ore without shattering it."
+      },
+      "triangles": 9048,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_void_thread",
+      "file": "models/items/void_thread.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "void_thread"
+      ],
+      "bytes": 1212216,
+      "itemModel": {
+        "itemId": "void_thread"
+      },
+      "size": {
+        "x": 0.0844409242272377,
+        "y": 0.1001494750380516,
+        "z": 0.03542682249099016
+      },
+      "base": {
+        "x": -0.04207969084382057,
+        "y": -0.05811554566025734,
+        "z": -0.014805891551077366
+      },
+      "animations": [],
+      "materials": [
+        "Violet silk filaments",
+        "Purple-black spirit silk"
+      ],
+      "itemId": "void_thread",
+      "status": "pending",
+      "sha256": "6d6d0f7432460cc4f8270fe3153ec8526f6ea4d4ca92ad8893a988fcd08a7946",
+      "sourceSha256": "d22b2b410edc595e7dcac1c32a24705fd22327902adfdf59d50044a0195a4d32",
+      "referenceSha256": "2420f8d66c7406d51ae6a005535816835bd80ab6c62a109c83aeb248f0d79438",
+      "metadata": {
+        "itemId": "void_thread",
+        "author": "relics",
+        "reference": "art/item-icons/generated/void_thread.png",
+        "description": "A dark strand pulled from a deep spirit. Binds Starhide and the crowns of Magic casting weapons."
+      },
+      "triangles": 37632,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_ashseal_iron",
+      "file": "models/items/ashseal_iron.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ashseal_iron"
+      ],
+      "bytes": 294696,
+      "itemModel": {
+        "itemId": "ashseal_iron"
+      },
+      "size": {
+        "x": 0.10019459202885628,
+        "y": 0.12270371988415718,
+        "z": 0.015000000026077032
+      },
+      "base": {
+        "x": -0.04766407981514931,
+        "y": -0.0630233883857727,
+        "z": -0.007500000013038516
+      },
+      "animations": [],
+      "materials": [
+        "Rough ash-black shield iron",
+        "Oxidized broken iron edges"
+      ],
+      "itemId": "ashseal_iron",
+      "status": "pending",
+      "sha256": "2e0c2a4cf890f5cfe9c69383e59719c254b83477821b9555f3336ec2a4c54523",
+      "sourceSha256": "d22b2b410edc595e7dcac1c32a24705fd22327902adfdf59d50044a0195a4d32",
+      "referenceSha256": "7e89835889258a3b81681e636a6c64168f741c5651932736fa39f982b6147293",
+      "metadata": {
+        "itemId": "ashseal_iron",
+        "author": "relics",
+        "reference": "art/item-icons/generated/ashseal_iron.png",
+        "description": "The Ashseal Warden's dense shield iron. Rivet it across a Teak Shield to make an Ashseal Guard."
+      },
+      "triangles": 4640,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_furnace_crown",
+      "file": "models/items/furnace_crown.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "furnace_crown"
+      ],
+      "bytes": 116368,
+      "itemModel": {
+        "itemId": "furnace_crown"
+      },
+      "size": {
+        "x": 0.13708409667015076,
+        "y": 0.12949164398014545,
+        "z": 0.10384957492351532
+      },
+      "base": {
+        "x": -0.06854204833507538,
+        "y": -0.02807743288576603,
+        "z": -0.03444957733154297
+      },
+      "animations": [],
+      "materials": [
+        "Scorched copper iron crown",
+        "Burnished hot copper edges"
+      ],
+      "itemId": "furnace_crown",
+      "status": "pending",
+      "sha256": "d1a5d58191f58b87139ea42d793f636955618cbaafd296ffd5a92832bfe02855",
+      "sourceSha256": "d22b2b410edc595e7dcac1c32a24705fd22327902adfdf59d50044a0195a4d32",
+      "referenceSha256": "78ed8329181db3f7281f3546c52dabb76d8bdb046bba5951931f0a8f1a60f139",
+      "metadata": {
+        "itemId": "furnace_crown",
+        "author": "relics",
+        "reference": "art/item-icons/generated/furnace_crown.png",
+        "description": "A piece of the Furnace Regent's crucible crown. Set three around a Teak Staff to make a Regent Staff."
+      },
+      "triangles": 2024,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_chainbound_link",
+      "file": "models/items/chainbound_link.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "chainbound_link"
+      ],
+      "bytes": 368516,
+      "itemModel": {
+        "itemId": "chainbound_link"
+      },
+      "size": {
+        "x": 0.08767090718169937,
+        "y": 0.11861533572061059,
+        "z": 0.023534921929240227
+      },
+      "base": {
+        "x": -0.04383580298101818,
+        "y": -0.059004511220750754,
+        "z": -0.01177319698035717
+      },
+      "animations": [],
+      "materials": [
+        "Hammered black chain iron",
+        "Incised groove borders",
+        "Violet living seams"
+      ],
+      "itemId": "chainbound_link",
+      "status": "pending",
+      "sha256": "4683831135ed9f6ec071461384b6718de1b00b8657cefb92ddb03eba9c38781d",
+      "sourceSha256": "d22b2b410edc595e7dcac1c32a24705fd22327902adfdf59d50044a0195a4d32",
+      "referenceSha256": "1a396ab84cdc57418808a77c7e0efe4da1ecd493c18702289b90dcc0aed1a921",
+      "metadata": {
+        "itemId": "chainbound_link",
+        "author": "relics",
+        "reference": "art/item-icons/generated/chainbound_link.png",
+        "description": "A living link carried by the foundry guard and Chainbound Archon. Three bind a Nightglass Sword into a Chainbound Sword."
+      },
+      "triangles": 11136,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_nightforge_seal",
+      "file": "models/items/nightforge_seal.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightforge_seal"
+      ],
+      "bytes": 382472,
+      "itemModel": {
+        "itemId": "nightforge_seal"
+      },
+      "size": {
+        "x": 0.1040293350815773,
+        "y": 0.14335501939058304,
+        "z": 0.013499999806284906
+      },
+      "base": {
+        "x": -0.05201466754078865,
+        "y": -0.0731821358203888,
+        "z": -0.004500000013038516
+      },
+      "animations": [],
+      "materials": [
+        "Blue-black bastion stamp",
+        "Worn silver iron relief"
+      ],
+      "itemId": "nightforge_seal",
+      "status": "pending",
+      "sha256": "9731feff30ea640815d3208ff2b70d8d7e4b3e9d28892c61d68fdbeeb7fdd0da",
+      "sourceSha256": "d22b2b410edc595e7dcac1c32a24705fd22327902adfdf59d50044a0195a4d32",
+      "referenceSha256": "5a55c2df71f5f114331385187f162e3711b167d01a9eef25cd224e991fff899c",
+      "metadata": {
+        "itemId": "nightforge_seal",
+        "author": "relics",
+        "reference": "art/item-icons/generated/nightforge_seal.png",
+        "description": "A breastplate stamp taken from the bastion guard or Nightforge Marshal. Reinforces Nightglass Plate into Nightmarshal Plate."
+      },
+      "triangles": 6004,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_hollow_star_fragment",
+      "file": "models/items/hollow_star_fragment.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "hollow_star_fragment"
+      ],
+      "bytes": 38240,
+      "itemModel": {
+        "itemId": "hollow_star_fragment"
+      },
+      "size": {
+        "x": 0.0820000022649765,
+        "y": 0.16300000250339508,
+        "z": 0.05599999986588955
+      },
+      "base": {
+        "x": -0.04100000113248825,
+        "y": -0.06599999964237213,
+        "z": -0.02500000037252903
+      },
+      "animations": [],
+      "materials": [
+        "Black glass-metal fracture",
+        "Fresh granular broken end"
+      ],
+      "itemId": "hollow_star_fragment",
+      "status": "pending",
+      "sha256": "dc11e5b23029df6a5660ace5d8d10b9aa35679d66c6c615f236d34de017bab06",
+      "sourceSha256": "d22b2b410edc595e7dcac1c32a24705fd22327902adfdf59d50044a0195a4d32",
+      "referenceSha256": "115e2e010830e4d6b2047ee9f202dcb5f7dbd2ff5a112fd88bc075eab6615bf1",
+      "metadata": {
+        "itemId": "hollow_star_fragment",
+        "author": "relics",
+        "reference": "art/item-icons/generated/hollow_star_fragment.png",
+        "description": "A heavy black shard carried by the sanctum guard and Hollow Star. Three form the crown of a Hollowstar Staff."
+      },
+      "triangles": 296,
+      "drawCalls": 2
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 /** One real canvas click, dry-bank navigation, and a natural fish receipt on the production lab. */
 import assert from "node:assert/strict";
 import path from "node:path";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { PerspectiveCamera, Vector3 } from "three";
 import { CAMERA, INTERACT_RANGE, PLAYER_RADIUS } from "../game/src/app/config.js";
 import type { GameEvent, Result, SemanticEntity, Vec3 } from "../game/src/contracts.js";
@@ -11,6 +11,7 @@ import { GameDriver } from "./lib/driver.js";
 import { installTestDeadline } from "./lib/deadline.js";
 import { argValue, repoRoot } from "./lib/paths.js";
 import { startGameServer } from "./lib/server.js";
+import { installAssetCandidates } from "./lib/assetCandidates.js";
 
 type Point = { x: number; y: number; z: number };
 type Bounds = { min: Point; max: Point; meshes: number };
@@ -48,12 +49,14 @@ async function main(): Promise<void> {
   const clearDeadline = installTestDeadline("Fishing lab browser gate", 59_000);
   const args = process.argv.slice(2);
   const externalUrl = argValue(args, "--url");
+  const itemModels = args.includes("--item-models");
+  const rodId = argValue(args, "--rod") ?? "palewood_rod";
   const server = externalUrl ? { url: externalUrl, close: async () => {} } : await startGameServer();
   const driver = new GameDriver(server, {
     headless: !args.includes("--headed"), viewport: { width: 1440, height: 900 },
     browserArgs: [...(process.platform === "win32" ? ["--use-angle=d3d11"] : []), "--enable-gpu", "--ignore-gpu-blocklist", "--mute-audio"],
   });
-  const output = path.join(repoRoot, "test-results", "fishing-lab");
+  const output = path.join(repoRoot, "test-results", itemModels ? `item-models/fishing-${rodId}` : "fishing-lab");
   await mkdir(output, { recursive: true });
   const report: Record<string, unknown> = {
     status: "failed", passed: false, url: server.url, route: "/index.html?mode=combat&fishing=1",
@@ -76,6 +79,11 @@ async function main(): Promise<void> {
   try {
     await driver.launch();
     const page = driver.page!;
+    if (itemModels) {
+      const catalogPath = path.join(repoRoot, "art/item-models/candidates/rods/catalogue.json");
+      report.assets = JSON.parse(await readFile(catalogPath, "utf8")).assets;
+      await installAssetCandidates(page, catalogPath);
+    }
     page.setDefaultTimeout(5_000);
     // tsx preserves names on nested callbacks with this helper. Playwright serializes the
     // callback body into another realm, so that realm needs the same name-only operation.
@@ -115,7 +123,7 @@ async function main(): Promise<void> {
       assert.deepEqual(school.interactionPosition, fixture.accessPositions[id], `Save import changed the bank anchor for ${id}`);
     }
     report.saveImport = { restoredEntityIds: restored.map((school) => school!.id), bankAnchorsPreserved: true };
-    const rod = await driver.callDebug("giveItem", ["palewood_rod", 1, "inventory"]) as Result<number>;
+    const rod = await driver.callDebug("giveItem", [rodId, 1, "inventory"]) as Result<number>;
     assert(rod.ok && rod.value === 1, "The production inventory refused the fishing rod setup");
     report.inventorySetup = { freeSlotsBeforeRod: fixtureSave.inventory.slots.length, rod };
     assert.equal(await driver.callDebug("inspectPose", [{
@@ -281,6 +289,16 @@ async function main(): Promise<void> {
     report.click = { ...click, entityId, candidatesTried, observation: clicked };
     assert.equal(clicked.state.selectedEntityId, entityId, `Canvas click selected ${clicked.state.selectedEntityId ?? "ground"}, not ${entityId}`);
     stage = "gathering receipt";
+    if (itemModels) await page.evaluate(() => {
+      const global = window as any;
+      global.__authoredFishingFrames = [];
+      const sample = () => {
+        const motion = global.__gameDebug.getPlayerMotion();
+        if (motion.fishing?.visible) global.__authoredFishingFrames.push(motion);
+        if (global.__authoredFishingFrames.length < 600) global.__authoredFishingTimer = setTimeout(sample, 35);
+      };
+      sample();
+    });
     await page.waitForFunction(({ id, since }) => {
       const debug = window.__gameDebug as unknown as FishingDebug;
       const batch = debug.getEvents(since);
@@ -296,6 +314,18 @@ async function main(): Promise<void> {
       return { entity: debug.getEntity(id)!, player: debug.getPlayerPosition(), clock: debug.getState().clock, events: debug.getEvents(since), trace, errors: debug.getErrors(), timeOrigin: performance.timeOrigin };
     }, { id: entityId, since: cursor });
     report.final = final;
+    if (itemModels) {
+      const frames = await page.evaluate(() => { const global = window as any; clearTimeout(global.__authoredFishingTimer); return global.__authoredFishingFrames as any[]; });
+      assert(frames.length > 10, "Authored rod did not render an active fishing line");
+      for (const frame of frames) {
+        assert.equal(frame.attachments.mainHand, `equip-mainHand-corealm_item_${rodId}`);
+        assert.equal(frame.fishing.visibleTackle, 0, "Decorative float duplicates the live fishing tackle");
+        assert(frame.fishing.guideWorld && Math.hypot(...frame.fishing.tip.map((v: number, i: number) => v - frame.fishing.guideWorld[i])) < .002, "Line detached from deformed rod tip");
+      }
+      const bends = frames.map(frame => frame.fishing.guideLocal[2]);
+      assert(Math.max(...bends) - Math.min(...bends) > .003, "Authored rod did not flex during fishing");
+      report.authoredRod = { rodId, frames };
+    }
     assert.equal(final.timeOrigin, documentTimeOrigin, "The document reloaded during acceptance; use a stable server without HMR");
     assert.equal(final.trace.error, null);
     assert.equal(final.trace.wetCount, 0, `The approach enters water: ${JSON.stringify(final.trace.firstWet)}`);
@@ -321,6 +351,12 @@ async function main(): Promise<void> {
     assert.equal(initial.entity.resource!.remaining - final.entity.resource!.remaining, received);
     assert.deepEqual(final.entity.position, initial.entity.position, "Interaction moved the visual school to the bank");
     screenshots.push(await driver.screenshot(output, "02-fishing-from-dry-bank"));
+    if (itemModels) {
+      await page.mouse.move(720, 450);
+      for (let index = 0; index < 32; index++) await page.mouse.wheel(0, -100);
+      await page.waitForTimeout(400);
+      screenshots.push(await driver.screenshot(output, "03-authored-rod"));
+    }
     assert.equal(final.errors.length + driver.consoleErrors.length + driver.pageErrors.length + driver.requestErrors.length, 0, "Runtime or request errors occurred");
     report.received = received;
     report.status = "passed";

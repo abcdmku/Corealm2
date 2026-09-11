@@ -1,0 +1,260 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/build.ts",
+    "generatorSha256": "ad4817471ed4f1456cbfee2d216850f37f44a1a66d1ac479be30d4784569d1af"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_starhide_hood",
+      "file": "models/items/starhide_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_hood",
+        "head"
+      ],
+      "bytes": 2880780,
+      "itemModel": {
+        "itemId": "starhide_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.5195053815841675,
+        "y": 0.5100868940353394,
+        "z": 0.3459354341030121
+      },
+      "base": {
+        "x": -0.2595565617084503,
+        "y": 1.3712197542190552,
+        "z": -0.2031318098306656
+      },
+      "animations": [],
+      "materials": [
+        "Star-speckled indigo leather",
+        "Deep violet lining",
+        "Violet saddle stitching",
+        "Worn silver piping and fasteners"
+      ],
+      "itemId": "starhide_hood",
+      "status": "pending",
+      "sha256": "e281174ab7ddba21f488b6f9e2de67319b29e604eb985cb2ef79b4c00e3a7429",
+      "sourceSha256": "2a607914461dacf9ab48598ff28356d8a641a0de9acde7861a97bf3f576e96c7",
+      "referenceSha256": "e4a864fc10d5a875aa635c41fdc0e22fa60588d6b6b4f1c0cf0d5a56ea922f43",
+      "metadata": {
+        "itemId": "starhide_hood",
+        "author": "armor-starhide",
+        "reference": "art/item-icons/generated/starhide_hood.png",
+        "description": "Indigo star-speckled leather with violet saddle stitching, dark violet lining, silver edging and pointed star fasteners; hollow native male T-pose garment.",
+        "wearable": true
+      },
+      "triangles": 48040,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_starhide_robe",
+      "file": "models/items/starhide_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_robe",
+        "torso"
+      ],
+      "bytes": 6620228,
+      "itemModel": {
+        "itemId": "starhide_robe",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.332761824131012,
+        "y": 1.4078498035669327,
+        "z": 0.5054486691951752
+      },
+      "base": {
+        "x": -0.6663618087768555,
+        "y": 0.18805836141109467,
+        "z": -0.2759999930858612
+      },
+      "animations": [],
+      "materials": [
+        "Deep violet lining",
+        "Star-speckled indigo leather",
+        "Worn silver piping and fasteners",
+        "Violet saddle stitching"
+      ],
+      "itemId": "starhide_robe",
+      "status": "pending",
+      "sha256": "d2be48405cce361350bfd0ecb1eceec606202ad0bacb973bf214f37457aaf7a2",
+      "sourceSha256": "2a607914461dacf9ab48598ff28356d8a641a0de9acde7861a97bf3f576e96c7",
+      "referenceSha256": "351df00b4dd9c02a832209b96403b1b40ed0b502033ccbbfef75e5209832829b",
+      "metadata": {
+        "itemId": "starhide_robe",
+        "author": "armor-starhide",
+        "reference": "art/item-icons/generated/starhide_robe.png",
+        "description": "Indigo star-speckled leather with violet saddle stitching, dark violet lining, silver edging and pointed star fasteners; hollow native male T-pose garment.",
+        "wearable": true
+      },
+      "triangles": 115880,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_starhide_leggings",
+      "file": "models/items/starhide_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_leggings",
+        "legs"
+      ],
+      "bytes": 5498048,
+      "itemModel": {
+        "itemId": "starhide_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4378800243139267,
+        "y": 0.9122208952903748,
+        "z": 0.2859779894351959
+      },
+      "base": {
+        "x": -0.21888716518878937,
+        "y": 0.14305835962295532,
+        "z": -0.159617081284523
+      },
+      "animations": [],
+      "materials": [
+        "Star-speckled indigo leather",
+        "Deep violet lining",
+        "Worn silver piping and fasteners",
+        "Violet saddle stitching"
+      ],
+      "itemId": "starhide_leggings",
+      "status": "pending",
+      "sha256": "dc64fdcf3c1bc139bebfac65652be461f3392ffd143e3e32cf10cbdceb59062e",
+      "sourceSha256": "2a607914461dacf9ab48598ff28356d8a641a0de9acde7861a97bf3f576e96c7",
+      "referenceSha256": "840079a0bf424b8c5bfc0ae43770aad62ed81134206b0a7fa89965c942c54338",
+      "metadata": {
+        "itemId": "starhide_leggings",
+        "author": "armor-starhide",
+        "reference": "art/item-icons/generated/starhide_leggings.png",
+        "description": "Indigo star-speckled leather with violet saddle stitching, dark violet lining, silver edging and pointed star fasteners; hollow native male T-pose garment.",
+        "wearable": true
+      },
+      "triangles": 89742,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_starhide_boots",
+      "file": "models/items/starhide_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_boots",
+        "feet"
+      ],
+      "bytes": 4159844,
+      "itemModel": {
+        "itemId": "starhide_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.40108345448970795,
+        "y": 0.40461963386833666,
+        "z": 0.3609665632247925
+      },
+      "base": {
+        "x": -0.20040351152420044,
+        "y": 2.8312205357927667e-10,
+        "z": -0.16602064669132233
+      },
+      "animations": [],
+      "materials": [
+        "Star-speckled indigo leather",
+        "Deep violet lining",
+        "Violet saddle stitching",
+        "Worn silver piping and fasteners",
+        "Layered charcoal leather soles"
+      ],
+      "itemId": "starhide_boots",
+      "status": "pending",
+      "sha256": "e9964f1cc7ed74ef8b872c7a15fc18c325a84ceaa23ec3b98872ffacb55b9259",
+      "sourceSha256": "2a607914461dacf9ab48598ff28356d8a641a0de9acde7861a97bf3f576e96c7",
+      "referenceSha256": "d03491d1f02410e9bd8bfd8338e966aca7064c3ecde5bf647db0a68e7d04c515",
+      "metadata": {
+        "itemId": "starhide_boots",
+        "author": "armor-starhide",
+        "reference": "art/item-icons/generated/starhide_boots.png",
+        "description": "Indigo star-speckled leather with violet saddle stitching, dark violet lining, silver edging and pointed star fasteners; hollow native male T-pose garment.",
+        "wearable": true
+      },
+      "triangles": 68836,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_starhide_wraps",
+      "file": "models/items/starhide_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide_wraps",
+        "arms"
+      ],
+      "bytes": 2766224,
+      "itemModel": {
+        "itemId": "starhide_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.5274428129196167,
+        "y": 0.12952899932861328,
+        "z": 0.1191014633513987
+      },
+      "base": {
+        "x": -0.7637214064598083,
+        "y": 1.3910367488861084,
+        "z": -0.11550146341323853
+      },
+      "animations": [],
+      "materials": [
+        "Star-speckled indigo leather",
+        "Deep violet lining",
+        "Worn silver piping and fasteners",
+        "Violet saddle stitching"
+      ],
+      "itemId": "starhide_wraps",
+      "status": "pending",
+      "sha256": "40ec4ab5a0ac145222c0e542acd692b7f21e977fd826b7741c5ead4ebc01284a",
+      "sourceSha256": "2a607914461dacf9ab48598ff28356d8a641a0de9acde7861a97bf3f576e96c7",
+      "referenceSha256": "bcbf4a0479ff08291a22efafdf51686006f2387d205768af2b4286dd9fbb3d8a",
+      "metadata": {
+        "itemId": "starhide_wraps",
+        "author": "armor-starhide",
+        "reference": "art/item-icons/generated/starhide_wraps.png",
+        "description": "Indigo star-speckled leather with violet saddle stitching, dark violet lining, silver edging and pointed star fasteners; hollow native male T-pose garment.",
+        "wearable": true
+      },
+      "triangles": 45328,
+      "drawCalls": 4
+    }
+  ]
+}

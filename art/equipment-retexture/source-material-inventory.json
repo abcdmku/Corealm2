@@ -1,0 +1,2365 @@
+{
+  "manifestSha256": "33a0056b680cdeee205e61990a7ec237eaa483af377085b94b365001d6914f5e",
+  "missingAssets": [],
+  "runtimeMaterialsHandled": [
+    "corealm_dagger_1",
+    "corealm_dagger_2",
+    "corealm_dagger_3",
+    "corealm_dagger_4"
+  ],
+  "assets": [
+    {
+      "id": "corealm_shield_1",
+      "file": "models/corealm/equipment/corealm_shield_1.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "d0ae6efaacc1991f76eb56f268d50f2fb3f507c1cd8fde631761cec5050e3f9f",
+      "original": "originals/corealm_shield_1.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-wood-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "bytes": 16729,
+          "file": "originals/textures/e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca.png"
+        },
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-wood",
+          "extras": {
+            "equipmentRole": "wood"
+          },
+          "sourceTexture": "corealm-wood-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "baseColorFactor": [
+            0.3005437944049895,
+            0.16513219449147767,
+            0.06847816983662762,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.4735314961384573,
+            0.19461783043107173,
+            0.04970656597728775,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "corealm_shield_2",
+      "file": "models/corealm/equipment/corealm_shield_2.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "a60e9fb4a1fb6defc81ecf9411992f217da3e6bd444cb1c7949553555768bfff",
+      "original": "originals/corealm_shield_2.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-wood-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "bytes": 16729,
+          "file": "originals/textures/e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca.png"
+        },
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-wood",
+          "extras": {
+            "equipmentRole": "wood"
+          },
+          "sourceTexture": "corealm-wood-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "baseColorFactor": [
+            0.11697066774917994,
+            0.059511238155621766,
+            0.028426039499072558,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.21223075740342198,
+            0.23455058215026167,
+            0.2501582847191642,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "corealm_shield_3",
+      "file": "models/corealm/equipment/corealm_shield_3.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "01477fbd3041dab76b64af5ad826991974f0837a5f4c8d0e7ce6f849738e8889",
+      "original": "originals/corealm_shield_3.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-wood-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "bytes": 16729,
+          "file": "originals/textures/e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca.png"
+        },
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-wood",
+          "extras": {
+            "equipmentRole": "wood"
+          },
+          "sourceTexture": "corealm-wood-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "baseColorFactor": [
+            0.158960835050774,
+            0.12213877222015301,
+            0.08021982030622662,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.5028864580233624,
+            0.5583403896257968,
+            0.6038273388475408,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "corealm_shield_4",
+      "file": "models/corealm/equipment/corealm_shield_4.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "df13f8d190115a294500fdd2d9e00b7fdedf3de349b0eec802e8b1eb17250e8a",
+      "original": "originals/corealm_shield_4.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-wood-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "bytes": 16729,
+          "file": "originals/textures/e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca.png"
+        },
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-wood",
+          "extras": {
+            "equipmentRole": "wood"
+          },
+          "sourceTexture": "corealm-wood-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "baseColorFactor": [
+            0.06662593863608139,
+            0.038204371589236,
+            0.02732089163382382,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.46778379610254284,
+            0.33245153633549385,
+            0.24228112245478564,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "corealm_staff_1",
+      "file": "models/corealm/equipment/corealm_staff_1.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "cacdb7599400301628a45d4071add75520d8b4ef1edc52462b2b5cec76f50401",
+      "original": "originals/corealm_staff_1.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-wood-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "bytes": 16729,
+          "file": "originals/textures/e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca.png"
+        },
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-wood",
+          "extras": {
+            "equipmentRole": "wood"
+          },
+          "sourceTexture": "corealm-wood-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "baseColorFactor": [
+            0.3005437944049895,
+            0.16513219449147767,
+            0.06847816983662762,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-gem",
+          "extras": {
+            "equipmentRole": "gem"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.4019777798219466,
+            0.5647115056965487,
+            0.623960391667596,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "corealm_staff_2",
+      "file": "models/corealm/equipment/corealm_staff_2.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "02f788039a2428cfd780cdbc46149f417817f8258a1eb757e3edeb6512fdfc5c",
+      "original": "originals/corealm_staff_2.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-wood-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "bytes": 16729,
+          "file": "originals/textures/e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca.png"
+        },
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-wood",
+          "extras": {
+            "equipmentRole": "wood"
+          },
+          "sourceTexture": "corealm-wood-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "baseColorFactor": [
+            0.11697066774917994,
+            0.059511238155621766,
+            0.028426039499072558,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.21223075740342198,
+            0.23455058215026167,
+            0.2501582847191642,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-gem",
+          "extras": {
+            "equipmentRole": "gem"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.16826940017946088,
+            0.29613827078752575,
+            0.11193242782769693,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "corealm_staff_3",
+      "file": "models/corealm/equipment/corealm_staff_3.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "0d2629a0260172e97ce9566722c6d8591a88cf4708b00ff09adc4db41410feeb",
+      "original": "originals/corealm_staff_3.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-wood-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "bytes": 16729,
+          "file": "originals/textures/e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca.png"
+        },
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-wood",
+          "extras": {
+            "equipmentRole": "wood"
+          },
+          "sourceTexture": "corealm-wood-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "baseColorFactor": [
+            0.158960835050774,
+            0.12213877222015301,
+            0.08021982030622662,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.5028864580233624,
+            0.5583403896257968,
+            0.6038273388475408,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-gem",
+          "extras": {
+            "equipmentRole": "gem"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.1844749944900301,
+            0.028426039499072558,
+            0.054480276435339814,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "corealm_staff_4",
+      "file": "models/corealm/equipment/corealm_staff_4.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "310d607303d936707d2bc133956a8dd6ba7cc1e2f02ee30a2333383c8a527d07",
+      "original": "originals/corealm_staff_4.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-wood-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "bytes": 16729,
+          "file": "originals/textures/e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca.png"
+        },
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-wood",
+          "extras": {
+            "equipmentRole": "wood"
+          },
+          "sourceTexture": "corealm-wood-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "baseColorFactor": [
+            0.06662593863608139,
+            0.038204371589236,
+            0.02732089163382382,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.46778379610254284,
+            0.33245153633549385,
+            0.24228112245478564,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-gem",
+          "extras": {
+            "equipmentRole": "gem"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.46207699964472876,
+            0.10946171076915331,
+            0.035601314869097636,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "corealm_sword_1",
+      "file": "models/corealm/equipment/corealm_sword_1.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "5f0a55210edfe713e051873c1e6ca548fbad2371891c3585ebe008118a49e8dd",
+      "original": "originals/corealm_sword_1.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.4735314961384573,
+            0.19461783043107173,
+            0.04970656597728775,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-blade",
+          "extras": {
+            "equipmentRole": "blade"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.4735314961384573,
+            0.19461783043107173,
+            0.04970656597728775,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            []
+          ],
+          "missingUV": true
+        }
+      ]
+    },
+    {
+      "id": "corealm_sword_2",
+      "file": "models/corealm/equipment/corealm_sword_2.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "e68c3e2fe7988dcdeed962233abf75c873774b81461ffc035104fcd95774edc1",
+      "original": "originals/corealm_sword_2.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.21223075740342198,
+            0.23455058215026167,
+            0.2501582847191642,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-blade",
+          "extras": {
+            "equipmentRole": "blade"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.21223075740342198,
+            0.23455058215026167,
+            0.2501582847191642,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            []
+          ],
+          "missingUV": true
+        }
+      ]
+    },
+    {
+      "id": "corealm_sword_3",
+      "file": "models/corealm/equipment/corealm_sword_3.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "dc540db7697bfa2276dac22af98797233d53dc2d77cddfe4b4a0ea28537d2bad",
+      "original": "originals/corealm_sword_3.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.5028864580233624,
+            0.5583403896257968,
+            0.6038273388475408,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-blade",
+          "extras": {
+            "equipmentRole": "blade"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.5028864580233624,
+            0.5583403896257968,
+            0.6038273388475408,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            []
+          ],
+          "missingUV": true
+        }
+      ]
+    },
+    {
+      "id": "corealm_sword_4",
+      "file": "models/corealm/equipment/corealm_sword_4.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "b5fe6b28706191c570f7272ca25b701925ad61c8f0032be9dd6043ff9bd423f6",
+      "original": "originals/corealm_sword_4.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.46778379610254284,
+            0.33245153633549385,
+            0.24228112245478564,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-blade",
+          "extras": {
+            "equipmentRole": "blade"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.46778379610254284,
+            0.33245153633549385,
+            0.24228112245478564,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            []
+          ],
+          "missingUV": true
+        }
+      ]
+    },
+    {
+      "id": "corealm_wand_1",
+      "file": "models/corealm/equipment/corealm_wand_1.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "eae74a9e34bbdcdf7194a515a60b582fb697cb8a3bb52aaee5806cf8d72793be",
+      "original": "originals/corealm_wand_1.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-wood-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "bytes": 16729,
+          "file": "originals/textures/e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca.png"
+        },
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-wood",
+          "extras": {
+            "equipmentRole": "wood"
+          },
+          "sourceTexture": "corealm-wood-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "baseColorFactor": [
+            0.3005437944049895,
+            0.16513219449147767,
+            0.06847816983662762,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-gem",
+          "extras": {
+            "equipmentRole": "gem"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.4019777798219466,
+            0.5647115056965487,
+            0.623960391667596,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "corealm_wand_2",
+      "file": "models/corealm/equipment/corealm_wand_2.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "18ae6aa6f78cd0ffdeec9968a6319c2873f68a54b185ab3129cc5cb3cf4f6e6b",
+      "original": "originals/corealm_wand_2.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-wood-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "bytes": 16729,
+          "file": "originals/textures/e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca.png"
+        },
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-wood",
+          "extras": {
+            "equipmentRole": "wood"
+          },
+          "sourceTexture": "corealm-wood-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "baseColorFactor": [
+            0.11697066774917994,
+            0.059511238155621766,
+            0.028426039499072558,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.21223075740342198,
+            0.23455058215026167,
+            0.2501582847191642,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-gem",
+          "extras": {
+            "equipmentRole": "gem"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.16826940017946088,
+            0.29613827078752575,
+            0.11193242782769693,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "corealm_wand_3",
+      "file": "models/corealm/equipment/corealm_wand_3.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "b5488ee7db667fe8cada0d9e43ac63d70d21dd77223ca985967fe82803644748",
+      "original": "originals/corealm_wand_3.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-wood-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "bytes": 16729,
+          "file": "originals/textures/e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca.png"
+        },
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-wood",
+          "extras": {
+            "equipmentRole": "wood"
+          },
+          "sourceTexture": "corealm-wood-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "baseColorFactor": [
+            0.158960835050774,
+            0.12213877222015301,
+            0.08021982030622662,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.5028864580233624,
+            0.5583403896257968,
+            0.6038273388475408,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-gem",
+          "extras": {
+            "equipmentRole": "gem"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.1844749944900301,
+            0.028426039499072558,
+            0.054480276435339814,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "corealm_wand_4",
+      "file": "models/corealm/equipment/corealm_wand_4.glb",
+      "pack": "corealm-original-equipment",
+      "sha256": "f044b581d28d54210da1eec0ff0da7fc046c9f76bacf947e981091255bb3b91b",
+      "original": "originals/corealm_wand_4.glb",
+      "originalTextures": [
+        {
+          "name": "corealm-wood-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "bytes": 16729,
+          "file": "originals/textures/e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca.png"
+        },
+        {
+          "name": "corealm-leather-grain",
+          "uri": "",
+          "mimeType": "image/png",
+          "sha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "bytes": 11522,
+          "file": "originals/textures/155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "corealm-weapon-wood",
+          "extras": {
+            "equipmentRole": "wood"
+          },
+          "sourceTexture": "corealm-wood-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "e22df21694e73bd8fea3a79e097c5aae6ab4ec0146beb829a213064c78091dca",
+          "baseColorFactor": [
+            0.06662593863608139,
+            0.038204371589236,
+            0.02732089163382382,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-leather",
+          "extras": {
+            "equipmentRole": "leather"
+          },
+          "sourceTexture": "corealm-leather-grain",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "155216d512a2589b2980cf83ff056a55d561c15445f5b0a1bef9cb9af1773b67",
+          "baseColorFactor": [
+            0.06480326668529614,
+            0.033104766565152086,
+            0.02028856305209031,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-metal",
+          "extras": {
+            "equipmentRole": "metal"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.46778379610254284,
+            0.33245153633549385,
+            0.24228112245478564,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        },
+        {
+          "material": "corealm-weapon-gem",
+          "extras": {
+            "equipmentRole": "gem"
+          },
+          "sourceTexture": null,
+          "sourceTextureURI": null,
+          "sourceTextureSha256": null,
+          "baseColorFactor": [
+            0.46207699964472876,
+            0.10946171076915331,
+            0.035601314869097636,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "miniboss_staff",
+      "file": "models/miniboss/miniboss_staff.glb",
+      "pack": "blink-free-stylized-weapons",
+      "sha256": "e44dbeaa15a1192a200df6c51a0965016f36884fd997525cee4fd20db89984c7",
+      "original": "originals/miniboss_staff.glb",
+      "originalTextures": [
+        {
+          "name": "",
+          "uri": "",
+          "mimeType": "image/jpeg",
+          "sha256": "a98c78bc180bdabe4d15c76d7a186c32e7c6ebe793196ad3b5f5ad4110cd25e5",
+          "bytes": 46848,
+          "file": "originals/textures/a98c78bc180bdabe4d15c76d7a186c32e7c6ebe793196ad3b5f5ad4110cd25e5.jpg"
+        },
+        {
+          "name": "",
+          "uri": "",
+          "mimeType": "image/jpeg",
+          "sha256": "4395ccb22490f960849a648f81be731aafc5a6df265e03fc23eb6d0bd69708cf",
+          "bytes": 16249,
+          "file": "originals/textures/4395ccb22490f960849a648f81be731aafc5a6df265e03fc23eb6d0bd69708cf.jpg"
+        },
+        {
+          "name": "",
+          "uri": "",
+          "mimeType": "image/jpeg",
+          "sha256": "b575a5f218f2d0cab10cbb3afb7b293c5dbe3e7bebd0a1da7d9dabd34a346bb7",
+          "bytes": 74119,
+          "file": "originals/textures/b575a5f218f2d0cab10cbb3afb7b293c5dbe3e7bebd0a1da7d9dabd34a346bb7.jpg"
+        }
+      ],
+      "materials": [
+        {
+          "material": "miniboss_staff_material",
+          "extras": {},
+          "sourceTexture": "",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "a98c78bc180bdabe4d15c76d7a186c32e7c6ebe793196ad3b5f5ad4110cd25e5",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "miniboss_sword",
+      "file": "models/miniboss/miniboss_sword.glb",
+      "pack": "blink-free-low-poly-swords",
+      "sha256": "a28de7a93a3fe1ad7a4cb383d3fda1c796c8966ad8f8e30d48a237f27a899993",
+      "original": "originals/miniboss_sword.glb",
+      "originalTextures": [
+        {
+          "name": "",
+          "uri": "",
+          "mimeType": "image/jpeg",
+          "sha256": "d6200b8babf0d0ffd5a4d39c027ad5ef157d9384ec3b0f593b6ddb76a3a2b8e7",
+          "bytes": 48040,
+          "file": "originals/textures/d6200b8babf0d0ffd5a4d39c027ad5ef157d9384ec3b0f593b6ddb76a3a2b8e7.jpg"
+        },
+        {
+          "name": "",
+          "uri": "",
+          "mimeType": "image/jpeg",
+          "sha256": "1c9fb0b143e9a9f40ab729ea7cb99e0936c4edd46741f5bba64dc73e8acfcbc7",
+          "bytes": 2872,
+          "file": "originals/textures/1c9fb0b143e9a9f40ab729ea7cb99e0936c4edd46741f5bba64dc73e8acfcbc7.jpg"
+        },
+        {
+          "name": "",
+          "uri": "",
+          "mimeType": "image/jpeg",
+          "sha256": "0e960221719a998f1e842a76d06cfe3d3d16ba9e6859d06e8d3d40998fa0bd56",
+          "bytes": 31876,
+          "file": "originals/textures/0e960221719a998f1e842a76d06cfe3d3d16ba9e6859d06e8d3d40998fa0bd56.jpg"
+        }
+      ],
+      "materials": [
+        {
+          "material": "miniboss_sword_material",
+          "extras": {},
+          "sourceTexture": "",
+          "sourceTextureURI": "",
+          "sourceTextureSha256": "d6200b8babf0d0ffd5a4d39c027ad5ef157d9384ec3b0f593b6ddb76a3a2b8e7",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "outfit_female_knight_boots",
+      "file": "models/outfit/outfit_female_knight_boots.glb",
+      "pack": "modular-character-outfits-fantasy-source",
+      "sha256": "40380d6ae6e016bc49f26d681a13bf0eb32ee6db16e925f8e566d46e407b54b2",
+      "original": "originals/outfit_female_knight_boots.glb",
+      "originalTextures": [
+        {
+          "name": "T_Knight_Normal",
+          "uri": "../../textures/imported/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png",
+          "mimeType": "image/png",
+          "sha256": "90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521",
+          "bytes": 1085867,
+          "file": "originals/textures/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png"
+        },
+        {
+          "name": "T_Knight_BaseColor",
+          "uri": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "bytes": 330304,
+          "file": "originals/textures/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg"
+        },
+        {
+          "name": "T_Knight_ORM",
+          "uri": "../../textures/imported/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png",
+          "mimeType": "image/png",
+          "sha256": "fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe",
+          "bytes": 1205432,
+          "file": "originals/textures/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "MI_Knight",
+          "extras": {},
+          "sourceTexture": "T_Knight_BaseColor",
+          "sourceTextureURI": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "sourceTextureSha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "outfit_female_knight_chest",
+      "file": "models/outfit/outfit_female_knight_chest.glb",
+      "pack": "modular-character-outfits-fantasy-source",
+      "sha256": "5772b8cfefe947dd9e88896aa4e65571b87349d9923f2a9745f286d5f9576878",
+      "original": "originals/outfit_female_knight_chest.glb",
+      "originalTextures": [
+        {
+          "name": "T_Knight_Normal",
+          "uri": "../../textures/imported/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png",
+          "mimeType": "image/png",
+          "sha256": "90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521",
+          "bytes": 1085867,
+          "file": "originals/textures/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png"
+        },
+        {
+          "name": "T_Knight_BaseColor",
+          "uri": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "bytes": 330304,
+          "file": "originals/textures/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg"
+        },
+        {
+          "name": "T_Knight_ORM",
+          "uri": "../../textures/imported/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png",
+          "mimeType": "image/png",
+          "sha256": "fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe",
+          "bytes": 1205432,
+          "file": "originals/textures/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "MI_Knight",
+          "extras": {},
+          "sourceTexture": "T_Knight_BaseColor",
+          "sourceTextureURI": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "sourceTextureSha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "outfit_female_knight_gloves",
+      "file": "models/outfit/outfit_female_knight_gloves.glb",
+      "pack": "modular-character-outfits-fantasy-source",
+      "sha256": "3dc0e7dfd3f8ea499bf2ca52a925c26b3247dd7a6aeb68f5d62ba73bcbeff2f0",
+      "original": "originals/outfit_female_knight_gloves.glb",
+      "originalTextures": [
+        {
+          "name": "T_Knight_Normal",
+          "uri": "../../textures/imported/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png",
+          "mimeType": "image/png",
+          "sha256": "90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521",
+          "bytes": 1085867,
+          "file": "originals/textures/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png"
+        },
+        {
+          "name": "T_Knight_BaseColor",
+          "uri": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "bytes": 330304,
+          "file": "originals/textures/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg"
+        },
+        {
+          "name": "T_Knight_ORM",
+          "uri": "../../textures/imported/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png",
+          "mimeType": "image/png",
+          "sha256": "fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe",
+          "bytes": 1205432,
+          "file": "originals/textures/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "MI_Knight",
+          "extras": {},
+          "sourceTexture": "T_Knight_BaseColor",
+          "sourceTextureURI": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "sourceTextureSha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 2,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ],
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "outfit_female_knight_helmet",
+      "file": "models/outfit/outfit_female_knight_helmet.glb",
+      "pack": "modular-character-outfits-fantasy-source",
+      "sha256": "ad43d17f04e74396015e6303c77b2a634cb892f90081920a13b6f47ced7541c9",
+      "original": "originals/outfit_female_knight_helmet.glb",
+      "originalTextures": [
+        {
+          "name": "T_Knight_Normal",
+          "uri": "../../textures/imported/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png",
+          "mimeType": "image/png",
+          "sha256": "90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521",
+          "bytes": 1085867,
+          "file": "originals/textures/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png"
+        },
+        {
+          "name": "T_Knight_BaseColor",
+          "uri": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "bytes": 330304,
+          "file": "originals/textures/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg"
+        },
+        {
+          "name": "T_Knight_ORM",
+          "uri": "../../textures/imported/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png",
+          "mimeType": "image/png",
+          "sha256": "fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe",
+          "bytes": 1205432,
+          "file": "originals/textures/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "MI_Knight",
+          "extras": {},
+          "sourceTexture": "T_Knight_BaseColor",
+          "sourceTextureURI": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "sourceTextureSha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "outfit_female_knight_legs",
+      "file": "models/outfit/outfit_female_knight_legs.glb",
+      "pack": "modular-character-outfits-fantasy-source",
+      "sha256": "1db61e010e4934f7300c92542135172c35db5a94750afae9d145e8a583710cd7",
+      "original": "originals/outfit_female_knight_legs.glb",
+      "originalTextures": [
+        {
+          "name": "T_Knight_Normal",
+          "uri": "../../textures/imported/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png",
+          "mimeType": "image/png",
+          "sha256": "90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521",
+          "bytes": 1085867,
+          "file": "originals/textures/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png"
+        },
+        {
+          "name": "T_Knight_BaseColor",
+          "uri": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "bytes": 330304,
+          "file": "originals/textures/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg"
+        },
+        {
+          "name": "T_Knight_ORM",
+          "uri": "../../textures/imported/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png",
+          "mimeType": "image/png",
+          "sha256": "fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe",
+          "bytes": 1205432,
+          "file": "originals/textures/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "MI_Knight",
+          "extras": {},
+          "sourceTexture": "T_Knight_BaseColor",
+          "sourceTextureURI": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "sourceTextureSha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "outfit_female_knight_pauldron",
+      "file": "models/outfit/outfit_female_knight_pauldron.glb",
+      "pack": "modular-character-outfits-fantasy-source",
+      "sha256": "a22593211d3b1c05c9aca12e17e3b91b43963550e8db1e087f0c936a0dfdae9f",
+      "original": "originals/outfit_female_knight_pauldron.glb",
+      "originalTextures": [
+        {
+          "name": "T_Knight_Normal",
+          "uri": "../../textures/imported/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png",
+          "mimeType": "image/png",
+          "sha256": "90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521",
+          "bytes": 1085867,
+          "file": "originals/textures/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png"
+        },
+        {
+          "name": "T_Knight_BaseColor",
+          "uri": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "bytes": 330304,
+          "file": "originals/textures/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg"
+        },
+        {
+          "name": "T_Knight_ORM",
+          "uri": "../../textures/imported/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png",
+          "mimeType": "image/png",
+          "sha256": "fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe",
+          "bytes": 1205432,
+          "file": "originals/textures/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "MI_Knight",
+          "extras": {},
+          "sourceTexture": "T_Knight_BaseColor",
+          "sourceTextureURI": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "sourceTextureSha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "outfit_male_knight_boots",
+      "file": "models/outfit/outfit_male_knight_boots.glb",
+      "pack": "modular-character-outfits-fantasy-source",
+      "sha256": "c72ebde664b9b7b52c05645083aeff557f02865219f93b527cc3bf2fb76a245c",
+      "original": "originals/outfit_male_knight_boots.glb",
+      "originalTextures": [
+        {
+          "name": "T_Knight_Normal",
+          "uri": "../../textures/imported/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png",
+          "mimeType": "image/png",
+          "sha256": "90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521",
+          "bytes": 1085867,
+          "file": "originals/textures/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png"
+        },
+        {
+          "name": "T_Knight_BaseColor",
+          "uri": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "bytes": 330304,
+          "file": "originals/textures/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg"
+        },
+        {
+          "name": "T_Knight_ORM",
+          "uri": "../../textures/imported/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png",
+          "mimeType": "image/png",
+          "sha256": "fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe",
+          "bytes": 1205432,
+          "file": "originals/textures/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "MI_Knight",
+          "extras": {},
+          "sourceTexture": "T_Knight_BaseColor",
+          "sourceTextureURI": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "sourceTextureSha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "outfit_male_knight_chest",
+      "file": "models/outfit/outfit_male_knight_chest.glb",
+      "pack": "modular-character-outfits-fantasy-source",
+      "sha256": "9da7187fb41bb4033aa2a9c95b9804f6cd43c626d0fa0ce3a960a9cc69e7bcc0",
+      "original": "originals/outfit_male_knight_chest.glb",
+      "originalTextures": [
+        {
+          "name": "T_Knight_Normal",
+          "uri": "../../textures/imported/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png",
+          "mimeType": "image/png",
+          "sha256": "90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521",
+          "bytes": 1085867,
+          "file": "originals/textures/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png"
+        },
+        {
+          "name": "T_Knight_BaseColor",
+          "uri": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "bytes": 330304,
+          "file": "originals/textures/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg"
+        },
+        {
+          "name": "T_Knight_ORM",
+          "uri": "../../textures/imported/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png",
+          "mimeType": "image/png",
+          "sha256": "fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe",
+          "bytes": 1205432,
+          "file": "originals/textures/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "MI_Knight",
+          "extras": {},
+          "sourceTexture": "T_Knight_BaseColor",
+          "sourceTextureURI": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "sourceTextureSha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "outfit_male_knight_gloves",
+      "file": "models/outfit/outfit_male_knight_gloves.glb",
+      "pack": "modular-character-outfits-fantasy-source",
+      "sha256": "8834f57374c9972c28f00bf23a7f886c1c28106f1cd40a83c524ca0ab914e23a",
+      "original": "originals/outfit_male_knight_gloves.glb",
+      "originalTextures": [
+        {
+          "name": "T_Knight_Normal",
+          "uri": "../../textures/imported/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png",
+          "mimeType": "image/png",
+          "sha256": "90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521",
+          "bytes": 1085867,
+          "file": "originals/textures/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png"
+        },
+        {
+          "name": "T_Knight_BaseColor",
+          "uri": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "bytes": 330304,
+          "file": "originals/textures/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg"
+        },
+        {
+          "name": "T_Knight_ORM",
+          "uri": "../../textures/imported/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png",
+          "mimeType": "image/png",
+          "sha256": "fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe",
+          "bytes": 1205432,
+          "file": "originals/textures/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "MI_Knight",
+          "extras": {},
+          "sourceTexture": "T_Knight_BaseColor",
+          "sourceTextureURI": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "sourceTextureSha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "outfit_male_knight_helmet",
+      "file": "models/outfit/outfit_male_knight_helmet.glb",
+      "pack": "modular-character-outfits-fantasy-source",
+      "sha256": "fdcdaaeeb44bcec5379a4a031017e7463ced1fa21df53a06a7d67edecc38f47c",
+      "original": "originals/outfit_male_knight_helmet.glb",
+      "originalTextures": [
+        {
+          "name": "T_Knight_Normal",
+          "uri": "../../textures/imported/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png",
+          "mimeType": "image/png",
+          "sha256": "90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521",
+          "bytes": 1085867,
+          "file": "originals/textures/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png"
+        },
+        {
+          "name": "T_Knight_BaseColor",
+          "uri": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "bytes": 330304,
+          "file": "originals/textures/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg"
+        },
+        {
+          "name": "T_Knight_ORM",
+          "uri": "../../textures/imported/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png",
+          "mimeType": "image/png",
+          "sha256": "fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe",
+          "bytes": 1205432,
+          "file": "originals/textures/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "MI_Knight",
+          "extras": {},
+          "sourceTexture": "T_Knight_BaseColor",
+          "sourceTextureURI": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "sourceTextureSha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "outfit_male_knight_legs",
+      "file": "models/outfit/outfit_male_knight_legs.glb",
+      "pack": "modular-character-outfits-fantasy-source",
+      "sha256": "1b6a81600aea0038e93b40cc0010dce5efa8e6628a5e8d1b361473ff9cbdf13c",
+      "original": "originals/outfit_male_knight_legs.glb",
+      "originalTextures": [
+        {
+          "name": "T_Knight_Normal",
+          "uri": "../../textures/imported/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png",
+          "mimeType": "image/png",
+          "sha256": "90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521",
+          "bytes": 1085867,
+          "file": "originals/textures/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png"
+        },
+        {
+          "name": "T_Knight_BaseColor",
+          "uri": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "bytes": 330304,
+          "file": "originals/textures/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg"
+        },
+        {
+          "name": "T_Knight_ORM",
+          "uri": "../../textures/imported/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png",
+          "mimeType": "image/png",
+          "sha256": "fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe",
+          "bytes": 1205432,
+          "file": "originals/textures/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "MI_Knight",
+          "extras": {},
+          "sourceTexture": "T_Knight_BaseColor",
+          "sourceTextureURI": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "sourceTextureSha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    },
+    {
+      "id": "outfit_male_knight_pauldron",
+      "file": "models/outfit/outfit_male_knight_pauldron.glb",
+      "pack": "modular-character-outfits-fantasy-source",
+      "sha256": "2a92d898c28ca6f16022bd4801d087278d88830fd6539fd086a8d493ae7c73ac",
+      "original": "originals/outfit_male_knight_pauldron.glb",
+      "originalTextures": [
+        {
+          "name": "T_Knight_Normal",
+          "uri": "../../textures/imported/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png",
+          "mimeType": "image/png",
+          "sha256": "90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521",
+          "bytes": 1085867,
+          "file": "originals/textures/90f7834cde7c80bd3df7ba7534f96a710293d4bebecbad1f8013bb995b30c521.png"
+        },
+        {
+          "name": "T_Knight_BaseColor",
+          "uri": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "mimeType": "image/jpeg",
+          "sha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "bytes": 330304,
+          "file": "originals/textures/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg"
+        },
+        {
+          "name": "T_Knight_ORM",
+          "uri": "../../textures/imported/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png",
+          "mimeType": "image/png",
+          "sha256": "fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe",
+          "bytes": 1205432,
+          "file": "originals/textures/fcb99014251621f21f5d8c0872abca458df86ea729424da2ba7b7c45121b51fe.png"
+        }
+      ],
+      "materials": [
+        {
+          "material": "MI_Knight",
+          "extras": {},
+          "sourceTexture": "T_Knight_BaseColor",
+          "sourceTextureURI": "../../textures/imported/10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2.jpg",
+          "sourceTextureSha256": "10d1d0c0b49d2037d3182a916dff4bde41bec81f1b9fe5effc18203681777fc2",
+          "baseColorFactor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "primitives": 1,
+          "uvSets": [
+            [
+              "TEXCOORD_0"
+            ]
+          ],
+          "missingUV": false
+        }
+      ]
+    }
+  ]
+}

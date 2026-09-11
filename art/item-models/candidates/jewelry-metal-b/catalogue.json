@@ -1,0 +1,279 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_emberite_ring",
+      "file": "models/items/emberite_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_ring"
+      ],
+      "bytes": 811280,
+      "itemModel": {
+        "itemId": "emberite_ring"
+      },
+      "size": {
+        "x": 0.023399999365210533,
+        "y": 0.026399999626725915,
+        "z": 0.012740000151097775
+      },
+      "base": {
+        "x": -0.011699999682605267,
+        "y": -0.011699999682605267,
+        "z": -0.006370000075548887
+      },
+      "animations": [],
+      "materials": [
+        "Engraved antique silver",
+        "Polished translucent fire amber emberite",
+        "Suspended gold orange ember mineral feathers"
+      ],
+      "itemId": "emberite_ring",
+      "status": "pending",
+      "sha256": "475b9ab81bf90495150c5ee458e32153cc22769cf5aa0e74e7ff25bd8bc1653d",
+      "sourceSha256": "93a0dbe6212b523aa9efc50fb6cb0d2a7cd77b86b5b9a3477c5f0fb05a8b6112",
+      "referenceSha256": "b28649d6ee5fa9f9e1ab3b7ce25290a2f89b9ac2553d192d4a79bbd12b2a15b3",
+      "metadata": {
+        "itemId": "emberite_ring",
+        "author": "jewelry-metal-b",
+        "reference": "art/item-icons/generated/emberite_ring.png",
+        "description": "Silver split scroll shoulders, swept flame claws and translucent oval orange fire amber cabochon; circular 20 mm comfort bore."
+      },
+      "triangles": 21236,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_emberite_pendant",
+      "file": "models/items/emberite_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_pendant"
+      ],
+      "bytes": 710452,
+      "itemModel": {
+        "itemId": "emberite_pendant"
+      },
+      "size": {
+        "x": 0.01984516903758049,
+        "y": 0.040259658358991146,
+        "z": 0.009200000204145908
+      },
+      "base": {
+        "x": -0.009922686032950878,
+        "y": -0.014879821799695492,
+        "z": -0.004600000102072954
+      },
+      "animations": [],
+      "materials": [
+        "Polished translucent fire amber emberite",
+        "Suspended gold orange ember mineral feathers",
+        "Antique bright silver"
+      ],
+      "itemId": "emberite_pendant",
+      "status": "pending",
+      "sha256": "fc61df9b55e8a8a371e34a75be930d1aef5056cde26d3709f1e2738e6585a01a",
+      "sourceSha256": "93a0dbe6212b523aa9efc50fb6cb0d2a7cd77b86b5b9a3477c5f0fb05a8b6112",
+      "referenceSha256": "a05af0858878fbb8c0314859d4816b909efc41eed20c6ec079b5536748c2bebd",
+      "metadata": {
+        "itemId": "emberite_pendant",
+        "author": "jewelry-metal-b",
+        "reference": "art/item-icons/generated/emberite_pendant.png",
+        "description": "Pear fire amber cabochon in continuous silver bezel with five sculpted flame claws, articulated jump ring and open bail."
+      },
+      "triangles": 17524,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_cindersteel_ring",
+      "file": "models/items/cindersteel_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_ring"
+      ],
+      "bytes": 1038980,
+      "itemModel": {
+        "itemId": "cindersteel_ring"
+      },
+      "size": {
+        "x": 0.023852504789829254,
+        "y": 0.024679827503859997,
+        "z": 0.007000000216066837
+      },
+      "base": {
+        "x": -0.01194053329527378,
+        "y": -0.011956882663071156,
+        "z": -0.0035000001080334187
+      },
+      "animations": [],
+      "materials": [
+        "Hammered charcoal cindersteel",
+        "Recessed hot copper seams"
+      ],
+      "itemId": "cindersteel_ring",
+      "status": "pending",
+      "sha256": "5d0c22f1d1cd45267dcdd6f06bb9ca4afe1862895460659b2fea0423700c18e9",
+      "sourceSha256": "93a0dbe6212b523aa9efc50fb6cb0d2a7cd77b86b5b9a3477c5f0fb05a8b6112",
+      "referenceSha256": "48c79d1b4d86ce6d409de9c949193e9c333c63a1b158e3bb814288edadcba616",
+      "metadata": {
+        "itemId": "cindersteel_ring",
+        "author": "jewelry-metal-b",
+        "reference": "art/item-icons/generated/cindersteel_ring.png",
+        "description": "Broad charcoal hammered band with two wandering recessed copper seams and smooth 20 mm comfort bore."
+      },
+      "triangles": 29184,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_cindersteel_pendant",
+      "file": "models/items/cindersteel_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_pendant"
+      ],
+      "bytes": 1587628,
+      "itemModel": {
+        "itemId": "cindersteel_pendant"
+      },
+      "size": {
+        "x": 0.027470000088214874,
+        "y": 0.04337983578443527,
+        "z": 0.009076089106500148
+      },
+      "base": {
+        "x": -0.013000000268220901,
+        "y": -0.017999999225139618,
+        "z": -0.003926089033484459
+      },
+      "animations": [],
+      "materials": [
+        "Forged dark cindersteel shield",
+        "Hammered copper channel inlay"
+      ],
+      "itemId": "cindersteel_pendant",
+      "status": "pending",
+      "sha256": "888f04397671cb50c15750a914e6a5efa38eeaeb500ffe6622582a302dbdefe2",
+      "sourceSha256": "93a0dbe6212b523aa9efc50fb6cb0d2a7cd77b86b5b9a3477c5f0fb05a8b6112",
+      "referenceSha256": "4b589065e0b88219536d9fe17f4f169b53903656a050125f762e33d2c3a77f58",
+      "metadata": {
+        "itemId": "cindersteel_pendant",
+        "author": "jewelry-metal-b",
+        "reference": "art/item-icons/generated/cindersteel_pendant.png",
+        "description": "Thick pointed shield with separately raised ridged steel plates, exposed branching copper channels and copper striped bail with articulated chain."
+      },
+      "triangles": 44412,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_nightglass_ring",
+      "file": "models/items/nightglass_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_ring"
+      ],
+      "bytes": 528788,
+      "itemModel": {
+        "itemId": "nightglass_ring"
+      },
+      "size": {
+        "x": 0.02383999999333173,
+        "y": 0.026570000022184105,
+        "z": 0.008799999952316284
+      },
+      "base": {
+        "x": -0.011919999996665865,
+        "y": -0.011919999996665865,
+        "z": -0.004399999976158142
+      },
+      "animations": [],
+      "materials": [
+        "Blue black polished nightglass alloy",
+        "Nightglass polished bevel edges"
+      ],
+      "itemId": "nightglass_ring",
+      "status": "pending",
+      "sha256": "523772deb01f0aa061eddea159d28308cc29a5fef881a4da93134353f7570780",
+      "sourceSha256": "93a0dbe6212b523aa9efc50fb6cb0d2a7cd77b86b5b9a3477c5f0fb05a8b6112",
+      "referenceSha256": "87c8e48008133da71997555e4ecf894f29194d49274b4987a828b60e31a94e4d",
+      "metadata": {
+        "itemId": "nightglass_ring",
+        "author": "jewelry-metal-b",
+        "reference": "art/item-icons/generated/nightglass_ring.png",
+        "description": "Blue black angular overlapping facets around a comfort bore with elevated beveled lozenge signet."
+      },
+      "triangles": 9624,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_nightglass_pendant",
+      "file": "models/items/nightglass_pendant.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_pendant"
+      ],
+      "bytes": 1544904,
+      "itemModel": {
+        "itemId": "nightglass_pendant"
+      },
+      "size": {
+        "x": 0.027470000088214874,
+        "y": 0.04337983578443527,
+        "z": 0.008576089087501168
+      },
+      "base": {
+        "x": -0.013000000268220901,
+        "y": -0.017999999225139618,
+        "z": -0.003926089033484459
+      },
+      "animations": [],
+      "materials": [
+        "Blue black polished nightglass alloy",
+        "Cold blue polished shield bevel"
+      ],
+      "itemId": "nightglass_pendant",
+      "status": "pending",
+      "sha256": "18032ba39ed55f0b724ecc66a33fd213c3f3ea2461545c25fde58f7f313ff38b",
+      "sourceSha256": "93a0dbe6212b523aa9efc50fb6cb0d2a7cd77b86b5b9a3477c5f0fb05a8b6112",
+      "referenceSha256": "f1bf2f2d61bfb2ced1a2757ae47509c724c5c6da46ccb6276a1dc0368f6897ca",
+      "metadata": {
+        "itemId": "nightglass_pendant",
+        "author": "jewelry-metal-b",
+        "reference": "art/item-icons/generated/nightglass_pendant.png",
+        "description": "Solid blue black ridged shield with broad polished angular bevel, tapered open bail and articulated dark chain."
+      },
+      "triangles": 42420,
+      "drawCalls": 2
+    }
+  ]
+}

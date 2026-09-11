@@ -29,6 +29,20 @@ export type AssetCategory =
   | "dungeon" | "character" | "outfit" | "weapon" | "animation" | "water";
 
 export interface AssetEntry {
+  /** Authored item geometry, activated only when its GLB is present in this registry. */
+  itemModel?: {
+    bodyCoverage?: readonly { readonly region: "torso" | "legs"; readonly minY: number; readonly maxY: number }[];
+    itemId: string;
+    wearable?: boolean;
+    grip?: readonly [number, number, number];
+    focus?: readonly [number, number, number];
+    fishing?: {
+      lineGuide: readonly [number, number, number];
+      crankAnchor: readonly [number, number, number];
+      line: number;
+      bobber: number;
+    };
+  };
   /** Grounded bole radius measured by the tree generator at walking height. */
   trunkRadius?: number;
   id: string;

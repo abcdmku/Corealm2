@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/build.ts",
+    "generatorSha256": "ad4817471ed4f1456cbfee2d216850f37f44a1a66d1ac479be30d4784569d1af"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_grithe_cuirass",
+      "file": "models/items/grithe_cuirass.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_cuirass",
+        "torso"
+      ],
+      "bytes": 3618968,
+      "itemModel": {
+        "itemId": "grithe_cuirass",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.971,
+            "maxY": 1.284
+          }
+        ]
+      },
+      "size": {
+        "x": 0.3888208121061325,
+        "y": 0.5551059246063232,
+        "z": 0.34821767853382135
+      },
+      "base": {
+        "x": -0.19441135227680206,
+        "y": 0.9635000228881836,
+        "z": -0.17355102048995993
+      },
+      "animations": [],
+      "materials": [
+        "dark-brown-leather-straps-and-gussets",
+        "forged-hammered-copper",
+        "dark-copper-interior",
+        "polished-copper-rolled-edges",
+        "aged-brass-rivets-and-eyelets",
+        "tan-rawhide-lacing"
+      ],
+      "itemId": "grithe_cuirass",
+      "status": "pending",
+      "sha256": "072a00a85b54666a1f32c985168f570c7e10604a46571cc1bc74d54c71c9ac5d",
+      "sourceSha256": "ec0285a3e3d2b43c80417d270af4e8f726ba3467df153155e561842c86486beb",
+      "referenceSha256": "6ebe0b36596ec4f690b79ae91aea963fc5defed8e1ccdd45f902aea7ca586924",
+      "metadata": {
+        "itemId": "grithe_cuirass",
+        "author": "pilot-armor",
+        "reference": "art/item-icons/generated/grithe_cuirass.png",
+        "description": "Hollow hammered copper anatomical cuirass, rolled copper rims, riveted leather shoulder mounts, brass eyelets and crossed rawhide side laces.",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.971,
+            "maxY": 1.284
+          }
+        ]
+      },
+      "triangles": 74696,
+      "drawCalls": 8
+    }
+  ]
+}

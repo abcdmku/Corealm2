@@ -650,3 +650,27 @@ html.corealm-map-open body { overflow: hidden; }
   .corealm-item-detail { grid-template-columns: 1fr; }
   .corealm-item-detail > img { width: min(100%, 14rem); }
 }
+.corealm-armour-views {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-block: 1.5rem 3rem;
+}
+.corealm-armour-views figure { margin: 0; min-width: 0; }
+.corealm-armour-views a {
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid var(--sl-color-gray-4);
+  border-radius: 0.4rem;
+}
+.corealm-armour-views img {
+  width: 100%; height: 100%; max-width: none;
+  object-fit: cover; object-position: 50% 56%;
+  transform: scale(2);
+}
+.corealm-armour-views figcaption { text-align: center; margin-top: 0.4rem; }
+@media (max-width: 40rem) {
+  .corealm-armour-views { grid-template-columns: 1fr; }
+  .corealm-armour-views a { aspect-ratio: 1; }
+}

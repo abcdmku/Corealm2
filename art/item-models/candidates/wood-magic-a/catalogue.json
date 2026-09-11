@@ -1,0 +1,402 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_basic_wooden_wand",
+      "file": "models/items/basic_wooden_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "basic_wooden_wand"
+      ],
+      "bytes": 616260,
+      "itemModel": {
+        "itemId": "basic_wooden_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.38,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.045432671904563904,
+        "y": 0.5038753426074982,
+        "z": 0.03999871760606766
+      },
+      "base": {
+        "x": -0.022590497508645058,
+        "y": -0.10332000017166137,
+        "z": -0.019221730530261993
+      },
+      "animations": [],
+      "materials": [
+        "Worn warm brown wood",
+        "Raised polished carved wood edges"
+      ],
+      "itemId": "basic_wooden_wand",
+      "status": "pending",
+      "sha256": "597c2c7aaeb9b9fdb7c24e5cc693bed8b4e845d00026c36fd041692a8fbbe99a",
+      "sourceSha256": "5cbd4ff55965cdc011686e0952d59a5c0d42dc5b9abebfe3b75f126dca41f1b5",
+      "referenceSha256": "c6b7063fbd7c361ac0b54a049bcbc46c3afe2810722e44c9e4b65a33ccfcd4b7",
+      "metadata": {
+        "itemId": "basic_wooden_wand",
+        "author": "wood-magic-a",
+        "reference": "art/item-icons/generated/basic_wooden_wand.png",
+        "description": "Plain brown wood from grip to socket, with no light or elemental charge.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.38,
+          0
+        ]
+      },
+      "triangles": 17536,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_basic_wooden_staff",
+      "file": "models/items/basic_wooden_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "basic_wooden_staff"
+      ],
+      "bytes": 969364,
+      "itemModel": {
+        "itemId": "basic_wooden_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.004,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.11191850528120995,
+        "y": 1.8285553380548953,
+        "z": 0.05999999865889549
+      },
+      "base": {
+        "x": -0.05609387904405594,
+        "y": -0.7679999991953372,
+        "z": -0.029999999329447746
+      },
+      "animations": [],
+      "materials": [
+        "Worn warm brown wood",
+        "Brown leather spiral grip binding",
+        "Burnished raised leather overlap edges",
+        "Raised polished carved wood edges"
+      ],
+      "itemId": "basic_wooden_staff",
+      "status": "pending",
+      "sha256": "63a9010c62e0b414353538a4ca2613f843f6ea81a5b5bb16b7f56305ceb55d98",
+      "sourceSha256": "5cbd4ff55965cdc011686e0952d59a5c0d42dc5b9abebfe3b75f126dca41f1b5",
+      "referenceSha256": "832c78e2227c33c48e308ffef0467a3734b6ee9cd2c66ef99d7bd03f3fb9ac59",
+      "metadata": {
+        "itemId": "basic_wooden_staff",
+        "author": "wood-magic-a",
+        "reference": "art/item-icons/generated/basic_wooden_staff.png",
+        "description": "A plain two-handed staff with an empty brown socket and no glow of its own.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.004,
+          0
+        ]
+      },
+      "triangles": 29536,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_palewood_wand",
+      "file": "models/items/palewood_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_wand"
+      ],
+      "bytes": 679292,
+      "itemModel": {
+        "itemId": "palewood_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.38899999999999996,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.05494861863553524,
+        "y": 0.5188753283023835,
+        "z": 0.03999851085245609
+      },
+      "base": {
+        "x": -0.027478311210870743,
+        "y": -0.10332000017166137,
+        "z": -0.019221626222133636
+      },
+      "animations": [],
+      "materials": [
+        "Honey ivory pine with ochre fibres",
+        "Raised polished carved wood edges"
+      ],
+      "itemId": "palewood_wand",
+      "status": "pending",
+      "sha256": "2deb0ae782ea83cc6fe5978dbd5fb384c1d01b4b799870f66f749093f3bacd96",
+      "sourceSha256": "5cbd4ff55965cdc011686e0952d59a5c0d42dc5b9abebfe3b75f126dca41f1b5",
+      "referenceSha256": "b2193b039f048141aaba9895ecebf22ce49b63b90c508a98097173e0c0eac9fd",
+      "metadata": {
+        "itemId": "palewood_wand",
+        "author": "wood-magic-a",
+        "reference": "art/item-icons/generated/palewood_wand.png",
+        "description": "Pale wood with an empty socket at the tip. It stays unlit until upgraded.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.38899999999999996,
+          0
+        ]
+      },
+      "triangles": 19632,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_palewood_staff",
+      "file": "models/items/palewood_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_staff"
+      ],
+      "bytes": 955400,
+      "itemModel": {
+        "itemId": "palewood_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.004,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.11191850528120995,
+        "y": 1.8057553385198117,
+        "z": 0.058400001376867294
+      },
+      "base": {
+        "x": -0.05609387904405594,
+        "y": -0.7451999996602535,
+        "z": -0.029200000688433647
+      },
+      "animations": [],
+      "materials": [
+        "Honey ivory pine with ochre fibres",
+        "Pale tan spiral grip binding",
+        "Raised polished carved wood edges"
+      ],
+      "itemId": "palewood_staff",
+      "status": "pending",
+      "sha256": "863cae2e6912b13d0b86d1ae9a7da9c34ee17962449bb1f3a6493c63345d58f5",
+      "sourceSha256": "5cbd4ff55965cdc011686e0952d59a5c0d42dc5b9abebfe3b75f126dca41f1b5",
+      "referenceSha256": "b89325312cb67c5a2fc221cb5cdf8400539658f26d4fa93f4d84e8a9c932d881",
+      "metadata": {
+        "itemId": "palewood_staff",
+        "author": "wood-magic-a",
+        "reference": "art/item-icons/generated/palewood_staff.png",
+        "description": "A pale two-handed shaft with an empty socket. The wood itself gives off no light.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.004,
+          0
+        ]
+      },
+      "triangles": 28896,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_duskoak_wand",
+      "file": "models/items/duskoak_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_wand"
+      ],
+      "bytes": 1765636,
+      "itemModel": {
+        "itemId": "duskoak_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.3962,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.059936702251434326,
+        "y": 0.5171144232153893,
+        "z": 0.03999871760606766
+      },
+      "base": {
+        "x": -0.030026135966181755,
+        "y": -0.09000017493963242,
+        "z": -0.019221730530261993
+      },
+      "animations": [],
+      "materials": [
+        "Polished dark ash heartwood",
+        "Raised polished carved wood edges"
+      ],
+      "itemId": "duskoak_wand",
+      "status": "pending",
+      "sha256": "ac2453986acd814806a3df6fc14229e8de2a9167cd89328a2d9dadce1010a917",
+      "sourceSha256": "5cbd4ff55965cdc011686e0952d59a5c0d42dc5b9abebfe3b75f126dca41f1b5",
+      "referenceSha256": "3dd9e530b66b37c4e09800ce897ebeb63c93f018d8f60dd8fc8459d20da33852",
+      "metadata": {
+        "itemId": "duskoak_wand",
+        "author": "wood-magic-a",
+        "reference": "art/item-icons/generated/duskoak_wand.png",
+        "description": "Dark ash with an empty crown. Its polished wood remains unlit on its own.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.3962,
+          0
+        ]
+      },
+      "triangles": 57392,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_duskoak_staff",
+      "file": "models/items/duskoak_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_staff"
+      ],
+      "bytes": 1097348,
+      "itemModel": {
+        "itemId": "duskoak_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.028,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.13301682472229004,
+        "y": 1.8203526139259338,
+        "z": 0.0642105011638254
+      },
+      "base": {
+        "x": -0.06664139777421951,
+        "y": -0.7202383875846863,
+        "z": -0.03340800106525421
+      },
+      "animations": [],
+      "materials": [
+        "Polished dark ash heartwood",
+        "Raised polished carved wood edges",
+        "Dark forged iron collars",
+        "Worn iron rim and rivet heads"
+      ],
+      "itemId": "duskoak_staff",
+      "status": "pending",
+      "sha256": "ea67d3d668eb92d09dcd130b114293c899e16c7090479e5dc8ba329914e5e4d2",
+      "sourceSha256": "5cbd4ff55965cdc011686e0952d59a5c0d42dc5b9abebfe3b75f126dca41f1b5",
+      "referenceSha256": "a20d816d1534da9839e85a6954513f41d65ab782c66f4ee4c7ce04a8b1056637",
+      "metadata": {
+        "itemId": "duskoak_staff",
+        "author": "wood-magic-a",
+        "reference": "art/item-icons/generated/duskoak_staff.png",
+        "description": "Dark ash banded in Iron around an empty, unlit crown.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.028,
+          0
+        ]
+      },
+      "triangles": 32720,
+      "drawCalls": 4
+    }
+  ]
+}

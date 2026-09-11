@@ -96,6 +96,7 @@ export function validateGatheringManifestProvenance(
       && (/^tools\/build-(?:corealm-(?:nature|geology|farm|minerals|equipment)|creature-expansion|ground-ores)\.ts$/.test(pack.source)
         || pack.source === 'tools/wilderness-trees/build.ts'
         || pack.id === 'corealm-original-wilderness-resources' && pack.source === 'tools/wilderness-resources/build.ts'
+        || pack.id === 'corealm-icon-item-models' && pack.source === 'tools/item-models/build.ts'
         || pack.id === 'corealm-original-wilderness-keepers' && pack.source === 'tools/wilderness-creatures/keepers/hollow-star.mjs')
       && hashMatches;
     const derivativeIdentity = pack.id === "corealm-original-ground-ores" && pack.source === "tools/build-ground-ores.ts"

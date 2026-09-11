@@ -1,0 +1,418 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_galeskin_staff",
+      "file": "models/items/galeskin_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "galeskin_staff"
+      ],
+      "bytes": 1462532,
+      "itemModel": {
+        "itemId": "galeskin_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.06,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.2563760355114937,
+        "y": 1.5989960432052612,
+        "z": 0.13510800987482072
+      },
+      "base": {
+        "x": -0.13173139095306396,
+        "y": -0.37257254123687744,
+        "z": -0.07339916378259659
+      },
+      "animations": [],
+      "materials": [
+        "Wind silvered pine",
+        "Worn wrapped grip",
+        "Leather strap burnished edges",
+        "Weathered forged iron",
+        "Worn metal edge and rivets"
+      ],
+      "itemId": "galeskin_staff",
+      "status": "pending",
+      "sha256": "56ecb5a4f9332e28100a1c84fdfa9d3198c7ab4476747084dcc88afe84e8dc90",
+      "sourceSha256": "44308a688dc5f348b0fd46af02f783ec0eeeaa53a3e8f6b0b86b2c89e11e2888",
+      "referenceSha256": "225f1cb4e83a69efff1a2da169af61b781b06479bd6befe041fea8257b93e6db",
+      "metadata": {
+        "itemId": "galeskin_staff",
+        "author": "boss-staves",
+        "reference": "art/item-icons/generated/galeskin_staff.png",
+        "description": "Pine scoured silver by wind. The empty socket hums in weather.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.06,
+          0
+        ]
+      },
+      "triangles": 32696,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_mossbound_staff",
+      "file": "models/items/mossbound_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "mossbound_staff"
+      ],
+      "bytes": 1869232,
+      "itemModel": {
+        "itemId": "mossbound_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.06,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.27312183380126953,
+        "y": 1.8509234189987183,
+        "z": 0.23548211980463496
+      },
+      "base": {
+        "x": -0.13795465230941772,
+        "y": -0.5842041969299316,
+        "z": -0.11613534166007804
+      },
+      "animations": [],
+      "materials": [
+        "Weathered living ash",
+        "Worn wrapped grip",
+        "Leather strap burnished edges",
+        "Worn metal edge and rivets",
+        "Dense green moss seam"
+      ],
+      "itemId": "mossbound_staff",
+      "status": "pending",
+      "sha256": "0adf408184abea3afe07e734055d7037eb207b1524a5f54cfaf8165ed357b6e4",
+      "sourceSha256": "44308a688dc5f348b0fd46af02f783ec0eeeaa53a3e8f6b0b86b2c89e11e2888",
+      "referenceSha256": "ecc0a1e929d695c3d0db67acd9e964b7b948188c7692f3fb7d2eb304f5510122",
+      "metadata": {
+        "itemId": "mossbound_staff",
+        "author": "boss-staves",
+        "reference": "art/item-icons/generated/mossbound_staff.png",
+        "description": "Ash with a living green seam. Warm at the grip like a root in summer.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.06,
+          0
+        ]
+      },
+      "triangles": 45462,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_tideworn_staff",
+      "file": "models/items/tideworn_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "tideworn_staff"
+      ],
+      "bytes": 2515500,
+      "itemModel": {
+        "itemId": "tideworn_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.06,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.34980612993240356,
+        "y": 1.8754495978355408,
+        "z": 0.22279731929302216
+      },
+      "base": {
+        "x": -0.17212650179862976,
+        "y": -0.5825724005699158,
+        "z": -0.11743640154600143
+      },
+      "animations": [],
+      "materials": [
+        "Salt bleached oak",
+        "Worn wrapped grip",
+        "Leather strap burnished edges",
+        "Weathered forged iron",
+        "Worn metal edge and rivets",
+        "Granular salt deposits"
+      ],
+      "itemId": "tideworn_staff",
+      "status": "pending",
+      "sha256": "c963745ed41df8a639b2074b178426fa7c60bf17fa0dc96ba67e06c49b3ad771",
+      "sourceSha256": "44308a688dc5f348b0fd46af02f783ec0eeeaa53a3e8f6b0b86b2c89e11e2888",
+      "referenceSha256": "be2f5ef1726eb69a3338a13256282c50ad83055c18fdc3619cd8ad00e9175761",
+      "metadata": {
+        "itemId": "tideworn_staff",
+        "author": "boss-staves",
+        "reference": "art/item-icons/generated/tideworn_staff.png",
+        "description": "Oak bleached and salt-cured. The cage weeps a little in the cold.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.06,
+          0
+        ]
+      },
+      "triangles": 50952,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_cinderwake_staff",
+      "file": "models/items/cinderwake_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderwake_staff"
+      ],
+      "bytes": 1457412,
+      "itemModel": {
+        "itemId": "cinderwake_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.06,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.28453876078128815,
+        "y": 1.951573133468628,
+        "z": 0.23528791218996048
+      },
+      "base": {
+        "x": -0.14204126596450806,
+        "y": -0.6800953149795532,
+        "z": -0.11773142963647842
+      },
+      "animations": [],
+      "materials": [
+        "Charred walnut",
+        "Worn wrapped grip",
+        "Leather strap burnished edges",
+        "Weathered forged iron",
+        "Worn metal edge and rivets",
+        "Recessed hot ember veins"
+      ],
+      "itemId": "cinderwake_staff",
+      "status": "pending",
+      "sha256": "c1bedb9b31b66fb8d3eeb6bcb029e5f535e39a212e9bad46ca85d0866126dd9b",
+      "sourceSha256": "44308a688dc5f348b0fd46af02f783ec0eeeaa53a3e8f6b0b86b2c89e11e2888",
+      "referenceSha256": "1c99d42dc773df46fa5f9bd45fef5598290362a18a75a6afac11668866ef346a",
+      "metadata": {
+        "itemId": "cinderwake_staff",
+        "author": "boss-staves",
+        "reference": "art/item-icons/generated/cinderwake_staff.png",
+        "description": "Walnut the fire chose not to eat. The empty cage sheds a slow drift of sparks.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.06,
+          0
+        ]
+      },
+      "triangles": 33872,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_regent_staff",
+      "file": "models/items/regent_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "regent_staff"
+      ],
+      "bytes": 1682092,
+      "itemModel": {
+        "itemId": "regent_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.02,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.37264661490917206,
+        "y": 1.90020090341568,
+        "z": 0.12541769218444823
+      },
+      "base": {
+        "x": -0.18627941608428955,
+        "y": -0.675000011920929,
+        "z": -0.06270884609222412
+      },
+      "animations": [],
+      "materials": [
+        "Polished red teak",
+        "Worn wrapped grip",
+        "Leather strap burnished edges",
+        "Black furnace iron",
+        "Worn crown gold"
+      ],
+      "itemId": "regent_staff",
+      "status": "pending",
+      "sha256": "af7fdf27a95ddca8a203cc54dd289af45accea4cbe65fc58492e20d895b0448b",
+      "sourceSha256": "44308a688dc5f348b0fd46af02f783ec0eeeaa53a3e8f6b0b86b2c89e11e2888",
+      "referenceSha256": "a678f768b9a20a9699c54939de25b2814d33140e97aae101b21eada4e690191e",
+      "metadata": {
+        "itemId": "regent_staff",
+        "author": "boss-staves",
+        "reference": "art/item-icons/generated/regent_staff.png",
+        "description": "Three pieces of the Furnace Regent's crown brace a Teak Staff. Casts through carried Essence.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.02,
+          0
+        ]
+      },
+      "triangles": 39284,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_hollowstar_staff",
+      "file": "models/items/hollowstar_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "hollowstar_staff"
+      ],
+      "bytes": 1644856,
+      "itemModel": {
+        "itemId": "hollowstar_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0.02,
+          1.085,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.4462224841117859,
+        "y": 2.075454592704773,
+        "z": 0.11868603527545929
+      },
+      "base": {
+        "x": -0.23545204102993011,
+        "y": -0.7156568765640259,
+        "z": -0.07193487882614136
+      },
+      "animations": [],
+      "materials": [
+        "Violet magic wood",
+        "Worn wrapped grip",
+        "Leather strap burnished edges",
+        "Star pitted night metal",
+        "Worn metal edge and rivets",
+        "Recessed violet star veins"
+      ],
+      "itemId": "hollowstar_staff",
+      "status": "pending",
+      "sha256": "0743c5517210ffccc14f10ba3c2f0f7b0b62c70463adb1c8443790bcf13a62f6",
+      "sourceSha256": "44308a688dc5f348b0fd46af02f783ec0eeeaa53a3e8f6b0b86b2c89e11e2888",
+      "referenceSha256": "7165988486b6663391a464b460a9f5e2beb550d85dda718ebceb3764f147f4c9",
+      "metadata": {
+        "itemId": "hollowstar_staff",
+        "author": "boss-staves",
+        "reference": "art/item-icons/generated/hollowstar_staff.png",
+        "description": "Three fragments of the Hollow Star turn above a magic-wood shaft. Casts through carried Essence.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0.02,
+          1.085,
+          0
+        ]
+      },
+      "triangles": 38344,
+      "drawCalls": 6
+    }
+  ]
+}

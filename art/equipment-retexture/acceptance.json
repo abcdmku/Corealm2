@@ -1,0 +1,69 @@
+{
+  "visualAccepted": true,
+  "rootAccepted": true,
+  "scope": "Existing models; texture and material changes only. Seven melee kits and 51 held items.",
+  "labReports": [
+    "test-results/equipment-retexture-final/melee-low/report.json",
+    "test-results/equipment-retexture-final/melee-high/report.json",
+    "test-results/equipment-retexture-materials/weapons-a/report.json",
+    "test-results/equipment-retexture-materials/weapons-c/report.json",
+    "test-results/equipment-retexture-materials/weapons-h/report.json",
+    "test-results/equipment-retexture-materials/weapons-i/report.json",
+    "test-results/equipment-retexture-materials-r2/weapons-d/report.json",
+    "test-results/equipment-retexture-materials-r2/weapons-e/report.json",
+    "test-results/equipment-retexture-materials-r2/weapons-f/report.json",
+    "test-results/equipment-retexture-materials-r2/weapons-g/report.json",
+    "test-results/equipment-retexture-materials-r3/weapons-b/report.json"
+  ],
+  "combatReport": "test-results/equipment-retexture-materials/combat/report.json",
+  "runtimeSources": [
+    {
+      "file": "game/src/render/equipmentVisuals.ts",
+      "sha256": "29b651208ce3aabea81ee22bdf57a8c43876c087ff40d3aabb615c5ccc862b42"
+    },
+    {
+      "file": "game/src/render/equipmentIconMaterials.ts",
+      "sha256": "adcd438697c71764d7be960f143333f67dd793c436c3d8df1e4058eb975dfd4a"
+    },
+    {
+      "file": "game/src/render/equipmentSurfaceTextures.ts",
+      "sha256": "400a3897f0a1d2cf1b19ec4d483e8777a300649bcb0a95fa9913e61cce432e0f"
+    },
+    {
+      "file": "game/src/render/characterRig.ts",
+      "sha256": "b0d14223df8633d4002136f14381b1ae7146d544fff5efac7a125e7035a2a74d"
+    }
+  ],
+  "critics": [
+    {
+      "name": "critic_existing_armor",
+      "model": "gpt-5.6-luna max",
+      "items": 7,
+      "passed": true
+    },
+    {
+      "name": "final_texture_review_a",
+      "model": "gpt-5.6-luna max",
+      "items": 18,
+      "passed": true,
+      "note": "Duskoak shield rechecked after ash-gray correction."
+    },
+    {
+      "name": "final_texture_review_b",
+      "model": "gpt-5.6-luna max",
+      "items": 18,
+      "passed": true
+    },
+    {
+      "name": "final_texture_review_c",
+      "model": "gpt-5.6-luna max",
+      "items": 15,
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "Visual captures prove male production rig. Female geometry and asset mappings verified separately; the lab has no body selector.",
+    "Existing geometry intentionally preserved; icon-only geometric ornament is outside this texture revision.",
+    "Physical deletion of withdrawn armor files was blocked by automatic approval review. Active manifest and registry references were removed."
+  ]
+}

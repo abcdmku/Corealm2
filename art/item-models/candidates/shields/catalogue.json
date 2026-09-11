@@ -1,0 +1,408 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_palewood_shield",
+      "file": "models/items/palewood_shield.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_shield"
+      ],
+      "bytes": 1911616,
+      "itemModel": {
+        "itemId": "palewood_shield",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.5854566693305969,
+        "y": 0.6555483341217041,
+        "z": 0.15633701611135992
+      },
+      "base": {
+        "x": -0.2927296757698059,
+        "y": -0.32777416706085205,
+        "z": -0.03297559171915054
+      },
+      "animations": [],
+      "materials": [
+        "pale-pine",
+        "forged-shield-metal",
+        "worn-polished-edges",
+        "rear-oiled-leather"
+      ],
+      "itemId": "palewood_shield",
+      "status": "pending",
+      "sha256": "17756f2d1e801a2c73d1c85781f6b067843380a65ccf7dfe0e192f2f2f3e0711",
+      "sourceSha256": "d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0",
+      "referenceSha256": "34a05a4b4cdfbd49cc7d95d03aa3cbe62369416af81df8a0c554229d57fd3e57",
+      "metadata": {
+        "itemId": "palewood_shield",
+        "author": "shields",
+        "reference": "art/item-icons/generated/palewood_shield.png",
+        "description": "Planks of pale march wood banded at the rim. It stops a claw once.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 20532,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_duskoak_shield",
+      "file": "models/items/duskoak_shield.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_shield"
+      ],
+      "bytes": 2338308,
+      "itemModel": {
+        "itemId": "duskoak_shield",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.555458128452301,
+        "y": 0.8655266761779785,
+        "z": 0.20780624178051949
+      },
+      "base": {
+        "x": -0.27772974967956543,
+        "y": -0.43276333808898926,
+        "z": -0.032272640615701675
+      },
+      "animations": [],
+      "materials": [
+        "grey-ash",
+        "forged-shield-metal",
+        "worn-polished-edges",
+        "rear-oiled-leather"
+      ],
+      "itemId": "duskoak_shield",
+      "status": "pending",
+      "sha256": "ba08c0e614b3aab80c6f86e0ef557e3372c5275d0b9f62496b175ef31bb1e30b",
+      "sourceSha256": "d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0",
+      "referenceSha256": "fd019c9fb6d786142b53dfaa20e054904b39f4265f94d794ffa35731a4752e03",
+      "metadata": {
+        "itemId": "duskoak_shield",
+        "author": "shields",
+        "reference": "art/item-icons/generated/duskoak_shield.png",
+        "description": "Laminated ash over an Iron boss. Heavy enough to lean on.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 28140,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_cairnpine_shield",
+      "file": "models/items/cairnpine_shield.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_shield"
+      ],
+      "bytes": 2062308,
+      "itemModel": {
+        "itemId": "cairnpine_shield",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.6363195180892944,
+        "y": 0.9049281477928162,
+        "z": 0.17716394686998127
+      },
+      "base": {
+        "x": -0.3181597590446472,
+        "y": -0.45266902446746826,
+        "z": -0.033970918506383896
+      },
+      "animations": [],
+      "materials": [
+        "golden-oak",
+        "forged-shield-metal",
+        "worn-polished-edges",
+        "rivet-bronze",
+        "rear-oiled-leather"
+      ],
+      "itemId": "cairnpine_shield",
+      "status": "pending",
+      "sha256": "3432ed772963cde5def524e0d8adf5dcf30d80e173eecf2236efd886cae04016",
+      "sourceSha256": "d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0",
+      "referenceSha256": "5c8ad4554f417e53363d6d6565f37c1f96a82eb9ae0b655e65d497138171b427",
+      "metadata": {
+        "itemId": "cairnpine_shield",
+        "author": "shields",
+        "reference": "art/item-icons/generated/cairnpine_shield.png",
+        "description": "Oak faced in Cobalt. It rings when a bear hits it, and the bear stops.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 26288,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_cinderpine_shield",
+      "file": "models/items/cinderpine_shield.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_shield"
+      ],
+      "bytes": 1308544,
+      "itemModel": {
+        "itemId": "cinderpine_shield",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.6236157417297363,
+        "y": 0.9452005624771118,
+        "z": 0.1614202782511711
+      },
+      "base": {
+        "x": -0.31179970502853394,
+        "y": -0.4726637601852417,
+        "z": -0.033464960753917694
+      },
+      "animations": [],
+      "materials": [
+        "cinderpine_shield-dark-walnut",
+        "cinderpine_shield-forged-shield-metal",
+        "cinderpine_shield-worn-polished-edges",
+        "cinderpine_shield-rear-oiled-leather"
+      ],
+      "itemId": "cinderpine_shield",
+      "status": "pending",
+      "sha256": "58ac3c8ba8157afae994168876238ee98f551ad17fdd7e4cc0055d3042335619",
+      "sourceSha256": "d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0",
+      "referenceSha256": "6b78253de013a091c9d21e1fdd442362969c061be635e55764b1d46c08dff8dc",
+      "metadata": {
+        "itemId": "cinderpine_shield",
+        "author": "shields",
+        "reference": "art/item-icons/generated/cinderpine_shield.png",
+        "description": "Layered walnut faced in Titanium. Built to withstand heavy blows.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 13648,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_teak_shield",
+      "file": "models/items/teak_shield.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "teak_shield"
+      ],
+      "bytes": 1673072,
+      "itemModel": {
+        "itemId": "teak_shield",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.6363195180892944,
+        "y": 0.9049281477928162,
+        "z": 0.17990280043243528
+      },
+      "base": {
+        "x": -0.3181597590446472,
+        "y": -0.45266902446746826,
+        "z": -0.033970918506383896
+      },
+      "animations": [],
+      "materials": [
+        "oiled-teak",
+        "forged-shield-metal",
+        "worn-polished-edges",
+        "rear-oiled-leather"
+      ],
+      "itemId": "teak_shield",
+      "status": "pending",
+      "sha256": "cf053e03ddf3b25c606561953af3b6f09547fa4655a4e0fca33c4fc6e56236ec",
+      "sourceSha256": "d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0",
+      "referenceSha256": "276b62172fbe327c523101184eeddedd23acec06ff57cf9a22d0b71aa5122aea",
+      "metadata": {
+        "itemId": "teak_shield",
+        "author": "shields",
+        "reference": "art/item-icons/generated/teak_shield.png",
+        "description": "Layered teak faced in Cindersteel.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 18996,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_magic_shield",
+      "file": "models/items/magic_shield.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "magic_shield"
+      ],
+      "bytes": 1866600,
+      "itemModel": {
+        "itemId": "magic_shield",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.6792345643043518,
+        "y": 0.9742449522018433,
+        "z": 0.22949345782399178
+      },
+      "base": {
+        "x": -0.3396172821521759,
+        "y": -0.4855841398239136,
+        "z": -0.03449346497654915
+      },
+      "animations": [],
+      "materials": [
+        "purple-magic-wood",
+        "forged-shield-metal",
+        "worn-polished-edges",
+        "nightglass-violet-crystal-cleavage",
+        "nightglass-silver-crystal-cleavage",
+        "rear-oiled-leather"
+      ],
+      "itemId": "magic_shield",
+      "status": "pending",
+      "sha256": "f97fb671419b21582f5e87764e927873be67598f65a1f73df3146e7ee17e4b13",
+      "sourceSha256": "d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0",
+      "referenceSha256": "11d30150ffa1d99db51b409f1301453fef4bce757c60baa87e7afc447e3a0555",
+      "metadata": {
+        "itemId": "magic_shield",
+        "author": "shields",
+        "reference": "art/item-icons/generated/magic_shield.png",
+        "description": "Layered magic wood faced in Nightglass.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 16474,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_ashseal_guard",
+      "file": "models/items/ashseal_guard.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ashseal_guard"
+      ],
+      "bytes": 1722520,
+      "itemModel": {
+        "itemId": "ashseal_guard",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.6632007658481598,
+        "y": 0.9209105968475342,
+        "z": 0.2217557182610035
+      },
+      "base": {
+        "x": -0.3315865099430084,
+        "y": -0.47126278281211853,
+        "z": -0.033970918506383896
+      },
+      "animations": [],
+      "materials": [
+        "scarred-teak",
+        "forged-shield-metal",
+        "worn-polished-edges",
+        "rear-oiled-leather"
+      ],
+      "itemId": "ashseal_guard",
+      "status": "pending",
+      "sha256": "0a743684baf092445df03020c62684d3583be9f07bd7d7b85d33dcb6baebb276",
+      "sourceSha256": "d8e36b7eddb235e571b7b7eccc25fa2228d049de9ed62923f50735bbe1a416d0",
+      "referenceSha256": "084455e85813edb6921c3dd4b198bbd906d00f3845dfafcf58411502e80ba2e8",
+      "metadata": {
+        "itemId": "ashseal_guard",
+        "author": "shields",
+        "reference": "art/item-icons/generated/ashseal_guard.png",
+        "description": "The Ashseal Warden's iron spread across a Teak Shield. A heavy guard for close fighting.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 20766,
+      "drawCalls": 4
+    }
+  ]
+}

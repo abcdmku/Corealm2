@@ -92,26 +92,36 @@ describe('Wilderness equipment appearance', () => {
     expect(gearAppearance('nightmarshal_plate')!.tint).not.toBe(night.tint);
   });
 
-  it('preserves authored grips and normal detail, with emission confined to casting gems', () => {
+  it('keeps Hollowstar grips and normal detail with matte indigo wood and an unlit violet insert', () => {
     const appearance = gearAppearance('hollowstar_staff')!;
     const normal = new THREE.Texture();
     for (const role of ['metal', 'wood', 'leather', 'gem']) {
       const source = new THREE.MeshStandardMaterial({ color: 0x886644, roughness: .62, normalMap: normal });
       source.userData.equipmentRole = role;
+      const before = source.toJSON();
       const mesh = new THREE.Mesh(new THREE.BoxGeometry(), source);
+      const geometry = mesh.geometry;
+      const positions = Array.from(geometry.getAttribute('position').array);
       applyGearAppearance(mesh, appearance);
       expect(mesh.material).not.toBe(source);
+      expect(mesh.geometry).toBe(geometry);
+      expect(Array.from(mesh.geometry.getAttribute('position').array)).toEqual(positions);
       expect(mesh.material.normalMap).toBe(normal);
-      expect(mesh.material.roughness).toBe(.62);
-      if (role === 'wood' || role === 'leather') expect(mesh.material.color.getHex()).toBe(source.color.getHex());
-      if (role !== 'gem') {
-        expect(mesh.material.emissive.getHex()).toBe(0);
-        expect(mesh.material.emissiveIntensity).toBe(0);
+      expect(mesh.material.normalScale.toArray()).toEqual(source.normalScale.toArray());
+      expect(mesh.material.userData.equipmentRole).toBe(role);
+      expect(mesh.material.userData.iconWeaponPalette).toBe('hollowstar_staff');
+      expect(mesh.material.emissive.getHex()).toBe(0);
+      expect(mesh.material.emissiveIntensity).toBe(0);
+      if (role === 'metal') {
+        expect(mesh.material.metalness).toBeGreaterThan(0);
+        expect(mesh.material.roughness).toBeLessThan(.5);
       } else {
-        expect(mesh.material.emissive.getHex()).toBe(appearance.accent);
-        expect(mesh.material.emissiveIntensity).toBeLessThan(.2);
+        expect(mesh.material.metalness).toBe(0);
+        expect(mesh.material.roughness).toBeGreaterThan(.6);
+        expect(mesh.material.color.b).toBeGreaterThan(mesh.material.color.r);
+        expect(mesh.material.color.r).toBeGreaterThan(mesh.material.color.g);
       }
-      expect(source.emissive.getHex()).toBe(0);
+      expect(source.toJSON()).toEqual(before);
       mesh.geometry.dispose(); mesh.material.dispose(); source.dispose();
     }
     for (const id of ['teak_staff', 'magic_staff', 'regent_staff', 'hollowstar_staff']) {

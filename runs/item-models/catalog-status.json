@@ -1,0 +1,4265 @@
+{
+  "counts": {
+    "total": 300,
+    "authoredCandidates": 239,
+    "notAuthored": 61,
+    "staleSources": 31,
+    "visualApproved": 11,
+    "promoted": 124,
+    "revisionRequired": 0,
+    "candidateBytes": 352181620
+  },
+  "items": [
+    {
+      "itemId": "marks",
+      "name": "Marks",
+      "usage": "standalone",
+      "referenceHash": "f01156351333812812a35f39b8cdb86ce5020f0a000058e3e84333821bf53f15",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "minerals-raw",
+        "file": "art\\item-models\\candidates\\minerals-raw\\models\\items\\marks.glb",
+        "sha256": "8d7ade3f7b722c1ac6e11be9852121122923205b28dff33563c83cd1bae25bc8",
+        "sourceCurrent": true,
+        "referenceSha256": "f01156351333812812a35f39b8cdb86ce5020f0a000058e3e84333821bf53f15",
+        "triangles": 9824,
+        "bytes": 1090500
+      }
+    },
+    {
+      "itemId": "grithe_ore",
+      "name": "Copper Ore",
+      "usage": "standalone",
+      "referenceHash": "4634190408e5214bdd9850ae838bd05ca9474345fc2487702cb49f9804f259d8",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "minerals-raw",
+        "file": "art\\item-models\\candidates\\minerals-raw\\models\\items\\grithe_ore.glb",
+        "sha256": "331ad61b67ae2b80c3e0a60d664631289aca8f77a471bb7abe622419f69197cd",
+        "sourceCurrent": true,
+        "referenceSha256": "4634190408e5214bdd9850ae838bd05ca9474345fc2487702cb49f9804f259d8",
+        "triangles": 2400,
+        "bytes": 718688
+      }
+    },
+    {
+      "itemId": "march_stone",
+      "name": "Limestone",
+      "usage": "standalone",
+      "referenceHash": "3d5b2b2a6909d09283bc5f6009bf77a94f10a8f61a8e09bd1d7eb85efd4dce88",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "minerals-raw",
+        "file": "art\\item-models\\candidates\\minerals-raw\\models\\items\\march_stone.glb",
+        "sha256": "48875d628427c52e2ef03096431ef2c1a63167afa1be05ed149c7d172124d20e",
+        "sourceCurrent": true,
+        "referenceSha256": "3d5b2b2a6909d09283bc5f6009bf77a94f10a8f61a8e09bd1d7eb85efd4dce88",
+        "triangles": 1440,
+        "bytes": 643796
+      }
+    },
+    {
+      "itemId": "corven_ore",
+      "name": "Iron Ore",
+      "usage": "standalone",
+      "referenceHash": "750bf40d065a912f250dd05d63f8d6e7b8546634a3f7ef5a5e7d6428893393e1",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "minerals-raw",
+        "file": "art\\item-models\\candidates\\minerals-raw\\models\\items\\corven_ore.glb",
+        "sha256": "514ea60d81ee73b3f7f551e8a8eda31fa6aa29c37d284bb7f285c0841dade6db",
+        "sourceCurrent": true,
+        "referenceSha256": "750bf40d065a912f250dd05d63f8d6e7b8546634a3f7ef5a5e7d6428893393e1",
+        "triangles": 2400,
+        "bytes": 662360
+      }
+    },
+    {
+      "itemId": "kaldite_ore",
+      "name": "Cobalt Ore",
+      "usage": "standalone",
+      "referenceHash": "609145e5ed8db98f6941e3894623fb42db99d452157b84a2b187c18211596cf7",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "minerals-raw",
+        "file": "art\\item-models\\candidates\\minerals-raw\\models\\items\\kaldite_ore.glb",
+        "sha256": "9fc6664ab5225fe25b287e6b4aeaaf07d12a41f7412c4fb1acd03352d2410bc2",
+        "sourceCurrent": true,
+        "referenceSha256": "609145e5ed8db98f6941e3894623fb42db99d452157b84a2b187c18211596cf7",
+        "triangles": 2400,
+        "bytes": 701964
+      }
+    },
+    {
+      "itemId": "emberite_ore",
+      "name": "Titanium Ore",
+      "usage": "standalone",
+      "referenceHash": "ec1ff274fe77fc361a44291381121c64874c47ac2253907a28e0ef31548946a2",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "minerals-raw",
+        "file": "art\\item-models\\candidates\\minerals-raw\\models\\items\\emberite_ore.glb",
+        "sha256": "a34060e0680edca950b274cfec80bf30516fb4e7d9c6acda36922301410a5e44",
+        "sourceCurrent": true,
+        "referenceSha256": "ec1ff274fe77fc361a44291381121c64874c47ac2253907a28e0ef31548946a2",
+        "triangles": 2400,
+        "bytes": 898116
+      }
+    },
+    {
+      "itemId": "kilnstone",
+      "name": "Flux Stone",
+      "usage": "standalone",
+      "referenceHash": "d30b51550b8483d10c47b24e729cc9c336f5894ff52e16b856a9656854c60b1f",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "minerals-raw",
+        "file": "art\\item-models\\candidates\\minerals-raw\\models\\items\\kilnstone.glb",
+        "sha256": "7ca3cb9ac1aceb1cf3b8745358fde769d562aa9394603915981e2b15fdaf96f6",
+        "sourceCurrent": true,
+        "referenceSha256": "d30b51550b8483d10c47b24e729cc9c336f5894ff52e16b856a9656854c60b1f",
+        "triangles": 1716,
+        "bytes": 583744
+      }
+    },
+    {
+      "itemId": "palewood_log",
+      "name": "Pine Log",
+      "usage": "standalone",
+      "referenceHash": "73e49964ceeb92a97bbdb6bb93e7a9fd998026fb51bc9ef0c9a5dda24cea518b",
+      "status": "promoted",
+      "candidate": {
+        "author": "pilot-log",
+        "file": "art\\item-models\\candidates\\pilot-log\\models\\items\\palewood_log.glb",
+        "sha256": "03ef94bcec699ca144640ab40491c2de9259c615fa66a690781b77c9135f7bd0",
+        "sourceCurrent": true,
+        "referenceSha256": "73e49964ceeb92a97bbdb6bb93e7a9fd998026fb51bc9ef0c9a5dda24cea518b",
+        "triangles": 28916,
+        "bytes": 2932644
+      }
+    },
+    {
+      "itemId": "duskoak_log",
+      "name": "Ash Log",
+      "usage": "standalone",
+      "referenceHash": "d8f3dd98b34e49772daa50b4ceacc12dfe4738acf6031150b25acd6322a82d30",
+      "status": "promoted",
+      "candidate": {
+        "author": "logs-a",
+        "file": "art\\item-models\\candidates\\logs-a\\models\\items\\duskoak_log.glb",
+        "sha256": "2ecb990666a481f54a620a13f2900bdc4038c544a55d3f06a35e5fac75168c59",
+        "sourceCurrent": true,
+        "referenceSha256": "d8f3dd98b34e49772daa50b4ceacc12dfe4738acf6031150b25acd6322a82d30",
+        "triangles": 34556,
+        "bytes": 5363512
+      }
+    },
+    {
+      "itemId": "cairnpine_log",
+      "name": "Oak Log",
+      "usage": "standalone",
+      "referenceHash": "94cf6f3ff1362d60ad7d4a690c0fbca91c98f41303ce8568569e78ed635f188d",
+      "status": "promoted",
+      "candidate": {
+        "author": "logs-a",
+        "file": "art\\item-models\\candidates\\logs-a\\models\\items\\cairnpine_log.glb",
+        "sha256": "3d3d87218dea5ca3506aae1ebaace275b5771724b4d9d0b0fcc3559cabd43b85",
+        "sourceCurrent": true,
+        "referenceSha256": "94cf6f3ff1362d60ad7d4a690c0fbca91c98f41303ce8568569e78ed635f188d",
+        "triangles": 31876,
+        "bytes": 5259220
+      }
+    },
+    {
+      "itemId": "cinderpine_log",
+      "name": "Walnut Log",
+      "usage": "standalone",
+      "referenceHash": "4516d2bbd8fbbc79c6864e7b6a148c6fdd761340c3c1430ef41f6391b1633ec9",
+      "status": "promoted",
+      "candidate": {
+        "author": "logs-a",
+        "file": "art\\item-models\\candidates\\logs-a\\models\\items\\cinderpine_log.glb",
+        "sha256": "dc98476e370e46d1147b1b89b329a60c379a108b116a0cadd8b6ef2556fd8c24",
+        "sourceCurrent": true,
+        "referenceSha256": "4516d2bbd8fbbc79c6864e7b6a148c6fdd761340c3c1430ef41f6391b1633ec9",
+        "triangles": 37456,
+        "bytes": 5401896
+      }
+    },
+    {
+      "itemId": "silt_minnow",
+      "name": "Minnow",
+      "usage": "standalone",
+      "referenceHash": "ecc76c23551755a31c2a61a45e9aad68d26099989586b040439a25b6caa7fbe4",
+      "status": "promoted",
+      "candidate": {
+        "author": "fish-a",
+        "file": "art\\item-models\\candidates\\fish-a\\models\\items\\silt_minnow.glb",
+        "sha256": "b3a18a2d0329ad3ec376bdc360c9d4a70fe5542130fa6d8f7c1e587be12629fb",
+        "sourceCurrent": true,
+        "referenceSha256": "ecc76c23551755a31c2a61a45e9aad68d26099989586b040439a25b6caa7fbe4",
+        "triangles": 32082,
+        "bytes": 1460892
+      }
+    },
+    {
+      "itemId": "bramble_trout",
+      "name": "Trout",
+      "usage": "standalone",
+      "referenceHash": "859187e77f24c1b4b225cf3318bc9e04fb0e5a249d4e91b2c364d5c80592dc5b",
+      "status": "promoted",
+      "candidate": {
+        "author": "fish-a",
+        "file": "art\\item-models\\candidates\\fish-a\\models\\items\\bramble_trout.glb",
+        "sha256": "b4def25a1a617ddab351d144c3ca33c7a3cb50c78045428a96c0c2b50d05b223",
+        "sourceCurrent": true,
+        "referenceSha256": "859187e77f24c1b4b225cf3318bc9e04fb0e5a249d4e91b2c364d5c80592dc5b",
+        "triangles": 32306,
+        "bytes": 1401100
+      }
+    },
+    {
+      "itemId": "cragfin",
+      "name": "Perch",
+      "usage": "standalone",
+      "referenceHash": "2008a3f8ee18f06b96a63902e811629de86b892dda045d769847d34b9c5ad9af",
+      "status": "promoted",
+      "candidate": {
+        "author": "fish-b",
+        "file": "art\\item-models\\candidates\\fish-b\\models\\items\\cragfin.glb",
+        "sha256": "e95fb83d719365180a677bc75b15b965bb1ef14f6f3a5015383b0f12ae96aac9",
+        "sourceCurrent": true,
+        "referenceSha256": "2008a3f8ee18f06b96a63902e811629de86b892dda045d769847d34b9c5ad9af",
+        "triangles": 55004,
+        "bytes": 1866128
+      }
+    },
+    {
+      "itemId": "ashfin",
+      "name": "Bass",
+      "usage": "standalone",
+      "referenceHash": "7119cba5baa58868c532fc8f7846ae6d325ea43667f7109a8d9f4b90264eaaa0",
+      "status": "promoted",
+      "candidate": {
+        "author": "fish-b",
+        "file": "art\\item-models\\candidates\\fish-b\\models\\items\\ashfin.glb",
+        "sha256": "057d5ef57a9237a7a7f2fdd825139f9f6b23b04e2368e511796c1139753f6baa",
+        "sourceCurrent": true,
+        "referenceSha256": "7119cba5baa58868c532fc8f7846ae6d325ea43667f7109a8d9f4b90264eaaa0",
+        "triangles": 55004,
+        "bytes": 1790884
+      }
+    },
+    {
+      "itemId": "grithe_bar",
+      "name": "Copper Bar",
+      "usage": "standalone",
+      "referenceHash": "b961fef7f3d08c72150e37737ae72a48a2d4d28fdd66ef064cb016242109e9b5",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "bars-gems",
+        "file": "art\\item-models\\candidates\\bars-gems\\models\\items\\grithe_bar.glb",
+        "sha256": "9abe94cbb56eb74d152187dc7214163d34b5d2a911161f83eb47dbdc3d6ea741",
+        "sourceCurrent": true,
+        "referenceSha256": "b961fef7f3d08c72150e37737ae72a48a2d4d28fdd66ef064cb016242109e9b5",
+        "triangles": 5292,
+        "bytes": 767288
+      }
+    },
+    {
+      "itemId": "corven_bar",
+      "name": "Iron Bar",
+      "usage": "standalone",
+      "referenceHash": "31918f03f9e44c32a2805d8028e4d52cc763838f51bb698f2c443b55d0dbb554",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "bars-gems",
+        "file": "art\\item-models\\candidates\\bars-gems\\models\\items\\corven_bar.glb",
+        "sha256": "5a2587d4e14623ec973bbd9602a2fed78b50d9580c5bdb134f306103cbe46b28",
+        "sourceCurrent": true,
+        "referenceSha256": "31918f03f9e44c32a2805d8028e4d52cc763838f51bb698f2c443b55d0dbb554",
+        "triangles": 5292,
+        "bytes": 767280
+      }
+    },
+    {
+      "itemId": "kaldite_bar",
+      "name": "Cobalt Bar",
+      "usage": "standalone",
+      "referenceHash": "ee383f454575fa71bf45fd9378b7ddb9bef32ebad466a732de282e7313aaf4f4",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "bars-gems",
+        "file": "art\\item-models\\candidates\\bars-gems\\models\\items\\kaldite_bar.glb",
+        "sha256": "6fed16f34b4be80f65023bda5c14fdc31bbb3a490c1a572782c2de060655fb0c",
+        "sourceCurrent": true,
+        "referenceSha256": "ee383f454575fa71bf45fd9378b7ddb9bef32ebad466a732de282e7313aaf4f4",
+        "triangles": 5724,
+        "bytes": 830884
+      }
+    },
+    {
+      "itemId": "emberite_bar",
+      "name": "Titanium Bar",
+      "usage": "standalone",
+      "referenceHash": "1607ad72a9c9f8407c86134a6170da21fc510935fe02a78dd7d198c4383bb18d",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "bars-gems",
+        "file": "art\\item-models\\candidates\\bars-gems\\models\\items\\emberite_bar.glb",
+        "sha256": "e7af529c10e40eb5f554fa70fa48c3655af9f224224b9b4299f147ecd0f87a2c",
+        "sourceCurrent": true,
+        "referenceSha256": "1607ad72a9c9f8407c86134a6170da21fc510935fe02a78dd7d198c4383bb18d",
+        "triangles": 6042,
+        "bytes": 830252
+      }
+    },
+    {
+      "itemId": "pale_quartz",
+      "name": "Quartz",
+      "usage": "standalone",
+      "referenceHash": "f00fcbadf136c4035d00db49f07b6192e9921f753187927da048446874e57815",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "bars-gems",
+        "file": "art\\item-models\\candidates\\bars-gems\\models\\items\\pale_quartz.glb",
+        "sha256": "029afd9b4c82325970fd5fe35cdc20718bf5ef71f802d005290dc565dc6c57cf",
+        "sourceCurrent": true,
+        "referenceSha256": "f00fcbadf136c4035d00db49f07b6192e9921f753187927da048446874e57815",
+        "triangles": 572,
+        "bytes": 208364
+      }
+    },
+    {
+      "itemId": "vell_amber",
+      "name": "Amber",
+      "usage": "standalone",
+      "referenceHash": "089d6057a3ef9ae707d0faa4909d0bafaccd3c67a0599ddb1cef76d3d2702023",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "bars-gems",
+        "file": "art\\item-models\\candidates\\bars-gems\\models\\items\\vell_amber.glb",
+        "sha256": "9d738ebf8b139b34a103df59d2548786edcd23db13e6e2ebfd58aca16a38ae87",
+        "sourceCurrent": true,
+        "referenceSha256": "089d6057a3ef9ae707d0faa4909d0bafaccd3c67a0599ddb1cef76d3d2702023",
+        "triangles": 11032,
+        "bytes": 667504
+      }
+    },
+    {
+      "itemId": "cairn_garnet",
+      "name": "Garnet",
+      "usage": "standalone",
+      "referenceHash": "562e8ba13495499a33067e2ad198642fb4298544e76f4978480b1453b8abd65b",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "bars-gems",
+        "file": "art\\item-models\\candidates\\bars-gems\\models\\items\\cairn_garnet.glb",
+        "sha256": "bb1332eaf279ecbc499710597cd5182f0bfd9e919446f648047aa142f3eb2f45",
+        "sourceCurrent": true,
+        "referenceSha256": "562e8ba13495499a33067e2ad198642fb4298544e76f4978480b1453b8abd65b",
+        "triangles": 2204,
+        "bytes": 311104
+      }
+    },
+    {
+      "itemId": "fire_opal",
+      "name": "Fire Opal",
+      "usage": "standalone",
+      "referenceHash": "65da3fafa9ffdc5759951f707b63991bbafcde78125b88926f86396b8d4f26a7",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "bars-gems",
+        "file": "art\\item-models\\candidates\\bars-gems\\models\\items\\fire_opal.glb",
+        "sha256": "10cc6ae7a83a7418535067acc1b5fdf0ac20eff61afea484e4eb8ee37a4b2d0a",
+        "sourceCurrent": true,
+        "referenceSha256": "65da3fafa9ffdc5759951f707b63991bbafcde78125b88926f86396b8d4f26a7",
+        "triangles": 4992,
+        "bytes": 282428
+      }
+    },
+    {
+      "itemId": "palewood_shaft",
+      "name": "Pine Shaft",
+      "usage": "standalone",
+      "referenceHash": "9e18ebe31f3660abd410b61adaddb7f9d0a9b6ade17da15886ac83eaf7f04ce0",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-components",
+        "file": "art\\item-models\\candidates\\wood-components\\models\\items\\palewood_shaft.glb",
+        "sha256": "1e63a85d984f5daa4a22bb419e4dcb5b351f1129c50f78466144147f560640de",
+        "sourceCurrent": true,
+        "referenceSha256": "9e18ebe31f3660abd410b61adaddb7f9d0a9b6ade17da15886ac83eaf7f04ce0",
+        "triangles": 6176,
+        "bytes": 1012852
+      }
+    },
+    {
+      "itemId": "duskoak_shaft",
+      "name": "Ash Shaft",
+      "usage": "standalone",
+      "referenceHash": "3a98a9170ae3e5fba9848ab7ab4ec595f8257ea2b6f33d496c3e3e030b011585",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-components",
+        "file": "art\\item-models\\candidates\\wood-components\\models\\items\\duskoak_shaft.glb",
+        "sha256": "1ba0ffbb939043134614473b170915782e349c948105bd4f387c79d2468c555f",
+        "sourceCurrent": true,
+        "referenceSha256": "3a98a9170ae3e5fba9848ab7ab4ec595f8257ea2b6f33d496c3e3e030b011585",
+        "triangles": 18528,
+        "bytes": 1367736
+      }
+    },
+    {
+      "itemId": "cairnpine_shaft",
+      "name": "Oak Shaft",
+      "usage": "standalone",
+      "referenceHash": "2abcf3ba4042ac73624629913876d91c9c62f1eb93780fd5e4e280761787a596",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-components",
+        "file": "art\\item-models\\candidates\\wood-components\\models\\items\\cairnpine_shaft.glb",
+        "sha256": "d840be98fb0581b0a8b21422d3a233284bc19825ac5266525da255b5b4853c90",
+        "sourceCurrent": true,
+        "referenceSha256": "2abcf3ba4042ac73624629913876d91c9c62f1eb93780fd5e4e280761787a596",
+        "triangles": 3088,
+        "bytes": 925120
+      }
+    },
+    {
+      "itemId": "cinderpine_shaft",
+      "name": "Walnut Shaft",
+      "usage": "standalone",
+      "referenceHash": "b080df38edb47aa13646f51f3b97ffd927f54fcb534f5572c5c5d3c2d50da827",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-components",
+        "file": "art\\item-models\\candidates\\wood-components\\models\\items\\cinderpine_shaft.glb",
+        "sha256": "5d8a80b47c97145edac687d0f8aa84f6c05816832e77ce18468a3dec96537a09",
+        "sourceCurrent": true,
+        "referenceSha256": "b080df38edb47aa13646f51f3b97ffd927f54fcb534f5572c5c5d3c2d50da827",
+        "triangles": 3088,
+        "bytes": 922364
+      }
+    },
+    {
+      "itemId": "palewood_handle",
+      "name": "Pine Handle",
+      "usage": "standalone",
+      "referenceHash": "79bd57d53e27f1fa5f97ab4a9f6c0be5eb31cd4626d81184b10d135c6a3809a7",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-components",
+        "file": "art\\item-models\\candidates\\wood-components\\models\\items\\palewood_handle.glb",
+        "sha256": "77fdc55bafba7332731e88027478612334d7934c6d85e84bc24f608a71232a48",
+        "sourceCurrent": true,
+        "referenceSha256": "79bd57d53e27f1fa5f97ab4a9f6c0be5eb31cd4626d81184b10d135c6a3809a7",
+        "triangles": 37342,
+        "bytes": 1914552
+      }
+    },
+    {
+      "itemId": "duskoak_handle",
+      "name": "Ash Handle",
+      "usage": "standalone",
+      "referenceHash": "8ad299c28a5c10075eba25bfd2c0ad794a66311038464ce29f1d1b239945beee",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-components",
+        "file": "art\\item-models\\candidates\\wood-components\\models\\items\\duskoak_handle.glb",
+        "sha256": "55b8ad6da303444a860c27c7dfab10d8910c453df3a3307e8e0c990695cd490f",
+        "sourceCurrent": true,
+        "referenceSha256": "8ad299c28a5c10075eba25bfd2c0ad794a66311038464ce29f1d1b239945beee",
+        "triangles": 37342,
+        "bytes": 1921232
+      }
+    },
+    {
+      "itemId": "cairnpine_handle",
+      "name": "Oak Handle",
+      "usage": "standalone",
+      "referenceHash": "bd052d6b9e13d35cb6002a75b95444380260af33fce90a44a4c7cec9940e7294",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-components",
+        "file": "art\\item-models\\candidates\\wood-components\\models\\items\\cairnpine_handle.glb",
+        "sha256": "66f2145aaeeee94b3134cce2fa9777a9d97245de2d543d71c90852968eae5913",
+        "sourceCurrent": true,
+        "referenceSha256": "bd052d6b9e13d35cb6002a75b95444380260af33fce90a44a4c7cec9940e7294",
+        "triangles": 37342,
+        "bytes": 1914480
+      }
+    },
+    {
+      "itemId": "cinderpine_handle",
+      "name": "Walnut Handle",
+      "usage": "standalone",
+      "referenceHash": "729be40fcfb8f32233a7e386ead8f15ecc8e418c796f60fdcb19fff9797178ef",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-components",
+        "file": "art\\item-models\\candidates\\wood-components\\models\\items\\cinderpine_handle.glb",
+        "sha256": "050a3b0234332794186613270f5b9ef6af3f0dce3ed16088359b7db8786f97ee",
+        "sourceCurrent": true,
+        "referenceSha256": "729be40fcfb8f32233a7e386ead8f15ecc8e418c796f60fdcb19fff9797178ef",
+        "triangles": 37342,
+        "bytes": 1911732
+      }
+    },
+    {
+      "itemId": "coarse_hide",
+      "name": "Coarse Hide",
+      "usage": "standalone",
+      "referenceHash": "5402f5672affb4048e31e75e2f6d5ace353102d085dd8e6f6af90f8b3358fa2b",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "raw-hides",
+        "file": "art\\item-models\\candidates\\raw-hides\\models\\items\\coarse_hide.glb",
+        "sha256": "f43deea8ab1d4c75f3042d32fd6a692082757a1ce5706992c2758bec6b677e15",
+        "sourceCurrent": false,
+        "referenceSha256": "5402f5672affb4048e31e75e2f6d5ace353102d085dd8e6f6af90f8b3358fa2b",
+        "triangles": 18736,
+        "bytes": 1842620
+      }
+    },
+    {
+      "itemId": "bramble_hide",
+      "name": "Thick Hide",
+      "usage": "standalone",
+      "referenceHash": "fad56cd8e50caaec28a7f6df8d5719a826ea115f619345674b7e26401c415626",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "raw-hides",
+        "file": "art\\item-models\\candidates\\raw-hides\\models\\items\\bramble_hide.glb",
+        "sha256": "467f5b16de7a37e51a7e63541dcb45d163190e402c9f80d6a2b61aafd419ec16",
+        "sourceCurrent": false,
+        "referenceSha256": "fad56cd8e50caaec28a7f6df8d5719a826ea115f619345674b7e26401c415626",
+        "triangles": 18106,
+        "bytes": 1662096
+      }
+    },
+    {
+      "itemId": "cairn_pelt",
+      "name": "Fur Pelt",
+      "usage": "standalone",
+      "referenceHash": "0de271345384f4c53c22df620d690bbda557d3d5fc7a1e90d09794949798340b",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "raw-hides",
+        "file": "art\\item-models\\candidates\\raw-hides\\models\\items\\cairn_pelt.glb",
+        "sha256": "bc4031eee09cd63ebca1264b9810aa8f7e7d186a6ddfa4ce3a63240b390e4548",
+        "sourceCurrent": false,
+        "referenceSha256": "0de271345384f4c53c22df620d690bbda557d3d5fc7a1e90d09794949798340b",
+        "triangles": 29864,
+        "bytes": 2373852
+      }
+    },
+    {
+      "itemId": "charhide",
+      "name": "Heavy Hide",
+      "usage": "standalone",
+      "referenceHash": "50c668059b5e854d8caecf13f399c60a0fb28055f4de64cb61e0c11b2028f6fc",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "raw-hides",
+        "file": "art\\item-models\\candidates\\raw-hides\\models\\items\\charhide.glb",
+        "sha256": "5d8950882e5afcef75c304850e014e5d46174f4fbb42a83cd9aa5006c2d34aca",
+        "sourceCurrent": false,
+        "referenceSha256": "50c668059b5e854d8caecf13f399c60a0fb28055f4de64cb61e0c11b2028f6fc",
+        "triangles": 13064,
+        "bytes": 1465044
+      }
+    },
+    {
+      "itemId": "air_essence",
+      "name": "Air Essence",
+      "usage": "standalone",
+      "referenceHash": "d0e370e555e91adc6c6683219aea0fd56e9548df7a3fe3cdc5b78ed3c937bf39",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "essence-runes",
+        "file": "art\\item-models\\candidates\\essence-runes\\models\\items\\air_essence.glb",
+        "sha256": "846214e649c780e2faad5ec5b2749056aa38bc448982b8d656f100b810a6ffa4",
+        "sourceCurrent": true,
+        "referenceSha256": "d0e370e555e91adc6c6683219aea0fd56e9548df7a3fe3cdc5b78ed3c937bf39",
+        "triangles": 14784,
+        "bytes": 2084604
+      }
+    },
+    {
+      "itemId": "earth_essence",
+      "name": "Earth Essence",
+      "usage": "standalone",
+      "referenceHash": "f9c75ed8e79e47990eb2d9acfb032826848b04523b0e2509c4e52941eb0ca7ea",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "essence-runes",
+        "file": "art\\item-models\\candidates\\essence-runes\\models\\items\\earth_essence.glb",
+        "sha256": "c70fcee9cee5b20e5770a0c9426cb45b2ff317ebee6edd2569d92212352ef20c",
+        "sourceCurrent": true,
+        "referenceSha256": "f9c75ed8e79e47990eb2d9acfb032826848b04523b0e2509c4e52941eb0ca7ea",
+        "triangles": 3450,
+        "bytes": 644964
+      }
+    },
+    {
+      "itemId": "water_essence",
+      "name": "Water Essence",
+      "usage": "standalone",
+      "referenceHash": "51dce4c641e6e64a1eeb26a93ec4e06ee8fd85f18aa165c8129f41acec41cd11",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "essence-runes",
+        "file": "art\\item-models\\candidates\\essence-runes\\models\\items\\water_essence.glb",
+        "sha256": "92a3461ce1d09d7626c03cabaeeeb7d8d04dd80ba7e13e1216e5ba85193d28b5",
+        "sourceCurrent": true,
+        "referenceSha256": "51dce4c641e6e64a1eeb26a93ec4e06ee8fd85f18aa165c8129f41acec41cd11",
+        "triangles": 6286,
+        "bytes": 1066304
+      }
+    },
+    {
+      "itemId": "fire_essence",
+      "name": "Fire Essence",
+      "usage": "standalone",
+      "referenceHash": "a57000e77ac00fb30dff7a9f2d4ef76179422b7c20e37e3242fe2827074a7c30",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "essence-runes",
+        "file": "art\\item-models\\candidates\\essence-runes\\models\\items\\fire_essence.glb",
+        "sha256": "56a2df4d73461d830a2f0abff4d20371002d39681d4e71da656745ee9500e664",
+        "sourceCurrent": true,
+        "referenceSha256": "a57000e77ac00fb30dff7a9f2d4ef76179422b7c20e37e3242fe2827074a7c30",
+        "triangles": 16320,
+        "bytes": 2235404
+      }
+    },
+    {
+      "itemId": "mind_rune",
+      "name": "Mind Rune",
+      "usage": "standalone",
+      "referenceHash": "336e43430e536c82f27db77b8960cdd9f1acbb862432e5a26a237bf5ec598923",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "essence-runes",
+        "file": "art\\item-models\\candidates\\essence-runes\\models\\items\\mind_rune.glb",
+        "sha256": "ded4b43dfcee2c76ea0ff728f1080ab768528d727b0a2ca3bbf1b1d0bb628b91",
+        "sourceCurrent": true,
+        "referenceSha256": "336e43430e536c82f27db77b8960cdd9f1acbb862432e5a26a237bf5ec598923",
+        "triangles": 8776,
+        "bytes": 1379188
+      }
+    },
+    {
+      "itemId": "chaos_rune",
+      "name": "Chaos Rune",
+      "usage": "standalone",
+      "referenceHash": "46c466f55e902350398d168e0ba14d049d1f24c36eac91d0ce594d0407f651ee",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "essence-runes",
+        "file": "art\\item-models\\candidates\\essence-runes\\models\\items\\chaos_rune.glb",
+        "sha256": "18f5aedfbbf1f34c9a29a3267b7019b450e3849fcbc95d06e59f218daad9fb01",
+        "sourceCurrent": true,
+        "referenceSha256": "46c466f55e902350398d168e0ba14d049d1f24c36eac91d0ce594d0407f651ee",
+        "triangles": 1296,
+        "bytes": 455028
+      }
+    },
+    {
+      "itemId": "death_rune",
+      "name": "Death Rune",
+      "usage": "standalone",
+      "referenceHash": "b4692c09ae5fba9220bf5c36fc5f7ed29ae5c85e573f5ee1d35ae7d6e13fc813",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "essence-runes",
+        "file": "art\\item-models\\candidates\\essence-runes\\models\\items\\death_rune.glb",
+        "sha256": "c7ea8f97c8495651cc1a69c225f830fd61395e8aba75986bbe246379e6e962d5",
+        "sourceCurrent": true,
+        "referenceSha256": "b4692c09ae5fba9220bf5c36fc5f7ed29ae5c85e573f5ee1d35ae7d6e13fc813",
+        "triangles": 14468,
+        "bytes": 2052240
+      }
+    },
+    {
+      "itemId": "blood_rune",
+      "name": "Blood Rune",
+      "usage": "standalone",
+      "referenceHash": "a025b182d47bb562179a4c565d05514e34f3e650ea231e6054d87158abab4e39",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "essence-runes",
+        "file": "art\\item-models\\candidates\\essence-runes\\models\\items\\blood_rune.glb",
+        "sha256": "b1b50f3fc5c8e8cc3c665e5938c71ef654006e7c96bb1dc6d0a50041bc38f078",
+        "sourceCurrent": true,
+        "referenceSha256": "a025b182d47bb562179a4c565d05514e34f3e650ea231e6054d87158abab4e39",
+        "triangles": 3504,
+        "bytes": 708456
+      }
+    },
+    {
+      "itemId": "wrath_rune",
+      "name": "Wrath Rune",
+      "usage": "standalone",
+      "referenceHash": "5bd80bb5a566bef144e424add992f74464b448fe4fb86934931850ec77d0af6d",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "essence-runes",
+        "file": "art\\item-models\\candidates\\essence-runes\\models\\items\\wrath_rune.glb",
+        "sha256": "f922227ab3278f25967cee2d0f6135fd51d90265fb165afaff95e9466f2e0fb2",
+        "sourceCurrent": true,
+        "referenceSha256": "5bd80bb5a566bef144e424add992f74464b448fe4fb86934931850ec77d0af6d",
+        "triangles": 1880,
+        "bytes": 516104
+      }
+    },
+    {
+      "itemId": "cosmic_rune",
+      "name": "Cosmic Rune",
+      "usage": "standalone",
+      "referenceHash": "d7560877ae1a08f103d0d0a6085006857f6691ef35423d91b601677eecc7936e",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "essence-runes",
+        "file": "art\\item-models\\candidates\\essence-runes\\models\\items\\cosmic_rune.glb",
+        "sha256": "b3f1ac92a9c76047c527315656ad4e45e757ef241bcb1e6745fb558220ecfaa5",
+        "sourceCurrent": true,
+        "referenceSha256": "d7560877ae1a08f103d0d0a6085006857f6691ef35423d91b601677eecc7936e",
+        "triangles": 4748,
+        "bytes": 987536
+      }
+    },
+    {
+      "itemId": "hen_feather",
+      "name": "Hen Feather",
+      "usage": "standalone",
+      "referenceHash": "bc4cd7021798f22b1f62138c185608431c5bf24364f31cfeae2f123d712ce523",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "feathers",
+        "file": "art\\item-models\\candidates\\feathers\\models\\items\\hen_feather.glb",
+        "sha256": "11ecdbe8f9da189241dcceb3e507cc7d340907856a661c0fd3763de3a5b7445a",
+        "sourceCurrent": true,
+        "referenceSha256": "bc4cd7021798f22b1f62138c185608431c5bf24364f31cfeae2f123d712ce523",
+        "triangles": 35420,
+        "bytes": 1257588
+      }
+    },
+    {
+      "itemId": "hen_egg",
+      "name": "Hen Egg",
+      "usage": "standalone",
+      "referenceHash": "fbf9bf0c96b0be8886339c317cd5eb0b93163172a6e93b8d8e33357633a23c1c",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-biology",
+        "file": "art\\item-models\\candidates\\trophy-biology\\models\\items\\hen_egg.glb",
+        "sha256": "e784063d57d758216f700200a50b08f6d9a6c93aa1891af126f06be256ad57bb",
+        "sourceCurrent": true,
+        "referenceSha256": "fbf9bf0c96b0be8886339c317cd5eb0b93163172a6e93b8d8e33357633a23c1c",
+        "triangles": 6016,
+        "bytes": 391540
+      }
+    },
+    {
+      "itemId": "curl_horn",
+      "name": "Curled Horn",
+      "usage": "standalone",
+      "referenceHash": "aa76ad0179fc7bb50397280d33c4f6d76e02ff8e78de29dda5d004fbc9c33b6c",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-bones-a",
+        "file": "art\\item-models\\candidates\\trophy-bones-a\\models\\items\\curl_horn.glb",
+        "sha256": "0d228e43a7b0d7e155c251261cfde4dc4cd6d097f52f2d44092f0f801fe08804",
+        "sourceCurrent": false,
+        "referenceSha256": "aa76ad0179fc7bb50397280d33c4f6d76e02ff8e78de29dda5d004fbc9c33b6c",
+        "triangles": 24912,
+        "bytes": 1261624
+      }
+    },
+    {
+      "itemId": "ox_horn",
+      "name": "Ox Horn",
+      "usage": "standalone",
+      "referenceHash": "d38475a92ff9d74c187d6a610e4f116286c0df485315b4b8c4830710548c9d71",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-bones-a",
+        "file": "art\\item-models\\candidates\\trophy-bones-a\\models\\items\\ox_horn.glb",
+        "sha256": "b535bc8ddeb758f82be515b4e21152f2fb290fadef90dbe210778e53d76f0599",
+        "sourceCurrent": false,
+        "referenceSha256": "d38475a92ff9d74c187d6a610e4f116286c0df485315b4b8c4830710548c9d71",
+        "triangles": 24096,
+        "bytes": 1812352
+      }
+    },
+    {
+      "itemId": "coney_foot",
+      "name": "Rabbit Foot",
+      "usage": "standalone",
+      "referenceHash": "35515a2195852fe14e0d2f90ba9247f5882a38da80be57d6ed74838f64f4ba9b",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-biology",
+        "file": "art\\item-models\\candidates\\trophy-biology\\models\\items\\coney_foot.glb",
+        "sha256": "5e4c1925f6d2ce39cd495f72aaa1d1d44741e699e3558d61f19c2ea0e45154af",
+        "sourceCurrent": true,
+        "referenceSha256": "35515a2195852fe14e0d2f90ba9247f5882a38da80be57d6ed74838f64f4ba9b",
+        "triangles": 28378,
+        "bytes": 1370804
+      }
+    },
+    {
+      "itemId": "marsh_gland",
+      "name": "Marsh Gland",
+      "usage": "standalone",
+      "referenceHash": "a7d9cc9a920462e237c32d677571f6463ff603546fac569ef1e0cab680355c68",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-biology",
+        "file": "art\\item-models\\candidates\\trophy-biology\\models\\items\\marsh_gland.glb",
+        "sha256": "fc3013fac336843099fb871732ba035d24d037ff4cac9e4ecdbd314703514c07",
+        "sourceCurrent": true,
+        "referenceSha256": "a7d9cc9a920462e237c32d677571f6463ff603546fac569ef1e0cab680355c68",
+        "triangles": 14036,
+        "bytes": 681604
+      }
+    },
+    {
+      "itemId": "viper_skin",
+      "name": "Viper Skin",
+      "usage": "standalone",
+      "referenceHash": "c8900668b11e3d83f82fc22f0ae3c472f3b3e9c74b64e794e603524bffbdc3d9",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-biology",
+        "file": "art\\item-models\\candidates\\trophy-biology\\models\\items\\viper_skin.glb",
+        "sha256": "25aa09b326bac2981e908bb944fd22391b69e23a7fcafbb3e7ad86c5cdd8491c",
+        "sourceCurrent": true,
+        "referenceSha256": "c8900668b11e3d83f82fc22f0ae3c472f3b3e9c74b64e794e603524bffbdc3d9",
+        "triangles": 31344,
+        "bytes": 1038308
+      }
+    },
+    {
+      "itemId": "venom_gland",
+      "name": "Venom Gland",
+      "usage": "standalone",
+      "referenceHash": "d3326e63bb02e90dc894797b5de12a30f7b0907dd9f9dc1f03f797790df92b56",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-biology",
+        "file": "art\\item-models\\candidates\\trophy-biology\\models\\items\\venom_gland.glb",
+        "sha256": "daccdfc81c27af83db397c988f82444ccd534b7a858f65283c11183f4f93ab54",
+        "sourceCurrent": true,
+        "referenceSha256": "d3326e63bb02e90dc894797b5de12a30f7b0907dd9f9dc1f03f797790df92b56",
+        "triangles": 14036,
+        "bytes": 681616
+      }
+    },
+    {
+      "itemId": "stag_antler",
+      "name": "Stag Antler",
+      "usage": "standalone",
+      "referenceHash": "f0d4bfe3b59bb0a4856e53fdfe97872b4233e754f2db8757f7368869e2926a11",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-bones-a",
+        "file": "art\\item-models\\candidates\\trophy-bones-a\\models\\items\\stag_antler.glb",
+        "sha256": "499a8bc321cf0502e6c0d95ded2f3ab0c9afa7c27c5192afc2596287c7847028",
+        "sourceCurrent": false,
+        "referenceSha256": "f0d4bfe3b59bb0a4856e53fdfe97872b4233e754f2db8757f7368869e2926a11",
+        "triangles": 58904,
+        "bytes": 2820584
+      }
+    },
+    {
+      "itemId": "curved_tusk",
+      "name": "Curved Tusk",
+      "usage": "standalone",
+      "referenceHash": "41db23392fbc6d51d9bb1c2dd3252c0a026fc66f01ecc0287a9895259257a319",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-bones-a",
+        "file": "art\\item-models\\candidates\\trophy-bones-a\\models\\items\\curved_tusk.glb",
+        "sha256": "7bc1e3bf3d499f1e38a58ac8927dd5c8f4cdd7287e23ee43fb2bb5ee151f5bb8",
+        "sourceCurrent": false,
+        "referenceSha256": "41db23392fbc6d51d9bb1c2dd3252c0a026fc66f01ecc0287a9895259257a319",
+        "triangles": 23520,
+        "bytes": 1682220
+      }
+    },
+    {
+      "itemId": "coyote_fang",
+      "name": "Wolf Fang",
+      "usage": "standalone",
+      "referenceHash": "627e4ae016cde9e8b71607680c757ab110e7daa4a7cff52c7a706ae793909cd1",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-bones-a",
+        "file": "art\\item-models\\candidates\\trophy-bones-a\\models\\items\\coyote_fang.glb",
+        "sha256": "dfe02f12880e85d3c4251488194b75e754fc21bfb18c2e5c6c5615337fe22c23",
+        "sourceCurrent": false,
+        "referenceSha256": "627e4ae016cde9e8b71607680c757ab110e7daa4a7cff52c7a706ae793909cd1",
+        "triangles": 18528,
+        "bytes": 1575108
+      }
+    },
+    {
+      "itemId": "bear_claw",
+      "name": "Bear Claw",
+      "usage": "standalone",
+      "referenceHash": "60c71d921fda72ecc8b825f39aa9ef8ecc41dd14c5a5bad175537e69cec93ddc",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-bones-a",
+        "file": "art\\item-models\\candidates\\trophy-bones-a\\models\\items\\bear_claw.glb",
+        "sha256": "8b081c5510060007a23f6f8222bff8b73d9003ab5625c3e26df65317245e66d7",
+        "sourceCurrent": false,
+        "referenceSha256": "60c71d921fda72ecc8b825f39aa9ef8ecc41dd14c5a5bad175537e69cec93ddc",
+        "triangles": 22464,
+        "bytes": 1754752
+      }
+    },
+    {
+      "itemId": "boar_bristle",
+      "name": "Boar Bristle",
+      "usage": "standalone",
+      "referenceHash": "65ae4866b1b51aea37311f5eb3af953898e7ce000f5d50b4de9f3244b0fbf7d6",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-biology",
+        "file": "art\\item-models\\candidates\\trophy-biology\\models\\items\\boar_bristle.glb",
+        "sha256": "57a3a3ad8752e49d7cbf00e1cf6d4363c3d5c9afcc34bdf22aeda79a57ccc230",
+        "sourceCurrent": true,
+        "referenceSha256": "65ae4866b1b51aea37311f5eb3af953898e7ce000f5d50b4de9f3244b0fbf7d6",
+        "triangles": 37316,
+        "bytes": 1537244
+      }
+    },
+    {
+      "itemId": "ibex_horn",
+      "name": "Ibex Horn",
+      "usage": "standalone",
+      "referenceHash": "a55db35da588ff33a8a981cc3a890d2c9c02b61684777622ca020390472a0a55",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-bones-b",
+        "file": "art\\item-models\\candidates\\trophy-bones-b\\models\\items\\ibex_horn.glb",
+        "sha256": "c383a2bb1ed2b6d4415d697b9d0d5b9788137050fa9ed563ce552950d89e0c5d",
+        "sourceCurrent": false,
+        "referenceSha256": "a55db35da588ff33a8a981cc3a890d2c9c02b61684777622ca020390472a0a55",
+        "triangles": 57568,
+        "bytes": 3920956
+      }
+    },
+    {
+      "itemId": "aurochs_horn",
+      "name": "Aurochs Horn",
+      "usage": "standalone",
+      "referenceHash": "6bb135d02c660e6e56ddab0657e9ba4d0e1a63f7a7d926c4d649651e0996c66a",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-bones-b",
+        "file": "art\\item-models\\candidates\\trophy-bones-b\\models\\items\\aurochs_horn.glb",
+        "sha256": "d7eb288e19ce8221221a247ddd7e0d34496238f06df6cfa5906b88f20d27d7ad",
+        "sourceCurrent": false,
+        "referenceSha256": "6bb135d02c660e6e56ddab0657e9ba4d0e1a63f7a7d926c4d649651e0996c66a",
+        "triangles": 57568,
+        "bytes": 3859804
+      }
+    },
+    {
+      "itemId": "rat_tail",
+      "name": "Rat Tail",
+      "usage": "standalone",
+      "referenceHash": "04c3df6ccc590b38cbf2b198a5263028245e9d7513806e5f6dd126b19930394c",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-biology",
+        "file": "art\\item-models\\candidates\\trophy-biology\\models\\items\\rat_tail.glb",
+        "sha256": "de7282af9baf853837d6c8ae711b16eb3ae2ab12e89faeaeabf9be70a48d5c15",
+        "sourceCurrent": true,
+        "referenceSha256": "04c3df6ccc590b38cbf2b198a5263028245e9d7513806e5f6dd126b19930394c",
+        "triangles": 21954,
+        "bytes": 947376
+      }
+    },
+    {
+      "itemId": "scorpion_stinger",
+      "name": "Scorpion Stinger",
+      "usage": "standalone",
+      "referenceHash": "e1d24e5f429f1f57f4d60b46b09b0d69c120a7ad092ebff09e892aec4e4656f6",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-biology",
+        "file": "art\\item-models\\candidates\\trophy-biology\\models\\items\\scorpion_stinger.glb",
+        "sha256": "e903424b59545f79abed8e64518db95b6df21f8ae7c7e302677bea60ed777858",
+        "sourceCurrent": true,
+        "referenceSha256": "e1d24e5f429f1f57f4d60b46b09b0d69c120a7ad092ebff09e892aec4e4656f6",
+        "triangles": 8540,
+        "bytes": 538636
+      }
+    },
+    {
+      "itemId": "crab_claw",
+      "name": "Crab Claw",
+      "usage": "standalone",
+      "referenceHash": "d0c15563418d93941b34e2b9a963ac21e1ecef9fcf45d854f2cb9ac691616914",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-biology",
+        "file": "art\\item-models\\candidates\\trophy-biology\\models\\items\\crab_claw.glb",
+        "sha256": "e03173fd1e9601a44845d58f2da8c990b8e33a4efa13a1f2f5814dcf35a8f796",
+        "sourceCurrent": true,
+        "referenceSha256": "d0c15563418d93941b34e2b9a963ac21e1ecef9fcf45d854f2cb9ac691616914",
+        "triangles": 21712,
+        "bytes": 1006712
+      }
+    },
+    {
+      "itemId": "ashback_claw",
+      "name": "Dire Bear Claw",
+      "usage": "standalone",
+      "referenceHash": "bd70b9361ed7f5a6791da332e48c8603e1251e9cb7ab2787c0ec178cc820e8ad",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-bones-b",
+        "file": "art\\item-models\\candidates\\trophy-bones-b\\models\\items\\ashback_claw.glb",
+        "sha256": "6c9aee831fc82e1baef54b1a4bb051fd04fca0f79362a3d0e5804468285cbc54",
+        "sourceCurrent": false,
+        "referenceSha256": "bd70b9361ed7f5a6791da332e48c8603e1251e9cb7ab2787c0ec178cc820e8ad",
+        "triangles": 57568,
+        "bytes": 3820000
+      }
+    },
+    {
+      "itemId": "cinder_tusk",
+      "name": "Dire Boar Tusk",
+      "usage": "standalone",
+      "referenceHash": "a0ab0e3227511170840cb01b34dea57a7c8ec9a147b460355f3b747dd8624dfc",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-bones-b",
+        "file": "art\\item-models\\candidates\\trophy-bones-b\\models\\items\\cinder_tusk.glb",
+        "sha256": "f66535ee199c9bea48992fa3e60d86f6a398975a9a5d9985b902ba8aeb16429d",
+        "sourceCurrent": false,
+        "referenceSha256": "a0ab0e3227511170840cb01b34dea57a7c8ec9a147b460355f3b747dd8624dfc",
+        "triangles": 57568,
+        "bytes": 3904268
+      }
+    },
+    {
+      "itemId": "emberhorn",
+      "name": "Large Ibex Horn",
+      "usage": "standalone",
+      "referenceHash": "44f1efe5fecbaa88bd2fa54c24a12ae74902ae26228e50440eb7a2c3e1930b0c",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-bones-b",
+        "file": "art\\item-models\\candidates\\trophy-bones-b\\models\\items\\emberhorn.glb",
+        "sha256": "b9131e842590196efd2e03c202e7e4303ee9912d718dc5d0d1b2085cc84f600e",
+        "sourceCurrent": false,
+        "referenceSha256": "44f1efe5fecbaa88bd2fa54c24a12ae74902ae26228e50440eb7a2c3e1930b0c",
+        "triangles": 57568,
+        "bytes": 3983692
+      }
+    },
+    {
+      "itemId": "kiln_fang",
+      "name": "Giant Viper Fang",
+      "usage": "standalone",
+      "referenceHash": "bc099eee3319f55d043777e4139ec0d62b1dcafa0f6e19ed58c28975e6f21479",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "trophy-bones-b",
+        "file": "art\\item-models\\candidates\\trophy-bones-b\\models\\items\\kiln_fang.glb",
+        "sha256": "bd31a41a71848d9b2a564a3353cf273799bd9b85a8b2183321ef80f975e9ed5a",
+        "sourceCurrent": false,
+        "referenceSha256": "bc099eee3319f55d043777e4139ec0d62b1dcafa0f6e19ed58c28975e6f21479",
+        "triangles": 57568,
+        "bytes": 3806000
+      }
+    },
+    {
+      "itemId": "raw_game_meat",
+      "name": "Raw Game Meat",
+      "usage": "standalone",
+      "referenceHash": "325f9e26099722bdb24f71b2547f522dd1f2ab3e0a1fefee80b410e629776a57",
+      "status": "promoted",
+      "candidate": {
+        "author": "meat-a",
+        "file": "art\\item-models\\candidates\\meat-a\\models\\items\\raw_game_meat.glb",
+        "sha256": "f25d719872c065bbbb1e878d2dbccef33959e0dd39337305560128fc4e100e63",
+        "sourceCurrent": true,
+        "referenceSha256": "325f9e26099722bdb24f71b2547f522dd1f2ab3e0a1fefee80b410e629776a57",
+        "triangles": 24960,
+        "bytes": 1176404
+      }
+    },
+    {
+      "itemId": "roast_game",
+      "name": "Roast Game",
+      "usage": "standalone",
+      "referenceHash": "01edd9cc20d3c4ba59ef7872f6028d2b0a84d2cca02dd36c83e86d1f03aac339",
+      "status": "promoted",
+      "candidate": {
+        "author": "meat-a",
+        "file": "art\\item-models\\candidates\\meat-a\\models\\items\\roast_game.glb",
+        "sha256": "d9b1b80493c3ac7099c4a012440060779dd679aaef49b6e2b85ba37d950c4074",
+        "sourceCurrent": true,
+        "referenceSha256": "01edd9cc20d3c4ba59ef7872f6028d2b0a84d2cca02dd36c83e86d1f03aac339",
+        "triangles": 25380,
+        "bytes": 1176972
+      }
+    },
+    {
+      "itemId": "burnt_game",
+      "name": "Burnt Game",
+      "usage": "standalone",
+      "referenceHash": "debdc8acab57451265a021b4c2f0b800a4904a8c5f4cabb4f924c8155d5b7cce",
+      "status": "promoted",
+      "candidate": {
+        "author": "meat-a",
+        "file": "art\\item-models\\candidates\\meat-a\\models\\items\\burnt_game.glb",
+        "sha256": "ef336415a7b66e17d3e7e449d6559415c6abf42725dc8e5784265e421a63132d",
+        "sourceCurrent": true,
+        "referenceSha256": "debdc8acab57451265a021b4c2f0b800a4904a8c5f4cabb4f924c8155d5b7cce",
+        "triangles": 35940,
+        "bytes": 1516400
+      }
+    },
+    {
+      "itemId": "raw_venison",
+      "name": "Raw Venison",
+      "usage": "standalone",
+      "referenceHash": "f48bd1f1bdf0194087acddfd9354484804fae97627352ea4d12140ec54a4ae27",
+      "status": "promoted",
+      "candidate": {
+        "author": "meat-a",
+        "file": "art\\item-models\\candidates\\meat-a\\models\\items\\raw_venison.glb",
+        "sha256": "5997e3fbe65381170fbdb2386e1f062834e33c063844aca5860bcaae317376e3",
+        "sourceCurrent": true,
+        "referenceSha256": "f48bd1f1bdf0194087acddfd9354484804fae97627352ea4d12140ec54a4ae27",
+        "triangles": 27472,
+        "bytes": 1288220
+      }
+    },
+    {
+      "itemId": "roast_venison",
+      "name": "Roast Venison",
+      "usage": "standalone",
+      "referenceHash": "8ac312f364b0e61ce87272bc9c69a55317dff23d4115c3db5dffe856138bc48c",
+      "status": "promoted",
+      "candidate": {
+        "author": "meat-a",
+        "file": "art\\item-models\\candidates\\meat-a\\models\\items\\roast_venison.glb",
+        "sha256": "4776f7b5f8d733388db9edc4c3f18042958d748ddbf798d1592353b7e17521a4",
+        "sourceCurrent": true,
+        "referenceSha256": "8ac312f364b0e61ce87272bc9c69a55317dff23d4115c3db5dffe856138bc48c",
+        "triangles": 39312,
+        "bytes": 1840172
+      }
+    },
+    {
+      "itemId": "burnt_venison",
+      "name": "Burnt Venison",
+      "usage": "standalone",
+      "referenceHash": "a67cb366117cdcfe10b7718ce952b0e1022062772ea1f55b8734ce34ea8dfaa4",
+      "status": "promoted",
+      "candidate": {
+        "author": "meat-a",
+        "file": "art\\item-models\\candidates\\meat-a\\models\\items\\burnt_venison.glb",
+        "sha256": "dd667a75b88977891edfc108d7ef527b3d4d2d9cd677e95c61df0b99811f69c9",
+        "sourceCurrent": true,
+        "referenceSha256": "a67cb366117cdcfe10b7718ce952b0e1022062772ea1f55b8734ce34ea8dfaa4",
+        "triangles": 36172,
+        "bytes": 1539752
+      }
+    },
+    {
+      "itemId": "raw_haunch",
+      "name": "Raw Haunch",
+      "usage": "standalone",
+      "referenceHash": "c87a77cc4802cb67dac4ff0f6d352ef9f2a0204c8ca56d793d066b925d727154",
+      "status": "promoted",
+      "candidate": {
+        "author": "meat-b",
+        "file": "art\\item-models\\candidates\\meat-b\\models\\items\\raw_haunch.glb",
+        "sha256": "d1c352426f934e8196d16fb522eaeb1e1ae3ef834fefec4e3694965da964de58",
+        "sourceCurrent": true,
+        "referenceSha256": "c87a77cc4802cb67dac4ff0f6d352ef9f2a0204c8ca56d793d066b925d727154",
+        "triangles": 41888,
+        "bytes": 2233340
+      }
+    },
+    {
+      "itemId": "roast_haunch",
+      "name": "Roast Haunch",
+      "usage": "standalone",
+      "referenceHash": "12c43da8ac7b0a12a5766899695d1347b67357fbfd34e14ad4fcb0a03c7a649d",
+      "status": "promoted",
+      "candidate": {
+        "author": "meat-b",
+        "file": "art\\item-models\\candidates\\meat-b\\models\\items\\roast_haunch.glb",
+        "sha256": "57f275afb913ed085edcca33bd6d75c666c28208120a9ed4da13558b3ef69e64",
+        "sourceCurrent": true,
+        "referenceSha256": "12c43da8ac7b0a12a5766899695d1347b67357fbfd34e14ad4fcb0a03c7a649d",
+        "triangles": 41888,
+        "bytes": 2297080
+      }
+    },
+    {
+      "itemId": "burnt_haunch",
+      "name": "Burnt Haunch",
+      "usage": "standalone",
+      "referenceHash": "856352d36b1068b406d8ba9d892843027b12e06a9dcfc151faaaa3545f2b0d0e",
+      "status": "promoted",
+      "candidate": {
+        "author": "meat-b",
+        "file": "art\\item-models\\candidates\\meat-b\\models\\items\\burnt_haunch.glb",
+        "sha256": "86369e4b74de1e7262768f947d21eb67c73bf6e0548977482117a7162d83e1f7",
+        "sourceCurrent": true,
+        "referenceSha256": "856352d36b1068b406d8ba9d892843027b12e06a9dcfc151faaaa3545f2b0d0e",
+        "triangles": 46208,
+        "bytes": 2275408
+      }
+    },
+    {
+      "itemId": "raw_ember_haunch",
+      "name": "Raw Prime Haunch",
+      "usage": "standalone",
+      "referenceHash": "e66744f8ea9e25127ca413d3ba26c75b55adcf28ee4209f74f5236aa6a055266",
+      "status": "promoted",
+      "candidate": {
+        "author": "meat-b",
+        "file": "art\\item-models\\candidates\\meat-b\\models\\items\\raw_ember_haunch.glb",
+        "sha256": "fcb948828d5405375492f1bb23e73c497d5905baf9851abaf51236017842d1a6",
+        "sourceCurrent": true,
+        "referenceSha256": "e66744f8ea9e25127ca413d3ba26c75b55adcf28ee4209f74f5236aa6a055266",
+        "triangles": 41888,
+        "bytes": 2278420
+      }
+    },
+    {
+      "itemId": "roast_ember_haunch",
+      "name": "Roast Prime Haunch",
+      "usage": "standalone",
+      "referenceHash": "4849f39cc1ab9f9d58fce1cea5bdd13a3f8fb26c2b8ac351cf62b3991892ab74",
+      "status": "promoted",
+      "candidate": {
+        "author": "meat-b",
+        "file": "art\\item-models\\candidates\\meat-b\\models\\items\\roast_ember_haunch.glb",
+        "sha256": "732cc2130558cb4cec2ff7fa950d1c7485f26603d809215a824a6f1da3bf2957",
+        "sourceCurrent": true,
+        "referenceSha256": "4849f39cc1ab9f9d58fce1cea5bdd13a3f8fb26c2b8ac351cf62b3991892ab74",
+        "triangles": 41824,
+        "bytes": 2298820
+      }
+    },
+    {
+      "itemId": "burnt_ember_haunch",
+      "name": "Burnt Prime Haunch",
+      "usage": "standalone",
+      "referenceHash": "c072432331a95bc76e41166c2380a7a32a0652c33a5ef617575a89cd02183199",
+      "status": "promoted",
+      "candidate": {
+        "author": "meat-b",
+        "file": "art\\item-models\\candidates\\meat-b\\models\\items\\burnt_ember_haunch.glb",
+        "sha256": "239727b8f6f37d22ba9156d9ccc55e109f260628c33068f8d0dc295b29b54aa1",
+        "sourceCurrent": true,
+        "referenceSha256": "c072432331a95bc76e41166c2380a7a32a0652c33a5ef617575a89cd02183199",
+        "triangles": 46208,
+        "bytes": 2277172
+      }
+    },
+    {
+      "itemId": "seared_minnow",
+      "name": "Seared Minnow",
+      "usage": "standalone",
+      "referenceHash": "2725705b4ed5009ca91dd4ea2bdde7733733d82fddeb47a1931358f6c98681ae",
+      "status": "promoted",
+      "candidate": {
+        "author": "fish-a",
+        "file": "art\\item-models\\candidates\\fish-a\\models\\items\\seared_minnow.glb",
+        "sha256": "04a1ab2e9f888a804071c8fa8b26fed6f7f8cdb8457745a3fd28e27c050e9e8f",
+        "sourceCurrent": true,
+        "referenceSha256": "2725705b4ed5009ca91dd4ea2bdde7733733d82fddeb47a1931358f6c98681ae",
+        "triangles": 48322,
+        "bytes": 2069576
+      }
+    },
+    {
+      "itemId": "burnt_minnow",
+      "name": "Burnt Minnow",
+      "usage": "standalone",
+      "referenceHash": "3d5972c704fdf1425ea77a9377daa66d7f14a0ae80a3ccc9e865f9850535acc8",
+      "status": "promoted",
+      "candidate": {
+        "author": "fish-a",
+        "file": "art\\item-models\\candidates\\fish-a\\models\\items\\burnt_minnow.glb",
+        "sha256": "59e83adfb7e7a4285e320eece94902aa2cda912131054ce0c37ae3b6c5b0cb8a",
+        "sourceCurrent": true,
+        "referenceSha256": "3d5972c704fdf1425ea77a9377daa66d7f14a0ae80a3ccc9e865f9850535acc8",
+        "triangles": 49682,
+        "bytes": 2448964
+      }
+    },
+    {
+      "itemId": "seared_trout",
+      "name": "Seared Trout",
+      "usage": "standalone",
+      "referenceHash": "c1c6c03d1d1b6eea47893eadea7dbec433332e54fa9f7223ed79fa4cf0aaf6be",
+      "status": "promoted",
+      "candidate": {
+        "author": "fish-a",
+        "file": "art\\item-models\\candidates\\fish-a\\models\\items\\seared_trout.glb",
+        "sha256": "2f45d81a53b01dd22d494ff806c61be7ef1b40ecd45ef4fbd18274fe5e7b8ebf",
+        "sourceCurrent": true,
+        "referenceSha256": "c1c6c03d1d1b6eea47893eadea7dbec433332e54fa9f7223ed79fa4cf0aaf6be",
+        "triangles": 56144,
+        "bytes": 2381696
+      }
+    },
+    {
+      "itemId": "burnt_trout",
+      "name": "Burnt Trout",
+      "usage": "standalone",
+      "referenceHash": "ea4924334136051e56b1eb8cbb656e8cbeccdd01b0fd63b2536bf870f68b110c",
+      "status": "promoted",
+      "candidate": {
+        "author": "fish-a",
+        "file": "art\\item-models\\candidates\\fish-a\\models\\items\\burnt_trout.glb",
+        "sha256": "dc5dbdf46134c8de83b220bac2cd3c5079bdbefc73dcdb6c7e5ab03af8ea1aa3",
+        "sourceCurrent": true,
+        "referenceSha256": "ea4924334136051e56b1eb8cbb656e8cbeccdd01b0fd63b2536bf870f68b110c",
+        "triangles": 46432,
+        "bytes": 2363008
+      }
+    },
+    {
+      "itemId": "seared_cragfin",
+      "name": "Seared Perch",
+      "usage": "standalone",
+      "referenceHash": "186872cc285d782daa5702b4566158a48bc550bd9506ef3f1a5e89cf53a230f5",
+      "status": "promoted",
+      "candidate": {
+        "author": "fish-b",
+        "file": "art\\item-models\\candidates\\fish-b\\models\\items\\seared_cragfin.glb",
+        "sha256": "345d9c58784b45ac29044037f05649572ac7f52fb479f397e1a02e91311bc256",
+        "sourceCurrent": true,
+        "referenceSha256": "186872cc285d782daa5702b4566158a48bc550bd9506ef3f1a5e89cf53a230f5",
+        "triangles": 55004,
+        "bytes": 2186884
+      }
+    },
+    {
+      "itemId": "burnt_cragfin",
+      "name": "Burnt Perch",
+      "usage": "standalone",
+      "referenceHash": "3e7b5b3e90bcb6405a9a5626c0e6e284c0ee4ecf88e5e9f6c667cb29dc83fa72",
+      "status": "promoted",
+      "candidate": {
+        "author": "fish-b",
+        "file": "art\\item-models\\candidates\\fish-b\\models\\items\\burnt_cragfin.glb",
+        "sha256": "1e59366b6bb5a0685100b319af7761f9d72eff9086750d79e25801777b48a3d4",
+        "sourceCurrent": true,
+        "referenceSha256": "3e7b5b3e90bcb6405a9a5626c0e6e284c0ee4ecf88e5e9f6c667cb29dc83fa72",
+        "triangles": 58629,
+        "bytes": 2322628
+      }
+    },
+    {
+      "itemId": "seared_ashfin",
+      "name": "Seared Bass",
+      "usage": "standalone",
+      "referenceHash": "280facc785e4b8ce60967582ad36a7fa7351717ad6c32f585b0bd284e16046cf",
+      "status": "promoted",
+      "candidate": {
+        "author": "fish-b",
+        "file": "art\\item-models\\candidates\\fish-b\\models\\items\\seared_ashfin.glb",
+        "sha256": "09cc37eeac2a4cc616a33e899ab7ba903300825c7990cccfe6ae315e9ed16762",
+        "sourceCurrent": true,
+        "referenceSha256": "280facc785e4b8ce60967582ad36a7fa7351717ad6c32f585b0bd284e16046cf",
+        "triangles": 55004,
+        "bytes": 2186868
+      }
+    },
+    {
+      "itemId": "burnt_ashfin",
+      "name": "Burnt Bass",
+      "usage": "standalone",
+      "referenceHash": "347e12c6eaa9cf4c452bb2176ec09894d5e969e5592db7489d9120ee53064b70",
+      "status": "promoted",
+      "candidate": {
+        "author": "fish-b",
+        "file": "art\\item-models\\candidates\\fish-b\\models\\items\\burnt_ashfin.glb",
+        "sha256": "8242ce407093948a3714446c596a2217567a123a2f3e2ab07b4d81a478138087",
+        "sourceCurrent": true,
+        "referenceSha256": "347e12c6eaa9cf4c452bb2176ec09894d5e969e5592db7489d9120ee53064b70",
+        "triangles": 58629,
+        "bytes": 2322612
+      }
+    },
+    {
+      "itemId": "worn_pickaxe",
+      "name": "Worn Pickaxe",
+      "usage": "gathering-tool",
+      "referenceHash": "584950a912110fd685ae44b53047f96fd4f913ca84cb976bc9c3d1a734e9c477",
+      "status": "promoted",
+      "candidate": {
+        "author": "pickaxes",
+        "file": "art\\item-models\\candidates\\pickaxes\\models\\items\\worn_pickaxe.glb",
+        "sha256": "380878c43f563845091065423b3b8558e3bcb126b539ce37f9a24c78c7ee2ef1",
+        "sourceCurrent": true,
+        "referenceSha256": "584950a912110fd685ae44b53047f96fd4f913ca84cb976bc9c3d1a734e9c477",
+        "triangles": 3450,
+        "bytes": 301108
+      }
+    },
+    {
+      "itemId": "worn_hatchet",
+      "name": "Worn Hatchet",
+      "usage": "gathering-tool",
+      "referenceHash": "e04844e036423fb504faf73948674f02a772645e82a788f85e4dbb4c9f614880",
+      "status": "promoted",
+      "candidate": {
+        "author": "hatchets",
+        "file": "art\\item-models\\candidates\\hatchets\\models\\items\\worn_hatchet.glb",
+        "sha256": "7163238f9121fc7255d76f425537371112010c4bf3c112712fe8c5f70a770556",
+        "sourceCurrent": true,
+        "referenceSha256": "e04844e036423fb504faf73948674f02a772645e82a788f85e4dbb4c9f614880",
+        "triangles": 18500,
+        "bytes": 1031588
+      }
+    },
+    {
+      "itemId": "worn_rod",
+      "name": "Worn Rod",
+      "usage": "fishing-rod",
+      "referenceHash": "59e3052c1beb65632f2ace575c777f79305796f83308ce2a5c8573d6897238c6",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "rods",
+        "file": "art\\item-models\\candidates\\rods\\models\\items\\worn_rod.glb",
+        "sha256": "989376af78635d73e270fa5422142d3cce2ec4006a5a7c571bc1a7d18224f549",
+        "sourceCurrent": true,
+        "referenceSha256": "59e3052c1beb65632f2ace575c777f79305796f83308ce2a5c8573d6897238c6",
+        "triangles": 33320,
+        "bytes": 1455316
+      }
+    },
+    {
+      "itemId": "grithe_pickaxe",
+      "name": "Copper Pickaxe",
+      "usage": "gathering-tool",
+      "referenceHash": "1b98e9bf1ee684d607fe96ed218cacd9d236042418b3b7ec53f64636e356f185",
+      "status": "promoted",
+      "candidate": {
+        "author": "pickaxes",
+        "file": "art\\item-models\\candidates\\pickaxes\\models\\items\\grithe_pickaxe.glb",
+        "sha256": "56648262dc9de04ede4067e0bfefb3c75eaa8d7e93818e59bf685c1739a6c2bc",
+        "sourceCurrent": true,
+        "referenceSha256": "1b98e9bf1ee684d607fe96ed218cacd9d236042418b3b7ec53f64636e356f185",
+        "triangles": 5064,
+        "bytes": 343340
+      }
+    },
+    {
+      "itemId": "corven_pickaxe",
+      "name": "Iron Pickaxe",
+      "usage": "gathering-tool",
+      "referenceHash": "270f75976a01db7487fc93548845016b6d3803fc26d2005b887fa6b83a4b7275",
+      "status": "promoted",
+      "candidate": {
+        "author": "pickaxes",
+        "file": "art\\item-models\\candidates\\pickaxes\\models\\items\\corven_pickaxe.glb",
+        "sha256": "11509e77ed973eecab503794817463895159cafbb15005fd4b403e58655ab632",
+        "sourceCurrent": true,
+        "referenceSha256": "270f75976a01db7487fc93548845016b6d3803fc26d2005b887fa6b83a4b7275",
+        "triangles": 5976,
+        "bytes": 364360
+      }
+    },
+    {
+      "itemId": "kaldite_pickaxe",
+      "name": "Cobalt Pickaxe",
+      "usage": "gathering-tool",
+      "referenceHash": "8cb2e8bf9cbfec1e3597c5a05873bdba65cae234fde790bf7feed35caf0b4678",
+      "status": "promoted",
+      "candidate": {
+        "author": "pickaxes",
+        "file": "art\\item-models\\candidates\\pickaxes\\models\\items\\kaldite_pickaxe.glb",
+        "sha256": "69c9439726c17546b99c53258a2183e7e932f4c736b6f16792bbd1bb34722287",
+        "sourceCurrent": true,
+        "referenceSha256": "8cb2e8bf9cbfec1e3597c5a05873bdba65cae234fde790bf7feed35caf0b4678",
+        "triangles": 5496,
+        "bytes": 354560
+      }
+    },
+    {
+      "itemId": "grithe_hatchet",
+      "name": "Copper Hatchet",
+      "usage": "gathering-tool",
+      "referenceHash": "04694c22e2034dd2494820bd0beab3cabd2ea2f4674fcf5426fe58981fdc6aad",
+      "status": "promoted",
+      "candidate": {
+        "author": "hatchets",
+        "file": "art\\item-models\\candidates\\hatchets\\models\\items\\grithe_hatchet.glb",
+        "sha256": "4737368702e3d87f9eb741d7d4a0596f9ab31cefc424fb8fe64fccff92a3e916",
+        "sourceCurrent": true,
+        "referenceSha256": "04694c22e2034dd2494820bd0beab3cabd2ea2f4674fcf5426fe58981fdc6aad",
+        "triangles": 18500,
+        "bytes": 1040100
+      }
+    },
+    {
+      "itemId": "corven_hatchet",
+      "name": "Iron Hatchet",
+      "usage": "gathering-tool",
+      "referenceHash": "b92dff9ea196435ec2ca2d5a37d979138f8bde2a6a89322acbbe7a82351b71b4",
+      "status": "promoted",
+      "candidate": {
+        "author": "hatchets",
+        "file": "art\\item-models\\candidates\\hatchets\\models\\items\\corven_hatchet.glb",
+        "sha256": "09147ce54df5eb9b17f8da22e2311645e9d28135ded93dcf66af5c9939f16ae2",
+        "sourceCurrent": true,
+        "referenceSha256": "b92dff9ea196435ec2ca2d5a37d979138f8bde2a6a89322acbbe7a82351b71b4",
+        "triangles": 18628,
+        "bytes": 1033280
+      }
+    },
+    {
+      "itemId": "kaldite_hatchet",
+      "name": "Cobalt Hatchet",
+      "usage": "gathering-tool",
+      "referenceHash": "a6cff0f164ecc81e3fec8cd2b37cda07710c28cbcbb0a400953c5639648c8cfe",
+      "status": "promoted",
+      "candidate": {
+        "author": "hatchets",
+        "file": "art\\item-models\\candidates\\hatchets\\models\\items\\kaldite_hatchet.glb",
+        "sha256": "3f46a43ed4a0219144c96da77128d87a4dce328a5225f769eb51b841a2311f62",
+        "sourceCurrent": true,
+        "referenceSha256": "a6cff0f164ecc81e3fec8cd2b37cda07710c28cbcbb0a400953c5639648c8cfe",
+        "triangles": 18756,
+        "bytes": 1040612
+      }
+    },
+    {
+      "itemId": "palewood_rod",
+      "name": "Pine Rod",
+      "usage": "fishing-rod",
+      "referenceHash": "9a982619cd20727e5027ab612c08fd686dc8f19bb429e41bd97c617a64e0a3f5",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "rods",
+        "file": "art\\item-models\\candidates\\rods\\models\\items\\palewood_rod.glb",
+        "sha256": "5be0885021934e9f09648590420516c5731bae1a6395711a2d7d3b9cb29f81df",
+        "sourceCurrent": true,
+        "referenceSha256": "9a982619cd20727e5027ab612c08fd686dc8f19bb429e41bd97c617a64e0a3f5",
+        "triangles": 32672,
+        "bytes": 1456276
+      }
+    },
+    {
+      "itemId": "duskoak_rod",
+      "name": "Ash Rod",
+      "usage": "fishing-rod",
+      "referenceHash": "0dbe0fe2ba120352554baccb0cddf7da5a34c666a8464f0a1a06742911a13900",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "rods",
+        "file": "art\\item-models\\candidates\\rods\\models\\items\\duskoak_rod.glb",
+        "sha256": "a120553519b4c548837a4ddaeda1542d98a48a31b7c2cc46bff1f5c3cb758a48",
+        "sourceCurrent": true,
+        "referenceSha256": "0dbe0fe2ba120352554baccb0cddf7da5a34c666a8464f0a1a06742911a13900",
+        "triangles": 40796,
+        "bytes": 1983400
+      }
+    },
+    {
+      "itemId": "cairnpine_rod",
+      "name": "Oak Rod",
+      "usage": "fishing-rod",
+      "referenceHash": "d245486315e6948160f8edcea8145aea2a95d9be3d86fa0ba279b84ac4c4f749",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "rods",
+        "file": "art\\item-models\\candidates\\rods\\models\\items\\cairnpine_rod.glb",
+        "sha256": "1f19d9ea8f687b06636731487cc974af92f221980abe2d9ddc81f20e7fae98c3",
+        "sourceCurrent": true,
+        "referenceSha256": "d245486315e6948160f8edcea8145aea2a95d9be3d86fa0ba279b84ac4c4f749",
+        "triangles": 35088,
+        "bytes": 1526844
+      }
+    },
+    {
+      "itemId": "emberite_pickaxe",
+      "name": "Titanium Pickaxe",
+      "usage": "gathering-tool",
+      "referenceHash": "ebca51100cf3cf03b23e1a52654296d133701db3ad59b6ded3b602f1acc14f27",
+      "status": "promoted",
+      "candidate": {
+        "author": "pickaxes",
+        "file": "art\\item-models\\candidates\\pickaxes\\models\\items\\emberite_pickaxe.glb",
+        "sha256": "3973e671c0bab39daa50f49dc5786b83483d26e3356a2086227bae53be8787bb",
+        "sourceCurrent": true,
+        "referenceSha256": "ebca51100cf3cf03b23e1a52654296d133701db3ad59b6ded3b602f1acc14f27",
+        "triangles": 7048,
+        "bytes": 403776
+      }
+    },
+    {
+      "itemId": "emberite_hatchet",
+      "name": "Titanium Hatchet",
+      "usage": "gathering-tool",
+      "referenceHash": "7099309c82d8bd580d379533b29605e0b45d878fd90c78ef535624018fe4c0d3",
+      "status": "promoted",
+      "candidate": {
+        "author": "hatchets",
+        "file": "art\\item-models\\candidates\\hatchets\\models\\items\\emberite_hatchet.glb",
+        "sha256": "bee1203eed1b0cc779747e3cc6550f3b68181401ce66638cbeec8bc8ade53bc4",
+        "sourceCurrent": true,
+        "referenceSha256": "7099309c82d8bd580d379533b29605e0b45d878fd90c78ef535624018fe4c0d3",
+        "triangles": 22708,
+        "bytes": 1177412
+      }
+    },
+    {
+      "itemId": "cinderpine_rod",
+      "name": "Walnut Rod",
+      "usage": "fishing-rod",
+      "referenceHash": "d9202d1bd8757611ee7d04ed6c9fe3134dcd7ef49d9179ec33d130485beab609",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "rods",
+        "file": "art\\item-models\\candidates\\rods\\models\\items\\cinderpine_rod.glb",
+        "sha256": "fe9baa5a51f9ace56549e095d6579bdddc4788cc8aa5fdbd246c2307e6a7b84e",
+        "sourceCurrent": true,
+        "referenceSha256": "d9202d1bd8757611ee7d04ed6c9fe3134dcd7ef49d9179ec33d130485beab609",
+        "triangles": 38568,
+        "bytes": 1891820
+      }
+    },
+    {
+      "itemId": "willow_log",
+      "name": "Willow Log",
+      "usage": "standalone",
+      "referenceHash": "b5b6348a717bfaee154274cc2befed6446712fe24eeedb348dafc974d8a50360",
+      "status": "promoted",
+      "candidate": {
+        "author": "logs-a",
+        "file": "art\\item-models\\candidates\\logs-a\\models\\items\\willow_log.glb",
+        "sha256": "367ebe9aa09a174f4ef68871daa7701dfd2fb2bdcdaed53e06b84331b9b2227c",
+        "sourceCurrent": true,
+        "referenceSha256": "b5b6348a717bfaee154274cc2befed6446712fe24eeedb348dafc974d8a50360",
+        "triangles": 25736,
+        "bytes": 4829900
+      }
+    },
+    {
+      "itemId": "maple_log",
+      "name": "Maple Log",
+      "usage": "standalone",
+      "referenceHash": "bed77d7ec18292c69af39b6a250351cecad522aa2fd7635fcb53f9d9cf0549c9",
+      "status": "promoted",
+      "candidate": {
+        "author": "logs-b",
+        "file": "art\\item-models\\candidates\\logs-b\\models\\items\\maple_log.glb",
+        "sha256": "498a8ec4314edc71af2d00938f9378824e21da8979f639f4f19b4f92ccf1298e",
+        "sourceCurrent": true,
+        "referenceSha256": "bed77d7ec18292c69af39b6a250351cecad522aa2fd7635fcb53f9d9cf0549c9",
+        "triangles": 31596,
+        "bytes": 3550968
+      }
+    },
+    {
+      "itemId": "teak_log",
+      "name": "Teak Log",
+      "usage": "standalone",
+      "referenceHash": "c431cb4b71679ff1ef3270f375ad0f98e7bc89759f64e62d67176cf143ee2211",
+      "status": "promoted",
+      "candidate": {
+        "author": "logs-b",
+        "file": "art\\item-models\\candidates\\logs-b\\models\\items\\teak_log.glb",
+        "sha256": "99bf272fc80d4f651414fe7a27948906ac571b458f08355f5aaf3047ac6cd48f",
+        "sourceCurrent": true,
+        "referenceSha256": "c431cb4b71679ff1ef3270f375ad0f98e7bc89759f64e62d67176cf143ee2211",
+        "triangles": 33896,
+        "bytes": 3979300
+      }
+    },
+    {
+      "itemId": "yew_log",
+      "name": "Yew Log",
+      "usage": "standalone",
+      "referenceHash": "27c1ae0458bdfd036f37de75a9be7f0bf5619066ab03912dbf3b9c1e1c466131",
+      "status": "promoted",
+      "candidate": {
+        "author": "logs-b",
+        "file": "art\\item-models\\candidates\\logs-b\\models\\items\\yew_log.glb",
+        "sha256": "1544dee0e908e30de0fd8ebb104289720f231a9e2e94fa2320b260c3f31f023d",
+        "sourceCurrent": true,
+        "referenceSha256": "27c1ae0458bdfd036f37de75a9be7f0bf5619066ab03912dbf3b9c1e1c466131",
+        "triangles": 23696,
+        "bytes": 3107312
+      }
+    },
+    {
+      "itemId": "magic_log",
+      "name": "Magic Log",
+      "usage": "standalone",
+      "referenceHash": "0a6178f34d4d9f320c3d37ae6ce4ac01dfb5ad4b970b1c3a475d04eca1c8b537",
+      "status": "promoted",
+      "candidate": {
+        "author": "logs-b",
+        "file": "art\\item-models\\candidates\\logs-b\\models\\items\\magic_log.glb",
+        "sha256": "1f9a5d71555d43b126a322f65582b95adcb0a20c95e5aae2f32fe5d1da4a6c3c",
+        "sourceCurrent": true,
+        "referenceSha256": "0a6178f34d4d9f320c3d37ae6ce4ac01dfb5ad4b970b1c3a475d04eca1c8b537",
+        "triangles": 40896,
+        "bytes": 3677760
+      }
+    },
+    {
+      "itemId": "air_orb",
+      "name": "Air Orb",
+      "usage": "standalone",
+      "referenceHash": "b412cf9a9e50ab68339e6755a51b800b694ef0f1c6377ba794b2e69ae20475f9",
+      "status": "visual-approved",
+      "candidate": {
+        "author": "orbs-wands",
+        "file": "art\\item-models\\candidates\\orbs-wands\\models\\items\\air_orb.glb",
+        "sha256": "e6ee97514aaa77d6c3fff235cda6864c09ac75bab80c4d4968a4f3aa0a06bd51",
+        "sourceCurrent": true,
+        "referenceSha256": "b412cf9a9e50ab68339e6755a51b800b694ef0f1c6377ba794b2e69ae20475f9",
+        "triangles": 18624,
+        "bytes": 891508
+      }
+    },
+    {
+      "itemId": "earth_orb",
+      "name": "Earth Orb",
+      "usage": "standalone",
+      "referenceHash": "6499398ced2e17885a3adf975a6ba487503a750e8cfa16efbf3553d9c95d5f11",
+      "status": "visual-approved",
+      "candidate": {
+        "author": "orbs-wands",
+        "file": "art\\item-models\\candidates\\orbs-wands\\models\\items\\earth_orb.glb",
+        "sha256": "81694ae0aa0e218f0bf86558ec3bd1cd0244389fa963060acd762bc549084013",
+        "sourceCurrent": true,
+        "referenceSha256": "6499398ced2e17885a3adf975a6ba487503a750e8cfa16efbf3553d9c95d5f11",
+        "triangles": 5544,
+        "bytes": 587724
+      }
+    },
+    {
+      "itemId": "water_orb",
+      "name": "Water Orb",
+      "usage": "standalone",
+      "referenceHash": "71e60a75c23018ca6b72b95ff50236da4b4ff09b4e16e9bb55a96f8942def8c0",
+      "status": "visual-approved",
+      "candidate": {
+        "author": "orbs-wands",
+        "file": "art\\item-models\\candidates\\orbs-wands\\models\\items\\water_orb.glb",
+        "sha256": "0be4fa84ea3e66646b5bc3948c1faf435e0fd64098fd293899b0282ad8c08cd1",
+        "sourceCurrent": true,
+        "referenceSha256": "71e60a75c23018ca6b72b95ff50236da4b4ff09b4e16e9bb55a96f8942def8c0",
+        "triangles": 28560,
+        "bytes": 1238696
+      }
+    },
+    {
+      "itemId": "fire_orb",
+      "name": "Fire Orb",
+      "usage": "standalone",
+      "referenceHash": "f2cf5c4a761f8e34b36b80dee5d012b06c6d288fde6e688a2dfc5bc85645be46",
+      "status": "visual-approved",
+      "candidate": {
+        "author": "orbs-wands",
+        "file": "art\\item-models\\candidates\\orbs-wands\\models\\items\\fire_orb.glb",
+        "sha256": "43ca2b51ad1e8b601ed58cdf3fd9e8443ba243b631a02a9919ec5b1eadca0094",
+        "sourceCurrent": true,
+        "referenceSha256": "f2cf5c4a761f8e34b36b80dee5d012b06c6d288fde6e688a2dfc5bc85645be46",
+        "triangles": 33024,
+        "bytes": 1312040
+      }
+    },
+    {
+      "itemId": "worn_sword",
+      "name": "Worn Shortsword",
+      "usage": "held-equipment",
+      "referenceHash": "6780a831eb6671594ed44f4127d7dfbf29e72e27bfdeb4af3140b117c5388442",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-a",
+        "file": "art\\item-models\\candidates\\blades-a\\models\\items\\worn_sword.glb",
+        "sha256": "67b67b546b842049a35a47d2cdb7a5dc5d20b5392808c158953b9292a39634a9",
+        "sourceCurrent": true,
+        "referenceSha256": "6780a831eb6671594ed44f4127d7dfbf29e72e27bfdeb4af3140b117c5388442",
+        "triangles": 15704,
+        "bytes": 827604
+      }
+    },
+    {
+      "itemId": "basic_wooden_wand",
+      "name": "Basic Wooden Wand",
+      "usage": "held-equipment",
+      "referenceHash": "c6b7063fbd7c361ac0b54a049bcbc46c3afe2810722e44c9e4b65a33ccfcd4b7",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-a",
+        "file": "art\\item-models\\candidates\\wood-magic-a\\models\\items\\basic_wooden_wand.glb",
+        "sha256": "597c2c7aaeb9b9fdb7c24e5cc693bed8b4e845d00026c36fd041692a8fbbe99a",
+        "sourceCurrent": true,
+        "referenceSha256": "c6b7063fbd7c361ac0b54a049bcbc46c3afe2810722e44c9e4b65a33ccfcd4b7",
+        "triangles": 17536,
+        "bytes": 616260
+      }
+    },
+    {
+      "itemId": "basic_wooden_staff",
+      "name": "Basic Wooden Staff",
+      "usage": "held-equipment",
+      "referenceHash": "832c78e2227c33c48e308ffef0467a3734b6ee9cd2c66ef99d7bd03f3fb9ac59",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-a",
+        "file": "art\\item-models\\candidates\\wood-magic-a\\models\\items\\basic_wooden_staff.glb",
+        "sha256": "63a9010c62e0b414353538a4ca2613f843f6ea81a5b5bb16b7f56305ceb55d98",
+        "sourceCurrent": true,
+        "referenceSha256": "832c78e2227c33c48e308ffef0467a3734b6ee9cd2c66ef99d7bd03f3fb9ac59",
+        "triangles": 29536,
+        "bytes": 969364
+      }
+    },
+    {
+      "itemId": "grithe_dagger",
+      "name": "Copper Dagger",
+      "usage": "held-equipment",
+      "referenceHash": "badf0aa1c411eba256f8f13dd4ea3aa40cb8f4d52d5209a38b6b080b4d290803",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-a",
+        "file": "art\\item-models\\candidates\\blades-a\\models\\items\\grithe_dagger.glb",
+        "sha256": "f7d5ed114de0886a2736a03edfc304a2b84a4910e34e7a29e0dd5d2222310808",
+        "sourceCurrent": true,
+        "referenceSha256": "badf0aa1c411eba256f8f13dd4ea3aa40cb8f4d52d5209a38b6b080b4d290803",
+        "triangles": 15388,
+        "bytes": 801212
+      }
+    },
+    {
+      "itemId": "grithe_sword",
+      "name": "Copper Sword",
+      "usage": "held-equipment",
+      "referenceHash": "b98fc985b324230ef184a88204a6a5d970816573e8d501326db2f597d64d9d85",
+      "status": "visual-approved",
+      "candidate": {
+        "author": "pilot-sword",
+        "file": "art\\item-models\\candidates\\pilot-sword\\models\\items\\grithe_sword.glb",
+        "sha256": "34e965edaeb64094cf9c63499848af9b7d196c624242e88128dab669c6d58e88",
+        "sourceCurrent": true,
+        "referenceSha256": "b98fc985b324230ef184a88204a6a5d970816573e8d501326db2f597d64d9d85",
+        "triangles": 23380,
+        "bytes": 1379028
+      }
+    },
+    {
+      "itemId": "palewood_shield",
+      "name": "Pine Shield",
+      "usage": "held-equipment",
+      "referenceHash": "34a05a4b4cdfbd49cc7d95d03aa3cbe62369416af81df8a0c554229d57fd3e57",
+      "status": "promoted",
+      "candidate": {
+        "author": "shields",
+        "file": "art\\item-models\\candidates\\shields\\models\\items\\palewood_shield.glb",
+        "sha256": "17756f2d1e801a2c73d1c85781f6b067843380a65ccf7dfe0e192f2f2f3e0711",
+        "sourceCurrent": true,
+        "referenceSha256": "34a05a4b4cdfbd49cc7d95d03aa3cbe62369416af81df8a0c554229d57fd3e57",
+        "triangles": 20532,
+        "bytes": 1911616
+      }
+    },
+    {
+      "itemId": "grithe_helm",
+      "name": "Copper Helm",
+      "usage": "armor",
+      "referenceHash": "c1e330e943c800a4a00c374c5cd71e353187d5639baa0b1510474258079cbfd0",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "grithe_cuirass",
+      "name": "Copper Cuirass",
+      "usage": "armor",
+      "referenceHash": "6ebe0b36596ec4f690b79ae91aea963fc5defed8e1ccdd45f902aea7ca586924",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "grithe_greaves",
+      "name": "Copper Greaves",
+      "usage": "armor",
+      "referenceHash": "05ef571c3874d6216664079b3912485f0df2bec0247786edc754c1398ddb3882",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "grithe_boots",
+      "name": "Copper Boots",
+      "usage": "armor",
+      "referenceHash": "955885dd1ab0cf4e2436f79e14fd0bf57744ffd3f4ba2e92eb6288f252fb3818",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "grithe_gloves",
+      "name": "Copper Gloves",
+      "usage": "armor",
+      "referenceHash": "132338186e479a58b1d9cf4de9e8055596a9f4831b04a46924341f4707e4a0c3",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "grithe_ring",
+      "name": "Copper Ring",
+      "usage": "standalone",
+      "referenceHash": "4ad0c8b0bf19402a9bfea14ee552e60b58c19a6416f35202b712d4cba71187d4",
+      "status": "promoted",
+      "candidate": {
+        "author": "pilot-ring",
+        "file": "art\\item-models\\candidates\\pilot-ring\\models\\items\\grithe_ring.glb",
+        "sha256": "b1d57944b3b3103ed1273e2e41de1da271e20b9383040ac69380143140ca12a6",
+        "sourceCurrent": true,
+        "referenceSha256": "4ad0c8b0bf19402a9bfea14ee552e60b58c19a6416f35202b712d4cba71187d4",
+        "triangles": 15762,
+        "bytes": 566616
+      }
+    },
+    {
+      "itemId": "grithe_pendant",
+      "name": "Copper Pendant",
+      "usage": "standalone",
+      "referenceHash": "ca96448bde6f8caec2a96f74c59d9c447c7e68b0e993a4f6ea53ed4d79a85aed",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "jewelry-metal-a",
+        "file": "art\\item-models\\candidates\\jewelry-metal-a\\models\\items\\grithe_pendant.glb",
+        "sha256": "de89d76e25f90119653e1b887283a23068854ca577f71a328e5602d9de2f5cb3",
+        "sourceCurrent": true,
+        "referenceSha256": "ca96448bde6f8caec2a96f74c59d9c447c7e68b0e993a4f6ea53ed4d79a85aed",
+        "triangles": 23200,
+        "bytes": 926248
+      }
+    },
+    {
+      "itemId": "corven_dagger",
+      "name": "Iron Dagger",
+      "usage": "held-equipment",
+      "referenceHash": "15e38b9b11db8d98da28e14dbe5f0bf43091d92ba2d8a1d630a7e282c2ddf129",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-a",
+        "file": "art\\item-models\\candidates\\blades-a\\models\\items\\corven_dagger.glb",
+        "sha256": "d5c899d263775b8859a0c6ee3b7a2c93f3afc06fe1144a873ceee559247ebc12",
+        "sourceCurrent": true,
+        "referenceSha256": "15e38b9b11db8d98da28e14dbe5f0bf43091d92ba2d8a1d630a7e282c2ddf129",
+        "triangles": 16180,
+        "bytes": 975128
+      }
+    },
+    {
+      "itemId": "corven_sword",
+      "name": "Iron Sword",
+      "usage": "held-equipment",
+      "referenceHash": "bb8cd51f550b77d92d802d7914a69a2f25783a08fb7984f414fc6732ce490da5",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-a",
+        "file": "art\\item-models\\candidates\\blades-a\\models\\items\\corven_sword.glb",
+        "sha256": "31413b8590474f9724c1ddca0df8ad6fd7ce2530b939704dd2ed6bcd88ac07ea",
+        "sourceCurrent": true,
+        "referenceSha256": "bb8cd51f550b77d92d802d7914a69a2f25783a08fb7984f414fc6732ce490da5",
+        "triangles": 14648,
+        "bytes": 778772
+      }
+    },
+    {
+      "itemId": "duskoak_shield",
+      "name": "Ash Shield",
+      "usage": "held-equipment",
+      "referenceHash": "fd019c9fb6d786142b53dfaa20e054904b39f4265f94d794ffa35731a4752e03",
+      "status": "promoted",
+      "candidate": {
+        "author": "shields",
+        "file": "art\\item-models\\candidates\\shields\\models\\items\\duskoak_shield.glb",
+        "sha256": "ba08c0e614b3aab80c6f86e0ef557e3372c5275d0b9f62496b175ef31bb1e30b",
+        "sourceCurrent": true,
+        "referenceSha256": "fd019c9fb6d786142b53dfaa20e054904b39f4265f94d794ffa35731a4752e03",
+        "triangles": 28140,
+        "bytes": 2338308
+      }
+    },
+    {
+      "itemId": "corven_helm",
+      "name": "Iron Helm",
+      "usage": "armor",
+      "referenceHash": "c2d995e5defb5133af51b090511e7c184e964e9e8204d6dad08ad9f87a0cf619",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "corven_plate",
+      "name": "Iron Plate",
+      "usage": "armor",
+      "referenceHash": "e3551ec7572a5b3d2eefd2ec06b2100a46228a60b9abf0f52ff51fe659dd99e2",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "corven_greaves",
+      "name": "Iron Greaves",
+      "usage": "armor",
+      "referenceHash": "c7fc1bd7225707d7ba35dd6a31106bebe810a9ff74e3a2ff18a0a44ea55124d5",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "corven_boots",
+      "name": "Iron Boots",
+      "usage": "armor",
+      "referenceHash": "b4f04850564c10403b91e2e056b160a2ed39de46ea492aeba338a4aa1f2c029f",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "corven_gauntlets",
+      "name": "Iron Gauntlets",
+      "usage": "armor",
+      "referenceHash": "32bcf1d4830e22b5cd9e80d16cb60b3ba9a37758bdb58150b4a2c36bc3bf9835",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "corven_ring",
+      "name": "Iron Ring",
+      "usage": "standalone",
+      "referenceHash": "c6ef6fa24c53ec607eeda080c72e14e9c84de713410fdcb39ecfbf0db8bf5276",
+      "status": "visual-approved",
+      "candidate": {
+        "author": "jewelry-metal-a",
+        "file": "art\\item-models\\candidates\\jewelry-metal-a\\models\\items\\corven_ring.glb",
+        "sha256": "e6fed6f7a7dc5ffd3ccc48de6014ae4e65aa28942fbaf01f56484cb2d9cf9350",
+        "sourceCurrent": true,
+        "referenceSha256": "c6ef6fa24c53ec607eeda080c72e14e9c84de713410fdcb39ecfbf0db8bf5276",
+        "triangles": 21880,
+        "bytes": 988332
+      }
+    },
+    {
+      "itemId": "corven_pendant",
+      "name": "Iron Pendant",
+      "usage": "standalone",
+      "referenceHash": "eb0b3fce245adc796b57dbb7ec956d943a9ff9556e7d4324b4c09e4d54307062",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "jewelry-metal-a",
+        "file": "art\\item-models\\candidates\\jewelry-metal-a\\models\\items\\corven_pendant.glb",
+        "sha256": "f4e97d84547e9c88acf7d635a9f0629d0c7e610a859d67a1beca0ac8033e8786",
+        "sourceCurrent": true,
+        "referenceSha256": "eb0b3fce245adc796b57dbb7ec956d943a9ff9556e7d4324b4c09e4d54307062",
+        "triangles": 27366,
+        "bytes": 1108328
+      }
+    },
+    {
+      "itemId": "kaldite_dagger",
+      "name": "Cobalt Dagger",
+      "usage": "held-equipment",
+      "referenceHash": "143a74fb22aa7da252bf2f52b23990b2648022fd24b7e3127c2a4f11df7888e5",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-a",
+        "file": "art\\item-models\\candidates\\blades-a\\models\\items\\kaldite_dagger.glb",
+        "sha256": "2c8287e64c86f9424b2fd3d27b633b0077d76841beb7bbda5c8a42b453a5bbfe",
+        "sourceCurrent": true,
+        "referenceSha256": "143a74fb22aa7da252bf2f52b23990b2648022fd24b7e3127c2a4f11df7888e5",
+        "triangles": 19196,
+        "bytes": 850208
+      }
+    },
+    {
+      "itemId": "kaldite_sword",
+      "name": "Cobalt Sword",
+      "usage": "held-equipment",
+      "referenceHash": "e2f8835f6fb8b7453f1ee6363d04acff9b29d0985489cbce0bf1e37d25f11a6c",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-b",
+        "file": "art\\item-models\\candidates\\blades-b\\models\\items\\kaldite_sword.glb",
+        "sha256": "127b84c949d6f50564bbc30aa480b25f4984b7c93add02eaf14fc8840514cb50",
+        "sourceCurrent": true,
+        "referenceSha256": "e2f8835f6fb8b7453f1ee6363d04acff9b29d0985489cbce0bf1e37d25f11a6c",
+        "triangles": 35590,
+        "bytes": 2617308
+      }
+    },
+    {
+      "itemId": "cairnpine_shield",
+      "name": "Oak Shield",
+      "usage": "held-equipment",
+      "referenceHash": "5c8ad4554f417e53363d6d6565f37c1f96a82eb9ae0b655e65d497138171b427",
+      "status": "promoted",
+      "candidate": {
+        "author": "shields",
+        "file": "art\\item-models\\candidates\\shields\\models\\items\\cairnpine_shield.glb",
+        "sha256": "3432ed772963cde5def524e0d8adf5dcf30d80e173eecf2236efd886cae04016",
+        "sourceCurrent": true,
+        "referenceSha256": "5c8ad4554f417e53363d6d6565f37c1f96a82eb9ae0b655e65d497138171b427",
+        "triangles": 26288,
+        "bytes": 2062308
+      }
+    },
+    {
+      "itemId": "kaldite_helm",
+      "name": "Cobalt Helm",
+      "usage": "armor",
+      "referenceHash": "e9c13314a0e885a5e6fe51eb0d8844abea6c4e1f1e625a22cabc26a1aa7ae1f7",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "kaldite_plate",
+      "name": "Cobalt Plate",
+      "usage": "armor",
+      "referenceHash": "3651cdac513660ed10758517d68fc2187353fab41f24faf2aff1c5715251916d",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "kaldite_greaves",
+      "name": "Cobalt Greaves",
+      "usage": "armor",
+      "referenceHash": "49252e3cfa3244c3d61fa22792b39e37eb6afc3086cff3bf38a33c42feb895dc",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "kaldite_boots",
+      "name": "Cobalt Boots",
+      "usage": "armor",
+      "referenceHash": "49d83b0cf27e2d923844488f6cb3164427eb1b1a1d370108afb1a1f489b77a1c",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "kaldite_gauntlets",
+      "name": "Cobalt Gauntlets",
+      "usage": "armor",
+      "referenceHash": "bc6aa102fc2d26fde1667c71aeb7c55040e66e973fcfee3282351fb022300213",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "kaldite_ring",
+      "name": "Cobalt Ring",
+      "usage": "standalone",
+      "referenceHash": "4ccedae84f8eee48a5a664194a547b9b115fc836817c14cf4617783b1c2c2bb1",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "jewelry-metal-a",
+        "file": "art\\item-models\\candidates\\jewelry-metal-a\\models\\items\\kaldite_ring.glb",
+        "sha256": "850a581d623671ab9cda2e6331d4243513d9943cc292ed14fccfc1444366c0d6",
+        "sourceCurrent": true,
+        "referenceSha256": "4ccedae84f8eee48a5a664194a547b9b115fc836817c14cf4617783b1c2c2bb1",
+        "triangles": 11724,
+        "bytes": 792752
+      }
+    },
+    {
+      "itemId": "kaldite_pendant",
+      "name": "Cobalt Pendant",
+      "usage": "standalone",
+      "referenceHash": "dd6345636cbf7f2fe2314f76e9bef21dfab400dd4b42e3274d30f54b418ccf0e",
+      "status": "visual-approved",
+      "candidate": {
+        "author": "jewelry-metal-a",
+        "file": "art\\item-models\\candidates\\jewelry-metal-a\\models\\items\\kaldite_pendant.glb",
+        "sha256": "c2a2761eb54534295c0a034f4b8b94f20c1d5dbe862beecd74953fdc359ac738",
+        "sourceCurrent": true,
+        "referenceSha256": "dd6345636cbf7f2fe2314f76e9bef21dfab400dd4b42e3274d30f54b418ccf0e",
+        "triangles": 10396,
+        "bytes": 589568
+      }
+    },
+    {
+      "itemId": "emberite_dagger",
+      "name": "Titanium Dagger",
+      "usage": "held-equipment",
+      "referenceHash": "da91b30a3429399b8afce46231d164c7eccb3f2c5f72a04c65cf28e1a603f92b",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-b",
+        "file": "art\\item-models\\candidates\\blades-b\\models\\items\\emberite_dagger.glb",
+        "sha256": "cd15fd3d8be0aead7dfd84492e672efee9fbfb745b4d10a9663c21aa76ee74e8",
+        "sourceCurrent": true,
+        "referenceSha256": "da91b30a3429399b8afce46231d164c7eccb3f2c5f72a04c65cf28e1a603f92b",
+        "triangles": 37802,
+        "bytes": 2832548
+      }
+    },
+    {
+      "itemId": "emberite_sword",
+      "name": "Titanium Sword",
+      "usage": "held-equipment",
+      "referenceHash": "df62dc4e73b6773edc60fabafb408751383c7a54bf5fcb185325ab6bf9fb902a",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-b",
+        "file": "art\\item-models\\candidates\\blades-b\\models\\items\\emberite_sword.glb",
+        "sha256": "5b22aebbb6730e9e083ea597562d1978285e58130e477473566cd04002060842",
+        "sourceCurrent": true,
+        "referenceSha256": "df62dc4e73b6773edc60fabafb408751383c7a54bf5fcb185325ab6bf9fb902a",
+        "triangles": 47170,
+        "bytes": 3175228
+      }
+    },
+    {
+      "itemId": "cinderpine_shield",
+      "name": "Walnut Shield",
+      "usage": "held-equipment",
+      "referenceHash": "6b78253de013a091c9d21e1fdd442362969c061be635e55764b1d46c08dff8dc",
+      "status": "promoted",
+      "candidate": {
+        "author": "shields",
+        "file": "art\\item-models\\candidates\\shields\\models\\items\\cinderpine_shield.glb",
+        "sha256": "58ac3c8ba8157afae994168876238ee98f551ad17fdd7e4cc0055d3042335619",
+        "sourceCurrent": true,
+        "referenceSha256": "6b78253de013a091c9d21e1fdd442362969c061be635e55764b1d46c08dff8dc",
+        "triangles": 13648,
+        "bytes": 1308544
+      }
+    },
+    {
+      "itemId": "emberite_helm",
+      "name": "Titanium Helm",
+      "usage": "armor",
+      "referenceHash": "64cecb137f64825f472541fc7b9b40ff2dd5e05247815e27d648d07ffa234c29",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "emberite_plate",
+      "name": "Titanium Plate",
+      "usage": "armor",
+      "referenceHash": "48cbea3ed29a1e080dabb5ec733b58c8a7a3edf562b27c1969d2049543e78c7c",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "emberite_greaves",
+      "name": "Titanium Greaves",
+      "usage": "armor",
+      "referenceHash": "750cdf5057758a809e3c8479a6b45c14252cb09a1a4cc3e8ebb767259fc8c511",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "emberite_boots",
+      "name": "Titanium Boots",
+      "usage": "armor",
+      "referenceHash": "9d70e0a712cf805bdec2b58b5b23f0400a983043b4cb801e3d47ed58d9b85623",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "emberite_gauntlets",
+      "name": "Titanium Gauntlets",
+      "usage": "armor",
+      "referenceHash": "59ad16025c6ffaaf82126580ccefbf6f2f9bc811c1847e7f3b82bcc4ed70450e",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "emberite_ring",
+      "name": "Titanium Ring",
+      "usage": "standalone",
+      "referenceHash": "b28649d6ee5fa9f9e1ab3b7ce25290a2f89b9ac2553d192d4a79bbd12b2a15b3",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "jewelry-metal-b",
+        "file": "art\\item-models\\candidates\\jewelry-metal-b\\models\\items\\emberite_ring.glb",
+        "sha256": "475b9ab81bf90495150c5ee458e32153cc22769cf5aa0e74e7ff25bd8bc1653d",
+        "sourceCurrent": true,
+        "referenceSha256": "b28649d6ee5fa9f9e1ab3b7ce25290a2f89b9ac2553d192d4a79bbd12b2a15b3",
+        "triangles": 21236,
+        "bytes": 811280
+      }
+    },
+    {
+      "itemId": "emberite_pendant",
+      "name": "Titanium Pendant",
+      "usage": "standalone",
+      "referenceHash": "a05af0858878fbb8c0314859d4816b909efc41eed20c6ec079b5536748c2bebd",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "jewelry-metal-b",
+        "file": "art\\item-models\\candidates\\jewelry-metal-b\\models\\items\\emberite_pendant.glb",
+        "sha256": "fc61df9b55e8a8a371e34a75be930d1aef5056cde26d3709f1e2738e6585a01a",
+        "sourceCurrent": true,
+        "referenceSha256": "a05af0858878fbb8c0314859d4816b909efc41eed20c6ec079b5536748c2bebd",
+        "triangles": 17524,
+        "bytes": 710452
+      }
+    },
+    {
+      "itemId": "palewood_wand",
+      "name": "Pine Wand",
+      "usage": "held-equipment",
+      "referenceHash": "b2193b039f048141aaba9895ecebf22ce49b63b90c508a98097173e0c0eac9fd",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-a",
+        "file": "art\\item-models\\candidates\\wood-magic-a\\models\\items\\palewood_wand.glb",
+        "sha256": "2deb0ae782ea83cc6fe5978dbd5fb384c1d01b4b799870f66f749093f3bacd96",
+        "sourceCurrent": true,
+        "referenceSha256": "b2193b039f048141aaba9895ecebf22ce49b63b90c508a98097173e0c0eac9fd",
+        "triangles": 19632,
+        "bytes": 679292
+      }
+    },
+    {
+      "itemId": "palewood_staff",
+      "name": "Pine Staff",
+      "usage": "held-equipment",
+      "referenceHash": "b89325312cb67c5a2fc221cb5cdf8400539658f26d4fa93f4d84e8a9c932d881",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-a",
+        "file": "art\\item-models\\candidates\\wood-magic-a\\models\\items\\palewood_staff.glb",
+        "sha256": "863cae2e6912b13d0b86d1ae9a7da9c34ee17962449bb1f3a6493c63345d58f5",
+        "sourceCurrent": true,
+        "referenceSha256": "b89325312cb67c5a2fc221cb5cdf8400539658f26d4fa93f4d84e8a9c932d881",
+        "triangles": 28896,
+        "bytes": 955400
+      }
+    },
+    {
+      "itemId": "marchhide_hood",
+      "name": "Hide Hood",
+      "usage": "armor",
+      "referenceHash": "04af2f5aeb42ff01c886138939c2acbabce3ddadf9160674358fcd7d0d776749",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "marchhide_robe",
+      "name": "Hide Robe",
+      "usage": "armor",
+      "referenceHash": "5415b12abed98aa55c72e6ece660a9783ee19773671997acd4371f3dc2962ad9",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "marchhide_leggings",
+      "name": "Hide Leggings",
+      "usage": "armor",
+      "referenceHash": "ca1aa889a7bb84248b13536e2bab0c5131156c0464a1f37d7d13049030764cf7",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "marchhide_boots",
+      "name": "Hide Boots",
+      "usage": "armor",
+      "referenceHash": "e3e19b10453839fc33235c380a5c245624cbebc9dacc37bc6202a11ee2158645",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "marchhide_wraps",
+      "name": "Hide Wraps",
+      "usage": "armor",
+      "referenceHash": "6c6c2205a8ef4d6c03c0bd388b4b440b924bdde1dd40e18dac7ab942d2004cc6",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "ember_ring",
+      "name": "Ember Ring",
+      "usage": "standalone",
+      "referenceHash": "3d03a56a3c7dc4046dcb50322ea630393772f3543d029d1c9fa9770d908e08ff",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-magic-a",
+        "file": "art\\item-models\\candidates\\jewelry-magic-a\\models\\items\\ember_ring.glb",
+        "sha256": "aee5ff18b416a5e28c051a35f7dd713bf4c6b0c9fd09d1b2912320e796020306",
+        "sourceCurrent": true,
+        "referenceSha256": "3d03a56a3c7dc4046dcb50322ea630393772f3543d029d1c9fa9770d908e08ff",
+        "triangles": 23684,
+        "bytes": 1096008
+      }
+    },
+    {
+      "itemId": "ember_charm",
+      "name": "Ember Charm",
+      "usage": "standalone",
+      "referenceHash": "0b3b52f2bc0219ba939ac060d3770a82646408cb0253ed28a8b16a2a7a4c2828",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-magic-a",
+        "file": "art\\item-models\\candidates\\jewelry-magic-a\\models\\items\\ember_charm.glb",
+        "sha256": "9502a1e89bfeefcb35cdc9fe5462b8e75b335a978b35f1868a38f6b5c1999ae2",
+        "sourceCurrent": true,
+        "referenceSha256": "0b3b52f2bc0219ba939ac060d3770a82646408cb0253ed28a8b16a2a7a4c2828",
+        "triangles": 17664,
+        "bytes": 1199548
+      }
+    },
+    {
+      "itemId": "duskoak_wand",
+      "name": "Ash Wand",
+      "usage": "held-equipment",
+      "referenceHash": "3dd9e530b66b37c4e09800ce897ebeb63c93f018d8f60dd8fc8459d20da33852",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-a",
+        "file": "art\\item-models\\candidates\\wood-magic-a\\models\\items\\duskoak_wand.glb",
+        "sha256": "ac2453986acd814806a3df6fc14229e8de2a9167cd89328a2d9dadce1010a917",
+        "sourceCurrent": true,
+        "referenceSha256": "3dd9e530b66b37c4e09800ce897ebeb63c93f018d8f60dd8fc8459d20da33852",
+        "triangles": 57392,
+        "bytes": 1765636
+      }
+    },
+    {
+      "itemId": "duskoak_staff",
+      "name": "Ash Staff",
+      "usage": "held-equipment",
+      "referenceHash": "a20d816d1534da9839e85a6954513f41d65ab782c66f4ee4c7ce04a8b1056637",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-a",
+        "file": "art\\item-models\\candidates\\wood-magic-a\\models\\items\\duskoak_staff.glb",
+        "sha256": "ea67d3d668eb92d09dcd130b114293c899e16c7090479e5dc8ba329914e5e4d2",
+        "sourceCurrent": true,
+        "referenceSha256": "a20d816d1534da9839e85a6954513f41d65ab782c66f4ee4c7ce04a8b1056637",
+        "triangles": 32720,
+        "bytes": 1097348
+      }
+    },
+    {
+      "itemId": "bramblehide_hood",
+      "name": "Thick Hide Hood",
+      "usage": "armor",
+      "referenceHash": "abad9bf48d23278255e6bca6ac0305cf351c644c0bb3a19af9e408adabe22535",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "bramblehide_robe",
+      "name": "Thick Hide Robe",
+      "usage": "armor",
+      "referenceHash": "8fa12d6be835d81c2594b6a38a806c1eb235c20802213c3992b97f6e50247a87",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "bramblehide_leggings",
+      "name": "Thick Hide Leggings",
+      "usage": "armor",
+      "referenceHash": "c0e5e122e83f3019da899c4bcb28178fc1f7ab3f6960a13fd3b3023cc685ebfd",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "bramblehide_boots",
+      "name": "Thick Hide Boots",
+      "usage": "armor",
+      "referenceHash": "e950e19c67aef73789bbe51fdf2a5bb82f84bae7b0bec54ff26a94bbf0c89854",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "bramblehide_wraps",
+      "name": "Thick Hide Wraps",
+      "usage": "armor",
+      "referenceHash": "e28316be37923c9b266cf486e41cf558c499761a6a893e3de3a185c09c7ac8b5",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "stone_ring",
+      "name": "Stone Ring",
+      "usage": "standalone",
+      "referenceHash": "2e1f7e2a0b95454022e71c590283b544409f00c6d2d771d2817793b54cd8f0dc",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-magic-a",
+        "file": "art\\item-models\\candidates\\jewelry-magic-a\\models\\items\\stone_ring.glb",
+        "sha256": "fb474d0185b794bf215d6c876a0ef59722f2d51610e6b082203cc554486ae9fe",
+        "sourceCurrent": true,
+        "referenceSha256": "2e1f7e2a0b95454022e71c590283b544409f00c6d2d771d2817793b54cd8f0dc",
+        "triangles": 17596,
+        "bytes": 766268
+      }
+    },
+    {
+      "itemId": "stone_charm",
+      "name": "Stone Charm",
+      "usage": "standalone",
+      "referenceHash": "f1e1bd4b804851c399cff327fc37f446bd8e23aac296277c6ef933a4bfe12792",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-magic-a",
+        "file": "art\\item-models\\candidates\\jewelry-magic-a\\models\\items\\stone_charm.glb",
+        "sha256": "7345228c1a80d6119ee7178ba2ba61e040d54d42b233d245c275e3b7138d0a7e",
+        "sourceCurrent": true,
+        "referenceSha256": "f1e1bd4b804851c399cff327fc37f446bd8e23aac296277c6ef933a4bfe12792",
+        "triangles": 23552,
+        "bytes": 1186636
+      }
+    },
+    {
+      "itemId": "cairnpine_wand",
+      "name": "Oak Wand",
+      "usage": "held-equipment",
+      "referenceHash": "8c705cf0fd27abbf5009e8da8c4db95f6de63f8b1d2e6a1290dd5bd2cfa1778f",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-b",
+        "file": "art\\item-models\\candidates\\wood-magic-b\\models\\items\\cairnpine_wand.glb",
+        "sha256": "feaf9cc868f8ea23b494cb8ea6854e5c1cc94832554da467faf46c2bd6082e5d",
+        "sourceCurrent": true,
+        "referenceSha256": "8c705cf0fd27abbf5009e8da8c4db95f6de63f8b1d2e6a1290dd5bd2cfa1778f",
+        "triangles": 27720,
+        "bytes": 925496
+      }
+    },
+    {
+      "itemId": "cairnpine_staff",
+      "name": "Oak Staff",
+      "usage": "held-equipment",
+      "referenceHash": "744004eeeb37a5ef9c66ada4169cc83f40c0dbb90d22ccf28792346517182429",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-b",
+        "file": "art\\item-models\\candidates\\wood-magic-b\\models\\items\\cairnpine_staff.glb",
+        "sha256": "8afb4d7a898b114222bcc7ddd27042d9559f944dadea545b7a0f40be8b0ffb88",
+        "sourceCurrent": true,
+        "referenceSha256": "744004eeeb37a5ef9c66ada4169cc83f40c0dbb90d22ccf28792346517182429",
+        "triangles": 45968,
+        "bytes": 1523108
+      }
+    },
+    {
+      "itemId": "cairnpelt_hood",
+      "name": "Fur Hood",
+      "usage": "armor",
+      "referenceHash": "7495f195ee64f6aee1ab4d7d46e5186d3a8b53e4e508f20cbaa8d6f15aa9d4ab",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "cairnpelt_robe",
+      "name": "Fur Robe",
+      "usage": "armor",
+      "referenceHash": "af886899290e14be7ef026e8bf50d5ec470e05a9b386a72d7e3226f69d1d46c6",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "cairnpelt_leggings",
+      "name": "Fur Leggings",
+      "usage": "armor",
+      "referenceHash": "921358db896c90902e4303b0d9e7af0c95f350fd8558e0378581404f1a1fa7b1",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "cairnpelt_boots",
+      "name": "Fur Boots",
+      "usage": "armor",
+      "referenceHash": "a325edae3b8d80a8800c89e1ef1d9d6c717a9fcfcb1a5d537ac22f8f77f23a6e",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "cairnpelt_wraps",
+      "name": "Fur Wraps",
+      "usage": "armor",
+      "referenceHash": "55eb6df402b16715f1d3803992cb70c51daf18a81a3f7dcbd2f28163d6f8ac2e",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "storm_ring",
+      "name": "Storm Ring",
+      "usage": "standalone",
+      "referenceHash": "59ff76ae4e529b7a4fc31b812006e9703878eda838853e5cfc22b5958505151f",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-magic-a",
+        "file": "art\\item-models\\candidates\\jewelry-magic-a\\models\\items\\storm_ring.glb",
+        "sha256": "539fa2af4cd31fd7cb17369fed038ad5bfe0bc677cc59df2ef0653bbeeccba75",
+        "sourceCurrent": true,
+        "referenceSha256": "59ff76ae4e529b7a4fc31b812006e9703878eda838853e5cfc22b5958505151f",
+        "triangles": 32048,
+        "bytes": 1577512
+      }
+    },
+    {
+      "itemId": "storm_charm",
+      "name": "Storm Charm",
+      "usage": "standalone",
+      "referenceHash": "3d0453fa1ba3a726720a6de24d799fcf60c5f890fbc47c73e95438faa7a88692",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-magic-a",
+        "file": "art\\item-models\\candidates\\jewelry-magic-a\\models\\items\\storm_charm.glb",
+        "sha256": "c3b98787f6d45bb0519bf5367daabf673eaa6a90a21fa71887185f6c0b1f4e1c",
+        "sourceCurrent": true,
+        "referenceSha256": "3d0453fa1ba3a726720a6de24d799fcf60c5f890fbc47c73e95438faa7a88692",
+        "triangles": 28224,
+        "bytes": 1311516
+      }
+    },
+    {
+      "itemId": "cinderpine_wand",
+      "name": "Walnut Wand",
+      "usage": "held-equipment",
+      "referenceHash": "c2138bb8385219d9c82db1f723fea79a0c0cd4fb3e118ee4a272ebd4d5b79039",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-b",
+        "file": "art\\item-models\\candidates\\wood-magic-b\\models\\items\\cinderpine_wand.glb",
+        "sha256": "44516edc56084298cf1dc1e57a5d6298314b9820a3ef8ac1c0b58276b0492459",
+        "sourceCurrent": true,
+        "referenceSha256": "c2138bb8385219d9c82db1f723fea79a0c0cd4fb3e118ee4a272ebd4d5b79039",
+        "triangles": 17856,
+        "bytes": 617100
+      }
+    },
+    {
+      "itemId": "cinderpine_staff",
+      "name": "Walnut Staff",
+      "usage": "held-equipment",
+      "referenceHash": "889f407cda4942d346e6e110388f92669dd465eae1a555efb3f954adfdd4be03",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-b",
+        "file": "art\\item-models\\candidates\\wood-magic-b\\models\\items\\cinderpine_staff.glb",
+        "sha256": "0ecf9c41399fcb3c74d426e1f4963dd5c6cb7549907d788de238640a1745405c",
+        "sourceCurrent": true,
+        "referenceSha256": "889f407cda4942d346e6e110388f92669dd465eae1a555efb3f954adfdd4be03",
+        "triangles": 46016,
+        "bytes": 1596532
+      }
+    },
+    {
+      "itemId": "charhide_hood",
+      "name": "Heavy Hide Hood",
+      "usage": "armor",
+      "referenceHash": "d10da31fb5a0a9527f11badeb2a8e2bf1077bf35f5ec84dd13c09d74f7c728e6",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "charhide_robe",
+      "name": "Heavy Hide Robe",
+      "usage": "armor",
+      "referenceHash": "4c633f4b92f6bafb0f4b2975bbef7262030666bdf0121505dba8eef7d9e3cf04",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "charhide_leggings",
+      "name": "Heavy Hide Leggings",
+      "usage": "armor",
+      "referenceHash": "3924c447643c6c3ee821e6741b8e387956ce068311871f03c5d3f8f5130c6b2d",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "charhide_boots",
+      "name": "Heavy Hide Boots",
+      "usage": "armor",
+      "referenceHash": "67dd5bd1bb0754daf7480771a5c219c29cbf1c3f220d727190d3083fd78ae8da",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "charhide_wraps",
+      "name": "Heavy Hide Wraps",
+      "usage": "armor",
+      "referenceHash": "075fb98c49124cca0ec5a6a99b3d241bf7e332ac1c12ecf7f9fc18c8818c93cf",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "cinder_ring",
+      "name": "Cinder Ring",
+      "usage": "standalone",
+      "referenceHash": "2dac9a12873d03e4e472e00a69d39e53e6b464715b667f2d18793b060f516c73",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-magic-b",
+        "file": "art\\item-models\\candidates\\jewelry-magic-b\\models\\items\\cinder_ring.glb",
+        "sha256": "a79b9831ee78185e5b6f858ae614759df6b13a5dce84a8a2ad2918acef3883ce",
+        "sourceCurrent": true,
+        "referenceSha256": "2dac9a12873d03e4e472e00a69d39e53e6b464715b667f2d18793b060f516c73",
+        "triangles": 34784,
+        "bytes": 1245432
+      }
+    },
+    {
+      "itemId": "cinder_charm",
+      "name": "Cinder Charm",
+      "usage": "standalone",
+      "referenceHash": "521e14a9d00e2714f2459aff889fa8a6f23f9c0700e6694e4618764f8630cd32",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-magic-b",
+        "file": "art\\item-models\\candidates\\jewelry-magic-b\\models\\items\\cinder_charm.glb",
+        "sha256": "1d48dab7e0ad3ceba0745b32191adce06e14d004684994dd1c41024bc78bd6d0",
+        "sourceCurrent": true,
+        "referenceSha256": "521e14a9d00e2714f2459aff889fa8a6f23f9c0700e6694e4618764f8630cd32",
+        "triangles": 38420,
+        "bytes": 1283232
+      }
+    },
+    {
+      "itemId": "air_wand",
+      "name": "Air Wand",
+      "usage": "held-equipment",
+      "referenceHash": "d1dccd6f8df8df320de2f32cba8cb2c3dd44ef94ef787ed5819e931d9bb5bfe9",
+      "status": "visual-approved",
+      "candidate": {
+        "author": "orbs-wands",
+        "file": "art\\item-models\\candidates\\orbs-wands\\models\\items\\air_wand.glb",
+        "sha256": "7438a02825eec3ebc6653f3cbd8b01009335b65e488e60ee6e5bbacc5884c3c1",
+        "sourceCurrent": true,
+        "referenceSha256": "d1dccd6f8df8df320de2f32cba8cb2c3dd44ef94ef787ed5819e931d9bb5bfe9",
+        "triangles": 33424,
+        "bytes": 1964040
+      }
+    },
+    {
+      "itemId": "air_staff",
+      "name": "Air Staff",
+      "usage": "held-equipment",
+      "referenceHash": "60525f917ac4465e98a57112f4ee04ee7d1e60f012fdf587f830fc1a1c2a4af0",
+      "status": "promoted",
+      "candidate": {
+        "author": "elemental-staves",
+        "file": "art\\item-models\\candidates\\elemental-staves\\models\\items\\air_staff.glb",
+        "sha256": "a4234aac88a9a011dca6be9c3a2382198533ee18f45ca91fe1b07263078217f1",
+        "sourceCurrent": true,
+        "referenceSha256": "60525f917ac4465e98a57112f4ee04ee7d1e60f012fdf587f830fc1a1c2a4af0",
+        "triangles": 36312,
+        "bytes": 1333184
+      }
+    },
+    {
+      "itemId": "earth_wand",
+      "name": "Earth Wand",
+      "usage": "held-equipment",
+      "referenceHash": "6bd03419b312bc1208d1a93664de6e59557a6bfabd41161e0f882db98edfc8ff",
+      "status": "visual-approved",
+      "candidate": {
+        "author": "orbs-wands",
+        "file": "art\\item-models\\candidates\\orbs-wands\\models\\items\\earth_wand.glb",
+        "sha256": "5a5b283384d0c1df115844a7505ce63202b893d8c76b1980b524a67162c35033",
+        "sourceCurrent": true,
+        "referenceSha256": "6bd03419b312bc1208d1a93664de6e59557a6bfabd41161e0f882db98edfc8ff",
+        "triangles": 25720,
+        "bytes": 1909268
+      }
+    },
+    {
+      "itemId": "earth_staff",
+      "name": "Earth Staff",
+      "usage": "held-equipment",
+      "referenceHash": "75be751e055feb67ba932af5625fb55845fccfaa264f8c81e9c84ae094ffda83",
+      "status": "promoted",
+      "candidate": {
+        "author": "elemental-staves",
+        "file": "art\\item-models\\candidates\\elemental-staves\\models\\items\\earth_staff.glb",
+        "sha256": "f4f90e481558e8db5c33bd4147f1fa782c777f6ded07c02932cf13833b9bd5d3",
+        "sourceCurrent": true,
+        "referenceSha256": "75be751e055feb67ba932af5625fb55845fccfaa264f8c81e9c84ae094ffda83",
+        "triangles": 51754,
+        "bytes": 1845428
+      }
+    },
+    {
+      "itemId": "water_wand",
+      "name": "Water Wand",
+      "usage": "held-equipment",
+      "referenceHash": "74c244dc89f6a22c9c031dc279425527206e2be0d65159d9aabe6e5a0614b23a",
+      "status": "visual-approved",
+      "candidate": {
+        "author": "orbs-wands",
+        "file": "art\\item-models\\candidates\\orbs-wands\\models\\items\\water_wand.glb",
+        "sha256": "1e52bbe664137897672dcdea3c33c7f6f64d728c6ba72efc9ab4fe2916992e19",
+        "sourceCurrent": true,
+        "referenceSha256": "74c244dc89f6a22c9c031dc279425527206e2be0d65159d9aabe6e5a0614b23a",
+        "triangles": 46240,
+        "bytes": 2399760
+      }
+    },
+    {
+      "itemId": "water_staff",
+      "name": "Water Staff",
+      "usage": "held-equipment",
+      "referenceHash": "14ff668b30fd52fab172b143f56741356314b7313676103f8d78cb224ef61cb7",
+      "status": "promoted",
+      "candidate": {
+        "author": "elemental-staves",
+        "file": "art\\item-models\\candidates\\elemental-staves\\models\\items\\water_staff.glb",
+        "sha256": "22436f48905134bf4835eaa761dce57d60ac7a5d621a49d05532692c63b8fc8c",
+        "sourceCurrent": true,
+        "referenceSha256": "14ff668b30fd52fab172b143f56741356314b7313676103f8d78cb224ef61cb7",
+        "triangles": 38208,
+        "bytes": 1407308
+      }
+    },
+    {
+      "itemId": "fire_wand",
+      "name": "Fire Wand",
+      "usage": "held-equipment",
+      "referenceHash": "0dbee580ba4d29cbf0b76b84c0a98ce2327c80db9dc1c955e1b84f2cf1ca4cdb",
+      "status": "visual-approved",
+      "candidate": {
+        "author": "orbs-wands",
+        "file": "art\\item-models\\candidates\\orbs-wands\\models\\items\\fire_wand.glb",
+        "sha256": "b854ec7d95199d69640e265ea55879fa6bbbfee27f1253c253e941651c7a1c7c",
+        "sourceCurrent": true,
+        "referenceSha256": "0dbee580ba4d29cbf0b76b84c0a98ce2327c80db9dc1c955e1b84f2cf1ca4cdb",
+        "triangles": 45518,
+        "bytes": 2311012
+      }
+    },
+    {
+      "itemId": "fire_staff",
+      "name": "Fire Staff",
+      "usage": "held-equipment",
+      "referenceHash": "9b1a75107835b7c29ce05d8c54a869e0c4aeb8473dcaa78a595bb96bed7e6a15",
+      "status": "promoted",
+      "candidate": {
+        "author": "elemental-staves",
+        "file": "art\\item-models\\candidates\\elemental-staves\\models\\items\\fire_staff.glb",
+        "sha256": "45ba74a4ca9533136683bc83b5837a359248b9f345fe82dd25a479ff2e5cff57",
+        "sourceCurrent": true,
+        "referenceSha256": "9b1a75107835b7c29ce05d8c54a869e0c4aeb8473dcaa78a595bb96bed7e6a15",
+        "triangles": 41240,
+        "bytes": 1533628
+      }
+    },
+    {
+      "itemId": "galeskin_sword",
+      "name": "Plains Ogre Sword",
+      "usage": "held-equipment",
+      "referenceHash": "4dfb052717594b125b2e67bf03c92ae454f21e0304b5c7f51e622ef897147316",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-boss",
+        "file": "art\\item-models\\candidates\\blades-boss\\models\\items\\galeskin_sword.glb",
+        "sha256": "3094c65a8f0738573609db759731c121078848b3a2132de3c5e870dc55d8e212",
+        "sourceCurrent": true,
+        "referenceSha256": "4dfb052717594b125b2e67bf03c92ae454f21e0304b5c7f51e622ef897147316",
+        "triangles": 17396,
+        "bytes": 953588
+      }
+    },
+    {
+      "itemId": "galeskin_staff",
+      "name": "Plains Ogre Staff",
+      "usage": "held-equipment",
+      "referenceHash": "225f1cb4e83a69efff1a2da169af61b781b06479bd6befe041fea8257b93e6db",
+      "status": "promoted",
+      "candidate": {
+        "author": "boss-staves",
+        "file": "art\\item-models\\candidates\\boss-staves\\models\\items\\galeskin_staff.glb",
+        "sha256": "56ecb5a4f9332e28100a1c84fdfa9d3198c7ab4476747084dcc88afe84e8dc90",
+        "sourceCurrent": true,
+        "referenceSha256": "225f1cb4e83a69efff1a2da169af61b781b06479bd6befe041fea8257b93e6db",
+        "triangles": 32696,
+        "bytes": 1462532
+      }
+    },
+    {
+      "itemId": "mossbound_sword",
+      "name": "Forest Ogre Sword",
+      "usage": "held-equipment",
+      "referenceHash": "3036a70b56f2f4c1e9c8461b7d91424cd1bd0a2fa6d3e3f5d8478adc94bb2e1c",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-boss",
+        "file": "art\\item-models\\candidates\\blades-boss\\models\\items\\mossbound_sword.glb",
+        "sha256": "ebfb8179d53c5f929b40205d969485e2ea3f12b2040d041a17eb615ec8106a61",
+        "sourceCurrent": true,
+        "referenceSha256": "3036a70b56f2f4c1e9c8461b7d91424cd1bd0a2fa6d3e3f5d8478adc94bb2e1c",
+        "triangles": 28364,
+        "bytes": 2801644
+      }
+    },
+    {
+      "itemId": "mossbound_staff",
+      "name": "Forest Ogre Staff",
+      "usage": "held-equipment",
+      "referenceHash": "ecc0a1e929d695c3d0db67acd9e964b7b948188c7692f3fb7d2eb304f5510122",
+      "status": "promoted",
+      "candidate": {
+        "author": "boss-staves",
+        "file": "art\\item-models\\candidates\\boss-staves\\models\\items\\mossbound_staff.glb",
+        "sha256": "0adf408184abea3afe07e734055d7037eb207b1524a5f54cfaf8165ed357b6e4",
+        "sourceCurrent": true,
+        "referenceSha256": "ecc0a1e929d695c3d0db67acd9e964b7b948188c7692f3fb7d2eb304f5510122",
+        "triangles": 45462,
+        "bytes": 1869232
+      }
+    },
+    {
+      "itemId": "tideworn_sword",
+      "name": "Cave Ogre Sword",
+      "usage": "held-equipment",
+      "referenceHash": "d05e8c1c893666b019492a233f6b2691a421a712ec6fde58ae51a58cfdda2fa8",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-boss",
+        "file": "art\\item-models\\candidates\\blades-boss\\models\\items\\tideworn_sword.glb",
+        "sha256": "fbdad59d00ef69dff4513db84e54e647e0cd23c69dbaf222685b300b82da6bbd",
+        "sourceCurrent": true,
+        "referenceSha256": "d05e8c1c893666b019492a233f6b2691a421a712ec6fde58ae51a58cfdda2fa8",
+        "triangles": 26348,
+        "bytes": 1278124
+      }
+    },
+    {
+      "itemId": "tideworn_staff",
+      "name": "Cave Ogre Staff",
+      "usage": "held-equipment",
+      "referenceHash": "be2f5ef1726eb69a3338a13256282c50ad83055c18fdc3619cd8ad00e9175761",
+      "status": "promoted",
+      "candidate": {
+        "author": "boss-staves",
+        "file": "art\\item-models\\candidates\\boss-staves\\models\\items\\tideworn_staff.glb",
+        "sha256": "c963745ed41df8a639b2074b178426fa7c60bf17fa0dc96ba67e06c49b3ad771",
+        "sourceCurrent": true,
+        "referenceSha256": "be2f5ef1726eb69a3338a13256282c50ad83055c18fdc3619cd8ad00e9175761",
+        "triangles": 50952,
+        "bytes": 2515500
+      }
+    },
+    {
+      "itemId": "cinderwake_sword",
+      "name": "Fire Ogre Sword",
+      "usage": "held-equipment",
+      "referenceHash": "3a5c933c1c6e10ab78bf5ca960f941cfe93bbe8ac2d750f8bff6357cffee8814",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-boss",
+        "file": "art\\item-models\\candidates\\blades-boss\\models\\items\\cinderwake_sword.glb",
+        "sha256": "2020b093c8bb37d6612a0a09ca63ec99ffca6637be185eb4ce812a33f0a0adc8",
+        "sourceCurrent": true,
+        "referenceSha256": "3a5c933c1c6e10ab78bf5ca960f941cfe93bbe8ac2d750f8bff6357cffee8814",
+        "triangles": 18938,
+        "bytes": 1060356
+      }
+    },
+    {
+      "itemId": "cinderwake_staff",
+      "name": "Fire Ogre Staff",
+      "usage": "held-equipment",
+      "referenceHash": "1c99d42dc773df46fa5f9bd45fef5598290362a18a75a6afac11668866ef346a",
+      "status": "promoted",
+      "candidate": {
+        "author": "boss-staves",
+        "file": "art\\item-models\\candidates\\boss-staves\\models\\items\\cinderwake_staff.glb",
+        "sha256": "c1bedb9b31b66fb8d3eeb6bcb029e5f535e39a212e9bad46ca85d0866126dd9b",
+        "sourceCurrent": true,
+        "referenceSha256": "1c99d42dc773df46fa5f9bd45fef5598290362a18a75a6afac11668866ef346a",
+        "triangles": 33872,
+        "bytes": 1457412
+      }
+    },
+    {
+      "itemId": "fox_guardhair",
+      "name": "Fox Fur",
+      "usage": "standalone",
+      "referenceHash": "3eece7854df0bd21e4fbe833b4100f4308a5b82123ddb0eddbf6552ed7ac3743",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "animal-fibers",
+        "file": "art\\item-models\\candidates\\animal-fibers\\models\\items\\fox_guardhair.glb",
+        "sha256": "3d3049b235f707234f3aa4beccdf57051ed5a05cfbb67e14aa403c84c7c6acfc",
+        "sourceCurrent": true,
+        "referenceSha256": "3eece7854df0bd21e4fbe833b4100f4308a5b82123ddb0eddbf6552ed7ac3743",
+        "triangles": 36928,
+        "bytes": 1224216
+      }
+    },
+    {
+      "itemId": "lynx_sinew",
+      "name": "Lynx Sinew",
+      "usage": "standalone",
+      "referenceHash": "f7eb147e18de71da4c8c604f9ba0c7b16062f4864100aac272a967638040da77",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "animal-fibers",
+        "file": "art\\item-models\\candidates\\animal-fibers\\models\\items\\lynx_sinew.glb",
+        "sha256": "e4bb7838d4e45ca139a2c93ef035d310ac8dcedb3b73a9d97b35497ec1d1dfd4",
+        "sourceCurrent": true,
+        "referenceSha256": "f7eb147e18de71da4c8c604f9ba0c7b16062f4864100aac272a967638040da77",
+        "triangles": 21696,
+        "bytes": 786172
+      }
+    },
+    {
+      "itemId": "badger_bristle",
+      "name": "Badger Bristle",
+      "usage": "standalone",
+      "referenceHash": "e742822d725061ee4fb81d9fac129ce045f6a93e033802b980d7b59a13a9d762",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "animal-fibers",
+        "file": "art\\item-models\\candidates\\animal-fibers\\models\\items\\badger_bristle.glb",
+        "sha256": "1270f5f979b567284dc338d2cc59f1d907f84fc8ced8a6cc15ee43f0ec36e168",
+        "sourceCurrent": true,
+        "referenceSha256": "e742822d725061ee4fb81d9fac129ce045f6a93e033802b980d7b59a13a9d762",
+        "triangles": 35628,
+        "bytes": 1181240
+      }
+    },
+    {
+      "itemId": "porcupine_quill",
+      "name": "Porcupine Quill",
+      "usage": "standalone",
+      "referenceHash": "113fe62618442221e97d2d1ed7dd6f3f6c1a3ecc64de68ce7c322234f647feb3",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "animal-fibers",
+        "file": "art\\item-models\\candidates\\animal-fibers\\models\\items\\porcupine_quill.glb",
+        "sha256": "9dd556434f18e499134cd41c593a667e4d7874c0a75b024155b3653324d0a406",
+        "sourceCurrent": true,
+        "referenceSha256": "113fe62618442221e97d2d1ed7dd6f3f6c1a3ecc64de68ce7c322234f647feb3",
+        "triangles": 12928,
+        "bytes": 376928
+      }
+    },
+    {
+      "itemId": "horse_tailhair",
+      "name": "Horsehair",
+      "usage": "standalone",
+      "referenceHash": "7c923b3fb52df2aa64df4a3cc1349eb0e56d69b1644c384875a7209d7ba80748",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "animal-fibers",
+        "file": "art\\item-models\\candidates\\animal-fibers\\models\\items\\horse_tailhair.glb",
+        "sha256": "bb245ca2670c69fc2e19cf13683d0c581d6367190e74aecd3b5ae4b95054c895",
+        "sourceCurrent": true,
+        "referenceSha256": "7c923b3fb52df2aa64df4a3cc1349eb0e56d69b1644c384875a7209d7ba80748",
+        "triangles": 58260,
+        "bytes": 1961892
+      }
+    },
+    {
+      "itemId": "bighorn_fleece",
+      "name": "Bighorn Wool",
+      "usage": "standalone",
+      "referenceHash": "2fe45c9b0bd2d27bbd0b7a08790d1f42aa6790d183d018f04b198a8603cd5f44",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "raw-hides",
+        "file": "art\\item-models\\candidates\\raw-hides\\models\\items\\bighorn_fleece.glb",
+        "sha256": "448b736afcc936e745142a7fe909283274a4b5d3fa28f54ece5ef0cc5551fc05",
+        "sourceCurrent": false,
+        "referenceSha256": "2fe45c9b0bd2d27bbd0b7a08790d1f42aa6790d183d018f04b198a8603cd5f44",
+        "triangles": 51264,
+        "bytes": 2017384
+      }
+    },
+    {
+      "itemId": "moose_antler_palm",
+      "name": "Moose Antler",
+      "usage": "standalone",
+      "referenceHash": "669201da78504ae04a7b82587219280129b537c025407edadc74f46b40799d66",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "creature-parts",
+        "file": "art\\item-models\\candidates\\creature-parts\\models\\items\\moose_antler_palm.glb",
+        "sha256": "ab6bb1a4dff9e9e4a09f943a40b013cd22cc94440f5153bc67548b5563a5c510",
+        "sourceCurrent": false,
+        "referenceSha256": "669201da78504ae04a7b82587219280129b537c025407edadc74f46b40799d66",
+        "triangles": 21596,
+        "bytes": 811608
+      }
+    },
+    {
+      "itemId": "tapir_leather",
+      "name": "Tapir Leather",
+      "usage": "standalone",
+      "referenceHash": "b4b29e896330cd189bff1898d9254f10687fc356d698c3c95bb32365a6789a2d",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "raw-hides",
+        "file": "art\\item-models\\candidates\\raw-hides\\models\\items\\tapir_leather.glb",
+        "sha256": "1cad700201df1c6b6762c9f4dd111e177069e49dfe20510893a8b8a8a18e1ff3",
+        "sourceCurrent": false,
+        "referenceSha256": "b4b29e896330cd189bff1898d9254f10687fc356d698c3c95bb32365a6789a2d",
+        "triangles": 54192,
+        "bytes": 2943212
+      }
+    },
+    {
+      "itemId": "crocodile_scute",
+      "name": "Crocodile Armor Plate",
+      "usage": "standalone",
+      "referenceHash": "51e7c80120be95cfd54182cdf2aa96566f67e1c05df17c9369ecf920829225ad",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "creature-parts",
+        "file": "art\\item-models\\candidates\\creature-parts\\models\\items\\crocodile_scute.glb",
+        "sha256": "1803ac991655cb7e8d66f637d4e62a6d6cfc30ceb65bf43c0bd2ca5f0172ce88",
+        "sourceCurrent": false,
+        "referenceSha256": "51e7c80120be95cfd54182cdf2aa96566f67e1c05df17c9369ecf920829225ad",
+        "triangles": 15104,
+        "bytes": 663356
+      }
+    },
+    {
+      "itemId": "salamander_secretion",
+      "name": "Salamander Secretion",
+      "usage": "standalone",
+      "referenceHash": "8405543f4c33a67dcda2b854a71f5b93f6789d4f0fc8dde766253771484dca4f",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "creature-parts",
+        "file": "art\\item-models\\candidates\\creature-parts\\models\\items\\salamander_secretion.glb",
+        "sha256": "6b84d1cb72e7b9b85daa8a9cb3fa6292786f65ed9f63e7eeaf0df5b2f791fa74",
+        "sourceCurrent": false,
+        "referenceSha256": "8405543f4c33a67dcda2b854a71f5b93f6789d4f0fc8dde766253771484dca4f",
+        "triangles": 25408,
+        "bytes": 957176
+      }
+    },
+    {
+      "itemId": "tortoise_shell_plate",
+      "name": "Tortoise Shell Plate",
+      "usage": "standalone",
+      "referenceHash": "4991428048fbe32c02cda9dd756b0049a9c7a8c606ce28356293e4b554dc4bc6",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "creature-parts",
+        "file": "art\\item-models\\candidates\\creature-parts\\models\\items\\tortoise_shell_plate.glb",
+        "sha256": "741102953fa2136c315de7cbab1a316d0ec3b66d3c133f6a41aac3fc70211ede",
+        "sourceCurrent": false,
+        "referenceSha256": "4991428048fbe32c02cda9dd756b0049a9c7a8c606ce28356293e4b554dc4bc6",
+        "triangles": 25440,
+        "bytes": 978024
+      }
+    },
+    {
+      "itemId": "monitor_sinew",
+      "name": "Monitor Lizard Sinew",
+      "usage": "standalone",
+      "referenceHash": "fa3ffa783e45d35dd9b628cb74c209ac710dac6e67020859d3c24d68fd6b7212",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "animal-fibers",
+        "file": "art\\item-models\\candidates\\animal-fibers\\models\\items\\monitor_sinew.glb",
+        "sha256": "e72967a98a3ef4f88bf6c1570d735423044b7131911b6a45cfc4332734328429",
+        "sourceCurrent": true,
+        "referenceSha256": "fa3ffa783e45d35dd9b628cb74c209ac710dac6e67020859d3c24d68fd6b7212",
+        "triangles": 34432,
+        "bytes": 1193268
+      }
+    },
+    {
+      "itemId": "goose_down",
+      "name": "Goose Down",
+      "usage": "standalone",
+      "referenceHash": "35e283dcd79dc4920cfbfd08bf17a27932d46ddf498869616dddb47365e2ab83",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "feathers",
+        "file": "art\\item-models\\candidates\\feathers\\models\\items\\goose_down.glb",
+        "sha256": "a183c0973be6a3577cc856b4743097c20326b5d50dfc4d9b3231665e18305647",
+        "sourceCurrent": true,
+        "referenceSha256": "35e283dcd79dc4920cfbfd08bf17a27932d46ddf498869616dddb47365e2ab83",
+        "triangles": 59104,
+        "bytes": 1760448
+      }
+    },
+    {
+      "itemId": "heron_quill",
+      "name": "Heron Quill",
+      "usage": "standalone",
+      "referenceHash": "866fc8b2bd7fe04e17ed83b22da225f53240e4f789932cd5e3d2ef10c7ac4e68",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "feathers",
+        "file": "art\\item-models\\candidates\\feathers\\models\\items\\heron_quill.glb",
+        "sha256": "3e5d4c514caac000386a801e881f64ebb15f86e3c47f0f8c576bf495d374e073",
+        "sourceCurrent": true,
+        "referenceSha256": "866fc8b2bd7fe04e17ed83b22da225f53240e4f789932cd5e3d2ef10c7ac4e68",
+        "triangles": 35464,
+        "bytes": 1322432
+      }
+    },
+    {
+      "itemId": "bustard_plume",
+      "name": "Bustard Plume",
+      "usage": "standalone",
+      "referenceHash": "8aab4ddc935a53aaf8b23b6cc7975e791e04eb1449cc5793a9dc5e49e5792914",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "feathers",
+        "file": "art\\item-models\\candidates\\feathers\\models\\items\\bustard_plume.glb",
+        "sha256": "9696f550e35b337aabf4904cac7b582dbb09225f5fd5acb2a3fc7e20ef4f91b7",
+        "sourceCurrent": true,
+        "referenceSha256": "8aab4ddc935a53aaf8b23b6cc7975e791e04eb1449cc5793a9dc5e49e5792914",
+        "triangles": 35420,
+        "bytes": 1268968
+      }
+    },
+    {
+      "itemId": "turkey_tailfeather",
+      "name": "Turkey Tail Feather",
+      "usage": "standalone",
+      "referenceHash": "1d9a90d30934a47548ef730904a5196029cc107bdec5516efe7466fb1ce4aaf2",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "feathers",
+        "file": "art\\item-models\\candidates\\feathers\\models\\items\\turkey_tailfeather.glb",
+        "sha256": "d5bb833789ca7960f147337244fcbf7421a2bede8848fd34eee07653f558c521",
+        "sourceCurrent": true,
+        "referenceSha256": "1d9a90d30934a47548ef730904a5196029cc107bdec5516efe7466fb1ce4aaf2",
+        "triangles": 35420,
+        "bytes": 1260200
+      }
+    },
+    {
+      "itemId": "snail_mucus",
+      "name": "Snail Mucus",
+      "usage": "standalone",
+      "referenceHash": "e1ab921fbaeeaf57ea01b2b9fdbe1557674b88ddf985ceecb547e12b863270a2",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "creature-parts",
+        "file": "art\\item-models\\candidates\\creature-parts\\models\\items\\snail_mucus.glb",
+        "sha256": "dc475d48767d1a579323870ae846b6af710a27c44b0491f34dba6921bf66642d",
+        "sourceCurrent": false,
+        "referenceSha256": "e1ab921fbaeeaf57ea01b2b9fdbe1557674b88ddf985ceecb547e12b863270a2",
+        "triangles": 12096,
+        "bytes": 459240
+      }
+    },
+    {
+      "itemId": "beetle_mandible",
+      "name": "Beetle Jaw",
+      "usage": "standalone",
+      "referenceHash": "5cc13173736bcc4533b270557f1928f8fa0fbecb4d20e9981d6327b0db23e300",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "creature-parts",
+        "file": "art\\item-models\\candidates\\creature-parts\\models\\items\\beetle_mandible.glb",
+        "sha256": "85be65a52e7e9c042cafb9734f36d3c0fedd3e4db4b97f1e68f9a3e607390081",
+        "sourceCurrent": false,
+        "referenceSha256": "5cc13173736bcc4533b270557f1928f8fa0fbecb4d20e9981d6327b0db23e300",
+        "triangles": 12000,
+        "bytes": 515740
+      }
+    },
+    {
+      "itemId": "centipede_chitin",
+      "name": "Centipede Chitin",
+      "usage": "standalone",
+      "referenceHash": "26eb71673d4f1f3ef81fd7cef7cfff42f286bb9f4f930cae6c028e6c776b0dc0",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "creature-parts",
+        "file": "art\\item-models\\candidates\\creature-parts\\models\\items\\centipede_chitin.glb",
+        "sha256": "04165cf675f8949ed27199b14a9f9943615b102475308eb7f23cf7e132dc07dd",
+        "sourceCurrent": false,
+        "referenceSha256": "26eb71673d4f1f3ef81fd7cef7cfff42f286bb9f4f930cae6c028e6c776b0dc0",
+        "triangles": 44424,
+        "bytes": 1548492
+      }
+    },
+    {
+      "itemId": "spider_thread",
+      "name": "Spider Silk",
+      "usage": "standalone",
+      "referenceHash": "c2bb8a5731a59891655e9eaa8ee2551ac5c4ce51e6fc325a2c71aaeb9c3f7696",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "animal-fibers",
+        "file": "art\\item-models\\candidates\\animal-fibers\\models\\items\\spider_thread.glb",
+        "sha256": "f7d6b312c0528f414347fcef5ae271f5064e8fe1a0cdc21656e06a00658f705c",
+        "sourceCurrent": true,
+        "referenceSha256": "c2bb8a5731a59891655e9eaa8ee2551ac5c4ce51e6fc325a2c71aaeb9c3f7696",
+        "triangles": 30580,
+        "bytes": 1096724
+      }
+    },
+    {
+      "itemId": "ravager_talon",
+      "name": "Demon Claw",
+      "usage": "standalone",
+      "referenceHash": "4fdc8590b90ab9967d8a306f3894254282af58408fd4e6509f82ee717417a8ee",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "creature-parts",
+        "file": "art\\item-models\\candidates\\creature-parts\\models\\items\\ravager_talon.glb",
+        "sha256": "4880b81c1481e7af9ac2736ddde6777c8cf33dfd199d0d79a15984faec851fb0",
+        "sourceCurrent": false,
+        "referenceSha256": "4fdc8590b90ab9967d8a306f3894254282af58408fd4e6509f82ee717417a8ee",
+        "triangles": 7320,
+        "bytes": 373964
+      }
+    },
+    {
+      "itemId": "drake_scale",
+      "name": "Armored Dragon Scale",
+      "usage": "standalone",
+      "referenceHash": "2ff5a2f37f73ac7f598f482567666f5ed3fe8ece0632856e419e744412c53c48",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "creature-parts",
+        "file": "art\\item-models\\candidates\\creature-parts\\models\\items\\drake_scale.glb",
+        "sha256": "a0a2a8a58161973ed56d8cce15b0b1bb521fc655d581821ef826518e3bc956eb",
+        "sourceCurrent": false,
+        "referenceSha256": "2ff5a2f37f73ac7f598f482567666f5ed3fe8ece0632856e419e744412c53c48",
+        "triangles": 22576,
+        "bytes": 888976
+      }
+    },
+    {
+      "itemId": "mantis_scythe",
+      "name": "Mantis Claw",
+      "usage": "standalone",
+      "referenceHash": "b0653c5786e3d6fb6993e5cb11de6855a2201c35d9204c0174242fca6d6092d8",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "creature-parts",
+        "file": "art\\item-models\\candidates\\creature-parts\\models\\items\\mantis_scythe.glb",
+        "sha256": "f5364b3acb958834c6d749f9747eb1b1bea0ceacb73e9ff3267afb26b27db12f",
+        "sourceCurrent": false,
+        "referenceSha256": "b0653c5786e3d6fb6993e5cb11de6855a2201c35d9204c0174242fca6d6092d8",
+        "triangles": 15120,
+        "bytes": 610244
+      }
+    },
+    {
+      "itemId": "nightmare_plate",
+      "name": "Pale Dragon Plate",
+      "usage": "standalone",
+      "referenceHash": "f5d6be30c08bd79e8b34649da504dcf845119d011d3a2d7c35cfcf595a1b7801",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "creature-parts",
+        "file": "art\\item-models\\candidates\\creature-parts\\models\\items\\nightmare_plate.glb",
+        "sha256": "34f1d1332f4fd76f29c98058c242a6577e29d5da8c94f8abfff91e36cd7e9203",
+        "sourceCurrent": false,
+        "referenceSha256": "f5d6be30c08bd79e8b34649da504dcf845119d011d3a2d7c35cfcf595a1b7801",
+        "triangles": 19240,
+        "bytes": 781932
+      }
+    },
+    {
+      "itemId": "foxhair_ring",
+      "name": "Fox Fur Ring",
+      "usage": "standalone",
+      "referenceHash": "bad3577bd5427579fb95c7124b326424c96a4508b45e365614e31c9dd2ab0f84",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-trophies",
+        "file": "art\\item-models\\candidates\\jewelry-trophies\\models\\items\\foxhair_ring.glb",
+        "sha256": "1809d64d52048f36eda454f2d7a943f6241543b20e4a0f6d27d78708fa46acea",
+        "sourceCurrent": true,
+        "referenceSha256": "bad3577bd5427579fb95c7124b326424c96a4508b45e365614e31c9dd2ab0f84",
+        "triangles": 56384,
+        "bytes": 2252472
+      }
+    },
+    {
+      "itemId": "turkey_plume_charm",
+      "name": "Turkey Plume Charm",
+      "usage": "standalone",
+      "referenceHash": "168cb1637a2ec61c3c692e600fb224657efa27c2af1578f46d9595afa6a7fbe3",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-trophies",
+        "file": "art\\item-models\\candidates\\jewelry-trophies\\models\\items\\turkey_plume_charm.glb",
+        "sha256": "d468b8ab9a7dbcd7a795f1cabc8761009c94654d29a34884f595a497e43cd4ef",
+        "sourceCurrent": true,
+        "referenceSha256": "168cb1637a2ec61c3c692e600fb224657efa27c2af1578f46d9595afa6a7fbe3",
+        "triangles": 25370,
+        "bytes": 1033624
+      }
+    },
+    {
+      "itemId": "lynx_sinew_ring",
+      "name": "Lynx Sinew Ring",
+      "usage": "standalone",
+      "referenceHash": "260a808ec01692d8519050ab6a28fb72072573e7be72221386286882d321db27",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-trophies",
+        "file": "art\\item-models\\candidates\\jewelry-trophies\\models\\items\\lynx_sinew_ring.glb",
+        "sha256": "5e74b320d4d23c300f18e32e5e2d02da18904a07eaeae2da3f261e0f55ab76d9",
+        "sourceCurrent": true,
+        "referenceSha256": "260a808ec01692d8519050ab6a28fb72072573e7be72221386286882d321db27",
+        "triangles": 39744,
+        "bytes": 1386948
+      }
+    },
+    {
+      "itemId": "heron_quill_charm",
+      "name": "Heron Quill Charm",
+      "usage": "standalone",
+      "referenceHash": "2fef98f357b052dbf679bdc2fc1f425b0481b0aa5cea5aa9b40bac0c1f38f0a4",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-trophies",
+        "file": "art\\item-models\\candidates\\jewelry-trophies\\models\\items\\heron_quill_charm.glb",
+        "sha256": "7acb03b72fff4af5e8fb5c5238deeefc55bd31fd06cb18e297d162afb9e56837",
+        "sourceCurrent": true,
+        "referenceSha256": "2fef98f357b052dbf679bdc2fc1f425b0481b0aa5cea5aa9b40bac0c1f38f0a4",
+        "triangles": 19344,
+        "bytes": 844852
+      }
+    },
+    {
+      "itemId": "quillguard_ring",
+      "name": "Porcupine Quill Ring",
+      "usage": "standalone",
+      "referenceHash": "bc4ca38f1150b87bef74b91cec3a2b555f22877b209639cb0afeb8489cc1abc4",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-trophies",
+        "file": "art\\item-models\\candidates\\jewelry-trophies\\models\\items\\quillguard_ring.glb",
+        "sha256": "7abcfa14eadaef704d19f38606860840ac6d6fc70da4257e3dc9f52f5d9cef3d",
+        "sourceCurrent": true,
+        "referenceSha256": "bc4ca38f1150b87bef74b91cec3a2b555f22877b209639cb0afeb8489cc1abc4",
+        "triangles": 22752,
+        "bytes": 768008
+      }
+    },
+    {
+      "itemId": "antler_palm_charm",
+      "name": "Antler Charm",
+      "usage": "standalone",
+      "referenceHash": "3c7b36cb26dc9d439bc4ef425c6708710f2c4d0001c715ddedd5e85881851dd1",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-trophies",
+        "file": "art\\item-models\\candidates\\jewelry-trophies\\models\\items\\antler_palm_charm.glb",
+        "sha256": "f738c0ecbeef2dabee8d0500d0014f2015a1dda3ad435c96235ad26572d4c4cc",
+        "sourceCurrent": true,
+        "referenceSha256": "3c7b36cb26dc9d439bc4ef425c6708710f2c4d0001c715ddedd5e85881851dd1",
+        "triangles": 53728,
+        "bytes": 2480724
+      }
+    },
+    {
+      "itemId": "chitin_ring",
+      "name": "Chitin Ring",
+      "usage": "standalone",
+      "referenceHash": "cf4e07200a7edb4726529f5d2545c8462461aee040db5476ed798908f133de4a",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-trophies",
+        "file": "art\\item-models\\candidates\\jewelry-trophies\\models\\items\\chitin_ring.glb",
+        "sha256": "e8af6a2f1d6e3cfde7262362f864a7089dd7ee64a56df36d16f7b48c2b2d35d3",
+        "sourceCurrent": true,
+        "referenceSha256": "cf4e07200a7edb4726529f5d2545c8462461aee040db5476ed798908f133de4a",
+        "triangles": 25084,
+        "bytes": 902884
+      }
+    },
+    {
+      "itemId": "mantis_edge_charm",
+      "name": "Mantis Edge Charm",
+      "usage": "standalone",
+      "referenceHash": "4347289a5afd412a1f11f8e965f40b544a3a94b8ca62969a252632f16643e915",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-trophies",
+        "file": "art\\item-models\\candidates\\jewelry-trophies\\models\\items\\mantis_edge_charm.glb",
+        "sha256": "293d28fcd76a8bf5dd9ba71f61bea4603047e58bf2b2af1acda796a52a699aa8",
+        "sourceCurrent": true,
+        "referenceSha256": "4347289a5afd412a1f11f8e965f40b544a3a94b8ca62969a252632f16643e915",
+        "triangles": 15292,
+        "bytes": 581468
+      }
+    },
+    {
+      "itemId": "cindervein_ore",
+      "name": "Cindervein Ore",
+      "usage": "standalone",
+      "referenceHash": "21704657bc141a613cdefb4c7f16470b7fb67809f43f038ee08b78f57161e2eb",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "minerals-raw",
+        "file": "art\\item-models\\candidates\\minerals-raw\\models\\items\\cindervein_ore.glb",
+        "sha256": "fc074c280deb239774047861cef3c55bd6dc0a28aa68579c10b49916b24cc449",
+        "sourceCurrent": true,
+        "referenceSha256": "21704657bc141a613cdefb4c7f16470b7fb67809f43f038ee08b78f57161e2eb",
+        "triangles": 2400,
+        "bytes": 696832
+      }
+    },
+    {
+      "itemId": "nightglass_ore",
+      "name": "Nightglass Ore",
+      "usage": "standalone",
+      "referenceHash": "a2588020cfce3051bfe1514e1a825ddb52518ca8622aa58d88068c00b8ee8c65",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "minerals-raw",
+        "file": "art\\item-models\\candidates\\minerals-raw\\models\\items\\nightglass_ore.glb",
+        "sha256": "5acd5018336c29766ef2eef1ce9bc7de24410150d55d3f36bcad36131d6ea38c",
+        "sourceCurrent": true,
+        "referenceSha256": "a2588020cfce3051bfe1514e1a825ddb52518ca8622aa58d88068c00b8ee8c65",
+        "triangles": 2400,
+        "bytes": 708196
+      }
+    },
+    {
+      "itemId": "cindersteel_bar",
+      "name": "Cindersteel Bar",
+      "usage": "standalone",
+      "referenceHash": "de8e11e96bace347162acf21e4456203d1f93acd946eac45151a2e9bfdc8e802",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "bars-gems",
+        "file": "art\\item-models\\candidates\\bars-gems\\models\\items\\cindersteel_bar.glb",
+        "sha256": "76696a462406d31a6f975008d6882b2f40cd982c1fab85e5fbac398da7ca005e",
+        "sourceCurrent": true,
+        "referenceSha256": "de8e11e96bace347162acf21e4456203d1f93acd946eac45151a2e9bfdc8e802",
+        "triangles": 6474,
+        "bytes": 893776
+      }
+    },
+    {
+      "itemId": "nightglass_bar",
+      "name": "Nightglass Bar",
+      "usage": "standalone",
+      "referenceHash": "c5f905826eba662cfabd06ce4ff2c8f2818acfc463efed13d11f1d900ecac29e",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "bars-gems",
+        "file": "art\\item-models\\candidates\\bars-gems\\models\\items\\nightglass_bar.glb",
+        "sha256": "2d8c4c998f0d463c15330bb1986aef73b348a89a30f59178550fd0361d5a595b",
+        "sourceCurrent": true,
+        "referenceSha256": "c5f905826eba662cfabd06ce4ff2c8f2818acfc463efed13d11f1d900ecac29e",
+        "triangles": 5292,
+        "bytes": 777824
+      }
+    },
+    {
+      "itemId": "molten_heart",
+      "name": "Molten Heart",
+      "usage": "standalone",
+      "referenceHash": "8dace0d869f559f9c94e8abc081728c4800635f6a8d674f5871b9f5e12704f6c",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "relics",
+        "file": "art\\item-models\\candidates\\relics\\models\\items\\molten_heart.glb",
+        "sha256": "864fedcfefb1b2fe452b2ad75e7caef28bbcdd398f4e8b28e388f3d48c902a18",
+        "sourceCurrent": true,
+        "referenceSha256": "8dace0d869f559f9c94e8abc081728c4800635f6a8d674f5871b9f5e12704f6c",
+        "triangles": 11912,
+        "bytes": 349892
+      }
+    },
+    {
+      "itemId": "dragonhide",
+      "name": "Dragonhide",
+      "usage": "standalone",
+      "referenceHash": "ce6514db468092305dc0cb6e300b0d71c670b346383824e9b43280805e220b78",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "raw-hides",
+        "file": "art\\item-models\\candidates\\raw-hides\\models\\items\\dragonhide.glb",
+        "sha256": "de1f63040b5091713ee03dbf203a9db80f1a52dfe15986853b01c980fd6b21aa",
+        "sourceCurrent": false,
+        "referenceSha256": "ce6514db468092305dc0cb6e300b0d71c670b346383824e9b43280805e220b78",
+        "triangles": 14664,
+        "bytes": 1405312
+      }
+    },
+    {
+      "itemId": "grave_thread",
+      "name": "Grave Thread",
+      "usage": "standalone",
+      "referenceHash": "ad90361962814120f571f425f94d5b0282252a6214925a53b593888eec44aaca",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "relics",
+        "file": "art\\item-models\\candidates\\relics\\models\\items\\grave_thread.glb",
+        "sha256": "3ac3c7b26a219b03431103d87a612140fc0176597c8ba24a386abaf1bece8446",
+        "sourceCurrent": true,
+        "referenceSha256": "ad90361962814120f571f425f94d5b0282252a6214925a53b593888eec44aaca",
+        "triangles": 37968,
+        "bytes": 1222576
+      }
+    },
+    {
+      "itemId": "astral_core",
+      "name": "Astral Core",
+      "usage": "standalone",
+      "referenceHash": "c173cbe20d18270ae3e1a74260c5e5f758a65db5c62bc002042db05f3cb406cd",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "relics",
+        "file": "art\\item-models\\candidates\\relics\\models\\items\\astral_core.glb",
+        "sha256": "9f1867645c0815e050b4e7d40a9a043035dc01c69504054a8028dd157463b2aa",
+        "sourceCurrent": true,
+        "referenceSha256": "c173cbe20d18270ae3e1a74260c5e5f758a65db5c62bc002042db05f3cb406cd",
+        "triangles": 9048,
+        "bytes": 284920
+      }
+    },
+    {
+      "itemId": "starhide",
+      "name": "Starhide",
+      "usage": "standalone",
+      "referenceHash": "b2ecdff5ebe8f6d03331cdccc9a71f9526af0215c5cd085dd6059946c4f1f901",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "raw-hides",
+        "file": "art\\item-models\\candidates\\raw-hides\\models\\items\\starhide.glb",
+        "sha256": "c85fea259cd179ece57ed96db26b67c442f60c127e66eee5ee54aa754ddcdfc0",
+        "sourceCurrent": false,
+        "referenceSha256": "b2ecdff5ebe8f6d03331cdccc9a71f9526af0215c5cd085dd6059946c4f1f901",
+        "triangles": 13544,
+        "bytes": 1368888
+      }
+    },
+    {
+      "itemId": "void_thread",
+      "name": "Void Thread",
+      "usage": "standalone",
+      "referenceHash": "2420f8d66c7406d51ae6a005535816835bd80ab6c62a109c83aeb248f0d79438",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "relics",
+        "file": "art\\item-models\\candidates\\relics\\models\\items\\void_thread.glb",
+        "sha256": "6d6d0f7432460cc4f8270fe3153ec8526f6ea4d4ca92ad8893a988fcd08a7946",
+        "sourceCurrent": true,
+        "referenceSha256": "2420f8d66c7406d51ae6a005535816835bd80ab6c62a109c83aeb248f0d79438",
+        "triangles": 37632,
+        "bytes": 1212216
+      }
+    },
+    {
+      "itemId": "teak_handle",
+      "name": "Teak Handle",
+      "usage": "standalone",
+      "referenceHash": "e679b86d732efbfd33d9aaf478f239afcc163492c45ea98835c62c563b1aa86f",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-components",
+        "file": "art\\item-models\\candidates\\wood-components\\models\\items\\teak_handle.glb",
+        "sha256": "6d2be83b2588c621db9f33308be0fe496cb0f64cf80c4134b9bafc40aae62ab9",
+        "sourceCurrent": true,
+        "referenceSha256": "e679b86d732efbfd33d9aaf478f239afcc163492c45ea98835c62c563b1aa86f",
+        "triangles": 37342,
+        "bytes": 1907588
+      }
+    },
+    {
+      "itemId": "magic_handle",
+      "name": "Magic Handle",
+      "usage": "standalone",
+      "referenceHash": "ad1e4b8eb74fe955cd44a8e779e57c268b6efd9279bf2122324289141514081c",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-components",
+        "file": "art\\item-models\\candidates\\wood-components\\models\\items\\magic_handle.glb",
+        "sha256": "f8bbc4fe5088e29bd1163c4edd33c06c1e4e0dbb0e1b7c0858a9e85f5ea14219",
+        "sourceCurrent": true,
+        "referenceSha256": "ad1e4b8eb74fe955cd44a8e779e57c268b6efd9279bf2122324289141514081c",
+        "triangles": 43342,
+        "bytes": 2105040
+      }
+    },
+    {
+      "itemId": "ashseal_iron",
+      "name": "Ashseal Iron",
+      "usage": "standalone",
+      "referenceHash": "7e89835889258a3b81681e636a6c64168f741c5651932736fa39f982b6147293",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "relics",
+        "file": "art\\item-models\\candidates\\relics\\models\\items\\ashseal_iron.glb",
+        "sha256": "2e0c2a4cf890f5cfe9c69383e59719c254b83477821b9555f3336ec2a4c54523",
+        "sourceCurrent": true,
+        "referenceSha256": "7e89835889258a3b81681e636a6c64168f741c5651932736fa39f982b6147293",
+        "triangles": 4640,
+        "bytes": 294696
+      }
+    },
+    {
+      "itemId": "furnace_crown",
+      "name": "Furnace Crown",
+      "usage": "standalone",
+      "referenceHash": "78ed8329181db3f7281f3546c52dabb76d8bdb046bba5951931f0a8f1a60f139",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "relics",
+        "file": "art\\item-models\\candidates\\relics\\models\\items\\furnace_crown.glb",
+        "sha256": "d1a5d58191f58b87139ea42d793f636955618cbaafd296ffd5a92832bfe02855",
+        "sourceCurrent": true,
+        "referenceSha256": "78ed8329181db3f7281f3546c52dabb76d8bdb046bba5951931f0a8f1a60f139",
+        "triangles": 2024,
+        "bytes": 116368
+      }
+    },
+    {
+      "itemId": "chainbound_link",
+      "name": "Chainbound Link",
+      "usage": "standalone",
+      "referenceHash": "1a396ab84cdc57418808a77c7e0efe4da1ecd493c18702289b90dcc0aed1a921",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "relics",
+        "file": "art\\item-models\\candidates\\relics\\models\\items\\chainbound_link.glb",
+        "sha256": "4683831135ed9f6ec071461384b6718de1b00b8657cefb92ddb03eba9c38781d",
+        "sourceCurrent": true,
+        "referenceSha256": "1a396ab84cdc57418808a77c7e0efe4da1ecd493c18702289b90dcc0aed1a921",
+        "triangles": 11136,
+        "bytes": 368516
+      }
+    },
+    {
+      "itemId": "nightforge_seal",
+      "name": "Nightforge Seal",
+      "usage": "standalone",
+      "referenceHash": "5a55c2df71f5f114331385187f162e3711b167d01a9eef25cd224e991fff899c",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "relics",
+        "file": "art\\item-models\\candidates\\relics\\models\\items\\nightforge_seal.glb",
+        "sha256": "9731feff30ea640815d3208ff2b70d8d7e4b3e9d28892c61d68fdbeeb7fdd0da",
+        "sourceCurrent": true,
+        "referenceSha256": "5a55c2df71f5f114331385187f162e3711b167d01a9eef25cd224e991fff899c",
+        "triangles": 6004,
+        "bytes": 382472
+      }
+    },
+    {
+      "itemId": "hollow_star_fragment",
+      "name": "Hollow Star Fragment",
+      "usage": "standalone",
+      "referenceHash": "115e2e010830e4d6b2047ee9f202dcb5f7dbd2ff5a112fd88bc075eab6615bf1",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "relics",
+        "file": "art\\item-models\\candidates\\relics\\models\\items\\hollow_star_fragment.glb",
+        "sha256": "dc11e5b23029df6a5660ace5d8d10b9aa35679d66c6c615f236d34de017bab06",
+        "sourceCurrent": true,
+        "referenceSha256": "115e2e010830e4d6b2047ee9f202dcb5f7dbd2ff5a112fd88bc075eab6615bf1",
+        "triangles": 296,
+        "bytes": 38240
+      }
+    },
+    {
+      "itemId": "cindersteel_sword",
+      "name": "Cindersteel Sword",
+      "usage": "held-equipment",
+      "referenceHash": "c18e04d1ee332dbb03db1a31735a5cac9d87d06609e14f27a1a9e53877658610",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-b",
+        "file": "art\\item-models\\candidates\\blades-b\\models\\items\\cindersteel_sword.glb",
+        "sha256": "36c5b12e8bf510cb1d3eccd94fc1043ca6c4e71f036c527ea94e60b87cc00b76",
+        "sourceCurrent": true,
+        "referenceSha256": "c18e04d1ee332dbb03db1a31735a5cac9d87d06609e14f27a1a9e53877658610",
+        "triangles": 18526,
+        "bytes": 1722544
+      }
+    },
+    {
+      "itemId": "teak_shield",
+      "name": "Teak Shield",
+      "usage": "held-equipment",
+      "referenceHash": "276b62172fbe327c523101184eeddedd23acec06ff57cf9a22d0b71aa5122aea",
+      "status": "promoted",
+      "candidate": {
+        "author": "shields",
+        "file": "art\\item-models\\candidates\\shields\\models\\items\\teak_shield.glb",
+        "sha256": "cf053e03ddf3b25c606561953af3b6f09547fa4655a4e0fca33c4fc6e56236ec",
+        "sourceCurrent": true,
+        "referenceSha256": "276b62172fbe327c523101184eeddedd23acec06ff57cf9a22d0b71aa5122aea",
+        "triangles": 18996,
+        "bytes": 1673072
+      }
+    },
+    {
+      "itemId": "cindersteel_helm",
+      "name": "Cindersteel Helm",
+      "usage": "armor",
+      "referenceHash": "9806ac4dd34bb224b46a76114ee73038c6a116eed1e7d88915d245e24aa28193",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "cindersteel_plate",
+      "name": "Cindersteel Plate",
+      "usage": "armor",
+      "referenceHash": "f74cc259aa0e386b66adb86bae894a8e62d9055f6d3e4bff51d398016d684449",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "cindersteel_greaves",
+      "name": "Cindersteel Greaves",
+      "usage": "armor",
+      "referenceHash": "036be24f4cc14f22fbbdf18405f21048d297916de3fe448d61773d84a69da891",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "cindersteel_boots",
+      "name": "Cindersteel Boots",
+      "usage": "armor",
+      "referenceHash": "7c863a59d53bdd7d6ae27a3154310867bd02bb782584198223d898538016b1ec",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "cindersteel_gauntlets",
+      "name": "Cindersteel Gauntlets",
+      "usage": "armor",
+      "referenceHash": "bbfc203d823078b7cf49999da6f5cf84981dec678841704a3252ab8885bd1f97",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "cindersteel_ring",
+      "name": "Cindersteel Ring",
+      "usage": "standalone",
+      "referenceHash": "48c79d1b4d86ce6d409de9c949193e9c333c63a1b158e3bb814288edadcba616",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "jewelry-metal-b",
+        "file": "art\\item-models\\candidates\\jewelry-metal-b\\models\\items\\cindersteel_ring.glb",
+        "sha256": "5d0c22f1d1cd45267dcdd6f06bb9ca4afe1862895460659b2fea0423700c18e9",
+        "sourceCurrent": true,
+        "referenceSha256": "48c79d1b4d86ce6d409de9c949193e9c333c63a1b158e3bb814288edadcba616",
+        "triangles": 29184,
+        "bytes": 1038980
+      }
+    },
+    {
+      "itemId": "cindersteel_pendant",
+      "name": "Cindersteel Pendant",
+      "usage": "standalone",
+      "referenceHash": "4b589065e0b88219536d9fe17f4f169b53903656a050125f762e33d2c3a77f58",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "jewelry-metal-b",
+        "file": "art\\item-models\\candidates\\jewelry-metal-b\\models\\items\\cindersteel_pendant.glb",
+        "sha256": "888f04397671cb50c15750a914e6a5efa38eeaeb500ffe6622582a302dbdefe2",
+        "sourceCurrent": true,
+        "referenceSha256": "4b589065e0b88219536d9fe17f4f169b53903656a050125f762e33d2c3a77f58",
+        "triangles": 44412,
+        "bytes": 1587628
+      }
+    },
+    {
+      "itemId": "teak_wand",
+      "name": "Teak Wand",
+      "usage": "held-equipment",
+      "referenceHash": "61e8bf345dcdae8cb1d40e449755d26212842a4707937b1c47c9058661aa9f0f",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-b",
+        "file": "art\\item-models\\candidates\\wood-magic-b\\models\\items\\teak_wand.glb",
+        "sha256": "4424e9635f2e758c1c5d15fc7a33532e958ea427b3caabfd19885b9852149bc7",
+        "sourceCurrent": true,
+        "referenceSha256": "61e8bf345dcdae8cb1d40e449755d26212842a4707937b1c47c9058661aa9f0f",
+        "triangles": 43440,
+        "bytes": 1490908
+      }
+    },
+    {
+      "itemId": "teak_staff",
+      "name": "Teak Staff",
+      "usage": "held-equipment",
+      "referenceHash": "098d5deeac6def47d0662d3e7db96b621fdc3dc87bd8cc9b562681ab0a925a4e",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-b",
+        "file": "art\\item-models\\candidates\\wood-magic-b\\models\\items\\teak_staff.glb",
+        "sha256": "73997a60210c8c6dd845f82068f1e8e3280b3eaadaad792f0b11b0c52db3ef8c",
+        "sourceCurrent": true,
+        "referenceSha256": "098d5deeac6def47d0662d3e7db96b621fdc3dc87bd8cc9b562681ab0a925a4e",
+        "triangles": 28788,
+        "bytes": 1026420
+      }
+    },
+    {
+      "itemId": "dragonhide_hood",
+      "name": "Dragonhide Hood",
+      "usage": "armor",
+      "referenceHash": "d53f1361dd574200438b6aeef0be0fe3ddc0a6f1f560cbae11c90b9f864c0514",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "dragonhide_robe",
+      "name": "Dragonhide Robe",
+      "usage": "armor",
+      "referenceHash": "013e9215d6b2cb60d88266f9bffceb898e1204ea8c7e9763d07d106f05511b97",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "dragonhide_leggings",
+      "name": "Dragonhide Leggings",
+      "usage": "armor",
+      "referenceHash": "e34b45458f05d232baeafe4793dc9483ec06c49abb913466a0ea23eb8d578702",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "dragonhide_boots",
+      "name": "Dragonhide Boots",
+      "usage": "armor",
+      "referenceHash": "7ff0af279e77194bb3098e43ccdba7acc2b8986b88535a1c3358cf79e8814730",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "dragonhide_wraps",
+      "name": "Dragonhide Wraps",
+      "usage": "armor",
+      "referenceHash": "85d547ece326fa82ef1d8f2570eaaf8f975782efb48f84ee03c6cfce555d8b7a",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "emberweave_ring",
+      "name": "Emberweave Ring",
+      "usage": "standalone",
+      "referenceHash": "8cd29a8b101c00ba7e0dfd5a5294194637cefb517a35502037fca617d20013bf",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-magic-b",
+        "file": "art\\item-models\\candidates\\jewelry-magic-b\\models\\items\\emberweave_ring.glb",
+        "sha256": "7d6b15406153343bf5395235d22797ebec10d9ec51682b0d10be9a7905663424",
+        "sourceCurrent": true,
+        "referenceSha256": "8cd29a8b101c00ba7e0dfd5a5294194637cefb517a35502037fca617d20013bf",
+        "triangles": 42280,
+        "bytes": 1408168
+      }
+    },
+    {
+      "itemId": "emberweave_charm",
+      "name": "Emberweave Charm",
+      "usage": "standalone",
+      "referenceHash": "05d0fae72d24354992f8254ae8c42ec897268c48eda3f77751f69e843d00f28d",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-magic-b",
+        "file": "art\\item-models\\candidates\\jewelry-magic-b\\models\\items\\emberweave_charm.glb",
+        "sha256": "12d28124b7e2caa315b2c85ebb3ded0acdcad849276e35a99ce824d44fe32904",
+        "sourceCurrent": true,
+        "referenceSha256": "05d0fae72d24354992f8254ae8c42ec897268c48eda3f77751f69e843d00f28d",
+        "triangles": 52560,
+        "bytes": 1702632
+      }
+    },
+    {
+      "itemId": "cindersteel_pickaxe",
+      "name": "Cindersteel Pickaxe",
+      "usage": "gathering-tool",
+      "referenceHash": "64cb1db089d407b0042846fee3b6e34ec86c232ce8bc714811b249ae87d0b530",
+      "status": "promoted",
+      "candidate": {
+        "author": "pickaxes",
+        "file": "art\\item-models\\candidates\\pickaxes\\models\\items\\cindersteel_pickaxe.glb",
+        "sha256": "df901d5d45d1524898f9bb1afb4d4f92cecd5c278697b9054c88f8ad7ad96866",
+        "sourceCurrent": true,
+        "referenceSha256": "64cb1db089d407b0042846fee3b6e34ec86c232ce8bc714811b249ae87d0b530",
+        "triangles": 7936,
+        "bytes": 439572
+      }
+    },
+    {
+      "itemId": "cindersteel_hatchet",
+      "name": "Cindersteel Hatchet",
+      "usage": "gathering-tool",
+      "referenceHash": "b1659dd0fb842962095f1da614a8b4cd1d697f3957be4ebcf86e1edb1b6f870c",
+      "status": "promoted",
+      "candidate": {
+        "author": "hatchets",
+        "file": "art\\item-models\\candidates\\hatchets\\models\\items\\cindersteel_hatchet.glb",
+        "sha256": "3b97db7cacb96850b4852afcd8c4c3a776371bb02aa73d21a85c34480c88201b",
+        "sourceCurrent": true,
+        "referenceSha256": "b1659dd0fb842962095f1da614a8b4cd1d697f3957be4ebcf86e1edb1b6f870c",
+        "triangles": 40196,
+        "bytes": 1729808
+      }
+    },
+    {
+      "itemId": "nightglass_sword",
+      "name": "Nightglass Sword",
+      "usage": "held-equipment",
+      "referenceHash": "1e77989946a73beb475baf3fe8e3422cadea274c3e0f7a79ff885146fc51aedc",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-b",
+        "file": "art\\item-models\\candidates\\blades-b\\models\\items\\nightglass_sword.glb",
+        "sha256": "409ec9f5dc0634703ce7127f7adecdf641e7dbca8a9f68801e1360561a0a1ff7",
+        "sourceCurrent": true,
+        "referenceSha256": "1e77989946a73beb475baf3fe8e3422cadea274c3e0f7a79ff885146fc51aedc",
+        "triangles": 28278,
+        "bytes": 2027652
+      }
+    },
+    {
+      "itemId": "magic_shield",
+      "name": "Magic Shield",
+      "usage": "held-equipment",
+      "referenceHash": "11d30150ffa1d99db51b409f1301453fef4bce757c60baa87e7afc447e3a0555",
+      "status": "promoted",
+      "candidate": {
+        "author": "shields",
+        "file": "art\\item-models\\candidates\\shields\\models\\items\\magic_shield.glb",
+        "sha256": "f97fb671419b21582f5e87764e927873be67598f65a1f73df3146e7ee17e4b13",
+        "sourceCurrent": true,
+        "referenceSha256": "11d30150ffa1d99db51b409f1301453fef4bce757c60baa87e7afc447e3a0555",
+        "triangles": 16474,
+        "bytes": 1866600
+      }
+    },
+    {
+      "itemId": "nightglass_helm",
+      "name": "Nightglass Helm",
+      "usage": "armor",
+      "referenceHash": "ec2b8ea3228df81929fa82002cd6a5fd17572c45ae737d3ad8f2dbe2875f8c88",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "nightglass_plate",
+      "name": "Nightglass Plate",
+      "usage": "armor",
+      "referenceHash": "dfd115374e84dd6a4690b6237c93338841b828218d2b1de410db48643b7e6d21",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "nightglass_greaves",
+      "name": "Nightglass Greaves",
+      "usage": "armor",
+      "referenceHash": "c9573d4ed3034e89e56417c91bd55366dce0c1aca2787321e40e8fa1ec60599c",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "nightglass_boots",
+      "name": "Nightglass Boots",
+      "usage": "armor",
+      "referenceHash": "0e3d3aa742b6db2b7202d575b91e12d4785e9688a4163ff3aeff02802136c754",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "nightglass_gauntlets",
+      "name": "Nightglass Gauntlets",
+      "usage": "armor",
+      "referenceHash": "adf2c01dd0bc46e245c4fc9279e4e8354eb84f52dc38e83e627093ddf51dcf61",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "nightglass_ring",
+      "name": "Nightglass Ring",
+      "usage": "standalone",
+      "referenceHash": "87c8e48008133da71997555e4ecf894f29194d49274b4987a828b60e31a94e4d",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "jewelry-metal-b",
+        "file": "art\\item-models\\candidates\\jewelry-metal-b\\models\\items\\nightglass_ring.glb",
+        "sha256": "523772deb01f0aa061eddea159d28308cc29a5fef881a4da93134353f7570780",
+        "sourceCurrent": true,
+        "referenceSha256": "87c8e48008133da71997555e4ecf894f29194d49274b4987a828b60e31a94e4d",
+        "triangles": 9624,
+        "bytes": 528788
+      }
+    },
+    {
+      "itemId": "nightglass_pendant",
+      "name": "Nightglass Pendant",
+      "usage": "standalone",
+      "referenceHash": "f1bf2f2d61bfb2ced1a2757ae47509c724c5c6da46ccb6276a1dc0368f6897ca",
+      "status": "candidate-unaccepted",
+      "candidate": {
+        "author": "jewelry-metal-b",
+        "file": "art\\item-models\\candidates\\jewelry-metal-b\\models\\items\\nightglass_pendant.glb",
+        "sha256": "18032ba39ed55f0b724ecc66a33fd213c3f3ea2461545c25fde58f7f313ff38b",
+        "sourceCurrent": true,
+        "referenceSha256": "f1bf2f2d61bfb2ced1a2757ae47509c724c5c6da46ccb6276a1dc0368f6897ca",
+        "triangles": 42420,
+        "bytes": 1544904
+      }
+    },
+    {
+      "itemId": "magic_wand",
+      "name": "Magic Wand",
+      "usage": "held-equipment",
+      "referenceHash": "4544c9a53d311b1d2a378efae79ac7b72cbf26fd1de2e31fe54efa945c2b5e45",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-b",
+        "file": "art\\item-models\\candidates\\wood-magic-b\\models\\items\\magic_wand.glb",
+        "sha256": "7682f8057612c7c9df2f8e9dca7fb23662ec51b9d2da3c007ad6f20d1647300a",
+        "sourceCurrent": true,
+        "referenceSha256": "4544c9a53d311b1d2a378efae79ac7b72cbf26fd1de2e31fe54efa945c2b5e45",
+        "triangles": 19336,
+        "bytes": 750908
+      }
+    },
+    {
+      "itemId": "magic_staff",
+      "name": "Magic Staff",
+      "usage": "held-equipment",
+      "referenceHash": "50ac32c2f750facce6696df829de62b701684f92a0789f19130d024a176fd068",
+      "status": "promoted",
+      "candidate": {
+        "author": "wood-magic-b",
+        "file": "art\\item-models\\candidates\\wood-magic-b\\models\\items\\magic_staff.glb",
+        "sha256": "16e02a8c566506979ad5698172a453031d75523b057a5b7f1db40777314ce00e",
+        "sourceCurrent": true,
+        "referenceSha256": "50ac32c2f750facce6696df829de62b701684f92a0789f19130d024a176fd068",
+        "triangles": 57140,
+        "bytes": 1956296
+      }
+    },
+    {
+      "itemId": "starhide_hood",
+      "name": "Starhide Hood",
+      "usage": "armor",
+      "referenceHash": "e4a864fc10d5a875aa635c41fdc0e22fa60588d6b6b4f1c0cf0d5a56ea922f43",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "starhide_robe",
+      "name": "Starhide Robe",
+      "usage": "armor",
+      "referenceHash": "351df00b4dd9c02a832209b96403b1b40ed0b502033ccbbfef75e5209832829b",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "starhide_leggings",
+      "name": "Starhide Leggings",
+      "usage": "armor",
+      "referenceHash": "840079a0bf424b8c5bfc0ae43770aad62ed81134206b0a7fa89965c942c54338",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "starhide_boots",
+      "name": "Starhide Boots",
+      "usage": "armor",
+      "referenceHash": "d03491d1f02410e9bd8bfd8338e966aca7064c3ecde5bf647db0a68e7d04c515",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "starhide_wraps",
+      "name": "Starhide Wraps",
+      "usage": "armor",
+      "referenceHash": "bcbf4a0479ff08291a22efafdf51686006f2387d205768af2b4286dd9fbb3d8a",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "starweave_ring",
+      "name": "Starweave Ring",
+      "usage": "standalone",
+      "referenceHash": "bb7701e1d62eb350056a157f076ded5d09439f2753242671884b23933f34c3e2",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-magic-b",
+        "file": "art\\item-models\\candidates\\jewelry-magic-b\\models\\items\\starweave_ring.glb",
+        "sha256": "5833b7167d36acfb781c6c2567ac522d87a987b9ea763425bb928ceb1a638c88",
+        "sourceCurrent": true,
+        "referenceSha256": "bb7701e1d62eb350056a157f076ded5d09439f2753242671884b23933f34c3e2",
+        "triangles": 51016,
+        "bytes": 1719688
+      }
+    },
+    {
+      "itemId": "starweave_charm",
+      "name": "Starweave Charm",
+      "usage": "standalone",
+      "referenceHash": "700adcaaf246be0fea03bd2151f2d9f31df4a958b7ec68c48e37a3cd1a354691",
+      "status": "promoted",
+      "candidate": {
+        "author": "jewelry-magic-b",
+        "file": "art\\item-models\\candidates\\jewelry-magic-b\\models\\items\\starweave_charm.glb",
+        "sha256": "f16c9a8119d21bac1bff07838660399ea3f547d09a7c065c581c808431dfedf4",
+        "sourceCurrent": true,
+        "referenceSha256": "700adcaaf246be0fea03bd2151f2d9f31df4a958b7ec68c48e37a3cd1a354691",
+        "triangles": 37128,
+        "bytes": 1310044
+      }
+    },
+    {
+      "itemId": "nightglass_pickaxe",
+      "name": "Nightglass Pickaxe",
+      "usage": "gathering-tool",
+      "referenceHash": "b769a8e6a92c7185a9ba04e5909d6bd6bbe23a951139adbb17b17bdff785cc06",
+      "status": "promoted",
+      "candidate": {
+        "author": "pickaxes",
+        "file": "art\\item-models\\candidates\\pickaxes\\models\\items\\nightglass_pickaxe.glb",
+        "sha256": "2fafd1f291ae014ce180a6e1c857693eed1b16897729e4c4ebd03528edfbac6b",
+        "sourceCurrent": true,
+        "referenceSha256": "b769a8e6a92c7185a9ba04e5909d6bd6bbe23a951139adbb17b17bdff785cc06",
+        "triangles": 11168,
+        "bytes": 605252
+      }
+    },
+    {
+      "itemId": "nightglass_hatchet",
+      "name": "Nightglass Hatchet",
+      "usage": "gathering-tool",
+      "referenceHash": "c97e0eaf661ffabb64d3346d745e283b3770f818d3c9e107ec200aeb6af4017c",
+      "status": "promoted",
+      "candidate": {
+        "author": "hatchets",
+        "file": "art\\item-models\\candidates\\hatchets\\models\\items\\nightglass_hatchet.glb",
+        "sha256": "fc346b8a8f1c5d6c91b1f51060ecfc3c22bc64b43ec07db6239007757cf89d12",
+        "sourceCurrent": true,
+        "referenceSha256": "c97e0eaf661ffabb64d3346d745e283b3770f818d3c9e107ec200aeb6af4017c",
+        "triangles": 18176,
+        "bytes": 856804
+      }
+    },
+    {
+      "itemId": "ashseal_guard",
+      "name": "Ashseal Guard",
+      "usage": "held-equipment",
+      "referenceHash": "084455e85813edb6921c3dd4b198bbd906d00f3845dfafcf58411502e80ba2e8",
+      "status": "promoted",
+      "candidate": {
+        "author": "shields",
+        "file": "art\\item-models\\candidates\\shields\\models\\items\\ashseal_guard.glb",
+        "sha256": "0a743684baf092445df03020c62684d3583be9f07bd7d7b85d33dcb6baebb276",
+        "sourceCurrent": true,
+        "referenceSha256": "084455e85813edb6921c3dd4b198bbd906d00f3845dfafcf58411502e80ba2e8",
+        "triangles": 20766,
+        "bytes": 1722520
+      }
+    },
+    {
+      "itemId": "regent_staff",
+      "name": "Regent Staff",
+      "usage": "held-equipment",
+      "referenceHash": "a678f768b9a20a9699c54939de25b2814d33140e97aae101b21eada4e690191e",
+      "status": "promoted",
+      "candidate": {
+        "author": "boss-staves",
+        "file": "art\\item-models\\candidates\\boss-staves\\models\\items\\regent_staff.glb",
+        "sha256": "af7fdf27a95ddca8a203cc54dd289af45accea4cbe65fc58492e20d895b0448b",
+        "sourceCurrent": true,
+        "referenceSha256": "a678f768b9a20a9699c54939de25b2814d33140e97aae101b21eada4e690191e",
+        "triangles": 39284,
+        "bytes": 1682092
+      }
+    },
+    {
+      "itemId": "chainbound_sword",
+      "name": "Chainbound Sword",
+      "usage": "held-equipment",
+      "referenceHash": "ffa185ecc8c55b16ab433723ea8ec82188846e04d153d8b309498198cb60817c",
+      "status": "promoted",
+      "candidate": {
+        "author": "blades-boss",
+        "file": "art\\item-models\\candidates\\blades-boss\\models\\items\\chainbound_sword.glb",
+        "sha256": "3614acccae357d3dece31bf54a6b27c9970d3b7d96ab0745fc99f52d51dbe9f8",
+        "sourceCurrent": true,
+        "referenceSha256": "ffa185ecc8c55b16ab433723ea8ec82188846e04d153d8b309498198cb60817c",
+        "triangles": 50650,
+        "bytes": 2397984
+      }
+    },
+    {
+      "itemId": "nightmarshal_plate",
+      "name": "Nightmarshal Plate",
+      "usage": "armor",
+      "referenceHash": "8763b7f8b6a6db053e72854a24fd78c956fdb7f55313f1f988b40d5f4bf9b128",
+      "status": "existing-model"
+    },
+    {
+      "itemId": "hollowstar_staff",
+      "name": "Hollowstar Staff",
+      "usage": "held-equipment",
+      "referenceHash": "7165988486b6663391a464b460a9f5e2beb550d85dda718ebceb3764f147f4c9",
+      "status": "promoted",
+      "candidate": {
+        "author": "boss-staves",
+        "file": "art\\item-models\\candidates\\boss-staves\\models\\items\\hollowstar_staff.glb",
+        "sha256": "0743c5517210ffccc14f10ba3c2f0f7b0b62c70463adb1c8443790bcf13a62f6",
+        "sourceCurrent": true,
+        "referenceSha256": "7165988486b6663391a464b460a9f5e2beb550d85dda718ebceb3764f147f4c9",
+        "triangles": 38344,
+        "bytes": 1644856
+      }
+    }
+  ]
+}

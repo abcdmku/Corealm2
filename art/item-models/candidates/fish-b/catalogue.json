@@ -1,0 +1,303 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_cragfin",
+      "file": "models/items/cragfin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cragfin"
+      ],
+      "bytes": 1866128,
+      "itemModel": {
+        "itemId": "cragfin"
+      },
+      "size": {
+        "x": 0.7763840628885246,
+        "y": 0.42956182145103683,
+        "z": 0.1923999935388565
+      },
+      "base": {
+        "x": -0.3478399700820997,
+        "y": -0.18785267410019352,
+        "z": -0.09619999676942825
+      },
+      "animations": [],
+      "materials": [
+        "Scaled gold barred perch skin",
+        "Deep oral cavity",
+        "Fin rays and lip edges",
+        "Amber iris",
+        "Eye glass or cooked cloudy cornea",
+        "Fin web orange and ochre"
+      ],
+      "itemId": "cragfin",
+      "status": "pending",
+      "sha256": "e95fb83d719365180a677bc75b15b965bb1ef14f6f3a5015383b0f12ae96aac9",
+      "sourceSha256": "492284ebf51f80cadae7f3ffa27acc0c4ecd5bf463444bd67b3bdc4232ff9a6e",
+      "referenceSha256": "2008a3f8ee18f06b96a63902e811629de86b892dda045d769847d34b9c5ad9af",
+      "metadata": {
+        "itemId": "cragfin",
+        "author": "fish-b",
+        "reference": "art/item-icons/generated/cragfin.png",
+        "description": "A slab-sided tarn fish with a spined dorsal. Hillcrest eats little else."
+      },
+      "triangles": 55004,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_seared_cragfin",
+      "file": "models/items/seared_cragfin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "seared_cragfin"
+      ],
+      "bytes": 2186884,
+      "itemModel": {
+        "itemId": "seared_cragfin"
+      },
+      "size": {
+        "x": 0.7763840628885246,
+        "y": 0.42956182145103683,
+        "z": 0.1923999935388565
+      },
+      "base": {
+        "x": -0.3478399700820997,
+        "y": -0.18785267410019352,
+        "z": -0.09619999676942825
+      },
+      "animations": [],
+      "materials": [
+        "Scaled blistered golden roast skin",
+        "Deep oral cavity",
+        "Fin rays and lip edges",
+        "Amber iris",
+        "Eye glass or cooked cloudy cornea",
+        "Fin web roast amber"
+      ],
+      "itemId": "seared_cragfin",
+      "status": "pending",
+      "sha256": "345d9c58784b45ac29044037f05649572ac7f52fb479f397e1a02e91311bc256",
+      "sourceSha256": "492284ebf51f80cadae7f3ffa27acc0c4ecd5bf463444bd67b3bdc4232ff9a6e",
+      "referenceSha256": "186872cc285d782daa5702b4566158a48bc550bd9506ef3f1a5e89cf53a230f5",
+      "metadata": {
+        "itemId": "seared_cragfin",
+        "author": "fish-b",
+        "reference": "art/item-icons/generated/seared_cragfin.png",
+        "description": "The reason anyone survives Quarry Warden's floor. Hillcrest will not sell you fewer than five."
+      },
+      "triangles": 55004,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_burnt_cragfin",
+      "file": "models/items/burnt_cragfin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_cragfin"
+      ],
+      "bytes": 2322628,
+      "itemModel": {
+        "itemId": "burnt_cragfin"
+      },
+      "size": {
+        "x": 0.7749740986404225,
+        "y": 0.4239375878630329,
+        "z": 0.21029478311538696
+      },
+      "base": {
+        "x": -0.3478399700820997,
+        "y": -0.18785267410019352,
+        "z": -0.10514739155769348
+      },
+      "animations": [],
+      "materials": [
+        "Scaled cracked charcoal skin",
+        "Deep oral cavity",
+        "Fin rays and lip edges",
+        "Amber iris",
+        "Eye glass or cooked cloudy cornea",
+        "Fin web carbonized",
+        "Raised charcoal crust flakes"
+      ],
+      "itemId": "burnt_cragfin",
+      "status": "pending",
+      "sha256": "1e59366b6bb5a0685100b319af7761f9d72eff9086750d79e25801777b48a3d4",
+      "sourceSha256": "492284ebf51f80cadae7f3ffa27acc0c4ecd5bf463444bd67b3bdc4232ff9a6e",
+      "referenceSha256": "3e7b5b3e90bcb6405a9a5626c0e6e284c0ee4ecf88e5e9f6c667cb29dc83fa72",
+      "metadata": {
+        "itemId": "burnt_cragfin",
+        "author": "fish-b",
+        "reference": "art/item-icons/generated/burnt_cragfin.png",
+        "description": "Ninety-six marks of fish, ruined. Hillcrest has opinions about this."
+      },
+      "triangles": 58629,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_ashfin",
+      "file": "models/items/ashfin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ashfin"
+      ],
+      "bytes": 1790884,
+      "itemModel": {
+        "itemId": "ashfin"
+      },
+      "size": {
+        "x": 0.7792190715169633,
+        "y": 0.4095462747766117,
+        "z": 0.1923999935388565
+      },
+      "base": {
+        "x": -0.3506749787105385,
+        "y": -0.18785267410019352,
+        "z": -0.09619999676942825
+      },
+      "animations": [],
+      "materials": [
+        "Scaled olive bass skin",
+        "Deep oral cavity",
+        "Fin rays and lip edges",
+        "Amber iris",
+        "Eye glass or cooked cloudy cornea",
+        "Fin web dark olive"
+      ],
+      "itemId": "ashfin",
+      "status": "pending",
+      "sha256": "057d5ef57a9237a7a7f2fdd825139f9f6b23b04e2368e511796c1139753f6baa",
+      "sourceSha256": "492284ebf51f80cadae7f3ffa27acc0c4ecd5bf463444bd67b3bdc4232ff9a6e",
+      "referenceSha256": "7119cba5baa58868c532fc8f7846ae6d325ea43667f7109a8d9f4b90264eaaa0",
+      "metadata": {
+        "itemId": "ashfin",
+        "author": "fish-b",
+        "reference": "art/item-icons/generated/ashfin.png",
+        "description": "A dark-finned spring fish that thrives where the water runs warm. Oily and rich."
+      },
+      "triangles": 55004,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_seared_ashfin",
+      "file": "models/items/seared_ashfin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "seared_ashfin"
+      ],
+      "bytes": 2186868,
+      "itemModel": {
+        "itemId": "seared_ashfin"
+      },
+      "size": {
+        "x": 0.7792190715169633,
+        "y": 0.4095462747766117,
+        "z": 0.1923999935388565
+      },
+      "base": {
+        "x": -0.3506749787105385,
+        "y": -0.18785267410019352,
+        "z": -0.09619999676942825
+      },
+      "animations": [],
+      "materials": [
+        "Scaled blistered golden roast skin",
+        "Deep oral cavity",
+        "Fin rays and lip edges",
+        "Amber iris",
+        "Eye glass or cooked cloudy cornea",
+        "Fin web roast amber"
+      ],
+      "itemId": "seared_ashfin",
+      "status": "pending",
+      "sha256": "09cc37eeac2a4cc616a33e899ab7ba903300825c7990cccfe6ae315e9ed16762",
+      "sourceSha256": "492284ebf51f80cadae7f3ffa27acc0c4ecd5bf463444bd67b3bdc4232ff9a6e",
+      "referenceSha256": "280facc785e4b8ce60967582ad36a7fa7351717ad6c32f585b0bd284e16046cf",
+      "metadata": {
+        "itemId": "seared_ashfin",
+        "author": "fish-b",
+        "reference": "art/item-icons/generated/seared_ashfin.png",
+        "description": "The oil crisps its own skin. What a Fire Ogre attempt is provisioned with."
+      },
+      "triangles": 55004,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_burnt_ashfin",
+      "file": "models/items/burnt_ashfin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_ashfin"
+      ],
+      "bytes": 2322612,
+      "itemModel": {
+        "itemId": "burnt_ashfin"
+      },
+      "size": {
+        "x": 0.7806583500744855,
+        "y": 0.4057359848015231,
+        "z": 0.21029478311538696
+      },
+      "base": {
+        "x": -0.3506749787105385,
+        "y": -0.18785267410019352,
+        "z": -0.10514739155769348
+      },
+      "animations": [],
+      "materials": [
+        "Scaled cracked charcoal skin",
+        "Deep oral cavity",
+        "Fin rays and lip edges",
+        "Amber iris",
+        "Eye glass or cooked cloudy cornea",
+        "Fin web carbonized",
+        "Raised charcoal crust flakes"
+      ],
+      "itemId": "burnt_ashfin",
+      "status": "pending",
+      "sha256": "8242ce407093948a3714446c596a2217567a123a2f3e2ab07b4d81a478138087",
+      "sourceSha256": "492284ebf51f80cadae7f3ffa27acc0c4ecd5bf463444bd67b3bdc4232ff9a6e",
+      "referenceSha256": "347e12c6eaa9cf4c452bb2176ec09894d5e969e5592db7489d9120ee53064b70",
+      "metadata": {
+        "itemId": "burnt_ashfin",
+        "author": "fish-b",
+        "reference": "art/item-icons/generated/burnt_ashfin.png",
+        "description": "It cooked itself the rest of the way while you watched."
+      },
+      "triangles": 58629,
+      "drawCalls": 7
+    }
+  ]
+}

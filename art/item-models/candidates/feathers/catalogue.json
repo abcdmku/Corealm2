@@ -1,0 +1,288 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_hen_feather",
+      "file": "models/items/hen_feather.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "hen_feather"
+      ],
+      "bytes": 1257588,
+      "itemModel": {
+        "itemId": "hen_feather",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.07946740835905075,
+        "y": 0.2109313567634672,
+        "z": 0.022257322445511818
+      },
+      "base": {
+        "x": -0.03593796119093895,
+        "y": -0.000035848235711455345,
+        "z": -0.00442020408809185
+      },
+      "animations": [],
+      "materials": [
+        "hen_feather keratin vane",
+        "Soft branching basal filaments",
+        "Ivory keratin rachis"
+      ],
+      "itemId": "hen_feather",
+      "status": "pending",
+      "sha256": "11ecdbe8f9da189241dcceb3e507cc7d340907856a661c0fd3763de3a5b7445a",
+      "sourceSha256": "e075decc7598ba94f23004a68d97485ded94bb24280b1a78f0f0a9638e14b780",
+      "referenceSha256": "bc4cd7021798f22b1f62138c185608431c5bf24364f31cfeae2f123d712ce523",
+      "metadata": {
+        "itemId": "hen_feather",
+        "author": "feathers",
+        "reference": "art/item-icons/generated/hen_feather.png",
+        "description": "Barred brown, still stiff at the quill. Fletchers buy them by the double handful.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 35420,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_goose_down",
+      "file": "models/items/goose_down.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "goose_down"
+      ],
+      "bytes": 1760448,
+      "itemModel": {
+        "itemId": "goose_down",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.20167743314190772,
+        "y": 0.2314228527520935,
+        "z": 0.10334622504481533
+      },
+      "base": {
+        "x": -0.11207098622427278,
+        "y": -0.08671236055839462,
+        "z": -0.04986872421594147
+      },
+      "animations": [],
+      "materials": [
+        "Soft branching basal filaments",
+        "Ivory keratin rachis"
+      ],
+      "itemId": "goose_down",
+      "status": "pending",
+      "sha256": "a183c0973be6a3577cc856b4743097c20326b5d50dfc4d9b3231665e18305647",
+      "sourceSha256": "e075decc7598ba94f23004a68d97485ded94bb24280b1a78f0f0a9638e14b780",
+      "referenceSha256": "35e283dcd79dc4920cfbfd08bf17a27932d46ddf498869616dddb47365e2ab83",
+      "metadata": {
+        "itemId": "goose_down",
+        "author": "feathers",
+        "reference": "art/item-icons/generated/goose_down.png",
+        "description": "Soft breast feathers. Pack them between hide panels to finish a robe with less leather.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 59104,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_heron_quill",
+      "file": "models/items/heron_quill.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "heron_quill"
+      ],
+      "bytes": 1322432,
+      "itemModel": {
+        "itemId": "heron_quill",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.07357559353113174,
+        "y": 0.36159658605174627,
+        "z": 0.033557160291820765
+      },
+      "base": {
+        "x": -0.03160707652568817,
+        "y": -0.00006145412044133991,
+        "z": -0.007408174220472574
+      },
+      "animations": [],
+      "materials": [
+        "heron_quill keratin vane",
+        "Soft branching basal filaments",
+        "Ivory keratin rachis",
+        "Quill hollow interior"
+      ],
+      "itemId": "heron_quill",
+      "status": "pending",
+      "sha256": "3e5d4c514caac000386a801e881f64ebb15f86e3c47f0f8c576bf495d374e073",
+      "sourceSha256": "e075decc7598ba94f23004a68d97485ded94bb24280b1a78f0f0a9638e14b780",
+      "referenceSha256": "866fc8b2bd7fe04e17ed83b22da225f53240e4f789932cd5e3d2ef10c7ac4e68",
+      "metadata": {
+        "itemId": "heron_quill",
+        "author": "feathers",
+        "reference": "art/item-icons/generated/heron_quill.png",
+        "description": "A long hollow flight quill. Cut around an amber bead, it steadies a casting charm.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 35464,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_bustard_plume",
+      "file": "models/items/bustard_plume.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "bustard_plume"
+      ],
+      "bytes": 1268968,
+      "itemModel": {
+        "itemId": "bustard_plume",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.11119608953595161,
+        "y": 0.29128614372893935,
+        "z": 0.030918786767870188
+      },
+      "base": {
+        "x": -0.050392571836709976,
+        "y": -0.00004950470611220226,
+        "z": -0.006172486115247011
+      },
+      "animations": [],
+      "materials": [
+        "bustard_plume keratin vane",
+        "Soft branching basal filaments",
+        "Ivory keratin rachis"
+      ],
+      "itemId": "bustard_plume",
+      "status": "pending",
+      "sha256": "9696f550e35b337aabf4904cac7b582dbb09225f5fd5acb2a3fc7e20ef4f91b7",
+      "sourceSha256": "e075decc7598ba94f23004a68d97485ded94bb24280b1a78f0f0a9638e14b780",
+      "referenceSha256": "8aab4ddc935a53aaf8b23b6cc7975e791e04eb1449cc5793a9dc5e49e5792914",
+      "metadata": {
+        "itemId": "bustard_plume",
+        "author": "feathers",
+        "reference": "art/item-icons/generated/bustard_plume.png",
+        "description": "A broad feather from a heavy moorland bird. Layered plumes replace a robe's inner pelt.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 35420,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_turkey_tailfeather",
+      "file": "models/items/turkey_tailfeather.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "turkey_tailfeather"
+      ],
+      "bytes": 1260200,
+      "itemModel": {
+        "itemId": "turkey_tailfeather",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.11766832321882248,
+        "y": 0.3113748628202302,
+        "z": 0.0328473006375134
+      },
+      "base": {
+        "x": -0.05322559177875519,
+        "y": -0.00005291882189339958,
+        "z": -0.006521055940538645
+      },
+      "animations": [],
+      "materials": [
+        "turkey_tailfeather keratin vane",
+        "Soft branching basal filaments",
+        "Ivory keratin rachis"
+      ],
+      "itemId": "turkey_tailfeather",
+      "status": "pending",
+      "sha256": "d5bb833789ca7960f147337244fcbf7421a2bede8848fd34eee07653f558c521",
+      "sourceSha256": "e075decc7598ba94f23004a68d97485ded94bb24280b1a78f0f0a9638e14b780",
+      "referenceSha256": "1d9a90d30934a47548ef730904a5196029cc107bdec5516efe7466fb1ce4aaf2",
+      "metadata": {
+        "itemId": "turkey_tailfeather",
+        "author": "feathers",
+        "reference": "art/item-icons/generated/turkey_tailfeather.png",
+        "description": "A barred tail feather. Millfield hunters bind a fan of them around a small warding charm.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 35420,
+      "drawCalls": 3
+    }
+  ]
+}

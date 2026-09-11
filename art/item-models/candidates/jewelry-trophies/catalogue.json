@@ -1,0 +1,355 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_foxhair_ring",
+      "file": "models/items/foxhair_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "foxhair_ring"
+      ],
+      "bytes": 2252472,
+      "size": {
+        "x": 0.025747887790203094,
+        "y": 0.025763717480003834,
+        "z": 0.006800000090152025
+      },
+      "base": {
+        "x": -0.012869909405708313,
+        "y": -0.012874191626906395,
+        "z": -0.0034000000450760126
+      },
+      "animations": [],
+      "materials": [
+        "Red hammered copper rails and smooth bore",
+        "Dark russet hide under dense guardhair",
+        "Fox guardhair warm red and cream tips"
+      ],
+      "itemId": "foxhair_ring",
+      "status": "pending",
+      "sha256": "1809d64d52048f36eda454f2d7a943f6241543b20e4a0f6d27d78708fa46acea",
+      "sourceSha256": "5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc",
+      "referenceSha256": "bad3577bd5427579fb95c7124b326424c96a4508b45e365614e31c9dd2ab0f84",
+      "metadata": {
+        "itemId": "foxhair_ring",
+        "author": "jewelry-trophies",
+        "reference": "art/item-icons/generated/foxhair_ring.png",
+        "description": "Hammered copper ring with 20 mm bore, raised copper retaining edges and dense swept red fox guardhair with pale tips over a real hide sleeve. Full rear pelt and smooth inner band inferred."
+      },
+      "triangles": 56384,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_turkey_plume_charm",
+      "file": "models/items/turkey_plume_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "turkey_plume_charm"
+      ],
+      "bytes": 1033624,
+      "size": {
+        "x": 0.03476483654230833,
+        "y": 0.06390050053596497,
+        "z": 0.010757180629298091
+      },
+      "base": {
+        "x": -0.020157117396593094,
+        "y": -0.041003357619047165,
+        "z": -0.002827611519023776
+      },
+      "animations": [],
+      "materials": [
+        "Natural cream and dark brown turkey barring",
+        "Dark warm turkey feather rachis",
+        "Cloudy natural quartz crystal with clear thick volume",
+        "Fine milky quartz inclusions",
+        "Hammered red copper hanging loop and binding wire"
+      ],
+      "itemId": "turkey_plume_charm",
+      "status": "pending",
+      "sha256": "d468b8ab9a7dbcd7a795f1cabc8761009c94654d29a34884f595a497e43cd4ef",
+      "sourceSha256": "5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc",
+      "referenceSha256": "168cb1637a2ec61c3c692e600fb224657efa27c2af1578f46d9595afa6a7fbe3",
+      "metadata": {
+        "itemId": "turkey_plume_charm",
+        "author": "jewelry-trophies",
+        "reference": "art/item-icons/generated/turkey_plume_charm.png",
+        "description": "Two thick curved brown and cream barred turkey feathers, separate tapered rachises and barbs, a terminated cloudy quartz crystal in crossed copper wire and interlocking hammered copper suspension fittings. Closed feather backs and wrapped rear crystal inferred."
+      },
+      "triangles": 25370,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_lynx_sinew_ring",
+      "file": "models/items/lynx_sinew_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "lynx_sinew_ring"
+      ],
+      "bytes": 1386948,
+      "size": {
+        "x": 0.027429139241576195,
+        "y": 0.027613002806901932,
+        "z": 0.004800000227987766
+      },
+      "base": {
+        "x": -0.01381765864789486,
+        "y": -0.013811590149998665,
+        "z": -0.002400000113993883
+      },
+      "animations": [],
+      "materials": [
+        "Dark worn iron wire with bright worked edges",
+        "Taut honey tan longitudinal sinew fibres",
+        "Fine pale raised sinew fibres"
+      ],
+      "itemId": "lynx_sinew_ring",
+      "status": "pending",
+      "sha256": "5e74b320d4d23c300f18e32e5e2d02da18904a07eaeae2da3f261e0f55ab76d9",
+      "sourceSha256": "5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc",
+      "referenceSha256": "260a808ec01692d8519050ab6a28fb72072573e7be72221386286882d321db27",
+      "metadata": {
+        "itemId": "lynx_sinew_ring",
+        "author": "jewelry-trophies",
+        "reference": "art/item-icons/generated/lynx_sinew_ring.png",
+        "description": "Three dark twisted iron wires form a 20 mm open finger bore, lashed with broad tan sinew across the crown and three smaller binding stations, with fine longitudinal fibres and tucked ends."
+      },
+      "triangles": 39744,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_heron_quill_charm",
+      "file": "models/items/heron_quill_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "heron_quill_charm"
+      ],
+      "bytes": 844852,
+      "size": {
+        "x": 0.02508684527128935,
+        "y": 0.06630553677678108,
+        "z": 0.009257837198674679
+      },
+      "base": {
+        "x": -0.011336647905409336,
+        "y": -0.03201765939593315,
+        "z": -0.0030999998562037945
+      },
+      "animations": [],
+      "materials": [
+        "Heron pale grey feather vane",
+        "Slate blue grey heron feather tips",
+        "Ivory split quill with longitudinal striation",
+        "Polished honey orange amber with warm volume",
+        "Amber suspended brown mineral flecks",
+        "Brown grey forged iron quill ferrule"
+      ],
+      "itemId": "heron_quill_charm",
+      "status": "pending",
+      "sha256": "7acb03b72fff4af5e8fb5c5238deeefc55bd31fd06cb18e297d162afb9e56837",
+      "sourceSha256": "5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc",
+      "referenceSha256": "2fef98f357b052dbf679bdc2fc1f425b0481b0aa5cea5aa9b40bac0c1f38f0a4",
+      "metadata": {
+        "itemId": "heron_quill_charm",
+        "author": "jewelry-trophies",
+        "reference": "art/item-icons/generated/heron_quill_charm.png",
+        "description": "Honey amber oval held between two ivory halves of a split quill, slate blue distal markings, one curved blue grey heron feather, iron socket and two interlocking suspension loops. Quill backs and retaining straps inferred."
+      },
+      "triangles": 19344,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_quillguard_ring",
+      "file": "models/items/quillguard_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "quillguard_ring"
+      ],
+      "bytes": 768008,
+      "size": {
+        "x": 0.030711974948644638,
+        "y": 0.030711974948644638,
+        "z": 0.0066999997943639755
+      },
+      "base": {
+        "x": -0.015355987474322319,
+        "y": -0.015355987474322319,
+        "z": -0.0033499998971819878
+      },
+      "animations": [],
+      "materials": [
+        "Worn cobalt blue forged band and sockets",
+        "Porcupine quill dark roots grading into ivory tips"
+      ],
+      "itemId": "quillguard_ring",
+      "status": "pending",
+      "sha256": "7abcfa14eadaef704d19f38606860840ac6d6fc70da4257e3dc9f52f5d9cef3d",
+      "sourceSha256": "5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc",
+      "referenceSha256": "bc4ca38f1150b87bef74b91cec3a2b555f22877b209639cb0afeb8489cc1abc4",
+      "metadata": {
+        "itemId": "quillguard_ring",
+        "author": "jewelry-trophies",
+        "reference": "art/item-icons/generated/quillguard_ring.png",
+        "description": "Broad cobalt guard ring with a 20 mm bore, two staggered rows of short blunt dark rooted ivory porcupine quills in individual crimped blue metal sockets and protective side rails."
+      },
+      "triangles": 22752,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_antler_palm_charm",
+      "file": "models/items/antler_palm_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "antler_palm_charm"
+      ],
+      "bytes": 2480724,
+      "size": {
+        "x": 0.04293581284582615,
+        "y": 0.04443378187716007,
+        "z": 0.008139182347804308
+      },
+      "base": {
+        "x": -0.017321918159723282,
+        "y": -0.01741187274456024,
+        "z": -0.0038891825824975967
+      },
+      "animations": [],
+      "materials": [
+        "Warm cream polished antler end grain",
+        "Dark mottled antler cortex around sawn edge",
+        "Honey brown depths of cancellous antler pores",
+        "Hammered bronze antler bail",
+        "Dark cobalt blue interlocking chain"
+      ],
+      "itemId": "antler_palm_charm",
+      "status": "pending",
+      "sha256": "f738c0ecbeef2dabee8d0500d0014f2015a1dda3ad435c96235ad26572d4c4cc",
+      "sourceSha256": "5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc",
+      "referenceSha256": "3c7b36cb26dc9d439bc4ef425c6708710f2c4d0001c715ddedd5e85881851dd1",
+      "metadata": {
+        "itemId": "antler_palm_charm",
+        "author": "jewelry-trophies",
+        "reference": "art/item-icons/generated/antler_palm_charm.png",
+        "description": "Cream sawn antler disc with a drilled hole, rugged dark outer cortex, hundreds of recessed cancellous pore cups on both faces, broad bronze bail and twelve interlinked cobalt chain links. Rear cut face inferred from front."
+      },
+      "triangles": 53728,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_chitin_ring",
+      "file": "models/items/chitin_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "chitin_ring"
+      ],
+      "bytes": 902884,
+      "size": {
+        "x": 0.025745781138539314,
+        "y": 0.02568741235882044,
+        "z": 0.007389037404209375
+      },
+      "base": {
+        "x": -0.012975781224668026,
+        "y": -0.012774321250617504,
+        "z": -0.0036945187021046877
+      },
+      "animations": [],
+      "materials": [
+        "Worn pale titanium band and sculpted plate retainers",
+        "Polished reddish brown centipede chitin",
+        "Dark chitin plate seams and fine growth lines"
+      ],
+      "itemId": "chitin_ring",
+      "status": "pending",
+      "sha256": "e8af6a2f1d6e3cfde7262362f864a7089dd7ee64a56df36d16f7b48c2b2d35d3",
+      "sourceSha256": "5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc",
+      "referenceSha256": "cf4e07200a7edb4726529f5d2545c8462461aee040db5476ed798908f133de4a",
+      "metadata": {
+        "itemId": "chitin_ring",
+        "author": "jewelry-trophies",
+        "reference": "art/item-icons/generated/chitin_ring.png",
+        "description": "Eleven domed reddish brown centipede plates overlap around a smooth 20 mm titanium bore, retained by recurved titanium dividers and side bezels. Fine growth seams and complete rear construction."
+      },
+      "triangles": 25084,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_mantis_edge_charm",
+      "file": "models/items/mantis_edge_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "mantis_edge_charm"
+      ],
+      "bytes": 581468,
+      "size": {
+        "x": 0.027575045824050903,
+        "y": 0.06965658813714981,
+        "z": 0.005418474553152919
+      },
+      "base": {
+        "x": -0.016502011567354202,
+        "y": -0.031003646552562714,
+        "z": -0.0026499999221414328
+      },
+      "animations": [],
+      "materials": [
+        "Olive green mantis spur with amber brown cutting edge",
+        "Amber brown mantis edge and tooth tips",
+        "Polished hammered titanium open cage"
+      ],
+      "itemId": "mantis_edge_charm",
+      "status": "pending",
+      "sha256": "293d28fcd76a8bf5dd9ba71f61bea4603047e58bf2b2af1acda796a52a699aa8",
+      "sourceSha256": "5d4856a70f8d9fca4b93f39b5f63766a65f097332cfa4adf36f16e1cf1bf7ecc",
+      "referenceSha256": "4347289a5afd412a1f11f8e965f40b544a3a94b8ca62969a252632f16643e915",
+      "metadata": {
+        "itemId": "mantis_edge_charm",
+        "author": "jewelry-trophies",
+        "reference": "art/item-icons/generated/mantis_edge_charm.png",
+        "description": "Curved olive green mantis cutting spur with eight brown hooked serrations and raised growth ridges, held in an open titanium cage by four straps with interlocking pendant fittings. Thick shell back inferred."
+      },
+      "triangles": 15292,
+      "drawCalls": 3
+    }
+  ]
+}

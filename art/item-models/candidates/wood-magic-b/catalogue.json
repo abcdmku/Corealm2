@@ -1,0 +1,546 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_cairnpine_wand",
+      "file": "models/items/cairnpine_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_wand"
+      ],
+      "bytes": 925496,
+      "itemModel": {
+        "itemId": "cairnpine_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.443,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.0658452957868576,
+        "y": 0.5725638717412949,
+        "z": 0.05018464886024594
+      },
+      "base": {
+        "x": -0.0329226478934288,
+        "y": -0.0983999980688095,
+        "z": -0.02509232443012297
+      },
+      "animations": [],
+      "materials": [
+        "oak oiled carved wood",
+        "Cobalt fittings",
+        "oak worn fitting edges",
+        "Brass attachment rivets"
+      ],
+      "itemId": "cairnpine_wand",
+      "status": "pending",
+      "sha256": "feaf9cc868f8ea23b494cb8ea6854e5c1cc94832554da467faf46c2bd6082e5d",
+      "sourceSha256": "a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3",
+      "referenceSha256": "8c705cf0fd27abbf5009e8da8c4db95f6de63f8b1d2e6a1290dd5bd2cfa1778f",
+      "metadata": {
+        "itemId": "cairnpine_wand",
+        "author": "wood-magic-b",
+        "reference": "art/item-icons/generated/cairnpine_wand.png",
+        "description": "Resin-dark oak with an empty Cobalt socket and no light of its own.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.443,
+          0
+        ]
+      },
+      "triangles": 27720,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_cairnpine_staff",
+      "file": "models/items/cairnpine_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_staff"
+      ],
+      "bytes": 1523108,
+      "itemModel": {
+        "itemId": "cairnpine_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.8160000000000001,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.11961967869378516,
+        "y": 1.939300000667572,
+        "z": 0.1196196786937852
+      },
+      "base": {
+        "x": -0.05980983934689258,
+        "y": -1.0128999876976013,
+        "z": -0.0598098393468926
+      },
+      "animations": [],
+      "materials": [
+        "oak oiled carved wood",
+        "Cobalt fittings",
+        "oak worn fitting edges",
+        "Brass attachment rivets"
+      ],
+      "itemId": "cairnpine_staff",
+      "status": "pending",
+      "sha256": "8afb4d7a898b114222bcc7ddd27042d9559f944dadea545b7a0f40be8b0ffb88",
+      "sourceSha256": "a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3",
+      "referenceSha256": "744004eeeb37a5ef9c66ada4169cc83f40c0dbb90d22ccf28792346517182429",
+      "metadata": {
+        "itemId": "cairnpine_staff",
+        "author": "wood-magic-b",
+        "reference": "art/item-icons/generated/cairnpine_staff.png",
+        "description": "A two-handed oak shaft with an empty Cobalt cage. It stays dark until upgraded.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.8160000000000001,
+          0
+        ]
+      },
+      "triangles": 45968,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_cinderpine_wand",
+      "file": "models/items/cinderpine_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_wand"
+      ],
+      "bytes": 617100,
+      "itemModel": {
+        "itemId": "cinderpine_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.45114233482421817,
+          0.02172291271836598
+        ]
+      },
+      "size": {
+        "x": 0.04879999905824661,
+        "y": 0.5602499980366547,
+        "z": 0.0624464395771633
+      },
+      "base": {
+        "x": -0.024399999529123306,
+        "y": -0.10090000313520431,
+        "z": -0.024399999529123306
+      },
+      "animations": [],
+      "materials": [
+        "walnut oiled carved wood",
+        "Titanium fittings",
+        "walnut worn fitting edges",
+        "Brass attachment rivets",
+        "Dark recessed walnut socket lining"
+      ],
+      "itemId": "cinderpine_wand",
+      "status": "pending",
+      "sha256": "44516edc56084298cf1dc1e57a5d6298314b9820a3ef8ac1c0b58276b0492459",
+      "sourceSha256": "a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3",
+      "referenceSha256": "c2138bb8385219d9c82db1f723fea79a0c0cd4fb3e118ee4a272ebd4d5b79039",
+      "metadata": {
+        "itemId": "cinderpine_wand",
+        "author": "wood-magic-b",
+        "reference": "art/item-icons/generated/cinderpine_wand.png",
+        "description": "Polished walnut with an empty Titanium socket. It stays unlit until the altar takes it.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.45114233482421817,
+          0.02172291271836598
+        ]
+      },
+      "triangles": 17856,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_cinderpine_staff",
+      "file": "models/items/cinderpine_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_staff"
+      ],
+      "bytes": 1596532,
+      "itemModel": {
+        "itemId": "cinderpine_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.0274999999999999,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.1780177652835846,
+        "y": 1.9339242577552795,
+        "z": 0.06599999964237213
+      },
+      "base": {
+        "x": -0.0890088826417923,
+        "y": -0.8103999876976014,
+        "z": -0.032999999821186066
+      },
+      "animations": [],
+      "materials": [
+        "walnut oiled carved wood",
+        "Titanium fittings",
+        "walnut worn fitting edges",
+        "Brass attachment rivets",
+        "walnut dark hand binding"
+      ],
+      "itemId": "cinderpine_staff",
+      "status": "pending",
+      "sha256": "0ecf9c41399fcb3c74d426e1f4963dd5c6cb7549907d788de238640a1745405c",
+      "sourceSha256": "a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3",
+      "referenceSha256": "889f407cda4942d346e6e110388f92669dd465eae1a555efb3f954adfdd4be03",
+      "metadata": {
+        "itemId": "cinderpine_staff",
+        "author": "wood-magic-b",
+        "reference": "art/item-icons/generated/cinderpine_staff.png",
+        "description": "A two-handed walnut shaft crowned with an empty Titanium cage, dark until charged.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.0274999999999999,
+          0
+        ]
+      },
+      "triangles": 46016,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_teak_wand",
+      "file": "models/items/teak_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "teak_wand"
+      ],
+      "bytes": 1490908,
+      "itemModel": {
+        "itemId": "teak_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.441,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.05239999997615814,
+        "y": 0.5770093575119972,
+        "z": 0.052184648860245944
+      },
+      "base": {
+        "x": -0.02619999998807907,
+        "y": -0.10199999672174453,
+        "z": -0.026092324430122972
+      },
+      "animations": [],
+      "materials": [
+        "teak oiled carved wood",
+        "teak dark hand binding",
+        "Cindersteel fittings",
+        "teak worn fitting edges",
+        "Brass attachment rivets"
+      ],
+      "itemId": "teak_wand",
+      "status": "pending",
+      "sha256": "4424e9635f2e758c1c5d15fc7a33532e958ea427b3caabfd19885b9852149bc7",
+      "sourceSha256": "a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3",
+      "referenceSha256": "61e8bf345dcdae8cb1d40e449755d26212842a4707937b1c47c9058661aa9f0f",
+      "metadata": {
+        "itemId": "teak_wand",
+        "author": "wood-magic-b",
+        "reference": "art/item-icons/generated/teak_wand.png",
+        "description": "Teak wrapped with Grave Thread. A fast one-handed weapon; carried Essence pays for spells.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.441,
+          0
+        ]
+      },
+      "triangles": 43440,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_teak_staff",
+      "file": "models/items/teak_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "teak_staff"
+      ],
+      "bytes": 1026420,
+      "itemModel": {
+        "itemId": "teak_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.47,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.20399980247020721,
+        "y": 2.0180280208587646,
+        "z": 0.06599999964237213
+      },
+      "base": {
+        "x": -0.10199990123510361,
+        "y": -0.4080000257492065,
+        "z": -0.032999999821186066
+      },
+      "animations": [],
+      "materials": [
+        "teak oiled carved wood",
+        "Cindersteel fittings",
+        "teak worn fitting edges",
+        "teak dark hand binding"
+      ],
+      "itemId": "teak_staff",
+      "status": "pending",
+      "sha256": "73997a60210c8c6dd845f82068f1e8e3280b3eaadaad792f0b11b0c52db3ef8c",
+      "sourceSha256": "a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3",
+      "referenceSha256": "098d5deeac6def47d0662d3e7db96b621fdc3dc87bd8cc9b562681ab0a925a4e",
+      "metadata": {
+        "itemId": "teak_staff",
+        "author": "wood-magic-b",
+        "reference": "art/item-icons/generated/teak_staff.png",
+        "description": "Teak crowned with Cindersteel. A heavy two-handed casting weapon; carried Essence pays for spells.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.47,
+          0
+        ]
+      },
+      "triangles": 28788,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_magic_wand",
+      "file": "models/items/magic_wand.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "magic_wand"
+      ],
+      "bytes": 750908,
+      "itemModel": {
+        "itemId": "magic_wand",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.426,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.05198933742940426,
+        "y": 0.562009371817112,
+        "z": 0.05079999938607216
+      },
+      "base": {
+        "x": -0.025992581620812416,
+        "y": -0.10199999672174453,
+        "z": -0.02539999969303608
+      },
+      "animations": [],
+      "materials": [
+        "magic oiled carved wood",
+        "magic dark hand binding",
+        "Muted violet Void Thread",
+        "Nightglass fittings",
+        "magic worn fitting edges"
+      ],
+      "itemId": "magic_wand",
+      "status": "pending",
+      "sha256": "7682f8057612c7c9df2f8e9dca7fb23662ec51b9d2da3c007ad6f20d1647300a",
+      "sourceSha256": "a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3",
+      "referenceSha256": "4544c9a53d311b1d2a378efae79ac7b72cbf26fd1de2e31fe54efa945c2b5e45",
+      "metadata": {
+        "itemId": "magic_wand",
+        "author": "wood-magic-b",
+        "reference": "art/item-icons/generated/magic_wand.png",
+        "description": "Magic wrapped with Void Thread. A fast one-handed weapon; carried Essence pays for spells.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0.426,
+          0
+        ]
+      },
+      "triangles": 19336,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_magic_staff",
+      "file": "models/items/magic_staff.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "magic_staff"
+      ],
+      "bytes": 1956296,
+      "itemModel": {
+        "itemId": "magic_staff",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.47,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.21393941342830658,
+        "y": 2.031053304672241,
+        "z": 0.06599999964237213
+      },
+      "base": {
+        "x": -0.10696970671415329,
+        "y": -0.41,
+        "z": -0.032999999821186066
+      },
+      "animations": [],
+      "materials": [
+        "magic oiled carved wood",
+        "Nightglass fittings",
+        "magic worn fitting edges",
+        "magic dark hand binding",
+        "Muted violet Void Thread"
+      ],
+      "itemId": "magic_staff",
+      "status": "pending",
+      "sha256": "16e02a8c566506979ad5698172a453031d75523b057a5b7f1db40777314ce00e",
+      "sourceSha256": "a0896e4b2190f2bb684c362b1e89f163b685baf9177ae690f6e0aa4505d11ae3",
+      "referenceSha256": "50ac32c2f750facce6696df829de62b701684f92a0789f19130d024a176fd068",
+      "metadata": {
+        "itemId": "magic_staff",
+        "author": "wood-magic-b",
+        "reference": "art/item-icons/generated/magic_staff.png",
+        "description": "Magic crowned with Nightglass. A heavy two-handed casting weapon; carried Essence pays for spells.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          1.47,
+          0
+        ]
+      },
+      "triangles": 57140,
+      "drawCalls": 5
+    }
+  ]
+}

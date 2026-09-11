@@ -40,6 +40,7 @@ export default defineConfig({
           label: "Systems",
           items: [
             { label: "Items", link: "/game/items/" },
+            { label: "Worn armor", link: "/game/armor/" },
             { label: "Recipes", link: "/game/recipes/" },
             { label: "Resources", link: "/game/resources/" },
             { label: "Skills", link: "/game/skills/" },

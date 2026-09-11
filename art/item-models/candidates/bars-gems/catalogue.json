@@ -1,0 +1,457 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_grithe_bar",
+      "file": "models/items/grithe_bar.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_bar"
+      ],
+      "bytes": 767288,
+      "itemModel": {
+        "itemId": "grithe_bar"
+      },
+      "size": {
+        "x": 0.14250420033931732,
+        "y": 0.07315726578235626,
+        "z": 0.3139965832233429
+      },
+      "base": {
+        "x": -0.07125400006771088,
+        "y": -0.0365830734372139,
+        "z": -0.15700115263462067
+      },
+      "animations": [],
+      "materials": [
+        "grithe_bar cast metal"
+      ],
+      "itemId": "grithe_bar",
+      "status": "pending",
+      "sha256": "9abe94cbb56eb74d152187dc7214163d34b5d2a911161f83eb47dbdc3d6ea741",
+      "sourceSha256": "6a28b44c32585b9ef84ea194c56053354f9d59a3346c41dc64ddbc5a7eb93427",
+      "referenceSha256": "b961fef7f3d08c72150e37737ae72a48a2d4d28fdd66ef064cb016242109e9b5",
+      "metadata": {
+        "itemId": "grithe_bar",
+        "author": "bars-gems",
+        "reference": "art/item-icons/generated/grithe_bar.png",
+        "description": "One ore, one stone, one bar. The first thing anybody makes."
+      },
+      "triangles": 5292,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_corven_bar",
+      "file": "models/items/corven_bar.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_bar"
+      ],
+      "bytes": 767280,
+      "itemModel": {
+        "itemId": "corven_bar"
+      },
+      "size": {
+        "x": 0.1424766108393669,
+        "y": 0.07314153388142586,
+        "z": 0.31393231451511383
+      },
+      "base": {
+        "x": -0.07122283428907394,
+        "y": -0.03657160699367523,
+        "z": -0.15693160891532898
+      },
+      "animations": [],
+      "materials": [
+        "corven_bar cast metal"
+      ],
+      "itemId": "corven_bar",
+      "status": "pending",
+      "sha256": "5a2587d4e14623ec973bbd9602a2fed78b50d9580c5bdb134f306103cbe46b28",
+      "sourceSha256": "6a28b44c32585b9ef84ea194c56053354f9d59a3346c41dc64ddbc5a7eb93427",
+      "referenceSha256": "31918f03f9e44c32a2805d8028e4d52cc763838f51bb698f2c443b55d0dbb554",
+      "metadata": {
+        "itemId": "corven_bar",
+        "author": "bars-gems",
+        "reference": "art/item-icons/generated/corven_bar.png",
+        "description": "Dark and dense. Rings a full tone lower than Copper on the anvil."
+      },
+      "triangles": 5292,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_kaldite_bar",
+      "file": "models/items/kaldite_bar.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_bar"
+      ],
+      "bytes": 830884,
+      "itemModel": {
+        "itemId": "kaldite_bar"
+      },
+      "size": {
+        "x": 0.14250684529542923,
+        "y": 0.07316383346915245,
+        "z": 0.31399044394493103
+      },
+      "base": {
+        "x": -0.07125396281480789,
+        "y": -0.03659425303339958,
+        "z": -0.15698963403701782
+      },
+      "animations": [],
+      "materials": [
+        "kaldite_bar cast metal",
+        "Hammered end grain"
+      ],
+      "itemId": "kaldite_bar",
+      "status": "pending",
+      "sha256": "6fed16f34b4be80f65023bda5c14fdc31bbb3a490c1a572782c2de060655fb0c",
+      "sourceSha256": "6a28b44c32585b9ef84ea194c56053354f9d59a3346c41dc64ddbc5a7eb93427",
+      "referenceSha256": "ee383f454575fa71bf45fd9378b7ddb9bef32ebad466a732de282e7313aaf4f4",
+      "metadata": {
+        "itemId": "kaldite_bar",
+        "author": "bars-gems",
+        "reference": "art/item-icons/generated/kaldite_bar.png",
+        "description": "Black with a blue sheen. Holds an edge through cairn stone, which is why Hillcrest exists."
+      },
+      "triangles": 5724,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_emberite_bar",
+      "file": "models/items/emberite_bar.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_bar"
+      ],
+      "bytes": 830252,
+      "itemModel": {
+        "itemId": "emberite_bar"
+      },
+      "size": {
+        "x": 0.14250795543193817,
+        "y": 0.07373463734984398,
+        "z": 0.31631243228912354
+      },
+      "base": {
+        "x": -0.07125391066074371,
+        "y": -0.03658463805913925,
+        "z": -0.1570008099079132
+      },
+      "animations": [],
+      "materials": [
+        "emberite_bar cast metal",
+        "Oxidized split walls",
+        "Molten material exposed in fracture"
+      ],
+      "itemId": "emberite_bar",
+      "status": "pending",
+      "sha256": "e7af529c10e40eb5f554fa70fa48c3655af9f224224b9b4299f147ecd0f87a2c",
+      "sourceSha256": "6a28b44c32585b9ef84ea194c56053354f9d59a3346c41dc64ddbc5a7eb93427",
+      "referenceSha256": "1607ad72a9c9f8407c86134a6170da21fc510935fe02a78dd7d198c4383bb18d",
+      "metadata": {
+        "itemId": "emberite_bar",
+        "author": "bars-gems",
+        "reference": "art/item-icons/generated/emberite_bar.png",
+        "description": "Three ores and two flux stones a bar, and it comes off the furnace still glowing at the core."
+      },
+      "triangles": 6042,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_cindersteel_bar",
+      "file": "models/items/cindersteel_bar.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_bar"
+      ],
+      "bytes": 893776,
+      "itemModel": {
+        "itemId": "cindersteel_bar"
+      },
+      "size": {
+        "x": 0.142474003136158,
+        "y": 0.07364796474575996,
+        "z": 0.3171917200088501
+      },
+      "base": {
+        "x": -0.07122267782688141,
+        "y": -0.03649796545505524,
+        "z": -0.15694020688533783
+      },
+      "animations": [],
+      "materials": [
+        "cindersteel_bar cast metal",
+        "Hammered end grain",
+        "Oxidized split walls",
+        "Molten material exposed in fracture"
+      ],
+      "itemId": "cindersteel_bar",
+      "status": "pending",
+      "sha256": "76696a462406d31a6f975008d6882b2f40cd982c1fab85e5fbac398da7ca005e",
+      "sourceSha256": "6a28b44c32585b9ef84ea194c56053354f9d59a3346c41dc64ddbc5a7eb93427",
+      "referenceSha256": "de8e11e96bace347162acf21e4456203d1f93acd946eac45151a2e9bfdc8e802",
+      "metadata": {
+        "itemId": "cindersteel_bar",
+        "author": "bars-gems",
+        "reference": "art/item-icons/generated/cindersteel_bar.png",
+        "description": "Dense dark steel cast with a molten stone heart. Used for level 50 armour, weapons and tools."
+      },
+      "triangles": 6474,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_nightglass_bar",
+      "file": "models/items/nightglass_bar.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_bar"
+      ],
+      "bytes": 777824,
+      "itemModel": {
+        "itemId": "nightglass_bar"
+      },
+      "size": {
+        "x": 0.14306055009365082,
+        "y": 0.07357443869113922,
+        "z": 0.314371794462204
+      },
+      "base": {
+        "x": -0.07153027504682541,
+        "y": -0.03681521117687225,
+        "z": -0.1571858823299408
+      },
+      "animations": [],
+      "materials": [
+        "nightglass_bar cast metal"
+      ],
+      "itemId": "nightglass_bar",
+      "status": "pending",
+      "sha256": "2d8c4c998f0d463c15330bb1986aef73b348a89a30f59178550fd0361d5a595b",
+      "sourceSha256": "6a28b44c32585b9ef84ea194c56053354f9d59a3346c41dc64ddbc5a7eb93427",
+      "referenceSha256": "c5f905826eba662cfabd06ce4ff2c8f2818acfc463efed13d11f1d900ecac29e",
+      "metadata": {
+        "itemId": "nightglass_bar",
+        "author": "bars-gems",
+        "reference": "art/item-icons/generated/nightglass_bar.png",
+        "description": "A solid bar of blue-black glass metal. Used for level 70 armour, weapons and tools."
+      },
+      "triangles": 5292,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_pale_quartz",
+      "file": "models/items/pale_quartz.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "pale_quartz"
+      ],
+      "bytes": 208364,
+      "itemModel": {
+        "itemId": "pale_quartz"
+      },
+      "size": {
+        "x": 0.10567149060050685,
+        "y": 0.16003669372200965,
+        "z": 0.07395055676996708
+      },
+      "base": {
+        "x": -0.05833043164014816,
+        "y": -0.07903669348359108,
+        "z": -0.03695055629312992
+      },
+      "animations": [],
+      "materials": [
+        "Copper stained quartz host rock",
+        "Milky fractured quartz",
+        "Clear quartz cleavage edges",
+        "Copper flecks in quartz matrix"
+      ],
+      "itemId": "pale_quartz",
+      "status": "pending",
+      "sha256": "029afd9b4c82325970fd5fe35cdc20718bf5ef71f802d005290dc565dc6c57cf",
+      "sourceSha256": "6a28b44c32585b9ef84ea194c56053354f9d59a3346c41dc64ddbc5a7eb93427",
+      "referenceSha256": "f00fcbadf136c4035d00db49f07b6192e9921f753187927da048446874e57815",
+      "metadata": {
+        "itemId": "pale_quartz",
+        "author": "bars-gems",
+        "reference": "art/item-icons/generated/pale_quartz.png",
+        "description": "A milky chip out of a Copper seam. Holds a charge just long enough to be useful."
+      },
+      "triangles": 572,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_vell_amber",
+      "file": "models/items/vell_amber.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "vell_amber"
+      ],
+      "bytes": 667504,
+      "itemModel": {
+        "itemId": "vell_amber"
+      },
+      "size": {
+        "x": 0.10496031835570614,
+        "y": 0.12309035577142505,
+        "z": 0.04588397033512592
+      },
+      "base": {
+        "x": -0.0538286668355846,
+        "y": -0.06442765894091453,
+        "z": -0.02229621447622776
+      },
+      "animations": [],
+      "materials": [
+        "Polished fossil honey resin",
+        "Weathered amber rind",
+        "Air trapped inside resin",
+        "Ancient bark inclusions"
+      ],
+      "itemId": "vell_amber",
+      "status": "pending",
+      "sha256": "9d738ebf8b139b34a103df59d2548786edcd23db13e6e2ebfd58aca16a38ae87",
+      "sourceSha256": "6a28b44c32585b9ef84ea194c56053354f9d59a3346c41dc64ddbc5a7eb93427",
+      "referenceSha256": "089d6057a3ef9ae707d0faa4909d0bafaccd3c67a0599ddb1cef76d3d2702023",
+      "metadata": {
+        "itemId": "vell_amber",
+        "author": "bars-gems",
+        "reference": "art/item-icons/generated/vell_amber.png",
+        "description": "Fossil resin from under the deepwood. Warm in the hand and nobody knows why."
+      },
+      "triangles": 11032,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_cairn_garnet",
+      "file": "models/items/cairn_garnet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairn_garnet"
+      ],
+      "bytes": 311104,
+      "itemModel": {
+        "itemId": "cairn_garnet"
+      },
+      "size": {
+        "x": 0.09443709397464502,
+        "y": 0.09627744469102296,
+        "z": 0.08456195274022843
+      },
+      "base": {
+        "x": -0.04721854698732251,
+        "y": -0.04813872234551148,
+        "z": -0.042280976370114215
+      },
+      "animations": [],
+      "materials": [
+        "Deep wine garnet cleavage",
+        "Crushed red crystal fracture rind",
+        "Garnet hairline mineral fissures"
+      ],
+      "itemId": "cairn_garnet",
+      "status": "pending",
+      "sha256": "bb1332eaf279ecbc499710597cd5182f0bfd9e919446f648047aa142f3eb2f45",
+      "sourceSha256": "6a28b44c32585b9ef84ea194c56053354f9d59a3346c41dc64ddbc5a7eb93427",
+      "referenceSha256": "562e8ba13495499a33067e2ad198642fb4298544e76f4978480b1453b8abd65b",
+      "metadata": {
+        "itemId": "cairn_garnet",
+        "author": "bars-gems",
+        "reference": "art/item-icons/generated/cairn_garnet.png",
+        "description": "Deep red, cut square by the rock itself. Hillcrest jewellers cage it in Cobalt."
+      },
+      "triangles": 2204,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_fire_opal",
+      "file": "models/items/fire_opal.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "fire_opal"
+      ],
+      "bytes": 282428,
+      "itemModel": {
+        "itemId": "fire_opal"
+      },
+      "size": {
+        "x": 0.09701099639970319,
+        "y": 0.1167949912967049,
+        "z": 0.058363329619169235
+      },
+      "base": {
+        "x": -0.045423566482303085,
+        "y": -0.060207269547568734,
+        "z": -0.029181664809584618
+      },
+      "animations": [],
+      "materials": [
+        "Orange fire opal polished skin"
+      ],
+      "itemId": "fire_opal",
+      "status": "pending",
+      "sha256": "10cc6ae7a83a7418535067acc1b5fdf0ac20eff61afea484e4eb8ee37a4b2d0a",
+      "sourceSha256": "6a28b44c32585b9ef84ea194c56053354f9d59a3346c41dc64ddbc5a7eb93427",
+      "referenceSha256": "65da3fafa9ffdc5759951f707b63991bbafcde78125b88926f86396b8d4f26a7",
+      "metadata": {
+        "itemId": "fire_opal",
+        "author": "bars-gems",
+        "reference": "art/item-icons/generated/fire_opal.png",
+        "description": "An orange stone with a live spark in it. Ashford cages them in Titanium claws."
+      },
+      "triangles": 4992,
+      "drawCalls": 1
+    }
+  ]
+}

@@ -287,7 +287,6 @@ describe("gear appearance", () => {
     expect(gearAppearanceParts("grithe_cuirass").map((part) => part.assetId)).toEqual([
       "outfit_male_knight_chest",
       "outfit_male_knight_pauldron",
-      "outfit_male_knight_scarf",
     ]);
     expect(gearAppearance("kaldite_plate", "female")?.assetId).toBe("outfit_female_knight_chest");
     expect(gearAppearanceParts("cairnpelt_robe", "male").map((part) => part.assetId)).toEqual([
@@ -299,10 +298,10 @@ describe("gear appearance", () => {
     expect(gearAppearance("grithe_helm", "male")?.assetId).toBe("outfit_male_knight_helmet");
   });
 
-  it("uses bronze, dark iron, and steel for melee, and blue, dark green, and black for magic", () => {
-    expect(gearAppearance("grithe_cuirass")?.tint).toBe(0xb77a3f);
+  it("uses icon copper, iron and cobalt for melee, preserving magic cloth colours", () => {
+    expect(gearAppearance("grithe_cuirass")?.tint).toBe(0xc58258);
     expect(gearAppearance("corven_plate")?.tint).toBe(0x7f8589);
-    expect(gearAppearance("kaldite_plate")?.tint).toBe(0xffffff);
+    expect(gearAppearance("kaldite_plate")?.tint).toBe(0x587cae);
     expect(gearAppearance("marchhide_robe")?.tint).toBe(0x416f9d);
     expect(gearAppearance("bramblehide_robe")?.tint).toBe(0x2f4f3b);
     expect(gearAppearance("cairnpelt_robe")?.tint).toBe(0x4a4d52);

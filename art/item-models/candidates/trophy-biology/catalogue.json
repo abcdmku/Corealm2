@@ -1,0 +1,422 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_hen_egg",
+      "file": "models/items/hen_egg.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "hen_egg"
+      ],
+      "bytes": 391540,
+      "itemModel": {
+        "itemId": "hen_egg"
+      },
+      "size": {
+        "x": 0.04506821766212685,
+        "y": 0.05960082005020349,
+        "z": 0.0446699783205986
+      },
+      "base": {
+        "x": -0.023354541346299475,
+        "y": -0.029887109509479315,
+        "z": -0.0223349891602993
+      },
+      "animations": [],
+      "materials": [
+        "Warm speckled eggshell"
+      ],
+      "itemId": "hen_egg",
+      "status": "pending",
+      "sha256": "e784063d57d758216f700200a50b08f6d9a6c93aa1891af126f06be256ad57bb",
+      "sourceSha256": "1a9b1823c85384c40d70b659868d93a54e1a4b9671178894c0b332b83e854e45",
+      "referenceSha256": "fbf9bf0c96b0be8886339c317cd5eb0b93163172a6e93b8d8e33357633a23c1c",
+      "metadata": {
+        "itemId": "hen_egg",
+        "author": "trophy-biology",
+        "reference": "art/item-icons/generated/hen_egg.png",
+        "description": "Warm when you find it, which is how you know you were quick enough."
+      },
+      "triangles": 6016,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_coney_foot",
+      "file": "models/items/coney_foot.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "coney_foot"
+      ],
+      "bytes": 1370804,
+      "itemModel": {
+        "itemId": "coney_foot"
+      },
+      "size": {
+        "x": 0.11638795211911201,
+        "y": 0.18380533158779144,
+        "z": 0.04211392626166344
+      },
+      "base": {
+        "x": -0.03194880858063698,
+        "y": -0.07599999755620956,
+        "z": -0.02105696313083172
+      },
+      "animations": [],
+      "materials": [
+        "Warm tawny and cream rabbit fur",
+        "Tawny guard hairs",
+        "Cream fine guard hairs",
+        "Brown plaited hanging cord"
+      ],
+      "itemId": "coney_foot",
+      "status": "pending",
+      "sha256": "5e4c1925f6d2ce39cd495f72aaa1d1d44741e699e3558d61f19c2ea0e45154af",
+      "sourceSha256": "1a9b1823c85384c40d70b659868d93a54e1a4b9671178894c0b332b83e854e45",
+      "referenceSha256": "35515a2195852fe14e0d2f90ba9247f5882a38da80be57d6ed74838f64f4ba9b",
+      "metadata": {
+        "itemId": "coney_foot",
+        "author": "trophy-biology",
+        "reference": "art/item-icons/generated/coney_foot.png",
+        "description": "Carried for luck by everyone who has ever admitted the moor frightens them."
+      },
+      "triangles": 28378,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_marsh_gland",
+      "file": "models/items/marsh_gland.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "marsh_gland"
+      ],
+      "bytes": 681604,
+      "itemModel": {
+        "itemId": "marsh_gland"
+      },
+      "size": {
+        "x": 0.1146524406298995,
+        "y": 0.15997097027953716,
+        "z": 0.0605081208050251
+      },
+      "base": {
+        "x": -0.058152440935373306,
+        "y": -0.07306885719299316,
+        "z": -0.03025406040251255
+      },
+      "animations": [],
+      "materials": [
+        "Pale olive marsh fluid",
+        "Folded pale duct tissue",
+        "Dark interior of open gland duct",
+        "Wet translucent outer membrane",
+        "Fine branching membrane vessels"
+      ],
+      "itemId": "marsh_gland",
+      "status": "pending",
+      "sha256": "fc3013fac336843099fb871732ba035d24d037ff4cac9e4ecdbd314703514c07",
+      "sourceSha256": "1a9b1823c85384c40d70b659868d93a54e1a4b9671178894c0b332b83e854e45",
+      "referenceSha256": "a7d9cc9a920462e237c32d677571f6463ff603546fac569ef1e0cab680355c68",
+      "metadata": {
+        "itemId": "marsh_gland",
+        "author": "trophy-biology",
+        "reference": "art/item-icons/generated/marsh_gland.png",
+        "description": "Pale sac from behind a frog's jaw. Keeps essence wet, which is most of the trick."
+      },
+      "triangles": 14036,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_viper_skin",
+      "file": "models/items/viper_skin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "viper_skin"
+      ],
+      "bytes": 1038308,
+      "itemModel": {
+        "itemId": "viper_skin"
+      },
+      "size": {
+        "x": 0.21894696354866028,
+        "y": 0.3010728657245636,
+        "z": 0.03853787574917078
+      },
+      "base": {
+        "x": -0.09647886455059052,
+        "y": -0.1418624371290207,
+        "z": -0.012511034496128559
+      },
+      "animations": [],
+      "materials": [
+        "Papery beige shed scale membrane",
+        "Pale inside out belly membrane"
+      ],
+      "itemId": "viper_skin",
+      "status": "pending",
+      "sha256": "25aa09b326bac2981e908bb944fd22391b69e23a7fcafbb3e7ad86c5cdd8491c",
+      "sourceSha256": "1a9b1823c85384c40d70b659868d93a54e1a4b9671178894c0b332b83e854e45",
+      "referenceSha256": "c8900668b11e3d83f82fc22f0ae3c472f3b3e9c74b64e794e603524bffbdc3d9",
+      "metadata": {
+        "itemId": "viper_skin",
+        "author": "trophy-biology",
+        "reference": "art/item-icons/generated/viper_skin.png",
+        "description": "Shed whole and inside out. Copper fletchers back their nocks with it."
+      },
+      "triangles": 31344,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_venom_gland",
+      "file": "models/items/venom_gland.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "venom_gland"
+      ],
+      "bytes": 681616,
+      "itemModel": {
+        "itemId": "venom_gland"
+      },
+      "size": {
+        "x": 0.1146524406298995,
+        "y": 0.15997097027953716,
+        "z": 0.0605081208050251
+      },
+      "base": {
+        "x": -0.058152440935373306,
+        "y": -0.07306885719299316,
+        "z": -0.03025406040251255
+      },
+      "animations": [],
+      "materials": [
+        "Yellow green venom inside sac",
+        "Folded pale duct tissue",
+        "Dark interior of open gland duct",
+        "Wet translucent outer membrane",
+        "Fine branching membrane vessels"
+      ],
+      "itemId": "venom_gland",
+      "status": "pending",
+      "sha256": "daccdfc81c27af83db397c988f82444ccd534b7a858f65283c11183f4f93ab54",
+      "sourceSha256": "1a9b1823c85384c40d70b659868d93a54e1a4b9671178894c0b332b83e854e45",
+      "referenceSha256": "d3326e63bb02e90dc894797b5de12a30f7b0907dd9f9dc1f03f797790df92b56",
+      "metadata": {
+        "itemId": "venom_gland",
+        "author": "trophy-biology",
+        "reference": "art/item-icons/generated/venom_gland.png",
+        "description": "Still full. Handled with the same care you would give a lit lamp in a barn."
+      },
+      "triangles": 14036,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_rat_tail",
+      "file": "models/items/rat_tail.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "rat_tail"
+      ],
+      "bytes": 947376,
+      "itemModel": {
+        "itemId": "rat_tail"
+      },
+      "size": {
+        "x": 0.17780276387929916,
+        "y": 0.2382737249135971,
+        "z": 0.03848375380039215
+      },
+      "base": {
+        "x": -0.09190842509269714,
+        "y": -0.10562926530838013,
+        "z": -0.015848254784941673
+      },
+      "animations": [],
+      "materials": [
+        "Pale exposed tail tissue",
+        "Dry pink grey rat tail skin",
+        "Sparse stiff tail hairs"
+      ],
+      "itemId": "rat_tail",
+      "status": "pending",
+      "sha256": "de7282af9baf853837d6c8ae711b16eb3ae2ab12e89faeaeabf9be70a48d5c15",
+      "sourceSha256": "1a9b1823c85384c40d70b659868d93a54e1a4b9671178894c0b332b83e854e45",
+      "referenceSha256": "04c3df6ccc590b38cbf2b198a5263028245e9d7513806e5f6dd126b19930394c",
+      "metadata": {
+        "itemId": "rat_tail",
+        "author": "trophy-biology",
+        "reference": "art/item-icons/generated/rat_tail.png",
+        "description": "Stone Cavern pays a bounty per tail. Nobody in Hillcrest asks what the count is for."
+      },
+      "triangles": 21954,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_scorpion_stinger",
+      "file": "models/items/scorpion_stinger.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "scorpion_stinger"
+      ],
+      "bytes": 538636,
+      "itemModel": {
+        "itemId": "scorpion_stinger"
+      },
+      "size": {
+        "x": 0.13221834227442741,
+        "y": 0.17290951311588287,
+        "z": 0.05585118941962719
+      },
+      "base": {
+        "x": -0.07001829147338867,
+        "y": -0.10200926661491394,
+        "z": -0.027842756360769272
+      },
+      "animations": [],
+      "materials": [
+        "Burnished black brown venom barb",
+        "Amber scorpion chitin",
+        "Dark amber shell sutures"
+      ],
+      "itemId": "scorpion_stinger",
+      "status": "pending",
+      "sha256": "e903424b59545f79abed8e64518db95b6df21f8ae7c7e302677bea60ed777858",
+      "sourceSha256": "1a9b1823c85384c40d70b659868d93a54e1a4b9671178894c0b332b83e854e45",
+      "referenceSha256": "e1d24e5f429f1f57f4d60b46b09b0d69c120a7ad092ebff09e892aec4e4656f6",
+      "metadata": {
+        "itemId": "scorpion_stinger",
+        "author": "trophy-biology",
+        "reference": "art/item-icons/generated/scorpion_stinger.png",
+        "description": "Barb and bulb both intact. Dry, it is a needle; wet, it is still a problem."
+      },
+      "triangles": 8540,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_crab_claw",
+      "file": "models/items/crab_claw.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "crab_claw"
+      ],
+      "bytes": 1006712,
+      "itemModel": {
+        "itemId": "crab_claw"
+      },
+      "size": {
+        "x": 0.2008529156446457,
+        "y": 0.21470528841018677,
+        "z": 0.06998421251773834
+      },
+      "base": {
+        "x": -0.10444600880146027,
+        "y": -0.11199210584163666,
+        "z": -0.03499210625886917
+      },
+      "animations": [],
+      "materials": [
+        "Dry fibrous claw joint",
+        "Deep red mottled crab carapace",
+        "Dark pincer contact edge",
+        "Worn cream crushing teeth"
+      ],
+      "itemId": "crab_claw",
+      "status": "pending",
+      "sha256": "e03173fd1e9601a44845d58f2da8c990b8e33a4efa13a1f2f5814dcf35a8f796",
+      "sourceSha256": "1a9b1823c85384c40d70b659868d93a54e1a4b9671178894c0b332b83e854e45",
+      "referenceSha256": "d0c15563418d93941b34e2b9a963ac21e1ecef9fcf45d854f2cb9ac691616914",
+      "metadata": {
+        "itemId": "crab_claw",
+        "author": "trophy-biology",
+        "reference": "art/item-icons/generated/crab_claw.png",
+        "description": "Off a giant crab, and big enough to have taken a pick handle in half."
+      },
+      "triangles": 21712,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_boar_bristle",
+      "file": "models/items/boar_bristle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "boar_bristle"
+      ],
+      "bytes": 1537244,
+      "itemModel": {
+        "itemId": "boar_bristle"
+      },
+      "size": {
+        "x": 0.1256384402513504,
+        "y": 0.2347509041428566,
+        "z": 0.0684841014444828
+      },
+      "base": {
+        "x": -0.06306019425392151,
+        "y": -0.0349813774228096,
+        "z": -0.03339676558971405
+      },
+      "animations": [],
+      "materials": [
+        "Sun worn brown hair edges",
+        "Black boar guard hair",
+        "Brown black boar hair",
+        "Rough flax binding"
+      ],
+      "itemId": "boar_bristle",
+      "status": "pending",
+      "sha256": "57a3a3ad8752e49d7cbf00e1cf6d4363c3d5c9afcc34bdf22aeda79a57ccc230",
+      "sourceSha256": "1a9b1823c85384c40d70b659868d93a54e1a4b9671178894c0b332b83e854e45",
+      "referenceSha256": "65ae4866b1b51aea37311f5eb3af953898e7ce000f5d50b4de9f3244b0fbf7d6",
+      "metadata": {
+        "itemId": "boar_bristle",
+        "author": "trophy-biology",
+        "reference": "art/item-icons/generated/boar_bristle.png",
+        "description": "A fistful of black wire off a wild boar's shoulder. It will not lie flat."
+      },
+      "triangles": 37316,
+      "drawCalls": 4
+    }
+  ]
+}

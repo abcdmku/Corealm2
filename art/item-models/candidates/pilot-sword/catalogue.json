@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_grithe_sword",
+      "file": "models/items/grithe_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_sword"
+      ],
+      "bytes": 1379028,
+      "itemModel": {
+        "itemId": "grithe_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.36352184414863586,
+        "y": 1.4149999479055404,
+        "z": 0.05593828856945038
+      },
+      "base": {
+        "x": -0.18176092207431793,
+        "y": -0.23500000035762786,
+        "z": -0.027928708121180534
+      },
+      "animations": [],
+      "materials": [
+        "polished-copper-edge",
+        "polished-copper-broad-blade-faces",
+        "copper-forging-retained-on-secondary-facet",
+        "lightly-hammered-warm-copper",
+        "dark-brown-leather",
+        "worn-leather-wrap-edge"
+      ],
+      "itemId": "grithe_sword",
+      "status": "pending",
+      "sha256": "34e965edaeb64094cf9c63499848af9b7d196c624242e88128dab669c6d58e88",
+      "sourceSha256": "0b34954ef629b3d438003124d234a6787db0561e1e6b2a7a27f073b6f01d5aec",
+      "referenceSha256": "b98fc985b324230ef184a88204a6a5d970816573e8d501326db2f597d64d9d85",
+      "metadata": {
+        "itemId": "grithe_sword",
+        "author": "pilot-sword",
+        "reference": "art/item-icons/generated/grithe_sword.png",
+        "description": "Copper double-edged sword: broad diamond blade, narrow honed edges, curved flared guard, brown spiral leather grip, and domed coin pommel with concentric rim. Rear and thickness inferred.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 23380,
+      "drawCalls": 6
+    }
+  ]
+}

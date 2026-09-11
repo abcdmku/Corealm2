@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_palewood_log",
+      "file": "models/items/palewood_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_log"
+      ],
+      "bytes": 2932644,
+      "size": {
+        "x": 0.2462095394730568,
+        "y": 0.2477879896759987,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.1209152564406395,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "Connected fibrous brown trunk beneath shallow plate fissures",
+        "Warm pale pine annual endgrain",
+        "Cinnamon and weathered grey pine plate faces",
+        "Thin ochre bark fracture edges"
+      ],
+      "itemId": "palewood_log",
+      "status": "pending",
+      "sha256": "03ef94bcec699ca144640ab40491c2de9259c615fa66a690781b77c9135f7bd0",
+      "sourceSha256": "4b0cb802b44a549b600f6b9f355f1a489e08aa159fef2dedb331069ac804ce0e",
+      "referenceSha256": "73e49964ceeb92a97bbdb6bb93e7a9fd998026fb51bc9ef0c9a5dda24cea518b",
+      "metadata": {
+        "itemId": "palewood_log",
+        "author": "pilot-log",
+        "reference": "art/item-icons/generated/palewood_log.png",
+        "description": "Solid 0.55 m cut pine section along Z, cut face at +Z, grounded at Y=0. Thick layered rusty cinnamon and grey-brown bark plates, deep longitudinal fissures, chipped cambium rim, eccentric honey-gold endgrain and radial drying checks."
+      },
+      "triangles": 28916,
+      "drawCalls": 4
+    }
+  ]
+}

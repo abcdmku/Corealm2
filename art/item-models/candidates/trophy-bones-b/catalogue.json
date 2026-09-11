@@ -1,0 +1,283 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_ibex_horn",
+      "file": "models/items/ibex_horn.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ibex_horn"
+      ],
+      "bytes": 3920956,
+      "itemModel": {
+        "itemId": "ibex_horn"
+      },
+      "size": {
+        "x": 0.7059986740350723,
+        "y": 0.6424030922353268,
+        "z": 0.18694020807743073
+      },
+      "base": {
+        "x": -0.100998654961586,
+        "y": -0.0372784398496151,
+        "z": -0.07136441022157669
+      },
+      "animations": [],
+      "materials": [
+        "ibex_horn natural keratin",
+        "ibex_horn porous root interior",
+        "ibex_horn exposed chipped root"
+      ],
+      "itemId": "ibex_horn",
+      "status": "pending",
+      "sha256": "c383a2bb1ed2b6d4415d697b9d0d5b9788137050fa9ed563ce552950d89e0c5d",
+      "sourceSha256": "390cb73a4d1a5f440d23eeb521ae94304647ef87f430a2b7a2d069e88b8607a3",
+      "referenceSha256": "a55db35da588ff33a8a981cc3a890d2c9c02b61684777622ca020390472a0a55",
+      "metadata": {
+        "itemId": "ibex_horn",
+        "author": "trophy-bones-b",
+        "reference": "art/item-icons/generated/ibex_horn.png",
+        "description": "Ridged the whole length, one ring a winter. This one counted eleven."
+      },
+      "triangles": 57568,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_aurochs_horn",
+      "file": "models/items/aurochs_horn.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "aurochs_horn"
+      ],
+      "bytes": 3859804,
+      "itemModel": {
+        "itemId": "aurochs_horn"
+      },
+      "size": {
+        "x": 0.6917723119258881,
+        "y": 0.7895932495594025,
+        "z": 0.28547701239585876
+      },
+      "base": {
+        "x": -0.3152923583984375,
+        "y": -0.27959325909614563,
+        "z": -0.10770627856254578
+      },
+      "animations": [],
+      "materials": [
+        "aurochs_horn natural keratin",
+        "aurochs_horn porous root interior",
+        "aurochs_horn exposed chipped root"
+      ],
+      "itemId": "aurochs_horn",
+      "status": "pending",
+      "sha256": "d7eb288e19ce8221221a247ddd7e0d34496238f06df6cfa5906b88f20d27d7ad",
+      "sourceSha256": "390cb73a4d1a5f440d23eeb521ae94304647ef87f430a2b7a2d069e88b8607a3",
+      "referenceSha256": "6bb135d02c660e6e56ddab0657e9ba4d0e1a63f7a7d926c4d649651e0996c66a",
+      "metadata": {
+        "itemId": "aurochs_horn",
+        "author": "trophy-bones-b",
+        "reference": "art/item-icons/generated/aurochs_horn.png",
+        "description": "As long as your arm and heavier. The terrace herds are the last ones anywhere."
+      },
+      "triangles": 57568,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_ashback_claw",
+      "file": "models/items/ashback_claw.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ashback_claw"
+      ],
+      "bytes": 3820000,
+      "itemModel": {
+        "itemId": "ashback_claw"
+      },
+      "size": {
+        "x": 0.33295612037181854,
+        "y": 0.41861213743686676,
+        "z": 0.09962769225239754
+      },
+      "base": {
+        "x": -0.21346446871757507,
+        "y": -0.1899999976158142,
+        "z": -0.03633632883429527
+      },
+      "animations": [],
+      "materials": [
+        "ashback_claw natural keratin",
+        "ashback_claw porous root interior",
+        "ashback_claw exposed chipped root"
+      ],
+      "itemId": "ashback_claw",
+      "status": "pending",
+      "sha256": "6c9aee831fc82e1baef54b1a4bb051fd04fca0f79362a3d0e5804468285cbc54",
+      "sourceSha256": "390cb73a4d1a5f440d23eeb521ae94304647ef87f430a2b7a2d069e88b8607a3",
+      "referenceSha256": "bd70b9361ed7f5a6791da332e48c8603e1251e9cb7ab2787c0ec178cc820e8ad",
+      "metadata": {
+        "itemId": "ashback_claw",
+        "author": "trophy-bones-b",
+        "reference": "art/item-icons/generated/ashback_claw.png",
+        "description": "Grey to the root, like the bear it came off. Ashford doors hang two, crossed."
+      },
+      "triangles": 57568,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_cinder_tusk",
+      "file": "models/items/cinder_tusk.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinder_tusk"
+      ],
+      "bytes": 3904268,
+      "itemModel": {
+        "itemId": "cinder_tusk"
+      },
+      "size": {
+        "x": 0.5523534268140793,
+        "y": 0.4038937985897064,
+        "z": 0.13201048597693443
+      },
+      "base": {
+        "x": -0.22735343873500824,
+        "y": -0.19521139562129974,
+        "z": -0.04744161292910576
+      },
+      "animations": [],
+      "materials": [
+        "cinder_tusk natural keratin",
+        "cinder_tusk porous root interior",
+        "cinder_tusk exposed chipped root"
+      ],
+      "itemId": "cinder_tusk",
+      "status": "pending",
+      "sha256": "f66535ee199c9bea48992fa3e60d86f6a398975a9a5d9985b902ba8aeb16429d",
+      "sourceSha256": "390cb73a4d1a5f440d23eeb521ae94304647ef87f430a2b7a2d069e88b8607a3",
+      "referenceSha256": "a0ab0e3227511170840cb01b34dea57a7c8ec9a147b460355f3b747dd8624dfc",
+      "metadata": {
+        "itemId": "cinder_tusk",
+        "author": "trophy-bones-b",
+        "reference": "art/item-icons/generated/cinder_tusk.png",
+        "description": "A boar tusk stained kiln-black. The point still goes through boot leather."
+      },
+      "triangles": 57568,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_emberhorn",
+      "file": "models/items/emberhorn.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberhorn"
+      ],
+      "bytes": 3983692,
+      "itemModel": {
+        "itemId": "emberhorn"
+      },
+      "size": {
+        "x": 0.728192612528801,
+        "y": 0.7041074056178331,
+        "z": 0.19770076125860214
+      },
+      "base": {
+        "x": -0.11819259822368622,
+        "y": -0.024364175274968147,
+        "z": -0.06718448549509048
+      },
+      "animations": [],
+      "materials": [
+        "emberhorn natural keratin",
+        "emberhorn porous root interior",
+        "emberhorn exposed chipped root"
+      ],
+      "itemId": "emberhorn",
+      "status": "pending",
+      "sha256": "b9131e842590196efd2e03c202e7e4303ee9912d718dc5d0d1b2085cc84f600e",
+      "sourceSha256": "390cb73a4d1a5f440d23eeb521ae94304647ef87f430a2b7a2d069e88b8607a3",
+      "referenceSha256": "44f1efe5fecbaa88bd2fa54c24a12ae74902ae26228e50440eb7a2c3e1930b0c",
+      "metadata": {
+        "itemId": "emberhorn",
+        "author": "trophy-bones-b",
+        "reference": "art/item-icons/generated/emberhorn.png",
+        "description": "Ridged ibex horn with a red cast the foothill dust never washes out of."
+      },
+      "triangles": 57568,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_kiln_fang",
+      "file": "models/items/kiln_fang.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kiln_fang"
+      ],
+      "bytes": 3806000,
+      "itemModel": {
+        "itemId": "kiln_fang"
+      },
+      "size": {
+        "x": 0.3938872069120407,
+        "y": 0.4789370149374008,
+        "z": 0.09881773591041565
+      },
+      "base": {
+        "x": -0.1688872128725052,
+        "y": -0.24699999392032623,
+        "z": -0.03564586490392685
+      },
+      "animations": [],
+      "materials": [
+        "kiln_fang natural keratin",
+        "kiln_fang porous root interior",
+        "kiln_fang exposed chipped root"
+      ],
+      "itemId": "kiln_fang",
+      "status": "pending",
+      "sha256": "bd31a41a71848d9b2a564a3353cf273799bd9b85a8b2183321ef80f975e9ed5a",
+      "sourceSha256": "390cb73a4d1a5f440d23eeb521ae94304647ef87f430a2b7a2d069e88b8607a3",
+      "referenceSha256": "bc099eee3319f55d043777e4139ec0d62b1dcafa0f6e19ed58c28975e6f21479",
+      "metadata": {
+        "itemId": "kiln_fang",
+        "author": "trophy-bones-b",
+        "reference": "art/item-icons/generated/kiln_fang.png",
+        "description": "An viper fang the colour of cooling slag. Hot to the touch for a day after the kill."
+      },
+      "triangles": 57568,
+      "drawCalls": 3
+    }
+  ]
+}

@@ -1,0 +1,309 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_kaldite_sword",
+      "file": "models/items/kaldite_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_sword"
+      ],
+      "bytes": 2617308,
+      "itemModel": {
+        "itemId": "kaldite_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.40132611989974976,
+        "y": 1.281535491347313,
+        "z": 0.0740000005364418
+      },
+      "base": {
+        "x": -0.20066305994987488,
+        "y": -0.20853553712368011,
+        "z": -0.0370000002682209
+      },
+      "animations": [],
+      "materials": [
+        "cobalt-polished-honed-bevels",
+        "cobalt-blade-facets",
+        "cobalt-recessed-metal",
+        "cobalt-guard-and-pommel",
+        "cobalt-raised-metal-ornament",
+        "cobalt-leather",
+        "cobalt-grip-seam"
+      ],
+      "itemId": "kaldite_sword",
+      "status": "pending",
+      "sha256": "127b84c949d6f50564bbc30aa480b25f4984b7c93add02eaf14fc8840514cb50",
+      "sourceSha256": "1e2bbedbc601dd9b0a440bee658698936ad37456558e02aa7faac6e6937709b5",
+      "referenceSha256": "e2f8835f6fb8b7453f1ee6363d04acff9b29d0985489cbce0bf1e37d25f11a6c",
+      "metadata": {
+        "itemId": "kaldite_sword",
+        "author": "blades-b",
+        "reference": "art/item-icons/generated/kaldite_sword.png",
+        "description": "Cobalt sword with a broad blue diamond blade, silver honed edges, swept angular quillons, geometric silver blade-root inlay, wrapped navy leather and a faceted cobalt pommel. Both sides carry matching metalwork.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 35590,
+      "drawCalls": 7
+    },
+    {
+      "id": "corealm_item_emberite_dagger",
+      "file": "models/items/emberite_dagger.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_dagger"
+      ],
+      "bytes": 2832548,
+      "itemModel": {
+        "itemId": "emberite_dagger",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.1552993655204773,
+        "y": 0.3839999884366989,
+        "z": 0.027903958223760128
+      },
+      "base": {
+        "x": -0.07764968276023865,
+        "y": -0.0820000022649765,
+        "z": -0.013916184194386005
+      },
+      "animations": [],
+      "materials": [
+        "titanium-polished-honed-bevels",
+        "titanium-blade-facets",
+        "titanium-recessed-metal",
+        "titanium-guard-and-pommel",
+        "titanium-raised-metal-ornament",
+        "amber-quillon-cabochons",
+        "titanium-leather",
+        "titanium-grip-seam"
+      ],
+      "itemId": "emberite_dagger",
+      "status": "pending",
+      "sha256": "cd15fd3d8be0aead7dfd84492e672efee9fbfb745b4d10a9663c21aa76ee74e8",
+      "sourceSha256": "1e2bbedbc601dd9b0a440bee658698936ad37456558e02aa7faac6e6937709b5",
+      "referenceSha256": "da91b30a3429399b8afce46231d164c7eccb3f2c5f72a04c65cf28e1a603f92b",
+      "metadata": {
+        "itemId": "emberite_dagger",
+        "author": "blades-b",
+        "reference": "art/item-icons/generated/emberite_dagger.png",
+        "description": "Warm titanium dagger with a waisted recurved blade, broad forged facets, crescent quillons set with amber cabochons, brown spiral leather and a stepped pointed pommel.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 37802,
+      "drawCalls": 8
+    },
+    {
+      "id": "corealm_item_emberite_sword",
+      "file": "models/items/emberite_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_sword"
+      ],
+      "bytes": 3175228,
+      "itemModel": {
+        "itemId": "emberite_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.39019814133644104,
+        "y": 1.298619568347931,
+        "z": 0.0740000005364418
+      },
+      "base": {
+        "x": -0.19509907066822052,
+        "y": -0.21453553438186646,
+        "z": -0.0370000002682209
+      },
+      "animations": [],
+      "materials": [
+        "titanium-polished-honed-bevels",
+        "titanium-blade-facets",
+        "titanium-recessed-metal",
+        "titanium-guard-and-pommel",
+        "titanium-raised-metal-ornament",
+        "titanium-leather",
+        "titanium-grip-seam",
+        "titanium-dull-orange-tempered-edge"
+      ],
+      "itemId": "emberite_sword",
+      "status": "pending",
+      "sha256": "5b22aebbb6730e9e083ea597562d1978285e58130e477473566cd04002060842",
+      "sourceSha256": "1e2bbedbc601dd9b0a440bee658698936ad37456558e02aa7faac6e6937709b5",
+      "referenceSha256": "df62dc4e73b6773edc60fabafb408751383c7a54bf5fcb185325ab6bf9fb902a",
+      "metadata": {
+        "itemId": "emberite_sword",
+        "author": "blades-b",
+        "reference": "art/item-icons/generated/emberite_sword.png",
+        "description": "Twice-quenched titanium sword with a long narrow recessed fuller, warm silver facets and a dull orange honed edge, curled quillons, hand-stitched charcoal grip and pointed faceted pommel.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 47170,
+      "drawCalls": 8
+    },
+    {
+      "id": "corealm_item_cindersteel_sword",
+      "file": "models/items/cindersteel_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_sword"
+      ],
+      "bytes": 1722544,
+      "itemModel": {
+        "itemId": "cindersteel_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.4113737642765045,
+        "y": 1.274999976158142,
+        "z": 0.06385999942570925
+      },
+      "base": {
+        "x": -0.20568688213825226,
+        "y": -0.1940000057220459,
+        "z": -0.03192999971285462
+      },
+      "animations": [],
+      "materials": [
+        "cinder-polished-honed-bevels",
+        "cinder-blade-facets",
+        "cinder-recessed-metal",
+        "cinder-guard-and-pommel",
+        "cinder-raised-metal-ornament",
+        "cinder-honey-wood"
+      ],
+      "itemId": "cindersteel_sword",
+      "status": "pending",
+      "sha256": "36c5b12e8bf510cb1d3eccd94fc1043ca6c4e71f036c527ea94e60b87cc00b76",
+      "sourceSha256": "1e2bbedbc601dd9b0a440bee658698936ad37456558e02aa7faac6e6937709b5",
+      "referenceSha256": "c18e04d1ee332dbb03db1a31735a5cac9d87d06609e14f27a1a9e53877658610",
+      "metadata": {
+        "itemId": "cindersteel_sword",
+        "author": "blades-b",
+        "reference": "art/item-icons/generated/cindersteel_sword.png",
+        "description": "Heavy dark steel sword with broad silver bevels and a recessed fuller, riveted swept guard, longitudinal honey wood grain, three steel grip bands and an octagonal domed pommel.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 18526,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_nightglass_sword",
+      "file": "models/items/nightglass_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_sword"
+      ],
+      "bytes": 2027652,
+      "itemModel": {
+        "itemId": "nightglass_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.44931483268737793,
+        "y": 1.308535560965538,
+        "z": 0.0740000005364418
+      },
+      "base": {
+        "x": -0.22465741634368896,
+        "y": -0.21353553235530853,
+        "z": -0.0370000002682209
+      },
+      "animations": [],
+      "materials": [
+        "night-polished-honed-bevels",
+        "night-blade-facets",
+        "night-recessed-metal",
+        "night-guard-and-pommel",
+        "night-raised-metal-ornament",
+        "night-twisted-plum",
+        "cut-cobalt-inset"
+      ],
+      "itemId": "nightglass_sword",
+      "status": "pending",
+      "sha256": "409ec9f5dc0634703ce7127f7adecdf641e7dbca8a9f68801e1360561a0a1ff7",
+      "sourceSha256": "1e2bbedbc601dd9b0a440bee658698936ad37456558e02aa7faac6e6937709b5",
+      "referenceSha256": "1e77989946a73beb475baf3fe8e3422cadea274c3e0f7a79ff885146fc51aedc",
+      "metadata": {
+        "itemId": "nightglass_sword",
+        "author": "blades-b",
+        "reference": "art/item-icons/generated/nightglass_sword.png",
+        "description": "Dark blue glass sword with an acute faceted blade, bright blue bevels, engraved silver crescent guard and blue diamond jewel, twisted plum grip, ornamental collars and a diamond-set pointed pommel.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 28278,
+      "drawCalls": 7
+    }
+  ]
+}

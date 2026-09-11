@@ -1,0 +1,420 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_worn_pickaxe",
+      "file": "models/items/worn_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "worn_pickaxe"
+      ],
+      "bytes": 301108,
+      "itemModel": {
+        "itemId": "worn_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.6200000047683716,
+        "y": 0.8199999928474426,
+        "z": 0.09799999743700027
+      },
+      "base": {
+        "x": -0.25999999046325684,
+        "y": -0.18000000715255737,
+        "z": -0.04899999871850014
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "worn_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges"
+      ],
+      "itemId": "worn_pickaxe",
+      "status": "pending",
+      "sha256": "380878c43f563845091065423b3b8558e3bcb126b539ce37f9a24c78c7ee2ef1",
+      "sourceSha256": "45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c",
+      "referenceSha256": "584950a912110fd685ae44b53047f96fd4f913ca84cb976bc9c3d1a734e9c477",
+      "metadata": {
+        "itemId": "worn_pickaxe",
+        "author": "pickaxes",
+        "reference": "art/item-icons/generated/worn_pickaxe.png",
+        "description": "The head is loose and the haft is somebody's fence post. One effective Mining level.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 3450,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_grithe_pickaxe",
+      "file": "models/items/grithe_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_pickaxe"
+      ],
+      "bytes": 343340,
+      "itemModel": {
+        "itemId": "grithe_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.6050000041723251,
+        "y": 0.8500000238418579,
+        "z": 0.09799999743700027
+      },
+      "base": {
+        "x": -0.3700000047683716,
+        "y": -0.18000000715255737,
+        "z": -0.04899999871850014
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "grithe_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges"
+      ],
+      "itemId": "grithe_pickaxe",
+      "status": "pending",
+      "sha256": "56648262dc9de04ede4067e0bfefb3c75eaa8d7e93818e59bf685c1739a6c2bc",
+      "sourceSha256": "45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c",
+      "referenceSha256": "1b98e9bf1ee684d607fe96ed218cacd9d236042418b3b7ec53f64636e356f185",
+      "metadata": {
+        "itemId": "grithe_pickaxe",
+        "author": "pickaxes",
+        "reference": "art/item-icons/generated/grithe_pickaxe.png",
+        "description": "A bar of Copper on an pine haft. Adds two effective Mining levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 5064,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_corven_pickaxe",
+      "file": "models/items/corven_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_pickaxe"
+      ],
+      "bytes": 364360,
+      "itemModel": {
+        "itemId": "corven_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.6450000107288361,
+        "y": 0.8820000067651272,
+        "z": 0.10702999987825751
+      },
+      "base": {
+        "x": -0.39500001072883606,
+        "y": -0.18000000715255737,
+        "z": -0.053514999939128755
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "corven_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges"
+      ],
+      "itemId": "corven_pickaxe",
+      "status": "pending",
+      "sha256": "11509e77ed973eecab503794817463895159cafbb15005fd4b403e58655ab632",
+      "sourceSha256": "45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c",
+      "referenceSha256": "270f75976a01db7487fc93548845016b6d3803fc26d2005b887fa6b83a4b7275",
+      "metadata": {
+        "itemId": "corven_pickaxe",
+        "author": "pickaxes",
+        "reference": "art/item-icons/generated/corven_pickaxe.png",
+        "description": "Iron head, ash haft. Five effective Mining levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 5976,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_kaldite_pickaxe",
+      "file": "models/items/kaldite_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_pickaxe"
+      ],
+      "bytes": 354560,
+      "itemModel": {
+        "itemId": "kaldite_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.6649999916553497,
+        "y": 0.9199999998286368,
+        "z": 0.10100000351667404
+      },
+      "base": {
+        "x": -0.4050000011920929,
+        "y": -0.19800000021606684,
+        "z": -0.05050000175833702
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "kaldite_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges"
+      ],
+      "itemId": "kaldite_pickaxe",
+      "status": "pending",
+      "sha256": "69c9439726c17546b99c53258a2183e7e932f4c736b6f16792bbd1bb34722287",
+      "sourceSha256": "45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c",
+      "referenceSha256": "8cb2e8bf9cbfec1e3597c5a05873bdba65cae234fde790bf7feed35caf0b4678",
+      "metadata": {
+        "itemId": "kaldite_pickaxe",
+        "author": "pickaxes",
+        "reference": "art/item-icons/generated/kaldite_pickaxe.png",
+        "description": "Cobalt on oak. Nine effective Mining levels, and it will outlive you.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 5496,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_emberite_pickaxe",
+      "file": "models/items/emberite_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_pickaxe"
+      ],
+      "bytes": 403776,
+      "itemModel": {
+        "itemId": "emberite_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.6699999868869781,
+        "y": 0.9299999998286368,
+        "z": 0.10100000351667404
+      },
+      "base": {
+        "x": -0.4050000011920929,
+        "y": -0.19800000021606684,
+        "z": -0.05050000175833702
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "emberite_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges"
+      ],
+      "itemId": "emberite_pickaxe",
+      "status": "pending",
+      "sha256": "3973e671c0bab39daa50f49dc5786b83483d26e3356a2086227bae53be8787bb",
+      "sourceSha256": "45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c",
+      "referenceSha256": "ebca51100cf3cf03b23e1a52654296d133701db3ad59b6ded3b602f1acc14f27",
+      "metadata": {
+        "itemId": "emberite_pickaxe",
+        "author": "pickaxes",
+        "reference": "art/item-icons/generated/emberite_pickaxe.png",
+        "description": "An Titanium head on walnut. Seventeen effective Mining levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 7048,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_cindersteel_pickaxe",
+      "file": "models/items/cindersteel_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_pickaxe"
+      ],
+      "bytes": 439572,
+      "itemModel": {
+        "itemId": "cindersteel_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.7400000095367432,
+        "y": 0.9399999998286368,
+        "z": 0.11289999971166254
+      },
+      "base": {
+        "x": -0.4399999976158142,
+        "y": -0.19800000021606684,
+        "z": -0.05644999985583127
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "cindersteel_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges"
+      ],
+      "itemId": "cindersteel_pickaxe",
+      "status": "pending",
+      "sha256": "df901d5d45d1524898f9bb1afb4d4f92cecd5c278697b9054c88f8ad7ad96866",
+      "sourceSha256": "45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c",
+      "referenceSha256": "64cb1db089d407b0042846fee3b6e34ec86c232ce8bc714811b249ae87d0b530",
+      "metadata": {
+        "itemId": "cindersteel_pickaxe",
+        "author": "pickaxes",
+        "reference": "art/item-icons/generated/cindersteel_pickaxe.png",
+        "description": "Cindersteel on a teak handle. Adds 39 effective gathering levels; resource requirements still apply.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 7936,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_nightglass_pickaxe",
+      "file": "models/items/nightglass_pickaxe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_pickaxe"
+      ],
+      "bytes": 605252,
+      "itemModel": {
+        "itemId": "nightglass_pickaxe",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.7150000035762787,
+        "y": 0.9799999998286366,
+        "z": 0.10100000351667404
+      },
+      "base": {
+        "x": -0.4300000071525574,
+        "y": -0.19800000021606684,
+        "z": -0.05050000175833702
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-haft-grain",
+        "honed-head-bevels",
+        "nightglass_pickaxe-head-material",
+        "socket-and-ferrule-metal",
+        "creased-leather-wrap",
+        "leather-overlap-edges",
+        "violet-faceted-inlays"
+      ],
+      "itemId": "nightglass_pickaxe",
+      "status": "pending",
+      "sha256": "2fafd1f291ae014ce180a6e1c857693eed1b16897729e4c4ebd03528edfbac6b",
+      "sourceSha256": "45d24e1af47a96805d2e3e6ffa3d2d8446a42b92a65def8086a0c2788d0cd31c",
+      "referenceSha256": "b769a8e6a92c7185a9ba04e5909d6bd6bbe23a951139adbb17b17bdff785cc06",
+      "metadata": {
+        "itemId": "nightglass_pickaxe",
+        "author": "pickaxes",
+        "reference": "art/item-icons/generated/nightglass_pickaxe.png",
+        "description": "Nightglass on a magic handle. Adds 40 effective gathering levels; resource requirements still apply.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 11168,
+      "drawCalls": 7
+    }
+  ]
+}

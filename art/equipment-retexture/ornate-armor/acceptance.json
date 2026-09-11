@@ -1,0 +1,95 @@
+{
+  "rootAccepted": true,
+  "productionEnabled": true,
+  "revision": "ornate-armor-r2",
+  "scope": "Six existing melee tiers plus the Nightmarshal chest upgrade. Texture/material changes only; original geometry and accepted weapons preserved.",
+  "textures": "textures.json",
+  "runtimeSources": [
+    {
+      "file": "game/src/render/equipmentArmorTextures.ts",
+      "sha256": "9338c2b0d2a8fefd4cbadc60f9adc8ce40152d24820a420d6a7722df693c361d"
+    },
+    {
+      "file": "game/src/render/equipmentVisuals.ts",
+      "sha256": "478c6adf58c141bca2c2b17c28a6f859495afbf286a9ad31269c2662fa6fcc39"
+    },
+    {
+      "file": "game/src/render/characterRig.ts",
+      "sha256": "b0d14223df8633d4002136f14381b1ae7146d544fff5efac7a125e7035a2a74d"
+    }
+  ],
+  "labReports": [
+    {
+      "file": "test-results/ornate-armor-r2/melee-low/report.json",
+      "passed": true,
+      "elapsedMs": 18553,
+      "cases": 3
+    },
+    {
+      "file": "test-results/ornate-armor-r2/melee-high/report.json",
+      "passed": true,
+      "elapsedMs": 20113,
+      "cases": 4
+    },
+    {
+      "file": "test-results/ornate-armor-r2/female-nightglass/report.json",
+      "passed": true,
+      "elapsedMs": 12619,
+      "cases": 1
+    },
+    {
+      "file": "test-results/ornate-armor-r2/combat/report.json",
+      "passed": true,
+      "elapsedMs": 16365
+    }
+  ],
+  "worldReport": {
+    "file": "test-results/ornate-armor-r2/world-nightglass/report.json",
+    "passed": true,
+    "elapsedMs": 59678,
+    "route": "/index.html",
+    "experimentalQuery": false,
+    "rootInspected": [
+      "front",
+      "back",
+      "walking"
+    ]
+  },
+  "critics": [
+    {
+      "name": "ornate_r2_low_critic",
+      "model": "gpt-5.6-luna",
+      "reasoning": "max",
+      "verdict": "PASS",
+      "scope": "Grithe, Corven, Kaldite: all nine current gameplay captures, approved icons and previous fronts."
+    },
+    {
+      "name": "ornate_r2_high_critic",
+      "model": "gpt-5.6-luna",
+      "reasoning": "max",
+      "verdict": "PASS",
+      "scope": "Emberite, Cindersteel, Nightglass, Nightmarshal: all twelve current gameplay captures, approved icons and previous fronts."
+    }
+  ],
+  "rejectedRound": "ornate-armor: reviewers rejected dark plate interiors and weak tier padding distinction; R2 corrected light response and leather values before promotion.",
+  "validation": {
+    "focusedTests": 76,
+    "typecheck": "PASS",
+    "gameBuild": "PASS",
+    "docsBuild": "PASS",
+    "docsBrowser": {
+      "file": "test-results/docs-worn-armor-ornate/report.json",
+      "passed": true,
+      "captures": 21,
+      "itemLinks": 36,
+      "mobileOverflow": false
+    }
+  },
+  "durableEvidence": "docs/game/assets/captures/armor-ornate/",
+  "limitations": [
+    "Fine engraving and quilt stitching are subtle at full gameplay-frame scale; gallery enlarges unchanged captures.",
+    "Gallery covers male full sets. Female Nightglass received a separate representative rendering check.",
+    "Nightmarshal shares the existing Nightglass finish; it is a crafted chest upgrade, not an additional armor tier.",
+    "Acceptance covers inspected front/back/walking and combat poses, not every possible animation frame."
+  ]
+}

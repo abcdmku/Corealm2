@@ -1,0 +1,554 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_palewood_shaft",
+      "file": "models/items/palewood_shaft.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_shaft"
+      ],
+      "bytes": 1012852,
+      "itemModel": {
+        "itemId": "palewood_shaft",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.050147201865911484,
+        "y": 1.120000034570694,
+        "z": 0.05007243528962135
+      },
+      "base": {
+        "x": -0.02502245455980301,
+        "y": -0.15000000596046448,
+        "z": -0.024992184713482857
+      },
+      "animations": [],
+      "materials": [
+        "pine worked longitudinal grain",
+        "pine endgrain on both sawn ends"
+      ],
+      "itemId": "palewood_shaft",
+      "status": "pending",
+      "sha256": "1e63a85d984f5daa4a22bb419e4dcb5b351f1129c50f78466144147f560640de",
+      "sourceSha256": "2aff42eade93ada1a86f688265161f096389dbf34f108ed90781d916525b2d8f",
+      "referenceSha256": "9e18ebe31f3660abd410b61adaddb7f9d0a9b6ade17da15886ac83eaf7f04ce0",
+      "metadata": {
+        "itemId": "palewood_shaft",
+        "author": "wood-components",
+        "reference": "art/item-icons/generated/palewood_shaft.png",
+        "description": "A shaved length of pine. Handle, haft, or half a staff.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 6176,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_duskoak_shaft",
+      "file": "models/items/duskoak_shaft.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_shaft"
+      ],
+      "bytes": 1367736,
+      "itemModel": {
+        "itemId": "duskoak_shaft",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.053837163373827934,
+        "y": 1.120000034570694,
+        "z": 0.0540024358779192
+      },
+      "base": {
+        "x": -0.026871012523770332,
+        "y": -0.15000000596046448,
+        "z": -0.027014099061489105
+      },
+      "animations": [],
+      "materials": [
+        "ash worked longitudinal grain",
+        "ash endgrain on both sawn ends"
+      ],
+      "itemId": "duskoak_shaft",
+      "status": "pending",
+      "sha256": "1ba0ffbb939043134614473b170915782e349c948105bd4f387c79d2468c555f",
+      "sourceSha256": "2aff42eade93ada1a86f688265161f096389dbf34f108ed90781d916525b2d8f",
+      "referenceSha256": "3a98a9170ae3e5fba9848ab7ab4ec595f8257ea2b6f33d496c3e3e030b011585",
+      "metadata": {
+        "itemId": "duskoak_shaft",
+        "author": "wood-components",
+        "reference": "art/item-icons/generated/duskoak_shaft.png",
+        "description": "Ash, turned down and oiled. Will not warp in Woodlands damp.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 18528,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_cairnpine_shaft",
+      "file": "models/items/cairnpine_shaft.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_shaft"
+      ],
+      "bytes": 925120,
+      "itemModel": {
+        "itemId": "cairnpine_shaft",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.054158978164196014,
+        "y": 1.120000034570694,
+        "z": 0.054078228771686554
+      },
+      "base": {
+        "x": -0.027024250477552414,
+        "y": -0.15000000596046448,
+        "z": -0.02699155919253826
+      },
+      "animations": [],
+      "materials": [
+        "oak worked longitudinal grain",
+        "oak endgrain on both sawn ends"
+      ],
+      "itemId": "cairnpine_shaft",
+      "status": "pending",
+      "sha256": "d840be98fb0581b0a8b21422d3a233284bc19825ac5266525da255b5b4853c90",
+      "sourceSha256": "2aff42eade93ada1a86f688265161f096389dbf34f108ed90781d916525b2d8f",
+      "referenceSha256": "2abcf3ba4042ac73624629913876d91c9c62f1eb93780fd5e4e280761787a596",
+      "metadata": {
+        "itemId": "cairnpine_shaft",
+        "author": "wood-components",
+        "reference": "art/item-icons/generated/cairnpine_shaft.png",
+        "description": "Resinous, springy, and heavy. Takes a Cobalt ferrule without splitting.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 3088,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_cinderpine_shaft",
+      "file": "models/items/cinderpine_shaft.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_shaft"
+      ],
+      "bytes": 922364,
+      "itemModel": {
+        "itemId": "cinderpine_shaft",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.054158978164196014,
+        "y": 1.120000034570694,
+        "z": 0.054078228771686554
+      },
+      "base": {
+        "x": -0.027024250477552414,
+        "y": -0.15000000596046448,
+        "z": -0.02699155919253826
+      },
+      "animations": [],
+      "materials": [
+        "walnut worked longitudinal grain",
+        "walnut endgrain on both sawn ends"
+      ],
+      "itemId": "cinderpine_shaft",
+      "status": "pending",
+      "sha256": "5d8a80b47c97145edac687d0f8aa84f6c05816832e77ce18468a3dec96537a09",
+      "sourceSha256": "2aff42eade93ada1a86f688265161f096389dbf34f108ed90781d916525b2d8f",
+      "referenceSha256": "b080df38edb47aa13646f51f3b97ffd927f54fcb534f5572c5c5d3c2d50da827",
+      "metadata": {
+        "itemId": "cinderpine_shaft",
+        "author": "wood-components",
+        "reference": "art/item-icons/generated/cinderpine_shaft.png",
+        "description": "A straight walnut shaft, shaped and seasoned for rods and staves.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 3088,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_palewood_handle",
+      "file": "models/items/palewood_handle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_handle"
+      ],
+      "bytes": 1914552,
+      "itemModel": {
+        "itemId": "palewood_handle",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.05799197405576706,
+        "y": 0.254720002412796,
+        "z": 0.05799197405576706
+      },
+      "base": {
+        "x": -0.02899598702788353,
+        "y": -0.10999999940395355,
+        "z": -0.02899598702788353
+      },
+      "animations": [],
+      "materials": [
+        "pine worked longitudinal grain",
+        "pine endgrain on both sawn ends"
+      ],
+      "itemId": "palewood_handle",
+      "status": "pending",
+      "sha256": "77fdc55bafba7332731e88027478612334d7934c6d85e84bc24f608a71232a48",
+      "sourceSha256": "2aff42eade93ada1a86f688265161f096389dbf34f108ed90781d916525b2d8f",
+      "referenceSha256": "79bd57d53e27f1fa5f97ab4a9f6c0be5eb31cd4626d81184b10d135c6a3809a7",
+      "metadata": {
+        "itemId": "palewood_handle",
+        "author": "wood-components",
+        "reference": "art/item-icons/generated/palewood_handle.png",
+        "description": "A short pine grip, shaped for a Copper tang or tool head.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 37342,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_duskoak_handle",
+      "file": "models/items/duskoak_handle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_handle"
+      ],
+      "bytes": 1921232,
+      "itemModel": {
+        "itemId": "duskoak_handle",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.053999077528715134,
+        "y": 0.254720002412796,
+        "z": 0.053999077528715134
+      },
+      "base": {
+        "x": -0.026999538764357567,
+        "y": -0.10999999940395355,
+        "z": -0.026999538764357567
+      },
+      "animations": [],
+      "materials": [
+        "ash worked longitudinal grain",
+        "ash endgrain on both sawn ends"
+      ],
+      "itemId": "duskoak_handle",
+      "status": "pending",
+      "sha256": "55b8ad6da303444a860c27c7dfab10d8910c453df3a3307e8e0c990695cd490f",
+      "sourceSha256": "2aff42eade93ada1a86f688265161f096389dbf34f108ed90781d916525b2d8f",
+      "referenceSha256": "8ad299c28a5c10075eba25bfd2c0ad794a66311038464ce29f1d1b239945beee",
+      "metadata": {
+        "itemId": "duskoak_handle",
+        "author": "wood-components",
+        "reference": "art/item-icons/generated/duskoak_handle.png",
+        "description": "Oiled ash with enough weight to balance an Iron head.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 37342,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_cairnpine_handle",
+      "file": "models/items/cairnpine_handle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_handle"
+      ],
+      "bytes": 1914480,
+      "itemModel": {
+        "itemId": "cairnpine_handle",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.06199600175023079,
+        "y": 0.254720002412796,
+        "z": 0.06199600175023079
+      },
+      "base": {
+        "x": -0.030998000875115395,
+        "y": -0.10999999940395355,
+        "z": -0.030998000875115395
+      },
+      "animations": [],
+      "materials": [
+        "oak worked longitudinal grain",
+        "oak endgrain on both sawn ends"
+      ],
+      "itemId": "cairnpine_handle",
+      "status": "pending",
+      "sha256": "66f2145aaeeee94b3134cce2fa9777a9d97245de2d543d71c90852968eae5913",
+      "sourceSha256": "2aff42eade93ada1a86f688265161f096389dbf34f108ed90781d916525b2d8f",
+      "referenceSha256": "bd052d6b9e13d35cb6002a75b95444380260af33fce90a44a4c7cec9940e7294",
+      "metadata": {
+        "itemId": "cairnpine_handle",
+        "author": "wood-components",
+        "reference": "art/item-icons/generated/cairnpine_handle.png",
+        "description": "Oak shaped around the grain so a Cobalt tang will not split it.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 37342,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_cinderpine_handle",
+      "file": "models/items/cinderpine_handle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_handle"
+      ],
+      "bytes": 1911732,
+      "itemModel": {
+        "itemId": "cinderpine_handle",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.06199783831834793,
+        "y": 0.254720002412796,
+        "z": 0.06199783831834793
+      },
+      "base": {
+        "x": -0.030998919159173965,
+        "y": -0.10999999940395355,
+        "z": -0.030998919159173965
+      },
+      "animations": [],
+      "materials": [
+        "walnut worked longitudinal grain",
+        "walnut endgrain on both sawn ends"
+      ],
+      "itemId": "cinderpine_handle",
+      "status": "pending",
+      "sha256": "050a3b0234332794186613270f5b9ef6af3f0dce3ed16088359b7db8786f97ee",
+      "sourceSha256": "2aff42eade93ada1a86f688265161f096389dbf34f108ed90781d916525b2d8f",
+      "referenceSha256": "729be40fcfb8f32233a7e386ead8f15ecc8e418c796f60fdcb19fff9797178ef",
+      "metadata": {
+        "itemId": "cinderpine_handle",
+        "author": "wood-components",
+        "reference": "art/item-icons/generated/cinderpine_handle.png",
+        "description": "An oiled walnut grip shaped to hold a Titanium tang securely.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 37342,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_teak_handle",
+      "file": "models/items/teak_handle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "teak_handle"
+      ],
+      "bytes": 1907588,
+      "itemModel": {
+        "itemId": "teak_handle",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.059998463839292526,
+        "y": 0.2747199982404709,
+        "z": 0.059998463839292526
+      },
+      "base": {
+        "x": -0.029999231919646263,
+        "y": -0.10999999940395355,
+        "z": -0.029999231919646263
+      },
+      "animations": [],
+      "materials": [
+        "teak worked longitudinal grain",
+        "teak endgrain on both sawn ends"
+      ],
+      "itemId": "teak_handle",
+      "status": "pending",
+      "sha256": "6d2be83b2588c621db9f33308be0fe496cb0f64cf80c4134b9bafc40aae62ab9",
+      "sourceSha256": "2aff42eade93ada1a86f688265161f096389dbf34f108ed90781d916525b2d8f",
+      "referenceSha256": "e679b86d732efbfd33d9aaf478f239afcc163492c45ea98835c62c563b1aa86f",
+      "metadata": {
+        "itemId": "teak_handle",
+        "author": "wood-components",
+        "reference": "art/item-icons/generated/teak_handle.png",
+        "description": "Oiled teak cut for a Cindersteel sword, pickaxe or hatchet.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 37342,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_magic_handle",
+      "file": "models/items/magic_handle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "magic_handle"
+      ],
+      "bytes": 2105040,
+      "itemModel": {
+        "itemId": "magic_handle",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.05999809503555298,
+        "y": 0.254720002412796,
+        "z": 0.059997282922267914
+      },
+      "base": {
+        "x": -0.02999904751777649,
+        "y": -0.10999999940395355,
+        "z": -0.029998641461133957
+      },
+      "animations": [],
+      "materials": [
+        "magic worked longitudinal grain",
+        "magic endgrain on both sawn ends",
+        "Pale exposed magic wood on carved leaf edges"
+      ],
+      "itemId": "magic_handle",
+      "status": "pending",
+      "sha256": "f8bbc4fe5088e29bd1163c4edd33c06c1e4e0dbb0e1b7c0858a9e85f5ea14219",
+      "sourceSha256": "2aff42eade93ada1a86f688265161f096389dbf34f108ed90781d916525b2d8f",
+      "referenceSha256": "ad1e4b8eb74fe955cd44a8e779e57c268b6efd9279bf2122324289141514081c",
+      "metadata": {
+        "itemId": "magic_handle",
+        "author": "wood-components",
+        "reference": "art/item-icons/generated/magic_handle.png",
+        "description": "A carved magic-wood grip for Nightglass weapons and gathering tools.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 43342,
+      "drawCalls": 3
+    }
+  ]
+}

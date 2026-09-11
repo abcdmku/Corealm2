@@ -1,0 +1,321 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_fox_guardhair",
+      "file": "models/items/fox_guardhair.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "fox_guardhair"
+      ],
+      "bytes": 1224216,
+      "itemModel": {
+        "itemId": "fox_guardhair"
+      },
+      "size": {
+        "x": 0.1661465492602284,
+        "y": 0.17728326386637658,
+        "z": 0.053335102275013924
+      },
+      "base": {
+        "x": -0.020838876157412225,
+        "y": -0.011953708645741818,
+        "z": -0.025711357593536377
+      },
+      "animations": [],
+      "materials": [
+        "Fox red and cream keratin",
+        "Dry natural root attachment"
+      ],
+      "itemId": "fox_guardhair",
+      "status": "pending",
+      "sha256": "3d3049b235f707234f3aa4beccdf57051ed5a05cfbb67e14aa403c84c7c6acfc",
+      "sourceSha256": "1090c8201c7b92b4892d03199231488d32ba776cee6c082c23ac2fd1ed056cfa",
+      "referenceSha256": "3eece7854df0bd21e4fbe833b4100f4308a5b82123ddb0eddbf6552ed7ac3743",
+      "metadata": {
+        "itemId": "fox_guardhair",
+        "author": "animal-fibers",
+        "reference": "art/item-icons/generated/fox_guardhair.png",
+        "description": "Coarse red fox back hair: dense swept russet guardhair tuft, cream root fibers and dark curling tips."
+      },
+      "triangles": 36928,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_lynx_sinew",
+      "file": "models/items/lynx_sinew.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "lynx_sinew"
+      ],
+      "bytes": 786172,
+      "itemModel": {
+        "itemId": "lynx_sinew"
+      },
+      "size": {
+        "x": 0.1851506009697914,
+        "y": 0.14198065549135208,
+        "z": 0.048756057396531105
+      },
+      "base": {
+        "x": -0.0932701900601387,
+        "y": -0.07071854919195175,
+        "z": -0.024406248703598976
+      },
+      "animations": [],
+      "materials": [
+        "Cream gold split lynx tendon",
+        "Pale tendon surface fibrils"
+      ],
+      "itemId": "lynx_sinew",
+      "status": "pending",
+      "sha256": "e4bb7838d4e45ca139a2c93ef035d310ac8dcedb3b73a9d97b35497ec1d1dfd4",
+      "sourceSha256": "1090c8201c7b92b4892d03199231488d32ba776cee6c082c23ac2fd1ed056cfa",
+      "referenceSha256": "f7eb147e18de71da4c8c604f9ba0c7b16062f4864100aac272a967638040da77",
+      "metadata": {
+        "itemId": "lynx_sinew",
+        "author": "animal-fibers",
+        "reference": "art/item-icons/generated/lynx_sinew.png",
+        "description": "Springy cleaned dried lynx tendon in an open cream-gold twisted loop with two split cut ends."
+      },
+      "triangles": 21696,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_badger_bristle",
+      "file": "models/items/badger_bristle.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "badger_bristle"
+      ],
+      "bytes": 1181240,
+      "itemModel": {
+        "itemId": "badger_bristle"
+      },
+      "size": {
+        "x": 0.13510171735384546,
+        "y": 0.16392372833732224,
+        "z": 0.05318055860698223
+      },
+      "base": {
+        "x": -0.03353614934535333,
+        "y": -0.009621761500214578,
+        "z": -0.025643033906817436
+      },
+      "animations": [],
+      "materials": [
+        "Badger black and silver keratin",
+        "Dry natural root attachment"
+      ],
+      "itemId": "badger_bristle",
+      "status": "pending",
+      "sha256": "1270f5f979b567284dc338d2cc59f1d907f84fc8ced8a6cc15ee43f0ec36e168",
+      "sourceSha256": "1090c8201c7b92b4892d03199231488d32ba776cee6c082c23ac2fd1ed056cfa",
+      "referenceSha256": "e742822d725061ee4fb81d9fac129ce045f6a93e033802b980d7b59a13a9d762",
+      "metadata": {
+        "itemId": "badger_bristle",
+        "author": "animal-fibers",
+        "reference": "art/item-icons/generated/badger_bristle.png",
+        "description": "Stiff black and silver badger bristles in a thick fan, dark root bed and silver pointed tips."
+      },
+      "triangles": 35628,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_porcupine_quill",
+      "file": "models/items/porcupine_quill.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "porcupine_quill"
+      ],
+      "bytes": 376928,
+      "itemModel": {
+        "itemId": "porcupine_quill"
+      },
+      "size": {
+        "x": 0.12706380557725794,
+        "y": 0.22779771418040254,
+        "z": 0.026226259768009186
+      },
+      "base": {
+        "x": -0.11547148380551601,
+        "y": -0.0060350884237232675,
+        "z": -0.01330363005399704
+      },
+      "animations": [],
+      "materials": [
+        "Striated banded keratin"
+      ],
+      "itemId": "porcupine_quill",
+      "status": "pending",
+      "sha256": "9dd556434f18e499134cd41c593a667e4d7874c0a75b024155b3653324d0a406",
+      "sourceSha256": "1090c8201c7b92b4892d03199231488d32ba776cee6c082c23ac2fd1ed056cfa",
+      "referenceSha256": "113fe62618442221e97d2d1ed7dd6f3f6c1a3ecc64de68ce7c322234f647feb3",
+      "metadata": {
+        "itemId": "porcupine_quill",
+        "author": "animal-fibers",
+        "reference": "art/item-icons/generated/porcupine_quill.png",
+        "description": "Thick hollow ivory porcupine quill with broad brown bands, a visible cut bore and hard tapered dark point."
+      },
+      "triangles": 12928,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_horse_tailhair",
+      "file": "models/items/horse_tailhair.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "horse_tailhair"
+      ],
+      "bytes": 1961892,
+      "itemModel": {
+        "itemId": "horse_tailhair"
+      },
+      "size": {
+        "x": 0.12431639371702868,
+        "y": 0.20837718802371052,
+        "z": 0.046852800995111465
+      },
+      "base": {
+        "x": -0.07012950847366226,
+        "y": -0.12106550715099423,
+        "z": -0.022971877828240395
+      },
+      "animations": [],
+      "materials": [
+        "Brown horse tail keratin",
+        "Brown hair binding"
+      ],
+      "itemId": "horse_tailhair",
+      "status": "pending",
+      "sha256": "bb245ca2670c69fc2e19cf13683d0c581d6367190e74aecd3b5ae4b95054c895",
+      "sourceSha256": "1090c8201c7b92b4892d03199231488d32ba776cee6c082c23ac2fd1ed056cfa",
+      "referenceSha256": "7c923b3fb52df2aa64df4a3cc1349eb0e56d69b1644c384875a7209d7ba80748",
+      "metadata": {
+        "itemId": "horse_tailhair",
+        "author": "animal-fibers",
+        "reference": "art/item-icons/generated/horse_tailhair.png",
+        "description": "Long strong brown horsehair folded into an open hank, cinched with hair wraps above loose tapered ends."
+      },
+      "triangles": 58260,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_monitor_sinew",
+      "file": "models/items/monitor_sinew.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "monitor_sinew"
+      ],
+      "bytes": 1193268,
+      "itemModel": {
+        "itemId": "monitor_sinew"
+      },
+      "size": {
+        "x": 0.18056891113519669,
+        "y": 0.14237583056092262,
+        "z": 0.05389408394694328
+      },
+      "base": {
+        "x": -0.09029587358236313,
+        "y": -0.0833272784948349,
+        "z": -0.0270086657255888
+      },
+      "animations": [],
+      "materials": [
+        "Golden dry monitor tendon longitudinal fibers",
+        "Pale tendon surface fibrils"
+      ],
+      "itemId": "monitor_sinew",
+      "status": "pending",
+      "sha256": "e72967a98a3ef4f88bf6c1570d735423044b7131911b6a45cfc4332734328429",
+      "sourceSha256": "1090c8201c7b92b4892d03199231488d32ba776cee6c082c23ac2fd1ed056cfa",
+      "referenceSha256": "fa3ffa783e45d35dd9b628cb74c209ac710dac6e67020859d3c24d68fd6b7212",
+      "metadata": {
+        "itemId": "monitor_sinew",
+        "author": "animal-fibers",
+        "reference": "art/item-icons/generated/monitor_sinew.png",
+        "description": "Heat-tough golden monitor tail tendon wound in seven loose coils with a free tapered tail."
+      },
+      "triangles": 34432,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_spider_thread",
+      "file": "models/items/spider_thread.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "spider_thread"
+      ],
+      "bytes": 1096724,
+      "itemModel": {
+        "itemId": "spider_thread"
+      },
+      "size": {
+        "x": 0.15298784405957827,
+        "y": 0.19648834495401135,
+        "z": 0.12481597627503534
+      },
+      "base": {
+        "x": -0.0758089632259219,
+        "y": -0.12108267708499967,
+        "z": -0.061951569948328886
+      },
+      "animations": [],
+      "materials": [
+        "Worn brown reel wood",
+        "Ivory dry silk layers",
+        "Fine ivory silk"
+      ],
+      "itemId": "spider_thread",
+      "status": "pending",
+      "sha256": "f7d6b312c0528f414347fcef5ae271f5064e8fe1a0cdc21656e06a00658f705c",
+      "sourceSha256": "1090c8201c7b92b4892d03199231488d32ba776cee6c082c23ac2fd1ed056cfa",
+      "referenceSha256": "c2bb8a5731a59891655e9eaa8ee2551ac5c4ce51e6fc325a2c71aaeb9c3f7696",
+      "metadata": {
+        "itemId": "spider_thread",
+        "author": "animal-fibers",
+        "reference": "art/item-icons/generated/spider_thread.png",
+        "description": "Strong dry ivory spider silk on a worn wooden reel with open axial bore and a loose frayed strand."
+      },
+      "triangles": 30580,
+      "drawCalls": 3
+    }
+  ]
+}

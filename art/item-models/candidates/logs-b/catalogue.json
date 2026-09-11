@@ -1,0 +1,187 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_maple_log",
+      "file": "models/items/maple_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "maple_log"
+      ],
+      "bytes": 3550968,
+      "size": {
+        "x": 0.24825369566679,
+        "y": 0.24828065186738968,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.12445586919784546,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "maple_log continuous fibrous fissure bed",
+        "maple_log species growth rings",
+        "maple_log irregular weathered bark",
+        "maple_log broken cambium and bark edges"
+      ],
+      "itemId": "maple_log",
+      "status": "pending",
+      "sha256": "498a8ec4314edc71af2d00938f9378824e21da8979f639f4f19b4f92ccf1298e",
+      "sourceSha256": "884c8d16a2853ded6b96d8e998d42136a6a87e3812f2142079c2fabb7efb3928",
+      "referenceSha256": "bed77d7ec18292c69af39b6a250351cecad522aa2fd7635fcb53f9d9cf0549c9",
+      "metadata": {
+        "itemId": "maple_log",
+        "author": "logs-b",
+        "reference": "art/item-icons/generated/maple_log.png",
+        "description": "Maple section with broad irregular grey-brown plates over orange cambium, cream and pink-brown growth zones, slightly eccentric fine rings and narrow drying checks. Solid 0.54 m volume along Z, both ends authored, front +Z and grounded Y=0."
+      },
+      "triangles": 31596,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_teak_log",
+      "file": "models/items/teak_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "teak_log"
+      ],
+      "bytes": 3979300,
+      "size": {
+        "x": 0.24920348078012466,
+        "y": 0.24985602498054504,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.12280485779047012,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "teak_log continuous fibrous fissure bed",
+        "teak_log species growth rings",
+        "teak_log irregular weathered bark",
+        "teak_log broken cambium and bark edges"
+      ],
+      "itemId": "teak_log",
+      "status": "pending",
+      "sha256": "99bf272fc80d4f651414fe7a27948906ac571b458f08355f5aaf3047ac6cd48f",
+      "sourceSha256": "884c8d16a2853ded6b96d8e998d42136a6a87e3812f2142079c2fabb7efb3928",
+      "referenceSha256": "c431cb4b71679ff1ef3270f375ad0f98e7bc89759f64e62d67176cf143ee2211",
+      "metadata": {
+        "itemId": "teak_log",
+        "author": "logs-b",
+        "reference": "art/item-icons/generated/teak_log.png",
+        "description": "Teak section with long narrow coarse brown-grey bark ridges, fibrous gold fissures, dense amber endgrain, dark chocolate heart and numerous fine radial checks. Solid 0.54 m volume along Z, both ends authored, front +Z and grounded Y=0."
+      },
+      "triangles": 33896,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_yew_log",
+      "file": "models/items/yew_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "yew_log"
+      ],
+      "bytes": 3107312,
+      "size": {
+        "x": 0.24799201637506485,
+        "y": 0.2510635033249855,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.11948961764574051,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "yew_log continuous fibrous fissure bed",
+        "yew_log species growth rings",
+        "yew_log irregular weathered bark",
+        "yew_log broken cambium and bark edges"
+      ],
+      "itemId": "yew_log",
+      "status": "pending",
+      "sha256": "1544dee0e908e30de0fd8ebb104289720f231a9e2e94fa2320b260c3f31f023d",
+      "sourceSha256": "884c8d16a2853ded6b96d8e998d42136a6a87e3812f2142079c2fabb7efb3928",
+      "referenceSha256": "27c1ae0458bdfd036f37de75a9be7f0bf5619066ab03912dbf3b9c1e1c466131",
+      "metadata": {
+        "itemId": "yew_log",
+        "author": "logs-b",
+        "reference": "art/item-icons/generated/yew_log.png",
+        "description": "Yew section with thin long peeling russet plates and dark weathered flakes. Lobed red-orange heartwood and dark sinuous annual bands inside a broad cream sapwood ring. Solid 0.54 m volume along Z, both ends authored, front +Z and grounded Y=0."
+      },
+      "triangles": 23696,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_magic_log",
+      "file": "models/items/magic_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "magic_log"
+      ],
+      "bytes": 3677760,
+      "size": {
+        "x": 0.2539214640855789,
+        "y": 0.2523498386144638,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.1276533454656601,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "magic_log continuous fibrous fissure bed",
+        "magic_log species growth rings",
+        "magic_log irregular weathered bark",
+        "magic_log broken cambium and bark edges",
+        "Magic blue vein borders",
+        "Magic silver blue winding bark veins"
+      ],
+      "itemId": "magic_log",
+      "status": "pending",
+      "sha256": "1f9a5d71555d43b126a322f65582b95adcb0a20c95e5aae2f32fe5d1da4a6c3c",
+      "sourceSha256": "884c8d16a2853ded6b96d8e998d42136a6a87e3812f2142079c2fabb7efb3928",
+      "referenceSha256": "0a6178f34d4d9f320c3d37ae6ce4ac01dfb5ad4b970b1c3a475d04eca1c8b537",
+      "metadata": {
+        "itemId": "magic_log",
+        "author": "logs-b",
+        "reference": "art/item-icons/generated/magic_log.png",
+        "description": "Magic section with charcoal slate blue irregular bark, raised winding silver-blue veins, blue-grey endgrain with ivory rings and deep radial drying cracks. Solid 0.54 m volume along Z, both ends authored, front +Z and grounded Y=0."
+      },
+      "triangles": 40896,
+      "drawCalls": 6
+    }
+  ]
+}

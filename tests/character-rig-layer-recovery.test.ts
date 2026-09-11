@@ -5,7 +5,7 @@ import { CharacterRig } from "../game/src/render/characterRig.js";
 describe("character outfit load recovery", () => {
   it("keeps the casting light on an exported staff's authored socket as its hand animates", async () => {
     // Exported equipment can be a merged mesh without the procedural source's userData.
-    const assets = { load: vi.fn(async () => new THREE.Group()) };
+    const assets = { entry: () => undefined, load: vi.fn(async () => new THREE.Group()) };
     const rig = new CharacterRig(assets as never) as any;
     rig.ready = true;
     const hand = new THREE.Bone();
@@ -30,7 +30,7 @@ describe("character outfit load recovery", () => {
     expect(new THREE.Vector3(...rig.castingFocus()).distanceTo(moved)).toBeGreaterThan(0.5);
   });
   it("shows the carried hatchet through an equipment change, then restores the worn weapon", async () => {
-    const assets = { load: vi.fn(async () => new THREE.Group()) };
+    const assets = { entry: () => undefined, load: vi.fn(async () => new THREE.Group()) };
     const rig = new CharacterRig(assets as never) as any;
     rig.ready = true;
     const hand = new THREE.Bone();

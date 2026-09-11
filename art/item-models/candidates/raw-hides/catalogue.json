@@ -1,0 +1,382 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_coarse_hide",
+      "file": "models/items/coarse_hide.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "coarse_hide"
+      ],
+      "bytes": 1842620,
+      "itemModel": {
+        "itemId": "coarse_hide"
+      },
+      "size": {
+        "x": 0.5907040238380432,
+        "y": 0.18188878521323204,
+        "z": 0.5630317628383636
+      },
+      "base": {
+        "x": -0.29351773858070374,
+        "y": -0.007000532001256943,
+        "z": -0.26479318737983704
+      },
+      "animations": [],
+      "materials": [
+        "coarse_hide supple outer surface",
+        "coarse_hide rough suede reverse",
+        "coarse_hide exposed cut fibers",
+        "Matte tapered natural hair",
+        "Dry irregular salt crystals"
+      ],
+      "itemId": "coarse_hide",
+      "status": "pending",
+      "sha256": "f43deea8ab1d4c75f3042d32fd6a692082757a1ce5706992c2758bec6b677e15",
+      "sourceSha256": "e0be562a20cffcf5fcafd03854ce74c0a97cb2fb02b2739d774891df10afb0fc",
+      "referenceSha256": "5402f5672affb4048e31e75e2f6d5ace353102d085dd8e6f6af90f8b3358fa2b",
+      "metadata": {
+        "itemId": "coarse_hide",
+        "author": "raw-hides",
+        "reference": "art/item-icons/generated/coarse_hide.png",
+        "description": "Goat and rabbit skins, scraped and salted together. Stiff until you work it."
+      },
+      "triangles": 18736,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_bramble_hide",
+      "file": "models/items/bramble_hide.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "bramble_hide"
+      ],
+      "bytes": 1662096,
+      "itemModel": {
+        "itemId": "bramble_hide"
+      },
+      "size": {
+        "x": 0.5470330628429584,
+        "y": 0.19625118607655168,
+        "z": 0.4803813695907593
+      },
+      "base": {
+        "x": -0.26178163290023804,
+        "y": -0.0025275819934904575,
+        "z": -0.23423518240451813
+      },
+      "animations": [],
+      "materials": [
+        "bramble_hide supple outer surface",
+        "bramble_hide rough suede reverse",
+        "bramble_hide exposed cut fibers",
+        "Matte tapered natural hair",
+        "Old ochre bramble thorns"
+      ],
+      "itemId": "bramble_hide",
+      "status": "pending",
+      "sha256": "467f5b16de7a37e51a7e63541dcb45d163190e402c9f80d6a2b61aafd419ec16",
+      "sourceSha256": "e0be562a20cffcf5fcafd03854ce74c0a97cb2fb02b2739d774891df10afb0fc",
+      "referenceSha256": "fad56cd8e50caaec28a7f6df8d5719a826ea115f619345674b7e26401c415626",
+      "metadata": {
+        "itemId": "bramble_hide",
+        "author": "raw-hides",
+        "reference": "art/item-icons/generated/bramble_hide.png",
+        "description": "Deepwood deer and hog, thorns still in the seam. Nothing in Woodlands tans clean."
+      },
+      "triangles": 18106,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_cairn_pelt",
+      "file": "models/items/cairn_pelt.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairn_pelt"
+      ],
+      "bytes": 2373852,
+      "itemModel": {
+        "itemId": "cairn_pelt"
+      },
+      "size": {
+        "x": 0.6249622106552124,
+        "y": 0.23282809369266033,
+        "z": 0.5850318968296051
+      },
+      "base": {
+        "x": -0.30986258387565613,
+        "y": -0.01898890547454357,
+        "z": -0.2727740705013275
+      },
+      "animations": [],
+      "materials": [
+        "cairn_pelt supple outer surface",
+        "cairn_pelt rough suede reverse",
+        "cairn_pelt exposed cut fibers",
+        "Matte tapered natural hair"
+      ],
+      "itemId": "cairn_pelt",
+      "status": "pending",
+      "sha256": "bc4031eee09cd63ebca1264b9810aa8f7e7d186a6ddfa4ce3a63240b390e4548",
+      "sourceSha256": "e0be562a20cffcf5fcafd03854ce74c0a97cb2fb02b2739d774891df10afb0fc",
+      "referenceSha256": "0de271345384f4c53c22df620d690bbda557d3d5fc7a1e90d09794949798340b",
+      "metadata": {
+        "itemId": "cairn_pelt",
+        "author": "raw-hides",
+        "reference": "art/item-icons/generated/cairn_pelt.png",
+        "description": "Winter coat off something that lived above the treeline. Takes no dye and does not tear."
+      },
+      "triangles": 29864,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_charhide",
+      "file": "models/items/charhide.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "charhide"
+      ],
+      "bytes": 1465044,
+      "itemModel": {
+        "itemId": "charhide"
+      },
+      "size": {
+        "x": 0.5564923286437988,
+        "y": 0.1858179890550673,
+        "z": 0.4824569523334503
+      },
+      "base": {
+        "x": -0.27704036235809326,
+        "y": 0.006409553345292807,
+        "z": -0.2361530065536499
+      },
+      "animations": [],
+      "materials": [
+        "charhide supple outer surface",
+        "charhide rough suede reverse",
+        "charhide exposed cut fibers"
+      ],
+      "itemId": "charhide",
+      "status": "pending",
+      "sha256": "5d8950882e5afcef75c304850e014e5d46174f4fbb42a83cd9aa5006c2d34aca",
+      "sourceSha256": "e0be562a20cffcf5fcafd03854ce74c0a97cb2fb02b2739d774891df10afb0fc",
+      "referenceSha256": "50c668059b5e854d8caecf13f399c60a0fb28055f4de64cb61e0c11b2028f6fc",
+      "metadata": {
+        "itemId": "charhide",
+        "author": "raw-hides",
+        "reference": "art/item-icons/generated/charhide.png",
+        "description": "Foothill hide seared grey at the edges. Sheds heat the way fur pelt sheds cold."
+      },
+      "triangles": 13064,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_dragonhide",
+      "file": "models/items/dragonhide.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "dragonhide"
+      ],
+      "bytes": 1405312,
+      "itemModel": {
+        "itemId": "dragonhide"
+      },
+      "size": {
+        "x": 0.5196687281131744,
+        "y": 0.19438027730211616,
+        "z": 0.48382604122161865
+      },
+      "base": {
+        "x": -0.2599499225616455,
+        "y": -0.005389103200286627,
+        "z": -0.23769797384738922
+      },
+      "animations": [],
+      "materials": [
+        "dragonhide supple outer surface",
+        "dragonhide rough suede reverse",
+        "dragonhide exposed cut fibers",
+        "dragonhide raised polished scutes"
+      ],
+      "itemId": "dragonhide",
+      "status": "pending",
+      "sha256": "de1f63040b5091713ee03dbf203a9db80f1a52dfe15986853b01c980fd6b21aa",
+      "sourceSha256": "e0be562a20cffcf5fcafd03854ce74c0a97cb2fb02b2739d774891df10afb0fc",
+      "referenceSha256": "ce6514db468092305dc0cb6e300b0d71c670b346383824e9b43280805e220b78",
+      "metadata": {
+        "itemId": "dragonhide",
+        "author": "raw-hides",
+        "reference": "art/item-icons/generated/dragonhide.png",
+        "description": "Supple hide beneath a young dragon's scales. Grave Thread binds it into level 50 casting armour."
+      },
+      "triangles": 14664,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_starhide",
+      "file": "models/items/starhide.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "starhide"
+      ],
+      "bytes": 1368888,
+      "itemModel": {
+        "itemId": "starhide"
+      },
+      "size": {
+        "x": 0.5167138278484344,
+        "y": 0.2178608023095876,
+        "z": 0.44936998188495636
+      },
+      "base": {
+        "x": -0.25870227813720703,
+        "y": -0.00121493567712605,
+        "z": -0.2318701595067978
+      },
+      "animations": [],
+      "materials": [
+        "starhide supple outer surface",
+        "starhide rough suede reverse",
+        "starhide exposed cut fibers",
+        "starhide raised polished scutes"
+      ],
+      "itemId": "starhide",
+      "status": "pending",
+      "sha256": "c85fea259cd179ece57ed96db26b67c442f60c127e66eee5ee54aa754ddcdfc0",
+      "sourceSha256": "e0be562a20cffcf5fcafd03854ce74c0a97cb2fb02b2739d774891df10afb0fc",
+      "referenceSha256": "b2ecdff5ebe8f6d03331cdccc9a71f9526af0215c5cd085dd6059946c4f1f901",
+      "metadata": {
+        "itemId": "starhide",
+        "author": "raw-hides",
+        "reference": "art/item-icons/generated/starhide.png",
+        "description": "Adult dragon hide steeped in deep magic. Void Thread stitches it into level 70 casting armour."
+      },
+      "triangles": 13544,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_tapir_leather",
+      "file": "models/items/tapir_leather.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "tapir_leather"
+      ],
+      "bytes": 2943212,
+      "itemModel": {
+        "itemId": "tapir_leather"
+      },
+      "size": {
+        "x": 0.47046782076358795,
+        "y": 0.2144261698704213,
+        "z": 0.5112873315811157
+      },
+      "base": {
+        "x": -0.2412712275981903,
+        "y": -0.0029788415413349867,
+        "z": -0.2650519907474518
+      },
+      "animations": [],
+      "materials": [
+        "tapir_leather supple outer surface",
+        "tapir_leather rough suede reverse",
+        "tapir_leather exposed cut fibers",
+        "Matte tapered natural hair",
+        "Matte tapered natural hair",
+        "Matte tapered natural hair"
+      ],
+      "itemId": "tapir_leather",
+      "status": "pending",
+      "sha256": "1cad700201df1c6b6762c9f4dd111e177069e49dfe20510893a8b8a8a18e1ff3",
+      "sourceSha256": "e0be562a20cffcf5fcafd03854ce74c0a97cb2fb02b2739d774891df10afb0fc",
+      "referenceSha256": "b4b29e896330cd189bff1898d9254f10687fc356d698c3c95bb32365a6789a2d",
+      "metadata": {
+        "itemId": "tapir_leather",
+        "author": "raw-hides",
+        "reference": "art/item-icons/generated/tapir_leather.png",
+        "description": "Thick strips from a tapir's flank. Trim three strips into two standard hide sheets."
+      },
+      "triangles": 54192,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_bighorn_fleece",
+      "file": "models/items/bighorn_fleece.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "bighorn_fleece"
+      ],
+      "bytes": 2017384,
+      "itemModel": {
+        "itemId": "bighorn_fleece"
+      },
+      "size": {
+        "x": 0.5329915583133698,
+        "y": 0.22456558234989643,
+        "z": 0.6711874902248383
+      },
+      "base": {
+        "x": -0.2659732401371002,
+        "y": -0.02025078423321247,
+        "z": -0.3362106680870056
+      },
+      "animations": [],
+      "materials": [
+        "bighorn_fleece supple outer surface",
+        "Cream wool curl highlights"
+      ],
+      "itemId": "bighorn_fleece",
+      "status": "pending",
+      "sha256": "448b736afcc936e745142a7fe909283274a4b5d3fa28f54ece5ef0cc5551fc05",
+      "sourceSha256": "e0be562a20cffcf5fcafd03854ce74c0a97cb2fb02b2739d774891df10afb0fc",
+      "referenceSha256": "2fe45c9b0bd2d27bbd0b7a08790d1f42aa6790d183d018f04b198a8603cd5f44",
+      "metadata": {
+        "itemId": "bighorn_fleece",
+        "author": "raw-hides",
+        "reference": "art/item-icons/generated/bighorn_fleece.png",
+        "description": "Dense wool from a ridge ram. A felted lining stretches a pelt into a pair of leggings."
+      },
+      "triangles": 51264,
+      "drawCalls": 2
+    }
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_galeskin_sword",
+      "file": "models/items/galeskin_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "galeskin_sword"
+      ],
+      "bytes": 953588,
+      "itemModel": {
+        "itemId": "galeskin_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.5163778066635132,
+        "y": 1.4920000143311918,
+        "z": 0.12200000137090683
+      },
+      "base": {
+        "x": -0.2581889033317566,
+        "y": -0.25700000002607704,
+        "z": -0.061000000685453415
+      },
+      "animations": [],
+      "materials": [
+        "galeskin_sword-honed-edge",
+        "galeskin_sword-forged-body",
+        "galeskin_sword-grip-hide",
+        "galeskin_sword-wrap-overlap"
+      ],
+      "itemId": "galeskin_sword",
+      "status": "pending",
+      "sha256": "3094c65a8f0738573609db759731c121078848b3a2132de3c5e870dc55d8e212",
+      "sourceSha256": "331d7049f8be81074d598198b43b81ae96a03a93808248f024c9dc239ac55c2b",
+      "referenceSha256": "4dfb052717594b125b2e67bf03c92ae454f21e0304b5c7f51e622ef897147316",
+      "metadata": {
+        "itemId": "galeskin_sword",
+        "author": "blades-boss",
+        "reference": "art/item-icons/generated/galeskin_sword.png",
+        "description": "Plains Ogre copper sword with broad leaf blade, deep physical fuller, bowed copper guard, sand hide spiral grip and heavy turned acorn pommel. Edge whistles on the backswing. Reverse forging inferred.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 17396,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_mossbound_sword",
+      "file": "models/items/mossbound_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "mossbound_sword"
+      ],
+      "bytes": 2801644,
+      "itemModel": {
+        "itemId": "mossbound_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.5808665752410889,
+        "y": 1.5020000040531158,
+        "z": 0.11684885621070862
+      },
+      "base": {
+        "x": -0.29043328762054443,
+        "y": -0.2669999897480011,
+        "z": -0.0583965927362442
+      },
+      "animations": [],
+      "materials": [
+        "mossbound_sword-honed-edge",
+        "mossbound_sword-forged-body",
+        "mossbound_sword-grip-hide",
+        "mossbound_sword-wrap-overlap",
+        "living-olive-moss",
+        "living-moss-fresh-leaf-tips"
+      ],
+      "itemId": "mossbound_sword",
+      "status": "pending",
+      "sha256": "ebfb8179d53c5f929b40205d969485e2ea3f12b2040d041a17eb615ec8106a61",
+      "sourceSha256": "331d7049f8be81074d598198b43b81ae96a03a93808248f024c9dc239ac55c2b",
+      "referenceSha256": "3036a70b56f2f4c1e9c8461b7d91424cd1bd0a2fa6d3e3f5d8478adc94bb2e1c",
+      "metadata": {
+        "itemId": "mossbound_sword",
+        "author": "blades-boss",
+        "reference": "art/item-icons/generated/mossbound_sword.png",
+        "description": "Forest Ogre iron sword grown through with living moss. Broad shouldered fullered blade, hooked crescent guard, brown wrapped grip and faceted iron pommel. Moss grows as solid branching sprigs in the fuller and fittings. Reverse inferred.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 28364,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_tideworn_sword",
+      "file": "models/items/tideworn_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "tideworn_sword"
+      ],
+      "bytes": 1278124,
+      "itemModel": {
+        "itemId": "tideworn_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.5840401649475098,
+        "y": 1.512000024318695,
+        "z": 0.08280696719884872
+      },
+      "base": {
+        "x": -0.2920200824737549,
+        "y": -0.2770000100135803,
+        "z": -0.04140348359942436
+      },
+      "animations": [],
+      "materials": [
+        "tideworn_sword-honed-edge",
+        "tideworn_sword-forged-body",
+        "tideworn_sword-grip-hide",
+        "tideworn_sword-wrap-overlap"
+      ],
+      "itemId": "tideworn_sword",
+      "status": "pending",
+      "sha256": "fbdad59d00ef69dff4513db84e54e647e0cd23c69dbaf222685b300b82da6bbd",
+      "sourceSha256": "331d7049f8be81074d598198b43b81ae96a03a93808248f024c9dc239ac55c2b",
+      "referenceSha256": "d05e8c1c893666b019492a233f6b2691a421a712ec6fde58ae51a58cfdda2fa8",
+      "metadata": {
+        "itemId": "tideworn_sword",
+        "author": "blades-boss",
+        "reference": "art/item-icons/generated/tideworn_sword.png",
+        "description": "Cave Ogre cobalt sword worked smooth as sea glass. Leaf blade with raised flowing silver-blue water veins, swept fish-tail guard, teal leather grip and droplet pommel. Reverse repeats flowing forged ornament.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 26348,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_cinderwake_sword",
+      "file": "models/items/cinderwake_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderwake_sword"
+      ],
+      "bytes": 1060356,
+      "itemModel": {
+        "itemId": "cinderwake_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.5613123178482056,
+        "y": 1.5489999949932098,
+        "z": 0.09799000064283608
+      },
+      "base": {
+        "x": -0.2806561589241028,
+        "y": -0.2840000092983246,
+        "z": -0.04675000006705522
+      },
+      "animations": [],
+      "materials": [
+        "cinderwake_sword-honed-edge",
+        "cinderwake_sword-forged-body",
+        "cinderwake_sword-grip-hide",
+        "cinderwake_sword-wrap-overlap",
+        "permanent-orange-hot-edge",
+        "violet-gold-titanium-temper"
+      ],
+      "itemId": "cinderwake_sword",
+      "status": "pending",
+      "sha256": "2020b093c8bb37d6612a0a09ca63ec99ffca6637be185eb4ce812a33f0a0adc8",
+      "sourceSha256": "331d7049f8be81074d598198b43b81ae96a03a93808248f024c9dc239ac55c2b",
+      "referenceSha256": "3a5c933c1c6e10ab78bf5ca960f941cfe93bbe8ac2d750f8bff6357cffee8814",
+      "metadata": {
+        "itemId": "cinderwake_sword",
+        "author": "blades-boss",
+        "reference": "art/item-icons/generated/cinderwake_sword.png",
+        "description": "Fire Ogre titanium sword quenched in the arena spring. Long taper, heat-tempered fuller, permanent orange edge, curved guard with pyramidal ends, dark leather and faceted pommel. Reverse heat treatment inferred.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 18938,
+      "drawCalls": 6
+    },
+    {
+      "id": "corealm_item_chainbound_sword",
+      "file": "models/items/chainbound_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "chainbound_sword"
+      ],
+      "bytes": 2397984,
+      "itemModel": {
+        "itemId": "chainbound_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.5808665752410889,
+        "y": 1.5410710275173187,
+        "z": 0.1277627507278408
+      },
+      "base": {
+        "x": -0.29043328762054443,
+        "y": -0.2840000092983246,
+        "z": -0.05530000063031912
+      },
+      "animations": [],
+      "materials": [
+        "chainbound_sword-forged-body",
+        "chainbound_sword-honed-edge",
+        "chainbound-worn-iron-hardware",
+        "chainbound_sword-grip-hide",
+        "chainbound_sword-wrap-overlap"
+      ],
+      "itemId": "chainbound_sword",
+      "status": "pending",
+      "sha256": "3614acccae357d3dece31bf54a6b27c9970d3b7d96ab0745fc99f52d51dbe9f8",
+      "sourceSha256": "331d7049f8be81074d598198b43b81ae96a03a93808248f024c9dc239ac55c2b",
+      "referenceSha256": "ffa185ecc8c55b16ab433723ea8ec82188846e04d153d8b309498198cb60817c",
+      "metadata": {
+        "itemId": "chainbound_sword",
+        "author": "blades-boss",
+        "reference": "art/item-icons/generated/chainbound_sword.png",
+        "description": "Living foundry chain threaded through pierced Nightglass blade. Scalloped blue glass cutting perimeter, heavy interlocking iron links, crescent guard with diamond boss, purple leather grip and metal-capped Nightglass pommel. Reverse chain return and fittings inferred.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 50650,
+      "drawCalls": 5
+    }
+  ]
+}

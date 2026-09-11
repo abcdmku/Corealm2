@@ -1,0 +1,185 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_duskoak_log",
+      "file": "models/items/duskoak_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_log"
+      ],
+      "bytes": 5363512,
+      "size": {
+        "x": 0.2712014317512512,
+        "y": 0.2671518176794052,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.13433901965618134,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "Duskoak dark fibrous bark bed",
+        "Duskoak cut annual endgrain",
+        "Duskoak flaky bark faces",
+        "Duskoak chipped bark fracture edges"
+      ],
+      "itemId": "duskoak_log",
+      "status": "pending",
+      "sha256": "2ecb990666a481f54a620a13f2900bdc4038c544a55d3f06a35e5fac75168c59",
+      "sourceSha256": "3b51278958915e3685769acb74fde2eebd87651cebc7b698debde91b08f933ae",
+      "referenceSha256": "d8f3dd98b34e49772daa50b4ceacc12dfe4738acf6031150b25acd6322a82d30",
+      "metadata": {
+        "itemId": "duskoak_log",
+        "author": "logs-a",
+        "reference": "art/item-icons/generated/duskoak_log.png",
+        "description": "Broad dark grey oak fracture plates, buff outer sapwood and eccentric honey-brown heartwood with strong annual rings. Solid horizontal 0.54 m log, Y-up, front cut at +Z, grounded at zero."
+      },
+      "triangles": 34556,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_cairnpine_log",
+      "file": "models/items/cairnpine_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_log"
+      ],
+      "bytes": 5259220,
+      "size": {
+        "x": 0.25008975714445114,
+        "y": 0.25328318029642105,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.12101032584905624,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "Cairnpine dark fibrous bark bed",
+        "Cairnpine cut annual endgrain",
+        "Cairnpine flaky bark faces",
+        "Cairnpine chipped bark fracture edges"
+      ],
+      "itemId": "cairnpine_log",
+      "status": "pending",
+      "sha256": "3d3d87218dea5ca3506aae1ebaace275b5771724b4d9d0b0fcc3559cabd43b85",
+      "sourceSha256": "3b51278958915e3685769acb74fde2eebd87651cebc7b698debde91b08f933ae",
+      "referenceSha256": "94cf6f3ff1362d60ad7d4a690c0fbca91c98f41303ce8568569e78ed635f188d",
+      "metadata": {
+        "itemId": "cairnpine_log",
+        "author": "logs-a",
+        "reference": "art/item-icons/generated/cairnpine_log.png",
+        "description": "Dense weathered brown-grey pine scales and dry ochre endgrain with fine close rings, pale medullary rays and deep radial checking. Solid horizontal 0.54 m log, Y-up, front cut at +Z, grounded at zero."
+      },
+      "triangles": 31876,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_cinderpine_log",
+      "file": "models/items/cinderpine_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_log"
+      ],
+      "bytes": 5401896,
+      "size": {
+        "x": 0.2620476335287094,
+        "y": 0.26158490777015686,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.1321387141942978,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "Cinderpine dark fibrous bark bed",
+        "Cinderpine cut annual endgrain",
+        "Cinderpine flaky bark faces",
+        "Cinderpine chipped bark fracture edges"
+      ],
+      "itemId": "cinderpine_log",
+      "status": "pending",
+      "sha256": "dc98476e370e46d1147b1b89b329a60c379a108b116a0cadd8b6ef2556fd8c24",
+      "sourceSha256": "3b51278958915e3685769acb74fde2eebd87651cebc7b698debde91b08f933ae",
+      "referenceSha256": "4516d2bbd8fbbc79c6864e7b6a148c6fdd761340c3c1430ef41f6391b1633ec9",
+      "metadata": {
+        "itemId": "cinderpine_log",
+        "author": "logs-a",
+        "reference": "art/item-icons/generated/cinderpine_log.png",
+        "description": "Narrow charcoal-brown fissured bark plates, a narrow cream sapwood ring and dense dark burnt-umber heartwood with amber rings. Solid horizontal 0.54 m log, Y-up, front cut at +Z, grounded at zero."
+      },
+      "triangles": 37456,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_willow_log",
+      "file": "models/items/willow_log.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "willow_log"
+      ],
+      "bytes": 4829900,
+      "size": {
+        "x": 0.25674957036972046,
+        "y": 0.2615632265806198,
+        "z": 0.540440022945404
+      },
+      "base": {
+        "x": -0.12382528185844421,
+        "y": 0,
+        "z": -0.270220011472702
+      },
+      "animations": [],
+      "materials": [
+        "Willow dark fibrous bark bed",
+        "Willow cut annual endgrain",
+        "Willow flaky bark faces",
+        "Willow chipped bark fracture edges"
+      ],
+      "itemId": "willow_log",
+      "status": "pending",
+      "sha256": "367ebe9aa09a174f4ef68871daa7701dfd2fb2bdcdaed53e06b84331b9b2227c",
+      "sourceSha256": "3b51278958915e3685769acb74fde2eebd87651cebc7b698debde91b08f933ae",
+      "referenceSha256": "b5b6348a717bfaee154274cc2befed6446712fe24eeedb348dafc974d8a50360",
+      "metadata": {
+        "itemId": "willow_log",
+        "author": "logs-a",
+        "reference": "art/item-icons/generated/willow_log.png",
+        "description": "Long pale silver-grey flaky bark strips over warm brown crevices, soft salmon-pink eccentric grain and a pale cream outer band. Solid horizontal 0.54 m log, Y-up, front cut at +Z, grounded at zero."
+      },
+      "triangles": 25736,
+      "drawCalls": 4
+    }
+  ]
+}

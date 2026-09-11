@@ -17,7 +17,7 @@ const MAP_FIELDS = [
 ] as const;
 const TIERS = ["worn", "grithe", "corven", "kaldite", "emberite", "cindersteel", "nightglass"] as const;
 const BODIES: readonly CharacterBody[] = ["male", "female"];
-const KNIGHT_PARTS = ["helmet", "chest", "pauldron", "scarf", "legs", "boots", "gloves"] as const;
+const KNIGHT_PARTS = ["helmet", "chest", "pauldron", "legs", "boots", "gloves"] as const;
 const KNIGHT_VARIANTS = [
   { item: "grithe_helm", parts: KNIGHT_PARTS },
   { item: "corven_helm", parts: KNIGHT_PARTS },
@@ -25,7 +25,7 @@ const KNIGHT_VARIANTS = [
   { item: "emberite_helm", parts: KNIGHT_PARTS },
   { item: "cindersteel_helm", parts: KNIGHT_PARTS },
   { item: "nightglass_helm", parts: KNIGHT_PARTS },
-  { item: "nightmarshal_plate", parts: ["chest", "pauldron", "scarf"] as const },
+  { item: "nightmarshal_plate", parts: ["chest", "pauldron"] as const },
 ] as const;
 const SHIELDS = [
   ["palewood_shield", "grithe_sword"],
@@ -121,8 +121,8 @@ const TOOL_APPEARANCES = TIERS.flatMap(tier => ["pickaxe", "hatchet"].map(kind =
 const SWORD_APPEARANCES = [...TIERS.map(tier => gearAppearance(`${tier}_sword`)!), gearAppearance("chainbound_sword")!];
 
 describe("restored equipment metal materials", () => {
-  it("covers six complete Knight tiers and the three Nightmarshal chest parts on both bodies", () => {
-    expect(KNIGHT_APPEARANCES).toHaveLength(2 * (6 * KNIGHT_PARTS.length + 3));
+  it("covers six complete Knight tiers and the two Nightmarshal chest parts on both bodies", () => {
+    expect(KNIGHT_APPEARANCES).toHaveLength(2 * (6 * KNIGHT_PARTS.length + 2));
     const variants = KNIGHT_VARIANTS.map(row => ({ ...row, tint: gearAppearance(row.item)!.tint }));
     expect(new Set(variants.map(row => row.tint)).size).toBe(7);
     for (const body of BODIES) {
@@ -130,6 +130,17 @@ describe("restored equipment metal materials", () => {
       const actual = KNIGHT_APPEARANCES.filter(part => part.assetId.startsWith(`outfit_${body}_knight_`))
         .map(part => `${part.assetId}:${part.tint}`);
       expect(actual.sort(), body).toEqual(expected.sort());
+    }
+  });
+
+  it("never attaches a scarf to melee equipment on either body", () => {
+    for (const body of BODIES) {
+      for (const itemId of GEAR_APPEARANCE_IDS) {
+        const parts = gearAppearanceParts(itemId, body);
+        const knightParts = parts.filter(part => part.assetId.startsWith(`outfit_${body}_knight_`));
+        if (knightParts.length === 0) continue;
+        expect(parts.some(part => part.assetId.endsWith("_scarf")), `${body} ${itemId}`).toBe(false);
+      }
     }
   });
 
@@ -240,14 +251,10 @@ describe("restored equipment metal materials", () => {
     }
   });
 
-  it.each(SHIELDS)("tints only the iron on %s and leaves its board and grip authored", (shieldId, swordId) => {
-    // The Corealm boards separate wood, metal and leather into their own materials, so the tier
-    // colour reaches the rim and boss while the planks and the rear handgrip keep what they were
-    // authored with. The old imported board had one vertex-coloured trim material shared across all
-    // three, which is why its tier tint used to turn the rim pink and the grip near-black.
+  it.each(SHIELDS)("applies the reviewed %s finish without changing source materials or grip geometry", (shieldId, swordId) => {
     const appearance = gearAppearance(shieldId)!;
     expect(appearance.assetId).toMatch(/^corealm_shield_[1-4]$/);
-    // The sword of the same tier carries the same metal colour, which is what ties a kit together.
+    // Tier metadata is shared; the reviewed shield finish can use its own palette.
     expect(appearance.tint).toBe(gearAppearance(swordId)!.tint);
     const sources = [
       fixtureMaterial("corealm-weapon-metal"),
@@ -262,18 +269,43 @@ describe("restored equipment metal materials", () => {
     const authored = sources.map(material => material.color.getHex());
     const before = sources.map(materialState);
     const mesh = new THREE.Mesh(new THREE.BufferGeometry(), sources);
+    const geometry = mesh.geometry;
     applyGearAppearance(mesh, appearance);
     const [metal, boards, grip] = mesh.material;
-    expect(metal!.color.getHex(), "rim and boss take the tier metal").toBe(appearance.tint);
-    expect(boards!.color.getHex(), "planks stay authored").toBe(authored[1]);
-    expect(grip!.color.getHex(), "handgrip stays authored").toBe(authored[2]);
+    const unchanged = shieldId === "cinderpine_shield";
+    const plated = shieldId === "cairnpine_shield" || shieldId === "magic_shield";
+    expect(mesh.geometry).toBe(geometry);
+    if (unchanged) {
+      expect(metal!.color.getHex()).toBe(appearance.tint);
+      expect(boards!.color.getHex()).toBe(authored[1]);
+      expect(grip!.color.getHex()).toBe(authored[2]);
+      expect(mesh.material.every(material => material.userData.iconWeaponPalette === undefined)).toBe(true);
+    } else {
+      expect(new Set(mesh.material.map(material => material.color.getHex())).size).toBe(3);
+      for (const material of mesh.material) {
+        expect(material.userData.iconWeaponPalette).toBe(shieldId);
+        expect(material.color.getHex()).not.toBe(authored[0]);
+        expect(material.emissive.getHex()).toBe(0);
+        expect(material.emissiveIntensity).toBe(0);
+      }
+      expect(metal!.metalness).toBeGreaterThan(0);
+      expect(boards!.userData.equipmentRole).toBe(plated ? "metal" : "wood");
+      expect(boards!.metalness).toBe(plated ? metal!.metalness : 0);
+      if (plated) expect(boards!.color.b).toBeGreaterThan(boards!.color.r);
+      expect(grip!.userData.equipmentRole).toBe("leather");
+      expect(grip!.metalness).toBe(0);
+      expect(grip!.roughness).toBeGreaterThan(metal!.roughness);
+    }
     for (const material of mesh.material) {
       expect(compile(material)).not.toContain("gearMetalSource");
       expect(material.customProgramCacheKey()).not.toContain("metal-tier:");
     }
     for (const [index, material] of mesh.material.entries()) {
       expect(material).not.toBe(sources[index]);
-      for (const field of MAP_FIELDS) expect(material[field], field).toBe(sources[index]![field]);
+      expect(material.normalScale.toArray()).toEqual(sources[index]!.normalScale.toArray());
+      for (const field of MAP_FIELDS) {
+        expect(material[field], field).toBe(plated && index === 1 && field === "map" ? null : sources[index]![field]);
+      }
     }
     expect(sources.map(materialState)).toEqual(before);
   });

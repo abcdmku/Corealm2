@@ -1,0 +1,444 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_worn_rod",
+      "file": "models/items/worn_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "worn_rod"
+      ],
+      "bytes": 1455316,
+      "itemModel": {
+        "itemId": "worn_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.17195041111257814,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.15331,
+            0.09222999999999999,
+            0.07749999999999999
+          ],
+          "line": 11904385,
+          "bobber": 9867397
+        }
+      },
+      "size": {
+        "x": 0.3667455959930732,
+        "y": 1.9247767463375252,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.03509518504142761,
+        "y": -0.25903909319806995,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "worn_rod-longitudinal-wood-grain",
+        "worn_rod-creased-hide-wrap",
+        "worn_rod-worked-reel-metal",
+        "worn_rod-reel-seat-iron",
+        "worn_rod-twisted-gut",
+        "worn_rod-float-body"
+      ],
+      "itemId": "worn_rod",
+      "status": "pending",
+      "sha256": "989376af78635d73e270fa5422142d3cce2ec4006a5a7c571bc1a7d18224f549",
+      "sourceSha256": "30616d7c745ead8021acd592e8da53bc76224884f9deccd9c6943f85f54e6e99",
+      "referenceSha256": "59e3052c1beb65632f2ace575c777f79305796f83308ce2a5c8573d6897238c6",
+      "metadata": {
+        "itemId": "worn_rod",
+        "author": "rods",
+        "reference": "art/item-icons/generated/worn_rod.png",
+        "description": "A green stick and a length of gut. One effective Fishing level, on a good day.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.17195041111257814,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.15331,
+            0.09222999999999999,
+            0.07749999999999999
+          ],
+          "line": 11904385,
+          "bobber": 9867397
+        }
+      },
+      "triangles": 33320,
+      "drawCalls": 8
+    },
+    {
+      "id": "corealm_item_palewood_rod",
+      "file": "models/items/palewood_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "palewood_rod"
+      ],
+      "bytes": 1456276,
+      "itemModel": {
+        "itemId": "palewood_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.173,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.14872,
+            0.09376,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 14733749
+        }
+      },
+      "size": {
+        "x": 0.3607999986708164,
+        "y": 1.921353051605243,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.028099998831748962,
+        "y": -0.2559999992251396,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "palewood_rod-longitudinal-wood-grain",
+        "palewood_rod-worked-reel-metal",
+        "palewood_rod-creased-hide-wrap",
+        "palewood_rod-reel-seat-iron",
+        "palewood_rod-twisted-gut",
+        "palewood_rod-float-body"
+      ],
+      "itemId": "palewood_rod",
+      "status": "pending",
+      "sha256": "5be0885021934e9f09648590420516c5731bae1a6395711a2d7d3b9cb29f81df",
+      "sourceSha256": "30616d7c745ead8021acd592e8da53bc76224884f9deccd9c6943f85f54e6e99",
+      "referenceSha256": "9a982619cd20727e5027ab612c08fd686dc8f19bb429e41bd97c617a64e0a3f5",
+      "metadata": {
+        "itemId": "palewood_rod",
+        "author": "rods",
+        "reference": "art/item-icons/generated/palewood_rod.png",
+        "description": "A shaft, a hide line, and a bent pin. Two effective Fishing levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.173,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.14872,
+            0.09376,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 14733749
+        }
+      },
+      "triangles": 32672,
+      "drawCalls": 8
+    },
+    {
+      "id": "corealm_item_duskoak_rod",
+      "file": "models/items/duskoak_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "duskoak_rod"
+      ],
+      "bytes": 1983400,
+      "itemModel": {
+        "itemId": "duskoak_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.213,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.16045,
+            0.08985,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 12944152
+        }
+      },
+      "size": {
+        "x": 0.4007999986708164,
+        "y": 1.921692990607766,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.028099998831748962,
+        "y": -0.2559999992251396,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "duskoak_rod-longitudinal-wood-grain",
+        "duskoak_rod-worked-reel-metal",
+        "duskoak_rod-creased-hide-wrap",
+        "duskoak_rod-cork",
+        "duskoak_rod-reel-seat-iron",
+        "duskoak_rod-twisted-gut",
+        "duskoak_rod-float-body"
+      ],
+      "itemId": "duskoak_rod",
+      "status": "pending",
+      "sha256": "a120553519b4c548837a4ddaeda1542d98a48a31b7c2cc46bff1f5c3cb758a48",
+      "sourceSha256": "30616d7c745ead8021acd592e8da53bc76224884f9deccd9c6943f85f54e6e99",
+      "referenceSha256": "0dbe0fe2ba120352554baccb0cddf7da5a34c666a8464f0a1a06742911a13900",
+      "metadata": {
+        "itemId": "duskoak_rod",
+        "author": "rods",
+        "reference": "art/item-icons/generated/duskoak_rod.png",
+        "description": "Springy enough for a trout. Five effective Fishing levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.213,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.16045,
+            0.08985,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 12944152
+        }
+      },
+      "triangles": 40796,
+      "drawCalls": 9
+    },
+    {
+      "id": "corealm_item_cairnpine_rod",
+      "file": "models/items/cairnpine_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cairnpine_rod"
+      ],
+      "bytes": 1526844,
+      "itemModel": {
+        "itemId": "cairnpine_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.193,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.15484,
+            0.09172,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 5774103
+        }
+      },
+      "size": {
+        "x": 0.38079999867081643,
+        "y": 1.9215245838155501,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.028099998831748962,
+        "y": -0.2559999992251396,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "cairnpine_rod-longitudinal-wood-grain",
+        "cairnpine_rod-worked-reel-metal",
+        "cairnpine_rod-creased-hide-wrap",
+        "cairnpine_rod-reel-seat-iron",
+        "cairnpine_rod-twisted-gut",
+        "cairnpine_rod-float-body"
+      ],
+      "itemId": "cairnpine_rod",
+      "status": "pending",
+      "sha256": "1f19d9ea8f687b06636731487cc974af92f221980abe2d9ddc81f20e7fae98c3",
+      "sourceSha256": "30616d7c745ead8021acd592e8da53bc76224884f9deccd9c6943f85f54e6e99",
+      "referenceSha256": "d245486315e6948160f8edcea8145aea2a95d9be3d86fa0ba279b84ac4c4f749",
+      "metadata": {
+        "itemId": "cairnpine_rod",
+        "author": "rods",
+        "reference": "art/item-icons/generated/cairnpine_rod.png",
+        "description": "Built for perch, which fight like something with a grudge. Nine effective Fishing levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.193,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.15484,
+            0.09172,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 5774103
+        }
+      },
+      "triangles": 35088,
+      "drawCalls": 8
+    },
+    {
+      "id": "corealm_item_cinderpine_rod",
+      "file": "models/items/cinderpine_rod.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cinderpine_rod"
+      ],
+      "bytes": 1891820,
+      "itemModel": {
+        "itemId": "cinderpine_rod",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.23299999999999998,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.16453,
+            0.08849,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 13060875
+        }
+      },
+      "size": {
+        "x": 0.4207999986708164,
+        "y": 1.9218580161339884,
+        "z": 0.12800000046007334
+      },
+      "base": {
+        "x": -0.028099998831748962,
+        "y": -0.2559999992251396,
+        "z": -0.030000000447034828
+      },
+      "animations": [],
+      "materials": [
+        "cinderpine_rod-longitudinal-wood-grain",
+        "cinderpine_rod-worked-reel-metal",
+        "cinderpine_rod-creased-hide-wrap",
+        "cinderpine_rod-reel-seat-iron",
+        "cinderpine_rod-twisted-gut",
+        "cinderpine_rod-float-body"
+      ],
+      "itemId": "cinderpine_rod",
+      "status": "pending",
+      "sha256": "fe9baa5a51f9ace56549e095d6579bdddc4788cc8aa5fdbd246c2307e6a7b84e",
+      "sourceSha256": "30616d7c745ead8021acd592e8da53bc76224884f9deccd9c6943f85f54e6e99",
+      "referenceSha256": "d9202d1bd8757611ee7d04ed6c9fe3134dcd7ef49d9179ec33d130485beab609",
+      "metadata": {
+        "itemId": "cinderpine_rod",
+        "author": "rods",
+        "reference": "art/item-icons/generated/cinderpine_rod.png",
+        "description": "A flexible walnut rod built for heavy bass. Seventeen effective Fishing levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "fishing": {
+          "lineGuide": [
+            0.23299999999999998,
+            1.64,
+            0.006
+          ],
+          "crankAnchor": [
+            0.16453,
+            0.08849,
+            0.07749999999999999
+          ],
+          "line": 11315063,
+          "bobber": 13060875
+        }
+      },
+      "triangles": 38568,
+      "drawCalls": 8
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_curl_horn",
+      "file": "models/items/curl_horn.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "curl_horn"
+      ],
+      "bytes": 1261624,
+      "itemModel": {
+        "itemId": "curl_horn"
+      },
+      "size": {
+        "x": 0.4037330597639084,
+        "y": 0.42054352164268494,
+        "z": 0.22193773090839386
+      },
+      "base": {
+        "x": -0.20085178315639496,
+        "y": -0.1979658007621765,
+        "z": -0.07917472720146179
+      },
+      "animations": [],
+      "materials": [
+        "Weathered amber goat horn growth layers"
+      ],
+      "itemId": "curl_horn",
+      "status": "pending",
+      "sha256": "0d228e43a7b0d7e155c251261cfde4dc4cd6d097f52f2d44092f0f801fe08804",
+      "sourceSha256": "e5ef3bfaa494a88d298c7981498379a825363afb9736fe4c4b93abe0e9caf455",
+      "referenceSha256": "aa76ad0179fc7bb50397280d33c4f6d76e02ff8e78de29dda5d004fbc9c33b6c",
+      "metadata": {
+        "itemId": "curl_horn",
+        "author": "trophy-bones-a",
+        "reference": "art/item-icons/generated/curl_horn.png",
+        "description": "One horn from a goat. Hollow, and loud if you know how to blow it."
+      },
+      "triangles": 24912,
+      "drawCalls": 1
+    },
+    {
+      "id": "corealm_item_ox_horn",
+      "file": "models/items/ox_horn.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ox_horn"
+      ],
+      "bytes": 1812352,
+      "itemModel": {
+        "itemId": "ox_horn"
+      },
+      "size": {
+        "x": 0.3803151547908783,
+        "y": 0.43495534360408783,
+        "z": 0.16143962368369102
+      },
+      "base": {
+        "x": -0.18187503516674042,
+        "y": -0.1748056858778,
+        "z": -0.05651554837822914
+      },
+      "animations": [],
+      "materials": [
+        "Ivory ox horn fading to dark charcoal point",
+        "Dark basal horn scar tissue"
+      ],
+      "itemId": "ox_horn",
+      "status": "pending",
+      "sha256": "b535bc8ddeb758f82be515b4e21152f2fb290fadef90dbe210778e53d76f0599",
+      "sourceSha256": "e5ef3bfaa494a88d298c7981498379a825363afb9736fe4c4b93abe0e9caf455",
+      "referenceSha256": "d38475a92ff9d74c187d6a610e4f116286c0df485315b4b8c4830710548c9d71",
+      "metadata": {
+        "itemId": "ox_horn",
+        "author": "trophy-bones-a",
+        "reference": "art/item-icons/generated/ox_horn.png",
+        "description": "Short, thick and scarred at the base. Millfield turns them into cups and lamp horn."
+      },
+      "triangles": 24096,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_stag_antler",
+      "file": "models/items/stag_antler.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "stag_antler"
+      ],
+      "bytes": 2820584,
+      "itemModel": {
+        "itemId": "stag_antler"
+      },
+      "size": {
+        "x": 0.5046947598457336,
+        "y": 0.5185149013996124,
+        "z": 0.08289301018154834
+      },
+      "base": {
+        "x": -0.24930652976036072,
+        "y": -0.2333562970161438,
+        "z": -0.034896157681941986
+      },
+      "animations": [],
+      "materials": [
+        "Brown antler bark grain with polished cream tips",
+        "Antler burr porous bone"
+      ],
+      "itemId": "stag_antler",
+      "status": "pending",
+      "sha256": "499a8bc321cf0502e6c0d95ded2f3ab0c9afa7c27c5192afc2596287c7847028",
+      "sourceSha256": "e5ef3bfaa494a88d298c7981498379a825363afb9736fe4c4b93abe0e9caf455",
+      "referenceSha256": "f0d4bfe3b59bb0a4856e53fdfe97872b4233e754f2db8757f7368869e2926a11",
+      "metadata": {
+        "itemId": "stag_antler",
+        "author": "trophy-bones-a",
+        "reference": "art/item-icons/generated/stag_antler.png",
+        "description": "A six-point stag antler. Cut and polished, it makes a strong knife handle."
+      },
+      "triangles": 58904,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_curved_tusk",
+      "file": "models/items/curved_tusk.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "curved_tusk"
+      ],
+      "bytes": 1682220,
+      "itemModel": {
+        "itemId": "curved_tusk"
+      },
+      "size": {
+        "x": 0.3140017241239548,
+        "y": 0.44469262659549713,
+        "z": 0.09704132005572319
+      },
+      "base": {
+        "x": -0.16215240955352783,
+        "y": -0.1595219224691391,
+        "z": -0.03590131178498268
+      },
+      "animations": [],
+      "materials": [
+        "Yellow ivory fine longitudinal grain",
+        "Tusk brown cementum root ridges"
+      ],
+      "itemId": "curved_tusk",
+      "status": "pending",
+      "sha256": "7bc1e3bf3d499f1e38a58ac8927dd5c8f4cdd7287e23ee43fb2bb5ee151f5bb8",
+      "sourceSha256": "e5ef3bfaa494a88d298c7981498379a825363afb9736fe4c4b93abe0e9caf455",
+      "referenceSha256": "41db23392fbc6d51d9bb1c2dd3252c0a026fc66f01ecc0287a9895259257a319",
+      "metadata": {
+        "itemId": "curved_tusk",
+        "author": "trophy-bones-a",
+        "reference": "art/item-icons/generated/curved_tusk.png",
+        "description": "Ivory, yellowed, and ground to an edge by the animal's own jaw."
+      },
+      "triangles": 23520,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_coyote_fang",
+      "file": "models/items/coyote_fang.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "coyote_fang"
+      ],
+      "bytes": 1575108,
+      "itemModel": {
+        "itemId": "coyote_fang"
+      },
+      "size": {
+        "x": 0.1282481774687767,
+        "y": 0.23152665793895721,
+        "z": 0.03093510866165161
+      },
+      "base": {
+        "x": -0.07716792076826096,
+        "y": -0.10534122586250305,
+        "z": -0.012456927448511124
+      },
+      "animations": [],
+      "materials": [
+        "Porous tan tooth root dentine",
+        "Cream polished canine enamel"
+      ],
+      "itemId": "coyote_fang",
+      "status": "pending",
+      "sha256": "dfe02f12880e85d3c4251488194b75e754fc21bfb18c2e5c6c5615337fe22c23",
+      "sourceSha256": "e5ef3bfaa494a88d298c7981498379a825363afb9736fe4c4b93abe0e9caf455",
+      "referenceSha256": "627e4ae016cde9e8b71607680c757ab110e7daa4a7cff52c7a706ae793909cd1",
+      "metadata": {
+        "itemId": "coyote_fang",
+        "author": "trophy-bones-a",
+        "reference": "art/item-icons/generated/coyote_fang.png",
+        "description": "Long in the root, which is the part nobody expects until they pull one."
+      },
+      "triangles": 18528,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_bear_claw",
+      "file": "models/items/bear_claw.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "bear_claw"
+      ],
+      "bytes": 1754752,
+      "itemModel": {
+        "itemId": "bear_claw"
+      },
+      "size": {
+        "x": 0.14594507962465286,
+        "y": 0.19751925766468048,
+        "z": 0.042735423892736435
+      },
+      "base": {
+        "x": -0.0757233053445816,
+        "y": -0.10046423226594925,
+        "z": -0.0157577283680439
+      },
+      "animations": [],
+      "materials": [
+        "Dark chestnut claw keratin with worn grey tip",
+        "Ochre rough claw attachment"
+      ],
+      "itemId": "bear_claw",
+      "status": "pending",
+      "sha256": "8b081c5510060007a23f6f8222bff8b73d9003ab5625c3e26df65317245e66d7",
+      "sourceSha256": "e5ef3bfaa494a88d298c7981498379a825363afb9736fe4c4b93abe0e9caf455",
+      "referenceSha256": "60c71d921fda72ecc8b825f39aa9ef8ecc41dd14c5a5bad175537e69cec93ddc",
+      "metadata": {
+        "itemId": "bear_claw",
+        "author": "trophy-bones-a",
+        "reference": "art/item-icons/generated/bear_claw.png",
+        "description": "Longer than a finger and blunt from stone. Hillcrest hangs them over doorways."
+      },
+      "triangles": 22464,
+      "drawCalls": 2
+    }
+  ]
+}

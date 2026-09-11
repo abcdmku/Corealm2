@@ -1,0 +1,20 @@
+{
+  "status": "historical-read-only-diagnosis",
+  "method": "Current Corven source panels were selected by exact mesh name, baked into independent in-memory glTF nodes, passed through the production attachItemSkin analytic adapter without rigid hints, parsed by GLTFLoader, and CPU-skinned with SkinnedMesh.applyBoneTransform. These are the actual prior diagnostic command outputs, recorded after the run. No source hashes were captured then.",
+  "animationSources": ["game/public/assets/models/animation/animation_library_1.glb", "game/public/assets/models/animation/animation_library_2.glb"],
+  "phaseFraction": 0.35,
+  "edgeSelection": "All triangle edges with bind length greater than 0.006 meters; duplicate triangle edges retained",
+  "ratioFields": ["minimum", "p10", "median", "p90", "maximum"],
+  "measurements": [
+    {"clip":"Idle_Loop","part":"Peaked_full-volume_iron_breastplate","ratios":[0.12271906969184404,0.8295974529095416,0.9999999634181065,1.0611130585102377,1.283471920418758]},
+    {"clip":"Idle_Loop","part":"Fitted_full_iron_backplate","ratios":[0.5953032857025927,0.9920257794448447,1.0018936779741388,1.4710560598213045,2.1714449205249227]},
+    {"clip":"Idle_Loop","part":"Three-layer_articulated_pauldron_1_0","ratios":[0.21448795863594547,0.8320549648170122,0.9999999617255657,1.9460860243050582,3.055875059236566]},
+    {"clip":"Idle_Loop","part":"Three-layer_articulated_pauldron_1_1","ratios":[0.6657349259891211,0.927211504184375,1.0000001836290624,1.7115861649218744,2.73767525964902]},
+    {"clip":"Idle_Loop","part":"Three-layer_articulated_pauldron_1_2","ratios":[1.0000000041530757,1.0000000203171544,1.0000001548257866,1.0000003259056194,1.0000003436243055]},
+    {"clip":"Jog_Fwd_Loop","part":"Three-layer_articulated_pauldron_1_0","ratios":[0.16714980890797218,0.8076367262448557,0.9949732065683675,1.5622594229108235,2.3391474979889657]},
+    {"clip":"Sword_Attack","part":"Peaked_full-volume_iron_breastplate","ratios":[0.060772193192997315,0.7967642553651298,0.9999999610995453,1.7868298682261303,2.9560313844212467]},
+    {"clip":"Sword_Attack","part":"Fitted_full_iron_backplate","ratios":[0.5263377048086322,0.9811151577749864,1.004004550628062,2.524436581775248,3.5658320486729327]}
+  ],
+  "conclusion": "Spatial analytic weights vary within rigid panels and deform their edge lengths. The outer pauldron already weighted entirely to upperarm_l preserves edge lengths. Rigid per-panel bone hints are appropriate for plates, with soft weighting reserved for flexible linings.",
+  "limitation": "These measurements diagnose the former analytic weighting path and are not acceptance evidence for later hinted exports or worn screenshots."
+}

@@ -1,0 +1,298 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_worn_sword",
+      "file": "models/items/worn_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "worn_sword"
+      ],
+      "bytes": 827604,
+      "itemModel": {
+        "itemId": "worn_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.2199999988079071,
+        "y": 1.0115000044852496,
+        "z": 0.05334999936074018
+      },
+      "base": {
+        "x": -0.10999999940395355,
+        "y": -0.14149999971687793,
+        "z": -0.0239999994635582
+      },
+      "animations": [],
+      "materials": [
+        "silver-honed-edge",
+        "worn-grey-iron",
+        "unpolished-fuller",
+        "brown-leather-grip",
+        "leather-overlap-lip"
+      ],
+      "itemId": "worn_sword",
+      "status": "pending",
+      "sha256": "67b67b546b842049a35a47d2cdb7a5dc5d20b5392808c158953b9292a39634a9",
+      "sourceSha256": "743c696ac994a2a518efc7302e69aaa170a61763a0c3b6470ebd1312e01ec96e",
+      "referenceSha256": "6780a831eb6671594ed44f4127d7dfbf29e72e27bfdeb4af3140b117c5388442",
+      "metadata": {
+        "itemId": "worn_sword",
+        "author": "blades-a",
+        "reference": "art/item-icons/generated/worn_sword.png",
+        "description": "Notched, re-hafted twice, and lighter than it looks. It was somebody else's first. Riveted iron hilt, chipped fullered blade and overlapping worn leather.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 15704,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_grithe_dagger",
+      "file": "models/items/grithe_dagger.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_dagger"
+      ],
+      "bytes": 801212,
+      "itemModel": {
+        "itemId": "grithe_dagger",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.12600000202655792,
+        "y": 0.48000001379847523,
+        "z": 0.032533396035432816
+      },
+      "base": {
+        "x": -0.06300000101327896,
+        "y": -0.11999999949336052,
+        "z": -0.01623144932091236
+      },
+      "animations": [],
+      "materials": [
+        "honed-copper-edge",
+        "warm-worked-copper",
+        "antique-brass-fittings",
+        "brown-leather-grip",
+        "leather-overlap-lip"
+      ],
+      "itemId": "grithe_dagger",
+      "status": "pending",
+      "sha256": "f7d5ed114de0886a2736a03edfc304a2b84a4910e34e7a29e0dd5d2222310808",
+      "sourceSha256": "743c696ac994a2a518efc7302e69aaa170a61763a0c3b6470ebd1312e01ec96e",
+      "referenceSha256": "badf0aa1c411eba256f8f13dd4ea3aa40cb8f4d52d5209a38b6b080b4d290803",
+      "metadata": {
+        "itemId": "grithe_dagger",
+        "author": "blades-a",
+        "reference": "art/item-icons/generated/grithe_dagger.png",
+        "description": "Copper leaf blade, gently curved brass crossguard, spiral leather grip and round brass pommel. Icon copper colour overrides legacy dull-grey description.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 15388,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_corven_dagger",
+      "file": "models/items/corven_dagger.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_dagger"
+      ],
+      "bytes": 975128,
+      "itemModel": {
+        "itemId": "corven_dagger",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.193851038813591,
+        "y": 0.4560000002384186,
+        "z": 0.03999999910593033
+      },
+      "base": {
+        "x": -0.0969255194067955,
+        "y": -0.11100000143051147,
+        "z": -0.019999999552965164
+      },
+      "animations": [],
+      "materials": [
+        "silver-honed-edge",
+        "oiled-dark-iron",
+        "unpolished-fuller",
+        "brown-leather-grip",
+        "leather-overlap-lip"
+      ],
+      "itemId": "corven_dagger",
+      "status": "pending",
+      "sha256": "d5c899d263775b8859a0c6ee3b7a2c93f3afc06fe1144a873ceee559247ebc12",
+      "sourceSha256": "743c696ac994a2a518efc7302e69aaa170a61763a0c3b6470ebd1312e01ec96e",
+      "referenceSha256": "15e38b9b11db8d98da28e14dbe5f0bf43091d92ba2d8a1d630a7e282c2ddf129",
+      "metadata": {
+        "itemId": "corven_dagger",
+        "author": "blades-a",
+        "reference": "art/item-icons/generated/corven_dagger.png",
+        "description": "Deepwood steel, dark and slightly oily to the touch. Broad leaf blade with recessed fuller, curled guard and pyramidal iron pommel.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 16180,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_corven_sword",
+      "file": "models/items/corven_sword.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_sword"
+      ],
+      "bytes": 778772,
+      "itemModel": {
+        "itemId": "corven_sword",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.34200000762939453,
+        "y": 1.2755000198185444,
+        "z": 0.04480000138282776
+      },
+      "base": {
+        "x": -0.17100000381469727,
+        "y": -0.17050000074505806,
+        "z": -0.02240000069141388
+      },
+      "animations": [],
+      "materials": [
+        "silver-honed-edge",
+        "oiled-dark-iron",
+        "unpolished-fuller",
+        "brown-leather-grip",
+        "leather-overlap-lip"
+      ],
+      "itemId": "corven_sword",
+      "status": "pending",
+      "sha256": "31413b8590474f9724c1ddca0df8ad6fd7ce2530b939704dd2ed6bcd88ac07ea",
+      "sourceSha256": "743c696ac994a2a518efc7302e69aaa170a61763a0c3b6470ebd1312e01ec96e",
+      "referenceSha256": "bb8cd51f550b77d92d802d7914a69a2f25783a08fb7984f414fc6732ce490da5",
+      "metadata": {
+        "itemId": "corven_sword",
+        "author": "blades-a",
+        "reference": "art/item-icons/generated/corven_sword.png",
+        "description": "A long Iron blade. The standard by which a Woodlands hand is judged. Narrow fullered blade, swept guard and faceted scent-stopper pommel.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 14648,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_kaldite_dagger",
+      "file": "models/items/kaldite_dagger.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_dagger"
+      ],
+      "bytes": 850208,
+      "itemModel": {
+        "itemId": "kaldite_dagger",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.15709530307352543,
+        "y": 0.47400001516938206,
+        "z": 0.03870999997295439
+      },
+      "base": {
+        "x": -0.08769999934732914,
+        "y": -0.11400000086426734,
+        "z": -0.018860000036656856
+      },
+      "animations": [],
+      "materials": [
+        "silver-honed-edge",
+        "black-cobalt",
+        "brown-leather-grip",
+        "leather-overlap-lip",
+        "dark-garnet-pommel-inset"
+      ],
+      "itemId": "kaldite_dagger",
+      "status": "pending",
+      "sha256": "2c8287e64c86f9424b2fd3d27b633b0077d76841beb7bbda5c8a42b453a5bbfe",
+      "sourceSha256": "743c696ac994a2a518efc7302e69aaa170a61763a0c3b6470ebd1312e01ec96e",
+      "referenceSha256": "143a74fb22aa7da252bf2f52b23990b2648022fd24b7e3127c2a4f11df7888e5",
+      "metadata": {
+        "itemId": "kaldite_dagger",
+        "author": "blades-a",
+        "reference": "art/item-icons/generated/kaldite_dagger.png",
+        "description": "A punch of black Cobalt with a needle point. It goes through moor-rot like paper. Asymmetric finger-ring guard, grooved pear pommel and dark red inset.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 19196,
+      "drawCalls": 5
+    }
+  ]
+}

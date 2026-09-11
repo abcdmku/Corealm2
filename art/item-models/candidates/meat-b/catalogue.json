@@ -1,0 +1,340 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_raw_haunch",
+      "file": "models/items/raw_haunch.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "raw_haunch"
+      ],
+      "bytes": 2233340,
+      "itemModel": {
+        "itemId": "raw_haunch",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.34812258183956146,
+        "y": 0.6661724374828247,
+        "z": 0.2880798202587263
+      },
+      "base": {
+        "x": -0.20443160831928253,
+        "y": -0.0474416301067344,
+        "z": -0.04198092591063248
+      },
+      "animations": [],
+      "materials": [
+        "raw_haunch wet red muscle and ivory fascia",
+        "Ivory dense cortical bone with residual tissue staining"
+      ],
+      "itemId": "raw_haunch",
+      "status": "pending",
+      "sha256": "d1c352426f934e8196d16fb522eaeb1e1ae3ef834fefec4e3694965da964de58",
+      "sourceSha256": "e42187f44d3cb87c9575e9a721954e149ff343c640bc335f5bb6c9e7a95a4655",
+      "referenceSha256": "c87a77cc4802cb67dac4ff0f6d352ef9f2a0204c8ca56d793d066b925d727154",
+      "metadata": {
+        "itemId": "raw_haunch",
+        "author": "meat-b",
+        "reference": "art/item-icons/generated/raw_haunch.png",
+        "description": "A whole hind quarter off something that lived above the treeline. Heavy.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 41888,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_roast_haunch",
+      "file": "models/items/roast_haunch.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "roast_haunch"
+      ],
+      "bytes": 2297080,
+      "itemModel": {
+        "itemId": "roast_haunch",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.34057316184043884,
+        "y": 0.6173775557896459,
+        "z": 0.3046392768767528
+      },
+      "base": {
+        "x": -0.18715834617614746,
+        "y": -0.0474416301067344,
+        "z": -0.04198092591063248
+      },
+      "animations": [],
+      "materials": [
+        "roast_haunch basted chestnut roast with golden fat",
+        "Ivory dense cortical bone with residual tissue staining"
+      ],
+      "itemId": "roast_haunch",
+      "status": "pending",
+      "sha256": "57f275afb913ed085edcca33bd6d75c666c28208120a9ed4da13558b3ef69e64",
+      "sourceSha256": "e42187f44d3cb87c9575e9a721954e149ff343c640bc335f5bb6c9e7a95a4655",
+      "referenceSha256": "12c43da8ac7b0a12a5766899695d1347b67357fbfd34e14ad4fcb0a03c7a649d",
+      "metadata": {
+        "itemId": "roast_haunch",
+        "author": "meat-b",
+        "reference": "art/item-icons/generated/roast_haunch.png",
+        "description": "Four hours over Hillcrest coals. It is a meal and most of a day's carrying.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 41888,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_burnt_haunch",
+      "file": "models/items/burnt_haunch.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_haunch"
+      ],
+      "bytes": 2275408,
+      "itemModel": {
+        "itemId": "burnt_haunch",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.3259896086155692,
+        "y": 0.6076185885771528,
+        "z": 0.2713278655884313
+      },
+      "base": {
+        "x": -0.1932540979320725,
+        "y": -0.0474416301067344,
+        "z": -0.04198092591063248
+      },
+      "animations": [],
+      "materials": [
+        "burnt_haunch cracked black crust with dark brown flesh",
+        "Ivory dense cortical bone with residual tissue staining",
+        "Raised brittle charcoal blisters"
+      ],
+      "itemId": "burnt_haunch",
+      "status": "pending",
+      "sha256": "86369e4b74de1e7262768f947d21eb67c73bf6e0548977482117a7162d83e1f7",
+      "sourceSha256": "e42187f44d3cb87c9575e9a721954e149ff343c640bc335f5bb6c9e7a95a4655",
+      "referenceSha256": "856352d36b1068b406d8ba9d892843027b12e06a9dcfc151faaaa3545f2b0d0e",
+      "metadata": {
+        "itemId": "burnt_haunch",
+        "author": "meat-b",
+        "reference": "art/item-icons/generated/burnt_haunch.png",
+        "description": "Ruined, and it was the biggest thing you killed all week.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 46208,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_raw_ember_haunch",
+      "file": "models/items/raw_ember_haunch.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "raw_ember_haunch"
+      ],
+      "bytes": 2278420,
+      "itemModel": {
+        "itemId": "raw_ember_haunch",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.4236731678247452,
+        "y": 0.5485348388770769,
+        "z": 0.46874099614519926
+      },
+      "base": {
+        "x": -0.23633107542991638,
+        "y": -0.056943612608660696,
+        "z": -0.03339499446623781
+      },
+      "animations": [],
+      "materials": [
+        "raw_ember_haunch wet red muscle and ivory fascia",
+        "Ivory dense cortical bone with residual tissue staining"
+      ],
+      "itemId": "raw_ember_haunch",
+      "status": "pending",
+      "sha256": "fcb948828d5405375492f1bb23e73c497d5905baf9851abaf51236017842d1a6",
+      "sourceSha256": "e42187f44d3cb87c9575e9a721954e149ff343c640bc335f5bb6c9e7a95a4655",
+      "referenceSha256": "e66744f8ea9e25127ca413d3ba26c75b55adcf28ee4209f74f5236aa6a055266",
+      "metadata": {
+        "itemId": "raw_ember_haunch",
+        "author": "meat-b",
+        "reference": "art/item-icons/generated/raw_ember_haunch.png",
+        "description": "A hind quarter off a foothill beast, marbled from a life spent on warm ground.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 41888,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_roast_ember_haunch",
+      "file": "models/items/roast_ember_haunch.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "roast_ember_haunch"
+      ],
+      "bytes": 2298820,
+      "itemModel": {
+        "itemId": "roast_ember_haunch",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.421486958861351,
+        "y": 0.494430172376143,
+        "z": 0.3905750874262728
+      },
+      "base": {
+        "x": -0.22586505115032196,
+        "y": -0.04648142017686592,
+        "z": -0.10512327268269045
+      },
+      "animations": [],
+      "materials": [
+        "roast_ember_haunch basted chestnut roast with golden fat",
+        "Ivory dense cortical bone with residual tissue staining",
+        "Porous marrow in sawn bone"
+      ],
+      "itemId": "roast_ember_haunch",
+      "status": "pending",
+      "sha256": "732cc2130558cb4cec2ff7fa950d1c7485f26603d809215a824a6f1da3bf2957",
+      "sourceSha256": "e42187f44d3cb87c9575e9a721954e149ff343c640bc335f5bb6c9e7a95a4655",
+      "referenceSha256": "4849f39cc1ab9f9d58fce1cea5bdd13a3f8fb26c2b8ac351cf62b3991892ab74",
+      "metadata": {
+        "itemId": "roast_ember_haunch",
+        "author": "meat-b",
+        "reference": "art/item-icons/generated/roast_ember_haunch.png",
+        "description": "Cooked slow over walnut coals. Ashford calls it a wage, not a meal.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 41824,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_burnt_ember_haunch",
+      "file": "models/items/burnt_ember_haunch.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "burnt_ember_haunch"
+      ],
+      "bytes": 2277172,
+      "itemModel": {
+        "itemId": "burnt_ember_haunch",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.41874924302101135,
+        "y": 0.5978596371043915,
+        "z": 0.38134424380389764
+      },
+      "base": {
+        "x": -0.22641752660274506,
+        "y": -0.0474416301067344,
+        "z": -0.07448155947396749
+      },
+      "animations": [],
+      "materials": [
+        "burnt_ember_haunch cracked black crust with dark brown flesh",
+        "Ivory dense cortical bone with residual tissue staining",
+        "Raised brittle charcoal blisters"
+      ],
+      "itemId": "burnt_ember_haunch",
+      "status": "pending",
+      "sha256": "239727b8f6f37d22ba9156d9ccc55e109f260628c33068f8d0dc295b29b54aa1",
+      "sourceSha256": "e42187f44d3cb87c9575e9a721954e149ff343c640bc335f5bb6c9e7a95a4655",
+      "referenceSha256": "c072432331a95bc76e41166c2380a7a32a0652c33a5ef617575a89cd02183199",
+      "metadata": {
+        "itemId": "burnt_ember_haunch",
+        "author": "meat-b",
+        "reference": "art/item-icons/generated/burnt_ember_haunch.png",
+        "description": "The one place in Ashlands where more fire was not the answer.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 46208,
+      "drawCalls": 3
+    }
+  ]
+}

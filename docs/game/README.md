@@ -10,6 +10,7 @@ These pages are regenerated from the same content tables the game runs.
 - [Creatures](./creatures)
 - [Regions](./regions)
 - [Items](./items)
+- [Worn armor by tier](./armor)
 - [Recipes](./recipes)
 - [Resources](./resources)
 - [Skills](./skills)

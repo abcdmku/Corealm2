@@ -1,0 +1,268 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_ember_ring",
+      "file": "models/items/ember_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ember_ring"
+      ],
+      "bytes": 1096008,
+      "size": {
+        "x": 0.023,
+        "y": 0.026439999580383303,
+        "z": 0.00737955379486084
+      },
+      "base": {
+        "x": -0.0115,
+        "y": -0.0115,
+        "z": -0.00368977689743042
+      },
+      "animations": [],
+      "materials": [
+        "Worn red copper",
+        "Clouded clear quartz",
+        "Oxidized copper recesses",
+        "Quartz pale inclusions"
+      ],
+      "itemId": "ember_ring",
+      "status": "pending",
+      "sha256": "aee5ff18b416a5e28c051a35f7dd713bf4c6b0c9fd09d1b2912320e796020306",
+      "sourceSha256": "c7d49823904bae8244f2f3c236ec0ed4987ff7ed2edf62bd32cef7b168db55e3",
+      "referenceSha256": "3d03a56a3c7dc4046dcb50322ea630393772f3543d029d1c9fa9770d908e08ff",
+      "metadata": {
+        "itemId": "ember_ring",
+        "author": "jewelry-magic-a",
+        "reference": "art/item-icons/generated/ember_ring.png",
+        "description": "Warm copper ring with a polished oval cloudy quartz cabochon, oval bezel and flowing carved shoulders; 20 mm open bore."
+      },
+      "triangles": 23684,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_ember_charm",
+      "file": "models/items/ember_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ember_charm"
+      ],
+      "bytes": 1199548,
+      "size": {
+        "x": 0.014988651752471924,
+        "y": 0.04073125076293945,
+        "z": 0.009241282939910889
+      },
+      "base": {
+        "x": -0.006765786647796631,
+        "y": -0.016501251220703124,
+        "z": -0.004395471096038818
+      },
+      "animations": [],
+      "materials": [
+        "Clouded clear quartz",
+        "Scorched black quartz termination",
+        "Heat stained amber quartz",
+        "Worn red copper",
+        "Quartz fracture inclusions"
+      ],
+      "itemId": "ember_charm",
+      "status": "pending",
+      "sha256": "9502a1e89bfeefcb35cdc9fe5462b8e75b335a978b35f1868a38f6b5c1999ae2",
+      "sourceSha256": "c7d49823904bae8244f2f3c236ec0ed4987ff7ed2edf62bd32cef7b168db55e3",
+      "referenceSha256": "0b3b52f2bc0219ba939ac060d3770a82646408cb0253ed28a8b16a2a7a4c2828",
+      "metadata": {
+        "itemId": "ember_charm",
+        "author": "jewelry-magic-a",
+        "reference": "art/item-icons/generated/ember_charm.png",
+        "description": "Faceted quartz bead scorched black at one end, heat stained amber, wrapped with continuous copper wire, side scroll and open bail."
+      },
+      "triangles": 17664,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_stone_ring",
+      "file": "models/items/stone_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "stone_ring"
+      ],
+      "bytes": 766268,
+      "size": {
+        "x": 0.024345142364501953,
+        "y": 0.025170000076293948,
+        "z": 0.007599999904632568
+      },
+      "base": {
+        "x": -0.012172571182250977,
+        "y": -0.012220000267028809,
+        "z": -0.003799999952316284
+      },
+      "animations": [],
+      "materials": [
+        "Carved grey stone with quartz veins",
+        "Dark stone carving grooves"
+      ],
+      "itemId": "stone_ring",
+      "status": "pending",
+      "sha256": "fb474d0185b794bf215d6c876a0ef59722f2d51610e6b082203cc554486ae9fe",
+      "sourceSha256": "c7d49823904bae8244f2f3c236ec0ed4987ff7ed2edf62bd32cef7b168db55e3",
+      "referenceSha256": "2e1f7e2a0b95454022e71c590283b544409f00c6d2d771d2817793b54cd8f0dc",
+      "metadata": {
+        "itemId": "stone_ring",
+        "author": "jewelry-magic-a",
+        "reference": "art/item-icons/generated/stone_ring.png",
+        "description": "Heavy grey stone band with pale quartz veins, beveled geometric carvings and a square crown boss; 20 mm bore."
+      },
+      "triangles": 17596,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_stone_charm",
+      "file": "models/items/stone_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "stone_charm"
+      ],
+      "bytes": 1186636,
+      "size": {
+        "x": 0.019692115783691407,
+        "y": 0.04760708236694336,
+        "z": 0.008199999809265137
+      },
+      "base": {
+        "x": -0.009846057891845703,
+        "y": -0.017,
+        "z": -0.0040999999046325685
+      },
+      "animations": [],
+      "materials": [
+        "Grey river stone with pale quartz veins",
+        "Brown twisted leather thong"
+      ],
+      "itemId": "stone_charm",
+      "status": "pending",
+      "sha256": "7345228c1a80d6119ee7178ba2ba61e040d54d42b233d245c275e3b7138d0a7e",
+      "sourceSha256": "c7d49823904bae8244f2f3c236ec0ed4987ff7ed2edf62bd32cef7b168db55e3",
+      "referenceSha256": "f1e1bd4b804851c399cff327fc37f446bd8e23aac296277c6ef933a4bfe12792",
+      "metadata": {
+        "itemId": "stone_charm",
+        "author": "jewelry-magic-a",
+        "reference": "art/item-icons/generated/stone_charm.png",
+        "description": "Asymmetric veined grey river pebble, truly pierced through its top and suspended from a twisted brown leather thong and double knot."
+      },
+      "triangles": 23552,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_storm_ring",
+      "file": "models/items/storm_ring.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "storm_ring"
+      ],
+      "bytes": 1577512,
+      "size": {
+        "x": 0.023900381088256838,
+        "y": 0.026429765701293947,
+        "z": 0.01064852809906006
+      },
+      "base": {
+        "x": -0.011950190544128419,
+        "y": -0.011779766082763671,
+        "z": -0.00532426404953003
+      },
+      "animations": [],
+      "materials": [
+        "Blackened silver lightning grounds",
+        "Polished storm silver",
+        "Deep red garnet"
+      ],
+      "itemId": "storm_ring",
+      "status": "pending",
+      "sha256": "539fa2af4cd31fd7cb17369fed038ad5bfe0bc677cc59df2ef0653bbeeccba75",
+      "sourceSha256": "c7d49823904bae8244f2f3c236ec0ed4987ff7ed2edf62bd32cef7b168db55e3",
+      "referenceSha256": "59ff76ae4e529b7a4fc31b812006e9703878eda838853e5cfc22b5958505151f",
+      "metadata": {
+        "itemId": "storm_ring",
+        "author": "jewelry-magic-a",
+        "reference": "art/item-icons/generated/storm_ring.png",
+        "description": "Blackened silver broad band with polished borders and branching lightning inlay, angular signet setting and faceted red garnet."
+      },
+      "triangles": 32048,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_storm_charm",
+      "file": "models/items/storm_charm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "storm_charm"
+      ],
+      "bytes": 1311516,
+      "size": {
+        "x": 0.0228475341796875,
+        "y": 0.045887542724609376,
+        "z": 0.010670369625091554
+      },
+      "base": {
+        "x": -0.01142376708984375,
+        "y": -0.016798822402954102,
+        "z": -0.005298754692077637
+      },
+      "animations": [],
+      "materials": [
+        "Deep red garnet",
+        "Pale hot lightning split",
+        "Polished storm silver",
+        "Oxidized recessed cage silver",
+        "Blackened silver bail strap"
+      ],
+      "itemId": "storm_charm",
+      "status": "pending",
+      "sha256": "c3b98787f6d45bb0519bf5367daabf673eaa6a90a21fa71887185f6c0b1f4e1c",
+      "sourceSha256": "c7d49823904bae8244f2f3c236ec0ed4987ff7ed2edf62bd32cef7b168db55e3",
+      "referenceSha256": "3d0453fa1ba3a726720a6de24d799fcf60c5f890fbc47c73e95438faa7a88692",
+      "metadata": {
+        "itemId": "storm_charm",
+        "author": "jewelry-magic-a",
+        "reference": "art/item-icons/generated/storm_charm.png",
+        "description": "A garnet split by lightning into two closed faceted volumes, re-caged in chased silver ribbons with curled retaining clasps and a hollow engraved bail."
+      },
+      "triangles": 28224,
+      "drawCalls": 5
+    }
+  ]
+}

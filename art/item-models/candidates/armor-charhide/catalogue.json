@@ -1,0 +1,265 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/build.ts",
+    "generatorSha256": "ad4817471ed4f1456cbfee2d216850f37f44a1a66d1ac479be30d4784569d1af"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_charhide_hood",
+      "file": "models/items/charhide_hood.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "charhide_hood",
+        "head"
+      ],
+      "bytes": 2334096,
+      "itemModel": {
+        "itemId": "charhide_hood",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4735151288104866,
+        "y": 0.4366882147947442,
+        "z": 0.3510123938322067
+      },
+      "base": {
+        "x": -0.235293098028216,
+        "y": 1.4291256608126848,
+        "z": -0.19930171966552734
+      },
+      "animations": [],
+      "materials": [
+        "Burnt russet pebbled heavy hide",
+        "Dark suede interior",
+        "Charred brown facing leather",
+        "Worn warm brown rolled leather edges",
+        "Titanium stitch wire and buckles"
+      ],
+      "itemId": "charhide_hood",
+      "status": "pending",
+      "sha256": "71f254a76cf82e8acb34d6227d6598afb3624fcd55f8666be49a72704b854482",
+      "sourceSha256": "c706ebf80a28d69bcc61ac890c5f46b83c4d2474dedd46ebbce88c4b6a25593e",
+      "referenceSha256": "d10da31fb5a0a9527f11badeb2a8e2bf1077bf35f5ec84dd13c09d74f7c728e6",
+      "metadata": {
+        "itemId": "charhide_hood",
+        "author": "armor-charhide",
+        "reference": "art/item-icons/generated/charhide_hood.png",
+        "description": "Seared russet heavy hide with charcoal patches, pebbled grain, turned suede openings, volumetric folds and titanium wire seams. Authored in native male T-pose with complete rear construction.",
+        "wearable": true
+      },
+      "triangles": 20494,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_charhide_robe",
+      "file": "models/items/charhide_robe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "charhide_robe",
+        "torso"
+      ],
+      "bytes": 6690532,
+      "itemModel": {
+        "itemId": "charhide_robe",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.2717506485100962,
+        "y": 1.459257357597351,
+        "z": 0.6591229140758514
+      },
+      "base": {
+        "x": -0.6358753242550481,
+        "y": 0.11999999731779099,
+        "z": -0.3357647955417633
+      },
+      "animations": [],
+      "materials": [
+        "Burnt russet pebbled heavy hide",
+        "Dark suede interior",
+        "Worn warm brown rolled leather edges",
+        "Titanium stitch wire and buckles",
+        "Charred brown facing leather"
+      ],
+      "itemId": "charhide_robe",
+      "status": "pending",
+      "sha256": "85add125ab8a8e692c66d7acd9a97c4349f4c61dbbcfc309620be0f1061647fa",
+      "sourceSha256": "c706ebf80a28d69bcc61ac890c5f46b83c4d2474dedd46ebbce88c4b6a25593e",
+      "referenceSha256": "4c633f4b92f6bafb0f4b2975bbef7262030666bdf0121505dba8eef7d9e3cf04",
+      "metadata": {
+        "itemId": "charhide_robe",
+        "author": "armor-charhide",
+        "reference": "art/item-icons/generated/charhide_robe.png",
+        "description": "Seared russet heavy hide with charcoal patches, pebbled grain, turned suede openings, volumetric folds and titanium wire seams. Authored in native male T-pose with complete rear construction.",
+        "wearable": true
+      },
+      "triangles": 81252,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_charhide_leggings",
+      "file": "models/items/charhide_leggings.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "charhide_leggings",
+        "legs"
+      ],
+      "bytes": 4222108,
+      "itemModel": {
+        "itemId": "charhide_leggings",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4593557732222706,
+        "y": 0.8824871293657868,
+        "z": 0.2704859633517397
+      },
+      "base": {
+        "x": -0.22520997831167353,
+        "y": 0.14938822388648987,
+        "z": -0.158268864903802
+      },
+      "animations": [],
+      "materials": [
+        "Burnt russet pebbled heavy hide",
+        "Dark suede interior",
+        "Worn warm brown rolled leather edges",
+        "Charred brown facing leather",
+        "Titanium stitch wire and buckles"
+      ],
+      "itemId": "charhide_leggings",
+      "status": "pending",
+      "sha256": "a498493b40bfa2e07092dd2900dd59fec9e66fff7fc2edd0c38007ef2c757f50",
+      "sourceSha256": "c706ebf80a28d69bcc61ac890c5f46b83c4d2474dedd46ebbce88c4b6a25593e",
+      "referenceSha256": "3924c447643c6c3ee821e6741b8e387956ce068311871f03c5d3f8f5130c6b2d",
+      "metadata": {
+        "itemId": "charhide_leggings",
+        "author": "armor-charhide",
+        "reference": "art/item-icons/generated/charhide_leggings.png",
+        "description": "Seared russet heavy hide with charcoal patches, pebbled grain, turned suede openings, volumetric folds and titanium wire seams. Authored in native male T-pose with complete rear construction.",
+        "wearable": true
+      },
+      "triangles": 50462,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_charhide_boots",
+      "file": "models/items/charhide_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "charhide_boots",
+        "feet"
+      ],
+      "bytes": 3798072,
+      "itemModel": {
+        "itemId": "charhide_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.4289279419653892,
+        "y": 0.364875278911606,
+        "z": 0.33826892658299756
+      },
+      "base": {
+        "x": -0.21441901087140638,
+        "y": 0.004999999888241291,
+        "z": -0.14502333104610443
+      },
+      "animations": [],
+      "materials": [
+        "Burnt russet pebbled heavy hide",
+        "Dark suede interior",
+        "Worn warm brown rolled leather edges",
+        "Charred brown facing leather",
+        "Titanium stitch wire and buckles"
+      ],
+      "itemId": "charhide_boots",
+      "status": "pending",
+      "sha256": "4db773893a5f1249d7082240de37123dbf1c9492a910af39fb9354b256c895c5",
+      "sourceSha256": "c706ebf80a28d69bcc61ac890c5f46b83c4d2474dedd46ebbce88c4b6a25593e",
+      "referenceSha256": "67dd5bd1bb0754daf7480771a5c219c29cbf1c3f220d727190d3083fd78ae8da",
+      "metadata": {
+        "itemId": "charhide_boots",
+        "author": "armor-charhide",
+        "reference": "art/item-icons/generated/charhide_boots.png",
+        "description": "Seared russet heavy hide with charcoal patches, pebbled grain, turned suede openings, volumetric folds and titanium wire seams. Authored in native male T-pose with complete rear construction.",
+        "wearable": true
+      },
+      "triangles": 44528,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_charhide_wraps",
+      "file": "models/items/charhide_wraps.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "charhide_wraps",
+        "arms"
+      ],
+      "bytes": 4412732,
+      "itemModel": {
+        "itemId": "charhide_wraps",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.5751999962329863,
+        "y": 0.1599304180083585,
+        "z": 0.1139244629877098
+      },
+      "base": {
+        "x": -0.7875999981164932,
+        "y": 1.3755347909958209,
+        "z": -0.12155141348063041
+      },
+      "animations": [],
+      "materials": [
+        "Burnt russet pebbled heavy hide",
+        "Dark suede interior",
+        "Worn warm brown rolled leather edges",
+        "Titanium stitch wire and buckles",
+        "Charred brown facing leather",
+        "Fire opal fragments"
+      ],
+      "itemId": "charhide_wraps",
+      "status": "pending",
+      "sha256": "2c6d157889b02da95042a95254f5dd7d795a489fc3902f56e5c2b1dd66346015",
+      "sourceSha256": "c706ebf80a28d69bcc61ac890c5f46b83c4d2474dedd46ebbce88c4b6a25593e",
+      "referenceSha256": "075fb98c49124cca0ec5a6a99b3d241bf7e332ac1c12ecf7f9fc18c8818c93cf",
+      "metadata": {
+        "itemId": "charhide_wraps",
+        "author": "armor-charhide",
+        "reference": "art/item-icons/generated/charhide_wraps.png",
+        "description": "Seared russet heavy hide with charcoal patches, pebbled grain, turned suede openings, volumetric folds and titanium wire seams. Authored in native male T-pose with complete rear construction.",
+        "wearable": true
+      },
+      "triangles": 51260,
+      "drawCalls": 6
+    }
+  ]
+}

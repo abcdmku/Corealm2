@@ -1,0 +1,504 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_moose_antler_palm",
+      "file": "models/items/moose_antler_palm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "moose_antler_palm"
+      ],
+      "bytes": 811608,
+      "itemModel": {
+        "itemId": "moose_antler_palm"
+      },
+      "size": {
+        "x": 0.39055800437927246,
+        "y": 0.5188726112246513,
+        "z": 0.07835528379678726
+      },
+      "base": {
+        "x": -0.3167172968387604,
+        "y": -0.0508325919508934,
+        "z": -0.030755282700061795
+      },
+      "animations": [],
+      "materials": [
+        "Ivory porous antler cortex",
+        "Weathered antler root"
+      ],
+      "itemId": "moose_antler_palm",
+      "status": "pending",
+      "sha256": "ab6bb1a4dff9e9e4a09f943a40b013cd22cc94440f5153bc67548b5563a5c510",
+      "sourceSha256": "32ce4b323332f92ad380aaa51877efed985fef5f1261f32bc9b32072fdc1d1a9",
+      "referenceSha256": "669201da78504ae04a7b82587219280129b537c025407edadc74f46b40799d66",
+      "metadata": {
+        "itemId": "moose_antler_palm",
+        "author": "creature-parts",
+        "reference": "art/item-icons/generated/moose_antler_palm.png",
+        "description": "A flat antler section. Cut and polished, it makes a broad protective charm."
+      },
+      "triangles": 21596,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_crocodile_scute",
+      "file": "models/items/crocodile_scute.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "crocodile_scute"
+      ],
+      "bytes": 663356,
+      "itemModel": {
+        "itemId": "crocodile_scute"
+      },
+      "size": {
+        "x": 0.3100000023841858,
+        "y": 0.3799999952316284,
+        "z": 0.09935155510902405
+      },
+      "base": {
+        "x": -0.1550000011920929,
+        "y": -0.1899999976158142,
+        "z": -0.033998072147369385
+      },
+      "animations": [],
+      "materials": [
+        "Dark scute margins",
+        "Fibrous severed osteoderm underside",
+        "Olive pitted crocodile osteoderm"
+      ],
+      "itemId": "crocodile_scute",
+      "status": "pending",
+      "sha256": "1803ac991655cb7e8d66f637d4e62a6d6cfc30ceb65bf43c0bd2ca5f0172ce88",
+      "sourceSha256": "32ce4b323332f92ad380aaa51877efed985fef5f1261f32bc9b32072fdc1d1a9",
+      "referenceSha256": "51e7c80120be95cfd54182cdf2aa96566f67e1c05df17c9369ecf920829225ad",
+      "metadata": {
+        "itemId": "crocodile_scute",
+        "author": "creature-parts",
+        "reference": "art/item-icons/generated/crocodile_scute.png",
+        "description": "A hard plate from a crocodile's back. Scute soles let one pelt cover two pairs of boots."
+      },
+      "triangles": 15104,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_salamander_secretion",
+      "file": "models/items/salamander_secretion.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "salamander_secretion"
+      ],
+      "bytes": 957176,
+      "itemModel": {
+        "itemId": "salamander_secretion"
+      },
+      "size": {
+        "x": 0.25691747665405273,
+        "y": 0.18999999482184649,
+        "z": 0.2100936844944954
+      },
+      "base": {
+        "x": -0.12845873832702637,
+        "y": 0.006000000052154064,
+        "z": -0.0995376855134964
+      },
+      "animations": [],
+      "materials": [
+        "Glossy ochre mineral paste",
+        "Mineral granules"
+      ],
+      "itemId": "salamander_secretion",
+      "status": "pending",
+      "sha256": "6b84d1cb72e7b9b85daa8a9cb3fa6292786f65ed9f63e7eeaf0df5b2f791fa74",
+      "sourceSha256": "32ce4b323332f92ad380aaa51877efed985fef5f1261f32bc9b32072fdc1d1a9",
+      "referenceSha256": "8405543f4c33a67dcda2b854a71f5b93f6789d4f0fc8dde766253771484dca4f",
+      "metadata": {
+        "itemId": "salamander_secretion",
+        "author": "creature-parts",
+        "reference": "art/item-icons/generated/salamander_secretion.png",
+        "description": "A heat-stable mineral paste. Ashford uses it instead of mined flux stone."
+      },
+      "triangles": 25408,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_tortoise_shell_plate",
+      "file": "models/items/tortoise_shell_plate.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "tortoise_shell_plate"
+      ],
+      "bytes": 978024,
+      "itemModel": {
+        "itemId": "tortoise_shell_plate"
+      },
+      "size": {
+        "x": 0.3799999952316284,
+        "y": 0.41999998688697815,
+        "z": 0.09883424080908298
+      },
+      "base": {
+        "x": -0.1899999976158142,
+        "y": -0.20999999344348907,
+        "z": 0.013499049469828606
+      },
+      "animations": [],
+      "materials": [
+        "Dark tortoise scute grooves",
+        "Porous bone shell interior",
+        "Amber tortoiseshell growth laminae"
+      ],
+      "itemId": "tortoise_shell_plate",
+      "status": "pending",
+      "sha256": "741102953fa2136c315de7cbab1a316d0ec3b66d3c133f6a41aac3fc70211ede",
+      "sourceSha256": "32ce4b323332f92ad380aaa51877efed985fef5f1261f32bc9b32072fdc1d1a9",
+      "referenceSha256": "4991428048fbe32c02cda9dd756b0049a9c7a8c606ce28356293e4b554dc4bc6",
+      "metadata": {
+        "itemId": "tortoise_shell_plate",
+        "author": "creature-parts",
+        "reference": "art/item-icons/generated/tortoise_shell_plate.png",
+        "description": "A curved shell section. Lash several across a wooden shield in place of its metal boss."
+      },
+      "triangles": 25440,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_snail_mucus",
+      "file": "models/items/snail_mucus.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "snail_mucus"
+      ],
+      "bytes": 459240,
+      "itemModel": {
+        "itemId": "snail_mucus"
+      },
+      "size": {
+        "x": 0.1459999978542328,
+        "y": 0.19499999284744263,
+        "z": 0.1459999978542328
+      },
+      "base": {
+        "x": -0.0729999989271164,
+        "y": 0,
+        "z": -0.0729999989271164
+      },
+      "animations": [],
+      "materials": [
+        "Thick clear hand blown bottle glass",
+        "Clear slightly grey adhesive",
+        "Cracked natural cork",
+        "Air pockets in adhesive"
+      ],
+      "itemId": "snail_mucus",
+      "status": "pending",
+      "sha256": "dc475d48767d1a579323870ae846b6af710a27c44b0491f34dba6921bf66642d",
+      "sourceSha256": "32ce4b323332f92ad380aaa51877efed985fef5f1261f32bc9b32072fdc1d1a9",
+      "referenceSha256": "e1ab921fbaeeaf57ea01b2b9fdbe1557674b88ddf985ceecb547e12b863270a2",
+      "metadata": {
+        "itemId": "snail_mucus",
+        "author": "creature-parts",
+        "reference": "art/item-icons/generated/snail_mucus.png",
+        "description": "A sealed dab of clear adhesive. It bonds a wooden shield's layers in place of a metal boss."
+      },
+      "triangles": 12096,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_beetle_mandible",
+      "file": "models/items/beetle_mandible.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "beetle_mandible"
+      ],
+      "bytes": 515740,
+      "itemModel": {
+        "itemId": "beetle_mandible"
+      },
+      "size": {
+        "x": 0.35954052582383156,
+        "y": 0.3399033332243562,
+        "z": 0.08770812302827835
+      },
+      "base": {
+        "x": -0.3100993037223816,
+        "y": -0.00894645694643259,
+        "z": -0.04256410151720047
+      },
+      "animations": [],
+      "materials": [
+        "Black chestnut beetle jaw",
+        "Worn brown keratin rims"
+      ],
+      "itemId": "beetle_mandible",
+      "status": "pending",
+      "sha256": "85be65a52e7e9c042cafb9734f36d3c0fedd3e4db4b97f1e68f9a3e607390081",
+      "sourceSha256": "32ce4b323332f92ad380aaa51877efed985fef5f1261f32bc9b32072fdc1d1a9",
+      "referenceSha256": "5cc13173736bcc4533b270557f1928f8fa0fbecb4d20e9981d6327b0db23e300",
+      "metadata": {
+        "itemId": "beetle_mandible",
+        "author": "creature-parts",
+        "reference": "art/item-icons/generated/beetle_mandible.png",
+        "description": "A hooked jaw hard enough to score stone. Several brace a pick head with less metal."
+      },
+      "triangles": 12000,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_centipede_chitin",
+      "file": "models/items/centipede_chitin.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "centipede_chitin"
+      ],
+      "bytes": 1548492,
+      "itemModel": {
+        "itemId": "centipede_chitin"
+      },
+      "size": {
+        "x": 0.40082329628879115,
+        "y": 0.43294749471891886,
+        "z": 0.12073776396363974
+      },
+      "base": {
+        "x": -0.20041016503336637,
+        "y": -0.21313703124024425,
+        "z": -0.00800000037997961
+      },
+      "animations": [],
+      "materials": [
+        "Mahogany centipede tergite",
+        "Dark concave chitin interior",
+        "Amber chitin broken edge"
+      ],
+      "itemId": "centipede_chitin",
+      "status": "pending",
+      "sha256": "04165cf675f8949ed27199b14a9f9943615b102475308eb7f23cf7e132dc07dd",
+      "sourceSha256": "32ce4b323332f92ad380aaa51877efed985fef5f1261f32bc9b32072fdc1d1a9",
+      "referenceSha256": "26eb71673d4f1f3ef81fd7cef7cfff42f286bb9f4f930cae6c028e6c776b0dc0",
+      "metadata": {
+        "itemId": "centipede_chitin",
+        "author": "creature-parts",
+        "reference": "art/item-icons/generated/centipede_chitin.png",
+        "description": "Dark overlapping plates. Small segments fit an armored ring without spoiling its grip."
+      },
+      "triangles": 44424,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_ravager_talon",
+      "file": "models/items/ravager_talon.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "ravager_talon"
+      ],
+      "bytes": 373964,
+      "itemModel": {
+        "itemId": "ravager_talon"
+      },
+      "size": {
+        "x": 0.3056272491812706,
+        "y": 0.34632088942453265,
+        "z": 0.08611563593149185
+      },
+      "base": {
+        "x": -0.05087914317846298,
+        "y": -0.004000000189989805,
+        "z": -0.04256410151720047
+      },
+      "animations": [],
+      "materials": [
+        "Black keratin talon",
+        "Worn brown keratin rims"
+      ],
+      "itemId": "ravager_talon",
+      "status": "pending",
+      "sha256": "4880b81c1481e7af9ac2736ddde6777c8cf33dfd199d0d79a15984faec851fb0",
+      "sourceSha256": "32ce4b323332f92ad380aaa51877efed985fef5f1261f32bc9b32072fdc1d1a9",
+      "referenceSha256": "4fdc8590b90ab9967d8a306f3894254282af58408fd4e6509f82ee717417a8ee",
+      "metadata": {
+        "itemId": "ravager_talon",
+        "author": "creature-parts",
+        "reference": "art/item-icons/generated/ravager_talon.png",
+        "description": "A hooked black claw. Cut down, it replaces the wooden grip beneath a Titanium blade."
+      },
+      "triangles": 7320,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_drake_scale",
+      "file": "models/items/drake_scale.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "drake_scale"
+      ],
+      "bytes": 888976,
+      "itemModel": {
+        "itemId": "drake_scale"
+      },
+      "size": {
+        "x": 0.3153415322303772,
+        "y": 0.46400000154972076,
+        "z": 0.06773511506617069
+      },
+      "base": {
+        "x": -0.1576707661151886,
+        "y": -0.24400000274181366,
+        "z": -0.01673511601984501
+      },
+      "animations": [],
+      "materials": [
+        "Thick russet leather backing",
+        "Dark olive bronze dragon scale",
+        "Weathered scale edges"
+      ],
+      "itemId": "drake_scale",
+      "status": "pending",
+      "sha256": "a0a2a8a58161973ed56d8cce15b0b1bb521fc655d581821ef826518e3bc956eb",
+      "sourceSha256": "32ce4b323332f92ad380aaa51877efed985fef5f1261f32bc9b32072fdc1d1a9",
+      "referenceSha256": "2ff5a2f37f73ac7f598f482567666f5ed3fe8ece0632856e419e744412c53c48",
+      "metadata": {
+        "itemId": "drake_scale",
+        "author": "creature-parts",
+        "reference": "art/item-icons/generated/drake_scale.png",
+        "description": "A broad scale with a tough leather backing. Trim several into standard heavy hide sheets."
+      },
+      "triangles": 22576,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_mantis_scythe",
+      "file": "models/items/mantis_scythe.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "mantis_scythe"
+      ],
+      "bytes": 610244,
+      "itemModel": {
+        "itemId": "mantis_scythe"
+      },
+      "size": {
+        "x": 0.313663337379694,
+        "y": 0.3532478669658303,
+        "z": 0.06800000369548798
+      },
+      "base": {
+        "x": -0.04073125496506691,
+        "y": -0.008580193854868412,
+        "z": -0.03400000184774399
+      },
+      "animations": [],
+      "materials": [
+        "Green mantis cuticle",
+        "Amber brown predatory spur tips"
+      ],
+      "itemId": "mantis_scythe",
+      "status": "pending",
+      "sha256": "f5364b3acb958834c6d749f9747eb1b1bea0ceacb73e9ff3267afb26b27db12f",
+      "sourceSha256": "32ce4b323332f92ad380aaa51877efed985fef5f1261f32bc9b32072fdc1d1a9",
+      "referenceSha256": "b0653c5786e3d6fb6993e5cb11de6855a2201c35d9204c0174242fca6d6092d8",
+      "metadata": {
+        "itemId": "mantis_scythe",
+        "author": "creature-parts",
+        "reference": "art/item-icons/generated/mantis_scythe.png",
+        "description": "A curved cutting spur. Its sharpened edge can be caged inside an aggressive hunting charm."
+      },
+      "triangles": 15120,
+      "drawCalls": 2
+    },
+    {
+      "id": "corealm_item_nightmare_plate",
+      "file": "models/items/nightmare_plate.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightmare_plate"
+      ],
+      "bytes": 781932,
+      "itemModel": {
+        "itemId": "nightmare_plate"
+      },
+      "size": {
+        "x": 0.2950337380170822,
+        "y": 0.4399999976158142,
+        "z": 0.1123314518481493
+      },
+      "base": {
+        "x": -0.15006934106349945,
+        "y": -0.2199999988079071,
+        "z": -0.014000000432133675
+      },
+      "animations": [],
+      "materials": [
+        "Pale ivory dragon shoulder cortex",
+        "Fibrous grey underside",
+        "Raised white bone ridges"
+      ],
+      "itemId": "nightmare_plate",
+      "status": "pending",
+      "sha256": "34f1d1332f4fd76f29c98058c242a6577e29d5da8c94f8abfff91e36cd7e9203",
+      "sourceSha256": "32ce4b323332f92ad380aaa51877efed985fef5f1261f32bc9b32072fdc1d1a9",
+      "referenceSha256": "f5d6be30c08bd79e8b34649da504dcf845119d011d3a2d7c35cfcf595a1b7801",
+      "metadata": {
+        "itemId": "nightmare_plate",
+        "author": "creature-parts",
+        "reference": "art/item-icons/generated/nightmare_plate.png",
+        "description": "A ridged shoulder plate. Riveted over a helm, it replaces part of the Cobalt shell."
+      },
+      "triangles": 19240,
+      "drawCalls": 3
+    }
+  ]
+}

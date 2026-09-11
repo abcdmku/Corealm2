@@ -12,11 +12,15 @@ import * as THREE from "three";
 import type { EquipSlot, ItemId } from "../contracts.js";
 import { tierSilhouetteScale } from "./materials.js";
 import { buildEquipmentCoreGeometry } from "./equipmentDetails.js";
+import { applyEquipmentSurfaceTexture, equipmentSurfaceTexturesEnabled } from "./equipmentSurfaceTextures.js";
+import { applyIconWeaponMaterials } from "./equipmentIconMaterials.js";
+import { applyArmorTexture } from "./equipmentArmorTextures.js";
 
 /** Which base body the parts are resolved against. `boot.ts` builds the player as `base_male`. */
 export type CharacterBody = "male" | "female";
 
 export interface GearAppearance {
+  itemId?: ItemId;
   assetId: string;
   slot: EquipSlot;
   /**
@@ -68,23 +72,23 @@ export const VISIBLE_EQUIP_SLOTS: readonly EquipSlot[] = [
  * The tier colours are applied over authored material regions. Restored ORM maps separate steel
  * from cloth, leather and wood. A metal-only luminance treatment removes the source weapons'
  * bronze vertex hue and prevents a second dark multiply from hiding their painted wear.
- * Knight uses the same metal mask, so straps and its red scarf keep their authored colours.
+ * Knight uses the same metal mask, so straps keep their authored colours.
  * Ranger and magic wood have separate texture-luminance treatments below.
  */
 
 /** Tier 0. Old iron with rust in it: warmer and darker than Grithe, so the upgrade reads. */
 const WORN = 0x6f6257;
-/** Melee tier 1: bronze. */
-const GRITHE = 0xb77a3f;
+/** Melee tier 1: hammered copper, matching the approved Grithe item icon. */
+const GRITHE = 0xc58258;
 /** Melee tier 5: medium neutral grey, separated clearly from both bronze and bright steel. */
 const CORVEN = 0x7f8589;
-/** Melee tier 10: neutral bright steel, with wear still supplied by the authored texture. */
-const KALDITE = 0xffffff;
+/** Melee tier 10: cobalt plate, with silver wear supplied by the authored texture. */
+const KALDITE = 0x587cae;
 const KALDITE_GARNET = 0x5c1522;
 /**
- * Melee tier 20: kiln steel with a warm cast against Kaldite's neutral steel.
+ * Melee tier 20: cool smoke silver from the approved Emberite plate icon.
  */
-const EMBERITE = 0xffc9a0;
+const EMBERITE = 0xa0abb7;
 const EMBERITE_OPAL = 0xb8481e;
 /** Magic tier 1: blue. */
 const MARCHHIDE = 0x416f9d;
@@ -94,9 +98,9 @@ const BRAMBLEHIDE = 0x2f4f3b;
 const WIGHTSHROUD = 0x4a4d52;
 /** Magic tier 20: seared warm grey-brown, the charhide read against the tier 10 cold charcoal. */
 const CHARHIDE = 0x5c4a3c;
-/** Wilderness metals retain enough midtone colour for their worn edges to read at night. */
-const CINDERSTEEL = 0x8f7867;
-const NIGHTGLASS = 0x697b98;
+/** Wilderness icons use warm charcoal with copper fittings, then deep navy steel. */
+const CINDERSTEEL = 0x746b64;
+const NIGHTGLASS = 0x455b85;
 const DRAGONHIDE = 0x653c36;
 const STARHIDE = 0x514b73;
 const TEAK_FOCUS = 0xbb7838;
@@ -133,7 +137,7 @@ const CINDERWAKE_CRIMSON = 0x9c2420; // ...and crimson.
 // ------------------------------------------------------------------------ the ladder
 
 type OutfitKit = "ranger" | "knight";
-type OutfitPart = "helmet" | "hood" | "chest" | "legs" | "boots" | "gloves" | "pauldron" | "scarf";
+type OutfitPart = "helmet" | "hood" | "chest" | "legs" | "boots" | "gloves" | "pauldron";
 type WeaponAsset =
   | "axe" | "pickaxe" | "miniboss_sword" | "miniboss_staff" | "corealm_axe_1"
   | "corealm_sword_1" | "corealm_sword_2" | "corealm_sword_3" | "corealm_sword_4"
@@ -452,7 +456,6 @@ function buildTable(): Map<ItemId, GearVisual> {
 
     const bodyParts: PartSpec[] = [outfitPart(row.kit, "chest", row.cloth, row.clothAccent)];
     bodyParts.push(outfitPart(row.kit, "pauldron", row.cloth, row.clothAccent));
-    if (row.kit === "knight") bodyParts.push(outfitPart("knight", "scarf", row.cloth, row.clothAccent));
     // The trim goes last so `gearAppearance` still answers with the skinned chest, and so the rig's
     // single bone attachment per slot picks the trim.
     if (row.bodyTrim) bodyParts.push({ kind: "trim", assetId: row.bodyTrim, tint: row.cloth });
@@ -590,7 +593,7 @@ export function gearAppearance(itemId: ItemId, body: CharacterBody = "male"): Ge
 export function gearAppearanceParts(itemId: ItemId, body: CharacterBody = "male"): readonly GearAppearance[] {
   const visual = GEAR_VISUALS.get(itemId);
   if (!visual) return [];
-  return visual.parts.map((spec) => resolve(spec, visual.slot, body));
+  return visual.parts.map((spec) => ({ ...resolve(spec, visual.slot, body), itemId }));
 }
 
 interface OrbPalette {
@@ -918,19 +921,20 @@ export function applyGearAppearance(object: THREE.Object3D, appearance: GearAppe
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh) return;
       mesh.material = Array.isArray(mesh.material)
-        ? mesh.material.map((material) => tintedMaterial(material, appearance))
-        : tintedMaterial(mesh.material, appearance);
+        ? mesh.material.map((material) => tintedMaterial(material, appearance, mesh.name))
+        : tintedMaterial(mesh.material, appearance, mesh.name);
     });
   }
   if (appearance.orb) object.add(magicOrbMesh(appearance.orb));
 }
 
-function tintedMaterial(material: THREE.Material, appearance: GearAppearance): THREE.Material {
+function tintedMaterial(material: THREE.Material, appearance: GearAppearance, partName?: string): THREE.Material {
   const clone = material.clone();
   // Three does not copy compile callbacks. Keep the source's authored surface shader when
   // applying a tier, as MaterialManager's variants do for other production assets.
   clone.onBeforeCompile = (shader, renderer) => material.onBeforeCompile.call(material, shader, renderer);
   clone.customProgramCacheKey = material.customProgramCacheKey.bind(material);
+  if (applyArmorTexture(clone, { ...appearance, partName })) return clone;
   const shaded = clone as Partial<THREE.MeshStandardMaterial>;
   const role = material.userData["equipmentRole"] as string | undefined;
   const tintable = role !== "leather" && role !== "gem" && role !== "wood";
@@ -967,6 +971,8 @@ function tintedMaterial(material: THREE.Material, appearance: GearAppearance): T
   // CharacterRig merges modular parts by material name and base colour. Shader-owned colour is
   // white, so include treatment identity in the name to keep mixed armour tiers distinct.
   clone.name = `${material.name || material.type}|gear:${appearance.tint ?? "native"}:${appearance.accent ?? "none"}`;
+  if (equipmentSurfaceTexturesEnabled()) applyIconWeaponMaterials(clone, appearance);
+  applyEquipmentSurfaceTexture(clone, appearance.assetId);
   clone.needsUpdate = true;
   return clone;
 }

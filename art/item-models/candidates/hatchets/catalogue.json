@@ -1,0 +1,414 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_worn_hatchet",
+      "file": "models/items/worn_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "worn_hatchet"
+      ],
+      "bytes": 1031588,
+      "itemModel": {
+        "itemId": "worn_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.27759999781847,
+        "y": 0.6625000053774566,
+        "z": 0.05018790498375893
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.025093952491879463
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-weathered-wood",
+        "dark-brown-grip-leather",
+        "strap-edge-and-inlay",
+        "pitted-old-iron",
+        "honed-worn_hatchet"
+      ],
+      "itemId": "worn_hatchet",
+      "status": "pending",
+      "sha256": "7163238f9121fc7255d76f425537371112010c4bf3c112712fe8c5f70a770556",
+      "sourceSha256": "ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050",
+      "referenceSha256": "e04844e036423fb504faf73948674f02a772645e82a788f85e4dbb4c9f614880",
+      "metadata": {
+        "itemId": "worn_hatchet",
+        "author": "hatchets",
+        "reference": "art/item-icons/generated/worn_hatchet.png",
+        "description": "More wedge than edge. It will get through pine if you are patient.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 18500,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_grithe_hatchet",
+      "file": "models/items/grithe_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "grithe_hatchet"
+      ],
+      "bytes": 1040100,
+      "itemModel": {
+        "itemId": "grithe_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.27759999781847,
+        "y": 0.6625000053774566,
+        "z": 0.05038516812026501
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.025093952491879463
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-pine",
+        "dark-brown-grip-leather",
+        "strap-edge-and-inlay",
+        "hammered-copper",
+        "honed-grithe_hatchet"
+      ],
+      "itemId": "grithe_hatchet",
+      "status": "pending",
+      "sha256": "4737368702e3d87f9eb741d7d4a0596f9ab31cefc424fb8fe64fccff92a3e916",
+      "sourceSha256": "ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050",
+      "referenceSha256": "04694c22e2034dd2494820bd0beab3cabd2ea2f4674fcf5426fe58981fdc6aad",
+      "metadata": {
+        "itemId": "grithe_hatchet",
+        "author": "hatchets",
+        "reference": "art/item-icons/generated/grithe_hatchet.png",
+        "description": "Light, blunt-ish, and enough for pine. Two effective Woodcutting levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 18500,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_corven_hatchet",
+      "file": "models/items/corven_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "corven_hatchet"
+      ],
+      "bytes": 1033280,
+      "itemModel": {
+        "itemId": "corven_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.28860000520944595,
+        "y": 0.6625000053774566,
+        "z": 0.05038516812026501
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.025093952491879463
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-ash",
+        "dark-brown-grip-leather",
+        "strap-edge-and-inlay",
+        "forged-dark-iron",
+        "honed-corven_hatchet"
+      ],
+      "itemId": "corven_hatchet",
+      "status": "pending",
+      "sha256": "09147ce54df5eb9b17f8da22e2311645e9d28135ded93dcf66af5c9939f16ae2",
+      "sourceSha256": "ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050",
+      "referenceSha256": "b92dff9ea196435ec2ca2d5a37d979138f8bde2a6a89322acbbe7a82351b71b4",
+      "metadata": {
+        "itemId": "corven_hatchet",
+        "author": "hatchets",
+        "reference": "art/item-icons/generated/corven_hatchet.png",
+        "description": "Iron bit, deep bevel. Five effective Woodcutting levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 18628,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_kaldite_hatchet",
+      "file": "models/items/kaldite_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_hatchet"
+      ],
+      "bytes": 1040612,
+      "itemModel": {
+        "itemId": "kaldite_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.28760000318288803,
+        "y": 0.6625000053774566,
+        "z": 0.05038516812026501
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.025093952491879463
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-oak",
+        "dark-brown-grip-leather",
+        "strap-edge-and-inlay",
+        "cobalt-steel",
+        "honed-kaldite_hatchet"
+      ],
+      "itemId": "kaldite_hatchet",
+      "status": "pending",
+      "sha256": "3f46a43ed4a0219144c96da77128d87a4dce328a5225f769eb51b841a2311f62",
+      "sourceSha256": "ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050",
+      "referenceSha256": "a6cff0f164ecc81e3fec8cd2b37cda07710c28cbcbb0a400953c5639648c8cfe",
+      "metadata": {
+        "itemId": "kaldite_hatchet",
+        "author": "hatchets",
+        "reference": "art/item-icons/generated/kaldite_hatchet.png",
+        "description": "Goes through oak resin without gumming. Nine effective Woodcutting levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 18756,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_emberite_hatchet",
+      "file": "models/items/emberite_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "emberite_hatchet"
+      ],
+      "bytes": 1177412,
+      "itemModel": {
+        "itemId": "emberite_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.2815999910235405,
+        "y": 0.6625000053774566,
+        "z": 0.05304000004380942
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.02652000002190471
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-walnut",
+        "dark-brown-grip-leather",
+        "strap-edge-and-inlay",
+        "satin-titanium",
+        "honed-emberite_hatchet"
+      ],
+      "itemId": "emberite_hatchet",
+      "status": "pending",
+      "sha256": "bee1203eed1b0cc779747e3cc6550f3b68181401ce66638cbeec8bc8ade53bc4",
+      "sourceSha256": "ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050",
+      "referenceSha256": "7099309c82d8bd580d379533b29605e0b45d878fd90c78ef535624018fe4c0d3",
+      "metadata": {
+        "itemId": "emberite_hatchet",
+        "author": "hatchets",
+        "reference": "art/item-icons/generated/emberite_hatchet.png",
+        "description": "Bites through scorched bark without a second swing. Seventeen effective Woodcutting levels.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 22708,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_cindersteel_hatchet",
+      "file": "models/items/cindersteel_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cindersteel_hatchet"
+      ],
+      "bytes": 1729808,
+      "itemModel": {
+        "itemId": "cindersteel_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.3176000043749809,
+        "y": 0.6625000053774566,
+        "z": 0.05904000004380941
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.029520000021904705
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-teak",
+        "dark-brown-grip-leather",
+        "strap-edge-and-inlay",
+        "russet-cindersteel",
+        "honed-cindersteel_hatchet"
+      ],
+      "itemId": "cindersteel_hatchet",
+      "status": "pending",
+      "sha256": "3b97db7cacb96850b4852afcd8c4c3a776371bb02aa73d21a85c34480c88201b",
+      "sourceSha256": "ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050",
+      "referenceSha256": "b1659dd0fb842962095f1da614a8b4cd1d697f3957be4ebcf86e1edb1b6f870c",
+      "metadata": {
+        "itemId": "cindersteel_hatchet",
+        "author": "hatchets",
+        "reference": "art/item-icons/generated/cindersteel_hatchet.png",
+        "description": "Mastercrafted heavy charcoal cindersteel head with russet forge temper, silver bevel, riveted socket and curved teak haft.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 40196,
+      "drawCalls": 5
+    },
+    {
+      "id": "corealm_item_nightglass_hatchet",
+      "file": "models/items/nightglass_hatchet.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "nightglass_hatchet"
+      ],
+      "bytes": 856804,
+      "itemModel": {
+        "itemId": "nightglass_hatchet",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "size": {
+        "x": 0.30059998482465744,
+        "y": 0.6625000053774566,
+        "z": 0.06169999995827675
+      },
+      "base": {
+        "x": -0.05449749859281669,
+        "y": -0.13500000536441803,
+        "z": -0.030849999979138374
+      },
+      "animations": [],
+      "materials": [
+        "longitudinal-indigo-hardwood",
+        "honed-nightglass_hatchet",
+        "strap-edge-and-inlay",
+        "midnight-volcanic-glass",
+        "violet-inlay",
+        "violet-inlay",
+        "violet-glass-fracture-planes"
+      ],
+      "itemId": "nightglass_hatchet",
+      "status": "pending",
+      "sha256": "fc346b8a8f1c5d6c91b1f51060ecfc3c22bc64b43ec07db6239007757cf89d12",
+      "sourceSha256": "ac8b82a553610a26125bacb95c44f2fb3abfa249563cb427474e19e668225050",
+      "referenceSha256": "c97e0eaf661ffabb64d3346d745e283b3770f818d3c9e107ec200aeb6af4017c",
+      "metadata": {
+        "itemId": "nightglass_hatchet",
+        "author": "hatchets",
+        "reference": "art/item-icons/generated/nightglass_hatchet.png",
+        "description": "Faceted midnight violet-black volcanic glass wedge, lavender bevel, silver fitted socket and indigo twisting-grain hardwood haft.",
+        "grip": [
+          0,
+          0,
+          0
+        ]
+      },
+      "triangles": 18176,
+      "drawCalls": 7
+    }
+  ]
+}

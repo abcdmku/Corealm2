@@ -1,0 +1,256 @@
+{
+  "assets": [
+    {
+      "id": "corealm_shield_1",
+      "sha256": "d280eea974e3ff65552b60a0fe5cec238105d7598fdf87dcab8b05c82db2c25b"
+    },
+    {
+      "id": "corealm_shield_2",
+      "sha256": "5d53e345564c084699b7a13ce4e3f6141c1b503b51b396b19b35bf1688638c97"
+    },
+    {
+      "id": "corealm_shield_3",
+      "sha256": "e139b3a55c5aa06279f95ec1ba2ac79aea32db0fa9475f8a1d377ea45136ec18"
+    },
+    {
+      "id": "corealm_shield_4",
+      "sha256": "b5d4d5fc2e4f4a493a9d081487898ebc882c9afb3e0c6e1c77342b056fff814b"
+    },
+    {
+      "id": "corealm_staff_1",
+      "sha256": "0ba07d88395caa6888e88f07c633de0d6ae92811684817b9f11356883975edd3"
+    },
+    {
+      "id": "corealm_staff_2",
+      "sha256": "8fcb498599343cdd049be606fbbc884305c92a512f82988b11992b1f5dc92509"
+    },
+    {
+      "id": "corealm_staff_3",
+      "sha256": "124d60270c93122134cc2157bc426b384e1188057889dc15b1cc52fb1c2b8fab"
+    },
+    {
+      "id": "corealm_staff_4",
+      "sha256": "e7b3d351d23d4361fbda216bf0f3b2a01263f1faef508a8c49689a148ca07182"
+    },
+    {
+      "id": "corealm_sword_1",
+      "sha256": "d3e9e9f938654bd4bbfa1c56e2708ccd27e603b324bd48ebe814be8cee3b8f68"
+    },
+    {
+      "id": "corealm_sword_2",
+      "sha256": "fbb61427e811f3b0bf737e094aa808e962027da904656b256437f70c526e8bcc"
+    },
+    {
+      "id": "corealm_sword_3",
+      "sha256": "88e5d41f11719dfa6466dc167d9a3a986845cad9bf506f97993e21c048eea986"
+    },
+    {
+      "id": "corealm_sword_4",
+      "sha256": "068623bb6a71a00ebd6f09246f7638052eb3a301f44ec035107a36e4015d0641"
+    },
+    {
+      "id": "corealm_wand_1",
+      "sha256": "c6d75c63f573df73c187e2fac4cb72bcd8a78fe28bd67f8fba8bcd438a219f6e"
+    },
+    {
+      "id": "corealm_wand_2",
+      "sha256": "fb53619336bdf9f9c586fcea3aee75ce45093badfe60bc8caa5103c6b4cc0565"
+    },
+    {
+      "id": "corealm_wand_3",
+      "sha256": "3acbdf97b4a90b1979da109053b42b0cced67ebd9c9ab91b166531c9937f45e8"
+    },
+    {
+      "id": "corealm_wand_4",
+      "sha256": "99d8cb3abf0bd028b53d12983d1b4b906eb9b3320cdcc3c58c2cb788645cc069"
+    },
+    {
+      "id": "miniboss_staff",
+      "sha256": "2df9e7ffff4ea03d803f3314b66a9b509213b2c007738e9ca988d51879e4425c"
+    },
+    {
+      "id": "miniboss_sword",
+      "sha256": "d669a89f92389c764af1ae847cf805854aa3f3720dda9f3a7bc59c5ec5c43ca2"
+    },
+    {
+      "id": "outfit_female_knight_boots",
+      "sha256": "3a26397057d6de4fe5b442ebcd7c31a2379153cb35aaa5b42e0d3eb55eee66e2"
+    },
+    {
+      "id": "outfit_female_knight_chest",
+      "sha256": "de72a6c1f813ec8b69ddb08f077c3f488f9dab4ba98409847f0432445f37f21a"
+    },
+    {
+      "id": "outfit_female_knight_gloves",
+      "sha256": "43c2a52ef2afed8cba6f1cf69a7be08630a474f07402b529e05198a85a047a03"
+    },
+    {
+      "id": "outfit_female_knight_helmet",
+      "sha256": "4ca7bc0e8453360e5bbb5a095be7caee9307c790a052119a46222b523639c38b"
+    },
+    {
+      "id": "outfit_female_knight_legs",
+      "sha256": "0b6932db376b4b58684fee6b5072d089812c3fcb69280faa0a3b696314c861a9"
+    },
+    {
+      "id": "outfit_female_knight_pauldron",
+      "sha256": "b4979bffea63bb7016703b0cb1ddb8613785024880aa5fe02bab6702e7df0bd6"
+    },
+    {
+      "id": "outfit_male_knight_boots",
+      "sha256": "2063dfd2e7d4c0dcdc8aa56a19abf4d6fda6b7e802e861659d78ece5782811c6"
+    },
+    {
+      "id": "outfit_male_knight_chest",
+      "sha256": "d31972f4984f7cd4ada724b75449629b7f0de142b0df3c8a0b20ccbfe58b10f1"
+    },
+    {
+      "id": "outfit_male_knight_gloves",
+      "sha256": "c4cf61b9e3acc7a9b9c8eda408df2ce8c7d68eeef322bae952edff474a1b2e22"
+    },
+    {
+      "id": "outfit_male_knight_helmet",
+      "sha256": "d02db9775755907ca5fff5f0735af6da5fec8a796efade8b5d7e903779ec489b"
+    },
+    {
+      "id": "outfit_male_knight_legs",
+      "sha256": "67b75b3eb4e996aeb7bec38dc54a4177f8717973c4d63b0facd2e8ef8a930c6f"
+    },
+    {
+      "id": "outfit_male_knight_pauldron",
+      "sha256": "f3c29477d36f101cb45616236be7dfcedfb2a571cdbcef58d73397b983c2fd36"
+    }
+  ],
+  "sharedTextures": [
+    {
+      "file": "textures/imported/4bf98420640f97358dda5ae2061459359762518a42feb01e382343113de0ffaf.png",
+      "bytes": 2085967,
+      "sha256": "4bf98420640f97358dda5ae2061459359762518a42feb01e382343113de0ffaf",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/878968624b5fe2145415676ace42e4a330c96cf1ffaad8dc8cc6b568bad7f5ad.png",
+      "bytes": 3649648,
+      "sha256": "878968624b5fe2145415676ace42e4a330c96cf1ffaad8dc8cc6b568bad7f5ad",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/bae1fc19f81291d31037c85233ff9ccaa760736a86cd1d7154406b3a17414abc.png",
+      "bytes": 2904997,
+      "sha256": "bae1fc19f81291d31037c85233ff9ccaa760736a86cd1d7154406b3a17414abc",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/721c8f9664eb672817deec0d13e419a7e86034ff38af1f4a2b0189942ced50d0.png",
+      "bytes": 3013595,
+      "sha256": "721c8f9664eb672817deec0d13e419a7e86034ff38af1f4a2b0189942ced50d0",
+      "mimeType": "image/png"
+    },
+    {
+      "file": "textures/imported/79f464bea34c806ef32352f72fed3f2f6b233aa228849424cd6dab0aef730c11.png",
+      "bytes": 3275230,
+      "sha256": "79f464bea34c806ef32352f72fed3f2f6b233aa228849424cd6dab0aef730c11",
+      "mimeType": "image/png"
+    }
+  ],
+  "acceptance": {
+    "visualAccepted": true,
+    "rootAccepted": true,
+    "scope": "Existing models; texture and material changes only. Seven melee kits and 51 held items.",
+    "labReports": [
+      "test-results/equipment-retexture-final/melee-low/report.json",
+      "test-results/equipment-retexture-final/melee-high/report.json",
+      "test-results/equipment-retexture-materials/weapons-a/report.json",
+      "test-results/equipment-retexture-materials/weapons-c/report.json",
+      "test-results/equipment-retexture-materials/weapons-h/report.json",
+      "test-results/equipment-retexture-materials/weapons-i/report.json",
+      "test-results/equipment-retexture-materials-r2/weapons-d/report.json",
+      "test-results/equipment-retexture-materials-r2/weapons-e/report.json",
+      "test-results/equipment-retexture-materials-r2/weapons-f/report.json",
+      "test-results/equipment-retexture-materials-r2/weapons-g/report.json",
+      "test-results/equipment-retexture-materials-r3/weapons-b/report.json"
+    ],
+    "combatReport": "test-results/equipment-retexture-materials/combat/report.json",
+    "runtimeSources": [
+      {
+        "file": "game/src/render/equipmentVisuals.ts",
+        "sha256": "29b651208ce3aabea81ee22bdf57a8c43876c087ff40d3aabb615c5ccc862b42"
+      },
+      {
+        "file": "game/src/render/equipmentIconMaterials.ts",
+        "sha256": "adcd438697c71764d7be960f143333f67dd793c436c3d8df1e4058eb975dfd4a"
+      },
+      {
+        "file": "game/src/render/equipmentSurfaceTextures.ts",
+        "sha256": "400a3897f0a1d2cf1b19ec4d483e8777a300649bcb0a95fa9913e61cce432e0f"
+      },
+      {
+        "file": "game/src/render/characterRig.ts",
+        "sha256": "b0d14223df8633d4002136f14381b1ae7146d544fff5efac7a125e7035a2a74d"
+      }
+    ],
+    "critics": [
+      {
+        "name": "critic_existing_armor",
+        "model": "gpt-5.6-luna max",
+        "items": 7,
+        "passed": true
+      },
+      {
+        "name": "final_texture_review_a",
+        "model": "gpt-5.6-luna max",
+        "items": 18,
+        "passed": true,
+        "note": "Duskoak shield rechecked after ash-gray correction."
+      },
+      {
+        "name": "final_texture_review_b",
+        "model": "gpt-5.6-luna max",
+        "items": 18,
+        "passed": true
+      },
+      {
+        "name": "final_texture_review_c",
+        "model": "gpt-5.6-luna max",
+        "items": 15,
+        "passed": true
+      }
+    ],
+    "limitations": [
+      "Visual captures prove male production rig. Female geometry and asset mappings verified separately; the lab has no body selector.",
+      "Existing geometry intentionally preserved; icon-only geometric ornament is outside this texture revision.",
+      "Physical deletion of withdrawn armor files was blocked by automatic approval review. Active manifest and registry references were removed."
+    ]
+  },
+  "worldAcceptance": {
+    "passed": true,
+    "report": "test-results/equipment-retexture-world/corven-final/report.json",
+    "case": "corven",
+    "route": "/index.html",
+    "elapsedMs": 58403,
+    "screenshotsInspected": [
+      "corven-front.png",
+      "corven-back.png",
+      "corven-walking.png"
+    ],
+    "runtimeSources": [
+      {
+        "file": "game/src/render/equipmentVisuals.ts",
+        "sha256": "29b651208ce3aabea81ee22bdf57a8c43876c087ff40d3aabb615c5ccc862b42"
+      },
+      {
+        "file": "game/src/render/equipmentIconMaterials.ts",
+        "sha256": "adcd438697c71764d7be960f143333f67dd793c436c3d8df1e4058eb975dfd4a"
+      },
+      {
+        "file": "game/src/render/equipmentSurfaceTextures.ts",
+        "sha256": "9808421db9e484364052de774126051ea810b855918f9fda929b9087ad198574"
+      },
+      {
+        "file": "game/src/render/characterRig.ts",
+        "sha256": "b0d14223df8633d4002136f14381b1ae7146d544fff5efac7a125e7035a2a74d"
+      }
+    ],
+    "integrationChange": "Enabled the same reviewed runtime materials by default; lab query no longer required."
+  }
+}

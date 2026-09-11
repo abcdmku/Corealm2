@@ -3439,6 +3439,7 @@ export class EntityViews {
     spent: boolean,
     essenceElement: EssenceElement | null = null,
   ): THREE.Material {
+    if (base.userData["iconAuthored"]) return base;
     if (assetId === "corealm_water_trough") {
       const water = this.materials.forContainedTrough(assetId, base);
       if (water !== base) return water;
@@ -4615,6 +4616,9 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
   }
 
   private isRigged(assetId: string): boolean {
+    // Item skins deform only when worn by CharacterRig. A displayed or dropped garment
+    // retains its authored bind pose; humanoid idle clips would fold and sink it.
+    if (this.assets.entry(assetId)?.itemModel) return false;
     const cached = this.riggedAssets.get(assetId);
     if (cached !== undefined) return cached;
     if (!this.assets.isLoaded(assetId)) return false;
@@ -6436,6 +6440,9 @@ function attributeSignature(geometry: THREE.BufferGeometry): string {
  * scan says so, and the failure mode is one wrong texture rather than a crash.
  */
 function materialBatchKey(material: THREE.Material): string {
+  // Authored items may deliberately reuse material names with different embedded images
+  // or physical settings. Their loader-cached material identity is the safe batch boundary.
+  if (material.userData["iconAuthored"]) return `item:${material.uuid}`;
   const standard = material as THREE.MeshStandardMaterial;
   const mapName = (map: THREE.Texture | null | undefined): string => (map ? map.name || map.uuid : "-");
   return [

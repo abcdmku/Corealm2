@@ -1,0 +1,288 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "tools/item-models/build.ts",
+    "generatorSha256": "ad4817471ed4f1456cbfee2d216850f37f44a1a66d1ac479be30d4784569d1af"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_kaldite_helm",
+      "file": "models/items/kaldite_helm.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_helm",
+        "head"
+      ],
+      "bytes": 462632,
+      "itemModel": {
+        "itemId": "kaldite_helm",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.24299999994039537,
+        "y": 0.3214720914294016,
+        "z": 0.31402117738109264
+      },
+      "base": {
+        "x": -0.12149999997019768,
+        "y": 1.5214999914169312,
+        "z": -0.14489333929803716
+      },
+      "animations": [],
+      "materials": [
+        "Deep cobalt forged plate",
+        "Brown black leather lining and straps",
+        "Exposed polished steel bevels",
+        "Aged buckle metal"
+      ],
+      "itemId": "kaldite_helm",
+      "status": "pending",
+      "sha256": "ebbb999e4306ed6c8dfcd3824a9df1f0e07b8eebd8f998147c5f8350d9c4f23b",
+      "sourceSha256": "f4a54bfc897f37ae8d01e992362ccdfd66da95526e36c5187d02a7b90ff33d4f",
+      "referenceSha256": "e9c13314a0e885a5e6fe51eb0d8844abea6c4e1f1e625a22cabc26a1aa7ae1f7",
+      "metadata": {
+        "itemId": "kaldite_helm",
+        "author": "armor-kaldite",
+        "reference": "art/item-icons/generated/kaldite_helm.png",
+        "description": "A closed helm with a stone-cutter's brow ridge.",
+        "wearable": true
+      },
+      "triangles": 3792,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_kaldite_plate",
+      "file": "models/items/kaldite_plate.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_plate",
+        "torso"
+      ],
+      "bytes": 1104352,
+      "itemModel": {
+        "itemId": "kaldite_plate",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.982,
+            "maxY": 1.492
+          }
+        ]
+      },
+      "size": {
+        "x": 0.6320000092983247,
+        "y": 0.5971723456071225,
+        "z": 0.4059789434513102
+      },
+      "base": {
+        "x": -0.31600000464916234,
+        "y": 0.9646086236550007,
+        "z": -0.2029894717256551
+      },
+      "animations": [],
+      "materials": [
+        "Brown black leather lining and straps",
+        "Deep cobalt forged plate",
+        "Exposed polished steel bevels",
+        "Aged buckle metal"
+      ],
+      "itemId": "kaldite_plate",
+      "status": "pending",
+      "sha256": "ab7bff4d604d67b03745d1dfef9d750b47a6e95495700a428f0ac639293ce38d",
+      "sourceSha256": "f4a54bfc897f37ae8d01e992362ccdfd66da95526e36c5187d02a7b90ff33d4f",
+      "referenceSha256": "3651cdac513660ed10758517d68fc2187353fab41f24faf2aff1c5715251916d",
+      "metadata": {
+        "itemId": "kaldite_plate",
+        "author": "armor-kaldite",
+        "reference": "art/item-icons/generated/kaldite_plate.png",
+        "description": "Three bars of Cobalt. Quarry crews were buried in these, which is not a selling point.",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "torso",
+            "minY": 0.982,
+            "maxY": 1.492
+          }
+        ]
+      },
+      "triangles": 14620,
+      "drawCalls": 12
+    },
+    {
+      "id": "corealm_item_kaldite_greaves",
+      "file": "models/items/kaldite_greaves.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_greaves",
+        "legs"
+      ],
+      "bytes": 1147464,
+      "itemModel": {
+        "itemId": "kaldite_greaves",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.175,
+            "maxY": 1.01
+          }
+        ]
+      },
+      "size": {
+        "x": 0.4566000001192093,
+        "y": 0.8542280396288731,
+        "z": 0.2691000102519989
+      },
+      "base": {
+        "x": -0.22830000005960466,
+        "y": 0.16077194606601217,
+        "z": -0.17210000739097595
+      },
+      "animations": [],
+      "materials": [
+        "Brown black leather lining and straps",
+        "Deep cobalt forged plate",
+        "Exposed polished steel bevels",
+        "Aged buckle metal"
+      ],
+      "itemId": "kaldite_greaves",
+      "status": "pending",
+      "sha256": "742b06ae5effd46c1e8b807731478cf7b58390126d7d6f32b8d0f2ba8be33984",
+      "sourceSha256": "f4a54bfc897f37ae8d01e992362ccdfd66da95526e36c5187d02a7b90ff33d4f",
+      "referenceSha256": "49252e3cfa3244c3d61fa22792b39e37eb6afc3086cff3bf38a33c42feb895dc",
+      "metadata": {
+        "itemId": "kaldite_greaves",
+        "author": "armor-kaldite",
+        "reference": "art/item-icons/generated/kaldite_greaves.png",
+        "description": "Full leg plate, hinged at the knee.",
+        "wearable": true,
+        "bodyCoverage": [
+          {
+            "region": "legs",
+            "minY": 0.175,
+            "maxY": 1.01
+          }
+        ]
+      },
+      "triangles": 14856,
+      "drawCalls": 17
+    },
+    {
+      "id": "corealm_item_kaldite_boots",
+      "file": "models/items/kaldite_boots.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_boots",
+        "feet"
+      ],
+      "bytes": 782940,
+      "itemModel": {
+        "itemId": "kaldite_boots",
+        "wearable": true
+      },
+      "size": {
+        "x": 0.3706000046491623,
+        "y": 0.28349998595565556,
+        "z": 0.2840000092983246
+      },
+      "base": {
+        "x": -0.18530000232458116,
+        "y": -2.2351741985060514e-11,
+        "z": -0.14100000262260437
+      },
+      "animations": [],
+      "materials": [
+        "Brown black leather lining and straps",
+        "Exposed polished steel bevels",
+        "Deep cobalt forged plate",
+        "Aged buckle metal",
+        "Waxed seam thread"
+      ],
+      "itemId": "kaldite_boots",
+      "status": "pending",
+      "sha256": "8435f093416f96b167654a4dfe062ffe5d7a863ea8d427fbc6d3f7e8db72c3f5",
+      "sourceSha256": "f4a54bfc897f37ae8d01e992362ccdfd66da95526e36c5187d02a7b90ff33d4f",
+      "referenceSha256": "49d83b0cf27e2d923844488f6cb3164427eb1b1a1d370108afb1a1f489b77a1c",
+      "metadata": {
+        "itemId": "kaldite_boots",
+        "author": "armor-kaldite",
+        "reference": "art/item-icons/generated/kaldite_boots.png",
+        "description": "Cleated for wet cairn stone.",
+        "wearable": true
+      },
+      "triangles": 10200,
+      "drawCalls": 10
+    },
+    {
+      "id": "corealm_item_kaldite_gauntlets",
+      "file": "models/items/kaldite_gauntlets.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "outfit",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "kaldite_gauntlets",
+        "arms"
+      ],
+      "bytes": 1569216,
+      "itemModel": {
+        "itemId": "kaldite_gauntlets",
+        "wearable": true
+      },
+      "size": {
+        "x": 1.7335908243871074,
+        "y": 0.15883076784520234,
+        "z": 0.11246513991057873
+      },
+      "base": {
+        "x": -0.8667954121935537,
+        "y": 1.3892589985970432,
+        "z": -0.11940000140070915
+      },
+      "animations": [],
+      "materials": [
+        "Brown black leather lining and straps",
+        "Deep cobalt forged plate",
+        "Exposed polished steel bevels",
+        "Garnet rivet cabochons"
+      ],
+      "itemId": "kaldite_gauntlets",
+      "status": "pending",
+      "sha256": "5f990d3b58e8e87d4332737ce229ba7fed7c36414dfe19239de59de957a57af6",
+      "sourceSha256": "f4a54bfc897f37ae8d01e992362ccdfd66da95526e36c5187d02a7b90ff33d4f",
+      "referenceSha256": "bc6aa102fc2d26fde1667c71aeb7c55040e66e973fcfee3282351fb022300213",
+      "metadata": {
+        "itemId": "kaldite_gauntlets",
+        "author": "armor-kaldite",
+        "reference": "art/item-icons/generated/kaldite_gauntlets.png",
+        "description": "Cobalt over the knuckle, garnet rivets. Loud.",
+        "wearable": true
+      },
+      "triangles": 18476,
+      "drawCalls": 16
+    }
+  ]
+}

@@ -1,0 +1,665 @@
+{
+  "version": 1,
+  "status": "pending",
+  "pack": {
+    "id": "corealm-icon-item-models",
+    "name": "Corealm item models from approved artwork",
+    "author": "Corealm",
+    "license": "LicenseRef-Corealm-Original",
+    "source": "runs/item-models/PRD.md"
+  },
+  "assets": [
+    {
+      "id": "corealm_item_air_essence",
+      "file": "models/items/air_essence.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "air_essence"
+      ],
+      "bytes": 2084604,
+      "itemModel": {
+        "itemId": "air_essence",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "size": {
+        "x": 0.17589008808135986,
+        "y": 0.18775876611471176,
+        "z": 0.04409999989401549
+      },
+      "base": {
+        "x": -0.08767945319414139,
+        "y": -0.08864361047744751,
+        "z": -0.02740000004749745
+      },
+      "animations": [],
+      "materials": [
+        "air_essence weathered fracture edges",
+        "air_essence fractured mineral",
+        "air_essence recessed rune mineral"
+      ],
+      "itemId": "air_essence",
+      "status": "pending",
+      "sha256": "846214e649c780e2faad5ec5b2749056aa38bc448982b8d656f100b810a6ffa4",
+      "sourceSha256": "e0e8ce64c67d49e0d99b02cc411a8d63dc3ece05d22c8d814d4cc9fe9ef13cda",
+      "referenceSha256": "d0e370e555e91adc6c6683219aea0fd56e9548df7a3fe3cdc5b78ed3c937bf39",
+      "metadata": {
+        "itemId": "air_essence",
+        "author": "essence-runes",
+        "reference": "art/item-icons/generated/air_essence.png",
+        "description": "A stackable charge drawn from the distant Farmland cache.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "triangles": 14784,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_earth_essence",
+      "file": "models/items/earth_essence.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "earth_essence"
+      ],
+      "bytes": 644964,
+      "itemModel": {
+        "itemId": "earth_essence",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "size": {
+        "x": 0.17532288283109665,
+        "y": 0.18515991419553757,
+        "z": 0.04524500005654991
+      },
+      "base": {
+        "x": -0.08730965852737427,
+        "y": -0.08521628379821777,
+        "z": -0.02740000004749745
+      },
+      "animations": [],
+      "materials": [
+        "earth_essence weathered fracture edges",
+        "earth_essence fractured mineral",
+        "earth_essence recessed rune mineral",
+        "Root cache moss"
+      ],
+      "itemId": "earth_essence",
+      "status": "pending",
+      "sha256": "c70fcee9cee5b20e5770a0c9426cb45b2ff317ebee6edd2569d92212352ef20c",
+      "sourceSha256": "e0e8ce64c67d49e0d99b02cc411a8d63dc3ece05d22c8d814d4cc9fe9ef13cda",
+      "referenceSha256": "f9c75ed8e79e47990eb2d9acfb032826848b04523b0e2509c4e52941eb0ca7ea",
+      "metadata": {
+        "itemId": "earth_essence",
+        "author": "essence-runes",
+        "reference": "art/item-icons/generated/earth_essence.png",
+        "description": "Dense green-brown essence mined beneath the Woodlands roots.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "triangles": 3450,
+      "drawCalls": 4
+    },
+    {
+      "id": "corealm_item_water_essence",
+      "file": "models/items/water_essence.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "water_essence"
+      ],
+      "bytes": 1066304,
+      "itemModel": {
+        "itemId": "water_essence",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "size": {
+        "x": 0.17217843234539032,
+        "y": 0.19189640134572983,
+        "z": 0.04409999989401549
+      },
+      "base": {
+        "x": -0.08868981897830963,
+        "y": -0.09288880228996277,
+        "z": -0.02740000004749745
+      },
+      "animations": [],
+      "materials": [
+        "water_essence weathered fracture edges",
+        "water_essence fractured mineral",
+        "water_essence recessed rune mineral"
+      ],
+      "itemId": "water_essence",
+      "status": "pending",
+      "sha256": "92a3461ce1d09d7626c03cabaeeeb7d8d04dd80ba7e13e1216e5ba85193d28b5",
+      "sourceSha256": "e0e8ce64c67d49e0d99b02cc411a8d63dc3ece05d22c8d814d4cc9fe9ef13cda",
+      "referenceSha256": "51dce4c641e6e64a1eeb26a93ec4e06ee8fd85f18aa165c8129f41acec41cd11",
+      "metadata": {
+        "itemId": "water_essence",
+        "author": "essence-runes",
+        "reference": "art/item-icons/generated/water_essence.png",
+        "description": "Cold blue essence gathered from the far Highlands cache.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "triangles": 6286,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_fire_essence",
+      "file": "models/items/fire_essence.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "fire_essence"
+      ],
+      "bytes": 2235404,
+      "itemModel": {
+        "itemId": "fire_essence",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "size": {
+        "x": 0.16263047605752945,
+        "y": 0.18854935467243195,
+        "z": 0.0453500000635162
+      },
+      "base": {
+        "x": -0.08116976171731949,
+        "y": -0.08942115306854248,
+        "z": -0.02740000004749745
+      },
+      "animations": [],
+      "materials": [
+        "fire_essence weathered fracture edges",
+        "fire_essence fractured mineral",
+        "fire_essence recessed rune mineral"
+      ],
+      "itemId": "fire_essence",
+      "status": "pending",
+      "sha256": "56a2df4d73461d830a2f0abff4d20371002d39681d4e71da656745ee9500e664",
+      "sourceSha256": "e0e8ce64c67d49e0d99b02cc411a8d63dc3ece05d22c8d814d4cc9fe9ef13cda",
+      "referenceSha256": "a57000e77ac00fb30dff7a9f2d4ef76179422b7c20e37e3242fe2827074a7c30",
+      "metadata": {
+        "itemId": "fire_essence",
+        "author": "essence-runes",
+        "reference": "art/item-icons/generated/fire_essence.png",
+        "description": "A hot orange charge mined at the Ashlands altar ruins. It never quite cools.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "triangles": 16320,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_mind_rune",
+      "file": "models/items/mind_rune.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "mind_rune"
+      ],
+      "bytes": 1379188,
+      "itemModel": {
+        "itemId": "mind_rune",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "size": {
+        "x": 0.15671589225530624,
+        "y": 0.19717206060886383,
+        "z": 0.04409999989401549
+      },
+      "base": {
+        "x": -0.08179264515638351,
+        "y": -0.0962744653224945,
+        "z": -0.02740000004749745
+      },
+      "animations": [],
+      "materials": [
+        "mind_rune weathered fracture edges",
+        "mind_rune fractured mineral",
+        "mind_rune recessed rune mineral"
+      ],
+      "itemId": "mind_rune",
+      "status": "pending",
+      "sha256": "ded4b43dfcee2c76ea0ff728f1080ab768528d727b0a2ca3bbf1b1d0bb628b91",
+      "sourceSha256": "e0e8ce64c67d49e0d99b02cc411a8d63dc3ece05d22c8d814d4cc9fe9ef13cda",
+      "referenceSha256": "336e43430e536c82f27db77b8960cdd9f1acbb862432e5a26a237bf5ec598923",
+      "metadata": {
+        "itemId": "mind_rune",
+        "author": "essence-runes",
+        "reference": "art/item-icons/generated/mind_rune.png",
+        "description": "A pale rune etched with a single clear eye. It steadies the caster's thought onto one mark. Rank-one invocations spend one per cast.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "triangles": 8776,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_chaos_rune",
+      "file": "models/items/chaos_rune.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "chaos_rune"
+      ],
+      "bytes": 455028,
+      "itemModel": {
+        "itemId": "chaos_rune",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "size": {
+        "x": 0.16715088486671448,
+        "y": 0.19337986409664154,
+        "z": 0.04409999989401549
+      },
+      "base": {
+        "x": -0.08358824998140335,
+        "y": -0.09363487362861633,
+        "z": -0.02740000004749745
+      },
+      "animations": [],
+      "materials": [
+        "chaos_rune weathered fracture edges",
+        "chaos_rune fractured mineral",
+        "chaos_rune recessed rune mineral"
+      ],
+      "itemId": "chaos_rune",
+      "status": "pending",
+      "sha256": "18f5aedfbbf1f34c9a29a3267b7019b450e3849fcbc95d06e59f218daad9fb01",
+      "sourceSha256": "e0e8ce64c67d49e0d99b02cc411a8d63dc3ece05d22c8d814d4cc9fe9ef13cda",
+      "referenceSha256": "46c466f55e902350398d168e0ba14d049d1f24c36eac91d0ce594d0407f651ee",
+      "metadata": {
+        "itemId": "chaos_rune",
+        "author": "essence-runes",
+        "reference": "art/item-icons/generated/chaos_rune.png",
+        "description": "An orange rune scored with a jagged fork. It lets a spell break loose and scatter across a line of foes. Rank-two invocations spend one per cast.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "triangles": 1296,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_death_rune",
+      "file": "models/items/death_rune.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "death_rune"
+      ],
+      "bytes": 2052240,
+      "itemModel": {
+        "itemId": "death_rune",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "size": {
+        "x": 0.16292177140712738,
+        "y": 0.19253689050674438,
+        "z": 0.04409999989401549
+      },
+      "base": {
+        "x": -0.08173275738954544,
+        "y": -0.0953993871808052,
+        "z": -0.02740000004749745
+      },
+      "animations": [],
+      "materials": [
+        "death_rune weathered fracture edges",
+        "death_rune fractured mineral",
+        "death_rune recessed rune mineral"
+      ],
+      "itemId": "death_rune",
+      "status": "pending",
+      "sha256": "c7ea8f97c8495651cc1a69c225f830fd61395e8aba75986bbe246379e6e962d5",
+      "sourceSha256": "e0e8ce64c67d49e0d99b02cc411a8d63dc3ece05d22c8d814d4cc9fe9ef13cda",
+      "referenceSha256": "b4692c09ae5fba9220bf5c36fc5f7ed29ae5c85e573f5ee1d35ae7d6e13fc813",
+      "metadata": {
+        "itemId": "death_rune",
+        "author": "essence-runes",
+        "reference": "art/item-icons/generated/death_rune.png",
+        "description": "A bone-white rune cut with a hollow skull. It holds a spell's shape while it gathers and closes. Rank-three invocations spend one per cast.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "triangles": 14468,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_blood_rune",
+      "file": "models/items/blood_rune.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "blood_rune"
+      ],
+      "bytes": 708456,
+      "itemModel": {
+        "itemId": "blood_rune",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "size": {
+        "x": 0.15943484753370285,
+        "y": 0.19252601265907288,
+        "z": 0.04409999989401549
+      },
+      "base": {
+        "x": -0.08005263656377792,
+        "y": -0.09309075772762299,
+        "z": -0.02740000004749745
+      },
+      "animations": [],
+      "materials": [
+        "blood_rune weathered fracture edges",
+        "blood_rune fractured mineral",
+        "blood_rune recessed rune mineral"
+      ],
+      "itemId": "blood_rune",
+      "status": "pending",
+      "sha256": "b1b50f3fc5c8e8cc3c665e5938c71ef654006e7c96bb1dc6d0a50041bc38f078",
+      "sourceSha256": "e0e8ce64c67d49e0d99b02cc411a8d63dc3ece05d22c8d814d4cc9fe9ef13cda",
+      "referenceSha256": "a025b182d47bb562179a4c565d05514e34f3e650ea231e6054d87158abab4e39",
+      "metadata": {
+        "itemId": "blood_rune",
+        "author": "essence-runes",
+        "reference": "art/item-icons/generated/blood_rune.png",
+        "description": "A dark red rune with a drop sunk into its face. It feeds invocations heavy enough to batter the ground. Rank-four invocations spend one per cast.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "triangles": 3504,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_wrath_rune",
+      "file": "models/items/wrath_rune.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "wrath_rune"
+      ],
+      "bytes": 516104,
+      "itemModel": {
+        "itemId": "wrath_rune",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "size": {
+        "x": 0.15088876336812973,
+        "y": 0.2055792212486267,
+        "z": 0.0453500000635162
+      },
+      "base": {
+        "x": -0.07759881019592285,
+        "y": -0.10094138234853745,
+        "z": -0.02740000004749745
+      },
+      "animations": [],
+      "materials": [
+        "wrath_rune weathered fracture edges",
+        "wrath_rune fractured mineral",
+        "wrath_rune recessed rune mineral"
+      ],
+      "itemId": "wrath_rune",
+      "status": "pending",
+      "sha256": "f922227ab3278f25967cee2d0f6135fd51d90265fb165afaff95e9466f2e0fb2",
+      "sourceSha256": "e0e8ce64c67d49e0d99b02cc411a8d63dc3ece05d22c8d814d4cc9fe9ef13cda",
+      "referenceSha256": "5bd80bb5a566bef144e424add992f74464b448fe4fb86934931850ec77d0af6d",
+      "metadata": {
+        "itemId": "wrath_rune",
+        "author": "essence-runes",
+        "reference": "art/item-icons/generated/wrath_rune.png",
+        "description": "A black rune split through with slow red light. The four finales spend one per cast, and nothing smaller touches it.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "triangles": 1880,
+      "drawCalls": 3
+    },
+    {
+      "id": "corealm_item_cosmic_rune",
+      "file": "models/items/cosmic_rune.glb",
+      "pack": "corealm-icon-item-models",
+      "category": "prop",
+      "is": "item",
+      "tags": [
+        "item-model",
+        "icon-authored",
+        "cosmic_rune"
+      ],
+      "bytes": 987536,
+      "itemModel": {
+        "itemId": "cosmic_rune",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "size": {
+        "x": 0.1764685958623886,
+        "y": 0.1882701888680458,
+        "z": 0.04460000006165356
+      },
+      "base": {
+        "x": -0.08866279572248459,
+        "y": -0.09285227954387665,
+        "z": -0.02740000004749745
+      },
+      "animations": [],
+      "materials": [
+        "cosmic_rune weathered fracture edges",
+        "cosmic_rune fractured mineral",
+        "cosmic_rune recessed rune mineral",
+        "Golden cosmic crystal relief"
+      ],
+      "itemId": "cosmic_rune",
+      "status": "pending",
+      "sha256": "b3f1ac92a9c76047c527315656ad4e45e757ef241bcb1e6745fb558220ecfaa5",
+      "sourceSha256": "e0e8ce64c67d49e0d99b02cc411a8d63dc3ece05d22c8d814d4cc9fe9ef13cda",
+      "referenceSha256": "d7560877ae1a08f103d0d0a6085006857f6691ef35423d91b601677eecc7936e",
+      "metadata": {
+        "itemId": "cosmic_rune",
+        "author": "essence-runes",
+        "reference": "art/item-icons/generated/cosmic_rune.png",
+        "description": "A yellow rune ringed with a wheel of stars. It spreads an invocation across an area. Every area invocation spends one beside its rank rune.",
+        "grip": [
+          0,
+          0,
+          0
+        ],
+        "focus": [
+          0,
+          0,
+          0.023
+        ]
+      },
+      "triangles": 4748,
+      "drawCalls": 4
+    }
+  ]
+}

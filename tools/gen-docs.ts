@@ -114,6 +114,7 @@ export function resourceGuideLifecycle(resourceId: string): {
 const ARCHIVE_SHA256 = /^[a-f0-9]{64}$/;
 const ORIGINAL_GENERATORS = new Set(["tools/build-corealm-nature.ts", "tools/build-corealm-geology.ts", "tools/build-corealm-farm.ts", "tools/build-corealm-minerals.ts", "tools/build-ground-ores.ts", "tools/build-creature-expansion.ts", "tools/build-corealm-equipment.ts", "tools/wilderness-trees/build.ts", "tools/wilderness-creatures/keepers/hollow-star.mjs"]);
 ORIGINAL_GENERATORS.add('tools/wilderness-resources/build.ts');
+ORIGINAL_GENERATORS.add('tools/item-models/build.ts');
 const FOUNDATION_IMPORT_PACK_IDS = new Set(["ultimate-nature-pack", "animated-fish-pack"]);
 
 const APPROVED_GATHERING_ASSET_CANDIDATES = [
@@ -1139,6 +1140,42 @@ function itemGalleryTile(item: typeof ALL_ITEMS[number]): string {
   ].join("");
 }
 
+export function wornArmourDoc(): string {
+  const tiers = ["grithe", "corven", "kaldite", "emberite", "cindersteel", "nightglass"];
+  const finishes: Record<string, string> = {
+    grithe: "Warm copper plates with chestnut quilted leather.",
+    corven: "Graphite plates with silver trim and umber quilted leather.",
+    kaldite: "Blue plates with silver trim and navy quilted leather.",
+    emberite: "Smoke silver plates with bronze trim and charcoal quilted leather.",
+    cindersteel: "Gunmetal plates with copper trim and oxblood quilted leather.",
+    nightglass: "Blue-black plates with silver-violet trim and indigo quilted leather.",
+  };
+  const kits = [...tiers.map(id => ({ id, body: `${id}_${id === "grithe" ? "cuirass" : "plate"}`, base: id })),
+    { id: "nightmarshal-plate", body: "nightmarshal_plate", base: "nightglass" }];
+  const sections = kits.map(kit => {
+    const body = ALL_ITEMS.find(item => item.id === kit.body)!;
+    const title = kit.id === "nightmarshal-plate" ? `Named upgrade: ${body.name}` : `Tier ${body.tier}: ${body.name.replace(/ (Cuirass|Plate)$/, "")}`;
+    const pieces = [kit.body, `${kit.base}_helm`, `${kit.base}_greaves`, `${kit.base}_boots`, `${kit.base}_${kit.base === "grithe" ? "gloves" : "gauntlets"}`];
+    return [
+      `## ${title}`, "",
+      kit.id === "nightmarshal-plate" ? "The named Nightmarshal Plate chest uses the Nightglass tier finish, worn with the Nightglass helmet, gloves, greaves, and boots." : `Full ${body.name.replace(/ (Cuirass|Plate)$/, "")} melee set.`, "",
+      finishes[kit.base], "",
+      pieces.map(id => itemLink(id, itemName(id), "../")).join(" · "), "",
+      '<div class="corealm-armour-views">',
+      ...["front", "back", "walking"].map(view => {
+        const file = `../assets/captures/armor-ornate/${kit.id}-${view}.png`;
+        return `<figure><a href="${file}" aria-label="Open full ${escapeHtml(title)} ${view} screenshot"><img src="${file}" alt="${escapeHtml(title)} worn on the player, ${view} view" width="1440" height="900" loading="lazy" /></a><figcaption>${view[0]!.toUpperCase() + view.slice(1)}</figcaption></figure>`;
+      }), '</div>',
+    ].join("\n");
+  });
+  return page("Worn armor by tier", "See every updated melee armor tier worn in the game, from the front, back, and while walking.", [
+    "All six melee tiers keep their original armor models, with tier-specific textures for burnished metal, engraved borders, and quilted leather. Nightglass is the existing tier 70 set. Nightmarshal Plate is its crafted chest upgrade, not an additional tier, and uses the Nightglass finish. The melee scarves are removed.",
+    "These are actual gameplay captures of the male player wearing complete sets. Click a view to open the full screenshot. The gallery enlarges the player within each capture; the full image retains the normal gameplay camera view.",
+    "Magic armor was not retextured in this revision. Female armor uses the corresponding existing models, but is not pictured here.",
+    ...sections,
+  ].join("\n\n"));
+}
+
 export function itemsDoc(): string {
   const groups = new Map<number, typeof ALL_ITEMS[number][]>();
   for (const item of sortedGuideItems()) {
@@ -1834,6 +1871,7 @@ async function main(): Promise<void> {
     ...guideCreatures().map((creature): [string, string] => [`creatures/${creature.id}.md`, creatureDoc(creature)]),
     ["regions.md", regionsDoc()],
     ["items/index.md", itemsDoc()],
+    ["armor.md", wornArmourDoc()],
     ...sortedGuideItems().map((item): [string, string] => [`items/${item.id}.md`, itemDetailDoc(item)]),
     ["recipes.md", recipesDoc()],
     ["resources.md", resourcesDoc()],
@@ -1852,6 +1890,7 @@ async function main(): Promise<void> {
     "- [Creatures](./creatures)",
     "- [Regions](./regions)",
     "- [Items](./items)",
+    "- [Worn armor by tier](./armor)",
     "- [Recipes](./recipes)",
     "- [Resources](./resources)",
     "- [Skills](./skills)",
