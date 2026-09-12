@@ -25,13 +25,24 @@ The gate may be skipped only when the behavior being built is the authored full 
 
 ### Mob spawn spacing
 
+`?mode=combat&spawnSpacing=1&population=stone` exercises the production resident budget
+with Flint Mandibles, Blind Cave Weavers, Scree Watchers and hens. Karrowmoor applies
+that budget to all live spawn sources before final placement: large bodies get 2–3
+residents, medium bodies 4–5, small bodies 6–7 and tiny bodies 8–10. Measured height
+also counts toward size, so tall narrow creatures cannot bypass the limit. Already
+sparse groups and bosses retain their counts. Retained actor IDs stay stable on reset.
+Run `npx tsx tools/mob-spawn-spacing-test.ts --stone`, then add `--world` for integration.
+
 `?mode=combat&spawnSpacing=1` starts three deliberately crowded seven-member groups through
 the production creature catalogue. The same final placement pass used by world boot and reset
 spreads every source, including fixed habitat anchors, regional packs, coastal packs and caves.
-Outdoor roots stay at least 10 m apart, with 6 m of body clearance for larger creatures.
+Outdoor roots stay at least 6 m apart, with 5 m of body clearance for larger creatures.
 Cave roots stay at least 5 m apart, with 3.5 m of body clearance. These gaps leave at least
 2 m between bodies after both residents use their full idle wander radius. Already loose
-packs retain their positions instead of multiplying their distance from the centre.
+packs vary their preferred positions by at most 4 m outdoors or 1 m underground before
+falling back to checked receiving floor. Stable per-group and per-resident spacing variation
+adds unequal gaps, and the fallback search varies its radii and angles. This avoids repeated
+formations while keeping the same layout after reload and reset.
 The Lit Gallery has a 24 m
 radius to fit the residents without moving them across locked gates. Residents wander near
 their own spawn rather than converging on shared patrol anchors.

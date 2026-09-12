@@ -22,13 +22,18 @@ describe('all-source mob spacing', () => {
     }
   });
 
-  it('retains an already loose pack without multiplying its spread', () => {
+  it('breaks equal authored spacing with bounded local variation', () => {
     const actors = Array.from({ length: 7 }, (_, index) => ({ ...mob(`loose-${index}`),
-      position: [Math.cos(index * Math.PI * 2 / 7) * 15, 0,
-        Math.sin(index * Math.PI * 2 / 7) * 15] as [number, number, number] }));
+      position: [Math.cos(index * Math.PI * 2 / 7) * 25, 0,
+        Math.sin(index * Math.PI * 2 / 7) * 25] as [number, number, number] }));
     const original = actors.map(actor => [...actor.position]);
     spreadMobSpawns(actors, [], ports);
-    expect(actors.map(actor => actor.position)).toEqual(original);
+    const distances = actors.map((actor, index) => {
+      expect(Math.hypot(actor.position[0] - original[index]![0]!, actor.position[2] - original[index]![2]!)).toBeLessThanOrEqual(4);
+      return Math.min(...actors.filter(other => other !== actor).map(other =>
+        Math.hypot(actor.position[0] - other.position[0], actor.position[2] - other.position[2])));
+    });
+    expect(Math.max(...distances) - Math.min(...distances)).toBeGreaterThan(2);
   });
 
   it('preserves wide Wilderness anchors when final floor placement must search again', () => {
@@ -46,7 +51,7 @@ describe('all-source mob spacing', () => {
     expect(habitats).toHaveLength(3);
     expect(habitats.flatMap(h => h.anchors)).toHaveLength(21);
     for (let i = 0; i < actors.length; i++) for (const other of actors.slice(i + 1)) {
-      expect(Math.hypot(actors[i]!.position[0] - other.position[0], actors[i]!.position[2] - other.position[2])).toBeGreaterThanOrEqual(10 - 1e-6);
+      expect(Math.hypot(actors[i]!.position[0] - other.position[0], actors[i]!.position[2] - other.position[2])).toBeGreaterThanOrEqual(7 - 1e-6);
     }
     const fresh = Array.from({ length: 21 }, (_, index) => mob(`mob-${index}`, `pack-${index % 3}`));
     spreadMobSpawns(fresh, [], ports);

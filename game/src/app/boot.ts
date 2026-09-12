@@ -585,7 +585,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   if (mobSpacingLab) {
     const { createMobSpacingFixture } = await import('../featureLab/mobSpawnSpacing.js');
     mobSpacingFixture.push(...createMobSpacingFixture({ heightAt: (x, z) => scene.meshHeightAt(x, z),
-      baseY: worldPorts.baseY!, assetSize: worldPorts.assetSize! }));
+      baseY: worldPorts.baseY!, assetSize: worldPorts.assetSize! }, new URLSearchParams(location.search).get('population') === 'stone'));
     built.entities.push(...structuredClone(mobSpacingFixture));
   }
   let currentCoastalHabitats = built.coastalHabitats ?? [];
@@ -936,7 +936,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   const { spreadMobSpawns } = await import('../world/mobSpawnSpacing.js');
   const { spreadMobSpawnsCached } = await import('../world/mobSpawnCache.js');
-  const applyMobSpacing = (actors: readonly SemanticEntity[], cached = false): void | Promise<void> => {
+  const { refineCreaturePopulation } = await import('../world/creaturePopulation.js');
+  const applyMobSpacing = (actors: SemanticEntity[], cached = false): void | Promise<void> => {
+    if (profile.kind === 'game') {
+      const residents = refineCreaturePopulation(actors, undefined, worldPorts.assetSize);
+      actors.splice(0, actors.length, ...residents);
+    }
     const placementSolids = new Solids(built.solids);
     const habitatSources = new Map(worldHabitats.map(habitat => [habitat.groupId, habitat]));
     const ports: import('../world/mobSpawnSpacing.js').MobSpawnSpacingPorts = {

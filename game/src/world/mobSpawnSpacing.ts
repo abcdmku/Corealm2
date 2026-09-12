@@ -22,7 +22,7 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
     const group = groups.get(key) ?? [];
     group.push(entity); groups.set(key, group);
   }
-  type Occupant = { position: Vec3; radius: number; underground: boolean };
+  type Occupant = { position: Vec3; radius: number; underground: boolean; extra: number };
   const cells = new Map<string, Occupant[]>();
   const largestRadius = Math.max(.5, ...mobs.map(entity => entity.combat?.bodyRadius ?? .5));
   const reserve = (entry: Occupant): void => {
@@ -33,7 +33,7 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
   // Singular encounter actors keep their location and reserve space before ordinary residents.
   for (const entity of mobs.filter(entity => entity.archetype === 'boss')) {
     reserve({ position: entity.position, radius: entity.combat?.bodyRadius ?? .5,
-      underground: ports.underground(entity.regionId) });
+      underground: ports.underground(entity.regionId), extra: 0 });
   }
   const result: HabitatDef[] = [];
   const orderedGroups = [...groups].sort((a, b) =>
@@ -44,7 +44,7 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
     if (!ordinary.length) continue;
     const source = sources.get(groupId);
     // Wilderness formations reserve room for their accepted body families. The
-    // final floor search must not collapse them back to the generic 10 m minimum.
+    // final floor search must not collapse them back to the generic minimum.
     let authoredSeparation = 0;
     if (source?.regionId === 'wilderness' && source.anchors && source.anchors.length > 1) {
       authoredSeparation = Infinity;
@@ -56,35 +56,45 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
     const centre = source?.centre ?? [ordinary.reduce((sum, e) => sum + e.position[0], 0) / ordinary.length,
       ordinary.reduce((sum, e) => sum + e.position[2], 0) / ordinary.length] as const;
     const anchors: [number, number][] = [];
+    const groupVariation = hashId(`${groupId}:spacing`) / 0xffffffff;
     for (const entity of ordinary) {
       const underground = ports.underground(entity.regionId);
       const radius = entity.combat?.bodyRadius ?? .5;
-      const minimum = Math.max(underground ? 5 : 10, authoredSeparation);
+      const minimum = Math.max(underground ? 5 : 6, authoredSeparation);
       // Leave a running lane even when both residents wander toward each other.
       // Idle patches extend .75 m in caves and 1.5 m outdoors.
-      const gap = underground ? 3.5 : 6;
+      const gap = underground ? 3.5 : 5;
       const phase = (hashId(entity.id) % 360) * Math.PI / 180;
       const desired = [entity.position[0], entity.position[2]];
+      // Independent stable samples break repeated authored sockets and equal rings.
+      // Variation is local to each resident, so changing another pack does not reroll it.
+      const sample = (key: string): number => hashId(`${entity.id}:placement:${key}`) / 0xffffffff;
+      const extra = (underground ? 1 : 5) * groupVariation * sample('clearance');
       let destination: Vec3 | null = null;
       const tryPoint = (x: number, z: number): void => {
         if (destination) return;
-        const reach = Math.max(minimum, radius + largestRadius + gap);
+        const reach = Math.max(minimum, radius + largestRadius + gap) + (underground ? 1 : 5);
         for (let gx = Math.floor((x - reach) / 32); gx <= Math.floor((x + reach) / 32); gx++) {
           for (let gz = Math.floor((z - reach) / 32); gz <= Math.floor((z + reach) / 32); gz++) {
             if (cells.get(`${underground}:${gx}:${gz}`)?.some(other =>
-              Math.hypot(x - other.position[0], z - other.position[2]) < Math.max(minimum, radius + other.radius + gap))) return;
+              Math.hypot(x - other.position[0], z - other.position[2]) < Math.max(minimum, radius + other.radius + gap)
+                + Math.max(extra, other.extra))) return;
           }
         }
         destination = ports.place(entity, x, z, radius);
       };
+      const offset = (underground ? 1 : 4) * Math.sqrt(sample('offset'));
+      const direction = sample('direction') * Math.PI * 2;
+      tryPoint(desired[0]! + Math.cos(direction) * offset, desired[1]! + Math.sin(direction) * offset);
       tryPoint(desired[0]!, desired[1]!);
       // Search nearby receiving floor rather than snapping many roots to one navmesh edge.
       for (let ring = 0; ring <= (underground ? 45 : 140) && !destination; ring++) {
         const distance = ring * 2;
         const count = Math.max(1, Math.ceil(Math.PI * 2 * distance / 2));
         for (let index = 0; index < count && !destination; index++) {
-          const angle = phase + index / count * Math.PI * 2;
-          tryPoint(centre[0] + Math.cos(angle) * distance, centre[1] + Math.sin(angle) * distance);
+          const angle = phase + (index + sample(`angle:${ring}:${index}`)) / count * Math.PI * 2;
+          const scatteredDistance = distance + sample(`radius:${ring}:${index}`) * 2;
+          tryPoint(centre[0] + Math.cos(angle) * scatteredDistance, centre[1] + Math.sin(angle) * scatteredDistance);
         }
       }
       if (!destination) throw new Error(`No spaced, walkable spawn for ${entity.id} at ${centre.join(',')} with body radius ${radius}`);
@@ -93,7 +103,7 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
       entity.meta = { ...entity.meta, groupId, habitatId: source?.id ?? `${groupId}_spaced`,
         spawnX: position[0], spawnZ: position[2] };
       anchors.push([position[0], position[2]]);
-      reserve({ position, radius, underground });
+      reserve({ position, radius, underground, extra });
     }
     result.push({ ...source, id: source?.id ?? `${groupId}_spaced`, groupId,
       regionId: ordinary[0]!.regionId, centre,

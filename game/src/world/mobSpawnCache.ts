@@ -11,7 +11,7 @@ export async function spreadMobSpawnsCached(cache: GenerationCachePort, entities
   habitats: readonly HabitatDef[], ports: MobSpawnSpacingPorts): Promise<HabitatDef[]> {
   const mobs = entities.filter(entity => entity.archetype === 'enemy' || entity.archetype === 'boss');
   const ordinary = mobs.filter(entity => entity.archetype === 'enemy');
-  const signature = JSON.stringify({ habitats, mobs: mobs.map(entity => ({
+  const signature = JSON.stringify({ placementVersion: 2, habitats, mobs: mobs.map(entity => ({
     id: entity.id, archetype: entity.archetype, region: entity.regionId, position: entity.position,
     radius: entity.combat?.bodyRadius ?? .5, group: entity.meta?.groupId ?? entity.id,
     underground: ports.underground(entity.regionId),

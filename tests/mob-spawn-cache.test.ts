@@ -13,6 +13,19 @@ const ports = { underground: () => false,
   place: (_entity: SemanticEntity, x: number, z: number): Vec3 | null => x < 0 ? null : [x, 0, z] };
 
 describe('cached authored mob placement', () => {
+  it('replaces caches made by the old uniform placement pass', async () => {
+    const cache = new MemoryGenerationCache();
+    await spreadMobSpawnsCached(cache, actors(), [], ports);
+    const record = cache.entries.get('spawns/world') as { signature: string };
+    const signature = JSON.parse(record.signature);
+    delete signature.placementVersion;
+    record.signature = JSON.stringify(signature);
+    const place = vi.fn(ports.place);
+    await spreadMobSpawnsCached(cache, actors(), [], { ...ports, place });
+    expect(place).toHaveBeenCalled();
+    expect(cache.hits).toBe(0);
+  });
+
   it('restores exact receiving floors and habitats without rerunning searches or overwriting live state', async () => {
     const cache = new MemoryGenerationCache();
     const reference = actors(), cold = actors();
