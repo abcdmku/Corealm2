@@ -14,6 +14,7 @@
  * Nothing here imports a system. Content is data; the quest and dialogue systems read it.
  */
 import type { EntityId, QuestId, RegionId } from "../contracts.js";
+import { FAIRY_NPC_CANDIDATES } from './fairyNpcs.js';
 
 export interface NpcDef {
   /** Matches `NpcStandDef.id` in content/regions.ts exactly. */
@@ -38,6 +39,7 @@ export interface NpcDef {
 }
 
 export const NPCS: readonly NpcDef[] = [
+  ...FAIRY_NPC_CANDIDATES,
   // -------------------------------------------------------------- Fallowmarch
   {
     id: "npc_warden_ilse",

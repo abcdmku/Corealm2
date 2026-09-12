@@ -24,6 +24,8 @@ import { WILDERNESS_LOOT_ITEMS } from '../content/wildernessLoot.js';
 import { WILDERNESS_RUNE_KEEPERS } from '../content/wildernessDepth.js';
 import { CROWNWARD_DRAGON_SPECIES, crownwardDragonGroup } from '../content/crownwardDragons.js';
 import { FAIRY_CROWN_SPECIES, FAIRY_CROWN_BOSS_IDS } from '../content/fairyCrownCreatures.js';
+import { UNIVERSAL_MINIBOSS_SPECIES } from '../content/universalMinibosses.js';
+import { FAIRY_NPC_CANDIDATES } from '../content/fairyNpcs.js';
 import { ALL_ITEMS } from "../content/items.js";
 import { QUESTS } from "../content/quests.js";
 import {
@@ -54,13 +56,14 @@ interface CreatureTargetSource {
 
 type TargetSource = NpcTargetSource | CreatureTargetSource;
 const FAIRY_CROWN_BOSSES = new Set(FAIRY_CROWN_BOSS_IDS);
+const UNIVERSAL_BOSSES = new Set(UNIVERSAL_MINIBOSS_SPECIES.map(species => species.id));
 
 function creatureOptionLabel(group: EnemyGroupDef): string {
   const stats = enemyBlockFor(group.id, group.family, group.tier);
   return stats ? `${group.name} (Level ${enemyCombatLevel(stats)})` : group.name;
 }
 
-const NPC_SOURCES: readonly NpcTargetSource[] = REGIONS.flatMap((region) => (
+const NPC_SOURCES: readonly NpcTargetSource[] = [...REGIONS.flatMap((region) => (
   (region.settlement?.npcs ?? []).map((npc) => ({
     kind: "npc" as const,
     preset: {
@@ -73,7 +76,12 @@ const NPC_SOURCES: readonly NpcTargetSource[] = REGIONS.flatMap((region) => (
     settlementId: region.settlement!.id,
     npc,
   }))
-));
+)), ...FAIRY_NPC_CANDIDATES.filter(npc => !REGIONS.some(region => region.settlement?.npcs.some(placed => placed.id === npc.id))).map(npc => ({
+  kind: 'npc' as const,
+  preset: { id: npc.id, label: npc.name, kind: 'npc' as const, tier: npc.regionId === 'gloamgarden' ? 30 : 60 },
+  regionId: npc.regionId, settlementId: npc.settlementId,
+  npc: { ...npc, position: [0, 0] as const, facingRad: 0 },
+}))];
 
 const CREATURE_SOURCES: readonly CreatureTargetSource[] = [...[...REGIONS, ...SOURCE_REGIONS].flatMap((region, regionIndex) => {
   const sourcePrefix = regionIndex >= REGIONS.length ? "source:" : "";
@@ -115,8 +123,9 @@ const CREATURE_SOURCES: readonly CreatureTargetSource[] = [...[...REGIONS, ...SO
     ? crownwardDragonGroup(species.id as Parameters<typeof crownwardDragonGroup>[0], `species:${species.id}`, [0,0]) : {
     id: `species:${species.id}`, family: species.stats.family, name: species.stats.name,
     tier: species.stats.tier, assetId: species.assetId,
-    scale: species.scale / (FAIRY_CROWN_BOSSES.has(species.id) ? 1.6 : 1),
+    scale: species.scale / (FAIRY_CROWN_BOSSES.has(species.id) ? 1.6 : UNIVERSAL_BOSSES.has(species.id) ? 1.3 : 1),
     boss: FAIRY_CROWN_BOSSES.has(species.id),
+    miniBoss: UNIVERSAL_BOSSES.has(species.id),
     count: 1, centre: [0, 0], radius: 0,
   },
 }))];
@@ -287,7 +296,7 @@ function createNpcEntity(
       assetId: npc.assetId,
       partAssetIds: npcOutfitParts(npc.id, npc.assetId),
       rotationY: placement.rotationY ?? npc.facingRad,
-      labelHeight: 2.2,
+      labelHeight: npc.assetId.startsWith('npc_fey_') ? 1.2 : 2.2,
     },
     meta: { settlementId: source.settlementId },
   };

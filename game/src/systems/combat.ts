@@ -1336,6 +1336,8 @@ export class CombatSystem implements TickSystem {
     runtime.respawnAtMs = atMs + (def.respawnSeconds !== undefined
       ? def.respawnSeconds * 1000
       : entity.archetype === "boss" ? BOSS_RESPAWN_MS : ENEMY_RESPAWN_MS);
+    if (def.respawnSeconds !== undefined) runtime.respawnAtWallMs = Date.now() + def.respawnSeconds * 1000;
+    else delete runtime.respawnAtWallMs;
     runtime.diedAtMs = atMs;
     entity.state = "dead";
     // Published on the view as well as held in the runtime: the renderer fades the corpse out from

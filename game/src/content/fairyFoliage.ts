@@ -14,8 +14,8 @@ export const FAIRY_FOLIAGE_IDS = FAIRY_FOLIAGE.map(entry => entry.id);
 
 /** Shared by the source material skin and the scatter grass colours. */
 export const FAIRY_FOLIAGE_COLOURS = {
-  gloam: { leaf: 0x51c5bd, bark: 0x75618e, glow: 0x4bbbb7, grass: 0x528f9e },
-  fae: { leaf: 0xb98ddd, bark: 0x667c92, glow: 0x9974cd, grass: 0x8473ac },
+  gloam: { leaf: 0xb88dcc, bark: 0x72604d, glow: 0x77649b, grass: 0x467d68 },
+  fae: { leaf: 0x949bda, bark: 0x625a50, glow: 0x7976bc, grass: 0x647f83 },
 } as const;
 
 export function fairyFoliageStyle(materialName: string): keyof typeof FAIRY_FOLIAGE_COLOURS | null {

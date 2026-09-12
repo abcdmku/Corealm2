@@ -2,7 +2,10 @@ import { CROWNWARD_RIVER_LAB_CHANNELS } from '../content/crownwardRiver.js';
 import { createRiverSurface } from '../render/riverSurface.js';
 import { isFairyRegion, worldMapForRegion } from '../contracts.js';
 import { createRealmTerrain, createRealmScatter, type RealmTerrain } from './realmTerrain.js';
+import { resolveFairyDressing } from './fairyDressing.js';
+import { FAIRY_COMBAT_PLATEAUS, FAIRY_DEEP_PATH_CLEARINGS } from '../world/fairyLandforms.js';
 import { buildFairyTerrainSpec } from './worldSpec.js';
+import { FAIRY_GARDEN_LANDINGS } from '../world/fairyRegionalRelief.js';
 import { FAIRY_PORTAL_LAB_TERRAIN, assembleFairyPortalFixture, createFairyPortalWorkbench } from '../featureLab/fairyPortal.js';
 import { immediatePlayerItems, selectPlayerEntities, type PlayerAssetArea } from '../render/playerAssetPlan.js';
 import { WorldSiteStreaming } from '../world/worldSiteStreaming.js';
@@ -264,7 +267,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const initialSettings = clientSettings.get();
   const adaptiveDistance = new AdaptiveDrawDistance(initialSettings.drawDistance);
   const audioDiagnostics: AudioDiagnostic[] = [];
-  const audioEngine = new AudioEngine(COREALM_AUDIO_CATALOG, {
+  const musicLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("music") === "1"
+    ? await import("../featureLab/music.js") : null;
+  const audioCatalog = musicLab ? musicLab.musicLabCatalog(COREALM_AUDIO_CATALOG) : COREALM_AUDIO_CATALOG;
+  const audioEngine = new AudioEngine(audioCatalog, {
     initialVolumes: {
       music: initialSettings.music,
       ambient: initialSettings.ambient,
@@ -279,7 +285,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Decode the level-up sting on the first audio-unlocking gesture. Without this, its first use
   // waits on fetch + Vorbis decode while the visual starts immediately.
   audioEngine.installGestureUnlock(window, [levelUpVariant]);
-  const audioDirector = new AudioDirector(audioEngine, COREALM_AUDIO_CATALOG, {
+  const audioDirector = new AudioDirector(audioEngine, audioCatalog, {
     regionFadeMs: 1400,
   });
 
@@ -393,9 +399,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     ? await import("../featureLab/paving.js") : undefined;
   const surfaceTextures = await surfaceBootstrap;
   scene.materials.setGroundStoneSurface(surfaceTextures);
+  if (profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('fairy-ground') === '1') {
+    scene.materials.setFairyGroundSurface(await (await import('../render/fairyGroundSurface.js')).loadFairyGroundSurface());
+  }
   await (await import('../render/castleStoneMaterial.js')).preloadCastleStoneTextures();
   scene.materials.setCastleStoneEnabled(true);
   const terrainSpec = profile.terrain();
+  const agilityLabModule = profile.kind === "feature-lab" && new URLSearchParams(window.location.search).get("agility") === "1"
+    ? await import("../featureLab/agility.js") : null;
+  agilityLabModule?.configureAgilityLabTerrain(terrainSpec);
   const cacheQuery = new URLSearchParams(location.search);
   const cacheScope = generationScope(profile.kind, store.get().meta.seed, location.search);
   const bakeWriter = worldBake ? new (await import('../world/worldBake.js')).WorldBakeWriter() : null;
@@ -438,12 +450,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
 
   if (profile.kind === 'game' || fairyLab) {
+    const fairyGrassSurface = await (await import('../render/fairyGroundSurface.js')).loadFairyGroundSurface();
+    const fairyRockSurface = await (await import('../render/fairyRockSurface.js')).loadFairyRockSurface();
     fairyRealm = await createRealmTerrain(renderer.scene, fairyLab ? FAIRY_PORTAL_LAB_TERRAIN : buildFairyTerrainSpec(), {
       cache: generationCache, cacheKey: 'fairy',
-      configure: other => other.materials.setGroundStoneSurface(surfaceTextures),
+      configure: other => { other.materials.setGroundStoneSurface({ ...surfaceTextures, stone: fairyRockSurface }); other.materials.setFairyGroundSurface(fairyGrassSurface); },
       ...(fairyLab ? {} : { prepareSurface: (other: WorldScene) => { prepareWorldSurface(other, store.get().meta.seed); } }),
     });
-    cameraQueries.addHeightfield(fairyRealm.heightfieldSamples());
+    cameraQueries.addHeightfield(fairyRealm.heightfieldSamples(1));
   }
   const heightAt = (regionId: RegionId, x: number, z: number): number => terrainAt(x, z).heightAt(regionId, x, z);
   const fairyPortalFixture = fairyLab ? assembleFairyPortalFixture(heightAt, id => assets.baseY(id)) : null;
@@ -454,8 +468,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const doorLab = profile.kind === "feature-lab" && (new URLSearchParams(window.location.search).get("doors") === "1" || denseCaveLab)
     ? await import("../featureLab/dungeonDoors.js") : null;
   const doorFixture = denseCavePopulation ?? doorLab?.assembleDungeonDoorFixture((x, z) => terrainAt(x, z).meshHeightAt(x, z));
-  const agilityLabModule = profile.kind === "feature-lab" && new URLSearchParams(window.location.search).get("agility") === "1"
-    ? await import("../featureLab/agility.js") : null;
   const agilityFixture = agilityLabModule?.assembleAgilityFixture((x, z) => terrainAt(x, z).meshHeightAt(x, z),
     (id) => assets.baseY(id), (id) => assets.assetSize(id), (id) => assets.assetCenterXZ(id));
   const dungeonRegion = profile.dungeon ? REGIONS.find((region) => region.dungeon) : undefined;
@@ -464,11 +476,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     dungeonRegion.dungeon, heightAt(dungeonRegion.id, ...dungeonRegion.dungeon.entrance),
   ) : [];
   const doorThresholds = doorFixture?.thresholds ?? worldDoorThresholds;
-  const gates = doorThresholds.length || agilityFixture ? await import("../render/dungeonGate.js") : null;
+  const gates = doorThresholds.length || agilityFixture || profile.kind === 'game' ? await import("../render/dungeonGate.js") : null;
   let gateMaterials: import("../render/dungeonGate.js").DungeonGateMaterials | null = null;
   if (gates) {
     gateMaterials = gates.createDungeonGateMaterials(surfaceTextures, scene.materials.metal(1));
     await gates.registerDungeonGateAssets(assets, gateMaterials);
+    if (profile.kind === 'game' || agilityFixture) {
+      const { registerTraversalContactAssets } = await import('../render/traversalContactAssets.js');
+      registerTraversalContactAssets(assets, gateMaterials);
+    }
   }
   if (doorFixture && gates && gateMaterials) {
     for (const threshold of doorFixture.thresholds) {
@@ -487,8 +503,6 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
   }
   if (agilityFixture && gates && gateMaterials) {
-    const { registerTraversalContactAssets } = await import("../render/traversalContactAssets.js");
-    registerTraversalContactAssets(assets, gateMaterials);
     for (const wall of agilityFixture.enclosure) {
       const object = gates.buildDungeonGateMasonryWall(wall, gateMaterials);
       object.position.set(...wall.origin);
@@ -567,6 +581,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     coastalSpawns: profile.worldSurface ? coastalSpawnSites(scene, store.get().meta.seed) : [],
     coastalAccepts: (spot: readonly [number, number], radius: number) =>
       coastalBodyOnSafeGround((x, z) => terrainAt(x, z).sampleWorld(x, z), spot, radius),
+    minibossCanStand: (regionId: RegionId, x: number, z: number) => {
+      const sample = terrainAt(x, z).sampleWorld(x, z);
+      return sample.playable && sample.semanticRegion === regionId && sample.waterBodyId === null
+        && sample.slope !== null && sample.slope <= .5;
+    },
   };
   const shopLab = profile.kind === "feature-lab" && new URLSearchParams(window.location.search).get("shop") === "1"
     ? await import("../featureLab/shop.js") : null;
@@ -730,6 +749,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
   }
 
+
+  const fairyDressing = fairyRealm ? resolveFairyDressing(fairyRealm.scene) : null;
+  if (fairyDressing) built.solids.push(...fairyDressing.solids);
 
   // The fitted stone recess gives the existing portal visible depth beyond its masonry arch.
   const portalMouths = portalFixture?.entities ?? built.entities.filter((entity) => entity.id === "gravelmaw_mouth_portal" || entity.id === "gravelmaw_exit_portal");
@@ -1049,7 +1071,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       for (const mapScene of [scene, ...(fairyRealm ? [fairyRealm.scene] : [])]) {
         if (!mapScene.hasNativeGrass()) mapScene.setGrassSource(assets.instance('corealm_grass_1'));
         for (const tile of scatterTilesForBounds(mapScene.getScatterBounds(Infinity))) {
-        const result = await scatterWorldTile(mapScene, assets, store.get().meta.seed, tile, undefined,
+        const result = await scatterWorldTile(mapScene, assets, store.get().meta.seed, tile,
+          mapScene === fairyRealm?.scene ? fairyDressing?.specs : undefined,
           { cache: bakeWriter, render: false });
         if (result.some(region => region.missingAssets.length)) throw new Error(`Cannot bake incomplete tile ${tile.id}`);
         tiles.push(tile.id);
@@ -1108,7 +1131,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   assets.setActiveRegion(loadRegion);
   const scatterStreaming = new ScatterStreamingController(scene, assets, store.get().meta.seed, { onTree: registerForestTree, cache: generationCache ?? undefined });
   const fairyScatter = fairyRealm ? await createRealmScatter(fairyRealm, assets, store.get().meta.seed, {
-    onTree: registerForestTree, cache: generationCache ?? undefined,
+    onTree: registerForestTree, cache: generationCache ?? undefined, specs: fairyDressing?.specs,
   }) : null;
   const scatterForRegion = (regionId: RegionId) => isFairyRegion(regionId) && fairyScatter ? fairyScatter : scatterStreaming;
   let scatterResults: ScatterResult[] = [];
@@ -1772,7 +1795,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       ? [navPoint[0], movementHeightAt(regionId, navPoint[0], navPoint[2]), navPoint[2]] : navPoint;
     store.get().player.position = snapped;
     store.get().player.regionId = regionId;
-    audioDirector.setRegion(regionId);
+    audioDirector.setRegion(regionId, snapped);
     movement.stop(store.get(), clock.elapsedMs, "portal");
     scene.syncPlayer(snapped, store.get().player.facingRad, true);
     camera.update(snapped[0], snapped[1], snapped[2], true);
@@ -1825,7 +1848,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       camera.setFreeTarget(null);
       commit();
       const player = store.get().player;
-      audioDirector.setRegion(player.regionId);
+      audioDirector.setRegion(player.regionId, player.position);
       scene.syncPlayer(player.position, player.facingRad, true);
       camera.update(...player.position, true);
       refreshVisualResidency(player.position, player.regionId, true);
@@ -2210,7 +2233,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
       cameraQueries.clearStatic();
       cameraQueries.addHeightfield(scene.heightfieldSamples());
-      if (fairyRealm) cameraQueries.addHeightfield(fairyRealm.heightfieldSamples());
+      if (fairyRealm) cameraQueries.addHeightfield(fairyRealm.heightfieldSamples(1));
       for (const solid of allSolids) {
         if (solid.kind === "box") {
           cameraQueries.addStaticBox(
@@ -2244,11 +2267,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       selection: FeatureLabStructureSelection,
     ): Promise<FeatureLabStructureView> => {
       const started = performance.now();
+      const architecture = new URLSearchParams(location.search).get("architecture");
       const next = assembleFeatureLabStructure(selection, structureOrigin, {
         baseY: (assetId) => assets.baseY(assetId),
         assetSize: (assetId) => assets.assetSize(assetId),
         assetCenterXZ: (assetId) => assets.assetCenterXZ(assetId),
-      });
+      }, architecture === "gloamgarden" || architecture === "faeholme" ? architecture : undefined);
       const prepared = await entityViews.prepare(next.entities);
       if (prepared.missing.length > 0) {
         throw new Error(`Missing production structure assets: ${prepared.missing.join(", ")}`);
@@ -2379,6 +2403,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     api.setMovementCommandsEnabled(initialWalkingEnabled);
 
     const params = new URLSearchParams(window.location.search);
+    musicLab?.createMusicWorkbench(point => teleportPlayer(point, "fallowmarch"));
     if (params.get("atmosphere") === "1") {
       const { createBiomeAtmosphereWorkbench } = await import("../featureLab/biomeAtmosphere.js");
       createBiomeAtmosphereWorkbench(renderer.biomeAtmosphere);
@@ -3193,7 +3218,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     camera.reset();
     camera.setPose(facing + Math.PI, CAMERA.defaultPitch, CAMERA.defaultDistance);
     camera.update(position[0], position[1], position[2], true);
-    audioDirector.setRegion(store.get().player.regionId);
+    audioDirector.setRegion(store.get().player.regionId, position);
     discoverySystem.sweep(clock.elapsedMs);
   };
 
@@ -3220,7 +3245,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     store.get().player.facingRad = playerFacingRad;
     if (profile.kind === "feature-lab") entityViews.sync(entityStore.all());
     else refreshVisualResidency(landed, regionId, true);
-    audioDirector.setRegion(regionId);
+    audioDirector.setRegion(regionId, landed);
     movement.stop(store.get(), clock.elapsedMs, reason);
     scene.syncPlayer(landed, playerFacingRad, true);
     // Documentation poses may deliberately move inside the player-facing comfort zoom floor so a
@@ -3268,9 +3293,16 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     clearAudioHistory: () => audioEngine.clearHistory(),
     // "scatter placed nothing" and "nobody asked scatter" are different bugs, and the debug surface
     // could not tell them apart while boot threw this array away.
-    scatterStats: () => scatterStreaming.getStats(),
-    scatterResidency: () => scatterStreaming.getResidency(),
-    scatterVisibility: () => scene.scatterVisibility.getStats(),
+    prepareView: async () => {
+      const { position, regionId } = store.get().player;
+      await preparePlayerArea(playerAssetArea(position, regionId));
+      if ((profile.scatter || fairyLab) && regionId !== 'gravelmaw')
+        await scatterForRegion(regionId).loadView(position[0], position[2],
+          fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + ENTITY_ACTIVE_REPOSITION_DISTANCE);
+    },
+    scatterStats: () => [...scatterStreaming.getStats(), ...(fairyScatter?.getStats() ?? [])],
+    scatterResidency: () => scatterForRegion(store.get().player.regionId).getResidency(),
+    scatterVisibility: () => terrainAt(store.get().player.position[0], store.get().player.position[2]).scatterVisibility.getStats(),
     playerMotion: () => playerRig.motionSnapshot(true),
     foliageOcclusion: () => scene.materials.getFoliageOcclusion(),
     roofVisibility: () => roofVisibility.snapshot(),
@@ -3313,7 +3345,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         ? [navPoint[0], movementHeightAt(regionId, navPoint[0], navPoint[2]), navPoint[2]] : navPoint;
       store.get().player.position = snapped;
       store.get().player.regionId = regionId;
-      audioDirector.setRegion(regionId);
+      audioDirector.setRegion(regionId, snapped);
       movement.stop(store.get(), clock.elapsedMs, "teleport");
       scene.syncPlayer(snapped, store.get().player.facingRad, true);
       camera.update(snapped[0], snapped[1], snapped[2], true);
@@ -3356,7 +3388,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
     forceRespawn: (entityId: string) => gatheringSystem.forceRespawn(entityId, clock.elapsedMs),
     // Observation must not update the renderer or repair a missed state transition.
-    drawnBounds: (entityId: string) => entityViews.drawnBounds(entityId),
+    drawnBounds: (entityId: string) => entityViews.drawnBounds(entityId, true),
     entityViewStats: () => entityViews.stats(),
     selection: () => ({ hovered: input.hoveredEntityId, selected: input.selectedEntityId }),
     select: (entityId) => { input.select(entityId); },
@@ -3523,7 +3555,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         camera.update(...focus, true);
         return true;
       }
-      const regionId = scene.regionAt(target[0], target[2]);
+      const terrain = terrainAt(target[0], target[2]);
+      const regionId = terrain.regionAt(target[0], target[2]);
       featureLab?.setFreeCameraEnabled(false);
       camera.setFreeTarget(null);
       input.setFreeCameraEnabled(false);
@@ -3531,16 +3564,16 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       scene.scatterGroup.visible = true;
       scene.terrainGroup.visible = true;
       if (dungeon) dungeon.group.visible = regionId === "gravelmaw";
-      const stand: Vec3 = [target[0], scene.heightAt(regionId, target[0], target[2]), target[2]];
+      const stand: Vec3 = [target[0], terrain.meshHeightAt(target[0], target[2]), target[2]];
       store.get().player.position = stand;
       store.get().player.regionId = regionId;
       store.get().player.facingRad = yaw + Math.PI;
       refreshVisualResidency(stand, regionId, true);
-      audioDirector.setRegion(regionId);
+      audioDirector.setRegion(regionId, stand);
       movement.stop(store.get(), clock.elapsedMs, "inspect-pose");
       scene.syncPlayer(stand, yaw + Math.PI, true);
       camera.setPose(yaw, pitch, distance);
-      camera.update(target[0], target[1], target[2], true);
+      camera.update(...stand, true);
       renderer.followShadow(renderer.camera.position.clone().setY(stand[1]));
       return true;
     },
@@ -3697,7 +3730,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (creatureGallery) (window as Window & { __creatureGallery?: typeof creatureGallery }).__creatureGallery = creatureGallery;
       if (forestFixture) (window as Window & { __forestLab?: unknown }).__forestLab = { getState: () => ({ ...forest.stats(), entityIds: forestFixture!.entityIds, obstacles: forestObstacles.size }), getTrees: () => forestFixture!.trees, getScatterVisibility: () => forestFixture!.getScatterVisibility() };
       window.setTimeout(() => {
-        audioDirector.setRegion(store.get().player.regionId);
+        audioDirector.setRegion(store.get().player.regionId, store.get().player.position);
         // The starting view is complete. Travel prefetch follows movement; equipment and newly
         // created items use their normal on-demand loaders instead of flooding the first frames.
       }, 0);
@@ -3759,6 +3792,22 @@ function registerExclusions(
   fairyScene?: WorldScene,
 ): void {
   worldExclusions.clear();
+  // Keep the entire encounter floor usable while trees frame its outer rim.
+  // Tree-only clearance leaves the fine ground cover and flowers in these glades.
+  for (const landing of FAIRY_GARDEN_LANDINGS) {
+    worldExclusions.addCorridor([[landing.from[0], 0, landing.from[1]],
+      [landing.to[0], 0, landing.to[1]]], landing.halfWidth * 2, 'road', `${landing.id}:landing`);
+    worldExclusions.addTreeClearance([[landing.from[0], 0, landing.from[1]],
+      [landing.to[0], 0, landing.to[1]]], landing.halfWidth + 1, `${landing.id}:landing`);
+  }
+  for (const plateau of FAIRY_COMBAT_PLATEAUS) {
+    worldExclusions.addTreeClearance([[plateau.centre[0], 0, plateau.centre[1]]],
+      plateau.clearingRadius + 5, `${plateau.id}:crown-clearance`);
+  }
+  for (const clearing of FAIRY_DEEP_PATH_CLEARINGS) {
+    worldExclusions.addTreeClearance([[clearing.position[0], 0, clearing.position[1]]],
+      clearing.radius + 2, `${clearing.id}:valley-clearance`);
+  }
   for (const body of scene.getWaterBodies()) if (body.id.startsWith("river:")) {
     worldExclusions.addCircle(body.centre[0], body.centre[1], body.radii.outer + 2, "custom", body.id);
   }
@@ -3795,6 +3844,10 @@ function registerExclusions(
         ruin.footprint[0]+4,ruin.footprint[1]+4,landmark.rotationY??0,2,'building',landmark.id);
     }
     for (const location of region.locations) {
+      // These are route/door anchors, not clearings. Their roads and physical footprints
+      // reserve walking space; overlapping five-metre discs erase the planted village banks.
+      if (isFairyRegion(region.id) && (location.id.startsWith('lantern_rest_')
+        || location.id.startsWith('prism_hollow_'))) continue;
       if (!authoredLocations.has(location.id)) {
         worldExclusions.addCircle(location.position[0], location.position[1], 5, "cluster", location.id);
       }
@@ -3858,7 +3911,10 @@ function registerExclusions(
     worldExclusions.addCircle(altar.position[0], altar.position[1], ESSENCE_ALTAR_CLEAR_RADIUS, "ritual", altar.id);
   }
   for (const [index, points] of [...scene.getRoadPolylines(), ...(fairyScene?.getRoadPolylines() ?? [])].entries()) {
-    worldExclusions.addCorridor(points, 5, "road", `resolved-road-${index}`);
+    const fairyBounds = fairyScene?.getWorldBounds();
+    const fairyRoad = fairyBounds && points.every(point => point[0] >= fairyBounds.minX && point[0] <= fairyBounds.maxX
+      && point[2] >= fairyBounds.minZ && point[2] <= fairyBounds.maxZ);
+    worldExclusions.addCorridor(points, fairyRoad ? 1.3 : 5, "road", `resolved-road-${index}`);
   }
 }
 

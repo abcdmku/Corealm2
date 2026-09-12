@@ -17,6 +17,7 @@ import { applyIconWeaponMaterials } from "./equipmentIconMaterials.js";
 import { applyArmorTexture } from "./equipmentArmorTextures.js";
 import { applyFabArmorMaterials, fabArmorAppearance } from './fabArmor.js';
 import { BOSS_ARMOR_ITEMS } from '../content/bossArmor.js';
+import { MINIBOSS_JEWELLERY } from '../content/universalMinibossLoot.js';
 
 /** Which base body the parts are resolved against. `boot.ts` builds the player as `base_male`. */
 export type CharacterBody = "male" | "female";
@@ -498,6 +499,15 @@ function buildTable(): Map<ItemId, GearVisual> {
           ? outfitPart(part.kit, part.part, reward.tint, reward.accent)
           : { ...part, tint: reward.tint }),
     });
+  }
+
+  // Jewelry follows the established accessory path: explicit slot coverage and inventory art.
+  for (const item of MINIBOSS_JEWELLERY) {
+    const slot = item.equip?.slot;
+    if (slot !== 'accessory1' && slot !== 'accessory2') {
+      throw new Error(`Miniboss jewellery has an unsupported slot: ${item.id}`);
+    }
+    table.set(item.id, { slot, parts: [] });
   }
 
   return table;

@@ -5,6 +5,9 @@
  * heightfield, while water asks the render scene to solve its exact shoreline.
  */
 import type { Vec3 } from "../contracts.js";
+import { isFairyRegion } from '../contracts.js';
+import { FAIRY_ASCENT_ROUTES, FAIRY_VALLEY_ROUTE_CONTROLS } from '../world/fairyLandforms.js';
+import { FAIRY_HOLLOW_ROUTES, FAIRY_UPPER_GARDEN_RAMPS } from '../world/fairyRegionalRelief.js';
 import { castleGroundLayout } from '../render/compositions/crownwardCastles.js';
 import {
   ESSENCE_ALTAR_COURT_RADIUS,
@@ -77,6 +80,12 @@ export function collectRoadStamps(scene: WorldScene, access: ReadonlyMap<string,
       const sourceFrom = locationById.get(road.from);
       const sourceTo = locationById.get(road.to);
       if (!sourceFrom || !sourceTo) continue;
+      const fairyControls = isFairyRegion(region.id) ? FAIRY_VALLEY_ROUTE_CONTROLS.find(route =>
+        route.from === road.from && route.to === road.to) : undefined;
+      if (fairyControls) {
+        stamps.push({ width: 2.6, points: fairyControls.points.map(([x, z]) => [x, scene.heightAt(region.id, x, z), z]) });
+        continue;
+      }
       const fromAccess = access.get(sourceFrom.id);
       const toAccess = access.get(sourceTo.id);
       const from = fromAccess ? { ...sourceFrom, position: [fromAccess[0], fromAccess[2]] as [number, number] } : sourceFrom;
@@ -134,8 +143,17 @@ export function collectRoadStamps(scene: WorldScene, access: ReadonlyMap<string,
       // Do not fill the link with straight six-metre samples here. Each sample becomes a hard
       // control in `curveRoadPolyline`, which used to suppress the meander entirely.
       const points: Vec3[] = waypoints.map(([x, z]) => [x, scene.heightAt(region.id, x, z), z]);
-      stamps.push({ points, width: 3.2 });
+      stamps.push({ points, width: isFairyRegion(region.id) ? 2.6 : 3.2 });
     }
+  }
+  for (const route of FAIRY_ASCENT_ROUTES) if (pointInScene(scene, route.points[0]!)) {
+    stamps.push({ width: route.width, points: route.points.map(([x, z]) => [x, scene.heightAt(route.regionId, x, z), z]) });
+  }
+  for (const route of FAIRY_HOLLOW_ROUTES) if (pointInScene(scene, route[0]!)) {
+    stamps.push({ width: 2.6, points: route.map(([x, z]) => [x, scene.meshHeightAt(x, z), z]) });
+  }
+  for (const ramp of FAIRY_UPPER_GARDEN_RAMPS) if (pointInScene(scene, ramp.points[0]!.position)) {
+    stamps.push({ width: 2.6, points: ramp.points.map(({ position: [x, z] }) => [x, scene.meshHeightAt(x, z), z]) });
   }
   return stamps;
 }

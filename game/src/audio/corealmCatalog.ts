@@ -1,6 +1,7 @@
 import type { AudioCueId } from "../contracts.js";
 import type { AudioCueDefinition } from "./catalog.js";
 import { defineAudioCatalog } from "./catalog.js";
+import { CROWNWARD_MUSIC_AREAS } from "./castleMusic.js";
 
 const publicBase = import.meta.env?.BASE_URL ?? "/";
 const publicAsset = (pathname: string): string => `${publicBase.replace(/\/?$/, "/")}${pathname.replace(/^\/+/, "")}`;
@@ -168,6 +169,10 @@ export const COREALM_AUDIO_CATALOG = defineAudioCatalog({
     "music.distant-plains": { url: music("distant-plains"), bus: "music", gain: 0.22, fadeMs: 1800 },
     "music.deep-woodland": { url: music("deep-woodland"), bus: "music", gain: 0.22, fadeMs: 1800 },
     "music.stone-city": { url: music("stone-city"), bus: "music", gain: 0.22, fadeMs: 1800 },
+    // Source LUFS: Fairy -14.0, Fairy Mire -12.7, Castle -16.7. Match the -27 LUFS beds.
+    "music.fairy": { url: music("fairy"), bus: "music", gain: 0.224, fadeMs: 1800 },
+    "music.fairy-mire": { url: music("fairy-mire"), bus: "music", gain: 0.193, fadeMs: 1800 },
+    "music.castle": { url: music("castle"), bus: "music", gain: 0.305, fadeMs: 1800 },
     "ambient.open-plains": { url: noxAmbience("open-plains-wind"), bus: "ambient", gain: 1, fadeMs: 1400 },
     "ambient.deep-woodland": { url: noxAmbience("deep-woodland-birds"), bus: "ambient", gain: 0.5, fadeMs: 1400 },
     "ambient.rocky-highlands": { url: noxAmbience("rocky-highlands-wind"), bus: "ambient", gain: 1, fadeMs: 1400 },
@@ -175,7 +180,7 @@ export const COREALM_AUDIO_CATALOG = defineAudioCatalog({
   },
   regions: {
     fallowmarch: {
-      music: ["music.starter-plains", "music.distant-plains"],
+      music: "music.starter-plains",
       ambient: "ambient.open-plains",
     },
     vellenwood: { music: "music.deep-woodland", ambient: "ambient.deep-woodland" },
@@ -184,9 +189,9 @@ export const COREALM_AUDIO_CATALOG = defineAudioCatalog({
     // exactly like the Gravelmaw. Dry upland wind is the closest rights-traced ambience family.
     kilnhalt: { ambient: "ambient.rocky-highlands" },
     gravelmaw: { ambient: "ambient.cave" },
-    crownward: { music: "music.stone-city", ambient: "ambient.open-plains" },
-    gloamgarden: { music: "music.deep-woodland", ambient: "ambient.cave" },
-    faeholme: { music: "music.deep-woodland", ambient: "ambient.cave" },
+    crownward: { music: "music.distant-plains", ambient: "ambient.open-plains", musicAreas: CROWNWARD_MUSIC_AREAS },
+    gloamgarden: { music: "music.fairy", ambient: "ambient.cave" },
+    faeholme: { music: "music.fairy-mire", ambient: "ambient.cave" },
   },
 });
 

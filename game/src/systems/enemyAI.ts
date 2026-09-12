@@ -668,7 +668,8 @@ export class EnemyAiSystem implements TickSystem {
   private respawnDead(state: GameState, atMs: number): void {
     for (const [entityId, runtime] of Object.entries(state.world.enemies)) {
       if (!runtime || runtime.state !== "dead") continue;
-      if (runtime.respawnAtMs === null || atMs < runtime.respawnAtMs) continue;
+      if (runtime.respawnAtMs === null || (atMs < runtime.respawnAtMs
+        && (runtime.respawnAtWallMs === undefined || Date.now() < runtime.respawnAtWallMs))) continue;
 
       const entity = this.deps.entities.get(entityId);
       if (!entity) {
@@ -679,6 +680,7 @@ export class EnemyAiSystem implements TickSystem {
       runtime.health = entity.combat?.maxHealth ?? def.maxHealth;
       runtime.state = "idle";
       runtime.respawnAtMs = null;
+      delete runtime.respawnAtWallMs;
       delete runtime.bossPhase;
       // Both halves, or the renderer keeps fading a creature that is alive again.
       delete runtime.diedAtMs;

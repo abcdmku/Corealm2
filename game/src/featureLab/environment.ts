@@ -282,7 +282,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
     showFoliage(assetId, options = {}) {
       return enqueue(async () => {
         const tree = reviewTreeAsset(assetId) || isNativeTreeAsset(assetId);
-        const understory = /^corealm_(?:fern|shrub)_(?:(?:gloam|fae)_)?\d+$/.test(assetId);
+        const understory = /^fairy_(?:groundcover|finegrass)_(?:gloam|fae)_[12]$/.test(assetId) || /^corealm_(?:fern|shrub)_(?:(?:gloam|fae)_)?\d+$/.test(assetId);
         if (!tree && !understory) throw new Error(`No production foliage family for ${assetId}`);
         if (!assets.entry(assetId)) throw new Error(`Foliage fixture requires ${assetId}`);
         const layout = options.layout ?? "grid";
@@ -295,7 +295,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
           throw new Error("Foliage span and scale must be finite and positive");
         }
         const variants = [...new Set(options.variants?.length ? options.variants : [assetId])];
-        if (variants.some(id => !assets.entry(id) || (!reviewTreeAsset(id) && !isNativeTreeAsset(id) && !/^corealm_(?:fern|shrub)_(?:(?:gloam|fae)_)?\d+$/.test(id)))) {
+        if (variants.some(id => !assets.entry(id) || (!reviewTreeAsset(id) && !isNativeTreeAsset(id) && !/^fairy_(?:groundcover|finegrass)_(?:gloam|fae)_[12]$/.test(id) && !/^corealm_(?:fern|shrub)_(?:(?:gloam|fae)_)?\d+$/.test(id)))) {
           throw new Error("Every grove variant must be a production foliage asset");
         }
         await assets.loadMany(variants, { priority: "visible-spawn", regionId: "fallowmarch" });

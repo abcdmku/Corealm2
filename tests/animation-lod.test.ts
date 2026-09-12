@@ -39,7 +39,7 @@ function actor() {
 }
 
 type Shader = Parameters<THREE.Material["onBeforeCompile"]>[0];
-function compile(material: THREE.Material, library: "standard" | "depth" | "distance" = "standard"): Shader {
+function compile(material: THREE.Material, library: "basic" | "standard" | "depth" | "distance" = "standard"): Shader {
   const shader = { vertexShader: THREE.ShaderLib[library].vertexShader, fragmentShader: THREE.ShaderLib[library].fragmentShader, uniforms: {} } as Shader;
   material.onBeforeCompile(shader, {} as THREE.WebGLRenderer);
   return shader;
@@ -139,6 +139,82 @@ function overlayReference(root: THREE.Object3D, pose: LodPose, vertex: number): 
 }
 
 describe("sampled skeletal animation LOD", () => {
+  it("reports only current palette vertices through interpolation, blending, overlays and slot compaction", () => {
+    const { root, walk, hit } = actor(), parent = new THREE.Group();
+    const lod = new AnimationLod(parent, root, root, [walk, hit], material => material);
+    const placement = new THREE.Matrix4().makeRotationY(0.7).setPosition(2304.5, -120, 136);
+    lod.set(2, new THREE.Matrix4(), { clip: walk, time: 0, blend: 1 });
+    const poses: LodPose[] = [
+      { clip: walk, time: 0.327, blend: 1 },
+      { clip: hit, time: 0.223, previousClip: walk, previousTime: 0.712, blend: 0.38 },
+      { clip: walk, time: 0.423, blend: 1, overlay: { clip: overlayClip(), time: 0.22, weight: 0.7 } },
+    ];
+    for (const pose of poses) {
+      lod.set(7, placement, pose);
+      const mesh = parent.children[0] as THREE.InstancedMesh;
+      const expected = new THREE.Box3();
+      for (let vertex = 0; vertex < 3; vertex++) expected.expandByPoint(paletteVertex(mesh, 1, vertex));
+      const actual = lod.drawnBounds(7, new THREE.Box3())!;
+      expect(actual.min.distanceTo(expected.min)).toBeLessThan(1e-6);
+      expect(actual.max.distanceTo(expected.max)).toBeLessThan(1e-6);
+    }
+    const before = lod.drawnBounds(7, new THREE.Box3())!.clone();
+    lod.hide(2);
+    expect(lod.drawnBounds(2, new THREE.Box3())).toBeNull();
+    expect(lod.drawnBounds(7, new THREE.Box3())).toEqual(before);
+    lod.dispose();
+  });
+
+  it('initializes the palette pose outside optional normal branches for basic surfaces and every shadow pass', () => {
+    const { root, mesh: sourceMesh, walk } = actor();
+    const source = new THREE.MeshBasicMaterial({ color: 0xc9bbeb, transparent: true, opacity: 0.35 });
+    source.name = 'M_FeyWingBlurFlipbook_Fey_Opaline';
+    Object.assign(sourceMesh, { material: source });
+    const parent = new THREE.Group();
+    const lod = new AnimationLod(parent, root, root, [walk], material => material);
+    lod.set(4, new THREE.Matrix4(), { clip: walk, time: 0.3, blend: 1, opacity: 0.6 });
+    const mesh = parent.children[0] as THREE.InstancedMesh;
+    expect('isSkinnedMesh' in mesh, 'Instanced LOD does not enable Three USE_SKINNING').toBe(false);
+    expect(mesh.material).toBeInstanceOf(THREE.MeshBasicMaterial);
+    expect((mesh.material as THREE.MeshBasicMaterial).color.getHex()).toBe(source.color.getHex());
+    expect((mesh.material as THREE.Material).opacity).toBe(source.opacity);
+
+    for (const [material, library] of [
+      [mesh.material as THREE.Material, 'basic'],
+      [mesh.material as THREE.Material, 'standard'],
+      [mesh.customDepthMaterial!, 'depth'],
+      [mesh.customDistanceMaterial!, 'distance'],
+    ] as const) {
+      const shader = compile(material, library);
+      const main = shader.vertexShader.slice(shader.vertexShader.indexOf('void main()'));
+      let conditionDepth = 0;
+      let initialized = false;
+      let opacityInitialized = false;
+      for (const line of main.split('\n')) {
+        if (/^\s*#if(?:def|ndef)?\b/.test(line)) conditionDepth++;
+        if (/^\s*#endif\b/.test(line)) conditionDepth--;
+        if (line.includes('mat4 lodSkin =')) {
+          expect(conditionDepth, `${library}: position pose must survive disabled normal code`).toBe(0);
+          expect(initialized, `${library}: pose is initialized exactly once`).toBe(false);
+          initialized = true;
+        }
+        if (line.includes('lodOpacity =')) {
+          expect(conditionDepth, `${library}: fragment opacity always has a value`).toBe(0);
+          opacityInitialized = true;
+        }
+        if (line.includes('mat3 lodBasis') || line.includes('transformed = (lodSkin')) {
+          expect(initialized, `${library}: pose exists before both normal and position use`).toBe(true);
+        }
+      }
+      expect(initialized).toBe(true);
+      expect(opacityInitialized).toBe(true);
+      expect(shader.vertexShader).not.toContain('#include <skinbase_vertex>');
+    }
+    expect(paletteVertex(mesh, 0, 2).distanceTo(referenceVertex(root, walk, 0.3, 2))).toBeLessThan(1e-6);
+    lod.dispose();
+    source.dispose();
+  });
+
   it("composes additive masked bones at exact live clocks without replacing moving support bones", () => {
     const { root, walk, hit } = actor(), overlay = overlayClip(), before = root.toJSON();
     const parent = new THREE.Group(), lod = new AnimationLod(parent, root, root, [walk, hit], material => material);

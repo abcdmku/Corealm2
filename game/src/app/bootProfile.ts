@@ -1,5 +1,6 @@
 import type { FeatureLabMode, RegionId, Vec3 } from "../contracts.js";
 import { getRegion } from "../content/regions.js";
+import { FAIRY_COMBAT_PLATEAUS } from '../world/fairyLandforms.js';
 import type { WorldTerrainSpec } from "../render/scene.js";
 import {
   buildWorld,
@@ -198,6 +199,22 @@ export function bootProfileFor(
       ? locationOrSearch
       : new URLSearchParams(locationOrSearch.search);
   const mode = params.get("mode");
+  if ((mode === "combat" || mode === "building") && params.get("terrain") === "cliff") {
+    const regionId = params.get("palette") === "faeholme" ? "faeholme" : "gloamgarden";
+    const source = FAIRY_COMBAT_PLATEAUS[0]!;
+    const offset = (point: readonly [number, number]): readonly [number, number] =>
+      [point[0] - source.centre[0], point[1] - source.centre[1] - 55];
+    return { ...FEATURE_LAB_PROFILES[mode], terrain: () => ({
+      ...buildFeatureLabTerrain(), metresPerQuad: 1,
+      regions: [{ regionId, rect: { ...FEATURE_LAB_YARD_BOUNDS }, seed: 7331,
+        character: "plains", baseHeight: 0, amplitude: .1 }],
+      flats: [],
+      fairyLandforms: [{ ...source, centre: offset(source.centre),
+        ramps: source.ramps.map(ramp => ({ ...ramp, points: ramp.points.map(point => ({
+          ...point, position: offset(point.position),
+        })) })) }],
+    }) };
+  }
   if ((mode === "combat" || mode === "building") && params.get("terrain") === "slopes") {
     return { ...FEATURE_LAB_PROFILES[mode], terrain: () => buildFeatureLabTerrain(true),
       ...(params.get("footing") === "slope" ? {

@@ -1,4 +1,6 @@
 import { carveRiverTerrain, riverWaterBodies, sampleRiverChannel, type RiverChannel } from '../world/riverChannels.js';
+import { applyFairyLandforms, type FairyLandformSpec } from '../world/fairyLandforms.js';
+import { createFairyRegionalRelief } from '../world/fairyRegionalRelief.js';
 import type { GenerationCachePort } from "../world/generationCache.js";
 import { captureGeometry, restoreGeometry, validTerrainCache, type TerrainCacheData } from "./terrainCache.js";
 /**
@@ -94,6 +96,8 @@ export interface RegionTerrainSpec {
 
 /** A flattened pad. Settlements need buildable ground; noise does not provide it. */
 export interface FlatSpot {
+  /** A small building footing cut into authored relief after the surrounding banks are added. */
+  landformFooting?: boolean;
   x: number;
   z: number;
   /** Fully flat inside this radius. Ignored when `halfExtents` is set. */
@@ -118,6 +122,8 @@ export interface FlatSpot {
 }
 
 export interface WorldTerrainSpec {
+  /** Authored fairy banks and access cuts share the rendered/physical height lattice. */
+  fairyLandforms?: boolean | readonly FairyLandformSpec[];
   bounds: Rect;
   /** One draw call per chunk. 100 m over a 700x400 world is 28 chunks. */
   chunkSize: number;
@@ -530,6 +536,7 @@ export class WorldScene {
    * 1.75M analytic field evaluations into 1.75M array reads.
    */
   private lattice: HeightLattice | null = null;
+  private fairyRegionalRelief: ReturnType<typeof createFairyRegionalRelief> | null = null;
   /** Coastal terrain shared by rendering, physics, navigation, and placement. */
   private coastGrid: CoastHeightGrid | null = null;
   private chunks: ChunkRecord[] = [];
@@ -695,6 +702,7 @@ export class WorldScene {
         restampedVertexCount: 0,
       };
       this.world = spec;
+      this.fairyRegionalRelief = null;
       this.portalLandforms = [];
       this.mineSurfaces = (spec.worldSites ?? []).filter((site) => site.kind === "mine").map((site) => ({
         site,
@@ -1319,6 +1327,7 @@ export class WorldScene {
    * metre is 32.1 degrees, at the five-way junction on the Second Ramp pad.
    */
   private buildHaulRoads(): void {
+    if (this.world?.fairyLandforms) return;
     this.protectedPads = this.flats.filter(
       (flat) => this.carvedPads.has(flat) || padReach(flat) >= HAUL_PROTECTED_PAD_REACH,
     );
@@ -1599,7 +1608,16 @@ export class WorldScene {
   }
 
   private preBasinHeight(x: number, z: number): number {
-    const flattened = this.applyFlats(x, z, this.naturalHeight(x, z));
+    const flat = this.applyFlats(x, z, this.naturalHeight(x, z));
+    const forms = this.world?.fairyLandforms;
+    let flattened = forms ? applyFairyLandforms(x, z, flat, typeof forms === 'boolean' ? undefined : forms) : flat;
+    if (this.fairyRegionalRelief) flattened = this.fairyRegionalRelief(x, z, flat, flattened);
+    if (forms) for (const footing of this.flats) {
+      if (!footing.landformFooting || footing.height === undefined || outsidePadBounds(footing, x, z, footing.blend)) continue;
+      const distance = padDistance(footing, x, z);
+      const influence = 1 - smoothstep01(Math.max(0, distance) / Math.max(.001, footing.blend));
+      flattened += (footing.height - flattened) * influence;
+    }
     const worked = this.world?.worldSites?.length
       ? applyWorldSiteTerrain(x, z, flattened, this.world.worldSites, this.sampleNaturalHeight, this.sampleSiteSupportHeight)
       : flattened;
@@ -2208,6 +2226,12 @@ export class WorldScene {
         road.points,
       );
     }
+    if (this.world?.fairyLandforms === true && this.chunks.length === 0) {
+      this.fairyRegionalRelief = createFairyRegionalRelief(this.roadPolylines, this.world.worldSites ?? []);
+      this.buildLattice();
+      this.roadPolylines = this.roadPolylines.map(line => line.map(point =>
+        [point[0], this.meshHeightAt(point[0], point[2]), point[2]] as Vec3));
+    }
     this.gradeStampedRoads();
     this.rebuildRoadGrid();
     if (this.chunks.length > 0) this.restampArea(-Infinity, -Infinity, Infinity, Infinity);
@@ -2215,6 +2239,9 @@ export class WorldScene {
 
   /** Cut the drawn tracks into the shared height lattice before terrain and physics are built. */
   private gradeStampedRoads(): void {
+    // The authored fairy mesh already contains its access cuts. Generic 20m-wide road grading
+    // would cut additional entrances through their steep banks.
+    if (this.world?.fairyLandforms) return;
     const grid = this.lattice;
     if (!grid || this.chunks.length > 0 || this.roadPolylines.length === 0) return;
     const totals = new Float64Array(grid.heights.length);

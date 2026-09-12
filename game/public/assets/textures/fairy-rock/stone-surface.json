@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "id": "fairy-native-rounded-cliff-stone",
+  "files": {
+    "albedo": "corealm-stone.png",
+    "normal": "corealm-stone-normal.png",
+    "roughness": "corealm-stone-roughness.png"
+  },
+  "meanLinearRgb": [
+    0.127461615985521,
+    0.14543721695012946,
+    0.11443612061136986
+  ],
+  "tileMetres": 4,
+  "sourceTileMetres": 6.666666666666667,
+  "periodic": true,
+  "albedoSize": 2048,
+  "pbrMapSize": 2048,
+  "source": ".asset-cache/fairy-terraces/unity/e9dedbdfb601/Assets/BK/PureNature_AsianMountains/Textures/Surfaces/_RockDetail1_a.png",
+  "sourceSha256": "bae77da574d48b0932f8cb0c137bd5ae99a73097db16ad80555588c63e095871",
+  "suggestedFairyRockBaseSrgb": [
+    106,
+    115,
+    103
+  ],
+  "paletteNote": "The current terrain shader divides albedo by meanLinearRgb. It retains cavity contrast but needs its fairy vertex/base rock palette to set overall darkness.",
+  "sourceProvenance": {
+    "package": "Pure Nature 2 Asian Mountains.unitypackage",
+    "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\BK\\3D ModelsEnvironments\\Pure Nature 2 Asian Mountains.unitypackage",
+    "archiveSha256": "e9dedbdfb6015f1816493c9f5b5413d7ea661b8a8bf3d79a5cdb14e9dcd79a4c",
+    "author": "BK",
+    "license": "Standard Unity Asset Store EULA",
+    "sourceFiles": [
+      {
+        "path": ".asset-cache/fairy-terraces/unity/e9dedbdfb601/Assets/BK/PureNature_AsianMountains/Textures/Surfaces/_RockDetail1_a.png",
+        "sha256": "bae77da574d48b0932f8cb0c137bd5ae99a73097db16ad80555588c63e095871"
+      },
+      {
+        "path": ".asset-cache/fairy-terraces/unity/e9dedbdfb601/Assets/BK/PureNature_AsianMountains/Textures/Surfaces/_RockDetail1_a.png.meta",
+        "sha256": "dc0176c7318d6f863caaadb22acae746c05bf2fa523dd9919746cedf1c4da202"
+      },
+      {
+        "path": ".asset-cache/fairy-terraces/unity/e9dedbdfb601/Assets/BK/PureNature_AsianMountains/Textures/Surfaces/_RockDetail1_n.png",
+        "sha256": "430d1e1544ede423eaecc99de5b02a88d19d52d4c7eb59f4ecd438f80cf9e585"
+      },
+      {
+        "path": ".asset-cache/fairy-terraces/unity/e9dedbdfb601/Assets/BK/PureNature_AsianMountains/Textures/Surfaces/_RockDetail1_n.png.meta",
+        "sha256": "8d2e97d6c5d10643b75234374019010f1c9ad2a9e297a65ff1985e4ac1cf0488"
+      },
+      {
+        "path": ".asset-cache/fairy-terraces/unity/e9dedbdfb601/Assets/BK/PureNature_AsianMountains/Models/AsianCliff/Textures/Materials/AsianCliff_0.mat",
+        "sha256": "37ab5607b3e69807897371bdf7a0c1ebfcf1450f38a6856dedc122d16b029bf9"
+      }
+    ],
+    "nativeMaterial": "BK/Standard Layered Masked: _LayerAlbedo=_RockDetail1_a, _LayerNormalMap=_RockDetail1_n; _Tiling2=.15 world-space = 6.6667m/repeat.",
+    "floorScaleDecision": "Authored 4m repeat for short, close-view fairy banks; original source material uses 6.6667m/repeat.",
+    "modifications": [
+      "Native repeatable texture, not a cropped cliff UV atlas; all original fissure positions and mineral shapes retained.",
+      "Near-white native cavity values expanded and multiplied by muted grey/olive rock pigment. Registered normal steepness adds faint undirected pit shade.",
+      "Original 2048x2048 normal PNG copied byte-for-byte; original image orientation retained for the aligned pair.",
+      "Roughness is 1 throughout, matching native material _SmoothnessPower=0. It is supplied in RGB, including the green channel used by Three.js."
+    ]
+  },
+  "loader": {
+    "albedoColorSpace": "SRGBColorSpace",
+    "normalAndRoughnessColorSpace": "NoColorSpace",
+    "wrap": "RepeatWrapping",
+    "minFilter": "LinearMipmapLinearFilter",
+    "magFilter": "LinearFilter",
+    "generateMipmaps": true,
+    "anisotropy": 8,
+    "flipY": false,
+    "normalDecode": "Original RGB tangent normal; rgb*2-1. No DXT5/alpha unpacking, no green inversion.",
+    "setter": "materials.setGroundStoneSurface({ ...existingCorealmTextures, stone: { albedo, normal, roughness, meanLinearRgb, tileMetres } })",
+    "sampling": "setGroundStoneSurface applies 1/tileMetres to world coordinates. Texture.repeat is not an additional multiplier in this custom shader."
+  },
+  "audit": {
+    "sourceNormalBytesExact": true,
+    "sourceResolutionRetained": true,
+    "albedoPixelsRoundtripExact": true,
+    "recoloredPixels": 4194304,
+    "meanSrgb": [
+      99.11265015602112,
+      105.52134728431702,
+      94.12871360778809
+    ],
+    "standardDeviationSrgb": [
+      12.337931466799269,
+      12.921467532505696,
+      11.89606102093815
+    ],
+    "albedoPeriodicity": {
+      "meanBoundaryDifference": [
+        0.4596354166666667,
+        0.9581705729166666
+      ],
+      "meanAdjacentBoundaryDifference": [
+        0.45556640625,
+        0.8821614583333334
+      ]
+    },
+    "normalPeriodicity": {
+      "meanBoundaryDifference": [
+        2.1788736979166665,
+        2.6910807291666665
+      ],
+      "meanAdjacentBoundaryDifference": [
+        2.294921875,
+        2.9777018229166665
+      ]
+    }
+  },
+  "sha256": {
+    "albedo": "2b1827418165db745b0ae5996916f70700ff18e536f35b16d4c64732c2de41dc",
+    "normal": "430d1e1544ede423eaecc99de5b02a88d19d52d4c7eb59f4ecd438f80cf9e585",
+    "roughness": "56e9d6464bd7deed81e91c29b2f0eb37b59ec22e354b8dd9b5f27b7b9c287206"
+  },
+  "bytes": {
+    "albedo": 1940834,
+    "normal": 5423399,
+    "roughness": 15765
+  },
+  "acceptance": {
+    "sourceAndPixelAudit": true,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

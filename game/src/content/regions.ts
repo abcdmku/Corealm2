@@ -116,6 +116,7 @@ import { fantasyEncounter } from "./fantasyEncounters.js";
 import { BIOME_POPULATION, resolveBiomePopulation } from "./biomePopulation.js";
 import { CREATURE_SPECIES } from "./creatureSpecies.js";
 import { populationGroup } from './encounterPlacement.js';
+import { remapReservedEncounterGroup } from '../world/universalMinibossSockets.js';
 import { WILDERNESS_DEPTH } from './wildernessDepth.js';
 
 // ------------------------------------------------------------------ primitives
@@ -1972,12 +1973,12 @@ export const SOURCE_REGIONS: readonly RegionDef[] = [FALLOWMARCH, VELLENWOOD, KA
 const POPULATION_GROUPS = resolveBiomePopulation(CREATURE_SPECIES);
 export const REGIONS: readonly RegionDef[] = SOURCE_REGIONS.map(region => ({ ...region,
   enemyGroups: [...region.enemyGroups.map(fantasyEncounter), ...POPULATION_GROUPS.filter(group =>
-    BIOME_POPULATION.some(pack => pack.id === group.id && pack.regionId === region.id))].map(populationGroup),
+    BIOME_POPULATION.some(pack => pack.id === group.id && pack.regionId === region.id))].map(remapReservedEncounterGroup).map(populationGroup),
   dungeon: region.dungeon ? { ...region.dungeon,
     chambers: region.dungeon.chambers.map(chamber => ({ ...chamber,
       radius: LEGACY_CAVE_FLOOR_INTENTS.find(intent => intent.id === chamber.id)?.radius ?? chamber.radius,
     })),
-    enemyGroups: region.dungeon.enemyGroups.map(fantasyEncounter).map(populationGroup),
+    enemyGroups: region.dungeon.enemyGroups.map(fantasyEncounter).map(remapReservedEncounterGroup).map(populationGroup),
   } : undefined,
 }));
 

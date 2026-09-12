@@ -1,0 +1,100 @@
+{
+  "id": "small-leaf-turf",
+  "stagedDirectory": "test-results/fairy-terraces-assets/finegrass/textures/fairy-ground-leaf-turf",
+  "meanLinearRgb": [
+    0.06689328396518048,
+    0.16312523726346922,
+    0.09283646219343918
+  ],
+  "tileMetres": 2.25,
+  "sourceTileMetres": null,
+  "width": 2048,
+  "height": 2048,
+  "albedo": "grass-albedo.webp",
+  "normal": "grass-normal.webp",
+  "normalEncoding": "RGB tangent normal; linear/no color-space transform; decode rgb*2-1.",
+  "floorTilingDecision": "Authored 2.25m floor repeat gives small leaves/stems. No material binding establishes a native floor scale for this source surface.",
+  "textureOrientation": "Both surface maps retain matching original source rows and identical spatial registration.",
+  "sourceProvenance": {
+    "pack": "bk-pure-nature-asian-mountains",
+    "archive": "C:\\Users\\Borg\\AppData\\Roaming\\Unity\\Asset Store-5.x\\BK\\3D ModelsEnvironments\\Pure Nature 2 Asian Mountains.unitypackage",
+    "archiveSha256": "e9dedbdfb6015f1816493c9f5b5413d7ea661b8a8bf3d79a5cdb14e9dcd79a4c",
+    "sourceFiles": [
+      {
+        "path": ".asset-cache/fairy-terraces/unity/e9dedbdfb601/Assets/BK/PureNature_AsianMountains/Textures/Surfaces/Grass_deadleaves_a.png",
+        "sha256": "6da1cf1ffd69a35a7c032ef43557458ebb84d1c1703f56a76d5ce19438ce0195"
+      },
+      {
+        "path": ".asset-cache/fairy-terraces/unity/e9dedbdfb601/Assets/BK/PureNature_AsianMountains/Textures/Surfaces/Grass_deadleaves_n.png",
+        "sha256": "8884ca8adb02a522f04056defc4689d85291763ebb81bf3e57e204bb2d76fc59"
+      },
+      {
+        "path": ".asset-cache/fairy-terraces/unity/e9dedbdfb601/Assets/BK/PureNature_AsianMountains/Textures/Surfaces/Grass_deadleaves_a.png.meta",
+        "sha256": "1dbd75ccf93206718e0a8c2f197b207f2d3b94ecb22b4a716e9d35a3844309f0"
+      },
+      {
+        "path": ".asset-cache/fairy-terraces/unity/e9dedbdfb601/Assets/BK/PureNature_AsianMountains/Textures/Surfaces/Grass_deadleaves_n.png.meta",
+        "sha256": "6be9bcd8cf7cc7ec6b3fba7acd279fe909cd0e43b13a0ffe31c3e2c81f02bf75"
+      }
+    ],
+    "modifications": [
+      "Native small leaf litter and low turf. Warm leaves recolored green, with source leaf shadows and bare soil interruptions retained.",
+      "Native diffuse and matching normal resized together to 2048x2048; all source spatial composition retained.",
+      "Lossless WebP after RGB8 palette conversion; no new clouds/noise, leaf shapes, stems, or geometry."
+    ]
+  },
+  "contrastAudit": {
+    "source": {
+      "meanSrgb": [
+        120.95955538749695,
+        117.71668195724487,
+        64.25919437408447
+      ],
+      "standardDeviationSrgb": [
+        27.7994885048417,
+        15.335140780358357,
+        11.453348586208465
+      ],
+      "meanLinearRgb": [
+        0.20494307818687663,
+        0.18430907601448548,
+        0.05354652902581802
+      ],
+      "meanAdjacentGreenDifference": 1.9565484550561798
+    },
+    "staged": {
+      "meanSrgb": [
+        72.52389597892761,
+        111.11724877357483,
+        85.34382343292236
+      ],
+      "standardDeviationSrgb": [
+        8.733966019088342,
+        14.721035051038015,
+        8.86739994049865
+      ],
+      "meanLinearRgb": [
+        0.06689328396518048,
+        0.16312523726346922,
+        0.09283646219343918
+      ],
+      "meanAdjacentGreenDifference": 2.0563899246610893
+    },
+    "minimumGreenStandardDeviation": 12,
+    "earlierGrass01SourceGreenStd": 4.2340925803,
+    "earlierGrass01RecoloredGreenStd": 3.8875325638
+  },
+  "sha256": {
+    "albedo": "c3b711ee566917d03beafffe944050aafc3913ce4e9af1e2ad8d868e9da49e8a",
+    "normal": "c678117943dc4709913c760c728e11e94f0d9b6d4cccbe2d276a3c4df9931ad2"
+  },
+  "bytes": {
+    "albedo": 3464572,
+    "normal": 5003960
+  },
+  "acceptance": {
+    "pixelAudit": true,
+    "labAccepted": false,
+    "worldIntegrated": false
+  }
+}

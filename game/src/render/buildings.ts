@@ -101,6 +101,7 @@ import { buildCrownwardCastle, CROWNWARD_CASTLE_IDS, type CrownwardCastleId } fr
 import { buildWildernessRuin, WILDERNESS_RUIN_IDS, type WildernessRuinId } from "./compositions/wildernessRuins.js";
 import { buildDeepWildernessStructure, DEEP_WILDERNESS_STRUCTURE_IDS, type DeepWildernessStructureId } from "./compositions/deepWildernessStructures.js";
 import { applyStructureVariant, structureVariantCount } from "./structures/catalog.js";
+import { fairyStructureParts, LANTERN_MARKET_SEED, LANTERN_MARKET_STALLS } from './structures/fairyStructureParts.js';
 
 // ------------------------------------------------------------------ constants
 
@@ -1207,7 +1208,7 @@ export function buildPrefab(
     case "well": base = well(kit); break;
     case "farmstead": base = farmstead(width, depth, rng, kit); break;
   }
-  return applyStructureVariant(prefab, footprint, seed, kit, base);
+  return fairyStructureParts(prefab, footprint, seed, applyStructureVariant(prefab, footprint, seed, kit, base));
 }
 
 /** Solid height in metres, for the collision box the root builds from the same footprint. */
@@ -3049,7 +3050,7 @@ export interface PrefabBox {
   readonly height: number;
 }
 
-export function prefabCollision(prefab: PrefabId, footprint: readonly [number, number]): PrefabBox[] {
+export function prefabCollision(prefab: PrefabId, footprint: readonly [number, number], seed = 0): PrefabBox[] {
   const width = Math.max(MODULE_METRES, footprint[0]);
   const depth = Math.max(MODULE_METRES, footprint[1]);
   const height = prefabHeight(prefab);
@@ -3136,6 +3137,16 @@ export function prefabCollision(prefab: PrefabId, footprint: readonly [number, n
       tag: "back", dx: 0, dz: r3(-depth / 2 + WALL_FACE - WALL_THICKNESS / 2),
       sizeX: span, sizeZ: WALL_THICKNESS, height,
     }];
+  }
+  if (prefab === "market_row" && (seed >>> 0) === LANTERN_MARKET_SEED && (footprint[0] === 9 || footprint[0] === 12) && footprint[1] === 3) {
+    return LANTERN_MARKET_STALLS.flatMap((stall, index) => [{
+      tag: `pitch${index}`, dx: stall.x, dz: stall.z,
+      sizeX: 1.9 * Math.abs(Math.cos(stall.yaw)) + .95 * Math.abs(Math.sin(stall.yaw)),
+      sizeZ: 1.9 * Math.abs(Math.sin(stall.yaw)) + .95 * Math.abs(Math.cos(stall.yaw)), height: 1.25,
+    }, ...[-.845, .845].map((x, side) => ({
+      tag: `pitch${index}_rear_${side}`, dx: stall.x + x * Math.cos(stall.yaw) - .85 * Math.sin(stall.yaw),
+      dz: stall.z - x * Math.sin(stall.yaw) - .85 * Math.cos(stall.yaw), sizeX: .17, sizeZ: .17, height: 2.8,
+    }))]);
   }
   if (prefab === "market_row") {
     // One thin counter per pitch, so the player walks between the stalls rather than around the row.

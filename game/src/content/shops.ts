@@ -161,4 +161,10 @@ export const SHOPS: readonly ShopDef[] = [
       { itemId: "cinderpine_shield", quantity: 2 },
     ],
   },
+  { id: 'lantern_rest_general', name: 'Moonpetal Provisions', buyMultiplier: BUY_MULTIPLIER, sellMultiplier: SELL_MULTIPLIER,
+    stock: [{itemId:'emberite_pickaxe',quantity:3},{itemId:'emberite_hatchet',quantity:3},{itemId:'seared_ashfin',quantity:40},
+      {itemId:'earth_essence',quantity:200},{itemId:'chaos_rune',quantity:100},{itemId:'cosmic_rune',quantity:100}] },
+  { id: 'lantern_rest_smith', name: 'Lantern Smith', buyMultiplier: BUY_MULTIPLIER, sellMultiplier: SELL_MULTIPLIER,
+    stock: [{itemId:'emberite_bar',quantity:20},{itemId:'emberite_dagger',quantity:2},{itemId:'emberite_boots',quantity:2}] },
+
 ];

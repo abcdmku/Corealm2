@@ -10,11 +10,14 @@ import { REGIONS, type EnemyGroupDef } from '../game/src/content/regions.js';
 import { REGIONAL_BOSS_LEVELS } from '../game/src/content/encounterBalance.js';
 import { REGIONAL_BOSS_BODIES } from '../game/src/content/regionalBossBodies.js';
 import { DEEP_WILDERNESS_KEEPERS, DEEP_WILDERNESS_PACKS } from '../game/src/content/deepWildernessEncounters.js';
+import { wildernessExpansionGroups } from '../game/src/content/wildernessExpansion.js';
+import { isReservedUniversalMinibossAsset } from '../game/src/content/universalMinibosses.js';
 import { WILDERNESS_DEPTH, WILDERNESS_RUNE_KEEPERS, wildernessTierAt } from '../game/src/content/wildernessDepth.js';
 import {
   WILDERNESS_KEEPER_COMPONENTS, WILDERNESS_LOOT_ITEMS, WILDERNESS_LOOT_RECIPES, WILDERNESS_STRUCTURE_COMPONENTS,
 } from '../game/src/content/wildernessLoot.js';
 import { buildWorld, type BuiltWorld } from '../game/src/world/regionBuilder.js';
+import { remapReservedEncounterGroup } from '../game/src/world/universalMinibossSockets.js';
 
 // Only production tables enter this registry. Adding candidate tables here would hide a missed
 // final-world registration, which is the failure this suite needs to detect.
@@ -34,6 +37,7 @@ const enemyById = new Map(ENEMIES.map(enemy => [enemy.id, enemy]));
 const keeperIds = new Set<string>(WILDERNESS_RUNE_KEEPERS.map(keeper => keeper.id));
 const ordinaryMaterialIds = new Set(['molten_heart', 'dragonhide', 'grave_thread', 'astral_core', 'starhide', 'void_thread']);
 const fortressMaterialIds = new Set(Object.values(WILDERNESS_STRUCTURE_COMPONENTS));
+const authoredExpansionById = new Map(wildernessExpansionGroups(CREATURE_SPECIES).map(group => [group.id, group]));
 
 function registeredGroup(id: string): EnemyGroupDef {
   const group = groupById.get(id);
@@ -139,14 +143,16 @@ describe('final Wilderness content integration', () => {
     expect(increases).toBeGreaterThan(0);
   });
 
-  it('registers all 24 authored packs with the accepted species, counts and matching spawned stats', () => {
+  it('registers all 24 authored packs with their final body projection, saved identity and matching spawned stats', () => {
     expect(DEEP_WILDERNESS_PACKS).toHaveLength(24);
     expect(new Set(DEEP_WILDERNESS_PACKS.map(pack => pack.id)).size).toBe(24);
     for (const pack of DEEP_WILDERNESS_PACKS) {
       const group = registeredGroup(pack.id);
       const species = CREATURE_SPECIES.find(row => row.id === pack.speciesId);
       expect(species, `Missing accepted species ${pack.speciesId}`).toBeDefined();
-      expect(group).toMatchObject({ family: species!.stats.family, assetId: species!.assetId, count: pack.count, centre: pack.centre });
+      const projected = remapReservedEncounterGroup(authoredExpansionById.get(pack.id)!);
+      expect(group).toMatchObject({ id: pack.id, family: species!.stats.family,
+        assetId: projected.assetId, scale: projected.scale, count: pack.count, centre: pack.centre });
       const block = registeredEnemy(group), actors = residents(group);
       expect(actors, pack.id).toHaveLength(pack.count);
       for (const actor of actors) {
@@ -181,7 +187,9 @@ describe('final Wilderness content integration', () => {
     expect(group.boss || group.miniBoss).toBe(true);
     expect(group.centre).toEqual(plan.centre);
     expect(group.tier).toBe(keeper.tier);
-    expect(group.assetId).toBe(`creature_${keeper.id}`);
+    const projected = remapReservedEncounterGroup(authoredExpansionById.get(keeper.id)!);
+    expect(group).toMatchObject({ id: keeper.id, family: projected.family,
+      assetId: projected.assetId, scale: projected.scale });
     expect(wildernessTierAt(group.centre[1])).toBe(keeper.tier);
     const expectedLevel = { ashseal_warden: 150, furnace_regent: 200, chainbound_archon: 210, nightforge_marshal: 280, hollow_star: 350 }[keeper.id];
     expect(enemyCombatLevel(block)).toBe(expectedLevel);
@@ -197,6 +205,29 @@ describe('final Wilderness content integration', () => {
     expect(residents(group)).toHaveLength(1);
     expect(residents(group)[0]).toMatchObject({ id: keeper.id, archetype: 'boss', tier: keeper.tier, view: { assetId: group.assetId },
       combat: { level: expectedLevel, maxHealth: block.maxHealth }, meta: { groupId: keeper.id, enemyDefId: block.id } });
+  });
+
+  it('reserves Fantasy Monster 01-09 bodies for universal slots while retaining named encounters', () => {
+    for (const group of allGroups) if (isReservedUniversalMinibossAsset(group.assetId)) {
+      expect(group.id.startsWith('universal_miniboss_'), group.id).toBe(true);
+      expect(group.miniBoss, group.id).toBe(true);
+      expect(group.count, group.id).toBe(1);
+    }
+    for (const actor of world.entities.filter(entity => entity.combat && entity.view
+      && isReservedUniversalMinibossAsset(entity.view.assetId))) {
+      expect(String(actor.meta?.groupId).startsWith('universal_miniboss_'), actor.id).toBe(true);
+      expect(actor.archetype, actor.id).toBe('boss');
+    }
+    for (const id of ['wilderness_basalt_maw_hollow', 'hollow_star']) {
+      const authored = authoredExpansionById.get(id)!;
+      const group = registeredGroup(id);
+      expect(isReservedUniversalMinibossAsset(authored.assetId), id).toBe(true);
+      expect(isReservedUniversalMinibossAsset(group.assetId), id).toBe(false);
+      expect(group).toMatchObject({ id: authored.id, family: authored.family, tier: authored.tier,
+        count: authored.count, centre: authored.centre });
+      expect(residents(group), id).toHaveLength(authored.count);
+      canonicalDropItems(registeredEnemy(group));
+    }
   });
 
   it('limits fortress components to the six exact court packs and their rune keepers', () => {

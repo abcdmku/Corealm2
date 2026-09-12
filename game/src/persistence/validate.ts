@@ -91,6 +91,7 @@ export function validateSaveState(value: unknown): string | null {
   if (!values(world.enemies, (enemy) => record(enemy) && finite(enemy.health) && vector(enemy.spawnPos)
     && ["idle", "aggro", "dead", "returning"].includes(String(enemy.state))
     && nullable(nonnegative)(enemy.respawnAtMs)
+    && (enemy.respawnAtWallMs === undefined || nonnegative(enemy.respawnAtWallMs))
     && (enemy.bossPhase === undefined || count(enemy.bossPhase))
     && (enemy.diedAtMs === undefined || nonnegative(enemy.diedAtMs)))) return invalid("enemies");
   if (!values(world.lootPiles, (pile) => record(pile) && vector(pile.position) && list(pile.items, stack)

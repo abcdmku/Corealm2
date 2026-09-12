@@ -1,7 +1,7 @@
 /** Rebuilds runtime-only semantic entities for containers held in canonical save state. */
 import type { EntityId, RegionId, SemanticEntity, Vec3 } from "../contracts.js";
 import type { GameState } from "../state/store.js";
-import { BOSS_RESPAWN_MS, ENEMY_RESPAWN_MS, spawnPositionOf } from "../systems/combat.js";
+import { BOSS_RESPAWN_MS, ENEMY_RESPAWN_MS, resolveEnemyDef, spawnPositionOf } from "../systems/combat.js";
 
 export const RECOVERY_CACHE_VIEW: NonNullable<SemanticEntity["view"]> = {
   assetId: "crate_wood",
@@ -121,15 +121,16 @@ export function rehydrateWorldContainers(
  * THE TIMESTAMPS CANNOT BE KEPT. `SimClock.elapsedMs` restarts at zero every boot, so a persisted
  * `respawnAtMs` is an instant on LAST session's clock: after a twenty-minute session it sits
  * twenty minutes into the new clock's future, and the ghost outlives every reload in between.
- * The window is therefore RESTARTED on the new clock — the corpse begins dissolving at boot and
- * the monster returns one full respawn interval later, which is the honest reading of "it was
- * dead when you left". A merely damaged runtime keeps its health so the first click of a new
- * session does not show a full bar on a half-dead animal.
+ * Ordinary enemy windows restart on the new clock. Custom long cooldowns instead persist an
+ * absolute wall deadline and restore its remaining delay, including offline time. Legacy saves
+ * without that deadline start their authored interval once. A damaged runtime keeps its health
+ * so the first click of a new session does not show a full bar on a half-dead animal.
  */
 export function rehydrateEnemyRuntimes(
   state: GameState,
   entities: WorldContainerEntityPort,
   nowMs = 0,
+  wallNowMs = Date.now(),
 ): { deadApplied: number; healthApplied: number } {
   let deadApplied = 0;
   let healthApplied = 0;
@@ -146,8 +147,17 @@ export function rehydrateEnemyRuntimes(
     if (runtime.state === "dead") {
       entity.state = "dead";
       runtime.diedAtMs = nowMs;
-      runtime.respawnAtMs = nowMs
-        + (entity.archetype === "boss" ? BOSS_RESPAWN_MS : ENEMY_RESPAWN_MS);
+      const customSeconds = resolveEnemyDef(entity).respawnSeconds;
+      const cooldownMs = customSeconds !== undefined ? customSeconds * 1000
+        : entity.archetype === "boss" ? BOSS_RESPAWN_MS : ENEMY_RESPAWN_MS;
+      if (customSeconds !== undefined) {
+        // Custom long cooldowns keep an absolute deadline across reload and offline time.
+        // Legacy saves lack the old session baseline, so start the authored interval once.
+        runtime.respawnAtWallMs ??= wallNowMs + cooldownMs;
+        runtime.respawnAtMs = nowMs + Math.max(0, runtime.respawnAtWallMs - wallNowMs);
+      } else {
+        runtime.respawnAtMs = nowMs + cooldownMs;
+      }
       if (entity.view) entity.view.diedAtMs = nowMs;
       deadApplied += 1;
     } else if (entity.combat) {

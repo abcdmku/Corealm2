@@ -23,6 +23,20 @@ The gate may be skipped only when the behavior being built is the authored full 
 
 ## Development loop
 
+### Regional music
+
+`?mode=combat&music=1` adds a music workbench to the production yard. Buttons place the player
+in Fairy, Fairy Mire, Plains and Castle music areas. The same audio director, engine and movement
+tick used by the final world select and crossfade the attached MP3s. From Castle approach, walk
+toward the yard centre to enter the 8 m area; walk beyond 11 m to leave it. The buffer prevents
+boundary chatter. The workbench changes only the lab's region audio catalogue.
+
+Run `npx tsx tools/regional-music-test.ts`, then `--world` for the authored regional mappings and
+both Crownward castles. The browser check uses real keyboard movement, source URL history,
+active loop state, decoded music output samples and error checks. Captures and reports are
+disposable under `test-results/regional-music/`. The lab passed before final-world registration.
+Castle music covers each authored footprint plus 20 m of grounds, with a further 5 m exit buffer.
+
 ### Crownward fishing
 
 `?mode=combat&fishing=crownward` adds the production Crownmere/Pearlwater channel

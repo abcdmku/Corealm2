@@ -103,6 +103,7 @@ export interface DebugDeps {
    * it is asked to.
    */
   inspectPose(target: Vec3, yaw: number, pitch: number, distance: number, detached?: boolean): boolean;
+  prepareView?(): Promise<void>;
   /** Freezes simulation and hides the player while documentation captures run. */
   setCaptureMode(enabled: boolean): void;
   /** Renders and returns the current gameplay canvas before another frame can clear it. */
@@ -569,6 +570,10 @@ export function installGameDebug(deps: DebugDeps): void {
       const path = nav.findPath(from, to);
       return path ? path.map((point) => xyz(roundVec3(point))) : null;
     },
+    async waitForView(): Promise<boolean> {
+      await deps.prepareView?.();
+      return true;
+    },
 
     getNavPoint(point: Vec3): { x: number; y: number; z: number } | null {
       const found = nav.closestPoint(point);
@@ -581,6 +586,26 @@ export function installGameDebug(deps: DebugDeps): void {
 
     listRouteNodes(): unknown[] {
       return nav.listRouteNodes();
+    },
+
+    /** Inspect resident authored instances without altering placement, camera or render state. */
+    getScatterInstances(name: string, x: number, z: number, radius = 25): unknown {
+      const instances: unknown[] = [];
+      renderer.scene.traverse(object => {
+        const mesh = object as THREE.InstancedMesh;
+        if (!mesh.isInstancedMesh || !mesh.name.includes(name)) return;
+        const matrix = new THREE.Matrix4(), combined = new THREE.Matrix4();
+        mesh.geometry.computeBoundingBox();
+        for (let slot = 0; slot < mesh.count; slot++) {
+          mesh.getMatrixAt(slot, matrix); combined.multiplyMatrices(mesh.matrixWorld, matrix);
+          const position = new THREE.Vector3().setFromMatrixPosition(combined);
+          if (Math.hypot(position.x - x, position.z - z) > radius) continue;
+          const bounds = mesh.geometry.boundingBox!.clone().applyMatrix4(combined);
+          instances.push({ name: mesh.name, slot, position: position.toArray(),
+            bounds: { min: bounds.min.toArray(), max: bounds.max.toArray() } });
+        }
+      });
+      return instances;
     },
 
     /** Measure actual GPU submissions in one frame, including its shadow pass. */

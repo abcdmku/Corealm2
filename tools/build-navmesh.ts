@@ -20,6 +20,16 @@ const SOURCE_GROUPS = {
     "game/src/app/realmTerrain.ts",
     "game/src/content/crownward.ts",
     "game/src/content/fairyRegions.ts",
+    "game/src/world/fairyLandforms.ts",
+    "game/src/world/fairyRegionalRelief.ts",
+    "game/src/world/fairyGardenShoulders.ts",
+    "game/src/world/fairyVillageGeology.ts",
+    "game/src/world/fairyBankHeightmaps.ts",
+    "game/src/world/fairyCorridorDressing.ts",
+    "game/src/world/fairyLandformDressing.ts",
+    "game/src/app/fairyDressing.ts",
+    "game/src/content/settlements/lanternRest.ts",
+    "game/src/content/settlements/prismHollow.ts",
     "game/src/render/scene.ts",
     "game/src/world/organicFields.ts",
     "game/src/world/siteTerrain.ts",
@@ -35,6 +45,8 @@ const SOURCE_GROUPS = {
   roads: [
     "game/src/content/crownwardFishing.ts",
     "game/src/app/worldSurface.ts",
+    "game/src/content/fairyAgility.ts",
+    "game/src/content/fairyNpcs.ts",
     "game/src/app/fishingAccess.ts",
     "game/src/content/regions.ts",
     "game/src/content/wilderness.ts",
@@ -224,7 +236,11 @@ export async function buildNavmeshArtifact(): Promise<{
 }
 
 const entry = process.argv[1] ? pathToFileURL(path.resolve(process.argv[1])).href : "";
-if (import.meta.url === entry) {
+// Vite bundles its config's world-data guard, which imports this module again while preserving
+// the original import.meta.url. That second evaluation must not recursively start another bake.
+const cliState = globalThis as typeof globalThis & { __corealmNavmeshCliStarted?: boolean };
+if (import.meta.url === entry && !cliState.__corealmNavmeshCliStarted) {
+  cliState.__corealmNavmeshCliStarted = true;
   void buildNavmeshArtifact()
     .then((result) => {
       console.log(

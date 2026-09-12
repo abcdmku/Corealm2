@@ -10,6 +10,8 @@ import { WILDERNESS_DRAGONS } from "./wildernessDragons.js";
 import { WILDERNESS_CREATURE_SPECIES } from "./wildernessCreatureSpecies.js";
 import { CROWNWARD_DRAGON_SPECIES } from './crownwardDragons.js';
 import { FAIRY_CROWN_SPECIES } from "./fairyCrownCreatures.js";
+import { FAIRY_CREATURE_SPECIES } from './fairyCreatures.js';
+import { UNIVERSAL_MINIBOSS_SPECIES } from './universalMinibosses.js';
 
 /** Production species can be tested before an encounter is placed in the authored world. */
 export interface CreatureSpeciesDef {
@@ -26,4 +28,5 @@ import { REGIONAL_CREATURE_VARIANTS } from "./regionalCreatureVariants.js";
 
 export const CREATURE_SPECIES: readonly CreatureSpeciesDef[] = [...CREATURE_EXPANSION, ...STARTER_CREATURES, ...REGIONAL_CREATURE_VARIANTS, ...CREATURE_REDESIGNS,
   ...FOREST_CREATURE_REDESIGNS, ...ASH_CREATURE_REDESIGNS, ...STONE_CREATURE_REDESIGNS,
-  ...WILDERNESS_DRAGONS, ...WILDERNESS_CREATURE_SPECIES, ...FAIRY_CROWN_SPECIES, ...CROWNWARD_DRAGON_SPECIES];
+  ...WILDERNESS_DRAGONS, ...WILDERNESS_CREATURE_SPECIES, ...FAIRY_CROWN_SPECIES, ...CROWNWARD_DRAGON_SPECIES,
+  ...FAIRY_CREATURE_SPECIES, ...UNIVERSAL_MINIBOSS_SPECIES];

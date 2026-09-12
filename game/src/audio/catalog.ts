@@ -40,11 +40,21 @@ export interface AudioLoopDefinition {
   loopEnd?: number;
 }
 
+export interface MusicArea {
+  id: string;
+  music: string;
+  centre: readonly [number, number];
+  radius: number;
+  /** Extra metres before leaving an active area, to prevent boundary chatter. */
+  exitPadding?: number;
+}
+
 export interface RegionAudioDefinition {
   /** Loop key or a rotating pool of loop keys. Omit when a region has no matching track. */
   music?: string | readonly string[];
   /** Loop key or a rotating pool of loop keys. */
   ambient?: string | readonly string[];
+  musicAreas?: readonly MusicArea[];
 }
 
 /**

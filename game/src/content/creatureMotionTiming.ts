@@ -273,3 +273,24 @@ for (const [variant, source] of [
   if (CREATURE_MOTION_TIMING[source]) CREATURE_MOTION_TIMING[variant] = { ...CREATURE_MOTION_TIMING[source] };
   if (CREATURE_PURSUIT_CEILING_MPS[source]) CREATURE_PURSUIT_CEILING_MPS[variant] = CREATURE_PURSUIT_CEILING_MPS[source];
 }
+
+// Imported fairy source clips and authored trial-pack contact poses.
+CREATURE_MOTION_TIMING["fantasy_monster_01"] = { seconds: 2, contactNormalized: 0.4 };
+CREATURE_MOTION_TIMING["fantasy_monster_02"] = { seconds: 2, contactNormalized: 0.4 };
+CREATURE_MOTION_TIMING["fantasy_monster_03"] = { seconds: 2, contactNormalized: 0.4 };
+CREATURE_MOTION_TIMING["fantasy_monster_04"] = { seconds: 2.3333332538604736, contactNormalized: 0.4 };
+CREATURE_MOTION_TIMING["fantasy_monster_05"] = { seconds: 2.3333332538604736, contactNormalized: 0.4 };
+CREATURE_MOTION_TIMING["fantasy_monster_06"] = { seconds: 2.3333332538604736, contactNormalized: 0.4 };
+CREATURE_MOTION_TIMING["fantasy_monster_07"] = { seconds: 2, contactNormalized: 0.4 };
+CREATURE_MOTION_TIMING["fantasy_monster_08"] = { seconds: 1, contactNormalized: 0.4 };
+CREATURE_MOTION_TIMING["fantasy_monster_09"] = { seconds: 1, contactNormalized: 0.4 };
+CREATURE_MOTION_TIMING["fairy_monster_11"] = { seconds: 1.1, contactNormalized: 0.5 };
+CREATURE_MOTION_TIMING["fairy_monster_14"] = { seconds: 1.1, contactNormalized: 0.5 };
+CREATURE_MOTION_TIMING["fairy_monster_16"] = { seconds: 1.1, contactNormalized: 0.5 };
+CREATURE_MOTION_TIMING["fairy_monster_21"] = { seconds: 1.1, contactNormalized: 0.5 };
+CREATURE_MOTION_TIMING["fairy_monster_27"] = { seconds: 1.1, contactNormalized: 0.5 };
+CREATURE_MOTION_TIMING["fairy_monster_30"] = { seconds: 1.1, contactNormalized: 0.5 };
+// Maximum three run cycles per second for the planted trial-pack locomotion.
+CREATURE_PURSUIT_CEILING_MPS["fairy_monster_16"] = 3.3342;
+CREATURE_PURSUIT_CEILING_MPS["fairy_monster_27"] = 5.0565;
+CREATURE_PURSUIT_CEILING_MPS["fairy_monster_30"] = 5.0988;

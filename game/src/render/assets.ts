@@ -71,7 +71,7 @@ export interface AssetEntry {
    * through `baseY()`, which falls back to 0. See `baseY` for why it matters.
    */
   base?: { x: number; y: number; z: number };
-  /** Rest-pose sole height for a rig whose bind bounds do not match its standing pose. */
+  /** Authored contact height, such as a standing sole or the soil line above buried tree roots. */
   groundY?: number;
   animations: string[];
   materials: string[];

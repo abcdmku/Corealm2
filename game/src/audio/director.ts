@@ -1,7 +1,7 @@
 import type {
   AudioCueId, GameEvent, RegionId, SkillId, Vec3,
 } from "../contracts.js";
-import type { AudioCatalog } from "./catalog.js";
+import type { AudioCatalog, MusicArea } from "./catalog.js";
 import type { AudioEngine } from "./engine.js";
 
 export interface CombatAudioObservation {
@@ -48,6 +48,18 @@ export function loopsForRegion(
     music: selectLoop(definition?.music, selectionIndex),
     ambient: selectLoop(definition?.ambient, selectionIndex),
   };
+}
+
+export function musicAreaAt(
+  areas: readonly MusicArea[] | undefined,
+  position: Vec3,
+  currentId: string | null = null,
+): MusicArea | null {
+  const contains = (area: MusicArea, padding: number) =>
+    Math.hypot(position[0] - area.centre[0], position[2] - area.centre[1]) <= area.radius + padding;
+  const current = areas?.find(area => area.id === currentId);
+  if (current && contains(current, current.exitPadding ?? 5)) return current;
+  return areas?.find(area => contains(area, 0)) ?? null;
 }
 
 /**
@@ -258,6 +270,8 @@ export class AudioDirector {
     ambient: null,
   };
   private region: RegionId | null = null;
+  private regionSelectionIndex = 0;
+  private musicArea: string | null = null;
   private regionLoops: { music: string | null; ambient: string | null } = { music: null, ambient: null };
   private previousPosition: Vec3 | null = null;
   private distanceSinceStep = 0;
@@ -274,25 +288,35 @@ export class AudioDirector {
     this.minimumStepIntervalMs = nonNegative(options.minimumStepIntervalMs, 180);
   }
 
-  setRegion(regionId: RegionId): void {
-    if (this.disposed || regionId === this.region) return;
-    const visit = this.regionVisits.get(regionId) ?? 0;
-    this.regionVisits.set(regionId, visit + 1);
-    const next = loopsForRegion(regionId, this.catalog.regions, visit);
+  setRegion(regionId: RegionId, position?: Vec3): void {
+    if (this.disposed) return;
+    const changedRegion = regionId !== this.region;
+    if (!changedRegion && !position) return;
+    if (changedRegion) {
+      this.regionSelectionIndex = this.regionVisits.get(regionId) ?? 0;
+      this.regionVisits.set(regionId, this.regionSelectionIndex + 1);
+      this.musicArea = null;
+      this.resetMovement(false);
+    }
+    const area = position
+      ? musicAreaAt(this.catalog.regions?.[regionId]?.musicAreas, position, this.musicArea)
+      : null;
+    const base = loopsForRegion(regionId, this.catalog.regions, this.regionSelectionIndex);
+    const next = { ...base, music: area?.music ?? base.music };
+    this.musicArea = area?.id ?? null;
     const previous = this.regionLoops;
     this.region = regionId;
     this.regionLoops = next;
     this.switchRegionLoop("music", previous.music, next.music);
     this.switchRegionLoop("ambient", previous.ambient, next.ambient);
-    this.resetMovement(false);
   }
 
   /** Starts a new world with repeatable region pools and movement cadence. */
-  reset(regionId: RegionId): void {
+  reset(regionId: RegionId, position?: Vec3): void {
     if (this.disposed) return;
     this.regionVisits.clear();
     this.region = null;
-    this.setRegion(regionId);
+    this.setRegion(regionId, position);
     this.resetMovement();
   }
 

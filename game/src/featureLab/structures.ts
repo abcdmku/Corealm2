@@ -153,9 +153,12 @@ export function assembleFeatureLabStructure(
   selection: FeatureLabStructureSelection,
   origin: Vec3,
   measurements?: FeatureLabStructureMeasurements,
+  architectureRegion?: "gloamgarden" | "faeholme",
 ): FeatureLabStructureAssembly {
   const sanitized = sanitizeFeatureLabStructureSelection(selection);
-  const context = (DEEP_WILDERNESS_STRUCTURE_IDS as readonly string[]).includes(sanitized.id)
+  const context = architectureRegion
+    ? { regionId: architectureRegion, tier: architectureRegion === "gloamgarden" ? 30 : 60 }
+    : (DEEP_WILDERNESS_STRUCTURE_IDS as readonly string[]).includes(sanitized.id)
     ? { regionId: 'wilderness' as const, tier: 70 }
     : sanitized.id === "white_knight_castle" || sanitized.id === "crownward_castle" || sanitized.id === "crownward_fortress"
       ? { regionId: "crownward" as const, tier: 40 }
@@ -349,7 +352,7 @@ function collisionFor(
 
   const prefab = selection.kind === "prefab" ? selection.id as PrefabId : "wall_segment";
   const boxes = selection.kind === "prefab"
-    ? prefabCollision(prefab, [selection.width, selection.depth])
+    ? prefabCollision(prefab, [selection.width, selection.depth], selection.seed)
     : wallRunCollision(
       selection.width,
       [{ at: selection.width / 2, width: Math.min(selection.depth, selection.width) }],

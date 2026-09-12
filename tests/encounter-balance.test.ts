@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { tuneEnemyCombatLevel, REGIONAL_BOSS_LEVELS } from '../game/src/content/encounterBalance.js';
 import { enemyCombatLevel, type EnemyDef } from '../game/src/content/index.js';
 import { ENEMY_BLOCKS } from '../game/src/content/enemies.js';
+import { UNIVERSAL_MINIBOSS_ENEMIES } from '../game/src/content/universalMinibosses.js';
 
 const base: EnemyDef = { id:'balance-fixture', family:'fixture', name:'Fixture', tier:10,
   maxHealth:70, attackLevel:12, defenceLevel:8, accuracy:20, armour:15, magicArmour:5,
@@ -26,7 +27,10 @@ describe('regional encounter strength', () => {
   // substantive property the band is a proxy for - the boss must outrank the region's ordinary
   // ceiling by the gap `tests/player-level-labels.test.ts` requires.
   const MINIBOSS_LEVEL_GAP = 4;
-  const bossIds = new Set(Object.keys(REGIONAL_BOSS_LEVELS).map(id => id === 'ordrun' ? 'quarrykeeper_t10' : `${id}_t${REGIONAL_BOSS_LEVELS[id as keyof typeof REGIONAL_BOSS_LEVELS].tier}`));
+  const bossIds = new Set([
+    ...Object.keys(REGIONAL_BOSS_LEVELS).map(id => id === 'ordrun' ? 'quarrykeeper_t10' : `${id}_t${REGIONAL_BOSS_LEVELS[id as keyof typeof REGIONAL_BOSS_LEVELS].tier}`),
+    ...UNIVERSAL_MINIBOSS_ENEMIES.map(enemy => enemy.id),
+  ]);
   const ordinaryCeiling = (tier: number) => Math.max(...ENEMY_BLOCKS
     .filter(row => row.tier === tier && !bossIds.has(row.id)).map(enemyCombatLevel));
   it('puts every regional boss from tier five up in the requested three-to-five-times band', () => {

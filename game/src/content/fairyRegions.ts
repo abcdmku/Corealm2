@@ -1,6 +1,11 @@
+import { fairyAgilityLocations, fairyAgilityObstacles, fairyAgilityApproachRoads } from './fairyAgility.js';
 import type { EnemyGroupDef, LocationDef, RegionDef, Spot } from './regions.js';
 import type { RegionId } from '../contracts.js';
 import { FAIRY_CROWN_SPECIES } from './fairyCrownCreatures.js';
+import { FAIRY_TERRACE_ENCOUNTERS } from './fairyTerraceEncounters.js';
+import { FAIRY_NPC_CANDIDATES, FAIRY_NPC_STANDS } from './fairyNpcs.js';
+import { LANTERN_REST, LANTERN_REST_LOCATIONS, LANTERN_REST_ROADS } from './settlements/lanternRest.js';
+import { PRISM_HOLLOW, PRISM_HOLLOW_LOCATIONS, PRISM_HOLLOW_ROADS } from './settlements/prismHollow.js';
 
 /** Shared placements for the production resource clusters and their mine/grove layouts. */
 export const FAIRY_RESOURCE_INTENTS = [
@@ -51,7 +56,7 @@ export const GLOAMGARDEN: RegionDef = {
   id: 'gloamgarden', name: 'Gloamgarden', tier: 30,
   lore: 'A wide fairy garden beneath the world, open under a distant vault of violet cloud and glowing teal dust. Moonpetal willows and glassy mineral seams follow winding paths. The Bloomheart Matriarch waits beyond the lantern meadows.',
   bounds: { min: [2000, -200], max: [2600, 130] }, terrainSeed: 0xfae030,
-  terrainAmplitude: 8, baseHeight: -120,
+  terrainAmplitude: 1.5, baseHeight: -120,
   groundPalette: ['#285e65', '#398a89', '#31504f', '#7676a0', '#473c72', '#51a397', '#a1c5bd', '#646997'],
   fogStart: 95, spawnPoint: [2068, -120], spawnFacingRad: Math.PI / 2, respawnPointId: 'lantern_rest',
   locations: [
@@ -66,14 +71,14 @@ export const GLOAMGARDEN: RegionDef = {
       blurb: 'A broad flowering court claimed by the Bloomheart Matriarch.' },
     { id: 'gloamgarden_north_path', name: 'Faeholme Threshold', position: [2300, 120], kind: 'junction', routeNode: true,
       blurb: 'The teal meadows give way to the T60 violet gardens of Faeholme.' },
-    ...resourceLocations('gloamgarden'),
+    ...resourceLocations('gloamgarden'), ...LANTERN_REST_LOCATIONS, ...fairyAgilityLocations('gloamgarden'),
   ],
   roads: [
     { from: 'gloamgarden_crownward_gate', to: 'gloamgarden_arrival' },
     { from: 'gloamgarden_arrival', to: 'lantern_rest_square' },
-    { from: 'lantern_rest_square', to: 'lantern_rest_bank_approach' },
-    { from: 'lantern_rest_square', to: 'dewglass_workings' },
-    { from: 'lantern_rest_square', to: 'dewsong_copse' },
+    ...LANTERN_REST_ROADS, ...fairyAgilityApproachRoads('gloamgarden'),
+    { from: 'lantern_rest_east_lane', to: 'dewglass_workings' },
+    { from: 'lantern_rest_north_lane', to: 'dewsong_copse' },
     { from: 'dewglass_workings', to: 'moonpetal_grove' },
     { from: 'moonpetal_grove', to: 'gloamgarden_moonpath' },
     { from: 'dewsong_copse', to: 'gloamgarden_moonpath' },
@@ -83,27 +88,10 @@ export const GLOAMGARDEN: RegionDef = {
     { from: 'gloamgarden_bloomheart', to: 'lantern_seam' },
     { from: 'gloamgarden_moonpath', to: 'gloamgarden_north_path' },
   ],
-  clusters: resourceClusters('gloamgarden'), stations: [], obstacles: [],
-  settlement: {
-    id: 'lantern_rest', name: 'Lantern Rest', kit: 'timber', centre: [2080, -105], respawnPointId: 'lantern_rest',
-    buildings: [
-      { id: 'lantern_rest_shelter', name: 'Lantern Shelter', prefab: 'arcade', position: [2080, -93], rotationY: Math.PI, footprint: [8, 3] },
-      { id: 'lantern_rest_bank_porch', name: 'Lantern Bank Shelter', prefab: 'porch', position: [2086, -114], rotationY: Math.PI / 2, footprint: [6, 3] },
-    ],
-    bank: { id: 'lantern_rest_bank', name: 'Lantern Rest Bank', position: [2085.25, -115.4], rotationY: Math.PI / 2,
-      assetId: 'chest_wood', attachedTo: 'lantern_rest_bank_porch' },
-    stations: [], shops: [], npcs: [],
-  },
+  clusters: resourceClusters('gloamgarden'), stations: [], obstacles: fairyAgilityObstacles('gloamgarden'),
+  settlement: { ...LANTERN_REST, npcs: FAIRY_NPC_STANDS.filter(stand => FAIRY_NPC_CANDIDATES.some(npc => npc.id === stand.id && npc.regionId === 'gloamgarden')) },
   enemyGroups: [
-    pack('gloamgarden_dewglass_sprites', 'lantern_sprite', [2215, -160], 4, 15),
-    pack('gloamgarden_west_weavers', 'dewglass_weaver', [2050, 25], 3, 15),
-    pack('gloamgarden_moonpetal_stalkers', 'moonpetal_stalker', [2210, 25], 3, 14),
-    pack('gloamgarden_south_stalkers', 'moonpetal_stalker', [2350, -140], 4, 16),
-    pack('gloamgarden_lantern_sprites', 'lantern_sprite', [2540, -110], 4, 16),
-    pack('gloamgarden_east_weavers', 'dewglass_weaver', [2550, -5], 3, 15),
-    pack('gloamgarden_mid_sprites', 'lantern_sprite', [2380, -25], 4, 16),
-    pack('gloamgarden_north_weavers', 'dewglass_weaver', [2180, 96], 3, 13),
-    pack('gloamgarden_threshold_stalkers', 'moonpetal_stalker', [2460, 107], 3, 12),
+    ...FAIRY_TERRACE_ENCOUNTERS.filter(entry => entry.habitat.regionId === 'gloamgarden').map(entry => entry.group),
     pack('bloomheart_matriarch_court', 'bloomheart_matriarch', [2390, 65], 1, 0, true),
   ],
   landmarks: [
@@ -122,7 +110,7 @@ export const FAEHOLME: RegionDef = {
   id: 'faeholme', name: 'Faeholme', tier: 60,
   lore: 'The deeper fairy realm spreads beneath a violet, mineral-lit sky. Purple yews, luminous roots and amethyst faces surround the old sovereign court. Its creatures share the shapes of the gardens below, grown larger and stranger in the deep light.',
   bounds: { min: [2000, 130], max: [2600, 460] }, terrainSeed: 0xfae060,
-  terrainAmplitude: 11, baseHeight: -120,
+  terrainAmplitude: 1.5, baseHeight: -120,
   groundPalette: ['#51416f', '#795591', '#303d67', '#5f8d96', '#503968', '#9873ad', '#c0a5cf', '#627faa'],
   fogStart: 100, spawnPoint: [2300, 140], spawnFacingRad: 0, respawnPointId: 'lantern_rest',
   locations: [
@@ -131,11 +119,12 @@ export const FAEHOLME: RegionDef = {
     { id: 'faeholme_sovereign_court', name: 'Amethyst Sovereign Court', position: [2450, 420], kind: 'landmark', routeNode: true,
       blurb: 'The Amethyst Sovereign holds an open court beneath the deepest part of the fairy vault.' },
     { id: 'faeholme_twilight_path', name: 'Twilight Walk', position: [2140, 395], kind: 'junction', routeNode: true },
-    ...resourceLocations('faeholme'),
+    ...resourceLocations('faeholme'), ...PRISM_HOLLOW_LOCATIONS, ...fairyAgilityLocations('faeholme'),
   ],
   roads: [
-    { from: 'faeholme_south_path', to: 'star_amethyst_cut' },
-    { from: 'faeholme_south_path', to: 'orchid_yew_grove' },
+    ...PRISM_HOLLOW_ROADS, ...fairyAgilityApproachRoads('faeholme'),
+    { from: 'prism_hollow_west_lane', to: 'star_amethyst_cut' },
+    { from: 'prism_hollow_east_lane', to: 'orchid_yew_grove' },
     { from: 'star_amethyst_cut', to: 'faeholme_prism_cross' },
     { from: 'orchid_yew_grove', to: 'faeholme_prism_cross' },
     { from: 'faeholme_prism_cross', to: 'starroot_garden' },
@@ -146,17 +135,11 @@ export const FAEHOLME: RegionDef = {
     { from: 'faeholme_prism_cross', to: 'sovereign_lode' },
     { from: 'sovereign_lode', to: 'faeholme_sovereign_court' },
   ],
-  clusters: resourceClusters('faeholme'), stations: [], obstacles: [], gates: [],
+  clusters: resourceClusters('faeholme'), stations: [], obstacles: fairyAgilityObstacles('faeholme'), gates: [],
+  settlement: { ...PRISM_HOLLOW, respawnPointId: 'prism_hollow',
+    npcs: FAIRY_NPC_STANDS.filter(stand => FAIRY_NPC_CANDIDATES.some(npc => npc.id === stand.id && npc.regionId === 'faeholme')) },
   enemyGroups: [
-    pack('faeholme_threshold_sprites', 'prismatic_sprite', [2220, 182], 4, 15),
-    pack('faeholme_orchid_reapers', 'orchid_reaper', [2490, 180], 3, 15),
-    pack('faeholme_west_guardians', 'starroot_guardian', [2060, 225], 3, 15),
-    pack('faeholme_prism_sprites', 'prismatic_sprite', [2280, 245], 4, 15),
-    pack('faeholme_east_reapers', 'orchid_reaper', [2530, 275], 3, 16),
-    pack('faeholme_copse_guardians', 'starroot_guardian', [2155, 325], 3, 15),
-    pack('faeholme_starroot_sprites', 'prismatic_sprite', [2240, 414], 4, 15),
-    pack('faeholme_lode_reapers', 'orchid_reaper', [2420, 332], 3, 15),
-    pack('faeholme_north_guardians', 'starroot_guardian', [2540, 419], 3, 15),
+    ...FAIRY_TERRACE_ENCOUNTERS.filter(entry => entry.habitat.regionId === 'faeholme').map(entry => entry.group),
     pack('amethyst_sovereign_court', 'amethyst_sovereign', [2450, 420], 1, 0, true),
   ],
   landmarks: [

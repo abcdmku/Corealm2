@@ -6,6 +6,7 @@ import type { EquipmentBonuses, ItemDef, ItemId } from "../game/src/contracts.js
 import { EQUIPMENT, KITS, MAGIC_ORBS } from "../game/src/content/equipment.js";
 import { WILDERNESS_LOOT_ITEMS } from "../game/src/content/wildernessLoot.js";
 import { BOSS_ARMOR_ITEMS, BOSS_ARMOR_SETS } from '../game/src/content/bossArmor.js';
+import { MINIBOSS_JEWELLERY } from '../game/src/content/universalMinibossLoot.js';
 import { computeMaxHealth, createInitialState, setSkillLevel } from "../game/src/state/store.js";
 import {
   GEAR_APPEARANCE_IDS, GEAR_ASSET_GAPS, VISIBLE_EQUIP_SLOTS,
@@ -33,7 +34,7 @@ import { fishingRodAssetId, isProceduralGearAsset } from "../game/src/render/pro
 const BY_ID = new Map<ItemId, ItemDef>(EQUIPMENT.map((def) => [def.id, def]));
 const ALL_BY_ID = new Map<ItemId, ItemDef>([...MAGIC_ORBS, ...EQUIPMENT].map((def) => [def.id, def]));
 const WILDERNESS_EQUIPMENT = WILDERNESS_LOOT_ITEMS.filter(def => def.equip);
-const ALL_EQUIPMENT = [...EQUIPMENT, ...WILDERNESS_EQUIPMENT, ...BOSS_ARMOR_ITEMS];
+const ALL_EQUIPMENT = [...EQUIPMENT, ...WILDERNESS_EQUIPMENT, ...BOSS_ARMOR_ITEMS, ...MINIBOSS_JEWELLERY];
 
 function kitTotals(kit: keyof typeof KITS): EquipmentBonuses {
   const totals: EquipmentBonuses = {
@@ -184,7 +185,9 @@ describe("gear appearance", () => {
   it("covers every id in the content table and nothing else", () => {
     expect(EQUIPMENT).toHaveLength(95);
     expect(WILDERNESS_EQUIPMENT).toHaveLength(41);
-    expect(new Set(ALL_EQUIPMENT.map(def => def.id)).size).toBe(163);
+    expect(MINIBOSS_JEWELLERY).toHaveLength(144);
+    expect(ALL_EQUIPMENT).toHaveLength(307);
+    expect(new Set(ALL_EQUIPMENT.map(def => def.id)).size).toBe(ALL_EQUIPMENT.length);
     expect([...GEAR_APPEARANCE_IDS].sort()).toEqual(ALL_EQUIPMENT.map((def) => def.id).sort());
   });
 

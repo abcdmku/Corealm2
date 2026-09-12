@@ -18,7 +18,7 @@ export function mountAgilityWorkbench(workbench: AgilityWorkbenchApi, ports: {
   for (const lane of workbench.getState().lanes) {
     const option = document.createElement("option");
     option.value = lane.id;
-    option.textContent = lane.contact ? `${lane.contact.kind} contact` : lane.id === "root_tunnel" ? "Root Tunnel" : "Broken Ledge";
+    option.textContent = lane.name ?? (lane.contact ? `${lane.contact.kind} contact` : lane.id === "root_tunnel" ? "Root Tunnel" : "Broken Ledge");
     select.append(option);
   }
   panel.append(select);
@@ -40,6 +40,8 @@ export function mountAgilityWorkbench(workbench: AgilityWorkbenchApi, ports: {
   const lane = () => workbench.getState().lanes.find((candidate) => candidate.id === select.value)!;
   button("Prepare level 8", () => workbench.prepare());
   button("Set level 10", () => workbench.setLevel(10));
+  button("Set required level", () => workbench.setLevel(lane().reqLevel));
+  button("Set guaranteed level", () => workbench.setLevel(Math.min(99, lane().reqLevel + 20)));
   button("Walk to entrance", () => ports.moveTo({ position: lane().entry }));
   button("Traverse", () => ports.interact(lane().id, lane().contact?.kind === "vault" ? "vault" : lane().id === "root_tunnel" ? "enter" : "climb"));
   button("Walk to exit", () => ports.moveTo({ position: lane().exit }));

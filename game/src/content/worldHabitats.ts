@@ -10,6 +10,8 @@ import { REGIONS, WORLD_BOUNDS } from './regions.js';
 import { encounterBodyRadius } from './encounterPlacement.js';
 import { createEncounterFormation } from './encounterPopulation.js';
 import { createLegacyEncounterFormation, LEGACY_ENCOUNTER_PLACEMENT_OVERRIDES } from './legacyEncounterPlacements.js';
+import { FAIRY_TERRACE_HABITATS } from './fairyTerraceEncounters.js';
+import { isFairyRegion } from '../contracts.js';
 
 export interface HabitatDef {
   /** Spaced residents idle near their own spawn instead of sharing the pack's patrol sockets. */
@@ -46,8 +48,8 @@ export function habitatContains(habitat: HabitatDef, position: Vec3): boolean {
   if (REGIONS.some(region => region.dungeon?.id === habitat.regionId)) return true;
   const bounds = REGIONS.find(region => region.id === habitat.regionId)?.bounds;
   return bounds !== undefined
-    && x >= WORLD_BOUNDS.min[0] && x <= WORLD_BOUNDS.max[0]
-    && z >= WORLD_BOUNDS.min[1] && z <= WORLD_BOUNDS.max[1]
+    && (isFairyRegion(habitat.regionId) || (x >= WORLD_BOUNDS.min[0] && x <= WORLD_BOUNDS.max[0]
+    && z >= WORLD_BOUNDS.min[1] && z <= WORLD_BOUNDS.max[1]))
     && x >= bounds.min[0] && x <= bounds.max[0] && z >= bounds.min[1] && z <= bounds.max[1];
 }
 
@@ -300,7 +302,7 @@ const encounterRegions = [...REGIONS, ...REGIONS.flatMap(region => region.dungeo
 const allEncounterHabitats: readonly HabitatDef[] = encounterRegions.flatMap(region => region.enemyGroups
   .filter(group => !group.boss && !group.miniBoss)
   .map(group => {
-    const accepted = DEEP_WILDERNESS_PACK_HABITATS.find(habitat => habitat.groupId === group.id);
+    const accepted = [...DEEP_WILDERNESS_PACK_HABITATS, ...FAIRY_TERRACE_HABITATS].find(habitat => habitat.groupId === group.id);
     if (accepted) return accepted;
     const source = sourceHabitats.find(habitat => habitat.groupId === group.id);
     // Authored shore and clearing centres already account for local water and paths.

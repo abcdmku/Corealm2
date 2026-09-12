@@ -80,6 +80,7 @@ import { conformTerrainRig, restoreTerrainRig, terrainRigSnapshot, type TerrainP
  *    `view.groundNormal` by `view.tiltStrength`, defaulted per archetype by `DEFAULT_TILT`.
  */
 import * as THREE from "three";
+import { FairyArchitecture, FAIRY_LANTERN_GLASS, fairyArchitectureSurface, isFairyArchitectureRegion } from './fairyArchitecture.js';
 import { isNativeTreeAsset } from "../content/treeSpecies.js";
 import { containedWaterMaterialSnapshot } from "./containedTroughWater.js";
 import { selectSpeedMatchedLocomotion } from "./speedMatchedLocomotion.js";
@@ -1689,6 +1690,9 @@ export class EntityViews {
   private readonly tierKeyed = new Map<string, boolean>();
   /** Asset id -> whether one of its source materials belongs to the architecture palette. */
   private readonly architectureAssets = new Map<string, boolean>();
+  private readonly fairyArchitecture = new FairyArchitecture();
+  private readonly fairyArchitectureAssets = new Map<string, boolean>();
+  private readonly fairyLampPositions: THREE.Vector3[] = [];
   private readonly seamGeometries = new Map<string, THREE.BufferGeometry>();
   private readonly workedOreGeometries = new Map<
     string,
@@ -1979,10 +1983,24 @@ export class EntityViews {
 
     const seen = new Set<EntityId>();
     this.residentMovingEntities.length = 0;
+    this.fairyLampPositions.length = 0;
 
     for (const entity of this.activeSet.selected()) {
       seen.add(entity.id);
       this.syncOne(entity);
+      const lampRecord = this.records.get(entity.id);
+      const lampGroup = lampRecord ? this.groups.get(lampRecord.groupKey) : undefined;
+      if (lampRecord && lampGroup?.assetId === 'lamp_wall' && isFairyArchitectureRegion(lampGroup.regionId)) {
+        const position = new THREE.Vector3(...FAIRY_LANTERN_GLASS.centre);
+        position.multiply(new THREE.Vector3(
+          lampRecord.scale * lampRecord.build[0] * lampRecord.scaleAxes[0],
+          lampRecord.scale * lampRecord.build[1] * lampRecord.scaleAxes[1],
+          lampRecord.scale * lampRecord.build[2] * lampRecord.scaleAxes[2],
+        ));
+        position.applyQuaternion(orientation(lampRecord.rotationY, lampRecord.normal, lampRecord.tilt, SCRATCH_QUATERNION));
+        position.add(lampRecord.position);
+        this.fairyLampPositions.push(position);
+      }
       // Refresh even when syncOne's signature is unchanged: a save restore or semantic rebuild
       // can replace the object behind the same id without changing its current drawn transform.
       if (this.records.has(entity.id) && MOVING_ARCHETYPES.has(entity.archetype)) {
@@ -2014,6 +2032,7 @@ export class EntityViews {
     this.animatedLastFrame = 0;
     if (viewer) {
       this.viewer = (this.viewer ?? new THREE.Vector3()).copy(viewer);
+      this.fairyArchitecture.updateLights(this.group, this.fairyLampPositions, viewer);
       // Before the tick, not after: a character promoted this frame should be ticked this frame,
       // or it renders one frame of its baked pose at the exact moment the player walks up to it.
       // Capture isolation freezes the pool after focusEntity promoted the subject. Rebalancing
@@ -3095,6 +3114,11 @@ export class EntityViews {
       if (!mesh.isMesh || !mesh.geometry) return;
       const base = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
       if (!base) return;
+      if (assetId === 'market_stall' && isFairyArchitectureRegion(regionId)
+        && fairyArchitectureSurface(assetId, base.name) === 'cloth') {
+        parts.push(this.fairyArchitecture.marketCanopyPart(base, regionId));
+        return;
+      }
       parts.push({
         geometry: mesh.geometry,
         material: this.variantFor(
@@ -3108,6 +3132,9 @@ export class EntityViews {
     });
     if (assetId === ESSENCE_ALTAR_ASSET && essenceElement && !spent) {
       parts.push(...this.essenceAltarDetailParts(essenceElement));
+    }
+    if (assetId === 'lamp_wall' && isFairyArchitectureRegion(regionId)) {
+      parts.push(this.fairyArchitecture.lanternPart());
     }
     return parts;
   }
@@ -3459,6 +3486,8 @@ export class EntityViews {
         : surface;
     }
     if (regionId && ARCHITECTURE_ARCHETYPES.has(archetype)) {
+      const fairy = this.fairyArchitecture.material(base, assetId, regionId);
+      if (fairy) return fairy;
       const architectureRole = architectureMaterialRoleForAsset(assetId, base.name);
       if (architectureRole) {
         const premadeCastle = assetId === 'crownward_premade_castle' || assetId === 'crownward_premade_fortress';
@@ -3675,6 +3704,23 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     assetId: string,
   ): RegionId | null {
     if (!ARCHITECTURE_ARCHETYPES.has(archetype)) return null;
+    if (isFairyArchitectureRegion(regionId)) {
+      // Glass-only windows and the all-metal lantern need a regional instance key too.
+      let fairy = this.fairyArchitectureAssets.get(assetId);
+      if (fairy === undefined) {
+        const source = this.sources.get(assetId) ?? this.assets.instance(assetId);
+        fairy = false;
+        source.traverse((child) => {
+          const mesh = child as THREE.Mesh;
+          if (!mesh.isMesh) return;
+          for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+            if (material && fairyArchitectureSurface(assetId, material.name)) fairy = true;
+          }
+        });
+        this.fairyArchitectureAssets.set(assetId, fairy);
+      }
+      if (fairy) return regionId;
+    }
 
     let architecture = this.architectureAssets.get(assetId);
     if (architecture === undefined) {
@@ -5657,6 +5703,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
    */
   drawnBounds(
     entityId: EntityId,
+    preciseSampled = false,
   ): { min: Vec3; max: Vec3; meshes: number; path: string; fade: number } | null {
     const record = this.records.get(entityId);
     if (!record) return null;
@@ -5683,7 +5730,11 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     const group = this.groups.get(record.groupKey);
     if (!group || record.slot < 0) return null;
     if (group.animationLod && record.playback) {
-      const bounds = group.animationLod.bounds(record.slot, box);
+      // Explicit inspections match the current shader pose; ordinary consumers retain the
+      // conservative culling envelope without a per-vertex CPU walk.
+      const bounds = preciseSampled
+        ? group.animationLod.drawnBounds(record.slot, box)
+        : group.animationLod.bounds(record.slot, box);
       return bounds && !bounds.isEmpty()
         ? boxToBounds(bounds, group.animationLod.drawCalls, `sampled:${record.playback.clip.name}`, record.fade)
         : null;
@@ -5837,6 +5888,9 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gEssenceStoneTinted, 0.82 );`,
     this.uniqueViewCount = 0;
     for (const material of this.tintedMaterials.values()) material.dispose();
     this.tintedMaterials.clear();
+    this.fairyArchitecture.dispose();
+    this.fairyArchitectureAssets.clear();
+    this.fairyLampPositions.length = 0;
     for (const material of this.essenceMaterials.values()) material.dispose();
     this.essenceMaterials.clear();
     for (const material of this.essenceAltarDetailMaterials.values()) material.dispose();

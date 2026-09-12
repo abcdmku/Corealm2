@@ -10,6 +10,7 @@ import type { ItemDef, ItemId } from "../contracts.js";
 import { ALL_ITEMS } from "../content/items.js";
 import { TREE_SPECIES } from "../content/treeSpecies.js";
 import { CROWNWARD_FISH } from '../content/crownwardFishing.js';
+import { MINIBOSS_JEWELLERY } from '../content/universalMinibossLoot.js';
 import {
   gatheringToolAppearance, gearAppearanceParts, gearAppearancePartsWithCharge,
   wornTrimRestTransform, type GearAppearance,
@@ -386,6 +387,33 @@ const WILDERNESS_JEWELLERY: Readonly<Record<ItemId, ItemIconPrimitivePart>> = {
   starweave_charm: primitive("amulet", 0x524b78, 0xe69b61),
 };
 
+const MINIBOSS_JEWELLERY_IDS = new Set(MINIBOSS_JEWELLERY.map(item => item.id));
+/** The named rewards reuse the finished gem, braided band and trophy-setting recipes. */
+const MINIBOSS_UNIQUE_SETTINGS: Readonly<Record<string, { accent: number; variant: number }>> = {
+  '01': { accent: 0x80ba72, variant: 2 }, // Brambleheart: green gem and braided band.
+  '02': { accent: 0xbe8deb, variant: 0 }, // Gloamwarden: violet faceted pendant.
+  '03': { accent: 0xd66e84, variant: 3 }, // Thorn Sovereign: three raised thorns.
+  '04': { accent: 0xc8dfeb, variant: 3 }, // Hollow Crown: pale branching setting.
+  '05': { accent: 0x86b6cc, variant: 4 }, // Stonevein: plated band.
+  '06': { accent: 0xd8a3e7, variant: 1 }, // Nightbloom: lilac plume pendant.
+  '07': { accent: 0xb5bd6d, variant: 2 }, // Dreadroot: olive gem and root-like braid.
+  '08': { accent: 0x80ddd6, variant: 0 }, // Veilkeeper: turquoise faceted pendant.
+  '09': { accent: 0xe4b976, variant: 3 }, // Elder Thorne: amber thorn setting.
+};
+
+function minibossJewelleryIcon(item: ItemDef): ItemIconPrimitivePart {
+  const match = /^(warden|unique)_jewellery_(\d{2})_t\d+$/.exec(item.id);
+  const slot = item.equip?.slot;
+  if (!match || (slot !== 'accessory1' && slot !== 'accessory2')) {
+    throw new Error(`Miniboss jewellery lacks an accessory icon recipe: ${item.id}`);
+  }
+  const unique = match[1] === 'unique';
+  const setting = MINIBOSS_UNIQUE_SETTINGS[match[2]!];
+  if (!setting) throw new Error(`Miniboss jewellery has no source setting: ${item.id}`);
+  return primitive(slot === 'accessory1' ? 'ring' : 'amulet', tierMetal(item.id),
+    unique ? setting.accent : tierAccent(item.id), unique ? setting.variant : 0);
+}
+
 // Game meat. Raw, cooked and burnt share one model; colour carries preparation state, exactly the
 // convention the fish line below already uses.
 put("raw_game_meat", [primitive("meat", 0xbe6a63, 0xe8ddc6)]);
@@ -445,6 +473,10 @@ for (const item of ALL_ITEMS.filter((entry) => entry.orb !== undefined)) {
 // Static item art shows elemental identity. Explicit charge previews use the same runtime core.
 for (const item of ALL_ITEMS.filter((entry) => entry.category === "equipment")) {
   const id = item.id;
+  if (MINIBOSS_JEWELLERY_IDS.has(id)) {
+    put(id, [minibossJewelleryIcon(item)]);
+    continue;
+  }
   const jewellery = WILDERNESS_JEWELLERY[id];
   if (jewellery) {
     put(id, [jewellery]);

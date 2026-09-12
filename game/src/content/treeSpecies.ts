@@ -46,9 +46,14 @@ for (const [id, speciesId] of [
 for (const [prefix, speciesId, resourceId, name] of [
   ['corealm_willow_gloam', 'willow', 'tree_gloam_willow', 'Gloam Willow'],
   ['corealm_yew_fae', 'yew', 'tree_fae_yew', 'Fae Yew'],
+  ['fairy_canopy_gloam', 'willow', 'tree_gloam_willow', 'Moonpetal Tree'],
+  ['fairy_canopy_fae', 'yew', 'tree_fae_yew', 'Prism Tree'],
 ] as const) for (const index of [1, 2]) speciesByAsset.set(`${prefix}_${index}`, {
   ...TREE_SPECIES.find(species => species.id === speciesId)!, resourceId, name,
 });
+
+speciesByAsset.set('fairy_hero_gloam', { ...TREE_SPECIES.find(species => species.id === 'willow')!,
+  resourceId: 'tree_gloam_willow', name: 'Ancient Moonpetal Tree', trunkRadius: .686, height: 15.5 });
 
 export function treeSpeciesForAsset(assetId: string): TreeSpeciesDef | undefined {
   return speciesByAsset.get(assetId);
@@ -83,3 +88,7 @@ export function treeEncounterWeight(species: TreeSpeciesDef, areaLevel: number):
   if (species.level <= areaLevel) return species.level === areaLevel ? 1 : .45 * Math.pow(.9, (areaLevel - species.level) / 10);
   return .5 * Math.pow(.65, (species.level - areaLevel) / 10);
 }
+
+speciesByAsset.set('fairy_hero_gloam_sheltered', { ...speciesByAsset.get('fairy_hero_gloam')!, trunkRadius: 1.75, height: 11 });
+
+speciesByAsset.set('fairy_hero_fae_sheltered', { ...TREE_SPECIES.find(species => species.id === 'yew')!, resourceId: 'tree_fae_yew', name: 'Ancient Prism Tree', trunkRadius: 1.75, height: 11 });

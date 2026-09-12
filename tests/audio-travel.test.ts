@@ -35,7 +35,7 @@ describe("audio across travel", () => {
     f.bridge.tick(100, 200);
     expect(f.engine.resetOneShots).toHaveBeenCalledOnce();
     expect(f.engine.playCue).toHaveBeenCalledTimes(1);
-    expect(f.director.setRegion).toHaveBeenLastCalledWith("gravelmaw");
+    expect(f.director.setRegion).toHaveBeenLastCalledWith("gravelmaw", f.store.get().player.position);
     expect(f.engine.setListenerPose).toHaveBeenLastCalledWith(f.store.get().player.position, [1, 0, 0]);
   });
 

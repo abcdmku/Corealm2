@@ -648,6 +648,11 @@ export interface ScatterTerrainSpec {
 
 export interface ScatterLayerSpec {
   id: string;
+  /** Authored geology uses the same tile residency, native material and bake path as field scatter. */
+  authoredPoints?: readonly {
+    readonly id: string; readonly assetId: string; readonly position: readonly [number, number];
+    readonly rotationY: number; readonly scale: number; readonly sink: number; readonly heightOffset: number;
+  }[];
   /** The species pool, with per-species weight, scale, tilt and source restrictions. */
   species?: ScatterSpeciesSpec[];
   /** Shorthand for a flat, equally weighted pool. */
@@ -1163,7 +1168,8 @@ function roadStations(scene: WorldScene): RoadStation[] {
 // -------------------------------------------------------------- placement
 
 /** Keep the selected entry so duplicate asset ids retain their own scale/tilt/sink variant. */
-interface Candidate { x: number; z: number; source: ScatterSource; species: ResolvedSpecies }
+interface Candidate { x: number; z: number; source: ScatterSource; species: ResolvedSpecies;
+  authored?: NonNullable<ScatterLayerSpec['authoredPoints']>[number] }
 
 interface LayerContext {
   scene: WorldScene;
@@ -1574,6 +1580,12 @@ async function planScatterLayer(
     try {
       const mask = createFbm(layerSeed(ctx.seed, ctx.regionId, `${layer.id}-mask`));
       await collectField(layer, ctx, species, rng, mask, candidates, result, yieldToMain);
+      for (const point of layer.authoredPoints ?? []) {
+        if (scatterTileAt(...point.position).id !== ctx.tile.id) continue;
+        const entry = species.find(entry => entry.assetId === point.assetId);
+        if (!entry) { result.missingAssets.push(point.assetId); continue; }
+        candidates.push({ x: point.position[0], z: point.position[1], source: 'field', species: entry, authored: point });
+      }
       await yieldToMain?.();
       collectRoad(layer, ctx, species, rng, candidates, result);
       await yieldToMain?.();
@@ -1858,7 +1870,7 @@ async function scatterRegionTile(
       // Candidate generation comes first so a spawn tile requests only assets it actually uses.
       // Grass uses generated cards and never requests its source GLB.
       const requested = [...new Set(candidates
-        .filter((candidate) => !competition?.rejected.has(candidate))
+        .filter((candidate) => candidate.authored || !competition?.rejected.has(candidate))
         .map((candidate) => candidate.species.assetId)
         .filter((assetId) => !isGrassSprite(assetId)))];
       if (requested.length > 0 && loadOptions.render !== false) {
@@ -1890,7 +1902,7 @@ async function scatterRegionTile(
         const grassPlacement = composeGrassPlacement(layer, ctx, entry, candidate, assets, rng);
         // Folded blades replace four-triangle cards. Keep the same clustered field and RNG
         // sequence with a deterministic quarter-density sample, then broaden each tuft slightly.
-        if (scene.hasNativeGrass?.()) {
+        if (scene.hasNativeGrass?.() && !candidate.authored) {
           const coverage = Math.imul(Math.round(candidate.x * 100), 73856093) ^ Math.imul(Math.round(candidate.z * 100), 19349663);
           if ((coverage >>> 0) % 4 !== 0) continue;
           grassPlacement.width *= 1.4;
@@ -1909,14 +1921,14 @@ async function scatterRegionTile(
       // Always consume the source transform, even for a crowded native plant. Grass,
       // trees and later transforms keep their original stream, and rejected slots never refill.
       const placement = composePlacement(layer, ctx, entry, candidate, assets, rng);
-      if (competition?.rejected.has(candidate)) {
+      if (!candidate.authored && competition?.rejected.has(candidate)) {
         result.rejected += 1;
         continue;
       }
       // Habitat clearances reject only the already-composed native trunk. Its origin can differ
       // from the source candidate after display-alias fitting, and its final uniform scale owns
       // trunk width. Keeping this after every transform draw preserves all surviving placements.
-      if (entry.treeSpecies && exclusions.blocksTreeClearance(
+      if (entry.treeSpecies && !candidate.authored && exclusions.blocksTreeClearance(
         placement.position[0], placement.position[2],
         placement.forestTree?.trunkRadius ?? (assets.entry(assetId)?.trunkRadius ?? TREE_TRUNK_RADII[assetId]!) * (placement.scale as number),
       )) {
@@ -2008,7 +2020,7 @@ async function renderScatterBuckets(
       continue;
     }
     const renderTile = treeSpeciesForAsset(bucket.assetId) ? FOLIAGE_RENDER_TILE_METRES.trees
-      : isNativeUnderstory(bucket.assetId) ? FOLIAGE_RENDER_TILE_METRES.understory : undefined;
+      : (isNativeUnderstory(bucket.assetId) || /^fairy_(groundcover|finegrass)_/.test(bucket.assetId)) ? FOLIAGE_RENDER_TILE_METRES.understory : undefined;
     for (const shard of shardByTile(bucket, renderTile)) {
       await loadOptions.yieldToMain?.();
       result.tiles += 1;
@@ -2018,7 +2030,7 @@ async function renderScatterBuckets(
         `scatter-${regionId}-${bucket.assetId}-g${tile.id}-t${shard.tile >>> 0}`,
         {
           regionId, castShadow: bucket.castShadow, windStrength: windStrengthForAsset(bucket.assetId),
-          compactVisibility: !bucket.castShadow && isNativeUnderstory(bucket.assetId),
+          compactVisibility: !bucket.castShadow && (isNativeUnderstory(bucket.assetId) || /^fairy_(groundcover|finegrass)_/.test(bucket.assetId)),
         },
       );
       if (loadOptions.onTree && meshes.length > 0) {
@@ -2317,6 +2329,22 @@ function composePlacement(
 ): ForestScatterPlacement {
   const surface = ctx.scene.scatterSurfaceAt(candidate.x, candidate.z);
   const height = surface?.height ?? ctx.scene.meshHeightAt(candidate.x, candidate.z);
+  if (candidate.authored) {
+    const point = candidate.authored;
+    const native = assets.entry(entry.assetId)!;
+    const position: Vec3 = [candidate.x, ctx.scene.meshHeightAt(candidate.x, candidate.z)
+      + point.heightOffset - point.sink - (entry.treeSpecies ? (native.groundY ?? native.base?.y ?? 0) : (native.groundY ?? 0)) * point.scale, candidate.z];
+    const placement: ForestScatterPlacement = { position,
+      rotationY: point.rotationY, scale: point.scale, tilt: 0 };
+    if (entry.treeSpecies) {
+      const trunk = native.trunkRadius ?? TREE_TRUNK_RADII[entry.assetId];
+      if (trunk === undefined) throw new Error(`Missing trunk dimensions for ${entry.assetId}.`);
+      placement.forestTree = { id: `forest:${ctx.seed >>> 0}:${point.id}`,
+        resourceId: treeSpeciesForAsset(entry.assetId)!.resourceId, regionId: ctx.scene.regionAt(candidate.x, candidate.z),
+        position, assetId: entry.assetId, scale: point.scale, rotationY: point.rotationY, trunkRadius: trunk * point.scale };
+    }
+    return placement;
+  }
   const bias = layer.sizeBias ?? 2.2;
   const size = entry.scale[0] + (entry.scale[1] - entry.scale[0]) * Math.pow(rng.next(), bias);
   const width = 1 + rng.float(-0.12, 0.12);
@@ -2341,7 +2369,7 @@ function composePlacement(
     const x = candidate.x + offsetX * Math.cos(rotationY) + offsetZ * Math.sin(rotationY);
     const z = candidate.z - offsetX * Math.sin(rotationY) + offsetZ * Math.cos(rotationY);
     const ground = ctx.scene.meshHeightAt(x, z);
-    const position: Vec3 = [x, ground - (next.base?.y ?? 0) * scale, z];
+    const position: Vec3 = [x, ground - (next.groundY ?? next.base?.y ?? 0) * scale, z];
     const semantic = ctx.scene.describeRegions().find((layout) => {
       const rect = ctx.scene.getRegionRect(layout.regionId);
       return rect && x >= rect.minX && x <= rect.maxX && z >= rect.minZ && z <= rect.maxZ;
@@ -2363,7 +2391,7 @@ function composePlacement(
     };
   }
   const nativeBase = entry.assetId !== entry.sourceAssetId || fairyFoliageIds.has(entry.assetId)
-    ? assets.entry(entry.assetId)?.base?.y ?? 0 : 0;
+    ? assets.entry(entry.assetId)?.base?.y ?? 0 : assets.entry(entry.assetId)?.groundY ?? 0;
   return {
     position: [candidate.x, height - entry.sink - nativeBase * scaledSize * stretch, candidate.z],
     rotationY,
@@ -2396,7 +2424,7 @@ function composeGrassPlacement(
   // The generated cutout contains a small fan of blades, so its physical width needs to read as
   // one tuft, not one stem. Field cards overlap at their authored member spacing; mixed cover
   // stays narrower so an accent clump does not become a wall.
-  const minimumWidth = layer.id === "bladecarpet" ? 0.46 : 0.18;
+  const minimumWidth = (layer.id === "bladecarpet" || layer.id === "village-meadow") ? 0.46 : 0.18;
   const width = clampRange(
     Math.max(native.x * Math.abs(scale[0]), native.z * Math.abs(scale[2])) * 0.9,
     minimumWidth,
@@ -3303,18 +3331,29 @@ Object.assign(DEFAULT_SCATTER, CROWN_AND_FAIRY_SCATTER);
 
 function fairyScatterRecipe(regionId: "gloamgarden" | "faeholme"): RegionScatterSpec {
   const deep = regionId === "faeholme";
-  const own = deep ? ["corealm_yew_fae_1", "corealm_yew_fae_2"] : ["corealm_willow_gloam_1", "corealm_willow_gloam_2"];
-  const contrast = deep ? "corealm_willow_gloam_2" : "corealm_yew_fae_1";
+  const own = deep ? ["fairy_canopy_fae_1", "fairy_canopy_fae_2"] : ["fairy_canopy_gloam_1", "fairy_canopy_gloam_2"];
+  const contrast = deep ? "fairy_canopy_gloam_2" : "fairy_canopy_fae_1";
+  // Narrow valley lanes have their own close verges. Building collision still owns roof clearance.
+  const trees: ExclusionProfile = { ...TREE_EXCLUSION, base: { hard: 1.8, fade: 3 },
+    authored: { hard: 1.8, fade: 3 }, authoredBuilding: { hard: 3.2, fade: 3 },
+    byKind: { ...TREE_EXCLUSION.byKind, settlement: { hard: -60, fade: 2 },
+    road: { hard: 1.4, fade: 3 }, cluster: { hard: 1, fade: 3 }, spawn: { hard: 2, fade: 3 } } };
+  const shrubs: ExclusionProfile = { ...SHRUB_EXCLUSION, base: { hard: .5, fade: 1.4 },
+    authored: { hard: .4, fade: 1.2 }, byKind: { ...SHRUB_EXCLUSION.byKind,
+    settlement: { hard: -60, fade: 2 }, spawn: { hard: .5, fade: 2 },
+    road: { hard: .6, fade: 1.6 } } };
+  const cover: ExclusionProfile = { ...COVER_EXCLUSION, byKind: { ...COVER_EXCLUSION.byKind,
+    spawn: { hard: 0, fade: 1 }, road: { hard: -.3, fade: 1 } } };
   return {
     regionId,
     layers: [
       {
         id: "fairy_canopy",
-        species: [...own.map(assetId => ({ assetId, weight: 6 })), { assetId: contrast, weight: 1, scale: [.75, 1.05] }],
-        maxCount: deep ? 440 : 400, scale: deep ? [1.1, 1.5] : [.9, 1.3], sizeBias: 1.3,
-        tilt: 0, castShadow: true, exclusion: TREE_EXCLUSION, terrain: { slopeMax: .6 },
-        cluster: { spacing: 32, radius: [11, 24], memberSpacing: deep ? 9.5 : 10.5, accept: .85, falloff: .58, dominance: .5 },
-        mask: { strength: .28, featureSize: 86 },
+        species: [...own.map(assetId => ({ assetId, weight: 3 })), { assetId: `fairy_hero_${deep ? 'fae' : 'gloam'}_sheltered`, weight: 7, scale: [.85, 1.15] }, { assetId: contrast, weight: 1, scale: [.75, 1.05] }],
+        maxCount: deep ? 3400 : 3200, scale: deep ? [1.1, 1.5] : [.9, 1.3], sizeBias: 1.3,
+        tilt: 0, castShadow: true, exclusion: trees, terrain: { slopeMax: .85 },
+        cluster: { spacing: 18, radius: [8, 18], memberSpacing: 5.8, accept: .97, falloff: .2, dominance: .5 },
+        mask: { strength: .15, featureSize: 86 },
       },
       {
         id: "lantern_caps",
@@ -3323,39 +3362,63 @@ function fairyScatterRecipe(regionId: "gloamgarden" | "faeholme"): RegionScatter
           { assetId: "mushroom_fae", weight: deep ? 5 : 2, scale: [3.5, 7] },
         ],
         maxCount: 190, scale: [3.5, 7], sizeBias: 1.25, tilt: .12, castShadow: true,
-        exclusion: TREE_EXCLUSION, terrain: { slopeMax: .45 },
+        exclusion: trees, terrain: { slopeMax: .45 },
         cluster: { spacing: 41, radius: [7, 15], memberSpacing: 7.5, accept: .82, falloff: .66, dominance: .6 },
         mask: { strength: .4, featureSize: 88 },
       },
       {
         id: "fairy_undergrowth",
         species: [
-          { assetId: "corealm_fern_gloam_1", weight: deep ? 3 : 5, scale: [1.25, 2.4] },
-          { assetId: "corealm_shrub_fae_1", weight: deep ? 5 : 2, scale: [1.15, 1.8] },
+          { assetId: "corealm_fern_gloam_1", weight: 2, scale: [1.25, 2] },
+          { assetId: "corealm_shrub_fae_1", weight: deep ? 3 : 1, scale: [1.15, 1.8] },
+          { assetId: "corealm_fern_1", weight: 5, scale: [1.2, 2.1] },
+          { assetId: "corealm_shrub_1", weight: 3, scale: [1.1, 1.7] },
         ],
-        maxCount: 1800, scale: [1.2, 2.2], tilt: .2, mirror: true,
-        exclusion: SHRUB_EXCLUSION,
+        maxCount: 4200, scale: [1.2, 2.2], tilt: .2, mirror: true,
+        exclusion: shrubs,
         cluster: { spacing: 17, radius: [5, 12], memberSpacing: 3.2, accept: .82, falloff: .62, dominance: .5 },
         mask: { strength: .38, featureSize: 78 },
       },
       {
         id: "fairy_rings", assetIds: ["mushroom_gloam", "mushroom_fae"],
         maxCount: 1000, scale: [.5, 1.25], tilt: .25, mirror: true,
-        exclusion: COVER_EXCLUSION,
+        exclusion: cover,
         cluster: { spacing: 24, radius: [1.4, 4], memberSpacing: .85, accept: .8, falloff: .58, dominance: .85 },
         mask: { strength: .42, featureSize: 65 },
       },
       {
-        id: "moon_stones", species: STONE_SPECIES,
+        id: "moon_stones", species: [
+          { assetId: 'fairy_boulder_4', weight: 1, scale: [.025, .045], sink: .12 },
+          { assetId: 'fairy_rounded_bank_1', weight: 4, scale: [.055, .11], sink: .10 },
+        ],
         maxCount: 650, scale: [.6, 1.2], tilt: .8, sink: .06, mirror: true,
         exclusion: LITTER_EXCLUSION,
         cluster: { spacing: 25, radius: [4, 11], memberSpacing: 1.5, accept: .7, falloff: .7, dominance: .4 },
         road: { band: [.6, 4.6], perMetre: .4 },
       },
       {
+        id: 'fairy_bank_verges', species: [
+          { assetId: 'corealm_fern_1', weight: 4, scale: [.5, .9] },
+          { assetId: 'corealm_fern_gloam_1', weight: 2, scale: [.45, .8] },
+          { assetId: 'corealm_shrub_1', weight: 2, scale: [.45, .75] },
+        ],
+        maxCount: 14000, scale: [.5, .9], tilt: .12, castShadow: false,
+        exclusion: shrubs, terrain: { slopeMax: 3.5 },
+        road: { band: [2.7, 7.5], perMetre: 1.4 },
+      },
+      {
+        id: "fairy-grass-floor", species: [1, 2].map(index => ({
+          assetId: `fairy_finegrass_${deep ? 'fae' : 'gloam'}_${index}`, weight: 1,
+        })),
+        maxCount: 90000, scale: [.55, .85], sizeBias: 1.2, tilt: .65, castShadow: false,
+        exclusion: cover, terrain: { slopeMax: .8 },
+        cluster: { spacing: 9, radius: [6, 12], memberSpacing: .4, accept: .94, falloff: .28, dominance: .5 },
+        road: { band: [1.2, 4], perMetre: .8 }, mask: { strength: .24, featureSize: 74 },
+      },
+      {
         id: "bladecarpet", species: WOODLAND_BLADES,
-        maxCount: 95000, scale: [.16, .32], sizeBias: 1.3, tilt: .35,
-        exclusion: COVER_EXCLUSION, terrain: { slopeMax: .65 },
+        maxCount: 140000, scale: [.16, .32], sizeBias: 1.3, tilt: .35,
+        exclusion: cover, terrain: { slopeMax: .65 },
         cluster: { spacing: 13, radius: [7, 14], memberSpacing: .5, accept: .92, falloff: .36, dominance: 1 },
         mask: { strength: .6, featureSize: 78 },
       },

@@ -19,6 +19,7 @@ import { GATHERING_PRODUCTION_TIERS } from "../game/src/content/gatheringProduct
 import { validateGatheringProduction } from "../game/src/content/validateGatheringProduction.js";
 import { ITEM_ICON_APPEARANCE_IDS, itemIconAppearance } from "../game/src/render/itemIconAppearances.js";
 import { ALL_PROCEDURAL_GEAR_ASSETS } from "../game/src/render/proceduralGear.js";
+import { TRAVERSAL_CONTACTS } from "../game/src/systems/traversalContacts.js";
 import type { AssetManifest } from "../game/src/render/assets.js";
 import { createInitialState } from "../game/src/state/store.js";
 import { buildWorld } from "../game/src/world/regionBuilder.js";
@@ -126,7 +127,10 @@ export async function validateGameContent(): Promise<GameContentValidation> {
     catch (error) { if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error; }
   }
   const assets = new Map(manifest.assets.map((asset) => [asset.id, asset]));
-  const knownAssetIds = new Set([...assets.keys(), ...ALL_PROCEDURAL_GEAR_ASSETS.map((asset) => asset.assetId)]);
+  const knownAssetIds = new Set([
+    ...assets.keys(), ...ALL_PROCEDURAL_GEAR_ASSETS.map((asset) => asset.assetId),
+    ...Object.values(TRAVERSAL_CONTACTS).map((asset) => asset.assetId),
+  ]);
   const tables: ContentTables = {
     items: ALL_ITEMS, resources: RESOURCES, recipes: RECIPES, spells: SPELLS, enemies: ENEMIES, shops: SHOPS,
   };

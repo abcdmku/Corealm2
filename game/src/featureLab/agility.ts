@@ -9,11 +9,38 @@ import { sampleTraversal, type TraversalSample } from "../systems/traversalMotio
 import { TRAVERSAL_CONTACTS, type ContactTraversalKind } from "../systems/traversalContacts.js";
 import { buildWorld, type AssetCenterXZ, type AssetSize } from "../world/regionBuilder.js";
 import type { DungeonDoorFixture } from "./dungeonDoors.js";
+import type { WorldTerrainSpec } from '../render/scene.js';
+import { FAIRY_AGILITY_LINKS } from '../content/fairyAgility.js';
+import { FAIRY_COMBAT_PLATEAUS, type FairyLandformSpec } from '../world/fairyLandforms.js';
 
-export type AgilityFixtureId = "root_tunnel" | "sunder_ledge" | `contact_${ContactTraversalKind}`;
+export type AgilityFixtureId = "root_tunnel" | "sunder_ledge" | `contact_${ContactTraversalKind}` | `${string}_climb`;
+
+export const FAIRY_AGILITY_LAB_PLACEMENTS = FAIRY_AGILITY_LINKS.map((link, index) => {
+  const plateau = FAIRY_COMBAT_PLATEAUS.find(candidate => candidate.id === link.landformId)!;
+  const entry = [100, -80 + index * 40] as const;
+  const exit = [entry[0] + link.obstacle.exitPosition[0] - link.obstacle.position[0],
+    entry[1] + link.obstacle.exitPosition[1] - link.obstacle.position[1]] as const;
+  return { link, entry, exit, rise: plateau.rise };
+});
+
+/** Before terrain construction, stage the real height lattice used by rendering, physics and nav. */
+export function configureAgilityLabTerrain(terrain: WorldTerrainSpec): void {
+  const supports: FairyLandformSpec[] = FAIRY_AGILITY_LAB_PLACEMENTS.map(({ link, exit, rise }, index) => ({
+    id: `feature-lab:${link.obstacle.id}:support`, regionId: link.regionId,
+    centre: exit, radius: 6, rise, cliffWidth: 2, clearingRadius: 3, ramps: [],
+    shape: { seed: 3030 + index, irregularity: 0, lobes: 1, aspectRatio: 1, rotation: 0 },
+  }));
+  terrain.metresPerQuad = 1;
+  terrain.fairyLandforms = [...(Array.isArray(terrain.fairyLandforms) ? terrain.fairyLandforms : []), ...supports];
+  terrain.flats = [...(terrain.flats ?? []), ...FAIRY_AGILITY_LAB_PLACEMENTS.map(({ entry, exit }) => ({
+    x: (entry[0] + exit[0]) / 2, z: (entry[1] + exit[1]) / 2,
+    radius: 20, halfExtents: [19, 19] as const, blend: 2, height: 0,
+  }))];
+}
 
 export interface AgilityFixtureLane {
   id: AgilityFixtureId;
+  name?: string;
   entry: Vec3;
   exit: Vec3;
   reqLevel: number;
@@ -156,11 +183,47 @@ export function assembleAgilityFixture(
     result.lanes.push({ id, entry, exit, reqLevel: 1, durationMs: d.durationMs, tier: 1,
       contact: { kind, width: d.width, depth: d.depth, rise: d.rise, origin: position } });
   }
+  for (const { link, entry: entrySpot, exit: exitSpot, rise } of FAIRY_AGILITY_LAB_PLACEMENTS) {
+    const id = link.obstacle.id as AgilityFixtureId;
+    const hero = source.entities.find(entity => entity.id === id);
+    if (!hero?.obstacle) throw Error(`Missing production fairy Agility obstacle: ${id}`);
+    const entry = point(...entrySpot), exit = point(...exitSpot);
+    if (Math.abs(exit[1] - entry[1] - rise) > .2) throw Error(`Fairy Agility terrain support missing: ${id}`);
+    const dx = entrySpot[0] - hero.position[0], dz = entrySpot[1] - hero.position[2];
+    const belongs = (candidate: string) => candidate === id || candidate.startsWith(`${id}#`);
+    const translate = (position: Vec3): Vec3 => {
+      const x = position[0] + dx, z = position[2] + dz;
+      return [x, position[1] + heightAt(x, z), z];
+    };
+    for (const entity of source.entities.filter(candidate => belongs(candidate.id))) {
+      const authoredRegionId = entity.regionId;
+      entity.position = translate(entity.position);
+      entity.regionId = 'fallowmarch';
+      entity.meta = { ...entity.meta, featureLab: true, agilityFixture: true, authoredRegionId };
+      if (entity.id === id) {
+        entity.interactionPosition = entry;
+        entity.obstacle!.exitPosition = exit;
+      }
+      result.entities.push(entity);
+    }
+    result.solids.push(...source.solids.filter(solid => belongs(solid.id)).map(solid => ({
+      ...solid, position: translate(solid.position),
+    })));
+    const from = link.obstacle.fromLocationId, to = link.obstacle.toLocationId;
+    result.routeNodes.push({ id: from, name: `${hero.name} foot`, regionId: 'fallowmarch', position: entry },
+      { id: to, name: `${hero.name} top`, regionId: 'fallowmarch', position: exit });
+    result.routeEdges.push({ from, to, kind: 'shortcut', obstacleId: id, entrance: entry, exit,
+      reqLevel: hero.obstacle.reqLevel, durationMs: hero.obstacle.durationMs, cost: hero.obstacle.durationMs! / 1000 },
+    { from: to, to: from, kind: 'shortcut', obstacleId: id, entrance: exit, exit: entry,
+      reqLevel: hero.obstacle.reqLevel, durationMs: hero.obstacle.durationMs, cost: hero.obstacle.durationMs! / 1000 });
+    result.lanes.push({ id, name: hero.name, entry, exit, reqLevel: hero.obstacle.reqLevel,
+      durationMs: hero.obstacle.durationMs!, tier: hero.tier });
+  }
   return result;
 }
 
 export interface AgilityWorkbenchState {
-  lanes: (AgilityFixtureLane & { walking: MovementPathPlan | null })[];
+  lanes: (AgilityFixtureLane & { groundEntry: Vec3; groundExit: Vec3; walking: MovementPathPlan | null })[];
   playerPosition: Vec3;
   activity: GameState["activity"];
   movement: GameState["player"]["movement"];
@@ -175,7 +238,7 @@ export interface AgilityWorkbenchState {
 
 export interface AgilityWorkbenchApi {
   prepare(): AgilityWorkbenchState;
-  setLevel(level: 8 | 10): AgilityWorkbenchState;
+  setLevel(level: number): AgilityWorkbenchState;
   getState(): AgilityWorkbenchState;
   setLandingAvailable(id: `contact_${ContactTraversalKind}`, available: boolean): AgilityWorkbenchState;
 }
@@ -219,7 +282,9 @@ export function createAgilityWorkbench(fixture: AgilityFixture, deps: {
       lanes: fixture.lanes.map((lane) => {
         const entry = deps.navigation.closestPoint(lane.entry) ?? lane.entry;
         const exit = deps.navigation.closestPoint(lane.exit) ?? lane.exit;
-        return { ...lane, entry, exit,
+        // Navigation may lift a point above the ground through voxelization or triangulation
+        // beside the marker. Keep the actual terrain endpoints available for geometry proof.
+        return { ...lane, groundEntry: [...lane.entry] as Vec3, groundExit: [...lane.exit] as Vec3, entry, exit,
           walking: deps.movement.planPath(entry, exit, null, { arrivalAllowance: 0 }) };
       }),
       playerPosition: [...state.player.position],
@@ -248,7 +313,7 @@ export function createAgilityWorkbench(fixture: AgilityFixture, deps: {
       state.player.health = state.player.maxHealth;
       delete state.world.obstaclesUsed.root_tunnel;
       delete state.world.obstaclesUsed.sunder_ledge;
-      for (const lane of fixture.lanes) if (lane.contact) delete state.world.obstaclesUsed[lane.id];
+      for (const lane of fixture.lanes) delete state.world.obstaclesUsed[lane.id];
       state.bank.slots = state.bank.slots.filter((slot) => slot.itemId !== "kaldite_ore");
       const quest = deps.quests.setStage("bad_ground", 1);
       if (!quest.ok) throw new Error(quest.error.message);
@@ -258,7 +323,7 @@ export function createAgilityWorkbench(fixture: AgilityFixture, deps: {
       return getState();
     },
     setLevel(level) {
-      if (level !== 8 && level !== 10) throw new Error("Agility fixture level must be 8 or 10.");
+      if (!Number.isInteger(level) || level < 1 || level > 99) throw new Error("Agility fixture level must be between 1 and 99.");
       setSkillLevel(idle(), "agility", level);
       deps.store.markDirty();
       return getState();

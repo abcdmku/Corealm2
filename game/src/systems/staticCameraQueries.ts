@@ -228,7 +228,9 @@ function castHeightfield(shape: Extract<Shape, { kind: "heightfield" }>, ray: Ra
 }
 
 function castShape(shape: Shape, ray: Ray, limit: number, hardOnly = false): number | null {
-  if (hardOnly && !(shape.kind === "mesh" && shape.hard)) return null;
+  // Terrain cannot be opened by the building cutaway. Fixed follow uses only this cast, so
+  // excluding heightfields lets its requested seat pass straight through a raised bank.
+  if (hardOnly && shape.kind !== "heightfield" && !(shape.kind === "mesh" && shape.hard)) return null;
   switch (shape.kind) {
     case "mesh": return shape.hidden ? null : castTree(shape.tree, ray, limit, castTriangle);
     case "heightfield": return castHeightfield(shape, ray, limit);
@@ -347,8 +349,8 @@ export class StaticCameraQueries {
   /**
    * Normalizes direction and returns metres. Like Rapier World.castRay, the end is exclusive.
    *
-   * `hardOnly` restricts the cast to meshes tagged as hard blockers — geometry such as the cave
-   * shell that the roof cutaway will never remove.
+   * `hardOnly` restricts the cast to terrain and meshes tagged as hard blockers — geometry such
+   * as raised banks and cave shells that the roof cutaway will never remove.
    */
   raycast(origin: Vec3, direction: Vec3, maxDistance = 100, hardOnly = false): number | null {
     if (maxDistance <= 0 || Number.isNaN(maxDistance) || ![...origin, ...direction].every(Number.isFinite)) return null;

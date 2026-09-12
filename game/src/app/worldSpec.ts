@@ -14,6 +14,8 @@ import { CROWNWARD_RIVER_CHANNELS, CROWNWARD_RIVER_BRIDGES } from '../content/cr
  */
 import { isFairyRegion, type RegionId } from "../contracts.js";
 import { FAIRY_REGIONS } from "../content/fairyRegions.js";
+import { LANTERN_REST_FOUNDATIONS } from '../content/settlements/lanternRest.js';
+import { PRISM_HOLLOW_FOUNDATIONS } from '../content/settlements/prismHollow.js';
 import { castleGroundLayout } from '../render/compositions/crownwardCastles.js';
 import {
   ESSENCE_ALTAR_COURT_BLEND,
@@ -450,12 +452,15 @@ export function buildWorldTerrainSpec(): WorldTerrainSpec {
 export function buildFairyTerrainSpec(): WorldTerrainSpec {
   const regions: RegionTerrainSpec[] = FAIRY_REGIONS.map(region => ({
     regionId: region.id, rect: rectOf(region), seed: region.terrainSeed,
-    character: "woodland", baseHeight: region.baseHeight, amplitude: region.terrainAmplitude,
+    character: "woodland", baseHeight: region.baseHeight, amplitude: 1.5,
   }));
   return {
     bounds: { minX: 2000, maxX: 2600, minZ: -200, maxZ: 460 },
-    chunkSize: 100, metresPerQuad: 2, blendMetres: 35, regions,
-    flats: FAIRY_REGIONS.flatMap(flatSpotsFor),
+    chunkSize: 100, metresPerQuad: 1, blendMetres: 35, regions, fairyLandforms: true,
+    flats: [...[...LANTERN_REST_FOUNDATIONS, ...PRISM_HOLLOW_FOUNDATIONS].map(footing => ({ ...footing, landformFooting: true })),
+      ...FAIRY_REGIONS.flatMap(region => flatSpotsFor({ ...region, settlement: undefined,
+        locations: region.locations.filter(location => !location.id.startsWith('lantern_rest_')
+          && !location.id.startsWith('prism_hollow_') && !location.id.includes('_ascent_')) }))],
     worldSites: WORLD_SITES.filter(site => isFairyRegion(site.regionId)),
     biomes: {
       warp: { seed: seedFromText('corealm:fairy-warp'), scale: 180, strength: 32 },

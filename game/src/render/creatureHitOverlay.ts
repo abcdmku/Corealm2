@@ -44,7 +44,26 @@ function explicitExpressiveBranches(bones:THREE.Bone[]):Set<THREE.Bone>|null {
   const named=(name:string)=>bones.find(b=>b.name===name);
   const edge=(child:string,parent:string)=>named(child)?.parent===named(parent) && !!named(parent);
   let roots:THREE.Bone[]=[];
-  if(edge('hollow_thorax','hollow_root') && Array.from({length:6},(_,index)=>index).every(index=>
+  const crawlerLimb=(suffix:string)=>edge(`shoulder${suffix}`,'rootx')
+    && edge(`arm_stretch${suffix}`,`shoulder${suffix}`)
+    && edge(`forearm_stretch${suffix}`,`arm_stretch${suffix}`)
+    && edge(`hand${suffix}`,`forearm_stretch${suffix}`);
+  const crawlerUpper=(side:string)=>edge(`shoulder_dupli_003${side}`,'spine_03x')
+    && edge(`arm_stretch_dupli_003${side}`,`shoulder_dupli_003${side}`)
+    && edge(`forearm_stretch_dupli_003${side}`,`arm_stretch_dupli_003${side}`)
+    && edge(`hand_dupli_003${side}`,`forearm_stretch_dupli_003${side}`);
+  if(edge('spine_01x','rootx') && edge('spine_02x','spine_01x') && edge('spine_03x','spine_02x')
+    && edge('neckx','spine_03x') && edge('headx','neckx')
+    && ['l','r','_dupli_002l','_dupli_002r'].every(crawlerLimb)
+    && ['l','r'].every(crawlerUpper)
+    && ((!named('shoulder_dupli_001l') && !named('shoulder_dupli_001r'))
+      || ['_dupli_001l','_dupli_001r'].every(crawlerLimb))) {
+    // Pixelius Monster 11 and 14 walk on four/six lower "arms" attached to rootx.
+    // Their separate spine branch carries the head and two expressive upper arms.
+    // Keep pelvis, every lower hand/arm and tail fixed in the evaluated base pose.
+    roots=bones.filter(b=>b.name==='spine_01x');
+  }
+  else if(edge('hollow_thorax','hollow_root') && Array.from({length:6},(_,index)=>index).every(index=>
     edge(`hollow_arm_${index}`,'hollow_thorax') && edge(`hollow_forearm_${index}`,`hollow_arm_${index}`)
     && edge(`hollow_hook_${index}`,`hollow_forearm_${index}`))) {
     // The hovering six-arm rig has no legs. Preserve the root/thorax and lower hooked pair,

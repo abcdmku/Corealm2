@@ -10,8 +10,8 @@ export const BIOME_LOOKS = {
   gravelmaw: { name: "Gravelmaw · mineral gloom", tint: [0.85, 0.91, 1.14], shade: [0.68, 0.77, 1.07], saturation: 0.77 },
   wilderness: { name: "Wilderness · moonlit wastes", tint: [.88, .96, 1.10], shade: [.79, .86, 1.05], saturation: .72 },
   crownward: { name: "Crownward T40 · pearl daylight", tint: [1.035, 1.055, 1.005], shade: [.94, 1.015, 1.035], saturation: 1.035 },
-  gloamgarden: { name: "Gloamgarden T30 · turquoise underworld", tint: [.88, 1.10, 1.075], shade: [.72, .99, 1.12], saturation: 1.12 },
-  faeholme: { name: "Faeholme T60 · amethyst underworld", tint: [1.045, .93, 1.15], shade: [.91, .76, 1.13], saturation: 1.15 },
+  gloamgarden: { name: "Gloamgarden T30 · turquoise underworld", tint: [1.025, 1.025, 1.01], shade: [.94, .98, 1.035], saturation: 1.04 },
+  faeholme: { name: "Faeholme T60 · amethyst underworld", tint: [1.015, .985, 1.04], shade: [.96, .94, 1.04], saturation: 1.04 },
 } as const satisfies Record<RegionId, unknown>;
 
 export type BiomeWeights = Partial<Record<RegionId, number>>;

@@ -1766,7 +1766,9 @@ const HALE: DialogueNodeDef[] = [
 
 // ------------------------------------------------------------------ registry
 
+import { FAIRY_NPC_DIALOGUE } from './fairyNpcs.js';
 export const DIALOGUE_NODES: readonly DialogueNodeDef[] = [
+  ...FAIRY_NPC_DIALOGUE,
   ...ILSE, ...HARROW, ...DORN, ...SYB, ...BEL,
   ...ANSEL, ...JUNO, ...MOTT,
   ...ARDEN, ...VESS, ...ODE, ...HALE,

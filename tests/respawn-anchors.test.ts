@@ -175,11 +175,12 @@ describe("production settlement anchor mapping", () => {
       }
     }
     const anchors = buildSettlementRespawnAnchors((id) => nodes.get(id));
-    expect(anchors.map((anchor) => anchor.id).sort()).toEqual(["coldbrace", "crownward_town", "emberfast", "highcairn", "lantern_rest", "rootfall"]);
+    expect(anchors.map((anchor) => anchor.id).sort()).toEqual(["coldbrace", "crownward_town", "emberfast", "highcairn", "lantern_rest", "prism_hollow", "rootfall"]);
     for (const [settlementId, nodeId] of [
       ["coldbrace", "town_center"], ["rootfall", "rootfall_hamlet"],
       ["highcairn", "highcairn_outpost"], ["emberfast", "emberfast_town"],
       ["crownward_town", "crownward_town_square"], ["lantern_rest", "lantern_rest_square"],
+      ["prism_hollow", "prism_hollow_square"],
     ]) {
       const node = nodes.get(nodeId!);
       expect(node).toBeDefined();

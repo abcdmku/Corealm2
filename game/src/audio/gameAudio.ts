@@ -82,7 +82,7 @@ export class CorealmAudioBridge implements TickSystem {
     }
     this.lastRegion = player.regionId;
     this.deps.engine.setListenerPose(player.position as Vec3, this.deps.listenerForward?.());
-    this.deps.director.setRegion(player.regionId);
+    this.deps.director.setRegion(player.regionId, player.position);
     if (player.health > 0) this.tickCreatureAmbience(player.position as Vec3, atMs);
 
     const activity = state.activity;
@@ -358,7 +358,8 @@ export class CorealmAudioBridge implements TickSystem {
     this.suppressedStarts.clear();
     this.nextCreatureCallMs = 0;
     this.lastRegion = this.deps.store.get().player.regionId;
-    this.deps.director.reset(this.deps.store.get().player.regionId);
+    const player = this.deps.store.get().player;
+    this.deps.director.reset(player.regionId, player.position);
   }
 
   private emitActivity(observation: ActivityAudioObservation, canBeImmediate = false): void {

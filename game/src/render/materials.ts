@@ -22,6 +22,7 @@ import { FAIRY_FOLIAGE_COLOURS, fairyFoliageStyle } from "../content/fairyFoliag
 import { oceanDepthGridBounds, type OceanDepthGrid } from "../world/coastDepth.js";
 import { createArtDirectedMaterial, type ArtSurfaceRole } from "./artDirection.js";
 import { createFoliageOcclusionMaterial, FoliageOcclusion } from "./foliageOcclusion.js";
+import type { FairyGroundSurface } from './fairyGroundSurface.js';
 import type { CorealmSurfaceTextures } from "./corealmSurfaceMaterials.js";
 import {
   DETAIL_TILING_METRES,
@@ -147,12 +148,12 @@ export const REGION_PALETTES: Record<RegionId, RegionPalette> = {
   },
   gloamgarden: {
     id: "gloamgarden", name: "Gloamgarden",
-    groundLow: 0x35536b, groundHigh: 0x6a7495, soil: 0x53496c, rock: 0x69618b,
+    groundLow: 0x427f79, groundHigh: 0x78947a, soil: 0x588b82, rock: 0x92958a,
     foliage: 0x51c5bd, timber: 0x75618e, water: 0x398f9b, accent: 0xb195dd,
   },
   faeholme: {
     id: "faeholme", name: "Faeholme",
-    groundLow: 0x504462, groundHigh: 0x8c719a, soil: 0x4b4867, rock: 0x7f759e,
+    groundLow: 0x4c747b, groundHigh: 0x81918c, soil: 0x627e87, rock: 0x99999b,
     foliage: 0xb98ddd, timber: 0x667c92, water: 0x518fbe, accent: 0x80d3d0,
   },
   wilderness: {
@@ -681,6 +682,7 @@ varying vec4 vSplatA;
 varying vec4 vSplatB;
 varying vec4 vGroundExtra;
 varying vec3 vGroundWorld;
+varying vec3 vGroundWorldNormal;
 varying float vPaved;
 `;
 
@@ -690,6 +692,7 @@ vSplatB = aSplatB;
 vGroundExtra = aGround;
 vPaved = aPaved;
 vGroundWorld = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;
+vGroundWorldNormal = normalize( mat3( modelMatrix ) * normal );
 `;
 
 const GROUND_FRAGMENT_HEADER = /* glsl */ `
@@ -705,17 +708,49 @@ uniform sampler2D uGroundStoneRoughness;
 uniform vec3 uGroundStoneMean;
 uniform float uGroundStoneTiling;
 uniform float uGroundStoneReady;
+uniform sampler2D uFairyGrassAlbedo;
+uniform sampler2D uFairyGrassNormal;
+uniform vec3 uFairyGrassMean;
+uniform float uFairyGrassTiling;
+uniform float uFairyGrassReady;
 uniform vec4 uDetailTiling;
 varying vec4 vSplatA;
 varying vec4 vSplatB;
 varying vec4 vGroundExtra;
 varying vec3 vGroundWorld;
+varying vec3 vGroundWorldNormal;
 varying float vPaved;
 float gMacroShade;
 vec2 gGroundBump;
 vec2 gCobbleBump;
 float gCobbleCoverage;
 float gCobbleRoughness;
+float gCliffCoverage;
+float gCliffRoughness;
+vec3 gCliffBump;
+
+// Each steep face receives two world-space dimensions. XZ alone collapses to a line on a wall.
+vec4 gTriplanarSample( sampler2D source, vec3 point, vec3 weights ) {
+  return texture2D( source, point.zy ) * weights.x
+       + texture2D( source, point.xz ) * weights.y
+       + texture2D( source, point.xy ) * weights.z;
+}
+
+vec3 gCliffProjectionWeights( vec3 worldNormal ) {
+  vec3 weights = pow( abs( worldNormal ), vec3( 4.0 ) );
+  return weights / max( weights.x + weights.y + weights.z, 0.0001 );
+}
+
+vec3 gTriplanarStoneBump( vec3 point, vec3 weights, vec3 worldNormal ) {
+  vec2 bumpX = texture2D( uGroundStoneNormal, point.zy ).xy * 2.0 - 1.0;
+  vec2 bumpY = texture2D( uGroundStoneNormal, point.xz ).xy * 2.0 - 1.0;
+  vec2 bumpZ = texture2D( uGroundStoneNormal, point.xy ).xy * 2.0 - 1.0;
+  vec3 bump = vec3( 0.0, bumpX.y, bumpX.x ) * weights.x
+            + vec3( bumpY.x, 0.0, bumpY.y ) * weights.y
+            + vec3( bumpZ.x, bumpZ.y, 0.0 ) * weights.z;
+  // Remove the component perpendicular to the face before adding this detail to its normal.
+  return bump - worldNormal * dot( bump, worldNormal );
+}
 
 // One hash per unit laid, off the unit's own cell index, so a stone keeps its tone across a chunk
 // seam and adding a paving rect cannot re-roll the one next to it.
@@ -764,7 +799,7 @@ const GROUND_FRAGMENT_BODY = /* glsl */ `
 
   // Two wheel ruts at +/-0.55 m from the centreline, 0.16 m wide.
   float perpendicular = ( vGroundExtra.x - 0.5 ) * 7.0;
-  float rut = vGroundExtra.y * exp( -pow( ( abs( perpendicular ) - 0.55 ) / 0.16, 2.0 ) );
+  float rut = ( 1.0 - uFairyGrassReady ) * vGroundExtra.y * exp( -pow( ( abs( perpendicular ) - 0.55 ) / 0.16, 2.0 ) );
   shade *= 1.0 - 0.22 * rut;
 
   // The macro reads alone drive the screen-space bump in GROUND_NORMAL_BODY. The detail read is
@@ -902,7 +937,60 @@ const GROUND_FRAGMENT_BODY = /* glsl */ `
     tint = mix( tint, vec3( 1.0 ), laid );
   }
 
+  // Bare cliff faces borrow the same measured stone PBR maps as the production outcrops.
+  // Slope fades this in before the planar projection can stretch; level paths and paving retain
+  // their existing grain, ruts and joints. All maps keep their authored size in world metres.
+  vec3 cliffNormal = normalize( vGroundWorldNormal );
+  float cliffSlope = 1.0 - abs( cliffNormal.y );
+  gCliffCoverage = ( 1.0 - paved ) * smoothstep( 0.10, 0.65, cliffSlope );
+  gCliffRoughness = 0.96;
+  gCliffBump = vec3( 0.0 );
+  if ( gCliffCoverage > 0.004 ) {
+    vec3 projection = gCliffProjectionWeights( cliffNormal );
+    float cliffMacro = gTriplanarSample( uMacro, vGroundWorld * uDetailTiling.y, projection ).z
+      + ${DETAIL_VALUE_OFFSET.toFixed(1)};
+    vec3 rockRelative = vec3( 1.0 );
+    if ( uGroundStoneReady > 0.5 ) {
+      vec3 stonePoint = vGroundWorld * uGroundStoneTiling;
+      rockRelative = gTriplanarSample( uGroundStoneAlbedo, stonePoint, projection ).rgb / uGroundStoneMean;
+      gCliffBump = gTriplanarStoneBump( stonePoint, projection, cliffNormal );
+      gCliffRoughness = clamp( gTriplanarSample( uGroundStoneRoughness, stonePoint, projection ).g, 0.72, 0.98 );
+    } else {
+      rockRelative = vec3( gTriplanarSample( uDetail, vGroundWorld * uDetailTiling.x, projection ).z
+        + ${DETAIL_VALUE_OFFSET.toFixed(1)} );
+    }
+    float rockLuma = max( 0.05, dot( rockRelative, vec3( 0.2126, 0.7152, 0.0722 ) ) );
+    vec3 rockChroma = clamp( mix( vec3( 1.0 ), rockRelative / rockLuma, 0.35 ), vec3( 0.78 ), vec3( 1.22 ) );
+    float moss = ( 0.34 + 0.46 * smoothstep( 0.12, 0.83, max( cliffNormal.y, 0.0 ) ) )
+      * smoothstep( 0.88, 1.16, cliffMacro );
+    if ( uFairyGrassReady > 0.5 ) {
+      // Broad moss blankets join the exposed native stone plates across the bank's creases.
+      float mossPatch = smoothstep( 0.88, 1.10, cliffMacro + max( cliffNormal.y, 0.0 ) * 0.24 );
+      vec3 mossDetail = gTriplanarSample( uFairyGrassAlbedo, vGroundWorld * uFairyGrassTiling, projection ).rgb / uFairyGrassMean;
+      rockLuma = mix( rockLuma, clamp( dot( mossDetail, vec3( 0.2126, 0.7152, 0.0722 ) ), 0.5, 1.5 ) * 0.88, mossPatch * 0.8 );
+      moss = max( moss, mossPatch * 0.86 );
+    }
+    vec3 mossTint = mix( vec3( 1.0 ), vec3( 0.49, 0.74, 0.30 ), moss );
+    float cliffShade = clamp( mix( 1.0, cliffMacro, 0.75 ) * mix( 1.0, rockLuma, 0.82 ), 0.46, 1.50 );
+    cliffShade *= mix( 1.0, 0.80, uFairyGrassReady );
+    shade = mix( shade, cliffShade, gCliffCoverage );
+    tint = mix( tint, rockChroma * mossTint, gCliffCoverage );
+    gGroundBump *= 1.0 - gCliffCoverage;
+    gMacroShade = mix( gMacroShade, mix( 1.0, cliffMacro, 0.75 ), gCliffCoverage );
+  }
+
   diffuseColor.rgb *= shade * tint;
+  if ( uFairyGrassReady > 0.5 ) {
+    // Living ground remains legible along the soft tread; paved floors and steep stone keep their materials.
+    float grassCoverage = ( 1.0 - paved ) * ( 1.0 - gCliffCoverage ) * ( 0.65 + 0.35 * channel.x );
+    vec2 grassUv = vGroundWorld.xz * uFairyGrassTiling;
+    vec3 grassRelative = texture2D( uFairyGrassAlbedo, grassUv ).rgb / uFairyGrassMean;
+    vec3 grassDetail = clamp( grassRelative, vec3( 0.28 ), vec3( 2.15 ) );
+    diffuseColor.rgb *= mix( vec3( 1.0 ), grassDetail, grassCoverage );
+    vec2 grassNormal = texture2D( uFairyGrassNormal, grassUv ).xy * 2.0 - 1.0;
+    gGroundBump = mix( gGroundBump, grassNormal * 1.3, grassCoverage );
+    gMacroShade = mix( gMacroShade, 1.0, grassCoverage * 0.95 );
+  }
 }
 `;
 
@@ -954,6 +1042,7 @@ const GROUND_NORMAL_BODY = /* glsl */ `
   // faces even though the sampled normals were valid. This term is zero off stone pavement.
   vec3 cobbleWorldBump = vec3( gCobbleBump.x, 0.0, gCobbleBump.y ) * 0.72 * gCobbleCoverage;
   normal = normalize( normal + mat3( viewMatrix ) * cobbleWorldBump );
+  normal = normalize( normal + mat3( viewMatrix ) * gCliffBump * 0.72 * gCliffCoverage );
 }
 `;
 
@@ -1098,6 +1187,13 @@ export class MaterialLibrary {
     uGroundStoneMean: { value: new THREE.Vector3(1, 1, 1) },
     uGroundStoneTiling: { value: 1 },
     uGroundStoneReady: { value: 0 },
+  };
+  private readonly fairyGrassUniforms = {
+    uFairyGrassAlbedo: { value: null as THREE.Texture | null },
+    uFairyGrassNormal: { value: null as THREE.Texture | null },
+    uFairyGrassMean: { value: new THREE.Vector3(1, 1, 1) },
+    uFairyGrassTiling: { value: 1 },
+    uFairyGrassReady: { value: 0 },
   };
   private waterUniforms: WaterUniforms[] = [];
   private oceanDepthTexture: THREE.DataTexture | null = null;
@@ -1246,6 +1342,17 @@ totalEmissiveRadiance += vec3(${glow.r.toFixed(6)}, ${glow.g.toFixed(6)}, ${glow
    * to keep in sync. This replaces the ground program rather than adding one: same material, same
    * draw calls, one more `customProgramCacheKey`.
    */
+  setFairyGroundSurface(surface: FairyGroundSurface | null): void {
+    const uniforms = this.fairyGrassUniforms;
+    uniforms.uFairyGrassAlbedo.value = surface?.albedo ?? null;
+    uniforms.uFairyGrassNormal.value = surface?.normal ?? null;
+    uniforms.uFairyGrassReady.value = surface ? 1 : 0;
+    if (surface) {
+      uniforms.uFairyGrassMean.value.fromArray(surface.meanLinearRgb);
+      uniforms.uFairyGrassTiling.value = 1 / surface.tileMetres;
+    }
+  }
+
   ground(): THREE.MeshStandardMaterial {
     return this.remember("ground", () => {
       const material = new THREE.MeshStandardMaterial({
@@ -1275,7 +1382,7 @@ totalEmissiveRadiance += vec3(${glow.r.toFixed(6)}, ${glow.g.toFixed(6)}, ${glow
       // Held so a hot reload cannot orphan the atlas while a compiled program still references it.
       this.groundUniforms = uniforms;
 
-      material.customProgramCacheKey = () => "corealm-ground-splat-v11";
+      material.customProgramCacheKey = () => "corealm-ground-splat-v13";
       material.onBeforeCompile = (shader) => {
         shader.uniforms.uDetail = uniforms.uDetail;
         shader.uniforms.uMacro = uniforms.uMacro;
@@ -1284,7 +1391,7 @@ totalEmissiveRadiance += vec3(${glow.r.toFixed(6)}, ${glow.g.toFixed(6)}, ${glow
         shader.uniforms.uCobble = uniforms.uCobble;
         shader.uniforms.uCobbleTiling = uniforms.uCobbleTiling;
         shader.uniforms.uDetailTiling = uniforms.uDetailTiling;
-        Object.assign(shader.uniforms, this.groundStoneUniforms);
+        Object.assign(shader.uniforms, this.groundStoneUniforms, this.fairyGrassUniforms);
 
         shader.vertexShader = `${GROUND_VERTEX_HEADER}\n${shader.vertexShader}`.replace(
           "#include <begin_vertex>",
@@ -1293,7 +1400,8 @@ totalEmissiveRadiance += vec3(${glow.r.toFixed(6)}, ${glow.g.toFixed(6)}, ${glow
         shader.fragmentShader = `${GROUND_FRAGMENT_HEADER}\n${shader.fragmentShader}`
           .replace("#include <map_fragment>", `#include <map_fragment>\n${GROUND_FRAGMENT_BODY}`)
           .replace("#include <roughnessmap_fragment>", `#include <roughnessmap_fragment>
-roughnessFactor = mix( roughnessFactor, gCobbleRoughness, gCobbleCoverage );`)
+roughnessFactor = mix( roughnessFactor, gCobbleRoughness, gCobbleCoverage );
+roughnessFactor = mix( roughnessFactor, gCliffRoughness, gCliffCoverage );`)
           .replace("#include <normal_fragment_maps>", GROUND_NORMAL_BODY)
           .replace("#include <lights_fragment_maps>", iblScale(GROUND_ENV_RESPONSE));
       };
@@ -1822,6 +1930,7 @@ diffuseColor.rgb = mix( diffuseColor.rgb, gArchitectureTinted, ${strength} ) * $
 
   dispose(): void {
     this.setOceanDepthGrid(null);
+    this.setFairyGroundSurface(null);
     for (const material of new Set(this.cache.values())) material.dispose();
     this.cache.clear();
     this.groundUniforms?.uCobble.value.dispose();

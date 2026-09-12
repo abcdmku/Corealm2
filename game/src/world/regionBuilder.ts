@@ -64,6 +64,10 @@ import { authoredThresholds, createDungeonDoorEntities } from "./dungeonDoors.js
 import { portalEntrance } from "./portalEntrance.js";
 import { portalMantleSolid } from "./portalMantle.js";
 import { CROWNWARD_CASTLE_COLLISION } from '../render/compositions/crownwardCastleCollision.js';
+import { buildUniversalMinibossGroups, type UniversalMinibossSocket } from './universalMinibossSpawns.js';
+import { deriveUniversalMinibossSockets, validUniversalMinibossFootprint } from './universalMinibossSockets.js';
+import { FAIRY_MINIBOSS_SOCKETS } from './fairyLandforms.js';
+import { isFairyRegion } from '../contracts.js';
 
 // ------------------------------------------------------------------ formulas
 
@@ -317,6 +321,8 @@ export interface WorldPorts {
   coastalSpawns?: readonly { id: string; regionId: RegionId; biomeId: RegionId; spot: Spot }[];
   /** Required for coastal packs: whole-body dry terrain and slope acceptance. */
   coastalAccepts?: (spot: Spot, bodyRadius: number) => boolean;
+  /** Dry playable point on this map. Interior realms have no ocean coast sample. */
+  minibossCanStand?: (regionId: RegionId, x: number, z: number) => boolean;
 }
 
 // ------------------------------------------------------------------- build
@@ -421,6 +427,42 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
       coastalRng, (spot, assetId, scale) => placeOnGround(ctx, site.regionId, spot, assetId, scale),
       entities, ctx.assetSize, { habitat: formation.habitat,
         members: formation.actorIds.map(id => ({ id, stats, scaleMultiplier: 1 })) });
+  }
+
+  // Two seeded residents per semantic region. Resolve only after ordinary actors and solids
+  // exist, so random choices cannot land in a house, resource site or another encounter.
+  for (const region of REGIONS) {
+    const options = { seed, heightAt: (x: number, z: number) => heightAt(region.id, x, z),
+      entities, solids, canStand: (x: number, z: number) => ports?.minibossCanStand?.(region.id, x, z)
+        ?? (isFairyRegion(region.id) ? true : ports?.coastalAccepts?.([x, z], 2) ?? true) };
+    const sockets = isFairyRegion(region.id)
+      ? FAIRY_MINIBOSS_SOCKETS.filter(socket => socket.regionId === region.id
+        && validUniversalMinibossFootprint(region.id, socket.position, options))
+      : deriveUniversalMinibossSockets(region, options);
+    for (const group of buildUniversalMinibossGroups(region.id, seed, sockets)) {
+      buildEnemyGroup(region.id, group, new Rng(seed ^ variantSeed(group.id)),
+        (spot, assetId, scale) => placeOnGround(ctx, region.id, spot, assetId, scale), entities, ctx.assetSize);
+    }
+    const dungeon = region.dungeon;
+    if (!dungeon) continue;
+    const floorBase = heightAt(region.id, ...dungeon.entrance);
+    const floor = (x: number, z: number) => floorBase + nearestChamberOffset(dungeon, [x, z]);
+    const caveOptions = { seed, heightAt: floor, entities, solids,
+      canStand: (x: number, z: number) => dungeon.chambers.some(chamber =>
+        Math.hypot(x - chamber.centre[0], z - chamber.centre[1]) <= chamber.radius - 3) };
+    const caveSockets: UniversalMinibossSocket[] = [];
+    for (const chamber of dungeon.chambers) {
+      for (let x = chamber.centre[0] - chamber.radius; x <= chamber.centre[0] + chamber.radius; x += 3) {
+        for (let z = chamber.centre[1] - chamber.radius; z <= chamber.centre[1] + chamber.radius; z += 3) {
+          if (validUniversalMinibossFootprint(dungeon.id, [x, z], caveOptions))
+            caveSockets.push({ id: `${chamber.id}_guardian_${x}_${z}`, regionId: dungeon.id, position: [x, z] });
+        }
+      }
+    }
+    for (const group of buildUniversalMinibossGroups(dungeon.id, seed, caveSockets)) {
+      buildEnemyGroup(dungeon.id, group, new Rng(seed ^ variantSeed(group.id)),
+        (spot, assetId, scale) => [spot[0], floor(...spot) - ctx.baseY(assetId) * scale, spot[1]], entities, ctx.assetSize);
+    }
   }
 
   // The approach pad is the surface destination. Keep every graph copy aligned before costs
@@ -851,7 +893,7 @@ function emitBuildingCollision(
   regionId: RegionId,
 ): void {
   const collision = structureCollisionFromBoxes(
-    prefabCollision(building.prefab, building.footprint),
+    prefabCollision(building.prefab, building.footprint, variantSeed(building.id)),
     {
       origin,
       rotationY: building.rotationY,
@@ -1366,7 +1408,7 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
         assetId: npc.assetId,
         partAssetIds: outfitPartsFor(npc.id, npc.assetId),
         rotationY: npc.facingRad,
-        labelHeight: 2.2,
+        labelHeight: npc.assetId.startsWith('npc_fey_') ? 1.2 : 2.2,
       },
       meta: { settlementId: settlement!.id },
     });

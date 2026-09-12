@@ -100,13 +100,17 @@ function wrapMaterial(material: THREE.Material, palette: Palette): void {
     shader.uniforms["lodBoneCount"] = { value: palette.bones };
     shader.vertexShader = shader.vertexShader
       .replace("#include <skinning_pars_vertex>", PALETTE_SHADER)
-      .replace("#include <skinbase_vertex>", /* glsl */ `
+      // Basic materials guard skinbase_vertex with USE_ENVMAP || USE_SKINNING. These
+      // instances use our palette rather than Three's USE_SKINNING, so initialize
+      // position skinning and opacity in main before any optional normal branch.
+      .replace(/void\s+main\s*\(\s*\)\s*\{/, main => `${main}\n${/* glsl */ `
         lodOpacity = lodPreviousFrames.w;
         mat4 lodSkin = skinWeight.x * lodBone(skinIndex.x);
         if (skinWeight.y > 0.0) lodSkin += skinWeight.y * lodBone(skinIndex.y);
         if (skinWeight.z > 0.0) lodSkin += skinWeight.z * lodBone(skinIndex.z);
         if (skinWeight.w > 0.0) lodSkin += skinWeight.w * lodBone(skinIndex.w);
-      `)
+      `}`)
+      .replace("#include <skinbase_vertex>", "")
       .replace("#include <skinnormal_vertex>", /* glsl */ `
         mat3 lodBasis = mat3(lodSkin);
         mat3 lodNormal = abs(determinant(lodBasis)) > 1e-12
@@ -121,7 +125,7 @@ function wrapMaterial(material: THREE.Material, palette: Palette): void {
       .replace("#include <common>", `#include <common>\n${OPACITY_SHADER}`)
       .replace("#include <clipping_planes_fragment>", `#include <clipping_planes_fragment>\n${OPACITY_DISCARD}`);
   };
-  material.customProgramCacheKey = () => `${inheritedKey}|sampled-skeleton-v2`;
+  material.customProgramCacheKey = () => `${inheritedKey}|sampled-skeleton-v3`;
 }
 
 function ownedMaterial(source: THREE.Material): THREE.Material {
@@ -364,6 +368,50 @@ export class AnimationLod {
     for (const part of this.parts) out.union(part.geometry.boundingBox!);
     this.parts[0]!.mesh.getMatrixAt(row, this.scratchMatrix);
     return out.applyMatrix4(this.scratchMatrix);
+  }
+
+  /** Current drawn vertices, for explicit inspection only. Rendering retains cheap conservative bounds. */
+  drawnBounds(slot: number, out: THREE.Box3): THREE.Box3 | null {
+    const row = this.slots.get(slot);
+    if (row === undefined || this.parts.length === 0) return null;
+    out.makeEmpty();
+    const point = new THREE.Vector3();
+    for (const part of this.parts) {
+      const data = part.palette.texture.image.data as Float32Array;
+      const bones = part.palette.bones;
+      const matrices = new Float64Array(bones * 16);
+      const blend = this.frames.getW(row);
+      // Read the actual uploaded frame attributes, including crossfades and dynamic overlays.
+      for (const [frames, weight] of [[this.frames, blend], [this.previousFrames, 1 - blend]] as const) {
+        for (const [frame, fraction] of [[frames.getX(row), 1 - frames.getZ(row)], [frames.getY(row), frames.getZ(row)]] as const) {
+          if (weight * fraction === 0) continue;
+          const offset = frame * bones * 16;
+          for (let element = 0; element < matrices.length; element++) {
+            matrices[element] = matrices[element]! + data[offset + element]! * weight * fraction;
+          }
+        }
+      }
+      const geometry = part.geometry, positions = geometry.getAttribute("position");
+      const indices = geometry.getAttribute("skinIndex"), weights = geometry.getAttribute("skinWeight");
+      const end = Math.min(geometry.index?.count ?? positions.count, geometry.drawRange.start + geometry.drawRange.count);
+      part.mesh.getMatrixAt(row, this.scratchMatrix);
+      for (let item = geometry.drawRange.start; item < end; item++) {
+        const vertex = geometry.index ? geometry.index.getX(item) : item;
+        const x = positions.getX(vertex), y = positions.getY(vertex), z = positions.getZ(vertex);
+        point.set(0, 0, 0);
+        for (let influence = 0; influence < 4; influence++) {
+          const weight = weights.getComponent(vertex, influence);
+          if (weight === 0) continue;
+          const bone = indices.getComponent(vertex, influence) * 16;
+          // Palette GLSL consumes xyz directly, then applies the instance matrix with w=1.
+          point.x += weight * (matrices[bone]! * x + matrices[bone + 4]! * y + matrices[bone + 8]! * z + matrices[bone + 12]!);
+          point.y += weight * (matrices[bone + 1]! * x + matrices[bone + 5]! * y + matrices[bone + 9]! * z + matrices[bone + 13]!);
+          point.z += weight * (matrices[bone + 2]! * x + matrices[bone + 6]! * y + matrices[bone + 10]! * z + matrices[bone + 14]!);
+        }
+        out.expandByPoint(point.applyMatrix4(this.scratchMatrix));
+      }
+    }
+    return out;
   }
 
   dispose(): void {

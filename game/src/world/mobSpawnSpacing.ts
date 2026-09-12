@@ -1,6 +1,7 @@
 import type { SemanticEntity, Vec3 } from '../contracts.js';
 import type { HabitatDef } from '../content/worldHabitats.js';
 import { hashId } from './habitatMovement.js';
+import { isFairyRegion } from '../contracts.js';
 
 export interface MobSpawnSpacingPorts {
   underground(regionId: string): boolean;
@@ -43,6 +44,7 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
     const ordinary = members.filter(entity => entity.archetype === 'enemy');
     if (!ordinary.length) continue;
     const source = sources.get(groupId);
+    const enclosed = source && isFairyRegion(source.regionId);
     // Wilderness formations reserve room for their accepted body families. The
     // final floor search must not collapse them back to the generic minimum.
     let authoredSeparation = 0;
@@ -73,6 +75,8 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
       let destination: Vec3 | null = null;
       const tryPoint = (x: number, z: number): void => {
         if (destination) return;
+        if (enclosed && Math.hypot(x - source.centre[0], z - source.centre[1])
+          + radius + (source.roamRadius ?? 1.5) > source.radius) return;
         const reach = Math.max(minimum, radius + largestRadius + gap) + (underground ? 1 : 5);
         for (let gx = Math.floor((x - reach) / 32); gx <= Math.floor((x + reach) / 32); gx++) {
           for (let gz = Math.floor((z - reach) / 32); gz <= Math.floor((z + reach) / 32); gz++) {
@@ -107,9 +111,9 @@ export function spreadMobSpawns(entities: readonly SemanticEntity[], habitats: r
     }
     result.push({ ...source, id: source?.id ?? `${groupId}_spaced`, groupId,
       regionId: ordinary[0]!.regionId, centre,
-      radius: Math.max(...anchors.map(point => Math.hypot(point[0] - centre[0], point[1] - centre[1]))) + 8,
+      radius: enclosed ? source.radius : Math.max(...anchors.map(point => Math.hypot(point[0] - centre[0], point[1] - centre[1]))) + 8,
       anchors, activity: source?.activity ?? 'patrol', dressing: source?.dressing ?? [],
-      roamRadius: ports.underground(ordinary[0]!.regionId) ? .75 : 1.5 });
+      roamRadius: enclosed ? source.roamRadius ?? 1.5 : ports.underground(ordinary[0]!.regionId) ? .75 : 1.5 });
   }
   return result;
 }

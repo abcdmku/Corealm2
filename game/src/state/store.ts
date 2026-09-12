@@ -122,6 +122,8 @@ export interface GameState {
       state: "idle" | "aggro" | "dead" | "returning";
       spawnPos: Vec3;
       respawnAtMs: number | null;
+      /** Absolute cooldown for encounters whose authored respawn must survive a reload. */
+      respawnAtWallMs?: number;
       bossPhase?: number;
       /**
        * When this enemy was killed, so a corpse can be given a lifetime shorter than its respawn.

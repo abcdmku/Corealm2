@@ -40,7 +40,10 @@ describe("Corealm audio catalog", () => {
       ambient: "ambient.open-plains",
     });
     expect(loopsForRegion("fallowmarch", COREALM_AUDIO_CATALOG.regions, 1).music)
-      .toBe("music.distant-plains");
+      .toBe("music.starter-plains");
+    expect(loopsForRegion("gloamgarden", COREALM_AUDIO_CATALOG.regions).music).toBe("music.fairy");
+    expect(loopsForRegion("faeholme", COREALM_AUDIO_CATALOG.regions).music).toBe("music.fairy-mire");
+    expect(loopsForRegion("crownward", COREALM_AUDIO_CATALOG.regions).music).toBe("music.distant-plains");
     expect(loopsForRegion("vellenwood", COREALM_AUDIO_CATALOG.regions).music)
       .toBe("music.deep-woodland");
     expect(loopsForRegion("karrowmoor", COREALM_AUDIO_CATALOG.regions).music)
@@ -252,7 +255,11 @@ describe("creature voices", () => {
       "slag_crawler", "slateback_tortoise", "starroot_guardian", "stone_golem", "tempest_roc",
       "thorn_maw", "tideworn", "vault_custodian", "veil_reaper", "voidstone_colossus",
       "webweaver_spider", "wraith", "zombie",
-    ]);
+      // These imported fairy creatures and universal guardians have no reviewed voice recordings.
+      "bloom_hopper", "bramble_prowler", "elder_grovebeast", "moss_nibbler", "petal_pouncer", "thicket_spirit",
+      "guardian_01", "guardian_02", "guardian_03", "guardian_04", "guardian_05", "guardian_06", "guardian_07", "guardian_08", "guardian_09",
+      "crownward_red_hatchling", "crownward_black_hatchling", "crownward_red_dragon",
+    ].sort());
     for (const family of voiceless) expect(cueForCreature(family)).toBeNull();
 
     // Every family that does have a voice resolves to a cue the catalogue actually ships.
