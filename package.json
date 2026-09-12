@@ -53,6 +53,7 @@
     "game-agent": "tsx tools/game-agent.ts",
     "perf": "tsx tools/perf-test.ts",
     "navmesh:build": "tsx tools/build-navmesh.ts",
+    "world:build": "tsx tools/build-release-world.ts",
     "fetch-assets": "tsx tools/fetch-assets.ts",
     "build-assets": "tsx tools/build-assets.ts",
     "build-animals": "tsx tools/build-animals.ts",

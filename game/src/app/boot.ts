@@ -1,3 +1,9 @@
+import { immediatePlayerItems, selectPlayerEntities, type PlayerAssetArea } from '../render/playerAssetPlan.js';
+import { WorldSiteStreaming } from '../world/worldSiteStreaming.js';
+import generationRevision from "virtual:corealm-generation-revision";
+import { GenerationCache } from "../world/generationCache.js";
+import { generationScope } from "../world/worldDataFormat.js";
+import { ShippedWorldData } from "../world/shippedWorldData.js";
 /**
  * Boot sequence. The order is fixed because two WASM modules and the navmesh have hard ordering
  * (runs/corealm/architecture.md section 3, verified in stack-findings.md section 1).
@@ -30,7 +36,7 @@ import { WORLD_SITES, worldSitePoint, type WorldSite } from "../content/worldSit
 import { WORLD_HABITATS, habitatContains, type HabitatDef } from "../content/worldHabitats.js";
 import { REGIONAL_PACK_ACTIVATION, activatedRegionalPackIds } from "../content/regionalPackActivation.js";
 import { habitatIdleTargets } from "../world/habitatMovement.js";
-import { buildWorldSiteDressing, type ResolvedWorldSiteDressing } from "../render/worldSiteDressing.js";
+import { resolveWorldSiteDressing, type ResolvedWorldSiteDressing } from "../render/worldSiteDressing.js";
 import type {
   EntityId,
   FeatureLabApi,
@@ -56,9 +62,8 @@ import { WorldScene } from "../render/scene.js";
 import { EntityViews } from "../render/entityViews.js";
 import { buildStructureNavigationSources } from "../render/structureNavigation.js";
 import { RoofVisibility } from "../render/roofVisibility.js";
-import { buildStructureCameraSources } from "../render/structureCameraSources.js";
+import { buildStructureCameraSources, StructureCameraStreaming } from "../render/structureCameraSources.js";
 import { STOREY_METRES } from "../render/buildings.js";
-import { isStructureEntity } from "../render/entityActiveSet.js";
 import { StaticCameraQueries } from "../systems/staticCameraQueries.js";
 import { Navigation, solidObstacleMeshes } from "../systems/navigation.js";
 import { dryNavigationMeshes } from "../world/waterNavigation.js";
@@ -141,7 +146,6 @@ import {
   addChamberLights, buildDungeon, chamberFloorAt, dungeonFloorHeight, dungeonNavigationBlockers, loadCaveRockSource, type DungeonSpec, type BuiltDungeon,
 } from "../render/dungeon.js";
 import { DeferredDungeonFacing } from "../render/deferredDungeonFacing.js";
-import { isActorEntity } from "../render/entityActiveSet.js";
 import { Ambience, Vfx, type AmbienceEmitter, type AmbienceKind } from "../render/vfx.js";
 import { SpellVfx } from "../render/spellVfx.js";
 import { AimReticle } from "../render/aimReticle.js";
@@ -161,9 +165,7 @@ export interface BootResult {
   featureLab?: FeatureLabApi;
 }
 
-// The user camera cannot move more than 11 m from the player. Boot makes that immediate circle
-// resident, then expands to the 64 m travel working set after first play.
-const ENTITY_BOOT_RADIUS = 12;
+// Resources use the same working set at boot and during play. Actors and structures reach the fog.
 const ENTITY_ACTIVE_RADIUS = 64;
 const ENTITY_ACTIVE_REPOSITION_DISTANCE = 8;
 // The active-set centre may trail the player by 8 m and the camera may sit another 11 m away.
@@ -200,6 +202,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   const errors: RecordedError[] = [];
   const worldMapCapture = new URLSearchParams(window.location.search).get("world-map-capture") === "1";
+  const worldBake = import.meta.env.DEV && new URLSearchParams(location.search).get("world-bake") === "1";
   const startedAt = performance.now();
   const atMs = (): number => performance.now() - startedAt;
 
@@ -304,6 +307,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const assets = new AssetRegistry();
   statusAssets = assets;
   registerProceduralGear(assets);
+  // Surface maps do not depend on navigation or the asset manifest.
+  const surfaceBootstrap = import("../render/corealmSurfaceMaterials.js")
+    .then(module => module.loadCorealmSurfaceTextures());
+  void surfaceBootstrap.catch(() => {}); // The awaited use below reports a boot failure.
   const assetBootstrap = bootTelemetry.measureAsync(BOOT_SPANS.MANIFEST_LOAD, () => assets.loadManifest())
     .then(async () => {
       bootTelemetry.milestone(BOOT_MILESTONES.MANIFEST_READY);
@@ -326,6 +333,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // 5. Renderer.
   setStatus("lighting the frontier…");
   const renderer = new Renderer(canvas);
+  renderer.setRenderScale(initialSettings.renderScale);
+  renderer.setShadowQuality(initialSettings.shadowQuality);
+  renderer.setDrawDistance(initialSettings.drawDistance);
   const camera = new OrbitCamera(renderer.camera);
   camera.fixedFollow = true;
   const scene = new WorldScene(renderer.scene);
@@ -366,10 +376,24 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     ? await import("../featureLab/fishing.js") : undefined;
   const pavingLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("paving") === "1"
     ? await import("../featureLab/paving.js") : undefined;
-  const { loadCorealmSurfaceTextures } = await import("../render/corealmSurfaceMaterials.js");
-  const surfaceTextures = await loadCorealmSurfaceTextures();
+  const surfaceTextures = await surfaceBootstrap;
   scene.materials.setGroundStoneSurface(surfaceTextures);
   const terrainSpec = profile.terrain();
+  const cacheQuery = new URLSearchParams(location.search);
+  const cacheScope = generationScope(profile.kind, store.get().meta.seed, location.search);
+  const bakeWriter = worldBake ? new (await import('../world/worldBake.js')).WorldBakeWriter() : null;
+  const localCache = !worldMapCapture && cacheQuery.get("navmesh-bake") !== "1"
+    && (profile.kind === "game" ? cacheQuery.get("startup-cache") !== "0" : cacheQuery.get("startup-cache") === "1")
+    ? new GenerationCache(generationRevision, cacheScope) : null;
+  const fixtureWorldData = import.meta.env.DEV ? cacheQuery.get('world-data') : null;
+  const releaseWorldData = profile.kind === 'game' && (import.meta.env.PROD
+    || !worldMapCapture && cacheQuery.get('navmesh-bake') !== '1' && cacheQuery.get('startup-cache') !== '0');
+  const generationCache = bakeWriter ?? (fixtureWorldData
+    ? new ShippedWorldData(localCache ?? new GenerationCache(generationRevision, cacheScope), fixtureWorldData, true)
+    : releaseWorldData ? new ShippedWorldData(localCache ?? new GenerationCache(generationRevision, cacheScope),
+      `${import.meta.env.BASE_URL}generated/world/manifest.json`, import.meta.env.PROD) : localCache);
+  (window as any).__corealmGenerationCache = generationCache;
+
   const deepWildernessEffectsLab = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('wildernessEffects') === 'deep';
   const wildernessEffectsLab = deepWildernessEffectsLab || profile.kind === "feature-lab" && new URLSearchParams(location.search).get("wildernessEffects") === "1";
   const wildernessCreaturesLab = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('wildernessCreatures') === '1';
@@ -377,8 +401,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   if (wildernessEffectsLab) terrainSpec.lavaChannels = deepWildernessEffectsLab ? DEEP_WILDERNESS_LAVA_LAB_CHANNELS : WILDERNESS_LAVA_LAB_CHANNELS;
   if (fishingLab) terrainSpec.basins = [fishingLab.FISHING_LAB_BASIN];
   await bootTelemetry.measureAsync(BOOT_SPANS.TERRAIN_BUILD, async () => {
-    await scene.buildWorldYielding(terrainSpec, profile.worldSurface
-      ? (preparedScene) => {
+    const prepareSurface = profile.worldSurface
+      ? (preparedScene: WorldScene) => {
           // The telemetry name stays stable for baseline comparison, but this is now preparation
           // before the first chunk vertex is shaded.
           bootTelemetry.measureSync(
@@ -386,7 +410,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
             () => prepareWorldSurface(preparedScene, store.get().meta.seed),
           );
         }
-      : pavingLab?.preparePavingLabSurface ?? fishingLab?.prepareFishingLabSurface);
+      : pavingLab?.preparePavingLabSurface ?? fishingLab?.prepareFishingLabSurface;
+    if (generationCache) await scene.buildWorldCached(generationCache, "world", terrainSpec, prepareSurface);
+    else await scene.buildWorldYielding(terrainSpec, prepareSurface);
     // One heightfield collider rather than 28 terrain trimeshes: same ground answers, 24 ms instead
     // of a per-chunk trimesh build, and a single collider for the ray queries to walk.
     cameraQueries.addHeightfield(scene.heightfieldSamples());
@@ -609,6 +635,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const fishingEntities = fishingLab?.createFishingLabEntities(scene, assets) ?? [];
   built.entities.push(...fishingEntities);
   const sitePlacements: ResolvedWorldSiteDressing[] = [];
+  const siteStreaming = new WorldSiteStreaming(scene, assets);
   const encounterNavSolids = new Map<string, SolidVolume>();
   if (packFixture?.habitat.dressing.length) {
     const { buildRegionalPackDressing } = await import("../world/regionalPackDressing.js");
@@ -645,13 +672,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         const largestBody = Math.max(0, ...built.entities
           .filter((entity) => entity.meta?.groupId === packHabitat.groupId)
           .map((entity) => entity.combat?.bodyRadius ?? 0));
-        const result = await buildRegionalPackDressing(scene, assets, packHabitat, largestBody);
+        const result = await buildRegionalPackDressing(scene, assets, packHabitat, largestBody, false);
+        siteStreaming.register(setting, result);
         sitePlacements.push(...result.placements);
         built.solids.push(...result.solids);
         for (const solid of result.navigationSolids) encounterNavSolids.set(solid.id, solid);
         continue;
       }
-      const result = await buildWorldSiteDressing(scene, assets, setting);
+      const result = resolveWorldSiteDressing(scene, assets, setting);
+      siteStreaming.register(setting, result);
       sitePlacements.push(...result.placements);
       built.solids.push(...result.solids);
       if (setting.cutFace) {
@@ -853,13 +882,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     cameraQueries.addStaticBox(box.position, box.halfExtents as unknown as Vec3, box.rotationY, box.buildingId);
   }
   for (const mesh of structureNavigation.meshes) cameraQueries.addStaticMesh(mesh);
-  const structureCamera = await bootTelemetry.measureAsync(BOOT_SPANS.CAMERA_STRUCTURES, async () => {
-    const sources = await buildStructureCameraSources(assets, built.entities);
-    for (const mesh of sources.meshes) cameraQueries.addStaticMesh(mesh);
-    return sources;
-  });
   const roofVisibility = new RoofVisibility();
-  roofVisibility.setSources(structureCamera.meshes);
+  const structureCameraStreaming = new StructureCameraStreaming(assets, sources => {
+    for (const mesh of sources.meshes) cameraQueries.addStaticMesh(mesh);
+  });
+  const structureCamera = structureCameraStreaming.sources;
   // Recast reads raw geometry, so the cheapest way to make something block a path is to hand the
   // navmesh an invisible carve for it.
   //
@@ -894,21 +921,25 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   ];
   const navigationBuilt = await bootTelemetry.measureAsync(
     BOOT_SPANS.NAVIGATION_BUILD,
-    () => nav.buildOrImport(navigationInput, { worldSeed: store.get().meta.seed }),
+    () => nav.buildOrImport(navigationInput, { worldSeed: store.get().meta.seed,
+      allowRuntimeGeneration: !(import.meta.env.PROD && profile.kind === 'game') }),
   );
   if (!navigationBuilt) {
     const failure = nav.snapshot(null, null, 0).error ?? "unknown";
     errors.push({ atMs: atMs(), source: "navigation", message: `Navmesh build failed: ${failure}` });
+    if (import.meta.env.PROD && profile.kind === 'game') throw new Error(`Unable to load released navigation: ${failure}`);
   } else {
-    bootTelemetry.milestone(BOOT_MILESTONES.NAVIGATION_READY);
+    const artifact = nav.getDiagnostics().artifact;
+    bootTelemetry.milestone(BOOT_MILESTONES.NAVIGATION_READY, { artifact: artifact.status, reason: artifact.reason });
   }
   nav.setRouteGraph(built.routeNodes, built.routeEdges);
 
   const { spreadMobSpawns } = await import('../world/mobSpawnSpacing.js');
-  const applyMobSpacing = (actors: readonly SemanticEntity[]): void => {
+  const { spreadMobSpawnsCached } = await import('../world/mobSpawnCache.js');
+  const applyMobSpacing = (actors: readonly SemanticEntity[], cached = false): void | Promise<void> => {
     const placementSolids = new Solids(built.solids);
     const habitatSources = new Map(worldHabitats.map(habitat => [habitat.groupId, habitat]));
-    const habitats = spreadMobSpawns(actors, worldHabitats, {
+    const ports: import('../world/mobSpawnSpacing.js').MobSpawnSpacingPorts = {
       underground: regionId => regionId === dungeonSpec?.regionId,
       place: (entity, x, z, radius) => {
         const underground = entity.regionId === dungeonSpec?.regionId;
@@ -923,10 +954,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         const floor = (px: number, pz: number): number | null => {
           if (underground) return chamberFloorAt(dungeonSpec!, [px, entity.position[1], pz]);
           if (profile.kind === 'feature-lab') return Math.abs(px) < 120 && Math.abs(pz) < 120 ? scene.meshHeightAt(px, pz) : null;
-          const sample = scene.sampleWorld(px, pz);
+          const sample = scene.placementSurfaceAt(px, pz);
           const coast = habitatSources.get(String(entity.meta?.groupId))?.boundary === 'playable-coast';
-          return sample.playable && (coast || sample.semanticRegion === entity.regionId) && !sample.waterBodyId
-            && sample.slope !== null && sample.slope < .65 ? scene.meshHeightAt(px, pz) : null;
+          return sample && (coast || sample.semanticRegion === entity.regionId) && !sample.waterBodyId
+            && sample.slope < .65 ? sample.height : null;
         };
         const y = floor(x, z);
         if (y === null) return null;
@@ -944,12 +975,16 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
           : scene.meshHeightAt(entity.position[0], entity.position[2]);
         return [x, y + entity.position[1] - originalFloor, z];
       },
-    });
-    worldHabitats.splice(0, worldHabitats.length, ...habitats.filter(habitat => habitat.regionId !== dungeonSpec?.regionId));
-    for (const habitat of habitats) worldPackHabitats.set(habitat.groupId, habitat);
+    };
+    const apply = (habitats: HabitatDef[]): void => {
+      worldHabitats.splice(0, worldHabitats.length, ...habitats.filter(habitat => habitat.regionId !== dungeonSpec?.regionId));
+      for (const habitat of habitats) worldPackHabitats.set(habitat.groupId, habitat);
+    };
+    if (cached && generationCache) return spreadMobSpawnsCached(generationCache, actors, worldHabitats, ports).then(apply);
+    apply(spreadMobSpawns(actors, worldHabitats, ports));
   };
   if (mobSpacingLab || denseCaveLab || profile.kind === 'game') {
-    applyMobSpacing(built.entities);
+    await bootTelemetry.measureAsync("boot.spawns", async () => { await applyMobSpacing(built.entities, true); });
     entityStore.load(built.entities);
     rehydrateEnemyRuntimes(store.get(), entityStore, clock.elapsedMs);
   }
@@ -958,14 +993,74 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // and across Karrowmoor's terraces the difference is large enough to change an agent's choice.
   entityStore.setDistanceFunction((from, to) => nav.pathDistance(from, to) ?? straightLineDistance(from, to));
 
+  if (bakeWriter) {
+    const tiles: string[] = [];
+    if (profile.scatter) {
+      await assets.load('corealm_grass_1');
+      scene.setGrassSource(assets.instance('corealm_grass_1'));
+      registerExclusions(scene, built.solids, sitePlacements);
+      registerHabitatTreeClearance(built.entities);
+      const { scatterTilesForBounds, scatterWorldTile } = await import('../world/scatter.js');
+      for (const tile of scatterTilesForBounds(scene.getScatterBounds(Infinity))) {
+        const result = await scatterWorldTile(scene, assets, store.get().meta.seed, tile, undefined,
+          { cache: bakeWriter, render: false });
+        if (result.some(region => region.missingAssets.length)) throw new Error(`Cannot bake incomplete tile ${tile.id}`);
+        tiles.push(tile.id);
+      }
+    }
+    window.__corealmWorldBake = { revision: generationRevision, scope: cacheScope, tiles, records: bakeWriter.records };
+    // The build driver closes this page after collecting the completed records.
+    return new Promise<BootResult>(() => {});
+  }
+
+  let wildernessEffects: WildernessEffects | null = null;
+  const refreshWildernessEffects = (structureEntities: readonly SemanticEntity[] = []): void => {
+    if (profile.kind !== 'game' && !wildernessEffectsLab && !wildernessTorchesLab) return;
+    wildernessEffects?.dispose();
+    const groundHeightAt = (x: number, z: number) => scene.meshHeightAt(x, z);
+    const torches: WildernessTorch[] = wildernessEffectsLab
+      ? (deepWildernessEffectsLab ? deepWildernessEffectsLabTorches : wildernessEffectsLabTorches)(groundHeightAt) : [];
+    if (profile.kind === 'game') for (const [index, [x, z]] of WILDERNESS_ROAD_BRAZIERS.entries()) {
+      torches.push({id:`wilderness-road-brazier-${index}`,position:[x,groundHeightAt(x,z)+1.3,z],scale:1,support:'brazier', magic:wildernessMagicAt(x,z)});
+    }
+    for (const entity of structureEntities) {
+      if (entity.view?.assetId !== 'torch') continue;
+      const scale = entity.view.scale ?? 1;
+      const structureId = String(entity.meta?.structureId ?? entity.id.split('#')[0]);
+      const mountIndex = /#mounted_torch_(\d+)$/.exec(entity.id)?.[1];
+      const theme = mountIndex === undefined ? undefined
+        : DEEP_WILDERNESS_STRUCTURES[structureId as DeepWildernessStructureId]?.torches[Number(mountIndex)]?.theme;
+      torches.push({ id: entity.id, position: torchFlameOrigin(entity.position, scale, entity.view.rotationY ?? 0),
+        scale, support: 'none', theme, magic: wildernessMagicAt(entity.position[0],entity.position[2]) });
+    }
+    // Permanent banks and molten ground belong to the world and must also appear on its map.
+    wildernessEffects = new WildernessEffects(profile.kind === 'game' ? scene.terrainGroup : scene.overlayGroup, { groundHeightAt, torches,
+      channels: terrainSpec.lavaChannels ?? [], maxLights: 6, surfaceTextures });
+    (window as any).__wildernessEffects = wildernessEffects;
+  };
+  refreshWildernessEffects(profile.kind === 'game' ? built.entities.filter(entity => entity.regionId === 'wilderness') : []);
+  if (dungeon && !caveFixture) dungeon.group.visible = store.get().player.regionId === "gravelmaw";
+  // Pools and their lights are stable throughout play. Compile their programs while the CPU
+  // generates vegetation and loads models, then wait for completion at the final reveal gate.
+  const spellVfx = new SpellVfx({
+    parent: scene.overlayGroup,
+    camera: renderer.camera,
+    groundHeightAt: (x, z) => scene.meshHeightAt(x, z),
+    castingFocus: () => rigged ? playerRig.castingFocus() : undefined,
+  });
+  if (!worldMapCapture) bootTelemetry.measureSync("boot.shaders.effects.submit",
+    () => renderer.compileEffects(spellVfx.preparationRoot()));
+
   // 10. Procedural dressing, kept clear of anything authored.
   setStatus("dressing the world…");
   const fixtureSpawn = groundMotionFixture?.spawn ?? packFixture?.spawn;
   const spawnSpec = fixtureSpawn ? { ...profile.spawn, x: fixtureSpawn[0], z: fixtureSpawn[2], regionId: "fallowmarch" as const } : profile.spawn;
-  assets.setActiveRegion(spawnSpec.regionId);
-  const scatterStreaming = new ScatterStreamingController(scene, assets, store.get().meta.seed, { onTree: registerForestTree });
+  const loadPosition: Vec3 = resumedFromSave ? [...store.get().player.position] : [spawnSpec.x, 0, spawnSpec.z];
+  const loadRegion = resumedFromSave ? store.get().player.regionId : spawnSpec.regionId;
+  assets.setActiveRegion(loadRegion);
+  const scatterStreaming = new ScatterStreamingController(scene, assets, store.get().meta.seed, { onTree: registerForestTree, cache: generationCache ?? undefined });
   let scatterResults: ScatterResult[] = [];
-  const registerHabitatTreeClearance = (entities: readonly SemanticEntity[]): void => {
+  function registerHabitatTreeClearance(entities: readonly SemanticEntity[]): void {
     for (const habitat of worldHabitats) {
       const inside = (point: Vec3) => habitatContains(habitat, point);
       for (const entity of entities.filter((entry) => entry.meta?.groupId === habitat.groupId)) {
@@ -991,27 +1086,34 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         }
       }
     }
-  };
-  if (profile.scatter) {
-    await assets.load("corealm_grass_1", { priority: "visible-spawn", primary: true });
-    scene.setGrassSource(assets.instance("corealm_grass_1"));
-    registerExclusions(scene, built.solids, sitePlacements);
-    registerHabitatTreeClearance(built.entities);
-    try {
-      scatterResults = await bootTelemetry.measureAsync(
-        "boot.scatter.total",
-        () => worldMapCapture
-          ? scatterStreaming.forceFullResidency()
-          : scatterStreaming.loadSpawn(spawnSpec.x, spawnSpec.z),
-      );
-      bootTelemetry.milestone(BOOT_MILESTONES.SCATTER_SPAWN_READY, {
-        regions: scatterResults.length,
-        layers: scatterResults.reduce((total, result) => total + Object.keys(result.byLayer).length, 0),
-      });
-    } catch (cause) {
-      errors.push({ atMs: atMs(), source: "scatter", message: describeError(cause) });
-    }
   }
+  const scatterPreparation = (async () => {
+    if (profile.scatter) {
+      await assets.load("corealm_grass_1", { priority: "visible-spawn", primary: true });
+      scene.setGrassSource(assets.instance("corealm_grass_1"));
+      registerExclusions(scene, built.solids, sitePlacements);
+      registerHabitatTreeClearance(built.entities);
+      // A cave resume still needs the grass source and exclusions ready for its eventual exit.
+      if (!worldMapCapture && loadRegion === "gravelmaw") return;
+      try {
+        scatterResults = await bootTelemetry.measureAsync(
+          "boot.scatter.total",
+          () => worldMapCapture
+            ? scatterStreaming.forceFullResidency()
+            : scatterStreaming.loadView(loadPosition[0], loadPosition[2],
+              fogOpaqueMetres(initialSettings.drawDistance) + CAMERA.maxDistance + ENTITY_ACTIVE_REPOSITION_DISTANCE),
+        );
+        bootTelemetry.milestone(BOOT_MILESTONES.SCATTER_SPAWN_READY, {
+          regions: scatterResults.length,
+          layers: scatterResults.reduce((total, result) => total + Object.keys(result.byLayer).length, 0),
+        });
+      } catch (cause) {
+        errors.push({ atMs: atMs(), source: "scatter", message: describeError(cause) });
+        if (import.meta.env.PROD || fixtureWorldData) throw cause;
+      }
+    }
+  })();
+  void scatterPreparation.catch(() => {}); // Awaited before any scene is revealed.
 
   // 11. Entity views. The render layer reads `SemanticEntity.view`; it never invents an appearance.
   // Rigged characters bypass instancing, so they are the single largest draw-call line item: ten
@@ -1035,14 +1137,39 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
   renderer.transmissionCandidates = () => entityViews.transmissiveMeshes();
   renderer.transmissionOpaqueOccluders = () => entityViews.staticOccluderMeshes();
-  const spawnPosition: Vec3 = [spawnSpec.x, 0, spawnSpec.z];
-  forest.update(spawnPosition, new Set());
-  const surfaceEntities = entityStore.all().filter((entity) => entity.regionId !== "gravelmaw");
+  const spawnPosition = loadPosition;
+  let surfaceEntities = entityStore.all().filter((entity) =>
+    (entity.regionId === "gravelmaw") === (loadRegion === "gravelmaw"));
   entityViews.updateActiveArea(
     spawnPosition,
-    profile.kind === "feature-lab" ? 220 : ENTITY_BOOT_RADIUS,
+    profile.kind === "feature-lab" ? 220 : ENTITY_ACTIVE_RADIUS,
     structureResidencyRadius(initialSettings.drawDistance),
   );
+  if (runtimePerformanceEnabled) entityViews.updateActorRadius(structureResidencyRadius(initialSettings.drawDistance));
+  const playerAssetArea = (position: Vec3, regionId: RegionId, ahead = 0): PlayerAssetArea => ({
+    position, regionId,
+    resourceRadius: (profile.kind === 'feature-lab' ? 220 : ENTITY_ACTIVE_RADIUS) + ahead,
+    viewRadius: structureResidencyRadius(clientSettings.get().drawDistance) + ahead,
+  });
+  const preparePlayerArea = async (area: PlayerAssetArea, prefetch = false): Promise<void> => {
+    const selected = selectPlayerEntities(entityStore.all(), area);
+    const options = { priority: prefetch ? 'travel-prefetch' as const : 'visible-spawn' as const,
+      regionId: area.regionId, primary: !prefetch };
+    const cameraCount = structureCamera.meshes.length;
+    const [prepared] = await Promise.all([
+      entityViews.prepare(selected, options), siteStreaming.prepare(area, options),
+      structureCameraStreaming.prepare(selected, options),
+    ]);
+    if (prepared.missing.length) throw new Error(`Could not load nearby objects: ${prepared.missing.join(', ')}`);
+    if (structureCamera.meshes.length !== cameraCount) roofVisibility.setSources(structureCamera.meshes);
+  };
+  (window as any).__corealmPlayerAssets = { snapshot: () => ({
+    area: playerAssetArea(store.get().player.position, store.get().player.regionId),
+    items: immediatePlayerItems(store.get()),
+    sites: siteStreaming.snapshot(playerAssetArea(store.get().player.position, store.get().player.regionId)),
+    cameraSources: structureCamera.roots.length, assets: assets.getLoadStats(),
+    loadedIds: assets.getManifest()!.assets.filter(entry => assets.isLoaded(entry.id)).map(entry => entry.id).sort(),
+  }) };
   setStatus("preloading structures…");
   await bootTelemetry.measureAsync(
     BOOT_SPANS.ENTITY_PRELOAD,
@@ -1054,28 +1181,26 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         // batch rather than the moving request count that used to render as 8/8, then 10/10.
         statusAssetTarget = assets.getLoadStats().requested;
         refreshStatus();
-        await residency;
+        await Promise.all([residency,
+          siteStreaming.prepare({ ...playerAssetArea(spawnPosition, loadRegion), viewRadius: 1e6 }, { priority: 'visible-spawn' }),
+          structureCameraStreaming.prepare(surfaceEntities, { priority: 'visible-spawn' })]);
+        roofVisibility.setSources(structureCamera.meshes);
         return;
       }
-      const activeRadius = entityViews.residencyStats().radius;
-      const spawnVisible = surfaceEntities.filter(
-        (entity) => distanceXZ(entity.position, spawnPosition) <= activeRadius,
-      );
-      // Structural sources are shared across the island. Load them once behind the boot screen so
-      // moving the residency ring only allocates already-decoded meshes and never builds a town a
-      // few walls at a time. Actors and resources keep the smaller working set above.
-      const structures = entityStore.all().filter(isStructureEntity);
-      const preparation = entityViews.prepare([...structures, ...spawnVisible]);
+      const preparation = preparePlayerArea(playerAssetArea(spawnPosition, loadRegion));
       // `prepare` queues the full list synchronously. Freeze its size once so only the completed
       // side advances while the boot screen is visible.
       statusAssetTarget = assets.getLoadStats().requested;
       refreshStatus();
-      const prepared = await preparation;
-      for (const missing of prepared.missing) {
-        errors.push({ atMs: atMs(), source: "entityViews", message: `Missing asset "${missing}"` });
-      }
+      await preparation;
     },
   );
+  await scatterPreparation;
+  forest.update(spawnPosition, new Set());
+  surfaceEntities = entityStore.all().filter((entity) =>
+    (entity.regionId === "gravelmaw") === (loadRegion === "gravelmaw"));
+  // Harvestable trees are registered by scatter. Their sources already loaded with the tiles.
+  await entityViews.prepare(surfaceEntities.filter(entity => distanceXZ(entity.position, spawnPosition) <= ENTITY_ACTIVE_RADIUS));
   statusAssetTarget = null;
   setStatus("preparing the player…");
   try {
@@ -1157,8 +1282,17 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   if (rigged) {
     await bootTelemetry.measureAsync(
       "boot.player.equipment",
-      () => playerRig.applyEquipment(store.get().equipment),
+      async () => {
+        await Promise.all([playerRig.prepareItems(immediatePlayerItems(store.get())), playerRig.applyEquipment(store.get().equipment)]);
+      },
     );
+  }
+  if (profile.fullWarmup || performanceLab) {
+    if (dungeon && !caveFixture) dungeon.group.visible = loadRegion === "gravelmaw";
+    scene.setStreamingRadius(fogOpaqueMetres(initialSettings.drawDistance) + CAMERA.maxDistance);
+    scene.updateStreaming(initialPlayerPosition[0], initialPlayerPosition[2]);
+    entityViews.update(0, renderer.camera.position, clock.elapsedMs);
+    bootTelemetry.measureSync("boot.shaders.scene.submit", () => renderer.warmup());
   }
   // Region audio is selected after play. Requesting multi-megabyte music while the renderer is
   // still building made audio compete with the first frame even though browsers cannot play it
@@ -1541,8 +1675,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     ? currentRegionId
     : scene.regionAt(point[0], point[2]) });
 
-  let activeVisualCentre: Vec3 = [...spawn];
-  let activeVisualRegion = spawnSpec.regionId;
+  let activeVisualCentre: Vec3 = [...initialPlayerPosition];
+  let activeVisualRegion = loadRegion;
   const entitiesForVisualRegion = (regionId: RegionId): SemanticEntity[] => {
     const insideDungeon = regionId === "gravelmaw";
     return entityStore.all().filter((entity) => (entity.regionId === "gravelmaw") === insideDungeon);
@@ -1552,6 +1686,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const moved = distanceXZ(position, activeVisualCentre) >= ENTITY_ACTIVE_REPOSITION_DISTANCE;
     if (!force && !regionChanged && !moved) return;
 
+    if (profile.kind === 'game' && !worldMapCapture) {
+      void preparePlayerArea(playerAssetArea(position, regionId, 48), true).catch(cause => {
+        errors.push({ atMs: atMs(), source: 'playerAssets.travel', message: describeError(cause) });
+      });
+    }
     assets.setActiveRegion(regionId);
     scatterStreaming.setActivePosition(position[0], position[2]);
     // Distance-culls resident scatter shards against the fog wall. Without this the arena and
@@ -1622,14 +1761,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       report(0, destination.regionId === "gravelmaw" ? "Loading cave…" : "Loading destination…");
       if (destination.regionId === "gravelmaw") await deferredCave?.ensure();
       report(1, "Loading creatures and objects…");
-      const destinationEntities = entitiesForVisualRegion(destination.regionId).filter((entity) =>
-        distanceXZ(entity.position, destination.position) <= (profile.kind === "feature-lab" ? 220
-          : isActorEntity(entity) || isStructureEntity(entity)
-            ? structureResidencyRadius(clientSettings.get().drawDistance) : ENTITY_ACTIVE_RADIUS));
-      const prepared = await entityViews.prepare(destinationEntities);
-      if (prepared.missing.length) throw new Error(`Could not load the passage: ${prepared.missing.join(", ")}`);
+      await preparePlayerArea(playerAssetArea(destination.position, destination.regionId));
       if (profile.scatter && destination.regionId !== "gravelmaw") {
-        scatterResults = await scatterStreaming.loadSpawn(destination.position[0], destination.position[2]);
+        scatterResults = await scatterStreaming.loadView(destination.position[0], destination.position[2],
+          fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + ENTITY_ACTIVE_REPOSITION_DISTANCE);
       }
     },
     commit: () => {
@@ -1645,6 +1780,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     settled: async () => {
       await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
       if (destination.regionId === dungeonSpec?.regionId && dungeon) await renderer.waitForInterior(dungeon.group);
+      const ready = await entityViews.retryHydration();
+      if (ready.pending || ready.failed || ready.missing) throw new Error('Destination assets are not ready');
+      entityViews.update(0, renderer.camera.position, clock.elapsedMs);
+      await renderer.prepareEffects(spellVfx.preparationRoot());
       renderer.render(performance.now());
       await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
     },
@@ -1773,52 +1912,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
   window.addEventListener("pagehide", persistCurrentState);
 
-  // Spell cast, flight and impact. A separate layer from `Vfx` and from `Ambience` because it is the
-  // only one that is off entirely most of the time: one InstancedMesh drawing zero instances, which
-  // costs no draw call until the player actually casts. `heightAt` is passed so an impact ring lies
-  // on the ground the player is standing on rather than on a plane through the target's origin.
-  const spellVfx = new SpellVfx({
-    parent: scene.overlayGroup,
-    camera: renderer.camera,
-    // `meshHeightAt`, not `heightAt`: the latter needs a region id, and the only one to hand here is
-    // the PLAYER's — which is the wrong answer for a target standing over a region boundary, and the
-    // impact ring would sink into or float over the ground exactly where a region seam runs.
-    // `meshHeightAt` samples the drawn lattice and needs no region at all.
-    groundHeightAt: (x, z) => scene.meshHeightAt(x, z),
-    // The staff socket an invocation gathers its light at. Resolved lazily: the rig may still be
-    // loading when this layer is built, and a cast never happens before the world is up.
-    castingFocus: () => rigged ? playerRig.castingFocus() : undefined,
-  });
-
   // Standing atmosphere, as opposed to the event-driven feedback above. Both are polled from Vfx's
   // own update, so the loop needs no change. One InstancedMesh for the whole world.
   const ambience = new Ambience(scene.overlayGroup, { maxParticles: 640 });
-  let wildernessEffects: WildernessEffects | null = null;
-  const refreshWildernessEffects = (structureEntities: readonly SemanticEntity[] = []): void => {
-    if (profile.kind !== 'game' && !wildernessEffectsLab && !wildernessTorchesLab) return;
-    wildernessEffects?.dispose();
-    const groundHeightAt = (x: number, z: number) => scene.meshHeightAt(x, z);
-    const torches: WildernessTorch[] = wildernessEffectsLab
-      ? (deepWildernessEffectsLab ? deepWildernessEffectsLabTorches : wildernessEffectsLabTorches)(groundHeightAt) : [];
-    if (profile.kind === 'game') for (const [index, [x, z]] of WILDERNESS_ROAD_BRAZIERS.entries()) {
-      torches.push({id:`wilderness-road-brazier-${index}`,position:[x,groundHeightAt(x,z)+1.3,z],scale:1,support:'brazier', magic:wildernessMagicAt(x,z)});
-    }
-    for (const entity of structureEntities) {
-      if (entity.view?.assetId !== 'torch') continue;
-      const scale = entity.view.scale ?? 1;
-      const structureId = String(entity.meta?.structureId ?? entity.id.split('#')[0]);
-      const mountIndex = /#mounted_torch_(\d+)$/.exec(entity.id)?.[1];
-      const theme = mountIndex === undefined ? undefined
-        : DEEP_WILDERNESS_STRUCTURES[structureId as DeepWildernessStructureId]?.torches[Number(mountIndex)]?.theme;
-      torches.push({ id: entity.id, position: torchFlameOrigin(entity.position, scale, entity.view.rotationY ?? 0),
-        scale, support: 'none', theme, magic: wildernessMagicAt(entity.position[0],entity.position[2]) });
-    }
-    // Permanent banks and molten ground belong to the world and must also appear on its map.
-    wildernessEffects = new WildernessEffects(profile.kind === 'game' ? scene.terrainGroup : scene.overlayGroup, { groundHeightAt, torches,
-      channels: terrainSpec.lavaChannels ?? [], maxLights: 6, surfaceTextures });
-    (window as any).__wildernessEffects = wildernessEffects;
-  };
-  refreshWildernessEffects(profile.kind === 'game' ? built.entities.filter(entity => entity.regionId === 'wilderness') : []);
   const creatureEffects = profile.kind === 'game' || wildernessCreaturesLab
     ? new WildernessCreatureEffects(scene.overlayGroup) : null;
   const emberCreatureFamilies = new Set(['cinderback_crag', 'furnace_grazer', 'basalt_maw',
@@ -2259,6 +2355,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }
     if (portalFixture) {
       (window as Window & { __portalLab?: unknown }).__portalLab = portalFixture;
+    }
+    if (new URLSearchParams(location.search).get('smartLoading') === '1') {
+      const { createSmartLoadingLab } = await import('../featureLab/smartLoading.js');
+      (window as any).__smartLoadingLab = await createSmartLoadingLab(scene, assets, playerRig);
     }
     if (packFixture) {
       (window as Window & { __packLab?: unknown }).__packLab = {
@@ -2854,10 +2954,24 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (next) clientSettings.set({ drawDistance: next });
   });
   if (rigged) loop.setPlayerRig(playerRig);
+  let preparedItemKey = immediatePlayerItems(store.get()).join('\0');
+  let itemRetryAt = 0;
+  const refreshCarriedAssets = (): void => {
+    if (!rigged || performance.now() < itemRetryAt) return;
+    const items = immediatePlayerItems(store.get()), key = items.join('\0');
+    if (key === preparedItemKey) return;
+    preparedItemKey = key;
+    void playerRig.prepareItems(items).catch(cause => {
+      if (preparedItemKey === key) preparedItemKey = '';
+      itemRetryAt = performance.now() + 3000;
+      errors.push({ atMs: atMs(), source: 'playerAssets.items', message: describeError(cause) });
+    });
+  };
   loop.setEntityViews(entityViews, () => {
     if (profile.kind === "feature-lab") return entityStore.all();
     return entitiesForVisualRegion(store.get().player.regionId);
   }, () => {
+    refreshCarriedAssets();
     if (profile.kind === "feature-lab") return;
     const player = store.get().player;
     refreshVisualResidency(player.position, player.regionId);
@@ -3435,18 +3549,19 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     };
   }
 
-  // Compile spawn-visible variants now. Transparent and hidden-dungeon variants remain necessary,
-  // but are warmed in an idle window below so they do not delay the first playable frame.
-  // Measured before this existed: the program count climbed 19 -> 20 mid-session and the frames
-  // that paid for it were 1130 ms, 994 ms and 346 ms. The two extra passes are for variants three
-  // skips by default — a material only compiles its transparent form when something is actually
-  // transparent, and three skips everything under an invisible ancestor, which is the whole dungeon
-  // and the +3-point-light variant of every material in it.
+  // Settings and lab fixtures may have changed the selected views. Finish their assets and
+  // camera-ranked rigs before shader preparation, using the same update path as gameplay.
+  setStatus("preparing the visible scene…");
+  await bootTelemetry.measureAsync("boot.entities.resident", () => entityViews.retryHydration());
+  bootTelemetry.measureSync("boot.entities.pose", () => {
+    for (let pass = 0; pass < 4; pass++) entityViews.update(0, renderer.camera.position, clock.elapsedMs);
+  });
+  scene.updateStreaming(initialPlayerPosition[0], initialPlayerPosition[2]);
   if (store.get().player.regionId === "gravelmaw") await deferredCave?.ensure();
   // Match the first gameplay frame before compiling. Hidden cave lights otherwise produce
   // a different cache key, including for Three's internal sky shader on the first water draw.
   if (dungeon && !caveFixture) dungeon.group.visible = store.get().player.regionId === "gravelmaw";
-  if (profile.fullWarmup) {
+  if (profile.fullWarmup || performanceLab) {
     setStatus("warming the shaders…");
     bootTelemetry.measureSync(BOOT_SPANS.SHADER_COMPILE, () => renderer.warmup());
   }
@@ -3501,33 +3616,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       if (forestFixture) (window as Window & { __forestLab?: unknown }).__forestLab = { getState: () => ({ ...forest.stats(), entityIds: forestFixture!.entityIds, obstacles: forestObstacles.size }), getTrees: () => forestFixture!.trees, getScatterVisibility: () => forestFixture!.getScatterVisibility() };
       window.setTimeout(() => {
         audioDirector.setRegion(store.get().player.regionId);
-        const expandEntityResidency = (): void => {
-          entityViews.updateActiveRadius(profile.kind === "feature-lab" ? 220 : ENTITY_ACTIVE_RADIUS);
-        };
-        window.requestIdleCallback(expandEntityResidency, { timeout: 1_000 });
-        if (profile.kind === "game") {
-          window.requestIdleCallback(() => playerRig.preloadGear(), { timeout: 1_000 });
-          if (profile.fullWarmup) {
-            window.requestIdleCallback(() => {
-              bootTelemetry.measureSync("boot.shaders.deferred", () => {
-                renderer.warmup({
-                  transparentVariants: [scene.root],
-                  temporarilyVisible: dungeon && !deferredCave ? [dungeon.group] : [],
-                });
-              });
-            }, { timeout: 2_000 });
-          }
-          if (profile.scatter && store.get().player.regionId !== "gravelmaw") {
-            const player = store.get().player;
-            void scatterStreaming.streamNearby(player.position[0], player.position[2],
-              player.regionId === "gravelmaw" ? 0 : fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + 48).then(() => {
-              scatterResults = scatterStreaming.getStats();
-            }).catch((cause) => {
-              errors.push({ atMs: atMs(), source: "scatterStreaming", message: describeError(cause) });
-            });
-          }
-          void preloadDeferredEntityAssets(assets, errors, atMs);
-        }
+        // The starting view is complete. Travel prefetch follows movement; equipment and newly
+        // created items use their normal on-demand loaders instead of flooding the first frames.
       }, 0);
     });
   }
@@ -3680,36 +3770,6 @@ function registerExclusions(
   }
   for (const [index, points] of scene.getRoadPolylines().entries()) {
     worldExclusions.addCorridor(points, 5, "road", `resolved-road-${index}`);
-  }
-}
-
-/**
- * Assets for entities the world creates while it is running rather than at build time.
- *
- * Recovery caches and player campfires can appear after the initial entity preload. These are not
- * first-play dependencies: queue them only after the first rendered frame, and let EntityViews
- * retry hydration if a player creates one before this low-priority request finishes.
- */
-const SPAWNED_LATER_ASSET_IDS: readonly string[] = [
-  "crate_wood",
-  ...GATHERING_PRODUCTION_TIERS.map((definition) => definition.campfire.visualLogAssetId),
-];
-
-async function preloadDeferredEntityAssets(
-  assets: AssetRegistry,
-  errors: RecordedError[],
-  atMs: () => number,
-): Promise<void> {
-  const ordered = [...new Set(SPAWNED_LATER_ASSET_IDS)];
-  const results = await Promise.allSettled(ordered.map((id) => assets.load(id, { priority: "background" })));
-  for (const [index, result] of results.entries()) {
-    if (result.status === "rejected") {
-      errors.push({
-        atMs: atMs(),
-        source: "assets",
-        message: `Failed to load "${ordered[index]}": ${describeError(result.reason)}`,
-      });
-    }
   }
 }
 

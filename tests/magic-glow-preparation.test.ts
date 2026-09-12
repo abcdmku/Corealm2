@@ -54,6 +54,26 @@ function harness() {
 }
 
 describe("magic glow preparation", () => {
+  it('skips non-occluding effects while preserving their children, shared materials and layers on failure', () => {
+    const h = harness(), smoke = new THREE.Mesh(new THREE.BoxGeometry(), new THREE.MeshBasicMaterial({ depthWrite: false }));
+    smoke.layers.enable(4);
+    const child = new THREE.Mesh(smoke.geometry, new THREE.MeshBasicMaterial()); smoke.add(child); h.scene.add(smoke);
+    const mask = smoke.layers.mask, original = h.renderer.render;
+    h.renderer.render = function(scene, camera) {
+      if (scene === h.scene) {
+        expect(smoke.layers.mask).toBe(0); expect(smoke.visible).toBe(true);
+        expect(smoke.material.visible).toBe(true); expect(smoke.material.colorWrite).toBe(true);
+        expect(child.layers.test(camera.layers)).toBe(true); expect(child.material.colorWrite).toBe(false);
+      }
+      return original.call(this, scene, camera);
+    };
+    try {
+      h.glow.prepare(h.renderer, h.scene, h.camera); expect(smoke.layers.mask).toBe(mask);
+      h.fail(); expect(() => h.glow.prepare(h.renderer, h.scene, h.camera)).toThrow('driver draw failed');
+      expect(smoke.layers.mask).toBe(mask); expect(child.material.colorWrite).toBe(true);
+    } finally { smoke.geometry.dispose(); smoke.material.dispose(); child.material.dispose(); h.dispose(); }
+  });
+
   it("runs the real empty-selection pipeline and reuses its buffers and bloom passes for the first effect", () => {
     const h = harness();
     let unregister: (() => void) | undefined;

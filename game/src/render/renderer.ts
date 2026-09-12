@@ -10,11 +10,11 @@ import * as THREE from "three";
 import { CAMERA, RENDER_BUDGET } from "../app/config.js";
 import { GpuTimer } from "./gpuTimer.js";
 import { ScreenAntialiasing } from "./screenAntialiasing.js";
-import { MagicGlow } from "./magicGlow.js";
+import { MagicGlow, writesGlowOcclusion } from "./magicGlow.js";
 import { ElementalRefraction } from "./elementalRefraction.js";
 import { TransmissionOcclusion, type TransmissionOpaqueOccluder } from "./transmissionOcclusion.js";
 import { StreamedShaderWarmup } from "./streamedShaderWarmup.js";
-import { compileShadowMeshes } from "./shaderPreparation.js";
+import { compileShadowMeshes, shaderGeometryKey } from "./shaderPreparation.js";
 
 export interface RenderStats {
   fps: number;
@@ -583,33 +583,72 @@ export class Renderer {
 
   /** Refraction redraws opaque objects into a linear target with tone mapping disabled. */
   private compileColourPasses(): void {
-    this.renderer.compile(this.scene, this.camera);
+    // Three's compile traverses invisible descendants too. A whole-scene call also prepares
+    // navigation carves, the closed dungeon and dormant pools in the outdoor light setup.
+    // Keep every resident visible object, including off-camera casters, for normal camera turns.
+    const objects: THREE.Object3D[] = [];
+    const seen = new Set<string>();
+    this.scene.traverseVisible(object => {
+      const drawable = object as THREE.Mesh & THREE.Points & THREE.Line & THREE.Sprite;
+      if (drawable.isMesh) {
+        const key = `${shaderGeometryKey(drawable)}:${(Array.isArray(drawable.material) ? drawable.material : [drawable.material])
+          .map(material => material.uuid).join(",")}:${drawable.castShadow}:${drawable.customDepthMaterial?.uuid ?? "depth"}`;
+        if (seen.has(key)) return;
+        seen.add(key);
+      }
+      if (drawable.isMesh || drawable.isPoints || drawable.isLine || drawable.isSprite) objects.push(object);
+    });
+    const view = new THREE.Group();
+    view.traverse = callback => { callback(view); for (const object of objects) callback(object); };
+    this.renderer.compile(view, this.camera, this.scene);
     const previous = this.renderer.getRenderTarget();
     const target = new THREE.WebGLRenderTarget(1, 1);
     try {
       this.renderer.setRenderTarget(target);
-      this.renderer.compile(this.scene, this.camera);
+      this.renderer.compile(view, this.camera, this.scene);
+      if (this.renderer.shadowMap?.enabled) {
+        const meshes = objects.filter(object => (object as THREE.Mesh).isMesh && object.castShadow) as THREE.Mesh[];
+        const fallbackDepth = new THREE.MeshDepthMaterial();
+        const materials = new Map<THREE.Material, THREE.Material>();
+        const copy = (source: THREE.Material): THREE.Material => {
+          const cached = materials.get(source);
+          if (cached) return cached;
+          const clone = source.clone();
+          clone.defines = { ...source.defines };
+          clone.onBeforeCompile = source.onBeforeCompile.bind(source);
+          clone.customProgramCacheKey = source.customProgramCacheKey.bind(source);
+          materials.set(source, clone);
+          this.warmupMaterials.push(clone);
+          return clone;
+        };
+        try { compileShadowMeshes(this.renderer, this.scene, this.camera, meshes, copy, fallbackDepth); }
+        finally { fallbackDepth.dispose(); }
+      }
     } finally {
       this.renderer.setRenderTarget(previous);
       target.dispose();
     }
   }
 
-  /** Prepare the actual hidden effect pools and HDR compositor before a timed cast can begin. */
-  async prepareEffects(root: THREE.Object3D): Promise<void> {
+  /** Submit hidden effect programs early so the GPU can compile while world construction runs. */
+  compileEffects(root: THREE.Object3D): void {
     const meshes: THREE.Mesh[] = [];
     root.traverse(object => { if ((object as THREE.Mesh).isMesh) meshes.push(object as THREE.Mesh); });
     // Compile-only traversal keeps real geometry, instancing, parents and scene light counts.
     const view = new THREE.Group();
-    view.traverse = callback => { callback(view); for (const mesh of meshes) callback(mesh); };
+    let passMeshes = meshes;
+    view.traverse = callback => { callback(view); for (const mesh of passMeshes) callback(mesh); };
     const previous = this.renderer.getRenderTarget();
     const cubeFace = this.renderer.getActiveCubeFace();
     const mipmapLevel = this.renderer.getActiveMipmapLevel();
     const target = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType });
     try {
       this.renderer.setRenderTarget(null);
+      passMeshes = meshes.filter(mesh => !mesh.userData['magicGlowOnly']);
       this.renderer.compile(view, this.camera, this.scene);
       this.renderer.setRenderTarget(target);
+      passMeshes = meshes.filter(mesh => mesh.layers.test(this.camera.layers)
+        && (mesh.userData['magicGlow'] || writesGlowOcclusion(mesh.material)));
       this.renderer.compile(view, this.camera, this.scene);
       if (meshes.some(mesh => mesh.castShadow)) {
         const fallbackDepth = new THREE.MeshDepthMaterial();
@@ -632,6 +671,11 @@ export class Renderer {
       this.renderer.setRenderTarget(previous, cubeFace, mipmapLevel);
       target.dispose();
     }
+  }
+
+  /** Prepare the actual hidden effect pools and HDR compositor before a timed cast can begin. */
+  async prepareEffects(root: THREE.Object3D): Promise<void> {
+    this.compileEffects(root);
     const gl = this.renderer.getContext();
     const extension = gl.getExtension('KHR_parallel_shader_compile');
     for (const program of this.renderer.info.programs ?? []) {
@@ -639,8 +683,15 @@ export class Renderer {
       while (extension && !gl.getProgramParameter(program.program as WebGLProgram, extension.COMPLETION_STATUS_KHR)) {
         await new Promise<void>(resolve => setTimeout(resolve, 8));
       }
-      program.getUniforms();
-      program.getAttributes();
+      if (!gl.getProgramParameter(program.program as WebGLProgram, gl.LINK_STATUS)) {
+        throw new Error(`Unable to prepare game graphics: ${gl.getProgramInfoLog(program.program as WebGLProgram)}`);
+      }
+      // Link status already validates this program. Avoid three synchronous driver-log queries
+      // for every successful shader, while retaining normal diagnostics for later programs.
+      const checkErrors = this.renderer.debug.checkShaderErrors;
+      this.renderer.debug.checkShaderErrors = false;
+      try { program.getUniforms(); program.getAttributes(); }
+      finally { this.renderer.debug.checkShaderErrors = checkErrors; }
     }
     this.camera.updateMatrixWorld();
     this.prepareScene?.(this.camera);

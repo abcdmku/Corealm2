@@ -1,5 +1,8 @@
 import * as THREE from "three";
 import { describe, expect, it } from "vitest";
+import { createHash } from "node:crypto";
+import { MemoryGenerationCache } from "./support/generation-cache.js";
+import { buildWorldTerrainSpec } from "../game/src/app/worldSpec.js";
 import {
   WorldScene,
   type GroundStamps,
@@ -48,6 +51,57 @@ function buildPreparedScene(): WorldScene {
 }
 
 describe("prepared world startup", () => {
+  it("restores identical terrain, coast, physics and road buffers and rejects stale or malformed records", async () => {
+    const cache = new MemoryGenerationCache();
+    const spec: WorldTerrainSpec = { ...SMALL_WORLD, coast: { ...buildWorldTerrainSpec().coast!,
+      collar: 16, shoreline: [8, 12], gridStep: 2, oceanSize: 100 } };
+    const prepare = (scene: WorldScene) => scene.setGroundStamps(STAMPS);
+    const digest = (scene: WorldScene) => {
+      const hash = createHash("sha256");
+      scene.root.traverse(object => {
+        if (!(object instanceof THREE.Mesh)) return;
+        hash.update(object.name);
+        for (const [name, attribute] of Object.entries((object.geometry as THREE.BufferGeometry).attributes)) {
+          hash.update(name); hash.update(new Uint8Array(attribute.array.buffer, attribute.array.byteOffset, attribute.array.byteLength));
+        }
+        const index = object.geometry.index?.array;
+        if (index) hash.update(new Uint8Array(index.buffer, index.byteOffset, index.byteLength));
+      });
+      return hash.digest("hex");
+    };
+    const cold = new WorldScene(new THREE.Scene()), warm = new WorldScene(new THREE.Scene());
+    await cold.buildWorldCached(cache, "fixture", spec, prepare);
+    await warm.buildWorldCached(cache, "fixture", spec, prepare);
+    expect(cache.hits).toBe(1);
+    expect(digest(warm)).toBe(digest(cold));
+    expect(warm.getRoadPolylines()).toEqual(cold.getRoadPolylines());
+    expect(warm.heightfieldSamples()).toEqual(cold.heightfieldSamples());
+    for (let x = -18; x < 18; x += 3.1) for (let z = -18; z < 18; z += 2.9) {
+      expect(warm.sampleWorld(x, z)).toEqual(cold.sampleWorld(x, z));
+    }
+    const changed = new WorldScene(new THREE.Scene());
+    await changed.buildWorldCached(cache, "fixture", { ...spec, regions: [{ ...spec.regions[0]!, seed: 22 }] }, prepare);
+    expect(cache.hits).toBe(1);
+    expect(digest(changed)).not.toBe(digest(cold));
+    cache.entries.set("terrain/fixture", { input: "bad record" });
+    const recovered = new WorldScene(new THREE.Scene());
+    await recovered.buildWorldCached(cache, "fixture", spec, prepare);
+    expect(digest(recovered)).toBe(digest(cold));
+    for (const scene of [cold, warm, changed, recovered]) scene.dispose();
+  });
+
+  it("uses the same built surface for placement without evaluating biome diagnostics", () => {
+    const scene = buildPreparedScene();
+    for (let x = -5; x <= 5; x += 0.5) for (let z = -5; z <= 5; z += 0.5) {
+      const sample = scene.sampleWorld(x, z);
+      const placed = scene.placementSurfaceAt(x, z);
+      expect(placed !== null).toBe(sample.playable);
+      if (placed) expect(placed).toEqual({ height: sample.height, slope: sample.slope,
+        semanticRegion: sample.semanticRegion, waterBodyId: sample.waterBodyId });
+    }
+    scene.clear();
+  });
+
   it("establishes stamps before building and shading each chunk once", () => {
     const scene = buildPreparedScene();
 

@@ -32,6 +32,12 @@ describe('drawn terrain contact', () => {
     expect(scene.meshHeightAt(48, -290)).toBeLessThan(15);
     expect(scene.meshHeightAt(210, 268)).toBeLessThan(25);
     expect(scene.meshHeightAt(194, -132)).toBeGreaterThan(40);
+    for (let x = -450; x <= 450; x += 37) for (let z = -320; z <= 560; z += 41) {
+      const sample = scene.sampleWorld(x, z), placement = scene.placementSurfaceAt(x, z);
+      expect(placement !== null).toBe(sample.playable);
+      if (placement) expect(placement).toEqual({ height: sample.height, slope: sample.slope,
+        semanticRegion: sample.semanticRegion, waterBodyId: sample.waterBodyId });
+    }
     for (const mesh of meshes) mesh.updateMatrixWorld(true);
     const ray = new THREE.Raycaster();
     for (let x=-340.3; x<350; x+=31.7) for(let z=-190.7; z<460; z+=29.3) {

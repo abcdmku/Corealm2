@@ -3,6 +3,10 @@ import { FullScreenQuad } from "three/addons/postprocessing/Pass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 
 const roots = new Set<THREE.Object3D>();
+/** Unselected colour is masked, so only depth or stencil writes can affect the glow pass. */
+export function writesGlowOcclusion(material: THREE.Material | THREE.Material[]): boolean {
+  return (Array.isArray(material) ? material : [material]).some(mat => mat.visible && (mat.depthWrite || mat.stencilWrite));
+}
 export function registerMagicGlow(root: THREE.Object3D): () => void {
   roots.add(root);
   return () => roots.delete(root);
@@ -160,6 +164,7 @@ export class MagicGlow {
       clearAlpha = renderer.getClearAlpha();
     renderer.getClearColor(this.clearColour);
     const muted = new Map<THREE.Material, boolean>();
+    const skipped = new Map<THREE.Object3D, number>();
     const emissionUniforms = new Map<{ value: number }, number>();
     for (const object of selected) {
       const material = (object as THREE.Mesh).material;
@@ -178,6 +183,11 @@ export class MagicGlow {
       if (selected.has(object)) return;
       const material = (object as THREE.Mesh).material;
       if (!material) return;
+      if (!writesGlowOcclusion(material)) {
+        // Skip this draw without hiding children or changing shared materials.
+        skipped.set(object, object.layers.mask); object.layers.mask = 0;
+        return;
+      }
       for (const mat of Array.isArray(material) ? material : [material])
         if (!muted.has(mat)) {
           muted.set(mat, mat.colorWrite);
@@ -204,6 +214,7 @@ export class MagicGlow {
       for (const [uniform, value] of emissionUniforms) uniform.value = value;
       for (const [material, colorWrite] of muted)
         material.colorWrite = colorWrite;
+      for (const [object, mask] of skipped) object.layers.mask = mask;
       scene.background = background;
       renderer.setClearColor(this.clearColour, clearAlpha);
       renderer.shadowMap.autoUpdate = shadowAuto;

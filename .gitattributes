@@ -7,3 +7,7 @@ tools/build-creature-expansion.ts text eol=lf
 tools/build-ground-ores.ts text eol=lf
 tools/build-*-shortcuts.ts text eol=lf
 tools/build-shortcut-*.ts text eol=lf
+tools/wilderness-trees/build.ts text eol=lf
+tools/wilderness-resources/build.ts text eol=lf
+tools/wilderness-creatures/keepers/hollow-star.mjs text eol=lf
+tools/item-models/build.ts text eol=lf

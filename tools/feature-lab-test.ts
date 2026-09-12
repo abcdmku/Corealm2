@@ -20,6 +20,7 @@ import {
   type ItemId,
 } from "../game/src/contracts.js";
 import { SPELLS } from "../game/src/content/spells.js";
+import { gearAppearanceParts } from "../game/src/render/equipmentVisuals.js";
 import { UNREACHABLE_DESTINATION_MESSAGE } from "../game/src/api/gameApi.js";
 import { RELEASED_MAGIC_ELEMENTS } from "../game/src/systems/essence.js";
 import { installTestDeadline } from "./lib/deadline.js";
@@ -775,7 +776,7 @@ async function testCombat(
   const magicArmour = await equipArmourSet(targetPage, MAGIC_ARMOUR_SET);
   remember(magicArmour);
   equipment.push(...MAGIC_ARMOUR_SET.map(([slot, itemId]) => ({ slot, itemId })));
-  await waitForPlayerPart(targetPage, "outfit_male_ranger_chest");
+  for (const part of gearAppearanceParts("marchhide_robe")) await waitForPlayerPart(targetPage, part.assetId);
   const spell = [...catalog.spells].reverse().find((preset) => {
     const definition = SPELLS.find((candidate) => candidate.id === preset.id);
     return definition !== undefined && RELEASED_MAGIC_ELEMENTS.includes(definition.cost.element);

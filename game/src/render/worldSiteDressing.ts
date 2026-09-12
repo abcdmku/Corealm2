@@ -1,7 +1,7 @@
 import type * as THREE from "three";
 import type { SolidVolume, Vec3 } from "../contracts.js";
 import { worldSitePoint, type WorldSite } from "../content/worldSites.js";
-import type { AssetRegistry } from "./assets.js";
+import type { AssetLoadOptions, AssetRegistry } from "./assets.js";
 import type { ScatterPlacement, WorldScene } from "./scene.js";
 
 export interface ResolvedWorldSiteDressing {
@@ -24,28 +24,21 @@ export interface WorldSiteDressingResult {
 }
 
 /**
- * Draws a site's authored setting through the production instancing/material path. Resource actors
- * are built separately from resourceSlots. Callers install the measured collision volumes
- * through the normal world path; low spoil and groundcover remain walkable.
+ * Resolves authored placement and measured collision without fetching visual models.
+ * Resource actors are built separately from resourceSlots; low spoil and groundcover stay walkable.
  */
-export async function buildWorldSiteDressing(
+export function resolveWorldSiteDressing(
   scene: WorldScene,
   assets: AssetRegistry,
   site: WorldSite,
-): Promise<WorldSiteDressingResult> {
+): WorldSiteDressingResult {
   const assetIds = [...new Set(site.dressing.map((piece) => piece.assetId))];
-  // Resolve every dependency before changing the live scene. A missing model is an authoring error,
-  // not permission to leave half a mine around the resource nodes.
-  const sources = await Promise.all(assetIds.map(async (assetId) => {
+  for (const assetId of assetIds) {
     const size = assets.assetSize(assetId);
-    if (!size || !Object.values(size).every((value) => Number.isFinite(value) && value > 0)) {
+    if (!size || !Object.values(size).every(value => Number.isFinite(value) && value > 0))
       throw new Error(`World site ${site.id} has no measured model for ${assetId}`);
-    }
-    return assets.load(assetId, { priority: "visible-spawn", primary: true });
-  }));
-
+  }
   const placements: ResolvedWorldSiteDressing[] = [];
-  const buckets = new Map<string, ScatterPlacement[]>();
   for (const piece of site.dressing) {
     const size = assets.assetSize(piece.assetId)!;
     const sx = typeof piece.scale === "number" ? piece.scale : piece.scale[0];
@@ -84,9 +77,6 @@ export async function buildWorldSiteDressing(
       ? piece.scale
       : [piece.scale[0], piece.scale[1], piece.scale[2]];
     const placement: ScatterPlacement = { position, rotationY, scale };
-    const bucket = buckets.get(piece.assetId) ?? [];
-    bucket.push(placement);
-    buckets.set(piece.assetId, bucket);
     placements.push({
       id: `${site.id}:${piece.id}`,
       assetId: piece.assetId,
@@ -96,21 +86,6 @@ export async function buildWorldSiteDressing(
     });
   }
 
-  const objects: THREE.Object3D[] = [];
-  for (const [index, assetId] of assetIds.entries()) {
-    const created = scene.scatterInstanced(
-      sources[index]!,
-      buckets.get(assetId)!,
-      `world-site-${site.id}-${assetId}`,
-      { regionId: site.regionId, castShadow: true, windStrength: /^corealm_(fern|shrub|flower)_/.test(assetId) ? 0.035 : 0 },
-    );
-    const pieceIds = placements.filter((placement) => placement.assetId === assetId).map((placement) => placement.id);
-    for (const object of created) {
-      object.userData.worldSiteId = site.id;
-      object.userData.worldSiteDressingIds = pieceIds;
-    }
-    objects.push(...created);
-  }
   const solids: SolidVolume[] = placements
     .filter((piece) => /^corealm_(rock|cliff)_|^(crate|workbench|barrel)/.test(piece.assetId))
     .map((piece) => ({
@@ -122,5 +97,36 @@ export async function buildWorldSiteDressing(
       ],
       size: piece.size, rotationY: piece.rotationY,
     }));
-  return { objects, placed: placements.length, assetIds, placements, solids };
+  return { objects: [], placed: placements.length, assetIds, placements, solids };
+}
+
+/** Await every dependency before drawing a complete setting through production instancing. */
+export async function drawWorldSiteDressing(
+  scene: WorldScene, assets: AssetRegistry, site: WorldSite, resolved: WorldSiteDressingResult,
+  options: AssetLoadOptions = { priority: "visible-spawn", primary: true },
+): Promise<WorldSiteDressingResult> {
+  const { placements, assetIds } = resolved;
+  const sources = await Promise.all(assetIds.map(id => assets.load(id, options)));
+  const objects: THREE.Object3D[] = [];
+  for (const [index, assetId] of assetIds.entries()) {
+    const created = scene.scatterInstanced(
+      sources[index]!,
+      placements.filter(piece => piece.assetId === assetId).map(({ position, rotationY, scale }) => ({ position, rotationY, scale })),
+      `world-site-${site.id}-${assetId}`,
+      { regionId: site.regionId, castShadow: true, windStrength: /^corealm_(fern|shrub|flower)_/.test(assetId) ? 0.035 : 0 },
+    );
+    const pieceIds = placements.filter((placement) => placement.assetId === assetId).map((placement) => placement.id);
+    for (const object of created) {
+      object.userData.worldSiteId = site.id;
+      object.userData.worldSiteDressingIds = pieceIds;
+    }
+    objects.push(...created);
+  }
+  return { ...resolved, objects };
+}
+
+export async function buildWorldSiteDressing(
+  scene: WorldScene, assets: AssetRegistry, site: WorldSite,
+): Promise<WorldSiteDressingResult> {
+  return drawWorldSiteDressing(scene, assets, site, resolveWorldSiteDressing(scene, assets, site));
 }

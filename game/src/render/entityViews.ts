@@ -1803,9 +1803,9 @@ export class EntityViews {
    * entities on the next pass — but calling it means characters are rigged on their very first
    * frame instead of a quarter of a second later.
    */
-  async prepare(entities: readonly SemanticEntity[]): Promise<{ loaded: number; missing: string[] }> {
+  async prepare(entities: readonly SemanticEntity[], options: AssetLoadOptions = { priority: "visible-spawn", primary: true }): Promise<{ loaded: number; missing: string[] }> {
     const ids = this.assetIdsFor(entities);
-    await this.hydrateAssets(ids, true, { priority: "visible-spawn", primary: true });
+    await this.hydrateAssets(ids, true, options);
     return {
       loaded: ids.filter((id) => this.sources.has(id) || this.assets.isLoaded(id)).length,
       missing: ids.filter((id) => this.missing.has(id) || this.failedSources.has(id)),
@@ -3302,7 +3302,10 @@ export class EntityViews {
       this.failedSources.delete(id);
       return null;
     }
-    if (this.sourceRequests.has(id)) return null;
+    if (this.sourceRequests.has(id)) {
+      if (options.priority) this.assets.prioritize?.(id, options);
+      return null;
+    }
 
     const previousFailure = this.failedSources.get(id);
     if (!forceRetry && previousFailure && Date.now() < previousFailure.retryAtMs) return null;

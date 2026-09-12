@@ -295,32 +295,55 @@ export interface LavaSample {
   readonly centre: readonly [number, number];
 }
 
+// Consecutive blocks preserve tie order while rejecting distant segments.
+const segmentBlocks = new WeakMap<LavaChannel, { sections: readonly LavaSection[]; blocks: {
+  start: number; end: number; minX: number; maxX: number; minZ: number; maxZ: number; width: number;
+}[] }>();
+
 export function sampleLavaChannel(channel: LavaChannel, x: number, z: number): LavaSample {
-  const sections = cachedSections(channel);
+  let cached = segmentBlocks.get(channel);
+  if (!cached) {
+    const sections = cachedSections(channel), blocks = [];
+    for (let start = 1; start < sections.length; start += 12) {
+      const end = Math.min(start + 12, sections.length), rows = sections.slice(start - 1, end);
+      blocks.push({ start, end, minX: Math.min(...rows.map(row => row.x)), maxX: Math.max(...rows.map(row => row.x)),
+        minZ: Math.min(...rows.map(row => row.z)), maxZ: Math.max(...rows.map(row => row.z)),
+        width: Math.max(...rows.flatMap(row => [row.leftHalfWidth, row.rightHalfWidth])) });
+    }
+    cached = { sections, blocks }; segmentBlocks.set(channel, cached);
+  }
+  const { sections, blocks } = cached;
   let closest = Infinity;
   let nearestCentre = Infinity, centreProgress = 0;
-  let result: LavaSample | undefined;
-  for (let i = 1; i < sections.length; i++) {
-    const a = sections[i - 1]!;
-    const b = sections[i]!;
-    const dx = b.x - a.x;
-    const dz = b.z - a.z;
-    const t = clamp01(((x - a.x) * dx + (z - a.z) * dz) / (dx * dx + dz * dz || 1));
-    const cx = a.x + dx * t;
-    const cz = a.z + dz * t;
-    const distance = Math.hypot(x - cx, z - cz);
-    const progress = a.progress + (b.progress - a.progress) * t;
-    if (distance < nearestCentre) { nearestCentre = distance; centreProgress = progress; }
-    const side = (x - cx) * -dz + (z - cz) * dx < 0 ? -1 : 1;
-    const aw = side < 0 ? a.leftHalfWidth : a.rightHalfWidth;
-    const bw = side < 0 ? b.leftHalfWidth : b.rightHalfWidth;
-    const halfWidth = aw + (bw - aw) * t;
-    if (distance - halfWidth >= closest) continue;
-    closest = distance - halfWidth;
-    result = { channelId: channel.id, distance, signedDistance: distance - halfWidth,
-      halfWidth, bankWidth: lavaBankWidthAt(channel, progress, side), progress, centreProgress: 0, centreDistance: 0, centre: [cx, cz] };
+  let winningDistance = 0, winningWidth = 0, winningProgress = 0, winningSide = 0, winningX = 0, winningZ = 0;
+  for (const block of blocks) {
+    const lower = Math.hypot(Math.max(block.minX - x, 0, x - block.maxX), Math.max(block.minZ - z, 0, z - block.maxZ));
+    // Guard rounding at the bound; retain the original segment arithmetic below.
+    if (lower > nearestCentre + 1e-10 && lower - block.width > closest + 1e-10) continue;
+    for (let i = block.start; i < block.end; i++) {
+      const a = sections[i - 1]!;
+      const b = sections[i]!;
+      const dx = b.x - a.x;
+      const dz = b.z - a.z;
+      const t = clamp01(((x - a.x) * dx + (z - a.z) * dz) / (dx * dx + dz * dz || 1));
+      const cx = a.x + dx * t;
+      const cz = a.z + dz * t;
+      const distance = Math.hypot(x - cx, z - cz);
+      const progress = a.progress + (b.progress - a.progress) * t;
+      if (distance < nearestCentre) { nearestCentre = distance; centreProgress = progress; }
+      const side = (x - cx) * -dz + (z - cz) * dx < 0 ? -1 : 1;
+      const aw = side < 0 ? a.leftHalfWidth : a.rightHalfWidth;
+      const bw = side < 0 ? b.leftHalfWidth : b.rightHalfWidth;
+      const halfWidth = aw + (bw - aw) * t;
+      if (distance - halfWidth >= closest) continue;
+      closest = distance - halfWidth;
+      winningDistance = distance; winningWidth = halfWidth; winningProgress = progress;
+      winningSide = side; winningX = cx; winningZ = cz;
+    }
   }
-  return { ...result!, centreProgress, centreDistance: nearestCentre };
+  return { channelId: channel.id, distance: winningDistance, signedDistance: closest, halfWidth: winningWidth,
+    bankWidth: lavaBankWidthAt(channel, winningProgress, winningSide), progress: winningProgress,
+    centreProgress, centreDistance: nearestCentre, centre: [winningX, winningZ] };
 }
 
 /** Apply to the shared terrain sampler before its lattice is built, never only to a render mesh. */

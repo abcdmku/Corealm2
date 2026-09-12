@@ -117,6 +117,17 @@ export async function writeNavmeshSourceFingerprint(authored: NavigationAuthored
   await writeFile(generatedSourceFile, source, "utf8");
 }
 
+export async function assertNavigationArtifact(): Promise<void> {
+  const manifest = JSON.parse(await readFile(manifestFile, 'utf8'));
+  const bytes = await readFile(binaryFile);
+  const artifact = await decodeNavigationArtifact(bytes);
+  if (JSON.stringify(manifest.authoredInputs) !== JSON.stringify(await fingerprintNavmeshSources())
+    || manifest.worldSeed !== '1337' || bytes.length !== manifest.bytes
+    || artifact.metadata.fingerprint !== manifest.fingerprint || artifact.metadata.polyCount <= 0) {
+    throw new Error('Shipped navigation is stale or incomplete');
+  }
+}
+
 export async function buildNavmeshArtifact(): Promise<{
   bytes: number;
   fingerprint: string;

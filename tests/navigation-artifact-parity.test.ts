@@ -3,6 +3,7 @@ import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import type { Vec3 } from "../game/src/contracts.js";
 import { NAVMESH_AUTHORING_INPUTS } from "../game/src/generated/navmeshFingerprint.js";
 import { Navigation } from "../game/src/systems/navigation.js";
+import { fingerprintNavigationGeometry, navigationMeshPositions } from "../game/src/systems/navigationArtifact.js";
 
 const WORLD_SEED = 1337;
 const START: Vec3 = [-8, 3, -6];
@@ -88,6 +89,32 @@ afterAll(() => {
 });
 
 describe("prebaked navigation artifact", () => {
+  it('keeps runtime baking disabled when a release artifact cannot be loaded', async () => {
+    const navigation = new Navigation(), build = vi.spyOn(navigation, 'build');
+    expect(await navigation.buildOrImport(sourceMeshes, { worldSeed: WORLD_SEED,
+      allowRuntimeGeneration: false, loadArtifact: async () => { throw new Error('download failed'); } })).toBe(false);
+    expect(build).not.toHaveBeenCalled();
+    expect(navigation.getDiagnostics().status).toBe('failed');
+    expect(navigation.getDiagnostics().artifact.status).toBe('unavailable');
+  });
+  it("fingerprints the float32 world vertices consumed by navigation across arithmetic roundoff", async () => {
+    const first = makeWalkable(mesh => { mesh.position.y = 9.237229276868435; });
+    const second = makeWalkable(mesh => { mesh.position.y = 9.237229276868437; });
+    try {
+      expect(first[0]!.matrixWorld.elements).not.toEqual(second[0]!.matrixWorld.elements);
+      expect(navigationMeshPositions(first[0]!)).toEqual(navigationMeshPositions(second[0]!));
+      expect(await fingerprintNavigationGeometry(first)).toEqual(await fingerprintNavigationGeometry(second));
+      second[0]!.position.y += .0001;
+      expect(await fingerprintNavigationGeometry(first)).not.toEqual(await fingerprintNavigationGeometry(second));
+    } finally { disposeMeshes([...first, ...second]); }
+  });
+
+  it("rejects non-finite navigation vertices", () => {
+    const meshes = makeWalkable(mesh => { mesh.position.y = Infinity; });
+    try { expect(() => navigationMeshPositions(meshes[0]!)).toThrow(/non-finite/); }
+    finally { disposeMeshes(meshes); }
+  });
+
   it.each(["solo", "tiled"] as const)("%s keeps indexed and non-indexed floors connected under parent transforms", (strategy) => {
     const parent = new THREE.Group();
     parent.position.set(37, 4, -29);

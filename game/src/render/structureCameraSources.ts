@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { roofOwner, structureOwner } from "./roofVisibility.js";
 import type { SemanticEntity } from "../contracts.js";
-import type { AssetRegistry } from "./assets.js";
+import type { AssetLoadOptions, AssetRegistry } from "./assets.js";
 
 export interface StructureCameraSources {
   /** Detached owners; geometry and materials remain owned by the asset registry. */
@@ -28,9 +28,10 @@ function isStructurePart(entity: SemanticEntity): boolean {
 export async function buildStructureCameraSources(
   assets: Pick<AssetRegistry, "load" | "instance">,
   entities: readonly SemanticEntity[],
+  options: AssetLoadOptions = {},
 ): Promise<StructureCameraSources> {
   const targets = entities.filter(isStructurePart);
-  await Promise.all([...new Set(targets.map(entity => entity.view!.assetId))].map(id => assets.load(id)));
+  await Promise.all([...new Set(targets.map(entity => entity.view!.assetId))].map(id => assets.load(id, options)));
   const roots: THREE.Group[] = [], meshes: THREE.Mesh[] = [];
   for (const entity of targets) {
     const view = entity.view!;
@@ -67,4 +68,33 @@ export async function buildStructureCameraSources(
     roots.push(root);
   }
   return { roots, meshes };
+}
+
+/** Camera triangles follow the visual working set. Already installed sources remain reusable. */
+export class StructureCameraStreaming {
+  readonly sources: StructureCameraSources = { roots: [], meshes: [] };
+  private readonly ready = new Set<string>();
+  private queue: Promise<void> = Promise.resolve();
+  constructor(private readonly assets: AssetRegistry, private readonly install: (sources: StructureCameraSources) => void) {}
+
+  prepare(entities: readonly SemanticEntity[], options: AssetLoadOptions): Promise<void> {
+    const targets = entities.filter(isStructurePart);
+    // Queue the downloads immediately; serialize only registration to avoid duplicate camera rows.
+    const downloaded = Promise.all([...new Set(targets.map(entity => entity.view!.assetId))]
+      .map(id => this.assets.load(id, options)));
+    void downloaded.catch(() => {});
+    return downloaded.then(() => {
+      const work = this.queue.then(async () => {
+        const missing = targets.filter(entity => !this.ready.has(entity.id));
+        if (!missing.length) return;
+        const sources = await buildStructureCameraSources(this.assets, missing, options);
+        this.install(sources);
+        this.sources.roots.push(...sources.roots);
+        this.sources.meshes.push(...sources.meshes);
+        for (const entity of missing) this.ready.add(entity.id);
+      });
+      this.queue = work.catch(() => {});
+      return work;
+    });
+  }
 }

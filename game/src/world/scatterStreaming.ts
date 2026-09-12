@@ -1,3 +1,4 @@
+import type { GenerationCachePort } from "./generationCache.js";
 import type { RegionId } from "../contracts.js";
 import { yieldToMainThread } from "../core/yield.js";
 import type { AssetPriority, AssetRegistry } from "../render/assets.js";
@@ -24,6 +25,7 @@ export interface ScatterResidency {
 }
 
 export interface ScatterStreamingOptions {
+  cache?: GenerationCachePort;
   specs?: Partial<Record<RegionId, RegionScatterSpec>>;
   /** Spawn tile plus this many rows and columns. Defaults to one near ring. */
   nearRing?: number;
@@ -56,7 +58,7 @@ export class ScatterStreamingController {
     private readonly scene: WorldScene,
     private readonly assets: AssetRegistry,
     private readonly seed: number,
-    options: ScatterStreamingOptions = {},
+    private readonly options: ScatterStreamingOptions = {},
   ) {
     this.specs = options.specs ?? DEFAULT_SCATTER;
     this.nearRing = Math.max(0, Math.floor(options.nearRing ?? 1));
@@ -96,6 +98,14 @@ export class ScatterStreamingController {
     ));
     await this.ensureTilesWithPriority(wanted, "visible-spawn", true);
     return this.getStats();
+  }
+
+  /** Finish the visible circle before reveal, including tiles across generation-grid edges. */
+  async loadView(x: number, z: number, radius: number): Promise<ScatterResult[]> {
+    if (!Number.isFinite(radius) || radius < 0) throw new Error("Scatter radius must be finite and nonnegative");
+    this.setActivePosition(x, z);
+    const wanted = this.tiles.filter(tile => this.intersectsCircle(tile, x, z, radius));
+    return this.ensureTilesWithPriority(wanted, "visible-spawn", true);
   }
 
   /** Idempotently loads explicit tiles. Duplicate and concurrent requests share one promise. */
@@ -191,9 +201,13 @@ export class ScatterStreamingController {
 
   private isWanted(tile: ScatterTile): boolean {
     if (this.wantedRadius < 0) return false;
-    const dx = Math.max(tile.bounds.minX - this.activeX, 0, this.activeX - tile.bounds.maxX);
-    const dz = Math.max(tile.bounds.minZ - this.activeZ, 0, this.activeZ - tile.bounds.maxZ);
-    return dx * dx + dz * dz <= this.wantedRadius * this.wantedRadius;
+    return this.intersectsCircle(tile, this.activeX, this.activeZ, this.wantedRadius);
+  }
+
+  private intersectsCircle(tile: ScatterTile, x: number, z: number, radius: number): boolean {
+    const dx = Math.max(tile.bounds.minX - x, 0, x - tile.bounds.maxX);
+    const dz = Math.max(tile.bounds.minZ - z, 0, z - tile.bounds.maxZ);
+    return dx * dx + dz * dz <= radius * radius;
   }
 
   private async ensureTile(tile: ScatterTile, priority: AssetPriority, primary: boolean): Promise<void> {
@@ -215,6 +229,7 @@ export class ScatterStreamingController {
         regionId: priority === "visible-spawn" ? undefined : this.semanticRegionForTile(tile),
         yieldToMain: primary ? this.yieldToMain : this.yieldBackground,
         onTree: this.onTree,
+        cache: this.options.cache,
       },
     )
       .then((results) => {

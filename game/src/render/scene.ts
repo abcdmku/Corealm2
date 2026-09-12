@@ -1,3 +1,5 @@
+import type { GenerationCachePort } from "../world/generationCache.js";
+import { captureGeometry, restoreGeometry, validTerrainCache, type TerrainCacheData } from "./terrainCache.js";
 /**
  * Scene composition: the walkable world surface, roads, water, scatter hosting, and the player view.
  *
@@ -529,6 +531,8 @@ export class WorldScene {
   /** Coastal terrain shared by rendering, physics, navigation, and placement. */
   private coastGrid: CoastHeightGrid | null = null;
   private chunks: ChunkRecord[] = [];
+  private terrainCacheRead: TerrainCacheData | null = null;
+  private terrainCacheWrite: TerrainCacheData | null = null;
   private roads: RoadSegment[] = [];
   private roadPolylines: Vec3[][] = [];
   private roadGrid = new Map<number, number[]>();
@@ -637,6 +641,24 @@ export class WorldScene {
     return created;
   }
 
+  /** Reuse generated buffers; recreate normal materials, meshes and water through production paths. */
+  async buildWorldCached(
+    cache: GenerationCachePort, key: string, spec: WorldTerrainSpec,
+    prepareSurface?: (scene: WorldScene) => void,
+  ): Promise<THREE.Mesh[]> {
+    const input = JSON.stringify({ spec, flats: this.flats, key });
+    this.terrainCacheRead = await cache.get(`terrain/${key}`, (value): value is TerrainCacheData => validTerrainCache(value, input));
+    this.terrainCacheWrite = this.terrainCacheRead ? null : { input, ranges: [], lattice: null, chunks: {}, coast: null };
+    try {
+      const meshes = await this.buildWorldYielding(spec, prepareSurface);
+      if (this.terrainCacheWrite) await cache.put(`terrain/${key}`, this.terrainCacheWrite);
+      return meshes;
+    } finally {
+      this.terrainCacheRead = null;
+      this.terrainCacheWrite = null;
+    }
+  }
+
   /** One canonical step list backs both the synchronous tools path and cooperative browser boot. */
   private worldBuildSteps(
     spec: WorldTerrainSpec,
@@ -686,10 +708,11 @@ export class WorldScene {
       this.fields = [];
     }];
 
-    for (const region of spec.regions) {
+    for (const [regionIndex, region] of spec.regions.entries()) {
       steps.push(() => {
         const height = makeRegionField(region);
-        const range = sweepFieldRange(visualLandBounds, height);
+        const range = this.terrainCacheRead?.ranges[regionIndex] ?? sweepFieldRange(visualLandBounds, height);
+        this.terrainCacheWrite?.ranges.push(range);
         this.fields.push({
           spec: region,
           height,
@@ -715,7 +738,14 @@ export class WorldScene {
         }));
       },
       () => this.resolveBasins(),
-      () => this.buildLattice(),
+      () => {
+        if (this.terrainCacheRead?.lattice) this.lattice = this.terrainCacheRead.lattice as HeightLattice;
+        else this.buildLattice();
+        // Surface preparation grades this array in place. Save the exact input to that step.
+        if (this.terrainCacheWrite && this.lattice) this.terrainCacheWrite.lattice = {
+          ...this.lattice, heights: this.lattice.heights.slice(),
+        };
+      },
       // Roads and paving need the resolved height field, while water needs the exact lattice to
       // solve its shoreline. No chunk has been shaded at this point.
       () => { prepareSurface?.(this); },
@@ -755,50 +785,56 @@ export class WorldScene {
     material: THREE.Material,
   ): THREE.Mesh {
     this.terrainBuildStats.chunkBuildCount += 1;
-    const geometry = new THREE.PlaneGeometry(sizeX, sizeZ, segmentsX, segmentsZ);
-    geometry.rotateX(-Math.PI / 2);
-
-    const position = geometry.getAttribute("position") as THREE.BufferAttribute;
-    const colours = new Float32Array(position.count * 3);
-    const normals = new Float32Array(position.count * 3);
-    // Eight surface weights as two normalised Uint8 vec4s, plus the road frame. 12 bytes/vertex,
-    // about 876 KB over the world's ~73k terrain vertices. See the splat block in materials.ts.
-    const splatA = new Uint8Array(position.count * 4);
-    const splatB = new Uint8Array(position.count * 4);
-    const extra = new Uint8Array(position.count * 4);
-    // One more byte per vertex: which of the three surfaces this is paved in. PAVING_SURFACE_CODE.
-    const paved = new Uint8Array(position.count);
     const centreX = originX + sizeX / 2;
     const centreZ = originZ + sizeZ / 2;
-    const surface: SurfaceSample = emptySurface();
+    const key = `${originX}:${originZ}:${segmentsX}:${segmentsZ}`;
+    const cached = this.terrainCacheRead?.chunks[key];
+    const geometry = cached ? restoreGeometry(cached) : new THREE.PlaneGeometry(sizeX, sizeZ, segmentsX, segmentsZ);
+    if (!cached) {
+      geometry.rotateX(-Math.PI / 2);
 
-    for (let i = 0; i < position.count; i += 1) {
-      const worldX = position.getX(i) + centreX;
-      const worldZ = position.getZ(i) + centreZ;
-      // The lattice IS the mesh: chunk vertices land exactly on lattice nodes, so reading the
-      // lattice here rather than re-evaluating the analytic field costs nothing in accuracy and
-      // makes the drawn surface and `meshHeightAt` identical by construction.
-      const height = this.sampleLattice(worldX, worldZ);
-      position.setY(i, height);
-      const normal = this.normalAt(worldX, worldZ);
-      normals[i * 3] = normal[0];
-      normals[i * 3 + 1] = normal[1];
-      normals[i * 3 + 2] = normal[2];
+      const position = geometry.getAttribute("position") as THREE.BufferAttribute;
+      const colours = new Float32Array(position.count * 3);
+      const normals = new Float32Array(position.count * 3);
+      // Eight surface weights as two normalised Uint8 vec4s, plus the road frame. 12 bytes/vertex,
+      // about 876 KB over the world's ~73k terrain vertices. See the splat block in materials.ts.
+      const splatA = new Uint8Array(position.count * 4);
+      const splatB = new Uint8Array(position.count * 4);
+      const extra = new Uint8Array(position.count * 4);
+      // One more byte per vertex: which of the three surfaces this is paved in. PAVING_SURFACE_CODE.
+      const paved = new Uint8Array(position.count);
+      const surface: SurfaceSample = emptySurface();
 
-      this.sampleSurface(worldX, worldZ, height, surface);
-      colours[i * 3] = surface.colour.r;
-      colours[i * 3 + 1] = surface.colour.g;
-      colours[i * 3 + 2] = surface.colour.b;
-      writeSplat(splatA, splatB, extra, paved, i, surface);
+      for (let i = 0; i < position.count; i += 1) {
+        const worldX = position.getX(i) + centreX;
+        const worldZ = position.getZ(i) + centreZ;
+        // The lattice IS the mesh: chunk vertices land exactly on lattice nodes, so reading the
+        // lattice here rather than re-evaluating the analytic field costs nothing in accuracy and
+        // makes the drawn surface and `meshHeightAt` identical by construction.
+        const height = this.sampleLattice(worldX, worldZ);
+        position.setY(i, height);
+        const normal = this.normalAt(worldX, worldZ);
+        normals[i * 3] = normal[0];
+        normals[i * 3 + 1] = normal[1];
+        normals[i * 3 + 2] = normal[2];
+
+        this.sampleSurface(worldX, worldZ, height, surface);
+        colours[i * 3] = surface.colour.r;
+        colours[i * 3 + 1] = surface.colour.g;
+        colours[i * 3 + 2] = surface.colour.b;
+        writeSplat(splatA, splatB, extra, paved, i, surface);
+      }
+      position.needsUpdate = true;
+      geometry.setAttribute("normal", new THREE.BufferAttribute(normals, 3));
+      geometry.setAttribute("color", new THREE.BufferAttribute(colours, 3));
+      geometry.setAttribute("aSplatA", new THREE.BufferAttribute(splatA, 4, true));
+      geometry.setAttribute("aSplatB", new THREE.BufferAttribute(splatB, 4, true));
+      geometry.setAttribute("aGround", new THREE.BufferAttribute(extra, 4, true));
+      geometry.setAttribute("aPaved", new THREE.BufferAttribute(paved, 1, true));
+      geometry.computeBoundingSphere();
+
+      if (this.terrainCacheWrite) this.terrainCacheWrite.chunks[key] = captureGeometry(geometry);
     }
-    position.needsUpdate = true;
-    geometry.setAttribute("normal", new THREE.BufferAttribute(normals, 3));
-    geometry.setAttribute("color", new THREE.BufferAttribute(colours, 3));
-    geometry.setAttribute("aSplatA", new THREE.BufferAttribute(splatA, 4, true));
-    geometry.setAttribute("aSplatB", new THREE.BufferAttribute(splatB, 4, true));
-    geometry.setAttribute("aGround", new THREE.BufferAttribute(extra, 4, true));
-    geometry.setAttribute("aPaved", new THREE.BufferAttribute(paved, 1, true));
-    geometry.computeBoundingSphere();
 
     const mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(centreX, 0, centreZ);
@@ -821,6 +857,12 @@ export class WorldScene {
     // coastline when boot went incremental — the committed world map still had one because it was
     // captured before that refactor, and nothing walks to the edge in any gate.
     const bounds = world.bounds;
+    const cached = this.terrainCacheRead?.coast;
+    if (cached) return [() => {
+      this.coastGrid = cached.grid as CoastHeightGrid;
+      this.materials.setOceanDepthGrid(this.coastGrid, spec.seaLevel);
+      this.attachCoast(restoreGeometry(cached.geometry), restoreGeometry(cached.dryGeometry), spec, bounds);
+    }];
     if (!bounds || spec.gridStep <= 0 || spec.oceanSize <= 0) return [];
 
     const minimumReach = Math.max(0.001, Math.min(spec.shoreline[0], spec.shoreline[1]));
@@ -1001,12 +1043,6 @@ export class WorldScene {
     steps.push(() => {
       normalAttribute.needsUpdate = true;
       geometry.computeBoundingSphere();
-      const coast = new THREE.Mesh(geometry, this.materials.ground());
-      coast.name = "coastal-skirt";
-      coast.castShadow = false;
-      coast.receiveShadow = true;
-      this.scatterGroup.add(coast);
-
       // Only dry triangles enter navigation and terrain picking. The ocean floor stays visible
       // through the water without becoming a route across the sea.
       const dryIndices: number[] = [];
@@ -1019,27 +1055,41 @@ export class WorldScene {
       const dryGeometry = new THREE.BufferGeometry();
       dryGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
       dryGeometry.setIndex(dryIndices);
-      const dryCoast = new THREE.Mesh(dryGeometry, this.materials.ground());
-      dryCoast.name = "coastal-ground";
-      dryCoast.visible = false;
-      this.terrainGroup.add(dryCoast);
-      this.walkable.push(dryCoast);
-
-      const oceanGeometry = new THREE.PlaneGeometry(spec.oceanSize, spec.oceanSize);
-      oceanGeometry.rotateX(-Math.PI / 2);
-      const oceanDepth = new Float32Array(oceanGeometry.getAttribute("position").count);
-      oceanDepth.fill(Math.max(1.2, spec.floorDepth));
-      oceanGeometry.setAttribute("aWaterDepth", new THREE.BufferAttribute(oceanDepth, 1));
-      const ocean = new THREE.Mesh(oceanGeometry, this.materials.water("fallowmarch", "ocean"));
-      ocean.userData.ownedGeometry = true;
-      ocean.name = "infinite-ocean";
-      ocean.position.set((bounds.minX + bounds.maxX) / 2, spec.seaLevel, (bounds.minZ + bounds.maxZ) / 2);
-      ocean.renderOrder = 0;
-      ocean.castShadow = false;
-      ocean.receiveShadow = false;
-      this.scatterGroup.add(ocean);
+      if (this.terrainCacheWrite) this.terrainCacheWrite.coast = {
+        grid: { ...this.coastGrid!, heights: heights.slice() },
+        geometry: captureGeometry(geometry), dryGeometry: captureGeometry(dryGeometry),
+      };
+      this.attachCoast(geometry, dryGeometry, spec, bounds);
     });
     return steps;
+  }
+
+  private attachCoast(geometry: THREE.BufferGeometry, dryGeometry: THREE.BufferGeometry, spec: CoastSpec, bounds: Rect): void {
+    const coast = new THREE.Mesh(geometry, this.materials.ground());
+    coast.name = "coastal-skirt";
+    coast.castShadow = false;
+    coast.receiveShadow = true;
+    this.scatterGroup.add(coast);
+
+    const dryCoast = new THREE.Mesh(dryGeometry, this.materials.ground());
+    dryCoast.name = "coastal-ground";
+    dryCoast.visible = false;
+    this.terrainGroup.add(dryCoast);
+    this.walkable.push(dryCoast);
+
+    const oceanGeometry = new THREE.PlaneGeometry(spec.oceanSize, spec.oceanSize);
+    oceanGeometry.rotateX(-Math.PI / 2);
+    const oceanDepth = new Float32Array(oceanGeometry.getAttribute("position").count);
+    oceanDepth.fill(Math.max(1.2, spec.floorDepth));
+    oceanGeometry.setAttribute("aWaterDepth", new THREE.BufferAttribute(oceanDepth, 1));
+    const ocean = new THREE.Mesh(oceanGeometry, this.materials.water("fallowmarch", "ocean"));
+    ocean.userData.ownedGeometry = true;
+    ocean.name = "infinite-ocean";
+    ocean.position.set((bounds.minX + bounds.maxX) / 2, spec.seaLevel, (bounds.minZ + bounds.maxZ) / 2);
+    ocean.renderOrder = 0;
+    ocean.castShadow = false;
+    ocean.receiveShadow = false;
+    this.scatterGroup.add(ocean);
   }
 
   /**
@@ -1498,6 +1548,7 @@ export class WorldScene {
     let authority = 0;
     for (const flat of this.protectedPads) {
       const handback = clamp(needed, HAUL_MIN_FEATHER, flat.blend);
+      if (outsidePadBounds(flat, x, z, handback)) continue;
       const distance = padDistance(flat, x, z);
       if (distance >= handback) continue;
       const falloff = distance <= 0 ? 1 : 1 - smoothstep01(distance / Math.max(0.001, handback));
@@ -1766,6 +1817,7 @@ export class WorldScene {
     for (let index = 0; index < limit; index += 1) {
       const flat = this.flats[index];
       if (!flat) continue;
+      if (outsidePadBounds(flat, x, z, flat.blend)) continue;
       const distance = padDistance(flat, x, z);
       if (distance > flat.blend) continue;
       const target = flat.height ?? this.naturalHeight(flat.x, flat.z);
@@ -1885,6 +1937,21 @@ export class WorldScene {
     const length = Math.hypot(dx, 1, dz);
     const normal: Vec3 = [-dx / length, 1 / length, -dz / length];
     return { height, normal, slope: Math.hypot(dx, dz), density, coast: true };
+  }
+
+  /** Placement checks need the built ground, not a fresh evaluation of the authored biome field. */
+  placementSurfaceAt(x: number, z: number): {
+    height: number; slope: number; semanticRegion: RegionId; waterBodyId: string | null;
+  } | null {
+    const bounds = this.getWorldBounds();
+    const dx = Math.max(bounds.minX - x, 0, x - bounds.maxX);
+    const dz = Math.max(bounds.minZ - z, 0, z - bounds.maxZ);
+    const outsideDistance = Math.hypot(dx, dz);
+    const height = this.meshHeightAt(x, z);
+    const coast = this.world?.coast;
+    if (outsideDistance > 0.000_001 && !(coast && outsideDistance <= coast.collar && height >= coast.seaLevel)) return null;
+    return { height, slope: this.slopeAt(x, z), semanticRegion: this.regionAt(x, z),
+      waterBodyId: this.builtWaterBodies.find(body => body.closed && pointInContour(x, z, body.contour))?.id ?? null };
   }
 
   /** One compact, JSON-safe probe for biome/coast authoring and browser diagnostics. */
@@ -4016,6 +4083,14 @@ function isGabrielNeighbour(
 function padReach(flat: FlatSpot): number {
   if (!flat.halfExtents) return flat.radius;
   return Math.hypot(flat.halfExtents[0], flat.halfExtents[1]);
+}
+
+/** Conservative bounds avoid evaluating distant pads during terrain generation. */
+function outsidePadBounds(flat: FlatSpot, x: number, z: number, margin: number): boolean {
+  // The sum of half-extents encloses every rotation. Reject distant pads before trigonometry
+  // and square roots, retaining the original exact distance and accumulation order inside.
+  const reach = (flat.halfExtents ? flat.halfExtents[0] + flat.halfExtents[1] : flat.radius) + Math.max(0, margin);
+  return Math.abs(x - flat.x) > reach || Math.abs(z - flat.z) > reach;
 }
 
 /** Distance from a point to the edge of a pad's core. Zero or negative inside it. */
