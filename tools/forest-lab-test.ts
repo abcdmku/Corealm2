@@ -15,6 +15,7 @@ import { installTestDeadline } from "./lib/deadline.js";
 import { argValue, repoRoot } from "./lib/paths.js";
 import { startGameServer } from "./lib/server.js";
 import { installAssetCandidates } from "./lib/assetCandidates.js";
+import { installPackedTextureFixture } from './lib/packedTextureFixture.js';
 
 type Point = { x: number; y: number; z: number };
 type Bounds = { min: Point; max: Point; height: number; width: number; meshes: number; path: string };
@@ -118,6 +119,7 @@ async function main(): Promise<void> {
 
   try {
     await driver.launch();
+    if (args.includes('--packed-textures')) evidence.texturePack = await installPackedTextureFixture(driver.page!);
     const candidateCatalog = argValue(args, "--catalog");
     if (candidateCatalog) await installAssetCandidates(driver.page!, candidateCatalog);
     driver.page!.setDefaultTimeout(5_000);
@@ -230,6 +232,11 @@ async function main(): Promise<void> {
     assert(Math.abs(regrown.bounds!.height - liveHeight) < 0.03, "Respawn did not restore the original silhouette");
     phases.respawn = { method: "Debug timer expiry, followed by production gathering tick and renderer", observation: regrown };
     assert.equal(driver.consoleErrors.length + driver.pageErrors.length + driver.requestErrors.length, 0, "Chromium reported runtime or request errors");
+    if (args.includes('--packed-textures')) {
+      const pack = evidence.texturePack as Awaited<ReturnType<typeof installPackedTextureFixture>>;
+      assert(pack.embeddedImages > pack.uniqueImages && pack.savedBytes > 0);
+      assert(pack.imageRequests <= pack.uniqueImages, 'The production image loader must reuse shared textures');
+    }
     evidence.status = "passed";
     evidence.passed = true;
   } catch (error) {

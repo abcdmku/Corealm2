@@ -80,7 +80,22 @@ export interface NavigationGeometryFingerprint {
   categories: Record<NavigationGeometryCategory, number>;
 }
 
-/** Hashes the exact transformed triangle inputs handed to Recast. */
+/** Recast consumes transformed float32 vertices, not the intermediate float64 object matrices. */
+export function navigationMeshPositions(mesh: THREE.Mesh): Float32Array | null {
+  const attribute = mesh.geometry.getAttribute("position");
+  if (!attribute || attribute.itemSize !== 3) return null;
+  mesh.updateWorldMatrix(true, false);
+  const positions = new Float32Array(attribute.count * 3);
+  const point = new THREE.Vector3();
+  for (let vertex = 0; vertex < attribute.count; vertex++) {
+    point.fromBufferAttribute(attribute, vertex).applyMatrix4(mesh.matrixWorld);
+    point.toArray(positions, vertex * 3);
+  }
+  if (!positions.every(Number.isFinite)) throw new Error("navigation geometry contains non-finite positions");
+  return positions;
+}
+
+/** Hash the same transformed inputs as the generator, including real sub-millimetre changes. */
 export async function fingerprintNavigationGeometry(
   meshes: readonly THREE.Mesh[],
 ): Promise<NavigationGeometryFingerprint> {
@@ -89,26 +104,21 @@ export async function fingerprintNavigationGeometry(
 
   for (let index = 0; index < meshes.length; index += 1) {
     const mesh = meshes[index]!;
-    mesh.updateWorldMatrix(true, false);
     const category = navigationGeometryCategory(mesh.name);
     categories[category] += 1;
 
-    const position = mesh.geometry.getAttribute("position");
-    const geometryIndex = mesh.geometry.getIndex();
+    const positions = navigationMeshPositions(mesh);
+    const indices = mesh.geometry.getIndex()?.array
+      ?? (positions ? Uint32Array.from({ length: positions.length / 3 }, (_, vertex) => vertex) : null);
     chunks.push(textEncoder.encode(stableJson({
       order: index,
       category,
       name: mesh.name,
-      matrixWorld: mesh.matrixWorld.elements,
-      position: position
-        ? { count: position.count, itemSize: position.itemSize, normalized: position.normalized }
-        : null,
-      index: geometryIndex
-        ? { count: geometryIndex.count, itemSize: geometryIndex.itemSize, normalized: geometryIndex.normalized }
-        : null,
+      positionCount: positions?.length ?? 0,
+      indexCount: indices?.length ?? 0,
     })));
-    if (position) chunks.push(arrayBytes(position.array));
-    if (geometryIndex) chunks.push(arrayBytes(geometryIndex.array));
+    if (positions) chunks.push(arrayBytes(positions));
+    if (indices) chunks.push(arrayBytes(indices));
   }
 
   return { digest: await sha256(concatBytes(chunks)), categories };

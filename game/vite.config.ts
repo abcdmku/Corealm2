@@ -1,6 +1,9 @@
 import path from "node:path";
 import { brotliCompressSync, constants as zlibConstants, gzipSync } from "node:zlib";
 import { defineConfig, type Plugin } from "vite";
+import { generationRevisionPlugin } from "../tools/lib/generation-revision.js";
+import { worldDataBuildGuard } from "../tools/lib/world-artifact.js";
+import { releaseTexturePackPlugin } from '../tools/lib/asset-texture-pack.js';
 
 const APPLICATION_INITIAL_JS_GZIP_BUDGET = 1_000_000;
 const CRITICAL_JS_AND_WASM_GZIP_BUDGET = 1_500_000;
@@ -238,7 +241,7 @@ export default defineConfig({
       "@recast-navigation/wasm/wasm",
     ],
   },
-  plugins: [wasmMimePlugin(), compressedBundleBudgetPlugin()],
+  plugins: [generationRevisionPlugin(), worldDataBuildGuard(), wasmMimePlugin(), compressedBundleBudgetPlugin(), releaseTexturePackPlugin()],
   build: {
     outDir: "dist",
     emptyOutDir: true,

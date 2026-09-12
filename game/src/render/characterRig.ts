@@ -614,6 +614,22 @@ export class CharacterRig {
     }
   }
 
+  /** Resolve the actual carried items through the same authored and body-specific paths as equip. */
+  async prepareItems(itemIds: readonly ItemId[]): Promise<string[]> {
+    const ids = new Set<string>();
+    for (const itemId of itemIds) {
+      for (const part of this.appearanceParts(itemId)) ids.add(part.assetId);
+      const tool = equipmentVisuals.gatheringToolAppearance(itemId);
+      const activity = FISHING_ROD_LOOKS[itemId]
+        ? [{ assetId: fishingRodAssetId(itemId), slot: 'mainHand' as const, attach: 'bone' as const }]
+        : tool ? [tool] : [];
+      for (const part of this.authoredItemParts(itemId, activity)) ids.add(part.assetId);
+    }
+    const selected = [...ids].sort();
+    await Promise.all(selected.map(id => this.assets.load(id, { priority: 'player', primary: true })));
+    return selected;
+  }
+
   /**
    * Appends the coverage parts a partial outfit set is missing, from the same kit.
    *

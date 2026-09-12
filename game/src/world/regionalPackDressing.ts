@@ -3,7 +3,7 @@ import type { WorldSite } from "../content/worldSites.js";
 import type { SolidVolume } from "../contracts.js";
 import type { AssetRegistry } from "../render/assets.js";
 import type { WorldScene } from "../render/scene.js";
-import { buildWorldSiteDressing, type WorldSiteDressingResult } from "../render/worldSiteDressing.js";
+import { buildWorldSiteDressing, resolveWorldSiteDressing, type WorldSiteDressingResult } from "../render/worldSiteDressing.js";
 
 export function regionalPackDressingSite(habitat: HabitatDef): WorldSite {
   return { id: habitat.id, locationId: habitat.groupId, regionId: habitat.regionId,
@@ -18,11 +18,12 @@ export function regionalPackDressingSite(habitat: HabitatDef): WorldSite {
  * its own setting. Both callers install these solids before generating their navmesh. */
 export async function buildRegionalPackDressing(
   scene: WorldScene, assets: AssetRegistry, habitat: HabitatDef,
-  largestResidentBodyRadius = 0,
+  largestResidentBodyRadius = 0, render = true,
 ): Promise<WorldSiteDressingResult & { navigationSolids: SolidVolume[] }> {
   if (!Number.isFinite(largestResidentBodyRadius) || largestResidentBodyRadius < 0)
     throw new Error("Invalid encounter navigation body radius");
-  const result = await buildWorldSiteDressing(scene, assets, regionalPackDressingSite(habitat));
+  const site = regionalPackDressingSite(habitat);
+  const result = render ? await buildWorldSiteDressing(scene, assets, site) : resolveWorldSiteDressing(scene, assets, site);
   const existing = new Set(result.solids.map((solid) => solid.id));
   const solids: SolidVolume[] = [...result.solids, ...result.placements.filter((piece) => !existing.has(piece.id)).map((piece) => ({
     kind: "box" as const, id: piece.id,

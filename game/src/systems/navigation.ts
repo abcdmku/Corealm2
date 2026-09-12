@@ -36,6 +36,7 @@ import {
   encodeNavigationArtifact,
   fingerprintNavigationGeometry,
   fingerprintNavigationInputs,
+  navigationMeshPositions,
   type NavigationArtifactSettings,
   type NavigationAuthoredInputs,
 } from "./navigationArtifact.js";
@@ -56,18 +57,11 @@ function requireRecast(): { core: RecastCoreRuntime; generators: RecastGenerator
 /** Convert production mesh triangles without importing Recast's unused Three debug renderers. */
 function navigationGeometry(meshes: readonly THREE.Mesh[]): [Float32Array, Uint32Array] {
   const inputs: Parameters<RecastGeneratorsRuntime["mergePositionsAndIndices"]>[0] = [];
-  const point = new THREE.Vector3();
   for (const mesh of meshes) {
-    const attribute = mesh.geometry.getAttribute("position");
-    if (!attribute || attribute.itemSize !== 3) continue;
-    mesh.updateWorldMatrix(true, false);
-    const positions = new Float32Array(attribute.count * 3);
-    for (let vertex = 0; vertex < attribute.count; vertex++) {
-      point.fromBufferAttribute(attribute, vertex).applyMatrix4(mesh.matrixWorld);
-      point.toArray(positions, vertex * 3);
-    }
+    const positions = navigationMeshPositions(mesh);
+    if (!positions) continue;
     const indices = mesh.geometry.getIndex()?.array
-      ?? Uint32Array.from({ length: attribute.count }, (_, index) => index);
+      ?? Uint32Array.from({ length: positions.length / 3 }, (_, index) => index);
     inputs.push({ positions, indices });
   }
   // Keep the generator package's vertex welding and triangle order. Cached navmesh artifacts and
@@ -189,7 +183,7 @@ export interface NavConfigOverrides {
   tileSizeVoxels?: number;
 }
 
-export type NavArtifactStatus = "not-requested" | "imported" | "runtime-fallback";
+export type NavArtifactStatus = "not-requested" | "imported" | "runtime-fallback" | "unavailable";
 
 export interface NavArtifactDiagnostics {
   status: NavArtifactStatus;
@@ -201,6 +195,8 @@ export interface NavArtifactDiagnostics {
 }
 
 export interface NavArtifactOptions {
+  /** Releases must import their validated artifact; runtime baking is an authoring tool. */
+  allowRuntimeGeneration?: boolean;
   /** Saved-world seed. A binary from another seed must never be accepted. */
   worldSeed: string | number;
   /** Generated source revisions for authored inputs not fully represented by navigation triangles. */
@@ -505,6 +501,14 @@ export class Navigation {
       this.query = null;
     }
 
+    if (options.allowRuntimeGeneration === false) {
+      this.status = 'failed';
+      this.error = failureReason;
+      this.buildMs = Math.round(now() - startedAt);
+      this.artifact = { status: 'unavailable', url: artifactUrl, fingerprint: expectedFingerprint,
+        reason: failureReason, importMs, bytes };
+      return false;
+    }
     const generated = this.build(walkable, strategy, overrides);
     this.buildMs = Math.round(now() - startedAt);
     this.artifact = {

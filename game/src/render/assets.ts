@@ -543,6 +543,11 @@ export class AssetRegistry {
     return this.activeRegionId;
   }
 
+  /** Upgrade an existing request without starting another attempt if it just failed. */
+  prioritize(id: string, options: AssetLoadOptions): void {
+    this.mergeQueuedOptions(id, options);
+  }
+
   private mergeQueuedOptions(id: string, options: AssetLoadOptions): void {
     const request = this.pendingRequests.get(id);
     if (!request) return;

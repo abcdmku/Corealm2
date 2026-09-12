@@ -106,6 +106,24 @@ afterEach(() => {
 });
 
 describe("AssetRegistry streaming", () => {
+  it('only promotes pending requests and does not retry a failed download implicitly', async () => {
+    const failure = deferred<FakeGltf>();
+    const load = vi.fn(() => failure.promise);
+    const registry = await registryWith(['far-model'], load);
+    registry.prioritize('far-model', { priority: 'player' });
+    await flushQueue();
+    expect(load).not.toHaveBeenCalled();
+    const request = registry.load('far-model', { priority: 'travel-prefetch' });
+    const rejected = expect(request).rejects.toThrow('offline');
+    await flushQueue();
+    registry.prioritize('far-model', { priority: 'visible-spawn', primary: true });
+    failure.reject(new Error('offline'));
+    await rejected;
+    registry.prioritize('far-model', { priority: 'visible-spawn' });
+    await flushQueue();
+    expect(load).toHaveBeenCalledTimes(1);
+    expect(registry.getLoadStats().failed).toBe(1);
+  });
   it("deduplicates queued and active requests while reporting lifecycle counters", async () => {
     const request = deferred<FakeGltf>();
     const loadAsync = vi.fn(() => request.promise);

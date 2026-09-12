@@ -6,6 +6,8 @@ import type { ScatterPlacement } from "../game/src/render/scene.js";
 import type { ForestTreeDescriptor } from "../game/src/world/forestResources.js";
 import { ExclusionZones, scatterTilesForBounds, scatterWorldTile, type RegionScatterSpec } from "../game/src/world/scatter.js";
 import { ScatterStreamingController } from "../game/src/world/scatterStreaming.js";
+import { MemoryGenerationCache } from "./support/generation-cache.js";
+import { decodeWorldData, encodeWorldData } from '../game/src/world/worldDataFormat.js';
 
 const bounds = { minX: 1000, maxX: 1192, minZ: 1000, maxZ: 1096 };
 
@@ -30,6 +32,8 @@ function harness(sourceAsset = "tree_common_5") {
     instance: (id: string) => ({ name: id }),
   };
   const scene = {
+    getWorldBounds: () => bounds,
+    getTerrainBuildStats: () => ({ restampPassCount: 0 }),
     getScatterBounds: () => bounds,
     describeRegions: () => [{ regionId: "fallowmarch" as const }, { regionId: "vellenwood" as const }],
     regionAt: (x: number) => x < 1096 ? "fallowmarch" as const : "vellenwood" as const,
@@ -84,6 +88,38 @@ async function populate(f: ReturnType<typeof harness>, reverse = false) {
 }
 
 describe("scatter forest resource bridge", () => {
+  it("restores cached tree identities and reconnects depletion to every primitive", async () => {
+    const cache = new MemoryGenerationCache(), cold = harness(), warm = harness();
+    cache.put = async (key, value) => { cache.entries.set(key, decodeWorldData(encodeWorldData(value))); return true; };
+    const tiles = scatterTilesForBounds(bounds);
+    try {
+      for (const tile of tiles) await scatterWorldTile(cold.scene as never, cold.assets as never,
+        801, tile, { fallowmarch: cold.spec }, { cache, render: false });
+      expect(cold.batches).toHaveLength(0);
+      // A bake records placements without GPU meshes. Compare restoration with ordinary generation.
+      await populate(cold);
+      warm.scene.scatterSurfaceAt = () => { throw new Error("cached trees must not resample terrain"); };
+      for (const tile of tiles) await scatterWorldTile(warm.scene as never, warm.assets as never,
+        801, tile, { fallowmarch: warm.spec }, { cache, onTree: warm.onTree });
+      expect(cache.hits).toBe(tiles.length);
+      expect(warm.registered.map(entry => entry.descriptor)).toEqual(cold.registered.map(entry => entry.descriptor));
+      expect(warm.registered.length).toBeGreaterThan(30);
+      const tree = warm.registered[0]!;
+      const isTree = (p: ScatterPlacement) => p.position.every((value, index) => value === tree.descriptor.position[index]);
+      const batch = warm.batches.find(entry => entry.placements.some(isTree))!;
+      const slot = batch.placements.findIndex(isTree);
+      const before = batch.meshes.map(mesh => { const matrix = new THREE.Matrix4(); mesh.getMatrixAt(slot, matrix); return matrix.elements; });
+      tree.setVisible(false);
+      for (const mesh of batch.meshes) {
+        const matrix = new THREE.Matrix4(); mesh.getMatrixAt(slot, matrix); expect(matrix.determinant()).toBe(0);
+      }
+      tree.setVisible(true);
+      batch.meshes.forEach((mesh, index) => {
+        const matrix = new THREE.Matrix4(); mesh.getMatrixAt(slot, matrix); expect(matrix.elements).toEqual(before[index]);
+      });
+    } finally { cold.dispose(); warm.dispose(); }
+  });
+
   it("places shoreline-only willows on dry banks and none in a waterless forest", async () => {
     const dry = harness("corealm_willow_1");
     const lake = harness("corealm_willow_1");

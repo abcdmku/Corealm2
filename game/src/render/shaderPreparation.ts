@@ -1,5 +1,11 @@
 import * as THREE from "three";
 
+/** Repeated tiles share geometry and materials, and therefore the same compiler inputs. */
+export function shaderGeometryKey(mesh: THREE.Mesh): string {
+  const instanced = mesh as THREE.InstancedMesh;
+  return `${mesh.type}:${mesh.geometry.uuid}:${mesh.receiveShadow}:${Boolean(instanced.instanceColor)}:${Boolean(instanced.morphTexture)}`;
+}
+
 /** Compile real caster meshes with their depth hooks and the scene's shadow-light counts. */
 export function compileShadowMeshes(
   renderer: THREE.WebGLRenderer,
@@ -16,11 +22,15 @@ export function compileShadowMeshes(
     callback(shadowScene);
     for (const light of lights) callback(light);
   };
+  const seen = new Set<string>();
   for (const mesh of meshes) {
     if (!mesh.castShadow) continue;
     const original = mesh.material;
     try {
       for (const surface of Array.isArray(original) ? original : [original]) {
+        const key = `${shaderGeometryKey(mesh)}:${surface.uuid}:${mesh.customDepthMaterial?.uuid ?? "depth"}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
         const depth = compilationMaterial(mesh.customDepthMaterial ?? defaultDepth) as THREE.MeshDepthMaterial;
         const source = surface as THREE.MeshStandardMaterial;
         depth.side = surface.shadowSide ?? (surface.side === THREE.FrontSide ? THREE.BackSide
@@ -35,7 +45,7 @@ export function compileShadowMeshes(
         const view = new THREE.Group();
         view.traverse = callback => { callback(view); callback(mesh); };
         const beforeCompile = depth.onBeforeCompile;
-        const cacheKey = depth.customProgramCacheKey, key = cacheKey.call(depth);
+        const cacheKey = depth.customProgramCacheKey, programKey = cacheKey.call(depth);
         // Actual shadow draws keep object.material as the surface. Some custom
         // depth hooks call that surface hook, so preserve the same callback context.
         depth.onBeforeCompile = function(shader, activeRenderer) {
@@ -44,7 +54,7 @@ export function compileShadowMeshes(
           finally { mesh.material = depth; }
         };
         // The temporary callback must not create a different shader-cache variant.
-        depth.customProgramCacheKey = () => key;
+        depth.customProgramCacheKey = () => programKey;
         try { renderer.compile(view, camera, shadowScene); }
         finally { depth.onBeforeCompile = beforeCompile; depth.customProgramCacheKey = cacheKey; }
       }

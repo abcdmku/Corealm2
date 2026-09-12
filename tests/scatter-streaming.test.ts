@@ -12,6 +12,7 @@ import {
   type ScatterTile,
 } from "../game/src/world/scatter.js";
 import { ScatterStreamingController } from "../game/src/world/scatterStreaming.js";
+import { MemoryGenerationCache } from "./support/generation-cache.js";
 
 const GRASS_ID = "grass_common_short";
 
@@ -49,6 +50,8 @@ function grassEntry(): AssetEntry {
 function scatterHarness(options: ScatterHarnessOptions) {
   const placements = new Map<string, GrassSpritePlacement[]>();
   const scene = {
+    getWorldBounds: () => options.bounds,
+    getTerrainBuildStats: () => ({ restampPassCount: 0 }),
     getScatterBounds: () => options.bounds,
     describeRegions: () => [{ regionId: "fallowmarch" as const }],
     getRegionRect: (_regionId: RegionId) => options.bounds,
@@ -114,6 +117,33 @@ function placementFingerprint(placements: ReadonlyMap<string, readonly GrassSpri
     .sort(([left], [right]) => left.localeCompare(right))
     .map(([name, rows]) => `${name}:${JSON.stringify(rows)}`);
 }
+
+it("restores exact scatter placements without resampling terrain and invalidates seed and exclusions", async () => {
+  const bounds = { minX: 0, maxX: 96, minZ: 0, maxZ: 96 };
+  const cache = new MemoryGenerationCache(), cold = scatterHarness({ bounds });
+  const tile = scatterTilesForBounds(bounds)[0]!;
+  const exclusions = new ExclusionZones(), specs = { fallowmarch: recipe(bounds, exclusions) };
+  const original = await scatterWorldTile(cold.scene as any, cold.assets as any, 1337, tile, specs, { cache });
+  const warm = scatterHarness({ bounds, surfaceAt: () => { throw new Error("Cache hit must not regenerate placement fields"); } });
+  const restored = await scatterWorldTile(warm.scene as any, warm.assets as any, 1337, tile, specs, { cache });
+  expect(cache.hits).toBe(1);
+  expect(restored).toEqual(original);
+  expect(placementFingerprint(warm.placements)).toEqual(placementFingerprint(cold.placements));
+  (cache.entries.get(`scatter/${tile.id}`) as any).regions[0].result.byLayer = null;
+  const repaired = scatterHarness({ bounds });
+  await scatterWorldTile(repaired.scene as any, repaired.assets as any, 1337, tile, specs, { cache });
+  expect(cache.hits).toBe(1);
+  expect(placementFingerprint(repaired.placements)).toEqual(placementFingerprint(cold.placements));
+  const different = scatterHarness({ bounds });
+  await scatterWorldTile(different.scene as any, different.assets as any, 44, tile, specs, { cache });
+  expect(cache.hits).toBe(1);
+  expect(placementFingerprint(different.placements)).not.toEqual(placementFingerprint(cold.placements));
+  exclusions.addCircle(48, 48, 300);
+  const cleared = scatterHarness({ bounds });
+  const result = await scatterWorldTile(cleared.scene as any, cleared.assets as any, 44, tile, specs, { cache });
+  expect(result[0]!.placed).toBe(0);
+  expect(cache.hits).toBe(1);
+});
 
 async function generateInOrder(
   tiles: readonly ScatterTile[],
@@ -253,5 +283,23 @@ describe("scatter tile streaming", () => {
     await controller.streamNearby(48, 48, 20);
     expect([...harness.placements.entries()].slice(0, original.length)).toEqual(original);
     expect(controller.getResidency().complete).toBe(false);
+  });
+
+  it("finishes the actual view at a tile edge without generating the distant world", async () => {
+    const bounds = { minX: 0, maxX: 960, minZ: 0, maxZ: 960 };
+    const harness = scatterHarness({ bounds });
+    const controller = new ScatterStreamingController(harness.scene as never, harness.assets as never, 808,
+      { specs: { fallowmarch: recipe(bounds) }, yieldToMain: async () => undefined });
+    await controller.loadView(190, 190, 100);
+    const resident = controller.getResidency().resident;
+    expect(resident).toContain("3:1");
+    expect(resident).toContain("1:3");
+    expect(resident).not.toContain("3:3");
+    expect(resident).not.toContain("9:9");
+    const original = placementFingerprint(harness.placements);
+    await controller.streamNearby(190, 190, 100);
+    expect(controller.getResidency().resident).toEqual(resident);
+    expect(placementFingerprint(harness.placements)).toEqual(original);
+    await expect(controller.loadView(0, 0, NaN)).rejects.toThrow("finite");
   });
 });

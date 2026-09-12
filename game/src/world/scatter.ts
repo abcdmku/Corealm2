@@ -1,3 +1,5 @@
+import type { GenerationCachePort } from "./generationCache.js";
+import { worldDataSha256 } from './worldDataFormat.js';
 import { wildernessTierAt } from "../content/wildernessDepth.js";
 import { TREE_SPECIES, treeAssetIds, treeSpeciesForAsset, treeEncounterWeight, type TreeSpeciesId } from "../content/treeSpecies.js";
 /**
@@ -102,6 +104,15 @@ export class ExclusionZones {
   private treeClearances: TreeClearance[] = [];
   private index: Map<number, number[]> | null = null;
   private rectIndex: Map<number, number[]> | null = null;
+  private cachedSignature: { revision: number; digest: Promise<string> } | null = null;
+
+  generationSignature(): Promise<string> {
+    const revision = exclusionRevisions.get(this) ?? 0;
+    if (this.cachedSignature?.revision !== revision) this.cachedSignature = {
+      revision, digest: worldDataSha256(new TextEncoder().encode(JSON.stringify([this.circles, this.rects, this.treeClearances]))),
+    };
+    return this.cachedSignature.digest;
+  }
 
   addCircle(x: number, z: number, radius: number, kind: ExclusionKind = "custom", id = ""): this {
     this.circles.push({ kind, id, x, z, radius });
@@ -243,7 +254,10 @@ export class ExclusionZones {
     let density = 1;
     for (const circle of this.circleCandidates(x, z, profile)) {
       const band = profile.byKind?.[circle.kind] ?? profile.base;
-      const outside = Math.hypot(x - circle.x, z - circle.z) - circle.radius;
+      const dx = x - circle.x, dz = z - circle.z;
+      const reach = circle.radius + band.hard + Math.max(0, band.fade);
+      if (reach < 0 || dx * dx + dz * dz > reach * reach) continue;
+      const outside = Math.hypot(dx, dz) - circle.radius;
       density = Math.min(density, ramp(outside, band));
       if (density <= 0) return 0;
     }
@@ -251,6 +265,8 @@ export class ExclusionZones {
       const band = profile.byKind?.[zone.kind] ?? profile.base;
       const worldX = x - zone.x;
       const worldZ = z - zone.z;
+      const reach = zone.halfX + zone.halfZ + zone.margin + Math.max(0, band.hard + band.fade);
+      if (Math.abs(worldX) > reach || Math.abs(worldZ) > reach) continue;
       const cosine = Math.cos(zone.rotationY);
       const sine = Math.sin(zone.rotationY);
       const localX = worldX * cosine - worldZ * sine;
@@ -506,6 +522,9 @@ export interface ScatterTile {
 }
 
 export interface ScatterTileLoadOptions {
+  /** Offline release baking records the same placements without allocating their GPU meshes. */
+  render?: boolean;
+  cache?: GenerationCachePort;
   priority?: AssetPriority;
   /** Spawn-visible assets use the registry's primary retry callbacks. */
   primary?: boolean;
@@ -1794,6 +1813,7 @@ async function scatterRegionTile(
   tile: ScatterTile,
   loadOptions: ScatterTileLoadOptions,
   competition?: Awaited<ReturnType<typeof understoryCompetition>>,
+  capture?: CachedScatterRegion[],
 ): Promise<ScatterResult> {
   const rect = spec.rect ?? scene.getRegionRect(regionId);
   const exclusions = spec.exclusions ?? worldExclusions;
@@ -1837,7 +1857,7 @@ async function scatterRegionTile(
         .filter((candidate) => !competition?.rejected.has(candidate))
         .map((candidate) => candidate.species.assetId)
         .filter((assetId) => !isGrassSprite(assetId)))];
-      if (requested.length > 0) {
+      if (requested.length > 0 && loadOptions.render !== false) {
         await assets.loadMany(requested, {
           priority: loadOptions.priority ?? "background",
           regionId: loadOptions.regionId,
@@ -1917,11 +1937,52 @@ async function scatterRegionTile(
     await loadOptions.yieldToMain?.();
   }
 
+  competition?.assertCurrent();
+  capture?.push({ regionId, result: structuredClone(result), buckets: [...buckets.values()] });
+  if (loadOptions.render === false) return result;
+  return renderScatterBuckets(scene, assets, regionId, tile, loadOptions, result, buckets.values());
+}
+
+interface CachedScatterRegion { regionId: RegionId; result: ScatterResult; buckets: InstanceBucket[] }
+interface CachedScatterTile { signature: string; regions: CachedScatterRegion[] }
+
+function validScatterTile(value: unknown, signature: string): value is CachedScatterTile {
+  const data = value as CachedScatterTile;
+  const vec3 = (value: unknown): boolean => Array.isArray(value) && value.length === 3 && value.every(Number.isFinite);
+  const counts = (value: unknown): boolean => !!value && typeof value === "object"
+    && Object.values(value).every(count => Number.isFinite(count) && count >= 0);
+  const tree = (value: ForestTreeDescriptor | undefined): boolean => value === undefined || !!value
+    && [value.id, value.resourceId, value.regionId, value.assetId].every(id => typeof id === "string")
+    && vec3(value.position) && Number.isFinite(value.scale) && value.scale > 0
+    && Number.isFinite(value.rotationY) && Number.isFinite(value.trunkRadius) && value.trunkRadius > 0;
+  return data?.signature === signature && Array.isArray(data.regions) && data.regions.every(region =>
+    typeof region.regionId === "string" && region.result?.regionId === region.regionId
+    && Array.isArray(region.result.missingAssets) && region.result.missingAssets.length === 0
+    && [region.result.placed, region.result.rejected, region.result.clusters, region.result.tiles,
+      region.result.instancedMeshes, region.result.estimatedDrawCalls, region.result.estimatedTriangles]
+      .every(count => Number.isFinite(count) && count >= 0)
+    && [region.result.byLayer, region.result.bySource, region.result.byAsset].every(counts)
+    && Array.isArray(region.buckets) && region.buckets.every(bucket =>
+      (bucket.kind === "mesh" || bucket.kind === "grass") && typeof bucket.assetId === "string"
+      && typeof bucket.castShadow === "boolean" && Array.isArray(bucket.placements)
+      && bucket.placements.every(placement => vec3(placement.position) && Number.isFinite(placement.rotationY)
+        && (bucket.kind === "grass" || tree((placement as ForestScatterPlacement).forestTree))
+        && (!placement.normal || vec3(placement.normal))
+        && (placement.tilt === undefined || Number.isFinite(placement.tilt))
+        && (bucket.kind === "grass" ? Number.isFinite((placement as GrassSpritePlacement).width)
+          && Number.isFinite((placement as GrassSpritePlacement).height) && Number.isFinite((placement as GrassSpritePlacement).colour)
+          : typeof (placement as ScatterPlacement).scale === "number" ? Number.isFinite((placement as ScatterPlacement).scale)
+            : vec3((placement as ScatterPlacement).scale)))));
+}
+
+async function renderScatterBuckets(
+  scene: WorldScene, assets: AssetRegistry, regionId: RegionId, tile: ScatterTile,
+  loadOptions: ScatterTileLoadOptions, result: ScatterResult, buckets: Iterable<InstanceBucket>,
+): Promise<ScatterResult> {
   const meshSpan = bootTelemetry.startSpan(BOOT_SPANS.SCATTER_MESHES, {
     detail: { regionId, tileId: tile.id },
   });
-  competition?.assertCurrent();
-  for (const bucket of buckets.values()) {
+  for (const bucket of buckets) {
     if (bucket.kind === "grass") {
       for (const shard of shardByTile(bucket)) {
         await loadOptions.yieldToMain?.();
@@ -2007,13 +2068,32 @@ export async function scatterWorldTile(
   specs: Partial<Record<RegionId, RegionScatterSpec>> = DEFAULT_SCATTER,
   loadOptions: ScatterTileLoadOptions = {},
 ): Promise<ScatterResult[]> {
-  const results: ScatterResult[] = [];
+  const cache = loadOptions.cache;
+  const signature = cache ? await worldDataSha256(new TextEncoder().encode(JSON.stringify({ seed, tile, nativeGrass: scene.hasNativeGrass?.(),
+    bounds: scene.getWorldBounds(), restamps: scene.getTerrainBuildStats().restampPassCount,
+    specs: await Promise.all(Object.entries(specs).map(async ([id, spec]) => [id, { ...spec,
+      exclusions: await (spec.exclusions ?? worldExclusions).generationSignature() }])),
+  }))) : "";
+  const key = `scatter/${tile.id}`;
+  const cached = await cache?.get(key, (value): value is CachedScatterTile => validScatterTile(value, signature));
+  if (cached) {
+    const requested = [...new Set(cached.regions.flatMap(region => region.buckets
+      .filter(bucket => bucket.kind === "mesh").map(bucket => bucket.assetId)))];
+    await assets.loadMany(requested, { priority: loadOptions.priority, regionId: loadOptions.regionId, primary: loadOptions.primary });
+    const results: ScatterResult[] = [];
+    for (const region of cached.regions) results.push(await renderScatterBuckets(
+      scene, assets, region.regionId, tile, loadOptions, region.result, region.buckets,
+    ));
+    return results;
+  }
+  const results: ScatterResult[] = [], regions: CachedScatterRegion[] = [];
   const competition = await understoryCompetition(scene, assets, seed, tile, specs, loadOptions.yieldToMain);
   for (const layout of scene.describeRegions()) {
     const spec = specs[layout.regionId];
     if (!spec) continue;
-    results.push(await scatterRegionTile(scene, assets, layout.regionId, spec, seed, tile, loadOptions, competition));
+    results.push(await scatterRegionTile(scene, assets, layout.regionId, spec, seed, tile, loadOptions, competition, cache ? regions : undefined));
   }
+  if (cache && results.every(result => result.missingAssets.length === 0)) await cache.put(key, { signature, regions } satisfies CachedScatterTile);
   return results;
 }
 
