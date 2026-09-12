@@ -2,7 +2,7 @@
 
 A persistent 3D browser RPG in the classic-MMO tradition: gather, craft, fight, quest, bank, unlock the next tier. The twist is that an AI agent can play the same character through the same actions a human uses, exposed to the browser through [WebMCP](https://webmachinelearning.github.io/webmcp/). There is no scripting backdoor. If a human can do something, an agent can; if a human can't, neither can the agent.
 
-Play it at **https://abcdmku.github.io/Corealm/**. The generated player guide (skills, recipes, regions, quests, XP table) lives at **https://abcdmku.github.io/Corealm/docs**.
+Play it at **https://abcdmku.github.io/Corealm2/**. The generated player guide (skills, recipes, regions, quests, XP table) lives at **https://abcdmku.github.io/Corealm2/docs**.
 
 Built with TypeScript, Vite, Three.js, and recast-navigation. Model sources and licenses are recorded in the asset manifest. All 300 item icons use reviewed generated artwork with source records.
 
