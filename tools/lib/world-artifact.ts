@@ -3,15 +3,17 @@ import { createHash } from 'node:crypto';
 import path from 'node:path';
 import type { Plugin } from 'vite';
 import { generationRevision } from './generation-revision.js';
-import { buildWorldTerrainSpec } from '../../game/src/app/worldSpec.js';
+import { buildWorldTerrainSpec, buildFairyTerrainSpec } from '../../game/src/app/worldSpec.js';
 import { scatterTilesForBounds } from '../../game/src/world/scatter.js';
 import type { WorldDataManifest } from '../../game/src/world/worldDataFormat.js';
 import { assertNavigationArtifact } from '../build-navmesh.js';
 
 export function expectedWorldTiles(): string[] {
-  const spec = buildWorldTerrainSpec(), padding = spec.coast?.collar ?? 0;
-  return scatterTilesForBounds({ minX: spec.bounds.minX - padding, maxX: spec.bounds.maxX + padding,
-    minZ: spec.bounds.minZ - padding, maxZ: spec.bounds.maxZ + padding }).map(tile => tile.id);
+  return [buildWorldTerrainSpec(), buildFairyTerrainSpec()].flatMap(spec => {
+    const padding = spec.coast?.collar ?? 0;
+    return scatterTilesForBounds({ minX: spec.bounds.minX - padding, maxX: spec.bounds.maxX + padding,
+      minZ: spec.bounds.minZ - padding, maxZ: spec.bounds.maxZ + padding }).map(tile => tile.id);
+  });
 }
 
 export async function assertWorldData(root: string): Promise<WorldDataManifest> {
@@ -22,7 +24,7 @@ export async function assertWorldData(root: string): Promise<WorldDataManifest> 
     const tiles = expectedWorldTiles();
     if (manifest.format !== 'corealm-world' || manifest.version !== 1 || manifest.scope !== 'game/1337/world'
       || manifest.revision !== generationRevision(root)) throw new Error('Stale world revision');
-    const expected = ['terrain/world', 'spawns/world', ...tiles.map(tile => `scatter/${tile}`)].sort();
+    const expected = ['terrain/world', 'terrain/fairy', 'spawns/world', ...tiles.map(tile => `scatter/${tile}`)].sort();
     if (JSON.stringify(manifest.tiles) !== JSON.stringify(tiles)
       || JSON.stringify(Object.keys(manifest.records).sort()) !== JSON.stringify(expected)) throw new Error('Incomplete island coverage');
     if (Object.values(manifest.records).reduce((sum, record) => sum + record.bytes, 0) > 128 * 1024 * 1024)

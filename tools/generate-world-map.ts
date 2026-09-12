@@ -11,10 +11,13 @@ import { gameRoot } from "./lib/paths.js";
 import { startGameServer } from "./lib/server.js";
 
 const METRES_PER_PIXEL = 0.25;
-const TILE_METRES = 50;
-const TILE_PIXELS = TILE_METRES / METRES_PER_PIXEL;
+// Bounds stay on the established 50 m grid so the 250 m coast pad and canonical image bounds do
+// not change when capture batching changes.
+const BOUNDS_GRID_METRES = 50;
+const CAPTURE_TILE_METRES = 150;
+const CAPTURE_TILE_PIXELS = CAPTURE_TILE_METRES / METRES_PER_PIXEL;
 // Thirty-two metres of guard keeps tree crowns and the lower daytime sun's longer shadows away
-// from tile edges. Sharp still crops every tile back to the same 50 m, 200 px core.
+// from tile edges. Sharp crops every tile back to its 150 m, 600 px core.
 const TILE_BLEED_PIXELS = 128;
 const SOURCE_IMAGE_FILE = "world-map.png";
 const METADATA_FILE = "world-map.json";
@@ -26,6 +29,7 @@ const SETTLEMENT_CAPTURE_REPRESENTATIVES = [
   { settlement: "Rootfall", regionId: "vellenwood", buildingId: "rootfall_house_1" },
   { settlement: "Highcairn", regionId: "karrowmoor", buildingId: "highcairn_hut_1" },
   { settlement: "Emberfast", regionId: "kilnhalt", buildingId: "emberfast_hut_1" },
+  { settlement: "Crownward", regionId: "crownward", buildingId: "crownward_white_castle" },
 ] as const;
 /**
  * REVIEWED for the Kilnhalt expansion, per this tripwire's own instruction: the canonical image
@@ -37,39 +41,38 @@ const SETTLEMENT_CAPTURE_REPRESENTATIVES = [
  * ceiling moves to 1.25 MB rather than the quality moving down.
  */
 // Removing the authored farm geometry changed otherwise-equivalent terrain compression enough for
-// the top rendition to reach 1,252,400 bytes. The replacement capture was visually reviewed at the
-// unchanged quality setting; keep a narrow 1.275 MB ceiling rather than degrading the map.
-const DETAIL_MAX_BYTES = 1_275_000;
+// the pre-Crownward top rendition to reach 1,252,400 bytes. That replacement capture was visually
+// reviewed at the unchanged quality setting.
+// Crownward and the serving-grid ocean pad add 37.5% to the canonical pixel area
+// (4800x6600 -> 6600x6600). Keep the reviewed quality settings and grow the ceiling by the same
+// proportion; this is map area, not encoder drift.
+const DETAIL_MAX_BYTES = 1_755_000;
 
 /**
  * Serving tiles for the deepest zoom level.
  *
- * The flat renditions stay exactly as they were: they are the instant-draw fallback, and the
- * canvas keeps one of them on screen while tiles stream in. What changes is the TOP of the
- * pyramid. A single 4800x6600 file could only reach quality 60 under DETAIL_MAX_BYTES, and a
- * pan at street zoom had to download all of it before anything sharpened. Cut into 600 px
- * squares the same level encodes at quality 75 for 1.47 MB TOTAL, of which a viewport needs
- * roughly a dozen tiles (~0.3-0.45 MB) fetched in parallel and painted as they land.
+ * The flat renditions are the instant-draw fallback, and the canvas keeps one on screen while
+ * tiles stream in. The top tiled level follows the native capture. This keeps quality 75 detail
+ * local to the current viewport instead of making every pan download one monolithic image.
  *
- * 600 px is the largest square that divides 4800x6600 exactly (gcd is 600) and it covers a
- * round 150 m of world. Anything smaller only multiplies request count and per-file container
- * overhead for the same pixels: 300 px would put ~40 tiles in a street-zoom viewport instead
- * of ~12. `chooseServingTileEdge` re-derives it from the level, so a future capture at a finer
- * METRES_PER_PIXEL picks its own legal edge instead of throwing.
+ * `chooseServingTileEdge` derives the closest exact square divisor from each level. Crownward's
+ * image-only ocean pad makes the native capture 6600x6600, retaining 600 px serving tiles without
+ * ragged edge tiles or a changed metres-per-pixel stride.
  *
- * The top level is NOT upscaled past the capture. 4800x6600 is 0.25 m/px, which is the real
+ * The top level is NOT upscaled past the capture. 6600x6600 is 0.25 m/px, which is the real
  * resolution of the orthographic capture; a 9600 px level would be four times the bytes of
  * lanczos-invented detail. Tiling removed the single-file ceiling, so the honest way to spend
  * that headroom is encode quality at native scale. If genuinely more map detail is wanted, the
  * lever is METRES_PER_PIXEL in the capture itself, and this tiler follows it automatically.
  */
 const SERVING_TILE_TARGET_PIXELS = 600;
-// A land tile at quality 75 measures 28-38.5 KB and an ocean tile under 1 KB. These ceilings sit
-// ~1.6x above the measured worst case: wide enough for ordinary capture drift, narrow enough
-// that a tiling or quality mistake fails the bake instead of shipping.
+// Keep the per-tile tripwire unchanged. Crownward's exact square divisor makes tiles smaller, so
+// geometry growth does not justify raising the worst-tile ceiling.
 const SERVING_TILE_MAX_BYTES = 64_000;
-const TILED_LEVEL_MAX_BYTES = 2_250_000;
+// This ceiling grows in direct proportion to the Crownward capture area (11 / 8).
+const TILED_LEVEL_MAX_BYTES = 3_095_000;
 const TILE_FILE_PATTERN = /^world-map-tile-[0-9]+-c[0-9]+-r[0-9]+\.webp$/;
+const DETAIL_FILE_PATTERN = /^world-map-detail-[0-9]+\.webp$/;
 
 interface TiledLevelSpec {
   id: string;
@@ -80,7 +83,7 @@ interface TiledLevelSpec {
 
 /** Largest first, like DETAIL_RENDITIONS. Only the native capture scale is tiled today. */
 const TILED_LEVELS: readonly TiledLevelSpec[] = [
-  { id: "tiled-4800", width: 4800, height: 0, quality: 75 },
+  { id: "tiled-6600", width: 6600, height: 0, quality: 75 },
 ];
 
 interface RenditionSpec {
@@ -100,19 +103,11 @@ const MINIMAP_RENDITION: RenditionSpec = {
   id: "minimap",
   role: "minimap",
   file: "world-map-minimap.webp",
-  // 688 x 946 preserves the canonical image's aspect exactly at the existing boot budget.
-  // The wilderness expansion to z940 made the island taller, moving the canonical capture from
-  // 6:7 to 4800x6600 (8:11), so the old 798 no longer divides into an integer height and any legal
-  // width is now a multiple of 8. A taller map costs bytes: the minimap already encoded to 148,772
-  // of its 150,000 ceiling, and holding the previous 798x931 pixel count needs 159,876. Quality
-  // stays at 92 rather than absorbing that. The volcanic-landform capture was visually
-  // reviewed but encoded at 150,876 bytes at 704 px and 150,336 at 696 px;
-  // two 8 px steps restore budget headroom while retaining quality 92.
-  // The map covers twice the north-south
-  // extent, so metres per pixel coarsens either way; spending it on width keeps the encoder honest.
-  width: 688,
+  // The reviewed continuous Crownward coast and added ruins need quality 91 to retain the
+  // existing 150 KB boot budget at 800 x 800; native zoom tiles keep their original quality.
+  width: 800,
   height: 0,
-  quality: 92,
+  quality: 91,
   maxBytes: MINIMAP_MAX_BYTES,
 };
 
@@ -120,28 +115,28 @@ const MINIMAP_RENDITION: RenditionSpec = {
 // canonical capture, never from another rendition, so changing generation order cannot change it.
 const DETAIL_RENDITIONS: readonly RenditionSpec[] = [
   {
-    id: "detail-4800",
+    id: "detail-6600",
     role: "detail",
-    file: "world-map-detail-4800.webp",
-    width: 4800,
+    file: "world-map-detail-6600.webp",
+    width: 6600,
     height: 0,
     quality: 60,
     maxBytes: DETAIL_MAX_BYTES,
   },
   {
-    id: "detail-2400",
+    id: "detail-3300",
     role: "detail",
-    file: "world-map-detail-2400.webp",
-    width: 2400,
+    file: "world-map-detail-3300.webp",
+    width: 3300,
     height: 0,
     quality: 82,
     maxBytes: DETAIL_MAX_BYTES,
   },
   {
-    id: "detail-1200",
+    id: "detail-1650",
     role: "detail",
-    file: "world-map-detail-1200.webp",
-    width: 1200,
+    file: "world-map-detail-1650.webp",
+    width: 1650,
     height: 0,
     quality: 86,
     maxBytes: DETAIL_MAX_BYTES,
@@ -156,6 +151,7 @@ const GPU_ARGS = [
   "--disable-gpu-vsync",
   "--mute-audio",
 ];
+const MAP_BOOT_TIMEOUT_MS = 300_000;
 
 interface MapBounds {
   minX: number;
@@ -250,27 +246,46 @@ function buildMapLayout(): MapLayout {
   }
   // Stop at the first full tile boundary outside the coastal mesh. That keeps the whole collar in
   // frame and leaves a strip of the ocean plane around it instead of ending on the skirt's edge.
-  const imagePaddingMetres = (Math.floor(coast.collar / TILE_METRES) + 1) * TILE_METRES;
-  // Snap each padded bound OUTWARD to the tile grid. The old world's 700 x 400 m playable extent
+  const imagePaddingMetres = (Math.floor(coast.collar / BOUNDS_GRID_METRES) + 1) * BOUNDS_GRID_METRES;
+  // Snap each padded bound OUTWARD to the 50 m bounds grid. The old world's 700 x 400 m playable extent
   // happened to be a tile multiple, so padding alone tiled exactly; Kilnhalt's 660 m z extent is
   // not, and the previous hard "must tile exactly" throw turned that into a failed capture. The
   // outward snap keeps at least the collar padding on every side and guarantees integer tiling.
-  const snapDown = (value: number): number => Math.floor(value / TILE_METRES) * TILE_METRES;
-  const snapUp = (value: number): number => Math.ceil(value / TILE_METRES) * TILE_METRES;
-  const imageBounds: MapBounds = {
+  const snapDown = (value: number): number => Math.floor(value / BOUNDS_GRID_METRES) * BOUNDS_GRID_METRES;
+  const snapUp = (value: number): number => Math.ceil(value / BOUNDS_GRID_METRES) * BOUNDS_GRID_METRES;
+  const captureBounds: MapBounds = {
     minX: snapDown(spec.bounds.minX - imagePaddingMetres),
     maxX: snapUp(spec.bounds.maxX + imagePaddingMetres),
     minZ: snapDown(spec.bounds.minZ - imagePaddingMetres),
     maxZ: snapUp(spec.bounds.maxZ + imagePaddingMetres),
   };
-  const columnCount = (imageBounds.maxX - imageBounds.minX) / TILE_METRES;
-  const rowCount = (imageBounds.maxZ - imageBounds.minZ) / TILE_METRES;
+  // The runtime tile contract uses one square pixel edge for both axes. Expand only the capture
+  // ocean to a whole 150 m serving grid so Crownward's 1550 m padded width does not collapse the
+  // exact square divisor from 600 px to 200 px. Authored and playable bounds remain unchanged.
+  const servingTileMetres = SERVING_TILE_TARGET_PIXELS * METRES_PER_PIXEL;
+  const expandToServingGrid = (min: number, max: number): readonly [number, number] => {
+    const extra = Math.ceil((max - min) / servingTileMetres) * servingTileMetres - (max - min);
+    if (extra % (BOUNDS_GRID_METRES * 2) !== 0) {
+      throw new Error("World-map serving-grid padding must split evenly on the bounds grid.");
+    }
+    return [min - extra / 2, max + extra / 2];
+  };
+  const [imageMinX, imageMaxX] = expandToServingGrid(captureBounds.minX, captureBounds.maxX);
+  const [imageMinZ, imageMaxZ] = expandToServingGrid(captureBounds.minZ, captureBounds.maxZ);
+  const imageBounds: MapBounds = {
+    minX: imageMinX,
+    maxX: imageMaxX,
+    minZ: imageMinZ,
+    maxZ: imageMaxZ,
+  };
+  const columnCount = (imageBounds.maxX - imageBounds.minX) / CAPTURE_TILE_METRES;
+  const rowCount = (imageBounds.maxZ - imageBounds.minZ) / CAPTURE_TILE_METRES;
   if (!Number.isInteger(columnCount) || !Number.isInteger(rowCount)) {
     throw new Error("Padded world-map bounds must tile exactly at the configured tile size.");
   }
   return {
-    width: columnCount * TILE_PIXELS,
-    height: rowCount * TILE_PIXELS,
+    width: columnCount * CAPTURE_TILE_PIXELS,
+    height: rowCount * CAPTURE_TILE_PIXELS,
     playableBounds: {
       minX: spec.bounds.minX - coast.collar,
       maxX: spec.bounds.maxX + coast.collar,
@@ -283,8 +298,8 @@ function buildMapLayout(): MapLayout {
     tiles: {
       columns: columnCount,
       rows: rowCount,
-      metres: TILE_METRES,
-      pixels: TILE_PIXELS,
+      metres: CAPTURE_TILE_METRES,
+      pixels: CAPTURE_TILE_PIXELS,
       bleedPixels: TILE_BLEED_PIXELS,
     },
   };
@@ -428,11 +443,11 @@ function tileFileName(spec: TiledLevelSpec, column: number, row: number): string
   return `world-map-tile-${spec.width}-c${pad(column)}-r${pad(row)}.webp`;
 }
 
-/** A regrid leaves orphans behind; a stale tile that still 404s cleanly would be worse. */
-async function removeStaleTiles(outputDir: string, keep: ReadonlySet<string>): Promise<void> {
+/** A regrid or resized pyramid leaves unreferenced map files behind unless the bake removes them. */
+async function removeStaleMapFiles(outputDir: string, keep: ReadonlySet<string>): Promise<void> {
   const existing = await readdir(outputDir).catch(() => [] as string[]);
   for (const file of existing) {
-    if (!TILE_FILE_PATTERN.test(file) || keep.has(file)) continue;
+    if ((!TILE_FILE_PATTERN.test(file) && !DETAIL_FILE_PATTERN.test(file)) || keep.has(file)) continue;
     await rm(path.join(outputDir, file), { force: true });
   }
 }
@@ -452,10 +467,9 @@ async function renderRendition(
   layout: MapLayout,
   spec: RenditionSpec,
 ): Promise<MapRenditionMetadata> {
-  // The detailed foliage capture fits the original 1.275 MB ceiling with the photo encoder's
-  // standard chroma sampling. Town, forest, quarry and coast crops were reviewed at native scale;
-  // retain the 4800 px output and quality 60. Smaller renditions keep their existing encoding.
-  const largestDetail = spec.id === "detail-4800";
+  // Keep the photo encoder's full chroma sampling for the native foliage capture. Smaller
+  // renditions retain their existing encoding settings.
+  const largestDetail = spec.id === "detail-6600";
   const image = await sharp(sourceImage)
     .resize({ width: spec.width, height: spec.height, fit: "fill", kernel: "lanczos3" })
     .webp({ quality: spec.quality, effort: 6, smartSubsample: !largestDetail, preset: largestDetail ? "photo" : "default" })
@@ -554,9 +568,12 @@ async function writeWorldMapArtifacts(layout: MapLayout, sourceImage: Buffer): P
       sourceImage, outputDir, layout, sizedTiledLevel(layout, level),
     ));
   }
-  await removeStaleTiles(
+  await removeStaleMapFiles(
     outputDir,
-    new Set(tiled.flatMap((level) => level.tiles.map((tile) => path.posix.basename(tile.path)))),
+    new Set([
+      ...detail.map((rendition) => path.posix.basename(rendition.path)),
+      ...tiled.flatMap((level) => level.tiles.map((tile) => path.posix.basename(tile.path))),
+    ]),
   );
 
   const sourceSha256 = createHash("sha256").update(sourceImage).digest("hex");
@@ -635,19 +652,46 @@ export async function generateWorldMap(): Promise<MapMetadata> {
       if (message.type() === "error") errors.push(message.text().slice(0, 1000));
     });
     await page.routeWebSocket("**", () => undefined);
-    await page.goto(`${server.url}?world-map-capture=1`, { waitUntil: "load", timeout: 60_000 });
-    await page.waitForFunction(
-      () => window.__gameDebug?.getState().ready === true,
-      undefined,
-      { timeout: 120_000 },
-    );
-    await page.waitForTimeout(250);
-
-    const gameErrors = await page.evaluate(() => {
-      const method = (window.__gameDebug as unknown as { getErrors?: () => unknown[] } | undefined)?.getErrors;
-      return typeof method === "function" ? method() : [];
+    const captureUrl = `${server.url}?world-map-capture=1`;
+    console.log(`World-map boot starting (${MAP_BOOT_TIMEOUT_MS / 1000}s allowance): ${captureUrl}`);
+    let startupFailure: unknown;
+    try {
+      await page.goto(captureUrl, { waitUntil: "load", timeout: MAP_BOOT_TIMEOUT_MS });
+      await page.waitForFunction(
+        () => window.__gameDebug?.getState().ready === true
+          || document.querySelector(".boot-error") !== null,
+        undefined,
+        { timeout: MAP_BOOT_TIMEOUT_MS },
+      );
+    } catch (cause) {
+      startupFailure = cause;
+    }
+    const boot = await page.evaluate(() => {
+      const api = window.__gameDebug as unknown as {
+        getState?: () => { ready?: boolean };
+        getErrors?: () => unknown[];
+      } | undefined;
+      return {
+        ready: api?.getState?.().ready === true,
+        bootError: document.querySelector(".boot-error")?.textContent?.trim() ?? "",
+        bodyText: document.body?.innerText?.trim().slice(0, 4_000) ?? "",
+        gameErrors: api?.getErrors?.() ?? [],
+      };
     });
-    if (gameErrors.length > 0) errors.push(`Game debug errors: ${JSON.stringify(gameErrors).slice(0, 2000)}`);
+    if (boot.gameErrors.length > 0) {
+      errors.push(`Game debug errors: ${JSON.stringify(boot.gameErrors).slice(0, 2000)}`);
+    }
+    if (startupFailure || !boot.ready) {
+      const failure = startupFailure instanceof Error ? startupFailure.message : String(startupFailure ?? "not ready");
+      throw new Error([
+        `World-map boot failed: ${failure}`,
+        `Boot error: ${boot.bootError || "none"}`,
+        `Browser errors: ${errors.length > 0 ? errors.join(" | ") : "none"}`,
+        `Document body: ${boot.bodyText || "empty"}`,
+      ].join("\n"));
+    }
+    console.log("World-map boot ready; full-residency capture can begin.");
+    await page.waitForTimeout(250);
 
     const settlementPresence = await page.evaluate((representatives) => {
       const api = window.__gameDebug as unknown as {
@@ -713,12 +757,12 @@ export async function generateWorldMap(): Promise<MapMetadata> {
 
     const inputs: OverlayOptions[] = [];
     const bleedMetres = TILE_BLEED_PIXELS * METRES_PER_PIXEL;
-    const capturePixels = TILE_PIXELS + TILE_BLEED_PIXELS * 2;
-    const captureSpan = TILE_METRES + bleedMetres * 2;
+    const capturePixels = CAPTURE_TILE_PIXELS + TILE_BLEED_PIXELS * 2;
+    const captureSpan = CAPTURE_TILE_METRES + bleedMetres * 2;
     for (let row = 0; row < rows; row += 1) {
-      const centreZ = imageBounds.maxZ - TILE_METRES * (row + 0.5);
+      const centreZ = imageBounds.maxZ - CAPTURE_TILE_METRES * (row + 0.5);
       for (let column = 0; column < columns; column += 1) {
-        const centreX = imageBounds.minX + TILE_METRES * (column + 0.5);
+        const centreX = imageBounds.minX + CAPTURE_TILE_METRES * (column + 0.5);
         const dataUrl = await page.evaluate((options) => {
           const api = window.__gameDebug as unknown as {
             captureWorldMapTile?: (value: typeof options) => string;
@@ -736,13 +780,17 @@ export async function generateWorldMap(): Promise<MapMetadata> {
           .extract({
             left: TILE_BLEED_PIXELS,
             top: TILE_BLEED_PIXELS,
-            width: TILE_PIXELS,
-            height: TILE_PIXELS,
+            width: CAPTURE_TILE_PIXELS,
+            height: CAPTURE_TILE_PIXELS,
           })
           .png()
           .toBuffer();
-        inputs.push({ input: tile, left: column * TILE_PIXELS, top: row * TILE_PIXELS });
+        inputs.push({ input: tile, left: column * CAPTURE_TILE_PIXELS, top: row * CAPTURE_TILE_PIXELS });
       }
+      console.log(
+        `World-map capture row ${row + 1}/${rows} complete `
+          + `(${(row + 1) * columns}/${rows * columns} tiles).`,
+      );
     }
 
     if (errors.length > 0) throw new Error(`World-map browser capture failed:\n${errors.join("\n")}`);

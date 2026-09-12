@@ -12,5 +12,6 @@ it('ships current, intact world records for every island tile', async () => {
   const manifest = await assertWorldData(gameRoot);
   expect(manifest.tiles).toEqual(expectedWorldTiles());
   expect(manifest.tiles.length).toBeGreaterThan(100);
-  expect(Object.keys(manifest.records)).toHaveLength(manifest.tiles.length + 2);
+  expect(Object.keys(manifest.records)).toHaveLength(manifest.tiles.length + 3);
+  expect(manifest.records['terrain/fairy']).toBeDefined();
 });

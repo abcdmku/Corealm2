@@ -7,6 +7,7 @@ import { PanelFrame } from "./panelFrame.js";
  * discovered places, labels, the player, focus, and the selected destination.
  */
 import type { ObservedEntity, RegionId, Vec3 } from "../contracts.js";
+import { worldMapForRegion } from "../contracts.js";
 import type { LocationDef, LocationKind } from "../content/regions.js";
 import { REGIONS, WALK_SPEED_MPS, WORLD_BOUNDS as CONTENT_WORLD_BOUNDS, allLocations } from "../content/regions.js";
 import { REGION_PALETTES } from "../render/materials.js";
@@ -51,12 +52,9 @@ interface LocationEntry {
   def: LocationDef;
 }
 
-const SURFACE_REGIONS: ReadonlySet<RegionId> = new Set(REGIONS.map((region) => region.id));
-
 const LOCATION_INDEX: ReadonlyMap<string, LocationEntry> = (() => {
   const index = new Map<string, LocationEntry>();
   for (const entry of allLocations()) {
-    if (!SURFACE_REGIONS.has(entry.regionId)) continue;
     index.set(entry.location.id, { id: entry.location.id, regionId: entry.regionId, def: entry.location });
   }
   return index;
@@ -80,18 +78,30 @@ const ROAD_EDGES: readonly (readonly [string, string])[] = (() => {
   return edges;
 })();
 
-function fallbackTerrain(): MapTerrainSource {
-  const regionAt = (x: number, z: number) => REGIONS.find((region) => (
+function fallbackTerrain(regionId: RegionId): MapTerrainSource {
+  const mapId = worldMapForRegion(regionId);
+  const regions = REGIONS.filter(region => worldMapForRegion(region.id) === mapId);
+  const bounds = regions.length > 0 ? {
+    minX: Math.min(...regions.map(region => region.bounds.min[0])),
+    maxX: Math.max(...regions.map(region => region.bounds.max[0])),
+    minZ: Math.min(...regions.map(region => region.bounds.min[1])),
+    maxZ: Math.max(...regions.map(region => region.bounds.max[1])),
+  } : WORLD_BOUNDS;
+  const regionAt = (x: number, z: number) => regions.find((region) => (
     x >= region.bounds.min[0] && x <= region.bounds.max[0]
     && z >= region.bounds.min[1] && z <= region.bounds.max[1]
   )) ?? REGIONS[0]!;
   return {
-    bounds: WORLD_BOUNDS,
+    bounds,
+    renderMode: mapId === "fairy" ? "live" : "baked",
     sample: (x, z) => {
       const region = regionAt(x, z);
       return { height: region.baseHeight, normal: [0, 1, 0] as Vec3, regionId: region.id };
     },
-    roadPolylines: () => ROAD_EDGES.map(([fromId, toId]) => {
+    roadPolylines: () => ROAD_EDGES.filter(([fromId, toId]) =>
+      worldMapForRegion(LOCATION_INDEX.get(fromId)!.regionId) === mapId
+      && worldMapForRegion(LOCATION_INDEX.get(toId)!.regionId) === mapId
+    ).map(([fromId, toId]) => {
       const from = LOCATION_INDEX.get(fromId)!;
       const to = LOCATION_INDEX.get(toId)!;
       return [
@@ -166,7 +176,9 @@ interface RegionLabelView {
 
 export class MapPanel implements ManagedPanel {
   readonly frame: PanelFrame;
-  private readonly source: MapTerrainSource;
+  private source: MapTerrainSource;
+  private activeMap: ReturnType<typeof worldMapForRegion>;
+  private readonly regionSelect = document.createElement("select");
   private readonly body: HTMLElement;
   private readonly figure: HTMLElement;
   private readonly canvas: HTMLCanvasElement;
@@ -210,7 +222,9 @@ export class MapPanel implements ManagedPanel {
   private lastDataMs = -Infinity;
 
   constructor(private readonly ctx: UiContext) {
-    this.source = ctx.mapTerrain ?? fallbackTerrain();
+    const regionId = ctx.api.getPlayer().regionId;
+    this.activeMap = worldMapForRegion(regionId);
+    this.source = ctx.mapTerrain?.forRegion?.(regionId) ?? ctx.mapTerrain ?? fallbackTerrain(regionId);
     this.frame = new PanelFrame({
       id: "map",
       title: "Map",
@@ -256,22 +270,14 @@ export class MapPanel implements ManagedPanel {
       this.labelsButton,
     );
 
-    const regionSelect = document.createElement("select");
+    const regionSelect = this.regionSelect;
     regionSelect.className = "map__region-select";
     regionSelect.setAttribute("aria-label", "Map region");
-    const overview = document.createElement("option");
-    overview.value = ""; overview.disabled = true; overview.selected = true; overview.textContent = "Explore regions"; regionSelect.append(overview);
-    for (const region of REGIONS) {
-      const option = document.createElement("option");
-      option.value = region.id; option.textContent = region.name; regionSelect.append(option);
-      for (const dungeon of region.dungeon ? [region.dungeon] : []) {
-        const cave = document.createElement("option");
-        cave.value = dungeon.id; cave.textContent = `${dungeon.name} entrance`; regionSelect.append(cave);
-      }
-    }
+    this.populateRegions();
     regionSelect.addEventListener("change", () => {
-      const region = REGIONS.find(row => row.id === regionSelect.value);
-      const dungeon = REGIONS.flatMap(row => row.dungeon ? [row.dungeon] : []).find(row => row.id === regionSelect.value);
+      const regions = this.currentRegions();
+      const region = regions.find(row => row.id === regionSelect.value);
+      const dungeon = regions.flatMap(row => row.dungeon ? [row.dungeon] : []).find(row => row.id === regionSelect.value);
       if (region || dungeon) {
         const x = dungeon ? dungeon.entrance[0] : (region!.bounds.min[0] + region!.bounds.max[0]) / 2;
         const z = dungeon ? dungeon.entrance[1] : (region!.bounds.min[1] + region!.bounds.max[1]) / 2;
@@ -363,6 +369,21 @@ export class MapPanel implements ManagedPanel {
 
   refresh(force = false): void {
     const player = this.ctx.api.getPlayer();
+    const mapId = worldMapForRegion(player.regionId);
+    if (mapId !== this.activeMap) {
+      this.endDrag();
+      this.activeMap = mapId;
+      this.source = this.ctx.mapTerrain?.forRegion?.(player.regionId) ?? this.ctx.mapTerrain ?? fallbackTerrain(player.regionId);
+      this.map.setSource(this.source);
+      this.map.centreOn(player.position, MAP_HOME_ZOOM);
+      this.populateRegions();
+      this.focusKey = null;
+      this.destKey = null;
+      this.lastPos = null;
+      this.headingRad = null;
+      force = true;
+    }
+    this.figure.dataset["mapId"] = this.activeMap;
 
     /*
      * The observe() half is the expensive half: `scope: "known"` prices every known place by PATH
@@ -374,7 +395,7 @@ export class MapPanel implements ManagedPanel {
     const now = typeof performance !== "undefined" ? performance.now() : Date.now();
     if ((force || now - this.lastDataMs >= DATA_INTERVAL_MS) && this.dragPointer === null) {
       this.lastDataMs = now;
-      const rows = this.known().filter((row) => SURFACE_REGIONS.has(row.regionId));
+      const rows = this.known().filter((row) => worldMapForRegion(row.regionId) === this.activeMap);
       const signature = rows.map((row) => row.id).sort().join(",");
       if (force || signature !== this.signature) {
         this.signature = signature;
@@ -426,6 +447,32 @@ export class MapPanel implements ManagedPanel {
     const where = region ? region.name : regionId;
     const count = rows.length === 1 ? "1 place found" : `${rows.length} places found`;
     return `${count} · ${where}`;
+  }
+
+  private currentRegions() {
+    return REGIONS.filter(region => worldMapForRegion(region.id) === this.activeMap);
+  }
+
+  private populateRegions(): void {
+    this.regionSelect.replaceChildren();
+    const overview = document.createElement("option");
+    overview.value = "";
+    overview.disabled = true;
+    overview.selected = true;
+    overview.textContent = this.activeMap === "fairy" ? "Fairy realm" : "Explore regions";
+    this.regionSelect.append(overview);
+    for (const region of this.currentRegions()) {
+      const option = document.createElement("option");
+      option.value = region.id;
+      option.textContent = region.name;
+      this.regionSelect.append(option);
+      if (region.dungeon) {
+        const cave = document.createElement("option");
+        cave.value = region.dungeon.id;
+        cave.textContent = `${region.dungeon.name} entrance`;
+        this.regionSelect.append(cave);
+      }
+    }
   }
 
   private resolve(row: ObservedEntity): { locationId: string | null; def: LocationDef | null } {
@@ -497,7 +544,7 @@ export class MapPanel implements ManagedPanel {
   private buildRegionLabels(): SVGGElement {
     const group = el("g", { class: "map__region-labels" });
     this.regionLabels = [];
-    for (const region of REGIONS) {
+    for (const region of this.currentRegions()) {
       const x = (region.bounds.min[0] + region.bounds.max[0]) / 2;
       const z = (region.bounds.min[1] + region.bounds.max[1]) / 2;
       const y = this.source.sample(x, z).height;
@@ -586,7 +633,7 @@ export class MapPanel implements ManagedPanel {
 
   private paintLegend(rows: ObservedEntity[]): void {
     this.legend.replaceChildren();
-    for (const region of REGIONS) {
+    for (const region of this.currentRegions()) {
       const found = rows.filter((row) => row.regionId === region.id).length;
       const chip = document.createElement("span");
       chip.className = "map__chip";

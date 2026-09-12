@@ -247,6 +247,9 @@ export function report<T>(result: Result<T>): boolean {
 /** Read-only access to the same terrain and road geometry used by the playable world. */
 export interface MapTerrainSource {
   readonly bounds: Readonly<{ minX: number; maxX: number; minZ: number; maxZ: number }>;
+  /** Separate maps use their own production terrain and never reuse the surface image. */
+  readonly renderMode?: "baked" | "live";
+  forRegion?(regionId: RegionId): MapTerrainSource;
   sample(x: number, z: number): Readonly<{ height: number; normal: Vec3; regionId: RegionId }>;
   roadPolylines(): Vec3[][];
 }

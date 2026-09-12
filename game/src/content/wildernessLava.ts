@@ -1,3 +1,4 @@
+import { WILDERNESS_EAST_LAVA_CHANNELS } from './wildernessEastRelief.js';
 import { wildernessMagicAt } from './wildernessDepth.js';
 import { smoothNoise2D } from '../world/organicFields.js';
 import { rockMassHeight, type LavaRockMass } from '../world/lavaLandforms.js';
@@ -162,7 +163,7 @@ export const WILDERNESS_LAVA_EXPANSION_CHANNELS: readonly LavaChannel[] =
     rockMasses: WILDERNESS_LAVA_LANDFORMS[channel.id]?.map(mass => ({ ...mass, weathered: true })) }));
 
 /** Terrain, rendering, scatter and navigation share this exact active channel set. */
-export const WILDERNESS_LAVA_CHANNELS = WILDERNESS_LAVA_EXPANSION_CHANNELS;
+export const WILDERNESS_LAVA_CHANNELS: readonly LavaChannel[] = [...WILDERNESS_LAVA_EXPANSION_CHANNELS, ...WILDERNESS_EAST_LAVA_CHANNELS];
 
 export function lavaMagicAt(channel: LavaChannel, x: number, z: number): number {
   return channel.magic === undefined ? wildernessMagicAt(x, z) : Math.max(0, Math.min(1, channel.magic));

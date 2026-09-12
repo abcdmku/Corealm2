@@ -39,4 +39,8 @@ export const WILDERNESS_RESOURCE_INTENTS = [
   { id: 'ember_shelter_teak', tier: 50, kind: 'grove', position: [280, 585] },
   { id: 'starwood_hollow', tier: 70, kind: 'grove', position: [-285, 850] },
   { id: 'moonvein_copse', tier: 70, kind: 'grove', position: [285, 755] },
+  { id: 'east_cinder_cut', tier: 50, kind: 'mine', position: [668, 492] },
+  { id: 'ashwind_shelter', tier: 50, kind: 'grove', position: [435, 600] },
+  { id: 'nightglass_ridge', tier: 70, kind: 'mine', position: [650, 830] },
+  { id: 'starfall_copse', tier: 70, kind: 'grove', position: [500, 905] },
 ] as const;

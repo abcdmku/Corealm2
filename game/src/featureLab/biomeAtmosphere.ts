@@ -13,11 +13,20 @@ export function createBiomeAtmosphereWorkbench(atmosphere: BiomeAtmosphere): voi
     option.value = id!; option.textContent = name!; select.append(option);
   }
   atmosphere.setPreview("neutral");
+  const description = document.createElement("span");
+  description.style.cssText = "display:block;margin-top:5px;color:#c3d3d8;font-size:12px";
+  const describe = () => {
+    description.textContent = select.value === "gloamgarden" || select.value === "faeholme"
+      ? "Open underground sky · distant mineral vault · no sun or moon"
+      : select.value === "crownward" ? "Mature parkland · pearl daylight" : "Production sky and material grade";
+  };
+  describe();
   select.addEventListener("change", () => {
     atmosphere.setWildernessMagic(select.value === 'deep_wilderness' ? 1 : 0);
     atmosphere.setPreview(select.value === 'deep_wilderness' ? 'wilderness' : select.value as RegionId | "neutral");
+    describe();
   });
-  panel.append(select); document.body.append(panel);
+  panel.append(select, description); document.body.append(panel);
   (window as Window & { __biomeAtmosphereLab?: unknown }).__biomeAtmosphereLab = {
     getState: () => atmosphere.snapshot(),
   };

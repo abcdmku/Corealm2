@@ -23,6 +23,15 @@ The gate may be skipped only when the behavior being built is the authored full 
 
 ## Development loop
 
+### Crownward fishing
+
+`?mode=combat&fishing=crownward` adds the production Crownmere/Pearlwater channel
+fixture and fifteen fish schools. Trout requires Fishing 30, tuna 40 and salmon 60.
+`npx tsx tools/crownward-fishing-test.ts` clicks each species from its dry bank and
+checks inventory, depletion and water depth. After accepting the fixture, use
+`--world` for the authored Crownward positions and a low-angle shoreline capture.
+Evidence is disposable under `test-results/crownward-fishing/`.
+
 ### Mob spawn spacing
 
 `?mode=combat&spawnSpacing=1&population=stone` exercises the production resident budget

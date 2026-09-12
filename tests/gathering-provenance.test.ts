@@ -22,6 +22,14 @@ function fixture() {
 }
 
 describe("gathering build provenance", () => {
+  it('accepts only the exact user-requested bridge upload without inventing a public license', () => {
+    const pack = { id: 'user-supplied-medieval-bridge', source: 'User attachment medieval_bridge.zip',
+      license: 'User-supplied; license not provided', archiveSha256: '1c1fdc8a4e9534e4740f13033790c79fb23439a532041e7ff78c1dcca7ddb073' };
+    expect(validateGatheringManifestProvenance({packs:[pack],assets:[]}, new Map())).toEqual([]);
+    for (const changed of [{...pack, archiveSha256:'a'.repeat(64)}, {...pack,id:'other-upload'}, {...pack,source:'Unknown file'}]) {
+      expect(validateGatheringManifestProvenance({packs:[changed],assets:[]}, new Map()).length).toBeGreaterThan(0);
+    }
+  });
   it('accepts declared Fab Standard assets only with a Fab listing URL', () => {
     const { manifest, hashes } = fixture();
     const pack = { id: 'fab-armor', source: 'https://www.fab.com/listings/122fd7bf-6f12-4304-a930-cccbbacdaebc', license: 'Fab Standard License' };

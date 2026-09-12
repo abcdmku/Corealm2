@@ -226,27 +226,32 @@ describe("creature voices", () => {
     // recording rather than a reassignment. Naming the set instead of counting it means the next
     // family to land has to be classified here rather than absorbed into a number.
     const voiceless = families.filter((family) => !isCreatureFamily(family));
+    // Crownward and fairy reskins have no reviewed voice recordings. The existing
+    // amethyst dragon also remains silent rather than borrowing an animal recording.
     expect(voiceless).toEqual([
-      "amethyst_spider", "antler_beetle", "ashscale_monitor", "ashseal_warden", "baby_black_dragon",
-      "baby_lava_dragon", "baby_red_dragon", "banshee", "basalt_drake", "basalt_maw",
-      "beetle_golem", "black_wilderness_dragon", "blackwater_heron", "blind_cave_weaver",
-      "bracken_tapir", "briar_harrow", "briar_spider", "cairn_bighorn", "cairn_treader",
-      "chainbound_archon", "chalk_warden", "cinder_penitent", "cinder_ravager", "cinderback_crag",
-      "cindercrest_salamander", "cinderwake", "creek_crab", "duskoak_lynx", "fen_crawler",
-      "field_wasp", "fire_golem", "flint_mandible", "furnace_grazer", "furnace_regent", "galeskin",
-      "gloam_fox", "gloam_wraith", "goblin_archer", "goblin_scout", "goblin_shaman", "gorge_mantis",
-      "granary_rat", "grass_viper", "grave_ghoul", "grave_lantern", "heath_jack", "heath_wasp",
-      "hollow_bough", "hollow_star", "hollowroot_spider", "iron_golem", "kiln_marrow",
-      "kiln_salamander", "lava_golem", "marchfield_turkey", "marchwild_horse", "marsh_moose",
-      "marsh_wasp", "moonweave_spider", "mossback_sentinel", "mossbound", "nightforge_marshal",
-      "pallid_shade", "plague_zombie", "purple_wilderness_dragon", "quarry_nightmare",
-      "quarry_snail", "quarrykeeper", "quillback_porcupine", "reaver", "red_wilderness_dragon",
-      "redbrush_fox", "reed_strider", "reed_wasp", "reedbank_goose", "reedjaw_crocodile",
-      "revenant", "rift_carapace", "rimeback_tortoise", "rootdelve_badger", "rootheart",
-      "scree_bustard", "scree_watcher", "shale_elemental", "skeleton_archer", "skeleton_mage",
-      "skeleton_soldier", "slag_centipede", "slag_crawler", "slateback_tortoise", "stone_golem",
-      "tempest_roc", "thorn_maw", "tideworn", "vault_custodian", "veil_reaper",
-      "voidstone_colossus", "webweaver_spider", "wraith", "zombie",
+      "amethyst_dragon", "amethyst_sovereign", "amethyst_spider", "antler_beetle", "ashscale_monitor",
+      "ashseal_warden", "baby_black_dragon", "baby_lava_dragon", "baby_red_dragon", "banshee",
+      "basalt_drake", "basalt_maw", "beetle_golem", "black_wilderness_dragon", "blackwater_heron",
+      "blind_cave_weaver", "bloomheart_matriarch", "bracken_tapir", "briar_harrow", "briar_spider",
+      "cairn_bighorn", "cairn_treader", "chainbound_archon", "chalk_warden", "cinder_penitent",
+      "cinder_ravager", "cinderback_crag", "cindercrest_salamander", "cinderwake", "creek_crab",
+      "crown_hart", "dewglass_weaver", "duskoak_lynx", "fen_crawler", "field_wasp",
+      "fire_golem", "flint_mandible", "furnace_grazer", "furnace_regent", "galeskin",
+      "gloam_fox", "gloam_wraith", "goblin_archer", "goblin_scout", "goblin_shaman",
+      "gorge_mantis", "granary_rat", "grass_viper", "grave_ghoul", "grave_lantern",
+      "heath_jack", "heath_wasp", "hollow_bough", "hollow_star", "hollowroot_spider",
+      "iron_golem", "ivory_castellan", "kiln_marrow", "kiln_salamander", "lantern_sprite",
+      "lava_golem", "marchfield_turkey", "marchwild_horse", "marsh_moose", "marsh_wasp",
+      "moonpetal_stalker", "moonweave_spider", "mossback_sentinel", "mossbound", "nightforge_marshal",
+      "orchid_reaper", "pallid_shade", "pearl_knight", "plague_zombie", "prismatic_sprite",
+      "purple_wilderness_dragon", "quarry_nightmare", "quarry_snail", "quarrykeeper", "quillback_porcupine",
+      "reaver", "red_wilderness_dragon", "redbrush_fox", "reed_strider", "reed_wasp",
+      "reedbank_goose", "reedjaw_crocodile", "revenant", "rift_carapace", "rimeback_tortoise",
+      "rootdelve_badger", "rootheart", "scree_bustard", "scree_watcher", "shale_elemental",
+      "silverthorn_harrow", "skeleton_archer", "skeleton_mage", "skeleton_soldier", "slag_centipede",
+      "slag_crawler", "slateback_tortoise", "starroot_guardian", "stone_golem", "tempest_roc",
+      "thorn_maw", "tideworn", "vault_custodian", "veil_reaper", "voidstone_colossus",
+      "webweaver_spider", "wraith", "zombie",
     ]);
     for (const family of voiceless) expect(cueForCreature(family)).toBeNull();
 

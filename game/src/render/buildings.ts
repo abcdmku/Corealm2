@@ -1,3 +1,4 @@
+import { buildCrownwardBridge } from './compositions/crownwardBridge.js';
 /**
  * Prefab assembly: a prefab name plus a footprint, out comes an ordered list of part placements.
  *
@@ -95,6 +96,8 @@ import { buildPathWaypointComposition } from "./compositions/pathWaypoint.js";
 import { buildRegionGateComposition } from "./compositions/regionGate.js";
 import { buildRootTunnelComposition } from "./compositions/rootTunnel.js";
 import { buildBlackKnightCastle } from "./compositions/blackKnightCastle.js";
+import { buildWhiteKnightCastle } from "./compositions/whiteKnightCastle.js";
+import { buildCrownwardCastle, CROWNWARD_CASTLE_IDS, type CrownwardCastleId } from "./compositions/crownwardCastles.js";
 import { buildWildernessRuin, WILDERNESS_RUIN_IDS, type WildernessRuinId } from "./compositions/wildernessRuins.js";
 import { buildDeepWildernessStructure, DEEP_WILDERNESS_STRUCTURE_IDS, type DeepWildernessStructureId } from "./compositions/deepWildernessStructures.js";
 import { applyStructureVariant, structureVariantCount } from "./structures/catalog.js";
@@ -226,9 +229,12 @@ export function isPrefabId(value: string): value is PrefabId {
  * landmark's own hero mesh.
  */
 export type CompositionId =
+  | "crownward_bridge"
+  | CrownwardCastleId
   | WildernessRuinId
   | DeepWildernessStructureId
   | "black_knight_castle"
+  | "white_knight_castle"
   | "essence_altar_ruins"
   | "vault_door"
   | "milestone"
@@ -250,9 +256,12 @@ export type CompositionId =
   | "farm_yard";
 
 export const COMPOSITION_IDS: readonly CompositionId[] = [
+  "crownward_bridge",
+  ...CROWNWARD_CASTLE_IDS,
   ...WILDERNESS_RUIN_IDS,
   ...DEEP_WILDERNESS_STRUCTURE_IDS,
   "black_knight_castle",
+  "white_knight_castle",
   "essence_altar_ruins", "vault_door", "milestone", "highcairn_crane", "gravelmaw_mouth", "gravelmaw_exit",
   "great_cairn", "standing_stones", "rootfall_stump", "region_gate", "path_waypoint",
   "root_tunnel_entrance", "canopy_walk_entrance",
@@ -2517,6 +2526,10 @@ export function buildComposition(
   switch (id) {
     case "essence_altar_ruins": return essenceAltarRuins();
     case "black_knight_castle": return buildBlackKnightCastle();
+    case "white_knight_castle": return buildWhiteKnightCastle();
+    case "crownward_bridge": return buildCrownwardBridge();
+    case "crownward_castle":
+    case "crownward_fortress": return buildCrownwardCastle(id);
     case 'cinder_chain_foundry':
     case 'nightforge_bastion':
     case 'hollow_star_sanctum': return buildDeepWildernessStructure(id);

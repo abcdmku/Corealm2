@@ -21,22 +21,20 @@ import {
 } from "../game/src/ui/worldMapCanvas.js";
 
 const MINIMAP_BOOT_BUDGET_BYTES = 150_000;
-// Raised from 750 KB with the Kilnhalt expansion, mirroring the reviewed tripwire in
-// tools/generate-world-map.ts: the canonical image grew 33% in pixels and the northern band's
-// dry-brush ground compresses ~15% worse per pixel at the unchanged encode quality. The farming
-// removal capture was visually reviewed before adding a narrow 25 KB margin. Detail levels stay
-// lazy-loaded zoom assets; the boot-path checks below are what protect startup transfer.
-const DETAIL_RENDITION_BUDGET_BYTES = 1_275_000;
+// Mirrors the reviewed tripwire in tools/generate-world-map.ts. Crownward and its image-only
+// serving-grid pad grow the canonical capture from 4800x6600 to 6600x6600, so this ceiling grows
+// by the same 37.5% at unchanged quality. Detail levels remain lazy-loaded zoom assets; the
+// boot-path checks below protect startup transfer.
+const DETAIL_RENDITION_BUDGET_BYTES = 1_755_000;
 // Mirrors the generator's serving-tile ceilings. The whole native-resolution level is cut into
-// 600 px tiles and totals ~1.47 MB at quality 75, of which a street-zoom viewport pulls about a
-// dozen. These are tripwires on the bake, not a transfer budget: the transfer budget is the
-// viewport, and "streams only the tiles under the viewport" below is what protects it.
+// 600 px tiles. These are tripwires on the bake, not a transfer budget. The viewport test below
+// covers transfer behavior.
 const TILE_BUDGET_BYTES = 64_000;
-const TILED_LEVEL_BUDGET_BYTES = 2_250_000;
+const TILED_LEVEL_BUDGET_BYTES = 3_095_000;
 
-const FLAT_4800 = "generated/world-map-detail-4800.webp";
-const FLAT_2400 = "generated/world-map-detail-2400.webp";
-const FLAT_1200 = "generated/world-map-detail-1200.webp";
+const FLAT_NATIVE = WORLD_MAP_DETAIL_RENDITIONS[0]!.path;
+const FLAT_HALF = WORLD_MAP_DETAIL_RENDITIONS[1]!.path;
+const FLAT_QUARTER = WORLD_MAP_DETAIL_RENDITIONS[2]!.path;
 
 interface MapRendition {
   id: string;
@@ -327,20 +325,19 @@ describe("generated world-map payloads", () => {
     expect(view.requested).toEqual([]);
 
     view.map.render();
-    // Street zoom is where the tiled level takes over, so the flat file on the wire is the 2400
-    // underlay rather than the 1 MB 4800 monolith it used to pull down whole.
-    const underlay = WORLD_MAP_DETAIL_RENDITIONS.find((item) => item.path === FLAT_2400)!;
-    expect(view.requested[0]).toContain(`/Corealm/${FLAT_2400}`);
+    // Street zoom is where the tiled level takes over, so the half-scale flat file is its underlay.
+    const underlay = WORLD_MAP_DETAIL_RENDITIONS.find((item) => item.path === FLAT_HALF)!;
+    expect(view.requested[0]).toContain(`/Corealm/${FLAT_HALF}`);
     expect(view.requested[0]).toContain(`v=${underlay.sha256}`);
-    expect(flatRequests(view.requested)).toEqual([FLAT_2400]);
-    expect(flatRequests(view.requested)).not.toContain(FLAT_4800);
+    expect(flatRequests(view.requested)).toEqual([FLAT_HALF]);
+    expect(flatRequests(view.requested)).not.toContain(FLAT_NATIVE);
     expect(view.context.fillText).toHaveBeenCalledWith("Loading detailed map…", 500, 300);
 
     view.map.resetView();
     view.map.render();
     // The whole-island view needs no tiles at all: one flat blit is cheaper and sharp enough.
     expect(view.map.visibleTiles()).toEqual([]);
-    expect(flatRequests(view.requested)).toEqual([FLAT_2400, FLAT_1200]);
+    expect(flatRequests(view.requested)).toEqual([FLAT_HALF, FLAT_QUARTER]);
   });
 
   it("retries a failed preferred level and shows a pregenerated fallback meanwhile", async () => {
@@ -349,13 +346,13 @@ describe("generated world-map payloads", () => {
     view.map.resize(1_000, 600);
     view.map.centreOn([0, 0, 0], MAP_HOME_ZOOM);
     view.map.render();
-    expect(flatRequests(view.requested)).toEqual([FLAT_2400]);
+    expect(flatRequests(view.requested)).toEqual([FLAT_HALF]);
 
     view.images[0]?.onerror?.();
-    expect(flatRequests(view.requested)).toEqual([FLAT_2400, FLAT_1200]);
+    expect(flatRequests(view.requested)).toEqual([FLAT_HALF, FLAT_QUARTER]);
 
     await vi.advanceTimersByTimeAsync(250);
-    expect(flatRequests(view.requested)).toEqual([FLAT_2400, FLAT_1200, FLAT_2400]);
+    expect(flatRequests(view.requested)).toEqual([FLAT_HALF, FLAT_QUARTER, FLAT_HALF]);
   });
 });
 
@@ -521,7 +518,7 @@ describe("segmented world-map level", () => {
     view.map.resize(1_000, 600);
     // 1000x600 at zoom 6 is 2.0509 screen px per metre, so the viewport covers 487.6 x 292.5 m.
     // Centred on the origin that is x in [-243.8, 243.8] and z in [-146.3, 146.3]; against 150 m
-    // tiles laid from minX -600 and maxZ 1200 that is columns 2-5 and rows 7-8.
+    // tiles laid from minX -650 and maxZ 1200 that is columns 2-5 and rows 7-8.
     view.map.centreOn([0, 0, 0], MAP_HOME_ZOOM);
     view.map.render();
     expect(view.map.visibleTiles().map((tile) => `${tile.column}/${tile.row}`)).toEqual([
@@ -559,7 +556,7 @@ describe("segmented world-map level", () => {
     expect(view.context.fillText).toHaveBeenCalledWith("Loading detailed map…", 500, 300);
 
     // The flat underlay lands first and covers the whole map in a single blit.
-    const underlayImage = view.images.find((image) => image.src.includes(FLAT_2400));
+    const underlayImage = view.images.find((image) => image.src.includes(FLAT_HALF));
     load(underlayImage!);
     view.context.drawImage.mockClear();
     view.context.fillText.mockClear();

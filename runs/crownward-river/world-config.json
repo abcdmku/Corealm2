@@ -1,0 +1,96 @@
+{
+  "worldShots": [
+    {
+      "name": "crownmere-lake",
+      "at": [
+        470,
+        170
+      ],
+      "yaw": 3.141592653589793,
+      "expectedRegion": "crownward"
+    },
+    {
+      "name": "kingroad-bridge",
+      "at": [
+        555,
+        163
+      ],
+      "yaw": 3.141592653589793,
+      "expectedRegion": "crownward",
+      "entityIds": [
+        "crownward_kingroad_bridge#premade_bridge"
+      ]
+    },
+    {
+      "name": "coast-bridge",
+      "at": [
+        690,
+        148
+      ],
+      "yaw": 3.141592653589793,
+      "expectedRegion": "crownward",
+      "entityIds": [
+        "crownward_coast_bridge#premade_bridge"
+      ]
+    },
+    {
+      "name": "river-outlet",
+      "at": [
+        810,
+        162
+      ],
+      "yaw": 3.141592653589793,
+      "expectedRegion": "crownward",
+      "pitch": 0.55
+    },
+    {
+      "name": "ashwind-volcanic-hills",
+      "at": [
+        492,
+        680
+      ],
+      "yaw": -1.8,
+      "expectedRegion": "wilderness"
+    },
+    {
+      "name": "starless-lava",
+      "at": [
+        410,
+        915
+      ],
+      "yaw": 1.6,
+      "expectedRegion": "wilderness"
+    },
+    {
+      "name": "red-dragon-roost",
+      "at": [
+        705,
+        370
+      ],
+      "yaw": 3.141592653589793,
+      "expectedRegion": "crownward"
+    }
+  ],
+  "worldBridge": {
+    "from": [
+      555,
+      180
+    ],
+    "to": [
+      555,
+      210
+    ]
+  },
+  "worldBridges": [
+    {
+      "from": [
+        690,
+        165
+      ],
+      "to": [
+        690,
+        195
+      ]
+    }
+  ]
+}

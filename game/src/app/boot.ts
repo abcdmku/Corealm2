@@ -1,3 +1,9 @@
+import { CROWNWARD_RIVER_LAB_CHANNELS } from '../content/crownwardRiver.js';
+import { createRiverSurface } from '../render/riverSurface.js';
+import { isFairyRegion, worldMapForRegion } from '../contracts.js';
+import { createRealmTerrain, createRealmScatter, type RealmTerrain } from './realmTerrain.js';
+import { buildFairyTerrainSpec } from './worldSpec.js';
+import { FAIRY_PORTAL_LAB_TERRAIN, assembleFairyPortalFixture, createFairyPortalWorkbench } from '../featureLab/fairyPortal.js';
 import { immediatePlayerItems, selectPlayerEntities, type PlayerAssetArea } from '../render/playerAssetPlan.js';
 import { WorldSiteStreaming } from '../world/worldSiteStreaming.js';
 import generationRevision from "virtual:corealm-generation-revision";
@@ -28,6 +34,7 @@ import { coastalBodyOnSafeGround } from '../content/coastalEncounterFormation.js
 import { lavaObstacles } from "../world/lavaObstacles.js";
 import { WILDERNESS_ROAD_BRAZIERS } from "../content/wildernessLandmarks.js";
 import { WILDERNESS_RUINS, type WildernessRuinId } from "../render/compositions/wildernessRuins.js";
+import { castleGroundLayout } from '../render/compositions/crownwardCastles.js';
 import { CREATURE_MOTION_TIMING } from "../content/creatureMotionTiming.js";
 import { ForestResources, type ForestTreeDescriptor } from "../world/forestResources.js";
 import { ForestPresentation } from "../render/forestPresentation.js";
@@ -339,21 +346,28 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const camera = new OrbitCamera(renderer.camera);
   camera.fixedFollow = true;
   const scene = new WorldScene(renderer.scene);
-  renderer.prepareScene = (viewCamera) => scene.scatterVisibility.prepare(
-    viewCamera, renderer.scene.fog instanceof THREE.Fog ? renderer.scene.fog.far : undefined,
-  );
+  let fairyRealm: RealmTerrain | null = null;
+  const fairyLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("fairy") === "1";
+  const terrainAt = (x: number, z: number): WorldScene => fairyRealm?.contains(x, z) ? fairyRealm.scene : scene;
+  renderer.prepareScene = (viewCamera) => {
+    const fogFar = renderer.scene.fog instanceof THREE.Fog ? renderer.scene.fog.far : undefined;
+    scene.scatterVisibility.prepare(viewCamera, fogFar);
+    fairyRealm?.scene.scatterVisibility.prepare(viewCamera, fogFar);
+    fairyRealm?.scene.materials.setTime(performance.now() / 1000);
+  };
   scene.materials.setFoliageOcclusionEnabled(false);
-  if (profile.kind === "game") {
+  if (profile.kind === "game" || fairyLab) {
     renderer.biomeAtmosphere.sky.enabled = true;
     renderer.biomeWeightsSource = () => {
       const player = store.get().player;
       if (player.regionId === "gravelmaw") return { gravelmaw: 1 };
+      if (isFairyRegion(player.regionId)) return { [player.regionId]: 1 };
       return Object.fromEntries(scene.biomeWeightsAt(player.position[0], player.position[2])
         .map(({ id, weight }) => [id, weight]));
     };
     renderer.wildernessMagicSource = () => {
       const player = store.get().player;
-      return player.regionId === 'gravelmaw' ? 0 : wildernessMagicAt(player.position[0], player.position[2]);
+      return worldMapForRegion(player.regionId) !== 'surface' ? 0 : wildernessMagicAt(player.position[0], player.position[2]);
     };
   }
 
@@ -372,12 +386,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Flat pads are registered before the terrain mesh is generated, or the ground under a
   // settlement stays as noisy as the moor around it — Coldbrace square measured a metre of tilt
   // across 33 m before this. worldSpec derives the pads from the authored settlement data.
-  const fishingLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("fishing") === "1"
+  const crownwardFishingLab = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('fishing') === 'crownward';
+  const fishingLab = profile.kind === "feature-lab" && (new URLSearchParams(location.search).get("fishing") === "1" || crownwardFishingLab)
     ? await import("../featureLab/fishing.js") : undefined;
   const pavingLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("paving") === "1"
     ? await import("../featureLab/paving.js") : undefined;
   const surfaceTextures = await surfaceBootstrap;
   scene.materials.setGroundStoneSurface(surfaceTextures);
+  await (await import('../render/castleStoneMaterial.js')).preloadCastleStoneTextures();
+  scene.materials.setCastleStoneEnabled(true);
   const terrainSpec = profile.terrain();
   const cacheQuery = new URLSearchParams(location.search);
   const cacheScope = generationScope(profile.kind, store.get().meta.seed, location.search);
@@ -399,7 +416,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const wildernessCreaturesLab = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('wildernessCreatures') === '1';
   const wildernessTorchesLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("wildernessTorches") === "1";
   if (wildernessEffectsLab) terrainSpec.lavaChannels = deepWildernessEffectsLab ? DEEP_WILDERNESS_LAVA_LAB_CHANNELS : WILDERNESS_LAVA_LAB_CHANNELS;
-  if (fishingLab) terrainSpec.basins = [fishingLab.FISHING_LAB_BASIN];
+  const riverLab = profile.kind === 'feature-lab' && (cacheQuery.get('river') === '1' || crownwardFishingLab);
+  if (riverLab) terrainSpec.waterChannels = CROWNWARD_RIVER_LAB_CHANNELS;
+  if (fishingLab && !crownwardFishingLab) terrainSpec.basins = [fishingLab.FISHING_LAB_BASIN];
   await bootTelemetry.measureAsync(BOOT_SPANS.TERRAIN_BUILD, async () => {
     const prepareSurface = profile.worldSurface
       ? (preparedScene: WorldScene) => {
@@ -418,17 +437,26 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     cameraQueries.addHeightfield(scene.heightfieldSamples());
   });
 
-  const heightAt = (regionId: RegionId, x: number, z: number): number => scene.heightAt(regionId, x, z);
+  if (profile.kind === 'game' || fairyLab) {
+    fairyRealm = await createRealmTerrain(renderer.scene, fairyLab ? FAIRY_PORTAL_LAB_TERRAIN : buildFairyTerrainSpec(), {
+      cache: generationCache, cacheKey: 'fairy',
+      configure: other => other.materials.setGroundStoneSurface(surfaceTextures),
+      ...(fairyLab ? {} : { prepareSurface: (other: WorldScene) => { prepareWorldSurface(other, store.get().meta.seed); } }),
+    });
+    cameraQueries.addHeightfield(fairyRealm.heightfieldSamples());
+  }
+  const heightAt = (regionId: RegionId, x: number, z: number): number => terrainAt(x, z).heightAt(regionId, x, z);
+  const fairyPortalFixture = fairyLab ? assembleFairyPortalFixture(heightAt, id => assets.baseY(id)) : null;
   const authoredDungeonSpec = profile.dungeon ? buildDungeonSpec(scene) : null;
   const denseCaveLab = profile.kind === 'feature-lab' && new URLSearchParams(location.search).get('denseCave') === '1'
     ? await import('../featureLab/denseCave.js') : null;
   const denseCavePopulation = denseCaveLab?.assembleDenseCavePopulation(id => assets.baseY(id), id => assets.assetSize(id));
   const doorLab = profile.kind === "feature-lab" && (new URLSearchParams(window.location.search).get("doors") === "1" || denseCaveLab)
     ? await import("../featureLab/dungeonDoors.js") : null;
-  const doorFixture = denseCavePopulation ?? doorLab?.assembleDungeonDoorFixture((x, z) => scene.meshHeightAt(x, z));
+  const doorFixture = denseCavePopulation ?? doorLab?.assembleDungeonDoorFixture((x, z) => terrainAt(x, z).meshHeightAt(x, z));
   const agilityLabModule = profile.kind === "feature-lab" && new URLSearchParams(window.location.search).get("agility") === "1"
     ? await import("../featureLab/agility.js") : null;
-  const agilityFixture = agilityLabModule?.assembleAgilityFixture((x, z) => scene.meshHeightAt(x, z),
+  const agilityFixture = agilityLabModule?.assembleAgilityFixture((x, z) => terrainAt(x, z).meshHeightAt(x, z),
     (id) => assets.baseY(id), (id) => assets.assetSize(id), (id) => assets.assetCenterXZ(id));
   const dungeonRegion = profile.dungeon ? REGIONS.find((region) => region.dungeon) : undefined;
   const doorLogic = doorFixture || dungeonRegion ? await import("../world/dungeonDoors.js") : null;
@@ -482,6 +510,9 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   //     roads and organic shorelines but before any chunk is shaded. Every vertex therefore consumes
   //     the final surface exactly once; there is no post-build restamp or second height authority.
   bootTelemetry.milestone(BOOT_MILESTONES.TERRAIN_READY);
+  const riverSurface = terrainSpec.waterChannels?.length ? createRiverSurface(terrainSpec.waterChannels, scene.materials,
+    (x, z) => scene.meshHeightAt(x, z)) : null;
+  if (riverSurface) scene.terrainGroup.add(riverSurface.group);
 
   // 7c. Water. Fishing spots were authored as interaction markers with a note that the water itself
   //     is the render layer's job — and nothing was building it, so every fishing spot sat on dry
@@ -496,7 +527,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // Fallen Duskoak hovered 5.77 m and the Coldbrace fletching bench 1.41 m, and why 74 of 151
   // measured entities sat more than 5 cm off the ground. `assetSize` sizes the collision volumes
   // that make the world solid at all.
-  const roadPolylines = scene.getRoadPolylines();
+  const roadPolylines = [...scene.getRoadPolylines(), ...(fairyRealm?.scene.getRoadPolylines() ?? [])];
   const roadDistance = (x: number, z: number): number => {
     let best = Infinity;
     for (const line of roadPolylines) {
@@ -515,7 +546,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // One pass over the solved water bodies yields both halves of a fishery: the dry stance and the
   // school it faces. They have to come from the same solved contour or they drift apart.
   const fishingAnchors = profile.kind === "game"
-    ? fishingSiteAnchors(WORLD_SITES, scene.getWaterBodies(), (x, z) => scene.meshHeightAt(x, z))
+    ? fishingSiteAnchors(WORLD_SITES, scene.getWaterBodies(), (x, z) => terrainAt(x, z).meshHeightAt(x, z))
     : null;
   const worldPorts = {
     heightAt,
@@ -523,7 +554,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     ...(fishingAnchors ? {
       accessPositions: new Map([
         ...fishingAnchors.banks,
-        ...miningAccessPositions(WORLD_SITES, (x, z) => scene.meshHeightAt(x, z), {
+        ...miningAccessPositions(WORLD_SITES, (x, z) => terrainAt(x, z).meshHeightAt(x, z), {
           assetSize: (id) => assets.assetSize(id), assetCenterXZ: (id) => assets.assetCenterXZ(id),
         }),
       ]),
@@ -535,14 +566,14 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     roadDistance,
     coastalSpawns: profile.worldSurface ? coastalSpawnSites(scene, store.get().meta.seed) : [],
     coastalAccepts: (spot: readonly [number, number], radius: number) =>
-      coastalBodyOnSafeGround((x, z) => scene.sampleWorld(x, z), spot, radius),
+      coastalBodyOnSafeGround((x, z) => terrainAt(x, z).sampleWorld(x, z), spot, radius),
   };
   const shopLab = profile.kind === "feature-lab" && new URLSearchParams(window.location.search).get("shop") === "1"
     ? await import("../featureLab/shop.js") : null;
-  const shopFixture = shopLab?.assembleShopFixture((x, z) => scene.meshHeightAt(x, z), worldPorts);
+  const shopFixture = shopLab?.assembleShopFixture((x, z) => terrainAt(x, z).meshHeightAt(x, z), worldPorts);
   const portalLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("portal") === "1"
     ? await import("../featureLab/portal.js") : null;
-  const portalFixture = portalLab?.assemblePortalFixture((x, z) => scene.meshHeightAt(x, z), (id) => assets.baseY(id));
+  const portalFixture = portalLab?.assemblePortalFixture((x, z) => terrainAt(x, z).meshHeightAt(x, z), (id) => assets.baseY(id));
   const packLab = packId ? await import("../featureLab/regionalPacks.js") : null;
   const rpgPackCatalogue = packId && new URLSearchParams(location.search).get("rpg") === "1"
     ? (await import("../content/rpgRegionalPacks.js")).createRpgRegionalPackCatalogue((id) => {
@@ -551,7 +582,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     }, [packId]) : undefined;
   if (rpgPackCatalogue) content.register({ enemies: [...content.allEnemies(), ...rpgPackCatalogue.variants.map((variant) => variant.stats)] });
   const packFixture = packLab && packId ? packLab.assembleRegionalPackFixture(packId, {
-    heightAt: (x, z) => scene.meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
+    heightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
   }, rpgPackCatalogue) : null;
   // Final-world regional packs. Activation is the root's recorded decision in
   // `regionalPackActivation.ts`, region by region; nothing in the URL can switch it on. The
@@ -576,7 +607,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   // cached assembly. Member IDs, coordinates and bindings are authored; the seed only orients them.
   const buildWorldPackEntities = (): SemanticEntity[] => worldPackCatalogue && packBuilder
     ? worldPackCatalogue.packs.flatMap((pack) => packBuilder.assembleRegionalPack(pack.id, {
-      heightAt: (x, z) => scene.meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
+      heightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
     }, { seed: store.get().meta.seed }, worldPackCatalogue).entities)
     : [];
   const built = profile.buildSemanticWorld(store.get().meta.seed, heightAt, worldPorts);
@@ -584,7 +615,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const mobSpacingFixture: SemanticEntity[] = [];
   if (mobSpacingLab) {
     const { createMobSpacingFixture } = await import('../featureLab/mobSpawnSpacing.js');
-    mobSpacingFixture.push(...createMobSpacingFixture({ heightAt: (x, z) => scene.meshHeightAt(x, z),
+    mobSpacingFixture.push(...createMobSpacingFixture({ heightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
       baseY: worldPorts.baseY!, assetSize: worldPorts.assetSize! }, new URLSearchParams(location.search).get('population') === 'stone'));
     built.entities.push(...structuredClone(mobSpacingFixture));
   }
@@ -593,12 +624,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   for (const habitat of built.coastalHabitats ?? []) worldPackHabitats.set(habitat.groupId, habitat);
   const huntLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("hunt") === "1"
     ? await import("../featureLab/huntContracts.js") : null;
-  const huntFixture = huntLab?.assembleHuntContractsFixture((x, z) => scene.meshHeightAt(x, z), worldPorts.baseY, worldPorts.assetSize);
+  const huntFixture = huntLab?.assembleHuntContractsFixture((x, z) => terrainAt(x, z).meshHeightAt(x, z), worldPorts.baseY, worldPorts.assetSize);
   const motionCohort = new URLSearchParams(location.search).get("motion");
   const groundMotionLab = profile.kind === "feature-lab" && (motionCohort === "1" || motionCohort === "legacy")
     ? await import("../featureLab/groundMotion.js") : null;
   const motionActors = new URLSearchParams(location.search).get("motionActors");
-  const groundMotionFixture = groundMotionLab?.createGroundMotionFixture({ heightAt: (x, z) => scene.meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
+  const groundMotionFixture = groundMotionLab?.createGroundMotionFixture({ heightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z), baseY: worldPorts.baseY, assetSize: worldPorts.assetSize,
     ...(motionCohort === "legacy" ? { cohort: "legacy" as const } : {}),
     ...(motionActors === null ? {} : { assetIds: motionActors.split(",").map((id) => id.trim()) }),
   });
@@ -607,9 +638,16 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     (window as Window & { __groundMotionLab?: unknown }).__groundMotionLab = { actors: groundMotionFixture.actors, habitats: groundMotionFixture.habitats, spawn: groundMotionFixture.spawn };
   }
   if (huntFixture) built.entities.push(...structuredClone(huntFixture.entities));
-  if (terrainSpec.lavaChannels?.length) built.solids.push(...lavaObstacles(terrainSpec.lavaChannels, (x, z) => scene.meshHeightAt(x, z)));
+  if (terrainSpec.lavaChannels?.length) built.solids.push(...lavaObstacles(terrainSpec.lavaChannels, (x, z) => terrainAt(x, z).meshHeightAt(x, z)));
   if (packFixture) built.entities.push(...structuredClone(packFixture.entities));
   if (worldPackCatalogue) built.entities.push(...buildWorldPackEntities());
+  if (fairyPortalFixture) {
+    built.entities.push(...structuredClone(fairyPortalFixture.entities));
+    built.solids.push(...fairyPortalFixture.solids);
+    built.routeNodes.push(...fairyPortalFixture.routeNodes);
+    built.routeEdges.push(...fairyPortalFixture.routeEdges);
+    built.knownLocations.push(...fairyPortalFixture.knownLocations);
+  }
   if (portalFixture) {
     built.entities.push(...structuredClone(portalFixture.entities));
     built.solids.push(...portalFixture.solids);
@@ -635,7 +673,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const fishingEntities = fishingLab?.createFishingLabEntities(scene, assets) ?? [];
   built.entities.push(...fishingEntities);
   const sitePlacements: ResolvedWorldSiteDressing[] = [];
-  const siteStreaming = new WorldSiteStreaming(scene, assets);
+  const siteStreaming = new WorldSiteStreaming(scene, assets, site => terrainAt(site.centre[0], site.centre[1]));
   const encounterNavSolids = new Map<string, SolidVolume>();
   if (packFixture?.habitat.dressing.length) {
     const { buildRegionalPackDressing } = await import("../world/regionalPackDressing.js");
@@ -672,20 +710,21 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         const largestBody = Math.max(0, ...built.entities
           .filter((entity) => entity.meta?.groupId === packHabitat.groupId)
           .map((entity) => entity.combat?.bodyRadius ?? 0));
-        const result = await buildRegionalPackDressing(scene, assets, packHabitat, largestBody, false);
+        const result = await buildRegionalPackDressing(terrainAt(setting.centre[0], setting.centre[1]), assets, packHabitat, largestBody, false);
         siteStreaming.register(setting, result);
         sitePlacements.push(...result.placements);
         built.solids.push(...result.solids);
         for (const solid of result.navigationSolids) encounterNavSolids.set(solid.id, solid);
         continue;
       }
-      const result = resolveWorldSiteDressing(scene, assets, setting);
+      const settingScene = terrainAt(setting.centre[0], setting.centre[1]);
+      const result = resolveWorldSiteDressing(settingScene, assets, setting);
       siteStreaming.register(setting, result);
       sitePlacements.push(...result.placements);
       built.solids.push(...result.solids);
       if (setting.cutFace) {
-        const cut = await buildMineCutFace(scene, assets, setting, built.entities);
-        scene.scatterGroup.add(...cut.objects);
+        const cut = await buildMineCutFace(settingScene, assets, setting, built.entities);
+        settingScene.scatterGroup.add(...cut.objects);
         built.solids.push(...cut.solids);
       }
     }
@@ -727,7 +766,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
   entityStore.load(built.entities);
   if (authoredDungeonSpec) relocateDungeonSave(store.get(), authoredDungeonSpec, {
-    surfaceHeightAt: (x, z) => scene.meshHeightAt(x, z),
+    surfaceHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
     entityRegion: (id) => entityStore.get(id)?.regionId,
   });
   const dungeonDoors = doorLogic && doorThresholds.length
@@ -770,7 +809,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     });
   };
   rehydrateWorldContainers(store.get(), entityStore, {
-    regionAt: (position) => scene.regionAt(position[0], position[2]),
+    regionAt: (position) => terrainAt(position[0], position[2]).regionAt(position[0], position[2]),
   });
   // The other half of the same restore: dead or damaged enemy runtimes reapplied onto the freshly
   // rebuilt entities, or a monster killed just before a refresh comes back as an unattackable
@@ -909,11 +948,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
   // 9. Navmesh over the walkable terrain, then the route graph above it.
   setStatus("mapping walkable ground…");
-  const navigationTerrain = fishingLab || profile.kind === "game"
+  const navigationTerrain = riverLab || fishingLab || profile.kind === "game"
     ? dryNavigationMeshes(scene.getWalkableMeshes(), scene.getWaterBodies()).meshes
     : scene.getWalkableMeshes();
   const navigationInput = [
     ...navigationTerrain,
+    ...(fairyRealm?.getWalkableMeshes() ?? []),
     ...(dungeon?.walkable ?? []),
     ...dungeonNavigationBlockers(dungeon?.blockers ?? []),
     ...structureNavigation.meshes,
@@ -959,7 +999,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         const floor = (px: number, pz: number): number | null => {
           if (underground) return chamberFloorAt(dungeonSpec!, [px, entity.position[1], pz]);
           if (profile.kind === 'feature-lab') return Math.abs(px) < 120 && Math.abs(pz) < 120 ? scene.meshHeightAt(px, pz) : null;
-          const sample = scene.placementSurfaceAt(px, pz);
+          const sample = terrainAt(px, pz).placementSurfaceAt(px, pz);
           const coast = habitatSources.get(String(entity.meta?.groupId))?.boundary === 'playable-coast';
           return sample && (coast || sample.semanticRegion === entity.regionId) && !sample.waterBodyId
             && sample.slope < .65 ? sample.height : null;
@@ -977,7 +1017,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         const snapped = nav.nearestWalkable(point, .3);
         if (!snapped || Math.hypot(snapped[0] - x, snapped[2] - z) > .3 || Math.abs(snapped[1] - y) > .6) return null;
         const originalFloor = underground ? dungeonFloorHeight(dungeonSpec!, entity.position[0], entity.position[2])
-          : scene.meshHeightAt(entity.position[0], entity.position[2]);
+          : terrainAt(entity.position[0], entity.position[2]).meshHeightAt(entity.position[0], entity.position[2]);
         return [x, y + entity.position[1] - originalFloor, z];
       },
     };
@@ -1003,14 +1043,17 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (profile.scatter) {
       await assets.load('corealm_grass_1');
       scene.setGrassSource(assets.instance('corealm_grass_1'));
-      registerExclusions(scene, built.solids, sitePlacements);
+      registerExclusions(scene, built.solids, sitePlacements, fairyRealm?.scene);
       registerHabitatTreeClearance(built.entities);
       const { scatterTilesForBounds, scatterWorldTile } = await import('../world/scatter.js');
-      for (const tile of scatterTilesForBounds(scene.getScatterBounds(Infinity))) {
-        const result = await scatterWorldTile(scene, assets, store.get().meta.seed, tile, undefined,
+      for (const mapScene of [scene, ...(fairyRealm ? [fairyRealm.scene] : [])]) {
+        if (!mapScene.hasNativeGrass()) mapScene.setGrassSource(assets.instance('corealm_grass_1'));
+        for (const tile of scatterTilesForBounds(mapScene.getScatterBounds(Infinity))) {
+        const result = await scatterWorldTile(mapScene, assets, store.get().meta.seed, tile, undefined,
           { cache: bakeWriter, render: false });
         if (result.some(region => region.missingAssets.length)) throw new Error(`Cannot bake incomplete tile ${tile.id}`);
         tiles.push(tile.id);
+        }
       }
     }
     window.__corealmWorldBake = { revision: generationRevision, scope: cacheScope, tiles, records: bakeWriter.records };
@@ -1022,7 +1065,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const refreshWildernessEffects = (structureEntities: readonly SemanticEntity[] = []): void => {
     if (profile.kind !== 'game' && !wildernessEffectsLab && !wildernessTorchesLab) return;
     wildernessEffects?.dispose();
-    const groundHeightAt = (x: number, z: number) => scene.meshHeightAt(x, z);
+    const groundHeightAt = (x: number, z: number) => terrainAt(x, z).meshHeightAt(x, z);
     const torches: WildernessTorch[] = wildernessEffectsLab
       ? (deepWildernessEffectsLab ? deepWildernessEffectsLabTorches : wildernessEffectsLabTorches)(groundHeightAt) : [];
     if (profile.kind === 'game') for (const [index, [x, z]] of WILDERNESS_ROAD_BRAZIERS.entries()) {
@@ -1050,7 +1093,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const spellVfx = new SpellVfx({
     parent: scene.overlayGroup,
     camera: renderer.camera,
-    groundHeightAt: (x, z) => scene.meshHeightAt(x, z),
+    groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
     castingFocus: () => rigged ? playerRig.castingFocus() : undefined,
   });
   if (!worldMapCapture) bootTelemetry.measureSync("boot.shaders.effects.submit",
@@ -1064,6 +1107,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const loadRegion = resumedFromSave ? store.get().player.regionId : spawnSpec.regionId;
   assets.setActiveRegion(loadRegion);
   const scatterStreaming = new ScatterStreamingController(scene, assets, store.get().meta.seed, { onTree: registerForestTree, cache: generationCache ?? undefined });
+  const fairyScatter = fairyRealm ? await createRealmScatter(fairyRealm, assets, store.get().meta.seed, {
+    onTree: registerForestTree, cache: generationCache ?? undefined,
+  }) : null;
+  const scatterForRegion = (regionId: RegionId) => isFairyRegion(regionId) && fairyScatter ? fairyScatter : scatterStreaming;
   let scatterResults: ScatterResult[] = [];
   function registerHabitatTreeClearance(entities: readonly SemanticEntity[]): void {
     for (const habitat of worldHabitats) {
@@ -1096,7 +1143,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (profile.scatter) {
       await assets.load("corealm_grass_1", { priority: "visible-spawn", primary: true });
       scene.setGrassSource(assets.instance("corealm_grass_1"));
-      registerExclusions(scene, built.solids, sitePlacements);
+      registerExclusions(scene, built.solids, sitePlacements, fairyRealm?.scene);
       registerHabitatTreeClearance(built.entities);
       // A cave resume still needs the grass source and exclusions ready for its eventual exit.
       if (!worldMapCapture && loadRegion === "gravelmaw") return;
@@ -1105,7 +1152,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
           "boot.scatter.total",
           () => worldMapCapture
             ? scatterStreaming.forceFullResidency()
-            : scatterStreaming.loadView(loadPosition[0], loadPosition[2],
+            : scatterForRegion(loadRegion).loadView(loadPosition[0], loadPosition[2],
               fogOpaqueMetres(initialSettings.drawDistance) + CAMERA.maxDistance + ENTITY_ACTIVE_REPOSITION_DISTANCE),
         );
         bootTelemetry.milestone(BOOT_MILESTONES.SCATTER_SPAWN_READY, {
@@ -1144,7 +1191,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   renderer.transmissionOpaqueOccluders = () => entityViews.staticOccluderMeshes();
   const spawnPosition = loadPosition;
   let surfaceEntities = entityStore.all().filter((entity) =>
-    (entity.regionId === "gravelmaw") === (loadRegion === "gravelmaw"));
+    worldMapForRegion(entity.regionId) === worldMapForRegion(loadRegion));
   entityViews.updateActiveArea(
     spawnPosition,
     profile.kind === "feature-lab" ? 220 : ENTITY_ACTIVE_RADIUS,
@@ -1203,7 +1250,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   await scatterPreparation;
   forest.update(spawnPosition, new Set());
   surfaceEntities = entityStore.all().filter((entity) =>
-    (entity.regionId === "gravelmaw") === (loadRegion === "gravelmaw"));
+    worldMapForRegion(entity.regionId) === worldMapForRegion(loadRegion));
   // Harvestable trees are registered by scatter. Their sources already loaded with the tiles.
   await entityViews.prepare(surfaceEntities.filter(entity => distanceXZ(entity.position, spawnPosition) <= ENTITY_ACTIVE_RADIUS));
   statusAssetTarget = null;
@@ -1242,10 +1289,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
 
   // 12. Player.
-  const groundY = scene.heightAt(spawnSpec.regionId, spawnSpec.x, spawnSpec.z);
+  const groundY = terrainAt(spawnSpec.x, spawnSpec.z).heightAt(spawnSpec.regionId, spawnSpec.x, spawnSpec.z);
   const spawnNav = nav.closestPoint([spawnSpec.x, groundY + 0.2, spawnSpec.z]);
   const spawn: Vec3 = spawnNav
-    ? [spawnNav[0], scene.meshHeightAt(spawnNav[0], spawnNav[2]), spawnNav[2]]
+    ? [spawnNav[0], terrainAt(spawnNav[0], spawnNav[2]).meshHeightAt(spawnNav[0], spawnNav[2]), spawnNav[2]]
     : [spawnSpec.x, groundY, spawnSpec.z];
   // Facing convention matches NpcStandDef and debug/shots.ts: 0 looks toward +z.
   // The camera sits behind the player, so its yaw is the player's facing plus pi.
@@ -1295,6 +1342,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   if (profile.fullWarmup || performanceLab) {
     if (dungeon && !caveFixture) dungeon.group.visible = loadRegion === "gravelmaw";
     scene.setStreamingRadius(fogOpaqueMetres(initialSettings.drawDistance) + CAMERA.maxDistance);
+    fairyRealm?.scene.setStreamingRadius(fogOpaqueMetres(initialSettings.drawDistance) + CAMERA.maxDistance);
     scene.updateStreaming(initialPlayerPosition[0], initialPlayerPosition[2]);
     entityViews.update(0, renderer.camera.position, clock.elapsedMs);
     bootTelemetry.measureSync("boot.shaders.scene.submit", () => renderer.warmup());
@@ -1422,15 +1470,15 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
           const length = Math.hypot(dx, 1, dz);
           return { y, normal: [-dx / length, 1 / length, -dz / length] as Vec3 };
         }
-        const sample = scene.sampleWorld(x, z);
+        const sample = terrainAt(x, z).sampleWorld(x, z);
         if (!sample.playable || sample.semanticRegion !== regionId || sample.waterBodyId) return null;
-        return { y: scene.meshHeightAt(x, z), normal: scene.normalAt(x, z) };
+        return { y: terrainAt(x, z).meshHeightAt(x, z), normal: terrainAt(x, z).normalAt(x, z) };
       },
       withinPlayableBounds: (regionId, position) => {
         if (dungeonSpec && regionId === dungeonSpec.regionId) {
           return chamberFloorAt(dungeonSpec, position) !== null;
         }
-        const sample = scene.sampleWorld(position[0], position[2]);
+        const sample = terrainAt(position[0], position[2]).sampleWorld(position[0], position[2]);
         return sample.playable && sample.semanticRegion === regionId;
       },
       distanceToWater: (regionId, position) => {
@@ -1443,7 +1491,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
           const samples = radius === 0 ? 1 : 32;
           for (let index = 0; index < samples; index += 1) {
             const angle = (index / samples) * Math.PI * 2;
-            const sample = scene.sampleWorld(
+            const sample = terrainAt(position[0], position[2]).sampleWorld(
               position[0] + Math.sin(angle) * radius,
               position[2] + Math.cos(angle) * radius,
             );
@@ -1537,7 +1585,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     // every step kept the navmesh's Y — 0.147-0.417 m above the drawn ground — so any animal that
     // had ever moved hovered in the air. The player's movement has carried the equivalent
     // `heightAt` port since that float was measured; this is the same fix for everything else.
-    groundHeightAt: (x, z) => scene.meshHeightAt(x, z),
+    groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
   });
   const healthSystem = new HealthSystem({ store, events, equipment: equipmentSystem });
   let openLootContainer: ((container: LootContainerView) => void) | undefined;
@@ -1561,7 +1609,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         const region = getRegion(regionId) ?? getRegion("fallowmarch");
         const fallbackId: RegionId = region?.id ?? "fallowmarch";
         const spot = region?.spawnPoint ?? [spawnSpec.x, spawnSpec.z];
-        const y = scene.heightAt(fallbackId, spot[0], spot[1]);
+        const y = terrainAt(spot[0], spot[1]).heightAt(fallbackId, spot[0], spot[1]);
         return { position: [spot[0], y, spot[1]] as Vec3, regionId: fallbackId };
       },
     },
@@ -1672,19 +1720,18 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         return dungeonSpec.regionId;
       }
     }
-    return scene.regionAt(point[0], point[2]);
+    return terrainAt(point[0], point[2]).regionAt(point[0], point[2]);
   };
   // Region is part of semantic player state, so ordinary movement must update it too. This port
   // uses Y to distinguish Gravelmaw from the Karrowmoor terrain directly above it.
   movement.setPorts({ regionAt: (point, currentRegionId) => currentRegionId === dungeonSpec?.regionId
     ? currentRegionId
-    : scene.regionAt(point[0], point[2]) });
+    : terrainAt(point[0], point[2]).regionAt(point[0], point[2]) });
 
   let activeVisualCentre: Vec3 = [...initialPlayerPosition];
   let activeVisualRegion = loadRegion;
   const entitiesForVisualRegion = (regionId: RegionId): SemanticEntity[] => {
-    const insideDungeon = regionId === "gravelmaw";
-    return entityStore.all().filter((entity) => (entity.regionId === "gravelmaw") === insideDungeon);
+    return entityStore.all().filter((entity) => worldMapForRegion(entity.regionId) === worldMapForRegion(regionId));
   };
   const refreshVisualResidency = (position: Vec3, regionId: RegionId, force = false): void => {
     const regionChanged = regionId !== activeVisualRegion;
@@ -1697,20 +1744,22 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       });
     }
     assets.setActiveRegion(regionId);
-    scatterStreaming.setActivePosition(position[0], position[2]);
+    scatterForRegion(regionId).setActivePosition(position[0], position[2]);
+    fairyRealm?.setVisible(isFairyRegion(regionId));
     // Distance-culls resident scatter shards against the fog wall. Without this the arena and
     // canopy poses drew every in-frustum tile across the whole island; see updateStreaming.
-    scene.updateStreaming(position[0], position[2]);
+    terrainAt(position[0], position[2]).updateStreaming(position[0], position[2]);
     if (regionChanged || force) entityViews.sync(entitiesForVisualRegion(regionId));
     entityViews.updateActivePosition(position);
     activeVisualCentre = [...position];
     activeVisualRegion = regionId;
 
-    if (regionId === "gravelmaw") scatterStreaming.suspend();
-    if (profile.scatter && regionId !== "gravelmaw") {
-      void scatterStreaming.streamNearby(position[0], position[2],
+    if (worldMapForRegion(regionId) !== "surface") scatterStreaming.suspend();
+    if (!isFairyRegion(regionId)) fairyScatter?.suspend();
+    if ((profile.scatter || fairyLab) && regionId !== "gravelmaw") {
+      void scatterForRegion(regionId).streamNearby(position[0], position[2],
         fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + 48).then(() => {
-        scatterResults = scatterStreaming.getStats();
+        scatterResults = scatterForRegion(regionId).getStats();
       }).catch((cause) => {
         errors.push({ atMs: atMs(), source: "scatterStreaming", message: describeError(cause) });
       });
@@ -1767,8 +1816,8 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       if (destination.regionId === "gravelmaw") await deferredCave?.ensure();
       report(1, "Loading creatures and objects…");
       await preparePlayerArea(playerAssetArea(destination.position, destination.regionId));
-      if (profile.scatter && destination.regionId !== "gravelmaw") {
-        scatterResults = await scatterStreaming.loadView(destination.position[0], destination.position[2],
+      if ((profile.scatter || fairyLab) && destination.regionId !== "gravelmaw") {
+        scatterResults = await scatterForRegion(destination.regionId).loadView(destination.position[0], destination.position[2],
           fogOpaqueMetres(clientSettings.get().drawDistance) + CAMERA.maxDistance + ENTITY_ACTIVE_REPOSITION_DISTANCE);
       }
     },
@@ -2066,7 +2115,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   });
   input.configurePicking({ pickGround: (raycaster) => {
     const surfaces = dungeon && store.get().player.regionId === dungeonSpec?.regionId
-      ? dungeon.walkable : scene.getWalkableMeshes();
+      ? dungeon.walkable : terrainAt(store.get().player.position[0], store.get().player.position[2]).getWalkableMeshes();
     const hit = raycaster.intersectObjects(surfaces, false)[0];
     return hit ? { entityId: null, point: hit.point.toArray() as Vec3, distance: hit.distance, object: hit.object } : null;
   } });
@@ -2085,7 +2134,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       import("../featureLab/runtime.js"),
       import("../featureLab/structures.js"),
     ]);
-    const structureOrigin: Vec3 = [-8, scene.meshHeightAt(-8, 12), 12];
+    const structureOrigin: Vec3 = [-8, scene.meshHeightAt(riverLab ? -21 : -8, 12), 12];
     let activeStructure: FeatureLabStructureAssembly | null = null;
     let activeStructureNavigation: THREE.Mesh[] = [];
     let activeStructureCamera: THREE.Mesh[] = [];
@@ -2126,6 +2175,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       navCarveGroup.updateMatrixWorld(true);
       if (!nav.build([
           ...navigationTerrain,
+          ...(fairyRealm?.getWalkableMeshes() ?? []),
           ...(dungeon?.walkable ?? []),
           ...dungeonNavigationBlockers(dungeon?.blockers ?? []),
           ...structureNavigation.meshes,
@@ -2138,6 +2188,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         navCarveGroup.updateMatrixWorld(true);
         const restored = nav.build([
           ...navigationTerrain,
+          ...(fairyRealm?.getWalkableMeshes() ?? []),
           ...(dungeon?.walkable ?? []),
           ...dungeonNavigationBlockers(dungeon?.blockers ?? []),
           ...structureNavigation.meshes,
@@ -2159,6 +2210,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
 
       cameraQueries.clearStatic();
       cameraQueries.addHeightfield(scene.heightfieldSamples());
+      if (fairyRealm) cameraQueries.addHeightfield(fairyRealm.heightfieldSamples());
       for (const solid of allSolids) {
         if (solid.kind === "box") {
           cameraQueries.addStaticBox(
@@ -2339,7 +2391,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
           const result = await entityViews.prepare([...entities]);
           if (result.missing.length) throw new Error(`Missing creature loot fixture assets: ${result.missing.join(", ")}`);
         },
-        groundHeightAt: (x, z) => scene.meshHeightAt(x, z),
+        groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
         baseY: (assetId) => assets.baseY(assetId),
       });
     }
@@ -2413,7 +2465,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
           const result = await entityViews.prepare([...entities]);
           if (result.missing.length) throw new Error(`Missing quest fixture assets: ${result.missing.join(", ")}`);
         },
-        groundHeightAt: (x, z) => scene.meshHeightAt(x, z),
+        groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
         baseY: (assetId) => assets.baseY(assetId),
       });
     }
@@ -2425,7 +2477,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
           const result = await entityViews.prepare([...entities]);
           if (result.missing.length) throw new Error(`Missing gameplay fixture assets: ${result.missing.join(", ")}`);
         },
-        groundHeightAt: (x, z) => scene.meshHeightAt(x, z),
+        groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
         baseY: (assetId) => assets.baseY(assetId),
         assetSize: (assetId) => assets.assetSize(assetId),
       });
@@ -2500,7 +2552,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       selectedEntityId: () => selectedEntityId,
       liveSpellParticles: () => spellVfx.liveParticles(),
       engineErrors: () => errors.map((entry) => `${entry.source}: ${entry.message}`),
-      groundHeightAt: (x, z) => scene.meshHeightAt(x, z),
+      groundHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
     });
     const structurePatch: Partial<FeatureLabStructureSelection> = {};
     const sourceKind = params.get("kind");
@@ -2567,8 +2619,17 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   const lootProjection = new THREE.Vector3();
   // The ground reticle for placing area invocations. It reads the same walkable-mesh picker
   // click-to-move uses, so "where the ring is" and "where a click would walk" never disagree.
-  const aimReticle = new AimReticle(scene.overlayGroup, (x, z) => scene.meshHeightAt(x, z));
+  const aimReticle = new AimReticle(scene.overlayGroup, (x, z) => terrainAt(x, z).meshHeightAt(x, z));
   const spellRangeLab = profile.kind === "feature-lab" && new URLSearchParams(location.search).get("spells") === "1";
+  const makeMapSource = (source: WorldScene): import('../ui/panels.js').MapTerrainSource => ({
+    bounds: source.getScatterBounds(Infinity), renderMode: 'live',
+    sample: (x, z) => ({ height: source.meshHeightAt(x, z), normal: source.normalAt(x, z), regionId: source.regionAt(x, z) }),
+    roadPolylines: () => source.getRoadPolylines(),
+  });
+  const surfaceMapSource: import('../ui/panels.js').MapTerrainSource = {
+    ...makeMapSource(scene), renderMode: profile.kind === 'game' ? 'baked' : 'live',
+  };
+  const fairyMapSource = fairyRealm ? makeMapSource(fairyRealm.scene) : surfaceMapSource;
   const ui = createUi(api, {
     areaAim: {
       pickGround: (clientX, clientY) => input.picker.pickGroundAt(clientX, clientY)?.point ?? null,
@@ -2598,9 +2659,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     },
     settings: clientSettings,
     mapTerrain: {
+      ...surfaceMapSource,
+      renderMode: 'live',
+      forRegion: (regionId) => isFairyRegion(regionId) ? fairyMapSource : surfaceMapSource,
       bounds: scene.getScatterBounds(Infinity),
       sample: (x, z) => ({
-        height: scene.meshHeightAt(x, z),
+        height: terrainAt(x, z).meshHeightAt(x, z),
         normal: scene.normalAt(x, z),
         regionId: scene.regionAt(x, z),
       }),
@@ -2682,6 +2746,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
       entityViews.updateStructureRadius(structureResidencyRadius(preferences.drawDistance));
       if (runtimePerformanceEnabled) entityViews.updateActorRadius(structureResidencyRadius(preferences.drawDistance));
       scene.setStreamingRadius(fogOpaqueMetres(preferences.drawDistance) + CAMERA.maxDistance);
+      fairyRealm?.scene.setStreamingRadius(fogOpaqueMetres(preferences.drawDistance) + CAMERA.maxDistance);
       if (debugReady) refreshVisualResidency(store.get().player.position, store.get().player.regionId, true);
     }
     if (!previous || previous.autoDrawDistance !== preferences.autoDrawDistance
@@ -2807,8 +2872,11 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     },
   });
 
+  if (fairyPortalFixture) createFairyPortalWorkbench(fairyPortalFixture, {
+    interact: id => api.interact(id, 'enter'), player: () => store.get().player,
+  });
   const loop = new GameLoop({
-    store, events, clock, rng, renderer, camera, scene, nav, movement, api, saves, input,
+    store, events, clock, rng, renderer, camera, scene, terrainAt, nav, movement, api, saves, input,
 
   });
   // The Gravelmaw chambers are authored a few metres below the surface, right beside the entrance,
@@ -2833,22 +2901,24 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
   loop.addSystem(gameAudio);
 
   if (dungeon) loop.addInterior(dungeon.group, () => store.get().player.regionId === "gravelmaw");
-  if (portalFixture || dungeon) {
-    loop.addInterior(scene.scatterGroup, () => store.get().player.regionId !== "gravelmaw");
-    loop.addInterior(scene.terrainGroup, () => store.get().player.regionId !== "gravelmaw");
+  if (portalFixture || dungeon || fairyRealm) {
+    loop.addInterior(scene.scatterGroup, () => worldMapForRegion(store.get().player.regionId) === "surface");
+    loop.addInterior(scene.terrainGroup, () => worldMapForRegion(store.get().player.regionId) === "surface");
     for (const object of scene.root.children) {
       if (object.userData["portalInterior"]) loop.addInterior(object, () => store.get().player.regionId === "gravelmaw");
     }
   }
+  if (fairyRealm) loop.addInterior(fairyRealm.scene.root, () => isFairyRegion(store.get().player.regionId));
   // What the player is interacting with, so the rig can pick a pose for it: opening a chest is not
   // the same animation as swinging at a rock.
   loop.setArchetypeLookup((id) => entityStore.get(id)?.archetype ?? null);
   loop.setOverlays(guidance);
   loop.setVfx(vfx);
-  if (profile.kind === 'game' || wildernessEffectsLab || wildernessTorchesLab || wildernessCreaturesLab) loop.setEnvironmentEffects({
+  if (profile.kind === 'game' || riverLab || wildernessEffectsLab || wildernessTorchesLab || wildernessCreaturesLab) loop.setEnvironmentEffects({
     update: (seconds, viewCamera) => {
       wildernessEffects?.setEnabled(store.get().player.regionId !== 'gravelmaw');
       wildernessEffects?.update(seconds, viewCamera);
+      riverSurface?.update(seconds);
       if (creatureEffects) {
         const emitters: WildernessCreatureEmitter[] = [];
         for (const entity of entityViews.residentActors()) {
@@ -2865,7 +2935,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
         creatureEffects.update(seconds, viewCamera, emitters);
       }
     },
-    dispose: () => { wildernessEffects?.dispose(); creatureEffects?.dispose(); },
+    dispose: () => { wildernessEffects?.dispose(); creatureEffects?.dispose(); riverSurface?.dispose(); },
   });
   loop.setSpellVfx(spellVfx);
   if (profile.kind === "feature-lab" && profile.labMode === "combat" && new URLSearchParams(location.search).get("spells") === "1") {
@@ -2887,7 +2957,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     const range = createSpellRange({
       parent: scene.overlayGroup,
       camera: renderer.camera,
-      ground: (x, z) => scene.meshHeightAt(x, z),
+      ground: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
       origin: () => store.get().player.position,
       frame: (aim) => {
         featureLab?.setFreeCameraEnabled(false);
@@ -3001,6 +3071,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (packFixture) rebuilt.entities.push(...structuredClone(packFixture.entities));
     if (worldPackCatalogue) rebuilt.entities.push(...buildWorldPackEntities());
     if (mobSpacingLab) rebuilt.entities.push(...structuredClone(mobSpacingFixture));
+    if (fairyPortalFixture) {
+      rebuilt.entities.push(...structuredClone(fairyPortalFixture.entities));
+      rebuilt.routeNodes.push(...fairyPortalFixture.routeNodes);
+      rebuilt.routeEdges.push(...fairyPortalFixture.routeEdges);
+      rebuilt.knownLocations.push(...fairyPortalFixture.knownLocations);
+    }
     if (portalFixture) {
       rebuilt.entities.push(...structuredClone(portalFixture.entities));
       rebuilt.routeNodes.push(...portalFixture.routeNodes);
@@ -3022,12 +3098,12 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     if (profile.scatter) {
       // Physical terrain, cut faces and lava stay resident across a semantic save/reset.
       // Keep their complete boot-time solid reservations while replacing actor corridors.
-      registerExclusions(scene, built.solids, sitePlacements);
+      registerExclusions(scene, built.solids, sitePlacements, fairyRealm?.scene);
       registerHabitatTreeClearance(rebuilt.entities);
     }
     entityStore.load(rebuilt.entities);
     if (authoredDungeonSpec) relocateDungeonSave(store.get(), authoredDungeonSpec, {
-      surfaceHeightAt: (x, z) => scene.meshHeightAt(x, z),
+      surfaceHeightAt: (x, z) => terrainAt(x, z).meshHeightAt(x, z),
       entityRegion: (id) => entityStore.get(id)?.regionId,
       navClosest: (point) => nav.closestPoint(point),
     });
@@ -3204,10 +3280,10 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     setFoliageOcclusionBoundsOptimization: (enabled) => scene.materials.setFoliageOcclusionBoundsOptimization(enabled),
     entityMotion: (entityId: EntityId) => entityViews.motionSnapshot(entityId),
     waterBodies: () => scene.getWaterBodies(),
-    worldSample: (x: number, z: number) => scene.sampleWorld(x, z),
+    worldSample: (x: number, z: number) => terrainAt(x, z).sampleWorld(x, z),
     setMovementDetourDiagnostics: (enabled) => movement.setDetourDiagnostics(enabled),
     movementDetourDiagnostics: () => movement.getDetourDiagnostics(),
-    worldClearance: ({ x, z, y = scene.meshHeightAt(x, z), radius }) => {
+    worldClearance: ({ x, z, y = terrainAt(x, z).meshHeightAt(x, z), radius }) => {
       const position: Vec3 = [x, y, z];
       const resolved = movementSolids.resolve(position, position, radius);
       return { position, resolved, radius, staticShift: Math.hypot(resolved[0] - x, resolved[2] - z),
@@ -3284,7 +3360,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     entityViewStats: () => entityViews.stats(),
     selection: () => ({ hovered: input.hoveredEntityId, selected: input.selectedEntityId }),
     select: (entityId) => { input.select(entityId); },
-    groundHeight: (x: number, z: number) => scene.meshHeightAt(x, z),
+    groundHeight: (x: number, z: number) => terrainAt(x, z).meshHeightAt(x, z),
     roadPolylines: () => scene.getRoadPolylines(),
     listBuildings: () => REGIONS.flatMap((region) => (region.settlement?.buildings ?? []).map((building) => ({
       id: building.id,
@@ -3562,6 +3638,7 @@ export async function boot(canvas: HTMLCanvasElement, options: BootOptions = {})
     for (let pass = 0; pass < 4; pass++) entityViews.update(0, renderer.camera.position, clock.elapsedMs);
   });
   scene.updateStreaming(initialPlayerPosition[0], initialPlayerPosition[2]);
+  fairyRealm?.setVisible(isFairyRegion(store.get().player.regionId));
   if (store.get().player.regionId === "gravelmaw") await deferredCave?.ensure();
   // Match the first gameplay frame before compiling. Hidden cave lights otherwise produce
   // a different cache key, including for Three's internal sky shader on the first water draw.
@@ -3679,8 +3756,12 @@ function registerExclusions(
   scene: WorldScene,
   solids: readonly SolidVolume[],
   dressing: readonly ResolvedWorldSiteDressing[],
+  fairyScene?: WorldScene,
 ): void {
   worldExclusions.clear();
+  for (const body of scene.getWaterBodies()) if (body.id.startsWith("river:")) {
+    worldExclusions.addCircle(body.centre[0], body.centre[1], body.radii.outer + 2, "custom", body.id);
+  }
   // Reserve the entire carved bank, including the footprint of large dressing rocks.
   // Production bank detail owns this strip; general biome scatter starts beyond it.
   for (const channel of WILDERNESS_LAVA_CHANNELS) {
@@ -3702,8 +3783,10 @@ function registerExclusions(
   const authoredLocations = new Set(WORLD_SITES.map((site) => site.locationId));
   const authoredClusters = new Set(WORLD_SITES.flatMap((site) => site.resourceSlots.map((slot) => slot.clusterId)));
   for (const region of REGIONS) {
-    for (const castle of region.landmarks.filter(landmark=>landmark.composition==='black_knight_castle')) {
-      worldExclusions.addOrientedRect(castle.position[0],castle.position[1],46,52,castle.rotationY ?? 0,2,'building',castle.id);
+    for (const castle of region.landmarks) {
+      const layout = castleGroundLayout(castle.composition);
+      if (!layout) continue;
+      worldExclusions.addOrientedRect(castle.position[0],castle.position[1],layout.exclusion[0],layout.exclusion[1],castle.rotationY ?? 0,2,'building',castle.id);
     }
     for (const landmark of region.landmarks) {
       const ruin = WILDERNESS_RUINS[landmark.composition as WildernessRuinId]
@@ -3739,7 +3822,8 @@ function registerExclusions(
         solid.position[2] + Math.sin(i * Math.PI / 4) * solid.radius,
       ]);
     }
-    if (probes.every(([x, z]) => scene.meshHeightAt(x, z) > top + 0.5)) continue;
+    if (probes.every(([x, z]) => (fairyScene && x >= fairyScene.getWorldBounds().minX
+      ? fairyScene : scene).meshHeightAt(x, z) > top + 0.5)) continue;
     if (solid.kind === "box") {
       worldExclusions.addOrientedRect(solid.position[0], solid.position[2], solid.size[0], solid.size[2], solid.rotationY, 0.4, "building", solid.id);
     } else {
@@ -3773,7 +3857,7 @@ function registerExclusions(
   for (const altar of Object.values(REGIONAL_ESSENCE_ALTARS)) {
     worldExclusions.addCircle(altar.position[0], altar.position[1], ESSENCE_ALTAR_CLEAR_RADIUS, "ritual", altar.id);
   }
-  for (const [index, points] of scene.getRoadPolylines().entries()) {
+  for (const [index, points] of [...scene.getRoadPolylines(), ...(fairyScene?.getRoadPolylines() ?? [])].entries()) {
     worldExclusions.addCorridor(points, 5, "road", `resolved-road-${index}`);
   }
 }

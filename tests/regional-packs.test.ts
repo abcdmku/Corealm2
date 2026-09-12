@@ -12,6 +12,8 @@ import {
 import { tierSilhouetteScale } from "../game/src/core/math.js";
 import { habitatIdleTargets } from "../game/src/world/habitatMovement.js";
 
+// The 96-pack redesign belongs to these four original biomes.
+const originalRegionIds = new Set(["fallowmarch", "vellenwood", "karrowmoor", "kilnhalt"]);
 const assets = new Map(MANIFEST.assets.map((asset) => [asset.id, asset]));
 const bases = new Map(ENEMY_BLOCKS.map((base) => [base.id, base]));
 const sources = new Map(REGIONAL_PACK_SOURCES.map((source) => [source.id, source]));
@@ -37,7 +39,7 @@ describe("authored regional pack staging", () => {
     expect(REGIONAL_PACKS).toHaveLength(96);
     expect(new Set(REGIONAL_PACKS.map((pack) => pack.id)).size).toBe(96);
     const memberIds: string[] = [];
-    for (const region of REGIONS.filter(region => region.id !== "wilderness")) {
+    for (const region of REGIONS.filter(region => originalRegionIds.has(region.id))) {
       expect(REGIONAL_PACKS.filter((pack) => pack.regionId === region.id), region.id).toHaveLength(24);
     }
     for (const pack of REGIONAL_PACKS) {
@@ -183,7 +185,7 @@ describe("authored regional pack staging", () => {
   });
 
   it("makes most packs monster or bandit threats while retaining a few passive populations", () => {
-    for (const region of REGIONS.filter(region => region.id !== "wilderness")) {
+    for (const region of REGIONS.filter(region => originalRegionIds.has(region.id))) {
       const packs = REGIONAL_PACKS.filter((pack) => pack.regionId === region.id);
       expect(packs.filter((pack) => bases.get(pack.baseEnemyDefId)!.behaviour !== "passive").length, region.id)
         .toBeGreaterThanOrEqual(19);

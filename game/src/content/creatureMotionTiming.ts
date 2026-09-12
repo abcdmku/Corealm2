@@ -253,3 +253,23 @@ CREATURE_MOTION_TIMING["creature_voidstone_colossus"] = { seconds: 1.12666666507
 CREATURE_MOTION_TIMING["creature_kiln_marrow"] = { seconds: 2, contactNormalized: 0.52 };
 
 CREATURE_MOTION_TIMING["creature_nightforge_marshal"] = { seconds: 1.1266666650772095, contactNormalized: 0.38 };
+
+// Fairy and Crownward skins retain source geometry and every animation channel. Keep this
+// static alias table independent of the species catalogue, which imports the combat registry.
+for (const [variant, source] of [
+  ['creature_pearl_knight', 'creature_nightforge_marshal'],
+  ['creature_ivory_castellan', 'creature_nightforge_marshal'],
+  ['creature_crown_hart', 'animal_deer'],
+  ['creature_silverthorn_harrow', 'creature_briar_harrow'],
+  ['creature_lantern_sprite', 'creature_marsh_wasp'],
+  ['creature_moonpetal_stalker', 'creature_heath_jack'],
+  ['creature_dewglass_weaver', 'creature_fen_crawler'],
+  ['creature_bloomheart_matriarch', 'creature_boss_rootheart'],
+  ['creature_prismatic_sprite', 'creature_marsh_wasp'],
+  ['creature_orchid_reaper', 'creature_veil_reaper'],
+  ['creature_starroot_guardian', 'creature_briar_harrow'],
+  ['creature_amethyst_sovereign', 'creature_hollow_star'],
+] as const) {
+  if (CREATURE_MOTION_TIMING[source]) CREATURE_MOTION_TIMING[variant] = { ...CREATURE_MOTION_TIMING[source] };
+  if (CREATURE_PURSUIT_CEILING_MPS[source]) CREATURE_PURSUIT_CEILING_MPS[variant] = CREATURE_PURSUIT_CEILING_MPS[source];
+}

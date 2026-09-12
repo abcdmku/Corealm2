@@ -6,6 +6,10 @@ import { CAMPFIRE_FUELS } from "../game/src/content/gatheringProductionTiers.js"
 import { DEFAULT_SCATTER } from "../game/src/world/scatter.js";
 import { REGIONS } from "../game/src/content/regions.js";
 
+// The original mixed-forest recipe has its own density and shoreline rules.
+const originalRegionIds = new Set(["fallowmarch", "vellenwood", "karrowmoor", "kilnhalt", "wilderness"]);
+const originalRegions = REGIONS.filter(region => originalRegionIds.has(region.id));
+
 describe("tree species progression", () => {
   it("keeps mature oak and walnut substantially larger than ordinary trees", () => {
     const ash = TREE_SPECIES.find(species => species.id === "ash")!;
@@ -17,7 +21,7 @@ describe("tree species progression", () => {
     }
   });
   it("keeps a regional preference without letting one species dominate the forest pool", () => {
-    for (const region of REGIONS) {
+    for (const region of originalRegions) {
       for (const layer of DEFAULT_SCATTER[region.id].layers) {
         const trees = (layer.species ?? []).filter(entry => treeSpeciesForAsset(entry.assetId) && (!entry.sources || entry.sources.includes("field")));
         if (!trees.length) continue;
@@ -34,7 +38,7 @@ describe("tree species progression", () => {
   });
 
   it("restricts willows to solved shoreline sources and leaves the wilderness without living trees", () => {
-    for (const region of REGIONS) {
+    for (const region of originalRegions) {
       for (const layer of DEFAULT_SCATTER[region.id].layers) {
         for (const entry of layer.species ?? []) {
           if (treeSpeciesForAsset(entry.assetId)?.id === "willow") expect(entry.sources).toEqual(["shore"]);
@@ -49,6 +53,18 @@ describe("tree species progression", () => {
       expect(bank.shore!.perMetre).toBeGreaterThan(0);
     }
   });
+  it("allows the underground fairy canopy to grow harvestable willows away from shorelines", () => {
+    for (const regionId of ["gloamgarden", "faeholme"] as const) {
+      const canopy = DEFAULT_SCATTER[regionId].layers.find(layer => layer.id === "fairy_canopy")!;
+      const willows = canopy.species!.filter(entry => treeSpeciesForAsset(entry.assetId)?.id === "willow");
+      expect(willows.length, regionId).toBeGreaterThan(0);
+      for (const willow of willows) {
+        expect(willow.sources).toBeUndefined();
+        expect(resourceDef(treeSpeciesForAsset(willow.assetId)!.resourceId).skill).toBe("woodcutting");
+      }
+    }
+  });
+
   it("uses the requested woodcutting levels for both the tree and the harvested log", () => {
     const expected = [["pine",1],["ash",5],["oak",10],["walnut",20],["willow",30],["maple",40],["teak",50],["yew",60],["magic",70]];
     expect(TREE_SPECIES.map(s => [s.id,s.level])).toEqual(expected);

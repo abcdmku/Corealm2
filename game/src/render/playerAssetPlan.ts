@@ -1,4 +1,4 @@
-import type { RegionId, SemanticEntity, Vec3 } from '../contracts.js';
+import { worldMapForRegion, type RegionId, type SemanticEntity, type Vec3 } from '../contracts.js';
 import type { GameState } from '../state/store.js';
 import { EntityActiveSet } from './entityActiveSet.js';
 
@@ -9,10 +9,11 @@ export interface PlayerAssetArea {
   viewRadius: number;
 }
 
-/** Region labels are ownership. Only the underground boundary separates visible worlds. */
+/** Adjacent regions share visible content only when they belong to the same map. */
 export function selectPlayerEntities(entities: readonly SemanticEntity[], area: PlayerAssetArea): readonly SemanticEntity[] {
   const index = new EntityActiveSet();
-  index.replace(entities.filter(entity => (entity.regionId === 'gravelmaw') === (area.regionId === 'gravelmaw')));
+  const mapId = worldMapForRegion(area.regionId);
+  index.replace(entities.filter(entity => worldMapForRegion(entity.regionId) === mapId));
   index.setArea(area.position, area.resourceRadius, area.viewRadius);
   index.setActorRadius(area.viewRadius);
   return index.selected();

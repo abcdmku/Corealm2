@@ -73,6 +73,8 @@ export interface LoopDeps {
   camera: OrbitCamera;
   updateRoofVisibility?(position: Vec3 | null): void;
   scene: WorldScene;
+  /** Select the terrain map without moving player visuals out of the main scene. */
+  terrainAt?(x: number, z: number): WorldScene;
   nav: Navigation;
   movement: Movement;
   api: CorealmGameApi;
@@ -543,7 +545,7 @@ export class GameLoop {
     this.renderPos[1] = this.prevPlayerPos[1] + dy * alpha;
     this.renderPos[2] = this.prevPlayerPos[2] + dz * alpha;
     this.renderPos[1] = interpolatedGroundHeight(this.prevPlayerPos, current, this.renderPos,
-      (x, z) => this.deps.scene.meshHeightAt(x, z));
+      (x, z) => (this.deps.terrainAt?.(x, z) ?? this.deps.scene).meshHeightAt(x, z));
 
     let turn = (player.facingRad - this.prevFacingRad) % TWO_PI;
     if (turn > Math.PI) turn -= TWO_PI;

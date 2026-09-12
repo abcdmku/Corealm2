@@ -1,3 +1,4 @@
+import { carveRiverTerrain, riverWaterBodies, sampleRiverChannel, type RiverChannel } from '../world/riverChannels.js';
 import type { GenerationCachePort } from "../world/generationCache.js";
 import { captureGeometry, restoreGeometry, validTerrainCache, type TerrainCacheData } from "./terrainCache.js";
 /**
@@ -132,6 +133,7 @@ export interface WorldTerrainSpec {
   basins?: WaterBasinSpec[];
   /** Molten channels share terrain, placement and obstacle coordinates with their rendered banks. */
   lavaChannels?: readonly LavaChannel[];
+  waterChannels?: readonly RiverChannel[];
   /** Normalized hub-and-band fields shared by terrain relief, palette, and scatter. */
   biomes?: OrganicBiomeSpec<RegionId>;
   /** Coastal land and ocean. Dry terrain extends physics, navigation, and placement. */
@@ -704,7 +706,7 @@ export class WorldScene {
       this.flats = [...this.flats, ...(spec.flats ?? [])].map((flat) => ({ ...flat }));
       this.basinSpecs = (spec.basins ?? []).map((basin) => ({ ...basin }));
       this.basins = [];
-      this.builtWaterBodies = [];
+      this.builtWaterBodies = riverWaterBodies(spec.waterChannels ?? []);
       this.fields = [];
     }];
 
@@ -1591,8 +1593,9 @@ export class WorldScene {
    * `protectedAuthority` - see `applyHaulRoads`.
    */
   heightAtXZ(x: number, z: number): number {
-    const height = this.applyBasins(x, z, this.preBasinHeight(x, z));
-    return this.world?.lavaChannels?.length ? carveLavaTerrain(height, x, z, this.world.lavaChannels) : height;
+    let height = this.applyBasins(x, z, this.preBasinHeight(x, z));
+    if (this.world?.lavaChannels?.length) height = carveLavaTerrain(height, x, z, this.world.lavaChannels);
+    return this.world?.waterChannels?.length ? carveRiverTerrain(height, x, z, this.world.waterChannels) : height;
   }
 
   private preBasinHeight(x: number, z: number): number {
@@ -1951,7 +1954,7 @@ export class WorldScene {
     const coast = this.world?.coast;
     if (outsideDistance > 0.000_001 && !(coast && outsideDistance <= coast.collar && height >= coast.seaLevel)) return null;
     return { height, slope: this.slopeAt(x, z), semanticRegion: this.regionAt(x, z),
-      waterBodyId: this.builtWaterBodies.find(body => body.closed && pointInContour(x, z, body.contour))?.id ?? null };
+      waterBodyId: this.builtWaterBodies.find(body => body.closed && (!body.id.startsWith("river:") || height < body.level + .01) && pointInContour(x, z, body.contour))?.id ?? null };
   }
 
   /** One compact, JSON-safe probe for biome/coast authoring and browser diagnostics. */
@@ -1989,7 +1992,9 @@ export class WorldScene {
       : profile
         ? Math.max(this.sampleCoastGrid(x, z) ?? profile.landHeight, coastSpec!.seaLevel)
         : this.meshHeightAt(boundaryX, boundaryZ);
-    const waterBody = this.builtWaterBodies.find((body) => body.closed && pointInContour(x, z, body.contour));
+    const waterBody = this.builtWaterBodies.find((body) => body.closed
+      && (!body.id.startsWith('river:') || height < body.level + .01)
+      && pointInContour(x, z, body.contour));
 
     return {
       x,
@@ -2294,6 +2299,10 @@ export class WorldScene {
         // ramp; protecting its entire original hillside would leave lakes behind cliff rings.
         protection = Math.max(protection,
           1 - smoothstep01((radius - basin.floorRadius - 2) / 4));
+      }
+      for (const channel of this.world?.waterChannels ?? []) {
+        const wet = sampleRiverChannel(channel, x, z);
+        protection = Math.max(protection, 1 - smoothstep01((wet.signedDistance - wet.bankWidth) / 2));
       }
       grid.heights[i] = Math.max(minimumHeight, grid.heights[i]! + change * influences[i]! * (1 - protection));
     }
@@ -3533,6 +3542,15 @@ function makeRegionField(spec: RegionTerrainSpec): (x: number, z: number) => num
         const rolling = fbm(noise, x, z, 3, 120);
         const swell = fbm(detail, x, z, 2, 46) * 0.28;
         let height = spec.baseHeight + (rolling + swell) * spec.amplitude * 0.62;
+        if (spec.regionId === 'crownward') {
+          // Broad wooded ridges alternate with open lower meadows. Warp their field
+          // before sampling so the folds do not follow the map axes. Flats and road
+          // grading still run afterward, preserving authored courts and approaches.
+          const wx = x + fbm(detail, x + 193, z - 47, 2, 180) * 65;
+          const wz = z + fbm(detail, x - 71, z + 211, 2, 180) * 65;
+          const ridge = smoothstep01((noise(wx / 115, wz / 145) + .16) / .7);
+          height += ridge * ridge * spec.amplitude * .95;
+        }
         if (spec.regionId === 'wilderness') {
           // Sparse broad hills leave most of the wastes as walking and fighting plains.
           const pockets = smoothstep01((noise((x + 53) / 104, (z - 31) / 104) - .08) / .42);

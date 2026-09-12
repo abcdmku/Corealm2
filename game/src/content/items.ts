@@ -1,4 +1,5 @@
 import { HIGH_TIER_LOG_ITEMS } from "./treeSpecies.js";
+import { CROWNWARD_FISH_ITEMS } from './crownwardFishing.js';
 /**
  * Every non-equipment item in Corealm, plus `ALL_ITEMS`, the single table the root registers.
  *
@@ -653,6 +654,7 @@ const TOOLS: readonly ItemDef[] = [
 
 /** Everything except equipment. */
 export const ITEMS: readonly ItemDef[] = [
+  ...CROWNWARD_FISH_ITEMS,
   ...CURRENCY,
   ...RESOURCE_ITEMS,
   ...BARS,

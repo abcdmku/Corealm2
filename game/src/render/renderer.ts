@@ -275,6 +275,9 @@ export class Renderer {
   private readonly daylightSun = new THREE.Color(DAYLIGHT_LOOK.sunColour);
   private readonly moonlight = new THREE.Color(0xadc0e1);
   private readonly arcaneMoonlight = new THREE.Color(0xafa0e4);
+  private readonly turquoiseFairyLight = new THREE.Color(0xb8ece4);
+  private readonly violetFairyLight = new THREE.Color(0xddc7f5);
+  private readonly fairyLight = new THREE.Color();
   /** Prepare instance buffers after the camera settles and before Three uploads this frame. */
   prepareScene?: (camera: THREE.Camera) => void;
   transmissionCandidates?: () => readonly THREE.Mesh[];
@@ -705,11 +708,21 @@ export class Renderer {
     this.biomeAtmosphere.updateEnvironment(this.scene, this.lastFrameAt > 0 ? (nowMs - this.lastFrameAt) / 1000 : 1 / 60);
     const night = this.biomeAtmosphere.sky.nightAmount;
     const magic = this.biomeAtmosphere.sky.magicAmount;
+    const underground = this.biomeAtmosphere.sky.undergroundAmount ?? 0;
+    const fairyDepth = this.biomeAtmosphere.sky.fairyDepthAmount ?? 0;
     this.sun.intensity = THREE.MathUtils.lerp(DAYLIGHT_LOOK.sunIntensity, .95 - magic * .12, night);
     this.sun.color.copy(this.daylightSun).lerp(this.moonlight, night);
     this.sun.color.lerp(this.arcaneMoonlight, magic);
     this.scene.environmentIntensity = THREE.MathUtils.lerp(DAYLIGHT_LOOK.environmentIntensity, .2, night);
     this.hemisphere.intensity = THREE.MathUtils.lerp(DAYLIGHT_LOOK.hemisphereIntensity, .12, night);
+    if (underground > 0) {
+      // Broad mineral light keeps the fairy map and its unusual vegetation readable under the vault.
+      this.fairyLight.copy(this.turquoiseFairyLight).lerp(this.violetFairyLight, fairyDepth);
+      this.sun.color.lerp(this.fairyLight, underground);
+      this.sun.intensity = THREE.MathUtils.lerp(this.sun.intensity, 1.6, underground);
+      this.scene.environmentIntensity = THREE.MathUtils.lerp(this.scene.environmentIntensity, .65, underground);
+      this.hemisphere.intensity = THREE.MathUtils.lerp(this.hemisphere.intensity, .65, underground);
+    }
     const context = this.renderer.getContext();
     if ("createQuery" in context && !this.gpuTimer) {
       // WebGL elapsed queries cannot overlap. Whole-frame and shadow-only samples alternate.

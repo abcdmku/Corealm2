@@ -18,9 +18,18 @@ import { structureEntitiesFromParts, structureCollisionFromCompositionParts } fr
 import { FOLIAGE_RENDER_TILE_METRES, shardByTile } from "../world/scatter.js";
 import { miningAccessPositions } from "../app/miningAccess.js";
 import { WILDERNESS_RESOURCE_SITES, WILDERNESS_RESOURCE_CLUSTERS, WILDERNESS_ORE_RESOURCES, WILDERNESS_TREE_RESOURCES, WILDERNESS_TREE_VARIANTS } from '../content/wildernessResources.js';
+import { FAIRY_ORE_RESOURCES, FAIRY_TREE_RESOURCES } from '../content/fairyOres.js';
+import { CROWNWARD } from '../content/crownward.js';
+import { FAIRY_REGIONS } from '../content/fairyRegions.js';
+import { isNativeTreeAsset } from '../content/treeSpecies.js';
 
 const REVIEW_SITES = [...new Map([...WORLD_SITES, ...WILDERNESS_RESOURCE_SITES].map(site => [site.id, site])).values()];
 const reviewTreeAsset = (id: string): boolean => WILDERNESS_TREE_VARIANTS.some(row => row.assetId === id);
+const REVIEW_RESOURCE_CLUSTERS = [
+  ...WILDERNESS_RESOURCE_CLUSTERS, ...CROWNWARD.clusters,
+  ...FAIRY_REGIONS.flatMap(region => region.clusters),
+];
+const REVIEW_ORE_RESOURCES = [...WILDERNESS_ORE_RESOURCES, ...FAIRY_ORE_RESOURCES];
 
 export interface EnvironmentWorkbenchState {
   ready: boolean;
@@ -161,9 +170,9 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
 
   function resource(site: WorldSite, slot: WorldSiteResourceSlot): SemanticEntity {
     const cluster = getRegion(site.regionId)?.clusters.find((candidate) => candidate.id === slot.clusterId)
-      ?? WILDERNESS_RESOURCE_CLUSTERS.find(candidate => candidate.id === slot.clusterId);
+      ?? REVIEW_RESOURCE_CLUSTERS.find(candidate => candidate.id === slot.clusterId);
     if (!cluster) throw new Error(`Site ${site.id} refers to unknown cluster ${slot.clusterId}`);
-    const definition = [...WILDERNESS_ORE_RESOURCES, ...WILDERNESS_TREE_RESOURCES].find(row => row.id === cluster.resourceId)
+    const definition = [...WILDERNESS_ORE_RESOURCES, ...WILDERNESS_TREE_RESOURCES, ...FAIRY_ORE_RESOURCES, ...FAIRY_TREE_RESOURCES].find(row => row.id === cluster.resourceId)
       ?? resourceDef(cluster.resourceId);
     const id = `${slot.clusterId}_${slot.index}`;
     const assetId = definition.presentation.availableAssetIds[variantSeed(id) % definition.presentation.availableAssetIds.length];
@@ -204,7 +213,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
   function applyMiningAccess(site: WorldSite, entities: SemanticEntity[]): void {
     const access = miningAccessPositions([site], (x, z) => scene.meshHeightAt(x, z), {
       assetSize: (id) => assets.assetSize(id), assetCenterXZ: (id) => assets.assetCenterXZ(id),
-    }, { clusters: WILDERNESS_RESOURCE_CLUSTERS, resources: WILDERNESS_ORE_RESOURCES });
+    }, { clusters: REVIEW_RESOURCE_CLUSTERS, resources: REVIEW_ORE_RESOURCES });
     for (const entity of entities) {
       const stance = access.get(entity.id);
       if (stance) entity.interactionPosition = stance;
@@ -272,8 +281,8 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
     },
     showFoliage(assetId, options = {}) {
       return enqueue(async () => {
-        const tree = reviewTreeAsset(assetId) || /^corealm_(?:(?:oak|pine|ash|walnut|willow|maple|teak|yew|magic)_\d+|deadwood_[a-z0-9_]+)$/.test(assetId);
-        const understory = /^corealm_(?:fern|shrub)_\d+$/.test(assetId);
+        const tree = reviewTreeAsset(assetId) || isNativeTreeAsset(assetId);
+        const understory = /^corealm_(?:fern|shrub)_(?:(?:gloam|fae)_)?\d+$/.test(assetId);
         if (!tree && !understory) throw new Error(`No production foliage family for ${assetId}`);
         if (!assets.entry(assetId)) throw new Error(`Foliage fixture requires ${assetId}`);
         const layout = options.layout ?? "grid";
@@ -286,7 +295,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
           throw new Error("Foliage span and scale must be finite and positive");
         }
         const variants = [...new Set(options.variants?.length ? options.variants : [assetId])];
-        if (variants.some(id => !assets.entry(id) || (!reviewTreeAsset(id) && !/^corealm_(?:(?:oak|pine|ash|walnut|willow|maple|teak|yew|magic|fern|shrub)_\d+|deadwood_[a-z0-9_]+)$/.test(id)))) {
+        if (variants.some(id => !assets.entry(id) || (!reviewTreeAsset(id) && !isNativeTreeAsset(id) && !/^corealm_(?:fern|shrub)_(?:(?:gloam|fae)_)?\d+$/.test(id)))) {
           throw new Error("Every grove variant must be a production foliage asset");
         }
         await assets.loadMany(variants, { priority: "visible-spawn", regionId: "fallowmarch" });
@@ -312,7 +321,7 @@ export async function createEnvironmentWorkbench({ assets, scene, entityStore, e
           return shardByTile({ castShadow, placements }, tree ? FOLIAGE_RENDER_TILE_METRES.trees : FOLIAGE_RENDER_TILE_METRES.understory)
           .flatMap((shard) => scene.scatterInstanced(source, shard.placements, `lab-foliage-${sourceId}-${layout}-t${shard.tile >>> 0}`, {
             regionId: "fallowmarch", castShadow, windStrength: sourceId.includes('deadwood') ? 0 : tree ? 0.035 : 0.075,
-            compactVisibility: !castShadow && /^corealm_(fern|shrub)_\d+$/.test(assetId),
+            compactVisibility: !castShadow && /^corealm_(?:fern|shrub)_(?:(?:gloam|fae)_)?\d+$/.test(assetId),
           }));
         });
         clear();

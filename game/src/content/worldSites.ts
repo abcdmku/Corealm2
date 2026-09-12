@@ -1,5 +1,7 @@
 import type { RegionId } from "../contracts.js";
 import { WILDERNESS_RESOURCE_SITES } from './wildernessResources.js';
+import { CROWNWARD_RESOURCE_INTENTS, CROWNWARD_FISHERIES } from './crownward.js';
+import { FAIRY_RESOURCE_INTENTS } from './fairyRegions.js';
 
 export interface WorldSiteResourceSlot {
   readonly clusterId: string;
@@ -34,6 +36,8 @@ export interface WorldSiteDressing {
  * Rotating the site uses the same Y rotation as its production models.
  */
 export interface WorldSite {
+  /** Existing solved lake id, or a river mask prefix resolved near this site's centre. */
+  readonly waterBodyId?: string;
   readonly id: string;
   readonly locationId: string;
   readonly regionId: RegionId;
@@ -63,8 +67,65 @@ export interface WorldSite {
   readonly dressing: readonly WorldSiteDressing[];
 }
 
+/** Shared production fixtures, available in the lab before their regions enter the world. */
+export const FAIRY_RESOURCE_SITES: readonly WorldSite[] = [...CROWNWARD_RESOURCE_INTENTS, ...FAIRY_RESOURCE_INTENTS].map(intent => {
+  const mine = intent.kind === 'mine';
+  const fairy = intent.regionId !== 'crownward';
+  const deep = intent.regionId === 'faeholme';
+  const clusterId = `${intent.id}_resources`;
+  // Seams face inward toward the main road. Their cut faces sit on the outer shoulder.
+  const rotationY = mine ? fairy && intent.position[0] < 2320 ? Math.PI / 2 : -Math.PI / 2 : .18;
+  return {
+    id: intent.id, locationId: intent.id, regionId: intent.regionId, centre: intent.position, rotationY,
+    kind: intent.kind, workRadius: mine ? 8 : 10, extent: mine ? [23, 25] : [23, 23],
+    terrain: {
+      floorRadius: mine ? 10.5 : 16, backRise: mine ? deep ? 5.4 : 4.8 : .45,
+      backDistance: mine ? 7.2 : 21, bermWidth: mine ? 10 : 8, approachAngle: 0,
+    },
+    resourceSlots: mine ? Array.from({ length: intent.count }, (_, i) => {
+      const offset = i - (intent.count - 1) / 2;
+      return {
+        clusterId, index: i + 1, x: offset * 3.65, z: -4.5 + Math.abs(offset) * .46,
+        yaw: -offset * .095, scale: [.94, 1.06, .98, 1.08, .95, 1.03, .97][i % 7]!,
+      };
+    }) : Array.from({ length: intent.count }, (_, i) => {
+      // Two unequal rows leave the approach and the whole central work aisle open.
+      const leftCount = Math.ceil(intent.count / 2), left = i < leftCount, rank = left ? i : i - leftCount;
+      return {
+        clusterId, index: i + 1, x: (left ? -1 : 1) * (8 + (rank % 2) * 6.6), z: -13 + rank * 6.1,
+        yaw: i * 2.399963, scale: [.91, 1.02, .96, 1.06, .94, 1, .92, 1.04, .97][i % 9]!,
+      };
+    }),
+    ...(mine ? {
+      cutFace: {
+        backDepth: 10.4, buryDepth: .65, frontSetback: .4,
+        stations: Array.from({ length: intent.count }, (_, i) => ({
+          clusterId, index: i + 1, crestHeight: [3.2, 3.7, 3.5, 3.9, 3.4, 3.6, 3.1][i % 7]!,
+        })),
+      },
+    } : {}),
+    dressing: mine ? [
+      { id: 'west-shoulder', assetId: 'corealm_rock_strata_3', x: -13.8, z: -6.3, yaw: .62, scale: [1.25, 1.1, 1.1], sink: .48 },
+      { id: 'east-shoulder', assetId: 'corealm_rock_strata_1', x: 13.7, z: -6, yaw: -.74, scale: [1.2, 1.05, 1.17], sink: .52 },
+      { id: 'tailings', assetId: 'corealm_scree_2', x: -14.4, z: 2.5, yaw: .43, scale: [1.25, .85, 1.08], sink: .12 },
+      { id: 'sorting-bench', assetId: 'workbench', x: 12.9, z: 1.5, yaw: -.28, scale: 1 },
+      { id: 'ore-crate', assetId: fairy ? 'crate_wood' : 'crate_metal', x: 14.5, z: 2.3, yaw: .22, scale: .9 },
+    ] : [
+      { id: 'root-stone-west', assetId: 'corealm_rock_strata_1', x: -18.8, z: -8, yaw: .38, scale: [1.2, .84, .85], sink: .3 },
+      { id: 'root-stone-east', assetId: 'corealm_rock_strata_3', x: 18.5, z: -6, yaw: -.45, scale: [1.12, .84, .9], sink: .3 },
+      { id: 'fallen-trunk', assetId: 'nature_wood_log_moss', x: 0, z: -18, yaw: Math.PI / 2, scale: .75, sink: .08 },
+      ...(!fairy ? [
+        { id: 'timber-bench', assetId: 'workbench', x: 7, z: 16.5, yaw: .2, scale: 1 },
+        { id: 'worked-timber', assetId: 'nature_wood_log', x: 10, z: 17, yaw: .06, scale: 1.05 },
+      ] : []),
+    ],
+  } satisfies WorldSite;
+});
+
 export const WORLD_SITES: readonly WorldSite[] = [
+  ...CROWNWARD_FISHERIES.sites,
   ...WILDERNESS_RESOURCE_SITES,
+  ...FAIRY_RESOURCE_SITES,
   {
     id: "bracken_workings", locationId: "bracken_pit", regionId: "fallowmarch",
     centre: [-160, 80], rotationY: 2.608, kind: "mine", workRadius: 6.5, extent: [22, 26],

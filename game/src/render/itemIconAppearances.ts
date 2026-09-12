@@ -9,6 +9,7 @@
 import type { ItemDef, ItemId } from "../contracts.js";
 import { ALL_ITEMS } from "../content/items.js";
 import { TREE_SPECIES } from "../content/treeSpecies.js";
+import { CROWNWARD_FISH } from '../content/crownwardFishing.js';
 import {
   gatheringToolAppearance, gearAppearanceParts, gearAppearancePartsWithCharge,
   wornTrimRestTransform, type GearAppearance,
@@ -225,6 +226,11 @@ for (const [itemId, fish] of [
 // The shipped cragfin GLB is a full school, and the single-fish Perch GLB is the wrong species for
 // a Bass. Keep the fallback isolated until the accepted generated Bass art replaces it.
 put("ashfin", [primitive("fish", 0x574a44, 0xd88a56)]);
+for (const fish of CROWNWARD_FISH) {
+  put(fish.id, [primitive('fish', fish.tier === 60 ? 0xb5887f : fish.tier === 40 ? 0x537386 : 0x797c66, 0xd1cbc0)]);
+  put(`cooked_${fish.id}`, [primitive('fish', 0xa77543, 0xd7b075)]);
+  put(`burnt_${fish.id}`, [primitive('fish', 0x28221d, 0x493c30)]);
+}
 
 // Processed resources and components.
 for (const id of ["grithe_bar", "corven_bar", "kaldite_bar", "emberite_bar"] as const) {

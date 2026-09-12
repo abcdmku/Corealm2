@@ -1,0 +1,12 @@
+{
+  "castles": {
+    "crownward_castle": {
+      "pose": { "x": -2, "z": 90, "yaw": 0.05, "pitch": 0.18 },
+      "gateway": { "from": [-12.2, 37.8], "to": [-12.2, 31.8] }
+    },
+    "crownward_fortress": {
+      "pose": { "x": -8, "z": 82, "yaw": 0, "pitch": 0.18 },
+      "gateway": { "from": [-8.2, 40.23], "to": [-8.2, 32.43] }
+    }
+  }
+}

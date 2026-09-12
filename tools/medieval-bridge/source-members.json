@@ -1,0 +1,121 @@
+[
+  {
+    "member": "source/Bridge.fbx",
+    "index": 0,
+    "path": "test-results/medieval-bridge/source/0-Bridge.fbx",
+    "sha256": "a6e25c7aaaa48a9794e716faab27a214a685836e77f09beb40529da024c9c117",
+    "bytes": 337532
+  },
+  {
+    "member": "textures/Wood_ao.png",
+    "index": 1,
+    "path": "test-results/medieval-bridge/source/1-Wood_ao.png",
+    "sha256": "b8fdead32b15d83f1006faf6cee3742cedfe20ff6ba9848b402185ab6438fa66",
+    "bytes": 553905
+  },
+  {
+    "member": "textures/TexturesCom_Pavement_CobblestoneMedieval06.jpg",
+    "index": 2,
+    "path": "test-results/medieval-bridge/source/2-TexturesCom_Pavement_CobblestoneMedieval06.jpg",
+    "sha256": "681271f954c850d89f81448fe1b40c0d15307f83d89e9f779ad744747b3528db",
+    "bytes": 825217
+  },
+  {
+    "member": "textures/rock_512_smoothness.png",
+    "index": 3,
+    "path": "test-results/medieval-bridge/source/3-rock_512_smoothness.png",
+    "sha256": "82c5290458f4dc83ad454b0da69aabf51f63f55887512db66618421b96a616e4",
+    "bytes": 298109
+  },
+  {
+    "member": "textures/rock_512_diffuse.png",
+    "index": 4,
+    "path": "test-results/medieval-bridge/source/4-rock_512_diffuse.png",
+    "sha256": "0a818cf526eaa647b085b7b7f28b6086574b5ac4314d42f22e1f8870300f1c96",
+    "bytes": 767199
+  },
+  {
+    "member": "textures/Wood_diffuseOriginal.png",
+    "index": 5,
+    "path": "test-results/medieval-bridge/source/5-Wood_diffuseOriginal.png",
+    "sha256": "2638baedd8274d2dd7471b53544259c8dcb702df5d5e356395bc455bfe9ec7b9",
+    "bytes": 1486647
+  },
+  {
+    "member": "textures/TexturesCom_Pavement_CobblestoneMedieval06.jpg",
+    "index": 6,
+    "path": "test-results/medieval-bridge/source/6-TexturesCom_Pavement_CobblestoneMedieval06.jpg",
+    "sha256": "ae6828be63578f4e9810b9b0b4eb46d980620a117480890d301d7ea3f37a8d41",
+    "bytes": 1581461
+  },
+  {
+    "member": "textures/rock_512_ao.png",
+    "index": 7,
+    "path": "test-results/medieval-bridge/source/7-rock_512_ao.png",
+    "sha256": "6996cb0846bea9dfe87dab5ce0855e78c4800b6fcb86e2f85206a36d4b16057f",
+    "bytes": 350433
+  },
+  {
+    "member": "textures/Wood_normal.png",
+    "index": 8,
+    "path": "test-results/medieval-bridge/source/8-Wood_normal.png",
+    "sha256": "44a6ecf0ce66e1cd04f1e6e57d580d358cb98796d18b82f9cefc7a2671971cc3",
+    "bytes": 847605
+  },
+  {
+    "member": "textures/TexturesCom_Metal_SteelRough_1K_normal.png",
+    "index": 9,
+    "path": "test-results/medieval-bridge/source/9-TexturesCom_Metal_SteelRough_1K_normal.png",
+    "sha256": "71528735486a55c053cffe5feef716463b9998e8ac1638946661395f616eef31",
+    "bytes": 944745
+  },
+  {
+    "member": "textures/TexturesCom_Pavement_CobblestoneMedieval06.jpg",
+    "index": 10,
+    "path": "test-results/medieval-bridge/source/10-TexturesCom_Pavement_CobblestoneMedieval06.jpg",
+    "sha256": "aa57c54a48d29981780262c99fa4e6d43add6d145bd78b382b0c7df33c01981a",
+    "bytes": 748530
+  },
+  {
+    "member": "textures/Wood_smoothness.png",
+    "index": 11,
+    "path": "test-results/medieval-bridge/source/11-Wood_smoothness.png",
+    "sha256": "f55adf2c201ecc1b6cc77bd66e8353c0bc8788b8746e94419903dd6bc1eee109",
+    "bytes": 493897
+  },
+  {
+    "member": "textures/TexturesCom_Metal_SteelRough_1K_roughness.png",
+    "index": 12,
+    "path": "test-results/medieval-bridge/source/12-TexturesCom_Metal_SteelRough_1K_roughness.png",
+    "sha256": "98464cfafa9da49aa03d894029a185bca8432098b6f61d92c5c54c2b658da09e",
+    "bytes": 772562
+  },
+  {
+    "member": "textures/TexturesCom_Pavement_CobblestoneMedieval06.jpg",
+    "index": 13,
+    "path": "test-results/medieval-bridge/source/13-TexturesCom_Pavement_CobblestoneMedieval06.jpg",
+    "sha256": "64c7d2b9ed08a1b7c7599000a009c78d7ecdd81188e9ff7a20d6d96c1ecb4d83",
+    "bytes": 751864
+  },
+  {
+    "member": "textures/TexturesCom_Metal_SteelRough_1K_metalic.png",
+    "index": 14,
+    "path": "test-results/medieval-bridge/source/14-TexturesCom_Metal_SteelRough_1K_metalic.png",
+    "sha256": "82036d6e96db8244d6be2386a5f5410e2b173747d17579e2956d56c446d742a8",
+    "bytes": 9421
+  },
+  {
+    "member": "textures/rock_512_normal.png",
+    "index": 15,
+    "path": "test-results/medieval-bridge/source/15-rock_512_normal.png",
+    "sha256": "34724c4d59d76d9d47f10b9827e6b3e144bafc1b051d8c9443a9a59681fc6a79",
+    "bytes": 665170
+  },
+  {
+    "member": "textures/TexturesCom_Metal_SteelRough_1K_albedo.png",
+    "index": 16,
+    "path": "test-results/medieval-bridge/source/16-TexturesCom_Metal_SteelRough_1K_albedo.png",
+    "sha256": "cacf662ec0baebee9ded8b8905872c60c6e330e40db866342dde4414d33d223f",
+    "bytes": 1137477
+  }
+]

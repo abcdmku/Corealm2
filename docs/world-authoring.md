@@ -100,6 +100,13 @@ the terrain carve and wet bank. `getWaterBodies()` and its solved, closed contou
 authority for water rendering and shoreline scatter. Do not recreate a lake with a circle or nominal
 basin guide.
 
+Crownward's connected freshwater uses `RiverChannel.lake` for Crownmere's indented outline.
+`sampleRiverChannel()` applies the existing organic shape math to both the terrain carve and clipped
+water mesh. `riverWaterBodies()` publishes that lake as a closed, angularly sampled contour for
+navigation and shoreline plants. The descending river keeps its short elevation-aware navigation
+masks; those masks must not become separate circular shores for scatter. Keep bridge crossing
+stations fixed when changing river bends.
+
 ## Paths and ground stamps
 
 `collectRoadStamps()` keeps authored endpoints and gate-axis controls. `scene.curveRoadPolyline()` adds
@@ -301,6 +308,16 @@ check `getErrors()`, `getScatterStats()`, `getWaterBodies()`, and a few `sampleW
 sides of each semantic seam.
 
 ### Terrain contact and relief
+
+Crownward river water is clipped against `meshHeightAt()`, with a narrow shoreline fade and
+an opaque interior. Its authored footprint alone is insufficient: a coarse terrain triangle
+can cross that footprint below the water plane and expose a hanging edge. Keep the short
+dry bank crest and terrain intersection together when changing the channel carve.
+
+Fisheries on existing lakes or rivers set `waterBodyId` on both their site and resource
+cluster. These clusters must not create another basin, water stamp or water mesh. A river
+prefix selects the nearest local water segment; schools and dry casting positions are
+resolved by the same production fishing access solver as standalone ponds.
 
 Terrain chunks partition whole lattice cells, with a smaller final row or column when
 world dimensions do not divide by the requested chunk size. Keep their quad diagonals

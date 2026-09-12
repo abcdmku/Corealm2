@@ -1,0 +1,406 @@
+{
+  "packs": [
+    {
+      "id": "user-supplied-medieval-bridge",
+      "name": "User supplied medieval bridge",
+      "source": "User attachment medieval_bridge.zip",
+      "license": "User-supplied; license not provided",
+      "author": "Not supplied",
+      "archiveName": "medieval_bridge.zip",
+      "archiveSha256": "1c1fdc8a4e9534e4740f13033790c79fb23439a532041e7ff78c1dcca7ddb073"
+    }
+  ],
+  "files": {
+    "crownward_timber_bridge": "../../test-results/medieval-bridge/models/medieval-bridge/user_medieval_bridge.glb"
+  },
+  "assets": [
+    {
+      "id": "crownward_timber_bridge",
+      "file": "models/medieval-bridge/user_medieval_bridge.glb",
+      "pack": "user-supplied-medieval-bridge",
+      "category": "building",
+      "is": "bridge",
+      "tags": [
+        "building",
+        "bridge",
+        "medieval",
+        "crownward",
+        "user-supplied"
+      ],
+      "bytes": 16294956,
+      "sha256": "cc61ec05dee24e59a80c03e9cc6e7e628fa06ab812f90a001386a05940136e17",
+      "size": {
+        "x": 6.938078880310059,
+        "y": 1.5054385960102081,
+        "z": 1.795353651046753
+      },
+      "base": {
+        "x": -3.4690394401550293,
+        "y": -0.49872949719429016,
+        "z": -0.8976768255233765
+      },
+      "animations": [],
+      "materials": [
+        "Wood_Fence",
+        "Pavemet",
+        "Rock_2",
+        "Metal Taper",
+        "Rock"
+      ],
+      "triangles": 13244,
+      "metadata": {
+        "premadeSource": {
+          "source": "User attachment medieval_bridge.zip",
+          "sourceSha256": "a6e25c7aaaa48a9794e716faab27a214a685836e77f09beb40529da024c9c117",
+          "license": "User-supplied; license not provided"
+        },
+        "inspection": {
+          "sourceBounds": {
+            "min": {
+              "x": -5997.098380813949,
+              "y": -1131.8830121918031,
+              "z": -1545.9009331563536
+            },
+            "max": {
+              "x": 5994.337934539522,
+              "y": 1470.0433693358077,
+              "z": 1557.100607404635
+            }
+          },
+          "normalization": {
+            "uniformScale": 0.0005785861524458662,
+            "crossingAxis": "X",
+            "sourceApproachY": 54.86465,
+            "targetApproachY": 0.18790630623698237,
+            "retainedWorldScale": 3.4591707591773826,
+            "retainedWorldOffsetY": -0.65
+          },
+          "deckProfile": [
+            {
+              "x": -3.45,
+              "y": 0.187906
+            },
+            {
+              "x": -3.35,
+              "y": 0.187906
+            },
+            {
+              "x": -3.25,
+              "y": 0.187906
+            },
+            {
+              "x": -3.15,
+              "y": 0.187906
+            },
+            {
+              "x": -3.05,
+              "y": 0.187906
+            },
+            {
+              "x": -2.95,
+              "y": 0.187906
+            },
+            {
+              "x": -2.85,
+              "y": 0.203473
+            },
+            {
+              "x": -2.75,
+              "y": 0.235775
+            },
+            {
+              "x": -2.65,
+              "y": 0.268078
+            },
+            {
+              "x": -2.55,
+              "y": 0.300381
+            },
+            {
+              "x": -2.45,
+              "y": 0.332683
+            },
+            {
+              "x": -2.35,
+              "y": 0.364986
+            },
+            {
+              "x": -2.25,
+              "y": 0.397289
+            },
+            {
+              "x": -2.15,
+              "y": 0.429591
+            },
+            {
+              "x": -2.05,
+              "y": 0.461894
+            },
+            {
+              "x": -1.95,
+              "y": 0.494197
+            },
+            {
+              "x": -1.85,
+              "y": 0.526499
+            },
+            {
+              "x": -1.75,
+              "y": 0.558802
+            },
+            {
+              "x": -1.65,
+              "y": 0.591105
+            },
+            {
+              "x": -1.55,
+              "y": 0.623408
+            },
+            {
+              "x": -1.45,
+              "y": 0.65571
+            },
+            {
+              "x": -1.35,
+              "y": 0.688013
+            },
+            {
+              "x": -1.25,
+              "y": 0.720316
+            },
+            {
+              "x": -1.15,
+              "y": 0.740378
+            },
+            {
+              "x": -1.05,
+              "y": 0.740378
+            },
+            {
+              "x": -0.95,
+              "y": 0.740378
+            },
+            {
+              "x": -0.85,
+              "y": 0.740378
+            },
+            {
+              "x": -0.75,
+              "y": 0.740378
+            },
+            {
+              "x": -0.65,
+              "y": 0.740378
+            },
+            {
+              "x": -0.55,
+              "y": 0.740378
+            },
+            {
+              "x": -0.45,
+              "y": 0.740378
+            },
+            {
+              "x": -0.35,
+              "y": 0.740378
+            },
+            {
+              "x": -0.25,
+              "y": 0.740378
+            },
+            {
+              "x": -0.15,
+              "y": 0.740378
+            },
+            {
+              "x": -0.05,
+              "y": 0.740378
+            },
+            {
+              "x": 0.05,
+              "y": 0.740378
+            },
+            {
+              "x": 0.15,
+              "y": 0.740378
+            },
+            {
+              "x": 0.25,
+              "y": 0.740378
+            },
+            {
+              "x": 0.35,
+              "y": 0.740378
+            },
+            {
+              "x": 0.45,
+              "y": 0.740378
+            },
+            {
+              "x": 0.55,
+              "y": 0.740378
+            },
+            {
+              "x": 0.65,
+              "y": 0.740378
+            },
+            {
+              "x": 0.75,
+              "y": 0.740378
+            },
+            {
+              "x": 0.85,
+              "y": 0.740378
+            },
+            {
+              "x": 0.95,
+              "y": 0.740378
+            },
+            {
+              "x": 1.05,
+              "y": 0.740378
+            },
+            {
+              "x": 1.15,
+              "y": 0.740378
+            },
+            {
+              "x": 1.25,
+              "y": 0.715011
+            },
+            {
+              "x": 1.35,
+              "y": 0.682961
+            },
+            {
+              "x": 1.45,
+              "y": 0.65091
+            },
+            {
+              "x": 1.55,
+              "y": 0.61886
+            },
+            {
+              "x": 1.65,
+              "y": 0.58681
+            },
+            {
+              "x": 1.75,
+              "y": 0.554759
+            },
+            {
+              "x": 1.85,
+              "y": 0.522709
+            },
+            {
+              "x": 1.95,
+              "y": 0.490658
+            },
+            {
+              "x": 2.05,
+              "y": 0.458608
+            },
+            {
+              "x": 2.15,
+              "y": 0.426558
+            },
+            {
+              "x": 2.25,
+              "y": 0.394507
+            },
+            {
+              "x": 2.35,
+              "y": 0.362457
+            },
+            {
+              "x": 2.45,
+              "y": 0.330407
+            },
+            {
+              "x": 2.55,
+              "y": 0.298356
+            },
+            {
+              "x": 2.65,
+              "y": 0.266306
+            },
+            {
+              "x": 2.75,
+              "y": 0.234256
+            },
+            {
+              "x": 2.85,
+              "y": 0.202205
+            },
+            {
+              "x": 2.95,
+              "y": 0.187906
+            },
+            {
+              "x": 3.05,
+              "y": 0.187906
+            },
+            {
+              "x": 3.15,
+              "y": 0.187906
+            },
+            {
+              "x": 3.25,
+              "y": 0.187906
+            },
+            {
+              "x": 3.35,
+              "y": 0.187906
+            },
+            {
+              "x": 3.45,
+              "y": 0.187906
+            }
+          ],
+          "worldCrownHeight": 1.9111,
+          "textureBindings": {
+            "Wood_Fence": {
+              "base": 5,
+              "normal": 8,
+              "rough": 11,
+              "invert": true,
+              "ao": 1
+            },
+            "Pavemet": {
+              "base": 2,
+              "normal": 6,
+              "rough": 10,
+              "ao": 13
+            },
+            "Rock_2": {
+              "base": 4,
+              "normal": 15,
+              "rough": 3,
+              "invert": true,
+              "ao": 7
+            },
+            "Rock": {
+              "base": 4,
+              "normal": 15,
+              "rough": 3,
+              "invert": true,
+              "ao": 7
+            },
+            "Metal Taper": {
+              "base": 16,
+              "normal": 9,
+              "rough": 12,
+              "metal": 14
+            }
+          },
+          "note": "All geometry retained; node transforms baked and uniform normalization applied. Native UVs retained. All embedded images flipped vertically for FBX-to-glTF origin conversion without changing tangent basis. Normal green channels inverted to match Three GLTFExporter no-tangent convention. The only two FBX-resolved texture transforms are identity (repeat1,offset0). FBX Phong colors retained in PBR; supplied maps embedded. ZIP duplicate names preserved by member index. Cobblestone map 10 interpreted roughness, map 13 AO from image inspection; no source channel labels were present."
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ]
+}

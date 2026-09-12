@@ -3,6 +3,7 @@ import { worldSitePoint, type WorldSite } from "../content/worldSites.js";
 import { SCHOOL_MIN_WATER_DEPTH } from "../world/waterBodies.js";
 
 interface FishingWaterBody {
+  readonly centre?: readonly [number, number];
   readonly id: string;
   readonly contour: readonly (readonly [number, number])[];
   readonly level: number;
@@ -78,8 +79,11 @@ export function fishingSiteAnchors(
   }
 
   for (const site of fisheries) {
-    const bodyId = site.resourceSlots[0]?.clusterId;
-    const body = bodyId === undefined ? undefined : byId.get(bodyId);
+    const bodyId = site.waterBodyId ?? site.resourceSlots[0]?.clusterId;
+    const body = bodyId === undefined ? undefined : byId.get(bodyId)
+      ?? (bodyId.startsWith('river:') ? bodies.filter(candidate => candidate.id.startsWith(bodyId))
+        .sort((a, b) => Math.hypot((a.centre?.[0] ?? 0) - site.centre[0], (a.centre?.[1] ?? 0) - site.centre[1])
+          - Math.hypot((b.centre?.[0] ?? 0) - site.centre[0], (b.centre?.[1] ?? 0) - site.centre[1]))[0] : undefined);
     if (!body) throw new Error(`Fishery ${site.id} is missing solved water body ${bodyId ?? "for its resource slots"}`);
 
     /** The outward ray a stance and its school share, and where it leaves the water. */

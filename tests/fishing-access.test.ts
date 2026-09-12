@@ -284,7 +284,9 @@ describe("fishing access positions", () => {
       .toThrow("has no water 0.55 m deep for test_pool_7");
   });
 
-  it.each(WORLD_SITES.filter((site) => site.kind === "fishery").map((site) => site.id))(
+  // Existing channel fisheries have no independent basin; crownward-fishing.test.ts
+  // exercises those against their shared lake/river contours.
+  it.each(WORLD_SITES.filter((site) => site.kind === "fishery" && !site.waterBodyId).map((site) => site.id))(
     "keeps every %s school in castable water at the solved bank",
     (siteId) => {
       const site = WORLD_SITES.find((candidate) => candidate.id === siteId)!;

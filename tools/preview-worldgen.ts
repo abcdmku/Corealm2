@@ -21,6 +21,7 @@ const SEABED: Rgb = [49, 71, 63];
 // These are visual-field colours, not the semantic RegionId palette. Keep this list limited to
 // the currently authored fields so retired ids cannot quietly become visual biomes again.
 const BIOME_COLOURS: Record<string, string> = {
+  crownward: "#d8d2bd",
   fallowmarch: "#a7ad72",
   vellenwood: "#56765b",
   karrowmoor: "#7d7865",

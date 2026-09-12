@@ -5,10 +5,12 @@
  * heightfield, while water asks the render scene to solve its exact shoreline.
  */
 import type { Vec3 } from "../contracts.js";
+import { castleGroundLayout } from '../render/compositions/crownwardCastles.js';
 import {
   ESSENCE_ALTAR_COURT_RADIUS,
   REGIONS,
   type PavingAssetId,
+  type RegionDef,
 } from "../content/regions.js";
 import { WORLD_SITES, worldSitePoint, type WorldSite } from "../content/worldSites.js";
 import { resourceDef } from "../content/resources.js";
@@ -40,13 +42,27 @@ export function prepareWorldSurface(
   scene: WorldScene,
   seed = DEFAULT_WORLD_SEED,
 ): PreparedWorldSurface {
-  const paving = collectPavingStamps();
+  const paving = collectPavingStamps(scene);
   const water = collectWaterStamps(scene);
   const waterCount = buildWaterBodies(scene);
-  const access = fishingAccessPositions(WORLD_SITES, scene.getWaterBodies(), (x, z) => scene.meshHeightAt(x, z));
+  const sites = WORLD_SITES.filter(site => pointInScene(scene, site.centre));
+  const access = fishingAccessPositions(sites, scene.getWaterBodies(), (x, z) => scene.meshHeightAt(x, z));
   const roads = collectRoadStamps(scene, access);
   scene.setGroundStamps({ roads, paving, water, seed });
   return { roadCount: roads.length, pavingCount: paving.length, waterCount };
+}
+
+function pointInScene(scene: WorldScene, [x, z]: readonly [number, number]): boolean {
+  const bounds = scene.getWorldBounds?.();
+  return !bounds || (x >= bounds.minX && x <= bounds.maxX && z >= bounds.minZ && z <= bounds.maxZ);
+}
+
+/** Region centres identify which authored map owns its roads, paving and water. */
+function regionsInScene(scene?: WorldScene): readonly RegionDef[] {
+  return scene ? REGIONS.filter(region => pointInScene(scene, [
+    (region.bounds.min[0] + region.bounds.max[0]) / 2,
+    (region.bounds.min[1] + region.bounds.max[1]) / 2,
+  ])) : REGIONS;
 }
 
 /**
@@ -55,7 +71,7 @@ export function prepareWorldSurface(
  */
 export function collectRoadStamps(scene: WorldScene, access: ReadonlyMap<string, Vec3> = new Map()): RoadStamp[] {
   const stamps: RoadStamp[] = [];
-  for (const region of REGIONS) {
+  for (const region of regionsInScene(scene)) {
     const locationById = new Map(region.locations.map((location) => [location.id, location]));
     for (const road of region.roads) {
       const sourceFrom = locationById.get(road.from);
@@ -160,11 +176,13 @@ const PAVING_SURFACES: Record<PavingAssetId, PavingSurface> = {
   floor_wood_light: "plank",
 };
 
-export function collectPavingStamps(): PavingStamp[] {
+export function collectPavingStamps(scene?: WorldScene): PavingStamp[] {
   const stamps: PavingStamp[] = [];
-  for (const region of REGIONS) {
-    for (const castle of region.landmarks.filter(landmark=>landmark.composition==='black_knight_castle')) {
-      stamps.push({centre:castle.position,halfExtents:[18,20],rotationY:castle.rotationY ?? 0,surface:'stone',kerb:false});
+  for (const region of regionsInScene(scene)) {
+    for (const castle of region.landmarks) {
+      const layout = castleGroundLayout(castle.composition);
+      if (!layout) continue;
+      stamps.push({centre:castle.position,halfExtents:[layout.paving[0]/2,layout.paving[1]/2],rotationY:castle.rotationY ?? 0,surface:'stone',kerb:false});
     }
     for (const paving of region.settlement?.paving ?? []) {
       stamps.push(pavingStampFromRect(paving.rect, {
@@ -190,9 +208,9 @@ export function collectPavingStamps(): PavingStamp[] {
 
 export function collectWaterStamps(scene: WorldScene): WaterStamp[] {
   const stamps: WaterStamp[] = [];
-  for (const region of REGIONS) {
+  for (const region of regionsInScene(scene)) {
     for (const cluster of region.clusters) {
-      if (resourceDef(cluster.resourceId).archetype !== "fishing_spot") continue;
+      if (cluster.waterBodyId || resourceDef(cluster.resourceId).archetype !== "fishing_spot") continue;
       const [x, z] = cluster.centre;
       const basin = waterBasinForCluster(cluster);
       stamps.push({
@@ -208,9 +226,9 @@ export function collectWaterStamps(scene: WorldScene): WaterStamp[] {
 
 export function buildWaterBodies(scene: WorldScene): number {
   let built = 0;
-  for (const region of REGIONS) {
+  for (const region of regionsInScene(scene)) {
     for (const cluster of region.clusters) {
-      if (resourceDef(cluster.resourceId).archetype !== "fishing_spot") continue;
+      if (cluster.waterBodyId || resourceDef(cluster.resourceId).archetype !== "fishing_spot") continue;
       const [x, z] = cluster.centre;
       const half = waterBasinForCluster(cluster).crestRadius;
       const floor = scene.heightAt(region.id, x, z);

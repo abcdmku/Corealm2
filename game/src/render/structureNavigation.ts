@@ -1,3 +1,4 @@
+import { buildCrownwardBridgeNavigationSources } from './crownwardBridgeNavigation.js';
 /**
  * Navigation and camera-collision geometry for imported structures whose usable surfaces and
  * openings cannot be represented by one manifest bounding box.
@@ -34,6 +35,8 @@ export async function buildStructureNavigationSources(
   entities: readonly SemanticEntity[],
 ): Promise<StructureNavigationSources> {
   const rootfall = await buildRootfallNavigationSources(assets, entities);
+  const bridges = await buildCrownwardBridgeNavigationSources(assets, entities);
+  rootfall.roots.push(...bridges.roots); rootfall.meshes.push(...bridges.meshes);
   const targets = entities.filter(isAltarRuins);
   if (targets.length === 0) return rootfall;
 

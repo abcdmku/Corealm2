@@ -4,6 +4,8 @@ import path from "node:path";
 import type { Plugin } from "vite";
 
 function generationInputs(root: string): string[] {
+  // Recursive source coverage includes separate terrain maps, region content and compositions
+  // such as realmTerrain, Crownward and the fairy regions without maintaining a second file list.
   return [...readdirSync(path.join(root, "src"), { recursive: true, withFileTypes: true })
     .filter(entry => entry.isFile()).map(entry => path.join(entry.parentPath, entry.name)),
     path.join(root, "public/assets/manifest.json"), path.join(root, "../package-lock.json")].sort();

@@ -14,7 +14,7 @@ import { pathToFileURL } from "node:url";
 import sharp from "sharp";
 import { argValue, repoRoot } from "./lib/paths.js";
 import { ccAssetCredits } from "./lib/cc-asset-license.js";
-import { isSupportedCcAttributionLicense, validateCcAssetPack, isFabStandardAssetPack } from "../game/src/content/assetLicenses.js";
+import { isUserSuppliedAssetPack, isSupportedCcAttributionLicense, validateCcAssetPack, isFabStandardAssetPack } from "../game/src/content/assetLicenses.js";
 
 import {
   burnChance,
@@ -224,6 +224,7 @@ export function validateManifestPack(pack: AssetPack, manifest: AssetManifest): 
     }
     return;
   }
+  if (isUserSuppliedAssetPack(pack)) return;
   if (!/^https?:\/\//.test(pack.source)) {
     throw new Error(`Asset pack ${pack.id} has no reproducible HTTP(S) source.`);
   }

@@ -67,9 +67,10 @@ describe("familiar display names", () => {
     expect(REGIONS.map((region) => [region.id, region.name])).toEqual([
       ["fallowmarch", "Farmland"], ["vellenwood", "Woodlands"],
       ["karrowmoor", "Highlands"], ["kilnhalt", "Ashlands"], ["wilderness", "Wilderness"],
+      ["crownward", "Crownward"], ["gloamgarden", "Gloamgarden"], ["faeholme", "Faeholme"],
     ]);
     expect(plainDisplayText("Coldbrace / Rootfall / Highcairn / Emberfast")).toBe("Millfield / Oakwood / Hillcrest / Ashford");
-    expect(REGIONS.flatMap((region) => region.settlement ? [region.settlement.name] : [])).toEqual(["Millfield", "Oakwood", "Hillcrest", "Ashford"]);
+    expect(REGIONS.flatMap((region) => region.settlement ? [region.settlement.name] : [])).toEqual(["Millfield", "Oakwood", "Hillcrest", "Ashford", "Crownward Borough", "Lantern Rest"]);
   });
 
   it("uses canonical item names for recipes instead of title-casing saved IDs", () => {

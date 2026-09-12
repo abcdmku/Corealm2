@@ -12,6 +12,9 @@ export interface StructureCameraSources {
 
 function isStructurePart(entity: SemanticEntity): boolean {
   if (entity.archetype !== "landmark" || !entity.view || !entity.id.includes("#")) return false;
+  // Premade keeps use low-body collision slices for walking, but orbit rays need the actual
+  // towers and overhanging battlements. Camera-only triangles leave the arch navmesh intact.
+  if (entity.view.assetId === 'crownward_premade_castle' || entity.view.assetId === 'crownward_premade_fortress') return true;
   const meta = entity.meta;
   return typeof meta?.buildingId === "string" || typeof meta?.prefab === "string"
     || typeof meta?.wallRunId === "string"

@@ -3461,6 +3461,12 @@ export class EntityViews {
     if (regionId && ARCHITECTURE_ARCHETYPES.has(archetype)) {
       const architectureRole = architectureMaterialRoleForAsset(assetId, base.name);
       if (architectureRole) {
+        const premadeCastle = assetId === 'crownward_premade_castle' || assetId === 'crownward_premade_fortress';
+        if ((regionId === 'crownward' && premadeCastle) ||
+          (regionId === 'wilderness' && (architectureRole === 'stone' || architectureRole === 'plaster'))) {
+          const stone = this.materials.castleStone(base, regionId === 'crownward' ? 'pearl' : 'cinder', premadeCastle);
+          if (stone !== base) return stone;
+        }
         const architecture = this.materials.architecture(base, regionId, architectureRole);
         if (!essenceElement) return architecture;
         return this.essenceMaterial(

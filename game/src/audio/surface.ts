@@ -1,4 +1,4 @@
-import type { GroundSurfaceSample, RegionId, Vec3 } from "../contracts.js";
+import { isFairyRegion, type GroundSurfaceSample, type RegionId, type Vec3 } from "../contracts.js";
 import { getRegion } from "../content/regions.js";
 import type { FootstepSurface } from "./director.js";
 
@@ -23,6 +23,6 @@ export function footstepSurfaceAt(
   if (stone > dirt && stone > natural) return "stone";
   if (dirt > natural) return "dirt";
 
-  if (regionId === "vellenwood") return "forest";
+  if (regionId === "vellenwood" || isFairyRegion(regionId)) return "forest";
   return "grass";
 }

@@ -16,7 +16,9 @@
 import * as THREE from "three";
 import { createContainedTroughWater } from "./containedTroughWater.js";
 import { createMagicTreeShimmer } from "./magicTreeShimmer.js";
+import { createCastleStoneMaterial, type CastleStoneStyle } from './castleStoneMaterial.js';
 import type { RegionId } from "../contracts.js";
+import { FAIRY_FOLIAGE_COLOURS, fairyFoliageStyle } from "../content/fairyFoliage.js";
 import { oceanDepthGridBounds, type OceanDepthGrid } from "../world/coastDepth.js";
 import { createArtDirectedMaterial, type ArtSurfaceRole } from "./artDirection.js";
 import { createFoliageOcclusionMaterial, FoliageOcclusion } from "./foliageOcclusion.js";
@@ -138,6 +140,21 @@ export interface RegionPalette {
 }
 
 export const REGION_PALETTES: Record<RegionId, RegionPalette> = {
+  crownward: {
+    id: "crownward", name: "Crownward",
+    groundLow: 0x687d54, groundHigh: 0xa3ad78, soil: 0x8b8166, rock: 0xaab2ae,
+    foliage: 0x719061, timber: 0x756855, water: 0x5b8890, accent: 0xd9cba5,
+  },
+  gloamgarden: {
+    id: "gloamgarden", name: "Gloamgarden",
+    groundLow: 0x35536b, groundHigh: 0x6a7495, soil: 0x53496c, rock: 0x69618b,
+    foliage: 0x51c5bd, timber: 0x75618e, water: 0x398f9b, accent: 0xb195dd,
+  },
+  faeholme: {
+    id: "faeholme", name: "Faeholme",
+    groundLow: 0x504462, groundHigh: 0x8c719a, soil: 0x4b4867, rock: 0x7f759e,
+    foliage: 0xb98ddd, timber: 0x667c92, water: 0x518fbe, accent: 0x80d3d0,
+  },
   wilderness: {
     id: "wilderness", name: "Wilderness",
     groundLow: 0x555961, groundHigh: 0x7b7e83, soil: 0x535357, rock: 0x72767e,
@@ -196,6 +213,9 @@ export interface ArchitecturePalette {
 }
 
 export const ARCHITECTURE_PALETTES: Record<RegionId, ArchitecturePalette> = {
+  crownward: { roof: 0x405875, plaster: 0xecece2, stone: 0xdce4e4, timber: 0xd9cba5, moss: 0x819b74 },
+  gloamgarden: { roof: 0x735498, plaster: 0xaaa5c4, stone: 0x78729c, timber: 0x665879, moss: 0x68b4b0 },
+  faeholme: { roof: 0x525b96, plaster: 0xc0b2d1, stone: 0x9a8bae, timber: 0x5b7186, moss: 0x9370b0 },
   wilderness: { roof: 0x292c35, plaster: 0x55565c, stone: 0x42464e, timber: 0x353035, moss: 0x424447 },
   fallowmarch: {
     roof: 0x69504a,
@@ -287,6 +307,7 @@ export function architectureMaterialRoleForAsset(
   materialName: string,
 ): ArchitectureMaterialRole | null {
   const sourceName = materialName.split("@architecture:", 1)[0];
+  if (assetId === 'crownward_premade_castle' || assetId === 'crownward_premade_fortress') return 'stone';
   if (assetId === "stairs_stone" && sourceName === "MI_WoodTrim") {
     return "stone";
   }
@@ -1039,6 +1060,16 @@ const WATER_NORMAL_BODY = /* glsl */ `
  * silently fragments and the draw-call budget is gone.
  */
 export class MaterialLibrary {
+  private castleStoneEnabled = false;
+
+  setCastleStoneEnabled(enabled: boolean): void { this.castleStoneEnabled = enabled; }
+
+  castleStone(base: THREE.Material, style: CastleStoneStyle, paletteMask = false): THREE.Material {
+    if (!this.castleStoneEnabled) return base;
+    const key = this.key(['castle-stone', this.baseKey(base), style, String(paletteMask)]);
+    return this.remember(key, () => createCastleStoneMaterial(base, style, { paletteMask }));
+  }
+
   forContainedTrough(assetId: string, source: THREE.Material): THREE.Material {
     return assetId === "corealm_water_trough" && (source as THREE.MeshPhysicalMaterial).isMeshPhysicalMaterial
       && source.name.startsWith("Corealm farm water")
@@ -1110,8 +1141,10 @@ export class MaterialLibrary {
   organic(source: THREE.Material, role: ArtSurfaceRole): THREE.Material {
     return this.remember(this.key(["organic", this.baseKey(source), role]), () => {
       const organic = createArtDirectedMaterial(source, role);
-      const graded = createMagicTreeShimmer(organic, this.magicTreeTime);
-      if (graded !== organic && organic !== source) organic.dispose();
+      const fairy = this.fairyFoliage(organic, role);
+      if (fairy !== organic && organic !== source) organic.dispose();
+      const graded = createMagicTreeShimmer(fairy, this.magicTreeTime);
+      if (graded !== fairy && fairy !== source) fairy.dispose();
       const name = source.name.split("@", 1)[0]!;
       const treeOrPlant = role === "bark"
         || (role === "foliage" && !/^(?:Grass|grass-sprite)$/i.test(name));
@@ -1122,6 +1155,33 @@ export class MaterialLibrary {
       if (reveal !== graded && graded !== source) graded.dispose();
       return reveal;
     });
+  }
+
+  /** Recolour the sampled leaves, including vertex colours and atlas pixels, with native shading. */
+  private fairyFoliage(source: THREE.Material, role: ArtSurfaceRole): THREE.Material {
+    const style = fairyFoliageStyle(source.name);
+    const standard = source as THREE.MeshStandardMaterial;
+    if (!style || !standard.isMeshStandardMaterial || (role !== "bark" && role !== "foliage")) return source;
+    const palette = FAIRY_FOLIAGE_COLOURS[style];
+    const tint = new THREE.Color(role === "foliage" ? palette.leaf : palette.bark);
+    tint.multiplyScalar(1 / Math.max(1e-4, luminance(tint)));
+    const glow = new THREE.Color(palette.glow);
+    const material = standard.clone();
+    const inheritedCompile = source.onBeforeCompile;
+    const inheritedKey = source.customProgramCacheKey.bind(source);
+    material.onBeforeCompile = (shader, renderer) => {
+      inheritedCompile.call(source, shader, renderer);
+      shader.fragmentShader = shader.fragmentShader.replace("#include <roughnessmap_fragment>", `
+float fairyValue = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+diffuseColor.rgb = mix(diffuseColor.rgb, fairyValue * vec3(${tint.r.toFixed(6)}, ${tint.g.toFixed(6)}, ${tint.b.toFixed(6)}), ${role === "foliage" ? "0.94" : "0.72"});
+#include <roughnessmap_fragment>`);
+      if (role === "foliage") {
+        shader.fragmentShader = shader.fragmentShader.replace("#include <emissivemap_fragment>", `#include <emissivemap_fragment>
+totalEmissiveRadiance += vec3(${glow.r.toFixed(6)}, ${glow.g.toFixed(6)}, ${glow.b.toFixed(6)}) * fairyValue * 0.12;`);
+      }
+    };
+    material.customProgramCacheKey = () => `${inheritedKey()}|fairy-foliage-v1:${style}:${role}`;
+    return material;
   }
 
   setFoliageOcclusionEnabled(enabled: boolean): void {

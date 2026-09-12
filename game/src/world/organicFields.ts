@@ -54,6 +54,7 @@ export interface OrganicBiomeFieldSpec<T extends string = string> {
   bias?: number;
   /** A geographical climate trend, sampled in the shared warped domain. It has no rectangular edge. */
   northwardClimate?: { startZ: number; endZ: number; strength: number };
+  eastwardClimate?: { startX: number; endX: number; strength: number };
   anchors: readonly OrganicBiomeAnchor[];
   corridors?: readonly OrganicBiomeCorridor[];
 }
@@ -322,7 +323,11 @@ export function sampleOrganicBiomeWeights<T extends string>(
     const north = field.northwardClimate;
     const latitude = north ? fade(Math.max(0, Math.min(1,
       (warpedZ - north.startZ) / Math.max(1, north.endZ - north.startZ)))) : .5;
-    const geography = north ? (latitude - .5) * north.strength : 0;
+    const east = field.eastwardClimate;
+    const longitude = east ? fade(Math.max(0, Math.min(1,
+      (warpedX - east.startX) / Math.max(1, east.endX - east.startX)))) : .5;
+    const geography = (north ? (latitude - .5) * north.strength : 0)
+      + (east ? (longitude - .5) * east.strength : 0);
     const logit = spatial + climateStrength * affinity + edgeStrength * edge + (field.bias ?? 0) + geography;
     return Number.isFinite(logit) ? logit : -4;
   });

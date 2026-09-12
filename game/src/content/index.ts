@@ -162,6 +162,8 @@ export interface SpellRuneCost { itemId: ItemId; quantity: number }
 // ------------------------------------------------------------------ enemies
 
 export interface EnemyDef {
+  /** Per-species cooldown in seconds of the world simulation. A world reset clears it. */
+  respawnSeconds?: number;
   attackStyle?: "melee" | "ranged" | "magic";
   attackRangeM?: number;
   id: string;

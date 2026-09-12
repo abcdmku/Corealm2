@@ -1,0 +1,107 @@
+{
+  "packs": [
+    {
+      "author": "CreativeTrio",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceHost": "Poly Pizza",
+      "sharedPalette": {
+        "name": "Diffuse_palette_2.jpg",
+        "sha256": "858d426dc2fa507874c2578c3ec3bc706c23c428fdfcfe06909aadba6c27b5da",
+        "dimensions": [
+          256,
+          256
+        ],
+        "note": "Both models share this embedded 8-by-8 swatch atlas. A later selective swatch remap can make the stone warm ivory while retaining the brown roof swatches and their contrast."
+      },
+      "id": "creative-trio-fortress-source-glb",
+      "name": "CreativeTrio Fortress source GLB",
+      "source": "https://poly.pizza/m/HZPOZU2NiM",
+      "directDownload": "https://static.poly.pizza/2fe2f6c8-717d-4ad6-9a27-21ec15d57fbf.glb",
+      "sourcePath": "test-results/crownward-castles/sources/crownward_premade_fortress.source.glb",
+      "archiveName": "2fe2f6c8-717d-4ad6-9a27-21ec15d57fbf.glb",
+      "archiveSha256": "a9028bbfb3f14dbdf47b751ee26c48362cfcc5ce7d964f63cd57f697cbbbd134",
+      "sourceKind": "Individual GLB download; archiveSha256 hashes this exact downloaded source object."
+    },
+    {
+      "author": "CreativeTrio",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceHost": "Poly Pizza",
+      "sharedPalette": {
+        "name": "Diffuse_palette_2.jpg",
+        "sha256": "858d426dc2fa507874c2578c3ec3bc706c23c428fdfcfe06909aadba6c27b5da",
+        "dimensions": [
+          256,
+          256
+        ],
+        "note": "Both models share this embedded 8-by-8 swatch atlas. A later selective swatch remap can make the stone warm ivory while retaining the brown roof swatches and their contrast."
+      },
+      "id": "creative-trio-castle-source-glb",
+      "name": "CreativeTrio Castle source GLB",
+      "source": "https://poly.pizza/m/4360GdbxRe",
+      "directDownload": "https://static.poly.pizza/22111935-8912-4e80-836d-9b105da164f5.glb",
+      "sourcePath": "test-results/crownward-castles/sources/crownward_premade_castle.source.glb",
+      "archiveName": "22111935-8912-4e80-836d-9b105da164f5.glb",
+      "archiveSha256": "8d6776a6304f0aee2abb39ee5d1410b5945b996c3431bd97789967fd84e40542",
+      "sourceKind": "Individual GLB download; archiveSha256 hashes this exact downloaded source object."
+    }
+  ],
+  "licenseSummary": "CC0 permits copying, modification, redistribution, and commercial use without permission or attribution.",
+  "sourceGlbsPreservedByteForByte": true,
+  "candidateGeometryAndPalettePreserved": true,
+  "assets": [
+    {
+      "id": "crownward_premade_fortress",
+      "sourcePage": "https://poly.pizza/m/HZPOZU2NiM",
+      "directDownload": "https://static.poly.pizza/2fe2f6c8-717d-4ad6-9a27-21ec15d57fbf.glb",
+      "sourceSha256": "a9028bbfb3f14dbdf47b751ee26c48362cfcc5ce7d964f63cd57f697cbbbd134",
+      "sourceBytes": 369916,
+      "sourceFile": "test-results/crownward-castles/sources/crownward_premade_fortress.source.glb",
+      "sourceFileSha256": "a9028bbfb3f14dbdf47b751ee26c48362cfcc5ce7d964f63cd57f697cbbbd134",
+      "stagedSha256": "0fecfd97a840a549be920cef7c775643b74bf0782d20874cb7b9767d3554842d",
+      "stagedBytes": 369728,
+      "sourceFileByteIdentical": true,
+      "candidateByteIdentical": false,
+      "sourceBinChunkSha256": "3eebc282979a60c59ddaa1336ee7e618595e85e9aa0a07c326ad547c67adc035",
+      "stagedBinChunkSha256": "3eebc282979a60c59ddaa1336ee7e618595e85e9aa0a07c326ad547c67adc035",
+      "normalization": {
+        "centerXZ": true,
+        "baseY": 0,
+        "front": "+Z",
+        "yawRadians": 0
+      },
+      "previewUrl": "https://static.poly.pizza/2fe2f6c8-717d-4ad6-9a27-21ec15d57fbf.jpg",
+      "previewFile": "test-results/crownward-castles/source-previews/crownward_premade_fortress.jpg",
+      "previewSha256": "c325ad02fb2909a51b1a2cd63a6e25faaf88a27165854f9143e288f6585bacc0",
+      "paletteFile": "test-results/crownward-castles/source-previews/crownward_premade_fortress-palette.jpg",
+      "paletteSha256": "858d426dc2fa507874c2578c3ec3bc706c23c428fdfcfe06909aadba6c27b5da"
+    },
+    {
+      "id": "crownward_premade_castle",
+      "sourcePage": "https://poly.pizza/m/4360GdbxRe",
+      "directDownload": "https://static.poly.pizza/22111935-8912-4e80-836d-9b105da164f5.glb",
+      "sourceSha256": "8d6776a6304f0aee2abb39ee5d1410b5945b996c3431bd97789967fd84e40542",
+      "sourceBytes": 1044432,
+      "sourceFile": "test-results/crownward-castles/sources/crownward_premade_castle.source.glb",
+      "sourceFileSha256": "8d6776a6304f0aee2abb39ee5d1410b5945b996c3431bd97789967fd84e40542",
+      "stagedSha256": "e1d1799bae03b1d84e9acc3c9abbf6be9f70a07df38a028cef420849b65ee3f0",
+      "stagedBytes": 1044240,
+      "sourceFileByteIdentical": true,
+      "candidateByteIdentical": false,
+      "sourceBinChunkSha256": "d6b0b8769f49530504428109e5f606033e39e3671d5cc01bc430936a2f88a390",
+      "stagedBinChunkSha256": "d6b0b8769f49530504428109e5f606033e39e3671d5cc01bc430936a2f88a390",
+      "normalization": {
+        "centerXZ": true,
+        "baseY": 0,
+        "front": "+Z",
+        "yawRadians": 0
+      },
+      "previewUrl": "https://static.poly.pizza/22111935-8912-4e80-836d-9b105da164f5.jpg",
+      "previewFile": "test-results/crownward-castles/source-previews/crownward_premade_castle.jpg",
+      "previewSha256": "23e779bab4df609f7323eb05df13651949dbf20e347508d40ec38f767abac765",
+      "paletteFile": "test-results/crownward-castles/source-previews/crownward_premade_castle-palette.jpg",
+      "paletteSha256": "858d426dc2fa507874c2578c3ec3bc706c23c428fdfcfe06909aadba6c27b5da"
+    }
+  ]
+}

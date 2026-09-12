@@ -17,6 +17,7 @@
  * disc and the corner buttons opt back in individually.
  */
 import type { GameApi, ObservedEntity, Vec3 } from "../contracts.js";
+import { worldMapForRegion } from "../contracts.js";
 import {
   WORLD_MAP_IMAGE_BOUNDS,
   WORLD_MAP_MINIMAP_RENDITION,
@@ -24,6 +25,7 @@ import {
 import type { MapTerrainSource } from "./panels.js";
 import { reportResult } from "./contextMenu.js";
 import type { Tooltip } from "./tooltips.js";
+import { liveTerrainMap } from "./worldMapCanvas.js";
 
 /** Canvas backing resolution, css px. The wrapper's CSS size may differ; clicks use the rect. */
 const SIZE = 148;
@@ -77,14 +79,19 @@ export class Minimap {
   private lastPollMs = -Infinity;
   private mode: MinimapMode = "view";
   private lastNeedleDeg = Number.NaN;
+  private terrain: MapTerrainSource;
+  private activeMap: ReturnType<typeof worldMapForRegion>;
 
   constructor(
     private readonly api: GameApi,
-    private readonly terrain: MapTerrainSource,
+    private readonly baseTerrain: MapTerrainSource,
     private readonly getDestination?: () => Vec3 | null,
     private readonly getHeadingRad?: () => number,
     actions: MinimapActions = {},
   ) {
+    const regionId = api.getPlayer().regionId;
+    this.activeMap = worldMapForRegion(regionId);
+    this.terrain = baseTerrain.forRegion?.(regionId) ?? baseTerrain;
     try {
       if (localStorage.getItem(MODE_KEY) === "north") this.mode = "north";
     } catch {
@@ -210,6 +217,7 @@ export class Minimap {
 
   update(nowMs: number): void {
     this.lastUpdateMs = nowMs;
+    this.syncMap();
     if (nowMs - this.lastPollMs >= ENTITY_POLL_MS) {
       this.lastPollMs = nowMs;
       this.pollEntities();
@@ -227,6 +235,7 @@ export class Minimap {
   // ------------------------------------------------------------------ input
 
   private walkTo(clientX: number, clientY: number): void {
+    this.syncMap();
     const rect = this.disc.getBoundingClientRect();
     if (rect.width < 2) return;
     const half = rect.width / 2;
@@ -273,7 +282,7 @@ export class Minimap {
       archetypes: ["enemy", "boss", "npc", "loot"],
       limit: 40,
     });
-    this.dots = observed.map((entity: ObservedEntity): Dot => ({
+    this.dots = observed.filter(entity => worldMapForRegion(entity.regionId) === this.activeMap).map((entity: ObservedEntity): Dot => ({
       x: entity.position[0],
       z: entity.position[2],
       kind: ACTOR_ARCHETYPES.has(entity.archetype) ? "actor" : "loot",
@@ -283,7 +292,7 @@ export class Minimap {
   private draw(nowMs: number): void {
     const context = this.context;
     if (!context) return;
-    this.prepareImage(nowMs);
+    if (this.terrain.renderMode !== "live") this.prepareImage(nowMs);
 
     const player = this.api.getPlayer();
     const px = player.position[0];
@@ -326,6 +335,7 @@ export class Minimap {
   }
 
   private drawImageState(context: CanvasRenderingContext2D, half: number): void {
+    if (this.terrain.renderMode === "live") return;
     if (this.imageState === "ready") return;
     context.save();
     context.font = "10px system-ui, sans-serif";
@@ -350,14 +360,15 @@ export class Minimap {
    * every browser has agreed historically, and the failure mode is a smeared edge.
    */
   private blitTerrain(context: CanvasRenderingContext2D, px: number, pz: number, scale: number): void {
-    const image = this.image;
+    const live = this.terrain.renderMode === "live";
+    const image = live ? liveTerrainMap(this.terrain) : this.image;
     if (!image) return;
     // The rendition covers the padded IMAGE bounds from the generator, not the playable terrain
     // bounds — mapping it to the wrong rect is a constant offset and scale error everywhere.
-    const bounds = WORLD_MAP_IMAGE_BOUNDS;
+    const bounds = live ? this.terrain.bounds : WORLD_MAP_IMAGE_BOUNDS;
     // Projection matches WorldMapCanvas: u = x, v = -z, image spans the projected image bounds.
-    const sourceWidth = WORLD_MAP_MINIMAP_RENDITION.width;
-    const sourceHeight = WORLD_MAP_MINIMAP_RENDITION.height;
+    const sourceWidth = live ? image.width : WORLD_MAP_MINIMAP_RENDITION.width;
+    const sourceHeight = live ? image.height : WORLD_MAP_MINIMAP_RENDITION.height;
     const imgScaleX = sourceWidth / Math.max(1e-6, bounds.maxX - bounds.minX);
     const imgScaleY = sourceHeight / Math.max(1e-6, (-bounds.minZ) - (-bounds.maxZ));
     const centreSx = (px - bounds.minX) * imgScaleX;
@@ -409,6 +420,9 @@ export class Minimap {
   private drawDestination(context: CanvasRenderingContext2D, px: number, pz: number, scale: number, half: number): void {
     const destination = this.getDestination?.() ?? null;
     if (!destination) return;
+    const bounds = this.terrain.bounds;
+    if (destination[0] < bounds.minX || destination[0] > bounds.maxX
+      || destination[2] < bounds.minZ || destination[2] > bounds.maxZ) return;
     let dx = (px - destination[0]) * scale;
     let dy = (pz - destination[2]) * scale;
     const limit = half - 8;
@@ -480,7 +494,23 @@ export class Minimap {
     image.src = imageUrl.href;
   }
 
+  private syncMap(): void {
+    const regionId = this.api.getPlayer().regionId;
+    const mapId = worldMapForRegion(regionId);
+    if (mapId !== this.activeMap) {
+      this.activeMap = mapId;
+      this.terrain = this.baseTerrain.forRegion?.(regionId) ?? this.baseTerrain;
+      this.dots = [];
+      this.lastPollMs = -Infinity;
+      this.setImageState(this.terrain.renderMode === "live" || this.image ? "ready" : "idle");
+    }
+    this.disc.dataset.mapId = mapId;
+    this.disc.dataset.mapTerrain = this.terrain.renderMode === "live" ? "live" : "baked";
+    if (this.terrain.renderMode === "live" && this.imageState !== "ready") this.setImageState("ready");
+  }
+
   private setImageState(state: MinimapImageState): void {
+    if (this.terrain.renderMode === "live") state = "ready";
     this.imageState = state;
     this.disc.dataset.mapState = state;
     this.disc.setAttribute("aria-busy", state === "ready" ? "false" : "true");

@@ -118,7 +118,10 @@ export const BIOME_POPULATION_HABITATS: readonly HabitatDef[] = BIOME_POPULATION
 /** Species ownership remains in the art catalogues; this module never supplies fallback bodies. */
 export function resolveBiomePopulation(species: readonly CreatureSpeciesDef[]): EnemyGroupDef[] {
   const byId = new Map(species.map(row => [row.id, row]));
-  const tierByRegion = {fallowmarch:1,vellenwood:5,karrowmoor:10,kilnhalt:20,wilderness:20} as const;
+  const tierByRegion = {
+    fallowmarch: 1, vellenwood: 5, karrowmoor: 10, kilnhalt: 20, wilderness: 20,
+    crownward: 40, gloamgarden: 30, faeholme: 60,
+  } as const satisfies Readonly<Record<Exclude<RegionId, 'gravelmaw'>, number>>;
   return BIOME_POPULATION.map(pack => {
     const creature = byId.get(pack.speciesId);
     if (!creature) throw new Error(`Missing accepted population species ${pack.speciesId} for ${pack.id}`);

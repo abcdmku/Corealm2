@@ -47,3 +47,10 @@ export function validateCcAssetPack(pack: AssetPack): asserts pack is CcPack {
 }
 
 
+/** Explicit user-requested upload. This records authorization to use these bytes, not a public license. */
+export function isUserSuppliedAssetPack(pack: {id?: string; source: string; license: string; archiveSha256?: string}): boolean {
+  return pack.id === 'user-supplied-medieval-bridge'
+    && pack.source === 'User attachment medieval_bridge.zip'
+    && pack.license === 'User-supplied; license not provided'
+    && pack.archiveSha256 === '1c1fdc8a4e9534e4740f13033790c79fb23439a532041e7ff78c1dcca7ddb073';
+}

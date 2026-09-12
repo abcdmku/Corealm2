@@ -1,5 +1,7 @@
 import { HIGH_TIER_TREE_RESOURCES } from "./treeSpecies.js";
+import { CROWNWARD_FISH_RESOURCES } from './crownwardFishing.js';
 import { WILDERNESS_ORE_RESOURCES, WILDERNESS_TREE_RESOURCES } from './wildernessResources.js';
+import { FAIRY_ORE_RESOURCES, FAIRY_TREE_RESOURCES } from './fairyOres.js';
 /**
  * Gatherable resource catalog.
  *
@@ -33,10 +35,12 @@ const ESSENCE_RESOURCES: readonly ResourceDef[] = GATHERING_PRODUCTION_TIERS.map
 
 /** Canonical archetypes only. Cluster aliases are deliberately unsupported. */
 export const RESOURCES: readonly ResourceDef[] = [
+  ...CROWNWARD_FISH_RESOURCES,
   ...GATHERING_PRODUCTION_TIERS.flatMap((definition) => definition.resourceDefs),
   ...ESSENCE_RESOURCES,
   ...HIGH_TIER_TREE_RESOURCES,
   ...WILDERNESS_ORE_RESOURCES, ...WILDERNESS_TREE_RESOURCES,
+  ...FAIRY_ORE_RESOURCES, ...FAIRY_TREE_RESOURCES,
 ];
 
 const RESOURCE_BY_ID = new Map(RESOURCES.map((resource) => [resource.id, resource] as const));

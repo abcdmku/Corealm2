@@ -1,0 +1,330 @@
+{
+  "packs": [
+    {
+      "author": "CreativeTrio",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceHost": "Poly Pizza",
+      "sharedPalette": {
+        "name": "Diffuse_palette_2.jpg",
+        "sha256": "858d426dc2fa507874c2578c3ec3bc706c23c428fdfcfe06909aadba6c27b5da",
+        "dimensions": [
+          256,
+          256
+        ],
+        "note": "Both models share this embedded 8-by-8 swatch atlas. A later selective swatch remap can make the stone warm ivory while retaining the brown roof swatches and their contrast."
+      },
+      "id": "creative-trio-fortress-source-glb",
+      "name": "CreativeTrio Fortress source GLB",
+      "source": "https://poly.pizza/m/HZPOZU2NiM",
+      "directDownload": "https://static.poly.pizza/2fe2f6c8-717d-4ad6-9a27-21ec15d57fbf.glb",
+      "sourcePath": "test-results/crownward-castles/sources/crownward_premade_fortress.source.glb",
+      "archiveName": "2fe2f6c8-717d-4ad6-9a27-21ec15d57fbf.glb",
+      "archiveSha256": "a9028bbfb3f14dbdf47b751ee26c48362cfcc5ce7d964f63cd57f697cbbbd134",
+      "sourceKind": "Individual GLB download; archiveSha256 hashes this exact downloaded source object."
+    },
+    {
+      "author": "CreativeTrio",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "sourceHost": "Poly Pizza",
+      "sharedPalette": {
+        "name": "Diffuse_palette_2.jpg",
+        "sha256": "858d426dc2fa507874c2578c3ec3bc706c23c428fdfcfe06909aadba6c27b5da",
+        "dimensions": [
+          256,
+          256
+        ],
+        "note": "Both models share this embedded 8-by-8 swatch atlas. A later selective swatch remap can make the stone warm ivory while retaining the brown roof swatches and their contrast."
+      },
+      "id": "creative-trio-castle-source-glb",
+      "name": "CreativeTrio Castle source GLB",
+      "source": "https://poly.pizza/m/4360GdbxRe",
+      "directDownload": "https://static.poly.pizza/22111935-8912-4e80-836d-9b105da164f5.glb",
+      "sourcePath": "test-results/crownward-castles/sources/crownward_premade_castle.source.glb",
+      "archiveName": "22111935-8912-4e80-836d-9b105da164f5.glb",
+      "archiveSha256": "8d6776a6304f0aee2abb39ee5d1410b5945b996c3431bd97789967fd84e40542",
+      "sourceKind": "Individual GLB download; archiveSha256 hashes this exact downloaded source object."
+    }
+  ],
+  "files": {
+    "crownward_premade_fortress": "../../test-results/crownward-castles/models/crownward-castles/crownward_premade_fortress.glb",
+    "crownward_premade_castle": "../../test-results/crownward-castles/models/crownward-castles/crownward_premade_castle.glb"
+  },
+  "assets": [
+    {
+      "id": "crownward_premade_fortress",
+      "file": "models/crownward-castles/crownward_premade_fortress.glb",
+      "pack": "creative-trio-fortress-source-glb",
+      "category": "building",
+      "is": "fortress",
+      "tags": [
+        "building",
+        "castle",
+        "medieval",
+        "crownward",
+        "premade",
+        "fortress"
+      ],
+      "bytes": 369728,
+      "sha256": "0fecfd97a840a549be920cef7c775643b74bf0782d20874cb7b9767d3554842d",
+      "size": {
+        "x": 2.097227,
+        "y": 0.735462,
+        "z": 1.847998
+      },
+      "base": {
+        "x": -1.048614,
+        "y": 0,
+        "z": -0.923999
+      },
+      "animations": [],
+      "materials": [
+        "Diffuse_color"
+      ],
+      "triangles": 4524,
+      "metadata": {
+        "premadeSource": {
+          "title": "Fortress",
+          "author": "CreativeTrio",
+          "sourcePage": "https://poly.pizza/m/HZPOZU2NiM",
+          "directDownload": "https://static.poly.pizza/2fe2f6c8-717d-4ad6-9a27-21ec15d57fbf.glb",
+          "license": "CC0-1.0",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "sourceSha256": "a9028bbfb3f14dbdf47b751ee26c48362cfcc5ce7d964f63cd57f697cbbbd134",
+          "sourceBytes": 369916,
+          "transform": "Scene-root translation only: center X/Z and move authored base to Y=0. Front already faces +Z, so yaw is 0. Mesh BIN chunk and embedded palette bytes are unchanged."
+        },
+        "inspection": {
+          "sourceBounds": {
+            "min": {
+              "x": -0.974489,
+              "y": 0.062006,
+              "z": -0.932101
+            },
+            "max": {
+              "x": 1.122738,
+              "y": 0.797468,
+              "z": 0.915897
+            }
+          },
+          "normalizedBounds": {
+            "min": {
+              "x": -1.048614,
+              "y": 0,
+              "z": -0.923999
+            },
+            "max": {
+              "x": 1.048614,
+              "y": 0.735462,
+              "z": 0.923999
+            }
+          },
+          "nodes": 2,
+          "meshes": 1,
+          "accessors": 4,
+          "textures": [
+            {
+              "name": "Diffuse_palette_2.jpg",
+              "mimeType": "image/jpeg",
+              "size": [
+                256,
+                256
+              ],
+              "sha256": "858d426dc2fa507874c2578c3ec3bc706c23c428fdfcfe06909aadba6c27b5da"
+            }
+          ],
+          "authoredIngress": {
+            "primarySide": "+z",
+            "travelAxis": "-z",
+            "note": "The prominent exterior arch faces the positive-Z side. Preserve a collision opening through that wall and keep the broad central court free."
+          },
+          "scaleSuggestion": {
+            "role": "northern fortress with traversable inner court",
+            "targetWidthMeters": 60,
+            "targetUniformScale": 28.609202,
+            "resultMeters": {
+              "width": 60,
+              "height": 21.04099,
+              "depth": 52.869752,
+              "groundOffsetY": 0,
+              "centerOffsetX": 0,
+              "centerOffsetZ": 0
+            },
+            "acceptedWidthRangeMeters": [
+              50,
+              75
+            ],
+            "uniformScaleRange": [
+              23.841002,
+              35.761502
+            ],
+            "rangeAtEndpointsMeters": [
+              {
+                "width": 50,
+                "height": 17.534158,
+                "depth": 44.058127,
+                "groundOffsetY": 0,
+                "centerOffsetX": 0,
+                "centerOffsetZ": 0
+              },
+              {
+                "width": 75,
+                "height": 26.301238,
+                "depth": 66.08719,
+                "groundOffsetY": 0,
+                "centerOffsetX": 0,
+                "centerOffsetZ": 0
+              }
+            ]
+          }
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    },
+    {
+      "id": "crownward_premade_castle",
+      "file": "models/crownward-castles/crownward_premade_castle.glb",
+      "pack": "creative-trio-castle-source-glb",
+      "category": "building",
+      "is": "castle",
+      "tags": [
+        "building",
+        "castle",
+        "medieval",
+        "crownward",
+        "premade",
+        "landmark"
+      ],
+      "bytes": 1044240,
+      "sha256": "e1d1799bae03b1d84e9acc3c9abbf6be9f70a07df38a028cef420849b65ee3f0",
+      "size": {
+        "x": 2.64746,
+        "y": 1.384525,
+        "z": 2.435007
+      },
+      "base": {
+        "x": -1.32373,
+        "y": 0,
+        "z": -1.217503
+      },
+      "animations": [],
+      "materials": [
+        "Diffuse_color"
+      ],
+      "triangles": 13860,
+      "metadata": {
+        "premadeSource": {
+          "title": "Castle",
+          "author": "CreativeTrio",
+          "sourcePage": "https://poly.pizza/m/4360GdbxRe",
+          "directDownload": "https://static.poly.pizza/22111935-8912-4e80-836d-9b105da164f5.glb",
+          "license": "CC0-1.0",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "sourceSha256": "8d6776a6304f0aee2abb39ee5d1410b5945b996c3431bd97789967fd84e40542",
+          "sourceBytes": 1044432,
+          "transform": "Scene-root translation only: center X/Z and move authored base to Y=0. Front already faces +Z, so yaw is 0. Mesh BIN chunk and embedded palette bytes are unchanged."
+        },
+        "inspection": {
+          "sourceBounds": {
+            "min": {
+              "x": -0.798054,
+              "y": -0.002124,
+              "z": -2.251016
+            },
+            "max": {
+              "x": 1.849406,
+              "y": 1.382401,
+              "z": 0.183991
+            }
+          },
+          "normalizedBounds": {
+            "min": {
+              "x": -1.32373,
+              "y": 0,
+              "z": -1.217503
+            },
+            "max": {
+              "x": 1.32373,
+              "y": 1.384525,
+              "z": 1.217503
+            }
+          },
+          "nodes": 2,
+          "meshes": 1,
+          "accessors": 4,
+          "textures": [
+            {
+              "name": "Diffuse_palette_2.jpg",
+              "mimeType": "image/jpeg",
+              "size": [
+                256,
+                256
+              ],
+              "sha256": "858d426dc2fa507874c2578c3ec3bc706c23c428fdfcfe06909aadba6c27b5da"
+            }
+          ],
+          "authoredIngress": {
+            "primarySide": "+z",
+            "travelAxis": "-z",
+            "note": "The pointed main gate faces the positive-Z side. The interior is densely built, so accept the threshold and exterior rather than promising a large inner court."
+          },
+          "scaleSuggestion": {
+            "role": "southern compact landmark castle",
+            "targetWidthMeters": 52,
+            "targetUniformScale": 19.641466,
+            "resultMeters": {
+              "width": 52,
+              "height": 27.194099,
+              "depth": 47.827106,
+              "groundOffsetY": 0,
+              "centerOffsetX": 0,
+              "centerOffsetZ": 0
+            },
+            "acceptedWidthRangeMeters": [
+              45,
+              60
+            ],
+            "uniformScaleRange": [
+              16.997422,
+              22.66323
+            ],
+            "rangeAtEndpointsMeters": [
+              {
+                "width": 45,
+                "height": 23.533355,
+                "depth": 41.388842,
+                "groundOffsetY": 0,
+                "centerOffsetX": 0,
+                "centerOffsetZ": 0
+              },
+              {
+                "width": 60,
+                "height": 31.377806,
+                "depth": 55.185123,
+                "groundOffsetY": 0,
+                "centerOffsetX": 0,
+                "centerOffsetZ": 0
+              }
+            ]
+          }
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "generator": {
+    "command": "node tools/crownward-castles/build.mjs",
+    "deterministicForPinnedSources": true,
+    "generatorSha256": "c6c5b4386a362f9a3cfd85e1a3eb5273fd3087a985e03d72e1fea2c59c269bf8",
+    "stagingRoot": "test-results/crownward-castles"
+  }
+}

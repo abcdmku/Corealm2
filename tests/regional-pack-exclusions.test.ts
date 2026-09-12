@@ -25,6 +25,8 @@ import { waterBasinForCluster } from "../game/src/world/waterBodies.js";
 // movement. A passing disc test does not prove terrain, solved shores, forest collision or nav.
 type Reservation = { id: string; distance: (point: Spot) => number; margin: number };
 type Rect = { centre: Spot; half: Spot; yaw: number };
+// The 96-pack source plan belongs to the four original surface biomes.
+const originalRegionIds = new Set(["fallowmarch", "vellenwood", "karrowmoor", "kilnhalt"]);
 const assets = new Map(MANIFEST.assets.map((asset) => [asset.id, asset]));
 const packIds = new Set(REGIONAL_PACKS.map((pack) => pack.id));
 const populationIds = new Set(BIOME_POPULATION_HABITATS.map((habitat) => habitat.groupId));
@@ -257,7 +259,7 @@ describe("regional pack source reservations", () => {
   it("checks every authored pack and maintains two-metre aisles between full reservations", () => {
     expect(REGIONAL_PACKS).toHaveLength(96);
     const errors: string[] = [];
-    for (const region of REGIONS.filter(region => region.id !== "wilderness")) {
+    for (const region of REGIONS.filter(region => originalRegionIds.has(region.id))) {
       expect(REGIONAL_PACKS.filter((pack) => pack.regionId === region.id), region.id).toHaveLength(24);
     }
     for (const [index, pack] of REGIONAL_PACKS.entries()) {

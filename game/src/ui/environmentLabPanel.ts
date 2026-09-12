@@ -1,4 +1,5 @@
 import type { EnvironmentWorkbench } from "../featureLab/environment.js";
+import { isNativeTreeAsset } from "../content/treeSpecies.js";
 
 export interface EnvironmentLabPanelOptions {
   parent?: HTMLElement;
@@ -147,7 +148,7 @@ export class EnvironmentLabPanel {
       for (const asset of this.catalog.assets) this.selection.append(option(asset.id, asset.label));
     } else if (this.mode.value === "foliage") {
       for (const asset of this.catalog.assets) {
-        if (/^corealm_(?:(?:oak|pine|ash|walnut|willow|maple|teak|yew|magic|fern|shrub)_\d+|deadwood_[a-z0-9_]+)$/.test(asset.id)) {
+        if (isNativeTreeAsset(asset.id) || /^corealm_(?:(?:fern|shrub)_(?:(?:gloam|fae)_)?\d+|deadwood_[a-z0-9_]+)$/.test(asset.id)) {
           this.selection.append(option(asset.id, asset.label));
         }
       }

@@ -22,6 +22,9 @@ const REGION_IDS: Readonly<Record<RegionId, true>> = {
   kilnhalt: true,
   wilderness: true,
   gravelmaw: true,
+  crownward: true,
+  gloamgarden: true,
+  faeholme: true,
 };
 
 export interface LoadOutcome {

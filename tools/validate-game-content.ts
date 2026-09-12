@@ -1,3 +1,4 @@
+import { CROWNWARD_FISH } from '../game/src/content/crownwardFishing.js';
 /** Authoring checks run before packaging, so players do not download or repeat the build audit. */
 import path from "node:path";
 import { createHash } from "node:crypto";
@@ -135,7 +136,7 @@ export async function validateGameContent(): Promise<GameContentValidation> {
     ...validateContentTables(tables).map((problem) => `tables: ${problem}`),
     ...validateGatheringProduction({
       tiers: GATHERING_PRODUCTION_TIERS, resources: RESOURCES,
-      additionalRecipeTiers: WILDERNESS_CRAFTING_TIERS.map(({ tier }) => ({ tier, reqLevel: tier })),
+      additionalRecipeTiers: [...WILDERNESS_CRAFTING_TIERS, ...CROWNWARD_FISH].map(({ tier }) => ({ tier, reqLevel: tier })),
       recipes: RECIPES.filter((recipe) => !CREATURE_LOOT_RECIPES.includes(recipe)), items: ALL_ITEMS,
       knownManifestAssetIds: knownAssetIds, assetManifest: manifest,
       verifiedSourceHashes,
@@ -170,3 +171,4 @@ export async function validateGameContent(): Promise<GameContentValidation> {
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
   console.log(JSON.stringify(await validateGameContent()));
 }
+

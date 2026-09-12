@@ -1,4 +1,3 @@
-import type { RegionId } from "../contracts.js";
 import { tierSilhouetteScale } from "../core/math.js";
 import { hashId } from "../world/habitatMovement.js";
 import { ENEMY_BLOCKS } from "./enemies.js";
@@ -7,7 +6,8 @@ import type { EnemyGroupDef } from "./regions.js";
 import type { HabitatDef } from "./worldHabitats.js";
 
 export type RegionalPackRank = "ordinary" | "seasoned" | "mature";
-export type RegionalPackRegionId = Exclude<RegionId, "gravelmaw" | "wilderness">;
+/** These legacy packs belong to the original four biomes, independently of newer region IDs. */
+export type RegionalPackRegionId = "fallowmarch" | "vellenwood" | "karrowmoor" | "kilnhalt";
 
 export interface RegionalPackVariant {
   readonly id: string;

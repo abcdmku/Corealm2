@@ -12,17 +12,24 @@ export const BIOME_SKIES = {
   kilnhalt: { zenith: 0x623e50, horizon: 0xd6a27b, cloud: 0x998078, cloudCover: .76, fogNear: .45, fogFar: .55 },
   gravelmaw: { zenith: 0x201b38, horizon: 0x626078, cloud: 0x657182, cloudCover: .94, fogNear: .3, fogFar: .4 },
   wilderness: { zenith: 0x080f20, horizon: 0x303b50, cloud: 0x3c4659, cloudCover: .58, fogNear: .72, fogFar: .78 },
+  crownward: { zenith: 0x477eaf, horizon: 0xe0e4d1, cloud: 0xf5f1df, cloudCover: .34, fogNear: 1, fogFar: 1 },
+  gloamgarden: { zenith: 0x102b3f, horizon: 0x4c7b88, cloud: 0x58aaa7, cloudCover: .72, fogNear: .72, fogFar: .85 },
+  faeholme: { zenith: 0x25143f, horizon: 0x76668f, cloud: 0x967abf, cloudCover: .83, fogNear: .68, fogFar: .8 },
 } as const;
 const NEUTRAL = { zenith: 0x4f83b8, horizon: 0xd0d9de, cloud: 0xe7e6df, cloudCover: 0, fogNear: 1, fogFar: 1 };
 
 export function blendBiomeSky(weights: BiomeWeights, wildernessMagic = 0) {
   const result = { zenith: new THREE.Color(0), horizon: new THREE.Color(0), cloud: new THREE.Color(0),
-    cloudCover: 0, fogNear: 0, fogFar: 0, night: 0, magic: 0 };
+    cloudCover: 0, fogNear: 0, fogFar: 0, night: 0, magic: 0, underground: 0, fairyDepth: 0 };
   let total = 0;
+  let wilderness = 0, fairy = 0, deepFairy = 0;
   for (const id of Object.keys(BIOME_SKIES) as RegionId[]) {
     const weight = weights[id] ?? 0;
     if (!Number.isFinite(weight) || weight <= 0) continue;
     const look = BIOME_SKIES[id]; total += weight;
+    if (id === "wilderness") wilderness += weight;
+    if (id === "gloamgarden" || id === "faeholme") fairy += weight;
+    if (id === "faeholme") deepFairy += weight;
     for (const key of ["zenith", "horizon", "cloud"] as const) result[key].add(new THREE.Color(look[key]).multiplyScalar(weight));
     for (const key of ["cloudCover", "fogNear", "fogFar"] as const) result[key] += look[key] * weight;
   }
@@ -30,8 +37,10 @@ export function blendBiomeSky(weights: BiomeWeights, wildernessMagic = 0) {
     if (total) result[key].multiplyScalar(1 / total); else result[key].setHex(NEUTRAL[key]);
   }
   for (const key of ["cloudCover", "fogNear", "fogFar"] as const) result[key] = total ? result[key] / total : NEUTRAL[key];
-  result.night = total ? Math.max(0, weights.wilderness ?? 0) / total : 0;
-  result.magic = result.night * Math.max(0, Math.min(1, wildernessMagic));
+  result.underground = total ? fairy / total : 0;
+  result.fairyDepth = fairy ? deepFairy / fairy : 0;
+  result.night = total ? (wilderness + fairy) / total : 0;
+  result.magic = total ? wilderness / total * Math.max(0, Math.min(1, wildernessMagic)) : 0;
   result.zenith.lerp(new THREE.Color(0x100821), result.magic);
   result.horizon.lerp(new THREE.Color(0x302744), result.magic);
   result.cloud.lerp(new THREE.Color(0x51416d), result.magic);
@@ -56,12 +65,12 @@ export class BiomeSky {
     depthWrite: false, depthTest: false, toneMapped: false, fog: false,
     uniforms: { zenith: { value: this.current.zenith }, horizon: { value: this.current.horizon },
       cloud: { value: this.current.cloud }, cloudCover: { value: 0 }, time: { value: 0 },
-      night: { value: 0 },
+      night: { value: 0 }, underground: { value: 0 }, fairyDepth: { value: 0 },
       inverseProjection: { value: new THREE.Matrix4() }, cameraWorld: { value: new THREE.Matrix4() } },
     vertexShader: `varying vec2 vSkyUv;
       void main() { vSkyUv = position.xy; gl_Position = vec4(position.xy, 1., 1.); }`,
     fragmentShader: `uniform vec3 zenith, horizon, cloud;
-      uniform float cloudCover, time, night; uniform mat4 inverseProjection, cameraWorld;
+      uniform float cloudCover, time, night, underground, fairyDepth; uniform mat4 inverseProjection, cameraWorld;
       varying vec2 vSkyUv;
       float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }
       float noise(vec2 p) {
@@ -88,6 +97,25 @@ export class BiomeSky {
         cover*=smoothstep(.015,.16,elevation)*.82;
         vec3 litCloud=mix(cloud*.73,cloud,smoothstep(.38,.77,density));
         colour=mix(colour,litCloud,cover);
+        // The fairy map has an immense mineral vault in the sky, never local cave geometry.
+        // Warped layers and thin luminous seams stay directional as the follow camera turns.
+        if (underground>.001) {
+          vec2 vaultPoint=direction.xz/(.38+elevation)*2.8;
+          float folds=cloudNoise(vaultPoint+vec2(time*.0015,0.));
+          float strata=cloudNoise(vaultPoint*1.7+vec2(folds*3.5,folds*1.8));
+          float ridge=1.-abs(strata*2.-1.);
+          float ceiling=smoothstep(.24,.78,folds)*.68;
+          vec3 vault=mix(zenith*.58,cloud*.62,ceiling);
+          float seam=pow(max(0.,ridge),16.)*smoothstep(.36,.65,folds);
+          vec3 mineral=mix(vec3(.10,.56,.47),vec3(.40,.20,.65),fairyDepth);
+          vault+=mineral*seam*.22;
+          // Loose glowing grains read as distant spores, without a celestial moon or star field.
+          vec2 grainPoint=vaultPoint*68.;
+          float grainSeed=hash(floor(grainPoint));
+          float grain=step(.993,grainSeed)*(1.-smoothstep(.015,.085,length(fract(grainPoint)-.5)));
+          vault+=mineral*grain*(.3+.15*sin(time*.7+grainSeed*20.));
+          colour=mix(colour,vault,underground*smoothstep(.015,.25,elevation));
+        }
         vec3 sunDirection=normalize(vec3(-.48,.38,-.78));
         float sun=max(dot(direction,sunDirection),0.);
         float halo=pow(sun,36.)*.13+pow(sun,640.)*.38;
@@ -101,7 +129,7 @@ export class BiomeSky {
         vec2 starCell=direction.xz/(.35+elevation)*180.;
         float starSeed=hash(floor(starCell));
         float star=step(.997,starSeed)*(1.-smoothstep(.02,.11,length(fract(starCell)-.5)));
-        colour+=night*(1.-cover)*smoothstep(.03,.2,elevation)*
+        colour+=night*(1.-underground)*(1.-cover)*smoothstep(.03,.2,elevation)*
           (vec3(.45,.53,.65)*(moonDisc*moonMark+moonHalo)+vec3(.4,.49,.65)*star);
         gl_FragColor=vec4(colour,1.);
         #include <colorspace_fragment>
@@ -126,11 +154,13 @@ export class BiomeSky {
     this.mesh.visible = true;
     const target = blendBiomeSky(weights, wildernessMagic), alpha = 1 - Math.exp(-Math.min(Math.max(deltaSeconds, 0), .1) * 3);
     for (const key of ["zenith", "horizon", "cloud"] as const) this.current[key].lerp(target[key], alpha);
-    for (const key of ["cloudCover", "fogNear", "fogFar", "night", "magic"] as const) this.current[key] += (target[key] - this.current[key]) * alpha;
+    for (const key of ["cloudCover", "fogNear", "fogFar", "night", "magic", "underground", "fairyDepth"] as const) this.current[key] += (target[key] - this.current[key]) * alpha;
     this.time += Math.min(Math.max(deltaSeconds, 0), .1);
     this.material.uniforms.time!.value = this.time;
     this.material.uniforms.cloudCover!.value = this.current.cloudCover;
     this.material.uniforms.night!.value = this.current.night;
+    this.material.uniforms.underground!.value = this.current.underground;
+    this.material.uniforms.fairyDepth!.value = this.current.fairyDepth;
     if (scene.fog instanceof THREE.Fog) {
       scene.fog.color.copy(this.current.horizon);
       scene.fog.near = this.near * this.current.fogNear;
@@ -139,8 +169,11 @@ export class BiomeSky {
   }
   get nightAmount(): number { return this.enabled ? this.current.night : 0; }
   get magicAmount(): number { return this.enabled ? this.current.magic : 0; }
+  get undergroundAmount(): number { return this.enabled ? this.current.underground : 0; }
+  /** T60's share within the fairy blend. Apply together with undergroundAmount. */
+  get fairyDepthAmount(): number { return this.enabled ? this.current.fairyDepth : 0; }
   snapshot() { return { enabled: this.enabled, zenith: this.current.zenith.getHex(), horizon: this.current.horizon.getHex(),
-    night: this.nightAmount, magic: this.magicAmount,
+    night: this.nightAmount, magic: this.magicAmount, underground: this.undergroundAmount, fairyDepth: this.fairyDepthAmount,
     cloudCover: this.current.cloudCover, fogNear: this.near * this.current.fogNear, fogFar: this.far * this.current.fogFar }; }
   dispose(): void { this.mesh.removeFromParent(); this.geometry.dispose(); this.material.dispose(); }
 }

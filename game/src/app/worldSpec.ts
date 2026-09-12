@@ -1,3 +1,4 @@
+import { CROWNWARD_RIVER_CHANNELS, CROWNWARD_RIVER_BRIDGES } from '../content/crownwardRiver.js';
 /**
  * Derives the terrain spec from canonical content.
  *
@@ -11,7 +12,9 @@
  *
  * FROZEN. Only the root edits this file.
  */
-import type { RegionId } from "../contracts.js";
+import { isFairyRegion, type RegionId } from "../contracts.js";
+import { FAIRY_REGIONS } from "../content/fairyRegions.js";
+import { castleGroundLayout } from '../render/compositions/crownwardCastles.js';
 import {
   ESSENCE_ALTAR_COURT_BLEND,
   ESSENCE_ALTAR_COURT_RADIUS,
@@ -71,9 +74,16 @@ const SETTLEMENT_PAD_MARGIN = 8;
  */
 function flatSpotsFor(region: RegionDef): FlatSpot[] {
   const flats: FlatSpot[] = [];
-  const castles = region.landmarks.filter(landmark=>landmark.composition==='black_knight_castle');
-  for (const castle of castles) flats.push({x:castle.position[0],z:castle.position[1],radius:37,
-    halfExtents:[24,28],rotationY:castle.rotationY,blend:20});
+  if (region.id === "crownward") for (const bridge of CROWNWARD_RIVER_BRIDGES) {
+    flats.push({x:bridge.centre[0],z:bridge.centre[1],height:bridge.height,radius:18,halfExtents:[7,16],blend:12});
+  }
+  const castles = region.landmarks.filter(landmark => castleGroundLayout(landmark.composition));
+  for (const castle of castles) {
+    const [width, depth] = castleGroundLayout(castle.composition)!.pad;
+    const halfExtents = [width / 2, depth / 2] as const;
+    flats.push({x:castle.position[0],z:castle.position[1],radius:Math.hypot(...halfExtents),
+      halfExtents,rotationY:castle.rotationY,blend:20});
+  }
   for (const landmark of region.landmarks) {
     const ruin = WILDERNESS_RUINS[landmark.composition as WildernessRuinId]
       ?? DEEP_WILDERNESS_STRUCTURES[landmark.composition as DeepWildernessStructureId];
@@ -136,7 +146,13 @@ function flatSpotsFor(region: RegionDef): FlatSpot[] {
   // basin applied after every ordinary pad, so a generic location pad must not pull its floor back
   // toward the dry terrain.
   for (const location of region.locations) {
-    if (castles.some(castle=>Math.abs(location.position[0]-castle.position[0])<=24 && Math.abs(location.position[1]-castle.position[1])<=28)) continue;
+    if (region.id === "crownward" && CROWNWARD_RIVER_BRIDGES.some(bridge => Math.hypot(location.position[0]-bridge.centre[0],location.position[1]-bridge.centre[1]) < 23)) continue;
+    if (castles.some(castle => {
+      const [width, depth] = castleGroundLayout(castle.composition)!.pad;
+      const dx = location.position[0] - castle.position[0], dz = location.position[1] - castle.position[1];
+      const yaw = castle.rotationY ?? 0, cos = Math.cos(yaw), sin = Math.sin(yaw);
+      return Math.abs(dx * cos - dz * sin) <= width / 2 && Math.abs(dx * sin + dz * cos) <= depth / 2;
+    })) continue;
     if (region.landmarks.some(landmark => {
       const structure = DEEP_WILDERNESS_STRUCTURES[landmark.composition as DeepWildernessStructureId];
       if (!structure) return false;
@@ -212,11 +228,34 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
   temperature: 0.5,
   fields: [
     {
+      id: 'crownward', seed: seedFromText('corealm:biome:crownward'),
+      climateTarget: [-.35, -.6], climateTolerance: [.52, .55], bias: 1,
+      // Crownward is a continuous coastal region. Warped geographical gradients carry its
+      // parkland beyond the landmarks and to the shore, then yield to the northern wastes.
+      eastwardClimate: { startX: 180, endX: 500, strength: 6 },
+      northwardClimate: { startZ: 100, endZ: 900, strength: -3 },
+      anchors: [
+        {id:'white-castle',centre:[550,-60],radius:110,holdRadius:48,strength:3},
+        {id:'royal-borough',centre:[490,-42],radius:80,holdRadius:42,strength:2.2},
+        {id:'royal-maples',centre:[445,-115],radius:82,holdRadius:35,strength:2},
+        {id:'crown-quarry',centre:[625,-135],radius:86,holdRadius:32,strength:2},
+        {id:'fairy-garden',centre:[470,100],radius:105,holdRadius:42,strength:2.4},
+        {id:'silverthorn-park',centre:[630,105],radius:115,holdRadius:44,strength:2.4},
+        {id:'argent-cut',centre:[640,220],radius:90,holdRadius:34,strength:2},
+        {id:'whitebough-copse',centre:[445,310],radius:90,holdRadius:38,strength:2},
+        {id:'ivory-citadel',centre:[560,320],radius:110,holdRadius:48,strength:2.5},
+        {id:'northern-royal-road',centre:[550,418],radius:70,holdRadius:22,strength:1.6},
+      ],
+      corridors: [{from:[490,-42],to:[470,100],halfWidth:32,strength:.7},
+        {from:[470,100],to:[560,320],halfWidth:35,strength:.7}],
+    },
+    {
       id:'wilderness',seed:seedFromText('corealm:biome:wilderness'),
       climateTarget:[-.25,.1],climateTolerance:[.85,.85],
       // A long, low-gradient climate trend leaves room for dusk and mixed vegetation.
       // The old 11-point logit crossed almost the entire day/night range in twenty metres.
-      northwardClimate:{startZ:320,endZ:720,strength:5},bias:.25,
+      northwardClimate:{startZ:280,endZ:740,strength:4.5},bias:1.25,
+      eastwardClimate:{startX:260,endX:460,strength:2},
       anchors:[
         {id:'black-knight-castle',centre:[40,600],radius:46,holdRadius:34,strength:1.8},
         {id:'unnamed-graves',centre:[-205,585],radius:36,holdRadius:16,strength:1.4},
@@ -348,7 +387,8 @@ const COREALM_BIOMES: OrganicBiomeSpec<RegionId> = {
 };
 
 export function buildWorldTerrainSpec(): WorldTerrainSpec {
-  const regions: RegionTerrainSpec[] = REGIONS.map((region) => {
+  const surfaceRegions = REGIONS.filter(region => !isFairyRegion(region.id));
+  const regions: RegionTerrainSpec[] = surfaceRegions.map((region) => {
     const spec: RegionTerrainSpec = {
       regionId: region.id,
       rect: rectOf(region),
@@ -365,9 +405,9 @@ export function buildWorldTerrainSpec(): WorldTerrainSpec {
     return spec;
   });
 
-  const flats = REGIONS.flatMap((region) => flatSpotsFor(region));
-  const basins = REGIONS.flatMap((region) => region.clusters
-    .filter((cluster) => resourceDef(cluster.resourceId).archetype === "fishing_spot")
+  const flats = surfaceRegions.flatMap((region) => flatSpotsFor(region));
+  const basins = surfaceRegions.flatMap((region) => region.clusters
+    .filter((cluster) => !cluster.waterBodyId && resourceDef(cluster.resourceId).archetype === "fishing_spot")
     .map(waterBasinForCluster));
 
   const minX = Math.min(...regions.map((region) => region.rect.minX));
@@ -386,7 +426,8 @@ export function buildWorldTerrainSpec(): WorldTerrainSpec {
     flats,
     basins,
     lavaChannels: WILDERNESS_LAVA_CHANNELS,
-    worldSites: WORLD_SITES,
+    waterChannels: CROWNWARD_RIVER_CHANNELS,
+    worldSites: WORLD_SITES.filter(site => !isFairyRegion(site.regionId)),
     portalLandforms: REGIONS.flatMap((region) => region.dungeon
       ? [{ centre: region.dungeon.entrance, rotationY: region.dungeon.entranceRotationY ?? 0 }]
       : []),
@@ -406,6 +447,31 @@ export function buildWorldTerrainSpec(): WorldTerrainSpec {
 }
 
 /** The spawn point, taken from the starting region's authored value. */
+export function buildFairyTerrainSpec(): WorldTerrainSpec {
+  const regions: RegionTerrainSpec[] = FAIRY_REGIONS.map(region => ({
+    regionId: region.id, rect: rectOf(region), seed: region.terrainSeed,
+    character: "woodland", baseHeight: region.baseHeight, amplitude: region.terrainAmplitude,
+  }));
+  return {
+    bounds: { minX: 2000, maxX: 2600, minZ: -200, maxZ: 460 },
+    chunkSize: 100, metresPerQuad: 2, blendMetres: 35, regions,
+    flats: FAIRY_REGIONS.flatMap(flatSpotsFor),
+    worldSites: WORLD_SITES.filter(site => isFairyRegion(site.regionId)),
+    biomes: {
+      warp: { seed: seedFromText('corealm:fairy-warp'), scale: 180, strength: 32 },
+      climate: { seed: seedFromText('corealm:fairy-climate'), scales: [210, 75], strength: 1 },
+      edgeScale: 65, edgeStrength: .2, temperature: .7,
+      fields: FAIRY_REGIONS.map((region, index) => ({
+        id: region.id, seed: region.terrainSeed, climateTarget: [index ? .4 : -.3, index ? .3 : -.3],
+        climateTolerance: [.7, .7], bias: 0,
+        anchors: region.locations.filter(location => location.kind !== 'junction').map(location => ({
+          id: location.id, centre: location.position, radius: 58, holdRadius: 24, strength: 1.7,
+        })),
+      })),
+    },
+  };
+}
+
 export function startingSpawn(): { regionId: RegionId; x: number; z: number } {
   const region = REGIONS.find((candidate) => candidate.id === "fallowmarch") ?? REGIONS[0]!;
   return { regionId: region.id, x: region.spawnPoint[0], z: region.spawnPoint[1] };

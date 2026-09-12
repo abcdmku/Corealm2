@@ -22,6 +22,8 @@ import { REGIONAL_BOSS_SPECIES } from '../content/regionalBossBodies.js';
 import { WILDERNESS_DRAGON_CANDIDATES } from '../content/wildernessDragons.js';
 import { WILDERNESS_LOOT_ITEMS } from '../content/wildernessLoot.js';
 import { WILDERNESS_RUNE_KEEPERS } from '../content/wildernessDepth.js';
+import { CROWNWARD_DRAGON_SPECIES, crownwardDragonGroup } from '../content/crownwardDragons.js';
+import { FAIRY_CROWN_SPECIES, FAIRY_CROWN_BOSS_IDS } from '../content/fairyCrownCreatures.js';
 import { ALL_ITEMS } from "../content/items.js";
 import { QUESTS } from "../content/quests.js";
 import {
@@ -51,6 +53,7 @@ interface CreatureTargetSource {
 }
 
 type TargetSource = NpcTargetSource | CreatureTargetSource;
+const FAIRY_CROWN_BOSSES = new Set(FAIRY_CROWN_BOSS_IDS);
 
 function creatureOptionLabel(group: EnemyGroupDef): string {
   const stats = enemyBlockFor(group.id, group.family, group.tier);
@@ -108,9 +111,12 @@ const CREATURE_SOURCES: readonly CreatureTargetSource[] = [...[...REGIONS, ...SO
   preset: { id: `species:${species.id}`, label: `${species.stats.name} (Level ${enemyCombatLevel(species.stats)})`, kind: "creature", tier: species.stats.tier },
   regionId: species.regionId,
   dungeonName: null,
-  group: {
+  group: CROWNWARD_DRAGON_SPECIES.some(dragon => dragon.id === species.id)
+    ? crownwardDragonGroup(species.id as Parameters<typeof crownwardDragonGroup>[0], `species:${species.id}`, [0,0]) : {
     id: `species:${species.id}`, family: species.stats.family, name: species.stats.name,
-    tier: species.stats.tier, assetId: species.assetId, scale: species.scale,
+    tier: species.stats.tier, assetId: species.assetId,
+    scale: species.scale / (FAIRY_CROWN_BOSSES.has(species.id) ? 1.6 : 1),
+    boss: FAIRY_CROWN_BOSSES.has(species.id),
     count: 1, centre: [0, 0], radius: 0,
   },
 }))];
@@ -118,16 +124,18 @@ const CREATURE_SOURCES: readonly CreatureTargetSource[] = [...[...REGIONS, ...SO
 const TARGET_SOURCE_BY_KEY = new Map<string, TargetSource>();
 // Explicit candidate IDs are available to review tools without entering the normal catalogue.
 const REVIEW_CREATURES = new Map([...RPG_BESTIARY_REVIEW_BY_ID.values(), ...CREATURE_REDESIGNS, ...STONE_CREATURE_REDESIGNS, ...ASH_CREATURE_REDESIGNS, ...FOREST_CREATURE_REDESIGNS,
-  ...WILDERNESS_CREATURE_SPECIES, ...REGIONAL_BOSS_SPECIES, ...WILDERNESS_DRAGON_CANDIDATES].map(species => [species.id, species]));
+  ...WILDERNESS_CREATURE_SPECIES, ...REGIONAL_BOSS_SPECIES, ...WILDERNESS_DRAGON_CANDIDATES,
+  ...FAIRY_CROWN_SPECIES, ...CROWNWARD_DRAGON_SPECIES].map(species => [species.id, species]));
 const REVIEW_KEEPERS = new Set<string>(WILDERNESS_RUNE_KEEPERS.map(keeper => keeper.id));
 const STAGED_SOURCES: readonly CreatureTargetSource[] = [...REVIEW_CREATURES.values()].map((species) => ({
   kind: "creature",
   preset: { id: `candidate:${species.id}`, label: `${species.stats.name} (Level ${enemyCombatLevel(species.stats)})`, kind: "creature", tier: species.stats.tier },
   regionId: species.regionId,
   dungeonName: null,
-  group: { id: `candidate:${species.id}`, family: species.stats.family, name: species.stats.name,
+  group: CROWNWARD_DRAGON_SPECIES.some(dragon => dragon.id === species.id) ? crownwardDragonGroup(species.id as Parameters<typeof crownwardDragonGroup>[0], `candidate:${species.id}`, [0,0]) : { id: `candidate:${species.id}`, family: species.stats.family, name: species.stats.name,
     tier: species.stats.tier, assetId: species.assetId,
-    scale: species.scale / (REVIEW_KEEPERS.has(species.id) ? 1.3 : 1),
+    scale: species.scale / (FAIRY_CROWN_BOSSES.has(species.id) ? 1.6 : REVIEW_KEEPERS.has(species.id) ? 1.3 : 1),
+    boss: FAIRY_CROWN_BOSSES.has(species.id),
     miniBoss: REVIEW_KEEPERS.has(species.id),
     count: 1, centre: [0, 0], radius: 0 },
 }));

@@ -19,6 +19,12 @@ export const WILDERNESS_RUIN_SITES: readonly {
   { id: 'forgotten_forge', name: 'The Cold Forge', position: [-55, 670], composition: 'wilderness_ruined_smithy', rotationY: 2.4 },
   { id: 'eastern_cloister', name: 'Hollow Choir Cloister', position: [305, 670], composition: 'wilderness_roofless_abbey', rotationY: -.4 },
   { id: 'eastern_aqueduct', name: 'The Empty Sluice', position: [230, 555], composition: 'wilderness_shattered_aqueduct', rotationY: Math.PI / 2 },
+  { id: 'east_kingspan', name: 'The Lost Kingspan', position: [390, 500], composition: 'wilderness_shattered_aqueduct', rotationY: 1.34 },
+  { id: 'ashwind_cloister', name: 'Ashwind Cloister', position: [505, 585], composition: 'wilderness_roofless_abbey', rotationY: 2.53 },
+  { id: 'far_cinder_smithy', name: 'Far Cinder Smithy', position: [665, 660], composition: 'wilderness_ruined_smithy', rotationY: -2.23 },
+  { id: 'rift_watch', name: 'Rift Watch', position: [385, 775], composition: 'wilderness_broken_watchtower', rotationY: 1.51 },
+  { id: 'nightglass_waterway', name: 'The Nightglass Waterway', position: [535, 815], composition: 'wilderness_shattered_aqueduct', rotationY: 2.68 },
+  { id: 'starless_abbey', name: 'The Starless Abbey', position: [675, 915], composition: 'wilderness_roofless_abbey', rotationY: 2.78 },
 ];
 
 export const WILDERNESS_RUIN_LANDMARKS: LandmarkDef[] = WILDERNESS_RUIN_SITES.map(site => ({
@@ -35,4 +41,5 @@ export const WILDERNESS_ROAD_BRAZIERS: readonly (readonly [number, number])[] = 
   [-5, 479], [12, 497], [22, 516], [30, 538], [34, 558], [46, 558],
   [-67, 490], [-128, 499], [-190, 510], [-240, 521],
   [92, 574], [178, 619], [180, 638], [246, 638],
+  [548, 525], [604, 610], [630, 700], [550, 785], [572, 860],
 ];

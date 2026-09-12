@@ -26,7 +26,17 @@ export const SKILL_IDS: readonly SkillId[] = [
   "agility",
 ] as const;
 
-export type RegionId = "fallowmarch" | "vellenwood" | "karrowmoor" | "kilnhalt" | "wilderness" | "gravelmaw";
+export type RegionId = "fallowmarch" | "vellenwood" | "karrowmoor" | "kilnhalt" | "wilderness" | "gravelmaw" | "crownward" | "gloamgarden" | "faeholme";
+
+/** Independent terrain maps share entity and travel contracts, never a connecting terrain grid. */
+export type WorldMapId = "surface" | "gravelmaw" | "fairy";
+export function worldMapForRegion(regionId: RegionId): WorldMapId {
+  return regionId === "gravelmaw" ? "gravelmaw"
+    : regionId === "gloamgarden" || regionId === "faeholme" ? "fairy" : "surface";
+}
+export function isFairyRegion(regionId: RegionId): boolean {
+  return worldMapForRegion(regionId) === "fairy";
+}
 
 // ------------------------------------------------------------------- audio
 

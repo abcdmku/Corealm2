@@ -13,6 +13,8 @@
  * frame resampled all 31.7 megapixels of it.
  */
 import type { Vec3 } from "../contracts.js";
+import { REGIONS } from "../content/regions.js";
+import { REGION_PALETTES } from "../render/materials.js";
 import {
   WORLD_MAP_DETAIL_RENDITIONS,
   WORLD_MAP_IMAGE_BOUNDS,
@@ -171,6 +173,67 @@ function clamp(value: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, value));
 }
 
+const liveTerrainMaps = new WeakMap<MapTerrainSource, HTMLCanvasElement>();
+
+/** One cached north-up raster shared by the full map and minimap, sampled from playable terrain. */
+export function liveTerrainMap(source: MapTerrainSource): HTMLCanvasElement {
+  const cached = liveTerrainMaps.get(source);
+  if (cached) return cached;
+  const bounds = source.bounds;
+  const spanX = Math.max(1, bounds.maxX - bounds.minX);
+  const spanZ = Math.max(1, bounds.maxZ - bounds.minZ);
+  const pixelsPerMetre = 768 / Math.max(spanX, spanZ);
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.max(1, Math.round(spanX * pixelsPerMetre));
+  canvas.height = Math.max(1, Math.round(spanZ * pixelsPerMetre));
+  const context = canvas.getContext("2d", { alpha: false });
+  if (context) {
+    const pixels = context.createImageData(canvas.width, canvas.height);
+    const baseHeights = new Map(REGIONS.map(region => [region.id, region.baseHeight]));
+    for (let row = 0; row < canvas.height; row += 1) {
+      const z = bounds.maxZ - ((row + 0.5) / canvas.height) * spanZ;
+      for (let column = 0; column < canvas.width; column += 1) {
+        const x = bounds.minX + ((column + 0.5) / canvas.width) * spanX;
+        const sample = source.sample(x, z);
+        const palette = REGION_PALETTES[sample.regionId];
+        const altitude = clamp(0.35 + (sample.height - (baseHeights.get(sample.regionId) ?? 0)) / 32, 0, 1);
+        const slope = clamp((1 - sample.normal[1]) * 2.5, 0, 1);
+        const light = clamp(0.72 + sample.normal[1] * 0.25 - sample.normal[0] * 0.23 + sample.normal[2] * 0.18, 0.5, 1.15);
+        const offset = (row * canvas.width + column) * 4;
+        for (let channel = 0; channel < 3; channel += 1) {
+          const shift = (2 - channel) * 8;
+          const low = (palette.groundLow >> shift) & 255;
+          const high = (palette.groundHigh >> shift) & 255;
+          const rock = (palette.rock >> shift) & 255;
+          const ground = low + (high - low) * altitude;
+          pixels.data[offset + channel] = Math.round(clamp((ground + (rock - ground) * slope) * light, 0, 255));
+        }
+        pixels.data[offset + 3] = 255;
+      }
+    }
+    context.putImageData(pixels, 0, 0);
+    context.lineCap = "round";
+    context.lineJoin = "round";
+    const roads = source.roadPolylines();
+    for (const [stroke, width] of [["#253338", 4.5], ["#a3b6a6", 2]] as const) {
+      context.strokeStyle = stroke;
+      context.lineWidth = Math.max(1, width * pixelsPerMetre);
+      for (const road of roads) {
+        context.beginPath();
+        road.forEach((point, index) => {
+          const x = ((point[0] - bounds.minX) / spanX) * canvas.width;
+          const y = ((bounds.maxZ - point[2]) / spanZ) * canvas.height;
+          if (index === 0) context.moveTo(x, y);
+          else context.lineTo(x, y);
+        });
+        context.stroke();
+      }
+    }
+  }
+  liveTerrainMaps.set(source, canvas);
+  return canvas;
+}
+
 /**
  * Owns the cached basemap and the pan/zoom transform. It deliberately knows nothing about labels,
  * discovery, destinations, or movement; MapPanel keeps those semantic layers in DOM/SVG.
@@ -194,10 +257,17 @@ export class WorldMapCanvas {
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
-    private readonly source: MapTerrainSource,
+    private source: MapTerrainSource,
   ) {
     this.context = canvas.getContext("2d", { alpha: false });
-    this.projectedBounds = this.projectBounds(WORLD_MAP_IMAGE_BOUNDS);
+    this.projectedBounds = this.projectBounds(source.renderMode === "live" ? source.bounds : WORLD_MAP_IMAGE_BOUNDS);
+  }
+
+  setSource(source: MapTerrainSource): void {
+    if (source === this.source) return;
+    this.source = source;
+    this.projectedBounds = this.projectBounds(source.renderMode === "live" ? source.bounds : WORLD_MAP_IMAGE_BOUNDS);
+    this.resetView();
   }
 
   resize(width: number, height: number): boolean {
@@ -228,6 +298,16 @@ export class WorldMapCanvas {
     context.clearRect(0, 0, this.width, this.height);
     context.fillStyle = "#121310";
     context.fillRect(0, 0, this.width, this.height);
+
+    if (this.source.renderMode === "live") {
+      const placement = this.placement(this.screenScale());
+      context.save();
+      context.scale(-1, 1);
+      context.imageSmoothingEnabled = true;
+      context.drawImage(liveTerrainMap(this.source), -(placement.originX + placement.spanW), placement.originY, placement.spanW, placement.spanH);
+      context.restore();
+      return;
+    }
 
     this.drawStamp += 1;
     const scale = this.screenScale();
@@ -537,6 +617,7 @@ export class WorldMapCanvas {
    * covers this zoom. Exposed for acceptance checks of the streaming window.
    */
   visibleTiles(): readonly { column: number; row: number; path: string }[] {
+    if (this.source.renderMode === "live") return [];
     if (!this.viewReady) this.resetView();
     const scale = this.screenScale();
     const level = this.pickTiledLevel(scale);

@@ -109,6 +109,9 @@ import { resourceDef } from "./resources.js";
 import { CREATURE_ENEMY_GROUPS, CREATURE_HABITATS } from "./creatureHabitats.js";
 import { STARTER_GROUPS } from "./starterHabitats.js";
 import { WILDERNESS } from "./wilderness.js";
+import { CROWNWARD } from './crownward.js';
+import { FAIRY_REGIONS } from './fairyRegions.js';
+export { FAIRY_REGIONS } from './fairyRegions.js';
 import { fantasyEncounter } from "./fantasyEncounters.js";
 import { BIOME_POPULATION, resolveBiomePopulation } from "./biomePopulation.js";
 import { CREATURE_SPECIES } from "./creatureSpecies.js";
@@ -159,6 +162,8 @@ export interface RoadDef {
 }
 
 export interface ResourceClusterDef {
+  /** Fish in existing water instead of creating another basin at the cluster centre. */
+  waterBodyId?: string;
   id: string;
   /** Canonical gatherable definition. Clusters own placement, not gameplay or presentation data. */
   resourceId: string;
@@ -711,7 +716,7 @@ export interface RegionDef {
 /** Movement speed the route graph costs walking edges at. Mirrors `app/config.ts` PLAYER_SPEED. */
 export const WALK_SPEED_MPS = PLAYER_SPEED;
 
-export const WORLD_BOUNDS: RegionBounds = { min: [-350, -200], max: [350, WILDERNESS_DEPTH.north] };
+export const WORLD_BOUNDS: RegionBounds = { min: [-350, -200], max: [700, WILDERNESS_DEPTH.north] };
 
 /** One boss-keyed crafting altar at each matching Essence Cache. */
 export const ESSENCE_ALTAR_COURT_RADIUS = 16;
@@ -740,7 +745,7 @@ export const REGIONAL_ESSENCE_ALTARS = {
     position: [290, 400], rotationY: 0, assetId: "altar_ruins_altar", scale: 1,
     recipeIds: ["craft_fire_wand", "craft_fire_staff"], essenceElement: "fire",
   },
-} as const satisfies Readonly<Record<Exclude<RegionId, "gravelmaw" | "wilderness">, StationDef>>;
+} as const satisfies Readonly<Record<"fallowmarch" | "vellenwood" | "karrowmoor" | "kilnhalt", StationDef>>;
 
 // =============================================================== FALLOWMARCH
 
@@ -1956,7 +1961,7 @@ export const SOURCE_REGIONS: readonly RegionDef[] = [FALLOWMARCH, VELLENWOOD, KA
   locations:[...KILNHALT.locations,{id:'kilnhalt_north_bend',name:'North Road Bend',position:[64,395] as Spot,kind:'junction' as const,routeNode:true},{id:'kilnhalt_north_track',name:'North Ash Track',position:[64,455] as Spot,kind:'junction' as const,routeNode:true}],
   roads:[...KILNHALT.roads,{from:'emberfast_east_gate',to:'kilnhalt_north_bend'},{from:'kilnhalt_north_bend',to:'kilnhalt_north_track'}],
   adjacency:[...KILNHALT.adjacency,{toRegionId:'wilderness' as const,fromLocationId:'kilnhalt_north_track',toLocationId:'wilderness_south_track',meters:69.5}],
-}, WILDERNESS].map((region) => ({
+}, WILDERNESS, CROWNWARD, ...FAIRY_REGIONS].map((region) => ({
   ...region,
   dungeon: region.dungeon ? { ...region.dungeon, enemyGroups: [...region.dungeon.enemyGroups, AMETHYST_CAVE_GROUP] } : undefined,
   enemyGroups: [...region.enemyGroups, ...REGIONAL_VARIANT_GROUPS.filter(group => REGIONAL_VARIANT_HABITATS.some(h => h.groupId === group.id && h.regionId === region.id)), ...(region.id === "fallowmarch" ? STARTER_GROUPS : []), ...CREATURE_ENEMY_GROUPS.filter((group) =>
@@ -1977,6 +1982,7 @@ export const REGIONS: readonly RegionDef[] = SOURCE_REGIONS.map(region => ({ ...
 }));
 
 export const STARTING_REGION: RegionId = "fallowmarch";
+export const SURFACE_REGIONS = REGIONS.filter(region => region.id !== 'gloamgarden' && region.id !== 'faeholme');
 
 export function getRegion(id: RegionId): RegionDef | undefined {
   for (const region of REGIONS) if (region.id === id) return region;

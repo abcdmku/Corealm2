@@ -33,6 +33,7 @@ export function tuneEnemyCombatLevel(base: EnemyDef, targetLevel: number, tier =
 
 export const REGION_COMBAT_TIERS: Readonly<Record<RegionId, number>> = {
   fallowmarch: 1, vellenwood: 5, karrowmoor: 10, gravelmaw: 10, kilnhalt: 20, wilderness: 50,
+  crownward: 40, gloamgarden: 30, faeholme: 60,
 };
 
 /** Retain the four orb encounters and three regional boss identities and saved kill IDs. */

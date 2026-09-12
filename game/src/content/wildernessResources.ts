@@ -31,8 +31,14 @@ export const WILDERNESS_TREE_RESOURCES: readonly ResourceDef[] = [
 const labels: Record<string, string> = {
   cindervein_workings: 'Cindervein Workings', nightglass_excavation: 'Nightglass Excavation', lastroot_teak: 'Lastroot Shelter',
   ember_shelter_teak: 'Ember Shelter', starwood_hollow: 'Starwood Hollow', moonvein_copse: 'Moonvein Copse',
+  east_cinder_cut: 'East Cinder Cut', ashwind_shelter: 'Ashwind Shelter',
+  nightglass_ridge: 'Nightglass Ridge', starfall_copse: 'Starfall Copse',
 };
 const clusterId = (id: string) => `${id}_resources`;
+/** New eastern sites face the road that enters their open work aisle. */
+const EASTERN_SITE_ROTATIONS: Readonly<Record<string, number>> = {
+  east_cinder_cut: -1.25, ashwind_shelter: 1.42, nightglass_ridge: -1.99, starfall_copse: 2.09,
+};
 export const WILDERNESS_RESOURCE_LOCATIONS: LocationDef[] = WILDERNESS_RESOURCE_INTENTS.map(intent => ({
   id: intent.id, name: labels[intent.id]!, position: intent.position, kind: intent.kind === 'mine' ? 'seam' : 'grove', routeNode: true,
   blurb: intent.kind === 'mine' ? `Worked T${intent.tier} seams open above a dry mining aisle.` : intent.tier === 50 ? 'Veinwood survives in a sheltered pocket among scorched trunks.' : 'Old magic trees draw blue and violet sap through the deep stone.',
@@ -45,8 +51,9 @@ export const WILDERNESS_RESOURCE_CLUSTERS: ResourceClusterDef[] = WILDERNESS_RES
 
 export const WILDERNESS_RESOURCE_SITES: readonly WorldSite[] = WILDERNESS_RESOURCE_INTENTS.map(intent => {
   const mine = intent.kind === 'mine', cluster = clusterId(intent.id), deep = intent.tier === 70;
+  const rotationY = EASTERN_SITE_ROTATIONS[intent.id] ?? (mine ? Math.PI : .18);
   const site: WorldSite = {
-    id: intent.id, locationId: intent.id, regionId: 'wilderness', centre: intent.position, rotationY: mine ? Math.PI : .18,
+    id: intent.id, locationId: intent.id, regionId: 'wilderness', centre: intent.position, rotationY,
     kind: intent.kind, workRadius: mine ? 8 : 10, extent: mine ? [23, 25] : [23, 23],
     terrain: { floorRadius: mine ? 10.5 : 16, backRise: mine ? 5.4 : 1.15, backDistance: mine ? 7.2 : 21, bermWidth: mine ? 10 : 8, approachAngle: 0 },
     resourceSlots: mine ? Array.from({ length: 7 }, (_, i) => {

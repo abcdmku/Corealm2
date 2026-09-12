@@ -8,6 +8,9 @@ import { encounterBodyRadius } from '../game/src/content/encounterPlacement.js';
 import { encounterActorId } from '../game/src/content/encounterPopulation.js';
 import { lavaClearanceAt } from '../game/src/content/wildernessLava.js';
 
+// This redesign predates Crownward and the separately authored fairy populations.
+const originalRegionIds = new Set(['fallowmarch', 'vellenwood', 'karrowmoor', 'kilnhalt', 'wilderness']);
+const originalRegions = SOURCE_REGIONS.filter(region => originalRegionIds.has(region.id));
 const current = REGIONS.flatMap(region => [...region.enemyGroups, ...(region.dungeon?.enemyGroups ?? [])]);
 const population = BIOME_POPULATION.map(source => ({ source,
   group: current.find(group => group.id === source.id)!,
@@ -16,7 +19,7 @@ const population = BIOME_POPULATION.map(source => ({ source,
 
 describe('new biome population reservations', () => {
   it('covers every original ordinary creature outside starter fields while preserving stable actor IDs', () => {
-    const original = SOURCE_REGIONS.filter(region => region.id !== 'wilderness').flatMap(region => [
+    const original = originalRegions.filter(region => region.id !== 'wilderness').flatMap(region => [
       ...region.enemyGroups.map(group => ({ regionId: region.id, group })),
       ...(region.dungeon?.enemyGroups.map(group => ({ regionId: region.dungeon!.id, group })) ?? []),
     ]).filter(({ regionId, group }) => {
@@ -50,7 +53,7 @@ describe('new biome population reservations', () => {
       expect(group.legacyCount, source.id).toBe(source.count);
       expect(encounterActorId(group, 0), source.id).toBe(`${source.id}_1`);
     }
-    for (const region of SOURCE_REGIONS) {
+    for (const region of originalRegions) {
       const packs = population.filter(pack => pack.source.regionId === region.id);
       expect(packs.length, region.id).toBeGreaterThanOrEqual(8);
       expect(packs.reduce((sum, pack) => sum + pack.group.count, 0), region.id).toBeGreaterThanOrEqual(packs.length * 7);

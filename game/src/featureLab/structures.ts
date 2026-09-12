@@ -157,6 +157,8 @@ export function assembleFeatureLabStructure(
   const sanitized = sanitizeFeatureLabStructureSelection(selection);
   const context = (DEEP_WILDERNESS_STRUCTURE_IDS as readonly string[]).includes(sanitized.id)
     ? { regionId: 'wilderness' as const, tier: 70 }
+    : sanitized.id === "white_knight_castle" || sanitized.id === "crownward_castle" || sanitized.id === "crownward_fortress"
+      ? { regionId: "crownward" as const, tier: 40 }
     : sanitized.id === "black_knight_castle" || sanitized.id.startsWith("wilderness_")
       ? { regionId: "wilderness" as const, tier: 50 } : KIT_CONTEXT[sanitized.kit];
   const name = titleCaseIdentifier(sanitized.id);

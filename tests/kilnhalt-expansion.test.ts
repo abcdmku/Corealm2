@@ -49,10 +49,10 @@ function kitTotals(kit: readonly string[]): EquipmentBonuses {
 }
 
 describe("world extension", () => {
-  it("keeps Kilnhalt across the full width beneath the northern wilderness", () => {
+  it("keeps Kilnhalt at its original width beneath the widened northern wilderness", () => {
     // The Deep Wilderness expansion doubled the northern band to z940 (`WILDERNESS_DEPTH.north`).
-    // Kilnhalt's own bounds are unchanged: it still sits beneath the wilderness, full width.
-    expect(WORLD_BOUNDS).toEqual({ min: [-350, -200], max: [350, 940] });
+    // Crownward extends the surface east to x700; Kilnhalt retains its original bounds.
+    expect(WORLD_BOUNDS).toEqual({ min: [-350, -200], max: [700, 940] });
     const kilnhalt = getRegion("kilnhalt")!;
     expect(kilnhalt.tier).toBe(20);
     expect(kilnhalt.bounds).toEqual({ min: [-350, 200], max: [350, 460] });
@@ -66,7 +66,8 @@ describe("world extension", () => {
       .toEqual(["fallowmarch", "vellenwood", "vellenwood", "wilderness"]);
     const inbound = REGIONS.flatMap((region) => region.adjacency)
       .filter((link) => link.toRegionId === "kilnhalt");
-    expect(inbound).toHaveLength(4);
+    expect(inbound).toHaveLength(5);
+    expect(getRegion("crownward")!.adjacency.filter(link => link.toRegionId === "kilnhalt")).toHaveLength(1);
   });
 
   it("tiles the four surface regions without gaps along the z = 200 seam", () => {

@@ -21,8 +21,8 @@ describe('northern wilderness and fantasy encounters', () => {
 
   it('keeps a continuous northern night climate across the island and daylight at the starting town', () => {
     const spec = buildWorldTerrainSpec();
-    expect(WORLD_BOUNDS).toEqual({ min: [-350, -200], max: [350, 940] });
-    for (const z of [650, 720, 820, 930]) for (let x = -350; x <= 350; x += 50) {
+    expect(WORLD_BOUNDS).toEqual({ min: [-350, -200], max: [700, 940] });
+    for (const z of [650, 720, 820, 930]) for (let x = -350; x <= 700; x += 50) {
       const weights = Object.fromEntries(sampleOrganicBiomeWeights(x, z, spec.biomes!).map(row => [row.id, row.weight]));
       expect(weights.wilderness, `north at ${x}`).toBeGreaterThan(.9);
       expect(Object.values(weights).reduce((sum, value) => sum + value, 0)).toBeCloseTo(1, 6);
@@ -31,13 +31,14 @@ describe('northern wilderness and fantasy encounters', () => {
     expect(blendBiomeSky(Object.fromEntries(sampleOrganicBiomeWeights(-160, -72, spec.biomes!).map(row => [row.id, row.weight]))).night).toBeLessThan(.01);
     const north = REGIONS.find(region => region.id === 'wilderness')!;
     expect(north.settlement).toBeUndefined();
-    expect(north.terrainAmplitude).toBeLessThan(6);
+    expect(north.terrainAmplitude).toBeGreaterThan(6);
+    expect(north.terrainAmplitude).toBeLessThan(20);
     expect(WILDERNESS_GROUPS.reduce((sum, group) => sum + group.count, 0)).toBeGreaterThan(35);
   });
 
   it('gives the northern ecotone a traversable stretch of dusk instead of a sudden night wall', () => {
     const spec = buildWorldTerrainSpec().biomes!;
-    for (const x of [-350, -300, -150, 0, 150, 300, 350]) {
+    for (const x of [-350, -300, -150, 0, 150, 300, 350, 500, 650, 700]) {
       const samples = Array.from({ length: 61 }, (_, i) => {
         const z = 380 + i * 5;
         return { z, weight: sampleOrganicBiomeWeights(x, z, spec).find(row => row.id === 'wilderness')!.weight };

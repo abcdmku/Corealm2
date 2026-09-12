@@ -43,6 +43,13 @@ for (const [id, speciesId] of [
   name: speciesId === 'teak' ? 'Veinwood' : 'Magic',
 });
 
+for (const [prefix, speciesId, resourceId, name] of [
+  ['corealm_willow_gloam', 'willow', 'tree_gloam_willow', 'Gloam Willow'],
+  ['corealm_yew_fae', 'yew', 'tree_fae_yew', 'Fae Yew'],
+] as const) for (const index of [1, 2]) speciesByAsset.set(`${prefix}_${index}`, {
+  ...TREE_SPECIES.find(species => species.id === speciesId)!, resourceId, name,
+});
+
 export function treeSpeciesForAsset(assetId: string): TreeSpeciesDef | undefined {
   return speciesByAsset.get(assetId);
 }

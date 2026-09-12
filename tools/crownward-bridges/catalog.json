@@ -1,0 +1,311 @@
+{
+  "packs": [
+    {
+      "id": "quaternius-small-bridge-source-glb",
+      "name": "Quaternius Small Bridge source GLB",
+      "author": "Quaternius",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "source": "https://poly.pizza/m/j4KsIuJYnq",
+      "directDownload": "https://static.poly.pizza/e36966b4-e13e-46e8-aa2c-f9b643536d46.glb",
+      "sourcePath": "test-results/crownward-bridges/sources/crownward_timber_bridge.source.glb",
+      "archiveName": "e36966b4-e13e-46e8-aa2c-f9b643536d46.glb",
+      "archiveSha256": "055ec4fa6c401f655641894ee4b0bd360c28b7907bc00183ef3b1eabd6fc0890"
+    }
+  ],
+  "files": {
+    "crownward_timber_bridge": "../../test-results/crownward-bridges/models/crownward-bridges/crownward_timber_bridge.glb"
+  },
+  "assets": [
+    {
+      "id": "crownward_timber_bridge",
+      "file": "models/crownward-bridges/crownward_timber_bridge.glb",
+      "pack": "quaternius-small-bridge-source-glb",
+      "category": "building",
+      "is": "bridge",
+      "tags": [
+        "building",
+        "bridge",
+        "wood",
+        "crownward",
+        "premade"
+      ],
+      "bytes": 72564,
+      "sha256": "73d0586c7d21f1cc14678894c266e095374306a62c049dcd41d534efc3bbc561",
+      "size": {
+        "x": 6.938079,
+        "y": 2.61748,
+        "z": 2.637635
+      },
+      "base": {
+        "x": -3.469039,
+        "y": 0,
+        "z": -1.318817
+      },
+      "animations": [],
+      "materials": [
+        "Wood"
+      ],
+      "triangles": 2880,
+      "metadata": {
+        "premadeSource": {
+          "title": "Small Bridge",
+          "author": "Quaternius",
+          "sourcePage": "https://poly.pizza/m/j4KsIuJYnq",
+          "directDownload": "https://static.poly.pizza/e36966b4-e13e-46e8-aa2c-f9b643536d46.glb",
+          "license": "CC0-1.0",
+          "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+          "sourceSha256": "055ec4fa6c401f655641894ee4b0bd360c28b7907bc00183ef3b1eabd6fc0890",
+          "sourceBytes": 72792,
+          "transform": "Scene-root translation only. Center X/Z, authored minimum Y to zero. Geometry and embedded material bytes unchanged."
+        },
+        "inspection": {
+          "sourceBounds": {
+            "min": {
+              "x": -3.469039,
+              "y": -0.275519,
+              "z": -1.249221
+            },
+            "max": {
+              "x": 3.469039,
+              "y": 2.341962,
+              "z": 1.388414
+            }
+          },
+          "normalizedBounds": {
+            "min": {
+              "x": -3.469039,
+              "y": 0,
+              "z": -1.318817
+            },
+            "max": {
+              "x": 3.469039,
+              "y": 2.61748,
+              "z": 1.318817
+            }
+          },
+          "crossingAxis": "X",
+          "deckProfile": [
+            {
+              "x": -3.2,
+              "y": null,
+              "leftY": null,
+              "rightY": null
+            },
+            {
+              "x": -3,
+              "y": 0.281236,
+              "leftY": 0.272431,
+              "rightY": 0.271307
+            },
+            {
+              "x": -2.8,
+              "y": 0.438047,
+              "leftY": 0.427787,
+              "rightY": 0.426475
+            },
+            {
+              "x": -2.6,
+              "y": 0.584884,
+              "leftY": 0.576094,
+              "rightY": 0.574991
+            },
+            {
+              "x": -2.4,
+              "y": 0.711037,
+              "leftY": 0.706767,
+              "rightY": 0.706274
+            },
+            {
+              "x": -2.2,
+              "y": 0.833869,
+              "leftY": 0.824907,
+              "rightY": 0.823707
+            },
+            {
+              "x": -2,
+              "y": 0.943626,
+              "leftY": 0.933424,
+              "rightY": 0.932238
+            },
+            {
+              "x": -1.8,
+              "y": 1.044024,
+              "leftY": 1.039129,
+              "rightY": 1.038155
+            },
+            {
+              "x": -1.6,
+              "y": 1.118822,
+              "leftY": 1.113846,
+              "rightY": 1.112931
+            },
+            {
+              "x": -1.4,
+              "y": 1.173114,
+              "leftY": 1.165355,
+              "rightY": 1.16427
+            },
+            {
+              "x": -1.2,
+              "y": 1.220559,
+              "leftY": 1.212546,
+              "rightY": 1.211464
+            },
+            {
+              "x": -1,
+              "y": 1.263535,
+              "leftY": 1.256355,
+              "rightY": 1.255457
+            },
+            {
+              "x": -0.8,
+              "y": 1.282017,
+              "leftY": 1.278753,
+              "rightY": 1.278344
+            },
+            {
+              "x": -0.6,
+              "y": 1.31282,
+              "leftY": 1.305771,
+              "rightY": 1.304883
+            },
+            {
+              "x": -0.4,
+              "y": 1.334435,
+              "leftY": 1.326262,
+              "rightY": 1.325201
+            },
+            {
+              "x": -0.2,
+              "y": 1.350527,
+              "leftY": 1.343497,
+              "rightY": 1.342612
+            },
+            {
+              "x": 0,
+              "y": null,
+              "leftY": null,
+              "rightY": null
+            },
+            {
+              "x": 0.2,
+              "y": 1.350527,
+              "leftY": 1.343497,
+              "rightY": 1.342612
+            },
+            {
+              "x": 0.4,
+              "y": 1.334435,
+              "leftY": 1.326262,
+              "rightY": 1.325201
+            },
+            {
+              "x": 0.6,
+              "y": 1.31282,
+              "leftY": 1.305771,
+              "rightY": 1.304883
+            },
+            {
+              "x": 0.8,
+              "y": 1.282017,
+              "leftY": 1.278753,
+              "rightY": 1.278344
+            },
+            {
+              "x": 1,
+              "y": 1.263535,
+              "leftY": 1.256354,
+              "rightY": 1.255457
+            },
+            {
+              "x": 1.2,
+              "y": 1.220559,
+              "leftY": 1.212546,
+              "rightY": 1.211464
+            },
+            {
+              "x": 1.4,
+              "y": 1.173114,
+              "leftY": 1.165355,
+              "rightY": 1.16427
+            },
+            {
+              "x": 1.6,
+              "y": 1.118822,
+              "leftY": 1.113846,
+              "rightY": 1.112931
+            },
+            {
+              "x": 1.8,
+              "y": 1.044024,
+              "leftY": 1.039129,
+              "rightY": 1.038155
+            },
+            {
+              "x": 2,
+              "y": 0.943626,
+              "leftY": 0.933424,
+              "rightY": 0.932237
+            },
+            {
+              "x": 2.2,
+              "y": 0.833869,
+              "leftY": 0.824907,
+              "rightY": 0.823706
+            },
+            {
+              "x": 2.4,
+              "y": 0.711037,
+              "leftY": 0.706767,
+              "rightY": 0.706274
+            },
+            {
+              "x": 2.6,
+              "y": 0.584884,
+              "leftY": 0.576094,
+              "rightY": 0.574991
+            },
+            {
+              "x": 2.8,
+              "y": 0.438047,
+              "leftY": 0.427786,
+              "rightY": 0.426475
+            },
+            {
+              "x": 3,
+              "y": 0.281235,
+              "leftY": 0.27243,
+              "rightY": 0.271306
+            },
+            {
+              "x": 3.2,
+              "y": null,
+              "leftY": null,
+              "rightY": null
+            }
+          ],
+          "targetSpanMeters": 24,
+          "targetUniformScale": 3.459171,
+          "resultMeters": {
+            "x": 24,
+            "y": 9.054312,
+            "z": 9.124029
+          },
+          "note": "Arched timber deck; do not use a flat deck collider. Deck samples are normalized asset-local top-surface ray hits at Z=0 and +/-0.65. Outer rail tips extend beyond traversable deck ends. A profile-following walkable surface and matching bank ramps are required."
+        }
+      },
+      "acceptance": {
+        "exported": true,
+        "labAccepted": false,
+        "worldIntegrated": false
+      }
+    }
+  ],
+  "generator": {
+    "command": "node tools/crownward-bridges/build.mjs",
+    "deterministicForPinnedSources": true,
+    "generatorSha256": "016e9863296669580cb445ca0d658336426639209152869295177952b191bb2c",
+    "stagingRoot": "test-results/crownward-bridges"
+  }
+}

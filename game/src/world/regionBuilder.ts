@@ -29,6 +29,7 @@
 import type {
   Archetype, EntityId, InteractionId, RegionId, SemanticEntity, SkillId, SolidVolume, Vec3,
 } from "../contracts.js";
+import { worldMapForRegion } from "../contracts.js";
 import { INTERACT_RANGE } from "../app/config.js";
 import { worldSiteResourceSlot, worldSitePoint } from "../content/worldSites.js";
 import { habitatForGroup, type HabitatDef } from "../content/worldHabitats.js";
@@ -44,7 +45,7 @@ import { QUESTS } from "../content/quests.js";
 import { resourceDef } from "../content/resources.js";
 import {
   REGIONS, WALK_SPEED_MPS,
-  type BuildingDef, type DungeonDef, type EnemyGroupDef, type LocationDef, type ObstacleDef,
+  type BuildingDef, type DungeonDef, type EnemyGroupDef, type GateDef, type LocationDef, type ObstacleDef,
   type PavingDef, type PrefabId, type PropDef, type RegionDef, type ResourceClusterDef,
   type SettlementDef, type Spot, type WallRunDef,
 } from "../content/regions.js";
@@ -62,6 +63,7 @@ import { WATER_FILL_DEPTH } from "./waterBodies.js";
 import { authoredThresholds, createDungeonDoorEntities } from "./dungeonDoors.js";
 import { portalEntrance } from "./portalEntrance.js";
 import { portalMantleSolid } from "./portalMantle.js";
+import { CROWNWARD_CASTLE_COLLISION } from '../render/compositions/crownwardCastleCollision.js';
 
 // ------------------------------------------------------------------ formulas
 
@@ -165,6 +167,55 @@ export interface PortalLinkOut {
  * not free.
  */
 const PORTAL_CROSSING_MS = 800;
+
+/** Authored gates and compact fixtures share their entity, approach and masonry collision. */
+export function assembleGatePortal(
+  gate: GateDef, regionId: RegionId, tier: number,
+  heightAt: HeightAt, baseY: (assetId: string) => number,
+): { entity: SemanticEntity; solids: SolidVolume[] } {
+  const scale = 1.4;
+  const entity: SemanticEntity = {
+    id: gate.id, archetype: "portal", name: gate.name, tier, regionId,
+    position: [gate.position[0], round2(heightAt(regionId, ...gate.position) - baseY(gate.assetId) * scale), gate.position[1]],
+    state: "open", interactions: ["inspect", "enter"],
+    view: { assetId: gate.assetId, rotationY: gate.rotationY, scale, labelHeight: 3.4 },
+    meta: { toRegionId: gate.toRegionId, toLocationId: gate.toLocationId },
+  };
+  const solids: SolidVolume[] = [];
+  if (worldMapForRegion(regionId) !== worldMapForRegion(gate.toRegionId)
+    && gate.assetId === "wall_brick_door") {
+    const entrance = portalEntrance(entity, (x, z) => heightAt(regionId, x, z));
+    entity.interactionPosition = entrance.interactionPosition;
+    solids.push(entrance.solid);
+    const mantle = portalMantleSolid(entity);
+    if (mantle) solids.push(mantle);
+  }
+  return { entity, solids };
+}
+
+/** A map crossing starts at the nearest local route node, never at a distant target's coordinates. */
+export function authoredGatePortalLink(
+  gate: GateDef, entity: SemanticEntity, locations: readonly LocationDef[],
+): PortalLinkOut | null {
+  if (worldMapForRegion(entity.regionId) === worldMapForRegion(gate.toRegionId)) return null;
+  const source = locations.filter(location => location.routeNode).reduce<LocationDef | undefined>((nearest, location) => {
+    if (location.id === gate.id) return location;
+    if (nearest?.id === gate.id) return nearest;
+    return !nearest || distanceXZSpot(location.position, gate.position) < distanceXZSpot(nearest.position, gate.position)
+      ? location : nearest;
+  }, undefined);
+  if (!source) throw new Error(`Cross-map gate ${gate.id} has no local route node`);
+  return { entityId: entity.id, fromLocationId: source.id, toLocationId: gate.toLocationId,
+    position: entity.interactionPosition ?? entity.position };
+}
+
+/** Manual travel and planned travel use the same approach, destination and crossing duration. */
+export function portalRouteEdge(link: PortalLinkOut, from: Vec3, to: Vec3): RouteEdgeOut {
+  const approach = distanceXZSpot([from[0], from[2]], [link.position[0], link.position[2]]);
+  return { from: link.fromLocationId, to: link.toLocationId,
+    cost: round2(approach / WALK_SPEED_MPS + PORTAL_CROSSING_MS / 1000), kind: "portal",
+    portalId: link.entityId, entrance: link.position, exit: to, durationMs: PORTAL_CROSSING_MS };
+}
 
 /**
  * A solid mass a building occupies, in world space.
@@ -381,6 +432,13 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
     for (const location of knownLocations) if (location.id === "gravelmaw_entrance") location.position = position;
     for (const node of routeNodes) if (node.id === "gravelmaw_entrance") node.position = position;
   }
+  // A route node authored at an arch centre must stand on the accessible approach pad.
+  for (const link of portalLinks) {
+    if (link.fromLocationId !== link.entityId) continue;
+    nodePositions.set(link.fromLocationId, link.position);
+    for (const location of knownLocations) if (location.id === link.fromLocationId) location.position = link.position;
+    for (const node of routeNodes) if (node.id === link.fromLocationId) node.position = link.position;
+  }
 
   // -- pass 3: edges.
   const seenEdges = new Set<string>();
@@ -411,17 +469,7 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
     const to = nodePositions.get(link.toLocationId);
     if (!from || !to) continue;
     portalPairs.add(`${link.fromLocationId}>${link.toLocationId}`);
-    const approach = distanceXZSpot([from[0], from[2]], [link.position[0], link.position[2]]);
-    pushEdge({
-      from: link.fromLocationId,
-      to: link.toLocationId,
-      cost: round2(approach / WALK_SPEED_MPS + PORTAL_CROSSING_MS / 1000),
-      kind: "portal",
-      portalId: link.entityId,
-      entrance: link.position,
-      exit: to,
-      durationMs: PORTAL_CROSSING_MS,
-    });
+    pushEdge(portalRouteEdge(link, from, to));
   }
 
   /** A road between two locations a portal already joins is not a walk. See `portalPairs`. */
@@ -447,6 +495,7 @@ export function buildWorld(seed: number, heightAt: HeightAt, ports?: WorldPorts)
 
     // Region borders. Both sides declare the crossing; the dedupe above collapses it to one pair.
     for (const link of region.adjacency) {
+      if (portalled(link.fromLocationId, link.toLocationId)) continue;
       const cost = round2(link.meters / WALK_SPEED_MPS);
       pushEdge({ from: link.fromLocationId, to: link.toLocationId, cost, kind: "walk" });
       pushEdge({ from: link.toLocationId, to: link.fromLocationId, cost, kind: "walk" });
@@ -992,9 +1041,20 @@ export function structureCollisionFromCompositionParts(
   options: StructureCompositionCollisionOptions,
   measurements: StructureAssetMeasurements,
 ): SolidVolume[] {
+  if (composition === "crownward_bridge") return []; // Exact deck and rail triangles own bridge collision.
   const solids: SolidVolume[] = [];
   const cos = Math.cos(options.rotationY);
   const sin = Math.sin(options.rotationY);
+  if (composition === 'crownward_castle' || composition === 'crownward_fortress') {
+    // Ground-level mesh slices preserve the real arches, walls and open courts. A full asset
+    // bounding box would seal both entrances. These proxies share the authored model's scale.
+    return CROWNWARD_CASTLE_COLLISION[composition].map((box, index) => ({
+      kind: 'box', id: `${options.ownerId}#masonry_${index}`,
+      position: [options.origin[0] + box.x * cos + box.z * sin, options.origin[1],
+        options.origin[2] - box.x * sin + box.z * cos],
+      size: [box.width, box.height, box.depth], rotationY: options.rotationY,
+    }));
+  }
   const collisionParts = (WILDERNESS_RUIN_IDS as readonly string[]).includes(composition)
     ? buildWildernessRuinCollisionParts(composition as WildernessRuinId)
     : (DEEP_WILDERNESS_STRUCTURE_IDS as readonly string[]).includes(composition)
@@ -1345,7 +1405,12 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
   for (const landmark of region.landmarks) {
     // The composition is authored around the terrain point, in the hero asset's own frame; only
     // the hero mesh moves when its bbox floor is put on the ground.
-    const origin = ground(landmark.position);
+    let origin = ground(landmark.position);
+    if (landmark.composition === "crownward_bridge") {
+      const yaw = landmark.rotationY ?? 0, dx = Math.cos(yaw) * 13, dz = -Math.sin(yaw) * 13;
+      origin = [origin[0], (ground([landmark.position[0]+dx,landmark.position[1]+dz])[1]
+        + ground([landmark.position[0]-dx,landmark.position[1]-dz])[1]) / 2, origin[2]];
+    }
     const scale = drawnScale("landmark", trueScale(landmark.scale, tier), tier);
     const position = landmark.originOnGround
       ? origin
@@ -1405,26 +1470,14 @@ function buildRegionEntities(region: RegionDef, rng: Rng, ctx: BuildContext): vo
 
   for (const gate of region.gates) {
     const origin = ground(gate.position);
-    const scale = drawnScale("portal", trueScale(1.4, tier), tier);
-    const position = place(gate.position, gate.assetId, scale);
-    ctx.out.push({
-      id: gate.id,
-      archetype: "portal",
-      name: gate.name,
-      tier,
-      regionId,
-      position,
-      state: "open",
-      interactions: ["inspect", "enter"],
-      view: {
-        assetId: gate.assetId,
-        rotationY: gate.rotationY,
-        scale: trueScale(1.4, tier),
-        labelHeight: 3.4,
-      },
-      meta: { toRegionId: gate.toRegionId, toLocationId: gate.toLocationId },
-    });
-    pushGateSolids(ctx, gate.id, position, gate.assetId, scale, gate.rotationY ?? 0);
+    const portal = assembleGatePortal(gate, regionId, tier, ctx.heightAt, ctx.baseY);
+    ctx.out.push(portal.entity);
+    ctx.solids.push(...portal.solids);
+    if (portal.solids.length === 0) {
+      pushGateSolids(ctx, gate.id, portal.entity.position, gate.assetId, portal.entity.view!.scale!, gate.rotationY ?? 0);
+    }
+    const link = authoredGatePortalLink(gate, portal.entity, region.locations);
+    if (link) ctx.portalLinks.push(link);
     ctx.locationEntity.set(gate.id, gate.id);
     emitComposition(
       gate.composition, origin, gate.rotationY ?? 0, regionId, tier,

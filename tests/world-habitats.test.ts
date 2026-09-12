@@ -125,7 +125,7 @@ describe("authored wildlife habitats", () => {
   it("keeps complete northern actor bodies and activity connections clear of active lava and high-tier resource floors", () => {
     expect(WILDERNESS_LAVA_CHANNELS).toHaveLength(21);
     const resources = WORLD_SITES.filter(site => WILDERNESS_RESOURCE_INTENTS.some(intent => intent.id === site.id));
-    expect(resources).toHaveLength(6);
+    expect(resources).toHaveLength(10);
     const errors = new Set<string>();
     for (const habitat of WORLD_HABITATS.filter(row => row.regionId === 'wilderness')) {
       const radius = encounterBodyRadius(groupsById.get(habitat.groupId)!.group);

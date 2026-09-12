@@ -1,0 +1,14 @@
+# Generated castle stone
+
+Created with the built-in imagegen tool following the user's texture request. Both outputs are 1254 × 1254 PNGs, copied unchanged into the project. These are material images; the production shader supplies world-scale projection, surface relief and lighting response.
+
+- `game/public/assets/textures/castle-stone/pearl-stone.png`, SHA-256 `4a1c4624182406eb414d8971b2437346a42215b1b4eedb07ae2a5b16d812a6c0`
+- `game/public/assets/textures/castle-stone/cinder-stone.png`, SHA-256 `404abdc2ae51bd059ea7c5d0796ca4d2018e19828be420f4c3044a854e3db004`
+
+## Pearl prompt
+
+Use case: stylized-concept. Asset type: production game castle wall texture, square 2048x2048 full-bleed seamless material albedo. Create WHITE PEARLY STONE masonry for an established fantasy royal castle. Orthographic straight-on flat surface, no perspective, no objects, no text, no borders. Many varied irregular cut limestone ashlar blocks in offset loosely coursed masonry, about 10 to 14 stone courses across image height. Elegant ivory white pearl stone, subtle cool opalescent blue/pink mineral veins, natural variation from stone to stone, gently chipped bevelled edges and recessed pale warm-grey mortar. Rich small-scale chiselling, pores, fine striations; restrained larger mottling prevents a monotonous repeating brick pattern. Physically readable depth from subtle contact darkening in joints, no directional cast shadows or scene lighting, no blown-out highlights. Restrained stylized realism matching a low-poly fantasy RPG. Seamless left/right and top/bottom transitions, no standout symbols or obvious unique motifs. Flat material only, not a castle illustration.
+
+## Cinder prompt
+
+Use case: stylized-concept. Asset type: production fantasy RPG castle masonry texture, square 2048x2048 full-bleed seamless flat material albedo. Create DARK CINDER STONE with a very fine mineral sparkle for ancient Wilderness fortifications. Orthographic straight-on flat surface, no perspective, no objects, no labels or borders. Rough-hewn charcoal basalt ashlar blocks, irregular sizes and offset loosely horizontal masonry courses, about 10 to 14 courses across image height. Deep graphite, ash charcoal, subtle cool blue-violet inclusions, sparse tiny silver mineral flecks embedded in the stone, NOT stars or large glitter. Fine pitted porous volcanic grain, chisel chips, layered fractures and bevelled edges, deeply recessed dark mortar with restrained contact darkening. Broad subtle variation across many different blocks, no repeating identifiable motifs, no uniform brick grid. Rich readable tactile depth, material under diffuse neutral illumination, no dramatic cast shadows and no glowing lava cracks. Dark yet preserve midtone detail so the wall is legible under moonlight. Seamless left/right and top/bottom transitions. Flat material only, not a castle illustration.

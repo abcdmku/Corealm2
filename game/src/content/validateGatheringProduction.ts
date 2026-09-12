@@ -7,7 +7,7 @@
  */
 import type { ItemDef, ItemId, RecipeId, StationKind } from "../contracts.js";
 import type { GatheringProductionTierDef, RecipeDef, ResourceDef } from "./index.js";
-import { isSupportedCcAttributionLicense, validateCcAssetPack, isFabStandardAssetPack } from "./assetLicenses.js";
+import { isUserSuppliedAssetPack, isSupportedCcAttributionLicense, validateCcAssetPack, isFabStandardAssetPack } from "./assetLicenses.js";
 
 export const GATHERING_PRODUCTION_STATION_KINDS = [
   "furnace",
@@ -90,6 +90,7 @@ export function validateGatheringManifestProvenance(
 ): string[] {
   const problems: string[] = [];
   for (const pack of manifest.packs) {
+    if (isUserSuppliedAssetPack(pack)) continue;
     const hashMatches = LOWERCASE_SHA256.test(pack.generatorSha256 ?? "")
       && verifiedSourceHashes.get(pack.source) === pack.generatorSha256;
     const isOriginal = pack.license === "LicenseRef-Corealm-Original"
